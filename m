@@ -1,63 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D1C497FB9
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 13:40:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01906498022
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 13:58:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A48710E29E;
-	Mon, 24 Jan 2022 12:40:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A59B410E34D;
+	Mon, 24 Jan 2022 12:58:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC61410E29E
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 12:40:13 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 896221F38F;
- Mon, 24 Jan 2022 12:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643028012; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XajGxulaaLXGP0VFFS+7GdZyUSXEZGH8K4cDVafMWO8=;
- b=zC7PK5iUzKqnSvFynuKZ7pVs0MDp9cGS+neMNXswgrZeOp2X5p5h70ntQ1NYqquIbSu/xP
- CFxnzgnVF8bcH5vZ/JiNAPsulAtSlF9oz++WDrED9SC3OdnHb1NRTz0srhq+4oexLpeYp4
- HmvBo+WV4a9VbDoLSSL+p92m8Pr76+Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643028012;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XajGxulaaLXGP0VFFS+7GdZyUSXEZGH8K4cDVafMWO8=;
- b=K4utfoiwRrEXtS54eouyXj4GTKWvRbWtm6yGJwebPzIEskdGYlV5FAKXCHqjtzfjAgh4XI
- YNeonKHHv8MpOYBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 47D8313B97;
- Mon, 24 Jan 2022 12:40:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 9pxzECye7mFANwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 24 Jan 2022 12:40:12 +0000
-Message-ID: <b0f6ddd2-c648-6ddd-0226-d48d333273cc@suse.de>
-Date: Mon, 24 Jan 2022 13:40:11 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3] drm/ast: Don't check new mode if CRTC is being disabled
-Content-Language: en-US
-To: dann frazier <dann.frazier@canonical.com>
-References: <20200507090640.21561-1-tzimmermann@suse.de>
- <YerQWPxMNYV+zOSG@xps13.dannf>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <YerQWPxMNYV+zOSG@xps13.dannf>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------BWr0dKxr4s3Q0JyO9WEuR6mx"
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 197D210E34D;
+ Mon, 24 Jan 2022 12:58:45 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ n16-20020a17090a091000b001b46196d572so16791494pjn.5; 
+ Mon, 24 Jan 2022 04:58:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=jKkNxr+1cB+XB6YIAl08DtywpPMNPFY1xvETiNerBv4=;
+ b=ZTfY83ziPZR4GDz3xQZpQlufTJscwAsvrvRRKBUGWxqDkdA1va0RwigvqsJh8vqQS2
+ Cr1CSfGsdyFEDox/gdOe5UN+gfJl/M1PhQGqJzwQ7WkKUKAP0LFzEedI6vKoyqCpdEF9
+ 3gSBuybAkNcdAU6be2n77jFlYV6Dl9/KVa8pK++wGo/ARHH4NuZJ22KzHFwt8CBWqGT4
+ oeOm3pKjlWSLNYHeBK0FjBJXueBfTunP+wd2pFCeti1eTpXzXT2rppGwLhnnHXUkLTBL
+ RY3CsxJneexPIuOsYHKLRG4PaJwytL1K04wvJIgNj4fjM2IKDQ1GN6+0dopPvh4yxYVt
+ o8iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=jKkNxr+1cB+XB6YIAl08DtywpPMNPFY1xvETiNerBv4=;
+ b=d4NtthIIbKrfcXEkl+BJ+A/wSD5dnN1oCN1qPeWW4pPws8E3qw0agROg9izXtaUsRj
+ OgLuoeQgHzBFYXxDGqNSeL+jXTEbztykeY3uQESM+v61WmqTEHQcsfMk7TbXr0ZqniVy
+ zA1Mdb9cD6I9nL8wX3XZiEq8jrppqDxZlqb1QcnpiGMzyIAvlOj32rIZRYKb+J9CdhNw
+ cVHbGeCKs0AyTxug2M4PN0qTzg5xAx37vGnHBIE8VMP1CD+LA0YclBZWA7zOtYgt043v
+ +t3q0QL24SWg9s5z95v9Ny4hmWBd5VT/gx2EMDRZqrxXcehGXQ1DYjT0/0955yF5rqE4
+ xo7g==
+X-Gm-Message-State: AOAM533yURa9mcUlXsI8vOFqzE5r7lHz6qBNKMmtQAichLRVv8b7VkwZ
+ db6m9UDYa3LaI2spHeHweiOZLZz9GGGPh5pE5z0=
+X-Google-Smtp-Source: ABdhPJyYbcsc9C2l2KCNpEBfLe8n7n6WB0ovH6E/D5v67OB9y4UJCJuIP9SuFmcGrvjnGCSW3/k40Q==
+X-Received: by 2002:a17:902:ab82:b0:14a:188a:cd1f with SMTP id
+ f2-20020a170902ab8200b0014a188acd1fmr14279622plr.44.1643029124671; 
+ Mon, 24 Jan 2022 04:58:44 -0800 (PST)
+Received: from localhost.localdomain ([159.226.95.43])
+ by smtp.googlemail.com with ESMTPSA id
+ s23sm17794805pfg.144.2022.01.24.04.58.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jan 2022 04:58:44 -0800 (PST)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: matthew.brost@intel.com
+Subject: [PATCH v2] drm/i915/selftests: Fix NULL vs IS_ERR checking for
+ kernel_context
+Date: Mon, 24 Jan 2022 12:58:37 +0000
+Message-Id: <20220124125837.10467-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220112175338.GA12463@jons-linux-dev-box>
+References: <20220112175338.GA12463@jons-linux-dev-box>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,101 +68,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: cogarre@gmail.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
- stable@vger.kernel.org, sam@ravnborg.org, emil.velikov@collabora.com
+Cc: linmq006@gmail.com, andi.shyti@intel.com, jason@jlekstrand.net,
+ airlied@linux.ie, intel-gfx@lists.freedesktop.org, lucas.demarchi@intel.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, daniele.ceraolospurio@intel.com,
+ rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------BWr0dKxr4s3Q0JyO9WEuR6mx
-Content-Type: multipart/mixed; boundary="------------fPDdQBLBdYaQoqbpyoRdf53D";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: dann frazier <dann.frazier@canonical.com>
-Cc: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com, sam@ravnborg.org,
- emil.velikov@collabora.com, cogarre@gmail.com,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- stable@vger.kernel.org
-Message-ID: <b0f6ddd2-c648-6ddd-0226-d48d333273cc@suse.de>
-Subject: Re: [PATCH v3] drm/ast: Don't check new mode if CRTC is being
- disabled
-References: <20200507090640.21561-1-tzimmermann@suse.de>
- <YerQWPxMNYV+zOSG@xps13.dannf>
-In-Reply-To: <YerQWPxMNYV+zOSG@xps13.dannf>
+Since i915_gem_create_context() function return error pointers,
+the kernel_context() function does not return null, It returns error
+pointers too. Using IS_ERR() to check the return value to fix this.
 
---------------fPDdQBLBdYaQoqbpyoRdf53D
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+Changes in v2:
+- clean up unneeded initialization of err.
+---
+ drivers/gpu/drm/i915/gt/selftest_execlists.c | 43 ++++++++++++++------
+ 1 file changed, 30 insertions(+), 13 deletions(-)
 
-SGkNCg0KQW0gMjEuMDEuMjIgdW0gMTY6MjUgc2NocmllYiBkYW5uIGZyYXppZXI6DQpbLi4u
-XQ0KPiANCj4gaGV5LA0KPiAgICBJJ20gc2VlaW5nIGEgcmVncmVzc2lvbiB0aGF0IEkgYmlz
-ZWN0ZWQgZG93biB0byB0aGlzIGNoYW5nZS4gSQ0KPiBpbnN0YWxsZWQgR05PTUUgb24gYSBj
-b3VwbGUgb2YgZGlmZmVyZW50IHNlcnZlciBtb2RlbHMgdGhhdCBoYXZlDQo+IEFNSS1iYXNl
-ZCBCTUNzLCB3aGljaCBwcm92aWRlIGEgd2ViLWJhc2VkIGdyYXBoaWNzIGRpc3BsYXkgKHZp
-cnR1YWwNCj4gS1ZNKS4gV2hlbiBJIGVudGVyIHRoZSBsb2NrIHNjcmVlbiBvbiBjdXJyZW50
-IHVwc3RyZWFtIGtlcm5lbHMsIHRoZQ0KPiBkaXNwbGF5IGZyZWV6ZXMsIGFuZCBJIHNlZSB0
-aGUgZm9sbG93aW5nIG1lc3NhZ2VzIGFwcGVhciBpbiBzeXNsb2cNCj4gd2hlbmV2ZXIgSSBn
-ZW5lcmF0ZSBrZXlib2FyZC9tb3VzZSBldmVudHMgb24gdGhhdCBkaXNwbGF5Og0KPiANCj4g
-SmFuIDE5IDIwOjM0OjUzIHN0YXJidWNrIGdub21lLXNoZWxsWzUwMDJdOiBGYWlsZWQgdG8g
-cG9zdCBLTVMgdXBkYXRlOiBkcm1Nb2RlQXRvbWljQ29tbWl0OiBJbnZhbGlkIGFyZ3VtZW50
-DQo+IEphbiAxOSAyMDozNDo1MyBzdGFyYnVjayBnbm9tZS1zaGVsbFs1MDAyXTogUGFnZSBm
-bGlwIGRpc2NhcmRlZDogZHJtTW9kZUF0b21pY0NvbW1pdDogSW52YWxpZCBhcmd1bWVudA0K
-PiBKYW4gMTkgMjA6MzQ6NTMgc3RhcmJ1Y2sgZ25vbWUtc2hlbGxbNTAwMl06IEZhaWxlZCB0
-byBwb3N0IEtNUyB1cGRhdGU6IGRybU1vZGVBdG9taWNDb21taXQ6IEludmFsaWQgYXJndW1l
-bnQNCj4gSmFuIDE5IDIwOjM0OjUzIHN0YXJidWNrIGdub21lLXNoZWxsWzUwMDJdOiBQYWdl
-IGZsaXAgZGlzY2FyZGVkOiBkcm1Nb2RlQXRvbWljQ29tbWl0OiBJbnZhbGlkIGFyZ3VtZW50
-DQo+IEphbiAxOSAyMDozNDo1MyBzdGFyYnVjayBnbm9tZS1zaGVsbFs1MDAyXTogRmFpbGVk
-IHRvIHBvc3QgS01TIHVwZGF0ZTogZHJtTW9kZUF0b21pY0NvbW1pdDogSW52YWxpZCBhcmd1
-bWVudA0KPiBKYW4gMTkgMjA6MzQ6NTMgc3RhcmJ1Y2sgZ25vbWUtc2hlbGxbNTAwMl06IFBh
-Z2UgZmxpcCBkaXNjYXJkZWQ6IGRybU1vZGVBdG9taWNDb21taXQ6IEludmFsaWQgYXJndW1l
-bnQNCj4gSmFuIDE5IDIwOjM0OjUzIHN0YXJidWNrIGdub21lLXNoZWxsWzUwMDJdOiBGYWls
-ZWQgdG8gcG9zdCBLTVMgdXBkYXRlOiBkcm1Nb2RlQXRvbWljQ29tbWl0OiBJbnZhbGlkIGFy
-Z3VtZW50DQoNClRoYW5rcyBmb3IgcmVwb3J0aW5nLiBJJ2xsIGludmVzdGlnYXRlIHNvb24u
-DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IElmIEkgYmFjayBvdXQgdGhpcyBj
-aGFuZ2Ugdy8gdGhlIGZvbGxvd2luZyBwYXRjaCAoY29kZSBoYXMgZXZvbHZlZA0KPiBzbGln
-aHRseSBwcmV2ZW50aW5nIGEgY2xlYW4gcmV2ZXJ0KSwgdGhlbiB0aGUgbG9jayBzY3JlZW4g
-b25jZSBhZ2Fpbg0KPiBiZWhhdmVzIG5vcm1hbGx5Og0KPiANCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
-X21vZGUuYw0KPiBpbmRleCA5NTZjODk4MjE5MmIuLjMzNmM1NDVjNDZmNSAxMDA2NDQNCj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9hc3QvYXN0X21vZGUuYw0KPiBAQCAtMTAxMiw5ICsxMDEyLDYgQEAgc3RhdGlj
-IGludCBhc3RfY3J0Y19oZWxwZXJfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fY3J0YyAqY3J0
-YywNCj4gICAJY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAqZm9ybWF0Ow0KPiAgIAli
-b29sIHN1Y2M7DQo+ICAgDQo+IC0JaWYgKCFjcnRjX3N0YXRlLT5lbmFibGUpDQo+IC0JCXJl
-dHVybiAwOyAvKiBubyBtb2RlIGNoZWNrcyBpZiBDUlRDIGlzIGJlaW5nIGRpc2FibGVkICov
-DQo+IC0NCj4gICAJYXN0X3N0YXRlID0gdG9fYXN0X2NydGNfc3RhdGUoY3J0Y19zdGF0ZSk7
-DQo+ICAgDQo+ICAgCWZvcm1hdCA9IGFzdF9zdGF0ZS0+Zm9ybWF0Ow0KPiANCj4gDQo+IEFw
-b2xvZ2llcyBmb3Igbm90aWNpbmcgc28gbG9uZyBhZnRlciB0aGUgZmFjdC4gSSBkb24ndCBu
-b3JtYWxseSBydW4gYQ0KPiBkZXNrdG9wIGVudmlyb25tZW50IG9uIHRoZXNlIHNlcnZlcnMs
-IEkganVzdCBoYXBwZW5lZCB0byBiZSBkZWJ1Z2dpbmcNCj4gc29tZXRoaW5nIHJlY2VudGx5
-IHRoYXQgcmVxdWlyZWQgaXQuDQo+IA0KPiAgICAtZGFubg0KDQotLSANClRob21hcyBaaW1t
-ZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0
-aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2Vy
-bWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2
-byBUb3Rldg0K
+diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+index b367ecfa42de..0d453ddcede4 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
++++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+@@ -1531,7 +1531,7 @@ static int live_busywait_preempt(void *arg)
+ 	struct drm_i915_gem_object *obj;
+ 	struct i915_vma *vma;
+ 	enum intel_engine_id id;
+-	int err = -ENOMEM;
++	int err;
+ 	u32 *map;
+ 
+ 	/*
+@@ -1540,13 +1540,16 @@ static int live_busywait_preempt(void *arg)
+ 	 */
+ 
+ 	ctx_hi = kernel_context(gt->i915, NULL);
+-	if (!ctx_hi)
+-		return -ENOMEM;
++	if (IS_ERR(ctx_hi))
++		return IS_ERR(ctx_hi);
++
+ 	ctx_hi->sched.priority = I915_CONTEXT_MAX_USER_PRIORITY;
+ 
+ 	ctx_lo = kernel_context(gt->i915, NULL);
+-	if (!ctx_lo)
++	if (IS_ERR(ctx_lo)) {
++		err = PTR_ERR(ctx_lo);
+ 		goto err_ctx_hi;
++	}
+ 	ctx_lo->sched.priority = I915_CONTEXT_MIN_USER_PRIORITY;
+ 
+ 	obj = i915_gem_object_create_internal(gt->i915, PAGE_SIZE);
+@@ -1742,13 +1745,17 @@ static int live_preempt(void *arg)
+ 		goto err_spin_hi;
+ 
+ 	ctx_hi = kernel_context(gt->i915, NULL);
+-	if (!ctx_hi)
++	if (IS_ERR(ctx_hi)) {
++		err = PTR_ERR(ctx_hi);
+ 		goto err_spin_lo;
++	}
+ 	ctx_hi->sched.priority = I915_CONTEXT_MAX_USER_PRIORITY;
+ 
+ 	ctx_lo = kernel_context(gt->i915, NULL);
+-	if (!ctx_lo)
++	if (IS_ERR(ctx_lo)) {
++		err = PTR_ERR(ctx_lo);
+ 		goto err_ctx_hi;
++	}
+ 	ctx_lo->sched.priority = I915_CONTEXT_MIN_USER_PRIORITY;
+ 
+ 	for_each_engine(engine, gt, id) {
+@@ -1834,12 +1841,16 @@ static int live_late_preempt(void *arg)
+ 		goto err_spin_hi;
+ 
+ 	ctx_hi = kernel_context(gt->i915, NULL);
+-	if (!ctx_hi)
++	if (IS_ERR(ctx_hi)) {
++		err = PTR_ERR(ctx_hi);
+ 		goto err_spin_lo;
++	}
+ 
+ 	ctx_lo = kernel_context(gt->i915, NULL);
+-	if (!ctx_lo)
++	if (IS_ERR(ctx_lo)) {
++		err = PTR_ERR(ctx_lo);
+ 		goto err_ctx_hi;
++	}
+ 
+ 	/* Make sure ctx_lo stays before ctx_hi until we trigger preemption. */
+ 	ctx_lo->sched.priority = 1;
+@@ -1928,8 +1939,8 @@ struct preempt_client {
+ static int preempt_client_init(struct intel_gt *gt, struct preempt_client *c)
+ {
+ 	c->ctx = kernel_context(gt->i915, NULL);
+-	if (!c->ctx)
+-		return -ENOMEM;
++	if (IS_ERR(c->ctx))
++		return PTR_ERR(c->ctx);
+ 
+ 	if (igt_spinner_init(&c->spin, gt))
+ 		goto err_ctx;
+@@ -3385,13 +3396,17 @@ static int live_preempt_timeout(void *arg)
+ 		return -ENOMEM;
+ 
+ 	ctx_hi = kernel_context(gt->i915, NULL);
+-	if (!ctx_hi)
++	if (IS_ERR(ctx_hi)) {
++		err = PTR_ERR(ctx_hi);
+ 		goto err_spin_lo;
++	}
+ 	ctx_hi->sched.priority = I915_CONTEXT_MAX_USER_PRIORITY;
+ 
+ 	ctx_lo = kernel_context(gt->i915, NULL);
+-	if (!ctx_lo)
++	if (IS_ERR(ctx_lo)) {
++		err = PTR_ERR(ctx_lo);
+ 		goto err_ctx_hi;
++	}
+ 	ctx_lo->sched.priority = I915_CONTEXT_MIN_USER_PRIORITY;
+ 
+ 	for_each_engine(engine, gt, id) {
+@@ -3683,8 +3698,10 @@ static int live_preempt_smoke(void *arg)
+ 
+ 	for (n = 0; n < smoke.ncontext; n++) {
+ 		smoke.contexts[n] = kernel_context(smoke.gt->i915, NULL);
+-		if (!smoke.contexts[n])
++		if (IS_ERR(smoke.contexts[n])) {
++			err = PTR_ERR(smoke.contexts[n]);
+ 			goto err_ctx;
++		}
+ 	}
+ 
+ 	for (n = 0; n < ARRAY_SIZE(phase); n++) {
+-- 
+2.17.1
 
---------------fPDdQBLBdYaQoqbpyoRdf53D--
-
---------------BWr0dKxr4s3Q0JyO9WEuR6mx
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHunisFAwAAAAAACgkQlh/E3EQov+AC
-dxAAihx3QruRjOaipuErW8mCYi+iTWBqdaiMGtHjDX/Cgv4vZLL51O40cD1wPzhgcviJFM3YLygJ
-2X5uX7mhrs9k2OHcm5x1zYK8f3z84LYpGEF9rV3+OLLtAkQZn8PgXoTWnV88/ZDA4jektDutpPTD
-KeCY8rier9MgLJ+OxWnM9GLILBXeWrxpMtyOeewbn3Y5SNRD5DU6LHA7ociDA59SIcy7Swz2Xss/
-jfwtZgFF7BQuiL4DdFerh3XxanvTrjbRj+vAnBu+Z5w7k4HimEnnwIPcyp3DvV5VlDR3cG8qTfkX
-V345CAr07npV1OeiuEC1oNR1dnAtpFgakiMbGr5zeZgDYMD8j6NrutOVW/CVh7aS5b20XkVN9vCa
-ortuKZgDFnBrBspuwz8U4VP9HJ5UTcllb/IdIPo5UQn2oVDhhOIxZi4wzIl4PIl2m0fT6tdLDWmr
-+Vki610QjJBKG60Kz9X++Md9Xxh6WHpNrK7+P1hol1iQFV5zK01egiKV7dRpK5cRt59aKoBvEyvX
-PZck5kGCE31kJyyp2wkFCpEoxRG9piELG5inwGQtQPzyPxPb5hQ3loLdyB80SyeC81DSXAIapngo
-uvU+6Znzo+jiydHtuypUpmBUhmCcYNJzs0D+Fqe+3opItBNoFJ582JY1zLMimvrwhYARMnHkhlHn
-ihM=
-=K9JQ
------END PGP SIGNATURE-----
-
---------------BWr0dKxr4s3Q0JyO9WEuR6mx--
