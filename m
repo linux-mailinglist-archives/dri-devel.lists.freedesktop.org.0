@@ -1,80 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B699C498198
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 15:00:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D31F4981A3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 15:02:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5199E10E252;
-	Mon, 24 Jan 2022 14:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC7510E8F8;
+	Mon, 24 Jan 2022 14:02:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D7A710E252
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 14:00:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643032827;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rktM0S0usSPLY5LvkfsWofVmD3HAzupt/hqZRguzdL4=;
- b=iy/BX0DpHGjIV+KYKoNYkyhXD8z2nYN4ZsY+V8LuG13AVPMQcXd1XcDHrSdP185nlT+/E4
- /QI973OcxNHcHi8RsU1ucwuFdehvxSIgLfgUKlmLFYeRbrGt5yOjigWM1h3mfodLOzWZKD
- KLjWE+U4z7bfg/91XOvQ3jV0YQnXwSE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-mHh6VBVrNRe21HFsp9dB5Q-1; Mon, 24 Jan 2022 09:00:25 -0500
-X-MC-Unique: mHh6VBVrNRe21HFsp9dB5Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- z2-20020a05600c220200b0034d2eb95f27so10788275wml.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 06:00:25 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2102110E7F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 14:02:32 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ j5-20020a05600c1c0500b0034d2e956aadso27622310wms.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 06:02:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=rktM0S0usSPLY5LvkfsWofVmD3HAzupt/hqZRguzdL4=;
- b=sOC1Q64ZD1APBzz5nBR6b+NUzICu6E3H9GEvDeuJ5l2oy7xuexZLBqYeHBrHTjxW8a
- xtquRpumTDtSlo3NvkAqC9ycwVOM2hujuSLd5ru+hswW/JLUnhhyKFTlah4sSm4H5iR9
- pIrcaNO9Tl/Z4EkE5GcpoSx5YN9taz4mzacjG9E5GJ+IkDEct/rb0SA+vnOOFjvAuHA6
- fyAeiNfgoWwDHJwnEP6CR258ImxGGBLjPJOTF26Wp2aXs7vi7DJJ4wreEZ1KqSg58acr
- bsgs7dYtuUOo3Nabf97hLYSW+Kt6UTetV0gheYC5zXtpazhg1NOXDqhwny5EGh9HsDwd
- 3ndw==
-X-Gm-Message-State: AOAM5308WdXQh0lr/rvlgmRJeO6Z/wnnT1higxV1IEPjeQWujRuLZ8Tz
- JS/XYhEJXf1KKWcWmiADL77rjBtJI60BAmsBZf5n5bqG0PpJpTPIiEoKlClIctWch3vspFc5i+c
- CjZc6jOQLP6n7IbNjIUzQzltVGpSg
-X-Received: by 2002:a5d:457b:: with SMTP id a27mr9200348wrc.86.1643032820867; 
- Mon, 24 Jan 2022 06:00:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJytZhOKI7fYVQiuKsKaaK1W6CiHUlA4X/OwcDEUpQv/bAfKFUv01YVhuawIMIM4PyYrfjRyjg==
-X-Received: by 2002:a5d:457b:: with SMTP id a27mr9200329wrc.86.1643032820652; 
- Mon, 24 Jan 2022 06:00:20 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id p26sm5181839wms.2.2022.01.24.06.00.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 06:00:20 -0800 (PST)
-Message-ID: <91872b43-042e-3b8a-0dbb-f9ddebfadea0@redhat.com>
-Date: Mon, 24 Jan 2022 15:00:18 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=THU4jK8TMCvPkYwnRlwAVctd3mj6SQNDR24XQxhu4+0=;
+ b=c1HiHh501vHfJygTq4pwY9rhyq7NUkUTo8SKMlDIdVV9o3QVo5dE5kBX86ECW7vD4W
+ de8hP4zXBRGior3vNMWhsfhx5iKzEc12v1rbjJowYoKK/kNrGogeeWSVtlssUo1atXUx
+ wHdOl1Nx0nqoLz+gvJ2RI7u3PeFnuf4gZMcvwOJ+8I3aGcKwJJ1nU9pru+wlgQvvsqiV
+ TFvQ4uVx61dN/PVdeB2IuLebs0FOe+1OhuhdynNH5jIH20QYtZ1a+UsNXqU4moZ/w82X
+ +mnHpcrERv5KHNbeFe/oX9/q7UI53xrWGGtz8Ew5Cka/5Fo80qlrh+0BYD/avncft3wI
+ 0iRQ==
+X-Gm-Message-State: AOAM532QheUrGQ/j598Gs+FfnM8OULUkJdvMDUc14j68cBsZWSV0Gc6L
+ 6fbXybEbeB9xYK7zK4gDFBBEnPx2Qas=
+X-Google-Smtp-Source: ABdhPJww5yfltt0+zq2PHbn2mD/HvnB+5pJIrqjhflb5W4S5NoJLdhhqq8/MabUEsqvCVzoBXrIvIA==
+X-Received: by 2002:a1c:f002:: with SMTP id a2mr1961082wmb.29.1643032950560;
+ Mon, 24 Jan 2022 06:02:30 -0800 (PST)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+ by smtp.gmail.com with ESMTPSA id b15sm13677648wrs.93.2022.01.24.06.02.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jan 2022 06:02:30 -0800 (PST)
+Date: Mon, 24 Jan 2022 14:02:28 +0000
+From: Wei Liu <wei.liu@kernel.org>
+To: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH 1/1] video: hyperv_fb: Fix validation of screen resolution
+Message-ID: <20220124140228.ywtxgrx3jqngmbqt@liuwe-devbox-debian-v2>
+References: <1642360711-2335-1-git-send-email-mikelley@microsoft.com>
+ <MN2PR21MB1295CE3BD15D4EB257A158DCCA569@MN2PR21MB1295.namprd21.prod.outlook.com>
+ <20220123215606.fzycryooluavtar4@liuwe-devbox-debian-v2>
+ <MWHPR21MB1593ED650DA82BC3009F66CED75D9@MWHPR21MB1593.namprd21.prod.outlook.com>
+ <20220123223030.ijdzrunduww76jiq@liuwe-devbox-debian-v2>
+ <e396a22d-7e0e-73a4-d831-f69dc854bfa8@gmx.de>
+ <20220124133119.3yxfr7ypmmdotm6h@liuwe-devbox-debian-v2>
+ <cb4323b6-99f0-c813-502a-2fbe107353ee@gmx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 3/5] drm/simpledrm: Request memory region in driver
-To: Thomas Zimmermann <tzimmermann@suse.de>, zackr@vmware.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, deller@gmx.de, hdegoede@redhat.com
-References: <20220124123659.4692-1-tzimmermann@suse.de>
- <20220124123659.4692-4-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220124123659.4692-4-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb4323b6-99f0-c813-502a-2fbe107353ee@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,25 +65,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Wei Liu <wei.liu@kernel.org>, Wei Hu <weh@microsoft.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ "drawat.floss@gmail.com" <drawat.floss@gmail.com>, hhei <hhei@redhat.com>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>, KY Srinivasan <kys@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/24/22 13:36, Thomas Zimmermann wrote:
-> Requesting the framebuffer memory in simpledrm marks the memory
-> range as busy. This used to be done by the firmware sysfb code,
-> but the driver is the correct place.
+On Mon, Jan 24, 2022 at 02:48:57PM +0100, Helge Deller wrote:
+> On 1/24/22 14:31, Wei Liu wrote:
+[...]
+> >>
+> >> Linus hasn't pulled my tree yet, and he will probably not before the
+> >> next merge window. So, if this is an urgent bugfix for you, I can offer
+> >> to drop it from the fbdev tree and that you take it through the hyperv-fixes tree.
+> >> In that case you may add an Acked-by: Helge Deller <deller@gmx.de>.
+> >> Just let me know what you prefer.
+> >
+> > Hi Helge
+> >
+> > Yes, I would like to upstream it as soon as possible so that it can
+> > propagate to stable trees and be backported by downstream vendors.
+> >
+> > I will pick it up in hyperv-fixes. Please drop it from your for-next
+> > tree.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+> Dropped now from fbdev tree.
 
-Looks good to me.
+Thanks! I added your ack and pushed the patch to hyperv-fixes.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Wei.
 
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+> 
+> Thanks!
+> Helge
