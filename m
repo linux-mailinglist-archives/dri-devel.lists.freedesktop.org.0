@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D884979AD
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 08:41:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CED04979B3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 08:41:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB96A10E771;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC02310E774;
 	Mon, 24 Jan 2022 07:41:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E76B10E71C
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 07:40:55 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id h29so9186166wrb.5
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1066E10E170
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 07:40:56 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso33522494wmj.2
  for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 23:40:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=MJIzfIJj7sWuWjvaqjpDxEclvLa+rSTBKh+L03ndIwY=;
- b=eid9bSkdSE1qqzBPTOdeU1UdZDPaPcucxR4THSbHCD+g3xfLv/639REo5ghYJODMPr
- c/MYEqc5ny8dt0D3VaZ+RGT6aN8HQMrvl29cmFcXjCGQhDuMNe73/UF6EX4jPHK1eixQ
- d+HkTqe0AeWgxFkcM4fegKg/FwYMg9FqZDn18ZTQCuIzYhGbxCUedbtBREzDVckgX9Bv
- QtRfOfyYmCQ1AJW7zj+bdx6y/cwFDn1uFnxsZfL/gCdrsPAyBL5oNVkIWlUdhLuru8V0
- c2yHKKJJxPn4gzP5MKZZtGSHpkdp1ijiZ1HRuVGOdhrpmLZqLisvZSF6XGMxUb2Kpywa
- 3BJQ==
+ bh=ZOOWkC73PSVhRT0FPLika7h1bqOJ9nqV8+v2bYOzvlk=;
+ b=TnBh+fIYWftha2w3/naklVERd4+PeVS6nK+c/kdOAJnA4MgoECHm/VhS7+dPvxxPJ/
+ xa4o/3zukPV2ZuRciIjCrLeRjpFq1oWSPIfIoNSuC8q0x8S89LFrva0n24JLVNC94c63
+ i5tl/FGmYut9jTBwlUY8IeIlrBhTBc94TNdFrWXcOpVhCYMuxggdQqdmEzHBMMVMotIN
+ u6SOjTEzTrrrt6xLtfShEIK4nW2nlCCiCVY3AiqioxwBK8kiKfmlv59XjIpmgAP439pU
+ YMoQDe8OzFWHXQhUsGzt9qZcb4LMO5J32SCWQ+dLMxURUr9/YZfU3/0rSMmnk2RYGyjB
+ OajQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MJIzfIJj7sWuWjvaqjpDxEclvLa+rSTBKh+L03ndIwY=;
- b=vvzHreJnU7GU9TzLquE7G+86GwY9N6Mw1zZEkaU8qBhA/s5c0mrLXeNSOYJ1aHoAZ5
- a2J0GMf3GQLYteQoHyl+OZ3gLioDyFeJSNhhxV0YXk/BF3PdH2eLP/RipOA/XCvhHWCL
- l81jMKVC5AAZuC9mXNLMvye7IL3kkNi2MRL8bnLSgroxxeFPkeV1Cno9skMAzxmcsCLc
- rCOr6cWjIV1rn+HibLGizUyVpELSvTD9wfv2hPH/9+0I88DRLpKnMeurOEhQP/tHthOk
- YsOO+7q1feaRefeW+2e8PpARWA3TB2PdedeyswjgNwUaog+rwA2Ici30uEbbXzQIfa03
- 27aA==
-X-Gm-Message-State: AOAM533OjF64rzQopcB5KRkXeRDGNSZkyamW/hPHerxgwr5OvGXkeUur
- IJ6neaXGCmfv88ho7B2LtpE=
-X-Google-Smtp-Source: ABdhPJxk2ee9UaF0qaj+FHOxXtvlSUM0bjtSIG1Eu4Cqy6hogLlbR6wvWNtzpEvwwO1JvG0fxVEP1A==
-X-Received: by 2002:a05:6000:1d86:: with SMTP id
- bk6mr13362585wrb.367.1643010053841; 
- Sun, 23 Jan 2022 23:40:53 -0800 (PST)
+ bh=ZOOWkC73PSVhRT0FPLika7h1bqOJ9nqV8+v2bYOzvlk=;
+ b=7bvO/RrZoMR5FMbJug8Xe82Ytwm/jbQ3vpdiRIkk02OxFFf09nYibaGy76sSUhvUEF
+ TikB6D9fUptQ0EhkucYvp5fLajHaTAYdVTh+OqPOjsZuntu6B6FkhHASg4LpOi4UhY7L
+ oiWTQWkJBcicSsD/iZFihshVBSOjuXGYUuK9egPQi5Dt1DDL/w2JaIQ37JY2HLYpwUkq
+ /n+iLRum8Q4ZDCQ+HPtmheGmYgQ6aQlu/e2BJtfWeQ6EP4DptetamkZOtpM+L4ds7bGc
+ i5tddlEjJcdkdldzs/KnDNMZJWBX4UUMrOmWalhA25ozo7++J04EvsVrGY2r4Rb7nMij
+ t9lw==
+X-Gm-Message-State: AOAM531aqKVBJvhd4Jz5eZJEaQMRRMHJIIxDF8eaqr3BrFyW/vP/IwNi
+ KJ9lJhMrgrMz4JiA5HPRg2I=
+X-Google-Smtp-Source: ABdhPJxLKgXz1O9g3pJlePgtBPG5KpWlMynNepWzLwMTxgMkVdNR45ard+HWfBWT5Sxvx7h09sy7Nw==
+X-Received: by 2002:a05:600c:1d21:: with SMTP id
+ l33mr637157wms.134.1643010054627; 
+ Sun, 23 Jan 2022 23:40:54 -0800 (PST)
 Received: from abel.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
  by smtp.gmail.com with ESMTPSA id u15sm516370wrs.17.2022.01.23.23.40.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jan 2022 23:40:53 -0800 (PST)
+ Sun, 23 Jan 2022 23:40:54 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: thomas.hellstrom@linux.intel.com, sumit.semwal@linaro.org,
  gustavo@padovan.org, daniel.vetter@ffwll.ch, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 8/9] drm/i915: use dma_fence extractor functions
-Date: Mon, 24 Jan 2022 08:40:45 +0100
-Message-Id: <20220124074046.4865-8-christian.koenig@amd.com>
+Subject: [PATCH 9/9] drm/vmwgfx: remove vmw_wait_dma_fence
+Date: Mon, 24 Jan 2022 08:40:46 +0100
+Message-Id: <20220124074046.4865-9-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220124074046.4865-1-christian.koenig@amd.com>
 References: <20220124074046.4865-1-christian.koenig@amd.com>
@@ -76,238 +77,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of manually messing with the data structures use the iterators
-and extraction helpers provided by the framework.
+Decomposing fence containers don't seem to make any sense here.
 
-This whole handling should essentially go away when boost handling is
-implemented in the core dma-buf framework.
+So just remove the function entirely and call dma_fence_wait() directly.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
+Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+Cc: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_busy.c | 40 ++++++--------------
- drivers/gpu/drm/i915/gem/i915_gem_wait.c | 31 ++++------------
- drivers/gpu/drm/i915/i915_request.c      | 47 +++++++-----------------
- 3 files changed, 33 insertions(+), 85 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c   | 46 -------------------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.h   |  3 --
+ 3 files changed, 1 insertion(+), 50 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-index 470fdfd61a0f..4ea7a5b26405 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-@@ -41,6 +41,8 @@ static __always_inline unsigned int
- __busy_set_if_active(struct dma_fence *fence, u32 (*flag)(u16 id))
- {
- 	const struct i915_request *rq;
-+	struct dma_fence *current_fence;
-+	unsigned int i;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index 44ca23b0ea4e..0ff28f0e3eb4 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -4500,7 +4500,7 @@ int vmw_execbuf_ioctl(struct drm_device *dev, void *data,
+ 			goto mksstats_out;
+ 		}
  
- 	/*
- 	 * We have to check the current hw status of the fence as the uABI
-@@ -58,40 +60,22 @@ __busy_set_if_active(struct dma_fence *fence, u32 (*flag)(u16 id))
- 	 *
- 	 * 2. A single i915 request.
- 	 */
--	if (dma_fence_is_array(fence)) {
--		struct dma_fence_array *array = to_dma_fence_array(fence);
--		struct dma_fence **child = array->fences;
--		unsigned int nchild = array->num_fences;
--
--		do {
--			struct dma_fence *current_fence = *child++;
--
--			/* Not an i915 fence, can't be busy per above */
--			if (!dma_fence_is_i915(current_fence) ||
--			    !test_bit(I915_FENCE_FLAG_COMPOSITE,
--				      &current_fence->flags)) {
--				return 0;
--			}
--
--			rq = to_request(current_fence);
--			if (!i915_request_completed(rq))
--				return flag(rq->engine->uabi_class);
--		} while (--nchild);
--
--		/* All requests in array complete, not busy */
--		return 0;
--	} else {
--		if (!dma_fence_is_i915(fence))
--			return 0;
-+	dma_fence_array_for_each(current_fence, i, fence) {
- 
--		rq = to_request(fence);
--		if (i915_request_completed(rq))
-+		/* Not an i915 fence, can't be busy per above */
-+		if (!dma_fence_is_i915(current_fence) ||
-+		    !test_bit(I915_FENCE_FLAG_COMPOSITE, &current_fence->flags))
- 			return 0;
- 
-+		rq = to_request(current_fence);
- 		/* Beware type-expansion follies! */
- 		BUILD_BUG_ON(!typecheck(u16, rq->engine->uabi_class));
--		return flag(rq->engine->uabi_class);
-+		if (!i915_request_completed(rq))
-+			return flag(rq->engine->uabi_class);
+-		ret = vmw_wait_dma_fence(dev_priv->fman, in_fence);
++		ret = dma_fence_wait(in_fence, true);
+ 		if (ret)
+ 			goto out;
  	}
-+
-+	/* All requests in array complete, not busy */
-+	return 0;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+index c60d395f9e2e..430f83a1847c 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+@@ -621,52 +621,6 @@ int vmw_user_fence_create(struct drm_file *file_priv,
+ 	return ret;
  }
  
- static __always_inline unsigned int
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-index dab3d30c09a0..13f37b6aedf7 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-@@ -72,11 +72,6 @@ static void fence_set_priority(struct dma_fence *fence,
- 	rcu_read_unlock();
- }
- 
--static inline bool __dma_fence_is_chain(const struct dma_fence *fence)
+-
+-/**
+- * vmw_wait_dma_fence - Wait for a dma fence
+- *
+- * @fman: pointer to a fence manager
+- * @fence: DMA fence to wait on
+- *
+- * This function handles the case when the fence is actually a fence
+- * array.  If that's the case, it'll wait on each of the child fence
+- */
+-int vmw_wait_dma_fence(struct vmw_fence_manager *fman,
+-		       struct dma_fence *fence)
 -{
--	return fence->ops == &dma_fence_chain_ops;
+-	struct dma_fence_array *fence_array;
+-	int ret = 0;
+-	int i;
+-
+-
+-	if (dma_fence_is_signaled(fence))
+-		return 0;
+-
+-	if (!dma_fence_is_array(fence))
+-		return dma_fence_wait(fence, true);
+-
+-	/* From i915: Note that if the fence-array was created in
+-	 * signal-on-any mode, we should *not* decompose it into its individual
+-	 * fences. However, we don't currently store which mode the fence-array
+-	 * is operating in. Fortunately, the only user of signal-on-any is
+-	 * private to amdgpu and we should not see any incoming fence-array
+-	 * from sync-file being in signal-on-any mode.
+-	 */
+-
+-	fence_array = to_dma_fence_array(fence);
+-	for (i = 0; i < fence_array->num_fences; i++) {
+-		struct dma_fence *child = fence_array->fences[i];
+-
+-		ret = dma_fence_wait(child, true);
+-
+-		if (ret < 0)
+-			return ret;
+-	}
+-
+-	return 0;
 -}
 -
- void i915_gem_fence_wait_priority(struct dma_fence *fence,
- 				  const struct i915_sched_attr *attr)
- {
-@@ -85,25 +80,15 @@ void i915_gem_fence_wait_priority(struct dma_fence *fence,
- 
- 	local_bh_disable();
- 
--	/* Recurse once into a fence-array */
--	if (dma_fence_is_array(fence)) {
--		struct dma_fence_array *array = to_dma_fence_array(fence);
--		int i;
-+	/* The chain is ordered; if we boost the last, we boost all */
-+	dma_fence_chain_for_each(fence, fence) {
-+		struct dma_fence *array, *element;
-+		unsigned int i;
- 
--		for (i = 0; i < array->num_fences; i++)
--			fence_set_priority(array->fences[i], attr);
--	} else if (__dma_fence_is_chain(fence)) {
--		struct dma_fence *iter;
 -
--		/* The chain is ordered; if we boost the last, we boost all */
--		dma_fence_chain_for_each(iter, fence) {
--			fence_set_priority(to_dma_fence_chain(iter)->fence,
--					   attr);
--			break;
--		}
--		dma_fence_put(iter);
--	} else {
--		fence_set_priority(fence, attr);
-+		/* Recurse once into a fence-array */
-+		array = dma_fence_chain_contained(fence);
-+		dma_fence_array_for_each(element, i, array)
-+			fence_set_priority(element, attr);
- 	}
+ /*
+  * vmw_fence_fifo_down - signal all unsignaled fence objects.
+  */
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+index 079ab4f3ba51..a7eee579c76a 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
+@@ -104,9 +104,6 @@ extern int vmw_user_fence_create(struct drm_file *file_priv,
+ 				 struct vmw_fence_obj **p_fence,
+ 				 uint32_t *p_handle);
  
- 	local_bh_enable(); /* kick the tasklets if queues were reprioritised */
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index ad175d662b4e..2d8add5b5da9 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -1345,18 +1345,15 @@ i915_request_await_external(struct i915_request *rq, struct dma_fence *fence)
- 	struct dma_fence *iter;
- 	int err = 0;
- 
--	if (!to_dma_fence_chain(fence))
--		return __i915_request_await_external(rq, fence);
+-extern int vmw_wait_dma_fence(struct vmw_fence_manager *fman,
+-			      struct dma_fence *fence);
 -
- 	dma_fence_chain_for_each(iter, fence) {
--		struct dma_fence_chain *chain = to_dma_fence_chain(iter);
-+		struct dma_fence *tmp = dma_fence_chain_contained(iter);
+ extern void vmw_fence_fifo_up(struct vmw_fence_manager *fman);
  
--		if (!dma_fence_is_i915(chain->fence)) {
-+		if (!dma_fence_is_i915(tmp)) {
- 			err = __i915_request_await_external(rq, iter);
- 			break;
- 		}
- 
--		err = i915_request_await_dma_fence(rq, chain->fence);
-+		err = i915_request_await_dma_fence(rq, tmp);
- 		if (err < 0)
- 			break;
- 	}
-@@ -1386,24 +1383,14 @@ static bool is_same_parallel_context(struct i915_request *to,
- 
- int
- i915_request_await_execution(struct i915_request *rq,
--			     struct dma_fence *fence)
-+			     struct dma_fence *array)
- {
--	struct dma_fence **child = &fence;
--	unsigned int nchild = 1;
-+	struct dma_fence *fence;
-+	unsigned int i;
- 	int ret;
- 
--	if (dma_fence_is_array(fence)) {
--		struct dma_fence_array *array = to_dma_fence_array(fence);
--
--		/* XXX Error for signal-on-any fence arrays */
-+	dma_fence_array_for_each(fence, i, array) {
- 
--		child = array->fences;
--		nchild = array->num_fences;
--		GEM_BUG_ON(!nchild);
--	}
--
--	do {
--		fence = *child++;
- 		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
- 			continue;
- 
-@@ -1425,7 +1412,7 @@ i915_request_await_execution(struct i915_request *rq,
- 		}
- 		if (ret < 0)
- 			return ret;
--	} while (--nchild);
-+	}
- 
- 	return 0;
- }
-@@ -1482,10 +1469,10 @@ i915_request_await_request(struct i915_request *to, struct i915_request *from)
- }
- 
- int
--i915_request_await_dma_fence(struct i915_request *rq, struct dma_fence *fence)
-+i915_request_await_dma_fence(struct i915_request *rq, struct dma_fence *array)
- {
--	struct dma_fence **child = &fence;
--	unsigned int nchild = 1;
-+	struct dma_fence *fence;
-+	unsigned int i;
- 	int ret;
- 
- 	/*
-@@ -1496,16 +1483,8 @@ i915_request_await_dma_fence(struct i915_request *rq, struct dma_fence *fence)
- 	 * amdgpu and we should not see any incoming fence-array from
- 	 * sync-file being in signal-on-any mode.
- 	 */
--	if (dma_fence_is_array(fence)) {
--		struct dma_fence_array *array = to_dma_fence_array(fence);
--
--		child = array->fences;
--		nchild = array->num_fences;
--		GEM_BUG_ON(!nchild);
--	}
-+	dma_fence_array_for_each(fence, i, array) {
- 
--	do {
--		fence = *child++;
- 		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
- 			continue;
- 
-@@ -1537,7 +1516,7 @@ i915_request_await_dma_fence(struct i915_request *rq, struct dma_fence *fence)
- 		if (fence->context)
- 			intel_timeline_sync_set(i915_request_timeline(rq),
- 						fence);
--	} while (--nchild);
-+	}
- 
- 	return 0;
- }
+ extern void vmw_fence_fifo_down(struct vmw_fence_manager *fman);
 -- 
 2.25.1
 
