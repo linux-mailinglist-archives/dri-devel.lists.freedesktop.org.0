@@ -1,38 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84B94984B6
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 17:25:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C7044984BF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 17:28:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC2710E17A;
-	Mon, 24 Jan 2022 16:25:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D0F310E1B1;
+	Mon, 24 Jan 2022 16:28:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5998610E17A
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 16:25:53 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D73E0D6E;
- Mon, 24 Jan 2022 08:25:52 -0800 (PST)
-Received: from [192.168.99.12] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC9683F793;
- Mon, 24 Jan 2022 08:25:51 -0800 (PST)
-Message-ID: <61e0804c-fd09-a16d-8080-c06b1eb3c5aa@foss.arm.com>
-Date: Mon, 24 Jan 2022 16:25:42 +0000
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0060410E1B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 16:28:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ocvOHWJ3wrRvq5eM3CVrGXKd549B5HsiDIK7QpcqNfE=; b=h9F82F3iyazG6hR4ndsT9VosKT
+ B8WhRO40/P1PC6fr2s9sJnTofV9risvC1ADDQvgMmG/CaE5MkDzCeKkAoGy0WkCi9j9ueKi2vmWTc
+ jZ5odPnkEXX4l+Z+hoWEJuS94IP5swzMGz5oFZOP7wavmesKGxk9mhtY5/y5UBE9XK+URCcUIfsGQ
+ gpZStu6wnC6ZNh+xDVYDTwUYkATqa9x1Fo3IiNN+iogvVdCRAN4jMvUUH2DB4gvudIx4Z68kl0wZx
+ 1uhFhMmMyArHwDBM108RBJt0fGbn/9T1hcYVK6jnRsv7u3SJpJJmTN+s9btUbbUy3OUnxckr1kh9p
+ zZs9qoxQ==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:49175
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1nC2Cy-0005s7-Jc; Mon, 24 Jan 2022 17:28:44 +0100
+Message-ID: <931fab73-3a91-fda0-4af3-b48a1ad3c742@tronnes.org>
+Date: Mon, 24 Jan 2022 17:28:41 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] drm/arm: arm hdlcd select DRM_GEM_CMA_HELPER
-Content-Language: en-US
-To: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org
-References: <20220124151357.2467149-1-carsten.haitzler@foss.arm.com>
- <b302b8f4-40de-7b88-fbf5-933707476cdb@arm.com>
-From: Carsten Haitzler <carsten.haitzler@foss.arm.com>
-Organization: Arm Ltd.
-In-Reply-To: <b302b8f4-40de-7b88-fbf5-933707476cdb@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/3] dt-bindings: display: add bindings for MIPI DBI
+ compatible SPI panels
+To: Rob Herring <robh+dt@kernel.org>, maxime@cerno.tech
+References: <20220123172520.48741-1-noralf@tronnes.org>
+ <20220123172520.48741-2-noralf@tronnes.org>
+ <CAL_JsqJU_WFeJDt5jqLN9BQN2j_TCf3+0hKvbNSYwmg-2DSF=Q@mail.gmail.com>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <CAL_JsqJU_WFeJDt5jqLN9BQN2j_TCf3+0hKvbNSYwmg-2DSF=Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,51 +58,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, liviu.dudau@arm.com, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, david@lechnology.com,
+ dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
+ thierry.reding@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I sent an updated patch with the Fixes:
 
-On 1/24/22 16:13, Steven Price wrote:
-> On 24/01/2022 15:13, carsten.haitzler@foss.arm.com wrote:
->> From: Carsten Haitzler <carsten.haitzler@arm.com>
+
+Den 24.01.2022 17.08, skrev Rob Herring:
+> On Sun, Jan 23, 2022 at 11:25 AM Noralf Trønnes <noralf@tronnes.org> wrote:
 >>
->> Without DRM_GEM_CMA_HELPER HDLCD won't build. This needs to be there too.
+>> Add binding for MIPI DBI compatible SPI panels.
+> 
+> I'm sure we already have MIPI DBI panels. What's this for?
+> 
+
+It aims to use one driver to cover all MIPI DBI panels where the
+controller setup is loaded from userspace in a firmware file. The cover
+letter points to the discussion where Maxime proposed this:
+
+https://lore.kernel.org/dri-devel/20211129093946.xhp22mvdut3m67sc@houat/
+
+Noralf.
+
 >>
->> Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
-> 
-> To add the context, DRM_HDLCD used to select DRM_KMS_CMA_HELPER but that
-> was removed in commit 09717af7d13d ("drm: Remove
-> CONFIG_DRM_KMS_CMA_HELPER option"). DRM_KMS_CMA_HELPER would select
-> DRM_GEM_CMA_HELPER but that transitive dependency was lost and
-> apparently the fixup was missed in that commit.
-> 
-> So we need a:
-> 
-> Fixes: 09717af7d13d ("drm: Remove CONFIG_DRM_KMS_CMA_HELPER option")
-> 
-> and with that...
-> 
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> 
-> Steve
-> 
+>> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 >> ---
->>   drivers/gpu/drm/arm/Kconfig | 1 +
->>   1 file changed, 1 insertion(+)
+>>  .../display/panel/panel-mipi-dbi-spi.yaml     | 69 +++++++++++++++++++
+>>  1 file changed, 69 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
 >>
->> diff --git a/drivers/gpu/drm/arm/Kconfig b/drivers/gpu/drm/arm/Kconfig
->> index 58a242871b28..6e3f1d600541 100644
->> --- a/drivers/gpu/drm/arm/Kconfig
->> +++ b/drivers/gpu/drm/arm/Kconfig
->> @@ -6,6 +6,7 @@ config DRM_HDLCD
->>   	depends on DRM && OF && (ARM || ARM64 || COMPILE_TEST)
->>   	depends on COMMON_CLK
->>   	select DRM_KMS_HELPER
->> +	select DRM_GEM_CMA_HELPER
->>   	help
->>   	  Choose this option if you have an ARM High Definition Colour LCD
->>   	  controller.
->>
+>> diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+>> new file mode 100644
+>> index 000000000000..d6c8accb045c
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+>> @@ -0,0 +1,69 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/panel/panel-mipi-dbi-spi.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: MIPI DBI SPI Panels Device Tree Bindings
+>> +
+>> +maintainers:
+>> +  - Noralf Trønnes <noralf@tronnes.org>
+>> +
+>> +description:
+>> +  This binding is for display panels using a MIPI DBI controller
+>> +  in SPI mode.
+>> +
+>> +allOf:
+>> +  - $ref: panel/panel-common.yaml#
+>> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: panel-mipi-dbi-spi
 > 
+> Does the MIPI spec define how to power on a DBI panel with regulators,
+> enable/reset lines, etc. and all the timing constraints between those?
+> If not, then this compatible on its own is useless. It's fine as a
+> fallback if it's presence means the panel uses only standard DBI
+> commands and no vendor specific commands.
+> 
+>> +
+>> +  model:
+>> +    $ref: /schemas/types.yaml#/definitions/string
+>> +    description: The name of the display panel.
+>> +
+>> +  write-only:
+>> +    type: boolean
+>> +    description:
+>> +      Controller is not readable (ie. MISO is not wired up).
+>> +
+>> +  dc-gpios:
+>> +    maxItems: 1
+>> +    description: |
+>> +      Controller data/command selection (D/CX) in 4-line SPI mode.
+>> +      If not set, the controller is in 3-line SPI mode.
+>> +
+>> +  backlight: true
+>> +  reg: true
+>> +  reset-gpios: true
+>> +
+>> +required:
+>> +  - compatible
+>> +  - model
+>> +  - reg
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/gpio/gpio.h>
+>> +
+>> +    spi {
+>> +            #address-cells = <1>;
+>> +            #size-cells = <0>;
+>> +
+>> +            display@0{
+>> +                    compatible = "panel-mipi-dbi-spi";
+>> +                    model = "sainsmart18";
+>> +                    reg = <0>;
+>> +                    spi-max-frequency = <40000000>;
+>> +                    dc-gpios = <&gpio 24 GPIO_ACTIVE_HIGH>;
+>> +                    reset-gpios = <&gpio 25 GPIO_ACTIVE_HIGH>;
+>> +                    write-only;
+>> +            };
+>> +    };
+>> +
+>> +...
+>> --
+>> 2.33.0
+>>
