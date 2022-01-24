@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566D9497F5B
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 13:25:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEA4497F61
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 13:25:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFC6F10E99E;
-	Mon, 24 Jan 2022 12:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 499DB10EA4F;
+	Mon, 24 Jan 2022 12:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FA7410E8BC
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8C0F10E8BC
  for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 12:25:20 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id w11so1102374wra.4
+Received: by mail-wr1-x42a.google.com with SMTP id u15so13244294wrt.3
  for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 04:25:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=W/9N9xYoKgiFtiQW+jzimeQXI12uRru2/HMWPIJw1Tg=;
- b=LEheQgAOuvDUXTvYv2R9Ie9Blh07LSwR6Uxp3gOaxU/OOq6Lzewc3y+X57ECPxpnoS
- NVcJCoq4oaEJBwmv3XIhdYVAuX2ngzbFwEa57pbK1X4dxydIA0zjEb5raX8AYyI329bC
- XXXsmtBAbo/pzunRJU3tsRFKt0hnNhAkd9tzRqzCNNxJh9FjuimWznK+8KFDy4B4Gm8J
- qNka6m57a6VlbJMZNJjSy+O3t0xzZ8C+8tSlJtxXHeXfnbAowDxxnycuRntDsDrLK6bJ
- LE8t3dBkrk3dOEBf5qXVodLtO5hdi4HHAnyOv71D+ojqZFuTzbR1wof+iugyrJleB3hL
- eL1w==
+ bh=UXn8v4gDRQLa7yCgiM90E9GBqmcF2E/H65e/pHnK8to=;
+ b=efanpkRoklGuVG0ex3r+HqS+ijixFVlEIG4Ue6nYW5Gfgb0P2XxUWzlAxPSdY6VGcc
+ fgVGFzp7BjmEdZnAPdk8Vv+w7TNMEY+2T53QS/Efv2iS9WQ90zCh2PDd2nCCr2sXn8hd
+ kLL2KKEyq9b6g2ovf7vW+/xQGTykiXPn4PDQUxP6ztsjNVSwMfQWYRgtPH/ab8K6swAT
+ 6BGrWPSH7sAJQ1neCAuxwOseJ6pzbkZyb40BcAFDloAtEcKs1h/l2tLVk0pz9uzBszC+
+ ViSup5F57dj+62AJPOx7qLvi0xMZRhBumMDyIOl3glzaSBm/1nhIs1EKs15jqyC1TFVP
+ Or8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W/9N9xYoKgiFtiQW+jzimeQXI12uRru2/HMWPIJw1Tg=;
- b=NtAI6EBMqe6ONvJRzaeD5uwLAclqcldTwNRklUXlQDoiyytYds2CQun5/TgWZkfqgw
- p1yPxkFK+xKk3cY5hS3lvSKf/6taxRmJEx2RPTlmgK/5wYn5mcOYgr8oJknPAfTCaHCd
- lyUNZtNSR00hqRQrkvY8TeXjDsc66bcj08AL1yjgw/0W+8DKjL4B5qDMn4FKgS6v2XMm
- g/KVn2qmcQ9/+VQ8VGGP9812lGSW1MQ99f0HqHP7ZnhSanDjFLJF3QgWKaFVuYHyWukH
- MKyHmeB3OYGi7W2rr8j6up0xQVp35ptK9MK3l13XIBQSZFI8X+PbEWLqw1lWfwQ08jE4
- 3jeA==
-X-Gm-Message-State: AOAM533qcVIgnbviRjSdXCVgAZO+viYO/GR7+AZRPardPEdbjJQ8eDBQ
- +XRyvRmSPBGkINSElZvB+1Q=
-X-Google-Smtp-Source: ABdhPJwvpsp+qLJU0cBQyK4b8tB3CQwhdhA9HD9uE8XXnxn1J98iqbqfCCKLPdDpFX1/K0zuJPI9Zw==
-X-Received: by 2002:adf:80f1:: with SMTP id 104mr14210804wrl.200.1643027118747; 
- Mon, 24 Jan 2022 04:25:18 -0800 (PST)
+ bh=UXn8v4gDRQLa7yCgiM90E9GBqmcF2E/H65e/pHnK8to=;
+ b=CPfgItBGGX+7HoN76Yv+wJNW3QClTv6JbuBxk7BdnyikHEmGD4cRF94hT2gdmY5aU5
+ G1to8rDfCWbWsjn+DaW4Wc4QxT1oJ+XbjECpVtR6qVbtPRVUvW8RnDl3kCvzehQ2N8HB
+ nP0jruu/P+L9JXYdeZPBoW5Wo/4VlwwwswvMmWwITdm5Ls55ZB1WIXp/4LWS3l8MIbjW
+ FdvJz5NYfScANcWcylUFmTFdGpblgy++dA+PTjl6vtXy2Xau4Uh/nqYakMGxekLs7KM4
+ /8FFmGzNgqTAZecP78FOn54kRwB/bBDDLjxBaQzg9LvpcR2O6tFDJg8841r3s8H/iad8
+ 21GA==
+X-Gm-Message-State: AOAM530tOCxH5RxqrQ0RNeNJVM2nCImK5YZrvxl4hk1twQTU983CfB/i
+ 8BeaZLfKZkDmU9uvP5JayoE=
+X-Google-Smtp-Source: ABdhPJzOT3SH+PaAeaS1Z/8yDvkoqVOevxa3CC8zAcTsHGNH1kV78HDjdzvZTK/wv3bJ9OxGzZggeQ==
+X-Received: by 2002:adf:a141:: with SMTP id r1mr13536285wrr.124.1643027119470; 
+ Mon, 24 Jan 2022 04:25:19 -0800 (PST)
 Received: from abel.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
- by smtp.gmail.com with ESMTPSA id 1sm12830516wmo.37.2022.01.24.04.25.17
+ by smtp.gmail.com with ESMTPSA id 1sm12830516wmo.37.2022.01.24.04.25.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jan 2022 04:25:18 -0800 (PST)
+ Mon, 24 Jan 2022 04:25:19 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: ray.huang@amd.com, thomas.hellstrom@linux.intel.com,
  dri-devel@lists.freedesktop.org, bas@basnieuwenhuizen.nl
-Subject: [PATCH 03/12] drm/ttm: add a weak BO reference to the resource v3
-Date: Mon, 24 Jan 2022 13:25:05 +0100
-Message-Id: <20220124122514.1832-4-christian.koenig@amd.com>
+Subject: [PATCH 04/12] drm/ttm: add common accounting to the resource mgr v2
+Date: Mon, 24 Jan 2022 13:25:06 +0100
+Message-Id: <20220124122514.1832-5-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220124122514.1832-1-christian.koenig@amd.com>
 References: <20220124122514.1832-1-christian.koenig@amd.com>
@@ -74,113 +74,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Keep track for which BO a resource was allocated.
-This is necessary to move the LRU handling into the resources.
+It makes sense to have this in the common manager for debugging and
+accounting of how much resources are used.
 
-A bit problematic is i915 since it tries to use the resource
-interface without a BO which is illegal from the conceptional
-point of view.
-
-v2: Document that this is a weak reference and add a workaround for i915
-v3: further document that this is protected by ttm_device::lru_lock and
-    clarify the i915 workaround
+v2: cleanup kerneldoc a bit
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Acked-by: Huang Rui <ray.huang@amd.com>
+Reviewed-by: Huang Rui <ray.huang@amd.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo_util.c  | 7 +++++--
- drivers/gpu/drm/ttm/ttm_resource.c | 9 +++++++++
- include/drm/ttm/ttm_resource.h     | 4 ++++
- 3 files changed, 18 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ttm/ttm_resource.c |  8 ++++++++
+ include/drm/ttm/ttm_resource.h     | 20 +++++++++++++++++++-
+ 2 files changed, 27 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 72a94301bc95..544a84fa6589 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -241,6 +241,11 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
- 	if (bo->type != ttm_bo_type_sg)
- 		fbo->base.base.resv = &fbo->base.base._resv;
- 
-+	if (fbo->base.resource) {
-+		ttm_resource_set_bo(fbo->base.resource, &fbo->base);
-+		bo->resource = NULL;
-+	}
-+
- 	dma_resv_init(&fbo->base.base._resv);
- 	fbo->base.base.dev = NULL;
- 	ret = dma_resv_trylock(&fbo->base.base._resv);
-@@ -509,7 +514,6 @@ static int ttm_bo_move_to_ghost(struct ttm_buffer_object *bo,
- 		ghost_obj->ttm = NULL;
- 	else
- 		bo->ttm = NULL;
--	bo->resource = NULL;
- 
- 	dma_resv_unlock(&ghost_obj->base._resv);
- 	ttm_bo_put(ghost_obj);
-@@ -637,7 +641,6 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- 	dma_resv_unlock(&ghost->base._resv);
- 	ttm_bo_put(ghost);
- 	bo->ttm = ttm;
--	bo->resource = NULL;
- 	ttm_bo_assign_mem(bo, sys_res);
- 	return 0;
- 
 diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index 41e7bf195168..7fdd58b53c61 100644
+index 7fdd58b53c61..b8362492980d 100644
 --- a/drivers/gpu/drm/ttm/ttm_resource.c
 +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -41,6 +41,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
- 	res->bus.offset = 0;
+@@ -33,6 +33,8 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+                        const struct ttm_place *place,
+                        struct ttm_resource *res)
+ {
++	struct ttm_resource_manager *man;
++
+ 	res->start = 0;
+ 	res->num_pages = PFN_UP(bo->base.size);
+ 	res->mem_type = place->mem_type;
+@@ -42,12 +44,16 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
  	res->bus.is_iomem = false;
  	res->bus.caching = ttm_cached;
-+	res->bo = bo;
+ 	res->bo = bo;
++
++	man = ttm_manager_type(bo->bdev, place->mem_type);
++	atomic64_add(bo->base.size, &man->usage);
  }
  EXPORT_SYMBOL(ttm_resource_init);
  
-@@ -122,6 +123,14 @@ bool ttm_resource_compat(struct ttm_resource *res,
+ void ttm_resource_fini(struct ttm_resource_manager *man,
+ 		       struct ttm_resource *res)
+ {
++	atomic64_sub(res->bo->base.size, &man->usage);
  }
- EXPORT_SYMBOL(ttm_resource_compat);
+ EXPORT_SYMBOL(ttm_resource_fini);
  
-+void ttm_resource_set_bo(struct ttm_resource *res,
-+			 struct ttm_buffer_object *bo)
-+{
-+	spin_lock(&bo->bdev->lru_lock);
-+	res->bo = bo;
-+	spin_unlock(&bo->bdev->lru_lock);
-+}
-+
- /**
-  * ttm_resource_manager_init
-  *
+@@ -149,6 +155,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
+ 	spin_lock_init(&man->move_lock);
+ 	man->bdev = bdev;
+ 	man->size = p_size;
++	atomic64_set(&man->usage, 0);
+ 
+ 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+ 		INIT_LIST_HEAD(&man->lru[i]);
+@@ -221,6 +228,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+ 	drm_printf(p, "  use_type: %d\n", man->use_type);
+ 	drm_printf(p, "  use_tt: %d\n", man->use_tt);
+ 	drm_printf(p, "  size: %llu\n", man->size);
++	drm_printf(p, "  usage: %llu\n", atomic64_read(&man->usage));
+ 	if (man->func->debug)
+ 		man->func->debug(man, p);
+ }
 diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index 6bf37383002b..69eea9d6399b 100644
+index 69eea9d6399b..3d391279b33f 100644
 --- a/include/drm/ttm/ttm_resource.h
 +++ b/include/drm/ttm/ttm_resource.h
-@@ -161,6 +161,7 @@ struct ttm_bus_placement {
-  * @mem_type: Resource type of the allocation.
-  * @placement: Placement flags.
-  * @bus: Placement on io bus accessible to the CPU
-+ * @bo: weak reference to the BO, protected by ttm_device::lru_lock
-  *
-  * Structure indicating the placement and space resources used by a
-  * buffer object.
-@@ -171,6 +172,7 @@ struct ttm_resource {
- 	uint32_t mem_type;
- 	uint32_t placement;
- 	struct ttm_bus_placement bus;
-+	struct ttm_buffer_object *bo;
+@@ -27,6 +27,7 @@
+ 
+ #include <linux/types.h>
+ #include <linux/mutex.h>
++#include <linux/atomic.h>
+ #include <linux/dma-buf-map.h>
+ #include <linux/dma-fence.h>
+ #include <drm/drm_print.h>
+@@ -132,8 +133,12 @@ struct ttm_resource_manager {
+ 	/*
+ 	 * Protected by the global->lru_lock.
+ 	 */
+-
+ 	struct list_head lru[TTM_MAX_BO_PRIORITY];
++
++	/**
++	 * @usage: How much of the region is used, has its own protection.
++	 */
++	atomic64_t usage;
  };
  
  /**
-@@ -271,6 +273,8 @@ int ttm_resource_alloc(struct ttm_buffer_object *bo,
- void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res);
- bool ttm_resource_compat(struct ttm_resource *res,
- 			 struct ttm_placement *placement);
-+void ttm_resource_set_bo(struct ttm_resource *res,
-+			 struct ttm_buffer_object *bo);
+@@ -261,6 +266,19 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+ 	man->move = NULL;
+ }
  
- void ttm_resource_manager_init(struct ttm_resource_manager *man,
- 			       struct ttm_device *bdev,
++/**
++ * ttm_resource_manager_usage
++ *
++ * @man: A memory manager object.
++ *
++ * Return how many resources are currently used.
++ */
++static inline uint64_t
++ttm_resource_manager_usage(struct ttm_resource_manager *man)
++{
++	return atomic64_read(&man->usage);
++}
++
+ void ttm_resource_init(struct ttm_buffer_object *bo,
+                        const struct ttm_place *place,
+                        struct ttm_resource *res);
 -- 
 2.25.1
 
