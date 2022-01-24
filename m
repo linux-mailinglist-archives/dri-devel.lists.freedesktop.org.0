@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7AD4994C0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 22:04:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FFB4994BD
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 22:04:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73FF910E1B5;
-	Mon, 24 Jan 2022 21:04:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CB2F10EB08;
+	Mon, 24 Jan 2022 21:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCF5710E5EE
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 21:04:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1643058270;
- bh=G4QL4aRF1MIZztEgXPaOqrg33QacvRQuLCKWZMhO5hI=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=TEgwu1OLI2EylIhcQM69+CtUiQiFGv3pDFIjVtOjStjzUzKSkv0NZkE5ddGyu+MOz
- XHq/JNR2/K7pwGB2l8njcnrvmmZfbttoFVUEb0lJmojoXzC9/gmFrNmiWkx53gD4vP
- XGlKk7p8V3hXlHNjNQGLh3b6G57PNDU+mERvUbdc=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ls3530.fritz.box ([92.116.165.96]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N33Il-1m9BC70jgD-013Nn8; Mon, 24
- Jan 2022 22:04:30 +0100
-From: Helge Deller <deller@gmx.de>
-To: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org
-Subject: [PATCH v2 2/2] Revert "fbcon: Disable accelerated scrolling"
-Date: Mon, 24 Jan 2022 22:03:19 +0100
-Message-Id: <20220124210319.325512-3-deller@gmx.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220124210319.325512-1-deller@gmx.de>
-References: <20220124210319.325512-1-deller@gmx.de>
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 124AB10E5EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 21:04:20 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ m8-20020a9d4c88000000b00592bae7944bso24038685otf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 13:04:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=JYiLYol9mvWoC/k9SlBNW3f4S6peoi+xmexnQLDaAHc=;
+ b=HsuuTxhscaoAqtQaDrdwBqOr+pYZMN4w2SA8Q7gzbGeDVQlpfcRDDYbqoI1eGaw4HH
+ tqzC8Rw8Wq9AFXlLETHFjUOJ/Kd57+8avtXJcdQl+Zk2xnWWSjvNGfjrKmB1mjc9h3G/
+ J51AFEegRcmcOXWbI+rmYoSKJy7YCRzp/zMxE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=JYiLYol9mvWoC/k9SlBNW3f4S6peoi+xmexnQLDaAHc=;
+ b=hnwV9eRFg6bnplcqD4mcjFwklwJdtax5Dsbv4MytUGrizW7b/AlvvtBw5tW1WAU2HP
+ rCe/v4qHIM8ZwFpWjNdldMbV2zKTk4muaZ+wzjAC9eD01TxxkX9Ye75DsZifTfs37hjj
+ 51n9BWoxt7bs7PRv6TP2Wc2/jN9hcdwMA2yLJctgYs8Cer+zYIZHrnoJ6uRPnItTHnHf
+ qc+9j4a8+hqDELJwB2lyQ6WEoHuJLcWOUKJaIbHymDt+1K952QKkOVSbKZ+2fXApl1In
+ AZRHFipRZenF9jWZyKX6EGQevgP/1zuStjcdk2WRDchOJ1lM67rErYyX8iSzhnhgprHP
+ 6VNQ==
+X-Gm-Message-State: AOAM530iQYkC4OmlMHecxJviffQPNLvdPe8wLEqA4h2qaFN/kqwgY0xf
+ ZcNcCT2ehAt7EwKMk+ywO5i7MPNtoygnOs7eWGPgJQ==
+X-Google-Smtp-Source: ABdhPJzWss7XOnvh73u3Bx1WcknT+UoYuzDwWnibDZtvmdSPqZExl7hcfY2zpEl1b5NjqqKETJt01WEhiJ/eialMpxs=
+X-Received: by 2002:a05:6830:30ba:: with SMTP id
+ g26mr6213128ots.159.1643058259360; 
+ Mon, 24 Jan 2022 13:04:19 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 24 Jan 2022 13:04:18 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ySEdTqxyN4+8/eoyNl3Y5jBwuWgAI9+/uKXggaWUbafd2Gj8Wn/
- IH+av127DUXHEIAz14NtmoBigme8HMcEvzDSnsZWNHVaZtANmghk5OfvLDxqlB9qLtl7Ifv
- 82qcSrQOsyCFjiK9GqlviB/sEebJcjzJ2SI7qlXkZdrdn2iGoMPzqrDV7HsDB4dJt9nzL6u
- EB6dF4Y06mni9T4L5dRaQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YqCe6KqWbxw=:PmQ9dSxFAgk7w771AQmacv
- GYB06GZJ0jcz7TE8Jpg0XCskxty+kBcsIDg5vn8C6eI7v0Xt6UtfhUPoRaYJhQraXmd+wpBrA
- O+0K9QJy5raCVhoFIalXrvyX0Fg8eOpXhf9PbXNmCIyHylHekmp+aEycBE8NcFqbJwglpMrtV
- ILubnPRP2I07NisDerNbVsce9Tp1NbgFOZgNxb8jvPveX2W8NyYn2wfe7YnDPk8PqNVIfFxjt
- VgQzn/3f7NP8sD0wfEodbWD2yJ1w/UyErdreQh4ijjpdTsCnn+J+Z2egvuPu3+2QmJf96mfrN
- hV4WJ0zwYPJsQNxmRSw952vhwXCG4RVT2KERg5rJhdcEcxWsnqnJEg53ya9fpSRz/au9n2dGv
- +hVacxrBhgLiIDDNIrlrVheSlq/ERow276cdY8zteLiWY29gpznGQpCvj5TGxJwCxUbk4c2Fr
- nPbGXAyDT+qd9UKFuyL0b7kRa4NqhY+59r2mtSinmSSdy4GKafxUvbUELGQ9K626+ueDsvPKa
- sw9/HZoOSERuFTPaY6ExD+gTwcwnMphcBh2Ja9JlyWGGj+YDKCp36z5WenxzEGPzjl++JIkWz
- 9ikZ9+Ca8K5IbUk26CHZHQvrXMD5X5+TLBLwrUdsFUvX6FOr5Aky6+RKOFoyGlldUL5onhmr9
- cqmKcT33apYh1A/fvZ7Rw0b4JmyvJ6ypuP/Nq4qm3p8iwVdp5FeiHFWWefOCpUyIOsGglbOUj
- dMYUan5ksP0yLJWdvzzcb9GabO4bs8LV47A/JP2SRlZ2DKFVbd0P5eO37xCNgwfhvlVH3Pj1k
- jmeAbSA7/FUw89I1XRhvf8XXk6JF2/QnLiT979q9Ceza3tUfiiyNiGg/TzCqJNMjEkw8b8LSN
- wHr12Y8t5TmVvBK4teNpg60o7Oz9xld2+5k/DIgTmT1DyDocUhzx48DxsU9yZmK574kRyaSk/
- 3YjOx9/9nw/LpdHYj8VQ6CgczMokvjEcub4dHqV0GIOznU5FXV0K7V4OPC0W3Gsr3tZz6T8Je
- 49l1xXtT0v7U1oXzGo31YkgXZM0ZPqKfxqYb46D/Jyoj+66OIjCg5e7Gc/3yzfkvxvI35RbQy
- tQMW0KWhiQSZR0=
+In-Reply-To: <1643057170-10413-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1643057170-10413-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 24 Jan 2022 13:04:18 -0800
+Message-ID: <CAE-0n53nFcMzuKfqVRac6PRTkoPrftXL+uVK56ZQsHVWHmivkQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: always add fail-safe mode into connector mode
+ list
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,223 +67,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pavel Machek <pavel@ucw.cz>, Sam Ravnborg <sam@ravnborg.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sven Schnelle <svens@stackframe.org>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 39aead8373b3c20bb5965c024dfb51a94e526151.
+Quoting Kuogee Hsieh (2022-01-24 12:46:10)
+> Some of DP link compliant test expects to return fail-safe mode
+> if prefer detailed timing mode can not be supported by mainlink's
+> lane and rate after link training. Therefore add fail-safe mode
+> into connector mode list as backup mode. This patch fixes test
+> case 4.2.2.1.
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
-Revert the first (of 2) commits which disabled scrolling acceleration in
-fbcon/fbdev.  It introduced a regression for fbdev-supported graphic cards
-because of the performance penalty by doing screen scrolling by software
-instead of using the existing graphic card 2D hardware acceleration.
+Any Fixes tag? I also wonder why this isn't pushed into the DP core code
+somehow. Wouldn't every device need to add a 640x480 mode by default?
 
-Console scrolling acceleration was disabled by dropping code which
-checked at runtime the driver hardware capabilities for the
-BINFO_HWACCEL_COPYAREA or FBINFO_HWACCEL_FILLRECT flags and if set, it
-enabled scrollmode SCROLL_MOVE which uses hardware acceleration to move
-screen contents.  After dropping those checks scrollmode was hard-wired
-to SCROLL_REDRAW instead, which forces all graphic cards to redraw every
-character at the new screen position when scrolling.
-
-This change effectively disabled all hardware-based scrolling acceleration=
- for
-ALL drivers, because now all kind of 2D hardware acceleration (bitblt,
-fillrect) in the drivers isn't used any longer.
-
-The original commit message mentions that only 3 DRM drivers (nouveau, oma=
-pdrm
-and gma500) used hardware acceleration in the past and thus code for check=
-ing
-and using scrolling acceleration is obsolete.
-
-This statement is NOT TRUE, because beside the DRM drivers there are aroun=
-d 35
-other fbdev drivers which depend on fbdev/fbcon and still provide hardware
-acceleration for fbdev/fbcon.
-
-The original commit message also states that syzbot found lots of bugs in =
-fbcon
-and thus it's "often the solution to just delete code and remove features"=
-.
-This is true, and the bugs - which actually affected all users of fbcon,
-including DRM - were fixed, or code was dropped like e.g. the support for
-software scrollback in vgacon (commit 973c096f6a85).
-
-So to further analyze which bugs were found by syzbot, I've looked through=
- all
-patches in drivers/video which were tagged with syzbot or syzkaller back t=
-o
-year 2005. The vast majority fixed the reported issues on a higher level, =
-e.g.
-when screen is to be resized, or when font size is to be changed. The few =
-ones
-which touched driver code fixed a real driver bug, e.g. by adding a check.
-
-But NONE of those patches touched code of either the SCROLL_MOVE or the
-SCROLL_REDRAW case.
-
-That means, there was no real reason why SCROLL_MOVE had to be ripped-out =
-and
-just SCROLL_REDRAW had to be used instead. The only reason I can imagine s=
-o far
-was that SCROLL_MOVE wasn't used by DRM and as such it was assumed that it
-could go away. That argument completely missed the fact that SCROLL_MOVE i=
-s
-still heavily used by fbdev (non-DRM) drivers.
-
-Some people mention that using memcpy() instead of the hardware accelerati=
-on is
-pretty much the same speed. But that's not true, at least not for older gr=
-aphic
-cards and machines where we see speed decreases by factor 10 and more and =
-thus
-this change leads to console responsiveness way worse than before.
-
-That's why the original commit is to be reverted. By reverting we
-reintroduce hardware-based scrolling acceleration and fix the
-performance regression for fbdev drivers.
-
-There isn't any impact on DRM when reverting those patches.
-
-Signed-off-by: Helge Deller <deller@gmx.de>
-Cc: stable@vger.kernel.org # v5.10+
-=2D--
- Documentation/gpu/todo.rst       | 21 ---------------
- drivers/video/fbdev/core/fbcon.c | 45 ++++++++++++++++++++++++++------
- 2 files changed, 37 insertions(+), 29 deletions(-)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 29506815d24a..a1212b5b3026 100644
-=2D-- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -300,27 +300,6 @@ Contact: Daniel Vetter, Noralf Tronnes
-
- Level: Advanced
-
--Garbage collect fbdev scrolling acceleration
-=2D--------------------------------------------
--
--Scroll acceleration is disabled in fbcon by hard-wiring p->scrollmode =3D
--SCROLL_REDRAW. There's a ton of code this will allow us to remove:
--
-=2D- lots of code in fbcon.c
--
-=2D- a bunch of the hooks in fbcon_ops, maybe the remaining hooks could be=
- called
--  directly instead of the function table (with a switch on p->rotate)
--
-=2D- fb_copyarea is unused after this, and can be deleted from all drivers
--
--Note that not all acceleration code can be deleted, since clearing and cu=
-rsor
--support is still accelerated, which might be good candidates for further
--deletion projects.
--
--Contact: Daniel Vetter
--
--Level: Intermediate
--
- idr_init_base()
- ---------------
-
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/f=
-bcon.c
-index 22bb3892f6bd..b813985f1403 100644
-=2D-- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -1025,7 +1025,7 @@ static void fbcon_init(struct vc_data *vc, int init)
- 	struct vc_data *svc =3D *default_mode;
- 	struct fbcon_display *t, *p =3D &fb_display[vc->vc_num];
- 	int logo =3D 1, new_rows, new_cols, rows, cols;
--	int ret;
-+	int cap, ret;
-
- 	if (WARN_ON(info_idx =3D=3D -1))
- 	    return;
-@@ -1034,6 +1034,7 @@ static void fbcon_init(struct vc_data *vc, int init)
- 		con2fb_map[vc->vc_num] =3D info_idx;
-
- 	info =3D registered_fb[con2fb_map[vc->vc_num]];
-+	cap =3D info->flags;
-
- 	if (logo_shown < 0 && console_loglevel <=3D CONSOLE_LOGLEVEL_QUIET)
- 		logo_shown =3D FBCON_LOGO_DONTSHOW;
-@@ -1135,13 +1136,11 @@ static void fbcon_init(struct vc_data *vc, int ini=
-t)
-
- 	ops->graphics =3D 0;
-
--	/*
--	 * No more hw acceleration for fbcon.
--	 *
--	 * FIXME: Garbage collect all the now dead code after sufficient time
--	 * has passed.
--	 */
--	p->scrollmode =3D SCROLL_REDRAW;
-+	if ((cap & FBINFO_HWACCEL_COPYAREA) &&
-+	    !(cap & FBINFO_HWACCEL_DISABLED))
-+		p->scrollmode =3D SCROLL_MOVE;
-+	else /* default to something safe */
-+		p->scrollmode =3D SCROLL_REDRAW;
-
- 	/*
- 	 *  ++guenther: console.c:vc_allocate() relies on initializing
-@@ -1953,15 +1952,45 @@ static void updatescrollmode(struct fbcon_display =
-*p,
- {
- 	struct fbcon_ops *ops =3D info->fbcon_par;
- 	int fh =3D vc->vc_font.height;
-+	int cap =3D info->flags;
-+	u16 t =3D 0;
-+	int ypan =3D FBCON_SWAP(ops->rotate, info->fix.ypanstep,
-+				  info->fix.xpanstep);
-+	int ywrap =3D FBCON_SWAP(ops->rotate, info->fix.ywrapstep, t);
- 	int yres =3D FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
- 	int vyres =3D FBCON_SWAP(ops->rotate, info->var.yres_virtual,
- 				   info->var.xres_virtual);
-+	int good_pan =3D (cap & FBINFO_HWACCEL_YPAN) &&
-+		divides(ypan, vc->vc_font.height) && vyres > yres;
-+	int good_wrap =3D (cap & FBINFO_HWACCEL_YWRAP) &&
-+		divides(ywrap, vc->vc_font.height) &&
-+		divides(vc->vc_font.height, vyres) &&
-+		divides(vc->vc_font.height, yres);
-+	int reading_fast =3D cap & FBINFO_READS_FAST;
-+	int fast_copyarea =3D (cap & FBINFO_HWACCEL_COPYAREA) &&
-+		!(cap & FBINFO_HWACCEL_DISABLED);
-+	int fast_imageblit =3D (cap & FBINFO_HWACCEL_IMAGEBLIT) &&
-+		!(cap & FBINFO_HWACCEL_DISABLED);
-
- 	p->vrows =3D vyres/fh;
- 	if (yres > (fh * (vc->vc_rows + 1)))
- 		p->vrows -=3D (yres - (fh * vc->vc_rows)) / fh;
- 	if ((yres % fh) && (vyres % fh < yres % fh))
- 		p->vrows--;
-+
-+	if (good_wrap || good_pan) {
-+		if (reading_fast || fast_copyarea)
-+			p->scrollmode =3D good_wrap ?
-+				SCROLL_WRAP_MOVE : SCROLL_PAN_MOVE;
-+		else
-+			p->scrollmode =3D good_wrap ? SCROLL_REDRAW :
-+				SCROLL_PAN_REDRAW;
-+	} else {
-+		if (reading_fast || (fast_copyarea && !fast_imageblit))
-+			p->scrollmode =3D SCROLL_MOVE;
-+		else
-+			p->scrollmode =3D SCROLL_REDRAW;
-+	}
- }
-
- #define PITCH(w) (((w) + 7) >> 3)
-=2D-
-2.31.1
-
+> ---
+>  drivers/gpu/drm/msm/dp/dp_panel.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+> index 3b02922..7743b45 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+> @@ -221,6 +221,11 @@ int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
+>                 if (drm_add_modes_noedid(connector, 640, 480))
+>                         drm_set_preferred_mode(connector, 640, 480);
+>                 mutex_unlock(&connector->dev->mode_config.mutex);
+> +       } else {
+> +               /* always add fail-safe mode as backup mode */
+> +               mutex_lock(&connector->dev->mode_config.mutex);
+> +               drm_add_modes_noedid(connector, 640, 480);
+> +               mutex_unlock(&connector->dev->mode_config.mutex);
+>         }
+>
+>         if (panel->aux_cfg_update_done) {
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+>
