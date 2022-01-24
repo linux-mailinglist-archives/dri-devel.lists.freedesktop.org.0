@@ -1,57 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0122B49900F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 20:59:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D484991C6
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 21:18:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B79F10EA07;
-	Mon, 24 Jan 2022 19:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D94B10E731;
+	Mon, 24 Jan 2022 20:18:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91DA810E9FF;
- Mon, 24 Jan 2022 19:59:34 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- j38-20020a9d1926000000b0059fa6de6c71so4024177ota.10; 
- Mon, 24 Jan 2022 11:59:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w+lZqp5VkPjN0faGgSSPKZ3zUhREnNDGIkuhzUCrVAU=;
- b=CSAtIjx4L+ZkJciYlaWlmCBX6UHmUCvw1LCMR3LfRIGvEjh3fERyo+hkCxZVzZVBsC
- CgSeSRBEHJ02dBKUqKVxK6XFAAcuOQ4HPqrhCT0oM/R6lZoVCbPvRX8v0CD5P6hmoT/+
- L58y+kpGl8c7DIBbCzp6UolIERAa6i9T8H7vLoRLfxa3bX0GRY3NSj//B756aVhSNbhp
- G3j4knVTvzCoKjLC++e7sAY/UarFC0XGY1l2esyRVCnHuD+dnsdNaC3fDALkIi4oZvL7
- N/XrfocLShB4Ad0AqhzV2I9DzafUi1yimxXNA6kNHy4Wki4vd57iuwzOA1Hc/MXKK3Uo
- 3RpA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A7C610E731
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 20:18:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643055501;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LK256wQogjCX5wa9UmsP7s8Vi1buTBnWqTcBCjO4e1M=;
+ b=BMfAZ0JMGgQi1KI63yLFIB9lfPW/H+HCdav5DMHsldenMkHZWJm8FVD08q33+5aeVd+AZ8
+ XfF5XGxqNcTl8sIG49qSn8nLREX1b9+YOsTepNS1VW+6e4UtfZyg1Uz0HKL0YL4oLM2RZL
+ hvOWjA5GT9MtDTw54mxZSi02LBdvOnM=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-675-TAzv6D9uNbeYEXbhmuCv5Q-1; Mon, 24 Jan 2022 15:18:19 -0500
+X-MC-Unique: TAzv6D9uNbeYEXbhmuCv5Q-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ bx38-20020a0568081b2600b002cccdb971ddso3218667oib.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 12:18:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w+lZqp5VkPjN0faGgSSPKZ3zUhREnNDGIkuhzUCrVAU=;
- b=kDNjcd9DduQ8nf9Lq1cz2Z8QegNgAVizcsoRsuHrQWxM0+dVt//BHryyMaj0ALxUgl
- 47lUpny6dMkdVbPHWD2hC1+pfhuw5Xjf8mSkWsVPUotZVhD4R21p2UgmPf+Z15cq43g4
- BiwPdf0NebARbcgA7L9hn/cAWvoAK3QOejxsgOz8CiOe3C9X+babgeBN2f5QiCdBD1Bi
- p9i/ODHTXFkquRAyzVX+w+h4BRnZYXchvuxYa7Iun5iW/lkBPWMozjup0kWkl1IJDEfu
- ccG/mzGAUVLlL7dF9YAu/3svG8SoEI16fqbX46gdPA3kZXVguouGq3iIeOf3VyP0ywp5
- Tjyw==
-X-Gm-Message-State: AOAM533+r2Dr1TX7NdHHsfXmmeJoanjjPqaZ1W7YuSR7PbBvrVcpxBDZ
- LtRRnuUcWLEmNyQdvqMCIeO/bFrh7xHwXhdjps4=
-X-Google-Smtp-Source: ABdhPJyInPhzcrJLNRrdGV5Euq2uJFvwa+CtjDpOWM0SbP+p9pyHaSW7USbPxxFYzNmwKNu6aqwl8ruO9MIIWHs9TGI=
-X-Received: by 2002:a05:6830:1d90:: with SMTP id
- y16mr12820867oti.200.1643054373917; 
- Mon, 24 Jan 2022 11:59:33 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LK256wQogjCX5wa9UmsP7s8Vi1buTBnWqTcBCjO4e1M=;
+ b=0JUJqKnZwAT4xQnD39PhAmUg//ijp5QXvrLpxAyam1QVkfCNGPDUgX/wlfbKINnzGq
+ NRMUjlXlmjueBZuT+G+soXXA8ZYNEnMw4s1d+89zOBJ+q1F+s2abKq+kCLDSbAl2EUfx
+ alSNwCxcy96Ov5Ndj+UnMv3wpSty+y8AOuv+Tt6POkSHUhXPvtCsyutWccA7SQjFOEIw
+ rfqu+5bDqZ9kR1fKNu65nk5R1ii+nOnzOSJc/RNKyAHwJ0NC/zrRlDnets6dWQPGT4CP
+ 0Sv4EUbGS1Rm1ouBeKxqf7W1AigZc/nzevnoJEKac29DXFzG4nEArxdbt4xHDaLzxIZC
+ tuvw==
+X-Gm-Message-State: AOAM532vczfPfrcgv9z0jUb4CaTTGdPkmi86Q7AUlDR3IUufJAAwEyXc
+ o6nbwr4k/Hezn68pwjTMpVuxPTcf0ZUACTAXuSh+S0WsBTuT7SRi4acjy+wYAKEZtl4Bi1DGiWK
+ dGCxqvGpyDEPlZB/ksIbcrRHNupwh
+X-Received: by 2002:a9d:d08:: with SMTP id 8mr13197872oti.334.1643055498329;
+ Mon, 24 Jan 2022 12:18:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyTEn4ya3/5eCInZIkS/C/4U2Q9wOWBRRyxGnlMA9linsmQiFFzkE//YKVVW2gVtrkOgoqmKw==
+X-Received: by 2002:a9d:d08:: with SMTP id 8mr13197856oti.334.1643055498138;
+ Mon, 24 Jan 2022 12:18:18 -0800 (PST)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
+ [24.205.208.113])
+ by smtp.gmail.com with ESMTPSA id bk23sm6235774oib.23.2022.01.24.12.18.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jan 2022 12:18:17 -0800 (PST)
+From: trix@redhat.com
+To: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch, nathan@kernel.org,
+ ndesaulniers@google.com, lijo.lazar@amd.com, darren.powell@amd.com,
+ guchun.chen@amd.com, Arunpravin.PaneerSelvam@amd.com,
+ andrey.grodzovsky@amd.com
+Subject: [PATCH v2] drm/amd/pm: return -ENOTSUPP if there is no
+ get_dpm_ultimate_freq function
+Date: Mon, 24 Jan 2022 12:18:12 -0800
+Message-Id: <20220124201812.1078824-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-References: <20220124165732.56587-1-zhou1615@umn.edu>
-In-Reply-To: <20220124165732.56587-1-zhou1615@umn.edu>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 24 Jan 2022 14:59:22 -0500
-Message-ID: <CADnq5_P9cnxi27FM6cU1sf1FjkV2sZdHjJciuuDd9ZZ92qyxeg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix a NULL pointer dereference in
- amdgpu_dm_connector_add_common_modes()
-To: Zhou Qingyang <zhou1615@umn.edu>
-Content-Type: text/plain; charset="UTF-8"
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,70 +84,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Kangjie Lu <kjlu@umn.edu>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <Roman.Li@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Nikola Cornij <nikola.cornij@amd.com>, David Airlie <airlied@linux.ie>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Tony Cheng <Tony.Cheng@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- LKML <linux-kernel@vger.kernel.org>, Jude Shih <shenshih@amd.com>
+Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+From: Tom Rix <trix@redhat.com>
 
-Alex
+clang static analysis reports this represenative problem
+amdgpu_smu.c:144:18: warning: The left operand of '*' is a garbage value
+        return clk_freq * 100;
+               ~~~~~~~~ ^
 
-On Mon, Jan 24, 2022 at 12:05 PM Zhou Qingyang <zhou1615@umn.edu> wrote:
->
-> In amdgpu_dm_connector_add_common_modes(), amdgpu_dm_create_common_mode()
-> is assigned to mode and is passed to drm_mode_probed_add() directly after
-> that. drm_mode_probed_add() passes &mode->head to list_add_tail(), and
-> there is a dereference of it in list_add_tail() without recoveries, which
-> could lead to NULL pointer dereference on failure of
-> amdgpu_dm_create_common_mode().
->
-> Fix this by adding a NULL check of mode.
->
-> This bug was found by a static analyzer.
->
-> Builds with 'make allyesconfig' show no new warnings,
-> and our static analyzer no longer warns about this code.
->
-> Fixes: e7b07ceef2a6 ("drm/amd/display: Merge amdgpu_dm_types and amdgpu_dm")
-> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
-> ---
-> The analysis employs differential checking to identify inconsistent
-> security operations (e.g., checks or kfrees) between two code paths
-> and confirms that the inconsistent operations are not recovered in the
-> current function or the callers, so they constitute bugs.
->
-> Note that, as a bug found by static analysis, it can be a false
-> positive or hard to trigger. Multiple researchers have cross-reviewed
-> the bug.
->
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 7f9773f8dab6..9ad94186b146 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -8143,6 +8143,9 @@ static void amdgpu_dm_connector_add_common_modes(struct drm_encoder *encoder,
->                 mode = amdgpu_dm_create_common_mode(encoder,
->                                 common_modes[i].name, common_modes[i].w,
->                                 common_modes[i].h);
-> +               if (!mode)
-> +                       continue;
-> +
->                 drm_mode_probed_add(connector, mode);
->                 amdgpu_dm_connector->num_modes++;
->         }
-> --
-> 2.25.1
->
+If there is no get_dpm_ultimate_freq function,
+smu_get_dpm_freq_range returns success without setting the
+output min,max parameters.  So return an -ENOTSUPP error.
+
+Fixes: e5ef784b1e17 ("drm/amd/powerplay: revise calling chain on retrieving frequency range")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+v2: return error instead of initializing min/max
+
+drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+index 5ace30434e603..264eb09ccfd51 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+@@ -116,7 +116,7 @@ int smu_get_dpm_freq_range(struct smu_context *smu,
+ 			   uint32_t *min,
+ 			   uint32_t *max)
+ {
+-	int ret = 0;
++	int ret = -ENOTSUPP;
+ 
+ 	if (!min && !max)
+ 		return -EINVAL;
+-- 
+2.26.3
+
