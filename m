@@ -1,117 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55DED49777D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 03:41:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65ED6497805
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 05:21:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23F9810E79C;
-	Mon, 24 Jan 2022 02:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E1A10E125;
+	Mon, 24 Jan 2022 04:21:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2079.outbound.protection.outlook.com [40.107.22.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08D0B10E79C
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 02:41:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cPaVFgXH3En4mYohiqw6No4EYnZCTPwgxHUlfeGYvvAzrzCtY5sgesdagBEzMdvfgUFnzbxo3lSww9wDofirkqdjysY4nzxN1dGIGWFYpBIcQThTucRQ+ml6BJJBy3Br6SP0VLFEtrDK0Iih3ZtuvmW1DHumxNZTiEyJHAZZLGooVGbVSXaPr4E5f2LL4b2TOGxEzZIjMuJI6l/SYceL157hKkZNrlQhSODU0FbD9icFHTANr/XT359wNJ/4YJlrndGvaOE/Bzq6pFEY5J0q5rAW8i+EIyVnzLsqQ8y17TPFaBRRr75wXG0krb3lgjUqoPm/6/PRhfKKm+691+Mpgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9Ax5Pld8pRz2Hpi0aiHNbRfA2yl8XLdlsps5UXcL9ws=;
- b=UD7F2w2wUMXvzGwqCWMQhenrna1UDACVJN7T2AKOaLxUFIunzq+YrIR9LgLb1nV/EVWfZm9yYiuqlOrzM8a19U2FCJWW7paUsm75+AZlkRcgcFvkOEutWqib7NcbzVdQhTxE+C4I0diDY1IPItQZMDmBt5OwXPPfNP2TplmkJF6pYo9YSoSLaXGc/NW7sKjetPj28692S3kbuIUk75Jn7XdTiTiK9KwqROw/gOZRwrdpRPveTN0m1GlM2Jkdjt/F5RzYBDnxWnxiMfHZX3sGu7UUqyOX4b97Wa13sDHbPMwHtjKApjqHtghfwgJETYauqKlADVIh8t3GFTygtuR4tA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Ax5Pld8pRz2Hpi0aiHNbRfA2yl8XLdlsps5UXcL9ws=;
- b=iEfyfIcMoKZZDAfuDw25u+4okwA549AxZmc0zYqIot9rQMZ9E1avLY3PGPegqrvLT3R5HLmQL81Qmph1tqkHPHr/bLLYIfvbiUkOKyCZg6ge58aokpv2eYfLLg+IAyGWhc8sEWxR0sVP9tfsrIT/WnkV+vHrTFHR5VRmea9Gvv0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM6PR04MB6438.eurprd04.prod.outlook.com (2603:10a6:20b:fd::30)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.17; Mon, 24 Jan
- 2022 02:41:05 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::a5b3:9e5:366:a3fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::a5b3:9e5:366:a3fc%3]) with mapi id 15.20.4909.017; Mon, 24 Jan 2022
- 02:41:05 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: [PATCH v4] phy: dphy: Correct clk_pre parameter
-Date: Mon, 24 Jan 2022 10:40:07 +0800
-Message-Id: <20220124024007.1465018-1-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.25.1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2PR02CA0034.apcprd02.prod.outlook.com
- (2603:1096:4:195::9) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from sonic302-1.consmr.mail.bf2.yahoo.com
+ (sonic302-1.consmr.mail.bf2.yahoo.com [74.6.135.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE6410E125
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 04:21:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1642998088; bh=2h9o6xuXk6ls5OrPeMzHsPEvGrUS6c9kMMhclma3j+w=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To;
+ b=ldJb8ty4PcndgrrAx5ZuBM/7Pzu66Ymw4UYP8Pss1wLwk4CXx2lP/Od3OUjEdPQauPDHw4RQvzEFemFgH5MczjpCNoDrmHkFwQES9vmZjPoilE1+hNO4XmM6MYofMv+oHFdXQtu4INetK6N5cJ3M98BkH0QPP6E2w2YRBipN7yHSIqLe5fBGiPNXW/JyOPB7/tZdsDB9xrPct347C2r5I8DTfbo3A0OXoxKnv0uyXh+yt4oXDqF+A3j39dBr941+e1irYVMqkxt+xcT/U/xbjvozf55W2k9RlIWp9rfca6Al6jgav8hOqrC2476P6YlejeYmwJnRaHHCxvLLAtm22Q==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1642998088; bh=Pigjp8VLPkkLGvJiTQCYNCvObXaDRAziaonfI0pU5+M=;
+ h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
+ b=I1pdHN7DLFMABgfVDtMs+BeLqM0FjaXz5j5MEbrR1uUA/K2fvrzE+aIY7vmoIatG1BSlmvSJAwnrULpxYT+FdVjvnaxIILKYd7pON5+/CpqS+NPUfnVVdzCgux4ldpcoLdEyOXI4TfV9Z2G4ksKxJQWm834AgcKXGBK/J6QZUW5RaXZoxsVwvPlNPi/N6Fzcdfmox/ifOfp0Wxn5AG0jGJMXi7YT5QQR+wyMRFFmWLGk21HdrfuPmLtFz7nvdKvtskWwPwwXdHktXaZYKcZ3vzbvhQYWNhUZksf7HuN7Hr2WAjgAR9C/ZglTR6iijH5nx8QIb0LqqsRY8dgRNURL0g==
+X-YMail-OSG: kwdREWwVM1kUaz2GQQDGZCED2kDw4Be6UgP6U18hL6DZa8Bwn6PXVxkioXN6KOo
+ GsTxEtqoyoMyGtxNRNuMNWToQlX303A9rb6hDhfOXSSBG.LftyuWBZuZa9tWAhjGprNOmZSgEG0E
+ YjxpZWS7HRKptfXGesJRghwrlFJYwr8MsP8crvSJNq1VhvWGj28MexZLtQyJbWu2aiAH6poJgXBx
+ wka7wq.dYvV9kQIO0I5mLOj7yXucEPaTxZ8ampxuhSo_XpxlTqUCIvEsoQltIIPpz4Abw6uJzWBp
+ KKE2XWqE4.7aEQt6XUipaUpBJLZsVSHDhlBm73hSk2IY927wfrXelQE1qXhDMDSesycjReKuKIBB
+ INOcMAXzTjFbwwTwzzFtrlmZZGtOb7bWwqU.dnAET_z8zf.3.I22yo3HPRgMMZB1eHLqgXCahPmm
+ 874ZGWBDFzt7cgXrKyEvD6N9lbCcS9jbg8cz8YUl4A2LFLeE497AY6oa_kZPTZL4QD.mgeCwCfJZ
+ tdODphLPpBKTDZbjaZKeWVQSnxLXsjWT16sdVvkJ077U.zYEDCiQp0iEeiKfD_lNGjU1j8TK.VEF
+ sJOD0UwEoGVnZZNgeWkLyMFjrD6AN2gqFuxLiC5J6wtCTA8q0oR_itqW9h3I3.p_P7NpnW03jH6t
+ QwP8Z7RbGBYaaESWwQNzr_beyrh2.ELmnk26.zWsKM5i4GpppipsuF9XwzgJmTTpppDT0Nat6R4k
+ adx4rpQ26kqALyLaxRnkHtV5WXMaKAOHtr_4FU_vD6RXa1.bH_4DQQWNnpaRhMH9QlhynKGU6VPF
+ R25tfW2JO5s4oOa8IG8GDEda227iI.T.bR0JlqczeRnbWAcThJfkF3sMASQUXNOXoS2iNHvNWiae
+ .PmdQ.BhNcMfZ6onuaAQHYT85cJFQg9eNOBmRgwgiW1L5BuDf73s3Ak7vjwp2KbqDkGWLQCSEKxN
+ fDoz2d56gbegIZPsu5bXi6yF7QDqfCRl0JthmNHYg6TfE9be71uE8HL.YX0xRhbzXI2pbH4mPHUC
+ E9gLFq6Ty9cgF1oXfhHXa.WA_erPqZYq4tsVHKTFr8QwSZWsAoiiOCiuXau5hZaSHv9Op.R1AyO8
+ D.nNRBW34M3tP5x2nXACjQuUdyRWzz.JCi.a53y.mky4nfbIHqKsD1kMcmPSkEfPJcgfs_zByeNZ
+ lWE_3Z6BodsHdvSkvpB4VBZdftdELfQcMrGif5Q2CdLZK_5C5kBGKLYW.n4ZYJofUGOPW9tLFSPF
+ himtIYMrHtCeKdUsKZpgaLcsokFAqqMK1rUQCLsz6FP5lioG1ylA7qe5FQz6HATItSPQ6ObjX35h
+ ROoz4zsUGt7ocI_h8HDmD.6ILL3UL55FoZITY08_zoAKB7Cw.rdwFoXVYptz1rd1Hm1_8_ka4uP3
+ y2X42j6etHEDaP6ggGYds.HFXjuoK.iEbMp.BUN.6IMmJVx7sWaeptW5GCakUuCCFiDof3iupbvg
+ 9B5r8ZMXBQBUT66UCHGwjDvkJmriq5LqyM02x.3uBUxeRx17RBzEf_FswDqaGwBFPCgQ9W7wRYUX
+ pKnJ4tJUyuiUU1mvZLpKo7iIGEZs4t5qCTins3b15gs2s.IAlc29DPo3o9wrYj3OJQG8DIkIUDp4
+ mPmrHjnP0CnN.R10_4QuIzOj_Cb4WpQx.RIUadQ0.SqjEExtqN_x34jgbjwwzuIvXTuP8jFnhaJ1
+ 9iezomGb2iN0ZvP_pky1nQB4zdPVcygjQcl7QRLLAeezYxHg6n2jvjHXBPOU0ksKf.ASRgHPVOnm
+ 1peJUFUDrpgKBNR8xWSq9S8xjS13B.dFVA7NzrYmDueM5RIRXvPwFDK5QtUZ31Xa1wq82dZLdcn3
+ UIBUNyL.MVuC41DZ.jmfTyPhqjx5hZxARSQnDVJxKvFGa3Rif0YN6scvrCCHXK8tGqtWpq8ltg4u
+ NOQrRE1DrKGhg_jRwle4LJocnl7zOarkmcuDL9aXCrchr.GuwvE75Z1_1hAKg6j5g8HExcWgEAMk
+ T482I0izyq7P4fsfHXwGMm5Qk7.18XEcnsJl5KGMxswIe7TfgqnurzmY4CnqKi5UGspDm7XHweAM
+ wKzNITbe990H38GnjaUmXAKQavu7Mu2yJyOUoM5qVY.DcLSZkPNW0k88rO81itcaAmIauB5s9cOj
+ EDYuxDSx_YchHU6N_MV7zQhou41shrOv6VUUSLuHXPD7CCUWG.zoTUSRdfqGRMF1WveFt2mgr6mq
+ 6g74UXFryBo8B2wjC20OxKuglNHA-
+X-Sonic-MF: <chazste@yahoo.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic302.consmr.mail.bf2.yahoo.com with HTTP; Mon, 24 Jan 2022 04:21:28 +0000
+Date: Mon, 24 Jan 2022 04:21:24 +0000 (UTC)
+From: Charles Stevens <chazste@yahoo.com>
+To: Adam Ford <aford173@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Message-ID: <792976696.783204.1642998084136@mail.yahoo.com>
+In-Reply-To: <Ye1v6WkLsUBxL9fy@pendragon.ideasonboard.com>
+References: <FE3831D8-A33F-470B-AD55-6005786139AF.ref@yahoo.com>
+ <FE3831D8-A33F-470B-AD55-6005786139AF@yahoo.com>
+ <CAHCN7xJvDP7o__42Rm7n-KNhoGa4MTP2iuty+x_k616ANkcu+Q@mail.gmail.com>
+ <Ye1v6WkLsUBxL9fy@pendragon.ideasonboard.com>
+Subject: Re: Renesas rcar-du and DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ce4b3e70-91c6-44d2-1674-08d9dee2f7c7
-X-MS-TrafficTypeDiagnostic: AM6PR04MB6438:EE_
-X-Microsoft-Antispam-PRVS: <AM6PR04MB6438EB32E47B046965DA62FE985E9@AM6PR04MB6438.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:400;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +4vX1Bxxw0q5afiaj6Hst2A0j2UQkONstd3yG9KcYvwzB3H4lKMnjWoUVMRvYTxvDfM1f0/Z9YT3qs0yUCd2DN2E27P+nnCdG1eZEIjBURQnCP9RVahlmvHtffISjU7s8umJFoSIRQo7ZJgyEisakI8FhqwsB03vrWffOHzFZu/AP21ltXTQVaVPEc2nxKzKX+l1hh1cE0CroE1CEJWx44pU9fDZzzLfeQFDXtEP0MCpqRvTLIlWums1WOeVNzLSprolpWwA1XLzPEo2QOMmQ6Js7yHtKGUwmZRmVfOXkD/pdUmNf8T43G8tRo1UwVCH8795oZf8sJKzzo3QTDcmCtWJGurkVJO5+CS3sjgQLTW9JeTTHVzCMpxgHIdmpd4MpfqujbkV7rGbg+Vkp/BdPM0gx5g0CzlbOFyXY9FBcHzA9kvL4ydZ73+lQwbKwH1YY2CPTd9+uCRxQY85BIdKmfEz1TaGB4lNIfIHgzxxnUr5jcZBAN3m5RiRv5Fyut8Ve+pd587lIg5ypB8sgEK1j+Kw7wvZcqupPUYpkA9G45SyNLNXlIwY/vwu48inRmi1tl0+249Q8OZwxg+FhYwcXIbqQg3sT5KH13Qn02XypqNDfPsH2nLbQ5NgRuYuucSEIkLaJ/VgCQpZcuoaJIaa0td1NHQPeCRyn+su/EGtw2ROtT+hzQ+7zBmxKGnOqdsEIjOT0G4l3QUB6mAlEwXfPg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(52116002)(4326008)(2906002)(54906003)(66946007)(7416002)(66556008)(1076003)(8676002)(6486002)(8936002)(6506007)(66476007)(83380400001)(186003)(316002)(26005)(86362001)(38350700002)(36756003)(6512007)(5660300002)(38100700002)(2616005)(508600001)(66574015);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NThtK1ZRQ0FvMW93bzFWVWJjV0IyRzE2cTAyYTFqdTZmeWtGanFvVTI2Z0pF?=
- =?utf-8?B?VlFVbDJSQ3dDa3RweUw4dVY5MGh6Q0IwSkFGQVBBLzY1TFNHeXdsV1NIa3hk?=
- =?utf-8?B?SFdNdm81Y3BsRzdBTXNVbW1VYUwvanA5aHgwRUZxUFAwcktyK2w1QndPNmpG?=
- =?utf-8?B?RkxrUC95S3ZBWk93dzgzcmh3SjhIT0FKblBvQ0dLMzFUTGgyS3dnVFFva1RZ?=
- =?utf-8?B?ZmRYYjVqMjJVeTM1WXh1Qmg3am1ocUl4dHV4ZEgxTVM4T0NQNUEyQU5nRiti?=
- =?utf-8?B?ODlCOGNnV2E0OVBtRHFqVG1BcEZnK0pHSzZRWXVVNnA2RFJ0R1BaNkc2ZkFE?=
- =?utf-8?B?czJkQk5wbEFtazRuSi9Vck1GZXNZMGZJMGhYSjFrMTI0RC9nSTNDVUMwNHdt?=
- =?utf-8?B?KzhUcU1CaHFQUWxSaXlDa3o5VS9Bd2hlNlE2aWhGbkxJcnZrM0ZsSEpKT2o0?=
- =?utf-8?B?KzNpK25raDREcVljM3FRSE5VR0tQOXE1c3oxemJKZFJvdkM1UFMvWEFPb2lJ?=
- =?utf-8?B?S2lkaThQNjVaRElSODhRNFZEU29wNXJNMmZXeTVXL2ZpVk45ZEFoOTN3NnpS?=
- =?utf-8?B?QnhET0I5OEx2SzJTUW5KSTh4OVRWOE55MjlVa0d1a3VsNzVZMU80RlVTSkdI?=
- =?utf-8?B?QUlBY2pCNzhIZE4xRHRSMklPWWZOUmVnTVAyV1dEZ0xmVDJha2F3enB0VTBt?=
- =?utf-8?B?NlloY2RHVGs3YWJ1Z1dmMGlrdGhGWVJJbi9MVmxVcTJTSlpvc0c2T0tLK0JE?=
- =?utf-8?B?K25OaVBCRXRDQ0pKa2pad0dYdzNMUkRBTk5USWFrL3Ixd1pqT2I0cC8wTWdw?=
- =?utf-8?B?SkNVejBkSWNsVm92aktsZTVWcmhDK0g3V3FtLzlLYlNwa1BkSTF3bnRsZ0ZC?=
- =?utf-8?B?Z3NDMzRRdytGQUZkYmhacGdjR1Nyek1vcTZ6M3ZjRnprUko0RVlWa0dnbkVP?=
- =?utf-8?B?cnMyYTA5YnFnZHpvc1hrSHE4NSt5d3RWVWswOFl5VjhhMEtzMW5oMVFqV3JM?=
- =?utf-8?B?T0NLUU1LcWg3ZEl1aW9pbXE1UGRPNmhXZ3JyTG5CMjYxenVETzdyS2JMYk42?=
- =?utf-8?B?UThUQ1VEMGVFSEZFNjNrcWpjMVdlangvNGQ0MEJVMDc0RnljR1dpNStBZkQ5?=
- =?utf-8?B?YkxZclpZTmlBK0UycVlLS2dSa3pmOTFGbGRUZHhXS2QzVTVCcC9FdVJPZ0xq?=
- =?utf-8?B?VmJ2Q1dNNktqZXJER0tTSTRYbnQ1NTg0SGtFdDEwMnRObEs2NkhSWHBQcWhY?=
- =?utf-8?B?Zm9rOFpaNGtnbUdYYWpMQ1oxMCtkTUh6SldWTk0wVFIrSllTaldyRng4Q0NI?=
- =?utf-8?B?NDVFdGthN1BDSjQwM2svbE9wSGVDMFYvbEpUQmllMVNkMHZlb1Q1STBISVRx?=
- =?utf-8?B?R05UUGpva2hJSGhBNzFlY2RsZTVRRGllRzlXaHo3Vk9XOHJGRCtpSHU2bDM4?=
- =?utf-8?B?YVdXU1R3L0gxczVzcjVONDZZaUpETjI3ZDlOUWJUR0k2WEdpb0xVUlJOMkc4?=
- =?utf-8?B?OStNbXN4anF1T3A3cWpDOU42Vm4zZGlnandlenE4K3dES3JJUXFnUmtiVlJo?=
- =?utf-8?B?TVFSTWNUQkkySVJGVm9CM2R1cnM5ck11NE9wY0tiaStiYzAzZW84cm0yTFJn?=
- =?utf-8?B?N3pvekk1eXNEYXVaRE1pM1BRWnpHdXZ4cDJBOTBocUdUSXpMalI5bTVPdXNW?=
- =?utf-8?B?bXAveVh3bFdFK0lpM2l3eWJwbjlVS0VWd2pvWGlqMkwxdE9NbWExYTJ5ZVc5?=
- =?utf-8?B?ejBVS3ZlamJCVjFTb2QxNEs1RVh0OEplUnBDK3pEemFZRHA0UVJLY1BPZ2Zs?=
- =?utf-8?B?VEVMbk9GTHN3NThBYmFCdmFQemFJdmp5NHNKcC9yMUJFamdtUE9KY2RKRjEy?=
- =?utf-8?B?VFFaeUxPOWcreEY2a054OENrTTcyRnRCVXNvZlQ5cTMyM1Y5YXV4b2RLRlN0?=
- =?utf-8?B?RU1JUUdpa2RKLzQ3VzNpNTErU3FnQlF6OFhqZzBjdGZOditNUWVTNk5DOU56?=
- =?utf-8?B?OGtOLzZHb1VKdnpmaS9VQjh1MkxlcndTSlRZNit5UUF2cjU3OGtCdVBka0R3?=
- =?utf-8?B?ODFjWEQ0SVdoMm82ak5waGNtaENjVjJoc1pUOHFGa1ViSXlGZUYwaldMdnZI?=
- =?utf-8?B?MVlpaFNCWXNwZWhoZUVGa2JKRU15ZytSd0hJUzZxREpjTlhKamg1M0ZmVEdp?=
- =?utf-8?Q?8PEMr9RDbqst+NAt1mj4bLQ=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce4b3e70-91c6-44d2-1674-08d9dee2f7c7
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2022 02:41:05.2504 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h9y/49R7O0C2FJtxOJvHj2MucThCOtRqfqIYVb0r0rKPe4xr6irQ+JkeDe2nDZOZVjtExa95Rc++v5IaE3bnZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB6438
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_783203_211381917.1642998084133"
+X-Mailer: WebService/1.1.19615 YMailNorrin
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,190 +82,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wyon Bi <bivvy.bi@rock-chips.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Kevin Hilman <khilman@baylibre.com>,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Vinod Koul <vkoul@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jerome Brunet <jbrunet@baylibre.com>,
- linux-imx@nxp.com
+Cc: "kieran.bingham+renesas@ideasonboard.com"
+ <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The D-PHY specification (v1.2) explicitly mentions that the T-CLK-PRE
-parameter's unit is Unit Interval(UI) and the minimum value is 8.  Also,
-kernel doc of the 'clk_pre' member of struct phy_configure_opts_mipi_dphy
-mentions that it should be in UI.  However, the dphy core driver wrongly
-sets 'clk_pre' to 8000, which seems to hint that it's in picoseconds.
+------=_Part_783203_211381917.1642998084133
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-So, let's fix the dphy core driver to correctly reflect the T-CLK-PRE
-parameter's minimum value according to the D-PHY specification.
+ On Sunday, January 23, 2022, 09:10:53 AM CST, Laurent Pinchart <laurent.pi=
+nchart@ideasonboard.com> wrote:
+=20
+  > Hello,>=C2=A0> Thanks for CC me Adam.>=C2=A0> On Fri, Jan 21, 2022 at 1=
+1:24:09AM -0600, Adam Ford wrote:> > On Wed, Dec 29, 2021 at 10:19 PM Charl=
+es Stevens wrote:> > >> > > Hi All,> > >> > > I am working on a platform ba=
+sed on the Renesas RZ/G2 SoC family.> > > This chip uses the rcar-du driver=
+ for the display. I would like to> > > submit a patch to address the fact t=
+hat the driver does not> > > check/honor the flag DRM_BUS_FLAG_PIXDATA_DRIV=
+E_POSEDGE. My issue is> > > that I would like to make as small a change to =
+the driver as> > > possible, but the panel bus_flags don't seem to even mak=
+e it to the> > > crtc driver. The crtc driver seems to use adjusted_mode to=
+ set the> > > HSYNC and VSYNC polarity and as I said ignores the pixel cloc=
+k> > > polarity leaving it at the default of driving on the falling edge.> =
+> > In my investigations so far I have not figured out how to chase the> > =
+> pointers from the CRTC to the bridge to the panel in order to be> > > abl=
+e to look at bus_flags. My current approach also modifies the> > > encoder =
+initialization to cache the needed panel and then find the> > > attached en=
+coder during CRTC initialization to find the bus flags.> > > This seems lik=
+e a lot of work and not something that would be> > > accepted as a patch. T=
+he OMAP DSS seems to have problems accessing> > this flag as well. The TI d=
+river goes so far as to document the> > current approach as a HACK and sugg=
+est a fairly large change to the> > driver to address the problem. Am I mis=
+sing something? Is there an> > easy way to get from a drm_crtc to a drm_pan=
+el that is in the same> > pipeline?>=C2=A0> This is actually something I've=
+ experimented with before. I wrote> patches, but never got a chance to post=
+ them. I've pushed them to> git://linuxtv.org/pinchartl/media.git drm/du/sy=
+ncpol if you want to have> a look.>=C2=A0OK. I've looked over this patch an=
+d agree that it should work for my use case=C2=A0too. Thank you.
+> However, there's one issue with this approach: it's not correct :-) The> =
+CRTC shouldn't be configured based on the polarity of signals at the end> o=
+f the pipeline, it needs to be configured based on the polarities> expected=
+ by the next bridge in the chain. That may depend on the next> bridge, whic=
+h may depend on the next bridge, and so on. The information> should thus be=
+ propagated from the panel towards the CRTC, one bridge at> a time, the sam=
+e way that we propagate formats with the bridge> .atomic_get_input_bus_fmts=
+() and .atomic_get_output_bus_fmts()> operations. There's thus quite a bit =
+of work required to handle all this.>=C2=A0Thank you for the description he=
+re. I can agree that this aproach seems a lotbetter way. Propogating the fl=
+ags though the bridges and not requiring drmobjects to know about other obj=
+ects not directly connected makes a lot of sense.
+So that leaves me with the question, what can I do to help move this along.=
+ I=C2=A0would like to see ESCR_DCLKOINV get written in the rcar-du driver i=
+n mainline=C2=A0Linux sometime in the near future :)=C2=A0
+> > > Any pointers would be greatly appreciated!> >> > +=C2=A0 Laurent, Kie=
+ran> >> > Charles,> >> > I added Laurent and Kieran because they appear as =
+the maintainers for> the rcar-du driver.>=C2=A0>=C2=A0> --> Regards,>=C2=A0=
+> Laurent Pinchart
+Regards,=C2=A0 =C2=A0 -charles =20
+------=_Part_783203_211381917.1642998084133
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I'm assuming that all impacted custom drivers shall program values in
-TxByteClkHS cycles into hardware for the T-CLK-PRE parameter.  The D-PHY
-specification mentions that the frequency of TxByteClkHS is exactly 1/8
-the High-Speed(HS) bit rate(each HS bit consumes one UI).  So, relevant
-custom driver code is changed to program those values as
-DIV_ROUND_UP(cfg->clk_pre, BITS_PER_BYTE), then.
-
-Note that I've only tested the patch with RM67191 DSI panel on i.MX8mq EVK.
-Help is needed to test with other i.MX8mq, Meson and Rockchip platforms,
-as I don't have the hardwares.
-
-Fixes: 2ed869990e14 ("phy: Add MIPI D-PHY configuration options")
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Kishon Vijay Abraham I <kishon@ti.com>
-Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Kevin Hilman <khilman@baylibre.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: Heiko Stuebner <heiko@sntech.de>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Guido Günther <agx@sigxcpu.org>
-Cc: Wyon Bi <bivvy.bi@rock-chips.com>
-Tested-by: Liu Ying <victor.liu@nxp.com> # RM67191 DSI panel on i.MX8mq EVK
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com> # for phy-meson-axg-mipi-dphy.c
-Tested-by: Neil Armstrong <narmstrong@baylibre.com> # for phy-meson-axg-mipi-dphy.c
-Tested-by: Guido Günther <agx@sigxcpu.org> # Librem 5 (imx8mq) with it's rather picky panel
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v3->v4:
-* Fix commit message as the patch doesn't fix D-PHY documentation.
-
-v2->v3:
-* Drop D-PHY documentation change. (Laurent)
-* Collect R-b tags and T-b tags.
-* Cc Wyon.
-
-v1->v2:
-* Use BITS_PER_BYTE macro. (Andrzej)
-* Drop dsi argument from ui2bc() in nwl-dsi.c.
-
- drivers/gpu/drm/bridge/nwl-dsi.c                 | 12 +++++-------
- drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c    |  3 ++-
- drivers/phy/phy-core-mipi-dphy.c                 |  4 ++--
- drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c |  3 ++-
- 4 files changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-index a7389a0facfb..af07eeb47ca0 100644
---- a/drivers/gpu/drm/bridge/nwl-dsi.c
-+++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include <linux/bitfield.h>
-+#include <linux/bits.h>
- #include <linux/clk.h>
- #include <linux/irq.h>
- #include <linux/math64.h>
-@@ -196,12 +197,9 @@ static u32 ps2bc(struct nwl_dsi *dsi, unsigned long long ps)
- /*
-  * ui2bc - UI time periods to byte clock cycles
-  */
--static u32 ui2bc(struct nwl_dsi *dsi, unsigned long long ui)
-+static u32 ui2bc(unsigned int ui)
- {
--	u32 bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
--
--	return DIV64_U64_ROUND_UP(ui * dsi->lanes,
--				  dsi->mode.clock * 1000 * bpp);
-+	return DIV_ROUND_UP(ui, BITS_PER_BYTE);
- }
- 
- /*
-@@ -232,12 +230,12 @@ static int nwl_dsi_config_host(struct nwl_dsi *dsi)
- 	}
- 
- 	/* values in byte clock cycles */
--	cycles = ui2bc(dsi, cfg->clk_pre);
-+	cycles = ui2bc(cfg->clk_pre);
- 	DRM_DEV_DEBUG_DRIVER(dsi->dev, "cfg_t_pre: 0x%x\n", cycles);
- 	nwl_dsi_write(dsi, NWL_DSI_CFG_T_PRE, cycles);
- 	cycles = ps2bc(dsi, cfg->lpx + cfg->clk_prepare + cfg->clk_zero);
- 	DRM_DEV_DEBUG_DRIVER(dsi->dev, "cfg_tx_gap (pre): 0x%x\n", cycles);
--	cycles += ui2bc(dsi, cfg->clk_pre);
-+	cycles += ui2bc(cfg->clk_pre);
- 	DRM_DEV_DEBUG_DRIVER(dsi->dev, "cfg_t_post: 0x%x\n", cycles);
- 	nwl_dsi_write(dsi, NWL_DSI_CFG_T_POST, cycles);
- 	cycles = ps2bc(dsi, cfg->hs_exit);
-diff --git a/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c b/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
-index cd2332bf0e31..fdbd64c03e12 100644
---- a/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
-+++ b/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/bitfield.h>
- #include <linux/bitops.h>
-+#include <linux/bits.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/io.h>
-@@ -250,7 +251,7 @@ static int phy_meson_axg_mipi_dphy_power_on(struct phy *phy)
- 		     (DIV_ROUND_UP(priv->config.clk_zero, temp) << 16) |
- 		     (DIV_ROUND_UP(priv->config.clk_prepare, temp) << 24));
- 	regmap_write(priv->regmap, MIPI_DSI_CLK_TIM1,
--		     DIV_ROUND_UP(priv->config.clk_pre, temp));
-+		     DIV_ROUND_UP(priv->config.clk_pre, BITS_PER_BYTE));
- 
- 	regmap_write(priv->regmap, MIPI_DSI_HS_TIM,
- 		     DIV_ROUND_UP(priv->config.hs_exit, temp) |
-diff --git a/drivers/phy/phy-core-mipi-dphy.c b/drivers/phy/phy-core-mipi-dphy.c
-index 288c9c67aa74..ccb4045685cd 100644
---- a/drivers/phy/phy-core-mipi-dphy.c
-+++ b/drivers/phy/phy-core-mipi-dphy.c
-@@ -36,7 +36,7 @@ int phy_mipi_dphy_get_default_config(unsigned long pixel_clock,
- 
- 	cfg->clk_miss = 0;
- 	cfg->clk_post = 60000 + 52 * ui;
--	cfg->clk_pre = 8000;
-+	cfg->clk_pre = 8;
- 	cfg->clk_prepare = 38000;
- 	cfg->clk_settle = 95000;
- 	cfg->clk_term_en = 0;
-@@ -97,7 +97,7 @@ int phy_mipi_dphy_config_validate(struct phy_configure_opts_mipi_dphy *cfg)
- 	if (cfg->clk_post < (60000 + 52 * ui))
- 		return -EINVAL;
- 
--	if (cfg->clk_pre < 8000)
-+	if (cfg->clk_pre < 8)
- 		return -EINVAL;
- 
- 	if (cfg->clk_prepare < 38000 || cfg->clk_prepare > 95000)
-diff --git a/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c b/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
-index 347dc79a18c1..630e01b5c19b 100644
---- a/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
-+++ b/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
-@@ -5,6 +5,7 @@
-  * Author: Wyon Bi <bivvy.bi@rock-chips.com>
-  */
- 
-+#include <linux/bits.h>
- #include <linux/kernel.h>
- #include <linux/clk.h>
- #include <linux/iopoll.h>
-@@ -364,7 +365,7 @@ static void inno_dsidphy_mipi_mode_enable(struct inno_dsidphy *inno)
- 	 * The value of counter for HS Tclk-pre
- 	 * Tclk-pre = Tpin_txbyteclkhs * value
- 	 */
--	clk_pre = DIV_ROUND_UP(cfg->clk_pre, t_txbyteclkhs);
-+	clk_pre = DIV_ROUND_UP(cfg->clk_pre, BITS_PER_BYTE);
- 
- 	/*
- 	 * The value of counter for HS Tlpx Time
--- 
-2.25.1
-
+<html><head></head><body><div class=3D"ydp9c280aa6yahoo-style-wrap" style=
+=3D"font-family: Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 1=
+3px;"><div></div>
+        <div><span style=3D"color: rgb(38, 40, 42);">On Sunday, January 23,=
+ 2022, 09:10:53 AM CST, Laurent Pinchart &lt;laurent.pinchart@ideasonboard.=
+com&gt; wrote:</span><br></div></div><div id=3D"ydp7c9446abyahoo_quoted_374=
+3177133" class=3D"ydp7c9446abyahoo_quoted"><div style=3D"font-family:'Helve=
+tica Neue', Helvetica, Arial, sans-serif;font-size:13px;color:#26282a;">
+                <div><br></div>
+                <div dir=3D"ltr" data-setdir=3D"false"> <div><div>&gt; Hell=
+o,</div><div>&gt;&nbsp;</div><div>&gt; Thanks for CC me Adam.</div><div>&gt=
+;&nbsp;</div><div>&gt; On Fri, Jan 21, 2022 at 11:24:09AM -0600, Adam Ford =
+wrote:</div><div>&gt; &gt; On Wed, Dec 29, 2021 at 10:19 PM Charles Stevens=
+ wrote:</div><div>&gt; &gt; &gt;</div><div>&gt; &gt; &gt; Hi All,</div><div=
+>&gt; &gt; &gt;</div><div>&gt; &gt; &gt; I am working on a platform based o=
+n the Renesas RZ/G2 SoC family.</div><div>&gt; &gt; &gt; This chip uses the=
+ rcar-du driver for the display. I would like to</div><div>&gt; &gt; &gt; s=
+ubmit a patch to address the fact that the driver does not</div><div>&gt; &=
+gt; &gt; check/honor the flag DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE. My issue =
+is</div><div>&gt; &gt; &gt; that I would like to make as small a change to =
+the driver as</div><div>&gt; &gt; &gt; possible, but the panel bus_flags do=
+n't seem to even make it to the</div><div>&gt; &gt; &gt; crtc driver. The c=
+rtc driver seems to use adjusted_mode to set the</div><div>&gt; &gt; &gt; H=
+SYNC and VSYNC polarity and as I said ignores the pixel clock</div><div>&gt=
+; &gt; &gt; polarity leaving it at the default of driving on the falling ed=
+ge.</div><div>&gt; &gt; &gt; In my investigations so far I have not figured=
+ out how to chase the</div><div>&gt; &gt; &gt; pointers from the CRTC to th=
+e bridge to the panel in order to be</div><div>&gt; &gt; &gt; able to look =
+at bus_flags. My current approach also modifies the</div><div>&gt; &gt; &gt=
+; encoder initialization to cache the needed panel and then find the</div><=
+div>&gt; &gt; &gt; attached encoder during CRTC initialization to find the =
+bus flags.</div><div>&gt; &gt; &gt; This seems like a lot of work and not s=
+omething that would be</div><div>&gt; &gt; &gt; accepted as a patch. The OM=
+AP DSS seems to have problems accessing</div><div>&gt; &gt; this flag as we=
+ll. The TI driver goes so far as to document the</div><div>&gt; &gt; curren=
+t approach as a HACK and suggest a fairly large change to the</div><div>&gt=
+; &gt; driver to address the problem. Am I missing something? Is there an</=
+div><div>&gt; &gt; easy way to get from a drm_crtc to a drm_panel that is i=
+n the same</div><div>&gt; &gt; pipeline?</div><div>&gt;&nbsp;</div><div>&gt=
+; This is actually something I've experimented with before. I wrote</div><d=
+iv>&gt; patches, but never got a chance to post them. I've pushed them to</=
+div><div>&gt; git://linuxtv.org/pinchartl/media.git drm/du/syncpol if you w=
+ant to have</div><div>&gt; a look.</div><div>&gt;&nbsp;</div><div>OK. I've =
+looked over this patch and agree that it should work for my use case&nbsp;<=
+/div><div>too. Thank you.</div><div><br></div><div>&gt; However, there's on=
+e issue with this approach: it's not correct :-) The</div><div>&gt; CRTC sh=
+ouldn't be configured based on the polarity of signals at the end</div><div=
+>&gt; of the pipeline, it needs to be configured based on the polarities</d=
+iv><div>&gt; expected by the next bridge in the chain. That may depend on t=
+he next</div><div>&gt; bridge, which may depend on the next bridge, and so =
+on. The information</div><div>&gt; should thus be propagated from the panel=
+ towards the CRTC, one bridge at</div><div>&gt; a time, the same way that w=
+e propagate formats with the bridge</div><div>&gt; .atomic_get_input_bus_fm=
+ts() and .atomic_get_output_bus_fmts()</div><div>&gt; operations. There's t=
+hus quite a bit of work required to handle all this.</div><div>&gt;&nbsp;</=
+div><div>Thank you for the description here. I can agree that this aproach =
+seems a lot</div><div>better way. Propogating the flags though the bridges =
+and not requiring drm</div><div>objects to know about other objects not dir=
+ectly connected makes a lot of sense.</div><div><br></div><div>So that leav=
+es me with the question, what can I do to help move this along. I&nbsp;</di=
+v><div>would like to see ESCR_DCLKOINV get written in the rcar-du driver in=
+ mainline&nbsp;</div><div>Linux sometime in the near future :)&nbsp;</div><=
+div><br></div><div>&gt; &gt; &gt; Any pointers would be greatly appreciated=
+!</div><div>&gt; &gt;</div><div>&gt; &gt; +&nbsp; Laurent, Kieran</div><div=
+>&gt; &gt;</div><div>&gt; &gt; Charles,</div><div>&gt; &gt;</div><div>&gt; =
+&gt; I added Laurent and Kieran because they appear as the maintainers for<=
+/div><div>&gt; the rcar-du driver.</div><div>&gt;&nbsp;</div><div>&gt;&nbsp=
+;</div><div>&gt; --</div><div>&gt; Regards,</div><div>&gt;&nbsp;</div><div>=
+&gt; Laurent Pinchart</div></div><br><div class=3D"ydp7c9446abyqt5075624753=
+" id=3D"ydp7c9446abyqtfd80687" dir=3D"ltr" data-setdir=3D"false">Regards,</=
+div><div class=3D"ydp7c9446abyqt5075624753" id=3D"ydp7c9446abyqtfd80687" di=
+r=3D"ltr" data-setdir=3D"false">&nbsp; &nbsp; -charles</div></div>
+            </div>
+        </div></body></html>
+------=_Part_783203_211381917.1642998084133--
