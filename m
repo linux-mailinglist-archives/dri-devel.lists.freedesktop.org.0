@@ -2,72 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99620499295
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 21:22:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E35A84992BF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 21:25:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C41110EA4C;
-	Mon, 24 Jan 2022 20:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFAC210E3C5;
+	Mon, 24 Jan 2022 20:24:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D78410EA37;
- Mon, 24 Jan 2022 20:22:15 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id v123so23763796wme.2;
- Mon, 24 Jan 2022 12:22:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=Ke9g6kY1kLIfyyex335F3KDC37XIQ1ezTOdv6ZYLv/k=;
- b=D80hcT4XcxMGtftOj/oiDZCuJHosbWOP9px3lg36MlSFohIalMEXsIsmWHUeYOBUVM
- SEnLNESjYym6MXBC4OgLnvX3F3afiJMfQn9g7zvmuDDClKoY74ZfeMgQ5KJolU/MiNd7
- F7ewGlbdOGeNAWRJ8WA6uOejSJ3zoxj0T0kEiw6TNpp74QiWLyMsCYYb/cup3DkSHBdG
- nAHisJX8oZAYE4rqRS45RSzV8GGsbClXEaO0jw7YvcaXeAvPSCVWhcWi81OQhBljz3Mb
- FnBBctXMK27UU+EZ9nYFWS8Nl5s1ScmigcH3alPAZBcuaytebOuuunep3czM6jzKMLa8
- E9HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=Ke9g6kY1kLIfyyex335F3KDC37XIQ1ezTOdv6ZYLv/k=;
- b=PQMF86uF3Un3J1LTabDW9XgWOUDDIc1bg+ln7N68PYF3hAqu9kOOy1hx0rMbwrc8Xv
- ts1quLe+gVA8DHh1pl8VuP5G2AoxIvXeqWyn9bvXTaK7jM5MLRrOYv6U5LnUz6QCYCYd
- JWknTmhxh5TmLagpHD+g/DyLYQkqVNRYQcb6Xou8Z3W1yIM2T2aVPTmYTB1DU/3zwvGr
- +vU2ooXm3JG1+vPLG6ymClcQvhzGMjsCV44ugsVP3iXy+gl1+YZFctqdf3ANHtcpZuRz
- fybpmGGX5ThX0dzk3kmT8M402ggenUo26FnA37QntDCwJ14rbOokNC650Lj9ci7QDngz
- X5NA==
-X-Gm-Message-State: AOAM5302LP/xpKNrca6O2xw5WOLMiUzpvUCjBZ719vHEpw/DwO/5KLAT
- S6O00oBe9fwReARMvaKEEFRNRE+X8Ew=
-X-Google-Smtp-Source: ABdhPJyO2wiaxPV+BJ/+R4PvbC7zfnD9KOapfcHGORzhc/1QStS+iy1PdwoosEFvI+8zJy4QN3OwVA==
-X-Received: by 2002:a05:600c:22da:: with SMTP id
- 26mr3228599wmg.121.1643055733649; 
- Mon, 24 Jan 2022 12:22:13 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:139c:f8a8:1313:ffa0?
- ([2a02:908:1252:fb60:139c:f8a8:1313:ffa0])
- by smtp.gmail.com with ESMTPSA id m4sm325570wmc.1.2022.01.24.12.22.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 12:22:13 -0800 (PST)
-Subject: Re: [Intel-gfx] [PATCH 06/11] dma-buf: warn about containers in
- dma_resv object
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- thomas.hellstrom@linux.intel.com, sumit.semwal@linaro.org,
- gustavo@padovan.org, daniel.vetter@ffwll.ch, zackr@vmware.com,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-References: <20220124130328.2376-1-christian.koenig@amd.com>
- <20220124130328.2376-7-christian.koenig@amd.com>
- <cfdefdc5-bd4a-31e4-a0e2-fb02acf6d01f@shipmail.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <319496ce-0551-5cd3-ef0c-4b503c4bc212@gmail.com>
-Date: Mon, 24 Jan 2022 21:22:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82BFA10E658
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 20:24:57 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67ED3143B;
+ Mon, 24 Jan 2022 21:24:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1643055895;
+ bh=gBuGhTe0RPpi7GDtt20ahJp+BTqYDSJm2nPG8lQMKdE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mPJoTZ//1Sa+jfKF+RrqNuj+z/stiFCL4nEdPoI+4QIrfmOfh8xKgj2/KpYepnNnz
+ an5uV4ALkGhtEPipOaI/SNwkk2s2vzfsnCTEp95xIiaUFf8/xBUFNUd6z/4d2+IdXH
+ zYSDQEw92pPAkdUooqyDH4IJCyzy9MPJBifNZr2w=
+Date: Mon, 24 Jan 2022 22:24:37 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm/docs: Document where the C8 color lut is stored
+Message-ID: <Ye8LBfWBr5fPTgCN@pendragon.ideasonboard.com>
+References: <20220124194706.930319-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <cfdefdc5-bd4a-31e4-a0e2-fb02acf6d01f@shipmail.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20220124194706.930319-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,29 +47,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 24.01.22 um 17:36 schrieb Thomas Hellström (Intel):
->
-> On 1/24/22 14:03, Christian König wrote:
->> Drivers should not add containers as shared fences to the dma_resv
->> object, instead each fence should be added individually.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->
-> Is there any indication that this triggers on existing drivers?
+Hi Daniel,
 
-There used to be a case in amdgpu which triggered this, but at least I'm 
-not aware of any in the current code.
+Thank you for the patch.
 
-Christian.
+On Mon, Jan 24, 2022 at 08:47:06PM +0100, Daniel Vetter wrote:
+> Also add notes that for atomic drivers it's really somewhere else and
+> no longer in struct drm_crtc.
+> 
+> Maybe we should put a bigger warning here that this is confusing,
+> since the pixel format is a plane property, but the GAMMA_LUT property
+> is on the crtc. But I think we can fix this if/when someone finds a
+> need for a per-plane CLUT, since I'm not sure such hw even exists. I'm
+> also not sure whether even hardware with a CLUT and a full color
+> correction pipeline with degamm/cgm/gamma exists.
 
->
-> Thomas
->
->
+Exists, maybe, exists and has a real use case, I'd be surprised.
 
+> Motivated by comments from Geert that we have a gap here.
+> 
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/drm_color_mgmt.c |  4 ++++
+>  include/drm/drm_crtc.h           | 10 ++++++++++
+>  2 files changed, 14 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+> index bb14f488c8f6..96ce57ad37e6 100644
+> --- a/drivers/gpu/drm/drm_color_mgmt.c
+> +++ b/drivers/gpu/drm/drm_color_mgmt.c
+> @@ -82,6 +82,10 @@
+>   *	driver boot-up state too. Drivers can access this blob through
+>   *	&drm_crtc_state.gamma_lut.
+>   *
+> + *	Note that for mostly historical reasons stemming from Xorg heritage,
+> + *	this is also used to store the color lookup table (CLUT) for indexed
+> + *	formats like DRM_FORMAT_C8.
+
+CLUT also stands for Cubic Look Up Table, a type of LUT commonly used
+for tone mapping that maps an RGB sample (in 3D space) to a colour.
+Compared to traditional LUTs such as gamma and degamma, it allows
+correlating colour components, while the gamma and degamma LUTs operate
+on each colour component independently.
+
+Is there any commonly used acronym for the indexed colours lookup table
+that we could use here, to avoid future confusions ?
+
+Other than that,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> + *
+>   * “GAMMA_LUT_SIZE”:
+>   *	Unsigned range property to give the size of the lookup table to be set
+>   *	on the GAMMA_LUT property (the size depends on the underlying hardware).
+> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+> index 4d01b4d89775..03cc53220a2a 100644
+> --- a/include/drm/drm_crtc.h
+> +++ b/include/drm/drm_crtc.h
+> @@ -285,6 +285,10 @@ struct drm_crtc_state {
+>  	 * Lookup table for converting pixel data after the color conversion
+>  	 * matrix @ctm.  See drm_crtc_enable_color_mgmt(). The blob (if not
+>  	 * NULL) is an array of &struct drm_color_lut.
+> +	 *
+> +	 * Note that for mostly historical reasons stemming from Xorg heritage,
+> +	 * this is also used to store the color lookup table (CLUT) for indexed
+> +	 * formats like DRM_FORMAT_C8.
+>  	 */
+>  	struct drm_property_blob *gamma_lut;
+>  
+> @@ -1075,12 +1079,18 @@ struct drm_crtc {
+>  	/**
+>  	 * @gamma_size: Size of legacy gamma ramp reported to userspace. Set up
+>  	 * by calling drm_mode_crtc_set_gamma_size().
+> +	 *
+> +	 * Note that atomic drivers need to instead use
+> +	 * &drm_crtc_state.gamma_lut. See drm_crtc_enable_color_mgmt().
+>  	 */
+>  	uint32_t gamma_size;
+>  
+>  	/**
+>  	 * @gamma_store: Gamma ramp values used by the legacy SETGAMMA and
+>  	 * GETGAMMA IOCTls. Set up by calling drm_mode_crtc_set_gamma_size().
+> +	 *
+> +	 * Note that atomic drivers need to instead use
+> +	 * &drm_crtc_state.gamma_lut. See drm_crtc_enable_color_mgmt().
+>  	 */
+>  	uint16_t *gamma_store;
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
