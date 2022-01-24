@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B242849850D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 17:42:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C6F49854A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 17:52:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B06210E12B;
-	Mon, 24 Jan 2022 16:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 819A310E350;
+	Mon, 24 Jan 2022 16:52:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07F0910E12B
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 16:42:54 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A456CB8113A
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 16:42:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E976C340EA
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 16:42:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643042571;
- bh=qL860gmhybw0RwRW2CXJhoskfkx6qt64gxxg6rrAx6g=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=pvJD4N+OlaFUev3481wPPqyF5Q26kcEiwhFW6Bd5Oa74SzAV7zQkKa+fwqTqrAjZ0
- YFwFZXTb6BxzvDONKh1ubbmSnhQibJLuO16NaFlSW17/6MOqYad7vSwgQNYiH6loSL
- pqrYWJRWDP65LMSjaR+YWLynD1d+RFSbnMVbCh004lMzI8JEgMcsn0DAuxtewUPC7z
- +x4lkXzH9UGYN9Guv3gMVpXde3WUA8VDFwYWm1WndQPuWaBnej+smLglI6uQtDQ+tX
- mOrSA90vO+TYQVBiPfbRwuEj4j9nMOIjOYCUvt0MVZ4fLdJKPN3oFyKz+Rhe8j0FNI
- FsRgpsKwQxUrg==
-Received: by mail-ej1-f51.google.com with SMTP id o12so22991918eju.13
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 08:42:51 -0800 (PST)
-X-Gm-Message-State: AOAM532jbHfQ/9TnBgLD8UpdE+qyknYqusq8SjXAcVoFWx+VkxjU1hQm
- hYqceniAraFxtZE/qRy79LNskYFhuJ577THV/Q==
-X-Google-Smtp-Source: ABdhPJymYyBoGJsLODnx4lBgNOqp/tIq+z9HlPGhjAnZhYiQkM0Ukmk6vbI9yMasgkAQWW5/ksqQghOEmej/ABaBGX0=
-X-Received: by 2002:a17:906:9b93:: with SMTP id
- dd19mr12770841ejc.14.1643042569634; 
- Mon, 24 Jan 2022 08:42:49 -0800 (PST)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B025410E344;
+ Mon, 24 Jan 2022 16:52:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643043159; x=1674579159;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=fu1nTdM6Ey9Y88os1dkd6NMK6cktB4QUGnnOy1VQzQ4=;
+ b=E2Tmz2HzT7BKxc9+G5uFCWVOeQKMVTfyf4KqHKxwuTYzypK2DG9ve2Ns
+ JbHkPmvU6uARobOnPdQbYTnweGKT54eQLO1fLkjLvZA5Gbea5y+vJO8Xu
+ OqHuMhDlWT7JpgIGmgFqb9hLxsW1xdNhhBFAqTQCTyi63Rf944/veNUqw
+ FJfDJTj17KACBqL8dN3jqd9FQr1v67h+tcREYTqFBcPw1t3jl3ehNfQP5
+ HJ/EX2gOxEwA3NutBGHKdAZv1CBCaGgxeTskHYVGPoqzH2EA2A1ypLTs2
+ kDECQoZh50b5Lb6LVikxj1KnKn8IQabpcN8L1netbDclzGwY4FX3pEbk5 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="233452292"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="233452292"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2022 08:52:38 -0800
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="624141222"
+Received: from olindum-mobl1.ger.corp.intel.com (HELO [10.249.254.70])
+ ([10.249.254.70])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2022 08:52:34 -0800
+Message-ID: <b609fb36-b4e0-738c-01d3-b74c760a9e82@linux.intel.com>
+Date: Mon, 24 Jan 2022 17:52:30 +0100
 MIME-Version: 1.0
-References: <20220123172520.48741-1-noralf@tronnes.org>
- <20220123172520.48741-2-noralf@tronnes.org>
- <CAL_JsqJU_WFeJDt5jqLN9BQN2j_TCf3+0hKvbNSYwmg-2DSF=Q@mail.gmail.com>
- <931fab73-3a91-fda0-4af3-b48a1ad3c742@tronnes.org>
-In-Reply-To: <931fab73-3a91-fda0-4af3-b48a1ad3c742@tronnes.org>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Mon, 24 Jan 2022 10:42:37 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLiw42zfaRPmszs2bmGbAcL5STSTVUtP0PyWnm=CaG8ug@mail.gmail.com>
-Message-ID: <CAL_JsqLiw42zfaRPmszs2bmGbAcL5STSTVUtP0PyWnm=CaG8ug@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: display: add bindings for MIPI DBI
- compatible SPI panels
-To: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 08/11] dma-buf: add dma_fence_chain_contained helper
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ sumit.semwal@linaro.org, gustavo@padovan.org, daniel.vetter@ffwll.ch,
+ zackr@vmware.com, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+References: <20220124130328.2376-1-christian.koenig@amd.com>
+ <20220124130328.2376-9-christian.koenig@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20220124130328.2376-9-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +63,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, maxime@cerno.tech, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 24, 2022 at 10:28 AM Noralf Tr=C3=B8nnes <noralf@tronnes.org> w=
-rote:
+
+On 1/24/22 14:03, Christian König wrote:
+> It's a reoccurring pattern that we need to extract the fence
+> from a dma_fence_chain object. Add a helper for this.
 >
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+
+> ---
+>   drivers/dma-buf/dma-fence-chain.c |  6 ++----
+>   include/linux/dma-fence-chain.h   | 15 +++++++++++++++
+>   2 files changed, 17 insertions(+), 4 deletions(-)
 >
->
-> Den 24.01.2022 17.08, skrev Rob Herring:
-> > On Sun, Jan 23, 2022 at 11:25 AM Noralf Tr=C3=B8nnes <noralf@tronnes.or=
-g> wrote:
-> >>
-> >> Add binding for MIPI DBI compatible SPI panels.
-> >
-> > I'm sure we already have MIPI DBI panels. What's this for?
-> >
->
-> It aims to use one driver to cover all MIPI DBI panels where the
-> controller setup is loaded from userspace in a firmware file.
-
-What's the solution when the user wants a splash screen in the
-bootloader and also wants multiple panels supported?
-
-Also, 1 driver doesn't dictate 1 compatible. A one to many
-relationship is fine and makes the decision entirely the OS's.
-
-> The cover
-> letter points to the discussion where Maxime proposed this:
->
-> https://lore.kernel.org/dri-devel/20211129093946.xhp22mvdut3m67sc@houat/
-
-The proposal there is:
-
-> compatible =3D "panel-spi";
-> model =3D "panel-from-random-place-42";
-
-The same thing can be accomplished with this:
-
-compatible =3D "panel-from-random-place-42", "panel-spi";
-
-What's the advantage of hijacking 'model'?
-
-Rob
+> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+> index 084c6927b735..06f8ef97c6e8 100644
+> --- a/drivers/dma-buf/dma-fence-chain.c
+> +++ b/drivers/dma-buf/dma-fence-chain.c
+> @@ -148,8 +148,7 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
+>   
+>   	dma_fence_get(&head->base);
+>   	dma_fence_chain_for_each(fence, &head->base) {
+> -		struct dma_fence_chain *chain = to_dma_fence_chain(fence);
+> -		struct dma_fence *f = chain ? chain->fence : fence;
+> +		struct dma_fence *f = dma_fence_chain_contained(fence);
+>   
+>   		dma_fence_get(f);
+>   		if (!dma_fence_add_callback(f, &head->cb, dma_fence_chain_cb)) {
+> @@ -165,8 +164,7 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
+>   static bool dma_fence_chain_signaled(struct dma_fence *fence)
+>   {
+>   	dma_fence_chain_for_each(fence, fence) {
+> -		struct dma_fence_chain *chain = to_dma_fence_chain(fence);
+> -		struct dma_fence *f = chain ? chain->fence : fence;
+> +		struct dma_fence *f = dma_fence_chain_contained(fence);
+>   
+>   		if (!dma_fence_is_signaled(f)) {
+>   			dma_fence_put(fence);
+> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+> index ee906b659694..10d51bcdf7b7 100644
+> --- a/include/linux/dma-fence-chain.h
+> +++ b/include/linux/dma-fence-chain.h
+> @@ -66,6 +66,21 @@ to_dma_fence_chain(struct dma_fence *fence)
+>   	return container_of(fence, struct dma_fence_chain, base);
+>   }
+>   
+> +/**
+> + * dma_fence_chain_contained - return the contained fence
+> + * @fence: the fence to test
+> + *
+> + * If the fence is a dma_fence_chain the function returns the fence contained
+> + * inside the chain object, otherwise it returns the fence itself.
+> + */
+> +static inline struct dma_fence *
+> +dma_fence_chain_contained(struct dma_fence *fence)
+> +{
+> +	struct dma_fence_chain *chain = to_dma_fence_chain(fence);
+> +
+> +	return chain ? chain->fence : fence;
+> +}
+> +
+>   /**
+>    * dma_fence_chain_alloc
+>    *
