@@ -2,54 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE40497DDB
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 12:23:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA239497DED
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 12:29:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3C4710ED4D;
-	Mon, 24 Jan 2022 11:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81B7710E849;
+	Mon, 24 Jan 2022 11:28:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E11F10ED4D;
- Mon, 24 Jan 2022 11:23:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643023406; x=1674559406;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=DmO5o1tSKywvbvIj51hbxGoHlz0HD9Cx4vDMYfINVaI=;
- b=bhq5tctPP6VUBklCFrEky387WLfWP/+YbPgE/wJuPpjit/KAin/d3pG3
- gtxBRR6J8Gu2iBJlosfPtuwIggQlI2vc9OeJoaoDvwnAlHs/FVMprg8o2
- O4RdopbUzNS5Ge6zBjMxM6EIsNMLOKm4WFKDIpbovxNie3sigHvrhTuiV
- Z4eerHyKfrT5xlhFko90IGgERsgBcVQfZXfM8OTq/MEsmGjXNA1z6USK6
- 6vpNstD49RzVZoG2KGtt8XbILqw/AE7jYr7rTNN47LeKlNnd4YL93eiN6
- 9EyBEKVmlrb8sckTNLlGRIS/t7zBsLMZdov1HjZHdWyx6F142OnebIU97 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="306739111"
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="306739111"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2022 03:23:26 -0800
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="695389755"
-Received: from rvanakke-mobl.ger.corp.intel.com (HELO [10.252.53.157])
- ([10.252.53.157])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2022 03:23:24 -0800
-Message-ID: <75c84bd3-8060-aed6-dafc-7bd50591ebb1@linux.intel.com>
-Date: Mon, 24 Jan 2022 12:23:22 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4091E10EDA4
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 11:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643023737;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iCk2MqV068ik47++TkY622krHol54JciUgHuKaQzhoA=;
+ b=K9NaK3jsssWUNBL2Ernpu++vVkSB1jlXtBgBqbqD4R4dMGNCF56VdJWn4TFGc3Zh1lbUui
+ t6rTIaZMtbmx8rcAh5/S4e3cueYcybgOrk++DR19+IkJd3Ixf/ocqIKg5yuGDL2pm85jbd
+ cEtwcaZxoDDeOQQQ7QQZtGbIhAFK2aU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-556-dEmS0zZtMtyRxIm4VrAqug-1; Mon, 24 Jan 2022 06:28:56 -0500
+X-MC-Unique: dEmS0zZtMtyRxIm4VrAqug-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a6-20020adfbc46000000b001d7370ace6eso1748265wrh.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 03:28:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iCk2MqV068ik47++TkY622krHol54JciUgHuKaQzhoA=;
+ b=MZGDEoaPFMAhi/KWASBQsQE1vdDfwURIGjEWbihYzknQOH/4VkFpg9c43/+KD40i+N
+ 8c9S6GqbnUA/JXhFYyi1JHwEY5KwKPV/4BwVZpj/fKXSdYkAPVro6qmOjHMWFIFFCQd/
+ dfZbm7N8HhFT4sX6c3yvh5XuZONjkyuySahsfVUkMIZ6ffOprEQk9RGtii+uKJlitzSr
+ pkfh2mo9Xp+9DgKP0qAcosLHGAABCQdISB94pV2LLu17ZXiOxt2NUcD2IV0tQJ3YnoTm
+ LRZw08RpKWUy977CJ9V8FnTVKD0BGO0USU+Jfige9q9q4LYc5C3jUaPTTm5jV6+euycQ
+ XxvQ==
+X-Gm-Message-State: AOAM533lWb15NqzyzgSKqkbzZfWiRqPS9pNyMFfyzJ6FeRWzZ7oP/Woo
+ v0mCuUXiL8HQ6mPp1d1XW9TL2OxX4Tvz3SOwznYAsVqK2j4Dt6KtJepGzWDniC1/OMxP8/yM022
+ JxE472tCUyxN5A5CGXFvhfq77/0Tu
+X-Received: by 2002:a5d:47ad:: with SMTP id 13mr13889239wrb.268.1643023734925; 
+ Mon, 24 Jan 2022 03:28:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx0+gCfn6OAv6eptFf7BhcWyYygRydFAGPWQjZmowvpEyj4P+Ozcyhp0AQ6GAk5Vk1kRhCA/w==
+X-Received: by 2002:a5d:47ad:: with SMTP id 13mr13889227wrb.268.1643023734752; 
+ Mon, 24 Jan 2022 03:28:54 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id w22sm248487wra.59.2022.01.24.03.28.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Jan 2022 03:28:54 -0800 (PST)
+Message-ID: <66991d85-012c-855d-0799-35d85f92326f@redhat.com>
+Date: Mon, 24 Jan 2022 12:28:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH v3] drm/i915: fix header file inclusion for
- might_alloc()
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
+To: Helge Deller <deller@gmx.de>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20220119110839.33187-1-deller@gmx.de>
+ <20220119110839.33187-3-deller@gmx.de> <YelyGDNDTn1Aq/hm@phenom.ffwll.local>
+ <6c000477-002b-d125-b945-2c4831bad8a5@gmx.de>
+ <20220121072006.ylw2hdl7jbkbwnre@sirius.home.kraxel.org>
+ <64fd46cb-9746-3fd0-ec92-c64dba76875a@gmx.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <64fd46cb-9746-3fd0-ec92-c64dba76875a@gmx.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
-References: <20220124094418.2661-1-andi.shyti@linux.intel.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20220124094418.2661-1-andi.shyti@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +88,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-fbdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sven Schnelle <svens@stackframe.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Claudio Suarez <cssk@net-c.es>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Op 24-01-2022 om 10:44 schreef Andi Shyti:
-> Replace "linux/slab.h" with "linux/sched/mm.h" header inclusion
-> as the first is not required, while the second, if not included,
-> prodouces the following error:
->
-> drivers/gpu/drm/i915/i915_vma_resource.c: In function ‘i915_vma_resource_bind_dep_await’:
-> drivers/gpu/drm/i915/i915_vma_resource.c:381:9: error: implicit declaration of function ‘might_alloc’; did you mean ‘might_lock’? [-Werror=implicit-function-declaration]
->   381 |         might_alloc(gfp);
->       |         ^~~~~~~~~~~
->       |         might_lock
->
-> Fixes: 2f6b90da9192 ("drm/i915: Use vma resources for async unbinding")
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
-> Hi,
->
-> v3: fixed a typo in the commit log (prduces/produces). (Thanks
->     Thomas Zimmermann)
->
-> v2: added the 'Fixes' tag (I think I got the right commit) and
->     Thomas Hellström r-b.
->
-> Andi
->
->  drivers/gpu/drm/i915/i915_vma_resource.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.c b/drivers/gpu/drm/i915/i915_vma_resource.c
-> index 1f41c0c699eb..bbb0ff14272f 100644
-> --- a/drivers/gpu/drm/i915/i915_vma_resource.c
-> +++ b/drivers/gpu/drm/i915/i915_vma_resource.c
-> @@ -4,7 +4,7 @@
->   */
->  
->  #include <linux/interval_tree_generic.h>
-> -#include <linux/slab.h>
-> +#include <linux/sched/mm.h>
->  
->  #include "i915_sw_fence.h"
->  #include "i915_vma_resource.h"
+[snip]
 
-Pushed to drm-intel-gt-next. Should fix drm-tip building, probably needs to be pulled into drm-fixes asap. :)
+> 
+> What about this proposal:
+> a) adding a Kconfig option like:
+>    CONFIG_FB_DRIVERS - enable if you need the fbdev drivers. For DRM-only this should be disabled.
+> b) Add to every native fbdev driver a "depends on FB_DRIVERS" in the Kconfig files.
+> c) That way we can use "#if defined(CONFIG_FB_DRIVERS).." to exclude code in fbcon which
+>    isn't needed by DRM.
+>
+
+I proposed something similar in:
+
+https://lore.kernel.org/lkml/20210827100027.1577561-1-javierm@redhat.com/t/
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
