@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE79498319
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 16:08:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F8449831B
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 16:08:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8884710EB2C;
-	Mon, 24 Jan 2022 15:07:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52C9110EB57;
+	Mon, 24 Jan 2022 15:07:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFF9010E820;
- Mon, 24 Jan 2022 15:07:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE4810E820;
+ Mon, 24 Jan 2022 15:07:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643036867; x=1674572867;
+ t=1643036868; x=1674572868;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uWF8racyBQiCPZWcoEqZ5/KkqctftsowIadMFWSBWg0=;
- b=Zze1jvMOnsf7fg5imJwfkDSgBQc9r2QQINi93CH3lDhJ+/cki3HSbuii
- sMDMHfDMGwWp4YHG+xUTu9Amfx092xqjMeB+wsY8Ul726EBmX+m583nC+
- TXk/JZx7oTLSv3pBfXdKbNvUK7Bl1FcDTvdU2NUW+cC9/3GgJjZxlbEwc
- 1IQrW//I5HQYZ3Mx2kJExS4HPo4VEdxdw+1T6SUpv5ps09wT2yP83Dw56
- rO66telqqfRniTFS1p3cwpkv2SyXa7QwB7JaX9Sw1hsdu23F4pAkV+1Wr
- PBCW7k1qkyTLd11zVIODJZLtN3ZixIgtP1WIOxO64Tr/pepqYYInyXb6Y Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="246282840"
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="246282840"
+ bh=wHCckjnvAuEpexwfVDyu5N2SqpjsII4qZHJkSK/HbCU=;
+ b=mlZKSpIaBpBYSl6FBWDwspaVvlt2kuFKPtF9C4kFUe1p2l5bPbAXr4Aw
+ hxXXY8xo7aSk6fwvBZ9txrZ54adqIsFpiCMIbfBTtbuOnRgjI+mwrt0eA
+ 7cVwITFV857wLJUx7pLybKPSDEeOrGiuNDSXnuoer8bjagz0SUFN8ca37
+ 2rFcywfDrAPDk2yDrAc2OmIhnGXwaa11+J9L76HWQrnS58pDnCvU2rwUF
+ DEQZh4O65aEK3e3p1DvmAianxs5g5LXrvgPLNlgSUGbt6JOsPYex3kEQh
+ HHAG/VNjngjLEaVV9hQ0Dksv4Mcutv8g+2tVs1kbPxN2tCVMKPcP4po1a Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="246282842"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="246282842"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  24 Jan 2022 07:07:44 -0800
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="532104895"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="532104898"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  24 Jan 2022 07:07:44 -0800
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/4] drm/i915/guc: Cancel requests immediately
-Date: Mon, 24 Jan 2022 07:01:55 -0800
-Message-Id: <20220124150157.15758-3-matthew.brost@intel.com>
+Subject: [PATCH 3/4] drm/i915/execlists: Fix execlists request cancellation
+ corner case
+Date: Mon, 24 Jan 2022 07:01:56 -0800
+Message-Id: <20220124150157.15758-4-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220124150157.15758-1-matthew.brost@intel.com>
 References: <20220124150157.15758-1-matthew.brost@intel.com>
@@ -61,144 +62,192 @@ Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the preemption timeout to the smallest possible value (1 us) when
-disabling scheduling to cancel a request and restore it after
-cancellation. This not only cancels the request as fast as possible, it
-fixes a bug where the preemption timeout is 0 which results in the
-schedule disable hanging forever.
+More than 1 request can be submitted to a single ELSP at a time if
+multiple requests are ready run to on the same context. When a request
+is canceled it is marked bad, an idle pulse is triggered to the engine
+(high priority kernel request), the execlists scheduler sees that
+running request is bad and sets preemption timeout to minimum value (1
+ms). This fails to work if multiple requests are combined on the ELSP as
+only the most recent request is stored in the execlists schedule (the
+request stored in the ELSP isn't marked bad, thus preemption timeout
+isn't set to the minimum value). If the preempt timeout is configured to
+zero, the engine is permanently hung. This is shown by an upcoming
+selftest.
 
-Reported-by: Jani Saarinen <jani.saarinen@intel.com>
-Fixes: 62eaf0ae217d4 ("drm/i915/guc: Support request cancellation")
-Link: https://gitlab.freedesktop.org/drm/intel/-/issues/4960
+To work around this, mark the idle pulse with a flag to force a preempt
+with the minimum value.
+
+Fixes: 38b237eab2bc7 ("drm/i915: Individual request cancellation")
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_context_types.h |  5 ++
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 46 +++++++++++--------
- 2 files changed, 31 insertions(+), 20 deletions(-)
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 23 +++++++++++++++----
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |  1 +
+ .../drm/i915/gt/intel_execlists_submission.c  | 18 ++++++++++-----
+ drivers/gpu/drm/i915/i915_request.h           |  6 +++++
+ 4 files changed, 38 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-index 30cd81ad8911a..730998823dbea 100644
---- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-@@ -198,6 +198,11 @@ struct intel_context {
- 		 * each priority bucket
- 		 */
- 		u32 prio_count[GUC_CLIENT_PRIORITY_NUM];
-+		/**
-+		 * @preemption_timeout: preemption timeout of the context, used
-+		 * to restore this value after request cancellation
-+		 */
-+		u32 preemption_timeout;
- 	} guc_state;
- 
- 	struct {
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 3918f1be114fa..966947c450253 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2147,7 +2147,8 @@ static inline u32 get_children_join_value(struct intel_context *ce,
- 	return __get_parent_scratch(ce)->join[child_index].semaphore;
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+index a3698f611f457..efd1c719b4072 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+@@ -243,7 +243,8 @@ void intel_engine_init_heartbeat(struct intel_engine_cs *engine)
+ 	INIT_DELAYED_WORK(&engine->heartbeat.work, heartbeat);
  }
  
--static void guc_context_policy_init(struct intel_engine_cs *engine,
-+static void guc_context_policy_init(struct intel_context *ce,
-+				    struct intel_engine_cs *engine,
- 				    struct guc_lrc_desc *desc)
+-static int __intel_engine_pulse(struct intel_engine_cs *engine)
++static int __intel_engine_pulse(struct intel_engine_cs *engine,
++				bool force_preempt)
  {
- 	desc->policy_flags = 0;
-@@ -2157,7 +2158,8 @@ static void guc_context_policy_init(struct intel_engine_cs *engine,
+ 	struct i915_sched_attr attr = { .priority = I915_PRIORITY_BARRIER };
+ 	struct intel_context *ce = engine->kernel_context;
+@@ -258,6 +259,8 @@ static int __intel_engine_pulse(struct intel_engine_cs *engine)
+ 		return PTR_ERR(rq);
  
- 	/* NB: For both of these, zero means disabled. */
- 	desc->execution_quantum = engine->props.timeslice_duration_ms * 1000;
--	desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
-+	ce->guc_state.preemption_timeout = engine->props.preempt_timeout_ms * 1000;
-+	desc->preemption_timeout = ce->guc_state.preemption_timeout;
- }
+ 	__set_bit(I915_FENCE_FLAG_SENTINEL, &rq->fence.flags);
++	if (force_preempt)
++		__set_bit(I915_FENCE_FLAG_FORCE_PREEMPT, &rq->fence.flags);
  
- static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
-@@ -2193,7 +2195,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
- 	desc->hw_context_desc = ce->lrc.lrca;
- 	desc->priority = ce->guc_state.prio;
- 	desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
--	guc_context_policy_init(engine, desc);
-+	guc_context_policy_init(ce, engine, desc);
+ 	heartbeat_commit(rq, &attr);
+ 	GEM_BUG_ON(rq->sched.attr.priority < I915_PRIORITY_BARRIER);
+@@ -299,7 +302,7 @@ int intel_engine_set_heartbeat(struct intel_engine_cs *engine,
  
- 	/*
- 	 * If context is a parent, we need to register a process descriptor
-@@ -2226,7 +2228,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
- 			desc->hw_context_desc = child->lrc.lrca;
- 			desc->priority = ce->guc_state.prio;
- 			desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
--			guc_context_policy_init(engine, desc);
-+			guc_context_policy_init(child, engine, desc);
+ 		/* recheck current execution */
+ 		if (intel_engine_has_preemption(engine)) {
+-			err = __intel_engine_pulse(engine);
++			err = __intel_engine_pulse(engine, false);
+ 			if (err)
+ 				set_heartbeat(engine, saved);
  		}
- 
- 		clear_children_join_go_memory(ce);
-@@ -2409,6 +2411,19 @@ static u16 prep_context_pending_disable(struct intel_context *ce)
- 	return ce->guc_id.id;
+@@ -312,7 +315,8 @@ int intel_engine_set_heartbeat(struct intel_engine_cs *engine,
+ 	return err;
  }
  
-+static void __guc_context_set_preemption_timeout(struct intel_guc *guc,
-+						 u16 guc_id,
-+						 u32 preemption_timeout)
+-int intel_engine_pulse(struct intel_engine_cs *engine)
++static int _intel_engine_pulse(struct intel_engine_cs *engine,
++			       bool force_preempt)
+ {
+ 	struct intel_context *ce = engine->kernel_context;
+ 	int err;
+@@ -325,7 +329,7 @@ int intel_engine_pulse(struct intel_engine_cs *engine)
+ 
+ 	err = -EINTR;
+ 	if (!mutex_lock_interruptible(&ce->timeline->mutex)) {
+-		err = __intel_engine_pulse(engine);
++		err = __intel_engine_pulse(engine, force_preempt);
+ 		mutex_unlock(&ce->timeline->mutex);
+ 	}
+ 
+@@ -334,6 +338,17 @@ int intel_engine_pulse(struct intel_engine_cs *engine)
+ 	return err;
+ }
+ 
++int intel_engine_pulse(struct intel_engine_cs *engine)
 +{
-+	u32 action[] = {
-+		INTEL_GUC_ACTION_SET_CONTEXT_PREEMPTION_TIMEOUT,
-+		guc_id,
-+		preemption_timeout
-+	};
-+
-+	intel_guc_send_busy_loop(guc, action, ARRAY_SIZE(action), 0, true);
++	return _intel_engine_pulse(engine, false);
 +}
 +
- static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
++
++int intel_engine_pulse_force_preempt(struct intel_engine_cs *engine)
++{
++	return _intel_engine_pulse(engine, true);
++}
++
+ int intel_engine_flush_barriers(struct intel_engine_cs *engine)
  {
- 	struct intel_guc *guc = ce_to_guc(ce);
-@@ -2442,8 +2457,10 @@ static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
+ 	struct i915_sched_attr attr = { .priority = I915_PRIORITY_MIN };
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
+index 5da6d809a87a2..d9c8386754cb3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
+@@ -21,6 +21,7 @@ void intel_gt_park_heartbeats(struct intel_gt *gt);
+ void intel_gt_unpark_heartbeats(struct intel_gt *gt);
  
- 	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+ int intel_engine_pulse(struct intel_engine_cs *engine);
++int intel_engine_pulse_force_preempt(struct intel_engine_cs *engine);
+ int intel_engine_flush_barriers(struct intel_engine_cs *engine);
  
--	with_intel_runtime_pm(runtime_pm, wakeref)
-+	with_intel_runtime_pm(runtime_pm, wakeref) {
-+		__guc_context_set_preemption_timeout(guc, guc_id, 1);
- 		__guc_context_sched_disable(guc, ce, guc_id);
-+	}
- 
- 	return &ce->guc_state.blocked;
- }
-@@ -2492,8 +2509,10 @@ static void guc_context_unblock(struct intel_context *ce)
- 
- 	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
- 
--	if (enable) {
--		with_intel_runtime_pm(runtime_pm, wakeref)
-+	with_intel_runtime_pm(runtime_pm, wakeref) {
-+		__guc_context_set_preemption_timeout(guc, ce->guc_id.id,
-+						     ce->guc_state.preemption_timeout);
-+		if (enable)
- 			__guc_context_sched_enable(guc, ce);
- 	}
- }
-@@ -2521,19 +2540,6 @@ static void guc_context_cancel_request(struct intel_context *ce,
- 	}
+ #endif /* INTEL_ENGINE_HEARTBEAT_H */
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 960a9aaf4f3a3..f0c2024058731 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -1222,26 +1222,29 @@ static void record_preemption(struct intel_engine_execlists *execlists)
  }
  
--static void __guc_context_set_preemption_timeout(struct intel_guc *guc,
--						 u16 guc_id,
--						 u32 preemption_timeout)
--{
--	u32 action[] = {
--		INTEL_GUC_ACTION_SET_CONTEXT_PREEMPTION_TIMEOUT,
--		guc_id,
--		preemption_timeout
--	};
--
--	intel_guc_send_busy_loop(guc, action, ARRAY_SIZE(action), 0, true);
--}
--
- static void guc_context_ban(struct intel_context *ce, struct i915_request *rq)
+ static unsigned long active_preempt_timeout(struct intel_engine_cs *engine,
+-					    const struct i915_request *rq)
++					    const struct i915_request *rq,
++					    bool force_preempt)
  {
- 	struct intel_guc *guc = ce_to_guc(ce);
+ 	if (!rq)
+ 		return 0;
+ 
+ 	/* Force a fast reset for terminated contexts (ignoring sysfs!) */
+-	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq)))
++	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq) ||
++		     force_preempt))
+ 		return 1;
+ 
+ 	return READ_ONCE(engine->props.preempt_timeout_ms);
+ }
+ 
+ static void set_preempt_timeout(struct intel_engine_cs *engine,
+-				const struct i915_request *rq)
++				const struct i915_request *rq,
++				bool force_preempt)
+ {
+ 	if (!intel_engine_has_preempt_reset(engine))
+ 		return;
+ 
+ 	set_timer_ms(&engine->execlists.preempt,
+-		     active_preempt_timeout(engine, rq));
++		     active_preempt_timeout(engine, rq, force_preempt));
+ }
+ 
+ static bool completed(const struct i915_request *rq)
+@@ -1584,12 +1587,15 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
+ 	    memcmp(active,
+ 		   execlists->pending,
+ 		   (port - execlists->pending) * sizeof(*port))) {
++		bool force_preempt = test_bit(I915_FENCE_FLAG_FORCE_PREEMPT,
++					      &last->fence.flags);
++
+ 		*port = NULL;
+ 		while (port-- != execlists->pending)
+ 			execlists_schedule_in(*port, port - execlists->pending);
+ 
+ 		WRITE_ONCE(execlists->yield, -1);
+-		set_preempt_timeout(engine, *active);
++		set_preempt_timeout(engine, *active, force_preempt);
+ 		execlists_submit_ports(engine);
+ 	} else {
+ 		ring_set_paused(engine, 0);
+@@ -2594,7 +2600,7 @@ static void execlists_context_cancel_request(struct intel_context *ce,
+ 
+ 	i915_request_active_engine(rq, &engine);
+ 
+-	if (engine && intel_engine_pulse(engine))
++	if (engine && intel_engine_pulse_force_preempt(engine))
+ 		intel_gt_handle_error(engine->gt, engine->mask, 0,
+ 				      "request cancellation by %s",
+ 				      current->comm);
+diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+index 28b1f9db54875..7e6312233d4c7 100644
+--- a/drivers/gpu/drm/i915/i915_request.h
++++ b/drivers/gpu/drm/i915/i915_request.h
+@@ -170,6 +170,12 @@ enum {
+ 	 * fence (dma_fence_array) and i915 generated for parallel submission.
+ 	 */
+ 	I915_FENCE_FLAG_COMPOSITE,
++
++	/*
++	 * I915_FENCE_FLAG_FORCE_PREEMPT - Force preempt immediately regardless
++	 * of preempt timeout configuration
++	 */
++	I915_FENCE_FLAG_FORCE_PREEMPT,
+ };
+ 
+ /**
 -- 
 2.34.1
 
