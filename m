@@ -1,77 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18DFF498177
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 14:53:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B84498188
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 14:56:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85F8A10E7D5;
-	Mon, 24 Jan 2022 13:53:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 070CA10E2D0;
+	Mon, 24 Jan 2022 13:56:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96F5010E7D5
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 13:53:36 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A51B10E18B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 13:56:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643032415;
+ s=mimecast20190719; t=1643032609;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=10jjCwVWraQntNdBxVG806Q7wvKbwg1gvSBpyTQbEiA=;
- b=GG6Pz05vHFEroF8c+dMedA3N5HUCb12VVwSjJqieqsMwkk4kvDkT39TrnLSwLM8wV+TTAd
- pMuXslh4P4neD2W92mRvnk8KuffrITpJucIMY8AAXkUenoFwkuYqlHWfQKs7HNwIBMeNwr
- +tZMDqLRIvgZxN5mf9iGc3hFJYWOt8s=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YSqLQTi0kpug+gxLseY0EO7WdkGc2b3LlDQDn6WfK9k=;
+ b=R6XP12qv4pk3MQnZXLoGx72kqdigQ3CAY+b+dTZb4qY6V47ro7yU/R9edHWVz6z+dK3c/M
+ hmIRkBhrZXHpjD1LtJSSbh23097DwNE79ivOtYjB6Zcs++fNZ2f25Qn7D2/V/vXQVkEJAr
+ Z9d55qJl5NVszGCNdK3Hp9zzWy4/Vfw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-biaDZTutNpmMjoXNE9GWDA-1; Mon, 24 Jan 2022 08:53:34 -0500
-X-MC-Unique: biaDZTutNpmMjoXNE9GWDA-1
-Received: by mail-oi1-f198.google.com with SMTP id
- c7-20020a056808138700b002cb08f9f1deso9165888oiw.2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 05:53:34 -0800 (PST)
+ us-mta-578-MVLOBLx8PmiD65hOxCZP_g-1; Mon, 24 Jan 2022 08:56:48 -0500
+X-MC-Unique: MVLOBLx8PmiD65hOxCZP_g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ t19-20020adf97d3000000b001d7564e4b37so1902047wrb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 05:56:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
  :content-transfer-encoding;
- bh=10jjCwVWraQntNdBxVG806Q7wvKbwg1gvSBpyTQbEiA=;
- b=6Ey5alyloMxUG7LpjEOyTnANifW35O3Z09jC4laBJHynWXuBhRU62bqEltACcRmEQy
- Sf3As6kx/2NV1xuOd2frKIEiwuF5UOCpcrk1PzqYPpu+fTiloLwYu+kiX5OG9TL++6ec
- FR9C0x0eDIyu4J1DXN4v8ZQ+XwQe4ueiH2+XQ+JDaxDF75eDKxGbn7+P33hgFK4+FpcD
- p9+sIRrTDIyv54HDBUZxtrr+bNreNmr9ktGSu48Hb8FJIwW0Z0dydqHYq8PRwouJ3Tn2
- +6KMGOrLeL6BzCBl8jObEP+9DJiWL94xrWplV2vfYYi6gZ6pJeSg3jCJx1Xy6Xhdw487
- 5LpA==
-X-Gm-Message-State: AOAM530sv7sZkpcSpsVo6YmplyYw4Vj2LJb1pNzR96QKXyjHlTh9CuAn
- XbRizepwQhVyka+bB9TQclYR4IKZ6p9abzLUtHln+kgYiu3sGtyatFYjnVTuued0u5cEr4f7w6b
- RszGOLBvHXdu2ycrABwIxUVc/lHlb
-X-Received: by 2002:a4a:d095:: with SMTP id i21mr3016412oor.66.1643032414034; 
- Mon, 24 Jan 2022 05:53:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwXcXYp8AXPTplh6to4AiTnWP2fz7OgXjj9IzEQpUNCJmvn968uNUEQkbgSQYBOEJwbNzIXMA==
-X-Received: by 2002:a4a:d095:: with SMTP id i21mr3016389oor.66.1643032413803; 
- Mon, 24 Jan 2022 05:53:33 -0800 (PST)
-Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
- [24.205.208.113])
- by smtp.gmail.com with ESMTPSA id v26sm1881619ooq.20.2022.01.24.05.53.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jan 2022 05:53:33 -0800 (PST)
-From: trix@redhat.com
-To: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch, nathan@kernel.org,
- ndesaulniers@google.com, lijo.lazar@amd.com, darren.powell@amd.com,
- guchun.chen@amd.com, Arunpravin.PaneerSelvam@amd.com,
- andrey.grodzovsky@amd.com
-Subject: [PATCH] drm/amd/pm: set min,
- max to 0 if there is no get_dpm_ultimate_freq function
-Date: Mon, 24 Jan 2022 05:52:59 -0800
-Message-Id: <20220124135259.1057828-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+ bh=YSqLQTi0kpug+gxLseY0EO7WdkGc2b3LlDQDn6WfK9k=;
+ b=m3TJ4XLDN7rcSjkTkmhaADcIkPMnJWvsEnlji0Ew/wyZmloJZcgFseGyELsJGWgl0S
+ qprar7Yb11K3acjwkZ+iG08inbz3l+BBQuO1Tr7SIJOz/GFNU+jVTZWLdzWTe7ies+iX
+ e3y3+HopVXioAp7zR05C8HhDrMUsqhfZv0izHVacevKUHAcLVttZ31sDhNGh3tC4Bv5O
+ nykbAeLORzyFProjM4Wm69lrHpyT1hI00doCqKmQGD32z917l0L7HGQaT3Bta2Jnjwdu
+ EerAMipfNOZrDx1MhtSuLuE6ohvYkznXJ8ZJku3b6hilfJQ0KRDGGjuEr3mRbU67sl8S
+ 0Kxw==
+X-Gm-Message-State: AOAM5309cGqv3+uGAPY9UKFIQQUh5QA7PYO68mFKUYtDmEoV6bUkh9Ry
+ xShozlZy7YZXtAF76uHi0h0PG4zly8JYeKZxhlZpzm4RtFgyVbho/OD4DXoDHj9zVIpUiOoOnSJ
+ 7wd6mtk4a2osIeXCqpn4Ln9UejZDE
+X-Received: by 2002:a5d:61c6:: with SMTP id q6mr7199319wrv.667.1643032606857; 
+ Mon, 24 Jan 2022 05:56:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJypkYfrulJD9zvGIs/3jSlnpWz+2/2XmXFRuwYQuHQ2tcE8GsQEKRgQ0vh9JaRMpuCjkZXoOA==
+X-Received: by 2002:a5d:61c6:: with SMTP id q6mr7199304wrv.667.1643032606631; 
+ Mon, 24 Jan 2022 05:56:46 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id l13sm20189582wmq.22.2022.01.24.05.56.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Jan 2022 05:56:46 -0800 (PST)
+Message-ID: <b88309c2-7c22-3bcb-3f37-ade3e7d89617@redhat.com>
+Date: Mon, 24 Jan 2022 14:56:45 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 1/5] fbdev: Hot-unplug firmware fb devices on forced
+ removal
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, zackr@vmware.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, deller@gmx.de, hdegoede@redhat.com
+References: <20220124123659.4692-1-tzimmermann@suse.de>
+ <20220124123659.4692-2-tzimmermann@suse.de>
+ <508e6735-d5f0-610c-d4ca-b1abc093f63c@redhat.com>
+In-Reply-To: <508e6735-d5f0-610c-d4ca-b1abc093f63c@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,53 +89,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Rix <trix@redhat.com>
+On 1/24/22 14:52, Javier Martinez Canillas wrote:
 
-clang static analysis reports this represenative problem
-amdgpu_smu.c:144:18: warning: The left operand of '*' is a garbage value
-        return clk_freq * 100;
-               ~~~~~~~~ ^
+[snip]
 
-If there is no get_dpm_ultimate_freq function,
-smu_get_dpm_freq_range returns success without setting the
-output min,max parameters.  Because this is an extern function,
-set the min,max to 0 when there is no get_dpm_ultimate_freq.
+>> @@ -1898,9 +1917,13 @@ EXPORT_SYMBOL(register_framebuffer);
+>>  void
+>>  unregister_framebuffer(struct fb_info *fb_info)
+>>  {
+>> -	mutex_lock(&registration_lock);
+>> +	bool forced_out = fb_info->forced_out;
+>> +
+>> +	if (!forced_out)
+>> +		mutex_lock(&registration_lock);
+>>  	do_unregister_framebuffer(fb_info);
+>> -	mutex_unlock(&registration_lock);
+>> +	if (!forced_out)
+>> +		mutex_unlock(&registration_lock);
+>>  }
+> 
+> I'm not sure to follow the logic here. The forced_out bool is set when the
+> platform device is unregistered in do_remove_conflicting_framebuffers(),
+> but shouldn't the struct platform_driver .remove callback be executed even
+> in this case ?
+> 
+> That is, the platform_device_unregister() will trigger the call to the
+> .remove callback that in turn will call unregister_framebuffer().
+> 
+> Shouldn't we always hold the mutex when calling do_unregister_framebuffer() ?
+> 
 
-Fixes: e5ef784b1e17 ("drm/amd/powerplay: revise calling chain on retrieving frequency range")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Scratch that, I got it now. That's exactly the reason why you skip the
+mutext_lock(). After adding the check for dev, feel free to add:
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-index 5ace30434e603..35fbe51f52eaa 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-@@ -121,11 +121,17 @@ int smu_get_dpm_freq_range(struct smu_context *smu,
- 	if (!min && !max)
- 		return -EINVAL;
- 
--	if (smu->ppt_funcs->get_dpm_ultimate_freq)
-+	if (smu->ppt_funcs->get_dpm_ultimate_freq) {
- 		ret = smu->ppt_funcs->get_dpm_ultimate_freq(smu,
- 							    clk_type,
- 							    min,
- 							    max);
-+	} else {
-+		if (min)
-+			*min = 0;
-+		if (max)
-+			*max = 0;
-+	}
- 
- 	return ret;
- }
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Best regards,
 -- 
-2.26.3
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
