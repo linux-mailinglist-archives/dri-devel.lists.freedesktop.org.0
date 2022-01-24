@@ -1,63 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514954988C7
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 19:51:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A054994B4
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 21:56:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ACCC10E5B7;
-	Mon, 24 Jan 2022 18:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16E8310E1AF;
+	Mon, 24 Jan 2022 20:56:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
- [209.85.222.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD5D10E3D1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 18:51:12 +0000 (UTC)
-Received: by mail-ua1-f47.google.com with SMTP id l1so30959963uap.8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 10:51:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8n04RRQ8nE0niJsTycmRfUY892P4sQ+KhPXgYoCzt8o=;
- b=Dnpuldm687NW8Z3FqEI+XvRsualSLeL/IhUO9p2dBRPjffDKcRNDnvkCYkLuE6fHm0
- yPP3llCxVPTJZU4FKzAA+EXSSUBuydGFU4FouFuzEFiL5ZptUT9UitedygIwyvzhDvqC
- +nIGyLVzBajv/ywPddxUnFd3qIvnsx4D9LcLTZc8C7APgDa5gWONNHWlHwf7Uclk15u/
- MPvDJ79Xqr+boJwIVuNxGXlZt7NGB5IDtqkwmgcnQWosDXSmjaAJ9H928fVtXRQl8mki
- /+9QmSE0mhHZPfwO2ceieYGkTIZmSPmDOlJ8oklHlYVv1bxIAegk06c4XmFMfqC+iIP+
- ZtJA==
-X-Gm-Message-State: AOAM533Y5KQriWC3ZFVTT0K14c5EC29uyaXxSVSE77l6zC0/VKjaAzG0
- UNWkVMaR5aSuTAS3Vz/xyrVRJE//zMqfiA==
-X-Google-Smtp-Source: ABdhPJxoWrbLEO4BOrz5kAj44bx70kZfZnh6FfBOpR90ypNHSYkdhSKyxl+GdfGIaPcJz5MGziMHaw==
-X-Received: by 2002:ab0:7c5c:: with SMTP id d28mr5896607uaw.123.1643050271212; 
- Mon, 24 Jan 2022 10:51:11 -0800 (PST)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com.
- [209.85.222.42])
- by smtp.gmail.com with ESMTPSA id m82sm3024712vkm.29.2022.01.24.10.51.10
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 10:51:10 -0800 (PST)
-Received: by mail-ua1-f42.google.com with SMTP id l1so30959864uap.8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 10:51:10 -0800 (PST)
-X-Received: by 2002:a9f:3d89:: with SMTP id c9mr6321567uai.78.1643050270149;
- Mon, 24 Jan 2022 10:51:10 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC6910E1AF
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 20:56:11 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D5F9C611C2;
+ Mon, 24 Jan 2022 20:56:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F31AC340E5;
+ Mon, 24 Jan 2022 20:56:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1643057770;
+ bh=N7iqN2dtcEyo4qkf5F6uhGxw3W2pDTN7WGAfMlTzNYY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=IrqhCDvN3D6GkybQ/t4A0pjuPiwZNT4EQoSLlWhpdVesneLqn/fGx+uKxvTrX+wak
+ b4osQ9NHnty/dpTYVGsN32BXVcgjT7s+XzkBFGzyI6cpdEdbDpE/eUIwDpQ2gWm4Yn
+ 7rbPu1Emv18NKdo3Hnoa+7vcKerJCyQ59CD4oHLI=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 5.16 0073/1039] dma_fence_array: Fix PENDING_ERROR leak in
+ dma_fence_array_signaled()
+Date: Mon, 24 Jan 2022 19:31:02 +0100
+Message-Id: <20220124184127.628739269@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220124184125.121143506@linuxfoundation.org>
+References: <20220124184125.121143506@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-References: <YeG8ydoJNWWkGrTb@ls3530>
- <c48ad8ae-aea5-43fa-882f-dccb90dde9a4@suse.de>
- <87bl0amc6s.fsf@x1.stackframe.org> <20220118103323.4bae3a7d@eldfell>
- <20220118095352.xsb6fqacw4p276c5@sirius.home.kraxel.org>
- <CAMuHMdWV+-+Jr7HggbfH_GEDcdep4pJLiMG+15jxBvQ91BCS0w@mail.gmail.com>
- <CAKMK7uEOFg3z2btFERQ5XBQ7hqex6bXCb9X=SdwCjeLfX_SdFw@mail.gmail.com>
- <CAMuHMdVjv1+UNeXkCBE+80tdtLuNg=5d6N12hNLgJdaS-jxERg@mail.gmail.com>
- <CAKMK7uEwDdaR7kDVi9Oah0w8qFEoAywp_wj2eH7DtttVD2L00A@mail.gmail.com>
-In-Reply-To: <CAKMK7uEwDdaR7kDVi9Oah0w8qFEoAywp_wj2eH7DtttVD2L00A@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 24 Jan 2022 19:50:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUyHEExOCtH-hKh0HmZzadmfZaR=vAVYJkTvphfzs3Xiw@mail.gmail.com>
-Message-ID: <CAMuHMdUyHEExOCtH-hKh0HmZzadmfZaR=vAVYJkTvphfzs3Xiw@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,38 +51,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Helge Deller <deller@gmx.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sven Schnelle <svens@stackframe.org>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Gustavo Padovan <gustavo@padovan.org>, stable@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-On Thu, Jan 20, 2022 at 1:33 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> But reading code&docs is too hard I guess, safer to assume it's just
-> broken and not supported.
+commit 95d35838880fb040ccb9fe4a48816bd0c8b62df5 upstream.
 
-I confirm there's lots of documentation (and even more code ;-),
-which is always great!
-But both are intimidating to me, and most of the documentation covers
-features I'm not interested in, as they're only applicable to fancy
-modern truecolor 3D-capable multi-buffer and multi-head hardware, while
-what I am looking for is usually not documented.  E.g. I had a hard
-time to discover how color look-up tables work (gamma_{store,size}!),
-as this is not covered in https://docs.kernel.org/gpu/index.html,
-and none of the tinydrm drivers support CLUT modes.
+If a dma_fence_array is reported signaled by a call to
+dma_fence_is_signaled(), it may leak the PENDING_ERROR status.
 
-Gr{oetje,eeting}s,
+Fix this by clearing the PENDING_ERROR status if we return true in
+dma_fence_array_signaled().
 
-                        Geert
+v2:
+- Update Cc list, and add R-b.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Fixes: 1f70b8b812f3 ("dma-fence: Propagate errors to dma-fence-array container")
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Gustavo Padovan <gustavo@padovan.org>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: <stable@vger.kernel.org> # v5.4+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20211129152727.448908-1-thomas.hellstrom@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/dma-buf/dma-fence-array.c |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -104,7 +104,11 @@ static bool dma_fence_array_signaled(str
+ {
+ 	struct dma_fence_array *array = to_dma_fence_array(fence);
+ 
+-	return atomic_read(&array->num_pending) <= 0;
++	if (atomic_read(&array->num_pending) > 0)
++		return false;
++
++	dma_fence_array_clear_pending_error(array);
++	return true;
+ }
+ 
+ static void dma_fence_array_release(struct dma_fence *fence)
+
+
