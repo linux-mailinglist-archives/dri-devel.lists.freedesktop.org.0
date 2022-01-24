@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C3A499CA2
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 23:12:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD900499D1A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 23:16:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D270F10E30C;
-	Mon, 24 Jan 2022 22:12:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7B410E17C;
+	Mon, 24 Jan 2022 22:16:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5720210E1F3;
- Mon, 24 Jan 2022 22:12:07 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id bb37so27822913oib.1;
- Mon, 24 Jan 2022 14:12:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qNPdZuTMGpmraXauVfaM+U1iXWmXev7WNI2qlgKJIbg=;
- b=nRgyGzE6AxLpCKZz2UD75e4pkIds0FuUBfoftvvaRhjfZ3obN3fcNgGyXjDJ1FUNJK
- yscYMaxHJNoZuehn/9plEiPHQFli9uS+MiJVAsTYc7Y99J1X0VTPX8pwP4RMy6O9k6+4
- kmTz3t+nLjdXXoCfa5UIMs3JrxhHUwTvO/wnbllxBZHFWKvHFdDSqzYnYfi5wMKkIAko
- CwscV3NQuKIuyYsBpzRL4/W9WqMLcbHXkBfF3T4ehrmsnRXNvJKOjJxbrHMGClil0sQ3
- 8cft5Kx4N+nlQwz/ypXl/Q62QRdHGpUMGu/LmmubbtqWbXziTQ6bDV7ZifJNxOpW95Qj
- qGMA==
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54C7810E17C
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 22:16:43 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id r10so28139413edt.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 14:16:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=GYQ5zPkJ5FigUEXqZ3wk8nj8GLXdQqgPsSEGa5Oq/xQ=;
+ b=eBDYgCy4YY0PWjpP+SfSn/D8K/TI1SxwRoMcBmzWxOhbe5RFMdbF8XaN+MJZrViOqS
+ RCnrLdY0/H4fl6va/FnX72Spg77rYBWHqDdgeD9fGNZEwiQLuV6U830DhtI++W+Do78/
+ lDG1dUmF3P8vzoWHQlrpUAdcGGVQ8XOPv7aH4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qNPdZuTMGpmraXauVfaM+U1iXWmXev7WNI2qlgKJIbg=;
- b=SG7ag8Qgvpk86xOkI0nEWQ2oUhsBGLqKC2JnbeiopTxpt83WkBNE3fodzl/PpFXH/r
- 1D5HTh1NWsvTcsBWpmvp7584CviCX7AexvDhVc/Tl3aNVE4aK8Pzvh1lkDgDsio9DkYq
- euVeEY1+GHI7aouH1nCv9ZwLExC9Ag3Q5JMgfmJxcblW5/PzPPOD0tuO2TFQ3ba4ceJN
- 7TMrUoHHSPw9byrFYDmEMoWdlrpP0F801BI/LEhJHky09aqARw4kQ7AQZZKOd5UlmAGf
- lKPGrn13XaL623PkdYZ9+QuaMEXw0Ml7QQMXdG5TmbvvsjL7D3DvBOnlIBztpiIF6k+e
- tZ+Q==
-X-Gm-Message-State: AOAM5337sb3q3IfQmqZuIJqnQLcbyr+sj5Pzwqf8YsjTY46CFn1jCgci
- 02HGs5gSXiwk9mKRfMDQgTnpQu0hNwFJcDov059a1Xc7
-X-Google-Smtp-Source: ABdhPJyR03hrjLm79a0g6SkQdoHpkJeL3qMSV6vOsoHri99vsAcedey3FSY1h0XpwgmbhXH5wNFcoPGwNC5355tPXio=
-X-Received: by 2002:a05:6808:300b:: with SMTP id
- ay11mr3244011oib.120.1643062326701; 
- Mon, 24 Jan 2022 14:12:06 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=GYQ5zPkJ5FigUEXqZ3wk8nj8GLXdQqgPsSEGa5Oq/xQ=;
+ b=qmmbaG0R1gfJHNciBwMj/zdiSBSE92gRDbSzfrpXGRjjSYTrsrSb9XBJwTYafr0bF4
+ lhiv3wS6lqTptO5kbW1vs1EA0bVNbbssuOZ7cyJOqm5gU6KrOe3w9kIwyB6N7IggeZ+t
+ K755awkNJDBJYW5Gpf21uPBxvfu1NmyzRSJjohASijEBUThF8zHATs+qUFsifiM1S5Hq
+ InZUO8YCDWxdgfw1GcheiTqt6//lKbT/9xPx0LdVWWLoQhqmdRxOCuToAQRWcoWYS/hC
+ 4tKryVVXeUHykxpVgu7K4Nb3DLm+1vXMpe9x6lktE/FBrZIGlPp5mfqZg0j14S4PrU0m
+ 54UQ==
+X-Gm-Message-State: AOAM532+eMUd2ExpZ9udwhy+EgbnytcJAz+fUM3MBBuLJct4ng+gEUiB
+ GyYtafM4DOkLt83TcVFcbV24TnAzc28xsg==
+X-Google-Smtp-Source: ABdhPJwIjc0JR+J7irZsGsTafFzrF95vccqzieLEFK/IGbgT91TOzeeOr5DXX+AHtBLvm2EK6XEwiw==
+X-Received: by 2002:a05:6402:5174:: with SMTP id
+ d20mr17903753ede.21.1643062601896; 
+ Mon, 24 Jan 2022 14:16:41 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id qf6sm5374315ejc.49.2022.01.24.14.16.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jan 2022 14:16:41 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/docs: Document where the C8 color lut is stored
+Date: Mon, 24 Jan 2022 23:16:33 +0100
+Message-Id: <20220124221633.952374-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20220124194706.930319-1-daniel.vetter@ffwll.ch>
+References: <20220124194706.930319-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-References: <20220122012343.32540-1-rdunlap@infradead.org>
- <fca36168-d66b-c914-a5c6-fb8d495238ad@amd.com>
-In-Reply-To: <fca36168-d66b-c914-a5c6-fb8d495238ad@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 24 Jan 2022 17:11:55 -0500
-Message-ID: <CADnq5_OMhZ38b-N=UVC6ckcrzRkh=xBHEMe0UqP2DbqW6-g59Q@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: don't use /** for non-kernel-doc
- comments
-To: Harry Wentland <harry.wentland@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,61 +66,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Leo Li <sunpeng.li@amd.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Also add notes that for atomic drivers it's really somewhere else and
+no longer in struct drm_crtc.
 
-Alex
+Maybe we should put a bigger warning here that this is confusing,
+since the pixel format is a plane property, but the GAMMA_LUT property
+is on the crtc. But I think we can fix this if/when someone finds a
+need for a per-plane CLUT, since I'm not sure such hw even exists. I'm
+also not sure whether even hardware with a CLUT and a full color
+correction pipeline with degamm/cgm/gamma exists.
 
-On Mon, Jan 24, 2022 at 10:25 AM Harry Wentland <harry.wentland@amd.com> wrote:
->
-> On 2022-01-21 20:23, Randy Dunlap wrote:
-> > Change a static function's comment from "/**" (indicating kernel-doc
-> > notation) to "/*" (indicating a regular C language comment).
-> > This prevents multiple kernel-doc warnings:
-> >
-> >   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:4343: warning: Function parameter or member 'max_supported_frl_bw_in_kbps' not described in 'intersect_frl_link_bw_support'
-> >   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:4343: warning: Function parameter or member 'hdmi_encoded_link_bw' not described in 'intersect_frl_link_bw_support'
-> >   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:4343: warning: expecting prototype for Return PCON's post FRL link training supported BW if its non(). Prototype was for intersect_frl_link_bw_support() instead
-> >
-> > Fixes: c022375ae095 ("drm/amd/display: Add DP-HDMI FRL PCON Support in DC")
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Cc: Fangzhi Zuo <Jerry.Zuo@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Leo Li <sunpeng.li@amd.com>
-> > Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: dri-devel@lists.freedesktop.org
->
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->
-> Harry
->
-> > ---
-> >  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c |    2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > --- linux-next-20220121.orig/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> > +++ linux-next-20220121/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> > @@ -4970,7 +4970,7 @@ uint32_t dc_link_bw_kbps_from_raw_frl_li
-> >       return 0;
-> >  }
-> >
-> > -/**
-> > +/*
-> >   * Return PCON's post FRL link training supported BW if its non-zero, otherwise return max_supported_frl_bw.
-> >   */
-> >  static uint32_t intersect_frl_link_bw_support(
->
+Motivated by comments from Geert that we have a gap here.
+
+v2: More names for color luts (Laurent).
+
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ drivers/gpu/drm/drm_color_mgmt.c |  4 ++++
+ include/drm/drm_crtc.h           | 10 ++++++++++
+ 2 files changed, 14 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index bb14f488c8f6..9079fbe21d2f 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -82,6 +82,10 @@
+  *	driver boot-up state too. Drivers can access this blob through
+  *	&drm_crtc_state.gamma_lut.
+  *
++ *	Note that for mostly historical reasons stemming from Xorg heritage,
++ *	this is also used to store the color map (also sometimes color lut, CLUT
++ *	or color palette) for indexed formats like DRM_FORMAT_C8.
++ *
+  * “GAMMA_LUT_SIZE”:
+  *	Unsigned range property to give the size of the lookup table to be set
+  *	on the GAMMA_LUT property (the size depends on the underlying hardware).
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index 4d01b4d89775..a70baea0636c 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -285,6 +285,10 @@ struct drm_crtc_state {
+ 	 * Lookup table for converting pixel data after the color conversion
+ 	 * matrix @ctm.  See drm_crtc_enable_color_mgmt(). The blob (if not
+ 	 * NULL) is an array of &struct drm_color_lut.
++	 *
++	 * Note that for mostly historical reasons stemming from Xorg heritage,
++	 * this is also used to store the color map (also sometimes color lut,
++	 * CLUT or color palette) for indexed formats like DRM_FORMAT_C8.
+ 	 */
+ 	struct drm_property_blob *gamma_lut;
+ 
+@@ -1075,12 +1079,18 @@ struct drm_crtc {
+ 	/**
+ 	 * @gamma_size: Size of legacy gamma ramp reported to userspace. Set up
+ 	 * by calling drm_mode_crtc_set_gamma_size().
++	 *
++	 * Note that atomic drivers need to instead use
++	 * &drm_crtc_state.gamma_lut. See drm_crtc_enable_color_mgmt().
+ 	 */
+ 	uint32_t gamma_size;
+ 
+ 	/**
+ 	 * @gamma_store: Gamma ramp values used by the legacy SETGAMMA and
+ 	 * GETGAMMA IOCTls. Set up by calling drm_mode_crtc_set_gamma_size().
++	 *
++	 * Note that atomic drivers need to instead use
++	 * &drm_crtc_state.gamma_lut. See drm_crtc_enable_color_mgmt().
+ 	 */
+ 	uint16_t *gamma_store;
+ 
+-- 
+2.33.0
+
