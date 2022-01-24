@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA014983D0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 16:50:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2D44983D6
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 16:50:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3C8810E211;
-	Mon, 24 Jan 2022 15:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AF0710E18F;
+	Mon, 24 Jan 2022 15:50:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
- [209.85.222.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A28ED10E211
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 15:50:33 +0000 (UTC)
-Received: by mail-ua1-f47.google.com with SMTP id w21so31724406uan.7
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 07:50:33 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
+ [209.85.222.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CA9A10E31B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 15:50:52 +0000 (UTC)
+Received: by mail-ua1-f48.google.com with SMTP id 2so31786704uax.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 07:50:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Qn8yuU/dY9yzYdXTyBmgzczJZCif2R504KsT3GAaWuA=;
- b=o4fm7x8BWQKmvTXLRpqC+5K+0EDHbWHtTZLgXx8vebjAXoBzUWs5j/wEPmEVXyYWyI
- oeJ2rrAQEBRK6Mph3Ig3k3QU5Hf82/RVjJFm/WF8+nwGyjuic/CaTLqynL1/VYzMo8df
- ejDTNBTCsp1Q2FPXi8siJs7GRcYcKTu6NjFgmdCkO54Xa2uDUMf1ktHXtRPwZn4Tu4ds
- 21YkFXtWDzszSqWleZBAMVBoH4TJrRrbE/Hi83z+kPEoiWRB8qzPiLdOEEpOHszh2Ax8
- vctEf7w5zZnbu/9yrq3hQXBnsisWW2x++cPqXgZuFmur3ybf9HWnQOwtWMcbHhMKP85V
- Btrg==
-X-Gm-Message-State: AOAM533pX1Q4ZEhUPIX5HhebgXVC41yYAj7Uk3UyBcG1a1A25eWNmxUJ
- 0yDvORRJqnLdszQYMYy3E3Hc11z6hAMxGA==
-X-Google-Smtp-Source: ABdhPJxSHfVSAY78lKrM6c9AqGzGI+ClYMZcKg+OXnvq52GwW8Jd/khFpfHKzSCTBoAeRugCPSJx+Q==
-X-Received: by 2002:ab0:6c42:: with SMTP id q2mr6748994uas.112.1643039432119; 
- Mon, 24 Jan 2022 07:50:32 -0800 (PST)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com.
- [209.85.222.50])
- by smtp.gmail.com with ESMTPSA id k3sm958638vsc.11.2022.01.24.07.50.31
+ bh=CbVkEbxTIR+WGNzjkBEYilBK2bcgVTSN3u2lPmmlm40=;
+ b=NDfGQD+6MYWzA4yIhNVxOcNFja8UGvSe5Hz4ZfYqW5ttwKS4un4ms2fAOEXzhvIxJP
+ 6jEUqxcRhfwCsKenAu6OZgkG3oOfpDLxXOKCrOL4UiTFWmoaoASDdB4BX88A7nLYzacT
+ giMc5ya909FMwose05mh25bs0HMSIAHwg+Xn5u5d+WuyeQrGcTbVJduTGauuIih9z0T8
+ 2yQNKMq/D2unRtVlVrAclliLWMePKAgWjgJJdCTd5rveuOb7tUR9KUWFKmd0R8mx7a9X
+ AzcjGatxCjX634sj+WH54qc3PIcQsm0fRT4Tn2tIVumklgRBS3d2okqxwtU9YLPTDgfE
+ +bwA==
+X-Gm-Message-State: AOAM531ErMlvSPqVNT8EXnim5ULJ3VjVLwbCQgj4Gkr3TU6FJijqr6jJ
+ 6sG2n3M5Bq3yTLyFV7YpajGkVtFXYjgCvg==
+X-Google-Smtp-Source: ABdhPJz03YrDDNrw9QgSF0qMJJtVNPXjpEt5xBSrAnYHisI3mRFm2mRQGP93piLH9mzeVCiifc2fyA==
+X-Received: by 2002:a67:f509:: with SMTP id u9mr5859573vsn.35.1643039451370;
+ Mon, 24 Jan 2022 07:50:51 -0800 (PST)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com.
+ [209.85.221.179])
+ by smtp.gmail.com with ESMTPSA id v2sm2989329vkf.44.2022.01.24.07.50.50
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 07:50:31 -0800 (PST)
-Received: by mail-ua1-f50.google.com with SMTP id 2so31784571uax.10
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 07:50:31 -0800 (PST)
-X-Received: by 2002:a67:b009:: with SMTP id z9mr2526092vse.57.1643039430885;
- Mon, 24 Jan 2022 07:50:30 -0800 (PST)
+ Mon, 24 Jan 2022 07:50:51 -0800 (PST)
+Received: by mail-vk1-f179.google.com with SMTP id j185so6731169vkc.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 07:50:50 -0800 (PST)
+X-Received: by 2002:a1f:1b46:: with SMTP id b67mr2965993vkb.20.1643039450695; 
+ Mon, 24 Jan 2022 07:50:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20220119110839.33187-1-deller@gmx.de>
  <20220119110839.33187-3-deller@gmx.de>
@@ -49,15 +49,13 @@ References: <20220119110839.33187-1-deller@gmx.de>
  <20220121072006.ylw2hdl7jbkbwnre@sirius.home.kraxel.org>
  <64fd46cb-9746-3fd0-ec92-c64dba76875a@gmx.de>
  <d23800b4-503c-a6e2-2c51-2c07a736dffc@suse.de>
- <2fc200bb-4b40-7833-31c9-90a78512b601@redhat.com>
- <de6e06e1-f293-1c98-7898-b5d52c400b59@gmx.de>
-In-Reply-To: <de6e06e1-f293-1c98-7898-b5d52c400b59@gmx.de>
+In-Reply-To: <d23800b4-503c-a6e2-2c51-2c07a736dffc@suse.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 24 Jan 2022 16:50:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW-txqH1fnpkvyOSYUVkG8PTJKWkWFq_X8k-4VcdKR79Q@mail.gmail.com>
-Message-ID: <CAMuHMdW-txqH1fnpkvyOSYUVkG8PTJKWkWFq_X8k-4VcdKR79Q@mail.gmail.com>
+Date: Mon, 24 Jan 2022 16:50:39 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXu_paBcNhevgxXzr1pEes7qWtD=RHXTrqP=hxNBkupnw@mail.gmail.com>
+Message-ID: <CAMuHMdXu_paBcNhevgxXzr1pEes7qWtD=RHXTrqP=hxNBkupnw@mail.gmail.com>
 Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
-To: Helge Deller <deller@gmx.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,9 +70,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Sven Schnelle <svens@stackframe.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
  Javier Martinez Canillas <javierm@redhat.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -85,39 +82,12 @@ Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Helge,
+On Mon, Jan 24, 2022 at 12:33 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> With fbdev emulation, every DRM driver is an fbdev driver too. So
 
-On Mon, Jan 24, 2022 at 4:30 PM Helge Deller <deller@gmx.de> wrote:
-> On 1/24/22 12:50, Javier Martinez Canillas wrote:
-> > On 1/24/22 12:33, Thomas Zimmermann wrote:
-> >
-> > [snip]
-> >
-> >>> Thoughts?
-> >>
-> >> I can't say I approve keeping fbdev alive, but...
-> >>
-> >> With fbdev emulation, every DRM driver is an fbdev driver too. So
-> >> CONFIG_FB_DRIVER is somewhat misleading. Better add an option like
-> >> CONFIG_FBCON_HW_SCROLLING and have it selected by the fbdev drivers that
-> >> absolutely need HW acceleration. That option would then protect the rsp
-> >> code.
->
-> I'm not a fan of something like CONFIG_FBCON_HW_SCROLLING, but I'm not
-> against it either.
-> For me it sounds that this is not the real direction you want to go,
-> which is to prevent that any other drivers take the framebuffer before
-> you take it with simpledrm or similiar.
-> CONFIG_FBCON_HW_SCROLLING IMHO just disables the (from your POV) neglectable accleration part.
-> With an option like CONFIG_FB_DRIVER (maybe better: CONFIG_FB_LEGACY_DRIVERS)
-> it's an easy option for distros to disable all of the legacy drivers
-> from being built & shipped.
->
-> Instead of CONFIG_FBCON_HW_SCROLLING we could also choose
-> CONFIG_FBCON_LEGACY_ACCELERATION, because it includes fillrect() as well...
+Some are even without?
 
-As this is about resurrecting features indicated by the various
-FBINFO_HWACCEL_* flags, what about CONFIG_FB_HWACCEL?
+drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:     ret = register_framebuffer(info);
 
 Gr{oetje,eeting}s,
 
