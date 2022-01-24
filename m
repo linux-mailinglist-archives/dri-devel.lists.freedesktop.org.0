@@ -1,45 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D602499D39
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 23:33:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 246E1499D3C
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 23:38:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0CDF10E1FD;
-	Mon, 24 Jan 2022 22:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC7210E20E;
+	Mon, 24 Jan 2022 22:38:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE0D10E1FD;
- Mon, 24 Jan 2022 22:33:49 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4JjPsL1zWVz4y82;
- Tue, 25 Jan 2022 09:33:42 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1643063623;
- bh=Q7cV3zIVrbk4eZ0vx98E9oUuVG4Uaj8FKYUwZqQb2BU=;
- h=Date:From:To:Cc:Subject:From;
- b=tSstAJsmJEYLMABaBazIkF0XpBRW/SOMc3kdt6nXnj1hiPz7i2TIEQYfFawA6AqLs
- E4BTAf09G9wMUUQT7iFFAzJlyl93SJ0er4Ks7lKmeWg8Uq9EW3RjnnZySVqO9nllaC
- 2s+opzEvyUCdMiZkIC3W8kMJRW9+8TpSJ3mP78M5WgIdiLGHi4Tkc0tvTWVEJoSR2C
- 7C8kMDxFkKuhdh5ZG6fhaftYfGtDzst3My3BQlob8Nqk3F7VKppbVyq9FGDpbEAjuL
- O7KDgZkAwVEbNcyEUdmTca4BJBS76plaByzsvZTgVCv+iVIawleELHxs+oz4V0RAmA
- 2duOdsAp+nW6Q==
-Date: Tue, 25 Jan 2022 09:33:41 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-intel tree with Linus' tree
-Message-ID: <20220125093341.15244634@canb.auug.org.au>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F70E10E20D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 22:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1643063893;
+ bh=O/gWW4SdGdFvCDMPaydCCXLcqSMbdkD47ayl4x+bqCs=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=idrR5/2sy7iV86MX+VEH5JEzVpyebuoqIVaUZx24wIamcin4VaoTAEUtDnEg06VD9
+ S16Q6p6FvPF7ryHjQQAS7QaTq079x4kJdSKVC1Sib1nmuH+IGJHKi3Kdu45NUFfrql
+ TjU/DzPJrmzc1Qzgs+w86jlwIdBB71zlaUUpfNO4=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.165.96]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MNswE-1mwo0r0hmC-00OJvR; Mon, 24
+ Jan 2022 23:38:13 +0100
+Message-ID: <16884bfd-36ca-dd2e-43e4-4977861f8fa1@gmx.de>
+Date: Mon, 24 Jan 2022 23:37:03 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/2ZL55ve7xa9iF44s=AjpDmu";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 0/2] Fix regression introduced by disabling accelerated
+ scrolling in fbcon
+Content-Language: en-US
+To: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, Sam Ravnborg <sam@ravnborg.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sven Schnelle <svens@stackframe.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <20220124210319.325512-1-deller@gmx.de>
+ <Ye8mDFcWSiXoRJbD@phenom.ffwll.local>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <Ye8mDFcWSiXoRJbD@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:+mKwEBgUo8e6/rdx2wnM5rh8v/iJPUii7I6UYjR0LafD+acqlae
+ rDVSPHpFVw/TqCh68N4Dcyveg6w3ot9oOtgpaEQeWF0+CwHsqvrKN0IdYxgEBS6bRSMIXRH
+ puChEGqa7ZtuOWaBLGKMRDASdYDh2gYTQsIaG7RiDW1Q0WWelAODGGa9P7kHJDJfTqaU6kt
+ VMGCrr0OSeS8sRlxIACKw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:P4h9ZZ/515I=:TShwa34J6E49MAcWMpgIEk
+ oz9CcYOoBwrolQyCjXlY8COb3clzeUbg1OZvJLD20cKD1nq23Gu2EvaR+GF/Fj9M9Y1cpPm+E
+ 9r0wnP7XFBEWMKOdEvsWO7QuUYiN6+cdgeuFE8Xzn5UoteSzMuHpTFl8ruPv14IArlHIDldac
+ AmuZlGXnUC3xz8Ky/BQfHQo+YQisn4U0F/XAVr78+vtw/pl6ZtCsl4xBJLJtoJFJNHp7+ATKd
+ 5BZNYvmf/nIJCefBK6eZMwCY4Ld/iG4r+l84OwD1rA+/FLu6K3rAjYmYMEKgRg/Cf8Wfb6D2a
+ 7JO3jXLrOW7MoLrQ1iTsU6FZD8Soek+rGT0JHG12Sc0FsCdvHCCV4tqAvqpSQhqfBAREAlBjV
+ z4MUxahZZyhHCP+2K5BfGSUNR0sctqVbM3E+hSz0OWPgYc9X3wPbcUQPurhR/KxuHCPmLOuWT
+ QNYQboTrPJA1QxRK+1tyiqLENNtNRvQi9kJeB919baluZKiu/Qwy93LUrKNLIwLhM5E8T4JJQ
+ rN92tsz4kWuCmG7ZGw3nuR47WJoIOrERFdbXBInMUQUpUXpdL96NKY5/faL/vGHCTSUEDgR2+
+ qQYu0TliHyDFNLYqAC3he81i2VOUHlPPM8sIfXq2RrrPrUoJ/jfY0iXTH6LC2xFVGdzJ/UQyZ
+ y27msW4gMk0kRhQ2LFYuljnDvNtJhljpQWlAo1HtsOnos1QWHNlgik1t6TJqux2HriueyVNb6
+ 8K3rssNCKm+p5T9WEuaUcX9+I5zu4EeLvnuiyJQfPzvrHNofeugHI0Z8sYY1FZOSIpHUWtTyG
+ /cr1zKqPAFLhlVGRP7mMUlr3z+hJ8hxR+g0FfMprs79ypR57x2JJTzDJ+CSWuNojb+kMBD1hA
+ kakGYEqgF37Tk9sL4+XHtg2pOG5RHiFROIOMgFxvqKcUfule6xaJJQC3Vu+zeeENQtAU6RCuo
+ KciOIJP+aaLohD/XyUSjwF+cMYydUAX2kPcW7yBv7pnMt6MmSJA1K14s963WiZFW5JeIhDzl+
+ BAvTilH7bTAycS+lZVBpbTNbohOAspyHblWwtxBDzt4kBcXMyWrUXZZogtGrxGCIS29K9P/Tf
+ nizlcv8pjNu6Ws=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,143 +81,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/2ZL55ve7xa9iF44s=AjpDmu
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 1/24/22 23:19, Daniel Vetter wrote:
+> On Mon, Jan 24, 2022 at 10:03:17PM +0100, Helge Deller wrote:
+>> This series reverts two patches which disabled scrolling acceleration i=
+n
+>> fbcon/fbdev. Those patches introduced a regression for fbdev-supported =
+graphic
+>> cards because of the performance penalty by doing screen scrolling by s=
+oftware
+>> instead of using existing 2D hardware acceleration.
+>>
+>> This series has been discussed on linux-fbdev, dri-devel and linux-kern=
+el
+>> mailing lists. The consensus is that they will be reverted, but in addi=
+tion
+>> it's being worked on to find a solution which allows to disable parts o=
+f the
+>> classic fbdev hardware acceleration code which isn't needed in DRM-only
+>> configurations.
+>
+> That's not my take at least.
 
-Hi all,
+Which is?
+Didn't we discussed about introducing something like
+CONFIG_FBCON_LEGACY_ACCELERATION ?
 
-Today's linux-next merge of the drm-intel tree got a conflict in:
+>> The patchset is planned to be kept in fbdev's for-next git branch and l=
+ater
+>> pushed into kernel v5.18 if no issues are found until then.
+>
+> Neither this. I don't think we've resovled maintainership of fbdev core
+> code and fbcon yet. That is the part that drm folks very much still
+> maintained, as a quick git shortlog will show.
+>
+> Maintaining these parts outside of drm trees just doesn't make sense,
+> since none of the other graphics relevant development happens outside of
 
-  drivers/gpu/drm/i915/i915_reg.h
+I have no objections if you are willing to take those two patches through
+the drm tree.
 
-between commit:
+Helge
 
-  77cdd054dd2c ("drm/i915/pmu: Connect engine busyness stats from GuC to pm=
-u")
-
-from Linus' tree and commit:
-
-  202b1f4c1234 ("drm/i915/gt: Move engine registers to their own header")
-
-from the drm-intel tree.
-
-I fixed it up (see below - maybe should be done better?) and can carry the
-fix as necessary. This is now fixed as far as linux-next is concerned,
-but any non trivial conflicts should be mentioned to your upstream
-maintainer when your tree is submitted for merging.  You may also want
-to consider cooperating with the maintainer of the conflicting tree to
-minimise any particularly complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/i915_reg.h
-index 971d601fe751,cf168c3e0471..000000000000
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@@ -2661,52 -1825,7 +1843,9 @@@
-  #define   AUX_INV		REG_BIT(0)
-  #define BLT_HWS_PGA_GEN7	_MMIO(0x04280)
-  #define VEBOX_HWS_PGA_GEN7	_MMIO(0x04380)
-- #define RING_ACTHD(base)	_MMIO((base) + 0x74)
-- #define RING_ACTHD_UDW(base)	_MMIO((base) + 0x5c)
-- #define RING_NOPID(base)	_MMIO((base) + 0x94)
-- #define RING_IMR(base)		_MMIO((base) + 0xa8)
-- #define RING_HWSTAM(base)	_MMIO((base) + 0x98)
-- #define RING_TIMESTAMP(base)		_MMIO((base) + 0x358)
-- #define RING_TIMESTAMP_UDW(base)	_MMIO((base) + 0x358 + 4)
-- #define   TAIL_ADDR		0x001FFFF8
-- #define   HEAD_WRAP_COUNT	0xFFE00000
-- #define   HEAD_WRAP_ONE		0x00200000
-- #define   HEAD_ADDR		0x001FFFFC
-- #define   RING_NR_PAGES		0x001FF000
-- #define   RING_REPORT_MASK	0x00000006
-- #define   RING_REPORT_64K	0x00000002
-- #define   RING_REPORT_128K	0x00000004
-- #define   RING_NO_REPORT	0x00000000
-- #define   RING_VALID_MASK	0x00000001
-- #define   RING_VALID		0x00000001
-- #define   RING_INVALID		0x00000000
-- #define   RING_WAIT_I8XX	(1 << 0) /* gen2, PRBx_HEAD */
-- #define   RING_WAIT		(1 << 11) /* gen3+, PRBx_CTL */
-- #define   RING_WAIT_SEMAPHORE	(1 << 10) /* gen6+ */
- =20
- +#define GUCPMTIMESTAMP          _MMIO(0xC3E8)
- +
-- /* There are 16 64-bit CS General Purpose Registers per-engine on Gen8+ */
-- #define GEN8_RING_CS_GPR(base, n)	_MMIO((base) + 0x600 + (n) * 8)
-- #define GEN8_RING_CS_GPR_UDW(base, n)	_MMIO((base) + 0x600 + (n) * 8 + 4)
--=20
-- #define RING_FORCE_TO_NONPRIV(base, i) _MMIO(((base) + 0x4D0) + (i) * 4)
-- #define   RING_FORCE_TO_NONPRIV_ADDRESS_MASK	REG_GENMASK(25, 2)
-- #define   RING_FORCE_TO_NONPRIV_ACCESS_RW	(0 << 28)    /* CFL+ & Gen11+ */
-- #define   RING_FORCE_TO_NONPRIV_ACCESS_RD	(1 << 28)
-- #define   RING_FORCE_TO_NONPRIV_ACCESS_WR	(2 << 28)
-- #define   RING_FORCE_TO_NONPRIV_ACCESS_INVALID	(3 << 28)
-- #define   RING_FORCE_TO_NONPRIV_ACCESS_MASK	(3 << 28)
-- #define   RING_FORCE_TO_NONPRIV_RANGE_1		(0 << 0)     /* CFL+ & Gen11+ */
-- #define   RING_FORCE_TO_NONPRIV_RANGE_4		(1 << 0)
-- #define   RING_FORCE_TO_NONPRIV_RANGE_16	(2 << 0)
-- #define   RING_FORCE_TO_NONPRIV_RANGE_64	(3 << 0)
-- #define   RING_FORCE_TO_NONPRIV_RANGE_MASK	(3 << 0)
-- #define   RING_FORCE_TO_NONPRIV_MASK_VALID	\
-- 					(RING_FORCE_TO_NONPRIV_RANGE_MASK \
-- 					| RING_FORCE_TO_NONPRIV_ACCESS_MASK)
-- #define   RING_MAX_NONPRIV_SLOTS  12
--=20
-  #define GEN7_TLB_RD_ADDR	_MMIO(0x4700)
- =20
-  #define GEN9_GAMT_ECO_REG_RW_IA _MMIO(0x4ab0)
-@@@ -2778,27 -1885,7 +1905,10 @@@
-  #define GEN2_INSTDONE	_MMIO(0x2090)
-  #define NOPID		_MMIO(0x2094)
-  #define HWSTAM		_MMIO(0x2098)
-- #define DMA_FADD_I8XX(base)	_MMIO((base) + 0xd0)
-- #define RING_BBSTATE(base)	_MMIO((base) + 0x110)
-- #define   RING_BB_PPGTT		(1 << 5)
-- #define RING_SBBADDR(base)	_MMIO((base) + 0x114) /* hsw+ */
-- #define RING_SBBSTATE(base)	_MMIO((base) + 0x118) /* hsw+ */
-- #define RING_SBBADDR_UDW(base)	_MMIO((base) + 0x11c) /* gen8+ */
-- #define RING_BBADDR(base)	_MMIO((base) + 0x140)
-- #define RING_BBADDR_UDW(base)	_MMIO((base) + 0x168) /* gen8+ */
-- #define RING_BB_PER_CTX_PTR(base)	_MMIO((base) + 0x1c0) /* gen8+ */
-- #define RING_INDIRECT_CTX(base)		_MMIO((base) + 0x1c4) /* gen8+ */
-- #define RING_INDIRECT_CTX_OFFSET(base)	_MMIO((base) + 0x1c8) /* gen8+ */
-- #define RING_CTX_TIMESTAMP(base)	_MMIO((base) + 0x3a8) /* gen8+ */
--=20
-- #define VDBOX_CGCTL3F10(base)		_MMIO((base) + 0x3f10)
-- #define   IECPUNIT_CLKGATE_DIS		REG_BIT(22)
- =20
- +#define VDBOX_CGCTL3F18(base)		_MMIO((base) + 0x3f18)
- +#define   ALNUNIT_CLKGATE_DIS		REG_BIT(13)
- +
-  #define ERROR_GEN6	_MMIO(0x40a0)
-  #define GEN7_ERR_INT	_MMIO(0x44040)
-  #define   ERR_INT_POISON		(1 << 31)
-
---Sig_/2ZL55ve7xa9iF44s=AjpDmu
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmHvKUUACgkQAVBC80lX
-0Gwxewf+OMrUFaGLuYGYg5EgrZvYs6OAjlxGfiU6hn4qQimxLo0Idz+12DpIMtt1
-NA/MxjY9MzpHj756KK+jGSzsS1HmUYXQvCw1uPBY/6XesaRpFio/iujoRLtJKo0c
-KVK90J2IUv/Tj2XJg7KDWybDFBTTa7tyGWwIF6G10/i7vCplaswXERggRIdF+ACT
-Ty3meYA8lKIAoGv8AP3ryEvKLFSsiTyF4+GSZQ/AZVPsh9vOy7gqhSUbRTyRHrwa
-jK0Ucu/l5fHt7bbAVWePaHs1mkBA9PW6Kk7Eg7nN3i4C5PsSo/UyqbjOjnNXMY5Y
-GpnYoinv6581dqwm8dzdxazwN6TQYg==
-=WVH5
------END PGP SIGNATURE-----
-
---Sig_/2ZL55ve7xa9iF44s=AjpDmu--
+>> ---
+>> Changes in v2 compared to v1:
+>> - adjusted the stable tags (one v5.10+, the other v5.16+)
+>> - moved the analysis and reasoning why those should be reverted into
+>>   the commit message. That simplifies to analyze later why they were
+>>   reverted.
+>> - resorted the To an Cc mail recipient lists
+>>
+>> Helge Deller (2):
+>>   Revert "fbdev: Garbage collect fbdev scrolling acceleration, part 1
+>>     (from TODO list)"
+>>   Revert "fbcon: Disable accelerated scrolling"
+>>
+>>  Documentation/gpu/todo.rst              |  24 --
+>>  drivers/video/fbdev/core/bitblit.c      |  16 +
+>>  drivers/video/fbdev/core/fbcon.c        | 540 +++++++++++++++++++++++-
+>>  drivers/video/fbdev/core/fbcon.h        |  59 +++
+>>  drivers/video/fbdev/core/fbcon_ccw.c    |  28 +-
+>>  drivers/video/fbdev/core/fbcon_cw.c     |  28 +-
+>>  drivers/video/fbdev/core/fbcon_rotate.h |   9 +
+>>  drivers/video/fbdev/core/fbcon_ud.c     |  37 +-
+>>  drivers/video/fbdev/core/tileblit.c     |  16 +
+>>  drivers/video/fbdev/skeletonfb.c        |  12 +-
+>>  include/linux/fb.h                      |   2 +-
+>>  11 files changed, 703 insertions(+), 68 deletions(-)
+>>
+>> --
+>> 2.31.1
