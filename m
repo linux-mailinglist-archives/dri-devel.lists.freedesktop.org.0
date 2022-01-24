@@ -2,50 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E09498850
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 19:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1A9498876
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 19:39:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3A010E7CD;
-	Mon, 24 Jan 2022 18:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF74A10E673;
+	Mon, 24 Jan 2022 18:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5083710E7CD;
- Mon, 24 Jan 2022 18:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643048862; x=1674584862;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=QYEAybRwP0jTcU3cihM+fGC4MwyHH67iS4J4O/RWUsE=;
- b=aTVpXun8YP4g4591uQvIc7RnSiJgpbHpwdTSyjoThbjhq59NUTEpA7/L
- t8Z8KkVSrDfHHh0XC0e3Foxm8MFrEcBhP5Zm+eg5kBelFGOlDgRsd8AU2
- j8YwDeEzz+OOgW+iM4cP++ffUPB2JJbrrQVWtfm91LJSNvxUs5NI25A25
- CCqvrGYNKB5f/hMPvP/DX16u0UWqmghpIuD3QWyazyMeA+IlidFsJ/5Nr
- tQSL/+eaUfdvXE73t7oN9Ot+UyqeJrDLdUHgUHl39iGN4SM7ok7ZyySJo
- ICHoKiKq1hbbBlBKL3Z1wkaT+DIppe4clM7IEMnM1JAefX3RZ/wXHLzdd A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="306829355"
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="306829355"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2022 10:27:41 -0800
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="479182936"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2022 10:27:41 -0800
-Date: Mon, 24 Jan 2022 10:27:41 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH V2 0/7] DRM kmap() fixes and kmap_local_page() conversions
-Message-ID: <20220124182741.GC785175@iweiny-DESK2.sc.intel.com>
-References: <20220124015409.807587-1-ira.weiny@intel.com>
- <a56344b6-b1bd-6749-5ed2-5f38bf79dcee@gmail.com>
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
+ [209.85.222.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B879010E673
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 18:39:08 +0000 (UTC)
+Received: by mail-ua1-f45.google.com with SMTP id u6so32858660uaq.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 10:39:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e8r8scPQjT8uH8pXGowu/+E5c7EtaUCFQ6Gv6NPqtrM=;
+ b=YLWrMwQV2VvBYvo3NIOM9drsqEayk4W3UjSwuy51q1vSphXdrLTDodmztuu6ZRKzuE
+ pZL98/EL9PTbcL37kAY+hLj0F1YyTwul8uChHw9nhckgQB0OkGkQyD3jpHoDof/hw2Cn
+ 1e/arNn0fWqS756e/UifHBbMOZ72NltqyrFI+aX7Pn7jCi1QjipZ6KjiOa0z3Vx2G5q0
+ zHKcbNdcr7Lx2/5UL2wq83EZBTX2LyYqM6Vq2JWYyREtziUt90yz0kyiDzBjlL1seDnU
+ 6GKAyrVqdQeRWXiUm0lEDKZImg/SgnlQRBGNDthp8JsWVfhG4kFUimqFhC0/pw7+zax3
+ AF1Q==
+X-Gm-Message-State: AOAM532zERD/mgOuwW/r0KAQ8Tm1ezhZEVXNpoc3YZrTKtcSN5+4abg1
+ PWPJlAAbJ+8YB3+JZ/yoUuMKH6vUW1mkhA==
+X-Google-Smtp-Source: ABdhPJyh/Jn8/j38DmPN1VHbbUILMXmTRPb9o6Ta4wzIMOUTzc24r6cwjVRL0+3tpFU1M+/pa1+lhw==
+X-Received: by 2002:a9f:364c:: with SMTP id s12mr5995591uad.60.1643049547641; 
+ Mon, 24 Jan 2022 10:39:07 -0800 (PST)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com.
+ [209.85.221.182])
+ by smtp.gmail.com with ESMTPSA id z27sm1287633vsf.24.2022.01.24.10.39.06
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Jan 2022 10:39:06 -0800 (PST)
+Received: by mail-vk1-f182.google.com with SMTP id z15so7532384vkp.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 10:39:06 -0800 (PST)
+X-Received: by 2002:a05:6122:ca1:: with SMTP id
+ ba33mr1920131vkb.39.1643049546088; 
+ Mon, 24 Jan 2022 10:39:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a56344b6-b1bd-6749-5ed2-5f38bf79dcee@gmail.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+References: <20220117125716.yjwxsze35j2ndn2i@sirius.home.kraxel.org>
+ <CAMuHMdW=Zpp2mHbrBx7i0WN8PqY3XpK5qpyAyYxgf9n88edpug@mail.gmail.com>
+ <70530b62-7b3f-db88-7f1a-f89b824e5825@suse.de>
+ <CAMuHMdW5M=zEuGEnQQc3JytDhoxCKRiq0QFw+HOPp0YMORzidw@mail.gmail.com>
+ <57d276d3-aa12-fa40-6f90-dc19ef393679@gmx.de>
+ <CAKMK7uE7jnTtetB5ovGeyPxHq4ymhbWmQXWmSVw-V1vP3iNAKQ@mail.gmail.com>
+ <b32ffceb-ea90-3d26-f20e-29ae21c68fcf@gmx.de>
+ <20220118062947.6kfuam6ah63z5mmn@sirius.home.kraxel.org>
+ <CAMuHMdWXWA2h7zrZa_nnqR_qNdsOdHJS=Vf1YExhvs08KukoNg@mail.gmail.com>
+ <3f96f393-e59d-34ac-c98b-46180e2225cd@suse.de>
+ <20220120125015.sx5n7ziq3765rwyo@sirius.home.kraxel.org>
+ <CAKMK7uF-V20qWTxQLvTC6GjC8Sg+Pst+UJ3pWCLQ4Q7Khgy62g@mail.gmail.com>
+In-Reply-To: <CAKMK7uF-V20qWTxQLvTC6GjC8Sg+Pst+UJ3pWCLQ4Q7Khgy62g@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 24 Jan 2022 19:38:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWS3rYUUB8HQcpjq0pY28cLiPMGrYEXeSPVtr-a_rrQvQ@mail.gmail.com>
+Message-ID: <CAMuHMdWS3rYUUB8HQcpjq0pY28cLiPMGrYEXeSPVtr-a_rrQvQ@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,89 +75,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, Helge Deller <deller@gmx.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sven Schnelle <svens@stackframe.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 24, 2022 at 01:08:26PM +0100, Christian König wrote:
-> Am 24.01.22 um 02:54 schrieb ira.weiny@intel.com:
-> > From: Ira Weiny <ira.weiny@intel.com>
-> > 
-> > Changes from V1:
-> > 	Use memcpy_to_page() where appropriate
-> > 	Rebased to latest
-> > 
-> > The kmap() call may cause issues with work being done with persistent memory.
-> > For this and other reasons it is being deprecated.
-> 
-> I'm really wondering how we should be able to implement the kernel mapping
-> without kmap in TTM.
-> 
-> > This series starts by converting the last easy kmap() uses in the drm tree to
-> > kmap_local_page().
-> > 
-> > The final 2 patches fix bugs found while working on the ttm_bo_kmap_ttm()
-> > conversion.  They are valid fixes but were found via code inspection not
-> > because of any actual bug so don't require a stable tag.[1]
-> > 
-> > There is one more call to kmap() used in ttm_bo_kmap_ttm().  Unfortunately,
-> > fixing this is not straight forward so it is left to future work.[2]
-> 
-> Patches #2, #4, #6 and #7 are Reviewed-by: Christian König
-> <christian.koenig@amd.com>
+Hi Daniel,
 
-Christian,
+On Fri, Jan 21, 2022 at 9:55 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> Just to clarify, since we had lots of smaller and bigger
+> misunderstandings in the thread thus far: DRM_FORMAT_RGB332 exists, so
+> drm support that already. The fbdev emulation doesn't yet, but all
+> that's needed for that is filling out the code to remap the drm
+> description to the fbdev format description for this case. Plus
+> testing it all works ofc with fbcon and whatelse. Note that RGB332  is
+> a bit more work than e.g. C4, since atm fbdev still uses only bpp to
+> identify formats, so would need to be switch over to drm_fourcc first
+> before adding anything which aliases with something existing (we have
+> C8 already wired up).
 
-Would you prefer I send those 4 to you as a separate series?
+I doubt that RGB332 would be a bit more work than C4, as RGB332 is still
+8 bpp, while C4 is less.  To support C4, all DRM code that cannot
+handle format->cpp[0] < 1 or drm_format_info_block_width() > 1 has to be
+fixed first.
 
-> 
-> How to you now want to push those upstream? I can pick them up for the AMD
-> tree like Daniel suggested or you can push them through something else.
+On the plus side, I finally got my proof-of-concept Atari DRM driver
+working with fbcon on ARAnyM.  Mapping /dev/fb0 from userspace doesn't
+work (fbtest SEGVs while reading from the mapped frame buffer).  I don't
+know yet if this is a general issue without deferred I/O in v5.17-rc1,
+or a bug in the m68k MM code...
 
-You picking them up from this series is ok as well.
+So far it supports C8 only, but I hope to tackle C4 and monochrome soon.
+Whether the end result will be usable on real hardware is still to be
+seen, but at least I hope to get some DRM code written...
 
-Daniel will you take #1, #3, and #5?
+Gr{oetje,eeting}s,
 
-Thanks,
-Ira
+                        Geert
 
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > [1] https://lore.kernel.org/lkml/fb71af05-a889-8f6e-031b-426b58a64f00@amd.com/
-> > [2] https://lore.kernel.org/lkml/20211215210949.GW3538886@iweiny-DESK2.sc.intel.com/
-> > 
-> > 
-> > Ira Weiny (7):
-> > drm/i915: Replace kmap() with kmap_local_page()
-> > drm/amd: Replace kmap() with kmap_local_page()
-> > drm/gma: Remove calls to kmap()
-> > drm/radeon: Replace kmap() with kmap_local_page()
-> > drm/msm: Alter comment to use kmap_local_page()
-> > drm/amdgpu: Ensure kunmap is called on error
-> > drm/radeon: Ensure kunmap is called on error
-> > 
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 8 ++++----
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 1 +
-> > drivers/gpu/drm/gma500/gma_display.c | 6 ++----
-> > drivers/gpu/drm/gma500/mmu.c | 8 ++++----
-> > drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 6 ++----
-> > drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 8 ++++----
-> > drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c | 4 ++--
-> > drivers/gpu/drm/i915/gt/shmem_utils.c | 7 ++-----
-> > drivers/gpu/drm/i915/i915_gem.c | 8 ++++----
-> > drivers/gpu/drm/i915/i915_gpu_error.c | 4 ++--
-> > drivers/gpu/drm/msm/msm_gem_submit.c | 4 ++--
-> > drivers/gpu/drm/radeon/radeon_ttm.c | 4 ++--
-> > drivers/gpu/drm/radeon/radeon_uvd.c | 1 +
-> > 13 files changed, 32 insertions(+), 37 deletions(-)
-> > 
-> > --
-> > 2.31.1
-> > 
-> 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
