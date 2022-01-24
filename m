@@ -1,50 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7044984BF
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 17:28:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B879B4984DC
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 17:32:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D0F310E1B1;
-	Mon, 24 Jan 2022 16:28:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BCA410E207;
+	Mon, 24 Jan 2022 16:32:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0060410E1B1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 16:28:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ocvOHWJ3wrRvq5eM3CVrGXKd549B5HsiDIK7QpcqNfE=; b=h9F82F3iyazG6hR4ndsT9VosKT
- B8WhRO40/P1PC6fr2s9sJnTofV9risvC1ADDQvgMmG/CaE5MkDzCeKkAoGy0WkCi9j9ueKi2vmWTc
- jZ5odPnkEXX4l+Z+hoWEJuS94IP5swzMGz5oFZOP7wavmesKGxk9mhtY5/y5UBE9XK+URCcUIfsGQ
- gpZStu6wnC6ZNh+xDVYDTwUYkATqa9x1Fo3IiNN+iogvVdCRAN4jMvUUH2DB4gvudIx4Z68kl0wZx
- 1uhFhMmMyArHwDBM108RBJt0fGbn/9T1hcYVK6jnRsv7u3SJpJJmTN+s9btUbbUy3OUnxckr1kh9p
- zZs9qoxQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:49175
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1nC2Cy-0005s7-Jc; Mon, 24 Jan 2022 17:28:44 +0100
-Message-ID: <931fab73-3a91-fda0-4af3-b48a1ad3c742@tronnes.org>
-Date: Mon, 24 Jan 2022 17:28:41 +0100
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C86A510E1EC;
+ Mon, 24 Jan 2022 16:32:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643041931; x=1674577931;
+ h=message-id:subject:from:to:date:in-reply-to:references:
+ mime-version:content-transfer-encoding;
+ bh=ljYzMx7eashDoVWnX7UEqED4AmZeqIf5MfmoxULUtms=;
+ b=M8249KP/y/MinWFgoG6hv+mgrW+2FkfS8T/cmuQuh8+e03paiOVuR3W/
+ Y34gkCxxhtlRqwN9cxWf4vbUJ8AApl7u9vRwaxI7Wf1v5GHJ9HQJKk5uZ
+ IL6Ip9d+v71o4WiWAS2kgUBoUelbFNVKjORHAo3V3vw887RcmYT9SphaI
+ GmZ9wrJUhb7RGDoS6MKxjyhBvB8+NqlnmhK2qwKR2Szu3DI7EqhcD3wmq
+ 2mzX084AW0qIECSdw4sZf2g47TY9JZcbkdGSmhO/RQMG2bVSh/HIg8sd7
+ PoJMPy6h/vniMWqbPioDJ8a4MMnSJvfQPmhPYh2/J7EEmBWAZ4yvy8oPP g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="245867647"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="245867647"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2022 08:32:10 -0800
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="673676797"
+Received: from olindum-mobl1.ger.corp.intel.com (HELO [10.249.254.70])
+ ([10.249.254.70])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2022 08:32:08 -0800
+Message-ID: <5ad6f09f4b4ec5a3fe803c3d4811b10d13565d71.camel@linux.intel.com>
+Subject: Re: [PATCH 04/11] dma-buf: warn about dma_fence_array container
+ rules v2
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ sumit.semwal@linaro.org, gustavo@padovan.org, daniel.vetter@ffwll.ch, 
+ zackr@vmware.com, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  intel-gfx@lists.freedesktop.org
+Date: Mon, 24 Jan 2022 17:32:06 +0100
+In-Reply-To: <20220124130328.2376-5-christian.koenig@amd.com>
+References: <20220124130328.2376-1-christian.koenig@amd.com>
+ <20220124130328.2376-5-christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/3] dt-bindings: display: add bindings for MIPI DBI
- compatible SPI panels
-To: Rob Herring <robh+dt@kernel.org>, maxime@cerno.tech
-References: <20220123172520.48741-1-noralf@tronnes.org>
- <20220123172520.48741-2-noralf@tronnes.org>
- <CAL_JsqJU_WFeJDt5jqLN9BQN2j_TCf3+0hKvbNSYwmg-2DSF=Q@mail.gmail.com>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <CAL_JsqJU_WFeJDt5jqLN9BQN2j_TCf3+0hKvbNSYwmg-2DSF=Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,119 +62,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Den 24.01.2022 17.08, skrev Rob Herring:
-> On Sun, Jan 23, 2022 at 11:25 AM Noralf Trønnes <noralf@tronnes.org> wrote:
->>
->> Add binding for MIPI DBI compatible SPI panels.
+On Mon, 2022-01-24 at 14:03 +0100, Christian König wrote:
+> It's not allowed to nest another dma_fence container into a
+> dma_fence_array
+> or otherwise we can run into recursion.
 > 
-> I'm sure we already have MIPI DBI panels. What's this for?
+> Warn about that when we create a dma_fence_array.
 > 
-
-It aims to use one driver to cover all MIPI DBI panels where the
-controller setup is loaded from userspace in a firmware file. The cover
-letter points to the discussion where Maxime proposed this:
-
-https://lore.kernel.org/dri-devel/20211129093946.xhp22mvdut3m67sc@houat/
-
-Noralf.
-
->>
->> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
->> ---
->>  .../display/panel/panel-mipi-dbi-spi.yaml     | 69 +++++++++++++++++++
->>  1 file changed, 69 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
->> new file mode 100644
->> index 000000000000..d6c8accb045c
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
->> @@ -0,0 +1,69 @@
->> +# SPDX-License-Identifier: GPL-2.0-only
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/panel/panel-mipi-dbi-spi.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: MIPI DBI SPI Panels Device Tree Bindings
->> +
->> +maintainers:
->> +  - Noralf Trønnes <noralf@tronnes.org>
->> +
->> +description:
->> +  This binding is for display panels using a MIPI DBI controller
->> +  in SPI mode.
->> +
->> +allOf:
->> +  - $ref: panel/panel-common.yaml#
->> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    const: panel-mipi-dbi-spi
+> v2: fix comment style and typo in the warning pointed out by Thomas
 > 
-> Does the MIPI spec define how to power on a DBI panel with regulators,
-> enable/reset lines, etc. and all the timing constraints between those?
-> If not, then this compatible on its own is useless. It's fine as a
-> fallback if it's presence means the panel uses only standard DBI
-> commands and no vendor specific commands.
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+> ---
+>  drivers/dma-buf/dma-fence-array.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
->> +
->> +  model:
->> +    $ref: /schemas/types.yaml#/definitions/string
->> +    description: The name of the display panel.
->> +
->> +  write-only:
->> +    type: boolean
->> +    description:
->> +      Controller is not readable (ie. MISO is not wired up).
->> +
->> +  dc-gpios:
->> +    maxItems: 1
->> +    description: |
->> +      Controller data/command selection (D/CX) in 4-line SPI mode.
->> +      If not set, the controller is in 3-line SPI mode.
->> +
->> +  backlight: true
->> +  reg: true
->> +  reset-gpios: true
->> +
->> +required:
->> +  - compatible
->> +  - model
->> +  - reg
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    spi {
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +
->> +            display@0{
->> +                    compatible = "panel-mipi-dbi-spi";
->> +                    model = "sainsmart18";
->> +                    reg = <0>;
->> +                    spi-max-frequency = <40000000>;
->> +                    dc-gpios = <&gpio 24 GPIO_ACTIVE_HIGH>;
->> +                    reset-gpios = <&gpio 25 GPIO_ACTIVE_HIGH>;
->> +                    write-only;
->> +            };
->> +    };
->> +
->> +...
->> --
->> 2.33.0
->>
+> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-
+> fence-array.c
+> index 3e07f961e2f3..cb1bacb5a42b 100644
+> --- a/drivers/dma-buf/dma-fence-array.c
+> +++ b/drivers/dma-buf/dma-fence-array.c
+> @@ -176,6 +176,20 @@ struct dma_fence_array
+> *dma_fence_array_create(int num_fences,
+>  
+>         array->base.error = PENDING_ERROR;
+>  
+> +       /*
+> +        * dma_fence_array objects should never contain any other
+> fence
+> +        * containers or otherwise we run into recursion and
+> potential kernel
+> +        * stack overflow on operations on the dma_fence_array.
+> +        *
+> +        * The correct way of handling this is to flatten out the
+> array by the
+> +        * caller instead.
+> +        *
+> +        * Enforce this here by checking that we don't create a
+> dma_fence_array
+> +        * with any container inside.
+> +        */
+> +       while (num_fences--)
+> +               WARN_ON(dma_fence_is_container(fences[num_fences]));
+> +
+>         return array;
+>  }
+>  EXPORT_SYMBOL(dma_fence_array_create);
+
+
