@@ -2,62 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E3B497CEB
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 11:24:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E30497AF1
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 10:04:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3209610E872;
-	Mon, 24 Jan 2022 10:24:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BEFE10EDAA;
+	Mon, 24 Jan 2022 09:04:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E37510E505
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 22:34:20 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- o30-20020a05600c511e00b0034f4c3186f4so1884667wms.3
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 14:34:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bCNGUDQSGH9xNCol2x80NKTo+CZUhhFOnPlnY5tZ8U4=;
- b=O09zGu4YJvsZVDLdpbYBixQ9Q01D+m8PO80S2oO7EimAj6T8/ojDty/tqx7VEUDCQ4
- jlvqs9r4XBLOcVpl3E5m9krBnI9BuNHo3bAImqInXEBy5U/OGmVeUI2mToceOsuDXVm0
- oqSyIZEvnAWKCznuOu0lZb010kmzxZvaFwJp2hoNgAf/Z9U1uEnxqeSeRy85U6c+qn43
- D7xa2Wgu+oZ15PYhD+qZc+TM2NILKNEUod7Al4ZRX+JRLv3rvFtSm2XaxfOfh//vLotG
- MrMQXAu+21B8dbu79Tf2kaAIBEH4p+/k+E5si5Ql9yBPa+mPakV16OyJtObAVqfZJjYE
- m+oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bCNGUDQSGH9xNCol2x80NKTo+CZUhhFOnPlnY5tZ8U4=;
- b=lVLESAfdzUjLH+uoOyWV8BWgRdUw/h6MYdaF06ySh+lwf79cyaUrhJlTjpKFBDn+iN
- Fp5oVv27IK/bsXuGbXucwYTPJhgnAZEkpT1hNrwcDKGJPOAavYEj42qccdHnjuRbKdJ3
- SsHdUejrzpQ+84JQyJ65v+fIIBFuEL83kHh8rsL8mMD0XUFJgUBb67+VqxbPZydmOq4q
- HfIQUYDKNQTxL0KKaN7LsmYMygMoskT7wbSuFaFRTeRze2ieAPuJP0HK7xOlF0TDlONV
- ++e7csprEmrcv/l2v4ZmMNYDdJVsyXTO25kokRC8jFB4NnYku0mxMwg2FMfTY7cm6jYW
- T1+w==
-X-Gm-Message-State: AOAM531A3uYh5nxlhp9yBVZdkgMAHt7IV/vVMGWOpJ3y9vwN7q8WFdgV
- XcBJfd7yh1f7gswP1w/pJE4=
-X-Google-Smtp-Source: ABdhPJyRaNf2iwoq+Ye3fLdAxsVjpnS+gubpY+VSE0HaMIOQ2x9sh04f0onyuvQdU6o5q5XMUQiquA==
-X-Received: by 2002:a1c:256:: with SMTP id 83mr9487342wmc.166.1642977258810;
- Sun, 23 Jan 2022 14:34:18 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194])
- by smtp.gmail.com with ESMTPSA id o5sm17681375wmq.21.2022.01.23.14.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jan 2022 14:34:18 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/imx: make static read-only array channel_offsets const
-Date: Sun, 23 Jan 2022 22:34:17 +0000
-Message-Id: <20220123223417.6244-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.33.1
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 839E210EDA9;
+ Mon, 24 Jan 2022 09:04:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643015052; x=1674551052;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uihijiEqKyBj5j8bBRv+t2EXae9PPZWXlfEE9dkQAJw=;
+ b=fNQpjCecsEzGBy790xM+HO5YgBrGemZnaZh3tkUE9gjcwN1wPJZCptql
+ wQ4nSjunIakZjgwL6E4ooEh3Cg8kiPfcr6KR2VUZufJqO7XDpZfrK7uLx
+ C56cq31ypyrTy92b0AwltccrO8fwm28l/CVXbe5+vW4sRMNOFrfTYERku
+ HD3+i1ePFY/LkTij0rdXJyIEAgd8uF9Ume0jyXUYpxppMos+6T0th71ZZ
+ 0y4f238FxlzI9AOStSUisjBn8UORp/fIwm0c7FXUiPLSzxjvURvcvOIf3
+ MYLmDA8exFITrVbXqpV0QGBWJf4LOpuwQiv6l+BKLzZTXIhW0EEHE/weQ Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="245782013"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="245782013"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2022 01:04:10 -0800
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="479001891"
+Received: from olegmak-mobl.ccr.corp.intel.com (HELO intel.com)
+ ([10.252.51.85])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2022 01:04:07 -0800
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v2] drm/i915: fix header file inclusion for might_alloc()
+Date: Mon, 24 Jan 2022 11:03:44 +0200
+Message-Id: <20220124090344.1791-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 24 Jan 2022 10:24:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,34 +56,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Andi Shyti <andi@etezian.org>, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The static array channel_offsets is read-only so it make sense to make
-it const.
+Replace "linux/slab.h" with "linux/sched/mm.h" header inclusion
+as the first is not required, while the second, if not included,
+prdouces the following error:
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+drivers/gpu/drm/i915/i915_vma_resource.c: In function ‘i915_vma_resource_bind_dep_await’:
+drivers/gpu/drm/i915/i915_vma_resource.c:381:9: error: implicit declaration of function ‘might_alloc’; did you mean ‘might_lock’? [-Werror=implicit-function-declaration]
+  381 |         might_alloc(gfp);
+      |         ^~~~~~~~~~~
+      |         might_lock
+
+Fixes: 2f6b90da9192 ("drm/i915: Use vma resources for async unbinding")
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/ipu-v3/ipu-dc.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Hi,
 
-diff --git a/drivers/gpu/ipu-v3/ipu-dc.c b/drivers/gpu/ipu-v3/ipu-dc.c
-index ca96b235491a..b038a6d7307b 100644
---- a/drivers/gpu/ipu-v3/ipu-dc.c
-+++ b/drivers/gpu/ipu-v3/ipu-dc.c
-@@ -344,8 +344,9 @@ int ipu_dc_init(struct ipu_soc *ipu, struct device *dev,
- 		unsigned long base, unsigned long template_base)
- {
- 	struct ipu_dc_priv *priv;
--	static int channel_offsets[] = { 0, 0x1c, 0x38, 0x54, 0x58, 0x5c,
--		0x78, 0, 0x94, 0xb4};
-+	static const int channel_offsets[] = {
-+		0, 0x1c, 0x38, 0x54, 0x58, 0x5c, 0x78, 0, 0x94, 0xb4
-+	};
- 	int i;
+in V2 I just added the Fixes tag (I think I got the right commit)
+and added Thomas r-b.
+
+Andi
+
+ drivers/gpu/drm/i915/i915_vma_resource.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_vma_resource.c b/drivers/gpu/drm/i915/i915_vma_resource.c
+index 1f41c0c699eb..bbb0ff14272f 100644
+--- a/drivers/gpu/drm/i915/i915_vma_resource.c
++++ b/drivers/gpu/drm/i915/i915_vma_resource.c
+@@ -4,7 +4,7 @@
+  */
  
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+ #include <linux/interval_tree_generic.h>
+-#include <linux/slab.h>
++#include <linux/sched/mm.h>
+ 
+ #include "i915_sw_fence.h"
+ #include "i915_vma_resource.h"
 -- 
-2.33.1
+2.34.1
 
