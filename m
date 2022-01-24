@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789FB49AE60
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 09:49:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E04149AE64
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 09:49:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2BA110EDE9;
-	Tue, 25 Jan 2022 08:48:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE8E310EDEA;
+	Tue, 25 Jan 2022 08:49:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
- Mon, 24 Jan 2022 15:28:50 UTC
-Received: from h02mx15.reliablemail.org (h02mx15.reliablemail.org
- [185.76.66.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2657B10E1B8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 15:28:49 +0000 (UTC)
-X-Halon-Out: 79ad58c3-7d29-11ec-930f-f5be715b97e5
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=grimler.se; 
- s=default;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=e9Lg4dhVGMbQ5xMPuQv5VxS25dUYKwL5nMS2Ac0GJbY=; b=U1aYMiVz3R8LLf4iUkahvuH4im
- adgSdvpYMTF7yKWVhU4dfOR8lZdqoYVGxZmtzTsJKno9LwyvuEW4BAC51J+zmIVDxL10VXhyUkKTE
- pdJ+NrNjslNV+Uzap5BnRQsctue6OvxrKLxgycB/II+T7S5O/kOQQrzLfCKalZtunjSvZPAKYm1ND
- DaxlhdTXadbTR0zNWKpcR9LCl/m/2OaLu6hq2WnJcIy/2xMgvYawCpZc7Cqk9qQmBCSSRajO+3/wr
- hfvRgRW6EtpudGS8QOBW5pXd3p8XQYnUeT7qXMj7gNxc3b5eMJcDsn6gLrWQ3aJXE21XFMg74aCQC
- 9AJNnl1g==;
-Date: Mon, 24 Jan 2022 16:22:41 +0100
-From: Henrik Grimler <henrik@grimler.se>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH] drm/exynos: Search for TE-gpio in DSI panel's node
-Message-ID: <Ye7EQRefzECSqVOe@grimlerstat>
-References: <CGME20220124135259eucas1p1ed3c76ef23d30afe620e06a419540c9e@eucas1p1.samsung.com>
- <20220124135246.6998-1-m.szyprowski@samsung.com>
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA3310EC77
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 15:23:50 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id u15so14241044wrt.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 07:23:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HoCKTXe73b6LRfZ2yfJRg1I4/082DZV6wf8n+3iyv3U=;
+ b=DXFMPQqZJ0tKT0e1GyjQjptwLQE+7cHPUKFQBr+FQZeLkkE77ifDs5YB3GOF2h2Seh
+ bgVGO7FGtiVNy3Mg062PsxfHEv95vu/7FuDahESCUCJFO1xZnM5iGo1upx+/pmKrvaB6
+ CSUStL3QD1cOCq8v/QVMbsKXpJs2to+BaJ6sFHSy/sLvqdOxY9TIlA8KUI4Jrj4Zarux
+ H3yY4uEjrAm5+t5Un+56XZMFQGrGxPIHVNdV9OMQtXbVEBu7Yd1EyCdR9Putf8JzYEQ7
+ 7zdN+Tdh+rSzq6KW5FsWt+yw5LYnZnrdPn/KOiBaoshGM3xl5+rV4Szbq/KKk17PP89m
+ 4qiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HoCKTXe73b6LRfZ2yfJRg1I4/082DZV6wf8n+3iyv3U=;
+ b=1rFyLiirYlXnCAYd6/BJy4OWEpL10VceYYtJFtxEhHIfWdJo37KV6qNdu9Hbg8KJm2
+ eUDlW4/IxqwCDnJswUFKabvQAKDQzck4kb/Zcz7J0Dr5ss6N8YR5yi2iA/k/aQrOsMtl
+ oAwjXQhssOqx+QhSXymiq3Ht08v5yIPcnADCVqIVvaFsJJyDXYauw/zGCYE3no8nO742
+ 06/1w+9b8qWoLPrGTvwJpsY/H838bZnZdZWXYYXj0zSTXP/JeihtKJNEGugeNiq3esEB
+ s8k50ehNxUaSdnGhGWT5FsqJdlQmMQ7xukJh15tMmjuh3vwywmrVLCde5VA3XPL6wB2g
+ KnJg==
+X-Gm-Message-State: AOAM533YPyZ2PGvS+x0E2+EhWI0vSgpJEzFfZxx1iF4/P22V4VX5AEMc
+ HvBNIMBgH87K3Rbd9lO3E/snYg==
+X-Google-Smtp-Source: ABdhPJwuOAaYhLMRPNPmkmjib9G4ImRHpSjbxVDsSwkT8tECvG6c7seMPvA24tjBSCj5SaEJ5QMa9Q==
+X-Received: by 2002:a5d:544c:: with SMTP id w12mr1825656wrv.47.1643037828828; 
+ Mon, 24 Jan 2022 07:23:48 -0800 (PST)
+Received: from localhost.localdomain (179.160.117.78.rev.sfr.net.
+ [78.117.160.179])
+ by smtp.gmail.com with ESMTPSA id p14sm3806868wmq.40.2022.01.24.07.23.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jan 2022 07:23:48 -0800 (PST)
+From: Julien STEPHAN <jstephan@baylibre.com>
+To: 
+Subject: [PATCH] drm/mediatek: allow commands to be sent during video mode
+Date: Mon, 24 Jan 2022 16:22:50 +0100
+Message-Id: <20220124152250.441809-1-jstephan@baylibre.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220124135246.6998-1-m.szyprowski@samsung.com>
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpsrv07.misshosting.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - grimler.se
-X-Get-Message-Sender-Via: cpsrv07.misshosting.com: authenticated_id:
- henrik@grimler.se
-X-Authenticated-Sender: cpsrv07.misshosting.com: henrik@grimler.se
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 25 Jan 2022 08:48:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,24 +68,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
+ "moderated list:DRM DRIVERS FOR MEDIATEK" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Julien STEPHAN <jstephan@baylibre.com>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+When the DSI is in video mode, all commands are rejected.
 
-On Mon, Jan 24, 2022 at 02:52:46PM +0100, Marek Szyprowski wrote:
-> TE-gpio, if defined, is placed in the panel's node, not the parent DSI
-> node. Change the devm_gpiod_get_optional() to gpiod_get_optional() and
-> pass proper device node to it. The code already has a proper cleanup
-> path, so it looks that the devm_* variant has been applied assidentally
-                                                             ~~~~~~~~~~~~
-Small observation: the spelling above should probably be    "accidentally".
+Detect current DSI mode in mtk_dsi_host_transfer() and switch modes
+temporarily to allow commands to be sent.
 
-> during the conversion to gpiod API.
+Signed-off-by: Julien STEPHAN <jstephan@baylibre.com>
+Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 34 ++++++++++++++++++++++--------
+ 1 file changed, 25 insertions(+), 9 deletions(-)
 
-Best regards,
-Henrik Grimler
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 5d90d2eb0019..7d66fdc7f81d 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -891,24 +891,34 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
+ 	u8 read_data[16];
+ 	void *src_addr;
+ 	u8 irq_flag = CMD_DONE_INT_FLAG;
+-
+-	if (readl(dsi->regs + DSI_MODE_CTRL) & MODE) {
+-		DRM_ERROR("dsi engine is not command mode\n");
+-		return -EINVAL;
++	u32 dsi_mode;
++
++	dsi_mode = readl(dsi->regs + DSI_MODE_CTRL);
++	if (dsi_mode & MODE) {
++		mtk_dsi_stop(dsi);
++		if (mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500)) {
++			recv_cnt = -EINVAL;
++			goto restore_dsi_mode;
++		}
+ 	}
+ 
+ 	if (MTK_DSI_HOST_IS_READ(msg->type))
+ 		irq_flag |= LPRX_RD_RDY_INT_FLAG;
+ 
+-	if (mtk_dsi_host_send_cmd(dsi, msg, irq_flag) < 0)
+-		return -ETIME;
++	if (mtk_dsi_host_send_cmd(dsi, msg, irq_flag) < 0) {
++		recv_cnt = -ETIME;
++		goto restore_dsi_mode;
++	}
+ 
+-	if (!MTK_DSI_HOST_IS_READ(msg->type))
+-		return 0;
++	if (!MTK_DSI_HOST_IS_READ(msg->type)) {
++		recv_cnt = 0;
++		goto restore_dsi_mode;
++	}
+ 
+ 	if (!msg->rx_buf) {
+ 		DRM_ERROR("dsi receive buffer size may be NULL\n");
+-		return -EINVAL;
++		recv_cnt = -EINVAL;
++		goto restore_dsi_mode;
+ 	}
+ 
+ 	for (i = 0; i < 16; i++)
+@@ -933,6 +943,12 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
+ 	DRM_INFO("dsi get %d byte data from the panel address(0x%x)\n",
+ 		 recv_cnt, *((u8 *)(msg->tx_buf)));
+ 
++restore_dsi_mode:
++	if (dsi_mode & MODE) {
++		mtk_dsi_set_mode(dsi);
++		mtk_dsi_start(dsi);
++	}
++
+ 	return recv_cnt;
+ }
+ 
+-- 
+2.34.1
+
