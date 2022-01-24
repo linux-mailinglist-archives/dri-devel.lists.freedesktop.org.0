@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6CF497F5D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 13:25:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 990C9497F63
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 13:25:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1E5C10E96F;
-	Mon, 24 Jan 2022 12:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0734610EA87;
+	Mon, 24 Jan 2022 12:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9021410E8BC
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 12:25:22 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id k18so13243982wrg.11
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 04:25:22 -0800 (PST)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C4F510E8BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 12:25:23 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id k18so13244043wrg.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 04:25:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=q8Sf4Nfn4+tnVtMGVUOZ7yPbmyDp/qlQ6cLWMQPWbVU=;
- b=ozTuLUU6RwpcDCM9DcjKTQ7+czMsCRTU2n29/Gpq2NqMT+zrAn1J2IP8ItaqvlP8uY
- 8x1nNNTFi2ZF4qxyTe/2mz5nNFPlojEqBs/IsPIq7DWZHiF53k+TvitSN7uJ/7sfxbge
- dL4BN/3wp85m26SwqR0/5qCUvcaqm3cgnQdlL5+BG5wbTByprp0GpAMuacbde1coEfMM
- bZDrLIypboN0OQMI13xzK9nBHf3m7nUsTQBwMalWH6h97ZU69tb/Lxvwr4xPji/iVLX0
- Y3W/6lbLU4U+29xsKDLc+ZS6kWjwsmpDthOOEPOqv+couvB+tCOYdeSifUgiOKKZizY9
- BByA==
+ bh=ypeiZpV86bu1C1eyehMZYIostfkHLRM2UAhnnAFqCmI=;
+ b=EkPOdEFEZf0j1qkBs5iBbOBUW46ulxjGaBLHcxCvJ7AKIhbeRPHAcGwirQOzI+LBhs
+ x1RnRNiG3yQB9NrtNbB6Ot4GiT2Af1EBjBUNuHlExX4AnyAsTu6VG055kHDrxCmjF9nC
+ 9CnVADFP8IV5lK+dSbvJyfnnugkrHC+2n3XJS4eEtAOHm00xR4EkFfaaR9SPZEaXbedv
+ vjA7qAqm5sfW6ujEa+Ei8NZYKdoUQ1bxeHzahk9wq/hNtp+vQh7R9VUNuP+U7jwDEUO0
+ kTXWVLVfqHbXtxL/NtHl/i3xL+p3kpHOd5zjZDD5V2JERdqSlUmR5ELv4+34MoUcVIPd
+ 6byQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=q8Sf4Nfn4+tnVtMGVUOZ7yPbmyDp/qlQ6cLWMQPWbVU=;
- b=R8IjHpV4vMBOeH/E0o6IcN+Dezl039wIgOXIedGsXxfKtagE4OT9xnAGghxbZvyqDK
- wjjcp8X3BRl1u2Ssa06BfblxHLjWt/azlggxZ7YP2zQsZNlBX6Knv1YwFoT8j679Ukl0
- Q9B+tJyQ9VpLmh6l8fKKri1jfBwjJUMZuyo2wgWco3Z7tmfcjgNXM1Vh57F08IYYiC7j
- DJ9osUSAiD+VXBzIcliq9DuagTsm9/O/km8sspfF22APjrZqAvHeFRYictFESfpVxuDT
- eUmDETKdDG/iTc0MpOdR9Vv9AvlhZ+zoFjabJmVK9OJtk5B/un6dXu7UlC7C5sny4kaN
- IOiA==
-X-Gm-Message-State: AOAM531+HR7X8szV9fHE8LPYSdWkFjlLTcarEn6fdgEE1RoQUu+W0/8w
- j2U+YwoLp3oYaxO/efrJZCc=
-X-Google-Smtp-Source: ABdhPJxT9twKoH8AlzmbFNCgXOG6chkM1ZT9wvy3Ondpy7GfUS7XlosuN2VECmry7kxDd/bwdzkG9g==
-X-Received: by 2002:adf:d1ef:: with SMTP id g15mr7729136wrd.440.1643027121170; 
+ bh=ypeiZpV86bu1C1eyehMZYIostfkHLRM2UAhnnAFqCmI=;
+ b=cOkEa/0+3dudZSm8ePYKcchHVa6F7n627hI4+RnvHfMCjJtC0RAOndMlAPyb52D/ON
+ 4cUqn6TYCUH8tmwWsDKPL5Xl1P/O0OogMBJdlWqiigk6WgdHYLu7jLOq/qLTJ2W4gZqb
+ gm7BOXCVzsc9lXdwi1x4OccQhpcsA4Q9sGlj+HADsLQ414LDWzijeQ3QTaw15BEaVaM+
+ mALIz/x1WNaEYCiHtRaw3Y5VH2N71kslOwc4xfs95ePULIl56QNQnkDXUWljKpcssv5s
+ mACQg3EGpeuTWW1Nq6aLlCLM+ASqDBccQ0c17urkVe+7saJWY8mQ0AG/h60izUkx5LEr
+ UL0Q==
+X-Gm-Message-State: AOAM5328/vDkz8rDicPxapg2gLoOWHW5hhc3I/TjGeZd5AzCViu6eUVI
+ h2wShWNgLjBrI5y/dfUOdTZA7pmHE9Q=
+X-Google-Smtp-Source: ABdhPJwfO+nJmIVuz18434aXfdFq8pIwE6CvAC8E1xCpN77kthuX9KY9ogeRHeuM6myB3r5y54XA/w==
+X-Received: by 2002:a05:6000:15c9:: with SMTP id
+ y9mr9801179wry.121.1643027121914; 
  Mon, 24 Jan 2022 04:25:21 -0800 (PST)
 Received: from abel.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
- by smtp.gmail.com with ESMTPSA id 1sm12830516wmo.37.2022.01.24.04.25.20
+ by smtp.gmail.com with ESMTPSA id 1sm12830516wmo.37.2022.01.24.04.25.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jan 2022 04:25:20 -0800 (PST)
+ Mon, 24 Jan 2022 04:25:21 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: ray.huang@amd.com, thomas.hellstrom@linux.intel.com,
  dri-devel@lists.freedesktop.org, bas@basnieuwenhuizen.nl
-Subject: [PATCH 06/12] drm/ttm: add resource iterator
-Date: Mon, 24 Jan 2022 13:25:08 +0100
-Message-Id: <20220124122514.1832-7-christian.koenig@amd.com>
+Subject: [PATCH 07/12] drm/radeon: remove resource accounting
+Date: Mon, 24 Jan 2022 13:25:09 +0100
+Message-Id: <20220124122514.1832-8-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220124122514.1832-1-christian.koenig@amd.com>
 References: <20220124122514.1832-1-christian.koenig@amd.com>
@@ -74,220 +75,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of duplicating that at different places add an iterator over all
-the resources in a resource manager.
+Use the one provided by TTM instead.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c       | 41 +++++++++++----------------
- drivers/gpu/drm/ttm/ttm_device.c   | 26 ++++++++---------
- drivers/gpu/drm/ttm/ttm_resource.c | 45 ++++++++++++++++++++++++++++++
- include/drm/ttm/ttm_resource.h     | 23 +++++++++++++++
- 4 files changed, 95 insertions(+), 40 deletions(-)
+ drivers/gpu/drm/radeon/radeon.h        |  2 --
+ drivers/gpu/drm/radeon/radeon_kms.c    |  7 ++++--
+ drivers/gpu/drm/radeon/radeon_object.c | 30 +++-----------------------
+ drivers/gpu/drm/radeon/radeon_object.h |  1 -
+ drivers/gpu/drm/radeon/radeon_ttm.c    | 18 ++--------------
+ 5 files changed, 10 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index cb0fa932d495..599be3dda8a9 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -579,38 +579,29 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
- 			struct ww_acquire_ctx *ticket)
+diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+index 895776c421d4..08f83bf2c330 100644
+--- a/drivers/gpu/drm/radeon/radeon.h
++++ b/drivers/gpu/drm/radeon/radeon.h
+@@ -2462,8 +2462,6 @@ struct radeon_device {
+ 	struct radeon_vm_manager	vm_manager;
+ 	struct mutex			gpu_clock_mutex;
+ 	/* memory stats */
+-	atomic64_t			vram_usage;
+-	atomic64_t			gtt_usage;
+ 	atomic64_t			num_bytes_moved;
+ 	atomic_t			gpu_reset_counter;
+ 	/* ACPI interface */
+diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
+index 7afe28408085..3a9226d0cb05 100644
+--- a/drivers/gpu/drm/radeon/radeon_kms.c
++++ b/drivers/gpu/drm/radeon/radeon_kms.c
+@@ -241,6 +241,7 @@ int radeon_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+ 	struct drm_radeon_info *info = data;
+ 	struct radeon_mode_info *minfo = &rdev->mode_info;
+ 	uint32_t *value, value_tmp, *value_ptr, value_size;
++	struct ttm_resource_manager *man;
+ 	uint64_t value64;
+ 	struct drm_crtc *crtc;
+ 	int i, found;
+@@ -550,12 +551,14 @@ int radeon_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+ 	case RADEON_INFO_VRAM_USAGE:
+ 		value = (uint32_t*)&value64;
+ 		value_size = sizeof(uint64_t);
+-		value64 = atomic64_read(&rdev->vram_usage);
++		man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM);
++		value64 = ttm_resource_manager_usage(man);
+ 		break;
+ 	case RADEON_INFO_GTT_USAGE:
+ 		value = (uint32_t*)&value64;
+ 		value_size = sizeof(uint64_t);
+-		value64 = atomic64_read(&rdev->gtt_usage);
++		man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_TT);
++		value64 = ttm_resource_manager_usage(man);
+ 		break;
+ 	case RADEON_INFO_ACTIVE_CU_COUNT:
+ 		if (rdev->family >= CHIP_BONAIRE)
+diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+index 56ede9d63b12..c9bbed2a25ad 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.c
++++ b/drivers/gpu/drm/radeon/radeon_object.c
+@@ -49,27 +49,6 @@ static void radeon_bo_clear_surface_reg(struct radeon_bo *bo);
+  * function are calling it.
+  */
+ 
+-static void radeon_update_memory_usage(struct ttm_buffer_object *bo,
+-				       unsigned int mem_type, int sign)
+-{
+-	struct radeon_device *rdev = radeon_get_rdev(bo->bdev);
+-
+-	switch (mem_type) {
+-	case TTM_PL_TT:
+-		if (sign > 0)
+-			atomic64_add(bo->base.size, &rdev->gtt_usage);
+-		else
+-			atomic64_sub(bo->base.size, &rdev->gtt_usage);
+-		break;
+-	case TTM_PL_VRAM:
+-		if (sign > 0)
+-			atomic64_add(bo->base.size, &rdev->vram_usage);
+-		else
+-			atomic64_sub(bo->base.size, &rdev->vram_usage);
+-		break;
+-	}
+-}
+-
+ static void radeon_ttm_bo_destroy(struct ttm_buffer_object *tbo)
  {
- 	struct ttm_buffer_object *bo = NULL, *busy_bo = NULL;
-+	struct ttm_resource_cursor cursor;
- 	struct ttm_resource *res;
- 	bool locked = false;
--	unsigned i;
- 	int ret;
- 
- 	spin_lock(&bdev->lru_lock);
--	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
--		list_for_each_entry(res, &man->lru[i], lru) {
--			bool busy;
--
--			bo = res->bo;
--			if (!ttm_bo_evict_swapout_allowable(bo, ctx, place,
--							    &locked, &busy)) {
--				if (busy && !busy_bo && ticket !=
--				    dma_resv_locking_ctx(bo->base.resv))
--					busy_bo = bo;
--				continue;
--			}
--
--			if (!ttm_bo_get_unless_zero(bo)) {
--				if (locked)
--					dma_resv_unlock(bo->base.resv);
--				continue;
--			}
--			break;
-+	ttm_resource_manager_for_each_res(man, &cursor, res) {
-+		bool busy;
-+
-+		if (!ttm_bo_evict_swapout_allowable(res->bo, ctx, place,
-+						    &locked, &busy)) {
-+			if (busy && !busy_bo && ticket !=
-+			    dma_resv_locking_ctx(bo->base.resv))
-+				busy_bo = res->bo;
-+			continue;
- 		}
- 
--		/* If the inner loop terminated early, we have our candidate */
--		if (&res->lru != &man->lru[i])
--			break;
--
--		bo = NULL;
-+		if (!ttm_bo_get_unless_zero(res->bo)) {
-+			if (locked)
-+				dma_resv_unlock(res->bo->base.resv);
-+			continue;
-+		}
-+		bo = res->bo;
- 	}
- 
- 	if (!bo) {
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index ba35887147ba..a0562ab386f5 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -142,10 +142,10 @@ EXPORT_SYMBOL(ttm_global_swapout);
- int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
- 		       gfp_t gfp_flags)
+ 	struct radeon_bo *bo;
+@@ -434,7 +413,9 @@ void radeon_bo_fini(struct radeon_device *rdev)
+ static u64 radeon_bo_get_threshold_for_moves(struct radeon_device *rdev)
  {
-+	struct ttm_resource_cursor cursor;
- 	struct ttm_resource_manager *man;
--	struct ttm_buffer_object *bo;
- 	struct ttm_resource *res;
--	unsigned i, j;
-+	unsigned i;
- 	int ret;
+ 	u64 real_vram_size = rdev->mc.real_vram_size;
+-	u64 vram_usage = atomic64_read(&rdev->vram_usage);
++	struct ttm_resource_manager *man =
++		ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM);
++	u64 vram_usage = ttm_resource_manager_usage(man);
  
- 	spin_lock(&bdev->lru_lock);
-@@ -154,20 +154,16 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
- 		if (!man || !man->use_tt)
- 			continue;
- 
--		for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j) {
--			list_for_each_entry(res, &man->lru[j], lru) {
--				uint32_t num_pages;
--
--				bo = res->bo;
--				num_pages = PFN_UP(bo->base.size);
-+		ttm_resource_manager_for_each_res(man, &cursor, res) {
-+			struct ttm_buffer_object *bo = res->bo;
-+			uint32_t num_pages = PFN_UP(bo->base.size);
- 
--				ret = ttm_bo_swapout(bo, ctx, gfp_flags);
--				/* ttm_bo_swapout has dropped the lru_lock */
--				if (!ret)
--					return num_pages;
--				if (ret != -EBUSY)
--					return ret;
--			}
-+			ret = ttm_bo_swapout(bo, ctx, gfp_flags);
-+			/* ttm_bo_swapout has dropped the lru_lock */
-+			if (!ret)
-+				return num_pages;
-+			if (ret != -EBUSY)
-+				return ret;
- 		}
- 	}
- 	spin_unlock(&bdev->lru_lock);
-diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index 450e665c357b..9e68d36a1546 100644
---- a/drivers/gpu/drm/ttm/ttm_resource.c
-+++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -354,6 +354,51 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+ 	/* This function is based on the current VRAM usage.
+ 	 *
+@@ -725,15 +706,10 @@ int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
  }
- EXPORT_SYMBOL(ttm_resource_manager_debug);
  
-+/**
-+ * ttm_resource_manager_first
-+ *
-+ * @man: resource manager to iterate over
-+ * @cursor: cursor to record the position
-+ *
-+ * Returns the first resource from the resource manager.
-+ */
-+struct ttm_resource *
-+ttm_resource_manager_first(struct ttm_resource_manager *man,
-+			   struct ttm_resource_cursor *cursor)
-+{
-+	struct ttm_resource *res;
-+
-+	for (cursor->priority = 0; cursor->priority < TTM_MAX_BO_PRIORITY;
-+	     ++cursor->priority)
-+		list_for_each_entry(res, &man->lru[cursor->priority], lru)
-+			return res;
-+
-+	return NULL;
-+}
-+
-+/**
-+ * ttm_resource_manager_next
-+ *
-+ * @man: resource manager to iterate over
-+ * @cursor: cursor to record the position
-+ *
-+ * Returns the next resource from the resource manager.
-+ */
-+struct ttm_resource *
-+ttm_resource_manager_next(struct ttm_resource_manager *man,
-+			  struct ttm_resource_cursor *cursor,
-+			  struct ttm_resource *res)
-+{
-+	list_for_each_entry_continue(res, &man->lru[cursor->priority], lru)
-+		return res;
-+
-+	for (; cursor->priority < TTM_MAX_BO_PRIORITY; ++cursor->priority)
-+		list_for_each_entry(res, &man->lru[cursor->priority], lru)
-+			return res;
-+
-+	return NULL;
-+}
-+
- static void ttm_kmap_iter_iomap_map_local(struct ttm_kmap_iter *iter,
- 					  struct dma_buf_map *dmap,
- 					  pgoff_t i)
-diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index a54d52517a30..13da5e337350 100644
---- a/include/drm/ttm/ttm_resource.h
-+++ b/include/drm/ttm/ttm_resource.h
-@@ -183,6 +183,17 @@ struct ttm_resource {
- 	struct list_head lru;
+ void radeon_bo_move_notify(struct ttm_buffer_object *bo,
+-			   unsigned int old_type,
+ 			   struct ttm_resource *new_mem)
+ {
+ 	struct radeon_bo *rbo;
+ 
+-	radeon_update_memory_usage(bo, old_type, -1);
+-	if (new_mem)
+-		radeon_update_memory_usage(bo, new_mem->mem_type, 1);
+-
+ 	if (!radeon_ttm_bo_is_radeon_bo(bo))
+ 		return;
+ 
+diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
+index 1afc7992ef91..0b64e202577b 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.h
++++ b/drivers/gpu/drm/radeon/radeon_object.h
+@@ -161,7 +161,6 @@ extern void radeon_bo_get_tiling_flags(struct radeon_bo *bo,
+ extern int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
+ 				bool force_drop);
+ extern void radeon_bo_move_notify(struct ttm_buffer_object *bo,
+-				  unsigned int old_type,
+ 				  struct ttm_resource *new_mem);
+ extern vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo);
+ extern int radeon_bo_get_surface_reg(struct radeon_bo *bo);
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 0d1283cdc8fb..ae09a91a486a 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -199,7 +199,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	struct ttm_resource *old_mem = bo->resource;
+ 	struct radeon_device *rdev;
+ 	struct radeon_bo *rbo;
+-	int r, old_type;
++	int r;
+ 
+ 	if (new_mem->mem_type == TTM_PL_TT) {
+ 		r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, new_mem);
+@@ -216,9 +216,6 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	if (WARN_ON_ONCE(rbo->tbo.pin_count > 0))
+ 		return -EINVAL;
+ 
+-	/* Save old type for statistics update */
+-	old_type = old_mem->mem_type;
+-
+ 	rdev = radeon_get_rdev(bo->bdev);
+ 	if (old_mem->mem_type == TTM_PL_SYSTEM && bo->ttm == NULL) {
+ 		ttm_bo_move_null(bo, new_mem);
+@@ -264,7 +261,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ out:
+ 	/* update statistics */
+ 	atomic64_add(bo->base.size, &rdev->num_bytes_moved);
+-	radeon_bo_move_notify(bo, old_type, new_mem);
++	radeon_bo_move_notify(bo, new_mem);
+ 	return 0;
+ }
+ 
+@@ -679,16 +676,6 @@ bool radeon_ttm_tt_is_readonly(struct radeon_device *rdev,
+ 	return !!(gtt->userflags & RADEON_GEM_USERPTR_READONLY);
+ }
+ 
+-static void
+-radeon_bo_delete_mem_notify(struct ttm_buffer_object *bo)
+-{
+-	unsigned int old_type = TTM_PL_SYSTEM;
+-
+-	if (bo->resource)
+-		old_type = bo->resource->mem_type;
+-	radeon_bo_move_notify(bo, old_type, NULL);
+-}
+-
+ static struct ttm_device_funcs radeon_bo_driver = {
+ 	.ttm_tt_create = &radeon_ttm_tt_create,
+ 	.ttm_tt_populate = &radeon_ttm_tt_populate,
+@@ -697,7 +684,6 @@ static struct ttm_device_funcs radeon_bo_driver = {
+ 	.eviction_valuable = ttm_bo_eviction_valuable,
+ 	.evict_flags = &radeon_evict_flags,
+ 	.move = &radeon_bo_move,
+-	.delete_mem_notify = &radeon_bo_delete_mem_notify,
+ 	.io_mem_reserve = &radeon_ttm_io_mem_reserve,
  };
  
-+/**
-+ * struct ttm_resource_cursor
-+ *
-+ * @priority: the current priority
-+ *
-+ * Cursor to iterate over the resources in a manager.
-+ */
-+struct ttm_resource_cursor {
-+	unsigned int priority;
-+};
-+
- /**
-  * struct ttm_lru_bulk_move_pos
-  *
-@@ -339,6 +350,18 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
- void ttm_resource_manager_debug(struct ttm_resource_manager *man,
- 				struct drm_printer *p);
- 
-+struct ttm_resource *
-+ttm_resource_manager_first(struct ttm_resource_manager *man,
-+			   struct ttm_resource_cursor *cursor);
-+struct ttm_resource *
-+ttm_resource_manager_next(struct ttm_resource_manager *man,
-+			  struct ttm_resource_cursor *cursor,
-+			  struct ttm_resource *res);
-+
-+#define ttm_resource_manager_for_each_res(man, cursor, res)		\
-+	for (res = ttm_resource_manager_first(man, cursor); res;	\
-+	     res = ttm_resource_manager_next(man, cursor, res))
-+
- struct ttm_kmap_iter *
- ttm_kmap_iter_iomap_init(struct ttm_kmap_iter_iomap *iter_io,
- 			 struct io_mapping *iomap,
 -- 
 2.25.1
 
