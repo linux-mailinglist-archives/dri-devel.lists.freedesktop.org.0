@@ -1,52 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8255049AE63
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 09:49:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 789FB49AE60
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 09:49:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7C7910E8C7;
-	Tue, 25 Jan 2022 08:49:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2BA110EDE9;
+	Tue, 25 Jan 2022 08:48:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA1A10E173
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 12:34:06 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id o12so20954946eju.13
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 04:34:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=CHqIugJrPLFsukTue/TinKnkB8E3nJprHe9YzWx1/9c=;
- b=B05VsIY0rE+hqu9HCcnW0X0Q/zbZkzqIamBRPgdYPOPSTMAmsHDzUFFrOMxfU49Rau
- m2UziChm9BP785ufsJ+s4fCzNeIRYkWXCC9Qz3uXmm5eaFQHpVB0oyxQ2VK+zdiik2+t
- rs7iPUWYiKg97K/SUEQ72AYpyagudt9INdN7JJx13w4h30s462/7UE3G8GPcLHaFAz+V
- /SXjYanaWpRYXyexxoJkkpi0/W0utGc4W53Jju2za1KGDCUzF8qQKQJdg85TBSzoYBPQ
- PeLhuijNVOdmPSSoWXuYk1eYqaHEytIo2XCaWQ6Nzax6joQWpQaPzBXUmhD2O5IOrLPV
- cjYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=CHqIugJrPLFsukTue/TinKnkB8E3nJprHe9YzWx1/9c=;
- b=3o40Cgq/Ty4jQGuNkB7nc86ZxgtYwkLV8/eLRW8XMNzU/uvf6QD1i+Vjm2fh0oLTOj
- cBqAl8Jkm+NznkV8IGUOQdOTCC+P6yLlteYX0kb4YNW/NDKquPaL+cgSeINo7VYoBFgU
- 0O3w2plXSnSwKjmAmGYWdOfwQHjgqW27m5gwC8Q8x9VfzLQKENE59jnZvNvvioJ6NKn4
- VCqaSBJQbUv3tObN6HOysYWRyKFpmdE3Vnu+79rKQnj33qq9y18TGjjseH0jacNA0WAb
- kSIOwlzRXSGY2wcIu+WGUVZKfbSociRWI0yDXJ2QzDWqgl9c1BUZz7lppM/Jq0UP5+SA
- ZT+Q==
-X-Gm-Message-State: AOAM532uAXmHd0se2C208spaMcbiaKBBh3yQ4Uw0Ma9HqaOxWM/DOZf2
- L0TgJtbWyJ30NYLihjT8rHqRG2MmJNTQHU+X00yIYZBysrI=
-X-Google-Smtp-Source: ABdhPJxTcs1R/YHtjIijUkUCYzFaLvmXaMTtRwWZK6Z2FB4mO1m+OaWHGv0KRH9QvqNdOYAkT6wEKYRhAjm6Sjo70Z8=
-X-Received: by 2002:a17:907:869e:: with SMTP id
- qa30mr12250838ejc.137.1643027645018; 
- Mon, 24 Jan 2022 04:34:05 -0800 (PST)
+X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
+ Mon, 24 Jan 2022 15:28:50 UTC
+Received: from h02mx15.reliablemail.org (h02mx15.reliablemail.org
+ [185.76.66.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2657B10E1B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 15:28:49 +0000 (UTC)
+X-Halon-Out: 79ad58c3-7d29-11ec-930f-f5be715b97e5
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=grimler.se; 
+ s=default;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=e9Lg4dhVGMbQ5xMPuQv5VxS25dUYKwL5nMS2Ac0GJbY=; b=U1aYMiVz3R8LLf4iUkahvuH4im
+ adgSdvpYMTF7yKWVhU4dfOR8lZdqoYVGxZmtzTsJKno9LwyvuEW4BAC51J+zmIVDxL10VXhyUkKTE
+ pdJ+NrNjslNV+Uzap5BnRQsctue6OvxrKLxgycB/II+T7S5O/kOQQrzLfCKalZtunjSvZPAKYm1ND
+ DaxlhdTXadbTR0zNWKpcR9LCl/m/2OaLu6hq2WnJcIy/2xMgvYawCpZc7Cqk9qQmBCSSRajO+3/wr
+ hfvRgRW6EtpudGS8QOBW5pXd3p8XQYnUeT7qXMj7gNxc3b5eMJcDsn6gLrWQ3aJXE21XFMg74aCQC
+ 9AJNnl1g==;
+Date: Mon, 24 Jan 2022 16:22:41 +0100
+From: Henrik Grimler <henrik@grimler.se>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH] drm/exynos: Search for TE-gpio in DSI panel's node
+Message-ID: <Ye7EQRefzECSqVOe@grimlerstat>
+References: <CGME20220124135259eucas1p1ed3c76ef23d30afe620e06a419540c9e@eucas1p1.samsung.com>
+ <20220124135246.6998-1-m.szyprowski@samsung.com>
 MIME-Version: 1.0
-From: obiwac <obiwac@gmail.com>
-Date: Mon, 24 Jan 2022 13:33:54 +0100
-Message-ID: <CAN8-kNWW-tPUgNCt1+yEk5iEpP3hGCQBn13LUhvAaz6esY0Ydw@mail.gmail.com>
-Subject: EGL: creating image from X11 pixmap (sometimes) very slow
-To: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220124135246.6998-1-m.szyprowski@samsung.com>
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpsrv07.misshosting.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - grimler.se
+X-Get-Message-Sender-Via: cpsrv07.misshosting.com: authenticated_id:
+ henrik@grimler.se
+X-Authenticated-Sender: cpsrv07.misshosting.com: henrik@grimler.se
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-Mailman-Approved-At: Tue, 25 Jan 2022 08:48:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,67 +65,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-samsung-soc@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey!
+Hi Marek,
 
-Truly, idk if this is the right sort of place to ask, but it seems to
-be the most appropriate (I was redirected here from the dead
-dri-egl@lists.freedesktop.org mailing list). Feel free to point me
-somewhere else if this isn't where I should be asking this question!
+On Mon, Jan 24, 2022 at 02:52:46PM +0100, Marek Szyprowski wrote:
+> TE-gpio, if defined, is placed in the panel's node, not the parent DSI
+> node. Change the devm_gpiod_get_optional() to gpiod_get_optional() and
+> pass proper device node to it. The code already has a proper cleanup
+> path, so it looks that the devm_* variant has been applied assidentally
+                                                             ~~~~~~~~~~~~
+Small observation: the spelling above should probably be    "accidentally".
 
-I'm working on an X11 compositor using EGL, and I'm creating an
-EGLImage from a native pixmap something like this:
+> during the conversion to gpiod API.
 
-xcb_pixmap_t pixmap = xcb_generate_id(connection);
-xcb_void_cookie_t cookie =
-xcb_composite_name_window_pixmap_checked(connection, win, pixmap);
-
-if (xcb_request_check(connection, cookie)) {
-    goto error;
-}
-
-EGLImage image = eglCreateImageKHR(egl_display, EGL_NO_CONTEXT,
-EGL_NATIVE_PIXMAP_KHR, (EGLClientBuffer) (intptr_t) pixmap, NULL);
-
-(Using the EGL_KHR_image_pixmap extension:
-https://www.khronos.org/registry/EGL/extensions/KHR/EGL_KHR_image_base.txt)
-
-Which I'm then binding to a texture a little something like this:
-
-GLuint texture;
-glGenTextures(1, &texture);
-
-glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture);
-glEGLImageTargetTexture2DOES(GL_TEXTURE_EXTERNAL_OES, image);
-
-(Using the OES_EGL_image_external extension:
-https://www.khronos.org/registry/OpenGL/extensions/OES/OES_EGL_image_external.txt)
-(Naturally my actual code isn't actually generating a new texture each
-time; I'm showing it as such in the interest of simplicity.)
-
-I'm doing it with OES_EGL_image_external because
-EGL_BIND_TO_TEXTURE_RGB(A) seems to have been deprecated by NVIDIA
-(?): https://forums.developer.nvidia.com/t/egl-bind-to-texture-rgba-attribute-always-false/58676
-This isn't reflected in the Khronos EGL registry for whatever reason
-so I'm unsure.
-
-Anyway, this all works fine & dandy, except that eglCreateImageKHR is
-sometimes *really* slow.
-Like, it works fine mostly, but with some windows (especially GLX
-windows), there's often times a multi-frame delay.
-Since AFAICT image creation can only be done on the main OpenGL
-thread, it slows down all the other animations and whatnot of my
-compositor, which is very much unideal.
-
-I've tried churning my way through the source code of various
-compositors (well, I couldn't really find many which used EGL
-specifically, but GLX has a similar problem with glXBindTexImageEXT),
-and, aside from the ones which are too opaque for me to understand, I
-don't really see how they're doing things much differently.
-Obviously however it's something I'm doing wrong/missing, because
-those other compositors are perfectly speedy.
-
-I'd be very grateful if somebody could shed a little light on this issue!
-Have a wonderful day!
+Best regards,
+Henrik Grimler
