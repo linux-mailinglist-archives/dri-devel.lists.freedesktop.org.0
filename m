@@ -1,58 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C244F4983CE
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 16:49:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA014983D0
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 16:50:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9C610E1DA;
-	Mon, 24 Jan 2022 15:49:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3C8810E211;
+	Mon, 24 Jan 2022 15:50:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 368E710E18F;
- Mon, 24 Jan 2022 15:49:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id BF3613FC99;
- Mon, 24 Jan 2022 16:49:48 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Authentication-Results: pio-pvt-msa3.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Lap0t7BQoWMn; Mon, 24 Jan 2022 16:49:47 +0100 (CET)
-Received: by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 58D1E3FC8F;
- Mon, 24 Jan 2022 16:49:46 +0100 (CET)
-Received: from [192.168.0.209] (unknown [192.55.54.51])
- by mail1.shipmail.org (Postfix) with ESMTPSA id C0D8A362A9F;
- Mon, 24 Jan 2022 16:49:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1643039386; bh=T6StwgZVk6l54IlNgvNKQSXDTQ4aeCslU6MtGMc4uKQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Yugp62vwKsTZQqGh+dNMQI57L6ttP3q+8Wyb411Cz6GshIIf4d+ZbCWQnJ1SyHzCe
- 7FNs71O3SRrZ+LRG7uY+ERy4nAKHxscgmSoy99HQpCQiT8EltRY7yBq4AfNVV2xS33
- 73Bmdo2eYuVubgltRiuekzleC4rW8Bw4AkK2aWQ4=
-Message-ID: <d89b1388-af94-cbff-598e-c0debe2a1ed7@shipmail.org>
-Date: Mon, 24 Jan 2022 16:49:40 +0100
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
+ [209.85.222.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A28ED10E211
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 15:50:33 +0000 (UTC)
+Received: by mail-ua1-f47.google.com with SMTP id w21so31724406uan.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 07:50:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Qn8yuU/dY9yzYdXTyBmgzczJZCif2R504KsT3GAaWuA=;
+ b=o4fm7x8BWQKmvTXLRpqC+5K+0EDHbWHtTZLgXx8vebjAXoBzUWs5j/wEPmEVXyYWyI
+ oeJ2rrAQEBRK6Mph3Ig3k3QU5Hf82/RVjJFm/WF8+nwGyjuic/CaTLqynL1/VYzMo8df
+ ejDTNBTCsp1Q2FPXi8siJs7GRcYcKTu6NjFgmdCkO54Xa2uDUMf1ktHXtRPwZn4Tu4ds
+ 21YkFXtWDzszSqWleZBAMVBoH4TJrRrbE/Hi83z+kPEoiWRB8qzPiLdOEEpOHszh2Ax8
+ vctEf7w5zZnbu/9yrq3hQXBnsisWW2x++cPqXgZuFmur3ybf9HWnQOwtWMcbHhMKP85V
+ Btrg==
+X-Gm-Message-State: AOAM533pX1Q4ZEhUPIX5HhebgXVC41yYAj7Uk3UyBcG1a1A25eWNmxUJ
+ 0yDvORRJqnLdszQYMYy3E3Hc11z6hAMxGA==
+X-Google-Smtp-Source: ABdhPJxSHfVSAY78lKrM6c9AqGzGI+ClYMZcKg+OXnvq52GwW8Jd/khFpfHKzSCTBoAeRugCPSJx+Q==
+X-Received: by 2002:ab0:6c42:: with SMTP id q2mr6748994uas.112.1643039432119; 
+ Mon, 24 Jan 2022 07:50:32 -0800 (PST)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com.
+ [209.85.222.50])
+ by smtp.gmail.com with ESMTPSA id k3sm958638vsc.11.2022.01.24.07.50.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Jan 2022 07:50:31 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id 2so31784571uax.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 07:50:31 -0800 (PST)
+X-Received: by 2002:a67:b009:: with SMTP id z9mr2526092vse.57.1643039430885;
+ Mon, 24 Jan 2022 07:50:30 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Lock dpt_obj around set_cache_level.
-Content-Language: en-US
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220124130205.1040321-1-maarten.lankhorst@linux.intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <20220124130205.1040321-1-maarten.lankhorst@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220119110839.33187-1-deller@gmx.de>
+ <20220119110839.33187-3-deller@gmx.de>
+ <YelyGDNDTn1Aq/hm@phenom.ffwll.local>
+ <6c000477-002b-d125-b945-2c4831bad8a5@gmx.de>
+ <20220121072006.ylw2hdl7jbkbwnre@sirius.home.kraxel.org>
+ <64fd46cb-9746-3fd0-ec92-c64dba76875a@gmx.de>
+ <d23800b4-503c-a6e2-2c51-2c07a736dffc@suse.de>
+ <2fc200bb-4b40-7833-31c9-90a78512b601@redhat.com>
+ <de6e06e1-f293-1c98-7898-b5d52c400b59@gmx.de>
+In-Reply-To: <de6e06e1-f293-1c98-7898-b5d52c400b59@gmx.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 24 Jan 2022 16:50:19 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW-txqH1fnpkvyOSYUVkG8PTJKWkWFq_X8k-4VcdKR79Q@mail.gmail.com>
+Message-ID: <CAMuHMdW-txqH1fnpkvyOSYUVkG8PTJKWkWFq_X8k-4VcdKR79Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,90 +71,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sven Schnelle <svens@stackframe.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
+ Gerd Hoffmann <kraxel@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Helge,
 
-On 1/24/22 14:02, Maarten Lankhorst wrote:
-> set_cache_level may unbind the object, which will result in the below
-> lockdep splat:
-> <6> [184.578145] [IGT] kms_addfb_basic: starting subtest addfb25-framebuffer-vs-set-tiling
-> <4> [184.578220] ------------[ cut here ]------------
-> <4> [184.578221] WARN_ON(debug_locks && !(lock_is_held(&(&((obj)->base.resv)->lock.base)->dep_map) != 0))
-> <4> [184.578237] WARNING: CPU: 6 PID: 5544 at drivers/gpu/drm/i915/i915_gem.c:123 i915_gem_object_unbind+0x4a9/0x510 [i915]
-> <4> [184.578323] Modules linked in: vgem drm_shmem_helper snd_hda_codec_hdmi i915 mei_hdcp x86_pkg_temp_thermal snd_hda_intel coretemp crct10dif_pclmul snd_intel_dspcfg crc32_pclmul ttm snd_hda_codec ghash_clmulni_intel snd_hwdep drm_kms_helper snd_hda_core e1000e mei_me syscopyarea ptp snd_pcm sysfillrect mei pps_core sysimgblt fb_sys_fops prime_numbers intel_lpss_pci smsc75xx usbnet mii
-> <4> [184.578349] CPU: 6 PID: 5544 Comm: kms_addfb_basic Not tainted 5.16.0-CI-Patchwork_22006+ #1
-> <4> [184.578351] Hardware name: Intel Corporation Alder Lake Client Platform/AlderLake-P DDR4 RVP, BIOS ADLPFWI1.R00.2422.A00.2110131104 10/13/2021
-> <4> [184.578352] RIP: 0010:i915_gem_object_unbind+0x4a9/0x510 [i915]
-> <4> [184.578424] Code: 00 be ff ff ff ff 48 8d 78 68 e8 a2 6e 2b e1 85 c0 0f 85 b1 fb ff ff 48 c7 c6 48 37 9e a0 48 c7 c7 d9 fc a1 a0 e8 a3 54 26 e1 <0f> 0b e9 97 fb ff ff 31 ed 48 8b 5c 24 58 65 48 33 1c 25 28 00 00
-> <4> [184.578426] RSP: 0018:ffffc900013b3b68 EFLAGS: 00010286
-> <4> [184.578428] RAX: 0000000000000000 RBX: ffffc900013b3bb0 RCX: 0000000000000001
-> <4> [184.578429] RDX: 0000000080000001 RSI: ffffffff8230b42d RDI: 00000000ffffffff
-> <4> [184.578430] RBP: ffff888120e10000 R08: 0000000000000000 R09: c0000000ffff7fff
-> <4> [184.578431] R10: 0000000000000001 R11: ffffc900013b3980 R12: ffff8881176ea740
-> <4> [184.578432] R13: ffff888120e10000 R14: 0000000000000000 R15: 0000000000000001
-> <4> [184.578433] FS:  00007f65074f5e40(0000) GS:ffff88888f300000(0000) knlGS:0000000000000000
-> <4> [184.578435] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> <4> [184.578436] CR2: 00007fff4420ede8 CR3: 000000010c2f2005 CR4: 0000000000770ee0
-> <4> [184.578437] PKRU: 55555554
-> <4> [184.578438] Call Trace:
-> <4> [184.578439]  <TASK>
-> <4> [184.578440]  ? dma_resv_iter_first_unlocked+0x78/0xf0
-> <4> [184.578447]  intel_dpt_create+0x88/0x220 [i915]
-> <4> [184.578530]  intel_framebuffer_init+0x5b8/0x620 [i915]
-> <4> [184.578612]  intel_framebuffer_create+0x3d/0x60 [i915]
-> <4> [184.578691]  intel_user_framebuffer_create+0x18f/0x2c0 [i915]
-> <4> [184.578775]  drm_internal_framebuffer_create+0x36d/0x4c0
-> <4> [184.578779]  drm_mode_addfb2+0x2f/0xd0
-> <4> [184.578781]  ? drm_mode_addfb_ioctl+0x10/0x10
-> <4> [184.578784]  drm_ioctl_kernel+0xac/0x140
-> <4> [184.578787]  drm_ioctl+0x201/0x3d0
-> <4> [184.578789]  ? drm_mode_addfb_ioctl+0x10/0x10
-> <4> [184.578796]  __x64_sys_ioctl+0x6a/0xa0
-> <4> [184.578800]  do_syscall_64+0x37/0xb0
-> <4> [184.578803]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> <4> [184.578805] RIP: 0033:0x7f6506736317
-> <4> [184.578807] Code: b3 66 90 48 8b 05 71 4b 2d 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 41 4b 2d 00 f7 d8 64 89 01 48
-> <4> [184.578808] RSP: 002b:00007fff44211a98 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> <4> [184.578810] RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 00007f6506736317
-> <4> [184.578811] RDX: 00007fff44211b30 RSI: 00000000c06864b8 RDI: 0000000000000006
-> <4> [184.578812] RBP: 00007fff44211b30 R08: 00007fff44311170 R09: 0000000000000000
-> <4> [184.578813] R10: 0000000000000008 R11: 0000000000000246 R12: 00000000c06864b8
-> <4> [184.578813] R13: 0000000000000006 R14: 0000000000000000 R15: 0000000000000000
-> <4> [184.578819]  </TASK>
-> <4> [184.578820] irq event stamp: 47931
-> <4> [184.578821] hardirqs last  enabled at (47937): [<ffffffff81130dd2>] __up_console_sem+0x62/0x70
-> <4> [184.578824] hardirqs last disabled at (47942): [<ffffffff81130db7>] __up_console_sem+0x47/0x70
-> <4> [184.578826] softirqs last  enabled at (47340): [<ffffffff81e0032d>] __do_softirq+0x32d/0x493
-> <4> [184.578828] softirqs last disabled at (47335): [<ffffffff810b9196>] irq_exit_rcu+0xa6/0xe0
-> <4> [184.578830] ---[ end trace f17ec219f892c7d4 ]---
+On Mon, Jan 24, 2022 at 4:30 PM Helge Deller <deller@gmx.de> wrote:
+> On 1/24/22 12:50, Javier Martinez Canillas wrote:
+> > On 1/24/22 12:33, Thomas Zimmermann wrote:
+> >
+> > [snip]
+> >
+> >>> Thoughts?
+> >>
+> >> I can't say I approve keeping fbdev alive, but...
+> >>
+> >> With fbdev emulation, every DRM driver is an fbdev driver too. So
+> >> CONFIG_FB_DRIVER is somewhat misleading. Better add an option like
+> >> CONFIG_FBCON_HW_SCROLLING and have it selected by the fbdev drivers that
+> >> absolutely need HW acceleration. That option would then protect the rsp
+> >> code.
 >
-> Fixes: 0f341974cbc2 ("drm/i915: Add i915_vma_unbind_unlocked, and take obj lock for i915_vma_unbind, v2.")
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Testcase: kms_addfb_basic
-> ---
->   drivers/gpu/drm/i915/display/intel_dpt.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-
-LGTM. Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-
+> I'm not a fan of something like CONFIG_FBCON_HW_SCROLLING, but I'm not
+> against it either.
+> For me it sounds that this is not the real direction you want to go,
+> which is to prevent that any other drivers take the framebuffer before
+> you take it with simpledrm or similiar.
+> CONFIG_FBCON_HW_SCROLLING IMHO just disables the (from your POV) neglectable accleration part.
+> With an option like CONFIG_FB_DRIVER (maybe better: CONFIG_FB_LEGACY_DRIVERS)
+> it's an easy option for distros to disable all of the legacy drivers
+> from being built & shipped.
 >
-> diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c b/drivers/gpu/drm/i915/display/intel_dpt.c
-> index 63a83d5f85a1..c2f8f853db90 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dpt.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dpt.c
-> @@ -253,7 +253,11 @@ intel_dpt_create(struct intel_framebuffer *fb)
->   	if (IS_ERR(dpt_obj))
->   		return ERR_CAST(dpt_obj);
->   
-> -	ret = i915_gem_object_set_cache_level(dpt_obj, I915_CACHE_NONE);
-> +	ret = i915_gem_object_lock_interruptible(dpt_obj, NULL);
-> +	if (!ret) {
-> +		ret = i915_gem_object_set_cache_level(dpt_obj, I915_CACHE_NONE);
-> +		i915_gem_object_unlock(dpt_obj);
-> +	}
->   	if (ret) {
->   		i915_gem_object_put(dpt_obj);
->   		return ERR_PTR(ret);
+> Instead of CONFIG_FBCON_HW_SCROLLING we could also choose
+> CONFIG_FBCON_LEGACY_ACCELERATION, because it includes fillrect() as well...
+
+As this is about resurrecting features indicated by the various
+FBINFO_HWACCEL_* flags, what about CONFIG_FB_HWACCEL?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
