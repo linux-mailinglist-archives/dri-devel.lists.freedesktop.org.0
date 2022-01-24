@@ -1,74 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246E1499D3C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 23:38:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B61E7499D3E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 23:39:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC7210E20E;
-	Mon, 24 Jan 2022 22:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE0D110E246;
+	Mon, 24 Jan 2022 22:39:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F70E10E20D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 22:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1643063893;
- bh=O/gWW4SdGdFvCDMPaydCCXLcqSMbdkD47ayl4x+bqCs=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=idrR5/2sy7iV86MX+VEH5JEzVpyebuoqIVaUZx24wIamcin4VaoTAEUtDnEg06VD9
- S16Q6p6FvPF7ryHjQQAS7QaTq079x4kJdSKVC1Sib1nmuH+IGJHKi3Kdu45NUFfrql
- TjU/DzPJrmzc1Qzgs+w86jlwIdBB71zlaUUpfNO4=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.165.96]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MNswE-1mwo0r0hmC-00OJvR; Mon, 24
- Jan 2022 23:38:13 +0100
-Message-ID: <16884bfd-36ca-dd2e-43e4-4977861f8fa1@gmx.de>
-Date: Mon, 24 Jan 2022 23:37:03 +0100
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 548D510E246;
+ Mon, 24 Jan 2022 22:39:31 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4JjPzz4m54z4xkH;
+ Tue, 25 Jan 2022 09:39:27 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1643063967;
+ bh=i8kDZCk52QI8veF0YomrMra8rtjhC+F06h4pX7lV/MA=;
+ h=Date:From:To:Cc:Subject:From;
+ b=A45HUIx+CN1OPW2vsz5JsRM8YAmVMwaRxPJq30VBlj+P9heEQazdOQfjS1d+LXjAP
+ hU3BUgDb0nTbFz2hy2BlXFXbxUFxWfBhOAGANQUNIZa1w6O5zT7oc4hm4jEbss8kK4
+ f5K+MGirhsRTLPT77DPgXGssiSGRO8uYS+y3K6FBgxHaObdGa58EK8beNSdJChnUmC
+ 5ipxwkJEDZCF1z+EUAnFD1eGIkbfwhcKhLUpq5Aq4+7BZkPtUpNDGIiAgSrNql1/Hj
+ Slr5fekEPr6QrjmYhPUlKBwID2NKHyzIo/YiY1JOMkbhmxWoztFgRCIzXBmoMXrfgb
+ 2i4D4t70Q8iqA==
+Date: Tue, 25 Jan 2022 09:39:26 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-intel tree with Linus' tree
+Message-ID: <20220125093926.4fb47c1d@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 0/2] Fix regression introduced by disabling accelerated
- scrolling in fbcon
-Content-Language: en-US
-To: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, Sam Ravnborg <sam@ravnborg.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sven Schnelle <svens@stackframe.org>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <20220124210319.325512-1-deller@gmx.de>
- <Ye8mDFcWSiXoRJbD@phenom.ffwll.local>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <Ye8mDFcWSiXoRJbD@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+mKwEBgUo8e6/rdx2wnM5rh8v/iJPUii7I6UYjR0LafD+acqlae
- rDVSPHpFVw/TqCh68N4Dcyveg6w3ot9oOtgpaEQeWF0+CwHsqvrKN0IdYxgEBS6bRSMIXRH
- puChEGqa7ZtuOWaBLGKMRDASdYDh2gYTQsIaG7RiDW1Q0WWelAODGGa9P7kHJDJfTqaU6kt
- VMGCrr0OSeS8sRlxIACKw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:P4h9ZZ/515I=:TShwa34J6E49MAcWMpgIEk
- oz9CcYOoBwrolQyCjXlY8COb3clzeUbg1OZvJLD20cKD1nq23Gu2EvaR+GF/Fj9M9Y1cpPm+E
- 9r0wnP7XFBEWMKOdEvsWO7QuUYiN6+cdgeuFE8Xzn5UoteSzMuHpTFl8ruPv14IArlHIDldac
- AmuZlGXnUC3xz8Ky/BQfHQo+YQisn4U0F/XAVr78+vtw/pl6ZtCsl4xBJLJtoJFJNHp7+ATKd
- 5BZNYvmf/nIJCefBK6eZMwCY4Ld/iG4r+l84OwD1rA+/FLu6K3rAjYmYMEKgRg/Cf8Wfb6D2a
- 7JO3jXLrOW7MoLrQ1iTsU6FZD8Soek+rGT0JHG12Sc0FsCdvHCCV4tqAvqpSQhqfBAREAlBjV
- z4MUxahZZyhHCP+2K5BfGSUNR0sctqVbM3E+hSz0OWPgYc9X3wPbcUQPurhR/KxuHCPmLOuWT
- QNYQboTrPJA1QxRK+1tyiqLENNtNRvQi9kJeB919baluZKiu/Qwy93LUrKNLIwLhM5E8T4JJQ
- rN92tsz4kWuCmG7ZGw3nuR47WJoIOrERFdbXBInMUQUpUXpdL96NKY5/faL/vGHCTSUEDgR2+
- qQYu0TliHyDFNLYqAC3he81i2VOUHlPPM8sIfXq2RrrPrUoJ/jfY0iXTH6LC2xFVGdzJ/UQyZ
- y27msW4gMk0kRhQ2LFYuljnDvNtJhljpQWlAo1HtsOnos1QWHNlgik1t6TJqux2HriueyVNb6
- 8K3rssNCKm+p5T9WEuaUcX9+I5zu4EeLvnuiyJQfPzvrHNofeugHI0Z8sYY1FZOSIpHUWtTyG
- /cr1zKqPAFLhlVGRP7mMUlr3z+hJ8hxR+g0FfMprs79ypR57x2JJTzDJ+CSWuNojb+kMBD1hA
- kakGYEqgF37Tk9sL4+XHtg2pOG5RHiFROIOMgFxvqKcUfule6xaJJQC3Vu+zeeENQtAU6RCuo
- KciOIJP+aaLohD/XyUSjwF+cMYydUAX2kPcW7yBv7pnMt6MmSJA1K14s963WiZFW5JeIhDzl+
- BAvTilH7bTAycS+lZVBpbTNbohOAspyHblWwtxBDzt4kBcXMyWrUXZZogtGrxGCIS29K9P/Tf
- nizlcv8pjNu6Ws=
+Content-Type: multipart/signed; boundary="Sig_/g327f7tNmvB4ReKlEHWCmvv";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,75 +52,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/24/22 23:19, Daniel Vetter wrote:
-> On Mon, Jan 24, 2022 at 10:03:17PM +0100, Helge Deller wrote:
->> This series reverts two patches which disabled scrolling acceleration i=
-n
->> fbcon/fbdev. Those patches introduced a regression for fbdev-supported =
-graphic
->> cards because of the performance penalty by doing screen scrolling by s=
-oftware
->> instead of using existing 2D hardware acceleration.
->>
->> This series has been discussed on linux-fbdev, dri-devel and linux-kern=
-el
->> mailing lists. The consensus is that they will be reverted, but in addi=
-tion
->> it's being worked on to find a solution which allows to disable parts o=
-f the
->> classic fbdev hardware acceleration code which isn't needed in DRM-only
->> configurations.
->
-> That's not my take at least.
+--Sig_/g327f7tNmvB4ReKlEHWCmvv
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Which is?
-Didn't we discussed about introducing something like
-CONFIG_FBCON_LEGACY_ACCELERATION ?
+Hi all,
 
->> The patchset is planned to be kept in fbdev's for-next git branch and l=
-ater
->> pushed into kernel v5.18 if no issues are found until then.
->
-> Neither this. I don't think we've resovled maintainership of fbdev core
-> code and fbcon yet. That is the part that drm folks very much still
-> maintained, as a quick git shortlog will show.
->
-> Maintaining these parts outside of drm trees just doesn't make sense,
-> since none of the other graphics relevant development happens outside of
+Today's linux-next merge of the drm-intel tree got a conflict in:
 
-I have no objections if you are willing to take those two patches through
-the drm tree.
+  drivers/gpu/drm/i915/intel_pm.c
 
-Helge
+between commit:
 
->> ---
->> Changes in v2 compared to v1:
->> - adjusted the stable tags (one v5.10+, the other v5.16+)
->> - moved the analysis and reasoning why those should be reverted into
->>   the commit message. That simplifies to analyze later why they were
->>   reverted.
->> - resorted the To an Cc mail recipient lists
->>
->> Helge Deller (2):
->>   Revert "fbdev: Garbage collect fbdev scrolling acceleration, part 1
->>     (from TODO list)"
->>   Revert "fbcon: Disable accelerated scrolling"
->>
->>  Documentation/gpu/todo.rst              |  24 --
->>  drivers/video/fbdev/core/bitblit.c      |  16 +
->>  drivers/video/fbdev/core/fbcon.c        | 540 +++++++++++++++++++++++-
->>  drivers/video/fbdev/core/fbcon.h        |  59 +++
->>  drivers/video/fbdev/core/fbcon_ccw.c    |  28 +-
->>  drivers/video/fbdev/core/fbcon_cw.c     |  28 +-
->>  drivers/video/fbdev/core/fbcon_rotate.h |   9 +
->>  drivers/video/fbdev/core/fbcon_ud.c     |  37 +-
->>  drivers/video/fbdev/core/tileblit.c     |  16 +
->>  drivers/video/fbdev/skeletonfb.c        |  12 +-
->>  include/linux/fb.h                      |   2 +-
->>  11 files changed, 703 insertions(+), 68 deletions(-)
->>
->> --
->> 2.31.1
+  cca084692394 ("drm/i915: Use per device iommu check")
+
+from Linus' tree and commit:
+
+  8172375ea95a ("drm/i915: Remove zombie async flip vt-d w/a")
+
+from the drm-intel tree.
+
+I fixed it up (the latter removed the code modified by the former, so
+I just did that) and can carry the fix as necessary. This is now fixed
+as far as linux-next is concerned, but any non trivial conflicts should
+be mentioned to your upstream maintainer when your tree is submitted for
+merging.  You may also want to consider cooperating with the maintainer
+of the conflicting tree to minimise any particularly complex conflicts.
+
+
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/g327f7tNmvB4ReKlEHWCmvv
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmHvKp4ACgkQAVBC80lX
+0Gzftwf9G/Z+OFpX3Ft6lBKRffI/D7FLgonwACugMslqyaFfotafVx4RImrj5SnV
+qPSyRBm0OVG0vAWgiVl2X8QvB8If7cjqjCAp685s58ZMUIku/uZdJE8ePdPqcWBw
+KAeK1pLdi26bWaL1drypmBlQOljzDH42RfV05dWv5+EnpvnzzTMEzG0+4LFnI7f+
+WxBSsIeJWEX6uHOKtyOHpem0ska9PRJs05m8+APJdLTEClD2LJJmDivOBUDfZb39
+hMP356gFRQ49JPJnljorEZZsnpcyxHLY8R0mtwXSwQZw8toApe3AJpqCuUlgP7Zf
+PVN7lhxkfCBxpbTQwVMyj3Jta5+1mw==
+=9bPh
+-----END PGP SIGNATURE-----
+
+--Sig_/g327f7tNmvB4ReKlEHWCmvv--
