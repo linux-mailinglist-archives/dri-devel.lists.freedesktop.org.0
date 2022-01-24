@@ -1,42 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5074B49941E
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 21:41:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D82C4994A5
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 21:46:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFB7010E327;
-	Mon, 24 Jan 2022 20:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0437210E822;
+	Mon, 24 Jan 2022 20:46:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E760410E28E
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 20:41:06 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F94F143B;
- Mon, 24 Jan 2022 21:41:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1643056865;
- bh=hEQcRHJfW/i6ecrwNMYJMpFI6hILqjt3aIhM8JUrrco=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rgPgeBQlCfgqdEVcGV+3LT3Y/FRKZeO1One2unuk7yiEdmDUw/oD7VkUsbUAs+h7x
- JtZn97kcqXrfZyntWU31DPl7ClR05uzkvmFTKZFzgyGgp8kx7dVHV+tysgy/8IDsmT
- qzjLqvRqV3UFoO56yvnMkpdO46Ong8psMvdaBRAM=
-Date: Mon, 24 Jan 2022 22:40:47 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/docs: Document where the C8 color lut is stored
-Message-ID: <Ye8Oz4WFB7JE6tud@pendragon.ideasonboard.com>
-References: <20220124194706.930319-1-daniel.vetter@ffwll.ch>
- <Ye8LBfWBr5fPTgCN@pendragon.ideasonboard.com>
- <CAKMK7uGS5z3h-N7h5qxNfgJU0q2bhGUzCD4zd7JvED93swdtmQ@mail.gmail.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 973AB10E6B5;
+ Mon, 24 Jan 2022 20:46:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1643057184; x=1674593184;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=GRbUMXJdZdTwUnYKR/ryNDqpfjnJkqgWc+WnYEkkLro=;
+ b=NX4wfYHYf4Nf/Ou+wiUNCPBIiZYc/vWs9PA8QNsg2IRk+1AEe/n/kn1m
+ JSccV3QjrfJgxN2I1FrTysnutylqfST1unNFcha1YYnsqB0drfY5oF9zq
+ mA+baPxADBLwip9bam153lq4XKUgv0s9kO9pgeIp+8ifjcHdN3G/88R0w s=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 24 Jan 2022 12:46:23 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2022 12:46:22 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Mon, 24 Jan 2022 12:46:20 -0800
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Mon, 24 Jan 2022 12:46:20 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH] drm/msm/dp: always add fail-safe mode into connector mode list
+Date: Mon, 24 Jan 2022 12:46:10 -0800
+Message-ID: <1643057170-10413-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKMK7uGS5z3h-N7h5qxNfgJU0q2bhGUzCD4zd7JvED93swdtmQ@mail.gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,123 +60,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+Some of DP link compliant test expects to return fail-safe mode
+if prefer detailed timing mode can not be supported by mainlink's
+lane and rate after link training. Therefore add fail-safe mode
+into connector mode list as backup mode. This patch fixes test
+case 4.2.2.1.
 
-On Mon, Jan 24, 2022 at 09:28:09PM +0100, Daniel Vetter wrote:
-> On Mon, Jan 24, 2022 at 9:24 PM Laurent Pinchart wrote:
-> > On Mon, Jan 24, 2022 at 08:47:06PM +0100, Daniel Vetter wrote:
-> > > Also add notes that for atomic drivers it's really somewhere else and
-> > > no longer in struct drm_crtc.
-> > >
-> > > Maybe we should put a bigger warning here that this is confusing,
-> > > since the pixel format is a plane property, but the GAMMA_LUT property
-> > > is on the crtc. But I think we can fix this if/when someone finds a
-> > > need for a per-plane CLUT, since I'm not sure such hw even exists. I'm
-> > > also not sure whether even hardware with a CLUT and a full color
-> > > correction pipeline with degamm/cgm/gamma exists.
-> >
-> > Exists, maybe, exists and has a real use case, I'd be surprised.
-> >
-> > > Motivated by comments from Geert that we have a gap here.
-> > >
-> > > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > Cc: David Airlie <airlied@linux.ie>
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_color_mgmt.c |  4 ++++
-> > >  include/drm/drm_crtc.h           | 10 ++++++++++
-> > >  2 files changed, 14 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-> > > index bb14f488c8f6..96ce57ad37e6 100644
-> > > --- a/drivers/gpu/drm/drm_color_mgmt.c
-> > > +++ b/drivers/gpu/drm/drm_color_mgmt.c
-> > > @@ -82,6 +82,10 @@
-> > >   *   driver boot-up state too. Drivers can access this blob through
-> > >   *   &drm_crtc_state.gamma_lut.
-> > >   *
-> > > + *   Note that for mostly historical reasons stemming from Xorg heritage,
-> > > + *   this is also used to store the color lookup table (CLUT) for indexed
-> > > + *   formats like DRM_FORMAT_C8.
-> >
-> > CLUT also stands for Cubic Look Up Table, a type of LUT commonly used
-> > for tone mapping that maps an RGB sample (in 3D space) to a colour.
-> > Compared to traditional LUTs such as gamma and degamma, it allows
-> > correlating colour components, while the gamma and degamma LUTs operate
-> > on each colour component independently.
-> >
-> > Is there any commonly used acronym for the indexed colours lookup table
-> > that we could use here, to avoid future confusions ?
-> 
-> Hm intel calls these 3DLUT, so for me there's not confusion here :-)
-> But also since random acronyms are bad I put both the acronym and the
-> full spelling into the text.
-> 
-> The cubic lut for me sounds more like cubic filtering from texture
-> units (yet another thing). Do you want me to just drop the CLUT (I
-> figured some people might search for that in the docs, and there's
-> really no other way find this) or ok this way? I don't really have a
-> better idea.
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_panel.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-fbdev uses "color map", "color palette" seems to also be a common term.
-Maybe use one of those two ?
-
-> > Other than that,
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > > + *
-> > >   * “GAMMA_LUT_SIZE”:
-> > >   *   Unsigned range property to give the size of the lookup table to be set
-> > >   *   on the GAMMA_LUT property (the size depends on the underlying hardware).
-> > > diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> > > index 4d01b4d89775..03cc53220a2a 100644
-> > > --- a/include/drm/drm_crtc.h
-> > > +++ b/include/drm/drm_crtc.h
-> > > @@ -285,6 +285,10 @@ struct drm_crtc_state {
-> > >        * Lookup table for converting pixel data after the color conversion
-> > >        * matrix @ctm.  See drm_crtc_enable_color_mgmt(). The blob (if not
-> > >        * NULL) is an array of &struct drm_color_lut.
-> > > +      *
-> > > +      * Note that for mostly historical reasons stemming from Xorg heritage,
-> > > +      * this is also used to store the color lookup table (CLUT) for indexed
-> > > +      * formats like DRM_FORMAT_C8.
-> > >        */
-> > >       struct drm_property_blob *gamma_lut;
-> > >
-> > > @@ -1075,12 +1079,18 @@ struct drm_crtc {
-> > >       /**
-> > >        * @gamma_size: Size of legacy gamma ramp reported to userspace. Set up
-> > >        * by calling drm_mode_crtc_set_gamma_size().
-> > > +      *
-> > > +      * Note that atomic drivers need to instead use
-> > > +      * &drm_crtc_state.gamma_lut. See drm_crtc_enable_color_mgmt().
-> > >        */
-> > >       uint32_t gamma_size;
-> > >
-> > >       /**
-> > >        * @gamma_store: Gamma ramp values used by the legacy SETGAMMA and
-> > >        * GETGAMMA IOCTls. Set up by calling drm_mode_crtc_set_gamma_size().
-> > > +      *
-> > > +      * Note that atomic drivers need to instead use
-> > > +      * &drm_crtc_state.gamma_lut. See drm_crtc_enable_color_mgmt().
-> > >        */
-> > >       uint16_t *gamma_store;
-> > >
-
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+index 3b02922..7743b45 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.c
++++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+@@ -221,6 +221,11 @@ int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
+ 		if (drm_add_modes_noedid(connector, 640, 480))
+ 			drm_set_preferred_mode(connector, 640, 480);
+ 		mutex_unlock(&connector->dev->mode_config.mutex);
++	} else {
++		/* always add fail-safe mode as backup mode */
++		mutex_lock(&connector->dev->mode_config.mutex);
++		drm_add_modes_noedid(connector, 640, 480);
++		mutex_unlock(&connector->dev->mode_config.mutex);
+ 	}
+ 
+ 	if (panel->aux_cfg_update_done) {
 -- 
-Regards,
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-Laurent Pinchart
