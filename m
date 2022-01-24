@@ -2,60 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01906498022
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 13:58:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE583498045
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 14:02:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A59B410E34D;
-	Mon, 24 Jan 2022 12:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A47C10E848;
+	Mon, 24 Jan 2022 13:02:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 197D210E34D;
- Mon, 24 Jan 2022 12:58:45 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- n16-20020a17090a091000b001b46196d572so16791494pjn.5; 
- Mon, 24 Jan 2022 04:58:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=jKkNxr+1cB+XB6YIAl08DtywpPMNPFY1xvETiNerBv4=;
- b=ZTfY83ziPZR4GDz3xQZpQlufTJscwAsvrvRRKBUGWxqDkdA1va0RwigvqsJh8vqQS2
- Cr1CSfGsdyFEDox/gdOe5UN+gfJl/M1PhQGqJzwQ7WkKUKAP0LFzEedI6vKoyqCpdEF9
- 3gSBuybAkNcdAU6be2n77jFlYV6Dl9/KVa8pK++wGo/ARHH4NuZJ22KzHFwt8CBWqGT4
- oeOm3pKjlWSLNYHeBK0FjBJXueBfTunP+wd2pFCeti1eTpXzXT2rppGwLhnnHXUkLTBL
- RY3CsxJneexPIuOsYHKLRG4PaJwytL1K04wvJIgNj4fjM2IKDQ1GN6+0dopPvh4yxYVt
- o8iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=jKkNxr+1cB+XB6YIAl08DtywpPMNPFY1xvETiNerBv4=;
- b=d4NtthIIbKrfcXEkl+BJ+A/wSD5dnN1oCN1qPeWW4pPws8E3qw0agROg9izXtaUsRj
- OgLuoeQgHzBFYXxDGqNSeL+jXTEbztykeY3uQESM+v61WmqTEHQcsfMk7TbXr0ZqniVy
- zA1Mdb9cD6I9nL8wX3XZiEq8jrppqDxZlqb1QcnpiGMzyIAvlOj32rIZRYKb+J9CdhNw
- cVHbGeCKs0AyTxug2M4PN0qTzg5xAx37vGnHBIE8VMP1CD+LA0YclBZWA7zOtYgt043v
- +t3q0QL24SWg9s5z95v9Ny4hmWBd5VT/gx2EMDRZqrxXcehGXQ1DYjT0/0955yF5rqE4
- xo7g==
-X-Gm-Message-State: AOAM533yURa9mcUlXsI8vOFqzE5r7lHz6qBNKMmtQAichLRVv8b7VkwZ
- db6m9UDYa3LaI2spHeHweiOZLZz9GGGPh5pE5z0=
-X-Google-Smtp-Source: ABdhPJyYbcsc9C2l2KCNpEBfLe8n7n6WB0ovH6E/D5v67OB9y4UJCJuIP9SuFmcGrvjnGCSW3/k40Q==
-X-Received: by 2002:a17:902:ab82:b0:14a:188a:cd1f with SMTP id
- f2-20020a170902ab8200b0014a188acd1fmr14279622plr.44.1643029124671; 
- Mon, 24 Jan 2022 04:58:44 -0800 (PST)
-Received: from localhost.localdomain ([159.226.95.43])
- by smtp.googlemail.com with ESMTPSA id
- s23sm17794805pfg.144.2022.01.24.04.58.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jan 2022 04:58:44 -0800 (PST)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: matthew.brost@intel.com
-Subject: [PATCH v2] drm/i915/selftests: Fix NULL vs IS_ERR checking for
- kernel_context
-Date: Mon, 24 Jan 2022 12:58:37 +0000
-Message-Id: <20220124125837.10467-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220112175338.GA12463@jons-linux-dev-box>
-References: <20220112175338.GA12463@jons-linux-dev-box>
+Received: from mblankhorst.nl (mblankhorst.nl [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96FF410E430;
+ Mon, 24 Jan 2022 13:02:14 +0000 (UTC)
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Lock dpt_obj around set_cache_level.
+Date: Mon, 24 Jan 2022 14:02:05 +0100
+Message-Id: <20220124130205.1040321-1-maarten.lankhorst@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,141 +32,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com, andi.shyti@intel.com, jason@jlekstrand.net,
- airlied@linux.ie, intel-gfx@lists.freedesktop.org, lucas.demarchi@intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, daniele.ceraolospurio@intel.com,
- rodrigo.vivi@intel.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since i915_gem_create_context() function return error pointers,
-the kernel_context() function does not return null, It returns error
-pointers too. Using IS_ERR() to check the return value to fix this.
+set_cache_level may unbind the object, which will result in the below
+lockdep splat:
+<6> [184.578145] [IGT] kms_addfb_basic: starting subtest addfb25-framebuffer-vs-set-tiling
+<4> [184.578220] ------------[ cut here ]------------
+<4> [184.578221] WARN_ON(debug_locks && !(lock_is_held(&(&((obj)->base.resv)->lock.base)->dep_map) != 0))
+<4> [184.578237] WARNING: CPU: 6 PID: 5544 at drivers/gpu/drm/i915/i915_gem.c:123 i915_gem_object_unbind+0x4a9/0x510 [i915]
+<4> [184.578323] Modules linked in: vgem drm_shmem_helper snd_hda_codec_hdmi i915 mei_hdcp x86_pkg_temp_thermal snd_hda_intel coretemp crct10dif_pclmul snd_intel_dspcfg crc32_pclmul ttm snd_hda_codec ghash_clmulni_intel snd_hwdep drm_kms_helper snd_hda_core e1000e mei_me syscopyarea ptp snd_pcm sysfillrect mei pps_core sysimgblt fb_sys_fops prime_numbers intel_lpss_pci smsc75xx usbnet mii
+<4> [184.578349] CPU: 6 PID: 5544 Comm: kms_addfb_basic Not tainted 5.16.0-CI-Patchwork_22006+ #1
+<4> [184.578351] Hardware name: Intel Corporation Alder Lake Client Platform/AlderLake-P DDR4 RVP, BIOS ADLPFWI1.R00.2422.A00.2110131104 10/13/2021
+<4> [184.578352] RIP: 0010:i915_gem_object_unbind+0x4a9/0x510 [i915]
+<4> [184.578424] Code: 00 be ff ff ff ff 48 8d 78 68 e8 a2 6e 2b e1 85 c0 0f 85 b1 fb ff ff 48 c7 c6 48 37 9e a0 48 c7 c7 d9 fc a1 a0 e8 a3 54 26 e1 <0f> 0b e9 97 fb ff ff 31 ed 48 8b 5c 24 58 65 48 33 1c 25 28 00 00
+<4> [184.578426] RSP: 0018:ffffc900013b3b68 EFLAGS: 00010286
+<4> [184.578428] RAX: 0000000000000000 RBX: ffffc900013b3bb0 RCX: 0000000000000001
+<4> [184.578429] RDX: 0000000080000001 RSI: ffffffff8230b42d RDI: 00000000ffffffff
+<4> [184.578430] RBP: ffff888120e10000 R08: 0000000000000000 R09: c0000000ffff7fff
+<4> [184.578431] R10: 0000000000000001 R11: ffffc900013b3980 R12: ffff8881176ea740
+<4> [184.578432] R13: ffff888120e10000 R14: 0000000000000000 R15: 0000000000000001
+<4> [184.578433] FS:  00007f65074f5e40(0000) GS:ffff88888f300000(0000) knlGS:0000000000000000
+<4> [184.578435] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+<4> [184.578436] CR2: 00007fff4420ede8 CR3: 000000010c2f2005 CR4: 0000000000770ee0
+<4> [184.578437] PKRU: 55555554
+<4> [184.578438] Call Trace:
+<4> [184.578439]  <TASK>
+<4> [184.578440]  ? dma_resv_iter_first_unlocked+0x78/0xf0
+<4> [184.578447]  intel_dpt_create+0x88/0x220 [i915]
+<4> [184.578530]  intel_framebuffer_init+0x5b8/0x620 [i915]
+<4> [184.578612]  intel_framebuffer_create+0x3d/0x60 [i915]
+<4> [184.578691]  intel_user_framebuffer_create+0x18f/0x2c0 [i915]
+<4> [184.578775]  drm_internal_framebuffer_create+0x36d/0x4c0
+<4> [184.578779]  drm_mode_addfb2+0x2f/0xd0
+<4> [184.578781]  ? drm_mode_addfb_ioctl+0x10/0x10
+<4> [184.578784]  drm_ioctl_kernel+0xac/0x140
+<4> [184.578787]  drm_ioctl+0x201/0x3d0
+<4> [184.578789]  ? drm_mode_addfb_ioctl+0x10/0x10
+<4> [184.578796]  __x64_sys_ioctl+0x6a/0xa0
+<4> [184.578800]  do_syscall_64+0x37/0xb0
+<4> [184.578803]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+<4> [184.578805] RIP: 0033:0x7f6506736317
+<4> [184.578807] Code: b3 66 90 48 8b 05 71 4b 2d 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 41 4b 2d 00 f7 d8 64 89 01 48
+<4> [184.578808] RSP: 002b:00007fff44211a98 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+<4> [184.578810] RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 00007f6506736317
+<4> [184.578811] RDX: 00007fff44211b30 RSI: 00000000c06864b8 RDI: 0000000000000006
+<4> [184.578812] RBP: 00007fff44211b30 R08: 00007fff44311170 R09: 0000000000000000
+<4> [184.578813] R10: 0000000000000008 R11: 0000000000000246 R12: 00000000c06864b8
+<4> [184.578813] R13: 0000000000000006 R14: 0000000000000000 R15: 0000000000000000
+<4> [184.578819]  </TASK>
+<4> [184.578820] irq event stamp: 47931
+<4> [184.578821] hardirqs last  enabled at (47937): [<ffffffff81130dd2>] __up_console_sem+0x62/0x70
+<4> [184.578824] hardirqs last disabled at (47942): [<ffffffff81130db7>] __up_console_sem+0x47/0x70
+<4> [184.578826] softirqs last  enabled at (47340): [<ffffffff81e0032d>] __do_softirq+0x32d/0x493
+<4> [184.578828] softirqs last disabled at (47335): [<ffffffff810b9196>] irq_exit_rcu+0xa6/0xe0
+<4> [184.578830] ---[ end trace f17ec219f892c7d4 ]---
 
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+Fixes: 0f341974cbc2 ("drm/i915: Add i915_vma_unbind_unlocked, and take obj lock for i915_vma_unbind, v2.")
+Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Testcase: kms_addfb_basic
 ---
-Changes in v2:
-- clean up unneeded initialization of err.
----
- drivers/gpu/drm/i915/gt/selftest_execlists.c | 43 ++++++++++++++------
- 1 file changed, 30 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dpt.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-index b367ecfa42de..0d453ddcede4 100644
---- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-@@ -1531,7 +1531,7 @@ static int live_busywait_preempt(void *arg)
- 	struct drm_i915_gem_object *obj;
- 	struct i915_vma *vma;
- 	enum intel_engine_id id;
--	int err = -ENOMEM;
-+	int err;
- 	u32 *map;
+diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c b/drivers/gpu/drm/i915/display/intel_dpt.c
+index 63a83d5f85a1..c2f8f853db90 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpt.c
++++ b/drivers/gpu/drm/i915/display/intel_dpt.c
+@@ -253,7 +253,11 @@ intel_dpt_create(struct intel_framebuffer *fb)
+ 	if (IS_ERR(dpt_obj))
+ 		return ERR_CAST(dpt_obj);
  
- 	/*
-@@ -1540,13 +1540,16 @@ static int live_busywait_preempt(void *arg)
- 	 */
- 
- 	ctx_hi = kernel_context(gt->i915, NULL);
--	if (!ctx_hi)
--		return -ENOMEM;
-+	if (IS_ERR(ctx_hi))
-+		return IS_ERR(ctx_hi);
-+
- 	ctx_hi->sched.priority = I915_CONTEXT_MAX_USER_PRIORITY;
- 
- 	ctx_lo = kernel_context(gt->i915, NULL);
--	if (!ctx_lo)
-+	if (IS_ERR(ctx_lo)) {
-+		err = PTR_ERR(ctx_lo);
- 		goto err_ctx_hi;
+-	ret = i915_gem_object_set_cache_level(dpt_obj, I915_CACHE_NONE);
++	ret = i915_gem_object_lock_interruptible(dpt_obj, NULL);
++	if (!ret) {
++		ret = i915_gem_object_set_cache_level(dpt_obj, I915_CACHE_NONE);
++		i915_gem_object_unlock(dpt_obj);
 +	}
- 	ctx_lo->sched.priority = I915_CONTEXT_MIN_USER_PRIORITY;
- 
- 	obj = i915_gem_object_create_internal(gt->i915, PAGE_SIZE);
-@@ -1742,13 +1745,17 @@ static int live_preempt(void *arg)
- 		goto err_spin_hi;
- 
- 	ctx_hi = kernel_context(gt->i915, NULL);
--	if (!ctx_hi)
-+	if (IS_ERR(ctx_hi)) {
-+		err = PTR_ERR(ctx_hi);
- 		goto err_spin_lo;
-+	}
- 	ctx_hi->sched.priority = I915_CONTEXT_MAX_USER_PRIORITY;
- 
- 	ctx_lo = kernel_context(gt->i915, NULL);
--	if (!ctx_lo)
-+	if (IS_ERR(ctx_lo)) {
-+		err = PTR_ERR(ctx_lo);
- 		goto err_ctx_hi;
-+	}
- 	ctx_lo->sched.priority = I915_CONTEXT_MIN_USER_PRIORITY;
- 
- 	for_each_engine(engine, gt, id) {
-@@ -1834,12 +1841,16 @@ static int live_late_preempt(void *arg)
- 		goto err_spin_hi;
- 
- 	ctx_hi = kernel_context(gt->i915, NULL);
--	if (!ctx_hi)
-+	if (IS_ERR(ctx_hi)) {
-+		err = PTR_ERR(ctx_hi);
- 		goto err_spin_lo;
-+	}
- 
- 	ctx_lo = kernel_context(gt->i915, NULL);
--	if (!ctx_lo)
-+	if (IS_ERR(ctx_lo)) {
-+		err = PTR_ERR(ctx_lo);
- 		goto err_ctx_hi;
-+	}
- 
- 	/* Make sure ctx_lo stays before ctx_hi until we trigger preemption. */
- 	ctx_lo->sched.priority = 1;
-@@ -1928,8 +1939,8 @@ struct preempt_client {
- static int preempt_client_init(struct intel_gt *gt, struct preempt_client *c)
- {
- 	c->ctx = kernel_context(gt->i915, NULL);
--	if (!c->ctx)
--		return -ENOMEM;
-+	if (IS_ERR(c->ctx))
-+		return PTR_ERR(c->ctx);
- 
- 	if (igt_spinner_init(&c->spin, gt))
- 		goto err_ctx;
-@@ -3385,13 +3396,17 @@ static int live_preempt_timeout(void *arg)
- 		return -ENOMEM;
- 
- 	ctx_hi = kernel_context(gt->i915, NULL);
--	if (!ctx_hi)
-+	if (IS_ERR(ctx_hi)) {
-+		err = PTR_ERR(ctx_hi);
- 		goto err_spin_lo;
-+	}
- 	ctx_hi->sched.priority = I915_CONTEXT_MAX_USER_PRIORITY;
- 
- 	ctx_lo = kernel_context(gt->i915, NULL);
--	if (!ctx_lo)
-+	if (IS_ERR(ctx_lo)) {
-+		err = PTR_ERR(ctx_lo);
- 		goto err_ctx_hi;
-+	}
- 	ctx_lo->sched.priority = I915_CONTEXT_MIN_USER_PRIORITY;
- 
- 	for_each_engine(engine, gt, id) {
-@@ -3683,8 +3698,10 @@ static int live_preempt_smoke(void *arg)
- 
- 	for (n = 0; n < smoke.ncontext; n++) {
- 		smoke.contexts[n] = kernel_context(smoke.gt->i915, NULL);
--		if (!smoke.contexts[n])
-+		if (IS_ERR(smoke.contexts[n])) {
-+			err = PTR_ERR(smoke.contexts[n]);
- 			goto err_ctx;
-+		}
- 	}
- 
- 	for (n = 0; n < ARRAY_SIZE(phase); n++) {
+ 	if (ret) {
+ 		i915_gem_object_put(dpt_obj);
+ 		return ERR_PTR(ret);
 -- 
-2.17.1
+2.34.1
 
