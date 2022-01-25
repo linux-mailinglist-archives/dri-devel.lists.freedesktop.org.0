@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1EAD49BD54
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 21:40:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D50D049BD94
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 22:00:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4F5C10E3ED;
-	Tue, 25 Jan 2022 20:40:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3365510E33A;
+	Tue, 25 Jan 2022 21:00:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAF7410E3ED
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 20:40:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=mvUJSAebKkRB+lgViRYbpCTTlvrAohmMaeU/GWRYPN8=; b=YTwMSEuPR7d+zRgdkpSBHn3QOM
- 8N8N7raV22tIBHgVeYcKS0NQ2nKGsd6UTLl6e1WeveHS/ETV9KPODONVoNc2mF/EEYuw8YICsylAM
- RI8knU3CXNCS9QvuEXRmdU+w1ytqSDLg3y34FZ0p1EXrq9wIJ5KHNqLgFIEINHwY3ugv8kAUR0jbN
- XmpvyAxG1bw6XKVkZJNdTu8gk5dzB4iPa5K72YbrLjNq5FVClIo7RBJ3w5zo4/rJ9Y+fNwKcAb5ku
- c+JuGGiW+PCmjY/t+VVX8BJv1XsbdhS+F2i5PFLLlP9+LWN9JMzFE99PImgIAQny0AbjtHrL2Cbpb
- QvfHYGcg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nCSbz-003Ywk-Pp; Tue, 25 Jan 2022 20:40:20 +0000
-Message-ID: <34f76f2a-1e41-d7ef-d135-7be56dba88ae@infradead.org>
-Date: Tue, 25 Jan 2022 12:40:14 -0800
+Received: from mail-vk1-xa2b.google.com (mail-vk1-xa2b.google.com
+ [IPv6:2607:f8b0:4864:20::a2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C59510E33A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 21:00:44 +0000 (UTC)
+Received: by mail-vk1-xa2b.google.com with SMTP id y192so9789655vkc.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 13:00:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=rb145q7OdVnMgixHq5IpFWIBmzblCxdOd+XXWn6jq1I=;
+ b=hIRXrJX3BzLLNtpZFD5G2Xcb3hNHPG5fAmgmUQjsdkl2tSYa3jw8xnrL2YXC3UP2TA
+ 6j8x0+e2fkJAv5HwHBvdhMFxvA9+TmsPd02o/g5lm2+DfE5KGiHLbO5RSUdXOb7shg1p
+ BXu9me4si3za9P9MPuLBUr487pex4f3GPuIO4wnn7UPTNhpfYWBlsP1T1pFG5o+G+R1X
+ TZgjgLomY36mi2cm7o8qstSqld4mpZlvJzScBd/mIytD2KPet/hS71C95/3BloN35g+X
+ N6WjaruhB8tzXQMslOKWRbqg3NDFOr/cT6h4N7RnLW0OMoG9AXIHOjCfHQxPzCvWXzGh
+ 1eig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=rb145q7OdVnMgixHq5IpFWIBmzblCxdOd+XXWn6jq1I=;
+ b=icXzI0Cknb3sbDICNXGCqZU7HFWW3YyJFu9JpBwmgJsbF5YgSS8//OI/3aBFL058D6
+ 9ZZW8pMunqzy8UFcTolW23n7N2oPf2vXOxCNEvuSf6EXd7zn3fuHf7yA+FkkN8/Sy4Lj
+ v4gNvNQhzzAzaf6Uo9Koz/dViGaO5ZzQ8+FlxmgFPGIZXU2qpjSpaygTEPIKqS/Kwkey
+ m5dAwKByXn/vF+Sd7ihO5eecCHSsX9T2d7kiLi9ByfX8c9x+tB9zLwZGquXKHYwP4ZoG
+ bLzUd68JeSj6KitKpRrmC4rjJd8ig/PtbsFBgaGAKy2UBrA0rq38bXuFKcgiLhHmmymT
+ P/ww==
+X-Gm-Message-State: AOAM531lroFVAKN0rz/H0N/z/ilPuITVYG5+TDJIro4oRiYESuJKbPG0
+ AYL1W7LeLb/vjrsvq3FQWY9t0SFs9aeCZFMcBeIGmpBI0V4=
+X-Google-Smtp-Source: ABdhPJwZosrSvzLPzq0+SIKwN0A6WNBelzLO5Ob7TZNVNW9bxIvoEneDLgFe6Gb69m+/IaBsQjfN11C1S7UU5KZI8PQ=
+X-Received: by 2002:a05:6122:8c6:: with SMTP id 6mr8942863vkg.5.1643144443316; 
+ Tue, 25 Jan 2022 13:00:43 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 4/4] fbtft: Replace 'depends on FB_TFT' by 'if FB_TFT
- ... endif'
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Phillip Potter <phil@philpotter.co.uk>, Lee Jones <lee.jones@linaro.org>,
- Heiner Kallweit <hkallweit1@gmail.com>, Carlis <zhangxuezhi1@yulong.com>,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-5-andriy.shevchenko@linux.intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220125202118.63362-5-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: jim.cromie@gmail.com
+Date: Tue, 25 Jan 2022 14:00:17 -0700
+Message-ID: <CAJfuBxyv6u_FceO2v6H4p-qa=oOd-1ig62BCSZ2zZRzbFKR3mQ@mail.gmail.com>
+Subject: help on CI fail for patchwork 21938
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,32 +58,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>, Helge Deller <deller@gmx.de>,
- Michael Hennerich <michael.hennerich@analog.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+this patchwork CI test is failing.
 
+https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_21938/fi-kbl-soraka/igt@i915_selftest@live@evict.html
 
-On 1/25/22 12:21, Andy Shevchenko wrote:
-> Replace 'depends on FB_TFT' by 'if FB_TFT ... endif'
-> for the sake of deduplication.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/video/fbtft/Kconfig | 33 ++++-----------------------------
->  1 file changed, 4 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/video/fbtft/Kconfig b/drivers/video/fbtft/Kconfig
-> index 4d29e8c1014e..14ea3c6a60da 100644
-> --- a/drivers/video/fbtft/Kconfig
-> +++ b/drivers/video/fbtft/Kconfig
-> @@ -10,87 +10,75 @@ menuconfig FB_TFT
+I dont understand what went wrong, but I dont see how patchset could
+be involved,
+it is drm.debug code, and I dont see evidence that it is even active.
+It would have to be explicitly enabled from user-space, via:
+echo 0x05 > /sys/module/drm/parameters/debug
 
+I will be resending patchset here, for another pass thru CI,
+so Im looking for hints more than specific fixes.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-thanks.
-
--- 
-~Randy
+tia
