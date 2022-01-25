@@ -1,75 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271A549AFC8
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:25:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 488C549AFCE
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:26:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5A1A10E72A;
-	Tue, 25 Jan 2022 09:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9711410EDF5;
+	Tue, 25 Jan 2022 09:25:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C449610E6C6
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 09:25:33 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 2ED6E580699;
- Tue, 25 Jan 2022 04:25:33 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 25 Jan 2022 04:25:33 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5E9D10E904
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 09:25:35 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 30A30580DB5;
+ Tue, 25 Jan 2022 04:25:35 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Tue, 25 Jan 2022 04:25:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; bh=tEOaY2dnTCSzgv
- 5fraWCoGkbmyQEoBnOyCy0bBl/Qmw=; b=icMYA6Psuz347bhK9C95WMX+8MzCLX
- bEDXskckCuPkDDt2BCmgfumc1pwqIFgSupilFd9dnqrasDojBgpKYenXt5v7VshR
- 9wfMPQw/WQdmeRzGLALUENKr0DlFrLq7Ld7r3jTDZcZZsQwgBQJ1xoyC0ozyrefA
- in7k8DT32hw3xknkB9IRxBbP3BLwyvoYJd4a14f8tFSDuSJUrEWNVrJbqnQV5bd4
- OD7/XwfcNI/DULW77LB5szXKMzNsxaP+Om/DCqYptIYcvoL7au6uJurhEP6UoakB
- xDwd3mQJh+pZx4ELVZ9xuwItlME4D2eQqcx/gU1pkY6YDZx2qlgg+uWQ==
+ :reply-to:sender:subject:subject:to:to; s=fm1; bh=iS6ioRIKa15mNX
+ dWruz4W2TXFR7NzCdQEhMlt277keY=; b=PzVA1G2qfvjmRnTTNYWfg58fWOHk7v
+ 54EhD7pa581bdiNoEUDlISDUfDB4ow7tqGMm0zyJcKd5BeAE5u17kcwiFG34zScw
+ xBsks3+br1UVxlND52p2EIrLNQV0RLzMdDBmbrvl1NBcXMs2Omro78mopQW7dRlY
+ lQT1qcYdtHcF0DAOrTtNrVw9GRyHcD6gHHI/tXjJ9hKbb+LZyGNdCYVe1mtJlFDj
+ 9daQs62cc3PlWhEagsSNNKf9AFz32phlqfKucLnNLu80DxSXwvHfpTaoiLQqexj5
+ jUFbhHhNSzKwYrwLRU74CRHvU/alYM3vhAXIdeymyLKI6/9H+7DxlrpQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=tEOaY2dnTCSzgv5fraWCoGkbmyQEoBnOyCy0bBl/Q
- mw=; b=bfzBN+IIbc5haNQcN1lU+rkTDgOCG0at4F0OCQZEYa73TkKY/9b7jeyvJ
- sWjNnbYVgY+0EAKIcIkE3T5OB70TqsfehjFVA+1Ct5TcUL4/6vok6u20RCy20oyB
- CJ62y5kdebVAC/uLXO3Dm9IgWQE2qly0xFCOPeT8Idl4T6uzA/cTRq07yCRxBHx2
- SdrKPFY+j/vI83bOZsAmolH//zShKdVWc4TDIvHI6fFHZ3qIoKeTYjaPJVPN3AwG
- kmVz90wLp+4K5FA6goky5AfcXFg1Py9lMGHwTprklWZ3HfR/CxRQtvVu3OqMtcXo
- cxXtAkkPMvOdAz0P+B3xb8ha/nvag==
-X-ME-Sender: <xms:DcLvYTnP-lFhPZCEzAwUVfJb5170WuZU-qzVdg4G99nwV-e0YJRfJA>
- <xme:DcLvYW2NefzIpF_fF1REQTI9qJF26qmm0tvCETTuEp5Z8lDCKMASuJgLlZ8PaJP1o
- CjMikGuM5rfDseCIp0>
-X-ME-Received: <xmr:DcLvYZp9rZJqX-aS0H0szttOmN6_RYaMdy4QuBFp1rfIzD86hyDRCFLxEyzmEGp6TX7sGCCeqbTOHnNCIUYIPi6Yj0e70cuZ33HOAEY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgddtudcutefuodetggdotefrodftvf
+ :x-sasl-enc; s=fm1; bh=iS6ioRIKa15mNXdWruz4W2TXFR7NzCdQEhMlt277k
+ eY=; b=Of1+FDTkTudLRXDNnVg5Q56UmTF8/+UR1it3Xsn306/gxxPh6MypZ2I+u
+ 3bnlBvTuxOzmn08Rvd88/EbCeoxYoUcElP+RrpHnat4BqYFqclThVD+O+E01biU1
+ AiqrTgOGEslBGtDOAZAekfxTvcA0flVVEpIJhCHrNz73YQYkpP5Y0CW2AmghgUNk
+ lX/UiMMS7PC2HcT9fmgrcjfQAElIm9qei3OaWDT7oQqEyzWBSOukzwjsubx1e+nz
+ aYwN9ZFdQQl6cr3ydxKoW1BAwwjVs4dJadDGv9IvP2U6vxaZ00BYSftt/GYAg3gP
+ RNzXMQII3/oycl8jrIbGzx4YxUUkA==
+X-ME-Sender: <xms:D8LvYYtJ-U4s6dWnlIqCTo4AnrGpGtIDRUHNM2ZHMWvIRkr6DnfBQw>
+ <xme:D8LvYVdOUTY7ag4kmr5QxA59n01VUjvnJTFIGMbmjQk4OhtTwenpksN_v4IcgLIo4
+ -QqhIiK_Pm1CxBRQKc>
+X-ME-Received: <xmr:D8LvYTzdlM7ZJJiCeqb6fVKTgvqaO3wP-Ag_yvVMQn-DD8aU1ca8UKgY3_XS7GWgdaG5zgcbxJwAop_kEVGVr4emZb0I5Q5Khjrl4GA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgddtvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
- keeknecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:DcLvYblCku011fzscFzF_Qr1I-22eKGJnXzFuxU_m1Mlgep5h7b0yA>
- <xmx:DcLvYR1jCLxnHRamMxfCDwa5hAJOhyHqpZL-6YKwtivLTmHGJNV5Cw>
- <xmx:DcLvYavdQJ6bRBptf1d1Ci63qdh9WIc8YxEH_lqxSrKJ7Lg3iGBDkQ>
- <xmx:DcLvYbyDkS--lUJBYZtlndndx04md8QhlvUf1jdZx9TYBCgNUu-eYA>
+X-ME-Proxy: <xmx:D8LvYbOGWfTTEm92dffMlxmzTfU70xJmTS81J4waIrUtS11FCbz5DQ>
+ <xmx:D8LvYY_wahwk2piAfXTLTQ-SJoK_irs2I8WQnzjp0jEfTzPeWUpWMw>
+ <xmx:D8LvYTWDY3RZQYX3ZX0dY17UIOMp4pFYCxlP0azDF6TtPDm26z3-1A>
+ <xmx:D8LvYTa6-QNz_nJvVD2pgM4O69xN2U6VDTboJrfF7kYkBqCnREBekg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Jan 2022 04:25:32 -0500 (EST)
+ 25 Jan 2022 04:25:34 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: (subset) [PATCH v4 05/16] drm/vc4: hdmi: Add full range RGB helper
-Date: Tue, 25 Jan 2022 10:25:14 +0100
-Message-Id: <164310270997.583056.12113276121229804086.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v4 06/16] drm/vc4: hdmi: Use full range helper in
+ csc functions
+Date: Tue, 25 Jan 2022 10:25:15 +0100
+Message-Id: <164310270997.583056.6884613783171223185.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220120151625.594595-6-maxime@cerno.tech>
+In-Reply-To: <20220120151625.594595-7-maxime@cerno.tech>
 References: <20220120151625.594595-1-maxime@cerno.tech>
- <20220120151625.594595-6-maxime@cerno.tech>
+ <20220120151625.594595-7-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -92,12 +93,16 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Jan 2022 16:16:14 +0100, Maxime Ripard wrote:
-> We're going to need to tell whether we want to run with a full or
-> limited range RGB output in multiple places in the code, so let's create
-> a helper that will return whether we need with full range or not.
+On Thu, 20 Jan 2022 16:16:15 +0100, Maxime Ripard wrote:
+> The CSC callbacks takes a boolean as an argument to tell whether we're
+> using the full range or limited range RGB.
 > 
+> However, with the upcoming YUV support, the logic will be a bit more
+> complex. In order to address this, let's make the callbacks take the
+> entire mode, and call our new helper to tell whether the full or limited
+> range RGB should be used.
 > 
+> [...]
 
 Applied to drm/drm-misc (drm-misc-next).
 
