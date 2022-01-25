@@ -1,37 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374F249B410
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 13:37:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C319B49B53E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 14:41:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E42DA10EF0D;
-	Tue, 25 Jan 2022 12:37:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8885510E32B;
+	Tue, 25 Jan 2022 13:41:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2558710EF0B
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 12:37:40 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 968681FB;
- Tue, 25 Jan 2022 04:37:39 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7719C3F7D8;
- Tue, 25 Jan 2022 04:37:39 -0800 (PST)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 3856D684477; Tue, 25 Jan 2022 12:37:38 +0000 (GMT)
-Date: Tue, 25 Jan 2022 12:37:38 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: carsten.haitzler@foss.arm.com
-Subject: Re: [PATCH] drm/arm: arm hdlcd select DRM_GEM_CMA_HELPER
-Message-ID: <Ye/vEilz6j8gX3wu@e110455-lin.cambridge.arm.com>
-References: <20220124162437.2470344-1-carsten.haitzler@foss.arm.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7ACE10E32B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 13:41:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643118074;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yaxR451unEN0VqDa1LZ9sTihcGWyaF1DYfUc0HCmDjg=;
+ b=hKFrZ1byM25hcGXqrULCsi++79aFyv721AFyhqF7B9AZ9e2lVLpF9WGNXZmZ5rzTgBwSrm
+ q/vAQDtdFTizf7FOCBNIFdComVDrbROhWYKv5pirNYH/5BhJG/s9b0Simx9HtlaGHRPG4B
+ 0EhAMzJbd2aUaNNYswhxkcvT/aZJxj8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-230-5UmdkT4xOyGXfgi2eBgmTQ-1; Tue, 25 Jan 2022 08:41:07 -0500
+X-MC-Unique: 5UmdkT4xOyGXfgi2eBgmTQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ c16-20020a1c9a10000000b0034dd409329eso1489976wme.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 05:41:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=yaxR451unEN0VqDa1LZ9sTihcGWyaF1DYfUc0HCmDjg=;
+ b=5jHAQSWhm92S1lcocWwJE+gAl7AnwhOmJP4Pgww7uZzCgAW+7zku9M3rD3ds0IcYb1
+ ngEozkJ1Ca5YS3czERaa2kKKclsmihjIaWMqQ0v4wp3c7coIe8w1Ub5lx08wxtOUpVUY
+ 9bkm3D1Y+VUm3NWZpwgHjTEcjJp2tbV5R/YJN/FZWJCz3X4BmQLdr28xBC8LmoPQXc7x
+ wfMkjkyjDXMx/fuNM7WRPmmzUQ0RQJjdY74pka+5P8wacMGyZB47kJb/HNcxIpD7+9HV
+ ntFGx4exzCmaGlgnb1bo6ixeW8W/Psr/gvKXJmDxwhSEXX23w+u5dv4Gh/uXmfGNrlSF
+ EhgA==
+X-Gm-Message-State: AOAM533Z+mI2ZgvT6XqoYpsG1QvC1ZKxG0+iyiuwtUNDVoSBbN96tdse
+ q5oEwIjpKZ6B5a25usl74tFZH6MafsFUlEcpYybeq/nm/vgnYH/O/jqYUCyl+qsVcSOWlxWcn4B
+ UMkO7iAn4zVUpSnXjyZdr9scdJQFB
+X-Received: by 2002:a5d:50ce:: with SMTP id f14mr17789780wrt.276.1643118066184; 
+ Tue, 25 Jan 2022 05:41:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxJVtjlhwtvlhUHqUCDybStr89WT6KBO170dmA+WW0xrnh32qxT1qxswdISyu4AeKaldFygFw==
+X-Received: by 2002:a5d:50ce:: with SMTP id f14mr17789762wrt.276.1643118065983; 
+ Tue, 25 Jan 2022 05:41:05 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
+ ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
+ by smtp.gmail.com with ESMTPSA id k12sm16609328wrd.98.2022.01.25.05.41.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 05:41:05 -0800 (PST)
+Message-ID: <6b016dc8-85f5-b859-b918-bd9c492b5ac3@redhat.com>
+Date: Tue, 25 Jan 2022 14:41:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220124162437.2470344-1-carsten.haitzler@foss.arm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 3/5] drm/simpledrm: Request memory region in driver
+To: Thomas Zimmermann <tzimmermann@suse.de>, zackr@vmware.com,
+ javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de, hdegoede@redhat.com
+References: <20220125091222.21457-1-tzimmermann@suse.de>
+ <20220125091222.21457-4-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20220125091222.21457-4-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,53 +88,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 24, 2022 at 04:24:37PM +0000, carsten.haitzler@foss.arm.com wrote:
-> From: Carsten Haitzler <carsten.haitzler@arm.com>
-> 
-> Without DRM_GEM_CMA_HELPER HDLCD won't build. This needs to be there too.
-> 
-> Fixes: 09717af7d13d ("drm: Remove CONFIG_DRM_KMS_CMA_HELPER option")
-> 
-> Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
+Hi,
 
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+Thanks for the fix.
 
-I will add Steven's reviewed-by as well when pushing it.
-
-Best regards,
-Liviu
-
-> ---
->  drivers/gpu/drm/arm/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
+On 25/01/2022 10:12, Thomas Zimmermann wrote:
+> Requesting the framebuffer memory in simpledrm marks the memory
+> range as busy. This used to be done by the firmware sysfb code,
+> but the driver is the correct place.
 > 
-> diff --git a/drivers/gpu/drm/arm/Kconfig b/drivers/gpu/drm/arm/Kconfig
-> index 58a242871b28..6e3f1d600541 100644
-> --- a/drivers/gpu/drm/arm/Kconfig
-> +++ b/drivers/gpu/drm/arm/Kconfig
-> @@ -6,6 +6,7 @@ config DRM_HDLCD
->  	depends on DRM && OF && (ARM || ARM64 || COMPILE_TEST)
->  	depends on COMMON_CLK
->  	select DRM_KMS_HELPER
-> +	select DRM_GEM_CMA_HELPER
->  	help
->  	  Choose this option if you have an ARM High Definition Colour LCD
->  	  controller.
-> -- 
-> 2.30.1
+> v2:
+> 	* use I/O memory if request_mem_region() fails (Jocelyn)
 > 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+
+Jocelyn Falempe
+
