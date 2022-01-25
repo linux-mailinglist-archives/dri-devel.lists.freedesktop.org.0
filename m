@@ -2,61 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C3B49B894
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 17:30:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B00149B8E3
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 17:38:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83C0710E127;
-	Tue, 25 Jan 2022 16:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 477D310E1C7;
+	Tue, 25 Jan 2022 16:38:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6030D10E127
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 16:30:27 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id l25so20894527wrb.13
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 08:30:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=oaZ8C3M+A3BztCknfbNl9Y8jrQk8LH2/sJKyOimZgJk=;
- b=HSrXwQ37jZwZ12TEl8i4UjOWhhElu5JveeyXjsI9glwGwmLc8m3I2RJo3KYG/6VsaQ
- ME0NPG28N61JpoEKBgbutovkZ2+d7boKa/mLV/F/yCOd5VMhZa/XQFYovT3rxbqXUWB1
- IzbySvGqf4+wy2aGQa3foLugIZfn8TEoUEHx8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=oaZ8C3M+A3BztCknfbNl9Y8jrQk8LH2/sJKyOimZgJk=;
- b=2d8jZ/Gen1tcO+X1I61dnJUx9/ynstwo4j6ijVt/0egZSfaHt4VuCwlWYeE8SKLyHH
- RQYzIBCssSAc39r2dXLcWRR5Y1li5lqhMqcvU1ZUl+3ZpmadfbjZStWPUWEHIT8yhuSV
- CzE+NXqRmZWW2zrFZsOywHl3/XYX/XK1X2Y4ctFIPue/cPGGi9TC86XNV1+kTfIDS3WA
- gdrfpYsVR5XjYUZnw6nHCy3s2CD0YJvOmUFeu0o4s9LHKU1gEaQrNCLPp5u+pP0Ehksc
- B96fgeQWOZQKbwTBrxXH4jmu3bZCotOUUDxMHGHTSaiROY0WE3rdTKY3K/80rjMJ+BAE
- Tiyw==
-X-Gm-Message-State: AOAM533FHB6px6dItk4VjxuQi7eqeVwMEY7bHg/pbeyQDp1xXf/iQQiW
- rjSqS3A54IqHe3MW/UhHrLr9Qg==
-X-Google-Smtp-Source: ABdhPJyfR7b1gI9Vu6sWDzDei3eUS7LVHH38NdclLlbjrecXMKYeE5GyxLhhwQERBwhdIRh/HaXOhQ==
-X-Received: by 2002:a5d:6d50:: with SMTP id k16mr18853003wri.693.1643128225905; 
- Tue, 25 Jan 2022 08:30:25 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n14sm9473376wri.80.2022.01.25.08.30.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 08:30:25 -0800 (PST)
-Date: Tue, 25 Jan 2022 17:30:23 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 02/12] drm/ttm: add back a reference to the bdev to the
- res manager
-Message-ID: <YfAln7wVi3NyOgu/@phenom.ffwll.local>
-References: <20220124122514.1832-1-christian.koenig@amd.com>
- <20220124122514.1832-3-christian.koenig@amd.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22D0F10E1A1;
+ Tue, 25 Jan 2022 16:38:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643128709; x=1674664709;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5xPimjzEimU+Vb2DyQWI3IsK6BQ0Pz4+pZTzNY2B4IQ=;
+ b=bhSJb1le8ZIQva4Zjp/jDZi1cOEQWi5TuAyPwy50cMqXA4D1A627GrHF
+ LzK4swFj3X6nMqaWLFaJylxixHOpS7o8GuDBf9E6g7sOlMARaUy6NeoUh
+ AQJg9OGLgqj4JVZ5CC/JOG0+g+FmkyXODrjbYudSqqJg02eVnVY/uhZpP
+ ABGz2+IpvZd6Tp63PsYNW+4WkLeP3QZRxA4d1AhuXiwffs7+e5Yh/iU9g
+ TtFU+9rKGs132/7Q5x4s+EPU/jownXxILsldxghMrq2KHtrSsvDSnJpwt
+ XS7aUy4GhKfFMZelF2rTsBJQFwbt51Cf6h3Fm9b0KN/0pRNwlnlI6e5Ay A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="243944174"
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="243944174"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 08:38:28 -0800
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="563096058"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 08:38:28 -0800
+Date: Tue, 25 Jan 2022 08:32:44 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915/execlists: Fix execlists
+ request cancellation corner case
+Message-ID: <20220125163244.GA20036@jons-linux-dev-box>
+References: <20220124150157.15758-1-matthew.brost@intel.com>
+ <20220124150157.15758-4-matthew.brost@intel.com>
+ <2e163060-8ad3-9cec-b325-6e065784d894@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220124122514.1832-3-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <2e163060-8ad3-9cec-b325-6e065784d894@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,250 +60,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, ray.huang@amd.com,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 24, 2022 at 01:25:04PM +0100, Christian König wrote:
-> It is simply a lot cleaner to have this around instead of adding
-> the device throughout the call chain.
+On Tue, Jan 25, 2022 at 03:27:31PM +0000, Tvrtko Ursulin wrote:
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Huang Rui <ray.huang@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c     |  3 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c    |  3 ++-
->  drivers/gpu/drm/i915/i915_ttm_buddy_manager.c   |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_ttm.c           |  4 ++--
->  drivers/gpu/drm/ttm/ttm_range_manager.c         |  2 +-
->  drivers/gpu/drm/ttm/ttm_resource.c              |  3 +++
->  drivers/gpu/drm/ttm/ttm_sys_manager.c           |  2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c   |  2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c  |  2 +-
->  include/drm/ttm/ttm_resource.h                  | 16 +++++++++-------
->  11 files changed, 24 insertions(+), 17 deletions(-)
+> On 24/01/2022 15:01, Matthew Brost wrote:
+> > More than 1 request can be submitted to a single ELSP at a time if
+> > multiple requests are ready run to on the same context. When a request
+> > is canceled it is marked bad, an idle pulse is triggered to the engine
+> > (high priority kernel request), the execlists scheduler sees that
+> > running request is bad and sets preemption timeout to minimum value (1
+> > ms). This fails to work if multiple requests are combined on the ELSP as
+> > only the most recent request is stored in the execlists schedule (the
+> > request stored in the ELSP isn't marked bad, thus preemption timeout
+> > isn't set to the minimum value). If the preempt timeout is configured to
+> > zero, the engine is permanently hung. This is shown by an upcoming
+> > selftest.
+> > 
+> > To work around this, mark the idle pulse with a flag to force a preempt
+> > with the minimum value.
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> index ea5470c8c921..9e7685a4878c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> @@ -293,7 +293,8 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
->  	man->use_tt = true;
->  	man->func = &amdgpu_gtt_mgr_func;
->  
-> -	ttm_resource_manager_init(man, gtt_size >> PAGE_SHIFT);
-> +	ttm_resource_manager_init(man, &adev->mman.bdev,
-> +				  gtt_size >> PAGE_SHIFT);
->  
->  	start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
->  	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
-> index ffddec08e931..6f7189d32f0a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
-> @@ -153,7 +153,7 @@ int amdgpu_preempt_mgr_init(struct amdgpu_device *adev)
->  	man->use_tt = true;
->  	man->func = &amdgpu_preempt_mgr_func;
->  
-> -	ttm_resource_manager_init(man, (1 << 30));
-> +	ttm_resource_manager_init(man, &adev->mman.bdev, (1 << 30));
->  
->  	atomic64_set(&mgr->used, 0);
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> index 55d68408951d..ddd0b6d74070 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> @@ -699,7 +699,8 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
->  	struct amdgpu_vram_mgr *mgr = &adev->mman.vram_mgr;
->  	struct ttm_resource_manager *man = &mgr->manager;
->  
-> -	ttm_resource_manager_init(man, adev->gmc.real_vram_size >> PAGE_SHIFT);
-> +	ttm_resource_manager_init(man, &adev->mman.bdev,
-> +				  adev->gmc.real_vram_size >> PAGE_SHIFT);
->  
->  	man->func = &amdgpu_vram_mgr_func;
->  
-> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> index bf857703c797..79dc8c6f2833 100644
-> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> @@ -204,7 +204,7 @@ int i915_ttm_buddy_man_init(struct ttm_device *bdev,
->  	man = &bman->manager;
->  	man->use_tt = use_tt;
->  	man->func = &i915_ttm_buddy_manager_func;
-> -	ttm_resource_manager_init(man, bman->mm.size >> PAGE_SHIFT);
-> +	ttm_resource_manager_init(man, bdev, bman->mm.size >> PAGE_SHIFT);
->  
->  	ttm_resource_manager_set_used(man, true);
->  	ttm_set_driver_manager(bdev, type, man);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-> index 91ef33f8f22c..85f1f5a0fe5d 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-> @@ -164,7 +164,7 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
->  
->  		man->func = &nouveau_vram_manager;
->  
-> -		ttm_resource_manager_init(man,
-> +		ttm_resource_manager_init(man, &drm->ttm.bdev,
->  					  drm->gem.vram_available >> PAGE_SHIFT);
->  		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, man);
->  		ttm_resource_manager_set_used(man, true);
-> @@ -211,7 +211,7 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
->  
->  	man->func = func;
->  	man->use_tt = true;
-> -	ttm_resource_manager_init(man, size_pages);
-> +	ttm_resource_manager_init(man, &drm->ttm.bdev, size_pages);
->  	ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, man);
->  	ttm_resource_manager_set_used(man, true);
->  	return 0;
-> diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-> index 55a41355f684..8cd4f3fb9f79 100644
-> --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-> +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-> @@ -158,7 +158,7 @@ int ttm_range_man_init_nocheck(struct ttm_device *bdev,
->  
->  	man->func = &ttm_range_manager_func;
->  
-> -	ttm_resource_manager_init(man, p_size);
-> +	ttm_resource_manager_init(man, bdev, p_size);
->  
->  	drm_mm_init(&rman->mm, 0, p_size);
->  	spin_lock_init(&rman->lock);
-> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> index 89bcfe22a0ca..41e7bf195168 100644
-> --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> @@ -126,16 +126,19 @@ EXPORT_SYMBOL(ttm_resource_compat);
->   * ttm_resource_manager_init
->   *
->   * @man: memory manager object to init
-> + * @bdev: ttm device this manager belongs to
->   * @p_size: size managed area in pages.
->   *
->   * Initialise core parts of a manager object.
->   */
->  void ttm_resource_manager_init(struct ttm_resource_manager *man,
-> +			       struct ttm_device *bdev,
->  			       unsigned long p_size)
->  {
->  	unsigned i;
->  
->  	spin_lock_init(&man->move_lock);
-> +	man->bdev = bdev;
->  	man->size = p_size;
->  
->  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
-> diff --git a/drivers/gpu/drm/ttm/ttm_sys_manager.c b/drivers/gpu/drm/ttm/ttm_sys_manager.c
-> index 135394dcca95..2ced169513cb 100644
-> --- a/drivers/gpu/drm/ttm/ttm_sys_manager.c
-> +++ b/drivers/gpu/drm/ttm/ttm_sys_manager.c
-> @@ -43,7 +43,7 @@ void ttm_sys_man_init(struct ttm_device *bdev)
->  	man->use_tt = true;
->  	man->func = &ttm_sys_manager_func;
->  
-> -	ttm_resource_manager_init(man, 0);
-> +	ttm_resource_manager_init(man, bdev, 0);
->  	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, man);
->  	ttm_resource_manager_set_used(man, true);
->  }
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-> index 99ccf690f8a1..60e3cc537f36 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-> @@ -162,7 +162,7 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
->  
->  	man->func = &vmw_gmrid_manager_func;
->  	man->use_tt = true;
-> -	ttm_resource_manager_init(man, 0);
-> +	ttm_resource_manager_init(man, &dev_priv->bdev, 0);
->  	spin_lock_init(&gman->lock);
->  	gman->used_gmr_pages = 0;
->  	ida_init(&gman->gmr_ida);
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
-> index a64188c7268d..d3007bf1b8f5 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
-> @@ -70,7 +70,7 @@ int vmw_sys_man_init(struct vmw_private *dev_priv)
->  	man->use_tt = true;
->  	man->func = &vmw_sys_manager_func;
->  
-> -	ttm_resource_manager_init(man, 0);
-> +	ttm_resource_manager_init(man, bdev, 0);
->  	ttm_set_driver_manager(bdev, VMW_PL_SYSTEM, man);
->  	ttm_resource_manager_set_used(man, true);
->  	return 0;
-> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-> index df1f06b7b504..6bf37383002b 100644
-> --- a/include/drm/ttm/ttm_resource.h
-> +++ b/include/drm/ttm/ttm_resource.h
-> @@ -105,11 +105,11 @@ struct ttm_resource_manager_func {
->   * @use_type: The memory type is enabled.
->   * @use_tt: If a TT object should be used for the backing store.
->   * @size: Size of the managed region.
-> + * @bdev: ttm device this manager belongs to
->   * @func: structure pointer implementing the range manager. See above
->   * @move_lock: lock for move fence
-> - * static information. bdev::driver::io_mem_free is never used.
-> - * @lru: The lru list for this memory type.
->   * @move: The fence of the last pipelined move operation.
-> + * @lru: The lru list for this memory type.
->   *
->   * This structure is used to identify and manage memory types for a device.
->   */
-> @@ -119,20 +119,21 @@ struct ttm_resource_manager {
->  	 */
->  	bool use_type;
->  	bool use_tt;
-> +	struct ttm_device *bdev;
->  	uint64_t size;
->  	const struct ttm_resource_manager_func *func;
->  	spinlock_t move_lock;
->  
->  	/*
-> -	 * Protected by the global->lru_lock.
-> +	 * Protected by @move_lock.
->  	 */
-> -
-> -	struct list_head lru[TTM_MAX_BO_PRIORITY];
-> +	struct dma_fence *move;
->  
->  	/*
-> -	 * Protected by @move_lock.
-> +	 * Protected by the global->lru_lock.
-
-Since you edit these anyway, maybe move the kerneldoc from the header
-comment to inline style and comment them. Having things split up doesn't
-help anyone.
-
-Anyway I'll trust gcc on this one :-)
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
->  	 */
-> -	struct dma_fence *move;
-> +
-> +	struct list_head lru[TTM_MAX_BO_PRIORITY];
->  };
->  
->  /**
-> @@ -272,6 +273,7 @@ bool ttm_resource_compat(struct ttm_resource *res,
->  			 struct ttm_placement *placement);
->  
->  void ttm_resource_manager_init(struct ttm_resource_manager *man,
-> +			       struct ttm_device *bdev,
->  			       unsigned long p_size);
->  
->  int ttm_resource_manager_evict_all(struct ttm_device *bdev,
-> -- 
-> 2.25.1
+> A couple of quick questions first before I find time to dig deeper.
+> 
+> First about the "permanently hung" statement. How permanent? Does the
+> heartbeat eventually resolve it and if not why not? Naive view is that
+> missed heartbeats would identify the stuck non-preemptible request and then
+> engine reset would skip over it.
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Yes, if the heartbeat is enabled then the heartbeat would eventually
+recover the engine. It is not always enabled though...
+
+> If it does resolve, then the problem is only that request timeout works less
+> well if someone set preempt timeout to zero? Which may not be as bad, since
+> request timeout was never about any time guarantees.
+>
+
+Yes, if the heartbeat is enabled the problem isn't as bad.
+
+Matt
+
+> Regards,
+> 
+> Tvrtko
+> 
+> > 
+> > Fixes: 38b237eab2bc7 ("drm/i915: Individual request cancellation")
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 23 +++++++++++++++----
+> >   .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |  1 +
+> >   .../drm/i915/gt/intel_execlists_submission.c  | 18 ++++++++++-----
+> >   drivers/gpu/drm/i915/i915_request.h           |  6 +++++
+> >   4 files changed, 38 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> > index a3698f611f457..efd1c719b4072 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> > @@ -243,7 +243,8 @@ void intel_engine_init_heartbeat(struct intel_engine_cs *engine)
+> >   	INIT_DELAYED_WORK(&engine->heartbeat.work, heartbeat);
+> >   }
+> > -static int __intel_engine_pulse(struct intel_engine_cs *engine)
+> > +static int __intel_engine_pulse(struct intel_engine_cs *engine,
+> > +				bool force_preempt)
+> >   {
+> >   	struct i915_sched_attr attr = { .priority = I915_PRIORITY_BARRIER };
+> >   	struct intel_context *ce = engine->kernel_context;
+> > @@ -258,6 +259,8 @@ static int __intel_engine_pulse(struct intel_engine_cs *engine)
+> >   		return PTR_ERR(rq);
+> >   	__set_bit(I915_FENCE_FLAG_SENTINEL, &rq->fence.flags);
+> > +	if (force_preempt)
+> > +		__set_bit(I915_FENCE_FLAG_FORCE_PREEMPT, &rq->fence.flags);
+> >   	heartbeat_commit(rq, &attr);
+> >   	GEM_BUG_ON(rq->sched.attr.priority < I915_PRIORITY_BARRIER);
+> > @@ -299,7 +302,7 @@ int intel_engine_set_heartbeat(struct intel_engine_cs *engine,
+> >   		/* recheck current execution */
+> >   		if (intel_engine_has_preemption(engine)) {
+> > -			err = __intel_engine_pulse(engine);
+> > +			err = __intel_engine_pulse(engine, false);
+> >   			if (err)
+> >   				set_heartbeat(engine, saved);
+> >   		}
+> > @@ -312,7 +315,8 @@ int intel_engine_set_heartbeat(struct intel_engine_cs *engine,
+> >   	return err;
+> >   }
+> > -int intel_engine_pulse(struct intel_engine_cs *engine)
+> > +static int _intel_engine_pulse(struct intel_engine_cs *engine,
+> > +			       bool force_preempt)
+> >   {
+> >   	struct intel_context *ce = engine->kernel_context;
+> >   	int err;
+> > @@ -325,7 +329,7 @@ int intel_engine_pulse(struct intel_engine_cs *engine)
+> >   	err = -EINTR;
+> >   	if (!mutex_lock_interruptible(&ce->timeline->mutex)) {
+> > -		err = __intel_engine_pulse(engine);
+> > +		err = __intel_engine_pulse(engine, force_preempt);
+> >   		mutex_unlock(&ce->timeline->mutex);
+> >   	}
+> > @@ -334,6 +338,17 @@ int intel_engine_pulse(struct intel_engine_cs *engine)
+> >   	return err;
+> >   }
+> > +int intel_engine_pulse(struct intel_engine_cs *engine)
+> > +{
+> > +	return _intel_engine_pulse(engine, false);
+> > +}
+> > +
+> > +
+> > +int intel_engine_pulse_force_preempt(struct intel_engine_cs *engine)
+> > +{
+> > +	return _intel_engine_pulse(engine, true);
+> > +}
+> > +
+> >   int intel_engine_flush_barriers(struct intel_engine_cs *engine)
+> >   {
+> >   	struct i915_sched_attr attr = { .priority = I915_PRIORITY_MIN };
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
+> > index 5da6d809a87a2..d9c8386754cb3 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
+> > @@ -21,6 +21,7 @@ void intel_gt_park_heartbeats(struct intel_gt *gt);
+> >   void intel_gt_unpark_heartbeats(struct intel_gt *gt);
+> >   int intel_engine_pulse(struct intel_engine_cs *engine);
+> > +int intel_engine_pulse_force_preempt(struct intel_engine_cs *engine);
+> >   int intel_engine_flush_barriers(struct intel_engine_cs *engine);
+> >   #endif /* INTEL_ENGINE_HEARTBEAT_H */
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > index 960a9aaf4f3a3..f0c2024058731 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > @@ -1222,26 +1222,29 @@ static void record_preemption(struct intel_engine_execlists *execlists)
+> >   }
+> >   static unsigned long active_preempt_timeout(struct intel_engine_cs *engine,
+> > -					    const struct i915_request *rq)
+> > +					    const struct i915_request *rq,
+> > +					    bool force_preempt)
+> >   {
+> >   	if (!rq)
+> >   		return 0;
+> >   	/* Force a fast reset for terminated contexts (ignoring sysfs!) */
+> > -	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq)))
+> > +	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq) ||
+> > +		     force_preempt))
+> >   		return 1;
+> >   	return READ_ONCE(engine->props.preempt_timeout_ms);
+> >   }
+> >   static void set_preempt_timeout(struct intel_engine_cs *engine,
+> > -				const struct i915_request *rq)
+> > +				const struct i915_request *rq,
+> > +				bool force_preempt)
+> >   {
+> >   	if (!intel_engine_has_preempt_reset(engine))
+> >   		return;
+> >   	set_timer_ms(&engine->execlists.preempt,
+> > -		     active_preempt_timeout(engine, rq));
+> > +		     active_preempt_timeout(engine, rq, force_preempt));
+> >   }
+> >   static bool completed(const struct i915_request *rq)
+> > @@ -1584,12 +1587,15 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
+> >   	    memcmp(active,
+> >   		   execlists->pending,
+> >   		   (port - execlists->pending) * sizeof(*port))) {
+> > +		bool force_preempt = test_bit(I915_FENCE_FLAG_FORCE_PREEMPT,
+> > +					      &last->fence.flags);
+> > +
+> >   		*port = NULL;
+> >   		while (port-- != execlists->pending)
+> >   			execlists_schedule_in(*port, port - execlists->pending);
+> >   		WRITE_ONCE(execlists->yield, -1);
+> > -		set_preempt_timeout(engine, *active);
+> > +		set_preempt_timeout(engine, *active, force_preempt);
+> >   		execlists_submit_ports(engine);
+> >   	} else {
+> >   		ring_set_paused(engine, 0);
+> > @@ -2594,7 +2600,7 @@ static void execlists_context_cancel_request(struct intel_context *ce,
+> >   	i915_request_active_engine(rq, &engine);
+> > -	if (engine && intel_engine_pulse(engine))
+> > +	if (engine && intel_engine_pulse_force_preempt(engine))
+> >   		intel_gt_handle_error(engine->gt, engine->mask, 0,
+> >   				      "request cancellation by %s",
+> >   				      current->comm);
+> > diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+> > index 28b1f9db54875..7e6312233d4c7 100644
+> > --- a/drivers/gpu/drm/i915/i915_request.h
+> > +++ b/drivers/gpu/drm/i915/i915_request.h
+> > @@ -170,6 +170,12 @@ enum {
+> >   	 * fence (dma_fence_array) and i915 generated for parallel submission.
+> >   	 */
+> >   	I915_FENCE_FLAG_COMPOSITE,
+> > +
+> > +	/*
+> > +	 * I915_FENCE_FLAG_FORCE_PREEMPT - Force preempt immediately regardless
+> > +	 * of preempt timeout configuration
+> > +	 */
+> > +	I915_FENCE_FLAG_FORCE_PREEMPT,
+> >   };
+> >   /**
+> > 
