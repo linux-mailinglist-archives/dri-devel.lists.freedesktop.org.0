@@ -2,62 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A096B49B8E0
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 17:37:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA02649B8F2
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 17:45:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E40310E180;
-	Tue, 25 Jan 2022 16:37:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCEE110E182;
+	Tue, 25 Jan 2022 16:44:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E928D10E180
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 16:37:39 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id s5so31591105ejx.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 08:37:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=vm2bLJHXdB/YdOle+SsitdL7IebwbVWqSP+FFImOC7A=;
- b=R5oWJ5Fq974jBOUL1X9ebKf3hj74Rm9K/xLfDZ7vaft2E2rROtqdzWFAmgAPXvCx0x
- quRyDbkizdru02ggipPnU3JaWMxoxXnVrcmGytcdgIRrYXGb1W/OqpIY29Wmx4CK1Yza
- QjKuIcoD76A6JvSXsMIir1iKDOjsuYQR2Cq7g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=vm2bLJHXdB/YdOle+SsitdL7IebwbVWqSP+FFImOC7A=;
- b=Ly1tdj+qORAYfvSv4+S9KobpKabgsx9S+KSloBASL60ZhreA51lliTCQI7fIldQQYl
- sw/crF9fLM844Gojj/DU8L+kHAuKvKZFx6L8WMaeVb1/R4sshxLgib94LJn+3ewSoDbU
- J35cBSeONnsIeqZj7elY9Hd8/pQeq3vq4jW0DQuaJrurr/g3Zz4IzEV0aQn3fQ67mlXH
- +8sh9ooPo2TlPBrTxc2osME6IwmYdoh2cknI125y5OZhBM32Elfn/fdTw0VmcGj86zRr
- ROHbdOOgZycNSQqXuF1LTKW+YQHqZn91sHYtkCoj+b5spTXIz52IgO2xbr6LISqjCYTk
- zxFA==
-X-Gm-Message-State: AOAM533XGI8SrFBMbTs5Dqg07sF0Waj/3sTl3VDfyGQa8iX01j8Dn7sz
- rsw8F65bHXhxbSr4IVgUHuJq7A==
-X-Google-Smtp-Source: ABdhPJzISu6zP4D6/gOhVlPupdzk/Ubsy2+NmQaJeFdr78eDY3iFPIfOqGGJ0LWX8aqAQDTiDGIwvw==
-X-Received: by 2002:a17:906:65c8:: with SMTP id
- z8mr17944607ejn.727.1643128658309; 
- Tue, 25 Jan 2022 08:37:38 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l2sm8418412eds.28.2022.01.25.08.37.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jan 2022 08:37:37 -0800 (PST)
-Date: Tue, 25 Jan 2022 17:37:36 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 04/12] drm/ttm: add common accounting to the resource mgr
- v2
-Message-ID: <YfAnUIRhBwj7WOJE@phenom.ffwll.local>
-References: <20220124122514.1832-1-christian.koenig@amd.com>
- <20220124122514.1832-5-christian.koenig@amd.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8894A10E182;
+ Tue, 25 Jan 2022 16:44:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643129095; x=1674665095;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Z/iaEkmhpSWAkU78SvIXgSc3HqJPuegQjaQLktjuSeQ=;
+ b=Rp735gPIudn7X+5JnjBcvu6sG3nAOtNs3tks4p4KBt3S6XPGK369v++K
+ 5PCOk76oo5rqXK8JnfLlWd8A8ZqKG8VZbmbM4MWKlYvLEdsimS9FB6pPe
+ 2dN6Ckb1zMXUfGalf5YtBAoitiZOXqGwPnhcKN3j1mIUbg4V1lfeye2Nd
+ UFoUZJUPO9szVtjl5ErytCh1XmoeKvgvMd6IeKFzZkbfVLP72JNIipssG
+ rS4wlb2T4qWS51m3E2YNPn0TISUxXrpP6PBhgpnQ7141vbkvMQETJgAuL
+ BKVYFeJZxU4yjZYT3JuCS7FTTmBs8y6WjczcsEPODHoJ53IAtDhPzPvzh g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="229923182"
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="229923182"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 08:44:55 -0800
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="495053425"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 08:44:54 -0800
+Date: Tue, 25 Jan 2022 08:39:11 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/4] drm/i915: Add request cancel low level
+ trace point
+Message-ID: <20220125163911.GA20056@jons-linux-dev-box>
+References: <20220124150157.15758-1-matthew.brost@intel.com>
+ <20220124150157.15758-2-matthew.brost@intel.com>
+ <fec72cb6-a008-103e-0f7b-5d6fec548618@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220124122514.1832-5-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <fec72cb6-a008-103e-0f7b-5d6fec548618@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,144 +60,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@linux.intel.com, ray.huang@amd.com,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 24, 2022 at 01:25:06PM +0100, Christian König wrote:
-> It makes sense to have this in the common manager for debugging and
-> accounting of how much resources are used.
+On Tue, Jan 25, 2022 at 12:27:43PM +0000, Tvrtko Ursulin wrote:
 > 
-> v2: cleanup kerneldoc a bit
+> On 24/01/2022 15:01, Matthew Brost wrote:
+> > Add request cancel trace point guarded by
+> > CONFIG_DRM_I915_LOW_LEVEL_TRACEPOINT.
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Huang Rui <ray.huang@amd.com>
-> ---
->  drivers/gpu/drm/ttm/ttm_resource.c |  8 ++++++++
->  include/drm/ttm/ttm_resource.h     | 20 +++++++++++++++++++-
->  2 files changed, 27 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> index 7fdd58b53c61..b8362492980d 100644
-> --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> @@ -33,6 +33,8 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
->                         const struct ttm_place *place,
->                         struct ttm_resource *res)
->  {
-> +	struct ttm_resource_manager *man;
-> +
->  	res->start = 0;
->  	res->num_pages = PFN_UP(bo->base.size);
->  	res->mem_type = place->mem_type;
-> @@ -42,12 +44,16 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
->  	res->bus.is_iomem = false;
->  	res->bus.caching = ttm_cached;
->  	res->bo = bo;
-> +
-> +	man = ttm_manager_type(bo->bdev, place->mem_type);
-> +	atomic64_add(bo->base.size, &man->usage);
-
-Doing this with atomics doesn't make a lot of sense to me. Yes with the
-current organization it's the only thing to do in drivers, but if we move
-this into ttm there's no reason we can track this together with the lru,
-consistently with the lru, and under the same spinlock like the lru.
-
-And at least spot-checking a few places the very next thing we generally
-do is take the lru lock since there's really no other way to get the
-resource into or out of the resource manager.
-
-I think doing atomics for statistics when there's no need is not great,
-because then people start using atomics for all kinds of other things, and
-then get the barriers wrong. In i915 (simply due to the grotesque amount
-of buggy overuse of atomics, both atomic_t and atomic bitfields) we've put
-a hard block in place for any atomic addition. So that's why I'm a bit on
-a crusade, but I also genuinely don't see why we need them here. All they
-do is cost more since we have to take the spinlock anyway, the accounting
-is just going to be a slight different (and imo more accurate) place.
-
-Thoughts?
-
-Cheers, Daniel
-
->  }
->  EXPORT_SYMBOL(ttm_resource_init);
->  
->  void ttm_resource_fini(struct ttm_resource_manager *man,
->  		       struct ttm_resource *res)
->  {
-> +	atomic64_sub(res->bo->base.size, &man->usage);
->  }
->  EXPORT_SYMBOL(ttm_resource_fini);
->  
-> @@ -149,6 +155,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
->  	spin_lock_init(&man->move_lock);
->  	man->bdev = bdev;
->  	man->size = p_size;
-> +	atomic64_set(&man->usage, 0);
->  
->  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
->  		INIT_LIST_HEAD(&man->lru[i]);
-> @@ -221,6 +228,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
->  	drm_printf(p, "  use_type: %d\n", man->use_type);
->  	drm_printf(p, "  use_tt: %d\n", man->use_tt);
->  	drm_printf(p, "  size: %llu\n", man->size);
-> +	drm_printf(p, "  usage: %llu\n", atomic64_read(&man->usage));
->  	if (man->func->debug)
->  		man->func->debug(man, p);
->  }
-> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-> index 69eea9d6399b..3d391279b33f 100644
-> --- a/include/drm/ttm/ttm_resource.h
-> +++ b/include/drm/ttm/ttm_resource.h
-> @@ -27,6 +27,7 @@
->  
->  #include <linux/types.h>
->  #include <linux/mutex.h>
-> +#include <linux/atomic.h>
->  #include <linux/dma-buf-map.h>
->  #include <linux/dma-fence.h>
->  #include <drm/drm_print.h>
-> @@ -132,8 +133,12 @@ struct ttm_resource_manager {
->  	/*
->  	 * Protected by the global->lru_lock.
->  	 */
-> -
->  	struct list_head lru[TTM_MAX_BO_PRIORITY];
-> +
-> +	/**
-> +	 * @usage: How much of the region is used, has its own protection.
-> +	 */
-> +	atomic64_t usage;
->  };
->  
->  /**
-> @@ -261,6 +266,19 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
->  	man->move = NULL;
->  }
->  
-> +/**
-> + * ttm_resource_manager_usage
-> + *
-> + * @man: A memory manager object.
-> + *
-> + * Return how many resources are currently used.
-> + */
-> +static inline uint64_t
-> +ttm_resource_manager_usage(struct ttm_resource_manager *man)
-> +{
-> +	return atomic64_read(&man->usage);
-> +}
-> +
->  void ttm_resource_init(struct ttm_buffer_object *bo,
->                         const struct ttm_place *place,
->                         struct ttm_resource *res);
-> -- 
-> 2.25.1
+> Okay-ish I guess (There is pr_notice with the only real caller, but I
+> suppose you want it for selftests? Oh yes, why is missing from the commit
+> message.), but I'd emit it from i915_request_cancel since that's what the
+> tracepoint is called so it fits.
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I had this tracepoint at one point but somehow during the upstreaming it
+got lost. Noticed when debugging the below issue this tracepoint wasn't
+present, so I brought it back in.
+
+I generally use low level tracepoints for debug, so a pr_notice doesn't
+really help there.
+
+Link: https://gitlab.freedesktop.org/drm/intel/-/issues/4960
+
+Matt
+
+> Regards,
+> 
+> Tvrtko
+> 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/intel_context.h |  1 +
+> >   drivers/gpu/drm/i915/i915_trace.h       | 10 ++++++++++
+> >   2 files changed, 11 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+> > index d8c74bbf9aae2..3aed4d77f116c 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_context.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+> > @@ -124,6 +124,7 @@ intel_context_is_pinned(struct intel_context *ce)
+> >   static inline void intel_context_cancel_request(struct intel_context *ce,
+> >   						struct i915_request *rq)
+> >   {
+> > +	trace_i915_request_cancel(rq);
+> >   	GEM_BUG_ON(!ce->ops->cancel_request);
+> >   	return ce->ops->cancel_request(ce, rq);
+> >   }
+> > diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
+> > index 37b5c9e9d260e..d0a11a8bb0ca3 100644
+> > --- a/drivers/gpu/drm/i915/i915_trace.h
+> > +++ b/drivers/gpu/drm/i915/i915_trace.h
+> > @@ -324,6 +324,11 @@ DEFINE_EVENT(i915_request, i915_request_add,
+> >   );
+> >   #if defined(CONFIG_DRM_I915_LOW_LEVEL_TRACEPOINTS)
+> > +DEFINE_EVENT(i915_request, i915_request_cancel,
+> > +	     TP_PROTO(struct i915_request *rq),
+> > +	     TP_ARGS(rq)
+> > +);
+> > +
+> >   DEFINE_EVENT(i915_request, i915_request_guc_submit,
+> >   	     TP_PROTO(struct i915_request *rq),
+> >   	     TP_ARGS(rq)
+> > @@ -497,6 +502,11 @@ DEFINE_EVENT(intel_context, intel_context_do_unpin,
+> >   #else
+> >   #if !defined(TRACE_HEADER_MULTI_READ)
+> > +static inline void
+> > +trace_i915_request_cancel(struct i915_request *rq)
+> > +{
+> > +}
+> > +
+> >   static inline void
+> >   trace_i915_request_guc_submit(struct i915_request *rq)
+> >   {
+> > 
