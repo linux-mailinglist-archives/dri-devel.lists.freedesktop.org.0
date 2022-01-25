@@ -1,75 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0893C49B637
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 15:29:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F40449B639
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 15:29:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23F4F10E3E4;
-	Tue, 25 Jan 2022 14:29:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB0FB10E31D;
+	Tue, 25 Jan 2022 14:29:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5601210E31D
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 14:29:32 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id B3B965C01A4;
- Tue, 25 Jan 2022 09:29:31 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 25 Jan 2022 09:29:31 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3429A10E31D
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 14:29:50 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 8C4385C018B;
+ Tue, 25 Jan 2022 09:29:49 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Tue, 25 Jan 2022 09:29:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm1; bh=zkBm/4ZltxxjQFZ2KTdj9lKGrDgPS/EGZfBlNJ
- PoI2k=; b=G7IZ1MVKyBRQVB7nixFIaCmcBEARgoR92y6bGKOKanDVAD4X8jqfsa
- lE/p88+FUSaOUQLnIwNz5MMoTyJm4exedCQ97+vqaqw1bUGdTDDGQj8fX76V5Wq2
- 0NBiXukW5/Bc26/ICkLMrAJmi2xK92ulFozNA0x2Eb5ACyORtHrALqMt1PfHJ/H/
- +vrkL8OsQIwgytcbYA7+rebMaxJ8Mz7fNhOH8cuzT1+nGofZ5mf+iposeFmm1355
- cOUCTXZDZtdI32VW0Ov490hsu4mJKem2dtzVPF0y+gP9CZ6Fdk8c34av4k94F2Fu
- 26VxIZ9ZKhaV9BOhcuZqja92+abFRWqw==
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; bh=4m4Nfajjru0qWT
+ duIOfwHl5xFRQrSBLuUd6OLp8Yw0k=; b=J889hK9aoApwJqMHnRLdNg8qOV2LuG
+ 2W/UG7LRazCkHL+x3+5UHjsHR1jVlRLsmRSp2sa/vnNSyHdV7iTLrXsDPMjPkN+E
+ muJZkNHQMSFOywnj9+wKtm+d7QaFaXV6ikYLYQkaxDHJGvzBDrgQU8WNkQXlm1/e
+ mbJfqXtTtdCFY04HNKdf0gN+ZVga0+s9BzZ3gN6lf8s3RKfuHxVMVDsnOlekF7lE
+ su/+yAep2IuOIXwipQUb5LhFyQn5WCkY/Apx9iQbTOJCO4ir0ZxmkpIYFVA76nho
+ ON6QYccZFdMXngXMrPTwJo5pMPtj3SmcSH0IUCj0Pw+4F2lQvpv5SR9Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=zkBm/4
- ZltxxjQFZ2KTdj9lKGrDgPS/EGZfBlNJPoI2k=; b=LXPUvWMZ7oP48HTENVPGyv
- fRjtfSBAHM569uGewIawARsgqamP+L+32aGiosLoNd97JZ7fcymjjD1OGxTKKALi
- xNQ5ujW6pdF7xQk5JxGwdB5JhXyiLeEb+2Cl1PAzh4QHy5kAvTvQtPnltJp80XBw
- bdSUzR0GhJWQ1SF1g1tIg/KHGrto5mBX3JMZuMXBb7T2OmFIfIjFBT9s6aRYcZ63
- UUplMsZ5v/lLS8P/RSoKQOF1lB6ecaz0LpPDz+MGMrAkZ8UqS7DA2PEuVN7vUxD8
- vZRMjZlByj3U25gPZ34ybqJHCfw4BD+Igtaq+KwPBe10aCzzLwlEg2dRCri8oFwA
- ==
-X-ME-Sender: <xms:SwnwYeeqWkJriRWAU5XPV840QzWUb5-n63sbs0xfjP7myzfxbcf1_A>
- <xme:SwnwYYNqEN3JtexrIa4khiGGzH7UoRt4ssEFBpghe4dNY5RoJQMLLsc0iGhD5GSfn
- OuWR8GZp-vxX7YRN6g>
-X-ME-Received: <xmr:SwnwYfhj06GnznSggf1TNZxBhWzwN1WUJZh4Q3z2dDLmVKw5WXr6YLPECwDkqjqvbt3vf71KMeyttTxgWWQ96HQxtvSoRhvA7afdHng>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgdeifecutefuodetggdotefrodftvf
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=4m4Nfajjru0qWTduIOfwHl5xFRQrSBLuUd6OLp8Yw
+ 0k=; b=E5BY7NepFfEh1RnIAvSG1rRGmVp5e0aKSf1bHtIYBgdc24FSamSNacMcN
+ 8V/33IUg1CJ/ET4XMccupDq9VV0XmMklt7gNsDiyJgnC94Dv149qT7pv7hhc/UtP
+ x/XqjPfhVDEZVDOkDt6Bjdlpcfpy9cCT81x5uNsEjBJKJqRO6yo/9pc2D5Oic8zR
+ AZ3t2Yp3Bp6t5bt76zaiy0MEJ3PTs/7G4wa2laWKOwl+g96GjhuaRSvYONsHa9JZ
+ WWxCuHg+xwIb0LkPB0zsVE3UWujJhJyqPEd5PV1rtHNlHgB7oDekotr5gKsDSXNe
+ vXHEZJTG9IIofw0oTXRbcsQ3F8K8Q==
+X-ME-Sender: <xms:XQnwYR43w7zQsQxZtr0284UZqhBI3j4Z2AkGMCe28aw12LPSUpz1Jw>
+ <xme:XQnwYe6HQd6gw1ZEeNkJd_wJS0-uRyVH9OI4KcE-1UHT5iSbr5BGv7RD-DRfZxvxR
+ Aod2NH-8R5mA-9iYLc>
+X-ME-Received: <xmr:XQnwYYcMzyxXY931l1KNkc9ka7kcsBXQAcSCOUS2C1VqnCeZ23mpXaul1ZZkzNl6gnjGMOWw4Xe7BJj-pAVcXMuYzuvmc8I_g-20zmY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgdeigecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepueeggefgudeigeekfeffteehtdejfffhgeffueeftedugfeuffdvffdtveegleeh
- necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
- vggthh
-X-ME-Proxy: <xmx:SwnwYb_MVVBf3Jqgw1SebswL66NeusS172i3yC0jTsmZePsHZ2z0WA>
- <xmx:SwnwYauL0-iWU9R2pszKqWAs58SKkAyydPiTbc_bTQBfEtssstZJuQ>
- <xmx:SwnwYSG2GL6eriD5O4T0-oeXNjS7Sh-aOv2XAGN8jilIb1JEM6B61w>
- <xmx:SwnwYeiXdEpDoFqi4V6E3leE-Rkw5wJXsIcOJX0Ty-C7j6VWlzK3Rw>
+ fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
+ keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:XQnwYaILwfydhPyahY0q2_pNdp06UtN2ti3f1JaRTEAcw9qHhhHR6w>
+ <xmx:XQnwYVJEQYCJJYdIm9yfuueUdj0cE0qoWYoAbWc1EE0N-RV7d8PLOQ>
+ <xmx:XQnwYTxfqtddoicLwU3xn9Mqq_M683FWAN5d17_pGNKMdViLvSFWiQ>
+ <xmx:XQnwYSGFWesPYLYB-aWZv2bbOjE1aakQzX4LS7mUWYjxgst_fabDgQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Jan 2022 09:29:30 -0500 (EST)
+ 25 Jan 2022 09:29:49 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+To: Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH] drm/edid: Clear EDID Deep Color Modes in
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: Re: (subset) [PATCH] drm/edid: Clear EDID Deep Color Modes in
  drm_reset_display_info()
-Date: Tue, 25 Jan 2022 15:29:28 +0100
-Message-Id: <20220125142928.750258-1-maxime@cerno.tech>
+Date: Tue, 25 Jan 2022 15:29:47 +0100
+Message-Id: <164312096477.750222.10027203445604881237.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220125093251.594772-1-maxime@cerno.tech>
+References: <20220125093251.594772-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,39 +84,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Even though we have the other drm_display_info fields reset, the DC
-modes are missing.
+On Tue, 25 Jan 2022 10:32:51 +0100, Maxime Ripard wrote:
+> Even though we have the other drm_display_info fields reset, the DC
+> modes are missing.
+> 
+> This shouldn't be an issue since it's explicitely reset every time a new
+> EDID is parsed.
+> 
+> 
+> [...]
 
-This shouldn't be an issue since it's explicitly reset every time a new
-EDID is parsed.
+Applied to drm/drm-misc (drm-misc-next).
 
-Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220125093251.594772-1-maxime@cerno.tech
----
- drivers/gpu/drm/drm_edid.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index a504542238ed..a7663f9a11d2 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -5340,6 +5340,9 @@ drm_reset_display_info(struct drm_connector *connector)
- 	info->rgb_quant_range_selectable = false;
- 	memset(&info->hdmi, 0, sizeof(info->hdmi));
- 
-+	info->edid_hdmi_rgb444_dc_modes = 0;
-+	info->edid_hdmi_ycbcr444_dc_modes = 0;
-+
- 	info->non_desktop = 0;
- 	memset(&info->monitor_range, 0, sizeof(info->monitor_range));
- 
--- 
-2.34.1
-
+Thanks!
+Maxime
