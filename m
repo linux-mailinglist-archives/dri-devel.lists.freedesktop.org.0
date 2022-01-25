@@ -1,76 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E176649AFCB
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:25:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7EA49AFCD
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D90E610E904;
-	Tue, 25 Jan 2022 09:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 771F110E972;
+	Tue, 25 Jan 2022 09:25:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C269B10E8FB
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 09:25:37 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 28EF8580699;
- Tue, 25 Jan 2022 04:25:37 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7E3310E8FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 09:25:39 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2F757580699;
+ Tue, 25 Jan 2022 04:25:39 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 25 Jan 2022 04:25:37 -0500
+ by compute3.internal (MEProxy); Tue, 25 Jan 2022 04:25:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; bh=/d9rzkpBiv9rmz
- b20igJe8/IGFXvTFtNWU8KjbxKCxY=; b=Gtoa2p63l1dXQzpZ/FQeVNRiFLhjmM
- cjTBOca2khNQSVRF58jHc2UkZnNyt9NuwrTUdktDHYa49A/Dh+AaD4qzEx7EIn5g
- BnUIemI+B0RIoHMcmWPLbHu8kC87KYurpB9DgUZCKf3yBjSRKiwA547yI5zUfz07
- yhCOKxmJAqbeKHrdK4uaTL5LuoPzx2yfexf/NPurV2yJZHsgp1emhW2ZvjpfXW+O
- m0gvo1/UNGwGWwqdDY0KsyJM+dmvPuoIhYSDelbNOyRfWboSunfOZ8gkmpcwB1K2
- pQT/xS5iVf5rhPaMl5UcA7V7tqRPliVRSNL8Up8pRHyrXuFgna+AsK6Q==
+ :reply-to:sender:subject:subject:to:to; s=fm1; bh=YTp42yyOdtYSkV
+ 6bC8LpTVAwXlpxum5cJVfJnWGJ/N0=; b=Nqsu5YAD5l3JtFE3Dy1TSKCeRrNky7
+ p11+kZnpNH6ptEWfSkFtoeGy8Gd4zX17elGNBSscSf4xIOkFK8C4LA/d/YNCgdCC
+ 89UWotSxUziKy+RpWQtgSdm2BSUUU6w7eg2FE04zqROXu0mHbOCsO9nkX8nZXlEP
+ It3eAFq5eTdFWjqKcf0gKR0kx2QIdDPE4bJJcZtERzcUBkpyLTjzLS7YU5XVLjt9
+ tH4d+nguUFtQqd6c55JG2KtRWYSzYAMgjZ+5ergXEdlMszom7zWTz9st3KK4957C
+ ezO3xzp5KtaIsXglQRhVZOyhM46H9ZcNd55p8ZhHBBUgCYrbZBYhI6tA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=/d9rzkpBiv9rmzb20igJe8/IGFXvTFtNWU8KjbxKC
- xY=; b=iUzAln1X5VV/dG2uuoiYp0G9Ts2hPhd+lNHILjOqwyUjQhjecqhcrwjgi
- pb3mKhtYn+r6RhVa9uGWvF5SHidckwFEkyTVo6mQXmNu/hoMH4yggPX6acGoCYUG
- j75ixWJAFmmOvs0zVUtD22VS/79dmhWwikz0QSqWBQ8QjGMddlp16ePb73aZDYGY
- qsOc35fkmxHmcv8Fk2/ZA9Q+yMeCu07cQwAayLSoud+hC1iLA/cI1X28qM0CK+E4
- fy/+xv3xcsiEZTm6bKWQQdEa4mKlq9vzjvzFNfOG/9wjBgeF+ysainVXz72F/aSD
- B9r/7NcKnK3MgDVkhOcdt358fiq+A==
-X-ME-Sender: <xms:EcLvYXYhunAhIpaVgbHwtmwNbWA6u2N8_3PT_-fbNvymMZ3afMuTFQ>
- <xme:EcLvYWZfDq5Nnt5g406EKktHYJGepdF1x4U5EmrQyrdrvzgd7tEcZOt3yJjTpI0Oc
- ckmxAzZgD6YLL7ytyw>
-X-ME-Received: <xmr:EcLvYZ-aPGM5zRLZRrtNCGMp6tMbQ4JIwU1m3xwV-33noXbvRNXlhUb5dN7BEOzyCLIIYSmEMY51X3HsCnBLJSwB9IUU7mnLBpHnz1A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgddtudcutefuodetggdotefrodftvf
+ :x-sasl-enc; s=fm1; bh=YTp42yyOdtYSkV6bC8LpTVAwXlpxum5cJVfJnWGJ/
+ N0=; b=Ial7euNw4giLokyrFXfXsFPwtrxRm7D7u44+Nn+HyOSIGeR7lTKi/j3qc
+ wwOE8H05PpFYcbdXjq129uvCtXZkWQr3HWaMIpsdZ2XNvNLbMxQ3JLzPu1HJCmR1
+ whaNb5PdoCYcu6UpB+6moTsrcecdsyergHgJQGzVmTCw2aU0JsN71LQUzJcHXgK6
+ 6ddqCZ78br9KpvTKN2qznTobRvf3kQZrULnD0bmL5OTMfhKl7axz1PqhCH93HHVc
+ vs/rZWz25GpAVfkTCusMcqBwBzdvl8wxnKpCR0W2X4n8IAhfIiLFJQYp8fmXuEPg
+ Vs4AvM/ztGFKT5H60nlH/GkF0BVWA==
+X-ME-Sender: <xms:E8LvYYoZPkOqG_mUXxwoAxrRxF-jaBwMwEaVUAml7uPyRfBaQx7TTg>
+ <xme:E8LvYer3kOtocFFiCCgqaixGIG2AT2zt-2-GmuM-Kg5JGMDvPKujqS-002O1aOwWK
+ LMNJFgxNyLf2L24alw>
+X-ME-Received: <xmr:E8LvYdMijvrbLPweLwjZNNR3p2NA53LMiXD4sZHRJnoZv2gYUVvgLQhUrBU2GrtFLFDb3wy1jWbuQyaczFZ0rP5gEhwT9dpZpjZrMbY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgddtvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
- keeknecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ keeknecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:EcLvYdobMGX7CBqgBwZbYX-c9C8KrrofybpxvNlSDfkd9kBrzvx8yw>
- <xmx:EcLvYSp8vUNjRG3CnEvnOg-fuD7dUsyyKBkmJ1O6aZb2vuDLFekSow>
- <xmx:EcLvYTQ22nitLwuvwDkJLUFTOdVaEyUWbgIRMMjRBWVK5YIDKpCKlQ>
- <xmx:EcLvYR3nS40VegV6GvZNibsf_MAD5diQPhE7ESiRPSfwPOShSSl3BA>
+X-ME-Proxy: <xmx:E8LvYf7RNbsxAWFpOyqvu77k01vHnSvaGPiws43t0unmk58SHOdBuw>
+ <xmx:E8LvYX5hACcQLVIhVDitf1PD5qjTaFCkEzvVox2xZhlceNXm99lg2A>
+ <xmx:E8LvYfhSz5cEv3Bl_VRxui-uiROcrKA27fwFQ10zs1V35n0F36pG_Q>
+ <xmx:E8LvYUFue3hSR6uKRUocSQhNy6aHsTADVqesTqgoiMlHIpAuIx_WKg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Jan 2022 04:25:36 -0500 (EST)
+ 25 Jan 2022 04:25:38 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: (subset) [PATCH v4 07/16] drm/vc4: hdmi: Move XBAR setup to
- csc_setup
-Date: Tue, 25 Jan 2022 10:25:16 +0100
-Message-Id: <164310270997.583056.4349515527066110046.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v4 08/16] drm/vc4: hdmi: Replace CSC_CTL
+ hardcoded value by defines
+Date: Tue, 25 Jan 2022 10:25:17 +0100
+Message-Id: <164310270997.583056.9626935737332521592.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220120151625.594595-8-maxime@cerno.tech>
+In-Reply-To: <20220120151625.594595-9-maxime@cerno.tech>
 References: <20220120151625.594595-1-maxime@cerno.tech>
- <20220120151625.594595-8-maxime@cerno.tech>
+ <20220120151625.594595-9-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -93,10 +93,9 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Jan 2022 16:16:16 +0100, Maxime Ripard wrote:
-> On the BCM2711, the HDMI_VEC_INTERFACE_XBAR register configuration
-> depends on whether we're using an RGB or YUV output. Let's move that
-> configuration to the CSC setup.
+On Thu, 20 Jan 2022 16:16:17 +0100, Maxime Ripard wrote:
+> On BCM2711, the HDMI_CSC_CTL register value has been hardcoded to an
+> opaque value. Let's replace it with properly defined values.
 > 
 > 
 
