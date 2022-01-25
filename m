@@ -1,64 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F3B49ADDD
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 09:17:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 194B349ADE8
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 09:22:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03A7410EE47;
-	Tue, 25 Jan 2022 08:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF1BB10EC0B;
+	Tue, 25 Jan 2022 08:22:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D37710EE47
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 08:17:36 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id F2BF81F380;
- Tue, 25 Jan 2022 08:17:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643098655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=k74T8QNEE7RRJs0MYsQ1b9WwVvajtW41wbWKa1P0nqs=;
- b=hPGonIOwba5v+UQF53B6zZBcfZf0jUhvEq/62fiiE30KLIk86N0MF1ndc75QILWahi/XAR
- fEOtQYhYXvm4YXSL4UakuhxIveQYJDLLd3QbXAvIzjd3fz7ZARhxU15ZuH8ZxGZCf/0d1e
- YulMPOlo/9Wn/Qpsgp01J1iuIh33zMA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643098655;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=k74T8QNEE7RRJs0MYsQ1b9WwVvajtW41wbWKa1P0nqs=;
- b=tCM3g+Fr8HPogORkr6nzh/qahVP2uRuv9YOPXGjtm8P43Y/08f/whTNZqXGbM+XuDXRpPX
- NZdmgIPo16gEbdDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CB1B513D8D;
- Tue, 25 Jan 2022 08:17:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id M8GAMB6y72GpJAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 25 Jan 2022 08:17:34 +0000
-Message-ID: <1d284e6b-f1af-25f1-f7c8-e137dcbb8f1d@suse.de>
-Date: Tue, 25 Jan 2022 09:17:34 +0100
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com
+ [209.85.221.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E038810EC0B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 08:22:28 +0000 (UTC)
+Received: by mail-vk1-f172.google.com with SMTP id m131so11851292vkm.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 00:22:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3tXOmEJHiGgVVYZSnc2W+chCWjA/cqBei0ztCaTs/W8=;
+ b=xNLWDxZm7k9vhvu6qVNmP9RqaRwbdibCsJaloQSPRE4t69nxx9gtmAtcXYQIiwxyfa
+ 8jW1qDvoAZpttS+I/RgDS2DckVYYHNoQWbvMlR4bJgq0/Y6Qn3VB856qEycfL/DtXIye
+ uej3wJYwwMHnvZwAmAv5MUHPsO/SuRiqkOHdg7ng/xcAwsDQ2Ygkyg/GV2E+IKOGKnw6
+ ZggZzyKASrqteV6hEFKiXUUVmzZgGzF/jsLcHrvZvzxsqrlvyCSihEro1YgLU4k2gaqk
+ SXJ/P9QwMN0SEGzXYcG8scMiLpHDn8mNcyD6lYeqGKhm41bgcj7+GVCRBcL3lr1cuzGL
+ J6CA==
+X-Gm-Message-State: AOAM532Ty9eYeJHbIjNMQPcSluUcUdZIH74PFlov26+SVPLU2Q1zOQW9
+ /XRrpVTehoiSTG89rm1qsRaw34Adt+OowQ==
+X-Google-Smtp-Source: ABdhPJyFEumuDeI/jMD7Xl4XLzeI4MtxWSkdNBTkPcIHPX0iZDvHtRZUikTjhvaFBtVNLNzkPcrDhA==
+X-Received: by 2002:a05:6122:91f:: with SMTP id
+ j31mr1947395vka.2.1643098947761; 
+ Tue, 25 Jan 2022 00:22:27 -0800 (PST)
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com.
+ [209.85.221.181])
+ by smtp.gmail.com with ESMTPSA id v22sm821956vsf.13.2022.01.25.00.22.27
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 00:22:27 -0800 (PST)
+Received: by mail-vk1-f181.google.com with SMTP id d189so11920800vkg.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 00:22:27 -0800 (PST)
+X-Received: by 2002:a1f:1b46:: with SMTP id b67mr4212932vkb.20.1643098947197; 
+ Tue, 25 Jan 2022 00:22:27 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/docs: Document where the C8 color lut is stored
-Content-Language: en-US
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
 References: <20220124194706.930319-1-daniel.vetter@ffwll.ch>
  <20220124221633.952374-1-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
 In-Reply-To: <20220124221633.952374-1-daniel.vetter@ffwll.ch>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0bvsO8LUUNRETkTSCFas30ZP"
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 25 Jan 2022 09:22:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXPqpw53LTs0Z6sCdrdT_uk4JOwq7rw_gkxwXmAd=EG+Q@mail.gmail.com>
+Message-ID: <CAMuHMdXPqpw53LTs0Z6sCdrdT_uk4JOwq7rw_gkxwXmAd=EG+Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/docs: Document where the C8 color lut is stored
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,126 +66,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0bvsO8LUUNRETkTSCFas30ZP
-Content-Type: multipart/mixed; boundary="------------S2mMX1EOEyg8K1QpoOv5jQwK";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: David Airlie <airlied@linux.ie>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <1d284e6b-f1af-25f1-f7c8-e137dcbb8f1d@suse.de>
-Subject: Re: [PATCH] drm/docs: Document where the C8 color lut is stored
-References: <20220124194706.930319-1-daniel.vetter@ffwll.ch>
- <20220124221633.952374-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20220124221633.952374-1-daniel.vetter@ffwll.ch>
+Hi Daniel,
 
---------------S2mMX1EOEyg8K1QpoOv5jQwK
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thanks for your patch!
 
-SGkNCg0KQW0gMjQuMDEuMjIgdW0gMjM6MTYgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBB
-bHNvIGFkZCBub3RlcyB0aGF0IGZvciBhdG9taWMgZHJpdmVycyBpdCdzIHJlYWxseSBzb21l
-d2hlcmUgZWxzZSBhbmQNCj4gbm8gbG9uZ2VyIGluIHN0cnVjdCBkcm1fY3J0Yy4NCj4gDQo+
-IE1heWJlIHdlIHNob3VsZCBwdXQgYSBiaWdnZXIgd2FybmluZyBoZXJlIHRoYXQgdGhpcyBp
-cyBjb25mdXNpbmcsDQo+IHNpbmNlIHRoZSBwaXhlbCBmb3JtYXQgaXMgYSBwbGFuZSBwcm9w
-ZXJ0eSwgYnV0IHRoZSBHQU1NQV9MVVQgcHJvcGVydHkNCj4gaXMgb24gdGhlIGNydGMuIEJ1
-dCBJIHRoaW5rIHdlIGNhbiBmaXggdGhpcyBpZi93aGVuIHNvbWVvbmUgZmluZHMgYQ0KPiBu
-ZWVkIGZvciBhIHBlci1wbGFuZSBDTFVULCBzaW5jZSBJJ20gbm90IHN1cmUgc3VjaCBodyBl
-dmVuIGV4aXN0cy4gSSdtDQoNCk9sZGVyIEhXIGhhcyBjdXJzb3IgcGxhbmVzIHdpdGggc2Vw
-YXJhdGUgcGFsZXR0ZXM7IDE2IGNvbG9ycyBvbiBNYXRyb3ggDQpJSVJDLiBOb3QgdmVyeSB1
-c2VmdWwgZm9yIHVzLCB0aG91Z2guDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gYWxz
-byBub3Qgc3VyZSB3aGV0aGVyIGV2ZW4gaGFyZHdhcmUgd2l0aCBhIENMVVQgYW5kIGEgZnVs
-bCBjb2xvcg0KPiBjb3JyZWN0aW9uIHBpcGVsaW5lIHdpdGggZGVnYW1tL2NnbS9nYW1tYSBl
-eGlzdHMuDQo+IA0KPiBNb3RpdmF0ZWQgYnkgY29tbWVudHMgZnJvbSBHZWVydCB0aGF0IHdl
-IGhhdmUgYSBnYXAgaGVyZS4NCj4gDQo+IHYyOiBNb3JlIG5hbWVzIGZvciBjb2xvciBsdXRz
-IChMYXVyZW50KS4NCj4gDQo+IENjOiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNo
-YXJ0QGlkZWFzb25ib2FyZC5jb20+DQo+IFJldmlld2VkLWJ5OiBMYXVyZW50IFBpbmNoYXJ0
-IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+DQo+IENjOiBHZWVydCBVeXR0
-ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02OGsub3JnPg0KPiBDYzogVmlsbGUgU3lyasOkbMOk
-IDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4NCj4gQ2M6IE1hYXJ0ZW4gTGFua2hv
-cnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+DQo+IENjOiBNYXhpbWUg
-UmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+DQo+IENjOiBUaG9tYXMgWmltbWVybWFubiA8
-dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51
-eC5pZT4NCj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4NCj4gU2lnbmVk
-LW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+DQo+IC0t
-LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JfbWdtdC5jIHwgIDQgKysrKw0KPiAg
-IGluY2x1ZGUvZHJtL2RybV9jcnRjLmggICAgICAgICAgIHwgMTAgKysrKysrKysrKw0KPiAg
-IDIgZmlsZXMgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JfbWdtdC5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9jb2xvcl9tZ210LmMNCj4gaW5kZXggYmIxNGY0ODhjOGY2Li45MDc5ZmJlMjFkMmYgMTAw
-NjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JfbWdtdC5jDQo+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JfbWdtdC5jDQo+IEBAIC04Miw2ICs4MiwxMCBA
-QA0KPiAgICAqCWRyaXZlciBib290LXVwIHN0YXRlIHRvby4gRHJpdmVycyBjYW4gYWNjZXNz
-IHRoaXMgYmxvYiB0aHJvdWdoDQo+ICAgICoJJmRybV9jcnRjX3N0YXRlLmdhbW1hX2x1dC4N
-Cj4gICAgKg0KPiArICoJTm90ZSB0aGF0IGZvciBtb3N0bHkgaGlzdG9yaWNhbCByZWFzb25z
-IHN0ZW1taW5nIGZyb20gWG9yZyBoZXJpdGFnZSwNCj4gKyAqCXRoaXMgaXMgYWxzbyB1c2Vk
-IHRvIHN0b3JlIHRoZSBjb2xvciBtYXAgKGFsc28gc29tZXRpbWVzIGNvbG9yIGx1dCwgQ0xV
-VA0KPiArICoJb3IgY29sb3IgcGFsZXR0ZSkgZm9yIGluZGV4ZWQgZm9ybWF0cyBsaWtlIERS
-TV9GT1JNQVRfQzguDQo+ICsgKg0KPiAgICAqIOKAnEdBTU1BX0xVVF9TSVpF4oCdOg0KPiAg
-ICAqCVVuc2lnbmVkIHJhbmdlIHByb3BlcnR5IHRvIGdpdmUgdGhlIHNpemUgb2YgdGhlIGxv
-b2t1cCB0YWJsZSB0byBiZSBzZXQNCj4gICAgKglvbiB0aGUgR0FNTUFfTFVUIHByb3BlcnR5
-ICh0aGUgc2l6ZSBkZXBlbmRzIG9uIHRoZSB1bmRlcmx5aW5nIGhhcmR3YXJlKS4NCj4gZGlm
-ZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jcnRjLmggYi9pbmNsdWRlL2RybS9kcm1fY3J0
-Yy5oDQo+IGluZGV4IDRkMDFiNGQ4OTc3NS4uYTcwYmFlYTA2MzZjIDEwMDY0NA0KPiAtLS0g
-YS9pbmNsdWRlL2RybS9kcm1fY3J0Yy5oDQo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9jcnRj
-LmgNCj4gQEAgLTI4NSw2ICsyODUsMTAgQEAgc3RydWN0IGRybV9jcnRjX3N0YXRlIHsNCj4g
-ICAJICogTG9va3VwIHRhYmxlIGZvciBjb252ZXJ0aW5nIHBpeGVsIGRhdGEgYWZ0ZXIgdGhl
-IGNvbG9yIGNvbnZlcnNpb24NCj4gICAJICogbWF0cml4IEBjdG0uICBTZWUgZHJtX2NydGNf
-ZW5hYmxlX2NvbG9yX21nbXQoKS4gVGhlIGJsb2IgKGlmIG5vdA0KPiAgIAkgKiBOVUxMKSBp
-cyBhbiBhcnJheSBvZiAmc3RydWN0IGRybV9jb2xvcl9sdXQuDQo+ICsJICoNCj4gKwkgKiBO
-b3RlIHRoYXQgZm9yIG1vc3RseSBoaXN0b3JpY2FsIHJlYXNvbnMgc3RlbW1pbmcgZnJvbSBY
-b3JnIGhlcml0YWdlLA0KPiArCSAqIHRoaXMgaXMgYWxzbyB1c2VkIHRvIHN0b3JlIHRoZSBj
-b2xvciBtYXAgKGFsc28gc29tZXRpbWVzIGNvbG9yIGx1dCwNCj4gKwkgKiBDTFVUIG9yIGNv
-bG9yIHBhbGV0dGUpIGZvciBpbmRleGVkIGZvcm1hdHMgbGlrZSBEUk1fRk9STUFUX0M4Lg0K
-PiAgIAkgKi8NCj4gICAJc3RydWN0IGRybV9wcm9wZXJ0eV9ibG9iICpnYW1tYV9sdXQ7DQo+
-ICAgDQo+IEBAIC0xMDc1LDEyICsxMDc5LDE4IEBAIHN0cnVjdCBkcm1fY3J0YyB7DQo+ICAg
-CS8qKg0KPiAgIAkgKiBAZ2FtbWFfc2l6ZTogU2l6ZSBvZiBsZWdhY3kgZ2FtbWEgcmFtcCBy
-ZXBvcnRlZCB0byB1c2Vyc3BhY2UuIFNldCB1cA0KPiAgIAkgKiBieSBjYWxsaW5nIGRybV9t
-b2RlX2NydGNfc2V0X2dhbW1hX3NpemUoKS4NCj4gKwkgKg0KPiArCSAqIE5vdGUgdGhhdCBh
-dG9taWMgZHJpdmVycyBuZWVkIHRvIGluc3RlYWQgdXNlDQo+ICsJICogJmRybV9jcnRjX3N0
-YXRlLmdhbW1hX2x1dC4gU2VlIGRybV9jcnRjX2VuYWJsZV9jb2xvcl9tZ210KCkuDQo+ICAg
-CSAqLw0KPiAgIAl1aW50MzJfdCBnYW1tYV9zaXplOw0KPiAgIA0KPiAgIAkvKioNCj4gICAJ
-ICogQGdhbW1hX3N0b3JlOiBHYW1tYSByYW1wIHZhbHVlcyB1c2VkIGJ5IHRoZSBsZWdhY3kg
-U0VUR0FNTUEgYW5kDQo+ICAgCSAqIEdFVEdBTU1BIElPQ1Rscy4gU2V0IHVwIGJ5IGNhbGxp
-bmcgZHJtX21vZGVfY3J0Y19zZXRfZ2FtbWFfc2l6ZSgpLg0KPiArCSAqDQo+ICsJICogTm90
-ZSB0aGF0IGF0b21pYyBkcml2ZXJzIG5lZWQgdG8gaW5zdGVhZCB1c2UNCj4gKwkgKiAmZHJt
-X2NydGNfc3RhdGUuZ2FtbWFfbHV0LiBTZWUgZHJtX2NydGNfZW5hYmxlX2NvbG9yX21nbXQo
-KS4NCj4gICAJICovDQo+ICAgCXVpbnQxNl90ICpnYW1tYV9zdG9yZTsNCj4gICANCg0KLS0g
-DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
-b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
-w7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6Rm
-dHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+On Mon, Jan 24, 2022 at 11:16 PM Daniel Vetter <daniel.vetter@ffwll.ch> wro=
+te:
+> Also add notes that for atomic drivers it's really somewhere else and
+> no longer in struct drm_crtc.
+>
+> Maybe we should put a bigger warning here that this is confusing,
+> since the pixel format is a plane property, but the GAMMA_LUT property
+> is on the crtc. But I think we can fix this if/when someone finds a
+> need for a per-plane CLUT, since I'm not sure such hw even exists. I'm
+> also not sure whether even hardware with a CLUT and a full color
+> correction pipeline with degamm/cgm/gamma exists.
 
---------------S2mMX1EOEyg8K1QpoOv5jQwK--
+IIRC (it's been a looong time) some set-top-box hardware did support
+this.  It made sense, as the CLUT is per-plane, while the gamma value
+is a property of the display output device.
+At that time, desktop hardware supported only a single plane, so
+hardware complexity could be reduced by letting software handle
+that through a single clut (for "pseudocolor") or gamma table (for
+"directcolor").
+For hardware with multiple alpha-blended planes (some CLUT, some
+ARGB, some (A)YCbCr), doing it in software is either very complicated
+or impossible, especially if you have two heads needing different
+gamma values.
+Whether such hardware still exists, and needs to be supported,
+I do not know...
 
---------------0bvsO8LUUNRETkTSCFas30ZP
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> Motivated by comments from Geert that we have a gap here.
+>
+> v2: More names for color luts (Laurent).
 
------BEGIN PGP SIGNATURE-----
++1, that would help for sure!
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHvsh4FAwAAAAAACgkQlh/E3EQov+AD
-VRAAzTJO/ilcdUnRr+ypCZ1IsyfJUdEOtrvI6iybiOY0sOvU8HWinMxogC/noIytlUQqIeobQwVn
-LIz8nn27tkvNPEp461cNPGuHWSh1/Hp+X8sqXNG1inY4ULYvImUeU7Khgjvu88CVZLg122Ni7QBH
-a77k0toE0D6Qb4rnvRGovCGiO2cPJTPcpLf6lCLuJmsO/SWPCxUNmW2HO+owuI9+W0JMu2WHC2yC
-Ws73RibwyY2T10Qo9CZh6yDlNFJoepQH+4Y0g/Typ4d854qMU50mcVJ/E8zvhS+p5ZS5odQN3eLI
-ch/gi5yIYjBGO71yvfJJS5t35pa9y4uTKNqCPM5cPRw+FMLOMTS6NPbv2IIIFpeXb2uhJQnhnT7S
-HSlje8okGZKt91P+1blNyTmOxxAYmdcORDVmhmTCjOx7HavKwi9iPtFtdEZWTIbrYxgcgpKFnpyr
-AgeFpF22L3JukHglrO6yb2a3kF9kRVJc6uvsB33ouyfwqeETlkMSgin/gEq5WAXb287pE9yVRweI
-b//1WlNGLoeSvfbPmuWddbkhYqfF4Bp0rs7nNNeC+77GtMEKLwOO5MCBBe/csFclqY07IOd7Ii2O
-AUNgdIQ2VyPWOdWXnDiuwbQPGeB43Md/veF203JomY4jMH8XwuUjEfWIHzxbPTt6/ynzF1O3r42P
-EGo=
-=TcUC
------END PGP SIGNATURE-----
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
---------------0bvsO8LUUNRETkTSCFas30ZP--
+> --- a/drivers/gpu/drm/drm_color_mgmt.c
+> +++ b/drivers/gpu/drm/drm_color_mgmt.c
+> @@ -82,6 +82,10 @@
+>   *     driver boot-up state too. Drivers can access this blob through
+>   *     &drm_crtc_state.gamma_lut.
+>   *
+> + *     Note that for mostly historical reasons stemming from Xorg herita=
+ge,
+> + *     this is also used to store the color map (also sometimes color lu=
+t, CLUT
+> + *     or color palette) for indexed formats like DRM_FORMAT_C8.
+> + *
+>   * =E2=80=9CGAMMA_LUT_SIZE=E2=80=9D:
+>   *     Unsigned range property to give the size of the lookup table to b=
+e set
+>   *     on the GAMMA_LUT property (the size depends on the underlying har=
+dware).
+> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+> index 4d01b4d89775..a70baea0636c 100644
+> --- a/include/drm/drm_crtc.h
+> +++ b/include/drm/drm_crtc.h
+> @@ -285,6 +285,10 @@ struct drm_crtc_state {
+>          * Lookup table for converting pixel data after the color convers=
+ion
+>          * matrix @ctm.  See drm_crtc_enable_color_mgmt(). The blob (if n=
+ot
+>          * NULL) is an array of &struct drm_color_lut.
+> +        *
+> +        * Note that for mostly historical reasons stemming from Xorg her=
+itage,
+> +        * this is also used to store the color map (also sometimes color=
+ lut,
+> +        * CLUT or color palette) for indexed formats like DRM_FORMAT_C8.
+>          */
+>         struct drm_property_blob *gamma_lut;
+>
+> @@ -1075,12 +1079,18 @@ struct drm_crtc {
+>         /**
+>          * @gamma_size: Size of legacy gamma ramp reported to userspace. =
+Set up
+>          * by calling drm_mode_crtc_set_gamma_size().
+> +        *
+> +        * Note that atomic drivers need to instead use
+> +        * &drm_crtc_state.gamma_lut. See drm_crtc_enable_color_mgmt().
+>          */
+>         uint32_t gamma_size;
+>
+>         /**
+>          * @gamma_store: Gamma ramp values used by the legacy SETGAMMA an=
+d
+>          * GETGAMMA IOCTls. Set up by calling drm_mode_crtc_set_gamma_siz=
+e().
+> +        *
+> +        * Note that atomic drivers need to instead use
+> +        * &drm_crtc_state.gamma_lut. See drm_crtc_enable_color_mgmt().
+>          */
+>         uint16_t *gamma_store;
+
+This is indeed what I ended up using, as
+drivers/gpu/drm/drm_fb_helper.c:setcmap_atomic() fills in
+drm_crtc.gamma_store[].  But as I understand it, I should instead
+use the gamma_lut above?
+
+BTW, to check if the CLUT changed, I look at
+drm_crtc_state.color_mgmt_changed.  This works reasonably well,
+but I still see more CLUT reloads than expected.
+Who clears drm_crtc_state.color_mgmt_changed again?
+Is there a better check?
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
