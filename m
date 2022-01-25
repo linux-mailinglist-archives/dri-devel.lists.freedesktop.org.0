@@ -2,78 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2230449AFCC
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24CA49AFD2
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:29:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8785710EDF0;
-	Tue, 25 Jan 2022 09:25:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC48810EE03;
+	Tue, 25 Jan 2022 09:28:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B468610E972
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 09:25:43 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 1CDFC580692;
- Tue, 25 Jan 2022 04:25:43 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 25 Jan 2022 04:25:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; bh=A3G4Xr9WwTcmG0
- EHFGzgjlsI9OYKBS3kdBam5vx/l54=; b=grUrb7AoZRZ7j88MfA0Yppyvj+tLpS
- M2s1+IffyY9hzQhwil14r13denxJnOzxR657EbdqQdEiEz3SG7FHgdxJFRQN8iq2
- tYoc6/2Rw5rXprg6LpfQErv7XV+iVFGM18uRAfyS8Fn+qt8go6yb4xZ/55TbD5bH
- 5caK7qS5/6kY7vGbBxjVRIgbxLvoG3YprqK9vE4C5fODrOETGyvGDy/4GtPD6IA/
- skOuvci8xA2HdL/rnEn/ASr+ryVuazAHA73OvDKJekTGH4TuKBwat1I+a0BOywTl
- WbLMEZWaUnVqTRElrhfirxWx7f7cXpMy79q1ADVwkPkTrfXKchJVm2Lw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=A3G4Xr9WwTcmG0EHFGzgjlsI9OYKBS3kdBam5vx/l
- 54=; b=enOTlFxIBWfLki0pHML7fRT06bwQWp+52o9bmxoR/TbmbZwQ8dKmDwPHw
- nenX3wm2/nWQJGiyRdgMWq5NMfhAqxsxUr1aHCOTvAoyr98nnfJXcWdt8YiExEAJ
- p0B+Csk4X7WMXNwYWPnCMkWUQipADSCY59V2UVxg8PYiW/7sLNMZpXSbfUXlXk0m
- aEX+OQwSyBz1lSTsYB48CwBlwzFyZ0+gbMRaA+XcOdgfUit5OMWo5sqAP1v8UFzb
- OsUyuQhzjzaDW04wHP7/23G0sCVaov7RoJqnKW6jmTg0oa+8RRJDsXaW24PaKbU2
- TaAlOKrm/BXNck5GQqI0FySiYunKw==
-X-ME-Sender: <xms:FsLvYZdXZL1JaRwbTE3kHFh4NO1eyh7mKCKu0SyzF1_m25taxjAj_Q>
- <xme:FsLvYXMRlcNoqxe9BQYwHUajXug3iHcsxz1vjVl5CHqFZnHwp5URg_xNfD1xL4wnh
- hROd8-FLAPUsC1-QMs>
-X-ME-Received: <xmr:FsLvYSgYivtXajOyWKyJk07UjSeewQ2f0V8ITjKtKGHMqDlL_U9TPXlUSnc5OUIDMWgqVyb2eiHfBnLL5sOMW_8nXsvDlWU2ZaIP6VI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgddtudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
- keeknecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:FsLvYS-lQ2VwjjDxvQA09GrXC0UeBNQXjB8diLmMEPcQm_8yRO-YoA>
- <xmx:FsLvYVtTzSn4EKY8HYmJ3Ev18pe8fYqVqRj3BxSFujNfRLaJ9zdF1A>
- <xmx:FsLvYRHcGohAZZM2_rPqygR1sk85vQ_kaxC_HJ_fnGm-2kwHuU810g>
- <xmx:F8LvYbJv2NMbYriqrr3v5xu44EovBP7RlBgrQ2EfnY2CYwlYBiWZgQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Jan 2022 04:25:42 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: (subset) [PATCH v4 10/16] drm/vc4: hdmi: Change CSC callback
- prototype
-Date: Tue, 25 Jan 2022 10:25:19 +0100
-Message-Id: <164310270997.583056.5164307634902396381.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220120151625.594595-11-maxime@cerno.tech>
-References: <20220120151625.594595-1-maxime@cerno.tech>
- <20220120151625.594595-11-maxime@cerno.tech>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E135710EDFF;
+ Tue, 25 Jan 2022 09:28:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643102935; x=1674638935;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=/3uEJq4zPTSgXMeNYS74/NJZJxAc2UOZUhqwmZmqIfw=;
+ b=bTNcKjQ4y/ekFOUHKFidqDUGH7863msbDffDaQ7OGxDEy04dAJE2hYpZ
+ /ERIlXHxAPavVjy1UXJ5KxH7vzANtSrLzWxJWwETti1mBgWCBsIN4wi0/
+ 61yKIZ7P3PbNvodgTERY2AXniQLPjTdHnC6Okyvne1Ns5ZpHYwNu+P3If
+ z8DRb4dCV97JGKhyrJ7d5YC5ieW2zjRdM3wf3KMknKUV8B3+zvOazaQ1V
+ xRZT+om0y3fTZKVQ1hxXNOOXSq8W0LFAxNFhme1HZUh8JpEmcLMm3v4na
+ Hy7uYXxUHW+p9zQt607xKg8uPU12+A75TPQe7x3IQ17nci9PGXCSr0kSQ w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="246044825"
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="246044825"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 01:28:55 -0800
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="532366265"
+Received: from thpham-mobl1.amr.corp.intel.com (HELO [10.213.172.16])
+ ([10.213.172.16])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 01:28:51 -0800
+Message-ID: <bab43c36-a3de-f96a-6530-4ab3a55b8ba0@linux.intel.com>
+Date: Tue, 25 Jan 2022 09:28:44 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH 17/54] gpu: drm: replace cpumask_weight with cpumask_empty
+ where appropriate
+Content-Language: en-US
+To: Yury Norov <yury.norov@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Peter Zijlstra <peterz@infradead.org>, David Laight
+ <David.Laight@aculab.com>, Joe Perches <joe@perches.com>,
+ Dennis Zhou <dennis@kernel.org>, Emil Renner Berthing <kernel@esmil.dk>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Alexey Klimov <aklimov@redhat.com>, linux-kernel@vger.kernel.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20220123183925.1052919-1-yury.norov@gmail.com>
+ <20220123183925.1052919-18-yury.norov@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220123183925.1052919-18-yury.norov@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,22 +78,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Werner Sembach <wse@tuxedocomputers.com>,
- Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Jan 2022 16:16:19 +0100, Maxime Ripard wrote:
-> In order to support the YUV output, we'll need the atomic state to know
-> what is the state of the associated property in the CSC setup callback.
+
+On 23/01/2022 18:38, Yury Norov wrote:
+> i915_pmu_cpu_online() calls cpumask_weight() to check if any bit of a
+> given cpumask is set. We can do it more efficiently with cpumask_empty()
+> because cpumask_empty() stops traversing the cpumask as soon as it finds
+> first set bit, while cpumask_weight() counts all bits unconditionally.
 > 
-> Let's change the prototype of that callback to allow us to access it.
+> Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> ---
+>   drivers/gpu/drm/i915/i915_pmu.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+> index ea655161793e..1894c876b31d 100644
+> --- a/drivers/gpu/drm/i915/i915_pmu.c
+> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+> @@ -1048,7 +1048,7 @@ static int i915_pmu_cpu_online(unsigned int cpu, struct hlist_node *node)
+>   	GEM_BUG_ON(!pmu->base.event_init);
+>   
+>   	/* Select the first online CPU as a designated reader. */
+> -	if (!cpumask_weight(&i915_pmu_cpumask))
+> +	if (cpumask_empty(&i915_pmu_cpumask))
+>   		cpumask_set_cpu(cpu, &i915_pmu_cpumask);
+>   
+>   	return 0;
 > 
 
-Applied to drm/drm-misc (drm-misc-next).
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Thanks!
-Maxime
+I see it's a large series which only partially appeared on our mailing 
+lists. So for instance it hasn't got tested by our automated CI. (Not 
+that I expect any problems in this patch.)
+
+What are the plans in terms of which tree will it get merged through?
+
+Regards,
+
+Tvrtko
