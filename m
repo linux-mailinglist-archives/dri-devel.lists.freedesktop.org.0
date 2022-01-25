@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854A549B9A9
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 18:07:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C036349B9B2
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 18:09:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 109CD10E331;
-	Tue, 25 Jan 2022 17:07:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C230110E36A;
+	Tue, 25 Jan 2022 17:09:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 006D410E2CE;
- Tue, 25 Jan 2022 17:07:46 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6870810E36A;
+ Tue, 25 Jan 2022 17:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643130467; x=1674666467;
+ t=1643130542; x=1674666542;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6M0cWK8lXCk2PyGoH3F7+612m1IXuHYZkAir0Aj4avM=;
- b=nXBrM7V/flJQj9469Po8f197MJVkq9VWPdbfU3gVNqKbXMyM7ysSfgvs
- M9TDjhAVRy7LxXicPki/9hd6ZdmLiJ5YCZO2zMnlsQlD4Jsf8oYUxL3sS
- HzSutZ1OAiBL0EIPOyloBYugMhfMPHcrG2pD+FzTGUokZNXumjKd6xvFU
- C+kP5/0SGhEcaxmhky3n2UVy7wO6d+h6tbj+xiAgD3SGsCJw9ZTWy9rEe
- WsVh0mTmYwxjrfDDAb3YOSH9axC/HAxfl0FilFmhi3Q8gz6aS6G0qOIQn
- SLCVT49/u4UTpl57+153H8X8LA5DduUQq9R535n+felB1atKqJpV1Ye2L Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="227025745"
-X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="227025745"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 09:04:36 -0800
-X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="627998747"
+ bh=Qx4J0DOOcZdbH6aIBRmve+ucnES4R6ueEZMFfWAbIvQ=;
+ b=AdwrTN4hNxxm0t3E42sQL7EzyjrNZlInTAEK+niLwSwlKejk1A+Q4xbb
+ 8lmOHks1mkXjOBvCP8PfVgJmN3GnYbTsAehoiSgjUGBZOUrzvqaVS/3TO
+ p6qXD04YojjwaHkShH28D/1c3ijkLk9OzNLC+bcob8GIlEkC52OtR/QKr
+ GWD/GD7cb37Pwh/975+r7GWXiaepUr2TkSIN5TwJdZSCV95ncgdjRxtsP
+ P4139YGQzNsqV4Wy2IXJ1IbVNaYIBiwbhy7s3D95bHeq9/M/y9vpiINuc
+ nfs23ZZ3L5JU0+GNPdpTPuJxCAY2JJoDVP416HBcM/T6RWScfxKyUe2ux A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="233723232"
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="233723232"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 09:04:44 -0800
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="479564742"
 Received: from skirillo-mobl1.ccr.corp.intel.com (HELO localhost)
  ([10.252.32.77])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 09:04:34 -0800
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 09:04:39 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 6/8] drm/i915/dp: add 128b/132b support to link status checks
-Date: Tue, 25 Jan 2022 19:03:44 +0200
-Message-Id: <adf22e5c64d4fd45a48086ec140663a83b30444d.1643130139.git.jani.nikula@intel.com>
+Subject: [PATCH 7/8] drm/i915/dp: give more time for CDS
+Date: Tue, 25 Jan 2022 19:03:45 +0200
+Message-Id: <07e472499bf7b5ff6d1b5ce345cb96e5a677394c.1643130139.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1643130139.git.jani.nikula@intel.com>
 References: <cover.1643130139.git.jani.nikula@intel.com>
@@ -63,110 +63,30 @@ Cc: jani.nikula@intel.com, uma.shankar@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Abstract link status check to a function that takes 128b/132b and 8b/10b
-into account, and use it. Also dump link status on failures.
+Try to avoid the timeout during debugging.
 
 Cc: Uma Shankar <uma.shankar@intel.com>
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c       | 39 ++++++++++++++-----
- .../drm/i915/display/intel_dp_link_training.c |  2 +-
- .../drm/i915/display/intel_dp_link_training.h |  4 ++
- 3 files changed, 34 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp_link_training.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 4d4579a301f6..80fedd0e6212 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -3628,6 +3628,32 @@ static void intel_dp_handle_test_request(struct intel_dp *intel_dp)
- 			    "Could not write test response to sink\n");
- }
- 
-+static bool intel_dp_link_ok(struct intel_dp *intel_dp,
-+			     u8 link_status[DP_LINK_STATUS_SIZE])
-+{
-+	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-+	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
-+	bool uhbr = intel_dp->link_rate >= 1000000;
-+	bool ok;
-+
-+	if (uhbr)
-+		ok = drm_dp_128b132b_lane_channel_eq_done(link_status,
-+							  intel_dp->lane_count);
-+	else
-+		ok = drm_dp_channel_eq_ok(link_status, intel_dp->lane_count);
-+
-+	if (ok)
-+		return true;
-+
-+	intel_dp_dump_link_status(intel_dp, DP_PHY_DPRX, link_status);
-+	drm_dbg_kms(&i915->drm,
-+		    "[ENCODER:%d:%s] %s link not ok, retraining\n",
-+		    encoder->base.base.id, encoder->base.name,
-+		    uhbr ? "128b/132b" : "8b/10b");
-+
-+	return false;
-+}
-+
- static void
- intel_dp_mst_hpd_irq(struct intel_dp *intel_dp, u8 *esi, u8 *ack)
- {
-@@ -3658,14 +3684,7 @@ static bool intel_dp_mst_link_status(struct intel_dp *intel_dp)
- 		return false;
- 	}
- 
--	if (!drm_dp_channel_eq_ok(link_status, intel_dp->lane_count)) {
--		drm_dbg_kms(&i915->drm,
--			    "[ENCODER:%d:%s] channel EQ not ok, retraining\n",
--			    encoder->base.base.id, encoder->base.name);
--		return false;
--	}
--
--	return true;
-+	return intel_dp_link_ok(intel_dp, link_status);
- }
- 
- /**
-@@ -3779,8 +3798,8 @@ intel_dp_needs_link_retrain(struct intel_dp *intel_dp)
- 					intel_dp->lane_count))
- 		return false;
- 
--	/* Retrain if Channel EQ or CR not ok */
--	return !drm_dp_channel_eq_ok(link_status, intel_dp->lane_count);
-+	/* Retrain if link not ok */
-+	return !intel_dp_link_ok(intel_dp, link_status);
- }
- 
- static bool intel_dp_has_connector(struct intel_dp *intel_dp,
 diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-index 8bb6a296f421..1e41a560204a 100644
+index 1e41a560204a..b1cf99fb3a2d 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-@@ -712,7 +712,7 @@ static bool intel_dp_adjust_request_changed(const struct intel_crtc_state *crtc_
- 	return false;
- }
+@@ -1273,6 +1273,10 @@ intel_dp_128b132b_lane_cds(struct intel_dp *intel_dp,
+ 	}
  
--static void
-+void
- intel_dp_dump_link_status(struct intel_dp *intel_dp, enum drm_dp_phy dp_phy,
- 			  const u8 link_status[DP_LINK_STATUS_SIZE])
- {
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.h b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
-index dbfb15705aaa..dc1556b46b85 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_link_training.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
-@@ -29,6 +29,10 @@ void intel_dp_start_link_train(struct intel_dp *intel_dp,
- void intel_dp_stop_link_train(struct intel_dp *intel_dp,
- 			      const struct intel_crtc_state *crtc_state);
- 
-+void
-+intel_dp_dump_link_status(struct intel_dp *intel_dp, enum drm_dp_phy dp_phy,
-+			  const u8 link_status[DP_LINK_STATUS_SIZE]);
+ 	deadline = jiffies + msecs_to_jiffies((lttpr_count + 1) * 20);
 +
- /* Get the TPSx symbol type of the value programmed to DP_TRAINING_PATTERN_SET */
- static inline u8 intel_dp_training_pattern_symbol(u8 pattern)
- {
++	/* FIXME: Give some slack for CDS. */
++	deadline += msecs_to_jiffies(500);
++
+ 	for (;;) {
+ 		usleep_range(2000, 3000);
+ 
 -- 
 2.30.2
 
