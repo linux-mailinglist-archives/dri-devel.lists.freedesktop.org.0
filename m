@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F40449B639
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 15:29:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2CA49B642
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 15:31:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB0FB10E31D;
-	Tue, 25 Jan 2022 14:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0738810E374;
+	Tue, 25 Jan 2022 14:31:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3429A10E31D
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 14:29:50 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 8C4385C018B;
- Tue, 25 Jan 2022 09:29:49 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA13010E374
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 14:31:05 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 2189A5C0051;
+ Tue, 25 Jan 2022 09:31:05 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Tue, 25 Jan 2022 09:29:49 -0500
+ by compute4.internal (MEProxy); Tue, 25 Jan 2022 09:31:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; bh=4m4Nfajjru0qWT
- duIOfwHl5xFRQrSBLuUd6OLp8Yw0k=; b=J889hK9aoApwJqMHnRLdNg8qOV2LuG
- 2W/UG7LRazCkHL+x3+5UHjsHR1jVlRLsmRSp2sa/vnNSyHdV7iTLrXsDPMjPkN+E
- muJZkNHQMSFOywnj9+wKtm+d7QaFaXV6ikYLYQkaxDHJGvzBDrgQU8WNkQXlm1/e
- mbJfqXtTtdCFY04HNKdf0gN+ZVga0+s9BzZ3gN6lf8s3RKfuHxVMVDsnOlekF7lE
- su/+yAep2IuOIXwipQUb5LhFyQn5WCkY/Apx9iQbTOJCO4ir0ZxmkpIYFVA76nho
- ON6QYccZFdMXngXMrPTwJo5pMPtj3SmcSH0IUCj0Pw+4F2lQvpv5SR9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=4m4Nfajjru0qWTduIOfwHl5xFRQrSBLuUd6OLp8Yw
- 0k=; b=E5BY7NepFfEh1RnIAvSG1rRGmVp5e0aKSf1bHtIYBgdc24FSamSNacMcN
- 8V/33IUg1CJ/ET4XMccupDq9VV0XmMklt7gNsDiyJgnC94Dv149qT7pv7hhc/UtP
- x/XqjPfhVDEZVDOkDt6Bjdlpcfpy9cCT81x5uNsEjBJKJqRO6yo/9pc2D5Oic8zR
- AZ3t2Yp3Bp6t5bt76zaiy0MEJ3PTs/7G4wa2laWKOwl+g96GjhuaRSvYONsHa9JZ
- WWxCuHg+xwIb0LkPB0zsVE3UWujJhJyqPEd5PV1rtHNlHgB7oDekotr5gKsDSXNe
- vXHEZJTG9IIofw0oTXRbcsQ3F8K8Q==
-X-ME-Sender: <xms:XQnwYR43w7zQsQxZtr0284UZqhBI3j4Z2AkGMCe28aw12LPSUpz1Jw>
- <xme:XQnwYe6HQd6gw1ZEeNkJd_wJS0-uRyVH9OI4KcE-1UHT5iSbr5BGv7RD-DRfZxvxR
- Aod2NH-8R5mA-9iYLc>
-X-ME-Received: <xmr:XQnwYYcMzyxXY931l1KNkc9ka7kcsBXQAcSCOUS2C1VqnCeZ23mpXaul1ZZkzNl6gnjGMOWw4Xe7BJj-pAVcXMuYzuvmc8I_g-20zmY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgdeigecutefuodetggdotefrodftvf
+ :subject:to:to; s=fm1; bh=UioDS7bIIR9pBSPUFKuW1SvnQf1rAgYbRXCxgT
+ Fitkg=; b=K5qyME3jHAEz5knw9t6SnuvlkQN6f23qval+p8ijL/BQp+HXmX4fUd
+ H7rXu09VNWk6m04iba7eidcjy/Gu6+Y8TLpjoosg0/n8IvYpbb9vXX75/huLv0Y6
+ yKv321gHxaZ8I1ltDOb8q+Tq1xQ5u8fbxhPrz4LxrUpEyViPPpdxnOGYaVn6UzBB
+ rAgE72dFw/YjmjzMP19+vk7swfGvN76r1eIJuc0eUTMPuHHQp0kJki3iZhFWRW/J
+ 0s5mEHPRj2lUP46Y8/R6yC3tzG5awxKByAC1tWFxedwoPxj1wuhHC2LEZspNU0D/
+ TuN5WAHnbPPpDbEdNqqX9K3NJspA0K2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=UioDS7bIIR9pBSPUF
+ KuW1SvnQf1rAgYbRXCxgTFitkg=; b=VnyrOVCHpuJtLjnxkAaIfg3p0IppkS3XV
+ loRafFppefz0cBGeC/h2tEai3C/GQm4RiHZaiAg/Fe6aLKdDZg5KaCg4jEGyY0BM
+ y6QhdkTSbR78+VrdhixCogL4xkx/CPJF/OfYL1ZQNKW29xF1y0NDIgirgfP3EyHQ
+ 0PICwvQp47D2TGlbN+uYLOK0xYiBj0SqL7B/yFSQpwydDrhbhU2iBNyvA96Vfv57
+ 3tA+MD3Wevi5z+wXJYOvHBnELwde7r0njQEP1uu6aXR9yv9aTOXZ3fo33Cb6Lgjr
+ 17oHGKPAVgkhJWKoAmbfKMXQI6ldOu82At9w6NUjOHAv+8pNQkdRg==
+X-ME-Sender: <xms:qAnwYdtyJuVbjCPiSfAvguz01_0dU9vjy-SJOjvjMIJQRshNf9eDYA>
+ <xme:qAnwYWfFaTAUcFNGB_tr_ZAkfmFCoqoKJGGbnVnLlaBgwSvy4ZSvYvhzddEsQBFLO
+ tRYghPTa0GvYh8bd9M>
+X-ME-Received: <xmr:qAnwYQzvt-htM4jh8cq0VtvCnxi3QVA0jGcpEl_9pTP9QilpCyDl_pqeWmYEM1qXE9JiJUFGQn9SNlM2ojzrdbHOXX_1X0R---UTv_4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgdeifecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
- keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:XQnwYaILwfydhPyahY0q2_pNdp06UtN2ti3f1JaRTEAcw9qHhhHR6w>
- <xmx:XQnwYVJEQYCJJYdIm9yfuueUdj0cE0qoWYoAbWc1EE0N-RV7d8PLOQ>
- <xmx:XQnwYTxfqtddoicLwU3xn9Mqq_M683FWAN5d17_pGNKMdViLvSFWiQ>
- <xmx:XQnwYSGFWesPYLYB-aWZv2bbOjE1aakQzX4LS7mUWYjxgst_fabDgQ>
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpefhkeeiffdvkeetfefghfehffelhfekhfejtefhteekleejgeeijeeihfejvdet
+ ffenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
+ thgvtghh
+X-ME-Proxy: <xmx:qAnwYUP8CGMwnViH-KS2o6PeqgaYDQcvGts2Kc9dGFcXPZPEUPyaHQ>
+ <xmx:qAnwYd9efyGu8Aif4dLv-oFJA6YHg-5J2y25VSjGDl5LvPRaNlK9ww>
+ <xmx:qAnwYUVb8grZPLfnGiwGoWDveBZtYwPfNGkdSC22vEpxou5Q6od7zQ>
+ <xmx:qQnwYQkq7hEDLM_mTdtXdTwJBamRqC-uEZ4m9aMoZTuH4eE_oadJkw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Jan 2022 09:29:49 -0500 (EST)
+ 25 Jan 2022 09:31:04 -0500 (EST)
+Date: Tue, 25 Jan 2022 15:31:02 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: Re: (subset) [PATCH] drm/edid: Clear EDID Deep Color Modes in
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/edid: Clear EDID Deep Color Modes in
  drm_reset_display_info()
-Date: Tue, 25 Jan 2022 15:29:47 +0100
-Message-Id: <164312096477.750222.10027203445604881237.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220125093251.594772-1-maxime@cerno.tech>
-References: <20220125093251.594772-1-maxime@cerno.tech>
+Message-ID: <20220125143102.gpwoj3w4yoyeeams@houat>
+References: <20220125142928.750258-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="cmryoqspjsowkygz"
+Content-Disposition: inline
+In-Reply-To: <20220125142928.750258-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,21 +84,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Jan 2022 10:32:51 +0100, Maxime Ripard wrote:
+
+--cmryoqspjsowkygz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jan 25, 2022 at 03:29:28PM +0100, Maxime Ripard wrote:
 > Even though we have the other drm_display_info fields reset, the DC
 > modes are missing.
-> 
-> This shouldn't be an issue since it's explicitely reset every time a new
+>=20
+> This shouldn't be an issue since it's explicitly reset every time a new
 > EDID is parsed.
-> 
-> 
-> [...]
+>=20
+> Suggested-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+> Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20220125093251.594772=
+-1-maxime@cerno.tech
 
-Applied to drm/drm-misc (drm-misc-next).
+Sorry, this one can be ignored, I ended up sending the patch instead of
+the b4 thanks email.
 
-Thanks!
-Maxime
+maxime
+
+--cmryoqspjsowkygz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfAJpgAKCRDj7w1vZxhR
+xX6tAP9Qm5wgD1fL1pLV8R8ftokYp+p8o/kvq4QyF5K2CQNhhAEAwgaVo58nhqAa
+onJNrk9Oq+CozhqDYvPGvAB7UC2Gwg0=
+=haLW
+-----END PGP SIGNATURE-----
+
+--cmryoqspjsowkygz--
