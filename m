@@ -2,76 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2CA49B642
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 15:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F00249B78D
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 16:27:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0738810E374;
-	Tue, 25 Jan 2022 14:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 754ED10E38E;
+	Tue, 25 Jan 2022 15:27:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA13010E374
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 14:31:05 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 2189A5C0051;
- Tue, 25 Jan 2022 09:31:05 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 25 Jan 2022 09:31:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; bh=UioDS7bIIR9pBSPUFKuW1SvnQf1rAgYbRXCxgT
- Fitkg=; b=K5qyME3jHAEz5knw9t6SnuvlkQN6f23qval+p8ijL/BQp+HXmX4fUd
- H7rXu09VNWk6m04iba7eidcjy/Gu6+Y8TLpjoosg0/n8IvYpbb9vXX75/huLv0Y6
- yKv321gHxaZ8I1ltDOb8q+Tq1xQ5u8fbxhPrz4LxrUpEyViPPpdxnOGYaVn6UzBB
- rAgE72dFw/YjmjzMP19+vk7swfGvN76r1eIJuc0eUTMPuHHQp0kJki3iZhFWRW/J
- 0s5mEHPRj2lUP46Y8/R6yC3tzG5awxKByAC1tWFxedwoPxj1wuhHC2LEZspNU0D/
- TuN5WAHnbPPpDbEdNqqX9K3NJspA0K2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=UioDS7bIIR9pBSPUF
- KuW1SvnQf1rAgYbRXCxgTFitkg=; b=VnyrOVCHpuJtLjnxkAaIfg3p0IppkS3XV
- loRafFppefz0cBGeC/h2tEai3C/GQm4RiHZaiAg/Fe6aLKdDZg5KaCg4jEGyY0BM
- y6QhdkTSbR78+VrdhixCogL4xkx/CPJF/OfYL1ZQNKW29xF1y0NDIgirgfP3EyHQ
- 0PICwvQp47D2TGlbN+uYLOK0xYiBj0SqL7B/yFSQpwydDrhbhU2iBNyvA96Vfv57
- 3tA+MD3Wevi5z+wXJYOvHBnELwde7r0njQEP1uu6aXR9yv9aTOXZ3fo33Cb6Lgjr
- 17oHGKPAVgkhJWKoAmbfKMXQI6ldOu82At9w6NUjOHAv+8pNQkdRg==
-X-ME-Sender: <xms:qAnwYdtyJuVbjCPiSfAvguz01_0dU9vjy-SJOjvjMIJQRshNf9eDYA>
- <xme:qAnwYWfFaTAUcFNGB_tr_ZAkfmFCoqoKJGGbnVnLlaBgwSvy4ZSvYvhzddEsQBFLO
- tRYghPTa0GvYh8bd9M>
-X-ME-Received: <xmr:qAnwYQzvt-htM4jh8cq0VtvCnxi3QVA0jGcpEl_9pTP9QilpCyDl_pqeWmYEM1qXE9JiJUFGQn9SNlM2ojzrdbHOXX_1X0R---UTv_4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgdeifecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpefhkeeiffdvkeetfefghfehffelhfekhfejtefhteekleejgeeijeeihfejvdet
- ffenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:qAnwYUP8CGMwnViH-KS2o6PeqgaYDQcvGts2Kc9dGFcXPZPEUPyaHQ>
- <xmx:qAnwYd9efyGu8Aif4dLv-oFJA6YHg-5J2y25VSjGDl5LvPRaNlK9ww>
- <xmx:qAnwYUVb8grZPLfnGiwGoWDveBZtYwPfNGkdSC22vEpxou5Q6od7zQ>
- <xmx:qQnwYQkq7hEDLM_mTdtXdTwJBamRqC-uEZ4m9aMoZTuH4eE_oadJkw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Jan 2022 09:31:04 -0500 (EST)
-Date: Tue, 25 Jan 2022 15:31:02 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/edid: Clear EDID Deep Color Modes in
- drm_reset_display_info()
-Message-ID: <20220125143102.gpwoj3w4yoyeeams@houat>
-References: <20220125142928.750258-1-maxime@cerno.tech>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0F0310E38E;
+ Tue, 25 Jan 2022 15:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643124465; x=1674660465;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=T66tfajuZQLNp7OOTwMQMdSkaihAkk5g0b57GFmguqE=;
+ b=ZD4Xi7uYsDkostyuxuTaJd7D4uIEJFphN+YX3uEtLi0o+GdSeitaU101
+ 3KynNP9RqnQMRPdxNtsU4saDAVo4wimxUI3IWCRFYJbYL/Y9mMqnbFbsn
+ T+imzHgxZxNOdei2jMQ1GVOk9FJVBHNkJqqnB8D4OQKJAOImrrvT327rb
+ 3BioE0s1TTTTfsUNURM8MHgKR8SFpV/sDsXRFaN0MqlLNqWnfK0HYjSci
+ Z/mWIOWAKLUAi8nhuJAzQ3MCt8KkwbFtcKXMpouzu+7U6AObJJrY6HXDS
+ n/6tzl0OhvdXnAxsvyotqwra2I7iFgI23TlxIrF4x9oqe+k8OAcnaIcDS A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="243925256"
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="243925256"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 07:27:35 -0800
+X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="477142537"
+Received: from thpham-mobl1.amr.corp.intel.com (HELO [10.213.172.16])
+ ([10.213.172.16])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 07:27:33 -0800
+Message-ID: <2e163060-8ad3-9cec-b325-6e065784d894@linux.intel.com>
+Date: Tue, 25 Jan 2022 15:27:31 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cmryoqspjsowkygz"
-Content-Disposition: inline
-In-Reply-To: <20220125142928.750258-1-maxime@cerno.tech>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915/execlists: Fix execlists request
+ cancellation corner case
+Content-Language: en-US
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20220124150157.15758-1-matthew.brost@intel.com>
+ <20220124150157.15758-4-matthew.brost@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220124150157.15758-4-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,44 +63,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---cmryoqspjsowkygz
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 24/01/2022 15:01, Matthew Brost wrote:
+> More than 1 request can be submitted to a single ELSP at a time if
+> multiple requests are ready run to on the same context. When a request
+> is canceled it is marked bad, an idle pulse is triggered to the engine
+> (high priority kernel request), the execlists scheduler sees that
+> running request is bad and sets preemption timeout to minimum value (1
+> ms). This fails to work if multiple requests are combined on the ELSP as
+> only the most recent request is stored in the execlists schedule (the
+> request stored in the ELSP isn't marked bad, thus preemption timeout
+> isn't set to the minimum value). If the preempt timeout is configured to
+> zero, the engine is permanently hung. This is shown by an upcoming
+> selftest.
+> 
+> To work around this, mark the idle pulse with a flag to force a preempt
+> with the minimum value.
 
-On Tue, Jan 25, 2022 at 03:29:28PM +0100, Maxime Ripard wrote:
-> Even though we have the other drm_display_info fields reset, the DC
-> modes are missing.
->=20
-> This shouldn't be an issue since it's explicitly reset every time a new
-> EDID is parsed.
->=20
-> Suggested-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-> Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20220125093251.594772=
--1-maxime@cerno.tech
+A couple of quick questions first before I find time to dig deeper.
 
-Sorry, this one can be ignored, I ended up sending the patch instead of
-the b4 thanks email.
+First about the "permanently hung" statement. How permanent? Does the 
+heartbeat eventually resolve it and if not why not? Naive view is that 
+missed heartbeats would identify the stuck non-preemptible request and 
+then engine reset would skip over it.
 
-maxime
+If it does resolve, then the problem is only that request timeout works 
+less well if someone set preempt timeout to zero? Which may not be as 
+bad, since request timeout was never about any time guarantees.
 
---cmryoqspjsowkygz
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
 
------BEGIN PGP SIGNATURE-----
+Tvrtko
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfAJpgAKCRDj7w1vZxhR
-xX6tAP9Qm5wgD1fL1pLV8R8ftokYp+p8o/kvq4QyF5K2CQNhhAEAwgaVo58nhqAa
-onJNrk9Oq+CozhqDYvPGvAB7UC2Gwg0=
-=haLW
------END PGP SIGNATURE-----
-
---cmryoqspjsowkygz--
+> 
+> Fixes: 38b237eab2bc7 ("drm/i915: Individual request cancellation")
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 23 +++++++++++++++----
+>   .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |  1 +
+>   .../drm/i915/gt/intel_execlists_submission.c  | 18 ++++++++++-----
+>   drivers/gpu/drm/i915/i915_request.h           |  6 +++++
+>   4 files changed, 38 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> index a3698f611f457..efd1c719b4072 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> @@ -243,7 +243,8 @@ void intel_engine_init_heartbeat(struct intel_engine_cs *engine)
+>   	INIT_DELAYED_WORK(&engine->heartbeat.work, heartbeat);
+>   }
+>   
+> -static int __intel_engine_pulse(struct intel_engine_cs *engine)
+> +static int __intel_engine_pulse(struct intel_engine_cs *engine,
+> +				bool force_preempt)
+>   {
+>   	struct i915_sched_attr attr = { .priority = I915_PRIORITY_BARRIER };
+>   	struct intel_context *ce = engine->kernel_context;
+> @@ -258,6 +259,8 @@ static int __intel_engine_pulse(struct intel_engine_cs *engine)
+>   		return PTR_ERR(rq);
+>   
+>   	__set_bit(I915_FENCE_FLAG_SENTINEL, &rq->fence.flags);
+> +	if (force_preempt)
+> +		__set_bit(I915_FENCE_FLAG_FORCE_PREEMPT, &rq->fence.flags);
+>   
+>   	heartbeat_commit(rq, &attr);
+>   	GEM_BUG_ON(rq->sched.attr.priority < I915_PRIORITY_BARRIER);
+> @@ -299,7 +302,7 @@ int intel_engine_set_heartbeat(struct intel_engine_cs *engine,
+>   
+>   		/* recheck current execution */
+>   		if (intel_engine_has_preemption(engine)) {
+> -			err = __intel_engine_pulse(engine);
+> +			err = __intel_engine_pulse(engine, false);
+>   			if (err)
+>   				set_heartbeat(engine, saved);
+>   		}
+> @@ -312,7 +315,8 @@ int intel_engine_set_heartbeat(struct intel_engine_cs *engine,
+>   	return err;
+>   }
+>   
+> -int intel_engine_pulse(struct intel_engine_cs *engine)
+> +static int _intel_engine_pulse(struct intel_engine_cs *engine,
+> +			       bool force_preempt)
+>   {
+>   	struct intel_context *ce = engine->kernel_context;
+>   	int err;
+> @@ -325,7 +329,7 @@ int intel_engine_pulse(struct intel_engine_cs *engine)
+>   
+>   	err = -EINTR;
+>   	if (!mutex_lock_interruptible(&ce->timeline->mutex)) {
+> -		err = __intel_engine_pulse(engine);
+> +		err = __intel_engine_pulse(engine, force_preempt);
+>   		mutex_unlock(&ce->timeline->mutex);
+>   	}
+>   
+> @@ -334,6 +338,17 @@ int intel_engine_pulse(struct intel_engine_cs *engine)
+>   	return err;
+>   }
+>   
+> +int intel_engine_pulse(struct intel_engine_cs *engine)
+> +{
+> +	return _intel_engine_pulse(engine, false);
+> +}
+> +
+> +
+> +int intel_engine_pulse_force_preempt(struct intel_engine_cs *engine)
+> +{
+> +	return _intel_engine_pulse(engine, true);
+> +}
+> +
+>   int intel_engine_flush_barriers(struct intel_engine_cs *engine)
+>   {
+>   	struct i915_sched_attr attr = { .priority = I915_PRIORITY_MIN };
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
+> index 5da6d809a87a2..d9c8386754cb3 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
+> @@ -21,6 +21,7 @@ void intel_gt_park_heartbeats(struct intel_gt *gt);
+>   void intel_gt_unpark_heartbeats(struct intel_gt *gt);
+>   
+>   int intel_engine_pulse(struct intel_engine_cs *engine);
+> +int intel_engine_pulse_force_preempt(struct intel_engine_cs *engine);
+>   int intel_engine_flush_barriers(struct intel_engine_cs *engine);
+>   
+>   #endif /* INTEL_ENGINE_HEARTBEAT_H */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index 960a9aaf4f3a3..f0c2024058731 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -1222,26 +1222,29 @@ static void record_preemption(struct intel_engine_execlists *execlists)
+>   }
+>   
+>   static unsigned long active_preempt_timeout(struct intel_engine_cs *engine,
+> -					    const struct i915_request *rq)
+> +					    const struct i915_request *rq,
+> +					    bool force_preempt)
+>   {
+>   	if (!rq)
+>   		return 0;
+>   
+>   	/* Force a fast reset for terminated contexts (ignoring sysfs!) */
+> -	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq)))
+> +	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq) ||
+> +		     force_preempt))
+>   		return 1;
+>   
+>   	return READ_ONCE(engine->props.preempt_timeout_ms);
+>   }
+>   
+>   static void set_preempt_timeout(struct intel_engine_cs *engine,
+> -				const struct i915_request *rq)
+> +				const struct i915_request *rq,
+> +				bool force_preempt)
+>   {
+>   	if (!intel_engine_has_preempt_reset(engine))
+>   		return;
+>   
+>   	set_timer_ms(&engine->execlists.preempt,
+> -		     active_preempt_timeout(engine, rq));
+> +		     active_preempt_timeout(engine, rq, force_preempt));
+>   }
+>   
+>   static bool completed(const struct i915_request *rq)
+> @@ -1584,12 +1587,15 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
+>   	    memcmp(active,
+>   		   execlists->pending,
+>   		   (port - execlists->pending) * sizeof(*port))) {
+> +		bool force_preempt = test_bit(I915_FENCE_FLAG_FORCE_PREEMPT,
+> +					      &last->fence.flags);
+> +
+>   		*port = NULL;
+>   		while (port-- != execlists->pending)
+>   			execlists_schedule_in(*port, port - execlists->pending);
+>   
+>   		WRITE_ONCE(execlists->yield, -1);
+> -		set_preempt_timeout(engine, *active);
+> +		set_preempt_timeout(engine, *active, force_preempt);
+>   		execlists_submit_ports(engine);
+>   	} else {
+>   		ring_set_paused(engine, 0);
+> @@ -2594,7 +2600,7 @@ static void execlists_context_cancel_request(struct intel_context *ce,
+>   
+>   	i915_request_active_engine(rq, &engine);
+>   
+> -	if (engine && intel_engine_pulse(engine))
+> +	if (engine && intel_engine_pulse_force_preempt(engine))
+>   		intel_gt_handle_error(engine->gt, engine->mask, 0,
+>   				      "request cancellation by %s",
+>   				      current->comm);
+> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+> index 28b1f9db54875..7e6312233d4c7 100644
+> --- a/drivers/gpu/drm/i915/i915_request.h
+> +++ b/drivers/gpu/drm/i915/i915_request.h
+> @@ -170,6 +170,12 @@ enum {
+>   	 * fence (dma_fence_array) and i915 generated for parallel submission.
+>   	 */
+>   	I915_FENCE_FLAG_COMPOSITE,
+> +
+> +	/*
+> +	 * I915_FENCE_FLAG_FORCE_PREEMPT - Force preempt immediately regardless
+> +	 * of preempt timeout configuration
+> +	 */
+> +	I915_FENCE_FLAG_FORCE_PREEMPT,
+>   };
+>   
+>   /**
+> 
