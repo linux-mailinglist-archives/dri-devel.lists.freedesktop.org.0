@@ -1,76 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF6549AFC5
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:25:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33DB049AFCA
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:25:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F40F10E660;
-	Tue, 25 Jan 2022 09:25:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2A1410E961;
+	Tue, 25 Jan 2022 09:25:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D267F10E660
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 09:25:27 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 2A7BF580DB5;
- Tue, 25 Jan 2022 04:25:27 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 25 Jan 2022 04:25:27 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E131710E6C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 09:25:29 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4AFDD580699;
+ Tue, 25 Jan 2022 04:25:29 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Tue, 25 Jan 2022 04:25:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; bh=rlstxoOruwBatw
- g3aqdaTs6o6tVKm2RxqltJTyKRuo8=; b=SyHPGPKmILvzDVhsgvP7+IK+j78hnc
- Wlzfw9MTPvhWza69UO6yrCpKh4qkFK3+kP+M+yJTtJ1dWxGQ0+4FQfXGsxw0e/iu
- /SBbI5CJKdy+R6n0JGTu01JLqZXSAjFsQcd3Z0n0znyC8+rsWIMEP6p6OWeVZFsq
- T7G/junoElPNhk3O9FGVOqBouhX6Gnblx664hkpxnzmVmO8X45Dh6aESMsJEhBua
- XafFSwmDqIzisjOv1qAyUFp37MmE+vwOrHberNNxijLVDoaCpgD1Ge+r58RK+up/
- iMbiSiVQ4GejAJukzR+hAMVIsge6IFV11ASLiAu+OebcoUH0yPgeQnGw==
+ :reply-to:sender:subject:subject:to:to; s=fm1; bh=O8ZzvD4QGMsxFS
+ HVsCUMmngFD5zDVQSN4CjcGXonVac=; b=lXUBbtMYnR4hdjJ9RnOz4iZi5LM3bw
+ LzE/uJKR315HuPIMnYob/d9Oqee6hIyWev+K+o8q7xurYTRH7biP480H2+uZSmxf
+ khfuXlmKZz+ikX4Bf2yVZJssBT3INR9p2iJsWN+KHQi1HpK8TUsJPGaVhQO51Lrv
+ dMMoxKDr5YvQe4p7Dq8X5jsSr+SiQFRG0sF6+0bJcyIZOpmtjMO871VPwAdTDRj6
+ yVv84fcihSUvXztHoO5S/uqkmcloZQ38+c9Q09COywT/6e5jYX0+KW26J3jLyEUE
+ vNNDPmeMwubZkA2baekn78ZzHRD1MrqncHg0wotrAoonungapz74ng+w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=rlstxoOruwBatwg3aqdaTs6o6tVKm2RxqltJTyKRu
- o8=; b=QdtodtNAuGq79l95wrd3g6PP7HsOmDuYs1TUWcn05AEwIpvfY0dZqa+ze
- cnN5QL8Sp5UxwHCL0fEbhZb8vYaraUXKmdGbMCLa+HADZSgqmbFVNh1fL5D0ZMaT
- gmHHay03c1YJTh3JvW4xRjGgJL/kUJp3y6DbHJgFaG+/3OTWmXdZrmbV5aRlo3jl
- P87R9R1ZMWq7C3wbXFIdkjZbqBpfweAJQD0kNDNpD7Gjt2ul9l7OizqG8Zvye0RJ
- XYK/Ys1rn/3nur7rhCQ2zrvTNYz8FsoKvmuS3FtPt/yQKjJje3ZKgHGk8nJdnHC/
- ogQ8IH1wJ4zdxnC4fsupTEV5Ly9rg==
-X-ME-Sender: <xms:BsLvYZPZ9hbvd3BYKQ_5GTAaQlFHvbz_av84WaAOWOq5zkmih0sZig>
- <xme:BsLvYb_RDuTZdYfDnbX0bGhl4X_jUaSo5TRJsi_KLVWAr-2Zw_-ibx6rztMZIOe1t
- GcQTHRd0x2vkjmWcGM>
-X-ME-Received: <xmr:BsLvYYRANWC7H8e5emn6WOiG0HG7612cDgljJJfKZob_DaxXe9EkJJgSQM5hb0eeIlNtX96TE-73TqNj7LGBewHfr71AZi_yD9dce0o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgddtudcutefuodetggdotefrodftvf
+ :x-sasl-enc; s=fm1; bh=O8ZzvD4QGMsxFSHVsCUMmngFD5zDVQSN4CjcGXonV
+ ac=; b=kP01ZLdjvK+z+Lo/Ua8Knf3GhQGfBJ46oTfDkR/JKcuxJ6zPQU4RLNV9c
+ u2NmQbb6xhmNC3Hl6Wrl9j0i0qgfQVqVOkpccGOpTuxTC7+OUrmw6o4xnAtDllcP
+ WSdEYQvgMdtzfylhIZnG8laAYljYWVvo3+E4MhDwcWLpJPDIoefU0qnAVKNtHqXQ
+ XEkc2Ffo0rmZBiRSGYdN8E8tP+qWs08X5YkoVEAm0O9GH/m+bCi60JQvE3MaFQkf
+ QiQEaf4t38BNYzIJo3/jGSUeRDL6NkFIZI5vQkf2ZNQMAEKzK11NrCt5CuX8xTFv
+ Iv5Mohhi+4OUnrxituS+FNFTiDjHw==
+X-ME-Sender: <xms:CcLvYZtb8mlM1HlSo2QkI0Xpy084LwRTjDKikYOGAg-3rj7OTjNU8Q>
+ <xme:CcLvYSdfWP-1UZKeSW4JOwAQ9Dc-XAOK8eDInYv5IC39E8F7n8mto0GIBmWleYA_I
+ yBgu2G-nQOLW8j6aB4>
+X-ME-Received: <xmr:CcLvYczlcZ80izk4BcpSi7xf13bHULPIiQCfWM0pvb2bJh_jwfrMO3Mpy9bsrol9a2IsR8hZjau1ucZAMhz9CTbb5dkBKDySfePisjQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvdelgddtvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
- keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ keeknecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:BsLvYVt8NgVnQUm0crsTqGghtFiX617_6FRAENUflNmH31RNKMWy_Q>
- <xmx:BsLvYRd5FPa3JIRClbspBOfj54UD6aMcZFRzxsoqskhVRMVJ99xdIQ>
- <xmx:BsLvYR3VnD_Pojm75Qr5PtXsKJ4fYXbTWtPJK1SV__8xZAzYhGVbVg>
- <xmx:B8LvYd5pH1auLEljRb2MYF0u3nKbozDpfeMNvkbp15m2E1hrtZmF7g>
+X-ME-Proxy: <xmx:CcLvYQOM5zzMWB_wQJZBlLowl3h-N010Zs1qY8_uQ2MvKVrwWoIHOg>
+ <xmx:CcLvYZ8Tad-bEByi0SCBSrIWqMx0NkAZfwX9hkaSTMszXqBHr59uBQ>
+ <xmx:CcLvYQXR2AAxoEoMTua5xKq6XoSCk0hoBtTJ-jw3IINI4NT7zXso3g>
+ <xmx:CcLvYYazU_RnZCIkveJ1tHhuH7uLaM3Ft2f5GIxPtkkr3ppNjgQqlA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Jan 2022 04:25:26 -0500 (EST)
+ 25 Jan 2022 04:25:28 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: (subset) [PATCH v4 02/16] drm/edid: Don't clear formats if using
- deep color
-Date: Tue, 25 Jan 2022 10:25:11 +0100
-Message-Id: <164310270996.583056.16179202253940602649.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v4 03/16] drm/edid: Split deep color modes
+ between RGB and YUV444
+Date: Tue, 25 Jan 2022 10:25:12 +0100
+Message-Id: <164310270996.583056.4800004908115541949.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220120151625.594595-3-maxime@cerno.tech>
+In-Reply-To: <20220120151625.594595-4-maxime@cerno.tech>
 References: <20220120151625.594595-1-maxime@cerno.tech>
- <20220120151625.594595-3-maxime@cerno.tech>
+ <20220120151625.594595-4-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -93,14 +93,14 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Jan 2022 16:16:11 +0100, Maxime Ripard wrote:
-> The current code, when parsing the EDID Deep Color depths, that the
-> YUV422 cannot be used, referring to the HDMI 1.3 Specification.
+On Thu, 20 Jan 2022 16:16:12 +0100, Maxime Ripard wrote:
+> The current code assumes that the RGB444 and YUV444 formats are the
+> same, but the HDMI 2.0 specification states that:
 > 
-> This specification, in its section 6.2.4, indeed states:
-> 
->   For each supported Deep Color mode, RGB 4:4:4 shall be supported and
->   optionally YCBCR 4:4:4 may be supported.
+>    The three DC_XXbit bits above only indicate support for RGB 4:4:4 at
+>    that pixel size. Support for YCBCR 4:4:4 in Deep Color modes is
+>    indicated with the DC_Y444 bit. If DC_Y444 is set, then YCBCR 4:4:4
+>    is supported for all modes indicated by the DC_XXbit flags.
 > 
 > [...]
 
