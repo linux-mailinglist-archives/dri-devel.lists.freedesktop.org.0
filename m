@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6F449B0C0
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB9C49B0FD
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 11:02:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4386910F100;
-	Tue, 25 Jan 2022 09:52:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 530CC10E4F2;
+	Tue, 25 Jan 2022 10:02:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE49510F0FF;
- Tue, 25 Jan 2022 09:52:53 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8317710E4F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 10:02:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643104373; x=1674640373;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Y4cSrdusBXOcY/M0QlCwtkrc385TYGUyfX+EBLiaOx8=;
- b=GelVHQgopThF923FBqcRCxunwMdBf7nf1pjz0b7eNFNxVvlO6Mk8/lpy
- pJlSGlnGHytfWvOBwe0sttsZmliyJkC1DnRGhTaq4hEspkc4Y3Cfv6g2G
- 5pdYmvpBIC8f3Yfa4ooG7SEkxiVcojt5WQRlW89YgqKA/rZRWUSV9uPgG
- k0HJ4+zasVFXObJFJpI9PmH7jvsLqzSiEznvozVofWPgvUR4vuUvw1i+4
- kOJ1VIhlOT+OWy/NW6UW1zYQxdYUupNe/OZPSshviR07quJUzmAwmm/Tx
- POn55q6X5nCzrOLzgATCsI6ciGIjrlX+fKY4l7SJxjm1fWoujwWftfgNA Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="270711943"
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="270711943"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 01:52:53 -0800
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="534659777"
-Received: from skirillo-mobl1.ccr.corp.intel.com (HELO localhost)
- ([10.252.32.77])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 01:52:50 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/3] drm/drm_edid: Add helper to get max FRL rate for an
- HDMI sink
-In-Reply-To: <20220125085801.1025521-3-ankit.k.nautiyal@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220125085801.1025521-1-ankit.k.nautiyal@intel.com>
- <20220125085801.1025521-3-ankit.k.nautiyal@intel.com>
-Date: Tue, 25 Jan 2022 11:52:35 +0200
-Message-ID: <87czkg16sc.fsf@intel.com>
+ t=1643104960; x=1674640960;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=n6dpGMEk/a452q54nwM/G3sTPBT7XxG4hC3H2UKNfZ0=;
+ b=Xu1mI5hDFErn5jJbutxHoPb8mNoA+rQ8pjM972U4S7Z4cwWVjmGeni2I
+ xoQqUPx3Dx1Y5aUP6EnWXpgFglpc9uLk0QhlD8EeWRN4GdRrCjeTKFMSR
+ BuR+4LSpOfdNZG3OI+8G5MKl8u0HodaoaHldXRNUFk0gmpx+RAyYG0SMh
+ UcpMJAw+Lyly2gywCHx+5DTeJgN0KokN3qR4o9hyI1J/ubr1gBX9ZiIg2
+ yUQ89UOOgc1BYfmanRkbp5A2rOQNcJeELJyqroSVlpaHjuSiEvUBg+06L
+ E1skMq6GG9elBuUiQFXqCKUvfEjnsQVFf3JAwW9qouqeZ0ig8+uLLL8c5 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="226939330"
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="226939330"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 02:02:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="624416000"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.147])
+ by fmsmga002.fm.intel.com with SMTP; 25 Jan 2022 02:02:36 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 25 Jan 2022 12:02:36 +0200
+Date: Tue, 25 Jan 2022 12:02:36 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH] drm/edid: Clear EDID Deep Color Modes in
+ drm_reset_display_info()
+Message-ID: <Ye/KvGlX+vBc01s0@intel.com>
+References: <20220125093251.594772-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220125093251.594772-1-maxime@cerno.tech>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,130 +60,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vandita.kulkarni@intel.com, uma.shankar@intel.com, swati2.sharma@intel.com
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Jan 2022, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
-> Move the common function for getting the max FRL rate for an HDMI sink,
-> from intel_dp.c to drm/drm_edid.
+On Tue, Jan 25, 2022 at 10:32:51AM +0100, Maxime Ripard wrote:
+> Even though we have the other drm_display_info fields reset, the DC
+> modes are missing.
+> 
+> This shouldn't be an issue since it's explicitely reset every time a new
+> EDID is parsed.
 
-The subject prefix should be "drm/edid:"
+It's not really obvious that it can't be an issue. I think we might
+be saved by info->bpc getting reset to 8 by drm_parse_hdmi_vsdb_video().
+But the dc_modes bitfields themselves may be left with stale values.
 
-But I'm not sure these functions belong in drm_edid.c though. If you see
-a function prefixed drm_hdmi_, this is not where you'd expect to find
-it. Not sure what the right place should be though.
+Hmm, actually drm_add_display_info() re-populates info->bpc *after* 
+drm_parse_hdmi_vsdb_video() so we could in theory end up with bpc>8 
+and dc_modes!=0 even if the display doesn't support any HDMI deep 
+color modes. Though I suppose a display that doesn't do deep color
+but declares its max bpc as >8 is a bit nuts. I could maybe imagine
+it happening if the display supports >8 bpc with DP but not with 
+HDMI, and doesn't bother customizing the EDID sufficiently for
+each interface.
 
-Please split this to two patches, adding the helpers in drm and using
-them in i915. It's generally easier to manage that way if there's no
-other reason to keep the changes together.
+> 
+> Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
->
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
 > ---
->  drivers/gpu/drm/drm_edid.c              | 38 +++++++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_dp.c | 19 ++++---------
->  include/drm/drm_edid.h                  |  2 ++
->  3 files changed, 45 insertions(+), 14 deletions(-)
->
+>  drivers/gpu/drm/drm_edid.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index eb61a1a92dc0..75b538b4c87f 100644
+> index 5251925e3b92..a76224653e6f 100644
 > --- a/drivers/gpu/drm/drm_edid.c
 > +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -6176,3 +6176,41 @@ void drm_update_tile_info(struct drm_connector *connector,
->  		connector->tile_group = NULL;
->  	}
->  }
-> +
-> +/**
-> + * drm_hdmi_sink_max_frl - get the max frl rate from HDMI2.1 sink
-> + * @connector - connector with HDMI2.1 sink
+> @@ -5340,6 +5340,9 @@ drm_reset_display_info(struct drm_connector *connector)
+>  	info->rgb_quant_range_selectable = false;
+>  	memset(&info->hdmi, 0, sizeof(info->hdmi));
 
-Do you need to first make sure it's a HDMI 2.1 sink? That's what the
-documentation makes you believe.
+We should probably just move more stuff into that .hdmi struct...
 
-> + *
-> + * RETURNS:
-> + * max frl rate supported by the HDMI2.1 sink, 0 if FRL not supported
-> + */
-> +int drm_hdmi_sink_max_frl(struct drm_connector *connector)
-> +{
-> +	int max_lanes = connector->display_info.hdmi.max_lanes;
-> +	int rate_per_lane = connector->display_info.hdmi.max_frl_rate_per_lane;
-> +
-> +	return max_lanes * rate_per_lane;
-> +}
-> +EXPORT_SYMBOL(drm_hdmi_sink_max_frl);
-> +
-> +/**
-> + * drm_hdmi_sink_dsc_max_frl - get the max frl rate from HDMI2.1 sink
-> + * with DSC1.2 compression.
-> + * @connector - connector with HDMI2.1 sink
-
-Ditto.
-
-> + *
-> + * RETURNS:
-> + * max frl rate supported by the HDMI2.1 sink with DSC1.2, 0 if FRL not supported
-> + */
-> +int drm_hdmi_sink_dsc_max_frl(struct drm_connector *connector)
-> +{
-> +	int max_dsc_lanes, dsc_rate_per_lane;
-> +
-> +	if (!connector->display_info.hdmi.dsc_cap.v_1p2)
-> +		return 0;
-> +
-> +	max_dsc_lanes = connector->display_info.hdmi.dsc_cap.max_lanes;
-> +	dsc_rate_per_lane = connector->display_info.hdmi.dsc_cap.max_frl_rate_per_lane;
-> +
-> +	return max_dsc_lanes * dsc_rate_per_lane;
-> +}
-> +EXPORT_SYMBOL(drm_hdmi_sink_dsc_max_frl);
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 4d4579a301f6..f7fe7de7e553 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -2190,22 +2190,13 @@ static int intel_dp_hdmi_sink_max_frl(struct intel_dp *intel_dp)
->  {
->  	struct intel_connector *intel_connector = intel_dp->attached_connector;
->  	struct drm_connector *connector = &intel_connector->base;
-> -	int max_frl_rate;
-> -	int max_lanes, rate_per_lane;
-> -	int max_dsc_lanes, dsc_rate_per_lane;
-> +	int max_frl = drm_hdmi_sink_max_frl(connector);
-> +	int dsc_max_frl = drm_hdmi_sink_dsc_max_frl(connector);
 >  
-> -	max_lanes = connector->display_info.hdmi.max_lanes;
-> -	rate_per_lane = connector->display_info.hdmi.max_frl_rate_per_lane;
-> -	max_frl_rate = max_lanes * rate_per_lane;
-> +	if (dsc_max_frl)
-> +		return min(max_frl, dsc_max_frl);
+> +	info->edid_hdmi_rgb444_dc_modes = 0;
+> +	info->edid_hdmi_ycbcr444_dc_modes = 0;
+> +
+>  	info->non_desktop = 0;
+>  	memset(&info->monitor_range, 0, sizeof(info->monitor_range));
 >  
-> -	if (connector->display_info.hdmi.dsc_cap.v_1p2) {
-> -		max_dsc_lanes = connector->display_info.hdmi.dsc_cap.max_lanes;
-> -		dsc_rate_per_lane = connector->display_info.hdmi.dsc_cap.max_frl_rate_per_lane;
-> -		if (max_dsc_lanes && dsc_rate_per_lane)
-> -			max_frl_rate = min(max_frl_rate, max_dsc_lanes * dsc_rate_per_lane);
-> -	}
-> -
-> -	return max_frl_rate;
-> +	return max_frl;
->  }
->  
->  static bool
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 18f6c700f6d0..5003e1254c44 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -592,6 +592,8 @@ drm_display_mode_from_cea_vic(struct drm_device *dev,
->  			      u8 video_code);
->  const u8 *drm_find_edid_extension(const struct edid *edid,
->  				  int ext_id, int *ext_index);
-> +int drm_hdmi_sink_max_frl(struct drm_connector *connector);
-> +int drm_hdmi_sink_dsc_max_frl(struct drm_connector *connector);
->  
->  
->  #endif /* __DRM_EDID_H__ */
+> -- 
+> 2.34.1
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Ville Syrjälä
+Intel
