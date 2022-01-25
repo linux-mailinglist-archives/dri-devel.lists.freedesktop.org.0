@@ -1,48 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AB749AF81
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:12:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA15E49AF83
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:12:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C315210EF02;
-	Tue, 25 Jan 2022 09:12:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A63010EF0E;
+	Tue, 25 Jan 2022 09:12:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91D8710EEF3;
- Tue, 25 Jan 2022 09:12:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643101943; x=1674637943;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=B6AmkMjRBDi+8caJAG6VytMdj5BtAs0p6ixGrOiA2R4=;
- b=kQfFCvyjSqNiMtQp+0fLnMzZ+rqaOJvStx8DKEvVCNJEe5+EsRJqz3h3
- FPn6nKKQ1FqbCsg92HR0gPdY41hpJw5W7md9yXe6zJWGHeHaD22Wf2s0Q
- FdHN+LQuhrpnz0CIIi+C1oIgxqz3S/LoXrcoEwjJRiXxScHnIxoA8m8W4
- 7+4zU/RQEe5At9gKmSm3BqZy7K9kxHMnbHjXoanLl7EM6/Bei6+I2Be10
- sfHID55PEEIUScXWT9T+wqxob8WVqORTdEBDquUpci3SeYhRJHPw6rsqY
- z79mClKa0Qv1C0uiPTvgiHnSgxRHDmtgGMZWsubwYMI5YeFkXgrXHB0UL Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="246042341"
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="246042341"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 01:12:23 -0800
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="695768119"
-Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 01:12:20 -0800
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915/display: Simplify helpers for getting DSC slices
- and bpp
-Date: Tue, 25 Jan 2022 14:28:01 +0530
-Message-Id: <20220125085801.1025521-4-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220125085801.1025521-1-ankit.k.nautiyal@intel.com>
-References: <20220125085801.1025521-1-ankit.k.nautiyal@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 711A410EEF6
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 09:12:26 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 163EA1F380;
+ Tue, 25 Jan 2022 09:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643101945; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=+6tDQedEPoIZ47E47S0YoJ/2jrnf2VvXD6snoZLZYwk=;
+ b=2RgemZqP2FbjG8zANtgScV5Yu4PNLoPi/CU3cDgiyLpPjNh0KtjOHynfA59JdXUek9/ZaD
+ VZcztRGNt0Si2KG1hfgHth61QwW8X0Htm51qgdXaycoHlnR+E1LzBj8qRQ1hpW2hMNvMef
+ xLD5k+6S03JbcfXRIKcz4h82OM42vjI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643101945;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=+6tDQedEPoIZ47E47S0YoJ/2jrnf2VvXD6snoZLZYwk=;
+ b=EnnZGwL+X8hTDiqalJY7osvGZDLBGEqgbQOMMgnACLblNH+diAj0SoYbJKcWaRpgM19LOd
+ pZ3lksHkriQtLJCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C726E13DA2;
+ Tue, 25 Jan 2022 09:12:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id WdiVL/i+72GGQAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 25 Jan 2022 09:12:24 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: zackr@vmware.com, javierm@redhat.com, jfalempe@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, deller@gmx.de, hdegoede@redhat.com
+Subject: [PATCH 0/5] sysfb: Fix memory-region management
+Date: Tue, 25 Jan 2022 10:12:17 +0100
+Message-Id: <20220125091222.21457-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,160 +63,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vandita.kulkarni@intel.com, uma.shankar@intel.com, swati2.sharma@intel.com
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Genralize the helper for getting DSC slice count and compressed bpp
-for HDMI sink supporting DSC.
-This patch:
--Removes the assumption on the bpc and sends it as an argument for
-calculating compressed bpc.
--Sends the resolution, and output format as parameters for which the
-DSC paremeters are to be calculated instead of crtc_state.
+Request framebuffer memory in simpledrm and simplefb. Do a hot-unplug
+operation when removing fbdev firmware drivers.
 
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c   |  7 +++++--
- drivers/gpu/drm/i915/display/intel_hdmi.c | 24 ++++++++++++-----------
- drivers/gpu/drm/i915/display/intel_hdmi.h |  5 +++--
- 3 files changed, 21 insertions(+), 15 deletions(-)
+After being unloaded by a hardware driver, simplefb leaves behind the
+firmware framebuffer's platform device. This prevents other drivers
+from acquiring the memory as reported at [1].
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index f7fe7de7e553..17d08f06499b 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -2357,7 +2357,9 @@ intel_dp_pcon_dsc_enc_slices(struct intel_dp *intel_dp,
- 	int pcon_max_slices = drm_dp_pcon_dsc_max_slices(intel_dp->pcon_dsc_dpcd);
- 	int pcon_max_slice_width = drm_dp_pcon_dsc_max_slice_width(intel_dp->pcon_dsc_dpcd);
- 
--	return intel_hdmi_dsc_get_num_slices(crtc_state, pcon_max_slices,
-+	return intel_hdmi_dsc_get_num_slices(&crtc_state->hw.adjusted_mode,
-+					     crtc_state->output_format,
-+					     pcon_max_slices,
- 					     pcon_max_slice_width,
- 					     hdmi_max_slices, hdmi_throughput);
- }
-@@ -2374,9 +2376,10 @@ intel_dp_pcon_dsc_enc_bpp(struct intel_dp *intel_dp,
- 	int pcon_fractional_bpp = drm_dp_pcon_dsc_bpp_incr(intel_dp->pcon_dsc_dpcd);
- 	int hdmi_max_chunk_bytes =
- 		connector->display_info.hdmi.dsc_cap.total_chunk_kbytes * 1024;
-+	int bpc = crtc_state->pipe_bpp / 3;
- 
- 	return intel_hdmi_dsc_get_bpp(pcon_fractional_bpp, slice_width,
--				      num_slices, output_format, hdmi_all_bpp,
-+				      num_slices, output_format, bpc, hdmi_all_bpp,
- 				      hdmi_max_chunk_bytes);
- }
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 381a9de3a015..f75e2384da63 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -3004,7 +3004,8 @@ int intel_hdmi_dsc_get_slice_height(int vactive)
-  * intel_hdmi_dsc_get_num_slices - get no. of dsc slices based on dsc encoder
-  * and dsc decoder capabilities
-  *
-- * @crtc_state: intel crtc_state
-+ * @mode: drm_display_mode for which num of slices are needed
-+ * @output_format : pipe output format
-  * @src_max_slices: maximum slices supported by the DSC encoder
-  * @src_max_slice_width: maximum slice width supported by DSC encoder
-  * @hdmi_max_slices: maximum slices supported by sink DSC decoder
-@@ -3014,7 +3015,8 @@ int intel_hdmi_dsc_get_slice_height(int vactive)
-  * and decoder.
-  */
- int
--intel_hdmi_dsc_get_num_slices(const struct intel_crtc_state *crtc_state,
-+intel_hdmi_dsc_get_num_slices(const struct drm_display_mode *mode,
-+			      enum intel_output_format output_format,
- 			      int src_max_slices, int src_max_slice_width,
- 			      int hdmi_max_slices, int hdmi_throughput)
- {
-@@ -3036,7 +3038,7 @@ intel_hdmi_dsc_get_num_slices(const struct intel_crtc_state *crtc_state,
- 	int max_throughput; /* max clock freq. in khz per slice */
- 	int max_slice_width;
- 	int slice_width;
--	int pixel_clock = crtc_state->hw.adjusted_mode.crtc_clock;
-+	int pixel_clock = mode->crtc_clock;
- 
- 	if (!hdmi_throughput)
- 		return 0;
-@@ -3047,8 +3049,8 @@ intel_hdmi_dsc_get_num_slices(const struct intel_crtc_state *crtc_state,
- 	 * for 4:4:4 is 1.0. Multiplying these factors by 10 and later
- 	 * dividing adjusted clock value by 10.
- 	 */
--	if (crtc_state->output_format == INTEL_OUTPUT_FORMAT_YCBCR444 ||
--	    crtc_state->output_format == INTEL_OUTPUT_FORMAT_RGB)
-+	if (output_format == INTEL_OUTPUT_FORMAT_YCBCR444 ||
-+	    output_format == INTEL_OUTPUT_FORMAT_RGB)
- 		kslice_adjust = 10;
- 	else
- 		kslice_adjust = 5;
-@@ -3103,7 +3105,7 @@ intel_hdmi_dsc_get_num_slices(const struct intel_crtc_state *crtc_state,
- 		else
- 			return 0;
- 
--		slice_width = DIV_ROUND_UP(crtc_state->hw.adjusted_mode.hdisplay, target_slices);
-+		slice_width = DIV_ROUND_UP(mode->hdisplay, target_slices);
- 		if (slice_width >= max_slice_width)
- 			min_slices = target_slices + 1;
- 	} while (slice_width >= max_slice_width);
-@@ -3119,6 +3121,7 @@ intel_hdmi_dsc_get_num_slices(const struct intel_crtc_state *crtc_state,
-  * @slice_width: dsc slice width supported by the source and sink
-  * @num_slices: num of slices supported by the source and sink
-  * @output_format: video output format
-+ * @bpc: bits per color
-  * @hdmi_all_bpp: sink supports decoding of 1/16th bpp setting
-  * @hdmi_max_chunk_bytes: max bytes in a line of chunks supported by sink
-  *
-@@ -3126,7 +3129,7 @@ intel_hdmi_dsc_get_num_slices(const struct intel_crtc_state *crtc_state,
-  */
- int
- intel_hdmi_dsc_get_bpp(int src_fractional_bpp, int slice_width, int num_slices,
--		       enum intel_output_format output_format,
-+		       enum intel_output_format output_format, int bpc,
- 		       bool hdmi_all_bpp, int hdmi_max_chunk_bytes)
- {
- 	int max_dsc_bpp, min_dsc_bpp;
-@@ -3144,18 +3147,17 @@ intel_hdmi_dsc_get_bpp(int src_fractional_bpp, int slice_width, int num_slices,
- 	 * for each bpp we check if no of bytes can be supported by HDMI sink
- 	 */
- 
--	/* Assuming: bpc as 8*/
- 	if (output_format == INTEL_OUTPUT_FORMAT_YCBCR420) {
- 		min_dsc_bpp = 6;
--		max_dsc_bpp = 3 * 4; /* 3*bpc/2 */
-+		max_dsc_bpp = 3 * bpc / 2;
- 	} else if (output_format == INTEL_OUTPUT_FORMAT_YCBCR444 ||
- 		   output_format == INTEL_OUTPUT_FORMAT_RGB) {
- 		min_dsc_bpp = 8;
--		max_dsc_bpp = 3 * 8; /* 3*bpc */
-+		max_dsc_bpp = 3 * bpc;
- 	} else {
- 		/* Assuming 4:2:2 encoding */
- 		min_dsc_bpp = 7;
--		max_dsc_bpp = 2 * 8; /* 2*bpc */
-+		max_dsc_bpp = 2 * bpc;
- 	}
- 
- 	/*
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.h b/drivers/gpu/drm/i915/display/intel_hdmi.h
-index fe40e49d2962..0866bd9da7ed 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.h
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.h
-@@ -51,8 +51,9 @@ bool intel_hdmi_bpc_possible(const struct intel_crtc_state *crtc_state,
- 			     int bpc, bool has_hdmi_sink, bool ycbcr420_output);
- int intel_hdmi_dsc_get_bpp(int src_fractional_bpp, int slice_width,
- 			   int num_slices, enum intel_output_format output_format,
--			   bool hdmi_all_bpp, int hdmi_max_chunk_bytes);
--int intel_hdmi_dsc_get_num_slices(const struct intel_crtc_state *crtc_state,
-+			   int bpc, bool hdmi_all_bpp, int hdmi_max_chunk_bytes);
-+int intel_hdmi_dsc_get_num_slices(const struct drm_display_mode *mode,
-+				  enum intel_output_format output_format,
- 				  int src_max_slices, int src_max_slice_width,
- 				  int hdmi_max_slices, int hdmi_throughput);
- int intel_hdmi_dsc_get_slice_height(int vactive);
+Patch 1 changes the removal code of remove_conflicting_framebuffers()
+to remove the underlying device and the rsp memory region.
+
+Patches 2 to 4 update sysfb and its drivers. The sysfb code does no
+longer mark the framebuffer memory with IORESOURCE_BUSY. Instead, the
+device drivers acquire the memory when they probe the device.
+
+Patch 5 adds a todo item to acquire memory regions in all DRM drivers.
+
+Tested with simpledrm and simplefb.
+
+[1] https://lore.kernel.org/dri-devel/20220117180359.18114-1-zack@kde.org/
+
+v2:
+	* fix possible NULL deref in simpledrm (Jocelyn)
+	* various style fixes (Javier)
+
+Javier Martinez Canillas (1):
+  drivers/firmware: Don't mark as busy the simple-framebuffer IO
+    resource
+
+Thomas Zimmermann (4):
+  fbdev: Hot-unplug firmware fb devices on forced removal
+  drm/simpledrm: Request memory region in driver
+  fbdev/simplefb: Request memory region in driver
+  drm: Add TODO item for requesting memory regions
+
+ Documentation/gpu/todo.rst        | 15 +++++++
+ drivers/firmware/sysfb_simplefb.c |  2 +-
+ drivers/gpu/drm/tiny/simpledrm.c  | 22 ++++++++---
+ drivers/video/fbdev/core/fbmem.c  | 29 ++++++++++++--
+ drivers/video/fbdev/simplefb.c    | 65 +++++++++++++++++++++----------
+ include/linux/fb.h                |  1 +
+ 6 files changed, 105 insertions(+), 29 deletions(-)
+
+
+base-commit: 0bb81b5d6db5f689b67f9d8b35323235c45e890f
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 8e52143a6cd7b8fb789e656208f6edde71d0f499
 -- 
-2.25.1
+2.34.1
 
