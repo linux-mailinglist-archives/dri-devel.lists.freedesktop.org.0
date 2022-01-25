@@ -1,54 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 530CA49BF5D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 00:07:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A4D49BF80
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 00:26:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD5D10E539;
-	Tue, 25 Jan 2022 23:07:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B35610E1E9;
+	Tue, 25 Jan 2022 23:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA00B10E539;
- Tue, 25 Jan 2022 23:07:33 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id c23so6932768wrb.5;
- Tue, 25 Jan 2022 15:07:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=Y9LwOzwvaj9hQQsDetJws7+MI998U+lrWJC7uwIJJ/I=;
- b=FX4F+DMIKGKmh9PQFb9g5hzRstVD20nuH4FkrocpJZlPVtYgB3zhE6mwitpKZDcFC/
- uekdVtlkXjflrtrGJba+H3PBATlZe0npU2KtorCZp1sLM3jkJ+0OwkYwFyi31DvhSAQs
- fb0QvQUfZFS8sitFnno4N6aYL2ayouoQwEHDSVVI8hw4OTWvgCoZVyNarKr0QBo8A/VT
- VdQZ627YqW4oVHrHBzF49a73/fDOUPcyI6FCChs8kjLVKuC4grDiDRpG5FqHGlkHCqPz
- NehwkN3mswrfm7+Xc0Vz/hfNT4JC0t7BgvLiuS5/AnYq98E7S/0PhFJcgvy3YC42HEvA
- zsKw==
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com
+ [IPv6:2607:f8b0:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7208E10E1E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 23:26:05 +0000 (UTC)
+Received: by mail-il1-x135.google.com with SMTP id s1so2937957ilj.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 15:26:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eNJKYs46VCGzLPV+OfVxf1Midd4P2ThRQiu4nw0IrtY=;
+ b=R1/UM4avx7+OxXjRSkasjRNLcoEThEMjSr1UTSNm2f/yVyt4fYcbXY6UdGSRzfaNMk
+ yrF4YWEeW+98KE7jhKn2fdcMuiaBpnwFeVtKwSKPYO0dDdqi1Tv2A70qCv/c/dcFjNSY
+ 1C/CrhAzqK9wSAlSBkZwYY+8BBCFBlGw1wED0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=Y9LwOzwvaj9hQQsDetJws7+MI998U+lrWJC7uwIJJ/I=;
- b=iZWFJbrzu2bGjMmb5e02t3mRjoj5+22xEkTjxHAy4XeP9m+wB97lfmzUKuo7YtIuka
- N85lG3Fa/lLZjd3cfvsSXeiaZfTxwfUz6Dv26fMYtYBZwOJ5m2eDSuBdTSF9cnuANCHA
- R4FuWcQy1gG+FaeiMG2pHVxC0e9F8r7huhaFd9j9XR/y9jamhjVWAcK+xJK/nQSZQM6v
- Tg3Hf4mSfNGAWtxB84MDhi1FRSG+UtG1jF8aIAJNwtK3Z+DBiPM9lBL89LTkWkFkaGjH
- FaNgzFepEOErE72TOv9Mfu8Cp8I2lP9R7kgERQhvU1VsiCa34wty40N24/f/RHkK7qHS
- EpAw==
-X-Gm-Message-State: AOAM533TncoarlBoOqV/1PlXWlS5OZmzvVIP/ek2DA48dcvF98rGYbCR
- DKFubmyJti9kSuRzKst/7OGwo3QXsro7eNnr55Y=
-X-Google-Smtp-Source: ABdhPJy7pW57yvv0C0Ltewjty7KY3mPgDXMn6HXB3Cn0j/zsfcqkqDzThlWqXh7h4JjErvp80D/KedK8rjz/+x96pDo=
-X-Received: by 2002:a5d:4bd0:: with SMTP id l16mr20168250wrt.93.1643152052027; 
- Tue, 25 Jan 2022 15:07:32 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eNJKYs46VCGzLPV+OfVxf1Midd4P2ThRQiu4nw0IrtY=;
+ b=yHWTlPo5I5xR8sfdLTjoK5V1+EzDVtag/15cC6WwG7qq1JT7EdhISlk5yga34FsrzA
+ fmMl+FtCz0TDLy/iRyV3fUNLQt6D8YxFuI1PgEpR5aLKM8seTsvW3Rr6iJaEuK5dGhAk
+ 48qkcUz+/YxPARg+gIDAzvf6U6XReU2Z9vrvhHf0w/zJXwRmO7IlOQAUUht81dObY5LZ
+ 4MpT23arj8mXgVDD3kGp7UxeW+uWm4aHEEZZGcd8s11Hdqsep0LvUmTV5a1NLxBin9/g
+ KeLgOqWAM+8VEkSbj2rKeblRIIs1W2jW9KbgZNfGK8O9EeSeXQQtfK5AMFjOqh9xRnjd
+ Zr2g==
+X-Gm-Message-State: AOAM532xRLk6DqoXdSjcX2L9K4Y9Csvy84I4IouEiev3rbHrJy/5kdJf
+ jC4M15A/0DC7O3H63NPEnq8J7n8KpfQB+w==
+X-Google-Smtp-Source: ABdhPJzNiB3t0/0cqr2776cuz3O1GXG/d1++1vl+IHqJVa1MnrQbQ99hr6GI4XJuimpUGz+KWiw3WQ==
+X-Received: by 2002:a92:c265:: with SMTP id h5mr12052118ild.290.1643153164447; 
+ Tue, 25 Jan 2022 15:26:04 -0800 (PST)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com.
+ [209.85.166.42])
+ by smtp.gmail.com with ESMTPSA id y6sm1014961iow.48.2022.01.25.15.26.03
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 15:26:03 -0800 (PST)
+Received: by mail-io1-f42.google.com with SMTP id s18so9122291ioa.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 15:26:03 -0800 (PST)
+X-Received: by 2002:a05:6602:2d81:: with SMTP id
+ k1mr2426978iow.98.1643153163354; 
+ Tue, 25 Jan 2022 15:26:03 -0800 (PST)
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 25 Jan 2022 15:07:40 -0800
-Message-ID: <CAF6AEGvAfsgtr==VM4wixAC_hSTuV=eNWXxX=BhZqQrbxHjKgg@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2022-01-25 for v5.17
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220125135406.1.I62322abf81dbc1a1b72392a093be0c767da9bf51@changeid>
+ <e89dbc7b-b3ae-c334-b704-f5633725c29f@redhat.com>
+In-Reply-To: <e89dbc7b-b3ae-c334-b704-f5633725c29f@redhat.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 25 Jan 2022 15:25:51 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=U8VGnRXv8MgofKzZF22_x0_X3M+AMfyPQ1u=yTXnFBQA@mail.gmail.com>
+Message-ID: <CAD=FV=U8VGnRXv8MgofKzZF22_x0_X3M+AMfyPQ1u=yTXnFBQA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Allow querying the detected panel via sysfs
+To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,62 +71,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
+Cc: David Airlie <airlied@linux.ie>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+ LKML <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, jjsu@chromium.org,
+ lschyi@chromium.org, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+Hi,
 
-A few fixes for v5.17.
+On Tue, Jan 25, 2022 at 2:55 PM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+>
+> Hello Doug,
+>
+> On 1/25/22 22:54, Douglas Anderson wrote:
+> > Recently we added generic "edp-panel"s probed by EDID. To support
+> > panels in this way we look at the panel ID in the EDID and look up the
+> > panel in a table that has power sequence timings. If we find a panel
+> > that's not in the table we will still attempt to use it but we'll use
+> > conservative timings. While it's likely that these conservative
+> > timings will work for most nearly all panels, the performance of
+> > turning the panel off and on suffers.
+> >
+> > We'd like to be able to reliably detect the case that we're using the
+> > hardcoded timings without relying on parsing dmesg. This allows us to
+> > implement tests that ensure that no devices get shipped that are
+> > relying on the conservative timings.
+> >
+> > Let's add a new sysfs entry to panel devices. It will have one of:
+> > * UNKNOWN - We tried to detect a panel but it wasn't in our table.
+> > * HARDCODED - We're not using generic "edp-panel" probed by EDID.
+> > * A panel name - This is the name of the panel from our table.
+> >
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > ---
+>
+> Patch looks good to me.
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-The following changes since commit 6ed95285382d6f90a3c3a11d5806a5eb7db715c3=
-:
+Thanks!
 
-  drm/msm/a5xx: Fix missing CP_PROTECT for SMMU on A540 (2021-12-17
-15:09:46 -0800)
 
-are available in the Git repository at:
+> Should this new sysfs entry be documented in Documentation/ABI/ ?
 
-  https://gitlab.freedesktop.org/drm/msm.git drm-msm-fixes-2022-01-25
+I'm not sure what the policy is here. I actually don't know that I'm
+too worried about this being an ABI. For the purposes of our tests
+then if something about this file changed (path changed or something
+like that) it wouldn't be a huge deal. Presumably the test itself
+would just "fail" in this case and that would clue us in that the ABI
+changed and we could adapt to whatever new way was needed to discover
+this.
 
-for you to fetch changes up to 6aa89ae1fb049614b7e03e24485bbfb96754a02b:
+That being said, if the policy is that everything in sysfs is supposed
+to be ABI then I can add documentation for this...
 
-  drm/msm/gpu: Cancel idle/boost work on suspend (2022-01-25 08:54:41 -0800=
-)
-
-----------------------------------------------------------------
-Jos=C3=A9 Exp=C3=B3sito (2):
-      drm/msm/dpu: invalid parameter check in dpu_setup_dspp_pcc
-      drm/msm/dsi: invalid parameter check in msm_dsi_phy_enable
-
-Miaoqian Lin (2):
-      drm/msm/dsi: Fix missing put_device() call in dsi_get_phy
-      drm/msm/hdmi: Fix missing put_device() call in msm_hdmi_get_phy
-
-Rob Clark (3):
-      drm/msm/a6xx: Add missing suspend_count increment
-      drm/msm/gpu: Wait for idle before suspending
-      drm/msm/gpu: Cancel idle/boost work on suspend
-
-Xianting Tian (1):
-      drm/msm: Fix wrong size calculation
-
-Yang Li (1):
-      drm/msm: remove variable set but not used
-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |  2 ++
- drivers/gpu/drm/msm/adreno/adreno_device.c  | 18 ++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c | 11 +++++++++--
- drivers/gpu/drm/msm/dsi/dsi.c               |  7 ++++++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c       |  4 +++-
- drivers/gpu/drm/msm/hdmi/hdmi.c             |  7 ++++++-
- drivers/gpu/drm/msm/msm_drv.c               |  5 +----
- drivers/gpu/drm/msm/msm_gpu.c               |  3 +++
- drivers/gpu/drm/msm/msm_gpu.h               |  3 +++
- drivers/gpu/drm/msm/msm_gpu_devfreq.c       | 21 +++++++++++++++++++--
- 10 files changed, 70 insertions(+), 11 deletions(-)
+-Doug
