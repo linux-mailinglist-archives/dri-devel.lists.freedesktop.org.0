@@ -1,64 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B2C49AEA2
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 09:56:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E75149AF70
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 10:12:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C92D10E80F;
-	Tue, 25 Jan 2022 08:56:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD96F10E93E;
+	Tue, 25 Jan 2022 09:12:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6908F10EDFC
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 08:56:22 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 0D638B81722
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 08:56:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F01E0C3410F
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 08:56:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643100978;
- bh=Zo6CpF6VHECLHwvTJLz+W4PUaH2E4R0+vWMcvFea690=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=sRjAWRLYa5mVG2nMkSJL8lqDiiQJP+h8AUWOpF3EsB42CyDfTvCIvmc7UnI6+kgBl
- RcvUUaSSX3xs4J/tU0B6Ff0ojqk9DlzNU4uGoolosqOioELX0muO7wDM3cbco7puXH
- U5/yBEnPMke5KD0MvmLF6jrOzp37q3ZzK2nck+kZnfap5NB+Rgu9UC1xeq+snJsNE7
- BuiU7NPmXmJM2qj3ZQPDIDeSbK6XKx/L4g185clhNA35H4r7iF1i67GxBJpUtlj+yS
- w82PeXXZIi0ssOwXSUJXSDTnanNlltJQinj9gqitSv/+kulesDO5yG0DVZzyfi8fHb
- iMJTNs119s8XQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id E0380CC13AF; Tue, 25 Jan 2022 08:56:17 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Tue, 25 Jan 2022 08:56:15 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: andrewammerlaan@gentoo.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201957-2300-WpvmUlPiD8@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE28310E93E;
+ Tue, 25 Jan 2022 09:12:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643101935; x=1674637935;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=QsEJ9iv1VADz/s5EfrMZIVel7h92de86dHSNLIemKxc=;
+ b=fLoNymrIwgQCR1OMpvXa6aQNVC2xUQNVBCtANtVvupmiDRNnT+Vs4eMK
+ CQfqrEPbPxnY5uXxDIdqOPqhKwjWayqYoT1eiYuTW1vaFswwp0X6PP+T9
+ RazNvO+W3WmUDxbCKR07LWWdnbNRCpsdQX9iLGnC44AQ3rkWMXHFoZ58h
+ WPfPZ2Gd6vdmtjEXgG71SsZj2PI8sHUd6b6WjCXvbCOgAlFjvTOZzIX+2
+ 4/LA1bFVS3Tn/Qb9Vk0+FkGZePhxHxafXc80fuWCqqfOQI3mdOWBfVsrm
+ z8ILzH3q+XSM9gsjogtQWBAJA2sfTGpVNxdadGuVgNceeln1Z6oxXXYW4 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="246042315"
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="246042315"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 01:12:15 -0800
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="695768070"
+Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 01:12:12 -0800
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] Minor Fixes and Refactoring for HDMI PCON stuff
+Date: Tue, 25 Jan 2022 14:27:58 +0530
+Message-Id: <20220125085801.1025521-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,37 +54,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: vandita.kulkarni@intel.com, uma.shankar@intel.com, swati2.sharma@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+Misc fixes and refactoring in HDMI2.1 PCON helper functions.
 
---- Comment #58 from Andrew Ammerlaan (andrewammerlaan@gentoo.org) ---
-> Jan 24 16:33:05 [kernel] [    2.785931] amdgpu 0000:28:00.0: amdgpu: RAS:
-> optional ras ta ucode is not available
-> Jan 24 16:33:05 [kernel] [    2.790137] amdgpu 0000:28:00.0: amdgpu: RAP:
-> optional rap ta ucode is not available
-> Jan 24 16:33:05 [kernel] [    2.790138] amdgpu 0000:28:00.0: amdgpu:
-> SECUREDISPLAY: securedisplay ta ucode is not available
-> Jan 24 16:33:05 [kernel] [    2.790140] amdgpu: smu firmware loading fail=
-ed
-> Jan 24 16:33:05 [kernel] [    2.790141] amdgpu 0000:28:00.0: amdgpu:
-> amdgpu_device_ip_init failed
-> Jan 24 16:33:05 [kernel] [    2.790143] amdgpu 0000:28:00.0: amdgpu: Fatal
-> error during GPU init
+Ankit Nautiyal (3):
+  drm/i915_hdmi: Fix the definition of intel_hdmi_dsc_get_bpp
+  drm/drm_edid: Add helper to get max FRL rate for an HDMI sink
+  drm/i915/display: Simplify helpers for getting DSC slices and bpp
 
+ drivers/gpu/drm/drm_edid.c                | 38 +++++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.c   | 26 ++++++----------
+ drivers/gpu/drm/i915/display/intel_hdmi.c | 26 +++++++++-------
+ drivers/gpu/drm/i915/display/intel_hdmi.h |  8 +++--
+ include/drm/drm_edid.h                    |  2 ++
+ 5 files changed, 69 insertions(+), 31 deletions(-)
 
-Is this a custom built kernel? Is amdgpu built into the kernel or enabled a=
-s a
-module? In the former case, is all required firmware also built into the
-kernel? In the later case, is all required firmware available on the initra=
-mfs
-(if amdgpu is incorporated in the initramfs)? The required firmware files a=
-re
-listed here: https://wiki.gentoo.org/wiki/AMDGPU#Known_firmware_blobs
+-- 
+2.25.1
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
