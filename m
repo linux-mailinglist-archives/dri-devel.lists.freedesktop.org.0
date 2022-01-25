@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567E549B127
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 11:05:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DDA149B143
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 11:24:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AAB210EDFF;
-	Tue, 25 Jan 2022 10:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F235089831;
+	Tue, 25 Jan 2022 10:24:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 699B510EF3C
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 10:05:36 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5185510F172;
+ Tue, 25 Jan 2022 10:24:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643105136; x=1674641136;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=UVtpW3LpdPND5fPQY4jRK7UamvBuB0hpELsNbgR2jQg=;
- b=OLOD6RhVVXNX9hwS/8JfJyogEx1Z0eapGABNY1UO48/522ZE2omuhwYt
- FtA4ujTJIz9F9wqCX1mRAIz6m2qS1390JIUbwmVw5mvm00k+B1YedjF9b
- yGzimqNqOLp0b/B0FsOTcuV2Qkk919UrcuUlhh5jDspGG+fsXtrnAnu41
- kVrt4kX6FMAEa5kWLRL7lEIyhV+D39u3Mle7yHOfgkdqTrdduvyBIkmM3
- 83k9mGcI8PeURxFnVF8nFyybxpILEYpB1k3ALV3K99Xw0xXl2pJG4Wcnl
- fuQzY+jXpiDIrnnz8WyQcIx8uGpAbDfyTULXqhe117ShN339TI2U9dKkn Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="245103416"
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="245103416"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 02:05:35 -0800
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="520327764"
-Received: from skirillo-mobl1.ccr.corp.intel.com (HELO localhost)
- ([10.252.32.77])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 02:05:32 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH] drm/edid: Clear EDID Deep Color Modes in
- drm_reset_display_info()
-In-Reply-To: <20220125093251.594772-1-maxime@cerno.tech>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220125093251.594772-1-maxime@cerno.tech>
-Date: Tue, 25 Jan 2022 12:05:17 +0200
-Message-ID: <87a6fk1676.fsf@intel.com>
+ t=1643106279; x=1674642279;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=8i5dxjzshuVt9TEk1BvigWvWAg55YDSisaiP4h4fH64=;
+ b=EzkUheao18b1YggKuRSdYUPwCPXncnhAS9gfAflnFMBptT/yqLRFgrWK
+ UuRwH1kb0QlohgDnQhHFacON/iQAsc6sH916lzRErnTXh07PJEeKBlugz
+ cbT116XfFtBVYZ39Wrd+H87k7H+JHVpGesVX/kV5mfwoIbHYmKNrdN3e7
+ uIn5ms/nOscfL1GY1MsLsQDrfQGBoj/IW7139/DFMWd1jiQC3TydpfuhI
+ lrrM27AaU5mkaKQCn/6eeFWknsNeL2d8mvswL8A87wQiutqdk2ytFP17L
+ utSK1saG4xf1715vsCHhX7LHZwoaGyXQE4QdCuY189pDoP5PbcLEJGWci Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="226249317"
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="226249317"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 02:24:38 -0800
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; d="scan'208";a="532377901"
+Received: from thpham-mobl1.amr.corp.intel.com (HELO [10.213.172.16])
+ ([10.213.172.16])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2022 02:24:37 -0800
+Message-ID: <fb6f1a2c-6e23-cfdf-2ce5-80209a005227@linux.intel.com>
+Date: Tue, 25 Jan 2022 10:24:35 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [Intel-gfx] [PATCH 6/7] drm: Document fdinfo format specification
+Content-Language: en-US
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220106165536.57208-1-tvrtko.ursulin@linux.intel.com>
+ <20220106165536.57208-7-tvrtko.ursulin@linux.intel.com>
+ <YegpiY3MU15RsEfk@phenom.ffwll.local>
+ <CAF6AEGs58S7U=1nso=0BAURUuobeUam4V0j1W7ZsrK5W7MqRvw@mail.gmail.com>
+ <423c8ff1-3a4b-3e69-8561-3056c7d2d20f@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <423c8ff1-3a4b-3e69-8561-3056c7d2d20f@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,55 +64,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Chris Healy <cphealy@gmail.com>, David M Nieto <David.Nieto@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Jan 2022, Maxime Ripard <maxime@cerno.tech> wrote:
-> Even though we have the other drm_display_info fields reset, the DC
-> modes are missing.
->
-> This shouldn't be an issue since it's explicitely reset every time a new
-> EDID is parsed.
 
-Side note, and hijacking the thread a bit: I think it's a historical
-mistake we've started accumulating stuff in struct drm_display_info that
-is *not* derived from the EDID or DisplayID. I think
-drm_reset_display_info() should just be one memset() and that's
-it. Adding stuff that should not be reset here feels wrong.
+On 21/01/2022 11:50, Tvrtko Ursulin wrote:
+> On 20/01/2022 16:44, Rob Clark wrote:
 
-Maybe we should just move all the non-EDID derived members directly to
-struct drm_connector? Or some other sub-struct.
+[snip]
 
-In the mean time, this patch seems like the right thing to do,
+>> If there is a tool somewhere that displays this info, that would be
+>> useful for testing my implementation.
+> 
+> I have a patch to Intel specific intel_gpu_top (see 
+> https://patchwork.freedesktop.org/patch/468491/?series=98555&rev=1). 
+> I'll have a look to see how much work would it be to extract common bits 
+> into a library and write a quick agnostic tool using it.
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+I factored out some code from intel_gpu_top in a quick and dirty attempt to make it generic and made a very rudimentary tools/gputop:
 
+https://cgit.freedesktop.org/~tursulin/intel-gpu-tools/log/?h=gputop
+  
+If you manage to export the right fdinfo tags (basically https://patchwork.freedesktop.org/patch/468502/?series=92574&rev=6)*, with the only local addition I have being the optional "drm-engine-capacity-<str>: <uint>" tag, we may get lucky and tool might even work. Let me know when you try. If it will work you should see something like this:
 
-BR,
-Jani.
+DRM minor 0
+    PID              NAME    render       copy       video
+   3838          kwin_x11 |█         ||          ||          ||          |
+327056               mpv |          ||          ||▌         ||          |
+327056               mpv |▌         ||          ||          ||          |
+      1           systemd |▍         ||          ||          ||          |
+   3884       plasmashell |          ||          ||          ||          |
+   4794           krunner |          ||          ||          ||          |
+   4836       thunderbird |          ||          ||          ||          |
+296733         GeckoMain |          ||          ||          ||          |
 
->
-> Suggested-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/drm_edid.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 5251925e3b92..a76224653e6f 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -5340,6 +5340,9 @@ drm_reset_display_info(struct drm_connector *connec=
-tor)
->  	info->rgb_quant_range_selectable =3D false;
->  	memset(&info->hdmi, 0, sizeof(info->hdmi));
->=20=20
-> +	info->edid_hdmi_rgb444_dc_modes =3D 0;
-> +	info->edid_hdmi_ycbcr444_dc_modes =3D 0;
-> +
->  	info->non_desktop =3D 0;
->  	memset(&info->monitor_range, 0, sizeof(info->monitor_range));
+Regards,
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Tvrtko
+
+*) Or for more reference this is how the i915 output looks like:
+
+$ sudo cat /proc/7296/fdinfo/10
+pos:    0
+flags:  02100002
+mnt_id: 26
+ino:    501
+drm-driver:     i915
+drm-pdev:       0000:00:02.0
+drm-client-id:  22
+drm-engine-render:      196329331 ns
+drm-engine-copy:        0 ns
+drm-engine-video:       0 ns
+drm-engine-capacity-video:      2
+drm-engine-video-enhance:       0 ns
+
+P.S. There is no AMD support in the current code, or nothing for memory either. Both can be added later.
