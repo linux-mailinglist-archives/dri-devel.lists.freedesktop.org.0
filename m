@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4585499F35
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 00:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E8349A224
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jan 2022 02:50:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 149AC10E26D;
-	Mon, 24 Jan 2022 23:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C49D910E2FE;
+	Tue, 25 Jan 2022 01:50:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3193710E26D;
- Mon, 24 Jan 2022 23:18:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1643066285; x=1674602285;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=pqXKXtZ0p/e//NvEarzZ97aaFVyync007LBIbLYqPYw=;
- b=fik6Fz9YnKu2IBuLMproXXql08uDxKhBl0thvk8pXLgk6LyLsusO9h6u
- y6hvrYffrMPg0r5LOCwlYrbq+jRe2Nal0s6m/M7vCWVvtjxA16mopluB9
- rYOeOMECQfjA9Xl7HmrM8cmIwDJDqGir1RfsVY2KYHMKzVjMT2lyZkAca Q=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Jan 2022 15:18:04 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2022 15:18:03 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Mon, 24 Jan 2022 15:18:03 -0800
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Mon, 24 Jan 2022 15:18:02 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v2] drm/msm/dp: always add fail-safe mode into connector mode
- list
-Date: Mon, 24 Jan 2022 15:17:54 -0800
-Message-ID: <1643066274-25814-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DAD610E2FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 01:50:08 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ d18-20020a9d51d2000000b005a09728a8c2so388310oth.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 17:50:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=wUEHk84PPSq5TMcst7Q46Xs07T+hDbMqqFuqhOeSN4c=;
+ b=HRToCcScCB2MmK94C4zwwPCL+sRf7G/Qg7BbMZj7V8W7nnP+AvEK28dFClVAdHckcq
+ XRvwkazFnxqQjxDnh75dW4WM7LVg34SZWkKfmnQBKScjJ6Knoo5L3b5YxHgyi5e1YLBg
+ 4FiPnFZ5jL/oipIjK6GjFdOdpgPJrn8KgFlhI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=wUEHk84PPSq5TMcst7Q46Xs07T+hDbMqqFuqhOeSN4c=;
+ b=ZDQJSJiktp38Ig4QVctI0WTuiIvPyORMxh6EPeB7lN/pVKJ1F7M8NxhyMsOec7xa36
+ DUidPblw79lZ35Wr0KOY2zBNuDH3gTXyodq9D5usOXL5ud3jrDWZPkrUfBZnEBq9diqK
+ RsF9wmI8xP84fGTZILzDEFSSGmra+vvB4u1Fx0DJNQigmLKcADYBKbGWeZ/+EC7RiINk
+ ELtrqeWakiVKb+ouFGfP2DJ5/UG3eS6oYtWEoncOAUEmp9wh8wAkkWkeor+JAMJBmm70
+ Xd7euLlcRYVpmD3eIum1J43fP4GWA05PKQwIea57+2DLxMZwZm/zBW9sKugpBFjN6vCL
+ mUWw==
+X-Gm-Message-State: AOAM533Ot+XpdXmTu4fbNGPWc0297vwYUBNwk94urgHq0YpnPArNmpEW
+ 7TxbAMwJH6kzN7nPALLqbcX9qxdSKo+m42O8pQDx4g==
+X-Google-Smtp-Source: ABdhPJywHOsm6rxOv2ws+sHjp3srUtW0vaJGy7NiC9Hr/q913lcg5jyP3m/ecMVqRlFiPi0CJdg2jcKD4Q6Mx8vRJKU=
+X-Received: by 2002:a05:6830:30ba:: with SMTP id
+ g26mr6860402ots.159.1643075406598; 
+ Mon, 24 Jan 2022 17:50:06 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 24 Jan 2022 17:50:06 -0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+In-Reply-To: <1643064292-6965-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1643064292-6965-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 24 Jan 2022 17:50:06 -0800
+Message-ID: <CAE-0n505fYR1zpgZnC=J7WSxp_gpn6mnda9TuVjmJD8vMRn2Rg@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: add connector type to enhance debug messages
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,44 +67,80 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some of DP link compliant test expects to return fail-safe mode
-if prefer detailed timing mode can not be supported by mainlink's
-lane and rate after link training. Therefore add fail-safe mode
-into connector mode list as backup mode. This patch fixes test
-case 4.2.2.1.
+Quoting Kuogee Hsieh (2022-01-24 14:44:52)
+> DP driver is a generic driver which supports both eDP and DP.
+> For debugging purpose it is required to have capabilities to
+> differentiate message are generated from eDP or DP. This patch
+> add connector type into debug messages for this purpose.
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 20 +++++------
+>  drivers/gpu/drm/msm/dp/dp_display.c | 71 ++++++++++++++++++++++++++-----------
+>  2 files changed, 60 insertions(+), 31 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index 245e1b9..dcd0126 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -1396,6 +1396,8 @@ void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
+>
+>         dp_catalog_ctrl_phy_reset(ctrl->catalog);
+>         phy_init(phy);
+> +       DRM_DEBUG_DP("phy=%p init=%d power_on=%d\n",
+> +                       phy, phy->init_count, phy->power_count);
+>  }
+>
+>  void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl)
+> @@ -1410,6 +1412,8 @@ void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl)
+>
+>         dp_catalog_ctrl_phy_reset(ctrl->catalog);
+>         phy_exit(phy);
+> +       DRM_DEBUG_DP("phy=%p init=%d power_on=%d\n",
+> +                       phy, phy->init_count, phy->power_count);
+>  }
+>
+>  static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
+> @@ -1484,6 +1488,8 @@ static int dp_ctrl_deinitialize_mainlink(struct dp_ctrl_private *ctrl)
+>         phy_exit(phy);
+>         phy_init(phy);
+>
+> +       DRM_DEBUG_DP("phy=%p init=%d power_on=%d\n",
+> +                       phy, phy->init_count, phy->power_count);
+>         return 0;
+>  }
+>
 
-Changes in v2:
--- add Fixes text string
+These are entirely new messages. Adding messages isn't mentioned in the
+commit text. Please either split this out or indicate in the commit text
+what's going on here.
 
-Fixes: 4b85d405cfe9 ( "drm/msm/dp: reduce link rate if failed at link training 1")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_panel.c | 5 +++++
- 1 file changed, 5 insertions(+)
+> @@ -1895,14 +1901,12 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+>
+>         phy_power_off(phy);
+>
+> -       DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
+> -               (u32)(uintptr_t)phy, phy->init_count, phy->power_count);
+> -
+>         /* aux channel down, reinit phy */
+>         phy_exit(phy);
+>         phy_init(phy);
+>
+> -       DRM_DEBUG_DP("DP off link/stream done\n");
+> +       DRM_DEBUG_DP("phy=%p init=%d power_on=%d\n",
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 71db10c..f141872 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.c
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -212,6 +212,11 @@ int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
- 		if (drm_add_modes_noedid(connector, 640, 480))
- 			drm_set_preferred_mode(connector, 640, 480);
- 		mutex_unlock(&connector->dev->mode_config.mutex);
-+	} else {
-+		/* always add fail-safe mode as backup mode */
-+		mutex_lock(&connector->dev->mode_config.mutex);
-+		drm_add_modes_noedid(connector, 640, 480);
-+		mutex_unlock(&connector->dev->mode_config.mutex);
- 	}
- 
- 	if (panel->aux_cfg_update_done) {
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+The DRM_DEBUG_DP macro says it's deprecated now and we should use
+drm_dbg_dp() instead. Can you use that macro instead? Then it looks like
+drm->dev can actually be any old struct device, so I guess we're allowed
+to pass in the particular instance of dp device this is for. Allowing us
+to figure out which DP device is actually printing messages.
 
+> +                       phy, phy->init_count, phy->power_count);
+>         return ret;
+>  }
+>
