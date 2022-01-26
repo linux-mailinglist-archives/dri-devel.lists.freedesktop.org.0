@@ -2,51 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAEC49C5CA
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 10:06:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAFBE49C6D8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 10:48:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D80810E7D3;
-	Wed, 26 Jan 2022 09:05:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71F1B89AC9;
+	Wed, 26 Jan 2022 09:48:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D29810E7CF;
- Wed, 26 Jan 2022 09:05:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643187954; x=1674723954;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ggEHQETAv3lIPyDtUG98X3fyvSWeMQrZEDGtYqjDGro=;
- b=mJqXQYE/FWhnZwBPgwVcfapxr3ImCeiy7fkV+Rczx4vE1J9y2pJL0lB3
- waz50JK+QnKVESILDJJsDOAjI+9npdv/K5YcjAIC4iBpTGF3n+kp6e1hy
- bQVdLn4ejSNg+GsT4+LLhC6+MjWostQDisPmSiWD0M1Cdypar5jTlAt1C
- 7BO/+OMQbe7g0rw/kVwJMkRlX8/Xn4A7I+6U0S9M1KtRR9NDm0XhicDWp
- c5z6x0QJszlMluTVIj2m426iIMa/57T4sDMdbJ7gaotX6w0Nu9lUgk3zZ
- xQrEx90JATlkMC9PghNsmdrgdSzpNUo4VzjG4rYrB4KDmbHDThGtElVvp A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="309826127"
-X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; d="scan'208";a="309826127"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 01:05:28 -0800
-X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; d="scan'208";a="628246433"
-Received: from richardt-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.212.143.219])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 01:05:28 -0800
-Date: Wed, 26 Jan 2022 01:05:27 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 3/3] drm: Convert open yes/no strings to yesno()
-Message-ID: <20220126090527.ksuah5m6xctx7jjo@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20220119072450.2890107-1-lucas.demarchi@intel.com>
- <20220119072450.2890107-4-lucas.demarchi@intel.com>
- <Yehm5/DJ5Ljo1EWs@smile.fi.intel.com>
+X-Greylist: delayed 1826 seconds by postgrey-1.36 at gabe;
+ Wed, 26 Jan 2022 09:48:32 UTC
+Received: from m15113.mail.126.com (m15113.mail.126.com [220.181.15.113])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5A52C89AC9;
+ Wed, 26 Jan 2022 09:48:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=7+gQH
+ ova1ewkBfJn3FFDQ+n/FuOVx0d3gWZmjoaJ1o8=; b=SrQkLJJwtPGN3KkoORFKj
+ WpGAqajGI+h9X4EGjpGVijTUKkeY9W3bcNYl01vdk4RtjwdCKishi2PTmBUnWArF
+ JAgaDKzuu5Yf773OYnqJK5EEzw3rf8UMwJ2opKWQPifgDkQWiyA+uHflurjo+6pm
+ eIlWy1VBseBREQ5jkEzgF8=
+Received: from CD-huangqu.Hygon.cn (unknown [175.152.51.41])
+ by smtp3 (Coremail) with SMTP id DcmowAAngeVWEfFh6zUzAA--.15463S2;
+ Wed, 26 Jan 2022 17:16:07 +0800 (CST)
+From: jinsdb@126.com
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/amdgpu: Wrong order for config and counter_id parameters
+Date: Wed, 26 Jan 2022 17:16:02 +0800
+Message-Id: <20220126091602.1647-1-jinsdb@126.com>
+X-Mailer: git-send-email 2.22.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <Yehm5/DJ5Ljo1EWs@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: DcmowAAngeVWEfFh6zUzAA--.15463S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7XFWUZr1rZw47Xry5tw48Crg_yoW8JryDpr
+ WrJryDtFWkAFnFq3yDua4vvFyDA3ZFva4Skr1UJ34a9a45A34rZrW3JF12yF1UWrWrCrW7
+ tFn7GayUuFnFvF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziHUDJUUUUU=
+X-Originating-IP: [175.152.51.41]
+X-CM-SenderInfo: pmlq2vbe6rjloofrz/1tbijB+UDlpEGQnX8gAAsi
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,126 +51,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Vishal Kulkarni <vishal@chelsio.com>, netdev@vger.kernel.org,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>, amd-gfx@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Petr Mladek <pmladek@suse.com>, Leo Li <sunpeng.li@amd.com>,
- intel-gfx@lists.freedesktop.org, Steven Rostedt <rostedt@goodmis.org>,
- Julia Lawall <julia.lawall@lip6.fr>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- "David S . Miller" <davem@davemloft.net>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- linux-security-module@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Raju Rangoju <rajur@chelsio.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: jinsdb@126.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 09:30:47PM +0200, Andy Shevchenko wrote:
->On Tue, Jan 18, 2022 at 11:24:50PM -0800, Lucas De Marchi wrote:
->> linux/string_helpers.h provides a helper to return "yes"/"no"
->> strings. Replace the open coded versions with yesno(). The places were
->> identified with the following semantic patch:
->>
->> 	@@
->> 	expression b;
->> 	@@
->>
->> 	- b ? "yes" : "no"
->> 	+ yesno(b)
->>
->> Then the includes were added, so we include-what-we-use, and parenthesis
->> adjusted in drivers/gpu/drm/v3d/v3d_debugfs.c. After the conversion we
->> still see the same binary sizes:
->>
->>    text    data     bss     dec     hex filename
->> 1442171   60344     800 1503315  16f053 ./drivers/gpu/drm/radeon/radeon.ko
->> 1442171   60344     800 1503315  16f053 ./drivers/gpu/drm/radeon/radeon.ko.old
->> 5985991  324439   33808 6344238  60ce2e ./drivers/gpu/drm/amd/amdgpu/amdgpu.ko
->> 5985991  324439   33808 6344238  60ce2e ./drivers/gpu/drm/amd/amdgpu/amdgpu.ko.old
->>  411986   10490    6176  428652   68a6c ./drivers/gpu/drm/drm.ko
->>  411986   10490    6176  428652   68a6c ./drivers/gpu/drm/drm.ko.old
->> 1970292  109515    2352 2082159  1fc56f ./drivers/gpu/drm/nouveau/nouveau.ko
->> 1970292  109515    2352 2082159  1fc56f ./drivers/gpu/drm/nouveau/nouveau.ko.old
->
->...
->
->>  #include <linux/module.h>
->>  #include <linux/sched.h>
->>  #include <linux/slab.h>
->> +#include <linux/string_helpers.h>
->
->+ blank line?
->
->> +#include <linux/string_helpers.h>
->
->...
->
->>  	seq_printf(m, "\tDP branch device present: %s\n",
->> -		   branch_device ? "yes" : "no");
->> +		   yesno(branch_device));
->
->Now it's possible to keep this on one line.
->
->...
->
->>  	drm_printf_indent(p, indent, "imported=%s\n",
->> -			  obj->import_attach ? "yes" : "no");
->> +			  yesno(obj->import_attach));
->
->81 here, but anyway, ditto!
->
->...
->
->>   */
->
->+blank line here?
->
->> +#include <linux/string_helpers.h>
->> +
->>  #include "aux.h"
->>  #include "pad.h"
->
->...
->
->>  	seq_printf(m, "MMU:        %s\n",
->> -		   (ident2 & V3D_HUB_IDENT2_WITH_MMU) ? "yes" : "no");
->> +		   yesno(ident2 & V3D_HUB_IDENT2_WITH_MMU));
->>  	seq_printf(m, "TFU:        %s\n",
->> -		   (ident1 & V3D_HUB_IDENT1_WITH_TFU) ? "yes" : "no");
->> +		   yesno(ident1 & V3D_HUB_IDENT1_WITH_TFU));
->>  	seq_printf(m, "TSY:        %s\n",
->> -		   (ident1 & V3D_HUB_IDENT1_WITH_TSY) ? "yes" : "no");
->> +		   yesno(ident1 & V3D_HUB_IDENT1_WITH_TSY));
->>  	seq_printf(m, "MSO:        %s\n",
->> -		   (ident1 & V3D_HUB_IDENT1_WITH_MSO) ? "yes" : "no");
->> +		   yesno(ident1 & V3D_HUB_IDENT1_WITH_MSO));
->>  	seq_printf(m, "L3C:        %s (%dkb)\n",
->> -		   (ident1 & V3D_HUB_IDENT1_WITH_L3C) ? "yes" : "no",
->> +		   yesno(ident1 & V3D_HUB_IDENT1_WITH_L3C),
->>  		   V3D_GET_FIELD(ident2, V3D_HUB_IDENT2_L3C_NKB));
->
->I believe it's fine to join back to have less LOCs (yes, it will be 83 or so,
->but I believe in these cases it's very much okay).
+From: huangqu <jinsdb@126.com>
 
-now that we are converting to str_yes_no(), we will have a few more
-chars. Some maintainers may be more strict on the 80 or 100 chars. I
-will assume whatever is in the code base is the preferred form.
+Wrong order for config and counter_id parameters was passed, when calling df_v3_6_pmc_set_deferred and df_v3_6_pmc_is_deferred functions.
 
-thanks
-Lucas De Marchi
+Signed-off-by: huangqu <jinsdb@126.com>
+---
+ drivers/gpu/drm/amd/amdgpu/df_v3_6.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
->
->-- 
->With Best Regards,
->Andy Shevchenko
->
->
+diff --git a/drivers/gpu/drm/amd/amdgpu/df_v3_6.c b/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
+index 43c5e3ec9..f4dfca013 100644
+--- a/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
++++ b/drivers/gpu/drm/amd/amdgpu/df_v3_6.c
+@@ -458,7 +458,7 @@ static int df_v3_6_pmc_add_cntr(struct amdgpu_device *adev,
+
+ #define DEFERRED_ARM_MASK	(1 << 31)
+ static int df_v3_6_pmc_set_deferred(struct amdgpu_device *adev,
+-				    int counter_idx, uint64_t config,
++				    uint64_t config, int counter_idx,
+ 				    bool is_deferred)
+ {
+
+@@ -476,8 +476,8 @@ static int df_v3_6_pmc_set_deferred(struct amdgpu_device *adev,
+ }
+
+ static bool df_v3_6_pmc_is_deferred(struct amdgpu_device *adev,
+-				    int counter_idx,
+-				    uint64_t config)
++				    uint64_t config,
++				    int counter_idx)
+ {
+ 	return	(df_v3_6_pmc_has_counter(adev, config, counter_idx) &&
+ 			(adev->df_perfmon_config_assign_mask[counter_idx]
+--
+2.31.1
+
