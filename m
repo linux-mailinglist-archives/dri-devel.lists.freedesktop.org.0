@@ -1,67 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D1249C8AE
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 12:31:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A69149C8D2
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 12:39:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0982510E3E9;
-	Wed, 26 Jan 2022 11:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 066B710E896;
+	Wed, 26 Jan 2022 11:39:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46FE510E3E9
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 11:31:43 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DB3B81F397;
- Wed, 26 Jan 2022 11:31:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643196701; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8ZQ1UFjCevFb0oD3n1b1lyFJPNiNbvmW/0bM6sT4KUg=;
- b=IB+3QwaiisJzQfr1Ppsx4IcB6rIKr1GMzBNIWOcLvkIQ+Xreay4wmiFnBCK5uz1guANDw9
- J32q2xvJPNz8RkrMIYOc3ED2iXQ0T+7hlUXNb3q68liVRoh3fW8bWpkUgcvL+p4aFsuNDl
- 43XQVgso/ca1l3M50+tEQ5tMHCPSOqo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643196701;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8ZQ1UFjCevFb0oD3n1b1lyFJPNiNbvmW/0bM6sT4KUg=;
- b=eMcBQHxH451xz2rg/zhHS7uJNbPuap1OKe8L9wOKS1vLcuRg2VNWHSzesymEJlmsaisvb5
- K5Ft+gGGoMWSJYAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8E3E213BA2;
- Wed, 26 Jan 2022 11:31:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GRCiIR0x8WHsEwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 26 Jan 2022 11:31:41 +0000
-Message-ID: <ebb9b4f4-32cd-c8a4-ed2d-e94b4759a984@suse.de>
-Date: Wed, 26 Jan 2022 12:31:40 +0100
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0260010E83B
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 11:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1643197159;
+ bh=OOmy45qoyH77IVhcbZBfMcAcg7U3vJzQ15XvVXqvbIg=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=GLekZj2iDruItB18Ip8EszZw97r71SfgZzJYI6nMnS7ycZg3k0inOBa4gLSnM5/Zb
+ UPP2IHestadfDarsp2EjOsKkIx687LnuIZ5YnUX4CDB0E0q4+gKF0U7dU1IFamDKDp
+ s8EgN/CexKKapiwAJzvBDCRdn9pXcso74dXCO9RM=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.143.57]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M7sDq-1n8olR1gd0-00545E; Wed, 26
+ Jan 2022 12:39:19 +0100
+Message-ID: <88ea01b8-3fdd-72cc-c3d8-e2890c68533b@gmx.de>
+Date: Wed, 26 Jan 2022 12:38:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
 Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, Daniel Vetter <daniel@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>
 References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-2-andriy.shevchenko@linux.intel.com>
- <YfEG2qVO9K9G+g1d@kroah.com>
- <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
- <f671a112-880d-1526-a395-360947b40c5a@gmx.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <f671a112-880d-1526-a395-360947b40c5a@gmx.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------UpuzuH0MqO0ygaSx5SNNSl9y"
+ <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
+ <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
+ <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
+ <b13c0634-e766-74db-ab1f-672f5d0c04d6@redhat.com>
+ <CAKMK7uEqwyZuVheqyNG33Un4WK1cd1B+WBYbCmi20fZi0qVG2w@mail.gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <CAKMK7uEqwyZuVheqyNG33Un4WK1cd1B+WBYbCmi20fZi0qVG2w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:EEL1soWvWOWlYa2Tiza9VBrmMhfpRqTer6bKYxn/IVZVNXq0xGs
+ XnurjAGmcUphnYSKnuo7avlEZki2RHwjJfFGKnbL6v7nPM5eJ/3oQF5HjQZLYPk9Ufcti7x
+ JEkhZG+EB13dg/Fb5ovKPhoQqf4vn4vo4JYC8Jst4QqnzgwcSVAxJq06U0H13del5m5vZY9
+ DKy2cNuuxYsZKlj5I6ONA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NE2Z/sEthd8=:7UMJJjpUGnwHvZ18Gs7U88
+ w6FhnncUsbMduOtuplfDysbJgX6NsAbfSU36OyDi2WnpC/kDqhRd4Pwst/tqd6vuo6XBaYgH8
+ a4SOgXQEGxMKzdR80fg4uPceR7Q3s97cts4yVkS/mKk1OjjPPwA6+EbFwAStpPFOCPuETmVDH
+ O22+FBrPY8fwadnzWFNOQ7wMJDZafwEV8L9ZoP7PKBpsvqpE2lvCoIs/7M5WbQTB5Xktc+bEZ
+ 29n2cSU2CYuLshIra+CLEpLncNEtdlz4N8LKgbUEU5fOCKhaP0xmiMLK1v64eVYDRQ0UFonER
+ r/ZMC0Ag7QtZpdXGTAYsm4xliaBSxDD+c6H+ddbzGre77BhBAzHCyIdSbC8yafrZDOLweMkez
+ JaKuYIsXWAlEbafGz+eDSblWlBnvQXqRDAl/ySmUjo08xeFGpuLZIg528E/xwT7COJRVNm7zp
+ PvIjJGfKz6YLaVr7t2lhLoVMaIwCujn7ALfcypIuF0IUGIpsYkbcBOSfqCNRYcTk6A+zEYl42
+ R+AisKLFbsvwZ9J383qJcYDmV6F5lrjUFqkVdT5MjKQJ07UEP39BqE9rQ35EufoEf4eLqriB7
+ bjZwpJLQAZVTqFYzUsrNc6c2OKPp+3lay8VCmJsENPTDav6dyJZePXSBa64z+0EsFymroVnCf
+ QztlbHV0CjVIN3kUolW1OWFLcUIMopJ3XPOu1IDq7MRTd3RE5Pnc28JZHhKOWGhlH/4miMmIZ
+ XqwBbFBVZ4+Nxy/GglZw11Tc2KzrmttpzZAJNNnQXHo7p5DOC8bzB7kZ58E63oTIGNLf+1N1e
+ kwaGWPoeSzRwoK9CarveeZP2zg77drHWStkUqskFvrnLgl4GyCtdWm8Xn9ajLAySKv2//L6pL
+ Qmu1HO3cm2c1cvUNypRMtok/bHVGbbLmcDGI2seDZbj1FluXQpkkR9DJZRRdvh1MAb8P6yLR3
+ AoZjTcHxoz0ZAGwXx4y3oyGpnxVPMng2K81NSRrcQ7OSm74n0OtE7uFHS/G/c7rEZJDqh8/QY
+ 0Pi3/Uts2d6aG7ljF82fEEx4sWOqgEUnM0NnOn8IhRrE3QaAS6Tv3tvyqEvE9KRGP0PQKqIY7
+ u5dghG+cAx0j34=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,116 +78,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
  Michael Hennerich <michael.hennerich@analog.com>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
- Carlis <zhangxuezhi1@yulong.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Carlis <zhangxuezhi1@yulong.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------UpuzuH0MqO0ygaSx5SNNSl9y
-Content-Type: multipart/mixed; boundary="------------dlfExxp6uaAJi3utM946Zklv";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Helge Deller <deller@gmx.de>, Daniel Vetter <daniel@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
- Carlis <zhangxuezhi1@yulong.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
-Message-ID: <ebb9b4f4-32cd-c8a4-ed2d-e94b4759a984@suse.de>
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-2-andriy.shevchenko@linux.intel.com>
- <YfEG2qVO9K9G+g1d@kroah.com>
- <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
- <f671a112-880d-1526-a395-360947b40c5a@gmx.de>
-In-Reply-To: <f671a112-880d-1526-a395-360947b40c5a@gmx.de>
+On 1/26/22 12:24, Daniel Vetter wrote:
+> On Wed, Jan 26, 2022 at 12:18 PM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
+>>
+>> On 1/26/22 11:59, Helge Deller wrote:
+>>> On 1/26/22 11:02, Andy Shevchenko wrote:
+>>
+>> [snip]
+>>
+>>>> P.S. For the record, I will personally NAK any attempts to remove tha=
+t
+>>>> driver from the kernel. And this is another point why it's better not
+>>>> to be under the staging.
+>>>
+>>> I agree. Same as for me to NAK the disabling of fbcon's acceleration
+>>> features or even attempting to remove fbdev altogether (unless all
+>>> relevant drivers are ported to DRM).
+>>>
+>>
+>> But that will never happen if we keep moving the goal post.
+>>
+>> At some point new fbdev drivers should not be added anymore, otherwise
+>> the number of existing drivers that need conversion will keep growing.
+>
+> And that point was about 5 years ago, and has been discussed at some
+> plumbers meanwhile, resulting in the staging TODO patches to make
+> these drm drivers to destage them.
+>
+> Fixing bugs in fbdev is all fine, reopening it for merging new drivers i=
+s not.
 
---------------dlfExxp6uaAJi3utM946Zklv
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+We are on the same page!
+I'm not at all proposing to include new drivers for (relatively) new
+hardware into fbdev, which is capable to be written as DRM driver.
 
-SGkNCg0KQW0gMjYuMDEuMjIgdW0gMTI6MTcgc2NocmllYiBIZWxnZSBEZWxsZXI6DQo+IE9u
-IDEvMjYvMjIgMTE6MzEsIERhbmllbCBWZXR0ZXIgd3JvdGU6DQo+PiBPbiBXZWQsIEphbiAy
-NiwgMjAyMiBhdCA5OjMxIEFNIEdyZWcgS3JvYWgtSGFydG1hbg0KPj4gPGdyZWdraEBsaW51
-eGZvdW5kYXRpb24ub3JnPiB3cm90ZToNCj4+Pg0KPj4+IE9uIFR1ZSwgSmFuIDI1LCAyMDIy
-IGF0IDEwOjIxOjE0UE0gKzAyMDAsIEFuZHkgU2hldmNoZW5rbyB3cm90ZToNCj4+Pj4gTGV0
-J3MgbWFpbnRhaW4gb2NjYXNpb25hbCBmaXhlcyB0byB0aGUgZmJ0ZnQgZHJpdmVyLg0KPj4+
-Pg0KPj4+PiBTaWduZWQtb2ZmLWJ5OiBBbmR5IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hl
-bmtvQGxpbnV4LmludGVsLmNvbT4NCj4+Pj4gLS0tDQo+Pj4+ICAgTUFJTlRBSU5FUlMgfCA0
-ICsrKy0NCj4+Pj4gICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0
-aW9uKC0pDQo+Pj4+DQo+Pj4+IGRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlO
-RVJTDQo+Pj4+IGluZGV4IGVhM2U2YzkxNDM4NC4uMTZlNjE0NjA2YWMxIDEwMDY0NA0KPj4+
-PiAtLS0gYS9NQUlOVEFJTkVSUw0KPj4+PiArKysgYi9NQUlOVEFJTkVSUw0KPj4+PiBAQCAt
-NzM3Miw5ICs3MzcyLDExIEBAIEY6ICAgICBEb2N1bWVudGF0aW9uL2ZhdWx0LWluamVjdGlv
-bi8NCj4+Pj4gICBGOiAgIGxpYi9mYXVsdC1pbmplY3QuYw0KPj4+Pg0KPj4+PiAgIEZCVEZU
-IEZyYW1lYnVmZmVyIGRyaXZlcnMNCj4+Pj4gK006ICAgQW5keSBTaGV2Y2hlbmtvIDxhbmR5
-QGtlcm5lbC5vcmc+DQo+Pj4+ICAgTDogICBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnDQo+Pj4+ICAgTDogICBsaW51eC1mYmRldkB2Z2VyLmtlcm5lbC5vcmcNCj4+Pj4gLVM6
-ICAgT3JwaGFuDQo+Pj4+ICtTOiAgIE1haW50YWluZWQNCj4+Pj4gK1Q6ICAgZ2l0IGdpdDov
-L2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9hbmR5L2xpbnV4LWZi
-dGZ0LmdpdA0KPj4+DQo+Pj4gSSdtIG9rIHdpdGggdGhlIGZpbGVzIG1vdmluZyBpZiB0aGUg
-ZHJpIGRldmVsb3BlcnMgYWdyZWUgd2l0aCBpdC4gIEl0J3MNCj4+PiB1cCB0byB0aGVtLCBu
-b3QgbWUuDQo+Pg0KPj4gT24gb25lIGhhbmQgSSdtIGhhcHB5IGFueXRpbWUgc29tZW9uZSB2
-b2x1bnRlZXJzIHRvIGhlbHAgb3V0Lg0KPj4NCj4+IE9uIHRoZSBvdGhlciBoYW5kIC4uLiB3
-aHkgZG9lcyBpdCBoYXZlIHRvIGJlIHJlc3VycmVjdGluZyBmYmRldj8NCj4+IFRoZXJlJ3Mg
-YW4gZW50aXJlIGNvbW11bml0eSBvZiBwZW9wbGUgd2hvIHJlYWxseSBrbm93IGdyYXBoaWNz
-IGFuZA0KPj4gZGlzcGxheSBhbmQgc3BlbnQgY29uc2lkZXJhYmxlIGFtb3VudCBvZiBlZmZv
-cnQgb24gY3JlYXRpbmcgdXNlZnVsIGFuZA0KPj4gZG9jdW1lbnRlZCBoZWxwZXJzIGZvciBw
-cmV0dHkgbXVjaCBhbnl0aGluZyB5b3UgbWlnaHQgZXZlciB3YW50IHRvIGRvLg0KPj4gQW5k
-IHNvbWVob3cgd2UgaGF2ZSB0byBnbyBiYWNrIHRvIHR5cGluZyBvdXQgdGhpbmdzIHRoZSBo
-YXJkIHdheSwgd2l0aA0KPj4gZnVsbCB2ZXJib3NpdHksIGZvciBhbiB1YXBpIHRoYXQgZGlz
-dHJvcyBhcmUgYWJhbmRvbmluZyAoZS5nLiBldmVuIGZvcg0KPj4gc2RsIHRoZSBkaXJlY3Rp
-b24gaXMgdG8gcnVuIGl0IG9uIHRvcCBvZiBkcm0gd2l0aCBhIGNvbXBhdCBsYXllciwNCj4+
-IGFmYWl1aSBmZWRvcmEgaXMgY29tcGxldGVseSBkaXRjaGluZyBhbnkgdXNlcnNwYWNlIHRo
-YXQgc3RpbGwgZXZlbg0KPj4gdXNlcyAvZGV2L2ZiLzApLiBBbmQgeWVzIEkga25vdyB0aGVy
-ZSdzIHN0aWxsIHNvbWUgZ2FwcyBpbiBkcm0sDQo+PiBsYXJnZWx5IGZvciBkaXNwbGF5IGZl
-YXR1cmVzIHdoaWNoIHdlcmUgcmVhbGx5IGVuIHZvZ3VlIGFib3V0IDIwIHllYXJzDQo+PiBh
-Z28uIEFuZCB3ZSdyZSBoYXBweSB0byBhZGQgdGhhdCBzdXBwb3J0LCBpZiBzb21lb25lIHdo
-byBzdGlsbCBoYXMNCj4+IHN1Y2ggaGFyZHdhcmUgY2FuIHB1dCBpbiB0aGUgbGl0dGxlIGJp
-dCBvZiB3b3JrIG5lZWRlZCAuLi4NCj4+DQo+PiBJIGRvbid0IGdldCB0aGlzLg0KPiANCj4g
-WW91IGFyZSBkZXNjcmliaW5nIGEgdHJhbnNpdGlvbmluZyBvdmVyIHRvIERSTSAtIHdoaWNo
-IGlzIE9rLg0KPiBCdXQgb24gdGhhdCB3YXkgdGhlcmUgaXMgbm8gbmVlZCB0byBpZ25vcmUs
-IGRlbnkgb3IgZXZlbiBraWxsIHVzYWdlIHNjZW5hcmlvcw0KPiB3aGljaCBhcmUgZGlmZmVy
-ZW50IGNvbXBhcmVkIHRvIHlvdXIgdXNhZ2Ugc2NlbmFyaW9zIChlLmcuIGVtYmVkZGVkIGRl
-dmljZXMsDQo+IG9sZCBwbGF0Zm9ybXMsIHNsb3cgZGV2aWNlcywgc2xvdyBidXNzZXMsIG5v
-IDNEIGhhcmR3YXJlIGZlYXR1cmVzLA0KPiBsb3ctY29sb3IgZGV2aWNlcywgLi4uKS4NCg0K
-QW5kIG5vbmUgb2YgdGhvc2UgZXhhbXBsZXMgaXMgb3V0LXJ1bGVkIGJ5IERSTS4gSW4gZmFj
-dCB3ZSBkbyBzdXBwb3J0IA0KZGV2aWNlcyB0aGF0IGZhbGwgaW4gdGhvc2UgY2F0ZWdvcmll
-cy4NCg0KVGhpcyBpcyBsYXN0IHdlZWsncyBkaXNjdXNzaW9uIGFsbCBvdmVyIGFnYWluLg0K
-DQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBIZWxnZQ0KDQotLSANClRob21hcyBa
-aW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNv
-bHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
-R2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6
-IEl2byBUb3Rldg0K
-
---------------dlfExxp6uaAJi3utM946Zklv--
-
---------------UpuzuH0MqO0ygaSx5SNNSl9y
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHxMR0FAwAAAAAACgkQlh/E3EQov+BR
-Pg/9Grj31Vj0bM7meomljxyTuAaZNv7NpFGQQ8XOTHfQpefillv50tcyCVAqIInA+xqkT+QBr81C
-9PY73vxL/JXfZqTbFNVjD7Ty3TijNorYHfSF7DnZwLI5KYga9uKddZo7D/OnIfz3XA7fZYRKk3Pb
-U0goa7mXHXwaPjvRVTq8/b9Ox/ZxQ2O3cdO/bLjb4rgkqiN5ovbBP2whD4v8AjUaeaJdXaZVoK4y
-3AvV0pScfuNHRp2vfa2WDxnLoHz6JzrQr9MHYJaPE7LLPpcvZcVxorBlDjYQw8j4Oc4rL1Bpdel1
-kW5+wTHcgaEZVbMLjL+OvwYLxYRVcCZLPjuUtV54bCNvPPyayQJW0oe/lESQzr+Ex8esLPbRMtZr
-ASNR4geyOfqDuLgAZJXv676jdlpzrI8RS+JOzOwfXcMKcawaQtNq1CaGSH/uSmRWEgHtsIDNrpJ9
-9abMMxdOua5G+dXrm4bPgWze40x8GS3WcP8/uv15IPRcZL7GVM4YKNkqJb1kD6sFnvP1VMNAHpHM
-N53TWw2J55d86QABEqxngqVhhk1nJeuFX3oirFyMjcPEksAOrv6FrmBJ5xwXM2A/wvRqmHViNOs/
-hiFiNSrV9KFRheKJlZS6NFHycYVXpr5JtDb80G/pBM44S7F3u/gy7froyINhMsGSeea7x7EQ82s4
-fRc=
-=myeE
------END PGP SIGNATURE-----
-
---------------UpuzuH0MqO0ygaSx5SNNSl9y--
+Helge
