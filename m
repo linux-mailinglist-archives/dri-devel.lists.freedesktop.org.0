@@ -2,31 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F8449CD23
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:59:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C4E49CD19
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:58:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D84DB10E741;
-	Wed, 26 Jan 2022 14:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A084B10E6CF;
+	Wed, 26 Jan 2022 14:58:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22AF810E6C1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 14:58:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88CB910E69F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 14:58:32 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1nCjkc-0005fX-DY; Wed, 26 Jan 2022 15:58:22 +0100
+ id 1nCjkc-0005fY-EJ; Wed, 26 Jan 2022 15:58:22 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1nCjka-002l7C-R8; Wed, 26 Jan 2022 15:58:20 +0100
+ id 1nCjka-002l7F-Rk; Wed, 26 Jan 2022 15:58:20 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 23/27] arm64: dts: rockchip: enable vop2 and hdmi tx on
- quartz64a
-Date: Wed, 26 Jan 2022 15:55:45 +0100
-Message-Id: <20220126145549.617165-24-s.hauer@pengutronix.de>
+Subject: [PATCH 24/27] clk: rk3568: drop CLK_SET_RATE_PARENT from dclk_vop*
+Date: Wed, 26 Jan 2022 15:55:46 +0100
+Message-Id: <20220126145549.617165-25-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220126145549.617165-1-s.hauer@pengutronix.de>
 References: <20220126145549.617165-1-s.hauer@pengutronix.de>
@@ -58,97 +57,40 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Riesch <michael.riesch@wolfvision.net>
+The pixel clocks dclk_vop[012] can be clocked from hpll, vpll, gpll or
+cpll. gpll and cpll also drive many other clocks, so changing the
+dclk_vop[012] clocks could change these other clocks as well. Drop
+CLK_SET_RATE_PARENT to fix that. With this change the VOP2 driver can
+only adjust the pixel clocks with the divider between the PLL and the
+dclk_vop[012] which means the user may have to adjust the PLL clock to a
+suitable rate using the assigned-clock-rate device tree property.
 
-Enable the RK356x Video Output Processor (VOP) 2 on the Pine64
-Quartz64 Model A.
-
-Changes since v3:
-- Fix HDMI connector type
-
-Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- .../boot/dts/rockchip/rk3566-quartz64-a.dts   | 48 +++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ drivers/clk/rockchip/clk-rk3568.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts b/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
-index 166399b7f13f..64de5b15f572 100644
---- a/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
-@@ -4,6 +4,7 @@
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/pinctrl/rockchip.h>
-+#include <dt-bindings/soc/rockchip,vop2.h>
- #include "rk3566.dtsi"
- 
- / {
-@@ -35,6 +36,17 @@ fan: gpio_fan {
- 		#cooling-cells = <2>;
- 	};
- 
-+	hdmi-con {
-+		compatible = "hdmi-connector";
-+		type = "a";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_out_con>;
-+			};
-+		};
-+	};
-+
- 	leds {
- 		compatible = "gpio-leds";
- 
-@@ -205,6 +217,18 @@ &gmac1m0_clkinout
- 	status = "okay";
- };
- 
-+&hdmi {
-+	avdd-0v9-supply = <&vdda_0v9>;
-+	avdd-1v8-supply = <&vcc_1v8>;
-+	status = "okay";
-+};
-+
-+&hdmi_out {
-+	hdmi_out_con: endpoint {
-+		remote-endpoint = <&hdmi_con_in>;
-+	};
-+};
-+
- &i2c0 {
- 	status = "okay";
- 
-@@ -551,3 +575,27 @@ bluetooth {
- &uart2 {
- 	status = "okay";
- };
-+
-+&vop {
-+	assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
-+	assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL>;
-+	status = "okay";
-+};
-+
-+&vop_mmu {
-+	status = "okay";
-+};
-+
-+&hdmi_in {
-+	hdmi_in_vp0: endpoint@0 {
-+		reg = <0>;
-+		remote-endpoint = <&vp0_out_hdmi>;
-+	};
-+};
-+
-+&vp0 {
-+	vp0_out_hdmi: endpoint@RK3568_VOP2_EP_HDMI {
-+		reg = <RK3568_VOP2_EP_HDMI>;
-+		remote-endpoint = <&hdmi_in_vp0>;
-+	};
-+};
+diff --git a/drivers/clk/rockchip/clk-rk3568.c b/drivers/clk/rockchip/clk-rk3568.c
+index 9d889fc46811..7687c62d1fa8 100644
+--- a/drivers/clk/rockchip/clk-rk3568.c
++++ b/drivers/clk/rockchip/clk-rk3568.c
+@@ -1044,13 +1044,13 @@ static struct rockchip_clk_branch rk3568_clk_branches[] __initdata = {
+ 			RK3568_CLKGATE_CON(20), 8, GFLAGS),
+ 	GATE(HCLK_VOP, "hclk_vop", "hclk_vo", 0,
+ 			RK3568_CLKGATE_CON(20), 9, GFLAGS),
+-	COMPOSITE(DCLK_VOP0, "dclk_vop0", hpll_vpll_gpll_cpll_p, CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
++	COMPOSITE(DCLK_VOP0, "dclk_vop0", hpll_vpll_gpll_cpll_p, CLK_SET_RATE_NO_REPARENT,
+ 			RK3568_CLKSEL_CON(39), 10, 2, MFLAGS, 0, 8, DFLAGS,
+ 			RK3568_CLKGATE_CON(20), 10, GFLAGS),
+-	COMPOSITE(DCLK_VOP1, "dclk_vop1", hpll_vpll_gpll_cpll_p, CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
++	COMPOSITE(DCLK_VOP1, "dclk_vop1", hpll_vpll_gpll_cpll_p, CLK_SET_RATE_NO_REPARENT,
+ 			RK3568_CLKSEL_CON(40), 10, 2, MFLAGS, 0, 8, DFLAGS,
+ 			RK3568_CLKGATE_CON(20), 11, GFLAGS),
+-	COMPOSITE(DCLK_VOP2, "dclk_vop2", hpll_vpll_gpll_cpll_p, 0,
++	COMPOSITE(DCLK_VOP2, "dclk_vop2", hpll_vpll_gpll_cpll_p, CLK_SET_RATE_NO_REPARENT,
+ 			RK3568_CLKSEL_CON(41), 10, 2, MFLAGS, 0, 8, DFLAGS,
+ 			RK3568_CLKGATE_CON(20), 12, GFLAGS),
+ 	GATE(CLK_VOP_PWM, "clk_vop_pwm", "xin24m", 0,
 -- 
 2.30.2
 
