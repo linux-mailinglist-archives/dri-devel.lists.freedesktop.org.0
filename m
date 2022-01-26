@@ -2,44 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F6449D3F1
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 21:57:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C950449D3FC
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 22:01:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12B9F10E46A;
-	Wed, 26 Jan 2022 20:57:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 907A110E445;
+	Wed, 26 Jan 2022 21:01:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 741AD10E2E4
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 20:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=0R+6+w1NT8PmkQCoUkTSCylJ5Er3/ZSDMCsR3sthdDw=; b=HNObPwBWW+5TWd+ZeSkeU2UFip
- ovHIiUWIWKBrBvTCe7xJmRB3KFN607+UP6kavrMEYreWDlIxnlaTJU16vjFY6X9kVeXIWQo5fI60Z
- qMhgs1DU3iiQXlCoaPF0NaJ/ii0DxGbJb6+meVreAv1kwCf/iptuctcv3KRTiR3cN0s3V1QuREeKu
- oHFkeCleZs010nBRSYkFhGmz+PuNI4VRejq1FGv98ayXHdMP738s1mDZl51yFEz74jj4dadvo32LY
- 9a/pwisPC529Dn2D1R2j7F2n9eWZy7NgqpAopYupjklRe9jkFzMqrIylri7VxCiO3RhM2KfD7bSSN
- L0RvRE9w==;
-Received: from [165.90.113.117] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1nCpML-0003Mr-TD; Wed, 26 Jan 2022 21:57:42 +0100
-Date: Wed, 26 Jan 2022 19:57:26 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Yongzhi Liu <lyz_cs@pku.edu.cn>
-Subject: Re: [PATCH] drm/v3d: Add missing unlock
-Message-ID: <20220126205726.phfikh7kn3lks5ib@mail.igalia.com>
-References: <1642868787-61384-1-git-send-email-lyz_cs@pku.edu.cn>
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
+ [IPv6:2607:f8b0:4864:20::733])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B9F410E445
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 21:01:44 +0000 (UTC)
+Received: by mail-qk1-x733.google.com with SMTP id 13so736526qkd.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 13:01:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oCWuC818kxptSSDVBuEBTaU6eMFMBR0V0DEYlw49JmI=;
+ b=WBd1S9ReDJVLCy600I/GwQ4fkCVbs4o8jCYoLM5Ga8rFrYobPBN3cVRi5KPUyVHAvX
+ PAbMzcDUWZ86T1lShRkuJd+mg/440U77DNFBvFtwVXMMKRYpMs8FC9OvkTBznQagWYFK
+ 2Ys+mv4AsBola0xY8ohxKl61FA/3rCnzhp/9WU3Ypf02mSf3cvMaDDpKidl5tMp0XqDF
+ yRr3lum6LzSkfpnVKWZgskut+D+gSMO0aVEkg+IluapNtRWrbabSAPg89TPRnH9xv7DC
+ bcj9sb2wMRYBtOmmNbY63A1R0wEYudJMKK1ZpzNHRbrJN3DTRVWOj1pDKk+wX+QMddu8
+ fmvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oCWuC818kxptSSDVBuEBTaU6eMFMBR0V0DEYlw49JmI=;
+ b=uDJWwkkWipLK5kLNvZleWYvFAl/XMNel3FMPRWvdtBjJo7+FNI5/35DAKEaSgkPQJW
+ DCCuDHuZlqPVSt4Q5rzUbhRoaQY64AVlZocUN+02+Z/VgOwoocqfr8esN6mfMxblUsii
+ 5pW8Akg3Bi/d4JcirPytc631tPAP6TPfzIw34QdiqJCcBiL9mivWo38f6QsENOVGRnVZ
+ wdjPMWxg0ViJKeGjYDn7Msl6HoZWmfO0HuI03mwME4vxAryiYsi4vdb/6vMHpSw5sGGB
+ Dplyf+6S6CZVoqjlxhwlsMsG4TQ2yd0p4d+6bPNzO+b6ai7a61wQustmbn0KQg7kwmue
+ 2VKg==
+X-Gm-Message-State: AOAM533M4hwZc5KdJK8gYIIhdr84u3dfqRGCVSgK6owPJqFd4SVNgg6l
+ /pi0bxiN9/R7O9X+otvqNPk=
+X-Google-Smtp-Source: ABdhPJzQwVBWVM0Of40I6QipLyaGCsyPdlGpui0r8AIQ5RKUGPZM8lcMOC7JoZi5KtQ7luELeGDmhA==
+X-Received: by 2002:a37:9d42:: with SMTP id g63mr459670qke.83.1643230903092;
+ Wed, 26 Jan 2022 13:01:43 -0800 (PST)
+Received: from master-x64.sparksnet (c-98-233-193-225.hsd1.dc.comcast.net.
+ [98.233.193.225])
+ by smtp.gmail.com with ESMTPSA id m4sm237427qkp.117.2022.01.26.13.01.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jan 2022 13:01:42 -0800 (PST)
+From: Peter Geis <pgwipeout@gmail.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Archit Taneja <architt@codeaurora.org>, Pierre-Hugues Husson <phh@phh.me>
+Subject: [PATCH v2] drm/bridge: synopsys/dw-hdmi: set cec clock rate
+Date: Wed, 26 Jan 2022 16:01:37 -0500
+Message-Id: <20220126210137.3065508-1-pgwipeout@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qjusil2tsea5ma46"
-Content-Disposition: inline
-In-Reply-To: <1642868787-61384-1-git-send-email-lyz_cs@pku.edu.cn>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,89 +72,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, emma@anholt.net,
- linux-kernel@vger.kernel.org
+Cc: Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Peter Geis <pgwipeout@gmail.com>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The hdmi-cec clock must be 32khz in order for cec to work correctly.
+Ensure before enabling the clock we set it in order for the hardware to
+work as expected.
+Fixes hdmi-cec support on Rockchip devices.
 
---qjusil2tsea5ma46
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: ebe32c3e282a ("drm/bridge: synopsys/dw-hdmi: Enable cec clock")
 
-On 01/22, Yongzhi Liu wrote:
-> [why]
-> Unlock is needed on the error handling path to prevent dead lock.
->=20
-> [how]
-> Fix this by adding drm_gem_unlock_reservations on the error handling path.
->=20
-> Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
-> ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index c7ed2e1..0c989dc 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -798,6 +798,8 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *dat=
-a,
-> =20
->  		if (!render->base.perfmon) {
->  			ret =3D -ENOENT;
-> +			drm_gem_unlock_reservations(last_job->bo,
-> +				    last_job->bo_count, &acquire_ctx);
->  			goto fail;
-Hi,
+Signed-off-by: Peter Geis <pgwipeout@gmail.com>
+---
+Changelog:
+v2:
+- Set the clock rate before enabling the clock
+---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Nice catch!
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 54d8fdad395f..65c16455b76a 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -48,6 +48,9 @@
+ 
+ #define HDMI14_MAX_TMDSCLK	340000000
+ 
++/* HDMI CEC needs a clock rate of 32khz */
++#define HDMI_CEC_CLK_RATE	32768
++
+ enum hdmi_datamap {
+ 	RGB444_8B = 0x01,
+ 	RGB444_10B = 0x03,
+@@ -3341,6 +3344,10 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 		hdmi->cec_clk = NULL;
+ 		goto err_iahb;
+ 	} else {
++		ret = clk_set_rate(hdmi->cec_clk, HDMI_CEC_CLK_RATE);
++		if (ret)
++			dev_warn(hdmi->dev, "Cannot set HDMI cec clock rate: %d\n", ret);
++
+ 		ret = clk_prepare_enable(hdmi->cec_clk);
+ 		if (ret) {
+ 			dev_err(hdmi->dev, "Cannot enable HDMI cec clock: %d\n",
+-- 
+2.25.1
 
-As unlock is handle in fail_unreserve, I would suggest you to keep the
-failures handling around there. In that case, the goto will target a
-place between `fail_unreserve:` and `fail:`, i.e. calls
-drm_gem_unlock_reservations (and the following cleanings) but don't call
-mutex_unlock.
-
-Thanks,
-
-Melissa
-
->  		}
->  	}
-> @@ -1027,6 +1029,8 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *=
-data,
->  						     args->perfmon_id);
->  		if (!job->base.perfmon) {
->  			ret =3D -ENOENT;
-> +			drm_gem_unlock_reservations(clean_job->bo, clean_job->bo_count,
-> +						    &acquire_ctx);
->  			goto fail;
->  		}
->  	}
-> --=20
-> 2.7.4
->=20
-
---qjusil2tsea5ma46
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmHxtbIACgkQwqF3j0dL
-ehxmmhAAls6eo7gT76XvCoDqs3iMlPsv655BIOg65UFxTFirde5AiItWnvNwT3e5
-Iyf3a1LnRPjvCB+YM793XU14YbVxgGgwQcRjlo00j93bBPAtTGK9ko+nyZnNn4ns
-OMr+GZpXL9DNFaY9evlgKXlplbOotkDlQbf0TwHjuxyfuyKdLxtwaSs3/EXGsgjP
-WKAtOBoP5Cdk112rvQg3u4IunKETNcm7a9tzbJU5u7SnwGKBsqPBqB0P+jtkD5ww
-MZDtxCpoGJAHG8w9sgWainPn7qDtLpPnNUbQVhYtnTeJpyGrCzj/V+mt9lj5WCt+
-+f4JkdUhDZrxmTwbwDifM3boUN4tHE89ab5QiQ8xzB+kG1Ui64RvokZT2S6Xk+Yw
-J+hrYTsd9Ta+kieSVVKuka65qGxsuPcZ2hWFA8sEb4WbCjn6yuke5MVhsouH0SlF
-+9LjIHLSuAvY5Z/mGY9WnMCYJn71hQoSyKJS8aAkyeE2uGi/hTYyyTMdtUtBSnuQ
-lWKP8r/TuJFoUudVpzEVJZfStg4vDOO5M1lFnXqvaOUKzqTESfIWhbm2urHqwZnI
-rPS+Fq8d1w7gcDI28l1EA5cR+P7bf7A536bXb4aP10JL8ZLWEW87hyYAUA/hbcI4
-5DPNmTwDzGLhV2gnxGoUI8tMPCLwCcVsPl7nULC5IVY0D3/f7Zc=
-=1pGY
------END PGP SIGNATURE-----
-
---qjusil2tsea5ma46--
