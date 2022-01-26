@@ -1,59 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD0DE49CBE4
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:11:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C9249CBEA
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:12:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 780A410E656;
-	Wed, 26 Jan 2022 14:11:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 346EF10E6EE;
+	Wed, 26 Jan 2022 14:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1FE810E656
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 14:11:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643206296; x=1674742296;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=37Crpy1HQSpJjEfNxm/BR1LrwtVeACM1zBGmbeLzZvQ=;
- b=X+Vrh8mH5yx+6G1Dm2r76MfFCMdYlGIz+R2EMWi7OPYz3PDea1C8FxCm
- wWEzCvubRoBVA8Q0OGarVkfN/QaIlIKvRr7wCeMv8TGQNlIkZQT2IcYLt
- pSbrPQrORVLjDAfI+pdqWGpzRBraOdGJRcu6I80+2vkA0yWA9hLTIMFRK
- u8eOoqX0eQsd/k0fwdSm/0EYjvwMCNjc53Do0+bF6oSc4yOQQkYVu7v16
- f7skVF9iv5TwKrFGldy5IJiio8yXae8bRmKvlIhkVQdkoDHDGAYcqxHNj
- 7/NhrTXK55AJCxTIuF+8wVhkr5ms70K9kcTa3O5Bb2/e4iHww9kLQd6gw g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="307270155"
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="307270155"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 06:11:16 -0800
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="696250344"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 06:11:13 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nCizu-00EcTp-VD; Wed, 26 Jan 2022 16:10:06 +0200
-Date: Wed, 26 Jan 2022 16:10:06 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-Message-ID: <YfFWPmG2D093gz4N@smile.fi.intel.com>
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-2-andriy.shevchenko@linux.intel.com>
- <YfEG2qVO9K9G+g1d@kroah.com>
- <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
- <f671a112-880d-1526-a395-360947b40c5a@gmx.de>
- <YfEv7OQs98O9wJdJ@kroah.com> <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
- <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
- <YfFV4EJosayH+e6C@smile.fi.intel.com>
+Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47CFE10E6B6;
+ Wed, 26 Jan 2022 14:11:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id C0FB23F36F;
+ Wed, 26 Jan 2022 15:11:53 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: pio-pvt-msa2.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id xl03J6hK3jv6; Wed, 26 Jan 2022 15:11:52 +0100 (CET)
+Received: by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id CF3553F2DE;
+ Wed, 26 Jan 2022 15:11:49 +0100 (CET)
+Received: from [192.168.0.209] (unknown [192.55.55.54])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id A19CB3626AA;
+ Wed, 26 Jan 2022 15:11:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1643206309; bh=LMhkrBdLZkCEhoHLd421DsjJY0iUDjhzCRAXtSuRAVw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=bhGE/1T/HXW8ty3QjO7s0GAIEecumC7GzazfLWYDD2jQYG02G3lCi6TF9ppxG7z+d
+ L8nfU6tWYcT5EHAEj2WlaO+dNC6RtJAjOqTwv4SegMhbcVhC3tAsjrlLS28INKx8vS
+ 0aYvFwy3m9W8Crjy6Y22md3wupm4M61QnUs9KDTU=
+Message-ID: <db358c46-a34a-cc8d-e657-5a8d2b888034@shipmail.org>
+Date: Wed, 26 Jan 2022 15:11:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YfFV4EJosayH+e6C@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [Intel-gfx] [PATCH v5 5/5] drm/i915/uapi: document behaviour for
+ DG2 64K support
+Content-Language: en-US
+To: Robert Beckett <bob.beckett@collabora.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220125193530.3272386-1-bob.beckett@collabora.com>
+ <20220125193530.3272386-6-bob.beckett@collabora.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <20220125193530.3272386-6-bob.beckett@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,39 +71,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
- Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org, Kenneth Graunke <kenneth@whitecape.org>,
+ dri-devel@lists.freedesktop.org,
+ Slawomir Milczarek <slawomir.milczarek@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, mesa-dev@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 26, 2022 at 04:08:32PM +0200, Andy Shevchenko wrote:
-> On Wed, Jan 26, 2022 at 02:46:08PM +0100, Javier Martinez Canillas wrote:
-> > On 1/26/22 14:12, Andy Shevchenko wrote:
 
-...
+On 1/25/22 20:35, Robert Beckett wrote:
+> From: Matthew Auld <matthew.auld@intel.com>
+>
+> On discrete platforms like DG2, we need to support a minimum page size
+> of 64K when dealing with device local-memory. This is quite tricky for
+> various reasons, so try to document the new implicit uapi for this.
+>
+> v3: fix typos and less emphasis
+> v2: Fixed suggestions on formatting [Daniel]
+>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> Acked-by: Jordan Justen <jordan.l.justen@intel.com>
+> Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+> cc: Simon Ser <contact@emersion.fr>
+> cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Kenneth Graunke <kenneth@whitecape.org>
+> Cc: mesa-dev@lists.freedesktop.org
+> Cc: Tony Ye <tony.ye@intel.com>
+> Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
+> ---
 
-> > I've just bought a SSD1306 (I2C) based one and will attempt to write a DRM
-> > driver using drivers/staging/fbtft/fb_ssd1306.c as a reference.
-> 
-> You should take ssd1307fb.c instead. And basically create a MIPI based driver
-> for I2C. Then we won't go same road again for other similar devices.
-
-For the record it supports your device:
-
-static const struct i2c_device_id ssd1307fb_i2c_id[] = {
-{ "ssd1305fb", 0 },
-{ "ssd1306fb", 0 },
-{ "ssd1307fb", 0 },
-{ "ssd1309fb", 0 },
-
-
--- 
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
 
