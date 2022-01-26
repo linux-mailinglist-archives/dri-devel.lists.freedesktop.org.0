@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8176B49CF1C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 17:04:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE4949CF3A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 17:08:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7380510E5BE;
-	Wed, 26 Jan 2022 16:04:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C559710E540;
+	Wed, 26 Jan 2022 16:08:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5C2810E5A5
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 16:04:38 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id 23so192977ybf.7
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 08:04:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
+ [IPv6:2607:f8b0:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389D310E540
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 16:08:15 +0000 (UTC)
+Received: by mail-il1-x12b.google.com with SMTP id e8so34316ilm.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 08:08:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=I1PFWUBDwhEY3Hv2QBW+PKkoeBVqFCkIFV0TuJ7bvS8=;
- b=P0OwVjXGqxYvsrwB7spRllLzGtiOBqjE0WSO7AYtGnmDOvkbK58mgms4Kc+Cfe9CAb
- VCEcyBeitlDZUrJI9x+1xHYvONl3nxmo38WuR/WbDnARdBvrcbnw4EMDihlOd9gvprrI
- UioSkgQz5gCMF0iNPrsnwuxtjq5AKy17Nc3MH5MKgjwIstBOgWTGpEraXDgZxNkhip2W
- 5yRw89f4Rvmk+/tyRxy7haKoJMZgPw4Z+5oNXnC7qyLkJuaYvQt0oPNMCv+UWlNyiSQN
- BQuicCfmyi08sy50mYqftEt2JmvWlzo+QzjW+SS57BdbgZmAUSrqESwfbqhBYi/qfru4
- PXwg==
+ :cc; bh=DN8RvaHx5+77rk1/ysZjfhhFRASzKh3gGZwBlj41YRo=;
+ b=nkLcw33OzZeDSgM/QdR+Uwjfl2uHPTsSuQARGXJ3DpzPJrZeFm9jTDuMOu+OGo6Mqo
+ w60V3c73O+tVuA/TJlW7lMWrMUxiz3apgNPBHdp71o7RHa1/8SlQ3pnkj8zPUJxr05aC
+ /DJlf9QXIck91Ui7drWLz++Sh0t55vLL+WIFs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=I1PFWUBDwhEY3Hv2QBW+PKkoeBVqFCkIFV0TuJ7bvS8=;
- b=dWnHIBcW2EoMRrupYPGc9+EAkZnlccWP39F6IMWkpmx57BvO/URa61FGdF0RmFU2Ru
- qFSp9lwta5LvBzlERS7g22EhEnbHwQkGxWiwsRZfDacsWD1KBq075JyiPppydhHyIAb5
- NzmwzEgObso5cymx7d40+ffVTvPaoXJz6pjTpcgk0CXUP0KbMwjQCD1MseR8ubcH/vhI
- 3/fb4OiwASiUhWQwRu8OTxRrY6ZBvsHcDi+CV2houAapLdTrJa7lJ/XDC0nufIt79LzR
- bMe8qBBC+spmt71cvf3uPXQ0mE+RksHMgj9VS17Mxv0eP0In1yZmMx3qaJe1ExCe8rx+
- V5cw==
-X-Gm-Message-State: AOAM531i3GTdYNE8syVBupuZ31I4PNrGGAuzlQ+PNO0/FTORJJlKgCO7
- LHo9b/Utu2EpWklHg/yFE/n0fUBkYPKa6F7DOkk=
-X-Google-Smtp-Source: ABdhPJw0/pa8cCSqurWfk1GgO29W+8GRV6N3mR0rOJRhQPTh932RajwBQ5CXANcMfITbWzinmuCmScUdNZmKYWuDiyc=
-X-Received: by 2002:a25:8888:: with SMTP id d8mr33876297ybl.405.1643213077990; 
- Wed, 26 Jan 2022 08:04:37 -0800 (PST)
+ bh=DN8RvaHx5+77rk1/ysZjfhhFRASzKh3gGZwBlj41YRo=;
+ b=hI5UU5lmL+c8Rk3B8py677B7h66RaIUXnX6ZMPkG6q/gN13vB7v5sGwWPtLfZ9owCy
+ 5ks6kG2lP4wNOF3sXoopPwvn89LC3jGbuJt5iYHPWWtRH2dQL+efvbXNA/j0raFWQ5y1
+ awn2aFXGYSzXbfe69GlcDUdUa4n5ts2MK216Pot8JP4D3H/AEXuYYNwVU87XNW0/KIXU
+ w8/fwUSgu/L12RCUSbMo1ZZkmKDCVIozlZYpA6PB01ZoXfERVFM3sgcyMpAHBloDKEF0
+ YIY7v+7tcUwd0aJav+7nRq+sudDUaA64OBGzgox6dQKZQIjEsgc7TJGwdu3omKDp/VHW
+ IJZw==
+X-Gm-Message-State: AOAM531znhAcpVahESSOmlIcO9KC46+jdLzdDAJFVx1kgkrJWkg1RXpO
+ ca1za9iWIQuw9202FGEcDvsMzQ4G1IYzvg==
+X-Google-Smtp-Source: ABdhPJy/oiIbYXTGjdaMb2gwplumm5RIh/eHVUwc/B8djn5hpH1YiUC4YxqnqvB7ymcYMJQRG1euMg==
+X-Received: by 2002:a05:6e02:1ca5:: with SMTP id
+ x5mr14804695ill.237.1643213293147; 
+ Wed, 26 Jan 2022 08:08:13 -0800 (PST)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com.
+ [209.85.166.41])
+ by smtp.gmail.com with ESMTPSA id f13sm9611789ion.18.2022.01.26.08.08.09
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jan 2022 08:08:11 -0800 (PST)
+Received: by mail-io1-f41.google.com with SMTP id w7so98038ioj.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 08:08:09 -0800 (PST)
+X-Received: by 2002:a5e:de05:: with SMTP id e5mr1173380iok.136.1643213289315; 
+ Wed, 26 Jan 2022 08:08:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20220126145549.617165-1-s.hauer@pengutronix.de>
- <20220126145549.617165-22-s.hauer@pengutronix.de>
-In-Reply-To: <20220126145549.617165-22-s.hauer@pengutronix.de>
-From: Peter Geis <pgwipeout@gmail.com>
-Date: Wed, 26 Jan 2022 11:04:26 -0500
-Message-ID: <CAMdYzYrLw9+VW08cuj4_o4GDFhgBB8dZ-oVJ0TUnKFGLNetdyQ@mail.gmail.com>
-Subject: Re: [PATCH 21/27] arm64: dts: rockchip: rk356x: Add HDMI nodes
-To: Sascha Hauer <s.hauer@pengutronix.de>
+References: <20220120064457.1.I337b8db7efaba8eb9c0ffd4da0d8c8133faf6f19@changeid>
+ <CAD=FV=VEes8afsYDFT2z=AGeEPGqm93VzqK03aojePe=phH1BA@mail.gmail.com>
+In-Reply-To: <CAD=FV=VEes8afsYDFT2z=AGeEPGqm93VzqK03aojePe=phH1BA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 26 Jan 2022 08:07:57 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UQXr16pKphfTmJWe4hKqGZ2QzSA2FJvRoTF8pRk1KMkg@mail.gmail.com>
+Message-ID: <CAD=FV=UQXr16pKphfTmJWe4hKqGZ2QzSA2FJvRoTF8pRk1KMkg@mail.gmail.com>
+Subject: Re: [PATCH] gpu: drm: panel-edp: Add panels planned for
+ sc7180-trogdor-pazquel
+To: Grace Mi <grace.mi@ecs.corp-partner.google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,90 +72,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- arm-mail-list <linux-arm-kernel@lists.infradead.org>
+Cc: Bob Moragues <moragues@chromium.org>,
+ Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>,
+ David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Yunlong Jia <yunlong.jia@ecs.com.tw>, Henry Sun <henrysun@google.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 26, 2022 at 9:58 AM Sascha Hauer <s.hauer@pengutronix.de> wrote:
->
-> Add support for the HDMI port found on RK3568.
->
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> ---
->  arch/arm64/boot/dts/rockchip/rk356x.dtsi | 37 +++++++++++++++++++++++-
->  1 file changed, 36 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> index 4008bd666d01..e38fb223e9b8 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> @@ -10,7 +10,6 @@
->  #include <dt-bindings/pinctrl/rockchip.h>
->  #include <dt-bindings/power/rk3568-power.h>
->  #include <dt-bindings/soc/rockchip,boot-mode.h>
-> -#include <dt-bindings/soc/rockchip,vop2.h>
->  #include <dt-bindings/thermal/thermal.h>
->
->  / {
-> @@ -502,6 +501,42 @@ vop_mmu: iommu@fe043e00 {
->                 status = "disabled";
->         };
->
-> +       hdmi: hdmi@fe0a0000 {
-> +               compatible = "rockchip,rk3568-dw-hdmi";
-> +               reg = <0x0 0xfe0a0000 0x0 0x20000>;
-> +               interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
-> +               clocks = <&cru PCLK_HDMI_HOST>,
-> +                        <&cru CLK_HDMI_SFR>,
-> +                        <&cru CLK_HDMI_CEC>,
-> +                        <&pmucru CLK_HDMI_REF>,
-> +                        <&cru HCLK_VOP>;
-> +               clock-names = "iahb", "isfr", "cec", "ref", "hclk";
-> +               pinctrl-names = "default";
-> +               pinctrl-0 = <&hdmitx_scl &hdmitx_sda &hdmitxm0_cec>;
+Hi,
 
-I looked into CEC support here, and it seems that it does work with one change.
-Please add the two following lines to your patch:
-assigned-clocks = <&cru CLK_HDMI_CEC>;
-assigned-clock-rates = <32768>;
-
-The issue is the clk_rtc32k_frac clock that feeds clk_rtc_32k which
-feeds clk_hdmi_cec is 24mhz at boot, which is too high for CEC to
-function.
-
-> +               power-domains = <&power RK3568_PD_VO>;
-> +               reg-io-width = <4>;
-> +               rockchip,grf = <&grf>;
-> +               #sound-dai-cells = <0>;
-> +               status = "disabled";
-> +
-> +               ports {
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
-> +
-> +                       hdmi_in: port@0 {
-> +                               reg = <0>;
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +                       };
-> +
-> +                       hdmi_out: port@1 {
-> +                               reg = <1>;
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +                       };
-> +               };
-> +       };
-> +
->         qos_gpu: qos@fe128000 {
->                 compatible = "rockchip,rk3568-qos", "syscon";
->                 reg = <0x0 0xfe128000 0x0 0x20>;
-> --
-> 2.30.2
+On Thu, Jan 20, 2022 at 8:26 AM Doug Anderson <dianders@chromium.org> wrote:
 >
+> Hi,
+>
+> On Wed, Jan 19, 2022 at 10:45 PM Grace Mi
+> <grace.mi@ecs.corp-partner.google.com> wrote:
+> >
+> > From: Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>
+> >
+> > We have added corresponding information:
+> >     [BOE]NV116WHM-N45 use delay_200_500_e50
+> >     [KDB]116N29-30NK-C007 use delay_200_500_e80_d50
+> >     [STA]2081116HHD028001-51D use delay_100_500_e200
+> > Add 3 panels & 2 delay.
+> >
+> > Signed-off-by: Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>
+> > Signed-off-by: Grace Mi <grace.mi@ecs.corp-partner.google.com>
+> > ---
+> >
+> >  drivers/gpu/drm/panel/panel-edp.c | 17 +++++++++++++++++
+> >  1 file changed, 17 insertions(+)
+>
+> This looks good to me. I'll plan on landing it in drm-misc-next
+> sometime next week unless there are objections.
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+Pushed to drm-misc-next:
+
+b889d89ad45f gpu: drm: panel-edp: Add panels planned for sc7180-trogdor-pazquel
