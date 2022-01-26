@@ -2,52 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DB649CCF5
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:57:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 299D649CD39
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 16:02:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2688810E66A;
-	Wed, 26 Jan 2022 14:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E9AB10E617;
+	Wed, 26 Jan 2022 15:02:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6C8210E65A;
- Wed, 26 Jan 2022 14:57:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643209053; x=1674745053;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Naq9bU8Eug7aC4jYDxIsWIp4xb2ekXmzmY6NZVxr3bQ=;
- b=NF+5n6g7TyN6x4uPPJRhvHmPzAPpuRgpfGfmXUvAe2zpL5g6VQgVn382
- HkiA+JEO6OJXZ/fv48jmaQwDYA3JNOsRMt9HUpTv3AJgo8By98p0SaL6o
- ogqY3Oq+SuZiMANp+5XQUlwtpF/ZtrgnfsJ0nK0HBFKoknGNUgJHhg+f/
- aq0pK0w39qfDW5K2crKPhzrRbJk8ZapFam2zdmsgRYsGAM+UljGRfD97l
- Nb4aVzQsKTyr/YNGtF+u2HNJ8KrlXbfDNJb4PWvcxS5LULdht4k3FT9iZ
- xYDHDA54UG4jgcsrFUqBKk7lvWHGS0Shj4VqFTk7N1xtJ90GZ1juD8WPK A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="233941315"
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="233941315"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 06:57:33 -0800
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="628324945"
-Received: from nbasu-mobl.ger.corp.intel.com (HELO localhost) ([10.252.16.197])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 06:57:21 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-security-module@vger.kernel.org, nouveau@lists.freedesktop.org,
- netdev@vger.kernel.org
-Subject: Re: [PATCH v2 09/11] drm: Convert open-coded yes/no strings to yesno()
-In-Reply-To: <20220126093951.1470898-10-lucas.demarchi@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220126093951.1470898-1-lucas.demarchi@intel.com>
- <20220126093951.1470898-10-lucas.demarchi@intel.com>
-Date: Wed, 26 Jan 2022 16:57:18 +0200
-Message-ID: <87y232y27l.fsf@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E51D10E617
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 15:02:27 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 82AE7218E9;
+ Wed, 26 Jan 2022 15:02:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643209344; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+ywInxyOJy4rz3LH14it69JB4bBo+dtZ6Lmpqfgo0DE=;
+ b=gOXER/1epdmtD5AO9wXgMGZUupvfT1zX5RutgVnrF1i5g2Q+tTcncMmZVNBz/oC9zsXPPW
+ mjkwJ5ondIesWMCCdxyyZgX3LtD7wL70+3uHhEvCRTR9p2Reb8l2s8TdUMJKLpSdnph4zn
+ cy9gHa++wO8maPrUJhemeL6aQq0DkjI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643209344;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+ywInxyOJy4rz3LH14it69JB4bBo+dtZ6Lmpqfgo0DE=;
+ b=GDP0FeKTCWdBFIW9rOydJ6PR1ncGcl7Ml0dBivgRjOOcQnredC46xWELXsV95GbuoA/hlG
+ YgAHQ+S6l3Ai2oAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 333D413A67;
+ Wed, 26 Jan 2022 15:02:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id dCwGC4Bi8WEJEgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Jan 2022 15:02:24 +0000
+Message-ID: <df377b35-8913-a8c6-760b-073f462780cc@suse.de>
+Date: Wed, 26 Jan 2022 16:02:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
+Content-Language: en-US
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
+ <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
+ <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
+ <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
+ <75a10e6f-ade7-01d9-9523-9a1936f8a2cc@suse.de>
+ <YfFNhsPr4kS2/LXa@smile.fi.intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <YfFNhsPr4kS2/LXa@smile.fi.intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------mkAP40MHAxNYXACQ9Me0DfSY"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,256 +74,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Chris Wilson <chris@chris-wilson.co.uk>, Vishal Kulkarni <vishal@chelsio.com>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
- Jakub Kicinski <kuba@kernel.org>, Petr Mladek <pmladek@suse.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Leo Li <sunpeng.li@amd.com>,
- Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Raju Rangoju <rajur@chelsio.com>, Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, "David
- S. Miller" <davem@davemloft.net>
+Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
+ Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Jan 2022, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
-> linux/string_helpers.h provides a helper to return "yes"/"no" strings.
-> Replace the open coded versions with str_yes_no(). The places were
-> identified with the following semantic patch:
->
-> 	@@
-> 	expression b;
-> 	@@
->
-> 	- b ? "yes" : "no"
-> 	+ str_yes_no(b)
->
-> Then the includes were added, so we include-what-we-use, and parenthesis
-> adjusted in drivers/gpu/drm/v3d/v3d_debugfs.c. After the conversion we
-> still see the same binary sizes:
->
->    text    data     bss     dec     hex filename
->   51149    3295     212   54656    d580 virtio/virtio-gpu.ko.old
->   51149    3295     212   54656    d580 virtio/virtio-gpu.ko
-> 1441491   60340     800 1502631  16eda7 radeon/radeon.ko.old
-> 1441491   60340     800 1502631  16eda7 radeon/radeon.ko
-> 6125369  328538   34000 6487907  62ff63 amd/amdgpu/amdgpu.ko.old
-> 6125369  328538   34000 6487907  62ff63 amd/amdgpu/amdgpu.ko
->  411986   10490    6176  428652   68a6c drm.ko.old
->  411986   10490    6176  428652   68a6c drm.ko
->   98129    1636     264  100029   186bd dp/drm_dp_helper.ko.old
->   98129    1636     264  100029   186bd dp/drm_dp_helper.ko
-> 1973432  109640    2352 2085424  1fd230 nouveau/nouveau.ko.old
-> 1973432  109640    2352 2085424  1fd230 nouveau/nouveau.ko
->
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------mkAP40MHAxNYXACQ9Me0DfSY
+Content-Type: multipart/mixed; boundary="------------GcAdGPDtoHEUJRGvbwW80LY7";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
+ <deller@gmx.de>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Phillip Potter <phil@philpotter.co.uk>, Carlis <zhangxuezhi1@yulong.com>,
+ Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
+Message-ID: <df377b35-8913-a8c6-760b-073f462780cc@suse.de>
+Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
+References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
+ <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
+ <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
+ <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
+ <75a10e6f-ade7-01d9-9523-9a1936f8a2cc@suse.de>
+ <YfFNhsPr4kS2/LXa@smile.fi.intel.com>
+In-Reply-To: <YfFNhsPr4kS2/LXa@smile.fi.intel.com>
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+--------------GcAdGPDtoHEUJRGvbwW80LY7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/atom.c             |  4 +++-
->  drivers/gpu/drm/dp/drm_dp.c                   |  3 ++-
->  drivers/gpu/drm/drm_client_modeset.c          |  3 ++-
->  drivers/gpu/drm/drm_gem.c                     |  3 ++-
->  drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c |  5 ++++-
->  drivers/gpu/drm/radeon/atom.c                 |  3 ++-
->  drivers/gpu/drm/v3d/v3d_debugfs.c             | 11 ++++++-----
->  drivers/gpu/drm/virtio/virtgpu_debugfs.c      |  4 +++-
->  8 files changed, 24 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
-> index 6fa2229b7229..1c5d9388ad0b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/atom.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/atom.c
-> @@ -25,6 +25,8 @@
->  #include <linux/module.h>
->  #include <linux/sched.h>
->  #include <linux/slab.h>
-> +#include <linux/string_helpers.h>
-> +
->  #include <asm/unaligned.h>
->  
->  #include <drm/drm_util.h>
-> @@ -740,7 +742,7 @@ static void atom_op_jump(atom_exec_context *ctx, int *ptr, int arg)
->  		break;
->  	}
->  	if (arg != ATOM_COND_ALWAYS)
-> -		SDEBUG("   taken: %s\n", execute ? "yes" : "no");
-> +		SDEBUG("   taken: %s\n", str_yes_no(execute));
->  	SDEBUG("   target: 0x%04X\n", target);
->  	if (execute) {
->  		if (ctx->last_jump == (ctx->start + target)) {
-> diff --git a/drivers/gpu/drm/dp/drm_dp.c b/drivers/gpu/drm/dp/drm_dp.c
-> index 6d43325acca5..c43577c8ac4d 100644
-> --- a/drivers/gpu/drm/dp/drm_dp.c
-> +++ b/drivers/gpu/drm/dp/drm_dp.c
-> @@ -28,6 +28,7 @@
->  #include <linux/module.h>
->  #include <linux/sched.h>
->  #include <linux/seq_file.h>
-> +#include <linux/string_helpers.h>
->  
->  #include <drm/dp/drm_dp_helper.h>
->  #include <drm/drm_print.h>
-> @@ -1239,7 +1240,7 @@ void drm_dp_downstream_debug(struct seq_file *m,
->  	bool branch_device = drm_dp_is_branch(dpcd);
->  
->  	seq_printf(m, "\tDP branch device present: %s\n",
-> -		   branch_device ? "yes" : "no");
-> +		   str_yes_no(branch_device));
->  
->  	if (!branch_device)
->  		return;
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> index ced09c7c06f9..e6346a67cd98 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -11,6 +11,7 @@
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  #include <linux/slab.h>
-> +#include <linux/string_helpers.h>
->  
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_client.h>
-> @@ -241,7 +242,7 @@ static void drm_client_connectors_enabled(struct drm_connector **connectors,
->  		connector = connectors[i];
->  		enabled[i] = drm_connector_enabled(connector, true);
->  		DRM_DEBUG_KMS("connector %d enabled? %s\n", connector->base.id,
-> -			      connector->display_info.non_desktop ? "non desktop" : enabled[i] ? "yes" : "no");
-> +			      connector->display_info.non_desktop ? "non desktop" : str_yes_no(enabled[i]));
->  
->  		any_enabled |= enabled[i];
->  	}
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 21631c22b374..3c888db59ea4 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -37,6 +37,7 @@
->  #include <linux/pagevec.h>
->  #include <linux/shmem_fs.h>
->  #include <linux/slab.h>
-> +#include <linux/string_helpers.h>
->  #include <linux/types.h>
->  #include <linux/uaccess.h>
->  
-> @@ -1145,7 +1146,7 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
->  			  drm_vma_node_start(&obj->vma_node));
->  	drm_printf_indent(p, indent, "size=%zu\n", obj->size);
->  	drm_printf_indent(p, indent, "imported=%s\n",
-> -			  obj->import_attach ? "yes" : "no");
-> +			  str_yes_no(obj->import_attach));
->  
->  	if (obj->funcs->print_info)
->  		obj->funcs->print_info(p, indent, obj);
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
-> index a11637b0f6cc..d063d0dc13c5 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
-> @@ -21,6 +21,9 @@
->   *
->   * Authors: Ben Skeggs
->   */
-> +
-> +#include <linux/string_helpers.h>
-> +
->  #include "aux.h"
->  #include "pad.h"
->  
-> @@ -94,7 +97,7 @@ void
->  nvkm_i2c_aux_monitor(struct nvkm_i2c_aux *aux, bool monitor)
->  {
->  	struct nvkm_i2c_pad *pad = aux->pad;
-> -	AUX_TRACE(aux, "monitor: %s", monitor ? "yes" : "no");
-> +	AUX_TRACE(aux, "monitor: %s", str_yes_no(monitor));
->  	if (monitor)
->  		nvkm_i2c_pad_mode(pad, NVKM_I2C_PAD_AUX);
->  	else
-> diff --git a/drivers/gpu/drm/radeon/atom.c b/drivers/gpu/drm/radeon/atom.c
-> index f15b20da5315..c1bbfbe28bda 100644
-> --- a/drivers/gpu/drm/radeon/atom.c
-> +++ b/drivers/gpu/drm/radeon/atom.c
-> @@ -25,6 +25,7 @@
->  #include <linux/module.h>
->  #include <linux/sched.h>
->  #include <linux/slab.h>
-> +#include <linux/string_helpers.h>
->  
->  #include <asm/unaligned.h>
->  
-> @@ -722,7 +723,7 @@ static void atom_op_jump(atom_exec_context *ctx, int *ptr, int arg)
->  		break;
->  	}
->  	if (arg != ATOM_COND_ALWAYS)
-> -		SDEBUG("   taken: %s\n", execute ? "yes" : "no");
-> +		SDEBUG("   taken: %s\n", str_yes_no(execute));
->  	SDEBUG("   target: 0x%04X\n", target);
->  	if (execute) {
->  		if (ctx->last_jump == (ctx->start + target)) {
-> diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
-> index e76b24bb8828..29fd13109e43 100644
-> --- a/drivers/gpu/drm/v3d/v3d_debugfs.c
-> +++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
-> @@ -6,6 +6,7 @@
->  #include <linux/debugfs.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/seq_file.h>
-> +#include <linux/string_helpers.h>
->  
->  #include <drm/drm_debugfs.h>
->  
-> @@ -148,15 +149,15 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
->  		   V3D_GET_FIELD(ident3, V3D_HUB_IDENT3_IPREV),
->  		   V3D_GET_FIELD(ident3, V3D_HUB_IDENT3_IPIDX));
->  	seq_printf(m, "MMU:        %s\n",
-> -		   (ident2 & V3D_HUB_IDENT2_WITH_MMU) ? "yes" : "no");
-> +		   str_yes_no(ident2 & V3D_HUB_IDENT2_WITH_MMU));
->  	seq_printf(m, "TFU:        %s\n",
-> -		   (ident1 & V3D_HUB_IDENT1_WITH_TFU) ? "yes" : "no");
-> +		   str_yes_no(ident1 & V3D_HUB_IDENT1_WITH_TFU));
->  	seq_printf(m, "TSY:        %s\n",
-> -		   (ident1 & V3D_HUB_IDENT1_WITH_TSY) ? "yes" : "no");
-> +		   str_yes_no(ident1 & V3D_HUB_IDENT1_WITH_TSY));
->  	seq_printf(m, "MSO:        %s\n",
-> -		   (ident1 & V3D_HUB_IDENT1_WITH_MSO) ? "yes" : "no");
-> +		   str_yes_no(ident1 & V3D_HUB_IDENT1_WITH_MSO));
->  	seq_printf(m, "L3C:        %s (%dkb)\n",
-> -		   (ident1 & V3D_HUB_IDENT1_WITH_L3C) ? "yes" : "no",
-> +		   str_yes_no(ident1 & V3D_HUB_IDENT1_WITH_L3C),
->  		   V3D_GET_FIELD(ident2, V3D_HUB_IDENT2_L3C_NKB));
->  
->  	for (core = 0; core < cores; core++) {
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-> index b6954e2f75e6..853dd9aa397e 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-> @@ -23,6 +23,8 @@
->   * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
->   */
->  
-> +#include <linux/string_helpers.h>
-> +
->  #include <drm/drm_debugfs.h>
->  #include <drm/drm_file.h>
->  
-> @@ -31,7 +33,7 @@
->  static void virtio_gpu_add_bool(struct seq_file *m, const char *name,
->  				bool value)
->  {
-> -	seq_printf(m, "%-16s : %s\n", name, value ? "yes" : "no");
-> +	seq_printf(m, "%-16s : %s\n", name, str_yes_no(value));
->  }
->  
->  static void virtio_gpu_add_int(struct seq_file *m, const char *name, int value)
+SGkNCg0KQW0gMjYuMDEuMjIgdW0gMTQ6MzIgc2NocmllYiBBbmR5IFNoZXZjaGVua286DQo+
+IE9uIFdlZCwgSmFuIDI2LCAyMDIyIGF0IDEyOjQxOjQxUE0gKzAxMDAsIFRob21hcyBaaW1t
+ZXJtYW5uIHdyb3RlOg0KPj4gQW0gMjYuMDEuMjIgdW0gMTE6NTkgc2NocmllYiBIZWxnZSBE
+ZWxsZXI6DQo+IA0KPiAuLi4NCj4gDQo+IA0KPj4gSXQncyBhbHdheXMgZm9yIHRoZSBzYW1l
+IHJlYXNvbjogdGhlIGh3IGlzIG9sZCBhbmQgZGV2cyBoYXZlIG1vdmVkIG9uLg0KPiANCj4g
+SXQncyBwaXR5IHRvIGhhdmUgYSB3b3JraW5nIHN5c3RlbSB3aXRoIGFuIG9sZCBoYXJkd2Fy
+ZSB0aGF0IG5vIG9uZSBpbg0KPiB0aGUga2VybmVsIGNvbW11bml0eSBnaXZlcyBhIHNoaXQg
+YWJvdXQgYmVjYXVzZSBzaW1wbHkgdGhleSBhcmUgbm90IGluDQo+IHRoZSBzYW1lIGJvYXQu
+IFRyeSB0byBiZSBvbiB0aGUgcGVvcGxlJ3MgcG9zaXRpb24uLi4NCg0KWWVzLCBJIGRvIGNh
+cmUgYWJvdXQgb2xkIGhhcmR3YXJlLiBJIG1hZGUgaGVscGVycyBmb3IgY29udmVydGluZyBm
+YmRldiANCmRyaXZlcnMgdG8gRFJNLiBJIGV2ZW4gbWFkZSB0aGUgaW5pdGlhbCBjb21taXRz
+IGZvciB0aG9zZSBkcml2ZXJzIHdoZXJlIA0KSSBjb3VsZCBmaW5kIHRoZSBIVyBvbiBFYmF5
+LiBbMV0gSSBtYWRlIHN1cmUgdGhhdCBldmVyeSBzaW5nbGUgb2YgdGhlbSANCmF0IGxlYXN0
+IGdldHMgZmJjb24gb250byB0aGUgc2NyZWVuLiBTbyBpbnRlcmVzdGVkIGRldnMgY291bGQg
+c3RhcnQgDQppbW1lZGlhdGVseS4gWWV0LCBubyBvbmUgZXZlciBzaG93ZWQgdXAgdG8gY29u
+dmVydCBldmVuIGEgc2luZ2xlIGRyaXZlci4NCg0KQXMgaXQgc3RhbmRzLCA5MHMgUENJIGhh
+cmR3YXJlIGlzIGN1cnJlbnRseSBzdXBwb3J0ZWQgYnkgRFJNJ3Mgc2ltcGxlZHJtIA0KYXMg
+bG9uZyBhcyB0aGUgZGV2aWNlIGhhcyBWRVNBLiBUaGUgcGVyZm9ybWFuY2UgaXMgYXQgbGVh
+c3QgdXNhYmxlIG9uIA0KQXRobG9uWFAtZXJhIGNvbXB1dGVycy4gTm93IHRoZSBvd25lcnMg
+b2YgdGhlc2UgZGV2aWNlcyBhdCBsZWFzdCBoYXZlIGEgDQpjaGFuY2Ugb2YgdXNpbmcgbW9k
+ZXJuIGdyYXBoaWNzIHVzZXJzcGFjZS4NCg0KVGhhdCB1c2Vyc3BhY2UgaXMgaW1wb3J0YW50
+OiBncmFwaGljcyBkcml2ZXJzIGRvbid0IGxpdmUgaW4gYSB2YWN1dW0uIA0KVGhlcmUncyBu
+byBwb2ludCBpbiBoYXZpbmcgb25lIGlmIGl0IHJlcXVpcmVzIGV4dHJhIHN1cHBvcnQgZnJv
+bSBhbGwgDQpvdGhlciBjb21wb25lbnRzLiBBbmQgdGhlcmUncyBtb3JlOg0KDQogICogT2Nj
+YXNpb25hbGx5LCBmYmRldiBnZXRzIGluIHRoZSB3YXkgb2YgRFJNLiBKdXN0IHRoaXMgd2Vl
+aywgd2UgZml4ZWQgDQphIHJlbGF0ZWQgYnVnLiBbMl0NCg0KICAqIEZiZGV2J3MgbW1hcCBz
+ZW1hbnRpY3MgaXMgdGhlIHJlYXNvbiB3aHkgaXQncyBoYXJkIHRvIGRvIGZhc3QgaW4gRFJN
+Lg0KDQogICogTWFpbnRhaW5pbmcgYm90aCBzdGFja3MsIERSTSBhbmQgZmJkZXYsIGFkZHMg
+d29yayB0byBrZXJuZWwsIA0KdXNlcnNwYWNlIGFuZCBkaXN0cm8gZGV2cy4NCg0KVGhlcmVm
+b3JlLCBhbnl0aGluZyB3ZSBkbyB0aGF0IGtlZXBzIGZiZGV2IGFsaXZlIGlzIGEgc3RlcCBi
+YWNrd2FyZHMgYW5kIA0KYSBidXJkZW4gb24gdGhlIG92ZXJhbGwgTGludXggZ3JhcGhpY3Mg
+Y29tbXVuaXR5Lg0KDQpQbGVhc2UgZXhjdXNlIG15IHJhbnRpbmcsIGJ1dCBmYmRldiBwcm9w
+b25lbnRzIHNlZW0gdG8gYmUgaWdub3JhbnQgdG8gDQphbGwgdGhlc2UgcG9pbnRzLiBJdCdz
+IGFwcGFyZW50bHkgYWxsIGFib3V0ICdteSBjb25zb2xlIGlzIHNsb3cnLg0KDQpCZXN0IHJl
+Z2FyZHMNClRob21hcw0KDQpbMV0gDQpodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcv
+dHppbW1lcm1hbm4vbGludXgvLS90cmVlL2ZiY29udi1wbHVzLWRyaXZlcnMNClsyXSANCmh0
+dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8xNmY5ZTA2NC05OWNjLTQyMDUtZDAz
+ZS1hZTQxZWQwMzQzMDlAcmVkaGF0LmNvbS9ULyN0DQoNCj4gDQoNCi0tIA0KVGhvbWFzIFpp
+bW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29s
+dXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBH
+ZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjog
+SXZvIFRvdGV2DQo=
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+--------------GcAdGPDtoHEUJRGvbwW80LY7--
+
+--------------mkAP40MHAxNYXACQ9Me0DfSY
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHxYn8FAwAAAAAACgkQlh/E3EQov+AD
+UBAAovu/Fu8JCln4An0Ubgvw3C7lAaZuVlWZx34PknO0gLZukkBJex0oiIBIuhKiC+O8UmuvkvcC
+nRacG08NYPLvYIXn7A416PICsOLFbA8167ilOpVAigEXP9caMLwk3V8aJ3iICDoTy+p2QH8DT4ba
+3LmAnEoSaD5923SnBre2HvE5KEVje00QYCYQrTKhtLQpq9Ih0QBI6eMWXX0eQr75ljmlz/KfkfEx
+RK9juB0zjDY6fk0v1+xwydU7qYhoAnZHw+6HKRtp+1fFI7EDs6Az/jFuP0zIIYOFqmqtSjRBnanw
+g9CA1uYFIFIV2zIPx4mq6kD/jzRpYc77A8ljQi5OSTzw0Yzxa1UJmB7zPYwLz3tLfYcFVbMSTWtC
+ddBfDtiFlvrl0K723jQi60hW2w6r3vZR1TDplf+7PJjgd9+EpBysgL0uAIctCy6jv1L1toc5nwN8
+0lycR0pN3XboYWMo39xikgy2HhQtLhqAX0/VG5uyYs0vLJDINBYgU7eVz9T7lG/ZzNi1CspZ8H3Y
+Oj5M3IvBzmseo06XBWbZ3K0h2ake2EW8PzaN3LetIEwB/szl37kMbv7LEzu+myZnyPkzT9wjyJyk
+lAO1ImUX3MW6OYK+Gp1m/nZx5x1+Q1Im7JEaYHRFKtzBBedD0/SDptuqCJ6TY0fwH/13Cvpgf9Te
+Zy0=
+=Mgbk
+-----END PGP SIGNATURE-----
+
+--------------mkAP40MHAxNYXACQ9Me0DfSY--
