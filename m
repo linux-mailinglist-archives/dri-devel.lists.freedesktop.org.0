@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA10249CE08
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 16:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6A449CE06
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 16:23:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 321B410E920;
-	Wed, 26 Jan 2022 15:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FBFB10E940;
+	Wed, 26 Jan 2022 15:22:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38E5710E920;
- Wed, 26 Jan 2022 15:22:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7502210E935;
+ Wed, 26 Jan 2022 15:22:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643210544; x=1674746544;
+ t=1643210545; x=1674746545;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=aqwKgLLoLKvLUN0ctWqASxKCBQCvWn1O6I6S/Gs8cbE=;
- b=Xb+M3p4EMrCudDnxvTip/3pXfn9ilTWpWVJNlvIB+rrukOdSnfXAqQ57
- +ng1c0o/IsGYq1WHHCImL391Cg+dxgIpYBj6bCIBnQl2y14HEQDwbpPlI
- quBC5yTY7aAmWAthQ1Tb4P9R5UbSmRg/zKe/QfA2WLdROwWbFPusFsSCb
- YtCAzL9erumTc7qnxnteykaj7cFdfLWzwGIAbjCIB3OaewhPGq8xk0O9V
- +suNbW6vw/iFAasvcGad/fj+C8oofJD6Fc+mnm5Hyu1FCwLLuJanRJ+WK
- R44+iUVGE1eq/jEobPbRZMypk+OwSC5FeXp9w4xWanA3QvJAUGlFysfgX w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="309885265"
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="309885265"
+ bh=7X/H2mlbUOUGVLFS85o8YXVSlb5lAuaTEr4TNGE9KgQ=;
+ b=HNYOR3Ha7eNUhqw79qXMQ9mYqA/PgxnCqk0j/I04KA1eoRwrApRk1h03
+ w7SEvvEUXlGxi0mydOn/REKlMShPPxjtaRwPZeaWiMMilekUCDuuELmJD
+ R+YGkJS3MUJN4DsOcxMH783pAfsRKAl+mNP6ey3SCSNUFbRqMcbwCTVYV
+ eGuBa9JtKS0JQtQqjYa2xtG8uDBTJi1YkXQ/n/0aPQmOUnXxBwtQR6YAZ
+ KqcDHApXIAFAX6PZZM0OoeXTt2iV3/NUkIIQ0qvcZ3QQxQLvrkJ1Bkm7U
+ vo//qRnFchOVR5bMCAr3q6EBxlLyeMnWWlTiosOB1rro+wMT1M+/X02ID g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="309885271"
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="309885271"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 07:22:23 -0800
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="674386309"
+ 26 Jan 2022 07:22:25 -0800
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="674386315"
 Received: from jamesstx-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.213.247.182])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 07:22:22 -0800
+ 26 Jan 2022 07:22:24 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 15/20] drm/i915/selftests: handle allocation failures
-Date: Wed, 26 Jan 2022 15:21:50 +0000
-Message-Id: <20220126152155.3070602-16-matthew.auld@intel.com>
+Subject: [PATCH 16/20] drm/i915/create: apply ALLOC_TOPDOWN by default
+Date: Wed, 26 Jan 2022 15:21:51 +0000
+Message-Id: <20220126152155.3070602-17-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220126152155.3070602-1-matthew.auld@intel.com>
 References: <20220126152155.3070602-1-matthew.auld@intel.com>
@@ -62,54 +62,40 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we have to contend with non-mappable LMEM, then we need to ensure the
-object fits within the mappable portion, like in the selftests, where we
-later try to CPU access the pages. However if it can't then we need to
-gracefully handle this, without throwing an error.
+Starting from DG2+, when dealing with LMEM, we assume that by default
+all userspace allocations should be placed in the non-mappable portion
+of LMEM.  Note that dumb buffers are not included here, since these are
+not "GPU accelerated" and likely need CPU access.
 
-Also it looks like TTM will return -ENOMEM if the object can't be
-placed.
+In a later patch userspace will be able to provide a hint if CPU access
+to the buffer is needed.
 
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/selftests/huge_pages.c      | 2 +-
- drivers/gpu/drm/i915/selftests/intel_memory_region.c | 8 +++++++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_create.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-index 42db9cd30978..3caa178bbd07 100644
---- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-@@ -1344,7 +1344,7 @@ static int igt_ppgtt_smoke_huge(void *arg)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+index 9402d4bf4ffc..e7456443f163 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+@@ -424,6 +424,15 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+ 		ext_data.n_placements = 1;
+ 	}
  
- 		err = i915_gem_object_pin_pages_unlocked(obj);
- 		if (err) {
--			if (err == -ENXIO || err == -E2BIG) {
-+			if (err == -ENXIO || err == -E2BIG || err == -ENOMEM) {
- 				i915_gem_object_put(obj);
- 				size >>= 1;
- 				goto try_again;
-diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-index 04ae29779206..87bff7f83554 100644
---- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-@@ -822,8 +822,14 @@ static int igt_lmem_create_with_ps(void *arg)
- 
- 		i915_gem_object_lock(obj, NULL);
- 		err = i915_gem_object_pin_pages(obj);
--		if (err)
-+		if (err) {
-+			if (err == -ENXIO || err == -E2BIG || err == -ENOMEM) {
-+				pr_info("%s not enough lmem for ps(%u) err=%d\n",
-+					__func__, ps, err);
-+				err = 0;
-+			}
- 			goto out_put;
-+		}
- 
- 		daddr = i915_gem_object_get_dma_address(obj, 0);
- 		if (!IS_ALIGNED(daddr, ps)) {
++	/*
++	 * TODO: add a userspace hint to force CPU_ACCESS for the object, which
++	 * can override this.
++	 */
++	if (!IS_DG1(i915) && (ext_data.n_placements > 1 ||
++			      ext_data.placements[0]->type !=
++			      INTEL_MEMORY_SYSTEM))
++		ext_data.flags |= I915_BO_ALLOC_TOPDOWN;
++
+ 	obj = __i915_gem_object_create_user_ext(i915, args->size,
+ 						ext_data.placements,
+ 						ext_data.n_placements,
 -- 
 2.34.1
 
