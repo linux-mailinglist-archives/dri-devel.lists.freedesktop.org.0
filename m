@@ -1,53 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBFF49CCD4
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:55:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FBC49CCE8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:56:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 875CD10E5B8;
-	Wed, 26 Jan 2022 14:55:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2401210E650;
+	Wed, 26 Jan 2022 14:56:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0419410E5B8;
- Wed, 26 Jan 2022 14:55:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643208905; x=1674744905;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=jDvucM57raXXyltv9f1DseZIWOhw7nhoMtqYmn0jkVg=;
- b=eI+vquZdwNHwu/qrZ93HeHdR0/btJnNvjg8D7ZNnm7hgNX/OKGQkcGhR
- ibSJZGgVW2WQqjsd1+rLMLYlaoHkGyAlH298/eAO5llrQ2hf1wD06LC5u
- PCd5/5eKeRHsNHlXAI+WEOFxTpAgg8s7lZwOQMTqOuuTtRvIpa3lkk2To
- WP5qZWUQwk6KhMj2ITvSIACq670hMyc0Y4lv+XetTJKkVh8rvsya1Vw8G
- HogEm6lP+i7IcnfOAHy25BcmEAcUS6opCZ9Ie+XK3uWYTmZChrW2K+/a/
- fswb/efmVL2JqjR47HGykLImOiOGfgMD3a9qVvqSfQpeLso+6zaRxB1kI g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="246509793"
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="246509793"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 06:55:03 -0800
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="520821791"
-Received: from nbasu-mobl.ger.corp.intel.com (HELO localhost) ([10.252.16.197])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 06:54:49 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-security-module@vger.kernel.org, nouveau@lists.freedesktop.org,
- netdev@vger.kernel.org
-Subject: Re: [PATCH v2 08/11] drm/gem: Sort includes alphabetically
-In-Reply-To: <20220126093951.1470898-9-lucas.demarchi@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220126093951.1470898-1-lucas.demarchi@intel.com>
- <20220126093951.1470898-9-lucas.demarchi@intel.com>
-Date: Wed, 26 Jan 2022 16:54:46 +0200
-Message-ID: <871r0uzgw9.fsf@intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E667E10E650
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 14:56:13 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nCjiG-0004tJ-5m; Wed, 26 Jan 2022 15:55:56 +0100
+Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nCjiD-002ktP-27; Wed, 26 Jan 2022 15:55:53 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 00/27] drm/rockchip: RK356x VOP2 support
+Date: Wed, 26 Jan 2022 15:55:22 +0100
+Message-Id: <20220126145549.617165-1-s.hauer@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,74 +47,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Chris Wilson <chris@chris-wilson.co.uk>, Vishal Kulkarni <vishal@chelsio.com>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
- Jakub Kicinski <kuba@kernel.org>, Petr Mladek <pmladek@suse.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Leo Li <sunpeng.li@amd.com>,
- Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Raju Rangoju <rajur@chelsio.com>, Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, "David
- S. Miller" <davem@davemloft.net>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Jan 2022, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
-> Sort includes alphabetically so it's easier to add/remove includes and
-> know when that is needed.
->
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+This is v4 of adding RK356x VOP2 support. Due to popular demand I added
+a changelog to each patch, at least starting with changes to v3, I
+didn't care to add the older changes as well. I hopefully integrated all
+feedback I received to v3. Additionally I added some patches to the HDMI
+driver to support resolutions up to 4k@60Hz. The patches are mostly
+taken from the downstream kernel. Some have been send to public lists,
+but were never applied upstream for reasons I do not know. The patches
+are a bit more intrusive than needed for my case, but are present in the
+downstream kernel for a long time, so I decided just to take them
+instead of stripping them down to my needs. With these patches I
+successfully used the driver with 4k@30Hz. 4k@60Hz doesn't work for me,
+I hope this is due to my low quality cable.
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Sascha
 
-> ---
->  drivers/gpu/drm/drm_gem.c | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 4dcdec6487bb..21631c22b374 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -25,20 +25,20 @@
->   *
->   */
->  
-> -#include <linux/types.h>
-> -#include <linux/slab.h>
-> -#include <linux/mm.h>
-> -#include <linux/uaccess.h>
-> -#include <linux/fs.h>
-> +#include <linux/dma-buf-map.h>
-> +#include <linux/dma-buf.h>
->  #include <linux/file.h>
-> -#include <linux/module.h>
-> +#include <linux/fs.h>
-> +#include <linux/mem_encrypt.h>
-> +#include <linux/mm.h>
->  #include <linux/mman.h>
-> +#include <linux/module.h>
->  #include <linux/pagemap.h>
-> -#include <linux/shmem_fs.h>
-> -#include <linux/dma-buf.h>
-> -#include <linux/dma-buf-map.h>
-> -#include <linux/mem_encrypt.h>
->  #include <linux/pagevec.h>
-> +#include <linux/shmem_fs.h>
-> +#include <linux/slab.h>
-> +#include <linux/types.h>
-> +#include <linux/uaccess.h>
->  
->  #include <drm/drm.h>
->  #include <drm/drm_device.h>
+Changes since v3:
+- added changelog to each patch
+- Add 4k support to hdmi driver
+- rebase on v5.17-rc1
+
+Changes since v2:
+- Add pin names to HDMI supply pin description
+- Add hclk support to HDMI driver
+- Dual license rockchip-vop2 binding, update binding
+- Add HDMI connector to board dts files
+- drop unnecessary gamma_lut registers from vop2
+- Update dclk_vop[012] clock handling, no longer hacks needed
+- Complete regmap conversion
+
+Changes since v1:
+- drop all unnecessary waiting for frames within atomic modeset and plane update
+- Cluster subwin support removed
+- gamma support removed
+- unnecessary irq_lock removed
+- interrupt handling simplified
+- simplified zpos handling
+- drop is_alpha_support(), use fb->format->has_alpha instead
+- use devm_regulator_get() rather than devm_regulator_get_optional() for hdmi regulators
+- Use fixed number of planes per video port
+- Drop homegrown regmap code from vop2 driver (not complete yet)
+- Add separate include file for vop2 driver to not pollute the vop include
+
+Andy Yan (1):
+  drm: rockchip: Add VOP2 driver
+
+Benjamin Gaignard (1):
+  dt-bindings: display: rockchip: dw-hdmi: Add compatible for rk3568
+    HDMI
+
+Douglas Anderson (2):
+  drm/rockchip: dw_hdmi: Use auto-generated tables
+  drm/rockchip: dw_hdmi: Set cur_ctr to 0 always
+
+Michael Riesch (1):
+  arm64: dts: rockchip: enable vop2 and hdmi tx on quartz64a
+
+Nickey Yang (1):
+  drm/rockchip: dw_hdmi: add default 594Mhz clk for 4K@60hz
+
+Sascha Hauer (21):
+  drm/encoder: Add of_graph port to struct drm_encoder
+  drm/rockchip: dw_hdmi: Do not leave clock enabled in error case
+  drm/rockchip: dw_hdmi: rename vpll clock to reference clock
+  drm/rockchip: dw_hdmi: add rk3568 support
+  drm/rockchip: dw_hdmi: add regulator support
+  drm/rockchip: dw_hdmi: Add support for hclk
+  drm/rockchip: dw_hdmi: drop mode_valid hook
+  clk: rockchip: rk3568: Add more PLL rates
+  dt-bindings: display: rockchip: dw-hdmi: Make unwedge pinctrl optional
+  dt-bindings: display: rockchip: dw-hdmi: use "ref" as clock name
+  dt-bindings: display: rockchip: dw-hdmi: Add regulator support
+  dt-bindings: display: rockchip: dw-hdmi: Add additional clock
+  dt-bindings: display: rockchip: Add binding for VOP2
+  arm64: dts: rockchip: rk3399: reorder hmdi clocks
+  arm64: dts: rockchip: rk3399: rename HDMI ref clock to 'ref'
+  arm64: dts: rockchip: rk356x: Add VOP2 nodes
+  arm64: dts: rockchip: rk356x: Add HDMI nodes
+  arm64: dts: rockchip: rk3568-evb: Enable VOP2 and hdmi
+  clk: rk3568: drop CLK_SET_RATE_PARENT from dclk_vop*
+  clk: rk3568: Add CLK_SET_RATE_PARENT to the HDMI reference clock
+  drm/rockchip: Make VOP driver optional
+
+ .../display/rockchip/rockchip,dw-hdmi.yaml    |   29 +-
+ .../display/rockchip/rockchip-vop2.yaml       |  146 +
+ arch/arm64/boot/dts/rockchip/rk3399.dtsi      |    6 +-
+ .../boot/dts/rockchip/rk3566-quartz64-a.dts   |   48 +
+ arch/arm64/boot/dts/rockchip/rk3566.dtsi      |    4 +
+ .../boot/dts/rockchip/rk3568-evb1-v10.dts     |   48 +
+ arch/arm64/boot/dts/rockchip/rk3568.dtsi      |    4 +
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi      |   86 +
+ drivers/clk/rockchip/clk-rk3568.c             |   14 +-
+ drivers/gpu/drm/rockchip/Kconfig              |   14 +
+ drivers/gpu/drm/rockchip/Makefile             |    4 +-
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   |  293 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    3 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |    7 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c    |    2 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h   |   15 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 2665 +++++++++++++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  |  480 +++
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  |  285 ++
+ include/drm/drm_encoder.h                     |    2 +
+ include/dt-bindings/soc/rockchip,vop2.h       |   14 +
+ 21 files changed, 4039 insertions(+), 130 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+ create mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+ create mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+ create mode 100644 drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+ create mode 100644 include/dt-bindings/soc/rockchip,vop2.h
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.30.2
+
