@@ -2,54 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F1B449D384
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 21:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D09849D38F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 21:36:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D458710E90B;
-	Wed, 26 Jan 2022 20:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D19BF10E89C;
+	Wed, 26 Jan 2022 20:36:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C606210E8F3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 20:33:08 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id ka4so997023ejc.11
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 12:33:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ukliw9sukrQW6ow50YsY/2wbM/35BtcU0cL0HgzMnLM=;
- b=dw3QQ8Vjz4RduwkU+DfXuqaAy+1poDrHZmp7JJYsjaLqADGSWcua23elXiKOBrIfvN
- 7CO/frPtzzCycKqxFaHsQjgqaBwhlBkfaPAiAt12zt7dDGhFRZ5HSbU8Tc3NkGYqK2HZ
- tJP3A1aldRNXuDeTtmADqnlbwfkrUlb4gBabTRzK6sM+zretwoncESlZN2lO8P9oGNN9
- bWlOLWD9XRdqWJSO2ppjA+34On1U64ijwC2ttfBT4VlMrCx0fZArv7BU10l7JL5KmR9d
- b+41zKo6P3DKTs3CiIBfV2ivx6KvXZ+lrQoJA/LTagjK6/Ww+5IGQ3IjvDlOnoLjnTmW
- Yw1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ukliw9sukrQW6ow50YsY/2wbM/35BtcU0cL0HgzMnLM=;
- b=w+2kIeZBNI8IOsXjRy6aFeEIGFAyQUM57Yho4dMzN0V37QqFab7lfct8Rzjd3eP4AF
- Ev/+OYPCYC1JebEjpADw7jWBpKjBEo9P3FS9dlPiCges8t3GD0T+NAadq6cVOJXoPJ84
- NjNw3E93M8hh7Xb/RiVmxCHj94OyMNjnY4tNLQoLRScSUEj2dURisuWu0aJ0Gg4uHYze
- 1cuWeEIPmCRlJFosw2DVUerH/Qhn2pR+Wd5+uqdTq36Q4S2fCvKJj0hBzk/2bQpR6nC3
- lZY0Z/moQ+OyNlqS+xsefALMUZbGj2B/OBkC5oMWTrSLwwtNjRHtU5CrCyuy14Rhojey
- n2OQ==
-X-Gm-Message-State: AOAM5334uMLK3v5dNgEmyNUpdcuS/57QD52jktJro5aTDW32RjZFTZEx
- Mr/dfRwG3HKWGfHHvEY/8VGesqCD5Im0ms8ccjk=
-X-Google-Smtp-Source: ABdhPJyQZXqAslD5Wtaiq3Z87kAq/zpe6tUPp3S8ENbcd+fSsQYcZRU1nOoYAZmA9Ux5tlyjLlB5qq2nd3AnF2TWv0w=
-X-Received: by 2002:a17:906:478c:: with SMTP id
- cw12mr414096ejc.214.1643229187072; 
- Wed, 26 Jan 2022 12:33:07 -0800 (PST)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EAE710E421;
+ Wed, 26 Jan 2022 20:36:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643229386; x=1674765386;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=m6a7ksHqrFBRFuzuDvYBCJL8gq6YspyfPiiCWbUNdnw=;
+ b=h9vaGuQE4EXfhKD+bNRHiUA/GKQAuZYOuSrm/jQH1D2X9ba8EnzbzBwW
+ V32OT/BrZknb+T1s2g0GXhvdyqVuEAGWIoOc0XbPean5GymSz5gAy2eav
+ 7UhMHvui0kI6VpE786g6vJcapqK0EnKPWfxEqtWSPfeoOLvxDOnSpvKX8
+ 0dRyVPXpJFCbzcCKAZuGpwVe4E9nV6ozMRS58p01WLoFVezubByRDSw1X
+ +KHgkDrMC5fvK0IvPCjxq1LMcdGmllDSH/TpuqgRglUCLihBv8iznNxxU
+ Rc6DAA4EXYFcX/H4QuE4gQHmd0zWesOvGgORxqE6gWauj1vrVI63x+iic g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="333000492"
+X-IronPort-AV: E=Sophos;i="5.88,319,1635231600"; d="scan'208";a="333000492"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 12:36:22 -0800
+X-IronPort-AV: E=Sophos;i="5.88,319,1635231600"; d="scan'208";a="581221487"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 12:36:21 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 00/19] drm/i915/guc: Refactor ADS access to use dma_buf_map
+Date: Wed, 26 Jan 2022 12:36:43 -0800
+Message-Id: <20220126203702.1784589-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.35.0
 MIME-Version: 1.0
-References: <20220126202427.3047814-1-pgwipeout@gmail.com>
-In-Reply-To: <20220126202427.3047814-1-pgwipeout@gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 26 Jan 2022 17:32:55 -0300
-Message-ID: <CAOMZO5CesC_mZDHhF93_1u6rMrmtc-pMaB8X28CX-npY_5BaDA@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: synopsys/dw-hdmi: set cec clock rate
-To: Peter Geis <pgwipeout@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,27 +54,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI mailing list <dri-devel@lists.freedesktop.org>,
- Archit Taneja <architt@codeaurora.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-rockchip@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Pierre-Hugues Husson <phh@phh.me>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ John Harrison <John.C.Harrison@Intel.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 26, 2022 at 5:25 PM Peter Geis <pgwipeout@gmail.com> wrote:
+While porting i915 to arm64 we noticed some issues accessing lmem.
+Some writes were getting corrupted and the final state of the buffer
+didn't have exactly what we wrote. This became evident when enabling
+GuC submission: depending on the number of engines the ADS struct was
+being corrupted and GuC would reject it, refusin to initialize.
 
-> +
-> +               ret = clk_set_rate(hdmi->cec_clk, HDMI_CEC_CLK_RATE);
-> +               if (ret)
-> +                       dev_warn(hdmi->dev, "Cannot set HDMI cec clock rate: %d\n", ret);
+From Documentation/core-api/bus-virt-phys-mapping.rst:
 
-You are setting the cec clock rate after it has been enabled, which
-can be glitchy.
+	This memory is called "PCI memory" or "shared memory" or "IO memory" or
+	whatever, and there is only one way to access it: the readb/writeb and
+	related functions. You should never take the address of such memory, because
+	there is really nothing you can do with such an address: it's not
+	conceptually in the same memory space as "real memory" at all, so you cannot
+	just dereference a pointer. (Sadly, on x86 it **is** in the same memory space,
+	so on x86 it actually works to just deference a pointer, but it's not
+	portable).
 
-Better to set the rate prior to enabling the clock.
+When reading or writing words directly to IO memory, in order to be portable
+the Linux kernel provides the abstraction detailed in section "Differences
+between I/O access functions" of Documentation/driver-api/device-io.rst.
+
+This limits our ability to simply overlay our structs on top a buffer
+and directly access it since that buffer may come from IO memory rather than
+system memory. Hence the approach taken in intel_guc_ads.c needs to be
+refactored. This is not the only place in i915 that neeed to be changed, but
+the one causing the most problems, with a real reproducer. This first set of
+patch focuses on fixing the gem object to pass the ADS
+
+After the addition of a few helpers in the dma_buf_map API, most of
+intel_guc_ads.c can be converted to use it. The exception is the regset
+initialization: we'd incur into a lot of extra indirection when
+reading/writting each register. So the regset is converted to use a
+temporary buffer allocated on probe, which is then copied to its
+final location when finishing the initialization or on gt reset.
+
+Testing on some discrete cards, after this change we can correctly pass the
+ADS struct to GuC and have it initialized correctly.
+
+thanks
+Lucas De Marchi
+
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+
+Lucas De Marchi (19):
+  dma-buf-map: Add read/write helpers
+  dma-buf-map: Add helper to initialize second map
+  drm/i915/gt: Add helper for shmem copy to dma_buf_map
+  drm/i915/guc: Keep dma_buf_map of ads_blob around
+  drm/i915/guc: Add read/write helpers for ADS blob
+  drm/i915/guc: Convert golden context init to dma_buf_map
+  drm/i915/guc: Convert policies update to dma_buf_map
+  drm/i915/guc: Convert engine record to dma_buf_map
+  dma-buf-map: Add wrapper over memset
+  drm/i915/guc: Convert guc_ads_private_data_reset to dma_buf_map
+  drm/i915/guc: Convert golden context prep to dma_buf_map
+  drm/i915/guc: Replace check for golden context size
+  drm/i915/guc: Convert mapping table to dma_buf_map
+  drm/i915/guc: Convert capture list to dma_buf_map
+  drm/i915/guc: Prepare for error propagation
+  drm/i915/guc: Use a single pass to calculate regset
+  drm/i915/guc: Convert guc_mmio_reg_state_init to dma_buf_map
+  drm/i915/guc: Convert __guc_ads_init to dma_buf_map
+  drm/i915/guc: Remove plain ads_blob pointer
+
+ drivers/gpu/drm/i915/gt/shmem_utils.c         |  32 ++
+ drivers/gpu/drm/i915/gt/shmem_utils.h         |   3 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  14 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 374 +++++++++++-------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |   3 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  11 +-
+ include/linux/dma-buf-map.h                   | 127 ++++++
+ 7 files changed, 405 insertions(+), 159 deletions(-)
+
+-- 
+2.35.0
+
