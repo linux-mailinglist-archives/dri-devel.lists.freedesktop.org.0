@@ -1,57 +1,145 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4B949C75E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 11:23:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D5B49C78B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 11:29:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1609510E7FF;
-	Wed, 26 Jan 2022 10:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40A6B88DF6;
+	Wed, 26 Jan 2022 10:29:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B74E10E6DB;
- Wed, 26 Jan 2022 10:23:24 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id a18so68084455edj.7;
- Wed, 26 Jan 2022 02:23:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ii7o+rApOV9c1TS9mkx6aDYIwS5s1Dz6MCJYhhLsikE=;
- b=Ln8amVerCzYz68x4zhhZMfq3Pzh+9Uxd/aMxebrg76kqFnhS5Y1yQlqRX7BB8j7qfD
- nvKLtBp9Hj8dvf8Pezk6nVo62kXsDWJLhU6xzCclmoOwNgmxquPDs7YXmBxUJPVNoxyt
- cRgDI87fT6C5xCT4r3lORmqRw5CbUFi4CbRkUoLbAbVEDUFE2iCal5gdJ5KOKNCtE1qv
- gxnyrSXzSHn+q88EOMlxmOvElZxknK+WwUDFYJctt8D1L54oVVbkfipcnaJJo9X65zJd
- GfdCnIfQerYPKrPpRhM697M24JcQoWzb9/lMfD8P0a70ZwrDzPtb58tUzSLpfCUHhyBF
- eBSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ii7o+rApOV9c1TS9mkx6aDYIwS5s1Dz6MCJYhhLsikE=;
- b=pqj1dy0l6Bb8PDvIBvlzoaqO7jysJ3ePSbt+HoRpczg94mXbtXYAiABWiABQ2DSM/T
- azny9qm1uSiz8enfU33JilWFAjIdugyB+T+iXPjmkHwvlAmsd6a2+6DcHcFD4dq//5dE
- tktg0kHIW4h6yXVvuYcb6Ynf4cm6K1sj4unkfLJ7Vh4twImZ4xnxxn3rnwhwKKUt/KZW
- JqbONr9EwsOs5BdrwapMaLMuTaVAwdzLi8FZne7XCuT3taIz7zhnc1Eweh6Ec3rDt4e/
- cmvJwnJL4/f4AzueshrrV30SGspq4jDr+hpCJd8FyahXSJr3OllI02UY1VOVhVyo7Pzj
- L6Zw==
-X-Gm-Message-State: AOAM533LItqc2xsruzPG5739uCyEK3LiBjpLoohpiLb4PyirtDjQUWSl
- C1r9HdWFnnimXclGZdOzFvs1XqUdM2efGUM3VpA=
-X-Google-Smtp-Source: ABdhPJzNoLjMutkiG1rIcRLBMJYXNKAEcChNIpwB1oqibQS0oJJv8RdEKOE0ei2A5eNUb+1fDDzSSnET34BlxoFSA5s=
-X-Received: by 2002:a05:6402:40cd:: with SMTP id
- z13mr1007577edb.158.1643192602670; 
- Wed, 26 Jan 2022 02:23:22 -0800 (PST)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23F5210E843
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 10:29:39 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20Q9s9mC004064; 
+ Wed, 26 Jan 2022 10:29:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=2yNSlbLkdLBZkbUunOS2trYmpJbUBQ8Aav6Ld/TULvo=;
+ b=gNcphO1HGZyrOgUWtOvzpGA+Cu3zASLI+aNs4JTKHQ4Ehhwm0WocX6Zz2GEh5HTVbjSQ
+ h92isSvWDoU6ooijSV9gCyMJNpaGU4iRKh3Z2JlGrTze6+JrXEauZjBsba5KcneuDAhe
+ auma7l5rvSUXrmKGe/3XVUk/Z9ACI0MCIrqUCakDZ5sEFLG8/c4VRxjlDbH1RBXxZaph
+ knJ6RhHdKIeJwdEa+0Ve6FXgBP/AFixBWldixldQwX1lF9bDjn14eBVcdfduDb5LaEze
+ iC4GIF5SXkSKwMgdwoXm7MoG9J8UIpq+Dju1iTQLjg5s3GwmCSi7k6Pockuh/i2ZUrzs Qw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dsxaadt7s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Jan 2022 10:29:27 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20QAAUkM018657;
+ Wed, 26 Jan 2022 10:29:26 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02lp2042.outbound.protection.outlook.com [104.47.57.42])
+ by userp3020.oracle.com with ESMTP id 3drbcqs749-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Jan 2022 10:29:26 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PI8FdOZfga6Fahl1l5p3Scarr7uWMz5LQU3zA0Yb85Tn05V3OX2oZIZBBWfFJ+iDk0AKRM34V3I3xbHl8Cak79MfRKcTODhoL/lQDtr/HYL+r2yPo+kKEGYkf66KdB6PZVJDEUzNeLRaUJeGW01vUjV9JmexGM2HnQZN57O5gOgv1xxFV6ps7T3osm6igHNvBk89/y62LasQdib+YoC0mcRFcsFyEMexTFLeJB+N4LZFSJCJXOdBsbwaNxxXFYTwE/rUDSt7yGoQk9mo5lyJJ7BwY/8iFC0GGeDfgYwWEfP14lMFTf3bAhE2yGqAMI1i/Cu5UTSN9hwOF6BTnqgobQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2yNSlbLkdLBZkbUunOS2trYmpJbUBQ8Aav6Ld/TULvo=;
+ b=c6+gqabafwAuMs0vFjJifXwkge5G3tURh++Lw0Vu02nkKMj1554wFMeqV9jPfwFW9aKUI1wT7HA4ncrAq8nMWDgsngchK93U74lXCNBy8R5n/S1UyfLlFgPFACzetcA+6Dkd+AWgiB70Mbtd5P1CnE8hFqO+E5rFFU+ElDm+suNwxatiBZHgQVT41QU2khVnniuygMX2a/yPQg9K4YoomoR1wWCBulnZEnmddwWPA9q8a42x/tSWUWlZlVUI0dlxZ/8ft5C4sH34h8aw3w1BXvjAP3vYVwMjH0wD96wLqpZeKtpfqB9ZYMhRHEJ6lLBo2ZYfpHfokf84Q0twm+4YzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2yNSlbLkdLBZkbUunOS2trYmpJbUBQ8Aav6Ld/TULvo=;
+ b=PiHgxwOQab1fibme8vqYB0xgJGFZRjAd7nBpVCtqj/jM/Xrui5D+6IXf6WBMNTKa5yfr4Fl83yvw61mSmx0sR38kfmvzBwb1cwkeuih+23PR29Onya2gdJ7FKF0ptSxOXZfFNWak/o4IWTeV7f0qlXQ1TL8HWIKwK0b6/ERKwog=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by BYAPR10MB2552.namprd10.prod.outlook.com
+ (2603:10b6:a02:ad::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.11; Wed, 26 Jan
+ 2022 10:29:24 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::c13b:5812:a403:6d96]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::c13b:5812:a403:6d96%6]) with mapi id 15.20.4909.019; Wed, 26 Jan 2022
+ 10:29:23 +0000
+Date: Wed, 26 Jan 2022 13:28:58 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
+Message-ID: <20220126102858.GX1951@kadam>
+References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
+ <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
+ <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
+ <CAHp75Vd7oaYPKx6bxjCqNnm6fieeQFrtq5K4YYrxYbXoXFy=+Q@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75Vd7oaYPKx6bxjCqNnm6fieeQFrtq5K4YYrxYbXoXFy=+Q@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0018.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::30)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-References: <20220126093951.1470898-1-lucas.demarchi@intel.com>
-In-Reply-To: <20220126093951.1470898-1-lucas.demarchi@intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 26 Jan 2022 12:22:46 +0200
-Message-ID: <CAHp75VcheiM7gNW+zP2Ve8qOj40158aOM0OkhUjyODd+V3sYjQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/11] lib/string_helpers: Add a few string helpers
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1fe0543f-73ab-4bec-e36c-08d9e0b6b88e
+X-MS-TrafficTypeDiagnostic: BYAPR10MB2552:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR10MB25522DC0A9ADD241A8DCAB458E209@BYAPR10MB2552.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6i2V99fme586pRyKI4S4aKtevG4VtaaAs5hzDOAKgetu/JLjf+V194AmzJMwETfrIXdQGOFU2nbkfj54NiBR4V308WV1qgy4XoU4hM6Qs7gOA/ytNca9fkIM9Nc+YUd/5yDGowzp0n2BfSpALZEEWSBuwx1aBbt/LxARp40rEyJmOG4spe94gXb7PFlHwQp+hYjwIGUzM1l4MwVsEkEmZ7FDVoV6Dm8HJ9vHTOkm21zBAtx5K5atn193QiYsjcz2QP9KA5HW6pQ7YsaeVbWlKGR7PuZ/0puZeIAszFYDouWzUQLyaaX66hsAB++vuxJurMyYVVXXbbgK/I+lIvZefhCJPEWwlJ6L7AFPaoy8jnUztxS84oAPIBfVRJZ7/porpUHlOnk6jIbNHg9k9xZU2wnRnktxa6ERldrb2ntomFeA5dZSZqqAhMF7dAM9Wh95GzkPpmtLIEzFETMbWPgEEKkywd4Dhj5ligg64KtMuHPwtF+UOUpiDpChuifz/caFlKXaGgrKYA0ZlajR77DikWpkmzb9k+3juD91KMFKkjbJ3X/FOvQeS7/vBu7+KDM+ARASvZRKo5G6ChpnFSXLSZOEZknW673WiKbEyMel6W8pd6p1UQS+XbXhOtPd2xDM9E8DKCO25HVw2IaR44kMKBBCYuQT+VnoYwmFWVwjojQPuHr+fVCQgjocmSKEcEAjPys+ni7t06Kx05e8xBkabg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(7916004)(366004)(4326008)(1076003)(508600001)(7416002)(6512007)(9686003)(6506007)(4744005)(53546011)(33656002)(6486002)(26005)(186003)(8676002)(6916009)(52116002)(38350700002)(316002)(86362001)(38100700002)(33716001)(66476007)(44832011)(5660300002)(2906002)(6666004)(66556008)(66946007)(8936002)(54906003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hb9As2ryS7s9nINt0NzrnCYyPQreCEft7nvcolfoIHzDe4toi1+W92GR3J/g?=
+ =?us-ascii?Q?4PO7EMVpeuA763VUo+Id+LF8ayRBPZL4h2dqqwHWCohUvbFqnUFnHt81eryD?=
+ =?us-ascii?Q?qJ7T0sE2EeoL+qHtFcIOuymLOHP9sATdMDeXd3zCj+QnPly4ctQEjMRIWxk3?=
+ =?us-ascii?Q?7QKDRQQF4AcsPtVzX6R2JM4DuAkIR6B9mIezC8THeGhH14rzyUjUJfqg42kt?=
+ =?us-ascii?Q?vUottzNwuE3FqqK/87a6WX/OVaNYWUWWntx1ejjf85PPFV/Ow7ELn/HP6br0?=
+ =?us-ascii?Q?+8/UedaJzc4CB4MzkyAc6MJNvGgUxxwPyOz5FhbGRGKOgSVSbDbB/vGM7JH8?=
+ =?us-ascii?Q?5Lf6kX6+Ynq2xNvmh44mkEnpkYyoSAgo7uwzLrC10wLqQIajBH36JShEIcFy?=
+ =?us-ascii?Q?WSQs6VrPb0R+6R4IydFAvq9jIWoq9px8+8tw7flZ5UPwNmXNUNGOw12kTZH6?=
+ =?us-ascii?Q?erX0bB6eVJu53SrpGJXSgv2+I/GB9eOlAFo7s1IGhWZh6OPhQI557qbKc88w?=
+ =?us-ascii?Q?yH3m6sNIC5PCapBumTO87G0zdEE+ibwqrLkQVynqEqqu+xAhdqbHrqePPbhS?=
+ =?us-ascii?Q?hyX0gnC1XLivIXlPLOTgRGU9+Wl8clUrOxAedvnqtgZK67T3u3EGfFQavhaR?=
+ =?us-ascii?Q?55lvTxLbXJ53UMRN8EvRHRe6VE0x0P1uVM3SrsSWlRYFrF9Ift8Ot83e311x?=
+ =?us-ascii?Q?7H8pY0htXS27KCqWlezt/KRMxPZ09cDEbjXqHqi4aTbd8Atsma/FeDo4etAT?=
+ =?us-ascii?Q?OLLsZzv2wvT5I0XUSzPNxu13KyVTTmIrEtUOHhf2XRo4xcGMeFbFOIzujwmz?=
+ =?us-ascii?Q?un1zU6Hgl5SdioE4rCGGfHcDJsy4i9HVsKBuQr/jAXw66MI22xldQTX5X9WJ?=
+ =?us-ascii?Q?QTffDD3UpV2CgoN7n/1NJnOYsN18nOBK7HxkrD4GEmgciZlLzlzye83q38kt?=
+ =?us-ascii?Q?3sE7Fo3SP33EGmTIjC3CvCnd4pM6G+/CiZ4L826dlfcVsB3eOZlHl+8nzvIi?=
+ =?us-ascii?Q?ZhrSh+1mIr+pAnDf+5qJ3iY3/kgDU+V3y75dj8UVHMVJHmKdkIwtqcw3FSC1?=
+ =?us-ascii?Q?Kijh3fOc8w19vgh5O+3JCWUoPQ+ttjzJ8chj0Gy4v0nvus1LZTeKxvwEq2JT?=
+ =?us-ascii?Q?JLDyrii/XSJSY9B/WIlGtio/2z3yL8xCrQ4EcLK9EvRIydxR/RNgF0LX+pK3?=
+ =?us-ascii?Q?dTe53J7PZDoio+ulNfNdAco/saFmRZi2NKMJvKYnDKPC8AvNwyZqS/Q8RUp0?=
+ =?us-ascii?Q?HlK7tpmxwUVglgtLAgFkG8rK1QVfB93YdTwxeEfQNGHZYROEvWECdrOTSJlr?=
+ =?us-ascii?Q?cRdvQrp6fDxqOTaw0HhWIPaXr/W7iGTTCHCwPspDA0sKUY1Nr8Sj2eJGsiaX?=
+ =?us-ascii?Q?nF/rRDMLIdkZ3MXcQl3oIbM/bZcx3d9S+iNKZnP3PET0XwWD+Mggtdr7OTTL?=
+ =?us-ascii?Q?yx8/zHnJaURc++lHODux9j2FeAGaOMMMsE3oML5oGyxcNv7BphBAkpi4gt4f?=
+ =?us-ascii?Q?hENXH6Mmd+Eh1IJZTTNG4RAiT/0+FyRqaxUS4QvK689ft/pCNti/wzpqFWhd?=
+ =?us-ascii?Q?OPX/AhOWaBe6LY3F+gJmJ4lEdW77xH6RCxuwnMGejYPzHomT/k0xaZRmAv8y?=
+ =?us-ascii?Q?xU7uCGWRWGNJBut+O0njDIubQM9xVtJKOa8Pmdq9rlMf1eWRTflhAa9fHlcz?=
+ =?us-ascii?Q?AU4v/s6bjLUPmzgxVIy0aHUsk5g=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1fe0543f-73ab-4bec-e36c-08d9e0b6b88e
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2022 10:29:23.7489 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T1echXZwhjOY8JX4sGrAPrf4Mvb9Xir6kWb4vlmFV2Kbd9CI72bR3CfPkM6g2Vh9R5eOyndb/wwjnFTvXI9tJVoyzsrP9S8tOXBv2pUVFXE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2552
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10238
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxscore=0 malwarescore=0
+ spamscore=0 phishscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2201260060
+X-Proofpoint-GUID: alxFIX3r71ouRqkBE2rGXGjJ-Vm8Cdj-
+X-Proofpoint-ORIG-GUID: alxFIX3r71ouRqkBE2rGXGjJ-Vm8Cdj-
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,187 +152,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Vishal Kulkarni <vishal@chelsio.com>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>, amd-gfx@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Petr Mladek <pmladek@suse.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Leo Li <sunpeng.li@amd.com>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- Raju Rangoju <rajur@chelsio.com>, Julia Lawall <julia.lawall@lip6.fr>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Steven Rostedt <rostedt@goodmis.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Andy Shevchenko <andy@kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- linux-security-module <linux-security-module@vger.kernel.org>,
- netdev <netdev@vger.kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Carlis <zhangxuezhi1@yulong.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 26, 2022 at 11:39 AM Lucas De Marchi
-<lucas.demarchi@intel.com> wrote:
->
-> Add some helpers under lib/string_helpers.h so they can be used
-> throughout the kernel. When I started doing this there were 2 other
-> previous attempts I know of, not counting the iterations each of them
-> had:
->
-> 1) https://lore.kernel.org/all/20191023131308.9420-1-jani.nikula@intel.co=
-m/
-> 2) https://lore.kernel.org/all/20210215142137.64476-1-andriy.shevchenko@l=
-inux.intel.com/#t
->
-> Now there is also the v1 of this same patch series:
-> https://lore.kernel.org/all/20220119072450.2890107-1-lucas.demarchi@intel=
-.com/
->
-> Going through the comments I tried to find some common ground and
-> justification for what is in here, addressing some of the concerns
-> raised.
->
-> a. This version should be a drop-in replacement for what is currently in
->    the tree, with no change in behavior or binary size. For binary
->    size what I checked was that the linked objects in the end have the
->    same size (gcc 11). From comments in the previous attempts this seems
->    also the case for earlier compiler versions
->
-> b. I didn't change the function name to choice_* as suggested by Andrew
->    Morton in 20191023155619.43e0013f0c8c673a5c508c1e@linux-foundation.org
->    because other people argumented in favor of shorter names for these
->    simple helpers - if they are long and people simply not use due to
->    that, we failed. However as pointed out in v1 of this patchseries,
->    onoff(), yesno(), enabledisable(), enableddisabled() have some
->    issues: the last 2 are hard to read and for the first 2 it would not
->    be hard to have the symbol to clash with variable names.
->    From comments in v1, most people were in favor (or at least not
->    opposed) to using str_on_off(), str_yes_no(), str_enable_disable()
->    and str_enabled_disabled().
->
-> c. Use string_helper.h for these helpers - pulling string.h in the
->    compilations units was one of the concerns and I think re-using this
->    already existing header is better than creating a new string-choice.h
->
-> d. One alternative to all of this suggested by Christian K=C3=B6nig
->    (43456ba7-c372-84cc-4949-dcb817188e21@amd.com) would be to add a
->    printk format. But besides the comment, he also seemed to like
->    the common function. This brought the argument from others that the
->    simple yesno()/enabledisable() already used in the code (or new
->    renamed version) is easier to remember and use than e.g. %py[DOY]
+On Wed, Jan 26, 2022 at 12:04:26PM +0200, Andy Shevchenko wrote:
+> On Wed, Jan 26, 2022 at 12:02 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Wed, Jan 26, 2022 at 10:52 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > Am 25.01.22 um 21:21 schrieb Andy Shevchenko:
+> 
+> ...
+> 
+> > > But why? We already have DRM drivers for some of these devices.
+> >
+> > No, we do not (only a few are available).
+> 
+> Sorry, I missed your word 'some'. Some == almost none from the list (I
+> don't remember exact numbers but something like 2 out of 10 are
+> supported by tiny DRM and see about interfaces).
 
-I do not see any impediments to this series to be pulled.
-Thanks for the work you've done!
+Could we get an exact list?
 
-> Changes in v2:
->
->   - Use str_ prefix and separate other words with underscore: it's a
->     little bit longer, but should improve readability
->
->   - Patches we re-split due to the rename: first patch adds all the new
->     functions, then additional patches try to do one conversion at a
->     time. While doing so, there were some fixes for issues already
->     present along the way
->
->   - Style suggestions from v1 were adopted
->
-> In v1 it was suggested to apply this in drm-misc. I will leave this to
-> maintainers to decide: maybe it would be simpler to merge the first
-> patches on drm-intel-next, wait for the back merge and merge the rest
-> through drm-misc - my fear is a big conflict with other work going in
-> drm-intel-next since the bulk of the rename is there.
->
-> I tried to figure out acks and reviews from v1 and apply them to how the
-> patches are now split.
->
-> thanks
-> Lucas De Marchi
->
-> Lucas De Marchi (11):
->   lib/string_helpers: Consolidate string helpers implementation
->   drm/i915: Fix trailing semicolon
->   drm/i915: Use str_yes_no()
->   drm/i915: Use str_enable_disable()
->   drm/i915: Use str_enabled_disabled()
->   drm/i915: Use str_on_off()
->   drm/amd/display: Use str_yes_no()
->   drm/gem: Sort includes alphabetically
->   drm: Convert open-coded yes/no strings to yesno()
->   tomoyo: Use str_yes_no()
->   cxgb4: Use str_yes_no()
->
->  drivers/gpu/drm/amd/amdgpu/atom.c             |   4 +-
->  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |  14 +-
->  drivers/gpu/drm/dp/drm_dp.c                   |   3 +-
->  drivers/gpu/drm/drm_client_modeset.c          |   3 +-
->  drivers/gpu/drm/drm_gem.c                     |  23 +-
->  drivers/gpu/drm/i915/display/g4x_dp.c         |   6 +-
->  .../gpu/drm/i915/display/intel_backlight.c    |   3 +-
->  drivers/gpu/drm/i915/display/intel_ddi.c      |   4 +-
->  drivers/gpu/drm/i915/display/intel_display.c  |  46 ++--
->  .../drm/i915/display/intel_display_debugfs.c  |  74 +++---
->  .../drm/i915/display/intel_display_power.c    |   4 +-
->  .../drm/i915/display/intel_display_trace.h    |   9 +-
->  drivers/gpu/drm/i915/display/intel_dp.c       |  20 +-
->  drivers/gpu/drm/i915/display/intel_dpll.c     |   3 +-
->  drivers/gpu/drm/i915/display/intel_dpll_mgr.c |   7 +-
->  drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |   7 +-
->  drivers/gpu/drm/i915/display/intel_fbc.c      |   4 +-
->  drivers/gpu/drm/i915/display/intel_fdi.c      |   8 +-
->  drivers/gpu/drm/i915/display/intel_hdmi.c     |   3 +-
->  drivers/gpu/drm/i915/display/intel_sprite.c   |   6 +-
->  drivers/gpu/drm/i915/display/vlv_dsi_pll.c    |   3 +-
->  .../gpu/drm/i915/gem/selftests/huge_pages.c   |   9 +-
->  .../drm/i915/gem/selftests/i915_gem_context.c |   7 +-
->  drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   3 +-
->  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  11 +-
->  .../drm/i915/gt/intel_execlists_submission.c  |   7 +-
->  drivers/gpu/drm/i915/gt/intel_gt_pm.c         |   3 +-
->  drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c |  52 ++--
->  drivers/gpu/drm/i915/gt/intel_rc6.c           |   5 +-
->  drivers/gpu/drm/i915/gt/intel_reset.c         |   3 +-
->  drivers/gpu/drm/i915/gt/intel_rps.c           |  13 +-
->  drivers/gpu/drm/i915/gt/intel_sseu.c          |   9 +-
->  drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c  |  10 +-
->  drivers/gpu/drm/i915/gt/selftest_timeline.c   |   3 +-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |   5 +-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |   5 +-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     |   6 +-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   |   4 +-
->  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  14 +-
->  drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c |  20 +-
->  drivers/gpu/drm/i915/i915_debugfs.c           |  17 +-
->  drivers/gpu/drm/i915/i915_driver.c            |   4 +-
->  drivers/gpu/drm/i915/i915_gpu_error.c         |   9 +-
->  drivers/gpu/drm/i915/i915_params.c            |   5 +-
->  drivers/gpu/drm/i915/i915_utils.h             |  21 +-
->  drivers/gpu/drm/i915/intel_device_info.c      |   8 +-
->  drivers/gpu/drm/i915/intel_dram.c             |  10 +-
->  drivers/gpu/drm/i915/intel_pm.c               |  14 +-
->  drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c  |   4 +-
->  drivers/gpu/drm/i915/selftests/i915_active.c  |   3 +-
->  drivers/gpu/drm/i915/vlv_suspend.c            |   3 +-
->  drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c |   5 +-
->  drivers/gpu/drm/radeon/atom.c                 |   3 +-
->  drivers/gpu/drm/v3d/v3d_debugfs.c             |  11 +-
->  drivers/gpu/drm/virtio/virtgpu_debugfs.c      |   4 +-
->  .../ethernet/chelsio/cxgb4/cxgb4_debugfs.c    | 249 ++++++++++--------
->  include/linux/string_helpers.h                |  20 ++
->  security/tomoyo/audit.c                       |   2 +-
->  security/tomoyo/common.c                      |  19 +-
->  security/tomoyo/common.h                      |   1 -
->  60 files changed, 482 insertions(+), 373 deletions(-)
->
-> --
-> 2.34.1
->
+regards,
+dan carpenter
 
-
---=20
-With Best Regards,
-Andy Shevchenko
