@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FC549C687
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 10:40:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BDB149C681
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 10:40:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7180D10E888;
-	Wed, 26 Jan 2022 09:39:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A19B610E83E;
+	Wed, 26 Jan 2022 09:39:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5F7A10E7DA;
- Wed, 26 Jan 2022 09:39:32 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA55810E4D4;
+ Wed, 26 Jan 2022 09:39:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643189973; x=1674725973;
+ t=1643189971; x=1674725971;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=85iCTNId4lPzWBpzYMS8JCGZJAAJPSmPWs4cBOEUnho=;
- b=Q+KC9+N1tzq/B1olfaYHSgpWT+VV4e8j4vPT2Cr4xbjbNnTgiy6rIWS1
- ZdYJURry8tH8/HZ5UFHQrDd2CtRMlNjA2On9VLt4qqYEFPFdM6jWHM9tu
- i1bBuFWpteic2NiyAHzMirAOPhqLwYCmmBNuY9BWi4eBVopBJz+uG6ID/
- 7Z/wNywRpbi4MeNCnqDSJMijQcVF9/mzAGfIu+tcjASX9hJEf7w/o6cP1
- GsLlxAJ0lG1E0zCKGMfKR4ECvaUGN+x7XJSHN1jSraZzNGM/BbDt6ZUVl
- TruEoRlg2rumfuxZtKzJSMyR8TW72QwhBOfCaq5raTwLBp7MCeNyWQ8GM Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="309830637"
-X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; d="scan'208";a="309830637"
+ bh=uSjb9jgi2kMH0L+z03QNcdQ/wneGQJQTtAxcISB5aeM=;
+ b=nqbhHq9mtzo92WF/+p7buhDEm6DvFuwvx7I/qHijWo1Etxgb6hLfMWX7
+ Yl3ED80ZtAFdQrPJqI9ZtPtSu9WNkYDeK44XJs4DX42BzhSN5avz2hQsB
+ UbYUsf587iWX2IGKYE2cJMFefIWFf65zOXJhdoZ1mTWijhmdkoBMQcfCL
+ gUj/Apt4RMDVwkiz5UKWkjoKJ6HMkBbXsqZmGjBzb2m1Nxhqz6IkHlIRL
+ N9zj2yFJyoeTvLHpHOLPaavbyk1ga1fyGJO+2vu3SaV4hNkY7FNTaRlzV
+ /LJz4u2WbfP3wtAu+2zuUl6hAqaIxYgPztk3oVRrIXJ+gubrD5VRVaiol g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="227188794"
+X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; d="scan'208";a="227188794"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Jan 2022 01:39:31 -0800
-X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; d="scan'208";a="477433100"
+X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; d="scan'208";a="477433103"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Jan 2022 01:39:30 -0800
@@ -38,9 +38,9 @@ To: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-security-module@vger.kernel.org, nouveau@lists.freedesktop.org,
  netdev@vger.kernel.org
-Subject: [PATCH v2 07/11] drm/amd/display: Use str_yes_no()
-Date: Wed, 26 Jan 2022 01:39:47 -0800
-Message-Id: <20220126093951.1470898-8-lucas.demarchi@intel.com>
+Subject: [PATCH v2 08/11] drm/gem: Sort includes alphabetically
+Date: Wed, 26 Jan 2022 01:39:48 -0800
+Message-Id: <20220126093951.1470898-9-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220126093951.1470898-1-lucas.demarchi@intel.com>
 References: <20220126093951.1470898-1-lucas.demarchi@intel.com>
@@ -79,64 +79,49 @@ Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the local yesno() implementation and adopt the str_yes_no() from
-linux/string_helpers.h.
+Sort includes alphabetically so it's easier to add/remove includes and
+know when that is needed.
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_gem.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-index 26719efa5396..5ff1076b9130 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-@@ -23,6 +23,7 @@
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 4dcdec6487bb..21631c22b374 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -25,20 +25,20 @@
   *
   */
  
-+#include <linux/string_helpers.h>
- #include <linux/uaccess.h>
+-#include <linux/types.h>
+-#include <linux/slab.h>
+-#include <linux/mm.h>
+-#include <linux/uaccess.h>
+-#include <linux/fs.h>
++#include <linux/dma-buf-map.h>
++#include <linux/dma-buf.h>
+ #include <linux/file.h>
+-#include <linux/module.h>
++#include <linux/fs.h>
++#include <linux/mem_encrypt.h>
++#include <linux/mm.h>
+ #include <linux/mman.h>
++#include <linux/module.h>
+ #include <linux/pagemap.h>
+-#include <linux/shmem_fs.h>
+-#include <linux/dma-buf.h>
+-#include <linux/dma-buf-map.h>
+-#include <linux/mem_encrypt.h>
+ #include <linux/pagevec.h>
++#include <linux/shmem_fs.h>
++#include <linux/slab.h>
++#include <linux/types.h>
++#include <linux/uaccess.h>
  
- #include "dc.h"
-@@ -49,11 +50,6 @@ struct dmub_debugfs_trace_entry {
- 	uint32_t param1;
- };
- 
--static inline const char *yesno(bool v)
--{
--	return v ? "yes" : "no";
--}
--
- /* parse_write_buffer_into_params - Helper function to parse debugfs write buffer into an array
-  *
-  * Function takes in attributes passed to debugfs write entry
-@@ -853,12 +849,12 @@ static int psr_capability_show(struct seq_file *m, void *data)
- 	if (!(link->connector_signal & SIGNAL_TYPE_EDP))
- 		return -ENODEV;
- 
--	seq_printf(m, "Sink support: %s", yesno(link->dpcd_caps.psr_caps.psr_version != 0));
-+	seq_printf(m, "Sink support: %s", str_yes_no(link->dpcd_caps.psr_caps.psr_version != 0));
- 	if (link->dpcd_caps.psr_caps.psr_version)
- 		seq_printf(m, " [0x%02x]", link->dpcd_caps.psr_caps.psr_version);
- 	seq_puts(m, "\n");
- 
--	seq_printf(m, "Driver support: %s", yesno(link->psr_settings.psr_feature_enabled));
-+	seq_printf(m, "Driver support: %s", str_yes_no(link->psr_settings.psr_feature_enabled));
- 	if (link->psr_settings.psr_version)
- 		seq_printf(m, " [0x%02x]", link->psr_settings.psr_version);
- 	seq_puts(m, "\n");
-@@ -1207,8 +1203,8 @@ static int dp_dsc_fec_support_show(struct seq_file *m, void *data)
- 	drm_modeset_drop_locks(&ctx);
- 	drm_modeset_acquire_fini(&ctx);
- 
--	seq_printf(m, "FEC_Sink_Support: %s\n", yesno(is_fec_supported));
--	seq_printf(m, "DSC_Sink_Support: %s\n", yesno(is_dsc_supported));
-+	seq_printf(m, "FEC_Sink_Support: %s\n", str_yes_no(is_fec_supported));
-+	seq_printf(m, "DSC_Sink_Support: %s\n", str_yes_no(is_dsc_supported));
- 
- 	return ret;
- }
+ #include <drm/drm.h>
+ #include <drm/drm_device.h>
 -- 
 2.34.1
 
