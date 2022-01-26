@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B7F49CD45
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 16:04:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4682949CD59
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 16:11:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6D410E5AA;
-	Wed, 26 Jan 2022 15:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8939210E6D5;
+	Wed, 26 Jan 2022 15:11:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68E0D10E7B7
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 15:04:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1643209476;
- bh=B07kNwWF0kIcIyZ6tg5D4YW7GZgIj5AXzrRfXPucNcQ=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=X9LzyGpuPoVp0t3hSJ0Xl3UziLKB5dzY/1HEMNxBwlHlejt6arRHY7iTcChVppqAD
- FWTsXKqg2hjWgy+0WeWrUt2Hpi9fTB0DWSWaQpgKqNaac5vAZd4tp89tyxSaPgyelH
- lWIYZA3DzF3BtHpN4MERD1/nP9RtZ+QVpbibqQf8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [217.61.153.46] ([217.61.153.46]) by web-mail.gmx.net
- (3c-app-gmx-bap59.server.lan [172.19.172.129]) (via HTTP); Wed, 26 Jan 2022
- 16:04:36 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7887010E6D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 15:11:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643209873;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JU1DfdMfg4k4e+Zkle9mE1ngqvgp8qa3eDdP3CUrH3A=;
+ b=WbM4X9y4KTlQ3ToTQ/VRdgdE0ov4d9Vv5KPsiTPrZ7r/iEvVrIXsZ5yDE2F3Ob1NbE4s4D
+ u+Bc5zIws8WusaZrvZOdhXmukR4C3sPxkiGwMLjPOhLxUwOyeXTva8/e9Ve45BHzw/6XSE
+ 93xfPGQjUN29QFKZen0BW4EeF3r33GE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-407-dUm7zD0MMme78OPTJhxK0Q-1; Wed, 26 Jan 2022 10:11:10 -0500
+X-MC-Unique: dUm7zD0MMme78OPTJhxK0Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1828100CCC3;
+ Wed, 26 Jan 2022 15:11:08 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.195.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 088E623763;
+ Wed, 26 Jan 2022 15:11:06 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/privacy-screen: Fix sphinx warning
+Date: Wed, 26 Jan 2022 16:11:05 +0100
+Message-Id: <20220126151105.494521-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Message-ID: <trinity-e0e26df4-dbdf-4a86-be55-c8cd09fdf261-1643209476020@3c-app-gmx-bap59>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Aw: [PATCH 01/27] drm/encoder: Add of_graph port to struct drm_encoder
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 26 Jan 2022 16:04:36 +0100
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20220126145549.617165-2-s.hauer@pengutronix.de>
-References: <20220126145549.617165-1-s.hauer@pengutronix.de>
- <20220126145549.617165-2-s.hauer@pengutronix.de>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:pJ03qsXxg/ND1T+WW4B6btBelzADVbwFkhV+6XlPJvuHKUwiCMdVEjHacAPO9CVvKiFuR
- XmrycinZn5gLrGbk01j4TWzVMn5BxyBqC9sfyx9WnUh7x0Fpm4WKDZcAdvbl7pksfh9kCWfsjGIb
- zwIRbiI3Teu7M3y5aodPKQKOCzo6qdeFOifGWMFAtfXZ1k4Mgvqczp4rvmqILwBvJXdoW34FW4vj
- Ut+Hq0oz+i5AJBt6/STHOUHi4stB/h3EQX1CJARkiltDFuvreCs26XTARgE870wbjj6UcrmcGa08
- IE=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gKQyj+bEKQQ=:sL27Q/7/Nt3+yHZ2wJWaV5
- HVRVHCiFpBCVj81X8LJNWCvuRlTkdtPURkjPX5CRrB5pWhbcFiwTXeGO7jqvbfwIuWYYWBkKV
- TWuPDVvz4dkc0W/N87Bg0rHFGgL0mAFQR4Tyd6UG9YFJRGGaq+6T0UpfZpCCXq7RtkPjuvpT0
- QdyPlKKzTZbc4WkyF9KIOQphh7V6kf8khkt2MxVBzyi+O4n5MsZTuh8ZCPbjKlQNm4eqhWl6J
- aNNKbU3/7+WX88wJrk2tdtqSc+CXmUSO4Ot3ZGjAvU4mQL3PUbp1V7PgGVbOYOx427jQMZoaz
- UtXbzhSuKw5Kh/Y+eEKFpe+3WqIcgLmjGcl2pjLkxIFNjK+plDLl8HaE/HFALpcuSn1xZRs6t
- gh9jkliWQcChFiDiaSe94nJKtoVgUvLzp5KKletIGQS/Pu7C8p81WraZufOfkBqcAqEIuVoHo
- Sj4ffxLEUUmNxrcb97fHC/PyKKXiUJ1izRR9e+KmUM2jjGlUvFOMRLybYr3QMqAf35slcRMHF
- Oss+/51Jo3NXL/BVEB8y69uT+AxcOQqtarCpqo6Jazg4Q1D0LNiUpsLQeAGYConHSfE5bZswE
- 2lBbcrhv9NJhoWFwKV+I3etPrXkLP1FqJKVprh1VTO2Bj6/nzNrhOVzIl2tkx/o5uuttA8byt
- 9vM39un04SnCWatrWdURroHSDgKeFCMGTmFISuObYrCSf+vfDR+38sylYxRBxfLsxKLgJh+6/
- X6mcaf7DTFBQyi3+GSg1QCNzW8XXobgQbOBT1d0SfBbX3cuqncDhWhBbS4Hd38zxj5ZsRmO02
- 3ZLCJCybMkL8VNr+4uNVdxsyr11aQ==
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,18 +62,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
+ Stephen Rothwell <sfr@canb.auug.org.au>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Fix the following warning from "make htmldocs":
 
-> Gesendet: Mittwoch, 26. Januar 2022 um 15:55 Uhr
-> Von: "Sascha Hauer" <s.hauer@pengutronix.de>
-> Betreff: [PATCH 01/27] drm/encoder: Add of_graph port to struct drm_encoder
+drivers/gpu/drm/drm_privacy_screen.c:270:
+ WARNING: Inline emphasis start-string without end-string.
 
-Please use "git format-patch -vX ..." when creating your patches to make sure the version is set in every patch and not only the coverletter. That makes it easier to find Patch from specific version and shows version also in Patchwork where the coverletter is hidden
+Fixes: 8a12b170558a ("drm/privacy-screen: Add notifier support (v2)")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/gpu/drm/drm_privacy_screen.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-regards Frank
+diff --git a/drivers/gpu/drm/drm_privacy_screen.c b/drivers/gpu/drm/drm_privacy_screen.c
+index beaf99e9120a..9f35f8f0cf60 100644
+--- a/drivers/gpu/drm/drm_privacy_screen.c
++++ b/drivers/gpu/drm/drm_privacy_screen.c
+@@ -269,7 +269,7 @@ EXPORT_SYMBOL(drm_privacy_screen_get_state);
+  *
+  * The notifier is called with no locks held. The new hw_state and sw_state
+  * can be retrieved using the drm_privacy_screen_get_state() function.
+- * A pointer to the drm_privacy_screen's struct is passed as the void *data
++ * A pointer to the drm_privacy_screen's struct is passed as the void \*data
+  * argument of the notifier_block's notifier_call.
+  *
+  * The notifier will NOT be called when changes are made through
+-- 
+2.33.1
+
