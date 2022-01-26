@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAAB649C917
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 12:53:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA3749C947
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 13:08:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E985610E880;
-	Wed, 26 Jan 2022 11:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3164710E8EE;
+	Wed, 26 Jan 2022 12:08:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E30D010E880
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 11:53:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1643197978;
- bh=F7OJttXg/1SZ0+8XJ9RiNQByJGuOFHv6GJfi8vBzmYw=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=BmLcpCzUBSLykup7cIGSUDtObsuUdvnq63pboFGQ2DPbPrvxRudA5+fwMJwM2HODc
- bY1+Bylrk3oQi4cktMU1K5x8JIABqVO/92bB3NGuUkKiH+FSeu7eNa0YDKWd49qTtQ
- rn3+65OTV/7gluAsoKD/Igz7+XA4qzGk7/3p5uoE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.143.57]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1McH5Q-1mgw0T46RA-00ceIm; Wed, 26
- Jan 2022 12:52:58 +0100
-Message-ID: <1d00ed48-0606-823c-58c4-e45948383c42@gmx.de>
-Date: Wed, 26 Jan 2022 12:51:46 +0100
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA3710E805;
+ Wed, 26 Jan 2022 12:08:02 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id w11so13218384wra.4;
+ Wed, 26 Jan 2022 04:08:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=lbVmftRj/JHZgc+JO+yUh8qOpPwaJkAadC/N/c5azzw=;
+ b=FSNoyIq1VT1r7s2OaQhb47yaCXLQ+fKmFis8ErFHtaBdQUxq+YRyyS/6FzCFKndUYy
+ VRaqyjwNgxu9ijAdDpdez7aLhHkSfV/D/EUqLcruH4z5+41pOt8Vegz1+WD7vncs9TQe
+ ecW9kx4oF0xZXXid4qMUN1rsfI2TYAeLoPyjO+bTOgSEpavF8YFw+TpnqKE/91mWtaWJ
+ B3DZAtnXADs205gABuUNUx2gCQgB4zqy0Qr5cz13+qhWjKsTadYUm1l+XVVcF14ClGvK
+ L8KiUb7rHy4l/wjt969MQkdU1m35T4fIVqLxwZ6FmOr2XBipgu6PRDTf9GvozvGprnG/
+ 0PFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lbVmftRj/JHZgc+JO+yUh8qOpPwaJkAadC/N/c5azzw=;
+ b=niD8fMW3pAItoEnXamYMeCjvr20QTztiDCcVQHO448H6xUItBf6mLP+DlIjFYOx1Wx
+ st3ocsdmeFCTCiBEQ2cnV37xgv/EUQtc2JVGNCNn2E0tBBNeoeN41HC/a8y7kC7pakn4
+ 0Xi8CDeGv1iayy7QSOeVVqU3QIoVNMnETacr0DKIc3DW/UAcDE7NE+YR1bKmsokZKMlT
+ 89RkB+dAG9oFANsMZG5r8LHKSGe73Cu+PMY2fD3qe0QTkCFeAOmsJh2od9jMPnt1eXGn
+ +HrCI1pD6iobMsldcRXiD79dU/QYEz5WR5B7mEdAj8iou/V/A9yiM8pvu+GvuJDSXwcG
+ f6kg==
+X-Gm-Message-State: AOAM532ZZDyj2rTSI//MbmwuOzTxPHgz6H4VL9jBGl2XdaEVI6hml9+j
+ 543JvRmzGCd/gCyyN0IUu5hJ8EgvqOM=
+X-Google-Smtp-Source: ABdhPJzYvAdK0Ojxr3MllcNWaB58xvdL4ya2skXTA6xRoj0jB8omtGk56qOOAWcQZHZXn5jEqoIwLw==
+X-Received: by 2002:a5d:588b:: with SMTP id n11mr21644120wrf.375.1643198880968; 
+ Wed, 26 Jan 2022 04:08:00 -0800 (PST)
+Received: from ?IPV6:2a02:908:1252:fb60:6cbd:23a3:7abe:f6e2?
+ ([2a02:908:1252:fb60:6cbd:23a3:7abe:f6e2])
+ by smtp.gmail.com with ESMTPSA id o3sm19636365wrq.70.2022.01.26.04.07.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jan 2022 04:08:00 -0800 (PST)
+Message-ID: <83d7433c-30e0-6aa0-a9a4-68c9ad8f81ec@gmail.com>
+Date: Wed, 26 Jan 2022 13:07:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
+ Thunderbird/91.5.0
+Subject: Re: [RFC v3 01/12] drm/amdgpu: Introduce reset domain
 Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
- <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
- <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
- <b13c0634-e766-74db-ab1f-672f5d0c04d6@redhat.com>
- <6f508ff0-1807-7665-6c93-7f3eea4a1bdd@gmx.de> <YfEyo2xxfFyl2ADI@kroah.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <YfEyo2xxfFyl2ADI@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZGYf5OHyO+vtorTjqz8WFu3J4v+yvqdZUvA02XGd8Gg3WJg6h54
- VohWg1nKDLCpu2ALkG9i4njJwx8Q/aW7irq0BafPPszKlHI7qYiPQaWgUJ09y1mDg8NWqio
- C29bSn/Mci4UAmVj4ifYixzvoNSdl6CaTyuZ1eZ6NvGfc5olq99d+lrA9BpkdEzgmRpHyNE
- MhcUnZ8b2ebV3f76EYsqA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:w9qrTwYOmn0=:UxpeVox+PWTxA4QnRfHa+k
- iVXHQ/nCYtI9WMoeQuHm5tszeSgZmOTGq82hL8XrRhwmioSX7lWlqvh0EN5YNqsC40C8VWUrT
- rDiEg0qCUFCrM/n0ct12Y4OGaZg0VM/LUdW4MvEODYEOPocWYcr2YFi88cIxozYxlLTHnlgN1
- 5UStEUd8FVeKjgluZ9yTxv7MtqrENOCCtOndIU5XRWKH6PT2wwCq5+0pblf7iGFLWdT/xypzL
- FQQODd4qpJAPUckfDDc+tdKMPP66d7vFBKDib23CXEG3N4sZe4fMcviVUeexCCC1spikSdSTq
- /VsMT9GxNC+MPg3SG+qAb1rK/+FAsFafTlxGaUXmZK+/qVY038e9L08ui+DO0xld7wJ7r1er5
- dNhEIGqnpBD2rN3i99sk29cPzTT3x3K8b7Adx5KliVu8kMvaRur9XuM0UymBQGUi12qGveE+D
- Gk3eNJT1eWqDeJF8ku/1lQMK99k8oBA5xWUNuwxMO/QIXER49eEaoWuevjJZ/FWbzScjLn9jM
- P1vzySpRYQphcZU3WMEP9gXdPNYGkrr1BHd0BBqvFor4Xs5ZyFkttG18Mu/8Uchx6fGaYcQg7
- 2/Txj5eTCKtqnweZ4Vpi6ZztMa2Pf7JVM93OU1s4T/PBCaBhyNFuGrqkzKZKhIw9TAyLfAIWD
- Fbj+/EhNa6Zh2Pn0zlfAr1dA/Pzs45H2syyCLHTg7uM0/LQ3FZ7qz7edk9VJECGLkH6IP+8wG
- 5smGPqyvI7K5BDKpC99xozOad/aF03ktqBUem5aMmiwJcOWg7qWcfgTuP+2Y7FYE4HBRxkNna
- fXMfFiagItVApdQNm0dLHZJkJWleOn8xthvb1mdibJncedpImpPInC4goKdbZaqZcSSf5pFak
- v2xB6zIFeKQBBhHCNDWyWuXkNN1GVN8jVvdaL+UeEIQxd1pfcbixj32PUhGgy5EwkirwuF4C8
- Amt+iDwWEGgHqWdUCxh6klwqx77msMuT91lZrxtzVGojm9uYGS/fKx0yM10UQFwddsDx7HJE9
- 435eXk1ea8I6Ws01873zGd0T1G/ft+cCc9BUJNFq0BsfWigFanusbzYU0CRUPYN59CYRo+o90
- GlkE+JYxRjuSx0=
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20220125223752.200211-1-andrey.grodzovsky@amd.com>
+ <20220125223752.200211-2-andrey.grodzovsky@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20220125223752.200211-2-andrey.grodzovsky@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,61 +74,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Michael Hennerich <michael.hennerich@analog.com>,
- linux-staging@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Carlis <zhangxuezhi1@yulong.com>,
- Phillip Potter <phil@philpotter.co.uk>, Lee Jones <lee.jones@linaro.org>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, horace.chen@amd.com,
+ lijo.lazar@amd.com, jingwech@amd.com, christian.koenig@amd.com,
+ Monk.Liu@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/26/22 12:38, Greg Kroah-Hartman wrote:
-> On Wed, Jan 26, 2022 at 12:31:21PM +0100, Helge Deller wrote:
->> On 1/26/22 12:18, Javier Martinez Canillas wrote:
->>> On 1/26/22 11:59, Helge Deller wrote:
->>>> On 1/26/22 11:02, Andy Shevchenko wrote:
->>>
->>> [snip]
->>>
->>>>> P.S. For the record, I will personally NAK any attempts to remove th=
-at
->>>>> driver from the kernel. And this is another point why it's better no=
-t
->>>>> to be under the staging.
->>>>
->>>> I agree. Same as for me to NAK the disabling of fbcon's acceleration
->>>> features or even attempting to remove fbdev altogether (unless all
->>>> relevant drivers are ported to DRM).
->>>>
->>>
->>> But that will never happen if we keep moving the goal post.
->>>
->>> At some point new fbdev drivers should not be added anymore, otherwise
->>> the number of existing drivers that need conversion will keep growing.
->>
->> Good point, and yes you are right!
->>
->> I think the rule should be something like:
->>
->> New graphics devices (e.g. max. 3 years old from now) usually are
->> capable to be ported to DRM.
->> For those graphics cards we should put a hard stop and not include them
->> as new driver into the fbdev framework. Inclusion for those will only
->> happen as DRM driver.
+Am 25.01.22 um 23:37 schrieb Andrey Grodzovsky:
+> Defined a reset_domain struct such that
+> all the entities that go through reset
+> together will be serialized one against
+> another. Do it for both single device and
+> XGMI hive cases.
 >
-> We made this rule 6 years ago already.
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Suggested-by: Christian König <ckoenig.leichtzumerken@gmail.com>
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  7 +++++++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 20 +++++++++++++++++++-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c   |  9 +++++++++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h   |  2 ++
+>   4 files changed, 37 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 9f017663ac50..b5ff76aae7e0 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -812,6 +812,11 @@ struct amd_powerplay {
+>   
+>   #define AMDGPU_RESET_MAGIC_NUM 64
+>   #define AMDGPU_MAX_DF_PERFMONS 4
+> +
+> +struct amdgpu_reset_domain {
+> +	struct workqueue_struct *wq;
+> +};
+> +
+>   struct amdgpu_device {
+>   	struct device			*dev;
+>   	struct pci_dev			*pdev;
+> @@ -1096,6 +1101,8 @@ struct amdgpu_device {
+>   
+>   	struct amdgpu_reset_control     *reset_cntl;
+>   	uint32_t                        ip_versions[HW_ID_MAX][HWIP_MAX_INSTANCE];
+> +
+> +	struct amdgpu_reset_domain	reset_domain;
 
-Very good.
+I'm a bit confused, shouldn't this be a pointer?
 
-Was there any decision how to handle drivers which can't use DRM,
-or for which DRM doesn't make sense?
+Regards,
+Christian.
 
-So the best way forward regarding those fbtft drivers is probably what
-you suggested: Split them and move those DRM-capable drivers to DRM,
-the others to fbdev, right?
+>   };
+>   
+>   static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 90d22a376632..0f3e6c078f88 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -2391,9 +2391,27 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
+>   	if (r)
+>   		goto init_failed;
+>   
+> -	if (adev->gmc.xgmi.num_physical_nodes > 1)
+> +	if (adev->gmc.xgmi.num_physical_nodes > 1) {
+> +		struct amdgpu_hive_info *hive;
+> +
+>   		amdgpu_xgmi_add_device(adev);
+>   
+> +		hive = amdgpu_get_xgmi_hive(adev);
+> +		if (!hive || !hive->reset_domain.wq) {
+> +			DRM_ERROR("Failed to obtain reset domain info for XGMI hive:%llx", hive->hive_id);
+> +			r = -EINVAL;
+> +			goto init_failed;
+> +		}
+> +
+> +		adev->reset_domain.wq = hive->reset_domain.wq;
+> +	} else {
+> +		adev->reset_domain.wq = alloc_ordered_workqueue("amdgpu-reset-dev", 0);
+> +		if (!adev->reset_domain.wq) {
+> +			r = -ENOMEM;
+> +			goto init_failed;
+> +		}
+> +	}
+> +
+>   	/* Don't init kfd if whole hive need to be reset during init */
+>   	if (!adev->gmc.xgmi.pending_reset)
+>   		amdgpu_amdkfd_device_init(adev);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+> index 567df2db23ac..a858e3457c5c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+> @@ -392,6 +392,14 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
+>   		goto pro_end;
+>   	}
+>   
+> +	hive->reset_domain.wq = alloc_ordered_workqueue("amdgpu-reset-hive", 0);
+> +	if (!hive->reset_domain.wq) {
+> +		dev_err(adev->dev, "XGMI: failed allocating wq for reset domain!\n");
+> +		kfree(hive);
+> +		hive = NULL;
+> +		goto pro_end;
+> +	}
+> +
+>   	hive->hive_id = adev->gmc.xgmi.hive_id;
+>   	INIT_LIST_HEAD(&hive->device_list);
+>   	INIT_LIST_HEAD(&hive->node);
+> @@ -401,6 +409,7 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
+>   	task_barrier_init(&hive->tb);
+>   	hive->pstate = AMDGPU_XGMI_PSTATE_UNKNOWN;
+>   	hive->hi_req_gpu = NULL;
+> +
+>   	/*
+>   	 * hive pstate on boot is high in vega20 so we have to go to low
+>   	 * pstate on after boot.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
+> index d2189bf7d428..6121aaa292cb 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
+> @@ -42,6 +42,8 @@ struct amdgpu_hive_info {
+>   		AMDGPU_XGMI_PSTATE_MAX_VEGA20,
+>   		AMDGPU_XGMI_PSTATE_UNKNOWN
+>   	} pstate;
+> +
+> +	struct amdgpu_reset_domain reset_domain;
+>   };
+>   
+>   struct amdgpu_pcs_ras_field {
 
-Helge
