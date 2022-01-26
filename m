@@ -2,65 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E708549C832
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 12:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EEF149C865
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 12:14:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69F4910E6DB;
-	Wed, 26 Jan 2022 11:01:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD0EE10E49D;
+	Wed, 26 Jan 2022 11:14:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87A0B10E6DB
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 11:01:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1643194865;
- bh=uymom++AR8s55d1uh5nbU+HZwmHUw4VPjm694+wj/XM=;
- h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
- b=BcqbZJRuXuAfSiIa8cgTBhpiingjbvzeVpxUg0E4UsxzUHT/7CnEszHtA9nEy0g4j
- tgwYnGr35Ed5Mh674mbCqwLNk268bmuFvRRgrcUDwSOu/QzUZ1skXRkwBLqBNh/xCS
- +JCw5rhHr3zORNvqhgJb9oTxJyzjm3bMYCcYeS4s=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.143.57]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MuUnK-1mMdco47eM-00rZo2; Wed, 26
- Jan 2022 12:01:05 +0100
-Message-ID: <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
-Date: Wed, 26 Jan 2022 11:59:52 +0100
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B91610E49D
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 11:14:53 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id e81so36785820oia.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 03:14:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kl2oEMPJE4ww4Hxl+lYFpaOA+BaBoN/MYSi9yoz3HIs=;
+ b=SSWut5VJV6G6Sq61mn82ZkfomaVm3lstbRwrvYRhJCTlvVYarIwFEEFmlv5lvHgzoS
+ jvwTTREiiB/aLk6Pp//CZXQzfkSCk+rhftZF8ELHFamw7Bwri0dziU0h7CNlRTrrTKSg
+ roCqRhAQVeWWApR+1Uh+7kujMVkELSdRTWNJY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kl2oEMPJE4ww4Hxl+lYFpaOA+BaBoN/MYSi9yoz3HIs=;
+ b=d5MvSyn3woYDKBZtYVaSuihgBiaRrjk2GMkfLNNpypM7OrijJ6dZ5JHnrP58/QfPai
+ XTVFqNxd9S0OBypt4FEQOPtQOhSHyergXrhPomnMbXFZ3mMQI7qKMkDG/mcydi4M4fyO
+ SdvdpOXvz1ABBLz55XD2lyKS5LITEwrZnoenorO6tagWLOuGJUsFBCfYVC/SDx8hOnkw
+ ylWbDbHK3qzW75+q84JI9jyhkbzBF++IaBnMZ8Le8V1hksVZzFEI2h6nZA4rdjKvk1Ke
+ 1TYL6jpq0k53AxFhFv/imFmbDl1YcT66+TXT3Hz598p6btRwqaeH86RUoWyPJKYTWa+8
+ fjoQ==
+X-Gm-Message-State: AOAM531FbYNvcfDCN+zzKVDWfaYS1TviHV1AVBuTnDwUO8r86xojsFik
+ D6Zl091QaCCLlgh9O7n4/zrvocLXDk0i36dnkweXKw==
+X-Google-Smtp-Source: ABdhPJyhXeRf+enuzSx2pBx/wF0n2BF4M6TDtdQ5w7YMW8zGqyceJuCbrHqscXdbd6TFvtZv9dWw8OSWjpTEV+FuAR8=
+X-Received: by 2002:a05:6808:f03:: with SMTP id
+ m3mr3327231oiw.330.1643195692341; 
+ Wed, 26 Jan 2022 03:14:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Content-Language: en-US
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
- <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
-In-Reply-To: <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8NQorOHRDOeHezX4LE3v2ty5WxtXOwxHqCdYTIFvRNufvqoA9Sx
- AV4uZg3ef5HfUsHv+4KrqKzb5X56ReOwUHJub0J8c8/ECShoS0zZsYeOFASWAfD1yH5qxkp
- 3AoSGKzSbEL0LQiiOVfHGHmBsXHwd7QXuj0u6JGWoFju5mq0nSsA7vYJivv4jcwzFwEbpsX
- ylO27UqmSCmTzIJHVLIlQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vHW26HAwWkM=:3WTENPNKJ5r5rcEdtBn/o+
- l5dstyuPg3VtWXE2nFRr6MAbE4WtpY9VZOUyHD4FNIC19JcL+9fRHIR2OI1tFV/KJ6RM5tdtW
- rx7XzebFQn3D7mwVrQWNm0qH2KG8ozRLPpk8E/Y5rp2lAA3Xiv+5CqDlm32B+6/tbmV6qTe35
- mAb15+o4WJpHv5nKcKuEHc1pO2r2JF1R6DM2WCE6y3L7Ez6bTPOl0mUzzujKAOMuMdHpMAdtA
- AYwtXaYKarlSOGL5IZVy0z8O9WfL06DgkuPpfNGSXe/+ZMQIzOhGN07wZExlJT4xTXKr6SGEv
- 4aOV8I/MWetOOh3wUmCqjnGf6MRyypMulexVMm/Rko41L7bCKYVuCoMLKdmhXtH0uyTHb7e7j
- 8Dqbc9t6hBZiy0pyVygcIKH/BRF3wIMGiXvBcexok+lL4l/fHGBokOpe9lNgqPu7XD0d+NObe
- uuD2XbA89Hy2vkX9YB4JZEIP7nNhEUh0Icc041vrfJHcSOFV34xHtJ5yEkh8xlk/4qN/6I3/y
- +4d7Rk0M/Qr9LwyIgDvQmLy6WIsFkxn+YCZglAABGI4D/MzqaYnipKDHPdZLLRUYzt4v+2+wQ
- j7ax61UI+nRC1j+ci1UFiFlRVRtQChaLJO1Adl1WQ40tcq6I12AgBv1n783bjpPLElm0FeLkv
- vHkHTsa4wolYqO6r25Vf9UkC3Z5VjxEt/8qBrD2V3Qur1+BV8cKlHW52UDiQ6WJihtF76MY7E
- iVT/z7xsLpkeIG1ydKpQhWiUbmZltEu5Y63+5mPqYBmHk9pL5l+ziELbG9BLMTQivE8z2Q1kH
- wZeD5UFiqiTdKtJp1jQSPLLAp+ibEUQCJR1RpT7hdbFS+p9T8QKXnRWZbQTSJ9EbFfkwvmEZ2
- 6QXjcWgjoUQ8pC0113DZwNzMwF6xtgSrc9qvaCgQjSxqg7m2E/U8js9PCNG3ZnrZirvB2XxoI
- 5XgTcHdg4U0KKgniKUmzfFRQWH9MrKdYpCSu1fSjpBNkrraXf2fhc1R9Mt0fek8ile4K5QU9k
- KNkXkegY7NIPL40WofOxOkghiRKT2VxBSVRdwQBLs1ucSmtCtJC/ke1locRSQ47p/RA5XOKC0
- XEGoA5np3CU8/w=
+References: <YfBLiUMokw6tLq0O@p100>
+ <06f83d81-5df2-916a-4ae1-5a6e12b96832@gmx.de>
+ <c1ec52f6-796d-63f2-1419-c73f6554de16@gmx.de>
+In-Reply-To: <c1ec52f6-796d-63f2-1419-c73f6554de16@gmx.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 26 Jan 2022 12:14:41 +0100
+Message-ID: <CAKMK7uHZkS0H=89QJdiG0nCod6k6FpKihRcBFPinBCXMcEZcZw@mail.gmail.com>
+Subject: Re: [PATCH] [RFC] fbcon: Add option to enable legacy hardware
+ acceleration
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,79 +62,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Phillip Potter <phil@philpotter.co.uk>, Carlis <zhangxuezhi1@yulong.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/26/22 11:02, Andy Shevchenko wrote:
-> On Wed, Jan 26, 2022 at 10:52 AM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
->> Am 25.01.22 um 21:21 schrieb Andy Shevchenko:
->>> Since we got a maintainer for fbdev, I would like to
->>> unorphan fbtft (with the idea of sending PRs to Helge)
->>> and move it out of staging since there is no more clean
->>> up work expected and no more drivers either.
->>>
->>> Thoughts?
-
-Personally I'm in favour of this proposal and would be happy
-to take patches for it through the fbdev git tree.
-Reasoning below...
-
->> But why? We already have DRM drivers for some of these devices.
+On Tue, Jan 25, 2022 at 8:44 PM Helge Deller <deller@gmx.de> wrote:
 >
-> No, we do not (only a few are available).
-
-seems to be 2 out of 10 (according to the other mails)
->> Porting the others to DRM is such a better long-term plan.  OTOH,
->> as no one has shown up and converted them, maybe they should be
->> left dead or removed entirely.
+> On 1/25/22 20:17, Helge Deller wrote:
+> > On 1/25/22 20:12, Helge Deller wrote:
+> >> Add a config option CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION to
+> >> enable bitblt and fillrect hardware acceleration in the framebuffer
+> >> console. If disabled, such acceleration will not be used, even if it is
+> >> supported by the graphics hardware driver.
+> >>
+> >> If you plan to use DRM as your main graphics output system, you should
+> >> disable this option since it will prevent compiling in code which isn't
+> >> used later on when DRM takes over.
+> >>
+> >> For all other configurations, e.g. if none of your graphic cards support
+> >> DRM (yet), DRM isn't available for your architecture, or you can't be
+> >> sure that the graphic card in the target system will support DRM, you
+> >> most likely want to enable this option.
+> >>
+> >>
+> >> This patch is the first RFC.
+> >
+> > I forgot to mention that by using the static fb_scrollmode() function
+> > I expect the compiler to optimize-out all code which seems problematic
+> > from DRM's POV...
 >
-> As I mentioned above there are devices that nobody will take time to
-> port to a way too complex DRM subsystem. But the devices are cheap and
-> quite widespread in the embedded world. I'm in possession of 3 or 4
-> different models and only 1 is supported by tiny DRM.
+> This patch is not complete, for example there are more changes necessary
+> in fbcon_cw.c, bcon_ccw.c and fbcon_ccw.c.
 >
-> On top of that the subtle fact people forgot about FBTFT is that it
-> does support parallel interface (yes, I know that it's not performant,
-> but one of the displays I have is with that type of interface).
+> Anyway, for the first round I'm interested in general feedback, if this is
+> the direction which is acceptable for you.
+>
+> In addition I think fb_scrollmode() should be renamed to fbcon_scrollmode()
+> to make it clear that it's a fbcon-related function.
 
-I don't know those devices, but it seems they are still being used.
+I started typing my on flavour of this and wasn't happy with some of
+the ifdefs, your fb_scrollmode() takes care of the annoying ones in a
+tidy way. I'll include your diff here and I'll try and get my series
+sent out today (there's a bunch of random little locking cleanups in
+fbcon.c that I've done since the code is just a bit too entertaining
+as-is).
 
-And the reasons why they have not been ported to DRM yet is
-likely because either lack of man-power, a slow-down with DRM (due to
-slow bus connections or increased memory usage with DRM), or
-simply that it's used in embedded-like scenarios with a limited
-set of userspace applications for which existing fbdev access is sufficien=
-t.
+Cheers, Daniel
+>
+> If you want to test this patch you will need to first apply the revert-patches
+> I sent earlier.
+> Alternatively for testing it's possible to pull from the "fbcon-accel" branch from:
+> https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git  fbcon-accel
+>
+> Helge
+>
+>
+>
+> >> Independed of this patch I did some timing experiments with a qemu
+> >> virtual machine running a PA-RISC Debian Linux installation with a
+> >> screen resolution of 2048x1024 with 8bpp. In that case qemu emulated the
+> >> graphics hardware bitblt and fillrect acceleration by using the native
+> >> (x86) CPU.
+> >>
+> >> It was a simple testcase which was to run "time dmesg", where the syslog
+> >> had 284 lines. The results showed a huge speedup:
+> >> a) time dmesg (without acceleration):
+> >>    -> 19.0 seconds
+> >> b) time dmesg (with acceleration):
+> >>    ->  2.6 seconds
+> >>
+> >> Signed-off-by: Helge Deller <deller@gmx.de>
+> >>
+> >> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kconfig
+> >> index 840d9813b0bc..da84d1c21c21 100644
+> >> --- a/drivers/video/console/Kconfig
+> >> +++ b/drivers/video/console/Kconfig
+> >> @@ -78,6 +78,17 @@ config FRAMEBUFFER_CONSOLE
+> >>      help
+> >>        Low-level framebuffer-based console driver.
+> >>
+> >> +config FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+> >> +    bool "Framebuffer Console hardware acceleration support"
+> >> +    depends on FRAMEBUFFER_CONSOLE
+> >> +    default y if !DRM
+> >> +    default y if !(X86 || ARM)
+> >> +    help
+> >> +      If you use a system on which DRM is fully supported you usually want to say N,
+> >> +      otherwise you probably want to enable this option.
+> >> +      If enabled the framebuffer console will utilize the hardware acceleration
+> >> +      of your graphics card by using hardware bitblt and fillrect features.
+> >> +
+> >>  config FRAMEBUFFER_CONSOLE_DETECT_PRIMARY
+> >>         bool "Map the console to the primary display device"
+> >>         depends on FRAMEBUFFER_CONSOLE
+> >> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> >> index b813985f1403..f7b7d35953e8 100644
+> >> --- a/drivers/video/fbdev/core/fbcon.c
+> >> +++ b/drivers/video/fbdev/core/fbcon.c
+> >> @@ -1136,11 +1136,13 @@ static void fbcon_init(struct vc_data *vc, int init)
+> >>
+> >>      ops->graphics = 0;
+> >>
+> >> +#ifdef CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+> >>      if ((cap & FBINFO_HWACCEL_COPYAREA) &&
+> >>          !(cap & FBINFO_HWACCEL_DISABLED))
+> >>              p->scrollmode = SCROLL_MOVE;
+> >>      else /* default to something safe */
+> >>              p->scrollmode = SCROLL_REDRAW;
+> >> +#endif
+> >>
+> >>      /*
+> >>       *  ++guenther: console.c:vc_allocate() relies on initializing
+> >> @@ -1705,7 +1707,7 @@ static bool fbcon_scroll(struct vc_data *vc, unsigned int t, unsigned int b,
+> >>                      count = vc->vc_rows;
+> >>              if (logo_shown >= 0)
+> >>                      goto redraw_up;
+> >> -            switch (p->scrollmode) {
+> >> +            switch (fb_scrollmode(p)) {
+> >>              case SCROLL_MOVE:
+> >>                      fbcon_redraw_blit(vc, info, p, t, b - t - count,
+> >>                                   count);
+> >> @@ -1795,7 +1797,7 @@ static bool fbcon_scroll(struct vc_data *vc, unsigned int t, unsigned int b,
+> >>                      count = vc->vc_rows;
+> >>              if (logo_shown >= 0)
+> >>                      goto redraw_down;
+> >> -            switch (p->scrollmode) {
+> >> +            switch (fb_scrollmode(p)) {
+> >>              case SCROLL_MOVE:
+> >>                      fbcon_redraw_blit(vc, info, p, b - 1, b - t - count,
+> >>                                   -count);
+> >> @@ -1946,12 +1948,12 @@ static void fbcon_bmove_rec(struct vc_data *vc, struct fbcon_display *p, int sy,
+> >>                 height, width);
+> >>  }
+> >>
+> >> -static void updatescrollmode(struct fbcon_display *p,
+> >> +static void updatescrollmode_accel(struct fbcon_display *p,
+> >>                                      struct fb_info *info,
+> >>                                      struct vc_data *vc)
+> >>  {
+> >> +#ifdef CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+> >>      struct fbcon_ops *ops = info->fbcon_par;
+> >> -    int fh = vc->vc_font.height;
+> >>      int cap = info->flags;
+> >>      u16 t = 0;
+> >>      int ypan = FBCON_SWAP(ops->rotate, info->fix.ypanstep,
+> >> @@ -1972,12 +1974,6 @@ static void updatescrollmode(struct fbcon_display *p,
+> >>      int fast_imageblit = (cap & FBINFO_HWACCEL_IMAGEBLIT) &&
+> >>              !(cap & FBINFO_HWACCEL_DISABLED);
+> >>
+> >> -    p->vrows = vyres/fh;
+> >> -    if (yres > (fh * (vc->vc_rows + 1)))
+> >> -            p->vrows -= (yres - (fh * vc->vc_rows)) / fh;
+> >> -    if ((yres % fh) && (vyres % fh < yres % fh))
+> >> -            p->vrows--;
+> >> -
+> >>      if (good_wrap || good_pan) {
+> >>              if (reading_fast || fast_copyarea)
+> >>                      p->scrollmode = good_wrap ?
+> >> @@ -1991,6 +1987,27 @@ static void updatescrollmode(struct fbcon_display *p,
+> >>              else
+> >>                      p->scrollmode = SCROLL_REDRAW;
+> >>      }
+> >> +#endif
+> >> +}
+> >> +
+> >> +static void updatescrollmode(struct fbcon_display *p,
+> >> +                                    struct fb_info *info,
+> >> +                                    struct vc_data *vc)
+> >> +{
+> >> +    struct fbcon_ops *ops = info->fbcon_par;
+> >> +    int fh = vc->vc_font.height;
+> >> +    int yres = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+> >> +    int vyres = FBCON_SWAP(ops->rotate, info->var.yres_virtual,
+> >> +                               info->var.xres_virtual);
+> >> +
+> >> +    p->vrows = vyres/fh;
+> >> +    if (yres > (fh * (vc->vc_rows + 1)))
+> >> +            p->vrows -= (yres - (fh * vc->vc_rows)) / fh;
+> >> +    if ((yres % fh) && (vyres % fh < yres % fh))
+> >> +            p->vrows--;
+> >> +
+> >> +    /* update scrollmode in case hardware acceleration is used */
+> >> +    updatescrollmode_accel(p, info, vc);
+> >>  }
+> >>
+> >>  #define PITCH(w) (((w) + 7) >> 3)
+> >> @@ -2148,7 +2165,7 @@ static int fbcon_switch(struct vc_data *vc)
+> >>
+> >>      updatescrollmode(p, info, vc);
+> >>
+> >> -    switch (p->scrollmode) {
+> >> +    switch (fb_scrollmode(p)) {
+> >>      case SCROLL_WRAP_MOVE:
+> >>              scrollback_phys_max = p->vrows - vc->vc_rows;
+> >>              break;
+> >> diff --git a/drivers/video/fbdev/core/fbcon.h b/drivers/video/fbdev/core/fbcon.h
+> >> index 9315b360c898..c5c043f38162 100644
+> >> --- a/drivers/video/fbdev/core/fbcon.h
+> >> +++ b/drivers/video/fbdev/core/fbcon.h
+> >> @@ -29,7 +29,9 @@ struct fbcon_display {
+> >>      /* Filled in by the low-level console driver */
+> >>      const u_char *fontdata;
+> >>      int userfont;                   /* != 0 if fontdata kmalloc()ed */
+> >> +#ifdef CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+> >>      u_short scrollmode;             /* Scroll Method */
+> >> +#endif
+> >>      u_short inverse;                /* != 0 text black on white as default */
+> >>      short yscroll;                  /* Hardware scrolling */
+> >>      int vrows;                      /* number of virtual rows */
+> >> @@ -208,6 +210,17 @@ static inline int attr_col_ec(int shift, struct vc_data *vc,
+> >>  #define SCROLL_REDRAW          0x004
+> >>  #define SCROLL_PAN_REDRAW  0x005
+> >>
+> >> +static inline u_short fb_scrollmode(struct fbcon_display *fb)
+> >> +{
+> >> +#ifdef CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+> >> +    return fb->scrollmode;
+> >> +#else
+> >> +    /* hardcoded to SCROLL_REDRAW if acceleration was disabled. */
+> >> +    return SCROLL_REDRAW;
+> >> +#endif
+> >> +}
+> >> +
+> >> +
+> >>  #ifdef CONFIG_FB_TILEBLITTING
+> >>  extern void fbcon_set_tileops(struct vc_data *vc, struct fb_info *info);
+> >>  #endif
+> >>
+> >
+>
 
-Again, I don't know the reason for this specific devices, but I know
-of other devices for which those reasons above are valid.
-Just the example I posted yesterday where a simple "time dmesg" needed
-unaccelerated 19 seconds compared to 2 seconds with acceleration.
-So, as long as acceleration isn't possible with that driver in
-DRM, DRM isn't a preferred target where the driver should be ported.
 
-So, I'd be fine to take it into fbdev tree.
-
-Interestingly there is another fbdev driver in staging (sm750fb) with
-similiar issues. The TODO mentions a porting to DRM which happens at
-https://gitlab.com/sudipm/sm750/tree/sm750
-but the last commit there is 3 years ago. I don't know why it wasn't
-continued yet.
-
-> P.S. For the record, I will personally NAK any attempts to remove that
-> driver from the kernel. And this is another point why it's better not
-> to be under the staging.
-
-I agree. Same as for me to NAK the disabling of fbcon's acceleration
-features or even attempting to remove fbdev altogether (unless all
-relevant drivers are ported to DRM).
-
-Helge
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
