@@ -2,112 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412B149C556
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 09:35:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA4149C49C
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 08:37:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDBCA10E56C;
-	Wed, 26 Jan 2022 08:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33D5410E565;
+	Wed, 26 Jan 2022 07:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam07on2088.outbound.protection.outlook.com [40.107.95.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ADD810E741
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jan 2022 14:17:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UaUSYhZxC6DgASqlUa9MJXi3yjTV4maymLs+ICuV47V5+dY9RNRhBqW1T7y6eFKK4KztAkMmyI8OpLfl/aRozZ6ffGb8mU/yNCCSnWWHS1PAbBqaLT3RzvagC9ixhat3njijrH2dSRDk35IQ1anY7bOdO2YNMriFwqtqeT9qtb0kbtExn9+LL4RM+IHQr5/lCfn5JzgCDIj0B7d+Nrkrf7i9PZCjwd+iApTW1wTjqa5gvmLcAbtG0Y9ZFwc23AF8Gmw1yL1pVJes2zBS8aAyVMiWLz9XN4UaXasvdR27ZUcKKP2RGS3QEg9r1HtXLJiinfT8Uqh+eiVfV1M+lgTI2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7RGUmp3x/olqmxtHO9vuW7ie3dX9WEse1ffa/e1zfGQ=;
- b=Lw+pbshyyUnHyESf2VqZ5286C+CqU9hIanAxJTT0aLU4GVeDX+W2JgGO8myMA92c38irlcxY/KcubdlYvOOaxqpPzTpOCHiP8f5I/zBUkLVfhYl40mV2dQi/dwYr9BRarIHo8pTMeZapuKE7roAPtFnyvcAQ4/n1RzJDHmQsPGJCDg7IAvOzZknO12/0ee2VjAfp3Q2jWkdt+qJKl5AKhggKMgkI8BZiPf5Tuh6Mg/9w+smCsAVZawGRQrXaCWdijacgxXDxZTGm9OzlFa3kC4pQXnxcShAowCEajjdfhsM3qFc/KmBXDI0GL9BwiKD9m/AggWFmjCtFKiqVomFNIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7RGUmp3x/olqmxtHO9vuW7ie3dX9WEse1ffa/e1zfGQ=;
- b=Wb0zDN5sg3OYg/s+2B8LanVTf7URcRjV526/XiING05SnEBLjoV73PUmczygbhezzNiqNDS4oPSNJBs+EVQHznzPYrhM4SmEV8cP4UJnp7gQCVWNlhILGVGaawMnBOMzJiV6GwDV37DFKHM2Jpp1Ietm5GjZKHCln/tW+xX1FOc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=silabs.com;
-Received: from PH0PR11MB5657.namprd11.prod.outlook.com (2603:10b6:510:ee::19)
- by BYAPR11MB3253.namprd11.prod.outlook.com (2603:10b6:a03:77::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.8; Tue, 25 Jan
- 2022 14:17:08 +0000
-Received: from PH0PR11MB5657.namprd11.prod.outlook.com
- ([fe80::2025:8f0a:6ccc:2bfb]) by PH0PR11MB5657.namprd11.prod.outlook.com
- ([fe80::2025:8f0a:6ccc:2bfb%4]) with mapi id 15.20.4909.019; Tue, 25 Jan 2022
- 14:17:08 +0000
-From: =?ISO-8859-1?Q?J=E9r=F4me?= Pouiller <jerome.pouiller@silabs.com>
-To: Mark Brown <broonie@kernel.org>,
- Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 5/5] spi: make remove callback a void function
-Date: Tue, 25 Jan 2022 15:16:33 +0100
-Message-ID: <6493233.N8xH3GE6Eg@pc-42>
-Organization: Silicon Labs
-In-Reply-To: <20220123175201.34839-6-u.kleine-koenig@pengutronix.de>
-References: <20220123175201.34839-1-u.kleine-koenig@pengutronix.de>
- <20220123175201.34839-6-u.kleine-koenig@pengutronix.de>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-ClientProxiedBy: PR0P264CA0242.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100::14)
- To PH0PR11MB5657.namprd11.prod.outlook.com
- (2603:10b6:510:ee::19)
+Received: from mblankhorst.nl (mblankhorst.nl [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65AD210E547;
+ Wed, 26 Jan 2022 07:37:22 +0000 (UTC)
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Lock dpt_obj around set_cache_level, v2.
+Date: Wed, 26 Jan 2022 08:37:03 +0100
+Message-Id: <20220126073703.1215696-1-maarten.lankhorst@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 045d4f05-1ac2-4123-fdc9-08d9e00d5e83
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3253:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR11MB3253C40B00CAA8BAB73A325B935F9@BYAPR11MB3253.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:480;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iK5JbPS6dvmOX1hodRx/9BLgimvGOE75BQLIs3BxDQ5viuovDiYHjumFWIxvj24EqLFLf+q/ksCDxGcaPIOVoqgychXQ+SjT+B5v1sxUquOGhNG0toHdcHKzqLiGlUbvWD6UQ2Co1v9aXdDvDxjRa5igUKUIX6mCDkYkUGB3FCV3Ubt07GM3agZaGvJkpos5lEb7aEV/eHE/tnWpUaJe/wIK3WeRhyuaEGHx7DF4Abf5Vpj8aJQcoG7QgbmnMgP79GrIruKQsFE4NCuvZi6zhUWOd4zDIkWhSuhMtBB8pA3r+iIUnKM6NHN75X025Ap7qZizpSueRnXtaroB6e4EhwH+ODfpT/C09r+NgBgQz9B02r1TXbetSx7+GNka6qxKU1xuFudVEkkczXJKq5RGJfMYK2oVrmzU2eT29Ihu4tl+Nd66L6HVLxXNAgt2qRfx2AAnbSQhazOY/KkzO5+MjQYYBT/3yRRajsEuFxsoPOTlDE3CTw3lyC/nKiwWvZ8/54RqjkRGzimNYzhCWDgnbsbZfYXTFRFo7KMoeDhnRF2tJv8CzWQrdmAtwkuVioN3Mv8LfXwLIVL+0onS2gUEg1DXqwRwbRMcbJOt4wokhVLSDVGYpiZ9x6+VPgpr5I5EkHlsvomGMZSPie7b513f5isSbqW30bhdDUIQqIkf4MT4e0E8ceNUHx3FzUv+hstgTMdm6MmjgknKAbixT8aR3pNnDEnIfrwu6R6BqzZjoL8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5657.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(366004)(6666004)(26005)(508600001)(9686003)(6512007)(8676002)(2906002)(186003)(8936002)(6486002)(4326008)(6506007)(38350700002)(66556008)(83380400001)(110136005)(54906003)(33716001)(7276002)(7336002)(7366002)(7416002)(86362001)(316002)(66476007)(7406005)(36916002)(66946007)(52116002)(38100700002)(5660300002)(39026012);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?e50s0VndkRuVVavxDV7CAMEPRo+VNSLjUuKH7V0aSv6pAfM81RUrpIRJSx?=
- =?iso-8859-1?Q?6HpaUD2GJT3KVOtb6xvsUR0P+SH60FpttTXWFk3ff8P7DoakOAedmHQaXb?=
- =?iso-8859-1?Q?1l/bgzKkQlom9TJvK4tIPyncJPqL48hrUaM2uSJQgdz0PlD2fJm9OAhx4U?=
- =?iso-8859-1?Q?oA3SD7BstATXpKUnQzvqGeMpwBvHnXoIYyC/RqWYWHk5bICjcGwWFyqmwf?=
- =?iso-8859-1?Q?/snZsInUmicKZweiYTlg8Q5Xx/7KOkMrG0kpOeyT0pro7wvu3Vnu80vijU?=
- =?iso-8859-1?Q?B6u+7UUNZkyoXJcC1o39T1Gq5J152OScsCHrzIAPl9/LyRZqAbiJjEi9Vh?=
- =?iso-8859-1?Q?agaua9aaYmZymk/posg/WsLxaWvtlb8Bcmq68IdX8WC1EyESmBCxRC2iFU?=
- =?iso-8859-1?Q?9akols8qT82pYoAOwDuUWL9VLzPnuUe7UDmVwjqOSET8iNNzjbx8H1/Lau?=
- =?iso-8859-1?Q?isv/O08z6Fljmb8L8SnwNicM/UDCueoICnnu1K+uG5Zl239Xtoyg0+JPpL?=
- =?iso-8859-1?Q?jTmgUh4UK15kahChQF8kqDeugR8Uo16ypn5j/Y9Izz0TJHfedNCewAYGvg?=
- =?iso-8859-1?Q?8s/gBm5Hr2cskTHGsIc0YyoaY4HdgDMQA33v4TBKJE+BcdWbObgkr4DwP+?=
- =?iso-8859-1?Q?l0Sq2awV4ptUAs5Lciy0lBZUyHxZtl8hSB95/gxs3kfzoV9VNrb+abkg2h?=
- =?iso-8859-1?Q?pPorLknuUutJVO1H0nK8GlhS6KcW45IqMzs75z+/sJWhfp2yCi4rqlD4NK?=
- =?iso-8859-1?Q?dbuZpk6L+g34UbuT8+LU/e7pmk4gZucIpO6fnYIgZe/nmFHkkyq2qw1Ey2?=
- =?iso-8859-1?Q?EYjMUmakbjXkDtTqiws2NBaEkMTlpkUej9Mp2+NFp19L+QYpxWS70bAfAD?=
- =?iso-8859-1?Q?+CHPV9drbX6EiBFMuuUnDjPrakdOQxz5MgfadPkFCRmc6srPycx8UfFQYU?=
- =?iso-8859-1?Q?weZFhFfyrUdMkvT9VDGRUX3zXS3UwJuWlf8GIvvEm1lwg2x2NBCI7/AdtA?=
- =?iso-8859-1?Q?vE8L8xTlMubqhOaGOetHpdofYugOO1ySCI9C27qrTLEza96ZcEPUmzVbeP?=
- =?iso-8859-1?Q?qWOV0iCAXnEa5qh2Nf1Kv1OnvZEE9ZR1I+neyHZtqVozfUIo+D03Xo+Vqm?=
- =?iso-8859-1?Q?KPlc4D2MvbLF15EWtOXRPYUYwkT5+2TaVMkyGPZV3nnILvAQrxcM/FyJg6?=
- =?iso-8859-1?Q?v6CoVwE7sI9nyE9Mdo8Zphfi8LO1OfFK1QkZ54vhTnSgGT1t7b+WPynqBg?=
- =?iso-8859-1?Q?1+H+HMVbGHTW819dbfCrAeRxzq/77weA5iQtPUioViwMCn/MyzD5SYKL6m?=
- =?iso-8859-1?Q?QczNNV6fmWUpALs42XvT1AXq9ocfFcmzAz226BMnHT4UqjQLZeAxLB8Lo5?=
- =?iso-8859-1?Q?YY4AvAhVdkxpFU7ernfBS/+U07ptZliPNrY954cM+DfDJywPBOq5U15bpK?=
- =?iso-8859-1?Q?sL+sJVboKoRWtDWt1lAAPjIezipbhxhlpnCR451iByG6FsFAVVGwZ7Y5+c?=
- =?iso-8859-1?Q?y2PEiMcG+AQcqEj+7hyJKluZUzrpU4prRhxNH6tK3JTs4VxaJF9lVvm7xO?=
- =?iso-8859-1?Q?9jGGGPuvZv1mu4ukEKHwhdsKBuxb/OJ2bmB5Qef/8jK/v4f3vblAYth5Tt?=
- =?iso-8859-1?Q?69TtMIrb+biUA05Fg7kd8kC/lcbqWTMI21JpAq/r7DStyWIcsdY9LQwDwF?=
- =?iso-8859-1?Q?wZZUQnT1AkJ4n6XzvMU=3D?=
-X-OriginatorOrg: silabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 045d4f05-1ac2-4123-fdc9-08d9e00d5e83
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5657.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2022 14:17:08.2195 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 54dbd822-5231-4b20-944d-6f4abcd541fb
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZT/kz1H4hpN3JsqN7eJit8+mBc62ILlir+LA4/crqTu9+uHP0uQjByjobRy8Z0MVuIgXEmYHqlimDYTzrEhubw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3253
-X-Mailman-Approved-At: Wed, 26 Jan 2022 08:35:29 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,183 +32,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , Andrew Lunn <andrew@lunn.ch>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
-	Claudius Heine <ch@denx.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Nanyong Sun <sunnanyong@huawei.com>, dri-devel@lists.freedesktop.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Frieder Schrempf <frieder.schrempf@kontron.de>,
-	Pavel Machek <pavel@ucw.cz>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Christian Lamparter <chunkeey@googlemail.com>,
-	Ajay Singh <ajay.kathat@microchip.com>, linux-clk@vger.kernel.org,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Sidong Yang <realwakka@gmail.com>, libertas-dev@lists.infradead.org,
-	linux-omap@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, linux-serial@vger.kernel.org,
-	=?utf-8?B?xYF1a2Fzeg==?= Stelmach <l.stelmach@samsung.com>,
-	Mark Tomlinson <mark.tomlinson@alliedtelesis.co.nz>,
-	James Schulman <james.schulman@cirrus.com>,
-	dingsenjie <dingsenjie@yul>,
-	Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Zhang Qilong <zhangqilong3@huawei.com>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-	Michael Walle <michael@walle.cc>,
-	Noralf =?ISO-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-	kernel@pengutronix.de,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-mtd@lists.infradead.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vladimir Oltean <olteanv@gmail.com>, linux-wpan@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Dan Robertson <dan@dlrobertson.com>,
-	Markuss Broks <markuss.broks@gmail.com>,
-	Lucas Tanure <tanureal@opensource.cirrus.com>,
-	David Airlie <airlied@linux.ie>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Solomon Peachy <pizza@shaftnet.org>,
-	Marek =?ISO-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Tudor Ambarus <tudor.ambarus@microchip.com>,
-	Minghao Chi <chi.minghao@zte.com.cn>,
-	Jon Hunter <jonathanh@nvidia.com>, Heiko Schocher <hs@denx.de>,
-	Wolfgang Grandegger <wg@grandegger.com>,
-	Matt Kline <matt@bitbashing.io>,
-	Woojung Huh <woojung.huh@microchip.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Mike Looijmans <mike.looijmans@topic.nl>,
-	Ronald =?ISO-8859-1?Q?Tschal=E4r?= <ronald@innovation.ch>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Hans de Goede <hdegoede@redhat.com>, Stephen Boyd <sboyd@kernel.org>,
-	Davidlohr Bueso <dbueso@suse.de>, o@freedesktop.org,
-	UNGLinuxDriver@microchip.com, Jarkko Sakkinen <jarkko@kernel.org>,
-	linux-usb@vger.kernel.org,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	linux-integrity@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, linux-staging@lists.linux.dev,
-	linux-iio@vger.kernel.org,
-	Michael Turquette <mturquette@baylibre.com>,
-	alsa-devel@alsa-project.org,
-	Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	netdev@vger.kernel.org, Wei Yongjun <weiyongjun1@huawei.com>,
-	Sam Ravnborg <sam@ravnborg.org>, linux-rtc@vger.kernel.org,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Aditya Srivastava <yashsri421@gmail.com>,
-	Varka Bhadram <varkabhadram@gmail.com>,
-	wengjianfeng <wengjianfeng@yulong.com>, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Jonathan =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Mark Gross <markgross@kernel.org>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	linux-fbdev@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Stefan =?ISO-8859-1?Q?M=E4tje?= <stefan.maetje@esd.eu>,
-	linux-hwmon@vger.kernel.org, Felipe Balbi <balbi@kernel.org>,
-	Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-mmc@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	Yang Li <yang.lee@linux.alibaba.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	patches@opensource.cirrus.com, Kent Gustavsson <kent@minoris.se>,
-	"David S. Miller" <davem@davemloft.net>,
-	Charles-Antoine Couret <charles-antoine.couret@nexvision.fr>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Jiri Prchal <jiri.prchal@aksignal.cz>,
-	Vignesh Raghavendra <vigneshr@ti.com>, Emma Anholt <emma@anholt.net>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alexandru Ardelean <ardeleanalex@gmail.com>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Torin Cooper-Bennun <torin@maxiluxsystems.com>,
-	Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
-	Eric Piel <eric.piel@tremplin-utc.net>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Richard Weinberger <richard@nod.at>,
-	Russell King <linux@armlinux.org.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-stm32@st-md-mailman.stormr,
-	Thomas Kopp <thomas.kopp@microchip.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	platform-driver-x86@vger.kernel.org,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Xue Liu <liuxuenetmail@gmail.com>,
-	David Lechner <david@lechnology.com>, Will Deacon <will@kernel.org>,
-	M anivannan Sadhasivam <mani@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Harry Morris <h.morris@cascoda.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Yang Shen <shenyang39@huawei.com>, e@freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Takashi Iwai <tiwai@suse.com>, Cai Huoqing <caihuoqing@baidu.com>,
-	Daniel Mack <daniel@zonque.org>,
-	Colin Ian King <colin.king@intel.com>, Helge Deller <deller@gmx.de>,
-	Alan Ott <alan@signal11.us>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sunday 23 January 2022 18:52:01 CET Uwe Kleine-K=F6nig wrote:
->=20
-> The value returned by an spi driver's remove function is mostly ignored.
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
->=20
-> So change the prototype of the remove function to return no value. This
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared to
-> return 0 before.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+set_cache_level may unbind the object, which will result in the below
+lockdep splat:
+<6> [184.578145] [IGT] kms_addfb_basic: starting subtest addfb25-framebuffer-vs-set-tiling
+<4> [184.578220] ------------[ cut here ]------------
+<4> [184.578221] WARN_ON(debug_locks && !(lock_is_held(&(&((obj)->base.resv)->lock.base)->dep_map) != 0))
+<4> [184.578237] WARNING: CPU: 6 PID: 5544 at drivers/gpu/drm/i915/i915_gem.c:123 i915_gem_object_unbind+0x4a9/0x510 [i915]
+<4> [184.578323] Modules linked in: vgem drm_shmem_helper snd_hda_codec_hdmi i915 mei_hdcp x86_pkg_temp_thermal snd_hda_intel coretemp crct10dif_pclmul snd_intel_dspcfg crc32_pclmul ttm snd_hda_codec ghash_clmulni_intel snd_hwdep drm_kms_helper snd_hda_core e1000e mei_me syscopyarea ptp snd_pcm sysfillrect mei pps_core sysimgblt fb_sys_fops prime_numbers intel_lpss_pci smsc75xx usbnet mii
+<4> [184.578349] CPU: 6 PID: 5544 Comm: kms_addfb_basic Not tainted 5.16.0-CI-Patchwork_22006+ #1
+<4> [184.578351] Hardware name: Intel Corporation Alder Lake Client Platform/AlderLake-P DDR4 RVP, BIOS ADLPFWI1.R00.2422.A00.2110131104 10/13/2021
+<4> [184.578352] RIP: 0010:i915_gem_object_unbind+0x4a9/0x510 [i915]
+<4> [184.578424] Code: 00 be ff ff ff ff 48 8d 78 68 e8 a2 6e 2b e1 85 c0 0f 85 b1 fb ff ff 48 c7 c6 48 37 9e a0 48 c7 c7 d9 fc a1 a0 e8 a3 54 26 e1 <0f> 0b e9 97 fb ff ff 31 ed 48 8b 5c 24 58 65 48 33 1c 25 28 00 00
+<4> [184.578426] RSP: 0018:ffffc900013b3b68 EFLAGS: 00010286
+<4> [184.578428] RAX: 0000000000000000 RBX: ffffc900013b3bb0 RCX: 0000000000000001
+<4> [184.578429] RDX: 0000000080000001 RSI: ffffffff8230b42d RDI: 00000000ffffffff
+<4> [184.578430] RBP: ffff888120e10000 R08: 0000000000000000 R09: c0000000ffff7fff
+<4> [184.578431] R10: 0000000000000001 R11: ffffc900013b3980 R12: ffff8881176ea740
+<4> [184.578432] R13: ffff888120e10000 R14: 0000000000000000 R15: 0000000000000001
+<4> [184.578433] FS:  00007f65074f5e40(0000) GS:ffff88888f300000(0000) knlGS:0000000000000000
+<4> [184.578435] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+<4> [184.578436] CR2: 00007fff4420ede8 CR3: 000000010c2f2005 CR4: 0000000000770ee0
+<4> [184.578437] PKRU: 55555554
+<4> [184.578438] Call Trace:
+<4> [184.578439]  <TASK>
+<4> [184.578440]  ? dma_resv_iter_first_unlocked+0x78/0xf0
+<4> [184.578447]  intel_dpt_create+0x88/0x220 [i915]
+<4> [184.578530]  intel_framebuffer_init+0x5b8/0x620 [i915]
+<4> [184.578612]  intel_framebuffer_create+0x3d/0x60 [i915]
+<4> [184.578691]  intel_user_framebuffer_create+0x18f/0x2c0 [i915]
+<4> [184.578775]  drm_internal_framebuffer_create+0x36d/0x4c0
+<4> [184.578779]  drm_mode_addfb2+0x2f/0xd0
+<4> [184.578781]  ? drm_mode_addfb_ioctl+0x10/0x10
+<4> [184.578784]  drm_ioctl_kernel+0xac/0x140
+<4> [184.578787]  drm_ioctl+0x201/0x3d0
+<4> [184.578789]  ? drm_mode_addfb_ioctl+0x10/0x10
+<4> [184.578796]  __x64_sys_ioctl+0x6a/0xa0
+<4> [184.578800]  do_syscall_64+0x37/0xb0
+<4> [184.578803]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+<4> [184.578805] RIP: 0033:0x7f6506736317
+<4> [184.578807] Code: b3 66 90 48 8b 05 71 4b 2d 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 41 4b 2d 00 f7 d8 64 89 01 48
+<4> [184.578808] RSP: 002b:00007fff44211a98 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+<4> [184.578810] RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 00007f6506736317
+<4> [184.578811] RDX: 00007fff44211b30 RSI: 00000000c06864b8 RDI: 0000000000000006
+<4> [184.578812] RBP: 00007fff44211b30 R08: 00007fff44311170 R09: 0000000000000000
+<4> [184.578813] R10: 0000000000000008 R11: 0000000000000246 R12: 00000000c06864b8
+<4> [184.578813] R13: 0000000000000006 R14: 0000000000000000 R15: 0000000000000000
+<4> [184.578819]  </TASK>
+<4> [184.578820] irq event stamp: 47931
+<4> [184.578821] hardirqs last  enabled at (47937): [<ffffffff81130dd2>] __up_console_sem+0x62/0x70
+<4> [184.578824] hardirqs last disabled at (47942): [<ffffffff81130db7>] __up_console_sem+0x47/0x70
+<4> [184.578826] softirqs last  enabled at (47340): [<ffffffff81e0032d>] __do_softirq+0x32d/0x493
+<4> [184.578828] softirqs last disabled at (47335): [<ffffffff810b9196>] irq_exit_rcu+0xa6/0xe0
+<4> [184.578830] ---[ end trace f17ec219f892c7d4 ]---
 
-[...]
-> diff --git a/drivers/staging/wfx/bus_spi.c b/drivers/staging/wfx/bus_spi.=
-c
-> index 55ffcd7c42e2..fa0ff66a457d 100644
-> --- a/drivers/staging/wfx/bus_spi.c
-> +++ b/drivers/staging/wfx/bus_spi.c
-> @@ -232,12 +232,11 @@ static int wfx_spi_probe(struct spi_device *func)
->         return wfx_probe(bus->core);
->  }
->=20
-> -static int wfx_spi_remove(struct spi_device *func)
-> +static void wfx_spi_remove(struct spi_device *func)
->  {
->         struct wfx_spi_priv *bus =3D spi_get_drvdata(func);
->=20
->         wfx_release(bus->core);
-> -       return 0;
->  }
->=20
->  /* For dynamic driver binding, kernel does not use OF to match driver. I=
-t only
+Changes since v1:
+- Fix intel_pin_fb_obj_dpt too.
 
-For the wfx driver:=20
+Fixes: 0f341974cbc2 ("drm/i915: Add i915_vma_unbind_unlocked, and take obj lock for i915_vma_unbind, v2.")
+Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Testcase: kms_addfb_basic
+---
+ drivers/gpu/drm/i915/display/intel_dpt.c    | 6 +++++-
+ drivers/gpu/drm/i915/display/intel_fb_pin.c | 6 +++++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-Acked-by: J=E9r=F4me Pouiller <jerome.pouiller@silabs.com>
-
---=20
-J=E9r=F4me Pouiller
-
+diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c b/drivers/gpu/drm/i915/display/intel_dpt.c
+index 63a83d5f85a1..c2f8f853db90 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpt.c
++++ b/drivers/gpu/drm/i915/display/intel_dpt.c
+@@ -253,7 +253,11 @@ intel_dpt_create(struct intel_framebuffer *fb)
+ 	if (IS_ERR(dpt_obj))
+ 		return ERR_CAST(dpt_obj);
+ 
+-	ret = i915_gem_object_set_cache_level(dpt_obj, I915_CACHE_NONE);
++	ret = i915_gem_object_lock_interruptible(dpt_obj, NULL);
++	if (!ret) {
++		ret = i915_gem_object_set_cache_level(dpt_obj, I915_CACHE_NONE);
++		i915_gem_object_unlock(dpt_obj);
++	}
+ 	if (ret) {
+ 		i915_gem_object_put(dpt_obj);
+ 		return ERR_PTR(ret);
+diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.c b/drivers/gpu/drm/i915/display/intel_fb_pin.c
+index 9c555f6d1958..c4b3d76341f3 100644
+--- a/drivers/gpu/drm/i915/display/intel_fb_pin.c
++++ b/drivers/gpu/drm/i915/display/intel_fb_pin.c
+@@ -36,7 +36,11 @@ intel_pin_fb_obj_dpt(struct drm_framebuffer *fb,
+ 
+ 	atomic_inc(&dev_priv->gpu_error.pending_fb_pin);
+ 
+-	ret = i915_gem_object_set_cache_level(obj, I915_CACHE_NONE);
++	ret = i915_gem_object_lock_interruptible(obj, NULL);
++	if (!ret) {
++		ret = i915_gem_object_set_cache_level(obj, I915_CACHE_NONE);
++		i915_gem_object_unlock(obj);
++	}
+ 	if (ret) {
+ 		vma = ERR_PTR(ret);
+ 		goto err;
+-- 
+2.34.1
 
