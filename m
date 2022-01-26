@@ -1,56 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC3349D0D8
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 18:34:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD5149D12C
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 18:56:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 886B710E379;
-	Wed, 26 Jan 2022 17:34:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D903D10E2D2;
+	Wed, 26 Jan 2022 17:56:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B43C510E379
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 17:34:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643218466; x=1674754466;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=K129hl5RytW5ura24/yx7HTDJHZL++ViTWK4Ed5BQCk=;
- b=B6l+3dsd2uGOrvPhqwUKHjkRpXHoCNnjQs8w1gVN/7sxOEFNiJkROdl+
- rfzvXhCfkIoFxJtffHoqqqMriRR+LIQ90v2arf6xrqs8yLgmGxptjvMhs
- BJ2TPMZpU6cwo0XoK2vetZKExAUbil/88hv00wkak95Nwdoy4aj9FRoJF
- /hCv8F7Z3powW6IIx3cfGCocO4fhz0VqHKN/vNKlXFbWKHIce+IMdLJEd
- 0F+XuB6sO1VxL1oA5QqrNF6+D1krhVXVDskMFli4txY6Xac4yNoix6ohQ
- lX6Lh4XAWbnVVyDEVmoQfk2aTBQZHCw8DyFQ2gAdIdrb4gKafsyXk5zoU A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="230178248"
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="230178248"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 09:34:21 -0800
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="624901254"
-Received: from nbasu-mobl.ger.corp.intel.com (HELO localhost) ([10.252.16.197])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 09:34:16 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Javier Martinez
- Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-In-Reply-To: <YfFV4EJosayH+e6C@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-2-andriy.shevchenko@linux.intel.com>
- <YfEG2qVO9K9G+g1d@kroah.com>
- <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
- <f671a112-880d-1526-a395-360947b40c5a@gmx.de> <YfEv7OQs98O9wJdJ@kroah.com>
- <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
- <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
- <YfFV4EJosayH+e6C@smile.fi.intel.com>
-Date: Wed, 26 Jan 2022 19:34:13 +0200
-Message-ID: <87v8y6xuy2.fsf@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 186FB10E2D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 17:56:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3294FD6E;
+ Wed, 26 Jan 2022 09:56:06 -0800 (PST)
+Received: from [10.57.68.47] (unknown [10.57.68.47])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 657A43F7D8;
+ Wed, 26 Jan 2022 09:56:04 -0800 (PST)
+Message-ID: <a1438d39-b670-1ca5-d3f7-4e3f54702e53@arm.com>
+Date: Wed, 26 Jan 2022 17:56:00 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH 21/27] arm64: dts: rockchip: rk356x: Add HDMI nodes
+Content-Language: en-GB
+To: Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>
+References: <20220126145549.617165-1-s.hauer@pengutronix.de>
+ <20220126145549.617165-22-s.hauer@pengutronix.de>
+ <CAMdYzYrLw9+VW08cuj4_o4GDFhgBB8dZ-oVJ0TUnKFGLNetdyQ@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <CAMdYzYrLw9+VW08cuj4_o4GDFhgBB8dZ-oVJ0TUnKFGLNetdyQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,23 +45,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
- Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ arm-mail-list <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Jan 2022, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> And basically create a MIPI based driver for I2C.
+On 2022-01-26 16:04, Peter Geis wrote:
+> On Wed, Jan 26, 2022 at 9:58 AM Sascha Hauer <s.hauer@pengutronix.de> wrote:
+>>
+>> Add support for the HDMI port found on RK3568.
+>>
+>> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+>> ---
+>>   arch/arm64/boot/dts/rockchip/rk356x.dtsi | 37 +++++++++++++++++++++++-
+>>   1 file changed, 36 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+>> index 4008bd666d01..e38fb223e9b8 100644
+>> --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+>> +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+>> @@ -10,7 +10,6 @@
+>>   #include <dt-bindings/pinctrl/rockchip.h>
+>>   #include <dt-bindings/power/rk3568-power.h>
+>>   #include <dt-bindings/soc/rockchip,boot-mode.h>
+>> -#include <dt-bindings/soc/rockchip,vop2.h>
+>>   #include <dt-bindings/thermal/thermal.h>
+>>
+>>   / {
+>> @@ -502,6 +501,42 @@ vop_mmu: iommu@fe043e00 {
+>>                  status = "disabled";
+>>          };
+>>
+>> +       hdmi: hdmi@fe0a0000 {
+>> +               compatible = "rockchip,rk3568-dw-hdmi";
+>> +               reg = <0x0 0xfe0a0000 0x0 0x20000>;
+>> +               interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
+>> +               clocks = <&cru PCLK_HDMI_HOST>,
+>> +                        <&cru CLK_HDMI_SFR>,
+>> +                        <&cru CLK_HDMI_CEC>,
+>> +                        <&pmucru CLK_HDMI_REF>,
+>> +                        <&cru HCLK_VOP>;
+>> +               clock-names = "iahb", "isfr", "cec", "ref", "hclk";
+>> +               pinctrl-names = "default";
+>> +               pinctrl-0 = <&hdmitx_scl &hdmitx_sda &hdmitxm0_cec>;
+> 
+> I looked into CEC support here, and it seems that it does work with one change.
+> Please add the two following lines to your patch:
+> assigned-clocks = <&cru CLK_HDMI_CEC>;
+> assigned-clock-rates = <32768>;
+> 
+> The issue is the clk_rtc32k_frac clock that feeds clk_rtc_32k which
+> feeds clk_hdmi_cec is 24mhz at boot, which is too high for CEC to
+> function.
 
-What does that even mean?
+Wouldn't it make far more sense to just stick a suitable clk_set_rate() 
+call in the driver? AFAICS it's already explicitly aware of the CEC clock.
 
-BR,
-Jani.
+Robin.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+>> +               power-domains = <&power RK3568_PD_VO>;
+>> +               reg-io-width = <4>;
+>> +               rockchip,grf = <&grf>;
+>> +               #sound-dai-cells = <0>;
+>> +               status = "disabled";
+>> +
+>> +               ports {
+>> +                       #address-cells = <1>;
+>> +                       #size-cells = <0>;
+>> +
+>> +                       hdmi_in: port@0 {
+>> +                               reg = <0>;
+>> +                               #address-cells = <1>;
+>> +                               #size-cells = <0>;
+>> +                       };
+>> +
+>> +                       hdmi_out: port@1 {
+>> +                               reg = <1>;
+>> +                               #address-cells = <1>;
+>> +                               #size-cells = <0>;
+>> +                       };
+>> +               };
+>> +       };
+>> +
+>>          qos_gpu: qos@fe128000 {
+>>                  compatible = "rockchip,rk3568-qos", "syscon";
+>>                  reg = <0x0 0xfe128000 0x0 0x20>;
+>> --
+>> 2.30.2
+>>
+> 
+> _______________________________________________
+> Linux-rockchip mailing list
+> Linux-rockchip@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-rockchip
