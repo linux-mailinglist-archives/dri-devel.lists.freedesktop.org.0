@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3570349CECB
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 16:43:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFA949CED3
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 16:45:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46AB210E184;
-	Wed, 26 Jan 2022 15:43:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCCDB10E171;
+	Wed, 26 Jan 2022 15:45:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
- [IPv6:2607:f8b0:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ECD910E184
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 15:43:02 +0000 (UTC)
-Received: by mail-il1-x136.google.com with SMTP id s1so4959821ilj.7
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 07:43:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yAKLAxMEs2s6OrJ3pa4cx9PTkR+o5F/ZiccP0DlaJjY=;
- b=U3rXYwAr7EUCDTiIcY4gOCab99RYN1iHfQmfjJicIYZksZtQmg/cChGiZ8WtTbEYMN
- kFoan3HFEAaZI7XDJRVeB9sQwohId0ITWtX9z9laolWmpOE0khd2vvSYZAbtD8Hf/Kjt
- +1p6Q8Y0CvOUr5jcV3Bd1P5fseAkngVdrooBE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yAKLAxMEs2s6OrJ3pa4cx9PTkR+o5F/ZiccP0DlaJjY=;
- b=kKGnvLgbVIEc31Q8NwdAIR32SW3Tj+6fkrfyAbJ78y2U6VSmQS+ZOt9CLf97+esGw6
- 5By2YkGZptdvGaGRC+k4utTn1EBdtQHIUAVk40JpqMccnlK8WqOFX2/1QW2dzVn7EUbQ
- qE16nu7VnhV8SAkQMJJ+9AbmHUf8FChLAvSKEctMmJAabf4kaG4OdbHdmpV2uF3t1r0M
- lV7yuUmlt2ZsneR7iBlBEF43MOgj+ctKTReOHmiWfOD4tVBFWX4tyWBTIuUq/ne90LNy
- Laaj/vFfhwrN8YhEmmavqCWuQxvw4OAwFmdfycSrGDQKTLgekwd/YTDWE544RHvUjKMg
- FB8A==
-X-Gm-Message-State: AOAM531QkJqUlVriI3DxLcovsw/lxYcbHICZznNSEXW5z72Jqnlukolj
- bhr7EZwd6JvhgEo/MkZ4h1L0QE/wUA7YtA==
-X-Google-Smtp-Source: ABdhPJwkuknkABno7AAsooYEiTzDLdTT41EDZyDHKDKKF2LVsOBKF/BAZwEvvy0J5NSgFYT5CbZOzg==
-X-Received: by 2002:a92:ab05:: with SMTP id v5mr15241407ilh.199.1643211781549; 
- Wed, 26 Jan 2022 07:43:01 -0800 (PST)
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com.
- [209.85.166.54])
- by smtp.gmail.com with ESMTPSA id a10sm11769581ilv.44.2022.01.26.07.43.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jan 2022 07:43:00 -0800 (PST)
-Received: by mail-io1-f54.google.com with SMTP id h7so16098iof.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 07:43:00 -0800 (PST)
-X-Received: by 2002:a05:6638:ec8:: with SMTP id
- q8mr8000709jas.44.1643211779964; 
- Wed, 26 Jan 2022 07:42:59 -0800 (PST)
+Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
+ [213.80.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F79B10E171;
+ Wed, 26 Jan 2022 15:45:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 0D4B83F606;
+ Wed, 26 Jan 2022 16:45:35 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: ste-pvt-msa1.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pkcjr9YNR3c6; Wed, 26 Jan 2022 16:45:33 +0100 (CET)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id B2F6E3F480;
+ Wed, 26 Jan 2022 16:45:31 +0100 (CET)
+Received: from [192.168.0.209] (unknown [192.55.55.54])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 855513626AA;
+ Wed, 26 Jan 2022 16:45:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1643211931; bh=OAVs3hYBXF9umhJz4d5fI5nR0JlCGZSrkHnQDPk4XIE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Uri7ihhQXMgDT8l7FQq3wMoLcvY8yvVWeSjh7sIYdW5/I5XXmYPXSvdSQklJJgmP+
+ BHRIjKzxohhl/4jMv86ba+YRbmzWzmllpGG0zG3GKmLP10UDBXUyLsC2UFeW2Fm/xI
+ WsOi19IAAFEtUE88Fegq268OdrazKWPfE8EKO34g=
+Message-ID: <9f011e69-2d6d-d6a1-db78-d4a061b4ef2c@shipmail.org>
+Date: Wed, 26 Jan 2022 16:45:22 +0100
 MIME-Version: 1.0
-References: <20220126145549.617165-1-s.hauer@pengutronix.de>
- <20220126145549.617165-10-s.hauer@pengutronix.de>
-In-Reply-To: <20220126145549.617165-10-s.hauer@pengutronix.de>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 26 Jan 2022 07:42:48 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VCWW4c3iqfzezU5=KKVFNP+EhPGTBZ7uZdQ=bSCJHQVA@mail.gmail.com>
-Message-ID: <CAD=FV=VCWW4c3iqfzezU5=KKVFNP+EhPGTBZ7uZdQ=bSCJHQVA@mail.gmail.com>
-Subject: Re: [PATCH 09/27] drm/rockchip: dw_hdmi: Set cur_ctr to 0 always
-To: Sascha Hauer <s.hauer@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [Intel-gfx] [PATCH v5 2/5] drm/i915: enforce min GTT alignment
+ for discrete cards
+Content-Language: en-US
+To: Robert Beckett <bob.beckett@collabora.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220125193530.3272386-1-bob.beckett@collabora.com>
+ <20220125193530.3272386-3-bob.beckett@collabora.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <20220125193530.3272386-3-bob.beckett@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,72 +72,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sascha Hauer <kernel@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, Yakir Yang <ykk@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Wed, Jan 26, 2022 at 6:58 AM Sascha Hauer <s.hauer@pengutronix.de> wrote:
+On 1/25/22 20:35, Robert Beckett wrote:
+> From: Matthew Auld <matthew.auld@intel.com>
 >
-> From: Douglas Anderson <dianders@chromium.org>
+> For local-memory objects we need to align the GTT addresses
+> to 64K, both for the ppgtt and ggtt.
 >
-> Jitter was improved by lowering the MPLL bandwidth to account for high
-> frequency noise in the rk3288 PLL.  In each case MPLL bandwidth was
-> lowered only enough to get us a comfortable margin.  We believe that
-> lowering the bandwidth like this is safe given sufficient testing.
+> We need to support vm->min_alignment > 4K, depending
+> on the vm itself and the type of object we are inserting.
+> With this in mind update the GTT selftests to take this
+> into account.
 >
-> Changes since v3:
-> - new patch
+> For compact-pt we further align and pad lmem object GTT addresses
+> to 2MB to ensure PDEs contain consistent page sizes as
+> required by the HW.
 >
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Yakir Yang <ykk@rock-chips.com>
-> (am from https://patchwork.kernel.org/patch/9223301/)
-
-Probably remove the "am from" line? It's not standard in upstream and
-that link doesn't seem to go anywhere anymore...
-
-
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> v3:
+> 	* use needs_compact_pt flag to discriminate between
+> 	  64K and 64K with compact-pt
+> 	* add i915_vm_obj_min_alignment
+> 	* use i915_vm_obj_min_alignment to round up vma reservation
+> 	  if compact-pt instead of hard coding
+> v5:
+> 	* fix i915_vm_obj_min_alignment for internal objects which
+> 	  have no memory region
+>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
 > ---
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 16 ++--------------
->  1 file changed, 2 insertions(+), 14 deletions(-)
+>   .../i915/gem/selftests/i915_gem_client_blt.c  | 23 +++--
+>   drivers/gpu/drm/i915/gt/intel_gtt.c           | 12 +++
+>   drivers/gpu/drm/i915/gt/intel_gtt.h           | 18 ++++
+>   drivers/gpu/drm/i915/i915_vma.c               |  9 ++
+>   drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 96 ++++++++++++-------
+>   5 files changed, 117 insertions(+), 41 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> index c44eb4d2e2d5..77f82a4fd027 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> @@ -176,20 +176,8 @@ static const struct dw_hdmi_mpll_config rockchip_mpll_cfg[] = {
->  static const struct dw_hdmi_curr_ctrl rockchip_cur_ctr[] = {
->         /*      pixelclk    bpp8    bpp10   bpp12 */
->         {
-> -               40000000,  { 0x0018, 0x0018, 0x0018 },
-> -       }, {
-> -               65000000,  { 0x0028, 0x0028, 0x0028 },
-> -       }, {
-> -               66000000,  { 0x0038, 0x0038, 0x0038 },
-> -       }, {
-> -               74250000,  { 0x0028, 0x0038, 0x0038 },
-> -       }, {
-> -               83500000,  { 0x0028, 0x0038, 0x0038 },
-> -       }, {
-> -               146250000, { 0x0038, 0x0038, 0x0038 },
-> -       }, {
-> -               148500000, { 0x0000, 0x0038, 0x0038 },
-> -       }, {
-> +               600000000, { 0x0000, 0x0000, 0x0000 },
-> +       },  {
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
+> index c8ff8bf0986d..f0bfce53258f 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
+> @@ -39,6 +39,7 @@ struct tiled_blits {
+>   	struct blit_buffer scratch;
+>   	struct i915_vma *batch;
+>   	u64 hole;
+> +	u64 align;
+>   	u32 width;
+>   	u32 height;
+>   };
+> @@ -410,14 +411,21 @@ tiled_blits_create(struct intel_engine_cs *engine, struct rnd_state *prng)
+>   		goto err_free;
+>   	}
+>   
+> -	hole_size = 2 * PAGE_ALIGN(WIDTH * HEIGHT * 4);
+> +	t->align = I915_GTT_PAGE_SIZE_2M; /* XXX worst case, derive from vm! */
+> +	t->align = max(t->align,
+> +		       i915_vm_min_alignment(t->ce->vm, INTEL_MEMORY_LOCAL));
+> +	t->align = max(t->align,
+> +		       i915_vm_min_alignment(t->ce->vm, INTEL_MEMORY_SYSTEM));
 
-This is what we did for rk3288. I can't personally vouch for the
-effects on other SoCs.
+Don't we always end up with 2M here, regardless of the vm restrictions?
 
--Doug
+
