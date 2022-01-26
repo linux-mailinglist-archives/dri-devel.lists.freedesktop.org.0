@@ -1,123 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87BF149CC72
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:36:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 555B449CC8B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:42:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98F6C10E490;
-	Wed, 26 Jan 2022 14:36:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4A5110E5B6;
+	Wed, 26 Jan 2022 14:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2085.outbound.protection.outlook.com [40.107.92.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1E310E322;
- Wed, 26 Jan 2022 14:36:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KCA13Z8FYLgaLvHLDJc+gZ57BjIgTmPzenl7EJ9y+VKtaiDWtucYIjjwC37fNilLhw84V2s4oL5sO0R2CyrZu5FzLUE1LUbP/NVyUwBgIMgCHcv8qeGo3Zp+9ku5XGaxmz7QXKAiR9C9IZNXUeFCWLtFvkxZVnDPB1upIc0pSbj0ynKTfxqwWF7RLCYNFkSpSQWmjAIHKc8fXwYQlI5eAoxoFW8SAPRDj7eRZjqM881iSM1UX8SgrvaI77+aeqnGoBG2/ZCpDrOe/ZYDVuRP/jPmU4ZrzEFSq7cNZcjbaM9eDDV5jhcwfE29V1PRypfP576jh4DKyL6NQ/e4abv3kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rroqk15qS0UHYcunOAdvKXc2JT2slnormnLDOeBEdiQ=;
- b=iLMOkptiDAboPjxGPRcUl/dsm6zhToznCi6cAEC5HYNMCm+Vuk0QtlfZ9JOGfCG6WsOrr77YsKSBEXMgmFAezmrIoDNf33IE7rv4XJAEfurixeYJPI+z01Z9ZLAyEaWufT734vqfMkHxYygMCEmmHscoJw7PFMo6lnVWGgeJkwLkUq3MqpsJX83ixQz5vOntBpm0yOBd0IOed2/NBLb4jQPJ5hSQBlHuynPBvrCH0WWi4pYwSWzJNCgyofn7oV8Tjkno16Xw9MbD8U6jTmiMMTm1oj5PG3bpCVyYtnqTajsrw+ELWzGNLJucLYdhOfAJSoEOkJ3H174nR/Ht8/lcFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rroqk15qS0UHYcunOAdvKXc2JT2slnormnLDOeBEdiQ=;
- b=N56n94oUCoXb1jmKT0vEO9ILVnxStFhm5j/HHA4W4GF4CPr4/qUFcGt5O2lcnsDnP92RSGY0DRjIqePEOg2bolLLEhYTUVees7n3tFpCZuJzuLyRNFtkI9iLXgwFQEfeLn0ITTgaqLr5vwmWPNzAosRfAwJNx5XecFaEHqnU/B4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by BYAPR12MB4709.namprd12.prod.outlook.com (2603:10b6:a03:98::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.12; Wed, 26 Jan
- 2022 14:36:08 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::dd4b:b67b:1688:b52]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::dd4b:b67b:1688:b52%9]) with mapi id 15.20.4930.017; Wed, 26 Jan 2022
- 14:36:07 +0000
-Message-ID: <a0d2a954-45ea-9b51-678d-0e501d7e2bdd@amd.com>
-Date: Wed, 26 Jan 2022 09:35:59 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A105910E5B6
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 14:42:24 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id u15so26194791wrt.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 06:42:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=jcLVaC3VPjo3uCEBy871vUEdLPGx+AdjTedEYJrQ4A4=;
+ b=ZHhVStGI06nuOrarrKXNN4yGHUpUhBVN1XDSJkxmZ9Q/33dVFVSmidl+ikbSNvyzJG
+ mWYIPwN+A8fFiHGzoTEI9o6BdaSA7NJsTGyC75ZDet+t6DfsRYI24d4a5ZEd3UgCwvl4
+ NYLNhjFFy3RXvEiu2KuCQPr/obgC52v/4LLONxjtCcNAs2RFk9mj+o58YlyQehsJRCrl
+ +HF4NMILkxpD1GoJzN3BuprtQDKVejO3RoZe8F3WzmPY6EeU5oUg4ZWB19VDJY8/Nhm9
+ uOmfAUscLPZoJXpTBb5BubD8RcUVZbaCXpNUSs0IPIibLPlzc9+xn4bG4GZK7jlj9gfR
+ LPAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jcLVaC3VPjo3uCEBy871vUEdLPGx+AdjTedEYJrQ4A4=;
+ b=5/3DRG/BKp4F6LICYAer71XCKF5SvJeOl1q03zqnJq1njcH+XzA8iJnGmfoIKRNWHf
+ lOg+TgIr4MTIi6/u8rPl3+ZzDWhpecoOV/0Gsa8OUaRhHiFIhidIIH6yfPBnzMb22n5K
+ L9hIRKBOFCQTEydWpxI1A8Rhn1rqVZwH6z4cDLUI/V4F8oe0YM26wE4KWpUboCgKs4qv
+ vnY8euTh6tvnOSTDH03CE9g6alVb+qTjv9I7UQIDCsSpZifKY0lJBpN5lXBBeyV6fG4/
+ fM7FqxGyljEt9sU2GpEB7YLPebJMSfOEPT5pMHAonISN5AvKKcVQAOA5LtdryybtcHOo
+ JN0Q==
+X-Gm-Message-State: AOAM530dw+ABFcLqk8X2fiAmMTEX8Of0YCJSAeB3tl6G5fvxWR6hRDnU
+ eC7AmAM1Rf18enwbS44HabVML3WbJRM=
+X-Google-Smtp-Source: ABdhPJxppRqf1X+OPd/Wz5i41bmofTgZQ1Wy+99FxGezjRNf/1icyz2B00BYbZIT1v7zL9SctoeB2Q==
+X-Received: by 2002:a05:6000:188f:: with SMTP id
+ a15mr6197118wri.16.1643208143103; 
+ Wed, 26 Jan 2022 06:42:23 -0800 (PST)
+Received: from ?IPV6:2a02:908:1252:fb60:6cbd:23a3:7abe:f6e2?
+ ([2a02:908:1252:fb60:6cbd:23a3:7abe:f6e2])
+ by smtp.gmail.com with ESMTPSA id h8sm3734443wmq.26.2022.01.26.06.42.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jan 2022 06:42:22 -0800 (PST)
+Message-ID: <dceed78e-8693-4480-c732-1498c7eed24f@gmail.com>
+Date: Wed, 26 Jan 2022 15:42:21 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 07/11] drm/amd/display: Use str_yes_no()
+Subject: Re: [PATCH 04/12] drm/ttm: add common accounting to the resource mgr
+ v2
 Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-security-module@vger.kernel.org,
- nouveau@lists.freedesktop.org, netdev@vger.kernel.org
-References: <20220126093951.1470898-1-lucas.demarchi@intel.com>
- <20220126093951.1470898-8-lucas.demarchi@intel.com>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20220126093951.1470898-8-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT3PR01CA0117.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:85::35) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4e80176b-7ab1-40c9-68b7-08d9e0d93059
-X-MS-TrafficTypeDiagnostic: BYAPR12MB4709:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB4709516AD1B219AA681FCEB88C209@BYAPR12MB4709.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:612;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iLrZlAlk/lf2aVe+T5P07EojtUQkZgn1kJQIoP6CohrDRyNwjjwAEdB0MwGBEVNTYqHzaG8s5EECXa3n4wuaH8hAinS+icN3stSPbjgZ0/e3qXe82A/iJJAnPl9EehSYlvQDW9phKLWISbEiNYg8DcKfYA+iuK2zx20ecGH+H8IBd4SgtvshLSHhOF72J/LefxyvB6bBFF3aKt+fLSU9bkpdtV9T83HCZiTDKqgyamPtlyUMT8ZwjIDluKWdUacTFUsyyKDSm2iXbWC6DRiz4ZpTz6u0rsujucSqOhSw40xkrY53rl1M66MxZa+b4iH/a+Sa3XsPVPXMyfYYg+MzZmqeZVQ/TAZ9sDjEi+UI/VOtnRNuavJlkEKECd6eul+MqhjItndSeD+DEyOK21LSIn4nfpQ05H1rDMcqPDMvP8puGUD/sE/6cS+udz7Q7bPXsKaMJrZ49wNZHy1jP400PB+29gsGnPYF5sDhDxcJx8F9Vxp08pmrPRdhBikexm+CVTi/k/iqHwD8w0kbp7ioBEOjFbON4didMcP+neyNt4a5yOvffcEQzF1E9OCPI9dZMJCGc4SfJFCRe/SRHZik1yGdVph54q2ACT7uk4QBPXwz8bJKHob16mFq8+o/T3J5JoILtvZP7iUMm94j3cOSeir6aYFrOM2DTP0eUEjavQRIlYiVcg/XCHM7nGoUDPNjyQuYkIE8vMgUMXe9ni0DsoQLEwlOs6qxxtCRjzHQbUU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(7406005)(38100700002)(186003)(26005)(6666004)(8936002)(316002)(6506007)(54906003)(53546011)(86362001)(2906002)(31696002)(8676002)(44832011)(66476007)(508600001)(66556008)(83380400001)(4326008)(7416002)(5660300002)(36756003)(6486002)(66946007)(2616005)(6512007)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWRNUTBwNFdOTU4xRk00cXROSHp4aThiekZYWEZpaUxuR0QxekxzczNpbWVL?=
- =?utf-8?B?Z1Jrd29aUC93Y1hwenpReDkvQXV2NnI5cDJPTEpsT1BDS3dOanluUTA0ODZt?=
- =?utf-8?B?S1hBYkdRVW9NRDRLek5WVjhUTXpDZ1IvZTJ6Mzk4YUdmdWFzM09YTWZlT0hK?=
- =?utf-8?B?bDZsc1QxL1VBc3BKZ0p5ZzAwcysxdXpmclRxSXoweDB4ZmtCRUdScy91em8v?=
- =?utf-8?B?Y2luNnFSREt4M0VmRHpBUjRHekZIWUpsWEgrT3dnY00rTENXNDJBMDl3UmZ5?=
- =?utf-8?B?dElxK3dkd1d4R0xSSlp4ZldxckxMSUVEUE1BQnBDUkltUkIrRTc0ejdBUDNW?=
- =?utf-8?B?dFhXQVRSM29yWDk5Qm1HVXI5UUtuWFIyNk0reDlPd2pZN20zTnI1N1BNOFlG?=
- =?utf-8?B?Qm9qTzlqTy82dVJwQ1FGaVBrekw1MzY4VFdJY2c0bGVVUzhpK3JZTDl6M3Y4?=
- =?utf-8?B?U2dkQS83ZmphMW5vVnVJeFA3RTRtR0xuZ2RtVWdTL25hN2FrUDNFbUVCVllq?=
- =?utf-8?B?akhtdjhrYU41S3dPeVF4ckJkRXY0bHYwdlgxTnh5cXNnTmxTZ0szTEhZdWNh?=
- =?utf-8?B?ckF0OG0vNkxETWk4QnpTRy9uZElNYUhjOEI5dzNhVXpmTWVGUFhqNHc4bkVh?=
- =?utf-8?B?bXdJVU5SRVowN3RxTVpNYTJMZ0syRkE4ZDQyZk5SWG1seUpiSEFKQ0tnS0RB?=
- =?utf-8?B?azB4RzRMUktkT2kxMm05NC80SWhyRFdJWU5qaE5RTHpEcHVwK3U5ejFoQXR1?=
- =?utf-8?B?c3NqL1ZkZW5IZFlteUQvZEN0T1pwOURQNVVTdkp6bU95OVJXMFRWU3lrNG45?=
- =?utf-8?B?WUV2SkZyQW1mUzRNVCtWTDV0d1Jsd05YajJ2QWdvZEcxek1QTElzRTl6SkNK?=
- =?utf-8?B?d0ZDL2VIdmtSMjhxYjZUSXJzTXhHRUhmRDNTVGJrcE9URE15QTlibXBwL1VM?=
- =?utf-8?B?WVF2eGh0Z1BTL1dLTmVwTDhEai9jTVdPSE80VDhJZHJaa3ZDSFpKUGZSQi9B?=
- =?utf-8?B?Uko3SVFHa2JyKzBoR3ZoNkN3dU5DazlMdFFldTZ6TERaZ0xxdlc1SkFJVkNr?=
- =?utf-8?B?V0w0L2crRS9pV0JlNlZVVUhxWkFRdDZOaWEwZUVPd3BGcUg4T1ZLMmp2Z0tm?=
- =?utf-8?B?QWhWMG1aYnNsOFR5bE9Zd2tMM05Xcmo0M2FSdG1TeHZ4Mmt6MmlyOHhOdzRJ?=
- =?utf-8?B?WThScUpVTDhCdnh2UG1ub2dvR1Q2Mi9xVyt0L2lLQUwwVlVoNjA1Wnl2N0pH?=
- =?utf-8?B?Nk5QZXFxVTBqOVdkc1BiZER0ckNaQTkrOEg4bC9LT3NQRnVDSSt3aVBvVWpQ?=
- =?utf-8?B?RjVQaGdnVVBhS3FyTERUZDl4cEQrdzNvSTlLWmpIMDJXbnFBSlNDS0k3Mks4?=
- =?utf-8?B?V2pDWmlITGFtbTZ4TFppdUZHTFBFZ3U5dklsSlpNc0xUUTgxYUZGU3JScVVH?=
- =?utf-8?B?SlpIbDQ1MG44SjlzYTYxZEpHR1Y1VmVKNUZoaXFqbkxmQTdoL1g0bEVTUkNr?=
- =?utf-8?B?Uzk2RDZraXVyV0VJNXppbnQ1ZVVTRjVDSmx0aEw3Wjhib1ErdFcwN3hRMzRJ?=
- =?utf-8?B?RWEyUzFPZmNpZm90Z084eDlaeDJBcmswTUtZUTlmVDEvcTA1WDdvYWc4RlRo?=
- =?utf-8?B?TkhxZjJzUVUzVTR6d2dJTjVuQWtEOXI1WHFiSTNyOFgzeGNzWWdxMnhWcFlu?=
- =?utf-8?B?UDlST1VDbnVDOUh2QVVVaU5JMENBSjl6S0I3b0p5TEtHY2MweVFKS0l5RStZ?=
- =?utf-8?B?Z01IZnAzYkN2WVJ6bG1Qa1FoUnRkWDlYRk4zMzlPMG55R29DQUl2VEVyMEFt?=
- =?utf-8?B?RlIyWC9KOG83Z1ljN3lIVm5RZUpaUFIxZXJVUGhqWXM2YmE2a1RTUGZ3Rnc5?=
- =?utf-8?B?Vzlmd1ZXaHc2TmphSmVFdWtUblE0NUpwUkxCZ1pzK2Qvell3KzBBOVVqQWNz?=
- =?utf-8?B?K0x6aUtHME8wbE44Q0UyM2RVcFVaaFIwMHFEanlXV1hab2RiNVp6alBsenNI?=
- =?utf-8?B?bEt1bTQxb3hxTVFRb0k1NG9BNkZ6S2J4dzgrYk9XQjg1ZDZMSWtBeUQyeWFw?=
- =?utf-8?B?b29HOU9Nd3BTUEVwZmxwQTlNamZteWtYTE80QXNveXJEQXJOWGFVcUtGWXAy?=
- =?utf-8?B?TEM4V0piVUtES0pYOEkxWlVMeW1TVHR5KzJPOHIvWm5PejFJaDNXUzJHWXBh?=
- =?utf-8?Q?dEtvXorhJXR7hgKLBT6avCY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e80176b-7ab1-40c9-68b7-08d9e0d93059
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2022 14:36:07.6607 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AL2DQBVlQw8soauM8w3I6BFgcgUz+ev1Obsu+XhIu9qzd7pIzmTj+EgbNhovxSg4nNUf/Ye/GJgr5QVaES3Xrw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB4709
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20220124122514.1832-1-christian.koenig@amd.com>
+ <20220124122514.1832-5-christian.koenig@amd.com>
+ <YfAnUIRhBwj7WOJE@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <YfAnUIRhBwj7WOJE@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,89 +76,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Chris Wilson <chris@chris-wilson.co.uk>, Vishal Kulkarni <vishal@chelsio.com>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
- Jakub Kicinski <kuba@kernel.org>, Petr Mladek <pmladek@suse.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Leo Li <sunpeng.li@amd.com>,
- Julia Lawall <julia.lawall@lip6.fr>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Steven Rostedt <rostedt@goodmis.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Raju Rangoju <rajur@chelsio.com>, Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: thomas.hellstrom@linux.intel.com, ray.huang@amd.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-01-26 04:39, Lucas De Marchi wrote:
-> Remove the local yesno() implementation and adopt the str_yes_no() from
-> linux/string_helpers.h.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Am 25.01.22 um 17:37 schrieb Daniel Vetter:
+> On Mon, Jan 24, 2022 at 01:25:06PM +0100, Christian König wrote:
+>> It makes sense to have this in the common manager for debugging and
+>> accounting of how much resources are used.
+>>
+>> v2: cleanup kerneldoc a bit
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> Reviewed-by: Huang Rui <ray.huang@amd.com>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_resource.c |  8 ++++++++
+>>   include/drm/ttm/ttm_resource.h     | 20 +++++++++++++++++++-
+>>   2 files changed, 27 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+>> index 7fdd58b53c61..b8362492980d 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+>> @@ -33,6 +33,8 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>>                          const struct ttm_place *place,
+>>                          struct ttm_resource *res)
+>>   {
+>> +	struct ttm_resource_manager *man;
+>> +
+>>   	res->start = 0;
+>>   	res->num_pages = PFN_UP(bo->base.size);
+>>   	res->mem_type = place->mem_type;
+>> @@ -42,12 +44,16 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>>   	res->bus.is_iomem = false;
+>>   	res->bus.caching = ttm_cached;
+>>   	res->bo = bo;
+>> +
+>> +	man = ttm_manager_type(bo->bdev, place->mem_type);
+>> +	atomic64_add(bo->base.size, &man->usage);
+> Doing this with atomics doesn't make a lot of sense to me. Yes with the
+> current organization it's the only thing to do in drivers, but if we move
+> this into ttm there's no reason we can track this together with the lru,
+> consistently with the lru, and under the same spinlock like the lru.
+>
+> And at least spot-checking a few places the very next thing we generally
+> do is take the lru lock since there's really no other way to get the
+> resource into or out of the resource manager.
+>
+> I think doing atomics for statistics when there's no need is not great,
+> because then people start using atomics for all kinds of other things, and
+> then get the barriers wrong. In i915 (simply due to the grotesque amount
+> of buggy overuse of atomics, both atomic_t and atomic bitfields) we've put
+> a hard block in place for any atomic addition. So that's why I'm a bit on
+> a crusade, but I also genuinely don't see why we need them here. All they
+> do is cost more since we have to take the spinlock anyway, the accounting
+> is just going to be a slight different (and imo more accurate) place.
+>
+> Thoughts?
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Well it depends. We have two use cases for those statistics:
+1. Early abort when there isn't enough free resources.
+2. Debugging
 
-Harry
+For the debugging it's completely irrelevant if we grab the lock or not, 
+but for the early abort I'm not that sure.
 
-> ---
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  | 14 +++++---------
->  1 file changed, 5 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> index 26719efa5396..5ff1076b9130 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> @@ -23,6 +23,7 @@
->   *
->   */
->  
-> +#include <linux/string_helpers.h>
->  #include <linux/uaccess.h>
->  
->  #include "dc.h"
-> @@ -49,11 +50,6 @@ struct dmub_debugfs_trace_entry {
->  	uint32_t param1;
->  };
->  
-> -static inline const char *yesno(bool v)
-> -{
-> -	return v ? "yes" : "no";
-> -}
-> -
->  /* parse_write_buffer_into_params - Helper function to parse debugfs write buffer into an array
->   *
->   * Function takes in attributes passed to debugfs write entry
-> @@ -853,12 +849,12 @@ static int psr_capability_show(struct seq_file *m, void *data)
->  	if (!(link->connector_signal & SIGNAL_TYPE_EDP))
->  		return -ENODEV;
->  
-> -	seq_printf(m, "Sink support: %s", yesno(link->dpcd_caps.psr_caps.psr_version != 0));
-> +	seq_printf(m, "Sink support: %s", str_yes_no(link->dpcd_caps.psr_caps.psr_version != 0));
->  	if (link->dpcd_caps.psr_caps.psr_version)
->  		seq_printf(m, " [0x%02x]", link->dpcd_caps.psr_caps.psr_version);
->  	seq_puts(m, "\n");
->  
-> -	seq_printf(m, "Driver support: %s", yesno(link->psr_settings.psr_feature_enabled));
-> +	seq_printf(m, "Driver support: %s", str_yes_no(link->psr_settings.psr_feature_enabled));
->  	if (link->psr_settings.psr_version)
->  		seq_printf(m, " [0x%02x]", link->psr_settings.psr_version);
->  	seq_puts(m, "\n");
-> @@ -1207,8 +1203,8 @@ static int dp_dsc_fec_support_show(struct seq_file *m, void *data)
->  	drm_modeset_drop_locks(&ctx);
->  	drm_modeset_acquire_fini(&ctx);
->  
-> -	seq_printf(m, "FEC_Sink_Support: %s\n", yesno(is_fec_supported));
-> -	seq_printf(m, "DSC_Sink_Support: %s\n", yesno(is_dsc_supported));
-> +	seq_printf(m, "FEC_Sink_Support: %s\n", str_yes_no(is_fec_supported));
-> +	seq_printf(m, "DSC_Sink_Support: %s\n", str_yes_no(is_dsc_supported));
->  
->  	return ret;
->  }
+Anyway I will just put that under the lock instead for now, if we really 
+find that it is contended we could still switch back to an atomic.
+
+Regards,
+Christian.
+
+>
+> Cheers, Daniel
+>
+>>   }
+>>   EXPORT_SYMBOL(ttm_resource_init);
+>>   
+>>   void ttm_resource_fini(struct ttm_resource_manager *man,
+>>   		       struct ttm_resource *res)
+>>   {
+>> +	atomic64_sub(res->bo->base.size, &man->usage);
+>>   }
+>>   EXPORT_SYMBOL(ttm_resource_fini);
+>>   
+>> @@ -149,6 +155,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
+>>   	spin_lock_init(&man->move_lock);
+>>   	man->bdev = bdev;
+>>   	man->size = p_size;
+>> +	atomic64_set(&man->usage, 0);
+>>   
+>>   	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+>>   		INIT_LIST_HEAD(&man->lru[i]);
+>> @@ -221,6 +228,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+>>   	drm_printf(p, "  use_type: %d\n", man->use_type);
+>>   	drm_printf(p, "  use_tt: %d\n", man->use_tt);
+>>   	drm_printf(p, "  size: %llu\n", man->size);
+>> +	drm_printf(p, "  usage: %llu\n", atomic64_read(&man->usage));
+>>   	if (man->func->debug)
+>>   		man->func->debug(man, p);
+>>   }
+>> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+>> index 69eea9d6399b..3d391279b33f 100644
+>> --- a/include/drm/ttm/ttm_resource.h
+>> +++ b/include/drm/ttm/ttm_resource.h
+>> @@ -27,6 +27,7 @@
+>>   
+>>   #include <linux/types.h>
+>>   #include <linux/mutex.h>
+>> +#include <linux/atomic.h>
+>>   #include <linux/dma-buf-map.h>
+>>   #include <linux/dma-fence.h>
+>>   #include <drm/drm_print.h>
+>> @@ -132,8 +133,12 @@ struct ttm_resource_manager {
+>>   	/*
+>>   	 * Protected by the global->lru_lock.
+>>   	 */
+>> -
+>>   	struct list_head lru[TTM_MAX_BO_PRIORITY];
+>> +
+>> +	/**
+>> +	 * @usage: How much of the region is used, has its own protection.
+>> +	 */
+>> +	atomic64_t usage;
+>>   };
+>>   
+>>   /**
+>> @@ -261,6 +266,19 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+>>   	man->move = NULL;
+>>   }
+>>   
+>> +/**
+>> + * ttm_resource_manager_usage
+>> + *
+>> + * @man: A memory manager object.
+>> + *
+>> + * Return how many resources are currently used.
+>> + */
+>> +static inline uint64_t
+>> +ttm_resource_manager_usage(struct ttm_resource_manager *man)
+>> +{
+>> +	return atomic64_read(&man->usage);
+>> +}
+>> +
+>>   void ttm_resource_init(struct ttm_buffer_object *bo,
+>>                          const struct ttm_place *place,
+>>                          struct ttm_resource *res);
+>> -- 
+>> 2.25.1
+>>
 
