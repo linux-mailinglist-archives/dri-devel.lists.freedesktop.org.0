@@ -2,61 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B40649C64E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 10:29:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C3749C676
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 10:40:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C41A110E7D6;
-	Wed, 26 Jan 2022 09:29:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2DEB10E7CF;
+	Wed, 26 Jan 2022 09:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4404410E7D6
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 09:29:34 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DB78A1F393;
- Wed, 26 Jan 2022 09:29:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643189372; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oZeU4OrDXuPpSxtI7HLA+OunMYbAnExjCYvzbfGyI9A=;
- b=nwCEBLV7SBb+1/YM7ET3uARAMDPK2VqhoReR+Q2qNjUjaiR73zQ3laM7mJFBg30iO5+sdv
- DKtPxHz/z3b5fsIThuAIgbHv6vpMgPBa0XidtmIfZzPHhuiwFh5ZUA8PZdpGY+BlC7RaG/
- oRa6rzKTBaHbaehj7Wt/MQQb3nCbEuU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643189372;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oZeU4OrDXuPpSxtI7HLA+OunMYbAnExjCYvzbfGyI9A=;
- b=KLldP9fR7tYXLTcD0pNgsCdYea+FH5WPRk9U6U0XgKCOnAK1Y/TjFXo8jzYqnBio2s45Tp
- agTXta0hiHRt0+Aw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B82AD13B2B;
- Wed, 26 Jan 2022 09:29:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id jC7lK3wU8WGfSgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 26 Jan 2022 09:29:32 +0000
-Message-ID: <d27bfd8a-a6af-475b-72f7-0ef8b770c82e@suse.de>
-Date: Wed, 26 Jan 2022 10:29:32 +0100
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6275010E7D8;
+ Wed, 26 Jan 2022 09:39:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643189970; x=1674725970;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ZbI2cuArWWdUB2fC+oAVhsfmcYeXYC2uQgZrAJN4GB4=;
+ b=GLIqyRFEIxT1aoRhdHUsHxJ+0XKCS0nhEfogfzowNTv5VwguGJK8UTSv
+ 7ePIOUZGN7hMwH4E7t2j2qBgaaQCU85iSun8NU9zoc06roYMTAEZjl0s2
+ Us7skCUJ5iKOALTy6AXCTBSWPDOIybHceczOZm8MtrcHQg+uycPlHusWB
+ mmA1FE0p/asGJoHPDQxlwPTvkT6UZzVlbmG/1jRD9aPBetNsq2IP7TGJh
+ dYIbfMg18erxA4hVHSuVIphDmlOdAndxp4D1CAzEB868zaHbSaN9PLJd/
+ 8GB8YrwiOhzTllag2mvefhXQ74+lRyL7GrWs26DL2aAUIsDLdOo/mX/wA A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="227188776"
+X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; d="scan'208";a="227188776"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 01:39:29 -0800
+X-IronPort-AV: E=Sophos;i="5.88,317,1635231600"; d="scan'208";a="477433076"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 01:39:29 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-security-module@vger.kernel.org, nouveau@lists.freedesktop.org,
+ netdev@vger.kernel.org
+Subject: [PATCH v2 00/11] lib/string_helpers: Add a few string helpers
+Date: Wed, 26 Jan 2022 01:39:40 -0800
+Message-Id: <20220126093951.1470898-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] Revert "drm/ast: Support 1600x900 with 108MHz PCLK"
-Content-Language: en-US
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20220120040527.552068-1-airlied@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220120040527.552068-1-airlied@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------TL7NtcBuGYR4t9X8nX9stV8C"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,73 +57,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Vishal Kulkarni <vishal@chelsio.com>,
+ Francis Laniel <laniel_francis@privacyrequired.com>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Jakub Kicinski <kuba@kernel.org>, Petr Mladek <pmladek@suse.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Leo Li <sunpeng.li@amd.com>,
+ Julia Lawall <julia.lawall@lip6.fr>,
+ Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Raju Rangoju <rajur@chelsio.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------TL7NtcBuGYR4t9X8nX9stV8C
-Content-Type: multipart/mixed; boundary="------------F6cTYKSgs1rugL0pqgswv7iA";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Message-ID: <d27bfd8a-a6af-475b-72f7-0ef8b770c82e@suse.de>
-Subject: Re: [PATCH] Revert "drm/ast: Support 1600x900 with 108MHz PCLK"
-References: <20220120040527.552068-1-airlied@gmail.com>
-In-Reply-To: <20220120040527.552068-1-airlied@gmail.com>
+Add some helpers under lib/string_helpers.h so they can be used
+throughout the kernel. When I started doing this there were 2 other
+previous attempts I know of, not counting the iterations each of them
+had:
 
---------------F6cTYKSgs1rugL0pqgswv7iA
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+1) https://lore.kernel.org/all/20191023131308.9420-1-jani.nikula@intel.com/
+2) https://lore.kernel.org/all/20210215142137.64476-1-andriy.shevchenko@linux.intel.com/#t
 
-SGkNCg0KQW0gMjAuMDEuMjIgdW0gMDU6MDUgc2NocmllYiBEYXZlIEFpcmxpZToNCj4gRnJv
-bTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4NCj4gDQo+IFRoaXMgcmV2ZXJ0
-cyBjb21taXQgOWJiN2I2ODkyNzRiNjdlY2IzNjQxZTM5OWU3NmY4NGFkYzYyN2RmMS4NCj4g
-DQo+IFRoaXMgY2F1c2VkIGEgcmVncmVzc2lvbiByZXBvcnRlZCB0byBSZWQgSGF0Lg0KPiAN
-Cj4gRml4ZXM6IDliYjdiNjg5Mjc0YiAoImRybS9hc3Q6IFN1cHBvcnQgMTYwMHg5MDAgd2l0
-aCAxMDhNSHogUENMSyIpDQo+IFNpZ25lZC1vZmYtYnk6IERhdmUgQWlybGllIDxhaXJsaWVk
-QHJlZGhhdC5jb20+DQoNClRoYW5rcyBhIGxvdC4gTWVyZ2VkIGludG8gZHJtLW1pc2MtZml4
-ZXMuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL2FzdC9hc3RfdGFibGVzLmggfCAyIC0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIgZGVs
-ZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3Rf
-dGFibGVzLmggYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF90YWJsZXMuaA0KPiBpbmRleCBk
-OWViMzUzYTRiZjAuLmRiZTFjYzYyMGY2ZSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2FzdC9hc3RfdGFibGVzLmgNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3Rf
-dGFibGVzLmgNCj4gQEAgLTI4Miw4ICsyODIsNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGFz
-dF92Ymlvc19lbmh0YWJsZSByZXNfMTM2MHg3NjhbXSA9IHsNCj4gICB9Ow0KPiAgIA0KPiAg
-IHN0YXRpYyBjb25zdCBzdHJ1Y3QgYXN0X3ZiaW9zX2VuaHRhYmxlIHJlc18xNjAweDkwMFtd
-ID0gew0KPiAtCXsxODAwLCAxNjAwLCAyNCwgODAsIDEwMDAsICA5MDAsIDEsIDMsIFZDTEsx
-MDgsCQkvKiA2MEh6ICovDQo+IC0JIChTeW5jUFAgfCBDaGFyeDhEb3QgfCBMaW5lQ29tcGFy
-ZU9mZiB8IFdpZGVTY3JlZW5Nb2RlIHwgTmV3TW9kZUluZm8pLCA2MCwgMywgMHgzQSB9LA0K
-PiAgIAl7MTc2MCwgMTYwMCwgNDgsIDMyLCA5MjYsIDkwMCwgMywgNSwgVkNMSzk3Xzc1LAkJ
-LyogNjBIeiBDVlQgUkIgKi8NCj4gICAJIChTeW5jTlAgfCBDaGFyeDhEb3QgfCBMaW5lQ29t
-cGFyZU9mZiB8IFdpZGVTY3JlZW5Nb2RlIHwgTmV3TW9kZUluZm8gfA0KPiAgIAkgIEFTVDI1
-MDBQcmVDYXRjaENSVCksIDYwLCAxLCAweDNBIH0sDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1h
-bm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25z
-IEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55
-DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRv
-dGV2DQo=
+Now there is also the v1 of this same patch series:
+https://lore.kernel.org/all/20220119072450.2890107-1-lucas.demarchi@intel.com/
 
---------------F6cTYKSgs1rugL0pqgswv7iA--
+Going through the comments I tried to find some common ground and
+justification for what is in here, addressing some of the concerns
+raised.
 
---------------TL7NtcBuGYR4t9X8nX9stV8C
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+a. This version should be a drop-in replacement for what is currently in
+   the tree, with no change in behavior or binary size. For binary
+   size what I checked was that the linked objects in the end have the
+   same size (gcc 11). From comments in the previous attempts this seems
+   also the case for earlier compiler versions
 
------BEGIN PGP SIGNATURE-----
+b. I didn't change the function name to choice_* as suggested by Andrew
+   Morton in 20191023155619.43e0013f0c8c673a5c508c1e@linux-foundation.org
+   because other people argumented in favor of shorter names for these
+   simple helpers - if they are long and people simply not use due to
+   that, we failed. However as pointed out in v1 of this patchseries,
+   onoff(), yesno(), enabledisable(), enableddisabled() have some
+   issues: the last 2 are hard to read and for the first 2 it would not
+   be hard to have the symbol to clash with variable names.
+   From comments in v1, most people were in favor (or at least not
+   opposed) to using str_on_off(), str_yes_no(), str_enable_disable()
+   and str_enabled_disabled().
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHxFHwFAwAAAAAACgkQlh/E3EQov+A/
-wA//Wys0OqLl4zHBy2Dow+Uouden4K6nTLtySiGlixTKoSqyWHQ2wz5v+/P59WtwQ3rOYrymsJmZ
-IOSVu+Xjm0E8Z9qzqCB7QPMZmPKx0GtLMK95q3UOT8d/7YTTrfCc3mRuvXG/ZBARwXi8kAXgncUA
-xxRbhsKeb396i5+rUou1PG5N2jWrej1/iYFd0pfeAzgAM3toleOv727WOkuCeFcgYS8uTopLROSw
-S7PGfljve5yM9JRGQAfPNZT4ITmpL+hQcB0C9qPj2sdmoKfGfeNyoiIT3tLwsIDmc3z04Zxq6URH
-u+QizsVbD5xiIsWSq+fAyJvJiUkF7ig+hLDBExQx36mHRGAeBxOP4t4ktj96jPz++Lh386saVjQq
-fX77HAhtP80GB1mJMKczTQgKuafJ3JYZoNxsgJXE80043Qpkg4Xd1nORvtQmqlahkFvpvXhlZ+AV
-DbA5aFcCfCUGjrcCXotCuxwaX+F5f644x1AnfioJ10A1GlyymtTVAdJBKudrn3c8xb927k0OROLg
-QdhZy9Zxcc8RByBR++N1tYNic0dwUiTUouleD7UumwF0SIcw2BTF5FNJCjbDB5D8mx43rwaNFrBh
-skMYX+7CbUBeZCkHLj0SEIiceAe8SZgD0SHDen2C+XrBj4Ci/3LdljBuBj//Ep47QRpGYRNRl04N
-oL0=
-=4bq/
------END PGP SIGNATURE-----
+c. Use string_helper.h for these helpers - pulling string.h in the
+   compilations units was one of the concerns and I think re-using this
+   already existing header is better than creating a new string-choice.h
 
---------------TL7NtcBuGYR4t9X8nX9stV8C--
+d. One alternative to all of this suggested by Christian König
+   (43456ba7-c372-84cc-4949-dcb817188e21@amd.com) would be to add a
+   printk format. But besides the comment, he also seemed to like
+   the common function. This brought the argument from others that the
+   simple yesno()/enabledisable() already used in the code (or new
+   renamed version) is easier to remember and use than e.g. %py[DOY]
+
+
+Changes in v2:
+
+  - Use str_ prefix and separate other words with underscore: it's a
+    little bit longer, but should improve readability
+
+  - Patches we re-split due to the rename: first patch adds all the new
+    functions, then additional patches try to do one conversion at a
+    time. While doing so, there were some fixes for issues already
+    present along the way
+
+  - Style suggestions from v1 were adopted
+
+In v1 it was suggested to apply this in drm-misc. I will leave this to
+maintainers to decide: maybe it would be simpler to merge the first
+patches on drm-intel-next, wait for the back merge and merge the rest
+through drm-misc - my fear is a big conflict with other work going in
+drm-intel-next since the bulk of the rename is there.
+
+I tried to figure out acks and reviews from v1 and apply them to how the
+patches are now split.
+
+thanks
+Lucas De Marchi
+
+Lucas De Marchi (11):
+  lib/string_helpers: Consolidate string helpers implementation
+  drm/i915: Fix trailing semicolon
+  drm/i915: Use str_yes_no()
+  drm/i915: Use str_enable_disable()
+  drm/i915: Use str_enabled_disabled()
+  drm/i915: Use str_on_off()
+  drm/amd/display: Use str_yes_no()
+  drm/gem: Sort includes alphabetically
+  drm: Convert open-coded yes/no strings to yesno()
+  tomoyo: Use str_yes_no()
+  cxgb4: Use str_yes_no()
+
+ drivers/gpu/drm/amd/amdgpu/atom.c             |   4 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |  14 +-
+ drivers/gpu/drm/dp/drm_dp.c                   |   3 +-
+ drivers/gpu/drm/drm_client_modeset.c          |   3 +-
+ drivers/gpu/drm/drm_gem.c                     |  23 +-
+ drivers/gpu/drm/i915/display/g4x_dp.c         |   6 +-
+ .../gpu/drm/i915/display/intel_backlight.c    |   3 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c      |   4 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |  46 ++--
+ .../drm/i915/display/intel_display_debugfs.c  |  74 +++---
+ .../drm/i915/display/intel_display_power.c    |   4 +-
+ .../drm/i915/display/intel_display_trace.h    |   9 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |  20 +-
+ drivers/gpu/drm/i915/display/intel_dpll.c     |   3 +-
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c |   7 +-
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |   7 +-
+ drivers/gpu/drm/i915/display/intel_fbc.c      |   4 +-
+ drivers/gpu/drm/i915/display/intel_fdi.c      |   8 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |   3 +-
+ drivers/gpu/drm/i915/display/intel_sprite.c   |   6 +-
+ drivers/gpu/drm/i915/display/vlv_dsi_pll.c    |   3 +-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |   9 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c |   7 +-
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   3 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  11 +-
+ .../drm/i915/gt/intel_execlists_submission.c  |   7 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |   3 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c |  52 ++--
+ drivers/gpu/drm/i915/gt/intel_rc6.c           |   5 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         |   3 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c           |  13 +-
+ drivers/gpu/drm/i915/gt/intel_sseu.c          |   9 +-
+ drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c  |  10 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |   3 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |   5 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |   5 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     |   6 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   |   4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  14 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c |  20 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |  17 +-
+ drivers/gpu/drm/i915/i915_driver.c            |   4 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   9 +-
+ drivers/gpu/drm/i915/i915_params.c            |   5 +-
+ drivers/gpu/drm/i915/i915_utils.h             |  21 +-
+ drivers/gpu/drm/i915/intel_device_info.c      |   8 +-
+ drivers/gpu/drm/i915/intel_dram.c             |  10 +-
+ drivers/gpu/drm/i915/intel_pm.c               |  14 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c  |   4 +-
+ drivers/gpu/drm/i915/selftests/i915_active.c  |   3 +-
+ drivers/gpu/drm/i915/vlv_suspend.c            |   3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c |   5 +-
+ drivers/gpu/drm/radeon/atom.c                 |   3 +-
+ drivers/gpu/drm/v3d/v3d_debugfs.c             |  11 +-
+ drivers/gpu/drm/virtio/virtgpu_debugfs.c      |   4 +-
+ .../ethernet/chelsio/cxgb4/cxgb4_debugfs.c    | 249 ++++++++++--------
+ include/linux/string_helpers.h                |  20 ++
+ security/tomoyo/audit.c                       |   2 +-
+ security/tomoyo/common.c                      |  19 +-
+ security/tomoyo/common.h                      |   1 -
+ 60 files changed, 482 insertions(+), 373 deletions(-)
+
+-- 
+2.34.1
+
