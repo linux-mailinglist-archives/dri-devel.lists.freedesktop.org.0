@@ -2,31 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4512349CD1F
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:59:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6155449CD0B
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:58:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC28B10E75A;
-	Wed, 26 Jan 2022 14:59:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DDDC10E676;
+	Wed, 26 Jan 2022 14:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D281E10E65A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B237F10E67A
  for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 14:58:24 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1nCjkb-0005fK-TN; Wed, 26 Jan 2022 15:58:21 +0100
+ id 1nCjkb-0005fL-RY; Wed, 26 Jan 2022 15:58:21 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1nCjka-002l6X-J8; Wed, 26 Jan 2022 15:58:20 +0100
+ id 1nCjka-002l6a-Jp; Wed, 26 Jan 2022 15:58:20 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 10/27] drm/rockchip: dw_hdmi: add default 594Mhz clk for
- 4K@60hz
-Date: Wed, 26 Jan 2022 15:55:32 +0100
-Message-Id: <20220126145549.617165-11-s.hauer@pengutronix.de>
+Subject: [PATCH 11/27] clk: rockchip: rk3568: Add more PLL rates
+Date: Wed, 26 Jan 2022 15:55:33 +0100
+Message-Id: <20220126145549.617165-12-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220126145549.617165-1-s.hauer@pengutronix.de>
 References: <20220126145549.617165-1-s.hauer@pengutronix.de>
@@ -53,38 +52,50 @@ Cc: devicetree@vger.kernel.org,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
  Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
  Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Nickey Yang <nickey.yang@rock-chips.com>,
  Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
  Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nickey Yang <nickey.yang@rock-chips.com>
+This adds a few more PLL settings needed for some standard resolutions:
 
-add 594Mhz configuration parameters in rockchip_phy_config
+297MHz    3840x2160-30.00
+241.5MHz  2560x1440-59.95
+135MHz    1280x1024-75.02
+119MHz    1680x1050-59.88
+108MHz    1280x1024-60.02
+ 78.75MHz 1024x768-75.03
 
 Changes since v3:
 - new patch
 
-Change-Id: Iaa335cdd90059817fd9892877e574f8b84f2b5dc
-Signed-off-by: Nickey Yang <nickey.yang@rock-chips.com>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/clk/rockchip/clk-rk3568.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index 77f82a4fd027..c038674271b2 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -187,6 +187,7 @@ static const struct dw_hdmi_phy_config rockchip_phy_config[] = {
- 	{ 74250000,  0x8009, 0x0004, 0x0272},
- 	{ 148500000, 0x802b, 0x0004, 0x028d},
- 	{ 297000000, 0x8039, 0x0005, 0x028d},
-+	{ 594000000, 0x8039, 0x0000, 0x019d},
- 	{ ~0UL,	     0x0000, 0x0000, 0x0000}
+diff --git a/drivers/clk/rockchip/clk-rk3568.c b/drivers/clk/rockchip/clk-rk3568.c
+index 69a9e8069a48..9d889fc46811 100644
+--- a/drivers/clk/rockchip/clk-rk3568.c
++++ b/drivers/clk/rockchip/clk-rk3568.c
+@@ -71,11 +71,17 @@ static struct rockchip_pll_rate_table rk3568_pll_rates[] = {
+ 	RK3036_PLL_RATE(500000000, 1, 125, 6, 1, 1, 0),
+ 	RK3036_PLL_RATE(408000000, 1, 68, 2, 2, 1, 0),
+ 	RK3036_PLL_RATE(312000000, 1, 78, 6, 1, 1, 0),
++	RK3036_PLL_RATE(297000000, 2, 99, 4, 1, 1, 0),
++	RK3036_PLL_RATE(241500000, 2, 161, 4, 2, 1, 0),
+ 	RK3036_PLL_RATE(216000000, 1, 72, 4, 2, 1, 0),
+ 	RK3036_PLL_RATE(200000000, 1, 100, 3, 4, 1, 0),
+ 	RK3036_PLL_RATE(148500000, 1, 99, 4, 4, 1, 0),
++	RK3036_PLL_RATE(135000000, 2, 45, 4, 1, 1, 0),
++	RK3036_PLL_RATE(119000000, 3, 119, 4, 2, 1, 0),
++	RK3036_PLL_RATE(108000000, 2, 45, 5, 1, 1, 0),
+ 	RK3036_PLL_RATE(100000000, 1, 150, 6, 6, 1, 0),
+ 	RK3036_PLL_RATE(96000000, 1, 96, 6, 4, 1, 0),
++	RK3036_PLL_RATE(78750000, 1, 96, 6, 4, 1, 0),
+ 	RK3036_PLL_RATE(74250000, 2, 99, 4, 4, 1, 0),
+ 	{ /* sentinel */ },
  };
- 
 -- 
 2.30.2
 
