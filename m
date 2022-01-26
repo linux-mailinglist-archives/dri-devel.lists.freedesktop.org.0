@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C807C49CA50
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 14:03:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81BA949CA60
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 14:08:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D173810E999;
-	Wed, 26 Jan 2022 13:03:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 970CB10E9AB;
+	Wed, 26 Jan 2022 13:08:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A89210E998
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 13:03:51 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12FF110E9AB
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 13:08:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643202231; x=1674738231;
+ t=1643202492; x=1674738492;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=mSnFOYWb2NTAiZJ6gl/F22Fq/rOFI1cKTn49lNqjzw4=;
- b=SOoxsq2mC+ryPptauJSMGHYP81Tt1KfoTTiDalzjDodfpxrl+Jg0F4eM
- mAuCcOcb0KLCsY/8CdkgUmbrhOMTH6cQPePOeWqATOUmb1Dm+Ynt7KMUB
- su1CtRxgk2xzd8v55A34UQM9lHxfp0fm17NMcAlV1Vlpbxz8fzc2jVE4X
- gNi6EK0KqcZrKDuQJsHAxrwCFHuQR3tEzfgSYyp9dgtNPJgAkS2Xt3WhE
- R3E/fhsswUAW7mruWSkzICKkaVp3VmFj/m1UL+vxn0k1L+DQInQdkb1rO
- Wo+BhZy40XzmPs8KHc5QdvmFtf4sKt81PUcxsDPTQFMsNpOPnBuKpM3fI Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="309858014"
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="309858014"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 05:03:50 -0800
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="617957353"
+ bh=ufV8tnp4+s0eKaTq+EbumSk5nBwGFfL7ygpVjn/q6M8=;
+ b=DJoiR609ZMFB+pbXzobcT05iWbvMu1QHLtXPzw0GKBEMvHOED4NxtYZS
+ HusuAwH+HkIyftGmhRJPdnQRtOS2d3mzT3+rdPHYHl2y2POxdhdDaXOMz
+ xnRz3dNDZtxRhXc5vr4MXiqRPDeOsDP0kw6IUUjwdHoOql5S3Vxx6ZHN+
+ ia8OyO4bJTOsK1qvoYUCaVUOmqstysMdl9Xw/kQydGidMxOpZfSFeLHR/
+ v1jud99A/PgNRNG3Rsh0JRi4XPK9JmHa51ZfWZOwpeN7Aq48XXzL/i9Sg
+ mZwKMWqSbxT6vABEkxgNLENbJyVuxvd7EpZ6XFJOzDy9DMYKjB3PGXCkC Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="230118681"
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="230118681"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 05:08:01 -0800
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="581098861"
 Received: from smile.fi.intel.com ([10.237.72.61])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 05:03:47 -0800
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 05:07:58 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.95)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nChwe-00EbPb-NL; Wed, 26 Jan 2022 15:02:40 +0200
-Date: Wed, 26 Jan 2022 15:02:40 +0200
+ id 1nCi0h-00EbS3-GQ; Wed, 26 Jan 2022 15:06:51 +0200
+Date: Wed, 26 Jan 2022 15:06:51 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Joe Perches <joe@perches.com>
-Subject: Re: [PATCH v1 4/4] fbtft: Replace 'depends on FB_TFT' by 'if FB_TFT
- ... endif'
-Message-ID: <YfFGcEDnQwdDSwOx@smile.fi.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
+Message-ID: <YfFHa3ayE9wtil9Q@smile.fi.intel.com>
 References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-5-andriy.shevchenko@linux.intel.com>
- <e12b11d20e22123736e5d8728286947e971c489f.camel@perches.com>
+ <20220125202118.63362-2-andriy.shevchenko@linux.intel.com>
+ <YfEG2qVO9K9G+g1d@kroah.com>
+ <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e12b11d20e22123736e5d8728286947e971c489f.camel@perches.com>
+In-Reply-To: <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,31 +72,45 @@ Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 26, 2022 at 12:54:13AM -0800, Joe Perches wrote:
-> On Tue, 2022-01-25 at 22:21 +0200, Andy Shevchenko wrote:
-> > Replace 'depends on FB_TFT' by 'if FB_TFT ... endif'
-> > for the sake of deduplication.
-> []
-> > diff --git a/drivers/video/fbtft/Kconfig b/drivers/video/fbtft/Kconfig
-> []
-> > @@ -10,87 +10,75 @@ menuconfig FB_TFT
-> >  	select FB_DEFERRED_IO
-> >  	select FB_BACKLIGHT
-> >  
-> > +if FB_TFT
-> > +
-> []
-> >  config FB_TFT_PCD8544
-> >  	tristate "FB driver for the PCD8544 LCD Controller"
-> > -	depends on FB_TFT
-> >  	help
-> >  	  Generic Framebuffer support for PCD8544
-> >  
-> > @@ -108,62 +96,52 @@ config FB_TFT_S6D02A1
-> 
-> Looks like you missed a couple.
+On Wed, Jan 26, 2022 at 11:31:45AM +0100, Daniel Vetter wrote:
+> On Wed, Jan 26, 2022 at 9:31 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Tue, Jan 25, 2022 at 10:21:14PM +0200, Andy Shevchenko wrote:
 
-Thanks! I'll incorporate it, if the series has a continuation.
+...
+
+> > I'm ok with the files moving if the dri developers agree with it.  It's
+> > up to them, not me.
+> 
+> On one hand I'm happy anytime someone volunteers to help out.
+> 
+> On the other hand ... why does it have to be resurrecting fbdev?
+> There's an entire community of people who really know graphics and
+> display and spent considerable amount of effort on creating useful and
+> documented helpers for pretty much anything you might ever want to do.
+
+Why nobody has converted these drivers to be DRM based?
+
+For all these years no new conversion happens except couple, which
+I don't even have a hardware to see. But I have the hardware that
+is supported exclusively by fbtft driver.
+
+> And somehow we have to go back to typing out things the hard way, with
+> full verbosity, for an uapi that distros are abandoning (e.g. even for
+> sdl the direction is to run it on top of drm with a compat layer,
+> afaiui fedora is completely ditching any userspace that still even
+> uses /dev/fb/0). And yes I know there's still some gaps in drm,
+> largely for display features which were really en vogue about 20 years
+> ago. And we're happy to add that support, if someone who still has
+> such hardware can put in the little bit of work needed ...
+> 
+> I don't get this.
+
+I don't get how Fedora is related here.
+
+It's not useful to bury the /dev/fbX out for the devices that
+the use of are black-and-white output on small embedded systems.
+
 
 -- 
 With Best Regards,
