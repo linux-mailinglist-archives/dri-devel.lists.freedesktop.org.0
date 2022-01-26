@@ -1,49 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9921849CE15
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 16:23:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3771049CE95
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 16:35:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B82A310E971;
-	Wed, 26 Jan 2022 15:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCAA610E592;
+	Wed, 26 Jan 2022 15:34:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 809F710E944;
- Wed, 26 Jan 2022 15:22:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643210550; x=1674746550;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=DCBSYzFbTBiM8IPLqIlXiU77MAAwv243tlMlcxh67QY=;
- b=eRRZV4+HQWpu8+Ttj2odd4Omm0UXcWNtfnxT2Pqxao+CSfaI7ADE3VeP
- iHjcPcMPfYjGTGHsfbbY/EbQC88CuhHRnTGeiafXMA98Z33ng9wSiJnj8
- SGYgn8WLOxE9HynC6jX9t9t+Ax037zxmWqzkTTywyWA2pEEDtlfXHmq3H
- sLNxFFhtK+30UtHCmuyhbpTIC1mzMV1iXG8JBXSaAgsud6oHZeOwtKaxv
- oHsNY4phrQs++UkftNQpejBNaSugdHoXOpwPtaZZcWgjH3g1uBfrImcUG
- 1oGOLQF/w4spQTz9RlhRLSV35SCrCRhZNVypNlCvUbtSIrQ/3m0Hi3jS+ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="309885299"
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="309885299"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 07:22:30 -0800
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="674386331"
-Received: from jamesstx-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.213.247.182])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 07:22:29 -0800
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 20/20] HAX: DG1 small BAR
-Date: Wed, 26 Jan 2022 15:21:55 +0000
-Message-Id: <20220126152155.3070602-21-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220126152155.3070602-1-matthew.auld@intel.com>
-References: <20220126152155.3070602-1-matthew.auld@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1605910E592
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 15:34:53 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="245407702"
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="245407702"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 07:34:34 -0800
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="581135528"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 07:34:31 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andy.shevchenko@gmail.com>) id 1nCkIW-00EeDr-KP;
+ Wed, 26 Jan 2022 17:33:24 +0200
+Date: Wed, 26 Jan 2022 17:33:24 +0200
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
+Message-ID: <YfFpxEJ6L18DJQil@smile.fi.intel.com>
+References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
+ <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
+ <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
+ <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
+ <75a10e6f-ade7-01d9-9523-9a1936f8a2cc@suse.de>
+ <YfFNhsPr4kS2/LXa@smile.fi.intel.com>
+ <df377b35-8913-a8c6-760b-073f462780cc@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <df377b35-8913-a8c6-760b-073f462780cc@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,47 +53,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
+ Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just for CI.
+On Wed, Jan 26, 2022 at 04:02:23PM +0100, Thomas Zimmermann wrote:
+> Am 26.01.22 um 14:32 schrieb Andy Shevchenko:
+> > On Wed, Jan 26, 2022 at 12:41:41PM +0100, Thomas Zimmermann wrote:
+> > > Am 26.01.22 um 11:59 schrieb Helge Deller:
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_create.c  | 5 ++---
- drivers/gpu/drm/i915/gt/intel_region_lmem.c | 2 +-
- 2 files changed, 3 insertions(+), 4 deletions(-)
+> > > It's always for the same reason: the hw is old and devs have moved on.
+> > 
+> > It's pity to have a working system with an old hardware that no one in
+> > the kernel community gives a shit about because simply they are not in
+> > the same boat. Try to be on the people's position...
+> 
+> Yes, I do care about old hardware. I made helpers for converting fbdev
+> drivers to DRM. I even made the initial commits for those drivers where I
+> could find the HW on Ebay. [1] I made sure that every single of them at
+> least gets fbcon onto the screen. So interested devs could start
+> immediately.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index 98d63cb21e94..6e6a3f6685ab 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -437,9 +437,8 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 		if (!(ext_data.placement_mask & BIT(INTEL_REGION_SMEM)))
- 			return -EINVAL;
- 	} else {
--		if (!IS_DG1(i915) && (ext_data.n_placements > 1 ||
--				      ext_data.placements[0]->type !=
--				      INTEL_MEMORY_SYSTEM))
-+		if (ext_data.n_placements > 1 ||
-+		    ext_data.placements[0]->type != INTEL_MEMORY_SYSTEM)
- 			ext_data.flags |= I915_BO_ALLOC_TOPDOWN;
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-index b788fc2b3df8..a99516d2b706 100644
---- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-+++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-@@ -211,7 +211,7 @@ static struct intel_memory_region *setup_lmem(struct intel_gt *gt)
- 	lmem_size = intel_uncore_read64(uncore, GEN12_GSMBASE);
- 
- 	io_start = pci_resource_start(pdev, 2);
--	io_size = min(pci_resource_len(pdev, 2), lmem_size);
-+	io_size = SZ_256M;
- 	if (!io_size)
- 		return ERR_PTR(-ENODEV);
- 
+Thanks for doing that, I at least appreciate it.
+
+> Yet, no one ever showed up to convert even a single driver.
+
+I have helper in a limited way to test / enable drivers on some platforms
+where it wasn't possible before (you can easily see what I have done by running
+`git log --oneline --author="Andy Shevchenko" -- drivers/video drivers/gpu/drm
+drivers/staging/fbtft`), but DRM is completely new subsystem to me if we talk
+about driver conversion or so.
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
