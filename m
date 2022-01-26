@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4682949CD59
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 16:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED3149CDE6
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 16:22:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8939210E6D5;
-	Wed, 26 Jan 2022 15:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B54CE10E74F;
+	Wed, 26 Jan 2022 15:22:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7887010E6D5
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 15:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643209873;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JU1DfdMfg4k4e+Zkle9mE1ngqvgp8qa3eDdP3CUrH3A=;
- b=WbM4X9y4KTlQ3ToTQ/VRdgdE0ov4d9Vv5KPsiTPrZ7r/iEvVrIXsZ5yDE2F3Ob1NbE4s4D
- u+Bc5zIws8WusaZrvZOdhXmukR4C3sPxkiGwMLjPOhLxUwOyeXTva8/e9Ve45BHzw/6XSE
- 93xfPGQjUN29QFKZen0BW4EeF3r33GE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-407-dUm7zD0MMme78OPTJhxK0Q-1; Wed, 26 Jan 2022 10:11:10 -0500
-X-MC-Unique: dUm7zD0MMme78OPTJhxK0Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1828100CCC3;
- Wed, 26 Jan 2022 15:11:08 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.195.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 088E623763;
- Wed, 26 Jan 2022 15:11:06 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/privacy-screen: Fix sphinx warning
-Date: Wed, 26 Jan 2022 16:11:05 +0100
-Message-Id: <20220126151105.494521-1-hdegoede@redhat.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9293D10E5DD;
+ Wed, 26 Jan 2022 15:22:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643210526; x=1674746526;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=dndPtOYPqTOwezjdRbI7YJ3xH5ITLRnkk+dRRTMDA+8=;
+ b=UNy4eDegL9rK133I/ZWqLCn5b21EQa6hYL0UvHY1U4yXom2DEuDaGwXY
+ 6v8p9HPpAXYelrw8MzE9zzfnXe6weturP7qFluEZVwFlp4I4j5XTSAE12
+ DI7KOI+KKV8LrDZNWfAfq4LiI03Xym3DZlfnCnMYXZ7Oy+NtyVEUh6nZw
+ I5qPnD9FsVqMy8T0jqG7Cer+MkdKOrVMA8dh1IiMVquhId4aVZDdsvPgS
+ fJLTAm4H6FR2JbKvlPA/0nmqeLt7cNgHopdBeisw3AzwI3lult0hFS+17
+ w2nQFjUi8se4gEmlnOArwPvA3nrXVcYooOX48oeinQwQTbcUHHvaL6KIC Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="309885186"
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="309885186"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 07:22:04 -0800
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; d="scan'208";a="674386213"
+Received: from jamesstx-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.247.182])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 07:22:03 -0800
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 00/20] Initial support for small BAR recovery
+Date: Wed, 26 Jan 2022 15:21:35 +0000
+Message-Id: <20220126152155.3070602-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,36 +55,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
- Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following warning from "make htmldocs":
+Starting from DG2 we will have resizable BAR support for device local-memory,
+but in some cases the final BAR size might still be smaller than the total
+local-memory size. In such cases only part of local-memory will be CPU
+accessible, while the remainder is only accessible via the GPU. This series adds
+the basic enablers needed to ensure that the entire local-memory range is
+usable.
 
-drivers/gpu/drm/drm_privacy_screen.c:270:
- WARNING: Inline emphasis start-string without end-string.
+Patches 1-3 are taken directly from Arun' in-progress series[1], which reworks
+part of the allocator, and for example, allows us to allocate memory within a
+sub-range, and is needed when allocating mappable memory. These patches are only
+included here for the benefit of CI testing.
 
-Fixes: 8a12b170558a ("drm/privacy-screen: Add notifier support (v2)")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/drm_privacy_screen.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1] https://patchwork.freedesktop.org/series/98979/
 
-diff --git a/drivers/gpu/drm/drm_privacy_screen.c b/drivers/gpu/drm/drm_privacy_screen.c
-index beaf99e9120a..9f35f8f0cf60 100644
---- a/drivers/gpu/drm/drm_privacy_screen.c
-+++ b/drivers/gpu/drm/drm_privacy_screen.c
-@@ -269,7 +269,7 @@ EXPORT_SYMBOL(drm_privacy_screen_get_state);
-  *
-  * The notifier is called with no locks held. The new hw_state and sw_state
-  * can be retrieved using the drm_privacy_screen_get_state() function.
-- * A pointer to the drm_privacy_screen's struct is passed as the void *data
-+ * A pointer to the drm_privacy_screen's struct is passed as the void \*data
-  * argument of the notifier_block's notifier_call.
-  *
-  * The notifier will NOT be called when changes are made through
 -- 
-2.33.1
+2.34.1
 
