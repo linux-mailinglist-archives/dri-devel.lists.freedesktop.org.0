@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8209549CCE3
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:56:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9497B49CCE7
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 15:56:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7021C10E636;
-	Wed, 26 Jan 2022 14:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0D610E64D;
+	Wed, 26 Jan 2022 14:56:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8FB210E64D
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 14:56:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F127210E653
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 14:56:13 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1nCjiG-0004tL-5u; Wed, 26 Jan 2022 15:55:56 +0100
+ id 1nCjiG-0004tM-5l; Wed, 26 Jan 2022 15:55:56 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1nCjiD-002ktU-3H; Wed, 26 Jan 2022 15:55:53 +0100
+ id 1nCjiD-002ktX-3o; Wed, 26 Jan 2022 15:55:53 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/27] drm/rockchip: dw_hdmi: Do not leave clock enabled in
- error case
-Date: Wed, 26 Jan 2022 15:55:24 +0100
-Message-Id: <20220126145549.617165-3-s.hauer@pengutronix.de>
+Subject: [PATCH 03/27] drm/rockchip: dw_hdmi: rename vpll clock to reference
+ clock
+Date: Wed, 26 Jan 2022 15:55:25 +0100
+Message-Id: <20220126145549.617165-4-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220126145549.617165-1-s.hauer@pengutronix.de>
 References: <20220126145549.617165-1-s.hauer@pengutronix.de>
@@ -58,47 +58,94 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver returns an error when devm_phy_optional_get() fails leaving
-the previously enabled clock turned on. Change order and enable the
-clock only after the phy has been acquired.
+"vpll" is a misnomer. A clock input to a device should be named after
+the usage in the device, not after the clock that drives it. On the
+rk3568 the same clock is driven by the HPLL.
+To fix that, this patch renames the vpll clock to ref clock. The clock
+name "vpll" is left for compatibility to old device trees.
 
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 29 ++++++++++++---------
+ 1 file changed, 16 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index 830bdd5e9b7c..8677c8271678 100644
+index 8677c8271678..e352e0404f77 100644
 --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -529,13 +529,6 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+@@ -69,7 +69,7 @@ struct rockchip_hdmi {
+ 	struct regmap *regmap;
+ 	struct drm_encoder encoder;
+ 	const struct rockchip_hdmi_chip_data *chip_data;
+-	struct clk *vpll_clk;
++	struct clk *ref_clk;
+ 	struct clk *grf_clk;
+ 	struct dw_hdmi *hdmi;
+ 	struct phy *phy;
+@@ -196,14 +196,17 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
+ 		return PTR_ERR(hdmi->regmap);
+ 	}
+ 
+-	hdmi->vpll_clk = devm_clk_get(hdmi->dev, "vpll");
+-	if (PTR_ERR(hdmi->vpll_clk) == -ENOENT) {
+-		hdmi->vpll_clk = NULL;
+-	} else if (PTR_ERR(hdmi->vpll_clk) == -EPROBE_DEFER) {
++	hdmi->ref_clk = devm_clk_get(hdmi->dev, "ref");
++	if (PTR_ERR(hdmi->ref_clk) == -ENOENT)
++		hdmi->ref_clk = devm_clk_get(hdmi->dev, "vpll");
++
++	if (PTR_ERR(hdmi->ref_clk) == -ENOENT) {
++		hdmi->ref_clk = NULL;
++	} else if (PTR_ERR(hdmi->ref_clk) == -EPROBE_DEFER) {
+ 		return -EPROBE_DEFER;
+-	} else if (IS_ERR(hdmi->vpll_clk)) {
+-		DRM_DEV_ERROR(hdmi->dev, "failed to get vpll clock\n");
+-		return PTR_ERR(hdmi->vpll_clk);
++	} else if (IS_ERR(hdmi->ref_clk)) {
++		DRM_DEV_ERROR(hdmi->dev, "failed to get reference clock\n");
++		return PTR_ERR(hdmi->ref_clk);
+ 	}
+ 
+ 	hdmi->grf_clk = devm_clk_get(hdmi->dev, "grf");
+@@ -257,7 +260,7 @@ static void dw_hdmi_rockchip_encoder_mode_set(struct drm_encoder *encoder,
+ {
+ 	struct rockchip_hdmi *hdmi = to_rockchip_hdmi(encoder);
+ 
+-	clk_set_rate(hdmi->vpll_clk, adj_mode->clock * 1000);
++	clk_set_rate(hdmi->ref_clk, adj_mode->clock * 1000);
+ }
+ 
+ static void dw_hdmi_rockchip_encoder_enable(struct drm_encoder *encoder)
+@@ -537,9 +540,9 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
  		return ret;
  	}
  
 -	ret = clk_prepare_enable(hdmi->vpll_clk);
--	if (ret) {
++	ret = clk_prepare_enable(hdmi->ref_clk);
+ 	if (ret) {
 -		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI vpll: %d\n",
--			      ret);
--		return ret;
--	}
--
- 	hdmi->phy = devm_phy_optional_get(dev, "hdmi");
- 	if (IS_ERR(hdmi->phy)) {
- 		ret = PTR_ERR(hdmi->phy);
-@@ -544,6 +537,13 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
++		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI reference clock: %d\n",
+ 			      ret);
  		return ret;
  	}
+@@ -558,7 +561,7 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 	if (IS_ERR(hdmi->hdmi)) {
+ 		ret = PTR_ERR(hdmi->hdmi);
+ 		drm_encoder_cleanup(encoder);
+-		clk_disable_unprepare(hdmi->vpll_clk);
++		clk_disable_unprepare(hdmi->ref_clk);
+ 	}
  
-+	ret = clk_prepare_enable(hdmi->vpll_clk);
-+	if (ret) {
-+		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI vpll: %d\n",
-+			      ret);
-+		return ret;
-+	}
-+
- 	drm_encoder_helper_add(encoder, &dw_hdmi_rockchip_encoder_helper_funcs);
- 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+ 	return ret;
+@@ -570,7 +573,7 @@ static void dw_hdmi_rockchip_unbind(struct device *dev, struct device *master,
+ 	struct rockchip_hdmi *hdmi = dev_get_drvdata(dev);
  
+ 	dw_hdmi_unbind(hdmi->hdmi);
+-	clk_disable_unprepare(hdmi->vpll_clk);
++	clk_disable_unprepare(hdmi->ref_clk);
+ }
+ 
+ static const struct component_ops dw_hdmi_rockchip_ops = {
 -- 
 2.30.2
 
