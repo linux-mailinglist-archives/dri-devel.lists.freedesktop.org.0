@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C961B49D3A8
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 21:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B950A49D3AE
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jan 2022 21:37:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A11F10E94F;
-	Wed, 26 Jan 2022 20:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F46810E942;
+	Wed, 26 Jan 2022 20:36:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AFDD10E705;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76D2410E421;
  Wed, 26 Jan 2022 20:36:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1643229387; x=1674765387;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uwxizS0ftqSGbGdMPpj6u6yBfEnV5Zw7wY3WlI+UJD8=;
- b=NDNHJoAA2y7AOCpu5bYb2HeXwhxUD0X8yE3dEGI8il+vq5g25TAml/ji
- ss5JOUK/rGkaZfhaH4mURbJcmIjYAf5Vwyd8DJgQLFzVgTU0J0tzkK3oL
- D/dnSe/Y/QD2gkWxlcxz+CvPnBDr29kfAov652UaGGHA0oUIqqqsnUlnn
- WmTjY+WvnMqPhTeBZr3cRGAHlR/hi52JqQbkGZZk7IQMep45gSv/MCGuZ
- GR4vhv2vEiBDP1fQxl9PNKGeTKUJ9Zg1+6c3yH5ijur34lEzqYBoXtynU
- txbPnsqGlVEOIkY9mP/Z9a2+3xoxgzJq0mAz4jzlfSbZcKSrxwRkqvlw7 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="333000503"
-X-IronPort-AV: E=Sophos;i="5.88,319,1635231600"; d="scan'208";a="333000503"
+ bh=Wjra7qj+Jb90MP4e8anE/k/B8s165O1uD6Gx6XBX3sk=;
+ b=aNRgE2xxfZxTAOSg9Qd6DTGwTfqyJPmMcdbLdDMbxpvz0tfXJ/Ye9o+G
+ /ovI0SabKB6s9Nu3a2xWUEwHeaeOqes5aMVqdtlIqelH8Rb6s5mNHD96a
+ 8JG40VAl6Lh6gwU4U+DHul0ExK+2VuEEzglSN2mZlJmZxpysEMiWqhf1G
+ 6l35Xuif+hDIASDPU/sjfTIOWLEWThYQtXoyi2ZVEow50TRbcpGjwlHQw
+ 2tCjd+QYXz2CmVlTnzhTr83M8phj0dIEg2OzW3X3LGNmp7sxb+0kcX+ii
+ UYCjY9mnD18yl6t9VCSbErIQqvksGDX/FjsLnT80iFxSAikdLW/JnFEI1 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="333000504"
+X-IronPort-AV: E=Sophos;i="5.88,319,1635231600"; d="scan'208";a="333000504"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Jan 2022 12:36:23 -0800
-X-IronPort-AV: E=Sophos;i="5.88,319,1635231600"; d="scan'208";a="581221512"
+X-IronPort-AV: E=Sophos;i="5.88,319,1635231600"; d="scan'208";a="581221516"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Jan 2022 12:36:23 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 07/19] drm/i915/guc: Convert policies update to dma_buf_map
-Date: Wed, 26 Jan 2022 12:36:50 -0800
-Message-Id: <20220126203702.1784589-8-lucas.demarchi@intel.com>
+Subject: [PATCH 08/19] drm/i915/guc: Convert engine record to dma_buf_map
+Date: Wed, 26 Jan 2022 12:36:51 -0800
+Message-Id: <20220126203702.1784589-9-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220126203702.1784589-1-lucas.demarchi@intel.com>
 References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
@@ -64,8 +64,8 @@ Cc: Matthew Brost <matthew.brost@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use dma_buf_map to write the policies update so access to IO and system
-memory is abstracted away.
+Use dma_buf_map to read fields from the dma_blob so access to IO and
+system memory is abstracted away.
 
 Cc: Matt Roper <matthew.d.roper@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
@@ -75,102 +75,87 @@ Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 41 ++++++++++++----------
- 1 file changed, 23 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c        | 14 ++++++--------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h        |  3 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 +++++++----
+ 3 files changed, 15 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index bcf52ac4fe35..2ffe5836f95e 100644
+index 2ffe5836f95e..fe1e71adfca1 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -130,33 +130,37 @@ static u32 guc_ads_blob_size(struct intel_guc *guc)
- 	       guc_ads_private_data_size(guc);
- }
+@@ -698,18 +698,16 @@ void intel_guc_ads_reset(struct intel_guc *guc)
  
--static void guc_policies_init(struct intel_guc *guc, struct guc_policies *policies)
-+static void guc_policies_init(struct intel_guc *guc)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
- 	struct drm_i915_private *i915 = gt->i915;
-+	u32 global_flags = 0;
- 
--	policies->dpc_promote_time = GLOBAL_POLICY_DEFAULT_DPC_PROMOTE_TIME_US;
--	policies->max_num_work_items = GLOBAL_POLICY_MAX_NUM_WI;
-+	ads_blob_write(guc, policies.dpc_promote_time,
-+		       GLOBAL_POLICY_DEFAULT_DPC_PROMOTE_TIME_US);
-+	ads_blob_write(guc, policies.max_num_work_items,
-+		       GLOBAL_POLICY_MAX_NUM_WI);
- 
--	policies->global_flags = 0;
- 	if (i915->params.reset < 2)
--		policies->global_flags |= GLOBAL_POLICY_DISABLE_ENGINE_RESET;
-+		global_flags |= GLOBAL_POLICY_DISABLE_ENGINE_RESET;
- 
--	policies->is_valid = 1;
-+	ads_blob_write(guc, policies.global_flags, global_flags);
-+	ads_blob_write(guc, policies.is_valid, 1);
- }
- 
- void intel_guc_ads_print_policy_info(struct intel_guc *guc,
- 				     struct drm_printer *dp)
+ u32 intel_guc_engine_usage_offset(struct intel_guc *guc)
  {
 -	struct __guc_ads_blob *blob = guc->ads_blob;
+-	u32 base = intel_guc_ggtt_offset(guc, guc->ads_vma);
+-	u32 offset = base + ptr_offset(blob, engine_usage);
 -
--	if (unlikely(!blob))
-+	if (unlikely(dma_buf_map_is_null(&guc->ads_map)))
- 		return;
- 
- 	drm_printf(dp, "Global scheduling policies:\n");
--	drm_printf(dp, "  DPC promote time   = %u\n", blob->policies.dpc_promote_time);
--	drm_printf(dp, "  Max num work items = %u\n", blob->policies.max_num_work_items);
--	drm_printf(dp, "  Flags              = %u\n", blob->policies.global_flags);
-+	drm_printf(dp, "  DPC promote time   = %u\n",
-+		   ads_blob_read(guc, policies.dpc_promote_time));
-+	drm_printf(dp, "  Max num work items = %u\n",
-+		   ads_blob_read(guc, policies.max_num_work_items));
-+	drm_printf(dp, "  Flags              = %u\n",
-+		   ads_blob_read(guc, policies.global_flags));
+-	return offset;
++	return intel_guc_ggtt_offset(guc, guc->ads_vma) +
++		offsetof(struct __guc_ads_blob, engine_usage);
  }
  
- static int guc_action_policies_update(struct intel_guc *guc, u32 policy_offset)
-@@ -171,23 +175,24 @@ static int guc_action_policies_update(struct intel_guc *guc, u32 policy_offset)
- 
- int intel_guc_global_policies_update(struct intel_guc *guc)
+-struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine)
++struct dma_buf_map intel_guc_engine_usage_record_map(struct intel_engine_cs *engine)
  {
+ 	struct intel_guc *guc = &engine->gt->uc.guc;
 -	struct __guc_ads_blob *blob = guc->ads_blob;
- 	struct intel_gt *gt = guc_to_gt(guc);
-+	u32 scheduler_policies;
- 	intel_wakeref_t wakeref;
- 	int ret;
+ 	u8 guc_class = engine_class_to_guc_class(engine->class);
++	size_t offset = offsetof(struct __guc_ads_blob,
++				 engine_usage.engines[guc_class][ilog2(engine->logical_mask)]);
  
--	if (!blob)
-+	if (dma_buf_map_is_null(&guc->ads_map))
- 		return -EOPNOTSUPP;
- 
--	GEM_BUG_ON(!blob->ads.scheduler_policies);
-+	scheduler_policies = ads_blob_read(guc, ads.scheduler_policies);
-+	GEM_BUG_ON(!scheduler_policies);
- 
--	guc_policies_init(guc, &blob->policies);
-+	guc_policies_init(guc);
- 
- 	if (!intel_guc_is_ready(guc))
- 		return 0;
- 
- 	with_intel_runtime_pm(&gt->i915->runtime_pm, wakeref)
--		ret = guc_action_policies_update(guc, blob->ads.scheduler_policies);
-+		ret = guc_action_policies_update(guc, scheduler_policies);
- 
- 	return ret;
+-	return &blob->engine_usage.engines[guc_class][ilog2(engine->logical_mask)];
++	return DMA_BUF_MAP_INIT_OFFSET(&guc->ads_map, offset);
  }
-@@ -557,7 +562,7 @@ static void __guc_ads_init(struct intel_guc *guc)
- 	u32 base;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
+index e74c110facff..27f5b1f9ddac 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
+@@ -7,6 +7,7 @@
+ #define _INTEL_GUC_ADS_H_
  
- 	/* GuC scheduling policies */
--	guc_policies_init(guc, &blob->policies);
-+	guc_policies_init(guc);
+ #include <linux/types.h>
++#include <linux/dma-buf-map.h>
  
- 	/* System info */
- 	fill_engine_enable_masks(gt, &blob->system_info);
+ struct intel_guc;
+ struct drm_printer;
+@@ -18,7 +19,7 @@ void intel_guc_ads_init_late(struct intel_guc *guc);
+ void intel_guc_ads_reset(struct intel_guc *guc);
+ void intel_guc_ads_print_policy_info(struct intel_guc *guc,
+ 				     struct drm_printer *p);
+-struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine);
++struct dma_buf_map intel_guc_engine_usage_record_map(struct intel_engine_cs *engine);
+ u32 intel_guc_engine_usage_offset(struct intel_guc *guc);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index db9615dcb0ec..57bfb4ad0ab8 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -1125,14 +1125,17 @@ __extend_last_switch(struct intel_guc *guc, u64 *prev_start, u32 new_start)
+ 	*prev_start = ((u64)gt_stamp_hi << 32) | new_start;
+ }
+ 
++#define record_read(map_, field_) \
++	dma_buf_map_read_field(map_, struct guc_engine_usage_record, field_)
++
+ static void guc_update_engine_gt_clks(struct intel_engine_cs *engine)
+ {
+-	struct guc_engine_usage_record *rec = intel_guc_engine_usage(engine);
++	struct dma_buf_map rec_map = intel_guc_engine_usage_record_map(engine);
+ 	struct intel_engine_guc_stats *stats = &engine->stats.guc;
+ 	struct intel_guc *guc = &engine->gt->uc.guc;
+-	u32 last_switch = rec->last_switch_in_stamp;
+-	u32 ctx_id = rec->current_context_index;
+-	u32 total = rec->total_runtime;
++	u32 last_switch = record_read(&rec_map, last_switch_in_stamp);
++	u32 ctx_id = record_read(&rec_map, current_context_index);
++	u32 total = record_read(&rec_map, total_runtime);
+ 
+ 	lockdep_assert_held(&guc->timestamp.lock);
+ 
 -- 
 2.35.0
 
