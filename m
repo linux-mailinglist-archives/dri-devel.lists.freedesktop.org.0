@@ -1,78 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A2B49DE28
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 10:36:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4625D49DE2E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 10:37:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA71D10E61B;
-	Thu, 27 Jan 2022 09:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 317BD10E605;
+	Thu, 27 Jan 2022 09:37:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBE710E61B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 09:36:27 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id BFCE15C0135;
- Thu, 27 Jan 2022 04:36:26 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 27 Jan 2022 04:36:26 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF7DC10E605
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 09:37:24 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 1AE3C5C019E;
+ Thu, 27 Jan 2022 04:37:24 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 27 Jan 2022 04:37:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=WA1psq6av3hb8CPQl+q6JR0R81+NLrXh6/dARD
- GQBMI=; b=owi4N6M20BirIVtp0UbfhSC75hSNeZj7CZ5dKBmyciE3+kFlsIN3ij
- LM9i1OFq+wrwIaP+jJqLgTaluZhjBDViaFHN536jfbN97ovmiEovSKi4iwjPhi5e
- 68UBSnb+cC1+5YN6IQGezYqmR2koVKzlYDiYsj0bbKAU8lB0vEd4PB7tsWkwLKgN
- fhuyRUvpopOTsO3BB5wouZdlTz+gr+2vxdvvkRI+XRHi3DYoI4O/+evIEkYPe93P
- HQ4jnnDEEUCMzseu+YGvB3tRWRNxgSn++XjPh5hZaI11ck+M1v9+feNVbwmzyLzz
- LfDPZ+52qq8tjLLrMMF+yNUtJJybb24w==
+ :subject:to:to; s=fm2; bh=KkuaK/tejeRfwI7BI7yqMSQmyUeCZfVDG+rLNP
+ cBp4o=; b=u1pM7cVzOepAh1nAoQP6Dtf6dBNXKkvOOe6Y2qbNdpbgsoFXMv5qPA
+ 0PziYHWTO6Hs2WjEm0Dfu3q+Ag5km3R7QC7T7WIxpUMZ/osKbtrwHYADXqjcvp4f
+ eE7A09eIiEwzKBjN4CF1ucAYTor0AZ9xYrSjRcnCOmSfw5gS0R172qEgHMjy9KZY
+ NfCXeD1zIgvLoitIHl5vA4Wj4A7KEk8BMzGaZPCuHlE6L9uHH8EUKOTWOsbQAzaO
+ Oik9zX7AS1keppwW19fcPYKIQo2yxXU79nIjES2Nn4jrGZBmG4oD+PO7ZEAQtCd0
+ 7tmZ9exaN8XW6fZ80vEIkrksUqwGVZEg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=WA1psq6av3hb8CPQl
- +q6JR0R81+NLrXh6/dARDGQBMI=; b=LCBoMUXhBCT4xL1aYFnrGHHoYEMAlEee0
- vkvZsJWSOLgFuIpm6EBq1+CGXEN1LpcnEB9cu6aWCzGQu/Y+ceGesYVTOSGhgHsr
- 5F93rGO1lMUlItni+TOzA3G1Gd0k/pc/yV31gWTb07tfz6VCO4FApRZ+M02Il4j/
- KYrH86H5pOztPDpXbO0Is4wfz5b9zdoYgMPNxe5imwDMocYO8Gm54CbE5GxFpR6p
- Cs70awsUUxK97vRGzrtPKVSPBvpLlLmpeb2Fql12Mk8uYgEJZ/DmrAP8qIJK8NY+
- Bvxebf8jXBE3rx4EGIHxNHJRAXBA1BhMdeCvkMYrBSQigMNMR981Q==
-X-ME-Sender: <xms:mmfyYfHr67546aldKWcd0D8lxVJmu7jwoF0yWAbywABQMfLp6sukTw>
- <xme:mmfyYcUXkAgi0WF_Z-wo1IxzX8kUbnHJ-uecPpXxags8d8Uurtae0QOt7W1qGzrwR
- 78RSMf95aSqSpkeBwo>
-X-ME-Received: <xmr:mmfyYRJ1sdHJzh5b5HF3UZ9CQaUgcWugV0ZWV4EzikbhnbV3jShHK9RgyZ2Z_LE2RpGnp1ct61_j_ZzVKyuM-n_iVQMzAPKicpMyWE4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeefgddthecutefuodetggdotefrodftvf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=KkuaK/tejeRfwI7BI
+ 7yqMSQmyUeCZfVDG+rLNPcBp4o=; b=Eb8yvHccrqotwVSowOYpZDuzGk/1BBrIH
+ awnPihww4sj3kPDnyw4qyTzFWUtU6RleJVoZWRfgay3OnIq+PR2lb6Xk4dWHsehW
+ J4a3YnvRUSvRy83O3OdkshrLB34//+K2j6eShDpmcyfoNsxH4bvVQ5/ggIHBd9YU
+ kmSJ3ZN6qPf7PCiIh2OuhnjbSkq/6q4Nc4M8okj3QaLLkI6wl0QhdPS0ms6SMLiA
+ c37FQhXvp09dqlbRnEM5wlI4OkiSV037ZwCI2UONOtINC8ZAyRHgjXNtQHGghDkw
+ TLIc1xNEOTPIB6uu1o+mxrjix4A+D/tcPG65H7n8Lz5FdEzr4x1xg==
+X-ME-Sender: <xms:02fyYXv-ZCLlCji9ZynYjyBvOtk4L5cffjqjWQR1JVrJNMSovyElpQ>
+ <xme:02fyYYf4_Owaa3z2fYcfisigLcQ4rBk7W8zN6tIV2xcpXZqxzzDRPiEy-lOgS_OWj
+ MM6eXRNg8UAfBQUD24>
+X-ME-Received: <xmr:02fyYaxz01QKr3HqeLJQQ_aszrFEHqFXNVVZXJq6hOS0yCnPNmFV1bbN1gfbDISEbDoJHmRxl5mY3VnCIpm0Gsg8Z-YtCyiqyXzqy6Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeefgddtiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeejkeekffdtfffhhfevvddutefgtdeljeevffevvddvteegledtgfeghfehvdei
- ffenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:mmfyYdFwOIWwt49Im8GCzOtTEsMudGYDIqOizR9BywmuTh9ak2rxXQ>
- <xmx:mmfyYVWTU-kPWDtt3j-AEv7m_WWpXaTw-Cnv4a1T3HJY9eP2savUIA>
- <xmx:mmfyYYO1NniYXG14fvkj5ug2hCLKnjB3sI6K_10fDXWYWP2Rksx6HA>
- <xmx:mmfyYXIvYEYZnboitBP_Z6hkbH5Z4_eb73qlCSOSJeXsGya9R3bcAQ>
+ gvrhhnpeehieefudethfevkeeigedvgfetjeeghfdvveekvdffueffteejtdejudffgfdu
+ keenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
+ vggthh
+X-ME-Proxy: <xmx:02fyYWM0aCdyvlRhhVenpsIpAmzxsWeIndVzIrjIhH-hPb6wxWtkeA>
+ <xmx:02fyYX8E98do9VRmBgEvL7JrsUAvjfgxtC9A-Bpkfmbhde8D-REuNw>
+ <xmx:02fyYWWgMdqsRK7QGS_JmDDtcnftEOyNjsQUjV04YqzUaHEpmjjYBQ>
+ <xmx:1GfyYXz4yqC-6fSZYdsiSlHCsP7akSSKOnnFihz8Blc-Wg09T-xnBQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Jan 2022 04:36:26 -0500 (EST)
-Date: Thu, 27 Jan 2022 10:36:24 +0100
+ 27 Jan 2022 04:37:23 -0500 (EST)
+Date: Thu, 27 Jan 2022 10:37:22 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: display: add bindings for MIPI DBI
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: add bindings for MIPI DBI
  compatible SPI panels
-Message-ID: <20220127093624.6gozbr6gl4ft66fz@houat>
-References: <20220123172520.48741-1-noralf@tronnes.org>
- <20220123172520.48741-2-noralf@tronnes.org>
- <CAL_JsqJU_WFeJDt5jqLN9BQN2j_TCf3+0hKvbNSYwmg-2DSF=Q@mail.gmail.com>
- <931fab73-3a91-fda0-4af3-b48a1ad3c742@tronnes.org>
- <CAL_JsqLiw42zfaRPmszs2bmGbAcL5STSTVUtP0PyWnm=CaG8ug@mail.gmail.com>
+Message-ID: <20220127093722.hsed3ny3gzk55o7w@houat>
+References: <20220125175700.37408-1-noralf@tronnes.org>
+ <20220125175700.37408-2-noralf@tronnes.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="g3d2usy72o624st2"
+ protocol="application/pgp-signature"; boundary="vfflqgcm6sslsmqe"
 Content-Disposition: inline
-In-Reply-To: <CAL_JsqLiw42zfaRPmszs2bmGbAcL5STSTVUtP0PyWnm=CaG8ug@mail.gmail.com>
+In-Reply-To: <20220125175700.37408-2-noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,82 +85,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, david@lechnology.com,
  dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, thierry.reding@gmail.com,
- sam@ravnborg.org
+ robh+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---g3d2usy72o624st2
+--vfflqgcm6sslsmqe
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Rob,
+Hi,
 
-On Mon, Jan 24, 2022 at 10:42:37AM -0600, Rob Herring wrote:
-> On Mon, Jan 24, 2022 at 10:28 AM Noralf Tr=F8nnes <noralf@tronnes.org> wr=
-ote:
-> >
-> >
-> >
-> > Den 24.01.2022 17.08, skrev Rob Herring:
-> > > On Sun, Jan 23, 2022 at 11:25 AM Noralf Tr=F8nnes <noralf@tronnes.org=
-> wrote:
-> > >>
-> > >> Add binding for MIPI DBI compatible SPI panels.
-> > >
-> > > I'm sure we already have MIPI DBI panels. What's this for?
-> > >
-> >
-> > It aims to use one driver to cover all MIPI DBI panels where the
-> > controller setup is loaded from userspace in a firmware file.
+On Tue, Jan 25, 2022 at 06:56:58PM +0100, Noralf Tr=F8nnes wrote:
+> Add binding for MIPI DBI compatible SPI panels.
 >=20
-> What's the solution when the user wants a splash screen in the
-> bootloader and also wants multiple panels supported?
+> v2:
+> - Fix path for panel-common.yaml
+> - Use unevaluatedProperties
+> - Drop properties which are in the allOf section
+> - Drop model property (Rob)
 >=20
-> Also, 1 driver doesn't dictate 1 compatible. A one to many
-> relationship is fine and makes the decision entirely the OS's.
+> Signed-off-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+> ---
+>  .../display/panel/panel-mipi-dbi-spi.yaml     | 59 +++++++++++++++++++
+>  1 file changed, 59 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel=
+-mipi-dbi-spi.yaml
 >=20
-> > The cover
-> > letter points to the discussion where Maxime proposed this:
-> >
-> > https://lore.kernel.org/dri-devel/20211129093946.xhp22mvdut3m67sc@houat/
->=20
-> The proposal there is:
->=20
-> > compatible =3D "panel-spi";
-> > model =3D "panel-from-random-place-42";
->=20
-> The same thing can be accomplished with this:
->=20
-> compatible =3D "panel-from-random-place-42", "panel-spi";
->=20
-> What's the advantage of hijacking 'model'?
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-d=
+bi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-db=
+i-spi.yaml
+> new file mode 100644
+> index 000000000000..b7cbeea0f8aa
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.=
+yaml
+> @@ -0,0 +1,59 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/panel-mipi-dbi-spi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MIPI DBI SPI Panels Device Tree Bindings
+> +
+> +maintainers:
+> +  - Noralf Tr=F8nnes <noralf@tronnes.org>
+> +
+> +description:
+> +  This binding is for display panels using a MIPI DBI controller
+> +  in SPI mode.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: panel-mipi-dbi-spi
 
-So, the main issue is that a panel is essentially two things: a
-controller and the actual panel.
+You need contains here, otherwise it will error out if you have two compati=
+bles.
 
-The controller has an initialization sequence of its own, and part of it
-is parameters to match the panel.
+> +  write-only:
+> +    type: boolean
+> +    description:
+> +      Controller is not readable (ie. MISO is not wired up).
+> +
+> +  dc-gpios:
+> +    maxItems: 1
+> +    description: |
+> +      Controller data/command selection (D/CX) in 4-line SPI mode.
+> +      If not set, the controller is in 3-line SPI mode.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    spi {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            display@0{
+> +                    compatible =3D "panel-mipi-dbi-spi";
 
-So you can have identical controllers that won't have the same
-initialization sequence because they don't have the same panel.
-
-I was assuming that a compatible would be more about the controller, so
-we needed something else, thus "model"
+We should have two compatibles in the example too
 
 Maxime
 
---g3d2usy72o624st2
+--vfflqgcm6sslsmqe
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfJnmAAKCRDj7w1vZxhR
-xcsTAP9/qENaW6RTVPJRf9nDXmouAAgilNGFGvNurPNgkK2Z5gEA3T1Wy4CPOm+V
-Y3A3EtaJ75EIrXoMlF4PFQRNg9UMHAw=
-=J/lt
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfJn0gAKCRDj7w1vZxhR
+xbBgAQDyyx3Eig4JWiUK+QssT3L9pLD1/CdaDpOQkFzeGXbu0gEAq5xNgpF6DSAg
+dItmNUivebYlTbbpccU4Lnlq8ViVmAE=
+=lJrq
 -----END PGP SIGNATURE-----
 
---g3d2usy72o624st2--
+--vfflqgcm6sslsmqe--
