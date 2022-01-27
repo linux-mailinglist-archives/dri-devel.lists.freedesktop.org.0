@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E4049E060
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 12:14:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C946F49E064
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 12:15:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A513F10F020;
-	Thu, 27 Jan 2022 11:14:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC9BF10EC4C;
+	Thu, 27 Jan 2022 11:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B33B610F021
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 11:14:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F195210E868
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 11:15:02 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id B93AC5C0139;
- Thu, 27 Jan 2022 06:14:08 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 4E89F5C0139;
+ Thu, 27 Jan 2022 06:15:02 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 27 Jan 2022 06:14:08 -0500
+ by compute5.internal (MEProxy); Thu, 27 Jan 2022 06:15:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm2; bh=NnBiMlzgWSiHZ7yMEXCszurayQHoFit5/UHR6uK34js=; b=ez1U/
- sh2348fHzmotY6zhRIW1q/rBXb+ELGi+zDpP8P+AkYF93X2YrxIiP04mQCv3lt/O
- +WToECXuCpwchhPbP/wyM3tjPNfd1gjhbDw0I5USzopa/M5JED7QrvBdMQE0qpcx
- rJ6F8izvufzBGr/s1DektH85cfxgu2b7VBvEZLpna8NouGIQu58PKMD8qijqSnGG
- wRjiN+iqrjd0wDkYm66syBsg90jfoDrKAZ995qAU45n3xG0pUcTwbzJ9LpbbKO7y
- l0b2FwDL1tn5IZFZOushef0LcNEpTWOmUwAtOcSynexrDWOFresLvd2q9fVRYZe9
- v7Cy+SEKpqXmE3CNg==
+ s=fm2; bh=ZOmqn5AySwwvlqQWzXbZZMQyntWvYGD5VgDeAYX7nwQ=; b=M6Qr2
+ 7JXtk5xgXne5aLraOOMJ6mBfN0ot/kER6a/7/wX5wPv2bcCi3NaGbHdc1/AO3Ck4
+ NlqiEtQzxLsRIRme5yh3vAg3mtrpCqgagkQD1b54NY8jZQGQ75b7FfmZl6FCHMrH
+ h8c9gETbBQihACWClAw39gNguLv34zfnfeVceNl82nY6eAH8/pHuHytErjMdFCZS
+ cJRi35Pk/TpRC9i2CzG8yDubRv32U4uo4KCqCoEdUoMJEXJoIVbE1+GtuPHP5cIz
+ RZxCo6s3zAJqnm6ULq8nZ5ISVLT9zJXLgj4yI87PHZFifQfwtMsb/RcbeKYfrpUW
+ JSDq7mpfpi+mRlqjA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:message-id:mime-version:reply-to:sender
  :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm1; bh=NnBiMlzgWSiHZ7yMEXCszurayQHoF
- it5/UHR6uK34js=; b=Wd3B1R4iERrRxMOr28sQtDfT8LH8v7MnqmNOSDWtypKpE
- eKGBMYXYJPAHiDP2SQoDzAzoWdCsRHmYSfGr36O1hENCpZwAyW/5Mqa/FUUxHFpe
- srb2BA0VcE+MVIHFxwheWFytl/SGTzX9duzIpEpFKxnqjon6+8+1luOb0JsDubvv
- E11oVcjBs1tO6xtdfr3w+CY5wipM5fPf4ONmGE0LYjHw594SDr3KVjfKH5JwSVW4
- CKvwkCgmSTW+ccokBOa8v7BHD815ky5Irxi6/RW3mNax2CMOWE6rmN2Uxq+R+E0x
- RttDmnbbiv+Ry00m+Pu+5YRbBBwXjMibOEH3N7hpw==
-X-ME-Sender: <xms:gH7yYYQXkEF5AB0tuw0TkEUrQktNdj2CDnTc1MkrPwyyGnuaq_wgCA>
- <xme:gH7yYVy3IM3zoJc6ueipptITIXRW_OS_qITe6gXenQ213o6mKACtUidAI55dUlIvA
- VJ2RSEoylGJihvs0F0>
-X-ME-Received: <xmr:gH7yYV0S24M1VQ0PlH9HXgjjsonkfphOqbKV7vZf8LqiwpVLhBEyd9VYsiyhBO0Y6gDH217Z1DsBZyJ86jLSAhY5GdsGGN4KB0eFImc>
+ :x-me-sender:x-sasl-enc; s=fm1; bh=ZOmqn5AySwwvlqQWzXbZZMQyntWvY
+ GD5VgDeAYX7nwQ=; b=E3Z10LmNwWS9++Kw76GJ3Fef7oQLt6yFjCrwV+9mDpOOx
+ TEyGd0OIBdbFeVNylCfUZcRoUF1+Ui7klQMhjB69hSbUHO2fE/FpAQhtOZmK74oK
+ +jBOeHu2sTVnt4SYuIFKPe3ngudHgmDlCM+Yajxy2HPFR/kInn/cjttuBgueR6E2
+ +kUeOzenkPRPnz7PT9P1ziTCe0zbQkT80EwhuJTr7HHrIARqE4ksULlyPhbR2hbl
+ YHEEhFvgC2Uq3CosoKkqR/IPAhALmbMjKF1U4h7kuHjo5CQ9rUOsogCYIeMw+vR5
+ PbcS21LQbbjh7Ve7aPDicxTcTP5eby4llqI4pz09w==
+X-ME-Sender: <xms:tn7yYT4DAt1vNOaNfxQwIPbQqAWUizPvUVkdaGDxM7OjgckNOThd1w>
+ <xme:tn7yYY4x4_FZOT3vuG0IUnN7K0apApxRBwlTJxov9SpMAwG1N0o_--vcJQ1wGcyaT
+ EyBXQI7jeQBdVhbH3I>
+X-ME-Received: <xmr:tn7yYacFiuYcCAEfkeU4Ndbtou5GACTU9Hkjorw_70LM9FLm47Jg2a47Job6r2s-fh7GOhuwYj2XfuWYZ7BtJnd0D8PZ-7XvPDI2_7o>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeefgddviecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
  ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
  hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
- ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
+ ucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
  hmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:gH7yYcDLZc__xFIdeJsw0ayDeC8kC5c-bFv9MP3vIgDj3SrnrlGMCQ>
- <xmx:gH7yYRgFqlSwvIF2zRo_5ygS_piO0KvyDsqwl_M1KczA4Ol6PT7KnQ>
- <xmx:gH7yYYpX_s8qZg-kEYfEGuIzXfO4yKmE1KLlk0AIXdSOUcSVN8Nv5w>
- <xmx:gH7yYSVMl5pVUrBuWSu8rtyqFvZPf7sLe5xNIp-QpxQ2pEngSwjlhQ>
+X-ME-Proxy: <xmx:tn7yYULer3YdpwGLx_1ORfnsWYJp1ZsoZKMXVXXyT2bf2k7axKR53w>
+ <xmx:tn7yYXKyrOcV3RElJ-gF1cK4PrjGzAMM39CZznkC_bycip0jTH_IrA>
+ <xmx:tn7yYdwC2aq1uYkHnIJfPopZrv_5H3msec23relEPBhMV5apLHSpZw>
+ <xmx:tn7yYe-lcQSW27XiU4dflibb-Q_L5rPfUY3jQbjDHfaAcLcSTAcFvQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Jan 2022 06:14:07 -0500 (EST)
+ 27 Jan 2022 06:15:01 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH] drm/vc4: hdmi: Simplify the connector state retrieval
-Date: Thu, 27 Jan 2022 12:14:04 +0100
-Message-Id: <20220127111404.221882-1-maxime@cerno.tech>
+Subject: [PATCH] drm/vc4: hdmi: Unregister codec device on unbind
+Date: Thu, 27 Jan 2022 12:14:52 +0100
+Message-Id: <20220127111452.222002-1-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -85,54 +85,61 @@ Cc: Tim Gover <tim.gover@raspberrypi.com>, Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When we have the entire DRM state, retrieving the connector state only
-requires the drm_connector pointer. Fortunately for us, we have
-allocated it as a part of the vc4_hdmi structure, so we can retrieve get
-a pointer by simply accessing our field in that structure.
+On bind we will register the HDMI codec device but we don't unregister
+it on unbind, leading to a device leakage. Unregister our device at
+unbind.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 21 +++------------------
- 1 file changed, 3 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 8 ++++++++
+ drivers/gpu/drm/vc4/vc4_hdmi.h | 1 +
+ 2 files changed, 9 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 2c83252819e9..efffe21d2e73 100644
+index 502d5bea5f61..395a9e9c1e5a 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1002,30 +1002,15 @@ static void vc4_hdmi_recenter_fifo(struct vc4_hdmi *vc4_hdmi)
- 		  "VC4_HDMI_FIFO_CTL_RECENTER_DONE");
+@@ -1746,6 +1746,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ 		dev_err(dev, "Couldn't register the HDMI codec: %ld\n", PTR_ERR(codec_pdev));
+ 		return PTR_ERR(codec_pdev);
+ 	}
++	vc4_hdmi->audio.codec_pdev = codec_pdev;
+ 
+ 	dai_link->cpus		= &vc4_hdmi->audio.cpu;
+ 	dai_link->codecs	= &vc4_hdmi->audio.codec;
+@@ -1785,6 +1786,12 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ 
  }
  
--static struct drm_connector_state *
--vc4_hdmi_encoder_get_connector_state(struct drm_encoder *encoder,
--				     struct drm_atomic_state *state)
--{
--	struct drm_connector_state *conn_state;
--	struct drm_connector *connector;
--	unsigned int i;
--
--	for_each_new_connector_in_state(state, connector, conn_state, i) {
--		if (conn_state->best_encoder == encoder)
--			return conn_state;
--	}
--
--	return NULL;
--}
--
- static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 						struct drm_atomic_state *state)
++static void vc4_hdmi_audio_exit(struct vc4_hdmi *vc4_hdmi)
++{
++	platform_device_unregister(vc4_hdmi->audio.codec_pdev);
++	vc4_hdmi->audio.codec_pdev = NULL;
++}
++
+ static irqreturn_t vc4_hdmi_hpd_irq_thread(int irq, void *priv)
  {
-+	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-+	struct drm_connector *connector = &vc4_hdmi->connector;
- 	struct drm_connector_state *conn_state =
--		vc4_hdmi_encoder_get_connector_state(encoder, state);
-+		drm_atomic_get_new_connector_state(state, connector);
- 	struct vc4_hdmi_connector_state *vc4_conn_state =
- 		conn_state_to_vc4_hdmi_conn_state(conn_state);
--	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 	struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
- 	unsigned long pixel_rate = vc4_conn_state->pixel_rate;
- 	unsigned long bvb_rate, hsm_rate;
+ 	struct vc4_hdmi *vc4_hdmi = priv;
+@@ -2689,6 +2696,7 @@ static void vc4_hdmi_unbind(struct device *dev, struct device *master,
+ 	kfree(vc4_hdmi->hdmi_regset.regs);
+ 	kfree(vc4_hdmi->hd_regset.regs);
+ 
++	vc4_hdmi_audio_exit(vc4_hdmi);
+ 	vc4_hdmi_cec_exit(vc4_hdmi);
+ 	vc4_hdmi_hotplug_exit(vc4_hdmi);
+ 	vc4_hdmi_connector_destroy(&vc4_hdmi->connector);
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index db53500a8435..275c4674d50f 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -113,6 +113,7 @@ struct vc4_hdmi_audio {
+ 	struct snd_soc_dai_link_component platform;
+ 	struct snd_dmaengine_dai_dma_data dma_data;
+ 	struct hdmi_audio_infoframe infoframe;
++	struct platform_device *codec_pdev;
+ 	bool streaming;
+ };
+ 
 -- 
 2.34.1
 
