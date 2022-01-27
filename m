@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FAA49EC1F
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 21:05:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B61F49EC23
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 21:06:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACF7710E306;
-	Thu, 27 Jan 2022 20:04:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD94810E38A;
+	Thu, 27 Jan 2022 20:06:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
- [IPv6:2607:f8b0:4864:20::831])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEA8310E271
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 20:04:56 +0000 (UTC)
-Received: by mail-qt1-x831.google.com with SMTP id b5so3437692qtq.11
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 12:04:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 965E310E271;
+ Thu, 27 Jan 2022 20:06:07 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id s127so8138074oig.2;
+ Thu, 27 Jan 2022 12:06:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=411z1vQK/uyJWyTA0mh5NoWT3UN44dWhOArvuxGcycY=;
- b=oqRkdvd05f1e+XOO+JL4So5nZNRq09NGBnqQML56y2IHYB2M7bFhId/11Tca1Aj5S4
- ED4cp4aEOW88tsIH707iF2iLcRhJeLhqc7G8uPFq36JBhPk2QtQE7vet9vRYJP9Nw38j
- zHY0sGW1Wuk9tkBp1drE/8KJRmGr2HtC5EH/XYpvvFJD265ufrr4ID11f0Kf5l7jbiU8
- YKFAjQ8McWwDhnsO1sMqI/2TbNwJrryEDi4imukFHLSLdr7G6cz76YxV5XdZyBW0RDkW
- wiQRqKcD0QWK71lJkas0XCt2Pk3oc1TKjQ5OY/+nL3QJtb+CxYKJygokfdonUOL/rliM
- N32Q==
+ :cc; bh=EbKovafJqxrxwXPbGoli47dYNTXZx5if0xOvJbes1n4=;
+ b=WfsqeZeB8+li+mdCAXmE+EF4ZRqHlHrJzP2yutjB+v6HxVpxELeq+TMjgrbMGR3zEI
+ +8x0msUyys1XPwGqa3fdLHzvWscjB3u0wupX4CCRp03rQ3hi4nPKleTA0ptfwtnLHbRe
+ hAk24ujnHHi7GQq98BUvHXMXD7RHGQrVV9QOq7EkM43SKDznN2X+U3rgZ6P+Nu6f7zMW
+ 7w7gB78qJ8nx/LX2+GPB45H52puMqCdCn4PMq/Y951J39wBhUeYndJQP9J09E0MCgfTc
+ d3/ueGUTCAJ+xwUxdYbO4bzhIfJyKE661DoWt1xW9RhpaR/rrACuniPtY4N+D6ixUfz7
+ 6hKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=411z1vQK/uyJWyTA0mh5NoWT3UN44dWhOArvuxGcycY=;
- b=CStg8Rk93f7i7JCO7AYPyyp2tXjlcTH6ZNZRnH9GMe6uXUwFvonkM+pJooG53GeM/v
- yabx8IdmMtYA+cyZjVqVqRcz196w2lFunr5jqHrqLRXeRO7i06ibwbqKBZvqw5xu8B+T
- xySDUIlXvw8GZ8upd+hxO6fQATHu02BqUcqFCTg/75QKW2AJYyl9amn3dRGqfrH/cEcI
- lX8xamL4kD8KMoMyvbE4SFhl5pUULtO78/qNVAOHUPnk8oMW55KPr0TOOHGFYveQiK6p
- HhjDoB5m3vOytbzhgtRPe56B98/9XBREz4/cakvbfec7djzM8lEEMw3GK+pLRpjxBPd0
- fxsQ==
-X-Gm-Message-State: AOAM533WZHSw6qRFeMiUugvHHZ8rZK4l6r/Im1JnteX6gFImM6I4enID
- WTNKdHdE909AE8G15yDlmYTG3ufl1M5T5/Yfz2qSdw==
-X-Google-Smtp-Source: ABdhPJxePmdXDwHCxiW5q8xf/FWoojenXjiwrAx6L9NdYYB7Ajr4VQCV3G0OxdGpcxK9NDBSGfbx39EpN+TiZyB9H08=
-X-Received: by 2002:ac8:7fca:: with SMTP id b10mr4156416qtk.62.1643313895857; 
- Thu, 27 Jan 2022 12:04:55 -0800 (PST)
+ bh=EbKovafJqxrxwXPbGoli47dYNTXZx5if0xOvJbes1n4=;
+ b=0HbxL3IBZZjEw1NvqcRZ/nWGFXLvuYN9FEHN57+82WrjcsCVQf1nNvrVGx8NzKpS4r
+ f9gQ6WfxoVqt1M6jbVTRJRPD+HhE1Ah/gJDWXNEVEcGf+vn7kvXDJkKrKO11pEKLtx2T
+ fWBnlLb4letdRySA/Go2sZjt/RMrbMHNC+10xSsQZUD2UXiPgsIZKDjGcQ5k93APScnx
+ eyK4Rg/yuLrn64X2KdYz2jnd0QiB4IbEjtSfZg+HkmtUDDWsNnsxo19RMiADYF/Xri0w
+ w96GC+XmyqX57SXr1sEKbyTFnUzcjL39HF2jVNepiToO8QQPzX+O2TBA1vnsLtbMkDV+
+ s+4g==
+X-Gm-Message-State: AOAM532tn2le1i5vYu7YMChCOOZXYVABs1YTDN1Tr0s9IPYq1GbCBTbX
+ eCRpR9XOZViXqOzMVoToEZ1+k+PKh+gIGMCexwI=
+X-Google-Smtp-Source: ABdhPJxHBpcoUFN1+scsDxMoRLl4j1oxUKa7K+WMYr5203HWdFDjlL8IAsQAu0hWcYb6baNdXROmNcUwivxZk2AYsQc=
+X-Received: by 2002:a05:6808:2189:: with SMTP id
+ be9mr8099468oib.93.1643313966887; 
+ Thu, 27 Jan 2022 12:06:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20220127170405.155710-1-daniel.thompson@linaro.org>
-In-Reply-To: <20220127170405.155710-1-daniel.thompson@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 27 Jan 2022 23:04:44 +0300
-Message-ID: <CAA8EJppWF27As46rRvYgHuqX=dwna2CQGZ79WXdrfqFbAK53uw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Remove spurious IRQF_ONESHOT flags from dsi &
- hdmi
-To: Daniel Thompson <daniel.thompson@linaro.org>
+References: <20220127071239.30487-1-tangmeng@uniontech.com>
+In-Reply-To: <20220127071239.30487-1-tangmeng@uniontech.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 27 Jan 2022 15:05:55 -0500
+Message-ID: <CADnq5_NR_=FACtfo_V22gK_nhBOcnp=Y-8NQooKtkKzJULeN3A@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/amdgpu: fix spelling mistake "disbale" ->
+ "disable"
+To: tangmeng <tangmeng@uniontech.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,78 +63,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sean Paul <sean@poorly.run>
+Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Jan 2022 at 20:04, Daniel Thompson
-<daniel.thompson@linaro.org> wrote:
->
-> Quoting the header comments, IRQF_ONESHOT is "Used by threaded interrupts
-> which need to keep the irq line disabled until the threaded handler has
-> been run.". When applied to an interrupt that doesn't request a threaded
-> irq then IRQF_ONESHOT has a lesser known (undocumented?) side effect,
-> which it to disable the forced threading of irqs (and for "normal" kernels
-> it is a nop). In this case I can find no evidence that suppressing forced
-> threading is intentional. Had it been intentional then a driver must adopt
-> the raw_spinlock API in order to avoid deadlocks on PREEMPT_RT kernels
-> (and avoid calling any kernel API that uses regular spinlocks).
->
-> Fix this by removing the spurious additional flag.
->
-> This change is required for my Snapdragon 7cx Gen2 tablet to boot-to-GUI
-> with PREEMPT_RT enabled.
->
-> Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+Applied.  Thanks!
 
-Could you please split it into two parts: separate DSI and HDMI patches
+Alex
 
+On Thu, Jan 27, 2022 at 3:45 AM tangmeng <tangmeng@uniontech.com> wrote:
+>
+> There is a spelling mistake. Fix it.
+>
+> Signed-off-by: tangmeng <tangmeng@uniontech.com>
 > ---
+>  drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Notes:
->     Just in case anybody asks, yes! I did use coccinelle to do a quick scan
->     for similar issues. I didn't find any other instances in drivers/drm/ .
+> diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c b/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+> index aef9d059ae52..a642c04cf17d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+> @@ -544,7 +544,7 @@ static int xgpu_vi_mailbox_rcv_irq(struct amdgpu_device *adev,
+>  {
+>         int r;
 >
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
->  drivers/gpu/drm/msm/hdmi/hdmi.c    | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 6b3ced4aaaf5d..3a3f53f0c8ae1 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1877,7 +1877,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
->
->         /* do not autoenable, will be enabled later */
->         ret = devm_request_irq(&pdev->dev, msm_host->irq, dsi_host_irq,
-> -                       IRQF_TRIGGER_HIGH | IRQF_ONESHOT | IRQF_NO_AUTOEN,
-> +                       IRQF_TRIGGER_HIGH | IRQF_NO_AUTOEN,
->                         "dsi_isr", msm_host);
->         if (ret < 0) {
->                 dev_err(&pdev->dev, "failed to request IRQ%u: %d\n",
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index 3acdeae25caf0..a1bfbc4c74bf7 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -301,7 +301,7 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->         }
->
->         ret = devm_request_irq(&pdev->dev, hdmi->irq,
-> -                       msm_hdmi_irq, IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> +                       msm_hdmi_irq, IRQF_TRIGGER_HIGH,
->                         "hdmi_isr", hdmi);
->         if (ret < 0) {
->                 DRM_DEV_ERROR(dev->dev, "failed to request IRQ%u: %d\n",
->
-> base-commit: e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
+> -       /* trigger gpu-reset by hypervisor only if TDR disbaled */
+> +       /* trigger gpu-reset by hypervisor only if TDR disabled */
+>         if (!amdgpu_gpu_recovery) {
+>                 /* see what event we get */
+>                 r = xgpu_vi_mailbox_rcv_msg(adev, IDH_FLR_NOTIFICATION);
 > --
-> 2.34.1
+> 2.20.1
 >
-
-
--- 
-With best wishes
-Dmitry
+>
+>
