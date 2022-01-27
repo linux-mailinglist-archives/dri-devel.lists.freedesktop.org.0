@@ -1,31 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4427D49DCCB
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 09:45:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDEF49DCBB
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 09:45:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A183210EDD5;
-	Thu, 27 Jan 2022 08:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D765D10E832;
+	Thu, 27 Jan 2022 08:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2ED4410E6D6
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 01:30:58 +0000 (UTC)
-Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
- by 156.147.23.53 with ESMTP; 27 Jan 2022 10:00:57 +0900
-X-Original-SENDERIP: 156.147.1.126
+X-Greylist: delayed 479 seconds by postgrey-1.36 at gabe;
+ Thu, 27 Jan 2022 01:08:59 UTC
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 76C2310E4CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 01:08:59 +0000 (UTC)
+Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
+ by 156.147.23.51 with ESMTP; 27 Jan 2022 10:08:57 +0900
+X-Original-SENDERIP: 156.147.1.125
 X-Original-MAILFROM: byungchul.park@lge.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
- by 156.147.1.126 with ESMTP; 27 Jan 2022 10:00:57 +0900
+ by 156.147.1.125 with ESMTP; 27 Jan 2022 10:08:57 +0900
 X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
 From: Byungchul Park <byungchul.park@lge.com>
 To: torvalds@linux-foundation.org, mingo@redhat.com,
  linux-kernel@vger.kernel.org
-Subject: Re: [RFC 00/14] DEPT(DEPendency Tracker)
-Date: Thu, 27 Jan 2022 10:00:53 +0900
-Message-Id: <1643245254-11122-1-git-send-email-byungchul.park@lge.com>
+Subject: Patches(Dept) for v5.17-rc1
+Date: Thu, 27 Jan 2022 10:08:53 +0900
+Message-Id: <1643245733-14513-1-git-send-email-byungchul.park@lge.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1643078204-12663-1-git-send-email-byungchul.park@lge.com>
 References: <1643078204-12663-1-git-send-email-byungchul.park@lge.com>
@@ -61,38 +63,11 @@ Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+cc
+The following messages are for the latest tag, v5.17-rc1.
+Hope you are gonna be satisfied with it!
 
-linux-mm@kvack.org
-akpm@linux-foundation.org
-mhocko@kernel.org
-minchan@kernel.org
-hannes@cmpxchg.org
-vdavydov.dev@gmail.com
-sj@kernel.org
-jglisse@redhat.com
-dennis@kernel.org
-cl@linux.com
-penberg@kernel.org
-rientjes@google.com
-vbabka@suse.cz
-ngupta@vflare.org
-linux-block@vger.kernel.org
-axboe@kernel.dk
-paolo.valente@linaro.org
-josef@toxicpanda.com
-linux-fsdevel@vger.kernel.org
-viro@zeniv.linux.org.uk
-jack@suse.cz
-jlayton@kernel.org
-dan.j.williams@intel.com
-hch@infradead.org
-djwong@kernel.org
-dri-devel@lists.freedesktop.org
-airlied@linux.ie
-rodrigosiqueiramelo@gmail.com
-melissa.srw@gmail.com
-hamohammed.sa@gmail.com
+Thanks,
+Byungchul
 
 --->8---
 From 68ee7ab996fc7d67b6b506f48da106493ca2546a Mon Sep 17 00:00:00 2001
