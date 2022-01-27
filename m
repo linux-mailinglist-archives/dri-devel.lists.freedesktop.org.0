@@ -1,109 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23B149DCC3
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 09:45:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4427D49DCCB
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 09:45:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD02410E929;
-	Thu, 27 Jan 2022 08:44:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A183210EDD5;
+	Thu, 27 Jan 2022 08:44:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CHE01-ZR0-obe.outbound.protection.outlook.com
- (mail-zr0che01on2097.outbound.protection.outlook.com [40.107.24.97])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E25FD10E2F3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jan 2022 16:55:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dO7fDMWYZMDsWS+JHIsd6U5QVS+weg5aD4wM+hDGy2T7xV5laG5LOlWXJYRu4wx7XwFg46zmn5qLFNhI2XBmNczVKLtdVHFLLFooB6UKm5u0Qte0iyopSbontswik3f5nq+PGYXGBGq9OUh/zev/zRea9QhZmeAPaSqhCZHKBefqmK4YUvD6jW3zdvetGExDPWIBb7GoTJ90gV8m5CQUafAU8GAGaFCPWSsmwZAM2yQHmYPs5Dkv29LSj973tlrY+G3QlcEm7Ou7aVG8l28KAZZfJiLZuN5EE0aYLkmnAy6r2SyjP40BRHDQhJ8ZAAe7NddwrlOLMqMsinvsxMriBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e4W6z/w5SpIlyru/HK3/DpQfVuFsiJd7PNzp4/qTP4U=;
- b=RgkdmiQajXowcwu8vyyOklVHsfgFOEsJcPQGre6v2iUnay5rfUu2tXLhQ9x4XPAC7NIV1zkBK+cjlr3rh0uSHPBcv3E/Cru7bBFkiYl/PuEJ0gAh2nBZsmQFUc0AE6juHq5y35zyYrzSiwDgWw6xfIYLzK1T3aKvNPgh0Yj9MDPWlFGHaCh6ZYKHHyBnBiy2Cs3a6es8076+gElt+JfjtbDVJLsUsXmdfP2I0EZqyAcq6eZPw29+UgLpDP3n1m8I4B+A3nl/YxtVWsmM4QCozzYyzgvPj63LjxdBwwP5BSmWz1iXvFsz+RDzdbREjx+ZybmO0B+G7f3dwGDRFmuivA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e4W6z/w5SpIlyru/HK3/DpQfVuFsiJd7PNzp4/qTP4U=;
- b=GazE3nq23yviAHHr4nSUttOMFdYXXrS4Y+SVemiMUSzXhjjRi19sb2+cHdWMCqe8EZmDYacCG/45UX+9Ipth1Z0cCku56pfGC0PXWl3l+Z3jr7sQ/Ib8DEGMZzMHkEO7tKSM4ZRWsM0HmALuUAcbEkqFTfqIT10J/23D0QKlCY8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=toradex.com;
-Received: from ZRAP278MB0642.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:3d::11)
- by ZRAP278MB0580.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:3f::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.8; Wed, 26 Jan
- 2022 16:55:09 +0000
-Received: from ZRAP278MB0642.CHEP278.PROD.OUTLOOK.COM
- ([fe80::d837:7398:e400:25f0]) by ZRAP278MB0642.CHEP278.PROD.OUTLOOK.COM
- ([fe80::d837:7398:e400:25f0%2]) with mapi id 15.20.4909.019; Wed, 26 Jan 2022
- 16:55:08 +0000
-From: Francesco Dolcini <francesco.dolcini@toradex.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v1] drm/panel: simple: Tune timing for ET057090DHU
-Date: Wed, 26 Jan 2022 17:55:06 +0100
-Message-Id: <20220126165506.222331-1-francesco.dolcini@toradex.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: GVAP278CA0007.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:710:20::17) To ZRAP278MB0642.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:3d::11)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c0d44c42-fa61-4d68-6d4c-08d9e0ec9c44
-X-MS-TrafficTypeDiagnostic: ZRAP278MB0580:EE_
-X-Microsoft-Antispam-PRVS: <ZRAP278MB0580EB725BBD4EA3DE7239D5E2209@ZRAP278MB0580.CHEP278.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1265;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mwClk7gHrHUO8NkoiG6XOtg5PDjJQ7c74vnjtFDuNDSo3zn3oadJ+sPhVMxjM6T12jejwo3JZdtpmHie0NhMA9burRjniMUGWxxP8VF/VL75ac/dJEnODSt0aq1ZcX6AYICnq4z2qFap9h+UpWOGkDCO/n4flnujhY4fuLrn8amhyFULjBOQwkXk7Mb5GJfCeVq0AHcWJySYhEdXKJqUUyLzpl+LtdglkoO5V9F42OY16UfIUI84+7nb/E0kIxdhJTKqBbDKNks14dN12EREXnN1UYn//gr7vJ+L2Vv7gKNaLAmhnEsEPMCWiufjOzg4liLoVgzXb985Y8urCo/PVU8VGlrmcuyy1E/ifGpazXhcMEVw2IN9tlvIlPaJSgC/n3PMDMCLS2rEAbYtHAkWS5XbBh0qIdpWTofvmS57Cdi+6i9/sJ5vmqvErbp+j/0aSplKs3yNJRcHULBsrZLhWmusfvA05Qs2xyiPtT6qf21aGvZ57PJwr83i+vfAB/suKSvdq+jJaOKqCGLYk0ZujUe63Tbtw3sUVJSJRywhR9UVcHJMs4j9m9qH1UVzK+jXIFEjIsEdPfOwkrmPxn6KrZ185JW0aGrd1mNbS5hNHtc9Hj/AvSBMq//pWKeuKbb2y2wn5Q6Zo6IpoXYT7YFsKg14FOWAYIu1qMJ0tXIqwCnUZvCaasXhafyjILu5eGiPXKSGx4c+XNxUE95JT3Lg6A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:ZRAP278MB0642.CHEP278.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(136003)(396003)(39850400004)(366004)(66476007)(83380400001)(54906003)(66946007)(38350700002)(86362001)(508600001)(66556008)(110136005)(36756003)(316002)(5660300002)(6506007)(6512007)(4326008)(26005)(38100700002)(1076003)(6486002)(52116002)(107886003)(8936002)(44832011)(2616005)(8676002)(2906002)(186003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Qk34Qucz8T1eoBhGpMYLwhDnC+1JMejYrYwSY77m9JrbxzaycLb8kar7ClcK?=
- =?us-ascii?Q?SGBIA+GZGwT4bcj/s9ny0taHz2dSU7rB/sZxqjfm4M1XYQpQxzO9AQyYkLK8?=
- =?us-ascii?Q?/ecXR4J8CpMrMbQF07kCiiyRmCU2G7OcH83d7n/Miqo7kzeurKPbXHKgh3Aq?=
- =?us-ascii?Q?4Ik/38xniSgfqEj7JUCDEgBAfH0/qsh7bBNZUVg+/TGSdQy5c3F6uQP1A2d+?=
- =?us-ascii?Q?dvJhlsBH9hqUHwYVysbkAfi/uk1kgLKjub5G+Bzqq8Jyh5r7QLIpYVKNAqWf?=
- =?us-ascii?Q?D3xYk2haeuFDVDgDbKo48eycvN6Fz0MxmPqfdspgpVxxzyhM7HG1K5u/j26c?=
- =?us-ascii?Q?PvD7sT1wg9cqKYJXijckYQ0P4DFPUDaoBaamALUV4QH8bw31lPeSnq2bwPeY?=
- =?us-ascii?Q?cAeDE0xUl/WjDzYRieFzlC8u00j3722ziQxmbMuRT8W/VEDCfcTaCmcsN8EW?=
- =?us-ascii?Q?AgJkTSBPPrcnAw2KFnbaTTVSjysYN9DmBP98CDgK6Et81/jUQghkRAJuiH4k?=
- =?us-ascii?Q?yqCTdHAWpoBduGfjrD1rD/A+kW25vm4LbnZsJPS9/74gBjxFLCftbnXxIKdp?=
- =?us-ascii?Q?KSXW1SRZKIFXvM3lhphHVglbsZ1SbQZzZj47gj9rRWNQRgz/5SssIpshO87B?=
- =?us-ascii?Q?aIrp6jd1IuWMvi+gPGxOQJzB98sIT7gEMsv+NFYTxp3j4aYutZ7hONGWbAex?=
- =?us-ascii?Q?hVjDLthvjzlWL81ElmeoHlocfRZFsAEEusbZFY7OP5SQ4hd+Gon3sE7O7rDD?=
- =?us-ascii?Q?TGf7PzNBR9/xKUStwpYREAkipTdDZWegWt0zh39TUCzjGjMCMF/NOodlwmsd?=
- =?us-ascii?Q?sRkgJuFDkmXieHWm1SeBu0eVMDxHyMKdqj7Wj55OtkLOATXUybLYBTjJtAb0?=
- =?us-ascii?Q?EqwkNlmfo+ImN7mkNAcq2OY8enw8qsDB8culOVe3XUqEKH1Wax8W4SX85Nck?=
- =?us-ascii?Q?E3YRQs6UGja+B4BtrgCIBQYC09fIckaizBEA/C90v2PhZOxXEYkyTiaAh8qv?=
- =?us-ascii?Q?njRZNxZuMdUOcXP+QIDf+5B+5tg8SVxVnt0z6pyfLcwJBvYm68DCxS3CkmnR?=
- =?us-ascii?Q?CuJzX9a3odOoDTwTJVzFSCsbrjm9A24u8L+q0jM238P6/gcgxy9CCo0MdbGn?=
- =?us-ascii?Q?jrmWc4T481KIxy1XT/BYbWI9PJqYT/Q9D0IJaj2HxdyYXis/G5kPmsN0hpmW?=
- =?us-ascii?Q?7TcGJjtg4nEKe9BggzoDqfmLy6OUMTiJrcG98QLF0q/lIfL2yWOqSNpTe06f?=
- =?us-ascii?Q?RKO0jlzwQLUrVLQnv+qZz6JU0kRjE6nBo/FrArkWGz/Jc+iiUw9vmo3WUP9j?=
- =?us-ascii?Q?MiUDaS87JPhCTGodv32ndBfiIb6N3xNPyksHlfcXFIt6TH/4i0P8P4bKy3Rm?=
- =?us-ascii?Q?MlcUeMOK34RN5eKdTcH9knZBamrrPuf889KZpmin2H3SsUjMwB0bLbyTGalD?=
- =?us-ascii?Q?1pdRgTLUSZ7LWgkj7Y2eTXoxm31Ln1y2p63NkWYKJjuHajKJ1mdNiZli0Oov?=
- =?us-ascii?Q?nNClHhT+3sVxV3pJD/H6V1hQPZWcd2/J275d5/tsffiGKftKcHj1ymPLxO5B?=
- =?us-ascii?Q?/ok2SDMiE2ouwaGnK7jTbBJXeJA+tqigmFzPEisXhJQ5CMnb6cpOdJFj5vh+?=
- =?us-ascii?Q?yK6TSIn/Oa4Ue3/V/Ge2e/fSbHTy+j4910UoE4M20pR16QNIFDt7cXVzy/i9?=
- =?us-ascii?Q?8Zgvhw=3D=3D?=
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0d44c42-fa61-4d68-6d4c-08d9e0ec9c44
-X-MS-Exchange-CrossTenant-AuthSource: ZRAP278MB0642.CHEP278.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2022 16:55:08.9225 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d9995866-0d9b-4251-8315-093f062abab4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6VyQ1QtZCCg5Isjccr6aS1gYf3rXxi5nGValqxzBc9ji1QgwMU2nrjJuv0Dd/oSGXmg0l73IGe+kciO58zBrYukUDFdEK4if3PtYftQhJkA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZRAP278MB0580
+Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2ED4410E6D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 01:30:58 +0000 (UTC)
+Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
+ by 156.147.23.53 with ESMTP; 27 Jan 2022 10:00:57 +0900
+X-Original-SENDERIP: 156.147.1.126
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
+ by 156.147.1.126 with ESMTP; 27 Jan 2022 10:00:57 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+From: Byungchul Park <byungchul.park@lge.com>
+To: torvalds@linux-foundation.org, mingo@redhat.com,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC 00/14] DEPT(DEPendency Tracker)
+Date: Thu, 27 Jan 2022 10:00:53 +0900
+Message-Id: <1643245254-11122-1-git-send-email-byungchul.park@lge.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1643078204-12663-1-git-send-email-byungchul.park@lge.com>
+References: <1643078204-12663-1-git-send-email-byungchul.park@lge.com>
 X-Mailman-Approved-At: Thu, 27 Jan 2022 08:44:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -117,50 +42,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
- Marcel Ziswiler <marcel.ziswiler@toradex.com>,
- Oleksandr Suvorov <oleksandr.suvorov@foundries.io>,
- Francesco Dolcini <francesco.dolcini@toradex.com>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ bfields@fieldses.org, kernel-team@lge.com, joel@joelfernandes.org,
+ cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
+ paolo.valente@linaro.org, willy@infradead.org, hch@infradead.org,
+ airlied@linux.ie, djwong@kernel.org, vdavydov.dev@gmail.com,
+ rientjes@google.com, dennis@kernel.org, ngupta@vflare.org,
+ johannes.berg@intel.com, dan.j.williams@intel.com, josef@toxicpanda.com,
+ rostedt@goodmis.org, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
+ tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz, axboe@kernel.dk,
+ melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, linux-mm@kvack.org, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, penberg@kernel.org, minchan@kernel.org, hannes@cmpxchg.org,
+ tj@kernel.org, akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
++cc
 
-VESA Display Monitor Timing v1.13 has recommendations for the historical
-VGA mode 640x480 60Hz. These parameters are compatible with EDT
-ET057090DHU recommended timings.
+linux-mm@kvack.org
+akpm@linux-foundation.org
+mhocko@kernel.org
+minchan@kernel.org
+hannes@cmpxchg.org
+vdavydov.dev@gmail.com
+sj@kernel.org
+jglisse@redhat.com
+dennis@kernel.org
+cl@linux.com
+penberg@kernel.org
+rientjes@google.com
+vbabka@suse.cz
+ngupta@vflare.org
+linux-block@vger.kernel.org
+axboe@kernel.dk
+paolo.valente@linaro.org
+josef@toxicpanda.com
+linux-fsdevel@vger.kernel.org
+viro@zeniv.linux.org.uk
+jack@suse.cz
+jlayton@kernel.org
+dan.j.williams@intel.com
+hch@infradead.org
+djwong@kernel.org
+dri-devel@lists.freedesktop.org
+airlied@linux.ie
+rodrigosiqueiramelo@gmail.com
+melissa.srw@gmail.com
+hamohammed.sa@gmail.com
 
-Use VESA DMT timing parameters for EDT ET057090DHU panel.
+--->8---
+From 68ee7ab996fc7d67b6b506f48da106493ca2546a Mon Sep 17 00:00:00 2001
+From: Byungchul Park <byungchul.park@lge.com>
+Date: Tue, 25 Jan 2022 10:12:54 +0900
+Subject: [RFC 00/14] DEPT(DEPendency Tracker)
 
-Signed-off-by: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
-Cc: Oleksandr Suvorov <oleksandr.suvorov@foundries.io>
-Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Hi forks,
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 9e46db5e359c..c11427f94ac5 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -1598,12 +1598,13 @@ static const struct drm_display_mode edt_et057090dhu_mode = {
- 	.clock = 25175,
- 	.hdisplay = 640,
- 	.hsync_start = 640 + 16,
--	.hsync_end = 640 + 16 + 30,
--	.htotal = 640 + 16 + 30 + 114,
-+	.hsync_end = 640 + 16 + 48,
-+	.htotal = 640 + 16 + 48 + 96,
- 	.vdisplay = 480,
- 	.vsync_start = 480 + 10,
--	.vsync_end = 480 + 10 + 3,
--	.vtotal = 480 + 10 + 3 + 32,
-+	.vsync_end = 480 + 10 + 2,
-+	.vtotal = 480 + 10 + 2 + 33,
-+	.vrefresh = 60,
- 	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
- };
- 
+I've been developing a tool for detecting deadlock possibilities by
+tracking wait/event rather than lock(?) acquisition order to try to
+cover all synchonization machanisms. It's done on v5.10 tag. I bet
+it would work great! Try it and see what's gonna happen.
+
+Now that there's a porting issue, I made Dept rely on Lockdep. But it
+should be separated from Lockdep once it's considered worth having.
+
+Benifit:
+
+	0. Works with all lock primitives.
+	1. Works with wait_for_completion()/complete().
+	2. Works with 'wait' on PG_locked.
+	3. Works with 'wait' on PG_writeback.
+	4. Works with swait/wakeup.
+	5. Multiple reports are allowed.
+	6. Deduplication control on multiple reports.
+	7. Withstand false positives thanks to 5.
+	8. Easy to tag any wait/event.
+
+Future work:
+
+	0. To make it more stable.
+	1. To separates Dept from Lockdep.
+	2. To improves performance in terms of time and space.
+	3. To use Dept as a dependency engine for Lockdep.
+	4. To add any missing tags of wait/event in the kernel.
+	5. To deduplicate stack trace.
+
+I hope you guys are gonna be satisfied with Dept. Don't hesitate to
+give any feedback. I will adopt any feedbacks if reasonable.
+
+Thanks,
+Byungchul
+
+Byungchul Park (14):
+  llist: Move llist_{head,node} definition to types.h
+  dept: Implement Dept(Dependency Tracker)
+  dept: Embed Dept data in Lockdep
+  dept: Apply Dept to spinlock
+  dept: Apply Dept to mutex families
+  dept: Apply Dept to rwlock
+  dept: Apply Dept to wait_for_completion()/complete()
+  dept: Apply Dept to seqlock
+  dept: Apply Dept to rwsem
+  dept: Add proc knobs to show stats and dependency graph
+  dept: Introduce split map concept and new APIs for them
+  dept: Apply Dept to wait/event of PG_{locked,writeback}
+  dept: Separate out SDT(Single-event Dependency Tracker) header
+  dept: Apply SDT to swait
+
+ include/linux/completion.h        |   48 +-
+ include/linux/dept.h              |  541 ++++++++
+ include/linux/dept_page.h         |   71 +
+ include/linux/dept_sdt.h          |   53 +
+ include/linux/hardirq.h           |    3 +
+ include/linux/irqflags.h          |   33 +-
+ include/linux/llist.h             |    9 +-
+ include/linux/lockdep.h           |  156 ++-
+ include/linux/lockdep_types.h     |    3 +
+ include/linux/mutex.h             |   31 +
+ include/linux/page-flags.h        |   26 +-
+ include/linux/pagemap.h           |    7 +-
+ include/linux/percpu-rwsem.h      |   10 +-
+ include/linux/rtmutex.h           |   11 +-
+ include/linux/rwlock.h            |   48 +
+ include/linux/rwlock_api_smp.h    |    8 +-
+ include/linux/rwlock_types.h      |    7 +
+ include/linux/rwsem.h             |   31 +
+ include/linux/sched.h             |    3 +
+ include/linux/seqlock.h           |   19 +-
+ include/linux/spinlock.h          |   24 +
+ include/linux/spinlock_types.h    |   10 +
+ include/linux/swait.h             |    4 +
+ include/linux/types.h             |    8 +
+ init/init_task.c                  |    2 +
+ init/main.c                       |    4 +
+ kernel/Makefile                   |    1 +
+ kernel/dependency/Makefile        |    5 +
+ kernel/dependency/dept.c          | 2593 +++++++++++++++++++++++++++++++++++++
+ kernel/dependency/dept_hash.h     |   11 +
+ kernel/dependency/dept_internal.h |   26 +
+ kernel/dependency/dept_object.h   |   14 +
+ kernel/dependency/dept_proc.c     |   97 ++
+ kernel/exit.c                     |    1 +
+ kernel/fork.c                     |    2 +
+ kernel/locking/lockdep.c          |   12 +-
+ kernel/module.c                   |    2 +
+ kernel/sched/completion.c         |   12 +-
+ kernel/sched/swait.c              |    8 +
+ kernel/softirq.c                  |    6 +-
+ kernel/trace/trace_preemptirq.c   |   19 +-
+ lib/Kconfig.debug                 |   21 +
+ mm/filemap.c                      |   62 +
+ mm/page_ext.c                     |    5 +
+ 44 files changed, 4009 insertions(+), 58 deletions(-)
+ create mode 100644 include/linux/dept.h
+ create mode 100644 include/linux/dept_page.h
+ create mode 100644 include/linux/dept_sdt.h
+ create mode 100644 kernel/dependency/Makefile
+ create mode 100644 kernel/dependency/dept.c
+ create mode 100644 kernel/dependency/dept_hash.h
+ create mode 100644 kernel/dependency/dept_internal.h
+ create mode 100644 kernel/dependency/dept_object.h
+ create mode 100644 kernel/dependency/dept_proc.c
+
 -- 
-2.25.1
+1.9.1
 
