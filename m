@@ -1,49 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4775C49EC71
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 21:26:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0356849ED44
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 22:13:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D8E910E79D;
-	Thu, 27 Jan 2022 20:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76E7810E16F;
+	Thu, 27 Jan 2022 21:13:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36B1610E79D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 20:26:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Yfi4JO+rb2gOsgn4TFlquEVKiqVN/RBXx2TthsuV8Jk=; b=CBs8jEnBavzR6azVsJMjoM8W9A
- SDdzXZTTaH8ENzaAwqQq2Sh3oJK83ItcQpiCZczJSKjBfu0ZJT0FIAhQSTFuL4CBguZwlpLwLJ9Ph
- 2z6Uitc4tOs/3gFgiWDIBznXtzw9ekimAKNbxXgP/+MAjOSK8g0Y12oZkqJ0VUCjiuTAo/7t5QMh5
- DvetSQ08xx5cw/uv5cCTR7aQlvJFqw1dTxbKF4ErXdThx4y2k6+U0r2wqih/PfRfyqMtOT6bH+3c0
- U3quUgoO8439bIb5IYenNvkP8c65A32pc4CGXvIrd2LslqcU6neKhqNvZAXhGbyN5rt3fiDzt5Zsk
- SCurYt6w==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:63033
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1nDBLl-0004V0-3i; Thu, 27 Jan 2022 21:26:33 +0100
-Message-ID: <d7bc7ab2-29bc-12bc-db9c-466592addfc1@tronnes.org>
-Date: Thu, 27 Jan 2022 21:26:29 +0100
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7058710E16F
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 21:13:38 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ o16-20020a17090aac1000b001b62f629953so1406079pjq.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 13:13:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ttcznpmjNvZVZe6O6wtlR333FpEjIJT83FNFWegcMUc=;
+ b=fnxEJ9l1xhuurPcrEdm2RtQ33HjR55zaif5WOS20vyx5d4EBgS14mRrlD4mJLfiLBp
+ 4BOGeU/mu3ZWrNF2owQjzUFwGqIJqLBZNWGfoQ8Aq0MNS6BJZP6vS4zSz2AYZ5bfuU+C
+ exJxs/64Gc7XuZyVent8VsheKyRyp+r04Mt6w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ttcznpmjNvZVZe6O6wtlR333FpEjIJT83FNFWegcMUc=;
+ b=pqXytTH0X1a0tPGIPhhrScYgBiV34nFCyifYygSv04n8cX5uvGXQqnVvpveFW95cxi
+ nCqs56ulUgApYfN/qEgB8rDwvMbWkOOY5NSVpRLED4MWFQIf9W0YO5Y58/ledxwOHj3R
+ yi0jOMBWFfCyPKRjfSsdGAuUXFCbMPM6dpfKQlIq8dWGntKCm8QYJFnT1pBR0sYWn/4I
+ sqpyqUE0BUOQJZAcplYL7A1pVtSJFTSRJzzfXon0YO9imnjIDSEUKceARvGlyExBCAku
+ VPHeZF20FlooCS/Wni7ISHLZptdXGGoo5KtBGcM9fioJU2ZYo+wBPzQ/8ay2ex7qjMBQ
+ Cz0Q==
+X-Gm-Message-State: AOAM530Kh+A9oNmRIsiz/NnjCe43a6ij26848dgGxI//qkFXeuYSB2tE
+ hxQcJmL6v2Gb03+2wTM2Gwm8Sw==
+X-Google-Smtp-Source: ABdhPJyytDnSXIvbMyECjoVId3KSVIR9kQrbhsXzWFHR8Nqj+U802h7/RgfYeV95PZ9PkHxr74kZWw==
+X-Received: by 2002:a17:902:8c81:: with SMTP id
+ t1mr5265594plo.16.1643318017955; 
+ Thu, 27 Jan 2022 13:13:37 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id m21sm6853917pfk.26.2022.01.27.13.13.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 13:13:37 -0800 (PST)
+Date: Thu, 27 Jan 2022 13:13:36 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Subject: Re: [PATCH] drm/kmb: Fix for build errors with Warray-bounds
+Message-ID: <202201271312.85B63F9@keescook>
+References: <20220127194227.2213608-1-anitha.chrisanthus@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 3/3] drm/panel: Add MIPI DBI compatible SPI driver
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20220125175700.37408-1-noralf@tronnes.org>
- <20220125175700.37408-4-noralf@tronnes.org> <YfL5ptT3Kw1ohC/1@ravnborg.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <YfL5ptT3Kw1ohC/1@ravnborg.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220127194227.2213608-1-anitha.chrisanthus@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,98 +66,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, maxime@cerno.tech
+Cc: edmund.j.dea@intel.com, sam@ravnborg.org, dri-devel@lists.freedesktop.org,
+ sfr@canb.auug.org.au
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jan 27, 2022 at 11:42:27AM -0800, Anitha Chrisanthus wrote:
+> This fixes the following build error
+> 
+> drivers/gpu/drm/kmb/kmb_plane.c: In function 'kmb_plane_atomic_disable':
+> drivers/gpu/drm/kmb/kmb_plane.c:165:34: error: array subscript 3 is
+> above array bounds of 'struct layer_status[2]' [-Werror=array-bounds]
+>   165 |                 kmb->plane_status[plane_id].ctrl =
+>   LCD_CTRL_GL2_ENABLE;
+>   |                 ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+>   In file included from drivers/gpu/drm/kmb/kmb_plane.c:17:
+>   drivers/gpu/drm/kmb/kmb_drv.h:61:41: note: while referencing
+>   'plane_status'
+>   61 |         struct layer_status
+>   plane_status[KMB_MAX_PLANES];
 
+This would be better without the line wrapping (to match the actual
+output), but otherwise:
 
-Den 27.01.2022 20.59, skrev Sam Ravnborg:
-> Hi Noralf,
-> 
-> On Tue, Jan 25, 2022 at 06:57:00PM +0100, Noralf Trønnes wrote:
->> Add a driver that will work with most MIPI DBI compatible SPI panels.
->> This avoids adding a driver for every new MIPI DBI compatible controller
->> that is to be used by Linux. The 'compatible' Device Tree property with
->> a '.bin' suffix will be used to load a firmware file that contains the
->> controller configuration.
-> 
-> Loading a configuration from a firmware file is very
-> elegant - I like.
-> This will be very useful in a million cases with a lot of small panels!
-> 
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Yes I really hope we can find a way to get this accepted.
-
->> +
->> +	/*
->> +	 * Optional MIPI commands to execute when the display pipeline is enabled.
->> +	 * This can be used to configure the display controller.
->> +	 *
->> +	 * The commands are stored in a byte array with the format:
->> +	 *     command, num_parameters, [ parameter, ...], command, ...
->> +	 *
->> +	 * Some commands require a pause before the next command can be received.
->> +	 * Inserting a delay in the command sequence is done by using the NOP command with one
->> +	 * parameter: delay in miliseconds (the No Operation command is part of the MIPI Display
->> +	 * Command Set where it has no parameters).
->> +	 *
->> +	 * Example:
->> +	 *     command 0x11
->> +	 *     sleep 120ms
->> +	 *     command 0xb1 parameters 0x01, 0x2c, 0x2d
->> +	 *     command 0x29
->> +	 *
->> +	 * Byte sequence:
->> +	 *     0x11 0x00
->> +	 *     0x00 0x01 0x78
->> +	 *     0xb1 0x03 0x01 0x2c 0x2d
->> +	 *     0x29 0x00
->> +	 */
-> Using a binary file that is unreadable when it is first created is less
-> elegant.
-> I am sure you have considered a txt file - and I know parsing a txt file
-> in prone for more errros than parsing a binary file.
+>   |                                         ^~~~~~~~~~~~
+>   drivers/gpu/drm/kmb/kmb_plane.c:162:34: error: array
+>   subscript 2 is above array bounds of 'struct
+>   layer_status[2]' [-Werror=array-bounds]
+>   162 |
+>   kmb->plane_status[plane_id].ctrl =
+>   LCD_CTRL_GL1_ENABLE;
+>   |                 ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+>   In file included from
+>   drivers/gpu/drm/kmb/kmb_plane.c:17:
+>   drivers/gpu/drm/kmb/kmb_drv.h:61:41: note:
+>   while referencing 'plane_status'
+>   61 |         struct layer_status
+>   plane_status[KMB_MAX_PLANES];
+>   |
+>   ^~~~~~~~~~~~
 > 
+> Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
+> Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> ---
+>  drivers/gpu/drm/kmb/kmb_plane.c | 6 ------
+>  1 file changed, 6 deletions(-)
 > 
-> But if the text file looked like:
-> "
-> 	# The is a comment
-> 	cmd 0x11 0x00
-> 
-> 	# We need to sleep
-> 	sleepms 120
-> 
-> 	# Do something more
-> 	cmd 0xb1 0x03 0x01 0x2c 0x2d
-> 	cmd 0x29 0x00
-> "
-> 
-> The file is easier to comment (document) and easier to read and
-> modify.
-> The suffix could be ".panel" to tell this is something specific for
-> a panel.
-> Using lib/parser could make the code somewhat simple but I did not try
-> to code it myself.
-> 
-> The code you included below for the binary file is very simple,
-> but you shift the burden to the people who have to create binary files.
-> And people using obscure displays are not always so good at this stuff.
+> diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
+> index 00404ba4126d..2735b8eb3537 100644
+> --- a/drivers/gpu/drm/kmb/kmb_plane.c
+> +++ b/drivers/gpu/drm/kmb/kmb_plane.c
+> @@ -158,12 +158,6 @@ static void kmb_plane_atomic_disable(struct drm_plane *plane,
+>  	case LAYER_1:
+>  		kmb->plane_status[plane_id].ctrl = LCD_CTRL_VL2_ENABLE;
+>  		break;
+> -	case LAYER_2:
+> -		kmb->plane_status[plane_id].ctrl = LCD_CTRL_GL1_ENABLE;
+> -		break;
+> -	case LAYER_3:
+> -		kmb->plane_status[plane_id].ctrl = LCD_CTRL_GL2_ENABLE;
+> -		break;
+>  	}
+>  
+>  	kmb->plane_status[plane_id].disable = true;
+> -- 
+> 2.25.1
 > 
 
-Parsing text files in the kernel sounds very scary, not something that I
-would like to try.
-
-I will make a script that generates and parses the binary representation
-(which is big endian so it's somewhat readable with xxd or the like).
-There's a wiki link in the MAINTAINERS entry that will have info about
-the format including the script. It will also serve as a place to share
-config snippets/script incantations for displays.
-
-I will make the script when the file format is decided upon. Here's the
-hack I currently use:
-https://gist.github.com/notro/3ca61c48e7dcc4a0ef34dbadbc30bfa5
-
-Noralf.
+-- 
+Kees Cook
