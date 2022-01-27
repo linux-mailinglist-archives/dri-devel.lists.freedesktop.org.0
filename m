@@ -2,47 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B621049D8A3
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 03:56:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5864049D8E1
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 04:10:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBCA910EB9E;
-	Thu, 27 Jan 2022 02:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7625E10E763;
+	Thu, 27 Jan 2022 03:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA92110EB32
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 02:56:05 +0000 (UTC)
-X-UUID: b243037215b1458fa3516a2e57d75da3-20220127
-X-UUID: b243037215b1458fa3516a2e57d75da3-20220127
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1484236745; Thu, 27 Jan 2022 10:56:03 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 27 Jan 2022 10:56:02 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 27 Jan 2022 10:56:00 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi
- Shih <tzungbi@chromium.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Tiffany Lin
- <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v1,
- 8/8] media: mtk-vcodec: Add to support H264 inner racing mode
-Date: Thu, 27 Jan 2022 10:55:44 +0800
-Message-ID: <20220127025544.10854-9-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220127025544.10854-1-yunfei.dong@mediatek.com>
-References: <20220127025544.10854-1-yunfei.dong@mediatek.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2057.outbound.protection.outlook.com [40.107.223.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F105710E42C;
+ Thu, 27 Jan 2022 03:10:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EazSu/kbhx2c+x0P29prix7boVv40QEEcsr1GIKo6YrSOCZ9zP+Y8LThIEbB1tnw3J876JuMoiWloBuCDSrSqVh/ylUOCCc2CUBJKVe6i+8gEAaptoKjLXxd16FE0/cgvf/MieVxkDKC8SvWSd3xxW/DEWvG4zCQQ2DR2s5izk/gUnmoFGfSBtZ8qFF9YAVB5PJO+9/YNWTiQLF3BOLA38LKM/y4QxQX0e95PGlKILo80CDVBN/3NT+QC1lq1Zec34v78aiMvUFsm5vbkiYypc0fuAqY4J7EkQrhHaLPJ76OFu7Mi8kWo5SNE4Mqyo8Kry2fRBa3DoNK/YVHo2calw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=echqpR4vSwoF6VTqdjBRSvMm9RVhcVS/z9aiXSLA7Eo=;
+ b=SmoQUors0y69Juljkl20xDOxA0BE03DzuieaOY8A9UcSTZ+DWUfQmarTgqxGEXMW/bCv/f3ykfjiSfHIyG296Xs5eOzzbs3oVu3JLddfuM6jRqGdJsrwDn5wYFlouVSKuxLH6SVT4NGSxK5LpYRtYPxkEoLPYcK2XNDdFm1L7H7CDd5l3k0Jgoh6cEHeCXi9+vn1LhXxULM7fexsuRZ0jBzJH96IV3QWWarZNkGUvPb6d2rjD4A6KIV0iiLN7MtvV4PU1XT7x1vpJZw+w374q7p/4+ZolOksnqw1xw8kOsXzAoPu1yKZLhNQ6zmOKOQMCdgDb0y2Oih2RyVTI6KVEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux-foundation.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=echqpR4vSwoF6VTqdjBRSvMm9RVhcVS/z9aiXSLA7Eo=;
+ b=eF0oT8aIvyNbEf8P9mRQUuVG/NoMM2Kb+TBieGYIJwU84RyJbFkwiFp8UCIoXcPGyQP2EA0r+NbrRMeNm+3HExK+cNKd2eHO17HbvFt0mOAbn8Xfd1YY1YjIYDSZEecbzgTJCWbuhib9N/1GUJ8QezkvS/Mk2j2s000emwCaOYQ=
+Received: from CO2PR05CA0087.namprd05.prod.outlook.com (2603:10b6:104:1::13)
+ by BN7PR12MB2770.namprd12.prod.outlook.com (2603:10b6:408:32::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.17; Thu, 27 Jan
+ 2022 03:10:01 +0000
+Received: from CO1NAM11FT066.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:104:1:cafe::85) by CO2PR05CA0087.outlook.office365.com
+ (2603:10b6:104:1::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.17 via Frontend
+ Transport; Thu, 27 Jan 2022 03:10:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT066.mail.protection.outlook.com (10.13.175.18) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4930.15 via Frontend Transport; Thu, 27 Jan 2022 03:10:00 +0000
+Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 26 Jan
+ 2022 21:09:58 -0600
+From: Alex Sierra <alex.sierra@amd.com>
+To: <akpm@linux-foundation.org>, <Felix.Kuehling@amd.com>,
+ <linux-mm@kvack.org>, <rcampbell@nvidia.com>, <linux-ext4@vger.kernel.org>,
+ <linux-xfs@vger.kernel.org>
+Subject: [PATCH v4 00/10] Add MEMORY_DEVICE_COHERENT for coherent device
+ memory mapping
+Date: Wed, 26 Jan 2022 21:09:39 -0600
+Message-ID: <20220127030949.19396-1-alex.sierra@amd.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ec8902e5-b213-44ab-2380-08d9e1428167
+X-MS-TrafficTypeDiagnostic: BN7PR12MB2770:EE_
+X-Microsoft-Antispam-PRVS: <BN7PR12MB277038D90D656EF0C05064D9FD219@BN7PR12MB2770.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9+GdVnhbmrRllv9+d949E4IQN5p2Nj8GTzTCR1/QEBds+mXglwfQTwprvh/Y4rxloej/5vhRWtYLu8k29KPDg9/mv9XhIlzxOg6wglTLQ78aiCme4n7G0Y+cmwuG8UuueBWl7stgBaK54tK1FYLryy6HH6bFGSv48HWmfVB48758a6+uPfbqQQc42glUFrAZk7qGgZbOLTfeJZULg/PsfWbMkIlT4mgioEihmJGi0KUzfteuB6wha/He/OAHRZSTUSm6Qtn51FuYE+2uStyQKPquOPB9j0lUnLD0yu2RnpqDN6ZyQCM62BQKlNKp/K50yrT+Mh9RH5oqxtah2rb2BkkN9KHfXr3R6B/bTNWPDF0LnoHY9dW0kU0MlTioBDEj4gy2f4/DIrcwES3qQQIQQTvLLa8GjUgljAZ/vJM3Dwr8F42HR+kHNyROvKpvYbGCbkuY3UzIDM+HwVb73Cdezl9TbVjeu8DiN12iZV9qaiAZwFU3xZ4eCK/B1jncld20V/S4d7K7rXhJdnKr86+0FOmfSGx6FpeLZ/dPFPVhZCuDrORqvMMOJBDo4Azy/tr+VCSFYZQ4j7YpBZOcJZt3lc08MRJc4BA+dsr/1LC25ibb7M4FNsxMmgOvoBF4IJVj3CHZ86ynY8Wv4wGd/qIfZpuvCezalaiqRsl8kvx5jMsSLHKuMqDJjcx2CN32CrKdOx0GIg8cCk1ohl7dfPMSoChgJ8kNQYKQhDFqRCPms1KT8o625+cLc9ELR8G94GU4wjAJ1eRjmlRqT6i0QHSUCq7Jf4yVUcYd21UZIdPgz78=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(36840700001)(46966006)(40470700004)(356005)(83380400001)(6666004)(336012)(26005)(2616005)(47076005)(70586007)(40460700003)(8676002)(316002)(110136005)(44832011)(54906003)(508600001)(1076003)(36756003)(36860700001)(7416002)(4326008)(7696005)(2906002)(81166007)(70206006)(5660300002)(8936002)(186003)(16526019)(82310400004)(426003)(86362001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2022 03:10:00.2872 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec8902e5-b213-44ab-2380-08d9e1428167
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT066.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR12MB2770
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,189 +103,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Steve Cho <stevecho@chromium.org>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: willy@infradead.org, apopple@nvidia.com, dri-devel@lists.freedesktop.org,
+ jglisse@redhat.com, amd-gfx@lists.freedesktop.org, jgg@nvidia.com, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to reduce decoder latency, enable H264 inner racing mode.
+This patch series introduces MEMORY_DEVICE_COHERENT, a type of memory
+owned by a device that can be mapped into CPU page tables like
+MEMORY_DEVICE_GENERIC and can also be migrated like
+MEMORY_DEVICE_PRIVATE.
 
-Send lat trans buffer information to core when trigger lat to work,
-need not to wait until lat decode done.
+Christoph, the suggestion to incorporate Ralph Campbell’s refcount
+cleanup patch into our hardware page migration patchset originally came
+from you, but it proved impractical to do things in that order because
+the refcount cleanup introduced a bug with wide ranging structural
+implications. Instead, we amended Ralph’s patch so that it could be
+applied after merging the migration work. As we saw from the recent
+discussion, merging the refcount work is going to take some time and
+cooperation between multiple development groups, while the migration
+work is ready now and is needed now. So we propose to merge this
+patchset first and continue to work with Ralph and others to merge the
+refcount cleanup separately, when it is ready.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  4 +++
- .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 34 +++++++++++++++++++
- .../platform/mtk-vcodec/mtk_vcodec_drv.h      | 10 ++++++
- .../mtk-vcodec/vdec/vdec_h264_req_multi_if.c  | 23 ++++++++++---
- 4 files changed, 66 insertions(+), 5 deletions(-)
+This patch series is mostly self-contained except for a few places where
+it needs to update other subsystems to handle the new memory type.
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-index 938bf14e4e8c..099dc28b7445 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-@@ -390,6 +390,10 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	atomic_set(&dev->dec_active_cnt, 0);
-+	memset(dev->vdec_racing_info, 0 , sizeof(dev->vdec_racing_info));
-+	mutex_init(&dev->dec_racing_info_mutex);
-+
- 	if (dev->vdec_pdata->uses_stateless_api) {
- 		dev->mdev_dec.dev = &pdev->dev;
- 		strscpy(dev->mdev_dec.model, MTK_VCODEC_DEC_NAME,
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-index 76e1442fc6f9..065d14a3d11f 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-@@ -173,6 +173,34 @@ static void mtk_vcodec_dec_disable_irq(struct mtk_vcodec_dev *vdec_dev, int hw_i
- 	}
- }
- 
-+static void mtk_vcodec_load_racing_info(struct mtk_vcodec_ctx *ctx)
-+{
-+	void __iomem *vdec_racing_addr;
-+	int j;
-+
-+	mutex_lock(&ctx->dev->dec_racing_info_mutex);
-+	if (atomic_inc_return(&ctx->dev->dec_active_cnt) == 1) {
-+		vdec_racing_addr = ctx->dev->reg_base[VDEC_MISC] + 0x100;
-+		for (j = 0; j < 132; j++)
-+			writel(ctx->dev->vdec_racing_info[j], vdec_racing_addr + j * 4);
-+	}
-+	mutex_unlock(&ctx->dev->dec_racing_info_mutex);
-+}
-+
-+static void mtk_vcodec_record_racing_info(struct mtk_vcodec_ctx *ctx)
-+{
-+	void __iomem *vdec_racing_addr;
-+	int j;
-+
-+	mutex_lock(&ctx->dev->dec_racing_info_mutex);
-+	if (atomic_dec_and_test(&ctx->dev->dec_active_cnt)) {
-+		vdec_racing_addr = ctx->dev->reg_base[VDEC_MISC] + 0x100;
-+		for (j = 0; j < 132; j++)
-+			ctx->dev->vdec_racing_info[j] = readl(vdec_racing_addr + j * 4);
-+	}
-+	mutex_unlock(&ctx->dev->dec_racing_info_mutex);
-+}
-+
- static struct mtk_vcodec_pm *mtk_vcodec_dec_get_pm(struct mtk_vcodec_dev *vdec_dev,
- 						   int hw_idx)
- {
-@@ -243,11 +271,17 @@ void mtk_vcodec_dec_enable_hardware(struct mtk_vcodec_ctx *ctx, int hw_idx)
- 	mtk_vcodec_dec_child_dev_on(ctx->dev, hw_idx);
- 
- 	mtk_vcodec_dec_enable_irq(ctx->dev, hw_idx);
-+
-+	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		mtk_vcodec_load_racing_info(ctx);
- }
- EXPORT_SYMBOL_GPL(mtk_vcodec_dec_enable_hardware);
- 
- void mtk_vcodec_dec_disable_hardware(struct mtk_vcodec_ctx *ctx, int hw_idx)
- {
-+	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		mtk_vcodec_record_racing_info(ctx);
-+
- 	mtk_vcodec_dec_disable_irq(ctx->dev, hw_idx);
- 
- 	mtk_vcodec_dec_child_dev_off(ctx->dev, hw_idx);
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-index 363b999dd709..4d6ace869b5a 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-@@ -28,6 +28,7 @@
- #define MTK_V4L2_BENCHMARK	0
- #define WAIT_INTR_TIMEOUT_MS	1000
- #define IS_VDEC_LAT_ARCH(hw_arch) ((hw_arch) >= MTK_VDEC_LAT_SINGLE_CORE)
-+#define IS_VDEC_INNER_RACING(capability) (capability & MTK_VCODEC_INNER_RACING)
- 
- /*
-  * enum mtk_hw_reg_idx - MTK hw register base index
-@@ -360,6 +361,7 @@ enum mtk_vdec_format_types {
- 	MTK_VDEC_FORMAT_H264_SLICE = 0x100,
- 	MTK_VDEC_FORMAT_VP8_FRAME = 0x200,
- 	MTK_VDEC_FORMAT_VP9_FRAME = 0x400,
-+	MTK_VCODEC_INNER_RACING = 0x20000,
- };
- 
- /**
-@@ -480,6 +482,10 @@ struct mtk_vcodec_enc_pdata {
-  * @subdev_dev: subdev hardware device
-  * @subdev_prob_done: check whether all used hw device is prob done
-  * @subdev_bitmap: used to record hardware is ready or not
-+ *
-+ * @dec_active_cnt: used to mark whether need to record register value
-+ * @vdec_racing_info: record register value
-+ * @dec_racing_info_mutex: mutex lock used for inner racing mode
-  */
- struct mtk_vcodec_dev {
- 	struct v4l2_device v4l2_dev;
-@@ -525,6 +531,10 @@ struct mtk_vcodec_dev {
- 	void *subdev_dev[MTK_VDEC_HW_MAX];
- 	int (*subdev_prob_done)(struct mtk_vcodec_dev *vdec_dev);
- 	DECLARE_BITMAP(subdev_bitmap, MTK_VDEC_HW_MAX);
-+
-+	atomic_t dec_active_cnt;
-+	u32 vdec_racing_info[132];
-+	struct mutex dec_racing_info_mutex;
- };
- 
- static inline struct mtk_vcodec_ctx *fh_to_ctx(struct v4l2_fh *fh)
-diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_multi_if.c
-index 5541edbafed2..988d1d12d5c8 100644
---- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_multi_if.c
-+++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_multi_if.c
-@@ -617,6 +617,17 @@ static int vdec_h264_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 		goto err_free_fb_out;
- 	}
- 
-+	share_info->trans_end = inst->ctx->msg_queue.wdma_addr.dma_addr +
-+		inst->vsi->wdma_end_addr_offset;
-+	share_info->trans_start = inst->ctx->msg_queue.wdma_wptr_addr;
-+	share_info->nal_info = inst->vsi->dec.nal_info;
-+
-+	if (IS_VDEC_INNER_RACING(inst->ctx->dev->dec_capability)) {
-+		memcpy(&share_info->h264_slice_params, &inst->vsi->h264_slice_params,
-+		       sizeof(share_info->h264_slice_params));
-+		vdec_msg_queue_qbuf(&inst->ctx->dev->msg_queue_core_ctx, lat_buf);
-+	}
-+
- 	/* wait decoder done interrupt */
- 	timeout = mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIVED,
- 					       WAIT_INTR_TIMEOUT_MS, MTK_VDEC_LAT0);
-@@ -630,14 +641,16 @@ static int vdec_h264_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 
- 	share_info->trans_end = inst->ctx->msg_queue.wdma_addr.dma_addr +
- 		inst->vsi->wdma_end_addr_offset;
--	share_info->trans_start = inst->ctx->msg_queue.wdma_wptr_addr;
--	share_info->nal_info = inst->vsi->dec.nal_info;
- 	vdec_msg_queue_update_ube_wptr(&lat_buf->ctx->msg_queue,
- 				       share_info->trans_end);
- 
--	memcpy(&share_info->h264_slice_params, &inst->vsi->h264_slice_params,
--	       sizeof(share_info->h264_slice_params));
--	vdec_msg_queue_qbuf(&inst->ctx->dev->msg_queue_core_ctx, lat_buf);
-+	if (!IS_VDEC_INNER_RACING(inst->ctx->dev->dec_capability)) {
-+		memcpy(&share_info->h264_slice_params, &inst->vsi->h264_slice_params,
-+		       sizeof(share_info->h264_slice_params));
-+		vdec_msg_queue_qbuf(&inst->ctx->dev->msg_queue_core_ctx, lat_buf);
-+	}
-+	mtk_vcodec_debug(inst, "lat crc: 0x%x 0x%x 0x%x", inst->vsi->dec.crc[0],
-+			 inst->vsi->dec.crc[1], inst->vsi->dec.crc[2]);
- 	inst->slice_dec_num++;
- 
- err_free_fb_out:
+System stability and performance are not affected according to our
+ongoing testing, including xfstests.
+
+How it works: The system BIOS advertises the GPU device memory
+(aka VRAM) as SPM (special purpose memory) in the UEFI system address
+map.
+
+The amdgpu driver registers the memory with devmap as
+MEMORY_DEVICE_COHERENT using devm_memremap_pages. The initial user for
+this hardware page migration capability is the Frontier supercomputer
+project. This functionality is not AMD-specific. We expect other GPU
+vendors to find this functionality useful, and possibly other hardware
+types in the future.
+
+Our test nodes in the lab are similar to the Frontier configuration,
+with .5 TB of system memory plus 256 GB of device memory split across
+4 GPUs, all in a single coherent address space. Page migration is
+expected to improve application efficiency significantly. We will
+report empirical results as they become available.
+
+We extended hmm_test to cover migration of MEMORY_DEVICE_COHERENT. This
+patch set builds on HMM and our SVM memory manager already merged in
+5.15.
+
+v2:
+- test_hmm is now able to create private and coherent device mirror
+instances in the same driver probe. This adds more usability to the hmm
+test by not having to remove the kernel module for each device type
+test (private/coherent type). This is done by passing the module
+parameters spm_addr_dev0 & spm_addr_dev1. In this case, it will create
+four instances of device_mirror. The first two correspond to private
+device type, the last two to coherent type. Then, they can be easily
+accessed from user space through /dev/hmm_mirror<num_device>. Usually
+num_device 0 and 1 are for private, and 2 and 3 for coherent types.
+
+- Coherent device type pages at gup are now migrated back to system
+memory if they have been long term pinned (FOLL_LONGTERM). The reason
+is these pages could eventually interfere with their own device memory
+manager. A new hmm_gup_test has been added to the hmm-test to test this
+functionality. It makes use of the gup_test module to long term pin
+user pages that have been migrate to device memory first.
+
+- Other patch corrections made by Felix, Alistair and Christoph.
+
+v3:
+- Based on last v2 feedback we got from Alistair, we've decided to
+remove migration logic for FOLL_LONGTERM coherent device type pages at
+gup for now. Ideally, this should be done through the kernel mm,
+instead of calling the device driver to do it. Currently, there's no
+support for migrating device pages based on pfn, mainly because
+migrate_pages() relies on pages being LRU pages. Alistair mentioned, he
+has started to work on adding this migrate device pages logic. For now,
+we fail on get_user_pages call with FOLL_LONGTERM for DEVICE_COHERENT
+pages.
+
+- Also, hmm_gup_test has been removed from hmm-test. We plan to include
+it again after this migration work is ready.
+
+- Addressed Liam Howlett's feedback changes.
+
+v4:
+- Addressed Alistair Popple's last v3 feedback.
+
+- Use the same system entry path for coherent device pages at
+migrate_vma_insert_page.
+
+- Add coherent device type support for try_to_migrate /
+try_to_migrate_one.
+
+- Include number of coherent device pages successfully migrated back to
+system at test_hmm. Made the proper changes to hmm-test to read/check
+this number.
+
+Alex Sierra (10):
+  mm: add zone device coherent type memory support
+  mm: add device coherent vma selection for memory migration
+  mm/gup: fail get_user_pages for LONGTERM dev coherent type
+  drm/amdkfd: add SPM support for SVM
+  drm/amdkfd: coherent type as sys mem on migration to ram
+  lib: test_hmm add ioctl to get zone device type
+  lib: test_hmm add module param for zone device type
+  lib: add support for device coherent type in test_hmm
+  tools: update hmm-test to support device coherent type
+  tools: update test_hmm script to support SP config
+
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  34 ++-
+ include/linux/memremap.h                 |   8 +
+ include/linux/migrate.h                  |   1 +
+ include/linux/mm.h                       |  16 +
+ lib/test_hmm.c                           | 356 +++++++++++++++++------
+ lib/test_hmm_uapi.h                      |  22 +-
+ mm/gup.c                                 |   7 +
+ mm/memcontrol.c                          |   6 +-
+ mm/memory-failure.c                      |   8 +-
+ mm/memremap.c                            |  14 +-
+ mm/migrate.c                             |  56 ++--
+ mm/rmap.c                                |  20 +-
+ tools/testing/selftests/vm/hmm-tests.c   | 123 ++++++--
+ tools/testing/selftests/vm/test_hmm.sh   |  24 +-
+ 14 files changed, 529 insertions(+), 166 deletions(-)
+
 -- 
-2.25.1
+2.32.0
 
