@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CD049DF5B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 11:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6154E49DF6A
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 11:28:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31AD710F054;
-	Thu, 27 Jan 2022 10:26:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A94D10F09C;
+	Thu, 27 Jan 2022 10:28:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C694210F046
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 10:26:24 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D351710F09C
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 10:28:36 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 720BA1F37C;
- Thu, 27 Jan 2022 10:26:23 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 81627218DF;
+ Thu, 27 Jan 2022 10:28:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643279183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1643279315; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=ieTeliaPxbevfKTxQYrkpb44WY7bFvyfcztqP0d/Q38=;
- b=tp9HDiA005K+QVIC8XdI6ewHvEcB1VYiDDLzqQAbtde0wGbJ3uCSvINFPaY+RexK4VJ298
- ok6Gw7MS/LZy0MWAA/Q7mEFzBwQZ7jWVSKkdAYjvduGDq8VzQIuo7tOO/G74eSF1xIYKRe
- RQGCxSQ1JHUbbYQhBkVnVgWFZYKAcn0=
+ bh=63YesRJQoVhlsWaAc/OnN2ULPBIK04G437ZoxWhsRyI=;
+ b=wMMfSgIOzPPV9xQrvDpAN99ywEmo2R7HfZsqdhgtNTw0BGKibINLchfpMTIybHvv0ty4wj
+ zdvcm0YqwbNGJsbps9b6YXpFzTCy8xbxvSm8n7fXKexbu6PR4ybmJiLuYlVNfIwEzKoumu
+ Vitfga32PKQrftxSs6DJdazPR87YwCM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643279183;
+ s=susede2_ed25519; t=1643279315;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=ieTeliaPxbevfKTxQYrkpb44WY7bFvyfcztqP0d/Q38=;
- b=YRoSzvZ7mOoXs1K7c80UuS74oRorcGIpE4sgu81ROGcF5q+BpOoZc4fpLfR4LAUGbLtrIT
- RRHTKurg1gAX21Dg==
+ bh=63YesRJQoVhlsWaAc/OnN2ULPBIK04G437ZoxWhsRyI=;
+ b=3X+jaoHYEPfrbr/j55oPU1KXv2dDXeIv9cr+dMjWUiutIHoxt5YLuVnY/16jcKoyLyuFgU
+ zWkxWjABOmMIwRBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 46DE013F73;
- Thu, 27 Jan 2022 10:26:23 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5AA3B13F73;
+ Thu, 27 Jan 2022 10:28:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id UAA/EE9z8mEiQAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 27 Jan 2022 10:26:23 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id A6khFdNz8mFRQQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 27 Jan 2022 10:28:35 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
-Subject: [PATCH] drm/fb-helper: Mark screen buffers in system memory with
- FB_VIRTFB
-Date: Thu, 27 Jan 2022 11:26:21 +0100
-Message-Id: <20220127102621.30047-1-tzimmermann@suse.de>
+Subject: [PATCH 1/2] drm/gem-shmem: Set vm_ops in static initializer
+Date: Thu, 27 Jan 2022 11:28:30 +0100
+Message-Id: <20220127102831.30094-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -67,52 +66,44 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mark screen buffers in system memory with FB_VIRTFB. Otherwise, the
-buffers are mmap'ed as I/O memory (i.e., VM_IO). For shadow buffers,
-also set the FB_READS_FAST hint.
+Initialize default vm_ops in static initialization of the GEM SHMEM funcs,
+instead of the mmap code. It's simply better style. GEM helpers will later
+set a VMA's vm_ops from the default automatically.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_fb_helper.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index ed43b987d306..f15127a32f7a 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -2346,6 +2346,7 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
- 	fbi->fbops = &drm_fbdev_fb_ops;
- 	fbi->screen_size = sizes->surface_height * fb->pitches[0];
- 	fbi->fix.smem_len = fbi->screen_size;
-+	fbi->flags = FBINFO_DEFAULT;
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 621924116eb4..2ced2ca83825 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -25,6 +25,8 @@
  
- 	drm_fb_helper_fill_info(fbi, fb_helper, sizes);
+ MODULE_IMPORT_NS(DMA_BUF);
  
-@@ -2353,19 +2354,21 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
- 		fbi->screen_buffer = vzalloc(fbi->screen_size);
- 		if (!fbi->screen_buffer)
- 			return -ENOMEM;
-+		fbi->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
++static const struct vm_operations_struct drm_gem_shmem_vm_ops;
++
+ /**
+  * DOC: overview
+  *
+@@ -46,6 +48,7 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+ 	.vmap = drm_gem_shmem_object_vmap,
+ 	.vunmap = drm_gem_shmem_object_vunmap,
+ 	.mmap = drm_gem_shmem_object_mmap,
++	.vm_ops = &drm_gem_shmem_vm_ops,
+ };
  
- 		fbi->fbdefio = &drm_fbdev_defio;
--
- 		fb_deferred_io_init(fbi);
- 	} else {
- 		/* buffer is mapped for HW framebuffer */
- 		ret = drm_client_buffer_vmap(fb_helper->buffer, &map);
- 		if (ret)
- 			return ret;
--		if (map.is_iomem)
-+		if (map.is_iomem) {
- 			fbi->screen_base = map.vaddr_iomem;
--		else
-+		} else {
- 			fbi->screen_buffer = map.vaddr;
-+			fbi->flags |= FBINFO_VIRTFB;
-+		}
+ static struct drm_gem_shmem_object *
+@@ -625,7 +628,6 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
+ 	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+ 	if (shmem->map_wc)
+ 		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+-	vma->vm_ops = &drm_gem_shmem_vm_ops;
  
- 		/*
- 		 * Shamelessly leak the physical address to user-space. As
+ 	return 0;
+ }
 -- 
 2.34.1
 
