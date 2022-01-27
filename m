@@ -1,64 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA1C49E0BD
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 12:25:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B17049E0F6
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 12:31:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFC610E868;
-	Thu, 27 Jan 2022 11:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4316110E627;
+	Thu, 27 Jan 2022 11:31:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C72310E868
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 11:25:07 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 196501F37C;
- Thu, 27 Jan 2022 11:25:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643282706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QiOO9D9MkhNbJYM/gqUyBETJ19BqepUsLOhh7GpQo7Y=;
- b=yVOChdEk7qXh1z64i8VWSWYwBQmx5UFlcZjXsSEVPb3kVZCvApPNUKUZgtVmBGzN4ilwPm
- hkPGYd0FVT6TRNm2hmMvH7feXo2ADlhKqmXUke5xMd20iBCRszX+Dw3l6bGNP9Dxv3fL46
- ZLnfJ3idgXjYwhyL7yo84NJDVkC4+R8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643282706;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QiOO9D9MkhNbJYM/gqUyBETJ19BqepUsLOhh7GpQo7Y=;
- b=4OprGjZ0sg2k4jGasVs5IKP3Fweq7kRBnn/9q88dkjPPLSTqyHtEKa+/fOluxLf5w69dm6
- 3t3hawNYGL4yPQBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D761313CFB;
- Thu, 27 Jan 2022 11:25:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id rjKaMxGB8mHXXwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 27 Jan 2022 11:25:05 +0000
-Message-ID: <ec124c3d-7989-b51b-178b-11399e7e0452@suse.de>
-Date: Thu, 27 Jan 2022 12:25:05 +0100
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D233E10E485
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 11:31:48 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id c2so1690497wml.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 03:31:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hkClxaa+2C8a0Gjj8wVr84ck/Y/nk6VOxGU9yJzk5zg=;
+ b=LiJaUPMq92a9bfWZNpvKXwGghvP4zSBcAMDzeZ/ReWu44m0+N68+ddiTjdr8P02zXx
+ zaH+11MhDX1nAmKSJIcan2E3OYlZzK6odIWYyzvDS+K83UQ/qJ4v4DJDbLTFOHFhGkWT
+ RizQFMxXQrQ3WuwfTgWdmBr6i5ncNvUlw8Me0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=hkClxaa+2C8a0Gjj8wVr84ck/Y/nk6VOxGU9yJzk5zg=;
+ b=szv2Is1FeiA9zxIG0uWP8lAYNIyukc0azw3g0WNx7Jqjcg8+QUGm/4bPN60GAYgRBm
+ AgjVUgmqWf4A12TWr17jQj8EkAZ6dzqX+elCrrv+VoJDn8v0DxdPK2rbIdeNZGp70wjF
+ JFtOeLrDvsOCILbIe4qVSpjy0S+veuYKMR0zwOtA6DYD+ZMucgfRGw+xgVWP5LtE0C3I
+ XejEFLu1KQZbOlae1LQJEFULRHArv6ymzkuaEawZNHut0Cfl+Sz+Hs+ZX+vpCKMHKcUx
+ Tg82n+QsznkvyHPbolcgaKzv/5+CztknbI0T+TD5f/TtdldDBcGdZ9px2y67sUkrIdx/
+ H8OA==
+X-Gm-Message-State: AOAM532yC0ckFizuZN4nAPCDE8egvXeov8Se46VAmxmCmAQMBTWrn3Wy
+ CAs4Xq6d3IVrWuZn3KE9iaIPDA==
+X-Google-Smtp-Source: ABdhPJzsSgHQc4/Sisg9p2IJQo1l/N+Y/KjTBTOmd8sk+y5btszDk60YCnmxc1l3iGgHjdXMSGgnwg==
+X-Received: by 2002:a1c:7903:: with SMTP id l3mr2780924wme.43.1643283107438;
+ Thu, 27 Jan 2022 03:31:47 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 5sm2288561wrb.113.2022.01.27.03.31.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 03:31:46 -0800 (PST)
+Date: Thu, 27 Jan 2022 12:31:44 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] drm/doc: Add section in the introduction page about
+ learning material
+Message-ID: <YfKCoOk2sxDzHVXv@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+References: <20220127082058.434421-1-javierm@redhat.com>
+ <c99a7784-7ac4-e305-1a06-dfb514a409ff@suse.de>
+ <b305cb36-1a09-c990-a3e6-98d420c62e3a@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/vc4: hdmi: Simplify the connector state retrieval
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20220127111404.221882-1-maxime@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220127111404.221882-1-maxime@cerno.tech>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0weqLlFUyAO90XGAgH0cNKKJ"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b305cb36-1a09-c990-a3e6-98d420c62e3a@redhat.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,99 +76,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, Dom Cobley <dom@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0weqLlFUyAO90XGAgH0cNKKJ
-Content-Type: multipart/mixed; boundary="------------z0uSRnT3aFhArUXz0O90IgC1";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>
-Message-ID: <ec124c3d-7989-b51b-178b-11399e7e0452@suse.de>
-Subject: Re: [PATCH] drm/vc4: hdmi: Simplify the connector state retrieval
-References: <20220127111404.221882-1-maxime@cerno.tech>
-In-Reply-To: <20220127111404.221882-1-maxime@cerno.tech>
+On Thu, Jan 27, 2022 at 11:50:30AM +0100, Javier Martinez Canillas wrote:
+> Hello Thomas,
+> 
+> On 1/27/22 10:18, Thomas Zimmermann wrote:
+> > Hi Javier,
+> > 
+> > thanks for this patch.
+> > 
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >
+> 
+> Thanks!
+>  
+> > Find some ideas for consideration below.
+> > 
+> 
+> [snip]
+> 
+> >> +
+> >> +Learning material
+> >> +=================
+> > 
+> > Maybe 'External References'.
+> >
+> 
+> Agreed, I'll change it.
+> 
+> >> +
+> >> +Since the Linux DRM layer supports complex graphics devices, it can be quite
+> >> +overwhelming for newcomers to get familiar with all the needed concepts and
+> >> +learn the subsystem's internals.
+> > 
+> > It sounds a bit intimdating to me. Can we give it a positive spin?
+> >
+> 
+> Pekka also had reservations about this paragraph, so I think that will just
+> drop it. The goal of having this section was to ease the learning curve but
+> the way I worded it may reinforce the perception that DRM is hard to learn.
+> 
+> > IMHO we could add a separate section that talks about complexity and 
+> > provides guidelines about how to deal with it:  trivial HW? use simple 
+> > pipe;  dedicated VRAM? try TTM;  awkward color formats?  see 
+> > drm_format_helper.c
+> >
+> 
+> Indeed. And we can add such section as a follow-up. Maybe referring to some
+> of the drivers in drivers/gpu/drm/tiny.
 
---------------z0uSRnT3aFhArUXz0O90IgC1
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Do we have a talk anywhere for tiny?
 
-DQoNCkFtIDI3LjAxLjIyIHVtIDEyOjE0IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoNCj4gV2hl
-biB3ZSBoYXZlIHRoZSBlbnRpcmUgRFJNIHN0YXRlLCByZXRyaWV2aW5nIHRoZSBjb25uZWN0
-b3Igc3RhdGUgb25seQ0KPiByZXF1aXJlcyB0aGUgZHJtX2Nvbm5lY3RvciBwb2ludGVyLiBG
-b3J0dW5hdGVseSBmb3IgdXMsIHdlIGhhdmUNCj4gYWxsb2NhdGVkIGl0IGFzIGEgcGFydCBv
-ZiB0aGUgdmM0X2hkbWkgc3RydWN0dXJlLCBzbyB3ZSBjYW4gcmV0cmlldmUgZ2V0DQo+IGEg
-cG9pbnRlciBieSBzaW1wbHkgYWNjZXNzaW5nIG91ciBmaWVsZCBpbiB0aGF0IHN0cnVjdHVy
-ZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1heGltZUBjZXJuby50
-ZWNoPg0KDQpBY2tlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
-ZGU+DQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jIHwgMjEg
-KysrLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9u
-cygrKSwgMTggZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3ZjNC92YzRfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jDQo+
-IGluZGV4IDJjODMyNTI4MTllOS4uZWZmZmUyMWQyZTczIDEwMDY0NA0KPiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vdmM0L3ZjNF9oZG1pLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Zj
-NC92YzRfaGRtaS5jDQo+IEBAIC0xMDAyLDMwICsxMDAyLDE1IEBAIHN0YXRpYyB2b2lkIHZj
-NF9oZG1pX3JlY2VudGVyX2ZpZm8oc3RydWN0IHZjNF9oZG1pICp2YzRfaGRtaSkNCj4gICAJ
-CSAgIlZDNF9IRE1JX0ZJRk9fQ1RMX1JFQ0VOVEVSX0RPTkUiKTsNCj4gICB9DQo+ICAgDQo+
-IC1zdGF0aWMgc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgKg0KPiAtdmM0X2hkbWlfZW5j
-b2Rlcl9nZXRfY29ubmVjdG9yX3N0YXRlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwN
-Cj4gLQkJCQkgICAgIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkNCj4gLXsNCj4g
-LQlzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqY29ubl9zdGF0ZTsNCj4gLQlzdHJ1Y3Qg
-ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yOw0KPiAtCXVuc2lnbmVkIGludCBpOw0KPiAtDQo+
-IC0JZm9yX2VhY2hfbmV3X2Nvbm5lY3Rvcl9pbl9zdGF0ZShzdGF0ZSwgY29ubmVjdG9yLCBj
-b25uX3N0YXRlLCBpKSB7DQo+IC0JCWlmIChjb25uX3N0YXRlLT5iZXN0X2VuY29kZXIgPT0g
-ZW5jb2RlcikNCj4gLQkJCXJldHVybiBjb25uX3N0YXRlOw0KPiAtCX0NCj4gLQ0KPiAtCXJl
-dHVybiBOVUxMOw0KPiAtfQ0KPiAtDQo+ICAgc3RhdGljIHZvaWQgdmM0X2hkbWlfZW5jb2Rl
-cl9wcmVfY3J0Y19jb25maWd1cmUoc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyLA0KPiAg
-IAkJCQkJCXN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkNCj4gICB7DQo+ICsJc3Ry
-dWN0IHZjNF9oZG1pICp2YzRfaGRtaSA9IGVuY29kZXJfdG9fdmM0X2hkbWkoZW5jb2Rlcik7
-DQo+ICsJc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciA9ICZ2YzRfaGRtaS0+Y29u
-bmVjdG9yOw0KPiAgIAlzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqY29ubl9zdGF0ZSA9
-DQo+IC0JCXZjNF9oZG1pX2VuY29kZXJfZ2V0X2Nvbm5lY3Rvcl9zdGF0ZShlbmNvZGVyLCBz
-dGF0ZSk7DQo+ICsJCWRybV9hdG9taWNfZ2V0X25ld19jb25uZWN0b3Jfc3RhdGUoc3RhdGUs
-IGNvbm5lY3Rvcik7DQo+ICAgCXN0cnVjdCB2YzRfaGRtaV9jb25uZWN0b3Jfc3RhdGUgKnZj
-NF9jb25uX3N0YXRlID0NCj4gICAJCWNvbm5fc3RhdGVfdG9fdmM0X2hkbWlfY29ubl9zdGF0
-ZShjb25uX3N0YXRlKTsNCj4gLQlzdHJ1Y3QgdmM0X2hkbWkgKnZjNF9oZG1pID0gZW5jb2Rl
-cl90b192YzRfaGRtaShlbmNvZGVyKTsNCj4gICAJc3RydWN0IGRybV9kaXNwbGF5X21vZGUg
-Km1vZGUgPSAmdmM0X2hkbWktPnNhdmVkX2FkanVzdGVkX21vZGU7DQo+ICAgCXVuc2lnbmVk
-IGxvbmcgcGl4ZWxfcmF0ZSA9IHZjNF9jb25uX3N0YXRlLT5waXhlbF9yYXRlOw0KPiAgIAl1
-bnNpZ25lZCBsb25nIGJ2Yl9yYXRlLCBoc21fcmF0ZTsNCg0KLS0gDQpUaG9tYXMgWmltbWVy
-bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
-bnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1h
-bnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8g
-VG90ZXYNCg==
+Otherwise I think it'd be good to just add a paragraph about "hey tiny
+exists" and maybe link to fbdev helpers and simple pipe helpers to get
+people started with the right entry points for simple drivers.
 
---------------z0uSRnT3aFhArUXz0O90IgC1--
+And make it clear that the above pile of links is more for general
+overview and if you don't yet know what exactly it is you need.
 
---------------0weqLlFUyAO90XGAgH0cNKKJ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Also I guess for this year's xdc I really need to volunteer someone to do
+a drm/tiny intro :-)
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHygREFAwAAAAAACgkQlh/E3EQov+AV
-ag//dpKJvdCEdlgqRscfoVgOeHeQbymBwI6FjofsTaIjQzwVuQk/nFyoWnZbcLZY0SALQEuCi0vn
-O4+sdTjdT1oYYwOYmQZZyNTUigYda5R3dbxh0b/Zd2DvuAB+zvGwfBJX3bzWJVbYyF19hkxKEbv7
-xtHLGOL4IP8ioZr95LvJ8hR/vYoUJm43e85NXyBJWDhzfCh647zIPhGYrFyWAOfTLIv7/vBkwE4i
-lp+z4nMx6f0BMlRNIvFrUiMV0KdcJimvVp3DmkfPLKwLQ8OoYduR7l9nLd90+WQWXDU9NKwDr3wx
-G6wn4VC2m/KXxOAbW7vj+bAkzovk+QZ8E9kqn29+3pCwAlER6NinwmrlFlkrbRTYBkdtmvu9YxUP
-MgC0BiPZh2BFkuWOkCUG2CPV8L7N+mjRp+dqTNtrc3UnfHHIOoHbiHv40vG31WRGcB60NnRy0zSt
-Q9UhsvlvxCNYOKRJ4TE7GY6Xk2jsEevmLTddiHcZJkki1NNAt1+o9++6/0fg9CMmIu+zO2e+PQNl
-Tx0JfqBOGyQxrGmoP4GR/Hk1XcOKBQapsRXkOL9ewP6SIwebvBbDlbxmqEg7pi1/FnsiFit/9w4f
-5tkPI+03hnTVPrsqaVY40RecLbIxVz0ApYgpxw8SBmA08BSW2IKQ83CPXD7T9Pl//3V0JuD4Kx3D
-iZU=
-=Mnid
------END PGP SIGNATURE-----
-
---------------0weqLlFUyAO90XGAgH0cNKKJ--
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
