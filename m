@@ -2,80 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2640A49E309
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 14:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283ED49E318
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 14:08:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C38D10E9B4;
-	Thu, 27 Jan 2022 13:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06A310EE73;
+	Thu, 27 Jan 2022 13:08:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D635810E9B4
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 13:05:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E82EE10EE73
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 13:08:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643288734;
+ s=mimecast20190719; t=1643288928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KI8O/+QE30+mvlTFMZHymj0zomSuxjP+plQZT8lKM1I=;
- b=HDe+BVFtOvYgBHqBH49bogPaLpq/aL1z9u/3zkm3d6k7g7J1QBJX1G5YDdoGXEy7CUFRiI
- V6siTEIE6LPV16IBaq6S3/dkJtlw+Dl7wY6rAIs8wVpQsfaa4dECFMI1x7B434hjsuh8Gq
- so0nw2wQDRS0vxc8ucqO3v+In3fIPZo=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UQyYdiBdtNH1VNsfeubJWuB78VJ2++qYCFEjN1L+z1o=;
+ b=RBY/WGl/p4Wlt04YGnuViunWIbBTkKlZ/ed2ES74YRS83M2c2RIsnpACL0DLR2PYQGa+pe
+ ckylMPdlk3sa4NFodv/YZ1qAkPvb1WJBRT5duFyHXYEJ198XRdd/jIic/5ZJ/29QjQDiMF
+ NUJthfWwo1NCIYg0HHsQef2YVTM9eqw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-231-5Hr_pe6MPTOoAlYVk7VkQg-1; Thu, 27 Jan 2022 08:05:33 -0500
-X-MC-Unique: 5Hr_pe6MPTOoAlYVk7VkQg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- mp5-20020a1709071b0500b0069f2ba47b20so1275118ejc.19
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 05:05:33 -0800 (PST)
+ us-mta-671-OjRIiCQYM4usgjVIuxatvw-1; Thu, 27 Jan 2022 08:08:46 -0500
+X-MC-Unique: OjRIiCQYM4usgjVIuxatvw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v185-20020a1cacc2000000b0034906580813so4177800wme.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 05:08:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=KI8O/+QE30+mvlTFMZHymj0zomSuxjP+plQZT8lKM1I=;
- b=O3lp3dlkU/Y9DglFfXj9WtoNcm+ID+5E5WC82JevqMgnwtVJBoaDDrExE7XtOjaB57
- iD75n6xeqcvKLos4lpBGl+vd2UpStY9o6VLiPPoGv38hsrYKbatDTzKjEqsnM8MOwPTo
- 7w97rlMqoe6rjWjFSETc3s5FCpRAqbq2cRrroGt8OiwiSajjzJPtn2HP6hxr24t8XkI4
- s4zmHIiEK6oNLP59CCF4IQbuQBgo8qMvelJCsjP3tdEqUtfii8NoVRVPCpVsfpaL2a34
- XgsBzzJhblyuC/McFTvDHu3s491WssIkltOlbfvmrcnY7UrtKKCvk0PXqFkYVfQa9Hvt
- EjWg==
-X-Gm-Message-State: AOAM530mcgH9akeQIsITGW98+EG+yUVOKRMem5JT3Dv6eQDwhpN/zkg9
- /8vLapXAK+/i4zr28HZXT5yKpUPeUOUVgUp5e1/xXbC+a+J8ETiKbDU/vH99M0WYAah11pW4L1P
- KqXNaskOfrZDODUdngH8+eoDcb2++
-X-Received: by 2002:a17:907:9620:: with SMTP id
- gb32mr2856640ejc.436.1643288732461; 
- Thu, 27 Jan 2022 05:05:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzokiZPPXfvS9vpKO6dRbaV14vyucg20GEn2I/hZqfZxydUz4hZ+WYaPj6PFTCoQt9oONcYnQ==
-X-Received: by 2002:a17:907:9620:: with SMTP id
- gb32mr2856596ejc.436.1643288731728; 
- Thu, 27 Jan 2022 05:05:31 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1?
- (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
- by smtp.gmail.com with ESMTPSA id h6sm8627763ejx.164.2022.01.27.05.05.30
+ bh=UQyYdiBdtNH1VNsfeubJWuB78VJ2++qYCFEjN1L+z1o=;
+ b=6yUDbC/ucir8SubgVrLcp7wnUyV+OMCJ5/6JNXtgmHL5nasEOjaI8aB3E3t6T/suXm
+ NJIZYSIweaJ/0rv1guO7aIkORIE47RiK8o/EtlP4zOP/QLDcS9jNqddIJVxKM5g2O9Wy
+ /LevUz1j2wmbqn2WrxH1kDv82fNBCoD8q8aW2N3NAi8m2mH4erSYGP6n4AfMHga+RMs1
+ WTHvNSXWlVqrnTbdEfcgGXWus21fjahvuf2e7beh0OPpOJ6nQT7KuqFWXZnMEwkm/jtE
+ 2mMRRC3OlhEus/oU9qXkCxeU/CZ5uwV+D+8zC9VXo8dg/uiIoXBQhuYtSqXL4Xln9Tjh
+ koew==
+X-Gm-Message-State: AOAM53278OhaOljCXkNyJhJg75hBQ1ik+UzhkpEeOtz+KlzVre/XM6gL
+ +xYMc1ElQgv5vm40T2b4toFnaAKtvYl1M2eZfzfkO2iElWc9DEiDV2fKisK130aIJc5tXNviEGT
+ l39djkoIcjucJ7K9zFXQ4bpA8I/oF
+X-Received: by 2002:a5d:4943:: with SMTP id r3mr3001764wrs.130.1643288925691; 
+ Thu, 27 Jan 2022 05:08:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8QfFcL0XfIO8hOXFedQuXUsgq2JTBDc2xnb6vs395KWwqaCiCCi/yJzVGlZa/jOkdHUHQ0Q==
+X-Received: by 2002:a5d:4943:: with SMTP id r3mr3001421wrs.130.1643288920603; 
+ Thu, 27 Jan 2022 05:08:40 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id s9sm2100610wrr.84.2022.01.27.05.08.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 05:05:31 -0800 (PST)
-Message-ID: <994f94b2-61d3-1754-d733-732a0fb47d50@redhat.com>
-Date: Thu, 27 Jan 2022 14:05:30 +0100
+ Thu, 27 Jan 2022 05:08:40 -0800 (PST)
+Message-ID: <b54d8092-c7bc-93b3-c306-b77dd57db6ce@redhat.com>
+Date: Thu, 27 Jan 2022 14:08:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: acpi_get_devices() crash when acpi_disabled==true (was [PATCH v2]
- drm/privacy-screen: honor acpi=off in detect_thinkpad_privacy_screen)
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-References: <20220123091004.763775-1-ztong0001@gmail.com>
- <6a0233cd-d931-8a36-3b9e-08b774cec7b0@redhat.com>
- <CAJZ5v0h51v9fFrJRuaFpSn7J2UEHndEj0f3zpmw=RvgsvAhtvw@mail.gmail.com>
- <049ccc3a-8628-3e90-a4f4-137a286b6dce@redhat.com>
- <CAJZ5v0hJWW_vZ3wwajE7xT38aWjY7cZyvqMJpXHzUL98-SiCVQ@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAJZ5v0hJWW_vZ3wwajE7xT38aWjY7cZyvqMJpXHzUL98-SiCVQ@mail.gmail.com>
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/doc: Add section in the introduction page about
+ learning material
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+References: <20220127082058.434421-1-javierm@redhat.com>
+ <c99a7784-7ac4-e305-1a06-dfb514a409ff@suse.de>
+ <b305cb36-1a09-c990-a3e6-98d420c62e3a@redhat.com>
+ <YfKCoOk2sxDzHVXv@phenom.ffwll.local>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YfKCoOk2sxDzHVXv@phenom.ffwll.local>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -93,77 +92,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Tong Zhang <ztong0001@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-acpi <linux-acpi@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 1/27/22 12:31, Daniel Vetter wrote:
+> On Thu, Jan 27, 2022 at 11:50:30AM +0100, Javier Martinez Canillas wrote:
 
-On 1/26/22 18:11, Rafael J. Wysocki wrote:
-> On Wed, Jan 26, 2022 at 5:41 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 1/26/22 16:54, Rafael J. Wysocki wrote:
->>> On Wed, Jan 26, 2022 at 2:47 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>>>
->>>> Hi All,
->>>>
->>>> On 1/23/22 10:10, Tong Zhang wrote:
->>>>> when acpi=off is provided in bootarg, kernel crash with
->>>>>
->>>>> [    1.252739] BUG: kernel NULL pointer dereference, address: 0000000000000018
->>>>> [    1.258308] Call Trace:
->>>>> [    1.258490]  ? acpi_walk_namespace+0x147/0x147
->>>>> [    1.258770]  acpi_get_devices+0xe4/0x137
->>>>> [    1.258921]  ? drm_core_init+0xc0/0xc0 [drm]
->>>>> [    1.259108]  detect_thinkpad_privacy_screen+0x5e/0xa8 [drm]
->>>>> [    1.259337]  drm_privacy_screen_lookup_init+0xe/0xe85 [drm]
->>>>>
->>>>> The reason is that acpi_walk_namespace expects acpi related stuff
->>>>> initialized but in fact it wouldn't when acpi is set to off. In this case
->>>>> we should honor acpi=off in detect_thinkpad_privacy_screen().
->>>>>
->>>>> Signed-off-by: Tong Zhang <ztong0001@gmail.com>
->>>>
->>>> Thank you for catching this and thank you for your patch. I was about to merge
->>>> this, but then I realized that this might not be the best way to fix this.
->>>>
->>>> A quick grep shows 10 acpi_get_devices() calls outside of drivers/acpi,
->>>> and at a first glance about half of those are missing an acpi_disabled
->>>> check. IMHO it would be better to simply add an acpi_disabled check to
->>>> acpi_get_devices() itself.
->>>>
->>>> Rafael, do you agree ?
->>>
->>> Yes, I do.
->>
->> Did you see my follow-up that that is not going to work because
->> acpi_get_devices() is an acpica function ?
+[snip]
+
+>> Indeed. And we can add such section as a follow-up. Maybe referring to some
+>> of the drivers in drivers/gpu/drm/tiny.
 > 
-> No, I didn't, but it is possible to add a wrapper doing the check
-> around it and convert all of the users.
+> Do we have a talk anywhere for tiny?
+>
 
-Yes I did think about that. Note that I've gone ahead and pushed
-the fix which started this to drm-misc-fixes, to resolve the crash
-for now.
+I couldn't find one for tiny.
+ 
+> Otherwise I think it'd be good to just add a paragraph about "hey tiny
+> exists" and maybe link to fbdev helpers and simple pipe helpers to get
+> people started with the right entry points for simple drivers.
+>
 
-If we add such a wrapper we can remove a bunch of acpi_disabled checks
-from various callers.
+Ok. I can add some sentences about drm/tiny and point out that the DRM
+drivers there could be used as a good references for simple drivers.
+ 
+> And make it clear that the above pile of links is more for general
+> overview and if you don't yet know what exactly it is you need.
+> 
 
-> Alternatively, the ACPICA function can check acpi_gbl_root_node
-> against NULL, like in the attached (untested) patch.
+Sure, I'll add that too.
 
-That is probably an even better idea, as that avoids the need
-for a wrapper altogether. So I believe that that is the best
-solution.
-
-Regards,
-
-Hans
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
