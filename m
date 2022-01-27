@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE58549E431
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 15:10:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6A749E432
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 15:10:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE3810EEDD;
-	Thu, 27 Jan 2022 14:10:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E06C10EEE3;
+	Thu, 27 Jan 2022 14:10:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A87B10EEDE
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 14:10:26 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 98441580644;
- Thu, 27 Jan 2022 09:10:25 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55B2A10EEDD
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 14:10:28 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B35BA580689;
+ Thu, 27 Jan 2022 09:10:27 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 27 Jan 2022 09:10:25 -0500
+ by compute2.internal (MEProxy); Thu, 27 Jan 2022 09:10:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=VusnnL++oQUSGwpOjUjdL4XYB8Ps4k
- thpOZUIiblgnA=; b=kJKiiTE5lWRhHQqixxeOTS/I+m01cXhyFQia8eUfmRKGDr
- 1I3cnPZU1KUs5JJ7sbaDZkPhpi/AdjSTUaYaI2gfB4uTtFPGdC1aH1QVsgizosuA
- 8Na5/XW3uPGqR6/IO0v3VRqtmDmsfw774iOzPnhJg1v278mL0PE76EyKGk1OD9mt
- ULXG1ePwO3IiW1ML+Se27Oauz5z04lycVT+9cLzh70Cqae9rx8IGjs2cZ3jG4Qh4
- 4l4MdSk5NSKRJOaqWsBBM5TmbGIYsSYRj1bi8xttFIfFNCEDV5vKLn41+DJzwqDi
- cUsgmZF49WHWsRyLaJ4b4537OQWOYAzhjCrosx0A==
+ :subject:subject:to:to; s=fm2; bh=i3ujLd3aGINAUREHUY3+W9KX+lHJsQ
+ VGxv6DCB3uNe4=; b=g3A2SFBDkI9CrWD3P1Rv7MuDCpR2m6r5ToqSNUAD7Srq1C
+ m6eUqRl1UEMZM1rMGo+mveMyhiJPE4EGjD5weHkkTBO/t+sBjswIeuw0q5asZbYq
+ QON9rkkLXNQQP9XaSbdajveb5991B0R6xhwcZY67BQjdx+POyJ52i3ZRg6iX0uPC
+ FYXsCRwQ+YqVXdO8gcBC4KDhqHoNxJbb3VFlaJnAu9gXyJA8zx4rIkcKkoDgjV8z
+ Yp6g9Oy66QwJQj+GwyFYnYDKfQr3ITPy/HxykIqh1IUE6cN1E0Yj9sNpxXN063Bx
+ 0dNvYJsavEMgUF12y0Y+hviYPdPKkB+YevDPLTPA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=VusnnL
- ++oQUSGwpOjUjdL4XYB8Ps4kthpOZUIiblgnA=; b=ZYvg6xEKZbSyZbVMoW/bvq
- fOQdilVEiA+LvOldFcwxMU++IpDbomOAZsD4YYC8AItrVFNsdMsG1GcqFr1aFWF2
- YouCuM9nWeg90KsqHNVwqTO/srUQyJCcht3coumOd02tkq+d8vEvGls2sO0PUeKW
- ZjCXn4sls8Nf+4peL2/AWsiOu5pnaEbMBOG/timqhbR/FvD+j7w+RgGtoQFWPVyM
- 83UaqeiyRl4RRxJY1f0/+mNnH3bQBInYVimlzDcgb/BUOj3KkZUM24bMi/6z3keV
- LgGG65n/SQ1aP2I5zuTuh9VMvUOrlnjTTrxJT+kuZ27rnn/3GxXVIB+nfBa6BD9A
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=i3ujLd
+ 3aGINAUREHUY3+W9KX+lHJsQVGxv6DCB3uNe4=; b=Yb4/uvbZMtAp32W3JUk1ka
+ uXtmM+ne7GLjOWuq4viJvh30PKGhteMaSaolh0LbzucIckz9SReWjFbvBzD0LK2A
+ saY1fXRx2Q60mle4zRqDZQWCCFoWAqt5qoJMNtIoUHMPN7elNWjw3U6hZX92CTOW
+ mt9dBQvljrH1Og7e4c47sd74kiA4n7fT0Gkl0Gc7y/D6oLrA20pPdZbl86NxZNkR
+ kz5rTFkcnqptYnuaB3hU9FVCzJrHTG6w1i1YWlg3YB/6EWIyee52ekXPJzoLIhfO
+ fJmzILf4iDUPIsrdsn/6e2wmxVyfb1iQd3q0k8t3jrkj+rpZPe2TfJ0zgC5sCJfg
  ==
-X-ME-Sender: <xms:0afyYSmX4tUVrIXfbEnUj33tLBWSoT27jpsUa5ste1tKdherWnlzbQ>
- <xme:0afyYZ1OC9UJjYcKEcjTlADxbb2PfBTZ30BCB7K33ADrLrPv8w90USr-9gLkyKq_b
- kf63O1sGTL6ahMWQZQ>
-X-ME-Received: <xmr:0afyYQrfjXTrZbRwPWHtaWjT2dPjHVMEEliadpEnFwPxYG3CwBlvXSUape_tz-snAnES-p6MrtIewhbGHqp1XagfOh5ZfZRJJXXY-FQ>
+X-ME-Sender: <xms:06fyYUx7XhAEo5lEAbgxDzLO2jPiCdtKP4NeN1u9ycACnmD_lIZKpA>
+ <xme:06fyYYTjBrXYf6QTbVeVlIViB6Pw4aiYgOSrc6o_v3LoMrE21Udu6aVVMrwEGAmd9
+ I3Ky6bLN95erDikzUU>
+X-ME-Received: <xmr:06fyYWXPZ3H-ajEkm_2bDBFSUnDoTM5LsJQ3D8JNN3nlrMWsO1R9EZNPmBsWB-N43YlIvYHMmt4n2Ek-ToepT2preT_ibeVO_GsKz7A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeefgdeiudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -52,20 +52,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeefgdeiudcutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:0afyYWlf5qTTGNDISn989q5iX7AfIkXBihm1eBEvXYVcWE8n03ko4g>
- <xmx:0afyYQ263m4ac8wLVPXpn-kW4uU1UdX3uIuKOypAr3M0lEy0Qm8SeQ>
- <xmx:0afyYduB35oli6ZSrwGnYca8_7O99iZrFyPCfiDRg9myoyWsw7cOjw>
- <xmx:0afyYZvpS6LpszqtBGwq2OhNw7c6jmrrQ09Y3OWYtAoxgOpKvLO_sQ>
+X-ME-Proxy: <xmx:06fyYSh4h5nPntm0T2N2JAowfeLmXVeEb_TayY8vC6oK6PJHAsRLpQ>
+ <xmx:06fyYWDdxcXuE5CGtuNZtUFwA4Q611qW-G3HiChORDNqYYRRylwdNw>
+ <xmx:06fyYTIeis-fW47788lA0CdiH6sMxgcTppWN22itWNsn94eqY6g9GA>
+ <xmx:06fyYa6H3qLgKh3JvIZJIxoPauGznTlIfwxPB_HtejipxdVKKYMGKw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Jan 2022 09:10:25 -0500 (EST)
+ 27 Jan 2022 09:10:27 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v5 1/6] drm/vc4: hdmi: Move clock validation to its own
+Subject: [PATCH v5 2/6] drm/vc4: hdmi: Move clock calculation into its own
  function
-Date: Thu, 27 Jan 2022 15:10:16 +0100
-Message-Id: <20220127141021.302482-2-maxime@cerno.tech>
+Date: Thu, 27 Jan 2022 15:10:17 +0100
+Message-Id: <20220127141021.302482-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220127141021.302482-1-maxime@cerno.tech>
 References: <20220127141021.302482-1-maxime@cerno.tech>
@@ -90,65 +90,89 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Our code is doing the same clock rate validation in multiple instances.
-Let's create a helper to share the rate validation.
+The code to compute our clock rate for a given setup will be called in
+multiple places in the next patches, so let's create a separate function
+for it.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 49 +++++++++++++++++++++++-----------
+ 1 file changed, 34 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index e3121eb5f605..105911644b02 100644
+index 105911644b02..a1fa37ad350d 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1261,6 +1261,19 @@ static void vc4_hdmi_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 	mutex_unlock(&vc4_hdmi->mutex);
+@@ -1274,6 +1274,35 @@ vc4_hdmi_encoder_clock_valid(const struct vc4_hdmi *vc4_hdmi,
+ 	return MODE_OK;
  }
  
-+static enum drm_mode_status
-+vc4_hdmi_encoder_clock_valid(const struct vc4_hdmi *vc4_hdmi,
-+			     unsigned long long clock)
++static unsigned long long
++vc4_hdmi_encoder_compute_mode_clock(const struct drm_display_mode *mode,
++				    unsigned int bpc)
 +{
-+	if (clock > vc4_hdmi->variant->max_pixel_clock)
-+		return MODE_CLOCK_HIGH;
++	unsigned long long clock = mode->clock * 1000;
 +
-+	if (vc4_hdmi->disable_4kp60 && clock > HDMI_14_MAX_TMDS_CLK)
-+		return MODE_CLOCK_HIGH;
++	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
++		clock = clock * 2;
 +
-+	return MODE_OK;
++	return clock * bpc / 8;
++}
++
++static int
++vc4_hdmi_encoder_compute_clock(const struct vc4_hdmi *vc4_hdmi,
++			       struct vc4_hdmi_connector_state *vc4_state,
++			       const struct drm_display_mode *mode,
++			       unsigned int bpc)
++{
++	unsigned long long clock;
++
++	clock = vc4_hdmi_encoder_compute_mode_clock(mode, bpc);
++	if (vc4_hdmi_encoder_clock_valid(vc4_hdmi, clock) != MODE_OK)
++		return -EINVAL;
++
++	vc4_state->pixel_rate = clock;
++
++	return 0;
 +}
 +
  #define WIFI_2_4GHz_CH1_MIN_FREQ	2400000000ULL
  #define WIFI_2_4GHz_CH1_MAX_FREQ	2422000000ULL
  
-@@ -1304,10 +1317,7 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- 	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
- 		pixel_rate = pixel_rate * 2;
+@@ -1286,6 +1315,7 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+ 	unsigned long long pixel_rate = mode->clock * 1000;
+ 	unsigned long long tmds_rate;
++	int ret;
  
--	if (pixel_rate > vc4_hdmi->variant->max_pixel_clock)
+ 	if (vc4_hdmi->variant->unsupported_odd_h_timings &&
+ 	    ((mode->hdisplay % 2) || (mode->hsync_start % 2) ||
+@@ -1306,21 +1336,10 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+ 		pixel_rate = mode->clock * 1000;
+ 	}
+ 
+-	if (conn_state->max_bpc == 12) {
+-		pixel_rate = pixel_rate * 150;
+-		do_div(pixel_rate, 100);
+-	} else if (conn_state->max_bpc == 10) {
+-		pixel_rate = pixel_rate * 125;
+-		do_div(pixel_rate, 100);
+-	}
+-
+-	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
+-		pixel_rate = pixel_rate * 2;
+-
+-	if (vc4_hdmi_encoder_clock_valid(vc4_hdmi, pixel_rate) != MODE_OK)
 -		return -EINVAL;
 -
--	if (vc4_hdmi->disable_4kp60 && (pixel_rate > HDMI_14_MAX_TMDS_CLK))
-+	if (vc4_hdmi_encoder_clock_valid(vc4_hdmi, pixel_rate) != MODE_OK)
- 		return -EINVAL;
+-	vc4_state->pixel_rate = pixel_rate;
++	ret = vc4_hdmi_encoder_compute_clock(vc4_hdmi, vc4_state, mode,
++					     conn_state->max_bpc);
++	if (ret)
++		return ret;
  
- 	vc4_state->pixel_rate = pixel_rate;
-@@ -1326,13 +1336,7 @@ vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
- 	     (mode->hsync_end % 2) || (mode->htotal % 2)))
- 		return MODE_H_ILLEGAL;
- 
--	if ((mode->clock * 1000) > vc4_hdmi->variant->max_pixel_clock)
--		return MODE_CLOCK_HIGH;
--
--	if (vc4_hdmi->disable_4kp60 && vc4_hdmi_mode_needs_scrambling(mode))
--		return MODE_CLOCK_HIGH;
--
--	return MODE_OK;
-+	return vc4_hdmi_encoder_clock_valid(vc4_hdmi, mode->clock * 1000);
+ 	return 0;
  }
- 
- static const struct drm_encoder_helper_funcs vc4_hdmi_encoder_helper_funcs = {
 -- 
 2.34.1
 
