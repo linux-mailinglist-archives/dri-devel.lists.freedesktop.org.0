@@ -1,75 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF5A49E436
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 15:10:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7938949E43C
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 15:11:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA15E10EEF7;
-	Thu, 27 Jan 2022 14:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC58C10EF2F;
+	Thu, 27 Jan 2022 14:11:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 479A410EEF0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 14:10:37 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id A17C85805AF;
- Thu, 27 Jan 2022 09:10:36 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 27 Jan 2022 09:10:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=c6ZI4zhtK6z4WsaGAX0xmBAGjwYLaA
- 1iMstdxov7iUU=; b=ee55b/yAuEIA9CPk4nh50AWVEt7IhOgMFJDqJebeim+4zf
- bbBQZtO9A+RNFkptPCcVYUmJ31eaWubhVBoiiVbTxdSZK8ACkiA/1q0ZVoGVzLRk
- 4AEBaRQpH/DTmavtAJLhWY3NLCMB8wRJoLj0TSfFJw3aS+2ejHOMExCoL5aUGlUV
- 7NOBvJcV6GykoE3HC76D8MDBcu56k0xvhXTe6lfeZjnpGU598P+dtiFBsEB9tcHM
- k14cLD3xvUDypFwJ/q6GPOUcs9JjG/NSR/KnI/S7HH74qiIcjSRvgf6RPsgkdU99
- 0cLKzDpZ9yNrynxnckZq8RqbO5tUTXRxSZ/ba5xg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=c6ZI4z
- htK6z4WsaGAX0xmBAGjwYLaA1iMstdxov7iUU=; b=GoXy9p1prwwvwzTKhWCdiP
- /upEiAQhy+tPZmg35nKpdIx1zi8WH5eCRURc5Zjrr3YVLvsZnKbwhfDZ0O/t2lFV
- olHyRafVw7b6i5NDKT9+N4LZycjJt+jme0sFT9UGmtAzEUNbQGavFx0J8YrVZI2y
- fFTHxi6Uz3+j6vG55RvoYXbCD5GPTOB/fmsxN49gHxq5uQQvKkGvd3fdEfS7CTiL
- zEulwfRB30smYLR+HZqVZ5t/CtI9/uxM8rT/T09zTF3FautAjbVBl67IuTdiG6yI
- N1uXpcS89hNgMEaaklCqvcfglSojyytVVmlZOV4jHQk9rtqUb8diMhALTK3V9PrQ
- ==
-X-ME-Sender: <xms:3KfyYSVHXKThE-9ljHAs1fM7mJ_1GOjsA5K8SIrzBng_G-g3TeG0aA>
- <xme:3KfyYemkR9feAvmOCjU-IDf-gPxzpMazkfOMsjJGLNwgdj5EFWgAJrIYMSahjKGY7
- 0tsBlpFg6DpXYwoSf0>
-X-ME-Received: <xmr:3KfyYWbl1hNkK8hGNce1i6wtsf2f0jGiQLnkMvvuatzOTDHKXWE7x3Hvpwltx4ChhaS46qDnmcu2eoJJ3f1OCEi3xzFjbpe9FCWEkyY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeefgdeiudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:3KfyYZW8hLeFiQZQd1amiwoTLwD8t6o33v0ZGKQxzIiss-JWznS2dw>
- <xmx:3KfyYcntkbDfjvXy31wMGMOrq_y0IUwWQ5_OA-dUcmAnm6p4QTiL-Q>
- <xmx:3KfyYedw900Z8YGldCQUgK33CsWjo0UK5EvKkTOaRAOcajzjRQRT4g>
- <xmx:3KfyYVeEY6gssRr2Ct0BoCY7iBY08Qqv7UbsP1_xqMxRcJSoBPEGuA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Jan 2022 09:10:36 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v5 6/6] drm/vc4: hdmi: Support HDMI YUV output
-Date: Thu, 27 Jan 2022 15:10:21 +0100
-Message-Id: <20220127141021.302482-7-maxime@cerno.tech>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220127141021.302482-1-maxime@cerno.tech>
-References: <20220127141021.302482-1-maxime@cerno.tech>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2047.outbound.protection.outlook.com [40.107.236.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F41E510EF2C;
+ Thu, 27 Jan 2022 14:11:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TMoEEjhTFydMAgYYtpvDq07kUo/mTeKLvsKuPpFlXzoO+1QQh3/azh2/dRvL1yt/mMwe6ThfJITp1iLBfQezkMioos1V9FyifJW90dXs530ugNahk8yZngfdR2UCluGoHWfpxJiMbuDggbakLBLeUxLYuxiS6ZI7y4s8IDnIxlWkOY8mGW179+XWiS163YppNKiFihqzbyX/K++RvCTlrGHU/0nSVlvEJ1K5lCLZ5ZRt/WZZ/EGi7jbRO8niBTaa8fgFd8WfnYOuPevQPeQZmPKbG6AFGYWq4vewVvAv4Mb/IlWXcW9SoblE/3QI7CeHeA1hHs5GhA+xFMbBDyYlwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vqWgC+Zda1egb2E75WHnaNZAQnvQahzaOegJNwz5MGs=;
+ b=UftaxHnDEJDDVDlUMscIMURmMmTVgRm4lq6dXn1BJYeB0dHp64m/CQ12wIYTOEiodsMLfd1VgzbV1V4VhcvOPg9mjYMLJVNGKTujJCNubR96Rm1QmVzyeOidsVKJwhidwuXlMB4uYGT8/ZZzsBS/vF9sS0xqu4LnRjMtbDtGwemMWvP7hOIl2Wf2WxxiC+ds0EcRVH3RpTY+M98A8gPM+Ewg5FCqyXh5y5o6K2YxURgxmXcb4X6w1VhKHiLg1XTI1Cgx4BkY+Mt5qv8j7hfRD1Rf+KXqw1JTCCGyoU0Z7bIkBqU2ggVOE8W6i4A5gIoNZDw9ZXS4iiHkcnATh0MmtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vqWgC+Zda1egb2E75WHnaNZAQnvQahzaOegJNwz5MGs=;
+ b=p0ng8q7hzMBuohaWDmwJ41kzHOPU6aDNx5bPz9F+pl670fVZzdjgCjyollXk20jCzq/pXDugbiuqg1PzrclcDPhAAYq0US+XZJDbVl+gNweQlsxOb4gQB202LIUcw7j6aKK8oFqNVUFv7uxZ0D/mgV3Y77xKiviriNWdUaNFAgk=
+Received: from BN8PR04CA0041.namprd04.prod.outlook.com (2603:10b6:408:d4::15)
+ by MW5PR12MB5684.namprd12.prod.outlook.com (2603:10b6:303:1a1::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.17; Thu, 27 Jan
+ 2022 14:11:29 +0000
+Received: from BN8NAM11FT064.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:d4:cafe::3f) by BN8PR04CA0041.outlook.office365.com
+ (2603:10b6:408:d4::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15 via Frontend
+ Transport; Thu, 27 Jan 2022 14:11:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT064.mail.protection.outlook.com (10.13.176.160) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4930.15 via Frontend Transport; Thu, 27 Jan 2022 14:11:28 +0000
+Received: from rtg-amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 27 Jan
+ 2022 08:11:24 -0600
+From: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH v11 1/5] drm: improve drm_buddy_alloc function
+Date: Thu, 27 Jan 2022 19:41:03 +0530
+Message-ID: <20220127141107.173692-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4e96717f-74b0-4936-daf7-08d9e19ee952
+X-MS-TrafficTypeDiagnostic: MW5PR12MB5684:EE_
+X-Microsoft-Antispam-PRVS: <MW5PR12MB56846054E99A65C4273EC268E4219@MW5PR12MB5684.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:116;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +CJYzPFxvA2IkBa0766emiBEIPjnJ14H8FAnd//S0b6GakZsN+w7jt4oTdfIoFDK2NeF+V5fG2deG7iGh2kS6zl5OHLyFjhcdHFCrKTdUp4aI6hAe5bQl4IgXQlLchcLc6KlqeFVgPaYrxV5c0q6Hyao18yZbJcwgnxrbEQ4ESSC3PIY+36rHmfghE5d7ybxSlOgLiK9LO+5xzRhV9L/GiiC216TAaRBLXWA9ZscE8Xr783oQEB5yO3mK3gjVKS073CVq+au7/oAJZk4s/vul/ecGBCmqVVMPFSEQqyznKYvySKouSxuRyWyna6ickzj9XEKyYjHnfbJ64zqb2zrnEEieicuOaaNKIx5izsIEZrHklKwSft6SFkv2pr8KFWNMD5c1fPEpmHTWQL5ao3PH3+e7IepxsQiCd/3CeuWinApppTQB6wWWZIjnsh8EyvomUFBcq/lm3g3dulSWctscFWUVI739lup0FMNM14WhWkodbfDo2B0wVv5tO0h/Y6tJoKoWPsTwpV40ECnLQbt00eQ/1CD9V1ezTbknUoPogW6YVHEiLG0mg/FTIsCEzOcmlX8fMxic5ZjW5Rxgv+bo3Qqo5siCO1hWpeBrnmE27lm9h6oyZHcogqnuXwYyrkLYKcjedQgiT2zEf4Rj1SUhLsLypeR+DbOUvXhFMYKULNiJXVBl3wrTg7qgG6NgHDfqIWTZ7kkrjGm56faWw4e89RYCkv/ao8RvVVxDG9M0t63J1c+CYbVdapZnN89MX2uyKxKFZMJxDYFtxnYDpmQvBWoRhf0PPvxPdS0LXYl75E=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(40470700004)(46966006)(36840700001)(81166007)(82310400004)(8676002)(426003)(36756003)(30864003)(86362001)(2906002)(356005)(508600001)(83380400001)(316002)(7696005)(40460700003)(8936002)(26005)(16526019)(186003)(70586007)(36860700001)(47076005)(70206006)(54906003)(2616005)(110136005)(336012)(5660300002)(6666004)(1076003)(4326008)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2022 14:11:28.4458 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e96717f-74b0-4936-daf7-08d9e19ee952
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT064.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5684
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,595 +101,607 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Werner Sembach <wse@tuxedocomputers.com>, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>
+Cc: Arunpravin <Arunpravin.PaneerSelvam@amd.com>, matthew.auld@intel.com,
+ tzimmermann@suse.de, alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In addition to the RGB444 output, the BCM2711 HDMI controller supports
-the YUV444 and YUV422 output formats.
+- Make drm_buddy_alloc a single function to handle
+  range allocation and non-range allocation demands
 
-Let's add support for them in the driver, but still use RGB as the
-preferred format.
+- Implemented a new function alloc_range() which allocates
+  the requested power-of-two block comply with range limitations
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+- Moved order computation and memory alignment logic from
+  i915 driver to drm buddy
+
+v2:
+  merged below changes to keep the build unbroken
+   - drm_buddy_alloc_range() becomes obsolete and may be removed
+   - enable ttm range allocation (fpfn / lpfn) support in i915 driver
+   - apply enhanced drm_buddy_alloc() function to i915 driver
+
+v3(Matthew Auld):
+  - Fix alignment issues and remove unnecessary list_empty check
+  - add more validation checks for input arguments
+  - make alloc_range() block allocations as bottom-up
+  - optimize order computation logic
+  - replace uint64_t with u64, which is preferred in the kernel
+
+v4(Matthew Auld):
+  - keep drm_buddy_alloc_range() function implementation for generic
+    actual range allocations
+  - keep alloc_range() implementation for end bias allocations
+
+v5(Matthew Auld):
+  - modify drm_buddy_alloc() passing argument place->lpfn to lpfn
+    as place->lpfn will currently always be zero for i915
+
+v6(Matthew Auld):
+  - fixup potential uaf - If we are unlucky and can't allocate
+    enough memory when splitting blocks, where we temporarily
+    end up with the given block and its buddy on the respective
+    free list, then we need to ensure we delete both blocks,
+    and no just the buddy, before potentially freeing them
+
+  - fix warnings reported by kernel test robot <lkp@intel.com>
+
+v7(Matthew Auld):
+  - revert fixup potential uaf
+  - keep __alloc_range() add node to the list logic same as
+    drm_buddy_alloc_blocks() by having a temporary list variable
+  - at drm_buddy_alloc_blocks() keep i915 range_overflows macro
+    and add a new check for end variable
+
+v8:
+  - fix warnings reported by kernel test robot <lkp@intel.com>
+
+Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c      | 289 ++++++++++++++++++++++++++--
- drivers/gpu/drm/vc4/vc4_hdmi.h      |  14 ++
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h |   6 +
- drivers/gpu/drm/vc4/vc4_regs.h      |  16 ++
- 4 files changed, 309 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/drm_buddy.c                   | 315 +++++++++++++-----
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |  67 ++--
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |   2 +
+ include/drm/drm_buddy.h                       |  13 +-
+ 4 files changed, 280 insertions(+), 117 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 3ce002e485ce..787ddc5ba7d7 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -99,15 +99,30 @@
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index d60878bc9c20..cfc160a1ef1a 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -282,23 +282,97 @@ void drm_buddy_free_list(struct drm_buddy *mm, struct list_head *objects)
+ }
+ EXPORT_SYMBOL(drm_buddy_free_list);
  
- #define HDMI_14_MAX_TMDS_CLK   (340 * 1000 * 1000)
- 
-+static const char * const output_format_str[] = {
-+	[VC4_HDMI_OUTPUT_RGB]		= "RGB",
-+	[VC4_HDMI_OUTPUT_YUV420]	= "YUV 4:2:0",
-+	[VC4_HDMI_OUTPUT_YUV422]	= "YUV 4:2:2",
-+	[VC4_HDMI_OUTPUT_YUV444]	= "YUV 4:4:4",
-+};
-+
-+static const char *vc4_hdmi_output_fmt_str(enum vc4_hdmi_output_format fmt)
+-/**
+- * drm_buddy_alloc_blocks - allocate power-of-two blocks
+- *
+- * @mm: DRM buddy manager to allocate from
+- * @order: size of the allocation
+- *
+- * The order value here translates to:
+- *
+- * 0 = 2^0 * mm->chunk_size
+- * 1 = 2^1 * mm->chunk_size
+- * 2 = 2^2 * mm->chunk_size
+- *
+- * Returns:
+- * allocated ptr to the &drm_buddy_block on success
+- */
+-struct drm_buddy_block *
+-drm_buddy_alloc_blocks(struct drm_buddy *mm, unsigned int order)
++static inline bool overlaps(u64 s1, u64 e1, u64 s2, u64 e2)
 +{
-+	if (fmt >= ARRAY_SIZE(output_format_str))
-+		return "invalid";
-+
-+	return output_format_str[fmt];
-+}
- 
- static unsigned long long
- vc4_hdmi_encoder_compute_mode_clock(const struct drm_display_mode *mode,
--				    unsigned int bpc);
-+				    unsigned int bpc, enum vc4_hdmi_output_format fmt);
- 
- static bool vc4_hdmi_mode_needs_scrambling(const struct drm_display_mode *mode,
--					   unsigned int bpc)
-+					   unsigned int bpc,
-+					   enum vc4_hdmi_output_format fmt)
- {
--	unsigned long long clock = vc4_hdmi_encoder_compute_mode_clock(mode, bpc);
-+	unsigned long long clock = vc4_hdmi_encoder_compute_mode_clock(mode, bpc, fmt);
- 
- 	return clock > HDMI_14_MAX_TMDS_CLK;
- }
-@@ -280,7 +295,7 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
- 		struct drm_display_mode *mode;
- 
- 		list_for_each_entry(mode, &connector->probed_modes, head) {
--			if (vc4_hdmi_mode_needs_scrambling(mode, 8)) {
-+			if (vc4_hdmi_mode_needs_scrambling(mode, 8, VC4_HDMI_OUTPUT_RGB)) {
- 				drm_warn_once(drm, "The core clock cannot reach frequencies high enough to support 4k @ 60Hz.");
- 				drm_warn_once(drm, "Please change your config.txt file to add hdmi_enable_4kp60.");
- 			}
-@@ -337,6 +352,7 @@ static void vc4_hdmi_connector_reset(struct drm_connector *connector)
- 
- 	new_state->base.max_bpc = 8;
- 	new_state->base.max_requested_bpc = 8;
-+	new_state->output_format = VC4_HDMI_OUTPUT_RGB;
- 	drm_atomic_helper_connector_tv_reset(connector);
- }
- 
-@@ -353,6 +369,7 @@ vc4_hdmi_connector_duplicate_state(struct drm_connector *connector)
- 
- 	new_state->pixel_rate = vc4_state->pixel_rate;
- 	new_state->output_bpc = vc4_state->output_bpc;
-+	new_state->output_format = vc4_state->output_format;
- 	__drm_atomic_helper_connector_duplicate_state(connector, &new_state->base);
- 
- 	return &new_state->base;
-@@ -496,11 +513,38 @@ static void vc4_hdmi_write_infoframe(struct drm_encoder *encoder,
- 		DRM_ERROR("Failed to wait for infoframe to start: %d\n", ret);
- }
- 
-+static void vc4_hdmi_avi_infoframe_colorspace(struct hdmi_avi_infoframe *frame,
-+					      enum vc4_hdmi_output_format fmt)
-+{
-+	switch (fmt) {
-+	case VC4_HDMI_OUTPUT_RGB:
-+		frame->colorspace = HDMI_COLORSPACE_RGB;
-+		break;
-+
-+	case VC4_HDMI_OUTPUT_YUV420:
-+		frame->colorspace = HDMI_COLORSPACE_YUV420;
-+		break;
-+
-+	case VC4_HDMI_OUTPUT_YUV422:
-+		frame->colorspace = HDMI_COLORSPACE_YUV422;
-+		break;
-+
-+	case VC4_HDMI_OUTPUT_YUV444:
-+		frame->colorspace = HDMI_COLORSPACE_YUV444;
-+		break;
-+
-+	default:
-+		break;
-+	}
++	return s1 <= e2 && e1 >= s2;
 +}
 +
- static void vc4_hdmi_set_avi_infoframe(struct drm_encoder *encoder)
++static inline bool contains(u64 s1, u64 e1, u64 s2, u64 e2)
++{
++	return s1 <= s2 && e1 >= e2;
++}
++
++static struct drm_buddy_block *
++alloc_range_bias(struct drm_buddy *mm,
++		 u64 start, u64 end,
++		 unsigned int order)
++{
++	struct drm_buddy_block *block;
++	struct drm_buddy_block *buddy;
++	LIST_HEAD(dfs);
++	int err;
++	int i;
++
++	end = end - 1;
++
++	for (i = 0; i < mm->n_roots; ++i)
++		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
++
++	do {
++		u64 block_start;
++		u64 block_end;
++
++		block = list_first_entry_or_null(&dfs,
++						 struct drm_buddy_block,
++						 tmp_link);
++		if (!block)
++			break;
++
++		list_del(&block->tmp_link);
++
++		if (drm_buddy_block_order(block) < order)
++			continue;
++
++		block_start = drm_buddy_block_offset(block);
++		block_end = block_start + drm_buddy_block_size(mm, block) - 1;
++
++		if (!overlaps(start, end, block_start, block_end))
++			continue;
++
++		if (drm_buddy_block_is_allocated(block))
++			continue;
++
++		if (contains(start, end, block_start, block_end) &&
++		    order == drm_buddy_block_order(block)) {
++			/*
++			 * Find the free block within the range.
++			 */
++			if (drm_buddy_block_is_free(block))
++				return block;
++
++			continue;
++		}
++
++		if (!drm_buddy_block_is_split(block)) {
++			err = split_block(mm, block);
++			if (unlikely(err))
++				goto err_undo;
++		}
++
++		list_add(&block->right->tmp_link, &dfs);
++		list_add(&block->left->tmp_link, &dfs);
++	} while (1);
++
++	return ERR_PTR(-ENOSPC);
++
++err_undo:
++	/*
++	 * We really don't want to leave around a bunch of split blocks, since
++	 * bigger is better, so make sure we merge everything back before we
++	 * free the allocated blocks.
++	 */
++	buddy = get_buddy(block);
++	if (buddy &&
++	    (drm_buddy_block_is_free(block) &&
++	     drm_buddy_block_is_free(buddy)))
++		__drm_buddy_free(mm, block);
++	return ERR_PTR(err);
++}
++
++static struct drm_buddy_block *
++alloc_from_freelist(struct drm_buddy *mm,
++		    unsigned int order,
++		    unsigned long flags)
  {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 	struct drm_connector *connector = &vc4_hdmi->connector;
- 	struct drm_connector_state *cstate = connector->state;
-+	struct vc4_hdmi_connector_state *vc4_state =
-+		conn_state_to_vc4_hdmi_conn_state(cstate);
- 	const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
- 	union hdmi_infoframe frame;
- 	int ret;
-@@ -520,6 +564,7 @@ static void vc4_hdmi_set_avi_infoframe(struct drm_encoder *encoder)
- 					   HDMI_QUANTIZATION_RANGE_FULL :
- 					   HDMI_QUANTIZATION_RANGE_LIMITED);
- 	drm_hdmi_avi_infoframe_colorimetry(&frame.avi, cstate);
-+	vc4_hdmi_avi_infoframe_colorspace(&frame.avi, vc4_state->output_format);
- 	drm_hdmi_avi_infoframe_bars(&frame.avi, cstate);
+ 	struct drm_buddy_block *block = NULL;
+ 	unsigned int i;
+@@ -320,78 +394,29 @@ drm_buddy_alloc_blocks(struct drm_buddy *mm, unsigned int order)
+ 	while (i != order) {
+ 		err = split_block(mm, block);
+ 		if (unlikely(err))
+-			goto out_free;
++			goto err_undo;
  
- 	vc4_hdmi_write_infoframe(encoder, &frame);
-@@ -622,7 +667,9 @@ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
- 	if (!vc4_hdmi_supports_scrambling(encoder, mode))
- 		return;
+-		/* Go low */
+-		block = block->left;
++		block = block->right;
+ 		i--;
+ 	}
+-
+-	mark_allocated(block);
+-	mm->avail -= drm_buddy_block_size(mm, block);
+-	kmemleak_update_trace(block);
+ 	return block;
  
--	if (!vc4_hdmi_mode_needs_scrambling(mode, vc4_hdmi->output_bpc))
-+	if (!vc4_hdmi_mode_needs_scrambling(mode,
-+					    vc4_hdmi->output_bpc,
-+					    vc4_hdmi->output_format))
- 		return;
+-out_free:
++err_undo:
+ 	if (i != order)
+ 		__drm_buddy_free(mm, block);
+ 	return ERR_PTR(err);
+ }
+-EXPORT_SYMBOL(drm_buddy_alloc_blocks);
+-
+-static inline bool overlaps(u64 s1, u64 e1, u64 s2, u64 e2)
+-{
+-	return s1 <= e2 && e1 >= s2;
+-}
  
- 	drm_scdc_set_high_tmds_clock_ratio(vc4_hdmi->ddc, true);
-@@ -817,6 +864,38 @@ static const u16 vc5_hdmi_csc_full_rgb_to_limited_rgb[3][4] = {
- 	{ 0x0000, 0x0000, 0x1b80, 0x0400 },
- };
+-static inline bool contains(u64 s1, u64 e1, u64 s2, u64 e2)
+-{
+-	return s1 <= s2 && e1 >= e2;
+-}
+-
+-/**
+- * drm_buddy_alloc_range - allocate range
+- *
+- * @mm: DRM buddy manager to allocate from
+- * @blocks: output list head to add allocated blocks
+- * @start: start of the allowed range for this block
+- * @size: size of the allocation
+- *
+- * Intended for pre-allocating portions of the address space, for example to
+- * reserve a block for the initial framebuffer or similar, hence the expectation
+- * here is that drm_buddy_alloc_blocks() is still the main vehicle for
+- * allocations, so if that's not the case then the drm_mm range allocator is
+- * probably a much better fit, and so you should probably go use that instead.
+- *
+- * Note that it's safe to chain together multiple alloc_ranges
+- * with the same blocks list
+- *
+- * Returns:
+- * 0 on success, error code on failure.
+- */
+-int drm_buddy_alloc_range(struct drm_buddy *mm,
+-			  struct list_head *blocks,
+-			  u64 start, u64 size)
++static int __alloc_range(struct drm_buddy *mm,
++			 struct list_head *dfs,
++			 u64 start, u64 size,
++			 struct list_head *blocks)
+ {
+ 	struct drm_buddy_block *block;
+ 	struct drm_buddy_block *buddy;
+ 	LIST_HEAD(allocated);
+-	LIST_HEAD(dfs);
+ 	u64 end;
+ 	int err;
+-	int i;
+-
+-	if (size < mm->chunk_size)
+-		return -EINVAL;
+-
+-	if (!IS_ALIGNED(size | start, mm->chunk_size))
+-		return -EINVAL;
+-
+-	if (range_overflows(start, size, mm->size))
+-		return -EINVAL;
+-
+-	for (i = 0; i < mm->n_roots; ++i)
+-		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
  
-+/*
-+ * Conversion between Full Range RGB and Full Range YUV422 using the
-+ * BT.709 Colorspace
+ 	end = start + size - 1;
+ 
+@@ -399,7 +424,7 @@ int drm_buddy_alloc_range(struct drm_buddy *mm,
+ 		u64 block_start;
+ 		u64 block_end;
+ 
+-		block = list_first_entry_or_null(&dfs,
++		block = list_first_entry_or_null(dfs,
+ 						 struct drm_buddy_block,
+ 						 tmp_link);
+ 		if (!block)
+@@ -436,8 +461,8 @@ int drm_buddy_alloc_range(struct drm_buddy *mm,
+ 				goto err_undo;
+ 		}
+ 
+-		list_add(&block->right->tmp_link, &dfs);
+-		list_add(&block->left->tmp_link, &dfs);
++		list_add(&block->right->tmp_link, dfs);
++		list_add(&block->left->tmp_link, dfs);
+ 	} while (1);
+ 
+ 	list_splice_tail(&allocated, blocks);
+@@ -459,7 +484,143 @@ int drm_buddy_alloc_range(struct drm_buddy *mm,
+ 	drm_buddy_free_list(mm, &allocated);
+ 	return err;
+ }
+-EXPORT_SYMBOL(drm_buddy_alloc_range);
++
++/**
++ * __drm_buddy_alloc_range - actual range allocation
 + *
-+ * [  0.212639  0.715169  0.072192  0   ]
-+ * [ -0.117208 -0.394207  0.511416  128 ]
-+ * [  0.511416 -0.464524 -0.046891  128 ]
++ * @mm: DRM buddy manager to allocate from
++ * @start: start of the allowed range for this block
++ * @size: size of the allocation
++ * @blocks: output list head to add allocated blocks
 + *
-+ * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
++ * Intended for pre-allocating portions of the address space, for example to
++ * reserve a block for the initial framebuffer or similar
++ *
++ * Note that it's safe to chain together multiple alloc_ranges
++ * with the same blocks list
++ *
++ * Returns:
++ * 0 on success, error code on failure.
 + */
-+static const u16 vc5_hdmi_csc_full_rgb_to_full_yuv422_bt709[3][4] = {
-+	{ 0x06ce, 0x16e3, 0x024f, 0x0000 },
-+	{ 0xfc41, 0xf364, 0x105e, 0x2000 },
-+	{ 0x105e, 0xf124, 0xfe81, 0x2000 },
-+};
++static int __drm_buddy_alloc_range(struct drm_buddy *mm,
++				   u64 start,
++				   u64 size,
++				   struct list_head *blocks)
++{
++	LIST_HEAD(dfs);
++	int i;
 +
-+/*
-+ * Conversion between Full Range RGB and Full Range YUV444 using the
-+ * BT.709 Colorspace
++	for (i = 0; i < mm->n_roots; ++i)
++		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
++
++	return __alloc_range(mm, &dfs, start, size, blocks);
++}
++
++/**
++ * drm_buddy_alloc_blocks - allocate power-of-two blocks
 + *
-+ * [ -0.117208 -0.394207  0.511416  128 ]
-+ * [  0.511416 -0.464524 -0.046891  128 ]
-+ * [  0.212639  0.715169  0.072192  0   ]
++ * @mm: DRM buddy manager to allocate from
++ * @start: start of the allowed range for this block
++ * @end: end of the allowed range for this block
++ * @size: size of the allocation
++ * @min_page_size: alignment of the allocation
++ * @blocks: output list head to add allocated blocks
++ * @flags: DRM_BUDDY_*_ALLOCATION flags
 + *
-+ * Matrix is signed 2p13 fixed point, with signed 9p6 offsets
++ * alloc_range_bias() called on range limitations, which traverses
++ * the tree and returns the desired block.
++ *
++ * alloc_from_freelist() called when *no* range restrictions
++ * are enforced, which picks the block from the freelist.
++ *
++ * blocks are allocated in order, the order value here translates to:
++ *
++ * 0 = 2^0 * mm->chunk_size
++ * 1 = 2^1 * mm->chunk_size
++ * 2 = 2^2 * mm->chunk_size
++ *
++ * Returns:
++ * 0 on success, error code on failure.
 + */
-+static const u16 vc5_hdmi_csc_full_rgb_to_full_yuv444_bt709[3][4] = {
-+	{ 0xfc41, 0xf364, 0x105e, 0x2000 },
-+	{ 0x105e, 0xf124, 0xfe81, 0x2000 },
-+	{ 0x06ce, 0x16e3, 0x024f, 0x0000 },
-+};
++int drm_buddy_alloc_blocks(struct drm_buddy *mm,
++			   u64 start, u64 end, u64 size,
++			   u64 min_page_size,
++			   struct list_head *blocks,
++			   unsigned long flags)
++{
++	struct drm_buddy_block *block = NULL;
++	unsigned int min_order, order;
++	unsigned long pages;
++	LIST_HEAD(allocated);
++	int err;
 +
- static void vc5_hdmi_set_csc_coeffs(struct vc4_hdmi *vc4_hdmi,
- 				    const u16 coeffs[3][4])
- {
-@@ -834,19 +913,53 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
- 			       struct drm_connector_state *state,
- 			       const struct drm_display_mode *mode)
- {
-+	struct vc4_hdmi_connector_state *vc4_state =
-+		conn_state_to_vc4_hdmi_conn_state(state);
- 	unsigned long flags;
-+	u32 if_cfg = 0;
-+	u32 if_xbar = 0x543210;
-+	u32 csc_chan_ctl = 0;
- 	u32 csc_ctl = VC5_MT_CP_CSC_CTL_ENABLE | VC4_SET_FIELD(VC4_HD_CSC_CTL_MODE_CUSTOM,
- 							       VC5_MT_CP_CSC_CTL_MODE);
++	if (size < mm->chunk_size)
++		return -EINVAL;
++
++	if (min_page_size < mm->chunk_size)
++		return -EINVAL;
++
++	if (!is_power_of_2(min_page_size))
++		return -EINVAL;
++
++	if (!IS_ALIGNED(start | end | size, mm->chunk_size))
++		return -EINVAL;
++
++	if (end > mm->size)
++		return -EINVAL;
++
++	if (range_overflows(start, size, mm->size))
++		return -EINVAL;
++
++	/* Actual range allocation */
++	if (start + size == end)
++		return __drm_buddy_alloc_range(mm, start, size, blocks);
++
++	pages = size >> ilog2(mm->chunk_size);
++	order = fls(pages) - 1;
++	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
++
++	do {
++		order = min(order, (unsigned int)fls(pages) - 1);
++		BUG_ON(order > mm->max_order);
++		BUG_ON(order < min_order);
++
++		do {
++			if (flags & DRM_BUDDY_RANGE_ALLOCATION)
++				/* Allocate traversing within the range */
++				block = alloc_range_bias(mm, start, end, order);
++			else
++				/* Allocate from freelist */
++				block = alloc_from_freelist(mm, order, flags);
++
++			if (!IS_ERR(block))
++				break;
++
++			if (order-- == min_order) {
++				err = -ENOSPC;
++				goto err_free;
++			}
++		} while (1);
++
++		mark_allocated(block);
++		mm->avail -= drm_buddy_block_size(mm, block);
++		kmemleak_update_trace(block);
++		list_add_tail(&block->link, &allocated);
++
++		pages -= BIT(order);
++
++		if (!pages)
++			break;
++	} while (1);
++
++	list_splice_tail(&allocated, blocks);
++	return 0;
++
++err_free:
++	drm_buddy_free_list(mm, &allocated);
++	return err;
++}
++EXPORT_SYMBOL(drm_buddy_alloc_blocks);
  
- 	spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
+ /**
+  * drm_buddy_block_print - print block information
+diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+index 247714bab044..a328a38fab07 100644
+--- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
++++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+@@ -36,13 +36,14 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+ 	struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
+ 	struct i915_ttm_buddy_resource *bman_res;
+ 	struct drm_buddy *mm = &bman->mm;
+-	unsigned long n_pages;
+-	unsigned int min_order;
++	unsigned long n_pages, lpfn;
+ 	u64 min_page_size;
+ 	u64 size;
+ 	int err;
  
--	HDMI_WRITE(HDMI_VEC_INTERFACE_XBAR, 0x354021);
-+	switch (vc4_state->output_format) {
-+	case VC4_HDMI_OUTPUT_YUV444:
-+		vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_to_full_yuv444_bt709);
-+		break;
+-	GEM_BUG_ON(place->fpfn || place->lpfn);
++	lpfn = place->lpfn;
++	if (!lpfn)
++		lpfn = man->size;
  
--	if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode))
--		vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_to_limited_rgb);
--	else
--		vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_unity);
-+	case VC4_HDMI_OUTPUT_YUV422:
-+		csc_ctl |= VC4_SET_FIELD(VC5_MT_CP_CSC_CTL_FILTER_MODE_444_TO_422_STANDARD,
-+					 VC5_MT_CP_CSC_CTL_FILTER_MODE_444_TO_422) |
-+			VC5_MT_CP_CSC_CTL_USE_444_TO_422 |
-+			VC5_MT_CP_CSC_CTL_USE_RNG_SUPPRESSION;
+ 	bman_res = kzalloc(sizeof(*bman_res), GFP_KERNEL);
+ 	if (!bman_res)
+@@ -52,6 +53,9 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+ 	INIT_LIST_HEAD(&bman_res->blocks);
+ 	bman_res->mm = mm;
  
-+		csc_chan_ctl |= VC4_SET_FIELD(VC5_MT_CP_CHANNEL_CTL_OUTPUT_REMAP_LEGACY_STYLE,
-+					      VC5_MT_CP_CHANNEL_CTL_OUTPUT_REMAP);
++	if (place->fpfn || lpfn != man->size)
++		bman_res->flags |= DRM_BUDDY_RANGE_ALLOCATION;
 +
-+		if_cfg |= VC4_SET_FIELD(VC5_DVP_HT_VEC_INTERFACE_CFG_SEL_422_FORMAT_422_LEGACY,
-+					VC5_DVP_HT_VEC_INTERFACE_CFG_SEL_422);
-+
-+		vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_to_full_yuv422_bt709);
-+		break;
-+
-+	case VC4_HDMI_OUTPUT_RGB:
-+		if_xbar = 0x354021;
-+
-+		if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode))
-+			vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_to_limited_rgb);
-+		else
-+			vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_unity);
-+		break;
-+
-+	default:
-+		break;
-+	}
-+
-+	HDMI_WRITE(HDMI_VEC_INTERFACE_CFG, if_cfg);
-+	HDMI_WRITE(HDMI_VEC_INTERFACE_XBAR, if_xbar);
-+	HDMI_WRITE(HDMI_CSC_CHANNEL_CTL, csc_chan_ctl);
- 	HDMI_WRITE(HDMI_CSC_CTL, csc_ctl);
+ 	GEM_BUG_ON(!bman_res->base.num_pages);
+ 	size = bman_res->base.num_pages << PAGE_SHIFT;
  
- 	spin_unlock_irqrestore(&vc4_hdmi->hw_lock, flags);
-@@ -972,6 +1085,15 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 		break;
+@@ -60,10 +64,16 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+ 		min_page_size = bo->page_alignment << PAGE_SHIFT;
+ 
+ 	GEM_BUG_ON(min_page_size < mm->chunk_size);
+-	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
++
+ 	if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
++		unsigned long pages;
++
+ 		size = roundup_pow_of_two(size);
+-		min_order = ilog2(size) - ilog2(mm->chunk_size);
++		min_page_size = size;
++
++		pages = size >> ilog2(mm->chunk_size);
++		if (pages > lpfn)
++			lpfn = pages;
  	}
  
-+	/*
-+	 * YCC422 is always 36-bit and not considered deep colour so
-+	 * doesn't signal in GCP.
-+	 */
-+	if (vc4_state->output_format == VC4_HDMI_OUTPUT_YUV422) {
-+		gcp = 4;
-+		gcp_en = false;
-+	}
-+
- 	reg = HDMI_READ(HDMI_DEEP_COLOR_CONFIG_1);
- 	reg &= ~(VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_MASK |
- 		 VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH_MASK);
-@@ -1269,12 +1391,97 @@ static void vc4_hdmi_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 	if (size > mm->size) {
+@@ -73,34 +83,16 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
  
- 	mutex_lock(&vc4_hdmi->mutex);
- 	vc4_hdmi->output_bpc = vc4_state->output_bpc;
-+	vc4_hdmi->output_format = vc4_state->output_format;
- 	memcpy(&vc4_hdmi->saved_adjusted_mode,
- 	       &crtc_state->adjusted_mode,
- 	       sizeof(vc4_hdmi->saved_adjusted_mode));
- 	mutex_unlock(&vc4_hdmi->mutex);
- }
+ 	n_pages = size >> ilog2(mm->chunk_size);
  
-+static bool
-+vc4_hdmi_sink_supports_format_bpc(const struct vc4_hdmi *vc4_hdmi,
-+				  const struct drm_display_info *info,
-+				  const struct drm_display_mode *mode,
-+				  unsigned int format, unsigned int bpc)
-+{
-+	struct drm_device *dev = vc4_hdmi->connector.dev;
-+	u8 vic = drm_match_cea_mode(mode);
-+
-+	if (vic == 1 && bpc != 8) {
-+		drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
-+		return false;
-+	}
-+
-+	if (!info->is_hdmi &&
-+	    (format != VC4_HDMI_OUTPUT_RGB || bpc != 8)) {
-+		drm_dbg(dev, "DVI Monitors require an RGB output at 8 bpc\n");
-+		return false;
-+	}
-+
-+	switch (format) {
-+	case VC4_HDMI_OUTPUT_RGB:
-+		drm_dbg(dev, "RGB Format, checking the constraints.\n");
-+
-+		if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
-+			return false;
-+
-+		if (bpc == 10 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_30)) {
-+			drm_dbg(dev, "10 BPC but sink doesn't support Deep Color 30.\n");
-+			return false;
-+		}
-+
-+		if (bpc == 12 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_36)) {
-+			drm_dbg(dev, "12 BPC but sink doesn't support Deep Color 36.\n");
-+			return false;
-+		}
-+
-+		drm_dbg(dev, "RGB format supported in that configuration.\n");
-+
-+		return true;
-+
-+	case VC4_HDMI_OUTPUT_YUV422:
-+		drm_dbg(dev, "YUV422 format, checking the constraints.\n");
-+
-+		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR422)) {
-+			drm_dbg(dev, "Sink doesn't support YUV422.\n");
-+			return false;
-+		}
-+
-+		if (bpc != 12) {
-+			drm_dbg(dev, "YUV422 only supports 12 bpc.\n");
-+			return false;
-+		}
-+
-+		drm_dbg(dev, "YUV422 format supported in that configuration.\n");
-+
-+		return true;
-+
-+	case VC4_HDMI_OUTPUT_YUV444:
-+		drm_dbg(dev, "YUV444 format, checking the constraints.\n");
-+
-+		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR444)) {
-+			drm_dbg(dev, "Sink doesn't support YUV444.\n");
-+			return false;
-+		}
-+
-+		if (bpc == 10 && !(info->edid_hdmi_ycbcr444_dc_modes & DRM_EDID_HDMI_DC_30)) {
-+			drm_dbg(dev, "10 BPC but sink doesn't support Deep Color 30.\n");
-+			return false;
-+		}
-+
-+		if (bpc == 12 && !(info->edid_hdmi_ycbcr444_dc_modes & DRM_EDID_HDMI_DC_36)) {
-+			drm_dbg(dev, "12 BPC but sink doesn't support Deep Color 36.\n");
-+			return false;
-+		}
-+
-+		drm_dbg(dev, "YUV444 format supported in that configuration.\n");
-+
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
- static enum drm_mode_status
- vc4_hdmi_encoder_clock_valid(const struct vc4_hdmi *vc4_hdmi,
- 			     unsigned long long clock)
-@@ -1296,13 +1503,17 @@ vc4_hdmi_encoder_clock_valid(const struct vc4_hdmi *vc4_hdmi,
+-	do {
+-		struct drm_buddy_block *block;
+-		unsigned int order;
+-
+-		order = fls(n_pages) - 1;
+-		GEM_BUG_ON(order > mm->max_order);
+-		GEM_BUG_ON(order < min_order);
+-
+-		do {
+-			mutex_lock(&bman->lock);
+-			block = drm_buddy_alloc_blocks(mm, order);
+-			mutex_unlock(&bman->lock);
+-			if (!IS_ERR(block))
+-				break;
+-
+-			if (order-- == min_order) {
+-				err = -ENOSPC;
+-				goto err_free_blocks;
+-			}
+-		} while (1);
+-
+-		n_pages -= BIT(order);
+-
+-		list_add_tail(&block->link, &bman_res->blocks);
+-
+-		if (!n_pages)
+-			break;
+-	} while (1);
++	mutex_lock(&bman->lock);
++	err = drm_buddy_alloc_blocks(mm, (u64)place->fpfn << PAGE_SHIFT,
++				     (u64)lpfn << PAGE_SHIFT,
++				     (u64)n_pages << PAGE_SHIFT,
++				     min_page_size,
++				     &bman_res->blocks,
++				     bman_res->flags);
++	mutex_unlock(&bman->lock);
++	if (unlikely(err))
++		goto err_free_blocks;
  
- static unsigned long long
- vc4_hdmi_encoder_compute_mode_clock(const struct drm_display_mode *mode,
--				    unsigned int bpc)
-+				    unsigned int bpc,
-+				    enum vc4_hdmi_output_format fmt)
- {
- 	unsigned long long clock = mode->clock * 1000;
- 
- 	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
- 		clock = clock * 2;
- 
-+	if (fmt == VC4_HDMI_OUTPUT_YUV422)
-+		bpc = 8;
-+
- 	return clock * bpc / 8;
- }
- 
-@@ -1310,11 +1521,11 @@ static int
- vc4_hdmi_encoder_compute_clock(const struct vc4_hdmi *vc4_hdmi,
- 			       struct vc4_hdmi_connector_state *vc4_state,
- 			       const struct drm_display_mode *mode,
--			       unsigned int bpc)
-+			       unsigned int bpc, unsigned int fmt)
- {
- 	unsigned long long clock;
- 
--	clock = vc4_hdmi_encoder_compute_mode_clock(mode, bpc);
-+	clock = vc4_hdmi_encoder_compute_mode_clock(mode, bpc, fmt);
- 	if (vc4_hdmi_encoder_clock_valid(vc4_hdmi, clock) != MODE_OK)
- 		return -EINVAL;
- 
-@@ -1323,11 +1534,56 @@ vc4_hdmi_encoder_compute_clock(const struct vc4_hdmi *vc4_hdmi,
+ 	*res = &bman_res->base;
  	return 0;
- }
- 
-+static int
-+vc4_hdmi_encoder_compute_format(const struct vc4_hdmi *vc4_hdmi,
-+				struct vc4_hdmi_connector_state *vc4_state,
-+				const struct drm_display_mode *mode,
-+				unsigned int bpc)
-+{
-+	struct drm_device *dev = vc4_hdmi->connector.dev;
-+	const struct drm_connector *connector = &vc4_hdmi->connector;
-+	const struct drm_display_info *info = &connector->display_info;
-+	unsigned int format;
-+
-+	drm_dbg(dev, "Trying with an RGB output\n");
-+
-+	format = VC4_HDMI_OUTPUT_RGB;
-+	if (vc4_hdmi_sink_supports_format_bpc(vc4_hdmi, info, mode, format, bpc)) {
-+		int ret;
-+
-+		ret = vc4_hdmi_encoder_compute_clock(vc4_hdmi, vc4_state,
-+						     mode, bpc, format);
-+		if (!ret) {
-+			vc4_state->output_format = format;
-+			return 0;
-+		}
-+	}
-+
-+	drm_dbg(dev, "Failed, Trying with an YUV422 output\n");
-+
-+	format = VC4_HDMI_OUTPUT_YUV422;
-+	if (vc4_hdmi_sink_supports_format_bpc(vc4_hdmi, info, mode, format, bpc)) {
-+		int ret;
-+
-+		ret = vc4_hdmi_encoder_compute_clock(vc4_hdmi, vc4_state,
-+						     mode, bpc, format);
-+		if (!ret) {
-+			vc4_state->output_format = format;
-+			return 0;
-+		}
-+	}
-+
-+	drm_dbg(dev, "Failed. No Format Supported for that bpc count.\n");
-+
-+	return -EINVAL;
-+}
-+
- static int
- vc4_hdmi_encoder_compute_config(const struct vc4_hdmi *vc4_hdmi,
- 				struct vc4_hdmi_connector_state *vc4_state,
- 				const struct drm_display_mode *mode)
+@@ -268,10 +260,17 @@ int i915_ttm_buddy_man_reserve(struct ttm_resource_manager *man,
  {
-+	struct drm_device *dev = vc4_hdmi->connector.dev;
- 	struct drm_connector_state *conn_state = &vc4_state->base;
- 	unsigned int max_bpc = clamp_t(unsigned int, conn_state->max_bpc, 8, 12);
- 	unsigned int bpc;
-@@ -1336,17 +1592,18 @@ vc4_hdmi_encoder_compute_config(const struct vc4_hdmi *vc4_hdmi,
- 	for (bpc = max_bpc; bpc >= 8; bpc -= 2) {
- 		drm_dbg(dev, "Trying with a %d bpc output\n", bpc);
+ 	struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
+ 	struct drm_buddy *mm = &bman->mm;
++	unsigned long flags = 0;
+ 	int ret;
  
--		ret = vc4_hdmi_encoder_compute_clock(vc4_hdmi, vc4_state,
--						     mode, bpc);
-+		ret = vc4_hdmi_encoder_compute_format(vc4_hdmi, vc4_state,
-+						      mode, bpc);
- 		if (ret)
- 			continue;
- 
- 		vc4_state->output_bpc = bpc;
- 
- 		drm_dbg(dev,
--			"Mode %ux%u @ %uHz: Found configuration: bpc: %u, clock: %llu\n",
-+			"Mode %ux%u @ %uHz: Found configuration: bpc: %u, fmt: %s, clock: %llu\n",
- 			mode->hdisplay, mode->vdisplay, drm_mode_vrefresh(mode),
- 			vc4_state->output_bpc,
-+			vc4_hdmi_output_fmt_str(vc4_state->output_format),
- 			vc4_state->pixel_rate);
- 
- 		break;
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index 05d2b0eeaa9b..f015ae80c5d4 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -117,6 +117,13 @@ struct vc4_hdmi_audio {
- 	bool streaming;
- };
- 
-+enum vc4_hdmi_output_format {
-+	VC4_HDMI_OUTPUT_RGB,
-+	VC4_HDMI_OUTPUT_YUV422,
-+	VC4_HDMI_OUTPUT_YUV444,
-+	VC4_HDMI_OUTPUT_YUV420,
-+};
++	flags |= DRM_BUDDY_RANGE_ALLOCATION;
 +
- /* General HDMI hardware state. */
- struct vc4_hdmi {
- 	struct vc4_hdmi_audio audio;
-@@ -222,6 +229,12 @@ struct vc4_hdmi {
- 	 * outside of KMS hooks. Protected by @mutex.
- 	 */
- 	unsigned int output_bpc;
+ 	mutex_lock(&bman->lock);
+-	ret = drm_buddy_alloc_range(mm, &bman->reserved, start, size);
++	ret = drm_buddy_alloc_blocks(mm, start,
++				     start + size,
++				     size, mm->chunk_size,
++				     &bman->reserved,
++				     flags);
+ 	mutex_unlock(&bman->lock);
+ 
+ 	return ret;
+diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
+index 312077941411..72c90b432e87 100644
+--- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
++++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
+@@ -20,6 +20,7 @@ struct drm_buddy;
+  *
+  * @base: struct ttm_resource base class we extend
+  * @blocks: the list of struct i915_buddy_block for this resource/allocation
++ * @flags: DRM_BUDDY_*_ALLOCATION flags
+  * @mm: the struct i915_buddy_mm for this resource
+  *
+  * Extends the struct ttm_resource to manage an address space allocation with
+@@ -28,6 +29,7 @@ struct drm_buddy;
+ struct i915_ttm_buddy_resource {
+ 	struct ttm_resource base;
+ 	struct list_head blocks;
++	unsigned long flags;
+ 	struct drm_buddy *mm;
+ };
+ 
+diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+index f524db152413..54f25a372f27 100644
+--- a/include/drm/drm_buddy.h
++++ b/include/drm/drm_buddy.h
+@@ -22,6 +22,8 @@
+ 	start__ >= max__ || size__ > max__ - start__; \
+ })
+ 
++#define DRM_BUDDY_RANGE_ALLOCATION (1 << 0)
 +
-+	/**
-+	 * @output_format: Copy of @vc4_connector_state.output_format
-+	 * for use outside of KMS hooks. Protected by @mutex.
-+	 */
-+	enum vc4_hdmi_output_format output_format;
- };
+ struct drm_buddy_block {
+ #define DRM_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+ #define DRM_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10)
+@@ -131,12 +133,11 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size);
  
- static inline struct vc4_hdmi *
-@@ -242,6 +255,7 @@ struct vc4_hdmi_connector_state {
- 	struct drm_connector_state	base;
- 	unsigned long long		pixel_rate;
- 	unsigned int 			output_bpc;
-+	enum vc4_hdmi_output_format	output_format;
- };
+ void drm_buddy_fini(struct drm_buddy *mm);
  
- static inline struct vc4_hdmi_connector_state *
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-index fc971506bd4f..a040356b6bdc 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-@@ -54,6 +54,7 @@ enum vc4_hdmi_field {
- 	HDMI_CSC_24_23,
- 	HDMI_CSC_32_31,
- 	HDMI_CSC_34_33,
-+	HDMI_CSC_CHANNEL_CTL,
- 	HDMI_CSC_CTL,
+-struct drm_buddy_block *
+-drm_buddy_alloc_blocks(struct drm_buddy *mm, unsigned int order);
+-
+-int drm_buddy_alloc_range(struct drm_buddy *mm,
+-			  struct list_head *blocks,
+-			  u64 start, u64 size);
++int drm_buddy_alloc_blocks(struct drm_buddy *mm,
++			   u64 start, u64 end, u64 size,
++			   u64 min_page_size,
++			   struct list_head *blocks,
++			   unsigned long flags);
  
- 	/*
-@@ -119,6 +120,7 @@ enum vc4_hdmi_field {
- 	HDMI_TX_PHY_POWERDOWN_CTL,
- 	HDMI_TX_PHY_RESET_CTL,
- 	HDMI_TX_PHY_TMDS_CLK_WORD_SEL,
-+	HDMI_VEC_INTERFACE_CFG,
- 	HDMI_VEC_INTERFACE_XBAR,
- 	HDMI_VERTA0,
- 	HDMI_VERTA1,
-@@ -244,6 +246,7 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi0_fields[] = {
- 	VC4_HDMI_REG(HDMI_SCRAMBLER_CTL, 0x1c4),
+ void drm_buddy_free_block(struct drm_buddy *mm, struct drm_buddy_block *block);
  
- 	VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
-+	VC5_DVP_REG(HDMI_VEC_INTERFACE_CFG, 0x0ec),
- 	VC5_DVP_REG(HDMI_VEC_INTERFACE_XBAR, 0x0f0),
- 
- 	VC5_PHY_REG(HDMI_TX_PHY_RESET_CTL, 0x000),
-@@ -289,6 +292,7 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi0_fields[] = {
- 	VC5_CSC_REG(HDMI_CSC_24_23, 0x010),
- 	VC5_CSC_REG(HDMI_CSC_32_31, 0x014),
- 	VC5_CSC_REG(HDMI_CSC_34_33, 0x018),
-+	VC5_CSC_REG(HDMI_CSC_CHANNEL_CTL, 0x02c),
- };
- 
- static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi1_fields[] = {
-@@ -324,6 +328,7 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi1_fields[] = {
- 	VC4_HDMI_REG(HDMI_SCRAMBLER_CTL, 0x1c4),
- 
- 	VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
-+	VC5_DVP_REG(HDMI_VEC_INTERFACE_CFG, 0x0ec),
- 	VC5_DVP_REG(HDMI_VEC_INTERFACE_XBAR, 0x0f0),
- 
- 	VC5_PHY_REG(HDMI_TX_PHY_RESET_CTL, 0x000),
-@@ -369,6 +374,7 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi1_fields[] = {
- 	VC5_CSC_REG(HDMI_CSC_24_23, 0x010),
- 	VC5_CSC_REG(HDMI_CSC_32_31, 0x014),
- 	VC5_CSC_REG(HDMI_CSC_34_33, 0x018),
-+	VC5_CSC_REG(HDMI_CSC_CHANNEL_CTL, 0x02c),
- };
- 
- static inline
-diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
-index 33410718089e..c8210247cf24 100644
---- a/drivers/gpu/drm/vc4/vc4_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_regs.h
-@@ -774,11 +774,27 @@ enum {
- # define VC4_HD_CSC_CTL_RGB2YCC			BIT(1)
- # define VC4_HD_CSC_CTL_ENABLE			BIT(0)
- 
-+# define VC5_MT_CP_CSC_CTL_USE_444_TO_422	BIT(6)
-+# define VC5_MT_CP_CSC_CTL_FILTER_MODE_444_TO_422_MASK \
-+						VC4_MASK(5, 4)
-+# define VC5_MT_CP_CSC_CTL_FILTER_MODE_444_TO_422_STANDARD \
-+						3
-+# define VC5_MT_CP_CSC_CTL_USE_RNG_SUPPRESSION	BIT(3)
- # define VC5_MT_CP_CSC_CTL_ENABLE		BIT(2)
- # define VC5_MT_CP_CSC_CTL_MODE_MASK		VC4_MASK(1, 0)
- 
-+# define VC5_MT_CP_CHANNEL_CTL_OUTPUT_REMAP_MASK \
-+						VC4_MASK(7, 6)
-+# define VC5_MT_CP_CHANNEL_CTL_OUTPUT_REMAP_LEGACY_STYLE \
-+						2
-+
- # define VC4_DVP_HT_CLOCK_STOP_PIXEL		BIT(1)
- 
-+# define VC5_DVP_HT_VEC_INTERFACE_CFG_SEL_422_MASK \
-+						VC4_MASK(3, 2)
-+# define VC5_DVP_HT_VEC_INTERFACE_CFG_SEL_422_FORMAT_422_LEGACY \
-+						2
-+
- /* HVS display list information. */
- #define HVS_BOOTLOADER_DLIST_END                32
- 
+
+base-commit: 627e2885b51ab503a98aa89f0a0bd68416c731fc
 -- 
-2.34.1
+2.25.1
 
