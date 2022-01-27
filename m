@@ -1,78 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8076549E163
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 12:44:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2816B49E190
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 12:48:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 087E510E179;
-	Thu, 27 Jan 2022 11:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDF010E15A;
+	Thu, 27 Jan 2022 11:48:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1F3910E179;
- Thu, 27 Jan 2022 11:44:24 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id h21so4216808wrb.8;
- Thu, 27 Jan 2022 03:44:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=LdvVnzVP+ambH9LK42MFqP+4gobIMIEV2AtnE2m4+4w=;
- b=AO2Ubp21T4K3UXrE4ox8RrOuzjwwgrlPkeKckx6Grh9RDZ/sTc4sbmYVdr0jjAzpTw
- QVQQPpq97aK2jW5XFd7bQnzTVqoBJJj6378shYn3d2cksVOP7/4zyAiwlP+kuExwEhDw
- XZJrGcwnFl9NeV9+LhDnIPEtlKSJuAh2tjefqYKPD21aILv8pPHehPvOIQyGlgjdFsPj
- oMzJiea1Io27zOiupzkuaNpJcLwNMgIk7MJ6504aaHlBk3VjA7u9dBrKb0HD/gWe/+pQ
- RvbtkX3j16vPwnewh6iIwT26ia4TZVLMcK3m4cq6+CdyMByCBzP2UMRi0DkN5ke2sf1n
- 11WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LdvVnzVP+ambH9LK42MFqP+4gobIMIEV2AtnE2m4+4w=;
- b=c/DCwdygDLdVV5AHnkh3PTpyChIZYzbPWgAS6ltLMOhTW0sPZy9MKVV/3ncnmUCXHN
- efKhcPhMGrKLMj0hjJKL0vb3gCvRxiIa5UN4ZWK4GGk9PrVSt7ZbEeaH0MW4wvz29Uvr
- a1Uu7miDp1VpTp89x6O49A7ypWGn7DVis+Si5ZiE82EyjUuzYhdd3fZ6x2Kn1/yKIYX0
- HMHpUVcXZWemX6yNyr+9QGuXN78k/nQ7Arr9SCoPgPOBmPIHyj4PPrnKxEirnh0f2WM4
- ZL9qx53LLJVALqBKjBfpCPyZZ6ohuI84PfgbJLKSUdZskg2LTLwDXIbXOoWTF+MV3D6A
- EFtA==
-X-Gm-Message-State: AOAM533xy5F+UGYGwl6LmC4zvEMhM+ubwgRtpBHu0fxcDUQEKJOtg/A+
- xOP3TXkMIo6pL0NIu+fU9Tw=
-X-Google-Smtp-Source: ABdhPJx/KQtwKWNuH/SNqZ6CP2qgfsi4lZk1rb4KUhwVnUiM+JCFI4ynUa/ZWR4g7iYh+f08Ls5ePQ==
-X-Received: by 2002:adf:a410:: with SMTP id d16mr2795659wra.517.1643283863392; 
- Thu, 27 Jan 2022 03:44:23 -0800 (PST)
-Received: from [192.168.178.21] (p57b0bff8.dip0.t-ipconnect.de.
- [87.176.191.248])
- by smtp.gmail.com with ESMTPSA id a6sm1918382wrx.101.2022.01.27.03.44.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 03:44:22 -0800 (PST)
-Message-ID: <50cf1f2f-3fb2-8abb-7497-dafcd97935f3@gmail.com>
-Date: Thu, 27 Jan 2022 12:44:21 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Linaro-mm-sig] Re: [Intel-gfx] [PATCH 02/19] dma-buf-map: Add
- helper to initialize second map
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, linaro-mm-sig@lists.linaro.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-3-lucas.demarchi@intel.com>
- <f0dbdcc0-13b5-c484-0bf3-a1f8c3e48954@amd.com>
- <20220127075728.ygwgorhnrwaocdqv@ldmartin-desk2>
- <3066c6a7-fc73-d34d-d209-a3ff6818dfb6@amd.com>
- <YfJedaoeJjE3grum@phenom.ffwll.local>
- <20220127093332.wnkd2qy4tvwg5i5l@ldmartin-desk2>
- <YfJtLkdkh4yde20f@phenom.ffwll.local>
- <27aed6b1-b465-6a52-2b0a-d748c9798414@amd.com>
- <YfJ/DvhxaGGppGV6@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <YfJ/DvhxaGGppGV6@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from CHE01-GV0-obe.outbound.protection.outlook.com
+ (mail-gv0che01on2129.outbound.protection.outlook.com [40.107.23.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD24510E15A
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 11:48:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LHFwsQRqQ1yFKeaeOaLHU/FGWgBHmfcw4pMuLNxY9T+x4EyCA6F9my4/nhxD0vOxaOi8asDPin0+5/UZNCckAa4+6OZ7FG3kGFiJykPUE8Vp5J6tO5JyXijNCatWAZbZXBpnK1YVpX366fTvrmkvFOsV1x65SpsHX/pQq0hld0A0NlCOxQxRCJHSUP3N4pVDhT1lxACmor3v3mNAGZ94ragzADkro1AwbCPJ0O/TZr1OcOxycFwimzYadVAFeqzNd+0loUW8xv2Mxh0ErF+H3d1SU8IOzRbvzp8hrX2OSvdhXWCdUt1wmIkR7yyg0DYd/HwwLSVCEoYsV/KoiiCBCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+QMWcJG1tGgBd7UT22liNGkcKRbCjH93vZQsNe6hiC8=;
+ b=T02OUXIs92lcWOAjQtBaELK76GsUBBEtou5gNHmAah32zy5amGNp4kSNzUgqnFKSIMMkTmFkOzAcrBYZcyUdfomfymfmHs1Snj/TnJkqOk10OH++WvBhcM23bNv8W2n/BS46qq4iJ+ztO6F86RM2YLn7+7J8+MmHWQTQ0A341L+o9bnbe9ILNjq/fYezT4DsTsOoyg9bDqlHD/cJMKl7uC1GjHZy88LCKAMyp0JBxV/X8lWLA4upNgchhha4xsc/IzC0xpR+/F01IA6STfF68CrjQIX8hPxxF/Hievz/GF1dDqXwtg8phZvLiUdI3bqjYfRmgbtXBJU5owsXKsJ2lQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+QMWcJG1tGgBd7UT22liNGkcKRbCjH93vZQsNe6hiC8=;
+ b=pJaRmm/vBGSyLufBI/TqloYtPr7qFRXrt2XlK70YyzaAvZ+u1MwCbosFsIzqQPI0sVadhL2ZjnkQOuR9OLxivRNE52OIN77ejKSahtfHVQdHY0+gpQfPpq6101ggNT7fwfV5LnUmqSjYM8ZfRSputzWR5p90sGFCHu5OAO/YY8A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=toradex.com;
+Received: from GV0P278MB0655.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:42::9) by
+ ZR0P278MB0380.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:35::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4930.17; Thu, 27 Jan 2022 11:48:13 +0000
+Received: from GV0P278MB0655.CHEP278.PROD.OUTLOOK.COM
+ ([fe80::bc7a:d19a:3cbe:30c5]) by GV0P278MB0655.CHEP278.PROD.OUTLOOK.COM
+ ([fe80::bc7a:d19a:3cbe:30c5%5]) with mapi id 15.20.4930.017; Thu, 27 Jan 2022
+ 11:48:13 +0000
+From: Francesco Dolcini <francesco.dolcini@toradex.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/panel: simple: Tune timing for ET057090DHU
+Date: Thu, 27 Jan 2022 12:48:10 +0100
+Message-Id: <20220127114810.319121-1-francesco.dolcini@toradex.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: GVAP278CA0017.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:710:20::27) To GV0P278MB0655.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:710:42::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b715b269-4e4a-46fb-bde6-08d9e18ae62d
+X-MS-TrafficTypeDiagnostic: ZR0P278MB0380:EE_
+X-Microsoft-Antispam-PRVS: <ZR0P278MB0380227C6644002A1C2BEEC5E2219@ZR0P278MB0380.CHEP278.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1265;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uuY+JUPCkA4d7pUrtJWnr8W247Pivht7iEnhdcDQOleJrqXivMG7l7/ZMoJQCRLsXFNqcQBO/oHzeIoVIbLitBgDN16qFx0s+FFJYV0CaoeW7XnFwGE9IkgeWDjwhE098KZibnKP5q7EoQEPCTooAxwUNn746xmNhxjDenv/wpnXjHkV7DmJ+4E/cdWGov5rxhruvAL6owK676j/csQhtPj0mcuD4zO2GkJ14M7/ISR+SqNe5kjBEtgFIgIU7VLDmgNUBGDPq/VOF4u+c19gfDJaFs6Ej9qeORhFjTn8tB8y017DkedeIEPlTjjn5IPCpvA3fV800sr9/xWQXa19QPzK1J+nlKvJBSP9KCi9yoZKLPgEHqxbgDRxyUQlMfqHJA2UtJgqy8ZUZeZoqM+lX0YXP3ebyRcux5EKS+pR9gtOyEvuHrp5ijnDHOw3/q+gi8g5H8x9UVc54jrTIhOYCh9b6QOEPn9Jnb8DRQvPP5/yTwOiUyiGP7Pwh5LTeRQTwVVv4z+OCN2UPnrWrlNQb6h1e0CiAGCJNSqjiYQUJc/hbIeHDM9G0iWQoXV0qI4DsmRu34KjRgB6UyUjCWcDjO+9I+gHhmQ+tszXPJBtaClheEgdW/h2VhbI0tkv4BJ6oWOo9A8hIFCv+LSmST0MGmmWg49mt72XF+IqThSg68kR9v/VvpI5q6a3tYUdBPPLzsugnUaoY9KJ3cK2dtryhA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:GV0P278MB0655.CHEP278.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(346002)(366004)(136003)(376002)(39850400004)(396003)(38100700002)(186003)(1076003)(38350700002)(36756003)(26005)(107886003)(52116002)(6506007)(44832011)(2616005)(2906002)(6486002)(83380400001)(66946007)(66556008)(4326008)(8676002)(66476007)(8936002)(508600001)(54906003)(110136005)(5660300002)(6512007)(86362001)(316002)(20210929001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tt2d5UC0DniFGVEVkLI9z43gDQZnknkWPkh6PHijWBhh764ev2oKQcrtzu2/?=
+ =?us-ascii?Q?wJvdjg857GNNBG1OjWhcOPzEMveyTVnWlJIvFCHCMa/viX0R+AwiOAHXYlLQ?=
+ =?us-ascii?Q?KG5QDrbjogNIYc79K0naOHXPRcxXCodqRYnigi5gWZqYfvXjfCRgrZRKk+Oj?=
+ =?us-ascii?Q?nZb3QOgPgZtWaBHbU3JelYurPjroZ38pT3IbYVQ1DBB9n9FykdSDa8OtNIzM?=
+ =?us-ascii?Q?Bd+hIESRmxTXpMZ1ThPDVDgItLS+x/XHzGaEU/7e1RjqmeKnwvWKpXTN8pG1?=
+ =?us-ascii?Q?7idwfFvn9ZAgU8ZApQRaz993CM2kRoDirMXWmM+vfiXiEwcM2rKfZ2Kt0zo1?=
+ =?us-ascii?Q?JuG1viGtjq8CIuCN8hebVyX4ZHxMSwjH9TZty/8mV+qp+9jeSqw/Wax38aqs?=
+ =?us-ascii?Q?6P3K5GZ+AWLN94QzXqf8y+Z6nd94IZfX5decimyEJDZWLU3Y5gemCgCwiVh+?=
+ =?us-ascii?Q?UI97ZqLEJtYj9a8vX/FjMbgfgvtrTqR+K9uKo+/NnmxdVVsOgTkG52ipg5vE?=
+ =?us-ascii?Q?0wLPNCwSObFBu00kDpEO9TlsQwB9D5f5/c7YV7/WHRUgXCMKK1mEAvAeW36r?=
+ =?us-ascii?Q?Ggqld1fsz5USfBhThfGlyOQz+R/1vHGS4lFO0WmDmwFiq/HdSpV1j2JN33Fz?=
+ =?us-ascii?Q?u8SM44HR50XBeAmYT7xAWafJ8htdlGKeYMAcTVFdA+B507b8RHMdxOamXvgy?=
+ =?us-ascii?Q?c9gZc6Mcl1yXN4Ns2pMPw7Gpew/jcnfslyo/h88MiojoywbHA1eN13ZrW5E6?=
+ =?us-ascii?Q?c/O6alMYfEAo1hUw++biTdwGPCBItqbEbEQoBZvhiejehaU5LndOcsCEdwDC?=
+ =?us-ascii?Q?MpBnUF+jkWogUWi2Qhd2T6Dd6RA3b0yf4cham5pyC2Lxjf2OOApx/3dcadw8?=
+ =?us-ascii?Q?ZWG9aXstzlbSFkXU8wx0Ynze+6/l/Ge1empbc1y7/DHe1f62IEvBJMw+ZaC8?=
+ =?us-ascii?Q?wV6Scmv4eA/w5tty/aj3e85b/zNnwb3DebTqg3n9piiUArGEZxzk/dLcyib1?=
+ =?us-ascii?Q?vcPKde2DZnm0UPizBT6hqWf9VDf3Jh1rrqRnXM7xq997O4Sl2M/YTSsN5+Jm?=
+ =?us-ascii?Q?n//QPZJxlfq4RuFD+JwGsbij3PBYBFElytDoduXkMz92v+nwc0iqER8uDMds?=
+ =?us-ascii?Q?GJFTCrDxYFVC3ClIaDgqE9NUd0vC2mTJ95SOm0VhsmjoSPEyO9usixwTW7MW?=
+ =?us-ascii?Q?kRSGnTQRPVQj1b7gqo9E9lEknAG5rbA8u0ExF//YTxu2K9crVzHTVSlPEmQN?=
+ =?us-ascii?Q?MvUXE0BHOY3cCuqp6UPqqYrQ+e92MnEW40IJjyiejuGhYL945g/f64/t77Zv?=
+ =?us-ascii?Q?l37RBp4ZV4xeCvlEpmv4eRL/uPzwRAZfC0L0th4qKGDHHsu+Xe0cG9nl7YLF?=
+ =?us-ascii?Q?VCUFgY82eZqsUiniM3gpd6r723bw/ycYU2RgCan0khXQPDSqRv7KJpT/otXO?=
+ =?us-ascii?Q?SDXPosIS+KJMpAbUqaquHDjddi8cxgp630ttHMTpLcjT/7Mu5fxQ5E98TGPO?=
+ =?us-ascii?Q?ArVD/TFVWTx20ZMeJE+YLCi15UXsk4H3vYbxWOg0AMxWhe7YDjlg0YxSGq+O?=
+ =?us-ascii?Q?419rnXurOQxXZVmX9KPmt+e8wejk2KXxc6IsK8UU/CXLIoq9O/Mv+1YpUTXW?=
+ =?us-ascii?Q?K69flIiAFIxZgdh6BiXuU1WQzDXP892L7eMAyGT5n7u64teQAGGLYaCKzWT0?=
+ =?us-ascii?Q?A3TUGQ=3D=3D?=
+X-OriginatorOrg: toradex.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b715b269-4e4a-46fb-bde6-08d9e18ae62d
+X-MS-Exchange-CrossTenant-AuthSource: GV0P278MB0655.CHEP278.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2022 11:48:13.3754 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d9995866-0d9b-4251-8315-093f062abab4
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QCJ6SfUcImO4cvJSNvkOzmgoTu3x7Ojv6QdWyUMLKLLGlLDe8MJraFdRt5Z5j8jhaeNVtxdwmcYcEy24Sj10wNaRSN55GXfw/EziCHxFyIo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR0P278MB0380
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,181 +116,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
+ Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+ Oleksandr Suvorov <oleksandr.suvorov@foundries.io>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 27.01.22 um 12:16 schrieb Daniel Vetter:
-> On Thu, Jan 27, 2022 at 11:21:20AM +0100, Christian König wrote:
->> Am 27.01.22 um 11:00 schrieb Daniel Vetter:
->>> On Thu, Jan 27, 2022 at 01:33:32AM -0800, Lucas De Marchi wrote:
->>>> On Thu, Jan 27, 2022 at 09:57:25AM +0100, Daniel Vetter wrote:
->>>>> On Thu, Jan 27, 2022 at 09:02:54AM +0100, Christian König wrote:
->>>>>> Am 27.01.22 um 08:57 schrieb Lucas De Marchi:
->>>>>>> On Thu, Jan 27, 2022 at 08:27:11AM +0100, Christian König wrote:
->>>>>>>> Am 26.01.22 um 21:36 schrieb Lucas De Marchi:
->>>>>>>>> When dma_buf_map struct is passed around, it's useful to be able to
->>>>>>>>> initialize a second map that takes care of reading/writing to an offset
->>>>>>>>> of the original map.
->>>>>>>>>
->>>>>>>>> Add a helper that copies the struct and add the offset to the proper
->>>>>>>>> address.
->>>>>>>> Well what you propose here can lead to all kind of problems and is
->>>>>>>> rather bad design as far as I can see.
->>>>>>>>
->>>>>>>> The struct dma_buf_map is only to be filled in by the exporter and
->>>>>>>> should not be modified in this way by the importer.
->>>>>>> humn... not sure if I was  clear. There is no importer and exporter here.
->>>>>> Yeah, and exactly that's what I'm pointing out as problem here.
->>>>>>
->>>>>> You are using the inter driver framework for something internal to the
->>>>>> driver. That is an absolutely clear NAK!
->>>>>>
->>>>>> We could discuss that, but you guys are just sending around patches to do
->>>>>> this without any consensus that this is a good idea.
->>>>> Uh I suggested this, also we're already using dma_buf_map all over the
->>>>> place as a convenient abstraction. So imo that's all fine, it should allow
->>>>> drivers to simplify some code where on igpu it's in normal kernel memory
->>>>> and on dgpu it's behind some pci bar.
->>>>>
->>>>> Maybe we should have a better name for that struct (and maybe also a
->>>>> better place), but way back when we discussed that bikeshed I didn't come
->>>>> up with anything better really.
->>>> I suggest iosys_map since it abstracts access to IO and system memory.
->>>>
->>>>>>> There is a role delegation on filling out and reading a buffer when
->>>>>>> that buffer represents a struct layout.
->>>>>>>
->>>>>>> struct bla {
->>>>>>>       int a;
->>>>>>>       int b;
->>>>>>>       int c;
->>>>>>>       struct foo foo;
->>>>>>>       struct bar bar;
->>>>>>>       int d;
->>>>>>> }
->>>>>>>
->>>>>>>
->>>>>>> This implementation allows you to have:
->>>>>>>
->>>>>>>       fill_foo(struct dma_buf_map *bla_map) { ... }
->>>>>>>       fill_bar(struct dma_buf_map *bla_map) { ... }
->>>>>>>
->>>>>>> and the first thing these do is to make sure the map it's pointing to
->>>>>>> is relative to the struct it's supposed to write/read. Otherwise you're
->>>>>>> suggesting everything to be relative to struct bla, or to do the same
->>>>>>> I'm doing it, but IMO more prone to error:
->>>>>>>
->>>>>>>       struct dma_buf_map map = *bla_map;
->>>>>>>       dma_buf_map_incr(map, offsetof(...));
->>>>> Wrt the issue at hand I think the above is perfectly fine code. The idea
->>>>> with dma_buf_map is really that it's just a special pointer, so writing
->>>>> the code exactly as pointer code feels best. Unfortunately you cannot make
->>>>> them typesafe (because of C), so the code sometimes looks a bit ugly.
->>>>> Otherwise we could do stuff like container_of and all that with
->>>>> typechecking in the macros.
->>>> I had exactly this code above, but after writting quite a few patches
->>>> using it, particularly with functions that have to write to 2 maps (see
->>>> patch 6 for example), it felt much better to have something to
->>>> initialize correctly from the start
->>>>
->>>> 	struct dma_buf_map other_map = *bla_map;
->>>> 	/* poor Lucas forgetting dma_buf_map_incr(map, offsetof(...)); */
->>>>
->>>> is error prone and hard to debug since you will be reading/writting
->>>> from/to another location rather than exploding
->>>>
->>>> While with the construct below
->>>>
->>>> 	other_map;
->>>> 	...
->>>> 	other_map = INITIALIZER()
->>>>
->>>> I can rely on the compiler complaining about uninitialized var. And
->>>> in most of the cases I can just have this single line in the beggining of the
->>>> function when the offset is constant:
->>>>
->>>> 	struct dma_buf_map other_map = INITIALIZER(bla_map, offsetof(..));
->>> Hm yeah that's a good point that this allows us to rely on the compiler to
->>> check for uninitialized variables.
->>>
->>> Maybe include the above (with editing, but keeping the examples) in the
->>> kerneldoc to explain why/how to use this? With that the concept at least
->>> has my
->>>
->>> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>
->>> I'll leave it up to you & Christian to find a prettier color choice for
->>> the naming bikeshed.
->> There is one major issue remaining with this and that is dma_buf_vunmap():
->>
->> void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
->>
->> Here we expect the original pointer as returned by dma_buf_map(), otherwise
->> we vunmap() the wrong area!
->>
->> For all TTM based driver this doesn't matter since we keep the vmap base
->> separately in the BO anyway (IIRC), but we had at least one case where this
->> made boom last year.
-> Yeah but isn't that the same if it's just a void *?
->
-> If you pass the wrong pointer to an unmap function and not exactly what
-> you go from the map function, then things go boom. This is like
-> complaining that the following code wont work
->
-> 	u32 *stuff
->
-> 	stuff = kmap_local(some_page);
-> 	*stuff++ = 0;
-> 	*stuff = 1;
-> 	kunmap_locak(stuff);
->
-> It's just ... don't do that :-) Also since we pass dma_buf_map by value
-> and not by pointer anywhere, the risk of this happening is pretty low
-> since you tend to work on a copy. Same with void * pointers really.
->
-> Now if people start to pass around struct dma_buf_map * as pointers for
-> anything else than out parameters, then we're screwed. But that's like
-> passing around void ** for lolz, which is just wrong (except when it's an
-> out parameter or actually an array of pointers ofc).
->
-> Or I really don't get your concern and you mean something else?
+From: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
 
-No that's pretty much it. It's just that we hide the pointer inside a 
-structure and it is absolutely not obvious to a driver dev that you 
-can't do:
+VESA Display Monitor Timing v1.13 has recommendations for the historical
+VGA mode 640x480 60Hz. These parameters are compatible with EDT
+ET057090DHU recommended timings.
 
-dma_buf_vmap(.., &map);
-dma_buf_map_inr(&map, x);
-dma_buf_vunmap(.., &map);
+Use VESA DMT timing parameters for EDT ET057090DHU panel.
 
-As bare minimum I strongly suggest that we add some WARN_ONs to the 
-framework to check that the pointer given to dma_buf_vunmap() is at 
-least page aligned.
+Signed-off-by: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
+Cc: Oleksandr Suvorov <oleksandr.suvorov@foundries.io>
+Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+---
+v2: removed stale vrefresh field
+---
+ drivers/gpu/drm/panel/panel-simple.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Christian.
-
-> -Daniel
->
->
->> Christian.
->>
->>> -Daniel
->>>
->>>> Lucas De Marchi
->>>>
->>>>> -Daniel
->>>>>
->>>>>>> IMO this construct is worse because at a point in time in the function
->>>>>>> the map was pointing to the wrong thing the function was supposed to
->>>>>>> read/write.
->>>>>>>
->>>>>>> It's also useful when the function has double duty, updating a global
->>>>>>> part of the struct and a table inside it (see example in patch 6)
->>>>>>>
->>>>>>> thanks
->>>>>>> Lucas De Marchi
->>>>> -- 
->>>>> Daniel Vetter
->>>>> Software Engineer, Intel Corporation
->>>>> https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fblog.ffwll.ch%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C0654a16ea3444271d7c308d9e17bd35d%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637788744226808874%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=Q6soluBglaZLhLszdapaWuUVsqMq5qvJOKiJjO%2B9BTg%3D&amp;reserved=0
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 0c8786ebffd1..52e936dd2d6f 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1598,12 +1598,12 @@ static const struct drm_display_mode edt_et057090dhu_mode = {
+ 	.clock = 25175,
+ 	.hdisplay = 640,
+ 	.hsync_start = 640 + 16,
+-	.hsync_end = 640 + 16 + 30,
+-	.htotal = 640 + 16 + 30 + 114,
++	.hsync_end = 640 + 16 + 48,
++	.htotal = 640 + 16 + 48 + 96,
+ 	.vdisplay = 480,
+ 	.vsync_start = 480 + 10,
+-	.vsync_end = 480 + 10 + 3,
+-	.vtotal = 480 + 10 + 3 + 32,
++	.vsync_end = 480 + 10 + 2,
++	.vtotal = 480 + 10 + 2 + 33,
+ 	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+ };
+ 
+-- 
+2.25.1
 
