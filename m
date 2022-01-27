@@ -2,55 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D71749DC66
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 09:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F44849DC6D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 09:21:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB4E510E527;
-	Thu, 27 Jan 2022 08:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5ED210E49B;
+	Thu, 27 Jan 2022 08:21:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B20A10E319;
- Thu, 27 Jan 2022 08:18:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643271501; x=1674807501;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=eXBkGgw60bdFoIyLSIRLyrUbjMrn4EVCKvo0GitUMPk=;
- b=UEuqe+qCJt/6GADEvM2cdIOTBQuLGVvQxz7tYs4NrZe+ET6ZBgWIpywZ
- GcbxW9TDrv6YMoZNjI1ufqjsSZoiIMTQYteycd3q/D5qvFuvamXH1yd0D
- UYzt9UMDeCsEQjeZ9Lur/0AIDSlCjuMX69cYWdK30S4HI952NTWosHapD
- +KDe/W7a4/O2ucJPc2DDiCg7wZiTO95A8x6hKwkV1YzeWYnPZwmCAJaww
- aR3iVLMw2J16o0eU5dMf7ZeEqojHStB9HTVApRwIMZKQ1GkV+I7MwBe4L
- kliDD3yGTpuYWoqalqyIfd/WI+1PdpT3dKEjNwdWG+pfMgxY4iYsO1stL Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="226758640"
-X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="226758640"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2022 00:18:11 -0800
-X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="521125802"
-Received: from anithaha-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.212.224.126])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2022 00:18:10 -0800
-Date: Thu, 27 Jan 2022 00:18:10 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [Intel-gfx] [PATCH 02/19] dma-buf-map: Add helper to initialize
- second map
-Message-ID: <20220127081810.6zt6cyib4s7kpa6f@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-3-lucas.demarchi@intel.com>
- <f0dbdcc0-13b5-c484-0bf3-a1f8c3e48954@amd.com>
- <20220127075728.ygwgorhnrwaocdqv@ldmartin-desk2>
- <3066c6a7-fc73-d34d-d209-a3ff6818dfb6@amd.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3EC310E49B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 08:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643271689;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aqucoy4XGsTZkTOddjEsvTdomJ0r/Uc6V8VLwfxZoJ8=;
+ b=BMfAGEs1ZTNGA4pleNrzUF2OWNZaYsNL2+UnOJS2bny6MXEt3s6qQG1gqpq8Z+W3h7QBeo
+ PBjc40wyw2d3Ni5P0uKV49SeuggUksIU+PhwObtIde5XxH04flHYqvYCXu6Bd/sUz3qWyW
+ F1q5qXQMm09JYkAgvogViAS6p4+6O+Y=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-665-eXj4EmU0P0u9ia3HoJ5Dkw-1; Thu, 27 Jan 2022 03:21:21 -0500
+X-MC-Unique: eXj4EmU0P0u9ia3HoJ5Dkw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ z2-20020a05600c220200b0034d2eb95f27so1152625wml.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 00:21:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aqucoy4XGsTZkTOddjEsvTdomJ0r/Uc6V8VLwfxZoJ8=;
+ b=wu8Lxl5FuPOsAq8iko8h8ZZXGFbDMDokHB45l8Ne+NDefj7mfEjF7RcN04FiYe1eKn
+ oLD2BAoOmCcIgsGOL4bykQbKSGGmNbmS8XMAFImyhwsgMJud4TNwisSStcDSxDTUqpH+
+ 2Egm/+AvLQljOC7woB3//n1dML93q82jOm+kUZXClnMbunl0mssMsco0dG8Fz5YlLTQZ
+ Ayb0/5Xngz4IZLyKsbiWvXsHMwDQ70ygl95Ny6OpJlLPsXpKASZrvW+Qk5+4Kk0njfPv
+ Zhi7cqtPiiMygeNCHVDNgSK5brFkahbbZAtz1lx14vNybmL05VnNiIuRDpZIEyhEWYNt
+ /XXg==
+X-Gm-Message-State: AOAM530hxSQUXQAOJwKta8LRMDSU8tWVm1SDYoIEtwWzGoXCFVpIfbj2
+ Ka29gBq9mk3sleM644aG+HHmBctvgLcoBjD9i/SkoVawFTPIACE2gAqDiE0ggMvMCTe2zfJA8hN
+ IyLfkCOsL9JoIlbp7UrD1pRH6/2g2
+X-Received: by 2002:a05:6000:15c5:: with SMTP id
+ y5mr2159688wry.656.1643271679939; 
+ Thu, 27 Jan 2022 00:21:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxJ/ZlKYqVE0iVqFH4AaZjGEnemdYNWmvhTud3sB/CSRe+UTC4Mv6f2ZPwV9RWl4nRIixdB4w==
+X-Received: by 2002:a05:6000:15c5:: with SMTP id
+ y5mr2159669wry.656.1643271679638; 
+ Thu, 27 Jan 2022 00:21:19 -0800 (PST)
+Received: from minerva.home ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id h20sm7466wmq.8.2022.01.27.00.21.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 00:21:19 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/doc: Add section in the introduction page about learning
+ material
+Date: Thu, 27 Jan 2022 09:20:58 +0100
+Message-Id: <20220127082058.434421-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3066c6a7-fc73-d34d-d209-a3ff6818dfb6@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,54 +81,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 27, 2022 at 09:02:54AM +0100, Christian König wrote:
->Am 27.01.22 um 08:57 schrieb Lucas De Marchi:
->>On Thu, Jan 27, 2022 at 08:27:11AM +0100, Christian König wrote:
->>>Am 26.01.22 um 21:36 schrieb Lucas De Marchi:
->>>>When dma_buf_map struct is passed around, it's useful to be able to
->>>>initialize a second map that takes care of reading/writing to an offset
->>>>of the original map.
->>>>
->>>>Add a helper that copies the struct and add the offset to the proper
->>>>address.
->>>
->>>Well what you propose here can lead to all kind of problems and is 
->>>rather bad design as far as I can see.
->>>
->>>The struct dma_buf_map is only to be filled in by the exporter and 
->>>should not be modified in this way by the importer.
->>
->>humn... not sure if I was  clear. There is no importer and exporter here.
->
->Yeah, and exactly that's what I'm pointing out as problem here.
->
->You are using the inter driver framework for something internal to the 
->driver. That is an absolutely clear NAK!
->
->We could discuss that, but you guys are just sending around patches to 
->do this without any consensus that this is a good idea.
+The Linux DRM subsystem supports complex graphics devices and it could be
+quite overwhelming for newcomers to learn about the subsystem's internals.
 
-s/you guys/you/ if you have to blame anyone - I'm the only s-o-b in
-these patches. I'm sending these to _build consensus_ on what may be a good
-use for it showing a real problem it's helping to fix.
+There are lots of useful talks, slides and articles available that can be
+used to get familiar with the needed concepts and ease the learning curve.
 
- From its documentation:
+Add a section to the intro that contains these DRM introductory materials.
 
-  * The type :c:type:`struct dma_buf_map <dma_buf_map>` and its helpers are
-  * actually independent from the dma-buf infrastructure. When sharing buffers
-  * among devices, drivers have to know the location of the memory to access
-  * the buffers in a safe way. :c:type:`struct dma_buf_map <dma_buf_map>`
-  * solves this problem for dma-buf and its users. If other drivers or
-  * sub-systems require similar functionality, the type could be generalized
-  * and moved to a more prominent header file.
+Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-if there is no consensus and a better alternative, I'm perfectly fine in
-throwing it out and using the better approach.
+ Documentation/gpu/introduction.rst | 36 ++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-Lucas De Marchi
+diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
+index 25a56e9c0cfd..35986784f916 100644
+--- a/Documentation/gpu/introduction.rst
++++ b/Documentation/gpu/introduction.rst
+@@ -112,3 +112,39 @@ Please conduct yourself in a respectful and civilised manner when
+ interacting with community members on mailing lists, IRC, or bug
+ trackers. The community represents the project as a whole, and abusive
+ or bullying behaviour is not tolerated by the project.
++
++Learning material
++=================
++
++Since the Linux DRM layer supports complex graphics devices, it can be quite
++overwhelming for newcomers to get familiar with all the needed concepts and
++learn the subsystem's internals.
++
++To shallow the learning curve, this section contains a list of presentations
++and documents that can be used to learn about DRM/KMS and graphics in general.
++
++The list is sorted in reverse chronological order, to keep the most up-to-date
++material at the top. But all of them contain useful information, and it can be
++valuable to go through older material to understand the rationale and context
++in which the recent changes to the DRM subsystem were made.
++
++Talks
++-----
++
++* `An Overview of the Linux and Userspace Graphics Stack <https://www.youtube.com/watch?v=wjAJmqwg47k>`_ - Paul Kocialkowski (2020)
++* `Getting pixels on screen on Linux: introduction to Kernel Mode Setting <https://www.youtube.com/watch?v=haes4_Xnc5Q>`_ - Simon Ser (2020)
++* `An introduction to the Linux DRM subsystem <https://www.youtube.com/watch?v=LbDOCJcDRoo>`_ - Maxime Ripard (2017)
++* `Embrace the Atomic (Display) Age <https://www.youtube.com/watch?v=LjiB_JeDn2M>`_ - Daniel Vetter (2016)
++* `Anatomy of an Atomic KMS Driver <https://www.youtube.com/watch?v=lihqR9sENpc>`_ - Laurent Pinchart (2015)
++* `Atomic Modesetting for Drivers <https://www.youtube.com/watch?v=kl9suFgbTc8>`_ - Daniel Vetter (2015)
++* `Anatomy of an Embedded KMS Driver <https://www.youtube.com/watch?v=Ja8fM7rTae4>`_ - Laurent Pinchart (2013
++
++Slides and articles
++-------------------
++
++* `Understanding the Linux Graphics Stack <https://bootlin.com/doc/training/graphics/graphics-slides.pdf>`_ - Bootlin (2022)
++* `DRM KMS overview <https://wiki.st.com/stm32mpu/wiki/DRM_KMS_overview>`_ - STMicroelectronics (2021)
++* `Linux graphic stack <https://studiopixl.com/2017-05-13/linux-graphic-stack-an-overview>`_ - Nathan GauÃ«r (2017)
++* `The DRM/KMS subsystem from a newbieâ€™s point of view <https://bootlin.com/pub/conferences/2014/elce/brezillon-drm-kms/brezillon-drm-kms.pdf>`_ - Boris Brezillon (2014)
++* `A brief introduction to the Linux graphics stack <https://blogs.igalia.com/itoral/2014/07/29/a-brief-introduction-to-the-linux-graphics-stack/>`_ - Iago Toral (2014)
++* `The Linux Graphics Stack <https://blog.mecheye.net/2012/06/the-linux-graphics-stack/>`_ - Jasper St. Pierre (2012)
+-- 
+2.34.1
+
