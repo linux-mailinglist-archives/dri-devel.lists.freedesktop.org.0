@@ -2,55 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD4E49E485
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 15:21:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07CAF49E487
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 15:22:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 644DF10E242;
-	Thu, 27 Jan 2022 14:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B923010ECC9;
+	Thu, 27 Jan 2022 14:22:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D290610EE75
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 14:21:51 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AC40F61CE7
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 14:21:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA76C340EC
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 14:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643293309;
- bh=WCMicAv3m6+CZEJhY0E/ZNuhdvOx+mnIiD563lWYSKA=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=DRVGMFErQez4uI09aLW6MW8vJ+nmNOerjljTHckS3hsk7gLkS4Zgen4nLH1sRJzUx
- wYiQsLJZVfcfEdJ6SZQ+H1vPUxpvVqERDeYW/bnWhEmd59MBrCdsrfQ84uiqtWFLPJ
- 08eE0gqxDdNEPbv8BGGA7DhCjIKy+vUg0WjQmRZYtTnJNBa0C3Mq7oOKBeSMR91OcJ
- By0YEZKDTe+T2dcoc0sC9o9fhA1R5XuMjusE11hoL6UKkXIPnRpVmWYFzvoeFGSzyy
- DKkm5fv6xnG4O3b3af3yuc3DzW2PMUKQJPTuN6URw3U9s85mzvhvcxSAIKq+ymJeL2
- CnYGRw5FV9+YQ==
-Received: by mail-ej1-f44.google.com with SMTP id j2so6209636ejk.6
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 06:21:49 -0800 (PST)
-X-Gm-Message-State: AOAM5334fYxqRAol402FHMnaKK3IU3edChQa+xBysEpxJk4l0bQbE/8L
- DewcwvQZIB1AzRXvXQkoWFDrchs/F+dO2n++Cw==
-X-Google-Smtp-Source: ABdhPJwFg/nUdUKG/TbORCFUzxiSuRPD7bTzwO4yGRI8Q2uUhc1xeIXTx6N8LN470HA2InvvqGNR0zScKmTCxw059Qw=
-X-Received: by 2002:a17:907:a089:: with SMTP id
- hu9mr3168116ejc.680.1643293307414; 
- Thu, 27 Jan 2022 06:21:47 -0800 (PST)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFD7410ECC9
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 14:22:19 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id BAD9E5C01D6;
+ Thu, 27 Jan 2022 09:22:18 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Thu, 27 Jan 2022 09:22:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=HW6a8zVCyw1MgHBmx+iwaRE8kRhwZx2zT01aez
+ O0xag=; b=nMNAsRj1o4N5fW5GOukNe/cz84L2JOl7mau/Bir//xaUUkWe31bkUk
+ oMNUJ77clEZoTmC9IrDZU9P2PbGNWsdyze4qONxtcfhK9mDnc6kPJ0k0cxCNaHY5
+ FQQ45NGP2Gei7Z4WeBWFoZhcQ6o1A4XaqtCGeIvUDCMl65+fFOV28HdzaWoKzJIk
+ nFriDiouOs/Ds/XT+qCpwJmJ52q56kKH2oYOjfWPS2sOdq992PMPZzK92t1tCw0e
+ J+S06g9G/suUxqD+PdilPhtCZxpoczoxWp6kEkM5PiqUYhY3lpwBYLFxAeoglA06
+ WpDnAfPFOGCSnUwoTxcjNj9PLdEuMTWQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=HW6a8zVCyw1MgHBmx
+ +iwaRE8kRhwZx2zT01aezO0xag=; b=Aji2W6TgvJgQil/EnXR6RheIZO3qVsnMU
+ aFhq5FcF41SM2a+nXfRRA/SjbIxAkCF1soRbkzpvgDq7lXb1gWGI+D2iMK5GFJUR
+ D2RdbZCKud8LRh6rrxXpaabTwSAcXeisJebXg6tzRSXSyr8X6FWEXdVBEwLFnFSs
+ xVywbPJOb1PtVNkqJb32zPEHqSctwm4aYRUepV8SOpQQMJpBeJSCzj0rT/NEmasv
+ DqYN8E0wNsREkeA93Ifg4/CIyYxOhJrnbFwxLaJmFCgvxonzGfCV0vyrhm5qtJFE
+ a+e3nyQAVkGHgH+7n724PmfG8QJscpnNcAHHcXtzfGTUV+btDmOpw==
+X-ME-Sender: <xms:maryYW_S-IZuQcc0PiGj_rGALUMEnwNu6sA7Aon5aMpMq7DCmuu3pw>
+ <xme:maryYWtvS40WIQB4wBJtrH9U3PwF1TwXwEFuzzamvPKAtjyIU_F5gEacp-FXcLTqY
+ Od9oDckgXmuSuFOSRA>
+X-ME-Received: <xmr:maryYcDqPGd-uwSsxsxqG0ZvflHff9hTFVeraYJ1LwUMouAI7aT7mf1RzWE3uYetqvuas5xQZozMs_NDEsBkX4VkJhNBAkZmE2o77u8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeefgdeigecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeffteetveeijeetuefhffegkeetgffhieelheehtdduudethffhjedtvddtudel
+ vdenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
+ vggthh
+X-ME-Proxy: <xmx:mqryYeffu93wNGw40C4nmdYkoBztnrS9b6pJLv9QxdOSb1Tlh2Hjww>
+ <xmx:mqryYbOjXytWWBCsUlYjKOMK-JGHsC2b3AHYldBuYKiV9WQcrPapMA>
+ <xmx:mqryYYkhtggZbZHzTitKvlRfGvxdprYz5jEePiGrE9Iq6JeMYMZ84Q>
+ <xmx:mqryYUgD_EbyxnMh_m6hDV4B2kd_XNgG4T07l9APYxGPP5aLg_W1Gw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 27 Jan 2022 09:22:17 -0500 (EST)
+Date: Thu, 27 Jan 2022 15:22:15 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 2/2] dt-bindings: panel: Introduce a panel-lvds binding
+Message-ID: <20220127142215.fesipdslabur43sx@houat>
+References: <20220111110635.804371-1-maxime@cerno.tech>
+ <20220111110635.804371-2-maxime@cerno.tech>
+ <Yd2Ahn3+FVv/Aks7@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20220104095954.10313-1-angelogioacchino.delregno@collabora.com>
- <CAMty3ZAojTyw3H8VprH9aiyTyWjeL8oqPxNNr=J33_5FrcUj9Q@mail.gmail.com>
- <4b46b8ce-7300-ef42-eb17-efd87ebdf773@collabora.com>
-In-Reply-To: <4b46b8ce-7300-ef42-eb17-efd87ebdf773@collabora.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 27 Jan 2022 22:21:35 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-FZ_pCpvZyNOcEMHOk1k5re51uGYY1jCxNxQuu7CQ-5A@mail.gmail.com>
-Message-ID: <CAAOTY_-FZ_pCpvZyNOcEMHOk1k5re51uGYY1jCxNxQuu7CQ-5A@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/mediatek: mtk_dsi: Avoid EPROBE_DEFER loop with
- external bridge
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="7duvnl3dvvqxia5r"
+Content-Disposition: inline
+In-Reply-To: <Yd2Ahn3+FVv/Aks7@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,68 +83,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Jagan Teki <jagan@amarulasolutions.com>, andrzej.hajda@intel.com,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Collabora Kernel ML <kernel@collabora.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Frank Rowand <frowand.list@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Angelo:
 
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
-=BC
-2022=E5=B9=B41=E6=9C=8827=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=886:3=
-2=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> Il 12/01/22 08:09, Jagan Teki ha scritto:
-> > On Tue, Jan 4, 2022 at 3:30 PM AngeloGioacchino Del Regno
-> > <angelogioacchino.delregno@collabora.com> wrote:
-> >>
-> >> DRM bridge drivers are now attaching their DSI device at probe time,
-> >> which requires us to register our DSI host in order to let the bridge
-> >> to probe: this recently started producing an endless -EPROBE_DEFER
-> >> loop on some machines that are using external bridges, like the
-> >> parade-ps8640, found on the ACER Chromebook R13.
-> >>
-> >> Now that the DSI hosts/devices probe sequence is documented, we can
-> >> do adjustments to the mtk_dsi driver as to both fix now and make sure
-> >> to avoid this situation in the future: for this, following what is
-> >> documented in drm_bridge.c, move the mtk_dsi component_add() to the
-> >> mtk_dsi_ops.attach callback and delete it in the detach callback;
-> >> keeping in mind that we are registering a drm_bridge for our DSI,
-> >> which is only used/attached if the DSI Host is bound, it wouldn't
-> >> make sense to keep adding our bridge at probe time (as it would
-> >> be useless to have it if mtk_dsi_ops.attach() fails!), so also move
-> >> that one to the dsi host attach function (and remove it in detach).
-> >>
-> >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@c=
-ollabora.com>
-> >> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> >> ---
-> >
-> > Eventually I've observed similar issue on other Component based DSI
-> > controllers, hence
-> >
-> > Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
-> >
->
-> Hello dri-devel,
-> can you please pick this patch?
->
-> All MediaTek platforms are broken in v5.17 without this one.
+--7duvnl3dvvqxia5r
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please add Fixes tag [1] to this patch.
+Hi Laurent,
 
-[1] https://www.kernel.org/doc/html/v5.16/process/submitting-patches.html
+On Tue, Jan 11, 2022 at 03:05:10PM +0200, Laurent Pinchart wrote:
+> On Tue, Jan 11, 2022 at 12:06:35PM +0100, Maxime Ripard wrote:
+> > Following the previous patch, let's introduce a generic panel-lvds
+> > binding that documents the panels that don't have any particular
+> > constraint documented.
+> >=20
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >=20
+> > ---
+> >=20
+> > Changes from v2:
+> >   - Added a MAINTAINERS entry
+> >=20
+> > Changes from v1:
+> >   - Added missing compatible
+> >   - Fixed lint
+> > ---
+> >  .../bindings/display/panel/panel-lvds.yaml    | 57 +++++++++++++++++++
+> >  MAINTAINERS                                   |  1 +
+> >  2 files changed, 58 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/panel/pan=
+el-lvds.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds=
+=2Eyaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+> > new file mode 100644
+> > index 000000000000..fcc50db6a812
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+> > @@ -0,0 +1,57 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Generic LVDS Display Panel Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > +  - Thierry Reding <thierry.reding@gmail.com>
+> > +
+> > +allOf:
+> > +  - $ref: panel-common.yaml#
+> > +  - $ref: /schemas/display/lvds.yaml/#
+> > +
+> > +select:
+> > +  properties:
+> > +    compatible:
+> > +      contains:
+> > +        const: panel-lvds
+> > +
+> > +  not:
+> > +    properties:
+> > +      compatible:
+> > +        contains:
+> > +          enum:
+> > +            - advantech,idk-1110wr
+> > +            - advantech,idk-2121wr
+> > +            - innolux,ee101ia-01d
+> > +            - mitsubishi,aa104xd12
+> > +            - mitsubishi,aa121td01
+> > +            - sgd,gktw70sdae4se
+>=20
+> I still don't like this :-( Couldn't we instead do
+>=20
+> select:
+>   properties:
+>     compatible:
+>       contains:
+>         enum:
+>           - auo,b101ew05
+>           - tbs,a711-panel
+>=20
+> ?
 
-Regards,
-Chun-Kuang.
+That works too, I'll send another version.
 
->
-> Thanks,
-> Angelo
+Maxime
+
+--7duvnl3dvvqxia5r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfKqlwAKCRDj7w1vZxhR
+xXlFAPoDfUSXsOdKC1jqPogq35LVWUz8Zwp4N+Bd0rvx9RY34QEAmWWjeVZ2EXQI
+zRPnwqK4m7vDqTwrgSsAu5/Z73F+Ngk=
+=dGBb
+-----END PGP SIGNATURE-----
+
+--7duvnl3dvvqxia5r--
