@@ -2,55 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81AD449DE4B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 10:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEE249DE9D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 11:00:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA4210E63F;
-	Thu, 27 Jan 2022 09:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97CF210EF6D;
+	Thu, 27 Jan 2022 10:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81ACA10E63F;
- Thu, 27 Jan 2022 09:44:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643276668; x=1674812668;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version:content-transfer-encoding;
- bh=dk0qamhX2TbtdZHxZwkI3zlHxXhVxx0UNGFBByp7cwQ=;
- b=jFfHa66eUP05WZJUGGMSnrDlJqW0ew9ltXO+8UC57mEEQjD4rCpjfNXC
- mqBRml2VfMy7I7aMG9FFOm8zgmzlxfZ2k0Ge2uxKr2zlbFlB+lztxgbW8
- g2fz4cQjNysHqMYiDSkLbnSCoFxDyZQT4AB2u+wDCYSGzycAt+d+MnCX+
- HzoQ3+7nRVUTkqctLds+C9DcIhLEvkS98Iouu2RVfcsvrkZb01Yb075jS
- 4xDHxLCDLL1LY9QAUbAsnAvuE/QZl6Qa7KI5rzMSpwtnk+ciV48tHtJpa
- RqfGuIpjxVvhhNkvIXuqKN2yP3HrxOKQMKrg2Rlj98NgoXhj/z2ssMomY A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="246580153"
-X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="246580153"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2022 01:44:27 -0800
-X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="618268633"
-Received: from johnlyon-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.16.209])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2022 01:44:23 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>, akpm@linux-foundation.org,
- broonie@kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-next@vger.kernel.org, mhocko@suse.cz, mm-commits@vger.kernel.org,
- sfr@canb.auug.org.au, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: Re: mmotm 2022-01-26-21-04 uploaded (gpu/drm/i915/i915_gem_evict.h)
-In-Reply-To: <6b4f3d82-01e8-5bf3-927f-33ac62178fd5@infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220127050456.M1eh-ltbc%akpm@linux-foundation.org>
- <6b4f3d82-01e8-5bf3-927f-33ac62178fd5@infradead.org>
-Date: Thu, 27 Jan 2022 11:44:18 +0200
-Message-ID: <8735l9y0lp.fsf@intel.com>
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9ED210EF6D
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 10:00:19 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id e8so3818369wrc.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 02:00:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=dj+Wxdz6jJyNZo3oThjdxQEE66JUp4dziKqN/pwvYhw=;
+ b=YpQltIzwqQUIZLwJV9b7TpxpNtLjJFOUUFaDuIY26pQRByLg/xUO0XcNO1hXuzgrtv
+ aXl2Ea2ymMN7sHKA1BKyX7TuvIs+MfmbCx1sApsh3bpKknTlQ9SWaixDSnqHtxqdTSri
+ E4CRr7QEGLltTYA32aqiK2eD9wBeb86J4/dhY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=dj+Wxdz6jJyNZo3oThjdxQEE66JUp4dziKqN/pwvYhw=;
+ b=6eEM6J/5G3XgsfNZKSYp6rrwDsk3LQfAsYfaMHjjgfFElYtsv+vuQET7O8tPzWrWHh
+ ubuXrO9fKYXKS7pZuR3ouXRrqqhbXrM7nK+1nxWj/AFxAYCURK8F8CU26Knx/QYU5D3v
+ DIsybUA/EcpD5TG2Wex/6WNktCTTOQyDG6mnDvG7TtHkj+GehpdOEWB+u2spGCYC70Ec
+ Hf8hqSU3FTZZQgEPPdS6A1aT1NcwUbAYVqiCoCv1rwwExzwNFj3lFdhRZmd2bR3diCbU
+ mJfkrnY7obFyJQ8vu3SSeLrBXriSKrV3lo23rDZfFlVEOj8waOm+25J7PjjX66DrJ3i/
+ VFtQ==
+X-Gm-Message-State: AOAM532FnisoboIzoVVItuM6oES4Hp1cZrL+vmVQ+WhQfo2IS+f0xffY
+ pAETZmvbdBsCkyya2k5WxsA68w==
+X-Google-Smtp-Source: ABdhPJyZcMRUfkbUyRjJW3Arq9MAqFzUEFnjmUGAvJqKbxi8qGWFKt2XXxgNxptn90NiYH0fbc4aFA==
+X-Received: by 2002:a5d:55c3:: with SMTP id i3mr2307961wrw.537.1643277618288; 
+ Thu, 27 Jan 2022 02:00:18 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i2sm1843836wmq.23.2022.01.27.02.00.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 02:00:17 -0800 (PST)
+Date: Thu, 27 Jan 2022 11:00:14 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 02/19] dma-buf-map: Add helper to initialize
+ second map
+Message-ID: <YfJtLkdkh4yde20f@phenom.ffwll.local>
+Mail-Followup-To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
+References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
+ <20220126203702.1784589-3-lucas.demarchi@intel.com>
+ <f0dbdcc0-13b5-c484-0bf3-a1f8c3e48954@amd.com>
+ <20220127075728.ygwgorhnrwaocdqv@ldmartin-desk2>
+ <3066c6a7-fc73-d34d-d209-a3ff6818dfb6@amd.com>
+ <YfJedaoeJjE3grum@phenom.ffwll.local>
+ <20220127093332.wnkd2qy4tvwg5i5l@ldmartin-desk2>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220127093332.wnkd2qy4tvwg5i5l@ldmartin-desk2>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +79,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Jan 2022, Randy Dunlap <rdunlap@infradead.org> wrote:
-> On 1/26/22 21:04, akpm@linux-foundation.org wrote:
->> The mm-of-the-moment snapshot 2022-01-26-21-04 has been uploaded to
->>=20
->>    https://www.ozlabs.org/~akpm/mmotm/
->>=20
->> mmotm-readme.txt says
->>=20
->> README for mm-of-the-moment:
->>=20
->> https://www.ozlabs.org/~akpm/mmotm/
->>=20
->> This is a snapshot of my -mm patch queue.  Uploaded at random hopefully
->> more than once a week.
->>=20
->> You will need quilt to apply these patches to the latest Linus release (=
-5.x
->> or 5.x-rcY).  The series file is in broken-out.tar.gz and is duplicated =
-in
->> https://ozlabs.org/~akpm/mmotm/series
->>=20
->> The file broken-out.tar.gz contains two datestamp files: .DATE and
->> .DATE-yyyy-mm-dd-hh-mm-ss.  Both contain the string yyyy-mm-dd-hh-mm-ss,
->> followed by the base kernel version against which this patch series is to
->> be applied.
->
-> on x86_64:
-> (from linux-next.patch)
->
->
->   HDRTEST drivers/gpu/drm/i915/i915_gem_evict.h
-> In file included from <command-line>:0:0:
-> ./../drivers/gpu/drm/i915/i915_gem_evict.h:15:15: error: =E2=80=98struct =
-i915_gem_ww_ctx=E2=80=99 declared inside parameter list will not be visible=
- outside of this definition or declaration [-Werror]
->         struct i915_gem_ww_ctx *ww,
->                ^~~~~~~~~~~~~~~
-> ./../drivers/gpu/drm/i915/i915_gem_evict.h:21:14: error: =E2=80=98struct =
-i915_gem_ww_ctx=E2=80=99 declared inside parameter list will not be visible=
- outside of this definition or declaration [-Werror]
->        struct i915_gem_ww_ctx *ww,
->               ^~~~~~~~~~~~~~~
-> ./../drivers/gpu/drm/i915/i915_gem_evict.h:25:16: error: =E2=80=98struct =
-i915_gem_ww_ctx=E2=80=99 declared inside parameter list will not be visible=
- outside of this definition or declaration [-Werror]
->          struct i915_gem_ww_ctx *ww);
->                 ^~~~~~~~~~~~~~~
-> cc1: all warnings being treated as errors
+On Thu, Jan 27, 2022 at 01:33:32AM -0800, Lucas De Marchi wrote:
+> On Thu, Jan 27, 2022 at 09:57:25AM +0100, Daniel Vetter wrote:
+> > On Thu, Jan 27, 2022 at 09:02:54AM +0100, Christian König wrote:
+> > > Am 27.01.22 um 08:57 schrieb Lucas De Marchi:
+> > > > On Thu, Jan 27, 2022 at 08:27:11AM +0100, Christian König wrote:
+> > > > > Am 26.01.22 um 21:36 schrieb Lucas De Marchi:
+> > > > > > When dma_buf_map struct is passed around, it's useful to be able to
+> > > > > > initialize a second map that takes care of reading/writing to an offset
+> > > > > > of the original map.
+> > > > > >
+> > > > > > Add a helper that copies the struct and add the offset to the proper
+> > > > > > address.
+> > > > >
+> > > > > Well what you propose here can lead to all kind of problems and is
+> > > > > rather bad design as far as I can see.
+> > > > >
+> > > > > The struct dma_buf_map is only to be filled in by the exporter and
+> > > > > should not be modified in this way by the importer.
+> > > >
+> > > > humn... not sure if I was  clear. There is no importer and exporter here.
+> > > 
+> > > Yeah, and exactly that's what I'm pointing out as problem here.
+> > > 
+> > > You are using the inter driver framework for something internal to the
+> > > driver. That is an absolutely clear NAK!
+> > > 
+> > > We could discuss that, but you guys are just sending around patches to do
+> > > this without any consensus that this is a good idea.
+> > 
+> > Uh I suggested this, also we're already using dma_buf_map all over the
+> > place as a convenient abstraction. So imo that's all fine, it should allow
+> > drivers to simplify some code where on igpu it's in normal kernel memory
+> > and on dgpu it's behind some pci bar.
+> > 
+> > Maybe we should have a better name for that struct (and maybe also a
+> > better place), but way back when we discussed that bikeshed I didn't come
+> > up with anything better really.
+> 
+> I suggest iosys_map since it abstracts access to IO and system memory.
+> 
+> > 
+> > > > There is a role delegation on filling out and reading a buffer when
+> > > > that buffer represents a struct layout.
+> > > >
+> > > > struct bla {
+> > > >     int a;
+> > > >     int b;
+> > > >     int c;
+> > > >     struct foo foo;
+> > > >     struct bar bar;
+> > > >     int d;
+> > > > }
+> > > >
+> > > >
+> > > > This implementation allows you to have:
+> > > >
+> > > >     fill_foo(struct dma_buf_map *bla_map) { ... }
+> > > >     fill_bar(struct dma_buf_map *bla_map) { ... }
+> > > >
+> > > > and the first thing these do is to make sure the map it's pointing to
+> > > > is relative to the struct it's supposed to write/read. Otherwise you're
+> > > > suggesting everything to be relative to struct bla, or to do the same
+> > > > I'm doing it, but IMO more prone to error:
+> > > >
+> > > >     struct dma_buf_map map = *bla_map;
+> > > >     dma_buf_map_incr(map, offsetof(...));
+> > 
+> > Wrt the issue at hand I think the above is perfectly fine code. The idea
+> > with dma_buf_map is really that it's just a special pointer, so writing
+> > the code exactly as pointer code feels best. Unfortunately you cannot make
+> > them typesafe (because of C), so the code sometimes looks a bit ugly.
+> > Otherwise we could do stuff like container_of and all that with
+> > typechecking in the macros.
+> 
+> I had exactly this code above, but after writting quite a few patches
+> using it, particularly with functions that have to write to 2 maps (see
+> patch 6 for example), it felt much better to have something to
+> initialize correctly from the start
+> 
+> 	struct dma_buf_map other_map = *bla_map;
+> 	/* poor Lucas forgetting dma_buf_map_incr(map, offsetof(...)); */
+> 
+> is error prone and hard to debug since you will be reading/writting
+> from/to another location rather than exploding
+> 
+> While with the construct below
+> 
+> 	other_map;
+> 	...
+> 	other_map = INITIALIZER()
+> 
+> I can rely on the compiler complaining about uninitialized var. And
+> in most of the cases I can just have this single line in the beggining of the
+> function when the offset is constant:
+> 
+> 	struct dma_buf_map other_map = INITIALIZER(bla_map, offsetof(..));
 
-Thanks for the report.
+Hm yeah that's a good point that this allows us to rely on the compiler to
+check for uninitialized variables.
 
-This is only visible with CONFIG_DRM_I915_WERROR=3Dy which depends on
-COMPILE_TEST=3Dn. We use the "HDRTEST" and -Werror for development and CI
-to keep the driver clean, but it's not really intended for general
-consumption. Usually when something like this even hits the tree it's
-because of a merge mishap somewhere down the line.
+Maybe include the above (with editing, but keeping the examples) in the
+kerneldoc to explain why/how to use this? With that the concept at least
+has my
 
-BR,
-Jani.
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
+I'll leave it up to you & Christian to find a prettier color choice for
+the naming bikeshed.
+-Daniel
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+> 
+> Lucas De Marchi
+> 
+> > -Daniel
+> > 
+> > > > IMO this construct is worse because at a point in time in the function
+> > > > the map was pointing to the wrong thing the function was supposed to
+> > > > read/write.
+> > > >
+> > > > It's also useful when the function has double duty, updating a global
+> > > > part of the struct and a table inside it (see example in patch 6)
+> > > >
+> > > > thanks
+> > > > Lucas De Marchi
+> > > 
+> > 
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
