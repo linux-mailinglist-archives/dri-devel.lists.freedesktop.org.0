@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD88E49DBCC
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 08:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C1B49DBE3
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 08:50:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D14110E1EB;
-	Thu, 27 Jan 2022 07:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B53210E29D;
+	Thu, 27 Jan 2022 07:49:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC8C889E36;
- Thu, 27 Jan 2022 07:42:25 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1567310E29D;
+ Thu, 27 Jan 2022 07:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643269345; x=1674805345;
+ t=1643269795; x=1674805795;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=mPi71fris68ShFSFX7NPuifeZxZK9rkUhwdbL0MGzp4=;
- b=ZiW4SR/BN70xXlMiaKanvBXT/F7xaJLtzSJNLzCnHqKG2izcY6lTnmut
- s7F4cqA72Y/vHBaOL2JMjhJgxtr038lVdkJQrKOXK+PCT/QcxHYJz/GFa
- aKl2+Q9XJF8Mcn6ls6eDWy3LoL7zqXySt+OPB9LPsEUXuZQePU9K/hWn7
- nudHRa/qiGEHtkPsw/Kth6rcOEJeuRuuhcSkrdfYWlEtwXFz59NtmUeFP
- eSNfNWUKf05mOBoZbNag+ob99F26cIf56WSQ5cM7olPTjq086D0gD2RAp
- kHKDToSiwCXf/rFVaAENE1zeJX6iSaTU2cL1onNwFaimYrBLjlzfF9j2r w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="333131897"
-X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="333131897"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 23:42:20 -0800
-X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="480191093"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 23:42:19 -0800
-Date: Wed, 26 Jan 2022 23:36:37 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 01/19] dma-buf-map: Add read/write helpers
-Message-ID: <20220127073637.GA17282@jons-linux-dev-box>
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-2-lucas.demarchi@intel.com>
- <91bfa9d4-99fc-767e-5ba2-a2643cf585f5@amd.com>
+ bh=P0LlQC3j6GRO+D0UT6fE5CDBiJFC1isnKfWhAGQIG+g=;
+ b=jh81JmjhnEkkaE6IbBhFKg5OWPMUx/5Kx+rrosnaH0mbtZh4Fn/WRBDM
+ NkXqLLh3Ov7bCvAeVBpnrCZinMGnoUo8LjlMIIClXkMHE8mkRLi5ICgN3
+ txoIgYNUSr40uGX6AsfqQ7k3fBLX4igoooFYkrAi+Hv/mwESXsEQaqSU5
+ EZmQiqPMnJircmYSa+Gk+pULLmwh8999EYHPwdqolh/x3lx5Ourw5ddI5
+ HDAWCM54yKH2JTrr6HV7vYEI1qbs+13EShGiA+AzoNfJTiB1Rl/1q0uB/
+ BIReHOSkXr+R7ydgYNnZ1GBfL1ZXmGNKB8hI+/FsKGYVb0zeCY2QQErLY w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="246724698"
+X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="246724698"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 23:49:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="535526247"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.147])
+ by orsmga008.jf.intel.com with SMTP; 26 Jan 2022 23:49:51 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 27 Jan 2022 09:49:51 +0200
+Date: Thu, 27 Jan 2022 09:49:51 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 5/8] drm/i915/dp: rewrite DP 2.0 128b/132b link training
+ based on errata
+Message-ID: <YfJOn4RQMAzjaP4i@intel.com>
+References: <cover.1643130139.git.jani.nikula@intel.com>
+ <5c061c1610834b9b1b057e6d32b774e7db5500a8.1643130139.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <91bfa9d4-99fc-767e-5ba2-a2643cf585f5@amd.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <5c061c1610834b9b1b057e6d32b774e7db5500a8.1643130139.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,168 +61,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, uma.shankar@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 27, 2022 at 08:24:04AM +0100, Christian König wrote:
-> Am 26.01.22 um 21:36 schrieb Lucas De Marchi:
-> > In certain situations it's useful to be able to read or write to an
-> > offset that is calculated by having the memory layout given by a struct
-> > declaration. Usually we are going to read/write a u8, u16, u32 or u64.
-> > 
-> > Add a pair of macros dma_buf_map_read_field()/dma_buf_map_write_field()
-> > to calculate the offset of a struct member and memcpy the data from/to
-> > the dma_buf_map. We could use readb, readw, readl, readq and the write*
-> > counterparts, however due to alignment issues this may not work on all
-> > architectures. If alignment needs to be checked to call the right
-> > function, it's not possible to decide at compile-time which function to
-> > call: so just leave the decision to the memcpy function that will do
-> > exactly that on IO memory or dereference the pointer.
-> > 
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Christian König <christian.koenig@amd.com>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> > ---
-> >   include/linux/dma-buf-map.h | 81 +++++++++++++++++++++++++++++++++++++
-> >   1 file changed, 81 insertions(+)
-> > 
-> > diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
-> > index 19fa0b5ae5ec..65e927d9ce33 100644
-> > --- a/include/linux/dma-buf-map.h
-> > +++ b/include/linux/dma-buf-map.h
-> > @@ -6,6 +6,7 @@
-> >   #ifndef __DMA_BUF_MAP_H__
-> >   #define __DMA_BUF_MAP_H__
-> > +#include <linux/kernel.h>
-> >   #include <linux/io.h>
-> >   #include <linux/string.h>
-> > @@ -229,6 +230,46 @@ static inline void dma_buf_map_clear(struct dma_buf_map *map)
-> >   	}
-> >   }
-> > +/**
-> > + * dma_buf_map_memcpy_to_offset - Memcpy into offset of dma-buf mapping
-> > + * @dst:	The dma-buf mapping structure
-> > + * @offset:	The offset from which to copy
-> > + * @src:	The source buffer
-> > + * @len:	The number of byte in src
-> > + *
-> > + * Copies data into a dma-buf mapping with an offset. The source buffer is in
-> > + * system memory. Depending on the buffer's location, the helper picks the
-> > + * correct method of accessing the memory.
-> > + */
-> > +static inline void dma_buf_map_memcpy_to_offset(struct dma_buf_map *dst, size_t offset,
-> > +						const void *src, size_t len)
-> > +{
-> > +	if (dst->is_iomem)
-> > +		memcpy_toio(dst->vaddr_iomem + offset, src, len);
-> > +	else
-> > +		memcpy(dst->vaddr + offset, src, len);
-> > +}
-> > +
-> > +/**
-> > + * dma_buf_map_memcpy_from_offset - Memcpy from offset of dma-buf mapping into system memory
-> > + * @dst:	Destination in system memory
-> > + * @src:	The dma-buf mapping structure
-> > + * @src:	The offset from which to copy
-> > + * @len:	The number of byte in src
-> > + *
-> > + * Copies data from a dma-buf mapping with an offset. The dest buffer is in
-> > + * system memory. Depending on the mapping location, the helper picks the
-> > + * correct method of accessing the memory.
-> > + */
-> > +static inline void dma_buf_map_memcpy_from_offset(void *dst, const struct dma_buf_map *src,
-> > +						  size_t offset, size_t len)
-> > +{
-> > +	if (src->is_iomem)
-> > +		memcpy_fromio(dst, src->vaddr_iomem + offset, len);
-> > +	else
-> > +		memcpy(dst, src->vaddr + offset, len);
-> > +}
-> > +
-> 
-> Well that's certainly a valid use case, but I suggest to change the
-> implementation of the existing functions to call the new ones with offset=0.
-> 
-> This way we only have one implementation.
-> 
-Trivial - but agree with Christian that is a good cleanup.
+On Tue, Jan 25, 2022 at 07:03:43PM +0200, Jani Nikula wrote:
+<snip>
+> +static bool
+> +intel_dp_128b132b_lane_cds(struct intel_dp *intel_dp,
+> +			   const struct intel_crtc_state *crtc_state,
+> +			   int lttpr_count)
+> +{
+> +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
+> +	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
+> +	u8 link_status[DP_LINK_STATUS_SIZE];
+> +	unsigned long deadline;
+> +
+> +	if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_TRAINING_PATTERN_SET,
+> +			       DP_TRAINING_PATTERN_2_CDS) != 1) {
+> +		drm_err(&i915->drm,
+> +			"[ENCODER:%d:%s] Failed to start 128b/132b TPS2 CDS\n",
+> +			encoder->base.base.id, encoder->base.name);
+> +		return false;
+> +	}
+> +
+> +	deadline = jiffies + msecs_to_jiffies((lttpr_count + 1) * 20);
+> +	for (;;) {
+> +		usleep_range(2000, 3000);
+> +
+> +		if (drm_dp_dpcd_read_link_status(&intel_dp->aux, link_status) < 0) {
+> +			drm_err(&i915->drm,
+> +				"[ENCODER:%d:%s] Failed to read link status\n",
+> +				encoder->base.base.id, encoder->base.name);
+> +			return false;
+> +		}
+> +
+> +		if (drm_dp_128b132b_cds_interlane_align_done(link_status) &&
+> +		    drm_dp_128b132b_lane_symbol_locked(link_status, crtc_state->lane_count)) {
 
-> >   /**
-> >    * dma_buf_map_memcpy_to - Memcpy into dma-buf mapping
-> >    * @dst:	The dma-buf mapping structure
-> > @@ -263,4 +304,44 @@ static inline void dma_buf_map_incr(struct dma_buf_map *map, size_t incr)
-> >   		map->vaddr += incr;
-> >   }
-> > +/**
-> > + * dma_buf_map_read_field - Read struct member from dma-buf mapping with
-> > + * arbitrary size and handling un-aligned accesses
-> > + *
-> > + * @map__:	The dma-buf mapping structure
-> > + * @type__:	The struct to be used containing the field to read
-> > + * @field__:	Member from struct we want to read
-> > + *
-> > + * Read a value from dma-buf mapping calculating the offset and size: this assumes
-> > + * the dma-buf mapping is aligned with a a struct type__. A single u8, u16, u32
-> > + * or u64 can be read, based on the offset and size of type__.field__.
-> > + */
-> > +#define dma_buf_map_read_field(map__, type__, field__) ({				\
-> > +	type__ *t__;									\
-> > +	typeof(t__->field__) val__;							\
-> > +	dma_buf_map_memcpy_from_offset(&val__, map__, offsetof(type__, field__),	\
-> > +				       sizeof(t__->field__));				\
-> > +	val__;										\
-> > +})
-> > +
-> > +/**
-> > + * dma_buf_map_write_field - Write struct member to the dma-buf mapping with
-> > + * arbitrary size and handling un-aligned accesses
-> > + *
-> > + * @map__:	The dma-buf mapping structure
-> > + * @type__:	The struct to be used containing the field to write
-> > + * @field__:	Member from struct we want to write
-> > + * @val__:	Value to be written
-> > + *
-> > + * Write a value to the dma-buf mapping calculating the offset and size.
-> > + * A single u8, u16, u32 or u64 can be written based on the offset and size of
-> > + * type__.field__.
-> > + */
-> > +#define dma_buf_map_write_field(map__, type__, field__, val__) ({			\
-> > +	type__ *t__;									\
-> > +	typeof(t__->field__) val____ = val__;						\
-> > +	dma_buf_map_memcpy_to_offset(map__, offsetof(type__, field__),			\
-> > +				     &val____, sizeof(t__->field__));			\
-> > +})
-> > +
-> 
-> Uff well that absolutely looks like overkill to me.
-> 
+I'm thinkin we want to check for both eq done and symbol locked here,
+just like we do with 8b10b.
 
-Hold on...
+> +			drm_dbg_kms(&i915->drm,
+> +				    "[ENCODER:%d:%s] CDS interlane align done\n",
+> +				    encoder->base.base.id, encoder->base.name);
+> +			break;
+> +		}
+> +
+> +		if (drm_dp_128b132b_link_training_failed(link_status)) {
+> +			intel_dp_dump_link_status(intel_dp, DP_PHY_DPRX, link_status);
+> +			drm_err(&i915->drm,
+> +				"[ENCODER:%d:%s] Downstream link training failure\n",
+> +				encoder->base.base.id, encoder->base.name);
+> +			return false;
+> +		}
+> +
+> +		if (time_after(jiffies, deadline)) {
+> +			intel_dp_dump_link_status(intel_dp, DP_PHY_DPRX, link_status);
+> +			drm_err(&i915->drm,
+> +				"[ENCODER:%d:%s] CDS timeout\n",
+> +				encoder->base.base.id, encoder->base.name);
+> +			return false;
+> +		}
+> +	}
+> +
+> +	/* FIXME: Should DP_TRAINING_PATTERN_DISABLE be written first? */
+> +	if (intel_dp->set_idle_link_train)
+> +		intel_dp->set_idle_link_train(intel_dp, crtc_state);
+> +
+> +	return true;
+> +}
 
-> That's a rather special use case as far as I can see and I think we should
-> only have this in the common framework if more than one driver is using it.
->
-
-I disagree, this is rather elegant.
-
-The i915 can't be the *only* driver that defines a struct which
-describes the layout of a dma_buf object.  
-
-IMO this base macro allows *all* other drivers to build on this write
-directly to fields in structures those drivers have defined. Patches
-later in this series do this for the GuC ads.
-
-Matt
- 
-> Regards,
-> Christian.
-> 
-> >   #endif /* __DMA_BUF_MAP_H__ */
-> 
+-- 
+Ville Syrjälä
+Intel
