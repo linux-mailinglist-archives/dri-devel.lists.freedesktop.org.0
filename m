@@ -2,62 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250C149E4AF
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 15:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A7449E4BA
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 15:36:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD04310E7F7;
-	Thu, 27 Jan 2022 14:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A06E910E3BC;
+	Thu, 27 Jan 2022 14:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F7C810E7F7;
- Thu, 27 Jan 2022 14:33:14 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3B634218E0;
- Thu, 27 Jan 2022 14:33:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643293993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gfVtGjzgCMvnnZDpcehQwVBibFUoPCCrxlGLDylV22w=;
- b=dC04/vapA8F85tjb/mNCwjyzo3DyippRN4nkXG6xjV5P6EGAsO40VUhCedqDqd1d8xvSKx
- rYC36SFRAAwSr3Kd+e7J/e0WsQPZyUYW3iO9El2ZVNtesE+c+tibK9+fqiXFksEqFUsRwD
- CMVRqmKnfoRcnpknafL27OOEFc/bmYc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643293993;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gfVtGjzgCMvnnZDpcehQwVBibFUoPCCrxlGLDylV22w=;
- b=ebxuPTuYo9Bt98YIKmZBtt7q7LUYCkPESe35YpFr38dKRv4Q1jgMqV+avZf6hpqPBxYO3o
- facYijkXbJpPCsDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 110F413BFC;
- Thu, 27 Jan 2022 14:33:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ZzLAAimt8mFyRAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 27 Jan 2022 14:33:13 +0000
-Message-ID: <b7a3fe1d-3b85-cb7e-19cf-1611ff4f3c9e@suse.de>
-Date: Thu, 27 Jan 2022 15:33:12 +0100
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB78210E3BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 14:36:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id DFA301F45393
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1643294190;
+ bh=3IdE6LoZ1ETmacWuilGWdcqDG0QyqCl29Cn/VqP2g/s=;
+ h=From:To:Cc:Subject:Date:From;
+ b=T595yv6mYzunV8OirmSDlCOEeBshfA/Gcqi6nDLt7C4T1u9Wy2UCurKE7qa2PpN4x
+ fhh3u5klUdom2Q6cVe+7WM8m1D/sPVqxTn/jZB7HSu1uluq/R0KKk4nakG6yoyOp+L
+ dZEesjMmV71Xugvsc2/SXXA5VvVr4k1sC4pvulSP7R7a5ZpMcYW/XLsWcbYNNHpcCE
+ VbkjoABbxwfDsVcgLReyjO7Y1U5eU2UFiKS51RSqLtyVPlLiaQEvIENc/kaQzAWQSG
+ GbTJr6GOb7/wuJYdhVWAykUyAveX1XTmIZ/eMhQPyoKStO1+oFonBxnmLg3FzsHc5/
+ 22jZxZ+cmucXQ==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] drm/mediatek: mtk_dsi: Avoid EPROBE_DEFER loop with
+ external bridge
+Date: Thu, 27 Jan 2022 15:36:23 +0100
+Message-Id: <20220127143623.123025-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 02/19] dma-buf-map: Add helper to initialize second map
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-3-lucas.demarchi@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220126203702.1784589-3-lucas.demarchi@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------EPku7XflatQ6Ovr3WRaAV1zC"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,103 +46,265 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: chunkuang.hu@kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ andrzej.hajda@intel.com, linux-mediatek@lists.infradead.org,
+ Jagan Teki <jagan@amarulasolutions.com>, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------EPku7XflatQ6Ovr3WRaAV1zC
-Content-Type: multipart/mixed; boundary="------------vGcauGD8tAgNdR80NZ29NGhd";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-Message-ID: <b7a3fe1d-3b85-cb7e-19cf-1611ff4f3c9e@suse.de>
-Subject: Re: [PATCH 02/19] dma-buf-map: Add helper to initialize second map
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-3-lucas.demarchi@intel.com>
-In-Reply-To: <20220126203702.1784589-3-lucas.demarchi@intel.com>
+DRM bridge drivers are now attaching their DSI device at probe time,
+which requires us to register our DSI host in order to let the bridge
+to probe: this recently started producing an endless -EPROBE_DEFER
+loop on some machines that are using external bridges, like the
+parade-ps8640, found on the ACER Chromebook R13.
 
---------------vGcauGD8tAgNdR80NZ29NGhd
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Now that the DSI hosts/devices probe sequence is documented, we can
+do adjustments to the mtk_dsi driver as to both fix now and make sure
+to avoid this situation in the future: for this, following what is
+documented in drm_bridge.c, move the mtk_dsi component_add() to the
+mtk_dsi_ops.attach callback and delete it in the detach callback;
+keeping in mind that we are registering a drm_bridge for our DSI,
+which is only used/attached if the DSI Host is bound, it wouldn't
+make sense to keep adding our bridge at probe time (as it would
+be useless to have it if mtk_dsi_ops.attach() fails!), so also move
+that one to the dsi host attach function (and remove it in detach).
 
-DQoNCkFtIDI2LjAxLjIyIHVtIDIxOjM2IHNjaHJpZWIgTHVjYXMgRGUgTWFyY2hpOg0KPiBX
-aGVuIGRtYV9idWZfbWFwIHN0cnVjdCBpcyBwYXNzZWQgYXJvdW5kLCBpdCdzIHVzZWZ1bCB0
-byBiZSBhYmxlIHRvDQo+IGluaXRpYWxpemUgYSBzZWNvbmQgbWFwIHRoYXQgdGFrZXMgY2Fy
-ZSBvZiByZWFkaW5nL3dyaXRpbmcgdG8gYW4gb2Zmc2V0DQo+IG9mIHRoZSBvcmlnaW5hbCBt
-YXAuDQo+IA0KPiBBZGQgYSBoZWxwZXIgdGhhdCBjb3BpZXMgdGhlIHN0cnVjdCBhbmQgYWRk
-IHRoZSBvZmZzZXQgdG8gdGhlIHByb3Blcg0KPiBhZGRyZXNzLg0KPiANCj4gQ2M6IFN1bWl0
-IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+DQo+IENjOiBDaHJpc3RpYW4gS8O2
-bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+IENjOiBsaW51eC1tZWRpYUB2Z2Vy
-Lmtlcm5lbC5vcmcNCj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4g
-Q2M6IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZw0KPiBDYzogbGludXgta2VybmVs
-QHZnZXIua2VybmVsLm9yZw0KPiBTaWduZWQtb2ZmLWJ5OiBMdWNhcyBEZSBNYXJjaGkgPGx1
-Y2FzLmRlbWFyY2hpQGludGVsLmNvbT4NCj4gLS0tDQo+ICAgaW5jbHVkZS9saW51eC9kbWEt
-YnVmLW1hcC5oIHwgMjkgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gICAxIGZp
-bGUgY2hhbmdlZCwgMjkgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2luY2x1
-ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaCBiL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaA0K
-PiBpbmRleCA2NWU5MjdkOWNlMzMuLjM1MTRhODU5ZjYyOCAxMDA2NDQNCj4gLS0tIGEvaW5j
-bHVkZS9saW51eC9kbWEtYnVmLW1hcC5oDQo+ICsrKyBiL2luY2x1ZGUvbGludXgvZG1hLWJ1
-Zi1tYXAuaA0KPiBAQCAtMTMxLDYgKzEzMSwzNSBAQCBzdHJ1Y3QgZG1hX2J1Zl9tYXAgew0K
-PiAgIAkJLmlzX2lvbWVtID0gZmFsc2UsIFwNCj4gICAJfQ0KPiAgIA0KPiArLyoqDQo+ICsg
-KiBETUFfQlVGX01BUF9JTklUX09GRlNFVCAtIEluaXRpYWxpemVzIHN0cnVjdCBkbWFfYnVm
-X21hcCBmcm9tIGFub3RoZXIgZG1hX2J1Zl9tYXANCj4gKyAqIEBtYXBfOglUaGUgZG1hLWJ1
-ZiBtYXBwaW5nIHN0cnVjdHVyZSB0byBjb3B5IGZyb20NCj4gKyAqIEBvZmZzZXQ6CU9mZnNl
-dCB0byBhZGQgdG8gdGhlIG90aGVyIG1hcHBpbmcNCj4gKyAqDQo+ICsgKiBJbml0aWFsaXpl
-cyBhIG5ldyBkbWFfYnVmX3N0cnVjdCBiYXNlZCBvbiBhbm90aGVyLiBUaGlzIGlzIHRoZSBl
-cXVpdmFsZW50IG9mIGRvaW5nOg0KPiArICoNCj4gKyAqIC4uIGNvZGUtYmxvY2s6IGMNCj4g
-KyAqDQo+ICsgKglkbWFfYnVmX21hcCBtYXAgPSBvdGhlcl9tYXA7DQo+ICsgKglkbWFfYnVm
-X21hcF9pbmNyKCZtYXAsICZvZmZzZXQpOw0KPiArICoNCj4gKyAqIEV4YW1wbGUgdXNhZ2U6
-DQo+ICsgKg0KPiArICogLi4gY29kZS1ibG9jazogYw0KPiArICoNCj4gKyAqCXZvaWQgZm9v
-KHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRtYV9idWZfbWFwICpiYXNlX21hcCkNCj4g
-KyAqCXsNCj4gKyAqCQkuLi4NCj4gKyAqCQlzdHJ1Y3QgZG1hX2J1Zl9tYXAgPSBETUFfQlVG
-X01BUF9JTklUX09GRlNFVChiYXNlX21hcCwgRklFTERfT0ZGU0VUKTsNCj4gKyAqCQkuLi4N
-Cj4gKyAqCX0NCj4gKyAqLw0KPiArI2RlZmluZSBETUFfQlVGX01BUF9JTklUX09GRlNFVCht
-YXBfLCBvZmZzZXRfKQkoc3RydWN0IGRtYV9idWZfbWFwKQlcDQo+ICsJewkJCQkJCQkJXA0K
-PiArCQkudmFkZHIgPSAobWFwXyktPnZhZGRyICsgKG9mZnNldF8pLAkJCVwNCj4gKwkJLmlz
-X2lvbWVtID0gKG1hcF8pLT5pc19pb21lbSwJCQkJXA0KPiArCX0NCj4gKw0KDQpJdCdzIGls
-bGVnYWwgdG8gYWNjZXNzIC52YWRkciAgd2l0aCByYXcgcG9pbnRlci4gQWx3YXlzIHVzZSBh
-IA0KZG1hX2J1Zl9tZW1jcHlfKCkgaW50ZXJmYWNlLiBTbyB3aHkgd291bGQgeW91IG5lZWQg
-dGhpcyBtYWNybyB3aGVuIHlvdSANCmhhdmUgZG1hX2J1Zl9tZW1jcHlfKigpIHdpdGggYW4g
-b2Zmc2V0IHBhcmFtZXRlcj8NCg0KSSd2ZSBhbHNvIGJlZW4gdmVyeSBjYXJlZnVsIHRvIGRp
-c3Rpbmd1aXNoIGJldHdlZW4gLnZhZGRyIGFuZCANCi52YWRkcl9pb21lbSwgZXZlbiBpbiBw
-bGFjZXMgd2hlcmUgSSB3b3VsZG4ndCBoYXZlIHRvLiBUaGlzIG1hY3JvIGJyZWFrcyANCnRo
-ZSBhc3N1bXB0aW9uLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+ICAgLyoqDQo+ICAg
-ICogZG1hX2J1Zl9tYXBfc2V0X3ZhZGRyIC0gU2V0cyBhIGRtYS1idWYgbWFwcGluZyBzdHJ1
-Y3R1cmUgdG8gYW4gYWRkcmVzcyBpbiBzeXN0ZW0gbWVtb3J5DQo+ICAgICogQG1hcDoJVGhl
-IGRtYS1idWYgbWFwcGluZyBzdHJ1Y3R1cmUNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0K
-R3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2Vy
-bWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihI
-UkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYN
-Cg==
+Fixes: 209264a85707 ("drm/bridge: Document the probe issue with MIPI-DSI bridges")
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
 
---------------vGcauGD8tAgNdR80NZ29NGhd--
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 167 +++++++++++++++--------------
+ 1 file changed, 84 insertions(+), 83 deletions(-)
 
---------------EPku7XflatQ6Ovr3WRaAV1zC
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 5d90d2eb0019..bced4c7d668e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -786,18 +786,101 @@ void mtk_dsi_ddp_stop(struct device *dev)
+ 	mtk_dsi_poweroff(dsi);
+ }
+ 
++static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
++{
++	int ret;
++
++	ret = drm_simple_encoder_init(drm, &dsi->encoder,
++				      DRM_MODE_ENCODER_DSI);
++	if (ret) {
++		DRM_ERROR("Failed to encoder init to drm\n");
++		return ret;
++	}
++
++	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
++
++	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
++				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++	if (ret)
++		goto err_cleanup_encoder;
++
++	dsi->connector = drm_bridge_connector_init(drm, &dsi->encoder);
++	if (IS_ERR(dsi->connector)) {
++		DRM_ERROR("Unable to create bridge connector\n");
++		ret = PTR_ERR(dsi->connector);
++		goto err_cleanup_encoder;
++	}
++	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
++
++	return 0;
++
++err_cleanup_encoder:
++	drm_encoder_cleanup(&dsi->encoder);
++	return ret;
++}
++
++static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
++{
++	int ret;
++	struct drm_device *drm = data;
++	struct mtk_dsi *dsi = dev_get_drvdata(dev);
++
++	ret = mtk_dsi_encoder_init(drm, dsi);
++	if (ret)
++		return ret;
++
++	return device_reset_optional(dev);
++}
++
++static void mtk_dsi_unbind(struct device *dev, struct device *master,
++			   void *data)
++{
++	struct mtk_dsi *dsi = dev_get_drvdata(dev);
++
++	drm_encoder_cleanup(&dsi->encoder);
++}
++
++static const struct component_ops mtk_dsi_component_ops = {
++	.bind = mtk_dsi_bind,
++	.unbind = mtk_dsi_unbind,
++};
++
+ static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
+ 			       struct mipi_dsi_device *device)
+ {
+ 	struct mtk_dsi *dsi = host_to_dsi(host);
++	struct device *dev = host->dev;
++	int ret;
+ 
+ 	dsi->lanes = device->lanes;
+ 	dsi->format = device->format;
+ 	dsi->mode_flags = device->mode_flags;
++	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
++	if (IS_ERR(dsi->next_bridge))
++		return PTR_ERR(dsi->next_bridge);
++
++	drm_bridge_add(&dsi->bridge);
++
++	ret = component_add(host->dev, &mtk_dsi_component_ops);
++	if (ret) {
++		DRM_ERROR("failed to add dsi_host component: %d\n", ret);
++		drm_bridge_remove(&dsi->bridge);
++		return ret;
++	}
+ 
+ 	return 0;
+ }
+ 
++static int mtk_dsi_host_detach(struct mipi_dsi_host *host,
++			       struct mipi_dsi_device *device)
++{
++	struct mtk_dsi *dsi = host_to_dsi(host);
++
++	component_del(host->dev, &mtk_dsi_component_ops);
++	drm_bridge_remove(&dsi->bridge);
++	return 0;
++}
++
+ static void mtk_dsi_wait_for_idle(struct mtk_dsi *dsi)
+ {
+ 	int ret;
+@@ -938,73 +1021,14 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
+ 
+ static const struct mipi_dsi_host_ops mtk_dsi_ops = {
+ 	.attach = mtk_dsi_host_attach,
++	.detach = mtk_dsi_host_detach,
+ 	.transfer = mtk_dsi_host_transfer,
+ };
+ 
+-static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
+-{
+-	int ret;
+-
+-	ret = drm_simple_encoder_init(drm, &dsi->encoder,
+-				      DRM_MODE_ENCODER_DSI);
+-	if (ret) {
+-		DRM_ERROR("Failed to encoder init to drm\n");
+-		return ret;
+-	}
+-
+-	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
+-
+-	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
+-				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+-	if (ret)
+-		goto err_cleanup_encoder;
+-
+-	dsi->connector = drm_bridge_connector_init(drm, &dsi->encoder);
+-	if (IS_ERR(dsi->connector)) {
+-		DRM_ERROR("Unable to create bridge connector\n");
+-		ret = PTR_ERR(dsi->connector);
+-		goto err_cleanup_encoder;
+-	}
+-	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
+-
+-	return 0;
+-
+-err_cleanup_encoder:
+-	drm_encoder_cleanup(&dsi->encoder);
+-	return ret;
+-}
+-
+-static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
+-{
+-	int ret;
+-	struct drm_device *drm = data;
+-	struct mtk_dsi *dsi = dev_get_drvdata(dev);
+-
+-	ret = mtk_dsi_encoder_init(drm, dsi);
+-	if (ret)
+-		return ret;
+-
+-	return device_reset_optional(dev);
+-}
+-
+-static void mtk_dsi_unbind(struct device *dev, struct device *master,
+-			   void *data)
+-{
+-	struct mtk_dsi *dsi = dev_get_drvdata(dev);
+-
+-	drm_encoder_cleanup(&dsi->encoder);
+-}
+-
+-static const struct component_ops mtk_dsi_component_ops = {
+-	.bind = mtk_dsi_bind,
+-	.unbind = mtk_dsi_unbind,
+-};
+-
+ static int mtk_dsi_probe(struct platform_device *pdev)
+ {
+ 	struct mtk_dsi *dsi;
+ 	struct device *dev = &pdev->dev;
+-	struct drm_panel *panel;
+ 	struct resource *regs;
+ 	int irq_num;
+ 	int ret;
+@@ -1021,19 +1045,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
+-					  &panel, &dsi->next_bridge);
+-	if (ret)
+-		goto err_unregister_host;
+-
+-	if (panel) {
+-		dsi->next_bridge = devm_drm_panel_bridge_add(dev, panel);
+-		if (IS_ERR(dsi->next_bridge)) {
+-			ret = PTR_ERR(dsi->next_bridge);
+-			goto err_unregister_host;
+-		}
+-	}
+-
+ 	dsi->driver_data = of_device_get_match_data(dev);
+ 
+ 	dsi->engine_clk = devm_clk_get(dev, "engine");
+@@ -1098,14 +1109,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+ 	dsi->bridge.of_node = dev->of_node;
+ 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+ 
+-	drm_bridge_add(&dsi->bridge);
+-
+-	ret = component_add(&pdev->dev, &mtk_dsi_component_ops);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to add component: %d\n", ret);
+-		goto err_unregister_host;
+-	}
+-
+ 	return 0;
+ 
+ err_unregister_host:
+@@ -1118,8 +1121,6 @@ static int mtk_dsi_remove(struct platform_device *pdev)
+ 	struct mtk_dsi *dsi = platform_get_drvdata(pdev);
+ 
+ 	mtk_output_dsi_disable(dsi);
+-	drm_bridge_remove(&dsi->bridge);
+-	component_del(&pdev->dev, &mtk_dsi_component_ops);
+ 	mipi_dsi_host_unregister(&dsi->host);
+ 
+ 	return 0;
+-- 
+2.33.1
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHyrSgFAwAAAAAACgkQlh/E3EQov+Cc
-6g//TK4JmsLDsBBuI7FCdzbCPrs+sPOpBPxZP5UxyowIUXqfpfsjmjQTaDgOD8KSCQLmb+UH4+yh
-rhOob5lWlLbaOu341xPk6TleHIbu8lVCC+7HATCxJ4Llp1ViT3Z4H1qgAc59GSPbVEpxJWG0t52b
-/lL0651M4oR5TKZXEzoX6t9Of+VXga/wo0wdE0kzdWv0SBpiAnNI6YqlNAVFsW7A8jyKwIKPbD0D
-uxTp0D5pVsYf+80oNM4IHstjIPQqIaNUXlqIzvIx4eoppkDCgEFxuectj7NK9mConk5RQguQWiHZ
-rzr9/P/pRz9vgacplYjjnkuO4DOZGFNady9JvH+pgIQ2XFsmkNgcNf2UrVN2+bJm2MdLQ0UReKiA
-ypqqkYcyuLTtOGgggs90hEalFsIw4CqNxu4HE3sF7gq0OcRxk0AmpZC9FcJh+Fj0JIcjv4vZmfQY
-CWOIHB47aRaHZyr2XDL0+ibjbNTf6kcqhItWNWmq34TKL1SW36WN865+2ETmwARRffF+wVLYVAIw
-QgLs/cVIW2DtCM1Cxr9yttdJ9LU7Lz4YiW1rA7/7GzSzuuSxa4SVz9yWVAjjJy3ljG3uKZBPGrYI
-ylNA03ps9v32zBqsjT6m9BFGLFBAxmhlr/0YOJfBTt0Mh2VVcn2NI+NJuGw19GtYXs0Ky6g4x50M
-Pkc=
-=ejto
------END PGP SIGNATURE-----
-
---------------EPku7XflatQ6Ovr3WRaAV1zC--
