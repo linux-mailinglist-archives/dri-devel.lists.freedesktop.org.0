@@ -1,88 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72AD49E3B3
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 14:39:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A26649E3D0
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 14:46:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0465210E163;
-	Thu, 27 Jan 2022 13:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6590C10E13C;
+	Thu, 27 Jan 2022 13:46:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C266D10E14D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 13:39:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643290791;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xPvrRnVVEino9qy8OfKm/WHwJCSfoI7pu3w1+u7M8xI=;
- b=BCRJV2AAQcpfNNtCaerokYs/l2iG7uc56JnUsbylc2Q8QaTRHOAVc5GQTk5M5rCG8bOxc7
- d3BDbSnZmMAIvKPHAMHEASiYSEZ58ZHuQ3S8cSh1oXRgVcLGjGP6P+DZaqamrmZe6rVMwu
- D//9/4hTa5cK7cvqSWLRz2968IwpYI0=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-14-brtP8QdbPOqz8SqmYB3Chw-1; Thu, 27 Jan 2022 08:39:48 -0500
-X-MC-Unique: brtP8QdbPOqz8SqmYB3Chw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- l16-20020aa7c3d0000000b004070ea10e7fso1440191edr.3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 05:39:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=xPvrRnVVEino9qy8OfKm/WHwJCSfoI7pu3w1+u7M8xI=;
- b=XDDnYPspySGd1RPWYRhIPWSr155tOt84KiHOo5Nm7Tp2SCGIIEvHYOsVrLjBJyFYZP
- mVL2prqsTxE8XfNWP8S7rr9W2q1ZiMUC2Cg6Qi/Ik4NdvlW1HV3WpZKOdAINTPODW18H
- 5m5f7tIpLL0txW+EeTQdXCMU2lABMWUHWyl6/NsTcCTkOlqFWSedlqdWqPVvQuCD106h
- SqCll6SqMpE/EQFVUEadKdnTb9V1ciIrEVHrHT+QptnxidKYvpX8U9dFInbeeGSnmWWh
- QXP3krH7rMmzw0wFSJCBjlfj4/wm53E3EZ21H+MocpGWdKUaWMjNQUBlv7dYD+TswlWG
- uovA==
-X-Gm-Message-State: AOAM530xwwFBpxYbQLO2WTQPkpcpCWeuXrliLNNo06M2uMwy+skTHlvM
- R+89M5Fy/smCUj2zWF7JHeXnWsO4IyfETZJ131o9vlVqSJ0pkn0DTiHM+CTlM7OAqr/CTjm1IdK
- 9/j70mFYvLq6biAaPlXp3vp/kKrJh
-X-Received: by 2002:a17:906:58ca:: with SMTP id
- e10mr2861530ejs.747.1643290787514; 
- Thu, 27 Jan 2022 05:39:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy3x6gLk3Za/oUrZGpbiSHjgaSEs1kP1E6wSziP4Rh9dA3elmbTGpqVRgSYk1ivKvWhj5KU2g==
-X-Received: by 2002:a17:906:58ca:: with SMTP id
- e10mr2861517ejs.747.1643290787302; 
- Thu, 27 Jan 2022 05:39:47 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1?
- (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
- by smtp.gmail.com with ESMTPSA id v3sm10721233edy.21.2022.01.27.05.39.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 05:39:46 -0800 (PST)
-Message-ID: <47823b47-3743-e6b7-0665-d5743713d198@redhat.com>
-Date: Thu, 27 Jan 2022 14:39:45 +0100
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F2DD10E13C
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 13:46:05 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id BD4405C010E;
+ Thu, 27 Jan 2022 08:46:04 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 27 Jan 2022 08:46:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm2; bh=Sd1JzVQrh6g0oFaQ23Ec/3j//9ErGA3nd033ifOu2Ak=; b=FVVqK
+ 6fpw1EQ4mrpAnoQipM+wwvcGPn+9TpZq1mednOBuYuP3BVhf+0EvjNUWAIdd8ATn
+ Tct/lQxttWtZ7kYh+CAkR44dYPYGfCPAC36t1FCh/6ko66pxUyl+VtrDdYJydOHR
+ MVoOftPqGVFQjbeHd/te8MltoRmC2wTqhd887cAic+z1mfAESbBoy9iVaWWg7bV4
+ ueDvm9ZbBijwQYteiqnx9Tp5u+h6FWdM6UdLR5XGD04qUV5zEUCeNTYJKVUtDO6S
+ SAzTSkb7CpxLDx1MEVRue3gT0ktX7EavArMxk7aR5fd2/bgRjHA5lTN0Bwf0SeOP
+ w8zApXVMhtuhUuFtA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; bh=Sd1JzVQrh6g0oFaQ23Ec/3j//9ErG
+ A3nd033ifOu2Ak=; b=N/HjMP13NWc+lnY1/sNwkN8ZebahokLHdfYtVIHETKFVc
+ t+MdAwF5klQYEThq0PGoiXNyUQzyOIhWppiTJndI6HRmVAAEZ7UFytgvJltIkjBR
+ oPEiYDqgN/NdxbiFxkJ2GV7fs5gcs5+0Og1NzpLqaseLPDKBHY5dWR8Hzf7dLXkX
+ 77N559Xxu+tRKTPfxCavJgLRnW40eaMEwREMS96vpvFcyyedoLqMKbgg3YWqrgwY
+ ByMk8ddYeFgNfRhcv+7247qgiLRQsY0B4lWS3eZ/OklBh29LwNeUXcBcCDFRy0KX
+ hEWk+n1eKInhpq0cS+pc0ESuusDtdg9ZdkhFiOyrw==
+X-ME-Sender: <xms:HKLyYXaATDVnDNyP8ZxnXnTvruPld6AX9N-yK1n5amhI13O4SxuHKg>
+ <xme:HKLyYWbSunWAnuddBqTa_Yy-aIjCgACvmu-YYR1Nf9WNgW9G8pIhWnw7jKiKA4s0P
+ GtEsg3Q2MpCV1Kmzl4>
+X-ME-Received: <xmr:HKLyYZ-R-1pH-KgMj3HW8pLzcxwQG1Xcm247GMBbAMpChjgxylWMnn0_RwTT5aTk60LgwvLB61cVsrA9_mWJ-tnGgKYq6AwUBZBxsno>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeefgdehiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
+ hmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:HKLyYdpGaSd-bA2anAg_Y2FDCFV8Mf6GFHwWMsyiq4kEnekUifn2Eg>
+ <xmx:HKLyYSrLtvbX0Eqj2RmjH4Xjjx2Km9mC1kc8km2qt1oMNcZRQa-ymA>
+ <xmx:HKLyYTTZ-n2gqvhrb4mC82Fs1dP8DNe4OEA3bmAo9rnahQiOmC07HA>
+ <xmx:HKLyYecfvuTzSOgnHLJJD-IEsTij2HC6zmHJOt3-XRRBAVsqLEbXoQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 27 Jan 2022 08:46:03 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH] drm/vc4: hdmi: Don't try disabling SCDC on Pi0-3.
+Date: Thu, 27 Jan 2022 14:45:59 +0100
+Message-Id: <20220127134559.292778-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: acpi_get_devices() crash when acpi_disabled==true (was [PATCH v2]
- drm/privacy-screen: honor acpi=off in detect_thinkpad_privacy_screen)
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-References: <20220123091004.763775-1-ztong0001@gmail.com>
- <6a0233cd-d931-8a36-3b9e-08b774cec7b0@redhat.com>
- <CAJZ5v0h51v9fFrJRuaFpSn7J2UEHndEj0f3zpmw=RvgsvAhtvw@mail.gmail.com>
- <049ccc3a-8628-3e90-a4f4-137a286b6dce@redhat.com>
- <CAJZ5v0hJWW_vZ3wwajE7xT38aWjY7cZyvqMJpXHzUL98-SiCVQ@mail.gmail.com>
- <994f94b2-61d3-1754-d733-732a0fb47d50@redhat.com>
- <CAJZ5v0hXKJhCSKki8JHs+Q=3BWYygDNz9LLAaiVKpDvLPr6-ZA@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAJZ5v0hXKJhCSKki8JHs+Q=3BWYygDNz9LLAaiVKpDvLPr6-ZA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,93 +79,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Tong Zhang <ztong0001@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-acpi <linux-acpi@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Tim Gover <tim.gover@raspberrypi.com>, Dom Cobley <dom@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-On 1/27/22 14:33, Rafael J. Wysocki wrote:
-> On Thu, Jan 27, 2022 at 2:05 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 1/26/22 18:11, Rafael J. Wysocki wrote:
->>> On Wed, Jan 26, 2022 at 5:41 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>>>
->>>> Hi,
->>>>
->>>> On 1/26/22 16:54, Rafael J. Wysocki wrote:
->>>>> On Wed, Jan 26, 2022 at 2:47 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>>>>>
->>>>>> Hi All,
->>>>>>
->>>>>> On 1/23/22 10:10, Tong Zhang wrote:
->>>>>>> when acpi=off is provided in bootarg, kernel crash with
->>>>>>>
->>>>>>> [    1.252739] BUG: kernel NULL pointer dereference, address: 0000000000000018
->>>>>>> [    1.258308] Call Trace:
->>>>>>> [    1.258490]  ? acpi_walk_namespace+0x147/0x147
->>>>>>> [    1.258770]  acpi_get_devices+0xe4/0x137
->>>>>>> [    1.258921]  ? drm_core_init+0xc0/0xc0 [drm]
->>>>>>> [    1.259108]  detect_thinkpad_privacy_screen+0x5e/0xa8 [drm]
->>>>>>> [    1.259337]  drm_privacy_screen_lookup_init+0xe/0xe85 [drm]
->>>>>>>
->>>>>>> The reason is that acpi_walk_namespace expects acpi related stuff
->>>>>>> initialized but in fact it wouldn't when acpi is set to off. In this case
->>>>>>> we should honor acpi=off in detect_thinkpad_privacy_screen().
->>>>>>>
->>>>>>> Signed-off-by: Tong Zhang <ztong0001@gmail.com>
->>>>>>
->>>>>> Thank you for catching this and thank you for your patch. I was about to merge
->>>>>> this, but then I realized that this might not be the best way to fix this.
->>>>>>
->>>>>> A quick grep shows 10 acpi_get_devices() calls outside of drivers/acpi,
->>>>>> and at a first glance about half of those are missing an acpi_disabled
->>>>>> check. IMHO it would be better to simply add an acpi_disabled check to
->>>>>> acpi_get_devices() itself.
->>>>>>
->>>>>> Rafael, do you agree ?
->>>>>
->>>>> Yes, I do.
->>>>
->>>> Did you see my follow-up that that is not going to work because
->>>> acpi_get_devices() is an acpica function ?
->>>
->>> No, I didn't, but it is possible to add a wrapper doing the check
->>> around it and convert all of the users.
->>
->> Yes I did think about that. Note that I've gone ahead and pushed
->> the fix which started this to drm-misc-fixes, to resolve the crash
->> for now.
-> 
-> OK
-> 
->> If we add such a wrapper we can remove a bunch of acpi_disabled checks
->> from various callers.
->>
->>> Alternatively, the ACPICA function can check acpi_gbl_root_node
->>> against NULL, like in the attached (untested) patch.
->>
->> That is probably an even better idea, as that avoids the need
->> for a wrapper altogether. So I believe that that is the best
->> solution.
-> 
-> Allright, let me cut an analogous patch for the upstream ACPICA, then.
+The code that set the scdc_enabled flag to ensure it was
+disabled at boot time also ran on Pi0-3 where there is no
+SCDC support. This lead to a warning in vc4_hdmi_encoder_post_crtc_disable
+due to vc4_hdmi_disable_scrambling being called and trying to
+read (and write) register HDMI_SCRAMBLER_CTL which doesn't
+exist on those platforms.
 
-Great, thank you.
+Only set the flag should the interface be configured to support
+more than HDMI 1.4.
 
-I have added a note about checking for when this has found its way
-into Linus' tree to my own TODO list, with the goal of doing
-a cleanup series removing the then no longer needed acpi_disabled
-checks in a bunch of places.
+Fixes: 1998646129fa ("drm/vc4: hdmi: Introduce a scdc_enabled flag")
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Regards,
-
-Hans
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 33ecfa1e3661..0ee446df50a0 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -2534,7 +2534,8 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 	 * vc4_hdmi_disable_scrambling() will thus run at boot, make
+ 	 * sure it's disabled, and avoid any inconsistency.
+ 	 */
+-	vc4_hdmi->scdc_enabled = true;
++	if (variant->max_pixel_clock > HDMI_14_MAX_TMDS_CLK)
++		vc4_hdmi->scdc_enabled = true;
+ 
+ 	ret = variant->init_resources(vc4_hdmi);
+ 	if (ret)
+-- 
+2.34.1
 
