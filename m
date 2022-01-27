@@ -2,63 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307AF49DF7F
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 11:33:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4441049DF89
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 11:35:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BDD610EE6D;
-	Thu, 27 Jan 2022 10:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D64810EE6E;
+	Thu, 27 Jan 2022 10:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B192D10EE6D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 10:33:10 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id s185so5037651oie.3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 02:33:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M9lbSU/ybc6OppgRIX8ZBQPJXb4PzkNkIkqyzEe4vsM=;
- b=h5X8KiOAwvCCoeask1zcBMENoSVPTMzB0G9oA/mLHo88nDVixWpSb7px6ea/B1fPEL
- PkvItn1CwvuTQktdczAAqHeDGBXOYOfOrLz2U+mxe7iuVSUwVTaAEcOAqnvnrVcvfqS1
- h5tS2oE1tTYgRY7YfjUQIijdf9VNx0qvTN4IJLLVTFntzU7jOJfQDSa01XLgSnH3EvZ3
- pEmGFTmgQZT7p4xg7+zEOjpe66HJFk76oAeJhm0Gi1hrITnqHwkuyechpuEh0xvKNaac
- 3mMOk3jpmNiwzprGnlDdUxUkeGeterETUL3Z6t7fc3PHj58yCj3ZowkQVhwGMfoI1SQt
- b/4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M9lbSU/ybc6OppgRIX8ZBQPJXb4PzkNkIkqyzEe4vsM=;
- b=EkPrctOx65cvaXIVFehHxGrU6mRi6XukBprah3U1dKtQpi2B+aT7Lttg6+FuKoyQav
- YSdYOrUamWlDn+oyImmaOo6S7xx56P0fjL4s6ssUSOzbZDf9SusbtvucM3xu1yq1VgFK
- axV9L6Dzt+6ICrz2Gn1ndUieL4f8YkKUvGOYJJUKYD815nD6MTGer7/SV16W1ipKiTzI
- /ZO7h5GOn9ODavjsXNt6LoDgJY3GLlTKk1fyY2fh3v6fDPRGxaP9gNqnIZ4fCsDEbcCy
- nDkT7o/d4Av7yh+wWL1yWbSg5H4v5kC+zhWMkhxl87i2zSLsXKEAE6admjy+NGfvhpZ7
- S8fg==
-X-Gm-Message-State: AOAM5310YCUP9zz/ZAw87rIoo/FRqOW+vN3s95ef+pRW5ihgyOosQhWc
- SQHk3T7kkCzPYF9GTgKmX/Ssajl30sMKpbO0x7U/KA==
-X-Google-Smtp-Source: ABdhPJy01OZg2SzTN7RAjLIdxIQiBfvVYOOHfj92G4lxP3BuUPFrtmf9Vh+t5p9LhrGQAJTdPvmIkkVRVunGv9b2WW0=
-X-Received: by 2002:a05:6808:b10:: with SMTP id
- s16mr1773942oij.307.1643279589694; 
- Thu, 27 Jan 2022 02:33:09 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93E0310EE6F
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 10:35:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 256781F44F52
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1643279737;
+ bh=e5seVwe3O1Ju0e2D55CC6b4M5ij69zZe37lFrDX/nWQ=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=g86eHbAbTwKydP+l4LMA0VIdu/Sgw7MiknoM9nX627hoPHva6fxUid3Nkgog4LWHy
+ sy1tGS6D/nWgeKt3d/quJ8P7e5/nJgLp4mpHIxNHZFZ3wpEOf77DNUYXKb9wgL76lS
+ yUOAeLG1ZIE0Iw4vtX9qQ+mHIRIZE7ZD4916qBCHZ+2YwI3Khyphy2A/tTpyTOeCfE
+ nDvHL6fpcvwcUfc1e2TIr46Sj+mgZCAPTVV2ZNnZyP31zfNlqsUZE/jWH8i2hqE/BA
+ iefHtTlhnVEgiAm0hDlkQ/E5yucDQd5cqzloskIRPlgdQAYRcNDmYSExUrtg2gWgKj
+ 5UoKrjiq7kttA==
+Subject: Re: [PATCH v1, 7/8] media: uapi: Init VP9 stateless decode params
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
+ <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>
+References: <20220127025544.10854-1-yunfei.dong@mediatek.com>
+ <20220127025544.10854-8-yunfei.dong@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Message-ID: <07468ddd-22a8-c2a5-21fd-8468e0e77d74@collabora.com>
+Date: Thu, 27 Jan 2022 11:35:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
- <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
- <b13c0634-e766-74db-ab1f-672f5d0c04d6@redhat.com>
- <YfFMSkhbvHaR0YNE@smile.fi.intel.com>
- <f6ffe9bb-8683-4061-c876-1d559267ebae@redhat.com>
- <YfFWmmJFtEB93jUi@smile.fi.intel.com>
- <3430838d-1c63-da49-b774-c5a883e7085f@redhat.com>
- <YfFZkgE3wfPXLpYA@kroah.com> <20220126144524.GB1951@kadam>
- <CAKMK7uGEFW4nd+W6PiT=uwSPz=pA6HKZXj6ePcdsAGiMDb3BxA@mail.gmail.com>
- <20220127062945.GC1951@kadam>
-In-Reply-To: <20220127062945.GC1951@kadam>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Thu, 27 Jan 2022 11:32:58 +0100
-Message-ID: <CACT4Y+bWMFK40o1gw6Ze7vkSKjAyBPNecjEBw+g7sMFbUZyXXA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20220127025544.10854-8-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,37 +58,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Hennerich <michael.hennerich@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-staging@lists.linux.dev,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- syzkaller <syzkaller@googlegroups.com>, Carlis <zhangxuezhi1@yulong.com>,
- Phillip Potter <phil@philpotter.co.uk>, Lee Jones <lee.jones@linaro.org>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Steve Cho <stevecho@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Jan 2022 at 07:30, Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Wed, Jan 26, 2022 at 11:31:02PM +0100, Daniel Vetter wrote:
-> > dOn Wed, Jan 26, 2022 at 3:46 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> > >
-> > > The other advantage of staging is the I don't think syzbot enables it.
-> > > I guess it's easier to persuade Dmitry to ignore STAGING than it was to
-> > > get him to disable FBDEV.  :P
-> > >
-> > > The memory corruption in fbdev was a real headache for everyone because
-> > > the stack traces ended up all over the kernel.
-> >
-> > Uh Dmitry disabled all of FBDEV?
->
-> No that's the opposite of what I meant.  STAGING is disabled in syzbot
-> and FBDEV is enabled.
+Il 27/01/22 03:55, Yunfei Dong ha scritto:
+> Init some of VP9 frame decode params to default value.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 
-Is there still any problem with syzbot config?
-syzbot configs are stored here:
-https://github.com/google/syzkaller/tree/master/dashboard/config/linux
+Hello Yunfei,
+
+This patch is not strictly related to MediaTek SoCs, since it's
+modfying v4l2-core.
+Can you please send this patch separately?
+
+Thanks,
+Angelo
+
+> ---
+>   drivers/media/v4l2-core/v4l2-ctrls-core.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index 54abe5245dcc..b25c77b8a445 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -112,6 +112,7 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>   	struct v4l2_ctrl_mpeg2_picture *p_mpeg2_picture;
+>   	struct v4l2_ctrl_mpeg2_quantisation *p_mpeg2_quant;
+>   	struct v4l2_ctrl_vp8_frame *p_vp8_frame;
+> +	struct v4l2_ctrl_vp9_frame *p_vp9_frame;
+>   	struct v4l2_ctrl_fwht_params *p_fwht_params;
+>   	void *p = ptr.p + idx * ctrl->elem_size;
+>   
+> @@ -152,6 +153,13 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>   		p_vp8_frame = p;
+>   		p_vp8_frame->num_dct_parts = 1;
+>   		break;
+> +	case V4L2_CTRL_TYPE_VP9_FRAME:
+> +		p_vp9_frame = p;
+> +		p_vp9_frame->profile = 0;
+> +		p_vp9_frame->bit_depth = 8;
+> +		p_vp9_frame->flags |= V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING |
+> +			V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING;
+> +		break;
+>   	case V4L2_CTRL_TYPE_FWHT_PARAMS:
+>   		p_fwht_params = p;
+>   		p_fwht_params->version = V4L2_FWHT_VERSION;
+> 
+
