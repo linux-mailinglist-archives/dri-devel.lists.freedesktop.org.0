@@ -1,54 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2F349E8A0
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 18:15:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BE749E8B6
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 18:19:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F81910E2EA;
-	Thu, 27 Jan 2022 17:15:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3719B10E4CD;
+	Thu, 27 Jan 2022 17:19:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C909C10E13E;
- Thu, 27 Jan 2022 17:15:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643303708; x=1674839708;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=BTXif3Y9BcQ+bT2YufKy99tXJ8gEEYoStW5cRVM5Nxc=;
- b=ImGpTlDkJYmY7YxG0yOnYXVdFehzn96d8lppr5waC5IktZzFgEm/JwM9
- DAZd9w8K6BjsLahLS8+9ZcvsYQTK3nbkCXuNl1kL3qKLkduk5jSHCHEt8
- vGXhuXLTR0JEgilwTe5AmgcC+qUiribUNGK5CmwZiZ4PSk0knyGAXjM8m
- 5CRLmAEdW7mFmopGpgrYEvh+bjIVYdF5thVhv/sAQDS0RFz5hjJGRYJZ7
- L0jXq2qx1XjoMgrsMa2DI/vyOvgCpeL1zuuEkWlLNVj0I1f4Bcn2i9PZe
- uubFICsxS7u0XwEp0sx1/taQAQ4biJdh4tyLkrZnMwktgAVy/Ufou9aZs A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="234293495"
-X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; d="scan'208";a="234293495"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2022 09:15:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; d="scan'208";a="480379643"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 27 Jan 2022 09:15:05 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nD8MS-000MqK-P7; Thu, 27 Jan 2022 17:15:04 +0000
-Date: Fri, 28 Jan 2022 01:14:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhi Wang <zhi.wang.linux@gmail.com>, hch@lst.de, jgg@nvidia.com,
- jani.nikula@linux.intel.com
-Subject: Re: [Intel-gfx] [PATCH 1/3] i915/gvt: Introduce the mmio_table.c to
- support VFIO new mdev API
-Message-ID: <202201280125.VuLtasAS-lkp@intel.com>
-References: <20220127120508.11330-1-zhi.a.wang@intel.com>
+X-Greylist: delayed 342 seconds by postgrey-1.36 at gabe;
+ Thu, 27 Jan 2022 17:19:14 UTC
+Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DAE510E491
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 17:19:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KxEYri5oxsJhl9DNS0NIWwchrHaXWpicdkFLyCADmFs=; b=Zub1virVx9GXOwoV49tKWji/zd
+ R90QnCzqDdyHLlIunNSem9P2TV+3E5wTAebD574Y0TnU3F/krhQ+x+x1wvQHV83Ckm0gdH+ZdvpTw
+ rFm9cN+x4xxpUcIDGOpTjAsWLUSwwfwWDwcDutX3ov6NFvUmQ++4WSTfRYISD1PJ3P0mvN8uqGYbP
+ E02s+txWdISR2KPMsaMDa6g6tUJav1KqDgq5IKibFTL1aYmMp02qTcFjcnLB91+9eymDZgZOUf87H
+ E4UpS1V2P4jfntMdPSF7/ng5piNcVyCdUy46cvxt5YDcViN58VPUwu8MYFt7VjlXmqbiXGPdxh6NZ
+ aUKEsGPw==;
+Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net
+ ([108.198.5.147]:51980 helo=[192.168.0.134])
+ by vern.gendns.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <david@lechnology.com>)
+ id 1nD8QI-0000IE-2V; Thu, 27 Jan 2022 12:19:12 -0500
+Subject: Re: [PATCH v2 3/3] drm/panel: Add MIPI DBI compatible SPI driver
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, robh+dt@kernel.org, 
+ thierry.reding@gmail.com
+References: <20220125175700.37408-1-noralf@tronnes.org>
+ <20220125175700.37408-4-noralf@tronnes.org>
+From: David Lechner <david@lechnology.com>
+Message-ID: <2ee03a80-fddb-e28c-1c29-cd88759ed849@lechnology.com>
+Date: Thu, 27 Jan 2022 11:19:10 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220127120508.11330-1-zhi.a.wang@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220125175700.37408-4-noralf@tronnes.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - vern.gendns.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lechnology.com
+X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
+ davidmain+lechnology.com/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,71 +71,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Zhi Wang <zhi.wang.linux@gmail.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, sam@ravnborg.org, maxime@cerno.tech,
+ dri-devel@lists.freedesktop.org, dave.stevenson@raspberrypi.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zhi,
+On 1/25/22 11:57 AM, Noralf Trønnes wrote:
+> Add a driver that will work with most MIPI DBI compatible SPI panels.
+> This avoids adding a driver for every new MIPI DBI compatible controller
+> that is to be used by Linux. The 'compatible' Device Tree property with
+> a '.bin' suffix will be used to load a firmware file that contains the
+> controller configuration.
+> 
+> Example (driver will load sainsmart18.bin):
+> 
+> display@0 {
+> 	compatible = "sainsmart18", "panel-mipi-dbi-spi";
+> 	reg = <0>;
+> 	reset-gpios = <&gpio 25 0>;
+> 	dc-gpios = <&gpio 24 0>;
+> };
+> 
 
-I love your patch! Perhaps something to improve:
+...
 
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on next-20220127]
-[cannot apply to drm-intel/for-linux-next v5.17-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> +static int panel_mipi_dbi_spi_probe(struct spi_device *spi)
+> +{
+> +	struct device *dev = &spi->dev;
+> +	struct drm_display_mode mode;
+> +	struct mipi_dbi_dev *dbidev;
+> +	const struct firmware *fw;
+> +	const char *compatible;
+> +	struct drm_device *drm;
+> +	struct property *prop;
+> +	bool fw_found = false;
+> +	struct mipi_dbi *dbi;
+> +	struct gpio_desc *dc;
+> +	char fw_name[40];
+> +	int ret;
+> +
+> +	dbidev = devm_drm_dev_alloc(dev, &panel_mipi_dbi_driver, struct mipi_dbi_dev, drm);
+> +	if (IS_ERR(dbidev))
+> +		return PTR_ERR(dbidev);
+> +
+> +	dbi = &dbidev->dbi;
+> +	drm = &dbidev->drm;
+> +
+> +	of_property_for_each_string(dev->of_node, "compatible", prop, compatible) {
+> +		snprintf(fw_name, sizeof(fw_name), "%s.bin", compatible);
+> +
+> +		ret = firmware_request_nowarn(&fw, fw_name, dev);
+> +		if (ret) {
+> +			drm_dbg(drm, "No config file found for compatible: '%s' (error=%d)\n",
+> +				compatible, ret);
+> +			continue;
+> +		}
+> +
 
-url:    https://github.com/0day-ci/linux/commits/Zhi-Wang/i915-gvt-Introduce-the-mmio_table-c-to-support-VFIO-new-mdev-API/20220127-200727
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220128/202201280125.VuLtasAS-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/533f92651a7a56481a053f1e04dc5a5ec024ffb9
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Zhi-Wang/i915-gvt-Introduce-the-mmio_table-c-to-support-VFIO-new-mdev-API/20220127-200727
-        git checkout 533f92651a7a56481a053f1e04dc5a5ec024ffb9
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/gvt/mmio_table.c:37: warning: expecting prototype for intel_gvt_get_init_device_info(). Prototype was for intel_gvt_init_device_info() instead
-
-
-vim +37 drivers/gpu/drm/i915/gvt/mmio_table.c
-
-    28	
-    29	/**
-    30	 * intel_gvt_get_init_device_info - Fill a GVT device info
-    31	 * @i915: drm i915 private data
-    32	 * @info: GVT device info
-    33	 *
-    34	 * This function will be called during the initialization of a GVT device.
-    35	 */
-    36	void intel_gvt_init_device_info(struct drm_i915_private *i915, struct intel_gvt_device_info *info)
-  > 37	{
-    38		struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-    39	
-    40		info->max_support_vgpus = 8;
-    41		info->cfg_space_size = PCI_CFG_SPACE_EXP_SIZE;
-    42		info->mmio_size = 2 * 1024 * 1024;
-    43		info->mmio_bar = 0;
-    44		info->gtt_start_offset = 8 * 1024 * 1024;
-    45		info->gtt_entry_size = 8;
-    46		info->gtt_entry_size_shift = 3;
-    47		info->gmadr_bytes_in_cmd = 8;
-    48		info->max_surface_size = 36 * 1024 * 1024;
-    49		info->msi_cap_offset = pdev->msi_cap;
-    50	}
-    51	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Should we add a directory prefix to the firmware file name to avoid the possibility of
+file name clashes with unrelated firmwares?
