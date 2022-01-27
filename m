@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE54C49DEB7
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 11:06:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C942D49DEFF
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 11:17:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BCF710EFBF;
-	Thu, 27 Jan 2022 10:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7B1A10F05C;
+	Thu, 27 Jan 2022 10:17:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3CC310EFBF
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 10:06:28 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id s18so3726374wrv.7
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 02:06:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=iCPc9S/xqKutjtG576RySPC5c4MhlsxdAcWvoCriPRI=;
- b=UXS0cNb0r6A21/Yr+t8ULc7eUWYnKfSr2Xz7F/W4kBv4PxDY2V8IiKS9AVKzoL/A4c
- 2QXelZZmI0IvcYButMcGhtQiIwQeVSto8F0tLQS/0i6E39oVBJb4ONuB1wxShRLVAjEd
- qBQfBDs5FDzwXhh+3CWdQE+EinE2wHefcKrMA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=iCPc9S/xqKutjtG576RySPC5c4MhlsxdAcWvoCriPRI=;
- b=cmA77zOEk0caXj++tlaUL15SEQlJLLzXf3eP8p5f4GMgtC+DvDxss1sGQJ+uJfppwK
- N2ivLiRiHPbPZ+M6FqhjAStdwUVDdcmLEY3dQASUyt5ZXGeS0T4LTsWiKKW9WCzY9/X6
- uFwcqkiqv40JLZwNBjjJT2bcBmCid2iPEmnX3yYOp5uII0qlIKyVr0r0U/w0KUYmN84i
- HEPiUOu73by1fj9C3ytVzBGrV1xsuSfGY1rU+64O1ZNi4u6LC7fZBk7qsoryqN7JyyMI
- r/t9Quu3GUG2kyiilF7B9d2MyxzmIM2uGrm4RNodjMOtxxcqFM6SjR3BmDqWBIuwuMWH
- PNKQ==
-X-Gm-Message-State: AOAM532vv5Lc8Xet1zU9mbtoeYPc413CLOTcxsbY2nduUIlPov7j3Efr
- FhsBz/X4LEtp/oVPV6YqndTsuA==
-X-Google-Smtp-Source: ABdhPJxbmhEnlOI80raqLeqmBjMueB3L0ut5WVsnvXgW4cJU2nUFg7KyFIWNlDJldrhPELeM37AAEQ==
-X-Received: by 2002:adf:fe01:: with SMTP id n1mr2448712wrr.141.1643277987361; 
- Thu, 27 Jan 2022 02:06:27 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d6sm1681780wrs.85.2022.01.27.02.06.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 02:06:26 -0800 (PST)
-Date: Thu, 27 Jan 2022 11:06:24 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] drivers: Fix typo in comment
-Message-ID: <YfJuoHfKnwm6LmuY@phenom.ffwll.local>
-Mail-Followup-To: Greg KH <gregkh@linuxfoundation.org>,
- tangmeng <tangmeng@uniontech.com>, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@linux.ie, jsarha@ti.com,
- tomi.valkeinen@ti.com, linux@dominikbrodowski.net,
- Peter.Chen@nxp.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <20220127065156.22372-1-tangmeng@uniontech.com>
- <YfJCBZuc9mOZkIVJ@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YfJCBZuc9mOZkIVJ@kroah.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net
+ (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
+ by gabe.freedesktop.org (Postfix) with SMTP id 297E210F05A
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 10:17:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=pku.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+ Message-Id:In-Reply-To:References; bh=i96PtU2b97HIAJDX/tnEFGz4Lk
+ 5BQrwuZTTW9wIWac4=; b=ZJwuybT2anQaR5ULWwyWG9E2X9ukRso2e+vDWkJgEf
+ PZQnQKHTQ+IV8+gmmeHJoA9H3qILMOyIhWw5H+/+0AAyqRwSKal6sw62fww33H2a
+ ra3j60oRo1fzCC0RfE6hWfIonVKK+Egm8EgODEBKkzpRP6a4h6lR7iKiKR/DwTiq
+ Y=
+Received: from localhost (unknown [10.129.21.144])
+ by front02 (Coremail) with SMTP id 54FpogCHeKR9cPJhttbWAA--.21700S2;
+ Thu, 27 Jan 2022 18:14:22 +0800 (CST)
+From: Yongzhi Liu <lyz_cs@pku.edu.cn>
+To: emma@anholt.net,
+	airlied@linux.ie,
+	daniel@ffwll.ch,
+	mwen@igalia.com
+Subject: [PATCH v2] drm/v3d: fix missing unlock
+Date: Thu, 27 Jan 2022 02:14:20 -0800
+Message-Id: <1643278460-100473-1-git-send-email-lyz_cs@pku.edu.cn>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20220126205726.phfikh7kn3lks5ib@mail.igalia.com>
+References: <20220126205726.phfikh7kn3lks5ib@mail.igalia.com>
+X-CM-TRANSID: 54FpogCHeKR9cPJhttbWAA--.21700S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tr43tw17Aw4fGryrWF1DAwb_yoW8Xw4Upr
+ WkX3sFvrWrJFW0939rAFn5u348W3W29a18GF97A398Xws0yr47Wa15CryUA34UCr1xGFW5
+ tF1Ygay0va4UAw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkC1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+ z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+ Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+ 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+ vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF
+ 04k20xvE74AGY7Cv6cx26w4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+ AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
+ c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+ AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
+ Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UU
+ UUU
+X-CM-SenderInfo: irzqijirqukmo6sn3hxhgxhubq/1tbiAwETBlPy7uIL1QAAsk
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,32 +64,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter.Chen@nxp.com, amd-gfx@lists.freedesktop.org, airlied@linux.ie,
- tangmeng <tangmeng@uniontech.com>, dri-devel@lists.freedesktop.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, jsarha@ti.com,
- tomi.valkeinen@ti.com, linux@dominikbrodowski.net, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: Yongzhi Liu <lyz_cs@pku.edu.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 27, 2022 at 07:56:05AM +0100, Greg KH wrote:
-> On Thu, Jan 27, 2022 at 02:51:56PM +0800, tangmeng wrote:
-> > Replace disbale with disable and replace unavaibale with unavailable.
-> > 
-> > Signed-off-by: tangmeng <tangmeng@uniontech.com>
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c | 2 +-
-> >  drivers/gpu/drm/tilcdc/tilcdc_crtc.c  | 2 +-
-> >  drivers/pcmcia/rsrc_nonstatic.c       | 2 +-
-> >  drivers/usb/chipidea/udc.c            | 2 +-
-> >  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> This needs to be broken up per-subsystem, thanks.
+[why]
+Unlock is needed on the error handling path to prevent dead lock.
+v3d_submit_cl_ioctl and v3d_submit_csd_ioctl is missing unlock.
 
-For drm please also split it per-driver, so one patch per file you change
-here.
--Daniel
+[how]
+Fix this by change goto target on the error handling path.
+As unlock is handle in fail_unreserve, i keep the failures
+handling around there. So the goto targets a place between
+`fail_unreserve:` and `fail:`.
+
+Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
+---
+ drivers/gpu/drm/v3d/v3d_gem.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index c7ed2e1..d9c7b39 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -798,7 +798,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 
+ 		if (!render->base.perfmon) {
+ 			ret = -ENOENT;
+-			goto fail;
++			goto v3d_unlock;
+ 		}
+ 	}
+ 
+@@ -847,6 +847,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 
+ fail_unreserve:
+ 	mutex_unlock(&v3d->sched_lock);
++v3d_unlock:
+ 	drm_gem_unlock_reservations(last_job->bo,
+ 				    last_job->bo_count, &acquire_ctx);
+ fail:
+@@ -1027,7 +1028,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 						     args->perfmon_id);
+ 		if (!job->base.perfmon) {
+ 			ret = -ENOENT;
+-			goto fail;
++			goto v3d_unlock;
+ 		}
+ 	}
+ 
+@@ -1056,6 +1057,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 
+ fail_unreserve:
+ 	mutex_unlock(&v3d->sched_lock);
++v3d_unlock:
+ 	drm_gem_unlock_reservations(clean_job->bo, clean_job->bo_count,
+ 				    &acquire_ctx);
+ fail:
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.7.4
+
