@@ -1,71 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABEE249DE9D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 11:00:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D43749DEAE
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 11:03:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97CF210EF6D;
-	Thu, 27 Jan 2022 10:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03EFE10F003;
+	Thu, 27 Jan 2022 10:03:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9ED210EF6D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 10:00:19 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id e8so3818369wrc.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 02:00:19 -0800 (PST)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F70410F002
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 10:03:32 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id c192so1491937wma.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 02:03:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=dj+Wxdz6jJyNZo3oThjdxQEE66JUp4dziKqN/pwvYhw=;
- b=YpQltIzwqQUIZLwJV9b7TpxpNtLjJFOUUFaDuIY26pQRByLg/xUO0XcNO1hXuzgrtv
- aXl2Ea2ymMN7sHKA1BKyX7TuvIs+MfmbCx1sApsh3bpKknTlQ9SWaixDSnqHtxqdTSri
- E4CRr7QEGLltTYA32aqiK2eD9wBeb86J4/dhY=
+ :mime-version:content-disposition:in-reply-to;
+ bh=hgAj8AjMrz1A7BDxAJfFuQ4EGSqn2ucoZeTxIYc92rk=;
+ b=Q6vOh8E4uR7I456lRL9xd46Oxh3hEA4vw9DMBgAJlBFtPFLc2lys7DZQTXZA3Weh2T
+ 0ZCv0WZK46pzIyXAbmjOFG5AJ3peSyMI2Er0qQC/Md1poCrDjupHiiq08TIHvhriXkRP
+ QFcc5vS4ZI++Fea3tzi88TKsVzXqwdeIiDBaU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=dj+Wxdz6jJyNZo3oThjdxQEE66JUp4dziKqN/pwvYhw=;
- b=6eEM6J/5G3XgsfNZKSYp6rrwDsk3LQfAsYfaMHjjgfFElYtsv+vuQET7O8tPzWrWHh
- ubuXrO9fKYXKS7pZuR3ouXRrqqhbXrM7nK+1nxWj/AFxAYCURK8F8CU26Knx/QYU5D3v
- DIsybUA/EcpD5TG2Wex/6WNktCTTOQyDG6mnDvG7TtHkj+GehpdOEWB+u2spGCYC70Ec
- Hf8hqSU3FTZZQgEPPdS6A1aT1NcwUbAYVqiCoCv1rwwExzwNFj3lFdhRZmd2bR3diCbU
- mJfkrnY7obFyJQ8vu3SSeLrBXriSKrV3lo23rDZfFlVEOj8waOm+25J7PjjX66DrJ3i/
- VFtQ==
-X-Gm-Message-State: AOAM532FnisoboIzoVVItuM6oES4Hp1cZrL+vmVQ+WhQfo2IS+f0xffY
- pAETZmvbdBsCkyya2k5WxsA68w==
-X-Google-Smtp-Source: ABdhPJyZcMRUfkbUyRjJW3Arq9MAqFzUEFnjmUGAvJqKbxi8qGWFKt2XXxgNxptn90NiYH0fbc4aFA==
-X-Received: by 2002:a5d:55c3:: with SMTP id i3mr2307961wrw.537.1643277618288; 
- Thu, 27 Jan 2022 02:00:18 -0800 (PST)
+ :in-reply-to;
+ bh=hgAj8AjMrz1A7BDxAJfFuQ4EGSqn2ucoZeTxIYc92rk=;
+ b=w/L7FrPznHC7npYVmLL0DF8Bq21h9vKxVIYiQ32VzNhBI1hJ4+TEf9V3LfNcr8PGSF
+ +cIhOa6idfaY5tO0IA4zl7N/sMT9pMtOS07GFZk4lfvNZXW4OEzggx0y8O6C+009jjOW
+ lJIa3slLYT+3KDwezc5rjj7ufM6BmqO0Lk6KKNRnEWNeISQfe2wcuCQ269JlBe/1z0Ro
+ ezpk88A9hSLVHIz9xAAdZ+KhmXrHRhaP57JHUjmbG0dV/73UXamMyu3ZKy5T6RZ83QAW
+ /5VziPCKci9/b5zRLt6vmNUnhpSlthlSp6AeWofzkpTuQI3g/GzwYYLbUE6CDN791ui1
+ s8gQ==
+X-Gm-Message-State: AOAM5308KkwftvZMSP5mIXSb+gpytytu0+/NvMzTmOLMAGBw0PGpJE2v
+ 739YEq6DZVw3REV2FWjTRLmmjw==
+X-Google-Smtp-Source: ABdhPJzSG06zHL7QC0W9qJ4UoSviuojSBNboAnS5fPgZRPU8eJNpqde7XN8cpCkl7ua39RHdPNVpmA==
+X-Received: by 2002:a1c:4b13:: with SMTP id y19mr10758110wma.129.1643277810650; 
+ Thu, 27 Jan 2022 02:03:30 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i2sm1843836wmq.23.2022.01.27.02.00.16
+ by smtp.gmail.com with ESMTPSA id s9sm1699065wrr.84.2022.01.27.02.03.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 02:00:17 -0800 (PST)
-Date: Thu, 27 Jan 2022 11:00:14 +0100
+ Thu, 27 Jan 2022 02:03:30 -0800 (PST)
+Date: Thu, 27 Jan 2022 11:03:27 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 02/19] dma-buf-map: Add helper to initialize
- second map
-Message-ID: <YfJtLkdkh4yde20f@phenom.ffwll.local>
-Mail-Followup-To: Lucas De Marchi <lucas.demarchi@intel.com>,
+To: Tomohito Esaki <etom@igel.co.jp>
+Subject: Re: [RFC PATCH v5 0/3] Add support modifiers for drivers whose
+ planes only support linear layout
+Message-ID: <YfJt7zQNUnSpMP+l@phenom.ffwll.local>
+Mail-Followup-To: Tomohito Esaki <etom@igel.co.jp>,
+ dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-3-lucas.demarchi@intel.com>
- <f0dbdcc0-13b5-c484-0bf3-a1f8c3e48954@amd.com>
- <20220127075728.ygwgorhnrwaocdqv@ldmartin-desk2>
- <3066c6a7-fc73-d34d-d209-a3ff6818dfb6@amd.com>
- <YfJedaoeJjE3grum@phenom.ffwll.local>
- <20220127093332.wnkd2qy4tvwg5i5l@ldmartin-desk2>
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
+ Simon Ser <contact@emersion.fr>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ Mark Yacoub <markyacoub@chromium.org>,
+ Sean Paul <seanpaul@chromium.org>, Evan Quan <evan.quan@amd.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Petr Mladek <pmladek@suse.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@chromium.org>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ Daniel Stone <daniel@fooishbar.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+ Takanari Hayama <taki@igel.co.jp>
+References: <20220127032539.9929-1-etom@igel.co.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220127093332.wnkd2qy4tvwg5i5l@ldmartin-desk2>
+In-Reply-To: <20220127032539.9929-1-etom@igel.co.jp>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,143 +94,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
+ Lee Jones <lee.jones@linaro.org>, Rob Clark <robdclark@chromium.org>,
+ Evan Quan <evan.quan@amd.com>, amd-gfx@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, Petr Mladek <pmladek@suse.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Takanari Hayama <taki@igel.co.jp>, Sean Paul <seanpaul@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Mark Yacoub <markyacoub@chromium.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 27, 2022 at 01:33:32AM -0800, Lucas De Marchi wrote:
-> On Thu, Jan 27, 2022 at 09:57:25AM +0100, Daniel Vetter wrote:
-> > On Thu, Jan 27, 2022 at 09:02:54AM +0100, Christian König wrote:
-> > > Am 27.01.22 um 08:57 schrieb Lucas De Marchi:
-> > > > On Thu, Jan 27, 2022 at 08:27:11AM +0100, Christian König wrote:
-> > > > > Am 26.01.22 um 21:36 schrieb Lucas De Marchi:
-> > > > > > When dma_buf_map struct is passed around, it's useful to be able to
-> > > > > > initialize a second map that takes care of reading/writing to an offset
-> > > > > > of the original map.
-> > > > > >
-> > > > > > Add a helper that copies the struct and add the offset to the proper
-> > > > > > address.
-> > > > >
-> > > > > Well what you propose here can lead to all kind of problems and is
-> > > > > rather bad design as far as I can see.
-> > > > >
-> > > > > The struct dma_buf_map is only to be filled in by the exporter and
-> > > > > should not be modified in this way by the importer.
-> > > >
-> > > > humn... not sure if I was  clear. There is no importer and exporter here.
-> > > 
-> > > Yeah, and exactly that's what I'm pointing out as problem here.
-> > > 
-> > > You are using the inter driver framework for something internal to the
-> > > driver. That is an absolutely clear NAK!
-> > > 
-> > > We could discuss that, but you guys are just sending around patches to do
-> > > this without any consensus that this is a good idea.
-> > 
-> > Uh I suggested this, also we're already using dma_buf_map all over the
-> > place as a convenient abstraction. So imo that's all fine, it should allow
-> > drivers to simplify some code where on igpu it's in normal kernel memory
-> > and on dgpu it's behind some pci bar.
-> > 
-> > Maybe we should have a better name for that struct (and maybe also a
-> > better place), but way back when we discussed that bikeshed I didn't come
-> > up with anything better really.
+On Thu, Jan 27, 2022 at 12:25:36PM +0900, Tomohito Esaki wrote:
+> Some drivers whose planes only support linear layout fb do not support format
+> modifiers.
+> These drivers should support modifiers, however the DRM core should handle this
+> rather than open-coding in every driver.
 > 
-> I suggest iosys_map since it abstracts access to IO and system memory.
+> In this patch series, these drivers expose format modifiers based on the
+> following suggestion[1].
 > 
-> > 
-> > > > There is a role delegation on filling out and reading a buffer when
-> > > > that buffer represents a struct layout.
-> > > >
-> > > > struct bla {
-> > > >     int a;
-> > > >     int b;
-> > > >     int c;
-> > > >     struct foo foo;
-> > > >     struct bar bar;
-> > > >     int d;
-> > > > }
-> > > >
-> > > >
-> > > > This implementation allows you to have:
-> > > >
-> > > >     fill_foo(struct dma_buf_map *bla_map) { ... }
-> > > >     fill_bar(struct dma_buf_map *bla_map) { ... }
-> > > >
-> > > > and the first thing these do is to make sure the map it's pointing to
-> > > > is relative to the struct it's supposed to write/read. Otherwise you're
-> > > > suggesting everything to be relative to struct bla, or to do the same
-> > > > I'm doing it, but IMO more prone to error:
-> > > >
-> > > >     struct dma_buf_map map = *bla_map;
-> > > >     dma_buf_map_incr(map, offsetof(...));
-> > 
-> > Wrt the issue at hand I think the above is perfectly fine code. The idea
-> > with dma_buf_map is really that it's just a special pointer, so writing
-> > the code exactly as pointer code feels best. Unfortunately you cannot make
-> > them typesafe (because of C), so the code sometimes looks a bit ugly.
-> > Otherwise we could do stuff like container_of and all that with
-> > typechecking in the macros.
+> On Thu, Nov 18, 2021 at 01:02:11PM +0000, Daniel Stone wrote:
+> > I think the best way forward here is:
+> >   - add a new mode_config.cannot_support_modifiers flag, and enable
+> > this in radeon (plus any other drivers in the same boat)
+> >   - change drm_universal_plane_init() to advertise the LINEAR modifier
+> > when NULL is passed as the modifier list (including installing a
+> > default .format_mod_supported hook)
+> >   - remove the mode_config.allow_fb_modifiers hook and always
+> > advertise modifier support, unless
+> > mode_config.cannot_support_modifiers is set
 > 
-> I had exactly this code above, but after writting quite a few patches
-> using it, particularly with functions that have to write to 2 maps (see
-> patch 6 for example), it felt much better to have something to
-> initialize correctly from the start
 > 
-> 	struct dma_buf_map other_map = *bla_map;
-> 	/* poor Lucas forgetting dma_buf_map_incr(map, offsetof(...)); */
-> 
-> is error prone and hard to debug since you will be reading/writting
-> from/to another location rather than exploding
-> 
-> While with the construct below
-> 
-> 	other_map;
-> 	...
-> 	other_map = INITIALIZER()
-> 
-> I can rely on the compiler complaining about uninitialized var. And
-> in most of the cases I can just have this single line in the beggining of the
-> function when the offset is constant:
-> 
-> 	struct dma_buf_map other_map = INITIALIZER(bla_map, offsetof(..));
+> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20190509054518.10781-1-etom@igel.co.jp/#24602575
 
-Hm yeah that's a good point that this allows us to rely on the compiler to
-check for uninitialized variables.
+Two procedural things:
+- There's an r-b on all the patches from Andy from the last round, please
+  include that.
+- Please also include a changelog per-patch (at least going forward), that
+  helps with judging where a patch series is.
 
-Maybe include the above (with editing, but keeping the examples) in the
-kerneldoc to explain why/how to use this? With that the concept at least
-has my
+But aside from this I think this looks ready.
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-I'll leave it up to you & Christian to find a prettier color choice for
-the naming bikeshed.
--Daniel
+Cheers, Daniel
 
 > 
-> Lucas De Marchi
+> v5:
+> * rebase to the latest master branch (5.17-rc1+)
+> 	+ "drm/plane: Make format_mod_supported truly optional" patch [2]
+>   [2] https://patchwork.freedesktop.org/patch/467940/?series=98255&rev=3
 > 
-> > -Daniel
-> > 
-> > > > IMO this construct is worse because at a point in time in the function
-> > > > the map was pointing to the wrong thing the function was supposed to
-> > > > read/write.
-> > > >
-> > > > It's also useful when the function has double duty, updating a global
-> > > > part of the struct and a table inside it (see example in patch 6)
-> > > >
-> > > > thanks
-> > > > Lucas De Marchi
-> > > 
-> > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> * change default_modifiers array from non-static to static
+> * remove terminator in default_modifiers array
+> * use ARRAY_SIZE to get the format_modifier_count
+> * keep a sanity check in plane init func
+> * modify several kerneldocs
+> 
+> v4: https://www.spinics.net/lists/dri-devel/msg329508.html
+> * modify documentation for fb_modifiers_not_supported flag in kerneldoc
+> 
+> v3: https://www.spinics.net/lists/dri-devel/msg329102.html
+> * change the order as follows:
+>    1. add fb_modifiers_not_supported flag
+>    2. add default modifiers
+>    3. remove allow_fb_modifiers flag
+> * add a conditional disable in amdgpu_dm_plane_init()
+> 
+> v2: https://www.spinics.net/lists/dri-devel/msg328939.html
+> * rebase to the latest master branch (5.16.0+)
+>       + "drm/plane: Make format_mod_supported truly optional" patch [2]
+> 
+> v1: https://www.spinics.net/lists/dri-devel/msg327352.html
+> * The initial patch set
+> 
+> Tomohito Esaki (3):
+>   drm: introduce fb_modifiers_not_supported flag in mode_config
+>   drm: add support modifiers for drivers whose planes only support
+>     linear layout
+>   drm: remove allow_fb_modifiers
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  6 ++---
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  2 ++
+>  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  2 ++
+>  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  1 +
+>  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  2 ++
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  3 +++
+>  drivers/gpu/drm/drm_framebuffer.c             |  6 ++---
+>  drivers/gpu/drm/drm_ioctl.c                   |  2 +-
+>  drivers/gpu/drm/drm_plane.c                   | 23 +++++++++++--------
+>  drivers/gpu/drm/nouveau/nouveau_display.c     |  6 +++--
+>  drivers/gpu/drm/radeon/radeon_display.c       |  2 ++
+>  .../gpu/drm/selftests/test-drm_framebuffer.c  |  1 -
+>  include/drm/drm_mode_config.h                 | 18 +++++----------
+>  include/drm/drm_plane.h                       |  3 +++
+>  14 files changed, 45 insertions(+), 32 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
 
 -- 
 Daniel Vetter
