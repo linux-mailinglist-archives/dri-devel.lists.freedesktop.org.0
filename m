@@ -2,50 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000AD49E095
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 12:20:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA1C49E0BD
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 12:25:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96AC010EA7F;
-	Thu, 27 Jan 2022 11:20:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFC610E868;
+	Thu, 27 Jan 2022 11:25:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7E5C10ECC9
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 11:20:14 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nD2p2-0004SH-WD; Thu, 27 Jan 2022 12:20:13 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nD2p1-00082z-2I; Thu, 27 Jan 2022 12:20:11 +0100
-Date: Thu, 27 Jan 2022 12:20:11 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 07/27] drm/rockchip: dw_hdmi: Use auto-generated tables
-Message-ID: <20220127112011.GM23490@pengutronix.de>
-References: <20220126145549.617165-1-s.hauer@pengutronix.de>
- <20220126145549.617165-8-s.hauer@pengutronix.de>
- <CAD=FV=U7W_oWjS_gCurAkNdkcuHQGn-XH=-VwP2MSG9zO92ySg@mail.gmail.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C72310E868
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 11:25:07 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 196501F37C;
+ Thu, 27 Jan 2022 11:25:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643282706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QiOO9D9MkhNbJYM/gqUyBETJ19BqepUsLOhh7GpQo7Y=;
+ b=yVOChdEk7qXh1z64i8VWSWYwBQmx5UFlcZjXsSEVPb3kVZCvApPNUKUZgtVmBGzN4ilwPm
+ hkPGYd0FVT6TRNm2hmMvH7feXo2ADlhKqmXUke5xMd20iBCRszX+Dw3l6bGNP9Dxv3fL46
+ ZLnfJ3idgXjYwhyL7yo84NJDVkC4+R8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643282706;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QiOO9D9MkhNbJYM/gqUyBETJ19BqepUsLOhh7GpQo7Y=;
+ b=4OprGjZ0sg2k4jGasVs5IKP3Fweq7kRBnn/9q88dkjPPLSTqyHtEKa+/fOluxLf5w69dm6
+ 3t3hawNYGL4yPQBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D761313CFB;
+ Thu, 27 Jan 2022 11:25:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id rjKaMxGB8mHXXwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 27 Jan 2022 11:25:05 +0000
+Message-ID: <ec124c3d-7989-b51b-178b-11399e7e0452@suse.de>
+Date: Thu, 27 Jan 2022 12:25:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=U7W_oWjS_gCurAkNdkcuHQGn-XH=-VwP2MSG9zO92ySg@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 12:06:15 up 47 days, 19:51, 83 users,  load average: 0.13, 0.26, 0.26
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/vc4: hdmi: Simplify the connector state retrieval
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
+ <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20220127111404.221882-1-maxime@cerno.tech>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220127111404.221882-1-maxime@cerno.tech>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0weqLlFUyAO90XGAgH0cNKKJ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,112 +71,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>,
- =?iso-8859-15?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Sascha Hauer <kernel@pengutronix.de>, Yakir Yang <ykk@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Tim Gover <tim.gover@raspberrypi.com>, Dom Cobley <dom@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 26, 2022 at 07:54:53AM -0800, Doug Anderson wrote:
-> Hi,
-> 
-> On Wed, Jan 26, 2022 at 6:58 AM Sascha Hauer <s.hauer@pengutronix.de> wrote:
-> >
-> > From: Douglas Anderson <dianders at chromium.org>
-> >
-> > The previous tables for mpll_cfg and curr_ctrl were created using the
-> > 20-pages of example settings provided by the PHY vendor.  Those
-> > example settings weren't particularly dense, so there were places
-> > where we were guessing what the settings would be for 10-bit and
-> > 12-bit (not that we use those anyway).  It was also always a lot of
-> > extra work every time we wanted to add a new clock rate since we had
-> > to cross-reference several tables.
-> >
-> > In <http://crosreview.com/285855> I've gone through the work to figure
-> 
-> The `crosreview.com` syntax doesn't seem to work anymore. Could maybe
-> update to https://crrev.com/c/285855 ?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0weqLlFUyAO90XGAgH0cNKKJ
+Content-Type: multipart/mixed; boundary="------------z0uSRnT3aFhArUXz0O90IgC1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
+ <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
+Message-ID: <ec124c3d-7989-b51b-178b-11399e7e0452@suse.de>
+Subject: Re: [PATCH] drm/vc4: hdmi: Simplify the connector state retrieval
+References: <20220127111404.221882-1-maxime@cerno.tech>
+In-Reply-To: <20220127111404.221882-1-maxime@cerno.tech>
 
-did that, thanks.
+--------------z0uSRnT3aFhArUXz0O90IgC1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> 
-> > out how to generate this table automatically.  Let's now use the
-> > automatically generated table and then we'll never need to look at it
-> > again.
-> >
-> > We only support 8-bit mode right now and only support a small number
-> > of clock rates and and I've verified that the only 8-bit rate that was
-> > affected was 148.5.  That mode appears to have been wrong in the old
-> > table.
-> >
-> > Changes since v3:
-> > - new patch
-> >
-> > Signed-off-by: Douglas Anderson <dianders at chromium.org>
-> > Signed-off-by: Yakir Yang <ykk at rock-chips.com>
-> 
-> Should probably change the "at" to "@" ?
+DQoNCkFtIDI3LjAxLjIyIHVtIDEyOjE0IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoNCj4gV2hl
+biB3ZSBoYXZlIHRoZSBlbnRpcmUgRFJNIHN0YXRlLCByZXRyaWV2aW5nIHRoZSBjb25uZWN0
+b3Igc3RhdGUgb25seQ0KPiByZXF1aXJlcyB0aGUgZHJtX2Nvbm5lY3RvciBwb2ludGVyLiBG
+b3J0dW5hdGVseSBmb3IgdXMsIHdlIGhhdmUNCj4gYWxsb2NhdGVkIGl0IGFzIGEgcGFydCBv
+ZiB0aGUgdmM0X2hkbWkgc3RydWN0dXJlLCBzbyB3ZSBjYW4gcmV0cmlldmUgZ2V0DQo+IGEg
+cG9pbnRlciBieSBzaW1wbHkgYWNjZXNzaW5nIG91ciBmaWVsZCBpbiB0aGF0IHN0cnVjdHVy
+ZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1heGltZUBjZXJuby50
+ZWNoPg0KDQpBY2tlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
+ZGU+DQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jIHwgMjEg
+KysrLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9u
+cygrKSwgMTggZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL3ZjNC92YzRfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jDQo+
+IGluZGV4IDJjODMyNTI4MTllOS4uZWZmZmUyMWQyZTczIDEwMDY0NA0KPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vdmM0L3ZjNF9oZG1pLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Zj
+NC92YzRfaGRtaS5jDQo+IEBAIC0xMDAyLDMwICsxMDAyLDE1IEBAIHN0YXRpYyB2b2lkIHZj
+NF9oZG1pX3JlY2VudGVyX2ZpZm8oc3RydWN0IHZjNF9oZG1pICp2YzRfaGRtaSkNCj4gICAJ
+CSAgIlZDNF9IRE1JX0ZJRk9fQ1RMX1JFQ0VOVEVSX0RPTkUiKTsNCj4gICB9DQo+ICAgDQo+
+IC1zdGF0aWMgc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgKg0KPiAtdmM0X2hkbWlfZW5j
+b2Rlcl9nZXRfY29ubmVjdG9yX3N0YXRlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwN
+Cj4gLQkJCQkgICAgIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkNCj4gLXsNCj4g
+LQlzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqY29ubl9zdGF0ZTsNCj4gLQlzdHJ1Y3Qg
+ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yOw0KPiAtCXVuc2lnbmVkIGludCBpOw0KPiAtDQo+
+IC0JZm9yX2VhY2hfbmV3X2Nvbm5lY3Rvcl9pbl9zdGF0ZShzdGF0ZSwgY29ubmVjdG9yLCBj
+b25uX3N0YXRlLCBpKSB7DQo+IC0JCWlmIChjb25uX3N0YXRlLT5iZXN0X2VuY29kZXIgPT0g
+ZW5jb2RlcikNCj4gLQkJCXJldHVybiBjb25uX3N0YXRlOw0KPiAtCX0NCj4gLQ0KPiAtCXJl
+dHVybiBOVUxMOw0KPiAtfQ0KPiAtDQo+ICAgc3RhdGljIHZvaWQgdmM0X2hkbWlfZW5jb2Rl
+cl9wcmVfY3J0Y19jb25maWd1cmUoc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyLA0KPiAg
+IAkJCQkJCXN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkNCj4gICB7DQo+ICsJc3Ry
+dWN0IHZjNF9oZG1pICp2YzRfaGRtaSA9IGVuY29kZXJfdG9fdmM0X2hkbWkoZW5jb2Rlcik7
+DQo+ICsJc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciA9ICZ2YzRfaGRtaS0+Y29u
+bmVjdG9yOw0KPiAgIAlzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqY29ubl9zdGF0ZSA9
+DQo+IC0JCXZjNF9oZG1pX2VuY29kZXJfZ2V0X2Nvbm5lY3Rvcl9zdGF0ZShlbmNvZGVyLCBz
+dGF0ZSk7DQo+ICsJCWRybV9hdG9taWNfZ2V0X25ld19jb25uZWN0b3Jfc3RhdGUoc3RhdGUs
+IGNvbm5lY3Rvcik7DQo+ICAgCXN0cnVjdCB2YzRfaGRtaV9jb25uZWN0b3Jfc3RhdGUgKnZj
+NF9jb25uX3N0YXRlID0NCj4gICAJCWNvbm5fc3RhdGVfdG9fdmM0X2hkbWlfY29ubl9zdGF0
+ZShjb25uX3N0YXRlKTsNCj4gLQlzdHJ1Y3QgdmM0X2hkbWkgKnZjNF9oZG1pID0gZW5jb2Rl
+cl90b192YzRfaGRtaShlbmNvZGVyKTsNCj4gICAJc3RydWN0IGRybV9kaXNwbGF5X21vZGUg
+Km1vZGUgPSAmdmM0X2hkbWktPnNhdmVkX2FkanVzdGVkX21vZGU7DQo+ICAgCXVuc2lnbmVk
+IGxvbmcgcGl4ZWxfcmF0ZSA9IHZjNF9jb25uX3N0YXRlLT5waXhlbF9yYXRlOw0KPiAgIAl1
+bnNpZ25lZCBsb25nIGJ2Yl9yYXRlLCBoc21fcmF0ZTsNCg0KLS0gDQpUaG9tYXMgWmltbWVy
+bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
+bnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1h
+bnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8g
+VG90ZXYNCg==
 
-yes.
+--------------z0uSRnT3aFhArUXz0O90IgC1--
 
-> 
-> > Reviewed-by: Stéphane Marchesin <marcheu at chromium.org>
-> 
-> In general shouldn't carry downstream reviews when posting upstream
-> unless you're certain that the person intended it...
-> 
-> 
-> It's been a long time, but in general I think I was fairly confident
-> in the numbers that my script pumped out, at least given the caveat of
-> no pixel repetition and 8-bit only. That being said, I didn't have any
-> inside knowledge of the hardware and just figured out formulas that
-> seemed to match the table that I had. YMMV.
+--------------0weqLlFUyAO90XGAgH0cNKKJ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Rockchip adopted this patch for their downstream Kernel, so they haven't
-been able to come up with better values. Given that you created this
-patch for a fairly old SoC and the values are still usable on rk3568 I
-think that's the way to go.
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> I'll also say that when I did a rebase of veyron (rk3288-based
-> Chromebook) to 4.19 about 2.5 years ago, I ended up squashing several
-> of these patches into 1. That can be found at
-> <https://crrev.com/c/1661056>. That also has details about why some of
-> these patches never made it upstream. The main reason, at least in the
-> case of rk3288, was the PLL sharing problem that nobody ever solved.
-> rk3288 didn't have quite enough PLLs and thus, if you were using both
-> VOPs, one of the VOPs was going to be severely limited in what pixel
-> clocks it could make. There was no framework deciding which VOP should
-> be limited and how the system should react to this...
-> 
-> 
-> In any case, I'm pretty far disconnected from all this stuff now, but
-> I wish you the best of luck in trying to get it all solved!
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHygREFAwAAAAAACgkQlh/E3EQov+AV
+ag//dpKJvdCEdlgqRscfoVgOeHeQbymBwI6FjofsTaIjQzwVuQk/nFyoWnZbcLZY0SALQEuCi0vn
+O4+sdTjdT1oYYwOYmQZZyNTUigYda5R3dbxh0b/Zd2DvuAB+zvGwfBJX3bzWJVbYyF19hkxKEbv7
+xtHLGOL4IP8ioZr95LvJ8hR/vYoUJm43e85NXyBJWDhzfCh647zIPhGYrFyWAOfTLIv7/vBkwE4i
+lp+z4nMx6f0BMlRNIvFrUiMV0KdcJimvVp3DmkfPLKwLQ8OoYduR7l9nLd90+WQWXDU9NKwDr3wx
+G6wn4VC2m/KXxOAbW7vj+bAkzovk+QZ8E9kqn29+3pCwAlER6NinwmrlFlkrbRTYBkdtmvu9YxUP
+MgC0BiPZh2BFkuWOkCUG2CPV8L7N+mjRp+dqTNtrc3UnfHHIOoHbiHv40vG31WRGcB60NnRy0zSt
+Q9UhsvlvxCNYOKRJ4TE7GY6Xk2jsEevmLTddiHcZJkki1NNAt1+o9++6/0fg9CMmIu+zO2e+PQNl
+Tx0JfqBOGyQxrGmoP4GR/Hk1XcOKBQapsRXkOL9ewP6SIwebvBbDlbxmqEg7pi1/FnsiFit/9w4f
+5tkPI+03hnTVPrsqaVY40RecLbIxVz0ApYgpxw8SBmA08BSW2IKQ83CPXD7T9Pl//3V0JuD4Kx3D
+iZU=
+=Mnid
+-----END PGP SIGNATURE-----
 
-Nah, sorry, I won't get that all solved ;)
-
-I am not that interested in rk3288, my main concern is the rk3568. That
-one has two spare PLLs for three heads instead of one PLL for two heads,
-so the problem is less pressing.
-
-I'll stick to this version of the patch instead of the combined one
-because this patch seems to be correct regardless of the PLL problem.
-
-Thanks for the link though, it gives me some insights why things are the
-way they are currently.
-
-Sascha
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+--------------0weqLlFUyAO90XGAgH0cNKKJ--
