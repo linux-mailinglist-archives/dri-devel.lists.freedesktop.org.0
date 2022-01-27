@@ -2,59 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45EF149EA35
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 19:17:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F176D49EA56
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 19:26:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5795910E225;
-	Thu, 27 Jan 2022 18:17:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA31810E24F;
+	Thu, 27 Jan 2022 18:26:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89CDD10E225;
- Thu, 27 Jan 2022 18:17:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1643307431; x=1674843431;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=LH/dLY3/xP57RI7hIyFyatowVgY9IFKrdHM0BLdG+BU=;
- b=ZdqGA8HPqUKYBKVgar+iVTNg3pxXAz5gvEgS1fxGphd2sl0wWcIg9WYc
- NYdaPwjg5QW9yGJx4sYbyRsyg2tZb1+x/y3NX+n7RX2jeVEvuqhx2STeU
- pcs3ii8ep0bj+RN2LQo0+VcKvZiENGKT3zYaMTV1VmTL7azrMpwh11UZR w=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 27 Jan 2022 10:17:10 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2022 10:17:09 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Thu, 27 Jan 2022 10:17:09 -0800
-Received: from [10.111.163.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Thu, 27 Jan
- 2022 10:17:07 -0800
-Message-ID: <da26d67f-3212-2434-1b23-c5f9209dce41@quicinc.com>
-Date: Thu, 27 Jan 2022 10:17:05 -0800
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC9AF10E24F
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 18:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643307984;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oB3qV7cyBeU8wekptigSEtjRhzEDSa0sTyS/yK3CFWk=;
+ b=ImSkUGxMMhHg4nrf4pJZOmCX5bQKgdLB5i/lOKt0AoU2gzGfnfDQSUN9YvdLP10MEyP5ED
+ 7jzQMDJhrfOCepZoPCYfA8IWj+gsZNWmA/p3k8I9k4YnDdRv+8eeuTCv4/1tej82+Ycq/I
+ x6cjBPKaefMcZrMQpYPWmzNsPuarqNk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-554-pl6nyZ50MjavJifNySK6sA-1; Thu, 27 Jan 2022 13:26:21 -0500
+X-MC-Unique: pl6nyZ50MjavJifNySK6sA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o140-20020a1ca592000000b00350aef3949aso896888wme.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 10:26:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=oB3qV7cyBeU8wekptigSEtjRhzEDSa0sTyS/yK3CFWk=;
+ b=52MNllx6xMZqJQMOD8b+zMfdZ81wUNJNAd0hMHClVlFrqU+kWM6PG8JIiP6L7wbu/M
+ u0OsI3bLZA+NLkNlnEGf+ZJaarT+BziuZDlesqnsA2ref9mWcw9J5DXrCYoEA/4gJTyK
+ FJp7XxSW30M0FIy/YVgYnpeX6cvlnmwSAs5IOcxqHdUHxBBzAToxfN008/5NVmbiAaH2
+ ak7Gm8Lfc+rM27Qamlc/TaoxTOEv0eJ/tEx23VXQqWq/hujI9gtIB+hQSM1kkafVHnOI
+ 2ZX7W1iNMXlbZ7Axo8D9YIFy5KL1smKckKHbBak9+c1Va26Om4XA+2yva816kOUGi74s
+ 9uew==
+X-Gm-Message-State: AOAM5300bT2m/hWVqaKaDx5OS/4KANO4W91+MmqT2ysA+7q5sQSOOwoU
+ 34N1FusCLNMsBA7wyac7wT0suXWz93BIlb5mbDN6DJrzWtf+z3oViv9xOAcX6RlpzOYdjebz8md
+ OV2jgQpGbJ6otkBIxolqKSI5q9yr+
+X-Received: by 2002:a05:6000:168f:: with SMTP id
+ y15mr4217305wrd.365.1643307980566; 
+ Thu, 27 Jan 2022 10:26:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxfvcpjLkoX7TINgPyJ2uFIoRqH3mgpbBKpMlxDnKAJXYaaHnQ9yCgS6jlcCKe0rjGu+yR+5g==
+X-Received: by 2002:a05:6000:168f:: with SMTP id
+ y15mr4217293wrd.365.1643307980273; 
+ Thu, 27 Jan 2022 10:26:20 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id a3sm3385808wri.89.2022.01.27.10.26.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Jan 2022 10:26:19 -0800 (PST)
+Message-ID: <fdae8787-a355-8c20-dad1-01ab84dbe52a@redhat.com>
+Date: Thu, 27 Jan 2022 19:26:18 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/3] drm: add writeback pointers to drm_connector
+Subject: Re: [RFC][PATCH 00/10] drm: Add DRM module helpers for existing PCI
+ drivers
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com
+References: <20211217144615.32733-1-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20211217144615.32733-1-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20220111101801.28310-1-suraj.kandpal@intel.com>
- <c797223b-47cb-3fcd-0a1a-b12fd2c2c0da@quicinc.com>
- <CY4PR11MB1352DAB3BD614093B5154C10E3219@CY4PR11MB1352.namprd11.prod.outlook.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CY4PR11MB1352DAB3BD614093B5154C10E3219@CY4PR11MB1352.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,116 +88,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>,
- "Kandpal@freedesktop.org" <Kandpal@freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>, "Murthy,
- Arun R" <arun.r.murthy@intel.com>
+Cc: spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Suraj
+On 12/17/21 15:46, Thomas Zimmermann wrote:
+> This is an RFC patchset to complement the helper macros provided
+> in [1]. The module helpers create module init and exit helpers that
+> respect the kernel parameters that enable/disable DRM drivers.
+> 
+> There's one more patch that prepares qxl by moving some code around.
+> It's required to make use of the helpers from within qxl.
+> 
+> Javier, please see if you find anything useful here and cherry-pick
+> into your patchset. The driver changes should complement the ones
+> in your patchset. The module macros are similar to yours and should
+> be easily mergable.
+> 
+> I tested the macros with ast.
+> 
+> [1] https://patchwork.freedesktop.org/series/98162/
+> 
+> Thomas Zimmermann (10):
+>   drm: Provide PCI module-init macros
+>   drm/ast: Replace module-init boiler-plate code with DRM helpers
+>   drm/bochs: Replace module-init boiler-plate code with DRM helpers
+>   drm/cirrus: Replace module-init boiler-plate code with DRM helpers
+>   drm/hisilicon/hibmc: Replace module initialization with DRM helpers
+>   drm/mgag200: Replace module-init boiler-plate code with DRM helpers
+>   drm/qxl: Move ioctl array next to its only user
+>   drm/qxl: Replace module-init boiler-plate code with DRM helpers
+>   drm/vboxvideo: Replace module-init boiler-plate code with DRM helpers
+>   drm/vmwgfx: Replace module-init boiler-plate code with DRM helpers
+> 
 
-Thanks for the response.
+Pushed the remaining of these patches to drm-misc-next. Thanks!
 
-I was not too worried about the intel driver as I am sure you must have 
-validated this change with that :)
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-My question was more for the other vendor writeback drivers.
-
-Thanks for looking into the others and providing the snippets.
-After looking at those, yes I also think it should work.
-
-So, if others do not have any concern with this change,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-On 1/27/2022 1:33 AM, Kandpal, Suraj wrote:
->>
->> + laurent on this
->>
->> Hi Suraj
->> Jani pointed me to this thread as i had posted something similar here :
->> https://patchwork.freedesktop.org/patch/470296/ but since this thread was
->> posted earlier, we can discuss further here.
->>
->> Overall, its similar to what I had posted in the RFC and your commit text also
->> covers my concerns too.
->>
->> One question I have about your change is since you have changed
->> wb_connector::encoder to be a pointer, i saw the other changes in the series
->> but they do not allocate an encoder. Would this not affect the other drivers
->> which are assuming that the encoder in wb_connector is struct drm_encoder
->> encoder and not struct drm_encoder* encoder.
->>
->> Your changes fix the compilation issue but wouldnt this crash as encoder
->> wasnt allocated for other drivers.
->>
-> 
-> Hi Abhinav,
-> That shouldn't be an issue as normally drivers tend to have their own output
-> structure which has drm_connector and drm_encoder embedded in it depending
-> on the level of binding they have decided to give the connector and encoder in
-> their respective output and the addresses of these are passed to the
-> drm_connector* and drm_encoder* in drm_writeback_connector structure
-> which then gets initialized in drm_writeback_connector_init().
-> 
-> In our i915 code we have intel_connector structure with drm_connector base
-> field and intel_wd with a intel_encoder base which in turn has drm_encoder
-> field and both intel_connector and intel_wd are initialized not requiring explicit
-> alloc and dealloc for drm_encoder
-> intel_wd = kzalloc(sizeof(*intel_wd), GFP_KERNEL);
-> 
-> intel_connector = intel_connector_alloc();
-> wb_conn = &intel_connector->wb_conn;
-> wb_conn->base = &intel_connector->base;
-> wb_conn->encoder = &intel_wd->base.base;
-> 
-> Similary for komeda driver has
-> struct komeda_wb_connector {
->          struct drm_connector conn;
->          /** @base: &drm_writeback_connector */
->          struct drm_writeback_connector base;
-> 
->          /** @wb_layer: represents associated writeback pipeline of komeda */
->          struct komeda_layer *wb_layer;
-> };
-> 
-> static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
->                                     struct komeda_crtc *kcrtc)
-> {
-> 	struct komeda_wb_connector *kwb_conn;
-> 	struct drm_writeback_connector *wb_conn;
-> 	
-> 	kwb_conn = kzalloc(sizeof(*kwb_conn), GFP_KERNEL);
-> 
-> 	wb_conn = &kwb_conn->base;
->          	wb_conn->base = &kwb_conn->conn;
->        
-> and they do not depend on the encoder binding so changes will work for them
-> Also in vkms driver we have the
-> struct vkms_output {
->          struct drm_crtc crtc;
->          struct drm_encoder encoder;
->          struct drm_connector connector;
->          struct drm_writeback_connector wb_connector;
->          struct hrtimer vblank_hrtimer;
->          ktime_t period_ns;
->          struct drm_pending_vblank_event *event;
->          /* ordered wq for composer_work */
->          struct workqueue_struct *composer_workq;
->          /* protects concurrent access to composer */
->          spinlock_t lock;
-> 
->          /* protected by @lock */
->          bool composer_enabled;
->          struct vkms_crtc_state *composer_state;
-> 
->          spinlock_t composer_lock;
-> };
-> 
-> Which gets allocated covering for the drm_encoder alloc and dealloc
-> 
-> Regards,
-> Suraj Kandpal
-> 
