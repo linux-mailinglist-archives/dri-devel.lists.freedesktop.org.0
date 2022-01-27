@@ -1,81 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CA249DFDB
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 11:50:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A09D49E002
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 12:00:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A31710E6FD;
-	Thu, 27 Jan 2022 10:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7710B10E8BD;
+	Thu, 27 Jan 2022 11:00:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7B9810EC6F
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 10:50:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643280634;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6Fc2g7RRS/5veLFVlWFZ0JAd/TstB7ATk2nJ8PQ8WRQ=;
- b=UlvpXpx05pvPchp+N4NPNPe2UrL++dLTSQb1uFaxY7K3mvnOsoYcU5wEZfWkEwqxzzPNMJ
- hySb+psTPy2muENK8Fdy81BmKEnC2qzrnmgQOPm90KIcP5XCBKdoINBXgsjDFIjq0sL2FF
- gQmJiTDxTsSf7pPneYmU7+6rVyE1n7Y=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-DIpU-89CNROWEdzwE4ZT0Q-1; Thu, 27 Jan 2022 05:50:33 -0500
-X-MC-Unique: DIpU-89CNROWEdzwE4ZT0Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- g17-20020adfa591000000b001da86c91c22so932230wrc.5
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 02:50:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6Fc2g7RRS/5veLFVlWFZ0JAd/TstB7ATk2nJ8PQ8WRQ=;
- b=LZ3UMl/YgOow16qZ/oevmPTA1wd6UsOK3ffl101myDTS/PUjVMQMPilf7NGaE4KVWf
- uL/5+imTRTlKClx1yMCrx4Bp7/gY2oeGLJh6qMEUAABkopOL7k/9vVaU9Uer/QHGJhgu
- XY5ioJFxzKCJAEthG30zAMh9ymPyTLuh0hpQB2NnicSdIOiLCdHySzNNxfGXQ/Etr8wt
- +JJ7rVccKQ6BbH1p0OXqZuVBYM2a1JXxR2sKNNmqDt8qE0zNS9f5ppEMuUbTCYTkCHOy
- VI0h/sAwYDnDodf+Ckvx6PxhSP6L4P3JFWnVDCGGEzUIcHmeg2uN1LELi6jlFjKroJ5y
- pyPg==
-X-Gm-Message-State: AOAM533RkR3H40RLZj0R6vy0pbVlIx53j+QMNpjtmRw7GMpdd5I4Mp7T
- BjFOrLukM0pEwjLgw7dsG/I9QuTI2OclO8QrRT5+CZiBr8n7Xap6M+IHpxu1tQF60ODjsKpLM9j
- aWrHhZMMYhwKycXKUCC1iN7XpK1nQ
-X-Received: by 2002:a05:6000:1acc:: with SMTP id
- i12mr2636059wry.492.1643280632296; 
- Thu, 27 Jan 2022 02:50:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzNH0Darpnr4Jl3HYou3CgHI6hafBenm/U34TNRMyZ82WXc0eLk9f+p/4dPBzISBOZBPFknQw==
-X-Received: by 2002:a05:6000:1acc:: with SMTP id
- i12mr2636048wry.492.1643280632126; 
- Thu, 27 Jan 2022 02:50:32 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id b11sm5331007wmq.46.2022.01.27.02.50.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 02:50:31 -0800 (PST)
-Message-ID: <b305cb36-1a09-c990-a3e6-98d420c62e3a@redhat.com>
-Date: Thu, 27 Jan 2022 11:50:30 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 427F210E4D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 11:00:13 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nD2Vf-0001FG-CL; Thu, 27 Jan 2022 12:00:11 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nD2Vd-0005aU-8V; Thu, 27 Jan 2022 12:00:09 +0100
+Date: Thu, 27 Jan 2022 12:00:09 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH 27/27] drm: rockchip: Add VOP2 driver
+Message-ID: <20220127110009.GK23490@pengutronix.de>
+References: <20220126145549.617165-1-s.hauer@pengutronix.de>
+ <20220126145549.617165-28-s.hauer@pengutronix.de>
+ <6588D77C-D3CB-4FB0-8B00-5EDD6ABD6923@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/doc: Add section in the introduction page about
- learning material
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-References: <20220127082058.434421-1-javierm@redhat.com>
- <c99a7784-7ac4-e305-1a06-dfb514a409ff@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <c99a7784-7ac4-e305-1a06-dfb514a409ff@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6588D77C-D3CB-4FB0-8B00-5EDD6ABD6923@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 11:50:02 up 47 days, 19:35, 82 users,  load average: 0.37, 0.46, 0.32
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,63 +57,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
-
-On 1/27/22 10:18, Thomas Zimmermann wrote:
-> Hi Javier,
+On Thu, Jan 27, 2022 at 10:17:13AM +0100, Piotr Oniszczuk wrote:
+> Sascha,
 > 
-> thanks for this patch.
+> FYI 
+> small report regarding 4k modes support in v4:
 > 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->
+> -on rk3399 it gives me 4k screen where right vertical 1/3 part of screen is garbage
+> -on rk3566 my samsung 4k monitor has black screen and cycle of OSD msgs: HDMI2 connected; HDMI2 disconnected; ....
 
-Thanks!
- 
-> Find some ideas for consideration below.
+Same here on my rk3568, also with a samsung monitor. Was it 4k@60Hz or
+4k@30Hz? If the former, could you give 4k@30Hz a try? That mode works
+well here.
+
 > 
+> I would suggest split v4 into 2 separated series:
 
-[snip]
+Yeah, splitting up the series makes sense. At the moment I have it all
+in one series to ease others testing it.
 
->> +
->> +Learning material
->> +=================
+Sascha
+
 > 
-> Maybe 'External References'.
->
-
-Agreed, I'll change it.
-
->> +
->> +Since the Linux DRM layer supports complex graphics devices, it can be quite
->> +overwhelming for newcomers to get familiar with all the needed concepts and
->> +learn the subsystem's internals.
+> -VOP2 support
+> -HDMI 4k modes support
 > 
-> It sounds a bit intimdating to me. Can we give it a positive spin?
->
+> BTW: getting well working 4k HDMI modes on rk3399 was real story for me.
+> There is many different series of patches to address this - but all have some subtle issues for me (i.e. 4k HDMI modes works but i.e. Qt is failing with DRM atomic commits in EGLFS)
+> I developed well working [1] giving me reliable 4k on rk3399 (including working Qt DRM drawing in EGLFS mode) 
+> Maybe it will be somehow helpful to get 4k modes solution for rk3566 _and_ rk3399 (on single kernel binary)?
+> 
+> [1] https://github.com/warpme/minimyth2/blob/master/script/kernel/linux-5.16/files/0730-drm-rockchip-add-4k-videomodes-support.patch
 
-Pekka also had reservations about this paragraph, so I think that will just
-drop it. The goal of having this section was to ease the learning curve but
-the way I worded it may reinforce the perception that DRM is hard to learn.
+At least there are patches in it that I have in my series as well and
+keep popping up everywhere like "drm/rockchip: dw_hdmi: Use
+auto-generated tables" and "drm/rockchip: dw_hdmi: Set cur_ctr to 0
+always"
 
-> IMHO we could add a separate section that talks about complexity and 
-> provides guidelines about how to deal with it:  trivial HW? use simple 
-> pipe;  dedicated VRAM? try TTM;  awkward color formats?  see 
-> drm_format_helper.c
->
+Sascha
 
-Indeed. And we can add such section as a follow-up. Maybe referring to some
-of the drivers in drivers/gpu/drm/tiny.
-
-Best regards, -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
