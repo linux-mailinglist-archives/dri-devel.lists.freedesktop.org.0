@@ -2,62 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCC849E915
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 18:33:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E61D49E946
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 18:47:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D33B910E372;
-	Thu, 27 Jan 2022 17:33:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60FEB10E1F9;
+	Thu, 27 Jan 2022 17:47:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C24F410E372
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 17:33:04 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id u24so4608481eds.11
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 09:33:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=FOZAF5A3p4mhZisFzPr/R8ZIXvhN8wWDFykB6iqDaHU=;
- b=bM6hxK/jokDHdW+ADUU4VuMxMsDrBEmbiz9oig6o0z2IGYHkLZO9UxWI8L6VHt9OG0
- 5z2c0RSoECTouQtt908YZlFpjzfNvXjvRkbSc+8KsDttnHV/zxfWdCzJquZ65lvfGlNX
- cfp4kVwpdOnVMNN5Z8kp0hllcKJ3kNRaMkyPgATSyKyvI36DegenpvfhLoBjaOkXaqqA
- WLNiGa0CzGHscQfxoEZqEhb8hoTjVrepdmYj1a/bK4U96oPMXieCqxBRhZColQpO0hZZ
- GSP68A1JlBn/OSpuythkak+3D+r0dYmhhplDlI9S+zbnv/3vzxtM9pMdhnDO54EeSRbe
- kEAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=FOZAF5A3p4mhZisFzPr/R8ZIXvhN8wWDFykB6iqDaHU=;
- b=W/6s+ow02970FMn9p97vrrFplByIW4Jw1kOoIOa/nHrWTiYEw9Q4t//j4cWT5oNIgv
- 0UpVPO2drgXqWUwy9mYyNMEhEP7KVG3ZqiW4aSwyWRTIIj4owmrL5c8+h+NzQqjacfUD
- Y+KxR8qg2tZSA0Rjp1hfKAN7HwmSHISu6Au64thU8oz+ZB2t16iBwTlskCzUTXXuzbMs
- oFHexj/QRlOF2RJ8sQmC6YFfJQJ4bnHkUaM6qouW8Mcyad2vrGL7eQGLZoJUIO6luSkI
- jjG7Jx8HToC1usutmACOgyzfKe1FYBoAWAZ+e514d37v4TQCMt7yvpGOCbV99XpvJOHq
- OwrA==
-X-Gm-Message-State: AOAM533qOIP6RPJh7Y1mts0y8AsULN2eOkPJy9fkfIH23obgneLtlFKW
- NmQ90CucgF8fY+cykRnDMeM=
-X-Google-Smtp-Source: ABdhPJydudNeSfe6M/N389V+E7bC2CglXjpxyAdJMt5lvhmu/FwMm3H6ajx7cLpRoGlM+g7T+odVEg==
-X-Received: by 2002:a05:6402:2071:: with SMTP id
- bd17mr4623584edb.328.1643304783161; 
- Thu, 27 Jan 2022 09:33:03 -0800 (PST)
-Received: from orome ([193.209.96.43])
- by smtp.gmail.com with ESMTPSA id s19sm9593795edr.23.2022.01.27.09.33.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 09:33:02 -0800 (PST)
-Date: Thu, 27 Jan 2022 18:32:59 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v1] gpu: host1x: Fix hang on Tegra186+
-Message-ID: <YfLXSxbdu3AbHwFp@orome>
-References: <20211223144650.10335-1-digetx@gmail.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAC8D10E1F6;
+ Thu, 27 Jan 2022 17:47:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643305630; x=1674841630;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Q7j840C1wGJf53Hp/9GYEyeHEbOI9B1npOOT1aGZzHw=;
+ b=KUTd9iJvgi9AAi1AyP2L4Nq0Nq5mLCNFD25etZsNaY5+nRM+IO3unMbF
+ ugxFMViZlkBZTbAfBeqVCAjLXlYtIfLd0rTqF0WWJfKoEybpZuXAWdb63
+ gmRzyJjvoszdeoYgFfnHX71PJ9OquggIW9XXSvZ8uPMtkGWVJ72FRczTi
+ o959RyhWluXfjX8z+SG/ThiRPA1W8Uw4DLSHYg5u6FrQPC8Cib5ctkj/0
+ a1hqNYwPJwY9doec4FP8FEKzRgltLjYzZRnnpypzYOgKLW4JZad4QLBDs
+ OhT6WwdtEhqqglQYYLS3pLcmVwqmagdftvVZAWlAkNQKk+dzsfP5WBrnd w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="244526651"
+X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; d="scan'208";a="244526651"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2022 09:47:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; d="scan'208";a="563874781"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+ by orsmga001.jf.intel.com with ESMTP; 27 Jan 2022 09:47:06 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nD8rR-000Msc-PJ; Thu, 27 Jan 2022 17:47:05 +0000
+Date: Fri, 28 Jan 2022 01:46:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zhi Wang <zhi.wang.linux@gmail.com>, hch@lst.de, jgg@nvidia.com,
+ jani.nikula@linux.intel.com
+Subject: Re: [Intel-gfx] [PATCH 1/3] i915/gvt: Introduce the mmio_table.c to
+ support VFIO new mdev API
+Message-ID: <202201280121.YX5gboDp-lkp@intel.com>
+References: <20220127120508.11330-1-zhi.a.wang@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="XW8H4TlOOnoqjy38"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211223144650.10335-1-digetx@gmail.com>
-User-Agent: Mutt/2.1.5 (31b18ae9) (2021-12-30)
+In-Reply-To: <20220127120508.11330-1-zhi.a.wang@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,54 +61,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>
+Cc: kbuild-all@lists.01.org, Zhi Wang <zhi.wang.linux@gmail.com>,
+ intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Zhi,
 
---XW8H4TlOOnoqjy38
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I love your patch! Perhaps something to improve:
 
-On Thu, Dec 23, 2021 at 05:46:50PM +0300, Dmitry Osipenko wrote:
-> Tegra186+ hangs if host1x hardware is disabled at a kernel boot time
-> because we touch hardware before runtime PM is resumed. Move sync point
-> assignment initialization to the RPM-resume callback. Older SoCs were
-> unaffected because they skip that sync point initialization.
->=20
-> Tested-by: Jon Hunter <jonathanh@nvidia.com> # T186
-> Reported-by: Jon Hunter <jonathanh@nvidia.com> # T186
-> Fixes: 6b6776e2ab8a ("gpu: host1x: Add initial runtime PM and OPP support=
-")
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/gpu/host1x/syncpt.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+[auto build test WARNING on drm-tip/drm-tip]
+[also build test WARNING on next-20220127]
+[cannot apply to drm-intel/for-linux-next hch-configfs/for-next v5.17-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Applied, thanks.
+url:    https://github.com/0day-ci/linux/commits/Zhi-Wang/i915-gvt-Introduce-the-mmio_table-c-to-support-VFIO-new-mdev-API/20220127-200727
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20220128/202201280121.YX5gboDp-lkp@intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f32dccb9a43b02ce4e540d6ba5dbbdb188f2dc7d)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/533f92651a7a56481a053f1e04dc5a5ec024ffb9
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Zhi-Wang/i915-gvt-Introduce-the-mmio_table-c-to-support-VFIO-new-mdev-API/20220127-200727
+        git checkout 533f92651a7a56481a053f1e04dc5a5ec024ffb9
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
 
-Thierry
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
---XW8H4TlOOnoqjy38
-Content-Type: application/pgp-signature; name="signature.asc"
+All warnings (new ones prefixed by >>):
 
------BEGIN PGP SIGNATURE-----
+>> drivers/gpu/drm/i915/gvt/handlers.c:45:6: warning: no previous prototype for function 'intel_gvt_match_device' [-Wmissing-prototypes]
+   bool intel_gvt_match_device(struct intel_gvt *gvt,
+        ^
+   drivers/gpu/drm/i915/gvt/handlers.c:45:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   bool intel_gvt_match_device(struct intel_gvt *gvt,
+   ^
+   static 
+   1 warning generated.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmHy10sACgkQ3SOs138+
-s6Gw6xAAmGdmWBB58I3THIAGel1GCXIQhzP+taGfVjOMFv3ABV+zv4rujGwg3FOS
-UuLmR3keYTrqonrU6mvnr4RhprY7K/g4KEsk+AJIxyI0hUkqRtcwfEl1MEDxmJ//
-Y/+WgTjmINdqXbsC8wNdRG1XXTbQvIideHyB7E/rhvGiXUBiB61lF365La8DqKAy
-f+PUnyuazJc25si5P5ySdRHISHiBF2/uSRfATwi65uWuvPcSS3kqxCrvQnWLcXHK
-jp/NezEUvRwZzR+cPa7QD8Qtb5uv0rlTIPlE2NdMJ1jgy891q1K1MDNncSaSNzr9
-QZ9xhH5BWKd3yVyn8fAPe05m6anK6ecoEzozUcSTADZhAjaz+I2KRZh83mkaW3js
-P3YCThYl99+KalTSAJ+KauJ/7zC26zYraq8U9iB+5FlVgIRGwlauoF0w9lECOujS
-/y6o0eohmY1umT0OPAJJv7cY3Jy9O1cpJfsmD7wfyE8RdWXu4Pu0sFUKafkYQPUA
-hJ6EEouGlVM3B1cMMB/HYlSRxjecpdf7V/FSWREb9pLnKx01zRn4r0PKimkXXyeP
-i/xRrRH4nkLH0Ea12UQKOOPbtV6rLUmh7ctqBJTPI0/3eIxVhxgZkPjuk8Uu/mKq
-mgkk4aQU2hx9DGli2FdeGeBl0wh/i5TtxuqCUfnI1wR2A2iLPDk=
-=6xh/
------END PGP SIGNATURE-----
 
---XW8H4TlOOnoqjy38--
+vim +/intel_gvt_match_device +45 drivers/gpu/drm/i915/gvt/handlers.c
+
+12d14cc43b3470 Zhi Wang 2016-08-30  44  
+12d14cc43b3470 Zhi Wang 2016-08-30 @45  bool intel_gvt_match_device(struct intel_gvt *gvt,
+12d14cc43b3470 Zhi Wang 2016-08-30  46  		unsigned long device)
+12d14cc43b3470 Zhi Wang 2016-08-30  47  {
+533f92651a7a56 Zhi Wang 2022-01-27  48  	return intel_gvt_get_device_type(gvt->gt->i915) & device;
+12d14cc43b3470 Zhi Wang 2016-08-30  49  }
+12d14cc43b3470 Zhi Wang 2016-08-30  50  
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
