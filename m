@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3521B49E53B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 15:54:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0652249E55D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 16:03:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BBAA10E7B5;
-	Thu, 27 Jan 2022 14:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFB1110F066;
+	Thu, 27 Jan 2022 15:03:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E81A10E7B5;
- Thu, 27 Jan 2022 14:54:23 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id F04DC218DF;
- Thu, 27 Jan 2022 14:54:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643295261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v8fWXhbyoXcazfhZo3hv5O1RuBmr1XMNYj+pSAtIS1Q=;
- b=BgYzEH4XlP9nGQv8GoiDP1R0T9x0TU5+PNYjxGsTuPXTOc0O/MCDbwVDHY1m18+mma9RC3
- KCzUw6JuwXWyAwkdRqq8NyvfewUFS7+9eOmNp/hPsL4rAwBm7PhrAAn6tNvpqaedYWR+LH
- u8i3/lyUwVdhDlro16DpS2lfGJWZfRI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643295261;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v8fWXhbyoXcazfhZo3hv5O1RuBmr1XMNYj+pSAtIS1Q=;
- b=ljw22gscG6ryGrzLVqc+LdSSJVRgkn0lrv1cKXmS5NEDQEZRo+Rzz9zGKUzU9qolDWbW5v
- jCTRD/SYlTy66zDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C4E3213C03;
- Thu, 27 Jan 2022 14:54:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id r00TLx2y8mFsUAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 27 Jan 2022 14:54:21 +0000
-Message-ID: <7cb8a8a2-718d-6d5c-5de6-05bf990dd479@suse.de>
-Date: Thu, 27 Jan 2022 15:54:21 +0100
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1FEC10F066
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 15:03:23 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ d138-20020a1c1d90000000b0034e043aaac7so3527202wmd.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 07:03:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=AKjPzil2WHL5qagwQAOKGS36RMPWHiRknzFG6enw3j0=;
+ b=GilLTu0kr1ZV3H2m6xZYYhIDByDvks4ej/JU/KpTFiGhQXAeiVKBbkdZnl4A8OSisE
+ hHRrlXiXAdzZksvi+myNmOZ/CzYYYDoZg/1yoPHdoi/nz1HHPXcvBgbLCkjoB+aXYb5K
+ VpHTLhua0Ys7OBdEOMfIxL3KbWaI9DwX0OwPk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=AKjPzil2WHL5qagwQAOKGS36RMPWHiRknzFG6enw3j0=;
+ b=nb53xmgVyzi4keXOmibZdrtvE57y4nhcFNwydPJqnNPpRtKt7WR3s0iaRyDQ7CCCmC
+ PCLhNgr7mDcYl5NBsgKaKihreNfsZHptwaVvR037zCm4Fdc+iidp764o3bPcj2+rBHp1
+ Va2iCE0xeHYDfMMRpez+MYQE6xQt7Bc9gwOoUFxXn2hDUp16zMTUZcNkHR28RinlDmI3
+ qp/fB/bJyn1Y8FhJifTrlPtf1ot+CiH5Myj/0UfeQrsWMbnENFuWxt0McFjFHaQJrvsr
+ 2UJYMd23CfUyil460/pyp1dUMudqKRKKCdBaPq1MbpOlX4nJ+rxX66D7tkw5jZ1J0Xo8
+ wmDg==
+X-Gm-Message-State: AOAM532kg/980rnevpv8cWe0AQgVu0G9AhoNJJx7D6Yqz4sh6YdQKot+
+ MG6RmH69IDa0ejLJq7decdHZkQ==
+X-Google-Smtp-Source: ABdhPJx6T1w1AuSgU7ux3TF/CaY0othfoxQw6wJtY9TlQCeYZQOt8jSIa0+6/VMQsHJkIeppopOv1g==
+X-Received: by 2002:a05:600c:3b27:: with SMTP id
+ m39mr3012790wms.40.1643295802284; 
+ Thu, 27 Jan 2022 07:03:22 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id a24sm5909975wmm.31.2022.01.27.07.03.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jan 2022 07:03:21 -0800 (PST)
+Date: Thu, 27 Jan 2022 16:03:19 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/fb-helper: Mark screen buffers in system memory with
+ FB_VIRTFB
+Message-ID: <YfK0N21rJ69rclJE@phenom.ffwll.local>
+References: <20220127102621.30047-1-tzimmermann@suse.de>
+ <YfKFP2DW/g6tXLQw@phenom.ffwll.local>
+ <b3c508df-53ee-7fcd-2cdb-297d603a5f96@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 09/19] dma-buf-map: Add wrapper over memset
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-10-lucas.demarchi@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220126203702.1784589-10-lucas.demarchi@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------qRmQ02gbb1I86kFPwqzaVpbh"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b3c508df-53ee-7fcd-2cdb-297d603a5f96@suse.de>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,91 +72,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------qRmQ02gbb1I86kFPwqzaVpbh
-Content-Type: multipart/mixed; boundary="------------nI0Yh6km02ArpMTUoS57PPJq";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-Message-ID: <7cb8a8a2-718d-6d5c-5de6-05bf990dd479@suse.de>
-Subject: Re: [PATCH 09/19] dma-buf-map: Add wrapper over memset
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-10-lucas.demarchi@intel.com>
-In-Reply-To: <20220126203702.1784589-10-lucas.demarchi@intel.com>
+On Thu, Jan 27, 2022 at 12:58:30PM +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 27.01.22 um 12:42 schrieb Daniel Vetter:
+> > On Thu, Jan 27, 2022 at 11:26:21AM +0100, Thomas Zimmermann wrote:
+> > > Mark screen buffers in system memory with FB_VIRTFB. Otherwise, the
+> > > buffers are mmap'ed as I/O memory (i.e., VM_IO). For shadow buffers,
+> > > also set the FB_READS_FAST hint.
+> > 
+> > Maybe clarify that this only holds for the defio case, and since we have
+> > our own shadow copy for that anyway it shouldn't matter. I'm also not sure
+> > how much the memcpy gains us compared to just redrawing ...
+> > 
+> > What's the motivation here, or just something you spotted?
+> 
+> Correctness mostly. fbdev's fbdefio tests for (the absence of) this flag and
+> sets VM_IO accordingly.
+> 
+> It's actually for userspace. Maybe userspace tests these flags as well and
+> can optimize memcpy pattern for different types of caching. But I wouldn't
+> expect it TBH.
 
---------------nI0Yh6km02ArpMTUoS57PPJq
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Hm I thought so too, but the #define is in the internal header, not the
+uapi header. And I don't see any ioctl code in fbmem.c that would shove
+fb_info->flags to userspace. That's why I wondered why you care about
+this? Or did I miss something somewhere?
+-Daniel
 
-SGkNCg0KQW0gMjYuMDEuMjIgdW0gMjE6MzYgc2NocmllYiBMdWNhcyBEZSBNYXJjaGk6DQo+
-IEp1c3QgbGlrZSBtZW1jcHlfdG9pbygpLCB0aGVyZSBpcyBhbHNvIG5lZWQgdG8gd3JpdGUg
-YSBkaXJlY3QgdmFsdWUgdG8gYQ0KPiBtZW1vcnkgYmxvY2suIEFkZCBkbWFfYnVmX21hcF9t
-ZW1zZXQoKSB0byBhYnN0cmFjdCBtZW1zZXQoKSB2cyBtZW1zZXRfaW8oKQ0KPiANCj4gQ2M6
-IE1hdHQgUm9wZXIgPG1hdHRoZXcuZC5yb3BlckBpbnRlbC5jb20+DQo+IENjOiBTdW1pdCBT
-ZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPg0KPiBDYzogQ2hyaXN0aWFuIEvDtm5p
-ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiBDYzogbGludXgtbWVkaWFAdmdlci5r
-ZXJuZWwub3JnDQo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IENj
-OiBsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmcNCj4gQ2M6IGxpbnV4LWtlcm5lbEB2
-Z2VyLmtlcm5lbC5vcmcNCj4gU2lnbmVkLW9mZi1ieTogTHVjYXMgRGUgTWFyY2hpIDxsdWNh
-cy5kZW1hcmNoaUBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgIGluY2x1ZGUvbGludXgvZG1hLWJ1
-Zi1tYXAuaCB8IDE3ICsrKysrKysrKysrKysrKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDE3
-IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2RtYS1i
-dWYtbWFwLmggYi9pbmNsdWRlL2xpbnV4L2RtYS1idWYtbWFwLmgNCj4gaW5kZXggMzUxNGE4
-NTlmNjI4Li5jOWZiMDQyNjRjZDAgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvbGludXgvZG1h
-LWJ1Zi1tYXAuaA0KPiArKysgYi9pbmNsdWRlL2xpbnV4L2RtYS1idWYtbWFwLmgNCj4gQEAg
-LTMxNyw2ICszMTcsMjMgQEAgc3RhdGljIGlubGluZSB2b2lkIGRtYV9idWZfbWFwX21lbWNw
-eV90byhzdHJ1Y3QgZG1hX2J1Zl9tYXAgKmRzdCwgY29uc3Qgdm9pZCAqc3INCj4gICAJCW1l
-bWNweShkc3QtPnZhZGRyLCBzcmMsIGxlbik7DQo+ICAgfQ0KPiAgIA0KPiArLyoqDQo+ICsg
-KiBkbWFfYnVmX21hcF9tZW1zZXQgLSBNZW1zZXQgaW50byBkbWEtYnVmIG1hcHBpbmcNCj4g
-KyAqIEBkc3Q6CVRoZSBkbWEtYnVmIG1hcHBpbmcgc3RydWN0dXJlDQo+ICsgKiBAdmFsdWU6
-CVRoZSB2YWx1ZSB0byBzZXQNCj4gKyAqIEBsZW46CVRoZSBudW1iZXIgb2YgYnl0ZXMgdG8g
-c2V0IGluIGRzdA0KPiArICoNCj4gKyAqIFNldCB2YWx1ZSBpbiBkbWEtYnVmIG1hcHBpbmcu
-IERlcGVuZGluZyBvbiB0aGUgYnVmZmVyJ3MgbG9jYXRpb24sIHRoZSBoZWxwZXINCj4gKyAq
-IHBpY2tzIHRoZSBjb3JyZWN0IG1ldGhvZCBvZiBhY2Nlc3NpbmcgdGhlIG1lbW9yeS4NCj4g
-KyAqLw0KPiArc3RhdGljIGlubGluZSB2b2lkIGRtYV9idWZfbWFwX21lbXNldChzdHJ1Y3Qg
-ZG1hX2J1Zl9tYXAgKmRzdCwgaW50IHZhbHVlLCBzaXplX3QgbGVuKQ0KPiArew0KPiArCWlm
-IChkc3QtPmlzX2lvbWVtKQ0KPiArCQltZW1zZXRfaW8oZHN0LT52YWRkcl9pb21lbSwgdmFs
-dWUsIGxlbik7DQo+ICsJZWxzZQ0KPiArCQltZW1zZXQoZHN0LT52YWRkciwgdmFsdWUsIGxl
-bik7DQo+ICt9DQoNCk1heWJlIGFkZCBhbiBvZmZzZXQgcGFyYW1ldGVyIGhlcmUuDQoNCkJl
-c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gKw0KPiAgIC8qKg0KPiAgICAqIGRtYV9idWZfbWFw
-X2luY3IgLSBJbmNyZW1lbnRzIHRoZSBhZGRyZXNzIHN0b3JlZCBpbiBhIGRtYS1idWYgbWFw
-cGluZw0KPiAgICAqIEBtYXA6CVRoZSBkbWEtYnVmIG1hcHBpbmcgc3RydWN0dXJlDQoNCi0t
-IA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0Ug
-U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkg
-TsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOk
-ZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+> 
+> Best regards
+> Thomas
+> 
+> > -Daniel
+> > 
+> > > 
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > ---
+> > >   drivers/gpu/drm/drm_fb_helper.c | 9 ++++++---
+> > >   1 file changed, 6 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> > > index ed43b987d306..f15127a32f7a 100644
+> > > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > > @@ -2346,6 +2346,7 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
+> > >   	fbi->fbops = &drm_fbdev_fb_ops;
+> > >   	fbi->screen_size = sizes->surface_height * fb->pitches[0];
+> > >   	fbi->fix.smem_len = fbi->screen_size;
+> > > +	fbi->flags = FBINFO_DEFAULT;
+> > >   	drm_fb_helper_fill_info(fbi, fb_helper, sizes);
+> > > @@ -2353,19 +2354,21 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
+> > >   		fbi->screen_buffer = vzalloc(fbi->screen_size);
+> > >   		if (!fbi->screen_buffer)
+> > >   			return -ENOMEM;
+> > > +		fbi->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
+> > >   		fbi->fbdefio = &drm_fbdev_defio;
+> > > -
+> > >   		fb_deferred_io_init(fbi);
+> > >   	} else {
+> > >   		/* buffer is mapped for HW framebuffer */
+> > >   		ret = drm_client_buffer_vmap(fb_helper->buffer, &map);
+> > >   		if (ret)
+> > >   			return ret;
+> > > -		if (map.is_iomem)
+> > > +		if (map.is_iomem) {
+> > >   			fbi->screen_base = map.vaddr_iomem;
+> > > -		else
+> > > +		} else {
+> > >   			fbi->screen_buffer = map.vaddr;
+> > > +			fbi->flags |= FBINFO_VIRTFB;
+> > > +		}
+> > >   		/*
+> > >   		 * Shamelessly leak the physical address to user-space. As
+> > > -- 
+> > > 2.34.1
+> > > 
+> > 
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Ivo Totev
 
---------------nI0Yh6km02ArpMTUoS57PPJq--
 
---------------qRmQ02gbb1I86kFPwqzaVpbh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHysh0FAwAAAAAACgkQlh/E3EQov+A3
-ZxAAr5VXWQlRsbS8cSvWZ6EQYkXbTAu3e9bmzCT4dEaTn9l/lcOs50+nU1tOts6eCL57N8BpE6JL
-ALTmdjZ4uTYn5JubCyVECPZmqVH81qPPJoPHoX5moiJon+jcc7YYohAbrTS0nR5MIV/AKucZiY6f
-6SJfryLv6CcKytF+2DP7ebPyneXG5e4nyQC7ar4f839YaXcKkcmsJSFDVI6b3jwpYw7Pvv4uJ/6m
-o8SRUzSq0I+7vvtS0kuQB1SY8RHEMEr1hmw0IO5K15Eu0XIltumaATF5hbe/pikfJZRxNBjoT/6X
-g3alHMsJhKcL4GFpeZzQIhYAhO59zlrTr6GWVxOa+MSXC5K8v0YeGaHwFEMDID30qO5r22Sd+Qya
-8i7ntYy+VdcbdBf0IiLmwAVgRZdfnI1CNeV2Q+TKGAp2YUd+7re9A32gSKoWmy47788MrEzOU2UM
-S8m/xSL2Yftwdczy5UerUUCgjzT9qibXCjRrS9xXW2uUSeQvyO2tv7Mu0qPTTQODwJfVCsZVqxHR
-YKi1a4bc6voQau/OfByZr/hIaQEJzu1N7z5LeIPQsAXTnyr0+MF5T5GKfrrESODLSKl0x1vQwbpF
-6VxFzz/gcIoU0GfoLVBzoaXMdGNswoxbjBT4v3D6iNpNL7GF1MPTDDR506W6BqbfpJe4Hkgp1NsL
-jH8=
-=gmeQ
------END PGP SIGNATURE-----
-
---------------qRmQ02gbb1I86kFPwqzaVpbh--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
