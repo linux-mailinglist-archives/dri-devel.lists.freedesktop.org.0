@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D8349EBFA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 21:03:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D52C549EBFC
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jan 2022 21:03:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A34C10E476;
-	Thu, 27 Jan 2022 20:02:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8511710E50E;
+	Thu, 27 Jan 2022 20:02:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE79110E502
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 20:02:36 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id e16so3239805pgn.4
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 12:02:36 -0800 (PST)
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A64010E5AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 20:02:38 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id 133so3283719pgb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 12:02:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZPdM2UZRVqO2e0C8ICFRT9vqGkS5bJAyu59fLH+Uvcs=;
- b=Gl4OTjqsqgynBhjQVr0J0vK/Y4lnurULqWtCsHyQOkEHqf7pCYHQI81VfLe0ELPBsG
- 0SYrju/lR6J6HE43y4rKJGyo6/G5xD8lVQyH6+Ijf/swy2beLa8NcG5FgN9KTJwKHXGo
- bQsVmN6a58G5hTr/ZwYaIyIU2zcLLGHUCcPIM=
+ bh=ckuMr+Ncb/jcw9TvP8N13lANp/qUitpt+atxz271bCg=;
+ b=VCDCJ2XXoEo5R2boVBxoQIPLBYXRZ4ygF5m58BNpDlZWi0b2RKflooEmM0NvSKn47v
+ M8K2o4X4DejnrnAjIJ9q3+1sECxzMIDHOFpFmOMgT91R+rXZdeyhn45ubWI9MY4y+lGt
+ LQpRvpFof698nsHlX6PxiqwGND/FxZPe/vWmk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZPdM2UZRVqO2e0C8ICFRT9vqGkS5bJAyu59fLH+Uvcs=;
- b=EaeZVW0U4OE2tBz/Z2ew2/ukD4gDXTY55JUi6JYw9haV8HE9kYh1PxkdghzEUTNDAR
- j9zNqVeXPc7eJmH0gEWxw1PvDUJHcG+ypUEh2HbxECZEA/pX920eAit3KMd7mM0nSgU0
- Xyu1KLvRr8uNpEKGwcb+vKbEZfzObsYv+8bWArQV+xpEjf0KWDiHD0FtJGyfxsZWifpL
- kdgQCxnG1cZ6thml0jsbiZmEpshjLBPNv1o70+Bkbod2MpUswzifGpR7XTPDrTwxxG6/
- bdJ3bVVNVfGmOOJTg9GJkGEpxfV3jRJlMZfmXW91D/xzFd9gRXS2MzDv8WhBsIGI9CXD
- 1Z0A==
-X-Gm-Message-State: AOAM530IkWRJ/2lrG+YoTXiiz3VQoB2fgLnPHJ3Xoe6wng7bGoJKqGBF
- SkIvfgnfNRbPxlsCwRTwEmO89g==
-X-Google-Smtp-Source: ABdhPJwB8j2u/cujHRi6C9hFkNiVFW4PLGhDjL/+Uzw5oKliGwBjASBtEEumzc2+wCCT+0M/ofqccg==
-X-Received: by 2002:a05:6a00:14d1:: with SMTP id
- w17mr4787164pfu.46.1643313756502; 
- Thu, 27 Jan 2022 12:02:36 -0800 (PST)
+ bh=ckuMr+Ncb/jcw9TvP8N13lANp/qUitpt+atxz271bCg=;
+ b=We+313CahAhokcVolw2Wg68i/UMFDlnNWrOfjdz6hAv23R8zVI/pF/juRWFMlW5j56
+ V0jRzLHYgnmFjEO4IoH+Eu5LGPkgDPLxge/BmkUqEiR6PPMZ0iRXwM4njiYEkvLWgMGE
+ lbIFdn+JDS7onh9QTdbkKWPIDp+4hcXtgOda7IvmzTLg3ciGjXVKNxsy4Y32J11CsMXd
+ jbig9SVvyOL80h0mGxh68wsE13OGtMHissSSjzo2SM4GUcExT0qPKmNQnwOs7AUGtB5F
+ aEBMmB0bEYOkz8kZ3dcZvxDlfevC1X18nPwYLftiSoy6qgrh6urg1B7idw/O76OMqaT5
+ pIZg==
+X-Gm-Message-State: AOAM533XaA3ikgUlM7Z44+IPk0GC6PSP96GSKYePq7XbakQPZ/qlLD0B
+ XeW3MZudCalvJtLfmhD88dKE6A==
+X-Google-Smtp-Source: ABdhPJzi7TeBcTmXGNEgo6gqdKnb0pcCN6RMeqZ8Q6M/Rim3Xa3q76WIvhpg51Dhu0lKrNyj5S5Unw==
+X-Received: by 2002:a62:e116:: with SMTP id q22mr4473788pfh.48.1643313757782; 
+ Thu, 27 Jan 2022 12:02:37 -0800 (PST)
 Received: from smtp.gmail.com ([2620:15c:202:201:9246:1838:3243:3071])
- by smtp.gmail.com with ESMTPSA id k21sm6561190pff.33.2022.01.27.12.02.34
+ by smtp.gmail.com with ESMTPSA id k21sm6561190pff.33.2022.01.27.12.02.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 12:02:36 -0800 (PST)
+ Thu, 27 Jan 2022 12:02:37 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v6 31/35] drm/sprd: Migrate to aggregate driver
-Date: Thu, 27 Jan 2022 12:01:37 -0800
-Message-Id: <20220127200141.1295328-32-swboyd@chromium.org>
+Subject: [PATCH v6 32/35] usb: typec: port-mapper: Migrate to aggregate driver
+Date: Thu, 27 Jan 2022 12:01:38 -0800
+Message-Id: <20220127200141.1295328-33-swboyd@chromium.org>
 X-Mailer: git-send-email 2.35.0.rc0.227.g00780c9af4-goog
 In-Reply-To: <20220127200141.1295328-1-swboyd@chromium.org>
 References: <20220127200141.1295328-1-swboyd@chromium.org>
@@ -66,12 +65,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saravana Kannan <saravanak@google.com>, Kevin Tang <kevin3.tang@gmail.com>,
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Saravana Kannan <saravanak@google.com>,
  "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Baolin Wang <baolin.wang7@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
- freedreno@lists.freedesktop.org, Russell King <rmk+kernel@arm.linux.org.uk>
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -79,11 +78,7 @@ Use an aggregate driver instead of component ops so that we can get
 proper driver probe ordering of the aggregate device with respect to all
 the component devices that make up the aggregate device.
 
-Cc: Orson Zhai <orsonzhai@gmail.com>
-Cc: Baolin Wang <baolin.wang7@gmail.com>
-Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Kevin Tang <kevin3.tang@gmail.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>
@@ -91,105 +86,59 @@ Cc: Russell King <rmk+kernel@arm.linux.org.uk>
 Cc: Saravana Kannan <saravanak@google.com>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/sprd/sprd_drm.c | 48 +++++++++++++++++++--------------
- 1 file changed, 28 insertions(+), 20 deletions(-)
+ drivers/usb/typec/port-mapper.c | 22 +++++++++++++++-------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sprd_drm.c
-index a077e2d4d721..ff39b32b20c0 100644
---- a/drivers/gpu/drm/sprd/sprd_drm.c
-+++ b/drivers/gpu/drm/sprd/sprd_drm.c
-@@ -65,8 +65,9 @@ static struct drm_driver sprd_drm_drv = {
- 	.minor			= DRIVER_MINOR,
- };
+diff --git a/drivers/usb/typec/port-mapper.c b/drivers/usb/typec/port-mapper.c
+index 07d307418b47..33fbebc6a85b 100644
+--- a/drivers/usb/typec/port-mapper.c
++++ b/drivers/usb/typec/port-mapper.c
+@@ -11,19 +11,27 @@
  
--static int sprd_drm_bind(struct device *dev)
-+static int sprd_drm_aggregate_probe(struct aggregate_device *adev)
+ #include "class.h"
+ 
+-static int typec_aggregate_bind(struct device *dev)
++static int typec_aggregate_probe(struct aggregate_device *adev)
  {
 +	struct device *dev = aggregate_device_parent(adev);
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct drm_device *drm;
- 	struct sprd_drm *sprd;
-@@ -118,8 +119,9 @@ static int sprd_drm_bind(struct device *dev)
- 	return ret;
++
+ 	return component_bind_all(dev, NULL);
  }
  
--static void sprd_drm_unbind(struct device *dev)
-+static void sprd_drm_aggregate_remove(struct aggregate_device *adev)
+-static void typec_aggregate_unbind(struct device *dev)
++static void typec_aggregate_remove(struct aggregate_device *adev)
  {
 +	struct device *dev = aggregate_device_parent(adev);
- 	struct drm_device *drm = dev_get_drvdata(dev);
- 
- 	drm_dev_unregister(drm);
-@@ -129,9 +131,28 @@ static void sprd_drm_unbind(struct device *dev)
- 	component_unbind_all(drm->dev, drm);
++
+ 	component_unbind_all(dev, NULL);
  }
  
--static const struct component_master_ops drm_component_ops = {
--	.bind = sprd_drm_bind,
--	.unbind = sprd_drm_unbind,
-+static void sprd_drm_aggregate_shutdown(struct aggregate_device *adev)
-+{
-+	struct device *dev = aggregate_device_parent(adev);
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct drm_device *drm = platform_get_drvdata(pdev);
-+
-+	if (!drm) {
-+		drm_warn(drm, "drm device is not available, no shutdown\n");
-+		return;
-+	}
-+
-+	drm_atomic_helper_shutdown(drm);
-+}
-+
-+static struct aggregate_driver sprd_drm_aggregate_driver = {
-+	.probe = sprd_drm_aggregate_probe,
-+	.remove = sprd_drm_aggregate_remove,
-+	.shutdown = sprd_drm_aggregate_shutdown,
+-static const struct component_master_ops typec_aggregate_ops = {
+-	.bind = typec_aggregate_bind,
+-	.unbind = typec_aggregate_unbind,
++static struct aggregate_driver typec_aggregate_driver = {
++	.probe = typec_aggregate_probe,
++	.remove = typec_aggregate_remove,
 +	.driver = {
-+		.name = "sprd_drm",
++		.name = "typec_aggregate",
 +		.owner = THIS_MODULE,
 +	},
  };
  
- static int compare_of(struct device *dev, void *data)
-@@ -141,27 +162,15 @@ static int compare_of(struct device *dev, void *data)
- 
- static int sprd_drm_probe(struct platform_device *pdev)
- {
--	return drm_of_component_probe(&pdev->dev, compare_of, &drm_component_ops);
-+	return drm_of_aggregate_probe(&pdev->dev, compare_of, &sprd_drm_aggregate_driver);
+ struct each_port_arg {
+@@ -69,10 +77,10 @@ int typec_link_ports(struct typec_port *con)
+ 	 * improvements to the component framework. Right now you can only have
+ 	 * one master per device.
+ 	 */
+-	return component_master_add_with_match(&con->dev, &typec_aggregate_ops, arg.match);
++	return component_aggregate_register(&con->dev, &typec_aggregate_driver, arg.match);
  }
  
- static int sprd_drm_remove(struct platform_device *pdev)
+ void typec_unlink_ports(struct typec_port *con)
  {
--	component_master_del(&pdev->dev, &drm_component_ops);
-+	component_aggregate_unregister(&pdev->dev, &sprd_drm_aggregate_driver);
- 	return 0;
+-	component_master_del(&con->dev, &typec_aggregate_ops);
++	component_aggregate_unregister(&con->dev, &typec_aggregate_driver);
  }
- 
--static void sprd_drm_shutdown(struct platform_device *pdev)
--{
--	struct drm_device *drm = platform_get_drvdata(pdev);
--
--	if (!drm) {
--		drm_warn(drm, "drm device is not available, no shutdown\n");
--		return;
--	}
--
--	drm_atomic_helper_shutdown(drm);
--}
--
- static const struct of_device_id drm_match_table[] = {
- 	{ .compatible = "sprd,display-subsystem", },
- 	{ /* sentinel */ },
-@@ -171,7 +180,6 @@ MODULE_DEVICE_TABLE(of, drm_match_table);
- static struct platform_driver sprd_drm_driver = {
- 	.probe = sprd_drm_probe,
- 	.remove = sprd_drm_remove,
--	.shutdown = sprd_drm_shutdown,
- 	.driver = {
- 		.name = "sprd-drm-drv",
- 		.of_match_table = drm_match_table,
 -- 
 https://chromeos.dev
 
