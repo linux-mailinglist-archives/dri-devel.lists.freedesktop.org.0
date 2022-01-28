@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E291649FDE1
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 17:19:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB7049FE1A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 17:34:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D52F010EB51;
-	Fri, 28 Jan 2022 16:19:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5A5310E48C;
+	Fri, 28 Jan 2022 16:34:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE07810EAA4
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:19:15 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6670E10E48C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:34:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 498AC61F0A
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:19:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D3ACC36AE5
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:19:14 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C19FDB824EA
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:34:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D2CAC36AE3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:34:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643386754;
- bh=fD5y5+RxVxJbAjwnRL0Gcjwy+JCQgKkKiJKWB/hr9ZE=;
+ s=k20201202; t=1643387671;
+ bh=vKBJqy3HgSyoQ3Szu6K6a4NfdLf+ztljFywvbKYyDgg=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=pLdiMamXFvznn4sfU/OlT6PQxSNkbq+I43t+cnGnSl7rkHbBeeBrS4xj5vw5Wwier
- ibfbYtHEtY571/HHJfN5HYd1lYYQCy0xeeBHSHv3oJ02Xb9RfGwXEVnNij4EVuCjIA
- VMD/Qymv6iZSHwLAQn17GO/tVfVeYZxDhRvjraH7Oorby/URhtViJzsCzZfsyUkZk/
- WXVK267uhRyS018W5FNSQwgipjO7fFvLZgnQcnmwfpXhiOzebPUK35NKyyyBIPh6oW
- 3waTT2LyyiVQ1xhjTasJt5hBl3prjkaTvsgk0djjvr0Q/xSWeuslNX+ITRPx1NFx/m
- f3YEZLInNlHew==
-Received: by mail-ej1-f46.google.com with SMTP id j2so17536212ejk.6
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 08:19:14 -0800 (PST)
-X-Gm-Message-State: AOAM531wfG/RmkOrRhu2a/rNJraSf0GAKfULzO9M7/vt6mVojNKNCw5x
- kOti8VlWkAvl9VYyraQ4LmUsvlHDmuFOgjxnaA==
-X-Google-Smtp-Source: ABdhPJzaVNhN4Lp5kRT0pDrdXP2bqgeUBcLYAhm9wcVbdADCPGfdi9izUodQ5zDtyd7TY5wC8q/EJOif3CkwqnT/Bp0=
-X-Received: by 2002:a17:907:a089:: with SMTP id
- hu9mr7617781ejc.680.1643386752416; 
- Fri, 28 Jan 2022 08:19:12 -0800 (PST)
+ b=cHj+EtmHQvt0dtQaFbWX4vq+C5Cv4L/AEIDvGjyxEz/pqmD2NVhCupOcsjEfXG8MA
+ frmRpaigGKUUH6R7rntbgCkw3T7XQDp3zNK4vmFTDaeXHxchjicsMf5O3Et7Sk3ibv
+ cInHQ3wlpVK2wrLxekxevlPickRXlJUmNkasKjFE3ZO3JqPkeQN4V5buTTnek7Yd8q
+ j5poeCM9aClvFIqp20DqDa8GMLtddf9xwth/I939TS/cnAVuZYsLXkYU4tLwejvFSV
+ RdNBNlECk+BZMW+VWoRIUB5IDd/IaJLqDj5GHWPk5zSyHNAHBzLqq5zTNGgvX/LOif
+ U0YnKEKfh8fZA==
+Received: by mail-ed1-f46.google.com with SMTP id w25so10058809edt.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 08:34:31 -0800 (PST)
+X-Gm-Message-State: AOAM531GgSCUTTMrVJT2H4dmlGHpDszs8W3+m8VWmEwPRugCb1ZWcn9C
+ M6u0DEb3VliocpwOTj6eB1P9jE8XBTvX1UO5tw==
+X-Google-Smtp-Source: ABdhPJwpSggw7SdLa1FbKIZONU5K+W023Jtjz05zG88sY8zQp5+Q0ssZTlDRL2c2nppnnyauteddq6HH5n7jFN6IIxg=
+X-Received: by 2002:a05:6402:4401:: with SMTP id
+ y1mr8955863eda.215.1643387669820; 
+ Fri, 28 Jan 2022 08:34:29 -0800 (PST)
 MIME-Version: 1.0
 References: <20220128120718.30545-1-yongqiang.niu@mediatek.com>
- <20220128120718.30545-5-yongqiang.niu@mediatek.com>
-In-Reply-To: <20220128120718.30545-5-yongqiang.niu@mediatek.com>
+ <20220128120718.30545-4-yongqiang.niu@mediatek.com>
+In-Reply-To: <20220128120718.30545-4-yongqiang.niu@mediatek.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 29 Jan 2022 00:19:01 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8uF1TY9TsP3wUW6gw9M21F9Op9wRc9GDX7edbSa8sQeQ@mail.gmail.com>
-Message-ID: <CAAOTY_8uF1TY9TsP3wUW6gw9M21F9Op9wRc9GDX7edbSa8sQeQ@mail.gmail.com>
-Subject: Re: [PATCH v1, 4/4] drm/mediatek: add mt8186 display support
+Date: Sat, 29 Jan 2022 00:34:18 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-c8CoPpT=4E9iR0fDiWfg9my=B7Oz1r4Vro80uHaGszg@mail.gmail.com>
+Message-ID: <CAAOTY_-c8CoPpT=4E9iR0fDiWfg9my=B7Oz1r4Vro80uHaGszg@mail.gmail.com>
+Subject: Re: [PATCH v1, 3/4] drm/mediatek: split postmask component
 To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -81,135 +81,104 @@ Yongqiang Niu <yongqiang.niu@mediatek.com> =E6=96=BC 2022=E5=B9=B41=E6=9C=
 =8828=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=888:07=E5=AF=AB=E9=81=93=
 =EF=BC=9A
 >
+> add postmask private data for differnt soc support
+>
 > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 > ---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 39 ++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
+>  drivers/gpu/drm/mediatek/Makefile            |   1 +
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h      |   8 +
+>  drivers/gpu/drm/mediatek/mtk_disp_postmask.c | 155 +++++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c  |  30 +---
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c       |   2 +
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h       |   1 +
+>  6 files changed, 170 insertions(+), 27 deletions(-)
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_postmask.c
 >
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.c
-> index 6efb423ccc92..754b1be25d0d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -158,6 +158,24 @@ static const enum mtk_ddp_comp_id mt8183_mtk_ddp_ext=
-[] =3D {
->         DDP_COMPONENT_DPI0,
->  };
+> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek=
+/Makefile
+> index 29098d7c8307..f26fe646ee2a 100644
+> --- a/drivers/gpu/drm/mediatek/Makefile
+> +++ b/drivers/gpu/drm/mediatek/Makefile
+> @@ -5,6 +5,7 @@ mediatek-drm-y :=3D mtk_disp_aal.o \
+>                   mtk_disp_color.o \
+>                   mtk_disp_gamma.o \
+>                   mtk_disp_ovl.o \
+> +                 mtk_disp_postmask.o \
+>                   mtk_disp_rdma.o \
+>                   mtk_drm_crtc.o \
+>                   mtk_drm_ddp_comp.o \
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/me=
+diatek/mtk_disp_drv.h
+> index 86c3068894b1..f4c21195c3ea 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> @@ -81,6 +81,14 @@ void mtk_ovl_enable_vblank(struct device *dev,
+>                            void *vblank_cb_data);
+>  void mtk_ovl_disable_vblank(struct device *dev);
 >
-> +static const enum mtk_ddp_comp_id mt8186_mtk_ddp_main[] =3D {
-> +       DDP_COMPONENT_OVL0,
-> +       DDP_COMPONENT_RDMA0,
-> +       DDP_COMPONENT_COLOR0,
-> +       DDP_COMPONENT_CCORR,
-> +       DDP_COMPONENT_AAL0,
-> +       DDP_COMPONENT_GAMMA,
-> +       DDP_COMPONENT_POSTMASK0,
-> +       DDP_COMPONENT_DITHER,
-> +       DDP_COMPONENT_DSI0,
-> +};
+> +int mtk_postmask_clk_enable(struct device *dev);
+> +void mtk_postmask_clk_disable(struct device *dev);
+> +void mtk_postmask_config(struct device *dev, unsigned int w,
+> +                               unsigned int h, unsigned int vrefresh,
+> +                               unsigned int bpc, struct cmdq_pkt *cmdq_p=
+kt);
+> +void mtk_postmask_start(struct device *dev);
+> +void mtk_postmask_stop(struct device *dev);
 > +
-> +static const enum mtk_ddp_comp_id mt8186_mtk_ddp_ext[] =3D {
-> +       DDP_COMPONENT_OVL_2L0,
-> +       DDP_COMPONENT_RDMA1,
-> +       DDP_COMPONENT_DPI0,
-> +};
+>  void mtk_rdma_bypass_shadow(struct device *dev);
+>  int mtk_rdma_clk_enable(struct device *dev);
+>  void mtk_rdma_clk_disable(struct device *dev);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_postmask.c b/drivers/gpu/d=
+rm/mediatek/mtk_disp_postmask.c
+> new file mode 100644
+> index 000000000000..fc04b445c2ed
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_postmask.c
+> @@ -0,0 +1,155 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2021 MediaTek Inc.
+
+2022
+
+> + */
 > +
->  static const enum mtk_ddp_comp_id mt8192_mtk_ddp_main[] =3D {
->         DDP_COMPONENT_OVL0,
->         DDP_COMPONENT_OVL_2L0,
-> @@ -221,6 +239,13 @@ static const struct mtk_mmsys_driver_data mt8183_mms=
-ys_driver_data =3D {
->         .ext_len =3D ARRAY_SIZE(mt8183_mtk_ddp_ext),
->  };
->
-> +static const struct mtk_mmsys_driver_data mt8186_mmsys_driver_data =3D {
-> +       .main_path =3D mt8186_mtk_ddp_main,
-> +       .main_len =3D ARRAY_SIZE(mt8186_mtk_ddp_main),
-> +       .ext_path =3D mt8186_mtk_ddp_ext,
-> +       .ext_len =3D ARRAY_SIZE(mt8186_mtk_ddp_ext),
-> +};
+> +#include <linux/clk.h>
+> +#include <linux/component.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/soc/mediatek/mtk-cmdq.h>
 > +
->  static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data =3D {
->         .main_path =3D mt8192_mtk_ddp_main,
->         .main_len =3D ARRAY_SIZE(mt8192_mtk_ddp_main),
-> @@ -463,6 +488,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[=
-] =3D {
->           .data =3D (void *)MTK_DISP_MUTEX },
->         { .compatible =3D "mediatek,mt8183-disp-mutex",
->           .data =3D (void *)MTK_DISP_MUTEX },
-> +       { .compatible =3D "mediatek,mt8186-disp-mutex",
-> +         .data =3D (void *)MTK_DISP_MUTEX },
->         { .compatible =3D "mediatek,mt8192-disp-mutex",
->           .data =3D (void *)MTK_DISP_MUTEX },
->         { .compatible =3D "mediatek,mt8173-disp-od",
-> @@ -475,14 +502,20 @@ static const struct of_device_id mtk_ddp_comp_dt_id=
-s[] =3D {
->           .data =3D (void *)MTK_DISP_OVL },
->         { .compatible =3D "mediatek,mt8183-disp-ovl",
->           .data =3D (void *)MTK_DISP_OVL },
-> +       { .compatible =3D "mediatek,mt8186-disp-ovl",
+> +#include "mtk_disp_drv.h"
+> +#include "mtk_drm_crtc.h"
+> +#include "mtk_drm_ddp_comp.h"
+> +
+> +#define DISP_POSTMASK_EN                       0x0000
+> +#define POSTMASK_EN                                    BIT(0)
+> +#define DISP_POSTMASK_CFG                      0x0020
+> +#define POSTMASK_RELAY_MODE                            BIT(0)
+> +#define DISP_POSTMASK_SIZE                     0x0030
 
-Add "mediatek,mt8186-disp-ovl" to binding document.
-
-> +         .data =3D (void *)MTK_DISP_OVL },
->         { .compatible =3D "mediatek,mt8192-disp-ovl",
->           .data =3D (void *)MTK_DISP_OVL },
->         { .compatible =3D "mediatek,mt8183-disp-ovl-2l",
->           .data =3D (void *)MTK_DISP_OVL_2L },
-> +       { .compatible =3D "mediatek,mt8186-disp-ovl-2l",
-
-Ditto.
-
-> +         .data =3D (void *)MTK_DISP_OVL_2L },
->         { .compatible =3D "mediatek,mt8192-disp-ovl-2l",
->           .data =3D (void *)MTK_DISP_OVL_2L },
->         { .compatible =3D "mediatek,mt8192-disp-postmask",
->           .data =3D (void *)MTK_DISP_POSTMASK },
-> +       { .compatible =3D "mediatek,mt8186-disp-postmask",
-
-Ditto.
-
-> +         .data =3D (void *)MTK_DISP_POSTMASK},
->         { .compatible =3D "mediatek,mt2701-disp-pwm",
->           .data =3D (void *)MTK_DISP_BLS },
->         { .compatible =3D "mediatek,mt8167-disp-pwm",
-> @@ -511,12 +544,16 @@ static const struct of_device_id mtk_ddp_comp_dt_id=
-s[] =3D {
->           .data =3D (void *)MTK_DPI },
->         { .compatible =3D "mediatek,mt8183-dpi",
->           .data =3D (void *)MTK_DPI },
-> +       { .compatible =3D "mediatek,mt8186-dpi",
-
-Ditto.
-
-> +         .data =3D (void *)MTK_DPI },
->         { .compatible =3D "mediatek,mt2701-dsi",
->           .data =3D (void *)MTK_DSI },
->         { .compatible =3D "mediatek,mt8173-dsi",
->           .data =3D (void *)MTK_DSI },
->         { .compatible =3D "mediatek,mt8183-dsi",
->           .data =3D (void *)MTK_DSI },
-> +       { .compatible =3D "mediatek,mt8186-dsi",
-
-Ditto.
+I think you should 'move' these definition not 'copy' them, so
+remember to remove them in mtk_drm_ddp_comp.c
 
 Regards,
 Chun-Kuang.
 
-> +         .data =3D (void *)MTK_DSI },
->         { }
->  };
->
-> @@ -533,6 +570,8 @@ static const struct of_device_id mtk_drm_of_ids[] =3D=
- {
->           .data =3D &mt8173_mmsys_driver_data},
->         { .compatible =3D "mediatek,mt8183-mmsys",
->           .data =3D &mt8183_mmsys_driver_data},
-> +       { .compatible =3D "mediatek,mt8186-mmsys",
-> +         .data =3D &mt8186_mmsys_driver_data},
->         { .compatible =3D "mediatek,mt8192-mmsys",
->           .data =3D &mt8192_mmsys_driver_data},
->         { }
-> --
-> 2.25.1
->
+> +
+> +struct mtk_disp_postmask_data {
+> +       u32 reserved;
+> +};
+> +
+> +/*
+> + * struct mtk_disp_postmask - DISP_POSTMASK driver structure
+> + */
+> +struct mtk_disp_postmask {
+> +       struct clk *clk;
+> +       void __iomem *regs;
+> +       struct cmdq_client_reg cmdq_reg;
+> +       const struct mtk_disp_postmask_data *data;
+> +};
+> +
