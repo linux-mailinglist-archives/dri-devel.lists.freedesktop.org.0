@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7C849F549
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 09:36:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1EFA49F541
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 09:36:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 968011123A3;
-	Fri, 28 Jan 2022 08:36:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE500112379;
+	Fri, 28 Jan 2022 08:36:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B280111236B;
- Fri, 28 Jan 2022 08:36:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C03D112379;
+ Fri, 28 Jan 2022 08:36:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643358973; x=1674894973;
+ t=1643358974; x=1674894974;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=X27Sz+PViqiUT7iiX5tqDW1OHIPfZBd3nD2SbADZXa4=;
- b=Ct82F9HU55A2JYfP/MIEp6wvOuB2dfUHYfQr2UNUgbpcEgSOtxS+gFyX
- zzGWu6SoTnxP7wYRhHjVP0/w/otomXDn3s4lWKHg/ueNtiojZgPbB8aZD
- ziHKj6dix6BmvhgemtE0Uc3oPTwmarzsL/0aQ+Jgio4tIcebz1PN0fC+G
- enGnXN466SmL4zhre41efTpLtK+SBa4h2NzgGPb74CtbN6lCbLsoEwODo
- R4PGBK/QJlTH4BmVgn4t2hqW6rVEhfTJ9YcPoXhQYeoIhk3uzIw4QaT2/
- xzRyvd/IAjGO41H0ZA5039uUfNc7HwpQreRAUFovToAQ9YqUXXeKijLrk Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="247025184"
-X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; d="scan'208";a="247025184"
+ bh=irMLArmDYJ8KJh5GxJu97h108L/P96bmOVzVn9jelQA=;
+ b=DwCz0NL9uYys9hEm04j82ESFO/WRgfIOLP/M/fS/D1kKuIRKBIvq5dhx
+ jWcdOZdZ7HjmHNmlBALt5SeSpVEUVlNE0GSmqrBBC1qXmXVApniNtc1pG
+ uexyHlrXBYekgCkzNP6LE0VKIPSVT1iUpgSG6Qa0tIkpOOcMFAwNV7Pt/
+ OSTeXkh7n74EFVHZyrq/orazgTlhWvuHmkLCAw41hyT7ApgIyfsDTlW+2
+ LphSEEyAv6NoV4YmXEIT8SSN5VhE/HQiYNPqmyIZpQUIqsfyDyuw7W9NS
+ 5wNZod5SJP2Zo3rcj9TA1arBD04OFyocvcb0EhHXLahOyda1L4KmT5rKN A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="247025186"
+X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; d="scan'208";a="247025186"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2022 00:36:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; d="scan'208";a="581788734"
+ 28 Jan 2022 00:36:14 -0800
+X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; d="scan'208";a="581788737"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2022 00:36:12 -0800
+ 28 Jan 2022 00:36:13 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 04/14] media: Replace dma-buf-map with iosys-map
-Date: Fri, 28 Jan 2022 00:36:16 -0800
-Message-Id: <20220128083626.3012259-5-lucas.demarchi@intel.com>
+Subject: [PATCH 05/14] drm/ttm: Replace dma-buf-map with iosys-map
+Date: Fri, 28 Jan 2022 00:36:17 -0800
+Message-Id: <20220128083626.3012259-6-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220128083626.3012259-1-lucas.demarchi@intel.com>
 References: <20220128083626.3012259-1-lucas.demarchi@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,138 +65,328 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 iosys-map is the new name for dma-buf-map and will gain new
-capabitilities. Replace with the new API.
+capabitilities. Replace with the new API in the ttm layer.
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/media/common/videobuf2/videobuf2-dma-contig.c |  8 ++++----
- drivers/media/common/videobuf2/videobuf2-dma-sg.c     |  9 +++++----
- drivers/media/common/videobuf2/videobuf2-vmalloc.c    | 11 ++++++-----
- 3 files changed, 15 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo_util.c  | 16 ++++++++--------
+ drivers/gpu/drm/ttm/ttm_resource.c | 26 +++++++++++++-------------
+ drivers/gpu/drm/ttm/ttm_tt.c       |  6 +++---
+ include/drm/ttm/ttm_bo_api.h       | 10 +++++-----
+ include/drm/ttm/ttm_kmap_iter.h    | 10 +++++-----
+ include/drm/ttm/ttm_resource.h     |  6 +++---
+ 6 files changed, 37 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-index 7c4096e62173..ecf065cd4a67 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-@@ -99,7 +99,7 @@ static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
- 		return buf->vaddr;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index 544a84fa6589..2b8caa1efaa3 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -33,7 +33,7 @@
+ #include <drm/ttm/ttm_placement.h>
+ #include <drm/drm_cache.h>
+ #include <drm/drm_vma_manager.h>
+-#include <linux/dma-buf-map.h>
++#include <linux/iosys-map.h>
+ #include <linux/io.h>
+ #include <linux/highmem.h>
+ #include <linux/wait.h>
+@@ -93,7 +93,7 @@ void ttm_move_memcpy(bool clear,
+ {
+ 	const struct ttm_kmap_iter_ops *dst_ops = dst_iter->ops;
+ 	const struct ttm_kmap_iter_ops *src_ops = src_iter->ops;
+-	struct dma_buf_map src_map, dst_map;
++	struct iosys_map src_map, dst_map;
+ 	pgoff_t i;
  
- 	if (buf->db_attach) {
--		struct dma_buf_map map;
-+		struct iosys_map map;
- 
- 		if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
- 			buf->vaddr = map.vaddr;
-@@ -446,7 +446,7 @@ vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
- 	return 0;
+ 	/* Single TTM move. NOP */
+@@ -390,7 +390,7 @@ void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map)
  }
+ EXPORT_SYMBOL(ttm_bo_kunmap);
  
--static int vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct dma_buf_map *map)
-+static int vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct iosys_map *map)
+-int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map)
++int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map)
  {
- 	struct vb2_dc_buf *buf;
- 	void *vaddr;
-@@ -456,7 +456,7 @@ static int vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct dma_buf_map *map)
- 	if (!vaddr)
- 		return -EINVAL;
- 
--	dma_buf_map_set_vaddr(map, vaddr);
-+	iosys_map_set_vaddr(map, vaddr);
- 
- 	return 0;
- }
-@@ -737,7 +737,7 @@ static void vb2_dc_unmap_dmabuf(void *mem_priv)
- {
- 	struct vb2_dc_buf *buf = mem_priv;
- 	struct sg_table *sgt = buf->dma_sgt;
--	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(buf->vaddr);
-+	struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
- 
- 	if (WARN_ON(!buf->db_attach)) {
- 		pr_err("trying to unpin a not attached buffer\n");
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-index 90acafd9a290..f8a21c560ad2 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-@@ -303,7 +303,7 @@ static void vb2_dma_sg_put_userptr(void *buf_priv)
- static void *vb2_dma_sg_vaddr(struct vb2_buffer *vb, void *buf_priv)
- {
- 	struct vb2_dma_sg_buf *buf = buf_priv;
--	struct dma_buf_map map;
-+	struct iosys_map map;
+ 	struct ttm_resource *mem = bo->resource;
  	int ret;
+@@ -418,7 +418,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map)
+ 		if (!vaddr_iomem)
+ 			return -ENOMEM;
  
- 	BUG_ON(!buf);
-@@ -492,11 +492,12 @@ vb2_dma_sg_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
- 	return 0;
- }
+-		dma_buf_map_set_vaddr_iomem(map, vaddr_iomem);
++		iosys_map_set_vaddr_iomem(map, vaddr_iomem);
  
--static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf, struct dma_buf_map *map)
-+static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf,
-+				      struct iosys_map *map)
- {
- 	struct vb2_dma_sg_buf *buf = dbuf->priv;
+ 	} else {
+ 		struct ttm_operation_ctx ctx = {
+@@ -442,25 +442,25 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map)
+ 		if (!vaddr)
+ 			return -ENOMEM;
  
--	dma_buf_map_set_vaddr(map, buf->vaddr);
-+	iosys_map_set_vaddr(map, buf->vaddr);
- 
- 	return 0;
- }
-@@ -581,7 +582,7 @@ static void vb2_dma_sg_unmap_dmabuf(void *mem_priv)
- {
- 	struct vb2_dma_sg_buf *buf = mem_priv;
- 	struct sg_table *sgt = buf->dma_sgt;
--	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(buf->vaddr);
-+	struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
- 
- 	if (WARN_ON(!buf->db_attach)) {
- 		pr_err("trying to unpin a not attached buffer\n");
-diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-index 0bbfea66554f..948152f1596b 100644
---- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-+++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-@@ -312,11 +312,12 @@ static void vb2_vmalloc_dmabuf_ops_release(struct dma_buf *dbuf)
- 	vb2_vmalloc_put(dbuf->priv);
- }
- 
--static int vb2_vmalloc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct dma_buf_map *map)
-+static int vb2_vmalloc_dmabuf_ops_vmap(struct dma_buf *dbuf,
-+				       struct iosys_map *map)
- {
- 	struct vb2_vmalloc_buf *buf = dbuf->priv;
- 
--	dma_buf_map_set_vaddr(map, buf->vaddr);
-+	iosys_map_set_vaddr(map, buf->vaddr);
+-		dma_buf_map_set_vaddr(map, vaddr);
++		iosys_map_set_vaddr(map, vaddr);
+ 	}
  
  	return 0;
  }
-@@ -372,7 +373,7 @@ static struct dma_buf *vb2_vmalloc_get_dmabuf(struct vb2_buffer *vb,
- static int vb2_vmalloc_map_dmabuf(void *mem_priv)
- {
- 	struct vb2_vmalloc_buf *buf = mem_priv;
--	struct dma_buf_map map;
-+	struct iosys_map map;
- 	int ret;
+ EXPORT_SYMBOL(ttm_bo_vmap);
  
- 	ret = dma_buf_vmap(buf->dbuf, &map);
-@@ -386,7 +387,7 @@ static int vb2_vmalloc_map_dmabuf(void *mem_priv)
- static void vb2_vmalloc_unmap_dmabuf(void *mem_priv)
+-void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct dma_buf_map *map)
++void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct iosys_map *map)
  {
- 	struct vb2_vmalloc_buf *buf = mem_priv;
--	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(buf->vaddr);
-+	struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
+ 	struct ttm_resource *mem = bo->resource;
  
- 	dma_buf_vunmap(buf->dbuf, &map);
- 	buf->vaddr = NULL;
-@@ -395,7 +396,7 @@ static void vb2_vmalloc_unmap_dmabuf(void *mem_priv)
- static void vb2_vmalloc_detach_dmabuf(void *mem_priv)
+-	if (dma_buf_map_is_null(map))
++	if (iosys_map_is_null(map))
+ 		return;
+ 
+ 	if (!map->is_iomem)
+ 		vunmap(map->vaddr);
+ 	else if (!mem->bus.addr)
+ 		iounmap(map->vaddr_iomem);
+-	dma_buf_map_clear(map);
++	iosys_map_clear(map);
+ 
+ 	ttm_mem_io_free(bo->bdev, bo->resource);
+ }
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+index 68344c90549b..eedda3761506 100644
+--- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -22,7 +22,7 @@
+  * Authors: Christian König
+  */
+ 
+-#include <linux/dma-buf-map.h>
++#include <linux/iosys-map.h>
+ #include <linux/io-mapping.h>
+ #include <linux/scatterlist.h>
+ 
+@@ -244,7 +244,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+ EXPORT_SYMBOL(ttm_resource_manager_debug);
+ 
+ static void ttm_kmap_iter_iomap_map_local(struct ttm_kmap_iter *iter,
+-					  struct dma_buf_map *dmap,
++					  struct iosys_map *dmap,
+ 					  pgoff_t i)
  {
- 	struct vb2_vmalloc_buf *buf = mem_priv;
--	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(buf->vaddr);
-+	struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
+ 	struct ttm_kmap_iter_iomap *iter_io =
+@@ -271,11 +271,11 @@ static void ttm_kmap_iter_iomap_map_local(struct ttm_kmap_iter *iter,
+ 	addr = io_mapping_map_local_wc(iter_io->iomap, iter_io->cache.offs +
+ 				       (((resource_size_t)i - iter_io->cache.i)
+ 					<< PAGE_SHIFT));
+-	dma_buf_map_set_vaddr_iomem(dmap, addr);
++	iosys_map_set_vaddr_iomem(dmap, addr);
+ }
  
- 	if (buf->vaddr)
- 		dma_buf_vunmap(buf->dbuf, &map);
+ static void ttm_kmap_iter_iomap_unmap_local(struct ttm_kmap_iter *iter,
+-					    struct dma_buf_map *map)
++					    struct iosys_map *map)
+ {
+ 	io_mapping_unmap_local(map->vaddr_iomem);
+ }
+@@ -326,14 +326,14 @@ EXPORT_SYMBOL(ttm_kmap_iter_iomap_init);
+  */
+ 
+ static void ttm_kmap_iter_linear_io_map_local(struct ttm_kmap_iter *iter,
+-					      struct dma_buf_map *dmap,
++					      struct iosys_map *dmap,
+ 					      pgoff_t i)
+ {
+ 	struct ttm_kmap_iter_linear_io *iter_io =
+ 		container_of(iter, typeof(*iter_io), base);
+ 
+ 	*dmap = iter_io->dmap;
+-	dma_buf_map_incr(dmap, i * PAGE_SIZE);
++	iosys_map_incr(dmap, i * PAGE_SIZE);
+ }
+ 
+ static const struct ttm_kmap_iter_ops ttm_kmap_iter_linear_io_ops = {
+@@ -369,7 +369,7 @@ ttm_kmap_iter_linear_io_init(struct ttm_kmap_iter_linear_io *iter_io,
+ 	}
+ 
+ 	if (mem->bus.addr) {
+-		dma_buf_map_set_vaddr(&iter_io->dmap, mem->bus.addr);
++		iosys_map_set_vaddr(&iter_io->dmap, mem->bus.addr);
+ 		iter_io->needs_unmap = false;
+ 	} else {
+ 		size_t bus_size = (size_t)mem->num_pages << PAGE_SHIFT;
+@@ -377,23 +377,23 @@ ttm_kmap_iter_linear_io_init(struct ttm_kmap_iter_linear_io *iter_io,
+ 		iter_io->needs_unmap = true;
+ 		memset(&iter_io->dmap, 0, sizeof(iter_io->dmap));
+ 		if (mem->bus.caching == ttm_write_combined)
+-			dma_buf_map_set_vaddr_iomem(&iter_io->dmap,
++			iosys_map_set_vaddr_iomem(&iter_io->dmap,
+ 						    ioremap_wc(mem->bus.offset,
+ 							       bus_size));
+ 		else if (mem->bus.caching == ttm_cached)
+-			dma_buf_map_set_vaddr(&iter_io->dmap,
++			iosys_map_set_vaddr(&iter_io->dmap,
+ 					      memremap(mem->bus.offset, bus_size,
+ 						       MEMREMAP_WB |
+ 						       MEMREMAP_WT |
+ 						       MEMREMAP_WC));
+ 
+ 		/* If uncached requested or if mapping cached or wc failed */
+-		if (dma_buf_map_is_null(&iter_io->dmap))
+-			dma_buf_map_set_vaddr_iomem(&iter_io->dmap,
++		if (iosys_map_is_null(&iter_io->dmap))
++			iosys_map_set_vaddr_iomem(&iter_io->dmap,
+ 						    ioremap(mem->bus.offset,
+ 							    bus_size));
+ 
+-		if (dma_buf_map_is_null(&iter_io->dmap)) {
++		if (iosys_map_is_null(&iter_io->dmap)) {
+ 			ret = -ENOMEM;
+ 			goto out_io_free;
+ 		}
+@@ -422,7 +422,7 @@ ttm_kmap_iter_linear_io_fini(struct ttm_kmap_iter_linear_io *iter_io,
+ 			     struct ttm_device *bdev,
+ 			     struct ttm_resource *mem)
+ {
+-	if (iter_io->needs_unmap && dma_buf_map_is_set(&iter_io->dmap)) {
++	if (iter_io->needs_unmap && iosys_map_is_set(&iter_io->dmap)) {
+ 		if (iter_io->dmap.is_iomem)
+ 			iounmap(iter_io->dmap.vaddr_iomem);
+ 		else
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index 79c870a3bef8..ef6343b78d71 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -406,18 +406,18 @@ void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages)
+ }
+ 
+ static void ttm_kmap_iter_tt_map_local(struct ttm_kmap_iter *iter,
+-				       struct dma_buf_map *dmap,
++				       struct iosys_map *dmap,
+ 				       pgoff_t i)
+ {
+ 	struct ttm_kmap_iter_tt *iter_tt =
+ 		container_of(iter, typeof(*iter_tt), base);
+ 
+-	dma_buf_map_set_vaddr(dmap, kmap_local_page_prot(iter_tt->tt->pages[i],
++	iosys_map_set_vaddr(dmap, kmap_local_page_prot(iter_tt->tt->pages[i],
+ 							 iter_tt->prot));
+ }
+ 
+ static void ttm_kmap_iter_tt_unmap_local(struct ttm_kmap_iter *iter,
+-					 struct dma_buf_map *map)
++					 struct iosys_map *map)
+ {
+ 	kunmap_local(map->vaddr);
+ }
+diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+index c17b2df9178b..155b19ee12fb 100644
+--- a/include/drm/ttm/ttm_bo_api.h
++++ b/include/drm/ttm/ttm_bo_api.h
+@@ -47,7 +47,7 @@ struct ttm_global;
+ 
+ struct ttm_device;
+ 
+-struct dma_buf_map;
++struct iosys_map;
+ 
+ struct drm_mm_node;
+ 
+@@ -481,17 +481,17 @@ void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map);
+  * ttm_bo_vmap
+  *
+  * @bo: The buffer object.
+- * @map: pointer to a struct dma_buf_map representing the map.
++ * @map: pointer to a struct iosys_map representing the map.
+  *
+  * Sets up a kernel virtual mapping, using ioremap or vmap to the
+  * data in the buffer object. The parameter @map returns the virtual
+- * address as struct dma_buf_map. Unmap the buffer with ttm_bo_vunmap().
++ * address as struct iosys_map. Unmap the buffer with ttm_bo_vunmap().
+  *
+  * Returns
+  * -ENOMEM: Out of memory.
+  * -EINVAL: Invalid range.
+  */
+-int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map);
++int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map);
+ 
+ /**
+  * ttm_bo_vunmap
+@@ -501,7 +501,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map);
+  *
+  * Unmaps a kernel map set up by ttm_bo_vmap().
+  */
+-void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct dma_buf_map *map);
++void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct iosys_map *map);
+ 
+ /**
+  * ttm_bo_mmap_obj - mmap memory backed by a ttm buffer object.
+diff --git a/include/drm/ttm/ttm_kmap_iter.h b/include/drm/ttm/ttm_kmap_iter.h
+index 8bb00fd39d6c..cc5c09a211b4 100644
+--- a/include/drm/ttm/ttm_kmap_iter.h
++++ b/include/drm/ttm/ttm_kmap_iter.h
+@@ -8,7 +8,7 @@
+ #include <linux/types.h>
+ 
+ struct ttm_kmap_iter;
+-struct dma_buf_map;
++struct iosys_map;
+ 
+ /**
+  * struct ttm_kmap_iter_ops - Ops structure for a struct
+@@ -24,22 +24,22 @@ struct ttm_kmap_iter_ops {
+ 	 * kmap_local semantics.
+ 	 * @res_iter: Pointer to the struct ttm_kmap_iter representing
+ 	 * the resource.
+-	 * @dmap: The struct dma_buf_map holding the virtual address after
++	 * @dmap: The struct iosys_map holding the virtual address after
+ 	 * the operation.
+ 	 * @i: The location within the resource to map. PAGE_SIZE granularity.
+ 	 */
+ 	void (*map_local)(struct ttm_kmap_iter *res_iter,
+-			  struct dma_buf_map *dmap, pgoff_t i);
++			  struct iosys_map *dmap, pgoff_t i);
+ 	/**
+ 	 * unmap_local() - Unmap a PAGE_SIZE part of the resource previously
+ 	 * mapped using kmap_local.
+ 	 * @res_iter: Pointer to the struct ttm_kmap_iter representing
+ 	 * the resource.
+-	 * @dmap: The struct dma_buf_map holding the virtual address after
++	 * @dmap: The struct iosys_map holding the virtual address after
+ 	 * the operation.
+ 	 */
+ 	void (*unmap_local)(struct ttm_kmap_iter *res_iter,
+-			    struct dma_buf_map *dmap);
++			    struct iosys_map *dmap);
+ 	bool maps_tt;
+ };
+ 
+diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+index 69eea9d6399b..4fd727b52da1 100644
+--- a/include/drm/ttm/ttm_resource.h
++++ b/include/drm/ttm/ttm_resource.h
+@@ -27,7 +27,7 @@
+ 
+ #include <linux/types.h>
+ #include <linux/mutex.h>
+-#include <linux/dma-buf-map.h>
++#include <linux/iosys-map.h>
+ #include <linux/dma-fence.h>
+ #include <drm/drm_print.h>
+ #include <drm/ttm/ttm_caching.h>
+@@ -41,7 +41,7 @@ struct ttm_resource;
+ struct ttm_place;
+ struct ttm_buffer_object;
+ struct ttm_placement;
+-struct dma_buf_map;
++struct iosys_map;
+ struct io_mapping;
+ struct sg_table;
+ struct scatterlist;
+@@ -210,7 +210,7 @@ struct ttm_kmap_iter_iomap {
+  */
+ struct ttm_kmap_iter_linear_io {
+ 	struct ttm_kmap_iter base;
+-	struct dma_buf_map dmap;
++	struct iosys_map dmap;
+ 	bool needs_unmap;
+ };
+ 
 -- 
 2.35.0
 
