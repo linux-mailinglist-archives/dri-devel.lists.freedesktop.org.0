@@ -2,66 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C6249F52A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 09:34:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE90C49F53D
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 09:36:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 275D011232B;
-	Fri, 28 Jan 2022 08:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49BA5112375;
+	Fri, 28 Jan 2022 08:36:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84A42112330;
- Fri, 28 Jan 2022 08:34:07 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2ADF821100;
- Fri, 28 Jan 2022 08:34:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643358846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Mqq6/1K5Z07dZlfumrnft39HapgqP5bCcIjcLq2oulU=;
- b=SWETHrW/LxhkzVFKP3689p6y9pCGa34HBldSN45JYS4l/YRhAbXV/qLVm8H4/XLEDJx7Nc
- q+EGZZcMMluzQcSezBVsvF4F6Ql9pfwW43RbLbS2FhkQ8seW4HzWJZkgLfrr25ZdTQb0zC
- pmj+qhYlkodQG5AaJevt6rUUM48Ynpo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643358846;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Mqq6/1K5Z07dZlfumrnft39HapgqP5bCcIjcLq2oulU=;
- b=BI3ihQORjCMHjmpcGopsCZtaH7e7JTg7g31qKovAjVMGgO9vI+5ioFJpJyHuJMap8ZiGhS
- bczXn03Ko3nfkEBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC40813AF2;
- Fri, 28 Jan 2022 08:34:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id c3k3OH2q82HOXgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 28 Jan 2022 08:34:05 +0000
-Message-ID: <5cb9453b-c507-4afa-9d48-1efcfb60be46@suse.de>
-Date: Fri, 28 Jan 2022 09:34:05 +0100
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5F7B112372;
+ Fri, 28 Jan 2022 08:36:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643358971; x=1674894971;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=DLXlxavituReAC9ZkCslfVsSA1lC0SNjLHAttdTUiQs=;
+ b=JUt/EqbRTeRcdIzIyni2oqbbChsa41WAIAxB1pHNy+YAcGSN6NUkh8Jk
+ UMzU0L194CMvJdkbNJ8JkLleqhHnTg6e056hdnW0eQTeleOD8YHdhNPdh
+ B4lbFqUgS++YJDyJZF1ViAGebfY0kxgmJhxgPv0h5ypJwBy17JIfz5iNC
+ /3WAN25Qq9Ut4bpNduAM1DMZOJ49IZK/Dw8MO7/oo4tATVst1LDMQdD92
+ YNRNS6UoGZ3jpTtV5sohj0DLsbs3F/pqCL69+TO2kKb01B49EPfFVwRj0
+ 7DbNsC4GasBOCNgfbr418Q61h9z9IJpaZOmVruPlJcURgLIaUTzNv1R6r A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="247025179"
+X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; d="scan'208";a="247025179"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2022 00:36:11 -0800
+X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; d="scan'208";a="581788712"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2022 00:36:10 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/14] Rename dma-buf-map
+Date: Fri, 28 Jan 2022 00:36:12 -0800
+Message-Id: <20220128083626.3012259-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.35.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH 02/19] dma-buf-map: Add helper to initialize
- second map
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-3-lucas.demarchi@intel.com>
- <b7a3fe1d-3b85-cb7e-19cf-1611ff4f3c9e@suse.de>
- <20220127155913.vt7a74zmsglghzom@ldmartin-desk2>
- <f033228e-c914-efb0-534c-41fc3344f272@suse.de>
-In-Reply-To: <f033228e-c914-efb0-534c-41fc3344f272@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------wrkStvEPag0Mu6brdyvA0nI1"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,102 +54,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+Cc: airlied@linux.ie, daniel.vetter@ffwll.ch, christian.koenig@amd.com,
+ srinivas.kandagatla@linaro.org, tzimmermann@suse.de,
+ gregkh@linuxfoundation.org, nouveau@lists.freedesktop.org,
  linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------wrkStvEPag0Mu6brdyvA0nI1
-Content-Type: multipart/mixed; boundary="------------Rw0on2vsWNVSOyjdXQvrHDck";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Message-ID: <5cb9453b-c507-4afa-9d48-1efcfb60be46@suse.de>
-Subject: Re: [Intel-gfx] [PATCH 02/19] dma-buf-map: Add helper to initialize
- second map
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-3-lucas.demarchi@intel.com>
- <b7a3fe1d-3b85-cb7e-19cf-1611ff4f3c9e@suse.de>
- <20220127155913.vt7a74zmsglghzom@ldmartin-desk2>
- <f033228e-c914-efb0-534c-41fc3344f272@suse.de>
-In-Reply-To: <f033228e-c914-efb0-534c-41fc3344f272@suse.de>
+Motivation for this started in
+https://lore.kernel.org/lkml/20220126203702.1784589-1-lucas.demarchi@intel.com/
+when trying to extend the dma-buf-map API to cover new use cases: help a
+single driver with allocations and sharing code paths for IO and system
+memory. I'm leaving the API additions aside and first renaming the
+interface as requested.
 
---------------Rw0on2vsWNVSOyjdXQvrHDck
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+There are already some users in tree outside the context of dma-buf
+importer/exporter. So before extending the API, let's dissociate it from
+dma-buf.
 
-SGkNCg0KQW0gMjguMDEuMjIgdW0gMDk6MTUgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoN
-Ci4uLg0KPiANCj4+DQo+PiBXaGlsZSB3aXRoIHRoZSBjb25zdHJ1Y3QgYmVsb3cNCj4+DQo+
-PiDCoMKgwqDCoMKgwqDCoMKgIG90aGVyX21hcDsNCj4+IMKgwqDCoMKgwqDCoMKgwqAgLi4u
-DQo+PiDCoMKgwqDCoMKgwqDCoMKgIG90aGVyX21hcCA9IElOSVRJQUxJWkVSKCkNCj4+DQo+
-PiBJIGNhbiByZWx5IG9uIHRoZSBjb21waWxlciBjb21wbGFpbmluZyBhYm91dCB1bmluaXRp
-YWxpemVkIHZhci4gQW5kDQo+PiBpbiBtb3N0IG9mIHRoZSBjYXNlcyBJIGNhbiBqdXN0IGhh
-dmUgdGhpcyBzaW5nbGUgbGluZSBpbiB0aGUgYmVnZ2luaW5nIA0KPj4gb2YgdGhlDQo+PiBm
-dW5jdGlvbiB3aGVuIHRoZSBvZmZzZXQgaXMgY29uc3RhbnQ6DQo+Pg0KPj4gwqDCoMKgwqDC
-oMKgwqDCoCBzdHJ1Y3QgZG1hX2J1Zl9tYXAgb3RoZXJfbWFwID0gSU5JVElBTElaRVIoYmxh
-X21hcCwgDQo+PiBvZmZzZXRvZiguLikpOw0KPj4NCj4+DQo+PiBUaGlzIGlzIHVzZWZ1bCB3
-aGVuIHlvdSBoYXZlIHNldmVyYWwgc21hbGwgZnVuY3Rpb25zIGluIGNoYXJnZSBvZg0KPj4g
-dXBkYXRpbmcvcmVhZGluZyBpbm5lciBzdHJ1Y3QgbWVtYmVycy4NCj4gDQo+IFlvdSB3b24n
-dCBuZWVkIGFuIGV4dHJhIHZhcmlhYmxlIG9yIHRoZSBpbml0aWFsaXplciBtYWNybyBpZiB5
-b3UgYWRkIGFuIA0KPiBvZmZzZXQgcGFyYW1ldGVyIHRvIGRtYV9idWZfbWVtY3B5X3tmcm9t
-LHRvfS7CoCBTaW1wbGUgcGFzcyBvZmZzZXRvZiguLikgDQo+IHRvIHRoYXQgcGFyYW1ldGVy
-IGFuZCBpdCB3aWxsIGRvIHRoZSByaWdodCB0aGluZy4NCj4gDQo+IEl0IGF2b2lkcyB0aGUg
-cHJvYmxlbXMgb2YgdGhlIGN1cnJlbnQgbWFjcm8gYW5kIGlzIGV2ZW4gbW9yZSBmbGV4aWJs
-ZS4gDQo+IE9uIHRvcCBvZiB0aGF0LCB5b3UgY2FuIGJ1aWxkIHdoYXRldmVyIGNvbnZlbmll
-bmNlIG1hY3JvcyB5b3UgbmVlZCBmb3IgDQo+IGk5MTUuDQoNCkFuZCBtYXliZSBwdXQgYWxs
-IGNoYW5nZXMgdG8gdGhlIGRtYV9idWZfbWFwIGludGVyZmFjZSBpbnRvIGEgc2luZ2xlIA0K
-cGF0Y2guIEl0IG1ha2VzIGl0IGVhc2llciB0byByZXZpZXcgYW5kIGRpc2N1c3MuDQoNCkJl
-c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IEJlc3QgcmVnYXJkcw0KPiBUaG9tYXMNCj4g
-DQo+Pg0KPj4+DQo+Pj4gSSd2ZSBhbHNvIGJlZW4gdmVyeSBjYXJlZnVsIHRvIGRpc3Rpbmd1
-aXNoIGJldHdlZW4gLnZhZGRyIGFuZCANCj4+PiAudmFkZHJfaW9tZW0sIGV2ZW4gaW4gcGxh
-Y2VzIHdoZXJlIEkgd291bGRuJ3QgaGF2ZSB0by4gVGhpcyBtYWNybyANCj4+PiBicmVha3Mg
-dGhlIGFzc3VtcHRpb24uDQo+Pg0KPj4gVGhhdCdzIG9uZSByZWFzb24gSSB0aGluayBpZiB3
-ZSBoYXZlIHRoaXMgbWFjcm8sIGl0IHNob3VsZCBiZSBpbiB0aGUNCj4+IGRtYV9idWZfbWFw
-LmggaGVhZGVyIChvciB3aGF0ZXZlciB3ZSByZW5hbWUgdGhlc2UgQVBJcyB0bykuIEl0J3Mg
-dGhlDQo+PiBvbmx5IHBsYWNlIHdoZXJlIHdlIGNhbiBzYWZlbHkgYWRkIGNvZGUgdGhhdCBy
-ZWxpZXMgb24gdGhlIGltcGxlbWVudGF0aW9uDQo+PiBvZiB0aGUgInByaXZhdGUiIGZpZWxk
-cyBpbiBzdHJ1Y3QgZG1hX2J1Zl9tYXAuDQo+Pg0KPj4gTHVjYXMgRGUgTWFyY2hpDQo+Pg0K
-Pj4+DQo+Pj4gQmVzdCByZWdhcmRzDQo+Pj4gVGhvbWFzDQo+Pj4NCj4+Pj4gwqAvKioNCj4+
-Pj4gwqAgKiBkbWFfYnVmX21hcF9zZXRfdmFkZHIgLSBTZXRzIGEgZG1hLWJ1ZiBtYXBwaW5n
-IHN0cnVjdHVyZSB0byBhbiANCj4+Pj4gYWRkcmVzcyBpbiBzeXN0ZW0gbWVtb3J5DQo+Pj4+
-IMKgICogQG1hcDrCoMKgwqAgVGhlIGRtYS1idWYgbWFwcGluZyBzdHJ1Y3R1cmUNCj4+Pg0K
-Pj4+IC0tIA0KPj4+IFRob21hcyBaaW1tZXJtYW5uDQo+Pj4gR3JhcGhpY3MgRHJpdmVyIERl
-dmVsb3Blcg0KPj4+IFNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KPj4+
-IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KPj4+IChIUkIgMzY4
-MDksIEFHIE7DvHJuYmVyZykNCj4+PiBHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo+
-Pg0KPj4NCj4+DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2
-ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1h
-eGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcg
-TsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+The iosys-map.h is introduced in the first patch in a way that allows
+the conversion of each driver to happen separately. After all the
+conversions are done we can remove the old one, which is the last patch.
+Another possible way is to squash everything and merge together,
+but I believe this would make much harder for review.
 
---------------Rw0on2vsWNVSOyjdXQvrHDck--
+The conversion was done with the following semantic patch:
 
---------------wrkStvEPag0Mu6brdyvA0nI1
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+	@r1@
+	@@
+	- struct dma_buf_map
+	+ struct iosys_map
 
------BEGIN PGP SIGNATURE-----
+	@r2@
+	@@
+	(
+	- DMA_BUF_MAP_INIT_VADDR
+	+ IOSYS_MAP_INIT_VADDR
+	|
+	- dma_buf_map_set_vaddr
+	+ iosys_map_set_vaddr
+	|
+	- dma_buf_map_set_vaddr_iomem
+	+ iosys_map_set_vaddr_iomem
+	|
+	- dma_buf_map_is_equal
+	+ iosys_map_is_equal
+	|
+	- dma_buf_map_is_null
+	+ iosys_map_is_null
+	|
+	- dma_buf_map_is_set
+	+ iosys_map_is_set
+	|
+	- dma_buf_map_clear
+	+ iosys_map_clear
+	|
+	- dma_buf_map_memcpy_to
+	+ iosys_map_memcpy_to
+	|
+	- dma_buf_map_incr
+	+ iosys_map_incr
+	)
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHzqn0FAwAAAAAACgkQlh/E3EQov+Ba
-UQ//Y9rvX2ubfy6HXJP+dB719uVMRVzF68mbf9tty43qVNVHMvfMfSgKMDMYJHXyHpD9tm4bgsIg
-gP7fA7gyP+MLgG9qdUtuSizHcE+NNDept6NV4AVYUXTHXWKMtPANhVsW+8UMiyLfGWg2Vg0dOiNN
-ShebkBRlDGRs3I+m3FYGpyIi6LpnVsmLAHMcN3p2/Dg1NALX6xmM8K9kaS2LQwIEGNFponRQ0z5R
-BXd7ZttJHpBk5NJ2KC2WcMygQcE/s3F8WWi41zYq0sH2neRTUDmEjWdpkRL4iHoi342mKB3LM2Uc
-47Bh+I1Fdgdto2k/tVgOtrfiN9Bo05H2GuHKhSPbkBPcZJf6RVzAnqsauHRIsEoeTcCEEHj7JS2L
-6etQ0oBcycIyXpAzhqE49h7IK4bvhj46X4QJMYlsNQ2pcWP/DW4SWfCwIg1uM4jpgUW/VYSQLcah
-/KSHyAjOVGM6VQUn2JvFr2GRMASM/i7ZX0MsvawPz0+jbZRkgRRO/ClDAlUSYJSOESWZX/+VrsED
-tLpuZWgFxFCUzoep5HNcs2KlS6RxpB4wZsywAQfUUKeOBjOkRglmoe7MN/Wped0xOkG8LCV4RKrg
-SRlEJCsUDWyLQYzqxdFVKDCERDjB087q4rTUOXUd4tC2WcdD+OnkAPumNYip+h56aWsZVK4K+MP3
-Cs8=
-=RPZb
------END PGP SIGNATURE-----
+	@@
+	@@
+	- #include <linux/dma-buf-map.h>
+	+ #include <linux/iosys-map.h>
 
---------------wrkStvEPag0Mu6brdyvA0nI1--
+and then some files had their includes adjusted so we can build
+everything on each commit in this series. Also some comments were update
+to remove mentions to dma-buf-map. Simply doing a sed to rename didn't
+work as dma-buf has some APIs using the dma_buf_map prefix.
+
+Once finalized, I think most of this, if not all, could go through the
+drm-misc-next branch. I split i915, msm, nouveau, and radeon in their
+own patches in case it's preferred to take those through their own
+trees.
+
+Lucas De Marchi
+
+Lucas De Marchi (14):
+  iosys-map: Introduce renamed dma-buf-map
+  misc: fastrpc: Replace dma-buf-map with iosys-map
+  dma-buf: Replace dma-buf-map with iosys-map
+  media: Replace dma-buf-map with iosys-map
+  drm/ttm: Replace dma-buf-map with iosys-map
+  drm: Replace dma-buf-map with iosys-map in drivers
+  drm/i915: Replace dma-buf-map with iosys-map
+  drm/msm: Replace dma-buf-map with iosys-map
+  drm/nouveau: Replace dma-buf-map with iosys-map
+  drm/tegra: Replace dma-buf-map with iosys-map
+  drm/radeon: Replace dma-buf-map with iosys-map
+  drm: Replace dma-buf-map with iosys-map in common code
+  Documentation: Refer to iosys-map instead of dma-buf-map
+  dma-buf-map: Remove API in favor of iosys-map
+
+ Documentation/driver-api/dma-buf.rst          |   4 +-
+ Documentation/gpu/todo.rst                    |  20 +-
+ MAINTAINERS                                   |   2 +-
+ drivers/dma-buf/dma-buf.c                     |  22 +-
+ drivers/dma-buf/heaps/cma_heap.c              |  10 +-
+ drivers/dma-buf/heaps/system_heap.c           |  10 +-
+ drivers/gpu/drm/ast/ast_drv.h                 |   2 +-
+ drivers/gpu/drm/ast/ast_mode.c                |   8 +-
+ drivers/gpu/drm/drm_cache.c                   |  18 +-
+ drivers/gpu/drm/drm_client.c                  |   9 +-
+ drivers/gpu/drm/drm_fb_helper.c               |  12 +-
+ drivers/gpu/drm/drm_gem.c                     |  12 +-
+ drivers/gpu/drm/drm_gem_cma_helper.c          |   9 +-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  16 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |  15 +-
+ drivers/gpu/drm/drm_gem_ttm_helper.c          |   4 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c         |  25 +-
+ drivers/gpu/drm/drm_internal.h                |   6 +-
+ drivers/gpu/drm/drm_mipi_dbi.c                |   8 +-
+ drivers/gpu/drm/drm_prime.c                   |   4 +-
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h         |   2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   8 +-
+ drivers/gpu/drm/gud/gud_pipe.c                |   4 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   8 +-
+ .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   6 +-
+ .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |   6 +-
+ drivers/gpu/drm/lima/lima_gem.c               |   3 +-
+ drivers/gpu/drm/lima/lima_sched.c             |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c        |   7 +-
+ drivers/gpu/drm/mediatek/mtk_drm_gem.h        |   5 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c        |   4 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |   4 +-
+ drivers/gpu/drm/msm/msm_gem_prime.c           |   6 +-
+ drivers/gpu/drm/nouveau/nouveau_gem.c         |   2 +
+ drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  13 +-
+ drivers/gpu/drm/qxl/qxl_display.c             |   8 +-
+ drivers/gpu/drm/qxl/qxl_draw.c                |   6 +-
+ drivers/gpu/drm/qxl/qxl_drv.h                 |  10 +-
+ drivers/gpu/drm/qxl/qxl_object.c              |   8 +-
+ drivers/gpu/drm/qxl/qxl_object.h              |   4 +-
+ drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
+ drivers/gpu/drm/radeon/radeon_gem.c           |   1 +
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |   9 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.h   |   5 +-
+ drivers/gpu/drm/tegra/gem.c                   |  10 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |   8 +-
+ drivers/gpu/drm/tiny/gm12u320.c               |   7 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c             |  16 +-
+ drivers/gpu/drm/ttm/ttm_resource.c            |  26 +-
+ drivers/gpu/drm/ttm/ttm_tt.c                  |   6 +-
+ drivers/gpu/drm/udl/udl_modeset.c             |   3 +-
+ drivers/gpu/drm/vboxvideo/vbox_mode.c         |   4 +-
+ drivers/gpu/drm/virtio/virtgpu_prime.c        |   1 +
+ drivers/gpu/drm/vkms/vkms_composer.c          |   4 +-
+ drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
+ drivers/gpu/drm/vkms/vkms_plane.c             |   2 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c         |   2 +-
+ drivers/gpu/drm/xen/xen_drm_front_gem.c       |   7 +-
+ drivers/gpu/drm/xen/xen_drm_front_gem.h       |   6 +-
+ .../common/videobuf2/videobuf2-dma-contig.c   |   8 +-
+ .../media/common/videobuf2/videobuf2-dma-sg.c |   9 +-
+ .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
+ drivers/misc/fastrpc.c                        |   4 +-
+ include/drm/drm_cache.h                       |   6 +-
+ include/drm/drm_client.h                      |   7 +-
+ include/drm/drm_gem.h                         |   6 +-
+ include/drm/drm_gem_atomic_helper.h           |   6 +-
+ include/drm/drm_gem_cma_helper.h              |   6 +-
+ include/drm/drm_gem_framebuffer_helper.h      |   8 +-
+ include/drm/drm_gem_shmem_helper.h            |  12 +-
+ include/drm/drm_gem_ttm_helper.h              |   6 +-
+ include/drm/drm_gem_vram_helper.h             |   9 +-
+ include/drm/drm_prime.h                       |   6 +-
+ include/drm/ttm/ttm_bo_api.h                  |  10 +-
+ include/drm/ttm/ttm_kmap_iter.h               |  10 +-
+ include/drm/ttm/ttm_resource.h                |   6 +-
+ include/linux/dma-buf-map.h                   | 266 ------------------
+ include/linux/dma-buf.h                       |  12 +-
+ include/linux/iosys-map.h                     | 257 +++++++++++++++++
+ 80 files changed, 579 insertions(+), 552 deletions(-)
+ delete mode 100644 include/linux/dma-buf-map.h
+ create mode 100644 include/linux/iosys-map.h
+
+-- 
+2.35.0
+
