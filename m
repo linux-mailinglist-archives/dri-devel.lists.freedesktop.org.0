@@ -2,53 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20EBB4A03B0
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 23:32:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5413A4A0478
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 00:47:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AC7010E1BB;
-	Fri, 28 Jan 2022 22:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 393DB10E13F;
+	Fri, 28 Jan 2022 23:47:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6DDB10E1BB;
- Fri, 28 Jan 2022 22:32:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643409147; x=1674945147;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=T3rkzIVMJI5c8OF4SUmtfynsxKFzJhNdjY7pH4Z2aoA=;
- b=ed/Hmk9o2gDl2tPMSZgX2lDSxiIJxQ8DhFz50JZ+dST2ua70G1kWHPMn
- 4D9/dphoaz+f4lO9MM8NlQe4nbZYZ1cqGzb0EcesAGOEkLBGo4ifLadEd
- jfPQHZLK2f/IYU7kP4elHEFP6BJyR1W0BxhJH5IO9U2tjwMnSgkIGSEco
- KajrMUzjwfeLajqmSZ3FG7sKtQvpgYUhevRqmcEAsPBbuyQlBibsPULZT
- jHcOXR2P4BqmfDYwVn4ez5I4IT4R5eXh5RI8zTKsKex9OWsLEh7xd0Zs7
- jaUqv03bpz8XDWPSDiRbcKPNXM0ZbZNMEYa5sAvqoqRq3QOssES8Pl5N9 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10241"; a="227186608"
-X-IronPort-AV: E=Sophos;i="5.88,325,1635231600"; d="scan'208";a="227186608"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2022 14:32:27 -0800
-X-IronPort-AV: E=Sophos;i="5.88,325,1635231600"; d="scan'208";a="521875302"
-Received: from mcummins-mobl1.ger.corp.intel.com (HELO [10.213.196.43])
- ([10.213.196.43])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2022 14:32:26 -0800
-Message-ID: <8ca7bd99-06a7-3142-c375-1bf93cb23287@linux.intel.com>
-Date: Fri, 28 Jan 2022 22:32:23 +0000
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A379E10E13F
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 23:47:03 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4DFE361F3E;
+ Fri, 28 Jan 2022 23:47:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1611DC340E8;
+ Fri, 28 Jan 2022 23:46:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1643413620;
+ bh=YbZLwG+eJY1ZimQ3PDJ414ftXS0oYjH5t+IwvoH0++s=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=H6N+qa02zvveNZcva5WhrGiGfFlJ66Cb6+yfRLYilkduh+hulF7T0OeTu/hburMzI
+ yri78rLL6daKW9gr8X08EibZESI18/IBpN1Pbc1hUchVwsl9f1LfyCo1WFwktqwb8/
+ WhMvDqfjoXFeMWDKTJAFvPq07d9H9J95VdV4XpgahRGHn8cMJcF4WTXB1tus4t4Uh1
+ 5GnvTRmAL9qKEWspIPzel0cYJTWOmOhQW3fmKwYGPfuBHC5T3VxISuz3I97zsJVC+N
+ KJ0PrtCoVJ9qsR9tTbUB13DANVzaUtP5ujdmoAOK3ZTdma0dMi9TkcPU5eWB2rSYik
+ XmBrYqh7uuWpQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Brian Norris <briannorris@chromium.org>, Heiko Stuebner <heiko@sntech.de>,
+ David Airlie <airlied@linux.ie>
+In-Reply-To: <20220114230209.4091727-1-briannorris@chromium.org>
+References: <20220114230209.4091727-1-briannorris@chromium.org>
+Subject: Re: (subset) [PATCH v2 0/3] (Re)enable DP/HDMI audio for RK3399 Gru
+Message-Id: <164341361780.694709.13259283241590347085.b4-ty@kernel.org>
+Date: Fri, 28 Jan 2022 23:46:57 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix a race between vma / object
- destruction and unbinding
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220127115622.302970-1-thomas.hellstrom@linux.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220127115622.302970-1-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,60 +53,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ Lin Huang <hl@rock-chips.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 27/01/2022 11:56, Thomas Hellström wrote:
-> The vma destruction code was using an unlocked advisory check for
-> drm_mm_node_allocated() to avoid racing with eviction code unbinding
-> the vma.
+On Fri, 14 Jan 2022 15:02:06 -0800, Brian Norris wrote:
+> This series fixes DP/HDMI audio for RK3399 Gru systems.
 > 
-> This is very fragile and prohibits the dereference of non-refcounted
-> pointers of dying vmas after a call to __i915_vma_unbind(). It also
-> prohibits the dereference of vma->obj of refcounted pointers of
-> dying vmas after a call to __i915_vma_unbind(), since even if a
-> refcount is held on the vma, that won't guarantee that its backing
-> object doesn't get destroyed.
+> First, there was a regression with the switch to SPDIF. Patch 1 can be
+> taken separately as a regression fix if desired. But it's not quite so
+> useful (at least on Chrome OS systems) without the second part.
 > 
-> So introduce an unbind under the vm mutex at object destroy time,
-> removing all weak references of the vma and its object from the
-> object vma list and from the vm bound list.
-
-Maarten suggested this fixes an oops like seen in 
-https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_22133/shard-snb6/igt@gem_softpin@softpin.html. 
-If that is so, what would be the Fixes: tag to put here? Although it is 
-too late now so hopefully bug was introduced in something yet unreleased.
-
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_object.c | 6 ++++++
->   1 file changed, 6 insertions(+)
+> Second, jack detection was never upstreamed, because the hdmi-codec
+> dependencies were still being worked out when this platform was first
+> supported.
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> index 1a9e1f940a7d..e03e362d320b 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> @@ -280,6 +280,12 @@ void __i915_gem_object_pages_fini(struct drm_i915_gem_object *obj)
->   			GEM_BUG_ON(vma->obj != obj);
->   			spin_unlock(&obj->vma.lock);
->   
-> +			/* Verify that the vma is unbound under the vm mutex. */
-> +			mutex_lock(&vma->vm->mutex);
-> +			atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
-> +			__i915_vma_unbind(vma);
-> +			mutex_unlock(&vma->vm->mutex);
+> [...]
 
-Hm I am not up to speed with the latest design, but how does the verb 
-verify and absence of conditionals reconcile here? Does the comment need 
-improving?
+Applied to
 
-Regards,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Tvrtko
+Thanks!
 
-> +
->   			__i915_vma_put(vma);
->   
->   			spin_lock(&obj->vma.lock);
-> 
+[2/3] drm/rockchip: cdn-dp: Support HDMI codec plug-change callback
+      commit: 9da1467b49ad6c02840e8f331c5da69f6a5bdb2e
+[3/3] ASoC: rk3399_gru_sound: Wire up DP jack detection
+      commit: 6a8bc4b68ca0c6ef73518b692c00b7e1e010d056
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
