@@ -1,54 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5107149F22A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 04:57:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B0D49F20C
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 04:55:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39D6710E4B8;
-	Fri, 28 Jan 2022 03:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F00010E354;
+	Fri, 28 Jan 2022 03:55:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E89F110E3B7
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 03:56:57 +0000 (UTC)
-X-UUID: e0c46802a0b24894a529fc5c348bfa81-20220128
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=0Qai4pvmVYzwTI9wJ9buVkdZvA1aN3WU9A2woypBW+4=; 
- b=rgFfFDHy6MHtw151ndzclvnvspUhIUIVdFSTfxFlOaIlsYArHz6s27sqqNK2Ma12mfzfWopBsqd6JtqMJ8woYBxP7R0yCJA1/arrlym78+Bo+qtclY9remQzY5Aved6iQMoz+EY73gawcK+d0wb2GeVfGDFFtEk7nCxXz/eInrQ=;
-X-UUID: e0c46802a0b24894a529fc5c348bfa81-20220128
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6E4F10E150
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 03:54:54 +0000 (UTC)
+X-UUID: 64ad57e290144bd69e0ebc2f022d01b8-20220128
+X-UUID: 64ad57e290144bd69e0ebc2f022d01b8-20220128
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
  (envelope-from <yunfei.dong@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 941237735; Fri, 28 Jan 2022 11:54:52 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 28 Jan 2022 11:54:50 +0800
+ with ESMTP id 1171938199; Fri, 28 Jan 2022 11:54:54 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 28 Jan 2022 11:54:52 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 28 Jan 2022 11:54:52 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 28 Jan 2022 11:54:49 +0800
+ Transport; Fri, 28 Jan 2022 11:54:50 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi
- Shih <tzungbi@chromium.org>, AngeloGioacchino Del Regno
+ <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
+ Shih" <tzungbi@chromium.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>, Tiffany Lin
  <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
  Matthias Brugger <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
 Subject: [PATCH v2,
- 5/7] media: mtk-vcodec: Different codec using different capture format
-Date: Fri, 28 Jan 2022 11:54:38 +0800
-Message-ID: <20220128035440.24533-6-yunfei.dong@mediatek.com>
+ 6/7] media: mtk-vcodec: prevent kernel crash when scp ipi timeout
+Date: Fri, 28 Jan 2022 11:54:39 +0800
+Message-ID: <20220128035440.24533-7-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220128035440.24533-1-yunfei.dong@mediatek.com>
 References: <20220128035440.24533-1-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-MTK: N
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_003_561299256.711313251"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,104 +71,74 @@ Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_003_561299256.711313251
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Tinghan Shen <tinghan.shen@mediatek.com>
 
-PHByZT4NClZwOCBuZWVkIHRvIHVzZSBNTTIxLCBidXQgdnA5IGFuZCBoMjY0IG5lZWQgdG8gdXNl
-IEh5RmJjIG1vZGUNCmZvciBtdDgxOTUuIFZwOC92cDkvaDI2NCB1c2UgdGhlIHNhbWUgTU0yMSBm
-b3JtYXQgZm9yIG10ODE5Mi4NCg0KU2lnbmVkLW9mZi1ieTogWXVuZmVpIERvbmcgJmx0O3l1bmZl
-aS5kb25nQG1lZGlhdGVrLmNvbSZndDsNCi0tLQ0KIC4uLi9wbGF0Zm9ybS9tdGstdmNvZGVjL210
-a192Y29kZWNfZGVjLmMgICAgICB8IDQxICsrKysrKysrKysrKysrKysrKysNCiAxIGZpbGUgY2hh
-bmdlZCwgNDEgaW5zZXJ0aW9ucygrKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0
-Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjLmMgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3Jt
-L210ay12Y29kZWMvbXRrX3Zjb2RlY19kZWMuYw0KaW5kZXggNmFkMTdlNjllMzJkLi5mMmNlZDAx
-NDc1MzQgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12Y29kZWMvbXRr
-X3Zjb2RlY19kZWMuYw0KKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdmNvZGVjL210
-a192Y29kZWNfZGVjLmMNCkBAIC0zNSw2ICszNSw0NCBAQCBtdGtfdmRlY19maW5kX2Zvcm1hdChz
-dHJ1Y3QgdjRsMl9mb3JtYXQgKmYsDQogCXJldHVybiBOVUxMOw0KIH0NCiANCitzdGF0aWMgYm9v
-bCBtdGtfdmRlY19nZXRfY2FwX2ZtdChzdHJ1Y3QgbXRrX3Zjb2RlY19jdHggKmN0eCwgaW50IGZv
-cm1hdF9pbmRleCkNCit7DQorCWNvbnN0IHN0cnVjdCBtdGtfdmNvZGVjX2RlY19wZGF0YSAqZGVj
-X3BkYXRhID0gY3R4LSZndDtkZXYtJmd0O3ZkZWNfcGRhdGE7DQorCWNvbnN0IHN0cnVjdCBtdGtf
-dmlkZW9fZm10ICpmbXQ7DQorCXN0cnVjdCBtdGtfcV9kYXRhICpxX2RhdGE7DQorCWludCBudW1f
-ZnJhbWVfY291bnQgPSAwLCBpOw0KKwlib29sIHJldCA9IHRydWU7DQorDQorCWZvciAoaSA9IDA7
-IGkgJmx0OyAqZGVjX3BkYXRhLSZndDtudW1fZm9ybWF0czsgaSsrKSB7DQorCQlpZiAoZGVjX3Bk
-YXRhLSZndDt2ZGVjX2Zvcm1hdHNbaV0udHlwZSAhPSBNVEtfRk1UX0ZSQU1FKQ0KKwkJCWNvbnRp
-bnVlOw0KKw0KKwkJbnVtX2ZyYW1lX2NvdW50Kys7DQorCX0NCisNCisJaWYgKG51bV9mcmFtZV9j
-b3VudCA9PSAxKQ0KKwkJcmV0dXJuIHRydWU7DQorDQorCWZtdCA9ICZhbXA7ZGVjX3BkYXRhLSZn
-dDt2ZGVjX2Zvcm1hdHNbZm9ybWF0X2luZGV4XTsNCisJcV9kYXRhID0gJmFtcDtjdHgtJmd0O3Ff
-ZGF0YVtNVEtfUV9EQVRBX1NSQ107DQorCXN3aXRjaCAocV9kYXRhLSZndDtmbXQtJmd0O2ZvdXJj
-Yykgew0KKwljYXNlIFY0TDJfUElYX0ZNVF9WUDhfRlJBTUU6DQorCQlpZiAoZm10LSZndDtmb3Vy
-Y2MgPT0gVjRMMl9QSVhfRk1UX01NMjEpDQorCQkJcmV0ID0gdHJ1ZTsNCisJCWJyZWFrOw0KKwlj
-YXNlIFY0TDJfUElYX0ZNVF9IMjY0X1NMSUNFOg0KKwljYXNlIFY0TDJfUElYX0ZNVF9WUDlfRlJB
-TUU6DQorCQlpZiAoZm10LSZndDtmb3VyY2MgPT0gVjRMMl9QSVhfRk1UX01NMjEpDQorCQkJcmV0
-ID0gZmFsc2U7DQorCQlicmVhazsNCisJZGVmYXVsdDoNCisJCXJldCA9IHRydWU7DQorCQlicmVh
-azsNCisJfTsNCisNCisJcmV0dXJuIHJldDsNCit9DQorDQogc3RhdGljIHN0cnVjdCBtdGtfcV9k
-YXRhICptdGtfdmRlY19nZXRfcV9kYXRhKHN0cnVjdCBtdGtfdmNvZGVjX2N0eCAqY3R4LA0KIAkJ
-CQkJICAgICAgZW51bSB2NGwyX2J1Zl90eXBlIHR5cGUpDQogew0KQEAgLTU3OCw2ICs2MTYsOSBA
-QCBzdGF0aWMgaW50IHZpZGlvY19lbnVtX2ZtdChzdHJ1Y3QgdjRsMl9mbXRkZXNjICpmLCB2b2lk
-ICpwcml2LA0KIAkJICAgIGRlY19wZGF0YS0mZ3Q7dmRlY19mb3JtYXRzW2ldLnR5cGUgIT0gTVRL
-X0ZNVF9GUkFNRSkNCiAJCQljb250aW51ZTsNCiANCisJCWlmICghb3V0cHV0X3F1ZXVlICZhbXA7
-JmFtcDsgIW10a192ZGVjX2dldF9jYXBfZm10KGN0eCwgaSkpDQorCQkJY29udGludWU7DQorDQog
-CQlpZiAoaiA9PSBmLSZndDtpbmRleCkNCiAJCQlicmVhazsNCiAJCSsrajsNCi0tIA0KMi4yNS4x
-DQoNCjwvcHJlPjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJ
-QVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5m
-b3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkg
-DQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVn
-ZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxl
-IGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWdu
-YXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9u
-LCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGlu
-ZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0
-bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGlu
-dGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwgb3IgYmVsaWV2ZSANCnRoYXQgeW91IGhh
-dmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRl
-ciANCmltbWVkaWF0ZWx5IChieSByZXBseWluZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkg
-YW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50
-cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2Yg
-dGhpcyBlLW1haWwgdG8gYW55IG90aGVyIHBlcnNvbi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0t
-LT4=
+When SCP timeout during playing video, kernel crashes with following
+message. It's caused by accessing NULL pointer in vpu_dec_ipi_handler.
+This patch doesn't solve the root cause of NULL pointer, but merely
+prevent kernel crashed when encounter the NULL pointer.
 
---__=_Part_Boundary_003_561299256.711313251
-Content-Type: text/plain
-Content-Transfer-Encoding: base64
+After applied this patch, kernel keeps alive, only the video player turns
+to green screen.
 
-VnA4IG5lZWQgdG8gdXNlIE1NMjEsIGJ1dCB2cDkgYW5kIGgyNjQgbmVlZCB0byB1c2UgSHlGYmMg
-bW9kZQ0KZm9yIG10ODE5NS4gVnA4L3ZwOS9oMjY0IHVzZSB0aGUgc2FtZSBNTTIxIGZvcm1hdCBm
-b3IgbXQ4MTkyLg0KDQpTaWduZWQtb2ZmLWJ5OiBZdW5mZWkgRG9uZyA8eXVuZmVpLmRvbmdAbWVk
-aWF0ZWsuY29tPg0KLS0tDQogLi4uL3BsYXRmb3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19kZWMu
-YyAgICAgIHwgNDEgKysrKysrKysrKysrKysrKysrKw0KIDEgZmlsZSBjaGFuZ2VkLCA0MSBpbnNl
-cnRpb25zKCspDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12Y29k
-ZWMvbXRrX3Zjb2RlY19kZWMuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy9t
-dGtfdmNvZGVjX2RlYy5jDQppbmRleCA2YWQxN2U2OWUzMmQuLmYyY2VkMDE0NzUzNCAxMDA2NDQN
-Ci0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy9tdGtfdmNvZGVjX2RlYy5j
-DQorKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19kZWMu
-Yw0KQEAgLTM1LDYgKzM1LDQ0IEBAIG10a192ZGVjX2ZpbmRfZm9ybWF0KHN0cnVjdCB2NGwyX2Zv
-cm1hdCAqZiwNCiAJcmV0dXJuIE5VTEw7DQogfQ0KIA0KK3N0YXRpYyBib29sIG10a192ZGVjX2dl
-dF9jYXBfZm10KHN0cnVjdCBtdGtfdmNvZGVjX2N0eCAqY3R4LCBpbnQgZm9ybWF0X2luZGV4KQ0K
-K3sNCisJY29uc3Qgc3RydWN0IG10a192Y29kZWNfZGVjX3BkYXRhICpkZWNfcGRhdGEgPSBjdHgt
-PmRldi0+dmRlY19wZGF0YTsNCisJY29uc3Qgc3RydWN0IG10a192aWRlb19mbXQgKmZtdDsNCisJ
-c3RydWN0IG10a19xX2RhdGEgKnFfZGF0YTsNCisJaW50IG51bV9mcmFtZV9jb3VudCA9IDAsIGk7
-DQorCWJvb2wgcmV0ID0gdHJ1ZTsNCisNCisJZm9yIChpID0gMDsgaSA8ICpkZWNfcGRhdGEtPm51
-bV9mb3JtYXRzOyBpKyspIHsNCisJCWlmIChkZWNfcGRhdGEtPnZkZWNfZm9ybWF0c1tpXS50eXBl
-ICE9IE1US19GTVRfRlJBTUUpDQorCQkJY29udGludWU7DQorDQorCQludW1fZnJhbWVfY291bnQr
-KzsNCisJfQ0KKw0KKwlpZiAobnVtX2ZyYW1lX2NvdW50ID09IDEpDQorCQlyZXR1cm4gdHJ1ZTsN
-CisNCisJZm10ID0gJmRlY19wZGF0YS0+dmRlY19mb3JtYXRzW2Zvcm1hdF9pbmRleF07DQorCXFf
-ZGF0YSA9ICZjdHgtPnFfZGF0YVtNVEtfUV9EQVRBX1NSQ107DQorCXN3aXRjaCAocV9kYXRhLT5m
-bXQtPmZvdXJjYykgew0KKwljYXNlIFY0TDJfUElYX0ZNVF9WUDhfRlJBTUU6DQorCQlpZiAoZm10
-LT5mb3VyY2MgPT0gVjRMMl9QSVhfRk1UX01NMjEpDQorCQkJcmV0ID0gdHJ1ZTsNCisJCWJyZWFr
-Ow0KKwljYXNlIFY0TDJfUElYX0ZNVF9IMjY0X1NMSUNFOg0KKwljYXNlIFY0TDJfUElYX0ZNVF9W
-UDlfRlJBTUU6DQorCQlpZiAoZm10LT5mb3VyY2MgPT0gVjRMMl9QSVhfRk1UX01NMjEpDQorCQkJ
-cmV0ID0gZmFsc2U7DQorCQlicmVhazsNCisJZGVmYXVsdDoNCisJCXJldCA9IHRydWU7DQorCQli
-cmVhazsNCisJfTsNCisNCisJcmV0dXJuIHJldDsNCit9DQorDQogc3RhdGljIHN0cnVjdCBtdGtf
-cV9kYXRhICptdGtfdmRlY19nZXRfcV9kYXRhKHN0cnVjdCBtdGtfdmNvZGVjX2N0eCAqY3R4LA0K
-IAkJCQkJICAgICAgZW51bSB2NGwyX2J1Zl90eXBlIHR5cGUpDQogew0KQEAgLTU3OCw2ICs2MTYs
-OSBAQCBzdGF0aWMgaW50IHZpZGlvY19lbnVtX2ZtdChzdHJ1Y3QgdjRsMl9mbXRkZXNjICpmLCB2
-b2lkICpwcml2LA0KIAkJICAgIGRlY19wZGF0YS0+dmRlY19mb3JtYXRzW2ldLnR5cGUgIT0gTVRL
-X0ZNVF9GUkFNRSkNCiAJCQljb250aW51ZTsNCiANCisJCWlmICghb3V0cHV0X3F1ZXVlICYmICFt
-dGtfdmRlY19nZXRfY2FwX2ZtdChjdHgsIGkpKQ0KKwkJCWNvbnRpbnVlOw0KKw0KIAkJaWYgKGog
-PT0gZi0+aW5kZXgpDQogCQkJYnJlYWs7DQogCQkrK2o7DQotLSANCjIuMjUuMQ0K
+[67242.065474] pc : vpu_dec_ipi_handler+0xa0/0xb20 [mtk_vcodec_dec]
+[67242.065485] [MTK_V4L2] level=0 fops_vcodec_open(),334:
+18000000.vcodec_dec decoder [135]
+[67242.065523] lr : scp_ipi_handler+0x11c/0x244 [mtk_scp]
+[67242.065540] sp : ffffffbb4207fb10
+[67242.065557] x29: ffffffbb4207fb30 x28: ffffffd00a1d5000
+[67242.065592] x27: 1ffffffa0143aa24 x26: 0000000000000000
+[67242.065625] x25: dfffffd000000000 x24: ffffffd0168bfdb0
+[67242.065659] x23: 1ffffff76840ff74 x22: ffffffbb41fa8a88
+[67242.065692] x21: ffffffbb4207fb9c x20: ffffffbb4207fba0
+[67242.065725] x19: ffffffbb4207fb98 x18: 0000000000000000
+[67242.065758] x17: 0000000000000000 x16: ffffffd042022094
+[67242.065791] x15: 1ffffff77ed4b71a x14: 1ffffff77ed4b719
+[67242.065824] x13: 0000000000000000 x12: 0000000000000000
+[67242.065857] x11: 0000000000000000 x10: dfffffd000000001
+[67242.065890] x9 : 0000000000000000 x8 : 0000000000000002
+[67242.065923] x7 : 0000000000000000 x6 : 000000000000003f
+[67242.065956] x5 : 0000000000000040 x4 : ffffffffffffffe0
+[67242.065989] x3 : ffffffd043b841b8 x2 : 0000000000000000
+[67242.066021] x1 : 0000000000000010 x0 : 0000000000000010
+[67242.066055] Call trace:
+[67242.066092]  vpu_dec_ipi_handler+0xa0/0xb20 [mtk_vcodec_dec
+12220d230d83a7426fc38c56b3e7bc6066955bae]
+[67242.066119]  scp_ipi_handler+0x11c/0x244 [mtk_scp
+8fb69c2ef141dd3192518b952b65aba35627b8bf]
+[67242.066145]  mt8192_scp_irq_handler+0x70/0x128 [mtk_scp
+8fb69c2ef141dd3192518b952b65aba35627b8bf]
+[67242.066172]  scp_irq_handler+0xa0/0x114 [mtk_scp
+8fb69c2ef141dd3192518b952b65aba35627b8bf]
+[67242.066200]  irq_thread_fn+0x84/0xf8
+[67242.066220]  irq_thread+0x170/0x1ec
+[67242.066242]  kthread+0x2f8/0x3b8
+[67242.066264]  ret_from_fork+0x10/0x30
+[67242.066292] Code: 38f96908 35003628 91004340 d343fc08 (38f96908)
 
---__=_Part_Boundary_003_561299256.711313251--
+Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Reviewed-by: Macpaul Lin <macpaul.lin@mediatek.com>
+---
+ drivers/media/platform/mtk-vcodec/vdec_vpu_if.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+index 35f4d5583084..1041dd663e76 100644
+--- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
++++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+@@ -91,6 +91,11 @@ static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv)
+ 	struct vdec_vpu_inst *vpu = (struct vdec_vpu_inst *)
+ 					(unsigned long)msg->ap_inst_addr;
+ 
++	if (!vpu) {
++		mtk_v4l2_err("ap_inst_addr is NULL");
++		return;
++	}
++
+ 	mtk_vcodec_debug(vpu, "+ id=%X", msg->msg_id);
+ 
+ 	vpu->failure = msg->status;
+-- 
+2.25.1
 
