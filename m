@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B67349F544
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 09:36:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3C649F547
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 09:36:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51A5D11238D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1F3112391;
 	Fri, 28 Jan 2022 08:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D35E112384;
- Fri, 28 Jan 2022 08:36:19 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D743C112380;
+ Fri, 28 Jan 2022 08:36:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643358979; x=1674894979;
+ t=1643358978; x=1674894978;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=b15acj+uHWWCYpHpGA5nBcqe/eFWW77eP9hdQINtzKY=;
- b=iwQKTMSRe3i9Wi3W0a1b02JOzxv1QGXd19cK41nsP1olPRsSHvpQIGMZ
- FuGq7KQAdFlAJGiEMq38KVZeXl+D78V6p7NN9OMUGZdHD39byj5mo+nei
- /yioK9Utx0Aq8AMETIA0sHhF3XVBVKv+tIn8VHGlx03MDFPpHTv75pbMH
- htAO2ENyyzVz6X7ZWNrRCmyS6wKWZMEgJEuYCof4y8wbnALT++K1203KI
- 5YwE0mFuOgm9PiYOr3uk/WzuC5dx7ehtwKxRreE4Jr8xy6hO1PQvGWNRq
- /4ZwOL34KkYZyFXdtX9dfuSsfR4Uxj8DdCJ29iZGraoxCcLky5RDRDruh g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="247025194"
-X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; d="scan'208";a="247025194"
+ bh=bdEBKEgCbzDLgcRVHEuyBIgwVSj/xSLV6fZSXsJ5tNA=;
+ b=AtP2tp2y6zGd1j6OlOwZTrgL6jMiXZGakSl9wvGv0gEshoYuYHcuC5/3
+ 1MCqNcL2XTraVaJK5OJVXA1u5P9C+3uqSz8qoj62cNirqcjfmHBcmS2IS
+ zcjKrlHvRKtsYaYAFWvRVUnoZ2U7vO6Dcr0PFo1uRkY0g/p3lv9Mb4ecR
+ ZB/piDfi2XUGwrUBoGFZBwVU9NLQkGWiK42vA6ZELq5plw4k2HpZLeTDc
+ YH1e+L9TehaTn8fDvgwzlOLREMILAnUYHytxKXyfc+jNmXJeM8Ypgij48
+ BDRGH4dxG1SzkuF7ja6NJAqtFrDhTaiZm9nwa8Pxv678991t2ebAdxgKc w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="333430485"
+X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; d="scan'208";a="333430485"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  28 Jan 2022 00:36:16 -0800
-X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; d="scan'208";a="581788745"
+X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; d="scan'208";a="581788750"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  28 Jan 2022 00:36:14 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 07/14] drm/i915: Replace dma-buf-map with iosys-map
-Date: Fri, 28 Jan 2022 00:36:19 -0800
-Message-Id: <20220128083626.3012259-8-lucas.demarchi@intel.com>
+Subject: [PATCH 08/14] drm/msm: Replace dma-buf-map with iosys-map
+Date: Fri, 28 Jan 2022 00:36:20 -0800
+Message-Id: <20220128083626.3012259-9-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220128083626.3012259-1-lucas.demarchi@intel.com>
 References: <20220128083626.3012259-1-lucas.demarchi@intel.com>
@@ -64,104 +64,56 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 iosys-map is the new name for dma-buf-map and will gain new
-capabitilities. Replace with the new API in i915.
+capabitilities. Replace with the new API in msm.
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c           | 8 +++++---
- drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c | 6 +++---
- drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c     | 6 +++---
- 3 files changed, 11 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.h       | 4 ++--
+ drivers/gpu/drm/msm/msm_gem_prime.c | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index 1b526039a60d..14fdb0796c52 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -74,7 +74,8 @@ static void i915_gem_unmap_dma_buf(struct dma_buf_attachment *attachment,
- 	kfree(sg);
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index d7574e6bd4e4..ae52412d529a 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -309,8 +309,8 @@ void msm_gem_shrinker_init(struct drm_device *dev);
+ void msm_gem_shrinker_cleanup(struct drm_device *dev);
+ 
+ struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_object *obj);
+-int msm_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+-void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
++int msm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map);
++void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
+ struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
+ 		struct dma_buf_attachment *attach, struct sg_table *sg);
+ int msm_gem_prime_pin(struct drm_gem_object *obj);
+diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
+index fc94e061d6a7..e8f1b7a2ca9c 100644
+--- a/drivers/gpu/drm/msm/msm_gem_prime.c
++++ b/drivers/gpu/drm/msm/msm_gem_prime.c
+@@ -22,19 +22,19 @@ struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_object *obj)
+ 	return drm_prime_pages_to_sg(obj->dev, msm_obj->pages, npages);
  }
  
--static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
-+static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf,
-+				struct iosys_map *map)
+-int msm_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
++int msm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map)
  {
- 	struct drm_i915_gem_object *obj = dma_buf_to_obj(dma_buf);
  	void *vaddr;
-@@ -83,12 +84,13 @@ static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map
+ 
+ 	vaddr = msm_gem_get_vaddr(obj);
  	if (IS_ERR(vaddr))
  		return PTR_ERR(vaddr);
- 
 -	dma_buf_map_set_vaddr(map, vaddr);
 +	iosys_map_set_vaddr(map, vaddr);
  
  	return 0;
  }
  
--static void i915_gem_dmabuf_vunmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
-+static void i915_gem_dmabuf_vunmap(struct dma_buf *dma_buf,
-+				   struct iosys_map *map)
+-void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
++void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
  {
- 	struct drm_i915_gem_object *obj = dma_buf_to_obj(dma_buf);
- 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-index 3cc74b0fed06..b071a58dd6da 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-@@ -266,7 +266,7 @@ static int igt_dmabuf_import(void *arg)
- 	struct drm_i915_gem_object *obj;
- 	struct dma_buf *dmabuf;
- 	void *obj_map, *dma_map;
--	struct dma_buf_map map;
-+	struct iosys_map map;
- 	u32 pattern[] = { 0, 0xaa, 0xcc, 0x55, 0xff };
- 	int err, i;
- 
-@@ -349,7 +349,7 @@ static int igt_dmabuf_import_ownership(void *arg)
- 	struct drm_i915_private *i915 = arg;
- 	struct drm_i915_gem_object *obj;
- 	struct dma_buf *dmabuf;
--	struct dma_buf_map map;
-+	struct iosys_map map;
- 	void *ptr;
- 	int err;
- 
-@@ -400,7 +400,7 @@ static int igt_dmabuf_export_vmap(void *arg)
- 	struct drm_i915_private *i915 = arg;
- 	struct drm_i915_gem_object *obj;
- 	struct dma_buf *dmabuf;
--	struct dma_buf_map map;
-+	struct iosys_map map;
- 	void *ptr;
- 	int err;
- 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
-index 2855d11c7a51..b2a5882b8f81 100644
---- a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
-@@ -61,7 +61,7 @@ static void mock_dmabuf_release(struct dma_buf *dma_buf)
- 	kfree(mock);
+ 	msm_gem_put_vaddr(obj);
  }
- 
--static int mock_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
-+static int mock_dmabuf_vmap(struct dma_buf *dma_buf, struct iosys_map *map)
- {
- 	struct mock_dmabuf *mock = to_mock(dma_buf);
- 	void *vaddr;
-@@ -69,12 +69,12 @@ static int mock_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
- 	vaddr = vm_map_ram(mock->pages, mock->npages, 0);
- 	if (!vaddr)
- 		return -ENOMEM;
--	dma_buf_map_set_vaddr(map, vaddr);
-+	iosys_map_set_vaddr(map, vaddr);
- 
- 	return 0;
- }
- 
--static void mock_dmabuf_vunmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
-+static void mock_dmabuf_vunmap(struct dma_buf *dma_buf, struct iosys_map *map)
- {
- 	struct mock_dmabuf *mock = to_mock(dma_buf);
- 
 -- 
 2.35.0
 
