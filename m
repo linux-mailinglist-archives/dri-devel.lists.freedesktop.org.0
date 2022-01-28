@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F72749FD4B
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 16:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB1549FDD0
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 17:16:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B17F10F190;
-	Fri, 28 Jan 2022 15:58:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74AF810F1DB;
+	Fri, 28 Jan 2022 16:16:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6445710F190
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 15:58:49 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- q19-20020a056830441300b0059a54d66106so6186036otv.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 07:58:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6hFQB4ADTDgwYoAX4+/m39DLH9lKtS8Ql8nKlJJr2nc=;
- b=W2DFFkcBZLUCaEjftlm381Hj760bVRbzzveUqStrD86ZPPDmIlDYYar2fIcpu4qsDg
- Y58ALqe8ol1sooWSu2yopcO9sQMpirBk7ThuR0n+SH6mIDr/Ut1lIFDdOqacb0+YckkB
- gtMz1H0aoxyKOxvED+jhZLvp82lbznI+tsId8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6hFQB4ADTDgwYoAX4+/m39DLH9lKtS8Ql8nKlJJr2nc=;
- b=P37bBb9e1XUjGeatQxL+f/kot8UJhywc6eICDTz/xqbD6xs4+fuWCZ9QcwM6U2el0M
- SdP33/isn/dbG5Y0PKhe8rK00yVu11AGco4qSQ/PVpS7i+gYpXvBShMfeMbCHWuOiNuf
- 0Ny0i4FFRaFhb+WXfL/B4Upi5kGWs+vk+vfchTJ2ENlLT/xZ5F3K6f7ubvf0Pt8uTovb
- aVH2tsdFO1zZv8WPRP4BMrzJEdjp9W/ETg29W+DqPDSsUBzxfrsWsnDTyW/4Piaugmv/
- LVxTzZltFTnOjf+ZoD3XsgPDfXlwWcIWxb+Ls4Ox6hae2EJ9j9s59RJM4LYnHiZLr4B+
- OUEA==
-X-Gm-Message-State: AOAM532ufvC2myba2bUfoy3DfcOCFqW6k+CmeeLsjnQwXxz/CrctEquf
- G4VE34F5MDTMsV5SZ+HAKE2Bzq6dVmptsNaB3lEz33Gbz+Q=
-X-Google-Smtp-Source: ABdhPJwz0EIZKkOAdQMZFaiTQw4fFIo98+hjkF+0zwNG/Hq5e72N8kP4r+ULLpyVq5wij08SFTan9JvHHgzvWmQRzSc=
-X-Received: by 2002:a05:6830:2691:: with SMTP id
- l17mr548443otu.323.1643385528603; 
- Fri, 28 Jan 2022 07:58:48 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5AF410F1A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:16:42 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id ED5AC61EFC
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:16:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD30EC36AE2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:16:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1643386600;
+ bh=twyXXahotKEoQfmaYn1h+KsXQwihA+utJqMl4tH15xw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=EKhz84YKGeYvLYJAh9FKwsG+aQ5RnBr38r/qXMsLK0n1hI+7A15jXcgdAWsZ5BGQY
+ 8jK90V47bmRw1jhW1tiU4cVDvkmR4C8Q9W4IdkAJLKKhY3z/tncG+pSaz4i+JJgCYB
+ 1ksPqmKGnVrdMFjK7BdAm1TUFKmswNNmEmvFB/6rgP3JUePnKrI1OntoOc6wlXwZin
+ oMW66Uev9vG71z6NjvA2HIyOEoULKTpQlCYw7dHBQnW0LycrPLL+B/B1wRjm//3/rp
+ 5EpoCACAStTDt48U0ThBQKTFLW2koPLcbmrVFiZzrcnN+cUhgsnzvU66TJG8hWThW7
+ mcyUCOab/Y+jQ==
+Received: by mail-ed1-f54.google.com with SMTP id b13so10913112edn.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 08:16:40 -0800 (PST)
+X-Gm-Message-State: AOAM53220XQi8ThEGG0cvfoVQzbSHf4j0HNZdUoh43NSPghrY+k4tHN+
+ Mnxodof0yAuQowijjO33eqp+yGewJQ+Hn+eiRQ==
+X-Google-Smtp-Source: ABdhPJwGpnjATrAeAngi76DFgmj/fwwOS16yT8Wf6ZJqCxqqPJvUVz6TtZPtDgZbsbXMHnLQcDmGxUKSLksz+XyTO90=
+X-Received: by 2002:aa7:dac5:: with SMTP id x5mr8757587eds.254.1643386599011; 
+ Fri, 28 Jan 2022 08:16:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20220127102621.30047-1-tzimmermann@suse.de>
- <YfKFP2DW/g6tXLQw@phenom.ffwll.local>
- <b3c508df-53ee-7fcd-2cdb-297d603a5f96@suse.de>
- <YfK0N21rJ69rclJE@phenom.ffwll.local>
- <b59ac6ae-f080-0a22-3ad6-e0de65ebf621@suse.de>
- <CAKMK7uFNXooNYnrJ6-_nRh5jrOQrAdocUe88eT_fVRPg=svMSg@mail.gmail.com>
- <79173ff0-5e86-9761-a7f3-6c93d4d8bc11@suse.de>
-In-Reply-To: <79173ff0-5e86-9761-a7f3-6c93d4d8bc11@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 28 Jan 2022 16:58:37 +0100
-Message-ID: <CAKMK7uGQedBMtQX6A6PYqKWY=2rxv4x1nhOYP4krnAD-1ucXdQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/fb-helper: Mark screen buffers in system memory with
- FB_VIRTFB
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20220128120718.30545-1-yongqiang.niu@mediatek.com>
+ <20220128120718.30545-2-yongqiang.niu@mediatek.com>
+In-Reply-To: <20220128120718.30545-2-yongqiang.niu@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sat, 29 Jan 2022 00:16:28 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-V2A5SqQ5XGh54QfLYAtue1_Uita=J0osdFC1hLnRP2g@mail.gmail.com>
+Message-ID: <CAAOTY_-V2A5SqQ5XGh54QfLYAtue1_Uita=J0osdFC1hLnRP2g@mail.gmail.com>
+Subject: Re: [PATCH v1,
+ 1/4] soc: mediatek: mmsys: Add mt8186 mmsys routing table
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,208 +62,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ DTML <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
+ Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 28, 2022 at 12:36 PM Thomas Zimmermann <tzimmermann@suse.de> wr=
-ote:
->
-> Hi
->
-> Am 28.01.22 um 12:00 schrieb Daniel Vetter:
-> > On Thu, Jan 27, 2022 at 4:18 PM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
-> >>
-> >> Hi
-> >>
-> >> Am 27.01.22 um 16:03 schrieb Daniel Vetter:
-> >>> On Thu, Jan 27, 2022 at 12:58:30PM +0100, Thomas Zimmermann wrote:
-> >>>> Hi
-> >>>>
-> >>>> Am 27.01.22 um 12:42 schrieb Daniel Vetter:
-> >>>>> On Thu, Jan 27, 2022 at 11:26:21AM +0100, Thomas Zimmermann wrote:
-> >>>>>> Mark screen buffers in system memory with FB_VIRTFB. Otherwise, th=
-e
-> >>>>>> buffers are mmap'ed as I/O memory (i.e., VM_IO). For shadow buffer=
-s,
-> >>>>>> also set the FB_READS_FAST hint.
-> >>>>>
-> >>>>> Maybe clarify that this only holds for the defio case, and since we=
- have
-> >>>>> our own shadow copy for that anyway it shouldn't matter. I'm also n=
-ot sure
-> >>>>> how much the memcpy gains us compared to just redrawing ...
-> >>>>>
-> >>>>> What's the motivation here, or just something you spotted?
-> >>>>
-> >>>> Correctness mostly. fbdev's fbdefio tests for (the absence of) this =
-flag and
-> >>>> sets VM_IO accordingly.
-> >>>>
-> >>>> It's actually for userspace. Maybe userspace tests these flags as we=
-ll and
-> >>>> can optimize memcpy pattern for different types of caching. But I wo=
-uldn't
-> >>>> expect it TBH.
-> >>>
-> >>> Hm I thought so too, but the #define is in the internal header, not t=
-he
-> >>> uapi header. And I don't see any ioctl code in fbmem.c that would sho=
-ve
-> >>> fb_info->flags to userspace. That's why I wondered why you care about
-> >>> this? Or did I miss something somewhere?
-> >>
-> >> You didn't.  I just grepped it myself and the only user of VIRTFB is t=
-he
-> >> mmap code in fb_deferio.c, which (not) sets VM_IO. READS_FAST is unuse=
-d.
-> >> I'd then set the former, but not the latter. Ok?
-> >
-> > Well READS_FAST might become used again, if/when the accel code is
->
-> Ok.
->
-> > back. So I'd more keep that part, and leave the VIRTFB one alone,
-> > since you never set that for the defio case. I'm also not sure how
-> > that even works, since defio relies on struct page being present
-> > underneath, and you defo don't have struct page for VM_IO cases. So it
-> > all looks rather fishy. Or I'm still massively misunderstanding it
-> > all?
->
-> We only set the VIRTFB flag if we use our internal shadow buffer, which
-> is allocate via vzalloc() in drm_fb_helper_generic_probe(). Of course,
-> the shadow buffer is regular memory and not an I/O range.
->
-> The fbdefio on this buffer is completely implemented by the fbdev
-> susbystem, which uses pages (i.e., no VM_PFNMAP flag). See
-> https://elixir.bootlin.com/linux/latest/source/drivers/video/fbdev/core/f=
-b_defio.c#L165
-> for the respective mmap code.  Our GEM code never even knows that an
-> mmap call has taken place. It just sees the occasional damage updates
-> that fbdevio generates. Setting VIRTFB on the shadow buffer's memory is
-> the right thing to do IMHO.
+Hi, Yongqiang:
 
-Oh dear I read that test inverted and thought if we do nothing, then
-we wouldn't get VM_IO. Imo if you explain this in the commit message
-(and maybe in a comment like "make sure defio mmap does not set VM_IO"
-then this has my Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Also I guess this should have a cc: stable since I guess without it
-it'll go boom on a bunch of the more obscure architectures ...
+Yongqiang Niu <yongqiang.niu@mediatek.com> =E6=96=BC 2022=E5=B9=B41=E6=9C=
+=8828=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=888:07=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> mt8186 routing registers is different with other Soc
+>
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> ---
+>  drivers/soc/mediatek/mt8186-mmsys.h | 113 ++++++++++++++++++++++++++++
+>  drivers/soc/mediatek/mtk-mmsys.c    |  11 +++
+>  2 files changed, 124 insertions(+)
+>  create mode 100644 drivers/soc/mediatek/mt8186-mmsys.h
+>
+> diff --git a/drivers/soc/mediatek/mt8186-mmsys.h b/drivers/soc/mediatek/m=
+t8186-mmsys.h
+> new file mode 100644
+> index 000000000000..7de329f2d729
+> --- /dev/null
+> +++ b/drivers/soc/mediatek/mt8186-mmsys.h
+> @@ -0,0 +1,113 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +
+> +#ifndef __SOC_MEDIATEK_MT8186_MMSYS_H
+> +#define __SOC_MEDIATEK_MT8186_MMSYS_H
+> +
+> +#define MT8186_MMSYS_OVL_CON                   0xF04
+> +#define MT8186_MMSYS_OVL0_CON_MASK                     0x3
+> +#define MT8186_MMSYS_OVL0_2L_CON_MASK                  0xC
+> +#define MT8186_OVL0_GO_BLEND                           BIT(0)
+> +#define MT8186_OVL0_GO_BG                              BIT(1)
+> +#define MT8186_OVL0_2L_GO_BLEND                                BIT(2)
+> +#define MT8186_OVL0_2L_GO_BG                           BIT(3)
+> +#define MT8186_DISP_RDMA0_SOUT_SEL             0xF0C
+> +#define MT8186_RDMA0_SOUT_SEL_MASK                     0xF
+> +#define MT8186_RDMA0_SOUT_TO_DSI0                      (0)
+> +#define MT8186_RDMA0_SOUT_TO_COLOR0                    (1)
+> +#define MT8186_RDMA0_SOUT_TO_DPI0                      (2)
+> +#define MT8186_DISP_OVL0_2L_MOUT_EN            0xF14
+> +#define MT8186_OVL0_2L_MOUT_EN_MASK                    0xF
+> +#define MT8186_OVL0_2L_MOUT_TO_RDMA0                   BIT(0)
+> +#define MT8186_OVL0_2L_MOUT_TO_RDMA1                   BIT(3)
+> +#define MT8186_DISP_OVL0_MOUT_EN               0xF18
+> +#define MT8186_OVL0_MOUT_EN_MASK                       0xF
+> +#define MT8186_OVL0_MOUT_TO_RDMA0                      BIT(0)
+> +#define MT8186_OVL0_MOUT_TO_RDMA1                      BIT(3)
+> +#define MT8186_DISP_DITHER0_MOUT_EN            0xF20
+> +#define MT8186_DITHER0_MOUT_EN_MASK                    0xF
+> +#define MT8186_DITHER0_MOUT_TO_DSI0                    BIT(0)
+> +#define MT8186_DITHER0_MOUT_TO_RDMA1                   BIT(2)
+> +#define MT8186_DITHER0_MOUT_TO_DPI0                    BIT(3)
+> +#define MT8186_DISP_RDMA0_SEL_IN               0xF28
+> +#define MT8186_RDMA0_SEL_IN_MASK                       0xF
+> +#define MT8186_RDMA0_FROM_OVL0                         0
+> +#define MT8186_RDMA0_FROM_OVL0_2L                      2
+> +#define MT8186_DISP_DSI0_SEL_IN                        0xF30
+> +#define MT8186_DSI0_SEL_IN_MASK                                0xF
+> +#define MT8186_DSI0_FROM_RDMA0                         0
+> +#define MT8186_DSI0_FROM_DITHER0                       1
+> +#define MT8186_DSI0_FROM_RDMA1                         2
+> +#define MT8186_DISP_RDMA1_MOUT_EN              0xF3C
+> +#define MT8186_RDMA1_MOUT_EN_MASK                      0xF
+> +#define MT8186_RDMA1_MOUT_TO_DPI0_SEL                  BIT(0)
+> +#define MT8186_RDMA1_MOUT_TO_DSI0_SEL                  BIT(2)
+> +#define MT8186_DISP_RDMA1_SEL_IN               0xF40
+> +#define MT8186_RDMA1_SEL_IN_MASK                       0xF
+> +#define MT8186_RDMA1_FROM_OVL0                         0
+> +#define MT8186_RDMA1_FROM_OVL0_2L                      2
+> +#define MT8186_RDMA1_FROM_DITHER0                      3
+> +#define MT8186_DISP_DPI0_SEL_IN                        0xF44
+> +#define MT8186_DPI0_SEL_IN_MASK                                0xF
+> +#define MT8186_DPI0_FROM_RDMA1                         0
+> +#define MT8186_DPI0_FROM_DITHER0                       1
+> +#define MT8186_DPI0_FROM_RDMA0                         2
+> +
+> +static const struct mtk_mmsys_routes mmsys_mt8186_routing_table[] =3D {
+> +       {
+> +               DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
+> +               MT8186_DISP_OVL0_MOUT_EN, MT8186_OVL0_MOUT_EN_MASK,
+> +               MT8186_OVL0_MOUT_TO_RDMA0
+> +       },
+> +       {
+> +               DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
+> +               MT8186_DISP_RDMA0_SEL_IN, MT8186_RDMA0_SEL_IN_MASK,
+> +               MT8186_RDMA0_FROM_OVL0
+> +       },
+> +       {
+> +               DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
+> +               MT8186_MMSYS_OVL_CON, MT8186_MMSYS_OVL0_CON_MASK,
+> +               MT8186_OVL0_GO_BLEND
+> +       },
+> +       {
+> +               DDP_COMPONENT_RDMA0, DDP_COMPONENT_COLOR0,
+> +               MT8186_DISP_RDMA0_SOUT_SEL, MT8186_RDMA0_SOUT_SEL_MASK,
+> +               MT8186_RDMA0_SOUT_TO_COLOR0
+> +       },
+> +       {
+> +               DDP_COMPONENT_DITHER, DDP_COMPONENT_DSI0,
+> +               MT8186_DISP_DITHER0_MOUT_EN, MT8186_DITHER0_MOUT_EN_MASK,
+> +               MT8186_DITHER0_MOUT_TO_DSI0,
+> +       },
+> +       {
+> +               DDP_COMPONENT_DITHER, DDP_COMPONENT_DSI0,
+> +               MT8186_DISP_DSI0_SEL_IN, MT8186_DSI0_SEL_IN_MASK,
+> +               MT8186_DSI0_FROM_DITHER0
+> +       },
+> +       {
+> +               DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA1,
+> +               MT8186_DISP_OVL0_2L_MOUT_EN, MT8186_OVL0_2L_MOUT_EN_MASK,
+> +               MT8186_OVL0_2L_MOUT_TO_RDMA1
+> +       },
+> +       {
+> +               DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA1,
+> +               MT8186_DISP_RDMA1_SEL_IN, MT8186_RDMA1_SEL_IN_MASK,
+> +               MT8186_RDMA1_FROM_OVL0_2L
+> +       },
+> +       {
+> +               DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA1,
+> +               MT8186_MMSYS_OVL_CON, MT8186_MMSYS_OVL0_2L_CON_MASK,
+> +               MT8186_OVL0_2L_GO_BLEND
+> +       },
+> +       {
+> +               DDP_COMPONENT_RDMA1, DDP_COMPONENT_DPI0,
+> +               MT8186_DISP_RDMA1_MOUT_EN, MT8186_RDMA1_MOUT_EN_MASK,
+> +               MT8186_RDMA1_MOUT_TO_DPI0_SEL
+> +       },
+> +       {
+> +               DDP_COMPONENT_RDMA1, DDP_COMPONENT_DPI0,
+> +               MT8186_DISP_DPI0_SEL_IN, MT8186_DPI0_SEL_IN_MASK,
+> +               MT8186_DPI0_FROM_RDMA1
+> +       },
+> +};
+> +
+> +#endif /* __SOC_MEDIATEK_MT8186_MMSYS_H */
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-=
+mmsys.c
+> index 1e448f1ffefb..0da25069ffb3 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.c
+> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> @@ -15,6 +15,7 @@
+>  #include "mtk-mmsys.h"
+>  #include "mt8167-mmsys.h"
+>  #include "mt8183-mmsys.h"
+> +#include "mt8186-mmsys.h"
+>  #include "mt8192-mmsys.h"
+>  #include "mt8365-mmsys.h"
+>
+> @@ -56,6 +57,12 @@ static const struct mtk_mmsys_driver_data mt8183_mmsys=
+_driver_data =3D {
+>         .num_routes =3D ARRAY_SIZE(mmsys_mt8183_routing_table),
+>  };
+>
+> +static const struct mtk_mmsys_driver_data mt8186_mmsys_driver_data =3D {
+> +       .clk_driver =3D "clk-mt8186-mm",
+> +       .routes =3D mmsys_mt8186_routing_table,
+> +       .num_routes =3D ARRAY_SIZE(mmsys_mt8186_routing_table),
+> +};
+> +
+>  static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data =3D {
+>         .clk_driver =3D "clk-mt8192-mm",
+>         .routes =3D mmsys_mt8192_routing_table,
+> @@ -242,6 +249,10 @@ static const struct of_device_id of_match_mtk_mmsys[=
+] =3D {
+>                 .compatible =3D "mediatek,mt8183-mmsys",
+>                 .data =3D &mt8183_mmsys_driver_data,
+>         },
+> +       {
+> +               .compatible =3D "mediatek,mt8186-mmsys",
 
-I'm not sure the 2nd part that sets VIRTFB for other parts makes sense
-since mmap is fully under our control for that case. Imo drop it, but
-also I'm ok if you keep it.
+Add "mediatek,mt8186-mmsys" to binding document.
 
-Also I guess yet another reason to just pull the defio stuff into our
-fbdev emulation layer, because we're just fighting a questionable
-midlayer here :-)
--Daniel
+Regards,
+Chun-Kuang.
 
->
-> Best regards
-> Thomas
->
->
-> > -Daniel
-> >
-> >>
-> >> Best regards
-> >> Thomas
-> >>
-> >>> -Daniel
-> >>>
-> >>>>
-> >>>> Best regards
-> >>>> Thomas
-> >>>>
-> >>>>> -Daniel
-> >>>>>
-> >>>>>>
-> >>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >>>>>> ---
-> >>>>>>     drivers/gpu/drm/drm_fb_helper.c | 9 ++++++---
-> >>>>>>     1 file changed, 6 insertions(+), 3 deletions(-)
-> >>>>>>
-> >>>>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm=
-_fb_helper.c
-> >>>>>> index ed43b987d306..f15127a32f7a 100644
-> >>>>>> --- a/drivers/gpu/drm/drm_fb_helper.c
-> >>>>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> >>>>>> @@ -2346,6 +2346,7 @@ static int drm_fb_helper_generic_probe(struc=
-t drm_fb_helper *fb_helper,
-> >>>>>>             fbi->fbops =3D &drm_fbdev_fb_ops;
-> >>>>>>             fbi->screen_size =3D sizes->surface_height * fb->pitch=
-es[0];
-> >>>>>>             fbi->fix.smem_len =3D fbi->screen_size;
-> >>>>>> +  fbi->flags =3D FBINFO_DEFAULT;
-> >>>>>>             drm_fb_helper_fill_info(fbi, fb_helper, sizes);
-> >>>>>> @@ -2353,19 +2354,21 @@ static int drm_fb_helper_generic_probe(str=
-uct drm_fb_helper *fb_helper,
-> >>>>>>                     fbi->screen_buffer =3D vzalloc(fbi->screen_siz=
-e);
-> >>>>>>                     if (!fbi->screen_buffer)
-> >>>>>>                             return -ENOMEM;
-> >>>>>> +          fbi->flags |=3D FBINFO_VIRTFB | FBINFO_READS_FAST;
-> >>>>>>                     fbi->fbdefio =3D &drm_fbdev_defio;
-> >>>>>> -
-> >>>>>>                     fb_deferred_io_init(fbi);
-> >>>>>>             } else {
-> >>>>>>                     /* buffer is mapped for HW framebuffer */
-> >>>>>>                     ret =3D drm_client_buffer_vmap(fb_helper->buff=
-er, &map);
-> >>>>>>                     if (ret)
-> >>>>>>                             return ret;
-> >>>>>> -          if (map.is_iomem)
-> >>>>>> +          if (map.is_iomem) {
-> >>>>>>                             fbi->screen_base =3D map.vaddr_iomem;
-> >>>>>> -          else
-> >>>>>> +          } else {
-> >>>>>>                             fbi->screen_buffer =3D map.vaddr;
-> >>>>>> +                  fbi->flags |=3D FBINFO_VIRTFB;
-> >>>>>> +          }
-> >>>>>>                     /*
-> >>>>>>                      * Shamelessly leak the physical address to us=
-er-space. As
-> >>>>>> --
-> >>>>>> 2.34.1
-> >>>>>>
-> >>>>>
-> >>>>
-> >>>> --
-> >>>> Thomas Zimmermann
-> >>>> Graphics Driver Developer
-> >>>> SUSE Software Solutions Germany GmbH
-> >>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> >>>> (HRB 36809, AG N=C3=BCrnberg)
-> >>>> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
-> >>>
-> >>>
-> >>>
-> >>>
-> >>
-> >> --
-> >> Thomas Zimmermann
-> >> Graphics Driver Developer
-> >> SUSE Software Solutions Germany GmbH
-> >> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> >> (HRB 36809, AG N=C3=BCrnberg)
-> >> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
-> >
-> >
-> >
->
+> +               .data =3D &mt8186_mmsys_driver_data,
+> +       },
+>         {
+>                 .compatible =3D "mediatek,mt8192-mmsys",
+>                 .data =3D &mt8192_mmsys_driver_data,
 > --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
-
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> 2.25.1
+>
