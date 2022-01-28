@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4DB49F60F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 10:13:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7D049F610
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 10:13:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26FBA10F600;
-	Fri, 28 Jan 2022 09:13:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4A5810F5FE;
+	Fri, 28 Jan 2022 09:13:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E317410F5FE
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 09:13:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 029441F45DA3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1643361215;
- bh=1t37Who892UgzGYY1/obVI1c4xg7GCI5hTII7E25RXc=;
- h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
- b=icjXHmtYlty4sGUEzqvYYuKTs/KKYuBCXYBiIJKGV1pyFbjQO+zU9XWbOgmB9/v1S
- UFd2f7F5Lv5p/xtwrJSx94W16cekuZkPoaNq+zfwxX95RrzT9NkvVEsnFyhabpClTD
- 81HswS6Vi3aZzf5lLfcsHp1JpQTshMri2jR1qzmSoeHQ3IT15oW8T06WKCdWmTLo8R
- QcLTNK1MvQGUNMh07HHx9xsG5QSKh00VIvTBcrvqrDxyAmFEKcSJvXAUWsn/Mf9+PT
- 9942P6a51mYZLUhLAHO/PL3ilq8Fh8NbnATnoUQ/rWVsNRukJaUpIGEmKfg1VN14LY
- ou3MgSVqDEHPA==
-Subject: Re: [PATCH v3] drm/mediatek: mtk_dsi: Avoid EPROBE_DEFER loop with
- external bridge
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20220127143623.123025-1-angelogioacchino.delregno@collabora.com>
- <CAAOTY__yO6Cq8qt8RSh9AX68mJEv+wWvuhY0_p-PTJ=eJD_7aA@mail.gmail.com>
- <b8911eab-1419-60ad-ef07-25a5de365a52@collabora.com>
-Message-ID: <ddb05e08-f81a-11f9-8091-9af0c57e687d@collabora.com>
-Date: Fri, 28 Jan 2022 10:13:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BAA110F601
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 09:13:40 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B7F2471;
+ Fri, 28 Jan 2022 10:13:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1643361218;
+ bh=Lcc61J4YEll7UWZ9xSZRtQhWVWEkxpFSqmltcNTTKE4=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=P4FdkpYlI6AHYNEVttCP1sF22oFO+Yy5CMhyHu4Rwl2X8itwuCXKgPY0ToNrxhuYJ
+ RnYraHUWTleE6RlUTHovFNzzay4PZUGueYR2nKYiZR7piCUM+qt+M5cwPZUPZzfK5H
+ Dklp2p/8RoF+CkANpYOsiad0tOD1bOabFysXYxX8=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <b8911eab-1419-60ad-ef07-25a5de365a52@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211217003752.3946210-32-javierm@redhat.com>
+References: <20211217003752.3946210-1-javierm@redhat.com>
+ <20211217003752.3946210-32-javierm@redhat.com>
+Subject: Re: [PATCH v2 31/37] drm: rcar-du: Add support for the nomodeset
+ kernel parameter
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Fri, 28 Jan 2022 09:13:36 +0000
+Message-ID: <164336121612.533872.1685181669511488706@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,100 +50,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Jagan Teki <jagan@amarulasolutions.com>, andrzej.hajda@intel.com,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Collabora Kernel ML <kernel@collabora.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 27/01/22 16:46, AngeloGioacchino Del Regno ha scritto:
-> Il 27/01/22 16:21, Chun-Kuang Hu ha scritto:
->> Hi, Angelo:
->>
->> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> 於
->> 2022年1月27日 週四 下午10:36寫道：
->>>
->>> DRM bridge drivers are now attaching their DSI device at probe time,
->>> which requires us to register our DSI host in order to let the bridge
->>> to probe: this recently started producing an endless -EPROBE_DEFER
->>> loop on some machines that are using external bridges, like the
->>> parade-ps8640, found on the ACER Chromebook R13.
->>>
->>> Now that the DSI hosts/devices probe sequence is documented, we can
->>> do adjustments to the mtk_dsi driver as to both fix now and make sure
->>> to avoid this situation in the future: for this, following what is
->>> documented in drm_bridge.c, move the mtk_dsi component_add() to the
->>> mtk_dsi_ops.attach callback and delete it in the detach callback;
->>> keeping in mind that we are registering a drm_bridge for our DSI,
->>> which is only used/attached if the DSI Host is bound, it wouldn't
->>> make sense to keep adding our bridge at probe time (as it would
->>> be useless to have it if mtk_dsi_ops.attach() fails!), so also move
->>> that one to the dsi host attach function (and remove it in detach).
->>>
->>> Fixes: 209264a85707 ("drm/bridge: Document the probe issue with MIPI-DSI bridges")
->>
->> The fixed tag should indicate the patch which cause the bug, but why a
->> patch just adding document would cause bug?
->> So no any patch cause bug? This patch just want to prevent a possible bug?
->>
-> 
-> I think you've missed my previous message on v2, so I will paste it here:
-> 
-> unfortunately I couldn't find a valid commit for a Fixes tag. This
-> started being an issue at some point, when the DRM was changed to
-> adhere to the documented probe sequence: the MediaTek DSI driver was
-> not the only one that got broken/affected by these changes.
-> 
-> If you have any advice on which commit should be tagged, I'm open for
-> any kind of suggestion.
-> 
-> 
-> I tried to check on other drivers which got fixed for the same behavior,
-> for example drm/msm, but none of them had a Fixes tag.
-> When the DRM got changed to adhere to this sequence, some drm/bridge
-> drivers were also changed; this has created some incompatibilities with
-> some drm drivers, including drm/msm and drm/mediatek.
-> 
-> This commit is not fixing a latent bug that was introduced in drm/mediatek
-> but rather one that was induced by the new, fixed, probe flow that got
-> recently documented - and to which drivers should adhere; failing to adhere
-> to that will produce an endless -EPROBE_DEFER loop, due to other drivers
-> (as mentioned, for example drm/bridge drivers) having been changed to use
-> that probe sequence.
-> 
-> 
-> Regards,
-> Angelo
-> 
+Hi Javier,
 
-I've been thinking about another solution to this issue.
+Quoting Javier Martinez Canillas (2021-12-17 00:37:46)
+> According to disable Documentation/admin-guide/kernel-parameters.txt, this
+> parameter can be used to disable kernel modesetting.
+>=20
+> DRM drivers will not perform display-mode changes or accelerated rendering
+> and only the system framebuffer will be available if it was set-up.
 
-Would it be fine if I send a v4 that removes the Fixes tag, but adds the following?
+What is the 'system framebuffer' in this instance? Reading
+https://www.kernel.org/doc/Documentation/admin-guide/kernel-parameters.txt
+it sounds like that means anything already set up by the bootloader.
 
-Cc: stable@kernel.org # v5.15+
+> But only a few DRM drivers currently check for nomodeset, make this driver
+> to also support the command line parameter.
+>=20
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+>=20
+> (no changes since v1)
+>=20
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar=
+-du/rcar_du_drv.c
+> index 5a8131ef81d5..982e450233ed 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -701,6 +701,9 @@ static struct platform_driver rcar_du_platform_driver=
+ =3D {
+> =20
+>  static int __init rcar_du_init(void)
+>  {
+> +       if (drm_firmware_drivers_only())
+> +               return -ENODEV;
+> +
 
->> Regards,
->> Chun-Kuang.
->>
->>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
->>> Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
->>>
->>> ---
->>>   drivers/gpu/drm/mediatek/mtk_dsi.c | 167 +++++++++++++++--------------
->>>   1 file changed, 84 insertions(+), 83 deletions(-)
->>>
+This will completely disable all control of the display device when
+nomodeset is enabled.
 
+Is there any requirement for us to support outputting to the display if
+it was previously set up? presumably without setting or changing any
+modes, but simply allowing the existing frame to be updated?
 
--- 
-AngeloGioacchino Del Regno
-Software Engineer
+I think the implication is that 'firmware drivers' would mean a display
+could be updated through some firmware interface, which we won't have
+... so it seems reasonable to accept that this whole driver can be
+disabled in that instance.
 
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales, no. 5513718
+Reading your mail that brought this thread up in my inbox, I think
+you've already hit merge on this, so don't worry about adding a tag in
+that instance, but I think this is ok.
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+>         rcar_du_of_init(rcar_du_of_table);
+> =20
+>         return platform_driver_register(&rcar_du_platform_driver);
+> --=20
+> 2.33.1
+>
