@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E17604A2DCE
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 11:50:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F98B4A2DD1
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 11:50:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBAF210E6B0;
-	Sat, 29 Jan 2022 10:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC4A10E867;
+	Sat, 29 Jan 2022 10:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1337 seconds by postgrey-1.36 at gabe;
- Fri, 28 Jan 2022 15:54:06 UTC
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
- [67.231.152.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE19D10EEA0;
- Fri, 28 Jan 2022 15:54:06 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
- by mx0b-001ae601.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20SAlQGQ004181;
- Fri, 28 Jan 2022 09:31:26 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
- h=from : to : cc :
- references : in-reply-to : subject : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=PODMain02222019;
- bh=wL0zJBiKIWod4uzVo58UrUjP2I3Psupby3Ex3AeWzPQ=;
- b=Mcq8z9yB9JWAcj/MHgRaOFISzsoLZgyA1Bs4Dxm6yBQlWxHLwvPLFgXWINFPhFp06Jiv
- efD+NVFGDKjekxesvNZ4DQdRZ0lJSabTYzPm9R4UkoUisHBD6rjtUbtNMbFf1y2FsBPO
- psMe2WdnL+5Qn25G5kwaph14y0YNNQFF/52aWoJfMxlIBsN6Bw0b3Bw1s0HSrl0ePFof
- BJSfG6mmdDBn0GiBa8QRH9b5EYtx3LyxSw5DFEWJTpGh2AShjVQpgwNeCKTtPR4cRBIz
- bX0h8lNsAcFeQXHlIUY7bgWxBrVyrEvI7YZqIrwoE0SHlKqwlW8ncgIdHd1eB7iu0KWM MQ== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3dv90rrhu4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Fri, 28 Jan 2022 09:31:26 -0600
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 28 Jan
- 2022 15:31:24 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.18 via
- Frontend Transport; Fri, 28 Jan 2022 15:31:24 +0000
-Received: from LONN2DGDQ73 (unknown [198.90.238.118])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 5A1E52A9;
- Fri, 28 Jan 2022 15:31:24 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: 'Stephen Boyd' <swboyd@chromium.org>, 'Greg Kroah-Hartman'
- <gregkh@linuxfoundation.org>, 'Douglas Anderson' <dianders@chromium.org>
-References: <20220127200141.1295328-1-swboyd@chromium.org>
- <20220127200141.1295328-34-swboyd@chromium.org>
-In-Reply-To: <20220127200141.1295328-34-swboyd@chromium.org>
-Subject: RE: [PATCH v6 33/35] ALSA: hda/realtek: Migrate to aggregate driver
-Date: Fri, 28 Jan 2022 15:31:24 +0000
-Message-ID: <003d01d8145c$1bfc83b0$53f58b10$@opensource.cirrus.com>
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF03B10E59D;
+ Fri, 28 Jan 2022 17:35:05 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id u15so12262019wrt.3;
+ Fri, 28 Jan 2022 09:35:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TsIDTtHB4kRX1wNfgR6Ml8ylhDMIOCnu62XlBka8/6g=;
+ b=TzXySIrLQJNqrp2gr8PFN82rs+nQaCsKZ+kBNBN1o/3UBgttOQ6AOUGGTnvrBy0ymC
+ KMIylawFWQ3LmfwXaAH7aER4p7rXKKPFVevKkK1UGgosSYbhtXUZLs5NJBnPp1qx4MVf
+ t1tfEfbHl/zujHaYJqCTkBBma2fgsmWyguw/zu/DECtDuCj6OYpP98EAzM9oUCVdrq6G
+ Tl9HGH7zrIyYsSxVO/GL3I7YoyLQ6z8sIJdptDxWfAwWPcZ9X1um/RCWRU/1t8kQI0qC
+ 6wHrIB9NcxxK5xBrKRgaC8iNDxZb4py+Yka65szsM6m7JYMa+mv4G0eo0xU1eryn5/rn
+ vqKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TsIDTtHB4kRX1wNfgR6Ml8ylhDMIOCnu62XlBka8/6g=;
+ b=zOvXIT6DO45RkxB74cm16G5cZcNjsGN6bRD3kwqAW1SXtg0gq5qgHisp2VCt6dWrJT
+ C/g7Bbu45yNz4qS8JOSm9+YVM52jfurJNpPKrdqj9axHEfZp0lhdJrxX7fAcAr0CwngF
+ /c0SGouSnZLE7mdE+RfzwHyoHDGe8pQdQ7+ZSOGR39f7/H2+ij4dNXrPIo/992x7iLy7
+ xl9xa7LlaXNYvUvvPtWwzcc6wcQPajP5duxxGpaJlo+xTUI83h1nsKpxJ75Bj0zeHa1K
+ XuQmhkE2GRfGd6cGIvTjayEIcn2UKAh08DBz+aeCmoCHt74vO9TnbZy7imSuFvKSvgUu
+ ZluQ==
+X-Gm-Message-State: AOAM531kSihyFivEjI/wpUZHFoPlt8l0PoAXi6grFuRpwgwxumE0JiX+
+ vXt5CryY2zDhsSiPXhMNMnc=
+X-Google-Smtp-Source: ABdhPJxJE0V/fphCdVdf6dtmH5D1Nmn7oSq2UA0Il16gHJVuWzQ4UL+lVYo/ob7txoCGhmhLdc5Myw==
+X-Received: by 2002:a05:6000:1c01:: with SMTP id
+ ba1mr8063219wrb.28.1643391304188; 
+ Fri, 28 Jan 2022 09:35:04 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194])
+ by smtp.gmail.com with ESMTPSA id z1sm2359404wmk.32.2022.01.28.09.35.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Jan 2022 09:35:03 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amd/display: fix spelling mistake: synatpics ->
+ synaptics
+Date: Fri, 28 Jan 2022 17:35:02 +0000
+Message-Id: <20220128173502.594099-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQKTHzAglPObqNN3HmQB0+j3AO7d5wDuIK/MqvsC3oA=
-Content-Language: en-gb
-X-Proofpoint-ORIG-GUID: K_LOQM8TjPJrzG6NLbyR90eIF2EODU3A
-X-Proofpoint-GUID: K_LOQM8TjPJrzG6NLbyR90eIF2EODU3A
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 29 Jan 2022 10:50:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,127 +76,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: 'Saravana Kannan' <saravanak@google.com>,
- 'Lucas Tanure' <tanureal@opensource.cirrus.com>,
- "'Rafael J. Wysocki'" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- 'Daniel Vetter' <daniel.vetter@ffwll.ch>,
- 'Russell King' <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There are quite a few spelling mistakes in various function names
+and error messages. Fix these.
 
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 32 +++++++++----------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-> -----Original Message-----
-> From: Stephen Boyd <swboyd@chromium.org>
-> Sent: 27 January 2022 20:02
-> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>; Douglas Anderson
-> <dianders@chromium.org>
-> Cc: linux-kernel@vger.kernel.org; linux-arm-msm@vger.kernel.org; dri-
-> devel@lists.freedesktop.org; freedreno@lists.freedesktop.org; Stefan
-> Binding <sbinding@opensource.cirrus.com>; Lucas Tanure
-> <tanureal@opensource.cirrus.com>; Takashi Iwai <tiwai@suse.de>; Daniel
-> Vetter <daniel.vetter@ffwll.ch>; Rafael J. Wysocki <rafael@kernel.org>;
-Rob
-> Clark <robdclark@gmail.com>; Russell King <rmk+kernel@arm.linux.org.uk>;
-> Saravana Kannan <saravanak@google.com>
-> Subject: [PATCH v6 33/35] ALSA: hda/realtek: Migrate to aggregate driver
-> 
-> Use an aggregate driver instead of component ops so that we can get
-> proper driver probe ordering of the aggregate device with respect to all
-> the component devices that make up the aggregate device.
-> 
-> Cc: Stefan Binding <sbinding@opensource.cirrus.com>
-> Cc: Lucas Tanure <tanureal@opensource.cirrus.com>
-> Cc: Takashi Iwai <tiwai@suse.de>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-> Cc: Saravana Kannan <saravanak@google.com>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  sound/pci/hda/patch_realtek.c | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
-> 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index 668274e52674..80a2164c99b6 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -6547,25 +6547,31 @@ static int find_comp_by_dev_name(struct
-> alc_spec *spec, const char *name)
->  	return -ENODEV;
->  }
-> 
-> -static int comp_bind(struct device *dev)
-> +static int realtek_aggregate_probe(struct aggregate_device *adev)
->  {
-> +	struct device *dev = aggregate_device_parent(adev);
->  	struct hda_codec *cdc = dev_to_hda_codec(dev);
->  	struct alc_spec *spec = cdc->spec;
-> 
->  	return component_bind_all(dev, spec->comps);
->  }
-> 
-> -static void comp_unbind(struct device *dev)
-> +static void realtek_aggregate_remove(struct aggregate_device *adev)
->  {
-> +	struct device *dev = aggregate_device_parent(adev);
->  	struct hda_codec *cdc = dev_to_hda_codec(dev);
->  	struct alc_spec *spec = cdc->spec;
-> 
->  	component_unbind_all(dev, spec->comps);
->  }
-> 
-> -static const struct component_master_ops comp_master_ops = {
-> -	.bind = comp_bind,
-> -	.unbind = comp_unbind,
-> +static struct aggregate_driver realtek_aggregate_driver = {
-> +	.probe = realtek_aggregate_probe,
-> +	.remove = realtek_aggregate_remove,
-> +	.driver = {
-> +		.name = "realtek_aggregate",
-> +		.owner = THIS_MODULE,
-> +	},
->  };
-> 
->  static void comp_generic_playback_hook(struct hda_pcm_stream *hinfo,
-> struct hda_codec *cdc,
-> @@ -6597,7 +6603,7 @@ static void cs35l41_generic_fixup(struct hda_codec
-> *cdc, int action, const char
->  				return;
->  			component_match_add(dev, &spec->match,
-> comp_match_dev_name, name);
->  		}
-> -		ret = component_master_add_with_match(dev,
-> &comp_master_ops, spec->match);
-> +		ret = component_aggregate_register(dev,
-> &realtek_aggregate_driver, spec->match);
->  		if (ret)
->  			codec_err(cdc, "Fail to register component
-> aggregator %d\n", ret);
->  		else
-> @@ -6648,7 +6654,7 @@ static void
-> alc287_fixup_legion_16achg6_speakers(struct hda_codec *cdc, const st
->  				    "i2c-CLSA0100:00-cs35l41-hda.0");
->  		component_match_add(dev, &spec->match,
-> comp_match_dev_name,
->  				    "i2c-CLSA0100:00-cs35l41-hda.1");
-> -		ret = component_master_add_with_match(dev,
-> &comp_master_ops, spec->match);
-> +		ret = component_aggregate_register(dev,
-> &realtek_aggregate_driver, spec->match);
->  		if (ret)
->  			codec_err(cdc, "Fail to register component
-> aggregator %d\n", ret);
->  		else
-> --
-> https://chromeos.dev
-
-Tested locally, and no issues found.
-Tested-by: Stefan Binding <sbinding@opensource.cirrus.com>
-
-Thanks,
-Stefan
-
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index 75b5299b3576..db4ab01267e4 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -539,7 +539,7 @@ bool dm_helpers_submit_i2c(
+ }
+ 
+ #if defined(CONFIG_DRM_AMD_DC_DCN)
+-static bool execute_synatpics_rc_command(struct drm_dp_aux *aux,
++static bool execute_synaptics_rc_command(struct drm_dp_aux *aux,
+ 		bool is_write_cmd,
+ 		unsigned char cmd,
+ 		unsigned int length,
+@@ -578,7 +578,7 @@ static bool execute_synatpics_rc_command(struct drm_dp_aux *aux,
+ 	ret = drm_dp_dpcd_write(aux, SYNAPTICS_RC_COMMAND, &rc_cmd, sizeof(rc_cmd));
+ 
+ 	if (ret < 0) {
+-		DRM_ERROR("	execute_synatpics_rc_command - write cmd ..., err = %d\n", ret);
++		DRM_ERROR("	execute_synaptics_rc_command - write cmd ..., err = %d\n", ret);
+ 		return false;
+ 	}
+ 
+@@ -600,7 +600,7 @@ static bool execute_synatpics_rc_command(struct drm_dp_aux *aux,
+ 		drm_dp_dpcd_read(aux, SYNAPTICS_RC_DATA, data, length);
+ 	}
+ 
+-	DC_LOG_DC("	execute_synatpics_rc_command - success = %d\n", success);
++	DC_LOG_DC("	execute_synaptics_rc_command - success = %d\n", success);
+ 
+ 	return success;
+ }
+@@ -618,54 +618,54 @@ static void apply_synaptics_fifo_reset_wa(struct drm_dp_aux *aux)
+ 	data[3] = 'U';
+ 	data[4] = 'S';
+ 
+-	if (!execute_synatpics_rc_command(aux, true, 0x01, 5, 0, data))
++	if (!execute_synaptics_rc_command(aux, true, 0x01, 5, 0, data))
+ 		return;
+ 
+ 	// Step 3 and 4
+-	if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x220998, data))
++	if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x220998, data))
+ 		return;
+ 
+ 	data[0] &= (~(1 << 1)); // set bit 1 to 0
+-	if (!execute_synatpics_rc_command(aux, true, 0x21, 4, 0x220998, data))
++	if (!execute_synaptics_rc_command(aux, true, 0x21, 4, 0x220998, data))
+ 		return;
+ 
+-	if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x220D98, data))
++	if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x220D98, data))
+ 		return;
+ 
+ 	data[0] &= (~(1 << 1)); // set bit 1 to 0
+-	if (!execute_synatpics_rc_command(aux, true, 0x21, 4, 0x220D98, data))
++	if (!execute_synaptics_rc_command(aux, true, 0x21, 4, 0x220D98, data))
+ 		return;
+ 
+-	if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x221198, data))
++	if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x221198, data))
+ 		return;
+ 
+ 	data[0] &= (~(1 << 1)); // set bit 1 to 0
+-	if (!execute_synatpics_rc_command(aux, true, 0x21, 4, 0x221198, data))
++	if (!execute_synaptics_rc_command(aux, true, 0x21, 4, 0x221198, data))
+ 		return;
+ 
+ 	// Step 3 and 5
+-	if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x220998, data))
++	if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x220998, data))
+ 		return;
+ 
+ 	data[0] |= (1 << 1); // set bit 1 to 1
+-	if (!execute_synatpics_rc_command(aux, true, 0x21, 4, 0x220998, data))
++	if (!execute_synaptics_rc_command(aux, true, 0x21, 4, 0x220998, data))
+ 		return;
+ 
+-	if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x220D98, data))
++	if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x220D98, data))
+ 		return;
+ 
+ 	data[0] |= (1 << 1); // set bit 1 to 1
+ 		return;
+ 
+-	if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x221198, data))
++	if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x221198, data))
+ 		return;
+ 
+ 	data[0] |= (1 << 1); // set bit 1 to 1
+-	if (!execute_synatpics_rc_command(aux, true, 0x21, 4, 0x221198, data))
++	if (!execute_synaptics_rc_command(aux, true, 0x21, 4, 0x221198, data))
+ 		return;
+ 
+ 	// Step 6
+-	if (!execute_synatpics_rc_command(aux, true, 0x02, 0, 0, NULL))
++	if (!execute_synaptics_rc_command(aux, true, 0x02, 0, 0, NULL))
+ 		return;
+ 
+ 	DC_LOG_DC("Done apply_synaptics_fifo_reset_wa\n");
+-- 
+2.34.1
 
