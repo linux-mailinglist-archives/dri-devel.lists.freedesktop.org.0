@@ -1,49 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D09D4A0029
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 19:32:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D094A0051
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 19:47:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 667CA10EB3B;
-	Fri, 28 Jan 2022 18:32:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EEEB10E3E0;
+	Fri, 28 Jan 2022 18:47:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BF5A10EB05
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 18:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643394741; x=1674930741;
- h=from:to:subject:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=H7/9vIFzCjh3W9BUNa7eaJPZ0CVcoZjzFcX2zutSRBw=;
- b=kRFzk+UpNAzxRE7paFCQ47iJehVdoogmRQqaRQHZGWCikhPClxEY/Qwh
- d/35sMweFVdsmF79l7eqS2JC+jSVfVeXpgfeAhwzUwJ5EQXtforAyGReg
- UDjXsBI324TUtIn12tg82TUnfJkkcZsJGpiEBMWN+tkSAif2hS0JFWMjU
- beI4G6A9YJC7twIT/MwAwGEzyoEYWC8hyCPLoRXaCk0sJraFN4YSy7cP9
- bYzwA8G6qU+/J6LN1OvVTdpB2rMj5i2vtKpxH3go0LH9UcXWT+5RZke/9
- iJfoI3anWdf5ilEP87LZX7X7lo1OH0MPRXyco6dcQyCmUTA4TQ4C21uvm A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="244774581"
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; d="scan'208";a="244774581"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2022 10:32:20 -0800
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; d="scan'208";a="480828095"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2022 10:32:19 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: gfx-internal-devel@eclists.intel.com,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/i915: Do not spam log with missing arch support
-Date: Fri, 28 Jan 2022 10:33:05 -0800
-Message-Id: <20220128183305.3072999-4-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220128183305.3072999-1-lucas.demarchi@intel.com>
-References: <20220128183305.3072999-1-lucas.demarchi@intel.com>
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83BAE10E3E0;
+ Fri, 28 Jan 2022 18:47:36 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id w133so13986272oie.7;
+ Fri, 28 Jan 2022 10:47:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eEjXoPAEz8WirABSDqS1VUwttblJowoR0W8TU5D2lVM=;
+ b=KFRzjl5NTJdsPdkPMCDpbIuJjDHgQwM51Fs65bDH+tfGTW9KIaOqhdT5kG2e/5yRM6
+ NArO4NpAK/BjldFJSm9O9IXDgCedtUpqaYjm7eRusR5xsmmq+08nP1KxL5757ynFlsDB
+ xEcz9SSXcUPJwbN9PTuxoD87NTqsS4L7VKtcnvKbS21RqIvXcGiyX8oT4lpUCfG1h1tJ
+ yxZu4nYQfbxv4wMay7gKh/sxgDsZbd2qp3TbtsmPh/OgpTKlsJuqlpKGibEKqF6tFS4r
+ N/f4aEaRTx8eP5qY+zVag2yeH15isrxZeIK7YMYLLqZjr5B7PWbnODYOn3gT/F7rxArm
+ V8rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eEjXoPAEz8WirABSDqS1VUwttblJowoR0W8TU5D2lVM=;
+ b=jbXdZqTzChf7st8IdneZUcHWn8PgjgFMxiAlo9+1LHE4iUrEqHPfKtmq5iYPulNtmo
+ 5YJVAJtUHCc3Aqo4fIVsHeHfMprGcfD/+V8dQmDwOCsNdgTy78NCTj+Flxi7INtGvrtx
+ FXQ4aba3ZTO5e4EQbtkESNNe4Sczir4lgKpYh5SlIpJ85o7H/gSCZVqN7+JZy8ToGXX1
+ QYuX1J1iwxroM80tfK0Or2ub2SvZ/C7EzzrS9s0y/lK1rM6EswUnztHOdH2cjFn6qf+Q
+ KRwTtP6x/wI9Td5KB8t3FX5P2NkppYy5Bjh6KnRl+A6y40eEQbAOpgBfxnkAj4mv/sr2
+ +OTA==
+X-Gm-Message-State: AOAM532CazsqLTtCTDMx0avQ726my2o5jD66qW/eZyrCTeIEFQ9sw208
+ c73FaHIgW3Rh08YkLLn+GwV/2s6qNfb+WouKoSY=
+X-Google-Smtp-Source: ABdhPJwM9t2ruoxdGjT3rJNiqxAPK3A1fVDMMJuvwY5Biz08JHaqoxdPUhurTw22ug6GZxDVXG4WGx9bVPOZ/vIhhGA=
+X-Received: by 2002:a54:4e94:: with SMTP id c20mr6267113oiy.132.1643395655765; 
+ Fri, 28 Jan 2022 10:47:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220128070519.1210105-1-deng.changcheng@zte.com.cn>
+In-Reply-To: <20220128070519.1210105-1-deng.changcheng@zte.com.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 28 Jan 2022 13:47:24 -0500
+Message-ID: <CADnq5_O_RyzKDfaFE9zbEWgioAfoczDgWFtd9qBb5vwWLS9Enw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: remove duplicate include in 'amdgpu_device.c'
+To: CGEL <cgel.zte@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,35 +61,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jack Zhang <Jack.Zhang1@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
+ Dave Airlie <airlied@linux.ie>, Zeal Robot <zealci@zte.com.cn>, "Lazar,
+ Lijo" <lijo.lazar@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, "Quan, Evan" <evan.quan@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, Shaoyun Liu <shaoyun.liu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Following what was done in drm_cache.c, when the stub for
-remap_io_mapping() was added in commit 67c430bbaae1 ("drm/i915: Skip
-remap_io_mapping() for non-x86 platforms"), it included a log message
-with pr_err().  However just the warning is already enough and switching
-to WARN_ONCE() allows us to keep the log message while avoiding log
-spam.
+Applied.  Thanks!
 
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
- drivers/gpu/drm/i915/i915_mm.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Alex
 
-diff --git a/drivers/gpu/drm/i915/i915_mm.h b/drivers/gpu/drm/i915/i915_mm.h
-index 3ad22bbe80eb..04c8974d822b 100644
---- a/drivers/gpu/drm/i915/i915_mm.h
-+++ b/drivers/gpu/drm/i915/i915_mm.h
-@@ -23,8 +23,7 @@ int remap_io_mapping(struct vm_area_struct *vma,
- 		     unsigned long addr, unsigned long pfn, unsigned long size,
- 		     struct io_mapping *iomap)
- {
--	pr_err("Architecture has no %s() and shouldn't be calling this function\n", __func__);
--	WARN_ON_ONCE(1);
-+	WARN_ONCE(1, "Architecture has no drm_cache.c support\n");
- 	return 0;
- }
- #endif
--- 
-2.35.0
-
+On Fri, Jan 28, 2022 at 2:05 AM <cgel.zte@gmail.com> wrote:
+>
+> From: Changcheng Deng <deng.changcheng@zte.com.cn>
+>
+> 'linux/pci.h' included in 'amdgpu_device.c' is duplicated.
+>
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index dd5979098e63..289c5c626324 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -56,7 +56,6 @@
+>  #include "soc15.h"
+>  #include "nv.h"
+>  #include "bif/bif_4_1_d.h"
+> -#include <linux/pci.h>
+>  #include <linux/firmware.h>
+>  #include "amdgpu_vf_error.h"
+>
+> --
+> 2.25.1
+>
