@@ -1,50 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB174A006D
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 19:52:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 346A84A0072
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 19:53:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2FE110E839;
-	Fri, 28 Jan 2022 18:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC86310E5CB;
+	Fri, 28 Jan 2022 18:53:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF00E10E7E6;
- Fri, 28 Jan 2022 18:52:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643395940; x=1674931940;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ovHvM3IodaKvzqteIAV3pVOZXXDnULNc713QriI7oww=;
- b=lE6rk+rk3Hp7NyrO1n8cfyso0ceJ1Eu1epHIRBl/V3HVqiPx7q2PXKPa
- 46BehYyRsgn27tpTuJnhyD0fo6Bpg+G5mrsNypCgwyeZ67sCq/kZ8QJvG
- eXNBqtf+4n8jxlc2ryyh6aZhd1ncx2RXe70XK7Ui7Or/NMyxTX+56S5IH
- aWjEEohV7mfGuL8eg74fEQgvkHZ3n6IgG+hdcXR9NTzC7ji/DhS0WgECN
- qCehFhGsK9/ekd+FJJ/fDHr1wleP9ngfK3+OghMUKE2jBJ4wXsIeNmd99
- 1aPWaEuxLUHY5+l9Dk4AqGqGKs29+zIiaErtv1MlpsXENd5AGsPkJBhOq Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="310490214"
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; d="scan'208";a="310490214"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2022 10:52:19 -0800
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; d="scan'208";a="625718084"
-Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2022 10:52:17 -0800
-From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 5/5] drm/i915/guc: Allow user to override driver load failure
- without GuC
-Date: Sat, 29 Jan 2022 00:22:09 +0530
-Message-Id: <20220128185209.18077-6-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220128185209.18077-1-ramalingam.c@intel.com>
-References: <20220128185209.18077-1-ramalingam.c@intel.com>
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7940110E5CB;
+ Fri, 28 Jan 2022 18:53:12 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id y23so13953831oia.13;
+ Fri, 28 Jan 2022 10:53:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pu4NSwnKcN2ktpCmENizSopNqGrtbHMNjwjQQEL3R9o=;
+ b=FMrK316cn1uFMuGw08XpxR3ytnj/a+OHArDyn4WZuTbrMozATGItbEp0OF5NCLdAKs
+ 55wlAj/pLNbR3IY3wNMdQl3KC05xFW3ejCodXst/6aJbcvoC3IM/fFTHJDl7GsH7oQBy
+ H7Y3Ytxd0Q7Nh+hczHmz4zi+PNfK8YcG3iLFzzRqksyG+JcZJSXzEJxqF74+FoHNlcYC
+ jUiQfgStsVfpTNx84W9cfYSSasVqiH0lk2vQqJwoQslYryCMj7ob7TyO/VVc3uORYddv
+ Uau/3O3gWAWmqTVLpvUZ8Mj7cCmj+u/piSuDb5t6UzbGAFPwQzXC7a8fCCwnlP0dK3eC
+ CvOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pu4NSwnKcN2ktpCmENizSopNqGrtbHMNjwjQQEL3R9o=;
+ b=c7lb9LP3eD7f21R0RvJHL8izwkAK4LTTgCdGk5zxv6+J69Ak2Q/kdRTBFD/5tAWesR
+ GuVkedOdl8ox1DCd5qjQA2aZ1O8qsfifBUeKaBI8fcMPXBM5RZ9AWJfYruwK3tsDWjSl
+ WeMtgmJqXepkTElNuoBVhFPPJyvxBiuHf0+59kzVL6VwK8gIv3jeupccAxBRxeP0aHWx
+ RsKU9ASnU6W2f8Wutbqc8s9cuOe4tSE4rmiaj7TjUaoDFyKTMDyjUO7tsG7htfji1TWw
+ Ve4N2XJveeHJK6ddANovrzxftBHlqPHQa609cEcuuy+6vxbbjF2IvrnsKcUUHrh4YmFY
+ QFHw==
+X-Gm-Message-State: AOAM531t75clnN+YWl5SmgXnQDskfcGJPWNitofqZOVoB82n+v3dnd2x
+ R+tdVdbDqJCI6H95Yz0c2aa29exZQF14uSk98Wo=
+X-Google-Smtp-Source: ABdhPJwKCzD8Rt5qit1gwag3Yzd6XxPW5CpF0ZA2+xx+dEK0So5xF+3/9NNczU849tHElw52wJ2ouSprPSX7g2wTnww=
+X-Received: by 2002:a05:6808:2189:: with SMTP id
+ be9mr11097293oib.93.1643395991750; 
+ Fri, 28 Jan 2022 10:53:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220128173502.594099-1-colin.i.king@gmail.com>
+ <6a5b1f8e-22a1-9c26-aea4-6bb38c4aa084@amd.com>
+In-Reply-To: <6a5b1f8e-22a1-9c26-aea4-6bb38c4aa084@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 28 Jan 2022 13:53:00 -0500
+Message-ID: <CADnq5_PxSH6e-QgN7_srR4w47WCNdXTp6VGNZz0=sXp-ivw4Mg@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amd/display: fix spelling mistake: synatpics ->
+ synaptics
+To: Harry Wentland <harry.wentland@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,91 +64,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stuart Summers <stuart.summers@intel.com>,
- Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+Cc: Leo Li <sunpeng.li@amd.com>, kernel-janitors@vger.kernel.org,
+ xinhui pan <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Colin Ian King <colin.i.king@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Stuart Summers <stuart.summers@intel.com>
+Applied.  Thanks!
 
-The driver is set currently to fail modprobe when GuC is disabled
-(enable_guc=0) after GuC has been loaded on a previous modprobe.
-For GuC deprivilege, the BIOS is setting the locked bit, so the
-driver always considers the GuC to have been loaded and thus does
-not support enable_guc=0 on these platforms.
+Alex
 
-There are some debug scenarios where loading without GuC can be
-interesting. Add a new feature flag for GuC deprivilege and a mode
-(enable_guc=0x80) which can be exclusively set to skip the locked
-bit check.
-
-cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-Signed-off-by: Stuart Summers <stuart.summers@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_uc.c | 17 +++++++++++++++--
- drivers/gpu/drm/i915/i915_params.h    |  1 +
- 2 files changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index da199aa6989f..a1376dbd04fe 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -108,7 +108,7 @@ static void __confirm_options(struct intel_uc *uc)
- 			 "Incompatible option enable_guc=%d - %s\n",
- 			 i915->params.enable_guc, "GuC submission is N/A");
- 
--	if (i915->params.enable_guc & ~ENABLE_GUC_MASK)
-+	if (i915->params.enable_guc & ~(ENABLE_GUC_MASK | ENABLE_GUC_DO_NOT_LOAD_GUC))
- 		drm_info(&i915->drm,
- 			 "Incompatible option enable_guc=%d - %s\n",
- 			 i915->params.enable_guc, "undocumented flag");
-@@ -416,8 +416,21 @@ static bool uc_is_wopcm_locked(struct intel_uc *uc)
- 	       (intel_uncore_read(uncore, DMA_GUC_WOPCM_OFFSET) & GUC_WOPCM_OFFSET_VALID);
- }
- 
-+static inline bool skip_lock_check(struct drm_i915_private *i915)
-+{
-+	/*
-+	 * For platforms with GuC deprivilege, if a user *really* wants
-+	 * to run without GuC, let that happen by setting enable_guc=0x80.
-+	 */
-+	return (HAS_GUC_DEPRIVILEGE(i915) &&
-+		(i915->params.enable_guc & ENABLE_GUC_DO_NOT_LOAD_GUC) &&
-+		!(i915->params.enable_guc & ~ENABLE_GUC_DO_NOT_LOAD_GUC));
-+}
-+
- static int __uc_check_hw(struct intel_uc *uc)
- {
-+	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
-+
- 	if (!intel_uc_supports_guc(uc))
- 		return 0;
- 
-@@ -426,7 +439,7 @@ static int __uc_check_hw(struct intel_uc *uc)
- 	 * before on this system after reboot, otherwise we risk GPU hangs.
- 	 * To check if GuC was loaded before we look at WOPCM registers.
- 	 */
--	if (uc_is_wopcm_locked(uc))
-+	if (uc_is_wopcm_locked(uc) && likely(!skip_lock_check(i915)))
- 		return -EIO;
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
-index c9d53ff910a0..8996ba2cc3a8 100644
---- a/drivers/gpu/drm/i915/i915_params.h
-+++ b/drivers/gpu/drm/i915/i915_params.h
-@@ -32,6 +32,7 @@ struct drm_printer;
- 
- #define ENABLE_GUC_SUBMISSION		BIT(0)
- #define ENABLE_GUC_LOAD_HUC		BIT(1)
-+#define ENABLE_GUC_DO_NOT_LOAD_GUC	BIT(7)
- #define ENABLE_GUC_MASK			GENMASK(1, 0)
- 
- /*
--- 
-2.20.1
-
+On Fri, Jan 28, 2022 at 12:59 PM Harry Wentland <harry.wentland@amd.com> wrote:
+>
+>
+>
+> On 2022-01-28 12:35, Colin Ian King wrote:
+> > There are quite a few spelling mistakes in various function names
+> > and error messages. Fix these.
+> >
+> > Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+>
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>
+> Harry
+>
+> > ---
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 32 +++++++++----------
+> >  1 file changed, 16 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > index 75b5299b3576..db4ab01267e4 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > @@ -539,7 +539,7 @@ bool dm_helpers_submit_i2c(
+> >  }
+> >
+> >  #if defined(CONFIG_DRM_AMD_DC_DCN)
+> > -static bool execute_synatpics_rc_command(struct drm_dp_aux *aux,
+> > +static bool execute_synaptics_rc_command(struct drm_dp_aux *aux,
+> >               bool is_write_cmd,
+> >               unsigned char cmd,
+> >               unsigned int length,
+> > @@ -578,7 +578,7 @@ static bool execute_synatpics_rc_command(struct drm_dp_aux *aux,
+> >       ret = drm_dp_dpcd_write(aux, SYNAPTICS_RC_COMMAND, &rc_cmd, sizeof(rc_cmd));
+> >
+> >       if (ret < 0) {
+> > -             DRM_ERROR("     execute_synatpics_rc_command - write cmd ..., err = %d\n", ret);
+> > +             DRM_ERROR("     execute_synaptics_rc_command - write cmd ..., err = %d\n", ret);
+> >               return false;
+> >       }
+> >
+> > @@ -600,7 +600,7 @@ static bool execute_synatpics_rc_command(struct drm_dp_aux *aux,
+> >               drm_dp_dpcd_read(aux, SYNAPTICS_RC_DATA, data, length);
+> >       }
+> >
+> > -     DC_LOG_DC("     execute_synatpics_rc_command - success = %d\n", success);
+> > +     DC_LOG_DC("     execute_synaptics_rc_command - success = %d\n", success);
+> >
+> >       return success;
+> >  }
+> > @@ -618,54 +618,54 @@ static void apply_synaptics_fifo_reset_wa(struct drm_dp_aux *aux)
+> >       data[3] = 'U';
+> >       data[4] = 'S';
+> >
+> > -     if (!execute_synatpics_rc_command(aux, true, 0x01, 5, 0, data))
+> > +     if (!execute_synaptics_rc_command(aux, true, 0x01, 5, 0, data))
+> >               return;
+> >
+> >       // Step 3 and 4
+> > -     if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x220998, data))
+> > +     if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x220998, data))
+> >               return;
+> >
+> >       data[0] &= (~(1 << 1)); // set bit 1 to 0
+> > -     if (!execute_synatpics_rc_command(aux, true, 0x21, 4, 0x220998, data))
+> > +     if (!execute_synaptics_rc_command(aux, true, 0x21, 4, 0x220998, data))
+> >               return;
+> >
+> > -     if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x220D98, data))
+> > +     if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x220D98, data))
+> >               return;
+> >
+> >       data[0] &= (~(1 << 1)); // set bit 1 to 0
+> > -     if (!execute_synatpics_rc_command(aux, true, 0x21, 4, 0x220D98, data))
+> > +     if (!execute_synaptics_rc_command(aux, true, 0x21, 4, 0x220D98, data))
+> >               return;
+> >
+> > -     if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x221198, data))
+> > +     if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x221198, data))
+> >               return;
+> >
+> >       data[0] &= (~(1 << 1)); // set bit 1 to 0
+> > -     if (!execute_synatpics_rc_command(aux, true, 0x21, 4, 0x221198, data))
+> > +     if (!execute_synaptics_rc_command(aux, true, 0x21, 4, 0x221198, data))
+> >               return;
+> >
+> >       // Step 3 and 5
+> > -     if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x220998, data))
+> > +     if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x220998, data))
+> >               return;
+> >
+> >       data[0] |= (1 << 1); // set bit 1 to 1
+> > -     if (!execute_synatpics_rc_command(aux, true, 0x21, 4, 0x220998, data))
+> > +     if (!execute_synaptics_rc_command(aux, true, 0x21, 4, 0x220998, data))
+> >               return;
+> >
+> > -     if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x220D98, data))
+> > +     if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x220D98, data))
+> >               return;
+> >
+> >       data[0] |= (1 << 1); // set bit 1 to 1
+> >               return;
+> >
+> > -     if (!execute_synatpics_rc_command(aux, false, 0x31, 4, 0x221198, data))
+> > +     if (!execute_synaptics_rc_command(aux, false, 0x31, 4, 0x221198, data))
+> >               return;
+> >
+> >       data[0] |= (1 << 1); // set bit 1 to 1
+> > -     if (!execute_synatpics_rc_command(aux, true, 0x21, 4, 0x221198, data))
+> > +     if (!execute_synaptics_rc_command(aux, true, 0x21, 4, 0x221198, data))
+> >               return;
+> >
+> >       // Step 6
+> > -     if (!execute_synatpics_rc_command(aux, true, 0x02, 0, 0, NULL))
+> > +     if (!execute_synaptics_rc_command(aux, true, 0x02, 0, 0, NULL))
+> >               return;
+> >
+> >       DC_LOG_DC("Done apply_synaptics_fifo_reset_wa\n");
+>
