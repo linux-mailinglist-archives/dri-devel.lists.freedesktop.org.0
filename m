@@ -1,46 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4452149FA1F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 13:55:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D0A49FA49
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 14:04:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DA2A10E930;
-	Fri, 28 Jan 2022 12:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57C6A10EE5C;
+	Fri, 28 Jan 2022 13:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39E5F10E91E
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 12:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=9FRISzbgmrCCWcZD8ftGDL8nC0adXQ2wlur/JTV7yik=; b=peBzp/nGizhvgKckGBo/K3wk4L
- yU9q/Zq4so6T2o8K4ZXDDUSUydNsC4OKwpq3us+0J5m+tHQtwwwqhyXOrdOuHyBHkotfUyI6xdZSf
- 2HwM/23B4oPWo3rOrswoUarONEYMhwSF6IL/A5aezbnPWvnjjjrUibWspfoerGNjNSnyfNP6qTfNN
- 6AqLkRRPvHaosCmFIV7UgMw4GjaLrURdRah1dthINSE52tJWEVlt1qkzzECEPeuNATPJOYq3IkCBo
- AolVQyQx5aJp9OlQTkJK8FXhLMyCoOai3e+UPjCZb/7R1hMO9THwux0bjXZknffKbL4XmGA5lB8GD
- JaaX+tyQ==;
-Received: from [165.90.113.117] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1nDQmk-0003ko-Ne; Fri, 28 Jan 2022 13:55:26 +0100
-Date: Fri, 28 Jan 2022 11:55:10 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Yongzhi Liu <lyz_cs@pku.edu.cn>
-Subject: Re: [PATCH v2] drm/v3d: fix missing unlock
-Message-ID: <20220128125510.idyai4bp3g5nbzd2@mail.igalia.com>
-References: <20220126205726.phfikh7kn3lks5ib@mail.igalia.com>
- <1643278460-100473-1-git-send-email-lyz_cs@pku.edu.cn>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A56E410EE5C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 13:04:19 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE9DA11D4;
+ Fri, 28 Jan 2022 05:04:18 -0800 (PST)
+Received: from [10.57.68.47] (unknown [10.57.68.47])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E4173F766;
+ Fri, 28 Jan 2022 05:04:13 -0800 (PST)
+Message-ID: <29deffd6-aac4-f085-bcd5-f5a2d02784a8@arm.com>
+Date: Fri, 28 Jan 2022 13:04:07 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="g64nw4ibv7tj6mml"
-Content-Disposition: inline
-In-Reply-To: <1643278460-100473-1-git-send-email-lyz_cs@pku.edu.cn>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [RFC PATCH] component: Add common helpers for compare/release
+ functions
+Content-Language: en-GB
+To: Yong Wu <yong.wu@mediatek.com>, dri-devel@lists.freedesktop.org
+References: <20220128081101.27837-1-yong.wu@mediatek.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220128081101.27837-1-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,110 +44,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, emma@anholt.net,
- linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ Sebastian Reichel <sre@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Will Deacon <will@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
+ James Wang <james.qian.wang@arm.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ srv_heupstream@mediatek.com, Stephen Boyd <sboyd@kernel.org>,
+ linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2022-01-28 08:11, Yong Wu wrote:
+[...]
+> diff --git a/include/linux/component.h b/include/linux/component.h
+> index 16de18f473d7..5a7468ea827c 100644
+> --- a/include/linux/component.h
+> +++ b/include/linux/component.h
+> @@ -2,6 +2,8 @@
+>   #ifndef COMPONENT_H
+>   #define COMPONENT_H
+>   
+> +#include <linux/device.h>
+> +#include <linux/of.h>
+>   #include <linux/stddef.h>
+>   
+>   
+> @@ -82,6 +84,22 @@ struct component_master_ops {
+>   	void (*unbind)(struct device *master);
+>   };
+>   
+> +/* A set common helpers for compare/release functions */
+> +static inline int compare_of(struct device *dev, void *data)
+> +{
+> +	return dev->of_node == data;
+> +}
 
---g64nw4ibv7tj6mml
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Note that this is effectively just device_match_of_node(), although I 
+guess there is an argument that having a nice consistent set of 
+component_match API helpers might be worth more than a tiny code saving 
+by borrowing one from a different API.
 
-On 01/27, Yongzhi Liu wrote:
-> [why]
-> Unlock is needed on the error handling path to prevent dead lock.
-> v3d_submit_cl_ioctl and v3d_submit_csd_ioctl is missing unlock.
->=20
-> [how]
-> Fix this by change goto target on the error handling path.
-s/change/changing/g
+Either way, however, I don't think there's any good argument for 
+instantiating separate copies of these functions in every driver that 
+uses them. If they're used as callbacks then they can't actually be 
+inlined anyway, so they may as well be exported from component.c as 
+normal so that the code really is shared (plus then there's nice 
+symmetry with the aforementioned device_match API helpers too).
 
-I would just say: `Changing the goto to target an error handling path
-that includes drm_gem_unlock reservations.`
+Thanks,
+Robin.
 
-and drop the explanation below
-
-> As unlock is handle in fail_unreserve, i keep the failures
-> handling around there. So the goto targets a place between
-> `fail_unreserve:` and `fail:`.
->=20
-> Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
-> ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index c7ed2e1..d9c7b39 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -798,7 +798,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *dat=
-a,
-> =20
->  		if (!render->base.perfmon) {
->  			ret =3D -ENOENT;
-> -			goto fail;
-> +			goto v3d_unlock;
-We usually use a `fail` prefix when handling failures.
-A suggestion: `fail_perfmon` ?
->  		}
->  	}
-> =20
-> @@ -847,6 +847,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *dat=
-a,
-> =20
->  fail_unreserve:
->  	mutex_unlock(&v3d->sched_lock);
-> +v3d_unlock:
->  	drm_gem_unlock_reservations(last_job->bo,
->  				    last_job->bo_count, &acquire_ctx);
->  fail:
-> @@ -1027,7 +1028,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *=
-data,
->  						     args->perfmon_id);
->  		if (!job->base.perfmon) {
->  			ret =3D -ENOENT;
-> -			goto fail;
-> +			goto v3d_unlock;
->  		}
->  	}
-> =20
-> @@ -1056,6 +1057,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *=
-data,
-> =20
->  fail_unreserve:
->  	mutex_unlock(&v3d->sched_lock);
-> +v3d_unlock:
->  	drm_gem_unlock_reservations(clean_job->bo, clean_job->bo_count,
->  				    &acquire_ctx);
->  fail:
-
-With these changes, you can include in the next version my r-b:
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-
-> --=20
-> 2.7.4
->=20
-
---g64nw4ibv7tj6mml
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmHz56kACgkQwqF3j0dL
-ehykixAAmS9Q4WCWvnB3FYPwrZS1XcYgs7c54qP1W+vYzZAAlx7aPQZYKv0lIXup
-yslTjdhGHTIsWvYu5+gGxdbT+7Mt2RBynrBWW2Cy3DFAblgxeqdifKosN27Jg4qt
-wR4GYebsEMnZ8UYPKqtZpPmXPlkT/4K/oFKxgQhHtRUNFIp+pmXLXYF816fI0Wf8
-H9mCgEBn8nGeTAjlJMhujj4l1v+3V2VTThpzz0LEX18s8T1+3+LpdTDNFJjo1F+j
-6ALfxpDu8LXBOKnOClKopXMZG0SrPfsx+p0WEToNTATG26L2irs6PNHK2zh4RDyl
-jSMeJ1pCrqvo/vokW2YT8aEFr+p+w2DAc4RwkmGhD1vbz/M/K83vUJQCpglVTNhA
-rebuXrjlBpLMADjWNZioPVHcnNqWpqkaKniN7CRPfW6gM0KPKjVpj6p78H+/9BFZ
-Pnid2szvwzrHqXQkzt77swJ1lwG8bPB2l7YZig8ONIUYEbIWNjt5exbfBQcRrzxH
-ubRxSsIpv65MOfD4060SQwdoCcdi7u1k/BxSnXDFfOUZgSCKsfDU5ZvLL8hp3Bxj
-MWBFGcup59QDkfMwT+KJEvZFKabE7WXvIJqHm4T9mdC3uwnNCeVdLU4laFaeHFTG
-jZTqi0NKsLl4szXy1s/Rrzla1D86FYK7oDPQGjfYVSy5NIn6AK8=
-=vq1L
------END PGP SIGNATURE-----
-
---g64nw4ibv7tj6mml--
+> +static inline void release_of(struct device *dev, void *data)
+> +{
+> +	of_node_put(data);
+> +}
+> +
+> +static inline int compare_dev(struct device *dev, void *data)
+> +{
+> +	return dev == data;
+> +}
+> +
+>   void component_master_del(struct device *,
+>   	const struct component_master_ops *);
+>   
+> diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
+> index eff200a07d9f..992132cbfb9f 100644
+> --- a/sound/soc/codecs/wcd938x.c
+> +++ b/sound/soc/codecs/wcd938x.c
+> @@ -4417,16 +4417,6 @@ static const struct component_master_ops wcd938x_comp_ops = {
+>   	.unbind = wcd938x_unbind,
+>   };
+>   
+> -static int wcd938x_compare_of(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+> -static void wcd938x_release_of(struct device *dev, void *data)
+> -{
+> -	of_node_put(data);
+> -}
+> -
+>   static int wcd938x_add_slave_components(struct wcd938x_priv *wcd938x,
+>   					struct device *dev,
+>   					struct component_match **matchptr)
+> @@ -4442,8 +4432,7 @@ static int wcd938x_add_slave_components(struct wcd938x_priv *wcd938x,
+>   	}
+>   
+>   	of_node_get(wcd938x->rxnode);
+> -	component_match_add_release(dev, matchptr, wcd938x_release_of,
+> -				    wcd938x_compare_of,	wcd938x->rxnode);
+> +	component_match_add_release(dev, matchptr, release_of, compare_of, wcd938x->rxnode);
+>   
+>   	wcd938x->txnode = of_parse_phandle(np, "qcom,tx-device", 0);
+>   	if (!wcd938x->txnode) {
+> @@ -4451,8 +4440,7 @@ static int wcd938x_add_slave_components(struct wcd938x_priv *wcd938x,
+>   		return -ENODEV;
+>   	}
+>   	of_node_get(wcd938x->txnode);
+> -	component_match_add_release(dev, matchptr, wcd938x_release_of,
+> -				    wcd938x_compare_of,	wcd938x->txnode);
+> +	component_match_add_release(dev, matchptr, release_of, compare_of, wcd938x->txnode);
+>   	return 0;
+>   }
+>   
