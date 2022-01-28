@@ -1,32 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46FC49F211
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 04:55:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C090649F229
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 04:57:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BBDC10E3AC;
-	Fri, 28 Jan 2022 03:55:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08B0D10E47B;
+	Fri, 28 Jan 2022 03:56:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E644B10E150
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 03:54:57 +0000 (UTC)
-X-UUID: 88e879716cbf42399dbd58bcfe02dd7c-20220128
-X-UUID: 88e879716cbf42399dbd58bcfe02dd7c-20220128
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19A7610E3B7
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 03:56:56 +0000 (UTC)
+X-UUID: 128cae3a50254fbd88cb7a21329cd627-20220128
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=MD3pLITe8yHsFSuwj6GKXFqaaYXczjvEVHWkUoveiq4=; 
+ b=YQLGCBMzUzFk2TlfLROcdoiaMtzo51AIjgS+8REuXvjY5hHLlO6M4kRJXC2fEvyVUscmjFMpy6TWG7GchhqAGjOxxjHmdLxjwPBbGXCHWxiWZD0E2JHYa6z2K2kuxB1hw26AVSVioBb9MwS8z+5synp9NVJJTrPc9tP8IsSgovI=;
+X-UUID: 128cae3a50254fbd88cb7a21329cd627-20220128
 Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
  (envelope-from <yunfei.dong@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1917609676; Fri, 28 Jan 2022 11:54:45 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 28 Jan 2022 11:54:43 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 28 Jan 2022 11:54:43 +0800
+ with ESMTP id 1342038250; Fri, 28 Jan 2022 11:54:46 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 28 Jan 2022 11:54:44 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 28 Jan 2022 11:54:41 +0800
+ Transport; Fri, 28 Jan 2022 11:54:43 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
  <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
@@ -35,14 +38,19 @@ To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
  <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
  Matthias Brugger <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v2, 0/7] support mt8195 decoder
-Date: Fri, 28 Jan 2022 11:54:33 +0800
-Message-ID: <20220128035440.24533-1-yunfei.dong@mediatek.com>
+Subject: [PATCH v2,
+ 1/7] dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for lat
+ soc
+Date: Fri, 28 Jan 2022 11:54:34 +0800
+Message-ID: <20220128035440.24533-2-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220128035440.24533-1-yunfei.dong@mediatek.com>
+References: <20220128035440.24533-1-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-MTK: N
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_002_1876718580.1762335251"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,45 +75,95 @@ Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Firstly, add mt8195 soc lat hardware and compatible, then add documents.
-For vp8 only support MM21 mode, H264/vp9 support MT21C, need to separate
-them. Lastly, enable H264 inner racing mode to reduce hardware latency.
+--__=_Part_Boundary_002_1876718580.1762335251
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Patch 1~4 add mt8195 soc lat hardware and compatible, then add documents.
-Patch 5 using different format for different codecs.
-Patch 6 prevent kernel crash when scp reboot.
-Patch 7 enable H264 inner racing mode to reduce hardware latency.
----
-This patch depends on "support mt8186 decoder"[1]
+PHByZT4NCkFkZHMgZGVjb2RlciBkdC1iaW5kaW5ncyBmb3IgY29tcGF0aWJsZSAmcXVvdDttZWRp
+YXRlayxtdGstdmNvZGVjLWxhdC1zb2MmcXVvdDsuDQoNClNpZ25lZC1vZmYtYnk6IFl1bmZlaSBE
+b25nICZsdDt5dW5mZWkuZG9uZ0BtZWRpYXRlay5jb20mZ3Q7DQotLS0NCiAuLi4vbWVkaWEvbWVk
+aWF0ZWssdmNvZGVjLXN1YmRldi1kZWNvZGVyLnlhbWwgfCA0OSArKysrKysrKysrKysrKysrKysr
+DQogMSBmaWxlIGNoYW5nZWQsIDQ5IGluc2VydGlvbnMoKykNCg0KZGlmZiAtLWdpdCBhL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRpYXRlayx2Y29kZWMtc3ViZGV2
+LWRlY29kZXIueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9t
+ZWRpYXRlayx2Y29kZWMtc3ViZGV2LWRlY29kZXIueWFtbA0KaW5kZXggNjQxNWM5ZjI5MTMwLi5h
+M2M4OTIzMzhhYzAgMTAwNjQ0DQotLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvbWVkaWEvbWVkaWF0ZWssdmNvZGVjLXN1YmRldi1kZWNvZGVyLnlhbWwNCisrKyBiL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRpYXRlayx2Y29kZWMtc3ViZGV2
+LWRlY29kZXIueWFtbA0KQEAgLTE4OSw2ICsxODksNTUgQEAgcGF0dGVyblByb3BlcnRpZXM6DQog
+DQogICAgIGFkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KIA0KKyAgJiMzOTtedmNvZGVjLWxh
+dC1zb2NAWzAtOWEtZl0rJCYjMzk7Og0KKyAgICB0eXBlOiBvYmplY3QNCisNCisgICAgcHJvcGVy
+dGllczoNCisgICAgICBjb21wYXRpYmxlOg0KKyAgICAgICAgY29uc3Q6IG1lZGlhdGVrLG10ay12
+Y29kZWMtbGF0LXNvYw0KKw0KKyAgICAgIHJlZzoNCisgICAgICAgIG1heEl0ZW1zOiAxDQorDQor
+ICAgICAgaW9tbXVzOg0KKyAgICAgICAgbWluSXRlbXM6IDENCisgICAgICAgIG1heEl0ZW1zOiAz
+Mg0KKyAgICAgICAgZGVzY3JpcHRpb246IHwNCisgICAgICAgICAgTGlzdCBvZiB0aGUgaGFyZHdh
+cmUgcG9ydCBpbiByZXNwZWN0aXZlIElPTU1VIGJsb2NrIGZvciBjdXJyZW50IFNvY3MuDQorICAg
+ICAgICAgIFJlZmVyIHRvIGJpbmRpbmdzL2lvbW11L21lZGlhdGVrLGlvbW11LnlhbWwuDQorDQor
+ICAgICAgY2xvY2tzOg0KKyAgICAgICAgbWF4SXRlbXM6IDUNCisNCisgICAgICBjbG9jay1uYW1l
+czoNCisgICAgICAgIGl0ZW1zOg0KKyAgICAgICAgICAtIGNvbnN0OiBzZWwNCisgICAgICAgICAg
+LSBjb25zdDogc29jLXZkZWMNCisgICAgICAgICAgLSBjb25zdDogc29jLWxhdA0KKyAgICAgICAg
+ICAtIGNvbnN0OiB2ZGVjDQorICAgICAgICAgIC0gY29uc3Q6IHRvcA0KKw0KKyAgICAgIGFzc2ln
+bmVkLWNsb2NrczoNCisgICAgICAgIG1heEl0ZW1zOiAxDQorDQorICAgICAgYXNzaWduZWQtY2xv
+Y2stcGFyZW50czoNCisgICAgICAgIG1heEl0ZW1zOiAxDQorDQorICAgICAgcG93ZXItZG9tYWlu
+czoNCisgICAgICAgIG1heEl0ZW1zOiAxDQorDQorICAgIHJlcXVpcmVkOg0KKyAgICAgIC0gY29t
+cGF0aWJsZQ0KKyAgICAgIC0gcmVnDQorICAgICAgLSBpb21tdXMNCisgICAgICAtIGNsb2Nrcw0K
+KyAgICAgIC0gY2xvY2stbmFtZXMNCisgICAgICAtIGFzc2lnbmVkLWNsb2Nrcw0KKyAgICAgIC0g
+YXNzaWduZWQtY2xvY2stcGFyZW50cw0KKyAgICAgIC0gcG93ZXItZG9tYWlucw0KKw0KKyAgICBh
+ZGRpdGlvbmFsUHJvcGVydGllczogZmFsc2UNCisNCiByZXF1aXJlZDoNCiAgIC0gY29tcGF0aWJs
+ZQ0KICAgLSByZWcNCi0tIA0KMi4yNS4xDQoNCjwvcHJlPjwhLS10eXBlOnRleHQtLT48IS0tey0t
+PjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlICoqKioq
+KioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWls
+IG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlh
+bCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlz
+Y2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29u
+dmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3Nl
+bWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcg
+b2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRl
+ZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdm
+dWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwg
+b3IgYmVsaWV2ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3Is
+IHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5IChieSByZXBseWluZyB0byB0
+aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAo
+aW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0K
+ZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90aGVyIHBlcnNvbi4g
+VGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
 
-[1]  https://patchwork.kernel.org/project/linux-mediatek/cover/20220122075606.19373-1-yunfei.dong@mediatek.com
----
-changed with v1:
-- separate "Init VP9 stateless decode params" patch and remove it to another one.
-- add reviewed-by in patch v3/v4/v6
----
-Tinghan Shen (1):
-  media: mtk-vcodec: prevent kernel crash when scp ipi timeout
+--__=_Part_Boundary_002_1876718580.1762335251
+Content-Type: text/plain
+Content-Transfer-Encoding: base64
 
-Yunfei Dong (6):
-  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for lat soc
-  media: mtk-vcodec: Add to support lat soc hardware
-  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8195
-  media: mtk-vcodec: Adds compatible for mt8195
-  media: mtk-vcodec: Different codec using different capture format
-  media: mtk-vcodec: Add to support H264 inner racing mode
+QWRkcyBkZWNvZGVyIGR0LWJpbmRpbmdzIGZvciBjb21wYXRpYmxlICJtZWRpYXRlayxtdGstdmNv
+ZGVjLWxhdC1zb2MiLg0KDQpTaWduZWQtb2ZmLWJ5OiBZdW5mZWkgRG9uZyA8eXVuZmVpLmRvbmdA
+bWVkaWF0ZWsuY29tPg0KLS0tDQogLi4uL21lZGlhL21lZGlhdGVrLHZjb2RlYy1zdWJkZXYtZGVj
+b2Rlci55YW1sIHwgNDkgKysrKysrKysrKysrKysrKysrKw0KIDEgZmlsZSBjaGFuZ2VkLCA0OSBp
+bnNlcnRpb25zKCspDQoNCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvbWVkaWEvbWVkaWF0ZWssdmNvZGVjLXN1YmRldi1kZWNvZGVyLnlhbWwgYi9Eb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvbWVkaWF0ZWssdmNvZGVjLXN1YmRldi1k
+ZWNvZGVyLnlhbWwNCmluZGV4IDY0MTVjOWYyOTEzMC4uYTNjODkyMzM4YWMwIDEwMDY0NA0KLS0t
+IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL21lZGlhdGVrLHZjb2Rl
+Yy1zdWJkZXYtZGVjb2Rlci55YW1sDQorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvbWVkaWEvbWVkaWF0ZWssdmNvZGVjLXN1YmRldi1kZWNvZGVyLnlhbWwNCkBAIC0xODks
+NiArMTg5LDU1IEBAIHBhdHRlcm5Qcm9wZXJ0aWVzOg0KIA0KICAgICBhZGRpdGlvbmFsUHJvcGVy
+dGllczogZmFsc2UNCiANCisgICdedmNvZGVjLWxhdC1zb2NAWzAtOWEtZl0rJCc6DQorICAgIHR5
+cGU6IG9iamVjdA0KKw0KKyAgICBwcm9wZXJ0aWVzOg0KKyAgICAgIGNvbXBhdGlibGU6DQorICAg
+ICAgICBjb25zdDogbWVkaWF0ZWssbXRrLXZjb2RlYy1sYXQtc29jDQorDQorICAgICAgcmVnOg0K
+KyAgICAgICAgbWF4SXRlbXM6IDENCisNCisgICAgICBpb21tdXM6DQorICAgICAgICBtaW5JdGVt
+czogMQ0KKyAgICAgICAgbWF4SXRlbXM6IDMyDQorICAgICAgICBkZXNjcmlwdGlvbjogfA0KKyAg
+ICAgICAgICBMaXN0IG9mIHRoZSBoYXJkd2FyZSBwb3J0IGluIHJlc3BlY3RpdmUgSU9NTVUgYmxv
+Y2sgZm9yIGN1cnJlbnQgU29jcy4NCisgICAgICAgICAgUmVmZXIgdG8gYmluZGluZ3MvaW9tbXUv
+bWVkaWF0ZWssaW9tbXUueWFtbC4NCisNCisgICAgICBjbG9ja3M6DQorICAgICAgICBtYXhJdGVt
+czogNQ0KKw0KKyAgICAgIGNsb2NrLW5hbWVzOg0KKyAgICAgICAgaXRlbXM6DQorICAgICAgICAg
+IC0gY29uc3Q6IHNlbA0KKyAgICAgICAgICAtIGNvbnN0OiBzb2MtdmRlYw0KKyAgICAgICAgICAt
+IGNvbnN0OiBzb2MtbGF0DQorICAgICAgICAgIC0gY29uc3Q6IHZkZWMNCisgICAgICAgICAgLSBj
+b25zdDogdG9wDQorDQorICAgICAgYXNzaWduZWQtY2xvY2tzOg0KKyAgICAgICAgbWF4SXRlbXM6
+IDENCisNCisgICAgICBhc3NpZ25lZC1jbG9jay1wYXJlbnRzOg0KKyAgICAgICAgbWF4SXRlbXM6
+IDENCisNCisgICAgICBwb3dlci1kb21haW5zOg0KKyAgICAgICAgbWF4SXRlbXM6IDENCisNCisg
+ICAgcmVxdWlyZWQ6DQorICAgICAgLSBjb21wYXRpYmxlDQorICAgICAgLSByZWcNCisgICAgICAt
+IGlvbW11cw0KKyAgICAgIC0gY2xvY2tzDQorICAgICAgLSBjbG9jay1uYW1lcw0KKyAgICAgIC0g
+YXNzaWduZWQtY2xvY2tzDQorICAgICAgLSBhc3NpZ25lZC1jbG9jay1wYXJlbnRzDQorICAgICAg
+LSBwb3dlci1kb21haW5zDQorDQorICAgIGFkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KKw0K
+IHJlcXVpcmVkOg0KICAgLSBjb21wYXRpYmxlDQogICAtIHJlZw0KLS0gDQoyLjI1LjENCg==
 
- .../media/mediatek,vcodec-subdev-decoder.yaml | 50 +++++++++++++++++++
- .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 41 +++++++++++++++
- .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  8 +++
- .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 12 +++--
- .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  2 +
- .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 50 +++++++++++++++++++
- .../platform/mtk-vcodec/mtk_vcodec_drv.h      | 11 ++++
- .../mtk-vcodec/vdec/vdec_h264_req_multi_if.c  | 23 +++++++--
- .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  5 ++
- 9 files changed, 194 insertions(+), 8 deletions(-)
-
--- 
-2.25.1
+--__=_Part_Boundary_002_1876718580.1762335251--
 
