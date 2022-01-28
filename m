@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C7849FA4D
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 14:04:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B217D49FAFC
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 14:44:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4C4110EE61;
-	Fri, 28 Jan 2022 13:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9C110EAA1;
+	Fri, 28 Jan 2022 13:44:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B70810EE5E
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 13:04:25 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0110761CE6
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 13:04:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA4E8C340F0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 13:04:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643375062;
- bh=pozd1be/gXsNCaMxUIuQeEUnQbL1l5Z46TErduibG+c=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=l04Ml2xCoVAkpRl86sELENLUrOIT3R94WaOfK/DinPSQUJ12Nx3hrbV2wL/S0ihRT
- WM0pW03BPa75yoE/JrMU5ku59OgfllbV8TBDl53YiACXsUKfdX4MTAimBch6PmfJyV
- 9RGs00fei3vWPXQMqLY2avmqc6ssV5xa3H9xJhHwchI13euLbwxyxOGYA8yyHAtyDz
- TBbqVWDo+g5kxg2fL/C5uhhp6fWCQqm8DQdx5c3KnhxAD9yG5cKH9pn7MSqaGpUWik
- qYAQem0/FaZ1ZxhiPxRySElmb0QDV0s7FjuaBRfMCFnH/lYi+qFa4kq+jrfKx4TuAZ
- YWMQsbjKRDMFQ==
-Received: by mail-qv1-f45.google.com with SMTP id a7so5752636qvl.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 05:04:22 -0800 (PST)
-X-Gm-Message-State: AOAM531PuKK2quf9Eg59hCxJPJUTHWZsyta/QXuu9chOQGEaV9CSkWhq
- F70exvYhFnxwyvRzdcFz9ThFn021JIRigXwZTg==
-X-Google-Smtp-Source: ABdhPJxVcnGJb1TnG+9U0ivX2FAXxoLdrxrQsdqZfsyEc8ybkhITPDxt/y3lbNKwlmnjyVZu87U4oUbQf6k5k7Y4kt8=
-X-Received: by 2002:a05:6214:1bce:: with SMTP id
- m14mr7360779qvc.102.1643375061715; 
- Fri, 28 Jan 2022 05:04:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20220128105849.368438-1-u.kleine-koenig@pengutronix.de>
- <20220128105849.368438-2-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20220128105849.368438-2-u.kleine-koenig@pengutronix.de>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Fri, 28 Jan 2022 07:04:10 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJjTf2zY-n69Ozh+S1gSi5Eoa5T44Qnq9RPNgJWDLmzKQ@mail.gmail.com>
-Message-ID: <CAL_JsqJjTf2zY-n69Ozh+S1gSi5Eoa5T44Qnq9RPNgJWDLmzKQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: imx: Add fsl,imx21-lcdc docs
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net
+ (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
+ by gabe.freedesktop.org (Postfix) with SMTP id 10C7A10EA9B
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 13:44:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=pku.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+ Message-Id:In-Reply-To:References; bh=+yFFJELgwWtpD3SxF4eLEVwNGI
+ zEfRo0oZQ4dXCLmTM=; b=NsEoYkbbzJjrxd3IjDlS4ykWy3wv/VTkQV/m7qs671
+ kK6nmT+SgEiehdfCVE5BCgwEmVE7ApttAuBCrg+sSoJ20ymbpzyFfX7+YOSgfXyw
+ Xq0CpNeLCsRO9qX9QZKtJQS0f6kY/C9QCyB9u66mX2A+I/SCNHWe/A9oeDl2jlGk
+ g=
+Received: from localhost (unknown [10.129.21.144])
+ by front02 (Coremail) with SMTP id 54FpogDX37tw8vNhpUDiAA--.39451S2;
+ Fri, 28 Jan 2022 21:41:04 +0800 (CST)
+From: Yongzhi Liu <lyz_cs@pku.edu.cn>
+To: emma@anholt.net,
+	airlied@linux.ie,
+	daniel@ffwll.ch,
+	mwen@igalia.com
+Subject: [PATCH v3] drm/v3d: fix missing unlock
+Date: Fri, 28 Jan 2022 05:41:02 -0800
+Message-Id: <1643377262-109975-1-git-send-email-lyz_cs@pku.edu.cn>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20220128125510.idyai4bp3g5nbzd2@mail.igalia.com>
+References: <20220128125510.idyai4bp3g5nbzd2@mail.igalia.com>
+X-CM-TRANSID: 54FpogDX37tw8vNhpUDiAA--.39451S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tr43tw17Aw48uryrCw13CFg_yoW8XF4fpr
+ WkXr9F9rWxtFWjg39rAFs8Xa48Wa4aka18Ga4xA398Xws0yF47Xa9YkFyjyryUWr97GFWU
+ tF1YgFy0vF1UAw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkC1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+ z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+ Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+ 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+ vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF
+ 04k20xvE74AGY7Cv6cx26w4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+ AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
+ c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+ AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
+ Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UU
+ UUU
+X-CM-SenderInfo: irzqijirqukmo6sn3hxhgxhubq/1tbiAwEABlPy7uIpCAABsJ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,119 +64,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Shawn Guo <shawnguo@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: Yongzhi Liu <lyz_cs@pku.edu.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 28, 2022 at 4:59 AM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> From: Marian Cichy <m.cichy@pengutronix.de>
->
-> This files documents the device tree for the new imx21-lcdc DRM driver.
+[why]
+Unlock is needed on the error handling path to prevent dead lock.
+v3d_submit_cl_ioctl and v3d_submit_csd_ioctl is missing unlock.
 
-No, bindings document h/w and the h/w has not changed. We already have
-a binding for the LCDC.
+[how]
+Fix this by changing goto target on the error handling path. So
+changing the goto to target an error handling path
+that includes drm_gem_unlock reservations.
 
->
-> Signed-off-by: Marian Cichy <m.cichy@pengutronix.de>
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
->  .../bindings/display/imx/fsl,imx21-lcdc.yaml  | 79 +++++++++++++++++++
->  1 file changed, 79 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx=
-21-lcdc.yaml
->
-> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx21-lcdc=
-.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx21-lcdc.yaml
-> new file mode 100644
-> index 000000000000..edf71cfac81c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx21-lcdc.yaml
-> @@ -0,0 +1,79 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/imx/fsl,imx21-lcdc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: i.MX21 LCD Controller
-> +
-> +maintainers:
-> +  - Philipp Zabel <p.zabel@pengutronix.de>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: fsl,imx21-lcdc
-> +      - items:
-> +          - enum:
-> +              - fsl,imx25-lcdc
-> +              - fsl,imx27-lcdc
-> +          - const: fsl,imx21-lcdc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 3
-> +
-> +  clock-names:
-> +    items:
-> +      - const: ipg
-> +      - const: per
-> +      - const: ahb
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  port:
-> +    type: object
-> +    description:
-> +      "Video port for DPI RGB output."
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    lcdc: lcdc@53fbc000 {
-> +        compatible =3D "fsl,imx25-lcdc", "fsl,imx21-lcdc";
-> +        reg =3D <0x53fbc000 0x4000>;
-> +        interrupts =3D <39>;
-> +        clocks =3D <&clks 103>, <&clks 66>, <&clks 49>;
-> +        clock-names =3D "ipg", "ahb", "per";
-> +
-> +        port {
-> +             parallel_out: endpoint {
-> +                 remote-endpoint =3D <&panel_in>;
-> +             };
-> +        };
-> +
-> +    };
-> +
-> +    panel: panel {
-> +        compatible =3D "edt,etm0700g0dh6";
-> +        power-supply =3D <&lcd_supply>;
-> +        backlight =3D <&bl>;
-> +
-> +        port {
-> +                panel_in: endpoint {
-> +                        remote-endpoint =3D <&parallel_out>;
-> +                };
-> +        };
-> +    };
-> --
-> 2.34.1
->
+Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
+---
+ drivers/gpu/drm/v3d/v3d_gem.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index c7ed2e1..92bc0fa 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -798,7 +798,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 
+ 		if (!render->base.perfmon) {
+ 			ret = -ENOENT;
+-			goto fail;
++			goto fail_perfmon;
+ 		}
+ 	}
+ 
+@@ -847,6 +847,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 
+ fail_unreserve:
+ 	mutex_unlock(&v3d->sched_lock);
++fail_perfmon:
+ 	drm_gem_unlock_reservations(last_job->bo,
+ 				    last_job->bo_count, &acquire_ctx);
+ fail:
+@@ -1027,7 +1028,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 						     args->perfmon_id);
+ 		if (!job->base.perfmon) {
+ 			ret = -ENOENT;
+-			goto fail;
++			goto fail_perfmon;
+ 		}
+ 	}
+ 
+@@ -1056,6 +1057,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 
+ fail_unreserve:
+ 	mutex_unlock(&v3d->sched_lock);
++fail_perfmon:
+ 	drm_gem_unlock_reservations(clean_job->bo, clean_job->bo_count,
+ 				    &acquire_ctx);
+ fail:
+-- 
+2.7.4
+
