@@ -1,59 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BBBF49F7C8
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 12:02:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A84E49F7CF
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 12:05:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1400E10E532;
-	Fri, 28 Jan 2022 11:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8DAC10E612;
+	Fri, 28 Jan 2022 11:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4397710E532;
- Fri, 28 Jan 2022 11:02:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id A12873F570;
- Fri, 28 Jan 2022 12:02:47 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Authentication-Results: pio-pvt-msa1.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ICy-_SbHDo1k; Fri, 28 Jan 2022 12:02:46 +0100 (CET)
-Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 29AE33F52E;
- Fri, 28 Jan 2022 12:02:44 +0100 (CET)
-Received: from [192.168.0.209] (unknown [192.55.55.53])
- by mail1.shipmail.org (Postfix) with ESMTPSA id A07DC3626A5;
- Fri, 28 Jan 2022 12:02:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1643367764; bh=VA/Ar+Sk10+sABpZUnxhPdMAutfj6i72idFLdugSLRM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nh3uqnWq4NH2lZIPyIyDWt4q9f9Y2LMNPpvQEhVig40w+gA3XhZT+yYYt2d8V+oyy
- 2sMKJomJ+Qd/S+QmHGP2FMq9BEsld7fyncD5BGTXVzw/PRobEbikZ0f2Qq2Cyibr2q
- mt5nlMd6VeSmiJuDgXlM+MTVPNGXK0NMSa0BFkGI=
-Message-ID: <a5ee6bb7-f0ad-b3db-da7f-b912f5242297@shipmail.org>
-Date: Fri, 28 Jan 2022 12:02:38 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1380510E25C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 11:05:12 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7862A471;
+ Fri, 28 Jan 2022 12:05:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1643367910;
+ bh=4Xn27GmT4IPOILu+mnZMOLuRnykp9Oh/JgVsxlEnZfU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TLF/9TQZzYyt2QniaKwAnwWN1GGnk4U/7s83fRZzQLas83YEtqH7CV9CtHHds5/h2
+ XDPs759dvxRALAdMpMDQIHA5gkV4OEw8Bd15jkAiYD6KJdAcKPEF1vjJwT1VUemGrX
+ 42GQGbkhJgGKM8BbOzxcQ6wdz6zvZbZ3z3GN53GE=
+Date: Fri, 28 Jan 2022 13:04:49 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 31/37] drm: rcar-du: Add support for the nomodeset
+ kernel parameter
+Message-ID: <YfPN0fLfvWFC6mha@pendragon.ideasonboard.com>
+References: <20211217003752.3946210-1-javierm@redhat.com>
+ <20211217003752.3946210-32-javierm@redhat.com>
+ <164336121612.533872.1685181669511488706@Monstersaurus>
+ <eb27fa44-2972-4a6e-465f-b9e4775820f4@suse.de>
+ <YfPGnfly3GOAOlfp@pendragon.ideasonboard.com>
+ <584f1343-b285-bf8e-e48c-764c2a56bce3@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Allow dead vm to unbind vma's
- without lock.
-Content-Language: en-US
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220128085739.1464568-1-maarten.lankhorst@linux.intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <20220128085739.1464568-1-maarten.lankhorst@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <584f1343-b285-bf8e-e48c-764c2a56bce3@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,63 +52,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Thomas,
 
-On 1/28/22 09:57, Maarten Lankhorst wrote:
-> i915_gem_vm_close may take the lock, and we currently have no better way
-> of handling this. At least for now, allow a path in which holding vm->mutex
-> is sufficient. This is the case, because the object destroy path will
-> forcefully take vm->mutex now.
->
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+On Fri, Jan 28, 2022 at 11:46:49AM +0100, Thomas Zimmermann wrote:
+> Am 28.01.22 um 11:34 schrieb Laurent Pinchart:
+> > On Fri, Jan 28, 2022 at 10:33:21AM +0100, Thomas Zimmermann wrote:
+> >> Am 28.01.22 um 10:13 schrieb Kieran Bingham:
+> >>> Quoting Javier Martinez Canillas (2021-12-17 00:37:46)
+> >>>> According to disable Documentation/admin-guide/kernel-parameters.txt, this
+> >>>> parameter can be used to disable kernel modesetting.
+> >>>>
+> >>>> DRM drivers will not perform display-mode changes or accelerated rendering
+> >>>> and only the system framebuffer will be available if it was set-up.
+> >>>
+> >>> What is the 'system framebuffer' in this instance? Reading
+> >>> https://www.kernel.org/doc/Documentation/admin-guide/kernel-parameters.txt
+> >>> it sounds like that means anything already set up by the bootloader.
+> >>
+> >> Exactly this.
+> >>
+> >>>> But only a few DRM drivers currently check for nomodeset, make this driver
+> >>>> to also support the command line parameter.
+> >>>>
+> >>>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> >>>> ---
+> >>>>
+> >>>> (no changes since v1)
+> >>>>
+> >>>>    drivers/gpu/drm/rcar-du/rcar_du_drv.c | 3 +++
+> >>>>    1 file changed, 3 insertions(+)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> >>>> index 5a8131ef81d5..982e450233ed 100644
+> >>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> >>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> >>>> @@ -701,6 +701,9 @@ static struct platform_driver rcar_du_platform_driver = {
+> >>>>    
+> >>>>    static int __init rcar_du_init(void)
+> >>>>    {
+> >>>> +       if (drm_firmware_drivers_only())
+> >>>> +               return -ENODEV;
+> >>>> +
+> >>>
+> >>> This will completely disable all control of the display device when
+> >>> nomodeset is enabled.
+> >>>
+> >>> Is there any requirement for us to support outputting to the display if
+> >>> it was previously set up? presumably without setting or changing any
+> >>> modes, but simply allowing the existing frame to be updated?
+> >>
+> >> There's no requirement for your driver. We just want a parameter where
+> >> we can conveniently disable most of DRM's drivers and reduce it to a
+> >> minimum. Helps distributions to provide a simple fallback mode.  Most
+> >> PCI-based drivers already support that. Now we're added it to the other
+> >> drivers as well.
+> >>
+> >>>
+> >>> I think the implication is that 'firmware drivers' would mean a display
+> >>> could be updated through some firmware interface, which we won't have
+> >>> ... so it seems reasonable to accept that this whole driver can be
+> >>> disabled in that instance.
+> >>
+> >> It cannot be 'mode-setted'. We get a pre-configured framebuffer from the
+> >> firmware or bootloader. Whatever we draw there shows up on the screen.
+> > 
+> > I doubt that's going to work as you expect, clocks and regulators will
+> > get disabled at boot if not used by any driver.
+> 
+> Simpledrm and simplefb attach to these firmware framebuffers. Both 
+> drivers look at the device tree nodes to acquire the relevant clocks and 
+> regulators.
 
-Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+How about clocks and regulators for the ancillary devices, such as
+encoders, or in the R-Car case, the external composer handled by the
+vsp1 driver (in drivers/media/platform/vsp1) ?
 
+This approach may work fine on x86 desktop systems, but for ARM-based
+devices, the situation is usually more complex.
 
-> ---
->   drivers/gpu/drm/i915/i915_vma.c | 15 +++++++++++++--
->   1 file changed, 13 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index b959e904c4d3..14a301c4069f 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -40,6 +40,17 @@
->   #include "i915_vma.h"
->   #include "i915_vma_resource.h"
->   
-> +static inline void assert_vma_held_evict(const struct i915_vma *vma)
-> +{
-> +	/*
-> +	 * We may be forced to unbind when the vm is dead, to clean it up.
-> +	 * This is the only exception to the requirement of the object lock
-> +	 * being held.
-> +	 */
-> +	if (atomic_read(&vma->vm->open))
-> +		assert_object_held_shared(vma->obj);
-> +}
-> +
->   static struct kmem_cache *slab_vmas;
->   
->   static struct i915_vma *i915_vma_alloc(void)
-> @@ -1779,7 +1790,7 @@ struct dma_fence *__i915_vma_evict(struct i915_vma *vma, bool async)
->   	struct dma_fence *unbind_fence;
->   
->   	GEM_BUG_ON(i915_vma_is_pinned(vma));
-> -	assert_object_held_shared(vma->obj);
-> +	assert_vma_held_evict(vma);
->   
->   	if (i915_vma_is_map_and_fenceable(vma)) {
->   		/* Force a pagefault for domain tracking on next user access */
-> @@ -1846,7 +1857,7 @@ int __i915_vma_unbind(struct i915_vma *vma)
->   	int ret;
->   
->   	lockdep_assert_held(&vma->vm->mutex);
-> -	assert_object_held_shared(vma->obj);
-> +	assert_vma_held_evict(vma);
->   
->   	if (!drm_mm_node_allocated(&vma->node))
->   		return 0;
+> >>> Reading your mail that brought this thread up in my inbox, I think
+> >>> you've already hit merge on this, so don't worry about adding a tag in
+> >>> that instance, but I think this is ok.
+> >>>
+> >>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >>>
+> >>>>           rcar_du_of_init(rcar_du_of_table);
+> >>>>    
+> >>>>           return platform_driver_register(&rcar_du_platform_driver);
+
+-- 
+Regards,
+
+Laurent Pinchart
