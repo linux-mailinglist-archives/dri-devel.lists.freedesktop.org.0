@@ -2,53 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB7049FE1A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 17:34:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD2649FE80
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 17:58:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5A5310E48C;
-	Fri, 28 Jan 2022 16:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B8E710EEA3;
+	Fri, 28 Jan 2022 16:57:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6670E10E48C
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:34:34 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C19FDB824EA
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:34:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D2CAC36AE3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 16:34:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643387671;
- bh=vKBJqy3HgSyoQ3Szu6K6a4NfdLf+ztljFywvbKYyDgg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=cHj+EtmHQvt0dtQaFbWX4vq+C5Cv4L/AEIDvGjyxEz/pqmD2NVhCupOcsjEfXG8MA
- frmRpaigGKUUH6R7rntbgCkw3T7XQDp3zNK4vmFTDaeXHxchjicsMf5O3Et7Sk3ibv
- cInHQ3wlpVK2wrLxekxevlPickRXlJUmNkasKjFE3ZO3JqPkeQN4V5buTTnek7Yd8q
- j5poeCM9aClvFIqp20DqDa8GMLtddf9xwth/I939TS/cnAVuZYsLXkYU4tLwejvFSV
- RdNBNlECk+BZMW+VWoRIUB5IDd/IaJLqDj5GHWPk5zSyHNAHBzLqq5zTNGgvX/LOif
- U0YnKEKfh8fZA==
-Received: by mail-ed1-f46.google.com with SMTP id w25so10058809edt.7
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 08:34:31 -0800 (PST)
-X-Gm-Message-State: AOAM531GgSCUTTMrVJT2H4dmlGHpDszs8W3+m8VWmEwPRugCb1ZWcn9C
- M6u0DEb3VliocpwOTj6eB1P9jE8XBTvX1UO5tw==
-X-Google-Smtp-Source: ABdhPJwpSggw7SdLa1FbKIZONU5K+W023Jtjz05zG88sY8zQp5+Q0ssZTlDRL2c2nppnnyauteddq6HH5n7jFN6IIxg=
-X-Received: by 2002:a05:6402:4401:: with SMTP id
- y1mr8955863eda.215.1643387669820; 
- Fri, 28 Jan 2022 08:34:29 -0800 (PST)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2066.outbound.protection.outlook.com [40.107.243.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A4AF10ED6E;
+ Fri, 28 Jan 2022 16:57:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QFReygX9L6/Gn6P/fHksh3cpZf3ZH4tBX1iC0RqXNd190t3mapkIJ3IUV8EDva4ythhfPcvgva05MSssJ+/quaOVTwFhkjMw8IDhegmJJnHBeB+oJV7HiTSGR3mWum1ITxDmsGInu5WTDPFXusAVL8RimDwOcKl0QipP7QNBa4UH/lkmQgM44cPv9Ve9GjyzXRgndiAOuG/hW2iRmjl+JnWUo1yJdKISDjkFm4VCueRxwwO54xjHKrMa0x+N4PYbo021HrkcN4f4IllP2WiEMRlU13Gqp4XLGdK9NaljlgiWCf2hp8b/ISyIVgiTEOQhB9ZAtgMIOdQur+CxezYw7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kuDK00FoF4emyfjsr/+kVLxXsjtN4i7T0gkevF3dMrE=;
+ b=LQVr7hSNiYocZVMOB0elmcaGoJh8tURg0MEe7E0QTEDK78RyrxnW/g8IE3FSM1INb6g4FW18hYp4rz0qPXvE/kZYaW9B08fDJZw2u8Ecm3/8/6DpfS14RtqSrQnX7k6/6989C1k/HS+ciBsTDP+MKikH7+JazuSbRTyaPEW4C81kND8yuK9ELIeoADMPsp12xRpszqU+FXLcLg8x4fY0VYzJp8RLSIUeAhzrg/oATRAr2aryB2Z6SULD/jtbXpf3gBVn9rxBY3A7xcrT2YnoUgqhaY8yKfXhBw2tlwwLjd+YffEw9dCUnNhabLxhSxYVV28jzzcS+kYZ7XqeQAWNWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kuDK00FoF4emyfjsr/+kVLxXsjtN4i7T0gkevF3dMrE=;
+ b=sySQxg/jp6kl9qKYuvo9njfoOP3jdIGvQadiMuF5DJc70tEvfou631+yoiG/A29o9Zyx3OEdfVfY0+GezobxjMtg3C3n0IzLiTu3ac+iF6Uw5xzdIoZV3nzLK0F6Bnume948tJhNS8ecgeE3Ttrue0ixudDQqWltUIU/pCFI/bI=
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
+ by CH0PR12MB5299.namprd12.prod.outlook.com (2603:10b6:610:d6::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.11; Fri, 28 Jan
+ 2022 16:57:52 +0000
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::a105:faab:243:1dd3]) by DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::a105:faab:243:1dd3%11]) with mapi id 15.20.4909.019; Fri, 28 Jan 2022
+ 16:57:52 +0000
+From: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>
+To: =?iso-8859-1?Q?Christian_K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>, "Lazar, Lijo"
+ <Lijo.Lazar@amd.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "Chen, JingWen" <JingWen.Chen2@amd.com>
+Subject: Re: [RFC v2 4/8] drm/amdgpu: Serialize non TDR gpu recovery with TDRs
+Thread-Topic: [RFC v2 4/8] drm/amdgpu: Serialize non TDR gpu recovery with TDRs
+Thread-Index: AQHX94AbPVgo6Mqr0UqM3sQHdT5sp6xURYIAgAArzQCAAF8UAIAS7YQAgAAA1YCAAAEFAIAN6o0AgAM2+8w=
+Date: Fri, 28 Jan 2022 16:57:52 +0000
+Message-ID: <DM5PR12MB19474AEFB824C4C97DCD7AABEA229@DM5PR12MB1947.namprd12.prod.outlook.com>
+References: <20211222220506.789133-1-andrey.grodzovsky@amd.com>
+ <20211222220506.789133-5-andrey.grodzovsky@amd.com>
+ <639bd7c3-e946-65eb-afae-dd619f6429d6@amd.com>
+ <9dc55576-19b1-d5e3-f4da-eede4db8b289@amd.com>
+ <c64c933f-498d-a2d9-fe63-058c6f1bed9c@amd.com>
+ <62f9f1c2-312b-760e-75f7-e86421333be3@amd.com>
+ <096c0884-7e32-40ed-7570-b65f19104f5f@gmail.com>
+ <769b97dd-c6f9-88fe-a26b-34bfd617e257@amd.com>
+ <17b6f133-1b7b-7fcb-5fb2-17edcac50a72@amd.com>
+In-Reply-To: <17b6f133-1b7b-7fcb-5fb2-17edcac50a72@amd.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b759ed7d-c388-4a27-ef4e-08d9e27f527a
+x-ms-traffictypediagnostic: CH0PR12MB5299:EE_
+x-microsoft-antispam-prvs: <CH0PR12MB52997DA769005888DD21D79FEA229@CH0PR12MB5299.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: SzGJ5dUIhwtBNd9LXApKR6iUnZBg3XCr4sCcKzYgka1/SeI4vDQFsIqtzz1ZDmJoi90tgZYxoIsIap4txArX7NyBSxhuH1XderRryabZqOaZbh9+etRzo6aQp3jM8h5pUVj5MDoJV3u4OTaF9zY2hla4T/XOcQGRkoHt3zy51PbBEPOu1uANeU+rYO2pThniotCUrF13wNkg/Q9dwVLdXR+yfrtWbNsViI/8j8MXYYncmUekfznAoJYLkFCD0/sDpo1CS+C25VWKYB4/lLr6Qyx7NF2QM5adXpQm1qHQ/xA9d3P7xFcw1ZHzQMt+5phWeng1ZQZ2atkU/b3XgbHLwZOb4UuBBrIBEdZIjMpdh6/hVa9DOGy7/y5fsqiaxboBwXzFHCpth/9gf9Ne3c2jReuCjW4maZ/rrTcc/hUSN7N07pFN/NkEpOxPuTqimxS6F9UMwDprD0GnjZRXR1zy74VRLMoRX1wYKADYTZIx1zl6BJVEnMK28KN61qPanCNb434/zBDM6NJtvODXT+5AOL1PSkFG+sTens3WVuduTqnq2PxGNLbAhPfOoKpbAhIL7O3VeGYvGmJt8DS1PHezzog8BO4DnlhOTo11/36AP4MDm/Hp1WUiayUQ3AHCsbJegLjlXAKlteJotZGZ3ZPCZU4O7MEj2tTV1OVYftBQIoM7cSnwFYxr9Omqn5vvbZXI
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1947.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(316002)(66574015)(2906002)(83380400001)(8936002)(110136005)(66556008)(6506007)(76116006)(186003)(52536014)(64756008)(38100700002)(508600001)(86362001)(38070700005)(71200400001)(54906003)(33656002)(66446008)(122000001)(66476007)(53546011)(66946007)(4326008)(55016003)(7696005)(6636002)(9686003)(91956017)(8676002)(5660300002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?iWvxDZXD78C0Cz3BNtUpqMGhtR3WYL76Kf/ygeXf838hH7kvvY5DuqTxCA?=
+ =?iso-8859-1?Q?JKxTXFCH1hTRYJ47MORCVu8bjrB4R8PA306LQ4t6iwDEbshfHa91YCfe5/?=
+ =?iso-8859-1?Q?wEpG5VvS2y4j/t5Ur2ATGMOQMINzN7RPxWffg4Olvmx0in5hxHTL0zZSV5?=
+ =?iso-8859-1?Q?8lk4zyJHH4haBO0B5hHVGc26d+vk+cLMj4FOj1GZ4EuJuHn1AhCO3B1ZMO?=
+ =?iso-8859-1?Q?7LlrT/dgQYNoYoDigcAzVVGr3AGaIpA36KivHZFNNBL2AFm2P8BtTF4gdy?=
+ =?iso-8859-1?Q?fSbNBaVQVns7OQrdKD3zJYQAe7Gy/Bg6YlAfcXTx3gSBA+DQtcQVhkquGM?=
+ =?iso-8859-1?Q?YyqjQAGcGkwPhoqZDa7rPrEYq8y1DKZFEHStmsbDPvN5EOxYUavCE/5bTp?=
+ =?iso-8859-1?Q?eib+o9rHbhYsysss5ioMDC/eDBYs20+hV70AV6PlQqvqzIbNk3M/XpoadP?=
+ =?iso-8859-1?Q?ULZ8A7rDwLdsY0f+opFudaCVWwUO35UM5/XVv0kjWDsSXpeVkXbpDMPpLP?=
+ =?iso-8859-1?Q?wZCHo6KCADfgoetvK/Ua5Exj0hOa/5YhZN5+Kzf7juUg6TJmIkeUIUUB3O?=
+ =?iso-8859-1?Q?tb0yAtNbTrBJWX/uKN88qNMFENRAHKv163vaLSv5vdxjDBZZtDWxR8z8pI?=
+ =?iso-8859-1?Q?+SDCi8MgM5pQ6drtPYSLEMQbA8lFSHnrH4wy3IIHX3vl86BmSEVLBWT/8e?=
+ =?iso-8859-1?Q?3BhZrfKPZvRtdnCE3pt1ZMuWc0rBTnJ4EjmrqRbzI/B1uj1jIjPWdfCg10?=
+ =?iso-8859-1?Q?mBD2jXuiTg0Pf+RWSo4l0TvHmy0/MWW51P1ZTNv+/7UrLnkp5d5SKpkdGK?=
+ =?iso-8859-1?Q?pQUWtTg0WZawrNb+KAs7S4aVTsoIDbRjLeS10MOCRxERsLfSkWrbnB4Kf1?=
+ =?iso-8859-1?Q?fTrBKRpL1GXWXYcuZdLWy3dR7Anq6GfRjyxD4zXxDmbvA6bL9SNb4oCKEC?=
+ =?iso-8859-1?Q?vOg8ECCYeqEZFjbXtGdrtcGPVOhF5yYmLsw18zfC/2fHdTVh3WBAgdknBh?=
+ =?iso-8859-1?Q?yH/bXGhR8G3wGD5GDJeg1dWIh2E9wwLb5/+eW7sLpm7LX94Me5D44YPA35?=
+ =?iso-8859-1?Q?LPSYSZHD42sNzGQgtXWlGMKDLo1sMKgp+Qf61PeFpck7ufc3hMBjgMKEmj?=
+ =?iso-8859-1?Q?YALv85hDZaFiKxmECsyhfYvdsBbS9IPgvxcQY7LvM/6d4iIaiBD5jA3uik?=
+ =?iso-8859-1?Q?p4si5gPxAZXwOPJ+nzMu1lB261Fs/XHO91XH10KwuWJWZu8mTUCV6DEmaL?=
+ =?iso-8859-1?Q?2u6fpgPYD714DV6BV55B+2bPAi8HXeiIGuf5+mSPpSecluGHRamu6sWbez?=
+ =?iso-8859-1?Q?zqu7bJlNbXOvBKmUJJMBb70a4PCs7xbaJVCAWkuD9VbowidqtnGeWKVj+s?=
+ =?iso-8859-1?Q?WlIZHxdy1VN2OI3L8dLt3CWOR6et/wONPgK+sJIzUt/QLCF1mNvy7sWmdr?=
+ =?iso-8859-1?Q?IgkYPyuS9/OodqWU9RCm/kzSswC0AWxLNdjrvJcc6ZaeQFmaPA2lyZaKZQ?=
+ =?iso-8859-1?Q?DozZjQVaXyirEyPE/nkgSrEuhm2O3DEVUvjxaapZyj7HiuXrLeuAwOTkvY?=
+ =?iso-8859-1?Q?aIKIqofvVDymWOygPTr52IyfYG9gD2lqYbMP9/rflvP5XJfgf/hbdJFcAm?=
+ =?iso-8859-1?Q?Ejv5D9kj/8azV4fmmemo8lOdtp1UmlRASRasn1ImxyAKrZCBdgl/jk+KfO?=
+ =?iso-8859-1?Q?E+14nb4ToG2xrCPGJ5PkKn7ftam0cyiNLWOpt2kV5FPCVIpvq7fSdDspE9?=
+ =?iso-8859-1?Q?hCOw=3D=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_DM5PR12MB19474AEFB824C4C97DCD7AABEA229DM5PR12MB1947namp_"
 MIME-Version: 1.0
-References: <20220128120718.30545-1-yongqiang.niu@mediatek.com>
- <20220128120718.30545-4-yongqiang.niu@mediatek.com>
-In-Reply-To: <20220128120718.30545-4-yongqiang.niu@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 29 Jan 2022 00:34:18 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-c8CoPpT=4E9iR0fDiWfg9my=B7Oz1r4Vro80uHaGszg@mail.gmail.com>
-Message-ID: <CAAOTY_-c8CoPpT=4E9iR0fDiWfg9my=B7Oz1r4Vro80uHaGszg@mail.gmail.com>
-Subject: Re: [PATCH v1, 3/4] drm/mediatek: split postmask component
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b759ed7d-c388-4a27-ef4e-08d9e27f527a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2022 16:57:52.1366 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: p313AYPstDzxSz4LYwdqMcs6F6yCqPbqPhE6k9zHR41wEqASaqoXB4KqdPb0Z9coRJIBafyXeIzCIrXWBOjsQg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5299
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,124 +131,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- DTML <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: "Chen, Horace" <Horace.Chen@amd.com>, "Liu, Monk" <Monk.Liu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Yongqiang:
+--_000_DM5PR12MB19474AEFB824C4C97DCD7AABEA229DM5PR12MB1947namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Yongqiang Niu <yongqiang.niu@mediatek.com> =E6=96=BC 2022=E5=B9=B41=E6=9C=
-=8828=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=888:07=E5=AF=AB=E9=81=93=
-=EF=BC=9A
+Just a gentle ping.
+
+Andrey
+________________________________
+From: Grodzovsky, Andrey
+Sent: 26 January 2022 10:52
+To: Christian K=F6nig <ckoenig.leichtzumerken@gmail.com>; Koenig, Christian=
+ <Christian.Koenig@amd.com>; Lazar, Lijo <Lijo.Lazar@amd.com>; dri-devel@li=
+sts.freedesktop.org <dri-devel@lists.freedesktop.org>; amd-gfx@lists.freede=
+sktop.org <amd-gfx@lists.freedesktop.org>; Chen, JingWen <JingWen.Chen2@amd=
+.com>
+Cc: Chen, Horace <Horace.Chen@amd.com>; Liu, Monk <Monk.Liu@amd.com>
+Subject: Re: [RFC v2 4/8] drm/amdgpu: Serialize non TDR gpu recovery with T=
+DRs
+
+
+JingWen - could you maybe give those patches a try on SRIOV XGMI system ? I=
+f you see issues maybe you could let me connect and debug. My SRIOV XGMI sy=
+stem which Shayun kindly arranged for me is not loading the driver with my =
+drm-misc-next branch even without my patches.
+
+Andrey
+
+On 2022-01-17 14:21, Andrey Grodzovsky wrote:
+
+
+On 2022-01-17 2:17 p.m., Christian K=F6nig wrote:
+Am 17.01.22 um 20:14 schrieb Andrey Grodzovsky:
+
+Ping on the question
+
+Oh, my! That was already more than a week ago and is completely swapped out=
+ of my head again.
+
+
+Andrey
+
+On 2022-01-05 1:11 p.m., Andrey Grodzovsky wrote:
+Also, what about having the reset_active or in_reset flag in the reset_doma=
+in itself?
+
+Of hand that sounds like a good idea.
+
+
+What then about the adev->reset_sem semaphore ? Should we also move this to=
+ reset_domain ?  Both of the moves have functional
+implications only for XGMI case because there will be contention over acces=
+sing those single instance variables from multiple devices
+while now each device has it's own copy.
+
+Since this is a rw semaphore that should be unproblematic I think. It could=
+ just be that the cache line of the lock then plays ping/pong between the C=
+PU cores.
+
+
+What benefit the centralization into reset_domain gives - is it for example=
+ to prevent one device in a hive trying to access through MMIO another one'=
+s
+VRAM (shared FB memory) while the other one goes through reset ?
+
+I think that this is the killer argument for a centralized lock, yes.
+
+
+np, i will add a patch with centralizing both flag into reset domain and re=
+send.
+
+Andrey
+
+
+Christian.
+
+
+Andrey
+
+
+--_000_DM5PR12MB19474AEFB824C4C97DCD7AABEA229DM5PR12MB1947namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+</head>
+<body>
+<div>Just a gentle ping.</div>
+<div><br>
+</div>
+<div>Andrey</div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Grodzovsky, Andrey<br=
 >
-> add postmask private data for differnt soc support
->
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/Makefile            |   1 +
->  drivers/gpu/drm/mediatek/mtk_disp_drv.h      |   8 +
->  drivers/gpu/drm/mediatek/mtk_disp_postmask.c | 155 +++++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c  |  30 +---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c       |   2 +
->  drivers/gpu/drm/mediatek/mtk_drm_drv.h       |   1 +
->  6 files changed, 170 insertions(+), 27 deletions(-)
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_postmask.c
->
-> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek=
-/Makefile
-> index 29098d7c8307..f26fe646ee2a 100644
-> --- a/drivers/gpu/drm/mediatek/Makefile
-> +++ b/drivers/gpu/drm/mediatek/Makefile
-> @@ -5,6 +5,7 @@ mediatek-drm-y :=3D mtk_disp_aal.o \
->                   mtk_disp_color.o \
->                   mtk_disp_gamma.o \
->                   mtk_disp_ovl.o \
-> +                 mtk_disp_postmask.o \
->                   mtk_disp_rdma.o \
->                   mtk_drm_crtc.o \
->                   mtk_drm_ddp_comp.o \
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/me=
-diatek/mtk_disp_drv.h
-> index 86c3068894b1..f4c21195c3ea 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> @@ -81,6 +81,14 @@ void mtk_ovl_enable_vblank(struct device *dev,
->                            void *vblank_cb_data);
->  void mtk_ovl_disable_vblank(struct device *dev);
->
-> +int mtk_postmask_clk_enable(struct device *dev);
-> +void mtk_postmask_clk_disable(struct device *dev);
-> +void mtk_postmask_config(struct device *dev, unsigned int w,
-> +                               unsigned int h, unsigned int vrefresh,
-> +                               unsigned int bpc, struct cmdq_pkt *cmdq_p=
-kt);
-> +void mtk_postmask_start(struct device *dev);
-> +void mtk_postmask_stop(struct device *dev);
-> +
->  void mtk_rdma_bypass_shadow(struct device *dev);
->  int mtk_rdma_clk_enable(struct device *dev);
->  void mtk_rdma_clk_disable(struct device *dev);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_postmask.c b/drivers/gpu/d=
-rm/mediatek/mtk_disp_postmask.c
-> new file mode 100644
-> index 000000000000..fc04b445c2ed
-> --- /dev/null
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_postmask.c
-> @@ -0,0 +1,155 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2021 MediaTek Inc.
+<b>Sent:</b> 26 January 2022 10:52<br>
+<b>To:</b> Christian K=F6nig &lt;ckoenig.leichtzumerken@gmail.com&gt;; Koen=
+ig, Christian &lt;Christian.Koenig@amd.com&gt;; Lazar, Lijo &lt;Lijo.Lazar@=
+amd.com&gt;; dri-devel@lists.freedesktop.org &lt;dri-devel@lists.freedeskto=
+p.org&gt;; amd-gfx@lists.freedesktop.org &lt;amd-gfx@lists.freedesktop.org&=
+gt;;
+ Chen, JingWen &lt;JingWen.Chen2@amd.com&gt;<br>
+<b>Cc:</b> Chen, Horace &lt;Horace.Chen@amd.com&gt;; Liu, Monk &lt;Monk.Liu=
+@amd.com&gt;<br>
+<b>Subject:</b> Re: [RFC v2 4/8] drm/amdgpu: Serialize non TDR gpu recovery=
+ with TDRs</font>
+<div>&nbsp;</div>
+</div>
+<div>
+<p>JingWen - could you maybe give those patches a try on SRIOV XGMI system =
+? If you see issues maybe you could let me connect and debug. My SRIOV XGMI=
+ system which Shayun kindly arranged for me is not loading the driver with =
+my drm-misc-next branch even without
+ my patches.<br>
+</p>
+<p>Andrey<br>
+</p>
+<div class=3D"x_moz-cite-prefix">On 2022-01-17 14:21, Andrey Grodzovsky wro=
+te:<br>
+</div>
+<blockquote type=3D"cite">
+<p><br>
+</p>
+<div class=3D"x_moz-cite-prefix">On 2022-01-17 2:17 p.m., Christian K=F6nig=
+ wrote:<br>
+</div>
+<blockquote type=3D"cite">Am 17.01.22 um 20:14 schrieb Andrey Grodzovsky:<b=
+r>
+<blockquote type=3D"cite">
+<p>Ping on the question</p>
+</blockquote>
+<br>
+Oh, my! That was already more than a week ago and is completely swapped out=
+ of my head again.<br>
+<br>
+<blockquote type=3D"cite">
+<p>Andrey<br>
+</p>
+<div class=3D"x_moz-cite-prefix">On 2022-01-05 1:11 p.m., Andrey Grodzovsky=
+ wrote:<br>
+</div>
+<blockquote type=3D"cite">
+<blockquote type=3D"cite" style=3D"color:#007cff">
+<blockquote type=3D"cite" style=3D"color:#007cff">Also, what about having t=
+he reset_active or in_reset flag in the reset_domain itself?
+<br>
+</blockquote>
+<br>
+Of hand that sounds like a good idea. <br>
+</blockquote>
+<br>
+<br>
+What then about the adev-&gt;reset_sem semaphore ? Should we also move this=
+ to reset_domain ?&nbsp; Both of the moves have functional
+<br>
+implications only for XGMI case because there will be contention over acces=
+sing those single instance variables from multiple devices
+<br>
+while now each device has it's own copy. <br>
+</blockquote>
+</blockquote>
+<br>
+Since this is a rw semaphore that should be unproblematic I think. It could=
+ just be that the cache line of the lock then plays ping/pong between the C=
+PU cores.<br>
+<br>
+<blockquote type=3D"cite">
+<blockquote type=3D"cite"><br>
+What benefit the centralization into reset_domain gives - is it for example=
+ to prevent one device in a hive trying to access through MMIO another one'=
+s
+<br>
+VRAM (shared FB memory) while the other one goes through reset ? <br>
+</blockquote>
+</blockquote>
+<br>
+I think that this is the killer argument for a centralized lock, yes.<br>
+</blockquote>
+<p><br>
+</p>
+<p>np, i will add a patch with centralizing both flag into reset domain and=
+ resend.</p>
+<p>Andrey</p>
+<p><br>
+</p>
+<blockquote type=3D"cite"><br>
+Christian.<br>
+<br>
+<blockquote type=3D"cite">
+<blockquote type=3D"cite"><br>
+Andrey </blockquote>
+</blockquote>
+<br>
+</blockquote>
+</blockquote>
+</div>
+</body>
+</html>
 
-2022
-
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/component.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/soc/mediatek/mtk-cmdq.h>
-> +
-> +#include "mtk_disp_drv.h"
-> +#include "mtk_drm_crtc.h"
-> +#include "mtk_drm_ddp_comp.h"
-> +
-> +#define DISP_POSTMASK_EN                       0x0000
-> +#define POSTMASK_EN                                    BIT(0)
-> +#define DISP_POSTMASK_CFG                      0x0020
-> +#define POSTMASK_RELAY_MODE                            BIT(0)
-> +#define DISP_POSTMASK_SIZE                     0x0030
-
-I think you should 'move' these definition not 'copy' them, so
-remember to remove them in mtk_drm_ddp_comp.c
-
-Regards,
-Chun-Kuang.
-
-> +
-> +struct mtk_disp_postmask_data {
-> +       u32 reserved;
-> +};
-> +
-> +/*
-> + * struct mtk_disp_postmask - DISP_POSTMASK driver structure
-> + */
-> +struct mtk_disp_postmask {
-> +       struct clk *clk;
-> +       void __iomem *regs;
-> +       struct cmdq_client_reg cmdq_reg;
-> +       const struct mtk_disp_postmask_data *data;
-> +};
-> +
+--_000_DM5PR12MB19474AEFB824C4C97DCD7AABEA229DM5PR12MB1947namp_--
