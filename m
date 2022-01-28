@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0A449F2C5
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 06:12:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7FF49F323
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jan 2022 06:46:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3962610ECB6;
-	Fri, 28 Jan 2022 05:12:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A759A10E7FB;
+	Fri, 28 Jan 2022 05:46:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF84510EB3B;
- Fri, 28 Jan 2022 05:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643346749; x=1674882749;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=zyjJj3AW8MXDIb8IgNyGcgSoz747da3StOX16uzql5w=;
- b=DJNBur2DqpVqS5yr3xwD65Qowi9XIGVzAnWz951712k17+XPBIXuCIHt
- T2mEzi7qblpRM/k8xMdjKDodphWAovrAqHigkP6nYhHHFSU0glG7PKjL7
- OrSH0bhG8egb1sIURLB398pKGVs2ZVv+cKU3UDaks2BIRwW3xeUHNVxJ6
- XmznXs5bbYn5LVuLijNmraRcpJBXNqS4KqnB27V1OXZVzupCkh/zyZPc1
- jGayCilqUHGRiKAgrYPHX89+WoojtlVdVk07lVTs1M/NnRYLlXw774l1m
- 0LKZPX1C5Ze5cwPmlu640X4GYwUqkfl6nEp2fJAaWGQ4SWwt+N37aPSeY Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="247269798"
-X-IronPort-AV: E=Sophos;i="5.88,322,1635231600"; d="scan'208";a="247269798"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2022 21:11:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,322,1635231600"; d="scan'208";a="478160727"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 27 Jan 2022 21:11:55 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nDJYA-000NVO-CW; Fri, 28 Jan 2022 05:11:54 +0000
-Date: Fri, 28 Jan 2022 13:11:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhi Wang <zhi.wang.linux@gmail.com>, hch@lst.de, jgg@nvidia.com,
- jani.nikula@linux.intel.com
-Subject: Re: [Intel-gfx] [PATCH 1/3] i915/gvt: Introduce the mmio_table.c to
- support VFIO new mdev API
-Message-ID: <202201281209.mnHCKgPp-lkp@intel.com>
-References: <20220127120508.11330-1-zhi.a.wang@intel.com>
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9F5D10E7DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 05:46:47 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id p12so7556242edq.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jan 2022 21:46:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=mbJSZf5gy3hnyEih7mJYLas+iYsAiaEKBB/Kw4odm/E=;
+ b=QZbulDzwCneylQ0114C9HfTxud0AsgoQ1Hg5Bv/k9Txy6YovJzwW7C+EeyYFuZgyKd
+ txDPU+os/xnqIQQ1aSj9UJ/FMbqkujm0T2Xpz5kpyzjqcmp79u/efHCjQzxAuweoRkIU
+ e3fMweaW+oIqlJQXjUGqIiyVgGnnNqErfK8Q8Ce7dmPFfSM42yZsFRktntsA4bvp1jOp
+ hVv0dW3KDmcVfiz0LRawn/oKaKVAn2PENe95j7Bk4VYTHmj+NW8h1rfe+eeS+SoWBqk6
+ TAOoJvCN6QtAvI8eByREctK1DFoJP0GnHkRENK6UFH3LsWV6KoFeb1QUJgCHpnjTAS2f
+ eB6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=mbJSZf5gy3hnyEih7mJYLas+iYsAiaEKBB/Kw4odm/E=;
+ b=mNKgZQeyZCC4NTTP4Ob3lOC41f5WDOPV1VYrWkiNLXPmbt+D2zNjmTf6shxK46pbzt
+ tmmDKL0DNYCITv6e/Oa6+LZ6uCv48SnsjyZgcsA765knR/iEUV7TYdkyb83lNixA98iu
+ 685Sehi1oFf4QXAwrA1MYujP/hlGDz8tJFzyKNeWmoqsdRxPdMtzDohc023cQfp89ChC
+ 1c2zi3GW72e0DswnEG4/5No8NIt0FKv1zHZxjKuPeGTAP9lTgs3PLSqdlxhjhe5n/QOp
+ kYWVFVrxBR1zoY66238e3TK6nxS6T0c5nyY2E7yuqRKjfgc+rt21lXULJYkYXxsHvnkz
+ qUaQ==
+X-Gm-Message-State: AOAM533GEmE2bgPEz2WzUreqUIO9Y+H9lw0TUw2rEZLTRPJNvd27p8FL
+ c67lmm10Z2hMzOt6Kj38E8JpCEOuv9mFKLIGLDs=
+X-Google-Smtp-Source: ABdhPJwWFnYpwYuXrY3zZeNzTujZuUl5wDXmSHqgW2G24jYHMGcMA0MMOn4ZXsQ2Z6HIOgDH1yZ3GObCkt+nR1qS6gA=
+X-Received: by 2002:a50:e616:: with SMTP id y22mr6613760edm.277.1643348806229; 
+ Thu, 27 Jan 2022 21:46:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220127120508.11330-1-zhi.a.wang@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 28 Jan 2022 15:46:35 +1000
+Message-ID: <CAPM=9tweQ-RgLm5oewCYqVzRuiQ6cSQrb2yzVYP_537V67pdDQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.17-rc2
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,47 +62,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Zhi Wang <zhi.wang.linux@gmail.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zhi,
+Hi Linus,
 
-I love your patch! Perhaps something to improve:
+This week's regular normal fixes. amdgpu and msm make up the bulk of
+it, with a scattering of fixes elsewhere.
 
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on next-20220127]
-[cannot apply to drm-intel/for-linux-next hch-configfs/for-next v5.17-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Dave.
 
-url:    https://github.com/0day-ci/linux/commits/Zhi-Wang/i915-gvt-Introduce-the-mmio_table-c-to-support-VFIO-new-mdev-API/20220127-200727
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20220128/202201281209.mnHCKgPp-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/533f92651a7a56481a053f1e04dc5a5ec024ffb9
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Zhi-Wang/i915-gvt-Introduce-the-mmio_table-c-to-support-VFIO-new-mdev-API/20220127-200727
-        git checkout 533f92651a7a56481a053f1e04dc5a5ec024ffb9
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
+drm-fixes-2022-01-28:
+drm fixes for 5.17-rc2
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+atomic:
+- fix CRTC handling during modeset
 
+privacy-screen:
+- honor acpi=3Doff
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/gvt/handlers.c:45:6: sparse: sparse: symbol 'intel_gvt_match_device' was not declared. Should it be static?
+ttm:
+- build fix for um
 
-Please review and possibly fold the followup patch.
+panel:
+- add orientation quirk for 1NetBook OneXPlayer
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+amdgpu:
+- Proper fix for otg synchronization logic regression
+- DCN3.01 fixes
+- Filter out secondary radeon PCI IDs
+- udelay fixes
+- Fix a memory leak in an error path
+
+msm:
+- parameter check fixes
+- put_device balancing
+- idle/suspend fixes
+
+etnaviv:
+- relax submit size checks
+
+vc4:
+- fix potential deadlock in DSI code
+
+ast:
+- revert 1600x900 mode change
+The following changes since commit e783362eb54cd99b2cac8b3a9aeac942e6f6ac07=
+:
+
+  Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-01-28
+
+for you to fetch changes up to db5aa1497d02e7770e40dd0d1bfcb4ea0b0d3906:
+
+  Merge tag 'amd-drm-fixes-5.17-2022-01-26' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2022-01-28
+14:59:44 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.17-rc2
+
+atomic:
+- fix CRTC handling during modeset
+
+privcy-screen:
+- honor acpi=3Doff
+
+ttm:
+- build fix for um
+
+panel:
+- add oreientation quirk for 1NetBook OneXPlayer
+
+amdgpu:
+- Proper fix for otg synchronization logic regression
+- DCN3.01 fixes
+- Filter out secondary radeon PCI IDs
+- udelay fixes
+- Fix a memory leak in an error path
+
+msm:
+- parameter check fixes
+- put_device balancing
+- idle/suspend fixes
+
+etnaviv:
+- relax submit size checks
+
+vc4:
+- fix potential deadlock in DSI code
+
+ast:
+- revert 1600x900 mode change
+
+----------------------------------------------------------------
+Alex Deucher (3):
+      drm/amdgpu: filter out radeon secondary ids as well
+      drm/amdgpu/display: adjust msleep limit in
+dp_wait_for_training_aux_rd_interval
+      drm/amdgpu/display: use msleep rather than udelay for long delays
+
+Bas Nieuwenhuizen (3):
+      drm/amd/display: Fix FP start/end for dcn30_internal_validate_bw.
+      drm/amd/display: Wrap dcn301_calculate_wm_and_dlg for FPU.
+      drm/amdgpu/display: Remove t_srx_delay_us.
+
+Dave Airlie (6):
+      Revert "drm/ast: Support 1600x900 with 108MHz PCLK"
+      Merge tag 'drm-misc-next-fixes-2022-01-21' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-misc-fixes-2022-01-27' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-msm-fixes-2022-01-25' of
+https://gitlab.freedesktop.org/drm/msm into drm-fixes
+      Merge branch 'etnaviv/fixes' of
+https://git.pengutronix.de/git/lst/linux into drm-fixes
+      Merge tag 'amd-drm-fixes-5.17-2022-01-26' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+Jos=C3=A9 Exp=C3=B3sito (2):
+      drm/msm/dpu: invalid parameter check in dpu_setup_dspp_pcc
+      drm/msm/dsi: invalid parameter check in msm_dsi_phy_enable
+
+Lucas Stach (1):
+      drm/etnaviv: relax submit size limits
+
+Manasi Navare (1):
+      drm/atomic: Add the crtc to affected crtc only if uapi.enable =3D tru=
+e
+
+Meenakshikumar Somasundaram (1):
+      drm/amd/display: Fix for otg synchronization logic
+
+Miaoqian Lin (2):
+      drm/msm/dsi: Fix missing put_device() call in dsi_get_phy
+      drm/msm/hdmi: Fix missing put_device() call in msm_hdmi_get_phy
+
+Padmanabha Srinivasaiah (1):
+      drm/vc4: Fix deadlock on DSI device attach error
+
+Raymond Jay Golo (1):
+      drm: panel-orientation-quirks: Add quirk for the 1Netbook OneXPlayer
+
+Rob Clark (3):
+      drm/msm/a6xx: Add missing suspend_count increment
+      drm/msm/gpu: Wait for idle before suspending
+      drm/msm/gpu: Cancel idle/boost work on suspend
+
+Thomas Zimmermann (1):
+      Merge drm/drm-fixes into drm-misc-fixes
+
+Tong Zhang (1):
+      drm/privacy-screen: honor acpi=3Doff in detect_thinkpad_privacy_scree=
+n
+
+Xianting Tian (1):
+      drm/msm: Fix wrong size calculation
+
+Yang Li (1):
+      drm/msm: remove variable set but not used
+
+Zhan Liu (2):
+      drm/amd/display: Correct MPC split policy for DCN301
+      drm/amd/display: change FIFO reset condition to embedded display only
+
+Zhou Qingyang (1):
+      drm/amd/display/dc/calcs/dce_calcs: Fix a memleak in calculate_bandwi=
+dth()
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 81 ++++++++++++++++++=
+++++
+ drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c   |  4 +-
+ drivers/gpu/drm/amd/display/dc/calcs/dcn_calcs.c   |  1 -
+ drivers/gpu/drm/amd/display/dc/core/dc.c           | 40 +++++++----
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  6 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c  | 54 +++++++++++++++
+ drivers/gpu/drm/amd/display/dc/dc.h                |  1 +
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    | 10 ++-
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |  4 +-
+ .../drm/amd/display/dc/dcn301/dcn301_resource.c    | 13 +++-
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |  3 +
+ .../display/dc/dml/dcn20/display_rq_dlg_calc_20.c  |  2 -
+ .../dc/dml/dcn20/display_rq_dlg_calc_20v2.c        |  2 -
+ .../display/dc/dml/dcn21/display_rq_dlg_calc_21.c  |  2 -
+ .../display/dc/dml/dcn30/display_rq_dlg_calc_30.c  |  2 -
+ .../gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c |  2 +-
+ .../gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.h |  2 +-
+ .../drm/amd/display/dc/dml/display_mode_structs.h  |  1 -
+ .../amd/display/dc/dml/display_rq_dlg_helpers.c    |  3 -
+ .../amd/display/dc/dml/dml1_display_rq_dlg_calc.c  |  4 --
+ drivers/gpu/drm/amd/display/dc/inc/core_types.h    |  1 +
+ drivers/gpu/drm/amd/display/dc/inc/resource.h      | 11 +++
+ drivers/gpu/drm/ast/ast_tables.h                   |  2 -
+ drivers/gpu/drm/drm_atomic.c                       | 12 ++--
+ drivers/gpu/drm/drm_panel_orientation_quirks.c     | 12 ++++
+ drivers/gpu/drm/drm_privacy_screen_x86.c           |  3 +
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c       |  4 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  2 +
+ drivers/gpu/drm/msm/adreno/adreno_device.c         | 18 +++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c        | 11 ++-
+ drivers/gpu/drm/msm/dsi/dsi.c                      |  7 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |  4 +-
+ drivers/gpu/drm/msm/hdmi/hdmi.c                    |  7 +-
+ drivers/gpu/drm/msm/msm_drv.c                      |  5 +-
+ drivers/gpu/drm/msm/msm_gpu.c                      |  3 +
+ drivers/gpu/drm/msm/msm_gpu.h                      |  3 +
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c              | 21 +++++-
+ drivers/gpu/drm/vc4/vc4_dsi.c                      | 14 ++--
+ 38 files changed, 307 insertions(+), 70 deletions(-)
