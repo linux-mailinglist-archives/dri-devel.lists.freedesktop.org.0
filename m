@@ -1,42 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF324A3032
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 16:06:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 263804A3059
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 16:54:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F28711290E;
-	Sat, 29 Jan 2022 15:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05BCB10E2B6;
+	Sat, 29 Jan 2022 15:54:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp05.smtpout.orange.fr
- [80.12.242.127])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07B8C11290E
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 15:06:36 +0000 (UTC)
-Received: from pop-os.home ([90.126.236.122]) by smtp.orange.fr with ESMTPA
- id DpJ7n81bv0Z1CDpJ7nnDkd; Sat, 29 Jan 2022 16:06:34 +0100
-X-ME-Helo: pop-os.home
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Sat, 29 Jan 2022 16:06:34 +0100
-X-ME-IP: 90.126.236.122
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH] drm/bridge: lt9611: Fix an error handling path in
- lt9611_probe()
-Date: Sat, 29 Jan 2022 16:06:24 +0100
-Message-Id: <9c20eb74d42f6d4128e58e3e46aa320482472b77.1643468761.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.32.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36F7310E154;
+ Sat, 29 Jan 2022 15:54:47 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 800F760EA9;
+ Sat, 29 Jan 2022 15:54:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7871AC340E5;
+ Sat, 29 Jan 2022 15:54:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1643471685;
+ bh=MUJUxdkPGfv/or2YLQ6Mah4UNtbPJ+YJLCFJgLzFZ08=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=od1g9pszTmK+WNud2Fyz8MEVlm+QNXXS/Jwoa9e/4Ti/oK3fPT6AZKjRUMkftn3WX
+ qnyYgGzZJ3gJTiUhC35f9yOrv271fWe1S1f8spb4eUiBDwDY9PU4/gcyrGVw/PF8OJ
+ VCLej+GUFjfWn2TjLA0DzXddJ9LfLIek0kgWWiW4=
+Date: Sat, 29 Jan 2022 16:54:43 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Kangjie Lu <kjlu@umn.edu>
+Subject: Re: [PATCH] drm/nouveau/acr: Fix undefined behavior in
+ nvkm_acr_hsfw_load_bl()
+Message-ID: <YfVjQw1i9AYVz9e3@kroah.com>
+References: <20220124165856.57022-1-zhou1615@umn.edu>
+ <YfPC3N+H9Fu/gqpz@kroah.com>
+ <536c833413ccbe0b8ad653a50c5ea867bf975290.camel@redhat.com>
+ <CADnq5_MtMPNHbs92OMHEzvPYSHGt=nPJMdrny6Siuvj3SYTAXQ@mail.gmail.com>
+ <CACO55tt4P+beifvS=jcDsfwybFynngc8DHLR0n3BseeDJNrHyw@mail.gmail.com>
+ <CAK8Kejr6E76u2kf_OKxC1RT_qsCWXDf7q4WcTC13-OJz5CseWg@mail.gmail.com>
+ <YfVTcUA4MKknEawL@kroah.com>
+ <CAK8Kejo6p57u8tz1rnV5bhQVO_vz-p1nCsc_G=EvEr1u3FUP9g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8Kejo6p57u8tz1rnV5bhQVO_vz-p1nCsc_G=EvEr1u3FUP9g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,40 +56,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau <nouveau@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Zhou Qingyang <zhou1615@umn.edu>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If lt9611_audio_init() fails, some resources still need to be released
-before returning an error code.
+On Sat, Jan 29, 2022 at 09:19:18AM -0600, Kangjie Lu wrote:
+> > So to be explicit, so you do not misunderstand me somehow:
+> >
+> >         No more patches from umn.edu should be accepted into the Linux
+> >         kernel until further public notice.
+> 
+> This is clear to me.
+> 
+> > They should be considered a
+> >         "bad actor" given their prior history of submissions and lack of
+> >         complying with the kernel community's prior requirements to
+> >         them.
+> 
+> I am sorry for the delay of the last process which is unfortunately
+> not under the control of the researchers. According to our
+> administration, the process has started and is moving forward. I hope
+> that can be done soon.
 
-Add the missing goto the error handling path.
+Given that our previously agreed-upon requirements were not met, I do
+not think that finally meeting these requirements when caught that you
+were not following them is going to be acceptable to allow your
+organization to return to the kernel community.
 
-Fixes: 23278bf54afe ("drm/bridge: Introduce LT9611 DSI to HDMI bridge")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/gpu/drm/bridge/lontium-lt9611.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Your people have shown bad-faith toward us too many times, and we have
+wasted too much of our own time and energy on this for absolutely no
+benefit at all, except as an example to point others at and say "do not
+be like them."
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index dafb1b47c15f..00597eb54661 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -1164,7 +1164,11 @@ static int lt9611_probe(struct i2c_client *client,
- 
- 	lt9611_enable_hpd_interrupts(lt9611);
- 
--	return lt9611_audio_init(dev, lt9611);
-+	ret = lt9611_audio_init(dev, lt9611);
-+	if (ret)
-+		goto err_remove_bridge;
-+
-+	return 0;
- 
- err_remove_bridge:
- 	drm_bridge_remove(&lt9611->bridge);
--- 
-2.32.0
-
+greg k-h
