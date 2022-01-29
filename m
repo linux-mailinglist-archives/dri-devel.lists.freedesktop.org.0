@@ -1,55 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7947C4A2E4D
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 12:39:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D41454A2F99
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 14:00:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8367610E872;
-	Sat, 29 Jan 2022 11:38:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 126461125AB;
+	Sat, 29 Jan 2022 13:00:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4A889D02;
- Sat, 29 Jan 2022 11:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643456331; x=1674992331;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=a2E+q/xIh4DH4VKtSyhc+z5LhZFfi8UMroB/a8yuoxo=;
- b=mX/GyH/fMwez61ErRGZHE0pTr1WVDBErgJB25pEg/gvVd3V5ir/aftof
- w4fb6u9m5XVFoQnrw87CocFmTQWceoogi81tyB5ft+2wwI9VOdsbdR/1a
- 5+ey0u+yD9DGXXyZkMpYhYGegNn4/d4sa+vxtLx3pYu8lXR7AxaKuXL0m
- xeHXJ5zU3AbY3fevxjaPgR2DSb7RLCseeD2XdQY6bh6vwb4CtZ0fgb2Ya
- qkkENCW200rHEnYshxLdE4s1ZO+vGQv1KTPxz+p208aLc0uKkQW/DJEkp
- EpD1viFNL495RxmJaVFlbR67M85mGPI4gLYbtc3GLpQDjfKlYBu7mlmU5 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10241"; a="310575627"
-X-IronPort-AV: E=Sophos;i="5.88,326,1635231600"; d="scan'208";a="310575627"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2022 03:38:50 -0800
-X-IronPort-AV: E=Sophos;i="5.88,326,1635231600"; d="scan'208";a="675325768"
-Received: from ianwarx-mobl.ger.corp.intel.com (HELO [10.249.254.225])
- ([10.249.254.225])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2022 03:38:49 -0800
-Message-ID: <40699381-054d-994d-938c-7b43af59678e@linux.intel.com>
-Date: Sat, 29 Jan 2022 12:38:46 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20B391125AB
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 13:00:37 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 91BFA60C09;
+ Sat, 29 Jan 2022 13:00:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CD14C340E5;
+ Sat, 29 Jan 2022 13:00:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1643461234;
+ bh=/PtTKARvmdASXmkd+OgorF3gx0Ddyj3vM9MULOidjyA=;
+ h=Subject:To:Cc:From:Date:From;
+ b=lRRW+qdyXmqcHTQvzRE9wFdfLNw/xvdx6gouDmLGDkWa04q7fV7Qh7lUlqSN75kQe
+ t62iPPirKj4SwP6vHaZCBrhe54iKPh672EH9fOWoJtTB4q7L/suLP67oIbJa4bT4W6
+ 5kNrJicKLGcGYL/w9jwalyyYkbL12tbKbHgANJj8=
+Subject: Patch "drm/atomic: Add the crtc to affected crtc only if uapi.enable
+ = true" has been added to the 5.16-stable tree
+To: contact@emersion.fr, daniel.vetter@intel.com, daniels@collabora.com,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ manasi.d.navare@intel.com, pekka.paalanen@collabora.co.uk,
+ ville.syrjala@linux.intel.com
+From: <gregkh@linuxfoundation.org>
+Date: Sat, 29 Jan 2022 14:00:08 +0100
+Message-ID: <164346120845187@kroah.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix a race between vma / object
- destruction and unbinding
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220127115622.302970-1-thomas.hellstrom@linux.intel.com>
- <8ca7bd99-06a7-3142-c375-1bf93cb23287@linux.intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <8ca7bd99-06a7-3142-c375-1bf93cb23287@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,78 +53,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: stable-commits@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 1/28/22 23:32, Tvrtko Ursulin wrote:
->
-> On 27/01/2022 11:56, Thomas Hellström wrote:
->> The vma destruction code was using an unlocked advisory check for
->> drm_mm_node_allocated() to avoid racing with eviction code unbinding
->> the vma.
->>
->> This is very fragile and prohibits the dereference of non-refcounted
->> pointers of dying vmas after a call to __i915_vma_unbind(). It also
->> prohibits the dereference of vma->obj of refcounted pointers of
->> dying vmas after a call to __i915_vma_unbind(), since even if a
->> refcount is held on the vma, that won't guarantee that its backing
->> object doesn't get destroyed.
->>
->> So introduce an unbind under the vm mutex at object destroy time,
->> removing all weak references of the vma and its object from the
->> object vma list and from the vm bound list.
->
-> Maarten suggested this fixes an oops like seen in 
-> https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_22133/shard-snb6/igt@gem_softpin@softpin.html. 
-> If that is so, what would be the Fixes: tag to put here? Although it 
-> is too late now so hopefully bug was introduced in something yet 
-> unreleased.
+This is a note to let you know that I've just added the patch titled
 
-Yes, should've had a fixes tag here. Luckily it fixes a very recent 
-commit, which shouldn't have had time to be released yet.
+    drm/atomic: Add the crtc to affected crtc only if uapi.enable = true
 
->
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_object.c | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c 
->> b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->> index 1a9e1f940a7d..e03e362d320b 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->> @@ -280,6 +280,12 @@ void __i915_gem_object_pages_fini(struct 
->> drm_i915_gem_object *obj)
->>               GEM_BUG_ON(vma->obj != obj);
->>               spin_unlock(&obj->vma.lock);
->>   +            /* Verify that the vma is unbound under the vm mutex. */
->> +            mutex_lock(&vma->vm->mutex);
->> +            atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
->> +            __i915_vma_unbind(vma);
->> +            mutex_unlock(&vma->vm->mutex);
->
-> Hm I am not up to speed with the latest design, but how does the verb 
-> verify and absence of conditionals reconcile here? Does the comment 
-> need improving?
+to the 5.16-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-Yes. Ensure would have been better here. There is some rework of the vma 
-destruction still needed, though so I'll update or remove the comment 
-with those patches.
+The filename of the patch is:
+     drm-atomic-add-the-crtc-to-affected-crtc-only-if-uapi.enable-true.patch
+and it can be found in the queue-5.16 subdirectory.
 
-Thanks,
-
-Thomas
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
 
+From 5ec1cebd59300ddd26dbaa96c17c508764eef911 Mon Sep 17 00:00:00 2001
+From: Manasi Navare <manasi.d.navare@intel.com>
+Date: Mon, 4 Oct 2021 04:59:13 -0700
+Subject: drm/atomic: Add the crtc to affected crtc only if uapi.enable = true
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
->
-> Regards,
->
-> Tvrtko
->
->> +
->>               __i915_vma_put(vma);
->>                 spin_lock(&obj->vma.lock);
->>
+From: Manasi Navare <manasi.d.navare@intel.com>
+
+commit 5ec1cebd59300ddd26dbaa96c17c508764eef911 upstream.
+
+In case of a modeset where a mode gets split across multiple CRTCs
+in the driver specific implementation (bigjoiner in i915) we wrongly count
+the affected CRTCs based on the drm_crtc_mask and indicate the stolen CRTC as
+an affected CRTC in atomic_check_only().
+This triggers a warning since affected CRTCs doent match requested CRTC.
+
+To fix this in such bigjoiner configurations, we should only
+increment affected crtcs if that CRTC is enabled in UAPI not
+if it is just used internally in the driver to split the mode.
+
+v3: Add the same uapi crtc_state->enable check in requested
+crtc calc (Ville)
+
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Cc: Daniel Stone <daniels@collabora.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.11+
+Fixes: 919c2299a893 ("drm/i915: Enable bigjoiner")
+Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20211004115913.23889-1-manasi.d.navare@intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/drm_atomic.c |   12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1310,8 +1310,10 @@ int drm_atomic_check_only(struct drm_ato
+ 
+ 	DRM_DEBUG_ATOMIC("checking %p\n", state);
+ 
+-	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+-		requested_crtc |= drm_crtc_mask(crtc);
++	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
++		if (new_crtc_state->enable)
++			requested_crtc |= drm_crtc_mask(crtc);
++	}
+ 
+ 	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
+ 		ret = drm_atomic_plane_check(old_plane_state, new_plane_state);
+@@ -1360,8 +1362,10 @@ int drm_atomic_check_only(struct drm_ato
+ 		}
+ 	}
+ 
+-	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+-		affected_crtc |= drm_crtc_mask(crtc);
++	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
++		if (new_crtc_state->enable)
++			affected_crtc |= drm_crtc_mask(crtc);
++	}
+ 
+ 	/*
+ 	 * For commits that allow modesets drivers can add other CRTCs to the
+
+
+Patches currently in stable-queue which might be from manasi.d.navare@intel.com are
+
+queue-5.16/drm-atomic-add-the-crtc-to-affected-crtc-only-if-uapi.enable-true.patch
