@@ -1,82 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C286C4A3EAC
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 09:35:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C99144A3EAE
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 09:35:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D945910F55A;
-	Mon, 31 Jan 2022 08:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DC3D10F56C;
+	Mon, 31 Jan 2022 08:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta-p7.oit.umn.edu (mta-p7.oit.umn.edu [134.84.196.207])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB81010E31A
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 15:20:07 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
- by mta-p7.oit.umn.edu (Postfix) with ESMTP id 4JmJ0l2R1Lz9vBrl
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 15:20:07 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p7.oit.umn.edu ([127.0.0.1])
- by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ESV-cpcKSHBw for <dri-devel@lists.freedesktop.org>;
- Sat, 29 Jan 2022 09:20:07 -0600 (CST)
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 4JmJ0l0JGSz9vBrv
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 09:20:07 -0600 (CST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p7.oit.umn.edu 4JmJ0l0JGSz9vBrv
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p7.oit.umn.edu 4JmJ0l0JGSz9vBrv
-Received: by mail-il1-f199.google.com with SMTP id
- t18-20020a92ca92000000b002b952c60bfbso6615105ilo.15
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 07:20:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=20wQ8WZNH8c/YveUfuB2Rg0Bs7I2bsmcYwLA+aQphic=;
- b=d3il72roGpj8pWwzz+3AlGFNU/iwFzERKoAsaHqd/1DbniAg3OpTs+1bmtG47U/avD
- 2CzZG/vD36IfbHoyqnhp+p/WATmK8L9IS0v20kipDl3Ip45FWvFRpsYc2aOfPCByjr6Z
- KO7C47qt+P++6m9m17GT+ZnTM60nGpBXvnA5fdHxNCZ5v0c8whP8v3IftDC3UlX+8rdi
- W8xdRTEnMon6EJuhN5Kaf16lddolrmCy/py+/w8+7O31pYLPSYABHGNOD7kjsfzKlPDo
- wRgRcbc560oKSpxd3YQKDkXcfWSCzH45ytA3UPZPQlar4G3F2WEOUdfZIZsfq/5YIH2e
- FMmw==
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB8510E12B
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 22:01:58 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id ka4so29121344ejc.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 14:01:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :content-transfer-encoding;
+ bh=yjUU9ER/vIEGLeysJCo+/yYTdTjRHWEWnfNYddtn3aA=;
+ b=GasqK6RF2C1NLwNFKTrQaUjs2o8JvlWlPo88Gk33v2yX68jTVNTX8RuL9WeODxuYgI
+ 0zVfdFLvDQ6Scm07F8G4M28CBxrFgmgzFCZN1YPFJOzIwEZtqfGnmpEunqvqASO6YJln
+ Ync30uNDDbpnXWDLMpetV3oG0ExsqVaZqaLvT6dCXDjteTaouVkFwgpWOx4bV27QHNEy
+ F7vqwf6ejDMbcH1ZrwJR177hpWXMzpm/Z3N3VNSo/1OHYAd9Bsz2df5sPio+OqhWcHZh
+ LF/FInpELUZKeDEjeZyr1LsbNVfm1SYbnkZy0JFf+3/1ZopOuaeHe2zmd1Z9XxqiP/rV
+ B77w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=20wQ8WZNH8c/YveUfuB2Rg0Bs7I2bsmcYwLA+aQphic=;
- b=h+ik458lDPyo2FynjdtED0DKK+MH3FEnPDHjbUicxnhVXwcEeEnV4/ZTnrBtEge0SM
- 63s8U4wMbcSjVy9D/qSAm0NeQ2mQmu491TaX4sUjQYjtfWtWLN7sr1mNKBdSgD9FkToC
- JYlPw/twllrJaUxEOJyhaTCpoRbslFGU//7FRC3pxc585LVDSBVOzakubowzvO/x1Pum
- OyGwJOxm2C+Tn2/owK0U7YitIFXinYodaNG9CWNrkfIYEm6d5roQrQEkkCjf4lXrS4+A
- JVcxAPTU1+bCCAgBOypCJplHojyAC/YgHCs9ZMC2s6fVBhHQcrkOXFT96vwtj3ogDwgh
- qetQ==
-X-Gm-Message-State: AOAM533Ey5zh9xZW3wgTmMcCzML0K0XilIi8aisc6FmBlLTaJhAkOM98
- 87okD3vZY0L/a1XSvQMx51kpCf3laHV8+4HKzVEkkHHpTYh68jRVNeSBxiiM2LRJ69QATMIMahi
- 1+D6eNdTQc+Zm/auOt1U2o3ht7lMXdP4Rcg7uZhT8y8O7Ji+1
-X-Received: by 2002:a05:6e02:b23:: with SMTP id
- e3mr8376087ilu.32.1643469606499; 
- Sat, 29 Jan 2022 07:20:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxBBBkjVU1BuOpUNOYZo4iAeHPmRG6ITF+dRQ6D5bU2L3Vx829c0lJ+Tiy3eUtzDtTz7hLvvdsFWNhqFkVnHRw=
-X-Received: by 2002:a05:6e02:b23:: with SMTP id
- e3mr8376067ilu.32.1643469606163; 
- Sat, 29 Jan 2022 07:20:06 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=yjUU9ER/vIEGLeysJCo+/yYTdTjRHWEWnfNYddtn3aA=;
+ b=cngDmoiGYspRbgnhK198WvbKjc+8fU2VFtihguzvjIymnIJOqEIgWX8BZmg0HTyv/a
+ jU0MQqOxSQwgv5yi8GXxTMq5EiItiIVeP0NTFEXrmlnDu10ywBBGpIyZJd+LV4aMY4ox
+ NTPCYYi5pEdqdq7DdiF7uBODU+AsF7swEWAFe1G2JjuBvR7cBWJyf5qYDHZ/05AgQQOB
+ I9+3/vq3ismWs7qHwINrUzmFHcQvQ9SMAwFBheUg0rKHwGOfpkjRHNokOOU13ZU6VSJA
+ vQhDz2z+Fs/ITww/JkgZscBPKHrWv39HtqOfQc8gT919NKbXZ7K1dA8ee/us994/xPXq
+ ndYg==
+X-Gm-Message-State: AOAM533zFnIv+jDXjXq5yB0s4yMnEkvueyr2nYTcaHHUNbFoU/CFT/lE
+ 7ij1NxT3Isv8sk+b3GwS9y4=
+X-Google-Smtp-Source: ABdhPJyn9Tnz9SCtDypxoXBmZOjSdAvG+KAgXi0wQd7Ix3xNYlAf5Zop3ncrx+pbyhT4baltFFW5EQ==
+X-Received: by 2002:a17:907:94d2:: with SMTP id
+ dn18mr4507899ejc.304.1643493716705; 
+ Sat, 29 Jan 2022 14:01:56 -0800 (PST)
+Received: from adroid (027-177-184-091.ip-addr.vsenet.de. [91.184.177.27])
+ by smtp.gmail.com with ESMTPSA id ry6sm3338861ejc.45.2022.01.29.14.01.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 29 Jan 2022 14:01:56 -0800 (PST)
+Date: Sat, 29 Jan 2022 23:01:53 +0100
+From: Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>
+To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/exynos: fimd: add BGR support for exynos4/5
+Message-ID: <20220129220153.GA33165@adroid>
 MIME-Version: 1.0
-References: <20220124165856.57022-1-zhou1615@umn.edu>
- <YfPC3N+H9Fu/gqpz@kroah.com>
- <536c833413ccbe0b8ad653a50c5ea867bf975290.camel@redhat.com>
- <CADnq5_MtMPNHbs92OMHEzvPYSHGt=nPJMdrny6Siuvj3SYTAXQ@mail.gmail.com>
- <CACO55tt4P+beifvS=jcDsfwybFynngc8DHLR0n3BseeDJNrHyw@mail.gmail.com>
- <CAK8Kejr6E76u2kf_OKxC1RT_qsCWXDf7q4WcTC13-OJz5CseWg@mail.gmail.com>
- <YfVTcUA4MKknEawL@kroah.com>
-In-Reply-To: <YfVTcUA4MKknEawL@kroah.com>
-From: Kangjie Lu <kjlu@umn.edu>
-Date: Sat, 29 Jan 2022 09:19:18 -0600
-Message-ID: <CAK8Kejo6p57u8tz1rnV5bhQVO_vz-p1nCsc_G=EvEr1u3FUP9g@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/acr: Fix undefined behavior in
- nvkm_acr_hsfw_load_bl()
-To: Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 31 Jan 2022 08:35:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,141 +74,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau <nouveau@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Ben Skeggs <bskeggs@redhat.com>, Zhou Qingyang <zhou1615@umn.edu>
+Cc: Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,Greg,
+In the downstream kernels for exynos4 and exynos5 devices, there is an
+undocumented register that controls the order of the RGB output. It can
+be set to either normal order or reversed, which enables BGR support for
+those SoCs.
 
-On Sat, Jan 29, 2022 at 8:47 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Sat, Jan 29, 2022 at 08:18:55AM -0600, Kangjie Lu wrote:
-> > On Fri, Jan 28, 2022 at 1:58 PM Karol Herbst <kherbst@redhat.com> wrote:
-> > >
-> > > On Fri, Jan 28, 2022 at 8:54 PM Alex Deucher <alexdeucher@gmail.com> wrote:
-> > > >
-> > > > On Fri, Jan 28, 2022 at 2:20 PM Lyude Paul <lyude@redhat.com> wrote:
-> > > > >
-> > > > > Sigh-thank you for catching this - I had totally forgot about the umn.edu ban.
-> > > > > I pushed this already but I will go ahead and send a revert for this patch.
-> > > > > Will cc you on it as well.
-> > > >
-> > > > This seems short-sighted.  If the patch is valid I see no reason to
-> > > > not accept it.  I'm not trying to downplay the mess umn got into, but
-> > > > as long as the patch is well scrutinized and fixes a valid issue, it
-> > > > should be applied rather than leaving potential bugs in place.
-> > > >
-> > > > Alex
-> > > >
-> > >
-> > > Even though knowing that malicious code can be introduced via
-> > > perfectly fine looking patches, and sometimes one will never spot the
-> > > problem, this patch isn't all that bad tbh.
-> > >
-> > > So should we reject patches out of "policies" or should we just be
-> > > extra careful? But not addressing the concerns as Greg pointed out is
-> > > also kind of a bad move, but also not knowing what the state of
-> > > resolving this mess is anyway.
-> >
-> >
-> > Seeing some discussion here, I feel I owe you some quick updates on
-> > the state. We sent three testing patches in August 2020, which is a
-> > serious mistake. We never did that again and will never do that again.
-> > All other patches including recent ones were sent to fix real bugs,
-> > not to introduce problems. Clearly, although most of the patches are
-> > valid, some patches are still not good enough, but it is not about
-> > malice. Fixing bugs in Linux isn't an easy task and takes so much
-> > effort.
-> >
-> > We did not ignore the concerns pointed out by Greg, and have seriously
-> > taken some actions. For example, we explained how our static-analysis
-> > tool found the bugs, and members in my research group have internally
-> > cross-reviewed the found bugs. We sent these patches after contacting
-> > Greg---I thought Greg allowed us to send patches, but also requested
-> > us to work on the last process with our administration.
->
-> I do not recall saying anything like this at all.
+This patch enables the BGR support for all the SoCs that were found to
+have at least one device with this logic in the corresponding downstream
+kernels.
 
-I was referring to an email back to 11/13/2021 where you said
-"some memory allocation checks are not ever going to be "resolved" as they are
-not "real world" issues. So be aware of that when proposing patches
-for these issues."
+Signed-off-by: Martin Jücker <martin.juecker@gmail.com>
+---
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c | 42 ++++++++++++++++++++++--
+ include/video/samsung_fimd.h             |  4 +++
+ 2 files changed, 44 insertions(+), 2 deletions(-)
 
-I optimistically interpreted this as, "you can still submit patches,
-but I will personally ignore them". This turns out to be a
-misunderstanding. I am sorry for that.
-
->
-> On January 4, I wrote to you and your coworkers on the mailing list
-> message https://lore.kernel.org/r/YdQfCGf8qr5zZJef@kroah.com by saying:
->
->         Note that your university is still in many kernel maintainer's
->         ignore-list (myself included, I dug this up as I saw Fei's response.)
->         Please work with your administration and the process that is currently
->         happening in order to give you all the needed training so you will not
->         keep causing these types of basic errors that keep your patches from
->         being accepted.
->
->         *plonk*
->
-> And then later in a private email to you on January 5 where you emailed
-> Kees and me to try to see if you were allowed to start sending patches
-> again, I said:
->
->         A kernel developer with lots of experience has already offered to work
->         with your university.  Hopefully that process has already started, if
->         not, I suggest contacting your administration as they should know who
->         this is.
->
-> and then I closed with:
->
->         Right now you all are still on my "ignore email" lists for patches.
->
-> The patches recently submitted have been shown to be incomplete and in
-> some places, completely wrong.  I have contacted your administration
-> about this issue because they asked to know if there were any problems
-> in the future at our last discussion.  In that response today, I wrote:
->
->         I know that incompetence can often times be hard to distinguish from
->         malice, but given the track-record here, we are now going to have to
->         treat this as malice.  If it is just incompetence, well, that's
->         something that your organization needs to overcome.
->
->         Either way, this is not something that the Linux kernel community should
->         be forced to endure.
->
-> So to be explicit, so you do not misunderstand me somehow:
->
->         No more patches from umn.edu should be accepted into the Linux
->         kernel until further public notice.
-
-This is clear to me.
-
-> They should be considered a
->         "bad actor" given their prior history of submissions and lack of
->         complying with the kernel community's prior requirements to
->         them.
-
-I am sorry for the delay of the last process which is unfortunately
-not under the control of the researchers. According to our
-administration, the process has started and is moving forward. I hope
-that can be done soon.
-
-Thanks.
-
->
-> Is this understood?
->
-> greg k-h
-
-
-
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+index c735e53939d8..cb632360c968 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+@@ -109,6 +109,7 @@ struct fimd_driver_data {
+ 	unsigned int has_dp_clk:1;
+ 	unsigned int has_hw_trigger:1;
+ 	unsigned int has_trigger_per_te:1;
++	unsigned int has_bgr_support:1;
+ };
+ 
+ static struct fimd_driver_data s3c64xx_fimd_driver_data = {
+@@ -138,6 +139,7 @@ static struct fimd_driver_data exynos4_fimd_driver_data = {
+ 	.lcdblk_bypass_shift = 1,
+ 	.has_shadowcon = 1,
+ 	.has_vtsel = 1,
++	.has_bgr_support = 1,
+ };
+ 
+ static struct fimd_driver_data exynos5_fimd_driver_data = {
+@@ -149,6 +151,7 @@ static struct fimd_driver_data exynos5_fimd_driver_data = {
+ 	.has_vidoutcon = 1,
+ 	.has_vtsel = 1,
+ 	.has_dp_clk = 1,
++	.has_bgr_support = 1,
+ };
+ 
+ static struct fimd_driver_data exynos5420_fimd_driver_data = {
+@@ -162,6 +165,7 @@ static struct fimd_driver_data exynos5420_fimd_driver_data = {
+ 	.has_vtsel = 1,
+ 	.has_mic_bypass = 1,
+ 	.has_dp_clk = 1,
++	.has_bgr_support = 1,
+ };
+ 
+ struct fimd_context {
+@@ -226,6 +230,18 @@ static const uint32_t fimd_formats[] = {
+ 	DRM_FORMAT_ARGB8888,
+ };
+ 
++static const uint32_t fimd_extended_formats[] = {
++	DRM_FORMAT_C8,
++	DRM_FORMAT_XRGB1555,
++	DRM_FORMAT_XBGR1555,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_BGR565,
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_XBGR8888,
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_ABGR8888,
++};
++
+ static const unsigned int capabilities[WINDOWS_NR] = {
+ 	0,
+ 	EXYNOS_DRM_PLANE_CAP_WIN_BLEND | EXYNOS_DRM_PLANE_CAP_PIX_BLEND,
+@@ -673,21 +689,25 @@ static void fimd_win_set_pixfmt(struct fimd_context *ctx, unsigned int win,
+ 		val |= WINCONx_BYTSWP;
+ 		break;
+ 	case DRM_FORMAT_XRGB1555:
++	case DRM_FORMAT_XBGR1555:
+ 		val |= WINCON0_BPPMODE_16BPP_1555;
+ 		val |= WINCONx_HAWSWP;
+ 		val |= WINCONx_BURSTLEN_16WORD;
+ 		break;
+ 	case DRM_FORMAT_RGB565:
++	case DRM_FORMAT_BGR565:
+ 		val |= WINCON0_BPPMODE_16BPP_565;
+ 		val |= WINCONx_HAWSWP;
+ 		val |= WINCONx_BURSTLEN_16WORD;
+ 		break;
+ 	case DRM_FORMAT_XRGB8888:
++	case DRM_FORMAT_XBGR8888:
+ 		val |= WINCON0_BPPMODE_24BPP_888;
+ 		val |= WINCONx_WSWP;
+ 		val |= WINCONx_BURSTLEN_16WORD;
+ 		break;
+ 	case DRM_FORMAT_ARGB8888:
++	case DRM_FORMAT_ABGR8888:
+ 	default:
+ 		val |= WINCON1_BPPMODE_25BPP_A1888;
+ 		val |= WINCONx_WSWP;
+@@ -695,6 +715,18 @@ static void fimd_win_set_pixfmt(struct fimd_context *ctx, unsigned int win,
+ 		break;
+ 	}
+ 
++	switch (pixel_format) {
++	case DRM_FORMAT_XBGR1555:
++	case DRM_FORMAT_XBGR8888:
++	case DRM_FORMAT_ABGR8888:
++	case DRM_FORMAT_BGR565:
++		writel(WIN_RGB_ORDER_REVERSE, ctx->regs + WIN_RGB_ORDER(win));
++		break;
++	default:
++		writel(WIN_RGB_ORDER_FORWARD, ctx->regs + WIN_RGB_ORDER(win));
++		break;
++	}
++
+ 	/*
+ 	 * Setting dma-burst to 16Word causes permanent tearing for very small
+ 	 * buffers, e.g. cursor buffer. Burst Mode switching which based on
+@@ -1074,8 +1106,14 @@ static int fimd_bind(struct device *dev, struct device *master, void *data)
+ 	ctx->drm_dev = drm_dev;
+ 
+ 	for (i = 0; i < WINDOWS_NR; i++) {
+-		ctx->configs[i].pixel_formats = fimd_formats;
+-		ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_formats);
++		if (ctx->driver_data->has_bgr_support) {
++			ctx->configs[i].pixel_formats = fimd_extended_formats;
++			ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_extended_formats);
++		} else {
++			ctx->configs[i].pixel_formats = fimd_formats;
++			ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_formats);
++		}
++
+ 		ctx->configs[i].zpos = i;
+ 		ctx->configs[i].type = fimd_win_types[i];
+ 		ctx->configs[i].capabilities = capabilities[i];
+diff --git a/include/video/samsung_fimd.h b/include/video/samsung_fimd.h
+index c4a93ce1de48..e6966d187591 100644
+--- a/include/video/samsung_fimd.h
++++ b/include/video/samsung_fimd.h
+@@ -476,6 +476,10 @@
+  * 1111		-none-	 -none-   -none-   -none-    -none-
+ */
+ 
++#define WIN_RGB_ORDER(_win)			(0x2020 + ((_win) * 4))
++#define WIN_RGB_ORDER_FORWARD			(0 << 11)
++#define WIN_RGB_ORDER_REVERSE			(1 << 11)
++
+ /* FIMD Version 8 register offset definitions */
+ #define FIMD_V8_VIDTCON0	0x20010
+ #define FIMD_V8_VIDTCON1	0x20014
 -- 
-Kangjie Lu
-Assistant Professor
-Department of Computer Science and Engineering
-University of Minnesota
-https://www-users.cs.umn.edu/~kjlu
+2.25.1
+
