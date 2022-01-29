@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3D84A2DCF
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 11:50:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C314A2DD3
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 11:50:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7E3310E79B;
-	Sat, 29 Jan 2022 10:50:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0808710E7E7;
+	Sat, 29 Jan 2022 10:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC37010F3AB
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 08:00:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D428410F949;
+ Sat, 29 Jan 2022 08:31:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643443234; x=1674979234;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding:in-reply-to;
- bh=t8wnn9DW+ynqY8YkwwcSrHp0wEH5XYpfs10drd0at6s=;
- b=C52K3ZEVSisLUob2Nddf8a5O1JWl4/DXHMBhILfdryoiNIczTIUL7iuR
- faDiZrmGmfLuCQ56RlD7FMZeQXuYCVy7tFd7A+/2WXqY+XAHxj7xlm7KB
- 9C9R/5xGCW7KGFF6D5ge2aerX+Lzj7MKBw/BCEw9RN3i2iIs3D63JinA2
- zHnemscX1NWf+cqQxSE19cj+QdsRr34CNo1mBBRIxUT9zD3gBrt0QWDKI
- Z2PudxIA1y0nOvUh+fGqugWKoOFIHD3CkJHS7QNtY+FrdeVJ2x8MeZvtF
- 5A3KazE3RajRgi00C3irEUkqLQxgLqgL0V2+ixdLjRYpBPuGfadm3mZW/ A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10241"; a="271716715"
+ t=1643445117; x=1674981117;
+ h=date:from:to:cc:subject:message-id:mime-version: in-reply-to;
+ bh=Kk4NDGvKc4HQHIl3d26bQUep5JZMeYnojeROqt1lf6c=;
+ b=V41Bz3S0DVdo5NtZ1fvPii4ovI6odhwatlqmYj+gkKEFZNK7CDY7OAW4
+ PgWIrAZFvCj/zbMvfTgRG3P231++lE/MLyt49PxO1/dPWlY3P71QWb4VH
+ R2oJy0bvAx4pjVIqqkYXocVSh9sFAMlRFdeEZ+fm1AejqUObg7XTztd9R
+ G3qVgCqSwmJv8RXWm5uaphQAKYgMw0lTKjZXujKZVuDi6qR6W9/7XvtmS
+ 4GDUmyrue7w9zFeQ6IaZwZhW7HAekw4CaOZk3RGFACdUOHtYEpIWqT+9l
+ ScbQ8XrVp/mlWPcIJBSp15w4WJd1LDt81ebl37JLdkQf6WwIczvl2MC27 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10241"; a="271718670"
 X-IronPort-AV: E=Sophos;i="5.88,326,1635231600"; 
- d="xz'?yaml'?scan'208";a="271716715"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ d="xz'?yaml'?scan'208";a="271718670"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2022 00:00:29 -0800
+ 29 Jan 2022 00:31:56 -0800
 X-IronPort-AV: E=Sophos;i="5.88,326,1635231600"; 
- d="xz'?yaml'?scan'208";a="496364387"
+ d="xz'?yaml'?scan'208";a="480999730"
 Received: from xsang-optiplex-9020.sh.intel.com (HELO xsang-OptiPlex-9020)
  ([10.239.159.143])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2022 00:00:23 -0800
-Date: Sat, 29 Jan 2022 16:00:20 +0800
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2022 00:31:51 -0800
+Date: Sat, 29 Jan 2022 16:31:48 +0800
 From: kernel test robot <oliver.sang@intel.com>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: [drm/i915]  26b145b982: assertion_failure
-Message-ID: <20220129080020.GE27169@xsang-OptiPlex-9020>
+Subject: [drm/i915]  9366257fc0: igt.i915_pm_rc6_residency.rc6-idle.fail
+Message-ID: <20220129083148.GF27169@xsang-OptiPlex-9020>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MIdTMoZhcV1D07fI"
+Content-Type: multipart/mixed; boundary="Pgaa2uWPnPrfixyx"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220124074046.4865-8-christian.koenig@amd.com>
+In-Reply-To: <20220124130328.2376-11-christian.koenig@amd.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Sat, 29 Jan 2022 10:50:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,16 +59,15 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: thomas.hellstrom@linux.intel.com, 0day robot <lkp@intel.com>,
- gustavo@padovan.org, LKML <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org,
+ gustavo@padovan.org, intel-gfx@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, lkp@lists.01.org, daniel.vetter@ffwll.ch,
- linux-media@vger.kernel.org
+ lkp@lists.01.org, daniel.vetter@ffwll.ch, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---MIdTMoZhcV1D07fI
+--Pgaa2uWPnPrfixyx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -80,16 +77,16 @@ Greeting,
 
 FYI, we noticed the following commit (built with gcc-9):
 
-commit: 26b145b982ff9178951aab5849a2e2b716527865 ("[PATCH 8/9] drm/i915: use dma_fence extractor functions")
-url: https://github.com/0day-ci/linux/commits/Christian-K-nig/dma-buf-consolidate-dma_fence-subclass-checking/20220124-154125
+commit: 9366257fc04f5bf26cbcec391743a6db25a9b133 ("[PATCH 10/11] drm/i915: use dma_fence extractor functions")
+url: https://github.com/0day-ci/linux/commits/Christian-K-nig/drm-radeon-use-ttm_resource_manager_debug/20220124-220346
 base: git://anongit.freedesktop.org/drm/drm drm-next
-patch link: https://lore.kernel.org/linux-media/20220124074046.4865-8-christian.koenig@amd.com
+patch link: https://lore.kernel.org/linux-media/20220124130328.2376-11-christian.koenig@amd.com
 
 in testcase: igt
 version: igt-x86_64-0d559158-1_20220115
 with following parameters:
 
-	group: group-15
+	group: group-18
 	ucode: 0xc2
 
 
@@ -105,48 +102,75 @@ Reported-by: kernel test robot <oliver.sang@intel.com>
 
 
 
-[   49.300827][  T504] 2022-01-28 04:51:06 build/tests/gem_exec_balancer --run-subtest busy
-[   49.300832][  T504]
-[   49.330242][ T1415] Console: switching to colour dummy device 80x25
-[   49.336613][ T1415] [IGT] gem_exec_balancer: executing
-[   49.344946][  T504] IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-[   49.344951][  T504]
-[   49.345071][ T1415] [IGT] gem_exec_balancer: starting subtest busy
-[   49.363800][  T504] Starting subtest: busy
-[   49.363828][  T504]
-[   49.383443][  T504] (gem_exec_balancer:1415) CRITICAL: Test assertion failure function busy, file ../tests/i915/gem_exec_balancer.c:1608:
-[   49.383448][  T504]
-[   49.399169][  T504] (gem_exec_balancer:1415) CRITICAL: Failed assertion: busy.busy == 1u << (class + 16)
-[   49.399173][  T504]
-[   49.411607][  T504] (gem_exec_balancer:1415) CRITICAL: error: 0 != 0x10000
-[   49.411611][  T504]
-[   49.421006][  T504] Subtest busy failed.
-[   49.421009][  T504]
-[   49.427399][  T504] **** DEBUG ****
-[   49.427408][  T504]
-[   49.434150][  T504] (gem_exec_balancer:1415) igt_dummyload-DEBUG: Test requirement passed: nengine
-[   49.434154][  T504]
-[   49.446379][  T504] (gem_exec_balancer:1415) igt_dummyload-DEBUG: Test requirement passed: nengine
-[   49.446383][  T504]
-[   49.459151][  T504] (gem_exec_balancer:1415) CRITICAL: Test assertion failure function busy, file ../tests/i915/gem_exec_balancer.c:1608:
-[   49.459155][  T504]
-[   49.474854][  T504] (gem_exec_balancer:1415) CRITICAL: Failed assertion: busy.busy == 1u << (class + 16)
-[   49.474858][  T504]
-[   49.487273][  T504] (gem_exec_balancer:1415) CRITICAL: error: 0 != 0x10000
-[   49.487277][  T504]
-[   49.497084][  T504] (gem_exec_balancer:1415) igt_core-INFO: Stack trace:
-[   49.497088][  T504]
-[   49.507226][  T504] (gem_exec_balancer:1415) igt_core-INFO:   #0 ../lib/igt_core.c:1752 __igt_fail_assert()
-[   49.507230][  T504]
-[   49.520808][  T504] (gem_exec_balancer:1415) igt_core-INFO:   #1 ../tests/i915/gem_exec_balancer.c:1607 __igt_unique____real_main3276()
-[   49.520812][  T504]
-[   49.536465][  T504] (gem_exec_balancer:1415) igt_core-INFO:   #2 ../tests/i915/gem_exec_balancer.c:3276 main()
-[   49.536470][  T504]
-[   49.549683][  T504] (gem_exec_balancer:1415) igt_core-INFO:   #3 [__libc_start_main+0xeb]
-[   49.549686][  T504]
-[   49.560901][  T504] (gem_exec_balancer:1415) igt_core-INFO:   #4 [_start+0x2a]
-[   49.560905][  T504]
-[   49.570571][  T504] ****  END  ****
+[  269.506365][  T497] 2022-01-27 08:52:08 build/tests/i915_pm_rc6_residency --run-subtest rc6-idle
+[  269.506371][  T497]
+[  269.535017][ T4218] Console: switching to colour dummy device 80x25
+[  269.541473][ T4218] [IGT] i915_pm_rc6_residency: executing
+[  269.547378][ T4218] [IGT] i915_pm_rc6_residency: starting subtest rc6-idle
+[  269.555799][  T497] IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+[  269.555804][  T497]
+[  269.567820][  T497] Starting subtest: rc6-idle
+[  269.567824][  T497]
+[  272.723420][  T497] Total energy used while idle: 0.0mJ
+[  272.723428][  T497]
+[  275.727599][  T497] Total energy used for normal: 1713.6mJ (571.2mW)
+[  275.727606][  T497]
+[  275.738100][  T497] (i915_pm_rc6_residency:4218) CRITICAL: Test assertion failure function rc6_idle, file ../tests/i915/i915_pm_rc6_residency.c:435:
+[  275.738104][  T497]
+[  275.756018][  T497] (i915_pm_rc6_residency:4218) CRITICAL: Failed assertion: (rc6) <= (ts[1] - ts[0]) * (1.0 + (tolerance)/100.) && (rc6) >= (ts[1] - ts[0]) * (1.0 - (tolerance)/100.)
+[  275.756022][  T497]
+[  275.776143][  T497] (i915_pm_rc6_residency:4218) CRITICAL: 'rc6' != 'ts[1] - ts[0]' (1.67e+09 not within +20%/-20% tolerance of 3e+09)
+[  275.776147][  T497]
+[  275.790884][  T497] Subtest rc6-idle failed.
+[  275.790888][  T497]
+[  275.797583][  T497] **** DEBUG ****
+[  275.797586][  T497]
+[  275.804465][  T497] (i915_pm_rc6_residency:4218) drmtest-DEBUG: Test requirement passed: is_i915_device(fd)
+[  275.804469][  T497]
+[  275.817788][  T497] (i915_pm_rc6_residency:4218) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+[  275.817792][  T497]
+[  275.831868][  T497] (i915_pm_rc6_residency:4218) i915/gem-DEBUG: Test requirement passed: dir >= 0
+[  275.831872][  T497]
+[  275.844751][  T497] (i915_pm_rc6_residency:4218) igt_sysfs-DEBUG: Condition fd < 0 occurred in function igt_sysfs_write, file ../lib/igt_sysfs.c:124
+[  275.844755][  T497]
+[  275.861623][  T497] (i915_pm_rc6_residency:4218) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+[  275.861627][  T497]
+[  275.875971][  T497] (i915_pm_rc6_residency:4218) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+[  275.875974][  T497]
+[  275.890100][  T497] (i915_pm_rc6_residency:4218) i915/gem-DEBUG: Test requirement passed: err == 0
+[  275.890103][  T497]
+[  275.894179][ T4218] [IGT] i915_pm_rc6_residency: exiting, ret=98
+[  275.900543][  T497] (i915_pm_rc6_residency:4218) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+[  275.907444][  T497]
+[  275.921691][  T497] (i915_pm_rc6_residency:4218) DEBUG: Test requirement passed: !(fd < 0 && errno == ENODEV)
+[  275.921695][  T497]
+[  275.935167][  T497] (i915_pm_rc6_residency:4218) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+[  275.935171][  T497]
+[  275.949348][  T497] (i915_pm_rc6_residency:4218) DEBUG: Test requirement passed: __pmu_wait_for_rc6(fd)
+[  275.949352][  T497]
+[  275.962118][  T497] (i915_pm_rc6_residency:4218) DEBUG: slept=3000472942 perf=3000506306, rc6=3000506805
+[  275.962121][  T497]
+[  275.974869][  T497] (i915_pm_rc6_residency:4218) INFO: Total energy used while idle: 0.0mJ
+[  275.974873][  T497]
+[  275.986769][  T497] (i915_pm_rc6_residency:4218) DEBUG: normal: slept=3000195757 perf=3000249816, cycles=394, rc6=1666136522
+[  275.986773][  T497]
+[  276.001359][  T497] (i915_pm_rc6_residency:4218) INFO: Total energy used for normal: 1713.6mJ (571.2mW)
+[  276.001362][  T497]
+[  276.003052][  T497] (i915_pm_rc6_residency:4218) CRITICAL: Test assertion failure function rc6_idle, file ../tests/i915/i915_pm_rc6_residency.c:435:
+[  276.003056][  T497]
+[  276.005280][  T497] (i915_pm_rc6_residency:4218) CRITICAL: Failed assertion: (rc6) <= (ts[1] - ts[0]) * (1.0 + (tolerance)/100.) && (rc6) >= (ts[1] - ts[0]) * (1.0 - (tolerance)/100.)
+[  276.005284][  T497]
+[  276.006835][  T497] (i915_pm_rc6_residency:4218) CRITICAL: 'rc6' != 'ts[1] - ts[0]' (1.67e+09 not within +20%/-20% tolerance of 3e+09)
+[  276.006838][  T497]
+[  276.007597][  T497] (i915_pm_rc6_residency:4218) igt_core-INFO: Stack trace:
+[  276.007600][  T497]
+[  276.008818][  T497] (i915_pm_rc6_residency:4218) igt_core-INFO:   #0 ../lib/igt_core.c:1752 __igt_fail_assert()
+[  276.008821][  T497]
+[  276.010491][  T497] (i915_pm_rc6_residency:4218) igt_core-INFO:   #1 ../tests/i915/i915_pm_rc6_residency.c:569 __igt_unique____real_main534()
+[  276.010495][  T497]
+[  276.011251][  T497] (i915_pm_rc6_residency:4218) igt_core-INFO:   #2 [main+0x30]
+[  276.011254][  T497]
+[  276.011496][  T497] ****  END  ****
 
 
 To reproduce:
@@ -170,9 +194,9 @@ Thanks,
 Oliver Sang
 
 
---MIdTMoZhcV1D07fI
+--Pgaa2uWPnPrfixyx
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="config-5.16.0-rc5-01357-g26b145b982ff"
+Content-Disposition: attachment; filename="config-5.16.0-rc5-01359-g9366257fc04f"
 
 #
 # Automatically generated file; DO NOT EDIT.
@@ -2427,9 +2451,7 @@ CONFIG_SCSI_LOWLEVEL=y
 # CONFIG_MEGARAID_NEWGEN is not set
 # CONFIG_MEGARAID_LEGACY is not set
 # CONFIG_MEGARAID_SAS is not set
-CONFIG_SCSI_MPT3SAS=m
-CONFIG_SCSI_MPT2SAS_MAX_SGE=128
-CONFIG_SCSI_MPT3SAS_MAX_SGE=128
+# CONFIG_SCSI_MPT3SAS is not set
 # CONFIG_SCSI_MPT2SAS is not set
 # CONFIG_SCSI_MPI3MR is not set
 # CONFIG_SCSI_SMARTPQI is not set
@@ -7204,7 +7226,7 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Kernel Testing and Coverage
 # end of Kernel hacking
 
---MIdTMoZhcV1D07fI
+--Pgaa2uWPnPrfixyx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=job-script
 
@@ -7216,16 +7238,15 @@ export_top_env()
 	export testcase='igt'
 	export category='functional'
 	export job_origin='igt-part2.yaml'
-	export queue_cmdline_keys='branch
-commit'
-	export queue='validate'
+	export queue_cmdline_keys=
+	export queue='vip'
 	export testbox='lkp-cml-d02'
 	export tbox_group='lkp-cml-d02'
 	export kconfig='x86_64-rhel-8.3-func'
-	export submit_id='61f37315dbedd642adffa85f'
-	export job_file='/lkp/jobs/scheduled/lkp-cml-d02/igt-group-15-ucode=0xc2-debian-10.4-x86_64-20200603.cgz-26b145b982ff9178951aab5849a2e2b716527865-20220128-17069-qnvzyo-3.yaml'
-	export id='88a3cd94e32154dbb63076e595f01d23a8fa4dba'
-	export queuer_version='/lkp-src'
+	export submit_id='61f205690b9a930c2f42821e'
+	export job_file='/lkp/jobs/scheduled/lkp-cml-d02/igt-group-18-ucode=0xc2-debian-10.4-x86_64-20200603.cgz-9366257fc04f5bf26cbcec391743a6db25a9b133-20220127-3119-uoqsd1-16.yaml'
+	export id='fe640df994f53fec76f97d05bd86c00328c93eee'
+	export queuer_version='/lkp/xsang/.src-20220126-130739'
 	export model='Commet Lake'
 	export nr_node=1
 	export nr_cpu=20
@@ -7233,7 +7254,7 @@ commit'
 	export ssd_partitions='/dev/disk/by-id/ata-INTEL_SSDSC2BA800G4_BTHV61840945800OGN-part4'
 	export rootfs_partition='/dev/disk/by-id/ata-INTEL_SSDSC2BA800G4_BTHV61840945800OGN-part3'
 	export kernel_cmdline_hw='acpi_rsdp=0x9b0fe014'
-	export commit='26b145b982ff9178951aab5849a2e2b716527865'
+	export commit='9366257fc04f5bf26cbcec391743a6db25a9b133'
 	export netconsole_port=6683
 	export ucode='0xc2'
 	export need_kconfig_hw='{"IGB"=>"y"}
@@ -7242,30 +7263,30 @@ SATA_AHCI
 DRM_I915
 {"IGC"=>"y"}'
 	export bisect_dmesg=true
-	export enqueue_time='2022-01-28 12:37:41 +0800'
-	export _id='61f37315dbedd642adffa85f'
-	export _rt='/result/igt/group-15-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865'
+	export enqueue_time='2022-01-27 10:37:29 +0800'
+	export _id='61f2056b0b9a930c2f42822e'
+	export _rt='/result/igt/group-18-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133'
 	export user='lkp'
 	export compiler='gcc-9'
 	export LKP_SERVER='internal-lkp-server'
-	export head_commit='763e7f7db407e397228f0c77454f356787a85d3d'
+	export head_commit='ce745900cd99319c26fde02c08b572c7467b94c1'
 	export base_commit='e783362eb54cd99b2cac8b3a9aeac942e6f6ac07'
-	export branch='linux-review/Christian-K-nig/dma-buf-consolidate-dma_fence-subclass-checking/20220124-154125'
+	export branch='linux-devel/devel-hourly-20220125-150639'
 	export rootfs='debian-10.4-x86_64-20200603.cgz'
-	export result_root='/result/igt/group-15-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865/3'
+	export result_root='/result/igt/group-18-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133/21'
 	export scheduler_version='/lkp/lkp/.src-20220125-183421'
 	export arch='x86_64'
 	export max_uptime=2100
 	export initrd='/osimage/debian/debian-10.4-x86_64-20200603.cgz'
 	export bootloader_append='root=/dev/ram0
-RESULT_ROOT=/result/igt/group-15-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865/3
-BOOT_IMAGE=/pkg/linux/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865/vmlinuz-5.16.0-rc5-01357-g26b145b982ff
-branch=linux-review/Christian-K-nig/dma-buf-consolidate-dma_fence-subclass-checking/20220124-154125
-job=/lkp/jobs/scheduled/lkp-cml-d02/igt-group-15-ucode=0xc2-debian-10.4-x86_64-20200603.cgz-26b145b982ff9178951aab5849a2e2b716527865-20220128-17069-qnvzyo-3.yaml
+RESULT_ROOT=/result/igt/group-18-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133/21
+BOOT_IMAGE=/pkg/linux/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133/vmlinuz-5.16.0-rc5-01359-g9366257fc04f
+branch=linux-devel/devel-hourly-20220125-150639
+job=/lkp/jobs/scheduled/lkp-cml-d02/igt-group-18-ucode=0xc2-debian-10.4-x86_64-20200603.cgz-9366257fc04f5bf26cbcec391743a6db25a9b133-20220127-3119-uoqsd1-16.yaml
 user=lkp
 ARCH=x86_64
 kconfig=x86_64-rhel-8.3-func
-commit=26b145b982ff9178951aab5849a2e2b716527865
+commit=9366257fc04f5bf26cbcec391743a6db25a9b133
 acpi_rsdp=0x9b0fe014
 max_uptime=2100
 LKP_SERVER=internal-lkp-server
@@ -7291,19 +7312,18 @@ earlyprintk=ttyS0,115200
 console=ttyS0,115200
 vga=normal
 rw'
-	export modules_initrd='/pkg/linux/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865/modules.cgz'
-	export bm_initrd='/osimage/deps/debian-10.4-x86_64-20200603.cgz/run-ipconfig_20200608.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/lkp_20220105.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/rsync-rootfs_20200608.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/igt_20220115.cgz,/osimage/pkg/debian-10.4-x86_64-20200603.cgz/igt-x86_64-ae2eb9e1-1_20220128.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/hw_20200715.cgz'
+	export modules_initrd='/pkg/linux/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133/modules.cgz'
+	export bm_initrd='/osimage/deps/debian-10.4-x86_64-20200603.cgz/run-ipconfig_20200608.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/lkp_20220105.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/rsync-rootfs_20200608.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/igt_20220115.cgz,/osimage/pkg/debian-10.4-x86_64-20200603.cgz/igt-x86_64-0d559158-1_20220115.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/hw_20200715.cgz'
 	export ucode_initrd='/osimage/ucode/intel-ucode-20210222.cgz'
 	export lkp_initrd='/osimage/user/lkp/lkp-x86_64.cgz'
 	export site='inn'
 	export LKP_CGI_PORT=80
 	export LKP_CIFS_PORT=139
-	export last_kernel='5.16.0-rc1'
-	export repeat_to=6
+	export last_kernel='5.17.0-rc1-wt-ath-04586-g05923b8cc590'
 	export schedule_notify_address=
-	export kernel='/pkg/linux/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865/vmlinuz-5.16.0-rc5-01357-g26b145b982ff'
-	export dequeue_time='2022-01-28 12:49:58 +0800'
-	export job_initrd='/lkp/jobs/scheduled/lkp-cml-d02/igt-group-15-ucode=0xc2-debian-10.4-x86_64-20200603.cgz-26b145b982ff9178951aab5849a2e2b716527865-20220128-17069-qnvzyo-3.cgz'
+	export kernel='/pkg/linux/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133/vmlinuz-5.16.0-rc5-01359-g9366257fc04f'
+	export dequeue_time='2022-01-27 16:47:18 +0800'
+	export job_initrd='/lkp/jobs/scheduled/lkp-cml-d02/igt-group-18-ucode=0xc2-debian-10.4-x86_64-20200603.cgz-9366257fc04f5bf26cbcec391743a6db25a9b133-20220127-3119-uoqsd1-16.cgz'
 
 	[ -n "$LKP_SRC" ] ||
 	export LKP_SRC=/lkp/${user:-lkp}/src
@@ -7325,7 +7345,7 @@ run_job()
 	run_monitor $LKP_SRC/monitors/wrapper oom-killer
 	run_monitor $LKP_SRC/monitors/plain/watchdog
 
-	run_test group='group-15' $LKP_SRC/tests/wrapper igt
+	run_test group='group-18' $LKP_SRC/tests/wrapper igt
 }
 
 extract_stats()
@@ -7333,7 +7353,7 @@ extract_stats()
 	export stats_part_begin=
 	export stats_part_end=
 
-	env group='group-15' $LKP_SRC/stats/wrapper igt
+	env group='group-18' $LKP_SRC/stats/wrapper igt
 	$LKP_SRC/stats/wrapper kmsg
 	$LKP_SRC/stats/wrapper meminfo
 
@@ -7347,6834 +7367,1118 @@ extract_stats()
 
 "$@"
 
---MIdTMoZhcV1D07fI
+--Pgaa2uWPnPrfixyx
 Content-Type: application/x-xz
 Content-Disposition: attachment; filename="dmesg.xz"
 Content-Transfer-Encoding: base64
 
-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
+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
+scRn+wIAAAAABFla
 
---MIdTMoZhcV1D07fI
-Content-Type: text/plain; charset=utf-8
+--Pgaa2uWPnPrfixyx
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=igt
-Content-Transfer-Encoding: 8bit
 
-2022-01-28 04:50:57 build/tests/gem_exec_balancer --run-subtest bonded-chain
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: bonded-chain
-Subtest bonded-chain: SUCCESS (0.537s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:50:58 build/tests/gem_exec_balancer --run-subtest bonded-dual
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: bonded-dual
-Subtest bonded-dual: SUCCESS (0.528s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:50:59 build/tests/gem_exec_balancer --run-subtest bonded-false-hang
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Starting subtest: bonded-false-hang
-Subtest bonded-false-hang: SUCCESS (0.511s)
-2022-01-28 04:51:01 build/tests/gem_exec_balancer --run-subtest bonded-pair
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: bonded-pair
-Subtest bonded-pair: SUCCESS (0.516s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:02 build/tests/gem_exec_balancer --run-subtest bonded-semaphore
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: bonded-semaphore
-Subtest bonded-semaphore: SUCCESS (0.489s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:03 build/tests/gem_exec_balancer --run-subtest bonded-sync
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: bonded-sync
-Subtest bonded-sync: SUCCESS (0.514s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:04 build/tests/gem_exec_balancer --run-subtest bonded-true-hang
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Starting subtest: bonded-true-hang
-Subtest bonded-true-hang: SUCCESS (0.505s)
-2022-01-28 04:51:06 build/tests/gem_exec_balancer --run-subtest busy
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: busy
-(gem_exec_balancer:1415) CRITICAL: Test assertion failure function busy, file ../tests/i915/gem_exec_balancer.c:1608:
-(gem_exec_balancer:1415) CRITICAL: Failed assertion: busy.busy == 1u << (class + 16)
-(gem_exec_balancer:1415) CRITICAL: error: 0 != 0x10000
-Subtest busy failed.
-**** DEBUG ****
-(gem_exec_balancer:1415) igt_dummyload-DEBUG: Test requirement passed: nengine
-(gem_exec_balancer:1415) igt_dummyload-DEBUG: Test requirement passed: nengine
-(gem_exec_balancer:1415) CRITICAL: Test assertion failure function busy, file ../tests/i915/gem_exec_balancer.c:1608:
-(gem_exec_balancer:1415) CRITICAL: Failed assertion: busy.busy == 1u << (class + 16)
-(gem_exec_balancer:1415) CRITICAL: error: 0 != 0x10000
-(gem_exec_balancer:1415) igt_core-INFO: Stack trace:
-(gem_exec_balancer:1415) igt_core-INFO:   #0 ../lib/igt_core.c:1752 __igt_fail_assert()
-(gem_exec_balancer:1415) igt_core-INFO:   #1 ../tests/i915/gem_exec_balancer.c:1607 __igt_unique____real_main3276()
-(gem_exec_balancer:1415) igt_core-INFO:   #2 ../tests/i915/gem_exec_balancer.c:3276 main()
-(gem_exec_balancer:1415) igt_core-INFO:   #3 [__libc_start_main+0xeb]
-(gem_exec_balancer:1415) igt_core-INFO:   #4 [_start+0x2a]
-****  END  ****
-Stack trace:
-  #0 ../lib/igt_core.c:1752 __igt_fail_assert()
-  #1 ../tests/i915/gem_exec_balancer.c:1607 __igt_unique____real_main3276()
-  #2 ../tests/i915/gem_exec_balancer.c:3276 main()
-  #3 [__libc_start_main+0xeb]
-  #4 [_start+0x2a]
-Subtest busy: FAIL (0.022s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:06 build/tests/gem_exec_balancer --run-subtest fairslice
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: fairslice
-Test requirement not met in function fairslice, file ../tests/i915/gem_exec_balancer.c:2635:
-Test requirement: intel_gen(intel_get_drm_devid(i915)) >= 11
-Subtest fairslice: SKIP (0.000s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:07 build/tests/gem_exec_balancer --run-subtest full
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: full
-Subtest full: SUCCESS (0.745s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:09 build/tests/gem_exec_balancer --run-subtest full-late
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: full-late
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+LKP SKIP igt@core_hotunplug@hotrebind
+LKP SKIP igt@core_hotunplug@hotrebind-lateclose
+LKP SKIP igt@core_hotunplug@hotreplug
+LKP SKIP igt@core_hotunplug@hotreplug-lateclose
+LKP SKIP igt@core_hotunplug@hotunbind-rebind
+LKP SKIP igt@core_hotunplug@hotunplug-rescan
+2022-01-27 08:48:24 build/tests/core_hotunplug --run-subtest unbind-rebind
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: unbind-rebind
+Subtest unbind-rebind: SUCCESS (1.687s)
+LKP SKIP igt@core_hotunplug@unplug-rescan
+2022-01-27 08:48:26 build/tests/drm_import_export --run-subtest flink
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main236, file ../tests/drm_import_export.c:242:
+Test requirement: bufmgr1
 Last errno: 2, No such file or directory
-Subtest full-late: SKIP (0.000s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:09 build/tests/gem_exec_balancer --run-subtest full-late-pulse
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: full-late-pulse
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Subtest flink: SKIP
+2022-01-27 08:48:26 build/tests/drm_import_export --run-subtest import-close-race-flink
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main236, file ../tests/drm_import_export.c:242:
+Test requirement: bufmgr1
 Last errno: 2, No such file or directory
-Subtest full-late-pulse: SKIP (0.001s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:10 build/tests/gem_exec_balancer --run-subtest full-pulse
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: full-pulse
-Subtest full-pulse: SUCCESS (0.756s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:12 build/tests/gem_exec_balancer --run-subtest hang
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Starting subtest: hang
-Subtest hang: SUCCESS (0.518s)
-2022-01-28 04:51:13 build/tests/gem_exec_balancer --run-subtest hog
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: hog
-Subtest hog: SUCCESS (0.514s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:14 build/tests/gem_exec_balancer --run-subtest indices
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: indices
-Subtest indices: SUCCESS (0.540s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:15 build/tests/gem_exec_balancer --run-subtest individual
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: individual
-(gem_exec_balancer:1664) igt_dummyload-CRITICAL: Test assertion failure function igt_spin_factory, file ../lib/igt_dummyload.c:490:
-(gem_exec_balancer:1664) igt_dummyload-CRITICAL: Failed assertion: gem_bo_busy(fd, spin->handle)
-Subtest individual failed.
-**** DEBUG ****
-(gem_exec_balancer:1664) igt_dummyload-DEBUG: Test requirement passed: nengine
-(gem_exec_balancer:1664) igt_dummyload-CRITICAL: Test assertion failure function igt_spin_factory, file ../lib/igt_dummyload.c:490:
-(gem_exec_balancer:1664) igt_dummyload-CRITICAL: Failed assertion: gem_bo_busy(fd, spin->handle)
-(gem_exec_balancer:1664) igt_core-INFO: Stack trace:
-(gem_exec_balancer:1664) igt_core-INFO:   #0 ../lib/igt_core.c:1752 __igt_fail_assert()
-(gem_exec_balancer:1664) igt_core-INFO:   #1 ../lib/igt_dummyload.c:472 igt_spin_factory()
-(gem_exec_balancer:1664) igt_core-INFO:   #2 ../tests/i915/gem_exec_balancer.c:430 __igt_unique____real_main3276()
-(gem_exec_balancer:1664) igt_core-INFO:   #3 ../tests/i915/gem_exec_balancer.c:3276 main()
-(gem_exec_balancer:1664) igt_core-INFO:   #4 [__libc_start_main+0xeb]
-(gem_exec_balancer:1664) igt_core-INFO:   #5 [_start+0x2a]
-****  END  ****
-Stack trace:
-  #0 ../lib/igt_core.c:1752 __igt_fail_assert()
-  #1 ../lib/igt_dummyload.c:472 igt_spin_factory()
-  #2 ../tests/i915/gem_exec_balancer.c:430 __igt_unique____real_main3276()
-  #3 ../tests/i915/gem_exec_balancer.c:3276 main()
-  #4 [__libc_start_main+0xeb]
-  #5 [_start+0x2a]
-Subtest individual: FAIL (0.020s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:16 build/tests/gem_exec_balancer --run-subtest invalid-balancer
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: invalid-balancer
-Subtest invalid-balancer: SUCCESS (0.515s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:17 build/tests/gem_exec_balancer --run-subtest invalid-bonds
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: invalid-bonds
-Subtest invalid-bonds: SUCCESS (0.001s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:18 build/tests/gem_exec_balancer --run-subtest nohangcheck
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Starting subtest: nohangcheck
-Subtest nohangcheck: SUCCESS (0.520s)
-2022-01-28 04:51:19 build/tests/gem_exec_balancer --run-subtest noheartbeat
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Starting subtest: noheartbeat
-Subtest noheartbeat: SUCCESS (0.521s)
-2022-01-28 04:51:20 build/tests/gem_exec_balancer --run-subtest nop
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: nop
-rcs:0 10.426us
-rcs:* 10.409us
-[0] rcs:0 10.457us
-[0] rcs:* 10.519us
-bcs:0 16.279us
-bcs:* 16.249us
-[0] bcs:0 16.133us
-[0] bcs:* 16.111us
-vcs:0 11.789us
-vcs:* 12.619us
-[0] vcs:0 12.042us
-[0] vcs:* 10.713us
-vecs:0 10.819us
-vecs:* 10.819us
-[0] vecs:0 10.824us
-[0] vecs:* 10.697us
-Subtest nop: SUCCESS (35.041s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:51:56 build/tests/gem_exec_balancer --run-subtest parallel
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Subtest parallel: SKIP
-2022-01-28 04:51:57 build/tests/gem_exec_balancer --run-subtest parallel-balancer
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Subtest parallel-balancer: SKIP
-2022-01-28 04:51:58 build/tests/gem_exec_balancer --run-subtest parallel-bb-first
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Subtest parallel-bb-first: SKIP
-2022-01-28 04:51:58 build/tests/gem_exec_balancer --run-subtest parallel-contexts
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Subtest parallel-contexts: SKIP
-2022-01-28 04:51:59 build/tests/gem_exec_balancer --run-subtest parallel-keep-in-fence
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Subtest parallel-keep-in-fence: SKIP
-2022-01-28 04:52:00 build/tests/gem_exec_balancer --run-subtest parallel-keep-submit-fence
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Subtest parallel-keep-submit-fence: SKIP
-2022-01-28 04:52:01 build/tests/gem_exec_balancer --run-subtest parallel-ordering
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Subtest parallel-ordering: SKIP
-2022-01-28 04:52:01 build/tests/gem_exec_balancer --run-subtest parallel-out-fence
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Subtest parallel-out-fence: SKIP
-2022-01-28 04:52:02 build/tests/gem_exec_balancer --run-subtest persistence
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-Starting subtest: persistence
-Subtest persistence: SUCCESS (0.509s)
-2022-01-28 04:52:03 build/tests/gem_exec_balancer --run-subtest semaphore
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: semaphore
-(gem_exec_balancer:2190) igt_dummyload-CRITICAL: Test assertion failure function igt_spin_factory, file ../lib/igt_dummyload.c:490:
-(gem_exec_balancer:2190) igt_dummyload-CRITICAL: Failed assertion: gem_bo_busy(fd, spin->handle)
-Subtest semaphore failed.
-**** DEBUG ****
-(gem_exec_balancer:2190) DEBUG: Test requirement passed: gem_scheduler_has_preemption(i915)
-(gem_exec_balancer:2190) igt_dummyload-DEBUG: Test requirement passed: nengine
-(gem_exec_balancer:2190) igt_dummyload-CRITICAL: Test assertion failure function igt_spin_factory, file ../lib/igt_dummyload.c:490:
-(gem_exec_balancer:2190) igt_dummyload-CRITICAL: Failed assertion: gem_bo_busy(fd, spin->handle)
-(gem_exec_balancer:2190) igt_core-INFO: Stack trace:
-(gem_exec_balancer:2190) igt_core-INFO:   #0 ../lib/igt_core.c:1752 __igt_fail_assert()
-(gem_exec_balancer:2190) igt_core-INFO:   #1 ../lib/igt_dummyload.c:472 igt_spin_factory()
-(gem_exec_balancer:2190) igt_core-INFO:   #2 ../tests/i915/gem_exec_balancer.c:2237 __igt_unique____real_main3276()
-(gem_exec_balancer:2190) igt_core-INFO:   #3 ../tests/i915/gem_exec_balancer.c:3276 main()
-(gem_exec_balancer:2190) igt_core-INFO:   #4 [__libc_start_main+0xeb]
-(gem_exec_balancer:2190) igt_core-INFO:   #5 [_start+0x2a]
-****  END  ****
-Stack trace:
-  #0 ../lib/igt_core.c:1752 __igt_fail_assert()
-  #1 ../lib/igt_dummyload.c:472 igt_spin_factory()
-  #2 ../tests/i915/gem_exec_balancer.c:2237 __igt_unique____real_main3276()
-  #3 ../tests/i915/gem_exec_balancer.c:3276 main()
-  #4 [__libc_start_main+0xeb]
-  #5 [_start+0x2a]
-Subtest semaphore: FAIL (0.005s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:52:04 build/tests/gem_exec_balancer --run-subtest sequential
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: sequential
-Subtest sequential: SUCCESS (0.524s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:52:05 build/tests/gem_exec_balancer --run-subtest sliced
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: sliced
-Subtest sliced: SUCCESS (0.506s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:52:07 build/tests/gem_exec_balancer --run-subtest smoke
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: smoke
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Subtest import-close-race-flink: SKIP
+2022-01-27 08:48:26 build/tests/drm_import_export --run-subtest import-close-race-prime
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main236, file ../tests/drm_import_export.c:242:
+Test requirement: bufmgr1
 Last errno: 2, No such file or directory
-Subtest smoke: SKIP (0.001s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:52:07 build/tests/gem_exec_balancer --run-subtest waits
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: waits
-Subtest waits: SUCCESS (0.504s)
-Test requirement not met in function __igt_unique____real_main3276, file ../tests/i915/gem_exec_balancer.c:3380:
-Test requirement: has_parallel_execbuf(i915)
-Last errno: 19, No such device
-2022-01-28 04:52:09 build/tests/gem_gpgpu_fill --run-subtest basic
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
+Subtest import-close-race-prime: SKIP
+2022-01-27 08:48:26 build/tests/drm_import_export --run-subtest prime
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main236, file ../tests/drm_import_export.c:242:
+Test requirement: bufmgr1
+Last errno: 2, No such file or directory
+Subtest prime: SKIP
+2022-01-27 08:48:27 build/tests/fbdev --run-subtest eof
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: eof
+Subtest eof: SUCCESS (0.000s)
+2022-01-27 08:48:27 build/tests/fbdev --run-subtest info
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: info
+Subtest info: SUCCESS (0.000s)
+2022-01-27 08:48:27 build/tests/fbdev --run-subtest nullptr
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: nullptr
+Subtest nullptr: SUCCESS (0.000s)
+2022-01-27 08:48:27 build/tests/fbdev --run-subtest pan
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: pan
+Subtest pan: SUCCESS (0.053s)
+2022-01-27 08:48:27 build/tests/fbdev --run-subtest read
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: read
+Subtest read: SUCCESS (0.155s)
+2022-01-27 08:48:27 build/tests/fbdev --run-subtest unaligned-read
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: unaligned-read
+Subtest unaligned-read: SUCCESS (0.001s)
+2022-01-27 08:48:27 build/tests/fbdev --run-subtest unaligned-write
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: unaligned-write
+Subtest unaligned-write: SUCCESS (0.020s)
+2022-01-27 08:48:28 build/tests/fbdev --run-subtest write
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: write
+Subtest write: SUCCESS (0.079s)
+2022-01-27 08:48:28 build/tests/gem_close_race --run-subtest basic-process
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: basic-process
+Subtest basic-process: SUCCESS (0.050s)
+2022-01-27 08:48:28 build/tests/gem_close_race --run-subtest basic-threads
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: basic-threads
+Subtest basic-threads: SUCCESS (1.184s)
+2022-01-27 08:48:29 build/tests/gem_close_race --run-subtest contexts
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: contexts
+Subtest contexts: SUCCESS (34.123s)
+2022-01-27 08:49:04 build/tests/gem_close_race --run-subtest gem-close-race
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: gem-close-race
+Subtest gem-close-race: SUCCESS (162.253s)
+2022-01-27 08:51:46 build/tests/gem_close_race --run-subtest process-exit
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: process-exit
+Subtest process-exit: SUCCESS (1.273s)
+2022-01-27 08:51:48 build/tests/gem_fence_thrash --run-subtest bo-copy
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: bo-copy
+copy: threads 32, fences 32, tiling 1, surfaces per thread 1
+Subtest bo-copy: SUCCESS (1.101s)
+2022-01-27 08:51:49 build/tests/gem_fence_thrash --run-subtest bo-write-verify-none
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: bo-write-verify-none
+write-verify: threads 0, fences 32, tiling 0, surfaces per thread 80
+Subtest bo-write-verify-none: SUCCESS (1.110s)
+2022-01-27 08:51:50 build/tests/gem_fence_thrash --run-subtest bo-write-verify-threaded-none
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: bo-write-verify-threaded-none
+write-verify: threads 160, fences 32, tiling 0, surfaces per thread 2
+Subtest bo-write-verify-threaded-none: SUCCESS (1.134s)
+2022-01-27 08:51:51 build/tests/gem_fence_thrash --run-subtest bo-write-verify-threaded-x
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: bo-write-verify-threaded-x
+write-verify: threads 160, fences 32, tiling 1, surfaces per thread 2
+Subtest bo-write-verify-threaded-x: SUCCESS (1.138s)
+2022-01-27 08:51:53 build/tests/gem_fence_thrash --run-subtest bo-write-verify-threaded-y
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: bo-write-verify-threaded-y
+write-verify: threads 160, fences 32, tiling 2, surfaces per thread 2
+Subtest bo-write-verify-threaded-y: SUCCESS (1.177s)
+2022-01-27 08:51:54 build/tests/gem_fence_thrash --run-subtest bo-write-verify-x
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: bo-write-verify-x
+write-verify: threads 0, fences 32, tiling 1, surfaces per thread 80
+Subtest bo-write-verify-x: SUCCESS (1.119s)
+2022-01-27 08:51:55 build/tests/gem_fence_thrash --run-subtest bo-write-verify-y
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: bo-write-verify-y
+write-verify: threads 0, fences 32, tiling 2, surfaces per thread 80
+Subtest bo-write-verify-y: SUCCESS (1.126s)
+LKP SKIP igt@gem_fence_upload@performance
+LKP SKIP igt@gem_fence_upload@thread-contention
+LKP SKIP igt@gem_fence_upload@thread-performance-both
+LKP SKIP igt@gem_fence_upload@thread-performance-read
+LKP SKIP igt@gem_fence_upload@thread-performance-write
+LKP SKIP igt@gem_fence_upload@wc-contention
+2022-01-27 08:51:57 build/tests/gem_flink_basic --run-subtest bad-flink
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: bad-flink
+Subtest bad-flink: SUCCESS (0.000s)
+2022-01-27 08:51:57 build/tests/gem_flink_basic --run-subtest bad-open
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: bad-open
+Subtest bad-open: SUCCESS (0.000s)
+2022-01-27 08:51:57 build/tests/gem_flink_basic --run-subtest basic
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
 Starting subtest: basic
-Starting dynamic subtest: smem
-Dynamic subtest smem: SUCCESS (0.002s)
-Subtest basic: SUCCESS (0.009s)
-2022-01-28 04:52:09 build/tests/i915_pm_dc --run-subtest dc3co-vpb-simulation
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-DMC: fw loaded: no
-
-Test requirement not met in function main, file ../tests/i915/i915_pm_dc.c:480:
-Test requirement: igt_pm_dmc_loaded(data.debugfs_fd)
-Last errno: 2, No such file or directory
-Subtest dc3co-vpb-simulation: SKIP
-2022-01-28 04:52:09 build/tests/i915_pm_dc --run-subtest dc5-dpms
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-DMC: fw loaded: no
-
-Test requirement not met in function main, file ../tests/i915/i915_pm_dc.c:480:
-Test requirement: igt_pm_dmc_loaded(data.debugfs_fd)
-Last errno: 2, No such file or directory
-Subtest dc5-dpms: SKIP
-2022-01-28 04:52:09 build/tests/i915_pm_dc --run-subtest dc5-psr
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-DMC: fw loaded: no
-
-Test requirement not met in function main, file ../tests/i915/i915_pm_dc.c:480:
-Test requirement: igt_pm_dmc_loaded(data.debugfs_fd)
-Last errno: 2, No such file or directory
-Subtest dc5-psr: SKIP
-2022-01-28 04:52:09 build/tests/i915_pm_dc --run-subtest dc6-dpms
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-DMC: fw loaded: no
-
-Test requirement not met in function main, file ../tests/i915/i915_pm_dc.c:480:
-Test requirement: igt_pm_dmc_loaded(data.debugfs_fd)
-Last errno: 2, No such file or directory
-Subtest dc6-dpms: SKIP
-2022-01-28 04:52:09 build/tests/i915_pm_dc --run-subtest dc6-psr
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-DMC: fw loaded: no
-
-Test requirement not met in function main, file ../tests/i915/i915_pm_dc.c:480:
-Test requirement: igt_pm_dmc_loaded(data.debugfs_fd)
-Last errno: 2, No such file or directory
-Subtest dc6-psr: SKIP
-2022-01-28 04:52:09 build/tests/i915_pm_dc --run-subtest dc9-dpms
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-DMC: fw loaded: no
-
-Test requirement not met in function main, file ../tests/i915/i915_pm_dc.c:480:
-Test requirement: igt_pm_dmc_loaded(data.debugfs_fd)
-Last errno: 2, No such file or directory
-Subtest dc9-dpms: SKIP
-2022-01-28 04:52:10 build/tests/kms_dp_tiled_display --run-subtest basic-test-pattern
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: basic-test-pattern
-Test requirement not met in function basic_test, file ../tests/kms_dp_tiled_display.c:437:
-Test requirement: data->num_h_tiles > 0
-Subtest basic-test-pattern: SKIP (0.000s)
-2022-01-28 04:52:10 build/tests/kms_dp_tiled_display --run-subtest basic-test-pattern-with-chamelium
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: basic-test-pattern-with-chamelium
-Test requirement not met in function test_with_chamelium, file ../tests/kms_dp_tiled_display.c:398:
-Test requirement: data->chamelium
-Subtest basic-test-pattern-with-chamelium: SKIP (0.000s)
-2022-01-28 04:52:10 build/tests/kms_frontbuffer_tracking --run-subtest basic
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
+Subtest basic: SUCCESS (0.000s)
+2022-01-27 08:51:57 build/tests/gem_flink_basic --run-subtest double-flink
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: double-flink
+Subtest double-flink: SUCCESS (0.000s)
+2022-01-27 08:51:57 build/tests/gem_flink_basic --run-subtest flink-lifetime
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: flink-lifetime
+Subtest flink-lifetime: SUCCESS (0.000s)
+2022-01-27 08:51:57 build/tests/gem_linear_blits --run-subtest basic
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
 Starting subtest: basic
-Subtest basic: SUCCESS (2.204s)
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-offscren-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-pri-indfb-multidraw
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-primscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-1p-rte
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-pri-indfb-multidraw
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-primscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-rte
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-2p-scndscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-farfromfence-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-indfb-scaledprimary
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-modesetfrombusy
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb101010-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb101010-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb101010-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb101010-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb101010-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb101010-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb565-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb565-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb565-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb565-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb565-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-rgb565-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-shrfb-scaledprimary
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-slowdraw
-LKP SKIP igt@kms_frontbuffer_tracking@drrs-suspend
-2022-01-28 04:52:13 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-indfb-fliptrack-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-indfb-fliptrack-mmap-gtt
-Subtest fbc-1p-indfb-fliptrack-mmap-gtt: SUCCESS (2.433s)
-2022-01-28 04:52:16 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-indfb-draw-blt
-Subtest fbc-1p-offscren-pri-indfb-draw-blt: SUCCESS (1.289s)
-2022-01-28 04:52:17 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-indfb-draw-mmap-cpu
-Subtest fbc-1p-offscren-pri-indfb-draw-mmap-cpu: SUCCESS (1.289s)
-2022-01-28 04:52:19 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-indfb-draw-mmap-gtt
-Subtest fbc-1p-offscren-pri-indfb-draw-mmap-gtt: SUCCESS (1.289s)
-2022-01-28 04:52:20 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-indfb-draw-mmap-wc
-Subtest fbc-1p-offscren-pri-indfb-draw-mmap-wc: SUCCESS (1.288s)
-2022-01-28 04:52:22 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-indfb-draw-pwrite
-Subtest fbc-1p-offscren-pri-indfb-draw-pwrite: SUCCESS (1.289s)
-2022-01-28 04:52:23 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-indfb-draw-render
-Subtest fbc-1p-offscren-pri-indfb-draw-render: SUCCESS (1.288s)
-2022-01-28 04:52:25 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-shrfb-draw-blt
-Subtest fbc-1p-offscren-pri-shrfb-draw-blt: SUCCESS (1.290s)
-2022-01-28 04:52:26 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-shrfb-draw-mmap-cpu
-Subtest fbc-1p-offscren-pri-shrfb-draw-mmap-cpu: SUCCESS (1.288s)
-2022-01-28 04:52:28 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-shrfb-draw-mmap-gtt
-Subtest fbc-1p-offscren-pri-shrfb-draw-mmap-gtt: SUCCESS (1.289s)
-2022-01-28 04:52:29 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-shrfb-draw-mmap-wc
-Subtest fbc-1p-offscren-pri-shrfb-draw-mmap-wc: SUCCESS (1.288s)
-2022-01-28 04:52:31 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-shrfb-draw-pwrite
-Subtest fbc-1p-offscren-pri-shrfb-draw-pwrite: SUCCESS (1.356s)
-2022-01-28 04:52:33 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-offscren-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-offscren-pri-shrfb-draw-render
-Subtest fbc-1p-offscren-pri-shrfb-draw-render: SUCCESS (1.288s)
-2022-01-28 04:52:34 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-pri-indfb-multidraw
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-pri-indfb-multidraw
-Subtest fbc-1p-pri-indfb-multidraw: SUCCESS (13.519s)
-2022-01-28 04:52:48 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-cur-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-cur-indfb-draw-blt
-Subtest fbc-1p-primscrn-cur-indfb-draw-blt: SUCCESS (1.805s)
-2022-01-28 04:52:50 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-cur-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-cur-indfb-draw-mmap-cpu
-Subtest fbc-1p-primscrn-cur-indfb-draw-mmap-cpu: SUCCESS (1.805s)
-2022-01-28 04:52:52 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-cur-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-cur-indfb-draw-mmap-gtt
-Subtest fbc-1p-primscrn-cur-indfb-draw-mmap-gtt: SUCCESS (1.805s)
-2022-01-28 04:52:54 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-cur-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-cur-indfb-draw-mmap-wc
-Subtest fbc-1p-primscrn-cur-indfb-draw-mmap-wc: SUCCESS (1.804s)
-2022-01-28 04:52:56 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-cur-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-cur-indfb-draw-pwrite
-Subtest fbc-1p-primscrn-cur-indfb-draw-pwrite: SUCCESS (1.804s)
-2022-01-28 04:52:58 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-cur-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-cur-indfb-draw-render
-Subtest fbc-1p-primscrn-cur-indfb-draw-render: SUCCESS (1.807s)
-2022-01-28 04:53:00 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-cur-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-cur-indfb-move
-Subtest fbc-1p-primscrn-cur-indfb-move: SUCCESS (2.322s)
-2022-01-28 04:53:02 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-cur-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-cur-indfb-onoff
-Subtest fbc-1p-primscrn-cur-indfb-onoff: SUCCESS (2.089s)
-2022-01-28 04:53:05 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-indfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-indfb-msflip-blt
-Subtest fbc-1p-primscrn-indfb-msflip-blt: SUCCESS (1.755s)
-2022-01-28 04:53:07 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-indfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-indfb-pgflip-blt
-Subtest fbc-1p-primscrn-indfb-pgflip-blt: SUCCESS (1.756s)
-2022-01-28 04:53:09 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-indfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-indfb-plflip-blt
-Subtest fbc-1p-primscrn-indfb-plflip-blt: SUCCESS (1.922s)
-2022-01-28 04:53:11 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-indfb-draw-blt
-Subtest fbc-1p-primscrn-pri-indfb-draw-blt: SUCCESS (1.690s)
-2022-01-28 04:53:13 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-indfb-draw-mmap-cpu
-Subtest fbc-1p-primscrn-pri-indfb-draw-mmap-cpu: SUCCESS (1.689s)
-2022-01-28 04:53:15 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-indfb-draw-mmap-gtt
-Subtest fbc-1p-primscrn-pri-indfb-draw-mmap-gtt: SUCCESS (1.689s)
-2022-01-28 04:53:16 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-indfb-draw-mmap-wc
-Subtest fbc-1p-primscrn-pri-indfb-draw-mmap-wc: SUCCESS (1.691s)
-2022-01-28 04:53:18 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-indfb-draw-pwrite
-Subtest fbc-1p-primscrn-pri-indfb-draw-pwrite: SUCCESS (1.689s)
-2022-01-28 04:53:20 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-indfb-draw-render
-Subtest fbc-1p-primscrn-pri-indfb-draw-render: SUCCESS (1.689s)
-2022-01-28 04:53:22 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-shrfb-draw-blt
-Subtest fbc-1p-primscrn-pri-shrfb-draw-blt: SUCCESS (1.688s)
-2022-01-28 04:53:24 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-shrfb-draw-mmap-cpu
-Subtest fbc-1p-primscrn-pri-shrfb-draw-mmap-cpu: SUCCESS (1.689s)
-2022-01-28 04:53:26 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-shrfb-draw-mmap-gtt
-Subtest fbc-1p-primscrn-pri-shrfb-draw-mmap-gtt: SUCCESS (1.689s)
-2022-01-28 04:53:28 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-shrfb-draw-mmap-wc
-Subtest fbc-1p-primscrn-pri-shrfb-draw-mmap-wc: SUCCESS (1.688s)
-2022-01-28 04:53:30 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-shrfb-draw-pwrite
-Subtest fbc-1p-primscrn-pri-shrfb-draw-pwrite: SUCCESS (1.689s)
-2022-01-28 04:53:32 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-pri-shrfb-draw-render
-Subtest fbc-1p-primscrn-pri-shrfb-draw-render: SUCCESS (1.689s)
-2022-01-28 04:53:34 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-shrfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-shrfb-msflip-blt
-Subtest fbc-1p-primscrn-shrfb-msflip-blt: SUCCESS (1.755s)
-2022-01-28 04:53:36 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-shrfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-shrfb-pgflip-blt
-Subtest fbc-1p-primscrn-shrfb-pgflip-blt: SUCCESS (1.755s)
-2022-01-28 04:53:38 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-shrfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-shrfb-plflip-blt
-Subtest fbc-1p-primscrn-shrfb-plflip-blt: SUCCESS (1.921s)
-2022-01-28 04:53:40 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-spr-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-spr-indfb-draw-blt
-Subtest fbc-1p-primscrn-spr-indfb-draw-blt: SUCCESS (1.856s)
-2022-01-28 04:53:42 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-spr-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-spr-indfb-draw-mmap-cpu
-Subtest fbc-1p-primscrn-spr-indfb-draw-mmap-cpu: SUCCESS (1.856s)
-2022-01-28 04:53:44 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-spr-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-spr-indfb-draw-mmap-gtt
-Subtest fbc-1p-primscrn-spr-indfb-draw-mmap-gtt: SUCCESS (1.855s)
-2022-01-28 04:53:46 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-spr-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-spr-indfb-draw-mmap-wc
-Subtest fbc-1p-primscrn-spr-indfb-draw-mmap-wc: SUCCESS (1.855s)
-2022-01-28 04:53:48 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-spr-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-spr-indfb-draw-pwrite
-Subtest fbc-1p-primscrn-spr-indfb-draw-pwrite: SUCCESS (1.855s)
-2022-01-28 04:53:50 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-spr-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-spr-indfb-draw-render
-Subtest fbc-1p-primscrn-spr-indfb-draw-render: SUCCESS (1.854s)
-2022-01-28 04:53:52 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-spr-indfb-fullscreen
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-spr-indfb-fullscreen
-Subtest fbc-1p-primscrn-spr-indfb-fullscreen: SUCCESS (1.289s)
-2022-01-28 04:53:54 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-spr-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-spr-indfb-move
-Subtest fbc-1p-primscrn-spr-indfb-move: SUCCESS (2.622s)
-2022-01-28 04:53:57 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-primscrn-spr-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-primscrn-spr-indfb-onoff
-Subtest fbc-1p-primscrn-spr-indfb-onoff: SUCCESS (2.288s)
-2022-01-28 04:53:59 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-rte
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-rte
-Subtest fbc-1p-rte: SUCCESS (2.949s)
-2022-01-28 04:54:02 build/tests/kms_frontbuffer_tracking --run-subtest fbc-1p-shrfb-fliptrack-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-1p-shrfb-fliptrack-mmap-gtt
-Subtest fbc-1p-shrfb-fliptrack-mmap-gtt: SUCCESS (2.422s)
-2022-01-28 04:54:05 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-indfb-fliptrack-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-indfb-fliptrack-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-indfb-fliptrack-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:54:05 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-pri-indfb-multidraw
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-pri-indfb-multidraw
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-pri-indfb-multidraw: SKIP (0.000s)
-2022-01-28 04:54:05 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-cur-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-cur-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-cur-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:54:06 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-cur-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-cur-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-cur-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:54:06 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-cur-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-cur-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-cur-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:54:06 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-cur-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-cur-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-cur-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:54:06 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-cur-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-cur-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-cur-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:54:07 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-cur-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-cur-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-cur-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:54:07 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-cur-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-cur-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-cur-indfb-move: SKIP (0.000s)
-2022-01-28 04:54:07 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-cur-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-cur-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-cur-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:54:07 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-indfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-indfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-indfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:54:08 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-indfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-indfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-indfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:54:08 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-indfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-indfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-indfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:54:08 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:54:08 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:54:09 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:54:09 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:54:09 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:54:09 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:54:10 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-shrfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-shrfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:54:10 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-shrfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-shrfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:54:10 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-shrfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-shrfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:54:10 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-shrfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-shrfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:54:11 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-shrfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-shrfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:54:11 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-pri-shrfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-pri-shrfb-draw-render: SKIP (0.000s)
-2022-01-28 04:54:11 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-shrfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-shrfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-shrfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:54:11 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-shrfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-shrfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-shrfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:54:12 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-shrfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-shrfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-shrfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:54:12 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-spr-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-spr-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-spr-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:54:12 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-spr-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-spr-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-spr-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:54:12 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-spr-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-spr-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-spr-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:54:13 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-spr-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-spr-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-spr-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:54:13 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-spr-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-spr-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-spr-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:54:13 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-spr-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-spr-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-spr-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:54:13 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-spr-indfb-fullscreen
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-spr-indfb-fullscreen
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-spr-indfb-fullscreen: SKIP (0.000s)
-2022-01-28 04:54:14 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-spr-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-spr-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-spr-indfb-move: SKIP (0.000s)
-2022-01-28 04:54:14 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-primscrn-spr-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-primscrn-spr-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-primscrn-spr-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:54:14 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-rte
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-rte
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-rte: SKIP (0.000s)
-2022-01-28 04:54:14 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-cur-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-cur-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-cur-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:54:15 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-cur-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-cur-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-cur-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:54:15 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-cur-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-cur-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-cur-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:54:15 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-cur-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-cur-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-cur-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:54:15 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-cur-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-cur-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-cur-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:54:16 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-cur-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-cur-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-cur-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:54:16 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-cur-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-cur-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-cur-indfb-move: SKIP (0.000s)
-2022-01-28 04:54:16 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-cur-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-cur-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-cur-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:54:16 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-indfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-indfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-indfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:54:17 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-indfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-indfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-indfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:54:17 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-indfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-indfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-indfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:54:17 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:54:17 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:54:18 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:54:18 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:54:18 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:54:18 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:54:19 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-shrfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-shrfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:54:19 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-shrfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-shrfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:54:19 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-shrfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-shrfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:54:19 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-shrfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-shrfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:54:20 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-shrfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-shrfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:54:20 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-pri-shrfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-pri-shrfb-draw-render: SKIP (0.000s)
-2022-01-28 04:54:20 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-shrfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-shrfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-shrfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:54:20 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-shrfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-shrfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-shrfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:54:21 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-shrfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-shrfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-shrfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:54:21 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-spr-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-spr-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-spr-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:54:21 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-spr-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-spr-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-spr-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:54:21 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-spr-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-spr-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-spr-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:54:22 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-spr-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-spr-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-spr-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:54:22 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-spr-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-spr-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-spr-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:54:22 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-spr-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-spr-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-spr-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:54:22 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-spr-indfb-fullscreen
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-spr-indfb-fullscreen
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-spr-indfb-fullscreen: SKIP (0.000s)
-2022-01-28 04:54:23 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-spr-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-spr-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-spr-indfb-move: SKIP (0.000s)
-2022-01-28 04:54:23 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-scndscrn-spr-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-scndscrn-spr-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-scndscrn-spr-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:54:23 build/tests/kms_frontbuffer_tracking --run-subtest fbc-2p-shrfb-fliptrack-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-2p-shrfb-fliptrack-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbc-2p-shrfb-fliptrack-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:54:23 build/tests/kms_frontbuffer_tracking --run-subtest fbc-badstride
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-badstride
-Subtest fbc-badstride: SUCCESS (7.771s)
-2022-01-28 04:54:31 build/tests/kms_frontbuffer_tracking --run-subtest fbc-farfromfence-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-farfromfence-mmap-gtt
-Subtest fbc-farfromfence-mmap-gtt: SUCCESS (1.906s)
-2022-01-28 04:54:34 build/tests/kms_frontbuffer_tracking --run-subtest fbc-indfb-scaledprimary
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-indfb-scaledprimary
-Subtest fbc-indfb-scaledprimary: SUCCESS (3.039s)
-2022-01-28 04:54:37 build/tests/kms_frontbuffer_tracking --run-subtest fbc-modesetfrombusy
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-modesetfrombusy
-Subtest fbc-modesetfrombusy: SUCCESS (0.763s)
-2022-01-28 04:54:38 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb101010-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb101010-draw-blt
-Subtest fbc-rgb101010-draw-blt: SUCCESS (2.572s)
-2022-01-28 04:54:41 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb101010-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb101010-draw-mmap-cpu
-Subtest fbc-rgb101010-draw-mmap-cpu: SUCCESS (2.573s)
-2022-01-28 04:54:43 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb101010-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb101010-draw-mmap-gtt
-Subtest fbc-rgb101010-draw-mmap-gtt: SUCCESS (2.571s)
-2022-01-28 04:54:46 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb101010-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb101010-draw-mmap-wc
-Subtest fbc-rgb101010-draw-mmap-wc: SUCCESS (2.572s)
-2022-01-28 04:54:49 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb101010-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb101010-draw-pwrite
-Subtest fbc-rgb101010-draw-pwrite: SUCCESS (2.572s)
-2022-01-28 04:54:52 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb101010-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb101010-draw-render
-Subtest fbc-rgb101010-draw-render: SUCCESS (2.555s)
-2022-01-28 04:54:54 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb565-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb565-draw-blt
-Subtest fbc-rgb565-draw-blt: SUCCESS (1.674s)
-2022-01-28 04:54:56 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb565-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb565-draw-mmap-cpu
-Subtest fbc-rgb565-draw-mmap-cpu: SUCCESS (1.672s)
-2022-01-28 04:54:58 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb565-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb565-draw-mmap-gtt
-Subtest fbc-rgb565-draw-mmap-gtt: SUCCESS (1.672s)
-2022-01-28 04:55:00 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb565-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb565-draw-mmap-wc
-Subtest fbc-rgb565-draw-mmap-wc: SUCCESS (1.671s)
-2022-01-28 04:55:02 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb565-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb565-draw-pwrite
-Subtest fbc-rgb565-draw-pwrite: SUCCESS (1.673s)
-2022-01-28 04:55:04 build/tests/kms_frontbuffer_tracking --run-subtest fbc-rgb565-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-rgb565-draw-render
-Subtest fbc-rgb565-draw-render: SUCCESS (1.673s)
-2022-01-28 04:55:06 build/tests/kms_frontbuffer_tracking --run-subtest fbc-shrfb-scaledprimary
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-shrfb-scaledprimary
-Subtest fbc-shrfb-scaledprimary: SUCCESS (3.037s)
-2022-01-28 04:55:09 build/tests/kms_frontbuffer_tracking --run-subtest fbc-stridechange
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-stridechange
-Subtest fbc-stridechange: SUCCESS (1.490s)
-LKP SKIP igt@kms_frontbuffer_tracking@fbc-suspend
-2022-01-28 04:55:11 build/tests/kms_frontbuffer_tracking --run-subtest fbc-tiling-linear
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-tiling-linear
-Subtest fbc-tiling-linear: SUCCESS (1.638s)
-2022-01-28 04:55:13 build/tests/kms_frontbuffer_tracking --run-subtest fbc-tiling-y
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbc-tiling-y
-Subtest fbc-tiling-y: SUCCESS (1.690s)
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-indfb-fliptrack-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-offscren-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-pri-indfb-multidraw
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-primscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-rte
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-1p-shrfb-fliptrack-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-indfb-fliptrack-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-pri-indfb-multidraw
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-primscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-rte
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-scndscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-2p-shrfb-fliptrack-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-badstride
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-farfromfence-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-indfb-scaledprimary
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-modesetfrombusy
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb101010-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb101010-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb101010-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb101010-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb101010-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb101010-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb565-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb565-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb565-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb565-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb565-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-rgb565-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-shrfb-scaledprimary
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-slowdraw
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-stridechange
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-suspend
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-tiling-linear
-LKP SKIP igt@kms_frontbuffer_tracking@fbcdrrs-tiling-y
-2022-01-28 04:55:15 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-indfb-fliptrack-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-indfb-fliptrack-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-indfb-fliptrack-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:16 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:17 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:17 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:17 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:18 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:18 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:18 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-shrfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-shrfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:18 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-shrfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-shrfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:19 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-shrfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-shrfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:19 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-shrfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-shrfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:19 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-shrfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-shrfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:19 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-offscren-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-offscren-pri-shrfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-offscren-pri-shrfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:20 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-pri-indfb-multidraw
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-pri-indfb-multidraw
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-pri-indfb-multidraw: SKIP (0.000s)
-2022-01-28 04:55:20 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-cur-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-cur-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-cur-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:20 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-cur-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-cur-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-cur-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:20 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-cur-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-cur-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-cur-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:21 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-cur-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-cur-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-cur-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:21 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-cur-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-cur-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-cur-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:21 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-cur-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-cur-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-cur-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:21 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-cur-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-cur-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-cur-indfb-move: SKIP (0.000s)
-2022-01-28 04:55:22 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-cur-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-cur-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-cur-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:55:22 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-indfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-indfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-indfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:55:22 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-indfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-indfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-indfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:55:22 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-indfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-indfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-indfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:55:23 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:23 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:23 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:23 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:24 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:24 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:24 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-shrfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-shrfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:24 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:25 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:25 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:25 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-shrfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-shrfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:25 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-pri-shrfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-pri-shrfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:26 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-shrfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-shrfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-shrfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:55:26 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-shrfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-shrfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-shrfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:55:26 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-shrfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-shrfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-shrfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:55:26 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-spr-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-spr-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-spr-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:27 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-spr-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-spr-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-spr-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:27 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-spr-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-spr-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-spr-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:27 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-spr-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-spr-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-spr-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:27 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-spr-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-spr-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-spr-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:28 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-spr-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-spr-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-spr-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:28 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-spr-indfb-fullscreen
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-spr-indfb-fullscreen
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-spr-indfb-fullscreen: SKIP (0.000s)
-2022-01-28 04:55:28 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-spr-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-spr-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-spr-indfb-move: SKIP (0.000s)
-2022-01-28 04:55:28 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-primscrn-spr-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-primscrn-spr-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-primscrn-spr-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:55:29 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-rte
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-rte
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-rte: SKIP (0.000s)
-2022-01-28 04:55:29 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-1p-shrfb-fliptrack-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-1p-shrfb-fliptrack-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-1p-shrfb-fliptrack-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:29 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-indfb-fliptrack-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-indfb-fliptrack-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-indfb-fliptrack-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:29 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-pri-indfb-multidraw
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-pri-indfb-multidraw
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-pri-indfb-multidraw: SKIP (0.000s)
-2022-01-28 04:55:30 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-cur-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-cur-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-cur-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:30 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-cur-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-cur-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-cur-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:30 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-cur-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-cur-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-cur-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:30 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-cur-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-cur-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-cur-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:31 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-cur-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-cur-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-cur-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:31 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-cur-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-cur-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-cur-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:31 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-cur-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-cur-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-cur-indfb-move: SKIP (0.000s)
-2022-01-28 04:55:31 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-cur-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-cur-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-cur-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:55:32 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-indfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-indfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-indfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:55:32 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-indfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-indfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-indfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:55:32 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-indfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-indfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-indfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:55:32 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:33 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:33 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:33 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:33 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:34 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:34 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-shrfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-shrfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:34 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:34 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:35 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:35 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-shrfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-shrfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:35 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-pri-shrfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-pri-shrfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:35 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-shrfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-shrfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-shrfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:55:36 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-shrfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-shrfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-shrfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:55:36 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-shrfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-shrfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-shrfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:55:36 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-spr-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-spr-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-spr-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:36 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-spr-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-spr-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-spr-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:37 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-spr-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-spr-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-spr-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:37 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-spr-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-spr-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-spr-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:37 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-spr-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-spr-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-spr-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:37 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-spr-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-spr-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-spr-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:38 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-spr-indfb-fullscreen
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-spr-indfb-fullscreen
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-spr-indfb-fullscreen: SKIP (0.000s)
-2022-01-28 04:55:38 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-spr-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-spr-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-spr-indfb-move: SKIP (0.000s)
-2022-01-28 04:55:38 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-primscrn-spr-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-primscrn-spr-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-primscrn-spr-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:55:39 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-rte
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-rte
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-rte: SKIP (0.000s)
-2022-01-28 04:55:39 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-cur-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-cur-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-cur-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:39 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:39 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:40 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:40 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-cur-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-cur-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-cur-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:40 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-cur-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-cur-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-cur-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:40 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-cur-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-cur-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-cur-indfb-move: SKIP (0.000s)
-2022-01-28 04:55:41 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-cur-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-cur-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-cur-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:55:41 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-indfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-indfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-indfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:55:41 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-indfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-indfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-indfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:55:41 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-indfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-indfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-indfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:55:42 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:42 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:42 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:42 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:43 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:43 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:43 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-shrfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:43 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:44 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:44 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:44 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-shrfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:44 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-pri-shrfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-pri-shrfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:45 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-shrfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-shrfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-shrfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:55:45 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-shrfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-shrfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-shrfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:55:45 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-shrfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-shrfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-shrfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:55:45 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-spr-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-spr-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-spr-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:46 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:46 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:46 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:46 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-spr-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-spr-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-spr-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:47 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-spr-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-spr-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-spr-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:47 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-spr-indfb-fullscreen
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-spr-indfb-fullscreen
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-spr-indfb-fullscreen: SKIP (0.000s)
-2022-01-28 04:55:47 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-spr-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-spr-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-spr-indfb-move: SKIP (0.000s)
-2022-01-28 04:55:47 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-scndscrn-spr-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-scndscrn-spr-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-scndscrn-spr-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:55:48 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-2p-shrfb-fliptrack-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-2p-shrfb-fliptrack-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest fbcpsr-2p-shrfb-fliptrack-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:48 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-badstride
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-badstride
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-badstride: SKIP (0.000s)
-2022-01-28 04:55:48 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-farfromfence-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-farfromfence-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-farfromfence-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:48 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-indfb-scaledprimary
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-indfb-scaledprimary
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-indfb-scaledprimary: SKIP (0.000s)
-2022-01-28 04:55:49 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-modesetfrombusy
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-modesetfrombusy
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-modesetfrombusy: SKIP (0.000s)
-2022-01-28 04:55:49 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb101010-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb101010-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb101010-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:49 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb101010-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb101010-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb101010-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:49 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb101010-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb101010-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb101010-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:50 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb101010-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb101010-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb101010-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:50 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb101010-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb101010-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb101010-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:50 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb101010-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb101010-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb101010-draw-render: SKIP (0.000s)
-2022-01-28 04:55:50 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb565-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb565-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb565-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:51 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb565-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb565-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb565-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:51 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb565-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb565-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb565-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:51 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb565-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb565-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb565-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:51 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb565-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb565-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb565-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:52 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-rgb565-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-rgb565-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-rgb565-draw-render: SKIP (0.000s)
-2022-01-28 04:55:52 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-shrfb-scaledprimary
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-shrfb-scaledprimary
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-shrfb-scaledprimary: SKIP (0.000s)
-2022-01-28 04:55:52 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-slowdraw
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-slowdraw
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-slowdraw: SKIP (0.000s)
-2022-01-28 04:55:52 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-stridechange
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-stridechange
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-stridechange: SKIP (0.000s)
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsr-suspend
-2022-01-28 04:55:53 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-tiling-linear
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-tiling-linear
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-tiling-linear: SKIP (0.000s)
-2022-01-28 04:55:53 build/tests/kms_frontbuffer_tracking --run-subtest fbcpsr-tiling-y
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: fbcpsr-tiling-y
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest fbcpsr-tiling-y: SKIP (0.000s)
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-indfb-fliptrack-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-offscren-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-pri-indfb-multidraw
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-primscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-rte
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-1p-shrfb-fliptrack-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-indfb-fliptrack-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-pri-indfb-multidraw
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-primscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-rte
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-scndscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-2p-shrfb-fliptrack-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-badstride
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-farfromfence-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-indfb-scaledprimary
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-modesetfrombusy
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb101010-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb101010-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb101010-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb101010-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb101010-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb101010-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb565-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb565-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb565-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb565-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb565-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-rgb565-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-shrfb-scaledprimary
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-slowdraw
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-stridechange
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-suspend
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-tiling-linear
-LKP SKIP igt@kms_frontbuffer_tracking@fbcpsrdrrs-tiling-y
-2022-01-28 04:55:54 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:54 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:55 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:56 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:56 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:56 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:56 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-shrfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-shrfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:57 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-shrfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-shrfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:57 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-shrfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-shrfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:57 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-shrfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-shrfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:57 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-shrfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-shrfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:58 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-offscren-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-offscren-pri-shrfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-offscren-pri-shrfb-draw-render: SKIP (0.000s)
-2022-01-28 04:55:58 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-pri-indfb-multidraw
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-pri-indfb-multidraw
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-pri-indfb-multidraw: SKIP (0.000s)
-2022-01-28 04:55:58 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-cur-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-cur-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-cur-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:55:58 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-cur-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-cur-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-cur-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:55:59 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-cur-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-cur-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-cur-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:55:59 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-cur-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-cur-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-cur-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:55:59 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-cur-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-cur-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-cur-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:55:59 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-cur-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-cur-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-cur-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:00 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-cur-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-cur-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-cur-indfb-move: SKIP (0.000s)
-2022-01-28 04:56:00 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-cur-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-cur-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-cur-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:56:00 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-indfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-indfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-indfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:56:00 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-indfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-indfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-indfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:56:01 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-indfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-indfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-indfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:56:01 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:01 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:01 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:02 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:02 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:02 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:02 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-shrfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-shrfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:03 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-shrfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-shrfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:03 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-shrfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-shrfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:03 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-shrfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-shrfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:03 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-shrfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-shrfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:04 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-pri-shrfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-pri-shrfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:04 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-shrfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-shrfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-shrfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:56:04 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-shrfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-shrfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-shrfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:56:04 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-shrfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-shrfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-shrfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:56:05 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-spr-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-spr-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-spr-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:05 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-spr-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-spr-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-spr-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:05 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-spr-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-spr-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-spr-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:05 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-spr-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-spr-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-spr-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:06 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-spr-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-spr-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-spr-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:06 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-spr-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-spr-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-spr-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:06 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-spr-indfb-fullscreen
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-spr-indfb-fullscreen
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-spr-indfb-fullscreen: SKIP (0.000s)
-2022-01-28 04:56:06 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-spr-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-spr-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-spr-indfb-move: SKIP (0.000s)
-2022-01-28 04:56:07 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-primscrn-spr-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-primscrn-spr-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-primscrn-spr-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:56:07 build/tests/kms_frontbuffer_tracking --run-subtest psr-1p-rte
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-1p-rte
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-1p-rte: SKIP (0.000s)
-2022-01-28 04:56:07 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-pri-indfb-multidraw
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-pri-indfb-multidraw
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-pri-indfb-multidraw: SKIP (0.000s)
-2022-01-28 04:56:07 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-cur-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-cur-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-cur-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:08 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-cur-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-cur-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-cur-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:08 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-cur-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-cur-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-cur-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:08 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-cur-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-cur-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-cur-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:08 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-cur-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-cur-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-cur-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:09 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-cur-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-cur-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-cur-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:09 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-cur-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-cur-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-cur-indfb-move: SKIP (0.000s)
-2022-01-28 04:56:09 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-cur-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-cur-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-cur-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:56:09 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-indfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-indfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-indfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:56:10 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-indfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-indfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-indfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:56:10 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-indfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-indfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-indfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:56:10 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:10 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:11 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:11 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:11 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:11 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:12 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-shrfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-shrfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:12 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-shrfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-shrfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:12 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-shrfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-shrfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:12 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-shrfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-shrfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:13 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-shrfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-shrfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:13 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-pri-shrfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-pri-shrfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:13 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-shrfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-shrfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-shrfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:56:13 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-shrfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-shrfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-shrfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:56:14 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-shrfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-shrfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-shrfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:56:14 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-spr-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-spr-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-spr-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:14 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-spr-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-spr-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-spr-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:15 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-spr-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-spr-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-spr-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:15 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-spr-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-spr-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-spr-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:15 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-spr-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-spr-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-spr-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:15 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-spr-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-spr-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-spr-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:16 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-spr-indfb-fullscreen
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-spr-indfb-fullscreen
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-spr-indfb-fullscreen: SKIP (0.000s)
-2022-01-28 04:56:16 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-spr-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-spr-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-spr-indfb-move: SKIP (0.000s)
-2022-01-28 04:56:16 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-primscrn-spr-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-primscrn-spr-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-primscrn-spr-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:56:16 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-rte
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-rte
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-rte: SKIP (0.000s)
-2022-01-28 04:56:17 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-cur-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-cur-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-cur-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:17 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-cur-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-cur-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-cur-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:17 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-cur-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-cur-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-cur-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:17 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-cur-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-cur-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-cur-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:18 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-cur-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-cur-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-cur-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:18 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-cur-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-cur-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-cur-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:18 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-cur-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-cur-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-cur-indfb-move: SKIP (0.000s)
-2022-01-28 04:56:18 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-cur-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-cur-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-cur-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:56:19 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-indfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-indfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-indfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:56:19 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-indfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-indfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-indfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:56:19 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-indfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-indfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-indfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:56:19 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:20 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:20 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:20 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:20 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:21 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:21 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-shrfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-shrfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-shrfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:21 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-shrfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-shrfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-shrfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:21 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-shrfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-shrfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-shrfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:22 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-shrfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-shrfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-shrfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:22 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-shrfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-shrfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-shrfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:22 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-pri-shrfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-pri-shrfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-pri-shrfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:22 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-shrfb-msflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-shrfb-msflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-shrfb-msflip-blt: SKIP (0.000s)
-2022-01-28 04:56:23 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-shrfb-pgflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-shrfb-pgflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-shrfb-pgflip-blt: SKIP (0.000s)
-2022-01-28 04:56:23 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-shrfb-plflip-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-shrfb-plflip-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-shrfb-plflip-blt: SKIP (0.000s)
-2022-01-28 04:56:23 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-spr-indfb-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-spr-indfb-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-spr-indfb-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:23 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-spr-indfb-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-spr-indfb-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-spr-indfb-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:24 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-spr-indfb-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-spr-indfb-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-spr-indfb-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:24 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-spr-indfb-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-spr-indfb-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-spr-indfb-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:24 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-spr-indfb-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-spr-indfb-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-spr-indfb-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:24 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-spr-indfb-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-spr-indfb-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-spr-indfb-draw-render: SKIP (0.000s)
-2022-01-28 04:56:25 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-spr-indfb-fullscreen
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-spr-indfb-fullscreen
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-spr-indfb-fullscreen: SKIP (0.000s)
-2022-01-28 04:56:25 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-spr-indfb-move
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-spr-indfb-move
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-spr-indfb-move: SKIP (0.000s)
-2022-01-28 04:56:25 build/tests/kms_frontbuffer_tracking --run-subtest psr-2p-scndscrn-spr-indfb-onoff
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-2p-scndscrn-spr-indfb-onoff
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1786:
-Test requirement: scnd_mode_params.output
-Can't test dual pipes with the current outputs
-Subtest psr-2p-scndscrn-spr-indfb-onoff: SKIP (0.000s)
-2022-01-28 04:56:25 build/tests/kms_frontbuffer_tracking --run-subtest psr-farfromfence-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-farfromfence-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-farfromfence-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:26 build/tests/kms_frontbuffer_tracking --run-subtest psr-indfb-scaledprimary
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-indfb-scaledprimary
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-indfb-scaledprimary: SKIP (0.000s)
-2022-01-28 04:56:26 build/tests/kms_frontbuffer_tracking --run-subtest psr-modesetfrombusy
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-modesetfrombusy
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-modesetfrombusy: SKIP (0.000s)
-2022-01-28 04:56:26 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb101010-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb101010-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb101010-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:26 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb101010-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb101010-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb101010-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:27 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb101010-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb101010-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb101010-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:27 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb101010-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb101010-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb101010-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:27 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb101010-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb101010-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb101010-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:27 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb101010-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb101010-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb101010-draw-render: SKIP (0.000s)
-2022-01-28 04:56:28 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb565-draw-blt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb565-draw-blt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb565-draw-blt: SKIP (0.000s)
-2022-01-28 04:56:28 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb565-draw-mmap-cpu
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb565-draw-mmap-cpu
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb565-draw-mmap-cpu: SKIP (0.000s)
-2022-01-28 04:56:28 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb565-draw-mmap-gtt
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb565-draw-mmap-gtt
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb565-draw-mmap-gtt: SKIP (0.000s)
-2022-01-28 04:56:28 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb565-draw-mmap-wc
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb565-draw-mmap-wc
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb565-draw-mmap-wc: SKIP (0.000s)
-2022-01-28 04:56:29 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb565-draw-pwrite
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb565-draw-pwrite
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb565-draw-pwrite: SKIP (0.000s)
-2022-01-28 04:56:29 build/tests/kms_frontbuffer_tracking --run-subtest psr-rgb565-draw-render
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-rgb565-draw-render
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-rgb565-draw-render: SKIP (0.000s)
-2022-01-28 04:56:29 build/tests/kms_frontbuffer_tracking --run-subtest psr-shrfb-scaledprimary
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-shrfb-scaledprimary
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-shrfb-scaledprimary: SKIP (0.000s)
-2022-01-28 04:56:29 build/tests/kms_frontbuffer_tracking --run-subtest psr-slowdraw
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-FBC last action not supported
-Can't test PSR: no usable eDP screen.
-Can't test DRRS: no usable eDP screen.
-Starting subtest: psr-slowdraw
-Test requirement not met in function check_test_requirements, file ../tests/i915/kms_frontbuffer_tracking.c:1794:
-Test requirement: psr.can_test
-Can't test PSR with the current outputs
-Subtest psr-slowdraw: SKIP (0.000s)
-LKP SKIP igt@kms_frontbuffer_tracking@psr-suspend
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-offscren-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-pri-indfb-multidraw
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-primscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-1p-rte
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-pri-indfb-multidraw
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-primscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-rte
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-cur-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-cur-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-cur-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-cur-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-cur-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-cur-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-cur-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-cur-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-indfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-indfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-indfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-shrfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-shrfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-shrfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-shrfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-shrfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-pri-shrfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-shrfb-msflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-shrfb-pgflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-shrfb-plflip-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-spr-indfb-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-spr-indfb-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-spr-indfb-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-spr-indfb-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-spr-indfb-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-spr-indfb-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-spr-indfb-fullscreen
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-spr-indfb-move
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-2p-scndscrn-spr-indfb-onoff
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-farfromfence-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-indfb-scaledprimary
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-modesetfrombusy
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb101010-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb101010-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb101010-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb101010-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb101010-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb101010-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb565-draw-blt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb565-draw-mmap-cpu
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb565-draw-mmap-gtt
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb565-draw-mmap-wc
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb565-draw-pwrite
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-rgb565-draw-render
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-shrfb-scaledprimary
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-slowdraw
-LKP SKIP igt@kms_frontbuffer_tracking@psrdrrs-suspend
-2022-01-28 04:56:31 build/tests/kms_psr2_sf --run-subtest cursor-plane-update-sf
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main583, file ../tests/i915/kms_psr2_sf.c:597:
-Test requirement: psr_sink_support(data.drm_fd, data.debugfs_fd, PSR_MODE_2)
-Sink does not support PSR2
-Last errno: 19, No such device
-Subtest cursor-plane-update-sf: SKIP
-2022-01-28 04:56:31 build/tests/kms_psr2_sf --run-subtest overlay-plane-update-continuous-sf
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main583, file ../tests/i915/kms_psr2_sf.c:597:
-Test requirement: psr_sink_support(data.drm_fd, data.debugfs_fd, PSR_MODE_2)
-Sink does not support PSR2
-Last errno: 19, No such device
-Subtest overlay-plane-update-continuous-sf: SKIP
-2022-01-28 04:56:31 build/tests/kms_psr2_sf --run-subtest overlay-plane-update-sf-dmg-area
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main583, file ../tests/i915/kms_psr2_sf.c:597:
-Test requirement: psr_sink_support(data.drm_fd, data.debugfs_fd, PSR_MODE_2)
-Sink does not support PSR2
-Last errno: 19, No such device
-Subtest overlay-plane-update-sf-dmg-area: SKIP
-2022-01-28 04:56:31 build/tests/kms_psr2_sf --run-subtest overlay-primary-update-sf-dmg-area
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main583, file ../tests/i915/kms_psr2_sf.c:597:
-Test requirement: psr_sink_support(data.drm_fd, data.debugfs_fd, PSR_MODE_2)
-Sink does not support PSR2
-Last errno: 19, No such device
-Subtest overlay-primary-update-sf-dmg-area: SKIP
-2022-01-28 04:56:31 build/tests/kms_psr2_sf --run-subtest plane-move-sf-dmg-area
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main583, file ../tests/i915/kms_psr2_sf.c:597:
-Test requirement: psr_sink_support(data.drm_fd, data.debugfs_fd, PSR_MODE_2)
-Sink does not support PSR2
-Last errno: 19, No such device
-Subtest plane-move-sf-dmg-area: SKIP
-2022-01-28 04:56:31 build/tests/kms_psr2_sf --run-subtest primary-plane-update-sf-dmg-area
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function __igt_unique____real_main583, file ../tests/i915/kms_psr2_sf.c:597:
-Test requirement: psr_sink_support(data.drm_fd, data.debugfs_fd, PSR_MODE_2)
-Sink does not support PSR2
-Last errno: 19, No such device
-Subtest primary-plane-update-sf-dmg-area: SKIP
-2022-01-28 04:56:31 build/tests/kms_sequence --run-subtest get-busy
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: get-busy
-Beginning get-busy on pipe A, connector HDMI-A-2 (1 threads)
-Time to get current counter (busy):		  0.360µs
-
-get-busy on pipe A, connector HDMI-A-2: PASSED
-
-Beginning get-busy on pipe B, connector HDMI-A-2 (1 threads)
-Time to get current counter (busy):		  0.360µs
-
-get-busy on pipe B, connector HDMI-A-2: PASSED
-
-Beginning get-busy on pipe C, connector HDMI-A-2 (1 threads)
-Time to get current counter (busy):		  0.358µs
-
-get-busy on pipe C, connector HDMI-A-2: PASSED
-
-Subtest get-busy: SUCCESS (6.914s)
-2022-01-28 04:56:39 build/tests/kms_sequence --run-subtest get-forked
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: get-forked
-Beginning get-forked on pipe A, connector HDMI-A-2 (20 threads)
-Time to get current counter (idle):		  6.318µs
-Time to get current counter (idle):		  8.768µs
-Time to get current counter (idle):		  7.467µs
-Time to get current counter (idle):		  6.795µs
-Time to get current counter (idle):		  9.351µs
-Time to get current counter (idle):		  8.052µs
-Time to get current counter (idle):		  6.490µs
-Time to get current counter (idle):		  3.923µs
-Time to get current counter (idle):		  7.663µs
-Time to get current counter (idle):		  8.211µs
-Time to get current counter (idle):		  6.869µs
-Time to get current counter (idle):		  8.741µs
-Time to get current counter (idle):		  6.745µs
-Time to get current counter (idle):		  6.329µs
-Time to get current counter (idle):		  7.572µs
-Time to get current counter (idle):		  8.049µs
-Time to get current counter (idle):		  3.956µs
-Time to get current counter (idle):		  8.777µs
-Time to get current counter (idle):		  7.636µs
-Time to get current counter (idle):		  7.843µs
-
-get-forked on pipe A, connector HDMI-A-2: PASSED
-
-Beginning get-forked on pipe B, connector HDMI-A-2 (20 threads)
-Time to get current counter (idle):		  9.248µs
-Time to get current counter (idle):		  5.505µs
-Time to get current counter (idle):		  9.553µs
-Time to get current counter (idle):		  6.533µs
-Time to get current counter (idle):		  7.264µs
-Time to get current counter (idle):		  3.927µs
-Time to get current counter (idle):		  8.328µs
-Time to get current counter (idle):		  8.372µs
-Time to get current counter (idle):		  8.225µs
-Time to get current counter (idle):		  7.652µs
-Time to get current counter (idle):		  7.146µs
-Time to get current counter (idle):		  8.981µs
-Time to get current counter (idle):		  6.640µs
-Time to get current counter (idle):		  8.237µs
-Time to get current counter (idle):		  5.455µs
-Time to get current counter (idle):		  3.933µs
-Time to get current counter (idle):		  9.383µs
-Time to get current counter (idle):		  7.931µs
-Time to get current counter (idle):		  8.391µs
-Time to get current counter (idle):		  8.221µs
-
-get-forked on pipe B, connector HDMI-A-2: PASSED
-
-Beginning get-forked on pipe C, connector HDMI-A-2 (20 threads)
-Time to get current counter (idle):		  3.700µs
-Time to get current counter (idle):		  8.698µs
-Time to get current counter (idle):		  5.459µs
-Time to get current counter (idle):		  9.869µs
-Time to get current counter (idle):		  9.110µs
-Time to get current counter (idle):		  7.713µs
-Time to get current counter (idle):		  8.167µs
-Time to get current counter (idle):		  8.115µs
-Time to get current counter (idle):		  8.280µs
-Time to get current counter (idle):		  8.523µs
-Time to get current counter (idle):		  9.218µs
-Time to get current counter (idle):		  5.527µs
-Time to get current counter (idle):		  3.752µs
-Time to get current counter (idle):		  7.808µs
-Time to get current counter (idle):		  7.706µs
-Time to get current counter (idle):		  7.755µs
-Time to get current counter (idle):		  6.405µs
-Time to get current counter (idle):		  6.581µs
-Time to get current counter (idle):		  8.084µs
-Time to get current counter (idle):		  8.612µs
-
-get-forked on pipe C, connector HDMI-A-2: PASSED
-
-Subtest get-forked: SUCCESS (6.453s)
-2022-01-28 04:56:45 build/tests/kms_sequence --run-subtest get-forked-busy
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: get-forked-busy
-Beginning get-forked-busy on pipe A, connector HDMI-A-2 (20 threads)
-Time to get current counter (busy):		  9.179µs
-Time to get current counter (busy):		  8.975µs
-Time to get current counter (busy):		  7.945µs
-Time to get current counter (busy):		  6.581µs
-Time to get current counter (busy):		  7.537µs
-Time to get current counter (busy):		  5.787µs
-Time to get current counter (busy):		  5.592µs
-Time to get current counter (busy):		  8.419µs
-Time to get current counter (busy):		  8.524µs
-Time to get current counter (busy):		  5.416µs
-Time to get current counter (busy):		  6.091µs
-Time to get current counter (busy):		  6.959µs
-Time to get current counter (busy):		  8.625µs
-Time to get current counter (busy):		  4.690µs
-Time to get current counter (busy):		  4.784µs
-Time to get current counter (busy):		  8.712µs
-Time to get current counter (busy):		  8.669µs
-Time to get current counter (busy):		  7.581µs
-Time to get current counter (busy):		  7.266µs
-Time to get current counter (busy):		  7.859µs
-
-get-forked-busy on pipe A, connector HDMI-A-2: PASSED
-
-Beginning get-forked-busy on pipe B, connector HDMI-A-2 (20 threads)
-Time to get current counter (busy):		  7.061µs
-Time to get current counter (busy):		  7.834µs
-Time to get current counter (busy):		  9.493µs
-Time to get current counter (busy):		  8.578µs
-Time to get current counter (busy):		  4.862µs
-Time to get current counter (busy):		  4.876µs
-Time to get current counter (busy):		  8.429µs
-Time to get current counter (busy):		  5.218µs
-Time to get current counter (busy):		  9.262µs
-Time to get current counter (busy):		  9.212µs
-Time to get current counter (busy):		  6.961µs
-Time to get current counter (busy):		  8.660µs
-Time to get current counter (busy):		  5.245µs
-Time to get current counter (busy):		  9.639µs
-Time to get current counter (busy):		  8.165µs
-Time to get current counter (busy):		  5.059µs
-Time to get current counter (busy):		  9.491µs
-Time to get current counter (busy):		  7.992µs
-Time to get current counter (busy):		  4.652µs
-Time to get current counter (busy):		  7.708µs
-
-get-forked-busy on pipe B, connector HDMI-A-2: PASSED
-
-Beginning get-forked-busy on pipe C, connector HDMI-A-2 (20 threads)
-Time to get current counter (busy):		  8.375µs
-Time to get current counter (busy):		  4.800µs
-Time to get current counter (busy):		  8.937µs
-Time to get current counter (busy):		  5.497µs
-Time to get current counter (busy):		  8.224µs
-Time to get current counter (busy):		  8.519µs
-Time to get current counter (busy):		  6.529µs
-Time to get current counter (busy):		  5.302µs
-Time to get current counter (busy):		  5.239µs
-Time to get current counter (busy):		  8.679µs
-Time to get current counter (busy):		  8.223µs
-Time to get current counter (busy):		  9.512µs
-Time to get current counter (busy):		  6.657µs
-Time to get current counter (busy):		  8.990µs
-Time to get current counter (busy):		  9.578µs
-Time to get current counter (busy):		  4.859µs
-Time to get current counter (busy):		  8.718µs
-Time to get current counter (busy):		  7.808µs
-Time to get current counter (busy):		  7.147µs
-Time to get current counter (busy):		  4.696µs
-
-get-forked-busy on pipe C, connector HDMI-A-2: PASSED
-
-Subtest get-forked-busy: SUCCESS (6.909s)
-2022-01-28 04:56:52 build/tests/kms_sequence --run-subtest get-idle
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: get-idle
-Beginning get-idle on pipe A, connector HDMI-A-2 (1 threads)
-Time to get current counter (idle):		  0.364µs
-
-get-idle on pipe A, connector HDMI-A-2: PASSED
-
-Beginning get-idle on pipe B, connector HDMI-A-2 (1 threads)
-Time to get current counter (idle):		  0.356µs
-
-get-idle on pipe B, connector HDMI-A-2: PASSED
-
-Beginning get-idle on pipe C, connector HDMI-A-2 (1 threads)
-Time to get current counter (idle):		  0.362µs
-
-get-idle on pipe C, connector HDMI-A-2: PASSED
-
-Subtest get-idle: SUCCESS (6.351s)
-2022-01-28 04:56:59 build/tests/kms_sequence --run-subtest queue-busy
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: queue-busy
-Beginning queue-busy on pipe A, connector HDMI-A-2 (1 threads)
-Time per frame from queue to event (busy):       16.661ms( 60.020Hz)
-
-queue-busy on pipe A, connector HDMI-A-2: PASSED
-
-Beginning queue-busy on pipe B, connector HDMI-A-2 (1 threads)
-Time per frame from queue to event (busy):       16.661ms( 60.020Hz)
-
-queue-busy on pipe B, connector HDMI-A-2: PASSED
-
-Beginning queue-busy on pipe C, connector HDMI-A-2 (1 threads)
-Time per frame from queue to event (busy):       16.661ms( 60.020Hz)
-
-queue-busy on pipe C, connector HDMI-A-2: PASSED
-
-Subtest queue-busy: SUCCESS (6.902s)
-2022-01-28 04:57:06 build/tests/kms_sequence --run-subtest queue-idle
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: queue-idle
-Beginning queue-idle on pipe A, connector HDMI-A-2 (1 threads)
-Time per frame from queue to event (idle):       16.661ms( 60.020Hz)
-
-queue-idle on pipe A, connector HDMI-A-2: PASSED
-
-Beginning queue-idle on pipe B, connector HDMI-A-2 (1 threads)
-Time per frame from queue to event (idle):       16.661ms( 60.020Hz)
-
-queue-idle on pipe B, connector HDMI-A-2: PASSED
-
-Beginning queue-idle on pipe C, connector HDMI-A-2 (1 threads)
-Time per frame from queue to event (idle):       16.661ms( 60.020Hz)
-
-queue-idle on pipe C, connector HDMI-A-2: PASSED
-
-Subtest queue-idle: SUCCESS (6.303s)
-2022-01-28 04:57:12 build/tests/prime_mmap --run-subtest test_aperture_limit
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_aperture_limit
-Starting dynamic subtest: test_aperture_limit-smem
-Dynamic subtest test_aperture_limit-smem: SUCCESS (0.011s)
-Subtest test_aperture_limit: SUCCESS (0.019s)
-2022-01-28 04:57:13 build/tests/prime_mmap --run-subtest test_correct
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_correct
-Starting dynamic subtest: test_correct-smem
-Dynamic subtest test_correct-smem: SUCCESS (0.001s)
-Subtest test_correct: SUCCESS (0.008s)
-2022-01-28 04:57:13 build/tests/prime_mmap --run-subtest test_correct_cpu_write
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_correct_cpu_write
-Starting dynamic subtest: test_correct_cpu_write-smem
-Dynamic subtest test_correct_cpu_write-smem: SUCCESS (0.000s)
-Subtest test_correct_cpu_write: SUCCESS (0.008s)
-2022-01-28 04:57:13 build/tests/prime_mmap --run-subtest test_dup
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_dup
-Starting dynamic subtest: test_dup-smem
-Dynamic subtest test_dup-smem: SUCCESS (0.001s)
-Subtest test_dup: SUCCESS (0.008s)
-2022-01-28 04:57:13 build/tests/prime_mmap --run-subtest test_errors
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_errors
-Starting dynamic subtest: test_errors-smem
-Dynamic subtest test_errors-smem: SUCCESS (0.002s)
-Subtest test_errors: SUCCESS (0.009s)
-2022-01-28 04:57:13 build/tests/prime_mmap --run-subtest test_forked
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_forked
-Starting dynamic subtest: test_forked-smem
-Dynamic subtest test_forked-smem: SUCCESS (0.004s)
-Subtest test_forked: SUCCESS (0.012s)
-2022-01-28 04:57:14 build/tests/prime_mmap --run-subtest test_forked_cpu_write
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_forked_cpu_write
-Starting dynamic subtest: test_forked_cpu_write-smem
-Dynamic subtest test_forked_cpu_write-smem: SUCCESS (0.004s)
-Subtest test_forked_cpu_write: SUCCESS (0.012s)
-2022-01-28 04:57:14 build/tests/prime_mmap --run-subtest test_invalid_sync_flags
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_invalid_sync_flags
-Starting dynamic subtest: test_invalid_sync_flags-smem
-Dynamic subtest test_invalid_sync_flags-smem: SUCCESS (0.000s)
-Subtest test_invalid_sync_flags: SUCCESS (0.008s)
-2022-01-28 04:57:14 build/tests/prime_mmap --run-subtest test_map_unmap
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_map_unmap
-Starting dynamic subtest: test_map_unmap-smem
-Dynamic subtest test_map_unmap-smem: SUCCESS (0.001s)
-Subtest test_map_unmap: SUCCESS (0.008s)
-2022-01-28 04:57:14 build/tests/prime_mmap --run-subtest test_refcounting
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_refcounting
-Starting dynamic subtest: test_refcounting-smem
-Dynamic subtest test_refcounting-smem: SUCCESS (0.001s)
-Subtest test_refcounting: SUCCESS (0.009s)
-2022-01-28 04:57:14 build/tests/prime_mmap --run-subtest test_reprime
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_reprime
-Starting dynamic subtest: test_reprime-smem
-Dynamic subtest test_reprime-smem: SUCCESS (0.001s)
-Subtest test_reprime: SUCCESS (0.008s)
-2022-01-28 04:57:14 build/tests/prime_mmap --run-subtest test_userptr
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Starting subtest: test_userptr
-Starting dynamic subtest: test_userptr-smem
-Dynamic subtest test_userptr-smem: SUCCESS (0.000s)
-Subtest test_userptr: SUCCESS (0.008s)
-2022-01-28 04:57:15 build/tests/sw_sync --run-subtest alloc_fence
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
+Subtest basic: SUCCESS (0.003s)
+2022-01-27 08:51:57 build/tests/gem_linear_blits --run-subtest interruptible
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: interruptible
+Subtest interruptible: SUCCESS (2.892s)
+2022-01-27 08:52:01 build/tests/gem_linear_blits --run-subtest normal
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: normal
+Subtest normal: SUCCESS (2.864s)
+2022-01-27 08:52:04 build/tests/i915_pm_rc6_residency --run-subtest media-rc6-accuracy
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: media-rc6-accuracy
+Test requirement not met in function __igt_unique____real_main534, file ../tests/i915/i915_pm_rc6_residency.c:585:
+Test requirement: IS_VALLEYVIEW(devid) || IS_CHERRYVIEW(devid)
+Subtest media-rc6-accuracy: SKIP (0.000s)
+2022-01-27 08:52:04 build/tests/i915_pm_rc6_residency --run-subtest rc6-accuracy
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: rc6-accuracy
+Residency in rc6 or deeper state: 2995 ms (sleep duration 3001 ms) (99.8% of expected duration)
+Subtest rc6-accuracy: SUCCESS (3.001s)
+2022-01-27 08:52:07 build/tests/i915_pm_rc6_residency --run-subtest rc6-fence
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: rc6-fence
 Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
 Test requirement: kernel_has_sw_sync()
 Last errno: 2, No such file or directory
-Subtest alloc_fence: SKIP
-2022-01-28 04:57:15 build/tests/sw_sync --run-subtest alloc_fence_invalid_timeline
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Subtest rc6-fence: SKIP (0.002s)
+2022-01-27 08:52:08 build/tests/i915_pm_rc6_residency --run-subtest rc6-idle
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: rc6-idle
+Total energy used while idle: 0.0mJ
+Total energy used for normal: 1713.6mJ (571.2mW)
+(i915_pm_rc6_residency:4218) CRITICAL: Test assertion failure function rc6_idle, file ../tests/i915/i915_pm_rc6_residency.c:435:
+(i915_pm_rc6_residency:4218) CRITICAL: Failed assertion: (rc6) <= (ts[1] - ts[0]) * (1.0 + (tolerance)/100.) && (rc6) >= (ts[1] - ts[0]) * (1.0 - (tolerance)/100.)
+(i915_pm_rc6_residency:4218) CRITICAL: 'rc6' != 'ts[1] - ts[0]' (1.67e+09 not within +20%/-20% tolerance of 3e+09)
+Subtest rc6-idle failed.
+**** DEBUG ****
+(i915_pm_rc6_residency:4218) drmtest-DEBUG: Test requirement passed: is_i915_device(fd)
+(i915_pm_rc6_residency:4218) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+(i915_pm_rc6_residency:4218) i915/gem-DEBUG: Test requirement passed: dir >= 0
+(i915_pm_rc6_residency:4218) igt_sysfs-DEBUG: Condition fd < 0 occurred in function igt_sysfs_write, file ../lib/igt_sysfs.c:124
+(i915_pm_rc6_residency:4218) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+(i915_pm_rc6_residency:4218) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+(i915_pm_rc6_residency:4218) i915/gem-DEBUG: Test requirement passed: err == 0
+(i915_pm_rc6_residency:4218) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+(i915_pm_rc6_residency:4218) DEBUG: Test requirement passed: !(fd < 0 && errno == ENODEV)
+(i915_pm_rc6_residency:4218) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+(i915_pm_rc6_residency:4218) DEBUG: Test requirement passed: __pmu_wait_for_rc6(fd)
+(i915_pm_rc6_residency:4218) DEBUG: slept=3000472942 perf=3000506306, rc6=3000506805
+(i915_pm_rc6_residency:4218) INFO: Total energy used while idle: 0.0mJ
+(i915_pm_rc6_residency:4218) DEBUG: normal: slept=3000195757 perf=3000249816, cycles=394, rc6=1666136522
+(i915_pm_rc6_residency:4218) INFO: Total energy used for normal: 1713.6mJ (571.2mW)
+(i915_pm_rc6_residency:4218) CRITICAL: Test assertion failure function rc6_idle, file ../tests/i915/i915_pm_rc6_residency.c:435:
+(i915_pm_rc6_residency:4218) CRITICAL: Failed assertion: (rc6) <= (ts[1] - ts[0]) * (1.0 + (tolerance)/100.) && (rc6) >= (ts[1] - ts[0]) * (1.0 - (tolerance)/100.)
+(i915_pm_rc6_residency:4218) CRITICAL: 'rc6' != 'ts[1] - ts[0]' (1.67e+09 not within +20%/-20% tolerance of 3e+09)
+(i915_pm_rc6_residency:4218) igt_core-INFO: Stack trace:
+(i915_pm_rc6_residency:4218) igt_core-INFO:   #0 ../lib/igt_core.c:1752 __igt_fail_assert()
+(i915_pm_rc6_residency:4218) igt_core-INFO:   #1 ../tests/i915/i915_pm_rc6_residency.c:569 __igt_unique____real_main534()
+(i915_pm_rc6_residency:4218) igt_core-INFO:   #2 [main+0x30]
+****  END  ****
+Stack trace:
+  #0 ../lib/igt_core.c:1752 __igt_fail_assert()
+  #1 ../tests/i915/i915_pm_rc6_residency.c:569 __igt_unique____real_main534()
+  #2 [main+0x30]
+Subtest rc6-idle: FAIL (6.174s)
+2022-01-27 08:52:14 build/tests/i915_pm_sseu --run-subtest full-enable
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: full-enable
+Subtest full-enable: SUCCESS (0.012s)
+2022-01-27 08:52:15 build/tests/kms_color_chamelium --run-subtest pipe-A-ctm-0-25
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-A-ctm-0-25: SKIP
+2022-01-27 08:52:15 build/tests/kms_color_chamelium --run-subtest pipe-A-ctm-0-5
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-A-ctm-0-5: SKIP
+2022-01-27 08:52:15 build/tests/kms_color_chamelium --run-subtest pipe-A-ctm-0-75
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-A-ctm-0-75: SKIP
+2022-01-27 08:52:15 build/tests/kms_color_chamelium --run-subtest pipe-A-ctm-blue-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-A-ctm-blue-to-red: SKIP
+2022-01-27 08:52:15 build/tests/kms_color_chamelium --run-subtest pipe-A-ctm-green-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-A-ctm-green-to-red: SKIP
+2022-01-27 08:52:16 build/tests/kms_color_chamelium --run-subtest pipe-A-ctm-limited-range
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-A-ctm-limited-range: SKIP
+2022-01-27 08:52:16 build/tests/kms_color_chamelium --run-subtest pipe-A-ctm-max
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-A-ctm-max: SKIP
+2022-01-27 08:52:16 build/tests/kms_color_chamelium --run-subtest pipe-A-ctm-negative
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-A-ctm-negative: SKIP
+2022-01-27 08:52:16 build/tests/kms_color_chamelium --run-subtest pipe-A-ctm-red-to-blue
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-A-ctm-red-to-blue: SKIP
+2022-01-27 08:52:16 build/tests/kms_color_chamelium --run-subtest pipe-A-degamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-A-degamma: SKIP
+2022-01-27 08:52:16 build/tests/kms_color_chamelium --run-subtest pipe-A-gamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-A-gamma: SKIP
+2022-01-27 08:52:17 build/tests/kms_color_chamelium --run-subtest pipe-B-ctm-0-25
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-B-ctm-0-25: SKIP
+2022-01-27 08:52:17 build/tests/kms_color_chamelium --run-subtest pipe-B-ctm-0-5
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-B-ctm-0-5: SKIP
+2022-01-27 08:52:17 build/tests/kms_color_chamelium --run-subtest pipe-B-ctm-0-75
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-B-ctm-0-75: SKIP
+2022-01-27 08:52:17 build/tests/kms_color_chamelium --run-subtest pipe-B-ctm-blue-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-B-ctm-blue-to-red: SKIP
+2022-01-27 08:52:17 build/tests/kms_color_chamelium --run-subtest pipe-B-ctm-green-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-B-ctm-green-to-red: SKIP
+2022-01-27 08:52:17 build/tests/kms_color_chamelium --run-subtest pipe-B-ctm-limited-range
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-B-ctm-limited-range: SKIP
+2022-01-27 08:52:18 build/tests/kms_color_chamelium --run-subtest pipe-B-ctm-max
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-B-ctm-max: SKIP
+2022-01-27 08:52:18 build/tests/kms_color_chamelium --run-subtest pipe-B-ctm-negative
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-B-ctm-negative: SKIP
+2022-01-27 08:52:18 build/tests/kms_color_chamelium --run-subtest pipe-B-ctm-red-to-blue
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-B-ctm-red-to-blue: SKIP
+2022-01-27 08:52:18 build/tests/kms_color_chamelium --run-subtest pipe-B-degamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-B-degamma: SKIP
+2022-01-27 08:52:18 build/tests/kms_color_chamelium --run-subtest pipe-B-gamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-B-gamma: SKIP
+2022-01-27 08:52:18 build/tests/kms_color_chamelium --run-subtest pipe-C-ctm-0-25
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-C-ctm-0-25: SKIP
+2022-01-27 08:52:19 build/tests/kms_color_chamelium --run-subtest pipe-C-ctm-0-5
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-C-ctm-0-5: SKIP
+2022-01-27 08:52:19 build/tests/kms_color_chamelium --run-subtest pipe-C-ctm-0-75
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-C-ctm-0-75: SKIP
+2022-01-27 08:52:19 build/tests/kms_color_chamelium --run-subtest pipe-C-ctm-blue-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-C-ctm-blue-to-red: SKIP
+2022-01-27 08:52:19 build/tests/kms_color_chamelium --run-subtest pipe-C-ctm-green-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-C-ctm-green-to-red: SKIP
+2022-01-27 08:52:19 build/tests/kms_color_chamelium --run-subtest pipe-C-ctm-limited-range
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-C-ctm-limited-range: SKIP
+2022-01-27 08:52:20 build/tests/kms_color_chamelium --run-subtest pipe-C-ctm-max
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-C-ctm-max: SKIP
+2022-01-27 08:52:20 build/tests/kms_color_chamelium --run-subtest pipe-C-ctm-negative
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-C-ctm-negative: SKIP
+2022-01-27 08:52:20 build/tests/kms_color_chamelium --run-subtest pipe-C-ctm-red-to-blue
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-C-ctm-red-to-blue: SKIP
+2022-01-27 08:52:20 build/tests/kms_color_chamelium --run-subtest pipe-C-degamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-C-degamma: SKIP
+2022-01-27 08:52:20 build/tests/kms_color_chamelium --run-subtest pipe-C-gamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-C-gamma: SKIP
+2022-01-27 08:52:20 build/tests/kms_color_chamelium --run-subtest pipe-D-ctm-0-25
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-D-ctm-0-25: SKIP
+2022-01-27 08:52:21 build/tests/kms_color_chamelium --run-subtest pipe-D-ctm-0-5
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-D-ctm-0-5: SKIP
+2022-01-27 08:52:21 build/tests/kms_color_chamelium --run-subtest pipe-D-ctm-0-75
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-D-ctm-0-75: SKIP
+2022-01-27 08:52:21 build/tests/kms_color_chamelium --run-subtest pipe-D-ctm-blue-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-D-ctm-blue-to-red: SKIP
+2022-01-27 08:52:21 build/tests/kms_color_chamelium --run-subtest pipe-D-ctm-green-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-D-ctm-green-to-red: SKIP
+2022-01-27 08:52:21 build/tests/kms_color_chamelium --run-subtest pipe-D-ctm-limited-range
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-D-ctm-limited-range: SKIP
+2022-01-27 08:52:21 build/tests/kms_color_chamelium --run-subtest pipe-D-ctm-max
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-D-ctm-max: SKIP
+2022-01-27 08:52:22 build/tests/kms_color_chamelium --run-subtest pipe-D-ctm-negative
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-D-ctm-negative: SKIP
+2022-01-27 08:52:22 build/tests/kms_color_chamelium --run-subtest pipe-D-ctm-red-to-blue
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-D-ctm-red-to-blue: SKIP
+2022-01-27 08:52:22 build/tests/kms_color_chamelium --run-subtest pipe-D-degamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-D-degamma: SKIP
+2022-01-27 08:52:22 build/tests/kms_color_chamelium --run-subtest pipe-D-gamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-D-gamma: SKIP
+2022-01-27 08:52:22 build/tests/kms_color_chamelium --run-subtest pipe-E-ctm-0-25
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-E-ctm-0-25: SKIP
+2022-01-27 08:52:22 build/tests/kms_color_chamelium --run-subtest pipe-E-ctm-0-5
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-E-ctm-0-5: SKIP
+2022-01-27 08:52:23 build/tests/kms_color_chamelium --run-subtest pipe-E-ctm-0-75
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-E-ctm-0-75: SKIP
+2022-01-27 08:52:23 build/tests/kms_color_chamelium --run-subtest pipe-E-ctm-blue-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-E-ctm-blue-to-red: SKIP
+2022-01-27 08:52:23 build/tests/kms_color_chamelium --run-subtest pipe-E-ctm-green-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-E-ctm-green-to-red: SKIP
+2022-01-27 08:52:23 build/tests/kms_color_chamelium --run-subtest pipe-E-ctm-limited-range
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-E-ctm-limited-range: SKIP
+2022-01-27 08:52:23 build/tests/kms_color_chamelium --run-subtest pipe-E-ctm-max
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-E-ctm-max: SKIP
+2022-01-27 08:52:23 build/tests/kms_color_chamelium --run-subtest pipe-E-ctm-negative
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-E-ctm-negative: SKIP
+2022-01-27 08:52:24 build/tests/kms_color_chamelium --run-subtest pipe-E-ctm-red-to-blue
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-E-ctm-red-to-blue: SKIP
+2022-01-27 08:52:24 build/tests/kms_color_chamelium --run-subtest pipe-E-degamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-E-degamma: SKIP
+2022-01-27 08:52:24 build/tests/kms_color_chamelium --run-subtest pipe-E-gamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-E-gamma: SKIP
+2022-01-27 08:52:24 build/tests/kms_color_chamelium --run-subtest pipe-F-ctm-0-25
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-F-ctm-0-25: SKIP
+2022-01-27 08:52:24 build/tests/kms_color_chamelium --run-subtest pipe-F-ctm-0-5
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-F-ctm-0-5: SKIP
+2022-01-27 08:52:24 build/tests/kms_color_chamelium --run-subtest pipe-F-ctm-0-75
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-F-ctm-0-75: SKIP
+2022-01-27 08:52:25 build/tests/kms_color_chamelium --run-subtest pipe-F-ctm-blue-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-F-ctm-blue-to-red: SKIP
+2022-01-27 08:52:25 build/tests/kms_color_chamelium --run-subtest pipe-F-ctm-green-to-red
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-F-ctm-green-to-red: SKIP
+2022-01-27 08:52:25 build/tests/kms_color_chamelium --run-subtest pipe-F-ctm-limited-range
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-F-ctm-limited-range: SKIP
+2022-01-27 08:52:25 build/tests/kms_color_chamelium --run-subtest pipe-F-ctm-max
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-F-ctm-max: SKIP
+2022-01-27 08:52:25 build/tests/kms_color_chamelium --run-subtest pipe-F-ctm-negative
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-F-ctm-negative: SKIP
+2022-01-27 08:52:25 build/tests/kms_color_chamelium --run-subtest pipe-F-ctm-red-to-blue
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-F-ctm-red-to-blue: SKIP
+2022-01-27 08:52:26 build/tests/kms_color_chamelium --run-subtest pipe-F-degamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-F-degamma: SKIP
+2022-01-27 08:52:26 build/tests/kms_color_chamelium --run-subtest pipe-F-gamma
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main726, file ../tests/kms_color_chamelium.c:743:
+Test requirement: data.chamelium
+Subtest pipe-F-gamma: SKIP
+2022-01-27 08:52:26 build/tests/perf --run-subtest blocking
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: blocking
+Subtest blocking: SUCCESS (10.016s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:52:36 build/tests/perf --run-subtest blocking-parameterized
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: blocking-parameterized
+Subtest blocking-parameterized: SUCCESS (20.012s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:52:56 build/tests/perf --run-subtest buffer-fill
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: buffer-fill
+Subtest buffer-fill: SUCCESS (1.702s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:52:58 build/tests/perf --run-subtest create-destroy-userspace-config
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest alloc_fence_invalid_timeline: SKIP
-2022-01-28 04:57:15 build/tests/sw_sync --run-subtest alloc_merge_fence
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Starting subtest: create-destroy-userspace-config
+Subtest create-destroy-userspace-config: SUCCESS (0.010s)
+2022-01-27 08:52:58 build/tests/perf --run-subtest disabled-read-error
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: disabled-read-error
+Subtest disabled-read-error: SUCCESS (0.012s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:52:58 build/tests/perf --run-subtest enable-disable
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: enable-disable
+Subtest enable-disable: SUCCESS (1.706s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:00 build/tests/perf --run-subtest gen12-mi-rpc
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest alloc_merge_fence: SKIP
-2022-01-28 04:57:15 build/tests/sw_sync --run-subtest alloc_timeline
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Subtest gen12-mi-rpc: SKIP
+2022-01-27 08:53:00 build/tests/perf --run-subtest gen12-oa-tlb-invalidate
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest alloc_timeline: SKIP
-2022-01-28 04:57:15 build/tests/sw_sync --run-subtest sync_busy
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Subtest gen12-oa-tlb-invalidate: SKIP
+2022-01-27 08:53:00 build/tests/perf --run-subtest gen12-unprivileged-single-ctx-counters
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest sync_busy: SKIP
-2022-01-28 04:57:15 build/tests/sw_sync --run-subtest sync_busy_fork
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Subtest gen12-unprivileged-single-ctx-counters: SKIP
+2022-01-27 08:53:00 build/tests/perf --run-subtest gen8-unprivileged-single-ctx-counters
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: gen8-unprivileged-single-ctx-counters
+Subtest gen8-unprivileged-single-ctx-counters: SUCCESS (0.052s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:01 build/tests/perf --run-subtest global-sseu-config
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest sync_busy_fork: SKIP
-2022-01-28 04:57:15 build/tests/sw_sync --run-subtest sync_busy_fork_unixsocket
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Starting subtest: global-sseu-config
+Subtest global-sseu-config: SUCCESS (0.015s)
+2022-01-27 08:53:01 build/tests/perf --run-subtest global-sseu-config-invalid
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest sync_busy_fork_unixsocket: SKIP
-2022-01-28 04:57:16 build/tests/sw_sync --run-subtest sync_expired_merge
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Starting subtest: global-sseu-config-invalid
+Subtest global-sseu-config-invalid: SUCCESS (0.004s)
+2022-01-27 08:53:01 build/tests/perf --run-subtest i915-ref-count
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: i915-ref-count
+Subtest i915-ref-count: SUCCESS (0.017s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest sync_expired_merge: SKIP
-2022-01-28 04:57:16 build/tests/sw_sync --run-subtest sync_merge
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+2022-01-27 08:53:01 build/tests/perf --run-subtest invalid-create-userspace-config
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest sync_merge: SKIP
-2022-01-28 04:57:16 build/tests/sw_sync --run-subtest sync_merge_invalid
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Starting subtest: invalid-create-userspace-config
+Subtest invalid-create-userspace-config: SUCCESS (0.000s)
+2022-01-27 08:53:01 build/tests/perf --run-subtest invalid-oa-exponent
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: invalid-oa-exponent
+Subtest invalid-oa-exponent: SUCCESS (0.006s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:01 build/tests/perf --run-subtest invalid-oa-format-id
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: invalid-oa-format-id
+Subtest invalid-oa-format-id: SUCCESS (0.006s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:01 build/tests/perf --run-subtest invalid-oa-metric-set-id
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: invalid-oa-metric-set-id
+Subtest invalid-oa-metric-set-id: SUCCESS (0.006s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:02 build/tests/perf --run-subtest invalid-open-flags
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: invalid-open-flags
+Subtest invalid-open-flags: SUCCESS (0.000s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:02 build/tests/perf --run-subtest invalid-remove-userspace-config
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest sync_merge_invalid: SKIP
-2022-01-28 04:57:16 build/tests/sw_sync --run-subtest sync_merge_same
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Starting subtest: invalid-remove-userspace-config
+Subtest invalid-remove-userspace-config: SUCCESS (0.004s)
+2022-01-27 08:53:02 build/tests/perf --run-subtest low-oa-exponent-permissions
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: low-oa-exponent-permissions
+Subtest low-oa-exponent-permissions: SUCCESS (0.029s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:02 build/tests/perf --run-subtest mi-rpc
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: mi-rpc
+Subtest mi-rpc: SUCCESS (0.008s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:02 build/tests/perf --run-subtest missing-sample-flags
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: missing-sample-flags
+Subtest missing-sample-flags: SUCCESS (0.000s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:02 build/tests/perf --run-subtest non-sampling-read-error
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: non-sampling-read-error
+Subtest non-sampling-read-error: SUCCESS (0.006s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:02 build/tests/perf --run-subtest non-system-wide-paranoid
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: non-system-wide-paranoid
+Subtest non-system-wide-paranoid: SUCCESS (0.014s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:03 build/tests/perf --run-subtest non-zero-reason
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: non-zero-reason
+Subtest non-zero-reason: SUCCESS (6.158s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:09 build/tests/perf --run-subtest oa-exponents
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: oa-exponents
+Subtest oa-exponents: SUCCESS (5.345s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:14 build/tests/perf --run-subtest oa-formats
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: oa-formats
+Subtest oa-formats: SUCCESS (0.054s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:14 build/tests/perf --run-subtest per-context-mode-unprivileged
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: per-context-mode-unprivileged
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:4983:
+Test requirement: IS_HASWELL(devid)
+Subtest per-context-mode-unprivileged: SKIP (0.000s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:15 build/tests/perf --run-subtest polling
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: polling
+Subtest polling: SUCCESS (10.011s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:25 build/tests/perf --run-subtest polling-parameterized
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: polling-parameterized
+Subtest polling-parameterized: SUCCESS (20.013s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:45 build/tests/perf --run-subtest polling-small-buf
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: polling-small-buf
+Read 928752 expected 990000 (93.81% of the expected number), polls=1176
+Subtest polling-small-buf: SUCCESS (0.086s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:45 build/tests/perf --run-subtest rc6-disable
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest sync_merge_same: SKIP
-2022-01-28 04:57:16 build/tests/sw_sync --run-subtest sync_multi_consumer
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Starting subtest: rc6-disable
+Subtest rc6-disable: SUCCESS (0.166s)
+2022-01-27 08:53:45 build/tests/perf --run-subtest short-reads
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: short-reads
+Subtest short-reads: SUCCESS (0.012s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:45 build/tests/perf --run-subtest stress-open-close
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest sync_multi_consumer: SKIP
-2022-01-28 04:57:16 build/tests/sw_sync --run-subtest sync_multi_consumer_producer
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+Starting subtest: stress-open-close
+Subtest stress-open-close: SUCCESS (2.165s)
+2022-01-27 08:53:48 build/tests/perf --run-subtest sysctl-defaults
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: sysctl-defaults
+Subtest sysctl-defaults: SUCCESS (0.000s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest sync_multi_consumer_producer: SKIP
-2022-01-28 04:57:16 build/tests/sw_sync --run-subtest sync_multi_producer_single_consumer
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
+2022-01-27 08:53:48 build/tests/perf --run-subtest unprivileged-single-ctx-counters
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Starting subtest: unprivileged-single-ctx-counters
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5056:
+Test requirement: IS_HASWELL(devid)
+Subtest unprivileged-single-ctx-counters: SKIP (0.000s)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
+2022-01-27 08:53:48 build/tests/perf --run-subtest whitelisted-registers-userspace-config
+IGT-Version: 1.26-g0d559158 (x86_64) (Linux: 5.16.0-rc5-01359-g9366257fc04f x86_64)
+Test requirement not met in function __igt_unique____real_main4909, file ../tests/i915/perf.c:5074:
+Test requirement: intel_gen(devid) >= 12
 Last errno: 2, No such file or directory
-Subtest sync_multi_producer_single_consumer: SKIP
-2022-01-28 04:57:16 build/tests/sw_sync --run-subtest sync_multi_timeline_wait
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
-Last errno: 2, No such file or directory
-Subtest sync_multi_timeline_wait: SKIP
-2022-01-28 04:57:17 build/tests/sw_sync --run-subtest sync_random_merge
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
-Last errno: 2, No such file or directory
-Subtest sync_random_merge: SKIP
-2022-01-28 04:57:17 build/tests/sw_sync --run-subtest timeline_closed
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
-Last errno: 2, No such file or directory
-Subtest timeline_closed: SKIP
-2022-01-28 04:57:17 build/tests/sw_sync --run-subtest timeline_closed_signaled
-IGT-Version: 1.26-gae2eb9e1 (x86_64) (Linux: 5.16.0-rc5-01357-g26b145b982ff x86_64)
-Test requirement not met in function igt_require_sw_sync, file ../lib/sw_sync.c:265:
-Test requirement: kernel_has_sw_sync()
-Last errno: 2, No such file or directory
-Subtest timeline_closed_signaled: SKIP
+Starting subtest: whitelisted-registers-userspace-config
+Subtest whitelisted-registers-userspace-config: SUCCESS (0.000s)
 
---MIdTMoZhcV1D07fI
+--Pgaa2uWPnPrfixyx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename="job.yaml"
 
@@ -14184,7 +8488,7 @@ suite: igt
 testcase: igt
 category: functional
 igt:
-  group: group-15
+  group: group-18
 job_origin: igt-part2.yaml
 :#! queue options:
 queue_cmdline_keys:
@@ -14194,9 +8498,9 @@ queue: bisect
 testbox: lkp-cml-d02
 tbox_group: lkp-cml-d02
 kconfig: x86_64-rhel-8.3-func
-submit_id: 61f35ac2dbedd63c92046943
-job_file: "/lkp/jobs/scheduled/lkp-cml-d02/igt-group-15-ucode=0xc2-debian-10.4-x86_64-20200603.cgz-26b145b982ff9178951aab5849a2e2b716527865-20220128-15506-42k1aw-0.yaml"
-id: 4666d39d1553442f65842289521e1d1840e24602
+submit_id: 61f1438e7e25aa712ca0ad2b
+job_file: "/lkp/jobs/scheduled/lkp-cml-d02/igt-group-18-ucode=0xc2-debian-10.4-x86_64-20200603.cgz-9366257fc04f5bf26cbcec391743a6db25a9b133-20220126-28972-18nqi4f-0.yaml"
+id: 02d65cbb149eebd21c642fa2e870d0cb3edf9f66
 queuer_version: "/lkp-src"
 :#! hosts/lkp-cml-d02:
 model: Commet Lake
@@ -14211,7 +8515,7 @@ kmsg:
 heartbeat:
 meminfo:
 :#! include/queue/cyclic:
-commit: 26b145b982ff9178951aab5849a2e2b716527865
+commit: 9366257fc04f5bf26cbcec391743a6db25a9b133
 :#! include/testbox/lkp-cml-d02:
 netconsole_port: 6683
 ucode: '0xc2'
@@ -14222,32 +8526,32 @@ need_kconfig_hw:
 - DRM_I915
 - IGC: y
 bisect_dmesg: true
-enqueue_time: 2022-01-28 10:53:54.723700284 +08:00
-_id: 61f35ac2dbedd63c92046943
-_rt: "/result/igt/group-15-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865"
+enqueue_time: 2022-01-26 20:50:22.750176937 +08:00
+_id: 61f1438e7e25aa712ca0ad2b
+_rt: "/result/igt/group-18-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133"
 :#! schedule options:
 user: lkp
 compiler: gcc-9
 LKP_SERVER: internal-lkp-server
-head_commit: 763e7f7db407e397228f0c77454f356787a85d3d
+head_commit: ce745900cd99319c26fde02c08b572c7467b94c1
 base_commit: e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
-branch: linux-devel/devel-hourly-20220126-210959
+branch: linux-devel/devel-hourly-20220125-150639
 rootfs: debian-10.4-x86_64-20200603.cgz
-result_root: "/result/igt/group-15-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865/0"
+result_root: "/result/igt/group-18-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133/0"
 scheduler_version: "/lkp/lkp/.src-20220125-183421"
 arch: x86_64
 max_uptime: 2100
 initrd: "/osimage/debian/debian-10.4-x86_64-20200603.cgz"
 bootloader_append:
 - root=/dev/ram0
-- RESULT_ROOT=/result/igt/group-15-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865/0
-- BOOT_IMAGE=/pkg/linux/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865/vmlinuz-5.16.0-rc5-01357-g26b145b982ff
-- branch=linux-devel/devel-hourly-20220126-210959
-- job=/lkp/jobs/scheduled/lkp-cml-d02/igt-group-15-ucode=0xc2-debian-10.4-x86_64-20200603.cgz-26b145b982ff9178951aab5849a2e2b716527865-20220128-15506-42k1aw-0.yaml
+- RESULT_ROOT=/result/igt/group-18-ucode=0xc2/lkp-cml-d02/debian-10.4-x86_64-20200603.cgz/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133/0
+- BOOT_IMAGE=/pkg/linux/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133/vmlinuz-5.16.0-rc5-01359-g9366257fc04f
+- branch=linux-devel/devel-hourly-20220125-150639
+- job=/lkp/jobs/scheduled/lkp-cml-d02/igt-group-18-ucode=0xc2-debian-10.4-x86_64-20200603.cgz-9366257fc04f5bf26cbcec391743a6db25a9b133-20220126-28972-18nqi4f-0.yaml
 - user=lkp
 - ARCH=x86_64
 - kconfig=x86_64-rhel-8.3-func
-- commit=26b145b982ff9178951aab5849a2e2b716527865
+- commit=9366257fc04f5bf26cbcec391743a6db25a9b133
 - acpi_rsdp=0x9b0fe014
 - max_uptime=2100
 - LKP_SERVER=internal-lkp-server
@@ -14273,7 +8577,7 @@ bootloader_append:
 - console=ttyS0,115200
 - vga=normal
 - rw
-modules_initrd: "/pkg/linux/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865/modules.cgz"
+modules_initrd: "/pkg/linux/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133/modules.cgz"
 bm_initrd: "/osimage/deps/debian-10.4-x86_64-20200603.cgz/run-ipconfig_20200608.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/lkp_20220105.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/rsync-rootfs_20200608.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/igt_20220115.cgz,/osimage/pkg/debian-10.4-x86_64-20200603.cgz/igt-x86_64-0d559158-1_20220115.cgz,/osimage/deps/debian-10.4-x86_64-20200603.cgz/hw_20200715.cgz"
 ucode_initrd: "/osimage/ucode/intel-ucode-20210222.cgz"
 lkp_initrd: "/osimage/user/lkp/lkp-x86_64.cgz"
@@ -14284,534 +8588,157 @@ LKP_CIFS_PORT: 139
 oom-killer:
 watchdog:
 :#! runtime status:
-last_kernel: 5.17.0-rc1-wt-ath-05445-g6068da72f76a
+last_kernel: 5.17.0-rc1-wt-ath-04586-g05923b8cc590
 schedule_notify_address:
 :#! user overrides:
-kernel: "/pkg/linux/x86_64-rhel-8.3-func/gcc-9/26b145b982ff9178951aab5849a2e2b716527865/vmlinuz-5.16.0-rc5-01357-g26b145b982ff"
-dequeue_time: 2022-01-28 12:00:13.971292906 +08:00
-:#! /cephfs/db/releases/20220127170756/lkp-src/include/site/inn:
+kernel: "/pkg/linux/x86_64-rhel-8.3-func/gcc-9/9366257fc04f5bf26cbcec391743a6db25a9b133/vmlinuz-5.16.0-rc5-01359-g9366257fc04f"
+dequeue_time: 2022-01-26 21:29:10.596537901 +08:00
 job_state: booting
 
---MIdTMoZhcV1D07fI
+--Pgaa2uWPnPrfixyx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=reproduce
 
- "build/tests/gem_exec_balancer" "--run-subtest" "bonded-chain"
- "build/tests/gem_exec_balancer" "--run-subtest" "bonded-dual"
- "build/tests/gem_exec_balancer" "--run-subtest" "bonded-false-hang"
- "build/tests/gem_exec_balancer" "--run-subtest" "bonded-pair"
- "build/tests/gem_exec_balancer" "--run-subtest" "bonded-semaphore"
- "build/tests/gem_exec_balancer" "--run-subtest" "bonded-sync"
- "build/tests/gem_exec_balancer" "--run-subtest" "bonded-true-hang"
- "build/tests/gem_exec_balancer" "--run-subtest" "busy"
- "build/tests/gem_exec_balancer" "--run-subtest" "fairslice"
- "build/tests/gem_exec_balancer" "--run-subtest" "full"
- "build/tests/gem_exec_balancer" "--run-subtest" "full-late"
- "build/tests/gem_exec_balancer" "--run-subtest" "full-late-pulse"
- "build/tests/gem_exec_balancer" "--run-subtest" "full-pulse"
- "build/tests/gem_exec_balancer" "--run-subtest" "hang"
- "build/tests/gem_exec_balancer" "--run-subtest" "hog"
- "build/tests/gem_exec_balancer" "--run-subtest" "indices"
- "build/tests/gem_exec_balancer" "--run-subtest" "individual"
- "build/tests/gem_exec_balancer" "--run-subtest" "invalid-balancer"
- "build/tests/gem_exec_balancer" "--run-subtest" "invalid-bonds"
- "build/tests/gem_exec_balancer" "--run-subtest" "nohangcheck"
- "build/tests/gem_exec_balancer" "--run-subtest" "noheartbeat"
- "build/tests/gem_exec_balancer" "--run-subtest" "nop"
- "build/tests/gem_exec_balancer" "--run-subtest" "parallel"
- "build/tests/gem_exec_balancer" "--run-subtest" "parallel-balancer"
- "build/tests/gem_exec_balancer" "--run-subtest" "parallel-bb-first"
- "build/tests/gem_exec_balancer" "--run-subtest" "parallel-contexts"
- "build/tests/gem_exec_balancer" "--run-subtest" "parallel-keep-in-fence"
- "build/tests/gem_exec_balancer" "--run-subtest" "parallel-keep-submit-fence"
- "build/tests/gem_exec_balancer" "--run-subtest" "parallel-ordering"
- "build/tests/gem_exec_balancer" "--run-subtest" "parallel-out-fence"
- "build/tests/gem_exec_balancer" "--run-subtest" "persistence"
- "build/tests/gem_exec_balancer" "--run-subtest" "semaphore"
- "build/tests/gem_exec_balancer" "--run-subtest" "sequential"
- "build/tests/gem_exec_balancer" "--run-subtest" "sliced"
- "build/tests/gem_exec_balancer" "--run-subtest" "smoke"
- "build/tests/gem_exec_balancer" "--run-subtest" "waits"
- "build/tests/gem_gpgpu_fill" "--run-subtest" "basic"
- "build/tests/i915_pm_dc" "--run-subtest" "dc3co-vpb-simulation"
- "build/tests/i915_pm_dc" "--run-subtest" "dc5-dpms"
- "build/tests/i915_pm_dc" "--run-subtest" "dc5-psr"
- "build/tests/i915_pm_dc" "--run-subtest" "dc6-dpms"
- "build/tests/i915_pm_dc" "--run-subtest" "dc6-psr"
- "build/tests/i915_pm_dc" "--run-subtest" "dc9-dpms"
- "build/tests/kms_dp_tiled_display" "--run-subtest" "basic-test-pattern"
- "build/tests/kms_dp_tiled_display" "--run-subtest" "basic-test-pattern-with-chamelium"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "basic"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-indfb-fliptrack-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-offscren-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-pri-indfb-multidraw"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-cur-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-cur-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-cur-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-cur-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-cur-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-cur-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-cur-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-cur-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-indfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-indfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-indfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-shrfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-shrfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-shrfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-spr-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-spr-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-spr-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-spr-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-spr-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-spr-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-spr-indfb-fullscreen"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-spr-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-primscrn-spr-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-rte"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-1p-shrfb-fliptrack-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-indfb-fliptrack-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-pri-indfb-multidraw"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-cur-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-cur-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-cur-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-cur-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-cur-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-cur-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-cur-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-cur-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-indfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-indfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-indfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-shrfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-shrfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-shrfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-spr-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-spr-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-spr-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-spr-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-spr-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-spr-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-spr-indfb-fullscreen"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-spr-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-primscrn-spr-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-rte"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-cur-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-cur-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-cur-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-cur-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-cur-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-cur-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-cur-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-cur-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-indfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-indfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-indfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-shrfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-shrfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-shrfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-spr-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-spr-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-spr-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-spr-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-spr-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-spr-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-spr-indfb-fullscreen"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-spr-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-scndscrn-spr-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-2p-shrfb-fliptrack-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-badstride"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-farfromfence-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-indfb-scaledprimary"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-modesetfrombusy"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb101010-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb101010-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb101010-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb101010-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb101010-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb101010-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb565-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb565-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb565-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb565-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb565-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-rgb565-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-shrfb-scaledprimary"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-stridechange"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-tiling-linear"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbc-tiling-y"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-indfb-fliptrack-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-offscren-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-pri-indfb-multidraw"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-cur-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-cur-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-cur-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-cur-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-cur-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-cur-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-cur-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-cur-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-indfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-indfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-indfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-shrfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-shrfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-shrfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-spr-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-spr-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-spr-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-spr-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-spr-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-spr-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-spr-indfb-fullscreen"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-spr-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-primscrn-spr-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-rte"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-1p-shrfb-fliptrack-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-indfb-fliptrack-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-pri-indfb-multidraw"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-cur-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-cur-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-cur-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-cur-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-cur-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-cur-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-cur-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-cur-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-indfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-indfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-indfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-shrfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-shrfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-shrfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-spr-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-spr-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-spr-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-spr-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-spr-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-spr-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-spr-indfb-fullscreen"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-spr-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-primscrn-spr-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-rte"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-cur-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-cur-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-cur-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-cur-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-cur-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-cur-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-indfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-indfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-indfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-shrfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-shrfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-shrfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-spr-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-spr-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-spr-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-spr-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-spr-indfb-fullscreen"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-spr-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-scndscrn-spr-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-2p-shrfb-fliptrack-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-badstride"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-farfromfence-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-indfb-scaledprimary"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-modesetfrombusy"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb101010-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb101010-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb101010-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb101010-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb101010-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb101010-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb565-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb565-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb565-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb565-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb565-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-rgb565-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-shrfb-scaledprimary"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-slowdraw"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-stridechange"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-tiling-linear"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "fbcpsr-tiling-y"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-offscren-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-pri-indfb-multidraw"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-cur-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-cur-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-cur-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-cur-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-cur-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-cur-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-cur-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-cur-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-indfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-indfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-indfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-shrfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-shrfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-shrfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-spr-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-spr-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-spr-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-spr-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-spr-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-spr-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-spr-indfb-fullscreen"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-spr-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-primscrn-spr-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-1p-rte"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-pri-indfb-multidraw"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-cur-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-cur-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-cur-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-cur-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-cur-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-cur-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-cur-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-cur-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-indfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-indfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-indfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-shrfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-shrfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-shrfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-spr-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-spr-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-spr-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-spr-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-spr-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-spr-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-spr-indfb-fullscreen"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-spr-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-primscrn-spr-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-rte"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-cur-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-cur-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-cur-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-cur-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-cur-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-cur-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-cur-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-cur-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-indfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-indfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-indfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-shrfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-shrfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-shrfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-shrfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-shrfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-pri-shrfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-shrfb-msflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-shrfb-pgflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-shrfb-plflip-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-spr-indfb-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-spr-indfb-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-spr-indfb-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-spr-indfb-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-spr-indfb-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-spr-indfb-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-spr-indfb-fullscreen"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-spr-indfb-move"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-2p-scndscrn-spr-indfb-onoff"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-farfromfence-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-indfb-scaledprimary"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-modesetfrombusy"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb101010-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb101010-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb101010-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb101010-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb101010-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb101010-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb565-draw-blt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb565-draw-mmap-cpu"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb565-draw-mmap-gtt"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb565-draw-mmap-wc"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb565-draw-pwrite"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-rgb565-draw-render"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-shrfb-scaledprimary"
- "build/tests/kms_frontbuffer_tracking" "--run-subtest" "psr-slowdraw"
- "build/tests/kms_psr2_sf" "--run-subtest" "cursor-plane-update-sf"
- "build/tests/kms_psr2_sf" "--run-subtest" "overlay-plane-update-continuous-sf"
- "build/tests/kms_psr2_sf" "--run-subtest" "overlay-plane-update-sf-dmg-area"
- "build/tests/kms_psr2_sf" "--run-subtest" "overlay-primary-update-sf-dmg-area"
- "build/tests/kms_psr2_sf" "--run-subtest" "plane-move-sf-dmg-area"
- "build/tests/kms_psr2_sf" "--run-subtest" "primary-plane-update-sf-dmg-area"
- "build/tests/kms_sequence" "--run-subtest" "get-busy"
- "build/tests/kms_sequence" "--run-subtest" "get-forked"
- "build/tests/kms_sequence" "--run-subtest" "get-forked-busy"
- "build/tests/kms_sequence" "--run-subtest" "get-idle"
- "build/tests/kms_sequence" "--run-subtest" "queue-busy"
- "build/tests/kms_sequence" "--run-subtest" "queue-idle"
- "build/tests/prime_mmap" "--run-subtest" "test_aperture_limit"
- "build/tests/prime_mmap" "--run-subtest" "test_correct"
- "build/tests/prime_mmap" "--run-subtest" "test_correct_cpu_write"
- "build/tests/prime_mmap" "--run-subtest" "test_dup"
- "build/tests/prime_mmap" "--run-subtest" "test_errors"
- "build/tests/prime_mmap" "--run-subtest" "test_forked"
- "build/tests/prime_mmap" "--run-subtest" "test_forked_cpu_write"
- "build/tests/prime_mmap" "--run-subtest" "test_invalid_sync_flags"
- "build/tests/prime_mmap" "--run-subtest" "test_map_unmap"
- "build/tests/prime_mmap" "--run-subtest" "test_refcounting"
- "build/tests/prime_mmap" "--run-subtest" "test_reprime"
- "build/tests/prime_mmap" "--run-subtest" "test_userptr"
- "build/tests/sw_sync" "--run-subtest" "alloc_fence"
- "build/tests/sw_sync" "--run-subtest" "alloc_fence_invalid_timeline"
- "build/tests/sw_sync" "--run-subtest" "alloc_merge_fence"
- "build/tests/sw_sync" "--run-subtest" "alloc_timeline"
- "build/tests/sw_sync" "--run-subtest" "sync_busy"
- "build/tests/sw_sync" "--run-subtest" "sync_busy_fork"
- "build/tests/sw_sync" "--run-subtest" "sync_busy_fork_unixsocket"
- "build/tests/sw_sync" "--run-subtest" "sync_expired_merge"
- "build/tests/sw_sync" "--run-subtest" "sync_merge"
- "build/tests/sw_sync" "--run-subtest" "sync_merge_invalid"
- "build/tests/sw_sync" "--run-subtest" "sync_merge_same"
- "build/tests/sw_sync" "--run-subtest" "sync_multi_consumer"
- "build/tests/sw_sync" "--run-subtest" "sync_multi_consumer_producer"
- "build/tests/sw_sync" "--run-subtest" "sync_multi_producer_single_consumer"
- "build/tests/sw_sync" "--run-subtest" "sync_multi_timeline_wait"
- "build/tests/sw_sync" "--run-subtest" "sync_random_merge"
- "build/tests/sw_sync" "--run-subtest" "timeline_closed"
- "build/tests/sw_sync" "--run-subtest" "timeline_closed_signaled"
+ "build/tests/core_hotunplug" "--run-subtest" "unbind-rebind"
+ "build/tests/drm_import_export" "--run-subtest" "flink"
+ "build/tests/drm_import_export" "--run-subtest" "import-close-race-flink"
+ "build/tests/drm_import_export" "--run-subtest" "import-close-race-prime"
+ "build/tests/drm_import_export" "--run-subtest" "prime"
+ "build/tests/fbdev" "--run-subtest" "eof"
+ "build/tests/fbdev" "--run-subtest" "info"
+ "build/tests/fbdev" "--run-subtest" "nullptr"
+ "build/tests/fbdev" "--run-subtest" "pan"
+ "build/tests/fbdev" "--run-subtest" "read"
+ "build/tests/fbdev" "--run-subtest" "unaligned-read"
+ "build/tests/fbdev" "--run-subtest" "unaligned-write"
+ "build/tests/fbdev" "--run-subtest" "write"
+ "build/tests/gem_close_race" "--run-subtest" "basic-process"
+ "build/tests/gem_close_race" "--run-subtest" "basic-threads"
+ "build/tests/gem_close_race" "--run-subtest" "contexts"
+ "build/tests/gem_close_race" "--run-subtest" "gem-close-race"
+ "build/tests/gem_close_race" "--run-subtest" "process-exit"
+ "build/tests/gem_fence_thrash" "--run-subtest" "bo-copy"
+ "build/tests/gem_fence_thrash" "--run-subtest" "bo-write-verify-none"
+ "build/tests/gem_fence_thrash" "--run-subtest" "bo-write-verify-threaded-none"
+ "build/tests/gem_fence_thrash" "--run-subtest" "bo-write-verify-threaded-x"
+ "build/tests/gem_fence_thrash" "--run-subtest" "bo-write-verify-threaded-y"
+ "build/tests/gem_fence_thrash" "--run-subtest" "bo-write-verify-x"
+ "build/tests/gem_fence_thrash" "--run-subtest" "bo-write-verify-y"
+ "build/tests/gem_flink_basic" "--run-subtest" "bad-flink"
+ "build/tests/gem_flink_basic" "--run-subtest" "bad-open"
+ "build/tests/gem_flink_basic" "--run-subtest" "basic"
+ "build/tests/gem_flink_basic" "--run-subtest" "double-flink"
+ "build/tests/gem_flink_basic" "--run-subtest" "flink-lifetime"
+ "build/tests/gem_linear_blits" "--run-subtest" "basic"
+ "build/tests/gem_linear_blits" "--run-subtest" "interruptible"
+ "build/tests/gem_linear_blits" "--run-subtest" "normal"
+ "build/tests/i915_pm_rc6_residency" "--run-subtest" "media-rc6-accuracy"
+ "build/tests/i915_pm_rc6_residency" "--run-subtest" "rc6-accuracy"
+ "build/tests/i915_pm_rc6_residency" "--run-subtest" "rc6-fence"
+ "build/tests/i915_pm_rc6_residency" "--run-subtest" "rc6-idle"
+ "build/tests/i915_pm_sseu" "--run-subtest" "full-enable"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-A-ctm-0-25"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-A-ctm-0-5"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-A-ctm-0-75"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-A-ctm-blue-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-A-ctm-green-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-A-ctm-limited-range"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-A-ctm-max"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-A-ctm-negative"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-A-ctm-red-to-blue"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-A-degamma"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-A-gamma"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-B-ctm-0-25"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-B-ctm-0-5"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-B-ctm-0-75"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-B-ctm-blue-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-B-ctm-green-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-B-ctm-limited-range"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-B-ctm-max"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-B-ctm-negative"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-B-ctm-red-to-blue"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-B-degamma"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-B-gamma"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-C-ctm-0-25"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-C-ctm-0-5"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-C-ctm-0-75"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-C-ctm-blue-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-C-ctm-green-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-C-ctm-limited-range"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-C-ctm-max"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-C-ctm-negative"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-C-ctm-red-to-blue"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-C-degamma"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-C-gamma"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-D-ctm-0-25"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-D-ctm-0-5"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-D-ctm-0-75"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-D-ctm-blue-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-D-ctm-green-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-D-ctm-limited-range"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-D-ctm-max"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-D-ctm-negative"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-D-ctm-red-to-blue"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-D-degamma"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-D-gamma"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-E-ctm-0-25"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-E-ctm-0-5"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-E-ctm-0-75"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-E-ctm-blue-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-E-ctm-green-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-E-ctm-limited-range"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-E-ctm-max"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-E-ctm-negative"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-E-ctm-red-to-blue"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-E-degamma"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-E-gamma"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-F-ctm-0-25"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-F-ctm-0-5"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-F-ctm-0-75"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-F-ctm-blue-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-F-ctm-green-to-red"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-F-ctm-limited-range"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-F-ctm-max"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-F-ctm-negative"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-F-ctm-red-to-blue"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-F-degamma"
+ "build/tests/kms_color_chamelium" "--run-subtest" "pipe-F-gamma"
+ "build/tests/perf" "--run-subtest" "blocking"
+ "build/tests/perf" "--run-subtest" "blocking-parameterized"
+ "build/tests/perf" "--run-subtest" "buffer-fill"
+ "build/tests/perf" "--run-subtest" "create-destroy-userspace-config"
+ "build/tests/perf" "--run-subtest" "disabled-read-error"
+ "build/tests/perf" "--run-subtest" "enable-disable"
+ "build/tests/perf" "--run-subtest" "gen12-mi-rpc"
+ "build/tests/perf" "--run-subtest" "gen12-oa-tlb-invalidate"
+ "build/tests/perf" "--run-subtest" "gen12-unprivileged-single-ctx-counters"
+ "build/tests/perf" "--run-subtest" "gen8-unprivileged-single-ctx-counters"
+ "build/tests/perf" "--run-subtest" "global-sseu-config"
+ "build/tests/perf" "--run-subtest" "global-sseu-config-invalid"
+ "build/tests/perf" "--run-subtest" "i915-ref-count"
+ "build/tests/perf" "--run-subtest" "invalid-create-userspace-config"
+ "build/tests/perf" "--run-subtest" "invalid-oa-exponent"
+ "build/tests/perf" "--run-subtest" "invalid-oa-format-id"
+ "build/tests/perf" "--run-subtest" "invalid-oa-metric-set-id"
+ "build/tests/perf" "--run-subtest" "invalid-open-flags"
+ "build/tests/perf" "--run-subtest" "invalid-remove-userspace-config"
+ "build/tests/perf" "--run-subtest" "low-oa-exponent-permissions"
+ "build/tests/perf" "--run-subtest" "mi-rpc"
+ "build/tests/perf" "--run-subtest" "missing-sample-flags"
+ "build/tests/perf" "--run-subtest" "non-sampling-read-error"
+ "build/tests/perf" "--run-subtest" "non-system-wide-paranoid"
+ "build/tests/perf" "--run-subtest" "non-zero-reason"
+ "build/tests/perf" "--run-subtest" "oa-exponents"
+ "build/tests/perf" "--run-subtest" "oa-formats"
+ "build/tests/perf" "--run-subtest" "per-context-mode-unprivileged"
+ "build/tests/perf" "--run-subtest" "polling"
+ "build/tests/perf" "--run-subtest" "polling-parameterized"
+ "build/tests/perf" "--run-subtest" "polling-small-buf"
+ "build/tests/perf" "--run-subtest" "rc6-disable"
+ "build/tests/perf" "--run-subtest" "short-reads"
+ "build/tests/perf" "--run-subtest" "stress-open-close"
+ "build/tests/perf" "--run-subtest" "sysctl-defaults"
+ "build/tests/perf" "--run-subtest" "unprivileged-single-ctx-counters"
+ "build/tests/perf" "--run-subtest" "whitelisted-registers-userspace-config"
 
---MIdTMoZhcV1D07fI--
+--Pgaa2uWPnPrfixyx--
