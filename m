@@ -1,46 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610194A301A
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 15:49:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 584484A3021
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 15:54:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4C8010E454;
-	Sat, 29 Jan 2022 14:49:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B79E10E553;
+	Sat, 29 Jan 2022 14:54:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B90510E454
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 14:49:20 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B148360DDC;
- Sat, 29 Jan 2022 14:49:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87717C340E5;
- Sat, 29 Jan 2022 14:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1643467759;
- bh=ukdB6cALpS1UN85ndutwLZxBsluEBPY5z3eNFZPuGV0=;
- h=Subject:To:Cc:From:Date:From;
- b=o06qD26RhmCL48n2XwwxwPLhljOhss0DXbI9pwfoUrc6LLLKrSL1Ygh0iZinkvfVo
- 9/PaO+B0ThRvoTnPOFk8/7aUf2lJF4mXHq6DpHxuRzOIqDiTIUwNq3CxPyqOLkxbd7
- iw41v/JJ08lH8PapeX8my60RurVXmn7lItLmE+KY=
-Subject: Patch "drm/atomic: Add the crtc to affected crtc only if uapi.enable
- = true" has been added to the 5.15-stable tree
-To: contact@emersion.fr, daniel.vetter@intel.com, daniels@collabora.com,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- manasi.d.navare@intel.com, pekka.paalanen@collabora.co.uk,
- ville.syrjala@linux.intel.com
-From: <gregkh@linuxfoundation.org>
-Date: Sat, 29 Jan 2022 15:48:36 +0100
-Message-ID: <164346771692124@kroah.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33BC710E553
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 14:54:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643468042;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ug7sd4MyyeKE9edVrNKTjnr3ZIjzipUabJp6vX5YHNg=;
+ b=IGysB2KkATyff85mIK5A+JMpNrrQyv94v3GY/ODyGwPvLYAwYNaul3S2sJ4P1uk9UJPC9m
+ uSwRSxnNUWttF8oUvEK1hoQyu95DTmACk8SZ2IR3ukOmX/SOI5P7j9Omcfk2XcQFu3h8To
+ le89jZRdtXUFfn9LkKf8WME0GTXOEZo=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-669-MAWagF1HOFGShTUwI9lsYg-1; Sat, 29 Jan 2022 09:54:01 -0500
+X-MC-Unique: MAWagF1HOFGShTUwI9lsYg-1
+Received: by mail-io1-f72.google.com with SMTP id
+ y124-20020a6bc882000000b0060fbfe14d03so6576858iof.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 06:54:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ug7sd4MyyeKE9edVrNKTjnr3ZIjzipUabJp6vX5YHNg=;
+ b=BgwsYBVbn8TCsU7a7ium0sfzCe3n2hwmdCbTf1C6tYWKEtwvg3uyt5wWwVrtM57RVr
+ MLtFQTP7mfATB7tRwBApqFzsePbJKVydOontNiidGUYmz0n63vv9XTat0OjwjKAtWVEM
+ jIOC000xNbjIM/cFL5kYgPGTNMeCBzPg/kvl0X299aEGRqMERBEods32GQu0J5k/8vAH
+ qhqPh2ozYAHeX8r0F7mP/Uo9ZcqQwApBxNqb/qpXiUj7n4rvCJwi1thqQLTPSrJk4gvq
+ +qmNW5h+W+yITeNGHECoabZ/D3uwxBoclqIpAUz0ALo014wz4qsT+RVglH+3t9e9nCjB
+ VNeg==
+X-Gm-Message-State: AOAM530idzxZNxF5gz7PnZjPGynBBWIFWOgcssLgPYktlSsniQmQ3Mu2
+ vEQ+8ZxTfKBbjNjzPCsD0plUctCaNuiVyxu03hQO3zIhDqung9vd+2XYYs6U4j3rxneXxx7pf7s
+ tXjTv99a1sBTy+Ke9tSv3taip7a+9
+X-Received: by 2002:a05:6638:33a1:: with SMTP id
+ h33mr6293245jav.78.1643468040562; 
+ Sat, 29 Jan 2022 06:54:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwwgXCva834kyAbS4ly/S/GHDc8v1pjp6kH32zHTbUhflIF5l0lCvtPA+s2R8yYYEuRITEFGA==
+X-Received: by 2002:a05:6638:33a1:: with SMTP id
+ h33mr6293223jav.78.1643468040391; 
+ Sat, 29 Jan 2022 06:54:00 -0800 (PST)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
+ [24.205.208.113])
+ by smtp.gmail.com with ESMTPSA id p7sm14191616ilo.71.2022.01.29.06.53.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 29 Jan 2022 06:53:59 -0800 (PST)
+From: trix@redhat.com
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch, nathan@kernel.org,
+ ndesaulniers@google.com, PengJu.Zhou@amd.com, candice.li@amd.com,
+ Hawking.Zhang@amd.com, john.clements@amd.com, Jingwen.Chen2@amd.com,
+ bokun.zhang@amd.com, victor.skvortsov@amd.com, bernard@vivo.com,
+ lijo.lazar@amd.com
+Subject: [PATCH] drm/amdgpu: initialize reg_access_ctrl
+Date: Sat, 29 Jan 2022 06:53:47 -0800
+Message-Id: <20220129145347.1417849-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,97 +86,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
+Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Tom Rix <trix@redhat.com>
 
-This is a note to let you know that I've just added the patch titled
+clang build fails with
+amdgpu_virt.c:878:51: error: variable 'reg_access_ctrl' is
+  uninitialized when used here
+  ... + 4 * reg_access_ctrl->scratch_reg0;
+            ^~~~~~~~~~~~~~~
 
-    drm/atomic: Add the crtc to affected crtc only if uapi.enable = true
+The reg_access_ctrl ptr is never initialized, so
+initialize once we know it is supported.
 
-to the 5.15-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     drm-atomic-add-the-crtc-to-affected-crtc-only-if-uapi.enable-true.patch
-and it can be found in the queue-5.15 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 5ec1cebd59300ddd26dbaa96c17c508764eef911 Mon Sep 17 00:00:00 2001
-From: Manasi Navare <manasi.d.navare@intel.com>
-Date: Mon, 4 Oct 2021 04:59:13 -0700
-Subject: drm/atomic: Add the crtc to affected crtc only if uapi.enable = true
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Manasi Navare <manasi.d.navare@intel.com>
-
-commit 5ec1cebd59300ddd26dbaa96c17c508764eef911 upstream.
-
-In case of a modeset where a mode gets split across multiple CRTCs
-in the driver specific implementation (bigjoiner in i915) we wrongly count
-the affected CRTCs based on the drm_crtc_mask and indicate the stolen CRTC as
-an affected CRTC in atomic_check_only().
-This triggers a warning since affected CRTCs doent match requested CRTC.
-
-To fix this in such bigjoiner configurations, we should only
-increment affected crtcs if that CRTC is enabled in UAPI not
-if it is just used internally in the driver to split the mode.
-
-v3: Add the same uapi crtc_state->enable check in requested
-crtc calc (Ville)
-
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-Cc: Daniel Stone <daniels@collabora.com>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.11+
-Fixes: 919c2299a893 ("drm/i915: Enable bigjoiner")
-Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20211004115913.23889-1-manasi.d.navare@intel.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Fixes: 5d447e296701 ("drm/amdgpu: add helper for rlcg indirect reg access")
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/gpu/drm/drm_atomic.c |   12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c | 1 +
+ 1 file changed, 1 insertion(+)
 
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1310,8 +1310,10 @@ int drm_atomic_check_only(struct drm_ato
- 
- 	DRM_DEBUG_ATOMIC("checking %p\n", state);
- 
--	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
--		requested_crtc |= drm_crtc_mask(crtc);
-+	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-+		if (new_crtc_state->enable)
-+			requested_crtc |= drm_crtc_mask(crtc);
-+	}
- 
- 	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
- 		ret = drm_atomic_plane_check(old_plane_state, new_plane_state);
-@@ -1360,8 +1362,10 @@ int drm_atomic_check_only(struct drm_ato
- 		}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+index 80c25176c9932..c137652189190 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+@@ -875,6 +875,7 @@ static u32 amdgpu_virt_rlcg_reg_rw(struct amdgpu_device *adev, u32 offset, u32 v
+ 		return 0;
  	}
  
--	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
--		affected_crtc |= drm_crtc_mask(crtc);
-+	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-+		if (new_crtc_state->enable)
-+			affected_crtc |= drm_crtc_mask(crtc);
-+	}
- 
- 	/*
- 	 * For commits that allow modesets drivers can add other CRTCs to the
++	reg_access_ctrl = &adev->gfx.rlc.reg_access_ctrl;
+ 	scratch_reg0 = (void __iomem *)adev->rmmio + 4 * reg_access_ctrl->scratch_reg0;
+ 	scratch_reg1 = (void __iomem *)adev->rmmio + 4 * reg_access_ctrl->scratch_reg1;
+ 	scratch_reg2 = (void __iomem *)adev->rmmio + 4 * reg_access_ctrl->scratch_reg2;
+-- 
+2.26.3
 
-
-Patches currently in stable-queue which might be from manasi.d.navare@intel.com are
-
-queue-5.15/drm-atomic-add-the-crtc-to-affected-crtc-only-if-uapi.enable-true.patch
