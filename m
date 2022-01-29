@@ -1,47 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B7D4A2D94
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 11:20:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7947C4A2E4D
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 12:39:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 171A210FE94;
-	Sat, 29 Jan 2022 10:19:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8367610E872;
+	Sat, 29 Jan 2022 11:38:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8063510FE94
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 10:19:56 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1nDkpi-0007Rq-MI; Sat, 29 Jan 2022 11:19:50 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1nDkpe-00DBWu-QZ; Sat, 29 Jan 2022 11:19:46 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1nDkpd-00298t-El; Sat, 29 Jan 2022 11:19:45 +0100
-Date: Sat, 29 Jan 2022 11:19:41 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 2/2] drm/imx/lcdc: Implement DRM driver for imx21
-Message-ID: <20220129101941.aqzgnt2q2e7bl34v@pengutronix.de>
-References: <20220128105849.368438-3-u.kleine-koenig@pengutronix.de>
- <202201290646.48sNgWm1-lkp@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4A889D02;
+ Sat, 29 Jan 2022 11:38:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643456331; x=1674992331;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=a2E+q/xIh4DH4VKtSyhc+z5LhZFfi8UMroB/a8yuoxo=;
+ b=mX/GyH/fMwez61ErRGZHE0pTr1WVDBErgJB25pEg/gvVd3V5ir/aftof
+ w4fb6u9m5XVFoQnrw87CocFmTQWceoogi81tyB5ft+2wwI9VOdsbdR/1a
+ 5+ey0u+yD9DGXXyZkMpYhYGegNn4/d4sa+vxtLx3pYu8lXR7AxaKuXL0m
+ xeHXJ5zU3AbY3fevxjaPgR2DSb7RLCseeD2XdQY6bh6vwb4CtZ0fgb2Ya
+ qkkENCW200rHEnYshxLdE4s1ZO+vGQv1KTPxz+p208aLc0uKkQW/DJEkp
+ EpD1viFNL495RxmJaVFlbR67M85mGPI4gLYbtc3GLpQDjfKlYBu7mlmU5 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10241"; a="310575627"
+X-IronPort-AV: E=Sophos;i="5.88,326,1635231600"; d="scan'208";a="310575627"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2022 03:38:50 -0800
+X-IronPort-AV: E=Sophos;i="5.88,326,1635231600"; d="scan'208";a="675325768"
+Received: from ianwarx-mobl.ger.corp.intel.com (HELO [10.249.254.225])
+ ([10.249.254.225])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2022 03:38:49 -0800
+Message-ID: <40699381-054d-994d-938c-7b43af59678e@linux.intel.com>
+Date: Sat, 29 Jan 2022 12:38:46 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ffc4mrc4dti4l5lm"
-Content-Disposition: inline
-In-Reply-To: <202201290646.48sNgWm1-lkp@intel.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix a race between vma / object
+ destruction and unbinding
+Content-Language: en-US
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220127115622.302970-1-thomas.hellstrom@linux.intel.com>
+ <8ca7bd99-06a7-3142-c375-1bf93cb23287@linux.intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <8ca7bd99-06a7-3142-c375-1bf93cb23287@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,89 +62,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---ffc4mrc4dti4l5lm
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/28/22 23:32, Tvrtko Ursulin wrote:
+>
+> On 27/01/2022 11:56, Thomas Hellström wrote:
+>> The vma destruction code was using an unlocked advisory check for
+>> drm_mm_node_allocated() to avoid racing with eviction code unbinding
+>> the vma.
+>>
+>> This is very fragile and prohibits the dereference of non-refcounted
+>> pointers of dying vmas after a call to __i915_vma_unbind(). It also
+>> prohibits the dereference of vma->obj of refcounted pointers of
+>> dying vmas after a call to __i915_vma_unbind(), since even if a
+>> refcount is held on the vma, that won't guarantee that its backing
+>> object doesn't get destroyed.
+>>
+>> So introduce an unbind under the vm mutex at object destroy time,
+>> removing all weak references of the vma and its object from the
+>> object vma list and from the vm bound list.
+>
+> Maarten suggested this fixes an oops like seen in 
+> https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_22133/shard-snb6/igt@gem_softpin@softpin.html. 
+> If that is so, what would be the Fixes: tag to put here? Although it 
+> is too late now so hopefully bug was introduced in something yet 
+> unreleased.
 
-On Sat, Jan 29, 2022 at 06:25:53AM +0800, kernel test robot wrote:
-> Hi "Uwe,
->=20
-> Thank you for the patch! Yet something to improve:
->=20
-> [auto build test ERROR on shawnguo/for-next]
-> [also build test ERROR on robh/for-next pza/reset/next v5.17-rc1 next-202=
-20128]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
->=20
-> url:    https://github.com/0day-ci/linux/commits/Uwe-Kleine-K-nig/drm-imx=
--lcdc-drm-driver-for-imx21-25-27/20220128-190002
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.gi=
-t for-next
-> config: arc-randconfig-r012-20220128 (https://download.01.org/0day-ci/arc=
-hive/20220129/202201290646.48sNgWm1-lkp@intel.com/config)
-> compiler: arc-elf-gcc (GCC) 11.2.0
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/0day-ci/linux/commit/cba99931972f752a7b3105a=
-3697b0cda88fe54d4
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Uwe-Kleine-K-nig/drm-imx-lcdc-dr=
-m-driver-for-imx21-25-27/20220128-190002
->         git checkout cba99931972f752a7b3105a3697b0cda88fe54d4
->         # save the config file to linux build tree
->         mkdir build_dir
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cro=
-ss O=3Dbuild_dir ARCH=3Darc distclean
->=20
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
->=20
-> All errors (new ones prefixed by >>):
->=20
-> >> scripts/Makefile.clean:15: drivers/gpu/drm/imx/imx21-lcdc/Makefile: No=
- such file or directory
-> >> make[6]: *** No rule to make target 'drivers/gpu/drm/imx/imx21-lcdc/Ma=
-kefile'.
+Yes, should've had a fixes tag here. Luckily it fixes a very recent 
+commit, which shouldn't have had time to be released yet.
 
-Argh, yes, I forgot to commit that one. I'll add it in the next round,
-but wait a bit for more feedback (mainly by Rob). The Makefile just
-contains:
+>
+>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_object.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c 
+>> b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> index 1a9e1f940a7d..e03e362d320b 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> @@ -280,6 +280,12 @@ void __i915_gem_object_pages_fini(struct 
+>> drm_i915_gem_object *obj)
+>>               GEM_BUG_ON(vma->obj != obj);
+>>               spin_unlock(&obj->vma.lock);
+>>   +            /* Verify that the vma is unbound under the vm mutex. */
+>> +            mutex_lock(&vma->vm->mutex);
+>> +            atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
+>> +            __i915_vma_unbind(vma);
+>> +            mutex_unlock(&vma->vm->mutex);
+>
+> Hm I am not up to speed with the latest design, but how does the verb 
+> verify and absence of conditionals reconcile here? Does the comment 
+> need improving?
 
-	obj-$(CONFIG_DRM_IMX21_LCDC) +=3D imx21-lcdc.o
+Yes. Ensure would have been better here. There is some rework of the vma 
+destruction still needed, though so I'll update or remove the comment 
+with those patches.
 
-Best regards
-Uwe
+Thanks,
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Thomas
 
---ffc4mrc4dti4l5lm
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmH1FLoACgkQwfwUeK3K
-7Alfygf/XoDt+5FxRAsb8RIqizLhXbCLECrrgy93atHMIe4/oLzVUpPSM9iMzMjz
-h2MclKELGmWbXMkGFsFyu1hQvo7rb0gpiV/Lc1RDufjf10ZIfeCWl9nlcESfLpon
-PbDtS5WjiFcsYw7r2Lc04aWBDryXFZkS8G0hfVWUcDQuZ5WWm4iOVa7m3By19xd5
-efyF5QtTRGnPI6xX2EkMghR/9R6lGisAkgEcVsauvyHVAntvGbKz48Dvida6zH7D
-MjcymZT6JCxmRF+VX+wOOMmAdj3Ehhh7AYpbWAVguD+dm2QU+PYliAaBpqadeatn
-eNA5IjVDrUawufvrtf4pNJkR5qXM+Q==
-=XDbC
------END PGP SIGNATURE-----
-
---ffc4mrc4dti4l5lm--
+>
+> Regards,
+>
+> Tvrtko
+>
+>> +
+>>               __i915_vma_put(vma);
+>>                 spin_lock(&obj->vma.lock);
+>>
