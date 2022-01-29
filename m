@@ -2,31 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21ED24A2AD0
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 02:04:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C40C4A2AF7
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jan 2022 02:26:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D81210E20F;
-	Sat, 29 Jan 2022 01:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF3C10E152;
+	Sat, 29 Jan 2022 01:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-131.freemail.mail.aliyun.com
- (out30-131.freemail.mail.aliyun.com [115.124.30.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57BAF10E152;
- Sat, 29 Jan 2022 01:04:18 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04395; MF=yang.lee@linux.alibaba.com;
- NM=1; PH=DS; RN=13; SR=0; TI=SMTPD_---0V34fUPz_1643418255; 
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0V34fUPz_1643418255) by smtp.aliyun-inc.com(127.0.0.1);
- Sat, 29 Jan 2022 09:04:15 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: airlied@linux.ie
-Subject: [PATCH -next] drm/amd/display: clean up some inconsistent indenting
-Date: Sat, 29 Jan 2022 09:04:13 +0800
-Message-Id: <20220129010413.97801-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0337010E152
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 01:26:43 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id i10so23527731ybt.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jan 2022 17:26:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=JbpMAj7CncoORA+WbrHTXHTdElJMCbzCL8WIdkltAx4=;
+ b=u/g64RcnvlaTMTblwtN0TfTdySyyggXBAk0gRIL7m29gjXgkOlKqvFECIDitMcektX
+ j5PoPZbaYKTyI/m2zZz+a33eJ2FoIlxspM6dd3ErGloRH+mLVrezDVpGC2EH/UhWYr+f
+ 3EKfuiLAHCQxqaOIyGJyRMAH7U9y+u+VeFrW0GP761D7SrIqNA5rbB/2r4fCBLzganTr
+ RcRZkTsXviHiVuoB/lBvknhXzKUp3LzTBY8OMqCq9ozsAnR3qA+PSwT4Y4CQi8p270W/
+ ve8Y5H2q6UPJ67tD0JhGpFJ+wSm+KQmhgjORm681A/olHxAXe32o5ETuIMjcmvRyYTEB
+ 19oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=JbpMAj7CncoORA+WbrHTXHTdElJMCbzCL8WIdkltAx4=;
+ b=v3ldrL2MY7gUcJORR9GrTVPLvp+p6Q7j9r3clIUoNLVA4Z1MdiXDam6+TK4KcwtwPg
+ q5BtRcFkcsfFHgWWXJG/we9DrRLztz5P5jKw1mVr+TtFI/lTyMMICn7dn8GUPWiUACM0
+ eSLX41Jbj4iQ4TfJfNHKCNyigYKiv26YO0M+wSTgZAeAtC24eL2896FW0CXgFiCmmpxk
+ C2i0V24sC7JNDcLWSmlH3rjORLslo8rV79QummdHqRjP8CKAtN9BvkKHuViwgViKEmZU
+ d3nUZOUCg5hxn0v1qSxZ7IqkoWnLMi0uarjlat8ttgmoFda7rmtBeJVok70ylExa9Dwd
+ 5Nug==
+X-Gm-Message-State: AOAM532y4HSym+pdW3XVmyoBW0PsjgOd8o0os5aoqWjseip11+U5JKHV
+ h804sSq/jInyY5DyIXSLGZP2PbtjapD/g592HKI3Nw==
+X-Google-Smtp-Source: ABdhPJyHa1mHpl2iu1FYlUB4r4htQgHW95kWjE6NwsGM/mnh2V0tepY8W9+mGTG1EqRvnqCA7+ZnDjL2KxXbZq8NDWo=
+X-Received: by 2002:a25:df56:: with SMTP id w83mr16182690ybg.110.1643419603057; 
+ Fri, 28 Jan 2022 17:26:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220103113822.654592-1-linus.walleij@linaro.org>
+In-Reply-To: <20220103113822.654592-1-linus.walleij@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 29 Jan 2022 02:26:31 +0100
+Message-ID: <CACRpkdZSz9gCHyHz7=ZKSGBH9GuozmfiZ_a-MHmoJ_5h8ED8cw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/panel: Rename Sony ACX424 to Novatek NT35560
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,45 +62,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Yang Li <yang.lee@linux.alibaba.com>,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Eliminate the follow smatch warning:
-drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c:2246
-dp_perform_8b_10b_link_training() warn: inconsistent indenting
+On Mon, Jan 3, 2022 at 12:40 PM Linus Walleij <linus.walleij@linaro.org> wrote:
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+> A code drop from Sony Mobile reveals that the ACX424 panels are
+> built around the Novatek NT35560 panel controllers so just bite
+> the bullet and rename the driver and all basic symbols so that
+> we can modify this driver to cover any other panels also using
+> the Novatek NT35560 display controller.
+>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-index daaec3164875..34ffcd5bb1d7 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-@@ -2243,11 +2243,11 @@ static enum link_training_result dp_perform_8b_10b_link_training(
- 
- 	if (status == LINK_TRAINING_SUCCESS) {
- 		status = perform_clock_recovery_sequence(link, link_res, lt_settings, DPRX);
--	if (status == LINK_TRAINING_SUCCESS) {
--		status = perform_channel_equalization_sequence(link,
--					link_res,
--					lt_settings,
--					DPRX);
-+		if (status == LINK_TRAINING_SUCCESS) {
-+			status = perform_channel_equalization_sequence(link,
-+								       link_res,
-+								       lt_settings,
-+								       DPRX);
- 		}
- 	}
- 
--- 
-2.20.1.7.g153144c
+Could someone take mercy in reviewing this patch set?
 
+I can offer some patch review back!
+
+Yours,
+Linus Walleij
