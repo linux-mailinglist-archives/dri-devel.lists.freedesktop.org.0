@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EC24A38D3
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jan 2022 20:57:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E964A38D5
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jan 2022 20:57:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B751311381D;
-	Sun, 30 Jan 2022 19:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 681F5113821;
+	Sun, 30 Jan 2022 19:57:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB03711381D;
- Sun, 30 Jan 2022 19:56:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61BC3113820;
+ Sun, 30 Jan 2022 19:56:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
  t=1643572619; x=1675108619;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=Ui9GKFPyYNMmLF3gc89ulR+KCxxezwdSgNx0bwlIGyk=;
- b=XTf3YVNXXWoLchweWYfeeba+YZ5KeKMoT232Gf2f7PbyN7KDjRSVpNFg
- 8mANOX3q2ObDJJYYCXZUXVHoOmA3z5Bd3ywFq6oECH4d71QvnbV/PW+Vg
- TQiog4gqi0JWVMrgatnoxLlAhLdL6z1l1OFlUEcMWnnunc8SDBFGMXfcE E=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ bh=e0DExOKSRqksgud5o6KyINTm4FJaKDLyTM+wfYfs0Hc=;
+ b=GMbmLp/U6FGP/pjMHc+dGWSw02NPCzBaewJ8unKwKxlPcGHttmJTwGH2
+ hRIszdfGAuhhdhJmsyDKLLcpFFG1jUOTcLUiStwzN0h/u8LEtGg1f/blh
+ JOTja7cEGaU3F15SZNPAUN+6bhgPYyhxkiAvlCibcKKIgtGj4XKF9ro6O Q=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
  by alexa-out.qualcomm.com with ESMTP; 30 Jan 2022 11:56:59 -0800
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
  30 Jan 2022 11:56:57 -0800
 X-QCInternal: smtphost
 Received: from rajeevny-linux.qualcomm.com ([10.204.66.121])
- by ironmsg02-blr.qualcomm.com with ESMTP; 31 Jan 2022 01:26:31 +0530
+ by ironmsg02-blr.qualcomm.com with ESMTP; 31 Jan 2022 01:26:32 +0530
 Received: by rajeevny-linux.qualcomm.com (Postfix, from userid 2363605)
- id 3805421AD1; Mon, 31 Jan 2022 01:26:30 +0530 (IST)
+ id 1FC8E21AD2; Mon, 31 Jan 2022 01:26:31 +0530 (IST)
 From: Rajeev Nandan <quic_rajeevny@quicinc.com>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v4 1/3] dt-bindings: msm/dsi: Add 10nm dsi phy tuning properties
-Date: Mon, 31 Jan 2022 01:26:24 +0530
-Message-Id: <1643572586-21331-2-git-send-email-quic_rajeevny@quicinc.com>
+Subject: [v4 2/3] drm/msm/dsi: Add dsi phy tuning configuration support
+Date: Mon, 31 Jan 2022 01:26:25 +0530
+Message-Id: <1643572586-21331-3-git-send-email-quic_rajeevny@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1643572586-21331-1-git-send-email-quic_rajeevny@quicinc.com>
 References: <1643572586-21331-1-git-send-email-quic_rajeevny@quicinc.com>
@@ -59,96 +59,76 @@ Cc: quic_kalyant@quicinc.com, jonathan@marek.ca, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In most cases, the default values of DSI PHY tuning registers should be
-sufficient as they are fully optimized. However, in some cases where
-extreme board parasitics cause the eye shape to degrade, the override
-bits can be used to improve the signal quality.
-
-The general guidelines for DSI PHY tuning include:
-- High and moderate data rates may benefit from the drive strength and
-  drive level tuning.
-- Drive strength tuning will affect the output impedance and may be used
-  for matching optimization.
-- Drive level tuning will affect the output levels without affecting the
-  impedance.
-
-The clock and data lanes have a calibration circuitry feature. The drive
-strength tuning can be done by adjusting rescode offset for hstop/hsbot,
-and the drive level tuning can be done by adjusting the LDO output level
-for the HSTX drive.
+Add support for MSM DSI PHY tuning configuration. Current design is
+to support drive strength and drive level/amplitude tuning for
+10nm PHY version, but this can be extended to other PHY versions.
 
 Signed-off-by: Rajeev Nandan <quic_rajeevny@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
 
 Changes in v2:
- - More details in the commit text (Stephen Boyd)
- - Use human understandable values (Stephen Boyd, Dmitry Baryshkov)
- - Do not take values that are going to be unused (Dmitry Baryshkov)
+ - New.
+ - Split into generic code and 10nm-specific part (Dmitry Baryshkov)
 
 Changes in v3:
- - Use "qcom," prefix (Dmitry Baryshkov)
- - Remove encoding from phy-drive-ldo-level (Dmitry Baryshkov)
- - Use negative values instead of two's complement (Dmitry, Rob Herring)
+ - s/ops.tuning_cfg_init/ops.parse_dt_properties
+   To parse phy version specific DT properties (Dmitry Baryshkov)
+ - Address comments for phy tuning data structure (Dmitry Baryshkov)
 
 Changes in v4:
- - Fix dt_binding_check error (Rob Herring's bot)
+ - None
 
- .../bindings/display/msm/dsi-phy-10nm.yaml         | 36 ++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c | 6 ++++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h | 4 ++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-index 4399715..2d5a766 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-@@ -35,6 +35,38 @@ properties:
-       Connected to DSI0_MIPI_DSI_PLL_VDDA0P9 pin for sc7180 target and
-       connected to VDDA_MIPI_DSI_0_PLL_0P9 pin for sdm845 target
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+index 8c65ef6..fcbca76 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+@@ -739,6 +739,12 @@ static int dsi_phy_driver_probe(struct platform_device *pdev)
+ 		}
+ 	}
  
-+  qcom,phy-rescode-offset-top:
-+    $ref: /schemas/types.yaml#/definitions/int8-array
-+    minItems: 5
-+    maxItems: 5
-+    description:
-+      Integer array of offset for pull-up legs rescode for all five lanes.
-+      To offset the drive strength from the calibrated value in an increasing
-+      manner, -32 is the weakest and +31 is the strongest.
-+    items:
-+      minimum: -32
-+      maximum: 31
++	if (phy->cfg->ops.parse_dt_properties) {
++		ret = phy->cfg->ops.parse_dt_properties(phy);
++		if (ret)
++			goto fail;
++	}
 +
-+  qcom,phy-rescode-offset-bot:
-+    $ref: /schemas/types.yaml#/definitions/int8-array
-+    minItems: 5
-+    maxItems: 5
-+    description:
-+      Integer array of offset for pull-down legs rescode for all five lanes.
-+      To offset the drive strength from the calibrated value in a decreasing
-+      manner, -32 is the weakest and +31 is the strongest.
-+    items:
-+      minimum: -32
-+      maximum: 31
+ 	ret = dsi_phy_regulator_init(phy);
+ 	if (ret)
+ 		goto fail;
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+index b91303a..9e08081 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+@@ -25,6 +25,7 @@ struct msm_dsi_phy_ops {
+ 	void (*save_pll_state)(struct msm_dsi_phy *phy);
+ 	int (*restore_pll_state)(struct msm_dsi_phy *phy);
+ 	bool (*set_continuous_clock)(struct msm_dsi_phy *phy, bool enable);
++	int (*parse_dt_properties)(struct msm_dsi_phy *phy);
+ };
+ 
+ struct msm_dsi_phy_cfg {
+@@ -81,6 +82,8 @@ struct msm_dsi_dphy_timing {
+ #define DSI_PIXEL_PLL_CLK		1
+ #define NUM_PROVIDED_CLKS		2
+ 
++#define DSI_LANE_MAX			5
 +
-+  qcom,phy-drive-ldo-level:
-+    $ref: "/schemas/types.yaml#/definitions/uint32"
-+    description:
-+      The PHY LDO has an amplitude tuning feature to adjust the LDO output
-+      for the HSTX drive. Use supported levels (mV) to offset the drive level
-+      from the default value.
-+    enum: [ 375, 400, 425, 450, 475, 500 ]
-+
- required:
-   - compatible
-   - reg
-@@ -64,5 +96,9 @@ examples:
-          clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-                   <&rpmhcc RPMH_CXO_CLK>;
-          clock-names = "iface", "ref";
-+
-+         qcom,phy-rescode-offset-top = /bits/ 8 <0 0 0 0 0>;
-+         qcom,phy-rescode-offset-bot = /bits/ 8 <0 0 0 0 0>;
-+         qcom,phy-drive-ldo-level = <400>;
-      };
- ...
+ struct msm_dsi_phy {
+ 	struct platform_device *pdev;
+ 	void __iomem *base;
+@@ -98,6 +101,7 @@ struct msm_dsi_phy {
+ 
+ 	struct msm_dsi_dphy_timing timing;
+ 	const struct msm_dsi_phy_cfg *cfg;
++	void *tuning_cfg;
+ 
+ 	enum msm_dsi_phy_usecase usecase;
+ 	bool regulator_ldo_mode;
 -- 
 2.7.4
 
