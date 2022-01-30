@@ -2,55 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244CC4A38DB
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jan 2022 21:06:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D45884A38F5
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jan 2022 21:16:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69513113950;
-	Sun, 30 Jan 2022 20:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 511DB113AAC;
+	Sun, 30 Jan 2022 20:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21AA511394E
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jan 2022 20:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=MowiDE8bpmM9qf7usod++nbiOO8GHb0E9NpRkxe8e/0=; b=NWjEDOcncq8BhlxBCMr4zo7mRs
- Y7SImgi2DdDjOPj7QcO7zXsFtiUbz0LO38NK31C8XW6NPEMLf4RRJCb2h7oSGyfQ5WGKQk2jZmanm
- Nqmz4m9IYOjGzCeG66jUgDjj/OoXdMpD216ub1y3NMmexJL7Hcs2eaDqpoFCsPnSUEDH+NVt+RwM0
- X90wXK1U3EOG25AENKqi1wT9gd85yiz1iRSYvIisFo4z99wyiHXyY7hbEr3/sTsZ/MhZ57efCN+MV
- f1jduW8tWkzLciayM3FYY7XVjb9dKdbmuJrwtIidV+naRjX95OQILW0wCef2jyu5szzILn1NWRKeJ
- 4bl8IBxg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nEGS2-005He6-L1; Sun, 30 Jan 2022 20:05:31 +0000
-Message-ID: <26664eb5-59a2-d8c0-156b-f6a58538f063@infradead.org>
-Date: Sun, 30 Jan 2022 12:05:23 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 1/1] drm/lsdc: add drm driver for loongson display
- controller
-Content-Language: en-US
-To: Sui Jingfeng <15330273260@189.cn>, Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Roland Scheidegger <sroland@vmware.com>,
- Zack Rusin <zackr@vmware.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Sam Ravnborg <sam@ravnborg.org>, suijingfeng <suijingfeng@loongson.cn>
-References: <20220130193723.2923-1-15330273260@189.cn>
- <20220130193723.2923-2-15330273260@189.cn>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220130193723.2923-2-15330273260@189.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5E7F113AA6;
+ Sun, 30 Jan 2022 20:15:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1643573752; x=1675109752;
+ h=from:to:cc:subject:date:message-id;
+ bh=cRkcMtTYnyNhN2nDUqiNWWAK6twOvEAHD/NGnj5bBEc=;
+ b=PqNUiux7CmOOOJM5X5sBP/CtH1j0EQ/Nk44s+TNjj1iKD9uiPGJvFMVn
+ yI+6CWo8ZIZ+J/i4M2UFfluh6eqo4xxRO3kMx62bX4us2c4YgfErIMps6
+ J1s020x0ZC2fnGlBm2G0sy5g+LYnohcs8Rk3F+WWkXGYcpyqgDbUwor0S A=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 30 Jan 2022 12:15:51 -0800
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 30 Jan 2022 12:15:50 -0800
+X-QCInternal: smtphost
+Received: from rajeevny-linux.qualcomm.com ([10.204.66.121])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 31 Jan 2022 01:45:21 +0530
+Received: by rajeevny-linux.qualcomm.com (Postfix, from userid 2363605)
+ id 9041421ACE; Mon, 31 Jan 2022 01:45:21 +0530 (IST)
+From: Rajeev Nandan <quic_rajeevny@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v5 0/3] drm/msm/dsi: Add 10nm dsi phy tuning configuration support
+Date: Mon, 31 Jan 2022 01:45:16 +0530
+Message-Id: <1643573719-32095-1-git-send-email-quic_rajeevny@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,61 +50,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: quic_kalyant@quicinc.com, jonathan@marek.ca, airlied@linux.ie,
+ Rajeev Nandan <quic_rajeevny@quicinc.com>, linux-kernel@vger.kernel.org,
+ quic_abhinavk@quicinc.com, robh+dt@kernel.org, quic_mkrishn@quicinc.com,
+ dmitry.baryshkov@linaro.org, swboyd@chromium.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-The Kconfig text is looking good. Just one minor nit below:
+This series is to add DSI PHY tuning support in Qualcomm Snapdragon
+SoCs with 10nm DSI PHY e.g. SC7180
 
-On 1/30/22 11:37, Sui Jingfeng wrote:
-> diff --git a/drivers/gpu/drm/lsdc/Kconfig b/drivers/gpu/drm/lsdc/Kconfig
-> new file mode 100644
-> index 000000000000..8c908787b4aa
-> --- /dev/null
-> +++ b/drivers/gpu/drm/lsdc/Kconfig
-> @@ -0,0 +1,38 @@
-> +config DRM_LSDC
-> +	tristate "DRM Support for loongson's display controller"
-> +	depends on DRM && PCI
-> +	depends on MACH_LOONGSON64 || LOONGARCH || MIPS || COMPILE_TEST
-> +	select OF
-> +	select CMA if HAVE_DMA_CONTIGUOUS
-> +	select DMA_CMA if HAVE_DMA_CONTIGUOUS
-> +	select DRM_KMS_HELPER
-> +	select DRM_KMS_FB_HELPER
-> +	select DRM_GEM_CMA_HELPER
-> +	select VIDEOMODE_HELPERS
-> +	select BACKLIGHT_PWM if CPU_LOONGSON2K
-> +	select I2C_GPIO if CPU_LOONGSON2K
-> +	select I2C_LS2X if CPU_LOONGSON2K
-> +	default m
-> +	help
-> +	  This is a KMS driver for the display controller in the LS7A1000
-> +	  bridge chip and LS2K1000 SoC. The display controller has two
-> +	  display pipes and it is a PCI device.
-> +	  When using this driver on LS2K1000/LS2K0500 SoC, its framebuffer
-> +	  is located at system memory.
-> +	  If "M" is selected, the module will be called lsdc.
-> +
-> +	  If in doubt, say "Y".
-> +
-> +config DRM_LSDC_VRAM_DRIVER
-> +	bool "vram helper based device driver support"
-> +	depends on DRM_LSDC
-> +	select DRM_VRAM_HELPER
-> +	default y
-> +	help
-> +	  When using this driver on LS7A1000 + LS3A3000/LS3A4000/LS3A5000
-> +	  platform, the LS7A1000 bridge chip has dedicated video RAM. Using
-> +	  "lsdc.use_vram_helper=1" in the kernel command line will enable
-> +	  this driver mode and then the framebuffer will located at the
+In most cases the default values of DSI PHY tuning registers
+should be sufficient as they are fully optimized. However, in
+some cases (for example, where extreme board parasitics cause
+the eye shape to degrade), the override bits can be used to
+improve the signal quality.
 
-	                                            will be located at the
+Different DSI PHY versions have different configurations to adjust the
+drive strength, drive level, de-emphasis, etc. The current series has only
+those configuration options supported by 10nm PHY, e.g. drive strength and
+drive level. The number of registers to configure the drive strength are
+different for 7nm PHY. The design can be extended to other DSI PHY versions
+if required, as each PHY version can have its callback to get the input
+from DT and prepare register values.
 
-> +	  VRAM at the price of losing PRIME support.
+Changes in v2:
+ - Addressed dt-bindings comments (Stephen Boyd, Dmitry Baryshkov)
+ - Split into generic code and 10nm-specific part (Dmitry Baryshkov)
+ - Fix the backward compatibility (Dmitry Baryshkov)
 
-thanks.
+Changes in v3:
+ - Addressed dt-bindings comments (Rob Herring, Dmitry Baryshkov)
+ - Address comments for phy tuning data structure (Dmitry Baryshkov)
+ - s/ops.tuning_cfg_init/ops.parse_dt_properties (Dmitry Baryshkov)
+
+Changes in v4:
+ - Fixed dt_binding_check error (Rob Herring's bot)
+ - Return error in case of out of range values (Dmitry Baryshkov)
+ - Return error if dt property is present but parsing is failing
+
+Changes in v5:
+ - Fixed missing printk arg
+
+Rajeev Nandan (3):
+  dt-bindings: msm/dsi: Add 10nm dsi phy tuning properties
+  drm/msm/dsi: Add dsi phy tuning configuration support
+  drm/msm/dsi: Add 10nm dsi phy tuning configuration support
+
+ .../bindings/display/msm/dsi-phy-10nm.yaml         |  36 +++++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   6 ++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   4 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c         | 118 +++++++++++++++++++--
+ 4 files changed, 158 insertions(+), 6 deletions(-)
+
 -- 
-~Randy
+2.7.4
+
