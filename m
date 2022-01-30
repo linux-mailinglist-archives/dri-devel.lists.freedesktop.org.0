@@ -2,55 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 278BF4A32EF
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jan 2022 01:47:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540FD4A3353
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jan 2022 03:39:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E7C910E1B8;
-	Sun, 30 Jan 2022 00:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4668610E173;
+	Sun, 30 Jan 2022 02:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1514E10E1B8
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jan 2022 00:46:57 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id w81so7327907ybg.12
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 16:46:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KAfmV2XPrbcMqVhndkzGzY+w8H1ibzDYb+Ml7huAryE=;
- b=NaWg7ApeC09EQY/CJ/W25ZLJZoNitSiYuPfGysObv/UTGU9NUNdCXb1DdSbEZodzye
- IH9OGfSiUYJWivIhzwf/P0P0pqKMXrrtBUTsAwI9HQZW8hUxoSZj3j18sLTfxl5iZjxh
- o84foTOSgqeFWKqUfUSoKSAosOYXr/Al9fUg3IDcM7+pIgrhM6cJ+t8ogReqnXeIf8vR
- 2/a+8UcnpzyZ0reNAfhX/opnTfQEXw+5IQ/FztUpOP0HA+bgwBHru9uRagVYZTEs3L3C
- uW4fdpqSBf0N0Yp7TzqcAB+sRrSlp21Zsi90wtzXJtXRJ8+oWx5NkXiMSQmWDsgTREtx
- hD3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KAfmV2XPrbcMqVhndkzGzY+w8H1ibzDYb+Ml7huAryE=;
- b=7GNO524BJKdnoZeU2TTKiC+8ROiOl86nFWxRLxsyr+NdN8oDGnd/QLjDfr6fzgi9IC
- E7sC9BoB+wH8J6tGHz6ZvnVRWh4CoiJqo1o2GPQnaFCCjtGXgw0Cos4EvVHONYcne8wJ
- UEwr/vieddmSjhMJVdTX9xAR1U8CILysEJdvghYMLxLYLWImOlYy1tTFvwQ8eDCNkMeA
- 2vIuX0mIOn10gcsO6RHJL6s5GBI/KukVouzQgpW+wFHQRt41rrOCxIg8Ntvk7MR7eZYl
- Dtf2LHpuRIN7vw9N7xfKueFs2YYBNO42xKvTpHkBCS2Pfiual3yJOu3myHuxGdRpJeYg
- O7FQ==
-X-Gm-Message-State: AOAM53110Lh1ny4WKUf955/iUSB3JfRDNFRRjjfUhdQgYs00Wy7BIiZY
- NmU2vXXb6m0JyGp7biViFjG/bsq92z7sE0456NGz8g==
-X-Google-Smtp-Source: ABdhPJxgbS1t2Nwj6sfn6p8sKTS1bE8L273N6tr+1TJqhugSlRrkIMo99/GZ+xiBo52oNvQ4sJbVps16o+lrp2z1cBE=
-X-Received: by 2002:a25:5143:: with SMTP id f64mr23512899ybb.520.1643503616244; 
- Sat, 29 Jan 2022 16:46:56 -0800 (PST)
-MIME-Version: 1.0
-References: <20220120150024.646714-1-paul.kocialkowski@bootlin.com>
- <20220120150024.646714-5-paul.kocialkowski@bootlin.com>
-In-Reply-To: <20220120150024.646714-5-paul.kocialkowski@bootlin.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 30 Jan 2022 01:46:44 +0100
-Message-ID: <CACRpkdYNCpPUpJmbXNteEJ3kPkLQCMCcBezj8oYhwRZvmA-Vqg@mail.gmail.com>
-Subject: Re: [PATCH v10 4/6] dt-bindings: display: Add compatibles with major
- versions only
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5785C10E173
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jan 2022 02:39:07 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E9DEBB8284B
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jan 2022 02:39:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A3D7FC340F2
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jan 2022 02:39:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1643510343;
+ bh=jOXGJ6JiyheB74baWmmwxxMIYwJiZge9Y/kOYx5IG5E=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=qdTsw4fzZ2lrR05VODPUCXcgwChtl1Kel8vGjaEtCKmpDTdxEUsHI1w8ZB2x2cYQm
+ hNuesuRxmihntBNNJOj1oOxDOl9oV7eRDIyNVLaXovgnxXE7FBWfTcENRcqqCFB/2b
+ Q5qKZOk3QLXxC3ZVXRE3x5CPaHrj5pE11OAw/gWR70ub/bgExN4idn3V7kmgxPTH8A
+ MfCqpNpFrKexURotjYZ7Y54UG8oqrj1U0LT4jLB62/rxcIPzfax0T4wjd2KhO0GZNG
+ a5PFMDeAPSGFRs9xMFp3k+hfISkORSfbjbL+pY5yhYxfQapbZ2yOGbUH37WfL2NJTb
+ dGLDqRtrLtuSA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 92DBFC05FD6; Sun, 30 Jan 2022 02:39:03 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 204611] amdgpu error scheduling IBs when waking from sleep
+Date: Sun, 30 Jan 2022 02:39:03 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: thierry.monnier5@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204611-2300-EOVJPQ3Lan@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204611-2300@https.bugzilla.kernel.org/>
+References: <bug-204611-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,26 +70,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Bartosz Golaszewski <brgl@bgdev.pl>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 20, 2022 at 4:00 PM Paul Kocialkowski
-<paul.kocialkowski@bootlin.com> wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204611
 
-> There are lots of different versions of the logicvc block and it
-> makes little sense to list them all in compatibles since all versions
-> with the same major are found to be register-compatible.
+--- Comment #14 from Thierry (thierry.monnier5@gmail.com) ---
+No problem since a long time too. I think it's solve.
+
+Le sam. 29 janv. 2022 =C3=A0 23:59, <bugzilla-daemon@kernel.org> a =C3=A9cr=
+it :
+
+> https://bugzilla.kernel.org/show_bug.cgi?id=3D204611
 >
-> Add common compatibles that only list the major version instead.
+> --- Comment #13 from aeon.descriptor@gmail.com ---
+> I still have this issue, but I'm using the latest Ubuntu 20.04 patched
+> kernels, so I don't know how 'latest' that is.
 >
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> What kernel versions work?  I could try them out.
+>
+> On Sat, Jan 29, 2022, 2:55 PM <bugzilla-daemon@kernel.org> wrote:
+>
+> > https://bugzilla.kernel.org/show_bug.cgi?id=3D204611
+> >
+> > --- Comment #12 from tones111@hotmail.com ---
+> > I haven't seen problems resuming from sleep in some time.  Is anyone
+> still
+> > experiencing this problem on newer kernels?  If not then I'd like to
+> > propose
+> > this issue be marked as resolved.
+> >
+> > --
+> > You may reply to this email to add a comment.
+> >
+> > You are receiving this mail because:
+> > You are on the CC list for the bug.
+>
+> --
+> You may reply to this email to add a comment.
+>
+> You are receiving this mail because:
+> You are on the CC list for the bug.
 
-Same comment as the other binding patch.
+--=20
+You may reply to this email to add a comment.
 
-Yours,
-Linus Walleij
+You are receiving this mail because:
+You are watching the assignee of the bug.=
