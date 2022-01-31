@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B514A4DCE
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 19:12:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 917834A4DCC
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 19:12:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17E0810E2A7;
-	Mon, 31 Jan 2022 18:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD3A10E261;
+	Mon, 31 Jan 2022 18:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D73B810E2F3
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 18:12:33 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id a28so28570295lfl.7
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 10:12:33 -0800 (PST)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9427D10E261
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 18:12:35 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id u6so28559584lfm.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 10:12:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Gt6NZg0usi9i7zJRlo1gTWfjjBJm3GJXgR2jsJ1DWWg=;
- b=SKEqQkZtjM0lR8JE2205G7bt/hRClfuW6lv+1OJKnLaWnKjeNjNRXf5O7Pt94GCSus
- dAq0W2rCxEgflTsDhNa3PK2W+6Z48HCEqA1ucgwqFkiLafzVskaOYMASdXqzxT6Ep00U
- WLNwN1AwCEUuK/o3eTzE6J4jBUtArHA4H7Dw8uIkX1ZxDBQDxyBDZGxePJE8ESPs94Hr
- ljpVNKjKpJsPfpE3hpPIdTTCogkZPlCpAqsqiwJZWXMWo/4bOoyJ1HlCMbtigaYPC8oE
- XHvUVXwLIjCsJikqGgWqMM0lLloOuf/o+VsI3gkWex1NNvJ8zWMKdj9NGRnFrA0P22Ko
- +Cow==
+ bh=cLMbzDUhFlSgdQoGKuc6SBBSjoGSeYRwJlFPN5QbfOY=;
+ b=ANUFXXwX2YcLIAHhlsl8gAwz4wWPRA0Xx6q0Cv81zIz5wxJM4NrZe/HyWIbPQjJzXb
+ /Ae30/sQTePYIB1p0u2pi3tKoqYV6Dna792X5FrDgwvqpE9819OyUyh/yWihNn437W6n
+ kjCAVMA9nf+RdayheNYrtzvlYt2UMHthAt5A1vrvjYZXo4RGA3C+EvmA1VOPklpCo0kp
+ 6BJR3VL+I+S31HtHQ1LbV8yWxRw4mChptQnljGTR8prEEnKG/lR430wqhE5bKanqwMLI
+ 5fSXMiWU4bt9r5g40pgWoI9dxPTJXlcvNVD83cMZ+oIsjCS46iGnU6I6qBbcZiOlQqH2
+ 7XEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Gt6NZg0usi9i7zJRlo1gTWfjjBJm3GJXgR2jsJ1DWWg=;
- b=asDiXMXAJ8jSEK6jWJYnL6HCKjzhGrZ1DZTzDpJ8T2xXRIlb6AxzvD5y1lTl//y+I9
- br+N8YNUrYi+ov7fVv0+nQIeJJ/ht7qDlBRSNjvQyuAO+97lu+zgwo7OIR4WFALAQ+iG
- uYY6bin5+8okIZa74jQg1y2lxs8YNBZOpsZ4Zuvm4zSj8WLmJyb7afl2OSueO2ATSs4g
- +2W5Dx23cKV1n84qlcQ2WlhsXC4cpwTu2imkLhmAkETZ98MWiW1GGDQNxmvOvmaT1Epq
- nGefqGvqJgv4qdJYKOJF7+s+lsUrDdpuPFAnvyFP4mE/iagcMmM+SmLWmgbjojUtjz0S
- Yc+w==
-X-Gm-Message-State: AOAM531e1l1mQq+aKDjrHzioPBhOm3GRqpTp/SXbBvAs5zcy+L1JECz9
- rdlajJ6pyMud0BHBgRKImbc=
-X-Google-Smtp-Source: ABdhPJxdagDD2HAb/bonm5f9mLZ2tjBJ/Hfhyz4zbxL6HgiHVkINrt4nt0EC65a7cyKJI3rmqyCCuA==
-X-Received: by 2002:a05:6512:228f:: with SMTP id
- f15mr16913417lfu.115.1643652752185; 
- Mon, 31 Jan 2022 10:12:32 -0800 (PST)
+ bh=cLMbzDUhFlSgdQoGKuc6SBBSjoGSeYRwJlFPN5QbfOY=;
+ b=OfZXg5lSPZO2tet4OBVqPU6ilvDw0o+KzxHuSJwOuIXoz2b0S96bpIoe9EDB5ot962
+ xWnirbMr08RGf6DzfG/ASTuBCTyxRobtlLypMTzIzQUUf36lnxUQ+ie4utkLjv5j1dK/
+ LKawHjODSwNnoMaZbWKMybFv65t3dhG5zNAm+kWNStSiGZHLNvl7Tqcx7IIbUfOW+qvj
+ GHQWRUfZGJ3RZirhAlagqqvqJNtByKGFn1FYlglWEwYwnubUYQCN6zsKmsED5xQy/7pt
+ VrrLgJFWHqjHWQa4o52HFnHaNIv74xVDJxMygbxwIiEX+vs5TrCL8rQw+xcn+BhsMI/G
+ hgMg==
+X-Gm-Message-State: AOAM532OSF0zlCIbOCsmujO+K6F7xsILUJDpk0gBRiLjbUV4gLDVXgss
+ cus45Mo/Lzaoe/QeqYAxmQc=
+X-Google-Smtp-Source: ABdhPJymMyjm5MduvH4M1VM7ckT6HH+iAiDsfRx9j23P6J5bCMxDdCIzNtS/+4EYF/aS/385tkmtcg==
+X-Received: by 2002:a19:5219:: with SMTP id m25mr17005211lfb.502.1643652753919; 
+ Mon, 31 Jan 2022 10:12:33 -0800 (PST)
 Received: from localhost.localdomain (109-252-138-136.dynamic.spd-mgts.ru.
  [109.252.138.136])
- by smtp.gmail.com with ESMTPSA id r17sm3391297lfg.237.2022.01.31.10.12.31
+ by smtp.gmail.com with ESMTPSA id r17sm3391297lfg.237.2022.01.31.10.12.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 10:12:31 -0800 (PST)
+ Mon, 31 Jan 2022 10:12:32 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Svyatoslav Ryhel <clamor95@gmail.com>,
  Anton Bambura <jenneron@protonmail.com>
-Subject: [PATCH v4 2/3] dt-bindings: display: simple: Add HannStar HSD101PWW2
-Date: Mon, 31 Jan 2022 21:12:07 +0300
-Message-Id: <20220131181208.27101-3-digetx@gmail.com>
+Subject: [PATCH v4 3/3] drm/panel: simple: Add support for HannStar HSD101PWW2
+ panel
+Date: Mon, 31 Jan 2022 21:12:08 +0300
+Message-Id: <20220131181208.27101-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220131181208.27101-1-digetx@gmail.com>
 References: <20220131181208.27101-1-digetx@gmail.com>
@@ -79,29 +79,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 
-Add HannStar HSD101PWW2 10.1" WXGA (1280x800) TFT-LCD LVDS panel
-to the list of compatibles.
+Add definition of the HannStar HSD101PWW2 Rev0-A00/A01 LCD
+SuperIPS+ HD panel.
 
-Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 62f5f050c1bc..fe49c4df65fa 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -156,6 +156,8 @@ properties:
-       - hannstar,hsd070pww1
-         # HannStar Display Corp. HSD100PXN1 10.1" XGA LVDS panel
-       - hannstar,hsd100pxn1
-+        # HannStar Display Corp. HSD101PWW2 10.1" WXGA (1280x800) LVDS panel
-+      - hannstar,hsd101pww2
-         # Hitachi Ltd. Corporation 9" WVGA (800x480) TFT LCD panel
-       - hit,tx23d38vm0caa
-         # InfoVision Optoelectronics M133NWF4 R0 13.3" FHD (1920x1080) TFT LCD panel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 9e46db5e359c..1bfa2d1b61fd 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1927,6 +1927,31 @@ static const struct panel_desc hannstar_hsd100pxn1 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
++static const struct display_timing hannstar_hsd101pww2_timing = {
++	.pixelclock = { 64300000, 71100000, 82000000 },
++	.hactive = { 1280, 1280, 1280 },
++	.hfront_porch = { 1, 1, 10 },
++	.hback_porch = { 1, 1, 10 },
++	.hsync_len = { 58, 158, 661 },
++	.vactive = { 800, 800, 800 },
++	.vfront_porch = { 1, 1, 10 },
++	.vback_porch = { 1, 1, 10 },
++	.vsync_len = { 1, 21, 203 },
++	.flags = DISPLAY_FLAGS_DE_HIGH,
++};
++
++static const struct panel_desc hannstar_hsd101pww2 = {
++	.timings = &hannstar_hsd101pww2_timing,
++	.num_timings = 1,
++	.bpc = 8,
++	.size = {
++		.width = 217,
++		.height = 136,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++};
++
+ static const struct drm_display_mode hitachi_tx23d38vm0caa_mode = {
+ 	.clock = 33333,
+ 	.hdisplay = 800,
+@@ -3802,6 +3827,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "hannstar,hsd100pxn1",
+ 		.data = &hannstar_hsd100pxn1,
++	}, {
++		.compatible = "hannstar,hsd101pww2",
++		.data = &hannstar_hsd101pww2,
+ 	}, {
+ 		.compatible = "hit,tx23d38vm0caa",
+ 		.data = &hitachi_tx23d38vm0caa
 -- 
 2.34.1
 
