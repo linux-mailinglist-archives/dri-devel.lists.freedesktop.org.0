@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40EEF4A4EEF
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 19:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2CCC4A4EF1
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 19:53:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6828B10E3A6;
-	Mon, 31 Jan 2022 18:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7AF10E3C2;
+	Mon, 31 Jan 2022 18:52:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A511710E39E;
- Mon, 31 Jan 2022 18:52:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6823110E39E;
+ Mon, 31 Jan 2022 18:52:53 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id 598A71F4369F
+ (Authenticated sender: bbeckett) with ESMTPSA id E5D8F1F436A1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1643655171;
- bh=hUFlNPZzMM4zNuLdiOzj6hX726CxsP3e+GFLJ1fGp9o=;
+ s=mail; t=1643655172;
+ bh=7xQvHqE5JkxFe/B6GU5XOuYuw6gmCUNHi1lLN9/W+eo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m1oik9hf4ig0xqukxD30fJmvCQb25g5g8TLNIWMrSrXmjQ6wNflB2L9WcoUOa6UeK
- NyYiMY+aiSLwmjb6FKYkgUgO1JR+34XVL0lKjUro6a/5NE0Wny2ktXVDC+ig6b4Ldk
- cH5Li0yzZsoeC25sF1uSWKtjSeqtHe7cYm2AISQrlxze9T6HwHXd4VA4dBjQLz5eKW
- SSezYYEQwZKLh6LFezTTtCbFv8SF/UwWmIwsIGUuntxzPS+C3cljFx81ILlo+tTnZY
- wNILXyjeYt64K1CECX9W4sfL+4Rd8gz9nTmwVusZCUxhlBJCgPYYM9QxeHxfbXzmup
- CsvF4VUSQamFA==
+ b=aQLudtPrPa1L6NVvXEx5KCn/cqO03iYjdGwdLeunnO61CXeAqzCRO7q7/XQ1ZkWAm
+ sW1rhA/7ayjA17mNSM2mCFFwcTJe1knm1rJOq2pThYf3p8zZlMuMjlBlITRzTVvurj
+ S6Safp7pX/SIerHnmK6Ip3hEKDfdS/PLzKIC9Mo8Oi5PopHoVQoMvY4wKagrj2Pus9
+ ViD/PBf8cTt2lY3V4ZylNRDRRZhr/eS7C7cnRQmOjm+RL04wLOI59WTRKv6n0zqa9O
+ +UjPIfLuHaIjDbMQci9LyNHQ8ZXa7tcCwxKU1Kj5qwXprjCtqDSGyILK2lnPcyUfo9
+ ju2//nKev2OLg==
 From: Robert Beckett <bob.beckett@collabora.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v6 4/5] drm/i915: add gtt misalignment test
-Date: Mon, 31 Jan 2022 18:52:30 +0000
-Message-Id: <20220131185231.725346-5-bob.beckett@collabora.com>
+Subject: [PATCH v6 5/5] drm/i915/uapi: document behaviour for DG2 64K support
+Date: Mon, 31 Jan 2022 18:52:31 +0000
+Message-Id: <20220131185231.725346-6-bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220131185231.725346-1-bob.beckett@collabora.com>
 References: <20220131185231.725346-1-bob.beckett@collabora.com>
@@ -54,203 +54,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Robert Beckett <bob.beckett@collabora.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- kernel test robot <lkp@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, Jordan Justen <jordan.l.justen@intel.com>,
+ intel-gfx@lists.freedesktop.org, Kenneth Graunke <kenneth@whitecape.org>,
+ Tony Ye <tony.ye@intel.com>, Slawomir Milczarek <slawomir.milczarek@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, mesa-dev@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add test to check handling of misaligned offsets and sizes
+From: Matthew Auld <matthew.auld@intel.com>
 
-v4:
-	* remove spurious blank lines
-	* explicitly cast intel_region_id to intel_memory_type in misaligned_pin
-Reported-by: kernel test robot <lkp@intel.com>
-v6:
-	* use NEEDS_COMPACT_PT instead of hard coding for DG2
+On discrete platforms like DG2, we need to support a minimum page size
+of 64K when dealing with device local-memory. This is quite tricky for
+various reasons, so try to document the new implicit uapi for this.
 
+v3: fix typos and less emphasis
+v2: Fixed suggestions on formatting [Daniel]
+
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+Acked-by: Jordan Justen <jordan.l.justen@intel.com>
+Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
 Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+cc: Simon Ser <contact@emersion.fr>
+cc: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Jordan Justen <jordan.l.justen@intel.com>
+Cc: Kenneth Graunke <kenneth@whitecape.org>
+Cc: mesa-dev@lists.freedesktop.org
+Cc: Tony Ye <tony.ye@intel.com>
+Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
 ---
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 128 ++++++++++++++++++
- 1 file changed, 128 insertions(+)
+ include/uapi/drm/i915_drm.h | 44 ++++++++++++++++++++++++++++++++-----
+ 1 file changed, 39 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-index b80788a2b7f9..c23b1e5cc436 100644
---- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-@@ -22,10 +22,12 @@
-  *
-  */
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index 5e678917da70..77e5e74c32c1 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -1118,10 +1118,16 @@ struct drm_i915_gem_exec_object2 {
+ 	/**
+ 	 * When the EXEC_OBJECT_PINNED flag is specified this is populated by
+ 	 * the user with the GTT offset at which this object will be pinned.
++	 *
+ 	 * When the I915_EXEC_NO_RELOC flag is specified this must contain the
+ 	 * presumed_offset of the object.
++	 *
+ 	 * During execbuffer2 the kernel populates it with the value of the
+ 	 * current GTT offset of the object, for future presumed_offset writes.
++	 *
++	 * See struct drm_i915_gem_create_ext for the rules when dealing with
++	 * alignment restrictions with I915_MEMORY_CLASS_DEVICE, on devices with
++	 * minimum page sizes, like DG2.
+ 	 */
+ 	__u64 offset;
  
-+#include "gt/intel_gtt.h"
- #include <linux/list_sort.h>
- #include <linux/prime_numbers.h>
- 
- #include "gem/i915_gem_context.h"
-+#include "gem/i915_gem_region.h"
- #include "gem/selftests/mock_context.h"
- #include "gt/intel_context.h"
- #include "gt/intel_gpu_commands.h"
-@@ -1067,6 +1069,120 @@ static int shrink_boom(struct i915_address_space *vm,
- 	return err;
- }
- 
-+static int misaligned_case(struct i915_address_space *vm, struct intel_memory_region *mr,
-+			   u64 addr, u64 size, unsigned long flags)
-+{
-+	struct drm_i915_gem_object *obj;
-+	struct i915_vma *vma;
-+	int err = 0;
-+	u64 expected_vma_size, expected_node_size;
-+
-+	obj = i915_gem_object_create_region(mr, size, 0, 0);
-+	if (IS_ERR(obj))
-+		return PTR_ERR(obj);
-+
-+	vma = i915_vma_instance(obj, vm, NULL);
-+	if (IS_ERR(vma)) {
-+		err = PTR_ERR(vma);
-+		goto err_put;
-+	}
-+
-+	err = i915_vma_pin(vma, 0, 0, addr | flags);
-+	if (err)
-+		goto err_put;
-+	i915_vma_unpin(vma);
-+
-+	if (!drm_mm_node_allocated(&vma->node)) {
-+		err = -EINVAL;
-+		goto err_put;
-+	}
-+
-+	if (i915_vma_misplaced(vma, 0, 0, addr | flags)) {
-+		err = -EINVAL;
-+		goto err_put;
-+	}
-+
-+	expected_vma_size = round_up(size, 1 << (ffs(vma->resource->page_sizes_gtt) - 1));
-+	expected_node_size = expected_vma_size;
-+
-+	if (NEEDS_COMPACT_PT(vm->i915) && i915_gem_object_is_lmem(obj)) {
-+		/* compact-pt should expand lmem node to 2MB */
-+		expected_vma_size = round_up(size, I915_GTT_PAGE_SIZE_64K);
-+		expected_node_size = round_up(size, I915_GTT_PAGE_SIZE_2M);
-+	}
-+
-+	if (vma->size != expected_vma_size || vma->node.size != expected_node_size) {
-+		err = i915_vma_unbind(vma);
-+		err = -EBADSLT;
-+		goto err_put;
-+	}
-+
-+	err = i915_vma_unbind(vma);
-+	if (err)
-+		goto err_put;
-+
-+	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
-+
-+err_put:
-+	i915_gem_object_put(obj);
-+	cleanup_freed_objects(vm->i915);
-+	return err;
-+}
-+
-+static int misaligned_pin(struct i915_address_space *vm,
-+			  u64 hole_start, u64 hole_end,
-+			  unsigned long end_time)
-+{
-+	struct intel_memory_region *mr;
-+	enum intel_region_id id;
-+	unsigned long flags = PIN_OFFSET_FIXED | PIN_USER;
-+	int err = 0;
-+	u64 hole_size = hole_end - hole_start;
-+
-+	if (i915_is_ggtt(vm))
-+		flags |= PIN_GLOBAL;
-+
-+	for_each_memory_region(mr, vm->i915, id) {
-+		u64 min_alignment = i915_vm_min_alignment(vm, (enum intel_memory_type)id);
-+		u64 size = min_alignment;
-+		u64 addr = round_up(hole_start + (hole_size / 2), min_alignment);
-+
-+		/* we can't test < 4k alignment due to flags being encoded in lower bits */
-+		if (min_alignment != I915_GTT_PAGE_SIZE_4K) {
-+			err = misaligned_case(vm, mr, addr + (min_alignment / 2), size, flags);
-+			/* misaligned should error with -EINVAL*/
-+			if (!err)
-+				err = -EBADSLT;
-+			if (err != -EINVAL)
-+				return err;
-+		}
-+
-+		/* test for vma->size expansion to min page size */
-+		err = misaligned_case(vm, mr, addr, PAGE_SIZE, flags);
-+		if (min_alignment > hole_size) {
-+			if (!err)
-+				err = -EBADSLT;
-+			else if (err == -ENOSPC)
-+				err = 0;
-+		}
-+		if (err)
-+			return err;
-+
-+		/* test for intermediate size not expanding vma->size for large alignments */
-+		err = misaligned_case(vm, mr, addr, size / 2, flags);
-+		if (min_alignment > hole_size) {
-+			if (!err)
-+				err = -EBADSLT;
-+			else if (err == -ENOSPC)
-+				err = 0;
-+		}
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
- static int exercise_ppgtt(struct drm_i915_private *dev_priv,
- 			  int (*func)(struct i915_address_space *vm,
- 				      u64 hole_start, u64 hole_end,
-@@ -1136,6 +1252,11 @@ static int igt_ppgtt_shrink_boom(void *arg)
- 	return exercise_ppgtt(arg, shrink_boom);
- }
- 
-+static int igt_ppgtt_misaligned_pin(void *arg)
-+{
-+	return exercise_ppgtt(arg, misaligned_pin);
-+}
-+
- static int sort_holes(void *priv, const struct list_head *A,
- 		      const struct list_head *B)
- {
-@@ -1208,6 +1329,11 @@ static int igt_ggtt_lowlevel(void *arg)
- 	return exercise_ggtt(arg, lowlevel_hole);
- }
- 
-+static int igt_ggtt_misaligned_pin(void *arg)
-+{
-+	return exercise_ggtt(arg, misaligned_pin);
-+}
-+
- static int igt_ggtt_page(void *arg)
- {
- 	const unsigned int count = PAGE_SIZE/sizeof(u32);
-@@ -2180,12 +2306,14 @@ int i915_gem_gtt_live_selftests(struct drm_i915_private *i915)
- 		SUBTEST(igt_ppgtt_fill),
- 		SUBTEST(igt_ppgtt_shrink),
- 		SUBTEST(igt_ppgtt_shrink_boom),
-+		SUBTEST(igt_ppgtt_misaligned_pin),
- 		SUBTEST(igt_ggtt_lowlevel),
- 		SUBTEST(igt_ggtt_drunk),
- 		SUBTEST(igt_ggtt_walk),
- 		SUBTEST(igt_ggtt_pot),
- 		SUBTEST(igt_ggtt_fill),
- 		SUBTEST(igt_ggtt_page),
-+		SUBTEST(igt_ggtt_misaligned_pin),
- 		SUBTEST(igt_cs_tlb),
- 	};
- 
+@@ -3145,11 +3151,39 @@ struct drm_i915_gem_create_ext {
+ 	 *
+ 	 * The (page-aligned) allocated size for the object will be returned.
+ 	 *
+-	 * Note that for some devices we have might have further minimum
+-	 * page-size restrictions(larger than 4K), like for device local-memory.
+-	 * However in general the final size here should always reflect any
+-	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
+-	 * extension to place the object in device local-memory.
++	 *
++	 * DG2 64K min page size implications:
++	 *
++	 * On discrete platforms, starting from DG2, we have to contend with GTT
++	 * page size restrictions when dealing with I915_MEMORY_CLASS_DEVICE
++	 * objects.  Specifically the hardware only supports 64K or larger GTT
++	 * page sizes for such memory. The kernel will already ensure that all
++	 * I915_MEMORY_CLASS_DEVICE memory is allocated using 64K or larger page
++	 * sizes underneath.
++	 *
++	 * Note that the returned size here will always reflect any required
++	 * rounding up done by the kernel, i.e 4K will now become 64K on devices
++	 * such as DG2.
++	 *
++	 * Special DG2 GTT address alignment requirement:
++	 *
++	 * The GTT alignment will also need to be at least 2M for such objects.
++	 *
++	 * Note that due to how the hardware implements 64K GTT page support, we
++	 * have some further complications:
++	 *
++	 *   1) The entire PDE (which covers a 2MB virtual address range), must
++	 *   contain only 64K PTEs, i.e mixing 4K and 64K PTEs in the same
++	 *   PDE is forbidden by the hardware.
++	 *
++	 *   2) We still need to support 4K PTEs for I915_MEMORY_CLASS_SYSTEM
++	 *   objects.
++	 *
++	 * To keep things simple for userland, we mandate that any GTT mappings
++	 * must be aligned to and rounded up to 2MB. As this only wastes virtual
++	 * address space and avoids userland having to copy any needlessly
++	 * complicated PDE sharing scheme (coloring) and only affects DG2, this
++	 * is deemed to be a good compromise.
+ 	 */
+ 	__u64 size;
+ 	/**
 -- 
 2.25.1
 
