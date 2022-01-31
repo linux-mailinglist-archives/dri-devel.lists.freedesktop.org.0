@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225954A531D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 00:21:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44DA54A532A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 00:25:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E4B310E427;
-	Mon, 31 Jan 2022 23:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A10C810E43F;
+	Mon, 31 Jan 2022 23:25:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1E2010E427
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 23:21:47 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40B6210E43F
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 23:25:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643671306;
+ s=mimecast20190719; t=1643671502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PrT+G3tPg9tF+5XuIAQ32IRnOTQfqMCqOg72JDwqGHg=;
- b=az5rQSicjcNnkTP+5PCfY0d/hlIeIXcmwsiHxr7eKNMPJLB4Bd/QAE4NpiczzZvNwAYdSA
- CPp11YGb0aiMdAQOD/no0or3IZ14ouGX8cFTXB6rrSKrnA8WBks3dQM0yYMRMGnpI8tx2U
- gLzqD1QJv37GPvpOAmjbE37eWDze8O0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sOB8RYRPIuXt9XuC1duDz579Ebb678cvofpXB4sR8RI=;
+ b=Rn23NxkCQunRrrSeTd7hGJhkH7SXnGY7iwt7V0xNmey1Kv1ixB9n6z7ALW1ifSMQkz2dYB
+ +P35ftGTE1L2Uu9bO7Yq9Z5QyCgAxlsZhrbavxod2JOyclu64ZvhSB5stg8exvLYCc/EjT
+ UM4MKZW64+wja7opxherNr8cI1p5p9k=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-217-n6muFDZBOie67lj4ukoxhQ-1; Mon, 31 Jan 2022 18:21:44 -0500
-X-MC-Unique: n6muFDZBOie67lj4ukoxhQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- j18-20020a05600c1c1200b0034aeea95dacso411213wms.8
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 15:21:44 -0800 (PST)
+ us-mta-546-OkuCcM2xNv-nbOKrsyU5Kw-1; Mon, 31 Jan 2022 18:25:00 -0500
+X-MC-Unique: OkuCcM2xNv-nbOKrsyU5Kw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f7-20020a1cc907000000b0034b63f314ccso276828wmb.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 15:25:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PrT+G3tPg9tF+5XuIAQ32IRnOTQfqMCqOg72JDwqGHg=;
- b=eGNMapkGvJPeZOVcSKw63FAR7aBEzGfd714Umn5FuYrHpShRBHLIe0JX3Zd8MVuDJm
- NnA8DQ7MzNLFftWy9LLdHCTdMpBvE/phuqyCw4+TmhzwuX0lBsTSyFxSPwGFB/Wqyh0N
- aBkL4ghvrhkztwNokBvrzzXiuBDh2a0J7SJX2XAv4U4pM2TDjPXZtAk/AiDqaCxDXoLc
- 4dl3Ox/TOwwZrbNIvIvr2bFWtcw7agiF8B+tCgKFo1aS3YeblitdBzp/YXHPDtxyhyBs
- TEgoXkWrsCnkC921Bk9TGYWexhmhIRBQ+ttHCieLGQqq80SrBlAsWAisO5wJHws3BSra
- nDOQ==
-X-Gm-Message-State: AOAM532X/56CRaWoeMqdzKmH+mgoy5gDtm3FtFEvUkI5aldBSj95Wdld
- AxrJvw9KQdmsdyhFAx7BQ4XvhsRE2bgnMe9/g6eoKdOw5zSxwj1JTtJ5N4OUwE1ErU+tJLpv3Cd
- nVwocXNGcEuVXU3J/GGWt5Yfas8kF
-X-Received: by 2002:a7b:c44d:: with SMTP id l13mr28332788wmi.46.1643671303291; 
- Mon, 31 Jan 2022 15:21:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz+5Kta65CM2LqtBZ8N7f7NRu724ZDFebRcaJ9B9wuQH3sMcUBfk67n6fa4xazee4fo9ruHBg==
-X-Received: by 2002:a7b:c44d:: with SMTP id l13mr28332767wmi.46.1643671303032; 
- Mon, 31 Jan 2022 15:21:43 -0800 (PST)
+ bh=sOB8RYRPIuXt9XuC1duDz579Ebb678cvofpXB4sR8RI=;
+ b=fdQ1VCV3l/VptZi37tdQoH9g13Mjzt9iOM9aEmMrfsTX84OtfCrBvIU2Jfa3ulzAIt
+ hOJ00cVvv4bzvzCzVoooCDInacjT8fGkVFwIn0z0GvU7d6Q+Lp1r4FMCUsd8PRscK+f7
+ c75Iv8D56d8gqUzJgeZTLSAD13pdV5PUXg+LDh7M6jvEcukMfte+Mnsz9OyHXKbe78Pn
+ +MeRAtdqTxG0hGaIwUYiNjnzpLcFDXUgz1Yy11Or5ivnDASMlwa/KgVht6i3VEh9xMm/
+ 3QgrPhUY++gVE4oj33ksleLomqAMW2bTKZdiwCL/xoJTqVIBrGbalFthbGx7HHMaV4Xn
+ 4lfw==
+X-Gm-Message-State: AOAM530qLVRGo5lg3P7EG+rF1wz0wTsI4fXzP7NbjXWp0pxah/qX6bHK
+ 2ezS57jf+uuGUfyxIOFnMDS/k8f3mM0yh1bqkOh6/UFSUIAyIRCBVvTVi0WxFSNwfhYekkS8/8Z
+ Xcd3OwLaHun/lquUmu8D/my5Zbc0w
+X-Received: by 2002:a7b:c0d0:: with SMTP id s16mr20585928wmh.169.1643671499289; 
+ Mon, 31 Jan 2022 15:24:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwXct5Vi006IAsnWX7pGg6l9TgY49Hkt7Zu/EEEoWSUyfvrEDOXAziQ+K8kEvGmrE5W4zQmHQ==
+X-Received: by 2002:a7b:c0d0:: with SMTP id s16mr20585920wmh.169.1643671499121; 
+ Mon, 31 Jan 2022 15:24:59 -0800 (PST)
 Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id p3sm515814wmq.40.2022.01.31.15.21.41
+ by smtp.gmail.com with ESMTPSA id f13sm577284wmq.29.2022.01.31.15.24.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jan 2022 15:21:42 -0800 (PST)
-Message-ID: <c7818782-ab41-b526-9e81-e769259baa52@redhat.com>
-Date: Tue, 1 Feb 2022 00:21:41 +0100
+ Mon, 31 Jan 2022 15:24:58 -0800 (PST)
+Message-ID: <9e9808c0-5a92-b2c3-c1c5-158608f49e6b@redhat.com>
+Date: Tue, 1 Feb 2022 00:24:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-To: Simon Ser <contact@emersion.fr>
-References: <20220131201225.2324984-1-javierm@redhat.com>
- <tIMIWqepcZGntnez-1ss4Kn4K8btXnzDRL7EWd19-745WK90YIC19E_4di9RNvB3gtx-PzWEjBEGQLPNJE_x0T1yyyaWFCoFcCiG4StR9RU=@emersion.fr>
- <wuXPJN-K-rvjoV51c4EBmTBScov8rcJTPoYmlfHe04_-4wD1khVxo9HnUsP7UFd5m4AkzGSw2hXe_c77jbSRhjEJ0JZIYwuvuIkcv_KsR-Y=@emersion.fr>
+Subject: Re: [PATCH 4/4] MAINTAINERS: Add entry for Solomon SSD1307 OLED
+ displays DRM driver
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20220131201537.2325487-1-javierm@redhat.com>
+ <YfhKrznFzRmDcZa6@ravnborg.org>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <wuXPJN-K-rvjoV51c4EBmTBScov8rcJTPoYmlfHe04_-4wD1khVxo9HnUsP7UFd5m4AkzGSw2hXe_c77jbSRhjEJ0JZIYwuvuIkcv_KsR-Y=@emersion.fr>
+In-Reply-To: <YfhKrznFzRmDcZa6@ravnborg.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,51 +86,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
  Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Simon,
+Hello Sam,
 
-Thanks for your feedback.
+Thanks a lot for your feedback.
 
-On 1/31/22 21:39, Simon Ser wrote:
-> On Monday, January 31st, 2022 at 21:36, Simon Ser <contact@emersion.fr> wrote:
+On 1/31/22 21:46, Sam Ravnborg wrote:
+> Hi Javier,
 > 
->> This driver only advertises XRGB8888 in ssd1307_formats. It would be nice to
->> expose R8 as well so that user-space can directly produce suitable buffers.
->> It would also be nice to have some kind of preferred format, so that user-space
->> knows R8 is preferred over XRGB8888.
+> On Mon, Jan 31, 2022 at 09:15:37PM +0100, Javier Martinez Canillas wrote:
+>> To make sure that tools like the get_maintainer.pl script will suggest
+>> to Cc me if patches are posted for this driver.
+>>
+>> Also include the Device Tree binding for the old ssd1307fb fbdev driver
+>> since the new DRM driver was made compatible with the existing binding.
 > 
-> Hm, since the format used by the hw is actually R1, adding that to drm_fourcc.h
-> would be even better.
-> 
+> To avoid any confusion add yourself as Maintainer in the
+> solomon,ssd1307fb.yaml file too.
+>
 
-Yes, agreed that would be nice. We discussed this already with Thomas and my
-suggestion was to land the driver as is, advertising XRGB8888. Which is also
-what the other driver using monochrome does (drivers/gpu/drm/tiny/repaper.c):
+Agreed. You mentioned in another email though to diverge from the existing
+DT binding for ssd1307fb. If we decide to keep the backward compatibility
+then I'll add another patch to the set to list myself as a co-maintainer.
+ 
+> With that done:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+>
 
-https://www.spinics.net/lists/dri-devel/msg331328.html
-
-As a follow-up we can wire up al the needed bits to have a DRM/KMS driver that
-could expose a R1 format.
-
-> Let me know if you want me to type up any of the user-space bits.
-> 
-
-Thanks! I also could help to add the needed support in the user-space stack.
-
-Best reagards,
+Thanks!
+ 
+Best regards,
 -- 
 Javier Martinez Canillas
 Linux Engineering
