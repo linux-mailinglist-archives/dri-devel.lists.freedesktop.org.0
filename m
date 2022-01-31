@@ -1,78 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9757A4A3E0D
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 08:04:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0504A3EA7
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 09:35:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 249C310E7D1;
-	Mon, 31 Jan 2022 07:04:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24A6F10F511;
+	Mon, 31 Jan 2022 08:35:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
- Mon, 31 Jan 2022 07:04:07 UTC
-Received: from mx-lax3-1.ucr.edu (mx-lax3-1.ucr.edu [169.235.156.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7CA610E7D1
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 07:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
- t=1643612648; x=1675148648;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=eEsk92A0ZXPnX2Ki88PFE3IgBq8wg+0W/+nONtlHHnA=;
- b=X9+UIu5m1hI20VCj9tWabKh4TCaa6riVuyu9A9bXDFEb7DQWKe2jofi0
- O+c5PFM9JGJZk11Oiix1hlXFMt1y7uL1N0yl8uZb2KQLA0wNsIU8dHRc/
- /fQ/x7dnrJVfhVEZpOtIyM25HowJsvBGbztLn+JPDp5ulDtSPaRGm9mYl
- J+X4EeTox1ezxaRvQLgPWgrgmy11N0aVtXlhDpUHafM+VCT4GfL+kK7bk
- anbU5+cbIt6q9Zlku1euVS/GdqlYGn4eGOqeQzeEkjrLDOlP/U1NAqWDj
- 1E5BFA8bmtCBbIwLoPNojDilkfdNMrYwmSSQDwpYjVEWioibhzQRK2Y6O w==;
-X-IronPort-AV: E=Sophos;i="5.88,330,1635231600"; d="scan'208";a="101198239"
-Received: from mail-pf1-f197.google.com ([209.85.210.197])
- by smtp-lax3-1.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 30 Jan 2022 22:57:01 -0800
-Received: by mail-pf1-f197.google.com with SMTP id
- m200-20020a628cd1000000b004c7473d8cb5so6978311pfd.5
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jan 2022 22:57:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucr.edu; s=rmail;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=N9mTVzsHAHJ5mTM22d2IAe55DJRgo8Pr7F09OYCu4c4=;
- b=dEYxCn3BfV+JihG8ONV/WUGd8IamJ2JvzSSyxN0Yc69fn81moYaQ7zA8iO84UMQDkP
- uhUF08FkXagVOD5CW2tvG0POmWwZjo4ZdNbloTwew5BnwG9z64bC6i7JLYIlTLgUkphJ
- +ztQFc98NYZfDzfi41jfdivXxHpiLrzU8f/cE=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2B4112222
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 07:50:09 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id
+ y4-20020a056602200400b006101b618529so9351420iod.19
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jan 2022 23:50:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=N9mTVzsHAHJ5mTM22d2IAe55DJRgo8Pr7F09OYCu4c4=;
- b=jDQMqFsE9Wl33DTz0TIl0GsmX8KXA8ioenV/jsd464wgFBnrrv88DrZbBHv9pBq5x+
- DEJc0iTiwwJw12YjbroDM/5bRwwCBgG4RQjlLOMY5R10rPwWnyHf3PzYMIlhsgklwRi4
- HYqtTFFTBTs4A8evyimi8WQ3jnWZ6P8Obm4LdruB5xzLk+xTgXTWlbBaesdwXTdqhlzV
- ayR3n/no8ch+CTsj5ddhbupHaz5ix3MMfvAQc8Yrx7DcTTY7HaYRzvKsUZvO1uYVLluv
- Mxu74pl/KF15WaL2Q6m7OHMSg7MuXI3eEejY53afel//2Gq1SyOLSe194cGds312Wtiq
- jKUQ==
-X-Gm-Message-State: AOAM530c+xJnGKTf2YdGXDc6PVPM/eKydUystHqblokEpgVMCIWBBDkS
- k0nbPKtmjxXq5KOGXDOSMlW8Fp0metVH/PkiDoQ4gozE5USwIB8wEY759IGg6KH9cZ6j6jNSr1/
- ia/vdLLOBwRsKF1YZGjAemcgAp1fA6g==
-X-Received: by 2002:a05:6a00:1394:: with SMTP id
- t20mr19171347pfg.70.1643612219931; 
- Sun, 30 Jan 2022 22:56:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyYqb47bfhGvFHVqHFtNpiuYQ+NsZNuHIRbT+5N2iRk9p02bVcswfTGcUNfips3vZNzbIN8WQ==
-X-Received: by 2002:a05:6a00:1394:: with SMTP id
- t20mr19171333pfg.70.1643612219691; 
- Sun, 30 Jan 2022 22:56:59 -0800 (PST)
-Received: from kq.cs.ucr.edu (kq.cs.ucr.edu. [169.235.27.223])
- by smtp.googlemail.com with ESMTPSA id h3sm9641434pfo.66.2022.01.30.22.56.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Jan 2022 22:56:59 -0800 (PST)
-From: Yizhuo Zhai <yzhai003@ucr.edu>
-To: 
-Subject: [PATCH] fbdev: fbmem: Fix the implicit type casting
-Date: Sun, 30 Jan 2022 22:57:17 -0800
-Message-Id: <20220131065719.1552958-1-yzhai003@ucr.edu>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+ :from:to;
+ bh=mUUhKABASSDYvCUsc04M7XBtQBbnsrCUfjP/FgUZhxY=;
+ b=YB57m3/0kF0s+Qq6K1rJYdXBg4x64C39Fmg54NqIUptNNAx2DhLpGr0Z1oDRzc02PG
+ 8y0FcmfHCR+0h4dHBtl8pilYXoz9oTSCKsz8vbXJZnwLbVc6+6vK3MVbV6Uu/Xz0i999
+ OuII5I7+APWShRa4VWvTU/qDTv4SqY4bxRbwCFS5QAHeLD/zmgR6tSdydNLnbks3BLpb
+ lNyEseIGNchpdBem9HgPgBloD2yxsomfeaKOc9B1zhErVgkvixMMBDMexZdhF2pm/RjK
+ pkJGxJGDxbzOXlm0JXvFc5oG6aJyZYgsxZICpVep678mrsf5Eml8ykDq+cOmBqL/kzYc
+ CFUA==
+X-Gm-Message-State: AOAM533x4Ghr9FvIj4BRlu2vDJVx4tatHne8or683w82iT5fOUfo3kFD
+ Zv5Qva5zDzmACsbeIXFzKmoRRrE+LNZ5TCcqH7Ob68EbpyUs
+X-Google-Smtp-Source: ABdhPJymwJlS8JsUdlrCW9lOYpIn2UaIQaZW0hA0lpGtEyFOwecg2a8tRTfuM68f+RfkiiN+E5hX3nWx76izWqmI0UiryQoaAMBM
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a6b:d90c:: with SMTP id r12mr10512979ioc.99.1643615408629; 
+ Sun, 30 Jan 2022 23:50:08 -0800 (PST)
+Date: Sun, 30 Jan 2022 23:50:08 -0800
+In-Reply-To: <0000000000008a7a1c05c9e53c87@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000942c2205d6dc0896@google.com>
+Subject: Re: [syzbot] WARNING in drm_gem_shmem_vm_open
+From: syzbot <syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com>
+To: airlied@linux.ie, bugs-a21@moonlit-rail.com, christian.koenig@amd.com, 
+ daniel.vetter@ffwll.ch, daniel.vetter@intel.com, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, javierm@redhat.com, 
+ linaro-mm-sig-owner@lists.linaro.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, maxime@cerno.tech, melissa.srw@gmail.com, 
+ mripard@kernel.org, sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, 
+ tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Mon, 31 Jan 2022 08:35:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,41 +62,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Zheyu Ma <zheyuma97@gmail.com>, linux-kernel@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>, Yizhuo Zhai <yzhai003@ucr.edu>,
- dri-devel@lists.freedesktop.org, Zhen Lei <thunder.leizhen@huawei.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In function do_fb_ioctl(), the "arg" is the type of unsigned long,
-and in "case FBIOBLANK:" this argument is casted into an int before
-passig to fb_blank(). In fb_blank(), the comparision
-if (blank > FB_BLANK_POWERDOWN) would be bypass if the original
-"arg" is a large number, which is possible because it comes from
-the user input.
+syzbot suspects this issue was fixed by commit:
 
-Signed-off-by: Yizhuo Zhai <yzhai003@ucr.edu>
----
- drivers/video/fbdev/core/fbmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+commit 0499f419b76f94ede08304aad5851144813ac55c
+Author: Javier Martinez Canillas <javierm@redhat.com>
+Date:   Mon Jan 10 09:56:25 2022 +0000
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 0fa7ede94fa6..a5f71c191122 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1064,7 +1064,7 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
- EXPORT_SYMBOL(fb_set_var);
- 
- int
--fb_blank(struct fb_info *info, int blank)
-+fb_blank(struct fb_info *info, unsigned long blank)
- {
- 	struct fb_event event;
- 	int ret = -EINVAL;
--- 
-2.25.1
+    video: vga16fb: Only probe for EGA and VGA 16 color graphic cards
 
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=126571e0700000
+start commit:   5d6ab0bb408f Merge tag 'xtensa-20211008' of git://github.c..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=32e6048063923b7b
+dashboard link: https://syzkaller.appspot.com/bug?extid=91525b2bd4b5dff71619
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11073300b00000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: video: vga16fb: Only probe for EGA and VGA 16 color graphic cards
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
