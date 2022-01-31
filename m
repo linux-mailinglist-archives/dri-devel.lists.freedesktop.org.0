@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29524A5039
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 21:36:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F284A504B
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 21:39:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8253710E232;
-	Mon, 31 Jan 2022 20:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D70E10E2D8;
+	Mon, 31 Jan 2022 20:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9714610E232
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 20:36:22 +0000 (UTC)
-Date: Mon, 31 Jan 2022 20:36:18 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA7110E2D8
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 20:39:17 +0000 (UTC)
+Date: Mon, 31 Jan 2022 20:39:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1643661380;
- bh=7sgtGwDga/o8Ab/JfLuKC7BO+Gxeuffi86RawYOpgeo=;
+ s=protonmail2; t=1643661555;
+ bh=dH3eoDiuTRG4LwvARMrzyrTqGWXyQvd60RD429UU8hQ=;
  h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
  References:From:To:Cc;
- b=blTJJ/irn12fzUUqtso0uifPhBu6XJnXhKyuqVnPiuwZxPglxZwRz2KsOE98NwVQ1
- PpggY2dL4G++ac4UandAdkwZ9w/ibNa2okWhNpJL3jy0oBsXJDa4aNsp5KoVUPikY9
- i9drXveUP7oFcmVmoAYS3wh4gfc4xcwdyTkurGGNJfPjVJa5yfK650P2bRSF/FFUxW
- 90rhfqV+l4hWmG1r24N6dqVXDapXbv74Vcg45c3b9OOLIKuk3A0ji44xpv6v0rn49S
- iosLUXpfILba9b22hB1GE9qgexOTn7xnK5sOlJoSj3tDl6P7dLApD4ci3kwXrNTKGU
- oc8IAF7F2c01w==
+ b=fE0JQgRX7dCh1naqGopEHMcsQGpTnAZlBzyIh0sE+hfsRw7JPzXdEPCJfTjO5rY/W
+ BWOHtLX6MI5SbrtO/pV2Rqk9qwsz3gR2kF6LUhSjRIDg/tLy6g6N4C3VmWJgsHBPd3
+ 3AqwXxVzfEef4fWRrW7B3T7br6+Fqq+vYALWDSD/AZMv7DrHn8z3idAkW1TV0yPqL1
+ qD5A6hoT6S/byW/UAbi7KoESB4Rj2p0F7VKO0tCxaIVialEbbCQbSB5sTDp738oDf8
+ LOZHIg5loU2mjwp0d1N+GWmtHP357U/9gBEODn3ZeYsXbf9hz7AMGjUkKpRNI7GhcF
+ zpvoSvZn74xKA==
 To: Javier Martinez Canillas <javierm@redhat.com>
 From: Simon Ser <contact@emersion.fr>
 Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-Message-ID: <tIMIWqepcZGntnez-1ss4Kn4K8btXnzDRL7EWd19-745WK90YIC19E_4di9RNvB3gtx-PzWEjBEGQLPNJE_x0T1yyyaWFCoFcCiG4StR9RU=@emersion.fr>
-In-Reply-To: <20220131201225.2324984-1-javierm@redhat.com>
+Message-ID: <wuXPJN-K-rvjoV51c4EBmTBScov8rcJTPoYmlfHe04_-4wD1khVxo9HnUsP7UFd5m4AkzGSw2hXe_c77jbSRhjEJ0JZIYwuvuIkcv_KsR-Y=@emersion.fr>
+In-Reply-To: <tIMIWqepcZGntnez-1ss4Kn4K8btXnzDRL7EWd19-745WK90YIC19E_4di9RNvB3gtx-PzWEjBEGQLPNJE_x0T1yyyaWFCoFcCiG4StR9RU=@emersion.fr>
 References: <20220131201225.2324984-1-javierm@redhat.com>
+ <tIMIWqepcZGntnez-1ss4Kn4K8btXnzDRL7EWd19-745WK90YIC19E_4di9RNvB3gtx-PzWEjBEGQLPNJE_x0T1yyyaWFCoFcCiG4StR9RU=@emersion.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -65,9 +66,19 @@ Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver only advertises XRGB8888 in ssd1307_formats. It would be nice t=
-o
-expose R8 as well so that user-space can directly produce suitable buffers.
-It would also be nice to have some kind of preferred format, so that user-s=
-pace
-knows R8 is preferred over XRGB8888.
+On Monday, January 31st, 2022 at 21:36, Simon Ser <contact@emersion.fr> wro=
+te:
+
+> This driver only advertises XRGB8888 in ssd1307_formats. It would be nice=
+ to
+> expose R8 as well so that user-space can directly produce suitable buffer=
+s.
+> It would also be nice to have some kind of preferred format, so that user=
+-space
+> knows R8 is preferred over XRGB8888.
+
+Hm, since the format used by the hw is actually R1, adding that to drm_four=
+cc.h
+would be even better.
+
+Let me know if you want me to type up any of the user-space bits.
