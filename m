@@ -1,55 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0504A3EA7
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 09:35:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BF94A3E78
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 09:10:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24A6F10F511;
-	Mon, 31 Jan 2022 08:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A16CD11213D;
+	Mon, 31 Jan 2022 08:10:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2B4112222
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 07:50:09 +0000 (UTC)
-Received: by mail-io1-f70.google.com with SMTP id
- y4-20020a056602200400b006101b618529so9351420iod.19
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jan 2022 23:50:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
- :from:to;
- bh=mUUhKABASSDYvCUsc04M7XBtQBbnsrCUfjP/FgUZhxY=;
- b=YB57m3/0kF0s+Qq6K1rJYdXBg4x64C39Fmg54NqIUptNNAx2DhLpGr0Z1oDRzc02PG
- 8y0FcmfHCR+0h4dHBtl8pilYXoz9oTSCKsz8vbXJZnwLbVc6+6vK3MVbV6Uu/Xz0i999
- OuII5I7+APWShRa4VWvTU/qDTv4SqY4bxRbwCFS5QAHeLD/zmgR6tSdydNLnbks3BLpb
- lNyEseIGNchpdBem9HgPgBloD2yxsomfeaKOc9B1zhErVgkvixMMBDMexZdhF2pm/RjK
- pkJGxJGDxbzOXlm0JXvFc5oG6aJyZYgsxZICpVep678mrsf5Eml8ykDq+cOmBqL/kzYc
- CFUA==
-X-Gm-Message-State: AOAM533x4Ghr9FvIj4BRlu2vDJVx4tatHne8or683w82iT5fOUfo3kFD
- Zv5Qva5zDzmACsbeIXFzKmoRRrE+LNZ5TCcqH7Ob68EbpyUs
-X-Google-Smtp-Source: ABdhPJymwJlS8JsUdlrCW9lOYpIn2UaIQaZW0hA0lpGtEyFOwecg2a8tRTfuM68f+RfkiiN+E5hX3nWx76izWqmI0UiryQoaAMBM
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8024C112139
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 08:10:47 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nERlt-0000AP-LD; Mon, 31 Jan 2022 09:10:45 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nERlq-00088n-LZ; Mon, 31 Jan 2022 09:10:42 +0100
+Date: Mon, 31 Jan 2022 09:10:42 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Heiko =?iso-8859-15?Q?St=FCbner?= <heiko@sntech.de>
+Subject: Re: [PATCH 24/27] clk: rk3568: drop CLK_SET_RATE_PARENT from dclk_vop*
+Message-ID: <20220131081042.GW23490@pengutronix.de>
+References: <20220126145549.617165-1-s.hauer@pengutronix.de>
+ <20220126145549.617165-25-s.hauer@pengutronix.de>
+ <5329207.qDA9hNt6id@diego>
 MIME-Version: 1.0
-X-Received: by 2002:a6b:d90c:: with SMTP id r12mr10512979ioc.99.1643615408629; 
- Sun, 30 Jan 2022 23:50:08 -0800 (PST)
-Date: Sun, 30 Jan 2022 23:50:08 -0800
-In-Reply-To: <0000000000008a7a1c05c9e53c87@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000942c2205d6dc0896@google.com>
-Subject: Re: [syzbot] WARNING in drm_gem_shmem_vm_open
-From: syzbot <syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com>
-To: airlied@linux.ie, bugs-a21@moonlit-rail.com, christian.koenig@amd.com, 
- daniel.vetter@ffwll.ch, daniel.vetter@intel.com, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, javierm@redhat.com, 
- linaro-mm-sig-owner@lists.linaro.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, maxime@cerno.tech, melissa.srw@gmail.com, 
- mripard@kernel.org, sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, 
- tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Mon, 31 Jan 2022 08:35:18 +0000
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5329207.qDA9hNt6id@diego>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 08:44:20 up 51 days, 16:29, 51 users,  load average: 0.03, 0.05, 0.07
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,26 +58,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot suspects this issue was fixed by commit:
+On Sat, Jan 29, 2022 at 06:48:13PM +0100, Heiko Stübner wrote:
+> Am Mittwoch, 26. Januar 2022, 15:55:46 CET schrieb Sascha Hauer:
+> > The pixel clocks dclk_vop[012] can be clocked from hpll, vpll, gpll or
+> > cpll. gpll and cpll also drive many other clocks, so changing the
+> > dclk_vop[012] clocks could change these other clocks as well. Drop
+> > CLK_SET_RATE_PARENT to fix that. With this change the VOP2 driver can
+> > only adjust the pixel clocks with the divider between the PLL and the
+> > dclk_vop[012] which means the user may have to adjust the PLL clock to a
+> > suitable rate using the assigned-clock-rate device tree property.
+> > 
+> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > ---
+> >  drivers/clk/rockchip/clk-rk3568.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/clk/rockchip/clk-rk3568.c b/drivers/clk/rockchip/clk-rk3568.c
+> > index 9d889fc46811..7687c62d1fa8 100644
+> > --- a/drivers/clk/rockchip/clk-rk3568.c
+> > +++ b/drivers/clk/rockchip/clk-rk3568.c
+> > @@ -1044,13 +1044,13 @@ static struct rockchip_clk_branch rk3568_clk_branches[] __initdata = {
+> >  			RK3568_CLKGATE_CON(20), 8, GFLAGS),
+> >  	GATE(HCLK_VOP, "hclk_vop", "hclk_vo", 0,
+> >  			RK3568_CLKGATE_CON(20), 9, GFLAGS),
+> > -	COMPOSITE(DCLK_VOP0, "dclk_vop0", hpll_vpll_gpll_cpll_p, CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
+> > +	COMPOSITE(DCLK_VOP0, "dclk_vop0", hpll_vpll_gpll_cpll_p, CLK_SET_RATE_NO_REPARENT,
+> 
+> hmm, I'm wondering about the use of having CLK_SET_RATE_NO_REPARENT here
+> (and even adding it below).
+> 
+> Using SET_RATE_PARENT in the following patch for the hdmi-pll, should give
+> us at least a suitable rate for the hdmi output, so the vop using that
+> should already find a nice rate to use.
+> 
+> The normal system-PLLs don't normally don't change their rate at runtime,
+> so I think we should liberate the dclks to select a PLL that best matches
+> their target rate - so drop the CLK_SET_RATE_NO_REPARENT as well.
+> 
+> That way the DCLKs can change to another PLL source if that provides
+> a rate nearer to their target.
 
-commit 0499f419b76f94ede08304aad5851144813ac55c
-Author: Javier Martinez Canillas <javierm@redhat.com>
-Date:   Mon Jan 10 09:56:25 2022 +0000
+The HDMI reference clock has the CLK_SET_RATE_PARENT flag set and we
+need that to program the HPLL clock to suitable rates for the HDMI
+output. Now any other display choosing HPLL as parent, because that
+provides the best rate in that point of time, hangs on a PLL which
+changes its rate whenever the resolution is changed on the HDMI output.
 
-    video: vga16fb: Only probe for EGA and VGA 16 color graphic cards
+Changing parents on rate changes only works when all possible parents of
+all the children involved have a constant rate. IMO allowing reparenting
+on rate changes is a poorly chosen default because it's very unsafe. We
+should rather have a CLK_SET_RATE_ALLOW_REPARENT flag.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=126571e0700000
-start commit:   5d6ab0bb408f Merge tag 'xtensa-20211008' of git://github.c..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=32e6048063923b7b
-dashboard link: https://syzkaller.appspot.com/bug?extid=91525b2bd4b5dff71619
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11073300b00000
+Sascha
 
-If the result looks correct, please mark the issue as fixed by replying with:
-
-#syz fix: video: vga16fb: Only probe for EGA and VGA 16 color graphic cards
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
