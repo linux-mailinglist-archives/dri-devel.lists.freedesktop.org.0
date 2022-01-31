@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521894A4FEE
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 21:12:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 382F14A4FEC
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 21:12:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D29B610E2CD;
-	Mon, 31 Jan 2022 20:12:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD4A010E17E;
+	Mon, 31 Jan 2022 20:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE02210E135
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 20:12:45 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0317510E135
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 20:12:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643659964;
+ s=mimecast20190719; t=1643659963;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pMwMeY9OoKGLOudbA8SLCKYnBWFNuNdP5Adg3VOxotk=;
- b=ONW7Q3aAHy7HwtAxmHGlfZKHTPtDwT6ckGH1kVZrXrLNkYJNsXdlu7qR24KkdsqXGfL885
- msovsWGTNHEXNlRDIJQTGpior7Q5jZFeYob32k8FJNhtVQv1Pnv86zRJeGGYpMS23S8Wt9
- KGdzniv0EF1BTjg+LRhfASwbYC8Sejo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vM3bdlw6HomnmKXTkmUtit4bHCKLqTmZACNhurI9HbE=;
+ b=VUNuxTvhFzl9zHl/1Gv3Ne4sB+rVI8hxfT4Bhsg4DXjDcJe18KbnZL7hIwQDRKBLAo9v5g
+ NgFRKIJ92idZLx5qaSzaxro/2kaW+MTymNOb9D96MM1KGHrWRWTzl7kLLMp8OEAY9SZ4Jm
+ v+1bfUzkLAmQoAhcSPj6B5uC68P6Cjw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-hbSFwn6YOmq8elYRWde6sQ-1; Mon, 31 Jan 2022 15:12:40 -0500
-X-MC-Unique: hbSFwn6YOmq8elYRWde6sQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- j21-20020adfa555000000b001db55dd5a1dso5263075wrb.15
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 12:12:40 -0800 (PST)
+ us-mta-191-CpqQFl1qMn27a16StqwktQ-1; Mon, 31 Jan 2022 15:12:42 -0500
+X-MC-Unique: CpqQFl1qMn27a16StqwktQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l16-20020a1c7910000000b0034e4206ecb7so80241wme.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 12:12:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pMwMeY9OoKGLOudbA8SLCKYnBWFNuNdP5Adg3VOxotk=;
- b=XLcXOAdYrT2XMhRqzGXeEbL8EwXeHaNFOZ3qubJkF0LlpvnL9kBRYKkdk4LHTmfN/K
- 0CkxhTnZ8VyZc5exYjr9nqv2FFbNjELlPKJTqQGPvV8gs2dzWRVwmpyKVVxNVoxkfzEW
- Q/xcwDrXN9HPZkFiBOjFRh3V6I033c8Xwr0lWCTH/uC9gFXI+EZ52FSZK5Qk2RyjQm3u
- rZS2ayVIt99b6ekVlOTTFx2lUgsJB1J7k6X5Dikq9sTJRqaMU0OgNzcovKqBEgXy5hMr
- O6EQoZKm6hD7n+VuxFDBNJR6zgCkFzy1Enurl0VID8dwVEEEOynrw7qL9dOrS8zTDw4K
- ZoSw==
-X-Gm-Message-State: AOAM533xL6DidWQY3L6mhFxuZiraTsnHBsRjN0f66auaQq1y3JZIzuVc
- NsbEm/dkLQGiR0hTbxugbrrLmKoTcmt4tHckeIjDBCQ9BBPUOS3KfMldq2hN31JcMlOeP3PHda+
- 8TO2aC0dEHnfLgzf/IfbvPDsCS6gc
-X-Received: by 2002:adf:fdc9:: with SMTP id i9mr9272905wrs.142.1643659959706; 
- Mon, 31 Jan 2022 12:12:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxLFCAwqF+47z3/CXQ1yVaeyTKTvJhusKYHuUgXJhivec2+bdBcovNbm/WasPrsQVybnZaQ+A==
-X-Received: by 2002:adf:fdc9:: with SMTP id i9mr9272887wrs.142.1643659959514; 
- Mon, 31 Jan 2022 12:12:39 -0800 (PST)
+ bh=vM3bdlw6HomnmKXTkmUtit4bHCKLqTmZACNhurI9HbE=;
+ b=51yIHiPkzaY7XmUGX1Vuk3oZOQ1XCXtIKPhX36YqFZvAUPJGx9bOnpDMYko1OVrIc1
+ 3+oetzX1kB0fdlfQae23zc/dyQCcd6Mwm3yt1shoHdfhhMHyB58B2z69G8i+8UCmpyVG
+ zZJVatA52RMW61hEUpfiubh/JxNHjsXr7DtFwEqBl9CcLNdX9ppWv0AtbE3TGmzu1yao
+ PeA1IrkFyQVQtqg+i/UIELlfDkIehLbYf+6E5dC5zePgaADsfl5mwEyjgOJgpy2RJ0cC
+ wGRpioQ89O44mWhYRoxzrumX4q9f4EdrKBLvuhFqK5rcPtaQK3hU6rgwVcwDAxSCHxhZ
+ mKOw==
+X-Gm-Message-State: AOAM531NZs2dM+qWNXjRxaGfwmPYZE3dzy9XsQPzW3yORVloOPm86QTi
+ FyO5/raXiA2S4YV3Ya+MSRMV+hcZasT3eFGxlINwh1KYMD5dUiJUwaiwt9yAEFxb3zDoLCfvsay
+ F7IRmChLDXhdVoqUKjHZiUYWgWo/v
+X-Received: by 2002:adf:f784:: with SMTP id q4mr19229425wrp.59.1643659960635; 
+ Mon, 31 Jan 2022 12:12:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx3Q9aJyDDEzKcgl6ZRCOab6CbkULBPR+XNfldCqUZBAmgsUN/1rCzA6CjueKUxmVTW7C4q8w==
+X-Received: by 2002:adf:f784:: with SMTP id q4mr19229412wrp.59.1643659960459; 
+ Mon, 31 Jan 2022 12:12:40 -0800 (PST)
 Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id i9sm15124660wry.32.2022.01.31.12.12.38
+ by smtp.gmail.com with ESMTPSA id i9sm15124660wry.32.2022.01.31.12.12.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 12:12:39 -0800 (PST)
+ Mon, 31 Jan 2022 12:12:40 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] drm: Add I2C connector type
-Date: Mon, 31 Jan 2022 21:12:21 +0100
-Message-Id: <20220131201225.2324984-2-javierm@redhat.com>
+Subject: [PATCH 2/4] drm/format-helper: Add drm_fb_gray8_to_mono_reversed()
+Date: Mon, 31 Jan 2022 21:12:22 +0100
+Message-Id: <20220131201225.2324984-3-javierm@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220131201225.2324984-1-javierm@redhat.com>
 References: <20220131201225.2324984-1-javierm@redhat.com>
@@ -67,8 +67,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,48 +90,73 @@ Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There isn't a connector type for display controllers accesed through I2C,
-most drivers use DRM_MODE_CONNECTOR_Unknown or DRM_MODE_CONNECTOR_VIRTUAL.
+Add support to convert 8-bit grayscale to reversed monochrome for drivers
+that control monochromatic displays, that only have 1 bit per pixel depth.
 
-Add an I2C connector type to match the actual connector.
-
-As Noralf Trønnes mentions in commit fc06bf1d76d6 ("drm: Add SPI connector
-type"), user-space should be able to cope with a connector type that does
-not yet understand.
-
-Tested with `modetest -M ssd1307 -c` and shows the connector as unknown-1.
+This helper function was based on repaper_gray8_to_mono_reversed() from
+the drivers/gpu/drm/tiny/repaper.c driver.
 
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
 
- drivers/gpu/drm/drm_connector.c | 1 +
- include/uapi/drm/drm_mode.h     | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/gpu/drm/drm_format_helper.c | 35 +++++++++++++++++++++++++++++
+ include/drm/drm_format_helper.h     |  2 ++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index a50c82bc2b2f..975a7525a508 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -105,6 +105,7 @@ static struct drm_conn_prop_enum_list drm_connector_enum_list[] = {
- 	{ DRM_MODE_CONNECTOR_WRITEBACK, "Writeback" },
- 	{ DRM_MODE_CONNECTOR_SPI, "SPI" },
- 	{ DRM_MODE_CONNECTOR_USB, "USB" },
-+	{ DRM_MODE_CONNECTOR_I2C, "I2C" },
- };
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+index 0f28dd2bdd72..bf477c136082 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -584,3 +584,38 @@ int drm_fb_blit_toio(void __iomem *dst, unsigned int dst_pitch, uint32_t dst_for
+ 	return -EINVAL;
+ }
+ EXPORT_SYMBOL(drm_fb_blit_toio);
++
++/**
++ * drm_fb_gray8_to_mono_reversed - Convert grayscale to reversed monochrome
++ * @dst: reversed monochrome destination buffer
++ * @src: 8-bit grayscale source buffer
++ * @clip: Clip rectangle area to copy
++ *
++ * DRM doesn't have native monochrome or grayscale support.
++ * Such drivers can announce the commonly supported XR24 format to userspace
++ * and use drm_fb_xrgb8888_to_gray8() to convert to grayscale and then this
++ * helper function to convert to the native format.
++ */
++void drm_fb_gray8_to_mono_reversed(void *dst, void *src, const struct drm_rect *clip)
++{
++	size_t width = drm_rect_width(clip);
++	size_t height = drm_rect_width(clip);
++
++	u8 *mono = dst, *gray8 = src;
++	unsigned int y, xb, i;
++
++	for (y = 0; y < height; y++)
++		for (xb = 0; xb < width / 8; xb++) {
++			u8 byte = 0x00;
++
++			for (i = 0; i < 8; i++) {
++				int x = xb * 8 + i;
++
++				byte >>= 1;
++				if (gray8[y * width + x] >> 7)
++					byte |= BIT(7);
++			}
++			*mono++ = byte;
++		}
++}
++EXPORT_SYMBOL(drm_fb_gray8_to_mono_reversed);
+diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+index b30ed5de0a33..cd4c8b7c78de 100644
+--- a/include/drm/drm_format_helper.h
++++ b/include/drm/drm_format_helper.h
+@@ -43,4 +43,6 @@ int drm_fb_blit_toio(void __iomem *dst, unsigned int dst_pitch, uint32_t dst_for
+ 		     const void *vmap, const struct drm_framebuffer *fb,
+ 		     const struct drm_rect *rect);
  
- void drm_connector_ida_init(void)
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index e1e351682872..d6d6288242db 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -421,6 +421,7 @@ enum drm_mode_subconnector {
- #define DRM_MODE_CONNECTOR_WRITEBACK	18
- #define DRM_MODE_CONNECTOR_SPI		19
- #define DRM_MODE_CONNECTOR_USB		20
-+#define DRM_MODE_CONNECTOR_I2C		21
- 
- /**
-  * struct drm_mode_get_connector - Get connector metadata.
++void drm_fb_gray8_to_mono_reversed(void *dst, void *vaddr, const struct drm_rect *clip);
++
+ #endif /* __LINUX_DRM_FORMAT_HELPER_H */
 -- 
 2.34.1
 
