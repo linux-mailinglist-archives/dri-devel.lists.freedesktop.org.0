@@ -1,46 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B4F4A4C9D
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 17:59:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C50AE4A4CA3
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 18:00:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1D010E370;
-	Mon, 31 Jan 2022 16:59:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5074089FDB;
+	Mon, 31 Jan 2022 17:00:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B775410E168;
- Mon, 31 Jan 2022 16:58:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643648339; x=1675184339;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=2CQLzHAbozaruWz0jbHUE1cXV8en1qlTaq3taDajmDA=;
- b=f8fTpaY2folFPVvGwVMnmfezT5BYnLMp6Yu2ICitKjTvjFTOg5FreilW
- GVsFkf8AbA2F8Jt0X+PPiuKkh+TuobsPFmwY9hyxFFtiCfhfUMUNzpAXd
- OrLSyKva86F84Ii3txq58CJ1P1RoMpWKZoW/YWMxMqSUKU7IehrCDqQIZ
- 5+JlzqEqsLsKqbaOH4T+WrfoUU2OGta2+XLu7XvEOl4HddV2+uK5V1URJ
- 2duh1+h6vz891ichCJLJU9jrBa+avUxGfyn+mXgxjLR1stntOMcLWkD6x
- 3lpW0N+vP5hA98tDCbJndw1LpK2SLtPspU3o8J6ZJrtuLCUfpV2OOggDh g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="247275434"
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; d="scan'208";a="247275434"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 08:58:58 -0800
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; d="scan'208";a="496986486"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 08:58:58 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 3/3] drm/i915: Do not spam log with missing arch support
-Date: Mon, 31 Jan 2022 08:59:26 -0800
-Message-Id: <20220131165926.3230642-4-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220131165926.3230642-1-lucas.demarchi@intel.com>
-References: <20220131165926.3230642-1-lucas.demarchi@intel.com>
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A283D89FDB
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 17:00:07 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id f10so1679023lfu.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 09:00:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fE3ECNf001fTkykiAFzeh+dTOBrJ9rF5+nmO4lzI2vc=;
+ b=R828+GbRL+FpSF6SNfwCZ6vqmU8ia/M0M7ZlwitaJWXXi/IgWGUz2H534OG3vwwZmR
+ 7dQSkoeBZ7yORS1JzIu0IZafUHsFHm9Z9py0/lcZhF7cWBabbsYgmU3wzIFnPDvbexv0
+ JrV2Teo8I/p2Uqu1qWX8PuO/ss3fxqitOE3tuhfI4fJYlXb6ba8cWEroLdroAxevW4i+
+ dNNZywP9CM/rKLGHdGBASqI6ISAvlxXYY8EmT9U5hTzLU/0WxINITEFul/4Km3agwQvc
+ n9WU91+45mUTVK78//uelF5Ee9G8liuCXBj+sDrypzRp2iClQ/x9ym8xQaVLIFutJeSg
+ +g5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fE3ECNf001fTkykiAFzeh+dTOBrJ9rF5+nmO4lzI2vc=;
+ b=koHSTBB1PIAJZ+4vENPT5+oA9VLjZ+nWkfFzjvOKwDXh7WJRJkU0PpA2D4mLaLh1tH
+ BVPLDFZ9A9d4FSoW87ZlDZqkzF9NklFlwe8eQq0+EDandZtyLIQvIpjsmbgcsRueuy3W
+ ViGzQfcvJsHRdb19dZh/6D5kNeb5mvfyw40ZXwYIae+SfMdTqM0PodpctT/7UJiQ/WTc
+ wEDEWSTz2WjaroMVvGAe6RKcbaYlD/scU2RJdgjUAVTDEnIrfVOsZYkfjtL0+Ov++2wd
+ nmVyR2hpLLwOrSxCUsIPH2mfsq8qqZJifJcrWpzDDp6bHT1cyA4uIaaB4crF5EwanXvz
+ kX3Q==
+X-Gm-Message-State: AOAM5336al6x86ERwS2EQSWlgmjjp7GQdVo306spdp6HxEi+9j+OFJQa
+ uhMWFyUNO0NYpDJ6tEvDoLcRDw==
+X-Google-Smtp-Source: ABdhPJybcLwdDVgdzcarM1Sr6ldL5ivbwFN8JuhK3JougbGwxnChCONUX5AjIRMr3ZS1+HUSlWKFJg==
+X-Received: by 2002:a05:6512:ac3:: with SMTP id
+ n3mr16148375lfu.274.1643648404419; 
+ Mon, 31 Jan 2022 09:00:04 -0800 (PST)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id q2sm3539045lfb.111.2022.01.31.09.00.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Jan 2022 09:00:04 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH] drm/panel/edp: make PANEL_EDP depend on DRM_KMS_HELPER
+Date: Mon, 31 Jan 2022 20:00:03 +0300
+Message-Id: <20220131170003.2118200-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,40 +66,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Following what was done in drm_cache.c, when the stub for
-remap_io_mapping() was added in commit 67c430bbaae1 ("drm/i915: Skip
-remap_io_mapping() for non-x86 platforms"), it included a log message
-with pr_err().  However just the warning is already enough and switching
-to WARN_ONCE() allows us to keep the log message while avoiding log
-spam.
+panel-edp calls into drm-kms-helper module (by calling
+drm_panel_dp_aux_backlight), so it should depend on respective module.
 
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
+ drivers/gpu/drm/panel/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-v3: No changes from previous version, just submitting to the right
-mailing list
-
- drivers/gpu/drm/i915/i915_mm.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_mm.h b/drivers/gpu/drm/i915/i915_mm.h
-index 3ad22bbe80eb..04c8974d822b 100644
---- a/drivers/gpu/drm/i915/i915_mm.h
-+++ b/drivers/gpu/drm/i915/i915_mm.h
-@@ -23,8 +23,7 @@ int remap_io_mapping(struct vm_area_struct *vma,
- 		     unsigned long addr, unsigned long pfn, unsigned long size,
- 		     struct io_mapping *iomap)
- {
--	pr_err("Architecture has no %s() and shouldn't be calling this function\n", __func__);
--	WARN_ON_ONCE(1);
-+	WARN_ONCE(1, "Architecture has no drm_cache.c support\n");
- 	return 0;
- }
- #endif
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 434c2861bb40..b0d637669ee6 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -104,6 +104,7 @@ config DRM_PANEL_EDP
+ 	depends on OF
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	depends on PM
++	depends on DRM_KMS_HELPER
+ 	select VIDEOMODE_HELPERS
+ 	select DRM_DP_AUX_BUS
+ 	help
 -- 
-2.35.0
+2.34.1
 
