@@ -1,45 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CCC4A4EF1
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 19:53:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CC74A4FB1
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 20:48:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7AF10E3C2;
-	Mon, 31 Jan 2022 18:52:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57C7010E3D3;
+	Mon, 31 Jan 2022 19:48:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6823110E39E;
- Mon, 31 Jan 2022 18:52:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id E5D8F1F436A1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1643655172;
- bh=7xQvHqE5JkxFe/B6GU5XOuYuw6gmCUNHi1lLN9/W+eo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aQLudtPrPa1L6NVvXEx5KCn/cqO03iYjdGwdLeunnO61CXeAqzCRO7q7/XQ1ZkWAm
- sW1rhA/7ayjA17mNSM2mCFFwcTJe1knm1rJOq2pThYf3p8zZlMuMjlBlITRzTVvurj
- S6Safp7pX/SIerHnmK6Ip3hEKDfdS/PLzKIC9Mo8Oi5PopHoVQoMvY4wKagrj2Pus9
- ViD/PBf8cTt2lY3V4ZylNRDRRZhr/eS7C7cnRQmOjm+RL04wLOI59WTRKv6n0zqa9O
- +UjPIfLuHaIjDbMQci9LyNHQ8ZXa7tcCwxKU1Kj5qwXprjCtqDSGyILK2lnPcyUfo9
- ju2//nKev2OLg==
-From: Robert Beckett <bob.beckett@collabora.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v6 5/5] drm/i915/uapi: document behaviour for DG2 64K support
-Date: Mon, 31 Jan 2022 18:52:31 +0000
-Message-Id: <20220131185231.725346-6-bob.beckett@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220131185231.725346-1-bob.beckett@collabora.com>
-References: <20220131185231.725346-1-bob.beckett@collabora.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2048.outbound.protection.outlook.com [40.107.220.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFFAC10E38C;
+ Mon, 31 Jan 2022 19:48:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QNMLpyo8SDioMDh9dCwOdBqvECAikg/N99PGQVYu7bDdIHMvliAOK3X9l1ogjGAOXJPpX88/YBtEWS+RVIPm41NtqGBVrStva30tjV6gR/ILRY3Hf8jyQM4p9BKlYK+IT9KfJNPnQ2FBLuqacqsKR2FJj7fksHgo5hdfKjtjLUGFXYy5mkecb7ji6Hq16LXC3ObR74nnSfIbUFRlsYJ6uyr70+6MMEofk3rcseqPPEwJ0++6IGZUAi6u0jAEzpgBBV6yMmuSc89wns7d0j794ck/LIPGs+qokE9WFVQnsiRB5mI0usD/YQAKuTgfhhYBGbl+N8CetGTy0XM54mk3Sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p+YaAMhQyNsAqVFJAT/Ctx16/U5d3CdfKVLSeHIp9i0=;
+ b=ejMsyNMDqqAG+oAdN/EUDD/UCVMyjxPJQGQukjO6BhRGluMQDAveiHfuNIT1DO0fFaqbL1+L9U6QIM442m4BfwGgGdGbcFQYpMcTlZAu97PNU2bUvqdcrBMEs7v9fPJuQbyr64/cFdf7O7Kqa5pERP37QcBDw4Kd5Fhr5Q84XfvAgw6Gh4sfPNjv/DJqkkmsmBI2i7GeUUC4C2fMpPuFCo+CAUqE/4Baoc4kb2qhfKX+R7v03zp5VuRFflpPqrWAdCjFTBXZokrn7ghBo1ypFB27j+WF6y93GQchq275lk/1qef1W5PLqDFZNbqy2XMWt3CN3uvYQtnbORpAzyiNGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux-foundation.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p+YaAMhQyNsAqVFJAT/Ctx16/U5d3CdfKVLSeHIp9i0=;
+ b=R1FIkcb3j922mLTCmHHtE0KaZRyrHTWGiG73cjJA3FW4nzSw/YNCQeCUIFvKrp++6BkTUIZyLJ8longVN1rXITWURbif9atiIVxmoyiFRSH8Bf4fUUOOYpSwWi+HwpnMNGcyAkYE1edpf0EJq+E0sfswUdERG/5/nbWDKbE4Shs=
+Received: from BN9P222CA0015.NAMP222.PROD.OUTLOOK.COM (2603:10b6:408:10c::20)
+ by DM6PR12MB4636.namprd12.prod.outlook.com (2603:10b6:5:161::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15; Mon, 31 Jan
+ 2022 19:48:38 +0000
+Received: from BN8NAM11FT045.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:10c:cafe::95) by BN9P222CA0015.outlook.office365.com
+ (2603:10b6:408:10c::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15 via Frontend
+ Transport; Mon, 31 Jan 2022 19:48:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT045.mail.protection.outlook.com (10.13.177.47) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4930.15 via Frontend Transport; Mon, 31 Jan 2022 19:48:38 +0000
+Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 31 Jan
+ 2022 13:48:36 -0600
+From: Alex Sierra <alex.sierra@amd.com>
+To: <akpm@linux-foundation.org>, <Felix.Kuehling@amd.com>,
+ <linux-mm@kvack.org>, <rcampbell@nvidia.com>, <linux-ext4@vger.kernel.org>,
+ <linux-xfs@vger.kernel.org>
+Subject: [PATCH] mm: add device coherent vma selection for memory migration
+Date: Mon, 31 Jan 2022 13:48:13 -0600
+Message-ID: <20220131194813.31779-1-alex.sierra@amd.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220128200825.8623-3-alex.sierra@amd.com>
+References: <20220128200825.8623-3-alex.sierra@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fa2ac444-f5a4-485a-7e60-08d9e4f2acc6
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4636:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4636CB1D025867DD4EDA4E94FD259@DM6PR12MB4636.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:635;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bcnZ3U3k6FFAUOiho7zeXnVLD76/+elJmQmlc0wHpdi5pW5Q33dBb28mJr6lM2ClakUeRuTGKBoJKWL+LqIWmPLplhePHLGgK2PoGfuc2IQoGAJBKQtIbt1Qa6QtIwFoEPCMq9FmXNFJQxTIthiycWin27FLRRoWyQXq/KBVbx212ZZDCM58tYEyGtiLrCrbLbh3tvr8iGPNeap4JR5c2c4KKUB3x6YppgqoQ5XkQEqNRsWUCAwWOrUqHwNB/NobapcAn5FbgJzXZsQuFpMn3M6Wis7bxK7m3TEp2h5PGl/rjdqf3RnRXgvq8W3WaCuweRKjtvyj8zWyUys47Opvw0Gfn3fVAL2lT+vZ/0D/8JcLgeNS0enOw9VwKM9lyYTWUG+1qtu1dGX9F0ZenpouKsKeyCAsII23rULyyOyPPhpY/v54go3B5LiqWl11nRPTyaJNG9GnFvREjSqvOWAaKMiJgeb3n7IjCyBlInq+M7kBSuGNymW9X3qH3h4L2Gewuk0RBQyqzjWyEdjGk2dw5XvsXbIsDsf285YXNx0ZWxdAWkxJIZtQ4iRVoJBeaFEJkR55MW3SNhM2DnVEgOxwniSxVF54XhXUn2H77g+1ETUehZuxkUWs5pTOKg4iCOSPM9WiIMohrq8qNz+J9yEQyU22iX/WYBrxycn8qf8TY5TK5RzmrIH8GX7mWlZthUaUHCGeKzv0rbLOti3DY0EuJQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(44832011)(6666004)(54906003)(7416002)(7696005)(1076003)(70206006)(70586007)(26005)(16526019)(508600001)(5660300002)(40460700003)(2616005)(336012)(426003)(316002)(186003)(110136005)(36756003)(36860700001)(86362001)(4326008)(81166007)(2906002)(8936002)(82310400004)(8676002)(83380400001)(47076005)(356005)(36900700001)(20210929001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2022 19:48:38.0762 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa2ac444-f5a4-485a-7e60-08d9e4f2acc6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT045.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4636
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,108 +104,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Beckett <bob.beckett@collabora.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Jordan Justen <jordan.l.justen@intel.com>,
- intel-gfx@lists.freedesktop.org, Kenneth Graunke <kenneth@whitecape.org>,
- Tony Ye <tony.ye@intel.com>, Slawomir Milczarek <slawomir.milczarek@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, mesa-dev@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: willy@infradead.org, apopple@nvidia.com, dri-devel@lists.freedesktop.org,
+ jglisse@redhat.com, amd-gfx@lists.freedesktop.org, jgg@nvidia.com, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Auld <matthew.auld@intel.com>
+This case is used to migrate pages from device memory, back to system
+memory. Device coherent type memory is cache coherent from device and CPU
+point of view.
 
-On discrete platforms like DG2, we need to support a minimum page size
-of 64K when dealing with device local-memory. This is quite tricky for
-various reasons, so try to document the new implicit uapi for this.
-
-v3: fix typos and less emphasis
-v2: Fixed suggestions on formatting [Daniel]
-
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-Acked-by: Jordan Justen <jordan.l.justen@intel.com>
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-cc: Simon Ser <contact@emersion.fr>
-cc: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Jordan Justen <jordan.l.justen@intel.com>
-Cc: Kenneth Graunke <kenneth@whitecape.org>
-Cc: mesa-dev@lists.freedesktop.org
-Cc: Tony Ye <tony.ye@intel.com>
-Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
+Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
 ---
- include/uapi/drm/i915_drm.h | 44 ++++++++++++++++++++++++++++++++-----
- 1 file changed, 39 insertions(+), 5 deletions(-)
+v2:
+condition added when migrations from device coherent pages.
+---
+ include/linux/migrate.h |  1 +
+ mm/migrate.c            | 12 +++++++++---
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 5e678917da70..77e5e74c32c1 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -1118,10 +1118,16 @@ struct drm_i915_gem_exec_object2 {
- 	/**
- 	 * When the EXEC_OBJECT_PINNED flag is specified this is populated by
- 	 * the user with the GTT offset at which this object will be pinned.
-+	 *
- 	 * When the I915_EXEC_NO_RELOC flag is specified this must contain the
- 	 * presumed_offset of the object.
-+	 *
- 	 * During execbuffer2 the kernel populates it with the value of the
- 	 * current GTT offset of the object, for future presumed_offset writes.
-+	 *
-+	 * See struct drm_i915_gem_create_ext for the rules when dealing with
-+	 * alignment restrictions with I915_MEMORY_CLASS_DEVICE, on devices with
-+	 * minimum page sizes, like DG2.
- 	 */
- 	__u64 offset;
+diff --git a/include/linux/migrate.h b/include/linux/migrate.h
+index db96e10eb8da..66a34eae8cb6 100644
+--- a/include/linux/migrate.h
++++ b/include/linux/migrate.h
+@@ -130,6 +130,7 @@ static inline unsigned long migrate_pfn(unsigned long pfn)
+ enum migrate_vma_direction {
+ 	MIGRATE_VMA_SELECT_SYSTEM = 1 << 0,
+ 	MIGRATE_VMA_SELECT_DEVICE_PRIVATE = 1 << 1,
++	MIGRATE_VMA_SELECT_DEVICE_COHERENT = 1 << 2,
+ };
  
-@@ -3145,11 +3151,39 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * The (page-aligned) allocated size for the object will be returned.
- 	 *
--	 * Note that for some devices we have might have further minimum
--	 * page-size restrictions(larger than 4K), like for device local-memory.
--	 * However in general the final size here should always reflect any
--	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
--	 * extension to place the object in device local-memory.
-+	 *
-+	 * DG2 64K min page size implications:
-+	 *
-+	 * On discrete platforms, starting from DG2, we have to contend with GTT
-+	 * page size restrictions when dealing with I915_MEMORY_CLASS_DEVICE
-+	 * objects.  Specifically the hardware only supports 64K or larger GTT
-+	 * page sizes for such memory. The kernel will already ensure that all
-+	 * I915_MEMORY_CLASS_DEVICE memory is allocated using 64K or larger page
-+	 * sizes underneath.
-+	 *
-+	 * Note that the returned size here will always reflect any required
-+	 * rounding up done by the kernel, i.e 4K will now become 64K on devices
-+	 * such as DG2.
-+	 *
-+	 * Special DG2 GTT address alignment requirement:
-+	 *
-+	 * The GTT alignment will also need to be at least 2M for such objects.
-+	 *
-+	 * Note that due to how the hardware implements 64K GTT page support, we
-+	 * have some further complications:
-+	 *
-+	 *   1) The entire PDE (which covers a 2MB virtual address range), must
-+	 *   contain only 64K PTEs, i.e mixing 4K and 64K PTEs in the same
-+	 *   PDE is forbidden by the hardware.
-+	 *
-+	 *   2) We still need to support 4K PTEs for I915_MEMORY_CLASS_SYSTEM
-+	 *   objects.
-+	 *
-+	 * To keep things simple for userland, we mandate that any GTT mappings
-+	 * must be aligned to and rounded up to 2MB. As this only wastes virtual
-+	 * address space and avoids userland having to copy any needlessly
-+	 * complicated PDE sharing scheme (coloring) and only affects DG2, this
-+	 * is deemed to be a good compromise.
- 	 */
- 	__u64 size;
- 	/**
+ struct migrate_vma {
+diff --git a/mm/migrate.c b/mm/migrate.c
+index cd137aedcfe5..69c6830c47c6 100644
+--- a/mm/migrate.c
++++ b/mm/migrate.c
+@@ -2264,15 +2264,21 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 			if (is_writable_device_private_entry(entry))
+ 				mpfn |= MIGRATE_PFN_WRITE;
+ 		} else {
+-			if (!(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
+-				goto next;
+ 			pfn = pte_pfn(pte);
+-			if (is_zero_pfn(pfn)) {
++			if (is_zero_pfn(pfn) &&
++			    (migrate->flags & MIGRATE_VMA_SELECT_SYSTEM)) {
+ 				mpfn = MIGRATE_PFN_MIGRATE;
+ 				migrate->cpages++;
+ 				goto next;
+ 			}
+ 			page = vm_normal_page(migrate->vma, addr, pte);
++			if (page && !is_zone_device_page(page) &&
++			    !(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
++				goto next;
++			else if (page && is_device_coherent_page(page) &&
++			    (!(migrate->flags & MIGRATE_VMA_SELECT_DEVICE_COHERENT) ||
++			     page->pgmap->owner != migrate->pgmap_owner))
++				goto next;
+ 			mpfn = migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
+ 			mpfn |= pte_write(pte) ? MIGRATE_PFN_WRITE : 0;
+ 		}
 -- 
-2.25.1
+2.32.0
 
