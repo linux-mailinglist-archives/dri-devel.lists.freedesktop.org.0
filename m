@@ -2,43 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F284A504B
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 21:39:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A6F4A5053
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 21:39:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D70E10E2D8;
-	Mon, 31 Jan 2022 20:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1DB10E329;
+	Mon, 31 Jan 2022 20:39:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA7110E2D8
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 20:39:17 +0000 (UTC)
-Date: Mon, 31 Jan 2022 20:39:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1643661555;
- bh=dH3eoDiuTRG4LwvARMrzyrTqGWXyQvd60RD429UU8hQ=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:From:To:Cc;
- b=fE0JQgRX7dCh1naqGopEHMcsQGpTnAZlBzyIh0sE+hfsRw7JPzXdEPCJfTjO5rY/W
- BWOHtLX6MI5SbrtO/pV2Rqk9qwsz3gR2kF6LUhSjRIDg/tLy6g6N4C3VmWJgsHBPd3
- 3AqwXxVzfEef4fWRrW7B3T7br6+Fqq+vYALWDSD/AZMv7DrHn8z3idAkW1TV0yPqL1
- qD5A6hoT6S/byW/UAbi7KoESB4Rj2p0F7VKO0tCxaIVialEbbCQbSB5sTDp738oDf8
- LOZHIg5loU2mjwp0d1N+GWmtHP357U/9gBEODn3ZeYsXbf9hz7AMGjUkKpRNI7GhcF
- zpvoSvZn74xKA==
-To: Javier Martinez Canillas <javierm@redhat.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-Message-ID: <wuXPJN-K-rvjoV51c4EBmTBScov8rcJTPoYmlfHe04_-4wD1khVxo9HnUsP7UFd5m4AkzGSw2hXe_c77jbSRhjEJ0JZIYwuvuIkcv_KsR-Y=@emersion.fr>
-In-Reply-To: <tIMIWqepcZGntnez-1ss4Kn4K8btXnzDRL7EWd19-745WK90YIC19E_4di9RNvB3gtx-PzWEjBEGQLPNJE_x0T1yyyaWFCoFcCiG4StR9RU=@emersion.fr>
-References: <20220131201225.2324984-1-javierm@redhat.com>
- <tIMIWqepcZGntnez-1ss4Kn4K8btXnzDRL7EWd19-745WK90YIC19E_4di9RNvB3gtx-PzWEjBEGQLPNJE_x0T1yyyaWFCoFcCiG4StR9RU=@emersion.fr>
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2641810E329
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 20:39:42 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id p27so29432557lfa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 12:39:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=np4e6RD8bcxsxGDFQSQ6Wvj5x603dmmfdRkFqggTL3M=;
+ b=Q4SKA5IdjOz/7QFJ4Z0X+4KOqGhoQSt94SjvwcSaCX0K1amQag2xp72Y70oVzIJGcV
+ OlkNrq8mgz77qJTAyhk2ZhTUD8l59Ruv4ESJDIgK8PuM7cGAVMVlvhnSbXjs1Dm1PTRY
+ daLdGSWYyMbdN4r/Q81TPuibY9bOCHGirpuyJzlZctK9lV4ipEdM3h6KtXdmooqEnaO1
+ 9TU2+AahMi3PpeYAKqyXsqLYMZt1e9n35LLp01tdvQKnUokZaNrpMl6TkYBgT1VVpPCZ
+ lRqC1mC2TjZojYuydSDAxZMEl9jlC4KhGpqQRvRQzjGFHnHmWYcjF/NYXWXpESIunHpQ
+ FsEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=np4e6RD8bcxsxGDFQSQ6Wvj5x603dmmfdRkFqggTL3M=;
+ b=xO08vTYThDSzJGRudjBuFDCeJX/1n7C4gDYUAzJOpGr57TcakwNAo0/XVEE9Zq5rct
+ 1mHgywMoKfVTMqMbYJDr6wvWBkGKHdzNUdem/mGbgQKfnfrfGygk1AJX+yuwmBLNUSQG
+ EvXME9HqUi37qkMRv3P57B2dCDhy5sS6s/V/qGHT59mVZABh0mOxxDCYRI5BndQRMP4X
+ 4Fj7HECb0QcNtdFlvawPyiIqETILxtPeNtIQAyqLVrCot6QDJLHkTMZx+5kPhlh5WBle
+ a9A2HeHOq8dxEC0WZqqQMlH8POm3Yi3fhPxVtWdJ3o9WU06LDdR/D7V5b/ypII/p34SY
+ U3xA==
+X-Gm-Message-State: AOAM531ZwedFMZ2nffanlMB7gjWqHF+dFGDoI/1xv+ICXg7q5tpuvwmt
+ zojwRJvCaFDk84dBAA+7khifO17rM/B+2f7pOFmQJw==
+X-Google-Smtp-Source: ABdhPJwujbhq+i0qTNRuZ+BiGkLSicKWY8TPo9L2LEzw9/qgpOhmUj+SNSa3a4Mh4JMV8MtM6PSgZiAXNhoauP0uUk4=
+X-Received: by 2002:a05:6512:4012:: with SMTP id
+ br18mr15944158lfb.533.1643661580262; 
+ Mon, 31 Jan 2022 12:39:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,T_SCC_BODY_TEXT_LINE
- shortcircuit=no autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+References: <20220129150604.3461652-1-jordy@pwning.systems>
+In-Reply-To: <20220129150604.3461652-1-jordy@pwning.systems>
+From: John Stultz <john.stultz@linaro.org>
+Date: Mon, 31 Jan 2022 12:39:29 -0800
+Message-ID: <CALAqxLU58UYLRNrf4C7t4_SmSa1aUVaDj4SP=zCPfb9m6HBUNw@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: heaps: Fix potential spectre v1 gadget
+To: Jordy Zomer <jordy@pwning.systems>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,34 +62,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, Liam Mark <lmark@codeaurora.org>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Laura Abbott <labbott@redhat.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, January 31st, 2022 at 21:36, Simon Ser <contact@emersion.fr> wro=
-te:
+On Sat, Jan 29, 2022 at 7:06 AM Jordy Zomer <jordy@pwning.systems> wrote:
+>
+> It appears like nr could be a Spectre v1 gadget as it's supplied by a
+> user and used as an array index. Prevent the contents
+> of kernel memory from being leaked to userspace via speculative
+> execution by using array_index_nospec.
+>
+> Signed-off-by: Jordy Zomer <jordy@pwning.systems>
+> ---
+>  drivers/dma-buf/dma-heap.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 56bf5ad01ad5..8f5848aa144f 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/xarray.h>
+>  #include <linux/list.h>
+>  #include <linux/slab.h>
+> +#include <linux/nospec.h>
+>  #include <linux/uaccess.h>
+>  #include <linux/syscalls.h>
+>  #include <linux/dma-heap.h>
+> @@ -135,6 +136,7 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+>         if (nr >= ARRAY_SIZE(dma_heap_ioctl_cmds))
+>                 return -EINVAL;
+>
+> +       nr = array_index_nospec(nr, ARRAY_SIZE(dma_heap_ioctl_cmds));
+>         /* Get the kernel ioctl cmd that matches */
+>         kcmd = dma_heap_ioctl_cmds[nr];
 
-> This driver only advertises XRGB8888 in ssd1307_formats. It would be nice=
- to
-> expose R8 as well so that user-space can directly produce suitable buffer=
-s.
-> It would also be nice to have some kind of preferred format, so that user=
--space
-> knows R8 is preferred over XRGB8888.
+Thanks for submitting this! It looks sane to me.
 
-Hm, since the format used by the hw is actually R1, adding that to drm_four=
-cc.h
-would be even better.
+Acked-by: John Stultz <john.stultz@linaro.org>
 
-Let me know if you want me to type up any of the user-space bits.
+thanks
+-john
