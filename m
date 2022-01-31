@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1459C4A4703
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 13:27:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9A54A472D
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 13:30:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0016810E375;
-	Mon, 31 Jan 2022 12:27:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9BA710E3B3;
+	Mon, 31 Jan 2022 12:30:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de
  [85.215.255.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8302310E23F
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 12:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1643632023;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2730010E3AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 12:30:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1643632024;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
  From:Subject:Sender;
- bh=rH1lZm8gZxW1NFBYJVtdrw+1w0JEyr4V064wVqtHF4w=;
- b=kQmHUfwP1aB560+N57NVDmPw8QBkXb1Uy1XOw19sjbUzEdT6Cy2M7n+HMEhuOY76bQ
- VLtc+E5v4YyzJIB7k2oRKhd3/qh4zD8JhyJ8rL2tyxsbw+T+KWkyqm5unlDZdkOfSCFI
- M4QsWFg9kc072amAwnsNc6FoXEc4xstLStmtanNsaoGcdz+JHip8NCafy8Dmdu30Cddb
- R42kgDZQpD6NXQOZCRm3ZI1oVcmR4n+/oKRgwUTncmO16Dqz1FwrA/o+PG233qMYZ+3B
- J+WKHRTFasYxavczggRUquM8LJGnXUwUevloOs/28q4/4NYjuU2Id9PAwaif0qrTgbc9
- J7Qg==
+ bh=DD71IXMXLAUb/SwAxlzhI320P5TBWxS6ZOLaX5UaUJg=;
+ b=IutJj+1eQJwHb4zzzvhnQaU9u1Qt1+lF1CmnT+0LDR4OgssHpN9nlOOPOfo++ewXVE
+ YjWGNOfRkU1u9MgXN9xlJmbsduk9l1ZkkooX3WJ9V3dw0oaSzr1vpQ+ZTkOVCxUsj+lz
+ TUIme3dzXxSRlGNgL0EmmyKGGE/SaHxcq4XlR6pK3AEDd7OM0EjE0wyzzJMuBTtBzdtB
+ wg6ClAmB1RxIkEf93B53H4Sn0mt9AECTzVDLu4wx1Q16TJnixR74AUW1LW8xS0sqBSdM
+ MTJGYH3YwGrXyJM+j9JCY2svGTnrcjjNewqo8QezLb/5ChwicWY287UUODPRHcazJ3n0
+ jT/A==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lByOdcK1L0"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.38.0 DYNA|AUTH)
- with ESMTPSA id j5fc80y0VCR3u8p
+ with ESMTPSA id j5fc80y0VCR3u8q
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
  Mon, 31 Jan 2022 13:27:03 +0100 (CET)
@@ -51,9 +51,9 @@ To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Paul Boddie <paul@boddie.org.uk>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v12 7/9] drm/bridge: display-connector: add ddc-en gpio support
-Date: Mon, 31 Jan 2022 13:26:53 +0100
-Message-Id: <77a7a1daaf381e1651be38adb62f9af9dd6c8fc5.1643632014.git.hns@goldelico.com>
+Subject: [PATCH v12 8/9] MIPS: DTS: CI20: fix how ddc power is enabled
+Date: Mon, 31 Jan 2022 13:26:54 +0100
+Message-Id: <5a46a4784de0d2ecda16a4923037a3027dc00a45.1643632014.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <cover.1643632014.git.hns@goldelico.com>
 References: <cover.1643632014.git.hns@goldelico.com>
@@ -77,67 +77,59 @@ Cc: devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"hdmi-connector.yaml" bindings defines an optional property
-"ddc-en-gpios" for a single gpio to enable DDC operation.
+Originally we proposed a new hdmi-5v-supply regulator reference
+for CI20 device tree but that was superseded by a better idea to use
+the already defined "ddc-en-gpios" property of the "hdmi-connector".
 
-Usually this controls +5V power on the HDMI connector.
-This +5V may also be needed for HPD.
+Since "MIPS: DTS: CI20: Add DT nodes for HDMI setup" has already
+been applied to v5.17-rc1, we add this on top.
 
-This was not reflected in code.
-
-Now, the driver activates the ddc gpio after probe and
-deactivates after remove so it is "almost on".
-
-But only if this driver is loaded (and not e.g. blacklisted
-as module).
-
+Fixes: ae1b8d2c2de9 ("MIPS: DTS: CI20: Add DT nodes for HDMI setup")
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- drivers/gpu/drm/bridge/display-connector.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ arch/mips/boot/dts/ingenic/ci20.dts | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index d24f5b90feabf..555395e301096 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -24,6 +24,7 @@ struct display_connector {
- 	int			hpd_irq;
+diff --git a/arch/mips/boot/dts/ingenic/ci20.dts b/arch/mips/boot/dts/ingenic/ci20.dts
+index 3e336b3dbb109..ab6e3dc0bc1d0 100644
+--- a/arch/mips/boot/dts/ingenic/ci20.dts
++++ b/arch/mips/boot/dts/ingenic/ci20.dts
+@@ -83,6 +83,8 @@ hdmi_out: connector {
+ 		label = "HDMI OUT";
+ 		type = "a";
  
- 	struct regulator	*dp_pwr;
-+	struct gpio_desc	*ddc_en;
++		ddc-en-gpios = <&gpa 25 GPIO_ACTIVE_HIGH>;
++
+ 		port {
+ 			hdmi_con: endpoint {
+ 				remote-endpoint = <&dw_hdmi_out>;
+@@ -114,17 +116,6 @@ otg_power: fixedregulator@2 {
+ 		gpio = <&gpf 14 GPIO_ACTIVE_LOW>;
+ 		enable-active-high;
+ 	};
+-
+-	hdmi_power: fixedregulator@3 {
+-		compatible = "regulator-fixed";
+-
+-		regulator-name = "hdmi_power";
+-		regulator-min-microvolt = <5000000>;
+-		regulator-max-microvolt = <5000000>;
+-
+-		gpio = <&gpa 25 0>;
+-		enable-active-high;
+-	};
  };
  
- static inline struct display_connector *
-@@ -345,6 +346,19 @@ static int display_connector_probe(struct platform_device *pdev)
- 		}
- 	}
+ &ext {
+@@ -576,8 +567,6 @@ &hdmi {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pins_hdmi_ddc>;
  
-+	/* enable DDC */
-+	if (type == DRM_MODE_CONNECTOR_HDMIA) {
-+		conn->ddc_en = devm_gpiod_get_optional(&pdev->dev, "ddc-en",
-+						       GPIOD_OUT_HIGH);
-+
-+		if (IS_ERR(conn->ddc_en)) {
-+			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
-+			return PTR_ERR(conn->ddc_en);
-+		}
-+
-+		gpiod_set_value(conn->ddc_en, 1);
-+	}
-+
- 	conn->bridge.funcs = &display_connector_bridge_funcs;
- 	conn->bridge.of_node = pdev->dev.of_node;
- 
-@@ -373,6 +387,9 @@ static int display_connector_remove(struct platform_device *pdev)
- {
- 	struct display_connector *conn = platform_get_drvdata(pdev);
- 
-+	if (conn->ddc_en)
-+		gpiod_set_value(conn->ddc_en, 0);
-+
- 	if (conn->dp_pwr)
- 		regulator_disable(conn->dp_pwr);
- 
+-	hdmi-5v-supply = <&hdmi_power>;
+-
+ 	ports {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
 -- 
 2.33.0
 
