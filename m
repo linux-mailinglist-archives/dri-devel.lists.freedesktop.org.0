@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC4F4A49FE
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 16:14:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E704A4A35
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 16:15:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 034E710E22D;
-	Mon, 31 Jan 2022 15:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF3E610E250;
+	Mon, 31 Jan 2022 15:15:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB5C10E22D;
- Mon, 31 Jan 2022 15:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643642080; x=1675178080;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=gz6NsAqC2FcHRt+OZMTLxlI/sulBGH10pi/9yO5iXJk=;
- b=ORyrUr+ePG1x0DR2op0x6CaORRxmCnCCwHsAXkhF7IcAvbgpg3Rqmp2J
- wfaRIdNA1Dtf0ZcJH1mQzpfjLCrMVHrDzvKHbfZzT70tENDnLkSeZwzKc
- Y7+GHbtA4q3ZENvwQNAxemMjodLYcXW4yfkY8ZKupMGRzzY8kWFWRRCzC
- ijOHmycQG1dMc7yuwXUK4loU8VfiVC4aXBlm8MPYR0x389BEY3khQ8/CI
- x4WBaXYbjXXt5s6HpPk7LnE+PWCk1AkM9qSc/ONvFYQa0RYOs4Eq93R1Y
- AqOTa1GwzQkWH80CYeCuz6bkjniOcPxd5Sxe43DD24brVVtJZSimaKOY8 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="246311601"
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; d="scan'208";a="246311601"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 07:14:40 -0800
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; d="scan'208";a="626393804"
-Received: from yeidelbe-mobl1.ger.corp.intel.com (HELO [10.249.254.103])
- ([10.249.254.103])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 07:14:39 -0800
-Message-ID: <e1109322-acc4-2c34-5743-92f6a998f7d1@linux.intel.com>
-Date: Mon, 31 Jan 2022 16:14:36 +0100
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95E4E10E247
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 15:15:21 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ s6-20020a0568301e0600b0059ea5472c98so13241784otr.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 07:15:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4ZgU+vGjwoubJ875RGR9zEt1v4kg3PV5cuvMBbMqjDc=;
+ b=esqX2L3zl905Y4V/EzdVPP2sl+6fanA8uZ9ay50GWGhwYUlJoITrs+ppFlantEW6nQ
+ TxuuQOowDZ9PnlFKUR4rVmQGHsl+e+8CHke645UitiKHGeSY1tYZDgUvktOzj+QZLJBv
+ 9UzdTBOt3eE3dDx3B9kDvC5z1rjSzIUUF1lzA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4ZgU+vGjwoubJ875RGR9zEt1v4kg3PV5cuvMBbMqjDc=;
+ b=nBosdW12A/9q/c5OCUgZ9oILEkgKlE78k5+N0i+WUVjHRxkW7S9rWl6a8+T5wKzPzc
+ Eblu7MRWGh6PHdWj2LC/u36l/2vkWcI1YWgiiKBcX/Gxb6VBThKLzT9iObgZNA0H2NP8
+ 9KxukOEETXZAfe9Sa47gFS0X5Vb+dEZmE2BRpPS9TRCXLDMM/LiEcQPFNPxjdBdBa5M6
+ dvMEjXONSvS2Zk3EdkAEQppj1HJxY/xLII6AJwTIfe+Iaqq7WdG+nFVg5mj6HyDfAdSU
+ 7lwFvgEyN7oMGr3xaXepYTiK6QA3cYdpXNoVXX2C08Qznk9fF+lT5XCZp8uB2m4jLvJc
+ tqaQ==
+X-Gm-Message-State: AOAM531PuUWJj5dNwPSFUK7fwASBxcr4WLJkP4MPBi4ZRhgb+dZ5mOAa
+ 7zpE2Sw/CV66l/aFSO06XjebYj+yKe8sfg1zhaWCJA==
+X-Google-Smtp-Source: ABdhPJyTs7vnJHqxyqBQfChzS9rKUYFzQoYfVDVbHfBXsz/Jv0Pkicsb6xNwHUpx979UIH6aBlsgh3d/tVOt+pEg2C8=
+X-Received: by 2002:a05:6830:1153:: with SMTP id
+ x19mr11310437otq.321.1643642120656; 
+ Mon, 31 Jan 2022 07:15:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 04/20] drm/i915: add io_size plumbing
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220126152155.3070602-1-matthew.auld@intel.com>
- <20220126152155.3070602-5-matthew.auld@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20220126152155.3070602-5-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220127200141.1295328-1-swboyd@chromium.org>
+ <20220127200141.1295328-3-swboyd@chromium.org>
+ <YffoqgmeUdxZ56zB@kroah.com>
+In-Reply-To: <YffoqgmeUdxZ56zB@kroah.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 31 Jan 2022 16:15:09 +0100
+Message-ID: <CAKMK7uFYyQ9siB5ENHku+yVPWWM1H=TEn-NZofEKqpJnuEvMmw@mail.gmail.com>
+Subject: Re: [PATCH v6 02/35] component: Introduce the aggregate bus_type
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,284 +62,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Saravana Kannan <saravanak@google.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 1/26/22 16:21, Matthew Auld wrote:
-> With small LMEM-BAR we need to be able to differentiate between the
-> total size of LMEM, and how much of it is CPU mappable. The end goal is
-> to be able to utilize the entire range, even if part of is it not CPU
-> accessible.
+On Mon, Jan 31, 2022 at 2:48 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_shmem.c            | 2 +-
->   drivers/gpu/drm/i915/gem/i915_gem_stolen.c           | 8 +++++---
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c              | 2 +-
->   drivers/gpu/drm/i915/gem/selftests/huge_pages.c      | 2 +-
->   drivers/gpu/drm/i915/gt/intel_region_lmem.c          | 6 +++++-
->   drivers/gpu/drm/i915/intel_memory_region.c           | 6 +++++-
->   drivers/gpu/drm/i915/intel_memory_region.h           | 2 ++
->   drivers/gpu/drm/i915/selftests/intel_memory_region.c | 8 ++++----
->   drivers/gpu/drm/i915/selftests/mock_region.c         | 6 ++++--
->   drivers/gpu/drm/i915/selftests/mock_region.h         | 3 ++-
->   10 files changed, 30 insertions(+), 15 deletions(-)
+> On Thu, Jan 27, 2022 at 12:01:08PM -0800, Stephen Boyd wrote:
+> > The component framework only provides 'bind' and 'unbind' callbacks to
+> > tell the host driver that it is time to assemble the aggregate driver
+> > now that all the components have probed. The component framework doesn't
+> > attempt to resolve runtime PM or suspend/resume ordering, and explicitly
+> > mentions this in the code. This lack of support leads to some pretty
+> > gnarly usages of the 'prepare' and 'complete' power management hooks in
+> > drivers that host the aggregate device, and it fully breaks down when
+> > faced with ordering shutdown between the various components, the
+> > aggregate driver, and the host driver that registers the whole thing.
+> >
+> > In a concrete example, the MSM display driver at drivers/gpu/drm/msm is
+> > using 'prepare' and 'complete' to call the drm helpers
+> > drm_mode_config_helper_suspend() and drm_mode_config_helper_resume()
+> > respectively, so that it can move the aggregate driver suspend/resume
+> > callbacks to be before and after the components that make up the drm
+> > device call any suspend/resume hooks they have. This only works as long
+> > as the component devices don't do anything in their own 'prepare' and
+> > 'complete' callbacks. If they did, then the ordering would be incorrect
+> > and we would be doing something in the component drivers before the
+> > aggregate driver could do anything. Yuck!
+> >
+> > Similarly, when trying to add shutdown support to the MSM driver we run
+> > across a problem where we're trying to shutdown the drm device via
+> > drm_atomic_helper_shutdown(), but some of the devices in the encoder
+> > chain have already been shutdown. This time, the component devices
+> > aren't the problem (although they could be if they did anything in their
+> > shutdown callbacks), but there's a DSI to eDP bridge in the encoder
+> > chain that has already been shutdown before the driver hosting the
+> > aggregate device runs shutdown. The ordering of driver probe is like
+> > this:
+> >
+> >  1. msm_pdev_probe() (host driver)
+> >  2. DSI bridge
+> >  3. aggregate bind
+> >
+> > When it comes to shutdown we have this order:
+> >
+> >  1. DSI bridge
+> >  2. msm_pdev_shutdown() (host driver)
+> >
+> > and so the bridge is already off, but we want to communicate to it to
+> > turn things off on the display during msm_pdev_shutdown(). Double yuck!
+> > Unfortunately, this time we can't split shutdown into multiple phases
+> > and swap msm_pdev_shutdown() with the DSI bridge.
+> >
+> > Let's make the component_master_ops into an actual device driver that has
+> > probe/remove/shutdown functions. The driver will only be bound to the
+> > aggregate device once all component drivers have called component_add()
+> > to indicate they're ready to assemble the aggregate driver. This allows
+> > us to attach shutdown logic (and in the future runtime PM logic) to the
+> > aggregate driver so that it runs the hooks in the correct order.
 >
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> index 6c57b0a79c8a..a9aca11cedbb 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -696,7 +696,7 @@ struct intel_memory_region *i915_gem_shmem_setup(struct drm_i915_private *i915,
->   {
->   	return intel_memory_region_create(i915, 0,
->   					  totalram_pages() << PAGE_SHIFT,
-> -					  PAGE_SIZE, 0,
-> +					  PAGE_SIZE, 0, 0,
->   					  type, instance,
->   					  &shmem_region_ops);
->   }
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> index 26975d857776..387b48686851 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> @@ -490,6 +490,7 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
->   
->   	/* Exclude the reserved region from driver use */
->   	mem->region.end = reserved_base - 1;
-> +	mem->io_size = resource_size(&mem->region);
->   
->   	/* It is possible for the reserved area to end before the end of stolen
->   	 * memory, so just consider the start. */
-> @@ -746,7 +747,7 @@ static int init_stolen_lmem(struct intel_memory_region *mem)
->   
->   	if (!io_mapping_init_wc(&mem->iomap,
->   				mem->io_start,
-> -				resource_size(&mem->region)))
-> +				mem->io_size))
->   		return -EIO;
->   
->   	/*
-> @@ -801,7 +802,8 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
->   						I915_GTT_PAGE_SIZE_4K;
->   
->   	mem = intel_memory_region_create(i915, lmem_base, lmem_size,
-> -					 min_page_size, io_start,
-> +					 min_page_size,
-> +					 io_start, lmem_size,
->   					 type, instance,
->   					 &i915_region_stolen_lmem_ops);
->   	if (IS_ERR(mem))
-> @@ -832,7 +834,7 @@ i915_gem_stolen_smem_setup(struct drm_i915_private *i915, u16 type,
->   	mem = intel_memory_region_create(i915,
->   					 intel_graphics_stolen_res.start,
->   					 resource_size(&intel_graphics_stolen_res),
-> -					 PAGE_SIZE, 0, type, instance,
-> +					 PAGE_SIZE, 0, 0, type, instance,
->   					 &i915_region_stolen_smem_ops);
->   	if (IS_ERR(mem))
->   		return mem;
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 84cae740b4a5..e1140ca3d9a0 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -1103,7 +1103,7 @@ i915_gem_ttm_system_setup(struct drm_i915_private *i915,
->   
->   	mr = intel_memory_region_create(i915, 0,
->   					totalram_pages() << PAGE_SHIFT,
-> -					PAGE_SIZE, 0,
-> +					PAGE_SIZE, 0, 0,
->   					type, instance,
->   					&ttm_system_region_ops);
->   	if (IS_ERR(mr))
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> index f36191ebf964..42db9cd30978 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> @@ -499,7 +499,7 @@ static int igt_mock_memory_region_huge_pages(void *arg)
->   	int bit;
->   	int err = 0;
->   
-> -	mem = mock_region_create(i915, 0, SZ_2G, I915_GTT_PAGE_SIZE_4K, 0);
-> +	mem = mock_region_create(i915, 0, SZ_2G, I915_GTT_PAGE_SIZE_4K, 0, 0);
->   	if (IS_ERR(mem)) {
->   		pr_err("%s failed to create memory region\n", __func__);
->   		return PTR_ERR(mem);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> index 21215a080088..2c7ec7ff79fd 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> @@ -90,7 +90,7 @@ region_lmem_init(struct intel_memory_region *mem)
->   
->   	if (!io_mapping_init_wc(&mem->iomap,
->   				mem->io_start,
-> -				resource_size(&mem->region))) {
-> +				mem->io_size)) {
->   		ret = -EIO;
->   		goto out_no_io;
->   	}
-> @@ -143,6 +143,7 @@ intel_gt_setup_fake_lmem(struct intel_gt *gt)
->   					 mappable_end,
->   					 PAGE_SIZE,
->   					 io_start,
-> +					 mappable_end,
->   					 INTEL_MEMORY_LOCAL,
->   					 0,
->   					 &intel_region_lmem_ops);
-> @@ -219,6 +220,7 @@ static struct intel_memory_region *setup_lmem(struct intel_gt *gt)
->   					 lmem_size,
->   					 min_page_size,
->   					 io_start,
-> +					 lmem_size,
->   					 INTEL_MEMORY_LOCAL,
->   					 0,
->   					 &intel_region_lmem_ops);
-> @@ -232,6 +234,8 @@ static struct intel_memory_region *setup_lmem(struct intel_gt *gt)
->   	drm_dbg(&i915->drm, "Local memory: %pR\n", &mem->region);
->   	drm_dbg(&i915->drm, "Local memory IO start: %pa\n",
->   		&mem->io_start);
-> +	drm_info(&i915->drm, "Local memory IO size: %pa\n",
-> +		&mem->io_size);
->   	drm_info(&i915->drm, "Local memory available: %pa\n",
->   		 &lmem_size);
->   
-> diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-> index c70d7e286a51..595e2489c23e 100644
-> --- a/drivers/gpu/drm/i915/intel_memory_region.c
-> +++ b/drivers/gpu/drm/i915/intel_memory_region.c
-> @@ -97,7 +97,7 @@ static int iomemtest(struct intel_memory_region *mem,
->   		     bool test_all,
->   		     const void *caller)
->   {
-> -	resource_size_t last = resource_size(&mem->region) - PAGE_SIZE;
-> +	resource_size_t last = mem->io_size - PAGE_SIZE;
->   	resource_size_t page;
->   	int err;
->   
-> @@ -205,6 +205,8 @@ static int intel_memory_region_memtest(struct intel_memory_region *mem,
->   	if (!mem->io_start)
->   		return 0;
->   
-> +	WARN_ON_ONCE(!mem->io_size);
-> +
->   	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM) || i915->params.memtest)
->   		err = iomemtest(mem, i915->params.memtest, caller);
->   
-> @@ -217,6 +219,7 @@ intel_memory_region_create(struct drm_i915_private *i915,
->   			   resource_size_t size,
->   			   resource_size_t min_page_size,
->   			   resource_size_t io_start,
-> +			   resource_size_t io_size,
->   			   u16 type,
->   			   u16 instance,
->   			   const struct intel_memory_region_ops *ops)
-> @@ -231,6 +234,7 @@ intel_memory_region_create(struct drm_i915_private *i915,
->   	mem->i915 = i915;
->   	mem->region = (struct resource)DEFINE_RES_MEM(start, size);
->   	mem->io_start = io_start;
-> +	mem->io_size = io_size;
->   	mem->min_page_size = min_page_size;
->   	mem->ops = ops;
->   	mem->total = size;
-> diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-> index 5625c9c38993..459051ce0c91 100644
-> --- a/drivers/gpu/drm/i915/intel_memory_region.h
-> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
-> @@ -71,6 +71,7 @@ struct intel_memory_region {
->   	struct drm_mm_node fake_mappable;
->   
->   	resource_size_t io_start;
-> +	resource_size_t io_size;
->   	resource_size_t min_page_size;
->   	resource_size_t total;
->   	resource_size_t avail;
-> @@ -103,6 +104,7 @@ intel_memory_region_create(struct drm_i915_private *i915,
->   			   resource_size_t size,
->   			   resource_size_t min_page_size,
->   			   resource_size_t io_start,
-> +			   resource_size_t io_size,
->   			   u16 type,
->   			   u16 instance,
->   			   const struct intel_memory_region_ops *ops);
-> diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-> index 7acba1d2135e..247f65f02bbf 100644
-> --- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-> +++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-> @@ -170,7 +170,7 @@ static int igt_mock_reserve(void *arg)
->   	if (!order)
->   		return 0;
->   
-> -	mem = mock_region_create(i915, 0, SZ_2G, I915_GTT_PAGE_SIZE_4K, 0);
-> +	mem = mock_region_create(i915, 0, SZ_2G, I915_GTT_PAGE_SIZE_4K, 0, 0);
->   	if (IS_ERR(mem)) {
->   		pr_err("failed to create memory region\n");
->   		err = PTR_ERR(mem);
-> @@ -383,7 +383,7 @@ static int igt_mock_splintered_region(void *arg)
->   	 */
->   
->   	size = (SZ_4G - 1) & PAGE_MASK;
-> -	mem = mock_region_create(i915, 0, size, PAGE_SIZE, 0);
-> +	mem = mock_region_create(i915, 0, size, PAGE_SIZE, 0, 0);
->   	if (IS_ERR(mem))
->   		return PTR_ERR(mem);
->   
-> @@ -471,7 +471,7 @@ static int igt_mock_max_segment(void *arg)
->   	 */
->   
->   	size = SZ_8G;
-> -	mem = mock_region_create(i915, 0, size, PAGE_SIZE, 0);
-> +	mem = mock_region_create(i915, 0, size, PAGE_SIZE, 0, 0);
->   	if (IS_ERR(mem))
->   		return PTR_ERR(mem);
->   
-> @@ -1188,7 +1188,7 @@ int intel_memory_region_mock_selftests(void)
->   	if (!i915)
->   		return -ENOMEM;
->   
-> -	mem = mock_region_create(i915, 0, SZ_2G, I915_GTT_PAGE_SIZE_4K, 0);
-> +	mem = mock_region_create(i915, 0, SZ_2G, I915_GTT_PAGE_SIZE_4K, 0, 0);
->   	if (IS_ERR(mem)) {
->   		pr_err("failed to create memory region\n");
->   		err = PTR_ERR(mem);
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_region.c b/drivers/gpu/drm/i915/selftests/mock_region.c
-> index 19bff8afcaaa..467eeae6d5f0 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_region.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_region.c
-> @@ -107,7 +107,8 @@ mock_region_create(struct drm_i915_private *i915,
->   		   resource_size_t start,
->   		   resource_size_t size,
->   		   resource_size_t min_page_size,
-> -		   resource_size_t io_start)
-> +		   resource_size_t io_start,
-> +		   resource_size_t io_size)
->   {
->   	int instance = ida_alloc_max(&i915->selftest.mock_region_instances,
->   				     TTM_NUM_MEM_TYPES - TTM_PL_PRIV - 1,
-> @@ -117,6 +118,7 @@ mock_region_create(struct drm_i915_private *i915,
->   		return ERR_PTR(instance);
->   
->   	return intel_memory_region_create(i915, start, size, min_page_size,
-> -					  io_start, INTEL_MEMORY_MOCK, instance,
-> +					  io_start, io_size,
-> +					  INTEL_MEMORY_MOCK, instance,
->   					  &mock_region_ops);
->   }
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_region.h b/drivers/gpu/drm/i915/selftests/mock_region.h
-> index 329bf74dfaca..e36c3a433551 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_region.h
-> +++ b/drivers/gpu/drm/i915/selftests/mock_region.h
-> @@ -16,6 +16,7 @@ mock_region_create(struct drm_i915_private *i915,
->   		   resource_size_t start,
->   		   resource_size_t size,
->   		   resource_size_t min_page_size,
-> -		   resource_size_t io_start);
-> +		   resource_size_t io_start,
-> +		   resource_size_t io_size);
->   
->   #endif /* !__MOCK_REGION_H */
+> I know I asked before, but I can not remember the answer.
+>
+> This really looks like it is turning into the aux bus code.  Why can't
+> you just use that instead here for this type of thing?  You are creating
+> another bus and drivers for that bus that are "fake" which is great, but
+> that's what the aux bus code was supposed to help out with, so we
+> wouldn't have to write more of these.
+>
+> So, if this really is different, can you document it here so I remember
+> next time you resend this patch series?
+
+aux takes a device and splits it into a lot of sub-devices, each with
+their own driver.
+
+This takes a pile of devices, and turns it into a single logical
+device with a single driver.
+
+So aux is 1:N, component is N:1.
+
+And yes you asked this already, I typed this up already :-)
+
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
