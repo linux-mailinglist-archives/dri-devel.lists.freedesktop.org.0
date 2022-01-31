@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDDD4A52B4
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 23:57:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9974A52D0
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 00:02:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E71D10E358;
-	Mon, 31 Jan 2022 22:57:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4988110E42D;
+	Mon, 31 Jan 2022 23:02:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
  [IPv6:2607:f8b0:4864:20::c35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFECB10E358
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 22:57:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58D4D10E3DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 23:02:00 +0000 (UTC)
 Received: by mail-oo1-xc35.google.com with SMTP id
- p4-20020a4a8e84000000b002e598a51d60so3615454ook.2
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 14:57:35 -0800 (PST)
+ p4-20020a4a8e84000000b002e598a51d60so3627791ook.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 15:02:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=dN1eWoFdpgCZVld6VXRl4qQRQ3uz/MKpz+wMFlzFQrA=;
- b=R023hhJF5fERNWKU07shRsYyUTlQD46lARD776Z3yLzpInKwAIAhFMxDclzomELD5Y
- SFJvs3fnHI2JMYG4SaMPxn3qe7yoZEwwAduV3xjCC0UpIiKSOyaWYsQKMRR/eeSMgtOu
- BKtUkN3Yk+33I5v/VM8aMY5DqG1vfXAVTAf8R0IY83pBT3xP3zqyPbFMQiaZZ7LBTB8A
- nq6Zd+sY+7bo9+xrhBEsf92mPrbE6bZFAOGaJZVo/TbdWVWAcp+uiiFPKfpehCLGL11J
- 6FVnTB+addNSCn5wcrMQXVE9iDy3WJrXeY0z897DS6SPZrGUAVQmSPDua4LhZ+vU8OV2
- yIYg==
+ bh=07IOc+4sCg1ox/edloQ1DbuVRJUKfQj2aCnLFjL6iTQ=;
+ b=Bn4rW4n25XPNIJwkb8Lp3Y4CT3gpNhv1eeQJ4rYPyhwpCfkWPCbBXgTMVdpQQACd9t
+ UtCxurE7RDaXdvezgp5HMXscwwHkIzqm8twxCDC7mzydP3LHwH/zqasn8tjOz4zGFSXD
+ j9wJDatUBoCjkoIDxDMo3THoCecavFdfsnukm0buW9Mv3U0+PlqlqX2n3uem93mU/eLg
+ hxoohDXZ6P2Sv/pWagelPRuq2bGIGGzzhkLZtgcdlB4ydM3Z8eKGnPY5R9B7ZdXJz9SB
+ gh46OmYNt+YVZURMlSndeCdHc9qiGqKWgvNBQtrhkURfzwdoSfQhpHQrzfbG5qyIyj/l
+ fNnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=dN1eWoFdpgCZVld6VXRl4qQRQ3uz/MKpz+wMFlzFQrA=;
- b=xenyPkePWkUrL0QQ7bRnTIp+fRFlYFucBNlufRD5rKPnQzSdcFZE8euEkWIsf9E65i
- rTgS7X9j+7r84Il7pCWAesiPhxkZFomaEhAE1dtYNlngcGrGaqKMgTDnIg9vli/kWAbH
- 3gWsRDV1rbbpUoXq2XuPcJL/U/czqWabDTphxTIM7LzB5bqrjINsYwbC8NexEik8sd/Q
- Jzif/2Udnqq/2M7DB0zz7n34Ue9qh0SUCbf+/q3fOj0qI7nYq4FL38VOx8fXq8u25aiC
- LJJ6n4a27La2nuLOByEMbpmwgRt/UuGMEHTfOXvqdT5bMLVSS/aRgGGXf2elcmIavtxA
- 5glg==
-X-Gm-Message-State: AOAM533bdfZjHY6Ld5d5P0I4Bi5z9wYkJJSJN3f5cDqD3XCPAE/k+Nn+
- 2Btf9eHPl9aQAdb/zX6cgoJplw==
-X-Google-Smtp-Source: ABdhPJwRn6LacBFjex+kHprwEqwpJmOke2/IQAUMOEKO+ejw3nSLsT3YbO/WmS6me/j05Nej/NHk6w==
-X-Received: by 2002:a9d:5c8a:: with SMTP id a10mr12764932oti.248.1643669855224; 
- Mon, 31 Jan 2022 14:57:35 -0800 (PST)
+ bh=07IOc+4sCg1ox/edloQ1DbuVRJUKfQj2aCnLFjL6iTQ=;
+ b=PGLqp7xcfFatI1UEbEz3h3s7If8xaiF0OFjTXxeka+CrkCXuWvEQek4XkqADeRdMaK
+ OMDI3uuliHalq4NOdAgnjUfBNnl6R9spPb6eCy0U/AIhC7lHLYDMG/7JIakwZ/HaizyU
+ bzGLd1nrIy++wK0es13aiUc/ItMk53LsSK6dwmLVbgNU77m6fujBNj500SMseLpbuCv4
+ HHK0nTwMTJWvdVcz9UxYaG2f7O4RnsH8bMXJspf5hPGDlQG3nL2Hs3GHfubu6q9/4492
+ 4TSyL9FnAmDsiB1P3Xd01MZGZQWD7BE3dzVVl1Mg8lwK2XoIQ1zuI/Lo7XO+BjE34H0P
+ 013A==
+X-Gm-Message-State: AOAM531RzDetTeRfYxSPryRX+LAc1sTVKArh3r0qujE4v94jn1o4N1sW
+ UvgziFdzOhEbNC7Tw+fE4OxKBg==
+X-Google-Smtp-Source: ABdhPJx/GYKJ4sp8QsQTJCGodwe9naihFp+6pOwgegfbICsiojZpoJdJyBjOVoo3GHiFJgM+vQVu9w==
+X-Received: by 2002:a05:6830:19ed:: with SMTP id
+ t13mr12872041ott.83.1643670119656; 
+ Mon, 31 Jan 2022 15:01:59 -0800 (PST)
 Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
- by smtp.gmail.com with ESMTPSA id 31sm12099372otr.13.2022.01.31.14.57.34
+ by smtp.gmail.com with ESMTPSA id n9sm5546723otf.9.2022.01.31.15.01.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 14:57:34 -0800 (PST)
-Date: Mon, 31 Jan 2022 16:57:32 -0600
+ Mon, 31 Jan 2022 15:01:59 -0800 (PST)
+Date: Mon, 31 Jan 2022 17:01:57 -0600
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Subject: Re: [PATCH v2 2/4] arm64: dts: qcom: sc7280: Support gpu speedbin
-Message-ID: <YfhpXFNcl4L+1rah@builder.lan>
+Subject: Re: [PATCH v2 4/4] drm/msm/adreno: Update the name of 7c3 gpu
+Message-ID: <YfhqZZ4QLuCffQPC@builder.lan>
 References: <20220119205012.v2.1.Ibac66e1e0e565313bc28f192e6c94cb508f205eb@changeid>
- <20220119205012.v2.2.I4c2cb95f06f0c37038c80cc1ad20563fdf0618e2@changeid>
+ <20220119205012.v2.4.Idbc978090270c7b838387acc74d8a06a186a3cf4@changeid>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220119205012.v2.2.I4c2cb95f06f0c37038c80cc1ad20563fdf0618e2@changeid>
+In-Reply-To: <20220119205012.v2.4.Idbc978090270c7b838387acc74d8a06a186a3cf4@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,116 +70,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
- <devicetree@vger.kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+Cc: Sean Paul <sean@poorly.run>,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
+ <devicetree@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+ freedreno <freedreno@lists.freedesktop.org>, linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed 19 Jan 09:21 CST 2022, Akhil P Oommen wrote:
 
-> Add the speedbin fuse and the required opps to support gpu sku.
+> Update the name in the gpulist for 7c3 gpu as per the latest
+> recommendation.
 > 
+
+I was skeptical when this was introduced and you proved my point. Give
+it a name based on the Adreno revision or possibly the part number and
+leave it at that.
+
+Regards,
+Bjorn
+
 > Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 > ---
 > 
 > (no changes since v1)
 > 
->  arch/arm64/boot/dts/qcom/sc7280.dtsi | 46 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 46 insertions(+)
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> index 365a2e0..f8fc8b8 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> @@ -605,6 +605,11 @@
->  			power-domains = <&rpmhpd SC7280_MX>;
->  			#address-cells = <1>;
->  			#size-cells = <1>;
-> +
-> +			gpu_speed_bin: gpu_speed_bin@1e9 {
-
-No underscores in node names please.
-
-Regards,
-Bjorn
-
-> +				reg = <0x1e9 0x2>;
-> +				bits = <5 8>;
-> +			};
->  		};
->  
->  		sdhc_1: sdhci@7c4000 {
-> @@ -1762,6 +1767,9 @@
->  			interconnect-names = "gfx-mem";
->  			#cooling-cells = <2>;
->  
-> +			nvmem-cells = <&gpu_speed_bin>;
-> +			nvmem-cell-names = "speed_bin";
-> +
->  			gpu_opp_table: opp-table {
->  				compatible = "operating-points-v2";
->  
-> @@ -1769,18 +1777,56 @@
->  					opp-hz = /bits/ 64 <315000000>;
->  					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
->  					opp-peak-kBps = <1804000>;
-> +					opp-supported-hw = <0x03>;
->  				};
->  
->  				opp-450000000 {
->  					opp-hz = /bits/ 64 <450000000>;
->  					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
->  					opp-peak-kBps = <4068000>;
-> +					opp-supported-hw = <0x03>;
->  				};
->  
->  				opp-550000000 {
->  					opp-hz = /bits/ 64 <550000000>;
->  					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
->  					opp-peak-kBps = <6832000>;
-> +					opp-supported-hw = <0x03>;
-> +				};
-> +
-> +				opp-608000000 {
-> +					opp-hz = /bits/ 64 <608000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
-> +					opp-peak-kBps = <8368000>;
-> +					opp-supported-hw = <0x02>;
-> +				};
-> +
-> +				opp-700000000 {
-> +					opp-hz = /bits/ 64 <700000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
-> +					opp-peak-kBps = <8532000>;
-> +					opp-supported-hw = <0x02>;
-> +				};
-> +
-> +				opp-812000000 {
-> +					opp-hz = /bits/ 64 <812000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
-> +					opp-peak-kBps = <8532000>;
-> +					opp-supported-hw = <0x02>;
-> +				};
-> +
-> +				opp-840000000 {
-> +					opp-hz = /bits/ 64 <840000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
-> +					opp-peak-kBps = <8532000>;
-> +					opp-supported-hw = <0x02>;
-> +				};
-> +
-> +				opp-900000000 {
-> +					opp-hz = /bits/ 64 <900000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
-> +					opp-peak-kBps = <8532000>;
-> +					opp-supported-hw = <0x02>;
->  				};
->  			};
->  		};
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index 946f505..bd4d6a1 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -330,7 +330,7 @@ static const struct adreno_info gpulist[] = {
+>  		.hwcg = a660_hwcg,
+>  	}, {
+>  		.rev = ADRENO_REV(6, 3, 5, ANY_ID),
+> -		.name = "Adreno 7c Gen 3",
+> +		.name = "Adreno 7c+ Gen 3",
+>  		.fw = {
+>  			[ADRENO_FW_SQE] = "a660_sqe.fw",
+>  			[ADRENO_FW_GMU] = "a660_gmu.bin",
 > -- 
 > 2.7.4
 > 
