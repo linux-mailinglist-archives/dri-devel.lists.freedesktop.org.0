@@ -1,60 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86BC74A4807
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 14:25:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4A84A4893
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 14:48:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1FA10E218;
-	Mon, 31 Jan 2022 13:25:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A366E10E357;
+	Mon, 31 Jan 2022 13:48:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 654D010E218
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 13:25:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643635549; x=1675171549;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=PV2NMENejzNWL/eUmut4tFJ0nE85m4L6jACezcDdRYI=;
- b=ZD7uVo38BRZ2AeTJHkBsqwWJt1ypKa/Y4aH/5XKp/ONxqHjjvYFDV0dt
- H6vP8BWahbkV9l00KNtMcERcRXiSjw+oVsrwXrn8EGtdRYk5AVupZKfsX
- e+vaGtOOk/jrJlQIrSFJpkFms9Vn7ev6EJ49C/8n+ma3UTFmXcxY++1Tt
- C0bG+rgso+RqxGHaQvnJZIczKZd+cm0wl/XCGCv2FN8V2frALl/f8cjqi
- 88S4gTf5SHwiRd33RCsDYW+6MY46/dDPL87RcaqbcQgNRe6PdA2EuPCEE
- s4o5Pk3E3FUCycfjLjZGqhLFkZH4OJmdxiUYcSYIK03KzemGzurGcxTpC A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="247412840"
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; d="scan'208";a="247412840"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 05:25:48 -0800
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; d="scan'208";a="481748551"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 05:25:45 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nEWfh-00GseD-PN; Mon, 31 Jan 2022 15:24:41 +0200
-Date: Mon, 31 Jan 2022 15:24:41 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-Message-ID: <YffjGQY4KgsAqniL@smile.fi.intel.com>
-References: <YfEv7OQs98O9wJdJ@kroah.com> <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
- <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
- <YfFV4EJosayH+e6C@smile.fi.intel.com>
- <YfFWPmG2D093gz4N@smile.fi.intel.com>
- <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
- <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
- <YffJujbpUGUqpIk/@smile.fi.intel.com>
- <5a3fffc8-b2d8-6ac3-809e-e8e71b66a8ea@redhat.com>
- <YffiwCiFnqF1X1pD@smile.fi.intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C43B10E357;
+ Mon, 31 Jan 2022 13:48:34 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id CF874B82B2F;
+ Mon, 31 Jan 2022 13:48:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C22C1C340E8;
+ Mon, 31 Jan 2022 13:48:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1643636909;
+ bh=hvWGq6EEMPf49OBk4zZ3xW/NpC/UiTcIU8yTkJHSgi4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Oi9IYx8GQc7DsFlm2dleVl8AmVY7R4AbkIcb8hBxQtJSL+69TqptjpsvTjCgQSeC3
+ WOW9qJLVLRyavDFwb3XsXJ+tl3/p6Z0kT60jtxlf5WdkyNIyP1tU0AeJZ135A5BQLQ
+ E1R+3Zz36ZllzAuCAPSiO62pyVGyMD24cKFowLUg=
+Date: Mon, 31 Jan 2022 14:48:26 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v6 02/35] component: Introduce the aggregate bus_type
+Message-ID: <YffoqgmeUdxZ56zB@kroah.com>
+References: <20220127200141.1295328-1-swboyd@chromium.org>
+ <20220127200141.1295328-3-swboyd@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YffiwCiFnqF1X1pD@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20220127200141.1295328-3-swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,45 +50,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
- Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Saravana Kannan <saravanak@google.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-arm-msm@vger.kernel.org, Russell King <rmk+kernel@arm.linux.org.uk>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 31, 2022 at 03:23:13PM +0200, Andy Shevchenko wrote:
-> On Mon, Jan 31, 2022 at 01:08:32PM +0100, Javier Martinez Canillas wrote:
-> > On 1/31/22 12:36, Andy Shevchenko wrote:
-
-...
-
-> > I actually added this dependency deliberative. It's true that the driver is using
-> > the device properties API and so there isn't anything from the properties parsing
-> > point of view that depends on OF. And the original driver didn't depend on OF.
-> > 
-> > But the original driver also only would had worked with Device Trees since the
-> > of_device_id table is the only one that contains the device specific data info.
-> > 
-> > The i2c_device_id table only listed the devices supported to match, but then it
-> > would only had worked with the default values that are set by the driver.
-> > 
-> > So in practice it *does* depend on OF. I'll be happy to drop that dependency if
-> > you provide an acpi_device_id table to match.
+On Thu, Jan 27, 2022 at 12:01:08PM -0800, Stephen Boyd wrote:
+> The component framework only provides 'bind' and 'unbind' callbacks to
+> tell the host driver that it is time to assemble the aggregate driver
+> now that all the components have probed. The component framework doesn't
+> attempt to resolve runtime PM or suspend/resume ordering, and explicitly
+> mentions this in the code. This lack of support leads to some pretty
+> gnarly usages of the 'prepare' and 'complete' power management hooks in
+> drivers that host the aggregate device, and it fully breaks down when
+> faced with ordering shutdown between the various components, the
+> aggregate driver, and the host driver that registers the whole thing.
 > 
-> The code is deceptive and you become to a wrong conclusion. No, the driver
-> does NOT depend on OF as a matter of fact. The tricky part is the PRP0001
-> ACPI PNP ID that allows to reuse it on ACPI-based platforms.
+> In a concrete example, the MSM display driver at drivers/gpu/drm/msm is
+> using 'prepare' and 'complete' to call the drm helpers
+> drm_mode_config_helper_suspend() and drm_mode_config_helper_resume()
+> respectively, so that it can move the aggregate driver suspend/resume
+> callbacks to be before and after the components that make up the drm
+> device call any suspend/resume hooks they have. This only works as long
+> as the component devices don't do anything in their own 'prepare' and
+> 'complete' callbacks. If they did, then the ordering would be incorrect
+> and we would be doing something in the component drivers before the
+> aggregate driver could do anything. Yuck!
 > 
-> That said, please drop OF dependency.
+> Similarly, when trying to add shutdown support to the MSM driver we run
+> across a problem where we're trying to shutdown the drm device via
+> drm_atomic_helper_shutdown(), but some of the devices in the encoder
+> chain have already been shutdown. This time, the component devices
+> aren't the problem (although they could be if they did anything in their
+> shutdown callbacks), but there's a DSI to eDP bridge in the encoder
+> chain that has already been shutdown before the driver hosting the
+> aggregate device runs shutdown. The ordering of driver probe is like
+> this:
+> 
+>  1. msm_pdev_probe() (host driver)
+>  2. DSI bridge
+>  3. aggregate bind
+> 
+> When it comes to shutdown we have this order:
+> 
+>  1. DSI bridge
+>  2. msm_pdev_shutdown() (host driver)
+> 
+> and so the bridge is already off, but we want to communicate to it to
+> turn things off on the display during msm_pdev_shutdown(). Double yuck!
+> Unfortunately, this time we can't split shutdown into multiple phases
+> and swap msm_pdev_shutdown() with the DSI bridge.
+> 
+> Let's make the component_master_ops into an actual device driver that has
+> probe/remove/shutdown functions. The driver will only be bound to the
+> aggregate device once all component drivers have called component_add()
+> to indicate they're ready to assemble the aggregate driver. This allows
+> us to attach shutdown logic (and in the future runtime PM logic) to the
+> aggregate driver so that it runs the hooks in the correct order.
 
-Side note: 72915994e028 ("video: ssd1307fb: Make use of device properties")
+I know I asked before, but I can not remember the answer.
 
--- 
-With Best Regards,
-Andy Shevchenko
+This really looks like it is turning into the aux bus code.  Why can't
+you just use that instead here for this type of thing?  You are creating
+another bus and drivers for that bus that are "fake" which is great, but
+that's what the aux bus code was supposed to help out with, so we
+wouldn't have to write more of these.
 
+So, if this really is different, can you document it here so I remember
+next time you resend this patch series?
 
+thanks,
+
+greg k-h
