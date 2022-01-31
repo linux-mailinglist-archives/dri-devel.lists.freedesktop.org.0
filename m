@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBE94A41E8
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 12:09:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6064A4324
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 12:17:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38C0810E208;
-	Mon, 31 Jan 2022 11:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8C7710E160;
+	Mon, 31 Jan 2022 11:17:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2F110E208
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 11:09:42 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E4DC10E160
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 11:17:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BF85860B28;
- Mon, 31 Jan 2022 11:09:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C692C340E8;
- Mon, 31 Jan 2022 11:09:40 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id EE5A2B82A69;
+ Mon, 31 Jan 2022 11:17:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0E40C340E8;
+ Mon, 31 Jan 2022 11:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1643627381;
+ s=korg; t=1643627845;
  bh=H8Kqjec3vy20GA6mnXYJLGonJa+G2hoAOvhv1VCBA/4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R+RYh7TnTgtKe0Kit8HTV1C8g0EJvNz0nuCwM92eOUIFqzCylo6CnThxHtZnztMjA
- GcuZmNOuoRciuKIKH7jUm7atNusxmkTAC9aEJLuvS3PppqMrZXGZjy00q11bvECR9x
- SRJifsOJ5vf5Ne9v8SVCwl8Zq/dEnBKdCUrXWjcw=
+ b=TcmtMf6YD8Z2zXPMFheCaA4QexcHABBEsRs6e+Er3Vexg4POinyhK4iwPxRzG6WNw
+ wvNltbG//I3S20HfYtTs3GQlfq8Yhxul8sHqsX+U4ae3UjQK9GeXG8qdHYgHS+RFpT
+ xKxM5TlsZUAXb90uOvuMvifm3TT5JKFgzhwI+wDQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.15 032/171] drm/atomic: Add the crtc to affected crtc only
+Subject: [PATCH 5.16 043/200] drm/atomic: Add the crtc to affected crtc only
  if uapi.enable = true
-Date: Mon, 31 Jan 2022 11:54:57 +0100
-Message-Id: <20220131105231.108448665@linuxfoundation.org>
+Date: Mon, 31 Jan 2022 11:55:06 +0100
+Message-Id: <20220131105235.001695685@linuxfoundation.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220131105229.959216821@linuxfoundation.org>
-References: <20220131105229.959216821@linuxfoundation.org>
+In-Reply-To: <20220131105233.561926043@linuxfoundation.org>
+References: <20220131105233.561926043@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
