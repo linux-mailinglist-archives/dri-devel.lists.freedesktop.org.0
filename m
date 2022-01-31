@@ -2,51 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0F14A4722
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 13:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652A84A4727
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 13:29:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25F6010E3BF;
-	Mon, 31 Jan 2022 12:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B7EA10E344;
+	Mon, 31 Jan 2022 12:29:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E42510E3AE
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 12:28:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643632107; x=1675168107;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=MUL9VYbwSh5fqKgw8W+VoS+LcD26PNUxxQzC6eIkV1k=;
- b=IOVO5gR84XfTHp4UQdm+mhZRSsFjn/vCCuIxkS3PICTLtzyW3TT+WMK2
- McR93/1Clpeq5m2ZrVF05Dfn0bhrGghDSeyxs2Pb2EJ2tb6pYgyeyfKAw
- VK/ZFzCPwWzrZtIyK/26iVSzT2ibN/X6xAIweo+fvuWnbZmkUip6K3wBL
- 2PEe45zyksQtElkgoLdAwFFRM8ntUAALKlq+o030yCIgjZTqeQ3+D1iiz
- REOay2nRnrxbiiAYJEoOT9IgmKVbiPnzkTv6DeUp7xkV3pOcJ+TPgPJlK
- RweYn71cqDFsveMF45OnWfKU+Hf4dxvffHfAf9ehOQ208+ZGXCK2f/zbl g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="234841140"
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; d="scan'208";a="234841140"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 04:28:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,330,1635231600"; d="scan'208";a="479058783"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 31 Jan 2022 04:28:24 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nEVnD-000Ru7-KY; Mon, 31 Jan 2022 12:28:23 +0000
-Date: Mon, 31 Jan 2022 20:27:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yizhuo Zhai <yzhai003@ucr.edu>
-Subject: Re: [PATCH] fbdev: fbmem: Fix the implicit type casting
-Message-ID: <202201311943.VXU6K1gH-lkp@intel.com>
-References: <20220131065719.1552958-1-yzhai003@ucr.edu>
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8181D10E3AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 12:29:55 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id s9so25060826wrb.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 04:29:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=XfDEtvQ/tzVD1YeBowq1DH94HINF3JBGxRgfDDz4P9Q=;
+ b=W4NHjEA+9XVVL8xz6qTEqQvruINpNG1pl5p/yaTwPsUbqDWoTdwk6B90cytFkMTHZT
+ lrQuJGMCrkrs3FC5BaobUmorxlxni/0C26+D4VsSXYqKlUY8Ar8xiHI3b74c2sMVkTLU
+ gSKadOZdH4vnOVfaH7dEpE2s9zlDj36v/3eMYHeSfAyUcZJ1HDwwiM1nyWsQnV4O0yRb
+ O1xd+UqJM3rUINASsACdI5OKMhaHlXLsyvVO9ERwrZUlIgIG7kIn8nF6cUlGtvVMzycp
+ 83qu/fIP/2WVZAxPlTcZxmh9pHc3byTUiIOGNQbWxrf5VMQI0tURoHxAzof9DE6mx1vg
+ FIAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XfDEtvQ/tzVD1YeBowq1DH94HINF3JBGxRgfDDz4P9Q=;
+ b=oADrccU/Hl9/TmYO+Gp746L1OI/urxiRTh4Fni83OgKm0zMOneOPGl2OHdwgfsx4Ez
+ tj3Se0xjgnjsuNZ81f/5RWE7uBTh1QDFUCjyitCTyYGB5CzfIdJaFR6FL5cFDPOr1C31
+ Fgx80/p6roxZovr+CutnHG2uGY/IiYDwb1wgq+ieRZcy5UZ3gqjlPyKxGLDVbyJZI36a
+ pWxtjR9w4/91LzQQlPrO6O029P7l+gzzLpzcJZIx8Hy4cGgWdg9Jf+yGlt6ymlNqn658
+ u4dc4hZMGDxNntn8IEagyXtUbBHCeNKTHUJOSgHBxpCbgRS7laKkgICZpRQMld6XkfbR
+ +txA==
+X-Gm-Message-State: AOAM530lOf+o4pQogtfu44U7Run2E13y1z5yr6BFk7bDHqoSJQmkvo1T
+ 5XeK7N5LBcDPITAOV6+PsOo=
+X-Google-Smtp-Source: ABdhPJwKPAOlfE8A7dNEWpNDKJVV/rApo0lar6YbP+IVu/WUEb/GzeZxyimip5vdiaqDYs3eC4tjRQ==
+X-Received: by 2002:a05:6000:1548:: with SMTP id
+ 8mr16792438wry.504.1643632193762; 
+ Mon, 31 Jan 2022 04:29:53 -0800 (PST)
+Received: from [192.168.0.14] ([37.223.145.74])
+ by smtp.gmail.com with ESMTPSA id m12sm13729547wrp.61.2022.01.31.04.29.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Jan 2022 04:29:53 -0800 (PST)
+Message-ID: <5991ad51-4181-d445-284c-386447cffb95@gmail.com>
+Date: Mon, 31 Jan 2022 13:29:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220131065719.1552958-1-yzhai003@ucr.edu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v10 02/13] iommu/mediatek-v1: Free the existed fwspec if
+ the master dev already has
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Yong Wu <yong.wu@mediatek.com>
+References: <20220117070510.17642-1-yong.wu@mediatek.com>
+ <20220117070510.17642-3-yong.wu@mediatek.com>
+ <20220128134055.720bb43c@coco.lan> <20220128134540.00c6c380@coco.lan>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20220128134540.00c6c380@coco.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,105 +75,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kbuild-all@lists.01.org,
- Xiyu Yang <xiyuyang19@fudan.edu.cn>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Zheyu Ma <zheyuma97@gmail.com>, linux-kernel@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>, Yizhuo Zhai <yzhai003@ucr.edu>,
- dri-devel@lists.freedesktop.org
+Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Will Deacon <will.deacon@arm.com>, dri-devel@lists.freedesktop.org,
+ yf.wang@mediatek.com, Hans Verkuil <hverkuil@xs4all.nl>,
+ anthony.huang@mediatek.com, youlin.pei@mediatek.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Evan Green <evgreen@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
+ Matthias Kaehlcke <mka@chromium.org>, mingyuan.ma@mediatek.com,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Joerg Roedel <jroedel@suse.de>, Frank Wunderlich <frank-w@public-files.de>,
+ libo.kang@mediatek.com, yi.kuo@mediatek.com, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ anan.sun@mediatek.com, srv_heupstream@mediatek.com, acourbot@chromium.org,
+ linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yizhuo,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v5.17-rc2 next-20220131]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Yizhuo-Zhai/fbdev-fbmem-Fix-the-implicit-type-casting/20220131-150528
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 26291c54e111ff6ba87a164d85d4a4e134b7315c
-config: i386-randconfig-c001-20220131 (https://download.01.org/0day-ci/archive/20220131/202201311943.VXU6K1gH-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/b8f540468e70290c8278fc2611adc2f9b38f821f
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Yizhuo-Zhai/fbdev-fbmem-Fix-the-implicit-type-casting/20220131-150528
-        git checkout b8f540468e70290c8278fc2611adc2f9b38f821f
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/video/fbdev/core/fbmem.c:1067:1: error: conflicting types for 'fb_blank'
-    1067 | fb_blank(struct fb_info *info, unsigned long blank)
-         | ^~~~~~~~
-   In file included from drivers/video/fbdev/core/fbmem.c:34:
-   include/linux/fb.h:591:12: note: previous declaration of 'fb_blank' was here
-     591 | extern int fb_blank(struct fb_info *info, int blank);
-         |            ^~~~~~~~
-   In file included from include/linux/linkage.h:7,
-                    from arch/x86/include/asm/cache.h:5,
-                    from include/linux/cache.h:6,
-                    from include/linux/time.h:5,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/video/fbdev/core/fbmem.c:14:
-   drivers/video/fbdev/core/fbmem.c:1086:15: error: conflicting types for 'fb_blank'
-    1086 | EXPORT_SYMBOL(fb_blank);
-         |               ^~~~~~~~
-   include/linux/export.h:98:21: note: in definition of macro '___EXPORT_SYMBOL'
-      98 |  extern typeof(sym) sym;       \
-         |                     ^~~
-   include/linux/export.h:160:34: note: in expansion of macro '__EXPORT_SYMBOL'
-     160 | #define _EXPORT_SYMBOL(sym, sec) __EXPORT_SYMBOL(sym, sec, "")
-         |                                  ^~~~~~~~~~~~~~~
-   include/linux/export.h:163:29: note: in expansion of macro '_EXPORT_SYMBOL'
-     163 | #define EXPORT_SYMBOL(sym)  _EXPORT_SYMBOL(sym, "")
-         |                             ^~~~~~~~~~~~~~
-   drivers/video/fbdev/core/fbmem.c:1086:1: note: in expansion of macro 'EXPORT_SYMBOL'
-    1086 | EXPORT_SYMBOL(fb_blank);
-         | ^~~~~~~~~~~~~
-   In file included from drivers/video/fbdev/core/fbmem.c:34:
-   include/linux/fb.h:591:12: note: previous declaration of 'fb_blank' was here
-     591 | extern int fb_blank(struct fb_info *info, int blank);
-         |            ^~~~~~~~
 
 
-vim +/fb_blank +1067 drivers/video/fbdev/core/fbmem.c
+On 28/01/2022 13:45, Mauro Carvalho Chehab wrote:
+> Em Fri, 28 Jan 2022 13:40:55 +0100
+> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+> 
+>> Hi Matthias/Yong,
+>>
+>> Are you ok if this patch gets merged via the media tree together with the
+>> remaining series, or do you prefer to apply it via SoC tree instead?
+> 
+> Same questions for other patches touching files outside drivers/media
+> on this pull request:
+> 
+> 	https://patchwork.kernel.org/project/linux-mediatek/patch/7af52d61-47c7-581d-62ed-76a7f8315b16@xs4all.nl/
+> 
 
-  1065	
-  1066	int
-> 1067	fb_blank(struct fb_info *info, unsigned long blank)
-  1068	{
-  1069		struct fb_event event;
-  1070		int ret = -EINVAL;
-  1071	
-  1072		if (blank > FB_BLANK_POWERDOWN)
-  1073			blank = FB_BLANK_POWERDOWN;
-  1074	
-  1075		event.info = info;
-  1076		event.data = &blank;
-  1077	
-  1078		if (info->fbops->fb_blank)
-  1079			ret = info->fbops->fb_blank(blank, info);
-  1080	
-  1081		if (!ret)
-  1082			fb_notifier_call_chain(FB_EVENT_BLANK, &event);
-  1083	
-  1084		return ret;
-  1085	}
-  1086	EXPORT_SYMBOL(fb_blank);
-  1087	
+Looks good to me.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Please let me know once you accepted the pull request and I'll queue the DTS 
+related changes from this series.
+
+Regards,
+Matthias
+
+> Like those:
+> 	0004-0013-iommu-mediatek-v1-Free-the-existed-fwspec-if-the-mas.patch
+> 	0005-0013-iommu-mediatek-Return-ENODEV-if-the-device-is-NULL.patch
+> 	0006-0013-iommu-mediatek-Add-probe_defer-for-smi-larb.patch
+> 	0007-0013-iommu-mediatek-Add-device_link-between-the-consumer-.patch
+> 
+> Regards,
+> Mauro
+> 
+>>
+>> Regards,
+>> Mauro
+>>
+>>
+>> Em Mon, 17 Jan 2022 15:04:59 +0800
+>> Yong Wu <yong.wu@mediatek.com> escreveu:
+>>
+>>> When the iommu master device enters of_iommu_xlate, the ops may be
+>>> NULL(iommu dev is defered), then it will initialize the fwspec here:
+>>>
+>>> [<c0c9c5bc>] (dev_iommu_fwspec_set) from [<c06bda80>]
+>>> (iommu_fwspec_init+0xbc/0xd4)
+>>> [<c06bd9c4>] (iommu_fwspec_init) from [<c06c0db4>]
+>>> (of_iommu_xlate+0x7c/0x12c)
+>>> [<c06c0d38>] (of_iommu_xlate) from [<c06c10e8>]
+>>> (of_iommu_configure+0x144/0x1e8)
+>>>
+>>> BUT the mtk_iommu_v1.c only supports arm32, the probing flow still is a bit
+>>> weird. We always expect create the fwspec internally. otherwise it will
+>>> enter here and return fail.
+>>>
+>>> static int mtk_iommu_create_mapping(struct device *dev,
+>>> 				    struct of_phandle_args *args)
+>>> {
+>>>          ...
+>>> 	if (!fwspec) {
+>>> 	        ....
+>>> 	} else if (dev_iommu_fwspec_get(dev)->ops != &mtk_iommu_ops) {
+>>>                  >>>>>>>>>>Enter here. return fail.<<<<<<<<<<<<
+>>> 		return -EINVAL;
+>>> 	}
+>>> 	...
+>>> }
+>>>
+>>> Thus, Free the existed fwspec if the master device already has fwspec.
+>>>
+>>> This issue is reported at:
+>>> https://lore.kernel.org/linux-mediatek/trinity-7d9ebdc9-4849-4d93-bfb5-429dcb4ee449-1626253158870@3c-app-gmx-bs01/
+>>>
+>>> Reported-by: Frank Wunderlich <frank-w@public-files.de>
+>>> Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
+>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>> Acked-by: Joerg Roedel <jroedel@suse.de>
+>>> Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>> ---
+>>>   drivers/iommu/mtk_iommu_v1.c | 9 +++++++++
+>>>   1 file changed, 9 insertions(+)
+>>>
+>>> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+>>> index be22fcf988ce..1467ba1e4417 100644
+>>> --- a/drivers/iommu/mtk_iommu_v1.c
+>>> +++ b/drivers/iommu/mtk_iommu_v1.c
+>>> @@ -425,6 +425,15 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+>>>   	struct mtk_iommu_data *data;
+>>>   	int err, idx = 0;
+>>>   
+>>> +	/*
+>>> +	 * In the deferred case, free the existed fwspec.
+>>> +	 * Always initialize the fwspec internally.
+>>> +	 */
+>>> +	if (fwspec) {
+>>> +		iommu_fwspec_free(dev);
+>>> +		fwspec = dev_iommu_fwspec_get(dev);
+>>> +	}
+>>> +
+>>>   	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
+>>>   					   "#iommu-cells",
+>>>   					   idx, &iommu_spec)) {
+>>
+>>
+>>
+>> Thanks,
+>> Mauro
+> 
+> 
+> 
+> Thanks,
+> Mauro
