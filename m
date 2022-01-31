@@ -2,96 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CC74A4FB1
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 20:48:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E86B4A4FED
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 21:12:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57C7010E3D3;
-	Mon, 31 Jan 2022 19:48:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DFC410E135;
+	Mon, 31 Jan 2022 20:12:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2048.outbound.protection.outlook.com [40.107.220.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFFAC10E38C;
- Mon, 31 Jan 2022 19:48:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QNMLpyo8SDioMDh9dCwOdBqvECAikg/N99PGQVYu7bDdIHMvliAOK3X9l1ogjGAOXJPpX88/YBtEWS+RVIPm41NtqGBVrStva30tjV6gR/ILRY3Hf8jyQM4p9BKlYK+IT9KfJNPnQ2FBLuqacqsKR2FJj7fksHgo5hdfKjtjLUGFXYy5mkecb7ji6Hq16LXC3ObR74nnSfIbUFRlsYJ6uyr70+6MMEofk3rcseqPPEwJ0++6IGZUAi6u0jAEzpgBBV6yMmuSc89wns7d0j794ck/LIPGs+qokE9WFVQnsiRB5mI0usD/YQAKuTgfhhYBGbl+N8CetGTy0XM54mk3Sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p+YaAMhQyNsAqVFJAT/Ctx16/U5d3CdfKVLSeHIp9i0=;
- b=ejMsyNMDqqAG+oAdN/EUDD/UCVMyjxPJQGQukjO6BhRGluMQDAveiHfuNIT1DO0fFaqbL1+L9U6QIM442m4BfwGgGdGbcFQYpMcTlZAu97PNU2bUvqdcrBMEs7v9fPJuQbyr64/cFdf7O7Kqa5pERP37QcBDw4Kd5Fhr5Q84XfvAgw6Gh4sfPNjv/DJqkkmsmBI2i7GeUUC4C2fMpPuFCo+CAUqE/4Baoc4kb2qhfKX+R7v03zp5VuRFflpPqrWAdCjFTBXZokrn7ghBo1ypFB27j+WF6y93GQchq275lk/1qef1W5PLqDFZNbqy2XMWt3CN3uvYQtnbORpAzyiNGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux-foundation.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p+YaAMhQyNsAqVFJAT/Ctx16/U5d3CdfKVLSeHIp9i0=;
- b=R1FIkcb3j922mLTCmHHtE0KaZRyrHTWGiG73cjJA3FW4nzSw/YNCQeCUIFvKrp++6BkTUIZyLJ8longVN1rXITWURbif9atiIVxmoyiFRSH8Bf4fUUOOYpSwWi+HwpnMNGcyAkYE1edpf0EJq+E0sfswUdERG/5/nbWDKbE4Shs=
-Received: from BN9P222CA0015.NAMP222.PROD.OUTLOOK.COM (2603:10b6:408:10c::20)
- by DM6PR12MB4636.namprd12.prod.outlook.com (2603:10b6:5:161::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15; Mon, 31 Jan
- 2022 19:48:38 +0000
-Received: from BN8NAM11FT045.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:10c:cafe::95) by BN9P222CA0015.outlook.office365.com
- (2603:10b6:408:10c::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15 via Frontend
- Transport; Mon, 31 Jan 2022 19:48:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT045.mail.protection.outlook.com (10.13.177.47) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4930.15 via Frontend Transport; Mon, 31 Jan 2022 19:48:38 +0000
-Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 31 Jan
- 2022 13:48:36 -0600
-From: Alex Sierra <alex.sierra@amd.com>
-To: <akpm@linux-foundation.org>, <Felix.Kuehling@amd.com>,
- <linux-mm@kvack.org>, <rcampbell@nvidia.com>, <linux-ext4@vger.kernel.org>,
- <linux-xfs@vger.kernel.org>
-Subject: [PATCH] mm: add device coherent vma selection for memory migration
-Date: Mon, 31 Jan 2022 13:48:13 -0600
-Message-ID: <20220131194813.31779-1-alex.sierra@amd.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220128200825.8623-3-alex.sierra@amd.com>
-References: <20220128200825.8623-3-alex.sierra@amd.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4A810E17E
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 20:12:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643659964;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cCZTFH2Jz9n7CnT5wyJgHCMwnAI//gCfT+1J887Hbp8=;
+ b=IvwX+Jq+EmdNKoAc1BseI72fa5I+rcqnmLaJmc1I639J2LgOG1Tn4GrAjTUgxMS7dzU6bX
+ r/m1OwjMZ5OvWKMUFszgaZkxgqwgwtAgNeaTTxmWOLwi3zO0/1H2VuKS/4DEMmMwi3XwWs
+ 6pL8135r2V2A/4TMVvMeO3KKyzEOEz0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-461-vr2TlQprM6Wh9OMzWnSwKQ-1; Mon, 31 Jan 2022 15:12:40 -0500
+X-MC-Unique: vr2TlQprM6Wh9OMzWnSwKQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j18-20020a05600c1c1200b0034aeea95dacso116980wms.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 12:12:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cCZTFH2Jz9n7CnT5wyJgHCMwnAI//gCfT+1J887Hbp8=;
+ b=n51D9RURvjgSHXl9LQUWWXS3e0dAmNlsis1mzsrUfflAfF2/0rhWU6WE0V3uhutUiV
+ Y3mUxsB0M4LK9bsSotEsE6PSK8wTObXYSrYw6A/a/x8Jok1GqAA6uT1hPf3Uy4+0M91m
+ ilx2Lxz27QgGeQ0VldMXfpMxVcPZLU/sewUd5U0bCwmNVPoxwiWnbi0XXtOPKisqV5JT
+ jOAESYFngsIdyXePUfg8RGKW/O9OVGtbvpw0/zAN5BcXqvSSPCi2kVGfBNa3nQGvgH7Z
+ AgrvAxAC1RXh6QybauAA8wFGT2dwl4PlNTUSHAR0aWOXAbrvbn3ZtOttRoMIs8SoOZn0
+ TODQ==
+X-Gm-Message-State: AOAM531aVXjs+V+8PaNixbG3cfmzwgWW3Tjxus8tDy7HhmCP4JujsML5
+ y1wePtIz5MNS9c3ZxjvMbXT9tIhaHOeciOzpZC7hU/6u9Nh6TzoqB1Ci60GaCZeHrDRjtOAWWIO
+ Srs+ea0O969XRPEDUsT6nmyfogB5y
+X-Received: by 2002:a05:600c:358d:: with SMTP id
+ p13mr8847548wmq.107.1643659958848; 
+ Mon, 31 Jan 2022 12:12:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVR5gg/GkWjplwAp2GCFjYULewNFaqtbWuaY9/kEdRUVdrcLHpHcgr6Utqd0EVs24QXTKHkA==
+X-Received: by 2002:a05:600c:358d:: with SMTP id
+ p13mr8847515wmq.107.1643659958507; 
+ Mon, 31 Jan 2022 12:12:38 -0800 (PST)
+Received: from minerva.home ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id i9sm15124660wry.32.2022.01.31.12.12.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Jan 2022 12:12:38 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
+Date: Mon, 31 Jan 2022 21:12:20 +0100
+Message-Id: <20220131201225.2324984-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fa2ac444-f5a4-485a-7e60-08d9e4f2acc6
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4636:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4636CB1D025867DD4EDA4E94FD259@DM6PR12MB4636.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:635;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bcnZ3U3k6FFAUOiho7zeXnVLD76/+elJmQmlc0wHpdi5pW5Q33dBb28mJr6lM2ClakUeRuTGKBoJKWL+LqIWmPLplhePHLGgK2PoGfuc2IQoGAJBKQtIbt1Qa6QtIwFoEPCMq9FmXNFJQxTIthiycWin27FLRRoWyQXq/KBVbx212ZZDCM58tYEyGtiLrCrbLbh3tvr8iGPNeap4JR5c2c4KKUB3x6YppgqoQ5XkQEqNRsWUCAwWOrUqHwNB/NobapcAn5FbgJzXZsQuFpMn3M6Wis7bxK7m3TEp2h5PGl/rjdqf3RnRXgvq8W3WaCuweRKjtvyj8zWyUys47Opvw0Gfn3fVAL2lT+vZ/0D/8JcLgeNS0enOw9VwKM9lyYTWUG+1qtu1dGX9F0ZenpouKsKeyCAsII23rULyyOyPPhpY/v54go3B5LiqWl11nRPTyaJNG9GnFvREjSqvOWAaKMiJgeb3n7IjCyBlInq+M7kBSuGNymW9X3qH3h4L2Gewuk0RBQyqzjWyEdjGk2dw5XvsXbIsDsf285YXNx0ZWxdAWkxJIZtQ4iRVoJBeaFEJkR55MW3SNhM2DnVEgOxwniSxVF54XhXUn2H77g+1ETUehZuxkUWs5pTOKg4iCOSPM9WiIMohrq8qNz+J9yEQyU22iX/WYBrxycn8qf8TY5TK5RzmrIH8GX7mWlZthUaUHCGeKzv0rbLOti3DY0EuJQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(44832011)(6666004)(54906003)(7416002)(7696005)(1076003)(70206006)(70586007)(26005)(16526019)(508600001)(5660300002)(40460700003)(2616005)(336012)(426003)(316002)(186003)(110136005)(36756003)(36860700001)(86362001)(4326008)(81166007)(2906002)(8936002)(82310400004)(8676002)(83380400001)(47076005)(356005)(36900700001)(20210929001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2022 19:48:38.0762 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa2ac444-f5a4-485a-7e60-08d9e4f2acc6
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT045.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4636
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,66 +80,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: willy@infradead.org, apopple@nvidia.com, dri-devel@lists.freedesktop.org,
- jglisse@redhat.com, amd-gfx@lists.freedesktop.org, jgg@nvidia.com, hch@lst.de
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Mark Brown <broonie@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This case is used to migrate pages from device memory, back to system
-memory. Device coherent type memory is cache coherent from device and CPU
-point of view.
+This patch series adds a DRM driver for the Solomon OLED SSD1305, SSD1306,
+SSD1307 and SSD1309 displays. It is a port of the ssd1307fb fbdev driver.
 
-Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
----
-v2:
-condition added when migrations from device coherent pages.
----
- include/linux/migrate.h |  1 +
- mm/migrate.c            | 12 +++++++++---
- 2 files changed, 10 insertions(+), 3 deletions(-)
+Using the DRM fb emulation, all the tests from Geert Uytterhoeven's fbtest
+(https://git.kernel.org/pub/scm/linux/kernel/git/geert/fbtest.git) passes:
 
-diff --git a/include/linux/migrate.h b/include/linux/migrate.h
-index db96e10eb8da..66a34eae8cb6 100644
---- a/include/linux/migrate.h
-+++ b/include/linux/migrate.h
-@@ -130,6 +130,7 @@ static inline unsigned long migrate_pfn(unsigned long pfn)
- enum migrate_vma_direction {
- 	MIGRATE_VMA_SELECT_SYSTEM = 1 << 0,
- 	MIGRATE_VMA_SELECT_DEVICE_PRIVATE = 1 << 1,
-+	MIGRATE_VMA_SELECT_DEVICE_COHERENT = 1 << 2,
- };
- 
- struct migrate_vma {
-diff --git a/mm/migrate.c b/mm/migrate.c
-index cd137aedcfe5..69c6830c47c6 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -2264,15 +2264,21 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
- 			if (is_writable_device_private_entry(entry))
- 				mpfn |= MIGRATE_PFN_WRITE;
- 		} else {
--			if (!(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
--				goto next;
- 			pfn = pte_pfn(pte);
--			if (is_zero_pfn(pfn)) {
-+			if (is_zero_pfn(pfn) &&
-+			    (migrate->flags & MIGRATE_VMA_SELECT_SYSTEM)) {
- 				mpfn = MIGRATE_PFN_MIGRATE;
- 				migrate->cpages++;
- 				goto next;
- 			}
- 			page = vm_normal_page(migrate->vma, addr, pte);
-+			if (page && !is_zone_device_page(page) &&
-+			    !(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
-+				goto next;
-+			else if (page && is_device_coherent_page(page) &&
-+			    (!(migrate->flags & MIGRATE_VMA_SELECT_DEVICE_COHERENT) ||
-+			     page->pgmap->owner != migrate->pgmap_owner))
-+				goto next;
- 			mpfn = migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
- 			mpfn |= pte_write(pte) ? MIGRATE_PFN_WRITE : 0;
- 		}
+     ./fbtest -f /dev/fb1
+    Using drawops cfb32 (32 bpp packed pixels)
+    Available visuals:
+      Monochrome
+      Grayscale 256
+      Truecolor 8:8:8:0
+    Using visops truecolor
+    Running all tests
+    test001: PASSED
+    test002: PASSED
+    test003: PASSED
+    test004: PASSED
+    test005: PASSED
+    test006: PASSED
+    test008: PASSED
+    test009: PASSED
+    test010: PASSED
+    Benchmarking... 10x10 squares: 412.99 Mpixels/s
+    Benchmarking... 20x20 squares: 857.46 Mpixels/s
+    Benchmarking... 50x50 squares: 1593.51 Mpixels/s
+    test012: PASSED
+    Benchmarking... R5 circles: 237.07 Mpixels/s
+    Benchmarking... R10 circles: 501.24 Mpixels/s
+    Benchmarking... R25 circles: 947.86 Mpixels/s
+    test013: PASSED
+
+Patch #1 adds an I2C connector type since currently there isn't one and
+I2C drivers use DRM_MODE_CONNECTOR_Unknown or DRM_MODE_CONNECTOR_VIRTUAL.
+
+Patch #2 adds a drm_fb_gray8_to_mono_reversed() DRM format helper since
+most DRM/KMS user-space don't support bpp 1 displays, so drivers expose
+a common format that's converted to greyscale and then to monochrome.
+
+Patch #3 adds the driver. The name ssd1307 was used instead of ssd130x
+(which would be more accurate) to avoid confusion for users who want to
+migrate from the existing ssd1307fb fbdev driver.
+
+Patch #4 just adds a MAINTAINERS entry for this new DRM driver.
+
+Best regards,
+Javier
+
+
+Javier Martinez Canillas (4):
+  drm: Add I2C connector type
+  drm/format-helper: Add drm_fb_gray8_to_mono_reversed()
+  drm/tiny: Add driver for Solomon SSD1307 OLED displays
+  MAINTAINERS: Add entry for Solomon SSD1307 OLED displays DRM driver
+
+ MAINTAINERS                         |   7 +
+ drivers/gpu/drm/drm_connector.c     |   1 +
+ drivers/gpu/drm/drm_format_helper.c |  35 +
+ drivers/gpu/drm/tiny/Kconfig        |  12 +
+ drivers/gpu/drm/tiny/Makefile       |   1 +
+ drivers/gpu/drm/tiny/ssd1307.c      | 976 ++++++++++++++++++++++++++++
+ include/drm/drm_format_helper.h     |   2 +
+ include/uapi/drm/drm_mode.h         |   1 +
+ 8 files changed, 1035 insertions(+)
+ create mode 100644 drivers/gpu/drm/tiny/ssd1307.c
+
 -- 
-2.32.0
+2.34.1
 
