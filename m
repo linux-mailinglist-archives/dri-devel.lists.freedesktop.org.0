@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDDA4A4E13
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 19:24:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4125A4A4E84
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 19:37:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A08F10E393;
-	Mon, 31 Jan 2022 18:24:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C0110E2C8;
+	Mon, 31 Jan 2022 18:36:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE6BF10E393
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 18:24:40 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id q8so13842691oiw.7
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 10:24:40 -0800 (PST)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E11810E2C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 18:36:53 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ s2-20020a17090ad48200b001b501977b23so626pju.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 10:36:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=r9mPaFEJk4glaPEfbstkf6mGQAvnXTOz75yKFh769Xs=;
- b=JDl52j304GonUugjmEz7Oj8bVrx7wZrIhVuZL8MQTQFuL/8MFLOWZcd/OaTmOicGVM
- 824qZZU1lzNgpSPyKP8OVtZyrtC6NXu4WzFAm4zX/p4zjsWKbGKCmlzQZZmt5THva4bj
- Siy/ZQyep4uJp7mMKwtyshkyo761rcOBDf0JYn3bGDmLmlllLNpAFdUlJN6bzrcRzsAu
- OcLwjwA7iY8UYptOVr/wqI+Z8ixONiaFXDa4jkPOnn1KTdy8JG8bZ8Qea4rIVO6oPCIl
- MUNHoHOW+cjY2YzosAlC/gpuT2/ut7qLxpQIQWg5UeEG9jRiuQuKwV8ZdHYQmsBPx5gu
- Y9aw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jVP1HoXA+fkjiP7dYZEx1JX7fEwo0mBNJ8T54jUWwpw=;
+ b=XfhmwR2k8wqx6HUMq6ZupVxiE0Wdd7dCjnqYGD7rZZuDiyRZFhEpyT3IU+nyUz+Tge
+ qPQCJxrP3ecoE6CXTV5vRrCVepB8RHbRptQtQf4d/GUg9z/3fpFD25W6GclQxbGIpkmf
+ P4kYt8Xw+mhsiezNivRxgw1rhC63mmCkzWeRLJgKciEaPpsWmQNpJ9Bj/Z0es+p9rUfI
+ 5FZ7kFPCUwATfhF6oKx8iM7CM1Hn9Qo7776Vnjtil3VXt80RvtUziCWWkwHa1uonkDkc
+ B8NioUeunqVoGvNGpm8YeeroaXqZ5ijGO5nHrcqIIs/Yf6RL/DOUlREz30cV1arb7fLl
+ +T0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=r9mPaFEJk4glaPEfbstkf6mGQAvnXTOz75yKFh769Xs=;
- b=ZkfcMi9ILDiP0SGHG43yO2wIJxDVcdah8Ozl5CGX8yY7x2WJ+UmGzO+7DrubO8Iz0R
- 4QcXwP09KtmQtZ7qJ3YucdF1WlojtQb8NSNOYUv6Oq+WmIdysBmhXK8PsqwKZ0CwbOvO
- BsMGsxKcXo84Ot1hIL+Fswog+6q18wuis7rtNEjm4qZw3PNDrRRoi/TI3HPKKsqCMe+p
- SI3+Zudtm3AjycCYzmU/2tJumxehaT/AesZqWa0g/6eRJnyZa1V/RSEzyO04jxepcltM
- CIel4yyHvdA+WIs5q9j9yHZZ52FTrzP8TzGxsKQs9LRrj2NrC0HWNG9iiSUlxhcDAoDR
- 3Riw==
-X-Gm-Message-State: AOAM532Z7kG/2ncb9AYrYna74/ClJVVxvzS/p0vSyMM7IxIo3HsDt+vo
- nVenJCp7tqR7Fn5+2bzeKd9ooy+QU/MJew==
-X-Google-Smtp-Source: ABdhPJzRbaJTu1CP/oi40yx3UKog6K9CaXVPNvF0Yk99zoOH4j6nXYBHdOpoDVHpkUDPo4bBKQ8nsA==
-X-Received: by 2002:a05:6808:bca:: with SMTP id
- o10mr9686870oik.58.1643653479922; 
- Mon, 31 Jan 2022 10:24:39 -0800 (PST)
-Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
- by smtp.gmail.com with ESMTPSA id y19sm3273722oti.49.2022.01.31.10.24.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 10:24:39 -0800 (PST)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- agross@kernel.org, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- robh+dt@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/4] arm: dts: qcom: sc7280: Add display DT nodes for
- sc7280
-Date: Mon, 31 Jan 2022 12:24:27 -0600
-Message-Id: <164365345128.3009281.17096332459054539007.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <1640361793-26486-1-git-send-email-quic_sbillaka@quicinc.com>
-References: <1640361793-26486-1-git-send-email-quic_sbillaka@quicinc.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jVP1HoXA+fkjiP7dYZEx1JX7fEwo0mBNJ8T54jUWwpw=;
+ b=qHsQS+m/ok78MsIeNYNGROhzLCu6OQMMHO49AzY1luJq9mgFmQJnYPQvwFR5Wv1RMD
+ p2WuwrHq3YGZH1SzScCesBbebCLwzIhbLn9SHrpbzalA4rRwGZbCrEUOn+1dIryOTjsq
+ M0sr8RAgccOLTXlOXb1CofWbblSLA5fXpE/U9xm0+S5D6bt+z3DBYB7wP2hnoQtUM+0M
+ OmEUlS/ECbg3DhSPKJo16aj0l0VDKh8kne+nz/4B4rpyo3tCozKxoCfaiwH085Mdw8I5
+ XcNLmiz1eL3HSwMrSbiCVzsw/nd9PlYhMTOua50j2GjpwNs8Ib+ZqHPUeVHmFSA8vxFK
+ 7IZA==
+X-Gm-Message-State: AOAM531E1Bl1v4tOuoOkjRXeS0FdSHuI+LoDpMTlDQpDeHt9Ft01ncDS
+ BDG+8jVpFNJxO+/GbFcRMTg6URKMoz4gBSfjpe2jnw==
+X-Google-Smtp-Source: ABdhPJxCbA+UQG5DBRt46s+7C8j0EEXnshLl5hVCa52l6TVZnQPrsgHmMu98JhjPS4p0imQZYu4Q5i9X4KXBxLVSHgg=
+X-Received: by 2002:a17:90b:1802:: with SMTP id
+ lw2mr26223360pjb.232.1643654213164; 
+ Mon, 31 Jan 2022 10:36:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20220114091502.333083-1-allen.chen@ite.com.tw>
+ <f4696a8d-5c1d-1007-7814-b2e6cbe334ae@collabora.com>
+ <CAG3jFytN9iu0BteAxFCLVRorxM20Q3Zrfn1T4k8bnDYy5oL7bg@mail.gmail.com>
+ <CAJMQK-i6M1hwESSA5OJ6TpdBBBEG8K9esSbLv-Xjb_zqCoB5ug@mail.gmail.com>
+In-Reply-To: <CAJMQK-i6M1hwESSA5OJ6TpdBBBEG8K9esSbLv-Xjb_zqCoB5ug@mail.gmail.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 31 Jan 2022 19:36:41 +0100
+Message-ID: <CAG3jFyvgvfjo-HgL8wWWXtaoJvUupd2zJt=neVJZn5uVESyZFA@mail.gmail.com>
+Subject: Re: [PATCH v11] drm/bridge: add it6505 driver
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,34 +66,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, dianders@chromium.org, quic_abhinavk@quicinc.com,
- swboyd@chromium.org, quic_mkrishn@quicinc.com, seanpaul@chromium.org,
- quic_khsieh@quicinc.com
+Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
+ allen <allen.chen@ite.com.tw>, Hermes Wu <Hermes.Wu@ite.com.tw>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@google.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 24 Dec 2021 21:33:09 +0530, Sankeerth Billakanti wrote:
-> Add display devicetree support for sc7280 platform.
-> 
-> Krishna Manikandan (1):
->   arm64: dts: qcom: sc7280: add display dt nodes
-> 
-> Kuogee Hsieh (1):
->   arm64: dts: qcom: sc7280: Add Display Port node
-> 
-> [...]
+On Mon, 31 Jan 2022 at 17:55, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>
+> On Tue, Feb 1, 2022 at 12:37 AM Robert Foss <robert.foss@linaro.org> wrote:
+> >
+> > On Thu, 20 Jan 2022 at 16:25, AngeloGioacchino Del Regno
+> > <angelogioacchino.delregno@collabora.com> wrote:
+> > >
+> > > Il 14/01/22 10:14, allen ha scritto:
+> > > > This adds support for the iTE IT6505.
+> > > > This device can convert DPI signal to DP output.
+> > > >
+> > > > From: Allen Chen <allen.chen@ite.com.tw>
+> > > > Tested-by: Hsin-yi Wang <hsinyi@chromium.org>
+> > > > Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
+> > > > Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
+> > > > ---
+> > > > v10 -> v11 : remove drm_bridge_new_crtc_state
+> > > > ---
+> > > >   drivers/gpu/drm/bridge/Kconfig      |    8 +
+> > > >   drivers/gpu/drm/bridge/Makefile     |    1 +
+> > > >   drivers/gpu/drm/bridge/ite-it6505.c | 3352 +++++++++++++++++++++++++++
+> > > >   3 files changed, 3361 insertions(+)
+> > > >   create mode 100644 drivers/gpu/drm/bridge/ite-it6505.c
+> > > >
+> > >
+> > > ...snip...
+> > >
+> > > > +static const struct of_device_id it6505_of_match[] = {
+> > > > +     { .compatible = "ite,it6505" },
+> > > > +     { }
+> > > > +};
+> > >
+> > > If you want to have a DT compatible and DT properties, you have to also add
+> > > dt-bindings (yaml) for this driver, otherwise, any SoC/device DT will fail
+> > > the dt binding check.... So, please, add that.
+> >
+> > Let me second this. A dt-binding is needed for this driver to be
+> > complete, it functions as both documentation and a way to test the DTS
+> > that use this device, so it is really important.
+> >
+> The binding seems to be accepted before the driver:
+> https://elixir.bootlin.com/linux/v5.16.4/source/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
 
-Applied, thanks!
+I completely missed that. In that case we're only missing the
+reviewed-by tag from someone.
 
-[1/4] arm64: dts: qcom: sc7280: add display dt nodes
-      commit: fcb68dfda5cbd816d27ac50c287833848874f61c
-[2/4] arm64: dts: qcom: sc7280: Add DSI display nodes
-      commit: 43137272f0bc5e05e4c4c6f7bfce017bfb9e16b5
-[3/4] arm64: dts: qcom: sc7280: add edp display dt nodes
-      commit: 25940788d170251373d8975d359706350818fa0f
-[4/4] arm64: dts: qcom: sc7280: Add Display Port node
-      commit: fc6b1225d20de0298a7b0e52eb3843d71e1992e8
-
-Best regards,
--- 
-Bjorn Andersson <bjorn.andersson@linaro.org>
+>
+> > >
+> > > For the driver by itself, though:
+> > >
+> > > Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> > >
+> > > > +
+> > > > +static struct i2c_driver it6505_i2c_driver = {
+> > > > +     .driver = {
+> > > > +             .name = "it6505",
+> > > > +             .of_match_table = it6505_of_match,
+> > > > +             .pm = &it6505_bridge_pm_ops,
+> > > > +     },
+> > > > +     .probe = it6505_i2c_probe,
+> > > > +     .remove = it6505_i2c_remove,
+> > > > +     .shutdown = it6505_shutdown,
+> > > > +     .id_table = it6505_id,
+> > > > +};
+> > > > +
+> > > > +module_i2c_driver(it6505_i2c_driver);
+> > > > +
+> > > > +MODULE_AUTHOR("Allen Chen <allen.chen@ite.com.tw>");
+> > > > +MODULE_DESCRIPTION("IT6505 DisplayPort Transmitter driver");
+> > > > +MODULE_LICENSE("GPL v2");
+> > > >
+> > >
