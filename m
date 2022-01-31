@@ -1,79 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DA54A532A
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 00:25:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBF94A5331
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 00:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A10C810E43F;
-	Mon, 31 Jan 2022 23:25:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE6010E451;
+	Mon, 31 Jan 2022 23:26:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40B6210E43F
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 23:25:03 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 187B910E452
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 23:26:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643671502;
+ s=mimecast20190719; t=1643671588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sOB8RYRPIuXt9XuC1duDz579Ebb678cvofpXB4sR8RI=;
- b=Rn23NxkCQunRrrSeTd7hGJhkH7SXnGY7iwt7V0xNmey1Kv1ixB9n6z7ALW1ifSMQkz2dYB
- +P35ftGTE1L2Uu9bO7Yq9Z5QyCgAxlsZhrbavxod2JOyclu64ZvhSB5stg8exvLYCc/EjT
- UM4MKZW64+wja7opxherNr8cI1p5p9k=
+ bh=YoObquMC1Y099gjHiKrPd1NW4/MPXx5uArpEcPqAfgo=;
+ b=SPVXVCFRbu3o/BAfrB9eB/IIHLwWnrBtM8ghgKXoWRx2qWbax/mDf4einrW/uWbzAzZTVD
+ BaYC7XtxARL1BCviJFXzaDcm3xAALKODHhKN4P0xkgXhVT9ihtHTUW0YE58qb2/HT0vwo4
+ jX7dvSrTmpnLl9fHi/74lJ4HpJsBxZ0=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546-OkuCcM2xNv-nbOKrsyU5Kw-1; Mon, 31 Jan 2022 18:25:00 -0500
-X-MC-Unique: OkuCcM2xNv-nbOKrsyU5Kw-1
+ us-mta-665-_fDyQPbsORKwumD5BIoivA-1; Mon, 31 Jan 2022 18:26:24 -0500
+X-MC-Unique: _fDyQPbsORKwumD5BIoivA-1
 Received: by mail-wm1-f71.google.com with SMTP id
- f7-20020a1cc907000000b0034b63f314ccso276828wmb.6
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 15:25:00 -0800 (PST)
+ n7-20020a1c7207000000b0034ec3d8ce0aso275714wmc.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 15:26:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=sOB8RYRPIuXt9XuC1duDz579Ebb678cvofpXB4sR8RI=;
- b=fdQ1VCV3l/VptZi37tdQoH9g13Mjzt9iOM9aEmMrfsTX84OtfCrBvIU2Jfa3ulzAIt
- hOJ00cVvv4bzvzCzVoooCDInacjT8fGkVFwIn0z0GvU7d6Q+Lp1r4FMCUsd8PRscK+f7
- c75Iv8D56d8gqUzJgeZTLSAD13pdV5PUXg+LDh7M6jvEcukMfte+Mnsz9OyHXKbe78Pn
- +MeRAtdqTxG0hGaIwUYiNjnzpLcFDXUgz1Yy11Or5ivnDASMlwa/KgVht6i3VEh9xMm/
- 3QgrPhUY++gVE4oj33ksleLomqAMW2bTKZdiwCL/xoJTqVIBrGbalFthbGx7HHMaV4Xn
- 4lfw==
-X-Gm-Message-State: AOAM530qLVRGo5lg3P7EG+rF1wz0wTsI4fXzP7NbjXWp0pxah/qX6bHK
- 2ezS57jf+uuGUfyxIOFnMDS/k8f3mM0yh1bqkOh6/UFSUIAyIRCBVvTVi0WxFSNwfhYekkS8/8Z
- Xcd3OwLaHun/lquUmu8D/my5Zbc0w
-X-Received: by 2002:a7b:c0d0:: with SMTP id s16mr20585928wmh.169.1643671499289; 
- Mon, 31 Jan 2022 15:24:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwXct5Vi006IAsnWX7pGg6l9TgY49Hkt7Zu/EEEoWSUyfvrEDOXAziQ+K8kEvGmrE5W4zQmHQ==
-X-Received: by 2002:a7b:c0d0:: with SMTP id s16mr20585920wmh.169.1643671499121; 
- Mon, 31 Jan 2022 15:24:59 -0800 (PST)
+ bh=YoObquMC1Y099gjHiKrPd1NW4/MPXx5uArpEcPqAfgo=;
+ b=xspUdDRUC0c7HCdd79PM0a1kqTeF/LRGzabvTheECkQP17bY//xbt2pMCXWa0KelK6
+ c5DyX4HUBHZayG68XX3rkKMspUkWmZJzhblerOF7R5TgtW4g7StVmx3qjlSa43QZXUcf
+ hZURaM3YtmkcQclcvnH03NaZf73ZPX2oeqXHiYMgCTUjtXVORKNhmCtHVaVRjVYhXvX7
+ sm6qEFy9wmvomd+2fBhhqrm8oQI2t4QUUlC9sEr+cEnrt4I+u9mzO2xJe020ClALSMiL
+ RyDCTnIDahlpiPkdMRL+tXTqTESHHJ3HAlvIFn53LNB2qqhJCaC6Uur6JPDjTAlj1lGy
+ n1ZA==
+X-Gm-Message-State: AOAM530KJ4oMnjfTB4TlvRIl169+bAgttrJOlrUc15LJEUNQEO0XQ68F
+ rLNcg1rErlTE6kdlIgS6qTrdXor4gGrupscTpcoQRzXQ8VqAMT+K9+xM5KLuiZR+JJT0e1VdYUF
+ hp8eLYJGNqiF1uve9yZ7W8tZw51zW
+X-Received: by 2002:a1c:440a:: with SMTP id r10mr20863798wma.142.1643671583666; 
+ Mon, 31 Jan 2022 15:26:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzvDyBUYLTU/L1b51CS4uxvaGJqLeLCo2c7D1CjSfutkqldhTLTiY2yHFXAdgxPYSuz6ErDnQ==
+X-Received: by 2002:a1c:440a:: with SMTP id r10mr20863790wma.142.1643671583508; 
+ Mon, 31 Jan 2022 15:26:23 -0800 (PST)
 Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id f13sm577284wmq.29.2022.01.31.15.24.57
+ by smtp.gmail.com with ESMTPSA id h4sm15500586wre.0.2022.01.31.15.26.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jan 2022 15:24:58 -0800 (PST)
-Message-ID: <9e9808c0-5a92-b2c3-c1c5-158608f49e6b@redhat.com>
-Date: Tue, 1 Feb 2022 00:24:57 +0100
+ Mon, 31 Jan 2022 15:26:23 -0800 (PST)
+Message-ID: <03ffaaa6-1a8c-68fa-dd17-1e6d0e1e4868@redhat.com>
+Date: Tue, 1 Feb 2022 00:26:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 4/4] MAINTAINERS: Add entry for Solomon SSD1307 OLED
- displays DRM driver
+Subject: Re: [PATCH 1/4] drm: Add I2C connector type
 To: Sam Ravnborg <sam@ravnborg.org>
-References: <20220131201537.2325487-1-javierm@redhat.com>
- <YfhKrznFzRmDcZa6@ravnborg.org>
+References: <20220131201225.2324984-1-javierm@redhat.com>
+ <20220131201225.2324984-2-javierm@redhat.com> <YfhMESTylI1NTKDg@ravnborg.org>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YfhKrznFzRmDcZa6@ravnborg.org>
+In-Reply-To: <YfhMESTylI1NTKDg@ravnborg.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,42 +85,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
  =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
  Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sam,
-
-Thanks a lot for your feedback.
-
-On 1/31/22 21:46, Sam Ravnborg wrote:
-> Hi Javier,
-> 
-> On Mon, Jan 31, 2022 at 09:15:37PM +0100, Javier Martinez Canillas wrote:
->> To make sure that tools like the get_maintainer.pl script will suggest
->> to Cc me if patches are posted for this driver.
+On 1/31/22 21:52, Sam Ravnborg wrote:
+> On Mon, Jan 31, 2022 at 09:12:21PM +0100, Javier Martinez Canillas wrote:
+>> There isn't a connector type for display controllers accesed through I2C,
+>> most drivers use DRM_MODE_CONNECTOR_Unknown or DRM_MODE_CONNECTOR_VIRTUAL.
 >>
->> Also include the Device Tree binding for the old ssd1307fb fbdev driver
->> since the new DRM driver was made compatible with the existing binding.
-> 
-> To avoid any confusion add yourself as Maintainer in the
-> solomon,ssd1307fb.yaml file too.
+>> Add an I2C connector type to match the actual connector.
+>>
+>> As Noralf Trønnes mentions in commit fc06bf1d76d6 ("drm: Add SPI connector
+>> type"), user-space should be able to cope with a connector type that does
+>> not yet understand.
+>>
+>> Tested with `modetest -M ssd1307 -c` and shows the connector as unknown-1.
+> I had expected unknown-21??
 >
 
-Agreed. You mentioned in another email though to diverge from the existing
-DT binding for ssd1307fb. If we decide to keep the backward compatibility
-then I'll add another patch to the set to list myself as a co-maintainer.
+As you pointed out in patch 3/4, I forgot to change DRM_MODE_CONNECTOR_Unknown
+to DRM_MODE_CONNECTOR_I2C after adding this patch...
  
-> With that done:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->
+>>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>> ---
 
 Thanks!
- 
+
 Best regards,
 -- 
 Javier Martinez Canillas
