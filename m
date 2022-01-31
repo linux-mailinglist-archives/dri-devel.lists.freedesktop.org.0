@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF5C44A402B
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 11:29:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C6E4A402C
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 11:29:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0FC10E7DD;
-	Mon, 31 Jan 2022 10:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DCB510EA4B;
+	Mon, 31 Jan 2022 10:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E309F10E7DD
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 10:29:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 859DB10E895
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 10:29:21 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1nETvR-0008WE-Oi; Mon, 31 Jan 2022 11:28:45 +0100
+ id 1nETvR-0008WF-Oj; Mon, 31 Jan 2022 11:28:45 +0100
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ore@pengutronix.de>)
- id 1nETvO-008Cbr-CS; Mon, 31 Jan 2022 11:28:42 +0100
+ id 1nETvO-008Cc0-Dc; Mon, 31 Jan 2022 11:28:42 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 1/5] ARM: dts: imx6dl-prtvt7: Add display and panel nodes
-Date: Mon, 31 Jan 2022 11:28:37 +0100
-Message-Id: <20220131102841.1955032-2-o.rempel@pengutronix.de>
+Subject: [PATCH v2 2/5] ARM: dts: imx6dl-prtvt7: Add missing tvp5150 video
+ decoder node
+Date: Mon, 31 Jan 2022 11:28:38 +0100
+Message-Id: <20220131102841.1955032-3-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220131102841.1955032-1-o.rempel@pengutronix.de>
 References: <20220131102841.1955032-1-o.rempel@pengutronix.de>
@@ -53,67 +54,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Robin van der Gracht <robin@protonic.nl>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Oleksij Rempel <o.rempel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  David Jander <david@protonic.nl>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Innolux G070Y2-T02 panel to the Protonic VT7 board.
+From: Robin van der Gracht <robin@protonic.nl>
 
 Signed-off-by: Robin van der Gracht <robin@protonic.nl>
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- arch/arm/boot/dts/imx6dl-prtvt7.dts | 47 +++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ arch/arm/boot/dts/imx6dl-prtvt7.dts | 42 +++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
 diff --git a/arch/arm/boot/dts/imx6dl-prtvt7.dts b/arch/arm/boot/dts/imx6dl-prtvt7.dts
-index 190d26642bc8..be7c4cb339e7 100644
+index be7c4cb339e7..baaa6ffc4df9 100644
 --- a/arch/arm/boot/dts/imx6dl-prtvt7.dts
 +++ b/arch/arm/boot/dts/imx6dl-prtvt7.dts
-@@ -28,6 +28,30 @@ backlight_lcd: backlight-lcd {
- 		power-supply = <&reg_bl_12v0>;
- 	};
- 
-+	display {
-+		compatible = "fsl,imx-parallel-display";
-+		pinctrl-0 = <&pinctrl_ipu1_disp>;
-+		pinctrl-names = "default";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			display_in: endpoint {
-+				remote-endpoint = <&ipu1_di0_disp0>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			display_out: endpoint {
-+				remote-endpoint = <&panel_in>;
-+			};
-+		};
-+	};
-+
- 	keys {
- 		compatible = "gpio-keys";
- 		autorepeat;
-@@ -135,6 +159,18 @@ led-debug0 {
+@@ -6,6 +6,7 @@
+ /dts-v1/;
+ #include "imx6dl.dtsi"
+ #include "imx6qdl-prti6q.dtsi"
++#include <dt-bindings/display/sdtv-standards.h>
+ #include <dt-bindings/input/input.h>
+ #include <dt-bindings/leds/common.h>
+ #include <dt-bindings/sound/fsl-imx-audmux.h>
+@@ -171,6 +172,18 @@ panel_in: endpoint {
  		};
  	};
  
-+	panel {
-+		compatible = "innolux,g070y2-t02";
-+		backlight = <&backlight_lcd>;
-+		power-supply = <&reg_3v3>;
++	connector {
++		compatible = "composite-video-connector";
++		label = "Composite0";
++		sdtv-standards = <SDTV_STD_PAL_B>;
 +
 +		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&display_out>;
++			comp0_out: endpoint {
++				remote-endpoint = <&tvp5150_comp0_in>;
 +			};
 +		};
 +	};
@@ -121,26 +98,44 @@ index 190d26642bc8..be7c4cb339e7 100644
  	reg_bl_12v0: regulator-bl-12v0 {
  		compatible = "regulator-fixed";
  		pinctrl-names = "default";
-@@ -146,6 +182,13 @@ reg_bl_12v0: regulator-bl-12v0 {
- 		enable-active-high;
+@@ -295,6 +308,31 @@ sgtl5000: audio-codec@a {
+ 		VDDIO-supply = <&reg_3v3>;
+ 		VDDD-supply = <&reg_1v8>;
  	};
- 
-+	reg_3v3: regulator-3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
 +
- 	reg_1v8: regulator-1v8 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "1v8";
-@@ -275,6 +318,10 @@ &ipu1 {
- 	status = "okay";
++	video@5c {
++		compatible = "ti,tvp5150";
++		reg = <0x5c>;
++
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@0 {
++			reg = <0>;
++
++			tvp5150_comp0_in: endpoint {
++				remote-endpoint = <&comp0_out>;
++			};
++		};
++
++		/* Output port 2 is video output pad */
++		port@2 {
++			reg = <2>;
++
++			tvp5151_to_ipu1_csi0_mux: endpoint {
++				remote-endpoint = <&ipu1_csi0_mux_from_parallel_sensor>;
++			};
++		};
++	};
  };
  
-+&ipu1_di0_disp0 {
-+	remote-endpoint = <&display_in>;
+ &i2c3 {
+@@ -322,6 +360,10 @@ &ipu1_di0_disp0 {
+ 	remote-endpoint = <&display_in>;
+ };
+ 
++&ipu1_csi0_mux_from_parallel_sensor {
++	remote-endpoint = <&tvp5151_to_ipu1_csi0_mux>;
 +};
 +
  &pwm1 {
