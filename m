@@ -1,68 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652A84A4727
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 13:29:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D32404A47FE
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 14:24:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B7EA10E344;
-	Mon, 31 Jan 2022 12:29:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8E2810E313;
+	Mon, 31 Jan 2022 13:24:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8181D10E3AE
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 12:29:55 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id s9so25060826wrb.6
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 04:29:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=XfDEtvQ/tzVD1YeBowq1DH94HINF3JBGxRgfDDz4P9Q=;
- b=W4NHjEA+9XVVL8xz6qTEqQvruINpNG1pl5p/yaTwPsUbqDWoTdwk6B90cytFkMTHZT
- lrQuJGMCrkrs3FC5BaobUmorxlxni/0C26+D4VsSXYqKlUY8Ar8xiHI3b74c2sMVkTLU
- gSKadOZdH4vnOVfaH7dEpE2s9zlDj36v/3eMYHeSfAyUcZJ1HDwwiM1nyWsQnV4O0yRb
- O1xd+UqJM3rUINASsACdI5OKMhaHlXLsyvVO9ERwrZUlIgIG7kIn8nF6cUlGtvVMzycp
- 83qu/fIP/2WVZAxPlTcZxmh9pHc3byTUiIOGNQbWxrf5VMQI0tURoHxAzof9DE6mx1vg
- FIAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=XfDEtvQ/tzVD1YeBowq1DH94HINF3JBGxRgfDDz4P9Q=;
- b=oADrccU/Hl9/TmYO+Gp746L1OI/urxiRTh4Fni83OgKm0zMOneOPGl2OHdwgfsx4Ez
- tj3Se0xjgnjsuNZ81f/5RWE7uBTh1QDFUCjyitCTyYGB5CzfIdJaFR6FL5cFDPOr1C31
- Fgx80/p6roxZovr+CutnHG2uGY/IiYDwb1wgq+ieRZcy5UZ3gqjlPyKxGLDVbyJZI36a
- pWxtjR9w4/91LzQQlPrO6O029P7l+gzzLpzcJZIx8Hy4cGgWdg9Jf+yGlt6ymlNqn658
- u4dc4hZMGDxNntn8IEagyXtUbBHCeNKTHUJOSgHBxpCbgRS7laKkgICZpRQMld6XkfbR
- +txA==
-X-Gm-Message-State: AOAM530lOf+o4pQogtfu44U7Run2E13y1z5yr6BFk7bDHqoSJQmkvo1T
- 5XeK7N5LBcDPITAOV6+PsOo=
-X-Google-Smtp-Source: ABdhPJwKPAOlfE8A7dNEWpNDKJVV/rApo0lar6YbP+IVu/WUEb/GzeZxyimip5vdiaqDYs3eC4tjRQ==
-X-Received: by 2002:a05:6000:1548:: with SMTP id
- 8mr16792438wry.504.1643632193762; 
- Mon, 31 Jan 2022 04:29:53 -0800 (PST)
-Received: from [192.168.0.14] ([37.223.145.74])
- by smtp.gmail.com with ESMTPSA id m12sm13729547wrp.61.2022.01.31.04.29.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jan 2022 04:29:53 -0800 (PST)
-Message-ID: <5991ad51-4181-d445-284c-386447cffb95@gmail.com>
-Date: Mon, 31 Jan 2022 13:29:51 +0100
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5D2F10E2FE
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 13:24:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643635460; x=1675171460;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=yHSic1vnMAc/hHMVia9qRBO1wV44h4MkxxdP9b6Z+YQ=;
+ b=cQUiyUaaW/ZbvR2y6NqWWTMklvu6pziE44iQvK/+QTxyVg7uqhHI6MGV
+ jsuyxsCTDoGjjlZn/o8whjkGPOUbBBv6gSXKmQaMIp9zU6bqtyh1bUADa
+ 9QN+k/Wb4ns9HuRIEi48WEu2xdeszJRJXNFsGboAP8vG6nbefwhJ693L6
+ xrhAVLubLEK4eQjRt0678ZPf8o4DJFL1iWZ86dtFzwbX5VAVHQvgnKI2d
+ RgCIx8iGWiFSp/Fj2fT1atOwLHolN22SitsH7s1khoZ2faCIpgch1xteD
+ rS7gOWdo8w3inlH9B3eeJlv9+u4kyi7wXdEoaUoHGqFsQhOIRmWgdKL8D A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="246291306"
+X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; d="scan'208";a="246291306"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2022 05:24:20 -0800
+X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; d="scan'208";a="564995577"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2022 05:24:17 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nEWeH-00Gscc-0e; Mon, 31 Jan 2022 15:23:13 +0200
+Date: Mon, 31 Jan 2022 15:23:12 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
+Message-ID: <YffiwCiFnqF1X1pD@smile.fi.intel.com>
+References: <f671a112-880d-1526-a395-360947b40c5a@gmx.de>
+ <YfEv7OQs98O9wJdJ@kroah.com> <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
+ <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
+ <YfFV4EJosayH+e6C@smile.fi.intel.com>
+ <YfFWPmG2D093gz4N@smile.fi.intel.com>
+ <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
+ <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
+ <YffJujbpUGUqpIk/@smile.fi.intel.com>
+ <5a3fffc8-b2d8-6ac3-809e-e8e71b66a8ea@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v10 02/13] iommu/mediatek-v1: Free the existed fwspec if
- the master dev already has
-Content-Language: en-US
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Yong Wu <yong.wu@mediatek.com>
-References: <20220117070510.17642-1-yong.wu@mediatek.com>
- <20220117070510.17642-3-yong.wu@mediatek.com>
- <20220128134055.720bb43c@coco.lan> <20220128134540.00c6c380@coco.lan>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220128134540.00c6c380@coco.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5a3fffc8-b2d8-6ac3-809e-e8e71b66a8ea@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,136 +67,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- Will Deacon <will.deacon@arm.com>, dri-devel@lists.freedesktop.org,
- yf.wang@mediatek.com, Hans Verkuil <hverkuil@xs4all.nl>,
- anthony.huang@mediatek.com, youlin.pei@mediatek.com,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Evan Green <evgreen@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
- Matthias Kaehlcke <mka@chromium.org>, mingyuan.ma@mediatek.com,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- Joerg Roedel <jroedel@suse.de>, Frank Wunderlich <frank-w@public-files.de>,
- libo.kang@mediatek.com, yi.kuo@mediatek.com, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- anan.sun@mediatek.com, srv_heupstream@mediatek.com, acourbot@chromium.org,
- linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
+ Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jan 31, 2022 at 01:08:32PM +0100, Javier Martinez Canillas wrote:
+> On 1/31/22 12:36, Andy Shevchenko wrote:
+
+...
+
+> >> +config TINYDRM_SSD130X
+> >> +	tristate "DRM support for Solomon SSD130X OLED displays"
+> >> +	depends on DRM && OF && I2C
+> > 
+> > Please, make sure that it does NOT dependent on OF.
+> > 
+> 
+> I actually added this dependency deliberative. It's true that the driver is using
+> the device properties API and so there isn't anything from the properties parsing
+> point of view that depends on OF. And the original driver didn't depend on OF.
+> 
+> But the original driver also only would had worked with Device Trees since the
+> of_device_id table is the only one that contains the device specific data info.
+> 
+> The i2c_device_id table only listed the devices supported to match, but then it
+> would only had worked with the default values that are set by the driver.
+> 
+> So in practice it *does* depend on OF. I'll be happy to drop that dependency if
+> you provide an acpi_device_id table to match.
+
+The code is deceptive and you become to a wrong conclusion. No, the driver
+does NOT depend on OF as a matter of fact. The tricky part is the PRP0001
+ACPI PNP ID that allows to reuse it on ACPI-based platforms.
+
+That said, please drop OF dependency.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-On 28/01/2022 13:45, Mauro Carvalho Chehab wrote:
-> Em Fri, 28 Jan 2022 13:40:55 +0100
-> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
-> 
->> Hi Matthias/Yong,
->>
->> Are you ok if this patch gets merged via the media tree together with the
->> remaining series, or do you prefer to apply it via SoC tree instead?
-> 
-> Same questions for other patches touching files outside drivers/media
-> on this pull request:
-> 
-> 	https://patchwork.kernel.org/project/linux-mediatek/patch/7af52d61-47c7-581d-62ed-76a7f8315b16@xs4all.nl/
-> 
-
-Looks good to me.
-
-Please let me know once you accepted the pull request and I'll queue the DTS 
-related changes from this series.
-
-Regards,
-Matthias
-
-> Like those:
-> 	0004-0013-iommu-mediatek-v1-Free-the-existed-fwspec-if-the-mas.patch
-> 	0005-0013-iommu-mediatek-Return-ENODEV-if-the-device-is-NULL.patch
-> 	0006-0013-iommu-mediatek-Add-probe_defer-for-smi-larb.patch
-> 	0007-0013-iommu-mediatek-Add-device_link-between-the-consumer-.patch
-> 
-> Regards,
-> Mauro
-> 
->>
->> Regards,
->> Mauro
->>
->>
->> Em Mon, 17 Jan 2022 15:04:59 +0800
->> Yong Wu <yong.wu@mediatek.com> escreveu:
->>
->>> When the iommu master device enters of_iommu_xlate, the ops may be
->>> NULL(iommu dev is defered), then it will initialize the fwspec here:
->>>
->>> [<c0c9c5bc>] (dev_iommu_fwspec_set) from [<c06bda80>]
->>> (iommu_fwspec_init+0xbc/0xd4)
->>> [<c06bd9c4>] (iommu_fwspec_init) from [<c06c0db4>]
->>> (of_iommu_xlate+0x7c/0x12c)
->>> [<c06c0d38>] (of_iommu_xlate) from [<c06c10e8>]
->>> (of_iommu_configure+0x144/0x1e8)
->>>
->>> BUT the mtk_iommu_v1.c only supports arm32, the probing flow still is a bit
->>> weird. We always expect create the fwspec internally. otherwise it will
->>> enter here and return fail.
->>>
->>> static int mtk_iommu_create_mapping(struct device *dev,
->>> 				    struct of_phandle_args *args)
->>> {
->>>          ...
->>> 	if (!fwspec) {
->>> 	        ....
->>> 	} else if (dev_iommu_fwspec_get(dev)->ops != &mtk_iommu_ops) {
->>>                  >>>>>>>>>>Enter here. return fail.<<<<<<<<<<<<
->>> 		return -EINVAL;
->>> 	}
->>> 	...
->>> }
->>>
->>> Thus, Free the existed fwspec if the master device already has fwspec.
->>>
->>> This issue is reported at:
->>> https://lore.kernel.org/linux-mediatek/trinity-7d9ebdc9-4849-4d93-bfb5-429dcb4ee449-1626253158870@3c-app-gmx-bs01/
->>>
->>> Reported-by: Frank Wunderlich <frank-w@public-files.de>
->>> Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
->>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
->>> Acked-by: Joerg Roedel <jroedel@suse.de>
->>> Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>> ---
->>>   drivers/iommu/mtk_iommu_v1.c | 9 +++++++++
->>>   1 file changed, 9 insertions(+)
->>>
->>> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
->>> index be22fcf988ce..1467ba1e4417 100644
->>> --- a/drivers/iommu/mtk_iommu_v1.c
->>> +++ b/drivers/iommu/mtk_iommu_v1.c
->>> @@ -425,6 +425,15 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
->>>   	struct mtk_iommu_data *data;
->>>   	int err, idx = 0;
->>>   
->>> +	/*
->>> +	 * In the deferred case, free the existed fwspec.
->>> +	 * Always initialize the fwspec internally.
->>> +	 */
->>> +	if (fwspec) {
->>> +		iommu_fwspec_free(dev);
->>> +		fwspec = dev_iommu_fwspec_get(dev);
->>> +	}
->>> +
->>>   	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
->>>   					   "#iommu-cells",
->>>   					   idx, &iommu_spec)) {
->>
->>
->>
->> Thanks,
->> Mauro
-> 
-> 
-> 
-> Thanks,
-> Mauro
