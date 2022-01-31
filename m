@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6083B4A4927
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 15:15:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE054A4932
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 15:19:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E4A310E1B0;
-	Mon, 31 Jan 2022 14:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E0D210E408;
+	Mon, 31 Jan 2022 14:19:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F1C810E1B0
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 14:15:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643638537; x=1675174537;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=u2/KL+QczLeO5HW7c5Ow6qXPV61IYgm4mFoJmsrc6Pk=;
- b=euPANVErfJuw2sKH3ZztOZXngYzYdjrEbCR0RBuv/itrlMoFqt3YD8HG
- 4evnmCapT6SGb3NMvnDYlEw+i7LEDtnT4mO/QHE0K08SJa4/76kDZz0mv
- LEvYpBf0tLTebGv7xhBevEpZqzG64Bwd2FQkKZcUZvkMd8E4m3cXP12tf
- 4JNBTJDmBRcXy4IcOhX5EoVP8Z9AZGKHTNHmnGLwPeEIc6DFfeQT7ZZUi
- FkQNF04UQrppE+SRpLBt0TYysQ/WiSs1w+vfgZiNt84NUI6JkWXY/UrAF
- iwOnIzGtQvD4kkDEQ2WNYGfsWO0+f7DmtEI1+AXiHYO2sVNOBtLRQunDc g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="247683689"
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; d="scan'208";a="247683689"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 06:07:18 -0800
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; d="scan'208";a="522665965"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 06:07:14 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nEXJq-00GtM0-Jq; Mon, 31 Jan 2022 16:06:10 +0200
-Date: Mon, 31 Jan 2022 16:06:10 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-Message-ID: <Yffs0nuG3ElH1bNE@smile.fi.intel.com>
-References: <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
- <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
- <YfFV4EJosayH+e6C@smile.fi.intel.com>
- <YfFWPmG2D093gz4N@smile.fi.intel.com>
- <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
- <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
- <YffJujbpUGUqpIk/@smile.fi.intel.com>
- <5a3fffc8-b2d8-6ac3-809e-e8e71b66a8ea@redhat.com>
- <YffiwCiFnqF1X1pD@smile.fi.intel.com>
- <29ab99fb-d906-907b-e922-251ac72b25ef@redhat.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E42110E408;
+ Mon, 31 Jan 2022 14:19:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: bbeckett) with ESMTPSA id 72AFF1F43400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1643638782;
+ bh=zLq+h2tZmgDHu03aJieo+9a+SBgp6ZkVG1IliN7+T00=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=HXQz65hCvY9bYz8XKigKybbauo1roR4Gpy6vWmZ0gg/JcIkQNIonWTYmzrvchsUh6
+ vExlgOOLT7qrog05GTZA+nWclIkA8xtNVw5vbad/goid6fNpDQ3KFvfsiwjlKRCUQc
+ 4StIbeVfqOR2bSgmXUZi7Q2CDvI6N0A2zN5Q4ao5vA6gw/Qse/CMEKeVH4uxgDVkBA
+ cGs1RePfA6WC5eJNMsrJVk4D+3LsF+qItYH/msK6Caz9yu4V/nafHBlVarOPhY8+Vg
+ pC1rzQgfRVAJ19eGHWgQic9n08TVmouYfbUhxY/Jf0B6GHDs1UZe4kzCEJLjTHqk6u
+ qWS4MLmDJDZoA==
+Message-ID: <094b3a2d-0829-c34c-3a3d-e9639095f469@collabora.com>
+Date: Mon, 31 Jan 2022 14:19:40 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <29ab99fb-d906-907b-e922-251ac72b25ef@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [PATCH v5 1/5] drm/i915: add needs_compact_pt flag
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220125193530.3272386-1-bob.beckett@collabora.com>
+ <20220125193530.3272386-2-bob.beckett@collabora.com>
+ <6d0a57e7-daf7-6436-e806-7cc8794c2d50@shipmail.org>
+ <19bf8290-9308-b5c6-eb73-4020fa81aa66@collabora.com>
+ <ce91e091-0df1-5c4d-a070-7b82d74d3f42@shipmail.org>
+From: Robert Beckett <bob.beckett@collabora.com>
+In-Reply-To: <ce91e091-0df1-5c4d-a070-7b82d74d3f42@shipmail.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,45 +59,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
- Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 31, 2022 at 02:55:21PM +0100, Javier Martinez Canillas wrote:
-> On 1/31/22 14:23, Andy Shevchenko wrote:
-> > On Mon, Jan 31, 2022 at 01:08:32PM +0100, Javier Martinez Canillas wrote:
 
-...
 
-> > The tricky part is the PRP0001
-> > ACPI PNP ID that allows to reuse it on ACPI-based platforms.
+On 27/01/2022 09:37, Thomas Hellström (Intel) wrote:
 > 
-> Oh, I wasn't aware about PRP0001. I've read about it at:
+> On 1/26/22 18:11, Robert Beckett wrote:
+>>
+>>
+>> On 26/01/2022 13:49, Thomas Hellström (Intel) wrote:
+>>>
+>>> On 1/25/22 20:35, Robert Beckett wrote:
+>>>> From: Ramalingam C <ramalingam.c@intel.com>
+>>>>
+>>>> Add a new platform flag, needs_compact_pt, to mark the requirement of
+>>>> compact pt layout support for the ppGTT when using 64K GTT pages.
+>>>>
+>>>> With this flag has_64k_pages will only indicate requirement of 64K
+>>>> GTT page sizes or larger for device local memory access.
+>>>>
+>>>> Suggested-by: Matthew Auld <matthew.auld@intel.com>
+>>>> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+>>>> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+>>>> ---
+>>>>   drivers/gpu/drm/i915/i915_drv.h          | 10 +++++++---
+>>>>   drivers/gpu/drm/i915/i915_pci.c          |  2 ++
+>>>>   drivers/gpu/drm/i915/intel_device_info.h |  1 +
+>>>>   3 files changed, 10 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
+>>>> b/drivers/gpu/drm/i915/i915_drv.h
+>>>> index 44c1f98144b4..1258b7779705 100644
+>>>> --- a/drivers/gpu/drm/i915/i915_drv.h
+>>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
+>>>> @@ -1512,12 +1512,16 @@ IS_SUBPLATFORM(const struct drm_i915_private 
+>>>> *i915,
+>>>>   /*
+>>>>    * Set this flag, when platform requires 64K GTT page sizes or 
+>>>> larger for
+>>>> - * device local memory access. Also this flag implies that we 
+>>>> require or
+>>>> - * at least support the compact PT layout for the ppGTT when using 
+>>>> the 64K
+>>>> - * GTT pages.
+>>>
+>>> Why do we remove these comment lines?
+>> Because HAS_64K_PAGES now means just 64K page, it no longer means also 
+>> requires compact pt.
+>> This is to support other products that will have 64K but not have the 
+>> PDE non-sharing restriction in future.
+>>
+>> Those lines moved to the next change NEEDS_COMPACT_PT, which is now 
+>> separate.
 > 
-> https://www.kernel.org/doc/Documentation/acpi/enumeration.txt
+> Yes, NEEDS_COMPACT_PT indicates that compact is *required* but does 
+> "HAS_64K_PAGES" still mean compact is supported? That information is lost.
+Not any more.
+I discussed the ambiguity of the original wording with mauld on irc.
+We came to the conclusion that HAS_64K_PAGES should mean just that, that 
+the hw has support for 64K pages, and says nothing about compact-pt at all.
 
-Yep!
+NEEDS_COMPACT_PT means that the hw has compact-pt support and the driver 
+is required to use it as it is a hw limitation.
 
-The idea is that new drivers for discrete (and sometimes even on-SoC)
-components should be platform-agnostic (means no strict OF / ACPI
-dependencies), so anybody can prototype devices on either of the
-platforms.
+There will be other devices that can support compact-pt but do not 
+mandate its use. In this case, the current code would not use them, but 
+there is potential for some future opportunistic use of that in the 
+driver if desired (currently expected to include accelerated 
+move/clear). If any opportunistic use is added to the driver, a new flag 
+can be added along with the code that uses it to indicate compact-pt 
+availability that is not mandatory (HAS_COMPACT_PT most likely), but as 
+there is no code requiring it currently it should not be added yet, and 
+the comments left as this patch does.
 
-As a matter of fact IIO subsystem is leading in this by cleaning up
-most of the drivers towards that goal.
-
-OF/ACPI explicit dependency makes sense when we 100+% sure that
-IP in question won't ever appear on the other type of platform
-(which I believe is very rare nowadays for most of the components).
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> 
+> /Thomas
+> 
+> 
