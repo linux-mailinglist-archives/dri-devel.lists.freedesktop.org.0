@@ -1,67 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99144A3EAE
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 09:35:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9757A4A3E0D
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 08:04:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DC3D10F56C;
-	Mon, 31 Jan 2022 08:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 249C310E7D1;
+	Mon, 31 Jan 2022 07:04:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB8510E12B
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 22:01:58 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id ka4so29121344ejc.11
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jan 2022 14:01:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
+ Mon, 31 Jan 2022 07:04:07 UTC
+Received: from mx-lax3-1.ucr.edu (mx-lax3-1.ucr.edu [169.235.156.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7CA610E7D1
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 07:04:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
+ t=1643612648; x=1675148648;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=eEsk92A0ZXPnX2Ki88PFE3IgBq8wg+0W/+nONtlHHnA=;
+ b=X9+UIu5m1hI20VCj9tWabKh4TCaa6riVuyu9A9bXDFEb7DQWKe2jofi0
+ O+c5PFM9JGJZk11Oiix1hlXFMt1y7uL1N0yl8uZb2KQLA0wNsIU8dHRc/
+ /fQ/x7dnrJVfhVEZpOtIyM25HowJsvBGbztLn+JPDp5ulDtSPaRGm9mYl
+ J+X4EeTox1ezxaRvQLgPWgrgmy11N0aVtXlhDpUHafM+VCT4GfL+kK7bk
+ anbU5+cbIt6q9Zlku1euVS/GdqlYGn4eGOqeQzeEkjrLDOlP/U1NAqWDj
+ 1E5BFA8bmtCBbIwLoPNojDilkfdNMrYwmSSQDwpYjVEWioibhzQRK2Y6O w==;
+X-IronPort-AV: E=Sophos;i="5.88,330,1635231600"; d="scan'208";a="101198239"
+Received: from mail-pf1-f197.google.com ([209.85.210.197])
+ by smtp-lax3-1.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 30 Jan 2022 22:57:01 -0800
+Received: by mail-pf1-f197.google.com with SMTP id
+ m200-20020a628cd1000000b004c7473d8cb5so6978311pfd.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jan 2022 22:57:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucr.edu; s=rmail;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=yjUU9ER/vIEGLeysJCo+/yYTdTjRHWEWnfNYddtn3aA=;
- b=GasqK6RF2C1NLwNFKTrQaUjs2o8JvlWlPo88Gk33v2yX68jTVNTX8RuL9WeODxuYgI
- 0zVfdFLvDQ6Scm07F8G4M28CBxrFgmgzFCZN1YPFJOzIwEZtqfGnmpEunqvqASO6YJln
- Ync30uNDDbpnXWDLMpetV3oG0ExsqVaZqaLvT6dCXDjteTaouVkFwgpWOx4bV27QHNEy
- F7vqwf6ejDMbcH1ZrwJR177hpWXMzpm/Z3N3VNSo/1OHYAd9Bsz2df5sPio+OqhWcHZh
- LF/FInpELUZKeDEjeZyr1LsbNVfm1SYbnkZy0JFf+3/1ZopOuaeHe2zmd1Z9XxqiP/rV
- B77w==
+ bh=N9mTVzsHAHJ5mTM22d2IAe55DJRgo8Pr7F09OYCu4c4=;
+ b=dEYxCn3BfV+JihG8ONV/WUGd8IamJ2JvzSSyxN0Yc69fn81moYaQ7zA8iO84UMQDkP
+ uhUF08FkXagVOD5CW2tvG0POmWwZjo4ZdNbloTwew5BnwG9z64bC6i7JLYIlTLgUkphJ
+ +ztQFc98NYZfDzfi41jfdivXxHpiLrzU8f/cE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=yjUU9ER/vIEGLeysJCo+/yYTdTjRHWEWnfNYddtn3aA=;
- b=cngDmoiGYspRbgnhK198WvbKjc+8fU2VFtihguzvjIymnIJOqEIgWX8BZmg0HTyv/a
- jU0MQqOxSQwgv5yi8GXxTMq5EiItiIVeP0NTFEXrmlnDu10ywBBGpIyZJd+LV4aMY4ox
- NTPCYYi5pEdqdq7DdiF7uBODU+AsF7swEWAFe1G2JjuBvR7cBWJyf5qYDHZ/05AgQQOB
- I9+3/vq3ismWs7qHwINrUzmFHcQvQ9SMAwFBheUg0rKHwGOfpkjRHNokOOU13ZU6VSJA
- vQhDz2z+Fs/ITww/JkgZscBPKHrWv39HtqOfQc8gT919NKbXZ7K1dA8ee/us994/xPXq
- ndYg==
-X-Gm-Message-State: AOAM533zFnIv+jDXjXq5yB0s4yMnEkvueyr2nYTcaHHUNbFoU/CFT/lE
- 7ij1NxT3Isv8sk+b3GwS9y4=
-X-Google-Smtp-Source: ABdhPJyn9Tnz9SCtDypxoXBmZOjSdAvG+KAgXi0wQd7Ix3xNYlAf5Zop3ncrx+pbyhT4baltFFW5EQ==
-X-Received: by 2002:a17:907:94d2:: with SMTP id
- dn18mr4507899ejc.304.1643493716705; 
- Sat, 29 Jan 2022 14:01:56 -0800 (PST)
-Received: from adroid (027-177-184-091.ip-addr.vsenet.de. [91.184.177.27])
- by smtp.gmail.com with ESMTPSA id ry6sm3338861ejc.45.2022.01.29.14.01.54
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=N9mTVzsHAHJ5mTM22d2IAe55DJRgo8Pr7F09OYCu4c4=;
+ b=jDQMqFsE9Wl33DTz0TIl0GsmX8KXA8ioenV/jsd464wgFBnrrv88DrZbBHv9pBq5x+
+ DEJc0iTiwwJw12YjbroDM/5bRwwCBgG4RQjlLOMY5R10rPwWnyHf3PzYMIlhsgklwRi4
+ HYqtTFFTBTs4A8evyimi8WQ3jnWZ6P8Obm4LdruB5xzLk+xTgXTWlbBaesdwXTdqhlzV
+ ayR3n/no8ch+CTsj5ddhbupHaz5ix3MMfvAQc8Yrx7DcTTY7HaYRzvKsUZvO1uYVLluv
+ Mxu74pl/KF15WaL2Q6m7OHMSg7MuXI3eEejY53afel//2Gq1SyOLSe194cGds312Wtiq
+ jKUQ==
+X-Gm-Message-State: AOAM530c+xJnGKTf2YdGXDc6PVPM/eKydUystHqblokEpgVMCIWBBDkS
+ k0nbPKtmjxXq5KOGXDOSMlW8Fp0metVH/PkiDoQ4gozE5USwIB8wEY759IGg6KH9cZ6j6jNSr1/
+ ia/vdLLOBwRsKF1YZGjAemcgAp1fA6g==
+X-Received: by 2002:a05:6a00:1394:: with SMTP id
+ t20mr19171347pfg.70.1643612219931; 
+ Sun, 30 Jan 2022 22:56:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyYqb47bfhGvFHVqHFtNpiuYQ+NsZNuHIRbT+5N2iRk9p02bVcswfTGcUNfips3vZNzbIN8WQ==
+X-Received: by 2002:a05:6a00:1394:: with SMTP id
+ t20mr19171333pfg.70.1643612219691; 
+ Sun, 30 Jan 2022 22:56:59 -0800 (PST)
+Received: from kq.cs.ucr.edu (kq.cs.ucr.edu. [169.235.27.223])
+ by smtp.googlemail.com with ESMTPSA id h3sm9641434pfo.66.2022.01.30.22.56.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Jan 2022 14:01:56 -0800 (PST)
-Date: Sat, 29 Jan 2022 23:01:53 +0100
-From: Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>
-To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/exynos: fimd: add BGR support for exynos4/5
-Message-ID: <20220129220153.GA33165@adroid>
+ Sun, 30 Jan 2022 22:56:59 -0800 (PST)
+From: Yizhuo Zhai <yzhai003@ucr.edu>
+To: 
+Subject: [PATCH] fbdev: fbmem: Fix the implicit type casting
+Date: Sun, 30 Jan 2022 22:57:17 -0800
+Message-Id: <20220131065719.1552958-1-yzhai003@ucr.edu>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 31 Jan 2022 08:35:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,157 +85,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Zheyu Ma <zheyuma97@gmail.com>, linux-kernel@vger.kernel.org,
+ Matthew Wilcox <willy@infradead.org>, Yizhuo Zhai <yzhai003@ucr.edu>,
+ dri-devel@lists.freedesktop.org, Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the downstream kernels for exynos4 and exynos5 devices, there is an
-undocumented register that controls the order of the RGB output. It can
-be set to either normal order or reversed, which enables BGR support for
-those SoCs.
+In function do_fb_ioctl(), the "arg" is the type of unsigned long,
+and in "case FBIOBLANK:" this argument is casted into an int before
+passig to fb_blank(). In fb_blank(), the comparision
+if (blank > FB_BLANK_POWERDOWN) would be bypass if the original
+"arg" is a large number, which is possible because it comes from
+the user input.
 
-This patch enables the BGR support for all the SoCs that were found to
-have at least one device with this logic in the corresponding downstream
-kernels.
-
-Signed-off-by: Martin Jücker <martin.juecker@gmail.com>
+Signed-off-by: Yizhuo Zhai <yzhai003@ucr.edu>
 ---
- drivers/gpu/drm/exynos/exynos_drm_fimd.c | 42 ++++++++++++++++++++++--
- include/video/samsung_fimd.h             |  4 +++
- 2 files changed, 44 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/core/fbmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-index c735e53939d8..cb632360c968 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-@@ -109,6 +109,7 @@ struct fimd_driver_data {
- 	unsigned int has_dp_clk:1;
- 	unsigned int has_hw_trigger:1;
- 	unsigned int has_trigger_per_te:1;
-+	unsigned int has_bgr_support:1;
- };
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 0fa7ede94fa6..a5f71c191122 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1064,7 +1064,7 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+ EXPORT_SYMBOL(fb_set_var);
  
- static struct fimd_driver_data s3c64xx_fimd_driver_data = {
-@@ -138,6 +139,7 @@ static struct fimd_driver_data exynos4_fimd_driver_data = {
- 	.lcdblk_bypass_shift = 1,
- 	.has_shadowcon = 1,
- 	.has_vtsel = 1,
-+	.has_bgr_support = 1,
- };
- 
- static struct fimd_driver_data exynos5_fimd_driver_data = {
-@@ -149,6 +151,7 @@ static struct fimd_driver_data exynos5_fimd_driver_data = {
- 	.has_vidoutcon = 1,
- 	.has_vtsel = 1,
- 	.has_dp_clk = 1,
-+	.has_bgr_support = 1,
- };
- 
- static struct fimd_driver_data exynos5420_fimd_driver_data = {
-@@ -162,6 +165,7 @@ static struct fimd_driver_data exynos5420_fimd_driver_data = {
- 	.has_vtsel = 1,
- 	.has_mic_bypass = 1,
- 	.has_dp_clk = 1,
-+	.has_bgr_support = 1,
- };
- 
- struct fimd_context {
-@@ -226,6 +230,18 @@ static const uint32_t fimd_formats[] = {
- 	DRM_FORMAT_ARGB8888,
- };
- 
-+static const uint32_t fimd_extended_formats[] = {
-+	DRM_FORMAT_C8,
-+	DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_XBGR1555,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_BGR565,
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_ABGR8888,
-+};
-+
- static const unsigned int capabilities[WINDOWS_NR] = {
- 	0,
- 	EXYNOS_DRM_PLANE_CAP_WIN_BLEND | EXYNOS_DRM_PLANE_CAP_PIX_BLEND,
-@@ -673,21 +689,25 @@ static void fimd_win_set_pixfmt(struct fimd_context *ctx, unsigned int win,
- 		val |= WINCONx_BYTSWP;
- 		break;
- 	case DRM_FORMAT_XRGB1555:
-+	case DRM_FORMAT_XBGR1555:
- 		val |= WINCON0_BPPMODE_16BPP_1555;
- 		val |= WINCONx_HAWSWP;
- 		val |= WINCONx_BURSTLEN_16WORD;
- 		break;
- 	case DRM_FORMAT_RGB565:
-+	case DRM_FORMAT_BGR565:
- 		val |= WINCON0_BPPMODE_16BPP_565;
- 		val |= WINCONx_HAWSWP;
- 		val |= WINCONx_BURSTLEN_16WORD;
- 		break;
- 	case DRM_FORMAT_XRGB8888:
-+	case DRM_FORMAT_XBGR8888:
- 		val |= WINCON0_BPPMODE_24BPP_888;
- 		val |= WINCONx_WSWP;
- 		val |= WINCONx_BURSTLEN_16WORD;
- 		break;
- 	case DRM_FORMAT_ARGB8888:
-+	case DRM_FORMAT_ABGR8888:
- 	default:
- 		val |= WINCON1_BPPMODE_25BPP_A1888;
- 		val |= WINCONx_WSWP;
-@@ -695,6 +715,18 @@ static void fimd_win_set_pixfmt(struct fimd_context *ctx, unsigned int win,
- 		break;
- 	}
- 
-+	switch (pixel_format) {
-+	case DRM_FORMAT_XBGR1555:
-+	case DRM_FORMAT_XBGR8888:
-+	case DRM_FORMAT_ABGR8888:
-+	case DRM_FORMAT_BGR565:
-+		writel(WIN_RGB_ORDER_REVERSE, ctx->regs + WIN_RGB_ORDER(win));
-+		break;
-+	default:
-+		writel(WIN_RGB_ORDER_FORWARD, ctx->regs + WIN_RGB_ORDER(win));
-+		break;
-+	}
-+
- 	/*
- 	 * Setting dma-burst to 16Word causes permanent tearing for very small
- 	 * buffers, e.g. cursor buffer. Burst Mode switching which based on
-@@ -1074,8 +1106,14 @@ static int fimd_bind(struct device *dev, struct device *master, void *data)
- 	ctx->drm_dev = drm_dev;
- 
- 	for (i = 0; i < WINDOWS_NR; i++) {
--		ctx->configs[i].pixel_formats = fimd_formats;
--		ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_formats);
-+		if (ctx->driver_data->has_bgr_support) {
-+			ctx->configs[i].pixel_formats = fimd_extended_formats;
-+			ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_extended_formats);
-+		} else {
-+			ctx->configs[i].pixel_formats = fimd_formats;
-+			ctx->configs[i].num_pixel_formats = ARRAY_SIZE(fimd_formats);
-+		}
-+
- 		ctx->configs[i].zpos = i;
- 		ctx->configs[i].type = fimd_win_types[i];
- 		ctx->configs[i].capabilities = capabilities[i];
-diff --git a/include/video/samsung_fimd.h b/include/video/samsung_fimd.h
-index c4a93ce1de48..e6966d187591 100644
---- a/include/video/samsung_fimd.h
-+++ b/include/video/samsung_fimd.h
-@@ -476,6 +476,10 @@
-  * 1111		-none-	 -none-   -none-   -none-    -none-
- */
- 
-+#define WIN_RGB_ORDER(_win)			(0x2020 + ((_win) * 4))
-+#define WIN_RGB_ORDER_FORWARD			(0 << 11)
-+#define WIN_RGB_ORDER_REVERSE			(1 << 11)
-+
- /* FIMD Version 8 register offset definitions */
- #define FIMD_V8_VIDTCON0	0x20010
- #define FIMD_V8_VIDTCON1	0x20014
+ int
+-fb_blank(struct fb_info *info, int blank)
++fb_blank(struct fb_info *info, unsigned long blank)
+ {
+ 	struct fb_event event;
+ 	int ret = -EINVAL;
 -- 
 2.25.1
 
