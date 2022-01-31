@@ -2,45 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB624A5256
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 23:27:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3FF4A52B2
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jan 2022 23:57:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA66989D83;
-	Mon, 31 Jan 2022 22:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FD1A10E342;
+	Mon, 31 Jan 2022 22:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
- [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC1589D83;
- Mon, 31 Jan 2022 22:27:44 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4JnjP46VS2z4xcR;
- Tue,  1 Feb 2022 09:27:36 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1643668058;
- bh=6zdO+QRlqy6ZLwcdl/K3VM9cvcTFOAPhdPY6ABA2x/U=;
- h=Date:From:To:Cc:Subject:From;
- b=nqj30PCA+v7dUgNT8bzmCEhuWO0L2WodR6X42tFLAHVUP/y+QrnCsFHNr1VipYnPH
- QXg90PfgQM2kqa0aKkFOU38PgrjwUPtTB8CKpfYDJp70JwPF3utXlWPbee0zDdXmL0
- oJANbKbPAkNS/9pAacfCxjjxS4jcEndvqagGxXSSImSEacq1HtOgCRMnfqTl198XN/
- webdUcVH+a9Fc5+9+8fXttTdp0+ysuZhckFFW5Gw/LhOPhBS2WydVW7RFvtRQVlhNq
- IrD3jWwCkbEDVpNnhGUNwMny8iha6628xVqFJcSN83iMCaquepwM1DMytj/fcIbMd1
- /hY6lZZElC6Yw==
-Date: Tue, 1 Feb 2022 09:27:35 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build failure after merge of the drm-intel-fixes tree
-Message-ID: <20220201092735.1d5b38d3@canb.auug.org.au>
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
+ [IPv6:2607:f8b0:4864:20::c35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2B3D10E358
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 22:57:04 +0000 (UTC)
+Received: by mail-oo1-xc35.google.com with SMTP id
+ r15-20020a4ae5cf000000b002edba1d3349so3561372oov.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 14:57:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=oODN0Uk0tb4z+k/tcsIYqCzdWivsspufHSeSYWs4aEI=;
+ b=Z8coT0FXIYfkmXeBxSF7o24CDRscc7injxOVCgpWW3j7t+NT2v+/kZ7zof2beQp20e
+ l22pipxS0YI5RevYjjMVIWQsEUkB570muFAlHL1TtbA9VnkYb3eWXYgHHEeZodPpi5ei
+ 5Hsqvx6Lr7jMXU3D8n/KthMtxSpN6pt3u1gPKHNR7eKYfDDpLpjJfie13UmjBVwk4svS
+ 5qQG+6TNKr4jjegqwdOPdNste+UD6KMjceWweAv2njwmlIb8NP1bMVx+BjkuOQ+LQMr9
+ zHMhFvTOnRhsXI81c2ejX1QC/dXbcuhMdkbdZPQT2v6CriRec84KUukr5TN241QX8Aa1
+ mLwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=oODN0Uk0tb4z+k/tcsIYqCzdWivsspufHSeSYWs4aEI=;
+ b=ynnE1bXH/3vaSxYoqR2SDpA4fVOIX8pQgVRmqJdadQ5Val8TB5Gduv4kzmLfN0kTAR
+ AQxbGK8SIt/lZKSSIz4UHNYyMAFkvbf1iP78KLGxaMAjfdNzuNmB78bnvj/jA8tWObNb
+ Bhv9YYZExql+x3rgrXsr3vB3vO9zXqU60Cd38xvPFzaxxLK0tCFxNOfeT3RFz98v4z8i
+ w94kFjPhutcwAdTKL0PwdclDLLrSW0sTDPEWjb4gmlDHQIiIDJMHboa0DiK01ZSHrmF2
+ ztiHjjI3jLhIHh3IZ50OcQvA8BhBlj+qSqa+ptIM5MRi27t67epGYJ9YQHHG4yO9tPWu
+ xsOw==
+X-Gm-Message-State: AOAM5313JbpyQO4k5uhT6LBNRV1J2eaSfBJHXx/y0Q28FEjY6NNGPKrL
+ 7vHUxG9HLfwr3OLFJHgi1qeOoQ==
+X-Google-Smtp-Source: ABdhPJx6aRuzauskRXmUzwFXRr4Xere12tBRTGPP0zZVoozfA79LCVhExz6c06Yktv8izKHbJwcmgw==
+X-Received: by 2002:a9d:6858:: with SMTP id c24mr12959487oto.318.1643669823814; 
+ Mon, 31 Jan 2022 14:57:03 -0800 (PST)
+Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
+ by smtp.gmail.com with ESMTPSA id 21sm3832985otj.71.2022.01.31.14.57.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Jan 2022 14:57:03 -0800 (PST)
+Date: Mon, 31 Jan 2022 16:57:01 -0600
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Subject: Re: [PATCH v2 1/4] drm/msm/adreno: Add support for Adreno 8c Gen 3
+Message-ID: <YfhpPRS5dRsoNE//@builder.lan>
+References: <20220119205012.v2.1.Ibac66e1e0e565313bc28f192e6c94cb508f205eb@changeid>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/P0jXNpzxGM5MKBdivRc5/.o";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220119205012.v2.1.Ibac66e1e0e565313bc28f192e6c94cb508f205eb@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,54 +68,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Sean Paul <sean@poorly.run>,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
+ <devicetree@vger.kernel.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, Eric Anholt <eric@anholt.net>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ freedreno <freedreno@lists.freedesktop.org>, linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/P0jXNpzxGM5MKBdivRc5/.o
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Wed 19 Jan 09:21 CST 2022, Akhil P Oommen wrote:
 
-Hi all,
+> Add support for "Adreno 8c Gen 3" gpu along with the necessary speedbin
+> support.
+> 
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> ---
+> 
+> Changes in v2:
+> - Fix a bug in adreno_cmp_rev()
+> 
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 21 ++++++++++++++----
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 34 +++++++++++++++++++++++++++---
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h    | 10 +++++++--
+>  3 files changed, 56 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 51b8377..9268ce3 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -10,7 +10,6 @@
+>  
+>  #include <linux/bitfield.h>
+>  #include <linux/devfreq.h>
+> -#include <linux/nvmem-consumer.h>
+>  #include <linux/soc/qcom/llcc-qcom.h>
+>  
+>  #define GPU_PAS_ID 13
+> @@ -1734,6 +1733,18 @@ static u32 a618_get_speed_bin(u32 fuse)
+>  	return UINT_MAX;
+>  }
+>  
+> +static u32 adreno_7c3_get_speed_bin(u32 fuse)
+> +{
+> +	if (fuse == 0)
+> +		return 0;
+> +	else if (fuse == 117)
+> +		return 0;
+> +	else if (fuse == 190)
 
-After merging the drm-intel-fixes tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
+Depending on your answer below this isn't an adreno_7c3 speed bin. I
+think you should name this function adreno_635_get_speed_bin().
 
-drivers/gpu/drm/i915/i915_vma.c: In function 'i915_vma_bind':
-drivers/gpu/drm/i915/i915_vma.c:451:25: error: 'ret' undeclared (first use =
-in this function); did you mean 'net'?
-  451 |                         ret =3D i915_gem_object_wait_moving_fence(v=
-ma->obj, true);
-      |                         ^~~
-      |                         net
+> +		return 1;
+> +
+> +	return UINT_MAX;
+> +}
+> +
+>  static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
+>  {
+>  	u32 val = UINT_MAX;
+> @@ -1741,6 +1752,9 @@ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
+>  	if (adreno_cmp_rev(ADRENO_REV(6, 1, 8, ANY_ID), rev))
+>  		val = a618_get_speed_bin(fuse);
+>  
+> +	if (adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), rev))
+> +		val = adreno_7c3_get_speed_bin(fuse);
+> +
+>  	if (val == UINT_MAX) {
+>  		DRM_DEV_ERROR(dev,
+>  			"missing support for speed-bin: %u. Some OPPs may not be supported by hardware",
+> @@ -1753,11 +1767,10 @@ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
+>  
+>  static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
+>  {
+> -	u32 supp_hw = UINT_MAX;
+> -	u32 speedbin;
+> +	u32 speedbin, supp_hw = UINT_MAX;
+>  	int ret;
+>  
+> -	ret = nvmem_cell_read_variable_le_u32(dev, "speed_bin", &speedbin);
+> +	ret = adreno_read_speedbin(dev, &speedbin);
+>  	/*
+>  	 * -ENOENT means that the platform doesn't support speedbin which is
+>  	 * fine
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index 9300583..946f505 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -6,6 +6,7 @@
+>   * Copyright (c) 2014,2017 The Linux Foundation. All rights reserved.
+>   */
+>  
+> +#include <linux/nvmem-consumer.h>
+>  #include "adreno_gpu.h"
+>  
+>  bool hang_debug = false;
+> @@ -317,6 +318,17 @@ static const struct adreno_info gpulist[] = {
+>  		.zapfw = "a660_zap.mdt",
+>  		.hwcg = a660_hwcg,
+>  	}, {
+> +		.rev = ADRENO_REV_SKU(6, 3, 5, ANY_ID, 190),
 
-Caused by commit
+So Adreno 7c Gen 3 revision 190 is actually a 8c Gen 3?
 
-  2e872d87cbf2 ("drm/i915: delete shadow "ret" variable")
+Why can't we just keep the marketing guys out the kernel and name things
+based on what they really are!?
 
-I have reverted that commit for today.
+Regards,
+Bjorn
 
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/P0jXNpzxGM5MKBdivRc5/.o
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmH4YlcACgkQAVBC80lX
-0Gy3cwf/brC2EFiNiIpdHNyA+Otwx6kgE3B0cDHwQF3xWcjAq/DfGqMeY1buwpN4
-XifRhRRZWIuIiStMWbLOgMyEU2FqMDDNpa7Ek0mEGuY+xYw9Dqac1Hudti7KfjFq
-OLAzTOSjeETHtVyL7HCqGxSZPqybyc21//hnixrF4lrTz/97c/DOGzid97Jz2huM
-JSQHll4qDlLr4hxUmfO4jb7Xyqr0CSadW5UHcC04kiF3zWxhwrXBbdSXBh3GdCGL
-5/useiTgWbsAEOuk0Lzs5ewnR/X/z0PU1b4VK47W/nr4C0w4eArQMK66zYFYILYR
-TGY1jtNFb8ULvJCPcUPgnPF6Oxa8GA==
-=EBQN
------END PGP SIGNATURE-----
-
---Sig_/P0jXNpzxGM5MKBdivRc5/.o--
+> +		.name = "Adreno 8c Gen 3",
+> +		.fw = {
+> +			[ADRENO_FW_SQE] = "a660_sqe.fw",
+> +			[ADRENO_FW_GMU] = "a660_gmu.bin",
+> +		},
+> +		.gmem = SZ_512K,
+> +		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +		.init = a6xx_gpu_init,
+> +		.hwcg = a660_hwcg,
+> +	}, {
+>  		.rev = ADRENO_REV(6, 3, 5, ANY_ID),
+>  		.name = "Adreno 7c Gen 3",
+>  		.fw = {
+> @@ -365,13 +377,19 @@ static inline bool _rev_match(uint8_t entry, uint8_t id)
+>  	return (entry == ANY_ID) || (entry == id);
+>  }
+>  
+> +static inline bool _rev_match_sku(uint16_t entry, uint16_t id)
+> +{
+> +	return (entry == ANY_SKU) || (entry == id);
+> +}
+> +
+>  bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2)
+>  {
+>  
+>  	return _rev_match(rev1.core, rev2.core) &&
+>  		_rev_match(rev1.major, rev2.major) &&
+>  		_rev_match(rev1.minor, rev2.minor) &&
+> -		_rev_match(rev1.patchid, rev2.patchid);
+> +		_rev_match(rev1.patchid, rev2.patchid) &&
+> +		_rev_match_sku(rev1.sku, rev2.sku);
+>  }
+>  
+>  const struct adreno_info *adreno_info(struct adreno_rev rev)
+> @@ -445,12 +463,17 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
+>  	return gpu;
+>  }
+>  
+> +int adreno_read_speedbin(struct device *dev, u32 *speedbin)
+> +{
+> +	return nvmem_cell_read_variable_le_u32(dev, "speed_bin", speedbin);
+> +}
+> +
+>  static int find_chipid(struct device *dev, struct adreno_rev *rev)
+>  {
+>  	struct device_node *node = dev->of_node;
+>  	const char *compat;
+>  	int ret;
+> -	u32 chipid;
+> +	u32 chipid, speedbin;
+>  
+>  	/* first search the compat strings for qcom,adreno-XYZ.W: */
+>  	ret = of_property_read_string_index(node, "compatible", 0, &compat);
+> @@ -466,7 +489,7 @@ static int find_chipid(struct device *dev, struct adreno_rev *rev)
+>  			rev->minor = r;
+>  			rev->patchid = patch;
+>  
+> -			return 0;
+> +			goto done;
+>  		}
+>  	}
+>  
+> @@ -486,6 +509,11 @@ static int find_chipid(struct device *dev, struct adreno_rev *rev)
+>  	dev_warn(dev, "Use compatible qcom,adreno-%u%u%u.%u instead.\n",
+>  		rev->core, rev->major, rev->minor, rev->patchid);
+>  
+> +done:
+> +	if (adreno_read_speedbin(dev, &speedbin))
+> +		speedbin = ANY_SKU;
+> +
+> +	rev->sku = (uint16_t) (0xffff & speedbin);
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index cffabe7..52bd93a 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -40,12 +40,16 @@ struct adreno_rev {
+>  	uint8_t  major;
+>  	uint8_t  minor;
+>  	uint8_t  patchid;
+> +	uint16_t sku;
+>  };
+>  
+> -#define ANY_ID 0xff
+> +#define ANY_ID	0xff
+> +#define ANY_SKU 0xffff
+>  
+>  #define ADRENO_REV(core, major, minor, patchid) \
+> -	((struct adreno_rev){ core, major, minor, patchid })
+> +	((struct adreno_rev){ core, major, minor, patchid, ANY_SKU })
+> +#define ADRENO_REV_SKU(core, major, minor, patchid, sku) \
+> +	((struct adreno_rev){ core, major, minor, patchid, sku })
+>  
+>  struct adreno_gpu_funcs {
+>  	struct msm_gpu_funcs base;
+> @@ -324,6 +328,8 @@ adreno_iommu_create_address_space(struct msm_gpu *gpu,
+>  
+>  void adreno_set_llc_attributes(struct iommu_domain *iommu);
+>  
+> +int adreno_read_speedbin(struct device *dev, u32 *speedbin);
+> +
+>  /*
+>   * For a5xx and a6xx targets load the zap shader that is used to pull the GPU
+>   * out of secure mode
+> -- 
+> 2.7.4
+> 
