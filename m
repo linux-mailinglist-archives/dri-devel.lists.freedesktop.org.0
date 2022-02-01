@@ -2,55 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D80E4A6655
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 21:47:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DC04A6672
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 21:54:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C83F910E163;
-	Tue,  1 Feb 2022 20:47:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9142410E143;
+	Tue,  1 Feb 2022 20:54:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C509F10E143;
- Tue,  1 Feb 2022 20:47:28 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id w25so36129710edt.7;
- Tue, 01 Feb 2022 12:47:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lBnJnA9U9S3KagUnngEcBE9vHXc5AUv/doMbVPNRS3M=;
- b=DVRlUjS7VD4VU5BIZI8dkhEQHskJDVcEhTqXgdBLXMvM85SH3FVbL1zwAze6A0bx8X
- OAW0RmKejtBz7i1iD0FUGGayBM737FcPbGGupR5eUbQXtdhysj2U/fSebBcJAcmFxrC2
- /Tk9m3SCEpQsrDlVridmbiOa5DoIj3XduwMBgfuz2MJHNOk1hrZQFUfZDeboO4ayqnCf
- xAuHpuxqj4JGFYbwMaC6W/9Mn94WUZIxjhX6dauEPZ6tTYVvRALbVQ75OI6aqmbfBVOx
- tl//7qnWxG1dkofxM2g/2PlGzhuRgMIwnjoGiiQ8fUKNLW3DP0Wenw6I5dcj18YIz64U
- qi9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lBnJnA9U9S3KagUnngEcBE9vHXc5AUv/doMbVPNRS3M=;
- b=65oYKmRJajs8EdIvhy2SIROWvTO0WiPryM+LlC5DZr3T3HK+/7Y11QfNL2V/S5aw7B
- jhJWCS0/VkRtc0jJYrDamliBhcrbWILbxwZP6NFIQUV9LlEyux1vIzyr75XH1WsNgiSY
- ++PaefidHypvAt+Gb744iTkgZazMAIDT+epW3hBy/6UkApttrwluotzOLppdoLUtWA4k
- 1hnv4nVIC7XJX3yRb/iWxxbsTcsU4k1x66q1SnbQoWjYtmzunSqfLvNlxIx/x4BJbGNG
- YBZWx6gNTBnH08/ELGe2GySLhN4pkQsp+dCf7t1cOVu5McNbdJ0G9gppRB6aLHoz1lIN
- IB2Q==
-X-Gm-Message-State: AOAM531uW59dxiF/0AQ9Nz0G6SBXaWhaulVRYqneV+H8Ot0CWYffK3R4
- fpxdUdRMIImdqdLH6WdmncOiJkLwEH5eZeN0oVM=
-X-Google-Smtp-Source: ABdhPJyBBdtce7X6YzSzBIRP8A8MLaDIvOP+WrtnwMdA5W9VQWaObJqInyQslAQfXCXv4oNyf4z0GJMdf8TOMxscNbo=
-X-Received: by 2002:a05:6402:5186:: with SMTP id
- q6mr27091981edd.96.1643748447233; 
- Tue, 01 Feb 2022 12:47:27 -0800 (PST)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51A6E10E143
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 20:54:06 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 3a4211e5-83a1-11ec-b20b-0050568c148b;
+ Tue, 01 Feb 2022 20:55:03 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 5A64D194B9E;
+ Tue,  1 Feb 2022 21:54:05 +0100 (CET)
+Date: Tue, 1 Feb 2022 21:54:01 +0100
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
+Message-ID: <Yfmd6V9F4JlgwQu4@ravnborg.org>
+References: <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
+ <YfFV4EJosayH+e6C@smile.fi.intel.com>
+ <YfFWPmG2D093gz4N@smile.fi.intel.com>
+ <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
+ <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
+ <ddb0f354-be19-92fe-20b3-56b00c9304ab@suse.de>
+ <840ec74d-60c6-9480-709c-8cd597c6f5b0@redhat.com>
+ <e7fbef3c-2f87-15f9-b24d-34ffaa5a2853@suse.de>
+ <CAMuHMdXnn+JcyMAV_Vbb4Yj8hJmae=Snc2R2fLviq67UYXg7Ew@mail.gmail.com>
+ <CAKMK7uEPuw1+-=h7gvSyCxW4zNuTK3UNZP6yjpP6MPV17sAasQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
- <20220131210552.482606-2-daniel.vetter@ffwll.ch>
-In-Reply-To: <20220131210552.482606-2-daniel.vetter@ffwll.ch>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 2 Feb 2022 06:47:15 +1000
-Message-ID: <CAPM=9txcHr11R9_bmwBrhz6pDs_Vk0Xb840_piRH9QdYM29KZg@mail.gmail.com>
-Subject: Re: [PATCH 01/21] MAINTAINERS: Add entry for fbdev core
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEPuw1+-=h7gvSyCxW4zNuTK3UNZP6yjpP6MPV17sAasQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,32 +56,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sven Schnelle <svens@stackframe.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
- DRI Development <dri-devel@lists.freedesktop.org>, Pavel Machek <pavel@ucw.cz>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Andy Shevchenko <andy@kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Geert Uytterhoeven <geert@linux-m68k.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, Carlis <zhangxuezhi1@yulong.com>,
+ Phillip Potter <phil@philpotter.co.uk>, Lee Jones <lee.jones@linaro.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 1 Feb 2022 at 07:06, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> Ever since Tomi extracted the core code in 2014 it's been defacto me
-> maintaining this, with help from others from dri-devel and sometimes
-> Linus (but those are mostly merge conflicts):
->
-> $ git shortlog -ns  drivers/video/fbdev/core/ | head -n5
->     35  Daniel Vetter
->     23  Linus Torvalds
->     10  Hans de Goede
->      9  Dave Airlie
->      6  Peter Rosin
+Hi Daniel,
 
-Acked-by: Dave Airlie <airlied@redhat.com>
+On Tue, Feb 01, 2022 at 06:06:33PM +0100, Daniel Vetter wrote:
+> On Tue, Feb 1, 2022 at 6:01 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> >
+> > Hi Thomas,
+> >
+> > On Tue, Feb 1, 2022 at 5:16 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > Am 31.01.22 um 11:18 schrieb Javier Martinez Canillas:
+> > > > Another thing that's missing is a DRM_MODE_CONNECTOR_I2C, because I used for
+> > > > now a DRM_MODE_CONNECTOR_Unknown.
+> > >
+> > > That might have implications on userspace. Maybe ask around. (Not that
+> > > we actually run userspace on the device).
+> >
+> > Looking at the list of connector types (and wondering if we're gonna
+> > need more when converting existing fbdev drivers to drm drivers),
+> > there seem to be two different families of connector types, for
+> >   1. transports between CRTC and display (e.g. VGA, DVID, HDMI),
+> >   2. transports between CPU and CRTC (e.g. SPI, possibly USB, and
+> >      the proposed I2C)?
+> 
+> I was trying to argue for a panel connector type and stop doing all
+> these internal things because like you point out, it kinda doesn't,
+> only the external connectors are relevant to users. But it didn't
+> stick anywhere yet, we keep adding more connector types and then
+> having to update userspace, which should map these all to "it's the
+> panel" or something like that. But also since various technicolor
+> abbreviations are about as useful to end-users as "unknown" it really
+> doesn't matter, so I'm happy to let this bikeshed get a tad fancier
+> every year :-)
+
+We discussed DRM_MODE_CONNECTOR_PANEL or some sort - but I recall we ended up
+with worrying about breaking userspace.
+See https://lore.kernel.org/dri-devel/?q=DRM_MODE_CONNECTOR_PANEL
+
+For this kind of change I chicken out due to lack of understanding of
+the userspace implications.
+
+Typing the patch is simple but taking the correct decision not so.
+
+The discussion popped up when we made it mandatory to specify a
+connector so we could better match up stuff between display
+drivers/bridges and panel drivers.
+
+	Sam
