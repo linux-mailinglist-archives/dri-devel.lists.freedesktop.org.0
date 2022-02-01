@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2634A68C7
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 00:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861454A68DD
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 01:00:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA79B89F75;
-	Tue,  1 Feb 2022 23:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFDD610E242;
+	Wed,  2 Feb 2022 00:00:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
- [209.85.167.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C72789F75
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 23:49:05 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id b186so30410151oif.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 15:49:05 -0800 (PST)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DDD210E242
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 00:00:10 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id a8so59158758ejc.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 16:00:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GqllxHt7yNoWu7VaWkakCDa1qzT4RpRcgjBmYDF5Djg=;
+ b=d670fUvw0MYPj7AP65Zg5wsXk1t723UvfwdMSeF7nwsVXZuEUwKQyXRDkloAalyg5m
+ PRDINzdmr+XKFP9yLKnHNhUpnZc9h/muYNaX9vqgUtS2ZIQZp3Lv3Hxzj/+Ajpa6NDlo
+ vDTzfvl8TUIFgMTOil6NCqy2zrmyFmDr9V2gwGQ7qE9v21Z3XWlClovac0H21dI+5diu
+ EcoCth1fIHjU0o+piYxzvyHP6xqXqhIVSR4Aot2aRIaUkpHkNzu0b8kyfVrUsUbaRaJw
+ Eh6GfxAGRYJ9ZU7e5xW04WjXNH7GHYkKCNnrT8KTy4BXcjvHPYLeB3TP+bwWVULhswqQ
+ eCmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Jo2m2mDixIShQQUxCkK1P+1sHxGPYJ+EgazaMUeqSAM=;
- b=2233oMU06r3Wl5dqMeTjSqXRo9kY/W2YjV6fpjSpe5OltHgNnKfFIkb+O+isfvpQp4
- QeNqraMf+eWuy2EuQCB7scDAaek1FE/wHpP+VL0zZr786r78ZR9g00wMH1HMj0wCoExZ
- 2kvUYJLNTJIwH9B/7tpWMDOZGQiikjMBJRW2i15CqBIdcGHfXk8YGy8pxsbIKBO0xlI6
- kRrx9XihdxVhDqQGdvJXW9e4VS4zPfMuTQJlESMwJQN4HuCVyQQVaSDmZDKmoiq9S5A8
- yj+Y6oHWv3yZfOS52/h5C0Y+WPUxxR9Vt7BfkK0Mo6AHgxf1ndI2V3LCLsk9CBc+tYuJ
- dWOQ==
-X-Gm-Message-State: AOAM533O0UD601T6VLmcNjl/lnXYwkB69gHrEUfa29u8Kk4hFRC0vczm
- GnT84VBQu2gJNngIUmj2jw==
-X-Google-Smtp-Source: ABdhPJz7iZxzXNX7wyNhOMdRzRTkrf4cKGMZQJfj7fb0fteyV/W1kMAx9bEDfj3D6o//zA58hAxZ2A==
-X-Received: by 2002:a05:6808:180f:: with SMTP id
- bh15mr3030078oib.233.1643759344332; 
- Tue, 01 Feb 2022 15:49:04 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id j3sm13191444oig.37.2022.02.01.15.49.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 15:49:03 -0800 (PST)
-Received: (nullmailer pid 996340 invoked by uid 1000);
- Tue, 01 Feb 2022 23:49:01 -0000
-Date: Tue, 1 Feb 2022 17:49:01 -0600
-From: Rob Herring <robh@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [PATCH v12 3/9] dt-bindings: display: Add ingenic, jz4780-dw-hdmi
- DT Schema
-Message-ID: <YfnG7SnlQyzU3H5l@robh.at.kernel.org>
-References: <cover.1643632014.git.hns@goldelico.com>
- <2386420a975e0a6c17393828af776991f3d17c01.1643632014.git.hns@goldelico.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GqllxHt7yNoWu7VaWkakCDa1qzT4RpRcgjBmYDF5Djg=;
+ b=j1Xd3GmQKVLksrsq8ssfyBRm1gIyXYqsc5N3/mD7ktbfmppwySUpBHW737uLOR6a8x
+ uuSrCy/Ckvy7OGO3ygF66qFo2kupm9istO8eaWWUc5bup1Fgn+CwSvyrYXH2IV22Oq7Z
+ J+os/DW05r8v75PtPsI+FZFg73n31bTD2hZOqHgYEYmggwxHp+28ptBcHzfd8/G+QPJr
+ m3TAuIN4j9J1ClUaUqYxEJ9lllzrRfRV4jYSQoXpa/LmmEc11vTYqOZijwl7yW4oO0J+
+ MZCQNN0yk30yhDrKKidOtIR/r0qy2i6Mye+j/bYe97vbxVYbME+gRUxc+yqkkdSAnUtF
+ NZKw==
+X-Gm-Message-State: AOAM531vqqEw4OkwjbqtG0Vmf629oKPcnBAbkfVPW6sNAfZpQZlX2k0S
+ dEQ/grMnr0VOrxWp+ynqZ8ojm5ZNKKf3eldFY+8=
+X-Google-Smtp-Source: ABdhPJzkU+AoivYaiO+CIbSwtDKaKtKrGb1L6g/G7HKxp0CwA2yyfw4ai/4HM+r9lTmE2r5dHKmXjqmmtuLlzBb87Lg=
+X-Received: by 2002:a17:907:d10:: with SMTP id
+ gn16mr18527609ejc.652.1643760008830; 
+ Tue, 01 Feb 2022 16:00:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2386420a975e0a6c17393828af776991f3d17c01.1643632014.git.hns@goldelico.com>
+References: <6fc4a81f-1a13-bff9-7b2e-d5bec382cb42@synopsys.com>
+ <9bab4777-3034-b789-fdf6-ca8d7e6a8c35@infradead.org>
+In-Reply-To: <9bab4777-3034-b789-fdf6-ca8d7e6a8c35@infradead.org>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Tue, 1 Feb 2022 20:59:59 -0300
+Message-ID: <CAOMZO5Aa4WxuadfoFGwwyYyD4UGPm-E258xTWU3-ozp_hwG-7g@mail.gmail.com>
+Subject: Re: Kconfig CONFIG_FB dependency regression
+To: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,40 +63,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mips@vger.kernel.org, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Arnd Bergmann <arnd@kernel.org>, Kees Cook <keescook@chromium.org>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ John Youn <John.Youn@synopsys.com>, Bing Yuan <Bing.Yuan@synopsys.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 31 Jan 2022 13:26:49 +0100, H. Nikolaus Schaller wrote:
-> From: Sam Ravnborg <sam@ravnborg.org>
-> 
-> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-> Based on .txt binding from Zubair Lutfullah Kakakhel
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> ---
->  .../display/bridge/ingenic,jz4780-hdmi.yaml   | 83 +++++++++++++++++++
->  1 file changed, 83 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
-> 
+Hi Thinh,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On Tue, Feb 1, 2022 at 8:06 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> On 2/1/22 15:01, Thinh Nguyen wrote:
+> > Hi,
+> >
+> > One of our test setups is unable to boot (stuck at initramfs). Git
+> > bisection points to the commit below:
+> >
+> > f611b1e7624c ("drm: Avoid circular dependencies for CONFIG_FB")
+> >
+> > Reverting this patch resolves the issue. This issue persists in mainline
+> > also. Unfortunately there isn't any meaningful log. Hopefully someone
+> > can give some insight as to what could be the issue and revert/fix this
+> > issue.
+>
+> Hi,
+> Did you enable DRM_FBDEV_EMULATION?
+> Please provide the failing .config file.
+
+Does selecting CONFIG_FB=y help?
+
+We had to manually select this option in imx_v6_v7_defconfig after f611b1e7624c.
+
+Please see:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.17-rc2&id=c54467482ffd407a4404c990697f432bfcb6cdc4
