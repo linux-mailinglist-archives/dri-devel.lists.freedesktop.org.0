@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503DB4A5A3F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 11:42:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3CB4A5A45
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 11:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69E6110EB94;
-	Tue,  1 Feb 2022 10:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B866B10E8FB;
+	Tue,  1 Feb 2022 10:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE36110E932;
- Tue,  1 Feb 2022 10:41:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 372B910E8FB;
+ Tue,  1 Feb 2022 10:41:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643712115; x=1675248115;
+ t=1643712119; x=1675248119;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=DW6wzdTFp7Q0yNUvtNVTKuOpn8SfUaq6q2uPvDx0GGw=;
- b=esxyxKrKtl8RZdrYMreVhhxMsiOsnGYqrb6EZkv3DKPHjz6T6OICF4Bb
- Gi5eA0xSmdQ8+08sSWpz6HS6WSlEwHYUiVWXgvva+Lo/RdBIFa5ngxwVa
- SXgJC/pCQ9chfOvj8sFaF9BbKvGZMkubZd0Fxc808VQW7FkZ96tGBCnJM
- vvrbff/SJqi7WvFMZepRy2arShS9GfXOmjm3+7OTt+cmhxl/ptLZ6OFmu
- sYq4pwO5oxy4Uk3VLil8fjirbdvvrWa03lJMrSOLMh3IxVGi43/ai/EhY
- Xsc1hXAHuQy8pyMuVeds1zQNDzmxwiGSrX8Zb7hT1r76q4MQkbzGkseng g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="334020585"
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="334020585"
+ bh=mDruTrmIzqrQfMmaFrIpn+cDbkb7x3Xf0FqTm9LNJnU=;
+ b=WZviQmKht90nFIPrmKs2CzARxUGOnL+wu7/VyREDBLUOF+dVbHGdszq8
+ rfbOKVg3ieCYr8yWgURSNX6F3UgbR7ZlvKdcF80OczN2fxN2NRa3YAwkO
+ p+1fuStFXli8FXFhXMhSw1GAooyVfzcISyDQZNA0D0kRAXVyZpa4RvwHl
+ CrSwTO6pCanEkNyQ9+ZLX4fBnmcr7RFodoPbZ3epQ5fD0P8T4LE0UG+YV
+ YGpzXBHzhdgMeoa9+bRqw/HktjmAlE5/HglX4VUc2BDJXjWHghI2EEY2p
+ SpwXz9MoqA+QYo2bEZ/kDWr89N5XgfJ9xGyV69bryaISQILYYpEmOSyRv w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="334020608"
+X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="334020608"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 02:41:54 -0800
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="523011200"
+ 01 Feb 2022 02:41:58 -0800
+X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="523011217"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 02:41:50 -0800
+ 01 Feb 2022 02:41:54 -0800
 From: Ramalingam C <ramalingam.c@intel.com>
 To: dri-devel <dri-devel@lists.freedesktop.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v5 08/19] drm/i915/uapi: document behaviour for DG2 64K support
-Date: Tue,  1 Feb 2022 16:11:21 +0530
-Message-Id: <20220201104132.3050-9-ramalingam.c@intel.com>
+Subject: [PATCH v5 09/19] Doc/gpu/rfc/i915: i915 DG2 64k pagesize uAPI
+Date: Tue,  1 Feb 2022 16:11:22 +0530
+Message-Id: <20220201104132.3050-10-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220201104132.3050-1-ramalingam.c@intel.com>
 References: <20220201104132.3050-1-ramalingam.c@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,9 +56,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Ye <tony.ye@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
+Cc: Tony Ye <tony.ye@intel.com>, Jordan Justen <jordan.l.justen@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Kenneth Graunke <kenneth@whitecape.org>,
  Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
  Slawomir Milczarek <slawomir.milczarek@intel.com>,
@@ -67,21 +65,15 @@ Cc: Tony Ye <tony.ye@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Auld <matthew.auld@intel.com>
+Details of the 64k pagesize support added as part of DG2 enabling and its
+implicit impact on the uAPI.
 
-On discrete platforms like DG2, we need to support a minimum page size
-of 64K when dealing with device local-memory. This is quite tricky for
-various reasons, so try to document the new implicit uapi for this.
+v2: improvised the Flat-CCS documentation [Danvet & CQ]
+v3: made only for 64k pagesize support
 
-v3: fix typos and less emphasis
-v2: Fixed suggestions on formatting [Daniel]
-
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-Acked-by: Jordan Justen <jordan.l.justen@intel.com>
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+cc: Matthew Auld <matthew.auld@intel.com>
 cc: Simon Ser <contact@emersion.fr>
 cc: Pekka Paalanen <ppaalanen@gmail.com>
 Cc: Jordan Justen <jordan.l.justen@intel.com>
@@ -90,75 +82,56 @@ Cc: mesa-dev@lists.freedesktop.org
 Cc: Tony Ye <tony.ye@intel.com>
 Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
 ---
- include/uapi/drm/i915_drm.h | 44 ++++++++++++++++++++++++++++++++-----
- 1 file changed, 39 insertions(+), 5 deletions(-)
+ Documentation/gpu/rfc/i915_dg2.rst | 25 +++++++++++++++++++++++++
+ Documentation/gpu/rfc/index.rst    |  3 +++
+ 2 files changed, 28 insertions(+)
+ create mode 100644 Documentation/gpu/rfc/i915_dg2.rst
 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 5e678917da70..77e5e74c32c1 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -1118,10 +1118,16 @@ struct drm_i915_gem_exec_object2 {
- 	/**
- 	 * When the EXEC_OBJECT_PINNED flag is specified this is populated by
- 	 * the user with the GTT offset at which this object will be pinned.
-+	 *
- 	 * When the I915_EXEC_NO_RELOC flag is specified this must contain the
- 	 * presumed_offset of the object.
-+	 *
- 	 * During execbuffer2 the kernel populates it with the value of the
- 	 * current GTT offset of the object, for future presumed_offset writes.
-+	 *
-+	 * See struct drm_i915_gem_create_ext for the rules when dealing with
-+	 * alignment restrictions with I915_MEMORY_CLASS_DEVICE, on devices with
-+	 * minimum page sizes, like DG2.
- 	 */
- 	__u64 offset;
+diff --git a/Documentation/gpu/rfc/i915_dg2.rst b/Documentation/gpu/rfc/i915_dg2.rst
+new file mode 100644
+index 000000000000..f4eb5a219897
+--- /dev/null
++++ b/Documentation/gpu/rfc/i915_dg2.rst
+@@ -0,0 +1,25 @@
++====================
++I915 DG2 RFC Section
++====================
++
++Upstream plan
++=============
++Plan to upstream the DG2 enabling is:
++
++* Merge basic HW enabling for DG2 (Still without pciid)
++* Merge the 64k support for lmem
++* Merge the flat CCS enabling patches
++* Add the pciid for DG2 and enable the DG2 in CI
++
++
++64K page support for lmem
++=========================
++On DG2 hw, local-memory supports minimum GTT page size of 64k only. 4k is not
++supported anymore.
++
++DG2 hw doesn't support the 64k (lmem) and 4k (smem) pages in the same ppgtt
++Page table. Refer the struct drm_i915_gem_create_ext for the implication of
++handling the 64k page size.
++
++.. kernel-doc:: include/uapi/drm/i915_drm.h
++        :functions: drm_i915_gem_create_ext
+diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
+index 91e93a705230..afb320ed4028 100644
+--- a/Documentation/gpu/rfc/index.rst
++++ b/Documentation/gpu/rfc/index.rst
+@@ -20,6 +20,9 @@ host such documentation:
  
-@@ -3145,11 +3151,39 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * The (page-aligned) allocated size for the object will be returned.
- 	 *
--	 * Note that for some devices we have might have further minimum
--	 * page-size restrictions(larger than 4K), like for device local-memory.
--	 * However in general the final size here should always reflect any
--	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
--	 * extension to place the object in device local-memory.
-+	 *
-+	 * DG2 64K min page size implications:
-+	 *
-+	 * On discrete platforms, starting from DG2, we have to contend with GTT
-+	 * page size restrictions when dealing with I915_MEMORY_CLASS_DEVICE
-+	 * objects.  Specifically the hardware only supports 64K or larger GTT
-+	 * page sizes for such memory. The kernel will already ensure that all
-+	 * I915_MEMORY_CLASS_DEVICE memory is allocated using 64K or larger page
-+	 * sizes underneath.
-+	 *
-+	 * Note that the returned size here will always reflect any required
-+	 * rounding up done by the kernel, i.e 4K will now become 64K on devices
-+	 * such as DG2.
-+	 *
-+	 * Special DG2 GTT address alignment requirement:
-+	 *
-+	 * The GTT alignment will also need to be at least 2M for such objects.
-+	 *
-+	 * Note that due to how the hardware implements 64K GTT page support, we
-+	 * have some further complications:
-+	 *
-+	 *   1) The entire PDE (which covers a 2MB virtual address range), must
-+	 *   contain only 64K PTEs, i.e mixing 4K and 64K PTEs in the same
-+	 *   PDE is forbidden by the hardware.
-+	 *
-+	 *   2) We still need to support 4K PTEs for I915_MEMORY_CLASS_SYSTEM
-+	 *   objects.
-+	 *
-+	 * To keep things simple for userland, we mandate that any GTT mappings
-+	 * must be aligned to and rounded up to 2MB. As this only wastes virtual
-+	 * address space and avoids userland having to copy any needlessly
-+	 * complicated PDE sharing scheme (coloring) and only affects DG2, this
-+	 * is deemed to be a good compromise.
- 	 */
- 	__u64 size;
- 	/**
+     i915_gem_lmem.rst
+ 
++.. toctree::
++    i915_dg2.rst
++
+ .. toctree::
+ 
+     i915_scheduler.rst
 -- 
 2.20.1
 
