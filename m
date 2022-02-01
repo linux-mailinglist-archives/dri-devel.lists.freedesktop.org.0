@@ -2,78 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3164C4A5DD8
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 15:01:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2CC4A5DDD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 15:03:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1634910E3DF;
-	Tue,  1 Feb 2022 14:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80B3A10E4EA;
+	Tue,  1 Feb 2022 14:03:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 948CA10E3DF
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:01:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643724109;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t0xhLey8NZwZfvq1aWQDBdLCgJjMsiCxuS9yKl0tV4E=;
- b=htPBBToLdzW2ECHBe8RKXN7vCK24k9NMaaQHwfYi1iYzpYljKlKUYjreA0TB6ZUTDMUPXj
- VlRiqxEs8N/rKetWB4kcOuNlbjWMFn3THF2DK25PpMr6SVC7xRmfg7ILSssIk7bIYymUjL
- CetMVlWoKsuiCyUwT7YHt6/b6pyJ2iA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-1-OfUIg7nJOIy2Vq1205H-dA-1; Tue, 01 Feb 2022 09:01:46 -0500
-X-MC-Unique: OfUIg7nJOIy2Vq1205H-dA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- q127-20020a1ca785000000b00352a4860babso1017735wme.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 06:01:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=t0xhLey8NZwZfvq1aWQDBdLCgJjMsiCxuS9yKl0tV4E=;
- b=E8rMGJyr52UmkPPb1KZBsZlKqEv0XuEOVaXnGJ6dhw8QuZwfjbVXW9CEDU59NqLvaD
- QofzgO3ka3WE8VsnFjz4slaIVRdRpt6BSlRwV9FAHHPsZH1DF/zzsoogmJH6/q7+U9EG
- uX865YYHpyhsbkvRhARKCcJBLTIhPHbwZ27bszObJtUzIfwQk4fQ7PDhHMmTbI1COdve
- OEqBXGATEMdlegk67aloysHmFV3dO7/LmT+7qaqSpEud2fscpKb3p0tscztgq4srnf/f
- SoQnt0G298X+UVHpCDv4GPm+DPhCmYuWWkKXhy/7JK0n7VKUE110jj6Si6hMrEKC6skp
- 7H3Q==
-X-Gm-Message-State: AOAM530iwlxHSfu8mb4xKPNLmf+OzdZATkqmbgQ73up1AarRMdbfkdIv
- SsAKZAy2BYxPChDi5n8Vi25JGTxDGrogl3gmm8Y5tIpGyrKKzMzaTdKuO3cLPyQ7vK2k1FPkXRS
- p3CPtWYrMtHMcm7IfODxAx+xV2Xlk
-X-Received: by 2002:a1c:6a14:: with SMTP id f20mr1907017wmc.177.1643724105461; 
- Tue, 01 Feb 2022 06:01:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxiXh7XT/y9EhbXaaYFMW+Z8FLorkbaMP6N2gEv45FSVWMJcQUX+XJyy9OHO0UQo8Hz5UgkJg==
-X-Received: by 2002:a1c:6a14:: with SMTP id f20mr1906977wmc.177.1643724105240; 
- Tue, 01 Feb 2022 06:01:45 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id v5sm2032210wmh.19.2022.02.01.06.01.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 06:01:44 -0800 (PST)
-Message-ID: <3ebc8a81-a27f-9ab7-d247-5203f286eeb2@redhat.com>
-Date: Tue, 1 Feb 2022 15:01:43 +0100
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA7D10E4D2
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:03:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643724224; x=1675260224;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4cD8Nnk/cAjxUMAyT4wL7Ctq8gRWHUD/fFe2hLfCcRo=;
+ b=QT+7fbTkuYLMQHLMIbTz+Rekxy5dRCf0uzrmsIy3+x8rSusiMjKej/pY
+ UpTe+x6QChRG59C+Y0vFfZGiOXfIGQEg0MZI+CgpjtNnWV4a0djCtg37f
+ 8hAH5qfjUUPMbF8KWxZoNDYlh2TyGcLcYEqwsHZGYFgp5suPEcrfnS7jA
+ lcXWSi2jkWbF8NmqylQUmJGEdYheKjDZ005EEAqdTI7RXDycOpJ1W5Hiu
+ yPKadMxP5dl2gyzPMcjCBguSnEafjArtlqt4mtF90bIH2oA93GsHUxcaY
+ qXf8sWlwoOlgSbZWiKGAdPs/vDPKWpRATZDBcwD1f/DjfzQjbqiuL3C9d A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="247911987"
+X-IronPort-AV: E=Sophos;i="5.88,334,1635231600"; d="scan'208";a="247911987"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2022 06:03:43 -0800
+X-IronPort-AV: E=Sophos;i="5.88,334,1635231600"; d="scan'208";a="626738935"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2022 06:03:41 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nEtjz-00HKFy-02; Tue, 01 Feb 2022 16:02:39 +0200
+Date: Tue, 1 Feb 2022 16:02:38 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH 3/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
+Message-ID: <Yfk9fuazUSgI6C9n@smile.fi.intel.com>
+References: <20220131202916.2374502-1-javierm@redhat.com>
+ <YfhVBtv1UIA7bJja@ravnborg.org>
+ <3aac291a-b30e-2775-336f-66dd08d634e2@redhat.com>
+ <YfkA4ER/52I2v1JP@smile.fi.intel.com>
+ <9ddd8a8c-4aa9-bc4a-5637-66197a7342d1@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 01/21] MAINTAINERS: Add entry for fbdev core
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
- <20220131210552.482606-2-daniel.vetter@ffwll.ch>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220131210552.482606-2-daniel.vetter@ffwll.ch>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9ddd8a8c-4aa9-bc4a-5637-66197a7342d1@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,72 +63,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Claudio Suarez <cssk@net-c.es>, Gerd Hoffmann <kraxel@redhat.com>,
- Pavel Machek <pavel@ucw.cz>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Sven Schnelle <svens@stackframe.org>
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/31/22 22:05, Daniel Vetter wrote:
-> Ever since Tomi extracted the core code in 2014 it's been defacto me
-> maintaining this, with help from others from dri-devel and sometimes
-> Linus (but those are mostly merge conflicts):
-> 
-> $ git shortlog -ns  drivers/video/fbdev/core/ | head -n5
->     35  Daniel Vetter
->     23  Linus Torvalds
->     10  Hans de Goede
->      9  Dave Airlie
->      6  Peter Rosin
-> 
-> I think ideally we'd also record that the various firmware fb drivers
-> (efifb, vesafb, ...) are also maintained in drm-misc because for the
-> past few years the patches have either been to fix handover issues
-> with drm drivers, or caused handover issues with drm drivers. So any
-> other tree just doesn't make sense. But also, there's plenty of
-> outdated MAINTAINER entries for these with people and git trees that
-> haven't been active in years, so maybe let's just leave them alone.
-> And furthermore distros are now adopting simpledrm as the firmware fb
-> driver, so hopefully the need to care about the fbdev firmware drivers
-> will go down going forward.
-> 
-> Note that drm-misc is group maintained, I expect that to continue like
-> we've done before, so no new expectations that patches all go through
-> my hands. That would be silly. This also means I'm happy to put any
-> other volunteer's name in the M: line, but otherwise git log says I'm
-> the one who's stuck with this.
-> 
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: DRI Development <dri-devel@lists.freedesktop.org>
-> Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-> Cc: Claudio Suarez <cssk@net-c.es>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Sven Schnelle <svens@stackframe.org>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
+On Tue, Feb 01, 2022 at 12:45:53PM +0100, Javier Martinez Canillas wrote:
+> On 2/1/22 10:44, Andy Shevchenko wrote:
+> > On Tue, Feb 01, 2022 at 01:14:22AM +0100, Javier Martinez Canillas wrote:
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+...
 
-Best regards,
+> > The problem with no backward compatibility means that removal of old driver
+> > makes users unhappy since DT is kinda ABI and we do not break it.
+> > 
+> 
+> I think that's the crux of the issue. Do we want people to update their
+> kernel but using their existing Device Tree and be able to switch to the
+> DRM driver ?
+> 
+> My take is that we should and that's why I kept the backward compatibility.
+> 
+> Maybe we could do that in the meantime and at some point introduce new DT
+> bindings (with a different compatible string) that would use the latest
+> and greatest conventions in DT ? That seems to be a good compromise.
+
+I have over-read in this discussion that current binding is not fully
+correct from hw perspective. If it's indeed the case (and I believe it's),
+then probably we should come with brand new driver with ssd130x name and
+incompatible bindingas (*).
+
+Otherwise in this driver we continue to be incorrect in them.
+
+*) But even though I think it would be good if you take the old one under your
+   maintainership.
+
 -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+With Best Regards,
+Andy Shevchenko
+
 
