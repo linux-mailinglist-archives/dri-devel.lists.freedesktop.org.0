@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6494A59D2
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 11:18:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6334A59DA
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 11:20:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA22E10E5C9;
-	Tue,  1 Feb 2022 10:18:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74C6D10E6A0;
+	Tue,  1 Feb 2022 10:19:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F31EE10E5C9;
- Tue,  1 Feb 2022 10:18:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1643710667;
- bh=wmREK8PFq/vdn0l0vClE+30BQLaE2yxdPYhw57Lv93s=;
- h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
- b=Z0WOLlz8BCqYtm9aPUCUPXil71JwcDLuhZNZHd7FHSTjquWIqTyuK7Nxr9bXKMr5M
- n7y7YVN+Gut/WezgN3lhFBOckPb49UQegA/8OQfYWC8aD15Eo/caFD+yl3rjwiqe4h
- oY1qTfesL9tHu5G/xB+F+phh6OqPL2vFOHQ+mwnU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.146.124]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MaJ81-1mkzgl3Fkj-00WIVJ; Tue, 01
- Feb 2022 11:17:46 +0100
-Message-ID: <98bf57d3-de0f-7f0e-21ce-360f661f4e25@gmx.de>
-Date: Tue, 1 Feb 2022 11:17:44 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32FF810E6A0;
+ Tue,  1 Feb 2022 10:19:57 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D11D91F383;
+ Tue,  1 Feb 2022 10:19:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643710795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Hy3OkojdDnZ5Xxw9cCiAGLIoflYtHO4YXtnft55JA4Y=;
+ b=vSFVaEheZp+BzO7AkZ/eCB4Hkty5WehDjbDBSqUig2EuGp5jfklnhkix3ucVFxSkm5PejY
+ cW3Gd2eRe8pvzJk1xFKPaGYCh0HVNZhUmkE2SKlzC1ebIioGn8mRtKttRWW1tUvheJH0zr
+ XSgl/xaYvHeiWqQzdeeZVmG6J6EzaNA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643710795;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Hy3OkojdDnZ5Xxw9cCiAGLIoflYtHO4YXtnft55JA4Y=;
+ b=7zdoXW+R+wtUda9WNHInel+UAuHXeNVnNrpRkFDnLZB9/nes+DwLzBwuTleAL2ZAjKqwlF
+ 2M6gMh1gc8MikzBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7FC8E13B3D;
+ Tue,  1 Feb 2022 10:19:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4MQoHksJ+WG/CwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 01 Feb 2022 10:19:55 +0000
+Message-ID: <648ac929-8de9-4ec4-f73d-d1048a419eb9@suse.de>
+Date: Tue, 1 Feb 2022 11:19:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 03/21] fbcon: Restore fbcon scrolling acceleration
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 01/21] MAINTAINERS: Add entry for fbdev core
 Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>
 References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
- <20220131210552.482606-4-daniel.vetter@ffwll.ch>
- <9c22b709-cbcf-6a29-a45e-5a57ba0b9c14@gmx.de>
-In-Reply-To: <9c22b709-cbcf-6a29-a45e-5a57ba0b9c14@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:BLEyQfaZyNddFkNU0iveVjwX+bqyCCzVzYZsG8dus0NPeKpzvO4
- XUbCXA6kU8gOWMxNdCqVD8Dl6yj+eh5kaJ1hB66nR3wiTU1PBmihCXPgud0F+nPZUgKrgD1
- iAgcqrAu2Uqo1Ldj8aR6HnTUupZzfhVPTpdd5dRPQo7LzSY/wh2w2odvcuiXKjD4SnOVL8j
- SiVVTKVwz9mxlCvDBA+eA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nGL3C+F5Hog=:p8wqV+ZdqkrUkg+IP+YS7s
- +DxdKrHEQqv9JTrY9VpF/UKWI+QQPfrPOI/idsnfOAv7u8gg0z78MZk3wVy92ksSPzZuvje7p
- r+WusT7JH7K+b1BMwsmOi2Mfr5JowHH72hYqDg6Mf8lSIdKzIkVfClu8jsC0LB4fpBMN07Bg4
- LKbqU1zssh6LApc8HtmSbnYkGtPvpVwv24uAUCvrG5gOTXQAqniM3aVG+1DoVHy7a4iP6ansv
- ytcJ1EPNAROjVjNM+M5fI8jYGVhM/41/c8hnqdOaxIHUCRb5eg7RSeBNbBJ1IXYmY0p2AjMXf
- RcLfcBhmeznw57AMTfqxXdnbdXS++R2Ctx8rIQtLkTXS3+8FXDrRr3s7VhzwgIKi13wUeNqgH
- YvlfLgKEFhjYSpL4SwhaTY7MWoQAf/HmLkQyYNRUrY5Cn8nMujGYsgIJybx9DLZhHWNqxjsOn
- BCccG235GotdHBHRHBH/F/+mW0obBJd3WN26OjJwtmxJ6DgUEMzJGbXxpP6T2tuxwVBRxWxIt
- Nxznf04GB5E5Pjbtl4pOx2ViFpqDFXZ/AGNtsIJtEla25rXJfPK/8mBL8tj/FhmXP82WJEBvp
- 5BfmMfciVmfu/hXPI7P2NF0mCIC74BG3w6rhJtKKy86OLm21ubJuFyeg9O/chPH4yziQGxMAv
- v1fwe2MfrvZ8dxOwaVsqmyG8GGppAo4GjXvT27IdyaoHkIqN7f4+xjHiPSCp3VrWQAvbKlVLj
- A7uxf0/0siWyXkueRPt+0cMhN8O2fXYM2jLaNwa5XMESWT0vSGixO1OoGpz7CQAdR3lptlxiZ
- OtktLj9Xmn8Kbt6vt26WIkFa/fGP4D/2EXhIaO7tzEgl0cEHCe03OJ75dLY6n0blPrVaq33gS
- KEDiHJfPJF34hQIBGXUEm+Sx+92pMpUyrHW//MLImEdh12W86FEeRQmY1HQ+lKBDIr+LJ+nUq
- d4DyemULDb2R4n07yJ572JdzPjfKgKL+MA3jlhe77R7sDRufmbbKU/PPvVLM+AvcWRKBsl3/m
- 2nP0gQx0nZZ9jvbXEjwYmg68DpDN/1THUAIKOqEakmu8xis8rx1SEjHjtvJQZjbxpvUb+Eoh2
- 36I9IRwtzdcy74=
+ <20220131210552.482606-2-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220131210552.482606-2-daniel.vetter@ffwll.ch>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------8AKLLWg9udfHxkot3p04zoER"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,126 +71,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@intel.com>,
+Cc: linux-fbdev@vger.kernel.org, Sven Schnelle <svens@stackframe.org>,
  Linus Torvalds <torvalds@linux-foundation.org>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
  Javier Martinez Canillas <javierm@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, LKML <linux-kernel@vger.kernel.org>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
- Pavel Machek <pavel@ucw.cz>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Sven Schnelle <svens@stackframe.org>, Gerd Hoffmann <kraxel@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/1/22 11:16, Helge Deller wrote:
-> On 1/31/22 22:05, Daniel Vetter wrote:
->> This functionally undoes 39aead8373b3 ("fbcon: Disable accelerated
->> scrolling"), but behind the FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
->> option.
->
-> you have two trivial copy-n-paste errors in this patch which still preve=
-nt the
-> console acceleration.
->
->> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/cor=
-e/fbcon.c
->> index 2ff90061c7f3..39dc18a5de86 100644
->> --- a/drivers/video/fbdev/core/fbcon.c
->> +++ b/drivers/video/fbdev/core/fbcon.c
->> @@ -1125,13 +1125,15 @@ static void fbcon_init(struct vc_data *vc, int =
-init)
->>
->>  	ops->graphics =3D 0;
->>
->> -	/*
->> -	 * No more hw acceleration for fbcon.
->> -	 *
->> -	 * FIXME: Garbage collect all the now dead code after sufficient time
->> -	 * has passed.
->> -	 */
->> +#ifdef CONFIG_FRAMEBUFFER_CONSOLE_ROTATION
->
-> should be:
-> #ifdef CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
->
->
->> +	if ((info->flags & FBINFO_HWACCEL_COPYAREA) &&
->> +	    !(info->flags & FBINFO_HWACCEL_DISABLED))
->> +		p->scrollmode =3D SCROLL_MOVE;
->> +	else /* default to something safe */
->> +		p->scrollmode =3D SCROLL_REDRAW;
->> +#else
->>  	p->scrollmode =3D SCROLL_REDRAW;
->> +#endif
->>
->>  	/*
->>  	 *  ++guenther: console.c:vc_allocate() relies on initializing
->> @@ -1971,15 +1973,49 @@ static void updatescrollmode(struct fbcon_displ=
-ay *p,
->>  {
->>  	struct fbcon_ops *ops =3D info->fbcon_par;
->>  	int fh =3D vc->vc_font.height;
->> +	int cap =3D info->flags;
->> +	u16 t =3D 0;
->> +	int ypan =3D FBCON_SWAP(ops->rotate, info->fix.ypanstep,
->> +			      info->fix.xpanstep);
->> +	int ywrap =3D FBCON_SWAP(ops->rotate, info->fix.ywrapstep, t);
->>  	int yres =3D FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
->>  	int vyres =3D FBCON_SWAP(ops->rotate, info->var.yres_virtual,
->>  				   info->var.xres_virtual);
->> +	int good_pan =3D (cap & FBINFO_HWACCEL_YPAN) &&
->> +		divides(ypan, vc->vc_font.height) && vyres > yres;
->> +	int good_wrap =3D (cap & FBINFO_HWACCEL_YWRAP) &&
->> +		divides(ywrap, vc->vc_font.height) &&
->> +		divides(vc->vc_font.height, vyres) &&
->> +		divides(vc->vc_font.height, yres);
->> +	int reading_fast =3D cap & FBINFO_READS_FAST;
->> +	int fast_copyarea =3D (cap & FBINFO_HWACCEL_COPYAREA) &&
->> +		!(cap & FBINFO_HWACCEL_DISABLED);
->> +	int fast_imageblit =3D (cap & FBINFO_HWACCEL_IMAGEBLIT) &&
->> +		!(cap & FBINFO_HWACCEL_DISABLED);
->>
->>  	p->vrows =3D vyres/fh;
->>  	if (yres > (fh * (vc->vc_rows + 1)))
->>  		p->vrows -=3D (yres - (fh * vc->vc_rows)) / fh;
->>  	if ((yres % fh) && (vyres % fh < yres % fh))
->>  		p->vrows--;
->> +
->> +	if (good_wrap || good_pan) {
->> +		if (reading_fast || fast_copyarea)
->> +			p->scrollmode =3D good_wrap ?
->> +				SCROLL_WRAP_MOVE : SCROLL_PAN_MOVE;
->> +		else
->> +			p->scrollmode =3D good_wrap ? SCROLL_REDRAW :
->> +				SCROLL_PAN_REDRAW;
->> +	} else {
->> +		if (reading_fast || (fast_copyarea && !fast_imageblit))
->> +			p->scrollmode =3D SCROLL_MOVE;
->> +		else
->> +			p->scrollmode =3D SCROLL_REDRAW;
->> +	}
->> +
->> +#ifndef CONFIG_FRAMEBUFFER_CONSOLE_ROTATION
->
-> same here... it needs to be:
-> #ifdef CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------8AKLLWg9udfHxkot3p04zoER
+Content-Type: multipart/mixed; boundary="------------pFSOeLpIPImoieDifLoG2h54";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
+ Gerd Hoffmann <kraxel@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Sven Schnelle <svens@stackframe.org>
+Message-ID: <648ac929-8de9-4ec4-f73d-d1048a419eb9@suse.de>
+Subject: Re: [PATCH 01/21] MAINTAINERS: Add entry for fbdev core
+References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
+ <20220131210552.482606-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20220131210552.482606-2-daniel.vetter@ffwll.ch>
 
-actually:
-#ifndef CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+--------------pFSOeLpIPImoieDifLoG2h54
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
->
->
->> +	p->scrollmode =3D SCROLL_REDRAW;
->> +#endif
->>  }
->>
->>  #define PITCH(w) (((w) + 7) >> 3)
->>
->
-> still reviewing the other patches...
->
-> Helge
->
+DQoNCkFtIDMxLjAxLjIyIHVtIDIyOjA1IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoNCj4gRXZl
+ciBzaW5jZSBUb21pIGV4dHJhY3RlZCB0aGUgY29yZSBjb2RlIGluIDIwMTQgaXQncyBiZWVu
+IGRlZmFjdG8gbWUNCj4gbWFpbnRhaW5pbmcgdGhpcywgd2l0aCBoZWxwIGZyb20gb3RoZXJz
+IGZyb20gZHJpLWRldmVsIGFuZCBzb21ldGltZXMNCj4gTGludXMgKGJ1dCB0aG9zZSBhcmUg
+bW9zdGx5IG1lcmdlIGNvbmZsaWN0cyk6DQo+IA0KPiAkIGdpdCBzaG9ydGxvZyAtbnMgIGRy
+aXZlcnMvdmlkZW8vZmJkZXYvY29yZS8gfCBoZWFkIC1uNQ0KPiAgICAgIDM1ICBEYW5pZWwg
+VmV0dGVyDQo+ICAgICAgMjMgIExpbnVzIFRvcnZhbGRzDQo+ICAgICAgMTAgIEhhbnMgZGUg
+R29lZGUNCj4gICAgICAgOSAgRGF2ZSBBaXJsaWUNCj4gICAgICAgNiAgUGV0ZXIgUm9zaW4N
+Cj4gDQo+IEkgdGhpbmsgaWRlYWxseSB3ZSdkIGFsc28gcmVjb3JkIHRoYXQgdGhlIHZhcmlv
+dXMgZmlybXdhcmUgZmIgZHJpdmVycw0KPiAoZWZpZmIsIHZlc2FmYiwgLi4uKSBhcmUgYWxz
+byBtYWludGFpbmVkIGluIGRybS1taXNjIGJlY2F1c2UgZm9yIHRoZQ0KPiBwYXN0IGZldyB5
+ZWFycyB0aGUgcGF0Y2hlcyBoYXZlIGVpdGhlciBiZWVuIHRvIGZpeCBoYW5kb3ZlciBpc3N1
+ZXMNCj4gd2l0aCBkcm0gZHJpdmVycywgb3IgY2F1c2VkIGhhbmRvdmVyIGlzc3VlcyB3aXRo
+IGRybSBkcml2ZXJzLiBTbyBhbnkNCj4gb3RoZXIgdHJlZSBqdXN0IGRvZXNuJ3QgbWFrZSBz
+ZW5zZS4gQnV0IGFsc28sIHRoZXJlJ3MgcGxlbnR5IG9mDQo+IG91dGRhdGVkIE1BSU5UQUlO
+RVIgZW50cmllcyBmb3IgdGhlc2Ugd2l0aCBwZW9wbGUgYW5kIGdpdCB0cmVlcyB0aGF0DQo+
+IGhhdmVuJ3QgYmVlbiBhY3RpdmUgaW4geWVhcnMsIHNvIG1heWJlIGxldCdzIGp1c3QgbGVh
+dmUgdGhlbSBhbG9uZS4NCj4gQW5kIGZ1cnRoZXJtb3JlIGRpc3Ryb3MgYXJlIG5vdyBhZG9w
+dGluZyBzaW1wbGVkcm0gYXMgdGhlIGZpcm13YXJlIGZiDQo+IGRyaXZlciwgc28gaG9wZWZ1
+bGx5IHRoZSBuZWVkIHRvIGNhcmUgYWJvdXQgdGhlIGZiZGV2IGZpcm13YXJlIGRyaXZlcnMN
+Cj4gd2lsbCBnbyBkb3duIGdvaW5nIGZvcndhcmQuDQo+IA0KPiBOb3RlIHRoYXQgZHJtLW1p
+c2MgaXMgZ3JvdXAgbWFpbnRhaW5lZCwgSSBleHBlY3QgdGhhdCB0byBjb250aW51ZSBsaWtl
+DQo+IHdlJ3ZlIGRvbmUgYmVmb3JlLCBzbyBubyBuZXcgZXhwZWN0YXRpb25zIHRoYXQgcGF0
+Y2hlcyBhbGwgZ28gdGhyb3VnaA0KPiBteSBoYW5kcy4gVGhhdCB3b3VsZCBiZSBzaWxseS4g
+VGhpcyBhbHNvIG1lYW5zIEknbSBoYXBweSB0byBwdXQgYW55DQo+IG90aGVyIHZvbHVudGVl
+cidzIG5hbWUgaW4gdGhlIE06IGxpbmUsIGJ1dCBvdGhlcndpc2UgZ2l0IGxvZyBzYXlzIEkn
+bQ0KPiB0aGUgb25lIHdobydzIHN0dWNrIHdpdGggdGhpcy4NCj4gDQo+IENjOiBEYXZlIEFp
+cmxpZSA8YWlybGllZEBnbWFpbC5jb20+DQo+IENjOiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1
+bGFAbGludXguaW50ZWwuY29tPg0KPiBDYzogTGludXMgVG9ydmFsZHMgPHRvcnZhbGRzQGxp
+bnV4LWZvdW5kYXRpb24ub3JnPg0KPiBDYzogTGludXggRmJkZXYgZGV2ZWxvcG1lbnQgbGlz
+dCA8bGludXgtZmJkZXZAdmdlci5rZXJuZWwub3JnPg0KPiBDYzogUGF2ZWwgTWFjaGVrIDxw
+YXZlbEB1Y3cuY3o+DQo+IENjOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+DQo+
+IENjOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPg0K
+PiBDYzogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+
+IENjOiBEUkkgRGV2ZWxvcG1lbnQgPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+
+DQo+IENjOiBMaW51eCBLZXJuZWwgTWFpbGluZyBMaXN0IDxsaW51eC1rZXJuZWxAdmdlci5r
+ZXJuZWwub3JnPg0KPiBDYzogQ2xhdWRpbyBTdWFyZXogPGNzc2tAbmV0LWMuZXM+DQo+IENj
+OiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPg0KPiBDYzogR2VlcnQg
+VXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4NCj4gQ2M6IFRob21hcyBaaW1t
+ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFu
+aWVsLnZldHRlckBpbnRlbC5jb20+DQo+IENjOiBTdmVuIFNjaG5lbGxlIDxzdmVuc0BzdGFj
+a2ZyYW1lLm9yZz4NCj4gQ2M6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPg0K
+PiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNv
+bT4NCg0KQWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
+Pg0KDQo+IC0tLQ0KPiAgIE1BSU5UQUlORVJTIHwgNiArKysrKysNCj4gICAxIGZpbGUgY2hh
+bmdlZCwgNiBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMg
+Yi9NQUlOVEFJTkVSUw0KPiBpbmRleCBlYTNlNmM5MTQzODQuLjQ5ODA5ZWFhMzA5NiAxMDA2
+NDQNCj4gLS0tIGEvTUFJTlRBSU5FUlMNCj4gKysrIGIvTUFJTlRBSU5FUlMNCj4gQEAgLTc1
+NzMsNiArNzU3MywxMiBAQCBTOglNYWludGFpbmVkDQo+ICAgVzoJaHR0cDovL2Zsb2F0aW5n
+cG9pbnQuc291cmNlZm9yZ2UubmV0L2VtdWxhdG9yL2luZGV4Lmh0bWwNCj4gICBGOglhcmNo
+L3g4Ni9tYXRoLWVtdS8NCj4gICANCj4gK0ZSQU1FQlVGRkVSIENPUkUNCj4gK006CURhbmll
+bCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4NCj4gK0Y6CWRyaXZlcnMvdmlkZW8vZmJkZXYv
+Y29yZS8NCj4gK1M6CU9kZCBGaXhlcw0KPiArVDoJZ2l0IGdpdDovL2Fub25naXQuZnJlZWRl
+c2t0b3Aub3JnL2RybS9kcm0tbWlzYw0KPiArDQo+ICAgRlJBTUVCVUZGRVIgTEFZRVINCj4g
+ICBNOglIZWxnZSBEZWxsZXIgPGRlbGxlckBnbXguZGU+DQo+ICAgTDoJbGludXgtZmJkZXZA
+dmdlci5rZXJuZWwub3JnDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
+aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
+TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
+RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
+--------------pFSOeLpIPImoieDifLoG2h54--
+
+--------------8AKLLWg9udfHxkot3p04zoER
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmH5CUoFAwAAAAAACgkQlh/E3EQov+Cd
+Tw//d5aZv0Yk1NM6Ke8rHG5R8OOkdhh7eoPXdQNC6o+y6zCAwmT087t69A4x4XS+3AFjMVlPEknC
+ysa4Y80jQ82u4ev5YqLLNAwMgmRRLxQbS4OHRtUs+uRFyUUU8EVsbfhcpQ1lOmfpRgg5duLJ6YU/
+R01NuHP5s/XrhbOgxrDXMvWoTYRz60XwwaP9HZ5bvbcEqdl9x668hK8SCW34OKg88Bm9NPyOIl/h
+oOM8zb/RTgPZph4jkjz8HLRXz5MiDTVZ9NV8Rq6+Uqj9LEi6689wRg0d/5pkL6IjwOqaV6MaoIb4
+2VgU3Po8RgML2WNA/Kc+aXS0bwmLhiWvGI2tKtBKOxpvqwfSIEN5AAGt2gUQzOE7A2/adcoP/kP0
+SnRSmp4F/WGNEFotmdhfjnmkWjrB7J6MVC1KK30W8Ngdt3ybc4rdrhrMcv1SqJC+IgzNsw0Sx5k+
+ffi27WzmwOsOttWwKKJS+sztfpqghQEfWVTG7mXeGoX8LxAY3xaBbqYggehjnA/YsnvHmAHpD9tf
+bWP/Bf1Y0fUBA5lqqdLtTwJierCOFl/1ZF4H98KNG1gWlvFzuGSAHT+Uq1lRRoh4u5rqr/UNgZZ2
+LPiou+z5iru+0UjBfvKwLNTwvbWl7Rp2/o1xXWwjU9kqxQ0fyATUJTmNfmurMJZ8GLEdREpcv7wi
+/AY=
+=mIBb
+-----END PGP SIGNATURE-----
+
+--------------8AKLLWg9udfHxkot3p04zoER--
