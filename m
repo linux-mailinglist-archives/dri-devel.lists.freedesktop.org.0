@@ -1,47 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD424A6CDF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:25:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 922B94A6CDD
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:25:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE56A10EFFD;
-	Wed,  2 Feb 2022 08:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6530710F946;
+	Wed,  2 Feb 2022 08:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 485 seconds by postgrey-1.36 at gabe;
+ Tue, 01 Feb 2022 11:12:09 UTC
 Received: from mx4.securetransport.de (mx4.securetransport.de [178.254.6.145])
- by gabe.freedesktop.org (Postfix) with ESMTP id EB22310E42C
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 11:12:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 24A4710E4F9
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 11:12:09 +0000 (UTC)
 Received: from mail.dh-electronics.com
  (business-24-134-97-169.pool2.vodafone-ip.de [24.134.97.169])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mx4.securetransport.de (Postfix) with ESMTPSA id A9151720CA1;
- Tue,  1 Feb 2022 12:03:39 +0100 (CET)
+ by mx4.securetransport.de (Postfix) with ESMTPSA id DFB32720CB1;
+ Tue,  1 Feb 2022 12:05:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dh-electronics.com;
- s=dhelectronicscom; t=1643713420;
- bh=hCPApabgAHY1xDIJ31HkWQFc0yj1SA2YQ4GkJvKoKwA=;
+ s=dhelectronicscom; t=1643713542;
+ bh=LGCUiTG6SpjxILKUwKkbZ1ay/IxlTOvR7yJthxP/ndg=;
  h=From:To:CC:Subject:Date:From;
- b=N/F4Qn4Dgp1l7Qe15xuQiS89mKxlbLpHLl2XUtMgVFu10y6q+l9GjM9A39hJRB0Rb
- Ijthdch9IW+92Eruan3D+Ww62e7X9tPvLsxjgx+S8I8tnZUOK1WZsZt19Gq7dbIiSO
- anz8AHyZnbTZKZ3t5GVgleCC0W81nzXMECa6WsnusNQCI0qnAX3qdx9RmfAfLrFP04
- bHTtBGqFPhDDnf2OEWfJh3oSOJkw2FT7rnirHZ4TAr8rKk3H6QNSgdmaK0MqbCoOn2
- HR5JYPegv4HcJAHld5w2QNFL/FrEnzp5+2tsBK3Vo07qhSiUtNB2GfjkJIWBjCWdbT
- ejr48zbiFVIKw==
+ b=dVXM0mK1I429vjfZeayk8xsJ1R7HYDXhwt7CbK8AJknHfYpE2vCUWII4/cD3co1dU
+ q4YcCdgBxA9fKbLeo9juNttesLHdGRAA/kEBOL401HXzwWhhlqbMlqRazcJ9DdRcJP
+ obAKq0KDtDLphs9hU4iK7W4inhQGaGBlp7DXPhfznFalzGwQM0ZCnDn5tVzohoAyqC
+ fZV0UbASFp60+qvGPo8lOKguhCV8rCCjoHcYWz27cNtIxhHEr9YuMVh7BTkkwFq9OY
+ Iypt1OkA74lweZ/XR4BTsLvhVSXEWZWznTJ2uicoxTCzc8t/Bjd3iiNAv9i7L68RcB
+ wT1UrHFLe2ArQ==
 Received: from DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) by
  DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Tue, 1 Feb 2022 12:03:16 +0100
+ 15.2.986.15; Tue, 1 Feb 2022 12:05:18 +0100
 Received: from localhost.localdomain (172.16.51.18) by
  DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15
- via Frontend Transport; Tue, 1 Feb 2022 12:03:16 +0100
+ via Frontend Transport; Tue, 1 Feb 2022 12:05:17 +0100
 From: Christoph Niedermaier <cniedermaier@dh-electronics.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/panel: simple: Assign data from panel_dpi_probe()
- correctly
-Date: Tue, 1 Feb 2022 12:01:53 +0100
-Message-ID: <20220201110153.3479-1-cniedermaier@dh-electronics.com>
+Subject: [PATCH] drm/imx: parallel-display: Remove bus flags check in
+ imx_pd_bridge_atomic_check()
+Date: Tue, 1 Feb 2022 12:03:58 +0100
+Message-ID: <20220201110358.3530-1-cniedermaier@dh-electronics.com>
 X-Mailer: git-send-email 2.11.0
 X-klartext: yes
 MIME-Version: 1.0
@@ -61,41 +63,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
  Marek Vasut <marex@denx.de>, David Airlie <airlied@linux.ie>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+ Sascha Hauer <s.hauer@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the function panel_simple_probe() the pointer panel->desc is
-assigned to the passed pointer desc. If function panel_dpi_probe()
-is called panel->desc will be updated, but further on only desc
-will be evaluated. So update the desc pointer to be able to use
-the data from the function panel_dpi_probe().
+If display timings were read from the devicetree using
+of_get_display_timing() and pixelclk-active is defined
+there, the flag DISPLAY_FLAGS_SYNC_POSEDGE/NEGEDGE is
+automatically generated. Through the function
+drm_bus_flags_from_videomode() e.g. called in the
+panel-simple driver this flag got into the bus flags,
+but then in imx_pd_bridge_atomic_check() the bus flag
+check failed and will not initialize the display. The
+original commit fe141cedc433 does not explain why this
+check was introduced. So remove the bus flags check,
+because it stops the initialization of the display with
+valid bus flags.
 
-Fixes: 4a1d0dbc8332 ("drm/panel: simple: add panel-dpi support")
-
+Fixes: fe141cedc433 ("drm/imx: pd: Use bus format/flags provided by the bridge when available")
 Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
 Cc: Marek Vasut <marex@denx.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: linux-arm-kernel@lists.infradead.org
 To: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/panel/panel-simple.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/imx/parallel-display.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 9e46db5e359c..3c08f9827acf 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -588,6 +588,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 		err = panel_dpi_probe(dev, panel);
- 		if (err)
- 			goto free_ddc;
-+		desc = panel->desc;
- 	} else {
- 		if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
- 			panel_simple_parse_panel_timing_node(dev, panel, &dt);
+diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
+index a8aba0141ce7..06cb1a59b9bc 100644
+--- a/drivers/gpu/drm/imx/parallel-display.c
++++ b/drivers/gpu/drm/imx/parallel-display.c
+@@ -217,14 +217,6 @@ static int imx_pd_bridge_atomic_check(struct drm_bridge *bridge,
+ 	if (!imx_pd_format_supported(bus_fmt))
+ 		return -EINVAL;
+ 
+-	if (bus_flags &
+-	    ~(DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_DE_HIGH |
+-	      DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE |
+-	      DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)) {
+-		dev_warn(imxpd->dev, "invalid bus_flags (%x)\n", bus_flags);
+-		return -EINVAL;
+-	}
+-
+ 	bridge_state->output_bus_cfg.flags = bus_flags;
+ 	bridge_state->input_bus_cfg.flags = bus_flags;
+ 	imx_crtc_state->bus_flags = bus_flags;
 -- 
 2.11.0
 
