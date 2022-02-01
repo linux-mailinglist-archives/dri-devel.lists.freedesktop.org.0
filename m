@@ -1,155 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2054A681F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 23:42:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0B44A6837
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 23:52:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF41B10E223;
-	Tue,  1 Feb 2022 22:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58E6710E229;
+	Tue,  1 Feb 2022 22:52:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C7AD10E223;
- Tue,  1 Feb 2022 22:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643755347; x=1675291347;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=MEkaHAn6tBfNBb5pmN8D9jtI+Q7bGdog/mut0OkTfLA=;
- b=lAyUfQvuXjjC6VVAfn5x4BzISCpcY3mEJVgpMpym4yZfU83Wq58hhOS4
- 2eDqxuIpocvxzQ46KL1PCABoB2VbRGUuQBoCrL8wucIAbMqTSMvCMesjL
- eYLMXsTZNkvkAvND1eV6ggYqvZDFNzFFqTbkkUz0wVr45wh4IPF48m9D6
- S8680j5c9qDa1uQpfXTEjdQqfZCKvfrwA5E0REG1/5MrZu7eyBJGevNcq
- vOULOhXYnhkoW32xt4V+3f1hyWULhStxNuoKcqCQ9l/EVMzsARV3ZWQkL
- iNGLmdG0fsrxCL4uIjvO3ojhrLsCkaxxk7QP5BrGRoXIP+cDyJShjPFIz g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="231380764"
-X-IronPort-AV: E=Sophos;i="5.88,335,1635231600"; d="scan'208";a="231380764"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 14:42:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,335,1635231600"; d="scan'208";a="771269341"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2022 14:42:26 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 1 Feb 2022 14:42:25 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 1 Feb 2022 14:42:25 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Tue, 1 Feb 2022 14:42:25 -0800
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.43) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Tue, 1 Feb 2022 14:42:25 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e9fKtVYf+1A3E/l16KU0CQbBKe1C53XLhJh+nm4u2KkW4zAFiaCLAywaZjeu1dQB1/aIA81vvnMRs+7jDIuEI0auA5V+H11F0Kvn6+3Vw/0+pGmb27nxOXviBmB8ofdgwBjGKA816JDix6LsomfArCd/vDhTVvpXJk5A75o/AfSGZilOVEm48aJt478c5OtQjErkb74VXt7kkOYPxAMEe9nwLpkl3fo+4AZrrQcW16F1wFch7sWQTYjz4P6ZK8eyON4WCzRBSVp31CibgwK3PcaCfjKgSwQu5eibb0OhTnNuIDpaw6mY8B+8AoQKBFNuEBYp6c8giMEp5CsdJ9uS7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K3nvhwHcsItsdIcXdBhvkHoTd3LY7fa6d1+JiNUDqVU=;
- b=Woeb2LP4CDwrkjEE8xW1bwGNygoZOHNscqH40ckKoHFFuSsK5TVh3maRd7GchlofekUhiCIKpxDaqquFdUiSVaKs7LadQ8osoIYd4wY6Pxq7MvLEcVN0xIpiCQSX7PUkcq+mIDRXI0BGVKXPSBdJGtAg/Z6s92uOdT0cQnYNG5/dhsWHyLN6RECBuqpeze19zWCL4muZ4adMoS7vLW9NHc7/S0S46euZ36WoPLieE+BR4FRgPwdK7qEcvMR1qeFB6lYxa/rt/J7AYlCDNrnraCQqYEQQQvoim70b1WOekr2mSM5ZM2v13Jje1RgVdqc4zaARKJS1SiuQZsr7HYsXCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4930.15; Tue, 1 Feb 2022 22:42:23 +0000
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::ed44:f436:839e:c501]) by DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::ed44:f436:839e:c501%7]) with mapi id 15.20.4930.022; Tue, 1 Feb 2022
- 22:42:23 +0000
-Message-ID: <6a5c4a0f-2e71-7dd4-7f15-4e076cbdbe62@intel.com>
-Date: Tue, 1 Feb 2022 14:42:20 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.5.0
-Subject: Re: [PATCH 16/19] drm/i915/guc: Use a single pass to calculate regset
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-17-lucas.demarchi@intel.com>
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-In-Reply-To: <20220126203702.1784589-17-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR07CA0013.namprd07.prod.outlook.com
- (2603:10b6:a02:bc::26) To DM4PR11MB5488.namprd11.prod.outlook.com
- (2603:10b6:5:39d::5)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C592A10E229
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 22:52:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1643755941;
+ bh=RCD65NhYXOFlzyNe/FeS9DBnn5ix6Eu1bg/rYHyJd1I=;
+ h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
+ b=RJDDovGgu4o2gaMW/lO3OIQpklc5hxOLy2eDNP8Tg1jUSCGtWsbqBdbP27v99V1ld
+ UcnWPwy0W92qsaxzc0GYBKNw0Bt0bMSk1t3O3KQNvyRAvcRYFUJfmgkx46XlkEo/CM
+ Cw+vFlAda4ipQNH3BGfRdJ4ATB+zswIxJp+e0CEM=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.146.124]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MEFvp-1n71eK0rDh-00AE5s; Tue, 01
+ Feb 2022 23:52:21 +0100
+Message-ID: <dd186ce6-56b3-fe68-daad-249b18ebd627@gmx.de>
+Date: Tue, 1 Feb 2022 23:52:18 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1d081adb-de46-47dd-083f-08d9e5d41cd2
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5642:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <PH0PR11MB564250510BD9C4B97192A831F4269@PH0PR11MB5642.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DIsQuCqDZ9Tponld9wr9aZW9MiM7gCD/BfC7Zqbf3TpvZZRtNuwXc7blV5RZtaij66pPlPXYJLVl2vchNSqfkrwcMR+e+ENHXddl0buDtgYVyyzxyjBnB77SQr1nR0JJXn4EWWw6R0HJ9HokSOnggOmZ+/4EQQaEXLb37LueSeMabfM+rTJJNYVkNcyOtbog/aGp38jajxr0S/hyW001jPxP/vXnYV/6Nq65wuzG6WvwLmQxz9KlRe+qO8wFELBEUWDqFDPuAOfo7UUzy5OXgPRwhAZXUNPjp6tMDSoTrB1eWYLQt7+Hk8BelRIGUR+ps4cKiAYBh6NJHr0SPniUgKkPeBh9gKAYZH2yysbghO9RthJzEAL1Mbf44/lNuYXEu4mhLGx4Eekfuo6btnk3ZdBeFe9k2a+TIsgiJVszXodkfrAC4AEdmIAOvqyg+e1ASXr5ldpV1EWW0JPQC0ApWktIJXzZvcjo4junMohV0rN4FlRH4WpTJbRwXsDdXs3fVq0WXm/X9z089K5Wiow151La8hwA3Xhg9qJWCevbQXCx7oDn0XIo1wnMhBIZsgceGHMXt4iM6PzCYYDLijhYxSW5+t6GAQM84DU1SXk3aoJ/U720zmjqJ4ddwvYm+bfhGiPkOqZVPfIEfOK5H+b67T1z/cEO3wZhVe14j5Zf6twKNQsm1MlBzJpsAxgv0Jq3fHQ2EwkQpsV0UWeis0P5LxIlYoCwSC+jyotT+ztslP8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(82960400001)(66574015)(6486002)(508600001)(38100700002)(26005)(186003)(66946007)(2616005)(83380400001)(4326008)(5660300002)(66476007)(36756003)(8676002)(54906003)(86362001)(53546011)(31696002)(6506007)(316002)(30864003)(31686004)(6512007)(8936002)(66556008)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?clFnOS9PNWlEaTRVNTRMUDNkejZGVHRhelBmSFozeXlFVUVhMS9ORGxZMXNo?=
- =?utf-8?B?dFV5ZjZrR0JrMW5jUVNmSEMwT3BSbnUyQjVwRDdqaWtPODVUMGExd3ExY2Jx?=
- =?utf-8?B?cjNXMWc4SzJlVVYvaU5JZkc5Y3QveTdSQTYzai9EcVQ1OStNRVVMcjlieDBB?=
- =?utf-8?B?MHNXWXUweTlRQWxPOEhKaXUxdnNRc0t4bnR1QlhKOUxyQWN5dGNjR3AycDFm?=
- =?utf-8?B?cmxLRStsTVdUNHBJd2NCek5HaUI1VmVHOGxQVE5Wd3lNdlVBNjhWY3dsZHVL?=
- =?utf-8?B?NHQzbXBVbUNIMGJRRnA0RktYZitQeUMrTnVjVERBV2M1cjRqU04ybmMxSXlU?=
- =?utf-8?B?M1p1ZGQ1UUh3Y1lDZDlTOTcrTzVPbWpFZTZQL1B4VDRPT3dQTXRma2ZqNVBJ?=
- =?utf-8?B?UHE1UFlYdVB0WjN0RWRLZnE0Mm4ydElhZWpUOXBuaGVlMlZTZ3lhRUR4Vy9C?=
- =?utf-8?B?SXM2bDJKa2lRei9jR0JoRkREbjY3NWVkRitNbGFhWlhSOC9mZ0Z2TGdjbkFB?=
- =?utf-8?B?Syt4YUVHajNWU2p1a0JNRFBXMVpKQlNuNzhlajVqOXdGVkhXMWlzKzVIV2Rq?=
- =?utf-8?B?WlhpT3pHcG9VM0twcXJ1ZHArZEZOUjVJVW9ZTGh2OTJTSzV1eTdVTVZCQ2hE?=
- =?utf-8?B?SWlNZGt4TTQ2MUxOb0dkN3lLVzlEOG9meUc3eVhqT2tUS1VQdGsyR0RrMG8v?=
- =?utf-8?B?aENpQUg1RjR6QktKeG85QXEwRy80LzF4MmdZL3kwQ2F4cDJWektBdytqeWNU?=
- =?utf-8?B?VWlpMGozMS9mL1FwMnBzY2ZrVUNSeEJNVlArb3NtKzVpVUI1QktEbTkrLy9R?=
- =?utf-8?B?Q09kaUhoTk9Fd2gvVWRVUXNHc25xLzh2cE5yNWtaOXg5SExPYWErTFBUc3NM?=
- =?utf-8?B?YlJRQ3pRZ0FkNEZZR3l5TDJOalFNQmlwWUo3NlZUaDZyWVpUMkszTGxRWG5Z?=
- =?utf-8?B?dGVYVVRRZ3J2d2hDWFNLV3IwTE4yMHgzdlkzOTFKUkRjVSs5T21lZEZYVEMv?=
- =?utf-8?B?SUhGQU9KSHpyZU1mNEtlY1d4aWordUhrNWVqZXkvbHp6Y3d0NlFNc1FpUXND?=
- =?utf-8?B?V2pUb2xYKzl2T3MwRFJPbjRlamZYQnFhT3NVZ3dyR2NyTi9OV1lid1FMNkFU?=
- =?utf-8?B?a2NyZmIxMjQvbllRdTU0M3UycGpWVlAxb3RSYnZtT0w0d0VNYUVCS05IRTc3?=
- =?utf-8?B?b2ZuRTRPaVd0cE5Hd1pRV2JLc1ZaamJrS2VpeWhCbVdyd1hDTjBPN1VXS0Rh?=
- =?utf-8?B?ZmpDdThSQ3MxR3QzMkpNbkNMTEROZFAvTHlVajErV2VpTWJURjVVR2FSZnU4?=
- =?utf-8?B?QTVUclRaTTEzVDY4QzFKcDlRYUltcG91STBtYUl1Yk5hNmQ0SlhKaFFrOWdm?=
- =?utf-8?B?VUE4VlZ1TEVYNTF5aXNiSTNncFFQNis3RElVa2RQWHJMbTJ3dVdKQ2RzNUhr?=
- =?utf-8?B?ckdBL3FETFlOVWc4NktCY1lxOTZWNFhnTndxVXhlMTl4OHlVbGpYaXhsSjNQ?=
- =?utf-8?B?Mk9sdjZUWXJ3ckVGL3I3UEFyV0c5YUZRNndPSEFxNWJNeUlBaWtwb1liWmQ0?=
- =?utf-8?B?RW9qb3dUNTdzdjRpU0kxbFBvcFVrM1RiM0R2cG03SWJ3RnZSc0w1Yk90YnZn?=
- =?utf-8?B?Sk9rY2Q4anZ3SVZJN0QwSEQ2ZFdYSWlvc2s0RkpPWFlKckQxc1N5TEhVeTZG?=
- =?utf-8?B?ei9XZnVXakpWTjBOVHk3dDhEVVhWWFBRRWhXZDZlUEhmN2FrSGk4UkhzWlZJ?=
- =?utf-8?B?U0Y5UU42SUIzWGN1bk5SUnMrQUYzWUlzY0Nub3JzMXhwQ3RLSU9qSXFjOWR1?=
- =?utf-8?B?NHZMUEkrNEtLQW9FMC82V25GMzBBWm9sTE8rUkhaZ1JGZFd3TU1hbUc2RW9Y?=
- =?utf-8?B?SjhhN1VwR0Z0d3lNc0NJSU9lMjlFV21TbERPYXVTb0xxa3JSR0tEMzc3ODI4?=
- =?utf-8?B?MlBXS01hNUFlT1RhN1ZpMzUrWDRQcnVXWUNQMU9PTTFObGkvY3poNEltUmt0?=
- =?utf-8?B?UnFjcDVJUGg0c1FnM0VDbkcwaXRycG5HVnhVZlk2Wm5UMXh6R1RQVUx1bjIx?=
- =?utf-8?B?dFVvb29TNG1UU1RMb2F2b3pmOG1mUkZwRVcxdXh6QTQvckprVXJlNG9ndWND?=
- =?utf-8?B?RWhtYzVVUXFnY2x3R0VvczRBV2VUTkJuQTFQNCt2bWQ4MzNMMW5PZTJaRkQ0?=
- =?utf-8?B?N2I5YXkwWXo1UTdkYmxHKzRCdStPbWRjMUw3TGdhQjFaM2dNaXBULzBlTW84?=
- =?utf-8?B?MHZZaUlvTGFmbGJ1UDVPLy8vOFVBPT0=?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d081adb-de46-47dd-083f-08d9e5d41cd2
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2022 22:42:23.1479 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +9Qqm7qdcBHLzPKWmBL+zYEiiWfjEwebsxniKB+YddIxlqW31D5muhlbQNmuxn46mC3sLBs7pNAjG7xy7q+srHFk/Q/nv5yzO12DdMcSTTQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5642
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Content-Language: en-US
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20220201185954.169768-1-deller@gmx.de>
+ <20220201185954.169768-4-deller@gmx.de>
+ <CAKMK7uFmMcC4p_zDq5G1Rpvjeg0zOz7v38mTj57JDZEis9fGAA@mail.gmail.com>
+From: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v3 3/3] fbcon: Add option to enable legacy hardware
+ acceleration
+In-Reply-To: <CAKMK7uFmMcC4p_zDq5G1Rpvjeg0zOz7v38mTj57JDZEis9fGAA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:PY6+MV2CfpN47XnVmSm28qZi//5LbpWrKFh1sF5MW5wp4z8RNUc
+ qz54Rl1tmpazkJxHVXnY1N4FtFDP6KOM8VKKWzSdu5lNDE7BklXYDGWXdMDcpSV7rqv2w6j
+ y3l+E8W6uMY+Je9qNghR6V+TnM9pj7q/RUZHDgr7SGr6s+3HXw6ugNjNtfzNE6F3J3fwPXB
+ fGR25EXot/JjMyWTLICJw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yTquaLbApA8=:n0B/7fiKt79wtz7WFnhVHK
+ Wm+6+CRH4y0j5wdt6GdZWPHKCFx+2q6P6uRp/GNcNoEXEprY8ZK3WV6BF7I54amLICjoj34YX
+ MCivoBJeVsATBq0tC6M2dhnkpD/aPiYq9LzSmJs/xpzjEQvTmW6xnvDAZyJ2p/bWziEyaaaV0
+ t/jL3gzbNQfyaiHPZSnOdEAhsaA9hGuppOEFtkmCDo5AbyOiWisSLQwgOoo4MvH6Uzxb+IAYc
+ eoqk/kHsMwqV9LaD+T84Qd7YooG9xbj7nnUo2/grZH5qUmV0Mmg4obsMlESN0IbcM6b7fHtsB
+ mCtFNcJuOZ3viLE3iD1rsKY6Rt5jwN89qA/g5SuW3fs/MfqzHaO1dAJq3dO4bWE89BFEDNppz
+ iD2ByFdyJROirsvIbrgeD5M9noZH1Ngdoo9+43kfTTxPLx9x6oftKATXAmd+8P/NeClQ5/1X9
+ sMuxoWcrbBH2T+L51cPp2uRJDpZ02meSkB+kfXARe68uw0bSOra6LhP6pRDBkbWXaKS0Rti0l
+ w2HxiKrJ/2ynaAOvD3/LkyyssF8q07IxyfNfPmlg0Re120XHj+Pabkg52aV3PbrZ7DEVZ9F8s
+ Zu73Ot+rx76Z3+10j0LGUvzY3o69Y3GKFe7aMEPXf+ZIQrR3CWoxWrNoQYrh490kO9qSkU9Om
+ Zvj/yh0SPTP+nNb6ZeuWGtQUP/r07v7Wkmbp/tJScc0bK51FnHB8qdjdrnNWNE7FYw8bQRjKO
+ valFat04bW85qPYeeo3weG3Z9T/OeeY8Gdm7FNsWY8MIHPgUUseGhGIwnCb7mjBqgKqS8deFh
+ InAZFt2GxEghB/4pWiDfOdgXyqRVSmz9T1p+0mGVaE+d9ddb6kVJV5+7d2zKFACHOTKZ1Ltdd
+ 5tjAjodRXQmDNjbQo7W0VEVJNjfdHYye7xEGO3YW72uXUle6wQCP6c8sx9ZtTvXKj3KCX1ewW
+ grD7AJIncY7QnebeLw5rX+DfFlzyn9v9s8Zf1uAf/kp4OIvKTPYqlJeW7gRKpU+RiEpv09FbK
+ Fpi+gaaOa4j4CE/UFqVefQhOMxCt8MH1vi5xu3J/jI222pSb1j8WwHWyY6i3faIUfxeLl+w74
+ NECwK9obxoGsaw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,318 +73,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org, John Harrison <John.C.Harrison@Intel.com>
+Cc: linux-fbdev@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Daniel,
 
-
-On 1/26/2022 12:36 PM, Lucas De Marchi wrote:
-> The ADS initialitazion was using 2 passes to calculate the regset sent
-> to GuC to initialize each engine: the first pass to just have the final
-> object size and the second to set each register in place in the final
-> gem object.
+On 2/1/22 21:11, Daniel Vetter wrote:
+> On Tue, Feb 1, 2022 at 7:59 PM Helge Deller <deller@gmx.de> wrote:
+>>
+>> Add a config option CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION to
+>> enable bitblt and fillrect hardware acceleration in the framebuffer
+>> console. If disabled, such acceleration will not be used, even if it is
+>> supported by the graphics hardware driver.
+>>
+>> If you plan to use DRM as your main graphics output system, you should
+>> disable this option since it will prevent compiling in code which isn't
+>> used later on when DRM takes over.
+>>
+>> For all other configurations, e.g. if none of your graphic cards suppor=
+t
+>> DRM (yet), DRM isn't available for your architecture, or you can't be
+>> sure that the graphic card in the target system will support DRM, you
+>> most likely want to enable this option.
+>>
+>> In the non-accelerated case (e.g. when DRM is used), the inlined
+>> fb_scrollmode() function is hardcoded to return SCROLL_REDRAW and as su=
+ch the
+>> compiler is able to optimize much unneccesary code away.
+>>
+>> In this v3 patch version I additionally changed the GETVYRES() and GETV=
+XRES()
+>> macros to take a pointer to the fbcon_display struct. This fixes the bu=
+ild when
+>> console rotation is enabled and helps the compiler again to optimize ou=
+t code.
+>>
+>> Signed-off-by: Helge Deller <deller@gmx.de>
+>> Cc: stable@vger.kernel.org # v5.10+
+>> Signed-off-by: Helge Deller <deller@gmx.de>
+>> ---
+>>  drivers/video/console/Kconfig           | 11 +++++++
+>>  drivers/video/fbdev/core/fbcon.c        | 39 ++++++++++++++++++-------
+>>  drivers/video/fbdev/core/fbcon.h        | 15 +++++++++-
+>>  drivers/video/fbdev/core/fbcon_ccw.c    | 10 +++----
+>>  drivers/video/fbdev/core/fbcon_cw.c     | 10 +++----
+>>  drivers/video/fbdev/core/fbcon_rotate.h |  4 +--
+>>  drivers/video/fbdev/core/fbcon_ud.c     | 20 ++++++-------
+>>  7 files changed, 75 insertions(+), 34 deletions(-)
+>>
+>> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kcon=
+fig
+>> index 840d9813b0bc..6029fd41d7d0 100644
+>> --- a/drivers/video/console/Kconfig
+>> +++ b/drivers/video/console/Kconfig
+>> @@ -78,6 +78,17 @@ config FRAMEBUFFER_CONSOLE
+>>         help
+>>           Low-level framebuffer-based console driver.
+>>
+>> +config FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+>> +       bool "Framebuffer Console hardware acceleration support"
+>> +       depends on FRAMEBUFFER_CONSOLE
+>> +       default n if DRM
+>> +       default y
+>> +       help
+>> +         If you use a system on which DRM is fully supported you usual=
+ly want to say N,
+>> +         otherwise you probably want to enable this option.
+>> +         If enabled the framebuffer console will utilize the hardware =
+acceleration
+>> +         of your graphics card by using hardware bitblt and fillrect f=
+eatures.
 >
-> However in order to maintain an ordered set of registers to pass to guc,
-> each register needs to be added and moved in the final array. The second
-> phase may actually happen in IO memory rather than system memory and
-> accessing IO memory by simply dereferencing the pointer doesn't work on
-> all architectures. Other places of the ADS initializaition were
-> converted to use the dma_buf_map API, but here there may be a lot more
-> accesses to IO memory. So, instead of following that same approach,
-> convert the regset initialization to calculate the final array in 1
-> pass and in the second pass that array is just copied to its final
-> location, updating the pointers for each engine written to the ADS blob.
->
-> One important thing is that struct temp_regset now have
-> different semantics: `registers` continues to track the registers of a
-> single engine, however the other fields are updated together, according
-> to the newly added `storage`, which tracks the memory allocated for
-> all the registers. So rename some of these fields and add a
-> __mmio_reg_add(): this function (possibly) allocates memory and operates
-> on the storage pointer while guc_mmio_reg_add() continues to manage the
-> registers pointer.
->
-> On a Tiger Lake system using enable_guc=3, the following log message is
-> now seen:
->
-> 	[  187.334310] i915 0000:00:02.0: [drm:intel_guc_ads_create [i915]] Used 4 KB for temporary ADS regset
->
-> This change has also been tested on an ARM64 host with DG2 and other
-> discrete graphics cards.
->
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc.h     |   7 ++
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 117 +++++++++++++--------
->   2 files changed, 79 insertions(+), 45 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index e2e0df1c3d91..4c852eee3ad8 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -152,6 +152,13 @@ struct intel_guc {
->   	struct dma_buf_map ads_map;
->   	/** @ads_regset_size: size of the save/restore regsets in the ADS */
->   	u32 ads_regset_size;
-> +	/**
-> +	 * @ads_regset_count: number of save/restore registers in the ADS for
-> +	 * each engine
-> +	 */
-> +	u32 ads_regset_count[I915_NUM_ENGINES];
-> +	/** @ads_regset: save/restore regsets in the ADS */
-> +	struct guc_mmio_reg *ads_regset;
->   	/** @ads_golden_ctxt_size: size of the golden contexts in the ADS */
->   	u32 ads_golden_ctxt_size;
->   	/** @ads_engine_usage_size: size of engine usage in the ADS */
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> index 73ca34de44f7..390101ee3661 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> @@ -226,14 +226,13 @@ static void guc_mapping_table_init(struct intel_gt *gt,
->   
->   /*
->    * The save/restore register list must be pre-calculated to a temporary
-> - * buffer of driver defined size before it can be generated in place
-> - * inside the ADS.
-> + * buffer before it can be copied inside the ADS.
->    */
-> -#define MAX_MMIO_REGS	128	/* Arbitrary size, increase as needed */
->   struct temp_regset {
->   	struct guc_mmio_reg *registers;
-> -	u32 used;
-> -	u32 size;
-> +	struct guc_mmio_reg *storage;
+> This really doesn't have much to do with DRM but more about running
+> questionable code. That's why I went with the generalized stern
+> warning and default n, and explained when it's ok to do this (single
+> user and you care more about fbcon performance than potential issues
+> because you only run trusted stuff with access to your vt and fbdev
+> /dev node).
 
-I think this could use a comment to distinguish between registers and 
-storage. Something like.:
+I think this is something we both will keep to have different opinion abou=
+t :-)
 
-/* ptr to the base of the allocated storage for all engines */
-struct guc_mmio_reg *storage;
+This console acceleration code is not exported or visible to userspace,
+e.g. you can't access or trigger it via /dev/fb0.
+It's only called internally from inside fbcon, so it's independed if
+it's a single- or multi-user system.
+The only way to "access" it is via standard stdio, where fbcon then
+either scrolls the screen via redrawing characters at new positions
+or by using hardware bitblt to move screen contents.
+IMHO there is nothing which is critical here.
+Even when I analyzed the existing bug reports, there was none which
+affected that specific code.
 
-/* ptr to the section of the storage for the engine currently being 
-worked on */
-struct guc_mmio_reg *registers;
+Anyway, let's look at that part in your patch:
+
++       bool "Enable legacy fbcon code for hw acceleration"
++       depends on FRAMEBUFFER_CONSOLE
++       default n
++       help
++        Only enable this options if you are in full control of machine si=
+nce
++        the fbcon acceleration code is essentially unmaintained and known
++        problematic.
++
++        If unsure, select n.
+
+Since I'm willing to maintain that scrolling/panning code, I'd like to
+drop the "is essentially unmaintained" part.
+And the "known problematic" part is up to now just speculative (which woul=
+d be
+valid for other parts of the kernel too, btw).
+
+As this whole disussions showed, there are some few architectures/platform=
+s
+which really still need this acceleration, while others don't.
+So, why not leave the decision up to the arch maintainers, which may opt-i=
+n
+or opt-out, while keeping the default on "n"?
+
+With that, here is a new proposal:
+
++config FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
++       bool "Enable legacy fbcon hardware acceleration code"
++       depends on FRAMEBUFFER_CONSOLE
++       default y if (PARISC) # a few other arches may want to be listed h=
+ere too...
++       default n
++       help
++         This option enables the fbcon (framebuffer text-based) hardware =
+acceleration for
++	  graphics drivers which were written for the fbdev graphics interface.
++
++	  On modern machines, on mainstream machines (like x86-64) or when using=
+ a modern
++	  Linux distribution those fbdev drivers usually aren't used.
++	  So enabling this option wouldn't have any effect, which is why you wan=
+t
++	  to disable this option on such newer machines.
++
++	  If you compile this kernel for older machines which still require the =
+fbdev
++	  drivers, you may want to say Y.
++
++         If unsure, select n.
+
+Would that be acceptable?
+
+Arch maintainers may then later send (or reply now with) patches, e.g.:
++       default y if (M68K && XYZ)
+...
 
 
-> +	u32 storage_used;
-> +	u32 storage_max;
->   };
->   
->   static int guc_mmio_reg_cmp(const void *a, const void *b)
-> @@ -244,18 +243,44 @@ static int guc_mmio_reg_cmp(const void *a, const void *b)
->   	return (int)ra->offset - (int)rb->offset;
->   }
->   
-> +static struct guc_mmio_reg * __must_check
-> +__mmio_reg_add(struct temp_regset *regset, struct guc_mmio_reg *reg)
-> +{
-> +	u32 pos = regset->storage_used;
-> +	struct guc_mmio_reg *slot;
-> +
-> +	if (pos >= regset->storage_max) {
-> +		size_t size = ALIGN((pos + 1) * sizeof(*slot), PAGE_SIZE);
-> +		struct guc_mmio_reg *r = krealloc(regset->storage,
-> +						  size, GFP_KERNEL);
-> +		if (!r) {
-> +			WARN_ONCE(1, "Incomplete regset list: can't add register (%d)\n",
-> +				  -ENOMEM);
-> +			return ERR_PTR(-ENOMEM);
-> +		}
-> +
-> +		regset->registers = r + (regset->registers - regset->storage);
-> +		regset->storage = r;
-> +		regset->storage_max = size / sizeof(*slot);
-> +	}
-> +
-> +	slot = &regset->storage[pos];
-> +	regset->storage_used++;
-> +	*slot = *reg;
-> +
-> +	return slot;
-> +}
-> +
->   static long __must_check guc_mmio_reg_add(struct temp_regset *regset,
->   					  u32 offset, u32 flags)
->   {
-> -	u32 count = regset->used;
-> +	u32 count = regset->storage_used - (regset->registers - regset->storage);
->   	struct guc_mmio_reg reg = {
->   		.offset = offset,
->   		.flags = flags,
->   	};
->   	struct guc_mmio_reg *slot;
->   
-> -	GEM_BUG_ON(count >= regset->size);
-> -
->   	/*
->   	 * The mmio list is built using separate lists within the driver.
->   	 * It's possible that at some point we may attempt to add the same
-> @@ -266,9 +291,9 @@ static long __must_check guc_mmio_reg_add(struct temp_regset *regset,
->   		    sizeof(reg), guc_mmio_reg_cmp))
->   		return 0;
->   
-> -	slot = &regset->registers[count];
-> -	regset->used++;
-> -	*slot = reg;
-> +	slot = __mmio_reg_add(regset, &reg);
-> +	if (IS_ERR(slot))
-> +		return PTR_ERR(slot);
->   
->   	while (slot-- > regset->registers) {
->   		GEM_BUG_ON(slot[0].offset == slot[1].offset);
-> @@ -295,7 +320,11 @@ static int guc_mmio_regset_init(struct temp_regset *regset,
->   	unsigned int i;
->   	int ret = 0;
->   
-> -	regset->used = 0;
-> +	/*
-> +	 * Each engine's registers point to a new start relative to
-> +	 * storage
-> +	 */
-> +	regset->registers = regset->storage + regset->storage_used;
->   
->   	ret |= GUC_MMIO_REG_ADD(regset, RING_MODE_GEN7(base), true);
->   	ret |= GUC_MMIO_REG_ADD(regset, RING_HWS_PGA(base), false);
-> @@ -317,32 +346,28 @@ static int guc_mmio_regset_init(struct temp_regset *regset,
->   	return ret ? -1 : 0;
->   }
->   
-> -static int guc_mmio_reg_state_query(struct intel_guc *guc)
-> +static long guc_mmio_reg_state_create(struct intel_guc *guc)
->   {
->   	struct intel_gt *gt = guc_to_gt(guc);
->   	struct intel_engine_cs *engine;
->   	enum intel_engine_id id;
-> -	struct temp_regset temp_set;
-> -	u32 total;
-> +	struct temp_regset temp_set = {};
-> +	long total = 0;
->   
-> -	/*
-> -	 * Need to actually build the list in order to filter out
-> -	 * duplicates and other such data dependent constructions.
-> -	 */
-> -	temp_set.size = MAX_MMIO_REGS;
-> -	temp_set.registers = kmalloc_array(temp_set.size,
-> -					   sizeof(*temp_set.registers),
-> -					   GFP_KERNEL);
-> -	if (!temp_set.registers)
-> -		return -ENOMEM;
-> -
-> -	total = 0;
->   	for_each_engine(engine, gt, id) {
-> -		guc_mmio_regset_init(&temp_set, engine);
-> -		total += temp_set.used;
-> +		u32 used = temp_set.storage_used;
-> +
-> +		if (guc_mmio_regset_init(&temp_set, engine) < 0)
-> +			return -1;
+> Also you didn't keep any todo entry for removing DRM accel code,
 
-If you fail here you're leaking temp_set.storage.
-Also, any reason not to just return the return code from 
-guc_mmio_regset_init?
+That wasn't intentional.
+I just sent 2 revert-patches and an fbcon-accel-enabling-patch.
+I'll look up what you had in your patch series and add it as seperate patc=
+h.
 
-Apart from these minor comments, the change LGTM. IMO we could also 
-merge this patch on its own ahead of the rest of the dma_buf code, 
-because not having to recreate the regset on every reset/resume is still 
-helpful.
+> and iirc some nouveau folks also complained that they at least
+> once had some kind of accel, so that's another reason to not tie this
+> to DRM.
 
-Daniele
+The above proposal to add additional "default y if XYZ" would enable
+them to opt-in.
 
-> +
-> +		guc->ads_regset_count[id] = temp_set.storage_used - used;
-> +		total += guc->ads_regset_count[id];
->   	}
->   
-> -	kfree(temp_set.registers);
-> +	guc->ads_regset = temp_set.storage;
-> +
-> +	drm_dbg(&guc_to_gt(guc)->i915->drm, "Used %lu KB for temporary ADS regset\n",
-> +		(temp_set.storage_max * sizeof(struct guc_mmio_reg)) >> 10);
->   
->   	return total * sizeof(struct guc_mmio_reg);
->   }
-> @@ -352,40 +377,38 @@ static void guc_mmio_reg_state_init(struct intel_guc *guc,
->   {
->   	struct intel_gt *gt = guc_to_gt(guc);
->   	struct intel_engine_cs *engine;
-> +	struct guc_mmio_reg *ads_registers;
->   	enum intel_engine_id id;
-> -	struct temp_regset temp_set;
-> -	struct guc_mmio_reg_set *ads_reg_set;
->   	u32 addr_ggtt, offset;
-> -	u8 guc_class;
->   
->   	offset = guc_ads_regset_offset(guc);
->   	addr_ggtt = intel_guc_ggtt_offset(guc, guc->ads_vma) + offset;
-> -	temp_set.registers = (struct guc_mmio_reg *)(((u8 *)blob) + offset);
-> -	temp_set.size = guc->ads_regset_size / sizeof(temp_set.registers[0]);
-> +	ads_registers = (struct guc_mmio_reg *)(((u8 *)blob) + offset);
-> +
-> +	memcpy(ads_registers, guc->ads_regset, guc->ads_regset_size);
->   
->   	for_each_engine(engine, gt, id) {
-> +		u32 count = guc->ads_regset_count[id];
-> +		struct guc_mmio_reg_set *ads_reg_set;
-> +		u8 guc_class;
-> +
->   		/* Class index is checked in class converter */
->   		GEM_BUG_ON(engine->instance >= GUC_MAX_INSTANCES_PER_CLASS);
->   
->   		guc_class = engine_class_to_guc_class(engine->class);
->   		ads_reg_set = &blob->ads.reg_state_list[guc_class][engine->instance];
->   
-> -		guc_mmio_regset_init(&temp_set, engine);
-> -		if (!temp_set.used) {
-> +		if (!count) {
->   			ads_reg_set->address = 0;
->   			ads_reg_set->count = 0;
->   			continue;
->   		}
->   
->   		ads_reg_set->address = addr_ggtt;
-> -		ads_reg_set->count = temp_set.used;
-> +		ads_reg_set->count = count;
->   
-> -		temp_set.size -= temp_set.used;
-> -		temp_set.registers += temp_set.used;
-> -		addr_ggtt += temp_set.used * sizeof(struct guc_mmio_reg);
-> +		addr_ggtt += count * sizeof(struct guc_mmio_reg);
->   	}
-> -
-> -	GEM_BUG_ON(temp_set.size);
->   }
->   
->   static void fill_engine_enable_masks(struct intel_gt *gt,
-> @@ -634,8 +657,11 @@ int intel_guc_ads_create(struct intel_guc *guc)
->   
->   	GEM_BUG_ON(guc->ads_vma);
->   
-> -	/* Need to calculate the reg state size dynamically: */
-> -	ret = guc_mmio_reg_state_query(guc);
-> +	/*
-> +	 * Create reg state size dynamically on system memory to be copied to
-> +	 * the final ads blob on gt init/reset
-> +	 */
-> +	ret = guc_mmio_reg_state_create(guc);
->   	if (ret < 0)
->   		return ret;
->   	guc->ads_regset_size = ret;
-> @@ -681,6 +707,7 @@ void intel_guc_ads_destroy(struct intel_guc *guc)
->   	i915_vma_unpin_and_release(&guc->ads_vma, I915_VMA_RELEASE_MAP);
->   	guc->ads_blob = NULL;
->   	dma_buf_map_clear(&guc->ads_map);
-> +	kfree(guc->ads_regset);
->   }
->   
->   static void guc_ads_private_data_reset(struct intel_guc *guc)
+> Anyway aside from this looks reasonable, can you pls respin with a
+> more cautious Kconfig text?
 
+Sure, I'll do as soon as we have a decision on the above Kconfig text.
+
+Helge
