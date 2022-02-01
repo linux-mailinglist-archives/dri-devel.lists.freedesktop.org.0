@@ -1,67 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C654E4A61C8
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 18:01:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE974A61CD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 18:02:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75D6A10E14F;
-	Tue,  1 Feb 2022 17:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FB7E10E5F6;
+	Tue,  1 Feb 2022 17:02:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABDD110E14F
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 17:01:06 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id r8so1240105uaj.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 09:01:06 -0800 (PST)
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
+ [IPv6:2607:f8b0:4864:20::c35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D652110E5F6
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 17:02:25 +0000 (UTC)
+Received: by mail-oo1-xc35.google.com with SMTP id
+ p4-20020a4a8e84000000b002e598a51d60so4295416ook.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 09:02:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SmNulzN3mmZQBCDB7sQ8CSdfD8G2urW4bUypyx2Sf+U=;
+ b=d+5cIITflXarmSYidQYqGy/SPlpwJFPzUwzgnzx7YR24olDgujJq7qHiWnlN+fcRjp
+ RmfyDMRjnZa+nNfcr3P4npSe9RXP+06rXO/fW8PoG09XRA1YqP8nxpkt4MzDwjpsicV7
+ ZyFcVV7wa1gfKWy64DDrp7h3j9EB30ErvuCRY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rEgpI3G2nX9Lw9uqceH2eAdidBvBzk5i80XCAAy1o9c=;
- b=6wi4pvDsKsAwK4Oy5+SxBcTVpln2B6cGRVgpv95Ph+L/uRN+o+SGjJUzMbn89LZJk0
- v8wQrj460kNLpxYvdilKjIkKvMKCT5nhoctS5R5C5r7OoT/iTqoIZ9lYZvbi/3XYY5Fh
- DO8u/GFiyufoRm8cX7X2jHZIp0MeR+FVtISz7j7KUhNj8GOGvMK9OUvyaJkHh5b2mUew
- 4hFYZoWN4b99bDqc2o5x1aBjkP01orJ8IG3Ob5HU+ibIrHMcJdZN5k2RYaKvLV8x1FQq
- dRlwKS2uJkp9DOM9PPa8WBgUFgmP9TMk5z1GfrHEtZcYdOGhi5WL9G3Ucg/Hn1FDg8vB
- daoA==
-X-Gm-Message-State: AOAM532/6Jh71tJJnf0Wa+elrdHzDwP5pSzeEl5ubvFjv4Ku1oIXADkq
- Kpn2KQXhtgQWarY8a5YMEMnr48glowE+d7V0
-X-Google-Smtp-Source: ABdhPJybXWYGw0IVzc7l4zTahQnR5TaF/a7jJkgUyCkss/mPjxML5+IlxhVQgnONnsAgsM0PJ7EytQ==
-X-Received: by 2002:a67:7206:: with SMTP id n6mr9522347vsc.21.1643734865531;
- Tue, 01 Feb 2022 09:01:05 -0800 (PST)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com.
- [209.85.222.49])
- by smtp.gmail.com with ESMTPSA id n67sm4908602vkf.41.2022.02.01.09.01.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 09:01:05 -0800 (PST)
-Received: by mail-ua1-f49.google.com with SMTP id m90so14326251uam.2
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 09:01:04 -0800 (PST)
-X-Received: by 2002:ab0:6cf9:: with SMTP id l25mr10528741uai.122.1643734864638; 
- Tue, 01 Feb 2022 09:01:04 -0800 (PST)
+ bh=SmNulzN3mmZQBCDB7sQ8CSdfD8G2urW4bUypyx2Sf+U=;
+ b=D4oFsUTxOyZXhIA7/F36oVe6+c2oc78+ZbLUFHWAKRXtap3XO2ksRJPZvcQbrf2wYy
+ GmPgz+CTkpSTxhOjb1nYkFOxMHKvHt6nMBLEWoZyLZ+EwwIJ8HKn5OxrHjN1VOjKrsVP
+ T3F67evGvxutLVqskazLAtEMvWfeJFGq0nbizNIDGk/DGYZjeBv4Th3x2aQ/KhGuYzaH
+ Ibl861t1Ohuitv4HZWme0qWGOHXZW0ZpZ3+yJ1Nkx8fUk3ye8T+G7qOhixjx9rDAhMaO
+ 1oRT7XgJDkd7WGeSICrYR3fhf8u99d9xF+DHUKSY/v3QQ2354HI1ics3AgHcqwtz7LCS
+ 4g9A==
+X-Gm-Message-State: AOAM533WChfRiVLWzSGtsdfV5OJfqxnNrm+xCE3tcli9wabEnZ/rtUpE
+ +OhcCWKgFtbL23sESXlg+49rnQCDbPTGCRTRJBP0FA==
+X-Google-Smtp-Source: ABdhPJwWXljKvKuGvpSaNGrCDpGDZgSOOvLzRo52D5dqbZIgiKxNCAjoHk0BJnO9f2e73wAgllo3zYa4Ve3UnhJBSrA=
+X-Received: by 2002:a4a:8891:: with SMTP id j17mr13060858ooa.12.1643734945153; 
+ Tue, 01 Feb 2022 09:02:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-2-andriy.shevchenko@linux.intel.com>
- <YfEG2qVO9K9G+g1d@kroah.com>
- <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
- <f671a112-880d-1526-a395-360947b40c5a@gmx.de> <YfEv7OQs98O9wJdJ@kroah.com>
- <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
- <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
- <YfFV4EJosayH+e6C@smile.fi.intel.com> <YfFWPmG2D093gz4N@smile.fi.intel.com>
- <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
- <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
- <ddb0f354-be19-92fe-20b3-56b00c9304ab@suse.de>
- <840ec74d-60c6-9480-709c-8cd597c6f5b0@redhat.com>
- <e7fbef3c-2f87-15f9-b24d-34ffaa5a2853@suse.de>
-In-Reply-To: <e7fbef3c-2f87-15f9-b24d-34ffaa5a2853@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 1 Feb 2022 18:00:53 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXnn+JcyMAV_Vbb4Yj8hJmae=Snc2R2fLviq67UYXg7Ew@mail.gmail.com>
-Message-ID: <CAMuHMdXnn+JcyMAV_Vbb4Yj8hJmae=Snc2R2fLviq67UYXg7Ew@mail.gmail.com>
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20220125135406.1.I62322abf81dbc1a1b72392a093be0c767da9bf51@changeid>
+ <e89dbc7b-b3ae-c334-b704-f5633725c29f@redhat.com>
+ <CAD=FV=U8VGnRXv8MgofKzZF22_x0_X3M+AMfyPQ1u=yTXnFBQA@mail.gmail.com>
+ <6fdcfbcf-0546-6b4f-b50f-cf2382ad746f@redhat.com>
+ <CAD=FV=U3YHt=+cr8c39zMxFWMeo4Pr=R3BBPMKanpySPhsYh9w@mail.gmail.com>
+In-Reply-To: <CAD=FV=U3YHt=+cr8c39zMxFWMeo4Pr=R3BBPMKanpySPhsYh9w@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 1 Feb 2022 18:02:13 +0100
+Message-ID: <CAKMK7uEiUxPJ7F+F33YVdq6d9WxzxTKzoxTyiZnvceM2CHEkVw@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Allow querying the detected panel via sysfs
+To: Doug Anderson <dianders@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,44 +63,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- Michael Hennerich <michael.hennerich@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-staging@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Carlis <zhangxuezhi1@yulong.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Phillip Potter <phil@philpotter.co.uk>, Heiner Kallweit <hkallweit1@gmail.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Robert Foss <robert.foss@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, lschyi@chromium.org,
+ Sam Ravnborg <sam@ravnborg.org>, jjsu@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-On Tue, Feb 1, 2022 at 5:16 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Am 31.01.22 um 11:18 schrieb Javier Martinez Canillas:
-> > Another thing that's missing is a DRM_MODE_CONNECTOR_I2C, because I used for
-> > now a DRM_MODE_CONNECTOR_Unknown.
+On Tue, Feb 1, 2022 at 5:42 PM Doug Anderson <dianders@chromium.org> wrote:
 >
-> That might have implications on userspace. Maybe ask around. (Not that
-> we actually run userspace on the device).
+> Hi,
+>
+> On Wed, Jan 26, 2022 at 12:25 AM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
+> >
+> > On 1/26/22 00:25, Doug Anderson wrote:
+> > > On Tue, Jan 25, 2022 at 2:55 PM Javier Martinez Canillas
+> > > <javierm@redhat.com> wrote:
+> >
+> > [snip]
+> >
+> > >> Should this new sysfs entry be documented in Documentation/ABI/ ?
+> > >
+> > > I'm not sure what the policy is here. I actually don't know that I'm
+> > > too worried about this being an ABI. For the purposes of our tests
+> > > then if something about this file changed (path changed or something
+> > > like that) it wouldn't be a huge deal. Presumably the test itself
+> > > would just "fail" in this case and that would clue us in that the ABI
+> > > changed and we could adapt to whatever new way was needed to discover
+> > > this.
+> > >
+> > > That being said, if the policy is that everything in sysfs is supposed
+> > > to be ABI then I can add documentation for this...
+> > >
+> >
+> > I also don't know the policy, hence the question. But in any case, I
+> > think that it could even be done as a follow-up if is needed.
+>
+> Sounds good. Since it's been pretty silent and I had your review I
+> pushed this to drm-misc-next. If there are comments or someone has an
+> opinion documenting this as a stable ABI then please yell.
+>
+> 363c4c3811db drm/panel-edp: Allow querying the detected panel via sysfs
 
-Looking at the list of connector types (and wondering if we're gonna
-need more when converting existing fbdev drivers to drm drivers),
-there seem to be two different families of connector types, for
-  1. transports between CRTC and display (e.g. VGA, DVID, HDMI),
-  2. transports between CPU and CRTC (e.g. SPI, possibly USB, and
-     the proposed I2C)?
+Generally stuff for tests should be put into debugfs. We print
+everything there in various files.
 
-Gr{oetje,eeting}s,
+sysfs is uapi, and so come with the full baggage of you need open
+userspace (which for some sysfs stuff might just be a script), and
+explicitly not for tests (because that just opens the door to merge
+anything binary blobs might want and just slide it all in). So please
+retcon at least some plausible deniability here :-)
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+But if it's really only for a test then maybe dumping this into a
+debugfs file (we do have connector directories already) would be much
+better. That doable?
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
