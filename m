@@ -1,80 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970714A5E64
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 15:36:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED56F4A5E84
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 15:45:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFD2210E181;
-	Tue,  1 Feb 2022 14:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F7CB10E219;
+	Tue,  1 Feb 2022 14:45:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43CB710E181
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:36:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643726169;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c1qqBdKQoPCwA2ePd7jBkicuBscZF3IvkLQTjtTxA/c=;
- b=a7eUnWPrmga2Ef1jvyEh5tApsmsNQau8UJgN5MSkVmy1zwkTBbrBQVQvPWbL8xdY75qW1O
- VdJha6Ou0d7DIpw6JJMp/Ug627tJJPqxDM8e1gach61p//QccvK3JMTVXkLzbUg49pbvCR
- 7EgVn5nb2LNVH87+dhEMaNwYn++iaIg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-vAtL3_yAOD-1luYin1uYpA-1; Tue, 01 Feb 2022 09:36:08 -0500
-X-MC-Unique: vAtL3_yAOD-1luYin1uYpA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bg16-20020a05600c3c9000b0034bea12c043so1701606wmb.7
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 06:36:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=c1qqBdKQoPCwA2ePd7jBkicuBscZF3IvkLQTjtTxA/c=;
- b=0yoYswNM0GrfnWcQkkTaqgUOf+AezOTBN8oKksTgCpW99HDJ7Q1fUvRfjIJNc2vLwL
- E2O5DFKOKB6kUCprcG/2n3peYvFAoP6vg5NN4a1qeIU83IzbEcjI1R0cHkWiZAojVoEo
- 3BQZF3ECbK/BvY+oPo5zbvINUue3Jhqm4KbhAwH71tNgWHw1VNQTFoVeoRZGLtL4cTap
- Gfd2O4nQJ8CuM0/fLT+sKOFMwNnSKwXbMXByXp3UVOlN9P43HZsqOTu9Blbd9BD3Lq+T
- AyUpowS+YiJoGhBsLSGUIlZ0YZ+qc93rm1bgBmUFN9rZL2Eem5Pw2VRsTZ0Ze8PqeCbF
- N5sg==
-X-Gm-Message-State: AOAM533sxiBh4rbLTFTGm9y16f28Eq+axiFSs19BSKe+VaXk+iW0vOf0
- WzuztHGMJCEWy9mjUW5Ym59lPQeQFa79axanIZLuZJteKr6j7hHcK9gCl8ktGKdHORjO8Sj120C
- gRKC14Dzu4KemT1jolbA0qnC1ABTm
-X-Received: by 2002:a7b:c003:: with SMTP id c3mr2022316wmb.80.1643726166846;
- Tue, 01 Feb 2022 06:36:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyWEsVQ1UNLWnla5O+uQQySFc68PN6z96VL15rWk5+1TFXROa0fVwYLO5ACOVmJk7fJj5i8fA==
-X-Received: by 2002:a7b:c003:: with SMTP id c3mr2022299wmb.80.1643726166675;
- Tue, 01 Feb 2022 06:36:06 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id h18sm17864523wro.9.2022.02.01.06.36.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 06:36:06 -0800 (PST)
-Message-ID: <3df2add7-6034-0527-825a-74e62e76dace@redhat.com>
-Date: Tue, 1 Feb 2022 15:36:04 +0100
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71FEF10E219
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:45:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id CCF45B82E4F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:45:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A300DC340ED
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:45:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1643726719;
+ bh=frQ0ax24/Rr3BNV3rsVBfqYjd+2Q9hMH/rtJiSrgpXE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=oc8riuzJjEURlrlrSX/pTvuD55e4mG0JHjB6xKb7gaxv/DeRCxCR3dk4XC/1+wo4D
+ KKHc4caT5Xeh/XPn0mASBtNhcHXXhhYP0JdWjtwjOCQvS88HMVgZbSF8pVyza68zbe
+ qVZA5ntM/O3LBc+otbxeDpmwGJIvZ2PNIxSZXFGiawHitiU8LVDFkmmy+bSbgrA8QZ
+ QBcOPRQSk3lT0WFnFM+zwAO9He2X7XKRYOwDKaQzxKTWBULcUgrtkpSuK/uqj/Byp5
+ 9Ew5goQAt5aywWKiBN+92qMphnEkPbAMpH9ggdAfv+UjQKuEtmDuQLrD3g5qsRw6j8
+ kXCxpCKZJyJ8A==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 8E609C05FD6; Tue,  1 Feb 2022 14:45:19 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215558] amdgpu driver sometimes crashes when playing games
+Date: Tue, 01 Feb 2022 14:45:19 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(Other)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-215558-2300-l3irPVxa4X@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215558-2300@https.bugzilla.kernel.org/>
+References: <bug-215558-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 3/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220131202916.2374502-1-javierm@redhat.com>
- <cc093cd5-fba1-5d84-5894-81a6e1d039ff@suse.de>
- <73dbc5c7-b9e2-a260-49a6-0b96f342391e@redhat.com>
- <CAMuHMdUJpoG=XChpqNotfEDrWCxFUqyhjW2JW1ckAyKcWXvAUw@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAMuHMdUJpoG=XChpqNotfEDrWCxFUqyhjW2JW1ckAyKcWXvAUw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,58 +70,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/1/22 15:05, Geert Uytterhoeven wrote:
-> Hi Javier,
-> 
-> On Tue, Feb 1, 2022 at 2:02 PM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->> On 2/1/22 10:33, Thomas Zimmermann wrote:
->>>> +{
->>>> +    u8 col_end = col_start + cols - 1;
->>>> +    int ret;
->>>> +
->>>> +    if (col_start == ssd1307->col_start && col_end == ssd1307->col_end)
->>>> +            return 0;
->>>> +
->>>> +    ret = ssd1307_write_cmd(ssd1307->client, SSD1307_SET_COL_RANGE);
->>>> +    if (ret < 0)
->>>> +            return ret;
->>>> +
->>>> +    ret = ssd1307_write_cmd(ssd1307->client, col_start);
->>>> +    if (ret < 0)
->>>> +            return ret;
->>>> +
->>>> +    ret = ssd1307_write_cmd(ssd1307->client, col_end);
->>>> +    if (ret < 0)
->>>> +            return ret;
->>>
->>> Can you write these cmds in one step, such as setting up an array and
->>> sending it with ssd1307_write_array?
->>
->> I don't think so because the commands are different. But I'll check the
->> ssd1306 datasheet again to confirma that's the case.
-> 
-> IIRC, I tried that while working on the optimizations for ssd1307fb,
-> and it didn't work.
->
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215558
 
-That's what I would had expected by reading the datasheet. Thanks a
-lot for confirming my assumption.
- 
+Alex Deucher (alexdeucher@gmail.com) changed:
 
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
 
+--- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
+If it's problematic with specific games, I would start with a newer or older
+version of mesa.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
