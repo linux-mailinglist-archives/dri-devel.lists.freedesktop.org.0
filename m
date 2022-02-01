@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16F14A5DEC
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 15:05:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78EB94A5E08
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 15:14:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD8910E52D;
-	Tue,  1 Feb 2022 14:05:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B7F10E62F;
+	Tue,  1 Feb 2022 14:14:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com
- [209.85.221.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F66910E52D
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:05:31 +0000 (UTC)
-Received: by mail-vk1-f175.google.com with SMTP id l14so9296885vko.12
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 06:05:31 -0800 (PST)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
+ [209.85.217.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D885710E62F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:14:30 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id az20so16222814vsb.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 06:14:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tSPo3aBmqMYxhq4BWMLe/VmrA5tIsKRk8/D0WbRUEX0=;
- b=EmSBmjS4l4dHt4wEt0yXbASXL9nvN80e1G0bLuFS892DeFkuy9BqPrxFnNezmZLsMj
- jcUnBSTaMiDSEU8m8Qida3UGG/GIDL259pS/o5DIYNCFg5bD2ZqMVehu+hj00r6xuRSa
- kbU+oL2+5vEzhmFySxlF7XGFdqD4FwJ/5ToVUqDLKqrXQ/YNeHrMYWnTwpyfcKZ+EX0a
- L6JjdyZ/qHPBSrnXc1SMjpAX+UqCXD46bcnUB+kIHEz4rd1htYnFZHSR4pH8PRTNtKO0
- wReT1DEl9eJ8qAPbXmORCmr48JAzLB1V8sf18jcne5ymQNE3rUS34QhtZaDYR6GTZTK3
- Wz1A==
-X-Gm-Message-State: AOAM531MTA0lY/IeFx++BCZPkG9DKQ3EAhT/TrY5JAzk2zHlKOQ/DZXz
- mj3Zd+St+X9fmo39HkhQQ8n+lOVYDX3WWQ==
-X-Google-Smtp-Source: ABdhPJwSoABM84WyqLYXdwRfQiNmBlqTtifjGbbxaPCwHZlASvgzBTyF4CokV8oU2owGFRFOkjITYw==
-X-Received: by 2002:a05:6122:9a8:: with SMTP id
- g40mr10243793vkd.15.1643724330414; 
- Tue, 01 Feb 2022 06:05:30 -0800 (PST)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com.
- [209.85.217.43])
- by smtp.gmail.com with ESMTPSA id q4sm4849934vke.15.2022.02.01.06.05.29
+ bh=6JTo8Sy9jsMuY9se9GPF3GJU4ezrpNEbpV0Rieuvz5M=;
+ b=YpqnGFqd9EnG6BM0XHAgB/JlEwAJUGCgmtTfl4fI6JHJIrSG7frUxNAmTOkLnojMeZ
+ epSGuuD4taX1lh/GAUuyRWwzZtZAJKpWNpOBp9lVYvb7ycgcUFXWYgHCUzMePs2F9/Un
+ gKrYNIlu23rbCFRTgWH0ye+I0L4TeuSCTEvqYsVESSzUOM7w0fPzuzIRZrSulgozdpPF
+ L+QKADJy4Oi+d6IUXSAcoqDCpAlC1GpnC8kDrisDOVLmk6thEkcxdzmumj6GxptA5gLz
+ PUsVOYY89dEScvrWEBlf631z/xs9oFty+/0PzJzNJMblppjOxI34cjWpww43bYVtJWAl
+ Bklw==
+X-Gm-Message-State: AOAM531hJiBrjjammZJQDfHpkdJrnbkyMJtGR7QTBopudYglac64AUk6
+ ZxU/VBWVd8sY4gypKg4JH+djf2E5uPOs6fcY
+X-Google-Smtp-Source: ABdhPJx9sdr0deMibrkybQYXsmeODdHBledqf7RJ42fwHas/mHgnN9OXe8Ny0FIouKHk/eSC3yrvAg==
+X-Received: by 2002:a05:6102:3a7a:: with SMTP id
+ bf26mr9145133vsb.27.1643724869827; 
+ Tue, 01 Feb 2022 06:14:29 -0800 (PST)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com.
+ [209.85.217.51])
+ by smtp.gmail.com with ESMTPSA id g25sm4128074vsj.6.2022.02.01.06.14.28
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 06:05:30 -0800 (PST)
-Received: by mail-vs1-f43.google.com with SMTP id az20so16187419vsb.8
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 06:05:29 -0800 (PST)
-X-Received: by 2002:a67:c198:: with SMTP id h24mr10246425vsj.5.1643724329652; 
- Tue, 01 Feb 2022 06:05:29 -0800 (PST)
+ Tue, 01 Feb 2022 06:14:29 -0800 (PST)
+Received: by mail-vs1-f51.google.com with SMTP id f6so16229130vsa.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 06:14:28 -0800 (PST)
+X-Received: by 2002:a67:5f83:: with SMTP id t125mr9456510vsb.68.1643724868281; 
+ Tue, 01 Feb 2022 06:14:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20220131202916.2374502-1-javierm@redhat.com>
- <cc093cd5-fba1-5d84-5894-81a6e1d039ff@suse.de>
- <73dbc5c7-b9e2-a260-49a6-0b96f342391e@redhat.com>
-In-Reply-To: <73dbc5c7-b9e2-a260-49a6-0b96f342391e@redhat.com>
+References: <20220131201225.2324984-1-javierm@redhat.com>
+ <YfhM97cVH3+lJKg0@ravnborg.org>
+ <Yfj/XGRRDNABsLPm@smile.fi.intel.com>
+ <f8d71acb-5c8b-ac4e-0c32-38eb66af04c3@redhat.com>
+ <CAMuHMdVP6ER119r2KAegjZes1a=KWZ47z6j=kgQ0oNx1oeUJ+w@mail.gmail.com>
+ <51f54519-bb8b-f108-1c1e-4fed101ca5ef@redhat.com>
+In-Reply-To: <51f54519-bb8b-f108-1c1e-4fed101ca5ef@redhat.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 1 Feb 2022 15:05:18 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUJpoG=XChpqNotfEDrWCxFUqyhjW2JW1ckAyKcWXvAUw@mail.gmail.com>
-Message-ID: <CAMuHMdUJpoG=XChpqNotfEDrWCxFUqyhjW2JW1ckAyKcWXvAUw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
+Date: Tue, 1 Feb 2022 15:14:17 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVwUfv7pXhPazsgG6t=X=aVtDQkFUk_=mUuFH8Fscx8wg@mail.gmail.com>
+Message-ID: <CAMuHMdVwUfv7pXhPazsgG6t=X=aVtDQkFUk_=mUuFH8Fscx8wg@mail.gmail.com>
+Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
 To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,48 +69,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Javier,
 
-On Tue, Feb 1, 2022 at 2:02 PM Javier Martinez Canillas
+On Tue, Feb 1, 2022 at 2:09 PM Javier Martinez Canillas
 <javierm@redhat.com> wrote:
-> On 2/1/22 10:33, Thomas Zimmermann wrote:
-> >> +{
-> >> +    u8 col_end = col_start + cols - 1;
-> >> +    int ret;
-> >> +
-> >> +    if (col_start == ssd1307->col_start && col_end == ssd1307->col_end)
-> >> +            return 0;
-> >> +
-> >> +    ret = ssd1307_write_cmd(ssd1307->client, SSD1307_SET_COL_RANGE);
-> >> +    if (ret < 0)
-> >> +            return ret;
-> >> +
-> >> +    ret = ssd1307_write_cmd(ssd1307->client, col_start);
-> >> +    if (ret < 0)
-> >> +            return ret;
-> >> +
-> >> +    ret = ssd1307_write_cmd(ssd1307->client, col_end);
-> >> +    if (ret < 0)
-> >> +            return ret;
+> On 2/1/22 12:38, Geert Uytterhoeven wrote:
+> >> Since the current binding has a compatible "ssd1305fb-i2c", we could make the
+> >> new one "ssd1305drm-i2c" or better, just "ssd1305-i2c".
 > >
-> > Can you write these cmds in one step, such as setting up an array and
-> > sending it with ssd1307_write_array?
+> > DT describes hardware, not software policy.
+> > If the hardware is the same, the DT bindings should stay the same.
+> >
 >
-> I don't think so because the commands are different. But I'll check the
-> ssd1306 datasheet again to confirma that's the case.
+> Yes I know that but the thing is that the current binding don't describe
+> the hardware correctly. For instance, don't use a backlight DT node as a
+> property of the panel and have this "fb" suffix in the compatible strings.
+>
+> Having said that, my opinion is that we should just keep with the existing
+> bindings and make compatible to that even if isn't completely correct.
+>
+> Since that will ease adoption of the new DRM driver and allow users to use
+> it without the need to update their DTBs.
 
-IIRC, I tried that while working on the optimizations for ssd1307fb,
-and it didn't work.
+To me it looks like the pwms property is not related to the backlight
+at all, and only needed for some variants?
+
+And the actual backlight code seems to be about internal contrast
+adjustment?
+
+So if the pwms usage is OK, what other reasons are there to break
+DT compatibility? IMHO just the "fb" suffix is not a good reason.
 
 Gr{oetje,eeting}s,
 
