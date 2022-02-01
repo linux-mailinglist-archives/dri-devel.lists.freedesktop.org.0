@@ -1,66 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0B44A6837
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 23:52:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 934814A6841
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 23:55:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58E6710E229;
-	Tue,  1 Feb 2022 22:52:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2E110E231;
+	Tue,  1 Feb 2022 22:55:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C592A10E229
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 22:52:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1643755941;
- bh=RCD65NhYXOFlzyNe/FeS9DBnn5ix6Eu1bg/rYHyJd1I=;
- h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
- b=RJDDovGgu4o2gaMW/lO3OIQpklc5hxOLy2eDNP8Tg1jUSCGtWsbqBdbP27v99V1ld
- UcnWPwy0W92qsaxzc0GYBKNw0Bt0bMSk1t3O3KQNvyRAvcRYFUJfmgkx46XlkEo/CM
- Cw+vFlAda4ipQNH3BGfRdJ4ATB+zswIxJp+e0CEM=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.146.124]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MEFvp-1n71eK0rDh-00AE5s; Tue, 01
- Feb 2022 23:52:21 +0100
-Message-ID: <dd186ce6-56b3-fe68-daad-249b18ebd627@gmx.de>
-Date: Tue, 1 Feb 2022 23:52:18 +0100
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9204710E231;
+ Tue,  1 Feb 2022 22:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643756123; x=1675292123;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=KZwbuAEZV1Yl9JchUYv22xVHMgTH9DX8N1sFwc4oOvs=;
+ b=ieksHSMZMbGC0PDIFsM+gqjq8/T+HFe/N8joiPF6yNvjK3n14FEwTd68
+ urCa8T/3ZYkxBIfUTcCaJT4dJ6qCw/vVV2nqxb06vRw9bHGmVkAOlSyPw
+ whQbdL0BbVXrACe3OcYIxGH2/278GuwtVr97jyB5IS5ZWa1V+BN9obaKG
+ 7e4WnFoAwD4A8YGh31KXYYINsMXTtOrDGHdd/7AvyU+nrdcLZM1+Pwaer
+ unxYTLEu2hRacLzoDvO0df6nWNVuITFKwajF+8M6HoIn2mvPbcOIedPS9
+ AMbotL5GuSSxthnU/sMgr9mls/5skoC3po0BNBYEdbZ2wGqtL/bqEBUcu g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="247761959"
+X-IronPort-AV: E=Sophos;i="5.88,335,1635231600"; d="scan'208";a="247761959"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2022 14:55:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,335,1635231600"; d="scan'208";a="599376568"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 01 Feb 2022 14:55:17 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nF23R-000ToW-6w; Tue, 01 Feb 2022 22:55:17 +0000
+Date: Wed, 2 Feb 2022 06:54:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH 3/6] drm/msm/dpu: allow just single IRQ callback
+Message-ID: <202202020658.FJTV4CAp-lkp@intel.com>
+References: <20220201151056.2480055-4-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Content-Language: en-US
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20220201185954.169768-1-deller@gmx.de>
- <20220201185954.169768-4-deller@gmx.de>
- <CAKMK7uFmMcC4p_zDq5G1Rpvjeg0zOz7v38mTj57JDZEis9fGAA@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v3 3/3] fbcon: Add option to enable legacy hardware
- acceleration
-In-Reply-To: <CAKMK7uFmMcC4p_zDq5G1Rpvjeg0zOz7v38mTj57JDZEis9fGAA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:PY6+MV2CfpN47XnVmSm28qZi//5LbpWrKFh1sF5MW5wp4z8RNUc
- qz54Rl1tmpazkJxHVXnY1N4FtFDP6KOM8VKKWzSdu5lNDE7BklXYDGWXdMDcpSV7rqv2w6j
- y3l+E8W6uMY+Je9qNghR6V+TnM9pj7q/RUZHDgr7SGr6s+3HXw6ugNjNtfzNE6F3J3fwPXB
- fGR25EXot/JjMyWTLICJw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yTquaLbApA8=:n0B/7fiKt79wtz7WFnhVHK
- Wm+6+CRH4y0j5wdt6GdZWPHKCFx+2q6P6uRp/GNcNoEXEprY8ZK3WV6BF7I54amLICjoj34YX
- MCivoBJeVsATBq0tC6M2dhnkpD/aPiYq9LzSmJs/xpzjEQvTmW6xnvDAZyJ2p/bWziEyaaaV0
- t/jL3gzbNQfyaiHPZSnOdEAhsaA9hGuppOEFtkmCDo5AbyOiWisSLQwgOoo4MvH6Uzxb+IAYc
- eoqk/kHsMwqV9LaD+T84Qd7YooG9xbj7nnUo2/grZH5qUmV0Mmg4obsMlESN0IbcM6b7fHtsB
- mCtFNcJuOZ3viLE3iD1rsKY6Rt5jwN89qA/g5SuW3fs/MfqzHaO1dAJq3dO4bWE89BFEDNppz
- iD2ByFdyJROirsvIbrgeD5M9noZH1Ngdoo9+43kfTTxPLx9x6oftKATXAmd+8P/NeClQ5/1X9
- sMuxoWcrbBH2T+L51cPp2uRJDpZ02meSkB+kfXARe68uw0bSOra6LhP6pRDBkbWXaKS0Rti0l
- w2HxiKrJ/2ynaAOvD3/LkyyssF8q07IxyfNfPmlg0Re120XHj+Pabkg52aV3PbrZ7DEVZ9F8s
- Zu73Ot+rx76Z3+10j0LGUvzY3o69Y3GKFe7aMEPXf+ZIQrR3CWoxWrNoQYrh490kO9qSkU9Om
- Zvj/yh0SPTP+nNb6ZeuWGtQUP/r07v7Wkmbp/tJScc0bK51FnHB8qdjdrnNWNE7FYw8bQRjKO
- valFat04bW85qPYeeo3weG3Z9T/OeeY8Gdm7FNsWY8MIHPgUUseGhGIwnCb7mjBqgKqS8deFh
- InAZFt2GxEghB/4pWiDfOdgXyqRVSmz9T1p+0mGVaE+d9ddb6kVJV5+7d2zKFACHOTKZ1Ltdd
- 5tjAjodRXQmDNjbQo7W0VEVJNjfdHYye7xEGO3YW72uXUle6wQCP6c8sx9ZtTvXKj3KCX1ewW
- grD7AJIncY7QnebeLw5rX+DfFlzyn9v9s8Zf1uAf/kp4OIvKTPYqlJeW7gRKpU+RiEpv09FbK
- Fpi+gaaOa4j4CE/UFqVefQhOMxCt8MH1vi5xu3J/jI222pSb1j8WwHWyY6i3faIUfxeLl+w74
- NECwK9obxoGsaw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220201151056.2480055-4-dmitry.baryshkov@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,176 +62,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Daniel,
+Hi Dmitry,
 
-On 2/1/22 21:11, Daniel Vetter wrote:
-> On Tue, Feb 1, 2022 at 7:59 PM Helge Deller <deller@gmx.de> wrote:
->>
->> Add a config option CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION to
->> enable bitblt and fillrect hardware acceleration in the framebuffer
->> console. If disabled, such acceleration will not be used, even if it is
->> supported by the graphics hardware driver.
->>
->> If you plan to use DRM as your main graphics output system, you should
->> disable this option since it will prevent compiling in code which isn't
->> used later on when DRM takes over.
->>
->> For all other configurations, e.g. if none of your graphic cards suppor=
-t
->> DRM (yet), DRM isn't available for your architecture, or you can't be
->> sure that the graphic card in the target system will support DRM, you
->> most likely want to enable this option.
->>
->> In the non-accelerated case (e.g. when DRM is used), the inlined
->> fb_scrollmode() function is hardcoded to return SCROLL_REDRAW and as su=
-ch the
->> compiler is able to optimize much unneccesary code away.
->>
->> In this v3 patch version I additionally changed the GETVYRES() and GETV=
-XRES()
->> macros to take a pointer to the fbcon_display struct. This fixes the bu=
-ild when
->> console rotation is enabled and helps the compiler again to optimize ou=
-t code.
->>
->> Signed-off-by: Helge Deller <deller@gmx.de>
->> Cc: stable@vger.kernel.org # v5.10+
->> Signed-off-by: Helge Deller <deller@gmx.de>
->> ---
->>  drivers/video/console/Kconfig           | 11 +++++++
->>  drivers/video/fbdev/core/fbcon.c        | 39 ++++++++++++++++++-------
->>  drivers/video/fbdev/core/fbcon.h        | 15 +++++++++-
->>  drivers/video/fbdev/core/fbcon_ccw.c    | 10 +++----
->>  drivers/video/fbdev/core/fbcon_cw.c     | 10 +++----
->>  drivers/video/fbdev/core/fbcon_rotate.h |  4 +--
->>  drivers/video/fbdev/core/fbcon_ud.c     | 20 ++++++-------
->>  7 files changed, 75 insertions(+), 34 deletions(-)
->>
->> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kcon=
-fig
->> index 840d9813b0bc..6029fd41d7d0 100644
->> --- a/drivers/video/console/Kconfig
->> +++ b/drivers/video/console/Kconfig
->> @@ -78,6 +78,17 @@ config FRAMEBUFFER_CONSOLE
->>         help
->>           Low-level framebuffer-based console driver.
->>
->> +config FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
->> +       bool "Framebuffer Console hardware acceleration support"
->> +       depends on FRAMEBUFFER_CONSOLE
->> +       default n if DRM
->> +       default y
->> +       help
->> +         If you use a system on which DRM is fully supported you usual=
-ly want to say N,
->> +         otherwise you probably want to enable this option.
->> +         If enabled the framebuffer console will utilize the hardware =
-acceleration
->> +         of your graphics card by using hardware bitblt and fillrect f=
-eatures.
->
-> This really doesn't have much to do with DRM but more about running
-> questionable code. That's why I went with the generalized stern
-> warning and default n, and explained when it's ok to do this (single
-> user and you care more about fbcon performance than potential issues
-> because you only run trusted stuff with access to your vt and fbdev
-> /dev node).
+Thank you for the patch! Yet something to improve:
 
-I think this is something we both will keep to have different opinion abou=
-t :-)
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on v5.17-rc2 next-20220201]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-This console acceleration code is not exported or visible to userspace,
-e.g. you can't access or trigger it via /dev/fb0.
-It's only called internally from inside fbcon, so it's independed if
-it's a single- or multi-user system.
-The only way to "access" it is via standard stdio, where fbcon then
-either scrolls the screen via redrawing characters at new positions
-or by using hardware bitblt to move screen contents.
-IMHO there is nothing which is critical here.
-Even when I analyzed the existing bug reports, there was none which
-affected that specific code.
+url:    https://github.com/0day-ci/linux/commits/Dmitry-Baryshkov/drm-msm-dpu-simplify-IRQ-helpers/20220201-231430
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: arc-randconfig-r043-20220130 (https://download.01.org/0day-ci/archive/20220202/202202020658.FJTV4CAp-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/c3da64f5022acf9d942f497a3e3cff092648d6c3
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Dmitry-Baryshkov/drm-msm-dpu-simplify-IRQ-helpers/20220201-231430
+        git checkout c3da64f5022acf9d942f497a3e3cff092648d6c3
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/
 
-Anyway, let's look at that part in your patch:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-+       bool "Enable legacy fbcon code for hw acceleration"
-+       depends on FRAMEBUFFER_CONSOLE
-+       default n
-+       help
-+        Only enable this options if you are in full control of machine si=
-nce
-+        the fbcon acceleration code is essentially unmaintained and known
-+        problematic.
-+
-+        If unsure, select n.
+All errors (new ones prefixed by >>):
 
-Since I'm willing to maintain that scrolling/panning code, I'd like to
-drop the "is essentially unmaintained" part.
-And the "known problematic" part is up to now just speculative (which woul=
-d be
-valid for other parts of the kernel too, btw).
-
-As this whole disussions showed, there are some few architectures/platform=
-s
-which really still need this acceleration, while others don't.
-So, why not leave the decision up to the arch maintainers, which may opt-i=
-n
-or opt-out, while keeping the default on "n"?
-
-With that, here is a new proposal:
-
-+config FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
-+       bool "Enable legacy fbcon hardware acceleration code"
-+       depends on FRAMEBUFFER_CONSOLE
-+       default y if (PARISC) # a few other arches may want to be listed h=
-ere too...
-+       default n
-+       help
-+         This option enables the fbcon (framebuffer text-based) hardware =
-acceleration for
-+	  graphics drivers which were written for the fbdev graphics interface.
-+
-+	  On modern machines, on mainstream machines (like x86-64) or when using=
- a modern
-+	  Linux distribution those fbdev drivers usually aren't used.
-+	  So enabling this option wouldn't have any effect, which is why you wan=
-t
-+	  to disable this option on such newer machines.
-+
-+	  If you compile this kernel for older machines which still require the =
-fbdev
-+	  drivers, you may want to say Y.
-+
-+         If unsure, select n.
-
-Would that be acceptable?
-
-Arch maintainers may then later send (or reply now with) patches, e.g.:
-+       default y if (M68K && XYZ)
-...
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h:973,
+                    from drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:34:
+   drivers/gpu/drm/msm/disp/dpu1/./dpu_trace.h: In function 'ftrace_test_probe_dpu_core_irq_unregister_callback':
+>> include/trace/trace_events.h:870:42: error: passing argument 1 of 'check_trace_callback_type_dpu_core_irq_unregister_callback' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     870 |         check_trace_callback_type_##call(trace_event_raw_event_##template); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~
+         |                                          |
+         |                                          void (*)(void *, int,  void *)
+   drivers/gpu/drm/msm/disp/dpu1/./dpu_trace.h:892:1: note: in expansion of macro 'DEFINE_EVENT'
+     892 | DEFINE_EVENT(dpu_core_irq_callback_template, dpu_core_irq_unregister_callback,
+         | ^~~~~~~~~~~~
+   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h:10,
+                    from drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:34:
+   include/linux/tracepoint.h:279:49: note: expected 'void (*)(void *, int)' but argument is of type 'void (*)(void *, int,  void *)'
+     279 |         check_trace_callback_type_##name(void (*cb)(data_proto))        \
+         |                                          ~~~~~~~^~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:419:9: note: in expansion of macro '__DECLARE_TRACE'
+     419 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:542:9: note: in expansion of macro 'DECLARE_TRACE'
+     542 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h:892:1: note: in expansion of macro 'DEFINE_EVENT'
+     892 | DEFINE_EVENT(dpu_core_irq_callback_template, dpu_core_irq_unregister_callback,
+         | ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-> Also you didn't keep any todo entry for removing DRM accel code,
+vim +/check_trace_callback_type_dpu_core_irq_unregister_callback +870 include/trace/trace_events.h
 
-That wasn't intentional.
-I just sent 2 revert-patches and an fbcon-accel-enabling-patch.
-I'll look up what you had in your patch series and add it as seperate patc=
-h.
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  830) 
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  831) #undef DECLARE_EVENT_CLASS
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  832) #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)	\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  833) 									\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  834) static notrace void							\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  835) trace_event_raw_event_##call(void *__data, proto)			\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  836) {									\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  837) 	struct trace_event_file *trace_file = __data;			\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  838) 	struct trace_event_data_offsets_##call __maybe_unused __data_offsets;\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  839) 	struct trace_event_buffer fbuffer;				\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  840) 	struct trace_event_raw_##call *entry;				\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  841) 	int __data_size;						\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  842) 									\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  843) 	if (trace_trigger_soft_disabled(trace_file))			\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  844) 		return;							\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  845) 									\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  846) 	__data_size = trace_event_get_offsets_##call(&__data_offsets, args); \
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  847) 									\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  848) 	entry = trace_event_buffer_reserve(&fbuffer, trace_file,	\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  849) 				 sizeof(*entry) + __data_size);		\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  850) 									\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  851) 	if (!entry)							\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  852) 		return;							\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  853) 									\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  854) 	tstruct								\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  855) 									\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  856) 	{ assign; }							\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  857) 									\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  858) 	trace_event_buffer_commit(&fbuffer);				\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  859) }
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  860) /*
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  861)  * The ftrace_test_probe is compiled out, it is only here as a build time check
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  862)  * to make sure that if the tracepoint handling changes, the ftrace probe will
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  863)  * fail to compile unless it too is updated.
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  864)  */
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  865) 
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  866) #undef DEFINE_EVENT
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  867) #define DEFINE_EVENT(template, call, proto, args)			\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  868) static inline void ftrace_test_probe_##call(void)			\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  869) {									\
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23 @870) 	check_trace_callback_type_##call(trace_event_raw_event_##template); \
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  871) }
+46ac51822a6a0b8 Steven Rostedt (Red Hat  2015-09-23  872) 
 
-> and iirc some nouveau folks also complained that they at least
-> once had some kind of accel, so that's another reason to not tie this
-> to DRM.
-
-The above proposal to add additional "default y if XYZ" would enable
-them to opt-in.
-
-> Anyway aside from this looks reasonable, can you pls respin with a
-> more cautious Kconfig text?
-
-Sure, I'll do as soon as we have a decision on the above Kconfig text.
-
-Helge
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
