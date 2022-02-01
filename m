@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB02B4A5A55
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 11:42:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9204A5A57
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 11:42:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3B5E10EDAB;
-	Tue,  1 Feb 2022 10:42:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E19D710EDAD;
+	Tue,  1 Feb 2022 10:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C81EB10E8E0;
- Tue,  1 Feb 2022 10:42:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB75D10EDAD;
+ Tue,  1 Feb 2022 10:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643712139; x=1675248139;
+ t=1643712142; x=1675248142;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=c+kKtCheJwix8ByGm3IyRlV93kkSzeQ/+KPOkXrvMts=;
- b=WaPRfFLZn2hQQ/uH+nPkTfT189/Zxuop78yNOwxHj0pOf9ZsmS4ohrm6
- w7cLI6klAcuYbeO4QGkHjBqi36EjJK5MaLUEHHiFHB10g/kKhysuaGEzG
- NzxC/IbmUNMXSMortKaJ5ok0hhRfb9vJj0OkEV9+eS9D7/9L1H2+0TPnN
- 9ynu0htefVHOM3y49Cr7VrfndZBcBrYDKDmz4vJgzfNEdzkKemGkozE64
- sofSE4ql+lyDQp3jb5Kf/PznF50uJfj6fhs5G8rJXvvNuC8J+cqq0rnp6
- 8loIF8eIt5gfKfjt+GPO/VSqJ0MklmU/MQ5sxi23UWsg+vFfbe/0YL/YZ Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="334020677"
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="334020677"
+ bh=JEFo6A6QIuhOclTxozr6op//NHX548mDHPI4TxEXmwA=;
+ b=AaAWV/l3Yauj7EWoEvUDXcufKTKW5pfxgZNHp1ec4YkHKaMaG0Se9MtH
+ r1/b6lNqqJlYzQcqtUSoQAw9Zq3n2Oi7TJErwG5RLWbZxU5kpQ/FsycKS
+ OHilyLz2kRy510gmsyMzVCZUxnxjsS2yv641E2yFdLlTlrKIHRsPZ4SPO
+ H+AwK8Z1MAnbgmrMH1Z1WoITiwDT1FAiadjMmO8xV55J82SEQNoTAestY
+ 87Jk+U/6RPKqJN3l+R1rBIWBx1V4vO6gpuvv3WrBklDwAthHJoJGkUj5J
+ aP9m6X2p4uiXGcM4I8c1KrMGobwWvoeZ9BJoPCnSp78JqTjI56E5Us4OV g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="334020689"
+X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="334020689"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 02:42:19 -0800
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="523011339"
+ 01 Feb 2022 02:42:22 -0800
+X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="523011363"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 02:42:16 -0800
+ 01 Feb 2022 02:42:19 -0800
 From: Ramalingam C <ramalingam.c@intel.com>
 To: dri-devel <dri-devel@lists.freedesktop.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v5 16/19] uapi/drm/dg2: Introduce format modifier for DG2
- clear color
-Date: Tue,  1 Feb 2022 16:11:29 +0530
-Message-Id: <20220201104132.3050-17-ramalingam.c@intel.com>
+Subject: [PATCH v5 17/19] drm/i915/dg2: Flat CCS Support
+Date: Tue,  1 Feb 2022 16:11:30 +0530
+Message-Id: <20220201104132.3050-18-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220201104132.3050-1-ramalingam.c@intel.com>
 References: <20220201104132.3050-1-ramalingam.c@intel.com>
@@ -58,116 +57,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mika Kahola <mika.kahola@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Mika Kahola <mika.kahola@intel.com>,
  Anshuman Gupta <anshuman.gupta@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mika Kahola <mika.kahola@intel.com>
+From: Anshuman Gupta <anshuman.gupta@intel.com>
 
-DG2 clear color render compression uses Tile4 layout. Therefore, we need
-to define a new format modifier for uAPI to support clear color rendering.
+DG2 onwards discrete gfx has support for new flat CCS mapping,
+which brings in display feature in to avoid Aux walk for compressed
+surface. This support build on top of Flat CCS support added in XEHPSDV.
+FLAT CCS surface base address should be 64k aligned,
+Compressed displayable surfaces must use tile4 format.
 
-v2:
-  Display version is fixed. [Imre]
-  KDoc is enhanced for cc modifier. [Nanley & Lionel]
+HAS: 1407880786
+B.Spec : 7655
+B.Spec : 53902
 
-Signed-off-by: Mika Kahola <mika.kahola@intel.com>
-cc: Anshuman Gupta <anshuman.gupta@intel.com>
+Cc: Mika Kahola <mika.kahola@intel.com>
+Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 Signed-off-by: Juha-Pekka Heikkilä <juha-pekka.heikkila@intel.com>
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_fb.c            |  8 ++++++++
- drivers/gpu/drm/i915/display/skl_universal_plane.c |  9 ++++++++-
- include/uapi/drm/drm_fourcc.h                      | 10 ++++++++++
- 3 files changed, 26 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/intel_display.c  |  4 ++-
+ drivers/gpu/drm/i915/display/intel_fb.c       | 32 +++++++++++++------
+ .../drm/i915/display/skl_universal_plane.c    | 16 ++++++----
+ 3 files changed, 36 insertions(+), 16 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 189767cef356..2828ae612179 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -8588,7 +8588,9 @@ static void intel_atomic_prepare_plane_clear_colors(struct intel_atomic_state *s
+ 
+ 		/*
+ 		 * The layout of the fast clear color value expected by HW
+-		 * (the DRM ABI requiring this value to be located in fb at offset 0 of plane#2):
++		 * (the DRM ABI requiring this value to be located in fb at
++		 * offset 0 of cc plane, plane #2 previous generations or
++		 * plane #1 for flat ccs):
+ 		 * - 4 x 4 bytes per-channel value
+ 		 *   (in surface type specific float/int format provided by the fb user)
+ 		 * - 8 bytes native color value used by the display
 diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-index 4d4d01963f15..3df6ef5ffec5 100644
+index 3df6ef5ffec5..e94923e9dbb1 100644
 --- a/drivers/gpu/drm/i915/display/intel_fb.c
 +++ b/drivers/gpu/drm/i915/display/intel_fb.c
-@@ -144,6 +144,12 @@ static const struct intel_modifier_desc intel_modifiers[] = {
- 		.modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS,
- 		.display_ver = { 13, 13 },
- 		.plane_caps = INTEL_PLANE_CAP_TILING_4 | INTEL_PLANE_CAP_CCS_MC,
-+	}, {
-+		.modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC,
-+		.display_ver = { 13, 13 },
-+		.plane_caps = INTEL_PLANE_CAP_TILING_4 | INTEL_PLANE_CAP_CCS_RC_CC,
+@@ -107,6 +107,21 @@ static const struct drm_format_info gen12_ccs_cc_formats[] = {
+ 	  .hsub = 1, .vsub = 1, .has_alpha = true },
+ };
+ 
++static const struct drm_format_info gen12_flat_ccs_cc_formats[] = {
++	{ .format = DRM_FORMAT_XRGB8888, .depth = 24, .num_planes = 2,
++	  .char_per_block = { 4, 0 }, .block_w = { 1, 2 }, .block_h = { 1, 1 },
++	  .hsub = 1, .vsub = 1, },
++	{ .format = DRM_FORMAT_XBGR8888, .depth = 24, .num_planes = 2,
++	  .char_per_block = { 4, 0 }, .block_w = { 1, 2 }, .block_h = { 1, 1 },
++	  .hsub = 1, .vsub = 1, },
++	{ .format = DRM_FORMAT_ARGB8888, .depth = 32, .num_planes = 2,
++	  .char_per_block = { 4, 0 }, .block_w = { 1, 2 }, .block_h = { 1, 1 },
++	  .hsub = 1, .vsub = 1, .has_alpha = true },
++	{ .format = DRM_FORMAT_ABGR8888, .depth = 32, .num_planes = 2,
++	  .char_per_block = { 4, 0 }, .block_w = { 1, 2 }, .block_h = { 1, 1 },
++	  .hsub = 1, .vsub = 1, .has_alpha = true },
++};
 +
-+		.ccs.cc_planes = BIT(1),
+ struct intel_modifier_desc {
+ 	u64 modifier;
+ 	struct {
+@@ -150,6 +165,8 @@ static const struct intel_modifier_desc intel_modifiers[] = {
+ 		.plane_caps = INTEL_PLANE_CAP_TILING_4 | INTEL_PLANE_CAP_CCS_RC_CC,
+ 
+ 		.ccs.cc_planes = BIT(1),
++
++		FORMAT_OVERRIDE(gen12_flat_ccs_cc_formats),
  	}, {
  		.modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS,
  		.display_ver = { 13, 13 },
-@@ -559,6 +565,7 @@ intel_tile_width_bytes(const struct drm_framebuffer *fb, int color_plane)
- 		else
- 			return 512;
- 	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
- 	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
- 	case I915_FORMAT_MOD_4_TILED:
- 		/*
-@@ -763,6 +770,7 @@ unsigned int intel_surf_alignment(const struct drm_framebuffer *fb,
- 	case I915_FORMAT_MOD_Yf_TILED:
- 		return 1 * 1024 * 1024;
- 	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
- 	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
- 		return 16 * 1024;
- 	default:
+@@ -399,17 +416,13 @@ bool intel_fb_plane_supports_modifier(struct intel_plane *plane, u64 modifier)
+ static bool format_is_yuv_semiplanar(const struct intel_modifier_desc *md,
+ 				     const struct drm_format_info *info)
+ {
+-	int yuv_planes;
+-
+ 	if (!info->is_yuv)
+ 		return false;
+ 
+-	if (plane_caps_contain_any(md->plane_caps, INTEL_PLANE_CAP_CCS_MASK))
+-		yuv_planes = 4;
++	if (hweight8(md->ccs.planar_aux_planes) == 2)
++		return info->num_planes == 4;
+ 	else
+-		yuv_planes = 2;
+-
+-	return info->num_planes == yuv_planes;
++		return info->num_planes == 2;
+ }
+ 
+ /**
+@@ -534,12 +547,13 @@ static unsigned int gen12_ccs_aux_stride(struct intel_framebuffer *fb, int ccs_p
+ 
+ int skl_main_to_aux_plane(const struct drm_framebuffer *fb, int main_plane)
+ {
++	const struct intel_modifier_desc *md = lookup_modifier(fb->modifier);
+ 	struct drm_i915_private *i915 = to_i915(fb->dev);
+ 
+-	if (intel_fb_is_ccs_modifier(fb->modifier))
++	if (md->ccs.packed_aux_planes | md->ccs.planar_aux_planes)
+ 		return main_to_ccs_plane(fb, main_plane);
+ 	else if (DISPLAY_VER(i915) < 11 &&
+-		 intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier))
++		 format_is_yuv_semiplanar(md, fb->format))
+ 		return 1;
+ 	else
+ 		return 0;
 diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-index c38ae0876c15..b4dced1907c5 100644
+index b4dced1907c5..18e50583abaa 100644
 --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
 +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-@@ -772,6 +772,8 @@ static u32 skl_plane_ctl_tiling(u64 fb_modifier)
- 		return PLANE_CTL_TILED_4 |
- 			PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE |
- 			PLANE_CTL_CLEAR_COLOR_DISABLE;
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
-+		return PLANE_CTL_TILED_4 | PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
- 	case I915_FORMAT_MOD_Y_TILED_CCS:
- 	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
- 		return PLANE_CTL_TILED_Y | PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
-@@ -2358,10 +2360,15 @@ skl_get_initial_plane_config(struct intel_crtc *crtc,
- 		break;
- 	case PLANE_CTL_TILED_YF: /* aka PLANE_CTL_TILED_4 on XE_LPD+ */
- 		if (HAS_4TILE(dev_priv)) {
--			if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
-+			u32 rc_mask = PLANE_CTL_RENDER_DECOMPRESSION_ENABLE |
-+				      PLANE_CTL_CLEAR_COLOR_DISABLE;
-+
-+			if ((val & rc_mask) == rc_mask)
- 				fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS;
- 			else if (val & PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE)
- 				fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS;
-+			else if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
-+				fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC;
- 			else
- 				fb->modifier = I915_FORMAT_MOD_4_TILED;
- 		} else {
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index b8fb7b44c03c..697614ea4b84 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -605,6 +605,16 @@ extern "C" {
-  */
- #define I915_FORMAT_MOD_4_TILED_DG2_MC_CCS fourcc_mod_code(INTEL, 11)
+@@ -1176,8 +1176,10 @@ skl_plane_update_arm(struct intel_plane *plane,
+ 	intel_de_write_fw(dev_priv, PLANE_OFFSET(pipe, plane_id),
+ 			  PLANE_OFFSET_Y(y) | PLANE_OFFSET_X(x));
  
-+/*
-+ * Intel color control surfaces (CCS) for DG2 clear color render compression.
-+ *
-+ * DG2 uses a unified compression format for clear color render compression.
-+ * The general layout is a tiled layout using 4Kb tiles i.e. Tile4 layout.
-+ *
-+ * Fast clear color value expected by HW is located in fb at offset 0 of plane#1
-+ */
-+#define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC fourcc_mod_code(INTEL, 12)
-+
- /*
-  * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
-  *
+-	intel_de_write_fw(dev_priv, PLANE_AUX_DIST(pipe, plane_id),
+-			  skl_plane_aux_dist(plane_state, color_plane));
++	/* FLAT CCS doesn't need to program AUX_DIST */
++	if (!HAS_FLAT_CCS(dev_priv))
++		intel_de_write_fw(dev_priv, PLANE_AUX_DIST(pipe, plane_id),
++				  skl_plane_aux_dist(plane_state, color_plane));
+ 
+ 	if (DISPLAY_VER(dev_priv) < 11)
+ 		intel_de_write_fw(dev_priv, PLANE_AUX_OFFSET(pipe, plane_id),
+@@ -1557,9 +1559,10 @@ static int skl_check_main_surface(struct intel_plane_state *plane_state)
+ 
+ 	/*
+ 	 * CCS AUX surface doesn't have its own x/y offsets, we must make sure
+-	 * they match with the main surface x/y offsets.
++	 * they match with the main surface x/y offsets. On DG2
++	 * there's no aux plane on fb so skip this checking.
+ 	 */
+-	if (intel_fb_is_ccs_modifier(fb->modifier)) {
++	if (intel_fb_is_ccs_modifier(fb->modifier) && aux_plane) {
+ 		while (!skl_check_main_ccs_coordinates(plane_state, x, y,
+ 						       offset, aux_plane)) {
+ 			if (offset == 0)
+@@ -1603,6 +1606,8 @@ static int skl_check_nv12_aux_surface(struct intel_plane_state *plane_state)
+ 	const struct drm_framebuffer *fb = plane_state->hw.fb;
+ 	unsigned int rotation = plane_state->hw.rotation;
+ 	int uv_plane = 1;
++	int ccs_plane = intel_fb_is_ccs_modifier(fb->modifier) ?
++			skl_main_to_aux_plane(fb, uv_plane) : 0;
+ 	int max_width = intel_plane_max_width(plane, fb, uv_plane, rotation);
+ 	int max_height = intel_plane_max_height(plane, fb, uv_plane, rotation);
+ 	int x = plane_state->uapi.src.x1 >> 17;
+@@ -1623,8 +1628,7 @@ static int skl_check_nv12_aux_surface(struct intel_plane_state *plane_state)
+ 	offset = intel_plane_compute_aligned_offset(&x, &y,
+ 						    plane_state, uv_plane);
+ 
+-	if (intel_fb_is_ccs_modifier(fb->modifier)) {
+-		int ccs_plane = main_to_ccs_plane(fb, uv_plane);
++	if (ccs_plane) {
+ 		u32 aux_offset = plane_state->view.color_plane[ccs_plane].offset;
+ 		u32 alignment = intel_surf_alignment(fb, uv_plane);
+ 
 -- 
 2.20.1
 
