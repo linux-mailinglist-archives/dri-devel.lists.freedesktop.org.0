@@ -2,43 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE5E4A6AC4
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 05:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD424A6CDF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:25:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5EA10E743;
-	Wed,  2 Feb 2022 04:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE56A10EFFD;
+	Wed,  2 Feb 2022 08:25:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 445 seconds by postgrey-1.36 at gabe;
- Wed, 02 Feb 2022 04:10:48 UTC
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7D7110E743
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 04:10:48 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4JpSyZ0gYtz4xjx;
- Wed,  2 Feb 2022 15:10:46 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1643775047;
- bh=FqG0revIyQjV9+Ys6oYq1LnaXb7bQzHO5eXwJcK5vTs=;
- h=Date:From:To:Cc:Subject:From;
- b=lCmQdW22mE7QIrii8qagiY2B61BiMfCGkx0H4CNcjYZKHBFaAW31kn7Th1bnaN+Bi
- rOxG/eGYASxFa+SO8efErUoYrsCkQZ//oH00wMkhi9ZdRC3/GGVr9YW4lYdAIUPK9h
- rR8MZbo7310D42cuc3FQFM1Veandq4qy/4ziJTnWFweOj0z4fPS2eHYSZlrb6tscXn
- n0rEKV49Ji09utlO7WbmxXAyyCDRCGQYCCzh8DSNWyPfVMhzC1ZwTz8vYxkSoBG1yg
- qW81yYZcOgPE5+56YrUeFw2phU/Y+BoklZYKbE5RaGV9kephdW8S7mlhiMZXW7Eciz
- HI2VXaa1O/N9Q==
-Date: Wed, 2 Feb 2022 15:10:45 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build warning after merge of the drm tree
-Message-ID: <20220202151045.23205624@canb.auug.org.au>
+Received: from mx4.securetransport.de (mx4.securetransport.de [178.254.6.145])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EB22310E42C
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 11:12:12 +0000 (UTC)
+Received: from mail.dh-electronics.com
+ (business-24-134-97-169.pool2.vodafone-ip.de [24.134.97.169])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mx4.securetransport.de (Postfix) with ESMTPSA id A9151720CA1;
+ Tue,  1 Feb 2022 12:03:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dh-electronics.com;
+ s=dhelectronicscom; t=1643713420;
+ bh=hCPApabgAHY1xDIJ31HkWQFc0yj1SA2YQ4GkJvKoKwA=;
+ h=From:To:CC:Subject:Date:From;
+ b=N/F4Qn4Dgp1l7Qe15xuQiS89mKxlbLpHLl2XUtMgVFu10y6q+l9GjM9A39hJRB0Rb
+ Ijthdch9IW+92Eruan3D+Ww62e7X9tPvLsxjgx+S8I8tnZUOK1WZsZt19Gq7dbIiSO
+ anz8AHyZnbTZKZ3t5GVgleCC0W81nzXMECa6WsnusNQCI0qnAX3qdx9RmfAfLrFP04
+ bHTtBGqFPhDDnf2OEWfJh3oSOJkw2FT7rnirHZ4TAr8rKk3H6QNSgdmaK0MqbCoOn2
+ HR5JYPegv4HcJAHld5w2QNFL/FrEnzp5+2tsBK3Vo07qhSiUtNB2GfjkJIWBjCWdbT
+ ejr48zbiFVIKw==
+Received: from DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) by
+ DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Tue, 1 Feb 2022 12:03:16 +0100
+Received: from localhost.localdomain (172.16.51.18) by
+ DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15
+ via Frontend Transport; Tue, 1 Feb 2022 12:03:16 +0100
+From: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/panel: simple: Assign data from panel_dpi_probe()
+ correctly
+Date: Tue, 1 Feb 2022 12:01:53 +0100
+Message-ID: <20220201110153.3479-1-cniedermaier@dh-electronics.com>
+X-Mailer: git-send-email 2.11.0
+X-klartext: yes
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/aCnuzjM0VF6RvnWI7x4p1Ea";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain
+X-Mailman-Approved-At: Wed, 02 Feb 2022 08:24:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,48 +59,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Maxime Ripard <maxime@cerno.tech>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Marek Vasut <marex@denx.de>, David Airlie <airlied@linux.ie>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/aCnuzjM0VF6RvnWI7x4p1Ea
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+In the function panel_simple_probe() the pointer panel->desc is
+assigned to the passed pointer desc. If function panel_dpi_probe()
+is called panel->desc will be updated, but further on only desc
+will be evaluated. So update the desc pointer to be able to use
+the data from the function panel_dpi_probe().
 
-Hi all,
+Fixes: 4a1d0dbc8332 ("drm/panel: simple: add panel-dpi support")
 
-After merging the drm tree, today's linux-next build (htmldocs) produced
-this warning:
+Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+To: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/panel/panel-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-include/drm/drm_connector.h:637: warning: Function parameter or member 'edi=
-d_hdmi_rgb444_dc_modes' not described in 'drm_display_info'
-include/drm/drm_connector.h:637: warning: Function parameter or member 'edi=
-d_hdmi_ycbcr444_dc_modes' not described in 'drm_display_info'
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 9e46db5e359c..3c08f9827acf 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -588,6 +588,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 		err = panel_dpi_probe(dev, panel);
+ 		if (err)
+ 			goto free_ddc;
++		desc = panel->desc;
+ 	} else {
+ 		if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
+ 			panel_simple_parse_panel_timing_node(dev, panel, &dt);
+-- 
+2.11.0
 
-Introduced by commit
-
-  4adc33f36d80 ("drm/edid: Split deep color modes between RGB and YUV444")
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/aCnuzjM0VF6RvnWI7x4p1Ea
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmH6BEUACgkQAVBC80lX
-0GwqxAf9Gx+Bctg07MRPALSAcThO9QqJtaAa8imgMBOfoM9SApzsrWnho8lbVfyc
-Y5AYJ9PdN+qu0yePEHdmsuLN7DvEO24etcX7fJUiE+03iU68CdHWm5dNKgxcwq26
-P55EwjlAxiNeRcJ5zj8fn+7ygdpafHwJwcGjdY8Z01h7jqwmc+G1+IgRSBTmQvju
-VMYZYRHYWNPhjrViEfB37h7zeSotTsZFVaeL05U+kjHuR5qpWyJTug1FUiGNOUV4
-AGf4OrFDhvsxQ4EOJW01Y3NXu9OktEAXvQYm2G/omQtpd2CqXe7yu2WUL0OeUDbZ
-EuFh5Lnl6aq+/PDrvYBYPbHWdYwKoA==
-=JhTS
------END PGP SIGNATURE-----
-
---Sig_/aCnuzjM0VF6RvnWI7x4p1Ea--
