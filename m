@@ -1,79 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8C04A5AB3
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 11:56:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 711C64A5ACD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 12:02:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 815A910E809;
-	Tue,  1 Feb 2022 10:56:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A775810E5DD;
+	Tue,  1 Feb 2022 11:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx6.ucr.edu (mx.ucr.edu [138.23.62.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A69D110E809
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 10:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
- t=1643712962; x=1675248962;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=N87/Yfcs/eolC23BLtRDzeHlHtMpAA1EhSMYLZCuSgg=;
- b=JlNMx/SSCHAwpC0QlVnQyIuTMtiDpmfUYmYrsbGmc8ExpbA6/Z9vmOYK
- XF3nLxDYdGUS7odkLZNY/HSBXVeyhyiEoA0thl6TucVb7+hB7dhPbADYv
- ngN6V8swzKnjMEFuUZjS3VigjRJVHsFvQSNfL7PycG8qk3g7+BGXefljO
- vK1+XhcA/H9dAhmvrIkf0QCu2ogtG9N6PyjbWRQCc8SfXoYPjD1Dl/wMa
- IJE17B7tCrVYyrfpAI/lCHNNAczO58DEda9P7zKBp3eNDbwHWCZFd5wGa
- fB2+aLEZNGsXeG08S6+A18Xj/3oRqo9dShRWr56SqWB1qEWJxiPLI90Wd w==;
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="277699236"
-Received: from mail-pf1-f198.google.com ([209.85.210.198])
- by smtpmx6.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 01 Feb 2022 02:56:02 -0800
-Received: by mail-pf1-f198.google.com with SMTP id
- z20-20020aa791d4000000b004bd024eaf19so8971486pfa.16
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 02:56:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucr.edu; s=rmail;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PQBU+rnQ5my6cghLd5mHteSqBsmjbcfDnGbLH9g2K+8=;
- b=Kp+L/NXLOT26so2b9sKhMnvfFfAOWX2LvoHcv+Y79qAJpkTqghLmqcuxSdhQq4LvKc
- sFDd6zoymWPC37y2O0KKu+BDk+7xTDK+4VvFJ9ELAUbXMwgNtOcas2ir9izjxhd9RklV
- Oinco7mkkofgTbTvtdOMWBxc04FCfIqk8RnmQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PQBU+rnQ5my6cghLd5mHteSqBsmjbcfDnGbLH9g2K+8=;
- b=iHPJIQrZmLSh1PPVEegJxL6CHm46ZUPFVpfXDzS1RLnccnouSkF/wuJiwh5zzw3LS/
- p7KJZynN94DbIjpgRjnoUEg58s5USHNROFLkbzfU+F0t4Gdrz7VkUOAnYG8UAN4FVq78
- SdbRu0vc/Y6BUNSdJRmLT6IGKIh/h15yLhEcda+7VSjKTHFBlwixHnqRdW2w/A3KDgoP
- YlprloSAp60Ts7seAoB2CX6AN+OfExCPwVUIdn5XH/W4+R2FTGwxbXIXd0alRjnKa//D
- BCy2LlnvE6uR/I0bcNTkJWpYNu+cNN/EAk9Ek45/Xnvda2A1hcbVrS2CyzofVLETwEJ+
- 6dKg==
-X-Gm-Message-State: AOAM530FV1c92xr4YN+vddAQ4NHrvzu+p1o/k2oylF6J8cYyv+r7UhqK
- qA1gm+ITfNACeMh+YiiSpPFIEjEa11jHg2nYQLjJAoNCZcjLGHwx+odo3TsNz83st93uYVJ98GN
- KpUMKhhVz4h6c5zF/bA7rxbzdzTzsiw==
-X-Received: by 2002:a17:902:e5d1:: with SMTP id
- u17mr25442895plf.40.1643712960609; 
- Tue, 01 Feb 2022 02:56:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy+4Bx2r2dBQG35mt2wEHOqbwiXd+lGZCO+bfqdjhApNLkZyLU6LTpemTtlr9KBpq1jXc4xRQ==
-X-Received: by 2002:a17:902:e5d1:: with SMTP id
- u17mr25442869plf.40.1643712960369; 
- Tue, 01 Feb 2022 02:56:00 -0800 (PST)
-Received: from kq.cs.ucr.edu (kq.cs.ucr.edu. [169.235.27.223])
- by smtp.googlemail.com with ESMTPSA id b6sm22349723pfl.126.2022.02.01.02.55.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 02:56:00 -0800 (PST)
-From: Yizhuo Zhai <yzhai003@ucr.edu>
-To: 
-Subject: [PATCH v3] fbdev: fbmem: Fix the implicit type casting
-Date: Tue,  1 Feb 2022 02:56:08 -0800
-Message-Id: <20220201105610.2975873-2-yzhai003@ucr.edu>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220201105610.2975873-1-yzhai003@ucr.edu>
-References: <202202011802.cpmdbzHR-lkp@intel.com>
- <20220201105610.2975873-1-yzhai003@ucr.edu>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98BFE10E497;
+ Tue,  1 Feb 2022 11:02:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1643713298;
+ bh=Kp5E+5zaimcSjWgRA4B80Sup1tIxJqfJENoYg4VfU6U=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=RNKVE4/zfr6slOkQOzhNETrvVgV9+bPJa76AGJwEVNC2Q3UTqrfhyzJ+gQuBcEToE
+ rQhrk3t+TfPQxSP3Q2VmSdXXSo8Vnl2RPYxPG/8DzXxXYQSV3kI7LBtDNhVZ95sNao
+ 7SFFOQnVK4ZKiMJSLZc+YTCsv5BiTWe+9qCKK62U=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.146.124]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MTzb8-1mp6bQ1BLe-00QyQM; Tue, 01
+ Feb 2022 12:01:38 +0100
+Message-ID: <63018892-68e8-01b6-1e8f-853892e15c97@gmx.de>
+Date: Tue, 1 Feb 2022 12:01:35 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 03/21] fbcon: Restore fbcon scrolling acceleration
+Content-Language: en-US
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
+ <20220131210552.482606-4-daniel.vetter@ffwll.ch>
+ <9c22b709-cbcf-6a29-a45e-5a57ba0b9c14@gmx.de>
+ <CAKMK7uGvOVe8kkJCTkQBEFw+3i2iAMANsyG9vGqZkcROZ9he4A@mail.gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <CAKMK7uGvOVe8kkJCTkQBEFw+3i2iAMANsyG9vGqZkcROZ9he4A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:SP0hRz1pWzc7F2C4ZUe6LHY4QjV17NNxG+kMA+dzBcfbm6cEv3f
+ OD7SVmW2xvmsal6nByY8VbSgXzXsSGQ/29cgn3HU30QknR8a/gTpVu+L6o/KYaXCVbOc9Et
+ QtbNJbC4rsJeZC7HMNleVE+TwErGIk2xYG5Q8zybXnU1bt/5RimsjAp/jZvapqQvK2NICq2
+ dpzf31K7qBL4dRnPxjmBg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4Gmuif59hFM=:FJ5WYWz0nO2pwe/3zyQdBE
+ NvtiK0xhPUwCqrrEhF5/k6MTor8BnhdxmGHmUW03UI8qpCnIEzWefbae3FGEKMNAzXkDy0sRS
+ 8/JY/L+5IXlI6ORjpRvjew2/XVdfoqIU5crukO3+CgQ7E9ACK18Vu4EV2bbK5Su19dob7cYfx
+ 6UoR6Fx4IUk/LLB1Dvt3q6K+C3AAJmWLnBLinn2rMTq2YbsYuFHUUlsd0n4Nbo8qn/mGvybCf
+ xSDpChJWPuE73+rA/WI9J5eHbjo4dhX05drxCF1jLbkgYdp3aKF8Y8Tj5AXBIis6xeHLkgPz4
+ QMm8kWSDQxmoThR5dhH77PNiB44wBIjfk8Fwf4KJS++e6EO0dpIJEpBvTwUpjL59oi2ZUJhsz
+ mlgXAU3zudur0YPJ6YPxA9vXa7Zc30QAfPNbgCcsJpZ5lW2lsg6246cOaKAGxBlSZ9PoIlEHS
+ OnxM0ZPTzBNlI1/Za6iHr9oUxls8FqkfoIOw4SjhbJB/uXwEWQEh7GSGehGrQEhLzWNB09J9V
+ DJPnTLo8hOjUEzRmarAstGCUxwySCpw1lkWW5OLdTXhQhjIuB0fI6f/wUQ5mBYUpBzOccdv9o
+ ZU9wb46d8kml0AWeVdbtbNOuW7Gv8O6tB+VjSxolpP5ErJcW3LRk07jdVRx/EA79XR0+DREtx
+ 0cU4qW50eQkd2kdOK7lSxDL3ia5MLhwLvPfqcAjoaqnyvhSXxtqdj0+Ruj6SetBky/LwTu2dI
+ 6TYlCsAIpSkqvFGaxoDrFoPReEBSXGB01Ao24ErKy+bmH5PqpSvjtZj2yh3u4lllqvJZ5gdh7
+ mcHogBRaN2o4Jz4/arht0lT1UNF6retxR35lZKJtiNYJnd8vVUKhOoaoiQhHMcCWYw1CBZOa3
+ oWsxp/hK30iUAP3Tc345mpZxtmNC3KWXy05IGr3Km99YCre+WxvkYj0BQiucdi/nef9HBP9sc
+ YlCSmmuMFQ0wM9z30RPYxitlCIMFVS3k3WG+0YJmaeHy7ec2qlauB9nPhIUNSf+ufKMMIIslr
+ Rq09cOeqhzxm0V4TfEsYmuGVZF13h8fH2EN64xx1x/h6z83JEM/yynONTa4fdGZ9Dcol/x70C
+ Ubfe6iB6RhBxjg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,45 +73,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xin Tan <tanxin.ctf@gmail.com>, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Zheyu Ma <zheyuma97@gmail.com>, linux-fbdev@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
- Yizhuo Zhai <yzhai003@ucr.edu>, dri-devel@lists.freedesktop.org,
- Zhen Lei <thunder.leizhen@huawei.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
+ DRI Development <dri-devel@lists.freedesktop.org>, Pavel Machek <pavel@ucw.cz>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Sven Schnelle <svens@stackframe.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In function do_fb_ioctl(), the "arg" is the type of unsigned long,
-and in "case FBIOBLANK:" this argument is casted into an int before
-passig to fb_blank(). In fb_blank(), the comparision
-if (blank > FB_BLANK_POWERDOWN) would be bypass if the original
-"arg" is a large number, which is possible because it comes from
-the user input. Fix this by adding the check before the function
-call.
+On 2/1/22 11:36, Daniel Vetter wrote:
+> On Tue, Feb 1, 2022 at 11:16 AM Helge Deller <deller@gmx.de> wrote:
+>>
+>> On 1/31/22 22:05, Daniel Vetter wrote:
+>>> This functionally undoes 39aead8373b3 ("fbcon: Disable accelerated
+>>> scrolling"), but behind the FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+>>> option.
+>>
+>> you have two trivial copy-n-paste errors in this patch which still prev=
+ent the
+>> console acceleration.
+>
+> Duh :-(
+>
+> But before we dig into details I think the big picture would be
+> better. I honestly don't like the #ifdef pile here that much.
 
-Signed-off-by: Yizhuo Zhai <yzhai003@ucr.edu>
----
- drivers/video/fbdev/core/fbmem.c | 2 ++
- 1 file changed, 2 insertions(+)
+Me neither.
+The ifdefs give a better separation, but prevents that the compiler
+checks the various paths when building.
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 0fa7ede94fa6..991711bfd647 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1162,6 +1162,8 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
- 	case FBIOBLANK:
- 		console_lock();
- 		lock_fb_info(info);
-+		if (arg > FB_BLANK_POWERDOWN)
-+			arg = FB_BLANK_POWERDOWN;
- 		ret = fb_blank(info, arg);
- 		/* might again call into fb_blank */
- 		fbcon_fb_blanked(info, arg);
--- 
-2.25.1
+> I wonder whether your approach, also with GETVX/YRES adjusted
+> somehow, wouldn't look cleaner?
+I think so.
+You wouldn't even need to touch GETVX/YRES because the compiler
+will optimize/reduce it from
 
+#define GETVYRES(s,i) ({                           \
+        (s =3D=3D SCROLL_REDRAW || s =3D=3D SCROLL_MOVE) ? \
+        (i)->var.yres : (i)->var.yres_virtual; })
+
+to just become:
+
+#define GETVYRES(s,i) ((i)->var.yres)
+
+> Like I said in the cover letter I got mostly distracted with fbcon
+> locking last week, not really with this one here at all, so maybe
+> going with your 4 (or 2 if we squash them like I did here) patches is
+> neater?
+
+The benefit of my patch series was, that it could be easily backported fir=
+st,
+and then cleaned up afterwards. Even a small additional backport patch to =
+disable
+the fbcon acceleration for DRM in the old releases would be easy.
+But I'm not insisting on backporting the patches, if we find good way forw=
+ard.
+
+So, either with the 4 (or 2) patches would be OK for me (or even your appr=
+oach).
+
+Helge
