@@ -1,155 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B2A4A58C3
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 09:48:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 390954A58D0
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 09:54:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33CBD10EBE4;
-	Tue,  1 Feb 2022 08:48:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE9610E6EE;
+	Tue,  1 Feb 2022 08:54:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3901B10EBE4;
- Tue,  1 Feb 2022 08:48:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643705297; x=1675241297;
- h=subject:to:cc:references:from:message-id:date:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=2tvmSFq0oK1dOOzW97qJKG/ZO8tOOzHjMIsoQfRaPSg=;
- b=JrTcCa1ASfwrgNaLCIuJsAfB/uKq0BxrlIBg4Jrt4SNhAzPO4DyRaElH
- IpeqUbOMQmT7kMKgm4aqYaJmsh1hcUTXFl0Rc/SY+Ff536Lq4fNyAyZMs
- ZLEEz302dYCbjuhz1bqsNbm/1a5wSa1hCAIRD4L0NzEmdKyFZpOwBlElw
- ACrd8OM0iPSrso9cHGUmAfDR89ylrT+do4kSuACUa0HIHAA6Egwzn/v9L
- Q/iIpTRVM6xT1Jy7pYqM9TolNnK9yWAUCDK/AIB7hDyUavwWOoGsUw52U
- kSx0D/d6ZFtYXzEn/17gVj26D5gBMKF66gN45gDKYitUL0fWb8qO9ynAq g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="235039592"
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="235039592"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 00:48:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="534460083"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga007.fm.intel.com with ESMTP; 01 Feb 2022 00:48:16 -0800
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 1 Feb 2022 00:48:14 -0800
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 1 Feb 2022 00:48:14 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Tue, 1 Feb 2022 00:48:14 -0800
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.41) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Tue, 1 Feb 2022 00:48:14 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I1i2sPArGGRhzVaM9hKGeo9tWjfO956KTv2NmvNEc/jr35wJbJ3g8dKcGdEg+mrzxLlS4R/njTyMiy7dv9/m+q4rNz/tVBoRma38Z+RjvF0R+vkjKTw0/vfu5TtYXiWNEaQkYRQXEAeVL1tFUy7+b9sSf68F7K4UZFz1MtSF3sxQBlyCfQ+FtqWMsjfANBJvH164xA+yokqpokzx9pfER+qiyPZxDQiARkVZv7J9oi1cp5frGbwc5Dc6RXMqbbI1Tb9cFzV5vYuAzHrWetg8x06HbHMINVrneGw4KokLWUvkuVtAvGwrt1q3Q7PPiJVndH4u5ppCBVH5VD4C/8SWtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=67ZIVp0p6Yvs64xZyFv+BdnMFmYwCBjqatDrZBSAIvI=;
- b=ivDZ6QGroyny/t1YXbZI1lI8NEJekaUf/cBPY8BRXgsR/Q+RpPjtS2ljVwJ+lAETjJ/xHrRFUdKETMYbnLCwzCC7XsnxVsWpVNabKUfXlpJwETfefTnbqPWr7AnGsaS/cnm7tM5IrYJCtPudYYcmvhmLSGNFUgJ3rnDHJQP60hjImviKFZ9CYVYUt3CT8pOVAdiwaXNRgRqeTcfw9H261bMZXrL5JDykBLyLem0KS6+pHaE0gyjqfykYdcBDmCy/IrxeguRJaNk0nqurEvg8FdEt/KcAR35ZE7eT9Tn1KW0y8hv1Ayw1L9VxVB00zis2cwlm/1Qv+8XvY/89WMioMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5231.namprd11.prod.outlook.com (2603:10b6:5:38a::19)
- by BN9PR11MB5418.namprd11.prod.outlook.com (2603:10b6:408:11f::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.18; Tue, 1 Feb
- 2022 08:48:12 +0000
-Received: from DM4PR11MB5231.namprd11.prod.outlook.com
- ([fe80::419c:5e6:fb95:8733]) by DM4PR11MB5231.namprd11.prod.outlook.com
- ([fe80::419c:5e6:fb95:8733%2]) with mapi id 15.20.4930.022; Tue, 1 Feb 2022
- 08:48:11 +0000
-Subject: Re: [PATCH v3 2/3] drm/i915: Fix header test for !CONFIG_X86
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-References: <20220131165926.3230642-1-lucas.demarchi@intel.com>
- <20220131165926.3230642-3-lucas.demarchi@intel.com>
-From: Siva Mullati <siva.mullati@intel.com>
-Message-ID: <0dc5e3e2-c389-17ee-1cef-56168bd924fe@intel.com>
-Date: Tue, 1 Feb 2022 14:18:04 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20220131165926.3230642-3-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: SJ0PR05CA0116.namprd05.prod.outlook.com
- (2603:10b6:a03:334::31) To DM4PR11MB5231.namprd11.prod.outlook.com
- (2603:10b6:5:38a::19)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CE2B10E70A
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 08:54:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id E38851F438FB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1643705690;
+ bh=cX6n8y9xqw3fyjvPkbflYeNt2MpCla3htWHQ0GpzOts=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GJGaCITCXqQz2ChA2swrnHl7qatLEV8wEXtJMTwWsdv+EbNZdVsXrQaOBpKyzB/gG
+ XFGiuUG15jZovcZOSwY+YpHwTzCfGZEqqii2d/XJ+mVOwXqhdpYQv5MKYL2VBcGZjt
+ xWEUJXgYXAvHdUaRo0FzkyREoCsgX6ylFDKkTqOFN0Phw3Y5LFbxVXZJcZb6RRNhNP
+ EuQD844FmkVOzuMuVbMNeZdKfhaEY+1mFpi1cx5jbZT+Ni+8xiuzFB+U9Y6J1EbwJL
+ /mbkmWn7Ymg2Avlze52JoA1NcGLX04LY1pV3LQGSrCTWCghynYBVvCjlTnf1dU/dJF
+ HSqOCN2bhAeVw==
+Message-ID: <90ec652d-6df7-3e7b-dd81-7ced053e1dcf@collabora.com>
+Date: Tue, 1 Feb 2022 09:54:47 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 57d0c524-1180-42eb-97ff-08d9e55f93da
-X-MS-TrafficTypeDiagnostic: BN9PR11MB5418:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <BN9PR11MB5418912764E8A3482ADF558988269@BN9PR11MB5418.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Kz8pSXcWldiH6JyV76sLApnoshH7F1ft3oOKCnQ/CNeIKF22NT0+6sQjIrnRG3skF3W7oQNtivEP+c/e9j04lKfAvEgkbFTan7PX8FalOLFlbQGEOw+hb0JJoeof88vJc5+Ibr/ZvLAgtQ4s28MpgNxoziP9rBSpfZ68NY7Boov8McIrG5/zd4iMnKvxtC0ug57vh5nrjV9JT9oOBO/M5/138loJ6eLbIvC5pJ1xvIUgqBA0/I4GwLVGupm86+weP4kewLqcm6NiCaB09iMZjgVdQqXeaQavHSEE+22ZJeqCoIr0/XQWY6BXIShJ4iZt/GrNjcIDEx4jmmWU9n3oxmOxPxXnmA6u95ZyIFypNJL7EBAD1ZPDLnrdTES3/QYc8drRNjQArEDJriA73rV6NErWbsRbgSbeYAAFjp0j29EOr4STtFpFbrJCLHrjiKZAaEchn1z1EY7XfaqaEMpqAaTjTyrHtzI3dn+k4u1Hmz4SyfBCNbUUS1ayIHMpiXq+XIZbIVxsCKR8T9KVR3incG0qp+fEscBBPQuaNIAkM0u7TChqEN+zfHFbYiy/uemEwq+Eq6EkN9flaMaW45d9Ze69xqEshw+F+cR54dKVNp12VkaEEUTzEyIhLmFhxUVLQYFl+Y/uzH47d2zUKbl8BrUPrDn3qWCwH4zz4qn76G8WajRWpJTbh1K/BrooCZpEEGg1SGGhPRDzsslpH8CVCVaGcFJEeBEXiN3D7curJek=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5231.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6486002)(31696002)(44832011)(186003)(316002)(86362001)(508600001)(5660300002)(2906002)(8676002)(8936002)(4326008)(6512007)(2616005)(66476007)(66556008)(450100002)(66946007)(6666004)(82960400001)(36756003)(31686004)(38100700002)(53546011)(6506007)(45980500001)(43740500002)(20210929001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Vy9VOEFrK3JhN0p3dDlseDRIdk9aeGFTSVovMVg5bWZvclRkYktMYXBQT2Zw?=
- =?utf-8?B?Nm1SbnhibklscFhIUFVxUWt0eU8xYUJoaVhVdmFxSEw5N0d0K0lXVzF5YjdF?=
- =?utf-8?B?S0FkODdUR3pIUjZRMVFqVWp5UU5paVQyOGVVdDRNV3djczRXTUJIdGJUQXB1?=
- =?utf-8?B?T2NNNi9UY2hsbTBmY2l0SkJLQURuNStLOUhKekFQTEdNb2tCRHJ5enM0eHl4?=
- =?utf-8?B?ZlhNZDFjT3czVjVOeXpZb1NDNXpQd3BkTWdTVEZqaEFFeWJtbzY4eThHTGNB?=
- =?utf-8?B?WUVJUkQ0bVVEMWVsYTc5cG1TYUxma09zWnVYTzJJS1hGTGdFWmhvOVZVV3Fs?=
- =?utf-8?B?UkdDVThFa0ZmTnQvWW5JY2d3bk5JY1EySlBPalA0cVBUdjQzZ2cvaWI5enl2?=
- =?utf-8?B?NFE2allCbkZGb1RtSUVLUVRVZFJvcnNOY0hhZEt2QWxkQTFSYVYrVzIwbGI4?=
- =?utf-8?B?ei82WWZkTVZmYkdwVnJyNEZNdS94YjhRa1c0Uko4bzVmWUo3R2daZjJyL2x2?=
- =?utf-8?B?S1dQOXBxQ3BEV0JsNVZ5ZDMwTWtHU0VZRCtDc09ZV0k5VHMwazhPQnAzTWFk?=
- =?utf-8?B?ci9NZS9OTXVLNGNWT0xWVUo1Z1JIZ1AwTitBNHN2VmYwZ1U2RXVsald5TmFL?=
- =?utf-8?B?MTZQUzdhdXRuWmtoUUxMK3hxNWFCNW52ZnRXRkQ2QUVwK3c3NFNwNytMVU83?=
- =?utf-8?B?RTNzRUlXNjNONXh5MWp6emQ2dTZiYjlpdUxsQ3RFZ3JNeXJiRTVoMFUxQW5p?=
- =?utf-8?B?WGI4amY2ejZqc0wyckJsTjZwdUovQVdNMmgycUZoOGVmS0RyRmhXWTY3V2Jx?=
- =?utf-8?B?cU9VSTNlQXVsbE1pcUtjMHMxZno3UFRUODBLQU9wQlhFU0s4NGRmRjVSOTZw?=
- =?utf-8?B?T3VXQUllUXVCaEpnOWlFNkg1NnYrUU5HWmJtTWt5RGlHQXpUVGlnMzZ6MUV6?=
- =?utf-8?B?ZDg4c1JHa2NuY1daWDlXMVMvcGlKSjcxV0Y5RitiZ2NXd3FzK0tDdHZqTjNF?=
- =?utf-8?B?Mk1uN1loTE1ZQWJSbnVGV0tSNWRpZElsakJnMWtuR2ROcjZEc2RUcWFNckJH?=
- =?utf-8?B?bWxvOVhtekNjY3ZFdlRsbEJCa3lyTXJnUVk5LzJFZ05VM25uY004Y3c4S3JS?=
- =?utf-8?B?OFRRSldJNlRKRmFJTTdCeXBndFczdWo1K3ZTMmVyd09Kcnp5Q3Vpb0NaRDNq?=
- =?utf-8?B?OUJhcm8yWjZLOUNjL2ZxTVpYOUs1VkxpaENSditsNCtLQ0ozQUFZMC91aUZz?=
- =?utf-8?B?RXF2b1l3Wm9oZ1BPZnp0OVVxeUJuSy9pMCtqOTdzZEZpYXMwTk9mME9BcnU0?=
- =?utf-8?B?c283eWUrd0duZldYZEV0M1o5YkN0S3BJYUlTdDJLcExuTytlMU9DNXc4VVEw?=
- =?utf-8?B?VnFpZ0lIeEJaVGVuNk5QVkxZUVIrdG13WUJUM2EyZkZKSzdxQ3RLSThZcUZz?=
- =?utf-8?B?eEE5QjB3Mzg2aXhPb2VlQVk2T1ZOUVJCTmZweEVRQXFic3FyaUtvU1NXTUU5?=
- =?utf-8?B?T3k3MDlkZzZIZE5kNFNYQzF0ZXdBczU0cnRSQ2FEMmptR0Z0UW9YYVRJNE5O?=
- =?utf-8?B?QW0zSHphYWxZQWNuZ0VjOFFqQkw0UEZNU1NQRnQva1g1VG1iTGx0czl6cUE0?=
- =?utf-8?B?NHp2VVRUMWd2T1hobEExd2JYZnhyWndpcE4xSm53VGFFbDYycTl3ZWkyaUFT?=
- =?utf-8?B?RG5kb2RmMmZhMTFQMXRodFNoaS9FV2RiVVE4cnNoYlN2UmpjekpXSGRGdSth?=
- =?utf-8?B?TXFKdzJrcXYweHd2QUVXZEVsR2NIUFhVYTZxKzJIL0dOVVgyZmJaVFo1ejBL?=
- =?utf-8?B?ZFIrZmZHSThSQVk1WWNkUnBnUmdRQXVzNDNIRFNpU3BYZC9FOXF6dmRVMWxm?=
- =?utf-8?B?Z1hUVk5zZTl1MnFBSy9Gb0M4UEhSMURCZ3A0RHdoTjdJanUzNkJUMmhtQUpy?=
- =?utf-8?B?cjFXVURSRWFIR0NWdmhadXg5WUM2eDhaUlpLSVdjMHpQSlFuTGhLVjdlUDgw?=
- =?utf-8?B?ZlBQZDZHUGV2L0hMK3BwOVZXc1dxSHBkbGhEdEFUZTljTFdyQm1DK3pkSktC?=
- =?utf-8?B?anNYMmd3TlhGd3ZTK2hjTHhvRnI5c2pzbEZ1L2tCWTFhd2J0NWZDYkRDU2RF?=
- =?utf-8?B?RDlYUmhRZm9PcW5UcHQrcmtXYitrU3JBN082RXkzVVdyRU1oMXRQWGtoMmpo?=
- =?utf-8?B?N2ZMSVFUcGN0MHE4TTZzakE5RjEreDlGTU5nWGx1V1Jrc2FwZmhKWS9PbUUv?=
- =?utf-8?Q?nyfv7UQSou5DuNP4n41qqmCLBxN4OiLjA5Bz1haXcE=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57d0c524-1180-42eb-97ff-08d9e55f93da
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5231.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2022 08:48:11.7379 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BXIAxRAQgc3vEJ4e37aEP2vZUAjgJ7oE7fsC7gGJVYhOmmFaGDOMVgC6IDP/NZXPRUwklGky8Ddx7leNOggw2Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5418
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v11] drm/bridge: add it6505 driver
+Content-Language: en-US
+To: Robert Foss <robert.foss@linaro.org>, Hsin-Yi Wang <hsinyi@chromium.org>
+References: <20220114091502.333083-1-allen.chen@ite.com.tw>
+ <f4696a8d-5c1d-1007-7814-b2e6cbe334ae@collabora.com>
+ <CAG3jFytN9iu0BteAxFCLVRorxM20Q3Zrfn1T4k8bnDYy5oL7bg@mail.gmail.com>
+ <CAJMQK-i6M1hwESSA5OJ6TpdBBBEG8K9esSbLv-Xjb_zqCoB5ug@mail.gmail.com>
+ <CAG3jFyvgvfjo-HgL8wWWXtaoJvUupd2zJt=neVJZn5uVESyZFA@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAG3jFyvgvfjo-HgL8wWWXtaoJvUupd2zJt=neVJZn5uVESyZFA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,47 +53,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>,
+ Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
+ allen <allen.chen@ite.com.tw>, Hermes Wu <Hermes.Wu@ite.com.tw>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@google.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Siva Mullati <siva.mullati@intel.com>
+Il 31/01/22 19:36, Robert Foss ha scritto:
+> On Mon, 31 Jan 2022 at 17:55, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>>
+>> On Tue, Feb 1, 2022 at 12:37 AM Robert Foss <robert.foss@linaro.org> wrote:
+>>>
+>>> On Thu, 20 Jan 2022 at 16:25, AngeloGioacchino Del Regno
+>>> <angelogioacchino.delregno@collabora.com> wrote:
+>>>>
+>>>> Il 14/01/22 10:14, allen ha scritto:
+>>>>> This adds support for the iTE IT6505.
+>>>>> This device can convert DPI signal to DP output.
+>>>>>
+>>>>> From: Allen Chen <allen.chen@ite.com.tw>
+>>>>> Tested-by: Hsin-yi Wang <hsinyi@chromium.org>
+>>>>> Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
+>>>>> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
+>>>>> ---
+>>>>> v10 -> v11 : remove drm_bridge_new_crtc_state
+>>>>> ---
+>>>>>    drivers/gpu/drm/bridge/Kconfig      |    8 +
+>>>>>    drivers/gpu/drm/bridge/Makefile     |    1 +
+>>>>>    drivers/gpu/drm/bridge/ite-it6505.c | 3352 +++++++++++++++++++++++++++
+>>>>>    3 files changed, 3361 insertions(+)
+>>>>>    create mode 100644 drivers/gpu/drm/bridge/ite-it6505.c
+>>>>>
+>>>>
+>>>> ...snip...
+>>>>
+>>>>> +static const struct of_device_id it6505_of_match[] = {
+>>>>> +     { .compatible = "ite,it6505" },
+>>>>> +     { }
+>>>>> +};
+>>>>
+>>>> If you want to have a DT compatible and DT properties, you have to also add
+>>>> dt-bindings (yaml) for this driver, otherwise, any SoC/device DT will fail
+>>>> the dt binding check.... So, please, add that.
+>>>
+>>> Let me second this. A dt-binding is needed for this driver to be
+>>> complete, it functions as both documentation and a way to test the DTS
+>>> that use this device, so it is really important.
+>>>
+>> The binding seems to be accepted before the driver:
+>> https://elixir.bootlin.com/linux/v5.16.4/source/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> 
+> I completely missed that. In that case we're only missing the
+> reviewed-by tag from someone.
+> 
 
-On 31/01/22 10:29 pm, Lucas De Marchi wrote:
-> Architectures others than x86 have a stub implementation calling
-> WARN_ON_ONCE(). The appropriate headers need to be included, otherwise
-> the header-test target will fail with:
->
->   HDRTEST drivers/gpu/drm/i915/i915_mm.h
-> In file included from <command-line>:
-> ./drivers/gpu/drm/i915/i915_mm.h: In function ‘remap_io_mapping’:
-> ./drivers/gpu/drm/i915/i915_mm.h:26:2: error: implicit declaration of function ‘WARN_ON_ONCE’ [-Werror=implicit-function-declaration]
->    26 |  WARN_ON_ONCE(1);
->       |  ^~~~~~~~~~~~
->
-> v2: Do not include <linux/printk.h> since call to pr_err() has been
-> removed
->
-> Fixes: 67c430bbaae1 ("drm/i915: Skip remap_io_mapping() for non-x86 platforms")
-> Cc: Siva Mullati <siva.mullati@intel.com>
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->
-> v3: No changes from previous version, just submitting to the right
-> mailing list
->
->  drivers/gpu/drm/i915/i915_mm.h | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/i915/i915_mm.h b/drivers/gpu/drm/i915/i915_mm.h
-> index 76f1d53bdf34..3ad22bbe80eb 100644
-> --- a/drivers/gpu/drm/i915/i915_mm.h
-> +++ b/drivers/gpu/drm/i915/i915_mm.h
-> @@ -6,6 +6,7 @@
->  #ifndef __I915_MM_H__
->  #define __I915_MM_H__
->  
-> +#include <linux/bug.h>
->  #include <linux/types.h>
->  
->  struct vm_area_struct;
+You have mine... the intention was to give a Reviewed-by, not a Acked-by - I'm
+sorry for that, I was sending more than one email and the wrong tag slipped
+through.
+
+So, please change my Acked-by tag to
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+>>
+>>>>
+>>>> For the driver by itself, though:
+>>>>
+>>>> Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>>
+>>>>> +
+>>>>> +static struct i2c_driver it6505_i2c_driver = {
+>>>>> +     .driver = {
+>>>>> +             .name = "it6505",
+>>>>> +             .of_match_table = it6505_of_match,
+>>>>> +             .pm = &it6505_bridge_pm_ops,
+>>>>> +     },
+>>>>> +     .probe = it6505_i2c_probe,
+>>>>> +     .remove = it6505_i2c_remove,
+>>>>> +     .shutdown = it6505_shutdown,
+>>>>> +     .id_table = it6505_id,
+>>>>> +};
+>>>>> +
+>>>>> +module_i2c_driver(it6505_i2c_driver);
+>>>>> +
+>>>>> +MODULE_AUTHOR("Allen Chen <allen.chen@ite.com.tw>");
+>>>>> +MODULE_DESCRIPTION("IT6505 DisplayPort Transmitter driver");
+>>>>> +MODULE_LICENSE("GPL v2");
+>>>>>
+>>>>
+
+
