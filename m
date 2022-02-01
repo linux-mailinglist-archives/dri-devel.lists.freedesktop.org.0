@@ -1,60 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 390694A58F4
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 10:09:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F6764A592D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 10:27:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9CAA10E5F5;
-	Tue,  1 Feb 2022 09:09:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4E8910EDE8;
+	Tue,  1 Feb 2022 09:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF4210E5F5;
- Tue,  1 Feb 2022 09:09:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643706544; x=1675242544;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=nhJLTuyBB3KiQVqGcKTS+5p6NB5lOpznI/LO6Fl/2Hs=;
- b=iJbet41tRxchHc9brAWjBJ6shL33Hyb0e5PY7W6Y+dlamxtpf0AdS9SU
- Xs7dPPZc3cwMu7CTMqQHRRgMVtoZvzEsm9d4flxafyFS+VNx2R+HAJalx
- Yf1M9D1zUA6rxF6C2ARr4IUDJm2oyZ8SU6dmL4UcjJ7fVFosARCWP0Zn9
- hn7DSchYaN+JlE580iWC1iK3reresCNXn+pkQRA7Oys8eoZRVe4Ar+nn/
- KxTCGoGToZPvZBQ0Hno5qvphilzZUoJfPn5lCudgu1QbfQfVaknVmNp7g
- Ft/iynjIPwcBWWXk4kVpeebGpHLOowf2hKwz8/W7K6FyB821EbfYjnc84 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="228308977"
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="228308977"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 01:09:03 -0800
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="698339217"
-Received: from bconlan-mobl1.ger.corp.intel.com (HELO [10.213.212.46])
- ([10.213.212.46])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 01:09:01 -0800
-Message-ID: <c2e873de-9031-ea80-acd6-45ef53000635@linux.intel.com>
-Date: Tue, 1 Feb 2022 09:08:59 +0000
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F12810EDE8
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 09:27:14 +0000 (UTC)
+Date: Tue, 01 Feb 2022 09:27:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1643707632;
+ bh=+2uWf9UcTSR/4vvg3PtafoJ+NVCgHeC107J37zjRulA=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:From:To:Cc;
+ b=Y0Y1+ad8uEfmUqJMBEcm/DxKnTKzc8w+TsPzUnwM7iDeV9frOGDKlS9yjM1gCzu00
+ qiHn2n2xP+M8Y5SLDbZvpRlEcKXvBPb7kPiTOJIBDzCgYVZ37VH0ss345F8nsIHmVL
+ zgVoZndkLKuZi9ksnBzCGNxQLrSqXqm7AVVhhmAr3TzLboobsy4ei2qt2xS3+8gPoK
+ TeDs52GoaC+BzhFh7QMFC7g4iHW1kFJRVZcIIzH8oRSE7A2ZxjJ5WIN/N8lXseFnbQ
+ 3cDt89/maaKcSSW5Pv0yrB7ZMmkPORTrzpU7cR0ZLPbybazxaJWEOXUxtdtTZV7yeS
+ iT0n+gc8PNS8g==
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
+Message-ID: <8vOr78Nu7IEcITxWHXWTru7vu_VE9g-5v_8eotyLeJjbI-czksMS57WV2knv6sd3cMMaJSYrnPAOfnHQkj7iK-R_YYHfOvJjCCkE48dW_qQ=@emersion.fr>
+In-Reply-To: <CAMuHMdXMayLLRavAJJujmPqT+Vd11dPfycqXie3w_pOkS8i9eA@mail.gmail.com>
+References: <20220131201225.2324984-1-javierm@redhat.com>
+ <CAMuHMdXMayLLRavAJJujmPqT+Vd11dPfycqXie3w_pOkS8i9eA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] linux-next: build failure after merge of the
- drm-intel-fixes tree
-Content-Language: en-US
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>
-References: <20220201092735.1d5b38d3@canb.auug.org.au>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220201092735.1d5b38d3@canb.auug.org.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,T_SCC_BODY_TEXT_LINE
+ shortcircuit=no autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,47 +51,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Dan Carpenter <dan.carpenter@oracle.com>
+ Mark Brown <broonie@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tuesday, February 1st, 2022 at 09:43, Geert Uytterhoeven <geert@linux-m6=
+8k.org> wrote:
 
-On 31/01/2022 22:27, Stephen Rothwell wrote:
-> Hi all,
-> 
-> After merging the drm-intel-fixes tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
-> 
-> drivers/gpu/drm/i915/i915_vma.c: In function 'i915_vma_bind':
-> drivers/gpu/drm/i915/i915_vma.c:451:25: error: 'ret' undeclared (first use in this function); did you mean 'net'?
->    451 |                         ret = i915_gem_object_wait_moving_fence(vma->obj, true);
->        |                         ^~~
->        |                         net
-> 
-> Caused by commit
-> 
->    2e872d87cbf2 ("drm/i915: delete shadow "ret" variable")
-> 
-> I have reverted that commit for today.
+> Does there exist another simple test program for showing something
+> using the DRM API?
 
-Dropping was the right call - I have since removed it from 
-drm-intel-fixes as well.
+If you're fine with going low-level, there's tentative [1] which can apply =
+an
+arbitrary KMS state. See for instance [2] for basic mode-setting.
 
-Root cause was a bad Fixes: tag in that patch which caused it to be 
-wrongly cherry-picked and I did not build test before pushing.
-
-We can't edit the wrong Fixes: tag now, so for future reference only, 
-2e872d87cbf2 ("drm/i915: delete shadow "ret" variable") should not be 
-backported to 5.17 by anyone.
-
-Wrong tag:
-Fixes: f6c466b84cfa ("drm/i915: Add support for moving fence waiting")
-
-Correct tag should have been:
-Fixes: 2f6b90da9192 ("drm/i915: Use vma resources for async unbinding")
-
-Regards,
-
-Tvrtko
+[1]: https://git.sr.ht/~emersion/tentative
+[2]: https://git.sr.ht/~emersion/tentative/tree/master/item/examples/modese=
+t
