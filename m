@@ -1,55 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11474A679A
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 23:14:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4FA4A67FD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 23:29:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F200B89D56;
-	Tue,  1 Feb 2022 22:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7CA410E21B;
+	Tue,  1 Feb 2022 22:29:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAE9689D1D;
- Tue,  1 Feb 2022 22:14:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643753656; x=1675289656;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=7N3Q5Ni1DLk6hYg7jdM2Dvd7SeaAS+/pg1uZRQJ6UzI=;
- b=d138JRgPSEOpTCyj1FCNlDtSURdfcHgYKfi1nqLebrwhpTUWUV2vObSv
- fXrQxEv/TH7iVBLDC09F7jaDUKd5EIFQdC6sYsQvw9ybgdjLZrr1A1fcQ
- OaJd10JeD2lrFSJ3KlozoMrmwhylrEJXYVchpfLqgfzWCsp2/jbiDeaqF
- 8fy68LQLrC4xhO89vMQjDyubsnaEYiB2qv1bprnKUDbZjxzSe9of+xyr+
- Y43i7zWqRH34y22FejrgAkC7CzVnaWblDawnoQLpU7sA/XtYDamLIwkaK
- BSnb+zbt36wddvsphSBgqIvkQIX52OW1y1wXnBf5pq2wATdFF5LEQJ9+Y g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="228463718"
-X-IronPort-AV: E=Sophos;i="5.88,335,1635231600"; d="scan'208";a="228463718"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 14:14:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,335,1635231600"; d="scan'208";a="698576797"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
- by orsmga005.jf.intel.com with ESMTP; 01 Feb 2022 14:14:12 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nF1Pf-000TlW-TL; Tue, 01 Feb 2022 22:14:11 +0000
-Date: Wed, 2 Feb 2022 06:14:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH 3/6] drm/msm/dpu: allow just single IRQ callback
-Message-ID: <202202020613.VjszN4M6-lkp@intel.com>
-References: <20220201151056.2480055-4-dmitry.baryshkov@linaro.org>
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB8F10E21B
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 22:29:22 +0000 (UTC)
+Date: Tue, 01 Feb 2022 22:29:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1643754559;
+ bh=MGtp5mMwNn+8qDhigeSXS0uKyHzpDrXsYo+t1ISZnqg=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:From:To:Cc;
+ b=l0iICYndrhAtRRrRBbQ7jYwKoH6YKKhnrBfLHSNjH7IjZ+TC8QiODbSZ1SxHk0Hvw
+ DFDsjKq29VC01r0LzwvdRfAORPmS4GVUgrt9waPKhUhtaqeNq03wWaJSsYJtBpwTla
+ XunPVeybo2QOVbgGgGxIwNNpyzNSH5vj0Ac7fVWWtU36ISv/e40HPrLX+XUr94R7F0
+ GvWUQmGrTNHucyTejYVfezQqaVmE/HW4L1VKbvx/87SiW3bVlRHkW+sXVNqcZvvEzr
+ pUEj9qjNZYW2o2UU+D+mQdqc2E2vZ8ujSj8FmXKPgnLD501TOFva9dO38vCbhP4fRu
+ PkJOcSAyPRMNg==
+To: Sam Ravnborg <sam@ravnborg.org>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 1/4] drm: Add I2C connector type
+Message-ID: <0yOiGD-56rTdV--oDietLeMO46Z8iFNnCNVVRg3Yh9D13AghGCYm5aP67SoswHY7Ye3vc3UEKzgtI02-F6vJ4b5xGLlE5yg6n2HznaWzYvg=@emersion.fr>
+In-Reply-To: <YfmeztkVXwZzAwYe@ravnborg.org>
+References: <20220131201225.2324984-1-javierm@redhat.com>
+ <20220131201225.2324984-2-javierm@redhat.com> <YfhMESTylI1NTKDg@ravnborg.org>
+ <4d9a56a7-da25-b411-61cc-372c6fa9011d@tronnes.org>
+ <YfmeztkVXwZzAwYe@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220201151056.2480055-4-dmitry.baryshkov@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,T_SCC_BODY_TEXT_LINE
+ shortcircuit=no autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,113 +53,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+On Tuesday, February 1st, 2022 at 21:57, Sam Ravnborg <sam@ravnborg.org> wr=
+ote:
 
-Thank you for the patch! Yet something to improve:
+> As I wrote in another part of this thread(s) - typing the patch is easy.
+> But I do not understand the userspace implications so I need someone
+> else to say go.
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on v5.17-rc2 next-20220201]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Dmitry-Baryshkov/drm-msm-dpu-simplify-IRQ-helpers/20220201-231430
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: s390-randconfig-r044-20220130 (https://download.01.org/0day-ci/archive/20220202/202202020613.VjszN4M6-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/c3da64f5022acf9d942f497a3e3cff092648d6c3
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Dmitry-Baryshkov/drm-msm-dpu-simplify-IRQ-helpers/20220201-231430
-        git checkout c3da64f5022acf9d942f497a3e3cff092648d6c3
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/msm/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/trace/define_trace.h:102,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h:973,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:34:
-   drivers/gpu/drm/msm/disp/dpu1/./dpu_trace.h: In function 'ftrace_test_probe_dpu_core_irq_unregister_callback':
-   include/trace/trace_events.h:870:42: error: passing argument 1 of 'check_trace_callback_type_dpu_core_irq_unregister_callback' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     870 |         check_trace_callback_type_##call(trace_event_raw_event_##template); \
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~
-         |                                          |
-         |                                          void (*)(void *, int,  void *)
-   drivers/gpu/drm/msm/disp/dpu1/./dpu_trace.h:892:1: note: in expansion of macro 'DEFINE_EVENT'
-     892 | DEFINE_EVENT(dpu_core_irq_callback_template, dpu_core_irq_unregister_callback,
-         | ^~~~~~~~~~~~
-   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h:10,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:34:
-   include/linux/tracepoint.h:279:49: note: expected 'void (*)(void *, int)' but argument is of type 'void (*)(void *, int,  void *)'
-     279 |         check_trace_callback_type_##name(void (*cb)(data_proto))        \
-         |                                          ~~~~~~~^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:419:9: note: in expansion of macro '__DECLARE_TRACE'
-     419 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:542:9: note: in expansion of macro 'DECLARE_TRACE'
-     542 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h:892:1: note: in expansion of macro 'DEFINE_EVENT'
-     892 | DEFINE_EVENT(dpu_core_irq_callback_template, dpu_core_irq_unregister_callback,
-         | ^~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:103,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h:973,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:34:
-   drivers/gpu/drm/msm/disp/dpu1/./dpu_trace.h: In function 'perf_test_probe_dpu_core_irq_unregister_callback':
->> include/trace/perf.h:99:42: error: passing argument 1 of 'check_trace_callback_type_dpu_core_irq_unregister_callback' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      99 |         check_trace_callback_type_##call(perf_trace_##template);        \
-         |                                          ^~~~~~~~~~~
-         |                                          |
-         |                                          void (*)(void *, int,  void *)
-   drivers/gpu/drm/msm/disp/dpu1/./dpu_trace.h:892:1: note: in expansion of macro 'DEFINE_EVENT'
-     892 | DEFINE_EVENT(dpu_core_irq_callback_template, dpu_core_irq_unregister_callback,
-         | ^~~~~~~~~~~~
-   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h:10,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:34:
-   include/linux/tracepoint.h:279:49: note: expected 'void (*)(void *, int)' but argument is of type 'void (*)(void *, int,  void *)'
-     279 |         check_trace_callback_type_##name(void (*cb)(data_proto))        \
-         |                                          ~~~~~~~^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:419:9: note: in expansion of macro '__DECLARE_TRACE'
-     419 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:542:9: note: in expansion of macro 'DECLARE_TRACE'
-     542 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h:892:1: note: in expansion of macro 'DEFINE_EVENT'
-     892 | DEFINE_EVENT(dpu_core_irq_callback_template, dpu_core_irq_unregister_callback,
-         | ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/check_trace_callback_type_dpu_core_irq_unregister_callback +99 include/trace/perf.h
-
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29   89) 
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29   90) /*
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29   91)  * This part is compiled out, it is only here as a build time check
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29   92)  * to make sure that if the tracepoint handling changes, the
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29   93)  * perf probe will fail to compile unless it too is updated.
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29   94)  */
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29   95) #undef DEFINE_EVENT
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29   96) #define DEFINE_EVENT(template, call, proto, args)			\
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29   97) static inline void perf_test_probe_##call(void)				\
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29   98) {									\
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29  @99) 	check_trace_callback_type_##call(perf_trace_##template);	\
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29  100) }
-ee53bbd172571c Steven Rostedt (Red Hat  2015-04-29  101) 
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+User-space shouldn't really use the connector for anything except making it
+easier for the user to understand where to plug the display cable. I think =
+a
+generic "panel" connector type makes sense.
