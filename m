@@ -1,54 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BFAE4A5B96
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 12:53:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2E14A5C51
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 13:32:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D03AA10E636;
-	Tue,  1 Feb 2022 11:53:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0FC110E868;
+	Tue,  1 Feb 2022 12:32:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7684E10E636
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 11:53:10 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1DDB31F380;
- Tue,  1 Feb 2022 11:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643716389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=bKWdxJm1aizvOTawWPnEDJmR2Y7TBDt6ifomyzqcN3U=;
- b=JsVa7xOKinMdBQ2dLSWBEL70hxx2nhGvRYyqCUfe/9fC7amV1JPMNXcylqTjwsawYLDQkP
- Urj2fv2NpkEUZ/azXRTl7O29FPyouVgQF0oUnc9VDFHAd1Mz6s9CUnjNcs4XLUAmObnNzG
- HDg+Rk0TX3U6VNc5UNUqZUG/PWAmI9E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643716389;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=bKWdxJm1aizvOTawWPnEDJmR2Y7TBDt6ifomyzqcN3U=;
- b=gAOUiQr87aGh6xLZYWq+mBZu/X72SNXM/Foo/SLuFcNM02BXEufxp5jm7eU3NlT/SsUJE4
- sb81jD18lZqMh8BQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E2F1913D67;
- Tue,  1 Feb 2022 11:53:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id pUNKNiQf+WG5PQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 01 Feb 2022 11:53:08 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-Subject: [PATCH v2] drm/fb-helper: Mark screen buffers in system memory with
- FB_VIRTFB
-Date: Tue,  1 Feb 2022 12:53:05 +0100
-Message-Id: <20220201115305.9333-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.34.1
+Received: from out30-45.freemail.mail.aliyun.com
+ (out30-45.freemail.mail.aliyun.com [115.124.30.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C357D10E870
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 12:32:08 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R181e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e01424; MF=yang.lee@linux.alibaba.com;
+ NM=1; PH=DS; RN=6; SR=0; TI=SMTPD_---0V3NRSJD_1643718724; 
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
+ fp:SMTPD_---0V3NRSJD_1643718724) by smtp.aliyun-inc.com(127.0.0.1);
+ Tue, 01 Feb 2022 20:32:04 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: deller@gmx.de
+Subject: [PATCH -next 1/2 v2] video: fbdev: pxa168fb: Remove unnecessary print
+ function dev_err()
+Date: Tue,  1 Feb 2022 20:32:01 +0800
+Message-Id: <20220201123202.95055-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,67 +40,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Abaci Robot <abaci@linux.alibaba.com>, linux-fbdev@vger.kernel.org,
+ Yang Li <yang.lee@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mark screen buffers in system memory with FB_VIRTFB. Otherwise, fbdev
-deferred I/O marks mmap'ed areas of system memory with VM_IO. (There's
-an inverse relation ship between the two flags.)
+The print function dev_err() is redundant because platform_get_irq()
+already prints an error.
 
-For shadow buffers, also set the FB_READS_FAST hint.
+Eliminate the follow coccicheck warning:
+./drivers/video/fbdev/pxa168fb.c:621:2-9: line 621 is redundant because
+platform_get_irq() already prints an error
 
-v2:
-	* updated commit description (Daniel)
-	* added Fixes tag
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: d536540f304c ("drm/fb-helper: Add generic fbdev emulation .fb_probe function")
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v4.19+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
- drivers/gpu/drm/drm_fb_helper.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index ed43b987d306..f15127a32f7a 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -2346,6 +2346,7 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
- 	fbi->fbops = &drm_fbdev_fb_ops;
- 	fbi->screen_size = sizes->surface_height * fb->pitches[0];
- 	fbi->fix.smem_len = fbi->screen_size;
-+	fbi->flags = FBINFO_DEFAULT;
+-Change in v2:
+drop the surrounding braces
+
+ drivers/video/fbdev/pxa168fb.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
+index c25739f6934d..e943300d23e8 100644
+--- a/drivers/video/fbdev/pxa168fb.c
++++ b/drivers/video/fbdev/pxa168fb.c
+@@ -617,10 +617,8 @@ static int pxa168fb_probe(struct platform_device *pdev)
+ 	}
  
- 	drm_fb_helper_fill_info(fbi, fb_helper, sizes);
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq < 0) {
+-		dev_err(&pdev->dev, "no IRQ defined\n");
++	if (irq < 0)
+ 		return -ENOENT;
+-	}
  
-@@ -2353,19 +2354,21 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
- 		fbi->screen_buffer = vzalloc(fbi->screen_size);
- 		if (!fbi->screen_buffer)
- 			return -ENOMEM;
-+		fbi->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
- 
- 		fbi->fbdefio = &drm_fbdev_defio;
--
- 		fb_deferred_io_init(fbi);
- 	} else {
- 		/* buffer is mapped for HW framebuffer */
- 		ret = drm_client_buffer_vmap(fb_helper->buffer, &map);
- 		if (ret)
- 			return ret;
--		if (map.is_iomem)
-+		if (map.is_iomem) {
- 			fbi->screen_base = map.vaddr_iomem;
--		else
-+		} else {
- 			fbi->screen_buffer = map.vaddr;
-+			fbi->flags |= FBINFO_VIRTFB;
-+		}
- 
- 		/*
- 		 * Shamelessly leak the physical address to user-space. As
+ 	info = framebuffer_alloc(sizeof(struct pxa168fb_info), &pdev->dev);
+ 	if (info == NULL) {
 -- 
-2.34.1
+2.20.1.7.g153144c
 
