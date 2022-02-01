@@ -1,62 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78EB94A5E08
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 15:14:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED784A5E23
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 15:20:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B7F10E62F;
-	Tue,  1 Feb 2022 14:14:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CB5410E65D;
+	Tue,  1 Feb 2022 14:20:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
- [209.85.217.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D885710E62F
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:14:30 +0000 (UTC)
-Received: by mail-vs1-f43.google.com with SMTP id az20so16222814vsb.8
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 06:14:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6JTo8Sy9jsMuY9se9GPF3GJU4ezrpNEbpV0Rieuvz5M=;
- b=YpqnGFqd9EnG6BM0XHAgB/JlEwAJUGCgmtTfl4fI6JHJIrSG7frUxNAmTOkLnojMeZ
- epSGuuD4taX1lh/GAUuyRWwzZtZAJKpWNpOBp9lVYvb7ycgcUFXWYgHCUzMePs2F9/Un
- gKrYNIlu23rbCFRTgWH0ye+I0L4TeuSCTEvqYsVESSzUOM7w0fPzuzIRZrSulgozdpPF
- L+QKADJy4Oi+d6IUXSAcoqDCpAlC1GpnC8kDrisDOVLmk6thEkcxdzmumj6GxptA5gLz
- PUsVOYY89dEScvrWEBlf631z/xs9oFty+/0PzJzNJMblppjOxI34cjWpww43bYVtJWAl
- Bklw==
-X-Gm-Message-State: AOAM531hJiBrjjammZJQDfHpkdJrnbkyMJtGR7QTBopudYglac64AUk6
- ZxU/VBWVd8sY4gypKg4JH+djf2E5uPOs6fcY
-X-Google-Smtp-Source: ABdhPJx9sdr0deMibrkybQYXsmeODdHBledqf7RJ42fwHas/mHgnN9OXe8Ny0FIouKHk/eSC3yrvAg==
-X-Received: by 2002:a05:6102:3a7a:: with SMTP id
- bf26mr9145133vsb.27.1643724869827; 
- Tue, 01 Feb 2022 06:14:29 -0800 (PST)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com.
- [209.85.217.51])
- by smtp.gmail.com with ESMTPSA id g25sm4128074vsj.6.2022.02.01.06.14.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 06:14:29 -0800 (PST)
-Received: by mail-vs1-f51.google.com with SMTP id f6so16229130vsa.5
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 06:14:28 -0800 (PST)
-X-Received: by 2002:a67:5f83:: with SMTP id t125mr9456510vsb.68.1643724868281; 
- Tue, 01 Feb 2022 06:14:28 -0800 (PST)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF75F10E65D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:20:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vv+M0c9/+vvHAR+4n1g8BIf5PSlzor1xcAvAWfIItfU=; b=SIxfSMxadV7NfMVsEZAOlZ7bqW
+ 8fFHaUAUne5GMPC6IEFf0JbJR69XkvYTs1lL5EzV3yCFQrtw0lj4Vzvl/Oblw0tm0In6LehDamWKg
+ s7rRXO8qZAT0pTx8zO8AZ+1PHCkn3b0Q8/UA9iRPkzqvDqjVxBKzHj/1B98iiaAhOWW6VQC39cRYl
+ 2Bo8RqqQJvdXqY25oZWfA598J5HIJ+YLo37iUHyuvr+n0nVJuIc/e6Nwv9N5SYIFv6VV0k0B5Qa/r
+ ZSZxLINoAjamzhzq6vJJkfFxUU+C/qxQeYGnM1rGo68tXb2Dwhld3ctf8ss8Sx/WntMYIG/BbVIC1
+ QJ8zLzWw==;
+Received: from [2a01:799:95e:a400:5d05:6ef3:cded:ad3] (port=55645)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1nEu14-00029Z-BL; Tue, 01 Feb 2022 15:20:18 +0100
+Message-ID: <fb821f7c-ef35-5351-ebab-2801cd9bba2e@tronnes.org>
+Date: Tue, 1 Feb 2022 15:20:15 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/4] drm: Add I2C connector type
+To: Simon Ser <contact@emersion.fr>
 References: <20220131201225.2324984-1-javierm@redhat.com>
- <YfhM97cVH3+lJKg0@ravnborg.org>
- <Yfj/XGRRDNABsLPm@smile.fi.intel.com>
- <f8d71acb-5c8b-ac4e-0c32-38eb66af04c3@redhat.com>
- <CAMuHMdVP6ER119r2KAegjZes1a=KWZ47z6j=kgQ0oNx1oeUJ+w@mail.gmail.com>
- <51f54519-bb8b-f108-1c1e-4fed101ca5ef@redhat.com>
-In-Reply-To: <51f54519-bb8b-f108-1c1e-4fed101ca5ef@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 1 Feb 2022 15:14:17 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVwUfv7pXhPazsgG6t=X=aVtDQkFUk_=mUuFH8Fscx8wg@mail.gmail.com>
-Message-ID: <CAMuHMdVwUfv7pXhPazsgG6t=X=aVtDQkFUk_=mUuFH8Fscx8wg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+ <20220131201225.2324984-2-javierm@redhat.com> <YfhMESTylI1NTKDg@ravnborg.org>
+ <4d9a56a7-da25-b411-61cc-372c6fa9011d@tronnes.org>
+ <vbOCbsYZGDCHDj8wKOHAZ1u2HMTc_UKM5umAyMug7KZn5ABy4sDMMdNOtwLI5kH_ifctnfmzQejqC_HP1vhXNt6k7vEU0WqFVNUwKnibIn4=@emersion.fr>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <vbOCbsYZGDCHDj8wKOHAZ1u2HMTc_UKM5umAyMug7KZn5ABy4sDMMdNOtwLI5kH_ifctnfmzQejqC_HP1vhXNt6k7vEU0WqFVNUwKnibIn4=@emersion.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,60 +57,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee.jones@linaro.org>,
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
 
-On Tue, Feb 1, 2022 at 2:09 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> On 2/1/22 12:38, Geert Uytterhoeven wrote:
-> >> Since the current binding has a compatible "ssd1305fb-i2c", we could make the
-> >> new one "ssd1305drm-i2c" or better, just "ssd1305-i2c".
-> >
-> > DT describes hardware, not software policy.
-> > If the hardware is the same, the DT bindings should stay the same.
-> >
->
-> Yes I know that but the thing is that the current binding don't describe
-> the hardware correctly. For instance, don't use a backlight DT node as a
-> property of the panel and have this "fb" suffix in the compatible strings.
->
-> Having said that, my opinion is that we should just keep with the existing
-> bindings and make compatible to that even if isn't completely correct.
->
-> Since that will ease adoption of the new DRM driver and allow users to use
-> it without the need to update their DTBs.
 
-To me it looks like the pwms property is not related to the backlight
-at all, and only needed for some variants?
+Den 01.02.2022 14.38, skrev Simon Ser:
+> 
+> On Tuesday, February 1st, 2022 at 13:58, Noralf Trønnes <noralf@tronnes.org> wrote:
+> 
+>> It turned out that I wasn't entirely correct here, mpv didn't cope with
+>> unknown types. In the PR to add support Emil Velikov wondered if libdrm
+>> should handle these connector names:
+> 
+> Opened this MR to try to make things easier for user-space:
+> https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/222
 
-And the actual backlight code seems to be about internal contrast
-adjustment?
-
-So if the pwms usage is OK, what other reasons are there to break
-DT compatibility? IMHO just the "fb" suffix is not a good reason.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks Simon!
