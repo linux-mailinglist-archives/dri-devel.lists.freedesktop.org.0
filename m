@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2CC4A5DDD
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 15:03:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F16F14A5DEC
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 15:05:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80B3A10E4EA;
-	Tue,  1 Feb 2022 14:03:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD8910E52D;
+	Tue,  1 Feb 2022 14:05:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA7D10E4D2
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:03:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643724224; x=1675260224;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4cD8Nnk/cAjxUMAyT4wL7Ctq8gRWHUD/fFe2hLfCcRo=;
- b=QT+7fbTkuYLMQHLMIbTz+Rekxy5dRCf0uzrmsIy3+x8rSusiMjKej/pY
- UpTe+x6QChRG59C+Y0vFfZGiOXfIGQEg0MZI+CgpjtNnWV4a0djCtg37f
- 8hAH5qfjUUPMbF8KWxZoNDYlh2TyGcLcYEqwsHZGYFgp5suPEcrfnS7jA
- lcXWSi2jkWbF8NmqylQUmJGEdYheKjDZ005EEAqdTI7RXDycOpJ1W5Hiu
- yPKadMxP5dl2gyzPMcjCBguSnEafjArtlqt4mtF90bIH2oA93GsHUxcaY
- qXf8sWlwoOlgSbZWiKGAdPs/vDPKWpRATZDBcwD1f/DjfzQjbqiuL3C9d A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="247911987"
-X-IronPort-AV: E=Sophos;i="5.88,334,1635231600"; d="scan'208";a="247911987"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 06:03:43 -0800
-X-IronPort-AV: E=Sophos;i="5.88,334,1635231600"; d="scan'208";a="626738935"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 06:03:41 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nEtjz-00HKFy-02; Tue, 01 Feb 2022 16:02:39 +0200
-Date: Tue, 1 Feb 2022 16:02:38 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH 3/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-Message-ID: <Yfk9fuazUSgI6C9n@smile.fi.intel.com>
-References: <20220131202916.2374502-1-javierm@redhat.com>
- <YfhVBtv1UIA7bJja@ravnborg.org>
- <3aac291a-b30e-2775-336f-66dd08d634e2@redhat.com>
- <YfkA4ER/52I2v1JP@smile.fi.intel.com>
- <9ddd8a8c-4aa9-bc4a-5637-66197a7342d1@redhat.com>
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com
+ [209.85.221.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F66910E52D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 14:05:31 +0000 (UTC)
+Received: by mail-vk1-f175.google.com with SMTP id l14so9296885vko.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 06:05:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tSPo3aBmqMYxhq4BWMLe/VmrA5tIsKRk8/D0WbRUEX0=;
+ b=EmSBmjS4l4dHt4wEt0yXbASXL9nvN80e1G0bLuFS892DeFkuy9BqPrxFnNezmZLsMj
+ jcUnBSTaMiDSEU8m8Qida3UGG/GIDL259pS/o5DIYNCFg5bD2ZqMVehu+hj00r6xuRSa
+ kbU+oL2+5vEzhmFySxlF7XGFdqD4FwJ/5ToVUqDLKqrXQ/YNeHrMYWnTwpyfcKZ+EX0a
+ L6JjdyZ/qHPBSrnXc1SMjpAX+UqCXD46bcnUB+kIHEz4rd1htYnFZHSR4pH8PRTNtKO0
+ wReT1DEl9eJ8qAPbXmORCmr48JAzLB1V8sf18jcne5ymQNE3rUS34QhtZaDYR6GTZTK3
+ Wz1A==
+X-Gm-Message-State: AOAM531MTA0lY/IeFx++BCZPkG9DKQ3EAhT/TrY5JAzk2zHlKOQ/DZXz
+ mj3Zd+St+X9fmo39HkhQQ8n+lOVYDX3WWQ==
+X-Google-Smtp-Source: ABdhPJwSoABM84WyqLYXdwRfQiNmBlqTtifjGbbxaPCwHZlASvgzBTyF4CokV8oU2owGFRFOkjITYw==
+X-Received: by 2002:a05:6122:9a8:: with SMTP id
+ g40mr10243793vkd.15.1643724330414; 
+ Tue, 01 Feb 2022 06:05:30 -0800 (PST)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com.
+ [209.85.217.43])
+ by smtp.gmail.com with ESMTPSA id q4sm4849934vke.15.2022.02.01.06.05.29
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Feb 2022 06:05:30 -0800 (PST)
+Received: by mail-vs1-f43.google.com with SMTP id az20so16187419vsb.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 06:05:29 -0800 (PST)
+X-Received: by 2002:a67:c198:: with SMTP id h24mr10246425vsj.5.1643724329652; 
+ Tue, 01 Feb 2022 06:05:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ddd8a8c-4aa9-bc4a-5637-66197a7342d1@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220131202916.2374502-1-javierm@redhat.com>
+ <cc093cd5-fba1-5d84-5894-81a6e1d039ff@suse.de>
+ <73dbc5c7-b9e2-a260-49a6-0b96f342391e@redhat.com>
+In-Reply-To: <73dbc5c7-b9e2-a260-49a6-0b96f342391e@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 1 Feb 2022 15:05:18 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUJpoG=XChpqNotfEDrWCxFUqyhjW2JW1ckAyKcWXvAUw@mail.gmail.com>
+Message-ID: <CAMuHMdUJpoG=XChpqNotfEDrWCxFUqyhjW2JW1ckAyKcWXvAUw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,46 +66,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 01, 2022 at 12:45:53PM +0100, Javier Martinez Canillas wrote:
-> On 2/1/22 10:44, Andy Shevchenko wrote:
-> > On Tue, Feb 01, 2022 at 01:14:22AM +0100, Javier Martinez Canillas wrote:
+Hi Javier,
 
-...
+On Tue, Feb 1, 2022 at 2:02 PM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> On 2/1/22 10:33, Thomas Zimmermann wrote:
+> >> +{
+> >> +    u8 col_end = col_start + cols - 1;
+> >> +    int ret;
+> >> +
+> >> +    if (col_start == ssd1307->col_start && col_end == ssd1307->col_end)
+> >> +            return 0;
+> >> +
+> >> +    ret = ssd1307_write_cmd(ssd1307->client, SSD1307_SET_COL_RANGE);
+> >> +    if (ret < 0)
+> >> +            return ret;
+> >> +
+> >> +    ret = ssd1307_write_cmd(ssd1307->client, col_start);
+> >> +    if (ret < 0)
+> >> +            return ret;
+> >> +
+> >> +    ret = ssd1307_write_cmd(ssd1307->client, col_end);
+> >> +    if (ret < 0)
+> >> +            return ret;
+> >
+> > Can you write these cmds in one step, such as setting up an array and
+> > sending it with ssd1307_write_array?
+>
+> I don't think so because the commands are different. But I'll check the
+> ssd1306 datasheet again to confirma that's the case.
 
-> > The problem with no backward compatibility means that removal of old driver
-> > makes users unhappy since DT is kinda ABI and we do not break it.
-> > 
-> 
-> I think that's the crux of the issue. Do we want people to update their
-> kernel but using their existing Device Tree and be able to switch to the
-> DRM driver ?
-> 
-> My take is that we should and that's why I kept the backward compatibility.
-> 
-> Maybe we could do that in the meantime and at some point introduce new DT
-> bindings (with a different compatible string) that would use the latest
-> and greatest conventions in DT ? That seems to be a good compromise.
+IIRC, I tried that while working on the optimizations for ssd1307fb,
+and it didn't work.
 
-I have over-read in this discussion that current binding is not fully
-correct from hw perspective. If it's indeed the case (and I believe it's),
-then probably we should come with brand new driver with ssd130x name and
-incompatible bindingas (*).
+Gr{oetje,eeting}s,
 
-Otherwise in this driver we continue to be incorrect in them.
+                        Geert
 
-*) But even though I think it would be good if you take the old one under your
-   maintainership.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
