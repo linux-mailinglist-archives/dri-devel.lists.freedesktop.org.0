@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28304A6242
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 18:22:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FEE94A6244
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 18:22:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2B710E6F9;
-	Tue,  1 Feb 2022 17:22:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0693D10E6FB;
+	Tue,  1 Feb 2022 17:22:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58BF410E6F9
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 17:22:21 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id v3so15942045pgc.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 09:22:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VG6m0yGSKpFG4q+Uc9WqsHQnQC10ZbIeInL9q9ZvJP4=;
- b=Z59AWVextX0bLU1YwItgjLla2IDdnIhdNx61ujWPh3oF5IQSXKrK+CIngzOv1pmp/z
- BnGo8ycDeivDlCmc6skyHGhjq+vmmloQ8Cj+SC99shLtUSEMKhIgdF1sqsdBHhOr1I66
- bo11+Lna5pgOAd4oJxsgT5imhMdmbBakhYGeY=
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+ [209.85.210.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDFFF10E6FB
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 17:22:35 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id
+ d18-20020a9d51d2000000b005a09728a8c2so16880747oth.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 09:22:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VG6m0yGSKpFG4q+Uc9WqsHQnQC10ZbIeInL9q9ZvJP4=;
- b=5BSdH+BrOo7Uo1s6IPkkdKnxeIWRsKi92kk/hk4mDb0cwAoOeJf8/J9f5KswnwBuj7
- G/5PugSf+QL/03QszujRzwOOq1EgCoLGI5j2i3A51XI60PZA3FqY1sB4CcH7dtPEqybx
- LYJnHBwNDDaEnk+IkchiJDXD27e93Q8aTcLEqA3tog78stAEjqQMYEXa5XEtfNVohVdg
- HHF7M3NhXNmkEhKEO5R9vq38cMd1b2XuW1dPQmBTMO+JROdSrVhRXJeP4LyeBfKVKCsw
- yAFhvyBt8sI1XQoZwMjAMO4N3b0mWRcXjkFC+pSNEiwiVlvzssJL/cWBNIqpYjCFFzfv
- Id3g==
-X-Gm-Message-State: AOAM5332wLGJTTx2RYkSuK88Q5wSiyEUP5sYO7ukCsukmEQ0Ltm8LbQT
- iiHVEujc33U09c8xySjjzeugRA==
-X-Google-Smtp-Source: ABdhPJwXfiKI3nFqn6/pTkWSkhtXry13WyUFnS4GLyA22EFm8qelW/dao6QZBnEvV3MAjoEEFkooaQ==
-X-Received: by 2002:a63:884a:: with SMTP id l71mr19755054pgd.589.1643736140943; 
- Tue, 01 Feb 2022 09:22:20 -0800 (PST)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:c148:8249:fae1:2404])
- by smtp.gmail.com with ESMTPSA id 19sm3304400pjb.42.2022.02.01.09.22.20
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZXG/HpK5iimHhno4a4gmqcNT8xzbRL3eWb4JTlbIiWA=;
+ b=FnW/As7IbABYc35JnBKGII7m3Uynmn+weBuc24ikrvyWf4+wn94zE/cIWM+Gjqh4nd
+ P51MnH0cir8ns0yroVOTeVzM8iobTeMzF/jzLyzKNFfZH9VoZnyjBhVvvagHPP7WaTvV
+ P/CWSEOFsa/znLNL6GmXHVlqLH6t5yKdlGkr1TLEO3N6DiYN/6w+7I9WwacTVHA0nSpR
+ fMnR5OJj97Qs4EuBRuSnJYoKn09pkw6HRTTvKuoZ5MPQLAw2hxn2N7Z3vHswOJhgry/z
+ J8WF1D4Y6SxbqCMFI912BdLNeVFiVO0OItmLXQEKfy3LTh4aqPGOb2iWXeAmy5t8/6rB
+ gONw==
+X-Gm-Message-State: AOAM530pvbjNjlTp5O/u+oABWRiZ3meFAaZ3aHmsEJKEnpklF0eIlgDj
+ 0JTKme+Sa1HS+/ZMpYssSQ==
+X-Google-Smtp-Source: ABdhPJyUvXkJDpPdLDNVyZW0OTXgSkoXrPNkaXMM14hMv3h2yJGcl0URslitlIeJWL8iqgqI2BIobg==
+X-Received: by 2002:a05:6830:1e11:: with SMTP id
+ s17mr14458124otr.347.1643736155108; 
+ Tue, 01 Feb 2022 09:22:35 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id s64sm13024778oos.0.2022.02.01.09.22.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 09:22:20 -0800 (PST)
-From: Douglas Anderson <dianders@chromium.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] Revert "drm/panel-edp: Allow querying the detected panel via
- sysfs"
-Date: Tue,  1 Feb 2022 09:21:58 -0800
-Message-Id: <20220201092152.1.Ibc65ec6fa05017e9856ba9ef557310268429c3ce@changeid>
-X-Mailer: git-send-email 2.35.0.rc2.247.g8bbb082509-goog
+ Tue, 01 Feb 2022 09:22:34 -0800 (PST)
+Received: (nullmailer pid 235445 invoked by uid 1000);
+ Tue, 01 Feb 2022 17:22:33 -0000
+Date: Tue, 1 Feb 2022 11:22:33 -0600
+From: Rob Herring <robh@kernel.org>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH 17/27] dt-bindings: display: rockchip: Add binding for VOP2
+Message-ID: <YflsWTaUexj3u9Je@robh.at.kernel.org>
+References: <20220126145549.617165-1-s.hauer@pengutronix.de>
+ <20220126145549.617165-18-s.hauer@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220126145549.617165-18-s.hauer@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,120 +63,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 363c4c3811db330dee9ce27dd3cee6f590d44e4c.
+On Wed, Jan 26, 2022 at 03:55:39PM +0100, Sascha Hauer wrote:
+> The VOP2 is found on newer Rockchip SoCs like the rk3568 or the rk3566.
+> The binding differs slightly from the existing VOP binding, so add a new
+> binding file for it.
+> 
+> Changes since v3:
+> - drop redundant _vop suffix from clock names
+> 
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>  .../display/rockchip/rockchip-vop2.yaml       | 146 ++++++++++++++++++
+>  1 file changed, 146 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> new file mode 100644
+> index 000000000000..572cfb307c20
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> @@ -0,0 +1,146 @@
+> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Rockchip SoC display controller (VOP2)
+> +
+> +description:
+> +  VOP2 (Video Output Processor v2) is the display controller for the Rockchip
+> +  series of SoCs which transfers the image data from a video memory
+> +  buffer to an external LCD interface.
+> +
+> +maintainers:
+> +  - Sandy Huang <hjc@rock-chips.com>
+> +  - Heiko Stuebner <heiko@sntech.de>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - rockchip,rk3566-vop
+> +      - rockchip,rk3568-vop
+> +
+> +  reg:
+> +    minItems: 1
+> +    items:
+> +      - description:
+> +          Must contain one entry corresponding to the base address and length
+> +          of the register space.
+> +      - description:
+> +          Can optionally contain a second entry corresponding to
+> +          the CRTC gamma LUT address.
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description:
+> +      The VOP interrupt is shared by several interrupt sources, such as
+> +      frame start (VSYNC), line flag and other status interrupts.
+> +
+> +  clocks:
+> +    items:
+> +      - description: Clock for ddr buffer transfer.
+> +      - description: Clock for the ahb bus to R/W the phy regs.
+> +      - description: Pixel clock for video port 0.
+> +      - description: Pixel clock for video port 1.
+> +      - description: Pixel clock for video port 2.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: aclk
+> +      - const: hclk
+> +      - const: dclk_vp0
+> +      - const: dclk_vp1
+> +      - const: dclk_vp2
+> +
+> +  rockchip,grf:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      Phandle to GRF regs used for misc control
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output endpoint of VP0
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output endpoint of VP1
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output endpoint of VP2
+> +
 
-Since the point of this attribute is for a test, this should be done
-in debugfs, not sysfs. Let's revert and a new patch can be added later
-doing it in debugfs.
+> +  assigned-clocks: true
+> +
+> +  assigned-clock-rates: true
+> +
+> +  assigned-clock-parents: true
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+You can drop these. They are implicitly allowed with 'clocks'.
 
- drivers/gpu/drm/panel/panel-edp.c | 39 ++++---------------------------
- 1 file changed, 5 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 23da4040e263..a394a15dc3fb 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -222,8 +222,6 @@ struct panel_edp {
- 	struct gpio_desc *enable_gpio;
- 	struct gpio_desc *hpd_gpio;
- 
--	const struct edp_panel_entry *detected_panel;
--
- 	struct edid *edid;
- 
- 	struct drm_display_mode override_mode;
-@@ -668,6 +666,7 @@ static const struct edp_panel_entry *find_edp_panel(u32 panel_id);
- 
- static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
- {
-+	const struct edp_panel_entry *edp_panel;
- 	struct panel_desc *desc;
- 	u32 panel_id;
- 	char vend[4];
-@@ -706,14 +705,14 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
- 	}
- 	drm_edid_decode_panel_id(panel_id, vend, &product_id);
- 
--	panel->detected_panel = find_edp_panel(panel_id);
-+	edp_panel = find_edp_panel(panel_id);
- 
- 	/*
- 	 * We're using non-optimized timings and want it really obvious that
- 	 * someone needs to add an entry to the table, so we'll do a WARN_ON
- 	 * splat.
- 	 */
--	if (WARN_ON(!panel->detected_panel)) {
-+	if (WARN_ON(!edp_panel)) {
- 		dev_warn(dev,
- 			 "Unknown panel %s %#06x, using conservative timings\n",
- 			 vend, product_id);
-@@ -735,14 +734,12 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
- 		 */
- 		desc->delay.unprepare = 2000;
- 		desc->delay.enable = 200;
--
--		panel->detected_panel = ERR_PTR(-EINVAL);
- 	} else {
- 		dev_info(dev, "Detected %s %s (%#06x)\n",
--			 vend, panel->detected_panel->name, product_id);
-+			 vend, edp_panel->name, product_id);
- 
- 		/* Update the delay; everything else comes from EDID */
--		desc->delay = *panel->detected_panel->delay;
-+		desc->delay = *edp_panel->delay;
- 	}
- 
- 	ret = 0;
-@@ -753,28 +750,6 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
- 	return ret;
- }
- 
--static ssize_t detected_panel_show(struct device *dev,
--				   struct device_attribute *attr, char *buf)
--{
--	struct panel_edp *p = dev_get_drvdata(dev);
--
--	if (IS_ERR(p->detected_panel))
--		return sysfs_emit(buf, "UNKNOWN\n");
--	else if (!p->detected_panel)
--		return sysfs_emit(buf, "HARDCODED\n");
--	else
--		return sysfs_emit(buf, "%s\n", p->detected_panel->name);
--}
--
--static const DEVICE_ATTR_RO(detected_panel);
--
--static void edp_panel_remove_detected_panel(void *data)
--{
--	struct panel_edp *p = data;
--
--	device_remove_file(p->base.dev, &dev_attr_detected_panel);
--}
--
- static int panel_edp_probe(struct device *dev, const struct panel_desc *desc,
- 			   struct drm_dp_aux *aux)
- {
-@@ -874,10 +849,6 @@ static int panel_edp_probe(struct device *dev, const struct panel_desc *desc,
- 
- 	drm_panel_add(&panel->base);
- 
--	err = device_create_file(dev, &dev_attr_detected_panel);
--	if (!err)
--		devm_add_action_or_reset(dev, edp_panel_remove_detected_panel, panel);
--
- 	return 0;
- 
- err_finished_pm_runtime:
--- 
-2.35.0.rc2.247.g8bbb082509-goog
-
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +        #include <dt-bindings/clock/rk3568-cru.h>
+> +        #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +        #include <dt-bindings/power/rk3568-power.h>
+> +        bus {
+> +            #address-cells = <2>;
+> +            #size-cells = <2>;
+> +            vop: vop@fe040000 {
+> +                compatible = "rockchip,rk3568-vop";
+> +                reg = <0x0 0xfe040000 0x0 0x3000>, <0x0 0xfe044000 0x0 0x1000>;
+> +                interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
+> +                clocks = <&cru ACLK_VOP>,
+> +                         <&cru HCLK_VOP>,
+> +                         <&cru DCLK_VOP0>,
+> +                         <&cru DCLK_VOP1>,
+> +                         <&cru DCLK_VOP2>;
+> +                clock-names = "aclk_vop",
+> +                              "hclk_vop",
+> +                              "dclk_vp0",
+> +                              "dclk_vp1",
+> +                              "dclk_vp2";
+> +                power-domains = <&power RK3568_PD_VO>;
+> +                iommus = <&vop_mmu>;
+> +                vop_out: ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +                    vp0: port@0 {
+> +                        reg = <0>;
+> +                        #address-cells = <1>;
+> +                        #size-cells = <0>;
+> +                    };
+> +                    vp1: port@1 {
+> +                        reg = <1>;
+> +                        #address-cells = <1>;
+> +                        #size-cells = <0>;
+> +                    };
+> +                    vp2: port@2 {
+> +                        reg = <2>;
+> +                        #address-cells = <1>;
+> +                        #size-cells = <0>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> -- 
+> 2.30.2
+> 
+> 
