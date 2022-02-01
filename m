@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94C84A542F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 01:36:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 084734A54C1
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 02:42:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2103C10E1E4;
-	Tue,  1 Feb 2022 00:36:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C76410E4E3;
+	Tue,  1 Feb 2022 01:42:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9210E10E1E4;
- Tue,  1 Feb 2022 00:36:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643675809; x=1675211809;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=I4B8ENurVPlobb3Bb/NoyCwf/pRY8NKrqHRhZSpa2Io=;
- b=PTTVx/qMRKT9vc74llInPGyMnvXN/476n5+FstpN1C0robc9BdndKBOq
- YpSDWDBbiP9lqdx89subhQIQpCyldPLOiNV6UJPcuURHW54uVTP2dhgUT
- 9HDuKvlakSf/3soXbxCbREkHS1rkzYL7u45NxHGi3xHqIfDlOM7V8yGHL
- dGjlWLnrUm6+2ODNIsXxGoWor15lxEadsO4UbtUm1pVk+DMBMcwK5EWSe
- YI0S+Q/Ua67EqbtYXKhWfjOOr9VFW3Kbl71bMddUzIToCH8t3wSPDQvqG
- k5vPBXOhR2QA0E1cQ9CXf3iVuPXOlZ9RUMoeFy+KOdO8rr7xGfKO8LCyE w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="272067214"
-X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; d="scan'208";a="272067214"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 16:36:48 -0800
-X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; d="scan'208";a="482004598"
-Received: from cnierman-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.212.195.98])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 16:36:48 -0800
-Date: Mon, 31 Jan 2022 16:36:47 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 00/14] Rename dma-buf-map
-Message-ID: <20220201003647.djakrmdebqigpz3j@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20220128083626.3012259-1-lucas.demarchi@intel.com>
- <a45a8cef-f5e7-604c-64f1-e893ec9ba8af@amd.com>
- <20220128091213.qaq6v4vbeerzvd3f@ldmartin-desk2>
- <27870484-6d16-5bd4-aa06-0ec513111d99@amd.com>
- <20220128094018.m7pixeznedoa47gb@ldmartin-desk2>
- <36a08a90-3614-27b4-166b-9d113b644af3@amd.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30A6310E4D6;
+ Tue,  1 Feb 2022 01:42:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1643679764; x=1675215764;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=ARxs6Siaik7Hb0T1RxTOkACw5y3/pq9r1rIyQ1TtUu0=;
+ b=T7mJVALx6uDmKAAYDabInr+vgoAsDbaneb6CGMZd4u74UJ+k3SWThZ5k
+ FwuzpOlLPnmZf1RMAfmVPbVvZILmy+TudeZaycm2Pv1JhvyN4BDsPSFjo
+ v5SQnrJY72qzaqY9D5f4BOW0RrJMOzQy99ibYi41Fm2SmDIm1+IkPXOqI g=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 31 Jan 2022 17:42:42 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2022 17:42:41 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Mon, 31 Jan 2022 17:42:40 -0800
+Received: from [10.111.160.150] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 31 Jan
+ 2022 17:42:38 -0800
+Message-ID: <d944e4f2-9412-1908-6f13-a6e1a7730cfd@quicinc.com>
+Date: Mon, 31 Jan 2022 17:42:36 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/3] drm: add writeback pointers to drm_connector
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: "Kandpal, Suraj" <suraj.kandpal@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+References: <20220111101801.28310-1-suraj.kandpal@intel.com>
+ <c797223b-47cb-3fcd-0a1a-b12fd2c2c0da@quicinc.com>
+ <CY4PR11MB1352DAB3BD614093B5154C10E3219@CY4PR11MB1352.namprd11.prod.outlook.com>
+ <da26d67f-3212-2434-1b23-c5f9209dce41@quicinc.com>
+In-Reply-To: <da26d67f-3212-2434-1b23-c5f9209dce41@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <36a08a90-3614-27b4-166b-9d113b644af3@amd.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,314 +69,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, srinivas.kandagatla@linaro.org,
- tzimmermann@suse.de, gregkh@linuxfoundation.org, nouveau@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: "Nikula, Jani" <jani.nikula@intel.com>,
+ "Kandpal@freedesktop.org" <Kandpal@freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>, "Murthy,
+ Arun R" <arun.r.murthy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 28, 2022 at 10:48:42AM +0100, Christian König wrote:
->Am 28.01.22 um 10:40 schrieb Lucas De Marchi:
->>On Fri, Jan 28, 2022 at 10:22:00AM +0100, Christian König wrote:
->>>Am 28.01.22 um 10:12 schrieb Lucas De Marchi:
->>>>On Fri, Jan 28, 2022 at 09:41:14AM +0100, Christian König wrote:
->>>>>Rule #1 is to never ever break the build.
->>>>>
->>>>>Because of this all those patches needs to be squashed into a 
->>>>>single one as far as I can see.
->>>>
->>>>what config are you building on?
+Hi Suraj
+
+I think there are more places affected with this change. I can get below 
+compilation issues while trying to compile my branch:
+
+drivers/gpu/drm/vc4/vc4_txp.c: In function â€˜encoder_to_vc4_txpâ€™:
+./include/linux/build_bug.h:78:41: error: static assertion failed: 
+"pointer type mismatch in container_of()"
+  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                          ^
+./include/linux/build_bug.h:77:34: note: in expansion of macro 
+â€˜__static_assertâ€™
+  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, 
+#expr)
+                                   ^
+./include/linux/container_of.h:19:2: note: in expansion of macro 
+â€˜static_assertâ€™
+   static_assert(__same_type(*(ptr), ((type *)0)->member) || \
+   ^
+drivers/gpu/drm/vc4/vc4_txp.c:162:9: note: in expansion of macro 
+â€˜container_ofâ€™
+   return container_of(encoder, struct vc4_txp, connector.encoder);
+          ^
+drivers/gpu/drm/vc4/vc4_txp.c: In function â€˜connector_to_vc4_txpâ€™:
+./include/linux/build_bug.h:78:41: error: static assertion failed: 
+"pointer type mismatch in container_of()"
+  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                          ^
+./include/linux/build_bug.h:77:34: note: in expansion of macro 
+â€˜__static_assertâ€™
+  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, 
+#expr)
+                                   ^
+./include/linux/container_of.h:19:2: note: in expansion of macro 
+â€˜static_assertâ€™
+   static_assert(__same_type(*(ptr), ((type *)0)->member) || \
+   ^
+drivers/gpu/drm/vc4/vc4_txp.c:167:9: note: in expansion of macro 
+â€˜container_ofâ€™
+   return container_of(conn, struct vc4_txp, connector.base);
+          ^
+drivers/gpu/drm/vc4/vc4_txp.c: In function â€˜vc4_txp_bindâ€™:
+drivers/gpu/drm/vc4/vc4_txp.c:495:27: error: passing argument 1 of 
+â€˜drm_connector_helper_addâ€™ from incompatible pointer type 
+[-Werror=incompatible-pointer-types]
+   drm_connector_helper_add(&txp->connector.base,
+                            ^
+In file included from ./include/drm/drm_atomic_helper.h:32:0,
+                  from drivers/gpu/drm/vc4/vc4_txp.c:17:
+./include/drm/drm_modeset_helper_vtables.h:1153:20: note: expected 
+â€˜struct drm_connector *â€™ but argument is of type â€˜struct drm_connector **â€™
+  static inline void drm_connector_helper_add(struct drm_connector 
+*connector,
+                     ^
+drivers/gpu/drm/vc4/vc4_txp.c:509:10: error: assignment from 
+incompatible pointer type [-Werror=incompatible-pointer-types]
+   encoder = &txp->connector.encoder;
+           ^
+drivers/gpu/drm/vc4/vc4_txp.c: In function â€˜vc4_txp_unbindâ€™:
+drivers/gpu/drm/vc4/vc4_txp.c:532:28: error: passing argument 1 of 
+â€˜vc4_txp_connector_destroyâ€™ from incompatible pointer type 
+[-Werror=incompatible-pointer-types]
+   vc4_txp_connector_destroy(&txp->connector.base);
+                             ^
+drivers/gpu/drm/vc4/vc4_txp.c:333:13: note: expected â€˜struct 
+drm_connector *â€™ but argument is of type â€˜struct drm_connector **â€™
+  static void vc4_txp_connector_destroy(struct drm_connector *connector)
+
+
+Looks like vc4 doesnt have its own encoder so we might have to move it
+to have its own?
+
+struct vc4_txp {
+     struct vc4_crtc base;
+
+     struct platform_device *pdev;
+
+     struct drm_writeback_connector connector;
+
+     void __iomem *regs;
+     struct debugfs_regset32 regset;
+};
+
+static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder 
+*encoder)
+{
+     return container_of(encoder, struct vc4_txp, connector.encoder);
+}
+
+static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector 
+*conn)
+{
+     return container_of(conn, struct vc4_txp, connector.base);
+}
+
+
+One more thing, it looks like to me, we need to do one more thing.
+
+Like intel does and what MSM will do, the encoder pointer of the wb 
+connector has to point to the encoder struct .
+
+ >> wb_conn = &intel_connector->wb_conn;
+ >> wb_conn->base = &intel_connector->base;
+ >> wb_conn->encoder = &intel_wd->base.base;
+
+Thanks
+
+Abhinav
+On 1/27/2022 10:17 AM, Abhinav Kumar wrote:
+> Hi Suraj
+> 
+> Thanks for the response.
+> 
+> I was not too worried about the intel driver as I am sure you must have 
+> validated this change with that :)
+> 
+> My question was more for the other vendor writeback drivers.
+> 
+> Thanks for looking into the others and providing the snippets.
+> After looking at those, yes I also think it should work.
+> 
+> So, if others do not have any concern with this change,
+> 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> On 1/27/2022 1:33 AM, Kandpal, Suraj wrote:
 >>>
->>>Well I'm not building at all, I'm just looking at the patches as 
->>>an engineer with 25 years of experience with Linux patches.
+>>> + laurent on this
 >>>
->>>Just take a look at patch number 2:
+>>> Hi Suraj
+>>> Jani pointed me to this thread as i had posted something similar here :
+>>> https://patchwork.freedesktop.org/patch/470296/ but since this thread 
+>>> was
+>>> posted earlier, we can discuss further here.
 >>>
->>>-static int fastrpc_vmap(struct dma_buf *dmabuf, struct 
->>>dma_buf_map *map)
->>>+static int fastrpc_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
+>>> Overall, its similar to what I had posted in the RFC and your commit 
+>>> text also
+>>> covers my concerns too.
 >>>
->>>You are changing the functions signature without changing any of 
->>>the callers.
+>>> One question I have about your change is since you have changed
+>>> wb_connector::encoder to be a pointer, i saw the other changes in the 
+>>> series
+>>> but they do not allocate an encoder. Would this not affect the other 
+>>> drivers
+>>> which are assuming that the encoder in wb_connector is struct 
+>>> drm_encoder
+>>> encoder and not struct drm_encoder* encoder.
 >>>
->>>At bare minimum that causes a warning and on runtime this only 
->>>works by coincident now because the structure pointers just happen 
->>>to have the same layout. This is not something we usually do.
->>
->>you missed the magic/hack on patch 1:
->>
->>1) dma-buf-map.h includes iosys-map.h _at the end_
->>2) iosys-map.h includes dma-buf-map.h at the beginning
->>   and initially does a "define iosys_map dma_buf_map".
->>
->>So, it doesn't work by coincidence, It's because it was done to allow
->>converting it piecemeal.
->
->Oh, my. Please never do stuff like that again.
-
-It's not uncommon approach to be required by other subsystems. Even
-drm-intel already used similar approach for macro conversions crossing
-drm-intel-next and drm-intel-gt-next branches recently.  As I said, I
-don't mind one way or the other.
-
-Before I go and respin this into a single mega patch, I'd like to gather
-some feedback on the following topics:
-
-1) Daniel Vetter and Thomas Zimmermann seemed to be ok with staying with
-the current name, dma_buf_map, while you prefer it renamed. Or at
-least not make the rename a pre-requisite for the API additions in
-https://lore.kernel.org/all/20220126203702.1784589-1-lucas.demarchi@intel.com/
-
-One thing I like about the rename is that it makes clear the separation
-between this small shim and dma-buf. There are also some APIs
-that are really dma-buf API (e.g. dma_buf_map_attachment()), but if you
-don't look carefully you may think it's from dma_buf_map.
-
-2) If renaming, would it still keep the same entry in
-MAINTAINERS? Thomas suggested drivers core, but this all seem to be used
-mainly on drm/, with just one exception.
-
-3) If renaming, do we have another preferred name?
-
-
-thanks
-Lucas De Marchi
-
->
->>
->>But as I said, I don't really have a preference. When crossing
->>subsystems one thing that is hard is that different people have different
->>preferences on these things. At least squashing now is much easier than
->>if I had to split it
->>
->>Try to imagine how much complain I received on going the other way in
->>25985edcedea6396277003854657b5f3cb31a628 with
->>2463 files changed, 4252 insertions(+), 4252 deletions(-)
->
->Well exactly that is perfectly fine.
->
->What you do here is applying your personal hack which is absolutely 
->not welcomed.
->
->Regards,
->Christian.
->
->>:)
->>
->>
->>Lucas De Marchi
->>
+>>> Your changes fix the compilation issue but wouldnt this crash as encoder
+>>> wasnt allocated for other drivers.
 >>>
->>>Regards,
->>>Christian.
->>>
->>>>I built this series, full config with
->>>>CONFIG_COMPILE_TEST and doing:
->>>>
->>>>    git rebase -i <base> -x "make -j$(nproc)"
->>>>
->>>>I split these patches in a way that wouldn't break the build on 
->>>>purpose.
->>>>There were a couple that I couldn't build without cross 
->>>>compiling: tegra
->>>>and rockchip. The others were ok.
->>>>
->>>>I'm not really against squashing everything in one to merge, though.
->>>>It will be hard on the conflicts later, but should get the job 
->>>>done much
->>>>quicker.
->>>>
->>>>Lucas De Marchi
->>>>
->>>>>
->>>>>Regards,
->>>>>Christian.
->>>>>
->>>>>Am 28.01.22 um 09:36 schrieb Lucas De Marchi:
->>>>>>Motivation for this started in
->>>>>>https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2F20220126203702.1784589-1-lucas.demarchi%40intel.com%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C635084a520994d35a16e08d9e2423319%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637789596221829397%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=ruHpD3DbyyqQuZIFEQU%2B2RH31OwsdFnn1v7N4z75U0Y%3D&amp;reserved=0
->>>>>>
->>>>>>
->>>>>>when trying to extend the dma-buf-map API to cover new use 
->>>>>>cases: help a
->>>>>>single driver with allocations and sharing code paths for IO 
->>>>>>and system
->>>>>>memory. I'm leaving the API additions aside and first renaming the
->>>>>>interface as requested.
->>>>>>
->>>>>>There are already some users in tree outside the context of dma-buf
->>>>>>importer/exporter. So before extending the API, let's 
->>>>>>dissociate it from
->>>>>>dma-buf.
->>>>>>
->>>>>>The iosys-map.h is introduced in the first patch in a way that allows
->>>>>>the conversion of each driver to happen separately. After all the
->>>>>>conversions are done we can remove the old one, which is the 
->>>>>>last patch.
->>>>>>Another possible way is to squash everything and merge together,
->>>>>>but I believe this would make much harder for review.
->>>>>>
->>>>>>The conversion was done with the following semantic patch:
->>>>>>
->>>>>>    @r1@
->>>>>>    @@
->>>>>>    - struct dma_buf_map
->>>>>>    + struct iosys_map
->>>>>>
->>>>>>    @r2@
->>>>>>    @@
->>>>>>    (
->>>>>>    - DMA_BUF_MAP_INIT_VADDR
->>>>>>    + IOSYS_MAP_INIT_VADDR
->>>>>>    |
->>>>>>    - dma_buf_map_set_vaddr
->>>>>>    + iosys_map_set_vaddr
->>>>>>    |
->>>>>>    - dma_buf_map_set_vaddr_iomem
->>>>>>    + iosys_map_set_vaddr_iomem
->>>>>>    |
->>>>>>    - dma_buf_map_is_equal
->>>>>>    + iosys_map_is_equal
->>>>>>    |
->>>>>>    - dma_buf_map_is_null
->>>>>>    + iosys_map_is_null
->>>>>>    |
->>>>>>    - dma_buf_map_is_set
->>>>>>    + iosys_map_is_set
->>>>>>    |
->>>>>>    - dma_buf_map_clear
->>>>>>    + iosys_map_clear
->>>>>>    |
->>>>>>    - dma_buf_map_memcpy_to
->>>>>>    + iosys_map_memcpy_to
->>>>>>    |
->>>>>>    - dma_buf_map_incr
->>>>>>    + iosys_map_incr
->>>>>>    )
->>>>>>
->>>>>>    @@
->>>>>>    @@
->>>>>>    - #include <linux/dma-buf-map.h>
->>>>>>    + #include <linux/iosys-map.h>
->>>>>>
->>>>>>and then some files had their includes adjusted so we can build
->>>>>>everything on each commit in this series. Also some comments 
->>>>>>were update
->>>>>>to remove mentions to dma-buf-map. Simply doing a sed to 
->>>>>>rename didn't
->>>>>>work as dma-buf has some APIs using the dma_buf_map prefix.
->>>>>>
->>>>>>Once finalized, I think most of this, if not all, could go 
->>>>>>through the
->>>>>>drm-misc-next branch. I split i915, msm, nouveau, and radeon in their
->>>>>>own patches in case it's preferred to take those through their own
->>>>>>trees.
->>>>>>
->>>>>>Lucas De Marchi
->>>>>>
->>>>>>Lucas De Marchi (14):
->>>>>>  iosys-map: Introduce renamed dma-buf-map
->>>>>>  misc: fastrpc: Replace dma-buf-map with iosys-map
->>>>>>  dma-buf: Replace dma-buf-map with iosys-map
->>>>>>  media: Replace dma-buf-map with iosys-map
->>>>>>  drm/ttm: Replace dma-buf-map with iosys-map
->>>>>>  drm: Replace dma-buf-map with iosys-map in drivers
->>>>>>  drm/i915: Replace dma-buf-map with iosys-map
->>>>>>  drm/msm: Replace dma-buf-map with iosys-map
->>>>>>  drm/nouveau: Replace dma-buf-map with iosys-map
->>>>>>  drm/tegra: Replace dma-buf-map with iosys-map
->>>>>>  drm/radeon: Replace dma-buf-map with iosys-map
->>>>>>  drm: Replace dma-buf-map with iosys-map in common code
->>>>>>  Documentation: Refer to iosys-map instead of dma-buf-map
->>>>>>  dma-buf-map: Remove API in favor of iosys-map
->>>>>>
->>>>>> Documentation/driver-api/dma-buf.rst          |   4 +-
->>>>>> Documentation/gpu/todo.rst                    |  20 +-
->>>>>> MAINTAINERS                                   |   2 +-
->>>>>> drivers/dma-buf/dma-buf.c                     |  22 +-
->>>>>> drivers/dma-buf/heaps/cma_heap.c              |  10 +-
->>>>>> drivers/dma-buf/heaps/system_heap.c           |  10 +-
->>>>>> drivers/gpu/drm/ast/ast_drv.h                 |   2 +-
->>>>>> drivers/gpu/drm/ast/ast_mode.c                |   8 +-
->>>>>> drivers/gpu/drm/drm_cache.c                   |  18 +-
->>>>>> drivers/gpu/drm/drm_client.c                  |   9 +-
->>>>>> drivers/gpu/drm/drm_fb_helper.c               |  12 +-
->>>>>> drivers/gpu/drm/drm_gem.c                     |  12 +-
->>>>>> drivers/gpu/drm/drm_gem_cma_helper.c          |   9 +-
->>>>>> drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  16 +-
->>>>>> drivers/gpu/drm/drm_gem_shmem_helper.c        |  15 +-
->>>>>> drivers/gpu/drm/drm_gem_ttm_helper.c          |   4 +-
->>>>>> drivers/gpu/drm/drm_gem_vram_helper.c         |  25 +-
->>>>>> drivers/gpu/drm/drm_internal.h                |   6 +-
->>>>>> drivers/gpu/drm/drm_mipi_dbi.c                |   8 +-
->>>>>> drivers/gpu/drm/drm_prime.c                   |   4 +-
->>>>>> drivers/gpu/drm/etnaviv/etnaviv_drv.h         |   2 +-
->>>>>> drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   8 +-
->>>>>> drivers/gpu/drm/gud/gud_pipe.c                |   4 +-
->>>>>> drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   5 +-
->>>>>> drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   8 +-
->>>>>> .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   6 +-
->>>>>> .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |   6 +-
->>>>>> drivers/gpu/drm/lima/lima_gem.c               |   3 +-
->>>>>> drivers/gpu/drm/lima/lima_sched.c             |   4 +-
->>>>>> drivers/gpu/drm/mediatek/mtk_drm_gem.c        |   7 +-
->>>>>> drivers/gpu/drm/mediatek/mtk_drm_gem.h        |   5 +-
->>>>>> drivers/gpu/drm/mgag200/mgag200_mode.c        |   4 +-
->>>>>> drivers/gpu/drm/msm/msm_drv.h                 |   4 +-
->>>>>> drivers/gpu/drm/msm/msm_gem_prime.c           |   6 +-
->>>>>> drivers/gpu/drm/nouveau/nouveau_gem.c         |   2 +
->>>>>> drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  13 +-
->>>>>> drivers/gpu/drm/qxl/qxl_display.c             |   8 +-
->>>>>> drivers/gpu/drm/qxl/qxl_draw.c                |   6 +-
->>>>>> drivers/gpu/drm/qxl/qxl_drv.h                 |  10 +-
->>>>>> drivers/gpu/drm/qxl/qxl_object.c              |   8 +-
->>>>>> drivers/gpu/drm/qxl/qxl_object.h              |   4 +-
->>>>>> drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
->>>>>> drivers/gpu/drm/radeon/radeon_gem.c           |   1 +
->>>>>> drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |   9 +-
->>>>>> drivers/gpu/drm/rockchip/rockchip_drm_gem.h   |   5 +-
->>>>>> drivers/gpu/drm/tegra/gem.c                   |  10 +-
->>>>>> drivers/gpu/drm/tiny/cirrus.c                 |   8 +-
->>>>>> drivers/gpu/drm/tiny/gm12u320.c               |   7 +-
->>>>>> drivers/gpu/drm/ttm/ttm_bo_util.c             |  16 +-
->>>>>> drivers/gpu/drm/ttm/ttm_resource.c            |  26 +-
->>>>>> drivers/gpu/drm/ttm/ttm_tt.c                  |   6 +-
->>>>>> drivers/gpu/drm/udl/udl_modeset.c             |   3 +-
->>>>>> drivers/gpu/drm/vboxvideo/vbox_mode.c         |   4 +-
->>>>>> drivers/gpu/drm/virtio/virtgpu_prime.c        |   1 +
->>>>>> drivers/gpu/drm/vkms/vkms_composer.c          |   4 +-
->>>>>> drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
->>>>>> drivers/gpu/drm/vkms/vkms_plane.c             |   2 +-
->>>>>> drivers/gpu/drm/vkms/vkms_writeback.c         |   2 +-
->>>>>> drivers/gpu/drm/xen/xen_drm_front_gem.c       |   7 +-
->>>>>> drivers/gpu/drm/xen/xen_drm_front_gem.h       |   6 +-
->>>>>> .../common/videobuf2/videobuf2-dma-contig.c   |   8 +-
->>>>>> .../media/common/videobuf2/videobuf2-dma-sg.c |   9 +-
->>>>>> .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
->>>>>> drivers/misc/fastrpc.c                        |   4 +-
->>>>>> include/drm/drm_cache.h                       |   6 +-
->>>>>> include/drm/drm_client.h                      |   7 +-
->>>>>> include/drm/drm_gem.h                         |   6 +-
->>>>>> include/drm/drm_gem_atomic_helper.h           |   6 +-
->>>>>> include/drm/drm_gem_cma_helper.h              |   6 +-
->>>>>> include/drm/drm_gem_framebuffer_helper.h      |   8 +-
->>>>>> include/drm/drm_gem_shmem_helper.h            |  12 +-
->>>>>> include/drm/drm_gem_ttm_helper.h              |   6 +-
->>>>>> include/drm/drm_gem_vram_helper.h             |   9 +-
->>>>>> include/drm/drm_prime.h                       |   6 +-
->>>>>> include/drm/ttm/ttm_bo_api.h                  |  10 +-
->>>>>> include/drm/ttm/ttm_kmap_iter.h               |  10 +-
->>>>>> include/drm/ttm/ttm_resource.h                |   6 +-
->>>>>> include/linux/dma-buf-map.h                   | 266 
->>>>>>------------------
->>>>>> include/linux/dma-buf.h                       |  12 +-
->>>>>> include/linux/iosys-map.h                     | 257 
->>>>>>+++++++++++++++++
->>>>>> 80 files changed, 579 insertions(+), 552 deletions(-)
->>>>>> delete mode 100644 include/linux/dma-buf-map.h
->>>>>> create mode 100644 include/linux/iosys-map.h
->>>>>>
->>>>>
->>>
->
+>>
+>> Hi Abhinav,
+>> That shouldn't be an issue as normally drivers tend to have their own 
+>> output
+>> structure which has drm_connector and drm_encoder embedded in it 
+>> depending
+>> on the level of binding they have decided to give the connector and 
+>> encoder in
+>> their respective output and the addresses of these are passed to the
+>> drm_connector* and drm_encoder* in drm_writeback_connector structure
+>> which then gets initialized in drm_writeback_connector_init().
+>>
+>> In our i915 code we have intel_connector structure with drm_connector 
+>> base
+>> field and intel_wd with a intel_encoder base which in turn has 
+>> drm_encoder
+>> field and both intel_connector and intel_wd are initialized not 
+>> requiring explicit
+>> alloc and dealloc for drm_encoder
+>> intel_wd = kzalloc(sizeof(*intel_wd), GFP_KERNEL);
+>>
+>> intel_connector = intel_connector_alloc();
+>> wb_conn = &intel_connector->wb_conn;
+>> wb_conn->base = &intel_connector->base;
+>> wb_conn->encoder = &intel_wd->base.base;
+>>
+>> Similary for komeda driver has
+>> struct komeda_wb_connector {
+>> Â Â Â Â Â Â Â Â  struct drm_connector conn;
+>> Â Â Â Â Â Â Â Â  /** @base: &drm_writeback_connector */
+>> Â Â Â Â Â Â Â Â  struct drm_writeback_connector base;
+>>
+>> Â Â Â Â Â Â Â Â  /** @wb_layer: represents associated writeback pipeline of 
+>> komeda */
+>> Â Â Â Â Â Â Â Â  struct komeda_layer *wb_layer;
+>> };
+>>
+>> static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
+>> Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  struct komeda_crtc *kcrtc)
+>> {
+>> Â Â Â Â struct komeda_wb_connector *kwb_conn;
+>> Â Â Â Â struct drm_writeback_connector *wb_conn;
+>>
+>> Â Â Â Â kwb_conn = kzalloc(sizeof(*kwb_conn), GFP_KERNEL);
+>>
+>> Â Â Â Â wb_conn = &kwb_conn->base;
+>> Â Â Â Â Â Â Â Â Â Â Â Â  wb_conn->base = &kwb_conn->conn;
+>> and they do not depend on the encoder binding so changes will work for 
+>> them
+>> Also in vkms driver we have the
+>> struct vkms_output {
+>> Â Â Â Â Â Â Â Â  struct drm_crtc crtc;
+>> Â Â Â Â Â Â Â Â  struct drm_encoder encoder;
+>> Â Â Â Â Â Â Â Â  struct drm_connector connector;
+>> Â Â Â Â Â Â Â Â  struct drm_writeback_connector wb_connector;
+>> Â Â Â Â Â Â Â Â  struct hrtimer vblank_hrtimer;
+>> Â Â Â Â Â Â Â Â  ktime_t period_ns;
+>> Â Â Â Â Â Â Â Â  struct drm_pending_vblank_event *event;
+>> Â Â Â Â Â Â Â Â  /* ordered wq for composer_work */
+>> Â Â Â Â Â Â Â Â  struct workqueue_struct *composer_workq;
+>> Â Â Â Â Â Â Â Â  /* protects concurrent access to composer */
+>> Â Â Â Â Â Â Â Â  spinlock_t lock;
+>>
+>> Â Â Â Â Â Â Â Â  /* protected by @lock */
+>> Â Â Â Â Â Â Â Â  bool composer_enabled;
+>> Â Â Â Â Â Â Â Â  struct vkms_crtc_state *composer_state;
+>>
+>> Â Â Â Â Â Â Â Â  spinlock_t composer_lock;
+>> };
+>>
+>> Which gets allocated covering for the drm_encoder alloc and dealloc
+>>
+>> Regards,
+>> Suraj Kandpal
+>>
