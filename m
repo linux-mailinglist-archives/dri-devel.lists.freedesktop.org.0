@@ -1,80 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99ECE4A5CC9
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 14:06:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 956C54A5D2E
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 14:09:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77F410E15A;
-	Tue,  1 Feb 2022 13:06:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 930C710E187;
+	Tue,  1 Feb 2022 13:09:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 821F310E15A
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 13:06:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 818FC10E187
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 13:09:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643720771;
+ s=mimecast20190719; t=1643720956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/JQQOEd58RWuQGlfFpmDXOvRRGfDXT71ddV8rPIIJl0=;
- b=UCi1fnIUNsEZ5DcUNRo6455Qu5KuTCo8jzMfSR4JnxGIbMaG7Y0oVL4AUK1NA2bJmVHmMC
- l82t2LD5wYpmzZDQ0+A164XQXb2Vu90U8IrV7HEvniwpVuEIpmLutsPYRMLSt8GQVo08za
- 5ZwpE0Xxn6ganJSOIf1WzYVjPRH7kXs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Swdbs0KGcPDJP8bHPLb5XLPBG6TEyMwLGc8obCIfC/8=;
+ b=LEGsYCBg7TXAAfayGgTaQjj9Vzdj4ieCDTShYxGeR3lcaRXgrGEKNDhBXkPSKQa14zEFQl
+ YTKGADDAU6zX18sAdMuO6OPgCfYxE+ppUvRFnZ/q4Zm67ZnQkiYv4YZeN1wQN69YMMW3SE
+ FbZJ4y/TUFDJZApCGjb93w3Hj96rUdU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-582-a2vZKsnvPZqY1R79RZO9tw-1; Tue, 01 Feb 2022 08:06:10 -0500
-X-MC-Unique: a2vZKsnvPZqY1R79RZO9tw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- i132-20020a1c3b8a000000b0035399bb7e85so1335377wma.4
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 05:06:10 -0800 (PST)
+ us-mta-648-VUGULBmzPUaVaeMby3w1cg-1; Tue, 01 Feb 2022 08:09:15 -0500
+X-MC-Unique: VUGULBmzPUaVaeMby3w1cg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ q127-20020a1ca785000000b00352a4860babso963086wme.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 05:09:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/JQQOEd58RWuQGlfFpmDXOvRRGfDXT71ddV8rPIIJl0=;
- b=daePK8AxdCka2J7H4j4T3NjqbO/mZjxSkLlf6Yu0jZ0vX+u+QDrUMOHZIIcfkJUrtd
- J9p0KfJl3NYcX3OL/EsCkR1WVzRcPJwhHkkvse9Yzv106iKXnnd/zS2INEJT+iCxvvY1
- Bu7C52ICKIgE+Tijqphj4DePJhm1OkkF8jL64mR+PHe6JBYs4Pp6HM/AAGuY4u0Vcijh
- uapyOYqt2I0bUiHnPzSEeO34O9rWSLlfonG4m873uXKysyHlmeBP6KvIvu0/T9ZZwE1h
- HHGlYaJ7l5pRnMgLoPNTiubagl5AbVB61ezhly6dVAWmufdQL2khrcKB9rYFxF7iDcv4
- nDGQ==
-X-Gm-Message-State: AOAM533Obw6X6q/netaPFf0AylrI0Muv7nNs40Hzc0uNA4o6K6SaI8KM
- GTI3SEeXdBs4XeDGqyoNCywBQX36M2DyAAIakfB61tJiFPI8Lr3EfZLO8T54/ZNCYeG6RdXZnSD
- TUd+bXrZLf7dmQkG4jvfGI3kOqfPm
-X-Received: by 2002:a1c:3586:: with SMTP id c128mr1752536wma.15.1643720769213; 
- Tue, 01 Feb 2022 05:06:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzYHBjANBhvf+E+2paUEQ5NN7skEmnIc89W4J4poW5Ib7Aw4MHr3Wo/i0Jc5irQYQHxGDNJ+g==
-X-Received: by 2002:a1c:3586:: with SMTP id c128mr1752519wma.15.1643720769023; 
- Tue, 01 Feb 2022 05:06:09 -0800 (PST)
+ bh=Swdbs0KGcPDJP8bHPLb5XLPBG6TEyMwLGc8obCIfC/8=;
+ b=D3dheybFV2NsM5onRB2dHXYwjsNxoaq1RcRWdzquVFDewjJlIheSnl5er9F5+oRmtf
+ 8/ks4m4ofpooFLW3ELsIPu8gh/oV2TwdFDdTzDYUPcpJm2Wf0IB4D9McvU5M880p9L/a
+ greAQlYg7P7x9/hXb6JznFtbtcQeXFTkhTC8o+FUGrXSzE1iROk6b+U5rLwCgPkbNNWO
+ ot4LtZLkJS9E6wuEme0flIEPJTcRMlKppP54Y2+O5O+Symjp5MU1ZgbflVtHHXccHbl9
+ zpThIIFMf6UncvsT1ngJLMP4SL2bnndHwmje+ouiddLwBN3OSqe6gDcRw7h6Le83w9pB
+ 9bJA==
+X-Gm-Message-State: AOAM5339bV2mhxptMaCJPMFKGvQ7pRh3sosK1bQ0EXz1QRfEkv3Nojx7
+ +Sbu/fdO7Gm6OY3VpjqoK3NyvWm9QFuHP0YjXMvls8ZhGSNPXnFcceJx6eKAlyvoQJ+qSOXkEVS
+ 5XMSjAXloGBGq0CaZt8UkJwlC2kg7
+X-Received: by 2002:adf:e352:: with SMTP id n18mr21470528wrj.186.1643720954339; 
+ Tue, 01 Feb 2022 05:09:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyOn1oxGJgGYrZTitNon0Jegeh+MsCQ2kZKpT+TAayFOqeP9U5cQ7Py9fW0vZeynCe+/FW0Dg==
+X-Received: by 2002:adf:e352:: with SMTP id n18mr21470498wrj.186.1643720954131; 
+ Tue, 01 Feb 2022 05:09:14 -0800 (PST)
 Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id l4sm15793539wrs.6.2022.02.01.05.06.08
+ by smtp.gmail.com with ESMTPSA id l29sm3177560wms.1.2022.02.01.05.09.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 05:06:08 -0800 (PST)
-Message-ID: <4322f58b-dbeb-b90f-2770-d6881f8005b4@redhat.com>
-Date: Tue, 1 Feb 2022 14:06:07 +0100
+ Tue, 01 Feb 2022 05:09:13 -0800 (PST)
+Message-ID: <51f54519-bb8b-f108-1c1e-4fed101ca5ef@redhat.com>
+Date: Tue, 1 Feb 2022 14:09:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/4] drm: Add I2C connector type
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 References: <20220131201225.2324984-1-javierm@redhat.com>
- <20220131201225.2324984-2-javierm@redhat.com> <YfhMESTylI1NTKDg@ravnborg.org>
- <4d9a56a7-da25-b411-61cc-372c6fa9011d@tronnes.org>
+ <YfhM97cVH3+lJKg0@ravnborg.org> <Yfj/XGRRDNABsLPm@smile.fi.intel.com>
+ <f8d71acb-5c8b-ac4e-0c32-38eb66af04c3@redhat.com>
+ <CAMuHMdVP6ER119r2KAegjZes1a=KWZ47z6j=kgQ0oNx1oeUJ+w@mail.gmail.com>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <4d9a56a7-da25-b411-61cc-372c6fa9011d@tronnes.org>
+In-Reply-To: <CAMuHMdVP6ER119r2KAegjZes1a=KWZ47z6j=kgQ0oNx1oeUJ+w@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,40 +87,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Noralf,
+Hello Geert,
 
-On 2/1/22 13:58, Noralf Trønnes wrote:
+On 2/1/22 12:38, Geert Uytterhoeven wrote:
+
+[snip]
+
+>>
+>> Since the current binding has a compatible "ssd1305fb-i2c", we could make the
+>> new one "ssd1305drm-i2c" or better, just "ssd1305-i2c".
 > 
-> 
-> Den 31.01.2022 21.52, skrev Sam Ravnborg:
->> On Mon, Jan 31, 2022 at 09:12:21PM +0100, Javier Martinez Canillas wrote:
->>> There isn't a connector type for display controllers accesed through I2C,
->>> most drivers use DRM_MODE_CONNECTOR_Unknown or DRM_MODE_CONNECTOR_VIRTUAL.
->>>
->>> Add an I2C connector type to match the actual connector.
->>>
->>> As Noralf Trønnes mentions in commit fc06bf1d76d6 ("drm: Add SPI connector
->>> type"), user-space should be able to cope with a connector type that does
->>> not yet understand.
->>>
-> 
-> It turned out that I wasn't entirely correct here, mpv didn't cope with
-> unknown types. In the PR to add support Emil Velikov wondered if libdrm
-> should handle these connector names:
-> https://github.com/mpv-player/mpv/pull/8989#issuecomment-879187711
+> DT describes hardware, not software policy.
+> If the hardware is the same, the DT bindings should stay the same.
 > 
 
-I see, thanks for the information. What should we do then, just use the type
-DRM_MODE_CONNECTOR_Unknown then ?
+Yes I know that but the thing is that the current binding don't describe
+the hardware correctly. For instance, don't use a backlight DT node as a
+property of the panel and have this "fb" suffix in the compatible strings.
+
+Having said that, my opinion is that we should just keep with the existing
+bindings and make compatible to that even if isn't completely correct.
+
+Since that will ease adoption of the new DRM driver and allow users to use
+it without the need to update their DTBs.
 
 Best regards,
 -- 
