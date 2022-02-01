@@ -2,70 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B94F4A6211
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 18:15:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E28304A6242
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 18:22:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 447BB10E196;
-	Tue,  1 Feb 2022 17:15:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2B710E6F9;
+	Tue,  1 Feb 2022 17:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48A6E10E157;
- Tue,  1 Feb 2022 17:15:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643735714; x=1675271714;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=i0h5qFT/Bo0IsIvQOkkO5z2J6TvMithEvFyTrXr8FFM=;
- b=mPOituKFS3k+ZxYYngpPHFbbmxHQzsrMB+kXm9y7iAkXiKrc1jdOgfZS
- /HRrkbWeOiH7rE5tuN4mXKCEdynxhHLX/8pRFj5wE/+ib6RXp4l0MvgrB
- +ZlZ4R6RjQCgvQHmiO8RASSnh+voIKCCU1R8dZdNUziBXBSX3IGx45g/a
- TyXsYigGjKH/XmCRL1usOOAlgbPpypao1Tttt6fR06Asbg4btdVEWlEji
- hI6DFw6zFfAfU8WORdsktdneyqWmzE/lH0i0Ae37CgDQqL/mXZOBxwz/N
- orayVFaLMoRLG6J2otYe3ZwLsytq81E6xwrh22EKq7U5VgBAu/gv6/6jn w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="228399164"
-X-IronPort-AV: E=Sophos;i="5.88,334,1635231600"; d="scan'208";a="228399164"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2022 09:15:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,334,1635231600"; d="scan'208";a="698474793"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by orsmga005.jf.intel.com with ESMTP; 01 Feb 2022 09:15:13 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 1 Feb 2022 09:15:13 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 1 Feb 2022 09:15:12 -0800
-Received: from orsmsx610.amr.corp.intel.com ([10.22.229.23]) by
- ORSMSX610.amr.corp.intel.com ([10.22.229.23]) with mapi id 15.01.2308.020;
- Tue, 1 Feb 2022 09:15:12 -0800
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "De
- Marchi, Lucas" <lucas.demarchi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/i915: Do not spam log with missing
- arch support
-Thread-Topic: [Intel-gfx] [PATCH v3 3/3] drm/i915: Do not spam log with
- missing arch support
-Thread-Index: AQHYFsPgYaG/1EGs90Ck2Lb33DgRO6x/d6kA
-Date: Tue, 1 Feb 2022 17:15:12 +0000
-Message-ID: <96f2f26758a7fb285afbcd29be751bf2b00d7dfc.camel@intel.com>
-References: <20220131165926.3230642-1-lucas.demarchi@intel.com>
- <20220131165926.3230642-4-lucas.demarchi@intel.com>
-In-Reply-To: <20220131165926.3230642-4-lucas.demarchi@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CBC377CBC677BA498D8E6F751F1EC8ED@intel.com>
-Content-Transfer-Encoding: base64
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58BF410E6F9
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 17:22:21 +0000 (UTC)
+Received: by mail-pg1-x52e.google.com with SMTP id v3so15942045pgc.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 09:22:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VG6m0yGSKpFG4q+Uc9WqsHQnQC10ZbIeInL9q9ZvJP4=;
+ b=Z59AWVextX0bLU1YwItgjLla2IDdnIhdNx61ujWPh3oF5IQSXKrK+CIngzOv1pmp/z
+ BnGo8ycDeivDlCmc6skyHGhjq+vmmloQ8Cj+SC99shLtUSEMKhIgdF1sqsdBHhOr1I66
+ bo11+Lna5pgOAd4oJxsgT5imhMdmbBakhYGeY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VG6m0yGSKpFG4q+Uc9WqsHQnQC10ZbIeInL9q9ZvJP4=;
+ b=5BSdH+BrOo7Uo1s6IPkkdKnxeIWRsKi92kk/hk4mDb0cwAoOeJf8/J9f5KswnwBuj7
+ G/5PugSf+QL/03QszujRzwOOq1EgCoLGI5j2i3A51XI60PZA3FqY1sB4CcH7dtPEqybx
+ LYJnHBwNDDaEnk+IkchiJDXD27e93Q8aTcLEqA3tog78stAEjqQMYEXa5XEtfNVohVdg
+ HHF7M3NhXNmkEhKEO5R9vq38cMd1b2XuW1dPQmBTMO+JROdSrVhRXJeP4LyeBfKVKCsw
+ yAFhvyBt8sI1XQoZwMjAMO4N3b0mWRcXjkFC+pSNEiwiVlvzssJL/cWBNIqpYjCFFzfv
+ Id3g==
+X-Gm-Message-State: AOAM5332wLGJTTx2RYkSuK88Q5wSiyEUP5sYO7ukCsukmEQ0Ltm8LbQT
+ iiHVEujc33U09c8xySjjzeugRA==
+X-Google-Smtp-Source: ABdhPJwXfiKI3nFqn6/pTkWSkhtXry13WyUFnS4GLyA22EFm8qelW/dao6QZBnEvV3MAjoEEFkooaQ==
+X-Received: by 2002:a63:884a:: with SMTP id l71mr19755054pgd.589.1643736140943; 
+ Tue, 01 Feb 2022 09:22:20 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:c148:8249:fae1:2404])
+ by smtp.gmail.com with ESMTPSA id 19sm3304400pjb.42.2022.02.01.09.22.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Feb 2022 09:22:20 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] Revert "drm/panel-edp: Allow querying the detected panel via
+ sysfs"
+Date: Tue,  1 Feb 2022 09:21:58 -0800
+Message-Id: <20220201092152.1.Ibc65ec6fa05017e9856ba9ef557310268429c3ce@changeid>
+X-Mailer: git-send-email 2.35.0.rc2.247.g8bbb082509-goog
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,33 +64,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDIyLTAxLTMxIGF0IDA4OjU5IC0wODAwLCBMdWNhcyBEZSBNYXJjaGkgd3JvdGU6
-DQo+IEZvbGxvd2luZyB3aGF0IHdhcyBkb25lIGluIGRybV9jYWNoZS5jLCB3aGVuIHRoZSBzdHVi
-IGZvcg0KPiByZW1hcF9pb19tYXBwaW5nKCkgd2FzIGFkZGVkIGluIGNvbW1pdCA2N2M0MzBiYmFh
-ZTEgKCJkcm0vaTkxNTogU2tpcA0KPiByZW1hcF9pb19tYXBwaW5nKCkgZm9yIG5vbi14ODYgcGxh
-dGZvcm1zIiksIGl0IGluY2x1ZGVkIGEgbG9nIG1lc3NhZ2UNCj4gd2l0aCBwcl9lcnIoKS4gIEhv
-d2V2ZXIganVzdCB0aGUgd2FybmluZyBpcyBhbHJlYWR5IGVub3VnaCBhbmQgc3dpdGNoaW5nDQo+
-IHRvIFdBUk5fT05DRSgpIGFsbG93cyB1cyB0byBrZWVwIHRoZSBsb2cgbWVzc2FnZSB3aGlsZSBh
-dm9pZGluZyBsb2cNCj4gc3BhbS4NCg0KUmV2aWV3ZWQtYnk6IEpvc8OpIFJvYmVydG8gZGUgU291
-emEgPGpvc2Uuc291emFAaW50ZWwuY29tPg0KDQpCdXQgc2FtZSBzdWdnZXN0aW9uIGFzIHRoZSBm
-aXJzdCBwYXRjaCBpbiB0aGlzIHNlcmllcyBhYm91dCBkcm1fV0FSTl9PTkNFKCkuDQoNCj4gDQo+
-IFNpZ25lZC1vZmYtYnk6IEx1Y2FzIERlIE1hcmNoaSA8bHVjYXMuZGVtYXJjaGlAaW50ZWwuY29t
-Pg0KPiAtLS0NCj4gDQo+IHYzOiBObyBjaGFuZ2VzIGZyb20gcHJldmlvdXMgdmVyc2lvbiwganVz
-dCBzdWJtaXR0aW5nIHRvIHRoZSByaWdodA0KPiBtYWlsaW5nIGxpc3QNCj4gDQo+ICBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9pOTE1X21tLmggfCAzICstLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2k5MTVfbW0uaCBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfbW0uaA0KPiBp
-bmRleCAzYWQyMmJiZTgwZWIuLjA0Yzg5NzRkODIyYiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvaTkxNV9tbS5oDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVf
-bW0uaA0KPiBAQCAtMjMsOCArMjMsNyBAQCBpbnQgcmVtYXBfaW9fbWFwcGluZyhzdHJ1Y3Qgdm1f
-YXJlYV9zdHJ1Y3QgKnZtYSwNCj4gIAkJICAgICB1bnNpZ25lZCBsb25nIGFkZHIsIHVuc2lnbmVk
-IGxvbmcgcGZuLCB1bnNpZ25lZCBsb25nIHNpemUsDQo+ICAJCSAgICAgc3RydWN0IGlvX21hcHBp
-bmcgKmlvbWFwKQ0KPiAgew0KPiAtCXByX2VycigiQXJjaGl0ZWN0dXJlIGhhcyBubyAlcygpIGFu
-ZCBzaG91bGRuJ3QgYmUgY2FsbGluZyB0aGlzIGZ1bmN0aW9uXG4iLCBfX2Z1bmNfXyk7DQo+IC0J
-V0FSTl9PTl9PTkNFKDEpOw0KPiArCVdBUk5fT05DRSgxLCAiQXJjaGl0ZWN0dXJlIGhhcyBubyBk
-cm1fY2FjaGUuYyBzdXBwb3J0XG4iKTsNCj4gIAlyZXR1cm4gMDsNCj4gIH0NCj4gICNlbmRpZg0K
-DQo=
+This reverts commit 363c4c3811db330dee9ce27dd3cee6f590d44e4c.
+
+Since the point of this attribute is for a test, this should be done
+in debugfs, not sysfs. Let's revert and a new patch can be added later
+doing it in debugfs.
+
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+
+ drivers/gpu/drm/panel/panel-edp.c | 39 ++++---------------------------
+ 1 file changed, 5 insertions(+), 34 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 23da4040e263..a394a15dc3fb 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -222,8 +222,6 @@ struct panel_edp {
+ 	struct gpio_desc *enable_gpio;
+ 	struct gpio_desc *hpd_gpio;
+ 
+-	const struct edp_panel_entry *detected_panel;
+-
+ 	struct edid *edid;
+ 
+ 	struct drm_display_mode override_mode;
+@@ -668,6 +666,7 @@ static const struct edp_panel_entry *find_edp_panel(u32 panel_id);
+ 
+ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
+ {
++	const struct edp_panel_entry *edp_panel;
+ 	struct panel_desc *desc;
+ 	u32 panel_id;
+ 	char vend[4];
+@@ -706,14 +705,14 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
+ 	}
+ 	drm_edid_decode_panel_id(panel_id, vend, &product_id);
+ 
+-	panel->detected_panel = find_edp_panel(panel_id);
++	edp_panel = find_edp_panel(panel_id);
+ 
+ 	/*
+ 	 * We're using non-optimized timings and want it really obvious that
+ 	 * someone needs to add an entry to the table, so we'll do a WARN_ON
+ 	 * splat.
+ 	 */
+-	if (WARN_ON(!panel->detected_panel)) {
++	if (WARN_ON(!edp_panel)) {
+ 		dev_warn(dev,
+ 			 "Unknown panel %s %#06x, using conservative timings\n",
+ 			 vend, product_id);
+@@ -735,14 +734,12 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
+ 		 */
+ 		desc->delay.unprepare = 2000;
+ 		desc->delay.enable = 200;
+-
+-		panel->detected_panel = ERR_PTR(-EINVAL);
+ 	} else {
+ 		dev_info(dev, "Detected %s %s (%#06x)\n",
+-			 vend, panel->detected_panel->name, product_id);
++			 vend, edp_panel->name, product_id);
+ 
+ 		/* Update the delay; everything else comes from EDID */
+-		desc->delay = *panel->detected_panel->delay;
++		desc->delay = *edp_panel->delay;
+ 	}
+ 
+ 	ret = 0;
+@@ -753,28 +750,6 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
+ 	return ret;
+ }
+ 
+-static ssize_t detected_panel_show(struct device *dev,
+-				   struct device_attribute *attr, char *buf)
+-{
+-	struct panel_edp *p = dev_get_drvdata(dev);
+-
+-	if (IS_ERR(p->detected_panel))
+-		return sysfs_emit(buf, "UNKNOWN\n");
+-	else if (!p->detected_panel)
+-		return sysfs_emit(buf, "HARDCODED\n");
+-	else
+-		return sysfs_emit(buf, "%s\n", p->detected_panel->name);
+-}
+-
+-static const DEVICE_ATTR_RO(detected_panel);
+-
+-static void edp_panel_remove_detected_panel(void *data)
+-{
+-	struct panel_edp *p = data;
+-
+-	device_remove_file(p->base.dev, &dev_attr_detected_panel);
+-}
+-
+ static int panel_edp_probe(struct device *dev, const struct panel_desc *desc,
+ 			   struct drm_dp_aux *aux)
+ {
+@@ -874,10 +849,6 @@ static int panel_edp_probe(struct device *dev, const struct panel_desc *desc,
+ 
+ 	drm_panel_add(&panel->base);
+ 
+-	err = device_create_file(dev, &dev_attr_detected_panel);
+-	if (!err)
+-		devm_add_action_or_reset(dev, edp_panel_remove_detected_panel, panel);
+-
+ 	return 0;
+ 
+ err_finished_pm_runtime:
+-- 
+2.35.0.rc2.247.g8bbb082509-goog
+
