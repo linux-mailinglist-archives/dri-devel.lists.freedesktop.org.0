@@ -2,77 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8DF4A53EC
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 01:14:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94C84A542F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 01:36:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41F9B10E13B;
-	Tue,  1 Feb 2022 00:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2103C10E1E4;
+	Tue,  1 Feb 2022 00:36:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5910210E13B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 00:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643674466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ps16fl052MoECt1hx8noeHj7dwSbReJeRPk0QUxjhD0=;
- b=JJZBiSTjV2TNvLjZ5ti7PvPZon1MY11jYHVJcfeeuUVQS6yaD4ttgUJqB65PV6ZNpmqGDO
- v+GwGED+j+cDE6ZGoTbOBKmc+lfxMc4bVbqdMsaiZ6zERmmkcX0Xk+GKELv6bfla833aIa
- q4mMA7rxLWPaLexC0kZPFoyzeaSN8kw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-605-svE9zsGuNrKeAVnv61VCiw-1; Mon, 31 Jan 2022 19:14:25 -0500
-X-MC-Unique: svE9zsGuNrKeAVnv61VCiw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c7-20020a1c3507000000b0034a0dfc86aaso493548wma.6
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 16:14:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ps16fl052MoECt1hx8noeHj7dwSbReJeRPk0QUxjhD0=;
- b=AgSzF5cAdoB7crKcKA7653rbOl2F1mBnUrOPH63pw8ZIxg0vshUyz3hI//Wh8JrDTd
- deWX+DE9ih4XnfaLRhFi+dLCZkq2NmzKFc9o/Hvq/gHi0XzOv40aUUfvof4BBmjHOHE/
- ZYaq9DvkQ7hJOQ+APai4Z0FYziBKb5sgw1oJ3iukZRpTUQ9xELsdnpQfdixglVVgx1ft
- ejOpb5KH/7V9Iz+HVQVTIYaDGxwuRaOqME6/UdRjYzotOqtQrOj32dgaBf1p0Uk9nrPA
- owoj4H+W2S9BZUBVM1QCSwmM/0LxxUKmL8jLxLwBbbud5NM1lgYmW52EgF+ydPAQrEyz
- eFHg==
-X-Gm-Message-State: AOAM533g85wlr7b3NXD0ZZQrCoYw2P5VbhR3lnKpGlMgLhbjJWPBhI2x
- 6SpjrcnC7rR21UOKkldycNjLIM9HaSzYemyK4k2KFn/I+aeZl7Nsf+DwuA6LMKMszsnQZTgp6ps
- KqcvmKdk8GcZP87kA+oNP989gP3/9
-X-Received: by 2002:a5d:60c5:: with SMTP id x5mr19143765wrt.376.1643674463758; 
- Mon, 31 Jan 2022 16:14:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwfVtkCLf5UCIVhNuwJpoPBEx1wQeITiJVAbwrAqN+w+wDCXUwxdqOf4wRfKkVW2NOXweGpJw==
-X-Received: by 2002:a5d:60c5:: with SMTP id x5mr19143753wrt.376.1643674463532; 
- Mon, 31 Jan 2022 16:14:23 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id q13sm13395493wrd.78.2022.01.31.16.14.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jan 2022 16:14:23 -0800 (PST)
-Message-ID: <3aac291a-b30e-2775-336f-66dd08d634e2@redhat.com>
-Date: Tue, 1 Feb 2022 01:14:22 +0100
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9210E10E1E4;
+ Tue,  1 Feb 2022 00:36:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643675809; x=1675211809;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=I4B8ENurVPlobb3Bb/NoyCwf/pRY8NKrqHRhZSpa2Io=;
+ b=PTTVx/qMRKT9vc74llInPGyMnvXN/476n5+FstpN1C0robc9BdndKBOq
+ YpSDWDBbiP9lqdx89subhQIQpCyldPLOiNV6UJPcuURHW54uVTP2dhgUT
+ 9HDuKvlakSf/3soXbxCbREkHS1rkzYL7u45NxHGi3xHqIfDlOM7V8yGHL
+ dGjlWLnrUm6+2ODNIsXxGoWor15lxEadsO4UbtUm1pVk+DMBMcwK5EWSe
+ YI0S+Q/Ua67EqbtYXKhWfjOOr9VFW3Kbl71bMddUzIToCH8t3wSPDQvqG
+ k5vPBXOhR2QA0E1cQ9CXf3iVuPXOlZ9RUMoeFy+KOdO8rr7xGfKO8LCyE w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="272067214"
+X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; d="scan'208";a="272067214"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2022 16:36:48 -0800
+X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; d="scan'208";a="482004598"
+Received: from cnierman-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.212.195.98])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2022 16:36:48 -0800
+Date: Mon, 31 Jan 2022 16:36:47 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 00/14] Rename dma-buf-map
+Message-ID: <20220201003647.djakrmdebqigpz3j@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220128083626.3012259-1-lucas.demarchi@intel.com>
+ <a45a8cef-f5e7-604c-64f1-e893ec9ba8af@amd.com>
+ <20220128091213.qaq6v4vbeerzvd3f@ldmartin-desk2>
+ <27870484-6d16-5bd4-aa06-0ec513111d99@amd.com>
+ <20220128094018.m7pixeznedoa47gb@ldmartin-desk2>
+ <36a08a90-3614-27b4-166b-9d113b644af3@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 3/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20220131202916.2374502-1-javierm@redhat.com>
- <YfhVBtv1UIA7bJja@ravnborg.org>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YfhVBtv1UIA7bJja@ravnborg.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <36a08a90-3614-27b4-166b-9d113b644af3@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,230 +63,314 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: airlied@linux.ie, daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, srinivas.kandagatla@linaro.org,
+ tzimmermann@suse.de, gregkh@linuxfoundation.org, nouveau@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sam,
-
-Thanks for your suggestions.
-
-On 1/31/22 22:30, Sam Ravnborg wrote:
-> Hi Javier,
-> 
-> On Mon, Jan 31, 2022 at 09:29:16PM +0100, Javier Martinez Canillas wrote:
->> Add a DRM driver for SSD1305, SSD1306, SSD1307 and SSD1309 Solomon OLED
->> controllers that can be programmed via an I2C interface. This is a port
->> of the ssd1307fb driver that already supports these devices.
+On Fri, Jan 28, 2022 at 10:48:42AM +0100, Christian König wrote:
+>Am 28.01.22 um 10:40 schrieb Lucas De Marchi:
+>>On Fri, Jan 28, 2022 at 10:22:00AM +0100, Christian König wrote:
+>>>Am 28.01.22 um 10:12 schrieb Lucas De Marchi:
+>>>>On Fri, Jan 28, 2022 at 09:41:14AM +0100, Christian König wrote:
+>>>>>Rule #1 is to never ever break the build.
+>>>>>
+>>>>>Because of this all those patches needs to be squashed into a 
+>>>>>single one as far as I can see.
+>>>>
+>>>>what config are you building on?
+>>>
+>>>Well I'm not building at all, I'm just looking at the patches as 
+>>>an engineer with 25 years of experience with Linux patches.
+>>>
+>>>Just take a look at patch number 2:
+>>>
+>>>-static int fastrpc_vmap(struct dma_buf *dmabuf, struct 
+>>>dma_buf_map *map)
+>>>+static int fastrpc_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
+>>>
+>>>You are changing the functions signature without changing any of 
+>>>the callers.
+>>>
+>>>At bare minimum that causes a warning and on runtime this only 
+>>>works by coincident now because the structure pointers just happen 
+>>>to have the same layout. This is not something we usually do.
 >>
->> A Device Tree binding is not added because the DRM driver is compatible
->> with the existing binding for the ssd1307fb driver.
-> 
-> The driver uses the pwms property for the backlight.
-> It would have been much better to bite the bullet and require the
-> backlight to be specified using a backlight node in the DT.
-> This is the standard way to do it and then the driver could use the
-> existing backlight driver rather than embedding a backlight driver here.
->
-
-I did consider that. Because that would allow me to use a struct drm_panel
-and as you said make the core to manage the backlight. But then decied to
-just keep the backward compatibility with the existing binding to make it
-easier for users to migrate to the DRM driver.
-
-I wonder if we could make the driver to support both ? That is, to query
-if there's a backlight with drm_panel_of_backlight() and if not found then
-registering it's own backlight like the driver is currently doing.
- 
-> It would cost some backward compatibility - but looking forward this is
-> the right thing to do.
->
-
-I don't have a strong opinion. As mentioned I thought that was more worthy
-to keep the backward compat over doing it correctly. After all, this driver
-is for a very niche hardware (small OLED monochromatic panels), so I wasn't
-that concerned about supporting the proper DT conventions.
-
-I would also like to know Andy's opinion. Since he mentioned that embedded
-x86/ACPI hardware is using the PRP0001 _DSD extension to match against the
-OF driver. I wonder how feasible is for those platforms to change the DSDT.
-
-Another option is to have different compatible strings for this ? I wanted
-to drop the "fb" suffix and just have OF entries with compatible "ssd1307"
-instead of "ssd1307fb", but again left the latter for backward compat.
-
-But maybe we can have the "fb" ones creating the backlight and the new ones
-expecting it to have a backlight DT node.
-
+>>you missed the magic/hack on patch 1:
 >>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
-> Some random comments in the following.
-> 
-> 	Sam
-
-[snip]
-
->> +config TINYDRM_SSD1307
->> +	tristate "DRM support for Solomon SSD1307 OLED displays"
-> Use SSD130X here - so SSD1306 users can find it.
+>>1) dma-buf-map.h includes iosys-map.h _at the end_
+>>2) iosys-map.h includes dma-buf-map.h at the beginning
+>>   and initially does a "define iosys_map dma_buf_map".
+>>
+>>So, it doesn't work by coincidence, It's because it was done to allow
+>>converting it piecemeal.
 >
+>Oh, my. Please never do stuff like that again.
 
-Agreed. That's what I had before (and also in the driver, MAINTAINERS entry,
-etc) but then changed to SSD1307 everywhere. Unsure what could be more clear
-to users grepping to figure out if there's a DRM driver for their device.
+It's not uncommon approach to be required by other subsystems. Even
+drm-intel already used similar approach for macro conversions crossing
+drm-intel-next and drm-intel-gt-next branches recently.  As I said, I
+don't mind one way or the other.
 
-I'll follow your suggestion and change in the Kconfig description for v2.
+Before I go and respin this into a single mega patch, I'd like to gather
+some feedback on the following topics:
 
-[snip]
+1) Daniel Vetter and Thomas Zimmermann seemed to be ok with staying with
+the current name, dma_buf_map, while you prefer it renamed. Or at
+least not make the rename a pre-requisite for the API additions in
+https://lore.kernel.org/all/20220126203702.1784589-1-lucas.demarchi@intel.com/
 
->> +
->> +static int ssd1307_fb_blit_rect(struct drm_framebuffer *fb, const struct dma_buf_map *map,
->> +				struct drm_rect *rect)
->> +{
->> +	struct ssd1307_device *ssd1307 = drm_to_ssd1307(fb->dev);
->> +	void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
-> Hmm, can we fix this TODO now?
+One thing I like about the rename is that it makes clear the separation
+between this small shim and dma-buf. There are also some APIs
+that are really dma-buf API (e.g. dma_buf_map_attachment()), but if you
+don't look carefully you may think it's from dma_buf_map.
+
+2) If renaming, would it still keep the same entry in
+MAINTAINERS? Thomas suggested drivers core, but this all seem to be used
+mainly on drm/, with just one exception.
+
+3) If renaming, do we have another preferred name?
+
+
+thanks
+Lucas De Marchi
+
 >
-
-I did try to fix it while writing the driver but couldn't figure out what was
-the proper abstraction to use. Looked at other drivers but *many* do the same
-and have the exact same comment :)
-
-$ git grep "TODO: Use mapping abstraction properly" -- drivers/gpu/  | wc -l
-15
-
-I'll be happy to fix it if someone could elaborate what this comment expects.
-
-[snip]
-
->> +
->> +	if (!drm_dev_enter(drm, &idx))
->> +		return;
->> +
->> +	backlight_enable(ssd1307->bl_dev);
-> This seems backward - I would have assumed backlight was enabled
-> after the display was enabled - so you potentially hide some flickering.
-> This is the order done in drm_panel.
+>>
+>>But as I said, I don't really have a preference. When crossing
+>>subsystems one thing that is hard is that different people have different
+>>preferences on these things. At least squashing now is much easier than
+>>if I had to split it
+>>
+>>Try to imagine how much complain I received on going the other way in
+>>25985edcedea6396277003854657b5f3cb31a628 with
+>>2463 files changed, 4252 insertions(+), 4252 deletions(-)
 >
-
-I see. Sure, I'll change this in v2 as well.
-
-[snip]
- 
->> +
->> +	backlight_disable(ssd1307->bl_dev);
-> And here backlight could be disabled before disabling the display.
-> 
-
-Ok.
-
-[snip]
-
->> +
->> +	/* Turn on the display */
->> +	ret = ssd1307_write_cmd(ssd1307->client, SSD1307_DISPLAY_ON);
->> +	if (ret < 0)
->> +		return ret;
-> I would assume the display is turned on later - and should be left off
-> here. The pipe function will do this when needed.
+>Well exactly that is perfectly fine.
 >
-
-Indeed. I based this on the the ssd1307fb probe logi but forgot to remove
-this that's not needed since will be managed by display pipe {en,dis}able.
- 
->> +
->> +	return 0;
->> +}
->> +
->> +static int ssd1307_update_bl(struct backlight_device *bdev)
->> +{
->> +	struct ssd1307_device *ssd1307 = bl_get_data(bdev);
->> +	int brightness = bdev->props.brightness;
-> Use backlight_get_brightness(bdev) here.
+>What you do here is applying your personal hack which is absolutely 
+>not welcomed.
 >
-
-Ok.
- 
->> +	int ret;
->> +
->> +	ssd1307->contrast = brightness;
->> +
->> +	ret = ssd1307_write_cmd(ssd1307->client, SSD1307_CONTRAST);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	ret = ssd1307_write_cmd(ssd1307->client, ssd1307->contrast);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	return 0;
->> +}
->> +
->> +static int ssd1307_get_brightness(struct backlight_device *bdev)
->> +{
->> +	struct ssd1307_device *ssd1307 = bl_get_data(bdev);
->> +
->> +	return ssd1307->contrast;
-> I am pretty sure this function can be omitted - as the brightness value
-> is not changed unless we write it.
+>Regards,
+>Christian.
 >
-
-Gotcha. I will remove this too then.
-
-[snip] 
-
->> +
->> +	drm_connector_helper_add(&ssd1307->connector, &ssd1307_connector_helper_funcs);
->> +	ret = drm_connector_init(drm, &ssd1307->connector, &ssd1307_connector_funcs,
->> +				 DRM_MODE_CONNECTOR_Unknown);
-> Why not the I2C connector?
+>>:)
+>>
+>>
+>>Lucas De Marchi
+>>
+>>>
+>>>Regards,
+>>>Christian.
+>>>
+>>>>I built this series, full config with
+>>>>CONFIG_COMPILE_TEST and doing:
+>>>>
+>>>>    git rebase -i <base> -x "make -j$(nproc)"
+>>>>
+>>>>I split these patches in a way that wouldn't break the build on 
+>>>>purpose.
+>>>>There were a couple that I couldn't build without cross 
+>>>>compiling: tegra
+>>>>and rockchip. The others were ok.
+>>>>
+>>>>I'm not really against squashing everything in one to merge, though.
+>>>>It will be hard on the conflicts later, but should get the job 
+>>>>done much
+>>>>quicker.
+>>>>
+>>>>Lucas De Marchi
+>>>>
+>>>>>
+>>>>>Regards,
+>>>>>Christian.
+>>>>>
+>>>>>Am 28.01.22 um 09:36 schrieb Lucas De Marchi:
+>>>>>>Motivation for this started in
+>>>>>>https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2F20220126203702.1784589-1-lucas.demarchi%40intel.com%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C635084a520994d35a16e08d9e2423319%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637789596221829397%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=ruHpD3DbyyqQuZIFEQU%2B2RH31OwsdFnn1v7N4z75U0Y%3D&amp;reserved=0
+>>>>>>
+>>>>>>
+>>>>>>when trying to extend the dma-buf-map API to cover new use 
+>>>>>>cases: help a
+>>>>>>single driver with allocations and sharing code paths for IO 
+>>>>>>and system
+>>>>>>memory. I'm leaving the API additions aside and first renaming the
+>>>>>>interface as requested.
+>>>>>>
+>>>>>>There are already some users in tree outside the context of dma-buf
+>>>>>>importer/exporter. So before extending the API, let's 
+>>>>>>dissociate it from
+>>>>>>dma-buf.
+>>>>>>
+>>>>>>The iosys-map.h is introduced in the first patch in a way that allows
+>>>>>>the conversion of each driver to happen separately. After all the
+>>>>>>conversions are done we can remove the old one, which is the 
+>>>>>>last patch.
+>>>>>>Another possible way is to squash everything and merge together,
+>>>>>>but I believe this would make much harder for review.
+>>>>>>
+>>>>>>The conversion was done with the following semantic patch:
+>>>>>>
+>>>>>>    @r1@
+>>>>>>    @@
+>>>>>>    - struct dma_buf_map
+>>>>>>    + struct iosys_map
+>>>>>>
+>>>>>>    @r2@
+>>>>>>    @@
+>>>>>>    (
+>>>>>>    - DMA_BUF_MAP_INIT_VADDR
+>>>>>>    + IOSYS_MAP_INIT_VADDR
+>>>>>>    |
+>>>>>>    - dma_buf_map_set_vaddr
+>>>>>>    + iosys_map_set_vaddr
+>>>>>>    |
+>>>>>>    - dma_buf_map_set_vaddr_iomem
+>>>>>>    + iosys_map_set_vaddr_iomem
+>>>>>>    |
+>>>>>>    - dma_buf_map_is_equal
+>>>>>>    + iosys_map_is_equal
+>>>>>>    |
+>>>>>>    - dma_buf_map_is_null
+>>>>>>    + iosys_map_is_null
+>>>>>>    |
+>>>>>>    - dma_buf_map_is_set
+>>>>>>    + iosys_map_is_set
+>>>>>>    |
+>>>>>>    - dma_buf_map_clear
+>>>>>>    + iosys_map_clear
+>>>>>>    |
+>>>>>>    - dma_buf_map_memcpy_to
+>>>>>>    + iosys_map_memcpy_to
+>>>>>>    |
+>>>>>>    - dma_buf_map_incr
+>>>>>>    + iosys_map_incr
+>>>>>>    )
+>>>>>>
+>>>>>>    @@
+>>>>>>    @@
+>>>>>>    - #include <linux/dma-buf-map.h>
+>>>>>>    + #include <linux/iosys-map.h>
+>>>>>>
+>>>>>>and then some files had their includes adjusted so we can build
+>>>>>>everything on each commit in this series. Also some comments 
+>>>>>>were update
+>>>>>>to remove mentions to dma-buf-map. Simply doing a sed to 
+>>>>>>rename didn't
+>>>>>>work as dma-buf has some APIs using the dma_buf_map prefix.
+>>>>>>
+>>>>>>Once finalized, I think most of this, if not all, could go 
+>>>>>>through the
+>>>>>>drm-misc-next branch. I split i915, msm, nouveau, and radeon in their
+>>>>>>own patches in case it's preferred to take those through their own
+>>>>>>trees.
+>>>>>>
+>>>>>>Lucas De Marchi
+>>>>>>
+>>>>>>Lucas De Marchi (14):
+>>>>>>  iosys-map: Introduce renamed dma-buf-map
+>>>>>>  misc: fastrpc: Replace dma-buf-map with iosys-map
+>>>>>>  dma-buf: Replace dma-buf-map with iosys-map
+>>>>>>  media: Replace dma-buf-map with iosys-map
+>>>>>>  drm/ttm: Replace dma-buf-map with iosys-map
+>>>>>>  drm: Replace dma-buf-map with iosys-map in drivers
+>>>>>>  drm/i915: Replace dma-buf-map with iosys-map
+>>>>>>  drm/msm: Replace dma-buf-map with iosys-map
+>>>>>>  drm/nouveau: Replace dma-buf-map with iosys-map
+>>>>>>  drm/tegra: Replace dma-buf-map with iosys-map
+>>>>>>  drm/radeon: Replace dma-buf-map with iosys-map
+>>>>>>  drm: Replace dma-buf-map with iosys-map in common code
+>>>>>>  Documentation: Refer to iosys-map instead of dma-buf-map
+>>>>>>  dma-buf-map: Remove API in favor of iosys-map
+>>>>>>
+>>>>>> Documentation/driver-api/dma-buf.rst          |   4 +-
+>>>>>> Documentation/gpu/todo.rst                    |  20 +-
+>>>>>> MAINTAINERS                                   |   2 +-
+>>>>>> drivers/dma-buf/dma-buf.c                     |  22 +-
+>>>>>> drivers/dma-buf/heaps/cma_heap.c              |  10 +-
+>>>>>> drivers/dma-buf/heaps/system_heap.c           |  10 +-
+>>>>>> drivers/gpu/drm/ast/ast_drv.h                 |   2 +-
+>>>>>> drivers/gpu/drm/ast/ast_mode.c                |   8 +-
+>>>>>> drivers/gpu/drm/drm_cache.c                   |  18 +-
+>>>>>> drivers/gpu/drm/drm_client.c                  |   9 +-
+>>>>>> drivers/gpu/drm/drm_fb_helper.c               |  12 +-
+>>>>>> drivers/gpu/drm/drm_gem.c                     |  12 +-
+>>>>>> drivers/gpu/drm/drm_gem_cma_helper.c          |   9 +-
+>>>>>> drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  16 +-
+>>>>>> drivers/gpu/drm/drm_gem_shmem_helper.c        |  15 +-
+>>>>>> drivers/gpu/drm/drm_gem_ttm_helper.c          |   4 +-
+>>>>>> drivers/gpu/drm/drm_gem_vram_helper.c         |  25 +-
+>>>>>> drivers/gpu/drm/drm_internal.h                |   6 +-
+>>>>>> drivers/gpu/drm/drm_mipi_dbi.c                |   8 +-
+>>>>>> drivers/gpu/drm/drm_prime.c                   |   4 +-
+>>>>>> drivers/gpu/drm/etnaviv/etnaviv_drv.h         |   2 +-
+>>>>>> drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   8 +-
+>>>>>> drivers/gpu/drm/gud/gud_pipe.c                |   4 +-
+>>>>>> drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   5 +-
+>>>>>> drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   8 +-
+>>>>>> .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   6 +-
+>>>>>> .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |   6 +-
+>>>>>> drivers/gpu/drm/lima/lima_gem.c               |   3 +-
+>>>>>> drivers/gpu/drm/lima/lima_sched.c             |   4 +-
+>>>>>> drivers/gpu/drm/mediatek/mtk_drm_gem.c        |   7 +-
+>>>>>> drivers/gpu/drm/mediatek/mtk_drm_gem.h        |   5 +-
+>>>>>> drivers/gpu/drm/mgag200/mgag200_mode.c        |   4 +-
+>>>>>> drivers/gpu/drm/msm/msm_drv.h                 |   4 +-
+>>>>>> drivers/gpu/drm/msm/msm_gem_prime.c           |   6 +-
+>>>>>> drivers/gpu/drm/nouveau/nouveau_gem.c         |   2 +
+>>>>>> drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  13 +-
+>>>>>> drivers/gpu/drm/qxl/qxl_display.c             |   8 +-
+>>>>>> drivers/gpu/drm/qxl/qxl_draw.c                |   6 +-
+>>>>>> drivers/gpu/drm/qxl/qxl_drv.h                 |  10 +-
+>>>>>> drivers/gpu/drm/qxl/qxl_object.c              |   8 +-
+>>>>>> drivers/gpu/drm/qxl/qxl_object.h              |   4 +-
+>>>>>> drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
+>>>>>> drivers/gpu/drm/radeon/radeon_gem.c           |   1 +
+>>>>>> drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |   9 +-
+>>>>>> drivers/gpu/drm/rockchip/rockchip_drm_gem.h   |   5 +-
+>>>>>> drivers/gpu/drm/tegra/gem.c                   |  10 +-
+>>>>>> drivers/gpu/drm/tiny/cirrus.c                 |   8 +-
+>>>>>> drivers/gpu/drm/tiny/gm12u320.c               |   7 +-
+>>>>>> drivers/gpu/drm/ttm/ttm_bo_util.c             |  16 +-
+>>>>>> drivers/gpu/drm/ttm/ttm_resource.c            |  26 +-
+>>>>>> drivers/gpu/drm/ttm/ttm_tt.c                  |   6 +-
+>>>>>> drivers/gpu/drm/udl/udl_modeset.c             |   3 +-
+>>>>>> drivers/gpu/drm/vboxvideo/vbox_mode.c         |   4 +-
+>>>>>> drivers/gpu/drm/virtio/virtgpu_prime.c        |   1 +
+>>>>>> drivers/gpu/drm/vkms/vkms_composer.c          |   4 +-
+>>>>>> drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
+>>>>>> drivers/gpu/drm/vkms/vkms_plane.c             |   2 +-
+>>>>>> drivers/gpu/drm/vkms/vkms_writeback.c         |   2 +-
+>>>>>> drivers/gpu/drm/xen/xen_drm_front_gem.c       |   7 +-
+>>>>>> drivers/gpu/drm/xen/xen_drm_front_gem.h       |   6 +-
+>>>>>> .../common/videobuf2/videobuf2-dma-contig.c   |   8 +-
+>>>>>> .../media/common/videobuf2/videobuf2-dma-sg.c |   9 +-
+>>>>>> .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
+>>>>>> drivers/misc/fastrpc.c                        |   4 +-
+>>>>>> include/drm/drm_cache.h                       |   6 +-
+>>>>>> include/drm/drm_client.h                      |   7 +-
+>>>>>> include/drm/drm_gem.h                         |   6 +-
+>>>>>> include/drm/drm_gem_atomic_helper.h           |   6 +-
+>>>>>> include/drm/drm_gem_cma_helper.h              |   6 +-
+>>>>>> include/drm/drm_gem_framebuffer_helper.h      |   8 +-
+>>>>>> include/drm/drm_gem_shmem_helper.h            |  12 +-
+>>>>>> include/drm/drm_gem_ttm_helper.h              |   6 +-
+>>>>>> include/drm/drm_gem_vram_helper.h             |   9 +-
+>>>>>> include/drm/drm_prime.h                       |   6 +-
+>>>>>> include/drm/ttm/ttm_bo_api.h                  |  10 +-
+>>>>>> include/drm/ttm/ttm_kmap_iter.h               |  10 +-
+>>>>>> include/drm/ttm/ttm_resource.h                |   6 +-
+>>>>>> include/linux/dma-buf-map.h                   | 266 
+>>>>>>------------------
+>>>>>> include/linux/dma-buf.h                       |  12 +-
+>>>>>> include/linux/iosys-map.h                     | 257 
+>>>>>>+++++++++++++++++
+>>>>>> 80 files changed, 579 insertions(+), 552 deletions(-)
+>>>>>> delete mode 100644 include/linux/dma-buf-map.h
+>>>>>> create mode 100644 include/linux/iosys-map.h
+>>>>>>
+>>>>>
+>>>
 >
-
-Doh, I forgot to update the driver after introducing patch 1/4...
- 
-[snip]
-
->> +
->> +	snprintf(bl_name, sizeof(bl_name), "ssd1307%d", drm->primary->index);
->> +	bl = backlight_device_register(bl_name, dev, ssd1307, &ssd1307fb_bl_ops,
->> +				       NULL);
-> devm_backlight_device_register?
-> And use (dev, dev_name(dev), - so you can drop bl_name[]
->
-
-Right. Good suggestion.
-
-[snip]
- 
->> +	}
->> +regulator_disable:
->> +	if (ssd1307->vbat_reg)
->> +		regulator_disable(ssd1307->vbat_reg);
-> No need for the if (sd1307->vbat_reg) here.
->
-
-Ok.
-
-[snip]
- 
->> +	if (ssd1307->vbat_reg)
->> +		regulator_disable(ssd1307->vbat_reg);
-> Drop if.
->
-
-Ok.
-
-If you don't mind I'll wait a few days before re-spining v2, in case
-others could have more feedback. Thanks a lot again for your review.
- 
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
