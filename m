@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30834A6162
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 17:30:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3F64A617E
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 17:42:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC3B10E16D;
-	Tue,  1 Feb 2022 16:30:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15C7C10E206;
+	Tue,  1 Feb 2022 16:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 710B810E5FF
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 16:30:48 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id u13so18133018oie.5
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 08:30:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E92410E206
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 16:42:13 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id r14so14915111qtt.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 08:42:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SmoAfGUcv3WuX5MTMsQtLDuakLAcJhTCCEdC4MKfCJU=;
- b=hE0dHoYE2FXofMs4e1RcU8c6vfA8rv8R3XWFaQ0os1A+wPd9bM/1RxDIdOUGSJs44C
- IbvTPs4DM04VagcMezxMBUFH8mDLy9QtjjQblNkO/XUP+kEMmcvVuSs6Ghbzv6BTRJkJ
- xLtV9OHhTOddvn0QXAX7viusKmGqEOG1wVJo8=
+ :cc; bh=otyEMvVogZiC/qLnQYtuKjXRtrkndEx9vzMbrLjZjDE=;
+ b=dj13jx2a1MprLlYA1kB5O4aC7dmPTtNC2m9oAj0hEzL5g88I3AgHJKZvwGSvQ9UlPq
+ mVttKA/nLeBtVoFjgpVG+TOJ/et/3WIez8o/W1sYKBuWfUbAMWgHnQmN0ZsVlASNY60O
+ qvTpr126c84fdzOSOJUgfbEp8s1K7AAbqrdKg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=SmoAfGUcv3WuX5MTMsQtLDuakLAcJhTCCEdC4MKfCJU=;
- b=srC0v1QiVVlpR0xaM/R6Dn6LphDcWg44eyFp15DajPDfZSYJcK5SAqXv43dOlzJAIR
- +l1bx+yw8QqlDXZg9q6ZZ/6wKlMgtbBcL7Oy1GNF3N6wPwXkJxP77y5sT0wuxsmf1ba8
- TSqld7PZfmUWm4aI66yEAV0ad13b9lWIQQTzIDmo5kA2L7DZF8qEhRY4tVPd8gqkSGil
- AdK5kGM/pMnviR3aKgzrG2oCXZhSmyOJiUBNz0Rc2WlmMRhjuaArK8+x30g/2IlW3YXg
- gnKmnTm2bfMugbz5KNssORB4u9vTsHEuUZXauobf3hBeCx0cjI5DwdEid+ve0bVDN5Eb
- xMjA==
-X-Gm-Message-State: AOAM531e1W27u7/NEOM8Cfcofh1Woc8rmo8+Ft+mFGuthnEGxr2Zihgs
- tr7I4dzf1emynUkzz4ICmM6gT7firLjAfhqH4WaUQw==
-X-Google-Smtp-Source: ABdhPJz3JayTHVyC51m4kdAPGDzLvlPbnDnx2e6c/T0JZ7beOtPGbdiv2N+Jc7yrinJz0jrqaKDfzGNAZgBoR3v4+Ao=
-X-Received: by 2002:a54:4803:: with SMTP id j3mr1774572oij.279.1643733047225; 
- Tue, 01 Feb 2022 08:30:47 -0800 (PST)
+ bh=otyEMvVogZiC/qLnQYtuKjXRtrkndEx9vzMbrLjZjDE=;
+ b=CmaPGmMpMr3SUidT8/aM2EwMyZ55+JpmjXcIinAwKtcx+AD4DlKh+Izjnvh8ot8Lxh
+ R3Hv/oqdfKwMm07w9nMEDv+GJhaIej1NGcsp933rxRheByzEs9+lL/jl5GtM6TWjmuIS
+ oQtS1/fk3Iqj+AQ+Dw6JdJqApVEGhFiuXJW26aVFG98+ceQry2x4gpyu98tBkmD1Iqgm
+ 6FpQGvflCGzaSGeHSeiGZltEABM7e4binXyIgMi6cZQKyEhX3lKu+OegBuC9UnMU71X/
+ aMjb+pjOMENP/7vkx+1pcLTfp6PhpdNoBDboHWNrllcDHFBd54mivOXR9Oikk2mpburE
+ meew==
+X-Gm-Message-State: AOAM531TlcW70enI532I83vTFbydKVnLLVI9bLWdxnuloMq0zYC3ayEf
+ B+qEPHQl14+iMMiNRogrkr+vnS/HHaoqUA==
+X-Google-Smtp-Source: ABdhPJzZx5kiyHIoh4cE8IKCPHwBMKjeXoXcS/9U2sSq05fBtIYqqAKB20Jt3Hl2ptDqHXYNDQ8S0g==
+X-Received: by 2002:ac8:4718:: with SMTP id f24mr19534954qtp.364.1643733732118; 
+ Tue, 01 Feb 2022 08:42:12 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
+ [209.85.219.171])
+ by smtp.gmail.com with ESMTPSA id 5sm4355796qtp.81.2022.02.01.08.42.10
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Feb 2022 08:42:11 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id c6so52745849ybk.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Feb 2022 08:42:10 -0800 (PST)
+X-Received: by 2002:a25:c58f:: with SMTP id
+ v137mr37662763ybe.609.1643733730084; 
+ Tue, 01 Feb 2022 08:42:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
- <20220131210552.482606-4-daniel.vetter@ffwll.ch>
- <9c22b709-cbcf-6a29-a45e-5a57ba0b9c14@gmx.de>
- <CAKMK7uGvOVe8kkJCTkQBEFw+3i2iAMANsyG9vGqZkcROZ9he4A@mail.gmail.com>
- <63018892-68e8-01b6-1e8f-853892e15c97@gmx.de>
- <CAKMK7uHPn77GA12fFjmvkRUDQXSBkbYK5X=rJp8sfO_xarys_g@mail.gmail.com>
- <313c4c72-364b-1d61-09c1-e4a83cbefe6a@gmx.de>
-In-Reply-To: <313c4c72-364b-1d61-09c1-e4a83cbefe6a@gmx.de>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 1 Feb 2022 17:30:36 +0100
-Message-ID: <CAKMK7uE5A6+s6=yaCUsKN0XrMAESLKNwz2_bJR9YL3S7YeDzMw@mail.gmail.com>
-Subject: Re: [PATCH 03/21] fbcon: Restore fbcon scrolling acceleration
-To: Helge Deller <deller@gmx.de>
+References: <20220125135406.1.I62322abf81dbc1a1b72392a093be0c767da9bf51@changeid>
+ <e89dbc7b-b3ae-c334-b704-f5633725c29f@redhat.com>
+ <CAD=FV=U8VGnRXv8MgofKzZF22_x0_X3M+AMfyPQ1u=yTXnFBQA@mail.gmail.com>
+ <6fdcfbcf-0546-6b4f-b50f-cf2382ad746f@redhat.com>
+In-Reply-To: <6fdcfbcf-0546-6b4f-b50f-cf2382ad746f@redhat.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 1 Feb 2022 08:41:58 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=U3YHt=+cr8c39zMxFWMeo4Pr=R3BBPMKanpySPhsYh9w@mail.gmail.com>
+Message-ID: <CAD=FV=U3YHt=+cr8c39zMxFWMeo4Pr=R3BBPMKanpySPhsYh9w@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Allow querying the detected panel via sysfs
+To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,106 +73,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
- DRI Development <dri-devel@lists.freedesktop.org>, Pavel Machek <pavel@ucw.cz>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Sven Schnelle <svens@stackframe.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, jjsu@chromium.org,
+ lschyi@chromium.org, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 1, 2022 at 3:52 PM Helge Deller <deller@gmx.de> wrote:
->
-> On 2/1/22 14:45, Daniel Vetter wrote:
-> > On Tue, Feb 1, 2022 at 12:01 PM Helge Deller <deller@gmx.de> wrote:
-> >> On 2/1/22 11:36, Daniel Vetter wrote:
-> >>> On Tue, Feb 1, 2022 at 11:16 AM Helge Deller <deller@gmx.de> wrote:
-> >>>>
-> >>>> On 1/31/22 22:05, Daniel Vetter wrote:
-> >>>>> This functionally undoes 39aead8373b3 ("fbcon: Disable accelerated
-> >>>>> scrolling"), but behind the FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
-> >>>>> option.
-> >>>>
-> >>>> you have two trivial copy-n-paste errors in this patch which still prevent the
-> >>>> console acceleration.
-> >>>
-> >>> Duh :-(
-> >>>
-> >>> But before we dig into details I think the big picture would be
-> >>> better. I honestly don't like the #ifdef pile here that much.
-> >>
-> >> Me neither.
-> >> The ifdefs give a better separation, but prevents that the compiler
-> >> checks the various paths when building.
-> >>
-> >>> I wonder whether your approach, also with GETVX/YRES adjusted
-> >>> somehow, wouldn't look cleaner?
-> >> I think so.
-> >> You wouldn't even need to touch GETVX/YRES because the compiler
-> >> will optimize/reduce it from
-> >>
-> >> #define GETVYRES(s,i) ({                           \
-> >>         (s == SCROLL_REDRAW || s == SCROLL_MOVE) ? \
-> >>         (i)->var.yres : (i)->var.yres_virtual; })
-> >>
-> >> to just become:
-> >>
-> >> #define GETVYRES(s,i) ((i)->var.yres)
-> >
-> > Yeah, but you need to roll out your helper to all the callsites. But
-> > since you #ifdef out info->scrollmode we should catch them all I
-> > guess.
->
-> Right. That was the only reason why I ifdef'ed it out.
-> Technically we don't need that ifdef.
->
-> >>> Like I said in the cover letter I got mostly distracted with fbcon
-> >>> locking last week, not really with this one here at all, so maybe
-> >>> going with your 4 (or 2 if we squash them like I did here) patches is
-> >>> neater?
-> >>
-> >> The benefit of my patch series was, that it could be easily backported first,
-> >> and then cleaned up afterwards. Even a small additional backport patch to disable
-> >> the fbcon acceleration for DRM in the old releases would be easy.
-> >> But I'm not insisting on backporting the patches, if we find good way forward.
-> >>
-> >> So, either with the 4 (or 2) patches would be OK for me (or even your approach).
-> >
-> > The idea behind the squash was that it's then impossible to backport
-> > without the Kconfig,
->
-> Yes, my proposal was to simply revert the 2 patches and immediatly send
-> the Kconfig patch to disable it again.
->
-> > and so we'll only enable this code when people
-> > intentionally want it. Maybe I'm too paranoid?
->
-> I think you are too paranoid :-)
-> If all patches incl. the Kconfig patch are backported then people shouldn't
-> do it wrong.
->
-> > Anyway, you feel like finishing off your approach? Or should I send
-> > out v2 of this with the issues fixed you spotted? Like I said either
-> > is fine with me.
->
-> Ok, then let me try to finish my approach until tomorrow, and then you
-> check if you can and want to add your locking and other patches on top of it.
-> In the end I leave the decision which approach to take to you.
-> Ok?
+Hi,
 
-Sounds good, and yeah rough idea is that the maintainers + revert +
-Kconfig should go in for rc3 or rc4 if we hit another bump, and the
-locking stuff then in for -next (since it needs a backmerge and is
-defo tricky stuff).
+On Wed, Jan 26, 2022 at 12:25 AM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+>
+> On 1/26/22 00:25, Doug Anderson wrote:
+> > On Tue, Jan 25, 2022 at 2:55 PM Javier Martinez Canillas
+> > <javierm@redhat.com> wrote:
+>
+> [snip]
+>
+> >> Should this new sysfs entry be documented in Documentation/ABI/ ?
+> >
+> > I'm not sure what the policy is here. I actually don't know that I'm
+> > too worried about this being an ABI. For the purposes of our tests
+> > then if something about this file changed (path changed or something
+> > like that) it wouldn't be a huge deal. Presumably the test itself
+> > would just "fail" in this case and that would clue us in that the ABI
+> > changed and we could adapt to whatever new way was needed to discover
+> > this.
+> >
+> > That being said, if the policy is that everything in sysfs is supposed
+> > to be ABI then I can add documentation for this...
+> >
+>
+> I also don't know the policy, hence the question. But in any case, I
+> think that it could even be done as a follow-up if is needed.
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Sounds good. Since it's been pretty silent and I had your review I
+pushed this to drm-misc-next. If there are comments or someone has an
+opinion documenting this as a stable ABI then please yell.
+
+363c4c3811db drm/panel-edp: Allow querying the detected panel via sysfs
