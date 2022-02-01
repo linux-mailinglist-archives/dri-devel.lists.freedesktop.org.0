@@ -1,44 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 753BB4A66B2
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 21:57:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC334A66E0
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 22:15:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F67510E13C;
-	Tue,  1 Feb 2022 20:57:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA3EB10E1C3;
+	Tue,  1 Feb 2022 21:15:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E20F010E13C
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 20:57:55 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id c27aaef0-83a1-11ec-ac19-0050568cd888;
- Tue, 01 Feb 2022 20:58:51 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 5B36E194B7A;
- Tue,  1 Feb 2022 21:57:54 +0100 (CET)
-Date: Tue, 1 Feb 2022 21:57:50 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH 1/4] drm: Add I2C connector type
-Message-ID: <YfmeztkVXwZzAwYe@ravnborg.org>
-References: <20220131201225.2324984-1-javierm@redhat.com>
- <20220131201225.2324984-2-javierm@redhat.com>
- <YfhMESTylI1NTKDg@ravnborg.org>
- <4d9a56a7-da25-b411-61cc-372c6fa9011d@tronnes.org>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3058A10E1BC;
+ Tue,  1 Feb 2022 21:15:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643750139; x=1675286139;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=V6UNNGT36Y8N/uQHYkgX9304xNVEGsA++QCmcgUkFP4=;
+ b=Mfwu2kqjNvZ0EkMZ0FnkK497ftKWenFzm/0s3oC9AZs/DLG/v4JvL6NW
+ Fqee5wr5LSRvc+Ee/UxY/S1kw/dOuqK/xiGeUQn/afiQXuL0H6aN5G4G+
+ vXgCXJZt7YVDdUvYV3wqgYbSE/U1FiDo9zTJ1QC1ZA9XNe4ffjcl6MJiK
+ OFLVb3HCGjufO+ephBJnDZQ6FX0xIlE2WkHHfwPkWsaNXgCgSuu9viNF7
+ Pf7z9LW2hnIA7T8bt6MwDIqmGczEW4JfLJkOMqprU4CTEyuFutwoT7LSy
+ bqFcBgeaQKmEK/wpjQQ23WJY7nMrKjh0qh/qJFF9O9vfFVHay0RMv/nSb Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="231366077"
+X-IronPort-AV: E=Sophos;i="5.88,334,1635231600"; d="scan'208";a="231366077"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2022 13:15:38 -0800
+X-IronPort-AV: E=Sophos;i="5.88,334,1635231600"; d="scan'208";a="565734271"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2022 13:15:37 -0800
+Date: Tue, 1 Feb 2022 13:15:36 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 06/11] drm/i915: Use str_on_off()
+Message-ID: <Yfmi+KzZwKbG50tB@mdroper-desk1.amr.corp.intel.com>
+References: <20220126093951.1470898-1-lucas.demarchi@intel.com>
+ <20220126093951.1470898-7-lucas.demarchi@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4d9a56a7-da25-b411-61cc-372c6fa9011d@tronnes.org>
+In-Reply-To: <20220126093951.1470898-7-lucas.demarchi@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,53 +58,317 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Vishal Kulkarni <vishal@chelsio.com>,
+ Francis Laniel <laniel_francis@privacyrequired.com>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>, amd-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@intel.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Jakub Kicinski <kuba@kernel.org>,
+ Petr Mladek <pmladek@suse.com>, Leo Li <sunpeng.li@amd.com>,
+ intel-gfx@lists.freedesktop.org, Raju Rangoju <rajur@chelsio.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
+ Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ linux-security-module@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Noralf,
+On Wed, Jan 26, 2022 at 01:39:46AM -0800, Lucas De Marchi wrote:
+> Remove the local onoff() implementation and adopt the
+> str_on_off() from linux/string_helpers.h.
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-On Tue, Feb 01, 2022 at 01:58:16PM +0100, Noralf Trønnes wrote:
-> 
-> 
-> Den 31.01.2022 21.52, skrev Sam Ravnborg:
-> > On Mon, Jan 31, 2022 at 09:12:21PM +0100, Javier Martinez Canillas wrote:
-> >> There isn't a connector type for display controllers accesed through I2C,
-> >> most drivers use DRM_MODE_CONNECTOR_Unknown or DRM_MODE_CONNECTOR_VIRTUAL.
-> >>
-> >> Add an I2C connector type to match the actual connector.
-> >>
-> >> As Noralf Trønnes mentions in commit fc06bf1d76d6 ("drm: Add SPI connector
-> >> type"), user-space should be able to cope with a connector type that does
-> >> not yet understand.
-> >>
-> 
-> It turned out that I wasn't entirely correct here, mpv didn't cope with
-> unknown types. In the PR to add support Emil Velikov wondered if libdrm
-> should handle these connector names:
-> https://github.com/mpv-player/mpv/pull/8989#issuecomment-879187711
-> 
-> >> Tested with `modetest -M ssd1307 -c` and shows the connector as unknown-1.
-> > I had expected unknown-21??
-> > 
-> >>
-> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> 
-> Sam, didn't you and Laurent discuss adding DRM_MODE_CONNECTOR_PANEL for
-> such a use case?
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
-You have a splendid memory - yes we did. But no conclusions:
-https://lore.kernel.org/dri-devel/?q=DRM_MODE_CONNECTOR_PANEL
+> ---
+>  drivers/gpu/drm/i915/display/g4x_dp.c              | 6 ++++--
+>  drivers/gpu/drm/i915/display/intel_display.c       | 7 ++++---
+>  drivers/gpu/drm/i915/display/intel_display_trace.h | 3 ++-
+>  drivers/gpu/drm/i915/display/intel_dpll.c          | 3 ++-
+>  drivers/gpu/drm/i915/display/intel_dpll_mgr.c      | 7 +++++--
+>  drivers/gpu/drm/i915/display/intel_fdi.c           | 8 +++++---
+>  drivers/gpu/drm/i915/display/vlv_dsi_pll.c         | 3 ++-
+>  drivers/gpu/drm/i915/gt/intel_rc6.c                | 5 +++--
+>  drivers/gpu/drm/i915/i915_utils.h                  | 5 -----
+>  drivers/gpu/drm/i915/vlv_suspend.c                 | 3 ++-
+>  10 files changed, 29 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/g4x_dp.c b/drivers/gpu/drm/i915/display/g4x_dp.c
+> index f37677df6ebf..3e729bff1232 100644
+> --- a/drivers/gpu/drm/i915/display/g4x_dp.c
+> +++ b/drivers/gpu/drm/i915/display/g4x_dp.c
+> @@ -5,6 +5,8 @@
+>   * DisplayPort support for G4x,ILK,SNB,IVB,VLV,CHV (HSW+ handled by the DDI code).
+>   */
+>  
+> +#include <linux/string_helpers.h>
+> +
+>  #include "g4x_dp.h"
+>  #include "intel_audio.h"
+>  #include "intel_backlight.h"
+> @@ -191,7 +193,7 @@ static void assert_dp_port(struct intel_dp *intel_dp, bool state)
+>  	I915_STATE_WARN(cur_state != state,
+>  			"[ENCODER:%d:%s] state assertion failure (expected %s, current %s)\n",
+>  			dig_port->base.base.base.id, dig_port->base.base.name,
+> -			onoff(state), onoff(cur_state));
+> +			str_on_off(state), str_on_off(cur_state));
+>  }
+>  #define assert_dp_port_disabled(d) assert_dp_port((d), false)
+>  
+> @@ -201,7 +203,7 @@ static void assert_edp_pll(struct drm_i915_private *dev_priv, bool state)
+>  
+>  	I915_STATE_WARN(cur_state != state,
+>  			"eDP PLL state assertion failure (expected %s, current %s)\n",
+> -			onoff(state), onoff(cur_state));
+> +			str_on_off(state), str_on_off(cur_state));
+>  }
+>  #define assert_edp_pll_enabled(d) assert_edp_pll((d), true)
+>  #define assert_edp_pll_disabled(d) assert_edp_pll((d), false)
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 8920bdb53b7b..49f994f36fce 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -377,7 +377,7 @@ static void wait_for_pipe_scanline_moving(struct intel_crtc *crtc, bool state)
+>  	if (wait_for(pipe_scanline_is_moving(dev_priv, pipe) == state, 100))
+>  		drm_err(&dev_priv->drm,
+>  			"pipe %c scanline %s wait timed out\n",
+> -			pipe_name(pipe), onoff(state));
+> +			pipe_name(pipe), str_on_off(state));
+>  }
+>  
+>  static void intel_wait_for_pipe_scanline_stopped(struct intel_crtc *crtc)
+> @@ -435,7 +435,7 @@ void assert_transcoder(struct drm_i915_private *dev_priv,
+>  	I915_STATE_WARN(cur_state != state,
+>  			"transcoder %s assertion failure (expected %s, current %s)\n",
+>  			transcoder_name(cpu_transcoder),
+> -			onoff(state), onoff(cur_state));
+> +			str_on_off(state), str_on_off(cur_state));
+>  }
+>  
+>  static void assert_plane(struct intel_plane *plane, bool state)
+> @@ -447,7 +447,8 @@ static void assert_plane(struct intel_plane *plane, bool state)
+>  
+>  	I915_STATE_WARN(cur_state != state,
+>  			"%s assertion failure (expected %s, current %s)\n",
+> -			plane->base.name, onoff(state), onoff(cur_state));
+> +			plane->base.name, str_on_off(state),
+> +			str_on_off(cur_state));
+>  }
+>  
+>  #define assert_plane_enabled(p) assert_plane(p, true)
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_trace.h b/drivers/gpu/drm/i915/display/intel_display_trace.h
+> index dcdd242fffd9..2dd5a4b7f5d8 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_trace.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_trace.h
+> @@ -9,6 +9,7 @@
+>  #if !defined(__INTEL_DISPLAY_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
+>  #define __INTEL_DISPLAY_TRACE_H__
+>  
+> +#include <linux/string_helpers.h>
+>  #include <linux/types.h>
+>  #include <linux/tracepoint.h>
+>  
+> @@ -161,7 +162,7 @@ TRACE_EVENT(intel_memory_cxsr,
+>  			   ),
+>  
+>  	    TP_printk("%s->%s, pipe A: frame=%u, scanline=%u, pipe B: frame=%u, scanline=%u, pipe C: frame=%u, scanline=%u",
+> -		      onoff(__entry->old), onoff(__entry->new),
+> +		      str_on_off(__entry->old), str_on_off(__entry->new),
+>  		      __entry->frame[PIPE_A], __entry->scanline[PIPE_A],
+>  		      __entry->frame[PIPE_B], __entry->scanline[PIPE_B],
+>  		      __entry->frame[PIPE_C], __entry->scanline[PIPE_C])
+> diff --git a/drivers/gpu/drm/i915/display/intel_dpll.c b/drivers/gpu/drm/i915/display/intel_dpll.c
+> index 1ce0c171f4fb..1c401fd09eef 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dpll.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dpll.c
+> @@ -4,6 +4,7 @@
+>   */
+>  
+>  #include <linux/kernel.h>
+> +#include <linux/string_helpers.h>
+>  
+>  #include "intel_crtc.h"
+>  #include "intel_de.h"
+> @@ -1933,7 +1934,7 @@ static void assert_pll(struct drm_i915_private *dev_priv,
+>  	cur_state = intel_de_read(dev_priv, DPLL(pipe)) & DPLL_VCO_ENABLE;
+>  	I915_STATE_WARN(cur_state != state,
+>  			"PLL state assertion failure (expected %s, current %s)\n",
+> -			onoff(state), onoff(cur_state));
+> +			str_on_off(state), str_on_off(cur_state));
+>  }
+>  
+>  void assert_pll_enabled(struct drm_i915_private *i915, enum pipe pipe)
+> diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> index 6723c3de5a80..a787995c0f79 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> @@ -21,6 +21,8 @@
+>   * DEALINGS IN THE SOFTWARE.
+>   */
+>  
+> +#include <linux/string_helpers.h>
+> +
+>  #include "intel_de.h"
+>  #include "intel_display_types.h"
+>  #include "intel_dpio_phy.h"
+> @@ -178,13 +180,14 @@ void assert_shared_dpll(struct drm_i915_private *dev_priv,
+>  	struct intel_dpll_hw_state hw_state;
+>  
+>  	if (drm_WARN(&dev_priv->drm, !pll,
+> -		     "asserting DPLL %s with no DPLL\n", onoff(state)))
+> +		     "asserting DPLL %s with no DPLL\n", str_on_off(state)))
+>  		return;
+>  
+>  	cur_state = intel_dpll_get_hw_state(dev_priv, pll, &hw_state);
+>  	I915_STATE_WARN(cur_state != state,
+>  	     "%s assertion failure (expected %s, current %s)\n",
+> -			pll->info->name, onoff(state), onoff(cur_state));
+> +			pll->info->name, str_on_off(state),
+> +			str_on_off(cur_state));
+>  }
+>  
+>  static enum tc_port icl_pll_id_to_tc_port(enum intel_dpll_id id)
+> diff --git a/drivers/gpu/drm/i915/display/intel_fdi.c b/drivers/gpu/drm/i915/display/intel_fdi.c
+> index 3d6e22923601..0fd2941313aa 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fdi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fdi.c
+> @@ -3,6 +3,8 @@
+>   * Copyright © 2020 Intel Corporation
+>   */
+>  
+> +#include <linux/string_helpers.h>
+> +
+>  #include "intel_atomic.h"
+>  #include "intel_crtc.h"
+>  #include "intel_ddi.h"
+> @@ -29,7 +31,7 @@ static void assert_fdi_tx(struct drm_i915_private *dev_priv,
+>  	}
+>  	I915_STATE_WARN(cur_state != state,
+>  			"FDI TX state assertion failure (expected %s, current %s)\n",
+> -			onoff(state), onoff(cur_state));
+> +			str_on_off(state), str_on_off(cur_state));
+>  }
+>  
+>  void assert_fdi_tx_enabled(struct drm_i915_private *i915, enum pipe pipe)
+> @@ -50,7 +52,7 @@ static void assert_fdi_rx(struct drm_i915_private *dev_priv,
+>  	cur_state = intel_de_read(dev_priv, FDI_RX_CTL(pipe)) & FDI_RX_ENABLE;
+>  	I915_STATE_WARN(cur_state != state,
+>  			"FDI RX state assertion failure (expected %s, current %s)\n",
+> -			onoff(state), onoff(cur_state));
+> +			str_on_off(state), str_on_off(cur_state));
+>  }
+>  
+>  void assert_fdi_rx_enabled(struct drm_i915_private *i915, enum pipe pipe)
+> @@ -88,7 +90,7 @@ static void assert_fdi_rx_pll(struct drm_i915_private *i915,
+>  	cur_state = intel_de_read(i915, FDI_RX_CTL(pipe)) & FDI_RX_PLL_ENABLE;
+>  	I915_STATE_WARN(cur_state != state,
+>  			"FDI RX PLL assertion failure (expected %s, current %s)\n",
+> -			onoff(state), onoff(cur_state));
+> +			str_on_off(state), str_on_off(cur_state));
+>  }
+>  
+>  void assert_fdi_rx_pll_enabled(struct drm_i915_private *i915, enum pipe pipe)
+> diff --git a/drivers/gpu/drm/i915/display/vlv_dsi_pll.c b/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
+> index 1b81797dd02e..7f9c0a7c3446 100644
+> --- a/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
+> +++ b/drivers/gpu/drm/i915/display/vlv_dsi_pll.c
+> @@ -26,6 +26,7 @@
+>   */
+>  
+>  #include <linux/kernel.h>
+> +#include <linux/string_helpers.h>
+>  
+>  #include "i915_drv.h"
+>  #include "intel_de.h"
+> @@ -580,7 +581,7 @@ static void assert_dsi_pll(struct drm_i915_private *i915, bool state)
+>  
+>  	I915_STATE_WARN(cur_state != state,
+>  			"DSI PLL state assertion failure (expected %s, current %s)\n",
+> -			onoff(state), onoff(cur_state));
+> +			str_on_off(state), str_on_off(cur_state));
+>  }
+>  
+>  void assert_dsi_pll_enabled(struct drm_i915_private *i915)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
+> index bb0d6e363f5d..cde83e382ebe 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rc6.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
+> @@ -4,6 +4,7 @@
+>   */
+>  
+>  #include <linux/pm_runtime.h>
+> +#include <linux/string_helpers.h>
+>  
+>  #include "i915_drv.h"
+>  #include "i915_vgpu.h"
+> @@ -428,8 +429,8 @@ static bool bxt_check_bios_rc6_setup(struct intel_rc6 *rc6)
+>  	rc_sw_target >>= RC_SW_TARGET_STATE_SHIFT;
+>  	drm_dbg(&i915->drm, "BIOS enabled RC states: "
+>  			 "HW_CTRL %s HW_RC6 %s SW_TARGET_STATE %x\n",
+> -			 onoff(rc_ctl & GEN6_RC_CTL_HW_ENABLE),
+> -			 onoff(rc_ctl & GEN6_RC_CTL_RC6_ENABLE),
+> +			 str_on_off(rc_ctl & GEN6_RC_CTL_HW_ENABLE),
+> +			 str_on_off(rc_ctl & GEN6_RC_CTL_RC6_ENABLE),
+>  			 rc_sw_target);
+>  
+>  	if (!(intel_uncore_read(uncore, RC6_LOCATION) & RC6_CTX_IN_DRAM)) {
+> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+> index 6d26920d0632..3ff9611ff81c 100644
+> --- a/drivers/gpu/drm/i915/i915_utils.h
+> +++ b/drivers/gpu/drm/i915/i915_utils.h
+> @@ -400,11 +400,6 @@ wait_remaining_ms_from_jiffies(unsigned long timestamp_jiffies, int to_wait_ms)
+>  #define MBps(x) KBps(1000 * (x))
+>  #define GBps(x) ((u64)1000 * MBps((x)))
+>  
+> -static inline const char *onoff(bool v)
+> -{
+> -	return v ? "on" : "off";
+> -}
+> -
+>  void add_taint_for_CI(struct drm_i915_private *i915, unsigned int taint);
+>  static inline void __add_taint_for_CI(unsigned int taint)
+>  {
+> diff --git a/drivers/gpu/drm/i915/vlv_suspend.c b/drivers/gpu/drm/i915/vlv_suspend.c
+> index 23adb64d640a..a49a7da57d5a 100644
+> --- a/drivers/gpu/drm/i915/vlv_suspend.c
+> +++ b/drivers/gpu/drm/i915/vlv_suspend.c
+> @@ -3,6 +3,7 @@
+>   * Copyright © 2020 Intel Corporation
+>   */
+>  
+> +#include <linux/string_helpers.h>
+>  #include <linux/kernel.h>
+>  
+>  #include <drm/drm_print.h>
+> @@ -373,7 +374,7 @@ static void vlv_wait_for_gt_wells(struct drm_i915_private *dev_priv,
+>  	if (vlv_wait_for_pw_status(dev_priv, mask, val))
+>  		drm_dbg(&dev_priv->drm,
+>  			"timeout waiting for GT wells to go %s\n",
+> -			onoff(wait_for_on));
+> +			str_on_off(wait_for_on));
+>  }
+>  
+>  static void vlv_check_no_gt_access(struct drm_i915_private *i915)
+> -- 
+> 2.34.1
+> 
 
-As I wrote in another part of this thread(s) - typing the patch is easy.
-But I do not understand the userspace implications so I need someone
-else to say go.
-
-	Sam
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
