@@ -2,69 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0059C4A562E
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 06:20:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333234A564F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 06:20:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD5D10E2F2;
-	Tue,  1 Feb 2022 05:20:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56D9D10E16E;
+	Tue,  1 Feb 2022 05:20:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B75A510E402
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 05:20:14 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- e21-20020a9d0195000000b005a3cd7c1e09so8464911ote.6
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 21:20:14 -0800 (PST)
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 143EE10E16E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 05:20:42 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ l12-20020a0568302b0c00b005a4856ff4ceso7027937otv.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jan 2022 21:20:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=2apFGkxfX1t4PMALufUaS94H8GBvvJ1PAJONADrD3HA=;
- b=tUTMlzNzqdIuNJ6Ptljfy7CmsubEreZ54a6f/DWBTM/N4m5aTHNudHdz0kesj5QnHW
- bn30VzL9qvmS24D8AYxuBoj5TARj/dP9zpamcMkad5Xi6bZWQv88H31YDRjRZV5DxUfX
- dR6T+jSwabIPkse6AfvZFy8gJOINPBTvc2doaUvHRHVAlEJCTjFu8ZEHaPorqIVyB+Vu
- v/NxOE46ChnmEHXYs6/KzyqZfOXOFwNXGUGQgF7uZZts1cQ/TbxpdSyg8NaVsb93scn4
- ydR4HKFksdLdoDOD0QGr2TtGljB+22WwBPd6k9XbKMOfMIcYCS98DIUY5yNtyEAY4IX4
- rO0A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=AxUIbjg3SvCLBVXCrv9jIsGx71GsTQ6qIWnsAt6VTbY=;
+ b=BiSXSMEsNtBTkDinyXlJ67kpwdj31ar6lPoZA/5iikJbtUTbyv+x8iSa7vv7ZCPYq6
+ R7Nv0ANSJk6YgAKMwKENalGwcFVeYxJ7V2bekO9F5h1eAxArRCkEJ+lG56yEr9XWpOxd
+ j2UrqPc78k5N69ULMd+CcgKOfYHmCINMvzaZAjVplmKnLYhCFakcrm4CQledQ5fmW064
+ 2J0OepZDuPZHszaOu2m/zgWix3+PDZZGPT2LMzNHLZVSXKE7Jp/jdpgT+cVMmsIampR7
+ hre70NoxFVAjnX75mUVPc1J863wP7tru5EaM0vZP9LKpUoOAE8n6/QQyI2vekIi4LFOB
+ I8cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2apFGkxfX1t4PMALufUaS94H8GBvvJ1PAJONADrD3HA=;
- b=lrgJxwxujp9uJfLN67X14uUrbRnBw+l3fpT4a+Zni5BtxcrbXg7a4HTsRZ89yB5KJI
- 5v52QQoyzib1pjP9bIqUSS74iFV4ri9egQcaMVnQLOIdaHNCmKEZDzwm+LZZ4sWpIS6X
- S59YiJq9yUDnZwpPkaXNrgsVE0xGpTDZkdt/zAZO7dFVCi/MSVLjxGftv9srC7E9598H
- 2Bh2N+p9pN+oKX8y4xebUZRKxaJe9cu1fxwvrxQyLjhOdCiE608aZ/eOyvTlsZfOf7Ks
- dE4gQFC5kTcwi8w+Wrn3Sam+PwYvUD2gPR9oh2esYmF3N9YsW/Dyj7L8Nx9IpumXextn
- zvXQ==
-X-Gm-Message-State: AOAM531x6YkW1H1LEBnNbqFmPEV+ZsC3n8Nu0XKeusddVHOn7xCi+HpS
- CYCn1A/47FJovPThbrKpp6FldQ==
-X-Google-Smtp-Source: ABdhPJwrwYQAU5d3Yj0PCUyCjhiEO5uCs7OlDffQ/EpXZzX94VloxaC1wZq5SDTsavGNI9/VFOzR2w==
-X-Received: by 2002:a9d:7604:: with SMTP id k4mr9461316otl.86.1643692814062;
- Mon, 31 Jan 2022 21:20:14 -0800 (PST)
+ bh=AxUIbjg3SvCLBVXCrv9jIsGx71GsTQ6qIWnsAt6VTbY=;
+ b=5XE/b8HQXrUyYYkCSwBZkIQwleuGZMRVBi4KeCNWgzJW85nedg8mJLFFDElaesOS70
+ aPcvlXJ1AqQMDqL0xxdrRY6MmMUROhZbDFWYRuQGSUDJdMc2p+qymV7zgcFEO2lWYLBk
+ pAOx9u9ifIBXC8jvRag2j/iL7UF2JM2wGy1yqJL3QwWJYyrhWWdocZNzE9O1i3lajyNG
+ Su2C88nxeKJHq9n0PF1qVdGaMzOwQTsxYbt9GsmdwF109kBGWCSHpW3AnXwyn7dosrcU
+ E6PE9JEsqXWsAgwvTT0jM253Fz+rklHNCC9r4t1yt+uSsD92nJOCyfzNidK0TC6I3Y/3
+ b3JQ==
+X-Gm-Message-State: AOAM531L9gig6fzO9VKHpU4dUX7vny8gLvNiwih3w3TdshF04e/6DX+P
+ ALHt8rg7pXHvuYCdDgAf1DLulw==
+X-Google-Smtp-Source: ABdhPJz7xSZzfdlELJEKFP+8VoUH7pamHFIqMvwPRNtJNI8E/x0hnVAHOllmRicnrMtz2Q1gMZswNw==
+X-Received: by 2002:a05:6830:1084:: with SMTP id
+ y4mr9564994oto.42.1643692842301; 
+ Mon, 31 Jan 2022 21:20:42 -0800 (PST)
 Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
- by smtp.gmail.com with ESMTPSA id u3sm8193107ooh.19.2022.01.31.21.20.12
+ by smtp.gmail.com with ESMTPSA id u3sm8193107ooh.19.2022.01.31.21.20.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jan 2022 21:20:13 -0800 (PST)
+ Mon, 31 Jan 2022 21:20:41 -0800 (PST)
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>, linux-kernel@vger.kernel.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Caleb Connolly <caleb@connolly.tech>,
- Anton Vorontsov <anton@enomsg.org>, Tony Luck <tony.luck@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Kees Cook <keescook@chromium.org>,
- dri-devel@lists.freedesktop.org, Harigovindan P <harigovi@codeaurora.org>,
- devicetree@vger.kernel.org, Andy Gross <agross@kernel.org>,
- Henrik Rydberg <rydberg@bitmath.org>, Rob Herring <robh+dt@kernel.org>,
- linux-input@vger.kernel.org, Alexander Martinz <amartinz@shiftphones.com>,
- Colin Cross <ccross@android.com>
-Subject: Re: (subset) [PATCH 6/6] arm64: dts: qcom: sdm845: add device tree
- for SHIFT6mq
-Date: Mon, 31 Jan 2022 23:19:23 -0600
-Message-Id: <164369277345.3095904.2460167653068866280.b4-ty@linaro.org>
+To: linux-arm-msm@vger.kernel.org,
+	Luca Weiss <luca.weiss@fairphone.com>
+Subject: Re: (subset) [PATCH 0/4] Enable display backlight on Fairphone 4
+Date: Mon, 31 Jan 2022 23:19:51 -0600
+Message-Id: <164369277344.3095904.11289204126111973872.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220123173650.290349-7-caleb@connolly.tech>
-References: <20220123173650.290349-7-caleb@connolly.tech>
+In-Reply-To: <20211229170358.2457006-1-luca.weiss@fairphone.com>
+References: <20211229170358.2457006-1-luca.weiss@fairphone.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -80,30 +71,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Kiran Gunda <kgunda@codeaurora.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 23 Jan 2022 17:38:15 +0000, Caleb Connolly wrote:
-> From: Alexander Martinz <amartinz@shiftphones.com>
+On Wed, 29 Dec 2021 18:03:54 +0100, Luca Weiss wrote:
+> Add and enable PM6150L wled which is used for controlling the display
+> backlight on Fairphone 4.
 > 
-> Add initial support for the SHIFT SHIFT6mq (axolotl) based on
-> the sdm845-mtp DT.
-> 
-> Currently supported features:
-> * Buttons (power, volume)
-> * Bluetooth, DSPs and modem
-> * Display and GPU
-> * Touch
-> * UART
-> * USB peripheral mode
-> * WLAN
+> This series depends on the recent wled series by Marijn Suijten,
+> currently applied in the for-backlight-next branch of
+> kernel/git/lee/backlight.git (or linux-next).
 > 
 > [...]
 
 Applied, thanks!
 
-[6/6] arm64: dts: qcom: sdm845: add device tree for SHIFT6mq
-      commit: 45882459159deb792718786514bc677c8a6b1f53
+[3/4] arm64: dts: qcom: pm6150l: Add wled node
+      commit: fe508ced49dd51a700c0f9ec7826d523cfe621b2
+[4/4] arm64: dts: qcom: sm7225-fairphone-fp4: Configure WLED
+      commit: 7a52967d9050f3e430373bc51c56865b49a38573
 
 Best regards,
 -- 
