@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38594A57D0
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 08:34:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFC54A57CE
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 08:34:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 020E210E5AD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6416F10E5B4;
 	Tue,  1 Feb 2022 07:34:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D478010E5AB;
- Tue,  1 Feb 2022 07:34:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53CF310E5AB;
+ Tue,  1 Feb 2022 07:34:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1643700875; x=1675236875;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=DTK4CS/sPUtVDSPGGUOg8mPJikMQo9fYvR7wfkQ61/U=;
- b=Z8/XpPRWZ03UbaRH8FZL8VLAhBVkWiq9+DbTx7YX6iFJPA8Si+bhUnCs
- /stO6T8H+BZ9/4rXZGxb2yq/3b3uh7dhBr7OX3FBB2jpUJFBKCJYfJ2zw
- mRkk5odDgE6q0M6g7tdWOxMlogjzLTvzuMkM2rYhblyvL6U9sWGIc+Al7
- PQCO//3/neiGOGRpyiu1N/A8k6P1M/87+dnTevTMz9b2f9VwRaJA5HAJk
- VoynBChaQSUiGfp/hxNy73DmCrYxkLvnVLviJFNu/djnEMCbfUqYQ4Ymw
- SzlqSECeWhVhxJgMqoeHOk01iVmBYXMkQCW87Ngn4ClruysTdX9dCCAsQ A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="245227825"
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="245227825"
+ bh=Gzgd3P5OR1e40ytnVaGQrai3loWBkxN5Dhr36b+bTFs=;
+ b=cH63XnghGTCXps2VNwxkknLVbZOmbshvOrMNIAzwGGv5WHMAGfO2Zpqc
+ P/lAbnVeRx1oeTbcslheO+otl7VHvvm048U6Wi6zLHUBAo0TfwzaD6NMc
+ bkh89Flcnp5ykGPWA2cKUGxevjvboqr5/tBkH5FLXMCjUfJoIrgf3Faor
+ cEt/OMQDkKUUZtp9RAziV9pwRMtPKcgy11F19f/aUV1vKSK/sM73n4JB6
+ B27knhbnoFDTWinVTzpBOjfj4Bm02L1ZTA3fMMHJTtMiKAhs2ep/6oRHE
+ r9aS+0uZ2aVJ6NBxDhxUiuk1QUNlBwFyyVVDWB9Cg3cdDelUCATdBXEXI w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="245227829"
+X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="245227829"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  31 Jan 2022 23:34:34 -0800
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="698315962"
+X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="698315966"
 Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2022 23:34:28 -0800
+ 31 Jan 2022 23:34:30 -0800
 From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/4] drm/i915/hdmi: Fix the definition of
- intel_hdmi_dsc_get_bpp
-Date: Tue,  1 Feb 2022 12:50:27 +0530
-Message-Id: <20220201072030.1466446-2-ankit.k.nautiyal@intel.com>
+Subject: [PATCH v2 2/4] drm/edid: Add helper to get max FRL rate for an HDMI
+ sink
+Date: Tue,  1 Feb 2022 12:50:28 +0530
+Message-Id: <20220201072030.1466446-3-ankit.k.nautiyal@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220201072030.1466446-1-ankit.k.nautiyal@intel.com>
 References: <20220201072030.1466446-1-ankit.k.nautiyal@intel.com>
@@ -61,60 +61,77 @@ Cc: vandita.kulkarni@intel.com, uma.shankar@intel.com, swati2.sharma@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the data-type of the argument output_format to enum, for the
-function intel_hdmi_dsc_get_bpp.
+Add the helpers for getting the max FRL rate with and without DSC
+for an HDMI sink.
 
-v2: Fixed formatting issues in commit message (Jani).
-Avoided including the header intel_display_types.h, instead used
-forward declaration for the appropriate enum. (Jani).
+v2: Fix the subject line and documentation of the helpers (Jani).
+Split the helper definitions and usage into separate patches. (Jani).
 
-Fixes: 6e6cb758e035 ("drm/i915: Add helper functions for calculating DSC parameters for HDMI2.1")
-Cc: Uma Shankar <uma.shankar@intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_hdmi.c | 4 ++--
- drivers/gpu/drm/i915/display/intel_hdmi.h | 5 +++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 38 ++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_edid.h     |  2 ++
+ 2 files changed, 40 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 45cf0ab04009..381a9de3a015 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -3126,8 +3126,8 @@ intel_hdmi_dsc_get_num_slices(const struct intel_crtc_state *crtc_state,
-  */
- int
- intel_hdmi_dsc_get_bpp(int src_fractional_bpp, int slice_width, int num_slices,
--		       int output_format, bool hdmi_all_bpp,
--		       int hdmi_max_chunk_bytes)
-+		       enum intel_output_format output_format,
-+		       bool hdmi_all_bpp, int hdmi_max_chunk_bytes)
- {
- 	int max_dsc_bpp, min_dsc_bpp;
- 	int target_bytes;
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.h b/drivers/gpu/drm/i915/display/intel_hdmi.h
-index b577c38fa90c..ea2a3456bd4b 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.h
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.h
-@@ -22,6 +22,7 @@ struct intel_hdmi;
- struct drm_connector_state;
- union hdmi_infoframe;
- enum port;
-+enum intel_output_format;
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index eb61a1a92dc0..c209fd6b24a2 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -6176,3 +6176,41 @@ void drm_update_tile_info(struct drm_connector *connector,
+ 		connector->tile_group = NULL;
+ 	}
+ }
++
++/**
++ * drm_hdmi_sink_max_frl - get the max frl rate, if supported
++ * @connector - connector with HDMI sink
++ *
++ * RETURNS:
++ * max frl rate supported by the HDMI sink, 0 if FRL not supported
++ */
++int drm_hdmi_sink_max_frl(struct drm_connector *connector)
++{
++	int max_lanes = connector->display_info.hdmi.max_lanes;
++	int rate_per_lane = connector->display_info.hdmi.max_frl_rate_per_lane;
++
++	return max_lanes * rate_per_lane;
++}
++EXPORT_SYMBOL(drm_hdmi_sink_max_frl);
++
++/**
++ * drm_hdmi_sink_dsc_max_frl - get the max frl rate from HDMI sink with
++ * DSC1.2 compression.
++ * @connector - connector with HDMI sink
++ *
++ * RETURNS:
++ * max frl rate supported by the HDMI sink with DSC1.2, 0 if FRL not supported
++ */
++int drm_hdmi_sink_dsc_max_frl(struct drm_connector *connector)
++{
++	int max_dsc_lanes, dsc_rate_per_lane;
++
++	if (!connector->display_info.hdmi.dsc_cap.v_1p2)
++		return 0;
++
++	max_dsc_lanes = connector->display_info.hdmi.dsc_cap.max_lanes;
++	dsc_rate_per_lane = connector->display_info.hdmi.dsc_cap.max_frl_rate_per_lane;
++
++	return max_dsc_lanes * dsc_rate_per_lane;
++}
++EXPORT_SYMBOL(drm_hdmi_sink_dsc_max_frl);
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index 18f6c700f6d0..5003e1254c44 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -592,6 +592,8 @@ drm_display_mode_from_cea_vic(struct drm_device *dev,
+ 			      u8 video_code);
+ const u8 *drm_find_edid_extension(const struct edid *edid,
+ 				  int ext_id, int *ext_index);
++int drm_hdmi_sink_max_frl(struct drm_connector *connector);
++int drm_hdmi_sink_dsc_max_frl(struct drm_connector *connector);
  
- void intel_hdmi_init_connector(struct intel_digital_port *dig_port,
- 			       struct intel_connector *intel_connector);
-@@ -49,8 +50,8 @@ bool intel_hdmi_limited_color_range(const struct intel_crtc_state *crtc_state,
- bool intel_hdmi_bpc_possible(const struct intel_crtc_state *crtc_state,
- 			     int bpc, bool has_hdmi_sink, bool ycbcr420_output);
- int intel_hdmi_dsc_get_bpp(int src_fractional_bpp, int slice_width,
--			   int num_slices, int output_format, bool hdmi_all_bpp,
--			   int hdmi_max_chunk_bytes);
-+			   int num_slices, enum intel_output_format output_format,
-+			   bool hdmi_all_bpp, int hdmi_max_chunk_bytes);
- int intel_hdmi_dsc_get_num_slices(const struct intel_crtc_state *crtc_state,
- 				  int src_max_slices, int src_max_slice_width,
- 				  int hdmi_max_slices, int hdmi_throughput);
+ 
+ #endif /* __DRM_EDID_H__ */
 -- 
 2.25.1
 
