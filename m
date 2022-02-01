@@ -1,64 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF034A5965
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 10:42:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1524A5975
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Feb 2022 10:47:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2D6A10E5D0;
-	Tue,  1 Feb 2022 09:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCE5D10E82E;
+	Tue,  1 Feb 2022 09:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB95210E5D0
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 09:42:42 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9E834B82D3A
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 09:42:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 563A0C340F0
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 09:42:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643708560;
- bh=tkxBeNSHl7t+hzQW0gGChoB6myjbcLdGW2ZSB1bh96w=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Q9uf9TNd50Gfi727sUucuVAzucoVQu+ohtoqZWD2VKCBOVMqLT2j4NIhHe+y5ek1f
- Ic31Cie0h6el0KlHwQG4t2hBgKo1hJYYOnBLxCxrysVUoDGWeoz1CA/qqY/K0kHte1
- 0BdwJoksiJNtmEGqe+hV0BODDAu3EcrDXa304cFDzL1LlZenObyqKvkNunGNE1XcX9
- hDzwFXj650OK+mQJ8Ruqb7bXNcN4tFj87weq6aj5AoEx5TQ9NTJprZ5rr0i4en+Dab
- iLy9wI3aIqWzHM3iozwthxSBDqyyn61Ec8plwihpsPVLCkehlVhnfngbdYBKOdvvY3
- 4+sygTIo5pMhA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 40C59C05FCE; Tue,  1 Feb 2022 09:42:40 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215511] Dual monitor with amd 5700 causes system to hang at
- startup.
-Date: Tue, 01 Feb 2022 09:42:40 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pmestre@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215511-2300-LNRx7qr9EB@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215511-2300@https.bugzilla.kernel.org/>
-References: <bug-215511-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6DA10E82E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Feb 2022 09:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643708837; x=1675244837;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=nbH4qI7u9cfJLtzUmRrSg0eYBDFxCuv9yYJvWGip0I0=;
+ b=hPb80OuuOJemaRXn4R6w2IajJ6RHdtvyREXJisLUbxEfgU2LGv2DPgMK
+ l99nFRAJo8kC/8ecYmQCao/5H1TRY6DUaespO0JcDlCeivywEdY0kZGBd
+ 9OdDlE1CfUpquQmz4i1wIsF0eHfuSEHFq1bEfrra8u8CrcwVZKHhqY+Dr
+ eLqCxWyDrhA1vUQxJvyNVrN3bgSD/bn1KTXw9fBeZhJEwzvVTMKae+aMw
+ 1fxdBtWETD2togre9ubByWihhMR2l4ijZgjg6JBu2IGfhTOn0CtRIsTyj
+ aPVZCc+g89YuTBeIukG6QNfZ+wj74z7wR8Ceg+roz0y9zns+iNMrHCs87 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="247426610"
+X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="247426610"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2022 01:47:17 -0800
+X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; d="scan'208";a="599179155"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2022 01:47:14 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nEphh-00HFWy-0q; Tue, 01 Feb 2022 11:44:01 +0200
+Date: Tue, 1 Feb 2022 11:44:00 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH 3/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
+Message-ID: <YfkA4ER/52I2v1JP@smile.fi.intel.com>
+References: <20220131202916.2374502-1-javierm@redhat.com>
+ <YfhVBtv1UIA7bJja@ravnborg.org>
+ <3aac291a-b30e-2775-336f-66dd08d634e2@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3aac291a-b30e-2775-336f-66dd08d634e2@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,27 +61,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215511
+On Tue, Feb 01, 2022 at 01:14:22AM +0100, Javier Martinez Canillas wrote:
+> On 1/31/22 22:30, Sam Ravnborg wrote:
+> > On Mon, Jan 31, 2022 at 09:29:16PM +0100, Javier Martinez Canillas wrote:
 
---- Comment #2 from Jose Mestre (pmestre@gmail.com) ---
-Hello. I've been unable to compile a specific kernel commit (i did not have=
- too
-much time to find the docs about how to do it) and i don't know C.
+...
 
-I've tried releases for archlinux and i can confirm that linux 5.15.12 work=
-ed
-ok, and 5.15.13 was the first release that make kernel crash with the two
-monitors switched on.
+> > The driver uses the pwms property for the backlight.
+> > It would have been much better to bite the bullet and require the
+> > backlight to be specified using a backlight node in the DT.
+> > This is the standard way to do it and then the driver could use the
+> > existing backlight driver rather than embedding a backlight driver here.
+> >
+> 
+> I did consider that. Because that would allow me to use a struct drm_panel
+> and as you said make the core to manage the backlight. But then decied to
+> just keep the backward compatibility with the existing binding to make it
+> easier for users to migrate to the DRM driver.
+> 
+> I wonder if we could make the driver to support both ? That is, to query
+> if there's a backlight with drm_panel_of_backlight() and if not found then
+> registering it's own backlight like the driver is currently doing.
 
-If you can point me how to do it i can bisect, compile and try the kernels.
+If we keep 100% backward compatibility, just drop the old driver.
+After all module name is not so important as compatibility strings.
 
-Kind regards.
+The problem with no backward compatibility means that removal of old driver
+makes users unhappy since DT is kinda ABI and we do not break it.
 
---=20
-You may reply to this email to add a comment.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
