@@ -2,25 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8394A4A6EBD
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 11:32:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 992564A6ECB
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 11:35:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 959D110E70E;
-	Wed,  2 Feb 2022 10:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27BA810E7A8;
+	Wed,  2 Feb 2022 10:35:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54ABC10E70E
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 10:32:21 +0000 (UTC)
-Date: Wed, 02 Feb 2022 10:32:01 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B321410E7BE
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 10:34:59 +0000 (UTC)
+Date: Wed, 02 Feb 2022 10:34:39 +0000
 From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v12 7/9] drm/bridge: display-connector: add ddc-en gpio
- support
+Subject: Re: [PATCH v12 8/9] MIPS: DTS: CI20: fix how ddc power is enabled
 To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <DLAO6R.7AAJRIJFJSDD3@crapouillou.net>
-In-Reply-To: <77a7a1daaf381e1651be38adb62f9af9dd6c8fc5.1643632014.git.hns@goldelico.com>
+Message-Id: <RPAO6R.YM0J1CDEYDMG@crapouillou.net>
+In-Reply-To: <5a46a4784de0d2ecda16a4923037a3027dc00a45.1643632014.git.hns@goldelico.com>
 References: <cover.1643632014.git.hns@goldelico.com>
- <77a7a1daaf381e1651be38adb62f9af9dd6c8fc5.1643632014.git.hns@goldelico.com>
+ <5a46a4784de0d2ecda16a4923037a3027dc00a45.1643632014.git.hns@goldelico.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
@@ -55,87 +54,70 @@ Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
 
-Le lun., janv. 31 2022 at 13:26:53 +0100, H. Nikolaus Schaller=20
+
+Le lun., janv. 31 2022 at 13:26:54 +0100, H. Nikolaus Schaller=20
 <hns@goldelico.com> a =E9crit :
-> "hdmi-connector.yaml" bindings defines an optional property
-> "ddc-en-gpios" for a single gpio to enable DDC operation.
+> Originally we proposed a new hdmi-5v-supply regulator reference
+> for CI20 device tree but that was superseded by a better idea to use
+> the already defined "ddc-en-gpios" property of the "hdmi-connector".
 >=20
-> Usually this controls +5V power on the HDMI connector.
-> This +5V may also be needed for HPD.
+> Since "MIPS: DTS: CI20: Add DT nodes for HDMI setup" has already
+> been applied to v5.17-rc1, we add this on top.
 >=20
-> This was not reflected in code.
->=20
-> Now, the driver activates the ddc gpio after probe and
-> deactivates after remove so it is "almost on".
->=20
-> But only if this driver is loaded (and not e.g. blacklisted
-> as module).
->=20
+> Fixes: ae1b8d2c2de9 ("MIPS: DTS: CI20: Add DT nodes for HDMI setup")
 > Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> ---
->  drivers/gpu/drm/bridge/display-connector.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/bridge/display-connector.c=20
-> b/drivers/gpu/drm/bridge/display-connector.c
-> index d24f5b90feabf..555395e301096 100644
-> --- a/drivers/gpu/drm/bridge/display-connector.c
-> +++ b/drivers/gpu/drm/bridge/display-connector.c
-> @@ -24,6 +24,7 @@ struct display_connector {
->  	int			hpd_irq;
->=20
->  	struct regulator	*dp_pwr;
-> +	struct gpio_desc	*ddc_en;
->  };
->=20
->  static inline struct display_connector *
-> @@ -345,6 +346,19 @@ static int display_connector_probe(struct=20
-> platform_device *pdev)
->  		}
->  	}
->=20
-> +	/* enable DDC */
-> +	if (type =3D=3D DRM_MODE_CONNECTOR_HDMIA) {
-> +		conn->ddc_en =3D devm_gpiod_get_optional(&pdev->dev, "ddc-en",
-> +						       GPIOD_OUT_HIGH);
-> +
-> +		if (IS_ERR(conn->ddc_en)) {
-> +			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
-> +			return PTR_ERR(conn->ddc_en);
-> +		}
-> +
-> +		gpiod_set_value(conn->ddc_en, 1);
 
-You already requested the gpio with the GPIOD_OUT_HIGH flag, so this=20
-can be removed.
-
-
-> +	}
-> +
->  	conn->bridge.funcs =3D &display_connector_bridge_funcs;
->  	conn->bridge.of_node =3D pdev->dev.of_node;
->=20
-> @@ -373,6 +387,9 @@ static int display_connector_remove(struct=20
-> platform_device *pdev)
->  {
->  	struct display_connector *conn =3D platform_get_drvdata(pdev);
->=20
-> +	if (conn->ddc_en)
-> +		gpiod_set_value(conn->ddc_en, 0);
-
-Note that gpiod_set_value() already does the null-check internally. I=20
-actually do prefer your solution, so this is fine with me, but=20
-maintainers may have a different opinion.
+Reviewed-by: Paul Cercueil <paul@crapouillou.net>
 
 Cheers,
 -Paul
 
-> +
->  	if (conn->dp_pwr)
->  		regulator_disable(conn->dp_pwr);
+> ---
+>  arch/mips/boot/dts/ingenic/ci20.dts | 15 ++-------------
+>  1 file changed, 2 insertions(+), 13 deletions(-)
 >=20
+> diff --git a/arch/mips/boot/dts/ingenic/ci20.dts=20
+> b/arch/mips/boot/dts/ingenic/ci20.dts
+> index 3e336b3dbb109..ab6e3dc0bc1d0 100644
+> --- a/arch/mips/boot/dts/ingenic/ci20.dts
+> +++ b/arch/mips/boot/dts/ingenic/ci20.dts
+> @@ -83,6 +83,8 @@ hdmi_out: connector {
+>  		label =3D "HDMI OUT";
+>  		type =3D "a";
+>=20
+> +		ddc-en-gpios =3D <&gpa 25 GPIO_ACTIVE_HIGH>;
+> +
+>  		port {
+>  			hdmi_con: endpoint {
+>  				remote-endpoint =3D <&dw_hdmi_out>;
+> @@ -114,17 +116,6 @@ otg_power: fixedregulator@2 {
+>  		gpio =3D <&gpf 14 GPIO_ACTIVE_LOW>;
+>  		enable-active-high;
+>  	};
+> -
+> -	hdmi_power: fixedregulator@3 {
+> -		compatible =3D "regulator-fixed";
+> -
+> -		regulator-name =3D "hdmi_power";
+> -		regulator-min-microvolt =3D <5000000>;
+> -		regulator-max-microvolt =3D <5000000>;
+> -
+> -		gpio =3D <&gpa 25 0>;
+> -		enable-active-high;
+> -	};
+>  };
+>=20
+>  &ext {
+> @@ -576,8 +567,6 @@ &hdmi {
+>  	pinctrl-names =3D "default";
+>  	pinctrl-0 =3D <&pins_hdmi_ddc>;
+>=20
+> -	hdmi-5v-supply =3D <&hdmi_power>;
+> -
+>  	ports {
+>  		#address-cells =3D <1>;
+>  		#size-cells =3D <0>;
 > --
 > 2.33.0
 >=20
