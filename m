@@ -1,67 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E2F4A74FD
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:54:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 862274A7508
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:57:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E89710E200;
-	Wed,  2 Feb 2022 15:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8EC910E29E;
+	Wed,  2 Feb 2022 15:57:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D75E410E200
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:54:10 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2832521108;
- Wed,  2 Feb 2022 15:54:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643817249; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QUXUj16uy0IAkREyILFIyfgu27cz5tMAIn1ieaEqIvA=;
- b=PAZhDN30t/U/yUkjPyjLhEDn+M1irRT5plvcHfTruNrJZ6wGb3LnwXUqLfN4gfBc8prj5e
- Jr3PBF1l/x3KsHxJ/wBSXDhc/HrrIEQAtBQBNehN5CsEKwhg4G/uhyO+pDRMfnPJNSBPxd
- +/2PdbhN4E4CmPM56f0cp3of7UpSFH0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643817249;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QUXUj16uy0IAkREyILFIyfgu27cz5tMAIn1ieaEqIvA=;
- b=DwJZ0BJx3rIn4MXDnlPZP2rLPTd5r8qBROd8klxb5MnAnZO8anfLw6KvXgjOFoSl7qMBZ8
- EoGrZ8WFCwOQiqAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B66DF13E8F;
- Wed,  2 Feb 2022 15:54:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Bu5aKyCp+mHJHwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 02 Feb 2022 15:54:08 +0000
-Message-ID: <f17a093f-610b-2c37-8950-e8b1701f55a7@suse.de>
-Date: Wed, 2 Feb 2022 16:54:08 +0100
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9921A10E28D;
+ Wed,  2 Feb 2022 15:57:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643817433; x=1675353433;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=jAXhg14qnw81vPdm3O9bsJwxg2CEblQcNAg2SR23+Pk=;
+ b=Fl/kCu/RIqYPJx21+kM3aPVKwy5MnKvg9cfI+L0AvC3KETluTFYEB4ST
+ NdaXRmu9KMWVU3VdfS4aaiCB60rYb5cIkhLy6F0lZXceyasqxUiwKo+vV
+ 2dCufhBINg33zfJntKIG/zo91qWfBOOmSkB9/SOAul6YFmVEzgaD757dv
+ rqkH1Ln5/Lxxdu76n327GSrQpnrNY+0PnRKe7UvcTOiG//gG3m8ewmN/A
+ gH+Am4HYCMMiAvG5bDlAIc+X1scCDNqLoWiUeYx+ufRGnIpIZ5XGoK+zE
+ xuKB9CJ/yJOYnPA2a0K8sUzSVqjwLW9aeNYVU/IsJTne3W9PDYf6WXus7 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="334305865"
+X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="334305865"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2022 07:57:13 -0800
+X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="482868426"
+Received: from markeyp-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.6.210])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2022 07:57:09 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting
+ from drm_writeback_connector structure changes
+In-Reply-To: <CAA8EJprrhPtDkWRk8+6Wf+OoQi4u8m_t7G5guJQW+SNuttOSgQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220202085429.22261-1-suraj.kandpal@intel.com>
+ <20220202085429.22261-6-suraj.kandpal@intel.com>
+ <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com> <87y22ts948.fsf@intel.com>
+ <CAA8EJprrhPtDkWRk8+6Wf+OoQi4u8m_t7G5guJQW+SNuttOSgQ@mail.gmail.com>
+Date: Wed, 02 Feb 2022 17:57:06 +0200
+Message-ID: <87sft1s1m5.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [next] arm: panel-edp.c:(.text+0xb74): undefined reference to
- `drm_panel_dp_aux_backlight'
-Content-Language: en-US
-To: Doug Anderson <dianders@chromium.org>
-References: <CA+G9fYvN0NyaVkRQmA1O6rX7H8PPaZrUAD7=RDy33QY9rUU-9g@mail.gmail.com>
- <76ff2848-3af4-6758-6e98-91a4c9ad26d8@suse.de>
- <CAMj1kXE6Q9uW45Q5A-TuPDiXTPOGrGjUn_8FUBKNGQ1g9bd3Rg@mail.gmail.com>
- <a1dd9d31-3ad0-b58f-c67b-5896048281ed@suse.de>
- <CAD=FV=UzVczyMKiCt9tkMBveGqWFbACMF_Z1GRWypz+awSO06Q@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAD=FV=UzVczyMKiCt9tkMBveGqWFbACMF_Z1GRWypz+awSO06Q@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------3rPhmaKw0jACegMxp0yf5QP3"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,166 +60,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Stephen Rothwell <sfr@canb.auug.org.au>,
- regressions@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
- Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>,
- David Airlie <airlied@linux.ie>, Naresh Kamboju <naresh.kamboju@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>, open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-Next Mailing List <linux-next@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, lkft-triage@lists.linaro.org,
- Grace Mi <grace.mi@ecs.corp-partner.google.com>,
- Sam Ravnborg <sam@ravnborg.org>, Ard Biesheuvel <ardb@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
+ intel-gfx@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, arun.r.murthy@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------3rPhmaKw0jACegMxp0yf5QP3
-Content-Type: multipart/mixed; boundary="------------mnSZ9lKqSoVowtIf067tmc7x";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Marek Vasut <marex@denx.de>, Stephen Rothwell <sfr@canb.auug.org.au>,
- regressions@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
- Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>,
- David Airlie <airlied@linux.ie>, Naresh Kamboju <naresh.kamboju@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-Next Mailing List <linux-next@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, lkft-triage@lists.linaro.org,
- Grace Mi <grace.mi@ecs.corp-partner.google.com>,
- Sam Ravnborg <sam@ravnborg.org>, Ard Biesheuvel <ardb@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Message-ID: <f17a093f-610b-2c37-8950-e8b1701f55a7@suse.de>
-Subject: Re: [next] arm: panel-edp.c:(.text+0xb74): undefined reference to
- `drm_panel_dp_aux_backlight'
-References: <CA+G9fYvN0NyaVkRQmA1O6rX7H8PPaZrUAD7=RDy33QY9rUU-9g@mail.gmail.com>
- <76ff2848-3af4-6758-6e98-91a4c9ad26d8@suse.de>
- <CAMj1kXE6Q9uW45Q5A-TuPDiXTPOGrGjUn_8FUBKNGQ1g9bd3Rg@mail.gmail.com>
- <a1dd9d31-3ad0-b58f-c67b-5896048281ed@suse.de>
- <CAD=FV=UzVczyMKiCt9tkMBveGqWFbACMF_Z1GRWypz+awSO06Q@mail.gmail.com>
-In-Reply-To: <CAD=FV=UzVczyMKiCt9tkMBveGqWFbACMF_Z1GRWypz+awSO06Q@mail.gmail.com>
+On Wed, 02 Feb 2022, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> On Wed, 2 Feb 2022 at 16:15, Jani Nikula <jani.nikula@intel.com> wrote:
+>>
+>> On Wed, 02 Feb 2022, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+>> > Hi Kandpal,
+>> >
+>> > Thank you for the patch.
+>> >
+>> > On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
+>> >> Changing rcar_du driver to accomadate the change of
+>> >> drm_writeback_connector.base and drm_writeback_connector.encoder
+>> >> to a pointer the reason for which is explained in the
+>> >> Patch(drm: add writeback pointers to drm_connector).
+>> >>
+>> >> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
+>> >> ---
+>> >>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
+>> >>  drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
+>> >>  2 files changed, 7 insertions(+), 3 deletions(-)
+>> >>
+>> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>> >> index 66e8839db708..68f387a04502 100644
+>> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>> >> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
+>> >>      const char *const *sources;
+>> >>      unsigned int sources_count;
+>> >>
+>> >> +    struct drm_connector connector;
+>> >> +    struct drm_encoder encoder;
+>> >
+>> > Those fields are, at best, poorly named. Furthermore, there's no need in
+>> > this driver or in other drivers using drm_writeback_connector to create
+>> > an encoder or connector manually. Let's not polute all drivers because
+>> > i915 doesn't have its abstractions right.
+>>
+>> i915 uses the quite common model for struct inheritance:
+>>
+>>         struct intel_connector {
+>>                 struct drm_connector base;
+>>                 /* ... */
+>>         }
+>>
+>> Same with at least amd, ast, fsl-dcu, hisilicon, mga200, msm, nouveau,
+>> radeon, tilcdc, and vboxvideo.
+>
+> For the reference. msm does not wrap drm_connector into any _common_
+> structure, which is used internally.
+>
+>> We could argue about the relative merits of that abstraction, but I
+>> think the bottom line is that it's popular and the drivers using it are
+>> not going to be persuaded to move away from it.
+>
+> As I wrote earlier, I am not sure if these drivers would try using
+> their drm_connector subclass for writeback.
+> ast: ast_connector = drm_connector + respective i2c adapter for EDID,
+> not needed for WB
+> fsl-dcu: fsl_dcu_drm_connector = drm_connector + drm_encoder pointer +
+> drm_panel. Not needed for WB
+> hisilicon, mgag200: same as ast
+> tilcdc: same as fsl-dcu
+> vboxdrv: the only driver that may possibly benefit from using
+> vbox_connector in the writeback support, as the connector is bare
+> drm_connector + crtc pointer + hints (width, height, disconnected).
+>
+> I have left amd, nouveau and radeon out of this list, too complex to
+> analyze in several minutes.
+>
+> I'd second the proposal of supporting optional drm_encoder for
+> drm_writeback_connector (as the crtc/encoder split can be vague), but
+> I do not see the benefit for the drivers to use their own
+> drm_connector subclass for drm_writeback.
 
---------------mnSZ9lKqSoVowtIf067tmc7x
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+If a driver uses inheritance throughout the driver, and a *different*
+subclass gets introduced into the mix, you need to add a ton of checks
+all over the place when you cast the superclass pointer to the subclass.
 
-SGkNCg0KQW0gMDIuMDIuMjIgdW0gMTY6Mzcgc2NocmllYiBEb3VnIEFuZGVyc29uOg0KPiBI
-aSwNCj4gDQo+IE9uIFdlZCwgRmViIDIsIDIwMjIgYXQgMjoyNSBBTSBUaG9tYXMgWmltbWVy
-bWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pg0KPj4gSGkNCj4+DQo+PiBB
-bSAwMi4wMi4yMiB1bSAxMDoyOCBzY2hyaWViIEFyZCBCaWVzaGV1dmVsOg0KPj4+IE9uIFdl
-ZCwgMiBGZWIgMjAyMiBhdCAxMDowOCwgVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5u
-QHN1c2UuZGU+IHdyb3RlOg0KPj4+Pg0KPj4+PiBIaQ0KPj4+Pg0KPj4+PiBBbSAwMi4wMi4y
-MiB1bSAxMDowMiBzY2hyaWViIE5hcmVzaCBLYW1ib2p1Og0KPj4+Pj4gRm9sbG93aW5nIGJ1
-aWxkcyBmYWlsZWQgb24gTGludXggbmV4dCAyMDIyMDIwMiBhcm0gYXJjaGl0ZWN0dXJlLg0K
-Pj4+Pj4gICAgICAtIGFybS1nY2MtMTAtb21hcDJwbHVzX2RlZmNvbmZpZw0KPj4+Pj4gICAg
-ICAtIGFybS1jbGFuZy1uaWdodGx5LXNobW9iaWxlX2RlZmNvbmZpZw0KPj4+Pj4gICAgICAt
-IGFybS1nY2MtOC1scGMzMnh4X2RlZmNvbmZpZw0KPj4+Pj4gICAgICAtIGFybS1jbGFuZy0x
-My1zaG1vYmlsZV9kZWZjb25maWcNCj4+Pj4+ICAgICAgLSBhcm0tZ2NjLTEwLXNobW9iaWxl
-X2RlZmNvbmZpZw0KPj4+Pj4gICAgICAtIGFybS1jbGFuZy0xMS1zaG1vYmlsZV9kZWZjb25m
-aWcNCj4+Pj4+ICAgICAgLSBhcm0tY2xhbmctMTEtb21hcDJwbHVzX2RlZmNvbmZpZw0KPj4+
-Pj4gICAgICAtIGFybS1jbGFuZy0xMy1vbWFwMnBsdXNfZGVmY29uZmlnDQo+Pj4+PiAgICAg
-IC0gYXJtLWNsYW5nLTExLWxwYzMyeHhfZGVmY29uZmlnDQo+Pj4+PiAgICAgIC0gYXJtLWdj
-Yy04LW9tYXAycGx1c19kZWZjb25maWcNCj4+Pj4+ICAgICAgLSBhcm0tZ2NjLTktdmV4cHJl
-c3NfZGVmY29uZmlnDQo+Pj4+PiAgICAgIC0gYXJtLWNsYW5nLW5pZ2h0bHktbHBjMzJ4eF9k
-ZWZjb25maWcNCj4+Pj4+ICAgICAgLSBhcm0tZ2NjLTktc2htb2JpbGVfZGVmY29uZmlnDQo+
-Pj4+PiAgICAgIC0gYXJtLWNsYW5nLTEzLWxwYzMyeHhfZGVmY29uZmlnDQo+Pj4+PiAgICAg
-IC0gYXJtLWdjYy0xMC1zYW1hNV9kZWZjb25maWcNCj4+Pj4+ICAgICAgLSBhcm0tY2xhbmct
-MTEtdmV4cHJlc3NfZGVmY29uZmlnDQo+Pj4+PiAgICAgIC0gYXJtLWNsYW5nLTExLXNhbWE1
-X2RlZmNvbmZpZw0KPj4+Pj4gICAgICAtIGFybS1nY2MtOS1vbWFwMnBsdXNfZGVmY29uZmln
-DQo+Pj4+PiAgICAgIC0gYXJtLWNsYW5nLW5pZ2h0bHktc2FtYTVfZGVmY29uZmlnDQo+Pj4+
-PiAgICAgIC0gYXJtLWNsYW5nLTEzLXZleHByZXNzX2RlZmNvbmZpZw0KPj4+Pj4gICAgICAt
-IGFybS1jbGFuZy1uaWdodGx5LXZleHByZXNzX2RlZmNvbmZpZw0KPj4+Pj4gICAgICAtIGFy
-bS1nY2MtOS1scGMzMnh4X2RlZmNvbmZpZw0KPj4+Pj4gICAgICAtIGFybS1jbGFuZy0xMi12
-ZXhwcmVzc19kZWZjb25maWcNCj4+Pj4+ICAgICAgLSBhcm0tZ2NjLTEwLXZleHByZXNzX2Rl
-ZmNvbmZpZw0KPj4+Pj4gICAgICAtIGFybS1jbGFuZy0xMi1zaG1vYmlsZV9kZWZjb25maWcN
-Cj4+Pj4+ICAgICAgLSBhcm0tZ2NjLTExLW9tYXAycGx1c19kZWZjb25maWcNCj4+Pj4+ICAg
-ICAgLSBhcm0tZ2NjLTktc2FtYTVfZGVmY29uZmlnDQo+Pj4+PiAgICAgIC0gYXJtLWdjYy04
-LXNobW9iaWxlX2RlZmNvbmZpZw0KPj4+Pj4gICAgICAtIGFybS1nY2MtMTAtbHBjMzJ4eF9k
-ZWZjb25maWcNCj4+Pj4+ICAgICAgLSBhcm0tY2xhbmctMTItb21hcDJwbHVzX2RlZmNvbmZp
-Zw0KPj4+Pj4gICAgICAtIGFybS1nY2MtOC12ZXhwcmVzc19kZWZjb25maWcNCj4+Pj4+ICAg
-ICAgLSBhcm0tY2xhbmctMTItc2FtYTVfZGVmY29uZmlnDQo+Pj4+PiAgICAgIC0gYXJtLWNs
-YW5nLW5pZ2h0bHktb21hcDJwbHVzX2RlZmNvbmZpZw0KPj4+Pj4gICAgICAtIGFybS1nY2Mt
-MTEtbHBjMzJ4eF9kZWZjb25maWcNCj4+Pj4+ICAgICAgLSBhcm0tZ2NjLTExLXNhbWE1X2Rl
-ZmNvbmZpZw0KPj4+Pj4gICAgICAtIGFybS1nY2MtMTEtc2htb2JpbGVfZGVmY29uZmlnDQo+
-Pj4+PiAgICAgIC0gYXJtLWdjYy0xMS12ZXhwcmVzc19kZWZjb25maWcNCj4+Pj4+ICAgICAg
-LSBhcm0tZ2NjLTgtc2FtYTVfZGVmY29uZmlnDQo+Pj4+PiAgICAgIC0gYXJtLWNsYW5nLTEz
-LXNhbWE1X2RlZmNvbmZpZw0KPj4+Pj4gICAgICAtIGFybS1jbGFuZy0xMi1scGMzMnh4X2Rl
-ZmNvbmZpZw0KPj4+Pj4NCj4+Pj4+DQo+Pj4+PiBtYWtlIC0tc2lsZW50IC0ta2VlcC1nb2lu
-ZyAtLWpvYnM9OCAgQVJDSD1hcm0NCj4+Pj4+IENST1NTX0NPTVBJTEU9YXJtLWxpbnV4LWdu
-dWVhYmloZi0gJ0NDPXNjY2FjaGUNCj4+Pj4+IGFybS1saW51eC1nbnVlYWJpaGYtZ2NjJyAn
-SE9TVENDPXNjY2FjaGUgZ2NjJyB2ZXhwcmVzc19kZWZjb25maWcNCj4+Pj4+IG1ha2UgLS1z
-aWxlbnQgLS1rZWVwLWdvaW5nIC0tam9icz04ICBBUkNIPWFybQ0KPj4+Pj4gQ1JPU1NfQ09N
-UElMRT1hcm0tbGludXgtZ251ZWFiaWhmLSAnQ0M9c2NjYWNoZQ0KPj4+Pj4gYXJtLWxpbnV4
-LWdudWVhYmloZi1nY2MnICdIT1NUQ0M9c2NjYWNoZSBnY2MnDQo+Pj4+PiBhcm0tbGludXgt
-Z251ZWFiaWhmLWxkOiBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtZWRwLm86IGluIGZ1
-bmN0aW9uDQo+Pj4+PiBgcGFuZWxfZWRwX3Byb2JlJzoNCj4+Pj4+IHBhbmVsLWVkcC5jOigu
-dGV4dCsweGI3NCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGRybV9wYW5lbF9kcF9hdXhf
-YmFja2xpZ2h0Jw0KPj4+Pj4gbWFrZVsxXTogKioqIFsvYnVpbGRzL2xpbnV4L01ha2VmaWxl
-OjEyMjI6IHZtbGludXhdIEVycm9yIDENCj4+Pj4+DQo+Pj4+Pg0KPj4+Pj4gUmVwb3J0ZWQt
-Ynk6IExpbnV4IEtlcm5lbCBGdW5jdGlvbmFsIFRlc3RpbmcgPGxrZnRAbGluYXJvLm9yZz4N
-Cj4+Pj4+DQo+Pj4+PiBtZXRhIGRhdGE6DQo+Pj4+PiAtLS0tLS0tLS0tLQ0KPj4+Pj4gICAg
-ICAgIGdpdCBkZXNjcmliZTogbmV4dC0yMDIyMDIwMg0KPj4+Pj4gICAgICAgIGdpdF9yZXBv
-OiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9uZXh0
-L2xpbnV4LW5leHQuZ2l0DQo+Pj4+PiAgICAgICAgdGFyZ2V0X2FyY2g6IGFybQ0KPj4+Pj4g
-ICAgICAgIGtjb25maWc6IHZleHByZXNzX2RlZmNvbmZpZw0KPj4+Pj4gICAgICAgIHRvb2xj
-aGFpbjogZ2NjLTExDQo+Pj4+Pg0KPj4+Pj4gQnVpbGQgbG9nOg0KPj4+Pj4gLS0tLS0tLS0t
-LS0tLQ0KPj4+Pj4gaHR0cHM6Ly9idWlsZHMudHV4YnVpbGQuY29tLzI0WFJpbTcydkZYaXg2
-bDZNZEFKTkVOeTZqZS8NCj4+Pj4+DQo+Pj4+PiBTdGVwcyB0byByZXByb2R1Y2U6DQo+Pj4+
-PiAtLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPj4+Pj4gIyBUbyBpbnN0YWxsIHR1eG1ha2Ugb24g
-eW91ciBzeXN0ZW0gZ2xvYmFsbHk6DQo+Pj4+PiAjIHN1ZG8gcGlwMyBpbnN0YWxsIC1VIHR1
-eG1ha2UNCj4+Pj4+ICMNCj4+Pj4+ICMgU2VlIGh0dHBzOi8vZG9jcy50dXhtYWtlLm9yZy8g
-Zm9yIGNvbXBsZXRlIGRvY3VtZW50YXRpb24uDQo+Pj4+PiAjIE9yaWdpbmFsIHR1eG1ha2Ug
-Y29tbWFuZCB3aXRoIGZyYWdtZW50cyBsaXN0ZWQgYmVsb3cuDQo+Pj4+Pg0KPj4+Pj4gdHV4
-bWFrZSAtLXJ1bnRpbWUgcG9kbWFuIC0tdGFyZ2V0LWFyY2ggYXJtIC0tdG9vbGNoYWluIGdj
-Yy0xMQ0KPj4+Pj4gLS1rY29uZmlnIHZleHByZXNzX2RlZmNvbmZpZw0KPj4+Pj4NCj4+Pj4+
-IHR1eG1ha2UgLS1ydW50aW1lIHBvZG1hbiAtLXRhcmdldC1hcmNoIGFybSAtLXRvb2xjaGFp
-biBnY2MtMTENCj4+Pj4+IC0ta2NvbmZpZyBodHRwczovL2J1aWxkcy50dXhidWlsZC5jb20v
-MjRYUmltNzJ2RlhpeDZsNk1kQUpORU55NmplL2NvbmZpZw0KPj4+Pg0KPj4+PiBZb3UnbGwg
-bm93IG5lZWQNCj4+Pj4NCj4+Pj4gICAgICBDT05GSUdfRFJNX0RQX0hFTFBFUj15DQo+Pj4+
-DQo+Pj4+IGluIHlvdXIgY29uZmlnLg0KPj4+Pg0KPj4+DQo+Pj4gVGhhdCBzaG91bGQgbmV2
-ZXIgYmUgdGhlIHNvbHV0aW9uIGZvciBsaW5rZXIgZXJyb3JzIHN1Y2ggYXMgdGhpcyBvbmUu
-DQo+Pj4NCj4+PiBJZiBDT05GSUdfRFJNX1BBTkVMX0VEUCByZWxpZXMgb24gc29tZXRoaW5n
-IHByb3ZpZGVkIGJ5DQo+Pj4gQ09ORklHX0RSTV9EUF9IRUxQRVIsIGl0IHNob3VsZCBzZWxl
-Y3QgaXQgb3IgZGVwZW5kIG9uIGl0IGluIEtjb25maWcuDQo+Pg0KPj4gT2YgY291cnNlLCB3
-ZSdsbCBwcm92aWRlIGEgcGF0Y2ggZm9yIHRoZSBLY29uZmlnIGZpbGVzLg0KPiANCj4gVGhl
-cmUgd2FzIGRpc2N1c3Npb24gYWJvdXQgdGhpcyBsYXN0IE5vdmVtYmVyIGJ1dCBJIGd1ZXNz
-IG5vdGhpbmcgY2FtZSBvZiBpdD8NCj4gDQo+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3Iv
-MjAyMTExMTcwNjI3MDQuMTQ2NzEtMS1yZHVubGFwQGluZnJhZGVhZC5vcmcvDQo+IA0KPiBJ
-biB0aGVyZSBBcm5kIHByb3ZpZGVkIGEgcHJvcG9zZWQgcGF0Y2guIElmIGV2ZXJ5b25lIGxp
-a2VzIHRoYXQgYW5kIGl0DQo+IGZpeGVzIHRoaW5ncyB0aGVuIHdlIGNhbiBhcHBseSBpdC4u
-Lg0KDQpZZXAsIGFwcGFyZW50bHkgdGhpcyB3YXMgYnJva2VuIGJlZm9yZS4gV2UgcmVjZW50
-bHkgbW92ZWQgdGhlc2Ugc3ltYm9scyANCmZyb20gQ09ORklHX0RSTV9LTVNfSEVMUEVSIGJl
-aGluZCBDT05GSUdfRFJNX0RQX0hFTFBFUi4gV2UnZCBoYXZlIHRvIHVzZSANCnRoYXQgaW5z
-dGVhZC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gLURvdWcNCg0KLS0gDQpU
-aG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0
-d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xy
-bmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNm
-w7xocmVyOiBJdm8gVG90ZXYNCg==
+The connector/encoder funcs you do have to pass to
+drm_writeback_connector_init() can't use any of the shared driver
+infrastructure that assume a certain inheritance.
 
---------------mnSZ9lKqSoVowtIf067tmc7x--
+See also my reply to Laurent [1].
 
---------------3rPhmaKw0jACegMxp0yf5QP3
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> It well might be that we all misunderstand your design. Do you have a
+> complete intel drm_writeback implementation based on this patchset? It
+> would be easier to judge if the approach is correct seeing your
+> target.
 
------BEGIN PGP SIGNATURE-----
+That would be up to Suraj Kandpal.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmH6qSAFAwAAAAAACgkQlh/E3EQov+AC
-UhAAqVy+7nc3saYAIY3Rlz8vKuGVK2JRIpclNsis0CwgYH8AlclXG3eMCAsGUyxarWnUQc0ycvNA
-8ouNeDZ5PzTy+GwFTbgxTDvcrvN1JgEuDz0U0i8HbWxjEbFHvCv4HULyOckYzOxc4pE71EvYqqfH
-d/LsP5cF8xOIgzH+jgu6uWrBTY73qAmON+t/y0nMq2LsfqSv0XRK9UERocOJUzQzb3f1DZDdGQg6
-q2X8fsFegddFVlvm2C49p6PgTInIQ/FqYCE1et3hQ4GjQVR1NOWAiV1xb5GgiTAjsGTcuODUdfUp
-hGxRJlCn4BMT+2BtLYIlFH/luOaSTr9fko92EyYR8S0yfoT0pKCNc1Jym2wmsRPZcTijKV/QWALw
-TTC/k+CSZH2hcEwYTawli3aPslAfu7ziOLpoBJx+R49kVRLhe885amJcZLUakvN69P5fux1wKum2
-OXYYZaJnPgKfiFex1dMbc7uBHQGg9BSSEA40gm0ts9svI20Fb6H0S0Oc0Ix3fFKfXOHp7drEgRg3
-L/uUcJzTWPCfv5TZfHxGuF8nAolpRh5vxgetNd0+yCvvF8890ntMFLzSG7UUFv5bW7T2glr4dYgw
-xw6DWVz305j358oUeQIH0EuiSppfTZ8NGUYfg3nSrROVWJJerbYcg3awk7yCZoATNPJPYcu54e6W
-w6c=
-=Q+Mo
------END PGP SIGNATURE-----
+BR,
+Jani.
 
---------------3rPhmaKw0jACegMxp0yf5QP3--
+
+[1] https://lore.kernel.org/r/87v8xxs2hz.fsf@intel.com
+
+
+>
+>>
+>> It's no coincidence that the drivers who've implemented writeback so far
+>> (komeda, mali, rcar-du, vc4, and vkms) do not use the abstraction,
+>> because the drm_writeback_connector midlayer does, forcing the issue.
+>>
+>> So I think drm_writeback_connector should *not* use the inheritance
+>> abstraction because it's a midlayer that should leave that option to the
+>> drivers. I think drm_writeback_connector needs to be changed to
+>> accommodate that, and, unfortunately, it means current writeback users
+>> need to be changed as well.
+>>
+>> I am not sure, however, if the series at hand is the right
+>> approach. Perhaps writeback can be modified to allocate the stuff for
+>> you if you prefer it that way, as long as the drm_connector is not
+>> embedded in struct drm_writeback_connector.
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
