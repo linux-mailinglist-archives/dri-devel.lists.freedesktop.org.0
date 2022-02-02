@@ -1,58 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323104A71B6
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 14:40:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E63A84A71BA
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 14:41:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F5AF10E5B1;
-	Wed,  2 Feb 2022 13:40:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABF4010E4AF;
+	Wed,  2 Feb 2022 13:41:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
- [IPv6:2607:f8b0:4864:20::82f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E30A810E5A8
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 13:40:34 +0000 (UTC)
-Received: by mail-qt1-x82f.google.com with SMTP id s1so4133444qtw.9
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 05:40:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=33CDNvFFFLQ5UlFYXirJdXdJ1bRnXIcUvObN10eCY3c=;
- b=EmkntzB2sCFQwyaHiboNteG/UL1fakBxzgPS4wkZHrYgqlBjBk6bVwyBhC7LQkQ83w
- nYsCE0ICTQb2O1CFMj2WRGkiTFloy0UBIeouGOh3KnjRXgWmWl1DkpkkwVyV39iMJh3J
- k2+kWIbTkKJzWF38c6MLCML/frET+dAZAUobdFHfzYJGq0moZ4HWEGm+rI37GCj/U1uG
- CksOxkyvdlw758s6v/hIHydl7VGbK7n45VCV/FGDkqDF6Cd7eKCBlEcwFCz1pLrVefa5
- OrtvgGIkfZ5OCA2QuE+OVY4ehi2eEvmPKHNschfJvG80qXdz4A8PS4fR871kQwamyyAo
- 5ogA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=33CDNvFFFLQ5UlFYXirJdXdJ1bRnXIcUvObN10eCY3c=;
- b=JKA7CSNu4idNGLfv3bRo+8Lmfqofhh0fSkAKdO6DLMyywEZe4/9aWrBPrMAtCy+pWO
- lZKbzw9QioBGt0d8nsSzAZwzHfv1Ww9eHr1tjn1K6wN1FmbtsHM88vBOgAKYWlbdCERs
- Wy9RNz44+QOpR2P6wuw3ZUh1BVTzXsqdwrwChN5btFjif/c+x+3rr4Yy3/NbHSHWgDIm
- RIBxFuWqG3P446tY2allCvNPSb7sXJdN/xctc7e1cqDr+k5iVVNQ6Z/JqJIKCDTdyog2
- IB81s/IY1A54ZfQNDeP3kt1pmTGDDGlaJduNPe7acF4nSiEiciFvRf9kHYk0MWq8aQw2
- vGig==
-X-Gm-Message-State: AOAM533wD2PMIuHXnJwib2F/ZZPkVnansKlhpFHFE6VynpgSmMVF2HSk
- JVZ3wP8RIV9ALOxADwKNcQHWMAGfb4V3RT/m63s3gA==
-X-Google-Smtp-Source: ABdhPJwWqaID7gBrLffvG0yFslhpdfndDfT57qzRUOXOzsMWoOgfWN5UOLc7ocxMhb2+zw4WWgUB2sr5MkSLSg2hZxg=
-X-Received: by 2002:ac8:7fca:: with SMTP id b10mr23198480qtk.62.1643809233873; 
- Wed, 02 Feb 2022 05:40:33 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0B0310E4AF
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 13:41:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1643809278;
+ bh=E0IWSTagHFdaRRy+uOp/MdvwmV/orbAmsdCNwaDpa50=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=LsMb97Y+PMq1IFMZC85lMielIv25vX+8t8hhUUT7kCKhla4RXVFiS4K9tJTR/HYDE
+ EWmdntEg/H+pklrCk4Dq3fQ9Zqc7hDgm/YduuQz2dB4jaQPbKDpvAXcuhcG7EyskQf
+ 9v3OcPBBUuCcUAjAdzi6xGh/e14UUq4kCg/XtXU8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.163.171]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M1HZo-1nCUzc00rq-002myc; Wed, 02
+ Feb 2022 14:41:18 +0100
+Message-ID: <67bca423-f61b-27fa-783d-1d933de65d0c@gmx.de>
+Date: Wed, 2 Feb 2022 14:41:15 +0100
 MIME-Version: 1.0
-References: <20220202085429.22261-1-suraj.kandpal@intel.com>
- <20220202085429.22261-6-suraj.kandpal@intel.com>
- <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com>
- <87y22ts948.fsf@intel.com>
-In-Reply-To: <87y22ts948.fsf@intel.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 2 Feb 2022 16:40:22 +0300
-Message-ID: <CAA8EJprrhPtDkWRk8+6Wf+OoQi4u8m_t7G5guJQW+SNuttOSgQ@mail.gmail.com>
-Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting from
- drm_writeback_connector structure changes
-To: Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3 3/3] fbcon: Add option to enable legacy hardware
+ acceleration
+Content-Language: en-US
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20220201185954.169768-1-deller@gmx.de>
+ <20220201185954.169768-4-deller@gmx.de>
+ <CAKMK7uFmMcC4p_zDq5G1Rpvjeg0zOz7v38mTj57JDZEis9fGAA@mail.gmail.com>
+ <dd186ce6-56b3-fe68-daad-249b18ebd627@gmx.de>
+ <CAKMK7uGAMSGx4hNFAO5iqsL+ZeTS_L6Bx5YERkY=Bi2CGmJg-g@mail.gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <CAKMK7uGAMSGx4hNFAO5iqsL+ZeTS_L6Bx5YERkY=Bi2CGmJg-g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:aHe6GHJ0x6RuF5H7/X75+uv1uO5MhBN2ENkK0xaIP10jSdwfiE0
+ mueButNiblylZOwJwyR6kx+f7NhIOgswDK5145G4pv06ovipYm444CNRJGmf0iyKZkaWHnp
+ tSjk5NEQH06rQ8UuXmG9VFQ/PY/+JNz7Vb3j6f3k4QJ5vqTgXXmd+Bw798f7TFwZMOhjy0r
+ e015D5gDuW3CkheKLudtQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lQaErjCr2hs=:A+lklxE73LKMG/giL8xgSz
+ vvurpSMCvuNeyoYXHWbY4ygFzs01wkBwUupaandfEnSuK1MB7PO09QMoBqN1hKWCds50GO74z
+ 8fAMFXPipJ3e4TzZIM1UZVqgR9GB7VmACNd+b9BpKG9Jqv81OsIddP0Ou6Calha64y6mwjpm7
+ sO3a/cmGSx8DYvt9toGpbLUIDtzPMlHPLM5wO97X9hCkWMvBbOCnXXRUpjEjl4DTgj/As1cYi
+ 9Uv3dPBVpkUM40MMqnt1RRiFG3wocDKD/9rMHxhkf7CeskbPNl8BIp7ScQ1qLKXQ97XJDheD/
+ nPfixM2m4McDJ6+HUyHrj1Qx1CKHYl+MDr9qa5iuuPHOt0BM5nwOmTY16R2pGSHBA3xb3MFkd
+ 9szrd8U7OIVgITAnBUnjYpFElKvtArmG8Yc9CNcC1alUvyoHrWQ/Bf/z1Xvxva4Ecw87PjKYo
+ 1/fXsbZAsh4rDCyjITAXuOFU2aT+DyDacnJw06Clu4vSDRLSafeLRRBBsdVhVunE7KQ2DLawP
+ 6NBw45Zd+oZii0gHB/fCz4g/ld/F0+lHmPDr20WiUoIPm9dYrnKExwgyWUB8ieInAxrTON5KX
+ IrsNjoJ+4qdzzQftnqPn+VZ8joqnjpXx96+BPXHl8PrTRPzYj0ta2Ck4bFfbopQFknc/djoU1
+ 1ktp+bGUayW300r9K9O1UHvDdTVv1fPKiO199xzu6LizPYdyv2RJ7MtMYWyp+AH9t8ySF1knq
+ PQ9KSE6hCdWFYSRMxiAazFWlLc1GcPkIpVc66hIRQ7C76hwYT7Er4u3CMj8txVqer9yoJ/Cam
+ Ewx2AthETGogFx3zrEvyM+VeMpw0b5+Jcuk0NT6qXuqU2FO4xyvGXQt2uNP7UOsWFDOYukYqQ
+ WftoUfFCjP7g55GijUWEVNrvcmKMoWPPvf+WU5HSLn9ZgTaIp69kPel14fvfs1Rybv7dkuu9p
+ vjwv0fBt3HxYcMIRzJGyqbZHamY3PbzqhWJpNrTMhLaqHUUxATQMJLQ1nMgu3tPkRixSu4YTd
+ ZB3P52qmtUVcvha0c+984NLm5uzZxClxYepzmlM2+OkrWBn8Y3bxQblL1+1ATyHiZfCZzhggU
+ roPHSrlPZfLESM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,105 +75,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
- intel-gfx@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, arun.r.murthy@intel.com
+Cc: linux-fbdev@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Feb 2022 at 16:15, Jani Nikula <jani.nikula@intel.com> wrote:
+On 2/2/22 12:05, Daniel Vetter wrote:
+> On Tue, Feb 1, 2022 at 11:52 PM Helge Deller <deller@gmx.de> wrote:
+>>
+>> Hello Daniel,
+>>
+>> On 2/1/22 21:11, Daniel Vetter wrote:
+>>> On Tue, Feb 1, 2022 at 7:59 PM Helge Deller <deller@gmx.de> wrote:
+>>>>
+>>>> Add a config option CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION to
+>>>> enable bitblt and fillrect hardware acceleration in the framebuffer
+>>>> console. If disabled, such acceleration will not be used, even if it =
+is
+>>>> supported by the graphics hardware driver.
+>>>>
+>>>> If you plan to use DRM as your main graphics output system, you shoul=
+d
+>>>> disable this option since it will prevent compiling in code which isn=
+'t
+>>>> used later on when DRM takes over.
+>>>>
+>>>> For all other configurations, e.g. if none of your graphic cards supp=
+ort
+>>>> DRM (yet), DRM isn't available for your architecture, or you can't be
+>>>> sure that the graphic card in the target system will support DRM, you
+>>>> most likely want to enable this option.
+>>>>
+>>>> In the non-accelerated case (e.g. when DRM is used), the inlined
+>>>> fb_scrollmode() function is hardcoded to return SCROLL_REDRAW and as =
+such the
+>>>> compiler is able to optimize much unneccesary code away.
+>>>>
+>>>> In this v3 patch version I additionally changed the GETVYRES() and GE=
+TVXRES()
+>>>> macros to take a pointer to the fbcon_display struct. This fixes the =
+build when
+>>>> console rotation is enabled and helps the compiler again to optimize =
+out code.
+>>>>
+>>>> Signed-off-by: Helge Deller <deller@gmx.de>
+>>>> Cc: stable@vger.kernel.org # v5.10+
+>>>> Signed-off-by: Helge Deller <deller@gmx.de>
+>>>> ---
+>>>>  drivers/video/console/Kconfig           | 11 +++++++
+>>>>  drivers/video/fbdev/core/fbcon.c        | 39 ++++++++++++++++++-----=
+--
+>>>>  drivers/video/fbdev/core/fbcon.h        | 15 +++++++++-
+>>>>  drivers/video/fbdev/core/fbcon_ccw.c    | 10 +++----
+>>>>  drivers/video/fbdev/core/fbcon_cw.c     | 10 +++----
+>>>>  drivers/video/fbdev/core/fbcon_rotate.h |  4 +--
+>>>>  drivers/video/fbdev/core/fbcon_ud.c     | 20 ++++++-------
+>>>>  7 files changed, 75 insertions(+), 34 deletions(-)
+>>>>
+>>>> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kc=
+onfig
+>>>> index 840d9813b0bc..6029fd41d7d0 100644
+>>>> --- a/drivers/video/console/Kconfig
+>>>> +++ b/drivers/video/console/Kconfig
+>>>> @@ -78,6 +78,17 @@ config FRAMEBUFFER_CONSOLE
+>>>>         help
+>>>>           Low-level framebuffer-based console driver.
+>>>>
+>>>> +config FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+>>>> +       bool "Framebuffer Console hardware acceleration support"
+>>>> +       depends on FRAMEBUFFER_CONSOLE
+>>>> +       default n if DRM
+>>>> +       default y
+>>>> +       help
+>>>> +         If you use a system on which DRM is fully supported you usu=
+ally want to say N,
+>>>> +         otherwise you probably want to enable this option.
+>>>> +         If enabled the framebuffer console will utilize the hardwar=
+e acceleration
+>>>> +         of your graphics card by using hardware bitblt and fillrect=
+ features.
+>>>
+>>> This really doesn't have much to do with DRM but more about running
+>>> questionable code. That's why I went with the generalized stern
+>>> warning and default n, and explained when it's ok to do this (single
+>>> user and you care more about fbcon performance than potential issues
+>>> because you only run trusted stuff with access to your vt and fbdev
+>>> /dev node).
+>>
+>> I think this is something we both will keep to have different opinion a=
+bout :-)
+>>
+>> This console acceleration code is not exported or visible to userspace,
+>> e.g. you can't access or trigger it via /dev/fb0.
+>> It's only called internally from inside fbcon, so it's independed if
+>> it's a single- or multi-user system.
+>> The only way to "access" it is via standard stdio, where fbcon then
+>> either scrolls the screen via redrawing characters at new positions
+>> or by using hardware bitblt to move screen contents.
+>> IMHO there is nothing which is critical here.
+>> Even when I analyzed the existing bug reports, there was none which
+>> affected that specific code.
 >
-> On Wed, 02 Feb 2022, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> > Hi Kandpal,
-> >
-> > Thank you for the patch.
-> >
-> > On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
-> >> Changing rcar_du driver to accomadate the change of
-> >> drm_writeback_connector.base and drm_writeback_connector.encoder
-> >> to a pointer the reason for which is explained in the
-> >> Patch(drm: add writeback pointers to drm_connector).
-> >>
-> >> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
-> >> ---
-> >>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
-> >>  drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
-> >>  2 files changed, 7 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> >> index 66e8839db708..68f387a04502 100644
-> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> >> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
-> >>      const char *const *sources;
-> >>      unsigned int sources_count;
-> >>
-> >> +    struct drm_connector connector;
-> >> +    struct drm_encoder encoder;
-> >
-> > Those fields are, at best, poorly named. Furthermore, there's no need in
-> > this driver or in other drivers using drm_writeback_connector to create
-> > an encoder or connector manually. Let's not polute all drivers because
-> > i915 doesn't have its abstractions right.
+> Maybe to clarify. The issues that generally result in this code going
+> boom in syzbot are when you race console activity (which can be
+> largely controlled through VT ioctls from userspace too, plus
+> /dev/kmsg) against fbdev resizing on the /dev/fb/0 nodes. The locking
+> there is kinda wild, and the code is very hard to understand. This is
+> why we've resorted to just disabling/deleting this code because most
+> cases we have no idea what's actually going on, aside from something
+> is clearly not going right.
+
+Yes, that's clear. But that (missing) locking needs to be on a higher leve=
+l
+in the call chain, so the same lock fixes would fix scroll-redraw and hw
+acceleration.
+
+> Also the multi-user here means "you run untrusted code from other
+> people", not "you run multiple things in parallel" or "multiple people
+> are logged in at the same time".
 >
-> i915 uses the quite common model for struct inheritance:
+>> Anyway, let's look at that part in your patch:
+>>
+>> +       bool "Enable legacy fbcon code for hw acceleration"
+>> +       depends on FRAMEBUFFER_CONSOLE
+>> +       default n
+>> +       help
+>> +        Only enable this options if you are in full control of machine=
+ since
+>> +        the fbcon acceleration code is essentially unmaintained and kn=
+own
+>> +        problematic.
+>> +
+>> +        If unsure, select n.
+>>
+>> Since I'm willing to maintain that scrolling/panning code, I'd like to
+>> drop the "is essentially unmaintained" part.
+>> And the "known problematic" part is up to now just speculative (which w=
+ould be
+>> valid for other parts of the kernel too, btw).
+>>
+>> As this whole disussions showed, there are some few architectures/platf=
+orms
+>> which really still need this acceleration, while others don't.
+>> So, why not leave the decision up to the arch maintainers, which may op=
+t-in
+>> or opt-out, while keeping the default on "n"?
+>>
+>> With that, here is a new proposal:
+>>
+>> +config FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+>> +       bool "Enable legacy fbcon hardware acceleration code"
+>> +       depends on FRAMEBUFFER_CONSOLE
+>> +       default y if (PARISC) # a few other arches may want to be liste=
+d here too...
+>> +       default n
+>> +       help
+>> +         This option enables the fbcon (framebuffer text-based) hardwa=
+re acceleration for
+>> +         graphics drivers which were written for the fbdev graphics in=
+terface.
+>> +
+>> +         On modern machines, on mainstream machines (like x86-64) or w=
+hen using a modern
+>> +         Linux distribution those fbdev drivers usually aren't used.
+>> +         So enabling this option wouldn't have any effect, which is wh=
+y you want
+>> +         to disable this option on such newer machines.
+>> +
+>> +         If you compile this kernel for older machines which still req=
+uire the fbdev
+>> +         drivers, you may want to say Y.
+>> +
+>> +         If unsure, select n.
+>>
+>> Would that be acceptable?
 >
->         struct intel_connector {
->                 struct drm_connector base;
->                 /* ... */
->         }
+> Perfect.
+
+Great!!
+
+
+>> Arch maintainers may then later send (or reply now with) patches, e.g.:
+>> +       default y if (M68K && XYZ)
+>> ...
 >
-> Same with at least amd, ast, fsl-dcu, hisilicon, mga200, msm, nouveau,
-> radeon, tilcdc, and vboxvideo.
-
-For the reference. msm does not wrap drm_connector into any _common_
-structure, which is used internally.
-
-> We could argue about the relative merits of that abstraction, but I
-> think the bottom line is that it's popular and the drivers using it are
-> not going to be persuaded to move away from it.
-
-As I wrote earlier, I am not sure if these drivers would try using
-their drm_connector subclass for writeback.
-ast: ast_connector = drm_connector + respective i2c adapter for EDID,
-not needed for WB
-fsl-dcu: fsl_dcu_drm_connector = drm_connector + drm_encoder pointer +
-drm_panel. Not needed for WB
-hisilicon, mgag200: same as ast
-tilcdc: same as fsl-dcu
-vboxdrv: the only driver that may possibly benefit from using
-vbox_connector in the writeback support, as the connector is bare
-drm_connector + crtc pointer + hints (width, height, disconnected).
-
-I have left amd, nouveau and radeon out of this list, too complex to
-analyze in several minutes.
-
-I'd second the proposal of supporting optional drm_encoder for
-drm_writeback_connector (as the crtc/encoder split can be vague), but
-I do not see the benefit for the drivers to use their own
-drm_connector subclass for drm_writeback.
-It well might be that we all misunderstand your design. Do you have a
-complete intel drm_writeback implementation based on this patchset? It
-would be easier to judge if the approach is correct seeing your
-target.
-
+> Yeah makes sense.
 >
-> It's no coincidence that the drivers who've implemented writeback so far
-> (komeda, mali, rcar-du, vc4, and vkms) do not use the abstraction,
-> because the drm_writeback_connector midlayer does, forcing the issue.
+>>> Also you didn't keep any todo entry for removing DRM accel code,
+>>
+>> That wasn't intentional.
+>> I just sent 2 revert-patches and an fbcon-accel-enabling-patch.
+>> I'll look up what you had in your patch series and add it as seperate p=
+atch.
 >
-> So I think drm_writeback_connector should *not* use the inheritance
-> abstraction because it's a midlayer that should leave that option to the
-> drivers. I think drm_writeback_connector needs to be changed to
-> accommodate that, and, unfortunately, it means current writeback users
-> need to be changed as well.
+> tbh I think it's fine either way. I think it's still rather unclear
+> which way drm will go, least because there's not many people who can
+> occasionally squeeze some time away to move things forward. Could be
+> that we add a new emergency logging console in the kernel for drm, and
+> distros switch over to kmscon (which is in userspace, and accelerated
+> iirc if you have gl, so most modern systems). Or whether we just
+> improve fbcon until it's solid enough. Or some other option.
 >
-> I am not sure, however, if the series at hand is the right
-> approach. Perhaps writeback can be modified to allocate the stuff for
-> you if you prefer it that way, as long as the drm_connector is not
-> embedded in struct drm_writeback_connector.
+> So given that just dropping the todo sounds ok, it was just a bit
+> inconsistent with the Kconfig :-)
 
--- 
-With best wishes
-Dmitry
+Ok, I leave it out.
+
+>>> and iirc some nouveau folks also complained that they at least
+>>> once had some kind of accel, so that's another reason to not tie this
+>>> to DRM.
+>>
+>> The above proposal to add additional "default y if XYZ" would enable
+>> them to opt-in.
+>>
+>>> Anyway aside from this looks reasonable, can you pls respin with a
+>>> more cautious Kconfig text?
+>>
+>> Sure, I'll do as soon as we have a decision on the above Kconfig text.
+>
+> Ideally if you can send them out today so it's not missing the
+> drm-misc-fixes train that leaves tomorrow, that would be best.
+
+Cool. I'll send the new series in a few minutes.
+
+Thanks!
+Helge
