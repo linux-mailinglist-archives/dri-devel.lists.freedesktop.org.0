@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911BC4A7494
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD764A7496
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:28:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6486810E2CF;
-	Wed,  2 Feb 2022 15:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1452610E2E7;
+	Wed,  2 Feb 2022 15:28:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6FD810E2CF
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:28:23 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B5AC10E2E7
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:28:29 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 72B2A60B89;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1F9AFB83122;
+ Wed,  2 Feb 2022 15:28:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59F7EC340ED;
  Wed,  2 Feb 2022 15:28:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 590F3C340EF;
- Wed,  2 Feb 2022 15:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643815702;
- bh=8Bi2IfGYn49J1OPZx8Swg5kgcUGo31SmzEqJLAPIt6Q=;
+ s=k20201202; t=1643815704;
+ bh=MFLhHIccww+C6Miy6gL9xMLWRPu/Rj2WB7xgwMoy3NA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PSdqpwwt2XWuSndjntT7lHU8kbISW/w7lfSMig3MBvG22h8DVSWgdE/Q2LgDIKEC+
- T/ISmBA+mmIIBEq16yzUhZRnFNQescrpdvjzDTifjq0xZaKe+PiWKtctHyFAk7Hc7+
- 0np7ygCglN/m6inDh54uV7PKwiJYemSz+lHkFHoFJieDls6NFtCkp3GrSY1Pqa5MmR
- 0cvgB8s29gIw5OFeD8pfEyDoGO+uV8XA/dVcaeW+cXdIzdxyzGg8D9cPq/mv9nNMs5
- IXQf1be8Can2uTCOsC+jk8H31+Nq1tSeqQdcLsV7HbRbcJ+WWu5CwLDOLT2xUuVsmm
- H2uiCXhShqHlQ==
+ b=OSytJd9hz4koys0aqHE/uOUQkLUkRl5R4BTFuC0cVzqXOj6gMF5gGo2rw3HlTP/xp
+ OTpN90DX9O+Mk3w2xj7yBlst4QRKBDEW2/PTzHG8BVl0QkX8TrXnxfRLPIdrrG37hh
+ DDG+nLoW2ufoaye9btpBW72O3/q9kEvtntdyauwoMUcQngbcebEtSZ3Hb/1Y2JuclC
+ CNxW1bMYnrd3WiABFfKdZIE+xEjkCLv8JNXG7tCCI6YSXl5ge7v2YIMDbRxTlHsR+X
+ fUh5E4e3Y1MeC9kU3LTUEOnTYk94m9jAVJ1zNoxWH8ktTfeRXGIu7NKBs9Pj4Lgki6
+ n5TsvrDe6F1yg==
 From: Mark Brown <broonie@kernel.org>
 To: Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 1/2] drm/ili9486: Add SPI ID table
-Date: Wed,  2 Feb 2022 15:26:30 +0000
-Message-Id: <20220202152631.20704-2-broonie@kernel.org>
+Subject: [PATCH v2 2/2] drm/st7735r: Add SPI ID table
+Date: Wed,  2 Feb 2022 15:26:31 +0000
+Message-Id: <20220202152631.20704-3-broonie@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220202152631.20704-1-broonie@kernel.org>
 References: <20220202152631.20704-1-broonie@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1002; h=from:subject;
- bh=8Bi2IfGYn49J1OPZx8Swg5kgcUGo31SmzEqJLAPIt6Q=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBh+qKlGUXmqAQVcau4c6lkD+meITWtN60lWSWqhQy1
- 3M1Znp2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYfqipQAKCRAk1otyXVSH0NMuB/
- 0W6/gCzjBhrwBLMUw28dshvvSdZivd1V3r9RdEVE1giVcRwYs3Uumxg1ngdkjzdR6IVb5v7/V/kiXG
- LY1F+T5SVilq5NZGzfLX8TNJkO1+QSDt9fvguCIsP1bjxxJo5exrp17YdbrfjaSQpj/Joc1HakWBtD
- Z6TCBvucrvDf2fOS6FSBtbchGzt8jvg83m2XKdXEIcBlEPV9PSHC5vzjl6oBnCbbsK4vSIeBka9TFJ
- 5oM4uOso3QFDFodv854ISchLiStRcpshY+5PvyWvxCLRQJH+0ZfkVHZdDPEVKqX0dJZVAtl1jqfF6y
- hV/ojp8QjEsCsjaokLMgmgXhCq3SRR
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1023; h=from:subject;
+ bh=MFLhHIccww+C6Miy6gL9xMLWRPu/Rj2WB7xgwMoy3NA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBh+qKmIYlhDkeY73lD33a4BU6BF0SpMDPljbFe2dJd
+ uhgqfuaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYfqipgAKCRAk1otyXVSH0FgGB/
+ 9cfMMK3YVZ17WX9CGJKvJoQBIANDydQNkUiquukizwBpCQdW0/wMEPsfBdnf/yEsISVDTkTeUwTkET
+ liwhSngoH7kE7rUxVuw+jlzF/y63Nx6LAIvGpJ2OXxGko/Uo5K9gYM6Q7+x5K5Rkasixxta1U79HD7
+ UqRZcts+dvIBrBQCHppPrOC+ilnUQl6ZyTfLdsL3qWcV2XW0qvzWSJa7zNW0FdIqR4SPNXokppUpzW
+ JWrv1m5VvYLuXKdb5ZyYdlGaZmMRfokqJdc+BWtY/rGfd0N3uJjhhT0mJ3NXRSpG2ic3BweP7QW/Ca
+ nUxONvytzRydIyX9dGzFxA62wO0vyt
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Content-Transfer-Encoding: 8bit
@@ -64,8 +64,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: Mark Brown <broonie@kernel.org>, David Lechner <david@lechnology.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -77,24 +77,23 @@ for all OF IDs.
 
 Fixes: 96c8395e2166 ("spi: Revert modalias changes")
 Signed-off-by: Mark Brown <broonie@kernel.org>
-Cc: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
+Cc: David Lechner <david@lechnology.com>
 ---
- drivers/gpu/drm/tiny/ili9486.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/tiny/st7735r.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
-index e9a63f4b2993..da4dc48db030 100644
---- a/drivers/gpu/drm/tiny/ili9486.c
-+++ b/drivers/gpu/drm/tiny/ili9486.c
-@@ -182,6 +182,8 @@ MODULE_DEVICE_TABLE(of, ili9486_of_match);
+diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
+index fc40dd10efa8..713e4b286210 100644
+--- a/drivers/gpu/drm/tiny/st7735r.c
++++ b/drivers/gpu/drm/tiny/st7735r.c
+@@ -174,6 +174,7 @@ MODULE_DEVICE_TABLE(of, st7735r_of_match);
  
- static const struct spi_device_id ili9486_id[] = {
- 	{ "ili9486", 0 },
-+	{ "rpi-lcd-35", 0 },
-+	{ "piscreen", 0 },
- 	{ }
+ static const struct spi_device_id st7735r_id[] = {
+ 	{ "jd-t18003-t01", (uintptr_t)&jd_t18003_t01_cfg },
++	{ "rh128128t", (uintptr_t)&rh128128t_cfg },
+ 	{ },
  };
- MODULE_DEVICE_TABLE(spi, ili9486_id);
+ MODULE_DEVICE_TABLE(spi, st7735r_id);
 -- 
 2.30.2
 
