@@ -1,41 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95DC4A7793
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 19:14:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 884C04A77EF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 19:29:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE59510E3B6;
-	Wed,  2 Feb 2022 18:14:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8302310E318;
+	Wed,  2 Feb 2022 18:29:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0BDF10E3B6
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 18:14:19 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 12f30462-8454-11ec-b20b-0050568c148b;
- Wed, 02 Feb 2022 18:15:17 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 67A6F194BFA;
- Wed,  2 Feb 2022 19:14:11 +0100 (CET)
-Date: Wed, 2 Feb 2022 19:14:08 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: nick.hawkins@hpe.com
-Subject: Re: [PATCH] HPE BMC GXP SUPPORT
-Message-ID: <YfrJ8JWjyH9ptV4z@ravnborg.org>
-References: <nick.hawkins@hpe.com>
- <20220202165315.18282-1-nick.hawkins@hpe.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB7E510E422
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 18:29:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1643826563;
+ bh=2IdI1RHS3u/emx2pDEg/QOEg9hVudfhqAtuvwsuqAvA=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=CVdOVNz6PENYpqva50O8zsrHraxxFRMr3t1Edeav11ki/xEIawnJkGD6BMEAuYs6P
+ 7N//uFbi+wnOnuIsJrVQzGYNy0lAT+QgHLII8Gp23TdqBGkkzoKTCyknabwXpbgkfe
+ ssI3lfNnJJ0dZvVmV6v4AYt+Sr/14rLdPOqcfO2k=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.163.171]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MMGN2-1myCyD1QSU-00JMe8; Wed, 02
+ Feb 2022 19:29:23 +0100
+Message-ID: <76ed4203-1ddc-1bbf-39c8-7cb62de7f4e9@gmx.de>
+Date: Wed, 2 Feb 2022 19:29:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220202165315.18282-1-nick.hawkins@hpe.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: fbdev git tree update
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <e1e5b7d1-ea09-6e28-9c39-45b983734a85@gmx.de>
+ <YfrFvfZuZM1N9frh@ravnborg.org>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <YfrFvfZuZM1N9frh@ravnborg.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:LnWdKf8vSjQxPtwaH4S3XPwJbXCinbROTaGQqvzIDzS6NKtj/PZ
+ w6Nb3Dpg5DZmJKV7ZyImf2Gx/BBSlJHma5aDMfr7PQUpfXEz7kG6990qCjy+RFmRihvtpVe
+ nyftA17pDgJfHTcCb9Wt/hCIM6hjExXm+acPxD8+gwUAM44kT7ZvwJ/nNS/n5HWDTUbQ9kI
+ fjpPToZqMzUA6F3Tobyaw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8LXCXCcIGfI=:C70FzneTEw1oVK3a6I8n5z
+ YiPiS5ywi87cvGbGowawWYeCMUJLuwMFdNC8ZzM3MaMNlp/btAjUjkTsiawyd3GUYc/IUd+n4
+ pVKa07iN8DOTjY11Ra4nIw9HL2+KGBdzpWcbdkd6a52J1DjWkfHLPeD+kvKvC4499l/YrhTlR
+ Dh8btNTI5PhvRUKuasHhNn62BvgMRQScddPP39XOf4HM9jBt8XI1N8DCVM0bavGxmDkr4s0qn
+ bWJoLlPAyenLmKyhvLpFm6n8831nTWvPVrYZYMSTJ5flOkccBVp4oV4C+iz+XkdRkOT8dxaHc
+ VXivLVcmD0SNmjVRRBqK/d3FZl50ud2UU7NhnNO8dlVO9bibb4p3aijUeaVzVNFU3LxPDG6aE
+ RcBdgKzx7VTcuB+JKnW4/SrmtzJHbA9tS0saCSOffkqmULzg6czE7KyUhyXli2e0unHn8KvO7
+ 4WeARI+gWORXlktOv9Z0t7KmrR+g8U0eo/eY4hQsyfaKkJ75i9piKs14HfTKBQrZMc3c3oVjy
+ 7dv+nJ5oJbXZHZvXdePQbksqZKWzHnWxp1eIvAxgHrF5l+hTfNV2jAClRwRbeorQR7YNndb3+
+ XnYbUnnELAngU2M2kAGX4btpfqy3J4WQHmrwd37eJzjvffwywoJn7+rRr5fBhuZdfXL1aR/Mi
+ Tx3l4x+2+oDOJwYxNrzPwuX5HRXpW8tgqkLmsOHNYgLCCqpuTqes5l6LG5D22vECtdBqIgaXU
+ /oTLDCAgtgP6+Aehnrq1OJPRvEKVjwArc5lST8wxhRQBrp4L8HAstudMgZqpvxv3NKub20s9s
+ 3eyMvQVd6Pg//+sr3038g50TJVOHUIQbao1PcrEcNmX4c/XtlQMVvpvBK6S+jMRc7rVwA+mea
+ Q5vBX6BH72r/sFjj9hTATHTqtkoBBZAepqO8R23lazJIlCy+Jo5Wth5wNJmGpw7N8cVxO82nR
+ BZU3yX7QO9cVa6O1R3nGoeLHjBPQI7YcYh5Uu4agCq0fcnlaekseZnSf/XwWVT6fKD6fZmLoc
+ 6P2/xTG05OOKjAXlepITgQTrUiuGs1OMP+glgF660iP85oZzJbjaiLxfmrLKwfuGWhBrbNlZO
+ LI/rGRdv4ccDKg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,86 +71,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Wang Kefeng <wangkefeng.wang@huawei.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- David Airlie <airlied@linux.ie>, verdun@hpe.com,
- Amit Kucheria <amitk@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- Miquel Raynal <miquel.raynal@bootlin.com>, netdev@vger.kernel.org,
- Lee Jones <lee.jones@linaro.org>, Ard Biesheuvel <ardb@kernel.org>,
- Stanislav Jakubek <stano.jakubek@gmail.com>, Hao Fang <fanghao11@huawei.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Richard Weinberger <richard@nod.at>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Russell King <linux@armlinux.org.uk>, linux-pwm@vger.kernel.org,
- linux-serial@vger.kernel.org,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- openipmi-developer@lists.sourceforge.net, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, Corey Minyard <minyard@acm.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>, linux-gpio@vger.kernel.org,
- soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org,
- linux-usb@vger.kernel.org,
- "Russell King \(Oracle\)" <rmk+kernel@armlinux.org.uk>,
- linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: linux-fbdev@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nick,
+Hello Sam,
 
-good to see all this stuff coming mainline,
+On 2/2/22 18:56, Sam Ravnborg wrote:
+> Hi Helge,
+>
+> On Sun, Jan 30, 2022 at 10:05:39PM +0100, Helge Deller wrote:
+>> Hello DRI and fbdev developers,
+>>
+>> I've now mostly checked all queued-up patches on the fbdev mailing list=
+:
+>> https://patchwork.kernel.org/project/linux-fbdev/list/
+>
+> Nice to see all the pending fbdev patches processed.
 
-On Wed, Feb 02, 2022 at 10:52:50AM -0600, nick.hawkins@hpe.com wrote:
-> From: Nick Hawkins <nick.hawkins@hpe.com>
-> 
-> GXP is the name of the HPE SoC.
-> This SoC is used to implement BMC features of HPE servers
-> (all ProLiant, Synergy, and many Apollo, and Superdome machines)
-> It does support many features including:
-> 	ARMv7 architecture, and it is based on a Cortex A9 core
-> 	Use an AXI bus to which
-> 		a memory controller is attached, as well as
->                  multiple SPI interfaces to connect boot flash,
->                  and ROM flash, a 10/100/1000 Mac engine which
->                  supports SGMII (2 ports) and RMII
-> 		Multiple I2C engines to drive connectivity with a host infrastructure
-> 		A video engine which support VGA and DP, as well as
->                  an hardware video encoder
-> 		Multiple PCIe ports
-> 		A PECI interface, and LPC eSPI
-> 		Multiple UART for debug purpose, and Virtual UART for host connectivity
-> 		A GPIO engine
-> This Patch Includes:
-> 	Documentation for device tree bindings
-> 	Device Tree Bindings
-> 	GXP Timer Support
-> 	GXP Architecture Support
-> 
-> Signed-off-by: Nick Hawkins <nick.hawkins@hpe.com>
-> ---
->  .../bindings/display/hpe,gxp-thumbnail.txt    |  21 +
->  .../devicetree/bindings/gpio/hpe,gxp-gpio.txt |  16 +
-...
+Thanks!
 
-All new bindings must be in the DT-schema format (yaml files).
-This enables a lot of syntax checks and validation.
+> I do not see why most of them are applied - why bother with
+> dev_err_probe or spelling fixes in old drivers that does not see any
+> active development. But that's your call.
 
-We are slowly migrating away from the .txt based bindings.
+Doesn't for every driver at some point the development ceases?
+Reasons might be that it's not used anymore, or simply because it
+does what it should do.
 
-Also, for new bindings please follow the guide lines listed in
-Documentation/devicetree/bindings/submitting-patches.rst
+> How come there are backlight, dt-bindings
 
-Consider including the bindings with the drivers using the bindings so
-things have a more natural split.
+I didn't know, and I picked up those at the beginning.
+I did agreed with the backlight maintainers that I should
+keep those which are already in my tree, and that I will ignore
+any upcoming new ones.
 
-	Sam
+> and agp in between the fbdev patches?
+
+It wasn't picked up yet, agp somehow belongs to fbdev and as
+maintainer for parisc I was somehow involved as well.
+I'm happy to drop it if you think it belongs somewhere else...
+
+> It would be nice to be able to trust that if the fbdev tree has patches
+> then it is mentioned when the tree touches files outside the fbdev
+> dir.
+
+Sure. Usually I also send out the diffstat.
+
+
+Helge
+
+>
+>
+> These are the patches that caught my eye:
+>
+>> Arnd Bergmann (1):
+>>       agp: define proper stubs for empty helpers
+>>
+>> Luca Weiss (2):
+>>       backlight: qcom-wled: Add PM6150L compatible
+>>       dt-bindings: simple-framebuffer: allow standalone compatible
+>>
+>> Xu Wang (2):
+>>       backlight: lm3630a_bl: Remove redundant 'flush_workqueue()' calls
+>
+> If this was mentioned then fine - but now it looks like patches that do
+> not belong here.
+>
+> 	Sam
+>
+
