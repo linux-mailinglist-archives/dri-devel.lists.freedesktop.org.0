@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2E04A7C06
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 00:58:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E87F4A7C0F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 00:58:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD3C10E650;
-	Wed,  2 Feb 2022 23:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2174210E656;
+	Wed,  2 Feb 2022 23:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx-lax3-3.ucr.edu (mx.ucr.edu [169.235.156.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 524E710E650
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 23:58:07 +0000 (UTC)
+Received: from mx5.ucr.edu (mx.ucr.edu [138.23.62.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18AB010E656
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 23:58:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
- t=1643846287; x=1675382287;
+ t=1643846293; x=1675382293;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
  bh=xYvx8fe8wRHtOQTQUEuPl7xZb+NEUT35cy+DHSkqPn4=;
- b=XTwqyDMPUvipi5OAfjVMLANO54AgAW+qEkH9m72P3WAdpTZmh3A+fmlS
- 9m6CI0TrrOTM5rXNQf3jYF9auhWswWdZqGRawnL7sgIUGPrEAC85U78KI
- gqdJR8Wxt6GNncLsMPZkEcAA3ZkC+x58yWyNOxxkvCwVsS5Xt5dbyYhgv
- YhcUE0Oa1eC/aM/HKj3mb12K319mixco++9B4BzmKVmk4O1u8OM7r9E3V
- DeCuzp7s7qeJxGoPI/dDU30ADRT8U6vAJ5ixzbFMrb3oFjpaC9ImLHj+X
- IDY4j8ZmMq9KRRowb4CTv16mOiqPVQ4r3L/NhbEwaIYUGE95zG1ZZZqQL g==;
-X-IronPort-AV: E=Sophos;i="5.88,338,1635231600"; d="scan'208";a="105399199"
-Received: from mail-pg1-f197.google.com ([209.85.215.197])
- by smtp-lax3-3.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Feb 2022 15:58:07 -0800
-Received: by mail-pg1-f197.google.com with SMTP id
- r9-20020a6560c9000000b00343fa9529e5so468725pgv.18
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 15:58:06 -0800 (PST)
+ b=nl6CdCd1O6cVBpcxy6yZAe+oaLy3tD1HBJsTS+6alJx7N43mtj6fnceq
+ 7uwsZavCo72R/jJ4Lo6anV85yNKO0kWVDCaToeatnepbvkj6ArFFbyxpn
+ mBY94OaI5BzcvhO06g7U3ooAuY2RgO0oxjy3ZIe9jv/VNL+sMyoAE37LB
+ 7eXXvFBU5ZQAw2jr/jQkOR5mHhE1HAO7DV7IGkdkEDpnIcnHHfh7rWL/F
+ k5A1jEdMtasNsKM5QUqahBxaw/1TPo80Dbw5UuYdPyChVUlBM9Dvf8gAY
+ 6vJF4PqldcUEJaROA3poxruYuRj+IdiSea+I65jwe8Zv78pLaartT8hhI Q==;
+X-IronPort-AV: E=Sophos;i="5.88,338,1635231600"; d="scan'208";a="273441834"
+Received: from mail-pg1-f199.google.com ([209.85.215.199])
+ by smtpmx5.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 02 Feb 2022 15:58:12 -0800
+Received: by mail-pg1-f199.google.com with SMTP id
+ 127-20020a630585000000b0035de5e88314so504936pgf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 15:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucr.edu; s=rmail;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
  bh=GUOM8bvwC+la2NKqFvk2uI9Asw+K/wrTaRpdb2Kdz7U=;
- b=HrYsDT4AbEktOiXWlPEMn/m7e6zv2dsefdTeMC5C2hJLezPbv+I1/ftDBXrJt6Un0z
- GqSD3kzgEw3q1pfOdDoOgKDJvmgHKg8NIkh4s4COvIsupoE4p/b9lbZQZ4gbhXZtj7sK
- 4vUh0ntfzQGjCKF3AZQ0GIBqkvnKIMkIts8xw=
+ b=TOKLi1xV2VoAfEWpE5V83okRjedJuomWMncW4lik6VyhjCpHVot4ZXMBqgkJnTxt/b
+ oXGo5UlO9ifjfReoAtoPe2/Nvn8No/cP8rGA+LA1D7RxUjku7PBWdN1Jjc6qECBlrFcO
+ rjctdWIycnceaqeE20k2mgo8clQ4zuEqIjG90=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
  bh=GUOM8bvwC+la2NKqFvk2uI9Asw+K/wrTaRpdb2Kdz7U=;
- b=vmojhQ+w3m2zm0AQRedhsAPQbbVYd/1Q6yVT/bheX2Mu/QSgSfcU/GwgIw4rwx5w28
- n11ovZUYDQLraD/Nc1KNA3sGiKKcVkxnQWIyxHbP9P6G0VGeDmTZ9qZ7lhDkwdkbvr8w
- ShJpRbE4zFOdfCJdcSf7tA03i5Fg6nAXZmysZdHbUvX9erMTnq+jkw/QgaC9+4vESaeU
- kMPyKsroZtQBsBkFh4c/s8F1uB45txrYQnfkscHOBH09/LMzuNXYKnGgK5pq875jMlyM
- /E1liTA68a6AJQN3yIQr8Z11/WFb94buCTPuTZpLsIBX/+iXc+z5VStfhbfUHpd4iLwR
- B+iQ==
-X-Gm-Message-State: AOAM532ZyifKoAO03/Gn9822b5EHzAakHqBukPyUqPHz70RJBb3fK8mQ
- rBPvbEt7/IocvGpE4x6gaw6zmocse371Knu+pBf2mJ4Ta0vXyroxKqv3sSr9TuMCSfhzYLffG/U
- VCXTVm+vkgQeIPNWzSbN+WCgynUdvNA==
-X-Received: by 2002:a17:903:2310:: with SMTP id
- d16mr33430912plh.20.1643846285916; 
- Wed, 02 Feb 2022 15:58:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxZKL++WYDLmSn9xU1SSYz871Lo6pf/fCV7Hf709Wi2UHiygHMvfWHZxapRrgqd4vPTs3zu2w==
-X-Received: by 2002:a17:903:2310:: with SMTP id
- d16mr33430902plh.20.1643846285669; 
- Wed, 02 Feb 2022 15:58:05 -0800 (PST)
+ b=0OYLSDqxdbWlfR+WFwxFk+h4k+LZgUyQYIVd8heZT7HkCO0xWkL/0bTfQsg2KW2vXK
+ KdL8R/wDwOvf2lTpZ5PS6j8Xs9iVWLXeSfct7V+s2aR75+BK/ljD91iiwFF79fWBp1j9
+ DVjp5MEjDlfgxgCrlUxQHQJa/Rbok/RsXHPk9ooNMwkNlJ2BzCz16Y6Qv9IknbeHtkBO
+ sBkFw3FEzSAQ/2lnL0ufIw7qJ7TlQ8bIguYnpNCPAKE4+uPI2ZLIxZKFai/yX6Y5/wQ3
+ rY6Ax8NekSROZasw55AOBdICcF72VIWyj1JI0bn5PH0/RIZOYDvrcun1+YfuWdjUoL4L
+ FMIA==
+X-Gm-Message-State: AOAM5310v9DBQR4uIUuhxtCMFYf3cXfs+7luHi6/W7skSCNK/6T7b2SC
+ fdIrryGRIIEebmBckX01Wn53eAHdZKJFBBmAHWEkU7N0NpgVfLzADowYSAGsT7PxW3fq12I+QDj
+ z2Lac6OHb8z1kxiRSMljkYLz3xmgi8w==
+X-Received: by 2002:a05:6a00:1256:: with SMTP id
+ u22mr32510710pfi.82.1643846290846; 
+ Wed, 02 Feb 2022 15:58:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/rk+2PWsZGJZmsMuI52ixNCJbvxxZXhGBloxQkqqxkDky7OrWs3+DwSaQCwm+soYe+VmaFw==
+X-Received: by 2002:a05:6a00:1256:: with SMTP id
+ u22mr32510685pfi.82.1643846290619; 
+ Wed, 02 Feb 2022 15:58:10 -0800 (PST)
 Received: from kq.cs.ucr.edu (kq.cs.ucr.edu. [169.235.27.223])
  by smtp.googlemail.com with ESMTPSA id
- b22sm27854781pfl.121.2022.02.02.15.58.04
+ b22sm27854781pfl.121.2022.02.02.15.58.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Feb 2022 15:58:05 -0800 (PST)
+ Wed, 02 Feb 2022 15:58:10 -0800 (PST)
 From: Yizhuo Zhai <yzhai003@ucr.edu>
 To: 
 Subject: [PATCH v6] fbdev: fbmem: Fix the implicit type casting
-Date: Wed,  2 Feb 2022 15:58:08 -0800
-Message-Id: <20220202235811.1621017-1-yzhai003@ucr.edu>
+Date: Wed,  2 Feb 2022 15:58:09 -0800
+Message-Id: <20220202235811.1621017-2-yzhai003@ucr.edu>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <f3b28143-5f59-ad77-f2b8-6274a6edbfdc@roeck-us.net>
+In-Reply-To: <20220202235811.1621017-1-yzhai003@ucr.edu>
 References: <f3b28143-5f59-ad77-f2b8-6274a6edbfdc@roeck-us.net>
+ <20220202235811.1621017-1-yzhai003@ucr.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,13 +87,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xin Tan <tanxin.ctf@gmail.com>, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+Cc: linux-fbdev@vger.kernel.org, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
  Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
  Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Zheyu Ma <zheyuma97@gmail.com>, linux-fbdev@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
- Yizhuo Zhai <yzhai003@ucr.edu>, dri-devel@lists.freedesktop.org,
- Zhen Lei <thunder.leizhen@huawei.com>,
+ Zheyu Ma <zheyuma97@gmail.com>, linux-kernel@vger.kernel.org,
+ Matthew Wilcox <willy@infradead.org>, Yizhuo Zhai <yzhai003@ucr.edu>,
+ dri-devel@lists.freedesktop.org, Zhen Lei <thunder.leizhen@huawei.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
  Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
