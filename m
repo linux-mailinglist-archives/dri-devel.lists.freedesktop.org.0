@@ -1,47 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809534A6D33
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:46:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8222F4A6D5E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:59:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B953110FAD5;
-	Wed,  2 Feb 2022 08:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58CC310E2C7;
+	Wed,  2 Feb 2022 08:59:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71DA010FAD1;
- Wed,  2 Feb 2022 08:46:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643791593; x=1675327593;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=SfRemAym7QZpOzjfvQoZ2VzDjXns70gzkqH86CgpSqY=;
- b=Jpnp24/Y6Yj8ppZNL1ltFibzigap+aamSbk7MOqmPRESwSvtT6lPKQTu
- /1VOPZrNlREwuhUTr3yzxLNmVJrQHfvJUI4ziU5MiaUWimK/7o1fwEnyK
- Sl5WyUvMZvoXFC4j9IJQ8Va2F4fvBscptM/j9f6Cg42rUINMyfXOjs6Bt
- S2FrbNz4ZOCQZdwqdPITZheVyUFHTMsICuWbMxEbWTwXaVCV2S4X2KKGr
- SFxbWmzoO/wlm51I0WvaqW8Aj+GebBZGR5T92nNKCEbVI8Ee6rMQHuX4U
- gYdXpqGgZsSE9+If51GhirPvtdeteu/biW1ukwwv3r/5JX1rxuivph+xj A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="245469304"
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="245469304"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 00:46:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="497675048"
-Received: from srr4-3-linux-116-skandpal.iind.intel.com ([10.190.238.57])
- by orsmga002.jf.intel.com with ESMTP; 02 Feb 2022 00:46:29 -0800
-From: Kandpal Suraj <suraj.kandpal@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 6/6] drm/arm: changes to malidp driver resulting from
- drm_writeback_connector structure changes
-Date: Wed,  2 Feb 2022 14:24:29 +0530
-Message-Id: <20220202085429.22261-7-suraj.kandpal@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220202085429.22261-1-suraj.kandpal@intel.com>
-References: <20220202085429.22261-1-suraj.kandpal@intel.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F65110E2C7
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 08:59:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1643792342; x=1675328342;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=0yDxwtW5UErKc5OtAGKOFX0h2TgwB9+69qy+mevIKak=;
+ b=nA7RoNyCipqjkaz2/NosUAmHqypnHlCmo39Mouygi/edSDZRZVr6Vx1S
+ /boKAK+Xw8EyAEC1yAQJkRrXJAXCe0t14F7xJvNXCwrHZUZ2FbCsi/jL7
+ 4tKGldzNy4eRvbnvq3BikYq0X25wQO5EhFYJFYCFzwtCbkBcUEi8pyY1/
+ 18Al/sH+n+LV/rmt1F6M3M0a8b+Muhj2g/rOOd4yngHZspw9z/2kfTSMU
+ uJSxh2qGhxjEDNy8Ab+6MsmxHCQDFst1+nDoQMX94fZVUrcIQHPu8Na3J
+ 6PhYwm9O6lABsLfvn1OGa9LHbxyRP1lasn9UiE9LuPGNxTa0YaL2TY1IH w==;
+X-IronPort-AV: E=Sophos;i="5.88,336,1635199200"; d="scan'208";a="21846167"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 02 Feb 2022 09:59:00 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Wed, 02 Feb 2022 09:59:00 +0100
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Wed, 02 Feb 2022 09:59:00 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1643792340; x=1675328340;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=0yDxwtW5UErKc5OtAGKOFX0h2TgwB9+69qy+mevIKak=;
+ b=fz2dN2q2TaZAWjmZcJfnaNRe6vgZ5z5W0M52UJvoTfCEhv79KiL06RTk
+ jWEIqA9yinMvkD40KVpsBuZOHyQCQBZkd4/D7GKz9Kq2FGQJATYZoU7ny
+ ypQGnCpQj0cN4ALozcC9XH4D3bDE82w5P1wZHoIB39RrFIsDUtjacG61g
+ MZUmE65SmZ+jQd/uIXWcPspiQGqDLa+TxsOUuIqs3BR3fGWImSfty50HS
+ Px4jF2ove/TZFR5q2gG+tXgUfTv963QR14Z4CI3W2ylyNUAcYquRZC0rz
+ sQfG1PufQdAg5tNsMKXU0hTJrMell0pUBbxc3tOsssKGfRjsAVQ1E6GI2 w==;
+X-IronPort-AV: E=Sophos;i="5.88,336,1635199200"; d="scan'208";a="21846166"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 02 Feb 2022 09:59:00 +0100
+Received: from steina-w.localnet (unknown [10.123.49.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 33E59280065;
+ Wed,  2 Feb 2022 09:59:00 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: (EXT) Re: [PATCH v2 1/2] drm: mxsfb: Use dev_err_probe() helper
+Date: Wed, 02 Feb 2022 09:58:57 +0100
+Message-ID: <2756789.mvXUDI8C0e@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <af6895d0-8514-f151-2675-2454cd15deeb@denx.de>
+References: <20220202081755.145716-1-alexander.stein@ew.tq-group.com>
+ <20220202081755.145716-2-alexander.stein@ew.tq-group.com>
+ <af6895d0-8514-f151-2675-2454cd15deeb@denx.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,93 +77,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
- jani.nikula@intel.com, quic_abhinavk@quicinc.com,
- laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
- arun.r.murthy@intel.com
+Cc: David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changing malidp driver to accomadate the change of
-drm_writeback_connector.base and drm_writeback_connector.encoder
-to a pointer the reason for which is explained in the
-Patch(drm: add writeback pointers to drm_connector).
+Am Mittwoch, 2. Februar 2022, 09:29:20 CET schrieb Marek Vasut:
+> On 2/2/22 09:17, Alexander Stein wrote:
+> > Use the dev_err_probe() helper, instead of open-coding the same
+> > operation. This also adds a nice hint in
+> > /sys/kernel/debug/devices_deferred.
+> > 
+> > Reviewed-by: Marek Vasut <marex@denx.de>
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> > 
+> >   drivers/gpu/drm/mxsfb/mxsfb_drv.c | 3 +--
+> >   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> V2: ... what changed ... ?
+> 
+> (probably nothing, since the patch still looks fine)
 
-Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
----
- drivers/gpu/drm/arm/malidp_crtc.c |  2 +-
- drivers/gpu/drm/arm/malidp_drv.h  |  2 ++
- drivers/gpu/drm/arm/malidp_mw.c   | 12 ++++++++----
- 3 files changed, 11 insertions(+), 5 deletions(-)
+I put the changelog into cover letter (0/2). Content hasn't changed, I just 
+added your Reviewed-by.
 
-diff --git a/drivers/gpu/drm/arm/malidp_crtc.c b/drivers/gpu/drm/arm/malidp_crtc.c
-index 494075ddbef6..294aacd4beef 100644
---- a/drivers/gpu/drm/arm/malidp_crtc.c
-+++ b/drivers/gpu/drm/arm/malidp_crtc.c
-@@ -424,7 +424,7 @@ static int malidp_crtc_atomic_check(struct drm_crtc *crtc,
- 		u32 new_mask = crtc_state->connector_mask;
- 
- 		if ((old_mask ^ new_mask) ==
--		    (1 << drm_connector_index(&malidp->mw_connector.base)))
-+		    (1 << drm_connector_index(malidp->mw_connector.base)))
- 			crtc_state->connectors_changed = false;
- 	}
- 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.h b/drivers/gpu/drm/arm/malidp_drv.h
-index cdfddfabf2d1..971810a685f1 100644
---- a/drivers/gpu/drm/arm/malidp_drv.h
-+++ b/drivers/gpu/drm/arm/malidp_drv.h
-@@ -31,6 +31,8 @@ struct malidp_error_stats {
- struct malidp_drm {
- 	struct malidp_hw_device *dev;
- 	struct drm_crtc crtc;
-+	struct drm_connector connector;
-+	struct drm_encoder encoder;
- 	struct drm_writeback_connector mw_connector;
- 	wait_queue_head_t wq;
- 	struct drm_pending_vblank_event *event;
-diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
-index f5847a79dd7e..9bd2e400cd3d 100644
---- a/drivers/gpu/drm/arm/malidp_mw.c
-+++ b/drivers/gpu/drm/arm/malidp_mw.c
-@@ -206,21 +206,25 @@ static u32 *get_writeback_formats(struct malidp_drm *malidp, int *n_formats)
- int malidp_mw_connector_init(struct drm_device *drm)
- {
- 	struct malidp_drm *malidp = drm->dev_private;
-+	struct drm_writeback_connector *wb_conn;
- 	u32 *formats;
- 	int ret, n_formats;
- 
- 	if (!malidp->dev->hw->enable_memwrite)
- 		return 0;
- 
--	malidp->mw_connector.encoder.possible_crtcs = 1 << drm_crtc_index(&malidp->crtc);
--	drm_connector_helper_add(&malidp->mw_connector.base,
-+	wb_conn = &malidp->mw_connector;
-+	wb_conn->base = &malidp->connector;
-+	wb_conn->encoder = &malidp->encoder;
-+	malidp->mw_connector.encoder->possible_crtcs = 1 << drm_crtc_index(&malidp->crtc);
-+	drm_connector_helper_add(wb_conn->base,
- 				 &malidp_mw_connector_helper_funcs);
- 
- 	formats = get_writeback_formats(malidp, &n_formats);
- 	if (!formats)
- 		return -ENOMEM;
- 
--	ret = drm_writeback_connector_init(drm, &malidp->mw_connector,
-+	ret = drm_writeback_connector_init(drm, wb_conn,
- 					   &malidp_mw_connector_funcs,
- 					   &malidp_mw_encoder_helper_funcs,
- 					   formats, n_formats);
-@@ -236,7 +240,7 @@ void malidp_mw_atomic_commit(struct drm_device *drm,
- {
- 	struct malidp_drm *malidp = drm->dev_private;
- 	struct drm_writeback_connector *mw_conn = &malidp->mw_connector;
--	struct drm_connector_state *conn_state = mw_conn->base.state;
-+	struct drm_connector_state *conn_state = mw_conn->base->state;
- 	struct malidp_hw_device *hwdev = malidp->dev;
- 	struct malidp_mw_connector_state *mw_state;
- 
--- 
-2.17.1
+Regards,
+Alexander
+
+
 
