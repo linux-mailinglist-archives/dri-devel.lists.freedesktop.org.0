@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4954A756C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 17:06:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7844A756D
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 17:06:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E12110E2F7;
-	Wed,  2 Feb 2022 16:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F88A10E305;
+	Wed,  2 Feb 2022 16:06:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A701510E2F7
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 16:06:08 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id d18so18763858plg.2
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 08:06:08 -0800 (PST)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6571010E305
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 16:06:11 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id s6so13194001plg.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 08:06:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ComyNVKqoyy5Ml0gbYTNF5CGFuK1LECSfgHPd03rA/Q=;
- b=KnrN3RISEqRmj5VLldmhh/9I02hGHvjKYYy4qI0kSbIuw3Xldd5qGv3KXcV5gum0Vh
- LnvVC0/kaiuORsCsjK2N+7qCGBhpGQBxDaDQEwALEGpEOqx0qxAhFphYtnoqROeJtkzH
- +LIivfCX2jI5ESjCYjMz0GOzp4lSnuFieVkIU=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=H1kno40kXqd5oHnIK3ylT4ecdPILvrVqPlIbaZeuMIA=;
+ b=eCNIwVf1UszjQp3t8C03ncVpIjOPernL3qKHVwkQsOmZHmZ5zYbbw4HGs6R6qk+yNR
+ 2+M6RnlBh2+Y9CpyHWGAB0+/VD+JS3y0Fv5iCfPNRglL02xg61DMAbTDG/3AMXAwo+Pg
+ bBpCJKzHuH/425GXGj4MSFv8xlc9QVlOj4bIg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ComyNVKqoyy5Ml0gbYTNF5CGFuK1LECSfgHPd03rA/Q=;
- b=2YWfPGAeuvfzEXHNLLAEKfgbGAkjWzAaihWN0KFQjDOwzR7m+mblv2IszbxONgAYoR
- bZgCmIgzF4EDB7SOs9igzXPa9XWAFD2ZXf49zXz2+n10KjadtQBSlzrVsgadKKTbnioc
- hdzVzltl8IWYXhoe6gvZ5/gkm/mbTkiXrZz7WPAJkQsVuVVeRAxWsgudxupGsa31y+f9
- v1uCn/XGUgdfByDEvypm5+vYeJ4yMAo7DX7jEN7imCHmdb21VqPvGHAvxzGR3j9QqIfb
- q859t48/JaC4vOadvMApJtTKbpsx4TW5E63ssYezEphoAUeEA0KyJyFeFdsH6VXSYYIp
- cxPw==
-X-Gm-Message-State: AOAM532CmyBj6SvMznrHASE14LrECz5nthVw3sRvES7k6Kx6ST1cVReD
- yhQgPeFIIJM88lkyEFO98iXwpQ==
-X-Google-Smtp-Source: ABdhPJzpGYUc0+rAyDL6+8pgErzLvRA3W8Ov6ZosJkU6OSOORfwQKG9HGsXfQSSBilrwmBcQtUtxjQ==
-X-Received: by 2002:a17:90b:4b05:: with SMTP id
- lx5mr8845331pjb.128.1643817968126; 
- Wed, 02 Feb 2022 08:06:08 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=H1kno40kXqd5oHnIK3ylT4ecdPILvrVqPlIbaZeuMIA=;
+ b=YjN9lkYdJTWe3I4Mb9AgzN/TkAD7yE7teRXE3gECkQ0oGqIKeWWFHUOPm2hu+eQ8Xe
+ SKZrMvUD8p+uaQbZ649B47f5KH34SJtnuSEAICAGYvLcUwUqo2ef6TH6T4smrNUdSAMt
+ UtQyp3zHl0VNcqcgq/qBqFOGo6Y/YX1bAngwdZa0SibHQ9H4yz+m+1M3iOFiekRI2rJf
+ rZ4xeGIiQKzY1/03/BThooNz2LG4LiJzL/76wUUDgvrYkpecgHBus3dXc4VTOSb1ASzw
+ bmVnKpk+5MtP1VaQzGUX5V7MOx0XLU2tphgg3agwJ9J8LTMu6Xp9txeJVzbtFHQlz6zN
+ o1xw==
+X-Gm-Message-State: AOAM532GnQXU080jBV6vh0vYJivAZWaFHZjbg5wjbhsdyfoj/WfpZg4g
+ u4cpj+Wbsc7ZBGKi77Vvtwpy9w==
+X-Google-Smtp-Source: ABdhPJzUD24F/TZr17nwIVcYrxd8vfKzfmfXbAlOcbW8sRVyKwgtR4FkwC/X7OzrDzLeJS8OW/QmfA==
+X-Received: by 2002:a17:90b:380f:: with SMTP id
+ mq15mr8912309pjb.66.1643817970945; 
+ Wed, 02 Feb 2022 08:06:10 -0800 (PST)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:7ce0:466c:be86:774])
- by smtp.gmail.com with ESMTPSA id g5sm14722397pgc.51.2022.02.02.08.06.05
+ by smtp.gmail.com with ESMTPSA id g5sm14722397pgc.51.2022.02.02.08.06.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Feb 2022 08:06:07 -0800 (PST)
+ Wed, 02 Feb 2022 08:06:10 -0800 (PST)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: Robert Foss <robert.foss@linaro.org>, Rob Herring <robh+dt@kernel.org>,
  Xin Ji <xji@analogixsemi.com>
-Subject: [PATCH RESEND v5 1/4] drm/bridge: anx7625: send DPCD command to
- downstream
-Date: Thu,  3 Feb 2022 00:05:59 +0800
-Message-Id: <20220202160602.440792-1-hsinyi@chromium.org>
+Subject: [PATCH RESEND v5 2/4] drm/bridge: anx7625: Convert to use devm_kzalloc
+Date: Thu,  3 Feb 2022 00:06:00 +0800
+Message-Id: <20220202160602.440792-2-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.35.0.rc2.247.g8bbb082509-goog
+In-Reply-To: <20220202160602.440792-1-hsinyi@chromium.org>
+References: <20220202160602.440792-1-hsinyi@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,146 +76,66 @@ Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xin Ji <xji@analogixsemi.com>
+Use devm_kzalloc instead of kzalloc and drop kfree(). Let the memory
+handled by driver detach.
 
-Send DPCD command to downstream before anx7625 power down,
-let downstream monitor enter into standby mode.
-
-Signed-off-by: Xin Ji <xji@analogixsemi.com>
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Reviewed-by: Xin Ji <xji@analogixsemi.com>
 ---
-v3->v4:
-Use common DP_AUX_NATIVE_READ/WRITE
-
-Previously in:
-https://patchwork.kernel.org/project/dri-devel/patch/1f36f8bf0a48fb2bba17bacec23700e58c1d407d.1641891874.git.xji@analogixsemi.com/
+v2->v3: remove kfree() in anx7625_i2c_remove().
 ---
- drivers/gpu/drm/bridge/analogix/anx7625.c | 42 +++++++++++++++++++----
- drivers/gpu/drm/bridge/analogix/anx7625.h |  2 --
- 2 files changed, 35 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 76662fce4ce61d..17b23940549a42 100644
+index 17b23940549a42..b7e3373994b480 100644
 --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
 +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -129,6 +129,23 @@ static int anx7625_reg_write(struct anx7625_data *ctx,
+@@ -2515,7 +2515,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 		return -ENODEV;
+ 	}
+ 
+-	platform = kzalloc(sizeof(*platform), GFP_KERNEL);
++	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+ 	if (!platform) {
+ 		DRM_DEV_ERROR(dev, "fail to allocate driver data\n");
+ 		return -ENOMEM;
+@@ -2527,7 +2527,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	if (ret) {
+ 		if (ret != -EPROBE_DEFER)
+ 			DRM_DEV_ERROR(dev, "fail to parse DT : %d\n", ret);
+-		goto free_platform;
++		return ret;
+ 	}
+ 
+ 	platform->client = client;
+@@ -2552,7 +2552,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	if (!platform->hdcp_workqueue) {
+ 		dev_err(dev, "fail to create work queue\n");
+ 		ret = -ENOMEM;
+-		goto free_platform;
++		return ret;
+ 	}
+ 
+ 	platform->pdata.intp_irq = client->irq;
+@@ -2637,9 +2637,6 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	if (platform->hdcp_workqueue)
+ 		destroy_workqueue(platform->hdcp_workqueue);
+ 
+-free_platform:
+-	kfree(platform);
+-
  	return ret;
  }
  
-+static int anx7625_reg_block_write(struct anx7625_data *ctx,
-+				   struct i2c_client *client,
-+				   u8 reg_addr, u8 len, u8 *buf)
-+{
-+	int ret;
-+	struct device *dev = &client->dev;
-+
-+	i2c_access_workaround(ctx, client);
-+
-+	ret = i2c_smbus_write_i2c_block_data(client, reg_addr, len, buf);
-+	if (ret < 0)
-+		dev_err(dev, "write i2c block failed id=%x\n:%x",
-+			client->addr, reg_addr);
-+
-+	return ret;
-+}
-+
- static int anx7625_write_or(struct anx7625_data *ctx,
- 			    struct i2c_client *client,
- 			    u8 offset, u8 mask)
-@@ -214,8 +231,8 @@ static int wait_aux_op_finish(struct anx7625_data *ctx)
+@@ -2666,7 +2663,6 @@ static int anx7625_i2c_remove(struct i2c_client *client)
+ 	if (platform->pdata.audio_en)
+ 		anx7625_unregister_audio(platform);
+ 
+-	kfree(platform);
  	return 0;
  }
  
--static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
--				 u32 address, u8 len, u8 *buf)
-+static int anx7625_aux_dpcd_trans(struct anx7625_data *ctx, u8 op,
-+				  u32 address, u8 len, u8 *buf)
- {
- 	struct device *dev = &ctx->client->dev;
- 	int ret;
-@@ -231,8 +248,7 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
- 	addrm = (address >> 8) & 0xFF;
- 	addrh = (address >> 16) & 0xFF;
- 
--	cmd = DPCD_CMD(len, DPCD_READ);
--	cmd = ((len - 1) << 4) | 0x09;
-+	cmd = DPCD_CMD(len, op);
- 
- 	/* Set command and length */
- 	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-@@ -246,6 +262,9 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
- 	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
- 				 AP_AUX_ADDR_19_16, addrh);
- 
-+	if (op == DP_AUX_NATIVE_WRITE)
-+		ret |= anx7625_reg_block_write(ctx, ctx->i2c.rx_p0_client,
-+					       AP_AUX_BUFF_START, len, buf);
- 	/* Enable aux access */
- 	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
- 				AP_AUX_CTRL_STATUS, AP_AUX_CTRL_OP_EN);
-@@ -255,14 +274,17 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
- 		return -EIO;
- 	}
- 
--	usleep_range(2000, 2100);
--
- 	ret = wait_aux_op_finish(ctx);
- 	if (ret) {
- 		dev_err(dev, "aux IO error: wait aux op finish.\n");
- 		return ret;
- 	}
- 
-+	/* Write done */
-+	if (op == DP_AUX_NATIVE_WRITE)
-+		return 0;
-+
-+	/* Read done, read out dpcd data */
- 	ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
- 				     AP_AUX_BUFF_START, len, buf);
- 	if (ret < 0) {
-@@ -845,7 +867,7 @@ static int anx7625_hdcp_enable(struct anx7625_data *ctx)
- 	}
- 
- 	/* Read downstream capability */
--	anx7625_aux_dpcd_read(ctx, 0x68028, 1, &bcap);
-+	anx7625_aux_dpcd_trans(ctx, DP_AUX_NATIVE_READ, 0x68028, 1, &bcap);
- 	if (!(bcap & 0x01)) {
- 		pr_warn("downstream not support HDCP 1.4, cap(%x).\n", bcap);
- 		return 0;
-@@ -918,6 +940,7 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
- {
- 	struct device *dev = &ctx->client->dev;
- 	int ret;
-+	u8 data;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "stop dp output\n");
- 
-@@ -929,6 +952,11 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
- 	ret |= anx7625_write_and(ctx, ctx->i2c.tx_p2_client, 0x08, 0x7f);
- 
- 	ret |= anx7625_video_mute_control(ctx, 1);
-+
-+	dev_dbg(dev, "notify downstream enter into standby\n");
-+	/* Downstream monitor enter into standby mode */
-+	data = 2;
-+	ret |= anx7625_aux_dpcd_trans(ctx, DP_AUX_NATIVE_WRITE, 0x000600, 1, &data);
- 	if (ret < 0)
- 		DRM_DEV_ERROR(dev, "IO error : mute video fail\n");
- 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index 56165f5b254c14..64a8ab56529404 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -242,8 +242,6 @@
- 
- #define AP_AUX_COMMAND	0x27  /* com+len */
- #define LENGTH_SHIFT	4
--#define DPCD_READ	0x09
--#define DPCD_WRITE	0x08
- #define DPCD_CMD(len, cmd)	((((len) - 1) << LENGTH_SHIFT) | (cmd))
- 
- /* Bit 0&1: 3D video structure */
 -- 
 2.35.0.rc2.247.g8bbb082509-goog
 
