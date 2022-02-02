@@ -1,63 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31AF54A7015
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 12:39:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F414A7016
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 12:39:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF6CC10E5BE;
-	Wed,  2 Feb 2022 11:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C413D10E5C3;
+	Wed,  2 Feb 2022 11:39:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC75C10E5BE
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 11:39:27 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2819AB8309C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 11:39:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DF5F7C340F6
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 11:39:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643801962;
- bh=d8q1rgvSr3rMR2yK2Su7RuaQR2hhnKTc3J+pdfWESeQ=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ZRfQz/wV+LAMSfQkNeTW7yr9JJm0WI3qeeC8RGuwVSUo9rClbqnJHpYLhf+aekxvD
- m8EQpmKniiqhdaLR8KKaM3KJE/8NdIjRrhYl2r+Nc+dlklt9jDWsnhnpRiPOaqIxxA
- y7IchrH/RhI9kChVkgNozJjQ2M4lKM+7cJO6jHyQsOHn+9ssL2WTXy7V6YCX4cxcBI
- UZ+kCFJvrtrHanBZRRp4TCj5Uhk+66gDaMq/4jEXSNqwJLQxhZ6QV6f4y1yixa/qTo
- noOmeeikHOOH2rxCmQaz8WcWWoCqMCN1o+XcLm4aT6GhUQvXX1kOJScW7vKLCzL8ca
- lTA/NpSQYzDsw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id CFBA5C05FCE; Wed,  2 Feb 2022 11:39:22 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Wed, 02 Feb 2022 11:39:20 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: kernelorg@digininja.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-201957-2300-MJGnMtULrz@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D57110E5C3
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 11:39:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643801974;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=udGfbFsD3WjS9bv8IIFrQcIv1RwbGFk7ab6Qa1eMKEE=;
+ b=Bg6r97C51QpJwbqu7TlwIIR815gx4ev2ec39cX9RhT7lTnH2QbPUklB9gCpDszLU/c3tl8
+ Q+AFwMrDmzM525W9buVa3TXUMB+7g6pt9ab2ZexshMwH1c7Q/C/PGkUEoIwHH3qflU51dx
+ oLgLTrWwFaWkl/Yb93+EqdCGKbpLAnM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-252-hap8_Z6yOTiBgXjBkZj9vQ-1; Wed, 02 Feb 2022 06:39:33 -0500
+X-MC-Unique: hap8_Z6yOTiBgXjBkZj9vQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l16-20020a1c7910000000b0034e4206ecb7so2366021wme.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 03:39:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=udGfbFsD3WjS9bv8IIFrQcIv1RwbGFk7ab6Qa1eMKEE=;
+ b=RIn8jVhXB5yCM/9vplv6dc9Xaf5/WZmFpa3Hz0JCVo+XwZj531DcUyFrYCmQIHIPC5
+ jhxyR29DpyH0bNLBbSRCM2jsJeMchhfxDaMbAJbjzXiLME1zSHtHJYocn9eFjMbBXhSA
+ 4TFaG2/4HonbwCE8+pz5cxN1UQ+pW8rqPy1KPd/1pppc6JLDIsGmeEkbf2OdFZHhASkh
+ 2TQzpcgHgIKjKH0kglfD7eOM4JweA4Qmi5Pq1syey6YTnxOB+Q+lRRdsHWRmzz36F+Bj
+ ePOeX5VhBvj5zL7rh5t6fW2CTtA4WYKvNIFKHotau03PC/Ht4whsgz4ORYpT64zUYvZv
+ nfoQ==
+X-Gm-Message-State: AOAM5331U9GaZStTHDvMWz9SJAqX2STel4syixlBHvJobWDyDlpMGYQx
+ VXGXg56z9d8/raerrd1ASK04Fyu+6Cn35lKrSUrwgKDpoJXE+/9jJzAUI0sS6+Y0m2PkrLOIDTn
+ 3vEHyhTf7+bPIZ5z/laaJQZuOJ68m
+X-Received: by 2002:a05:6000:1707:: with SMTP id
+ n7mr25289519wrc.234.1643801972292; 
+ Wed, 02 Feb 2022 03:39:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzIYnUCCInjr37c9/22HdQPcKzX7C106buTPKlsAaiTOOtU5+XcopMUfetRz5oizfbknnWbWw==
+X-Received: by 2002:a05:6000:1707:: with SMTP id
+ n7mr25289493wrc.234.1643801972038; 
+ Wed, 02 Feb 2022 03:39:32 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id m11sm4097810wmi.16.2022.02.02.03.39.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Feb 2022 03:39:31 -0800 (PST)
+Message-ID: <2f149fef-b991-9e34-98cb-426e561192ff@redhat.com>
+Date: Wed, 2 Feb 2022 12:39:29 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20220131201225.2324984-1-javierm@redhat.com>
+ <YfhM97cVH3+lJKg0@ravnborg.org> <Yfj/XGRRDNABsLPm@smile.fi.intel.com>
+ <f8d71acb-5c8b-ac4e-0c32-38eb66af04c3@redhat.com>
+ <CAMuHMdVP6ER119r2KAegjZes1a=KWZ47z6j=kgQ0oNx1oeUJ+w@mail.gmail.com>
+ <51f54519-bb8b-f108-1c1e-4fed101ca5ef@redhat.com>
+ <CAMuHMdVwUfv7pXhPazsgG6t=X=aVtDQkFUk_=mUuFH8Fscx8wg@mail.gmail.com>
+ <abf63995-a529-1e80-18c3-df473a3e7a9c@redhat.com>
+ <YfmaqUBqCrgp0QdO@ravnborg.org>
+ <e552caec-5136-f4b2-12dc-23b182ab8af6@redhat.com>
+ <YfploeCM6C5y3Imj@smile.fi.intel.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YfploeCM6C5y3Imj@smile.fi.intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,33 +95,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+Hello Andy,
 
-Jon (kernelorg@digininja.net) changed:
+On 2/2/22 12:06, Andy Shevchenko wrote:
+> On Wed, Feb 02, 2022 at 09:38:51AM +0100, Javier Martinez Canillas wrote:
+>> On 2/1/22 21:40, Sam Ravnborg wrote:
+> 
+> ...
+> 
+>> Peter Robinson suggested to
+>> make the driver mutually exclusive and add !FB_SSD1307 in the config symbol.
+> 
+> And how will distros choose "the right" option in this case?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |kernelorg@digininja.net
+It depends on the distro. In Fedora we are disabling *all* the fbdev drivers.
 
---- Comment #61 from Jon (kernelorg@digininja.net) ---
-Chiming in as another victim of:
-[drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -125!
+> What to do when I wan to see a regression and I want to change drivers w/o
+> recompilation?
+>
 
-Radeon RX 6700 XT (NAVY_FLOUNDER, DRM 3.42.0, 5.15.15-76051515-generic, LLVM
-12.0.1)
-AMD Ryzen 9 5900X=20
-Ubuntu Mate
-Mesa 21.2.2
+If you want to have the two drivers without recompilation (and same compatible
+to match) then how would kmod / udev choose which one to load ? It becomes a
+race condition between the two drivers which one probes first.
+ 
+> NAK from me to that proposal.
+> 
 
-Haven't attempted the amdgpu.dpm=3D0 workaround because the side effects of=
- it
-appear to be bad.
+What's your suggestion then to solve the issue mentioned above ? With my distro
+maintainer hat I don't care that much, since the fbdev drivers will be disabled.
 
---=20
-You may reply to this email to add a comment.
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
