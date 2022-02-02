@@ -2,122 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73EB34A76FA
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 18:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5C34A76F8
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 18:41:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC16810E3AC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A14210E376;
 	Wed,  2 Feb 2022 17:41:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CHE01-GV0-obe.outbound.protection.outlook.com
- (mail-gv0che01on2131.outbound.protection.outlook.com [40.107.23.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0C510E2EE
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:42:36 +0000 (UTC)
+Received: from CHE01-ZR0-obe.outbound.protection.outlook.com
+ (mail-zr0che01on2104.outbound.protection.outlook.com [40.107.24.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7A2F10E200
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:54:12 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e7u0yirI28LiyaGoqcfqzuwqZd29Vt4LbA5jFb4KM58pBn8PLc/crjksafeBEyZjb/9xq6jAfR0AE6/tEcx/1OEGgQbLxScemPeGlwMBtw1Jv+h+reK2OmJdgX7e+WfZsb0XKajJpb3fguSIt/1zLTfBJBA9fHKtFYne0GU/c6J0mSZCHp5Aco1ppXsMNZ6rvwHz9c2eYHx95jAIP5dIWtO8O1f8/m9leWOGytwef85LX3D1bRhbkw6HHI3arVcU5EUSleBwkmfkT4NMKgI6hSPZbopk4Gdm7YpHGwxYPxjwmWWtlrqRkO+u+tQpvHS5xwJFrC9H5Nx9NCq8c+4Tdg==
+ b=T4mjbZVlzO6Eg0aj9r6AcfzDOtR4xLro7I/97GG1yoE5NNQezmxny3PkQD0mBXxRHjC20ZaxgxodC8ZB1du6oF36IxY4UnctmmQytgMiBoQRLrFJYZ7PH7go8HZXXAVTtS/P5SyICge8o/mK03Mt5+9JyV04A+liaWBZfPYWsrHmVgmarR31QVmc/LkvGJy7bmeH6UlGsprj7QgAvQlaNxMrlEzCZ+DrBGle8DgcIVeQw5GqNFQC5DE6FfLIaqbIKe1o3pRIostWTBTo/VE/d4JPffOjlLjxR+wAgj/EEJNGKuj5h1IO7gHV9e3nGE8PGfXvvskG+6//7OKWN4pvMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7Z6b81h0mx+ZU70Eq5709KiJU3FI7/GzUwp64V50kqk=;
- b=CFrRq78Nhqg8z5oBfaQDl7sL9z5gzhRWB1+0Rv7mNQgfHdAhzzTWOlAb8RR1nS5meyNzEROM4NODZq/MjH4Nw8SxuED0ihjwnFwdmRVln/Bl/7TmHHlosrJaSuC4lAwG06LMmgKflfi8BWQvaTzogexvw9ezCqbgHi04/+P+zQBz8qBbgAZvno38TZ1RpgahoHkAiK1QC70lSyCG+72qqtmdc6mdguzSCZ8ha00TcvdcNZ3vzNOIG9Bfm6vCkJK6ESURbJp0Hq1wqf9LF9VKCXeMz9BVcgc3yxGmDGIOzI6WMFrR6HSrVSnSwNoAnc2rvkLRhd8xV0Ona63mnY5Efw==
+ bh=XGklpYzQ2puADbwdYs7gbVBC9AZqorFPzVh5+uQakjE=;
+ b=QYdLB9tWcYwAOXUwWf9x6lmtCTqbHuokV3avmGQZaQrClCDsY60rIWF/Px8JGnnOzl92hnpBxq2xkGEGMrGviDylHMDDtRueULWlTfNTyEhWALBP7GJ0aD/LT5AXJC51OchdnTl8gFFc5pHRKGWSzQGw3jkqc4fTyPH9SRGQkj6lThMNax9tND4LroQ8f6pn1KAc3GNTs8w72QdUjp6Tii3rqXQhrYB7poCb89inUL2jBfiLzbU8k15I/zDpm+c7fYEQEhwWOMwzTNuGZB8zcZzPW0y0oZTuNajbMZe3G+1Y26OfOUQPTXy74ixSRo24u4Wh8aaqNLjdDhzIv00BHw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7Z6b81h0mx+ZU70Eq5709KiJU3FI7/GzUwp64V50kqk=;
- b=WxEGISI5KQ0RW0G6HOmczu54ZZz7QsbY6wtqbnw2pa+KBgUxDdPXxRWXRXw8976gLpT5mPfuhrrDN6Z0jKeYtfpMUAtNi0isVjfnA54/URcRYDCFNr/1Dy//M/lcqhy51zRUDhB9VrVnXkhRl4nyWCOIqe+W7J/zOLnCcwbIvBc=
+ bh=XGklpYzQ2puADbwdYs7gbVBC9AZqorFPzVh5+uQakjE=;
+ b=MoEdikc7F+km1d16SXRUMMpoMj/IucS0ydf+tNfZdHI81sRrP/88cwUbH9m7z1sWkS2E2BIPWAQzLrarym9mVquaJ3v6k541gdd6QM/ZRBqoItNZnJYKovufZNWoWHcZ/2QbLi9CgiP7VMPSjvdprmvHvlSQtqBqGxaa+t7JwEA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=toradex.com;
 Received: from ZRAP278MB0899.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:4a::9) by
- ZR0P278MB0473.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:30::6) with
+ ZR0P278MB0650.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:39::10) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4951.12; Wed, 2 Feb 2022 15:42:33 +0000
+ 15.20.4951.12; Wed, 2 Feb 2022 15:54:10 +0000
 Received: from ZRAP278MB0899.CHEP278.PROD.OUTLOOK.COM
  ([fe80::51d6:e688:ee1f:70f1]) by ZRAP278MB0899.CHEP278.PROD.OUTLOOK.COM
  ([fe80::51d6:e688:ee1f:70f1%5]) with mapi id 15.20.4930.022; Wed, 2 Feb 2022
- 15:42:33 +0000
+ 15:54:10 +0000
 Subject: Re: [RFC][PATCH] Revert "drm/panel-simple: drop use of data-mapping
  property"
 To: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
  dri-devel@lists.freedesktop.org
 References: <20220201110717.3585-1-cniedermaier@dh-electronics.com>
+ <5374a438-ac8b-05f4-9913-f918ed6aa8c0@toradex.com>
 From: Denys Drozdov <denys.drozdov@toradex.com>
-Message-ID: <5374a438-ac8b-05f4-9913-f918ed6aa8c0@toradex.com>
-Date: Wed, 2 Feb 2022 17:42:30 +0200
+Message-ID: <65ccf910-013e-41e1-5962-032a4da7e06c@toradex.com>
+Date: Wed, 2 Feb 2022 17:54:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
-In-Reply-To: <20220201110717.3585-1-cniedermaier@dh-electronics.com>
-Content-Type: multipart/alternative;
- boundary="------------985E03446B01C80A9D881182"
+In-Reply-To: <5374a438-ac8b-05f4-9913-f918ed6aa8c0@toradex.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-ClientProxiedBy: AM5PR0402CA0001.eurprd04.prod.outlook.com
- (2603:10a6:203:90::11) To ZRAP278MB0899.CHEP278.PROD.OUTLOOK.COM
+X-ClientProxiedBy: FR0P281CA0052.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:48::20) To ZRAP278MB0899.CHEP278.PROD.OUTLOOK.COM
  (2603:10a6:910:4a::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 45950a79-f126-4d57-a419-08d9e662a112
-X-MS-TrafficTypeDiagnostic: ZR0P278MB0473:EE_
-X-Microsoft-Antispam-PRVS: <ZR0P278MB047313371FF5E3740E1BA069F1279@ZR0P278MB0473.CHEP278.PROD.OUTLOOK.COM>
+X-MS-Office365-Filtering-Correlation-Id: b0eec760-315c-4114-3f90-08d9e6644054
+X-MS-TrafficTypeDiagnostic: ZR0P278MB0650:EE_
+X-Microsoft-Antispam-PRVS: <ZR0P278MB065087B3405BF2D4669EB4EAF1279@ZR0P278MB0650.CHEP278.PROD.OUTLOOK.COM>
 X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yZqqo+YTr1Cyk7s+GNzD584JdTHtF6eZAmMmf8Zx8ey6LOvlr892+y645GbFdpMXH/eETVJ2LYva9D7mboointRhnrsrb6VBESgZTR28I+Gg1hN69Y5HbyypapEZr/Swe3JXDOOw7qS4FonZQpkzTkdwEKtYpBeGl2NNv0e180L8JMPTcQhtexJoHQfHpoAOdURcVBPkdtFkVYTKBWPA6D9zHZtLLnYp009mV+7tbmlvFWpCAZPS45gEnT7ydfOFlNBLfNoL2Fhqqcuci16k3akiBtSvqSImSldMDHCRhGakKaW5ufnIDOJPgyBS6wfUfI4k87JJqwmuAM8uMgZFqWvKVT9yPwDDO5UEOJuS5G5LaUABD+rUCKdxXh+55+ORDOXK7J8um+TlidQ6ueETPtx2p4NFAt9Bk4v6iQLWcDHjRSztYqoDqx9Oy3tMXStpVBJOFGTbCRGVNpzz0TeYAU3LUhlxsfpSexpUGRwfMPAsO7fmBBGJmBheMIU7+0o8nZuHvoVTZV4UEDM9FVwdPzTJvqs/nsEE222DglU++g5nJydCAdguqVEBSpstvN/caKrKxa/3xb1PE1OxYp1qrUTp/pedfFrcTEBHxjvxupALHZnUOYLxgBsMU1AW3ZHN236wFjklVPMjDNSbg5sf69jxqXn3VfPT9gj3QEMSIYpTNT5Puj2Nn12tKHz1CCytRMBtOCByBbkNomeLSUzvRBpcXZNhoXaFg8RcNilm25VaXt009havtyddncqfyOSg
+X-Microsoft-Antispam-Message-Info: 3vZ9o1izW+oleo/ioS1ulaUwVe7SUWpATqzfrzRG9LCUrkNdEcxJy7n80MgO92te9pF2YEYcgMPLNVnZMhzDCHAwrv9AORav/SBesX5aEyvO9syeKTw8EfvmUMFePzYybAgYssHUK8t2lJHv31FIZTzt3dzZSTCSSguTbohyeq9EAOmFqtb7zL+JpOQZB4nbIGhzvLoS1RNUgsd6dV7SqQZgG+NtYItxb5ZrRsn26YY2B4evpPfBolkoN2b/c0FOiwcQPMbMuPKGDJIRfKdfjlzXhR+sVYWkmP/KVF94NrxeUy1yE1Dv8Njv9SqRrNszwvvAmGFBJTbyoOBN26bF9uzzvGCK0MxcMsmy+FB8csuBQ9Ehz+U7lETxHlopDhZ9eB+4C7zroToRwynXDgAY3mjIGxlKrq7faTheuNPI5ueBBCHPYB/+52Hr5GjHo0WvDsVba3C1wfua4YNzKmMyEXOVNZBUHrSmTMrL/J8EVthlLyYdK3ocnCjNZwUxUrrvrm13YF5DJfvoTu+WJlxcMV7aeAWDZraEeW2DijAnax08fStSA6f5aPQmJUCSAC52wKOKOwkTN8nLEo8a1UNJLl3XHFV71UwtBBu+Efnu70Y/MZyIyLFD6PkhL1AYelhgsxHnCioHFuk2zS4n+jQHfbsXNABemYHmJ6quCVhb86pws8GefkbfdD/F8b2ew+tFII0/z8aLFydcKIt/+JIKYin4IupSfPRpw0CLzZIJFYej6ElgZtYypT00q62ioq5/
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:ZRAP278MB0899.CHEP278.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(316002)(54906003)(5660300002)(36756003)(44832011)(31686004)(508600001)(107886003)(166002)(8676002)(66476007)(66556008)(26005)(186003)(2616005)(52116002)(86362001)(6512007)(6506007)(31696002)(53546011)(33964004)(2906002)(7416002)(966005)(6486002)(38350700002)(38100700002)(66946007)(4326008)(8936002)(43740500002)(45980500001);
+ SFS:(13230001)(4636009)(376002)(346002)(396003)(366004)(39850400004)(136003)(186003)(26005)(2616005)(8676002)(66476007)(66556008)(8936002)(38350700002)(38100700002)(66946007)(4326008)(53546011)(31696002)(52116002)(86362001)(6512007)(6506007)(7416002)(6486002)(2906002)(36756003)(44832011)(31686004)(54906003)(316002)(5660300002)(508600001)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cmFFRVBjMVM5S3d4UmVmS1JoTWxwcnplZFpWdnM3ajBWR1cxT0pJbzRrV2Jp?=
- =?utf-8?B?NE9iYjhUVkRQMEZ1RVltR2VpLy8rYTE4c3RIemhYVk42cHJ6bnJsN3pjbll3?=
- =?utf-8?B?OVFOclBxQUNRLzBBOVZkM0ZMek5KVHRKdis0c0E2VEdtVVcyWHNqaktHOEZ5?=
- =?utf-8?B?TFZFL0xMQUZoU1lmTE95R3JLRnRCRVpGajg2aEZVbEZQMC9BYnZrZUhZQVBx?=
- =?utf-8?B?WUsrK2tBdzhFa2tBQUZYZk1tazc1dDdWbzhCUU9URG40K0NMYXZTMjJ2V0hR?=
- =?utf-8?B?ZERzTVBnMy9ZSjl5a2NMZmhoS3l1MERoRzhybWE5Z0prdzJQRU9mK3lWcjVV?=
- =?utf-8?B?NTBqclFiMmk1L1AzaGVtS0VsNWc1MXk3RzdicnRWSzM1eGhLRUJqNFpOQUJu?=
- =?utf-8?B?a1d2V05jYm1QRy95UlVXYXl1MFRqSUJBYjc4YkQwM3c1c2srOFAxQ056WnZC?=
- =?utf-8?B?bG9yMlZXZ1dQalBYVkhiN1ZpN05HOTlDcUQ1N2hSL1ZIa29wL2I3M3QxajNH?=
- =?utf-8?B?eHhlSlVBamdLdlgrc3psUXF6NStLTDJWK2ZzSGRqS3JSaWJPcSs0bmNnazJJ?=
- =?utf-8?B?QmdZa3pJMzJuNnFqcnpseEtBb2JTWWxxa011RzNDT2xrQm1FZ0h5WDVZR081?=
- =?utf-8?B?Qm0wcEJGc3F3U2dXR0laVUVYckRuWHJFSGQ0c1M0dlY1QTVGUGV0VnVhaEhC?=
- =?utf-8?B?SUhMR1ZmbHZFejdkbVNQbHhtZlJRZDNiYXh1R1JMVXN6b3pVSEUwa2FQTDc3?=
- =?utf-8?B?VFZjZ0QwY2Z2ZGlUd3N1cjkxTjRHUFlVZHdXQm1NbmhnNVhiMk1ZWHNsU1M5?=
- =?utf-8?B?TzNWaFNONUx3Njc4bVZBdU52bHROMEliM2t5QmpGN3VBT0kwNkl3eDUxQS9B?=
- =?utf-8?B?R1hFcjFib05Ma3N2bmRtY1BCYUp3dHBNb25NdEZLbUFhS3FzcGlxNE51a2hi?=
- =?utf-8?B?SHdkWkFRMHVPNmdJRk1YK1BHcGthQ0dBWXJlZUdLZlVLUzA3WGdVMnZJNUd5?=
- =?utf-8?B?NGNmOGc1Z3I1NXI1QlMyalFCK2dpaGNEekUzSjFDbDMzcHc5UFF4UGxnbWRy?=
- =?utf-8?B?SjhQRE83Njc5WVZVWHZXdGlHL2QxTnQrQnQ1RlphR200YUZvMEN2a09ENWM4?=
- =?utf-8?B?aDNnV2ExSTU0RFc5VkgwMnNTZ0JGTDBhb0JwYVZRTUtTS0RQRUJhS0VMTGlp?=
- =?utf-8?B?ckRMc0VlUGVpVk1lQW4rZ21KdWZXUjJpQ21HQkd6NUU2S3ZZYWRwaDA2UklR?=
- =?utf-8?B?cGU4bFlDbUxXVitEZGVuUzZYKzg5Y0QxdlJZYldIQWgxVGRGN1FVTEFIRlpw?=
- =?utf-8?B?ZWVNVVNYdmt5VXVBWnJQbFIxRmE1Si9QM2JPSkZJbHY4MVJaTW82MXhBbU9u?=
- =?utf-8?B?dmlJRGFDc2xzSUhrVnpGRGRsN3FMZThyVnM3VHVaR2lTZVR3eTJBK2taMWtS?=
- =?utf-8?B?UFFIMGZZZWcvOFRBSzNaUFhVbGNBVmlVVThCeEdMdEM4OThBYm1IQzV5ZVNO?=
- =?utf-8?B?WjdIc05WQ0hyWmZlRzQ4VW1lWEI5T1Zwb3NnQmUvQWk5eTdlaktkbHE1Y0Zx?=
- =?utf-8?B?c1BWeFJId3hLcy83bTFEWC80SWNtQWpxcC90b092Y2YwTC85S3RTQWZTdFNK?=
- =?utf-8?B?eGRHMDNjamZqNUxWVTV4aFlpNkYrbzNzRDdxL2FDOWR3RGVmVUhIdWxFZGFP?=
- =?utf-8?B?SUhDdlRxbE9oNVUvMDRZSHphL25raGJqaGdCdXVrb2xNTmhmSHBxeElMYjVN?=
- =?utf-8?B?T0tPK2hIOUJBT0IwdEFMdkVYNndBNEM4dXY0MWhhdFFWMjhjVkFaMjJuVXJH?=
- =?utf-8?B?Rzh4UUJleWJadk1NVjlVSWpvZ3BiTzdEaE9oRE04VnB6UUlhYUViUVE0S2d1?=
- =?utf-8?B?Q2E3amVNVlZDcU5hbGQ5UlBMSkxwVFhqdFM5Q0NyMXFFcEQ1bWRSQ29NU2Nh?=
- =?utf-8?B?bitOUTV6NW5GUkxUZmFwM3N0b0JLQ1BKZ09ZODQzTGZRYUJpTC9ZU1NIdWpD?=
- =?utf-8?B?cGRnMkx1Z1lxd0h5eEs3RWoranQ2WkR0MnJ0YXRwU2VYeGFJLzNQRVNjK1dN?=
- =?utf-8?B?a1pHTXNqZ0RpT2w3eVJqN0N6UnU4aVA3TkpSQ2xRMXkrNFExZzc2Y0JVNkcw?=
- =?utf-8?B?bE8xdS9ZaE1jaHZydkxCNUtUSjZJaHdTVnNscGR4elIvdnpkUnRxTnVMc3BI?=
- =?utf-8?B?T2FCWjNZNVlQaGRNUkltZUhpeGtMdDRpY1NKM080WXg4REhXckdWNStVTHBs?=
- =?utf-8?B?VDh0bmJvd0pnc2paQ05oQjlCaHhBPT0=?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MURYejY2dDZGYVJ1SFM0a1VIcWpWSHlkdCs3NmJNOXg1QTdETzR6cWJZQlN5?=
+ =?utf-8?B?dWxTTUR6bEwwalk2d2Y5ekphTGQzdGJ0UlF4OFJpUi9iMnFNSDRhTWs5NVpT?=
+ =?utf-8?B?RlNUY0NxcVhjQWpXK1l4WTlrQ1Z5czhsUzZFV29HWEsxMUp1N1dXSzcwNVBL?=
+ =?utf-8?B?cXhuQ2ZqYlc4QXRpa0xReVBRazk5dkZ6QzlsVVhXQlRNaW8xRitmRFdJamI5?=
+ =?utf-8?B?b1pPWHI3ejVDZ0hDZ1BBZVl5R1pjbkJMM25BMlBYNUdST2JTTlZ6WDIrVHVp?=
+ =?utf-8?B?bkJRUXUxcHVoNElQU3JuRjRLbHlmUmhxY0RDaVRBbTdqSHhEMklhQkttUERP?=
+ =?utf-8?B?SWlzd1Y0UTJXMGExR243UHE5YXBjd1lHV2pLMDg1RnlKcXI0bmgwSTQwSzJI?=
+ =?utf-8?B?akwyM3BwbXJJbHN2QWNScnNxVHpaK0FZcEk1WThXNnYwSERlcXN1RnU2ZWJT?=
+ =?utf-8?B?OUdPMjJiUGNwWkhVTmhOSk9ZK3J3dDFPc0ZFSEpOQndPaXp2RnZ5c1M4Zm0w?=
+ =?utf-8?B?dCszblFldGt3SHo5czRjRTFuUGtQWkcwMTdWcEVZUmYwRTQ5VStrZVRwMXJU?=
+ =?utf-8?B?N1VxV3h6ZXNJNHlRZGN1c2VlaWk1eUhsZnZhT0h2azIrU2VUQXJ5Q1dRVTN0?=
+ =?utf-8?B?bVgwZ2Zhb1RXUHFQV2NRbXhWRVZiZStMeUxRVHdrVUx3cEp3S0p2UnNtRm5C?=
+ =?utf-8?B?K3c3T1hTenVvRjNVeXY1MlYvZXRNWWR1T3oyaE9DYVU4eTFXWDFBSTdrcEZI?=
+ =?utf-8?B?aE45TFV3U0ZQeG5qOWVIT2hBSXJrNkFPd1V1T3V5NHp1VEFzYkdGR2RBcjhK?=
+ =?utf-8?B?QlF1SXlPTFZxUldMZkI5OUtLVEhCTTg3NUZXaHA4UEdqOUNjbWhxWUxVckZw?=
+ =?utf-8?B?b25NaC9uSnJOemlvSTMwakNPWnBoekhneENiS21HVHp4ZVg3aWRYanEwSnZy?=
+ =?utf-8?B?QklmU0lRVzVhU3VjTFV0dnhJMVNuLzJTSEI5d1Zta1VrVUlOTWwwVjREbU9F?=
+ =?utf-8?B?aUk5QlFEU0JBNndwUUdQTjN5NkJROXBmejVoc2czWlR2c3Y0SDU5MlA4bG40?=
+ =?utf-8?B?VVBLa3M3M1FRMlQ4MVVhQWhFYzhNclJ1VDZBVmtvUjZBbVdHVTdCYXRXWmpn?=
+ =?utf-8?B?UE1uS2tzL2NCRUJEbmsveVNCWS9WK1ZsbTI2WFd6RGVwMFlkWElZVVJJQ0Y5?=
+ =?utf-8?B?VlJtRWw4bVppUGd2Y0w5VGRFMU41RTVOaUZKc3pxRFVUcGJDcEpieVVKdU1T?=
+ =?utf-8?B?UGxQVDhKa0paVk16UVBmUDcvekNSRXo1bzIzUHNGS1RJZENZTHc0WG50dXk2?=
+ =?utf-8?B?MWJxYmFOL2FVeFlTTHd1VngvQWhZVUNBcEFqTTV3RjZuUy95dDJQdHhEUENL?=
+ =?utf-8?B?d3pyeUM3TktjNzQ3OXZIZFpyb1ZUS1UycS8rVVdsWklxM2doUjJaTjJ3bnNU?=
+ =?utf-8?B?clNkTDVMRnlhMkd1Um5xOUIwTG9wRi83NzZOclNkcWpOTlFrQ25Nak9JNmVx?=
+ =?utf-8?B?cTUvM2ZsNWVxbGFYNTFxNnZrOXNSTVBZSi9CRDJ2Vy9Ha2wyMmJjREd1dWd2?=
+ =?utf-8?B?Q1VLQ0ZUNy9FeWljMzNuWjJ2Rm9iZDc5RkFPZkpid24zcUtjVWxzOTFCS2k4?=
+ =?utf-8?B?cnFiVkZ2Si9mcW5ldHl2dUdQV1dLSnJlNUppdThZNzM5aUZ0MVpEcmRmWkFq?=
+ =?utf-8?B?SlBwRzI4QWZiMWdGZWNzSEEwTWJMWEhBd1d0aTFXckN1OGZCQTYzbnR0MktE?=
+ =?utf-8?B?Zk1ycktZQ3c4Z3pGTXhUZHJuaVZ2SVYvc0ZEcFBJWS9FYkhBa1JaeEhiMXN6?=
+ =?utf-8?B?SDgxODNDVUMxZGNTNjlZQXRldTdCRktKMzZyQU1BSWxjdEhtbFZxVXQ2Q21N?=
+ =?utf-8?B?dGpRbFdLVWpGYTB2eDZsZGxRVmJ4ZHhEY3BlL25XTDlIQWhLeXNWUUlidmRE?=
+ =?utf-8?B?M3JLOEV6NWQvMnVObGtBak5pSkhja1YzTG05Zmd2Q3NyQnNRMUN5ZEJBdXR2?=
+ =?utf-8?B?M3FZTDlXWldRa2F6bXMrOTk5Mmc0bEkvcW56OVRiVHFlNnoyUWZhVEF3TmM4?=
+ =?utf-8?B?WFhXZ05Oa1hWWENXUGVSY093MlpHQXBLejVlWnRwT0trMzV4Y3NUeU5ydm1s?=
+ =?utf-8?B?cmhPVmc1SklmQVZoSWlDN0ltcklUdVFKMjdMdU5hMjQyTnFMVm4wOWx6SERo?=
+ =?utf-8?B?U3dFamZUZkkzMjcwTSs1VGxvOWVQak1Oam8yWVZpTkJreU04dUJIYWUvN1h3?=
+ =?utf-8?B?YXlEZ0htYW11cDdBOUxuWFR4WXhnPT0=?=
 X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45950a79-f126-4d57-a419-08d9e662a112
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0eec760-315c-4114-3f90-08d9e6644054
 X-MS-Exchange-CrossTenant-AuthSource: ZRAP278MB0899.CHEP278.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2022 15:42:33.4734 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2022 15:54:10.0654 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d9995866-0d9b-4251-8315-093f062abab4
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zIkC0naulcB8Y+5UgHE0HQpMbfNXkrfWl+UX2Fd0sfXfK2TOb7OxD1ULdWB8R1T7s+8VO+kGWCWBzhIhd3i7M2fVsoWQev9ae2O+GWZOSWo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR0P278MB0473
+X-MS-Exchange-CrossTenant-UserPrincipalName: UU8ptdVpZ8o8xLfctx3fYV8FEC9UYn5bF9CmPhBrhcdVawZU2CD+P927+LHt0hpjqTNJuuk4koGJHvg0WEiIQuF/NA80aklWxtQSCZX8mxE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR0P278MB0650
 X-Mailman-Approved-At: Wed, 02 Feb 2022 17:41:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -133,7 +134,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Marek Vasut <marex@denx.de>, David Airlie <airlied@linux.ie>,
  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Denys Drozdov <denys.drozdov@toradex.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Sam Ravnborg <sam@ravnborg.org>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
@@ -141,86 +141,21 @@ Cc: Marek Vasut <marex@denx.de>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------985E03446B01C80A9D881182
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-On 2/1/22 1:07 PM, Christoph Niedermaier wrote:
-> Without the data-mapping devicetree property my display won't
-> work properly. It is flickering, because the bus flags won't
-> be assigned without a defined bus format by the imx parallel
-> display driver. There was a discussion about the removal [1]
-> and an agreement that a better solution is needed, but it is
-> missing so far.
-
-Obviously bus format in panel-dpi is broken, so this revert
-looks necessary. The current state of panel-dpi isn't consistent
-with changes introduced in commit 4a1d0dbc8332231d1d500d7a1d13c45457262a97
-
-> So what would be the better approach?
-
-Another approach is using panel instead of panel-dpi.
-
->
-> [1] https://patchwork.freedesktop.org/patch/357659/?series=74705&rev=1
->
-> This reverts commit d021d751c14752a0266865700f6f212fab40a18c.
-
-But, also you need to revert 99f155d0776fb8838e326efce056aa08e25433d0
-
-> Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
-
-Tested-by: Denys Drozdov <denys.drozdov@toradex.com>
-
-
-
---------------985E03446B01C80A9D881182
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2/1/22 1:07 PM, Christoph
-      Niedermaier wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:%3C20220201110717.3585-1-cniedermaier@dh-electronics.com%3E">
-      <pre class="moz-quote-pre" wrap="">Without the data-mapping devicetree property my display won't
-work properly. It is flickering, because the bus flags won't
-be assigned without a defined bus format by the imx parallel
-display driver. There was a discussion about the removal [1]
-and an agreement that a better solution is needed, but it is
-missing so far. </pre>
-    </blockquote>
-    <pre>Obviously bus format in panel-dpi is broken, so this revert 
-looks necessary. The current state of panel-dpi isn't consistent 
-with changes introduced in commit 4a1d0dbc8332231d1d500d7a1d13c45457262a97</pre>
-    <blockquote type="cite" cite="mid:%3C20220201110717.3585-1-cniedermaier@dh-electronics.com%3E">
-      <pre class="moz-quote-pre" wrap="">So what would be the better approach?</pre>
-    </blockquote>
-    <pre class="moz-quote-pre" wrap="">Another approach is using panel instead of panel-dpi.</pre>
-    <pre></pre>
-    <blockquote type="cite" cite="mid:%3C20220201110717.3585-1-cniedermaier@dh-electronics.com%3E">
-      <pre class="moz-quote-pre" wrap="">
-
-[1] <a class="moz-txt-link-freetext" href="https://patchwork.freedesktop.org/patch/357659/?series=74705&amp;rev=1">https://patchwork.freedesktop.org/patch/357659/?series=74705&amp;rev=1</a>
-
-This reverts commit d021d751c14752a0266865700f6f212fab40a18c.
-</pre>
-    </blockquote>
-    <pre>But, also you need to revert 99f155d0776fb8838e326efce056aa08e25433d0</pre>
-    <blockquote type="cite" cite="mid:%3C20220201110717.3585-1-cniedermaier@dh-electronics.com%3E">
-      <pre class="moz-quote-pre" wrap="">
-Signed-off-by: Christoph Niedermaier <a class="moz-txt-link-rfc2396E" href="mailto:cniedermaier@dh-electronics.com">&lt;cniedermaier@dh-electronics.com&gt;</a></pre>
-    </blockquote>
-    <pre>Tested-by: Denys Drozdov <a class="moz-txt-link-rfc2396E" href="mailto:denys.drozdov@toradex.com">&lt;denys.drozdov@toradex.com&gt;</a>
-</pre>
-    <br>
-  </body>
-</html>
-
---------------985E03446B01C80A9D881182--
+> On 2/1/22 1:07 PM, Christoph Niedermaier wrote:
+>> Without the data-mapping devicetree property my display won't
+>> work properly. It is flickering, because the bus flags won't
+>> be assigned without a defined bus format by the imx parallel
+>> display driver. There was a discussion about the removal [1]
+>> and an agreement that a better solution is needed, but it is
+>> missing so far.
+> Obviously bus format in panel-dpi is broken, so this revert
+> looks necessary. The current state of panel-dpi isn't consistent
+> with changes introduced in commit 4a1d0dbc8332231d1d500d7a1d13c45457262a97
+>> So what would be the better approach?
+> Another approach is using panel instead of panel-dpi.
+>> [1]https://patchwork.freedesktop.org/patch/357659/?series=74705&rev=1
+>>
+>> This reverts commit d021d751c14752a0266865700f6f212fab40a18c.
+> But, also you need to revert 99f155d0776fb8838e326efce056aa08e25433d0
+>> Signed-off-by: Christoph Niedermaier<cniedermaier@dh-electronics.com>
+> Tested-by: Denys Drozdov<denys.drozdov@toradex.com>
