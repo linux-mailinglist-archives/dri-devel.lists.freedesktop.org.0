@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77CC34A748B
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:24:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAFB4A748C
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:24:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 602DA899AB;
-	Wed,  2 Feb 2022 15:24:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A430710E276;
+	Wed,  2 Feb 2022 15:24:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 319208977A
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:24:30 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CCA110E2BF
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:24:33 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B5E46615A7;
+ by ams.source.kernel.org (Postfix) with ESMTPS id E5166B83063;
+ Wed,  2 Feb 2022 15:24:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CA57C340ED;
  Wed,  2 Feb 2022 15:24:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60832C340EF;
- Wed,  2 Feb 2022 15:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643815468;
- bh=u9PwIkdMzz7u4ODiAsVA899tyWIJLHEtwCmzwaoeHrw=;
+ s=k20201202; t=1643815470;
+ bh=6aO7Nzm3pbUcauRahkbsSUae/bWW9PJ7FY+7rb3jazo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LarZb2bbeoVdNlQs7JiS+VqVb9YezpCAKi8JdJYK86DuiAksYmX8zXxYuzFEZQdHx
- IGQC3E2Ye3sfz/l5Lg07FVmbjBVBOIaPmY7Cul9xDs9T3+f50zhJC+sF+sKZqc3R2G
- BgeClFjRjqiM3iAJOZeuTZmzHfY7UnnOela0XNZpGj7zZ8Xgid/MHYuNx8P2GmZKu8
- VMhKycmFuafokszHWavze4hqPbLQD1WwzPanF7m0p14fd61FBSRz2S/4s9hx2nu7rb
- d/YUoFH7k4fx4QrrPK4ryhY9vQT1g54lDtFgXPhovI4GasH4cuJWoASQxxAAljnTBb
- GxqJDmBR1m78w==
+ b=NkUFZENXO2N7QMDqrzZznEKjFuQv0d1xZ+5nuhoN8EXa3JgsrhjzpM6HOqGxJFxuC
+ 5KvzVuhv8I0BUZHzHOW/wbOoWUZ9hUwJTODET+P9xcrJMUCpcB8v0Awdp9ewRSIM9y
+ +zrZxQNfqQAbeVSXQWVPskL4wrisT2hYwMMDxS4xINnMmtV1WScMIqEs3gL8jIRK0y
+ N60U1Xr2jImZzUKLfVqAgv/pHK6RifYRuYz7yGpHhGY6+laXTj81TyGu55C0fGofdN
+ UCCBODSCaVjRYeHR9y+jU9EiTRV35IPdFrjkGKKeSd+EtkY5a1Aue7FM1vqlt9kXTY
+ hEkeW008glRKw==
 From: Mark Brown <broonie@kernel.org>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 1/3] drm/panel-ilitek-il9322: Add SPI ID table
-Date: Wed,  2 Feb 2022 15:23:50 +0000
-Message-Id: <20220202152352.20342-2-broonie@kernel.org>
+Subject: [PATCH v2 2/3] drm/panel-novotek-nt39016: Add SPI ID table
+Date: Wed,  2 Feb 2022 15:23:51 +0000
+Message-Id: <20220202152352.20342-3-broonie@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220202152352.20342-1-broonie@kernel.org>
 References: <20220202152352.20342-1-broonie@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1523; h=from:subject;
- bh=u9PwIkdMzz7u4ODiAsVA899tyWIJLHEtwCmzwaoeHrw=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBh+qIFGm8i91C/xNUR97KM47CHSbHQrf9yG918d2Op
- j4Kxn3+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYfqiBQAKCRAk1otyXVSH0NZFB/
- 4vsXtKgUUiFbGLqEM+CyvpYv3Q9LRGOoJJEsC/ViuOMhEpqw2qH+YwVYYDg1kIgNjQ2nO9A1/uOiQO
- R7Aqe4E8f9/I8zxOrDeNYnKQ0hqc1c4ERhOuNPDLsvfKB8DnNPRgWsA3NDt44AnMHbm7SgJqRBkZpj
- KiLa2GRoEYY8EADcSt5fE+xGYBKUjXWpzM5TjXZ01hnRq9OFkLIxGzB/KUnHKv9849ycf/62lM9hm+
- Ygr43DA097y6Deh224qKXUPgKx4Kgg7k9dK77iIke1SNJzgbtfpX7fb41GqLM2NP6Prg+xFobCFKVO
- oEAzxdjPhMdiJtGUHrPbezrXgrBaEU
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1464; h=from:subject;
+ bh=6aO7Nzm3pbUcauRahkbsSUae/bWW9PJ7FY+7rb3jazo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBh+qIGQWpBYwp9NA4MVKuwLXj8tphWkkieHaXuQ9zU
+ CnU0wfqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYfqiBgAKCRAk1otyXVSH0KPFB/
+ 0W19Db+haBpxuiNYkNhqqCjohJAZFklqLs/G1PcC7zk5QFzzlSdX1GZ9bBpzXrDBJgdCZ7KiqXBSs3
+ RUMnYsBpHwN0ShDayGQXHCvrDn4U2KUGsiJ1aQd2TVypH+N2GMsHRqKRtGG1OuHj97gR0XWhOGZM5f
+ L7C1RSkiNxl/sb+4PDB9M4I/5hhDHSbKYvNU+AJ5VB8Yi5ihWesQdLN/tSVYO56PeReekYg9aVmkT7
+ Ve/iekCwltwSC85KXAi1XSg1iMUBMAtPC8VKFVXMkHRrpZur2UjmhR2WuUQIHF7hZmBcW3d010oaXg
+ Bt7XfmqqNaPNnW4ZXlGDmoUVOzKiNu
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Content-Transfer-Encoding: 8bit
@@ -77,41 +77,35 @@ SPI IDs for everything.
 Fixes: 96c8395e2166 ("spi: Revert modalias changes")
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-ilitek-ili9322.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/gpu/drm/panel/panel-novatek-nt39016.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-index 8e84df9a0033..c7a980fd6406 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-@@ -935,6 +935,19 @@ static const struct of_device_id ili9322_of_match[] = {
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt39016.c b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
+index d036853db865..fa6ffa7fd96e 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt39016.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
+@@ -346,6 +346,13 @@ static const struct of_device_id nt39016_of_match[] = {
  };
- MODULE_DEVICE_TABLE(of, ili9322_of_match);
+ MODULE_DEVICE_TABLE(of, nt39016_of_match);
  
-+static const struct spi_device_id ili9322_spi_ids[] = {
-+	{
-+		.name = "dir-685-panel",
-+		.driver_data = (kernel_ulong_t)&ili9322_dir_685,
-+	},
-+	{
-+		.name = "ili9322",
-+		.driver_data = 0,
-+	},
-+	{ }
++static const struct spi_device_id nt39016_spi_ids[] = {
++	{ .name = "kd035g6-54nt", .driver_data = (uintptr_t)&kd035g6_info },
++	{ .name = "nt39016", .driver_data = 0 },
++	{ /* sentinel */ }
 +};
-+MODULE_DEVICE_TABLE(spi, ili9322_spi_ids);
++MODULE_DEVICE_TABLE(spi, nt39016_spi_ids);
 +
- static struct spi_driver ili9322_driver = {
- 	.probe = ili9322_probe,
- 	.remove = ili9322_remove,
-@@ -942,6 +955,7 @@ static struct spi_driver ili9322_driver = {
- 		.name = "panel-ilitek-ili9322",
- 		.of_match_table = ili9322_of_match,
+ static struct spi_driver nt39016_driver = {
+ 	.driver = {
+ 		.name = "nt39016",
+@@ -353,6 +360,7 @@ static struct spi_driver nt39016_driver = {
  	},
-+	.id_table = ili9322_spi_ids,
+ 	.probe = nt39016_probe,
+ 	.remove = nt39016_remove,
++	.id_table = nt39016_spi_ids,
  };
- module_spi_driver(ili9322_driver);
  
+ module_spi_driver(nt39016_driver);
 -- 
 2.30.2
 
