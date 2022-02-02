@@ -2,58 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B50A4A7275
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 15:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C1A4A72F9
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 15:26:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F069A89D7C;
-	Wed,  2 Feb 2022 14:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C33A010E271;
+	Wed,  2 Feb 2022 14:26:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41BAB10E319
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 14:00:24 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id z19so40750885lfq.13
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 06:00:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RfWPagEh50UG5AQsw4YG/NPcNcgAiuaDDHKAvh28Pfo=;
- b=gWuBXj+qXx0RfDEcvw60W9ulUvSlUlHE8bFwjkCfpL4a47/GFof5cDKoPsXVQOVdfv
- EoO/yOcOEOxWxZ+MjVdX7iyZPFgVwM02RaYqc2bEldH7dNpAk8Gz7W8FP+iIox80alGi
- ki+u1RmCp17bDsTFYcmQTQih55MQLrYSwxFrcA4IxoD4E9dIIAwpfYriXo1sCRgdWBYN
- Xaaq1tg/2s9jh+qpLM4o79OewjUhdEwvIJoUI42zNqiwAcbE0jU17Q/h7u1dRGdK/dUc
- 1zc/YOEkzjGJLcIWNOwDw5RydsIi2qQrrtwGpClnqtKYbpzyMK8KHPOjxihh0nCbMYXH
- ue4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RfWPagEh50UG5AQsw4YG/NPcNcgAiuaDDHKAvh28Pfo=;
- b=MIzEhlBFOpheZgM1wqiz9zPG9ebVZjcjM2BO6b2hffBFfk/eSuhTjE9Xyw2W6p5RBX
- lW3Nc/s1r5bz2u0cM7mHq2JfLrNj52iLOWKJ3QZrDpHNW1M2xSSqfmIrWaXMWkKIQn82
- 8ruf5iKxAOy4x2/UEjOmjZjeXH9JISJ3BlJI0VnZd0EGWQNd/3mKV5d0IyMAJaHnHzpD
- wACj/17+j7b6ymAigJEltSdFKmPbUZWTEC8vK7IgyB/if+xhumn8/BotgDLeUiFJaBBZ
- NKhGWRIvsHRFoJSJs82cUkk9SXNSfS7ov7TbFHMHEyKpBjg/UPVvScrHu3WdqNmXV3D8
- 72kw==
-X-Gm-Message-State: AOAM533ilKIJxa2c19jqJ/o/9YoUUdZAQxQtQTJkyPzyMZtBnEfPSHpI
- BJopnf/5ziSn4hqMuJWGDS4OrcrSZ5UFbiUJkH6NIg==
-X-Google-Smtp-Source: ABdhPJyStv54EPifbmyjjo5mPhJzT0KvmzQ4l/aBbOIzs2lV1jYzKtxILnikfpnxSP/qWf4MckalpLs8F3T1He52QnI=
-X-Received: by 2002:a05:6512:2342:: with SMTP id
- p2mr23187896lfu.382.1643810422358; 
- Wed, 02 Feb 2022 06:00:22 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8228710E271
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 14:26:35 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D13A0ED1;
+ Wed,  2 Feb 2022 06:26:34 -0800 (PST)
+Received: from [10.57.68.47] (unknown [10.57.68.47])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 02D393F718;
+ Wed,  2 Feb 2022 06:26:32 -0800 (PST)
+Message-ID: <6f0e58dc-4b81-d819-13e3-9e0f79ba279c@arm.com>
+Date: Wed, 2 Feb 2022 14:26:28 +0000
 MIME-Version: 1.0
-References: <20220202091134.3565514-1-lucas.demarchi@intel.com>
- <514cdee2-655e-7e52-d6a5-a7176ee603cc@amd.com>
- <20220202093814.i5z2nmlunrwm2n6c@ldmartin-desk2>
-In-Reply-To: <20220202093814.i5z2nmlunrwm2n6c@ldmartin-desk2>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Wed, 2 Feb 2022 19:30:10 +0530
-Message-ID: <CAO_48GGeZqzAMEBfspWAR5N1RWh0QAdQFSxgyhrPQHiE3ooJsA@mail.gmail.com>
-Subject: Re: [PATCH v2] dma-buf-map: Rename to iosys-map
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v10 2/6] dt-bindings: gpio: logicvc: Add a compatible with
+ major version only
+Content-Language: en-GB
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+References: <20220120150024.646714-1-paul.kocialkowski@bootlin.com>
+ <20220120150024.646714-3-paul.kocialkowski@bootlin.com>
+ <CACRpkdbnEKeDNmFCuUCLaySs6AtD9MPtxV+9JDxKuXvTs9iMVQ@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <CACRpkdbnEKeDNmFCuUCLaySs6AtD9MPtxV+9JDxKuXvTs9iMVQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,78 +47,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, gregkh@linuxfoundation.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, srinivas.kandagatla@linaro.org,
- tzimmermann@suse.de, daniel.vetter@ffwll.ch, nouveau@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Lucas,
+On 2022-01-30 00:46, Linus Walleij wrote:
+> On Thu, Jan 20, 2022 at 4:00 PM Paul Kocialkowski
+> <paul.kocialkowski@bootlin.com> wrote:
+> 
+>> There are lots of different versions of the logicvc block and it
+>> makes little sense to list them all in compatibles since all versions
+>> with the same major are found to be register-compatible.
+> 
+> The reason we try to be precise is because sometime, long after the driver
+> has been merged and maintained for a few years, a bug is discovered
+> in a specific version of the silicon.
+> 
+> What happens is that a fix is applied on all silicon whether it is needed
+> or not.
+> 
+> If you have the precise silicon compatible, you can avoid this and target
+> only a specific version.
 
-On Wed, 2 Feb 2022 at 15:08, Lucas De Marchi <lucas.demarchi@intel.com> wro=
-te:
->
-> On Wed, Feb 02, 2022 at 10:25:28AM +0100, Christian K=C3=B6nig wrote:
-> >Am 02.02.22 um 10:11 schrieb Lucas De Marchi:
-> >>[SNIP]
-> >>diff --git a/MAINTAINERS b/MAINTAINERS
-> >>index d03ad8da1f36..112676f11792 100644
-> >>--- a/MAINTAINERS
-> >>+++ b/MAINTAINERS
-> >>@@ -5675,7 +5675,6 @@ T:      git git://anongit.freedesktop.org/drm/drm=
--misc
-> >>  F:  Documentation/driver-api/dma-buf.rst
-> >>  F:  drivers/dma-buf/
-> >>  F:  include/linux/*fence.h
-> >
-> >Oh, that is not correct to begin with.
->
-> right, include/linux/dma-fence*
->
-> >
-> >>-F:   include/linux/dma-buf*
-> >
-> >That here should probably be changed to point directly to
-> >include/linux/dma-buf.h, but that can come later on.
->
-> thanks for catching that. I will change it on next version and add your
-> (and any additional) ack.
->
-> Lucas De Marchi
->
-> >
-> >Feel free to add an Acked-by: Christian K=C3=B6nig
-> ><christian.koenig@amd.com> to the patch.
-> >
-> >If nobody objects I'm going to push it drm-misc-next and provide a
-> >follow up to cleanup the MAINTAINERS file a bit more.
-Thank you for the patch; apologies for not being able to respond
-earlier (was out due to covid, just getting back slowly).
+Indeed, the better approach would be something like:
 
-With Christian's suggestions, looks good to me as well - feel free to add a=
-n
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org> to the same.
+   compatible:
+     oneOf:
+       - items:
+           - enum:
+               - foo,bar-v1.0
+               - foo,bar,v1.1
+           - const: foo,bar-v1
+       - items:
+           - enum:
+               - foo,bar-v2.0
+           - const: foo,bar-v2
 
-> >
-> >Regards,
-> >Christian.
-Best,
-Sumit.
+That way the DTs are future-proof, while drivers can still match on only 
+the less-specific strings until a need arises. Plus it avoids the 
+problem that if an existing OS that only understands "foo,bar-v1.0" is 
+given a new DT with only "foo,bar-v1" for v1.0 hardware it won't be able 
+to use the device, even though it's *functionally* capable of doing so.
 
-> >
-> >>  F:  include/linux/dma-resv.h
-> >>  K:  \bdma_(?:buf|fence|resv)\b
-> >>@@ -9976,6 +9975,13 @@ F:     include/linux/iova.h
-> >>  F:  include/linux/of_iommu.h
-> >>  F:  include/uapi/linux/iommu.h
-> >>+IOSYS-MAP HELPERS
-> >>+M:   Thomas Zimmermann <tzimmermann@suse.de>
-> >>+L:   dri-devel@lists.freedesktop.org
-> >>+S:   Maintained
-> >>+T:   git git://anongit.freedesktop.org/drm/drm-misc
-> >>+F:   include/linux/iosys-map.h
-> >>+
-> >
+However, from skimming patch #5, it looks possible that none of these 
+changes are needed at all. If LOGICVC_IP_VERSION_REG tells you the exact 
+revision, and is always present (as the unconditional reading of it 
+implies), then the only reason for adding new compatibles would be if, 
+say, v5 has more clocks from v4 and you want the binding to enforce 
+that; otherwise, newer versions are literally compatible with the 
+currently-defined binding and therefore should continue to bind against 
+the existing string(s) to maximise forward- and backward-compatibility. 
+Sure, it's not the prettiest thing for a "generic" compatible to be 
+based on an oddly-specific version number that doesn't necessarily match 
+the actual software-discoverable version, but what's done is done and 
+that's the cost of ABI.
+
+Cheers,
+Robin.
+
+(also, nitpick for that part of patch #5 since I'm here: please include 
+linux/bitfield.h rather than reinventing FIELD_GET() locally)
