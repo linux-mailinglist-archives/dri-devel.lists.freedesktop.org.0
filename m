@@ -2,43 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7FE4A7481
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:22:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21BDA4A748A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21BE610E1C5;
-	Wed,  2 Feb 2022 15:22:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D15358977A;
+	Wed,  2 Feb 2022 15:24:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EBCD10E1C5
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:22:07 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5122C8977A
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:24:29 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7A6CF6159F;
- Wed,  2 Feb 2022 15:22:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 113DDC004E1;
- Wed,  2 Feb 2022 15:22:05 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1C2D7B83063;
+ Wed,  2 Feb 2022 15:24:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83FDBC004E1;
+ Wed,  2 Feb 2022 15:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643815325;
- bh=OTLXgwve+GXUKqJgusIix6IvLJEmARJe1ZPe1Wk9IxQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UxdeogQjte72mAnF7hRypZPI8xAbel7BrvRvPRlt1nfnufzyW07t/bWcHBqQ+cWPm
- Gfc7wtq1yWuM2Uxpn/bNERIJOeOvPeaoI++xw+q2x8VrjZqBmySMQSBjFDba9IJcW6
- +cwWNGtZFw79R6zllZHcbqxZrAX74luFmU3CzYCl7aa1qHcw4b+lbh8fH1pEj+uRAU
- UT0vNpdnpUacazhAij3sM8PDYaMhN6cYmFT54tdjOiJqYFz5AdKJ3TUpuMoCMpyKBE
- UBR1KsMFehen3PYeGvOFkAHjM8IfDBW3goWi6ZgbHxbfzVlmxlK6r/uhtmXJ5WFkHG
- QBJj61DDUrK7w==
-Date: Wed, 2 Feb 2022 20:52:01 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v4] phy: dphy: Correct clk_pre parameter
-Message-ID: <YfqhmSEL8Jym8FhA@matsya>
-References: <20220124024007.1465018-1-victor.liu@nxp.com>
+ s=k20201202; t=1643815466;
+ bh=+TusgwJZ0TMGf6vEoGvddWy8ABuvMOEiteKQoWBh/6Y=;
+ h=From:To:Cc:Subject:Date:From;
+ b=AKVxyTcPbH7e92HM5nhtvxB3KOARTyGSzfY71/Y1wWQwBDZ5MehA9XJDX9DUB4Tys
+ 7B4DVtrsw3PLB9ac8eJejRYiqkyqymAqsXHu3bXIX1R+aMexbwaXvHA1TKSex9pge7
+ GPh28L59y1FQMj3qeD9hoFHdPKD5gxBXdGjr1alGSQKx4l+m+FkT6t2BHcUCMlDFOO
+ 9hfI0obnWV4LTjiXfqLTBXuPWwBR/QtuIKWGiNM7+CgdFACTuRmKb5VmwqcRFj5GYs
+ kGctYvkCqh3H7H9U9eOC2k+qCa7jQYq7wspeiUF4BiRQ1x93vBtt2YSK10mmpt6Atk
+ E4UKtk269cjdQ==
+From: Mark Brown <broonie@kernel.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 0/3] drm/panel: Ensure DT compatibles have SPI device IDs
+Date: Wed,  2 Feb 2022 15:23:49 +0000
+Message-Id: <20220202152352.20342-1-broonie@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220124024007.1465018-1-victor.liu@nxp.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=758; h=from:subject;
+ bh=+TusgwJZ0TMGf6vEoGvddWy8ABuvMOEiteKQoWBh/6Y=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBh+qIETeCb+gVR4VqrEeXyTBNgzczO1Fs6F9AbsIaL
+ zY+P0zWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYfqiBAAKCRAk1otyXVSH0CmFB/
+ 0bRYhzLuA6yMeIAvkIa1K0SwEzp8uifS63/0lP2rfY0Tgih/rhwvEfMi2wOnOry5+Lj+m5JbiJlWOF
+ YLQEpVk+n7G/cNOUcuB0ezcvnvIzenmFGIz/s+7lJp+P0YAePJgQztEhbWWzJ0NY+QuE/Uaxh8YOas
+ KLD3yN6xohGABD9Q1uHAO+dSWWYadevjQPBb7rUVnYGI5raSOXdZEL/VVfe9sxODnVJH3Di7VN1blT
+ LlthQyw9oeOPtMFo4mq4fNPAEaFHBMXypKtKdQmI5TMhyI7UZkbQ/Yvv3EtBHTrHdLb+1xakjb+6zL
+ RPh6dtmtuY6ElRKxqoFur0A30hUosN
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,43 +61,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-phy@lists.infradead.org,
- Jerome Brunet <jbrunet@baylibre.com>, Wyon Bi <bivvy.bi@rock-chips.com>,
- Kevin Hilman <khilman@baylibre.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Kishon Vijay Abraham I <kishon@ti.com>, linux-rockchip@lists.infradead.org,
- linux-imx@nxp.com, Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>
+Cc: Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24-01-22, 10:40, Liu Ying wrote:
-> The D-PHY specification (v1.2) explicitly mentions that the T-CLK-PRE
-> parameter's unit is Unit Interval(UI) and the minimum value is 8.  Also,
-> kernel doc of the 'clk_pre' member of struct phy_configure_opts_mipi_dphy
-> mentions that it should be in UI.  However, the dphy core driver wrongly
-> sets 'clk_pre' to 8000, which seems to hint that it's in picoseconds.
-> 
-> So, let's fix the dphy core driver to correctly reflect the T-CLK-PRE
-> parameter's minimum value according to the D-PHY specification.
-> 
-> I'm assuming that all impacted custom drivers shall program values in
-> TxByteClkHS cycles into hardware for the T-CLK-PRE parameter.  The D-PHY
-> specification mentions that the frequency of TxByteClkHS is exactly 1/8
-> the High-Speed(HS) bit rate(each HS bit consumes one UI).  So, relevant
-> custom driver code is changed to program those values as
-> DIV_ROUND_UP(cfg->clk_pre, BITS_PER_BYTE), then.
-> 
-> Note that I've only tested the patch with RM67191 DSI panel on i.MX8mq EVK.
-> Help is needed to test with other i.MX8mq, Meson and Rockchip platforms,
-> as I don't have the hardwares.
+Currently autoloading for SPI devices does not use the DT ID table, it uses
+SPI modalises. Supporting OF modalises is going to be difficult if not
+impractical, an attempt was made but has been reverted, so this series
+adds SPI IDs where they aren't provided for a given modalias.
 
-Applied, thanks
+v2:
+ - Rebase onto v5.17-rc1.
 
+Mark Brown (3):
+  drm/panel-ilitek-il9322: Add SPI ID table
+  drm/panel-novotek-nt39016: Add SPI ID table
+  drm/ili9486: Add SPI ID table
+
+ drivers/gpu/drm/panel/panel-ilitek-ili9322.c  | 14 ++++++++++++++
+ drivers/gpu/drm/panel/panel-novatek-nt39016.c |  8 ++++++++
+ drivers/gpu/drm/tiny/ili9486.c                |  2 ++
+ 3 files changed, 24 insertions(+)
+
+
+base-commit: e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
 -- 
-~Vinod
+2.30.2
+
