@@ -2,68 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31AE34A6DB0
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 10:20:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEA24A6DC7
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 10:25:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4BE110F08A;
-	Wed,  2 Feb 2022 09:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8331010F75F;
+	Wed,  2 Feb 2022 09:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 719C810F08A
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 09:20:00 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id u6so39252089lfm.10
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 01:20:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=i3bI40vwmRUOXQ/5yPC1vgbVQNyge9b1o2bXN5vtiy0=;
- b=bop666ZeVkePlwCxVAzz7iNSvscG9BYAY6BH7Pua4OxvqqucMwlMaWwLz+GDxeW6mJ
- wzrhImgUcWXnA9kTtdn4/Ca48zGz6WL1klu0tErPsEqJTdfmEauGsRSoMIhf22hQyBXP
- efQEpoQJJBZAGUv6jX7t2YG9hmponN+P9zO/2ELqULb1MadAGbdnGm2glPxjh2Lu/BSK
- vU/e7oug04F8cKFWbGVeahXyNvPLvUXDyIdw3dLH5A8bi8DH55NkNk/5sJGq/KRBgw6v
- Um64p6eDqrRSBQ5wi6r2+OYWzmxCMNd5IR1Jw1EISXbqu0G2JJ8yrO4Xdp8fufP/xskx
- ckvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=i3bI40vwmRUOXQ/5yPC1vgbVQNyge9b1o2bXN5vtiy0=;
- b=a6JRjEzo/Xe2VvjB7kLrljikypi98i2sQbOtrxkeXQ2pMOzB3J+/ZZEleyq10UVa5V
- cfCSRt3O1umtsG4Xw3ocbDfCRLknvCfe7uKtIQo2B3RgZAdcp2my+OwglJ36hhJbweKo
- zIpZ/l04cXKYAkdlO9jEpFt9duhzXOZJ1Haj/KNYEs46PGm2JmozXVvfaC4a58xbR2N+
- 9AtqknZyt5Z9C+I2znHWRxy4QNBnFmBIx1FFdj/dYmehENDecMDNqGrhOsjoDrPiZEfA
- pgrXdN/L6dUOTdknvQ1NjRHJyvl6/RZ/3jroM2ixxcMs2GB9+5M7pqz2rojucSudpyvt
- EWNQ==
-X-Gm-Message-State: AOAM533/Op7v0hAHzokqU6/p/mlXqZD2UQ7oZZmav3bMx6fuVvocSWKL
- LAkdEPKLYpQkRr5EL98akcw=
-X-Google-Smtp-Source: ABdhPJyvkUDp2Sj5MAQ/FWWvGJdlwySOdTfRtRXyMiuB52dnyzbGpN7Fta6vvTeF+uAFpb3Vy7DldQ==
-X-Received: by 2002:a05:6512:1116:: with SMTP id
- l22mr21770588lfg.219.1643793598385; 
- Wed, 02 Feb 2022 01:19:58 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id m10sm4455747lfk.119.2022.02.02.01.19.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Feb 2022 01:19:58 -0800 (PST)
-Date: Wed, 2 Feb 2022 11:19:54 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-Message-ID: <20220202111954.6ee9a10c@eldfell>
-In-Reply-To: <CAMuHMdX_uyEznHy5vYwS8Q=+bBKPddeJa41KTWi4Fwh3tjX+zQ@mail.gmail.com>
-References: <20220131201225.2324984-1-javierm@redhat.com>
- <tIMIWqepcZGntnez-1ss4Kn4K8btXnzDRL7EWd19-745WK90YIC19E_4di9RNvB3gtx-PzWEjBEGQLPNJE_x0T1yyyaWFCoFcCiG4StR9RU=@emersion.fr>
- <wuXPJN-K-rvjoV51c4EBmTBScov8rcJTPoYmlfHe04_-4wD1khVxo9HnUsP7UFd5m4AkzGSw2hXe_c77jbSRhjEJ0JZIYwuvuIkcv_KsR-Y=@emersion.fr>
- <CAMuHMdXKZ=BkvVqdpiNPNJgxm9SzQ3Z0n4SqV2-4oPRveybd6g@mail.gmail.com>
- <qmhzv6kqs6QdAOP3bNB39glOpc8eeJ6flgjfjcaBniT-shDKZkxo5uB71weGOUKxPE6dq_WBhtHmY5vMmuYwqMoHgtMWnX0ESE5R1Y5g5F8=@emersion.fr>
- <CAKMK7uGPuhrDf8fdDgfuPt5rzO30Rm54T7GvWb203NRbVoVDgw@mail.gmail.com>
- <b0788b3d-9c77-0e96-0969-380d21663909@redhat.com>
- <20220201124208.39c31e59@eldfell>
- <CAMuHMdX_uyEznHy5vYwS8Q=+bBKPddeJa41KTWi4Fwh3tjX+zQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2043.outbound.protection.outlook.com [40.107.243.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4B510F6D7;
+ Wed,  2 Feb 2022 09:25:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MZ2Ow2mCGjMWCNch6uX32gQ+0BdIqPdoFckIcX1mDNChqi1x66Mpoa7ZnYPVVq4cFAoyzessNlRk//eHPBQwaAjCnUCHQ5UgtcAh8xtKJD1gy6UNLhiypBZhByOChc1+XJdaxzhTIwo/FjerjiwqtNb2tkIGdTWPNYSyjnsgAuEzi27YcpKm+tS57TD+GbZt/WnZ+d6Dml+/ErzexWFotCeVUdCqbiLXCwReLXAlVv5BxbW4Wn1I9NPN0ZYoMXBXgycpUs8oviCcOvgNKNHD5cJDDVpos2pwheeTcxsxw8DqXBx+EkfQNlkSUfKom7/YQVQi+DcMzsL21Bd/HSo7cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WQytfyMc4gjsF1ctlClUp8zxogILTnwVEFVm76O+oSM=;
+ b=PkC+tC9qLpRhQTu2zbPkL6JwE0PXsZw9U3Mb601ipn4PMsQ9R7OAox3Q2zXYoIOS/7o6sYk0bR25oKybYyQ14WF4DE9GBgMTwdqoyIZq/1yzSSG10I6TtPFVlZFqFvfSuJ8bGAES6T9WiAXNE+FyXKLa9VKUxzpyI5tqbrX9myZxSnwVnXDHYmbYmL6mClkjlm0lvHWpHJ9tn9tXgZ9F/pFgLd9s6U/2m7ZI6OTRnDaAQUnHQg9qowQwyBBTlyyVjXJ/u+ZP/dqthZctySBss9XkLbvaDrtH768boEKD9JhsRi6UjWMYILDAw/Zi8ePzAaK8ABhmys/XPPGBSvSajw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WQytfyMc4gjsF1ctlClUp8zxogILTnwVEFVm76O+oSM=;
+ b=fmX0eE874+WNUwlk7EGVnEHrqLdjoZw7Et7IwbKpeZqSVhqlZYT0L30LP3uLLQtOhnxTtWdp0mnefCruGEf6TBg+e+ODHGLbLqEBGL+bPsuNtNdhfkS0AU3JIEwLEhjluZbV6U5sjos8I1u3C0jOAPpZQxLk0owTNvCXEAx4h5g=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BN8PR12MB2977.namprd12.prod.outlook.com (2603:10b6:408:4a::25)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Wed, 2 Feb
+ 2022 09:25:36 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d861:5699:8188:7bd3]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d861:5699:8188:7bd3%3]) with mapi id 15.20.4930.022; Wed, 2 Feb 2022
+ 09:25:36 +0000
+Message-ID: <514cdee2-655e-7e52-d6a5-a7176ee603cc@amd.com>
+Date: Wed, 2 Feb 2022 10:25:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2] dma-buf-map: Rename to iosys-map
+Content-Language: en-US
+To: Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+References: <20220202091134.3565514-1-lucas.demarchi@intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220202091134.3565514-1-lucas.demarchi@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR06CA0253.eurprd06.prod.outlook.com
+ (2603:10a6:20b:45f::21) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/TjcVZakJniwKJRBiAnOmgzx";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b95ea1ff-76e4-4eb7-b7ec-08d9e62df804
+X-MS-TrafficTypeDiagnostic: BN8PR12MB2977:EE_
+X-Microsoft-Antispam-PRVS: <BN8PR12MB2977A0B49A202E5CCF16631283279@BN8PR12MB2977.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TJNrgVjTNGUx2TnxGz4D7UsDrbrQ2qhc6IJSgUvGrblAj1gsmhiQoKXFSdDx5+ffq3oHXDWAn+xj0DgNQNoS7NNp1ZQrAAtt0l7mwqQOUIiT2VbbZFsAq3MlYTMrbirhv4jQZCW5WxoKcRIjk6VuOvDXskLMpyWbXjWEZsGGwKN4FPglqZL8VAABB+fxaobaRABPuQ2/RH4Dev/+UnZTUXTbHBt5LTAUfXs/dgD2rZ3RJKPrZWFrLd5JtAHSALxO62z/lCfxdlRUYCpcU9HrhcM/ICbx8h9zwP8NLFdzSsV/ua91zh7rHPvjciMPjMuaXrsVpnSHkL3ld/LJrVkUioLVWhzuzC8Jjz7KUulgBiLHfrxesMOHRGyfsxWkcZu2qxIs583cbK9qmdLHJiAQYvX4uFjaDM94rjLDqnXJSbh8pg1FfCiQ7dhGXBnIEHl9HBT80JE2V8m+w/LIfHHVLIemq5OkmwQwh6WLcb0OAb0A7lRIMyzKNcna0a5j6DsDQFr2Q5a0N/80UPBpgrnLDd6xxJZIzy87OdK8Drz+QMwR7caxBjjuv2P7ByrPMNkm3DZ5s7LD5FMw3wc4hWn4s5V+WiWYs45D0N0QXA0RxArN1613X+kZmpO99nQZ/CEsY1IWTvDTf/sjTXiNeXWoKr6Yztzg3MpmyMOVWMBvCzg+noCAp6JBF7dh5hLnEm/8yd9DiyrIq7bYdqWbKjC0EiNT+ZULIAbaEdJ+jtQf/oa/8WpSXgk8RIXxwhcIbJCZ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(7416002)(66946007)(8936002)(66556008)(66476007)(5660300002)(4326008)(8676002)(86362001)(31696002)(38100700002)(2906002)(26005)(186003)(2616005)(508600001)(6486002)(6506007)(6512007)(6666004)(316002)(36756003)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U2hDQjhvUmJaejI1Q3NmY2NqOHROQVhQREl5TUpkQW51QUJndjBHWllWcmNN?=
+ =?utf-8?B?VzMzbDJON21nbERaU0JlZkpBaWhLUWhxbGV5c1FpcnpHbUtNSEx1YzVWL2F0?=
+ =?utf-8?B?VTJpdVE5WVVaUVlseVpxN3Y5S1ZsWEYvZy9SUUxrK2JRS2o0Q1haZm9FVTdE?=
+ =?utf-8?B?aGtydzBySlFXTURmUDBjU0p2czZwbk1uR1o2S1hEWUlRMHk4M1QreTRlc3RD?=
+ =?utf-8?B?M1VoM3lWRzJkK1RVdk1Mc3Zsc05Mc1haT2RtUG1pVFRVQkMzU3FkeDY3TEVo?=
+ =?utf-8?B?cCsvRzZUeThWUnVlQm9ERjZJMmV3aXZNNDdtSkNTYlA5dUpKRm5SVHJ5Yk9i?=
+ =?utf-8?B?bnJRRytBV201ankzT2grV1kwQVlNVXA4U09JVnpJNXh5K2UrRWVBaitMRTJV?=
+ =?utf-8?B?Y2pMVklQUkV1bklwTE9tQjUyNjR1VmE1cGlLNEpFRUpONXZmS1pQYllRa1FR?=
+ =?utf-8?B?ZnM4MEkycmFJbDM4Wmt0VExNTm5KRVlzVlJmL05kdFEvTGxsc05QbTNsZUxW?=
+ =?utf-8?B?aHRkekVFdGtaaDVoUHpTVjgzQzNHdUZMTzVLd0VEUXRpYm8xRjg5UHVPbXpM?=
+ =?utf-8?B?MkxGTXJ0cW9CVDY0SGJWajgyYzJVQ0RaV0lIQnpQYllMSnFxL0xyMUFlRGJV?=
+ =?utf-8?B?UFh4ZmJZaEJoZUVNaWY0UzhBM1piUVZ2empUM2YrNGNsdkQ3U0pHYm83Y0JO?=
+ =?utf-8?B?VVpPcnNlSkhtTG92UEhvVGoxa0RrdHE1QkpiVENQR2NScmVJd3N6UzBJdU8r?=
+ =?utf-8?B?MVdRdERKMWxQTkVYc0xjNVgvZHZFZ216SFFld1F6TCswbDMxTm5zd3dBMDg5?=
+ =?utf-8?B?UmpQdGVORGYvMUUzKy9MMTJiUy9mOXRteENzbDhoMUo5bXExK2hGL1ZxRjZU?=
+ =?utf-8?B?QzVLNWhjRDZZWGNtNlJOa1pFNHRxM0R5VVdHWEhkYjVZV0xhSlBFK0UxTkps?=
+ =?utf-8?B?Q3NTZjlsVEVmTU1JazlUeEcxSTVsVVBaWXpkdUp0OW9DaS8wcW54TWEySDgx?=
+ =?utf-8?B?YjdHeE1WNjJ5MXZiVEY2S2xLQ2l5VDdQVGZPZ1cyOEtOUlB2UWpMUDUrOGJw?=
+ =?utf-8?B?SmJMbVBBWTZIaE5IVXgyRklnaDlQYlJNdUtIaldnQzBVQ004VnZoQ2lvNC92?=
+ =?utf-8?B?NzdnNEVzWFZuNzZvMGp2aUgzTU9heU1VUWhlVTBJRXVEQmp6TW5PYnBIbUlU?=
+ =?utf-8?B?QWFYeGRPcSsweHY0eWtzc2w2cmhHRjEvdWxGcHBpUGtoUjRpdXFjbkJwSUNi?=
+ =?utf-8?B?SVYxUjBzb2l0ZHkzRmtaVFlSOHc4WEhRcTBialRNUmJXSWxrWjV0MnlaR3E1?=
+ =?utf-8?B?UkRvRFBLZHAwcVgvMVZ2M2UxUmhxbnBSSExveXltTmN1WmdwSzhiQXlyQlJ2?=
+ =?utf-8?B?VTF3TzBwRVBPcmN4bm1ENEszTmtrV3lXcWI0VEdJUGNLMVhXUDZXS1ZnNW5j?=
+ =?utf-8?B?bmtsbnY4V3c4bXFLd3hKcWFuSnBvdEx2dEEzNm1ZVVEydWlBVEZjd2xhRVFG?=
+ =?utf-8?B?TkVDZDJrOS82L2x3MUlpOGt1SjlBdkxIR1Zkc2JXazRUVGRmU2RxWnpQRlht?=
+ =?utf-8?B?aW1JTG1aSHFtTThleG1YUTRNanpBZlk5Sm1yaTlDNmNrOWN6UEZQZnhXMlBF?=
+ =?utf-8?B?dG9vMnRielVlM1pmdi9TcWVnQXZnNW9iSGs5VytIRVVoZTgyMTBTbU42eHhN?=
+ =?utf-8?B?QVRYRUZsYkUyL1NPaVpNZGZiczFDbkNLM0VtSFZsejJjaDZIS3N2Qm9nMkl5?=
+ =?utf-8?B?TEtoN1V5dUhzRTFKSkYrTWtNdjVqYjB5V1ZhY215dTZWWWt6Zzh6ZThiV2Ux?=
+ =?utf-8?B?VTNHSjk1c3RnNGdyRmJJZXBkdG93K1pwb2c2Y204T3orNjFtWXlydkxKOFRp?=
+ =?utf-8?B?Qk02ODlWR1lyKzFFZjREQmVmck5WU1BVcGdDcGRVMUs1K2xvM0svMGpPS2RP?=
+ =?utf-8?B?MzdnR1VUcGZjL2FHOVNPd25qY2I2VkRkRWlLMkpCbnI0bFByOGRFSnhTTG9a?=
+ =?utf-8?B?c0ZBdjZXWko4bnFReFRINThQbUFFY0gyYlhDQW1sODlaQkRQOUxVZjR6Sng3?=
+ =?utf-8?B?M213TWQ5R1lGc0laNDFaY0VOKzJZWi9scStZaW9PTFp5Ymx2L3JVR3Q5MXNn?=
+ =?utf-8?Q?nfLY=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b95ea1ff-76e4-4eb7-b7ec-08d9e62df804
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2022 09:25:36.1423 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bHeiRevej6fYXc0oMrtFpaHRQsuXvSo3w28gjH3eLgYJB8g8+Nf4t9qRLV57NSZx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2977
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,164 +126,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Mark Brown <broonie@kernel.org>,
- Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
- Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: airlied@linux.ie, gregkh@linuxfoundation.org,
+ srinivas.kandagatla@linaro.org, tzimmermann@suse.de, daniel.vetter@ffwll.ch,
+ nouveau@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/TjcVZakJniwKJRBiAnOmgzx
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Am 02.02.22 um 10:11 schrieb Lucas De Marchi:
+> [SNIP]
+>   
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d03ad8da1f36..112676f11792 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5675,7 +5675,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	Documentation/driver-api/dma-buf.rst
+>   F:	drivers/dma-buf/
+>   F:	include/linux/*fence.h
 
-On Tue, 1 Feb 2022 12:07:07 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Oh, that is not correct to begin with.
 
-> Hi Pekka,
->=20
-> On Tue, Feb 1, 2022 at 11:42 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
-e:
-> > On Tue, 1 Feb 2022 10:49:03 +0100
-> > Javier Martinez Canillas <javierm@redhat.com> wrote: =20
-> > > On 2/1/22 09:38, Daniel Vetter wrote: =20
-> > > > On Tue, Feb 1, 2022 at 9:34 AM Simon Ser <contact@emersion.fr> wrot=
-e: =20
-> > > >> On Tuesday, February 1st, 2022 at 09:26, Geert Uytterhoeven <geert=
-@linux-m68k.org> wrote: =20
-> > > >>> What's the story with the Rn formats?
-> > > >>>
-> > > >>> The comments say "n bpp Red", while this is a monochrome (even
-> > > >>> inverted) display? =20
-> > > >>
-> > > >> I don't think the color matters that much. "Red" was picked just b=
-ecause it was
-> > > >> an arbitrary color, to make the difference with e.g. C8. Or am I m=
-istaken? =20
-> > > >
-> > > > The red comes from gl, where with shaders it really doesn't matter
-> > > > what meaning you attach to channels, but really just how many you
-> > > > have. So 2-channel formats are called RxGx, 3-channel RxGxBx,
-> > > > 4-channel RxGxBxAx and single-channel Rx. And we use drm_fourcc for
-> > > > interop in general, hence why these exist.
-> > > >
-> > > > We should probably make a comment that this really isn't a red chan=
-nel
-> > > > when used for display it's a greyscale/intensity format. Aside from
-> > > > that documentation gap I think reusing Rx formats for
-> > > > greyscale/intensity for display makes perfect sense.
-> > > > -Daniel =20
-> > >
-> > > To sump up the conversation in the #dri-devel channel, these drivers
-> > > should support the following formats:
-> > >
-> > > 1) Dx (Daniel suggested that for darkness, but inverted mono) =20
-> >
-> > Did you consider format C1 instead? =20
->=20
-> That would be a 2-color display, which is not necessarily black
-> and white. Cfr. Amiga or Atari bit planes with bpp=3D1.
-> That's why fbdev has separate visuals for monochrome.
+> -F:	include/linux/dma-buf*
 
-Yes, that is exactly what I was aiming at: to draft a plan for panels
-that have a fixed and arbitrary palette. From the discussions I
-understood that the panel in question here requires somehow reversed
-colors ("inverted mono"), which didn't really sound to be like "normal
-monochrome".
+That here should probably be changed to point directly to 
+include/linux/dma-buf.h, but that can come later on.
 
-> > I have no idea how this would map to fbdev API though. =20
->=20
->     #define FB_VISUAL_MONO01                0       /* Monochr.
-> 1=3DBlack 0=3DWhite */
->     #define FB_VISUAL_MONO10                1       /* Monochr.
-> 1=3DWhite 0=3DBlack */
->     #define FB_VISUAL_TRUECOLOR             2       /* True color   */
->=20
-> The above is RGB (or grayscale, see below).
->=20
->     #define FB_VISUAL_PSEUDOCOLOR           3       /* Pseudo color
-> (like atari) */
->=20
-> Palette
->=20
->     #define FB_VISUAL_DIRECTCOLOR           4       /* Direct color */
->=20
-> Usually used as RGB with gamma correction, but the actual hardware
-> is more flexible.
->=20
->     #define FB_VISUAL_STATIC_PSEUDOCOLOR    5       /* Pseudo color reado=
-nly */
->=20
-> Fixed palette
->=20
-> And:
->=20
->     struct fb_var_screeninfo {
->             ...
->             __u32 grayscale;                /* 0 =3D color, 1 =3D graysca=
-le,    */
+Feel free to add an Acked-by: Christian König <christian.koenig@amd.com> 
+to the patch.
 
-DRM has pixel formats, but no visuals so far. Maybe it needs to grow
-the concept of visuals in some form? However, care should be taken to
-not clash with existing colorimetry features. I would hope that the
-colorimetry feature set could be extended to cover the above as well.
-Well, only if there would be any users for it.
+If nobody objects I'm going to push it drm-misc-next and provide a 
+follow up to cleanup the MAINTAINERS file a bit more.
 
-My silly attempt with Cx formats (e.g. DRM_FORMAT_C8) was a stab in that
-direction, but maybe not flexible enough for the above.
+Regards,
+Christian.
 
-If on the other hand the panel is "grayscale" but with an arbitrary
-color (white, green, orange or other on black), the IRC consensus seems
-to be that one should use Rx formats (e.g. DRM_FORMAT_R8) for it,
-regardless of the actual color. That would convey that the pixel value
-has a monotonic (increasing) mapping to brightness, unlike with
-paletted formats. I agree with this, but wonder how reversed brightness
-should be dealt with - or just have the driver invert the pixel values
-before sending them to display?
+>   F:	include/linux/dma-resv.h
+>   K:	\bdma_(?:buf|fence|resv)\b
+>   
+> @@ -9976,6 +9975,13 @@ F:	include/linux/iova.h
+>   F:	include/linux/of_iommu.h
+>   F:	include/uapi/linux/iommu.h
+>   
+> +IOSYS-MAP HELPERS
+> +M:	Thomas Zimmermann <tzimmermann@suse.de>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Maintained
+> +T:	git git://anongit.freedesktop.org/drm/drm-misc
+> +F:	include/linux/iosys-map.h
+> +
 
-Cx formats with a read-only palette could be used to represent
-"grayscale" and "reversed grayscale" too, but people seem to think that
-is too complicated to analyse and use for KMS userspace.
-
-Other #dri-devel IRC mumblings were about maybe adding a DRM pixel
-format for grayscale or intensity or luminance so that one would not
-need to use "red" color channel for something that doesn't look red.
-That is, do not use Cx formats because those produce completely
-arbitrary colors, and do not use Rx formats because the display is not
-redscale. Personally I'd be fine with Rx formats.
-
-
-Thanks,
-pq
-
---Sig_/TjcVZakJniwKJRBiAnOmgzx
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmH6TLoACgkQI1/ltBGq
-qqekGQ/+Ks4uYS99DrsJhQBLzuFgiXUFSHH47XE5z/Hzo6GBRNxPRdut+JR4Vtf7
-lkm78vXqRfjJ/c1RE7WBlsdtfgeuOQXOLPWbBSk9eVfakspywcQ/QFFxT/2nH4Sy
-dFdAoFy7esX2KkKmtg8QoQBfS9XjWvqcetBqu5p6mcJGpHSMhynVsY+exWV7636W
-4VJLlTdKYIg+hv67Ndc54ovi63uncyhZ2fNkVkdcdc4kvmvE2fI0aWdxDB4HW1hK
-ZZtWMksvm2Wn8FOuNn9/H7/pUlHYc+8FdjafnLwooy1cYdV//mOuVmLhcjxxp7Pz
-dLfWBnRyf2IJEi7hxvdLM+wZdESEkFrdIa1xQ1qb46xPmyCOgOeZEX8GtcN1r0ol
-cuabTfs5BcGTl9Vf22XUSssducV+pNS9nW5YAraJH0V6DL7x1+4s+Sa6C60COK4T
-/05Zv7JxUpyaK8iu/vRl2oa3zQGrzFxGV68Rw3R5U/EevRpuqgKWvwmYE+Aahkjl
-HwGwf5BlIUyUF+GtG3HhUGNHIWCIhTg4Q143Rr4GPjdrHMs2QeBvZ1Lc2L2j7ilX
-5HD1LvPcKRcO9QTkQToXeK/LI6fTlGDgxLHbLkb5cVdQIQfHzaM/mnIw9gsolcTT
-WTXX/oDlDG2mlAwPCCwctWGdm7Au1B7XtCdESpXkST/BWlMoHfg=
-=e/GB
------END PGP SIGNATURE-----
-
---Sig_/TjcVZakJniwKJRBiAnOmgzx--
