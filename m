@@ -2,75 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEAC24A6E64
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 11:10:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F9F4A6E83
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 11:17:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82D3D10E1FA;
-	Wed,  2 Feb 2022 10:10:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D8A910E4D9;
+	Wed,  2 Feb 2022 10:17:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1994F10E2ED
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 10:09:59 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id B372C320209C;
- Wed,  2 Feb 2022 05:09:56 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 02 Feb 2022 05:09:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=5DbPeJMozNaU240qUNLzxx93csQDF44f90Lclb
- ERxnQ=; b=tfnzbixzjf+jgcPCPk134Q8KdrbexefMlV1Er7CiED/iV1g8npAQSA
- d0X0QLQHhyHwyLwnveR8c3hH9V1I+qp5aTrKHbebvv+pHZ2BkZfhSsl9bVwbetp8
- /0H+VJh2ieuQreR1C29ghNTkJMdLrMGEPTtM98tJuZQUuDmGtPmD/Hj4M0yn67BM
- 8uS3IulIf/6zh1wOH7NKWUiiORbE0/hOfQOtCwmyJ58zWjFjNb2N5ZiqY3gfDb6i
- ozKIgufoDPppiFd87QZoV5VoEYiJtRFhwIW7FNd41dB33Cr7VXPMOHzcu9goErT1
- ubBasUArqNAtw6OP9dtK1pf3wHQoxB5A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=5DbPeJMozNaU240qU
- NLzxx93csQDF44f90LclbERxnQ=; b=NIyzfVAyRece//qIcauOxUGapQPlxr+GC
- l4ZIvb1rf0/U2Ceq4UP6rc+ZG3BemKQJvWI93o+UFkADzeCJFe/YVQ+uE6cG2zUK
- XqVgfanhvLe9qjVl/aj1zatArwJe5CAkNP1pErPGOPXmaOzsd+MegstfNzk1Pr76
- iGZ5A3gsC2oQjo2XFK00/enjCLQDgtEtFiW7ZNdObutu5DRJ8sQ6LGig4jm0lgru
- iP5pHUcSMYxea2KtdFb/oZIh5f+2CAAJrkdwAWg2T/JXgVl5YP8BZNyt23qPhYMP
- d4V9VBmY11NE/Ldnp/hp517qWdh4FT0YH/BHYIhzqE4UmkI1Z/91A==
-X-ME-Sender: <xms:c1j6YYyEomhAKVR9GkgSbUvDB32b1m6q-eoDMObTEsUtskWnwbiX7A>
- <xme:c1j6YcRTTnGIbC81Ce_NmJkkPi3D0ka98gpZjjc5Zwh_LH79t7Qd-K7d1Pfcj0EXD
- 7PoC1gKHt0m_97VMKA>
-X-ME-Received: <xmr:c1j6YaUarMW9xAePok6XxvcCbapzSD4t6qUjSxaLtOs3CaXpbjoxFs__p65EwT1p4EBMm71TMINKw5Mys5kHyIIo3sEPMKLExWKyEz8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeehgddufecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
- veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:c1j6YWgCN7WtE5kTGGyPXNBZfCiINeVyogv7Fnuot99XXwwxW5i3Dg>
- <xmx:c1j6YaA6uTggvy6re-AI9jwCIcROjakPqIxiDj7Uz9_t5Pztum5Gsg>
- <xmx:c1j6YXJS8N3MEWAqYjgosjKe6QhLpjY9hqMoYiYIHjocm9bLa1omdg>
- <xmx:dFj6Yc0kKhE4fsYLnqfZ4PNQeWZGmX7grZcIsGxsAaLx_flwxSMFHg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Feb 2022 05:09:55 -0500 (EST)
-Date: Wed, 2 Feb 2022 11:09:53 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v2 3/3] drm/panel: Add MIPI DBI compatible SPI driver
-Message-ID: <20220202100953.pymb6blsqlaw7jv6@houat>
-References: <20220125175700.37408-1-noralf@tronnes.org>
- <20220125175700.37408-4-noralf@tronnes.org>
- <20220127100452.bmxcgf6ye3nxrgtq@houat>
- <fff71d01-e1c9-2b0f-e4b2-9abb107f7770@tronnes.org>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A49610E4D9
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 10:17:10 +0000 (UTC)
+Date: Wed, 02 Feb 2022 10:16:49 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v12 4/9] drm/ingenic: Add dw-hdmi driver specialization
+ for jz4780
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <1W9O6R.U3T9L7GOJNE81@crapouillou.net>
+In-Reply-To: <d723efc7c2544db945698246ae4644ecb8fae1a3.1643632014.git.hns@goldelico.com>
+References: <cover.1643632014.git.hns@goldelico.com>
+ <d723efc7c2544db945698246ae4644ecb8fae1a3.1643632014.git.hns@goldelico.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="k7kodxa7vws5utl3"
-Content-Disposition: inline
-In-Reply-To: <fff71d01-e1c9-2b0f-e4b2-9abb107f7770@tronnes.org>
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,141 +36,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, linux-mips@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Nikolaus,
 
---k7kodxa7vws5utl3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jan 27, 2022 at 06:53:48PM +0100, Noralf Tr=F8nnes wrote:
-> >> +struct panel_mipi_dbi_config {
-> >> +	/* Magic string: panel_mipi_dbi_magic */
-> >> +	u8 magic[15];
-> >> +
-> >> +	/* Config file format version */
-> >> +	u8 file_format_version;
-> >> +
-> >> +	/* Width in pixels */
-> >> +	__be16 width;
-> >> +	/* Height in pixels */
-> >> +	__be16 height;
-> >> +
-> >> +	/* Width in millimeters (optional) */
-> >> +	__be16 width_mm;
-> >> +	/* Height in millimeters (optional) */
-> >> +	__be16 height_mm;
-> >> +
-> >> +	/* X-axis panel offset */
-> >> +	__be16 x_offset;
-> >> +	/* Y-axis panel offset */
-> >> +	__be16 y_offset;
-> >> +
-> >> +	/* 4 pad bytes, must be zero */
-> >> +	u8 pad[4];
-> >> +
-> >> +	/*
-> >> +	 * Optional MIPI commands to execute when the display pipeline is en=
-abled.
-> >> +	 * This can be used to configure the display controller.
-> >> +	 *
-> >> +	 * The commands are stored in a byte array with the format:
-> >> +	 *     command, num_parameters, [ parameter, ...], command, ...
-> >> +	 *
-> >> +	 * Some commands require a pause before the next command can be rece=
-ived.
-> >> +	 * Inserting a delay in the command sequence is done by using the NO=
-P command with one
-> >> +	 * parameter: delay in miliseconds (the No Operation command is part=
- of the MIPI Display
-> >> +	 * Command Set where it has no parameters).
-> >> +	 *
-> >> +	 * Example:
-> >> +	 *     command 0x11
-> >> +	 *     sleep 120ms
-> >> +	 *     command 0xb1 parameters 0x01, 0x2c, 0x2d
-> >> +	 *     command 0x29
-> >> +	 *
-> >> +	 * Byte sequence:
-> >> +	 *     0x11 0x00
-> >> +	 *     0x00 0x01 0x78
-> >> +	 *     0xb1 0x03 0x01 0x2c 0x2d
-> >> +	 *     0x29 0x00
-> >> +	 */
-> >> +	u8 commands[];
-> >> +};
-> >=20
-> > I'm not really a fan of parsing raw data in the kernel. I guess we can't
-> > really avoid the introduction of a special case to sleep, but we already
-> > have dt properties for all of the other properties (but X and Y offset,
-> > maybe?)
-> >=20
-> > Maybe we should use those instead?
->
-> I don't understand your reluctance to parsing data, lots of ioctls do
-> it.
-
-The reluctance comes from the parsing itself: you need to have input
-validation, and it's hard to get right. The less we have, the easier it
-gets.
-
-> And this data can only be loaded by root. What I like about having
-> these properties in the config file is that the binding becomes a
-> fallback binding that can actually be made to work without changing the
-> Device Tree.
+Le lun., janv. 31 2022 at 13:26:50 +0100, H. Nikolaus Schaller=20
+<hns@goldelico.com> a =E9crit :
+> From: Paul Boddie <paul@boddie.org.uk>
 >=20
-> For arguments sake let's say tiny/st7735r.c was not built and we had
-> this node:
+> A specialisation of the generic Synopsys HDMI driver is employed for
+> JZ4780 HDMI support. This requires a new driver, plus device tree and
+> configuration modifications.
 >=20
-> display@0{
-> 	compatible =3D "jianda,jd-t18003-t01", "sitronix,st7735r",
-> "panel-mipi-dbi-spi";
-> };
+> Here we add Kconfig DRM_INGENIC_DW_HDMI, Makefile and driver code.
 >=20
-> It will still be possible to use this display without changing the
-> Device Tree. Just add a firmware/config file.
+> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> ---
+>  drivers/gpu/drm/ingenic/Kconfig           |   9 ++
+>  drivers/gpu/drm/ingenic/Makefile          |   1 +
+>  drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c | 104=20
+> ++++++++++++++++++++++
+>  3 files changed, 114 insertions(+)
+>  create mode 100644 drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
 >=20
-> Having the properties in DT it would have to look like this for the
-> fallback to work:
+> diff --git a/drivers/gpu/drm/ingenic/Kconfig=20
+> b/drivers/gpu/drm/ingenic/Kconfig
+> index 001f59fb06d56..ba4a650869cd8 100644
+> --- a/drivers/gpu/drm/ingenic/Kconfig
+> +++ b/drivers/gpu/drm/ingenic/Kconfig
+> @@ -24,4 +24,13 @@ config DRM_INGENIC_IPU
 >=20
-> display@0{
-> 	compatible =3D "jianda,jd-t18003-t01", "sitronix,st7735r",
-> "panel-mipi-dbi-spi";
-> 	panel-timing =3D {
-> 		hactive =3D <128>;
-> 		vactive =3D <128>;
-> 	};
-> 	width-mm =3D <25>;
-> 	height-mm =3D <26>;
-> 	x-offset =3D <2>;
-> 	y-offset =3D <3>;
-> };
+>  	  The Image Processing Unit (IPU) will appear as a second primary=20
+> plane.
 >=20
-> Is this important, I'm not sure. What do you think?
+> +config DRM_INGENIC_DW_HDMI
+> +	tristate "Ingenic specific support for Synopsys DW HDMI"
+> +	depends on MACH_JZ4780
+> +	select DRM_DW_HDMI
+> +	help
+> +	  Choose this option to enable Synopsys DesignWare HDMI based=20
+> driver.
+> +	  If you want to enable HDMI on Ingenic JZ4780 based SoC, you should
+> +	  select this option..
 
-Parts of it is ergonomics I guess. We're used to having all those
-properties either in the DT or the driver, but here we introduce a new
-way that isn't done anywhere else.
+One dot is enough.
 
-And I don't see any real downside to putting it in the DT? It's going to
-be in an overlay, under the user's control anyway, right?
+> +
+>  endif
+> diff --git a/drivers/gpu/drm/ingenic/Makefile=20
+> b/drivers/gpu/drm/ingenic/Makefile
+> index d313326bdddbb..f10cc1c5a5f22 100644
+> --- a/drivers/gpu/drm/ingenic/Makefile
+> +++ b/drivers/gpu/drm/ingenic/Makefile
+> @@ -1,3 +1,4 @@
+>  obj-$(CONFIG_DRM_INGENIC) +=3D ingenic-drm.o
+>  ingenic-drm-y =3D ingenic-drm-drv.o
+>  ingenic-drm-$(CONFIG_DRM_INGENIC_IPU) +=3D ingenic-ipu.o
+> +obj-$(CONFIG_DRM_INGENIC_DW_HDMI) +=3D ingenic-dw-hdmi.o
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c=20
+> b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
+> new file mode 100644
+> index 0000000000000..34e986dd606cf
+> --- /dev/null
+> +++ b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
+> @@ -0,0 +1,104 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright (C) 2011-2013 Freescale Semiconductor, Inc.
+> + * Copyright (C) 2019, 2020 Paul Boddie <paul@boddie.org.uk>
+> + *
+> + * Derived from dw_hdmi-imx.c with i.MX portions removed.
+> + * Probe and remove operations derived from rcar_dw_hdmi.c.
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include <drm/bridge/dw_hdmi.h>
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_print.h>
+> +
+> +static const struct dw_hdmi_mpll_config ingenic_mpll_cfg[] =3D {
+> +	{ 45250000,  { { 0x01e0, 0x0000 }, { 0x21e1, 0x0000 }, { 0x41e2,=20
+> 0x0000 } } },
+> +	{ 92500000,  { { 0x0140, 0x0005 }, { 0x2141, 0x0005 }, { 0x4142,=20
+> 0x0005 } } },
+> +	{ 148500000, { { 0x00a0, 0x000a }, { 0x20a1, 0x000a }, { 0x40a2,=20
+> 0x000a } } },
+> +	{ 216000000, { { 0x00a0, 0x000a }, { 0x2001, 0x000f }, { 0x4002,=20
+> 0x000f } } },
+> +	{ ~0UL,      { { 0x0000, 0x0000 }, { 0x0000, 0x0000 }, { 0x0000,=20
+> 0x0000 } } }
+> +};
+> +
+> +static const struct dw_hdmi_curr_ctrl ingenic_cur_ctr[] =3D {
+> +	/*pixelclk     bpp8    bpp10   bpp12 */
+> +	{ 54000000,  { 0x091c, 0x091c, 0x06dc } },
+> +	{ 58400000,  { 0x091c, 0x06dc, 0x06dc } },
+> +	{ 72000000,  { 0x06dc, 0x06dc, 0x091c } },
+> +	{ 74250000,  { 0x06dc, 0x0b5c, 0x091c } },
+> +	{ 118800000, { 0x091c, 0x091c, 0x06dc } },
+> +	{ 216000000, { 0x06dc, 0x0b5c, 0x091c } },
+> +	{ ~0UL,      { 0x0000, 0x0000, 0x0000 } },
+> +};
+> +
+> +/*
+> + * Resistance term 133Ohm Cfg
+> + * PREEMP config 0.00
+> + * TX/CK level 10
+> + */
+> +static const struct dw_hdmi_phy_config ingenic_phy_config[] =3D {
+> +	/*pixelclk   symbol   term   vlev */
+> +	{ 216000000, 0x800d, 0x0005, 0x01ad},
+> +	{ ~0UL,      0x0000, 0x0000, 0x0000}
+> +};
+> +
+> +static enum drm_mode_status
+> +ingenic_dw_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
+> +			   const struct drm_display_info *info,
+> +			   const struct drm_display_mode *mode)
+> +{
+> +	if (mode->clock < 13500)
+> +		return MODE_CLOCK_LOW;
+> +	/* FIXME: Hardware is capable of 270MHz, but setup data is missing.=20
+> */
+> +	if (mode->clock > 216000)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	return MODE_OK;
+> +}
+> +
+> +static struct dw_hdmi_plat_data ingenic_dw_hdmi_plat_data =3D {
+> +	.mpll_cfg   =3D ingenic_mpll_cfg,
+> +	.cur_ctr    =3D ingenic_cur_ctr,
+> +	.phy_config =3D ingenic_phy_config,
+> +	.mode_valid =3D ingenic_dw_hdmi_mode_valid,
+> +	.output_port	=3D 1,
+> +};
+> +
+> +static const struct of_device_id ingenic_dw_hdmi_dt_ids[] =3D {
+> +	{ .compatible =3D "ingenic,jz4780-dw-hdmi" },
+> +	{ /* Sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, ingenic_dw_hdmi_dt_ids);
+> +
+> +static void ingenic_dw_hdmi_cleanup(void *data)
+> +{
+> +	struct dw_hdmi *hdmi =3D (struct dw_hdmi *)data;
+> +
+> +	dw_hdmi_remove(hdmi);
+> +}
+> +
+> +static int ingenic_dw_hdmi_probe(struct platform_device *pdev)
+> +{
+> +	struct dw_hdmi *hdmi;
+> +
+> +	hdmi =3D dw_hdmi_probe(pdev, &ingenic_dw_hdmi_plat_data);
+> +	if (IS_ERR(hdmi))
+> +		return PTR_ERR(hdmi);
+> +
+> +	return devm_add_action_or_reset(&pdev->dev,=20
+> ingenic_dw_hdmi_cleanup, hdmi);
 
-Maxime
+Nitpick, but your probe function is so simple, you could just have a=20
+.remove callback instead of registering a devm action. Then you can=20
+just return PTR_ERR_OR_ZERO(hdmi).
 
---k7kodxa7vws5utl3
-Content-Type: application/pgp-signature; name="signature.asc"
+Cheers,
+-Paul
 
------BEGIN PGP SIGNATURE-----
+> +}
+> +
+> +static struct platform_driver ingenic_dw_hdmi_driver =3D {
+> +	.probe  =3D ingenic_dw_hdmi_probe,
+> +	.driver =3D {
+> +		.name =3D "dw-hdmi-ingenic",
+> +		.of_match_table =3D ingenic_dw_hdmi_dt_ids,
+> +	},
+> +};
+> +module_platform_driver(ingenic_dw_hdmi_driver);
+> +
+> +MODULE_DESCRIPTION("JZ4780 Specific DW-HDMI Driver Extension");
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_ALIAS("platform:dwhdmi-ingenic");
+> --
+> 2.33.0
+>=20
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfpYcQAKCRDj7w1vZxhR
-xVNIAP9lqwOdLp6XqZji1ZbnVE9RmaNIYURZr+51v750hgHvcAEA30sE3FTTzbJ0
-xW7ZhdmyOTEV/N5CO9/PUockqc4Y8AQ=
-=c08z
------END PGP SIGNATURE-----
 
---k7kodxa7vws5utl3--
