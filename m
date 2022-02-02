@@ -1,45 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF00E4A766D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 18:04:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 347114A76BE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 18:23:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D89D410E341;
-	Wed,  2 Feb 2022 17:04:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6D2310E3BC;
+	Wed,  2 Feb 2022 17:23:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.de.opalstack.com (smtp1.de.opalstack.com [46.165.236.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14E9B10E364
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 17:04:28 +0000 (UTC)
-Received: from jason.localnet (host-37-191-188-128.lynet.no [37.191.188.128])
- by smtp1.de.opalstack.com (Postfix) with ESMTPSA id 5995A5C2DD;
- Wed,  2 Feb 2022 17:04:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=boddie.org.uk;
- s=dkim; t=1643821466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QnJUfpdhCrHTOx13kz3/o6wTUJabC+pt0tnb31dRByk=;
- b=dLZQQQKJNTmOf1/SXik0MBFTfwUKyAk72K5FMVtvlJgfM3HUBVonJ9c7lmcRud9T7e6Xw/
- B4/HqrlAGiGkSuB64WJhMCF4/e8ZyKd8O2sxLCsVNr5j+BYEWdJ9btC3FxhDBxZ9UTfkpB
- 12F8QV9bTbZxGMSsqJiEcwUHQl24gjo=
-From: Paul Boddie <paul@boddie.org.uk>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v12 2/9] drm/ingenic: Add support for JZ4780 and HDMI
- output
-Date: Wed, 02 Feb 2022 18:04:20 +0100
-Message-ID: <4456843.HuvP5PFhKd@jason>
-In-Reply-To: <XKGO6R.LTTYDEGZ8RJH3@crapouillou.net>
-References: <cover.1643632014.git.hns@goldelico.com>
- <78F51BD7-112A-458D-8FCE-6A67572A182B@goldelico.com>
- <XKGO6R.LTTYDEGZ8RJH3@crapouillou.net>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBF610E3AB;
+ Wed,  2 Feb 2022 17:23:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643822599; x=1675358599;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=uLI0kZfe4Bghrz9S1UavU6SCOMlq5bAHamHQNE/enuc=;
+ b=XcTkWV+9DtwFGiydgy2gnZIZYZsFJqVar5TECzBBnHxd2OrYSdfmjZn0
+ nwHJ7pmLsPlWzCzTuf8dsrf7lfrBAKzYq7QR0zZLmJg6vOkidpIR95nOP
+ AplcioY4EbAZF53kfyV1usxLEbT1pRJ3CA/Cpi8krQ9V22oZXoojsQ3p/
+ 1UPrKxwQFe7pr3Ri6EIVhZduWexVpDgZbXRitTklyvjemGFrbnvKdQAFM
+ 90QDqQ0qCjasfuiP0/twAQ82ggpeuTCzZ4HWsRgDRLcPrl7kkSZ5cjXo2
+ U4NI6emyNoWB13X2Rk1yAfoyzBTPqvJLNFbD1MllHNMzSf8g/Z7u2x6vu w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10246"; a="272462387"
+X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="272462387"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2022 09:07:21 -0800
+X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="538340442"
+Received: from sbossomx-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.255.32.64])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2022 09:07:19 -0800
+Date: Wed, 2 Feb 2022 12:07:17 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v3 1/3] drm: Stop spamming log with drm_cache
+ message
+Message-ID: <Yfq6RdAWGwEtMkYH@intel.com>
+References: <20220131165926.3230642-1-lucas.demarchi@intel.com>
+ <20220131165926.3230642-2-lucas.demarchi@intel.com>
+ <826ebabfb8a177cc451443763e274c9671a68121.camel@intel.com>
+ <20220201174133.mxkwzofmocskoc5k@ldmartin-desk2>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=1.90
-X-Spam-Level: *
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220201174133.mxkwzofmocskoc5k@ldmartin-desk2>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,100 +61,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mips@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, "Souza,
+ Jose" <jose.souza@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, 2 February 2022 13:41:21 CET Paul Cercueil wrote:
-> Le mer., f=E9vr. 2 2022 at 13:33:15 +0100, H. Nikolaus Schaller>=20
-<hns@goldelico.com> a =E9crit :
-> >>  Am 02.02.2022 um 13:28 schrieb Paul Cercueil <paul@crapouillou.net>:
-> >> =20
-> >>  Note that there are other things not working with your current
-> >>=20
-> >> implementation, for instance you cannot set the X/Y start position
-> >> of the f1 plane, which means it's only really usable for fullscreen
-> >> desktop/windows.
-> >=20
-> > Is setting x/y possible for the other SoC?
->=20
-> Yes. They support different x/y positions, sizes, and pixel format for
-> both f0, f1 and IPU planes.
+On Tue, Feb 01, 2022 at 09:41:33AM -0800, Lucas De Marchi wrote:
+> On Tue, Feb 01, 2022 at 09:12:05AM -0800, Jose Souza wrote:
+> > On Mon, 2022-01-31 at 08:59 -0800, Lucas De Marchi wrote:
+> > > Only x86 and in some cases PPC have support added in drm_cache.c for the
+> > > clflush class of functions. However warning once is sufficient to taint
+> > > the log instead of spamming it with "Architecture has no drm_cache.c
+> > > support" every few millisecond. Switch to WARN_ONCE() so we still get
+> > > the log message, but only once, together with the warning. E.g:
+> > > 
+> > > 	------------[ cut here ]------------
+> > > 	Architecture has no drm_cache.c support
+> > > 	WARNING: CPU: 80 PID: 888 at drivers/gpu/drm/drm_cache.c:139 drm_clflush_sg+0x40/0x50 [drm]
+> > > 	...
+> > > 
+> > > v2 (Jani): use WARN_ONCE() and keep the message previously on pr_err()
+> > 
+> > Reviewed-by: José Roberto de Souza <jose.souza@intel.com>
+> > 
+> > But while at it, why not add a drm_device parameter to this function so we can use drm_WARN_ONCE()?
+> > Anyways, it is better than before.
+> 
+> I thought about that, but it didn't seem justifiable because:
+> 
+> 1) drm_WARN_ONCE will basically add dev_driver_string() to the log.
+> However the warning message here is basically helping the bootstrap of
+> additional archs. They shouldn't be seen on anything properly supported.
+> 
+> 2) This seems all to be a layer below drm anyway and could even be used
+> in places outside easy access to a drm pointer.
+> 
+> So, it seems the benefit of using the subsystem-specific drm_WARN_ONCE
+> doesn't justify the hassle of changing the callers, possibly adding
+> additional back pointers to have access to the drm device pointer.
 
-One thing worth noting about the JZ4780 is that a lot of the registers that=
-=20
-might otherwise be used for the above purposes appear to be read-only, at=20
-least for the different fields concerned.
+Initially I had same feeling as Jose, but good points raised here.
 
-=46or example, those affecting ingenic_drm_plane_config:
+Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Control Register (LCDCTRL) - specifically the BPP0 field
-OSD Control Register (LCDOSDCTRL)
-=46oreground 0 XY Position Register (LCDXYP0)
-=46oreground 1 XY Position Register (LCDXYP1)
-=46oreground 0 Size Register (LCDSIZE0)
-=46oreground 1 Size Register (LCDSIZE1)
-
-These require changes to the extended descriptor members instead, and I am=
-=20
-fairly sure I mentioned the implications for pixel depth configuration=20
-previously. So, as far as I can tell, we would need to update the descripto=
-rs,=20
-not the registers, to support the operations mentioned above.
-
-As for the f0 plane "not working", I am not aware of any limitation around=
-=20
-using only f0 (assuming it corresponds to what the manual calls fg0) or onl=
-y=20
-f1 (again, assuming fg1 in the manual) or both. My assumption was that for=
-=20
-this particular driver, f0 was reserved for some kind of overlay and that f=
-1=20
-was to be used for the normal non-overlay display for products where the OS=
-D=20
-peripheral is provided.
-
-=46rom the definition of struct ingenic_drm:
-
-        /*
-         * f1 (aka. foreground1) is our primary plane, on top of which
-         * f0 (aka. foreground0) can be overlayed. Z-order is fixed in
-         * hardware and cannot be changed.
-         */
-
-So, as I understood it, the driver would configure f1 in the case of the=20
-JZ4780 for basic display support. Configuring f0 as an overlay should be=20
-entirely possible, but I imagine that it needs to change the descriptors, n=
-ot=20
-the registers, to have a chance of actually working.
-
-I hope this is somewhat useful information. I honestly don't know if, say, =
-the=20
-JZ4770 has a similar arrangement with regard to configuration via descripto=
-rs,=20
-as opposed to registers, but I think it is an important distinction between=
-=20
-devices in this particular family that needs to be accommodated in the driv=
-er,=20
-and we obviously want to determine how this might best be achieved.
-
-Paul
-
-
+> 
+> thanks
+> Lucas De Marchi
