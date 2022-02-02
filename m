@@ -1,53 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A284A6EA6
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 11:25:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 031054A6EA9
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 11:25:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDF8A10E496;
-	Wed,  2 Feb 2022 10:25:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A03910E492;
+	Wed,  2 Feb 2022 10:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61AA010E492;
- Wed,  2 Feb 2022 10:25:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643797508; x=1675333508;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=gavjHAthwOTuBGyUGUwSCdP6+AgNSxhgi2C3gzYq5Ys=;
- b=NsHOyt5RvmvHBKjthmT0hPVP210bT+QdB9q/kZm9rtmiUWk07BNTnPXK
- BAxu924zSh1plan7eizBh1vQxCiErf06tjEX0xIPKCNZL46zUjs6Yjlrn
- dopm87Z+SB6auj5+OPTiyVYYPv0+ON7301nZRKCrC61zt4TaomSTyX3B3
- LmoooKkoKT72TnzuboOmSz0zx8jmQvhFWJ6yyTGKen8ENKkM4KmXIIbf0
- BWmHoB/HH5mTFCjFEJepdMzFg8RiCSN1qbc83sB2AZEQKUL0UWLpU4EGU
- RXrnVNKnVQJv048uVJpFH27IFX8LXSKzbM6yTdzWmtCZ695Dz9DphaPDX A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="272370582"
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="272370582"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 02:25:03 -0800
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="630875338"
-Received: from ntaiyeby-mobl1.ger.corp.intel.com (HELO [10.249.254.235])
- ([10.249.254.235])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 02:25:02 -0800
-Message-ID: <febe0111-073b-000a-e8b6-3e02cae840ae@linux.intel.com>
-Date: Wed, 2 Feb 2022 11:24:56 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D717E10E4F8
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 10:25:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7D648210F0;
+ Wed,  2 Feb 2022 10:25:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643797548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MBFFaDdmpbT6cNaTMIBoX1VcquThiP3u/BbxSfb0wuY=;
+ b=JNyvQq662qKvUWcs9r5zq+Jz/igNI+v62rKC0yfVhjIHkHCflRLSfDyvO1+CWJpEtSmCZL
+ ePl6mWc7tdwNi1N1Sdf6gr9lzmpIhZH0/qDwWBnnt756KpoQNyWAFTXMbfC095yhG0tpP8
+ tySdDWFy6jc9EjuO7BeHxFbXFpvsx0w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643797548;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MBFFaDdmpbT6cNaTMIBoX1VcquThiP3u/BbxSfb0wuY=;
+ b=cHMA9RBg/YOLGW3X8Ur250PkskpWN81lZCwjed4jJKEwqBEfZJREGR/lLIer26dKg2HAbb
+ +nmofruHHuuINuBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2299F13DFD;
+ Wed,  2 Feb 2022 10:25:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id iNJPByxc+mHoYwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 02 Feb 2022 10:25:48 +0000
+Message-ID: <a1dd9d31-3ad0-b58f-c67b-5896048281ed@suse.de>
+Date: Wed, 2 Feb 2022 11:25:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 10/20] drm/i915/selftests: mock test io_size
+ Thunderbird/91.5.0
+Subject: Re: [next] arm: panel-edp.c:(.text+0xb74): undefined reference to
+ `drm_panel_dp_aux_backlight'
 Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220126152155.3070602-1-matthew.auld@intel.com>
- <20220126152155.3070602-11-matthew.auld@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20220126152155.3070602-11-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Ard Biesheuvel <ardb@kernel.org>
+References: <CA+G9fYvN0NyaVkRQmA1O6rX7H8PPaZrUAD7=RDy33QY9rUU-9g@mail.gmail.com>
+ <76ff2848-3af4-6758-6e98-91a4c9ad26d8@suse.de>
+ <CAMj1kXE6Q9uW45Q5A-TuPDiXTPOGrGjUn_8FUBKNGQ1g9bd3Rg@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMj1kXE6Q9uW45Q5A-TuPDiXTPOGrGjUn_8FUBKNGQ1g9bd3Rg@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------09SMQnBOqe6XcqkDFM74kwlP"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,189 +72,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ regressions@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
+ Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>,
+ David Airlie <airlied@linux.ie>, Naresh Kamboju <naresh.kamboju@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Linux-Next Mailing List <linux-next@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, lkft-triage@lists.linaro.org,
+ Grace Mi <grace.mi@ecs.corp-partner.google.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------09SMQnBOqe6XcqkDFM74kwlP
+Content-Type: multipart/mixed; boundary="------------L3fX3bWa0slbEyrcIytD0sy2";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Marek Vasut <marex@denx.de>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ regressions@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
+ Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>,
+ David Airlie <airlied@linux.ie>, Naresh Kamboju <naresh.kamboju@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Linux-Next Mailing List <linux-next@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, lkft-triage@lists.linaro.org,
+ Grace Mi <grace.mi@ecs.corp-partner.google.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Message-ID: <a1dd9d31-3ad0-b58f-c67b-5896048281ed@suse.de>
+Subject: Re: [next] arm: panel-edp.c:(.text+0xb74): undefined reference to
+ `drm_panel_dp_aux_backlight'
+References: <CA+G9fYvN0NyaVkRQmA1O6rX7H8PPaZrUAD7=RDy33QY9rUU-9g@mail.gmail.com>
+ <76ff2848-3af4-6758-6e98-91a4c9ad26d8@suse.de>
+ <CAMj1kXE6Q9uW45Q5A-TuPDiXTPOGrGjUn_8FUBKNGQ1g9bd3Rg@mail.gmail.com>
+In-Reply-To: <CAMj1kXE6Q9uW45Q5A-TuPDiXTPOGrGjUn_8FUBKNGQ1g9bd3Rg@mail.gmail.com>
 
-On 1/26/22 16:21, Matthew Auld wrote:
-> Check that mappable vs non-mappable matches our expectations.
->
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+--------------L3fX3bWa0slbEyrcIytD0sy2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+SGkNCg0KQW0gMDIuMDIuMjIgdW0gMTA6Mjggc2NocmllYiBBcmQgQmllc2hldXZlbDoNCj4g
+T24gV2VkLCAyIEZlYiAyMDIyIGF0IDEwOjA4LCBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pg0KPj4gSGkNCj4+DQo+PiBBbSAwMi4wMi4yMiB1
+bSAxMDowMiBzY2hyaWViIE5hcmVzaCBLYW1ib2p1Og0KPj4+IEZvbGxvd2luZyBidWlsZHMg
+ZmFpbGVkIG9uIExpbnV4IG5leHQgMjAyMjAyMDIgYXJtIGFyY2hpdGVjdHVyZS4NCj4+PiAg
+ICAgLSBhcm0tZ2NjLTEwLW9tYXAycGx1c19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tY2xh
+bmctbmlnaHRseS1zaG1vYmlsZV9kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tZ2NjLTgtbHBj
+MzJ4eF9kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tY2xhbmctMTMtc2htb2JpbGVfZGVmY29u
+ZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy0xMC1zaG1vYmlsZV9kZWZjb25maWcNCj4+PiAgICAg
+LSBhcm0tY2xhbmctMTEtc2htb2JpbGVfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWNsYW5n
+LTExLW9tYXAycGx1c19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tY2xhbmctMTMtb21hcDJw
+bHVzX2RlZmNvbmZpZw0KPj4+ICAgICAtIGFybS1jbGFuZy0xMS1scGMzMnh4X2RlZmNvbmZp
+Zw0KPj4+ICAgICAtIGFybS1nY2MtOC1vbWFwMnBsdXNfZGVmY29uZmlnDQo+Pj4gICAgIC0g
+YXJtLWdjYy05LXZleHByZXNzX2RlZmNvbmZpZw0KPj4+ICAgICAtIGFybS1jbGFuZy1uaWdo
+dGx5LWxwYzMyeHhfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy05LXNobW9iaWxlX2Rl
+ZmNvbmZpZw0KPj4+ICAgICAtIGFybS1jbGFuZy0xMy1scGMzMnh4X2RlZmNvbmZpZw0KPj4+
+ICAgICAtIGFybS1nY2MtMTAtc2FtYTVfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWNsYW5n
+LTExLXZleHByZXNzX2RlZmNvbmZpZw0KPj4+ICAgICAtIGFybS1jbGFuZy0xMS1zYW1hNV9k
+ZWZjb25maWcNCj4+PiAgICAgLSBhcm0tZ2NjLTktb21hcDJwbHVzX2RlZmNvbmZpZw0KPj4+
+ICAgICAtIGFybS1jbGFuZy1uaWdodGx5LXNhbWE1X2RlZmNvbmZpZw0KPj4+ICAgICAtIGFy
+bS1jbGFuZy0xMy12ZXhwcmVzc19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tY2xhbmctbmln
+aHRseS12ZXhwcmVzc19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tZ2NjLTktbHBjMzJ4eF9k
+ZWZjb25maWcNCj4+PiAgICAgLSBhcm0tY2xhbmctMTItdmV4cHJlc3NfZGVmY29uZmlnDQo+
+Pj4gICAgIC0gYXJtLWdjYy0xMC12ZXhwcmVzc19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0t
+Y2xhbmctMTItc2htb2JpbGVfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy0xMS1vbWFw
+MnBsdXNfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy05LXNhbWE1X2RlZmNvbmZpZw0K
+Pj4+ICAgICAtIGFybS1nY2MtOC1zaG1vYmlsZV9kZWZjb25maWcNCj4+PiAgICAgLSBhcm0t
+Z2NjLTEwLWxwYzMyeHhfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWNsYW5nLTEyLW9tYXAy
+cGx1c19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tZ2NjLTgtdmV4cHJlc3NfZGVmY29uZmln
+DQo+Pj4gICAgIC0gYXJtLWNsYW5nLTEyLXNhbWE1X2RlZmNvbmZpZw0KPj4+ICAgICAtIGFy
+bS1jbGFuZy1uaWdodGx5LW9tYXAycGx1c19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tZ2Nj
+LTExLWxwYzMyeHhfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy0xMS1zYW1hNV9kZWZj
+b25maWcNCj4+PiAgICAgLSBhcm0tZ2NjLTExLXNobW9iaWxlX2RlZmNvbmZpZw0KPj4+ICAg
+ICAtIGFybS1nY2MtMTEtdmV4cHJlc3NfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy04
+LXNhbWE1X2RlZmNvbmZpZw0KPj4+ICAgICAtIGFybS1jbGFuZy0xMy1zYW1hNV9kZWZjb25m
+aWcNCj4+PiAgICAgLSBhcm0tY2xhbmctMTItbHBjMzJ4eF9kZWZjb25maWcNCj4+Pg0KPj4+
+DQo+Pj4gbWFrZSAtLXNpbGVudCAtLWtlZXAtZ29pbmcgLS1qb2JzPTggIEFSQ0g9YXJtDQo+
+Pj4gQ1JPU1NfQ09NUElMRT1hcm0tbGludXgtZ251ZWFiaWhmLSAnQ0M9c2NjYWNoZQ0KPj4+
+IGFybS1saW51eC1nbnVlYWJpaGYtZ2NjJyAnSE9TVENDPXNjY2FjaGUgZ2NjJyB2ZXhwcmVz
+c19kZWZjb25maWcNCj4+PiBtYWtlIC0tc2lsZW50IC0ta2VlcC1nb2luZyAtLWpvYnM9OCAg
+QVJDSD1hcm0NCj4+PiBDUk9TU19DT01QSUxFPWFybS1saW51eC1nbnVlYWJpaGYtICdDQz1z
+Y2NhY2hlDQo+Pj4gYXJtLWxpbnV4LWdudWVhYmloZi1nY2MnICdIT1NUQ0M9c2NjYWNoZSBn
+Y2MnDQo+Pj4gYXJtLWxpbnV4LWdudWVhYmloZi1sZDogZHJpdmVycy9ncHUvZHJtL3BhbmVs
+L3BhbmVsLWVkcC5vOiBpbiBmdW5jdGlvbg0KPj4+IGBwYW5lbF9lZHBfcHJvYmUnOg0KPj4+
+IHBhbmVsLWVkcC5jOigudGV4dCsweGI3NCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGRy
+bV9wYW5lbF9kcF9hdXhfYmFja2xpZ2h0Jw0KPj4+IG1ha2VbMV06ICoqKiBbL2J1aWxkcy9s
+aW51eC9NYWtlZmlsZToxMjIyOiB2bWxpbnV4XSBFcnJvciAxDQo+Pj4NCj4+Pg0KPj4+IFJl
+cG9ydGVkLWJ5OiBMaW51eCBLZXJuZWwgRnVuY3Rpb25hbCBUZXN0aW5nIDxsa2Z0QGxpbmFy
+by5vcmc+DQo+Pj4NCj4+PiBtZXRhIGRhdGE6DQo+Pj4gLS0tLS0tLS0tLS0NCj4+PiAgICAg
+ICBnaXQgZGVzY3JpYmU6IG5leHQtMjAyMjAyMDINCj4+PiAgICAgICBnaXRfcmVwbzogaHR0
+cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvbmV4dC9saW51
+eC1uZXh0LmdpdA0KPj4+ICAgICAgIHRhcmdldF9hcmNoOiBhcm0NCj4+PiAgICAgICBrY29u
+ZmlnOiB2ZXhwcmVzc19kZWZjb25maWcNCj4+PiAgICAgICB0b29sY2hhaW46IGdjYy0xMQ0K
+Pj4+DQo+Pj4gQnVpbGQgbG9nOg0KPj4+IC0tLS0tLS0tLS0tLS0NCj4+PiBodHRwczovL2J1
+aWxkcy50dXhidWlsZC5jb20vMjRYUmltNzJ2RlhpeDZsNk1kQUpORU55NmplLw0KPj4+DQo+
+Pj4gU3RlcHMgdG8gcmVwcm9kdWNlOg0KPj4+IC0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+Pj4g
+IyBUbyBpbnN0YWxsIHR1eG1ha2Ugb24geW91ciBzeXN0ZW0gZ2xvYmFsbHk6DQo+Pj4gIyBz
+dWRvIHBpcDMgaW5zdGFsbCAtVSB0dXhtYWtlDQo+Pj4gIw0KPj4+ICMgU2VlIGh0dHBzOi8v
+ZG9jcy50dXhtYWtlLm9yZy8gZm9yIGNvbXBsZXRlIGRvY3VtZW50YXRpb24uDQo+Pj4gIyBP
+cmlnaW5hbCB0dXhtYWtlIGNvbW1hbmQgd2l0aCBmcmFnbWVudHMgbGlzdGVkIGJlbG93Lg0K
+Pj4+DQo+Pj4gdHV4bWFrZSAtLXJ1bnRpbWUgcG9kbWFuIC0tdGFyZ2V0LWFyY2ggYXJtIC0t
+dG9vbGNoYWluIGdjYy0xMQ0KPj4+IC0ta2NvbmZpZyB2ZXhwcmVzc19kZWZjb25maWcNCj4+
+Pg0KPj4+IHR1eG1ha2UgLS1ydW50aW1lIHBvZG1hbiAtLXRhcmdldC1hcmNoIGFybSAtLXRv
+b2xjaGFpbiBnY2MtMTENCj4+PiAtLWtjb25maWcgaHR0cHM6Ly9idWlsZHMudHV4YnVpbGQu
+Y29tLzI0WFJpbTcydkZYaXg2bDZNZEFKTkVOeTZqZS9jb25maWcNCj4+DQo+PiBZb3UnbGwg
+bm93IG5lZWQNCj4+DQo+PiAgICAgQ09ORklHX0RSTV9EUF9IRUxQRVI9eQ0KPj4NCj4+IGlu
+IHlvdXIgY29uZmlnLg0KPj4NCj4gDQo+IFRoYXQgc2hvdWxkIG5ldmVyIGJlIHRoZSBzb2x1
+dGlvbiBmb3IgbGlua2VyIGVycm9ycyBzdWNoIGFzIHRoaXMgb25lLg0KPiANCj4gSWYgQ09O
+RklHX0RSTV9QQU5FTF9FRFAgcmVsaWVzIG9uIHNvbWV0aGluZyBwcm92aWRlZCBieQ0KPiBD
+T05GSUdfRFJNX0RQX0hFTFBFUiwgaXQgc2hvdWxkIHNlbGVjdCBpdCBvciBkZXBlbmQgb24g
+aXQgaW4gS2NvbmZpZy4NCg0KT2YgY291cnNlLCB3ZSdsbCBwcm92aWRlIGEgcGF0Y2ggZm9y
+IHRoZSBLY29uZmlnIGZpbGVzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQoNCi0tIA0K
+VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
+dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
+cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
+ZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
+--------------L3fX3bWa0slbEyrcIytD0sy2--
 
-> ---
->   .../drm/i915/selftests/intel_memory_region.c  | 143 ++++++++++++++++++
->   1 file changed, 143 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-> index 247f65f02bbf..04ae29779206 100644
-> --- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-> +++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-> @@ -17,6 +17,7 @@
->   #include "gem/i915_gem_context.h"
->   #include "gem/i915_gem_lmem.h"
->   #include "gem/i915_gem_region.h"
-> +#include "gem/i915_gem_ttm.h"
->   #include "gem/selftests/igt_gem_utils.h"
->   #include "gem/selftests/mock_context.h"
->   #include "gt/intel_engine_pm.h"
-> @@ -512,6 +513,147 @@ static int igt_mock_max_segment(void *arg)
->   	return err;
->   }
->   
-> +static u64 igt_object_mappable_total(struct drm_i915_gem_object *obj)
-> +{
-> +	struct intel_memory_region *mr = obj->mm.region;
-> +	struct i915_ttm_buddy_resource *bman_res =
-> +		to_ttm_buddy_resource(obj->mm.res);
-> +	struct drm_buddy *mm = bman_res->mm;
-> +	struct drm_buddy_block *block;
-> +	u64 total;
-> +
-> +	total = 0;
-> +	list_for_each_entry(block, &bman_res->blocks, link) {
-> +		u64 start = drm_buddy_block_offset(block);
-> +		u64 end = start + drm_buddy_block_size(mm, block);
-> +
-> +		if (start < mr->io_size)
-> +			total += min_t(u64, end, mr->io_size) - start;
-> +	}
-> +
-> +	return total;
-> +}
-> +
-> +static int igt_mock_io_size(void *arg)
-> +{
-> +	struct intel_memory_region *mr = arg;
-> +	struct drm_i915_private *i915 = mr->i915;
-> +	struct drm_i915_gem_object *obj;
-> +	u64 mappable_theft_total;
-> +	u64 io_size;
-> +	u64 total;
-> +	u64 ps;
-> +	u64 rem;
-> +	u64 size;
-> +	I915_RND_STATE(prng);
-> +	LIST_HEAD(objects);
-> +	int err = 0;
-> +
-> +	ps = SZ_4K;
-> +	if (i915_prandom_u64_state(&prng) & 1)
-> +		ps = SZ_64K; /* For something like DG2 */
-> +
-> +	div64_u64_rem(i915_prandom_u64_state(&prng), SZ_8G, &total);
-> +	total = round_down(total, ps);
-> +	total = max_t(u64, total, SZ_1G);
-> +
-> +	div64_u64_rem(i915_prandom_u64_state(&prng), total - ps, &io_size);
-> +	io_size = round_down(io_size, ps);
-> +	io_size = max_t(u64, io_size, SZ_256M); /* 256M seems to be the common lower limit */
-> +
-> +	pr_info("%s with ps=%llx, io_size=%llx, total=%llx\n",
-> +		__func__, ps, io_size, total);
-> +
-> +	mr = mock_region_create(i915, 0, total, ps, 0, io_size);
-> +	if (IS_ERR(mr)) {
-> +		err = PTR_ERR(mr);
-> +		goto out_err;
-> +	}
-> +
-> +	mappable_theft_total = 0;
-> +	rem = total - io_size;
-> +	do {
-> +		div64_u64_rem(i915_prandom_u64_state(&prng), rem, &size);
-> +		size = round_down(size, ps);
-> +		size = max(size, ps);
-> +
-> +		obj = igt_object_create(mr, &objects, size,
-> +					I915_BO_ALLOC_TOPDOWN);
-> +		if (IS_ERR(obj)) {
-> +			pr_err("%s TOPDOWN failed with rem=%llx, size=%llx\n",
-> +			       __func__, rem, size);
-> +			err = PTR_ERR(obj);
-> +			goto out_close;
-> +		}
-> +
-> +		mappable_theft_total += igt_object_mappable_total(obj);
-> +		rem -= size;
-> +	} while (rem);
-> +
-> +	pr_info("%s mappable theft=(%lluMiB/%lluMiB), total=%lluMiB\n",
-> +		__func__,
-> +		(u64)mappable_theft_total >> 20,
-> +		(u64)io_size >> 20,
-> +		(u64)total >> 20);
-> +
-> +	/*
-> +	 * Even if we allocate all of the non-mappable portion, we should still
-> +	 * be able to dip into the mappable portion.
-> +	 */
-> +	obj = igt_object_create(mr, &objects, io_size,
-> +				I915_BO_ALLOC_TOPDOWN);
-> +	if (IS_ERR(obj)) {
-> +		pr_err("%s allocation unexpectedly failed\n", __func__);
-> +		err = PTR_ERR(obj);
-> +		goto out_close;
-> +	}
-> +
-> +	close_objects(mr, &objects);
-> +
-> +	rem = io_size;
-> +	do {
-> +		div64_u64_rem(i915_prandom_u64_state(&prng), rem, &size);
-> +		size = round_down(size, ps);
-> +		size = max(size, ps);
-> +
-> +		obj = igt_object_create(mr, &objects, size, 0);
-> +		if (IS_ERR(obj)) {
-> +			pr_err("%s MAPPABLE failed with rem=%llx, size=%llx\n",
-> +			       __func__, rem, size);
-> +			err = PTR_ERR(obj);
-> +			goto out_close;
-> +		}
-> +
-> +		if (igt_object_mappable_total(obj) != size) {
-> +			pr_err("%s allocation is not mappable(size=%llx)\n",
-> +			       __func__, size);
-> +			err = -EINVAL;
-> +			goto out_close;
-> +		}
-> +		rem -= size;
-> +	} while (rem);
-> +
-> +	/*
-> +	 * We assume CPU access is required by default, which should result in a
-> +	 * failure here, even though the non-mappable portion is free.
-> +	 */
-> +	obj = igt_object_create(mr, &objects, ps, 0);
-> +	if (!IS_ERR(obj)) {
-> +		pr_err("%s allocation unexpectedly succeeded\n", __func__);
-> +		err = -EINVAL;
-> +		goto out_close;
-> +	}
-> +
-> +out_close:
-> +	close_objects(mr, &objects);
-> +	intel_memory_region_destroy(mr);
-> +out_err:
-> +	if (err == -ENOMEM)
-> +		err = 0;
-> +
-> +	return err;
-> +}
-> +
->   static int igt_gpu_write_dw(struct intel_context *ce,
->   			    struct i915_vma *vma,
->   			    u32 dword,
-> @@ -1179,6 +1321,7 @@ int intel_memory_region_mock_selftests(void)
->   		SUBTEST(igt_mock_contiguous),
->   		SUBTEST(igt_mock_splintered_region),
->   		SUBTEST(igt_mock_max_segment),
-> +		SUBTEST(igt_mock_io_size),
->   	};
->   	struct intel_memory_region *mem;
->   	struct drm_i915_private *i915;
+--------------09SMQnBOqe6XcqkDFM74kwlP
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmH6XCsFAwAAAAAACgkQlh/E3EQov+Cb
+zxAAsHI8kD0VNgbrk53q4cUbmeMpCf1RfYYxmu+1fVDZrUZAdibe5zbmqg9M2npozE4Sf2v2ZiA0
+tHNrtPOhaoSiPc6r8Ycu0LKpVIDXkwE1f4PnZCHth1wA7PfZ49cH5x5/pUwAjoLLzIDTZEhfFy/x
+JaF1/mfFImh1ArS1XopBUxtlKnN8c3AG0fWQan1x4KkLatuPEoTt43hkrgWMdgcqa8D0UUGi06Mm
+Hu9Vkf2XqQW5kPMa0oGpPkPzSQiah/rsHl+IyvzY4iMGJ54dizI3LBWYD0zCRjDr9N7oWm+XCys0
+NltgnER7XzsclZCfPfEza3NVjJXTs/thMIyuz+I/T4xUQjElK/qqXw96UhF0l90ZJIpo4tCmd+lT
+/tTvJUTzpRxkdYdlDIGih4bVpE3c+WzYn91GVAZEtjrtRed1xii2Cwa7CbsHqYgPeaFKNef6ZYH7
+HU0c5VTDsjPGgdVQE4su4tuGRKWskvJSe+fXsWPB0Q17Z8a/k/KMelTQYFptG5Nmsb1O16PEYHw2
+EEwZCIyQfDk8LZsXeEF+twzpAluT5P6HfWQwrDVTO8kL2ITF6mIIZ4SqTqX+CLAEiv1Sm4oTM6gN
+j2BHtjngJ67zeSGdCGeq2GJi6dJMap+BNqdmpRiOPAdwtlv0DQCaGygTTurwg1hJIZhl3z+SXU1o
+M0k=
+=xpIB
+-----END PGP SIGNATURE-----
+
+--------------09SMQnBOqe6XcqkDFM74kwlP--
