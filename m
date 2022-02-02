@@ -1,56 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79A84A703B
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 12:46:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 335144A7050
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 12:52:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3812C10E544;
-	Wed,  2 Feb 2022 11:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1086810E558;
+	Wed,  2 Feb 2022 11:51:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 170335 seconds by postgrey-1.36 at gabe;
- Wed, 02 Feb 2022 11:45:58 UTC
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [81.169.146.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30DA410E544
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 11:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1643802349;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=TtvoWSTeL86+2UdMFHXJnnZ7SF/U+8Ottw8P6+WAnO8=;
- b=j6INEz5LNARY9fyK4DWoXKO/j1ywNY86K44G4JPKGieF+fXkYXed/4r2mxE/TNqc8w
- rFNa2qao/Vb4pSS+vCkbvo34JdKxjVCmwzfAk11t/X2Uh4LA00qPF72Rmi3O3ogSPeLG
- evRifJQss+HyQGRkUgY6y8ShV2Z/1aowEgyWQQ07pqN1BUUhneQZGek3vJRBR9WXO94T
- 4+Fb+pLYV0goS1dd6vr4qUV/td5yzKysIKc7iJOO8a+4cnS5kN/rwOiHvuURCklAxbq0
- 8JkBqcZ34H5mCOpApj08qBiI9cmrnFsqcTmo0wVE97PAdqjWDmx0PWU0Nyz11/fKUISc
- 4nUw==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NIGH/jrwDCocQ=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.39.0 DYNA|AUTH)
- with ESMTPSA id L29417y12Bjm9gk
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 2 Feb 2022 12:45:48 +0100 (CET)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v12 7/9] drm/bridge: display-connector: add ddc-en gpio
- support
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <DLAO6R.7AAJRIJFJSDD3@crapouillou.net>
-Date: Wed, 2 Feb 2022 12:45:47 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <67B24AC4-2E72-4A3C-8CCD-785B00F79CB1@goldelico.com>
-References: <cover.1643632014.git.hns@goldelico.com>
- <77a7a1daaf381e1651be38adb62f9af9dd6c8fc5.1643632014.git.hns@goldelico.com>
- <DLAO6R.7AAJRIJFJSDD3@crapouillou.net>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3445.104.21)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801F910E655
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 11:51:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643802717; x=1675338717;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=TaSayFeG3Tla1Ek3mItiUJbCMOq53RsNaYSQFDxfn/k=;
+ b=XEd2Vi8y53xyze+5SKvzvyMb2fb6q2V6tKsrK3utoKrouitoCoNq6h0F
+ c/nHEqA/s3DFAnC+FS6oEbmE2BUqJbc3e5QGNk81bIZRh4412K8pO2Mh9
+ sbiucSpW7j05I5LLLO3Z+T5E3CPZfZvcOUQzP/j+UbjNOzVtF2PLcaq7s
+ USObwo3YJUxLFdV5ladsJm4NKtSVodJhg3lmoj71hd2xFK+Rq8b5zp/L8
+ 9xCfSwsTah5mSbNRn1cxDtI98D5+oxbnK8pcF1YxlPPSCm2WjRtEcr3no
+ YVnLXraQwIlzg5vW2nLsFaxZix0bq1ZWV4USIQePYpU5tQmiapQkjJ7+z A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="228553609"
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="228553609"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2022 03:51:57 -0800
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="620124007"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2022 03:51:53 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nFE9y-00041p-Fe; Wed, 02 Feb 2022 13:50:50 +0200
+Date: Wed, 2 Feb 2022 13:50:50 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
+Message-ID: <YfpwGtjj5hGkN7A4@smile.fi.intel.com>
+References: <Yfj/XGRRDNABsLPm@smile.fi.intel.com>
+ <f8d71acb-5c8b-ac4e-0c32-38eb66af04c3@redhat.com>
+ <CAMuHMdVP6ER119r2KAegjZes1a=KWZ47z6j=kgQ0oNx1oeUJ+w@mail.gmail.com>
+ <51f54519-bb8b-f108-1c1e-4fed101ca5ef@redhat.com>
+ <CAMuHMdVwUfv7pXhPazsgG6t=X=aVtDQkFUk_=mUuFH8Fscx8wg@mail.gmail.com>
+ <abf63995-a529-1e80-18c3-df473a3e7a9c@redhat.com>
+ <YfmaqUBqCrgp0QdO@ravnborg.org>
+ <e552caec-5136-f4b2-12dc-23b182ab8af6@redhat.com>
+ <YfploeCM6C5y3Imj@smile.fi.intel.com>
+ <2f149fef-b991-9e34-98cb-426e561192ff@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2f149fef-b991-9e34-98cb-426e561192ff@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,115 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, linux-mips@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+On Wed, Feb 02, 2022 at 12:39:29PM +0100, Javier Martinez Canillas wrote:
+> On 2/2/22 12:06, Andy Shevchenko wrote:
+> > On Wed, Feb 02, 2022 at 09:38:51AM +0100, Javier Martinez Canillas wrote:
+> >> On 2/1/22 21:40, Sam Ravnborg wrote:
 
-> Am 02.02.2022 um 11:32 schrieb Paul Cercueil <paul@crapouillou.net>:
->=20
-> Hi Nikolaus,
->=20
-> Le lun., janv. 31 2022 at 13:26:53 +0100, H. Nikolaus Schaller =
-<hns@goldelico.com> a =C3=A9crit :
->> "hdmi-connector.yaml" bindings defines an optional property
->> "ddc-en-gpios" for a single gpio to enable DDC operation.
->> Usually this controls +5V power on the HDMI connector.
->> This +5V may also be needed for HPD.
->> This was not reflected in code.
->> Now, the driver activates the ddc gpio after probe and
->> deactivates after remove so it is "almost on".
->> But only if this driver is loaded (and not e.g. blacklisted
->> as module).
->> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
->> ---
->> drivers/gpu/drm/bridge/display-connector.c | 17 +++++++++++++++++
->> 1 file changed, 17 insertions(+)
->> diff --git a/drivers/gpu/drm/bridge/display-connector.c =
-b/drivers/gpu/drm/bridge/display-connector.c
->> index d24f5b90feabf..555395e301096 100644
->> --- a/drivers/gpu/drm/bridge/display-connector.c
->> +++ b/drivers/gpu/drm/bridge/display-connector.c
->> @@ -24,6 +24,7 @@ struct display_connector {
->> 	int			hpd_irq;
->> 	struct regulator	*dp_pwr;
->> +	struct gpio_desc	*ddc_en;
->> };
->> static inline struct display_connector *
->> @@ -345,6 +346,19 @@ static int display_connector_probe(struct =
-platform_device *pdev)
->> 		}
->> 	}
->> +	/* enable DDC */
->> +	if (type =3D=3D DRM_MODE_CONNECTOR_HDMIA) {
->> +		conn->ddc_en =3D devm_gpiod_get_optional(&pdev->dev, =
-"ddc-en",
->> +						       GPIOD_OUT_HIGH);
->> +
->> +		if (IS_ERR(conn->ddc_en)) {
->> +			dev_err(&pdev->dev, "Couldn't get ddc-en =
-gpio\n");
->> +			return PTR_ERR(conn->ddc_en);
->> +		}
->> +
->> +		gpiod_set_value(conn->ddc_en, 1);
->=20
-> You already requested the gpio with the GPIOD_OUT_HIGH flag, so this =
-can be removed.
+> > And how will distros choose "the right" option in this case?
+> 
+> It depends on the distro. In Fedora we are disabling *all* the fbdev drivers.
 
-Ah, ok!
+Yes, and Distro A will think about old driver (because they have customers and
+don't want to have a bad user experience) and Distro F will choose a new one.
 
->=20
->=20
->> +	}
->> +
->> 	conn->bridge.funcs =3D &display_connector_bridge_funcs;
->> 	conn->bridge.of_node =3D pdev->dev.of_node;
->> @@ -373,6 +387,9 @@ static int display_connector_remove(struct =
-platform_device *pdev)
->> {
->> 	struct display_connector *conn =3D platform_get_drvdata(pdev);
->> +	if (conn->ddc_en)
->> +		gpiod_set_value(conn->ddc_en, 0);
->=20
-> Note that gpiod_set_value() already does the null-check internally.
 
-Indeed.
+> > What to do when I wan to see a regression and I want to change drivers w/o
+> > recompilation?
+> 
+> If you want to have the two drivers without recompilation (and same compatible
+> to match) then how would kmod / udev choose which one to load ? It becomes a
+> race condition between the two drivers which one probes first.
 
-> I actually do prefer your solution, so this is fine with me, but =
-maintainers may have a different opinion.
+We have a long history in kernel where new drivers came and old faded.
+When two or more drivers of the same feature is enabled in the kernel
+we may use modprobe facilities to prioritize them (blacklisting).
 
-I am fine with any of them. Just need to know which one to take (and =
-test).
+> > NAK from me to that proposal.
+> 
+> What's your suggestion then to solve the issue mentioned above ? With my distro
+> maintainer hat I don't care that much, since the fbdev drivers will be disabled.
 
-BR,
-Nikolaus
+I think both of them can work together. If user doesn't care, the first one wins.
 
->=20
-> Cheers,
-> -Paul
->=20
->> +
->> 	if (conn->dp_pwr)
->> 		regulator_disable(conn->dp_pwr);
->> --
->> 2.33.0
->=20
->=20
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
