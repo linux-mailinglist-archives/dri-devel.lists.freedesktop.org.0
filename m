@@ -2,39 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C1A4A72F9
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 15:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4CB4A742A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:01:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C33A010E271;
-	Wed,  2 Feb 2022 14:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 129B810E24F;
+	Wed,  2 Feb 2022 15:00:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8228710E271
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 14:26:35 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D13A0ED1;
- Wed,  2 Feb 2022 06:26:34 -0800 (PST)
-Received: from [10.57.68.47] (unknown [10.57.68.47])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 02D393F718;
- Wed,  2 Feb 2022 06:26:32 -0800 (PST)
-Message-ID: <6f0e58dc-4b81-d819-13e3-9e0f79ba279c@arm.com>
-Date: Wed, 2 Feb 2022 14:26:28 +0000
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 106C810E24F
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:00:58 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id m26so9214301wms.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 07:00:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=UJke/v7BookoKPmUftKhzlH99saDDZec7hBQIKAqw5U=;
+ b=d8I1PbMJHfr4TJxDxSAz34w6Oci/V59mn0RqiiInIaIu9ctRblniRaeWAVJ5zCCCma
+ /LeNLsZ8Jeq0x/wx1FO52r3w79G34zfbWmHoT8k7jj87dYibpGuiK5AIiLEUWTbHyeR4
+ ogeFP/U6orewfwdjNmudD/2TN3mYhsyyS3WWQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UJke/v7BookoKPmUftKhzlH99saDDZec7hBQIKAqw5U=;
+ b=RU7UuPmUlc7VJrSPse/pRyE37YyJELcWqt+SSlpaD3bByB7UBx+TkrUY7jGP6UhuzO
+ Z01n7/BuedB7WunpbPgVJYq5dl3k7Du3XN4K7zFEFQmBAM1SoJrYiwi+XgYBxwf3yb6T
+ y2jGvQln9M2IA7htLSQiPtD7MmPuszdfOfM6YkewAZ9NoEftOknSEV0awXaF1cqQZB+3
+ oPuG640EZrvdLh95f18pEI1dMa2FemghIHLcUETNbt0mI2CBFihPYH97Y68ckgvPdvsM
+ oimhVdFyYoCTMv6yGo7dN03ACqVW/XWpJUBO1DNm2YOhkeesp3v1ulsEpJWZc43nsciU
+ +A3w==
+X-Gm-Message-State: AOAM5306zeDOA0YU8Ng5KXgo9Th3Hk/rFP2l5KJm4rgc5hyYU2NdZmY0
+ eTTqFTirU4AX0TZNdSMFJLFqYQ==
+X-Google-Smtp-Source: ABdhPJxzsXob9MfZd84+Frg9QRyH4CTfDv8r32BhiPca6etLb34+hmE2I/kw7LE1AM7L2ncRsuZg8w==
+X-Received: by 2002:a1c:1f54:: with SMTP id f81mr6505147wmf.22.1643814056525; 
+ Wed, 02 Feb 2022 07:00:56 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id p42sm4859278wms.28.2022.02.02.07.00.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Feb 2022 07:00:56 -0800 (PST)
+Date: Wed, 2 Feb 2022 16:00:54 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v4 0/3] Fix regression introduced by disabling
+ accelerated scrolling in fbcon
+Message-ID: <Yfqcprlj/2AuibvG@phenom.ffwll.local>
+References: <20220202135531.92183-1-deller@gmx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v10 2/6] dt-bindings: gpio: logicvc: Add a compatible with
- major version only
-Content-Language: en-GB
-To: Linus Walleij <linus.walleij@linaro.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-References: <20220120150024.646714-1-paul.kocialkowski@bootlin.com>
- <20220120150024.646714-3-paul.kocialkowski@bootlin.com>
- <CACRpkdbnEKeDNmFCuUCLaySs6AtD9MPtxV+9JDxKuXvTs9iMVQ@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <CACRpkdbnEKeDNmFCuUCLaySs6AtD9MPtxV+9JDxKuXvTs9iMVQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220202135531.92183-1-deller@gmx.de>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,67 +66,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, Bartosz Golaszewski <brgl@bgdev.pl>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee.jones@linaro.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-01-30 00:46, Linus Walleij wrote:
-> On Thu, Jan 20, 2022 at 4:00 PM Paul Kocialkowski
-> <paul.kocialkowski@bootlin.com> wrote:
+On Wed, Feb 02, 2022 at 02:55:28PM +0100, Helge Deller wrote:
+> This series reverts two patches which disabled scrolling acceleration in
+> fbcon/fbdev. Those patches introduced a regression for fbdev-supported graphic
+> cards because of the performance penalty by doing screen scrolling by software
+> instead of using existing 2D hardware acceleration.
 > 
->> There are lots of different versions of the logicvc block and it
->> makes little sense to list them all in compatibles since all versions
->> with the same major are found to be register-compatible.
+> The third patch introduces a new config option
+> CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION, which -if enabled- switches
+> fbcon to utilize the bitblt and fillrect hardware acceleration in the
+> framebuffer console. If disabled, such acceleration will not be used, even if
+> it is supported by the graphics hardware driver.
 > 
-> The reason we try to be precise is because sometime, long after the driver
-> has been merged and maintained for a few years, a bug is discovered
-> in a specific version of the silicon.
+> This series is being discussed on linux-fbdev and dri-devel mailing lists.
 > 
-> What happens is that a fix is applied on all silicon whether it is needed
-> or not.
+> Updates in v3:
+> - respin with fixes to build rotation code
 > 
-> If you have the precise silicon compatible, you can avoid this and target
-> only a specific version.
+> Updates in v4:
+> - changed the Kconfig option and Kconfig help text
+> 
+> Helge Deller (3):
+>   Revert "fbdev: Garbage collect fbdev scrolling acceleration, part 1
+>     (from TODO list)"
+>   Revert "fbcon: Disable accelerated scrolling"
+>   fbcon: Add option to enable legacy hardware acceleration
 
-Indeed, the better approach would be something like:
+Applied to drm-misc-fixes, thanks for the patches.
 
-   compatible:
-     oneOf:
-       - items:
-           - enum:
-               - foo,bar-v1.0
-               - foo,bar,v1.1
-           - const: foo,bar-v1
-       - items:
-           - enum:
-               - foo,bar-v2.0
-           - const: foo,bar-v2
+Cheers, Daniel
 
-That way the DTs are future-proof, while drivers can still match on only 
-the less-specific strings until a need arises. Plus it avoids the 
-problem that if an existing OS that only understands "foo,bar-v1.0" is 
-given a new DT with only "foo,bar-v1" for v1.0 hardware it won't be able 
-to use the device, even though it's *functionally* capable of doing so.
+> 
+>  Documentation/gpu/todo.rst              |  24 -
+>  drivers/video/console/Kconfig           |  20 +
+>  drivers/video/fbdev/core/bitblit.c      |  16 +
+>  drivers/video/fbdev/core/fbcon.c        | 557 +++++++++++++++++++++++-
+>  drivers/video/fbdev/core/fbcon.h        |  72 +++
+>  drivers/video/fbdev/core/fbcon_ccw.c    |  28 +-
+>  drivers/video/fbdev/core/fbcon_cw.c     |  28 +-
+>  drivers/video/fbdev/core/fbcon_rotate.h |   9 +
+>  drivers/video/fbdev/core/fbcon_ud.c     |  37 +-
+>  drivers/video/fbdev/core/tileblit.c     |  16 +
+>  drivers/video/fbdev/skeletonfb.c        |  12 +-
+>  include/linux/fb.h                      |   2 +-
+>  12 files changed, 753 insertions(+), 68 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
 
-However, from skimming patch #5, it looks possible that none of these 
-changes are needed at all. If LOGICVC_IP_VERSION_REG tells you the exact 
-revision, and is always present (as the unconditional reading of it 
-implies), then the only reason for adding new compatibles would be if, 
-say, v5 has more clocks from v4 and you want the binding to enforce 
-that; otherwise, newer versions are literally compatible with the 
-currently-defined binding and therefore should continue to bind against 
-the existing string(s) to maximise forward- and backward-compatibility. 
-Sure, it's not the prettiest thing for a "generic" compatible to be 
-based on an oddly-specific version number that doesn't necessarily match 
-the actual software-discoverable version, but what's done is done and 
-that's the cost of ABI.
-
-Cheers,
-Robin.
-
-(also, nitpick for that part of patch #5 since I'm here: please include 
-linux/bitfield.h rather than reinventing FIELD_GET() locally)
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
