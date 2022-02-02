@@ -1,83 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10954A6CEE
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:31:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8FE4A6CEC
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:31:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB1F410EE0A;
-	Wed,  2 Feb 2022 08:31:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9722A10E61D;
+	Wed,  2 Feb 2022 08:31:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C78B210E61D
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 08:29:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643790571;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W0bztKGpIcohzL9Sc0p+LBRUNxZykmedDS+Nu+iWafY=;
- b=jP3FogmUpSQMnIc6qVTwgcY24oY0sPwkWTyVBBlp0tOfuO3iA/WzHUzaOolZWeby4SgYkj
- Ez4/ND3mxocMHMyu2Bn5MopW+LzXO9ndUHqYZX0fgI9AnKoK13DcHQl1UJj1OtnNlUrg/b
- MSfcchOM9iypwh+AdVKzLhc6dBwDrDI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-342-PmxsmsvxNkqYBvkYgTWJlA-1; Wed, 02 Feb 2022 03:29:30 -0500
-X-MC-Unique: PmxsmsvxNkqYBvkYgTWJlA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n6-20020a05600c3b8600b00350f4349a19so1007614wms.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 00:29:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=W0bztKGpIcohzL9Sc0p+LBRUNxZykmedDS+Nu+iWafY=;
- b=GBkKXpg2zSIm9PP+XF5CXKMeq+MKO0J6edKCRA2dh5mGTmyCA/LaPbHvQgWdnVpxjO
- /pxMr8Taepxw0S+oCXEEzvP8nWR6WSl4Tfk2XsN5jp0HPLgOyuqYLAOVeYApXGyeDOuB
- Ka9R3adAIowVNPad/sfGyhptjodwK8K07TMXW2KzFT4kU4l4GC4ziR/dasV2Di/ngViU
- +ku8RnMimt42S7IGqVz/hndNm8hLD8zWNgxchPPlfeFSjXZ7h4ndquAgv11GEWUGb2my
- ueGWJN9Fy/L08aM9FbiPjm6z+IZypAHr6z5ujfDJ5R7/sxm1ClJSBZbddGo8A8dvh5J0
- r61A==
-X-Gm-Message-State: AOAM532AmF7Z4ve2brsO1+P0w3B2MapFsZc7AkxFV5qZ3AzfimNVRoTN
- fQZ3Aqwb4BVlCTTX/2jr9N5fDJ15pVUoejrqR6oZe+qR16DKv8x+m7VmQKvmw1dNWcb5wx7+dHM
- ldohzMEs55In9+3XIX2K+MwDuC5Vi
-X-Received: by 2002:a5d:6acf:: with SMTP id u15mr14123805wrw.483.1643790569358; 
- Wed, 02 Feb 2022 00:29:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwyZ+ZXpYCgyI5AjaHIrkAs/aXj0KAcVKPE7/o7d9nr5TSaq8+Wpfx9p5zSxXVdSNWJTBqZEw==
-X-Received: by 2002:a5d:6acf:: with SMTP id u15mr14123791wrw.483.1643790569132; 
- Wed, 02 Feb 2022 00:29:29 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id n13sm4185614wms.8.2022.02.02.00.29.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 00:29:28 -0800 (PST)
-Message-ID: <042a42a9-0446-1b29-beae-493882cc18ca@redhat.com>
-Date: Wed, 2 Feb 2022 09:29:27 +0100
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A53D10E61D
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 08:30:41 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id DC5CB8387F;
+ Wed,  2 Feb 2022 09:30:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1643790639;
+ bh=Zj1JtM0c+7QfW7HPKMNSn23DdOqtd9tf76hcikKWx1Q=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Dypd7HwKzqxBGY3MeKs3FLLni7CKKmNwxhHdv2pxMYEuM1lhSMfa0dMMOHGGznVi8
+ Y8309eKRaoeZ83Ux6ZLEvtCYAYfRcRA5YjDZkJEAcNteEpwmBmM3oznJthaTVmpOtR
+ jarRu6/srAue1Bbj2vcEsodHLJ1BeWBeaM0Wqkea6H9Zx5hDg7WoLKtx7oIM1jM6Md
+ 4+sHIMjANbft5m9uvyJ3SBs7HWOk8Yn9XyX7zHEatwC5nxFso4NdO9S13xSjS5Ovee
+ xxS5ZAHcbA4iUjFsQjRCioWh7SV50AkYRopgHBbsLVQMR8yTTqdoCTK8XfMnpwGnbD
+ PNRfnTv4miFTQ==
+Message-ID: <61ec1e37-d1a2-6561-493a-06bf37cd71d6@denx.de>
+Date: Wed, 2 Feb 2022 09:30:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 3/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220131202916.2374502-1-javierm@redhat.com>
- <cc093cd5-fba1-5d84-5894-81a6e1d039ff@suse.de>
- <73dbc5c7-b9e2-a260-49a6-0b96f342391e@redhat.com>
- <CAMuHMdUJpoG=XChpqNotfEDrWCxFUqyhjW2JW1ckAyKcWXvAUw@mail.gmail.com>
- <3df2add7-6034-0527-825a-74e62e76dace@redhat.com>
- <946f8fbb-cd64-12d0-ecd9-13af18a00590@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <946f8fbb-cd64-12d0-ecd9-13af18a00590@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v2 2/2] drm: mxsfb: Fix NULL pointer dereference
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Stefan Agner <stefan@agner.ch>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>
+References: <20220202081755.145716-1-alexander.stein@ew.tq-group.com>
+ <20220202081755.145716-3-alexander.stein@ew.tq-group.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20220202081755.145716-3-alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,54 +60,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+On 2/2/22 09:17, Alexander Stein wrote:
+> mxsfb should not never dereference the NULL pointer which
 
-On 2/2/22 09:23, Thomas Zimmermann wrote:
+... not ever ... but that's really a nitpick.
 
-[snip]
+> drm_atomic_get_new_bridge_state is allowed to return.
+> Assume a fixed format instead.
+> 
+> Fixes: commit b776b0f00f24 ("drm: mxsfb: Use bus_format from the nearest bridge if present")
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-> 
-> Thanks to both of you. I was asking because I found the code to be 
-> repetitive and it's not clear that these 3 statements belong together.
-> 
-> I'd like to suggest to add a function
-> 
->    ssd1307_write_cmds(client, len, const u8 *cmds)
-> 
-> that loops through cmds and sends the values one by one. A call would 
-> look like this:
-> 
->    const u8 set_col_range[] = {
->      SSD1307_SET_COL_RANGE,
->      col_start,
->      col_end
->    };
-> 
->    ssd1307_write_cmds(client, ARRAY_SIZE(set_col_range), set_col_range);
-> 
-> AND/OR
-> 
-> You could have functions that take a command with arguments; either as 
-> va_args or with one function per number of arguments. Or you could 
-> combine all these somehow.
->
-
-Thanks for the suggestion, that a makes sense to me. I'll look into
-it when working on v2. Probably during the weekend.
-
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+It's perfect otherwise, thanks !
