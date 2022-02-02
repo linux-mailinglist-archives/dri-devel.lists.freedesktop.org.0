@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583E34A7823
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 19:41:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 832CA4A7803
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 19:36:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A51FD10E42C;
-	Wed,  2 Feb 2022 18:41:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5FC10E48E;
+	Wed,  2 Feb 2022 18:36:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
  [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7152F10E42C;
- Wed,  2 Feb 2022 18:41:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC17810E487;
+ Wed,  2 Feb 2022 18:36:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1643827294; x=1675363294;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
+ t=1643826978; x=1675362978;
+ h=message-id:date:mime-version:from:subject:to:cc:
+ references:in-reply-to:content-transfer-encoding;
  bh=8py6nfhXAHCZ102kp5Lb8LmurXXueeDJ70kmpTnW7es=;
- b=L/1CEjJfj7sy0PX8NHDWVwSYJCCGtjrVc3aXTwCwWwINlBBTiB5PMczz
- 7iRbkMEJFMrCs/P3mG2FQTSxzqpeNTNughlOmsQgS1CFWIA6IerfEM+Mc
- uAJ8R6WJ0heGH1efO44Xse6+c0u+WLgcZ+kQLh8sKYvoleV52ORVw8B5c Y=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 02 Feb 2022 10:41:33 -0800
+ b=WTigm+EoCBZ8AdAn5nKgqQ4wO2LhfmMB8IcxR65gOuWghvVVhEGnHZd3
+ OFdv5GNNmaBgwgV4dp0Am9/bojObIlQyaIys+g4WpSgWNbKOXFyG3nU+E
+ ej1QIiKh38hLqp5z3ConczdyHnw2IxUe+g7PwIptrh1iBy4jw2BZb/BGT U=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 02 Feb 2022 10:36:17 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 10:41:33 -0800
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2022 10:36:16 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Wed, 2 Feb 2022 10:41:33 -0800
+ 15.2.922.19; Wed, 2 Feb 2022 10:36:16 -0800
 Received: from [10.110.21.36] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 2 Feb 2022
- 10:31:28 -0800
-Message-ID: <d6adb09b-2b6f-f8cc-1adf-4542bbcd10d5@quicinc.com>
-Date: Wed, 2 Feb 2022 10:31:27 -0800
+ 10:36:13 -0800
+Message-ID: <ce59e593-b953-7e64-9ed0-5a017cd03389@quicinc.com>
+Date: Wed, 2 Feb 2022 10:36:13 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 Subject: Re: [PATCH v2] drm/msm/dp: add connector type to enhance debug
  messages
-Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
  <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
  <bjorn.andersson@linaro.org>
 References: <1643240768-7869-1-git-send-email-quic_khsieh@quicinc.com>
  <0b81d146-05fa-390e-5afc-cb29909cba3e@linaro.org>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Language: en-US
 In-Reply-To: <0b81d146-05fa-390e-5afc-cb29909cba3e@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
