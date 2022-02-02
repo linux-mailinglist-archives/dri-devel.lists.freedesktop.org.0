@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862274A7508
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:57:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E3F4A751E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 17:00:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8EC910E29E;
-	Wed,  2 Feb 2022 15:57:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6970710E2C0;
+	Wed,  2 Feb 2022 16:00:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9921A10E28D;
- Wed,  2 Feb 2022 15:57:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643817433; x=1675353433;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=jAXhg14qnw81vPdm3O9bsJwxg2CEblQcNAg2SR23+Pk=;
- b=Fl/kCu/RIqYPJx21+kM3aPVKwy5MnKvg9cfI+L0AvC3KETluTFYEB4ST
- NdaXRmu9KMWVU3VdfS4aaiCB60rYb5cIkhLy6F0lZXceyasqxUiwKo+vV
- 2dCufhBINg33zfJntKIG/zo91qWfBOOmSkB9/SOAul6YFmVEzgaD757dv
- rqkH1Ln5/Lxxdu76n327GSrQpnrNY+0PnRKe7UvcTOiG//gG3m8ewmN/A
- gH+Am4HYCMMiAvG5bDlAIc+X1scCDNqLoWiUeYx+ufRGnIpIZ5XGoK+zE
- xuKB9CJ/yJOYnPA2a0K8sUzSVqjwLW9aeNYVU/IsJTne3W9PDYf6WXus7 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="334305865"
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="334305865"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 07:57:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="482868426"
-Received: from markeyp-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.6.210])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 07:57:09 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting
- from drm_writeback_connector structure changes
-In-Reply-To: <CAA8EJprrhPtDkWRk8+6Wf+OoQi4u8m_t7G5guJQW+SNuttOSgQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220202085429.22261-1-suraj.kandpal@intel.com>
- <20220202085429.22261-6-suraj.kandpal@intel.com>
- <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com> <87y22ts948.fsf@intel.com>
- <CAA8EJprrhPtDkWRk8+6Wf+OoQi4u8m_t7G5guJQW+SNuttOSgQ@mail.gmail.com>
-Date: Wed, 02 Feb 2022 17:57:06 +0200
-Message-ID: <87sft1s1m5.fsf@intel.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 900AC10E2C0
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 16:00:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=HjIuj8tK/i3bU/jTctNAzn1hnRcxPQQLduo2krywtkU=; b=EH3rg7kdaPqsCQ5aP0CO20CfG5
+ Nr+UWWGO7Y6S66ksZxEMOoGILOR1bK+G9d42uuu6ambVde60Hc7LD81TgLh2TObm2TVCRfUkG7ihu
+ YXdwsmMZ5CDcWrkl3HdRzDoHqm5JK0pmNBJz+NdYnExIGn3Jd4U3louPhjPJ6NhC4bZc6ZFgOnC1P
+ U8F/sqnpOAZ0jum9Po/llG943XMqWBeUDicmOiKZn64jsReQh71GwLPdSJqHFTsK/Kbnhr2bI2MrL
+ /lLlAFOowI7vH218ri6Bsr7CpotdaR6QA5afJF6O/fHegYBvp6wFJ/Dcu9rfrlOO9na7n3Ilb54oL
+ cHC6hYSw==;
+Received: from [2a01:799:95e:a400:cca0:57ac:c55d:a485] (port=60100)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1nFI3E-0000np-3N; Wed, 02 Feb 2022 17:00:08 +0100
+Message-ID: <7eb83dae-7dd9-1ffc-93ce-b47429ec510b@tronnes.org>
+Date: Wed, 2 Feb 2022 17:00:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/4] drm: Add I2C connector type
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20220131201225.2324984-1-javierm@redhat.com>
+ <20220131201225.2324984-2-javierm@redhat.com> <YfhMESTylI1NTKDg@ravnborg.org>
+ <4d9a56a7-da25-b411-61cc-372c6fa9011d@tronnes.org>
+ <4966d03e-ee0c-5130-3819-05a90a8f6d06@suse.de>
+ <c6100ec3-b511-17cf-c542-e124c14fb334@tronnes.org>
+ <20220202170455.3eece5a3@eldfell>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220202170455.3eece5a3@eldfell>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,126 +59,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
- intel-gfx@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, arun.r.murthy@intel.com
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 02 Feb 2022, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> On Wed, 2 Feb 2022 at 16:15, Jani Nikula <jani.nikula@intel.com> wrote:
+
+
+Den 02.02.2022 16.04, skrev Pekka Paalanen:
+> On Wed, 2 Feb 2022 10:45:42 +0100
+> Noralf Trønnes <noralf@tronnes.org> wrote:
+> 
+>> Den 02.02.2022 10.14, skrev Thomas Zimmermann:
+>>> Hi Noralf,
+>>>
+>>> since you're here, I'll just hijack the discussion to ask something only
+>>> semi-related.
+>>>
+>>> IIRC the gud driver doesn't update the display immediately during atomic
+>>> commits. Instead, it instructs a helper thread to do the update. What's
+>>> the rational behind this design? Is that something we should adopt for
+>>> other drivers that operate over slow buses (USB, I2C, etc)? Would this
+>>> be relevant for the ssd1307 driver?
+>>>   
 >>
->> On Wed, 02 Feb 2022, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
->> > Hi Kandpal,
->> >
->> > Thank you for the patch.
->> >
->> > On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
->> >> Changing rcar_du driver to accomadate the change of
->> >> drm_writeback_connector.base and drm_writeback_connector.encoder
->> >> to a pointer the reason for which is explained in the
->> >> Patch(drm: add writeback pointers to drm_connector).
->> >>
->> >> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
->> >> ---
->> >>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
->> >>  drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
->> >>  2 files changed, 7 insertions(+), 3 deletions(-)
->> >>
->> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
->> >> index 66e8839db708..68f387a04502 100644
->> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
->> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
->> >> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
->> >>      const char *const *sources;
->> >>      unsigned int sources_count;
->> >>
->> >> +    struct drm_connector connector;
->> >> +    struct drm_encoder encoder;
->> >
->> > Those fields are, at best, poorly named. Furthermore, there's no need in
->> > this driver or in other drivers using drm_writeback_connector to create
->> > an encoder or connector manually. Let's not polute all drivers because
->> > i915 doesn't have its abstractions right.
->>
->> i915 uses the quite common model for struct inheritance:
->>
->>         struct intel_connector {
->>                 struct drm_connector base;
->>                 /* ... */
->>         }
->>
->> Same with at least amd, ast, fsl-dcu, hisilicon, mga200, msm, nouveau,
->> radeon, tilcdc, and vboxvideo.
->
-> For the reference. msm does not wrap drm_connector into any _common_
-> structure, which is used internally.
->
->> We could argue about the relative merits of that abstraction, but I
->> think the bottom line is that it's popular and the drivers using it are
->> not going to be persuaded to move away from it.
->
-> As I wrote earlier, I am not sure if these drivers would try using
-> their drm_connector subclass for writeback.
-> ast: ast_connector = drm_connector + respective i2c adapter for EDID,
-> not needed for WB
-> fsl-dcu: fsl_dcu_drm_connector = drm_connector + drm_encoder pointer +
-> drm_panel. Not needed for WB
-> hisilicon, mgag200: same as ast
-> tilcdc: same as fsl-dcu
-> vboxdrv: the only driver that may possibly benefit from using
-> vbox_connector in the writeback support, as the connector is bare
-> drm_connector + crtc pointer + hints (width, height, disconnected).
->
-> I have left amd, nouveau and radeon out of this list, too complex to
-> analyze in several minutes.
->
-> I'd second the proposal of supporting optional drm_encoder for
-> drm_writeback_connector (as the crtc/encoder split can be vague), but
-> I do not see the benefit for the drivers to use their own
-> drm_connector subclass for drm_writeback.
+>> Async flushing is only necessary on multi display setups where there's
+>> only one rendering loop for all the displays. I saw what tiny/gm12u320.c
+>> did and Hans gave me the rationale. The SPI drivers run flushing inline.
+>> Info on the gud wiki:
+>> https://github.com/notro/gud/wiki/Linux-Host-Driver#asynchronous-flushing
+> 
+> Hi,
+> 
+> please also consider that userspace may throttle to the KMS pageflip
+> events. If the pageflip event is immediate from submitting a flip, that
+> could mean userspace will be repainting in a busy-loop, like 1 kHz.
+> However, I remember something about virtual KMS drivers doing exactly
+> this, and there being something that tells userspace to throttle itself
+> instead of depending on pageflip completions. I just forget how that is
+> supposed to work, and I'm fairly sure that e.g. Weston does not behave
+> well there.
+> 
+> Unfortunately, the pageflip event is also what synchronises FB usage.
+> Once flipping in a new FB completed, the old FB is free for re-use.
+> But, if the kernel is still copying out from the old FB, userspace may
+> partially overwrite the contents, temporarily leading to an incomplete
+> or too new image on screen. Do you have anything to prevent that?
+> 
 
-If a driver uses inheritance throughout the driver, and a *different*
-subclass gets introduced into the mix, you need to add a ton of checks
-all over the place when you cast the superclass pointer to the subclass.
+Unfortunately not. One solution would be to make a buffer copy during
+the flip and do the USB transfer async but I haven't looked into that.
+My plan is to wait and see what problems users report back before trying
+to fix anything.
 
-The connector/encoder funcs you do have to pass to
-drm_writeback_connector_init() can't use any of the shared driver
-infrastructure that assume a certain inheritance.
-
-See also my reply to Laurent [1].
-
-> It well might be that we all misunderstand your design. Do you have a
-> complete intel drm_writeback implementation based on this patchset? It
-> would be easier to judge if the approach is correct seeing your
-> target.
-
-That would be up to Suraj Kandpal.
-
-BR,
-Jani.
-
-
-[1] https://lore.kernel.org/r/87v8xxs2hz.fsf@intel.com
-
-
->
->>
->> It's no coincidence that the drivers who've implemented writeback so far
->> (komeda, mali, rcar-du, vc4, and vkms) do not use the abstraction,
->> because the drm_writeback_connector midlayer does, forcing the issue.
->>
->> So I think drm_writeback_connector should *not* use the inheritance
->> abstraction because it's a midlayer that should leave that option to the
->> drivers. I think drm_writeback_connector needs to be changed to
->> accommodate that, and, unfortunately, it means current writeback users
->> need to be changed as well.
->>
->> I am not sure, however, if the series at hand is the right
->> approach. Perhaps writeback can be modified to allocate the stuff for
->> you if you prefer it that way, as long as the drm_connector is not
->> embedded in struct drm_writeback_connector.
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Noralf.
