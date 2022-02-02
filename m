@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BDA4A748A
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77CC34A748B
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:24:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D15358977A;
-	Wed,  2 Feb 2022 15:24:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 602DA899AB;
+	Wed,  2 Feb 2022 15:24:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5122C8977A
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:24:29 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 319208977A
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:24:30 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1C2D7B83063;
- Wed,  2 Feb 2022 15:24:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83FDBC004E1;
- Wed,  2 Feb 2022 15:24:25 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B5E46615A7;
+ Wed,  2 Feb 2022 15:24:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60832C340EF;
+ Wed,  2 Feb 2022 15:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643815466;
- bh=+TusgwJZ0TMGf6vEoGvddWy8ABuvMOEiteKQoWBh/6Y=;
- h=From:To:Cc:Subject:Date:From;
- b=AKVxyTcPbH7e92HM5nhtvxB3KOARTyGSzfY71/Y1wWQwBDZ5MehA9XJDX9DUB4Tys
- 7B4DVtrsw3PLB9ac8eJejRYiqkyqymAqsXHu3bXIX1R+aMexbwaXvHA1TKSex9pge7
- GPh28L59y1FQMj3qeD9hoFHdPKD5gxBXdGjr1alGSQKx4l+m+FkT6t2BHcUCMlDFOO
- 9hfI0obnWV4LTjiXfqLTBXuPWwBR/QtuIKWGiNM7+CgdFACTuRmKb5VmwqcRFj5GYs
- kGctYvkCqh3H7H9U9eOC2k+qCa7jQYq7wspeiUF4BiRQ1x93vBtt2YSK10mmpt6Atk
- E4UKtk269cjdQ==
+ s=k20201202; t=1643815468;
+ bh=u9PwIkdMzz7u4ODiAsVA899tyWIJLHEtwCmzwaoeHrw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=LarZb2bbeoVdNlQs7JiS+VqVb9YezpCAKi8JdJYK86DuiAksYmX8zXxYuzFEZQdHx
+ IGQC3E2Ye3sfz/l5Lg07FVmbjBVBOIaPmY7Cul9xDs9T3+f50zhJC+sF+sKZqc3R2G
+ BgeClFjRjqiM3iAJOZeuTZmzHfY7UnnOela0XNZpGj7zZ8Xgid/MHYuNx8P2GmZKu8
+ VMhKycmFuafokszHWavze4hqPbLQD1WwzPanF7m0p14fd61FBSRz2S/4s9hx2nu7rb
+ d/YUoFH7k4fx4QrrPK4ryhY9vQT1g54lDtFgXPhovI4GasH4cuJWoASQxxAAljnTBb
+ GxqJDmBR1m78w==
 From: Mark Brown <broonie@kernel.org>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 0/3] drm/panel: Ensure DT compatibles have SPI device IDs
-Date: Wed,  2 Feb 2022 15:23:49 +0000
-Message-Id: <20220202152352.20342-1-broonie@kernel.org>
+Subject: [PATCH v2 1/3] drm/panel-ilitek-il9322: Add SPI ID table
+Date: Wed,  2 Feb 2022 15:23:50 +0000
+Message-Id: <20220202152352.20342-2-broonie@kernel.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220202152352.20342-1-broonie@kernel.org>
+References: <20220202152352.20342-1-broonie@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=758; h=from:subject;
- bh=+TusgwJZ0TMGf6vEoGvddWy8ABuvMOEiteKQoWBh/6Y=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBh+qIETeCb+gVR4VqrEeXyTBNgzczO1Fs6F9AbsIaL
- zY+P0zWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYfqiBAAKCRAk1otyXVSH0CmFB/
- 0bRYhzLuA6yMeIAvkIa1K0SwEzp8uifS63/0lP2rfY0Tgih/rhwvEfMi2wOnOry5+Lj+m5JbiJlWOF
- YLQEpVk+n7G/cNOUcuB0ezcvnvIzenmFGIz/s+7lJp+P0YAePJgQztEhbWWzJ0NY+QuE/Uaxh8YOas
- KLD3yN6xohGABD9Q1uHAO+dSWWYadevjQPBb7rUVnYGI5raSOXdZEL/VVfe9sxODnVJH3Di7VN1blT
- LlthQyw9oeOPtMFo4mq4fNPAEaFHBMXypKtKdQmI5TMhyI7UZkbQ/Yvv3EtBHTrHdLb+1xakjb+6zL
- RPh6dtmtuY6ElRKxqoFur0A30hUosN
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1523; h=from:subject;
+ bh=u9PwIkdMzz7u4ODiAsVA899tyWIJLHEtwCmzwaoeHrw=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBh+qIFGm8i91C/xNUR97KM47CHSbHQrf9yG918d2Op
+ j4Kxn3+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYfqiBQAKCRAk1otyXVSH0NZFB/
+ 4vsXtKgUUiFbGLqEM+CyvpYv3Q9LRGOoJJEsC/ViuOMhEpqw2qH+YwVYYDg1kIgNjQ2nO9A1/uOiQO
+ R7Aqe4E8f9/I8zxOrDeNYnKQ0hqc1c4ERhOuNPDLsvfKB8DnNPRgWsA3NDt44AnMHbm7SgJqRBkZpj
+ KiLa2GRoEYY8EADcSt5fE+xGYBKUjXWpzM5TjXZ01hnRq9OFkLIxGzB/KUnHKv9849ycf/62lM9hm+
+ Ygr43DA097y6Deh224qKXUPgKx4Kgg7k9dK77iIke1SNJzgbtfpX7fb41GqLM2NP6Prg+xFobCFKVO
+ oEAzxdjPhMdiJtGUHrPbezrXgrBaEU
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Content-Transfer-Encoding: 8bit
@@ -67,24 +70,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Currently autoloading for SPI devices does not use the DT ID table, it uses
 SPI modalises. Supporting OF modalises is going to be difficult if not
-impractical, an attempt was made but has been reverted, so this series
-adds SPI IDs where they aren't provided for a given modalias.
+impractical, an attempt was made but has been reverted, so ensure that
+module autoloading works for this driver by adding an id_table listing the
+SPI IDs for everything.
 
-v2:
- - Rebase onto v5.17-rc1.
+Fixes: 96c8395e2166 ("spi: Revert modalias changes")
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/gpu/drm/panel/panel-ilitek-ili9322.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Mark Brown (3):
-  drm/panel-ilitek-il9322: Add SPI ID table
-  drm/panel-novotek-nt39016: Add SPI ID table
-  drm/ili9486: Add SPI ID table
-
- drivers/gpu/drm/panel/panel-ilitek-ili9322.c  | 14 ++++++++++++++
- drivers/gpu/drm/panel/panel-novatek-nt39016.c |  8 ++++++++
- drivers/gpu/drm/tiny/ili9486.c                |  2 ++
- 3 files changed, 24 insertions(+)
-
-
-base-commit: e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
+index 8e84df9a0033..c7a980fd6406 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
+@@ -935,6 +935,19 @@ static const struct of_device_id ili9322_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, ili9322_of_match);
+ 
++static const struct spi_device_id ili9322_spi_ids[] = {
++	{
++		.name = "dir-685-panel",
++		.driver_data = (kernel_ulong_t)&ili9322_dir_685,
++	},
++	{
++		.name = "ili9322",
++		.driver_data = 0,
++	},
++	{ }
++};
++MODULE_DEVICE_TABLE(spi, ili9322_spi_ids);
++
+ static struct spi_driver ili9322_driver = {
+ 	.probe = ili9322_probe,
+ 	.remove = ili9322_remove,
+@@ -942,6 +955,7 @@ static struct spi_driver ili9322_driver = {
+ 		.name = "panel-ilitek-ili9322",
+ 		.of_match_table = ili9322_of_match,
+ 	},
++	.id_table = ili9322_spi_ids,
+ };
+ module_spi_driver(ili9322_driver);
+ 
 -- 
 2.30.2
 
