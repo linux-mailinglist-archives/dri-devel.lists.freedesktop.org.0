@@ -1,35 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846AA4A70F6
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 13:41:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 234A34A70F9
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 13:43:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1BD10E3A9;
-	Wed,  2 Feb 2022 12:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 734A110E4CC;
+	Wed,  2 Feb 2022 12:43:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04B4410E3A9
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 12:41:36 +0000 (UTC)
-Date: Wed, 02 Feb 2022 12:41:21 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v12 2/9] drm/ingenic: Add support for JZ4780 and HDMI
- output
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <XKGO6R.LTTYDEGZ8RJH3@crapouillou.net>
-In-Reply-To: <78F51BD7-112A-458D-8FCE-6A67572A182B@goldelico.com>
-References: <cover.1643632014.git.hns@goldelico.com>
- <6a7b188769a7ad477bf8cb71e1b9bc086b92388d.1643632014.git.hns@goldelico.com>
- <N7AO6R.7I6FABF106MT1@crapouillou.net>
- <1F27171F-DFCA-4707-8F50-D1A343F6D78E@goldelico.com>
- <CYEO6R.2QDXEFO5G1WQ3@crapouillou.net>
- <37CB6D86-4295-4281-BF3E-3E4B40E74196@goldelico.com>
- <5ZFO6R.M6Z7S3EBA1YC1@crapouillou.net>
- <78F51BD7-112A-458D-8FCE-6A67572A182B@goldelico.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB05D10E4A7;
+ Wed,  2 Feb 2022 12:43:07 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1CDF2F3;
+ Wed,  2 Feb 2022 13:43:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1643805786;
+ bh=+WI37cf75CMeTGqF1Etn3HqpDOS7IELga46qsR35ox0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ly/AdmqD2TrLlp//8lTD8BPHPgO3c+C8b4G32Vy0L6+uk2xcfe5p0+4IhSis+9GYg
+ Ve65LnFpHjdQbvZmeaDGTl+BAFVHNASw/y97do469RZZ6kWbcd9MPVwbwQgUdf869u
+ G8Vw71ZWv/Msg/wJzh8TY84EH5DeSWhK4nxpMk/E=
+Date: Wed, 2 Feb 2022 14:42:43 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kandpal Suraj <suraj.kandpal@intel.com>
+Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting
+ from drm_writeback_connector structure changes
+Message-ID: <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com>
+References: <20220202085429.22261-1-suraj.kandpal@intel.com>
+ <20220202085429.22261-6-suraj.kandpal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220202085429.22261-6-suraj.kandpal@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,92 +48,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, linux-mips@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: carsten.haitzler@arm.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, dmitry.baryshkov@linaro.org,
+ arun.r.murthy@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Kandpal,
 
+Thank you for the patch.
 
-Le mer., f=E9vr. 2 2022 at 13:33:15 +0100, H. Nikolaus Schaller=20
-<hns@goldelico.com> a =E9crit :
->=20
->=20
->>  Am 02.02.2022 um 13:28 schrieb Paul Cercueil <paul@crapouillou.net>:
->>=20
->>=20
->>=20
->>  Le mer., f=E9vr. 2 2022 at 13:17:14 +0100, H. Nikolaus Schaller=20
->> <hns@goldelico.com> a =E9crit :
->>>  Hi Paul,
->>>>  Am 02.02.2022 um 13:06 schrieb Paul Cercueil=20
->>>> <paul@crapouillou.net>:
->>>>  Hi Nikolaus,
->>>>>>>  @@ -446,6 +454,9 @@ static int=20
->>>>>>> ingenic_drm_plane_atomic_check(struct drm_plane *plane,
->>>>>>>  	if (!crtc)
->>>>>>>  		return 0;
->>>>>>>  +	if (plane =3D=3D &priv->f0)
->>>>>>>  +		return -EINVAL;
->>>>>>  This will break JZ4725B -> JZ4770 SoCs, the f0 plane is=20
->>>>>> perfectly usable there.
->>>>>  Hm. I think it was your request/proposal to add this [1]?
->>>>  Because otherwise with your current patchset the f0 plane does=20
->>>> not work *on JZ4780*.
->>>  Not that I am eager to fix that, but...
->>>  maybe it could be better to fix than having the check and -EINVAL=20
->>> depend on SoC compatible string
->>>  (or some new flag in soc_info. plane_f0_not_working)?
->>=20
->>  Totally agree! A proper fix would be much better. A=20
->> "plane_f0_not_working" in the meantime is OK with me.
->=20
-> Ok, then I'll prepare a v13 with plane_f0_not_working.
->=20
->>=20
->>  Note that there are other things not working with your current=20
->> implementation, for instance you cannot set the X/Y start position=20
->> of the f1 plane, which means it's only really usable for fullscreen=20
->> desktop/windows.
->=20
-> Is setting x/y possible for the other SoC?
+On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
+> Changing rcar_du driver to accomadate the change of
+> drm_writeback_connector.base and drm_writeback_connector.encoder
+> to a pointer the reason for which is explained in the
+> Patch(drm: add writeback pointers to drm_connector).
+> 
+> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
+>  drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
+>  2 files changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> index 66e8839db708..68f387a04502 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
+>  	const char *const *sources;
+>  	unsigned int sources_count;
+>  
+> +	struct drm_connector connector;
+> +	struct drm_encoder encoder;
 
-Yes. They support different x/y positions, sizes, and pixel format for=20
-both f0, f1 and IPU planes.
+Those fields are, at best, poorly named. Furthermore, there's no need in
+this driver or in other drivers using drm_writeback_connector to create
+an encoder or connector manually. Let's not polute all drivers because
+i915 doesn't have its abstractions right.
 
--Paul
+Nack.
 
->>=20
->>>>  It does work on older SoCs.
->>>>>  What I have forgotten is why the f0 plane should not be usable=20
->>>>> for jz4780.
->>>>  We return an error here to prevent userspace from using the f0=20
->>>> plane until it's effectively working on the JZ4780.
->>>  Well, what would be not working with that plane if user-space=20
->>> would try to use it?
->>=20
->>  From what I remember, it wouldn't show anything on screen, and=20
->> after that trying to use the f1 plane wouldn't work either.
->=20
-> Ok. That may become a big project to fix. So let's do step 1 first.
->=20
-> BR and thanks,
-> NIkolaus
->=20
+>  	struct drm_writeback_connector writeback;
+>  };
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> index c79d1259e49b..5b1e83380c47 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> @@ -200,8 +200,10 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
+>  {
+>  	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
+>  
+> -	wb_conn->encoder.possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+> -	drm_connector_helper_add(&wb_conn->base,
+> +	wb_conn->base = &rcrtc->connector;
+> +	wb_conn->encoder = &rcrtc->encoder;
+> +	wb_conn->encoder->possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+> +	drm_connector_helper_add(wb_conn->base,
+>  				 &rcar_du_wb_conn_helper_funcs);
+>  
+>  	return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
+> @@ -220,7 +222,7 @@ void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
+>  	struct drm_framebuffer *fb;
+>  	unsigned int i;
+>  
+> -	state = rcrtc->writeback.base.state;
+> +	state = rcrtc->writeback.base->state;
+>  	if (!state || !state->writeback_job)
+>  		return;
+>  
 
+-- 
+Regards,
 
+Laurent Pinchart
