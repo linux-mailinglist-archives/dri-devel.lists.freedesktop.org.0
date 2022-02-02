@@ -1,52 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312E54A6D6D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 10:03:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B8834A6D71
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 10:03:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 418BA10E6F1;
-	Wed,  2 Feb 2022 09:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1B710E6F4;
+	Wed,  2 Feb 2022 09:03:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7520F10E6E7
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 09:02:58 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-286-fMc-AKToMMKAIaDfh45yHg-1; Wed, 02 Feb 2022 09:02:54 +0000
-X-MC-Unique: fMc-AKToMMKAIaDfh45yHg-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Wed, 2 Feb 2022 09:02:52 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Wed, 2 Feb 2022 09:02:52 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Yizhuo Zhai' <yzhai003@ucr.edu>
-Subject: RE: [PATCH v2] fbdev: fbmem: Fix the implicit type casting
-Thread-Topic: [PATCH v2] fbdev: fbmem: Fix the implicit type casting
-Thread-Index: AQHYFxVn+cS+fUmzMESHo6Syg/F7Wqx/+Mmg
-Date: Wed, 2 Feb 2022 09:02:52 +0000
-Message-ID: <5286c6acac7c4ee598f6fa4a7ea04b86@AcuMS.aculab.com>
-References: <202201311943.VXU6K1gH-lkp@intel.com>
- <20220201023559.2622144-1-yzhai003@ucr.edu>
-In-Reply-To: <20220201023559.2622144-1-yzhai003@ucr.edu>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F51710E6F4
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 09:03:19 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 35AFD8388D;
+ Wed,  2 Feb 2022 10:03:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1643792597;
+ bh=YVvUP4D6tMmAR/VpZZAnjSkSR9ik/uBSO73qg4tC6uM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=aduSZ9B6YxdJry1GFBXDBbQqvPOy/uPFmSDpr1Cwqmb4GFlpAtNUgN19XOQRZW5yA
+ tw4/nVIttE+dFGXSUVomZNfh8zmXaL12aQPlFO3NFqVSTT0tYJ0p7WwB19wKqF7gYR
+ HBQZIWSXuSudZeQUxVils/dPxw/aaL39UDBN7KVkgpXHCrqmW4sIYjyVu/sZEWEA9N
+ C/pcQtnNRzzokaps5cyhJFyyZADMsj1CQtlxgNsgq4UOCRQ9OUTfPef9KGQR3BgPaf
+ O1nAqhGetrYVCadPv1iAWaVrIYBmjElBf4twlIs4EEyxbzAFeNR3wrTwbbPR/SVFrc
+ 4FwZvbFfY6Gpg==
+Message-ID: <82db25e4-bb64-d8fc-1d09-b93697c835d0@denx.de>
+Date: Wed, 2 Feb 2022 10:03:16 +0100
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: (EXT) Re: [PATCH v2 2/2] drm: mxsfb: Fix NULL pointer dereference
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+References: <20220202081755.145716-1-alexander.stein@ew.tq-group.com>
+ <20220202081755.145716-3-alexander.stein@ew.tq-group.com>
+ <61ec1e37-d1a2-6561-493a-06bf37cd71d6@denx.de> <5678101.DvuYhMxLoT@steina-w>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <5678101.DvuYhMxLoT@steina-w>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,61 +57,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- Xiyu Yang <xiyuyang19@fudan.edu.cn>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Zheyu Ma <zheyuma97@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Matthew Wilcox <willy@infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Zhen
- Lei <thunder.leizhen@huawei.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sam Ravnborg <sam@ravnborg.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yizhuo Zhai
-> Sent: 01 February 2022 02:36
->=20
-> In function do_fb_ioctl(), the "arg" is the type of unsigned long,
-> and in "case FBIOBLANK:" this argument is casted into an int before
-> passig to fb_blank(). In fb_blank(), the comparision
-> if (blank > FB_BLANK_POWERDOWN) would be bypass if the original
-> "arg" is a large number, which is possible because it comes from
-> the user input. Fix this by adding the check before the function
-> call.
+On 2/2/22 10:00, Alexander Stein wrote:
+> Am Mittwoch, 2. Februar 2022, 09:30:38 CET schrieb Marek Vasut:
+>> On 2/2/22 09:17, Alexander Stein wrote:
+>>> mxsfb should not never dereference the NULL pointer which
+>>
+>> ... not ever ... but that's really a nitpick.
+> 
+> Doh, I just copied it from my mail...
+> You want me to send a v2.1? Or will someone fix it when applying?
 
-Doesn't this convert invalid values (> FB_BLANK_POWERDOWN)
-that should generate errors into valid requests?
-
-=09David
-
->=20
-> Signed-off-by: Yizhuo Zhai <yzhai003@ucr.edu>
-> ---
->  drivers/video/fbdev/core/fbmem.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/=
-fbmem.c
-> index 0fa7ede94fa6..f08326efff54 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1162,6 +1162,8 @@ static long do_fb_ioctl(struct fb_info *info, unsig=
-ned int cmd,
->  =09case FBIOBLANK:
->  =09=09console_lock();
->  =09=09lock_fb_info(info);
-> +=09=09if (blank > FB_BLANK_POWERDOWN)
-> +=09=09=09blank =3D FB_BLANK_POWERDOWN;
->  =09=09ret =3D fb_blank(info, arg);
->  =09=09/* might again call into fb_blank */
->  =09=09fbcon_fb_blanked(info, arg);
-> --
-> 2.25.1
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+I think it can be fixed when applying, no worries.
