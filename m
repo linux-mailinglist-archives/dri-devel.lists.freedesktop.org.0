@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61A54A6D29
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:46:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C887C4A6D2A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:46:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA34110FAC0;
-	Wed,  2 Feb 2022 08:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA5F910FAC4;
+	Wed,  2 Feb 2022 08:46:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1456B10FAC0;
- Wed,  2 Feb 2022 08:46:13 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0310B10FAC1;
+ Wed,  2 Feb 2022 08:46:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643791573; x=1675327573;
+ t=1643791581; x=1675327581;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=DdVP+g9GFZcRcber10+3jvC6PNhHBrpQt4cqA+Aoelw=;
- b=MekJzfbrsG3iT+T3HWPUD+WKNUeI9UR9KEGmNj+nuFcYlMzAvPpK1kAO
- Zn4Aa0UiL3Nxc28dNY2iHTPE1y7NwX7k63pcWEb3PpU1YVeF2YA9N+Woe
- 5hKz4meRcjDiqwv1uD/ZxE6KLxa6LhqamJhROJYaINtQ2aP/3BBVGznFS
- DtJoPVs34aFYiNkZso/HVozVkG8JdDhXPrFJVU13/Tca4mDHJB9y3Giu1
- kEOpVkhlgLCcROjviDBVIF0OnHesCqYT/qdWeiSHYEcjnRydC/0xGTvJp
- ur86OkdpWcU7NCfPpEEgX9SnKZyDCsucdO/iycukPIyNpKtZQwR8Ov6Vh w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="228528774"
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="228528774"
+ bh=nAyC46Bjdi3vYEZjDSWklgWlNpah3aGKHCDubrxCgls=;
+ b=SZoVgmsIbPS2zg5vzAPVKKduAXCeU7G3Tfpjn8rD2VnAkThC2qwm1VaB
+ eDERRa+HcDrAnYwKXMVNoWKRfrzI+We8TCYTCUdDRLZSYwy4ZJCzUey1A
+ sHtrK6xNCPyz1rpy/dOdJIK6IhmPYPInW8kHfJn4cZ7xcPACmFnpiuZpY
+ GMmLhfJTh8ik05lVj4bYv/5bPxtk670R3FtEKrUO6L9AIGqWHJhh6GsIX
+ CDrdmsrr+iwV4Zu1YUt6GuHvFhNq7E1qLgVBq+c7OVBc3XX3hVrvgQWiD
+ xh9kJ7SulG9TPkuobmJHFXAF8P34FMcm+K1hTGaLmnqOpTd2nJnF+URS4 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="245469279"
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="245469279"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 00:46:12 -0800
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2022 00:46:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="497675004"
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="497675031"
 Received: from srr4-3-linux-116-skandpal.iind.intel.com ([10.190.238.57])
- by orsmga002.jf.intel.com with ESMTP; 02 Feb 2022 00:46:09 -0800
+ by orsmga002.jf.intel.com with ESMTP; 02 Feb 2022 00:46:13 -0800
 From: Kandpal Suraj <suraj.kandpal@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/6] drm: add writeback pointers to drm_connector
-Date: Wed,  2 Feb 2022 14:24:24 +0530
-Message-Id: <20220202085429.22261-2-suraj.kandpal@intel.com>
+Subject: [PATCH 2/6] drm/arm/komeda : change driver to use
+ drm_writeback_connector.base pointer
+Date: Wed,  2 Feb 2022 14:24:25 +0530
+Message-Id: <20220202085429.22261-3-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220202085429.22261-1-suraj.kandpal@intel.com>
 References: <20220202085429.22261-1-suraj.kandpal@intel.com>
@@ -60,191 +61,97 @@ Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changing drm_connector and drm_encoder feilds to pointers in
-drm_writeback_connector as the elements of struct
-drm_writeback_connector are:
-struct drm_writeback_connector {
-	struct drm_connector base;
-	struct drm_encoder encoder;
-Similarly the elements of intel_encoder and intel_connector
-are:
-struct intel_encoder {
-	struct drm_encoder base;
-
-struct intel_connector {
-	struct drm_connector base;
-
-The function drm_writeback_connector_init() will initialize the
-drm_connector and drm_encoder and attach them as well.
-Since the drm_connector/encoder are both struct in
-drm_writeback_connector and intel_connector/encoder, we need
-one of them to be a pointer so we can reference them or else we
-will be pointing to 2 seprate instances.
-
-Usually the struct defined in drm framework pointing to any
-struct will be pointer and allocating them and initialization
-will be done with the users.
-Like struct drm_connector and drm_encoder are part of drm
-framework and the users of these such as i915 have included them
-in their struct intel_connector and intel_encoder. Likewise
-struct drm_writeback_connector is a special connector and hence
-is not a user of drm_connector and hence this should be pointers.
-
-Adding drm_writeback_connector to drm_connector so that
-writeback_connector can be fetched from drm_connector as the previous
-container_of method won't work due to change in the feilds of
-drm_connector and drm_encoder in drm_writeback_connector.
-
-Note:The corresponding ripple effect due to the above changes namely in
-two drivers as I can see it komeda and vkms have been dealt with in the
-upcoming patches of this series.
+Making changes to komeda driver because we had to change
+drm_writeback_connector.base into a pointer the reason for which is
+expained in the Patch (drm: add writeback pointers to drm_connector).
 
 Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Carsten Haitzler <carsten.haitzler@arm.com>
 ---
- drivers/gpu/drm/drm_writeback.c | 19 ++++++++++---------
- include/drm/drm_connector.h     |  3 +++
- include/drm/drm_writeback.h     |  6 +++---
- 3 files changed, 16 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c      |  2 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.h       |  3 ++-
+ .../gpu/drm/arm/display/komeda/komeda_wb_connector.c  | 11 ++++++-----
+ 3 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-index dccf4504f1bb..47238db42363 100644
---- a/drivers/gpu/drm/drm_writeback.c
-+++ b/drivers/gpu/drm/drm_writeback.c
-@@ -87,7 +87,7 @@ static const char *drm_writeback_fence_get_driver_name(struct dma_fence *fence)
- 	struct drm_writeback_connector *wb_connector =
- 		fence_to_wb_connector(fence);
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+index 59172acb9738..eb37f41c1790 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+@@ -265,7 +265,7 @@ komeda_crtc_do_flush(struct drm_crtc *crtc,
+ 	if (slave && has_bit(slave->id, kcrtc_st->affected_pipes))
+ 		komeda_pipeline_update(slave, old->state);
  
--	return wb_connector->base.dev->driver->name;
-+	return wb_connector->base->dev->driver->name;
- }
+-	conn_st = wb_conn ? wb_conn->base.base.state : NULL;
++	conn_st = wb_conn ? wb_conn->base.base->state : NULL;
+ 	if (conn_st && conn_st->writeback_job)
+ 		drm_writeback_queue_job(&wb_conn->base, conn_st);
  
- static const char *
-@@ -177,7 +177,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
- 				 const u32 *formats, int n_formats)
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+index 456f3c435719..8d83883a1d99 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+@@ -53,6 +53,7 @@ struct komeda_plane_state {
+  * struct komeda_wb_connector
+  */
+ struct komeda_wb_connector {
++	struct drm_connector conn;
+ 	/** @base: &drm_writeback_connector */
+ 	struct drm_writeback_connector base;
+ 
+@@ -136,7 +137,7 @@ struct komeda_kms_dev {
+ static inline bool is_writeback_only(struct drm_crtc_state *st)
  {
- 	struct drm_property_blob *blob;
--	struct drm_connector *connector = &wb_connector->base;
-+	struct drm_connector *connector = wb_connector->base;
- 	struct drm_mode_config *config = &dev->mode_config;
- 	int ret = create_writeback_properties(dev);
+ 	struct komeda_wb_connector *wb_conn = to_kcrtc(st->crtc)->wb_conn;
+-	struct drm_connector *conn = wb_conn ? &wb_conn->base.base : NULL;
++	struct drm_connector *conn = wb_conn ? wb_conn->base.base : NULL;
  
-@@ -189,14 +189,15 @@ int drm_writeback_connector_init(struct drm_device *dev,
- 	if (IS_ERR(blob))
- 		return PTR_ERR(blob);
+ 	return conn && (st->connector_mask == BIT(drm_connector_index(conn)));
+ }
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+index e465cc4879c9..2c3dec59fd88 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+@@ -51,7 +51,7 @@ komeda_wb_encoder_atomic_check(struct drm_encoder *encoder,
+ 		return -EINVAL;
+ 	}
  
--	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
--	ret = drm_encoder_init(dev, &wb_connector->encoder,
-+	drm_encoder_helper_add(wb_connector->encoder, enc_helper_funcs);
-+	ret = drm_encoder_init(dev, wb_connector->encoder,
- 			       &drm_writeback_encoder_funcs,
- 			       DRM_MODE_ENCODER_VIRTUAL, NULL);
- 	if (ret)
- 		goto fail;
+-	wb_layer = to_kconn(to_wb_conn(conn_st->connector))->wb_layer;
++	wb_layer = to_kconn(drm_connector_to_writeback(conn_st->connector))->wb_layer;
  
- 	connector->interlace_allowed = 0;
-+	connector->wb_connector = wb_connector;
- 
- 	ret = drm_connector_init(dev, connector, con_funcs,
- 				 DRM_MODE_CONNECTOR_WRITEBACK);
-@@ -204,7 +205,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
- 		goto connector_fail;
- 
- 	ret = drm_connector_attach_encoder(connector,
--						&wb_connector->encoder);
-+						wb_connector->encoder);
- 	if (ret)
- 		goto attach_fail;
- 
-@@ -233,7 +234,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
- attach_fail:
+ 	/*
+ 	 * No need for a full modested when the only connector changed is the
+@@ -123,7 +123,7 @@ komeda_wb_connector_fill_modes(struct drm_connector *connector,
+ static void komeda_wb_connector_destroy(struct drm_connector *connector)
+ {
  	drm_connector_cleanup(connector);
- connector_fail:
--	drm_encoder_cleanup(&wb_connector->encoder);
-+	drm_encoder_cleanup(wb_connector->encoder);
- fail:
- 	drm_property_blob_put(blob);
- 	return ret;
-@@ -263,7 +264,7 @@ int drm_writeback_prepare_job(struct drm_writeback_job *job)
- {
- 	struct drm_writeback_connector *connector = job->connector;
- 	const struct drm_connector_helper_funcs *funcs =
--		connector->base.helper_private;
-+		connector->base->helper_private;
- 	int ret;
- 
- 	if (funcs->prepare_writeback_job) {
-@@ -315,7 +316,7 @@ void drm_writeback_cleanup_job(struct drm_writeback_job *job)
- {
- 	struct drm_writeback_connector *connector = job->connector;
- 	const struct drm_connector_helper_funcs *funcs =
--		connector->base.helper_private;
-+		connector->base->helper_private;
- 
- 	if (job->prepared && funcs->cleanup_writeback_job)
- 		funcs->cleanup_writeback_job(connector, job);
-@@ -401,7 +402,7 @@ drm_writeback_get_out_fence(struct drm_writeback_connector *wb_connector)
- {
- 	struct dma_fence *fence;
- 
--	if (WARN_ON(wb_connector->base.connector_type !=
-+	if (WARN_ON(wb_connector->base->connector_type !=
- 		    DRM_MODE_CONNECTOR_WRITEBACK))
- 		return NULL;
- 
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 64cf5f88c05b..fa06faeb7844 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -44,6 +44,7 @@ struct drm_printer;
- struct drm_privacy_screen;
- struct edid;
- struct i2c_adapter;
-+struct drm_writeback_connector;
- 
- enum drm_connector_force {
- 	DRM_FORCE_UNSPECIFIED,
-@@ -1539,6 +1540,8 @@ struct drm_connector {
- 	 */
- 	struct drm_encoder *encoder;
- 
-+	struct drm_writeback_connector *wb_connector;
-+
- #define MAX_ELD_BYTES	128
- 	/** @eld: EDID-like data, if present */
- 	uint8_t eld[MAX_ELD_BYTES];
-diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-index 9697d2714d2a..078c9907219c 100644
---- a/include/drm/drm_writeback.h
-+++ b/include/drm/drm_writeback.h
-@@ -22,7 +22,7 @@ struct drm_writeback_connector {
- 	/**
- 	 * @base: base drm_connector object
- 	 */
--	struct drm_connector base;
-+	struct drm_connector *base;
- 
- 	/**
- 	 * @encoder: Internal encoder used by the connector to fulfill
-@@ -31,7 +31,7 @@ struct drm_writeback_connector {
- 	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
- 	 * function.
- 	 */
--	struct drm_encoder encoder;
-+	struct drm_encoder *encoder;
- 
- 	/**
- 	 * @pixel_formats_blob_ptr:
-@@ -143,7 +143,7 @@ struct drm_writeback_job {
- static inline struct drm_writeback_connector *
- drm_connector_to_writeback(struct drm_connector *connector)
- {
--	return container_of(connector, struct drm_writeback_connector, base);
-+	return connector->wb_connector;
+-	kfree(to_kconn(to_wb_conn(connector)));
++	kfree(to_kconn(drm_connector_to_writeback(connector)));
  }
  
- int drm_writeback_connector_init(struct drm_device *dev,
+ static const struct drm_connector_funcs komeda_wb_connector_funcs = {
+@@ -155,7 +155,8 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
+ 	kwb_conn->wb_layer = kcrtc->master->wb_layer;
+ 
+ 	wb_conn = &kwb_conn->base;
+-	wb_conn->encoder.possible_crtcs = BIT(drm_crtc_index(&kcrtc->base));
++	wb_conn->base = &kwb_conn->conn;
++	wb_conn->encoder->possible_crtcs = BIT(drm_crtc_index(&kcrtc->base));
+ 
+ 	formats = komeda_get_layer_fourcc_list(&mdev->fmt_tbl,
+ 					       kwb_conn->wb_layer->layer_type,
+@@ -171,9 +172,9 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
+ 		return err;
+ 	}
+ 
+-	drm_connector_helper_add(&wb_conn->base, &komeda_wb_conn_helper_funcs);
++	drm_connector_helper_add(wb_conn->base, &komeda_wb_conn_helper_funcs);
+ 
+-	info = &kwb_conn->base.base.display_info;
++	info = &kwb_conn->base.base->display_info;
+ 	info->bpc = __fls(kcrtc->master->improc->supported_color_depths);
+ 	info->color_formats = kcrtc->master->improc->supported_color_formats;
+ 
 -- 
 2.17.1
 
