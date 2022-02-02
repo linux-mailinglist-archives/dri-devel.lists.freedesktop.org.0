@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EDE4A6F3A
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 11:55:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D56EC4A6F86
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 12:06:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29D5E10E941;
-	Wed,  2 Feb 2022 10:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2616910E93D;
+	Wed,  2 Feb 2022 11:06:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
- [209.85.222.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 036AD10E941
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 10:55:48 +0000 (UTC)
-Received: by mail-ua1-f45.google.com with SMTP id m90so18378744uam.2
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 02:55:47 -0800 (PST)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BEC810E93D
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 11:06:11 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ g15-20020a9d6b0f000000b005a062b0dc12so19067035otp.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 03:06:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IpJ0TBab2BIK0BhH3D/17qvgwP3yzTw1BAtMyaROLaU=;
+ b=Fzd+LygVXDOoduPFgwOH9IJKicTMbbHhJJL9TL8Qa1UfZGx5FfTEo/Zvhc8FMEqOHz
+ g/gaD2Lh2bhyh/QK7e3VhrZVivSapjL0JEWatVrIgSqwH7WkC6vJewBPq985yfD0WG21
+ czz5q9Ak0zK2zcLUxC4ctAPBJd6WHJODLESsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DNMiBPAokm6B+Md/914T5KDvXk5STANjp7/fM4StjiM=;
- b=ZVMXgTHzCRYHGDFTTCmNO8jZciIFXrCZzCv59psgNO6UhmPntH0NAAz1vYXtCT4IzI
- wKzBgNAur9F4saIEX7aQhibpRqhoNRNM0JD98iA8qoqNOWHnOMA4Nuz/IZ9iDiueqQXs
- 9d0HY5Ul4V2IqbdDNlcYoGtD4cbdoAaVfMUt0lc/1nGF3A6e0r4HVjA3emucqd/za8oV
- sQuXgCu6/N4UDQ/0JcbwWgA0YY9YVLMBm8tb4hux/Jf5Nqh9gQuKbXHKjAJLO+qsiULd
- YQof8HvnRPiEWjvVfayZUMWAbveSDAfzOCNtaq/0PcyITdT0j6osB5M2m0+MPNi2ENpI
- wjvQ==
-X-Gm-Message-State: AOAM5314oRJiQquWenOwlvOa0LnW74M35HNX1DS6RvijzyA9LNQFJX3x
- dApc+nGA0BayqIb3pFP8ZVwQpiRjsZJVUA==
-X-Google-Smtp-Source: ABdhPJyly4ushHA18jlZ1Bg2/Zdd6juvUKyoAKeKZgqdMnQthsWzjg1dc2XHagTkyfU2bte+z8xamg==
-X-Received: by 2002:a05:6102:282d:: with SMTP id
- ba13mr11310962vsb.5.1643799346865; 
- Wed, 02 Feb 2022 02:55:46 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com.
- [209.85.222.47])
- by smtp.gmail.com with ESMTPSA id g25sm4799470vsj.6.2022.02.02.02.55.45
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 02:55:46 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id e17so18296082uad.9
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 02:55:45 -0800 (PST)
-X-Received: by 2002:ab0:6cf9:: with SMTP id l25mr11903238uai.122.1643799345531; 
- Wed, 02 Feb 2022 02:55:45 -0800 (PST)
+ bh=IpJ0TBab2BIK0BhH3D/17qvgwP3yzTw1BAtMyaROLaU=;
+ b=cAHsUo976PQbBqQAtE4WkF1aGH9a2Uzuuej0D3FZK4qxgY1JHRZ8StwhV0JfR+MV8N
+ 8HRFMI71RTElp5TdqPlC8xoIotKjQUnCg2jQZmj0ogpXNkT+pPjbfZ26JM4eO2VFIQr3
+ LtcTpiRZHPML8IZUzVA+DFRUJo4y7C6102okAheD6aksnkYyuztx1C0bZp6fPIQpgROM
+ QAhJMAIxDYL0c7Egb8udott8kioY5zCYrBShI8acfeOjFBWE2T9tTbjD9BbBLWyQZZeD
+ DBzlq4ix2PDIfOxGSonhjuA7ZJd5/q7JI+Ir4V3lP5p55CUDdqdhrBBJ+oX9lbHufPYR
+ heHQ==
+X-Gm-Message-State: AOAM533qUEBqOTGsbXTFFdT/lH6ZQ44VYIq/oNURTKLMSYuP5H6VqhuF
+ CXdo4iuigBC2cfp7YRpk98ld1f4z8po7FFbABYQDGA==
+X-Google-Smtp-Source: ABdhPJzPiulWPzFu78ZaXouRftPdYh55ze93VqZpL+iI14/VQ9R0Lzn6uJZVn+TVcHC21w8kCM69AVo/h18sTiUMBAE=
+X-Received: by 2002:a05:6830:1153:: with SMTP id
+ x19mr15886747otq.321.1643799970354; 
+ Wed, 02 Feb 2022 03:06:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20220131201225.2324984-1-javierm@redhat.com>
- <tIMIWqepcZGntnez-1ss4Kn4K8btXnzDRL7EWd19-745WK90YIC19E_4di9RNvB3gtx-PzWEjBEGQLPNJE_x0T1yyyaWFCoFcCiG4StR9RU=@emersion.fr>
- <wuXPJN-K-rvjoV51c4EBmTBScov8rcJTPoYmlfHe04_-4wD1khVxo9HnUsP7UFd5m4AkzGSw2hXe_c77jbSRhjEJ0JZIYwuvuIkcv_KsR-Y=@emersion.fr>
- <CAMuHMdXKZ=BkvVqdpiNPNJgxm9SzQ3Z0n4SqV2-4oPRveybd6g@mail.gmail.com>
- <qmhzv6kqs6QdAOP3bNB39glOpc8eeJ6flgjfjcaBniT-shDKZkxo5uB71weGOUKxPE6dq_WBhtHmY5vMmuYwqMoHgtMWnX0ESE5R1Y5g5F8=@emersion.fr>
- <CAKMK7uGPuhrDf8fdDgfuPt5rzO30Rm54T7GvWb203NRbVoVDgw@mail.gmail.com>
- <b0788b3d-9c77-0e96-0969-380d21663909@redhat.com>
- <20220201124208.39c31e59@eldfell>
- <CAMuHMdX_uyEznHy5vYwS8Q=+bBKPddeJa41KTWi4Fwh3tjX+zQ@mail.gmail.com>
- <20220202111954.6ee9a10c@eldfell>
-In-Reply-To: <20220202111954.6ee9a10c@eldfell>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 2 Feb 2022 11:55:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVvUO3rWfvM0M0EdTNdJ4AabT_cN--T9Kv5ZZx5u1U2=g@mail.gmail.com>
-Message-ID: <CAMuHMdVvUO3rWfvM0M0EdTNdJ4AabT_cN--T9Kv5ZZx5u1U2=g@mail.gmail.com>
-Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20220201185954.169768-1-deller@gmx.de>
+ <20220201185954.169768-4-deller@gmx.de>
+ <CAKMK7uFmMcC4p_zDq5G1Rpvjeg0zOz7v38mTj57JDZEis9fGAA@mail.gmail.com>
+ <dd186ce6-56b3-fe68-daad-249b18ebd627@gmx.de>
+In-Reply-To: <dd186ce6-56b3-fe68-daad-249b18ebd627@gmx.de>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 2 Feb 2022 12:05:59 +0100
+Message-ID: <CAKMK7uGAMSGx4hNFAO5iqsL+ZeTS_L6Bx5YERkY=Bi2CGmJg-g@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] fbcon: Add option to enable legacy hardware
+ acceleration
+To: Helge Deller <deller@gmx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,163 +64,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Mark Brown <broonie@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: linux-fbdev@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pekka,
-
-On Wed, Feb 2, 2022 at 10:20 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> On Tue, 1 Feb 2022 12:07:07 +0100
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Tue, Feb 1, 2022 at 11:42 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > > On Tue, 1 Feb 2022 10:49:03 +0100
-> > > Javier Martinez Canillas <javierm@redhat.com> wrote:
-> > > > On 2/1/22 09:38, Daniel Vetter wrote:
-> > > > > On Tue, Feb 1, 2022 at 9:34 AM Simon Ser <contact@emersion.fr> wrote:
-> > > > >> On Tuesday, February 1st, 2022 at 09:26, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > >>> What's the story with the Rn formats?
-> > > > >>>
-> > > > >>> The comments say "n bpp Red", while this is a monochrome (even
-> > > > >>> inverted) display?
-> > > > >>
-> > > > >> I don't think the color matters that much. "Red" was picked just because it was
-> > > > >> an arbitrary color, to make the difference with e.g. C8. Or am I mistaken?
-> > > > >
-> > > > > The red comes from gl, where with shaders it really doesn't matter
-> > > > > what meaning you attach to channels, but really just how many you
-> > > > > have. So 2-channel formats are called RxGx, 3-channel RxGxBx,
-> > > > > 4-channel RxGxBxAx and single-channel Rx. And we use drm_fourcc for
-> > > > > interop in general, hence why these exist.
-> > > > >
-> > > > > We should probably make a comment that this really isn't a red channel
-> > > > > when used for display it's a greyscale/intensity format. Aside from
-> > > > > that documentation gap I think reusing Rx formats for
-> > > > > greyscale/intensity for display makes perfect sense.
-> > > > > -Daniel
-> > > >
-> > > > To sump up the conversation in the #dri-devel channel, these drivers
-> > > > should support the following formats:
-> > > >
-> > > > 1) Dx (Daniel suggested that for darkness, but inverted mono)
-> > >
-> > > Did you consider format C1 instead?
-> >
-> > That would be a 2-color display, which is not necessarily black
-> > and white. Cfr. Amiga or Atari bit planes with bpp=1.
-> > That's why fbdev has separate visuals for monochrome.
+On Tue, Feb 1, 2022 at 11:52 PM Helge Deller <deller@gmx.de> wrote:
 >
-> Yes, that is exactly what I was aiming at: to draft a plan for panels
-> that have a fixed and arbitrary palette. From the discussions I
-> understood that the panel in question here requires somehow reversed
-> colors ("inverted mono"), which didn't really sound to be like "normal
-> monochrome".
+> Hello Daniel,
 >
-> > > I have no idea how this would map to fbdev API though.
+> On 2/1/22 21:11, Daniel Vetter wrote:
+> > On Tue, Feb 1, 2022 at 7:59 PM Helge Deller <deller@gmx.de> wrote:
+> >>
+> >> Add a config option CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION to
+> >> enable bitblt and fillrect hardware acceleration in the framebuffer
+> >> console. If disabled, such acceleration will not be used, even if it is
+> >> supported by the graphics hardware driver.
+> >>
+> >> If you plan to use DRM as your main graphics output system, you should
+> >> disable this option since it will prevent compiling in code which isn't
+> >> used later on when DRM takes over.
+> >>
+> >> For all other configurations, e.g. if none of your graphic cards support
+> >> DRM (yet), DRM isn't available for your architecture, or you can't be
+> >> sure that the graphic card in the target system will support DRM, you
+> >> most likely want to enable this option.
+> >>
+> >> In the non-accelerated case (e.g. when DRM is used), the inlined
+> >> fb_scrollmode() function is hardcoded to return SCROLL_REDRAW and as such the
+> >> compiler is able to optimize much unneccesary code away.
+> >>
+> >> In this v3 patch version I additionally changed the GETVYRES() and GETVXRES()
+> >> macros to take a pointer to the fbcon_display struct. This fixes the build when
+> >> console rotation is enabled and helps the compiler again to optimize out code.
+> >>
+> >> Signed-off-by: Helge Deller <deller@gmx.de>
+> >> Cc: stable@vger.kernel.org # v5.10+
+> >> Signed-off-by: Helge Deller <deller@gmx.de>
+> >> ---
+> >>  drivers/video/console/Kconfig           | 11 +++++++
+> >>  drivers/video/fbdev/core/fbcon.c        | 39 ++++++++++++++++++-------
+> >>  drivers/video/fbdev/core/fbcon.h        | 15 +++++++++-
+> >>  drivers/video/fbdev/core/fbcon_ccw.c    | 10 +++----
+> >>  drivers/video/fbdev/core/fbcon_cw.c     | 10 +++----
+> >>  drivers/video/fbdev/core/fbcon_rotate.h |  4 +--
+> >>  drivers/video/fbdev/core/fbcon_ud.c     | 20 ++++++-------
+> >>  7 files changed, 75 insertions(+), 34 deletions(-)
+> >>
+> >> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kconfig
+> >> index 840d9813b0bc..6029fd41d7d0 100644
+> >> --- a/drivers/video/console/Kconfig
+> >> +++ b/drivers/video/console/Kconfig
+> >> @@ -78,6 +78,17 @@ config FRAMEBUFFER_CONSOLE
+> >>         help
+> >>           Low-level framebuffer-based console driver.
+> >>
+> >> +config FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+> >> +       bool "Framebuffer Console hardware acceleration support"
+> >> +       depends on FRAMEBUFFER_CONSOLE
+> >> +       default n if DRM
+> >> +       default y
+> >> +       help
+> >> +         If you use a system on which DRM is fully supported you usually want to say N,
+> >> +         otherwise you probably want to enable this option.
+> >> +         If enabled the framebuffer console will utilize the hardware acceleration
+> >> +         of your graphics card by using hardware bitblt and fillrect features.
 > >
-> >     #define FB_VISUAL_MONO01                0       /* Monochr.
-> > 1=Black 0=White */
-> >     #define FB_VISUAL_MONO10                1       /* Monochr.
-> > 1=White 0=Black */
-> >     #define FB_VISUAL_TRUECOLOR             2       /* True color   */
-> >
-> > The above is RGB (or grayscale, see below).
-> >
-> >     #define FB_VISUAL_PSEUDOCOLOR           3       /* Pseudo color
-> > (like atari) */
-> >
-> > Palette
-> >
-> >     #define FB_VISUAL_DIRECTCOLOR           4       /* Direct color */
-> >
-> > Usually used as RGB with gamma correction, but the actual hardware
-> > is more flexible.
-> >
-> >     #define FB_VISUAL_STATIC_PSEUDOCOLOR    5       /* Pseudo color readonly */
-> >
-> > Fixed palette
-> >
-> > And:
-> >
-> >     struct fb_var_screeninfo {
-> >             ...
-> >             __u32 grayscale;                /* 0 = color, 1 = grayscale,    */
+> > This really doesn't have much to do with DRM but more about running
+> > questionable code. That's why I went with the generalized stern
+> > warning and default n, and explained when it's ok to do this (single
+> > user and you care more about fbcon performance than potential issues
+> > because you only run trusted stuff with access to your vt and fbdev
+> > /dev node).
 >
-> DRM has pixel formats, but no visuals so far. Maybe it needs to grow
-> the concept of visuals in some form? However, care should be taken to
-> not clash with existing colorimetry features. I would hope that the
-> colorimetry feature set could be extended to cover the above as well.
-> Well, only if there would be any users for it.
-
-Fbdev has separate (orthogonal) settings for
-  1. Frame buffer layout (FB_TYPE_*),
-  2. Pixel format (depth and fb_bitfields),
-  3. Visual.
-DRM combines all of the above in a fourcc value.
-
-Nowadays most frame buffer layouts are packed, so using a shadow
-frame buffer to support other layouts is very helpful, as it means
-applications no longer have to care about legacy frame buffer layouts.
-
-> My silly attempt with Cx formats (e.g. DRM_FORMAT_C8) was a stab in that
-> direction, but maybe not flexible enough for the above.
+> I think this is something we both will keep to have different opinion about :-)
 >
-> If on the other hand the panel is "grayscale" but with an arbitrary
-> color (white, green, orange or other on black), the IRC consensus seems
-> to be that one should use Rx formats (e.g. DRM_FORMAT_R8) for it,
-> regardless of the actual color. That would convey that the pixel value
-> has a monotonic (increasing) mapping to brightness, unlike with
-> paletted formats. I agree with this, but wonder how reversed brightness
+> This console acceleration code is not exported or visible to userspace,
+> e.g. you can't access or trigger it via /dev/fb0.
+> It's only called internally from inside fbcon, so it's independed if
+> it's a single- or multi-user system.
+> The only way to "access" it is via standard stdio, where fbcon then
+> either scrolls the screen via redrawing characters at new positions
+> or by using hardware bitblt to move screen contents.
+> IMHO there is nothing which is critical here.
+> Even when I analyzed the existing bug reports, there was none which
+> affected that specific code.
 
-Agreed, the only thing that matters is a monotonic mapping, and
-whether it's increasing or decreasing.
+Maybe to clarify. The issues that generally result in this code going
+boom in syzbot are when you race console activity (which can be
+largely controlled through VT ioctls from userspace too, plus
+/dev/kmsg) against fbdev resizing on the /dev/fb/0 nodes. The locking
+there is kinda wild, and the code is very hard to understand. This is
+why we've resorted to just disabling/deleting this code because most
+cases we have no idea what's actually going on, aside from something
+is clearly not going right.
 
-> should be dealt with - or just have the driver invert the pixel values
-> before sending them to display?
+Also the multi-user here means "you run untrusted code from other
+people", not "you run multiple things in parallel" or "multiple people
+are logged in at the same time".
 
-That's an option. If the data has to be copied anyway, inversion is
-a cheap operation. Else I think you need new fourcc types.
+> Anyway, let's look at that part in your patch:
+>
+> +       bool "Enable legacy fbcon code for hw acceleration"
+> +       depends on FRAMEBUFFER_CONSOLE
+> +       default n
+> +       help
+> +        Only enable this options if you are in full control of machine since
+> +        the fbcon acceleration code is essentially unmaintained and known
+> +        problematic.
+> +
+> +        If unsure, select n.
+>
+> Since I'm willing to maintain that scrolling/panning code, I'd like to
+> drop the "is essentially unmaintained" part.
+> And the "known problematic" part is up to now just speculative (which would be
+> valid for other parts of the kernel too, btw).
+>
+> As this whole disussions showed, there are some few architectures/platforms
+> which really still need this acceleration, while others don't.
+> So, why not leave the decision up to the arch maintainers, which may opt-in
+> or opt-out, while keeping the default on "n"?
+>
+> With that, here is a new proposal:
+>
+> +config FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+> +       bool "Enable legacy fbcon hardware acceleration code"
+> +       depends on FRAMEBUFFER_CONSOLE
+> +       default y if (PARISC) # a few other arches may want to be listed here too...
+> +       default n
+> +       help
+> +         This option enables the fbcon (framebuffer text-based) hardware acceleration for
+> +         graphics drivers which were written for the fbdev graphics interface.
+> +
+> +         On modern machines, on mainstream machines (like x86-64) or when using a modern
+> +         Linux distribution those fbdev drivers usually aren't used.
+> +         So enabling this option wouldn't have any effect, which is why you want
+> +         to disable this option on such newer machines.
+> +
+> +         If you compile this kernel for older machines which still require the fbdev
+> +         drivers, you may want to say Y.
+> +
+> +         If unsure, select n.
+>
+> Would that be acceptable?
 
-> Cx formats with a read-only palette could be used to represent
-> "grayscale" and "reversed grayscale" too, but people seem to think that
-> is too complicated to analyse and use for KMS userspace.
+Perfect.
 
-Yeah, it's complicated, but rather rare. Most desktop hardware
-(even from the nineties ;-) does support a programmable palette.
-Exceptions are CGA, the C64 (no Linux support yet ;-), and eInk
-displays that support e.g. white, black, and red.
+> Arch maintainers may then later send (or reply now with) patches, e.g.:
+> +       default y if (M68K && XYZ)
+> ...
 
-If you do want to support it, perhaps introduce Fx (F = fixed)
-fourcc types?
+Yeah makes sense.
 
-> Other #dri-devel IRC mumblings were about maybe adding a DRM pixel
-> format for grayscale or intensity or luminance so that one would not
-> need to use "red" color channel for something that doesn't look red.
-> That is, do not use Cx formats because those produce completely
-> arbitrary colors, and do not use Rx formats because the display is not
-> redscale. Personally I'd be fine with Rx formats.
+> > Also you didn't keep any todo entry for removing DRM accel code,
+>
+> That wasn't intentional.
+> I just sent 2 revert-patches and an fbcon-accel-enabling-patch.
+> I'll look up what you had in your patch series and add it as seperate patch.
 
-Fine, as said above, monotonic mapping is what matters.
+tbh I think it's fine either way. I think it's still rather unclear
+which way drm will go, least because there's not many people who can
+occasionally squeeze some time away to move things forward. Could be
+that we add a new emergency logging console in the kernel for drm, and
+distros switch over to kmscon (which is in userspace, and accelerated
+iirc if you have gl, so most modern systems). Or whether we just
+improve fbcon until it's solid enough. Or some other option.
 
-Gr{oetje,eeting}s,
+So given that just dropping the todo sounds ok, it was just a bit
+inconsistent with the Kconfig :-)
 
-                        Geert
+> > and iirc some nouveau folks also complained that they at least
+> > once had some kind of accel, so that's another reason to not tie this
+> > to DRM.
+>
+> The above proposal to add additional "default y if XYZ" would enable
+> them to opt-in.
+>
+> > Anyway aside from this looks reasonable, can you pls respin with a
+> > more cautious Kconfig text?
+>
+> Sure, I'll do as soon as we have a decision on the above Kconfig text.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Ideally if you can send them out today so it's not missing the
+drm-misc-fixes train that leaves tomorrow, that would be best.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
