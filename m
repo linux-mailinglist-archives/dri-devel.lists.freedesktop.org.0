@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A7E4A78B4
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 20:27:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A39B4A7935
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 21:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC9610E23A;
-	Wed,  2 Feb 2022 19:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF2A410E519;
+	Wed,  2 Feb 2022 20:08:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3CF110E23A
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 19:27:15 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id v186so1839963ybg.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 11:27:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MVFg7PnzCZUjUxdz0W83GsH6V6lHk0PTdYLQqbtG0AI=;
- b=VUwYV4hfYIJDeVqAbdSVlM+Ob6/tQmaK18WXFHl50OmP56SqFl78RfzWXIZAhDIEyA
- FBxi54PA6BaxdknZcdX6mGVwGAs5r4L/o1yfQC6tIb41idAtlSuLxodwGODXpdQYAoou
- gBYie3P3VedP1Q6B4Vq2tVEMo6OFvTZeK3j/8lCY2iRXtpCT1496pzBfM88SpAwUnR0v
- UejxgXYvo3gN1ViXSbsqRVrvbwtcYBPz5h9Qvvh/PT5PICdBHwABLDDpHlb87s9G/l6Q
- ExTcmFgmDUt5xNa5ZXPbgdrJftgwB8u6PIPXqmWn+Veh7T2F047aQbSZ1SEBqoDhU1wI
- bB7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MVFg7PnzCZUjUxdz0W83GsH6V6lHk0PTdYLQqbtG0AI=;
- b=MI4wdcy3qfapDPiY1r+z+y0tGUCBze3A0UAwlRARVaxh57GPOKptaQ2KYrygZnZ+uR
- qHvdrEG5Ryzgajy5zAhR3uyO09iO9h8yB15jnWCnA2ZBtO8wLQcHIq4CZjr9zBP4y73m
- T7AqrOMa3AXa5m9tjQBkNkopaGH2AN1pv6odltZI7lr4vlikb4/OIxhgwd7QI8NZdp00
- 8+zz3Szl/5Figix4ozZL7g1fCBVutYhnrJpgTLCMPcJ+sBkJ26qGuxstVXiFPaR3Fiog
- gAZuTQPbo65DucZV9qPf+GYF82eYtzZLbTnzfqOcsE1EED1dcIK99QDeg064r31HyvpX
- rnag==
-X-Gm-Message-State: AOAM532soM/gguTeViBkixoFSYJ2VRRTRBxp8nUHBkfEgq9xuHBhwh9c
- /HO8rwHOp3NzGiRsMNBaf7ZL05E0E5rEDNuw+K8vYA==
-X-Google-Smtp-Source: ABdhPJxjEkuDFLTtBXShgD0F0o0g/RNgC7ua+FWLePsV5R9uG8DZdnnVQ8u6OGlpCZe3rRIYPAUwctTIuW7JqlAHdlI=
-X-Received: by 2002:a81:23d4:: with SMTP id j203mr2147372ywj.95.1643830034776; 
- Wed, 02 Feb 2022 11:27:14 -0800 (PST)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3D6110E1E9;
+ Wed,  2 Feb 2022 20:08:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643832506; x=1675368506;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=rX4IpCULHcPxvwbeGlnyKWAIWnEu9XapRPbaMucEoqg=;
+ b=h3HMq5bi5r7UqumZQjvk6mvXC79q4lzkxQ2c57KAMCzt2pEwUK22woLy
+ 4ALSg0hmphv1PnoKnvyLQ9vRGaW01vnxrU/RKK8lAyM5G5+6d9JQGLQwN
+ F/zlJH0cpw+hSqLamdWY93Q4BuEPnVG+nlJ3Lh5ktpcTdI9TrpVVB4PnG
+ W/a40ZpTlcSogr/z49wuPb8FbPPR6TN9VbkUWRT1NE3F2iZzOhuZQyVUh
+ ZQxaLyiVPIOdMZ2W0395dNRnb2F/+OM6gelaSiJDvBBTy1udsCIM4EPLw
+ aKEede2fGMKFgXj2NdpYHg7Ya4E7kEEdpgC7TmJzQgCOClQTfE7eEgE43 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10246"; a="311316470"
+X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="311316470"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2022 12:08:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="676560007"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+ by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2022 12:08:23 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nFLvS-000V4Q-NM; Wed, 02 Feb 2022 20:08:22 +0000
+Date: Thu, 3 Feb 2022 04:07:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kandpal Suraj <suraj.kandpal@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 1/6] drm: add writeback pointers to
+ drm_connector
+Message-ID: <202202030437.kmrDD39E-lkp@intel.com>
+References: <20220202085429.22261-2-suraj.kandpal@intel.com>
 MIME-Version: 1.0
-References: <20220201161618.778455-1-robdclark@gmail.com>
- <20220201161618.778455-2-robdclark@gmail.com>
-In-Reply-To: <20220201161618.778455-2-robdclark@gmail.com>
-From: Emma Anholt <emma@anholt.net>
-Date: Wed, 2 Feb 2022 11:27:03 -0800
-Message-ID: <CADaigPUcA5+o2Cd+1YYTGbpnsj3Di=m2Q25OUeumz0HAQVFc9w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/msm/gpu: Add ctx to get_param()
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220202085429.22261-2-suraj.kandpal@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,46 +61,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Yangtao Li <tiny.windzz@gmail.com>, Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Yiwei Zhang <zzyiwei@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- open list <linux-kernel@vger.kernel.org>
+Cc: kbuild-all@lists.01.org, carsten.haitzler@arm.com, jani.nikula@intel.com,
+ llvm@lists.linux.dev, quic_abhinavk@quicinc.com,
+ laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 1, 2022 at 8:16 AM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Prep work for next patch.
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
+Hi Kandpal,
 
-> diff --git a/drivers/gpu/drm/msm/msm_rd.c b/drivers/gpu/drm/msm/msm_rd.c
-> index 7e4d6460719e..dd3605b46264 100644
-> --- a/drivers/gpu/drm/msm/msm_rd.c
-> +++ b/drivers/gpu/drm/msm/msm_rd.c
-> @@ -197,13 +197,15 @@ static int rd_open(struct inode *inode, struct file *file)
->
->         /* the parsing tools need to know gpu-id to know which
->          * register database to load.
-> +        *
-> +        * Note: These particular param does not require a context
->          */
+Thank you for the patch! Yet something to improve:
 
-Minor typo fix, "param does not" -> "params do not"
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-intel/for-linux-next drm-tip/drm-tip v5.17-rc2 next-20220202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Other than that, series
-`Reviewed-by: Emma Anholt <emma@anholt.net>`
+url:    https://github.com/0day-ci/linux/commits/Kandpal-Suraj/drm-writeback-connector-changes/20220202-164832
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: i386-randconfig-a013-20220131 (https://download.01.org/0day-ci/archive/20220203/202202030437.kmrDD39E-lkp@intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 6b1e844b69f15bb7dffaf9365cd2b355d2eb7579)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/57ad56d769873f62f87fe432243030ceb1678f87
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Kandpal-Suraj/drm-writeback-connector-changes/20220202-164832
+        git checkout 57ad56d769873f62f87fe432243030ceb1678f87
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-and I love that we're catching non-address-space associated faults now, too!
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+Note: the linux-review/Kandpal-Suraj/drm-writeback-connector-changes/20220202-164832 HEAD 75bbd0a8b1fb58f702279bfbc2fe2d74db8f7028 builds fine.
+      It only hurts bisectability.
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/vkms/vkms_writeback.c:117:56: error: member reference type 'struct drm_connector *' is a pointer; did you mean to use '->'?
+           struct drm_connector_state *conn_state = wb_conn->base.state;
+                                                    ~~~~~~~~~~~~~^
+                                                                 ->
+>> drivers/gpu/drm/vkms/vkms_writeback.c:143:38: error: member reference type 'struct drm_encoder *' is a pointer; did you mean to use '->'?
+           vkmsdev->output.wb_connector.encoder.possible_crtcs = 1;
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+                                               ->
+>> drivers/gpu/drm/vkms/vkms_writeback.c:144:27: error: incompatible pointer types passing 'struct drm_connector **' to parameter of type 'struct drm_connector *'; remove & [-Werror,-Wincompatible-pointer-types]
+           drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+                                    ^~~~~~~~~
+   include/drm/drm_modeset_helper_vtables.h:1153:67: note: passing argument to parameter 'connector' here
+   static inline void drm_connector_helper_add(struct drm_connector *connector,
+                                                                     ^
+   3 errors generated.
+
+
+vim +117 drivers/gpu/drm/vkms/vkms_writeback.c
+
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  108  
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  109  static void vkms_wb_atomic_commit(struct drm_connector *conn,
+eca22edb37d29f Maxime Ripard    2020-11-18  110  				  struct drm_atomic_state *state)
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  111  {
+eca22edb37d29f Maxime Ripard    2020-11-18  112  	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
+eca22edb37d29f Maxime Ripard    2020-11-18  113  											 conn);
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  114  	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->dev);
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  115  	struct vkms_output *output = &vkmsdev->output;
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  116  	struct drm_writeback_connector *wb_conn = &output->wb_connector;
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30 @117  	struct drm_connector_state *conn_state = wb_conn->base.state;
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  118  	struct vkms_crtc_state *crtc_state = output->composer_state;
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  119  
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  120  	if (!conn_state)
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  121  		return;
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  122  
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  123  	vkms_set_composer(&vkmsdev->output, true);
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  124  
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  125  	spin_lock_irq(&output->composer_lock);
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  126  	crtc_state->active_writeback = conn_state->writeback_job->priv;
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  127  	crtc_state->wb_pending = true;
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  128  	spin_unlock_irq(&output->composer_lock);
+eca22edb37d29f Maxime Ripard    2020-11-18  129  	drm_writeback_queue_job(wb_conn, connector_state);
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  130  }
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  131  
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  132  static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  133  	.get_modes = vkms_wb_connector_get_modes,
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  134  	.prepare_writeback_job = vkms_wb_prepare_job,
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  135  	.cleanup_writeback_job = vkms_wb_cleanup_job,
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  136  	.atomic_commit = vkms_wb_atomic_commit,
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  137  };
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  138  
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  139  int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  140  {
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  141  	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30  142  
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30 @143  	vkmsdev->output.wb_connector.encoder.possible_crtcs = 1;
+dbd9d80c1b2e03 Rodrigo Siqueira 2020-08-30 @144  	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
