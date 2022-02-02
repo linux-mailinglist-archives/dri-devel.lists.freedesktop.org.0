@@ -2,67 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619594A7BD5
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 00:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4464A7BDA
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 00:46:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E853010E128;
-	Wed,  2 Feb 2022 23:45:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4048810E67D;
+	Wed,  2 Feb 2022 23:46:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E8E510E128
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 23:45:31 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id y23so1321656oia.13
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 15:45:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Gmc7on1XdfmDVEczUvMEGVY41ykXlSf/a2fAN6R0muI=;
- b=brWQKsEDHGv7zN10fDqDD/i4dQdznMFXRz1wJgyWtfisav3Iu+2BaKC6k9hBlu7hpE
- KHiwQezaZeXjPEoXWAB9nBme7DPzx+O0TB7xtAepZzUdauBvv2sQFuJIWNW7Ieu9fdoN
- zTvMBYLkUQB1T8piBEpMpZ8VFc+X7tQf6fRN0imAoirf21LwsJ70QwZ5R3SNtdHfBaEm
- DHgXgrYXTccMIHPF0w56qGYVZFCK157tLyRmk9F0y1xUX3Hv+b42HMIW6lMNqHPFxUUq
- RRJcMxPHYu5MBMU067G2QFszcmv0bUKh3IV48hQhy2XtsYW66vEcv/SMqzFrmzgzgWZg
- o/MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Gmc7on1XdfmDVEczUvMEGVY41ykXlSf/a2fAN6R0muI=;
- b=42sBYj0uuSh7aUPOBVqUFld0Rl3QL2+JEpU+3dHF8wjDx+125ITrdlTRR0ipXj4gAL
- +P1LR3nI7dJn627iRZiZjHArqTYhCqtphSkOMiCbjyXN7NzoIi8AjB+EJaR8TgD3z9v+
- kNE4dsxqJRzNUgVRq9ifzWRMpw9L3oROCx5O2qy5+2yQCaoavzbS4AOIOwynnRqnXTb7
- SdjjWIQBjDzj+M5hHm4NEvuA1P4XSDBNG8wlVfgW3qTnWq5VXofJyMI3R/l9+P3NuvBj
- M30LLM06Vish0eF/e/HhkDz5Yir6WoIRowrUjTByQs3JFoYUlk9eyYTOcOXSfdy2IMTE
- T6mA==
-X-Gm-Message-State: AOAM530UaHp3Kw3cwZRcYD6/5WPJHTZlTQxDqEWTbI13nQ9Lu/ftFfJt
- ZZagOmZEMP8npPEd1ZV41/8=
-X-Google-Smtp-Source: ABdhPJxa3hIoIva8oqb851CRPaOreRHKX0Nl2x/0mw/4Lm6YleBnvUwwVDU3jmz6lCVYeSGCV3b43Q==
-X-Received: by 2002:a05:6808:1406:: with SMTP id
- w6mr6110634oiv.330.1643845530789; 
- Wed, 02 Feb 2022 15:45:30 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id k19sm17579735oot.41.2022.02.02.15.45.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 15:45:30 -0800 (PST)
-Message-ID: <f3b28143-5f59-ad77-f2b8-6274a6edbfdc@roeck-us.net>
-Date: Wed, 2 Feb 2022 15:45:27 -0800
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A7BA10E509
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 23:46:24 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F73249C;
+ Thu,  3 Feb 2022 00:46:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1643845582;
+ bh=CaVS0Kyks3ICR5rk8SJa5uxDJYGLEoL13EdAxXCkADA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z0xvy7V/ufO+uKZdqt7Id50H5u9q//7R3gs5WhcnVu9utkRgKiHPh/Hbcv3pEn2z8
+ eZEtJppXQKdfsFR4V+6YAAZxaRtVqJ+KLv0VaGuAqrlwPrWmPrNIxVC1SZIHcgvdK+
+ tZ/FQ13PoesHBCEjpFyWu/tQiJJ5izm4JUOAf/QI=
+Date: Thu, 3 Feb 2022 01:45:59 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Subject: Re: [RFC][PATCH] Revert "drm/panel-simple: drop use of data-mapping
+ property"
+Message-ID: <YfsXt1lU6l9cSctX@pendragon.ideasonboard.com>
+References: <20220201110717.3585-1-cniedermaier@dh-electronics.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5] fbdev: fbmem: Fix the implicit type casting
-Content-Language: en-US
-To: Yizhuo Zhai <yzhai003@ucr.edu>
-References: <83e46d8d-ec7a-6cbd-010e-7f50f88dcf96@I-love.SAKURA.ne.jp>
- <20220202233402.1477864-1-yzhai003@ucr.edu>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <20220202233402.1477864-1-yzhai003@ucr.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220201110717.3585-1-cniedermaier@dh-electronics.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,57 +47,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Zheyu Ma <zheyuma97@gmail.com>, linux-kernel@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>, dri-devel@lists.freedesktop.org,
- Zhen Lei <thunder.leizhen@huawei.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Marek Vasut <marex@denx.de>, David Airlie <airlied@linux.ie>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/2/22 15:33, Yizhuo Zhai wrote:
-> In function do_fb_ioctl(), the "arg" is the type of unsigned long,
-> and in "case FBIOBLANK:" this argument is casted into an int before
-> passig to fb_blank(). In fb_blank(), the comparision
-> if (blank > FB_BLANK_POWERDOWN) would be bypass if the original
-> "arg" is a large number, which is possible because it comes from
-> the user input. Fix this by adding the check before the function
-> call.
+Hi Christoph,
+
+Thank you for the patch.
+
+On Tue, Feb 01, 2022 at 12:07:17PM +0100, Christoph Niedermaier wrote:
+> Without the data-mapping devicetree property my display won't
+> work properly. It is flickering, because the bus flags won't
+> be assigned without a defined bus format by the imx parallel
+> display driver. There was a discussion about the removal [1]
+> and an agreement that a better solution is needed, but it is
+> missing so far. So what would be the better approach?
+>
+> [1] https://patchwork.freedesktop.org/patch/357659/?series=74705&rev=1
 > 
-> Signed-off-by: Yizhuo Zhai <yzhai003@ucr.edu>
+> This reverts commit d021d751c14752a0266865700f6f212fab40a18c.
+> 
+> Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> To: dri-devel@lists.freedesktop.org
 > ---
->   drivers/video/fbdev/core/fbmem.c | 5 +++++
->   1 file changed, 5 insertions(+)
+>  drivers/gpu/drm/panel/panel-simple.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index 0fa7ede94fa6..d5dec24c4d16 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1162,6 +1162,11 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
->   	case FBIOBLANK:
->   		console_lock();
->   		lock_fb_info(info);
-> +		if (arg > FB_BLANK_POWERDOWN) {
-> +			unlock_fb_info(info);
-> +			console_unlock();
-> +			return -EINVAL;
-> +		}
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 3c08f9827acf..2c683d94a3f3 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -453,6 +453,7 @@ static int panel_dpi_probe(struct device *dev,
+>  	struct panel_desc *desc;
+>  	unsigned int bus_flags;
+>  	struct videomode vm;
+> +	const char *mapping;
+>  	int ret;
+>  
+>  	np = dev->of_node;
+> @@ -477,6 +478,16 @@ static int panel_dpi_probe(struct device *dev,
+>  	of_property_read_u32(np, "width-mm", &desc->size.width);
+>  	of_property_read_u32(np, "height-mm", &desc->size.height);
+>  
+> +	of_property_read_string(np, "data-mapping", &mapping);
+> +	if (!strcmp(mapping, "rgb24"))
+> +		desc->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> +	else if (!strcmp(mapping, "rgb565"))
+> +		desc->bus_format = MEDIA_BUS_FMT_RGB565_1X16;
+> +	else if (!strcmp(mapping, "bgr666"))
+> +		desc->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
+> +	else if (!strcmp(mapping, "lvds666"))
+> +		desc->bus_format = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
 
-Is it really necessary to perform this check within the lock ?
-arg is a passed in value, and FB_BLANK_POWERDOWN.
-It seems to me that
+You're right that there's an issue, but a revert isn't the right option.
+The commit you're reverting never made it in a stable release, because
+it was deemed to not be a good enough option.
 
-	case FBIOBLANK:
-		if (arg > FB_BLANK_POWERDOWN)
-			return -EINVAL;
-		console_lock();
-		...
+First of all, any attempt to fix this should include an update to the DT
+binding. Second, as this is about DPI panels, the LVDS option should be
+dropped. Finally, I've shared some initial thoughts in [1], maybe you
+can reply to that e-mail to continue the discussion there ?
 
-should be sufficient.
+https://lore.kernel.org/all/20200303185531.GJ11333@pendragon.ideasonboard.com/
 
-Sorry if I missed some previous discussion; this is the first time
-I looked at this patch.
+> +
+>  	/* Extract bus_flags from display_timing */
+>  	bus_flags = 0;
+>  	vm.flags = timing->flags;
 
-Guenter
+-- 
+Regards,
+
+Laurent Pinchart
