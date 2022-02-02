@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39764A6CAB
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:08:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3764A6CAE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:08:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E995210F9A9;
-	Wed,  2 Feb 2022 08:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9399210F9AE;
+	Wed,  2 Feb 2022 08:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63C3D10F9AE;
- Wed,  2 Feb 2022 08:08:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA8610F9AE;
+ Wed,  2 Feb 2022 08:08:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643789317; x=1675325317;
+ t=1643789321; x=1675325321;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=iyg0QEJJWiTrsMY8my7AWxHGjokGJHa8MvIuMNnt/AI=;
- b=CoDn0wiHep3z0AsaM/SHXSSpVXKw29bH+vhU+udxUhc1GHgzjirz2rpU
- rPmxPA/yvZzQdB2v4Sey5L6DJW0LHz9saoob3J/SDhxgpBAvExXoShsVW
- ihneggSVEZQzkdBv9Z01aNTWkeWMilAf5TMOGJenmq1NrOpFSZS9htt1X
- MW58uRIrzHDAnUAPRKSPrDG/sBFt3y6fJokFVSydE+Kqs77FoAxAvitBP
- gkmX0/YIyis5Des1G3p2u6L9z4FmNryazLq6wwiOCYyaqvRrwPzHGGEZi
- XDibTNs4sm58RLKdLBVAaRGvUugTCJHnRjizKVmWt0gjt47rbG4tV260P Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="247637935"
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="247637935"
+ bh=Y33YHlF84zV+nKeX2g0HyWy5RGc9siF8z8lkj8ixTpw=;
+ b=TWvzv+qyMtU4BwYmg9xORIE8pvbE1lNA+ikQeNLuaIxX4NZMeSpITj5q
+ hdHqmYMIOOYIUNjlw6DqHPZVJng0zg9uq0pX3AuHdOWxv1cr3oe2Jk7zb
+ XOixBzaO5XOMgqLhZLD+TXUoVsyCZ4HKehcPRjZzNGpJL4JpMlQ2LQKb1
+ 3yUDHr7yFliDTA/KBxUhQLxeinvZnYPHogeJuMUBCXdk/Si0a5A1XNlFK
+ gqMb4NmvfQWBiuCWkCuhlia0Xy3DD1b3qusas4EyG4WsJH1hq+hvU6XJw
+ UtjCiUNaavaS70mrGl7g5xg63OgA2S5HJtbCiEmIJpzV7O1GOd6seMjA7 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="247637948"
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="247637948"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 00:08:37 -0800
+ 02 Feb 2022 00:08:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="771368012"
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="771368027"
 Received: from srr4-3-linux-116-skandpal.iind.intel.com ([10.190.238.57])
- by fmsmga005.fm.intel.com with ESMTP; 02 Feb 2022 00:08:34 -0800
+ by fmsmga005.fm.intel.com with ESMTP; 02 Feb 2022 00:08:38 -0800
 From: Kandpal Suraj <suraj.kandpal@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 4/6] drm/vc4: vc4 driver changes to accommodate changes
- done in drm_writeback_connector structure
-Date: Wed,  2 Feb 2022 13:47:00 +0530
-Message-Id: <20220202081702.22119-4-suraj.kandpal@intel.com>
+Subject: [PATCH v2 5/6] drm/rcar_du: changes to rcar-du driver resulting from
+ drm_writeback_connector structure changes
+Date: Wed,  2 Feb 2022 13:47:01 +0530
+Message-Id: <20220202081702.22119-5-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220202081702.22119-1-suraj.kandpal@intel.com>
 References: <20220111101801.28310-1-suraj.kandpal@intel.com>
@@ -62,88 +62,56 @@ Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changing vc4 driver to accomadate the change of
+Changing rcar_du driver to accomadate the change of
 drm_writeback_connector.base and drm_writeback_connector.encoder
 to a pointer the reason for which is explained in the
 Patch(drm: add writeback pointers to drm_connector).
 
 Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
 ---
- drivers/gpu/drm/vc4/vc4_txp.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
+ drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 9809ca3e2945..9882569d147c 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -151,6 +151,10 @@ struct vc4_txp {
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+index 66e8839db708..68f387a04502 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+@@ -72,6 +72,8 @@ struct rcar_du_crtc {
+ 	const char *const *sources;
+ 	unsigned int sources_count;
  
- 	struct platform_device *pdev;
++	struct drm_connector connector;
++	struct drm_encoder encoder;
+ 	struct drm_writeback_connector writeback;
+ };
  
-+	struct drm_connector drm_conn;
-+
-+	struct drm_encoder drm_enc;
-+
- 	struct drm_writeback_connector connector;
- 
- 	void __iomem *regs;
-@@ -159,12 +163,12 @@ struct vc4_txp {
- 
- static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+index c79d1259e49b..5b1e83380c47 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+@@ -200,8 +200,10 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
  {
--	return container_of(encoder, struct vc4_txp, connector.encoder);
-+	return container_of(encoder, struct vc4_txp, drm_enc);
- }
+ 	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
  
- static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
- {
--	return container_of(conn, struct vc4_txp, connector.base);
-+	return container_of(conn, struct vc4_txp, drm_conn);
- }
- 
- static const struct debugfs_reg32 txp_regs[] = {
-@@ -467,6 +471,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 	struct vc4_txp *txp;
- 	struct drm_crtc *crtc;
- 	struct drm_encoder *encoder;
-+	struct drm_writeback_connector *wb_conn;
- 	int ret, irq;
- 
- 	irq = platform_get_irq(pdev, 0);
-@@ -491,10 +496,13 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 	txp->regset.base = txp->regs;
- 	txp->regset.regs = txp_regs;
- 	txp->regset.nregs = ARRAY_SIZE(txp_regs);
-+	wb_conn = &txp->connector;
-+	wb_conn->base = &txp->drm_conn;
-+	wb_conn->encoder = &txp->drm_enc;
- 
--	drm_connector_helper_add(&txp->connector.base,
+-	wb_conn->encoder.possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+-	drm_connector_helper_add(&wb_conn->base,
++	wb_conn->base = &rcrtc->connector;
++	wb_conn->encoder = &rcrtc->encoder;
++	wb_conn->encoder->possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
 +	drm_connector_helper_add(wb_conn->base,
- 				 &vc4_txp_connector_helper_funcs);
--	ret = drm_writeback_connector_init(drm, &txp->connector,
-+	ret = drm_writeback_connector_init(drm, wb_conn,
- 					   &vc4_txp_connector_funcs,
- 					   &vc4_txp_encoder_helper_funcs,
- 					   drm_fmts, ARRAY_SIZE(drm_fmts));
-@@ -506,7 +514,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
+ 				 &rcar_du_wb_conn_helper_funcs);
  
--	encoder = &txp->connector.encoder;
-+	encoder = txp->connector.encoder;
- 	encoder->possible_crtcs = drm_crtc_mask(crtc);
+ 	return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
+@@ -220,7 +222,7 @@ void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
+ 	struct drm_framebuffer *fb;
+ 	unsigned int i;
  
- 	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
-@@ -529,7 +537,7 @@ static void vc4_txp_unbind(struct device *dev, struct device *master,
- 	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 	struct vc4_txp *txp = dev_get_drvdata(dev);
+-	state = rcrtc->writeback.base.state;
++	state = rcrtc->writeback.base->state;
+ 	if (!state || !state->writeback_job)
+ 		return;
  
--	vc4_txp_connector_destroy(&txp->connector.base);
-+	vc4_txp_connector_destroy(txp->connector.base);
- 
- 	vc4->txp = NULL;
- }
 -- 
 2.17.1
 
