@@ -1,64 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A24234A75ED
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 17:31:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E11174A763E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 17:55:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 802C710E371;
-	Wed,  2 Feb 2022 16:31:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DCD110E3F1;
+	Wed,  2 Feb 2022 16:55:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de
- [85.215.255.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC3E610E359
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 16:31:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1643819491;
- s=strato-dkim-0002; d=goldelico.com;
- h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
- From:Subject:Sender;
- bh=SB7WF+uS6P5/t2dwpOjYUkPlGzh1hZqHZTK2na9w/fI=;
- b=m6WElPFa5wwUetkXYni87eezOdYWqUP3earTSuvG3Z4jqwrVy2d/IWZ8rHT/2yofNT
- n4g7NMdJDfkirCo/78xo4waPkUNibWep1MT6i1dYiN3Bv0cYkyJDfnMHqgHTEe/KuOka
- 9hj6fsT+Tdq9Dv4QHI1+YD0YqaVj2I/BxHnFOgJYtyEs20Vkqx+o44UMceL6Icb3Bm2C
- mzVBfZWz0LoipC5XuqOWkgpkVMbSBHR6H4DbqR0L1UHUnPkQxatsnmVMTnEt4VCdB+WB
- /vUnttSfiqT2uL5QZ7XS1mqOE3xo9+jW9QB7dhpqOPPdrqx2wWo5JVGHH91rWKUucGOP
- tBhQ==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UMf2MwPVbjc9Y="
-X-RZG-CLASS-ID: mo00
-Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.39.0 DYNA|AUTH)
- with ESMTPSA id L29417y12GVUBmt
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Wed, 2 Feb 2022 17:31:30 +0100 (CET)
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kees Cook <keescook@chromium.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Paul Boddie <paul@boddie.org.uk>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v13 8/9] MIPS: DTS: CI20: fix how ddc power is enabled
-Date: Wed,  2 Feb 2022 17:31:22 +0100
-Message-Id: <0e5dc9a7c67b1cdfdb4427f631a8caa43777270e.1643819482.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <cover.1643819482.git.hns@goldelico.com>
-References: <cover.1643819482.git.hns@goldelico.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE1610E3F1
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 16:55:02 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5D7F961757;
+ Wed,  2 Feb 2022 16:55:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E46C004E1;
+ Wed,  2 Feb 2022 16:54:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1643820900;
+ bh=+Mw3UqSA9RW9lVv7cMeO4kcmAotMs1Y2FfPXU4FBX0w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MLDcYJAZvsv0XjxsuicWh3967mYmwunkokbmM+LwLId1hMsSp9rl1N3omNdCRHynH
+ BXyvlTGymC3VchPCaetwp6qPoimzewJphziaYPKVoMe7RBiYK7aBEwXg79ysMnq1by
+ 4YIxFZe1wIiKqNoQvUoR+Lea7Qga6Ai4DA7mAkmFJkafEfDSvyXEflnnfVunelFB8M
+ W8UnHi+FVqr2zmpCDBRw1TJkIwsiRYJXog7IVacvNlpd0zDWp/ctF/3gRU+/maemd7
+ kEmmGNuEx7RUhG2h0KO2KEeV4FC6natUldJrgVB9m5DQj8W9NPGFCLTFy3Tr4s1KDy
+ YkX+82ZIKJoxA==
+Date: Wed, 2 Feb 2022 09:54:55 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Yannick Fertre <yannick.fertre@foss.st.com>
+Subject: Re: [PATCH 5/5] drm/stm: ltdc: add support of ycbcr pixel formats
+Message-ID: <Yfq3XwozrxYaFhgD@dev-arch.archlinux-ax161>
+References: <20211215214843.20703-1-yannick.fertre@foss.st.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211215214843.20703-1-yannick.fertre@foss.st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,66 +51,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org
+Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ David Airlie <airlied@linux.ie>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Originally we proposed a new hdmi-5v-supply regulator reference
-for CI20 device tree but that was superseded by a better idea to use
-the already defined "ddc-en-gpios" property of the "hdmi-connector".
+Hi Yannick,
 
-Since "MIPS: DTS: CI20: Add DT nodes for HDMI setup" has already
-been applied to v5.17-rc1, we add this on top.
+On Wed, Dec 15, 2021 at 10:48:43PM +0100, Yannick Fertre wrote:
+> This patch adds the following YCbCr input pixel formats on the latest
+> LTDC hardware version:
+> 
+> 1 plane  (co-planar)  : YUYV, YVYU, UYVY, VYUY
+> 2 planes (semi-planar): NV12, NV21
+> 3 planes (full-planar): YU12=I420=DRM YUV420, YV12=DRM YVU420
+> 
+> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
-Fixes: ae1b8d2c2de9 ("MIPS: DTS: CI20: Add DT nodes for HDMI setup")
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-Reviewed-by: Paul Cercueil <paul@crapouillou.net>
----
- arch/mips/boot/dts/ingenic/ci20.dts | 15 ++-------------
- 1 file changed, 2 insertions(+), 13 deletions(-)
+<snip>
 
-diff --git a/arch/mips/boot/dts/ingenic/ci20.dts b/arch/mips/boot/dts/ingenic/ci20.dts
-index 3e336b3dbb109..ab6e3dc0bc1d0 100644
---- a/arch/mips/boot/dts/ingenic/ci20.dts
-+++ b/arch/mips/boot/dts/ingenic/ci20.dts
-@@ -83,6 +83,8 @@ hdmi_out: connector {
- 		label = "HDMI OUT";
- 		type = "a";
- 
-+		ddc-en-gpios = <&gpa 25 GPIO_ACTIVE_HIGH>;
-+
- 		port {
- 			hdmi_con: endpoint {
- 				remote-endpoint = <&dw_hdmi_out>;
-@@ -114,17 +116,6 @@ otg_power: fixedregulator@2 {
- 		gpio = <&gpf 14 GPIO_ACTIVE_LOW>;
- 		enable-active-high;
- 	};
--
--	hdmi_power: fixedregulator@3 {
--		compatible = "regulator-fixed";
--
--		regulator-name = "hdmi_power";
--		regulator-min-microvolt = <5000000>;
--		regulator-max-microvolt = <5000000>;
--
--		gpio = <&gpa 25 0>;
--		enable-active-high;
--	};
- };
- 
- &ext {
-@@ -576,8 +567,6 @@ &hdmi {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pins_hdmi_ddc>;
- 
--	hdmi-5v-supply = <&hdmi_power>;
--
- 	ports {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
--- 
-2.33.0
+> +static inline void ltdc_set_ycbcr_config(struct drm_plane *plane, u32 drm_pix_fmt)
+> +{
+> +	struct ltdc_device *ldev = plane_to_ltdc(plane);
+> +	struct drm_plane_state *state = plane->state;
+> +	u32 lofs = plane->index * LAY_OFS;
+> +	u32 val;
+> +
+> +	switch (drm_pix_fmt) {
+> +	case DRM_FORMAT_YUYV:
+> +		val = (YCM_I << 4) | LxPCR_YF | LxPCR_CBF;
+> +		break;
+> +	case DRM_FORMAT_YVYU:
+> +		val = (YCM_I << 4) | LxPCR_YF;
+> +		break;
+> +	case DRM_FORMAT_UYVY:
+> +		val = (YCM_I << 4) | LxPCR_CBF;
+> +		break;
+> +	case DRM_FORMAT_VYUY:
+> +		val = (YCM_I << 4);
+> +		break;
+> +	case DRM_FORMAT_NV12:
+> +		val = (YCM_SP << 4) | LxPCR_CBF;
+> +		break;
+> +	case DRM_FORMAT_NV21:
+> +		val = (YCM_SP << 4);
+> +		break;
+> +	case DRM_FORMAT_YUV420:
+> +	case DRM_FORMAT_YVU420:
+> +		val = (YCM_FP << 4);
+> +		break;
+> +	default:
+> +		/* RGB or not a YCbCr supported format */
+> +		break;
+> +	}
+> +
+> +	/* Enable limited range */
+> +	if (state->color_range == DRM_COLOR_YCBCR_LIMITED_RANGE)
+> +		val |= LxPCR_YREN;
+> +
+> +	/* enable ycbcr conversion */
+> +	val |= LxPCR_YCEN;
+> +
+> +	regmap_write(ldev->regmap, LTDC_L1PCR + lofs, val);
+> +}
 
+This patch as commit 484e72d3146b ("drm/stm: ltdc: add support of ycbcr
+pixel formats") in -next introduced the following clang warning:
+
+drivers/gpu/drm/stm/ltdc.c:625:2: warning: variable 'val' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+        default:
+        ^~~~~~~
+drivers/gpu/drm/stm/ltdc.c:635:2: note: uninitialized use occurs here
+        val |= LxPCR_YCEN;
+        ^~~
+drivers/gpu/drm/stm/ltdc.c:600:9: note: initialize the variable 'val' to silence this warning
+        u32 val;
+               ^
+                = 0
+1 warning generated.
+
+Would it be okay to just return in the default case (maybe with a
+message about an unsupported format?) or should there be another fix?
+
+Cheers,
