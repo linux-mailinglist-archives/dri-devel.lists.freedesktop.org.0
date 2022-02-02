@@ -1,48 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2374A76E7
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 18:33:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E954A76EB
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 18:36:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DE2310E2AD;
-	Wed,  2 Feb 2022 17:33:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF28910E364;
+	Wed,  2 Feb 2022 17:36:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 792FA10E2AD;
- Wed,  2 Feb 2022 17:33:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643823206; x=1675359206;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=1ZLpAxC0iEhZmcJsrxGtVBI9hXu4lZ6HlAiLywFzm+g=;
- b=bU0pUUrhCAQC36zWTnEWIye0EHN+zm2q3is4JkLmvGN4Je+lfxlVnqx2
- C95wrWjrw2xvAF1/Jk4fHn/46cVcQkszyWG1Y6XrvVcu6rfC/iFjtoMva
- sgG8iPn4RAZlZyUfWgSAT33dclEUw/Zdk7y6GkADhkrpOqkF5xfJDmYSw
- RPz9kFvVGWmEC+I/ZEMtxIxeq6rOWPIy5E3X5wcX2gD4kYtO+vt0YhgBC
- iRsV2m7zWXtUkBlIdSX9on7ZU285QqrN8U5u5YhntCyRkL1KBhaO/6Ode
- K/MS6gtjKfE77gySu7w72skBGDg5bvAWNi6ZUBtulWYfQ4enPGed4vAPL Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10246"; a="247748576"
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="247748576"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 09:32:48 -0800
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="769354096"
-Received: from msiebert-mobl2.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.252.31.225])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 09:32:47 -0800
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: opportunistically apply ALLOC_CONTIGIOUS
-Date: Wed,  2 Feb 2022 17:31:54 +0000
-Message-Id: <20220202173154.3758970-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1393610E364
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 17:36:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1643823377;
+ bh=nuthtyGtekh1QQHr3+HkARKWphnDMvJGe0AUmpkrc7A=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=UgorUlyfz1L7WX1XD13Rv/Kw0rRnC9vqv2dHLJvt/P/wv1/f+JJtRmZjPr04+y3pj
+ FIQDAjc1uBefyweGFLCsd0LpgYX8qFACQ9ZHgdeGgMn5hNN+rfopzVyDjBsmgPYdqo
+ pcxVJwU+35jRbzkqIZdGBMA/Jx3omzQ7H56ifRck=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.163.171]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MWRRZ-1mi2Bu1TXH-00XvtJ; Wed, 02
+ Feb 2022 18:36:17 +0100
+Message-ID: <882bfe4e-a5b6-2b2c-167b-eda8c08419e3@gmx.de>
+Date: Wed, 2 Feb 2022 18:36:10 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] fbdev: fbmem: Fix the implicit type casting
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20220131065719.1552958-1-yzhai003@ucr.edu>
+ <b1c1f68d-4620-2429-66bd-33d806d31457@gmx.de> <Yfq+/dVOgDVbhjRJ@ravnborg.org>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <Yfq+/dVOgDVbhjRJ@ravnborg.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:VX0YPkte7zZH09cDCCwSMR6sYdUsNWLLA8YgeJOkgJgQF/e0Hdr
+ ulgvAE4VODuPwDya1YKqtltqlyixywIGsh3K/ABDEZWxl2aUbWw7MesYYL0dyZsEFoyBzY4
+ fMXhQKFj6nB7PIZMmz0F44mQGcF3UKOml4d/JksZQguJNYL4ityt/xqwcFWn46dkY8dISrc
+ k4ju0v0v+e5pmBFX/T6UA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:S5DAjWZKd3M=:+qoyAW62vM1CXB8ZyHhb5o
+ oIVMSe7TaTUcNwMjlf9qGfxSkF3iJc4s8xuXYgd/Yap6jWcNAIdZBj055VI5t2AbHFZpyF3pq
+ N0A35aRyx6odqViUui0AvTYshmX6/XXAUW+eFNp3NNbLsV4vqPXMqOGO5ZxA7Ue+L0ebIfCIv
+ wIvlxM95WA8nCtjKnBBA1L6opujM+lSm4pOleyGcSPjngL8daqTf5B92k/ViuoAnM9A+wilTU
+ tFu4F3E/KKhp3hf3wnJHhcQEjeT7c9k1jjDnwu4U9/pB1XI5Ymvog/TYf+PtCRPpH1rQhn2de
+ OZ8S6bMjaJPT7OW+nwSIefQpFsbVMdrdu5BDgaplKIaYf8G8ZbTkKx0ZQybl/lAnBbo89Z0xm
+ GMCMH3mC/ef8l+1/uFgOpruVJrPXR3eLEKwzkwsyQjwGXCnsktx1C8Eqfm5XIW52sV0PkoecA
+ TkxrhiQ7kQt4M4Ks7RoXZPtevYsp91w/9ewt1J0k2YwTfiz59mLDmw1IkaNlzkqRsQbuW1+C/
+ 2CvyQt42GZlq7zAbYFrYbiRwb5K3pRiFq/O1dgPN9ajWt6l3I+CGO6JZAF9IpcaOHswXnTnKo
+ /U49eL7/FgAicyIH94BNBXmqyi9XrRXgS1PA4PkheWFcVyv0Oo4xIQd95JREfCfLNhdRF5L3Z
+ Ew1y6ISsL/nZ7LX7Y3VjjOa8w0zzA5Q5zCXYZXxE+zeo1AlF+hOCWLOdDqtEGQms2E5FD9Inn
+ s2AuwWgDsGzvWkIxkVJrD4rtvnpXNqb/8k0aqvOINQ5USEkJd6s7m3rgX7m8DvtNrUidJbIce
+ ZDHI4XDjGn+WMu+pXjkujVKhF4e0qSyWa/lBIsnEk3El0TLakOQrb/Vl27M+COledZTvZ5u4/
+ ++5D3tz+daxmrNzfEFPeuXTaZ3lF2+EfvCgLuZoSfZJKSma7KO85IdB6QoJNXgHY9nhMOpOMM
+ k8c5lfcYekwgp8rrTPug1FrW3aCRLK0GII3tpxAfTEWj+fTOebogrXHinEb5ikVdxVypZm/XI
+ RAyQKkVgoQ0N2h4Dxu/T33Q7+QykG8WGD/xnjLJ1nLXBBpaQcVj3v3BGBPOV+kX6V9BwLTlYr
+ Hi7AoBrK2dfhN4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,37 +71,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Zheyu Ma <zheyuma97@gmail.com>,
+ linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+ Yizhuo Zhai <yzhai003@ucr.edu>, dri-devel@lists.freedesktop.org,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It looks like this code was accidentally dropped at some point(in a
-slightly different form), so add it back. The gist is that if we know
-the allocation will be one single chunk, then we can just annotate the
-BO with I915_BO_ALLOC_CONTIGUOUS, even if the user doesn't bother. In
-the future this might prove to be potentially useful.
+On 2/2/22 18:27, Sam Ravnborg wrote:
+> Hi Helge,
+>
+> On Tue, Feb 01, 2022 at 04:02:40PM +0100, Helge Deller wrote:
+>> On 1/31/22 07:57, Yizhuo Zhai wrote:
+>>> In function do_fb_ioctl(), the "arg" is the type of unsigned long,
+>>
+>> yes, because it comes from the ioctl framework...
+>>
+>>> and in "case FBIOBLANK:" this argument is casted into an int before
+>>> passig to fb_blank().
+>>
+>> which makes sense IMHO.
+>>
+>>> In fb_blank(), the comparision if (blank > FB_BLANK_POWERDOWN) would
+>>> be bypass if the original "arg" is a large number, which is possible
+>>> because it comes from the user input.
+>>
+>> The main problem I see with your patch is that you change the behaviour=
+.
+>> Let's assume someone passes in -1UL.
+>> With your patch applied, this means the -1 (which is e.g. 0xffffffff on=
+ 32bit)
+>> is converted to a positive integer and will be capped to FB_BLANK_POWER=
+DOWN.
+>> Since most blank functions just check and react on specific values, you=
+ changed
+>> the behaviour that the screen now gets blanked at -1, while it wasn't b=
+efore.
+>>
+>> One could now argue, that it's undefined behaviour if people
+>> pass in wrong values, but anyway, it's different now.
+>
+> We should just plug this hole and in case an illegal value is passed
+> then return -EINVAL.
+>
+> Acceptable values are FB_BLANK_UNBLANK..FB_BLANK_POWERDOWN,
+> anything less than or greater than should result in -EINVAL.
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_region.c | 3 +++
- 1 file changed, 3 insertions(+)
+Yes, that's the best solution.
+Yizhuo Zhai, would you mind to resend with that solution?
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-index a4350227e9ae..dd414a2bcb06 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-@@ -57,6 +57,9 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
- 
- 	size = round_up(size, default_page_size);
- 
-+	if (default_page_size == size)
-+		flags |= I915_BO_ALLOC_CONTIGUOUS;
-+
- 	GEM_BUG_ON(!size);
- 	GEM_BUG_ON(!IS_ALIGNED(size, I915_GTT_MIN_ALIGNMENT));
- 
--- 
-2.34.1
+Helge
 
+> We miss this kind or early checks in many places, and we see the effect
+> of this in some drivers where they do it locally for no good.
+>
+> 	Sam
