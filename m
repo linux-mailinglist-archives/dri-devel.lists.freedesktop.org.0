@@ -1,52 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4E54A6E9A
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 11:23:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FDA84A6E9E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 11:24:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D833810E5BC;
-	Wed,  2 Feb 2022 10:23:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF5E10E150;
+	Wed,  2 Feb 2022 10:24:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D13410E5D1;
- Wed,  2 Feb 2022 10:23:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643797408; x=1675333408;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=DwShpkMqfnADyZO09QsN+dxveQVMTBFE04oG7QfT3C0=;
- b=Q7KTc6uAh5/ie3F3qFRMR/8RGuypgyT2ZU+5f/6m3xQSsoy7G9Vd07e2
- JjLbc9PHeF3XUgCurIIaQ1AeGMwNeMHpqF9T+V906qyre+8T3kiIV3CVO
- sS7OsJukkKlXN+Nc+5ybYM0yEQl+GpFPGJN1FO0cuEM2LOUngxTueb3Qz
- yc4bi3kFV82dtXknpl1I2EbYkWOwhTnOPiLeUe5ZQ9nEtMrKqaOvDPDN3
- PNWMj8LlF562ecoZUiHjNrpftSNjR958ZScAi93qfE8guKMTHCV6JVv6b
- 0yfW94fy122daU5iiqxiamumRWwc7dKHfk/lMNFAhBeD7FoTwDMahsPNP Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="334245984"
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="334245984"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 02:23:27 -0800
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="480057242"
-Received: from markeyp-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.6.210])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 02:23:25 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 5/8] drm/i915/dp: rewrite DP 2.0 128b/132b link training
- based on errata
-In-Reply-To: <YfJOn4RQMAzjaP4i@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1643130139.git.jani.nikula@intel.com>
- <5c061c1610834b9b1b057e6d32b774e7db5500a8.1643130139.git.jani.nikula@intel.com>
- <YfJOn4RQMAzjaP4i@intel.com>
-Date: Wed, 02 Feb 2022 12:23:23 +0200
-Message-ID: <87czk5tvms.fsf@intel.com>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AEC610E150
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 10:24:03 +0000 (UTC)
+Date: Wed, 02 Feb 2022 10:23:47 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v12 2/9] drm/ingenic: Add support for JZ4780 and HDMI
+ output
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <N7AO6R.7I6FABF106MT1@crapouillou.net>
+In-Reply-To: <6a7b188769a7ad477bf8cb71e1b9bc086b92388d.1643632014.git.hns@goldelico.com>
+References: <cover.1643632014.git.hns@goldelico.com>
+ <6a7b188769a7ad477bf8cb71e1b9bc086b92388d.1643632014.git.hns@goldelico.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,85 +36,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, uma.shankar@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, linux-mips@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Jan 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Tue, Jan 25, 2022 at 07:03:43PM +0200, Jani Nikula wrote:
-> <snip>
->> +static bool
->> +intel_dp_128b132b_lane_cds(struct intel_dp *intel_dp,
->> +			   const struct intel_crtc_state *crtc_state,
->> +			   int lttpr_count)
->> +{
->> +	struct intel_encoder *encoder =3D &dp_to_dig_port(intel_dp)->base;
->> +	struct drm_i915_private *i915 =3D to_i915(encoder->base.dev);
->> +	u8 link_status[DP_LINK_STATUS_SIZE];
->> +	unsigned long deadline;
->> +
->> +	if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_TRAINING_PATTERN_SET,
->> +			       DP_TRAINING_PATTERN_2_CDS) !=3D 1) {
->> +		drm_err(&i915->drm,
->> +			"[ENCODER:%d:%s] Failed to start 128b/132b TPS2 CDS\n",
->> +			encoder->base.base.id, encoder->base.name);
->> +		return false;
->> +	}
->> +
->> +	deadline =3D jiffies + msecs_to_jiffies((lttpr_count + 1) * 20);
->> +	for (;;) {
->> +		usleep_range(2000, 3000);
->> +
->> +		if (drm_dp_dpcd_read_link_status(&intel_dp->aux, link_status) < 0) {
->> +			drm_err(&i915->drm,
->> +				"[ENCODER:%d:%s] Failed to read link status\n",
->> +				encoder->base.base.id, encoder->base.name);
->> +			return false;
->> +		}
->> +
->> +		if (drm_dp_128b132b_cds_interlane_align_done(link_status) &&
->> +		    drm_dp_128b132b_lane_symbol_locked(link_status, crtc_state->lane_=
-count)) {
->
-> I'm thinkin we want to check for both eq done and symbol locked here,
-> just like we do with 8b10b.
+Hi Nikolaus,
 
-I guess so, although I don't think the spec explicitly calls that out.
+Le lun., janv. 31 2022 at 13:26:48 +0100, H. Nikolaus Schaller=20
+<hns@goldelico.com> a =E9crit :
+> From: Paul Boddie <paul@boddie.org.uk>
+>=20
+> Add support for the LCD controller present on JZ4780 SoCs.
+> This SoC uses 8-byte descriptors which extend the current
+> 4-byte descriptors used for other Ingenic SoCs.
+>=20
+> Tested on MIPS Creator CI20 board.
+>=20
+> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> ---
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 61=20
+> ++++++++++++++++++++++-
+>  drivers/gpu/drm/ingenic/ingenic-drm.h     | 38 ++++++++++++++
+>  2 files changed, 98 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
+> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 9c60fc4605e4b..ccdb9eedd9247 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -6,6 +6,7 @@
+>=20
+>  #include "ingenic-drm.h"
+>=20
+> +#include <linux/bitfield.h>
+>  #include <linux/component.h>
+>  #include <linux/clk.h>
+>  #include <linux/dma-mapping.h>
+> @@ -49,6 +50,11 @@ struct ingenic_dma_hwdesc {
+>  	u32 addr;
+>  	u32 id;
+>  	u32 cmd;
+> +	/* extended hw descriptor for jz4780 */
+> +	u32 offsize;
+> +	u32 pagewidth;
+> +	u32 cpos;
+> +	u32 dessize;
+>  } __aligned(16);
+>=20
+>  struct ingenic_dma_hwdescs {
+> @@ -59,7 +65,9 @@ struct ingenic_dma_hwdescs {
+>  struct jz_soc_info {
+>  	bool needs_dev_clk;
+>  	bool has_osd;
+> +	bool has_alpha;
+>  	bool map_noncoherent;
+> +	bool use_extended_hwdesc;
+>  	unsigned int max_width, max_height;
+>  	const u32 *formats_f0, *formats_f1;
+>  	unsigned int num_formats_f0, num_formats_f1;
+> @@ -446,6 +454,9 @@ static int ingenic_drm_plane_atomic_check(struct=20
+> drm_plane *plane,
+>  	if (!crtc)
+>  		return 0;
+>=20
+> +	if (plane =3D=3D &priv->f0)
+> +		return -EINVAL;
 
-Fixed anyway.
+This will break JZ4725B -> JZ4770 SoCs, the f0 plane is perfectly=20
+usable there.
 
->
->> +			drm_dbg_kms(&i915->drm,
->> +				    "[ENCODER:%d:%s] CDS interlane align done\n",
->> +				    encoder->base.base.id, encoder->base.name);
->> +			break;
->> +		}
->> +
->> +		if (drm_dp_128b132b_link_training_failed(link_status)) {
->> +			intel_dp_dump_link_status(intel_dp, DP_PHY_DPRX, link_status);
->> +			drm_err(&i915->drm,
->> +				"[ENCODER:%d:%s] Downstream link training failure\n",
->> +				encoder->base.base.id, encoder->base.name);
->> +			return false;
->> +		}
->> +
->> +		if (time_after(jiffies, deadline)) {
->> +			intel_dp_dump_link_status(intel_dp, DP_PHY_DPRX, link_status);
->> +			drm_err(&i915->drm,
->> +				"[ENCODER:%d:%s] CDS timeout\n",
->> +				encoder->base.base.id, encoder->base.name);
->> +			return false;
->> +		}
->> +	}
->> +
->> +	/* FIXME: Should DP_TRAINING_PATTERN_DISABLE be written first? */
->> +	if (intel_dp->set_idle_link_train)
->> +		intel_dp->set_idle_link_train(intel_dp, crtc_state);
->> +
->> +	return true;
->> +}
+Cheers,
+-Paul
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+> +
+>  	crtc_state =3D drm_atomic_get_existing_crtc_state(state,
+>  							crtc);
+>  	if (WARN_ON(!crtc_state))
+> @@ -662,6 +673,33 @@ static void=20
+> ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>  		hwdesc->cmd =3D JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
+>  		hwdesc->next =3D dma_hwdesc_addr(priv, next_id);
+>=20
+> +		if (priv->soc_info->use_extended_hwdesc) {
+> +			hwdesc->cmd |=3D JZ_LCD_CMD_FRM_ENABLE;
+> +
+> +			/* Extended 8-byte descriptor */
+> +			hwdesc->cpos =3D 0;
+> +			hwdesc->offsize =3D 0;
+> +			hwdesc->pagewidth =3D 0;
+> +
+> +			switch (newstate->fb->format->format) {
+> +			case DRM_FORMAT_XRGB1555:
+> +				hwdesc->cpos |=3D JZ_LCD_CPOS_RGB555;
+> +				fallthrough;
+> +			case DRM_FORMAT_RGB565:
+> +				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_15_16;
+> +				break;
+> +			case DRM_FORMAT_XRGB8888:
+> +				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_18_24;
+> +				break;
+> +			}
+> +			hwdesc->cpos |=3D (JZ_LCD_CPOS_COEFFICIENT_1 <<
+> +					 JZ_LCD_CPOS_COEFFICIENT_OFFSET);
+> +			hwdesc->dessize =3D
+> +				(0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
+> +				FIELD_PREP(JZ_LCD_DESSIZE_HEIGHT_MASK, height - 1) |
+> +				FIELD_PREP(JZ_LCD_DESSIZE_WIDTH_MASK, width - 1);
+> +		}
+> +
+>  		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+>  			fourcc =3D newstate->fb->format->format;
+>=20
+> @@ -693,6 +731,9 @@ static void=20
+> ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+>  		    | JZ_LCD_CFG_SPL_DISABLE | JZ_LCD_CFG_REV_DISABLE;
+>  	}
+>=20
+> +	if (priv->soc_info->use_extended_hwdesc)
+> +		cfg |=3D JZ_LCD_CFG_DESCRIPTOR_8;
+> +
+>  	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+>  		cfg |=3D JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
+>  	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+> @@ -1015,6 +1056,7 @@ static int ingenic_drm_bind(struct device *dev,=20
+> bool has_components)
+>  	long parent_rate;
+>  	unsigned int i, clone_mask =3D 0;
+>  	int ret, irq;
+> +	u32 osdc =3D 0;
+>=20
+>  	soc_info =3D of_device_get_match_data(dev);
+>  	if (!soc_info) {
+> @@ -1272,7 +1314,10 @@ static int ingenic_drm_bind(struct device=20
+> *dev, bool has_components)
+>=20
+>  	/* Enable OSD if available */
+>  	if (soc_info->has_osd)
+> -		regmap_write(priv->map, JZ_REG_LCD_OSDC, JZ_LCD_OSDC_OSDEN);
+> +		osdc |=3D JZ_LCD_OSDC_OSDEN;
+> +	if (soc_info->has_alpha)
+> +		osdc |=3D JZ_LCD_OSDC_ALPHAEN;
+> +	regmap_write(priv->map, JZ_REG_LCD_OSDC, osdc);
+>=20
+>  	mutex_init(&priv->clk_mutex);
+>  	priv->clock_nb.notifier_call =3D ingenic_drm_update_pixclk;
+> @@ -1468,10 +1513,24 @@ static const struct jz_soc_info=20
+> jz4770_soc_info =3D {
+>  	.num_formats_f0 =3D ARRAY_SIZE(jz4770_formats_f0),
+>  };
+>=20
+> +static const struct jz_soc_info jz4780_soc_info =3D {
+> +	.needs_dev_clk =3D true,
+> +	.has_osd =3D true,
+> +	.has_alpha =3D true,
+> +	.use_extended_hwdesc =3D true,
+> +	.max_width =3D 4096,
+> +	.max_height =3D 2048,
+> +	.formats_f1 =3D jz4770_formats_f1,
+> +	.num_formats_f1 =3D ARRAY_SIZE(jz4770_formats_f1),
+> +	.formats_f0 =3D jz4770_formats_f0,
+> +	.num_formats_f0 =3D ARRAY_SIZE(jz4770_formats_f0),
+> +};
+> +
+>  static const struct of_device_id ingenic_drm_of_match[] =3D {
+>  	{ .compatible =3D "ingenic,jz4740-lcd", .data =3D &jz4740_soc_info },
+>  	{ .compatible =3D "ingenic,jz4725b-lcd", .data =3D &jz4725b_soc_info },
+>  	{ .compatible =3D "ingenic,jz4770-lcd", .data =3D &jz4770_soc_info },
+> +	{ .compatible =3D "ingenic,jz4780-lcd", .data =3D &jz4780_soc_info },
+>  	{ /* sentinel */ },
+>  };
+>  MODULE_DEVICE_TABLE(of, ingenic_drm_of_match);
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.h=20
+> b/drivers/gpu/drm/ingenic/ingenic-drm.h
+> index 22654ac1dde1c..cb1d09b625881 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm.h
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm.h
+> @@ -44,8 +44,11 @@
+>  #define JZ_REG_LCD_XYP1				0x124
+>  #define JZ_REG_LCD_SIZE0			0x128
+>  #define JZ_REG_LCD_SIZE1			0x12c
+> +#define JZ_REG_LCD_PCFG				0x2c0
+>=20
+>  #define JZ_LCD_CFG_SLCD				BIT(31)
+> +#define JZ_LCD_CFG_DESCRIPTOR_8			BIT(28)
+> +#define JZ_LCD_CFG_RECOVER_FIFO_UNDERRUN	BIT(25)
+>  #define JZ_LCD_CFG_PS_DISABLE			BIT(23)
+>  #define JZ_LCD_CFG_CLS_DISABLE			BIT(22)
+>  #define JZ_LCD_CFG_SPL_DISABLE			BIT(21)
+> @@ -63,6 +66,7 @@
+>  #define JZ_LCD_CFG_DE_ACTIVE_LOW		BIT(9)
+>  #define JZ_LCD_CFG_VSYNC_ACTIVE_LOW		BIT(8)
+>  #define JZ_LCD_CFG_18_BIT			BIT(7)
+> +#define JZ_LCD_CFG_24_BIT			BIT(6)
+>  #define JZ_LCD_CFG_PDW				(BIT(5) | BIT(4))
+>=20
+>  #define JZ_LCD_CFG_MODE_GENERIC_16BIT		0
+> @@ -132,6 +136,7 @@
+>  #define JZ_LCD_CMD_SOF_IRQ			BIT(31)
+>  #define JZ_LCD_CMD_EOF_IRQ			BIT(30)
+>  #define JZ_LCD_CMD_ENABLE_PAL			BIT(28)
+> +#define JZ_LCD_CMD_FRM_ENABLE			BIT(26)
+>=20
+>  #define JZ_LCD_SYNC_MASK			0x3ff
+>=20
+> @@ -153,6 +158,7 @@
+>  #define JZ_LCD_RGBC_EVEN_BGR			(0x5 << 0)
+>=20
+>  #define JZ_LCD_OSDC_OSDEN			BIT(0)
+> +#define JZ_LCD_OSDC_ALPHAEN			BIT(2)
+>  #define JZ_LCD_OSDC_F0EN			BIT(3)
+>  #define JZ_LCD_OSDC_F1EN			BIT(4)
+>=20
+> @@ -176,6 +182,38 @@
+>  #define JZ_LCD_SIZE01_WIDTH_LSB			0
+>  #define JZ_LCD_SIZE01_HEIGHT_LSB		16
+>=20
+> +#define JZ_LCD_DESSIZE_ALPHA_OFFSET		24
+> +#define JZ_LCD_DESSIZE_HEIGHT_MASK		GENMASK(23, 12)
+> +#define JZ_LCD_DESSIZE_WIDTH_MASK		GENMASK(11, 0)
+> +
+> +#define JZ_LCD_CPOS_BPP_15_16			(4 << 27)
+> +#define JZ_LCD_CPOS_BPP_18_24			(5 << 27)
+> +#define JZ_LCD_CPOS_BPP_30			(7 << 27)
+> +#define JZ_LCD_CPOS_RGB555			BIT(30)
+> +#define JZ_LCD_CPOS_PREMULTIPLY_LCD		BIT(26)
+> +#define JZ_LCD_CPOS_COEFFICIENT_OFFSET		24
+> +#define JZ_LCD_CPOS_COEFFICIENT_0		0
+> +#define JZ_LCD_CPOS_COEFFICIENT_1		1
+> +#define JZ_LCD_CPOS_COEFFICIENT_ALPHA1		2
+> +#define JZ_LCD_CPOS_COEFFICIENT_1_ALPHA1	3
+> +
+> +#define JZ_LCD_RGBC_RGB_PADDING			BIT(15)
+> +#define JZ_LCD_RGBC_RGB_PADDING_FIRST		BIT(14)
+> +#define JZ_LCD_RGBC_422				BIT(8)
+> +#define JZ_LCD_RGBC_RGB_FORMAT_ENABLE		BIT(7)
+> +
+> +#define JZ_LCD_PCFG_PRI_MODE			BIT(31)
+> +#define JZ_LCD_PCFG_HP_BST_4			(0 << 28)
+> +#define JZ_LCD_PCFG_HP_BST_8			(1 << 28)
+> +#define JZ_LCD_PCFG_HP_BST_16			(2 << 28)
+> +#define JZ_LCD_PCFG_HP_BST_32			(3 << 28)
+> +#define JZ_LCD_PCFG_HP_BST_64			(4 << 28)
+> +#define JZ_LCD_PCFG_HP_BST_16_CONT		(5 << 28)
+> +#define JZ_LCD_PCFG_HP_BST_DISABLE		(7 << 28)
+> +#define JZ_LCD_PCFG_THRESHOLD2_OFFSET		18
+> +#define JZ_LCD_PCFG_THRESHOLD1_OFFSET		9
+> +#define JZ_LCD_PCFG_THRESHOLD0_OFFSET		0
+> +
+>  struct device;
+>  struct drm_plane;
+>  struct drm_plane_state;
+> --
+> 2.33.0
+>=20
+
+
