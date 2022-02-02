@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234A34A70F9
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 13:43:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D244A7101
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 13:47:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 734A110E4CC;
-	Wed,  2 Feb 2022 12:43:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41A4B10E54A;
+	Wed,  2 Feb 2022 12:47:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB05D10E4A7;
- Wed,  2 Feb 2022 12:43:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EECA010E54A
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 12:47:38 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1CDF2F3;
- Wed,  2 Feb 2022 13:43:05 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5507E2F3;
+ Wed,  2 Feb 2022 13:47:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1643805786;
- bh=+WI37cf75CMeTGqF1Etn3HqpDOS7IELga46qsR35ox0=;
+ s=mail; t=1643806057;
+ bh=vxrKHYLRLRSd0fhsytxUL5v7RlRzVqtc6x5bPMRHLBU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ly/AdmqD2TrLlp//8lTD8BPHPgO3c+C8b4G32Vy0L6+uk2xcfe5p0+4IhSis+9GYg
- Ve65LnFpHjdQbvZmeaDGTl+BAFVHNASw/y97do469RZZ6kWbcd9MPVwbwQgUdf869u
- G8Vw71ZWv/Msg/wJzh8TY84EH5DeSWhK4nxpMk/E=
-Date: Wed, 2 Feb 2022 14:42:43 +0200
+ b=sHlJXBASzjtmta9GQ+9+7/Qimi4muJrWaUIKcIT/ylwCrO2SRorcQupEy0xs4B87A
+ RJaEfE5NetKx/iVFRZODvu1dSXejJlbKgYrB5Qurl1RrgfAY+ACLmGyeFtI0oDEnFF
+ vCyBEE3ir5bOpytJ23YcV7JZTGbVNFPSnhriDx1M=
+Date: Wed, 2 Feb 2022 14:47:14 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kandpal Suraj <suraj.kandpal@intel.com>
-Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting
- from drm_writeback_connector structure changes
-Message-ID: <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com>
-References: <20220202085429.22261-1-suraj.kandpal@intel.com>
- <20220202085429.22261-6-suraj.kandpal@intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v3 2/2] dt-bindings: panel: Introduce a panel-lvds binding
+Message-ID: <Yfp9UhwWZbHpDjpL@pendragon.ideasonboard.com>
+References: <20220111110635.804371-1-maxime@cerno.tech>
+ <20220111110635.804371-2-maxime@cerno.tech>
+ <Yd2Ahn3+FVv/Aks7@pendragon.ideasonboard.com>
+ <20220127142215.fesipdslabur43sx@houat>
+ <20220202094845.r7td65zxfo5uqg5x@houat>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220202085429.22261-6-suraj.kandpal@intel.com>
+In-Reply-To: <20220202094845.r7td65zxfo5uqg5x@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,76 +50,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: carsten.haitzler@arm.com, jani.nikula@intel.com,
- intel-gfx@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, dmitry.baryshkov@linaro.org,
- arun.r.murthy@intel.com
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Frank Rowand <frowand.list@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kandpal,
+Hi Maxime,
 
-Thank you for the patch.
-
-On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
-> Changing rcar_du driver to accomadate the change of
-> drm_writeback_connector.base and drm_writeback_connector.encoder
-> to a pointer the reason for which is explained in the
-> Patch(drm: add writeback pointers to drm_connector).
+On Wed, Feb 02, 2022 at 10:48:45AM +0100, Maxime Ripard wrote:
+> On Thu, Jan 27, 2022 at 03:22:15PM +0100, Maxime Ripard wrote:
+> > On Tue, Jan 11, 2022 at 03:05:10PM +0200, Laurent Pinchart wrote:
+> > > On Tue, Jan 11, 2022 at 12:06:35PM +0100, Maxime Ripard wrote:
+> > > > Following the previous patch, let's introduce a generic panel-lvds
+> > > > binding that documents the panels that don't have any particular
+> > > > constraint documented.
+> > > > 
+> > > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > > 
+> > > > ---
+> > > > 
+> > > > Changes from v2:
+> > > >   - Added a MAINTAINERS entry
+> > > > 
+> > > > Changes from v1:
+> > > >   - Added missing compatible
+> > > >   - Fixed lint
+> > > > ---
+> > > >  .../bindings/display/panel/panel-lvds.yaml    | 57 +++++++++++++++++++
+> > > >  MAINTAINERS                                   |  1 +
+> > > >  2 files changed, 58 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+> > > > 
+> > > > diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..fcc50db6a812
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+> > > > @@ -0,0 +1,57 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Generic LVDS Display Panel Device Tree Bindings
+> > > > +
+> > > > +maintainers:
+> > > > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > +  - Thierry Reding <thierry.reding@gmail.com>
+> > > > +
+> > > > +allOf:
+> > > > +  - $ref: panel-common.yaml#
+> > > > +  - $ref: /schemas/display/lvds.yaml/#
+> > > > +
+> > > > +select:
+> > > > +  properties:
+> > > > +    compatible:
+> > > > +      contains:
+> > > > +        const: panel-lvds
+> > > > +
+> > > > +  not:
+> > > > +    properties:
+> > > > +      compatible:
+> > > > +        contains:
+> > > > +          enum:
+> > > > +            - advantech,idk-1110wr
+> > > > +            - advantech,idk-2121wr
+> > > > +            - innolux,ee101ia-01d
+> > > > +            - mitsubishi,aa104xd12
+> > > > +            - mitsubishi,aa121td01
+> > > > +            - sgd,gktw70sdae4se
+> > > 
+> > > I still don't like this :-( Couldn't we instead do
+> > > 
+> > > select:
+> > >   properties:
+> > >     compatible:
+> > >       contains:
+> > >         enum:
+> > >           - auo,b101ew05
+> > >           - tbs,a711-panel
+> > > 
+> > > ?
+> > 
+> > That works too, I'll send another version.
 > 
-> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
->  drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
->  2 files changed, 7 insertions(+), 3 deletions(-)
+> Actually, no, it doesn't work.
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> index 66e8839db708..68f387a04502 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
->  	const char *const *sources;
->  	unsigned int sources_count;
->  
-> +	struct drm_connector connector;
-> +	struct drm_encoder encoder;
+> If we do this, if we were to have a panel that has panel-lvds but none
+> of the other compatible (because of a typo, or downright invalid
+> binding) we won't validate it and report any error.
+> 
+> I'll merge this version (together with the v4 version of patch 1)
 
-Those fields are, at best, poorly named. Furthermore, there's no need in
-this driver or in other drivers using drm_writeback_connector to create
-an encoder or connector manually. Let's not polute all drivers because
-i915 doesn't have its abstractions right.
+I'm sorry but I *really* *really* dislike this. Having to list all other
+compatible values in this file is a sign that something is wrong in the
+validation infrastructure. People will forget to update it when adding
+new bindings, and will get confused by the result. If I were a
+maintainer for DT bindings I'd nack this.
 
-Nack.
-
->  	struct drm_writeback_connector writeback;
->  };
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
-> index c79d1259e49b..5b1e83380c47 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
-> @@ -200,8 +200,10 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
->  {
->  	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
->  
-> -	wb_conn->encoder.possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
-> -	drm_connector_helper_add(&wb_conn->base,
-> +	wb_conn->base = &rcrtc->connector;
-> +	wb_conn->encoder = &rcrtc->encoder;
-> +	wb_conn->encoder->possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
-> +	drm_connector_helper_add(wb_conn->base,
->  				 &rcar_du_wb_conn_helper_funcs);
->  
->  	return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
-> @@ -220,7 +222,7 @@ void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
->  	struct drm_framebuffer *fb;
->  	unsigned int i;
->  
-> -	state = rcrtc->writeback.base.state;
-> +	state = rcrtc->writeback.base->state;
->  	if (!state || !state->writeback_job)
->  		return;
->  
+If a DT has panel-lvds and no other compatible string, or invalid ones,
+won't the validation report that the compatible isn't understood ? I
+think that would be enough.
 
 -- 
 Regards,
