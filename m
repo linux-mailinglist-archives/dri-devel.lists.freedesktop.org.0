@@ -1,51 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9529E4A7495
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:28:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 911BC4A7494
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:28:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 192EA10E2ED;
-	Wed,  2 Feb 2022 15:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6486810E2CF;
+	Wed,  2 Feb 2022 15:28:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 899EA10E2CF
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6FD810E2CF
  for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 15:28:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2C130B8311F;
- Wed,  2 Feb 2022 15:28:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8B8C004E1;
- Wed,  2 Feb 2022 15:28:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 72B2A60B89;
+ Wed,  2 Feb 2022 15:28:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 590F3C340EF;
+ Wed,  2 Feb 2022 15:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643815700;
- bh=eLdsW1iy28myXVvx1haHqeeyItQVCIwS22aJw3sKNyc=;
- h=From:To:Cc:Subject:Date:From;
- b=EEKdeI7UsvuTrPenRDGB5PnC6lgrORoKul8Pmr5nLeJP3J9MxHGeJojYkGBv9ho61
- 4IjP1ppL08qgcTMYJLjpz1keAiune4HY1xQ1aBu9cEmS9tCtlm3y5jcA1eqEianNA3
- 0LBA06sk1avUH0OPHkrXtFWHpcNceBKIzPmcxyne0Q9/oi5t8zQJyhbJbAzFCPoh3K
- qLKDeFJgU4Kda9bVv9wqtWkGyUZLtzOq2sab0rscjQSEK57r6JInsvTZG0a2EFeCOW
- Euj1K2RQgF/LxNHoa2HzUqIIFcufB0e1hzd7n2wOIg+P7lcpebbttZmx7lGea3Dv0a
- m+5snCjnmTNMQ==
+ s=k20201202; t=1643815702;
+ bh=8Bi2IfGYn49J1OPZx8Swg5kgcUGo31SmzEqJLAPIt6Q=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=PSdqpwwt2XWuSndjntT7lHU8kbISW/w7lfSMig3MBvG22h8DVSWgdE/Q2LgDIKEC+
+ T/ISmBA+mmIIBEq16yzUhZRnFNQescrpdvjzDTifjq0xZaKe+PiWKtctHyFAk7Hc7+
+ 0np7ygCglN/m6inDh54uV7PKwiJYemSz+lHkFHoFJieDls6NFtCkp3GrSY1Pqa5MmR
+ 0cvgB8s29gIw5OFeD8pfEyDoGO+uV8XA/dVcaeW+cXdIzdxyzGg8D9cPq/mv9nNMs5
+ IXQf1be8Can2uTCOsC+jk8H31+Nq1tSeqQdcLsV7HbRbcJ+WWu5CwLDOLT2xUuVsmm
+ H2uiCXhShqHlQ==
 From: Mark Brown <broonie@kernel.org>
 To: Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 0/2] drm/tiny: Ensure DT compatibles have SPI device IDs
-Date: Wed,  2 Feb 2022 15:26:29 +0000
-Message-Id: <20220202152631.20704-1-broonie@kernel.org>
+Subject: [PATCH v2 1/2] drm/ili9486: Add SPI ID table
+Date: Wed,  2 Feb 2022 15:26:30 +0000
+Message-Id: <20220202152631.20704-2-broonie@kernel.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220202152631.20704-1-broonie@kernel.org>
+References: <20220202152631.20704-1-broonie@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=591; h=from:subject;
- bh=eLdsW1iy28myXVvx1haHqeeyItQVCIwS22aJw3sKNyc=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBh+qKk45GXATsjCitEPQxhGsahJIc+M6weYzrP5xxl
- t4HJA7KJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYfqipAAKCRAk1otyXVSH0GrWB/
- 0ZvMKf7VAvm9esqxOvs1XY2lckMlglgqlaHUyYKSwT9beBl/BauDcLOF7nXARddj6+8r7OTgsMcIm1
- 2K4aN6J9tD5wX0y7o74Y5LL7Q1/hmfUpZWCTNi1Qo1i/s4iYcSiHSDgpP4Pei1Ithlrwv5+g/f5JGi
- IKaeQWo4avyLbnvkt2STpur+JP7D9hKc6TLexcvHTBw+USq2eJDG8ms1wNaPBHyl7Xesn7/aaO7s5Z
- PQ3hRYivC/zGJrr6uge4blAsE8xD/WAc8XtkvPz+ffcSretaiM8mWUCHqf77nz2JXdynTOOgjYenLW
- 5ZDFSdPmAUo4y+z59ttdUxsxv+ZnvJ
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1002; h=from:subject;
+ bh=8Bi2IfGYn49J1OPZx8Swg5kgcUGo31SmzEqJLAPIt6Q=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBh+qKlGUXmqAQVcau4c6lkD+meITWtN60lWSWqhQy1
+ 3M1Znp2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYfqipQAKCRAk1otyXVSH0NMuB/
+ 0W6/gCzjBhrwBLMUw28dshvvSdZivd1V3r9RdEVE1giVcRwYs3Uumxg1ngdkjzdR6IVb5v7/V/kiXG
+ LY1F+T5SVilq5NZGzfLX8TNJkO1+QSDt9fvguCIsP1bjxxJo5exrp17YdbrfjaSQpj/Joc1HakWBtD
+ Z6TCBvucrvDf2fOS6FSBtbchGzt8jvg83m2XKdXEIcBlEPV9PSHC5vzjl6oBnCbbsK4vSIeBka9TFJ
+ 5oM4uOso3QFDFodv854ISchLiStRcpshY+5PvyWvxCLRQJH+0ZfkVHZdDPEVKqX0dJZVAtl1jqfF6y
+ hV/ojp8QjEsCsjaokLMgmgXhCq3SRR
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Content-Transfer-Encoding: 8bit
@@ -61,28 +64,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Currently autoloading for SPI devices does not use the DT ID table, it uses
 SPI modalises. Supporting OF modalises is going to be difficult if not
-impractical, an attempt was made but has been reverted, so this series
-adds SPI IDs where they aren't provided for a given modalias.
+impractical, an attempt was made but has been reverted, so ensure that
+module autoloading works for this driver by ensuring that there are SPI IDs
+for all OF IDs.
 
-v2:
- - Rebase onto v5.17-rc1.
-
-Mark Brown (2):
-  drm/ili9486: Add SPI ID table
-  drm/st7735r: Add SPI ID table
-
+Fixes: 96c8395e2166 ("spi: Revert modalias changes")
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Cc: Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>
+---
  drivers/gpu/drm/tiny/ili9486.c | 2 ++
- drivers/gpu/drm/tiny/st7735r.c | 1 +
- 2 files changed, 3 insertions(+)
+ 1 file changed, 2 insertions(+)
 
-
-base-commit: e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
+diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
+index e9a63f4b2993..da4dc48db030 100644
+--- a/drivers/gpu/drm/tiny/ili9486.c
++++ b/drivers/gpu/drm/tiny/ili9486.c
+@@ -182,6 +182,8 @@ MODULE_DEVICE_TABLE(of, ili9486_of_match);
+ 
+ static const struct spi_device_id ili9486_id[] = {
+ 	{ "ili9486", 0 },
++	{ "rpi-lcd-35", 0 },
++	{ "piscreen", 0 },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(spi, ili9486_id);
 -- 
 2.30.2
 
