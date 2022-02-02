@@ -1,81 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3066F4A6D23
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:46:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E90584A6D25
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 09:46:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59CAC10FAB8;
-	Wed,  2 Feb 2022 08:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEE6710FABA;
+	Wed,  2 Feb 2022 08:46:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 730AD10FAB7
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 08:46:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643791565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+t98WKUfmAfPmDThATdXX8CTJNH50fOldGy238DTDyQ=;
- b=IJSKlgjLlk0t3JkyAJDPQ2r+xsJ45q0E22jopbQP+pmzu+ey5h4MyYpvnbGW+GQwwT6mZh
- 0tgxYDArIKDs20VmMVQRn1AEqen6IivkEfAX9amkBut0SkKLs3uvRFHHXQgyQFybCRrvl6
- vnD90EOE4+0/mE/BPsl2fz6J/y1nfhU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-410-EAdIRm3-PvWSwrVrmAbrvA-1; Wed, 02 Feb 2022 03:46:04 -0500
-X-MC-Unique: EAdIRm3-PvWSwrVrmAbrvA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q4-20020adfbb84000000b001dd3cfddb2dso6643180wrg.11
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 00:46:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+t98WKUfmAfPmDThATdXX8CTJNH50fOldGy238DTDyQ=;
- b=qAn6J/KusatF6LZ6Afc5kiGrgRrEw17x6sJ9rBzNNGwd4uJBd9NcNx95f0omkqpM5+
- rYHcfPX9nSKZ1rdCCLvEmP9kwjCeyOiHPHudxE9JmagpNz0XNhvjtmUyK9O1yWNiCpzV
- njj41dd4kMBciHK+2cpkYH9VSgPaMEsdOqTMTTAiuhlnfETAJql0iMFrnEMZIDpMaQgC
- 36fXjrISzX3ojQfUsjLpbQAoRxWajg6KJ37GPOBRlYFDkOhQEY6J7qNXddC3Z9KVzrgs
- 7yl5as788rYT8koAr7BDiobI2/FQ7nA8Ap0xHjQJYVl4xY0OIWeJEBLuUqOp/VZEknzj
- FdPw==
-X-Gm-Message-State: AOAM530+QCAe5KPhrM7MGR8ApY3G/iEF/0l87UUBTzm74tb6woZM0qln
- s5+0QZh45xykJn2036ljFQZFEkWAJ06sNNaL7gNNA3BtrzCQR+/BGpVMD+xcSbtnBpT8yzAIq8U
- pjaufO2uuhtl6RM9emCvXLk1FeOqo
-X-Received: by 2002:a1c:ed12:: with SMTP id l18mr5135958wmh.93.1643791563287; 
- Wed, 02 Feb 2022 00:46:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzOc8cdyaslolsIIxQodJLho1aNIKNdP+8hs8Kq/JhdZJPYGQq4WH3NEN3pv9foMaQLLMG8PQ==
-X-Received: by 2002:a1c:ed12:: with SMTP id l18mr5135948wmh.93.1643791563135; 
- Wed, 02 Feb 2022 00:46:03 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id y14sm18994810wrd.91.2022.02.02.00.46.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Feb 2022 00:46:02 -0800 (PST)
-Message-ID: <570d4384-b838-2bf6-1ff5-f8956ba7cee5@redhat.com>
-Date: Wed, 2 Feb 2022 09:46:01 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/4] drm: Add I2C connector type
-To: Simon Ser <contact@emersion.fr>, Sam Ravnborg <sam@ravnborg.org>
-References: <20220131201225.2324984-1-javierm@redhat.com>
- <20220131201225.2324984-2-javierm@redhat.com> <YfhMESTylI1NTKDg@ravnborg.org>
- <4d9a56a7-da25-b411-61cc-372c6fa9011d@tronnes.org>
- <YfmeztkVXwZzAwYe@ravnborg.org>
- <0yOiGD-56rTdV--oDietLeMO46Z8iFNnCNVVRg3Yh9D13AghGCYm5aP67SoswHY7Ye3vc3UEKzgtI02-F6vJ4b5xGLlE5yg6n2HznaWzYvg=@emersion.fr>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <0yOiGD-56rTdV--oDietLeMO46Z8iFNnCNVVRg3Yh9D13AghGCYm5aP67SoswHY7Ye3vc3UEKzgtI02-F6vJ4b5xGLlE5yg6n2HznaWzYvg=@emersion.fr>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ED9810FAB6;
+ Wed,  2 Feb 2022 08:46:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643791570; x=1675327570;
+ h=from:to:cc:subject:date:message-id;
+ bh=BKAe7KQSH7VwiS6EUKJCmx3cV1mOB34zyEioaB9aJOY=;
+ b=l15YWgL1TE5nxxdMYhF465OWxVovzx3lVR0Tlsom4NWPy0fjRH4h3X24
+ 7flhf9JvE+PuZVsoDi3p792HUakx6kDoWq6yfeCvjr2A+anztg70HUdUO
+ TR4Zhjx+uRZLSMj6HoD/z9dgJPmjfZgVq75vpa1pyvabUVPQQsJGDVg3D
+ Zhv4aD+f+zOIhvMYl03IfpxVNSds0Pc7QJGXZDgFJpzIXOeHUwht4TNaJ
+ Sh6V9fadmnwBa3QjDdwn4qKcOsCEOXsmQ3nU1FUC9W/8zeSuHvOUCcJan
+ MMS+h+mq/hDk0ZNnvkdtNtqJCgfWAXtAAXtAg1bfzU+d6Da0n/YzZ4M1h Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="228528764"
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="228528764"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2022 00:46:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="497674987"
+Received: from srr4-3-linux-116-skandpal.iind.intel.com ([10.190.238.57])
+ by orsmga002.jf.intel.com with ESMTP; 02 Feb 2022 00:46:06 -0800
+From: Kandpal Suraj <suraj.kandpal@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/6] drm writeback connector changes
+Date: Wed,  2 Feb 2022 14:24:23 +0530
+Message-Id: <20220202085429.22261-1-suraj.kandpal@intel.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,38 +51,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
+ jani.nikula@intel.com, quic_abhinavk@quicinc.com,
+ laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
+ arun.r.murthy@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/1/22 23:29, Simon Ser wrote:
-> On Tuesday, February 1st, 2022 at 21:57, Sam Ravnborg <sam@ravnborg.org> wrote:
-> 
->> As I wrote in another part of this thread(s) - typing the patch is easy.
->> But I do not understand the userspace implications so I need someone
->> else to say go.
-> 
-> User-space shouldn't really use the connector for anything except making it
-> easier for the user to understand where to plug the display cable. I think a
-> generic "panel" connector type makes sense.
-> 
+This patch series contains drm_writeback_connector structure change i.e 
+change of drm_connector and drm_encoder fields to a pointer the reason
+for which is explained in patch(1/6) drm: add writeback pointers to
+drm_connector and the accompanying changes to the different drivers that
+were effected by it.
+I had perviously floated a patch series but missed some of the drivers
+that were effected by the change hence refloating the patch series 
 
-I'll drop this patch from the series. I didn't have all the context and thought
-that was an opportunity to add an I2C type, since there was a SPI type already.
+Kandpal Suraj (6):
+  drm: add writeback pointers to drm_connector
+  drm/arm/komeda : change driver to use drm_writeback_connector.base
+    pointer
+  drm/vkms: change vkms driver to use drm_writeback_connector.base
+    pointer
+  drm/vc4: vc4 driver changes to accommodate changes done in
+    drm_writeback_connector structure
+  drm/rcar_du: changes to rcar-du driver resulting from
+    drm_writeback_connector structure changes
+  drm/arm: changes to malidp driver resulting from
+    drm_writeback_connector structure changes
 
-But seems to be more controversial than I expected and shouldn't really matter
-for a tiny driver like this. I will just go ahead and use the Unknown type.
+ .../gpu/drm/arm/display/komeda/komeda_crtc.c  |  2 +-
+ .../gpu/drm/arm/display/komeda/komeda_kms.h   |  3 ++-
+ .../arm/display/komeda/komeda_wb_connector.c  | 11 +++++-----
+ drivers/gpu/drm/arm/malidp_crtc.c             |  2 +-
+ drivers/gpu/drm/arm/malidp_drv.h              |  2 ++
+ drivers/gpu/drm/arm/malidp_mw.c               | 12 +++++++----
+ drivers/gpu/drm/drm_writeback.c               | 19 +++++++++---------
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |  2 ++
+ drivers/gpu/drm/rcar-du/rcar_du_writeback.c   |  8 +++++---
+ drivers/gpu/drm/vc4/vc4_txp.c                 | 20 +++++++++++++------
+ drivers/gpu/drm/vkms/vkms_writeback.c         |  9 ++++++---
+ include/drm/drm_connector.h                   |  3 +++
+ include/drm/drm_writeback.h                   |  6 +++---
+ 13 files changed, 63 insertions(+), 36 deletions(-)
 
-Best regards,
 -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.17.1
 
