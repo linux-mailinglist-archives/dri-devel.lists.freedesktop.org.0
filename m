@@ -1,53 +1,110 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9CC4A74D1
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:42:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 651244A74D5
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 16:42:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3811910E2B2;
-	Wed,  2 Feb 2022 15:42:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 140D410E2EE;
+	Wed,  2 Feb 2022 15:42:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7968E10E2B2;
- Wed,  2 Feb 2022 15:42:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643816521; x=1675352521;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=RRxuGMyhQezsIkddpgdMjoLa5KpXNjNzTvpn8stusQ0=;
- b=MM58rbk0XNHwxDfTRRK6MTlUODmHacDCNltHpgE0rZw1Pj9Qv7RU29dm
- YbfPIHceXYsI13z86w7WODMa0lBPJa66wZYp/RCkn/bGQdbYyqbEh7xJZ
- ptchvgj20onjKO6sihb25FsmA0QHsuY0DkuYjwOo3CLY1XIQl4IWauObp
- o24vSQAe5V/sqnkIuMQQYbgwatDDmsVQvLdPAhaaelXQvBuO7ljrX93AY
- 3fZbBPxtza1czqL5UzId1EsbrZueX0dM+Y70r4m0IRpmbRGEERDvCDkAp
- kjoEqcYPAoMdWQ9y2RBP3im0PNRJX2sBHobKWXNjQlXlrxJOG1poGogmz Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="334302015"
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="334302015"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 07:38:07 -0800
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="599593021"
-Received: from markeyp-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.6.210])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 07:38:03 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting
- from drm_writeback_connector structure changes
-In-Reply-To: <YfqGbqQQz5vrDaLI@pendragon.ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220202085429.22261-1-suraj.kandpal@intel.com>
- <20220202085429.22261-6-suraj.kandpal@intel.com>
- <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com> <87y22ts948.fsf@intel.com>
- <YfqGbqQQz5vrDaLI@pendragon.ideasonboard.com>
-Date: Wed, 02 Feb 2022 17:38:00 +0200
-Message-ID: <87v8xxs2hz.fsf@intel.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2070.outbound.protection.outlook.com [40.107.93.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93F2A10E2F4;
+ Wed,  2 Feb 2022 15:42:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LW2+kVh19B3dbfh7lckd8cnCCijYj3WUUFSipPPZsrcM9z/BdXjRC0WG6ag6PSFAPXnFoHWiO8eCrWjg+098biabNq/4bwSwP7BH+odIDdpH3rYp0l9VPuwD+inYCNR3RMCFzFyogsVmy/mPaDWnx2oMcvk68PFfpK8NLvDAUgTJK5ltF/UsgnC1hy2tI7cmwjGA8hVcGBjVDJtS51sG38uVu9el70bTRvGp69ruBkEpu5IDtHF7WxFz+vtkYc1rXEB0qaaO9pwMmDVS3nMg0wJJx+OJtrDIrRYuNOsJhBbphtkzbLZESEsek2nRtARYm4hCif+jLwXsxJG26osT/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=84dWaMLqi0sYM3r7jHlhIXKr8PJv4KdwPh7ywKXYAr8=;
+ b=al13+AnggNZl+8168U+ePL+Zye5e2RtcGEpfbfjdx/22TBDg4FLq0BoAUfyYeqNGLbwsGp//3ITlumkk4dzHcAF6JQ/PSwmUVU1k4yosox3LlNe0nKP1Ns3T4RCRqxQ3m782ixORal7qXZD6puBDOPmdhligvZea5pwfNywAlZOY6JH3e2kw+Bvvqhld8lsos5vXtFruaW6lsTlUPC4KSaytDBh20WR1bll6Dg3cx5jw2vrx8K2tvYaWLPwwK+0QEBf/pjRxNpvjMJVjV1iruVMlBUTnS1fkcPKkNFqiIOfmA5iHcmKfCDGUlzCrDzZ/O+UFKQuOsg4Fw37h+wGw/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=84dWaMLqi0sYM3r7jHlhIXKr8PJv4KdwPh7ywKXYAr8=;
+ b=FBsjB0wel/qO9zm0fRbVbfjMx8jmiKCpLY7Az90jmAREft0/qIs6RCRdJnazaDp6kmBScgL78QM4D6bSge6W1yb1XOpg7gr1n5m3a92pEhhihOr2L7/rEKXNBkzdY13Vi/AUvtTG97vPhh+InBYIFdtP+CHGZd2Dizbs6ia1C4EOQ5jsHNZTF35kt0362M/BJVGYlRYHPIdYXv95+tQQZGP+OarR68fZH3m1Sgz8h3tuLHu95ottheBe5Hk0FI+s0uXmz8ZMZ8mImERmROg13ClnZFRbnsJjgTY9tUZHWLgcLrikmS3XuDiNfCLfD7lCuzVwOME9wV+qe9A4+CwQpw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MWHPR12MB1696.namprd12.prod.outlook.com (2603:10b6:301:8::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Wed, 2 Feb
+ 2022 15:42:34 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::e8f4:9793:da37:1bd3]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::e8f4:9793:da37:1bd3%4]) with mapi id 15.20.4951.012; Wed, 2 Feb 2022
+ 15:42:34 +0000
+Date: Wed, 2 Feb 2022 11:42:32 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v4 00/10] Add MEMORY_DEVICE_COHERENT for coherent device
+ memory mapping
+Message-ID: <20220202154232.GU1786498@nvidia.com>
+References: <20220127030949.19396-1-alex.sierra@amd.com>
+ <20220127143258.8da663659948ad1e6f0c0ea8@linux-foundation.org>
+ <20220202145750.GA25170@lst.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220202145750.GA25170@lst.de>
+X-ClientProxiedBy: BL1PR13CA0196.namprd13.prod.outlook.com
+ (2603:10b6:208:2be::21) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5eac08dd-255c-4284-cf40-08d9e662a18d
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1696:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR12MB1696FC1069AEE966727D8130C2279@MWHPR12MB1696.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: S6OdVtNV6mAIBc/ZdOJQ9CA4luomRVpuL6ZnfLkPSoFSFi7XdgoiphsLUqRsfNNrc5eEos2hEMEb6j24pWj5BNCA+DutcGZWYH8WO0Vb3KDdtJ9qvlcbkJa7WKqcB45VnSwbLkM+sVWQQ7ZjCyHko4gvb/xhaSf7iO+UQ/9sdZ6XDsz6etJZxPI4lBF9BSwnUgbM3N/V1qPLvrKQoWYZ4IRO+H2I2FD3JMRaMDWcJuuCPbrrBnylw5fvxgBA8lc8YvzuAf6Dd2CQuwkK+rXpgGer7J8GLxQDTxUvDa90hoEBlYG5pOv2R0xL6uaFuImR6oS95Tp+6TuJ0wmWA9hk/TRIz4eb3Lif25O/kzz1hTaOWSRN1AGaPk5couIs+ogEYFF1hBGqWwxH+S6GvufUFjupF1HxWmJvYWNJ5JjOnKhIgMCvkZ9aoLGcjgm/rnclrnR27OyZ0rHuggJKId6IdZMwHCcMEEzIJWEeRn0UWgKS2QeQ4oIdzMcaSYENwBcAon0b4fRVUn6pbsEp6RWv0Hxs+hdxO7Zp7YWMGEHjqS50MZEjMR9V3MrlxI73mmH9Ehy7IHhc10aOpin66YDKcSZZ/TwCg8s77OAiNzzWiLF29yoOgyGA54Q9/3+gOgnJIdA3BQAgN8kGI9VcDPkYhA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(54906003)(36756003)(83380400001)(38100700002)(6916009)(26005)(186003)(1076003)(316002)(6512007)(6506007)(2906002)(66946007)(66556008)(4326008)(6486002)(5660300002)(33656002)(2616005)(7416002)(86362001)(508600001)(8676002)(8936002)(66476007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MljZgnSbz9CVZMjFl6sTom3jpOuzhcAXSTSgTD+EbEzrBwU/onXe0F1o5NVD?=
+ =?us-ascii?Q?GVUVqFl621IUg74hGYs5LrFh9mWcNDDFyFmm0Uu8Q0/YCk1T4QSjudzFdEOs?=
+ =?us-ascii?Q?rALVI/Dd3mNWEyyQU1ZuazRhlXK9gU5+QwAIrx0ytjpbilW+EXKOfONWypqR?=
+ =?us-ascii?Q?umoS2+L5OxMqqATD4i2rukhBNhArxwnL106TZ4wlIqjZEUTMO82EqeG6yOdz?=
+ =?us-ascii?Q?EvvvRptWgRSWViC/u1LhjPVpaixIo8IPsowSopHAypRM/R/Rdhv8tuxqXOgq?=
+ =?us-ascii?Q?UFfrldMAvTUBtP4VbQcYJcm3BZWdVY+N1QSL/UoVl1h3FRC5fjtkMAjjPfob?=
+ =?us-ascii?Q?DepWo73R0q9mjrFjH83klN1RaBjoWdQqePhpBFSovklnG/H+MArn4/kyp6tT?=
+ =?us-ascii?Q?gmazBREiP3h3eKf904BVBbxmY27eYGRHZy1Lx+v3RVMVgMakJo0NmCcX9pfW?=
+ =?us-ascii?Q?E4CibTIxuQ3wOdyJXiHnohfkCSdRtaUjCaGmMx/34DhsjH0IaQHBImoN69ea?=
+ =?us-ascii?Q?YNA9o39q7s/a0jAqX3j3EviMw+4e6mn/Kmv4P1wRds6S23Cd5nOXjqi9nFUU?=
+ =?us-ascii?Q?zVEyr5t32qLYVt7SiRWefv+4E4mWWcE8gqoitmcZV4W37c+av2kIgFMJkb83?=
+ =?us-ascii?Q?g5zXZKyfhVBxaLXCZjkL0nylPG2VbGsaVprNKApW3kE/QuVWiCWwg1bj0VA2?=
+ =?us-ascii?Q?Kq5sQJoaauwd8IHOktySAm+1vNrN7MwK7CnSGUeWrODnRoUkD4sR+RDzagse?=
+ =?us-ascii?Q?Waoi4CTNEgCgNQmvYYDwLdgOT+I2NiIJsMSfbz/Pi6kxOZOmp4Ue/VqbvMKe?=
+ =?us-ascii?Q?69JIdMYndRh0T36ocNNjbqhF3pMvtmkjunHqJ5d1mWnFoDMRVi0bBW0NEwzp?=
+ =?us-ascii?Q?i2otHx4jEsDHiyXu1em+17v1jq48Us9qKDP9Mzz96XICm0ZS2EitIn0FEnA+?=
+ =?us-ascii?Q?pDLyDZLN9FihiZFqzMDjsLIEjU6UVqu1w88+FSMy1kDMW4Hd+cMt5ZURf+bh?=
+ =?us-ascii?Q?zkiptZ4i5ffHX4r/M2fZoxGBxZi4jNBxk61y+hhlNXKvDWuwVv2i0XewCZMR?=
+ =?us-ascii?Q?nXjDJHD223HvamZw+XfjhjSfNEs5oRJE32owu717m6HSe68iNS0HN0mavRD/?=
+ =?us-ascii?Q?/3kMZUYKb0MnwiIS/q7xbeJRJ61FQeHqj3HDLekkD5dFM1vgY1UbGIkYkwat?=
+ =?us-ascii?Q?TfE7/1rwprcDWSqE5CEyTJNS44JcROgdRh0q3+VmIyqexXqNb3UEBIbW0HD4?=
+ =?us-ascii?Q?X0cS74l2xG0AQ0yCnbtLBE25FvyWmJyY644gxcv04eNZwU1hlYbW5j6cbPn4?=
+ =?us-ascii?Q?DfIAWSKHH7/P9MIM/HWgql8UHBF3f9oldmct8A4W3XNBCTAUX29VV4r+gHj+?=
+ =?us-ascii?Q?eWb0MTqajNT8+Fs+kbzYMLVvcsFduPbRXSbm0WzcrJga7TuGirMPNpE2LK7k?=
+ =?us-ascii?Q?9TVZn9CVy4jFXVvMj7D+Lmxmb1VRR4GhGwlClvXCAd8KcBxnvJlvKZvVPtcz?=
+ =?us-ascii?Q?vZFgKT4Pzc8RgllmKj7NpvFZXRqHCmAMOWkkqbpSx0BQQYNTg0arBflbUo/E?=
+ =?us-ascii?Q?p8AqFVefrRUJ2oiHVng=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5eac08dd-255c-4284-cf40-08d9e662a18d
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2022 15:42:34.2650 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 61Tsx9IQ4xXRZnK+dqbFW5xS98Lz02L8rtzxtpy3ioSKafm7h4W0teCJz8Y9Txpu
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1696
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,136 +117,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
- intel-gfx@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, dmitry.baryshkov@linaro.org,
- arun.r.murthy@intel.com
+Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
+ willy@infradead.org, Felix.Kuehling@amd.com, apopple@nvidia.com,
+ amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org, linux-mm@kvack.org,
+ jglisse@redhat.com, dri-devel@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>, linux-ext4@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 02 Feb 2022, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> Hi Jani,
->
-> On Wed, Feb 02, 2022 at 03:15:03PM +0200, Jani Nikula wrote:
->> On Wed, 02 Feb 2022, Laurent Pinchart wrote:
->> > On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
->> >> Changing rcar_du driver to accomadate the change of
->> >> drm_writeback_connector.base and drm_writeback_connector.encoder
->> >> to a pointer the reason for which is explained in the
->> >> Patch(drm: add writeback pointers to drm_connector).
->> >> 
->> >> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
->> >> ---
->> >>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
->> >>  drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
->> >>  2 files changed, 7 insertions(+), 3 deletions(-)
->> >> 
->> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
->> >> index 66e8839db708..68f387a04502 100644
->> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
->> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
->> >> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
->> >>  	const char *const *sources;
->> >>  	unsigned int sources_count;
->> >>  
->> >> +	struct drm_connector connector;
->> >> +	struct drm_encoder encoder;
->> >
->> > Those fields are, at best, poorly named. Furthermore, there's no need in
->> > this driver or in other drivers using drm_writeback_connector to create
->> > an encoder or connector manually. Let's not polute all drivers because
->> > i915 doesn't have its abstractions right.
->> 
->> i915 uses the quite common model for struct inheritance:
->> 
->> 	struct intel_connector {
->> 		struct drm_connector base;
->> 		/* ... */
->> 	}
->> 
->> Same with at least amd, ast, fsl-dcu, hisilicon, mga200, msm, nouveau,
->> radeon, tilcdc, and vboxvideo.
->> 
->> We could argue about the relative merits of that abstraction, but I
->> think the bottom line is that it's popular and the drivers using it are
->> not going to be persuaded to move away from it.
->
-> Nobody said inheritance is bad.
->
->> It's no coincidence that the drivers who've implemented writeback so far
->> (komeda, mali, rcar-du, vc4, and vkms) do not use the abstraction,
->> because the drm_writeback_connector midlayer does, forcing the issue.
->
-> Are you sure it's not a coincidence ? :-)
->
-> The encoder and especially connector created by drm_writeback_connector
-> are there only because KMS requires a drm_encoder and a drm_connector to
-> be exposed to userspace (and I could argue that using a connector for
-> writeback is a hack, but that won't change). The connector is "virtual",
-> I still fail to see why i915 or any other driver would need to wrap it
-> into something else. The whole point of the drm_writeback_connector
-> abstraction is that drivers do not have to manage the writeback
-> drm_connector manually, they shouldn't touch it at all.
+On Wed, Feb 02, 2022 at 03:57:50PM +0100, Christoph Hellwig wrote:
+> On Thu, Jan 27, 2022 at 02:32:58PM -0800, Andrew Morton wrote:
+> > On Wed, 26 Jan 2022 21:09:39 -0600 Alex Sierra <alex.sierra@amd.com> wrote:
+> > 
+> > > This patch series introduces MEMORY_DEVICE_COHERENT, a type of memory
+> > > owned by a device that can be mapped into CPU page tables like
+> > > MEMORY_DEVICE_GENERIC and can also be migrated like
+> > > MEMORY_DEVICE_PRIVATE.
+> > 
+> > Some more reviewer input appears to be desirable here.
+> > 
+> > I was going to tentatively add it to -mm and -next, but problems. 
+> > 5.17-rc1's mm/migrate.c:migrate_vma_check_page() is rather different
+> > from the tree you patched.  Please redo, refresh and resend?
+> 
+> I really hate adding more types with the weird one off page refcount.
+> We need to clean that mess up first.
 
-The thing is, drm_writeback_connector_init() calling
-drm_connector_init() on the drm_connector embedded in
-drm_writeback_connector leads to that connector being added to the
-drm_device's list of connectors. Ditto for the encoder.
+Is there anyone who could give an outline of what is needed to make
+fsdax use compound pages/folios for its PMD stuff?
 
-All the driver code that handles drm_connectors would need to take into
-account they might not be embedded in intel_connector. Throughout the
-driver. Ditto for the encoders.
+I already suggested removing that as a way forward, and was shot down,
+but nobody is standing up to maintain this code and fix it :(
 
-The point is, you can't initialize a connector or an encoder for a
-drm_device in isolation of the rest of the driver, even if it were
-supposed to be hidden away.
+We got devdax and the DRM stuff fixed now, so FSDAX is the next
+blocker on this work.
 
-BR,
-Jani.
+The people who want this to advance have no idea about FSs or what to
+do, unfortunately.
 
->
->> So I think drm_writeback_connector should *not* use the inheritance
->> abstraction because it's a midlayer that should leave that option to the
->> drivers. I think drm_writeback_connector needs to be changed to
->> accommodate that, and, unfortunately, it means current writeback users
->> need to be changed as well.
->> 
->> I am not sure, however, if the series at hand is the right
->> approach. Perhaps writeback can be modified to allocate the stuff for
->> you if you prefer it that way, as long as the drm_connector is not
->> embedded in struct drm_writeback_connector.
->> 
->> > Nack.
->> >
->> >>  	struct drm_writeback_connector writeback;
->> >>  };
->> >>  
->> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
->> >> index c79d1259e49b..5b1e83380c47 100644
->> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
->> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
->> >> @@ -200,8 +200,10 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
->> >>  {
->> >>  	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
->> >>  
->> >> -	wb_conn->encoder.possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
->> >> -	drm_connector_helper_add(&wb_conn->base,
->> >> +	wb_conn->base = &rcrtc->connector;
->> >> +	wb_conn->encoder = &rcrtc->encoder;
->> >> +	wb_conn->encoder->possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
->> >> +	drm_connector_helper_add(wb_conn->base,
->> >>  				 &rcar_du_wb_conn_helper_funcs);
->> >>  
->> >>  	return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
->> >> @@ -220,7 +222,7 @@ void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
->> >>  	struct drm_framebuffer *fb;
->> >>  	unsigned int i;
->> >>  
->> >> -	state = rcrtc->writeback.base.state;
->> >> +	state = rcrtc->writeback.base->state;
->> >>  	if (!state || !state->writeback_job)
->> >>  		return;
->> >>  
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Jason
