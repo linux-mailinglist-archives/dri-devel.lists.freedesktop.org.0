@@ -2,60 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941EF4A6F90
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 12:07:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2F74A6FA5
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 12:11:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6278410E9D6;
-	Wed,  2 Feb 2022 11:07:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B47C310E9DA;
+	Wed,  2 Feb 2022 11:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0137810E9D6
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 11:07:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643800037; x=1675336037;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=IUN0B8wCPrd5whIz0ndsi5oEOD4UtnfCc7PBqv0ehBQ=;
- b=TfPYzSzzNo3SiDGTS1ivy3NiLG/hcWXdDC/8iilzfCuWRh90YGA8PRAo
- mS3Njf39GzNr9ucvsSNOkmhoX5tGbUOYxVeesFqR+eqpNKO6Wld2bEwWl
- nv4MaoAJWATiwMTB7+1bdInCPQOIsGF3TIauvQ95Z03KDQNMO8P7N2RM9
- 4U+v929i5ZypennYhHnX5w2ZI7eTrOV8MZGkPqcxHEQ2hYqChDlVF/Dmz
- ce1mthJlrDHgPey8YWjq0+ayWqDXanLJ2JvaPmxmwxeLFYlZZjpdNiXW1
- 3xe5GKDcpjN8UynfKdufJKfAgcGFLpy2kAm9eO+Os0q/AZTp/9sEi1Hb6 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="228547880"
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="228547880"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 03:07:16 -0800
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="676400854"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 03:07:12 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nFDSj-0003No-Bi; Wed, 02 Feb 2022 13:06:09 +0200
-Date: Wed, 2 Feb 2022 13:06:09 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-Message-ID: <YfploeCM6C5y3Imj@smile.fi.intel.com>
-References: <20220131201225.2324984-1-javierm@redhat.com>
- <YfhM97cVH3+lJKg0@ravnborg.org>
- <Yfj/XGRRDNABsLPm@smile.fi.intel.com>
- <f8d71acb-5c8b-ac4e-0c32-38eb66af04c3@redhat.com>
- <CAMuHMdVP6ER119r2KAegjZes1a=KWZ47z6j=kgQ0oNx1oeUJ+w@mail.gmail.com>
- <51f54519-bb8b-f108-1c1e-4fed101ca5ef@redhat.com>
- <CAMuHMdVwUfv7pXhPazsgG6t=X=aVtDQkFUk_=mUuFH8Fscx8wg@mail.gmail.com>
- <abf63995-a529-1e80-18c3-df473a3e7a9c@redhat.com>
- <YfmaqUBqCrgp0QdO@ravnborg.org>
- <e552caec-5136-f4b2-12dc-23b182ab8af6@redhat.com>
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FFDF10E626
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 11:11:01 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id k17so59781913ybk.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 03:11:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5o2JVyWPjvF0CuBYdtH6rf3OCwSu8v5z/m2E3EDxEVQ=;
+ b=6JC4qWqQoyur6n49lXlwJ8argU2sfdQwrI+5UZ/cAgJfz/Wny6UxNwpfY4nKvjDOf4
+ bC8yqlshTJqy2m9fSfRZx1mHvZHvU9NCnbTm2Hz8QKFGXNmTLuF2q/PQPQcJnF2rdPfI
+ 7EQ8tQsgBfjmBUJ7GKHlLlmXRyoppvNp37bOKrZ4l/v573+8dKE7AtQOjDIqDzNUrl5O
+ M5dmxC6WklOEBh19YK8riY5u60LO+BbHsdTedAZO8mKbSRT+bkvd5WqWMzTGa0MP8bsy
+ i2QRtLbgjqRDiIiagTRyBHl/amtF7ScuFdW7LxgXu1qUFnOZTEOkenxrGPpIREqp5/KT
+ gUXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5o2JVyWPjvF0CuBYdtH6rf3OCwSu8v5z/m2E3EDxEVQ=;
+ b=r2RCWsc6vnYbo0DiWVScx/LJi4cw92rTehS2UkYxLKOKP3vN/vle6Dg1DmptiXXAyD
+ d6AaqZvUd3m1YQfRITbTHAppsmm2EcgOwfl3FntRc8lA5qUDFlOH/oV/MRPwNs5HhxwQ
+ cjzjK8znw+ZpH51FXADK7Bzn/aQM8A7FhEJ/XmEr4u6OVqe4//2CqZmNtw4zvfVL39fQ
+ KPtFG2JIbN1KVrGbACH6uEZ7Hh8Dy9RJl7ZThqD7FSVJ/MyPHfgb7JcRvrOnu6Hi0Q+M
+ mfqHneWlmLs/UM/2DDjHnCGEEUDaQRHTtaXsK78a9QKdMSknF00eUD2UvDfF+4bbsWN1
+ BK+w==
+X-Gm-Message-State: AOAM533GWQnj5AQ4vazi3rMYCZk1iMOOLyG2BSrsxWU6xAwBNDrqNXNJ
+ cdE6ZalEcwyWeesIrYw5fFfVbcvUFbOvWbDHJH6POA==
+X-Google-Smtp-Source: ABdhPJxXYTqOt/oSe5PrM2Wrpx8vatAUxY/eNAT3jcriiGBCZwZLVaTevoVERbyDMHiO0clxqoChrMTzgZvvtsyVmcE=
+X-Received: by 2002:a25:a206:: with SMTP id b6mr20061500ybi.707.1643800260369; 
+ Wed, 02 Feb 2022 03:11:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e552caec-5136-f4b2-12dc-23b182ab8af6@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
+ <20220131210552.482606-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20220131210552.482606-2-daniel.vetter@ffwll.ch>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 2 Feb 2022 11:10:49 +0000
+Message-ID: <CAPj87rMhkdtoUHTB4y4HLR8KM2tPkQCufFcHbvA0_xHycCHmhg@mail.gmail.com>
+Subject: Re: [PATCH 01/21] MAINTAINERS: Add entry for fbdev core
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,37 +63,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: linux-fbdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ Sven Schnelle <svens@stackframe.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Peter Robinson <pbrobinson@gmail.com>
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 02, 2022 at 09:38:51AM +0100, Javier Martinez Canillas wrote:
-> On 2/1/22 21:40, Sam Ravnborg wrote:
+On Mon, 31 Jan 2022 at 21:06, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> Ever since Tomi extracted the core code in 2014 it's been defacto me
+> maintaining this, with help from others from dri-devel and sometimes
+> Linus (but those are mostly merge conflicts):
+>
+> $ git shortlog -ns  drivers/video/fbdev/core/ | head -n5
+>     35  Daniel Vetter
+>     23  Linus Torvalds
+>     10  Hans de Goede
+>      9  Dave Airlie
+>      6  Peter Rosin
+>
+> I think ideally we'd also record that the various firmware fb drivers
+> (efifb, vesafb, ...) are also maintained in drm-misc because for the
+> past few years the patches have either been to fix handover issues
+> with drm drivers, or caused handover issues with drm drivers. So any
+> other tree just doesn't make sense. But also, there's plenty of
+> outdated MAINTAINER entries for these with people and git trees that
+> haven't been active in years, so maybe let's just leave them alone.
+> And furthermore distros are now adopting simpledrm as the firmware fb
+> driver, so hopefully the need to care about the fbdev firmware drivers
+> will go down going forward.
+>
+> Note that drm-misc is group maintained, I expect that to continue like
+> we've done before, so no new expectations that patches all go through
+> my hands. That would be silly. This also means I'm happy to put any
+> other volunteer's name in the M: line, but otherwise git log says I'm
+> the one who's stuck with this.
 
-...
-
-> Peter Robinson suggested to
-> make the driver mutually exclusive and add !FB_SSD1307 in the config symbol.
-
-And how will distros choose "the right" option in this case?
-What to do when I wan to see a regression and I want to change drivers w/o
-recompilation?
-
-NAK from me to that proposal.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Acked-by: Daniel Stone <daniels@collabora.com>
