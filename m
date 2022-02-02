@@ -1,51 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E3F4A751E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 17:00:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4954A756C
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 17:06:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6970710E2C0;
-	Wed,  2 Feb 2022 16:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E12110E2F7;
+	Wed,  2 Feb 2022 16:06:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 900AC10E2C0
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 16:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=HjIuj8tK/i3bU/jTctNAzn1hnRcxPQQLduo2krywtkU=; b=EH3rg7kdaPqsCQ5aP0CO20CfG5
- Nr+UWWGO7Y6S66ksZxEMOoGILOR1bK+G9d42uuu6ambVde60Hc7LD81TgLh2TObm2TVCRfUkG7ihu
- YXdwsmMZ5CDcWrkl3HdRzDoHqm5JK0pmNBJz+NdYnExIGn3Jd4U3louPhjPJ6NhC4bZc6ZFgOnC1P
- U8F/sqnpOAZ0jum9Po/llG943XMqWBeUDicmOiKZn64jsReQh71GwLPdSJqHFTsK/Kbnhr2bI2MrL
- /lLlAFOowI7vH218ri6Bsr7CpotdaR6QA5afJF6O/fHegYBvp6wFJ/Dcu9rfrlOO9na7n3Ilb54oL
- cHC6hYSw==;
-Received: from [2a01:799:95e:a400:cca0:57ac:c55d:a485] (port=60100)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1nFI3E-0000np-3N; Wed, 02 Feb 2022 17:00:08 +0100
-Message-ID: <7eb83dae-7dd9-1ffc-93ce-b47429ec510b@tronnes.org>
-Date: Wed, 2 Feb 2022 17:00:05 +0100
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A701510E2F7
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 16:06:08 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id d18so18763858plg.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 08:06:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ComyNVKqoyy5Ml0gbYTNF5CGFuK1LECSfgHPd03rA/Q=;
+ b=KnrN3RISEqRmj5VLldmhh/9I02hGHvjKYYy4qI0kSbIuw3Xldd5qGv3KXcV5gum0Vh
+ LnvVC0/kaiuORsCsjK2N+7qCGBhpGQBxDaDQEwALEGpEOqx0qxAhFphYtnoqROeJtkzH
+ +LIivfCX2jI5ESjCYjMz0GOzp4lSnuFieVkIU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ComyNVKqoyy5Ml0gbYTNF5CGFuK1LECSfgHPd03rA/Q=;
+ b=2YWfPGAeuvfzEXHNLLAEKfgbGAkjWzAaihWN0KFQjDOwzR7m+mblv2IszbxONgAYoR
+ bZgCmIgzF4EDB7SOs9igzXPa9XWAFD2ZXf49zXz2+n10KjadtQBSlzrVsgadKKTbnioc
+ hdzVzltl8IWYXhoe6gvZ5/gkm/mbTkiXrZz7WPAJkQsVuVVeRAxWsgudxupGsa31y+f9
+ v1uCn/XGUgdfByDEvypm5+vYeJ4yMAo7DX7jEN7imCHmdb21VqPvGHAvxzGR3j9QqIfb
+ q859t48/JaC4vOadvMApJtTKbpsx4TW5E63ssYezEphoAUeEA0KyJyFeFdsH6VXSYYIp
+ cxPw==
+X-Gm-Message-State: AOAM532CmyBj6SvMznrHASE14LrECz5nthVw3sRvES7k6Kx6ST1cVReD
+ yhQgPeFIIJM88lkyEFO98iXwpQ==
+X-Google-Smtp-Source: ABdhPJzpGYUc0+rAyDL6+8pgErzLvRA3W8Ov6ZosJkU6OSOORfwQKG9HGsXfQSSBilrwmBcQtUtxjQ==
+X-Received: by 2002:a17:90b:4b05:: with SMTP id
+ lx5mr8845331pjb.128.1643817968126; 
+ Wed, 02 Feb 2022 08:06:08 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:7ce0:466c:be86:774])
+ by smtp.gmail.com with ESMTPSA id g5sm14722397pgc.51.2022.02.02.08.06.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Feb 2022 08:06:07 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Robert Foss <robert.foss@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Xin Ji <xji@analogixsemi.com>
+Subject: [PATCH RESEND v5 1/4] drm/bridge: anx7625: send DPCD command to
+ downstream
+Date: Thu,  3 Feb 2022 00:05:59 +0800
+Message-Id: <20220202160602.440792-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.35.0.rc2.247.g8bbb082509-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/4] drm: Add I2C connector type
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <20220131201225.2324984-1-javierm@redhat.com>
- <20220131201225.2324984-2-javierm@redhat.com> <YfhMESTylI1NTKDg@ravnborg.org>
- <4d9a56a7-da25-b411-61cc-372c6fa9011d@tronnes.org>
- <4966d03e-ee0c-5130-3819-05a90a8f6d06@suse.de>
- <c6100ec3-b511-17cf-c542-e124c14fb334@tronnes.org>
- <20220202170455.3eece5a3@eldfell>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220202170455.3eece5a3@eldfell>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,63 +66,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Xin Ji <xji@analogixsemi.com>
 
+Send DPCD command to downstream before anx7625 power down,
+let downstream monitor enter into standby mode.
 
-Den 02.02.2022 16.04, skrev Pekka Paalanen:
-> On Wed, 2 Feb 2022 10:45:42 +0100
-> Noralf Trønnes <noralf@tronnes.org> wrote:
-> 
->> Den 02.02.2022 10.14, skrev Thomas Zimmermann:
->>> Hi Noralf,
->>>
->>> since you're here, I'll just hijack the discussion to ask something only
->>> semi-related.
->>>
->>> IIRC the gud driver doesn't update the display immediately during atomic
->>> commits. Instead, it instructs a helper thread to do the update. What's
->>> the rational behind this design? Is that something we should adopt for
->>> other drivers that operate over slow buses (USB, I2C, etc)? Would this
->>> be relevant for the ssd1307 driver?
->>>   
->>
->> Async flushing is only necessary on multi display setups where there's
->> only one rendering loop for all the displays. I saw what tiny/gm12u320.c
->> did and Hans gave me the rationale. The SPI drivers run flushing inline.
->> Info on the gud wiki:
->> https://github.com/notro/gud/wiki/Linux-Host-Driver#asynchronous-flushing
-> 
-> Hi,
-> 
-> please also consider that userspace may throttle to the KMS pageflip
-> events. If the pageflip event is immediate from submitting a flip, that
-> could mean userspace will be repainting in a busy-loop, like 1 kHz.
-> However, I remember something about virtual KMS drivers doing exactly
-> this, and there being something that tells userspace to throttle itself
-> instead of depending on pageflip completions. I just forget how that is
-> supposed to work, and I'm fairly sure that e.g. Weston does not behave
-> well there.
-> 
-> Unfortunately, the pageflip event is also what synchronises FB usage.
-> Once flipping in a new FB completed, the old FB is free for re-use.
-> But, if the kernel is still copying out from the old FB, userspace may
-> partially overwrite the contents, temporarily leading to an incomplete
-> or too new image on screen. Do you have anything to prevent that?
-> 
+Signed-off-by: Xin Ji <xji@analogixsemi.com>
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
+---
+v3->v4:
+Use common DP_AUX_NATIVE_READ/WRITE
 
-Unfortunately not. One solution would be to make a buffer copy during
-the flip and do the USB transfer async but I haven't looked into that.
-My plan is to wait and see what problems users report back before trying
-to fix anything.
+Previously in:
+https://patchwork.kernel.org/project/dri-devel/patch/1f36f8bf0a48fb2bba17bacec23700e58c1d407d.1641891874.git.xji@analogixsemi.com/
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 42 +++++++++++++++++++----
+ drivers/gpu/drm/bridge/analogix/anx7625.h |  2 --
+ 2 files changed, 35 insertions(+), 9 deletions(-)
 
-Noralf.
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 76662fce4ce61d..17b23940549a42 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -129,6 +129,23 @@ static int anx7625_reg_write(struct anx7625_data *ctx,
+ 	return ret;
+ }
+ 
++static int anx7625_reg_block_write(struct anx7625_data *ctx,
++				   struct i2c_client *client,
++				   u8 reg_addr, u8 len, u8 *buf)
++{
++	int ret;
++	struct device *dev = &client->dev;
++
++	i2c_access_workaround(ctx, client);
++
++	ret = i2c_smbus_write_i2c_block_data(client, reg_addr, len, buf);
++	if (ret < 0)
++		dev_err(dev, "write i2c block failed id=%x\n:%x",
++			client->addr, reg_addr);
++
++	return ret;
++}
++
+ static int anx7625_write_or(struct anx7625_data *ctx,
+ 			    struct i2c_client *client,
+ 			    u8 offset, u8 mask)
+@@ -214,8 +231,8 @@ static int wait_aux_op_finish(struct anx7625_data *ctx)
+ 	return 0;
+ }
+ 
+-static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
+-				 u32 address, u8 len, u8 *buf)
++static int anx7625_aux_dpcd_trans(struct anx7625_data *ctx, u8 op,
++				  u32 address, u8 len, u8 *buf)
+ {
+ 	struct device *dev = &ctx->client->dev;
+ 	int ret;
+@@ -231,8 +248,7 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
+ 	addrm = (address >> 8) & 0xFF;
+ 	addrh = (address >> 16) & 0xFF;
+ 
+-	cmd = DPCD_CMD(len, DPCD_READ);
+-	cmd = ((len - 1) << 4) | 0x09;
++	cmd = DPCD_CMD(len, op);
+ 
+ 	/* Set command and length */
+ 	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+@@ -246,6 +262,9 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
+ 	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+ 				 AP_AUX_ADDR_19_16, addrh);
+ 
++	if (op == DP_AUX_NATIVE_WRITE)
++		ret |= anx7625_reg_block_write(ctx, ctx->i2c.rx_p0_client,
++					       AP_AUX_BUFF_START, len, buf);
+ 	/* Enable aux access */
+ 	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
+ 				AP_AUX_CTRL_STATUS, AP_AUX_CTRL_OP_EN);
+@@ -255,14 +274,17 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
+ 		return -EIO;
+ 	}
+ 
+-	usleep_range(2000, 2100);
+-
+ 	ret = wait_aux_op_finish(ctx);
+ 	if (ret) {
+ 		dev_err(dev, "aux IO error: wait aux op finish.\n");
+ 		return ret;
+ 	}
+ 
++	/* Write done */
++	if (op == DP_AUX_NATIVE_WRITE)
++		return 0;
++
++	/* Read done, read out dpcd data */
+ 	ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
+ 				     AP_AUX_BUFF_START, len, buf);
+ 	if (ret < 0) {
+@@ -845,7 +867,7 @@ static int anx7625_hdcp_enable(struct anx7625_data *ctx)
+ 	}
+ 
+ 	/* Read downstream capability */
+-	anx7625_aux_dpcd_read(ctx, 0x68028, 1, &bcap);
++	anx7625_aux_dpcd_trans(ctx, DP_AUX_NATIVE_READ, 0x68028, 1, &bcap);
+ 	if (!(bcap & 0x01)) {
+ 		pr_warn("downstream not support HDCP 1.4, cap(%x).\n", bcap);
+ 		return 0;
+@@ -918,6 +940,7 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
+ {
+ 	struct device *dev = &ctx->client->dev;
+ 	int ret;
++	u8 data;
+ 
+ 	DRM_DEV_DEBUG_DRIVER(dev, "stop dp output\n");
+ 
+@@ -929,6 +952,11 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
+ 	ret |= anx7625_write_and(ctx, ctx->i2c.tx_p2_client, 0x08, 0x7f);
+ 
+ 	ret |= anx7625_video_mute_control(ctx, 1);
++
++	dev_dbg(dev, "notify downstream enter into standby\n");
++	/* Downstream monitor enter into standby mode */
++	data = 2;
++	ret |= anx7625_aux_dpcd_trans(ctx, DP_AUX_NATIVE_WRITE, 0x000600, 1, &data);
+ 	if (ret < 0)
+ 		DRM_DEV_ERROR(dev, "IO error : mute video fail\n");
+ 
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
+index 56165f5b254c14..64a8ab56529404 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.h
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+@@ -242,8 +242,6 @@
+ 
+ #define AP_AUX_COMMAND	0x27  /* com+len */
+ #define LENGTH_SHIFT	4
+-#define DPCD_READ	0x09
+-#define DPCD_WRITE	0x08
+ #define DPCD_CMD(len, cmd)	((((len) - 1) << LENGTH_SHIFT) | (cmd))
+ 
+ /* Bit 0&1: 3D video structure */
+-- 
+2.35.0.rc2.247.g8bbb082509-goog
+
