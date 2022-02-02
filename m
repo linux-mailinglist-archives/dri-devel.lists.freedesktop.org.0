@@ -1,47 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4784A720C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 14:51:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D66E14A723F
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 14:53:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC4F010E2A1;
-	Wed,  2 Feb 2022 13:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D82FB10E790;
+	Wed,  2 Feb 2022 13:53:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE13210E2A1
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 13:50:58 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A83722F3;
- Wed,  2 Feb 2022 14:50:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1643809856;
- bh=/pW/bCpsCuM9HFlyP10vP2aSy54W8IPLVoi3zKVi3sY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=i09W/E9bQz2+U4xFAXnvQ/aYx4Yz2N4OgwVih1W58o8wBuB+kEc4L4Ih+gcvwUXUB
- sNH1oeSAHCNiDt0ashgHGB734nIzCIST/AT7bmHIClHo6BurXTpsqLiiwB4r+aNOpe
- sP9W+majhzt52TvXEIq5gbsUUdN8Y2PqLIAF+hxY=
-Date: Wed, 2 Feb 2022 15:50:34 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v3 2/2] dt-bindings: panel: Introduce a panel-lvds binding
-Message-ID: <YfqMKm72/Ra49F8r@pendragon.ideasonboard.com>
-References: <20220111110635.804371-1-maxime@cerno.tech>
- <20220111110635.804371-2-maxime@cerno.tech>
- <Yd2Ahn3+FVv/Aks7@pendragon.ideasonboard.com>
- <20220127142215.fesipdslabur43sx@houat>
- <20220202094845.r7td65zxfo5uqg5x@houat>
- <Yfp9UhwWZbHpDjpL@pendragon.ideasonboard.com>
- <20220202131623.3vfbtuyeemzcxe4k@houat>
- <YfqFQRaeRwAlyyHV@pendragon.ideasonboard.com>
- <20220202134312.fmz2tkyqd3bzc67f@houat>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A9B10E790
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 13:53:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=gyLaoh+vsDn3ZLnoONwAHHTpsR6J1Z9CuQ+OvRZ9enE=; b=flM2BnQ5KQAexOGKaVlzvwcnfr
+ vn5QMPloAshCuKdKrAiW6O4odl5ey1mMlBIRh+7KLZt0IUL1ViO+OUpjE6S8Ep+iDXeTpkaAIRyuF
+ owQUeJHuHHlW+4lFG6fymhacCupI+huRQzQvew+pkIhpMaHyNt/E2d/wpGh34rsC5/hB+IW5aaKCA
+ QKIrVaihQYD7bX4zDxBJD9HxJu16lqG1173E7DKk2Pzp/2u15QZzs1lKwd4pv2OSkP3ZNLOMLimyQ
+ Cnmi7tidaMjs6jeTdID7D7OPsZW7ZrXqb1WiwvJQhkBtCwRvVlAj4p5Mc/wY/GrGHzP4fVgbsP+iG
+ oQ39TnWQ==;
+Received: from [2a01:799:95e:a400:cca0:57ac:c55d:a485] (port=54700)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1nFG4l-0003AS-OS; Wed, 02 Feb 2022 14:53:35 +0100
+Message-ID: <261c76d6-6bb9-1fe1-6560-58af5ba240dd@tronnes.org>
+Date: Wed, 2 Feb 2022 14:53:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220202134312.fmz2tkyqd3bzc67f@houat>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 3/3] drm/panel: Add MIPI DBI compatible SPI driver
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220125175700.37408-1-noralf@tronnes.org>
+ <20220125175700.37408-4-noralf@tronnes.org>
+ <20220127100452.bmxcgf6ye3nxrgtq@houat>
+ <fff71d01-e1c9-2b0f-e4b2-9abb107f7770@tronnes.org>
+ <20220202100953.pymb6blsqlaw7jv6@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220202100953.pymb6blsqlaw7jv6@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,164 +58,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Frank Rowand <frowand.list@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, david@lechnology.com,
+ dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 02, 2022 at 02:43:12PM +0100, Maxime Ripard wrote:
-> On Wed, Feb 02, 2022 at 03:21:05PM +0200, Laurent Pinchart wrote:
-> > On Wed, Feb 02, 2022 at 02:16:23PM +0100, Maxime Ripard wrote:
-> > > On Wed, Feb 02, 2022 at 02:47:14PM +0200, Laurent Pinchart wrote:
-> > > > On Wed, Feb 02, 2022 at 10:48:45AM +0100, Maxime Ripard wrote:
-> > > > > On Thu, Jan 27, 2022 at 03:22:15PM +0100, Maxime Ripard wrote:
-> > > > > > On Tue, Jan 11, 2022 at 03:05:10PM +0200, Laurent Pinchart wrote:
-> > > > > > > On Tue, Jan 11, 2022 at 12:06:35PM +0100, Maxime Ripard wrote:
-> > > > > > > > Following the previous patch, let's introduce a generic panel-lvds
-> > > > > > > > binding that documents the panels that don't have any particular
-> > > > > > > > constraint documented.
-> > > > > > > > 
-> > > > > > > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > > > > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > > > > > > 
-> > > > > > > > ---
-> > > > > > > > 
-> > > > > > > > Changes from v2:
-> > > > > > > >   - Added a MAINTAINERS entry
-> > > > > > > > 
-> > > > > > > > Changes from v1:
-> > > > > > > >   - Added missing compatible
-> > > > > > > >   - Fixed lint
-> > > > > > > > ---
-> > > > > > > >  .../bindings/display/panel/panel-lvds.yaml    | 57 +++++++++++++++++++
-> > > > > > > >  MAINTAINERS                                   |  1 +
-> > > > > > > >  2 files changed, 58 insertions(+)
-> > > > > > > >  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-> > > > > > > > 
-> > > > > > > > diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-> > > > > > > > new file mode 100644
-> > > > > > > > index 000000000000..fcc50db6a812
-> > > > > > > > --- /dev/null
-> > > > > > > > +++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-> > > > > > > > @@ -0,0 +1,57 @@
-> > > > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > > > > +%YAML 1.2
-> > > > > > > > +---
-> > > > > > > > +$id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-> > > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > > > > +
-> > > > > > > > +title: Generic LVDS Display Panel Device Tree Bindings
-> > > > > > > > +
-> > > > > > > > +maintainers:
-> > > > > > > > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > > > +  - Thierry Reding <thierry.reding@gmail.com>
-> > > > > > > > +
-> > > > > > > > +allOf:
-> > > > > > > > +  - $ref: panel-common.yaml#
-> > > > > > > > +  - $ref: /schemas/display/lvds.yaml/#
-> > > > > > > > +
-> > > > > > > > +select:
-> > > > > > > > +  properties:
-> > > > > > > > +    compatible:
-> > > > > > > > +      contains:
-> > > > > > > > +        const: panel-lvds
-> > > > > > > > +
-> > > > > > > > +  not:
-> > > > > > > > +    properties:
-> > > > > > > > +      compatible:
-> > > > > > > > +        contains:
-> > > > > > > > +          enum:
-> > > > > > > > +            - advantech,idk-1110wr
-> > > > > > > > +            - advantech,idk-2121wr
-> > > > > > > > +            - innolux,ee101ia-01d
-> > > > > > > > +            - mitsubishi,aa104xd12
-> > > > > > > > +            - mitsubishi,aa121td01
-> > > > > > > > +            - sgd,gktw70sdae4se
-> > > > > > > 
-> > > > > > > I still don't like this :-( Couldn't we instead do
-> > > > > > > 
-> > > > > > > select:
-> > > > > > >   properties:
-> > > > > > >     compatible:
-> > > > > > >       contains:
-> > > > > > >         enum:
-> > > > > > >           - auo,b101ew05
-> > > > > > >           - tbs,a711-panel
-> > > > > > > 
-> > > > > > > ?
-> > > > > > 
-> > > > > > That works too, I'll send another version.
-> > > > > 
-> > > > > Actually, no, it doesn't work.
-> > > > > 
-> > > > > If we do this, if we were to have a panel that has panel-lvds but none
-> > > > > of the other compatible (because of a typo, or downright invalid
-> > > > > binding) we won't validate it and report any error.
-> > > > > 
-> > > > > I'll merge this version (together with the v4 version of patch 1)
-> > > > 
-> > > > I'm sorry but I *really* *really* dislike this. Having to list all other
-> > > > compatible values in this file is a sign that something is wrong in the
-> > > > validation infrastructure. People will forget to update it when adding
-> > > > new bindings, and will get confused by the result. If I were a
-> > > > maintainer for DT bindings I'd nack this.
-> > > 
-> > > The validation infrastructure is what it is, and we can't change that.
-> > > Rewriting one from scratch isn't reasonable either. That being said, the
-> > > *only* case where this has been a problem are the panels because there's
-> > > so many pointless schemas which should really be a single schema.
-> > > 
-> > > That's the root cause.
-> > > 
-> > > I tried to merge all of them, but once again panels seem to be special,
-> > > and it was shot down. So be it. But at the end of the day, there's not a
-> > > lot of solutions to do what we are doing for every other case out there.
-> > > 
-> > > > If a DT has panel-lvds and no other compatible string, or invalid ones,
-> > > > won't the validation report that the compatible isn't understood ? I
-> > > > think that would be enough.
-> > > 
-> > > That's just worse. How would you not get confused if there's an error
-> > > that the compatible isn't documented, you search for it, and it's
-> > > actually documented there?
-> > 
-> > Is that any different than a binding that would have
-> > 
-> > properties:
-> >   compatible:
-> >     items:
-> >       enum:
-> >         - foo,bar
-> >         - foo,baz
-> >       const: foo,base
-> > 
-> > and a device tree that would set compatible = "foo,base"; ? This type of
-> > binding is very common, and I haven't heard anyone complaining that the
-> > resulting validation error is an issue.
+
+
+Den 02.02.2022 11.09, skrev Maxime Ripard:
+> On Thu, Jan 27, 2022 at 06:53:48PM +0100, Noralf Trønnes wrote:
+>>>> +struct panel_mipi_dbi_config {
+>>>> +	/* Magic string: panel_mipi_dbi_magic */
+>>>> +	u8 magic[15];
+>>>> +
+>>>> +	/* Config file format version */
+>>>> +	u8 file_format_version;
+>>>> +
+>>>> +	/* Width in pixels */
+>>>> +	__be16 width;
+>>>> +	/* Height in pixels */
+>>>> +	__be16 height;
+>>>> +
+>>>> +	/* Width in millimeters (optional) */
+>>>> +	__be16 width_mm;
+>>>> +	/* Height in millimeters (optional) */
+>>>> +	__be16 height_mm;
+>>>> +
+>>>> +	/* X-axis panel offset */
+>>>> +	__be16 x_offset;
+>>>> +	/* Y-axis panel offset */
+>>>> +	__be16 y_offset;
+>>>> +
+>>>> +	/* 4 pad bytes, must be zero */
+>>>> +	u8 pad[4];
+>>>> +
+>>>> +	/*
+>>>> +	 * Optional MIPI commands to execute when the display pipeline is enabled.
+>>>> +	 * This can be used to configure the display controller.
+>>>> +	 *
+>>>> +	 * The commands are stored in a byte array with the format:
+>>>> +	 *     command, num_parameters, [ parameter, ...], command, ...
+>>>> +	 *
+>>>> +	 * Some commands require a pause before the next command can be received.
+>>>> +	 * Inserting a delay in the command sequence is done by using the NOP command with one
+>>>> +	 * parameter: delay in miliseconds (the No Operation command is part of the MIPI Display
+>>>> +	 * Command Set where it has no parameters).
+>>>> +	 *
+>>>> +	 * Example:
+>>>> +	 *     command 0x11
+>>>> +	 *     sleep 120ms
+>>>> +	 *     command 0xb1 parameters 0x01, 0x2c, 0x2d
+>>>> +	 *     command 0x29
+>>>> +	 *
+>>>> +	 * Byte sequence:
+>>>> +	 *     0x11 0x00
+>>>> +	 *     0x00 0x01 0x78
+>>>> +	 *     0xb1 0x03 0x01 0x2c 0x2d
+>>>> +	 *     0x29 0x00
+>>>> +	 */
+>>>> +	u8 commands[];
+>>>> +};
+>>>
+>>> I'm not really a fan of parsing raw data in the kernel. I guess we can't
+>>> really avoid the introduction of a special case to sleep, but we already
+>>> have dt properties for all of the other properties (but X and Y offset,
+>>> maybe?)
+>>>
+>>> Maybe we should use those instead?
+>>
+>> I don't understand your reluctance to parsing data, lots of ioctls do
+>> it.
 > 
-> That works indeed, but it's not what panel-lvds is doing. For some
-> reason, instead of that enum, we need multiple schemas, one for each
-> combination. And this is why we need that select clause, to work around
-> that decision.
+> The reluctance comes from the parsing itself: you need to have input
+> validation, and it's hard to get right. The less we have, the easier it
+> gets.
+> 
+>> And this data can only be loaded by root. What I like about having
+>> these properties in the config file is that the binding becomes a
+>> fallback binding that can actually be made to work without changing the
+>> Device Tree.
+>>
+>> For arguments sake let's say tiny/st7735r.c was not built and we had
+>> this node:
+>>
+>> display@0{
+>> 	compatible = "jianda,jd-t18003-t01", "sitronix,st7735r",
+>> "panel-mipi-dbi-spi";
+>> };
+>>
+>> It will still be possible to use this display without changing the
+>> Device Tree. Just add a firmware/config file.
+>>
+>> Having the properties in DT it would have to look like this for the
+>> fallback to work:
+>>
+>> display@0{
+>> 	compatible = "jianda,jd-t18003-t01", "sitronix,st7735r",
+>> "panel-mipi-dbi-spi";
+>> 	panel-timing = {
+>> 		hactive = <128>;
+>> 		vactive = <128>;
+>> 	};
+>> 	width-mm = <25>;
+>> 	height-mm = <26>;
+>> 	x-offset = <2>;
+>> 	y-offset = <3>;
+>> };
+>>
+>> Is this important, I'm not sure. What do you think?
+> 
+> Parts of it is ergonomics I guess. We're used to having all those
+> properties either in the DT or the driver, but here we introduce a new
+> way that isn't done anywhere else.
+> 
+> And I don't see any real downside to putting it in the DT? It's going to
+> be in an overlay, under the user's control anyway, right?
+> 
 
-I get that, but unless I'm mistaken, you concern with
+Ok, I'll spin a new version using DT properties.
 
-select:
-  properties:
-    compatible:
-      contains:
-        enum:
-          - auo,b101ew05
-          - tbs,a711-panel
-
-is that it will result in skipping validation silently (until all nodes
-are required to be validated) if a DT contains compatible =
-"aou,b101ew05", "panel-lvds". Don't we also get the same problem with
-compatible = "foo,bat", "foo,base" ? How do the two issues differ ?
-
--- 
-Regards,
-
-Laurent Pinchart
+Noralf.
