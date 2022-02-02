@@ -1,65 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031054A6EA9
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 11:25:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E1E4A6EB2
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 11:28:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A03910E492;
-	Wed,  2 Feb 2022 10:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 081B410E648;
+	Wed,  2 Feb 2022 10:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D717E10E4F8
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 10:25:49 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7D648210F0;
- Wed,  2 Feb 2022 10:25:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643797548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MBFFaDdmpbT6cNaTMIBoX1VcquThiP3u/BbxSfb0wuY=;
- b=JNyvQq662qKvUWcs9r5zq+Jz/igNI+v62rKC0yfVhjIHkHCflRLSfDyvO1+CWJpEtSmCZL
- ePl6mWc7tdwNi1N1Sdf6gr9lzmpIhZH0/qDwWBnnt756KpoQNyWAFTXMbfC095yhG0tpP8
- tySdDWFy6jc9EjuO7BeHxFbXFpvsx0w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643797548;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MBFFaDdmpbT6cNaTMIBoX1VcquThiP3u/BbxSfb0wuY=;
- b=cHMA9RBg/YOLGW3X8Ur250PkskpWN81lZCwjed4jJKEwqBEfZJREGR/lLIer26dKg2HAbb
- +nmofruHHuuINuBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2299F13DFD;
- Wed,  2 Feb 2022 10:25:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iNJPByxc+mHoYwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 02 Feb 2022 10:25:48 +0000
-Message-ID: <a1dd9d31-3ad0-b58f-c67b-5896048281ed@suse.de>
-Date: Wed, 2 Feb 2022 11:25:47 +0100
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
+ [IPv6:2607:f8b0:4864:20::f35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE07910E649
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 10:28:37 +0000 (UTC)
+Received: by mail-qv1-xf35.google.com with SMTP id i19so18487689qvx.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 02:28:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MtKEV+jU8UJlJY6L2eJ34IuiGgV/AbhYH8R0GtYApWo=;
+ b=tc4MWS6L05txv9/v8sY7Nq2fX4CLLBrLUb/c6kYKjiMc2htSKZP36mSEOmi6ocTaRC
+ HrOwXexKtMnINXUnCsB3n5agOamtYx+KnK/CN+WTV4IbjUjtIBsiixaqkJjLMLQ7hEF1
+ CifRUv6K4XmAlYlIhDAPOvg3mPvdFO94W+ClxHqzOW8EfyYiQR/k4hfQNl1j0jyRYqrE
+ N3D13vZSv2Bi2WgB4ShcXHVeid2fcj1xkQWGxGywRslIrjjbOIWiOHnumdLO8QUDklKe
+ 0qePGdd79ZRRjUmM4sSic4j00xyLgw32rVyttKHOv8c9YzxYYCMPepqMPFyF6q0EPP+U
+ azEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MtKEV+jU8UJlJY6L2eJ34IuiGgV/AbhYH8R0GtYApWo=;
+ b=ZOWlADWD8i5HhSX3Y/uQPA+5gRKhXCGrxGHWjWLZBU8IjsRVGIqk4IEW+Uv21JCVYK
+ rmTNhVKGWlSlpj4QVzfO1MwL6QBSpXq51gZ8QCFcInaTB2lJLAEuGKC5tQdDdlp5ZPj9
+ Hmxy38+Lvpu2FwFpMmOa/RbHocexWEhdgLC9JzwxpEZDxo8Gi/g7rda61mJdLPbJajFw
+ PMjlI+d6SX2psXpT6Rqfd3W2v/r51engF/kAawiniGD317zznCVC7M5XIIDMH+BbGJpa
+ 65wKU7319pvdaI6coB3FofJtoekG/CnP/CDRDjWgbLC1XFM8RHmAD2y6XIGkdsYUZn4U
+ U1Bg==
+X-Gm-Message-State: AOAM53108AOPaQvEyHv/X3SbY3Rl1p/T9AaItArTMMWN3jGnw8FX9IWy
+ gZhcsIF0/F5Mr7Ymj9f6Cjpz7rpV9QCN9AzeI+qwYQ==
+X-Google-Smtp-Source: ABdhPJwwCXUC90u1TfvbkrW/+mxg6UEoUpZCR2eWuHS8/mnMyDOQddLlYvTn6C0xowMERTI2uEmFyw193+RNR9fcFtA=
+X-Received: by 2002:a05:6214:19ca:: with SMTP id
+ j10mr26936391qvc.119.1643797716643; 
+ Wed, 02 Feb 2022 02:28:36 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [next] arm: panel-edp.c:(.text+0xb74): undefined reference to
- `drm_panel_dp_aux_backlight'
-Content-Language: en-US
-To: Ard Biesheuvel <ardb@kernel.org>
-References: <CA+G9fYvN0NyaVkRQmA1O6rX7H8PPaZrUAD7=RDy33QY9rUU-9g@mail.gmail.com>
- <76ff2848-3af4-6758-6e98-91a4c9ad26d8@suse.de>
- <CAMj1kXE6Q9uW45Q5A-TuPDiXTPOGrGjUn_8FUBKNGQ1g9bd3Rg@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMj1kXE6Q9uW45Q5A-TuPDiXTPOGrGjUn_8FUBKNGQ1g9bd3Rg@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------09SMQnBOqe6XcqkDFM74kwlP"
+References: <20220202085429.22261-1-suraj.kandpal@intel.com>
+ <20220202085429.22261-2-suraj.kandpal@intel.com>
+In-Reply-To: <20220202085429.22261-2-suraj.kandpal@intel.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 2 Feb 2022 13:28:25 +0300
+Message-ID: <CAA8EJppf5XL5+NSD+oksW9Zo1DKboPT5KBZwLmyF44q61wkxQA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] drm: add writeback pointers to drm_connector
+To: Kandpal Suraj <suraj.kandpal@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,149 +63,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Stephen Rothwell <sfr@canb.auug.org.au>,
- regressions@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
- Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>,
- David Airlie <airlied@linux.ie>, Naresh Kamboju <naresh.kamboju@linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>,
- Linux-Next Mailing List <linux-next@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, lkft-triage@lists.linaro.org,
- Grace Mi <grace.mi@ecs.corp-partner.google.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: carsten.haitzler@arm.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
+ arun.r.murthy@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------09SMQnBOqe6XcqkDFM74kwlP
-Content-Type: multipart/mixed; boundary="------------L3fX3bWa0slbEyrcIytD0sy2";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Marek Vasut <marex@denx.de>, Stephen Rothwell <sfr@canb.auug.org.au>,
- regressions@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
- Yunlong Jia <yunlong.jia@ecs.corp-partner.google.com>,
- David Airlie <airlied@linux.ie>, Naresh Kamboju <naresh.kamboju@linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>,
- Linux-Next Mailing List <linux-next@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, lkft-triage@lists.linaro.org,
- Grace Mi <grace.mi@ecs.corp-partner.google.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Message-ID: <a1dd9d31-3ad0-b58f-c67b-5896048281ed@suse.de>
-Subject: Re: [next] arm: panel-edp.c:(.text+0xb74): undefined reference to
- `drm_panel_dp_aux_backlight'
-References: <CA+G9fYvN0NyaVkRQmA1O6rX7H8PPaZrUAD7=RDy33QY9rUU-9g@mail.gmail.com>
- <76ff2848-3af4-6758-6e98-91a4c9ad26d8@suse.de>
- <CAMj1kXE6Q9uW45Q5A-TuPDiXTPOGrGjUn_8FUBKNGQ1g9bd3Rg@mail.gmail.com>
-In-Reply-To: <CAMj1kXE6Q9uW45Q5A-TuPDiXTPOGrGjUn_8FUBKNGQ1g9bd3Rg@mail.gmail.com>
+On Wed, 2 Feb 2022 at 11:46, Kandpal Suraj <suraj.kandpal@intel.com> wrote:
+>
+> Changing drm_connector and drm_encoder feilds to pointers in
+> drm_writeback_connector as the elements of struct
+> drm_writeback_connector are:
+> struct drm_writeback_connector {
+>         struct drm_connector base;
+>         struct drm_encoder encoder;
+> Similarly the elements of intel_encoder and intel_connector
+> are:
+> struct intel_encoder {
+>         struct drm_encoder base;
+>
+> struct intel_connector {
+>         struct drm_connector base;
+>
+> The function drm_writeback_connector_init() will initialize the
+> drm_connector and drm_encoder and attach them as well.
+> Since the drm_connector/encoder are both struct in
+> drm_writeback_connector and intel_connector/encoder, we need
+> one of them to be a pointer so we can reference them or else we
+> will be pointing to 2 seprate instances.
 
---------------L3fX3bWa0slbEyrcIytD0sy2
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Could you please clarify, why do you want to use intel_connector for
+the writeback connector?
+I can see a usecase for sharing an encoder between the display and
+writback pipelines (and if I'm not mistaken, this is the case for
+Abhinav's case).
+However, sharing the hardware-backed connector and writeback connector
+sounds like a sign of a loose abstraction for me.
 
-SGkNCg0KQW0gMDIuMDIuMjIgdW0gMTA6Mjggc2NocmllYiBBcmQgQmllc2hldXZlbDoNCj4g
-T24gV2VkLCAyIEZlYiAyMDIyIGF0IDEwOjA4LCBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pg0KPj4gSGkNCj4+DQo+PiBBbSAwMi4wMi4yMiB1
-bSAxMDowMiBzY2hyaWViIE5hcmVzaCBLYW1ib2p1Og0KPj4+IEZvbGxvd2luZyBidWlsZHMg
-ZmFpbGVkIG9uIExpbnV4IG5leHQgMjAyMjAyMDIgYXJtIGFyY2hpdGVjdHVyZS4NCj4+PiAg
-ICAgLSBhcm0tZ2NjLTEwLW9tYXAycGx1c19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tY2xh
-bmctbmlnaHRseS1zaG1vYmlsZV9kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tZ2NjLTgtbHBj
-MzJ4eF9kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tY2xhbmctMTMtc2htb2JpbGVfZGVmY29u
-ZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy0xMC1zaG1vYmlsZV9kZWZjb25maWcNCj4+PiAgICAg
-LSBhcm0tY2xhbmctMTEtc2htb2JpbGVfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWNsYW5n
-LTExLW9tYXAycGx1c19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tY2xhbmctMTMtb21hcDJw
-bHVzX2RlZmNvbmZpZw0KPj4+ICAgICAtIGFybS1jbGFuZy0xMS1scGMzMnh4X2RlZmNvbmZp
-Zw0KPj4+ICAgICAtIGFybS1nY2MtOC1vbWFwMnBsdXNfZGVmY29uZmlnDQo+Pj4gICAgIC0g
-YXJtLWdjYy05LXZleHByZXNzX2RlZmNvbmZpZw0KPj4+ICAgICAtIGFybS1jbGFuZy1uaWdo
-dGx5LWxwYzMyeHhfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy05LXNobW9iaWxlX2Rl
-ZmNvbmZpZw0KPj4+ICAgICAtIGFybS1jbGFuZy0xMy1scGMzMnh4X2RlZmNvbmZpZw0KPj4+
-ICAgICAtIGFybS1nY2MtMTAtc2FtYTVfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWNsYW5n
-LTExLXZleHByZXNzX2RlZmNvbmZpZw0KPj4+ICAgICAtIGFybS1jbGFuZy0xMS1zYW1hNV9k
-ZWZjb25maWcNCj4+PiAgICAgLSBhcm0tZ2NjLTktb21hcDJwbHVzX2RlZmNvbmZpZw0KPj4+
-ICAgICAtIGFybS1jbGFuZy1uaWdodGx5LXNhbWE1X2RlZmNvbmZpZw0KPj4+ICAgICAtIGFy
-bS1jbGFuZy0xMy12ZXhwcmVzc19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tY2xhbmctbmln
-aHRseS12ZXhwcmVzc19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tZ2NjLTktbHBjMzJ4eF9k
-ZWZjb25maWcNCj4+PiAgICAgLSBhcm0tY2xhbmctMTItdmV4cHJlc3NfZGVmY29uZmlnDQo+
-Pj4gICAgIC0gYXJtLWdjYy0xMC12ZXhwcmVzc19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0t
-Y2xhbmctMTItc2htb2JpbGVfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy0xMS1vbWFw
-MnBsdXNfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy05LXNhbWE1X2RlZmNvbmZpZw0K
-Pj4+ICAgICAtIGFybS1nY2MtOC1zaG1vYmlsZV9kZWZjb25maWcNCj4+PiAgICAgLSBhcm0t
-Z2NjLTEwLWxwYzMyeHhfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWNsYW5nLTEyLW9tYXAy
-cGx1c19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tZ2NjLTgtdmV4cHJlc3NfZGVmY29uZmln
-DQo+Pj4gICAgIC0gYXJtLWNsYW5nLTEyLXNhbWE1X2RlZmNvbmZpZw0KPj4+ICAgICAtIGFy
-bS1jbGFuZy1uaWdodGx5LW9tYXAycGx1c19kZWZjb25maWcNCj4+PiAgICAgLSBhcm0tZ2Nj
-LTExLWxwYzMyeHhfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy0xMS1zYW1hNV9kZWZj
-b25maWcNCj4+PiAgICAgLSBhcm0tZ2NjLTExLXNobW9iaWxlX2RlZmNvbmZpZw0KPj4+ICAg
-ICAtIGFybS1nY2MtMTEtdmV4cHJlc3NfZGVmY29uZmlnDQo+Pj4gICAgIC0gYXJtLWdjYy04
-LXNhbWE1X2RlZmNvbmZpZw0KPj4+ICAgICAtIGFybS1jbGFuZy0xMy1zYW1hNV9kZWZjb25m
-aWcNCj4+PiAgICAgLSBhcm0tY2xhbmctMTItbHBjMzJ4eF9kZWZjb25maWcNCj4+Pg0KPj4+
-DQo+Pj4gbWFrZSAtLXNpbGVudCAtLWtlZXAtZ29pbmcgLS1qb2JzPTggIEFSQ0g9YXJtDQo+
-Pj4gQ1JPU1NfQ09NUElMRT1hcm0tbGludXgtZ251ZWFiaWhmLSAnQ0M9c2NjYWNoZQ0KPj4+
-IGFybS1saW51eC1nbnVlYWJpaGYtZ2NjJyAnSE9TVENDPXNjY2FjaGUgZ2NjJyB2ZXhwcmVz
-c19kZWZjb25maWcNCj4+PiBtYWtlIC0tc2lsZW50IC0ta2VlcC1nb2luZyAtLWpvYnM9OCAg
-QVJDSD1hcm0NCj4+PiBDUk9TU19DT01QSUxFPWFybS1saW51eC1nbnVlYWJpaGYtICdDQz1z
-Y2NhY2hlDQo+Pj4gYXJtLWxpbnV4LWdudWVhYmloZi1nY2MnICdIT1NUQ0M9c2NjYWNoZSBn
-Y2MnDQo+Pj4gYXJtLWxpbnV4LWdudWVhYmloZi1sZDogZHJpdmVycy9ncHUvZHJtL3BhbmVs
-L3BhbmVsLWVkcC5vOiBpbiBmdW5jdGlvbg0KPj4+IGBwYW5lbF9lZHBfcHJvYmUnOg0KPj4+
-IHBhbmVsLWVkcC5jOigudGV4dCsweGI3NCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGRy
-bV9wYW5lbF9kcF9hdXhfYmFja2xpZ2h0Jw0KPj4+IG1ha2VbMV06ICoqKiBbL2J1aWxkcy9s
-aW51eC9NYWtlZmlsZToxMjIyOiB2bWxpbnV4XSBFcnJvciAxDQo+Pj4NCj4+Pg0KPj4+IFJl
-cG9ydGVkLWJ5OiBMaW51eCBLZXJuZWwgRnVuY3Rpb25hbCBUZXN0aW5nIDxsa2Z0QGxpbmFy
-by5vcmc+DQo+Pj4NCj4+PiBtZXRhIGRhdGE6DQo+Pj4gLS0tLS0tLS0tLS0NCj4+PiAgICAg
-ICBnaXQgZGVzY3JpYmU6IG5leHQtMjAyMjAyMDINCj4+PiAgICAgICBnaXRfcmVwbzogaHR0
-cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvbmV4dC9saW51
-eC1uZXh0LmdpdA0KPj4+ICAgICAgIHRhcmdldF9hcmNoOiBhcm0NCj4+PiAgICAgICBrY29u
-ZmlnOiB2ZXhwcmVzc19kZWZjb25maWcNCj4+PiAgICAgICB0b29sY2hhaW46IGdjYy0xMQ0K
-Pj4+DQo+Pj4gQnVpbGQgbG9nOg0KPj4+IC0tLS0tLS0tLS0tLS0NCj4+PiBodHRwczovL2J1
-aWxkcy50dXhidWlsZC5jb20vMjRYUmltNzJ2RlhpeDZsNk1kQUpORU55NmplLw0KPj4+DQo+
-Pj4gU3RlcHMgdG8gcmVwcm9kdWNlOg0KPj4+IC0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+Pj4g
-IyBUbyBpbnN0YWxsIHR1eG1ha2Ugb24geW91ciBzeXN0ZW0gZ2xvYmFsbHk6DQo+Pj4gIyBz
-dWRvIHBpcDMgaW5zdGFsbCAtVSB0dXhtYWtlDQo+Pj4gIw0KPj4+ICMgU2VlIGh0dHBzOi8v
-ZG9jcy50dXhtYWtlLm9yZy8gZm9yIGNvbXBsZXRlIGRvY3VtZW50YXRpb24uDQo+Pj4gIyBP
-cmlnaW5hbCB0dXhtYWtlIGNvbW1hbmQgd2l0aCBmcmFnbWVudHMgbGlzdGVkIGJlbG93Lg0K
-Pj4+DQo+Pj4gdHV4bWFrZSAtLXJ1bnRpbWUgcG9kbWFuIC0tdGFyZ2V0LWFyY2ggYXJtIC0t
-dG9vbGNoYWluIGdjYy0xMQ0KPj4+IC0ta2NvbmZpZyB2ZXhwcmVzc19kZWZjb25maWcNCj4+
-Pg0KPj4+IHR1eG1ha2UgLS1ydW50aW1lIHBvZG1hbiAtLXRhcmdldC1hcmNoIGFybSAtLXRv
-b2xjaGFpbiBnY2MtMTENCj4+PiAtLWtjb25maWcgaHR0cHM6Ly9idWlsZHMudHV4YnVpbGQu
-Y29tLzI0WFJpbTcydkZYaXg2bDZNZEFKTkVOeTZqZS9jb25maWcNCj4+DQo+PiBZb3UnbGwg
-bm93IG5lZWQNCj4+DQo+PiAgICAgQ09ORklHX0RSTV9EUF9IRUxQRVI9eQ0KPj4NCj4+IGlu
-IHlvdXIgY29uZmlnLg0KPj4NCj4gDQo+IFRoYXQgc2hvdWxkIG5ldmVyIGJlIHRoZSBzb2x1
-dGlvbiBmb3IgbGlua2VyIGVycm9ycyBzdWNoIGFzIHRoaXMgb25lLg0KPiANCj4gSWYgQ09O
-RklHX0RSTV9QQU5FTF9FRFAgcmVsaWVzIG9uIHNvbWV0aGluZyBwcm92aWRlZCBieQ0KPiBD
-T05GSUdfRFJNX0RQX0hFTFBFUiwgaXQgc2hvdWxkIHNlbGVjdCBpdCBvciBkZXBlbmQgb24g
-aXQgaW4gS2NvbmZpZy4NCg0KT2YgY291cnNlLCB3ZSdsbCBwcm92aWRlIGEgcGF0Y2ggZm9y
-IHRoZSBLY29uZmlnIGZpbGVzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQoNCi0tIA0K
-VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
-cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
-ZsO8aHJlcjogSXZvIFRvdGV2DQo=
+Please correct me if I'm wrong and Intel driver would really benefit
+from reusing intel_connector as a base for drm_writeback_connector.
 
---------------L3fX3bWa0slbEyrcIytD0sy2--
+> Usually the struct defined in drm framework pointing to any
+> struct will be pointer and allocating them and initialization
+> will be done with the users.
+> Like struct drm_connector and drm_encoder are part of drm
+> framework and the users of these such as i915 have included them
+> in their struct intel_connector and intel_encoder. Likewise
+> struct drm_writeback_connector is a special connector and hence
+> is not a user of drm_connector and hence this should be pointers.
+>
+> Adding drm_writeback_connector to drm_connector so that
+> writeback_connector can be fetched from drm_connector as the previous
+> container_of method won't work due to change in the feilds of
+> drm_connector and drm_encoder in drm_writeback_connector.
+>
+> Note:The corresponding ripple effect due to the above changes namely in
+> two drivers as I can see it komeda and vkms have been dealt with in the
+> upcoming patches of this series.
+>
+> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
+>
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  drivers/gpu/drm/drm_writeback.c | 19 ++++++++++---------
+>  include/drm/drm_connector.h     |  3 +++
+>  include/drm/drm_writeback.h     |  6 +++---
+>  3 files changed, 16 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+> index dccf4504f1bb..47238db42363 100644
+> --- a/drivers/gpu/drm/drm_writeback.c
+> +++ b/drivers/gpu/drm/drm_writeback.c
+> @@ -87,7 +87,7 @@ static const char *drm_writeback_fence_get_driver_name(struct dma_fence *fence)
+>         struct drm_writeback_connector *wb_connector =
+>                 fence_to_wb_connector(fence);
+>
+> -       return wb_connector->base.dev->driver->name;
+> +       return wb_connector->base->dev->driver->name;
+>  }
+>
+>  static const char *
+> @@ -177,7 +177,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>                                  const u32 *formats, int n_formats)
+>  {
+>         struct drm_property_blob *blob;
+> -       struct drm_connector *connector = &wb_connector->base;
+> +       struct drm_connector *connector = wb_connector->base;
+>         struct drm_mode_config *config = &dev->mode_config;
+>         int ret = create_writeback_properties(dev);
+>
+> @@ -189,14 +189,15 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>         if (IS_ERR(blob))
+>                 return PTR_ERR(blob);
+>
+> -       drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+> -       ret = drm_encoder_init(dev, &wb_connector->encoder,
+> +       drm_encoder_helper_add(wb_connector->encoder, enc_helper_funcs);
+> +       ret = drm_encoder_init(dev, wb_connector->encoder,
+>                                &drm_writeback_encoder_funcs,
+>                                DRM_MODE_ENCODER_VIRTUAL, NULL);
+>         if (ret)
+>                 goto fail;
+>
+>         connector->interlace_allowed = 0;
+> +       connector->wb_connector = wb_connector;
+>
+>         ret = drm_connector_init(dev, connector, con_funcs,
+>                                  DRM_MODE_CONNECTOR_WRITEBACK);
+> @@ -204,7 +205,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>                 goto connector_fail;
+>
+>         ret = drm_connector_attach_encoder(connector,
+> -                                               &wb_connector->encoder);
+> +                                               wb_connector->encoder);
+>         if (ret)
+>                 goto attach_fail;
+>
+> @@ -233,7 +234,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  attach_fail:
+>         drm_connector_cleanup(connector);
+>  connector_fail:
+> -       drm_encoder_cleanup(&wb_connector->encoder);
+> +       drm_encoder_cleanup(wb_connector->encoder);
+>  fail:
+>         drm_property_blob_put(blob);
+>         return ret;
+> @@ -263,7 +264,7 @@ int drm_writeback_prepare_job(struct drm_writeback_job *job)
+>  {
+>         struct drm_writeback_connector *connector = job->connector;
+>         const struct drm_connector_helper_funcs *funcs =
+> -               connector->base.helper_private;
+> +               connector->base->helper_private;
+>         int ret;
+>
+>         if (funcs->prepare_writeback_job) {
+> @@ -315,7 +316,7 @@ void drm_writeback_cleanup_job(struct drm_writeback_job *job)
+>  {
+>         struct drm_writeback_connector *connector = job->connector;
+>         const struct drm_connector_helper_funcs *funcs =
+> -               connector->base.helper_private;
+> +               connector->base->helper_private;
+>
+>         if (job->prepared && funcs->cleanup_writeback_job)
+>                 funcs->cleanup_writeback_job(connector, job);
+> @@ -401,7 +402,7 @@ drm_writeback_get_out_fence(struct drm_writeback_connector *wb_connector)
+>  {
+>         struct dma_fence *fence;
+>
+> -       if (WARN_ON(wb_connector->base.connector_type !=
+> +       if (WARN_ON(wb_connector->base->connector_type !=
+>                     DRM_MODE_CONNECTOR_WRITEBACK))
+>                 return NULL;
+>
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 64cf5f88c05b..fa06faeb7844 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -44,6 +44,7 @@ struct drm_printer;
+>  struct drm_privacy_screen;
+>  struct edid;
+>  struct i2c_adapter;
+> +struct drm_writeback_connector;
+>
+>  enum drm_connector_force {
+>         DRM_FORCE_UNSPECIFIED,
+> @@ -1539,6 +1540,8 @@ struct drm_connector {
+>          */
+>         struct drm_encoder *encoder;
+>
+> +       struct drm_writeback_connector *wb_connector;
+> +
+>  #define MAX_ELD_BYTES  128
+>         /** @eld: EDID-like data, if present */
+>         uint8_t eld[MAX_ELD_BYTES];
+> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> index 9697d2714d2a..078c9907219c 100644
+> --- a/include/drm/drm_writeback.h
+> +++ b/include/drm/drm_writeback.h
+> @@ -22,7 +22,7 @@ struct drm_writeback_connector {
+>         /**
+>          * @base: base drm_connector object
+>          */
+> -       struct drm_connector base;
+> +       struct drm_connector *base;
+>
+>         /**
+>          * @encoder: Internal encoder used by the connector to fulfill
+> @@ -31,7 +31,7 @@ struct drm_writeback_connector {
+>          * by passing the @enc_funcs parameter to drm_writeback_connector_init()
+>          * function.
+>          */
+> -       struct drm_encoder encoder;
+> +       struct drm_encoder *encoder;
+>
+>         /**
+>          * @pixel_formats_blob_ptr:
+> @@ -143,7 +143,7 @@ struct drm_writeback_job {
+>  static inline struct drm_writeback_connector *
+>  drm_connector_to_writeback(struct drm_connector *connector)
+>  {
+> -       return container_of(connector, struct drm_writeback_connector, base);
+> +       return connector->wb_connector;
+>  }
+>
+>  int drm_writeback_connector_init(struct drm_device *dev,
+> --
+> 2.17.1
+>
 
---------------09SMQnBOqe6XcqkDFM74kwlP
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmH6XCsFAwAAAAAACgkQlh/E3EQov+Cb
-zxAAsHI8kD0VNgbrk53q4cUbmeMpCf1RfYYxmu+1fVDZrUZAdibe5zbmqg9M2npozE4Sf2v2ZiA0
-tHNrtPOhaoSiPc6r8Ycu0LKpVIDXkwE1f4PnZCHth1wA7PfZ49cH5x5/pUwAjoLLzIDTZEhfFy/x
-JaF1/mfFImh1ArS1XopBUxtlKnN8c3AG0fWQan1x4KkLatuPEoTt43hkrgWMdgcqa8D0UUGi06Mm
-Hu9Vkf2XqQW5kPMa0oGpPkPzSQiah/rsHl+IyvzY4iMGJ54dizI3LBWYD0zCRjDr9N7oWm+XCys0
-NltgnER7XzsclZCfPfEza3NVjJXTs/thMIyuz+I/T4xUQjElK/qqXw96UhF0l90ZJIpo4tCmd+lT
-/tTvJUTzpRxkdYdlDIGih4bVpE3c+WzYn91GVAZEtjrtRed1xii2Cwa7CbsHqYgPeaFKNef6ZYH7
-HU0c5VTDsjPGgdVQE4su4tuGRKWskvJSe+fXsWPB0Q17Z8a/k/KMelTQYFptG5Nmsb1O16PEYHw2
-EEwZCIyQfDk8LZsXeEF+twzpAluT5P6HfWQwrDVTO8kL2ITF6mIIZ4SqTqX+CLAEiv1Sm4oTM6gN
-j2BHtjngJ67zeSGdCGeq2GJi6dJMap+BNqdmpRiOPAdwtlv0DQCaGygTTurwg1hJIZhl3z+SXU1o
-M0k=
-=xpIB
------END PGP SIGNATURE-----
-
---------------09SMQnBOqe6XcqkDFM74kwlP--
+-- 
+With best wishes
+Dmitry
