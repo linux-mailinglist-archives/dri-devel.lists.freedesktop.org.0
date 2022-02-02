@@ -1,61 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F238E4A70A7
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 13:22:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80EA34A70C2
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Feb 2022 13:28:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79AAB10EB5B;
-	Wed,  2 Feb 2022 12:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 715C510E2EC;
+	Wed,  2 Feb 2022 12:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 278D810EB5B
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 12:22:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643804572; x=1675340572;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=eamKrK/VTEauZLd9AACZ72hNNHTYn1T5iAicwAio230=;
- b=WV/kKnb5FhrEDeKLReycf+sa3vVHKIOZpIbGbK/lNTWQ7RHaKhwa9fuR
- pdT87FRm82f8Y4YX0o+CDhxIvw6VVigVfQOsApliLRv7dHy0V2nxmuvrJ
- c0OkglQJbnHnOZAJ91FOOg34lpr/bO9JwOzfxQNHDt5fY7Ca831pPzayh
- 75NXJcoxuAMUq4+HIM1u6SBa18KfZV34M3Sye9rtOr+0L5RYGxJu3f8DC
- 2lCtBstV3jvrWDS4hV6EYQ9Z8kSCsFq/bQmiCFxZ1b7NuJyarULkfPcp5
- C7NiQEVWmMK9cZ5k308J1quVbcO8PZj85ZAVI6+ScYiK7YUGuCEnVGRHL Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="247672541"
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="247672541"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 04:22:51 -0800
-X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; d="scan'208";a="565970219"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 04:22:47 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nFEds-0004d4-Dd; Wed, 02 Feb 2022 14:21:44 +0200
-Date: Wed, 2 Feb 2022 14:21:44 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED displays
-Message-ID: <Yfp3WL8JMlSP19MI@smile.fi.intel.com>
-References: <CAMuHMdVP6ER119r2KAegjZes1a=KWZ47z6j=kgQ0oNx1oeUJ+w@mail.gmail.com>
- <51f54519-bb8b-f108-1c1e-4fed101ca5ef@redhat.com>
- <CAMuHMdVwUfv7pXhPazsgG6t=X=aVtDQkFUk_=mUuFH8Fscx8wg@mail.gmail.com>
- <abf63995-a529-1e80-18c3-df473a3e7a9c@redhat.com>
- <YfmaqUBqCrgp0QdO@ravnborg.org>
- <e552caec-5136-f4b2-12dc-23b182ab8af6@redhat.com>
- <YfploeCM6C5y3Imj@smile.fi.intel.com>
- <2f149fef-b991-9e34-98cb-426e561192ff@redhat.com>
- <YfpwGtjj5hGkN7A4@smile.fi.intel.com>
- <a3a06362-ab9f-e29b-4f03-968e3f1865ba@redhat.com>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B02B110E2EC
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Feb 2022 12:28:33 +0000 (UTC)
+Date: Wed, 02 Feb 2022 12:28:17 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v12 2/9] drm/ingenic: Add support for JZ4780 and HDMI
+ output
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <5ZFO6R.M6Z7S3EBA1YC1@crapouillou.net>
+In-Reply-To: <37CB6D86-4295-4281-BF3E-3E4B40E74196@goldelico.com>
+References: <cover.1643632014.git.hns@goldelico.com>
+ <6a7b188769a7ad477bf8cb71e1b9bc086b92388d.1643632014.git.hns@goldelico.com>
+ <N7AO6R.7I6FABF106MT1@crapouillou.net>
+ <1F27171F-DFCA-4707-8F50-D1A343F6D78E@goldelico.com>
+ <CYEO6R.2QDXEFO5G1WQ3@crapouillou.net>
+ <37CB6D86-4295-4281-BF3E-3E4B40E74196@goldelico.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a3a06362-ab9f-e29b-4f03-968e3f1865ba@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,35 +40,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Peter Robinson <pbrobinson@gmail.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, linux-mips@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 02, 2022 at 12:54:32PM +0100, Javier Martinez Canillas wrote:
-> On 2/2/22 12:50, Andy Shevchenko wrote:
-> >> What's your suggestion then to solve the issue mentioned above ? With my distro
-> >> maintainer hat I don't care that much, since the fbdev drivers will be disabled.
-> > 
-> > I think both of them can work together. If user doesn't care, the first one wins.
-> 
-> I don't think this is a good idea but as mentioned I don't really care that much
-> since we will disable all fbdev drivers anyway. So I'm happy to allow them both.
 
-Thanks!
 
--- 
-With Best Regards,
-Andy Shevchenko
+Le mer., f=E9vr. 2 2022 at 13:17:14 +0100, H. Nikolaus Schaller=20
+<hns@goldelico.com> a =E9crit :
+> Hi Paul,
+>=20
+>>  Am 02.02.2022 um 13:06 schrieb Paul Cercueil <paul@crapouillou.net>:
+>>=20
+>>  Hi Nikolaus,
+>>=20
+>>>>>  @@ -446,6 +454,9 @@ static int=20
+>>>>> ingenic_drm_plane_atomic_check(struct drm_plane *plane,
+>>>>>  	if (!crtc)
+>>>>>  		return 0;
+>>>>>  +	if (plane =3D=3D &priv->f0)
+>>>>>  +		return -EINVAL;
+>>>>  This will break JZ4725B -> JZ4770 SoCs, the f0 plane is perfectly=20
+>>>> usable there.
+>>>  Hm. I think it was your request/proposal to add this [1]?
+>>=20
+>>  Because otherwise with your current patchset the f0 plane does not=20
+>> work *on JZ4780*.
+>=20
+> Not that I am eager to fix that, but...
+> maybe it could be better to fix than having the check and -EINVAL=20
+> depend on SoC compatible string
+> (or some new flag in soc_info. plane_f0_not_working)?
+
+Totally agree! A proper fix would be much better. A=20
+"plane_f0_not_working" in the meantime is OK with me.
+
+Note that there are other things not working with your current=20
+implementation, for instance you cannot set the X/Y start position of=20
+the f1 plane, which means it's only really usable for fullscreen=20
+desktop/windows.
+
+>>  It does work on older SoCs.
+>>=20
+>>>  What I have forgotten is why the f0 plane should not be usable for=20
+>>> jz4780.
+>>=20
+>>  We return an error here to prevent userspace from using the f0=20
+>> plane until it's effectively working on the JZ4780.
+>=20
+> Well, what would be not working with that plane if user-space would=20
+> try to use it?
+
+ From what I remember, it wouldn't show anything on screen, and after=20
+that trying to use the f1 plane wouldn't work either.
+
+-Paul
 
 
