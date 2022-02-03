@@ -2,79 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367C24A81C2
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 10:48:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 836A24A823E
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 11:20:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA4F710EBB4;
-	Thu,  3 Feb 2022 09:48:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3770710F083;
+	Thu,  3 Feb 2022 10:20:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6535510EBB7
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 09:48:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643881732;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zjlFGS5Mvi63vMgKi8Q4hmjSoRkInrvynkxdhZl+LJQ=;
- b=BJB4ro27cbPh9rIGQKxzDyoDC3TgEPjAlgZ1vFQabohmnJHsrGFqdnfq7gBxx/1rU+/yCB
- G+PNFNdekouUrJ8je42Q1TiEBeqV9/nqgdz3Xib1imf3OFCGOpQp7PE0r7W40t+TDpj+1a
- gI4Csw/9Ge6pzE9y7nXvx6v9DLNFQI8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-_q5G8bimNGuzCMspkupIMA-1; Thu, 03 Feb 2022 04:48:51 -0500
-X-MC-Unique: _q5G8bimNGuzCMspkupIMA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- g6-20020adfbc86000000b001a2d62be244so445907wrh.23
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Feb 2022 01:48:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=zjlFGS5Mvi63vMgKi8Q4hmjSoRkInrvynkxdhZl+LJQ=;
- b=1pTVk2HiC/mN5/Ssvj0PDb8GZZ4t9sZw3YTWJ0QtdtFxUJ6ly2oD6QixUo+UKR2sfU
- IBlnojSClgLAutt6Al4MeVQsF+Wf7leT8PhF7BVPNS0KkS0yu7DBqk8WLxJZJOXRnRRA
- V4zMEjJcxH5hFJPDe8NLwWiheSQ2HSR4t3kuUc2Ogr8nkthHlSIm2BMrXMnTs1nfI94Q
- rwvHramqEEsyem7c0/cHoLRNN2aj9LuhauGETfpv4+XU4/1uPkAfZMawNtOFZw1NNcui
- fj5yMw61NVhxGvgRwqrPD0siDMl5iAy7ldSuTGPgU0BAprGQaVyRKORUmsmdvUFPm3nD
- H3zA==
-X-Gm-Message-State: AOAM531ySvBZeRE5CxgEt8FD4irXLVIdAU/rrtg9RAILTTIUuE7/Q1ac
- y6hfaFda5+YNqSgikHsZ3jl6S89mCcF1y5D37CeMbZbmwJfUzE4TMe+CM50NcjTrzLKBzPwFYSK
- Irnlt0y2aIcJ3k05lh0PwzU5IaDVt
-X-Received: by 2002:a05:6000:178b:: with SMTP id
- e11mr28279200wrg.634.1643881730020; 
- Thu, 03 Feb 2022 01:48:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwCfByAnwt0+QCw28tX5jz7T5FezUoJzhZSEwF3KWTRmBT/mVXbBSLpAc2FbwpKa4dK+ZCk1w==
-X-Received: by 2002:a05:6000:178b:: with SMTP id
- e11mr28279186wrg.634.1643881729832; 
- Thu, 03 Feb 2022 01:48:49 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id r2sm8738549wmq.24.2022.02.03.01.48.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 01:48:49 -0800 (PST)
-Message-ID: <dda9c983-f813-258b-ca6f-77c0d43fe2d4@redhat.com>
-Date: Thu, 3 Feb 2022 10:48:47 +0100
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9169D10F083
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 10:20:12 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id CF94E32020B7;
+ Thu,  3 Feb 2022 05:20:08 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Thu, 03 Feb 2022 05:20:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm2; bh=sOWnHDG1T8A9g+lekWhh9nOp0CAfxOUzn591iMrIq4c=; b=V9YPN
+ lc3XlJNQxNmLUaoo71cB1JWoZ04W6nONP1uWDS7AFFOOQuaZA18JXa7RNmVOXXWr
+ p43W/0+s/srLJIg+LDhRepkwqgI6HIaessZTS5WgIi4MVUX6UeQV6/s973UozV2n
+ lFRX32ZQTrZKvVBwjXOVuLDZc/MjiGHGp4ShP892MFZvSCx7/6/n1OHy4UsPVHwc
+ En7QltlqSymM0DdS5V93tNOl5BoxWRk/lTEtPs1jgQfrrPCKHDe0BzYvs0xYAd8J
+ LWm4sg+PcnlaoHhxBqfStYXC91tVFDScVteQFqXb1DZ6wWX7MUilXILQ3G0ERuY1
+ Saxy5poy+E64xr1+g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm2; bh=sOWnHDG1T8A9g+lekWhh9nOp0CAfx
+ OUzn591iMrIq4c=; b=d665ra5STxGhsKVaJgWm4X9nIXmQnU3pOMHwz0WALbG7/
+ bEfXcfyWke0fSZxN8mPu9sbWvlMyPM6OkT6tNpiCBX9jq8sJqwRT5eyfKWLWmzIH
+ 8twjfhSxg0JLh+8DgyxcXtSwTa0uD1SDTgpGi1TsJlV0UASBedJUXJ0nUONuCOY7
+ 6sIkcJPyfbfVfcFkbRjpxF5wcKt6tRatl+MRGhbe7pjqyZW3MRnDDNQhxyHa6Igu
+ L1uclKMprsCeNXqYshCzExVz3V98ZlF/gdugOPwhhPxMvWagx3beViLXi+4gB13C
+ 936Hb0hGhwUKDtFM80DNwYDA1bCVzWco2yNPLfXpA==
+X-ME-Sender: <xms:V6z7YUaX6iPVEm4e6itR20WVQ70rDkodh9nNBh10Gj48zD9EwGeAzw>
+ <xme:V6z7YfZoSX9YTLjymefaraW-BXRLrmOZbd4V39mw6TRJUJktGe538zCKVp_0II9GM
+ ZGoAP40JJxazqGfsQM>
+X-ME-Received: <xmr:V6z7Ye8MtzTW8v7qUk6UIL4mGqcH0qXHSMwOC4KbMHQecC3QMla0QabIe5IpoI3FelLK-SEkQKpIoMZaY806oPH7qd3DJjLYLXrU5NE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeejgddufecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
+ hmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:V6z7Yeqnxlo0n4GwRVN4mBhC4YZ5_iJ-Qe0seBZyLocSBt1mea-CNQ>
+ <xmx:V6z7Yfp-bRUC9ZcNz2JcI_Tv9dqFl1u7dpUJ_VwxJ5XILrIhq_odlg>
+ <xmx:V6z7YcRIEtt6gfQbgm6yoy-Q3nU4mJpjAtsBGYshnbH-h5YirH1cPQ>
+ <xmx:WKz7YTcPj4TrY2ACpcirTF3fPAsqSrQzZSQMHSAcCATSYRYGEE5IGA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Feb 2022 05:20:07 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vc4: crtc: Fix runtime_pm reference counting
+Date: Thu,  3 Feb 2022 11:20:03 +0100
+Message-Id: <20220203102003.1114673-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 0/2] drm/tiny: Ensure DT compatibles have SPI device IDs
-To: Mark Brown <broonie@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20220202152631.20704-1-broonie@kernel.org>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220202152631.20704-1-broonie@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,33 +77,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/2/22 16:26, Mark Brown wrote:
-> Currently autoloading for SPI devices does not use the DT ID table, it uses
-> SPI modalises. Supporting OF modalises is going to be difficult if not
-> impractical, an attempt was made but has been reverted, so this series
-> adds SPI IDs where they aren't provided for a given modalias.
-> 
-> v2:
->  - Rebase onto v5.17-rc1.
-> 
-> Mark Brown (2):
->   drm/ili9486: Add SPI ID table
->   drm/st7735r: Add SPI ID table
-> 
->  drivers/gpu/drm/tiny/ili9486.c | 2 ++
->  drivers/gpu/drm/tiny/st7735r.c | 1 +
->  2 files changed, 3 insertions(+)
-> 
+At boot on the BCM2711, if the HDMI controllers are running, the CRTC
+driver will disable itself and its associated HDMI controller to work
+around a hardware bug that would leave some pixels stuck in a FIFO.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+In order to avoid that issue, we need to run some operations in lockstep
+between the CRTC and HDMI controller, and we need to make sure the HDMI
+controller will be powered properly.
 
-Best regards,
+However, since we haven't enabled it through KMS, the runtime_pm state
+is off at this point so we need to make sure the device is powered
+through pm_runtime_resume_and_get, and once the operations are complete,
+we call pm_runtime_put.
+
+However, the HDMI controller will do that itself in its
+post_crtc_powerdown, which means we'll end up calling pm_runtime_put for
+a single pm_runtime_get, throwing the reference counting off. Let's
+remove the pm_runtime_put call in the CRTC code in order to have the
+proper counting.
+
+Fixes: bca10db67bda ("drm/vc4: crtc: Make sure the HDMI controller is powered when disabling")
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_crtc.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index 287dbc89ad64..799aaf8c1abf 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -525,9 +525,11 @@ int vc4_crtc_disable_at_boot(struct drm_crtc *crtc)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = pm_runtime_put(&vc4_hdmi->pdev->dev);
+-	if (ret)
+-		return ret;
++	/*
++	 * post_crtc_powerdown will have called pm_runtime_put, so we
++	 * don't need it here otherwise we'll get the reference counting
++	 * wrong.
++	 */
+ 
+ 	return 0;
+ }
 -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.34.1
 
