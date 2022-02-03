@@ -2,69 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C5E4A8750
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 16:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3E04A879D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 16:23:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24F0A10F009;
-	Thu,  3 Feb 2022 15:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6512010EAB2;
+	Thu,  3 Feb 2022 15:23:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2BCE10F009
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 15:11:56 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 1BE325C0193;
- Thu,  3 Feb 2022 10:11:56 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 03 Feb 2022 10:11:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm2; bh=zcKJOXBg0tVDZgeznAWrzxSSQhK2sobqGlJjS6yhY8Y=; b=Voc40
- zwGzP8Xa5l9engM280jeL1VNNG5lFOJ7pUZCpj+Gu8tVaTkPqY6e+DIWb6+Z6b/I
- XrblF2c7+aXclb8MVLL7V3Z4x80N7kE4wy7X0jJBQYFu5KkqXmI/AwQbx13vubgp
- kAouIbh37I4gv25CRPY21+i6zju5Tb7h2lCashRpZ6cfZs0w4rpqVFL3C4fyIC8S
- lSFIBdsAsF4L1jop+NKaD6eB7VCSFJKaak3se4cmcICegbxq2NlMc4Kz2XMbL+7P
- IfUtACVAl/+HibDWDymqKy7VRGGot+tzBNaXMzHv6r65HJ979nrUYJsB9o49cJiL
- Wgl77+Fu723cD32Dw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm2; bh=zcKJOXBg0tVDZgeznAWrzxSSQhK2s
- obqGlJjS6yhY8Y=; b=ZPojijDoRPMi64AsLvSTYKoyjY7deTuVdMdnFEbiSo5A+
- dRioyen383cVfKxjVRSRJDsuB0x7KhI5dIgcNpC8VbQr3tpEtaQV+iHsvGTXYloC
- WpgbVtCQA/oN6j8LyWpGS0UoR20PjPeqz4qDDOLGO834CZeCR45soA3OUS2m0Ynx
- JHbujl36ZGZv0WixUYP8nkKFRbkC1E4KbmSaSUdtgxDxiutaCMhvLkUgoavI58EO
- vxqptC6vz5G++MWwzR2E19YQc5Vei4BuoV5CxPd1FErghcNJsfVXkkvgpNVA/8B2
- 82njXQerDiiJj80pJ31OdEDb6cBgd4wm/WqiDNZQw==
-X-ME-Sender: <xms:uvD7YUSsUgJ1ZE9UQV3ttHqZCZ7lAaeAjJiEwYomJkAbW4qggPk2WQ>
- <xme:uvD7YRyNnlLGbPTsPs2E2rN7gbv1xVlmV9sGHJZXC9qwgZNJkmBFIulV1qGW7khuZ
- joQazs-sFZMLNCihJ4>
-X-ME-Received: <xmr:uvD7YR2VefV4a_-ljvw7aNlJUM1GEcDp-34ox_prA8iUdcoNXrgKAoZnJHMUaCd3n-P4magcYG5z6s1i3CHhSaOR7yNDMyVEDyRd_so>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeejgdejvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
- ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
- hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
- ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
- hmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:uvD7YYD3W6JehKbM3JMj7C7eZPOCH4C2FXhYBLRykdswwqk_7hgMAw>
- <xmx:uvD7YdglyScljqxDZBu1R8O9XW_4vKKRUtipJsVxkDGSc7ZoqD1d-g>
- <xmx:uvD7YUrJq1wrdj7cyVhBlJjkU8ZMCUdcSprx_nNO2t3eeFaQ3gL7Kg>
- <xmx:vPD7YbbQSeqJVQCb46hZHSdB_ToIZGJDdJOxji9P5Pmc8_vvum0GmA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Feb 2022 10:11:54 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vc4: crtc: Fix redundant variable assignment
-Date: Thu,  3 Feb 2022 16:11:51 +0100
-Message-Id: <20220203151151.1270461-1-maxime@cerno.tech>
-X-Mailer: git-send-email 2.34.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 327B210E8F9
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 15:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643901800;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FyaICBNYXFogXQpGuOXvlvkFpwrbiEbZFhG8GrBvphk=;
+ b=XP83HuH/oc7UxLINC/YfcdOPEyPZLFovBEqXY8rJjW7GOS6mgljFyERFnVInHR5e1m4K9d
+ /7LTbUVSEWtW1uRAvcQzRbRrVFydGqGNQJxmHf1fQ7K+WJg91A4FAwvAu1+PnJfg2Pyc5c
+ 917iyfqtE6b7UeeXaH1S2PM9phbzoV0=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-561-TeozX5UINLeAiztWA_VkGg-1; Thu, 03 Feb 2022 10:23:17 -0500
+X-MC-Unique: TeozX5UINLeAiztWA_VkGg-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ x10-20020ac8700a000000b002c3ef8fc44cso2196708qtm.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Feb 2022 07:23:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FyaICBNYXFogXQpGuOXvlvkFpwrbiEbZFhG8GrBvphk=;
+ b=uT6qK1Z9ZpxO904B6NnInMMV0h8zYwatQz/W2IPJ+jwoQx/Idn+3n4bN67wzeVXx3N
+ ZtI5PcoatyQ8MXAH7yu5uDd/YFsLQvr4rWua/VF0Rv7DZjx3SYaKB6wiUi7fdd3OsOXP
+ lM0e7DfYGVuR6NpBIZsXiyLUCGzNZ4dlEdCZN6QjV4tt3KzaC3x1mU5M9ggmEv2piDpE
+ 19LPIitZmeEijnylSP3wJwVipahR7fnxbWgAKe3ANhKojbJMJYl4DnC7BL7MoogJLUOk
+ 8qjTbBdU+3W76LJlRMaJGF/kE666KFW70cooUrnHXOAU0bF+lEoywqlFHcOEaZVWGsoa
+ MrBQ==
+X-Gm-Message-State: AOAM532UpD8RApZZLrHP+XscE6o5WjKsAhd6tdPzRuZofs55laXYi38m
+ H/GV0Ol05RTYcy28yzPB6I8ERSpJV2PHKHGTglptBSapi51dFBMf/B2YodTmLy0vn6MDBNyVzDX
+ eu9OQPtyR2R1BXX2VzLFQ6r4XNvoj
+X-Received: by 2002:a05:6214:767:: with SMTP id
+ f7mr31309322qvz.32.1643901797246; 
+ Thu, 03 Feb 2022 07:23:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzKoZK62v8/DrZws5sOsM70Uxo6BwdmPV1YiNBPk723GMaQhV5IIhjTr/Mj5MVVcyOlC4yv6g==
+X-Received: by 2002:a05:6214:767:: with SMTP id
+ f7mr31309297qvz.32.1643901797012; 
+ Thu, 03 Feb 2022 07:23:17 -0800 (PST)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
+ [24.205.208.113])
+ by smtp.gmail.com with ESMTPSA id w22sm9746568qtk.7.2022.02.03.07.23.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Feb 2022 07:23:16 -0800 (PST)
+From: trix@redhat.com
+To: airlied@redhat.com, tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+ nathan@kernel.org, ndesaulniers@google.com, maxime@cerno.tech
+Subject: [PATCH] drm/ast: fix using freed memory
+Date: Thu,  3 Feb 2022 07:23:05 -0800
+Message-Id: <20220203152305.1846862-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,32 +82,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <yujie.liu@intel.com>, David Airlie <airlied@linux.ie>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The variable is assigned twice to the same value. Let's drop one.
+From: Tom Rix <trix@redhat.com>
 
-Reported-by: kernel test robot <yujie.liu@intel.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+clang static analysis reports this problem
+ast_mode.c:1235:3: warning: Use of memory after it is freed
+  drm_connector_update_edid_property(&ast_connector->base, edid);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The second condition on
+
+  if (!flags && ast_connector->i2c)
+
+Means that the edid is not always set.  If the previous block
+fails the freed edid value will be used.  So set edid to NULL
+after freeing.
+
+Fixes: 55dc449a7c60 ("drm/ast: Handle failed I2C initialization gracefully")
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/ast/ast_mode.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 287dbc89ad64..e6cc47470e03 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -671,7 +671,6 @@ static int vc4_crtc_atomic_check(struct drm_crtc *crtc,
- 		const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 		struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index ab52efb15670e..9131dc8a1a2fc 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1224,10 +1224,12 @@ static int ast_get_modes(struct drm_connector *connector)
+ 			return -ENOMEM;
  
--		mode = &crtc_state->adjusted_mode;
- 		if (vc4_encoder->type == VC4_ENCODER_TYPE_HDMI0) {
- 			vc4_state->hvs_load = max(mode->clock * mode->hdisplay / mode->htotal + 1000,
- 						  mode->clock * 9 / 10) * 1000;
+ 		flags = ast_dp501_read_edid(connector->dev, (u8 *)edid);
+-		if (flags)
++		if (flags) {
+ 			ast->dp501_maxclk = ast_get_dp501_max_clk(connector->dev);
+-		else
++		} else {
+ 			kfree(edid);
++			edid = NULL;
++		}
+ 	}
+ 	if (!flags && ast_connector->i2c)
+ 		edid = drm_get_edid(connector, &ast_connector->i2c->adapter);
 -- 
-2.34.1
+2.26.3
 
