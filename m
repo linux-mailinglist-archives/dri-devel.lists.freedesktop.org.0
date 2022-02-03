@@ -2,40 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B446C4A8D5D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 21:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF2A4A8DC6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 21:33:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 357D510E5B9;
-	Thu,  3 Feb 2022 20:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AAC010E67E;
+	Thu,  3 Feb 2022 20:33:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07DA910E3AB
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 20:30:21 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 3f33da03-8530-11ec-b20b-0050568c148b;
- Thu, 03 Feb 2022 20:31:20 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACA1F10E67E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 20:33:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 07EE1194B95;
- Thu,  3 Feb 2022 21:30:19 +0100 (CET)
-Date: Thu, 3 Feb 2022 21:30:16 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 04/21] fbcon: delete a few unneeded forward decl
-Message-ID: <Yfw7WJPeYHqfs8mQ@ravnborg.org>
-References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
- <20220131210552.482606-5-daniel.vetter@ffwll.ch>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2F51D61ADD;
+ Thu,  3 Feb 2022 20:33:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8348C340EB;
+ Thu,  3 Feb 2022 20:33:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1643920397;
+ bh=2/SoHm4dUzIUl91r/mOgRB3n+Cf0sjPHHhog8Keii2Q=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=bSHx8lWGreKMqGyZKSMhUi67dck1yT+tuXsZ6ETDTPUXjm+vWPCtze7cpD6GneFS6
+ KJeY00QKTWck4RNmthFVx5aoL5UXxkDb2w4A+ig1XvYyGzKEqWGS6zCeboM9uhPGx4
+ 33AoWu5lH/DMmYVF1wm7NB+q3Q2U8Y3BCnrLEKDDVfsbpKVv2WEBgCiul/BJClJwXx
+ o/CgQye4sBDSx2Vaq8Mj41Jiu82jyLTh6hOvU3o8sErOI35nKVKdjDXb4ykj9aEktx
+ f4XlriSy0fOiFnxWk+BT7rvTKK5+YnL3pyMNcT4ORVI7OAkMVNARFBunZW8tNOhahH
+ C2PycIjX8wC6A==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 19/41] drm/vc4: Fix deadlock on DSI device attach
+ error
+Date: Thu,  3 Feb 2022 15:32:23 -0500
+Message-Id: <20220203203245.3007-19-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220203203245.3007-1-sashal@kernel.org>
+References: <20220203203245.3007-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220131210552.482606-5-daniel.vetter@ffwll.ch>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,27 +55,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Du Cheng <ducheng2@gmail.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Claudio Suarez <cssk@net-c.es>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Helge Deller <deller@gmx.de>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ emma@anholt.net, airlied@linux.ie,
+ Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 31, 2022 at 10:05:35PM +0100, Daniel Vetter wrote:
-> I didn't bother with any code movement to fix the others, these just
-> got a bit in the way.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Du Cheng <ducheng2@gmail.com>
-> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> Cc: Claudio Suarez <cssk@net-c.es>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+From: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
+
+[ Upstream commit 0a3d12ab5097b1d045e693412e6b366b7e82031b ]
+
+DSI device attach to DSI host will be done with host device's lock
+held.
+
+Un-registering host in "device attach" error path (ex: probe retry)
+will result in deadlock with below call trace and non operational
+DSI display.
+
+Startup Call trace:
+[   35.043036]  rt_mutex_slowlock.constprop.21+0x184/0x1b8
+[   35.043048]  mutex_lock_nested+0x7c/0xc8
+[   35.043060]  device_del+0x4c/0x3e8
+[   35.043075]  device_unregister+0x20/0x40
+[   35.043082]  mipi_dsi_remove_device_fn+0x18/0x28
+[   35.043093]  device_for_each_child+0x68/0xb0
+[   35.043105]  mipi_dsi_host_unregister+0x40/0x90
+[   35.043115]  vc4_dsi_host_attach+0xf0/0x120 [vc4]
+[   35.043199]  mipi_dsi_attach+0x30/0x48
+[   35.043209]  tc358762_probe+0x128/0x164 [tc358762]
+[   35.043225]  mipi_dsi_drv_probe+0x28/0x38
+[   35.043234]  really_probe+0xc0/0x318
+[   35.043244]  __driver_probe_device+0x80/0xe8
+[   35.043254]  driver_probe_device+0xb8/0x118
+[   35.043263]  __device_attach_driver+0x98/0xe8
+[   35.043273]  bus_for_each_drv+0x84/0xd8
+[   35.043281]  __device_attach+0xf0/0x150
+[   35.043290]  device_initial_probe+0x1c/0x28
+[   35.043300]  bus_probe_device+0xa4/0xb0
+[   35.043308]  deferred_probe_work_func+0xa0/0xe0
+[   35.043318]  process_one_work+0x254/0x700
+[   35.043330]  worker_thread+0x4c/0x448
+[   35.043339]  kthread+0x19c/0x1a8
+[   35.043348]  ret_from_fork+0x10/0x20
+
+Shutdown Call trace:
+[  365.565417] Call trace:
+[  365.565423]  __switch_to+0x148/0x200
+[  365.565452]  __schedule+0x340/0x9c8
+[  365.565467]  schedule+0x48/0x110
+[  365.565479]  schedule_timeout+0x3b0/0x448
+[  365.565496]  wait_for_completion+0xac/0x138
+[  365.565509]  __flush_work+0x218/0x4e0
+[  365.565523]  flush_work+0x1c/0x28
+[  365.565536]  wait_for_device_probe+0x68/0x158
+[  365.565550]  device_shutdown+0x24/0x348
+[  365.565561]  kernel_restart_prepare+0x40/0x50
+[  365.565578]  kernel_restart+0x20/0x70
+[  365.565591]  __do_sys_reboot+0x10c/0x220
+[  365.565605]  __arm64_sys_reboot+0x2c/0x38
+[  365.565619]  invoke_syscall+0x4c/0x110
+[  365.565634]  el0_svc_common.constprop.3+0xfc/0x120
+[  365.565648]  do_el0_svc+0x2c/0x90
+[  365.565661]  el0_svc+0x4c/0xf0
+[  365.565671]  el0t_64_sync_handler+0x90/0xb8
+[  365.565682]  el0t_64_sync+0x180/0x184
+
+Signed-off-by: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220118005127.29015-1-treasure4paddy@gmail.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/vc4/vc4_dsi.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
+index a185027911ce5..d09c1ea60c04e 100644
+--- a/drivers/gpu/drm/vc4/vc4_dsi.c
++++ b/drivers/gpu/drm/vc4/vc4_dsi.c
+@@ -1262,7 +1262,6 @@ static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
+ 			       struct mipi_dsi_device *device)
+ {
+ 	struct vc4_dsi *dsi = host_to_dsi(host);
+-	int ret;
+ 
+ 	dsi->lanes = device->lanes;
+ 	dsi->channel = device->channel;
+@@ -1297,18 +1296,15 @@ static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
+ 		return 0;
+ 	}
+ 
+-	ret = component_add(&dsi->pdev->dev, &vc4_dsi_ops);
+-	if (ret) {
+-		mipi_dsi_host_unregister(&dsi->dsi_host);
+-		return ret;
+-	}
+-
+-	return 0;
++	return component_add(&dsi->pdev->dev, &vc4_dsi_ops);
+ }
+ 
+ static int vc4_dsi_host_detach(struct mipi_dsi_host *host,
+ 			       struct mipi_dsi_device *device)
+ {
++	struct vc4_dsi *dsi = host_to_dsi(host);
++
++	component_del(&dsi->pdev->dev, &vc4_dsi_ops);
+ 	return 0;
+ }
+ 
+@@ -1706,9 +1702,7 @@ static int vc4_dsi_dev_remove(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct vc4_dsi *dsi = dev_get_drvdata(dev);
+ 
+-	component_del(&pdev->dev, &vc4_dsi_ops);
+ 	mipi_dsi_host_unregister(&dsi->dsi_host);
+-
+ 	return 0;
+ }
+ 
+-- 
+2.34.1
+
