@@ -2,57 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999E84A7FAB
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 08:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3207E4A7FEF
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 08:42:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95ED110EB91;
-	Thu,  3 Feb 2022 07:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD5E010ED1C;
+	Thu,  3 Feb 2022 07:42:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C8C010EB8E
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 07:18:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-relay-internal-0.canonical.com
+ (smtp-relay-internal-0.canonical.com [185.125.188.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27E1B10ED1C
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 07:42:02 +0000 (UTC)
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 56D79B83354
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 07:18:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81615C340F0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 07:18:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643872715;
- bh=5H5/k5olynjeqCdmMW5v7q2bRtXHy37Na6heaQilUwA=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=A3qNuibCnfG1vzIEmqyA1hhMwUy4zY58OPEDKygk3LkVjTn35fJuNVWwdHkdcHJ1u
- 9F33AuDoF6cF7U+xH5wKCd8fAW2RLw6+YqN3bw52bfUPfksoPyWh5uXA2to9CZ5Xar
- YR4bqATC9komeJpFQVwshHLcHUzqAgOf8I7rPndsvdgx/b+tgZu+xCsmBwJDm7c4Bu
- uKGCAsbsOJxBNGm+12+vfAeNEmuoytXLTrhFXYnwdiLY22EtVX20vgyyQjaLm02ELY
- JmnnYlNiBwVVw/B06++DPpK+YtgbqobFv8xU7S0cvsnlIHCk3AkGFQc1PmKyka0Vch
- pn72Kt3KU6rFw==
-Received: by mail-wr1-f54.google.com with SMTP id w11so3151939wra.4
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 23:18:35 -0800 (PST)
-X-Gm-Message-State: AOAM5305etuC82pUMFmT1fY38OXen2tjT20YR6TphcioaWyy4t8D0Wt8
- Z/YMtt8sL9Dzx8+jB99HHotERRnkNjr9MvncQA8=
-X-Google-Smtp-Source: ABdhPJyRCdrTnIbw1EbQEAwvRcn64WxftR6K+xurhn6IWOiTvTZn+f6oHgNzFyWKMIgR1DlwEhyWySVgzm4jWEghz1w=
-X-Received: by 2002:a05:6000:144f:: with SMTP id
- v15mr29005306wrx.407.1643872713707; 
- Wed, 02 Feb 2022 23:18:33 -0800 (PST)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 372B340303
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 07:42:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1643874120;
+ bh=69oC9K6bP5zXfYZ3RPqGsmz6Po3E4WX3hDMRIgEHu/M=;
+ h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+ In-Reply-To:Content-Type;
+ b=FUHbiE8FBVpmwabkyaXMwQfMKG94mvp5jbMCtFxaiVWBuddx40kZyytrgm3iECdUd
+ QVzpdIR/8MStRHZpRddjvCvrjf+SaaSaLbExBKnXD+k4oFb6lOTeOqbCd+6+RCUrGP
+ 5diUkVbyzgSCZmDXxVaIb1r0NTQ4ksHyg7BvmXR98SD4CYrBjbB+9KOF9a7rbcjL3p
+ CpCTzgYSm/899/dwHn/FfcyvH5oU8gXPPYXnmMs/7qLsuE37xUutuhr+meKSrCyON8
+ 6/CHhBJjdX1q7sKKoN80/22a+T8r1QIkN3HqyF9jWgUuwO6U9UOmfEq810bRJQRZS9
+ CQajyu5g4nXfQ==
+Received: by mail-wr1-f71.google.com with SMTP id
+ c10-20020adfa30a000000b001d79c73b64bso355506wrb.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Feb 2022 23:42:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=69oC9K6bP5zXfYZ3RPqGsmz6Po3E4WX3hDMRIgEHu/M=;
+ b=nOp8JggAp2aUfDoI8ooU5MPFnkxWETRFkZMCmMLfKibIuJM/BVdLFSFegIG2wcWN7B
+ qfUdhECp57sEF6rKHeaB7KJM/JanDrPhJfFdnpSiuza5TwIv6B/cmuN21EzZB0dSMiUV
+ 77SxM5YQ5o95v08AWgioezK6p4KpZLawdUhm1OKs2ZCR1AVJSbrumT+ffmwgymIflqAN
+ lCHbh83mFbo91o8RrGpp8bNVEgX3RD1ZTLoM60orto46VlsiEOG15qCxhJUhoUcOY8OJ
+ F3MJT6Cu4rNPQE2pU3QQ67qv8AetSPJPNXqR2sDDVyAp5KoQfSGdeQjb1fm431iYQQtX
+ PvfQ==
+X-Gm-Message-State: AOAM531USaErwzjKEoosWjjUN/04E6wMMKuQAWzWIR8FdXYHeXio8iOj
+ pBRw/LnMrIaXiUj/7494jbTXxpIVMLdvrDBcJDwSRHBzhDwzc9CdiwGWYZmPvUisg8ehg39k6+K
+ fZ7vEWFzdkMf8XiCMVCu7/PDB9EhADlO7czfMUncRBPZb8g==
+X-Received: by 2002:a05:6000:10cf:: with SMTP id
+ b15mr28156913wrx.70.1643874119531; 
+ Wed, 02 Feb 2022 23:41:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwInkGYx0bCKYBNdkDDYX+ptQNyAD6vMUiS8CqzI/xYfseOfTNCURA5lpsX4JtSbcPIAvyzjw==
+X-Received: by 2002:a05:6000:10cf:: with SMTP id
+ b15mr28156886wrx.70.1643874119363; 
+ Wed, 02 Feb 2022 23:41:59 -0800 (PST)
+Received: from [192.168.0.80] (xdsl-188-155-168-84.adslplus.ch.
+ [188.155.168.84])
+ by smtp.gmail.com with ESMTPSA id t18sm19832712wri.34.2022.02.02.23.41.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Feb 2022 23:41:58 -0800 (PST)
+Message-ID: <1d549a00-b9f5-d60f-2d5b-798e92139f86@canonical.com>
+Date: Thu, 3 Feb 2022 08:41:56 +0100
 MIME-Version: 1.0
-References: <6fc4a81f-1a13-bff9-7b2e-d5bec382cb42@synopsys.com>
- <9bab4777-3034-b789-fdf6-ca8d7e6a8c35@infradead.org>
- <CAOMZO5Aa4WxuadfoFGwwyYyD4UGPm-E258xTWU3-ozp_hwG-7g@mail.gmail.com>
- <d8981e2a-4f61-72bb-e5cc-bf4ded29c08a@synopsys.com>
- <CAK8P3a3ELrSC=KX6cr8UnP6kkJN0AXeAE4EG4oUY=Zz7gG_dgg@mail.gmail.com>
- <b44de208-6d5f-3fcd-0e36-f05745297747@synopsys.com>
-In-Reply-To: <b44de208-6d5f-3fcd-0e36-f05745297747@synopsys.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Thu, 3 Feb 2022 08:18:17 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a27RtHxYwtj=rjxcDzkMdKhC-w9ho=SApHpczma_vU8JQ@mail.gmail.com>
-Message-ID: <CAK8P3a27RtHxYwtj=rjxcDzkMdKhC-w9ho=SApHpczma_vU8JQ@mail.gmail.com>
-Subject: Re: Kconfig CONFIG_FB dependency regression
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] HPE BMC GXP SUPPORT
+Content-Language: en-US
+To: nick.hawkins@hpe.com, verdun@hpe.com
+References: <nick.hawkins@hpe.com>
+ <20220202165315.18282-1-nick.hawkins@hpe.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220202165315.18282-1-nick.hawkins@hpe.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,91 +87,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Randy Dunlap <rdunlap@infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- John Youn <John.Youn@synopsys.com>, Bing Yuan <Bing.Yuan@synopsys.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Wang Kefeng <wangkefeng.wang@huawei.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
+ Amit Kucheria <amitk@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>, netdev@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Stanislav Jakubek <stano.jakubek@gmail.com>, Hao Fang <fanghao11@huawei.com>,
+ Arnd Bergmann <arnd@arndb.de>, Richard Weinberger <richard@nod.at>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Russell King <linux@armlinux.org.uk>, linux-pwm@vger.kernel.org,
+ linux-serial@vger.kernel.org,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ openipmi-developer@lists.sourceforge.net, Jakub Kicinski <kuba@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, Corey Minyard <minyard@acm.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, linux-gpio@vger.kernel.org,
+ soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org,
+ linux-usb@vger.kernel.org,
+ "Russell King \(Oracle\)" <rmk+kernel@armlinux.org.uk>,
+ linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 3, 2022 at 12:55 AM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
-> Arnd Bergmann wrote:
-> > On Wed, Feb 2, 2022 at 1:14 AM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
-> >> Fabio Estevam wrote:
-> >
-> > CONFIG_FB should not normally be needed for booting, so unless
-> > you have a graphical application in your initramfs that requires the /dev/fb0
-> > device to work, it is not supposed to make a difference.
-> >
->
-> I'm not sure, but it seems like the setup we have isn't the only one
-> that needed it. Fabio also noted that the imx_v6_v7_defconfig also needs
-> to have CONFIG_FB set.
+On 02/02/2022 17:52, nick.hawkins@hpe.com wrote:
+> From: Nick Hawkins <nick.hawkins@hpe.com>
+> 
+> GXP is the name of the HPE SoC.
+> This SoC is used to implement BMC features of HPE servers
+> (all ProLiant, Synergy, and many Apollo, and Superdome machines)
+> It does support many features including:
+> 	ARMv7 architecture, and it is based on a Cortex A9 core
+> 	Use an AXI bus to which
+> 		a memory controller is attached, as well as
+>                  multiple SPI interfaces to connect boot flash,
+>                  and ROM flash, a 10/100/1000 Mac engine which
+>                  supports SGMII (2 ports) and RMII
+> 		Multiple I2C engines to drive connectivity with a host infrastructure
+> 		A video engine which support VGA and DP, as well as
+>                  an hardware video encoder
+> 		Multiple PCIe ports
+> 		A PECI interface, and LPC eSPI
+> 		Multiple UART for debug purpose, and Virtual UART for host connectivity
+> 		A GPIO engine
+> This Patch Includes:
+> 	Documentation for device tree bindings
+> 	Device Tree Bindings
+> 	GXP Timer Support
+> 	GXP Architecture Support
+> 
 
-No, that one is different: the change for imx_v6_v7_defconfig was
-done because they actually use a framebuffer console on some devices,
-so the patch just adds the symbol to enable the drivers they are using.
+1. Please version your patchses and document the changes under ---.
 
-This is expected with my original patch that doesn't implicitly enable
-the framebuffer layer any more. What is not expected is for the kernel
-to hang during boot as you reported for your unidentified platform.
+2. With your v1 I responded what has to be separate patch. This was
+totally ignored here, so no. You have to follow this.
 
-> > Are there any other differences in your .config before and after the patch?
-> > It's possible that you use some other driver that in turn depends on
-> > CONFIG_FB. Does your machine have any graphical output device?
-> > If yes, which driver do you use?
->
-> I don't have the answer to those questions yet. Need more investigation.
-> I'm new to this particular test setup.
+3. Please run checkpatch and be sure there are no warnings.
 
-Do you mean you don't know if there is a screen attached to the system?
+4. Bindings in dtschema, not in text.
 
-> >
-> > You may also want to make sure that you have 9d6366e743f3 ("drm:
-> > fb_helper: improve CONFIG_FB dependency") in your kernel, which
-> > fixes a minor problem with my original patch.
-> >
->
-> The issue also occurs in mainline, which has your minor fix commit
-> above. The revert isn't clean for the latest kernel version. I also have
-> to revert some of the changes along with CONFIG_FB. The revert looks
-> more like this for the latest kernel:
->
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index b1f22e457fd0..7cbc733a8569 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -118,8 +118,9 @@ config DRM_DEBUG_MODESET_LOCK
->
->  config DRM_FBDEV_EMULATION
->         bool "Enable legacy fbdev support for your modesetting driver"
-> -       depends on DRM_KMS_HELPER
-> -       depends on FB=y || FB=DRM_KMS_HELPER
-> +       depends on DRM
-> +       select DRM_KMS_HELPER
-> +       select FB
->         select FB_CFB_FILLRECT
->         select FB_CFB_COPYAREA
->         select FB_CFB_IMAGEBLIT
->
->
->
-> I attached the configs for kernel v5.17-rc1. The "bad" config is without
-> any revert, the "good" config is with the change above.
+Best regards,
+Krzysztof
 
-Looking at the config, I see that this is for an x86 machine,
-and you have the FB_EFI driver and EFI_EARLYCON enabled.
-
-What I suspec is going on is that you are looking at a screen rather
-than a serial console, and the kernel doesn't actually hang but you
-just don't see any more messages after the DRM driver takes
-over from EFI_EARLYCON because there is no console driver.
-
-In this case, what you see is the intended behavior, not a bug.
-If you want a graphical console in your system, you need to
-enable the support for this in your config.
-
-       Arnd
+Best regards,
+Krzysztof
