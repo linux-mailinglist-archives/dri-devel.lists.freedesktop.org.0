@@ -1,51 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549C74A8050
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 09:26:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2278D4A8056
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 09:26:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 095E010E9FA;
-	Thu,  3 Feb 2022 08:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D0F810EA09;
+	Thu,  3 Feb 2022 08:26:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.102])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2BA8710E9FA
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 08:25:56 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:55068.1434336740
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 747F41002A0;
- Thu,  3 Feb 2022 16:25:53 +0800 (CST)
-Received: from  ([172.27.8.53])
- by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id
- cad0d7f99194492f8c96908ab712865a for dan.carpenter@oracle.com; 
- Thu, 03 Feb 2022 16:25:55 CST
-X-Transaction-ID: cad0d7f99194492f8c96908ab712865a
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 172.27.8.53
-X-MEDUSA-Status: 0
-From: Sui Jingfeng <15330273260@189.cn>
-To: Dan Carpenter <dan.carpenter@oracle.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Sam Ravnborg <sam@ravnborg.org>, suijingfeng <suijingfeng@loongson.cn>
-Subject: [PATCH v6 3/3] dt-bindings: mips: loongson: introduce board specific
- dts
-Date: Thu,  3 Feb 2022 16:25:46 +0800
-Message-Id: <20220203082546.3099-4-15330273260@189.cn>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220203082546.3099-1-15330273260@189.cn>
-References: <20220203082546.3099-1-15330273260@189.cn>
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA3C10EA09
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 08:26:15 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id p27so4417131lfa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Feb 2022 00:26:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S38tuxTwAJF2h0gRAdGhSXbP3RaFlufeQHI0R6YpVOU=;
+ b=aWN6QKSPaM41d5unF2QXaafMSwWO7hi4eOS4AVCDKNIWIISbQJtAqbyYCy9MtFVLmH
+ QTikXmb+lWaWW1Imx818pj2+p47bsadYEtrQ113ok8k+a7suBuVc+j/1pOuVgu9YJ9fm
+ CFnUXNNiXQzmIahD6thOTfjn4XFrmPlj1g/uWS2gVmblGY2vOEHIHqTZNmUCGt+1oMof
+ 3XkwcWGLkvHOhgOjFafCJGTuJ3Y9zc7FbclwS0PyXYufE7XdWB47tUqUryAO4XQb5vzu
+ mufi6ze2Zr9ipi/8l/DHUi580vcIpndMg33n0Qcs1z4anG0NErGxyDYEvryicOvnbwRN
+ wZZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S38tuxTwAJF2h0gRAdGhSXbP3RaFlufeQHI0R6YpVOU=;
+ b=Micv6gdAafgLDqoxRXjIgLBeQXlDtj8RUF4upNJYEE7kecntoyrgdPtylXul7T0aUa
+ 3O/NGk3iUxlJh8CPddNdVOsOYqglf3nnclKqadfQTX1xTC1BZYs78BKKP0/E5RDJ92DJ
+ XlMKgDQKoO/KuWezDd+ZpC/e5dr4XUM+QJwxPY4oJwOA0S4tnEjhdsancwUKyl5dARJ9
+ I1qTHm04XvowDO1N+iakqsHjkjCvYONPFJVZl+Hv4rnCMwRqwldt705ubDOa9XI9zcyg
+ Nv6hZls8cxDiUvpK3oaUlrpxj2lpIY38i+bGNK6+2FrY1qMLdafnZP48jGLXWPFcvKJR
+ +ihQ==
+X-Gm-Message-State: AOAM531nMuw6tNX0moqVQdAOE42u39G+7E/SHnat2c1KqbZYj94jWHJ6
+ Gq5oFIeXDVH/cMe9uF6LIP5vWQ==
+X-Google-Smtp-Source: ABdhPJzTuWkFCHuo3KIaNz64Zq3zWmSn2BH5AXTpKPvbi2E5D4xcbKbDwwl5d9BZx95Tu9HdRou6gg==
+X-Received: by 2002:ac2:5ccc:: with SMTP id f12mr26515293lfq.335.1643876773463; 
+ Thu, 03 Feb 2022 00:26:13 -0800 (PST)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id n15sm4083440ljh.36.2022.02.03.00.26.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Feb 2022 00:26:13 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH 0/7] drm/msm/dpu: cleanup dpu encoder code
+Date: Thu,  3 Feb 2022 11:26:04 +0300
+Message-Id: <20220203082611.2654810-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,195 +67,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: suijingfeng <suijingfeng@loongson.cn>
+This patchset targets DPU encoder code, removing unused artifacts (empty
+callbacks, MSM bus client id, etc).
 
-For board specific devices which is outside of the cpu and bridge chip.
-This patch introduce two dts, one for lemote a1901(aka LX-6901) motherboard
-which one only one vga output connected to DVO1.
-more document can be found from [1].
+Dmitry Baryshkov (7):
+  drm/msm: move struct msm_display_info to dpu driver
+  drm/msm/dpu: simplify intf allocation code
+  drm/msm/dpu: remove msm_dp cached in dpu_encoder_virt
+  drm/msm/dpu: drop bus_scaling_client field
+  drm/msm/dpu: encoder: drop unused callbacks
+  drm/msm/dpu: switch dpu_encoder to use atomic_mode_set
+  drm/msm/dpu: pull connector from dpu_encoder_phys to dpu_encoder_virt
 
-Another one is ls3A4000+ls7a1000 evb board, this board have a VGA and DVO
-interface. The VGA is connected to the DVO0 and the dvi is connected to
-DVO1.
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 118 +++++-------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h   |  18 +++
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  18 +--
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  28 +----
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |  28 +----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   4 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |  18 ---
+ 7 files changed, 63 insertions(+), 169 deletions(-)
 
-We need introduce board specific dts because of we need the device tree
-to tell how does the connectors and encoders are connected to the DVO port
-of the display controller.
-
-[1] https://wiki.godson.ac.cn/device:lemote_a1901
-
-Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
-Signed-off-by: Sui Jingfeng <15330273260@189.cn>
----
- arch/mips/boot/dts/loongson/lemote_a1901.dts  | 64 +++++++++++++++++
- .../boot/dts/loongson/ls3a4000_7a1000_evb.dts | 68 +++++++++++++++++++
- arch/mips/boot/dts/loongson/ls7a-pch.dtsi     |  2 +-
- 3 files changed, 133 insertions(+), 1 deletion(-)
- create mode 100644 arch/mips/boot/dts/loongson/lemote_a1901.dts
- create mode 100644 arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts
-
-diff --git a/arch/mips/boot/dts/loongson/lemote_a1901.dts b/arch/mips/boot/dts/loongson/lemote_a1901.dts
-new file mode 100644
-index 000000000000..81828945ba52
---- /dev/null
-+++ b/arch/mips/boot/dts/loongson/lemote_a1901.dts
-@@ -0,0 +1,64 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/dts-v1/;
-+
-+#include "loongson64g-package.dtsi"
-+#include "ls7a-pch.dtsi"
-+
-+/ {
-+	compatible = "lemode,a1901", "loongson,loongson64g-4core-ls7a";
-+	model = "lemode,a1901";
-+};
-+
-+&package0 {
-+	htvec: interrupt-controller@efdfb000080 {
-+		compatible = "loongson,htvec-1.0";
-+		reg = <0xefd 0xfb000080 0x40>;
-+		interrupt-controller;
-+		#interrupt-cells = <1>;
-+
-+		interrupt-parent = <&liointc>;
-+		interrupts = <24 IRQ_TYPE_LEVEL_HIGH>,
-+			     <25 IRQ_TYPE_LEVEL_HIGH>,
-+			     <26 IRQ_TYPE_LEVEL_HIGH>,
-+			     <27 IRQ_TYPE_LEVEL_HIGH>,
-+			     <28 IRQ_TYPE_LEVEL_HIGH>,
-+			     <29 IRQ_TYPE_LEVEL_HIGH>,
-+			     <30 IRQ_TYPE_LEVEL_HIGH>,
-+			     <31 IRQ_TYPE_LEVEL_HIGH>;
-+	};
-+};
-+
-+&pch {
-+	msi: msi-controller@2ff00000 {
-+		compatible = "loongson,pch-msi-1.0";
-+		reg = <0 0x2ff00000 0 0x8>;
-+		interrupt-controller;
-+		msi-controller;
-+		loongson,msi-base-vec = <64>;
-+		loongson,msi-num-vecs = <192>;
-+		interrupt-parent = <&htvec>;
-+	};
-+};
-+
-+&lsdc {
-+	/* use_vram_helper; */
-+	output-ports = <&dvo0 &dvo1>;
-+
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	dvo0: dvo@0 {
-+		/* 0 for DVO0 */
-+		reg = <0>;
-+		status = "disabled";
-+	};
-+
-+	dvo1: dvo@1 {
-+		/* 1 for DVO1 */
-+		reg = <1>;
-+		connector = "vga-connector";
-+		encoder = "adi,adv7125";
-+		status = "okay";
-+	};
-+};
-diff --git a/arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts b/arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts
-new file mode 100644
-index 000000000000..ff07f529ea43
---- /dev/null
-+++ b/arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts
-@@ -0,0 +1,68 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/dts-v1/;
-+
-+#include "loongson64g-package.dtsi"
-+#include "ls7a-pch.dtsi"
-+
-+/ {
-+	compatible = "loongson,loongson64g-4core-ls7a";
-+	model = "loongson,ls3a4000_7a1000_evb";
-+	version = "v1.4";
-+};
-+
-+&package0 {
-+	htvec: interrupt-controller@efdfb000080 {
-+		compatible = "loongson,htvec-1.0";
-+		reg = <0xefd 0xfb000080 0x40>;
-+		interrupt-controller;
-+		#interrupt-cells = <1>;
-+
-+		interrupt-parent = <&liointc>;
-+		interrupts = <24 IRQ_TYPE_LEVEL_HIGH>,
-+			     <25 IRQ_TYPE_LEVEL_HIGH>,
-+			     <26 IRQ_TYPE_LEVEL_HIGH>,
-+			     <27 IRQ_TYPE_LEVEL_HIGH>,
-+			     <28 IRQ_TYPE_LEVEL_HIGH>,
-+			     <29 IRQ_TYPE_LEVEL_HIGH>,
-+			     <30 IRQ_TYPE_LEVEL_HIGH>,
-+			     <31 IRQ_TYPE_LEVEL_HIGH>;
-+	};
-+};
-+
-+&pch {
-+	msi: msi-controller@2ff00000 {
-+		compatible = "loongson,pch-msi-1.0";
-+		reg = <0 0x2ff00000 0 0x8>;
-+		interrupt-controller;
-+		msi-controller;
-+		loongson,msi-base-vec = <64>;
-+		loongson,msi-num-vecs = <192>;
-+		interrupt-parent = <&htvec>;
-+	};
-+};
-+
-+&lsdc {
-+	/* use_vram_helper; */
-+	output-ports = <&dvo0 &dvo1>;
-+
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	dvo0: dvo@0 {
-+		/* 0 for DVO0 */
-+		reg = <0>;
-+		connector = "vga-connector";
-+		encoder = "adi,adv7125";
-+		status = "okay";
-+	};
-+
-+	dvo1: dvo@1 {
-+		/* 1 for DVO1 */
-+		reg = <1>;
-+		connector = "dvi-connector";
-+		encoder = "ti,tfp410";
-+		digital;
-+		status = "okay";
-+	};
-+};
-diff --git a/arch/mips/boot/dts/loongson/ls7a-pch.dtsi b/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
-index 2f45fce2cdc4..70a0b7ac0839 100644
---- a/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
-+++ b/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
-@@ -160,7 +160,7 @@
- 				interrupt-parent = <&pic>;
- 			};
- 
--			dc@6,1 {
-+			lsdc: dc@6,1 {
- 				compatible = "pci0014,7a06.0",
- 						   "pci0014,7a06",
- 						   "pciclass030000",
 -- 
-2.20.1
+2.34.1
 
