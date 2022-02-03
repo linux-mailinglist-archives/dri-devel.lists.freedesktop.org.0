@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DCF4A87EB
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 16:47:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A2F4A87ED
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 16:47:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 853A289021;
-	Thu,  3 Feb 2022 15:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF4489C69;
+	Thu,  3 Feb 2022 15:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id 739A810E12E
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 15:47:21 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:58618.813769924
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2001D10E12E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 15:47:33 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:39466.934777394
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 2E9991001AF;
- Thu,  3 Feb 2022 23:47:18 +0800 (CST)
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id DCD1E1001F1;
+ Thu,  3 Feb 2022 23:47:30 +0800 (CST)
 Received: from  ([114.242.206.180])
- by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id
- 03f015533ad84bf7b23a2b34974ce730 for maxime@cerno.tech; 
- Thu, 03 Feb 2022 23:47:20 CST
-X-Transaction-ID: 03f015533ad84bf7b23a2b34974ce730
+ by gateway-151646-dep-b7fbf7d79-bwdqx with ESMTP id
+ 028d37242dba4320bff33254090a6948 for maxime@cerno.tech; 
+ Thu, 03 Feb 2022 23:47:31 CST
+X-Transaction-ID: 028d37242dba4320bff33254090a6948
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 114.242.206.180
 X-MEDUSA-Status: 0
