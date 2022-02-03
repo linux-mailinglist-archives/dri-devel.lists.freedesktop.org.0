@@ -1,73 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33FA4A8737
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 16:06:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 602B84A8738
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 16:06:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 110A410EFF0;
-	Thu,  3 Feb 2022 15:06:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FD0410EFF3;
+	Thu,  3 Feb 2022 15:06:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BABC10EFF4
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 15:06:43 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 822A55C00FB;
- Thu,  3 Feb 2022 10:06:42 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 769BE10EFF3
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 15:06:45 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id D61345C00DB;
+ Thu,  3 Feb 2022 10:06:44 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 03 Feb 2022 10:06:42 -0500
+ by compute1.internal (MEProxy); Thu, 03 Feb 2022 10:06:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=YuYWb5SmUWg2LF
- zgMWweE1/3N+rExuz7GGCbPXQIB9Q=; b=jWSCnN8ME6Q1NhStpI9qwG54rmc1rr
- yvu0+WAo1bVrQglRRlq41v9yhn4yGmgOWGzQZkY+aX4yg9kWGegRn02Z8t4XaTh+
- A12k4Ze0wK9/Q+Q4L5ec4OcD1pVTtd3+pLIUVGyCiVMEiKrRnb2P/pa8jpYC7jbG
- fzRxgOz9TF1noTjO2rVP8nYh0VUSR9a0uyTdryDJ49EcqYKXnmZWU/W1IiB3q84W
- b/OHSoAQ2Y+ZjG2NrxDjOxwcBC1mcIypt2EdWXBS/iLBGZ15YV7lFCMZyZqi2lnO
- L6mHMlEkn67uvBjEx2oRwlNZCBpKdFKSN0U5lSVf5doIvWESmqu5j2fw==
+ :reply-to:sender:subject:subject:to:to; s=fm2; bh=1TJCD5VF6yUYZZ
+ uxnhBq6rPLOBaGtxfZN0crMQm/NN4=; b=cCtb5pc73Uu30DJwbqVW9tdiRUtNiX
+ Nw3uklAFRmUFU42zRVhIlvBeZt9XysB6X2auAeyPAuM+ONcNTkLMvgQZ3bZqtCVL
+ 8D/tmqRIj48LCZAUlZ16eWNkjwsrVOnPh2gx3hcNTgW1OSfuVq88gcDYVL9W9BQu
+ BVSOOaV5ku5f9S/l4Y+HUua0CrfkgSNBO/BzTvdaq7ADSU4y2h1Vq4xCTfskKidz
+ QQTt9luvyhnAY3Fx/5drNI9vMF73QHFoZRp1yNJ5S1gZ5UTkyOa8zNORS5RXmf0r
+ b0NJzn7fn697tvFP2UejJnyNxyKMyGmrhL6pZ2LtJl8b4YHdHK8YeXTw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=YuYWb5SmUWg2LFzgMWweE1/3N+rExuz7GGCbPXQIB
- 9Q=; b=OXGcXyAuyC08FjO54ntXnrt/6gENvBu4sdK193Gmvb4yPKZmg+SPWvnsL
- jWRP0zYBJw4+dXhhqvgSM7ODM9geV9ZqbQMs8YqvPUdC7O6jNKkJ8Sw6p7Zf31cE
- IM2hoSGoOjpuW4xAo/0SeCZl9qyDwGJ187cfSJvDrzgnywnJGe5IEXRgwJEm3YqA
- CCWsy8Ztd+3t24v5Hp+Cdp2Qn8z5jM9HNAk+v/SQ9gMf6G50NLyQthT6xxZOjKzH
- bgmasS2mfcdnX5D7irONAkclDm9XEAssRgWYWwqMB5sQFLLnrtuEmIt+/Bf4STLl
- GB+N9hPjhiAu3Ez7da/XJ2i5wFNxw==
-X-ME-Sender: <xms:gu_7YSL_2ClEs5nPvmCpmAn-hJ2AY0eGZ_Z45pPFrOZ4Nn51o30-ew>
- <xme:gu_7YaJJ670_k88wDvTigBtFb0t2ic37LhbtXKBqRpPk2oe1jWM_-bzb24D58iEeD
- MuuzL-Y8-3F0DqOoSw>
-X-ME-Received: <xmr:gu_7YSs-DpZgUJY98BGkQ_bYq-VS7HafJESiDrX52nEdiV6zx6zim1n-icNKSvvEER7E0PXmnL8NQ27R6bnItIW6QrgfvzOGC_9lGEg>
+ :x-sasl-enc; s=fm2; bh=1TJCD5VF6yUYZZuxnhBq6rPLOBaGtxfZN0crMQm/N
+ N4=; b=dsZUBHrF693Yoy9cBNDRw8UDybIcbJIn6IMxGhUMC0nEj7KzDYRAphhwv
+ UUbbJ24vk2HkohDzgiNTQmzAV2A/SZsdd0tOGx19jyjbvAjJNNITQ5HX/2e8jMJM
+ uGbdJUxKtSNWl1wKFobljlT0GOPSlqWeMMDXoBQweIU7sqRQLxb6QWauOJviEIFK
+ n9vH5tFbDQFDwqUv2Tv3LuYzBVumg8EK0nKtoWLK33IMJNHUwe7twODJb0PI46mc
+ 6l/J86lmy3u3j1fdn2MugGm34YGrnFeQXjmK/ZviH12QmK66cWVHkFo+PGTa7g9T
+ c5tU+rlQDI2LDhaI/VAGm7+L6YGlg==
+X-ME-Sender: <xms:hO_7Yfloz4HoLuJWu_zdpddmu38Qbz4xxuWmqZEagINBcFr5pYm83A>
+ <xme:hO_7YS2EIZnGalHXmgEaajUTPK2osu3XKz_N8b8Nr-uQX_lCSGyp-VhzNQKpbfF16
+ IL385VmTW_lXJVsBJs>
+X-ME-Received: <xmr:hO_7YVoN4iYqRpq9DOeHZQjf2mknF4A0DUi80J0U2OcMQ_wlIhMRznnVaugwR3LuffLs2DYkdWINHhjWmZO7XzgFzp6BwEonKwTh48k>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeejgdejudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
- keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ keeknecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:gu_7YXaGco5PMf7MCpKIfIKinSnbuKfA2TlRWhC79lK85bjR9tJ0lA>
- <xmx:gu_7YZYInRAc90wEXGIekLvTH63P7j2sCfDL2v1YntnnXgGU9K6YZQ>
- <xmx:gu_7YTAIwqcukNU69eX7qEafDhzkH5vfGln1wC7vI2EJSygLdbzlGw>
- <xmx:gu_7YXMHRbmYgHd34uTbMarMmS2Smu05c5naFq7p3Tc5OwccTQdxRQ>
+X-ME-Proxy: <xmx:hO_7YXn3GUaj9EteMRbuhIuuALkvOLA21K4ZtV2a0SXFQXjDNBq5VA>
+ <xmx:hO_7Yd3YNHshORuuRyp_CrRwtNw16_8cJCVCql_V8RY9C0MP8132vA>
+ <xmx:hO_7YWuA-QI-AqtJ98tgXm4hjACtxioLn71V2RqPfk-q0pAtUPAMDA>
+ <xmx:hO_7YWIA96f2sfHcHOtGDmc9cW22nTuHbO4yHwFAPLNta1jRqtDFig>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Feb 2022 10:06:41 -0500 (EST)
+ 3 Feb 2022 10:06:43 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: (subset) [PATCH] drm/vc4: hdmi: Don't try disabling SCDC on Pi0-3.
-Date: Thu,  3 Feb 2022 16:06:35 +0100
-Message-Id: <164390079045.1265461.4896845825613801791.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH] drm/vc4: hdmi: Ensure we don't use 2711 HPD
+ registers on Pi0-3
+Date: Thu,  3 Feb 2022 16:06:36 +0100
+Message-Id: <164390079045.1265461.5004563512240759127.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220127134559.292778-1-maxime@cerno.tech>
-References: <20220127134559.292778-1-maxime@cerno.tech>
+In-Reply-To: <20220127131754.236074-1-maxime@cerno.tech>
+References: <20220127131754.236074-1-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -89,15 +90,15 @@ Cc: dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Jan 2022 14:45:59 +0100, Maxime Ripard wrote:
+On Thu, 27 Jan 2022 14:17:54 +0100, Maxime Ripard wrote:
 > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > 
-> The code that set the scdc_enabled flag to ensure it was
-> disabled at boot time also ran on Pi0-3 where there is no
-> SCDC support. This lead to a warning in vc4_hdmi_encoder_post_crtc_disable
-> due to vc4_hdmi_disable_scrambling being called and trying to
-> read (and write) register HDMI_SCRAMBLER_CTL which doesn't
-> exist on those platforms.
+> The existing logic was flawed in that it could try reading the
+> 2711 specific registers for HPD on a CM1/3 where the HPD GPIO
+> hadn't been defined in DT.
+> 
+> Ensure we don't do the 2711 register read on invalid hardware,
+> and then
 > 
 > [...]
 
