@@ -1,81 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 763A64A8A96
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 18:47:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B904A8AD5
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 18:51:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD2310E988;
-	Thu,  3 Feb 2022 17:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A753010E91A;
+	Thu,  3 Feb 2022 17:51:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC67C10E988
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 17:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643910464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qYBJlFSc4fNxPTmRERnvCFpsHEKOHeqgHz5VlYGh0P8=;
- b=NUdRHoBsXHlNjKf0rLUlbWZPyEZ7VYstW1MIcuiQh1EOUG1FMjtzyo76KNdAD0N6XzBXjv
- ETIWQYhyJ5IH1nfsYt+QI7p5pmZfqJWoRFrkXVeiJoEZMine+17P2pB7qlshLipf7wTKWy
- /N/IpXCr+RweZVfjGhpe04pyBE4LdyQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-302-WlCLQ9LQPH6U_gvYEqzdPQ-1; Thu, 03 Feb 2022 12:47:43 -0500
-X-MC-Unique: WlCLQ9LQPH6U_gvYEqzdPQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- i204-20020a1c3bd5000000b00352cf8b74dcso1972667wma.0
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Feb 2022 09:47:43 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55C5010E91A
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 17:51:10 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id z4so7642464lft.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Feb 2022 09:51:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=c40bPrHQjIbgf0eWeT2zwsJ4RQU/yT+6ZwMVByjiTgI=;
+ b=VlXK0AMpTH0qhx6en1xgTax8rQm7INYcf+/H+QO1D3+gRrPsazrMxrDydLT42k13jh
+ nUCmQqMtGq8RLgBi06k6w/dUnZR19gpmfZXQSlch7P780eb9z/F+o96bsjDR+6NiJivn
+ FckpEcHjELx1VWq8lM3kw3MKLKlPhZ5IaqC5tNxySysLzAFvekO26FbtyWF8lWov9kYM
+ G/+yq3y98JuD/oxPlc3GQ8QE2XbzxD9k4shlm75Fobkqk1JgCiP+WAlKyVNv6edgsacp
+ BUknqEdlETyXIkqSGsDSU+9/iectZv7PRWhPqNfd/rfvkEimlfDB9WyFAj8MWAcRb1/Q
+ lFeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qYBJlFSc4fNxPTmRERnvCFpsHEKOHeqgHz5VlYGh0P8=;
- b=jQQaXRrcKTruh6d7mAz/p7ZWzMGlbPSqk8gPvnNjrw2DB/JRufni3CWViYpfrR7XD0
- t/hbOgDf7/N0JAcSx8CdPVBj2ABrrOhxDVRTcMXbdBsY+47mjYWgEjtQjDSyg0/X0o6y
- K/E8MY6dhZkdchVqua+cjXOitHHrTNXWuylmMnhaIA5fRSKqdiZHmMk4xucrRETzTeOv
- PFkBbap+BgeudJWdSE6CONaF5UavRmmZ7s1kQixeRCI2G5r6+EoUHIL/WwNfHBFQmWUs
- xGgkPOESDN9ACtb8Ti8/qflEScHOwH97McOyWYhtuy6VpkX9ImX3E/ewA841OAWM4ecf
- XKfQ==
-X-Gm-Message-State: AOAM533mNQj3tfDBEw8oLdSJlYcSxY3Ho9iJSlTgmMwPc9EoE7rFvG+G
- Vw3/xtYSia2x0bskKSg+ySn8u1XUIgIDUAZZRP+wWZyNLeUhOHgOmTDFmtgutAR7fesaCGAcX6R
- tMAq+AG95JEpK9rWMHe5d+mZFB/oK
-X-Received: by 2002:adf:efcb:: with SMTP id i11mr30752871wrp.667.1643910462683; 
- Thu, 03 Feb 2022 09:47:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwt4YvrabyPHfqup56jxqhIEhJ6tKzzPO5jqKKtyA/nAgDPmFnzovI/3WdlJ6WCEo88B06adA==
-X-Received: by 2002:adf:efcb:: with SMTP id i11mr30752860wrp.667.1643910462455; 
- Thu, 03 Feb 2022 09:47:42 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id f8sm17456115wry.12.2022.02.03.09.47.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 09:47:42 -0800 (PST)
-Message-ID: <fdf5652e-36c3-b488-ed79-c83725ad0656@redhat.com>
-Date: Thu, 3 Feb 2022 18:47:41 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=c40bPrHQjIbgf0eWeT2zwsJ4RQU/yT+6ZwMVByjiTgI=;
+ b=ITiJUzHqd47JUJukIz3xXU/5mnd4oyPvGeBuff54Bflr0PXvU3Xa/TBFiDWsuVOnGr
+ RiWlD3ziEqLGJHHHwjzYvITF3zuyVx8QFkzaIXbUoQkFwe2UnKtbR1vkUpkfaEG8pkDu
+ PUTYdYDzL9YId07g+I+FdTu5P7MBPEnYUahmiCh85Kp14CubWA+bOoO6KtGeyzPSmKm4
+ ID9MGv9w9Y2yBTTyZepFlKXeTK+PrR4c7rUiTDTmsLS7PxTFyTpLXcBYasABZXIu3Y9T
+ SFj1DzGwZ3RkqZJOB+UMsa+RMQWFB/Tr1C7Y0m5BjI/9kbvs/vdRcaUaVmoh1q8V5uFw
+ ItxQ==
+X-Gm-Message-State: AOAM532z7HMNnTG/FmMDkl+kXpidjTeEGBaFVxZZWPNgKiCie1DaUmL3
+ PzsCnid328/h/R5z/tYvxu4=
+X-Google-Smtp-Source: ABdhPJyi9FtMW5FIeWes6Fh5+v4jj6jJF+9c4Bne95ATRab6MsvPKb383kpap7zsh4dEvWwcd9dsBg==
+X-Received: by 2002:a05:6512:68e:: with SMTP id
+ t14mr28263542lfe.366.1643910668248; 
+ Thu, 03 Feb 2022 09:51:08 -0800 (PST)
+Received: from orome ([193.209.96.43])
+ by smtp.gmail.com with ESMTPSA id 8sm3857623lfq.200.2022.02.03.09.51.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Feb 2022 09:51:07 -0800 (PST)
+Date: Thu, 3 Feb 2022 18:51:04 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v16 33/40] soc/tegra: pmc: Enable core domain support for
+ Tegra20 and Tegra30
+Message-ID: <YfwWCBzuN5q0JGm8@orome>
+References: <20211130232347.950-1-digetx@gmail.com>
+ <20211130232347.950-34-digetx@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 7/8] drm/ast: Move DP501-based connector code into
- separate helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
- kuohsiang_chou@aspeedtech.com
-References: <20220111120058.10510-1-tzimmermann@suse.de>
- <20220111120058.10510-8-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220111120058.10510-8-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8ffx5k3tX5AIfR+/"
+Content-Disposition: inline
+In-Reply-To: <20211130232347.950-34-digetx@gmail.com>
+User-Agent: Mutt/2.1.5 (31b18ae9) (2021-12-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,30 +72,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jenmin_yuan@aspeedtech.com, tommy_huang@aspeedtech.com,
- dri-devel@lists.freedesktop.org, arc_sung@aspeedtech.com
+Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Heidelberg <david@ixit.cz>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/11/22 13:00, Thomas Zimmermann wrote:
-> Add helpers for DP501-based connectors. DP501 provides output via
-> DisplayPort. This used to be handled by the VGA connector code.
-> 
-> If a DP501 chip has been detected, ast will now create a DisplayPort
-> connector instead of a VGA connector.
-> 
-> Remove the DP501 code from ast_vga_connector_helper_get_modes(). Also
-> remove the call to drm_connector_update_edid_property(), which is
-> performed by drm_get_edid().
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+--8ffx5k3tX5AIfR+/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Dec 01, 2021 at 02:23:40AM +0300, Dmitry Osipenko wrote:
+> All device drivers got runtime PM and OPP support. Flip the core domain
+> support status for Tegra20 and Tegra30 SoCs.
+>=20
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
+>  drivers/soc/tegra/pmc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Applied now. I'll give it a few days in linux-next and will then send a
+PR with this for ARM SoC.
 
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Thierry
 
+--8ffx5k3tX5AIfR+/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmH8FggACgkQ3SOs138+
+s6FO5w//cPW87rvUKeQQiBIG3MKYHivxZPlxXlkfRG5W+Y9oMFE5HyfE03v28G1S
+qcGQX+fjbKaISc+4hOem3NaDKKlpItUVQUD8akNUSHoZLX3SYrNQ/v4ZNqRKjrGg
+bkZTolF7BsabsFq84dlnpUJN6JPIdHaaaPiq2btwqSf1ubAW9JgA613VYHlG/+me
+mVkYI84z2K2kvOevWtk44pubJmfPPea53g4MP2TFtXYtK7NvdX+VWpG89ZazJmUq
+cGJpNrtIDmjL/aYbmxWi0nQvv3JKp4aO2MvjMvV4ZEcl25VccIP4a9NuJXj3kCe3
+P62k+Yv1DJWkTOpSXx7NfzAl3iTkx7hTx6WlNBZDD9uanine+ZGmRZNR17q84zN/
+CJstSdhkyfhWtddP8JV/SEODRUXk936eAk8cQTNPUDtvCGu1Xr43QoYXCFGxpeD6
+MUUeRYyVQDuCo2UmeVqNNXS/5kvyTlE/Qr4xKmw+hLe0fZOVSAUt9o8kqRV6NkMq
+wqremWTw1FmAYzJnsgfDRnY5SlPeCJFBPxH+LkXDzEOsAmIMYeYi0qykqGGkwPQA
+BYOWaXKMggviplovauBvfRKTVCsKnnxgeRDbcwNX8Dn/uwwH4tHHQjzB7A7domEB
+RJkbnuYFInpC7nNrtcT1QedT+G7nVsDLwqW3f682nUcDnq9DYxs=
+=IVU8
+-----END PGP SIGNATURE-----
+
+--8ffx5k3tX5AIfR+/--
