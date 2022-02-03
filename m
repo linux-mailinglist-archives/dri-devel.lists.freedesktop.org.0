@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F4F84A839D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 13:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854B14A83AC
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 13:17:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEF3C10F3C0;
-	Thu,  3 Feb 2022 12:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F257B10F435;
+	Thu,  3 Feb 2022 12:17:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6004810F3C0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 12:13:18 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id B46D15C021E;
- Thu,  3 Feb 2022 07:13:17 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 03 Feb 2022 07:13:17 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5BA410F435
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 12:17:40 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 415CE5C0243;
+ Thu,  3 Feb 2022 07:17:40 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 03 Feb 2022 07:17:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=V8Ao9I0MdiW2ENSGu0dnqaYDSRvrv3wjjWtm8T
- vT2wU=; b=VxXgOYHEObdn/M38WaiFhgvzXm2CdHDVWh3pBGj8XNksP44bvjL494
- eaObd8uS/JpJRoPgYbRL8tsV8PhfT4sFYBo+yZNll9JNdrXhN/vopHsDbtZr1aph
- TRaGvlc5nyg1CU3mJuUV+R5ii+e4I1Lf6MsuPX6YW9g7XFYyJJPMdvjSkXpa2RqM
- g1BNiq79gvqwLoEx2KYnZAm+8xx/nWe7jqrpggjQo2nSRMi78YXR2evNzafy21nh
- rHrMeCLdaCrL+G7Kzw9rgjCIC3aZD8loG+5lM7dZ1EjEKxydE9oKUKbJMYhL6T01
- aGzo+WNsrTrk9gQoRLZHpxAsC0D8HLfg==
+ :subject:to:to; s=fm2; bh=pwUoOS5VLLA9pF+vUjmklQeqPFPoLLHfBDBEP0
+ hOcRI=; b=gJUgAD5LSNhERjNmBhQsJUP5foyUiuGoBGW9RoP9KFYGb/pbvpUZGv
+ w+sqJqbvFY3EAQ9v3lN04KgHgMGenLoM1C5Qvk+A452K15yK1zHdX0Bd6S4bGwNm
+ 0yBo1TW3TZXtpAku5W0whx1wqzna5tAWD8ntIkPCarVlqsMnn2OgDd/1vm6EcW3P
+ BJRYrdH/qdq+OniwVxIV4IeRbc2I4KWCbVZvpv/J0XTFzdJAj/OlWuc9WKvV2727
+ Zg5MdqLVtkq8itMf7Za2EviLnsA5L0PNfGFux2DjANLJxU5kcl+ieDRfOEimlBmK
+ vwSYCFhMTl7UbC+9GutFSJMqdAoh6gzw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=V8Ao9I0MdiW2ENSGu
- 0dnqaYDSRvrv3wjjWtm8TvT2wU=; b=C4VykM6Vo/XUqPadqbySat6kNVRs6CiVX
- /xiIUmSGKqAF2DbEff39HYqDQb0IGYbw9FBuZoRNdBF1SodbAXnDUkful4+gJXwe
- neYwdOqVlonPgI+84bhG/GHkEsf/Gd923DbK/bo2zOFLjr1cOFTbpd+Dk+oHhzIR
- Srd+IQAgIX5MB/dgWim1fIpjuf8ScXfyZsEwEzw/prpqSJ5lJjGxOr3bi4ZQZ6Ss
- JDgAzz2gcluv1W10UEswMGLt1HvXCSTGWx7pk6wPC9XnnR6xRAKC4XpxyjvXmLxe
- FVesa6OIic7ja+TEcuwXF0+A7oSpPGyQG2xIeP2pVTljw6ZfQQp1w==
-X-ME-Sender: <xms:3cb7YSXIu_a6gkgrZ7v0yJYzqnVy51hpzny7VB_-Foubq2ndz8dF9g>
- <xme:3cb7YemR16NrMHvivcyG6zkZqppFgiP5KIrAvdPrF21LuWDgqgof0Z_gY2NXjdPTr
- 8j9SHf112udKOCGpHw>
-X-ME-Received: <xmr:3cb7YWbODPgJ93aCqd-8KnCcqM2ivDh4MeNxTxfJKosSThKwPyGiS1ilpiDVM8aLXTLo0i-a654YJsupwTuDKd_3rF90-JpdQg2-VvQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeejgdefhecutefuodetggdotefrodftvf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=pwUoOS5VLLA9pF+vU
+ jmklQeqPFPoLLHfBDBEP0hOcRI=; b=NXMAddSaGi1hHoRGWB72k/kfnwx+30U94
+ i9bB/skgRqsMxMe3xALjNHcmDoXNUQAXJYAlf3WvBg9kUiit6Vi0J1LpG+cOK8GD
+ 7CyaBn+qn7sHZZ+OXD0W37evXsk3ad58DN9lRdfJ04NOnlFpRBzy+C2KGfxG4iWg
+ p9W1ItcTFbNLXuQ/ht3ziYrCi7OEPc30EY//kmR9PhssZIrCHlmv6xLAtnyIFZnM
+ oOQGyNBWPr/9r2h5QrxNbhTdU0aHRhhEJFBldBvV7IoF1+2PtbVjwO+bf7Wp2qj7
+ Gvs7jSDGX0KKe9OSLsw6airb6Wg2c9+3yl461m5o18i5aMX6oSOkQ==
+X-ME-Sender: <xms:48f7YW34X1PxgrI_HPmav5kmIad77xkbi1Poo-YMJ4OHxl6Jdm5Ivw>
+ <xme:48f7YZHQgIuTQUD3h96ZL2YgqS0HNxiSxU4hp7-QSaIj6fxGYMpeYLV-5a5Qv26FF
+ OEQkjUoyddJBxwvxy4>
+X-ME-Received: <xmr:48f7Ye5rRxwkko0UnSip5PvazInkVmbmr7uMUtSPjO82XQkXvz2mpC64fthV7czbzgXJhqRaRwpsvUo7Xm0MKNaZfqQBIgfFIlVjwkU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeejgdefiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:3cb7YZXxzh2jz-FTxW823qdFtkMSsQD7oof6zxjjaNPalgfjGpUbaw>
- <xmx:3cb7Ycl-yMULSXC5NXeyGaZV807OyPKpF7IcEKosbRx66Ejgucxjjg>
- <xmx:3cb7YecteQgIX-KoICmCDbv4U-MywcZERvNNnpuZiB5pSrLRReZ97w>
- <xmx:3cb7YdDQeDAQ0LOWDCOAcLXBt07IfStlMVYSULbForNgZd3j6FxETg>
+ gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
+ vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:48f7YX00rF1v8oIN4T9i8QBNH0WsgASdiLoDxlxdi2Aht92T7G5U2A>
+ <xmx:48f7YZFr-p5AdLVrtvsGtsd3guEaOedmPoOb4euedYK7sEyiwcX-iA>
+ <xmx:48f7YQ-v1hVPPpvyzU4hHVPd99H6afDdetRrCVg-LmUmNiuquVj8Ig>
+ <xmx:5Mf7Ydh3b_WAEOx_V9opIvOZ9JHvVCP5x_gW_AiR-_SIJlMnpfc2lg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Feb 2022 07:13:16 -0500 (EST)
-Date: Thu, 3 Feb 2022 13:13:15 +0100
+ 3 Feb 2022 07:17:39 -0500 (EST)
+Date: Thu, 3 Feb 2022 13:17:37 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 07/14] drm: bridge: icn6211: Add DSI lane count DT
- property parsing
-Message-ID: <20220203121315.zo27qg37n2euy2d4@houat>
+Subject: Re: [PATCH 12/14] drm: bridge: icn6211: Add I2C configuration support
+Message-ID: <20220203121737.mbwfgh6htvkbdr7r@houat>
 References: <20220114034838.546267-1-marex@denx.de>
- <20220114034838.546267-7-marex@denx.de>
+ <20220114034838.546267-12-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="tgcfcscwcxxsohir"
+ protocol="application/pgp-signature"; boundary="43lah437fn47tngt"
 Content-Disposition: inline
-In-Reply-To: <20220114034838.546267-7-marex@denx.de>
+In-Reply-To: <20220114034838.546267-12-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,15 +88,19 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---tgcfcscwcxxsohir
+--43lah437fn47tngt
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 14, 2022 at 04:48:31AM +0100, Marek Vasut wrote:
-> The driver currently hard-codes DSI lane count to two, however the chip
-> is capable of operating in 1..4 DSI lanes mode. Parse 'data-lanes' DT
-> property and program the result into DSI_CTRL register.
+On Fri, Jan 14, 2022 at 04:48:36AM +0100, Marek Vasut wrote:
+> The ICN6211 chip starts in I2C configuration mode after cold boot.
+> Implement support for configuring the chip via I2C in addition to
+> the current DSI LP command mode configuration support. The later
+> seems to be available only on chips which have additional MCU on
+> the panel/bridge board which preconfigures the ICN6211, while the
+> I2C configuration mode added by this patch does not require any
+> such MCU.
 >=20
 > Signed-off-by: Marek Vasut <marex@denx.de>
 > Cc: Jagan Teki <jagan@amarulasolutions.com>
@@ -106,100 +109,167 @@ On Fri, Jan 14, 2022 at 04:48:31AM +0100, Marek Vasut wrote:
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > To: dri-devel@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/bridge/chipone-icn6211.c | 35 ++++++++++++++++++++----
->  1 file changed, 29 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/bridge/chipone-icn6211.c | 219 +++++++++++++++++++----
+>  1 file changed, 188 insertions(+), 31 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/b=
 ridge/chipone-icn6211.c
-> index 3ad082c1d2bfd..400a566026ab4 100644
+> index 8226fefeedfc9..313c588297eca 100644
 > --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
 > +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-> @@ -135,10 +135,12 @@ struct chipone {
+> @@ -11,6 +11,7 @@
+> =20
+>  #include <linux/delay.h>
+>  #include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+>  #include <linux/module.h>
+>  #include <linux/of_device.h>
+>  #include <linux/regulator/consumer.h>
+> @@ -133,14 +134,17 @@
+> =20
+>  struct chipone {
 >  	struct device *dev;
+> +	struct i2c_client *client;
 >  	struct drm_bridge bridge;
 >  	struct drm_bridge *panel_bridge;
-> +	struct device_node *host_node;
+>  	struct device_node *host_node;
+> +	struct mipi_dsi_device *dsi;
 >  	struct gpio_desc *enable_gpio;
 >  	struct regulator *vdd1;
 >  	struct regulator *vdd2;
 >  	struct regulator *vdd3;
-> +	int dsi_lanes;
+>  	int dsi_lanes;
+> +	bool interface_i2c;
 >  };
 > =20
 >  static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridg=
 e)
-> @@ -235,6 +237,11 @@ static void chipone_atomic_enable(struct drm_bridge =
-*bridge,
->  	/* dsi specific sequence */
->  	ICN6211_DSI(icn, SYNC_EVENT_DLY, 0x80);
->  	ICN6211_DSI(icn, HFP_MIN, hfp & 0xff);
-> +
-> +	/* DSI data lane count */
-> +	ICN6211_DSI(icn, DSI_CTRL,
-> +		    DSI_CTRL_UNKNOWN | DSI_CTRL_DSI_LANES(icn->dsi_lanes - 1));
-> +
->  	ICN6211_DSI(icn, MIPI_PD_CK_LANE, 0xa0);
->  	ICN6211_DSI(icn, PLL_CTRL(12), 0xff);
+> @@ -172,20 +176,14 @@ bridge_to_mode(struct drm_bridge *bridge, struct dr=
+m_atomic_state *state)
+>  	return &crtc_state->adjusted_mode;
+>  }
 > =20
-> @@ -354,6 +361,8 @@ static const struct drm_bridge_funcs chipone_bridge_f=
-uncs =3D {
->  static int chipone_parse_dt(struct chipone *icn)
+> -static inline int chipone_dsi_write(struct chipone *icn,  const void *se=
+q,
+> -				    size_t len)
+> +static void ICN6211_DSI(struct chipone *icn, u8 reg, u8 val)
 >  {
->  	struct device *dev =3D icn->dev;
-> +	struct drm_bridge *panel_bridge;
-> +	struct device_node *endpoint;
->  	struct drm_panel *panel;
->  	int ret;
+> -	struct mipi_dsi_device *dsi =3D to_mipi_dsi_device(icn->dev);
+> -
+> -	return mipi_dsi_generic_write(dsi, seq, len);
+> +	if (icn->interface_i2c)
+> +		i2c_smbus_write_byte_data(icn->client, reg, val);
+> +	else
+> +		mipi_dsi_generic_write(icn->dsi, (u8[]){reg, val}, 2);
+>  }
 > =20
-> @@ -390,13 +399,26 @@ static int chipone_parse_dt(struct chipone *icn)
->  		return PTR_ERR(icn->enable_gpio);
->  	}
+> -#define ICN6211_DSI(icn, seq...)				\
+> -	{							\
+> -		const u8 d[] =3D { seq };				\
+> -		chipone_dsi_write(icn, d, ARRAY_SIZE(d));	\
+> -	}
+> -
+>  static void chipone_configure_pll(struct chipone *icn,
+>  				  const struct drm_display_mode *mode)
+>  {
+> @@ -282,7 +280,10 @@ static void chipone_atomic_enable(struct drm_bridge =
+*bridge,
+>  	bridge_state =3D drm_atomic_get_new_bridge_state(state, bridge);
+>  	bus_flags =3D bridge_state->output_bus_cfg.flags;
 > =20
-> -	ret =3D drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
-> -	if (ret)
-> +	endpoint =3D of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-> +	icn->dsi_lanes =3D of_property_count_u32_elems(endpoint, "data-lanes");
-> +	icn->host_node =3D of_graph_get_remote_port_parent(endpoint);
-> +	of_node_put(endpoint);
+> -	ICN6211_DSI(icn, MIPI_CFG_PW, MIPI_CFG_PW_CONFIG_DSI);
+> +	if (icn->interface_i2c)
+> +		ICN6211_DSI(icn, MIPI_CFG_PW, MIPI_CFG_PW_CONFIG_I2C);
+> +	else
+> +		ICN6211_DSI(icn, MIPI_CFG_PW, MIPI_CFG_PW_CONFIG_DSI);
+> =20
+>  	ICN6211_DSI(icn, HACTIVE_LI, mode->hdisplay & 0xff);
+> =20
+> @@ -396,11 +397,86 @@ static void chipone_atomic_post_disable(struct drm_=
+bridge *bridge,
+>  	gpiod_set_value(icn->enable_gpio, 0);
+>  }
+> =20
+> +static int chipone_dsi_attach(struct chipone *icn)
+> +{
+> +	struct mipi_dsi_device *dsi =3D icn->dsi;
+> +	int ret;
 > +
-> +	if (icn->dsi_lanes < 0 || icn->dsi_lanes > 4)
-> +		return -EINVAL;
-> +	if (!icn->host_node)
-> +		return -ENODEV;
+> +	dsi->lanes =3D icn->dsi_lanes;
+> +	dsi->format =3D MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
 > +
-> +	ret =3D drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, &panel_=
-bridge);
+> +	ret =3D mipi_dsi_attach(dsi);
 > +	if (ret < 0)
->  		return ret;
-> +	if (panel) {
-> +		panel_bridge =3D devm_drm_panel_bridge_add(dev, panel);
-> +		if (IS_ERR(panel_bridge))
-> +			return PTR_ERR(panel_bridge);
+> +		dev_err(icn->dev, "failed to attach dsi\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static int chipone_dsi_setup(struct chipone *icn)
+> +{
+> +	struct device *dev =3D icn->dev;
+> +	struct mipi_dsi_device *dsi;
+> +	struct mipi_dsi_host *host;
+> +	int ret =3D 0;
+> +
+> +	const struct mipi_dsi_device_info info =3D {
+> +		.type =3D "chipone",
+> +		.channel =3D 0,
+> +		.node =3D NULL,
+> +	};
+> +
+> +	host =3D of_find_mipi_dsi_host_by_node(icn->host_node);
+> +	if (!host) {
+> +		dev_err(dev, "failed to find dsi host\n");
+> +		return -EPROBE_DEFER;
 > +	}
->
-> -	icn->panel_bridge =3D devm_drm_panel_bridge_add(dev, panel);
-> -	if (IS_ERR(icn->panel_bridge))
-> -		return PTR_ERR(icn->panel_bridge);
-> +	icn->panel_bridge =3D panel_bridge;
+> +
+> +	dsi =3D mipi_dsi_device_register_full(host, &info);
+> +	if (IS_ERR(dsi)) {
+> +		return dev_err_probe(dev, PTR_ERR(dsi),
+> +				     "failed to create dsi device\n");
+> +	}
+> +
+> +	icn->dsi =3D dsi;
+> +
+> +	ret =3D chipone_dsi_attach(icn);
+> +	if (ret < 0)
+> +		mipi_dsi_device_unregister(dsi);
+> +
+> +	return ret;
+> +}
+> +
+>  static int chipone_attach(struct drm_bridge *bridge, enum drm_bridge_att=
+ach_flags flags)
+>  {
+>  	struct chipone *icn =3D bridge_to_chipone(bridge);
+> +	struct drm_bridge *abridge =3D bridge;
+> +	int ret;
+> +
+> +	if (icn->interface_i2c) {
+> +		ret =3D chipone_dsi_setup(icn);
+> +		if (ret)
+> +			return ret;
+> +
+> +		abridge =3D &icn->bridge;
 
-It looks like you're doing more than what you said in the commit log
-here? There's at least a change on the error condition for
-drm_of_find_panel_or_bridge, some reworking of the drm_panel_bridge_add
-call, plus the data-lanes property parsing you were mentioning.
-
-All those should be separate patches
+This needs to happen at probe/bind time. See:
+https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html#special-car=
+e-with-mipi-dsi-bridges
 
 Maxime
 
---tgcfcscwcxxsohir
+--43lah437fn47tngt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfvG2wAKCRDj7w1vZxhR
-xbPnAP9R1weAluS7PLL2/xJSUP47bU1L35lRp3F4gXqF/xAeNgD+MiQRtfe0k+SA
-4hCh8tZ8c8Qy611JsW5P1yuJxnX1hA4=
-=Jswj
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfvH4QAKCRDj7w1vZxhR
+xedSAP0Yd9wyIUbLqFs8sUXrZKXoRfFhDdE3rvyMZ81l+sH5VQD/dfGLMEzVkjtk
+FELL14HuQBmZwpGs3CfwrS/QJXsOCwg=
+=1p0B
 -----END PGP SIGNATURE-----
 
---tgcfcscwcxxsohir--
+--43lah437fn47tngt--
