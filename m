@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C1B4A804E
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 09:26:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 549C74A8050
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 09:26:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACDED10EAA8;
-	Thu,  3 Feb 2022 08:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 095E010E9FA;
+	Thu,  3 Feb 2022 08:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from 189.cn (ptr.189.cn [183.61.185.102])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7A97610E6FE
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 08:25:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2BA8710E9FA
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 08:25:56 +0000 (UTC)
 HMM_SOURCE_IP: 10.64.8.41:55068.1434336740
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id C67D610029E;
- Thu,  3 Feb 2022 16:25:52 +0800 (CST)
+ by 189.cn (HERMES) with SMTP id 747F41002A0;
+ Thu,  3 Feb 2022 16:25:53 +0800 (CST)
 Received: from  ([172.27.8.53])
  by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id
- 98696ac0713f438abfe9c87081ff5fbb for dan.carpenter@oracle.com; 
- Thu, 03 Feb 2022 16:25:53 CST
-X-Transaction-ID: 98696ac0713f438abfe9c87081ff5fbb
+ cad0d7f99194492f8c96908ab712865a for dan.carpenter@oracle.com; 
+ Thu, 03 Feb 2022 16:25:55 CST
+X-Transaction-ID: cad0d7f99194492f8c96908ab712865a
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 172.27.8.53
 X-MEDUSA-Status: 0
@@ -39,10 +39,10 @@ To: Dan Carpenter <dan.carpenter@oracle.com>,
  Krzysztof Kozlowski <krzk@kernel.org>,
  Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
  Sam Ravnborg <sam@ravnborg.org>, suijingfeng <suijingfeng@loongson.cn>
-Subject: [PATCH v6 2/3] dt-bindings: ls2k1000: add the display controller
- device node
-Date: Thu,  3 Feb 2022 16:25:45 +0800
-Message-Id: <20220203082546.3099-3-15330273260@189.cn>
+Subject: [PATCH v6 3/3] dt-bindings: mips: loongson: introduce board specific
+ dts
+Date: Thu,  3 Feb 2022 16:25:46 +0800
+Message-Id: <20220203082546.3099-4-15330273260@189.cn>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220203082546.3099-1-15330273260@189.cn>
 References: <20220203082546.3099-1-15330273260@189.cn>
@@ -67,37 +67,188 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: suijingfeng <suijingfeng@loongson.cn>
 
-The display controller is a pci device, its vendor id is 0x0014
-its device id is 0x7a06.
+For board specific devices which is outside of the cpu and bridge chip.
+This patch introduce two dts, one for lemote a1901(aka LX-6901) motherboard
+which one only one vga output connected to DVO1.
+more document can be found from [1].
+
+Another one is ls3A4000+ls7a1000 evb board, this board have a VGA and DVO
+interface. The VGA is connected to the DVO0 and the dvi is connected to
+DVO1.
+
+We need introduce board specific dts because of we need the device tree
+to tell how does the connectors and encoders are connected to the DVO port
+of the display controller.
+
+[1] https://wiki.godson.ac.cn/device:lemote_a1901
 
 Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
 Signed-off-by: Sui Jingfeng <15330273260@189.cn>
 ---
- arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ arch/mips/boot/dts/loongson/lemote_a1901.dts  | 64 +++++++++++++++++
+ .../boot/dts/loongson/ls3a4000_7a1000_evb.dts | 68 +++++++++++++++++++
+ arch/mips/boot/dts/loongson/ls7a-pch.dtsi     |  2 +-
+ 3 files changed, 133 insertions(+), 1 deletion(-)
+ create mode 100644 arch/mips/boot/dts/loongson/lemote_a1901.dts
+ create mode 100644 arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts
 
-diff --git a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
-index 8143a61111e3..6510b0e6928a 100644
---- a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
-+++ b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
-@@ -198,6 +198,17 @@
- 				interrupt-parent = <&liointc0>;
+diff --git a/arch/mips/boot/dts/loongson/lemote_a1901.dts b/arch/mips/boot/dts/loongson/lemote_a1901.dts
+new file mode 100644
+index 000000000000..81828945ba52
+--- /dev/null
++++ b/arch/mips/boot/dts/loongson/lemote_a1901.dts
+@@ -0,0 +1,64 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/dts-v1/;
++
++#include "loongson64g-package.dtsi"
++#include "ls7a-pch.dtsi"
++
++/ {
++	compatible = "lemode,a1901", "loongson,loongson64g-4core-ls7a";
++	model = "lemode,a1901";
++};
++
++&package0 {
++	htvec: interrupt-controller@efdfb000080 {
++		compatible = "loongson,htvec-1.0";
++		reg = <0xefd 0xfb000080 0x40>;
++		interrupt-controller;
++		#interrupt-cells = <1>;
++
++		interrupt-parent = <&liointc>;
++		interrupts = <24 IRQ_TYPE_LEVEL_HIGH>,
++			     <25 IRQ_TYPE_LEVEL_HIGH>,
++			     <26 IRQ_TYPE_LEVEL_HIGH>,
++			     <27 IRQ_TYPE_LEVEL_HIGH>,
++			     <28 IRQ_TYPE_LEVEL_HIGH>,
++			     <29 IRQ_TYPE_LEVEL_HIGH>,
++			     <30 IRQ_TYPE_LEVEL_HIGH>,
++			     <31 IRQ_TYPE_LEVEL_HIGH>;
++	};
++};
++
++&pch {
++	msi: msi-controller@2ff00000 {
++		compatible = "loongson,pch-msi-1.0";
++		reg = <0 0x2ff00000 0 0x8>;
++		interrupt-controller;
++		msi-controller;
++		loongson,msi-base-vec = <64>;
++		loongson,msi-num-vecs = <192>;
++		interrupt-parent = <&htvec>;
++	};
++};
++
++&lsdc {
++	/* use_vram_helper; */
++	output-ports = <&dvo0 &dvo1>;
++
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	dvo0: dvo@0 {
++		/* 0 for DVO0 */
++		reg = <0>;
++		status = "disabled";
++	};
++
++	dvo1: dvo@1 {
++		/* 1 for DVO1 */
++		reg = <1>;
++		connector = "vga-connector";
++		encoder = "adi,adv7125";
++		status = "okay";
++	};
++};
+diff --git a/arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts b/arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts
+new file mode 100644
+index 000000000000..ff07f529ea43
+--- /dev/null
++++ b/arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts
+@@ -0,0 +1,68 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/dts-v1/;
++
++#include "loongson64g-package.dtsi"
++#include "ls7a-pch.dtsi"
++
++/ {
++	compatible = "loongson,loongson64g-4core-ls7a";
++	model = "loongson,ls3a4000_7a1000_evb";
++	version = "v1.4";
++};
++
++&package0 {
++	htvec: interrupt-controller@efdfb000080 {
++		compatible = "loongson,htvec-1.0";
++		reg = <0xefd 0xfb000080 0x40>;
++		interrupt-controller;
++		#interrupt-cells = <1>;
++
++		interrupt-parent = <&liointc>;
++		interrupts = <24 IRQ_TYPE_LEVEL_HIGH>,
++			     <25 IRQ_TYPE_LEVEL_HIGH>,
++			     <26 IRQ_TYPE_LEVEL_HIGH>,
++			     <27 IRQ_TYPE_LEVEL_HIGH>,
++			     <28 IRQ_TYPE_LEVEL_HIGH>,
++			     <29 IRQ_TYPE_LEVEL_HIGH>,
++			     <30 IRQ_TYPE_LEVEL_HIGH>,
++			     <31 IRQ_TYPE_LEVEL_HIGH>;
++	};
++};
++
++&pch {
++	msi: msi-controller@2ff00000 {
++		compatible = "loongson,pch-msi-1.0";
++		reg = <0 0x2ff00000 0 0x8>;
++		interrupt-controller;
++		msi-controller;
++		loongson,msi-base-vec = <64>;
++		loongson,msi-num-vecs = <192>;
++		interrupt-parent = <&htvec>;
++	};
++};
++
++&lsdc {
++	/* use_vram_helper; */
++	output-ports = <&dvo0 &dvo1>;
++
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	dvo0: dvo@0 {
++		/* 0 for DVO0 */
++		reg = <0>;
++		connector = "vga-connector";
++		encoder = "adi,adv7125";
++		status = "okay";
++	};
++
++	dvo1: dvo@1 {
++		/* 1 for DVO1 */
++		reg = <1>;
++		connector = "dvi-connector";
++		encoder = "ti,tfp410";
++		digital;
++		status = "okay";
++	};
++};
+diff --git a/arch/mips/boot/dts/loongson/ls7a-pch.dtsi b/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
+index 2f45fce2cdc4..70a0b7ac0839 100644
+--- a/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
++++ b/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
+@@ -160,7 +160,7 @@
+ 				interrupt-parent = <&pic>;
  			};
  
-+			lsdc: dc@6,0 {
-+				compatible = "pci0014,7a06.0",
-+						   "pci0014,7a06",
-+						   "pciclass030000",
-+						   "pciclass0300";
-+
-+				reg = <0x3000 0x0 0x0 0x0 0x0>;
-+				interrupts = <28 IRQ_TYPE_LEVEL_LOW>;
-+				interrupt-parent = <&liointc0>;
-+			};
-+
- 			pci_bridge@9,0 {
- 				compatible = "pci0014,7a19.0",
- 						   "pci0014,7a19",
+-			dc@6,1 {
++			lsdc: dc@6,1 {
+ 				compatible = "pci0014,7a06.0",
+ 						   "pci0014,7a06",
+ 						   "pciclass030000",
 -- 
 2.20.1
 
