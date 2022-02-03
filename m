@@ -2,71 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690044A8361
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 12:54:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6152E4A8368
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 12:58:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8B1A10E79B;
-	Thu,  3 Feb 2022 11:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56AE410EA5B;
+	Thu,  3 Feb 2022 11:58:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0282C10E697
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 11:54:25 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 0EF1B3202133;
- Thu,  3 Feb 2022 06:54:21 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 03 Feb 2022 06:54:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=s+Y2ZiopchstFksww4kKEqLWAwhxvqMcV9SRrB
- 2kjys=; b=wCffuXzwxhU4DyyVSDXybRye3/9twpV7U+KZeFHB8wwR9awUWZsqFJ
- B19ZX6bq345VugbFmzjPnD9eihmD3dOxcAgs0IKCsW7kvRJ1A3fWLKUmuM0n2vL8
- qjc0dMKN9W/HEGgjJWZ0ITWjVw5sqkFzTZqh/wUwOBJXuuUpbtJB7ZCjYUMrBykM
- mIMEP2iEHOCGJr+CU1z1rimCheEno1taW0/1WrlWh5HB6gRI09xXpZbvn+vGS1Gz
- 2PloJQCZVJ+23m5l1VYPTGo0wLI8bb6wuiOi1IqT0O0+j2S9IB3OTkLUOeduo7fu
- Inw7Lki62HHCKz1Z1dwXSdZSejUvC8zw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=s+Y2Zi
- opchstFksww4kKEqLWAwhxvqMcV9SRrB2kjys=; b=OI7SglzZIoLyfwXW+swlyY
- SomY3BJjRKStk6fYZ7Qa64xyBWvDqrt168q3pcuj8SgDIJ1dwrWLIbguiWLyBszy
- vZYbF+tODkQLucP+3f/bdzNfqtBNq5KPTPSbHkpUgdAGr3YTC3ELevTY1JhodEPD
- 85C7/sAG6/Iq2WqvgYNF1XZnKNFOjeNdHWtK4p8ych0YvVX+KBW/WZZ0ulT8J2IT
- YSs2lr5oXlFBbDIZ2YEMoTot4zzKcaKTKW+yyn1wl8iWqUgFqGj61K7Xvr1vCdFt
- y5YBesGGxmKilL8UjgZZvvT7oWCzebcSMPsHTuyl5ZEBjrGypVkOklRkJ81DYWGg
- ==
-X-ME-Sender: <xms:bML7YYGnDMezujabyg9MeKenTZhjOdcY0xDASlTE9Lxy9OS1o5vwmw>
- <xme:bML7YRVUw69GkyBh6neSFBDn4XfruXpPliGvZQ6svROuOXJyiB5Mx41v5lXzTbX-J
- vK2SsN5fWOyhydawQ0>
-X-ME-Received: <xmr:bML7YSIDcgRq0ciSq93hzlTGYp2oGWcdx216aT18bdG-1YLUEGGw_7IotPZpy8YNMDhCUFho69DPVncyhVwCTo9PdU1XXMdcNflNO0A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeejgdefudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhephedvgfeujefgfefhleefjedtteduvdfftdetgffgfedtgfffkeelfeejvdegiefh
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
- himhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:bML7YaFNl_fnLIueincSEQjRw4bnOlcyCptANyOFYZQo5R_Eb4Kg_w>
- <xmx:bML7YeV32sVx_yJ45-en1P_CgxPFOCD3arLA6BTMig4RwFI6zMIKrg>
- <xmx:bML7YdNmvyOeurKVmkYcuEAyNBir8slzxDirrK3TyQHsPkDzHiSFWw>
- <xmx:bcL7YQLvZpVJmAmdNf7m4Hv-eOUoB1XK8h1Fp7ONuorYunu1GISSxA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Feb 2022 06:54:19 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/edid: Always set RGB444
-Date: Thu,  3 Feb 2022 12:54:16 +0100
-Message-Id: <20220203115416.1137308-1-maxime@cerno.tech>
-X-Mailer: git-send-email 2.34.1
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3306510E99D;
+ Thu,  3 Feb 2022 11:58:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643889487; x=1675425487;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=/7HCd5iekWEFE4OAPgzocebARftMy2i/042QDy18eRs=;
+ b=PWameJCiOMkKgA5g5CqqPD8y+ngh4qo5E0RjRQPuOr9smgC97aiZcqjH
+ 0NbJ2hf7R/fyCMeM9B9LLv/AclL/GQKZJjKRNGkFlKsISf21HUyQjSA74
+ v+/ytEuWMGhzh665HO2GRVICxM/LQkB/IAjLk5uOFEiddhPFM2N43muz8
+ vVV9bygSH/jGAZQBgqQaYcKxvv6tzf+Uv++NWRVCZKjZwPjGc2FVnutHe
+ 0FPYLf1rT1sE3VREQZa6PloLe850wPPvhnzmn9Dvh1PH2lV6vfhfvWWdp
+ 2qempiYJfujsi8ZaQ2AJ5yh/2FQSy9R/f0b5wYeUufJIhBDtVO9JykUFb w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10246"; a="228780144"
+X-IronPort-AV: E=Sophos;i="5.88,339,1635231600"; d="scan'208";a="228780144"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2022 03:58:06 -0800
+X-IronPort-AV: E=Sophos;i="5.88,339,1635231600"; d="scan'208";a="483217378"
+Received: from cbrady-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.6.65])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2022 03:58:03 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Fangzhi Zuo <Jerry.Zuo@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ harry.wentland@amd.com
+Subject: binary constants (was: Re: [PATCH v3] drm/dp: Add Additional DP2
+ Headers)
+In-Reply-To: <20210927192324.5428-1-Jerry.Zuo@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210927192324.5428-1-Jerry.Zuo@amd.com>
+Date: Thu, 03 Feb 2022 13:58:00 +0200
+Message-ID: <87ee4krwl3.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,64 +58,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Matthias Reichl <hias@horus.com>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ Nicholas.Kazlauskas@amd.com, wayne.lin@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to fill the drm_display_info structure each time an EDID is
-read, the code currently will call drm_add_display_info with the parsed
-EDID.
+On Mon, 27 Sep 2021, Fangzhi Zuo <Jerry.Zuo@amd.com> wrote:
+> +/* DSC Extended Capability Branch Total DSC Resources */
+> +#define DP_DSC_SUPPORT_AND_DSC_DECODER_COUNT		0x2260	/* 2.0 */
+> +# define DP_DSC_DECODER_COUNT_MASK			(0b111 << 5)
+> +# define DP_DSC_DECODER_COUNT_SHIFT			5
+> +#define DP_DSC_MAX_SLICE_COUNT_AND_AGGREGATION_0	0x2270	/* 2.0 */
+> +# define DP_DSC_DECODER_0_MAXIMUM_SLICE_COUNT_MASK	(1 << 0)
+> +# define DP_DSC_DECODER_0_AGGREGATION_SUPPORT_MASK	(0b111 << 1)
+> +# define DP_DSC_DECODER_0_AGGREGATION_SUPPORT_SHIFT	1
 
-drm_add_display_info will then call drm_reset_display_info to reset all
-the fields to 0, and then set them to the proper value depending on the
-EDID.
+The patch was merged a while back, but only now I noticed the use of
+binary constants, which in C is a GCC and Clang extension [1][2]. There
+are some instances in the kernel, but not a whole lot.
 
-In the color_formats case, we will thus report that we don't support any
-color format, and then fill it back with RGB444 plus the additional
-formats described in the EDID Feature Support byte.
+Do we want to avoid or embrace them going forward? Or meh?
 
-However, since that byte only contains format-related bits since the 1.4
-specification, this doesn't happen if the EDID is following an earlier
-specification. In turn, it means that for one of these EDID, we end up
-with color_formats set to 0.
 
-The EDID 1.3 specification never really specifies what it means by RGB
-exactly, but since both HDMI and DVI will use RGB444, it's fairly safe
-to assume it's supposed to be RGB444.
+BR,
+Jani.
 
-Let's move the addition of RGB444 to color_formats earlier in
-drm_add_display_info() so that it's always set for a digital display.
 
-Fixes: da05a5a71ad8 ("drm: parse color format support for digital displays")
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Reported-by: Matthias Reichl <hias@horus.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/drm_edid.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1] https://gcc.gnu.org/onlinedocs/gcc/Binary-constants.html
+[2] https://clang.llvm.org/docs/LanguageExtensions.html#c-14-binary-literals
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 12893e7be89b..f5f5de362ff2 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -5345,6 +5345,7 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
- 	if (!(edid->input & DRM_EDID_INPUT_DIGITAL))
- 		return quirks;
- 
-+	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
- 	drm_parse_cea_ext(connector, edid);
- 
- 	/*
-@@ -5393,7 +5394,6 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
- 	DRM_DEBUG("%s: Assigning EDID-1.4 digital sink color depth as %d bpc.\n",
- 			  connector->name, info->bpc);
- 
--	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
- 	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB444)
- 		info->color_formats |= DRM_COLOR_FORMAT_YCRCB444;
- 	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB422)
 -- 
-2.34.1
-
+Jani Nikula, Intel Open Source Graphics Center
