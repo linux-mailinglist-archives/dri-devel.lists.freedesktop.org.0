@@ -2,80 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A7F4A870C
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 15:56:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F043A4A8734
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 16:06:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0580110ECD3;
-	Thu,  3 Feb 2022 14:56:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF58E10F069;
+	Thu,  3 Feb 2022 15:06:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D6F10EC3C
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 14:56:01 +0000 (UTC)
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 0B83940303
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 14:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1643900160;
- bh=JKwlxtatWZQCVG4GF4BszucWwjVQTt2PxoebrxL5ciY=;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
- In-Reply-To:Content-Type;
- b=i6yA7t9Cv2ukmUXvHhtNRdUE9hNLWOnYQ2g7APjSZAMHCMKpeANi/B1ZtgoguxDA5
- Nm8VGjt1PXrQCyAjvavzejgvqNwBlvEgSHGjKPyLksrXFul6IDWxivqgsLUUGcCUjS
- fYm9h6Pyw0RXim93IOsKpnABcf1QYGK+V8qRcDxd11bioFzHas2El667YHdN3q+EGT
- 2qj40Z0/CY+7lpUpF8OMylyrNyz35bRpUel+rnHAY/Czwj0Tnr1Wlb+rKxCPcM4sIj
- 7RfT/OhKWfuiBotVjERE1wg8fEM53q7Hpi+txS+3Vpb2pmHIpb1VidkUD8X5eEaxz4
- C9+xoRt97/5cg==
-Received: by mail-ed1-f72.google.com with SMTP id
- w23-20020a50d797000000b00406d33c039dso1573017edi.11
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Feb 2022 06:56:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JKwlxtatWZQCVG4GF4BszucWwjVQTt2PxoebrxL5ciY=;
- b=Nf80E8nk6pJ6KxL0CcdASum03Xjp5/aN3QJP62V8VTQMLG3mdNUpz9R7c9pgSCTrS6
- fJ4V1C2+JE2owgbCFxOIsRN78DpcYfI/0Vv+GDXlE6onO7XdGJ7EUToXIz/LwjRRGbOd
- hR1DmmiWQ62aiLGAHxFxcY3j6x9mEzhQu/lodpSzmu95WnDbR8gtK6VOhdToHjOIYPzW
- TNstpqcoaL2cnEEhUJOhheUySzVeplKqrNdC2N3W5dCEGkurG6zIBf5XAf8bMcQzH/gL
- SjIyOsaQjxpT5dHa9trhe6c+ikIb6n2a37SVXCtwlqP6fa2uZ8J7D1CsDK90xJOOZa2y
- 006Q==
-X-Gm-Message-State: AOAM5311n/pXACyTSXXfsZ3HrfRleQmpyEGbX6E0PhIIQVCmD1UBhaOq
- CwcFfFSMyQQBqy2mYJ2pZm7O1zoCG33wplEeTz/pRrHY6rkPXVgODbv6JNjjv+YqlPb+c5bO8zO
- MfuvAhkM/fOIi61ep39c5AMVKDTFzTHO8iSUH48Z6FgxajQ==
-X-Received: by 2002:a17:907:c14:: with SMTP id
- ga20mr1992479ejc.243.1643900159510; 
- Thu, 03 Feb 2022 06:55:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxET41+skPJ0t2ws3cpvdAuE3SIGtoLLzPApxhNtKVWxdECIqy/nqXcAWE2tMCANk5h/+crhA==
-X-Received: by 2002:a17:907:c14:: with SMTP id
- ga20mr1992450ejc.243.1643900159293; 
- Thu, 03 Feb 2022 06:55:59 -0800 (PST)
-Received: from [192.168.0.81] (xdsl-188-155-168-84.adslplus.ch.
- [188.155.168.84])
- by smtp.gmail.com with ESMTPSA id z19sm7573934eja.18.2022.02.03.06.55.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 06:55:58 -0800 (PST)
-Message-ID: <e79133f2-f872-3ed6-4038-526e94e84909@canonical.com>
-Date: Thu, 3 Feb 2022 15:55:56 +0100
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B8E510EFD9
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 15:06:11 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 8802C5C008D;
+ Thu,  3 Feb 2022 10:06:08 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 03 Feb 2022 10:06:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=5SuxOLrh5Yh31ff3obX6GQuiivYHKZ7RtF53G9
+ v5M9Q=; b=hxFypttjFgjTVlSW/Z/RCeHExQ50XDu5Pn09v+egFB/mKUsqdxNKu1
+ 2nKQvRsPJP3C8F7h0rzZSImrsjUfH6ln6L/BpaqpfVxlpf4WLoopyKQQHDshDpl5
+ ElsDtA6W+JVVPf14DYFEU/l2t2ME+pb6cHDIZJRk1dX373z2jLe4lBleTVdRVfhr
+ po23LDRyhnqOe1DFQwToHibvTPf32g3lFTX3Q+H3NuukBVvEpwqGJsCOU/PxKiGS
+ 1uTSHcYBkcdhMyidAR6yf+Jl0SbbcFCKxou66dqh/GM+UTZwJNoME5wE0BaM0M28
+ +R+bMQkBfwUXdOL21CE8/Ha4F8QNr4Nw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=5SuxOLrh5Yh31ff3o
+ bX6GQuiivYHKZ7RtF53G9v5M9Q=; b=DfTV/AIvZjPrkOqO578ea6XEnXDEeZXV5
+ WB6kBm/huxuIS1NELS1d5NwaFBzBo3rpCScvWTA9rMd7AlkTeNObMd+uoCBNgPAP
+ 6NHckRNweR6d7aNKHRpISi1A4mwNoVBz9qoCcDD3WmC1vZiZJ5MRFQ9zeFM1W+NG
+ 41u4lNkHbVIl0T3Dc8JJG5gvJW9VNR/oYXYsHl3IAu5GHyBHojQJIzv4+CQ3RDLx
+ ABY3U6VncmkKIZvc+80pHdWfV9zjPgKcvEC2DJEfDug9C0cfFCZGl69+7a8OsuCZ
+ FNk4/YEUioRVEped6ESJRrXqP6+s7qEicdtkgLxvoheeoeN1ib1DQ==
+X-ME-Sender: <xms:X-_7YVHSPsEurdWXs-Yiv95srrKF1BUq4_c6PIa5CKikJeXcTgeJrw>
+ <xme:X-_7YaVuViE5MHg_7w5-bJWyUJJ-_BcXX8Kg3NJbn_oFB0Ksg7xzWjZGKJD0S1qu8
+ FSosyKsOv0kn28nChM>
+X-ME-Received: <xmr:X-_7YXKyseZPLsqoBHGjBHnzOYuVOUB6mGRpaK9Jt-zpAqwMSI99a2fMsoqH5AOBLbNYnKYhLpiUNtad1HTJwFC3xLJNfWCEzM9GBRc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeejgdejtdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:X-_7YbHS9oHyb3-3pioGAovy26sSVap33YRzZNWNtNXiQagM1idJkQ>
+ <xmx:X-_7YbV_0gwW5oFVj7KMnUoSusByiLkQz0vhPUDVrhH0HwfX3a93EQ>
+ <xmx:X-_7YWOaH8ZVgyGMxsMMC4ae9NOdQ7WANBw0GtBklp7j4GGPSlPcuQ>
+ <xmx:YO_7YdJtueb1n5xLLB7FHS2HYX0meShoA_SlkRXujOZAIp6auR-FdA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Feb 2022 10:06:07 -0500 (EST)
+Date: Thu, 3 Feb 2022 16:06:05 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 3/3] drm/panel: Add MIPI DBI compatible SPI driver
+Message-ID: <20220203150605.pkdckq64hyoengqv@houat>
+References: <20220125175700.37408-1-noralf@tronnes.org>
+ <20220125175700.37408-4-noralf@tronnes.org>
+ <20220127100452.bmxcgf6ye3nxrgtq@houat>
+ <fff71d01-e1c9-2b0f-e4b2-9abb107f7770@tronnes.org>
+ <20220202100953.pymb6blsqlaw7jv6@houat>
+ <261c76d6-6bb9-1fe1-6560-58af5ba240dd@tronnes.org>
+ <Yfq76Mx6O8x9sxZW@ravnborg.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] HPE BMC GXP SUPPORT
-Content-Language: en-US
-To: Rob Herring <robh+dt@kernel.org>, nick.hawkins@hpe.com
-References: <nick.hawkins@hpe.com>
- <20220202165315.18282-1-nick.hawkins@hpe.com>
- <CAL_Jsq+K2t5WYE056so1iZgZr7CBKvDEjAwnJVTyUFQcK-VFSA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <CAL_Jsq+K2t5WYE056so1iZgZr7CBKvDEjAwnJVTyUFQcK-VFSA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="bzedj5zql4sxamuh"
+Content-Disposition: inline
+In-Reply-To: <Yfq76Mx6O8x9sxZW@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,105 +86,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Wang Kefeng <wangkefeng.wang@huawei.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
- verdun@hpe.com, Amit Kucheria <amitk@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- MTD Maling List <linux-mtd@lists.infradead.org>,
- Linux I2C <linux-i2c@vger.kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>, netdev <netdev@vger.kernel.org>,
- Lee Jones <lee.jones@linaro.org>, Ard Biesheuvel <ardb@kernel.org>,
- Stanislav Jakubek <stano.jakubek@gmail.com>, Hao Fang <fanghao11@huawei.com>,
- Arnd Bergmann <arnd@arndb.de>, Richard Weinberger <richard@nod.at>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Russell King <linux@armlinux.org.uk>,
- Linux PWM List <linux-pwm@vger.kernel.org>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- openipmi-developer@lists.sourceforge.net, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
- LINUX-WATCHDOG <linux-watchdog@vger.kernel.org>,
- Corey Minyard <minyard@acm.org>, Anshuman Khandual <anshuman.khandual@arm.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- SoC Team <soc@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "open list:THERMAL" <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>,
- "Russell King \(Oracle\)" <rmk+kernel@armlinux.org.uk>,
- linux-spi <linux-spi@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, "David S. Miller" <davem@davemloft.net>
+Cc: devicetree@vger.kernel.org, david@lechnology.com,
+ dave.stevenson@raspberrypi.com, robh+dt@kernel.org,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, thierry.reding@gmail.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/02/2022 15:29, Rob Herring wrote:
-> On Wed, Feb 2, 2022 at 10:55 AM <nick.hawkins@hpe.com> wrote:
->>
->> From: Nick Hawkins <nick.hawkins@hpe.com>
->>
 
-(...)
+--bzedj5zql4sxamuh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> +
->> +       vuart_a: vuart_a@80fd0200 {
-> 
-> serial@...
+Hi Sam,
 
-Maybe it does not look like, but this is actually a v2. Nick was asked
-to change the naming for the nodes already in v1. Unfortunately it did
-not happen, so we have vuart, spifi, vic and more.
+On Wed, Feb 02, 2022 at 06:14:16PM +0100, Sam Ravnborg wrote:
+> Hi Noralf,
+>=20
+> > >=20
+> > > Parts of it is ergonomics I guess. We're used to having all those
+> > > properties either in the DT or the driver, but here we introduce a new
+> > > way that isn't done anywhere else.
+> > >=20
+> > > And I don't see any real downside to putting it in the DT? It's going=
+ to
+> > > be in an overlay, under the user's control anyway, right?
+> > >=20
+> >=20
+> > Ok, I'll spin a new version using DT properties.
+>=20
+> I like this better than anything else as we then have everything in
+> a single place when we add a new panel and more.
+> I just recall some resistance to add such HW specific setup - but the
+> usecase here is kinda special.
 
-It is a waste of reviewers' time to ask them to perform the same review
-twice or to ignore their comments.
+The main issue was to put the initialisation sequence in the device
+tree. We solved that with by using a firmware instead. Given that the
+timings, size and so on are already used by multiple, widely used,
+panels, it should work just fine
 
-> 
->> +               compatible = "hpe,gxp-vuart";
->> +               reg = <0x80fd0200 0x100>;
->> +               interrupts = <2>;
->> +               interrupt-parent = <&vic1>;
->> +               clock-frequency = <1846153>;
->> +               reg-shift = <0>;
->> +               status = "okay";
->> +               serial-line = <3>;
->> +               vuart_cfg = <&vuart_a_cfg>;
->> +       };
+Maxime
 
-(...)
+--bzedj5zql4sxamuh
+Content-Type: application/pgp-signature; name="signature.asc"
 
->> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> index 294093d45a23..913f722a6b8d 100644
->> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> @@ -514,7 +514,9 @@ patternProperties:
->>    "^hoperun,.*":
->>      description: Jiangsu HopeRun Software Co., Ltd.
->>    "^hp,.*":
->> -    description: Hewlett Packard
->> +    description: Hewlett Packard Inc.
-> 
-> Why are you changing this one?
+-----BEGIN PGP SIGNATURE-----
 
-I guess this is squashing of my patch:
-https://lore.kernel.org/all/20220127075229.10299-1-krzysztof.kozlowski@canonical.com/
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfvvXQAKCRDj7w1vZxhR
+xTVoAQDD+O0ygdw9cNlnXjQL0eehtKz+EGtx8QpbIh/efgwmZwEAvDZypyNmcpMA
+peqcvav82p5WxIBlAs21bR/oM4OyaAA=
+=G0xz
+-----END PGP SIGNATURE-----
 
-which is fine to me, but vendor changve should be a separate commit with
-its own explanation. Now it looks indeed weird.
-
-> 
->> +  "^hpe,.*":
-> 
-> You used HPE elsewhere... Lowercase is preferred.
-
-
-
-
-Best regards,
-Krzysztof
+--bzedj5zql4sxamuh--
