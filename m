@@ -1,67 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771F54A8F61
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 21:51:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 075824A8F84
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 22:05:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A89110E98F;
-	Thu,  3 Feb 2022 20:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8958D10E89E;
+	Thu,  3 Feb 2022 21:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88EA410E98C
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 20:51:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9566E10E88D
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 21:05:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643921490;
+ s=mimecast20190719; t=1643922317;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JliFKaJ1uTXtrZZEh6WCt3CKlyHPvhZycx+TPymY9/o=;
- b=CjTZNvTOCJXKdESu1SCV72FiDSO7jugVXqT8Ug0VN3yjANlYcOheWjcN4BKU90k1AoBooo
- 6NQPOipYrPTioc1v2eeToW/1g+Y8r4xT9XJ05rV9/AfojDeFAsMb8UlrnOvemQk+DaJlpQ
- rdW9rO7S5NAFeJkmPj9OhXhHzCf2zxI=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wTxNTC4G8tZvfkXYsUOmWJZv2fn/RPNTA7Loz+ScVGk=;
+ b=XN6l54G61P8ojRC3rbCiPR2QZY54Qcb3digipnGP7bKz4JZ3dfO8o1wOHCf/l9hI2YxrAQ
+ lGYOaI9fGMb5iMZu4X4CakO647eBIf2OEQRUrLy/FsBYTsEeAY+5LCknjodJw+P/BhxGbc
+ Nta6c6G3YGXVsD2BJ5VmNLzQ2pb9H18=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-s6tJNJFkMwSgyF3Y2_GSCw-1; Thu, 03 Feb 2022 15:51:29 -0500
-X-MC-Unique: s6tJNJFkMwSgyF3Y2_GSCw-1
-Received: by mail-qk1-f200.google.com with SMTP id
- k190-20020a37a1c7000000b0047d8a74b130so2458458qke.10
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Feb 2022 12:51:29 -0800 (PST)
+ us-mta-613-8VqOns1qMI6Mam361fOyqw-1; Thu, 03 Feb 2022 16:05:16 -0500
+X-MC-Unique: 8VqOns1qMI6Mam361fOyqw-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ c20-20020ac84e14000000b002d198444921so3091089qtw.23
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Feb 2022 13:05:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
- :user-agent:mime-version:content-transfer-encoding;
- bh=JliFKaJ1uTXtrZZEh6WCt3CKlyHPvhZycx+TPymY9/o=;
- b=KWhhzoP59dcDiVU+bW1VjJztLbyqhoGWTd7iXMnO6ycDKM5cCHx1V80TEpgtcWhQSk
- 6q/tq+/zMEyNbqZBMe9agEZyvWA2670i/+8G9km7kMTczlabqfkAEb8gJMR9huEE5pck
- q98IrZokRVJaBb6MBq3qRvA/wjBqfR4uLOQPFYEVg4sFPaVpv/7b/AEb9hyrWAz9UH9e
- GR+FBSq9QtURLr8EUOGjVPVpV9YJrYyMbEZq9vFiCdAM/syCW2/jsFalcCsvnYjnEsIA
- D7Fj2GVV6yCERxfAq9+jAJ5zgoB4ihgINzbguInggX2dVMw2+FDzvWQfUcEP1hForKa8
- IlVQ==
-X-Gm-Message-State: AOAM533xoQhK5zEKETcA5eNZHcvHFzmvFZDaRnggDicFQNE1cl2JGlg8
- 6XvTpWnaS0Lw9NDwUtFwtHL9LF9aofD2vk+d5DE1rr8xrQ9s8eeKTufGZXOqHuFlT3YKITSS0Sg
- NL+sIQjWuQ6dnya6uOT3Sd05nySkD
-X-Received: by 2002:a05:6214:e68:: with SMTP id
- jz8mr33316319qvb.114.1643921488998; 
- Thu, 03 Feb 2022 12:51:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwD+P2c5ZElNlEv0BX2inOVXFRs4RJUQwA1UUPu5B7QviUoVaMk9uc5WAMwZkyDyk2qFjcZdw==
-X-Received: by 2002:a05:6214:e68:: with SMTP id
- jz8mr33316309qvb.114.1643921488822; 
- Thu, 03 Feb 2022 12:51:28 -0800 (PST)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=wTxNTC4G8tZvfkXYsUOmWJZv2fn/RPNTA7Loz+ScVGk=;
+ b=EDuS2P277H9h58/CPAZzzMuUR9/8gm+gKYPeoNHolAbTUNeug81l03E1AW/SyOAHMd
+ GV69Yz/C7EIh4EkpbSliiH/xxSN6xQqhxfFQvTFUBoDmpJyP8+6U2GsBME67VOzcsPrk
+ tV6InNFc648YAU43e7DQ2PAEPQOgLl6wSS8Su+uT6ixrNKufJQqD8ImjYNInM+EMtKDf
+ 7PZWAVCYNBwjrj4SacvAb5ivWeJxNAiP0zlDDiBuTUMGWXqcwSYnjjteMYaOCOnzEbXr
+ LyeLQeMnRZcVEaCi5JoJxcPgc78PP9eodltCzK22eEiNWC48sHlcHKiFs9S4MBPzgJsA
+ I0iA==
+X-Gm-Message-State: AOAM532hgisE2DfGZOMbwX/WLt++ghgdzF+cclMRlgYabu3Nd1oGG2cm
+ F7mLI5e3l/4oeJI31nJ2BVUHWSOXQt00Nulbw7uNI3YR/Bvmua/1x+bAA8TscGaANcxDzUBpJD9
+ McWBPW/T8fYecL+FldJkcbiarEpNI
+X-Received: by 2002:ac8:7c4e:: with SMTP id o14mr28037829qtv.637.1643922316308; 
+ Thu, 03 Feb 2022 13:05:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzeOJe9pNmMZSKwkg3H/lznOtdXYM590bhHQNaVBR0XQtUXcP8pjO6id4B62LZk89cDR0u5Tg==
+X-Received: by 2002:ac8:7c4e:: with SMTP id o14mr28037790qtv.637.1643922316027; 
+ Thu, 03 Feb 2022 13:05:16 -0800 (PST)
 Received: from [192.168.8.138] (pool-96-230-100-15.bstnma.fios.verizon.net.
  [96.230.100.15])
- by smtp.gmail.com with ESMTPSA id o18sm10913876qkp.26.2022.02.03.12.51.27
+ by smtp.gmail.com with ESMTPSA id f14sm10427270qko.117.2022.02.03.13.05.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Feb 2022 12:51:28 -0800 (PST)
-Message-ID: <8a36c4ab07a82833e4086773a550d215e54a9e3f.camel@redhat.com>
-Subject: [Important!] 2022 X.Org Foundation Membership deadline for voting
- in the election
+ Thu, 03 Feb 2022 13:05:15 -0800 (PST)
+Message-ID: <8ab27937391733a9027a41af17a4a8155f78d549.camel@redhat.com>
+Subject: Re: [PATCH] drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP
 From: Lyude Paul <lyude@redhat.com>
-To: xorg@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Date: Thu, 03 Feb 2022 15:51:27 -0500
+To: Thomas Zimmermann <tzimmermann@suse.de>, thierry.reding@gmail.com, 
+ sam@ravnborg.org, airlied@linux.ie, daniel@ffwll.ch,
+ linus.walleij@linaro.org,  dianders@chromium.org, ardb@kernel.org,
+ naresh.kamboju@linaro.org
+Date: Thu, 03 Feb 2022 16:05:13 -0500
+In-Reply-To: <20220203091340.20285-1-tzimmermann@suse.de>
+References: <20220203091340.20285-1-tzimmermann@suse.de>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.42.3 (3.42.3-1.fc35)
 MIME-Version: 1.0
@@ -83,29 +87,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: board@x.org
+Cc: arnd@arndb.de, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The 2022 X.Org Foundation elections are rapidly approaching. We will be
-forwarding instructions on the nomination process to membership in the
-near future.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Please note that only current members can vote in the upcoming election,
-and that the deadline for new memberships or renewals to vote in the
-upcoming election is March 17th 2022 at 23:59 UTC.
-
-If you are interested in joining the X.Org Foundation or in renewing
-your membership, please visit the membership system site at:
-
-https://members.x.org/
-
-You can find the current election schedule here:
-
-https://www.x.org/wiki/BoardOfDirectors/Elections/2022/
-
-        Lyude Paul,
-        On behalf of the X.Org elections committee
+On Thu, 2022-02-03 at 10:13 +0100, Thomas Zimmermann wrote:
+> As reported in [1], DRM_PANEL_EDP depends on DRM_DP_HELPER. Select
+> the option to fix the build failure. The issue has been reported
+> before, when DisplayPort helpers where hidden behind the option
+> CONFIG_DRM_KMS_HELPER. [2]
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: adb9d5a2cc77 ("drm/dp: Move DisplayPort helpers into separate helper
+> module")
+> Fixes: 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of panel-simple")
+> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/panel/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 434c2861bb40..0aec5a10b064 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -106,6 +106,7 @@ config DRM_PANEL_EDP
+>         depends on PM
+>         select VIDEOMODE_HELPERS
+>         select DRM_DP_AUX_BUS
+> +       select DRM_DP_HELPER
+>         help
+>           DRM panel driver for dumb eDP panels that need at most a regulator
+> and
+>           a GPIO to be powered up. Optionally a backlight can be attached so
 
 -- 
 Cheers,
