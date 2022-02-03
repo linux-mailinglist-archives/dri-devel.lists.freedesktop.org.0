@@ -1,96 +1,147 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0414D4A8549
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 14:33:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 017644A854E
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 14:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14F9710F7EF;
-	Thu,  3 Feb 2022 13:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09E4810EB6E;
+	Thu,  3 Feb 2022 13:34:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2058.outbound.protection.outlook.com [40.107.244.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 580F110F7EF;
- Thu,  3 Feb 2022 13:33:22 +0000 (UTC)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E82A10EC1E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 13:34:38 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 213DREYi007910; 
+ Thu, 3 Feb 2022 13:34:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=q2200Hfkv25m4xV1NiL+v8ASzRif8xFyXRFn1OsJEUQ=;
+ b=vn814JwcFQ23iVM+q6dCPxQtUSDVJNcIPwz2Xd7FC3daudxpsai0j62wVsvsvc750u0v
+ ml90XF+2qcJ2S/zlxt0i3/1O+0b1Kg1zE5+v5xTHpH5G/NuGYCQEJ2O12JbEv8Cl6LZb
+ GDwf+jMTPouoSPcC2OoYJVut/2MMj2lYdScWDo3ppDvCWNOLjpMFqrowknc0fCVNPQGD
+ 5y7IjUizE2k+wT/6+piDbG6EHHpc0qAWH664hKo9aBbp53erOQV0JFxj0+NwTUzHU06I
+ mo4BZPd6O6vFGtxHSPFLaeNzPl2mE+RxJpCgkIp6McQmj9l/zQF6Npd7za1nqnjNMiO2 6A== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dxj9vhchq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 03 Feb 2022 13:34:19 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 213DVYwX122570;
+ Thu, 3 Feb 2022 13:34:19 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+ by aserp3020.oracle.com with ESMTP id 3dvwdaa90f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 03 Feb 2022 13:34:18 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=drES5KqrZuGv2X8E5Od9RGcuoxxa2Lr1WIllslaJ2/ji0EVJXsJ8Nu8v53XF0+rjImg3HGuwdseB7yZticyljPCGpbaRi4vGYP+AnxDUy7Afk2Oj5ZKGhvEXgBi7XQYnp+m4+xkO0qpw81tQD5TtGhAkJLgmRJwuanx9ew4BIJ6soPV+NJzU9PtONyOzPz0abbpVVqXo3mDhJ/0873Cxi5rB9/v7CTacvlWP9vpIC9Fm8yPc0aLzA1tJN1odb/sGElp8Acq/ydD/nUTyh/NNvA1PwuH7Qfuk/L9LcN1NMmvz2idlHsf9HvOPNUwgkhfEFITLFxfVO4qlZ62dFdvEfA==
+ b=V+fvgFiRYCQnxAog9Mo2k26600pqqRiYQUmN7af510SYw08j4Rocb9sfH4l3Zkm8fGm1uF3csIC2SkH4g23MvcNnkYnfQUxNB04OgksAyMkgBxtuGDPFCCo04cXHZVAVZa+8Qg3cxOLCBp6tLISSUNWeoiCFD7JiqO30+/nhSJiBkDRDPufxn34hwxXJLJeAt/5rsPUDr3+QJy5C2RodhsfaK2vqBIRtkJW1N84OhHADjl/x1F5i2u84sB60xUTy32Tty8EkyKGDFzg0iNPUDwYqVMOYW87GjzIqvC+sEJvpa9d4xKEaLlXMqDVPBWZePgyyE1tWEt1ovQ+Bjx1gDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QgujbPF/dWAgw3TPEYOUxkF6HSLg5ZZeFzG7vsSd7Z0=;
- b=KR5vogS2lesH7tCLQsWpA8NcgGfQFuCU3zUCxqwcS/eEFKY0EyOERBGhxAAn9ceFK67z98u/pcJzrtn+RRpGJACgBopRtOwa1c8g0BTIuHQiD90x+TQDBCgXdUcE40tJti+Mmi4btjOF4wt4v/jgIRVMBsP6SQaSY/YEoDMFgXN1X/zISVG96SD1DXdTt1J6tn5cF4Co+NqTuX7BqkQhdukjZhcZpf9DCMDB5vOCr/dSV6gAq1R+ScbcbFtKOAj+EHnBNDq7GiG0rJWnzo+TYZlaK28NKsSfdKzoRyxP2yLZoz/FE7v9Ds9JIbsFTMMPlNjgxV0KnwqgJXkmbQrB2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=q2200Hfkv25m4xV1NiL+v8ASzRif8xFyXRFn1OsJEUQ=;
+ b=VBLsepscG3h49sweFUtc3S6HMC6BKFRSCYV4BnvcunF2xkoRqLRoWju9jI4DpNbMVL+QCU5hLmYmbsiS+XsSLDbIewk4HNSaV2pg95fXyef3eDJOXYAOj8flexqmiTizDpbGebgX2eBrs8fq3KeEqshVX91iTOH95kg2aFNFKuk/mCbzERwh1lAcx1NVsrxs0n3P9YBQ/ljWO2ihwPSwKcX/qEFuVZf+BYUXcAgRfETmi4rBtLVGu1Y14+02xGKG6cyxnxTjJbP0OlrAzrF+jgtdhlNUnny1U/3D6UncTO7w2oTyUGnHV3o01Y/vvsRM/Aq117asqDxPUNn2Di5Gzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QgujbPF/dWAgw3TPEYOUxkF6HSLg5ZZeFzG7vsSd7Z0=;
- b=XJScnB587CAegD4OITA33NdfpxtyBKqVz9n51rk29UTrHzammDWNCtdO7+tn4zpUC+L/ydYzj9gwe4hOQr1Bgn7fK2i3jzdSKuoWiDFWKF6WSXKmQ8oMdXlFIgojgwHgYu0L7yWT8Bo16loe6AW/5qdSFT6onf1IOrlY78j97Bk=
-Received: from BN9PR03CA0222.namprd03.prod.outlook.com (2603:10b6:408:f8::17)
- by BYAPR12MB2645.namprd12.prod.outlook.com (2603:10b6:a03:61::30)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.20; Thu, 3 Feb
- 2022 13:33:17 +0000
-Received: from BN8NAM11FT017.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:f8:cafe::b4) by BN9PR03CA0222.outlook.office365.com
- (2603:10b6:408:f8::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.11 via Frontend
- Transport; Thu, 3 Feb 2022 13:33:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT017.mail.protection.outlook.com (10.13.177.93) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4951.12 via Frontend Transport; Thu, 3 Feb 2022 13:33:16 +0000
-Received: from rtg-amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 3 Feb
- 2022 07:33:13 -0600
-From: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH 7/7] drm/selftests: add drm buddy pathological testcase
-Date: Thu, 3 Feb 2022 19:02:34 +0530
-Message-ID: <20220203133234.3350-7-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220203133234.3350-1-Arunpravin.PaneerSelvam@amd.com>
-References: <20220203133234.3350-1-Arunpravin.PaneerSelvam@amd.com>
+ bh=q2200Hfkv25m4xV1NiL+v8ASzRif8xFyXRFn1OsJEUQ=;
+ b=GSHrCXxfqoZLPnOZV5rEsrKyPzvtLrbDxB0eIJnLfFWWFgMdL1Te5REsAAvge84PZXEIu+wwZk9OOjNRtF4a+sAI8GW8j5YhAUmkfNli1p94J2WRvzD1LJItqkHcxh8L1RNUhYTP7hOiX9tormEDSGFrRvxgnWeMdzGOcE8mBGY=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1470.namprd10.prod.outlook.com
+ (2603:10b6:300:24::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Thu, 3 Feb
+ 2022 13:34:16 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8%5]) with mapi id 15.20.4930.021; Thu, 3 Feb 2022
+ 13:34:16 +0000
+Date: Thu, 3 Feb 2022 16:34:01 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v6 1/3] drm/lsdc: add drm driver for loongson display
+ controller
+Message-ID: <20220203133401.GF1978@kadam>
+References: <20220203082546.3099-1-15330273260@189.cn>
+ <20220203082546.3099-2-15330273260@189.cn>
+ <CAJKOXPfCjx6UoLK6LgXBZCfixxq8k7E-RFXb8i-chyXc39WEoQ@mail.gmail.com>
+ <20220203110751.GE1978@kadam>
+ <CAJKOXPeLS+PZBCvEOeazc8N5w1D=WeO_D45yEazu-XQQeHNohQ@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJKOXPeLS+PZBCvEOeazc8N5w1D=WeO_D45yEazu-XQQeHNohQ@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MR1P264CA0085.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:3f::16) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 76976948-526d-4f69-986c-08d9e719bc03
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2645:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB26451DE5556DE4BA27CDA6EFE4289@BYAPR12MB2645.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:820;
+X-MS-Office365-Filtering-Correlation-Id: 5e44626d-9a3e-47e1-e8da-08d9e719df64
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1470:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR10MB1470BA3CACC13DC0E8AA9B468E289@MWHPR10MB1470.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Zo4N21n9HpkTS0URbTowRieCESEtsM4P4Fmwn969Ul+ldQAXipHlwPAv0TG19WdeZ/t/zJsOkz/2rRB2nKQMYMlj9+eok1N5glmD+mwq5QAQWpa2MeaNbCQ9+kfF1c5jobzv8nG+Da6HX7yfB0z4RZmrx4NPAA3eNN1ejWw/J5wkBrHht5EcqtE6PchcqUfqMrOp3edQo/J3txYIVtEW6/JFe4daF5XowcryVOZucKVLWqPi9NpYIsz4LfEzNrNn1t1XoCZyC2ZDzVo21a2Z39ORcrUKjGUSghEIcKv/s0ssErFxPsX4KjK0I1z5BV6fXSi73DVaenORCWzrJ16ea3zXEEUl8prCnKj4v5EIQf4jF8VxnJT1mCJ0m8FGwx/48bpQ1J5CP2sexZKCv/YoczhfeLavL0PHcLACTEmqKUGbCOyat3Pq5UTzDqNZ79+olIMU3vkx2/NpQdY7aUuw0yyfRKSPqQ31ZSteQZDkWS5guniO7xJsMhZ9u0RVYszYASGOVWPPOLq8d+uhe42Iq+QNpZEdc6ICJAHhZamlBkk6jx9Sa2anaN5oRfKn8ngCyUeWsDZgnUETXeFjStM/mybqO2Ufrb9tOskqHeClUwfWvalC5hJh/dXNNp1StMA4ajd3AmN/FxPvLRosYgD1C/dAyfmnHUEefJS+A7JdwcG8h03+NvUKZ2Xz8NZtq29ucSOTG/tpO3Iw1pY6su62HQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(70206006)(70586007)(86362001)(40460700003)(54906003)(4326008)(508600001)(110136005)(8936002)(8676002)(5660300002)(356005)(81166007)(316002)(36756003)(7696005)(82310400004)(16526019)(2616005)(26005)(6666004)(426003)(47076005)(2906002)(36860700001)(1076003)(83380400001)(336012)(186003)(36900700001);
+X-Microsoft-Antispam-Message-Info: Nh4fRml3g6QKa1lHGAkkFAsG9KhC/H6PkRwsu1eSeLYhhUCQrXcEHjFoQioRveau+cYe7NDIqfx9nP8Y2wp/ylvqi4f1eUM0QXm0RBMRCefCoxv9JDcdixezzwgLchnQDiNOkyBhLX6adk5Elxar7D4HayAJFjVW7nE3WeP0WRuTwwjAfShf4F1jUblPVyffeRMPWu3nJ/TXR9R61JQNyzWA6VH6K1NUOR911GYNtJYgSKosFZmP884e0LwXhlJT3iqIoFwbR2/6vk+H6YznM1fgjw2LsqmmhUvEcrdRYmz4AhM9jM6duL1ACm3+BYdUqt+9/o98QadlfLf10GMT0yWU4fpFoaIxVj+A95zI8vGu8lZrCn5qHXiQHayr1cuM3kQxk6YqCHiSgLoOjmYzT/HygwMgYKdnFNzxA8SxNJC9q6S7Fd3O6ZCc2xRFwco7o+v87REDXzjx9NDsLfyOA7dm6wEtkqeQ5E0rNRQaw+KDICWPtrWlmacooFLixbvEixo2jO7Ly6nAtPSjA0lf7rwFs2s/6eYo/jMmRYWEnAtLTUvI2l9j4vouGa0kJUgNeffMbPo3Y9TZK9/kiaSFK9rcMB9rSDiHb972EHHChXq0OK9ulSwd+tKxFXdfGP8GbIM43lpjUzZVuky6nX7/e1Nx2eBRRozCWYdSTS2/CdW1UHjy7cLVpqRa16KrJwuL0Vv89E5SNH1Vdv8bRngz2g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(7916004)(366004)(8676002)(83380400001)(66946007)(66556008)(66476007)(508600001)(33716001)(4326008)(26005)(186003)(6486002)(33656002)(1076003)(8936002)(5660300002)(38350700002)(38100700002)(6666004)(6512007)(6506007)(54906003)(7416002)(6916009)(316002)(9686003)(52116002)(44832011)(2906002)(86362001);
  DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2022 13:33:16.3561 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76976948-526d-4f69-986c-08d9e719bc03
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT017.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2645
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IEuK/HHPEAJR0LINNi4rJBpEpo3olhYiI0luiAXEyTo+6Jf7xYJFkl3DRPqd?=
+ =?us-ascii?Q?l8Zj+GEEVPEqzYl0IAXyEMbhZmHBbE1/XpfeGXaO8Ngu01Z0myaLgfxs10QC?=
+ =?us-ascii?Q?yttIsAtSZ2oRE6vB58/63xK/4brSJuwynwoZzouL7W8jeoZIYHR5O8sGaC9Q?=
+ =?us-ascii?Q?dD+d7C6TrghYT280uY5tcD1AOBudfexlm7QPjhHAJNGRuT34RECUx/B5cF5U?=
+ =?us-ascii?Q?3HqQxtoJ+7T12Rd00HUvJ0QLz62WfrX11k1nb+vzu5j+F0AoOCL5ul/uLlEN?=
+ =?us-ascii?Q?QNBIQSKzX4KuCyl1emccOiqY0iT1uAXivvdwvyhfcxMICWH03mXqVxDki5JA?=
+ =?us-ascii?Q?ucA8oWl3TyA1Fx+CA3TxeDzNiLKQRHUy46k19S+f1daiGIkcSAnfxhEx+zrz?=
+ =?us-ascii?Q?UkZfQKZCHMALDQTPvENzQXazISX2Or/YKxGziMRMOBLrosbcpavumXz/WFSx?=
+ =?us-ascii?Q?rg0YL5OSkGIoBZhdCOLmSUiP2PT1NBAqwh184S+Koiy2G6aSirnTjGdh9y+B?=
+ =?us-ascii?Q?CNhWaJOWW0RD9BFi2BgCH9O2+UnYZipLbV9CiJF1XE0qPz5D8uyben0KQ1L8?=
+ =?us-ascii?Q?Md/AfJy7j8Lo6GItbD2FCENXup52Wqa4PjLGMyoI4s/5N3lZh/nezSkbBlPO?=
+ =?us-ascii?Q?FlSNN7FfHnVqcuxss6hoWQ4dQZACFaIHX9M5GTxYQ7frbuCBabqv4Y5VUK9z?=
+ =?us-ascii?Q?/jXD8aRu/oUGAleoyIMeWH3yFzv7+Ky+1sjfOmrgyl6IU1haUAbCuj1YgdCD?=
+ =?us-ascii?Q?pLdyyCsaMVarY4JbLGrWZBjvkY72+/dSJhWXh9dHJ6doJkJjPVnRo1LTJtXX?=
+ =?us-ascii?Q?bIuZiw00pgyQutpXVHLDG+Q54Dbd0hkavpOib0OuvQYtk3J/Sk0+mwbmK9F+?=
+ =?us-ascii?Q?EUzcMYzX/4VYkxmHRsFx5sTWl1GWZ5jU0vgZAszqAH61rvCfT3XfkCnVGa3j?=
+ =?us-ascii?Q?vaQja6tmCJQNSnlzCRKfgIkPy84uLhIC7Usbo9QtciZboTGZvb49EP+g61t9?=
+ =?us-ascii?Q?bprB5Gkq31EFaEP/qhFEEDQACTc0sJTbIZGcpUV80d8/vyRUgkf2pUQ6ekHp?=
+ =?us-ascii?Q?ZJaQZOThXhVgL+YIJ1hpW2EPsLtBUoM7gwghHMWyqsfcFDUXbGSnWbwQvtve?=
+ =?us-ascii?Q?/SBSnEGVxDs4fh/9w28AHc5GCu75VE4+R50IvT/AQbuqb4Rjcp/IxaRW1i6E?=
+ =?us-ascii?Q?6f9qwt4ATeo11TyFCKgrhN498QOCnhNPmwCN+jvEivLekYfQcp+xX+l6NwjU?=
+ =?us-ascii?Q?fLbD/KytwP9PdVrZnLEkiTPxyo+2xsvHd7f1CeHvmv5T/3EzygYPXL+KiXNX?=
+ =?us-ascii?Q?02rr6s3W3vRhVetCshhvkhLErwQpWMzQ3QNeNrb+ITy0nR9G0IwTdplbYZ2p?=
+ =?us-ascii?Q?Kx6xPgcasghuV+VnS+8oXvtOI4GlkI4yqfjX9qx7PG24uUyQB0+99jOAfN5L?=
+ =?us-ascii?Q?cTZ8S1tes2SU2HA1BQObszS8h5ImfFySqAwFziYKy/ogjqA9RK0iKHzXgpFx?=
+ =?us-ascii?Q?Mit1o2Jq3bSfEdjyiV3nrqDqjzLV8iOfQZkVekhEl8Oyjm4+beu/+FSc1dGv?=
+ =?us-ascii?Q?sK4d5CgqkJT4B5pOaJorxcoetyY33g5QFLlEL2BR8U6cv/rBVgDa3s42mnqn?=
+ =?us-ascii?Q?OPgBwfiSegajtCZW9teXkJr6VL8bfbdOLi3GDWTIxELxo8nIgU0foGK3Ur4Z?=
+ =?us-ascii?Q?N87UGMBdyAykVTo84YullD+ItzU=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e44626d-9a3e-47e1-e8da-08d9e719df64
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2022 13:34:15.9954 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9aKtjRd5bamVbsLAM3A1o2bdpCzMhYzSD0xeyl22QjfVn6KzzJHZUfhVoFVApGO2fGyIeKrmrXhgqg+EBepiompdJ+QQwMTFxGAQt8l0As4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1470
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10246
+ signatures=673430
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ adultscore=0
+ suspectscore=0 malwarescore=0 bulkscore=0 mlxscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202030084
+X-Proofpoint-ORIG-GUID: 1-3INV1221BKvuH5ZQWEj9gqyJP3geXd
+X-Proofpoint-GUID: 1-3INV1221BKvuH5ZQWEj9gqyJP3geXd
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,178 +154,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arunpravin <Arunpravin.PaneerSelvam@amd.com>, matthew.auld@intel.com,
- tzimmermann@suse.de, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Randy Dunlap <rdunlap@infradead.org>, Roland Scheidegger <sroland@vmware.com>,
+ linux-mips@vger.kernel.org, Sui Jingfeng <15330273260@189.cn>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-create a pot-sized mm, then allocate one of each possible
-order within. This should leave the mm with exactly one
-page left. Free the largest block, then whittle down again.
-Eventually we will have a fully 50% fragmented mm.
+On Thu, Feb 03, 2022 at 12:29:11PM +0100, Krzysztof Kozlowski wrote:
+> On Thu, 3 Feb 2022 at 12:08, Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> > >
+> > > This does not look like compliant with GPL-2.0. You cannot call a
+> > > license GPL-2.0 and restrict it with some other provisions.
+> >
+> > That's the MIT license.  It's not the GPL-2.0 license but it is
+> > compliant.
+> 
+> It's compliant when included as "OR" for example in SPDX tag. The
+> current solution - SPDX and MIT license text - is not the proper way
+> to describe this. Otherwise one could argue that both licenses apply
+> at the same time and one has to fulfill both of them, which is
+> ridiculous. There is a SPDX tag for the proper case - GPL or MIT.
 
-Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
----
- .../gpu/drm/selftests/drm_buddy_selftests.h   |   1 +
- drivers/gpu/drm/selftests/test-drm_buddy.c    | 136 ++++++++++++++++++
- 2 files changed, 137 insertions(+)
+You're saying a bunch of different things.
 
-diff --git a/drivers/gpu/drm/selftests/drm_buddy_selftests.h b/drivers/gpu/drm/selftests/drm_buddy_selftests.h
-index 411d072cbfc5..455b756c4ae5 100644
---- a/drivers/gpu/drm/selftests/drm_buddy_selftests.h
-+++ b/drivers/gpu/drm/selftests/drm_buddy_selftests.h
-@@ -12,3 +12,4 @@ selftest(buddy_alloc_range, igt_buddy_alloc_range)
- selftest(buddy_alloc_optimistic, igt_buddy_alloc_optimistic)
- selftest(buddy_alloc_pessimistic, igt_buddy_alloc_pessimistic)
- selftest(buddy_alloc_smoke, igt_buddy_alloc_smoke)
-+selftest(buddy_alloc_pathological, igt_buddy_alloc_pathological)
-diff --git a/drivers/gpu/drm/selftests/test-drm_buddy.c b/drivers/gpu/drm/selftests/test-drm_buddy.c
-index 2074e8c050a4..b2d0313a4bc5 100644
---- a/drivers/gpu/drm/selftests/test-drm_buddy.c
-+++ b/drivers/gpu/drm/selftests/test-drm_buddy.c
-@@ -338,6 +338,142 @@ static void igt_mm_config(u64 *size, u64 *chunk_size)
- 	*size = (u64)s << 12;
- }
- 
-+static int igt_buddy_alloc_pathological(void *arg)
-+{
-+	u64 mm_size, size, min_page_size, start = 0;
-+	struct drm_buddy_block *block;
-+	const int max_order = 3;
-+	unsigned long flags = 0;
-+	int order, top, err;
-+	struct drm_buddy mm;
-+	LIST_HEAD(blocks);
-+	LIST_HEAD(holes);
-+	LIST_HEAD(tmp);
-+
-+	/*
-+	 * Create a pot-sized mm, then allocate one of each possible
-+	 * order within. This should leave the mm with exactly one
-+	 * page left. Free the largest block, then whittle down again.
-+	 * Eventually we will have a fully 50% fragmented mm.
-+	 */
-+
-+	mm_size = PAGE_SIZE << max_order;
-+	err = drm_buddy_init(&mm, mm_size, PAGE_SIZE);
-+	if (err) {
-+		pr_err("buddy_init failed(%d)\n", err);
-+		return err;
-+	}
-+	BUG_ON(mm.max_order != max_order);
-+
-+	for (top = max_order; top; top--) {
-+		/* Make room by freeing the largest allocated block */
-+		block = list_first_entry_or_null(&blocks, typeof(*block), link);
-+		if (block) {
-+			list_del(&block->link);
-+			drm_buddy_free_block(&mm, block);
-+		}
-+
-+		for (order = top; order--; ) {
-+			size = min_page_size = get_size(order, PAGE_SIZE);
-+			err = drm_buddy_alloc_blocks(&mm, start, mm_size, size,
-+						     min_page_size, &tmp, flags);
-+			if (err) {
-+				pr_info("buddy_alloc hit -ENOMEM with order=%d, top=%d\n",
-+					order, top);
-+				goto err;
-+			}
-+
-+			block = list_first_entry_or_null(&tmp,
-+							 struct drm_buddy_block,
-+							 link);
-+			if (!block) {
-+				pr_err("alloc_blocks has no blocks\n");
-+				err = -EINVAL;
-+				goto err;
-+			}
-+
-+			list_del(&block->link);
-+			list_add_tail(&block->link, &blocks);
-+		}
-+
-+		/* There should be one final page for this sub-allocation */
-+		size = min_page_size = get_size(0, PAGE_SIZE);
-+		err = drm_buddy_alloc_blocks(&mm, start, mm_size, size, min_page_size, &tmp, flags);
-+		if (err) {
-+			pr_info("buddy_alloc hit -ENOME for hole\n");
-+			goto err;
-+		}
-+
-+		block = list_first_entry_or_null(&tmp,
-+						 struct drm_buddy_block,
-+						 link);
-+		if (!block) {
-+			pr_err("alloc_blocks has no blocks\n");
-+			err = -EINVAL;
-+			goto err;
-+		}
-+
-+		list_del(&block->link);
-+		list_add_tail(&block->link, &holes);
-+
-+		size = min_page_size = get_size(top, PAGE_SIZE);
-+		err = drm_buddy_alloc_blocks(&mm, start, mm_size, size, min_page_size, &tmp, flags);
-+		if (!err) {
-+			pr_info("buddy_alloc unexpectedly succeeded at top-order %d/%d, it should be full!",
-+				top, max_order);
-+			block = list_first_entry_or_null(&tmp,
-+							 struct drm_buddy_block,
-+							 link);
-+			if (!block) {
-+				pr_err("alloc_blocks has no blocks\n");
-+				err = -EINVAL;
-+				goto err;
-+			}
-+
-+			list_del(&block->link);
-+			list_add_tail(&block->link, &blocks);
-+			err = -EINVAL;
-+			goto err;
-+		}
-+	}
-+
-+	drm_buddy_free_list(&mm, &holes);
-+
-+	/* Nothing larger than blocks of chunk_size now available */
-+	for (order = 1; order <= max_order; order++) {
-+		size = min_page_size = get_size(order, PAGE_SIZE);
-+		err = drm_buddy_alloc_blocks(&mm, start, mm_size, size, min_page_size, &tmp, flags);
-+		if (!err) {
-+			pr_info("buddy_alloc unexpectedly succeeded at order %d, it should be full!",
-+				order);
-+			block = list_first_entry_or_null(&tmp,
-+							 struct drm_buddy_block,
-+							 link);
-+			if (!block) {
-+				pr_err("alloc_blocks has no blocks\n");
-+				err = -EINVAL;
-+				goto err;
-+			}
-+
-+			list_del(&block->link);
-+			list_add_tail(&block->link, &blocks);
-+			err = -EINVAL;
-+			goto err;
-+		}
-+	}
-+
-+	if (err) {
-+		pr_info("%s - succeeded\n", __func__);
-+		err = 0;
-+	}
-+
-+err:
-+	list_splice_tail(&holes, &blocks);
-+	drm_buddy_free_list(&mm, &blocks);
-+	drm_buddy_fini(&mm);
-+	return err;
-+}
-+
- static int igt_buddy_alloc_smoke(void *arg)
- {
- 	u64 mm_size, min_page_size, chunk_size, start = 0;
--- 
-2.25.1
+We both agree that the SPDX text is confusing because it says GPL-2.0+
+but it has the text from the MIT license.
+
+"This does not look like compliant with GPL-2.0."
+
+Wrong.  The MIT license is compatible with the GPL-2.0.
+
+"You cannot call a license GPL-2.0 and restrict it with some other
+provisions."
+
+Wrong.  The MIT license just says you have to include the No Warranty
+text.  The GPL has it's own list of requirements.  But you can combine
+MIT and GPL code and easily comply with both requirements.  That's what
+"compatible" means in this context.
+
+In the kernel we have MIT licensed code which is dual licensed.  This
+means that someone can take that driver and release it as closed source
+software if they want.
+
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+
+Then we also have code which was originally MIT licensed but now you
+have to comply with the GPL as well.
+
+// SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) AND MIT
+
+These examples were cut and paste from Documentation/process/license-rules.rst
+
+regards,
+dan carpenter
 
