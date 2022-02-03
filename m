@@ -1,65 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795054A7C6A
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 01:10:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C711A4A7C8B
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 01:15:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4208A10E681;
-	Thu,  3 Feb 2022 00:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAF9710E6A3;
+	Thu,  3 Feb 2022 00:15:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C23CF10E67E
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 00:10:53 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8775CB81038
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 00:10:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5DDDCC36AE3
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 00:10:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643847049;
- bh=GhTfssG+BnDFacTD9NcQJBtHuPtC97YDNph0OlmA/eI=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ZK0ExrEffFyZb/Yos38xfU9KGFZwC1M1wkZJvQLU1ii4ny0ynN/3KYjpmYmiiPqDV
- ltJ0Rav3BIIpPrsxSN5OeKUqRYp/K8dpSkDCMkZyMUX0x6iU7S7jijCiYc3rKWv1cO
- qvwoR/lsHVHFc2Vx2CmjLFZj/bwwSi2RWVNGgezbFqkIJL0kQN/CVgvTb5YckOQkTA
- CNddqiaVrLLe/7NuOlk4h+8iivgfYW+gUERrIfyC2tAFgU7+VMVorTiTchhIBCpHsc
- r2hVOsA0YYoA2AzAmbjlckO9si/B54ScVXDVbXtGyotCa93N+E1A/7FSLB5uJsD8dW
- ITJUpaTkwFH6w==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 3E6A1C05FD5; Thu,  3 Feb 2022 00:10:49 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215511] Dual monitor with amd 5700 causes system to hang at
- startup.
-Date: Thu, 03 Feb 2022 00:10:49 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pmestre@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215511-2300-fUxHqFjNi2@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215511-2300@https.bugzilla.kernel.org/>
-References: <bug-215511-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96E9210E6A3;
+ Thu,  3 Feb 2022 00:15:00 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Jpzh24y84z4xQp;
+ Thu,  3 Feb 2022 11:14:58 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1643847299;
+ bh=u8fbPciKwFuGj4n2Rl4Owe3OAhv38CDvSa1vfAmR/Yk=;
+ h=Date:From:To:Cc:Subject:From;
+ b=iBcLluiJrpmHOFvXyj0bVZkyKxcnzNUwdCVSYYd+uPRxL+ckAbUiq+nXjlEqAhwDo
+ aXn3bcJL7xAYXTz4ESwBd6s2HZrf4nS4HO6PT3wOPXI2LxNJLXHONE0zerXcoj6sN1
+ tVETfdL/PCTt52evs+iW2/p+8jv2ltYALrlNMuGq9ZbbYHg8s/+IyYa/zU+6FI16ws
+ 6tUn1UuSbGhaXF2+kwn0+Hg8KWB/P5brMoHyZZ2gOlPWJ+IEJWYB0c4cCLW6tKT80/
+ 2KPBux1k9Nhmlzmx052cRHG1Zgod6+ATWpiiWoQV+sUqd97BnTsGxEH+V3hRTJsSB1
+ GGSq9xqpp8uJA==
+Date: Thu, 3 Feb 2022 11:14:57 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-intel-gt tree with the
+ drm-intel tree
+Message-ID: <20220203111457.3d07043f@canb.auug.org.au>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/ypLkd865E+Pc8V6nfundl_B";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,58 +52,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215511
+--Sig_/ypLkd865E+Pc8V6nfundl_B
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
---- Comment #4 from Jose Mestre (pmestre@gmail.com) ---
-0f591d17e36e08313b0c440b99b0e57b47e01a9a is the first bad commit
-commit 0f591d17e36e08313b0c440b99b0e57b47e01a9a
-Author: Angus Wang <angus.wang@amd.com>
-Date:   Thu Dec 9 17:27:01 2021 -0500
+Hi all,
 
-    drm/amd/display: Changed pipe split policy to allow for multi-display p=
-ipe
-split
+Today's linux-next merge of the drm-intel-gt tree got a conflict in:
 
-    commit ee2698cf79cc759a397c61086c758d4cc85938bf upstream.
+  drivers/gpu/drm/i915/i915_reg.h
 
-    [WHY]
-    Current implementation of pipe split policy prevents pipe split with
-    multiple displays connected, which caused the MCLK speed to be stuck at
-    max
+between commit:
 
-    [HOW]
-    Changed the pipe split policies so that pipe split is allowed for
-    multi-display configurations
+  0d6419e9c855 ("drm/i915: Move GT registers to their own header file")
 
-    Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1522
-    Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1709
-    Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1655
-    Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1403
+from the drm-intel tree and commit:
 
-    Note this is a backport of this commit from amdgpu drm-next for 5.16.
+  270677026261 ("drm/i915/dg2: Add Wa_14015227452")
 
-    Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-    Reviewed-by: Aric Cyr <Aric.Cyr@amd.com>
-    Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-    Signed-off-by: Angus Wang <angus.wang@amd.com>
-    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-    Cc: stable@vger.kernel.org
-    Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+from the drm-intel-gt tree.
 
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c   | 2 +-
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c   | 2 +-
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c   | 2 +-
- drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c | 2 +-
- drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c | 2 +-
- drivers/gpu/drm/amd/display/dc/dcn303/dcn303_resource.c | 2 +-
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c   | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
+I fixed it up (I used the former version and then added the following
+merge fix patch) and can carry the fix as necessary. This is now fixed
+as far as linux-next is concerned, but any non trivial conflicts should
+be mentioned to your upstream maintainer when your tree is submitted for
+merging.  You may also want to consider cooperating with the maintainer
+of the conflicting tree to minimise any particularly complex conflicts.
+
+It would be nice if you synced up these 2 trees (by merging one into
+the other) as I am carrying several merge fix patches due to the
+splitting up of i915_reg.h.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Thu, 3 Feb 2022 11:09:02 +1100
+Subject: [PATCH] fix up for "drm/i915: Move GT registers to their own heade=
+r file"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915=
+/gt/intel_gt_regs.h
+index 16d98ebee687..a6f0220c2e9f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -1482,6 +1482,7 @@ enum {
+=20
+ #define GEN9_ROW_CHICKEN4				_MMIO(0xe48c)
+ #define   GEN12_DISABLE_GRF_CLEAR			REG_BIT(13)
++#define   XEHP_DIS_BBL_SYSPIPE				REG_BIT(11)
+ #define   GEN12_DISABLE_TDL_PUSH			REG_BIT(9)
+ #define   GEN11_DIS_PICK_2ND_EU				REG_BIT(7)
+ #define   GEN12_DISABLE_HDR_PAST_PAYLOAD_HOLD_FIX	REG_BIT(4)
+--=20
+2.34.1
 
 --=20
-You may reply to this email to add a comment.
+Cheers,
+Stephen Rothwell
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+--Sig_/ypLkd865E+Pc8V6nfundl_B
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmH7HoEACgkQAVBC80lX
+0GzlgwgAg4MAsHpb9BK8WcXrVM8oADz9LQ8rr+U7jsWhYXKifduojy/uC8dVcOVU
+3xA3+09tK6UXfIf6lvifuu8RQQzR4uzQDCDfiC6IyEaJK51lfDy7KLT4YoX0Bj5G
+ROSNxhDNzHaw0NQ3XZbB+KKqKAa28ZtlPcmVokWpXUdzN7qOQFrJrqpYqhbCVjg9
+iTbQOVGnbo5JcoM70wo4jf7yhhTUgMFUMbO8Bs+3jjdRlzRy2W3iXR6hkpmFMSWA
+qYKIc+CZB51ysV1cx3BnFqzzvwpD2ALQYrkaQxSqPCvNNU2Wx/9RMCj7O5hV6wzk
+583esL8RTLV576vyNTf3y5vB9NFc6g==
+=ttY0
+-----END PGP SIGNATURE-----
+
+--Sig_/ypLkd865E+Pc8V6nfundl_B--
