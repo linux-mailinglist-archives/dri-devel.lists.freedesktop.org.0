@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 596694A810B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 10:10:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74904A811A
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 10:10:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D4C410EAA4;
-	Thu,  3 Feb 2022 09:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEBED10EB2D;
+	Thu,  3 Feb 2022 09:09:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2068.outbound.protection.outlook.com [40.107.223.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2FA510EA49;
- Thu,  3 Feb 2022 09:09:44 +0000 (UTC)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08on2050.outbound.protection.outlook.com [40.107.101.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE1A10EA78;
+ Thu,  3 Feb 2022 09:09:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VR7syZnmRWaV0AV/KC/KaFkbc5Xkdg39mW7m/OdPXvr6x08eDG8NyUvQvMZMEyP886h30nbHS7n30ObbgJMI4wGPkQLd2OVNKLprgC7AKOaWwLYF8ChXqrOGAGeeLKnc75QlchwqrvwJnlqejWd2NyjKBjn7a5oVyiEnJeIqZIQzNS2P7zPftagd0WS8L0PFDuL323dcoyEi2r6A13982lOfLZjMBjYseqmV4lLmZGCojbcl1gawdpear19Lg8SmyUVSFsURduXfkI9HDGdDTpsR9T7NMxYCf36DPHBO3Omm0R1Oklt9j5t7coB3gbyjUIOY1OJHVR/8F0RZt/XZuA==
+ b=FOTV3lulm6CsBYXihB3dLe0YNQqetDctlXr/jMwx41lsPFhiS4sQU3pNkLqbTHGE5HuTEoeWjH10TrxnlxoGyDyeLHo7qVQpegFxRoxG+SXZhSlXycGUtaG2lp5lGe12z8WBSPcfKMC7DFDLDlp4rpXuCp7I0YvT7jFl8x6FecHC8w+urOqNibYi31AkbpJ9/JDqDhLntJLPz5aQA/j1Qd/DJchj5w8/dDihrXP+JfYC8KKu9mJd0fUsEI2duoyU+WOWJ3fd3b0FxkDdMXLjsLpivn1jqyNxWxEhELZT7RFpA4Udu+iRCSAl82qQbP6vc9lJ0Dn9YNsGwQuKqMZIeQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J97OUcjpBeXXp1yswkHYY2ogs6F8z37KJjHaenETR9A=;
- b=D605zAjgH5T3+5mCk19/ZXNXuLZtSkbh4eoMHleskXaJfo4sjfuqXJ5zWoUzRNcn2/8AXidQBj3cEmdUKVuaN95cAGaiV32FolQQa2nGEUphfc5NrpJAQvadyHxowR/03tU1JufqGz45gZLeTNc8l7nqPtA6W9Uw6fVWoxIBzusTwcFR3PEbg75M5gCqapgp4kEPt2Pq2i3V16m1FoiuDTuWApUr/ylH5DkULKw2UY4eX/WATbblfi3pWstbDv1tolY0X54asPEw3GJEyYHDNK6fp1Ccc//bJ97goP0L+u+v86vLhf3DcGcdFcx6utPkMu5OlO5YchIaED9IiaF8kA==
+ bh=zrdnVA59n5xmwgC3zzwdczreJfmGOUGeCsxsicIRhvU=;
+ b=nO6qRw81zOCNs+jLGYnDn+GnGnFe0wm193NJit1Kke/Wkvf4hWpfKk3cZEtBtusYkLaJabOKe+7Thl18YAghoECUhNSZqON5EyoAkx99ixqfDDDGj7fxLUWMn2va5IVMYlMSUo5eXhAmbpFiUfFk+lbPCW3fLyyu1g3RfiBtNbZaF6BmrjySUWUdSlEAiRmAsIhglD+YCc2WwD5t4P76GpmRsn1SxbiSB7XIPgwQgN07a9dx1aaX7BXr8l15IvyXbJPLy1yP9U3/dwLxcKY9REfvWCynCVy+fkXIhUfEx1b3iM+RJ5G7kIDVg3xE7u0tIMeOS6zclh12ZL1fI7uLyA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J97OUcjpBeXXp1yswkHYY2ogs6F8z37KJjHaenETR9A=;
- b=PXjDisMtI0tloKM4Ya82iBx39qRd1u0+RKtYcBInvMfUzjRS2vgpdLCBpFwjICt4V03oYcyzlFF4SmFwZ8eNqsVm8Apc0rg2Mu+KQdSTRYCSQ9pvqvKK+Nf3RLJztpdznA7VU9IQwCcupmARoWpzslULZAbOA93sSihLx1V7Osg=
-Received: from BN6PR11CA0068.namprd11.prod.outlook.com (2603:10b6:404:f7::30)
- by SN1PR12MB2591.namprd12.prod.outlook.com (2603:10b6:802:30::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Thu, 3 Feb
+ bh=zrdnVA59n5xmwgC3zzwdczreJfmGOUGeCsxsicIRhvU=;
+ b=4rXIbqOmrASei31K0w7oRhnJRRbK/iNioST+LC/vtmtkJWrK8roFLPUgg5d7g0n+AgEnOIxgUUOto8FOcAQZq0xCnH7+15UFIjtibmDXNismziHJxSpJba0hfPFWI+0kKrneSFoK7BfbFYLlmfOdd/nTEjV2Km6CXgQScKoyWVI=
+Received: from BN9PR03CA0367.namprd03.prod.outlook.com (2603:10b6:408:f7::12)
+ by DM6PR12MB4812.namprd12.prod.outlook.com (2603:10b6:5:1ff::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.19; Thu, 3 Feb
  2022 09:09:42 +0000
-Received: from BN8NAM11FT012.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:f7:cafe::bf) by BN6PR11CA0068.outlook.office365.com
- (2603:10b6:404:f7::30) with Microsoft SMTP Server (version=TLS1_2,
+Received: from BN8NAM11FT037.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:f7:cafe::a7) by BN9PR03CA0367.outlook.office365.com
+ (2603:10b6:408:f7::12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12 via Frontend
  Transport; Thu, 3 Feb 2022 09:09:42 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
@@ -45,18 +45,19 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT012.mail.protection.outlook.com (10.13.177.55) with Microsoft SMTP
+ BN8NAM11FT037.mail.protection.outlook.com (10.13.177.182) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.20.4951.12 via Frontend Transport; Thu, 3 Feb 2022 09:09:42 +0000
 Received: from rajneesh-desk.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 3 Feb
- 2022 03:09:38 -0600
+ 2022 03:09:39 -0600
 From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
 To: <amd-gfx@lists.freedesktop.org>
-Subject: [Patch v5 12/24] drm/amdkfd: CRIU checkpoint and restore queue mqds
-Date: Thu, 3 Feb 2022 04:09:06 -0500
-Message-ID: <20220203090918.11520-13-rajneesh.bhardwaj@amd.com>
+Subject: [Patch v5 13/24] drm/amdkfd: CRIU checkpoint and restore queue
+ control stack
+Date: Thu, 3 Feb 2022 04:09:07 -0500
+Message-ID: <20220203090918.11520-14-rajneesh.bhardwaj@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220203090918.11520-1-rajneesh.bhardwaj@amd.com>
 References: <20220203090918.11520-1-rajneesh.bhardwaj@amd.com>
@@ -67,28 +68,28 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 31e16059-2708-440f-e505-08d9e6f4ea0c
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2591:EE_
-X-Microsoft-Antispam-PRVS: <SN1PR12MB259178C4C2C1A678105024E7FE289@SN1PR12MB2591.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Office365-Filtering-Correlation-Id: 0237177e-c493-45d7-92de-08d9e6f4ea35
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4812:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB48123CF167B999C6C9C7970AFE289@DM6PR12MB4812.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:131;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kP3vREywXqmy8M3kDGphT4OsCeqSwwnKHpgbgLBswUsnOlVXJ4j2/VgIHvWINfkqk51d6PzC3JBFfnJ1ozF/touxPLEoxHnCWYJKpavccEBtaC1gxoiHMg0J+kxEkZcpGzrDyNX9WwIg38dW/+StQBYXZH82RXu1kkiehnsK16sFeSManhBCRQzIueVP+7nr5IdnyvhXeG3s+56KsL7ZE5oWelNONe1og2fSsXv22WmnTE73gwXlxhE6KOoOBtEQYS6ldPpjgwf/tPmsV1bGbyBvjtcZzKGyb21/s1o70cGK07pzbH01nXkvcva6rFgfTXfjhCr+qLr9dcrb68kWc66TmPDEZfSclhtg9n3L8+Lxu0QdxWrrdloBkRWyLeD1GI8RJqQV2Env5iu1vX5tR7IUKs0OXlmq3s7ulTHVTzwZhXDNxMa6Bl18+C05YFTuvPjm+B8A1B+iR0D434xBZgxEu00Nkqf6tFUrhTVF/SdGWM4ow7UtX/9W3BtgNhd4eCq4lBBPPqUCDW3bBUFnHxmTb0looyMCIx69735RamB+HdLRzZ5V9yXWVTTrwDfd/Q5T8Bpigiz7YK+5zz/FhWFXyGRG3tYxoAJM+YWw1umEoRHeegK7AxYhkq1mmL8QW/qtKtoYTQLgGBwuZw0a6eRg19Zk/KClEids7v6kF1wqjf8ucCBn35IYBaKAyQhSLySojg1ej1RAnMtZpXHDlCci4S3uhH2GRw+swBHw9CNzqH8HT7wn5zyA/QYKmc+4
+X-Microsoft-Antispam-Message-Info: I/sahkNBAA6u01z22cpF8VA6iO1WgWgFmsX//RbjKfcyNOhcNnFWfQ9ceh2RPXAXwV1JaE8ah5C3Pd9PSYrG5pqHhrJcQS4eWCP1zv36Kjk069pwt4gi+od2duOAHpR5vAD+gUA8VwZvVp9cSKXIlLmQs1XERpJyCcNcWQQcIKkmc5lCIkNTO+fZfm5SpXhEXA2QpA/iU1MU3uMFrNXI4WxaSGg1FRNw3T9QAarzTeaNKdwUxvCfSYU3n9rfjxTDwyQ/AwBUeyaNXgYbEWGZX3Rdm9pDA09PS2XE8XTqj2TFrtyNiqOB4jgN0Qkm1S3Z1QktfitXEgGuVqMGyYpaKeGHXq93ouM+yxC/np5CYM0z9Yxyif4cSle5kQIljIB+uhe9zfKMOs3PG88Q/N3hXR0dDleLZ0H/KAPSB+aFRoKP4OUcFyj8z/1Q+DqX4HNnTrrAoKakM8mAqjsEmfR4C23u6MxD5hMnqRyye9zgIyyy4spYXagttzhlWV0YpHun9/sfxSBWbPd8Jqbsw8VktdSARudH9pmrHtO31zOlJPMsyDqmZFbVfmceo7ySWcUEdj8EKP8SkhVNueve5/q7oMP8Wnj0IlzyeGEdfYHAn5LAtWDp2QOWeNMGMyyC4lCE8NvsmBUC67aBLQMRh9gQaOlK9zH7jNBUSvMBqKRIbGrnBAlfl8TXNCtD2p14BIr2vSHa+GVTMYeYQCR5CMOpkg==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(54906003)(6916009)(36860700001)(508600001)(336012)(86362001)(47076005)(316002)(40460700003)(36756003)(426003)(8936002)(6666004)(4326008)(26005)(1076003)(16526019)(450100002)(7696005)(70206006)(83380400001)(70586007)(82310400004)(8676002)(186003)(2906002)(2616005)(5660300002)(356005)(81166007)(44832011)(30864003)(36900700001)(309714004);
+ SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(6916009)(83380400001)(508600001)(186003)(5660300002)(36756003)(26005)(316002)(2616005)(426003)(1076003)(336012)(82310400004)(47076005)(2906002)(8936002)(70586007)(81166007)(8676002)(6666004)(30864003)(4326008)(36860700001)(70206006)(16526019)(44832011)(40460700003)(356005)(450100002)(86362001)(7696005)(54906003)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2022 09:09:42.2133 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31e16059-2708-440f-e505-08d9e6f4ea0c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2022 09:09:42.4799 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0237177e-c493-45d7-92de-08d9e6f4ea35
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT012.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT037.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2591
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4812
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,947 +110,666 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Yat Sin <david.yatsin@amd.com>
 
-Checkpoint contents of queue MQD's on CRIU dump and restore them during
-CRIU restore.
+Checkpoint contents of queue control stacks on CRIU dump and restore them
+during CRIU restore.
 
 Signed-off-by: David Yat Sin <david.yatsin@amd.com>
 Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |   2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c       |   2 +-
- .../drm/amd/amdkfd/kfd_device_queue_manager.c |  73 +++++++-
- .../drm/amd/amdkfd/kfd_device_queue_manager.h |  12 +-
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h  |   7 +
- .../gpu/drm/amd/amdkfd/kfd_mqd_manager_cik.c  |  70 ++++++++
- .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c  |  71 ++++++++
- .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c   |  71 ++++++++
- .../gpu/drm/amd/amdkfd/kfd_mqd_manager_vi.c   |  72 ++++++++
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |   5 +
- .../amd/amdkfd/kfd_process_queue_manager.c    | 157 ++++++++++++++++--
- 11 files changed, 516 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c       |  2 +-
+ .../drm/amd/amdkfd/kfd_device_queue_manager.c | 22 ++++---
+ .../drm/amd/amdkfd/kfd_device_queue_manager.h |  9 ++-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h  | 11 +++-
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_cik.c  | 13 ++--
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c  | 14 +++--
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c   | 29 +++++++--
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_vi.c   | 22 +++++--
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |  5 +-
+ .../amd/amdkfd/kfd_process_queue_manager.c    | 62 +++++++++++++------
+ 11 files changed, 138 insertions(+), 53 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index d35911550792..999672602252 100644
+index 999672602252..608214ea634d 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
 @@ -311,7 +311,7 @@ static int kfd_ioctl_create_queue(struct file *filep, struct kfd_process *p,
  			p->pasid,
  			dev->id);
  
--	err = pqm_create_queue(&p->pqm, dev, filep, &q_properties, &queue_id, NULL,
-+	err = pqm_create_queue(&p->pqm, dev, filep, &q_properties, &queue_id, NULL, NULL,
+-	err = pqm_create_queue(&p->pqm, dev, filep, &q_properties, &queue_id, NULL, NULL,
++	err = pqm_create_queue(&p->pqm, dev, filep, &q_properties, &queue_id, NULL, NULL, NULL,
  			&doorbell_offset_in_process);
  	if (err != 0)
  		goto err_create_queue;
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c b/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
-index 0c50e67e2b51..3a5303ebcabf 100644
+index 3a5303ebcabf..8eca9ed3ab36 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
 @@ -185,7 +185,7 @@ static int dbgdev_register_diq(struct kfd_dbgdev *dbgdev)
  	properties.type = KFD_QUEUE_TYPE_DIQ;
  
  	status = pqm_create_queue(dbgdev->pqm, dbgdev->dev, NULL,
--				&properties, &qid, NULL, NULL);
-+				&properties, &qid, NULL, NULL, NULL);
+-				&properties, &qid, NULL, NULL, NULL);
++				&properties, &qid, NULL, NULL, NULL, NULL);
  
  	if (status) {
  		pr_err("Failed to create DIQ\n");
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index 13317d2c8959..42933610d4e1 100644
+index 42933610d4e1..63b3c7af681b 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -322,7 +322,8 @@ static void deallocate_vmid(struct device_queue_manager *dqm,
- static int create_queue_nocpsch(struct device_queue_manager *dqm,
+@@ -323,7 +323,7 @@ static int create_queue_nocpsch(struct device_queue_manager *dqm,
  				struct queue *q,
  				struct qcm_process_device *qpd,
--				const struct kfd_criu_queue_priv_data *qd)
-+				const struct kfd_criu_queue_priv_data *qd,
-+				const void *restore_mqd)
+ 				const struct kfd_criu_queue_priv_data *qd,
+-				const void *restore_mqd)
++				const void *restore_mqd, const void *restore_ctl_stack)
  {
  	struct mqd_manager *mqd_mgr;
  	int retval;
-@@ -381,8 +382,14 @@ static int create_queue_nocpsch(struct device_queue_manager *dqm,
- 		retval = -ENOMEM;
- 		goto out_deallocate_doorbell;
- 	}
--	mqd_mgr->init_mqd(mqd_mgr, &q->mqd, q->mqd_mem_obj,
--				&q->gart_mqd_addr, &q->properties);
-+
-+	if (qd)
-+		mqd_mgr->restore_mqd(mqd_mgr, &q->mqd, q->mqd_mem_obj, &q->gart_mqd_addr,
-+				     &q->properties, restore_mqd);
-+	else
-+		mqd_mgr->init_mqd(mqd_mgr, &q->mqd, q->mqd_mem_obj,
-+					&q->gart_mqd_addr, &q->properties);
-+
- 	if (q->properties.is_active) {
- 		if (!dqm->sched_running) {
- 			WARN_ONCE(1, "Load non-HWS mqd while stopped\n");
-@@ -1334,7 +1341,8 @@ static void destroy_kernel_queue_cpsch(struct device_queue_manager *dqm,
+@@ -385,7 +385,8 @@ static int create_queue_nocpsch(struct device_queue_manager *dqm,
  
+ 	if (qd)
+ 		mqd_mgr->restore_mqd(mqd_mgr, &q->mqd, q->mqd_mem_obj, &q->gart_mqd_addr,
+-				     &q->properties, restore_mqd);
++				     &q->properties, restore_mqd, restore_ctl_stack,
++				     qd->ctl_stack_size);
+ 	else
+ 		mqd_mgr->init_mqd(mqd_mgr, &q->mqd, q->mqd_mem_obj,
+ 					&q->gart_mqd_addr, &q->properties);
+@@ -1342,7 +1343,7 @@ static void destroy_kernel_queue_cpsch(struct device_queue_manager *dqm,
  static int create_queue_cpsch(struct device_queue_manager *dqm, struct queue *q,
  			struct qcm_process_device *qpd,
--			const struct kfd_criu_queue_priv_data *qd)
-+			const struct kfd_criu_queue_priv_data *qd,
-+			const void *restore_mqd)
+ 			const struct kfd_criu_queue_priv_data *qd,
+-			const void *restore_mqd)
++			const void *restore_mqd, const void *restore_ctl_stack)
  {
  	int retval;
  	struct mqd_manager *mqd_mgr;
-@@ -1380,8 +1388,13 @@ static int create_queue_cpsch(struct device_queue_manager *dqm, struct queue *q,
- 	 * updates the is_evicted flag but is a no-op otherwise.
- 	 */
- 	q->properties.is_evicted = !!qpd->evicted;
--	mqd_mgr->init_mqd(mqd_mgr, &q->mqd, q->mqd_mem_obj,
--				&q->gart_mqd_addr, &q->properties);
-+
-+	if (qd)
-+		mqd_mgr->restore_mqd(mqd_mgr, &q->mqd, q->mqd_mem_obj, &q->gart_mqd_addr,
-+				     &q->properties, restore_mqd);
-+	else
-+		mqd_mgr->init_mqd(mqd_mgr, &q->mqd, q->mqd_mem_obj,
-+					&q->gart_mqd_addr, &q->properties);
+@@ -1391,7 +1392,8 @@ static int create_queue_cpsch(struct device_queue_manager *dqm, struct queue *q,
  
- 	list_add(&q->list, &qpd->queues_list);
- 	qpd->queue_count++;
-@@ -1784,6 +1797,50 @@ static int get_wave_state(struct device_queue_manager *dqm,
- 			ctl_stack_used_size, save_area_used_size);
+ 	if (qd)
+ 		mqd_mgr->restore_mqd(mqd_mgr, &q->mqd, q->mqd_mem_obj, &q->gart_mqd_addr,
+-				     &q->properties, restore_mqd);
++				     &q->properties, restore_mqd, restore_ctl_stack,
++				     qd->ctl_stack_size);
+ 	else
+ 		mqd_mgr->init_mqd(mqd_mgr, &q->mqd, q->mqd_mem_obj,
+ 					&q->gart_mqd_addr, &q->properties);
+@@ -1799,7 +1801,8 @@ static int get_wave_state(struct device_queue_manager *dqm,
+ 
+ static void get_queue_checkpoint_info(struct device_queue_manager *dqm,
+ 			const struct queue *q,
+-			u32 *mqd_size)
++			u32 *mqd_size,
++			u32 *ctl_stack_size)
+ {
+ 	struct mqd_manager *mqd_mgr;
+ 	enum KFD_MQD_TYPE mqd_type =
+@@ -1808,13 +1811,18 @@ static void get_queue_checkpoint_info(struct device_queue_manager *dqm,
+ 	dqm_lock(dqm);
+ 	mqd_mgr = dqm->mqd_mgrs[mqd_type];
+ 	*mqd_size = mqd_mgr->mqd_size;
++	*ctl_stack_size = 0;
++
++	if (q->properties.type == KFD_QUEUE_TYPE_COMPUTE && mqd_mgr->get_checkpoint_info)
++		mqd_mgr->get_checkpoint_info(mqd_mgr, q->mqd, ctl_stack_size);
+ 
+ 	dqm_unlock(dqm);
  }
  
-+static void get_queue_checkpoint_info(struct device_queue_manager *dqm,
-+			const struct queue *q,
-+			u32 *mqd_size)
-+{
-+	struct mqd_manager *mqd_mgr;
-+	enum KFD_MQD_TYPE mqd_type =
-+			get_mqd_type_from_queue_type(q->properties.type);
-+
-+	dqm_lock(dqm);
-+	mqd_mgr = dqm->mqd_mgrs[mqd_type];
-+	*mqd_size = mqd_mgr->mqd_size;
-+
-+	dqm_unlock(dqm);
-+}
-+
-+static int checkpoint_mqd(struct device_queue_manager *dqm,
-+			  const struct queue *q,
-+			  void *mqd)
-+{
-+	struct mqd_manager *mqd_mgr;
-+	int r = 0;
-+	enum KFD_MQD_TYPE mqd_type =
-+			get_mqd_type_from_queue_type(q->properties.type);
-+
-+	dqm_lock(dqm);
-+
-+	if (q->properties.is_active || !q->device->cwsr_enabled) {
-+		r = -EINVAL;
-+		goto dqm_unlock;
-+	}
-+
-+	mqd_mgr = dqm->mqd_mgrs[mqd_type];
-+	if (!mqd_mgr->checkpoint_mqd) {
-+		r = -EOPNOTSUPP;
-+		goto dqm_unlock;
-+	}
-+
-+	mqd_mgr->checkpoint_mqd(mqd_mgr, q->mqd, mqd);
-+
-+dqm_unlock:
-+	dqm_unlock(dqm);
-+	return r;
-+}
-+
- static int process_termination_cpsch(struct device_queue_manager *dqm,
- 		struct qcm_process_device *qpd)
+ static int checkpoint_mqd(struct device_queue_manager *dqm,
+ 			  const struct queue *q,
+-			  void *mqd)
++			  void *mqd,
++			  void *ctl_stack)
  {
-@@ -1961,6 +2018,8 @@ struct device_queue_manager *device_queue_manager_init(struct kfd_dev *dev)
- 		dqm->ops.restore_process_queues = restore_process_queues_cpsch;
- 		dqm->ops.get_wave_state = get_wave_state;
- 		dqm->ops.reset_queues = reset_queues_cpsch;
-+		dqm->ops.get_queue_checkpoint_info = get_queue_checkpoint_info;
-+		dqm->ops.checkpoint_mqd = checkpoint_mqd;
- 		break;
- 	case KFD_SCHED_POLICY_NO_HWS:
- 		/* initialize dqm for no cp scheduling */
-@@ -1980,6 +2039,8 @@ struct device_queue_manager *device_queue_manager_init(struct kfd_dev *dev)
- 		dqm->ops.restore_process_queues =
- 			restore_process_queues_nocpsch;
- 		dqm->ops.get_wave_state = get_wave_state;
-+		dqm->ops.get_queue_checkpoint_info = get_queue_checkpoint_info;
-+		dqm->ops.checkpoint_mqd = checkpoint_mqd;
- 		break;
- 	default:
- 		pr_err("Invalid scheduling policy %d\n", dqm->sched_policy);
+ 	struct mqd_manager *mqd_mgr;
+ 	int r = 0;
+@@ -1834,7 +1842,7 @@ static int checkpoint_mqd(struct device_queue_manager *dqm,
+ 		goto dqm_unlock;
+ 	}
+ 
+-	mqd_mgr->checkpoint_mqd(mqd_mgr, q->mqd, mqd);
++	mqd_mgr->checkpoint_mqd(mqd_mgr, q->mqd, mqd, ctl_stack);
+ 
+ dqm_unlock:
+ 	dqm_unlock(dqm);
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
-index 76cc5e2a9733..fb6aa2a1ca0f 100644
+index fb6aa2a1ca0f..a7d2e3323977 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
-@@ -83,13 +83,17 @@ struct device_process_node {
-  * control stack, if kept in the MQD, to the given userspace address.
-  *
-  * @reset_queues: reset queues which consume RAS poison
-+ * @get_queue_checkpoint_info: Retrieves queue size information for CRIU checkpoint.
-+ *
-+ * @checkpoint_mqd: checkpoint queue MQD contents for CRIU.
-  */
- 
- struct device_queue_manager_ops {
- 	int	(*create_queue)(struct device_queue_manager *dqm,
+@@ -93,7 +93,8 @@ struct device_queue_manager_ops {
  				struct queue *q,
  				struct qcm_process_device *qpd,
--				const struct kfd_criu_queue_priv_data *qd);
-+				const struct kfd_criu_queue_priv_data *qd,
-+				const void *restore_mqd);
+ 				const struct kfd_criu_queue_priv_data *qd,
+-				const void *restore_mqd);
++				const void *restore_mqd,
++				const void *restore_ctl_stack);
  
  	int	(*destroy_queue)(struct device_queue_manager *dqm,
  				struct qcm_process_device *qpd,
-@@ -140,6 +144,12 @@ struct device_queue_manager_ops {
- 
+@@ -145,11 +146,13 @@ struct device_queue_manager_ops {
  	int (*reset_queues)(struct device_queue_manager *dqm,
  					uint16_t pasid);
-+	void	(*get_queue_checkpoint_info)(struct device_queue_manager *dqm,
-+				  const struct queue *q, u32 *mqd_size);
-+
-+	int	(*checkpoint_mqd)(struct device_queue_manager *dqm,
-+				  const struct queue *q,
-+				  void *mqd);
+ 	void	(*get_queue_checkpoint_info)(struct device_queue_manager *dqm,
+-				  const struct queue *q, u32 *mqd_size);
++				  const struct queue *q, u32 *mqd_size,
++				  u32 *ctl_stack_size);
+ 
+ 	int	(*checkpoint_mqd)(struct device_queue_manager *dqm,
+ 				  const struct queue *q,
+-				  void *mqd);
++				  void *mqd,
++				  void *ctl_stack);
  };
  
  struct device_queue_manager_asic_ops {
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h
-index 965e17c5dbb4..cebb2877a505 100644
+index cebb2877a505..23486a23df84 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h
-@@ -100,6 +100,13 @@ struct mqd_manager {
+@@ -100,12 +100,19 @@ struct mqd_manager {
  				  u32 *ctl_stack_used_size,
  				  u32 *save_area_used_size);
  
-+	void	(*checkpoint_mqd)(struct mqd_manager *mm, void *mqd, void *mqd_dst);
+-	void	(*checkpoint_mqd)(struct mqd_manager *mm, void *mqd, void *mqd_dst);
++	void	(*get_checkpoint_info)(struct mqd_manager *mm, void *mqd, uint32_t *ctl_stack_size);
 +
-+	void	(*restore_mqd)(struct mqd_manager *mm, void **mqd,
-+				struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
-+				struct queue_properties *p,
-+				const void *mqd_src);
-+
++	void	(*checkpoint_mqd)(struct mqd_manager *mm,
++				  void *mqd,
++				  void *mqd_dst,
++				  void *ctl_stack_dst);
+ 
+ 	void	(*restore_mqd)(struct mqd_manager *mm, void **mqd,
+ 				struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
+ 				struct queue_properties *p,
+-				const void *mqd_src);
++				const void *mqd_src,
++				const void *ctl_stack_src,
++				const u32 ctl_stack_size);
+ 
  #if defined(CONFIG_DEBUG_FS)
  	int	(*debugfs_show_mqd)(struct seq_file *m, void *data);
- #endif
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_cik.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_cik.c
-index e9a8e21e144e..83117209bc15 100644
+index 83117209bc15..96e3303fa27c 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_cik.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_cik.c
-@@ -280,6 +280,72 @@ static int destroy_mqd(struct mqd_manager *mm, void *mqd,
+@@ -280,7 +280,7 @@ static int destroy_mqd(struct mqd_manager *mm, void *mqd,
  					pipe_id, queue_id);
  }
  
-+static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst)
-+{
-+	struct cik_mqd *m;
-+
-+	m = get_mqd(mqd);
-+
-+	memcpy(mqd_dst, m, sizeof(struct cik_mqd));
-+}
-+
-+static void restore_mqd(struct mqd_manager *mm, void **mqd,
-+			struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
-+			struct queue_properties *qp,
-+			const void *mqd_src)
-+{
-+	uint64_t addr;
-+	struct cik_mqd *m;
-+
-+	m = (struct cik_mqd *) mqd_mem_obj->cpu_ptr;
-+	addr = mqd_mem_obj->gpu_addr;
-+
-+	memcpy(m, mqd_src, sizeof(*m));
-+
-+	*mqd = m;
-+	if (gart_addr)
-+		*gart_addr = addr;
-+
-+	m->cp_hqd_pq_doorbell_control = DOORBELL_OFFSET(qp->doorbell_off);
-+
-+	pr_debug("cp_hqd_pq_doorbell_control 0x%x\n",
-+			m->cp_hqd_pq_doorbell_control);
-+
-+	qp->is_active = 0;
-+}
-+
-+static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst)
-+{
-+	struct cik_sdma_rlc_registers *m;
-+
-+	m = get_sdma_mqd(mqd);
-+
-+	memcpy(mqd_dst, m, sizeof(struct cik_sdma_rlc_registers));
-+}
-+
-+static void restore_mqd_sdma(struct mqd_manager *mm, void **mqd,
-+				struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
-+				struct queue_properties *qp,
-+				const void *mqd_src)
-+{
-+	uint64_t addr;
-+	struct cik_sdma_rlc_registers *m;
-+
-+	m = (struct cik_sdma_rlc_registers *) mqd_mem_obj->cpu_ptr;
-+	addr = mqd_mem_obj->gpu_addr;
-+
-+	memcpy(m, mqd_src, sizeof(*m));
-+
-+	m->sdma_rlc_doorbell =
-+		qp->doorbell_off << SDMA0_RLC0_DOORBELL__OFFSET__SHIFT;
-+
-+	*mqd = m;
-+	if (gart_addr)
-+		*gart_addr = addr;
-+
-+	qp->is_active = 0;
-+}
-+
- /*
-  * preempt type here is ignored because there is only one way
-  * to preempt sdma queue
-@@ -394,6 +460,8 @@ struct mqd_manager *mqd_manager_init_cik(enum KFD_MQD_TYPE type,
- 		mqd->update_mqd = update_mqd;
- 		mqd->destroy_mqd = destroy_mqd;
- 		mqd->is_occupied = is_occupied;
-+		mqd->checkpoint_mqd = checkpoint_mqd;
-+		mqd->restore_mqd = restore_mqd;
- 		mqd->mqd_size = sizeof(struct cik_mqd);
- #if defined(CONFIG_DEBUG_FS)
- 		mqd->debugfs_show_mqd = debugfs_show_mqd;
-@@ -434,6 +502,8 @@ struct mqd_manager *mqd_manager_init_cik(enum KFD_MQD_TYPE type,
- 		mqd->update_mqd = update_mqd_sdma;
- 		mqd->destroy_mqd = destroy_mqd_sdma;
- 		mqd->is_occupied = is_occupied_sdma;
-+		mqd->checkpoint_mqd = checkpoint_mqd_sdma;
-+		mqd->restore_mqd = restore_mqd_sdma;
- 		mqd->mqd_size = sizeof(struct cik_sdma_rlc_registers);
- #if defined(CONFIG_DEBUG_FS)
- 		mqd->debugfs_show_mqd = debugfs_show_mqd_sdma;
+-static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst)
++static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst, void *ctl_stack_dst)
+ {
+ 	struct cik_mqd *m;
+ 
+@@ -292,7 +292,8 @@ static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst)
+ static void restore_mqd(struct mqd_manager *mm, void **mqd,
+ 			struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
+ 			struct queue_properties *qp,
+-			const void *mqd_src)
++			const void *mqd_src,
++			const void *ctl_stack_src, const u32 ctl_stack_size)
+ {
+ 	uint64_t addr;
+ 	struct cik_mqd *m;
+@@ -314,7 +315,10 @@ static void restore_mqd(struct mqd_manager *mm, void **mqd,
+ 	qp->is_active = 0;
+ }
+ 
+-static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst)
++static void checkpoint_mqd_sdma(struct mqd_manager *mm,
++				void *mqd,
++				void *mqd_dst,
++				void *ctl_stack_dst)
+ {
+ 	struct cik_sdma_rlc_registers *m;
+ 
+@@ -326,7 +330,8 @@ static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst
+ static void restore_mqd_sdma(struct mqd_manager *mm, void **mqd,
+ 				struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
+ 				struct queue_properties *qp,
+-				const void *mqd_src)
++				const void *mqd_src,
++				const void *ctl_stack_src, const u32 ctl_stack_size)
+ {
+ 	uint64_t addr;
+ 	struct cik_sdma_rlc_registers *m;
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
-index d74d8a6ac27a..4ddf5b45c42a 100644
+index 4ddf5b45c42a..0cc8679c24fa 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
-@@ -285,6 +285,41 @@ static int get_wave_state(struct mqd_manager *mm, void *mqd,
+@@ -285,7 +285,7 @@ static int get_wave_state(struct mqd_manager *mm, void *mqd,
  	return 0;
  }
  
-+static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst)
-+{
-+	struct v10_compute_mqd *m;
-+
-+	m = get_mqd(mqd);
-+
-+	memcpy(mqd_dst, m, sizeof(struct v10_compute_mqd));
-+}
-+
-+static void restore_mqd(struct mqd_manager *mm, void **mqd,
-+			struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
-+			struct queue_properties *qp,
-+			const void *mqd_src)
-+{
-+	uint64_t addr;
-+	struct v10_compute_mqd *m;
-+
-+	m = (struct v10_compute_mqd *) mqd_mem_obj->cpu_ptr;
-+	addr = mqd_mem_obj->gpu_addr;
-+
-+	memcpy(m, mqd_src, sizeof(*m));
-+
-+	*mqd = m;
-+	if (gart_addr)
-+		*gart_addr = addr;
-+
-+	m->cp_hqd_pq_doorbell_control =
-+		qp->doorbell_off <<
-+			CP_HQD_PQ_DOORBELL_CONTROL__DOORBELL_OFFSET__SHIFT;
-+	pr_debug("cp_hqd_pq_doorbell_control 0x%x\n",
-+			m->cp_hqd_pq_doorbell_control);
-+
-+	qp->is_active = 0;
-+}
-+
- static void init_mqd_hiq(struct mqd_manager *mm, void **mqd,
+-static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst)
++static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst, void *ctl_stack_dst)
+ {
+ 	struct v10_compute_mqd *m;
+ 
+@@ -297,7 +297,8 @@ static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst)
+ static void restore_mqd(struct mqd_manager *mm, void **mqd,
  			struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
- 			struct queue_properties *q)
-@@ -373,6 +408,38 @@ static bool is_occupied_sdma(struct mqd_manager *mm, void *mqd,
+ 			struct queue_properties *qp,
+-			const void *mqd_src)
++			const void *mqd_src,
++			const void *ctl_stack_src, const u32 ctl_stack_size)
+ {
+ 	uint64_t addr;
+ 	struct v10_compute_mqd *m;
+@@ -408,7 +409,10 @@ static bool is_occupied_sdma(struct mqd_manager *mm, void *mqd,
  	return mm->dev->kfd2kgd->hqd_sdma_is_occupied(mm->dev->adev, mqd);
  }
  
-+static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst)
-+{
-+	struct v10_sdma_mqd *m;
-+
-+	m = get_sdma_mqd(mqd);
-+
-+	memcpy(mqd_dst, m, sizeof(struct v10_sdma_mqd));
-+}
-+
-+static void restore_mqd_sdma(struct mqd_manager *mm, void **mqd,
-+			     struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
-+			     struct queue_properties *qp,
-+			     const void *mqd_src)
-+{
-+	uint64_t addr;
-+	struct v10_sdma_mqd *m;
-+
-+	m = (struct v10_sdma_mqd *) mqd_mem_obj->cpu_ptr;
-+	addr = mqd_mem_obj->gpu_addr;
-+
-+	memcpy(m, mqd_src, sizeof(*m));
-+
-+	m->sdmax_rlcx_doorbell_offset =
-+		qp->doorbell_off << SDMA0_RLC0_DOORBELL_OFFSET__OFFSET__SHIFT;
-+
-+	*mqd = m;
-+	if (gart_addr)
-+		*gart_addr = addr;
-+
-+	qp->is_active = 0;
-+}
-+
- #if defined(CONFIG_DEBUG_FS)
+-static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst)
++static void checkpoint_mqd_sdma(struct mqd_manager *mm,
++				void *mqd,
++				void *mqd_dst,
++				void *ctl_stack_dst)
+ {
+ 	struct v10_sdma_mqd *m;
  
- static int debugfs_show_mqd(struct seq_file *m, void *data)
-@@ -417,6 +484,8 @@ struct mqd_manager *mqd_manager_init_v10(enum KFD_MQD_TYPE type,
- 		mqd->is_occupied = is_occupied;
- 		mqd->mqd_size = sizeof(struct v10_compute_mqd);
- 		mqd->get_wave_state = get_wave_state;
-+		mqd->checkpoint_mqd = checkpoint_mqd;
-+		mqd->restore_mqd = restore_mqd;
- #if defined(CONFIG_DEBUG_FS)
- 		mqd->debugfs_show_mqd = debugfs_show_mqd;
- #endif
-@@ -460,6 +529,8 @@ struct mqd_manager *mqd_manager_init_v10(enum KFD_MQD_TYPE type,
- 		mqd->update_mqd = update_mqd_sdma;
- 		mqd->destroy_mqd = destroy_mqd_sdma;
- 		mqd->is_occupied = is_occupied_sdma;
-+		mqd->checkpoint_mqd = checkpoint_mqd_sdma;
-+		mqd->restore_mqd = restore_mqd_sdma;
- 		mqd->mqd_size = sizeof(struct v10_sdma_mqd);
- #if defined(CONFIG_DEBUG_FS)
- 		mqd->debugfs_show_mqd = debugfs_show_mqd_sdma;
+@@ -420,7 +424,9 @@ static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst
+ static void restore_mqd_sdma(struct mqd_manager *mm, void **mqd,
+ 			     struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
+ 			     struct queue_properties *qp,
+-			     const void *mqd_src)
++			     const void *mqd_src,
++			     const void *ctl_stack_src,
++			     const u32 ctl_stack_size)
+ {
+ 	uint64_t addr;
+ 	struct v10_sdma_mqd *m;
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
-index 326eb2285029..18ad7669eedf 100644
+index 18ad7669eedf..87da4329dbf2 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
-@@ -340,6 +340,41 @@ static int get_wave_state(struct mqd_manager *mm, void *mqd,
+@@ -340,22 +340,34 @@ static int get_wave_state(struct mqd_manager *mm, void *mqd,
  	return 0;
  }
  
-+static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst)
+-static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst)
++static void get_checkpoint_info(struct mqd_manager *mm, void *mqd, u32 *ctl_stack_size)
 +{
-+	struct v9_mqd *m;
++	struct v9_mqd *m = get_mqd(mqd);
 +
-+	m = get_mqd(mqd);
-+
-+	memcpy(mqd_dst, m, sizeof(struct v9_mqd));
++	*ctl_stack_size = m->cp_hqd_cntl_stack_size;
 +}
 +
-+static void restore_mqd(struct mqd_manager *mm, void **mqd,
-+			struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
-+			struct queue_properties *qp,
-+			const void *mqd_src)
-+{
-+	uint64_t addr;
-+	struct v9_mqd *m;
-+
-+	m = (struct v9_mqd *) mqd_mem_obj->cpu_ptr;
-+	addr = mqd_mem_obj->gpu_addr;
-+
-+	memcpy(m, mqd_src, sizeof(*m));
-+
-+	*mqd = m;
-+	if (gart_addr)
-+		*gart_addr = addr;
-+
-+	m->cp_hqd_pq_doorbell_control =
-+		qp->doorbell_off <<
-+			CP_HQD_PQ_DOORBELL_CONTROL__DOORBELL_OFFSET__SHIFT;
-+	pr_debug("cp_hqd_pq_doorbell_control 0x%x\n",
-+				m->cp_hqd_pq_doorbell_control);
-+
-+	qp->is_active = 0;
-+}
-+
- static void init_mqd_hiq(struct mqd_manager *mm, void **mqd,
++static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst, void *ctl_stack_dst)
+ {
+ 	struct v9_mqd *m;
++	/* Control stack is located one page after MQD. */
++	void *ctl_stack = (void *)((uintptr_t)mqd + PAGE_SIZE);
+ 
+ 	m = get_mqd(mqd);
+ 
+ 	memcpy(mqd_dst, m, sizeof(struct v9_mqd));
++	memcpy(ctl_stack_dst, ctl_stack, m->cp_hqd_cntl_stack_size);
+ }
+ 
+ static void restore_mqd(struct mqd_manager *mm, void **mqd,
  			struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
- 			struct queue_properties *q)
-@@ -428,6 +463,38 @@ static bool is_occupied_sdma(struct mqd_manager *mm, void *mqd,
+ 			struct queue_properties *qp,
+-			const void *mqd_src)
++			const void *mqd_src,
++			const void *ctl_stack_src, u32 ctl_stack_size)
+ {
+ 	uint64_t addr;
+ 	struct v9_mqd *m;
++	void *ctl_stack;
+ 
+ 	m = (struct v9_mqd *) mqd_mem_obj->cpu_ptr;
+ 	addr = mqd_mem_obj->gpu_addr;
+@@ -366,6 +378,10 @@ static void restore_mqd(struct mqd_manager *mm, void **mqd,
+ 	if (gart_addr)
+ 		*gart_addr = addr;
+ 
++	/* Control stack is located one page after MQD. */
++	ctl_stack = (void *)((uintptr_t)*mqd + PAGE_SIZE);
++	memcpy(ctl_stack, ctl_stack_src, ctl_stack_size);
++
+ 	m->cp_hqd_pq_doorbell_control =
+ 		qp->doorbell_off <<
+ 			CP_HQD_PQ_DOORBELL_CONTROL__DOORBELL_OFFSET__SHIFT;
+@@ -463,7 +479,10 @@ static bool is_occupied_sdma(struct mqd_manager *mm, void *mqd,
  	return mm->dev->kfd2kgd->hqd_sdma_is_occupied(mm->dev->adev, mqd);
  }
  
-+static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst)
-+{
-+	struct v9_sdma_mqd *m;
-+
-+	m = get_sdma_mqd(mqd);
-+
-+	memcpy(mqd_dst, m, sizeof(struct v9_sdma_mqd));
-+}
-+
-+static void restore_mqd_sdma(struct mqd_manager *mm, void **mqd,
-+			     struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
-+			     struct queue_properties *qp,
-+			     const void *mqd_src)
-+{
-+	uint64_t addr;
-+	struct v9_sdma_mqd *m;
-+
-+	m = (struct v9_sdma_mqd *) mqd_mem_obj->cpu_ptr;
-+	addr = mqd_mem_obj->gpu_addr;
-+
-+	memcpy(m, mqd_src, sizeof(*m));
-+
-+	m->sdmax_rlcx_doorbell_offset =
-+		qp->doorbell_off << SDMA0_RLC0_DOORBELL_OFFSET__OFFSET__SHIFT;
-+
-+	*mqd = m;
-+	if (gart_addr)
-+		*gart_addr = addr;
-+
-+	qp->is_active = 0;
-+}
-+
- #if defined(CONFIG_DEBUG_FS)
+-static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst)
++static void checkpoint_mqd_sdma(struct mqd_manager *mm,
++				void *mqd,
++				void *mqd_dst,
++				void *ctl_stack_dst)
+ {
+ 	struct v9_sdma_mqd *m;
  
- static int debugfs_show_mqd(struct seq_file *m, void *data)
-@@ -470,6 +537,8 @@ struct mqd_manager *mqd_manager_init_v9(enum KFD_MQD_TYPE type,
+@@ -475,7 +494,8 @@ static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst
+ static void restore_mqd_sdma(struct mqd_manager *mm, void **mqd,
+ 			     struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
+ 			     struct queue_properties *qp,
+-			     const void *mqd_src)
++			     const void *mqd_src,
++			     const void *ctl_stack_src, const u32 ctl_stack_size)
+ {
+ 	uint64_t addr;
+ 	struct v9_sdma_mqd *m;
+@@ -537,6 +557,7 @@ struct mqd_manager *mqd_manager_init_v9(enum KFD_MQD_TYPE type,
  		mqd->destroy_mqd = destroy_mqd;
  		mqd->is_occupied = is_occupied;
  		mqd->get_wave_state = get_wave_state;
-+		mqd->checkpoint_mqd = checkpoint_mqd;
-+		mqd->restore_mqd = restore_mqd;
++		mqd->get_checkpoint_info = get_checkpoint_info;
+ 		mqd->checkpoint_mqd = checkpoint_mqd;
+ 		mqd->restore_mqd = restore_mqd;
  		mqd->mqd_size = sizeof(struct v9_mqd);
- #if defined(CONFIG_DEBUG_FS)
- 		mqd->debugfs_show_mqd = debugfs_show_mqd;
-@@ -510,6 +579,8 @@ struct mqd_manager *mqd_manager_init_v9(enum KFD_MQD_TYPE type,
- 		mqd->update_mqd = update_mqd_sdma;
- 		mqd->destroy_mqd = destroy_mqd_sdma;
- 		mqd->is_occupied = is_occupied_sdma;
-+		mqd->checkpoint_mqd = checkpoint_mqd_sdma;
-+		mqd->restore_mqd = restore_mqd_sdma;
- 		mqd->mqd_size = sizeof(struct v9_sdma_mqd);
- #if defined(CONFIG_DEBUG_FS)
- 		mqd->debugfs_show_mqd = debugfs_show_mqd_sdma;
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_vi.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_vi.c
-index d456e950ce1d..9fdc67b60bb4 100644
+index 9fdc67b60bb4..137b208135a0 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_vi.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_vi.c
-@@ -306,6 +306,42 @@ static int get_wave_state(struct mqd_manager *mm, void *mqd,
+@@ -306,7 +306,13 @@ static int get_wave_state(struct mqd_manager *mm, void *mqd,
  	return 0;
  }
  
-+static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst)
+-static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst)
++static void get_checkpoint_info(struct mqd_manager *mm, void *mqd, u32 *ctl_stack_size)
 +{
-+	struct vi_mqd *m;
-+
-+	m = get_mqd(mqd);
-+
-+	memcpy(mqd_dst, m, sizeof(struct vi_mqd));
++	/* Control stack is stored in user mode */
++	*ctl_stack_size = 0;
 +}
 +
-+static void restore_mqd(struct mqd_manager *mm, void **mqd,
-+			struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
-+			struct queue_properties *qp,
-+			const void *mqd_src)
-+{
-+	uint64_t addr;
-+	struct vi_mqd *m;
-+
-+	m = (struct vi_mqd *) mqd_mem_obj->cpu_ptr;
-+	addr = mqd_mem_obj->gpu_addr;
-+
-+	memcpy(m, mqd_src, sizeof(*m));
-+
-+	*mqd = m;
-+	if (gart_addr)
-+		*gart_addr = addr;
-+
-+	m->cp_hqd_pq_doorbell_control =
-+		qp->doorbell_off <<
-+			CP_HQD_PQ_DOORBELL_CONTROL__DOORBELL_OFFSET__SHIFT;
-+	pr_debug("cp_hqd_pq_doorbell_control 0x%x\n",
-+			m->cp_hqd_pq_doorbell_control);
-+
-+	qp->is_active = 0;
-+}
-+
-+
++static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst, void *ctl_stack_dst)
+ {
+ 	struct vi_mqd *m;
+ 
+@@ -318,7 +324,8 @@ static void checkpoint_mqd(struct mqd_manager *mm, void *mqd, void *mqd_dst)
+ static void restore_mqd(struct mqd_manager *mm, void **mqd,
+ 			struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
+ 			struct queue_properties *qp,
+-			const void *mqd_src)
++			const void *mqd_src,
++			const void *ctl_stack_src, const u32 ctl_stack_size)
+ {
+ 	uint64_t addr;
+ 	struct vi_mqd *m;
+@@ -341,7 +348,6 @@ static void restore_mqd(struct mqd_manager *mm, void **mqd,
+ 	qp->is_active = 0;
+ }
+ 
+-
  static void init_mqd_hiq(struct mqd_manager *mm, void **mqd,
  			struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
  			struct queue_properties *q)
-@@ -399,6 +435,38 @@ static bool is_occupied_sdma(struct mqd_manager *mm, void *mqd,
+@@ -435,7 +441,10 @@ static bool is_occupied_sdma(struct mqd_manager *mm, void *mqd,
  	return mm->dev->kfd2kgd->hqd_sdma_is_occupied(mm->dev->adev, mqd);
  }
  
-+static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst)
-+{
-+	struct vi_sdma_mqd *m;
-+
-+	m = get_sdma_mqd(mqd);
-+
-+	memcpy(mqd_dst, m, sizeof(struct vi_sdma_mqd));
-+}
-+
-+static void restore_mqd_sdma(struct mqd_manager *mm, void **mqd,
-+			     struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
-+			     struct queue_properties *qp,
-+			     const void *mqd_src)
-+{
-+	uint64_t addr;
-+	struct vi_sdma_mqd *m;
-+
-+	m = (struct vi_sdma_mqd *) mqd_mem_obj->cpu_ptr;
-+	addr = mqd_mem_obj->gpu_addr;
-+
-+	memcpy(m, mqd_src, sizeof(*m));
-+
-+	m->sdmax_rlcx_doorbell =
-+		qp->doorbell_off << SDMA0_RLC0_DOORBELL__OFFSET__SHIFT;
-+
-+	*mqd = m;
-+	if (gart_addr)
-+		*gart_addr = addr;
-+
-+	qp->is_active = 0;
-+}
-+
+-static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst)
++static void checkpoint_mqd_sdma(struct mqd_manager *mm,
++				void *mqd,
++				void *mqd_dst,
++				void *ctl_stack_dst)
+ {
+ 	struct vi_sdma_mqd *m;
+ 
+@@ -447,7 +456,8 @@ static void checkpoint_mqd_sdma(struct mqd_manager *mm, void *mqd, void *mqd_dst
+ static void restore_mqd_sdma(struct mqd_manager *mm, void **mqd,
+ 			     struct kfd_mem_obj *mqd_mem_obj, uint64_t *gart_addr,
+ 			     struct queue_properties *qp,
+-			     const void *mqd_src)
++			     const void *mqd_src,
++			     const void *ctl_stack_src, const u32 ctl_stack_size)
+ {
+ 	uint64_t addr;
+ 	struct vi_sdma_mqd *m;
+@@ -469,6 +479,7 @@ static void restore_mqd_sdma(struct mqd_manager *mm, void **mqd,
+ 
  #if defined(CONFIG_DEBUG_FS)
  
++
  static int debugfs_show_mqd(struct seq_file *m, void *data)
-@@ -441,6 +509,8 @@ struct mqd_manager *mqd_manager_init_vi(enum KFD_MQD_TYPE type,
+ {
+ 	seq_hex_dump(m, "    ", DUMP_PREFIX_OFFSET, 32, 4,
+@@ -509,6 +520,7 @@ struct mqd_manager *mqd_manager_init_vi(enum KFD_MQD_TYPE type,
  		mqd->destroy_mqd = destroy_mqd;
  		mqd->is_occupied = is_occupied;
  		mqd->get_wave_state = get_wave_state;
-+		mqd->checkpoint_mqd = checkpoint_mqd;
-+		mqd->restore_mqd = restore_mqd;
++		mqd->get_checkpoint_info = get_checkpoint_info;
+ 		mqd->checkpoint_mqd = checkpoint_mqd;
+ 		mqd->restore_mqd = restore_mqd;
  		mqd->mqd_size = sizeof(struct vi_mqd);
- #if defined(CONFIG_DEBUG_FS)
- 		mqd->debugfs_show_mqd = debugfs_show_mqd;
-@@ -481,6 +551,8 @@ struct mqd_manager *mqd_manager_init_vi(enum KFD_MQD_TYPE type,
- 		mqd->update_mqd = update_mqd_sdma;
- 		mqd->destroy_mqd = destroy_mqd_sdma;
- 		mqd->is_occupied = is_occupied_sdma;
-+		mqd->checkpoint_mqd = checkpoint_mqd_sdma;
-+		mqd->restore_mqd = restore_mqd_sdma;
- 		mqd->mqd_size = sizeof(struct vi_sdma_mqd);
- #if defined(CONFIG_DEBUG_FS)
- 		mqd->debugfs_show_mqd = debugfs_show_mqd_sdma;
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-index 59125d8f16a7..1c62abe0dbd5 100644
+index 1c62abe0dbd5..03242975078a 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-@@ -1158,6 +1158,7 @@ int pqm_create_queue(struct process_queue_manager *pqm,
- 			    struct queue_properties *properties,
+@@ -1159,6 +1159,7 @@ int pqm_create_queue(struct process_queue_manager *pqm,
  			    unsigned int *qid,
  			    const struct kfd_criu_queue_priv_data *q_data,
-+			    const void *restore_mqd,
+ 			    const void *restore_mqd,
++			    const void *restore_ctl_stack,
  			    uint32_t *p_doorbell_offset_in_process);
  int pqm_destroy_queue(struct process_queue_manager *pqm, unsigned int qid);
  int pqm_update_queue_properties(struct process_queue_manager *pqm, unsigned int qid,
-@@ -1180,6 +1181,10 @@ int amdkfd_fence_wait_timeout(uint64_t *fence_addr,
- 			      uint64_t fence_value,
- 			      unsigned int timeout_ms);
+@@ -1183,8 +1184,8 @@ int amdkfd_fence_wait_timeout(uint64_t *fence_addr,
  
-+int pqm_get_queue_checkpoint_info(struct process_queue_manager *pqm,
-+				  unsigned int qid,
-+				  u32 *mqd_size);
-+
+ int pqm_get_queue_checkpoint_info(struct process_queue_manager *pqm,
+ 				  unsigned int qid,
+-				  u32 *mqd_size);
+-
++				  u32 *mqd_size,
++				  u32 *ctl_stack_size);
  /* Packet Manager */
  
  #define KFD_FENCE_COMPLETED (100)
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-index 8afe6879b861..844917c1c346 100644
+index 844917c1c346..bd89dd0ca83e 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-@@ -208,6 +208,7 @@ int pqm_create_queue(struct process_queue_manager *pqm,
- 			    struct queue_properties *properties,
+@@ -209,6 +209,7 @@ int pqm_create_queue(struct process_queue_manager *pqm,
  			    unsigned int *qid,
  			    const struct kfd_criu_queue_priv_data *q_data,
-+			    const void *restore_mqd,
+ 			    const void *restore_mqd,
++			    const void *restore_ctl_stack,
  			    uint32_t *p_doorbell_offset_in_process)
  {
  	int retval;
-@@ -272,7 +273,7 @@ int pqm_create_queue(struct process_queue_manager *pqm,
+@@ -273,7 +274,8 @@ int pqm_create_queue(struct process_queue_manager *pqm,
  			goto err_create_queue;
  		pqn->q = q;
  		pqn->kq = NULL;
--		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd, q_data);
-+		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd, q_data, restore_mqd);
+-		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd, q_data, restore_mqd);
++		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd, q_data,
++						    restore_mqd, restore_ctl_stack);
  		print_queue(q);
  		break;
  
-@@ -292,7 +293,7 @@ int pqm_create_queue(struct process_queue_manager *pqm,
+@@ -293,7 +295,8 @@ int pqm_create_queue(struct process_queue_manager *pqm,
  			goto err_create_queue;
  		pqn->q = q;
  		pqn->kq = NULL;
--		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd, q_data);
-+		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd, q_data, restore_mqd);
+-		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd, q_data, restore_mqd);
++		retval = dev->dqm->ops.create_queue(dev->dqm, q, &pdd->qpd, q_data,
++						    restore_mqd, restore_ctl_stack);
  		print_queue(q);
  		break;
  	case KFD_QUEUE_TYPE_DIQ:
-@@ -517,12 +518,25 @@ int pqm_get_wave_state(struct process_queue_manager *pqm,
+@@ -518,11 +521,17 @@ int pqm_get_wave_state(struct process_queue_manager *pqm,
  						       save_area_used_size);
  }
  
-+static int get_queue_data_sizes(struct kfd_process_device *pdd, struct queue *q, uint32_t *mqd_size)
-+{
-+	int ret;
-+
-+	ret = pqm_get_queue_checkpoint_info(&pdd->process->pqm, q->properties.queue_id, mqd_size);
-+	if (ret)
-+		pr_err("Failed to get queue dump info (%d)\n", ret);
-+
-+	return ret;
-+}
-+
- int kfd_process_get_queue_info(struct kfd_process *p,
- 			       uint32_t *num_queues,
- 			       uint64_t *priv_data_sizes)
+-static int get_queue_data_sizes(struct kfd_process_device *pdd, struct queue *q, uint32_t *mqd_size)
++static int get_queue_data_sizes(struct kfd_process_device *pdd,
++				struct queue *q,
++				uint32_t *mqd_size,
++				uint32_t *ctl_stack_size)
  {
-+	uint32_t extra_data_sizes = 0;
- 	struct queue *q;
- 	int i;
-+	int ret;
+ 	int ret;
  
- 	*num_queues = 0;
+-	ret = pqm_get_queue_checkpoint_info(&pdd->process->pqm, q->properties.queue_id, mqd_size);
++	ret = pqm_get_queue_checkpoint_info(&pdd->process->pqm,
++					    q->properties.queue_id,
++					    mqd_size,
++					    ctl_stack_size);
+ 	if (ret)
+ 		pr_err("Failed to get queue dump info (%d)\n", ret);
  
-@@ -534,23 +548,53 @@ int kfd_process_get_queue_info(struct kfd_process *p,
+@@ -548,14 +557,15 @@ int kfd_process_get_queue_info(struct kfd_process *p,
  			if (q->properties.type == KFD_QUEUE_TYPE_COMPUTE ||
  				q->properties.type == KFD_QUEUE_TYPE_SDMA ||
  				q->properties.type == KFD_QUEUE_TYPE_SDMA_XGMI) {
--
-+				uint32_t mqd_size;
+-				uint32_t mqd_size;
++				uint32_t mqd_size, ctl_stack_size;
++
  				*num_queues = *num_queues + 1;
-+
-+				ret = get_queue_data_sizes(pdd, q, &mqd_size);
-+				if (ret)
-+					return ret;
-+
-+				extra_data_sizes += mqd_size;
+ 
+-				ret = get_queue_data_sizes(pdd, q, &mqd_size);
++				ret = get_queue_data_sizes(pdd, q, &mqd_size, &ctl_stack_size);
+ 				if (ret)
+ 					return ret;
+ 
+-				extra_data_sizes += mqd_size;
++				extra_data_sizes += mqd_size + ctl_stack_size;
  			} else {
  				pr_err("Unsupported queue type (%d)\n", q->properties.type);
  				return -EOPNOTSUPP;
- 			}
- 		}
- 	}
--	*priv_data_sizes = *num_queues * sizeof(struct kfd_criu_queue_priv_data);
-+	*priv_data_sizes = extra_data_sizes +
-+				(*num_queues * sizeof(struct kfd_criu_queue_priv_data));
- 
+@@ -568,7 +578,10 @@ int kfd_process_get_queue_info(struct kfd_process *p,
  	return 0;
  }
  
--static void criu_checkpoint_queue(struct kfd_process_device *pdd,
-+static int pqm_checkpoint_mqd(struct process_queue_manager *pqm, unsigned int qid, void *mqd)
-+{
-+	struct process_queue_node *pqn;
-+
-+	pqn = get_queue_by_qid(pqm, qid);
-+	if (!pqn) {
-+		pr_debug("amdkfd: No queue %d exists for operation\n", qid);
-+		return -EFAULT;
-+	}
-+
-+	if (!pqn->q->device->dqm->ops.checkpoint_mqd) {
-+		pr_err("amdkfd: queue dumping not supported on this device\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return pqn->q->device->dqm->ops.checkpoint_mqd(pqn->q->device->dqm, pqn->q, mqd);
-+}
-+
-+static int criu_checkpoint_queue(struct kfd_process_device *pdd,
+-static int pqm_checkpoint_mqd(struct process_queue_manager *pqm, unsigned int qid, void *mqd)
++static int pqm_checkpoint_mqd(struct process_queue_manager *pqm,
++			      unsigned int qid,
++			      void *mqd,
++			      void *ctl_stack)
+ {
+ 	struct process_queue_node *pqn;
+ 
+@@ -583,17 +596,19 @@ static int pqm_checkpoint_mqd(struct process_queue_manager *pqm, unsigned int qi
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+-	return pqn->q->device->dqm->ops.checkpoint_mqd(pqn->q->device->dqm, pqn->q, mqd);
++	return pqn->q->device->dqm->ops.checkpoint_mqd(pqn->q->device->dqm,
++						       pqn->q, mqd, ctl_stack);
+ }
+ 
+ static int criu_checkpoint_queue(struct kfd_process_device *pdd,
  			   struct queue *q,
  			   struct kfd_criu_queue_priv_data *q_data)
  {
-+	uint8_t *mqd;
-+	int ret;
-+
-+	mqd = (void *)(q_data + 1);
-+
+-	uint8_t *mqd;
++	uint8_t *mqd, *ctl_stack;
+ 	int ret;
+ 
+ 	mqd = (void *)(q_data + 1);
++	ctl_stack = mqd + q_data->mqd_size;
+ 
  	q_data->gpu_id = pdd->dev->id;
  	q_data->type = q->properties.type;
- 	q_data->format = q->properties.format;
-@@ -576,7 +620,14 @@ static void criu_checkpoint_queue(struct kfd_process_device *pdd,
+@@ -620,7 +635,7 @@ static int criu_checkpoint_queue(struct kfd_process_device *pdd,
  	q_data->ctx_save_restore_area_size =
  		q->properties.ctx_save_restore_area_size;
  
-+	ret = pqm_checkpoint_mqd(&pdd->process->pqm, q->properties.queue_id, mqd);
-+	if (ret) {
-+		pr_err("Failed checkpoint queue_mqd (%d)\n", ret);
-+		return ret;
-+	}
-+
- 	pr_debug("Dumping Queue: gpu_id:%x queue_id:%u\n", q_data->gpu_id, q_data->q_id);
-+	return ret;
- }
+-	ret = pqm_checkpoint_mqd(&pdd->process->pqm, q->properties.queue_id, mqd);
++	ret = pqm_checkpoint_mqd(&pdd->process->pqm, q->properties.queue_id, mqd, ctl_stack);
+ 	if (ret) {
+ 		pr_err("Failed checkpoint queue_mqd (%d)\n", ret);
+ 		return ret;
+@@ -644,6 +659,7 @@ static int criu_checkpoint_queues_device(struct kfd_process_device *pdd,
+ 		struct kfd_criu_queue_priv_data *q_data;
+ 		uint64_t q_data_size;
+ 		uint32_t mqd_size;
++		uint32_t ctl_stack_size;
  
- static int criu_checkpoint_queues_device(struct kfd_process_device *pdd,
-@@ -584,15 +635,16 @@ static int criu_checkpoint_queues_device(struct kfd_process_device *pdd,
- 				   unsigned int *q_index,
- 				   uint64_t *queues_priv_data_offset)
- {
--	struct kfd_criu_queue_priv_data *q_data;
-+	unsigned int q_private_data_size = 0;
-+	uint8_t *q_private_data = NULL; /* Local buffer to store individual queue private data */
- 	struct queue *q;
- 	int ret = 0;
- 
--	q_data = kzalloc(sizeof(*q_data), GFP_KERNEL);
--	if (!q_data)
--		return -ENOMEM;
--
- 	list_for_each_entry(q, &pdd->qpd.queues_list, list) {
-+		struct kfd_criu_queue_priv_data *q_data;
-+		uint64_t q_data_size;
-+		uint32_t mqd_size;
-+
  		if (q->properties.type != KFD_QUEUE_TYPE_COMPUTE &&
  			q->properties.type != KFD_QUEUE_TYPE_SDMA &&
- 			q->properties.type != KFD_QUEUE_TYPE_SDMA_XGMI) {
-@@ -602,19 +654,46 @@ static int criu_checkpoint_queues_device(struct kfd_process_device *pdd,
+@@ -654,11 +670,11 @@ static int criu_checkpoint_queues_device(struct kfd_process_device *pdd,
  			break;
  		}
  
--		criu_checkpoint_queue(pdd, q, q_data);
-+		ret = get_queue_data_sizes(pdd, q, &mqd_size);
-+		if (ret)
-+			break;
-+
-+		q_data_size = sizeof(*q_data) + mqd_size;
-+
-+		/* Increase local buffer space if needed */
-+		if (q_private_data_size < q_data_size) {
-+			kfree(q_private_data);
-+
-+			q_private_data = kzalloc(q_data_size, GFP_KERNEL);
-+			if (!q_private_data) {
-+				ret = -ENOMEM;
-+				break;
-+			}
-+			q_private_data_size = q_data_size;
-+		}
-+
-+		q_data = (struct kfd_criu_queue_priv_data *)q_private_data;
-+
-+		/* data stored in this order: priv_data, mqd */
-+		q_data->mqd_size = mqd_size;
-+
-+		ret = criu_checkpoint_queue(pdd, q, q_data);
-+		if (ret)
-+			break;
-+
- 		q_data->object_type = KFD_CRIU_OBJECT_TYPE_QUEUE;
- 
--		ret = copy_to_user(user_priv + *queues_priv_data_offset, q_data, sizeof(*q_data));
-+		ret = copy_to_user(user_priv + *queues_priv_data_offset,
-+				q_data, q_data_size);
- 		if (ret) {
- 			ret = -EFAULT;
+-		ret = get_queue_data_sizes(pdd, q, &mqd_size);
++		ret = get_queue_data_sizes(pdd, q, &mqd_size, &ctl_stack_size);
+ 		if (ret)
  			break;
- 		}
--		*queues_priv_data_offset += sizeof(*q_data);
-+		*queues_priv_data_offset += q_data_size;
- 		*q_index = *q_index + 1;
- 	}
  
--	kfree(q_data);
-+	kfree(q_private_data);
+-		q_data_size = sizeof(*q_data) + mqd_size;
++		q_data_size = sizeof(*q_data) + mqd_size + ctl_stack_size;
  
- 	return ret;
- }
-@@ -668,11 +747,12 @@ int kfd_criu_restore_queue(struct kfd_process *p,
+ 		/* Increase local buffer space if needed */
+ 		if (q_private_data_size < q_data_size) {
+@@ -674,8 +690,9 @@ static int criu_checkpoint_queues_device(struct kfd_process_device *pdd,
+ 
+ 		q_data = (struct kfd_criu_queue_priv_data *)q_private_data;
+ 
+-		/* data stored in this order: priv_data, mqd */
++		/* data stored in this order: priv_data, mqd, ctl_stack */
+ 		q_data->mqd_size = mqd_size;
++		q_data->ctl_stack_size = ctl_stack_size;
+ 
+ 		ret = criu_checkpoint_queue(pdd, q, q_data);
+ 		if (ret)
+@@ -746,8 +763,8 @@ int kfd_criu_restore_queue(struct kfd_process *p,
+ 			   uint64_t *priv_data_offset,
  			   uint64_t max_priv_data_size)
  {
++	uint8_t *mqd, *ctl_stack, *q_extra_data = NULL;
  	struct kfd_criu_queue_priv_data *q_data;
-+	uint8_t *mqd, *q_extra_data = NULL;
+-	uint8_t *mqd, *q_extra_data = NULL;
  	struct kfd_process_device *pdd;
--	struct kfd_dev *dev;
-+	uint64_t q_extra_data_size;
+ 	uint64_t q_extra_data_size;
  	struct queue_properties qp;
- 	unsigned int queue_id;
--
-+	struct kfd_dev *dev;
- 	int ret = 0;
- 
- 	if (*priv_data_offset + sizeof(*q_data) > max_priv_data_size)
-@@ -689,6 +769,26 @@ int kfd_criu_restore_queue(struct kfd_process *p,
+@@ -769,7 +786,7 @@ int kfd_criu_restore_queue(struct kfd_process *p,
  	}
  
  	*priv_data_offset += sizeof(*q_data);
-+	q_extra_data_size = q_data->mqd_size;
-+
-+	if (*priv_data_offset + q_extra_data_size > max_priv_data_size) {
-+		ret = -EINVAL;
-+		goto exit;
-+	}
-+
-+	q_extra_data = kmalloc(q_extra_data_size, GFP_KERNEL);
-+	if (!q_extra_data) {
-+		ret = -ENOMEM;
-+		goto exit;
-+	}
-+
-+	ret = copy_from_user(q_extra_data, user_priv_ptr + *priv_data_offset, q_extra_data_size);
-+	if (ret) {
-+		ret = -EFAULT;
-+		goto exit;
-+	}
-+
-+	*priv_data_offset += q_extra_data_size;
+-	q_extra_data_size = q_data->mqd_size;
++	q_extra_data_size = q_data->ctl_stack_size + q_data->mqd_size;
  
- 	dev = kfd_device_by_id(q_data->gpu_id);
- 	if (!dev) {
-@@ -705,13 +805,15 @@ int kfd_criu_restore_queue(struct kfd_process *p,
+ 	if (*priv_data_offset + q_extra_data_size > max_priv_data_size) {
+ 		ret = -EINVAL;
+@@ -805,15 +822,17 @@ int kfd_criu_restore_queue(struct kfd_process *p,
  		ret = -EFAULT;
  		return ret;
  	}
-+	/* data stored in this order: mqd */
-+	mqd = q_extra_data;
+-	/* data stored in this order: mqd */
++	/* data stored in this order: mqd, ctl_stack */
+ 	mqd = q_extra_data;
++	ctl_stack = mqd + q_data->mqd_size;
  
  	memset(&qp, 0, sizeof(qp));
  	set_queue_properties_from_criu(&qp, q_data);
  
  	print_queue_properties(&qp);
  
--	ret = pqm_create_queue(&p->pqm, pdd->dev, NULL, &qp, &queue_id, q_data, NULL);
-+	ret = pqm_create_queue(&p->pqm, pdd->dev, NULL, &qp, &queue_id, q_data, mqd, NULL);
+-	ret = pqm_create_queue(&p->pqm, pdd->dev, NULL, &qp, &queue_id, q_data, mqd, NULL);
++	ret = pqm_create_queue(&p->pqm, pdd->dev, NULL, &qp, &queue_id, q_data, mqd, ctl_stack,
++				NULL);
  	if (ret) {
  		pr_err("Failed to create new queue err:%d\n", ret);
  		ret = -EINVAL;
-@@ -728,6 +830,27 @@ int kfd_criu_restore_queue(struct kfd_process *p,
- 	return ret;
+@@ -832,7 +851,8 @@ int kfd_criu_restore_queue(struct kfd_process *p,
+ 
+ int pqm_get_queue_checkpoint_info(struct process_queue_manager *pqm,
+ 				  unsigned int qid,
+-				  uint32_t *mqd_size)
++				  uint32_t *mqd_size,
++				  uint32_t *ctl_stack_size)
+ {
+ 	struct process_queue_node *pqn;
+ 
+@@ -847,7 +867,9 @@ int pqm_get_queue_checkpoint_info(struct process_queue_manager *pqm,
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+-	pqn->q->device->dqm->ops.get_queue_checkpoint_info(pqn->q->device->dqm, pqn->q, mqd_size);
++	pqn->q->device->dqm->ops.get_queue_checkpoint_info(pqn->q->device->dqm,
++						       pqn->q, mqd_size,
++						       ctl_stack_size);
+ 	return 0;
  }
  
-+int pqm_get_queue_checkpoint_info(struct process_queue_manager *pqm,
-+				  unsigned int qid,
-+				  uint32_t *mqd_size)
-+{
-+	struct process_queue_node *pqn;
-+
-+	pqn = get_queue_by_qid(pqm, qid);
-+	if (!pqn) {
-+		pr_debug("amdkfd: No queue %d exists for operation\n", qid);
-+		return -EFAULT;
-+	}
-+
-+	if (!pqn->q->device->dqm->ops.get_queue_checkpoint_info) {
-+		pr_err("amdkfd: queue dumping not supported on this device\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	pqn->q->device->dqm->ops.get_queue_checkpoint_info(pqn->q->device->dqm, pqn->q, mqd_size);
-+	return 0;
-+}
-+
- #if defined(CONFIG_DEBUG_FS)
- 
- int pqm_debugfs_mqds(struct seq_file *m, void *data)
 -- 
 2.17.1
 
