@@ -2,40 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AA54A8D2D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 21:26:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5EF4A8D5C
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 21:30:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8384A10E55E;
-	Thu,  3 Feb 2022 20:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 649A010E59B;
+	Thu,  3 Feb 2022 20:30:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89C7710E577
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 20:25:58 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id a1e59090-852f-11ec-b20b-0050568c148b;
- Thu, 03 Feb 2022 20:26:56 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7223410E3AB
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 20:30:21 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 8B539194BAD;
- Thu,  3 Feb 2022 21:25:55 +0100 (CET)
-Date: Thu, 3 Feb 2022 21:25:53 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 01/21] MAINTAINERS: Add entry for fbdev core
-Message-ID: <Yfw6UVCdmDyxKpDa@ravnborg.org>
-References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
- <20220131210552.482606-2-daniel.vetter@ffwll.ch>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 03BBA61A71;
+ Thu,  3 Feb 2022 20:30:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58EBBC36AE2;
+ Thu,  3 Feb 2022 20:30:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1643920218;
+ bh=QtDiWEcSmKNrDcBtsN8v0rSVjLkbZyrSSGtXPtH3eQQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=uPqJ/YhleSujX/C8nlwK7pB8+Cy0FyXFJ1UCmaa2KTC1H4WtZ+24mgXyCZQKzx8oa
+ OgcMwNsKXm0XJvtyo5kq9J5OvZMmUBRrwMTQLix0Slkd65dor0z/LMPlYdUzQIBGfx
+ bdGIVKrGO/vmyKc3m0TGKs1vhHEAUdKYGDV7rEBJikOCM7gOFubcbGrA5iAaI/oJa8
+ Qg1NM4JbU8aOYsbhU255F3MQzQbmhUib8lBsNSL81vH0+CZmMWFo9VAPKRGGFP6i7n
+ oyfE397kyo4jz33ZBIJFm5Gj4HJ12YC0LDHMGlFy+GSnZhgvrGpvf2KJMmmtB81J/Y
+ ql7bIiWAUm5Wg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 19/52] drm/vc4: Fix deadlock on DSI device attach
+ error
+Date: Thu,  3 Feb 2022 15:29:13 -0500
+Message-Id: <20220203202947.2304-19-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220203202947.2304-1-sashal@kernel.org>
+References: <20220203202947.2304-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220131210552.482606-2-daniel.vetter@ffwll.ch>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,91 +56,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- Sven Schnelle <svens@stackframe.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ emma@anholt.net, airlied@linux.ie,
+ Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+From: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
 
-On Mon, Jan 31, 2022 at 10:05:32PM +0100, Daniel Vetter wrote:
-> Ever since Tomi extracted the core code in 2014 it's been defacto me
-> maintaining this, with help from others from dri-devel and sometimes
-> Linus (but those are mostly merge conflicts):
-> 
-> $ git shortlog -ns  drivers/video/fbdev/core/ | head -n5
->     35  Daniel Vetter
->     23  Linus Torvalds
->     10  Hans de Goede
->      9  Dave Airlie
->      6  Peter Rosin
-> 
-> I think ideally we'd also record that the various firmware fb drivers
-> (efifb, vesafb, ...) are also maintained in drm-misc because for the
-> past few years the patches have either been to fix handover issues
-> with drm drivers, or caused handover issues with drm drivers. So any
-> other tree just doesn't make sense. But also, there's plenty of
-> outdated MAINTAINER entries for these with people and git trees that
-> haven't been active in years, so maybe let's just leave them alone.
-> And furthermore distros are now adopting simpledrm as the firmware fb
-> driver, so hopefully the need to care about the fbdev firmware drivers
-> will go down going forward.
-> 
-> Note that drm-misc is group maintained, I expect that to continue like
-> we've done before, so no new expectations that patches all go through
-> my hands. That would be silly. This also means I'm happy to put any
-> other volunteer's name in the M: line, but otherwise git log says I'm
-> the one who's stuck with this.
-> 
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: DRI Development <dri-devel@lists.freedesktop.org>
-> Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-> Cc: Claudio Suarez <cssk@net-c.es>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Sven Schnelle <svens@stackframe.org>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  MAINTAINERS | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ea3e6c914384..49809eaa3096 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7573,6 +7573,12 @@ S:	Maintained
->  W:	http://floatingpoint.sourceforge.net/emulator/index.html
->  F:	arch/x86/math-emu/
->  
-> +FRAMEBUFFER CORE
-> +M:	Daniel Vetter <daniel@ffwll.ch>
-> +F:	drivers/video/fbdev/core/
+[ Upstream commit 0a3d12ab5097b1d045e693412e6b366b7e82031b ]
 
-Maybe add:
-include/linux/fb.h
-include/uapi/linux/fb.h
+DSI device attach to DSI host will be done with host device's lock
+held.
 
-Both edited within some months - so they see a little changes.
+Un-registering host in "device attach" error path (ex: probe retry)
+will result in deadlock with below call trace and non operational
+DSI display.
 
-With or without this:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Startup Call trace:
+[   35.043036]  rt_mutex_slowlock.constprop.21+0x184/0x1b8
+[   35.043048]  mutex_lock_nested+0x7c/0xc8
+[   35.043060]  device_del+0x4c/0x3e8
+[   35.043075]  device_unregister+0x20/0x40
+[   35.043082]  mipi_dsi_remove_device_fn+0x18/0x28
+[   35.043093]  device_for_each_child+0x68/0xb0
+[   35.043105]  mipi_dsi_host_unregister+0x40/0x90
+[   35.043115]  vc4_dsi_host_attach+0xf0/0x120 [vc4]
+[   35.043199]  mipi_dsi_attach+0x30/0x48
+[   35.043209]  tc358762_probe+0x128/0x164 [tc358762]
+[   35.043225]  mipi_dsi_drv_probe+0x28/0x38
+[   35.043234]  really_probe+0xc0/0x318
+[   35.043244]  __driver_probe_device+0x80/0xe8
+[   35.043254]  driver_probe_device+0xb8/0x118
+[   35.043263]  __device_attach_driver+0x98/0xe8
+[   35.043273]  bus_for_each_drv+0x84/0xd8
+[   35.043281]  __device_attach+0xf0/0x150
+[   35.043290]  device_initial_probe+0x1c/0x28
+[   35.043300]  bus_probe_device+0xa4/0xb0
+[   35.043308]  deferred_probe_work_func+0xa0/0xe0
+[   35.043318]  process_one_work+0x254/0x700
+[   35.043330]  worker_thread+0x4c/0x448
+[   35.043339]  kthread+0x19c/0x1a8
+[   35.043348]  ret_from_fork+0x10/0x20
+
+Shutdown Call trace:
+[  365.565417] Call trace:
+[  365.565423]  __switch_to+0x148/0x200
+[  365.565452]  __schedule+0x340/0x9c8
+[  365.565467]  schedule+0x48/0x110
+[  365.565479]  schedule_timeout+0x3b0/0x448
+[  365.565496]  wait_for_completion+0xac/0x138
+[  365.565509]  __flush_work+0x218/0x4e0
+[  365.565523]  flush_work+0x1c/0x28
+[  365.565536]  wait_for_device_probe+0x68/0x158
+[  365.565550]  device_shutdown+0x24/0x348
+[  365.565561]  kernel_restart_prepare+0x40/0x50
+[  365.565578]  kernel_restart+0x20/0x70
+[  365.565591]  __do_sys_reboot+0x10c/0x220
+[  365.565605]  __arm64_sys_reboot+0x2c/0x38
+[  365.565619]  invoke_syscall+0x4c/0x110
+[  365.565634]  el0_svc_common.constprop.3+0xfc/0x120
+[  365.565648]  do_el0_svc+0x2c/0x90
+[  365.565661]  el0_svc+0x4c/0xf0
+[  365.565671]  el0t_64_sync_handler+0x90/0xb8
+[  365.565682]  el0t_64_sync+0x180/0x184
+
+Signed-off-by: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220118005127.29015-1-treasure4paddy@gmail.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/vc4/vc4_dsi.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
+index a229da58962a2..9300d3354c512 100644
+--- a/drivers/gpu/drm/vc4/vc4_dsi.c
++++ b/drivers/gpu/drm/vc4/vc4_dsi.c
+@@ -1262,7 +1262,6 @@ static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
+ 			       struct mipi_dsi_device *device)
+ {
+ 	struct vc4_dsi *dsi = host_to_dsi(host);
+-	int ret;
+ 
+ 	dsi->lanes = device->lanes;
+ 	dsi->channel = device->channel;
+@@ -1297,18 +1296,15 @@ static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
+ 		return 0;
+ 	}
+ 
+-	ret = component_add(&dsi->pdev->dev, &vc4_dsi_ops);
+-	if (ret) {
+-		mipi_dsi_host_unregister(&dsi->dsi_host);
+-		return ret;
+-	}
+-
+-	return 0;
++	return component_add(&dsi->pdev->dev, &vc4_dsi_ops);
+ }
+ 
+ static int vc4_dsi_host_detach(struct mipi_dsi_host *host,
+ 			       struct mipi_dsi_device *device)
+ {
++	struct vc4_dsi *dsi = host_to_dsi(host);
++
++	component_del(&dsi->pdev->dev, &vc4_dsi_ops);
+ 	return 0;
+ }
+ 
+@@ -1686,9 +1682,7 @@ static int vc4_dsi_dev_remove(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct vc4_dsi *dsi = dev_get_drvdata(dev);
+ 
+-	component_del(&pdev->dev, &vc4_dsi_ops);
+ 	mipi_dsi_host_unregister(&dsi->dsi_host);
+-
+ 	return 0;
+ }
+ 
+-- 
+2.34.1
+
