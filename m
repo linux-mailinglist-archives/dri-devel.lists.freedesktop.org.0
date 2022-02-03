@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C107F4A8DC7
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 21:33:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D394A8DE0
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 21:34:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5561C10E700;
-	Thu,  3 Feb 2022 20:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEDE110E721;
+	Thu,  3 Feb 2022 20:34:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C79B010E700
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 20:33:19 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5337610E714;
+ Thu,  3 Feb 2022 20:34:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5506F61AD1;
- Thu,  3 Feb 2022 20:33:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D347C36AE3;
- Thu,  3 Feb 2022 20:33:17 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1B72CB83556;
+ Thu,  3 Feb 2022 20:34:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE76EC340E8;
+ Thu,  3 Feb 2022 20:34:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643920398;
- bh=HIPORMFuV//Hr3CiBeB8KOpD7vvvwHqgFISVkSXSIQY=;
+ s=k20201202; t=1643920446;
+ bh=a9hRDb8jeBX3+CfUzzLMVZKn6WHEX5RbBWJPBjc8rVk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=e6wdKuWck+rRAmYeAQEGIEAyMHlQgQQJVfRfL3wYOPaVw9IjVbvMA/KQqKRnY9GRK
- RBEFJy8R4GESALsUtn4N+x7/YWFOgAF9VrC0k5jgRn0ySdZDI3IKBU8H41VOdQzb4j
- eLLktDL8NeMoo+frDvO3RIYTE9JVuPDd3u8F6CkVSePwx4eYMX5uUh6rKAspLghGHW
- 1LtLSdM4l+9LLFFpR5sOhpl2+XIs1hxaGHYTnSiT4rvKf9weQyt0ArZ+1XKtKBaHG0
- H4rfPeocxLHqRviF9GVV+V60EfoyXfIq6H75rsHE2CRD5ei/Qj6IY3hrLV8zIktxfH
- gvnCaopV4oKog==
+ b=LfBFJaeeNIQKoD9lPLKdLafhvCD5hnTT2D0F/VyKx8BE15WYyqKFz/UaPrafUPaWg
+ TtXz3qHSGaKvwZKsECNK1JepnMDnEVEdmgDbTAPUH+GnGePfqrB9FB/r5r/iu0jwu1
+ +RupkGb+lt26wswf5QQ0wjaNkIrqzr7XQA3CSicnXP22HXtJzHSmt01PgMRVGJVf7k
+ Fp+wKVohN0J80RTX5mO4sEbo5sVsvQ8iPhdkTHzVnv3l79d2kUI7VbXumnT28RPTeW
+ W1qlJJbpwTgkJnPzBjc9W3Y9JArfMzqZ/NC5Vwey8wm4BxMQQ49kOh2VsN1+OSi4o8
+ bAUJxUdAD+Zbw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 20/41] drm: panel-orientation-quirks: Add quirk
- for the 1Netbook OneXPlayer
-Date: Thu,  3 Feb 2022 15:32:24 -0500
-Message-Id: <20220203203245.3007-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 35/41] drm/amd/display: Correct MPC split policy
+ for DCN301
+Date: Thu,  3 Feb 2022 15:32:39 -0500
+Message-Id: <20220203203245.3007-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220203203245.3007-1-sashal@kernel.org>
 References: <20220203203245.3007-1-sashal@kernel.org>
@@ -56,57 +56,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Raymond Jay Golo <rjgolo@gmail.com>, tzimmermann@suse.de
+Cc: Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com, angus.wang@amd.com,
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, Qingqing.Zhuo@amd.com,
+ Xinhui.Pan@amd.com, Zhan Liu <zhan.liu@amd.com>, amd-gfx@lists.freedesktop.org,
+ nikola.cornij@amd.com, charles.sun@amd.com, airlied@linux.ie,
+ Dmytro.Laktyushkin@amd.com, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Raymond Jay Golo <rjgolo@gmail.com>
+From: Zhan Liu <zhan.liu@amd.com>
 
-[ Upstream commit d3cbc6e323c9299d10c8d2e4127c77c7d05d07b1 ]
+[ Upstream commit ac46d93235074a6c5d280d35771c23fd8620e7d9 ]
 
-The 1Netbook OneXPlayer uses a panel which has been mounted
-90 degrees rotated. Add a quirk for this.
+[Why]
+DCN301 has seamless boot enabled. With MPC split enabled
+at the same time, system will hang.
 
-Signed-off-by: Raymond Jay Golo <rjgolo@gmail.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220113000619.90988-1-rjgolo@gmail.com
+[How]
+Revert MPC split policy back to "MPC_SPLIT_AVOID". Since we have
+ODM combine enabled on DCN301, pipe split is not necessary here.
+
+Signed-off-by: Zhan Liu <zhan.liu@amd.com>
+Reviewed-by: Charlene Liu <charlene.liu@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 9d1bd8f491ad7..448c2f2d803a6 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -115,6 +115,12 @@ static const struct drm_dmi_panel_orientation_data lcd1280x1920_rightside_up = {
- 	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
- };
- 
-+static const struct drm_dmi_panel_orientation_data lcd1600x2560_leftside_up = {
-+	.width = 1600,
-+	.height = 2560,
-+	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
-+};
-+
- static const struct dmi_system_id orientation_data[] = {
- 	{	/* Acer One 10 (S1003) */
- 		.matches = {
-@@ -261,6 +267,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Default string"),
- 		},
- 		.driver_data = (void *)&onegx1_pro,
-+	}, {	/* OneXPlayer */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK TECHNOLOGY CO., LTD."),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
-+		},
-+		.driver_data = (void *)&lcd1600x2560_leftside_up,
- 	}, {	/* Samsung GalaxyBook 10.6 */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
+index 9e2f18a0c9483..26ebe00a55f67 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
+@@ -863,7 +863,7 @@ static const struct dc_debug_options debug_defaults_drv = {
+ 	.disable_clock_gate = true,
+ 	.disable_pplib_clock_request = true,
+ 	.disable_pplib_wm_range = true,
+-	.pipe_split_policy = MPC_SPLIT_DYNAMIC,
++	.pipe_split_policy = MPC_SPLIT_AVOID,
+ 	.force_single_disp_pipe_split = false,
+ 	.disable_dcc = DCC_ENABLE,
+ 	.vsr_support = true,
 -- 
 2.34.1
 
