@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E174A8E01
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 21:35:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D374A8E3D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 21:36:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9178410E745;
-	Thu,  3 Feb 2022 20:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A271310E762;
+	Thu,  3 Feb 2022 20:36:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D44C10E874
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 20:35:04 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40FB410E762
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 20:36:00 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B420061A56;
- Thu,  3 Feb 2022 20:35:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3E47C340F1;
- Thu,  3 Feb 2022 20:35:01 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E67B4B835B2;
+ Thu,  3 Feb 2022 20:35:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88599C340F0;
+ Thu,  3 Feb 2022 20:35:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643920503;
+ s=k20201202; t=1643920557;
  bh=HIPORMFuV//Hr3CiBeB8KOpD7vvvwHqgFISVkSXSIQY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m/YtVDkvxPEroQj9CGt5OSFHllWHVhHRpS7xUrWvKqqOv+NImh/F1dJScqsuF/QF+
- /XQd8tBgZYohmcEk282Mjuhd8n1P8jln5r+8EpQKzb5mh/RXK9IQcvU5bG0DnFv42l
- t0FpDXgp8Vz+AyM5leXtCiy3ie80/6/Ujyb0uwdW27dbFf6DtTvNvVVALqm12hUT9j
- ysHJmThJ1udOxTiIns5SiFK08D4LiKYCMee7A4hsYs9dpj8OjghtvC01F3ez3KTiSz
- g0EMJq5boXBeyYqFDUhhJgT+SJMkY/nbB5zuKmEObDTVuugMRC5hfKjFtGV6Qyl5Hz
- lqtPeO+V90XCA==
+ b=L3Fp5TvaA7Mf1YO2Dt5B5RJPEBzPbKEwMILfsjZNLcYVRTHBGcWKMcWoCN8ODt1RF
+ 2TTPRV5RHxxWmv4TgBedNpZ7MX9ih/nki2Ku0+LxuCLRSrp2hMx9cK3+XKE88/ympz
+ 6crtkKdiw5RIoyaKc1aHbaVJ0iM18zCXdzaXYGLpOExJR3r+G0OdyR26cWdUEoGs6r
+ nLnLbiCpPvx2JNfrPDTm6G9kvK1s3HHBeVwgr/pq9zDykT+eBWyyq7LGfaHG3fSTOq
+ gHOlDLE35+hsFBodN812q+0/yfczny6tIKuUBbUoleaUf7w4JO4JclptLN5nC9jXsY
+ 9l4g6VJpRj2PA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 10/25] drm: panel-orientation-quirks: Add quirk
+Subject: [PATCH AUTOSEL 5.4 07/15] drm: panel-orientation-quirks: Add quirk
  for the 1Netbook OneXPlayer
-Date: Thu,  3 Feb 2022 15:34:31 -0500
-Message-Id: <20220203203447.3570-10-sashal@kernel.org>
+Date: Thu,  3 Feb 2022 15:35:37 -0500
+Message-Id: <20220203203545.3879-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220203203447.3570-1-sashal@kernel.org>
-References: <20220203203447.3570-1-sashal@kernel.org>
+In-Reply-To: <20220203203545.3879-1-sashal@kernel.org>
+References: <20220203203545.3879-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
