@@ -2,47 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC6C4A814B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 10:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DB84A8130
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 10:11:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFDAD10EB61;
-	Thu,  3 Feb 2022 09:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A43DE10EAF1;
+	Thu,  3 Feb 2022 09:11:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8335F10EB61
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 09:17:53 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 8EF24D0483
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 09:10:11 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 2ADA51C0016;
- Thu,  3 Feb 2022 09:10:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1643879405;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=N5lFeotoLzTN5kCN0UM+WEZDckbMzPiWVfyj9sOa7LI=;
- b=ZOIluF2DX5KOz3bnJVXHYCmozea5vI/W4iBTqlpnHvyTR3mIuocbVB3d27hmOysdZ4AbcP
- 4eXM6CEqPyPHn2nyvaHGlzEw5nZXLdsv/1Sx2EbhM0ecF1y38Mxm59FlAOfk4JH+iEjz7g
- MUJoF+wIiCn3wYzlAgkNEy7xLRish8FnMyPSuCOG2UI+4r/cGjFQzzBn4PD1r2DExf7bEm
- eyGPnXiiWiAeMALQ0naaIJiwIpgPusky8PZUJnJY9qfJMtUc98lvUJkbBprkha10g8lxTr
- aI9F7eJ1lWb7xneGSUT7kdgwaf/JJN7x1BjxG0qAwEzlai+1555sGnQjdw3/dA==
-Date: Thu, 3 Feb 2022 10:10:01 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v10 3/6] gpio: logicvc: Support compatible with major
- version only
-Message-ID: <Yfub6cdC3eSzKtX+@aptenodytes>
-References: <20220120150024.646714-1-paul.kocialkowski@bootlin.com>
- <20220120150024.646714-4-paul.kocialkowski@bootlin.com>
- <CACRpkdZnw-Tf2eQwO+LZRW4UacR09qWRWct00=XLb4pfa-N3=g@mail.gmail.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2560F10EAF1;
+ Thu,  3 Feb 2022 09:11:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643879486; x=1675415486;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=BX4ePms3SbXH5rP9oc6sAEmGEmHr74HDf2ZVw97RJpQ=;
+ b=AdjGuNWAv1DcVzRUJ5VA95O//DnwJGhotye2mf4ibmdIjj7ibNI+190h
+ 5k2LySG3QfsAtMPnhsIgnZrK+m7ZUkwRMosMVZR3/pQY2mm0YqCIoSgx6
+ s8amEbD4I6Nh42Xw5A+ob/RGe79GJkWIN/Z3XHjdIqNK/Uhy0Y6AjJQWs
+ CnnuR8KJrEVZ/B9nECs05Iu84+aTLbiQvu2qxj/Sr5PwNJJ2mJ1toHmQf
+ nNuwNrAv3GUypHXShcnlk7DOYXsmlc8LD4KtKP87vL/MBydlanttSgcMz
+ KC556Px3eqHdASsWD7myRyIc75otqbsmXowaK93vhUVmjwlLPjiIoYdxg Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10246"; a="246938192"
+X-IronPort-AV: E=Sophos;i="5.88,339,1635231600"; d="scan'208";a="246938192"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2022 01:11:25 -0800
+X-IronPort-AV: E=Sophos;i="5.88,339,1635231600"; d="scan'208";a="627371847"
+Received: from blovejoy-mobl.ger.corp.intel.com (HELO [10.252.16.183])
+ ([10.252.16.183])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2022 01:11:24 -0800
+Message-ID: <e5ac977d-f948-9192-961c-b7bc69b94803@intel.com>
+Date: Thu, 3 Feb 2022 09:11:22 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="H7ecIFcTJbb7eHUD"
-Content-Disposition: inline
-In-Reply-To: <CACRpkdZnw-Tf2eQwO+LZRW4UacR09qWRWct00=XLb4pfa-N3=g@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 15/20] drm/i915/selftests: handle allocation failures
+Content-Language: en-GB
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220126152155.3070602-1-matthew.auld@intel.com>
+ <20220126152155.3070602-16-matthew.auld@intel.com>
+ <c699d513-d05f-9ea8-7df6-16e10c6c9729@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <c699d513-d05f-9ea8-7df6-16e10c6c9729@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,58 +62,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Bartosz Golaszewski <brgl@bgdev.pl>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 03/02/2022 09:05, Thomas Hellström wrote:
+> 
+> On 1/26/22 16:21, Matthew Auld wrote:
+>> If we have to contend with non-mappable LMEM, then we need to ensure the
+>> object fits within the mappable portion, like in the selftests, where we
+>> later try to CPU access the pages. However if it can't then we need to
+>> gracefully handle this, without throwing an error.
+>>
+>> Also it looks like TTM will return -ENOMEM if the object can't be
+>> placed.
+> 
+> We should probably have a look at why that happens. I thought ttm would 
+> return -ENOSPC, which we then converted to -ENXIO in i915_ttm_err_to_gem().
 
---H7ecIFcTJbb7eHUD
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+IIRC it was in ttm_bo_mem_space(), where right at the end it does ret = 
+-ENOMEM, after failing to evict buffers.
 
-Hi,
-
-On Sun 30 Jan 22, 01:43, Linus Walleij wrote:
-> On Thu, Jan 20, 2022 at 4:00 PM Paul Kocialkowski
-> <paul.kocialkowski@bootlin.com> wrote:
->=20
-> > Support the newly-introduced common compatible for version 3.
-> >
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
->=20
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->=20
-> Are there dependencies between the GPIO patches and the rest?
-> Doesn't look like that.
-> Can Bartosz just merge the GPIO stuff to the GPIO tree?
-
-Yeah I think it's independent, no dependencies.
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---H7ecIFcTJbb7eHUD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmH7m+kACgkQ3cLmz3+f
-v9FX2Af+MEyBnFYeHifMWfbhY7+pW3K+hTxA0/C2hO9QSoxWVliuCnniIMbx4Zjv
-7IvyG1LHidWJk0jROw3BX3L872C0pdHTxmea38KZHIG1ustZAQMe47i5EpRdFM1S
-QqBqhZuHtW67qijINPtXBx0vbPDTpiHVFa5F70cBNsaEW2/erdP1TT1LjoHIEx58
-B9uLpQHtoI/lDiv5toafFaGv+ut3YeC6ZVw8xT/54mm/tUSM3P2qcTu+jEyZbYl6
-EFW93rTK+q+aONuM80bXZyS1FeMDX535w9tCg7aDQmiUUf7My5Bamt6A0Rr+cQve
-ZY+YSwuQ87Mgv8HrwLj648dmkHPNnQ==
-=1K2m
------END PGP SIGNATURE-----
-
---H7ecIFcTJbb7eHUD--
+> 
+> /Thomas
+> 
+> 
+> 
+>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/selftests/huge_pages.c      | 2 +-
+>>   drivers/gpu/drm/i915/selftests/intel_memory_region.c | 8 +++++++-
+>>   2 files changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c 
+>> b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+>> index 42db9cd30978..3caa178bbd07 100644
+>> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+>> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+>> @@ -1344,7 +1344,7 @@ static int igt_ppgtt_smoke_huge(void *arg)
+>>           err = i915_gem_object_pin_pages_unlocked(obj);
+>>           if (err) {
+>> -            if (err == -ENXIO || err == -E2BIG) {
+>> +            if (err == -ENXIO || err == -E2BIG || err == -ENOMEM) {
+>>                   i915_gem_object_put(obj);
+>>                   size >>= 1;
+>>                   goto try_again;
+>> diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c 
+>> b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+>> index 04ae29779206..87bff7f83554 100644
+>> --- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+>> +++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+>> @@ -822,8 +822,14 @@ static int igt_lmem_create_with_ps(void *arg)
+>>           i915_gem_object_lock(obj, NULL);
+>>           err = i915_gem_object_pin_pages(obj);
+>> -        if (err)
+>> +        if (err) {
+>> +            if (err == -ENXIO || err == -E2BIG || err == -ENOMEM) {
+>> +                pr_info("%s not enough lmem for ps(%u) err=%d\n",
+>> +                    __func__, ps, err);
+>> +                err = 0;
+>> +            }
+>>               goto out_put;
+>> +        }
+>>           daddr = i915_gem_object_get_dma_address(obj, 0);
+>>           if (!IS_ALIGNED(daddr, ps)) {
