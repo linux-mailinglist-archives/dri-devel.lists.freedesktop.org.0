@@ -2,40 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE474A7D69
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 02:28:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D594A7D75
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 02:37:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C81110E7C9;
-	Thu,  3 Feb 2022 01:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D0B010E804;
+	Thu,  3 Feb 2022 01:37:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1038 seconds by postgrey-1.36 at gabe;
- Thu, 03 Feb 2022 01:28:20 UTC
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD73E10E7C0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 01:28:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
- s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
- Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
- Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
- bh=5hB4xZfLGfPF68sFnaphimiyN3Dvoyj649Ifdg6NzMk=; b=2650jDKWUISCHWTrw+2qSb29hf
- Eg0kIWNamRCUEsMC3LfeWZNitulODz/nCXrDMPmXFPMUE72VH61hPSx5uwNVoOZnrOvRJe9UHfori
- IRhH/NKpS6Y8uLmfet+KJgbH4rzTYuyCthmjEIni6imLGrzK8nnQnLlUntVfmlaQkEJ0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
- (envelope-from <andrew@lunn.ch>)
- id 1nFQdR-0042dQ-Py; Thu, 03 Feb 2022 02:10:05 +0100
-Date: Thu, 3 Feb 2022 02:10:05 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: nick.hawkins@hpe.com
-Subject: Re: [PATCH] HPE BMC GXP SUPPORT
-Message-ID: <YfsrbcgPb5de3Bvw@lunn.ch>
-References: <nick.hawkins@hpe.com>
- <20220202165315.18282-1-nick.hawkins@hpe.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C25E610E804
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 01:37:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0621561092
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 01:37:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CEAEEC340EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 01:37:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1643852262;
+ bh=HdA5S+6csb6vf7zTU04N87pR9dy6vqj0J0HEwhW+EAk=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=BPYSt+Y7SV5rwwU81mivZqtSTZWb4TiP7IWs0UoX1YveHXJWfSxf4f7rzmynGnVEf
+ p3KUjT3xzQT5phPh0x5YarYv/1W7eBxYVLJJuWdmZK68AcPHw4fU5cDSqpNHtUFbbg
+ CGe1yJobRSx2zsmAGva9v/o5XUmUTEdM8aU6wCn+fTElSQ9KQNHC0WEpfxg2fBv7ND
+ JWIq5GI4EiZY5kVaq7YJkeWvb6qTbdYjHzEx+NK2uq1s+03+8R8XHdbE7MNW83aaE0
+ 5QpNd5+jsaYnkDx3/XZ+uQiNpoyeMwFgxBsWijFHEOd7EsyEugt3hxNx4SC7VAwnLy
+ QH6xnVmXvBNiw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id BF049C05FCE; Thu,  3 Feb 2022 01:37:42 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Thu, 03 Feb 2022 01:37:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: randyk161@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-201957-2300-jAeqAa480U@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220202165315.18282-1-nick.hawkins@hpe.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,52 +70,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Wang Kefeng <wangkefeng.wang@huawei.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
- verdun@hpe.com, Amit Kucheria <amitk@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
- linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- netdev@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
- Ard Biesheuvel <ardb@kernel.org>, Stanislav Jakubek <stano.jakubek@gmail.com>,
- Hao Fang <fanghao11@huawei.com>, Arnd Bergmann <arnd@arndb.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Richard Weinberger <richard@nod.at>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Russell King <linux@armlinux.org.uk>, linux-pwm@vger.kernel.org,
- linux-serial@vger.kernel.org,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- openipmi-developer@lists.sourceforge.net, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, Corey Minyard <minyard@acm.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>, linux-gpio@vger.kernel.org,
- soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org,
- linux-usb@vger.kernel.org,
- "Russell King \(Oracle\)" <rmk+kernel@armlinux.org.uk>,
- linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->  .../bindings/display/hpe,gxp-thumbnail.txt    |  21 +
->  .../devicetree/bindings/gpio/hpe,gxp-gpio.txt |  16 +
->  .../devicetree/bindings/i2c/hpe,gxp-i2c.txt   |  19 +
->  .../bindings/ipmi/hpegxp-kcs-bmc-cfg.txt      |  13 +
->  .../bindings/ipmi/hpegxp-kcs-bmc.txt          |  21 +
+https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
 
-Hi Nick
+--- Comment #62 from Randune (randyk161@gmail.com) ---
+I've been getting "ring gfx timeouts" for some time (See comment 35), most =
+of
+the time it's when the computer has not had any input for a while (while I'm
+away from it).  When it freezes I can SSH into it but when I try to do a:
+"shutdown -h now" it boots me out of SSH as it should but the computer never
+seems to actually shutdown.
 
-In addiiton to the other feedback also given, for new bindings you
-should be using yaml, not txt. You then gain validation of the
-bindings.
+I've tried many different kernel parameters but no luck so far.  I'm now tr=
+ying
+the amdgpu.runpm=3D0 as suggested here: https://wiki.archlinux.org/title/AM=
+DGPU
+(at the very bottom of the page: Issues with power management / dynamic
+re-activation of a discrete amdgpu graphics card) I haven't seen any
+performance repercussions yet. I'll just have to wait it out and see.
 
-	Andrew
+For my system specs see my previous comment 35.
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
