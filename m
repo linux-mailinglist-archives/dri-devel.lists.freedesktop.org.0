@@ -1,73 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2F24A80F7
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 10:09:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 644824A80FE
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 10:10:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00FEF10E89B;
-	Thu,  3 Feb 2022 09:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE4A410EA08;
+	Thu,  3 Feb 2022 09:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD33F10E89B
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 09:08:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643879339; x=1675415339;
- h=from:to:subject:date:message-id:references:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=cFP6iNo6e1zBouXcP/spJXjC0rEmnfjRbppBXT6st/U=;
- b=MTiyRcXhtkpvbLYG16N9f3cJ+Q9xmdVXfHbArJyuNpmQuShuNcAt5uu5
- rnFIy3O9xgMV7hNkk9N3eEO2B1jVN3Em27Z6WF1hW0yAlAlIR5lo+tBuG
- d3DT9ENSoZ9R0OB34zMTeLU8Em+zqfr66ZdC2EoQhX0ED6a57HoXW+DvB
- GUS7zYanwpdsOp+8IhniIjFcUl90rmCixepJ4IVe5KyGljsn5tXoVI2uw
- H8MWDwuepKYIu0adpLuRPlxKPPQxZcs2YGbA9vAJ7XwmbzPXklqmQxg42
- Rp7KfiopLcit6Byi7nGdNenDp39Nl057G4VKiM5yGzV8rLSDp+ahBQD63 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10246"; a="245698908"
-X-IronPort-AV: E=Sophos;i="5.88,339,1635231600"; d="scan'208";a="245698908"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2022 01:08:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,339,1635231600"; d="scan'208";a="620438117"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by FMSMGA003.fm.intel.com with ESMTP; 03 Feb 2022 01:08:59 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 3 Feb 2022 01:08:58 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 3 Feb 2022 01:08:58 -0800
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2308.020;
- Thu, 3 Feb 2022 01:08:58 -0800
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 1/2] drm/mm: Add an iterator to optimally walk over holes
- for an allocation
-Thread-Topic: [PATCH 1/2] drm/mm: Add an iterator to optimally walk over holes
- for an allocation
-Thread-Index: AQHYF9Rzrf7U2biew0Klec9b/vt7d6yAwTYAgADAjpA=
-Date: Thu, 3 Feb 2022 09:08:58 +0000
-Message-ID: <689d5b2bbbee4f5392b65646f08e9b23@intel.com>
-References: <20220202011358.1409946-1-vivek.kasireddy@intel.com>
- <ed22efe9-4cd8-cf71-beb7-66af7161c518@linux.intel.com>
-In-Reply-To: <ed22efe9-4cd8-cf71-beb7-66af7161c518@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.200.16
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.132]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2045.outbound.protection.outlook.com [40.107.223.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9BF810EA18;
+ Thu,  3 Feb 2022 09:09:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JOCFXATskVuJ+8pMm5YNlmg5/UWhU5UnMSKD9n3xLtFUpAcn6/7d8qxLeTG+gPmZJyly3HhKWWAEsHHVsls1GSJGxrxIhQZo2tLoe5in4P6wyqqgyE0DpRKP/K9LZNnLmXhvZN9GKugx9Brr5LH6SOWT3hymGVQg1BNm+hOXQaIdZJ2gumDE0d+Tb6V2b9UUsNnkf3e2970boKA9ntYDgF8pHFHW/Yx97Hk869eqI53tFT9HpmJRdx5V1yyku/bX9av5UCCOpHNxmOAhzKYUlgxZNsmomQkt8lQhKchLUbofaNgj1CeeDrOfPNaLRCKlB2ClTGL/u6cL9cYdC3KinQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bp1Y8ENoT5FH7Oexg2Evesj3tTWZ5084F75KmBA0dok=;
+ b=O+Yx23Z+DlLls2BKp5QHITGBoFGSyeop1hr78lFyqiVsUh9R9ENRv1nSFxUCSQ7aYB9rayTvypKSIcGDFE3oL34edLUCNfCOZo4J22i9JtD6j41l86j0JmIRTiPPoW9Y6Gw+tOYWclmycJBafimMPpnuvAs28AZhArJBWQ/IAnKhOsHimozfQPSQZ074SfIqlxkfex611KoVVd0QBa+Ucn3S9px3N0B6o0k1CH8g6cC7SVwoX9Hkc+W2k+p96Lj+CIGsOVi90xdnycZgUkUlhRPjLDdycw5LdRzzbqyhnKpalUMa9zO77U1Df3GtEoHJca7/fKdA9bkH9E3F2JCj+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bp1Y8ENoT5FH7Oexg2Evesj3tTWZ5084F75KmBA0dok=;
+ b=Z/L4SORIwGorveVC7mmXKdDVPAi3Q6JvKEATvYRvLKWDc5fh7y1Ren48EyX/0CSWaGuA8xdw64wCiL8gukZk09umUgiYBlimvUC72SdnH/EzZEzIiVVDp61rjJnsIA60i7tvUR681Vuq/8BuYh68KDoqo1bh+nwBReHeV5KbbNg=
+Received: from BN9PR03CA0368.namprd03.prod.outlook.com (2603:10b6:408:f7::13)
+ by MN2PR12MB4469.namprd12.prod.outlook.com (2603:10b6:208:268::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Thu, 3 Feb
+ 2022 09:09:37 +0000
+Received: from BN8NAM11FT037.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:f7:cafe::56) by BN9PR03CA0368.outlook.office365.com
+ (2603:10b6:408:f7::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12 via Frontend
+ Transport; Thu, 3 Feb 2022 09:09:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT037.mail.protection.outlook.com (10.13.177.182) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4951.12 via Frontend Transport; Thu, 3 Feb 2022 09:09:36 +0000
+Received: from rajneesh-desk.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 3 Feb
+ 2022 03:09:34 -0600
+From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+Subject: [Patch v5 04/24] drm/amdkfd: CRIU Implement KFD checkpoint ioctl
+Date: Thu, 3 Feb 2022 04:08:58 -0500
+Message-ID: <20220203090918.11520-5-rajneesh.bhardwaj@amd.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220203090918.11520-1-rajneesh.bhardwaj@amd.com>
+References: <20220203090918.11520-1-rajneesh.bhardwaj@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 95db5642-8726-43da-64b0-08d9e6f4e6ee
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4469:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB446920AF7482AA7FD59F1F0FFE289@MN2PR12MB4469.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:949;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0sSOvrhy9zmusUwjdgnwOFV9arG6r14Yb0eDQXSJWnCu/O7wBIFJO6cN8X7BPQ2G+zT28lpgdL04QMWlJeXcPiq9WBLO/OXr42+yjlBSVlK+X7xil9+EEvpru8pwmEKWUvqTit4juAXHkRQetm5CtmqGS2cXyRKUu9Yd4GyPxXtHZMukwSlQjE3m4UTojL6JaR/22kK30Ey9bFG8oAVURWF8yhYy+yYf5CUlbzEQ99IR4aqEQqUdXsaAx9BVjxRpbhgHR+gl5ATPXKd0eTkcNpKuUwSyCxMQVX4UDkbb/YSH8TwphqEt7A4MRYYlZjF4CC0aqzQk62gHrefbryasbYMQ88vU0p9Keg4ilSs41yUvMUdd/+pNlW6gcTAjpXzZinEnQqNkUfFAztD0t8ItuhXbxJrrnz3q9VT4Ix5kwEEEtVGs6O7XlskQgRLxB9MRLErpdCMoDcrP7lIcXhIz3bHJPZ/6fjYeHLeVa19uIb9Dp18Ad5qQgd1XbDmhsGWjInmMkrX0Ga50wrE9uLmupTY+u8mDJGFZts3hzZfUBnK3jjWhfBRT3+MxzVtWTcKxb6vVaVKv/tyhUBrspBt7RmB3NO00rrCaPQY8DbWXbMCiGb9E3p46oKCoBaFnWGnDCaWeqtELuLa39iswoigRs02WsQpZhfeVh1aEtNxk/0n/ApEhalWWsasYx2zmFwl27Ch9klNACZ7CZDH8PDYUZA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(8676002)(70206006)(4326008)(8936002)(2906002)(82310400004)(86362001)(70586007)(5660300002)(44832011)(81166007)(450100002)(426003)(336012)(356005)(16526019)(1076003)(186003)(508600001)(40460700003)(36756003)(83380400001)(26005)(7696005)(6666004)(2616005)(316002)(47076005)(6916009)(54906003)(36860700001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2022 09:09:36.9646 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95db5642-8726-43da-64b0-08d9e6f4e6ee
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT037.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4469
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,139 +101,321 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: alexander.deucher@amd.com, felix.kuehling@amd.com, david.yatsin@amd.com,
+ Rajneesh
+ Bhardwaj <rajneesh.bhardwaj@amd.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVHZydGtvLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFR2cnRr
-byBVcnN1bGluIDx0dnJ0a28udXJzdWxpbkBsaW51eC5pbnRlbC5jb20+DQo+IFNlbnQ6IFdlZG5l
-c2RheSwgRmVicnVhcnkgMDIsIDIwMjIgNTowNCBBTQ0KPiBUbzogS2FzaXJlZGR5LCBWaXZlayA8
-dml2ZWsua2FzaXJlZGR5QGludGVsLmNvbT47IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCAxLzJdIGRybS9tbTogQWRkIGFuIGl0ZXJhdG9yIHRv
-IG9wdGltYWxseSB3YWxrIG92ZXIgaG9sZXMgZm9yIGFuDQo+IGFsbG9jYXRpb24NCj4gDQo+IA0K
-PiBPbiAwMi8wMi8yMDIyIDAxOjEzLCBWaXZlayBLYXNpcmVkZHkgd3JvdGU6DQo+ID4gVGhpcyBp
-dGVyYXRvciByZWxpZXMgb24gZHJtX21tX2ZpcnN0X2hvbGUoKSBhbmQgZHJtX21tX25leHRfaG9s
-ZSgpDQo+ID4gZnVuY3Rpb25zIHRvIGlkZW50aWZ5IHN1aXRhYmxlIGhvbGVzIGZvciBhbiBhbGxv
-Y2F0aW9uIG9mIGEgZ2l2ZW4NCj4gPiBzaXplIGJ5IGVmZmljZW50bHkgdHJhdmVyc2luZyB0aGUg
-cmJ0cmVlIGFzc29jaWF0ZWQgd2l0aCB0aGUgZ2l2ZW4NCj4gPiBhbGxvY2F0b3IuDQo+ID4NCj4g
-PiBJdCByZXBsYWNlcyB0aGUgZm9yIGxvb3AgaW4gZHJtX21tX2luc2VydF9ub2RlX2luX3Jhbmdl
-KCkgYW5kIGNhbg0KPiA+IGFsc28gYmUgdXNlZCBieSBkcm0gZHJpdmVycyB0byBxdWlja2x5IGlk
-ZW50aWZ5IGhvbGVzIG9mIGEgY2VydGFpbg0KPiA+IHNpemUgd2l0aGluIGEgZ2l2ZW4gcmFuZ2Uu
-DQo+ID4NCj4gPiBTdWdnZXN0ZWQtYnk6IFR2cnRrbyBVcnN1bGluIDx0dnJ0a28udXJzdWxpbkBs
-aW51eC5pbnRlbC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogVml2ZWsgS2FzaXJlZGR5IDx2aXZl
-ay5rYXNpcmVkZHlAaW50ZWwuY29tPg0KPiA+IC0tLQ0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL2Ry
-bV9tbS5jIHwgMjggKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ICAgaW5jbHVkZS9k
-cm0vZHJtX21tLmggICAgIHwgMzIgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4g
-PiAgIDIgZmlsZXMgY2hhbmdlZCwgNDQgaW5zZXJ0aW9ucygrKSwgMTYgZGVsZXRpb25zKC0pDQo+
-ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9tbS5jIGIvZHJpdmVycy9n
-cHUvZHJtL2RybV9tbS5jDQo+ID4gaW5kZXggODI1N2Y5ZDRmNjE5Li40MTZjODQ5YzEwZTUgMTAw
-NjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9tbS5jDQo+ID4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2RybV9tbS5jDQo+ID4gQEAgLTM1MiwxMCArMzUyLDEwIEBAIHN0YXRpYyBzdHJ1
-Y3QgZHJtX21tX25vZGUgKmZpbmRfaG9sZV9hZGRyKHN0cnVjdCBkcm1fbW0NCj4gKm1tLCB1NjQg
-YWRkciwgdTY0IHNpemUpDQo+ID4gICAJcmV0dXJuIG5vZGU7DQo+ID4gICB9DQo+ID4NCj4gPiAt
-c3RhdGljIHN0cnVjdCBkcm1fbW1fbm9kZSAqDQo+ID4gLWZpcnN0X2hvbGUoc3RydWN0IGRybV9t
-bSAqbW0sDQo+ID4gLQkgICB1NjQgc3RhcnQsIHU2NCBlbmQsIHU2NCBzaXplLA0KPiA+IC0JICAg
-ZW51bSBkcm1fbW1faW5zZXJ0X21vZGUgbW9kZSkNCj4gPiArc3RydWN0IGRybV9tbV9ub2RlICoN
-Cj4gPiArZHJtX21tX2ZpcnN0X2hvbGUoc3RydWN0IGRybV9tbSAqbW0sDQo+ID4gKwkJICB1NjQg
-c3RhcnQsIHU2NCBlbmQsIHU2NCBzaXplLA0KPiA+ICsJCSAgZW51bSBkcm1fbW1faW5zZXJ0X21v
-ZGUgbW9kZSkNCj4gPiAgIHsNCj4gPiAgIAlzd2l0Y2ggKG1vZGUpIHsNCj4gPiAgIAlkZWZhdWx0
-Og0KPiA+IEBAIC0zNzQsNiArMzc0LDcgQEAgZmlyc3RfaG9sZShzdHJ1Y3QgZHJtX21tICptbSwN
-Cj4gPiAgIAkJCQkJCWhvbGVfc3RhY2spOw0KPiA+ICAgCX0NCj4gPiAgIH0NCj4gPiArRVhQT1JU
-X1NZTUJPTChkcm1fbW1fZmlyc3RfaG9sZSk7DQo+ID4NCj4gPiAgIC8qKg0KPiA+ICAgICogREVD
-TEFSRV9ORVhUX0hPTEVfQUREUiAtIG1hY3JvIHRvIGRlY2xhcmUgbmV4dCBob2xlIGZ1bmN0aW9u
-cw0KPiA+IEBAIC00MTAsMTEgKzQxMSwxMSBAQCBzdGF0aWMgc3RydWN0IGRybV9tbV9ub2RlICpu
-YW1lKHN0cnVjdCBkcm1fbW1fbm9kZQ0KPiAqZW50cnksIHU2NCBzaXplKQlcDQo+ID4gICBERUNM
-QVJFX05FWFRfSE9MRV9BRERSKG5leHRfaG9sZV9oaWdoX2FkZHIsIHJiX2xlZnQsIHJiX3JpZ2h0
-KQ0KPiA+ICAgREVDTEFSRV9ORVhUX0hPTEVfQUREUihuZXh0X2hvbGVfbG93X2FkZHIsIHJiX3Jp
-Z2h0LCByYl9sZWZ0KQ0KPiA+DQo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJtX21tX25vZGUgKg0KPiA+
-IC1uZXh0X2hvbGUoc3RydWN0IGRybV9tbSAqbW0sDQo+ID4gLQkgIHN0cnVjdCBkcm1fbW1fbm9k
-ZSAqbm9kZSwNCj4gPiAtCSAgdTY0IHNpemUsDQo+ID4gLQkgIGVudW0gZHJtX21tX2luc2VydF9t
-b2RlIG1vZGUpDQo+ID4gK3N0cnVjdCBkcm1fbW1fbm9kZSAqDQo+ID4gK2RybV9tbV9uZXh0X2hv
-bGUoc3RydWN0IGRybV9tbSAqbW0sDQo+ID4gKwkJIHN0cnVjdCBkcm1fbW1fbm9kZSAqbm9kZSwN
-Cj4gPiArCQkgdTY0IHNpemUsDQo+ID4gKwkJIGVudW0gZHJtX21tX2luc2VydF9tb2RlIG1vZGUp
-DQo+ID4gICB7DQo+ID4gICAJc3dpdGNoIChtb2RlKSB7DQo+ID4gICAJZGVmYXVsdDoNCj4gPiBA
-QCAtNDMyLDYgKzQzMyw3IEBAIG5leHRfaG9sZShzdHJ1Y3QgZHJtX21tICptbSwNCj4gPiAgIAkJ
-cmV0dXJuICZub2RlLT5ob2xlX3N0YWNrID09ICZtbS0+aG9sZV9zdGFjayA/IE5VTEwgOiBub2Rl
-Ow0KPiA+ICAgCX0NCj4gPiAgIH0NCj4gPiArRVhQT1JUX1NZTUJPTChkcm1fbW1fbmV4dF9ob2xl
-KTsNCj4gDQo+IE1heSBuZWVkIHRvIGFkZCBrZXJuZWxkb2Mgc2luY2UgZmlyc3QvbmV4dF9ob2xl
-IGFyZSBub3cgZXhwb3J0ZWQsIG9yDQo+IHBlcmhhcHMgZG91YmxlIHVuZGVyc2NvcmUgdGhlbSBp
-ZiBEUk0gY29yZSBhbGxvd3MgdGhhdCBhcHByb2FjaCB0byBraW5kDQo+IG9mIHNpZ25pZnkgIml0
-IGlzIGV4cG9ydGVkIGJ5IHNob3VsZG4ndCByZWFsbHkgYmUgdXNlZCI/IFF1ZXN0aW9uIGZvcg0K
-PiBkcmktZGV2ZWwgSSBndWVzcy4NCltLYXNpcmVkZHksIFZpdmVrXSBPaywgd2lsbCB3YWl0IHVu
-dGlsIERhbmllbCBvciBvdGhlcnMgb24gZHJpLWRldmVsIHdlaWdoIGluLg0KSG93ZXZlciwgaXQg
-bG9va3MgbGlrZSBkb3VibGUgdW5kZXJzY29yZSBpcyB0aGUgd2F5IHRvIGdvIGdpdmVuIGhvdyB0
-aGUNCmV4cG9ydGVkIHN5bWJvbCBfX2RybV9tbV9pbnRlcnZhbF9maXJzdCgpIGlzIHVzZWQuDQoN
-Cj4gDQo+ID4NCj4gPiAgIC8qKg0KPiA+ICAgICogZHJtX21tX3Jlc2VydmVfbm9kZSAtIGluc2Vy
-dCBhbiBwcmUtaW5pdGlhbGl6ZWQgbm9kZQ0KPiA+IEBAIC01MjAsNyArNTIyLDYgQEAgaW50IGRy
-bV9tbV9pbnNlcnRfbm9kZV9pbl9yYW5nZShzdHJ1Y3QgZHJtX21tICogY29uc3QgbW0sDQo+ID4g
-ICB7DQo+ID4gICAJc3RydWN0IGRybV9tbV9ub2RlICpob2xlOw0KPiA+ICAgCXU2NCByZW1haW5k
-ZXJfbWFzazsNCj4gPiAtCWJvb2wgb25jZTsNCj4gPg0KPiA+ICAgCURSTV9NTV9CVUdfT04ocmFu
-Z2Vfc3RhcnQgPiByYW5nZV9lbmQpOw0KPiA+DQo+ID4gQEAgLTUzMywxMyArNTM0LDggQEAgaW50
-IGRybV9tbV9pbnNlcnRfbm9kZV9pbl9yYW5nZShzdHJ1Y3QgZHJtX21tICogY29uc3QNCj4gbW0s
-DQo+ID4gICAJaWYgKGFsaWdubWVudCA8PSAxKQ0KPiA+ICAgCQlhbGlnbm1lbnQgPSAwOw0KPiA+
-DQo+ID4gLQlvbmNlID0gbW9kZSAmIERSTV9NTV9JTlNFUlRfT05DRTsNCj4gPiAtCW1vZGUgJj0g
-fkRSTV9NTV9JTlNFUlRfT05DRTsNCj4gPiAtDQo+ID4gICAJcmVtYWluZGVyX21hc2sgPSBpc19w
-b3dlcl9vZl8yKGFsaWdubWVudCkgPyBhbGlnbm1lbnQgLSAxIDogMDsNCj4gPiAtCWZvciAoaG9s
-ZSA9IGZpcnN0X2hvbGUobW0sIHJhbmdlX3N0YXJ0LCByYW5nZV9lbmQsIHNpemUsIG1vZGUpOw0K
-PiA+IC0JICAgICBob2xlOw0KPiA+IC0JICAgICBob2xlID0gb25jZSA/IE5VTEwgOiBuZXh0X2hv
-bGUobW0sIGhvbGUsIHNpemUsIG1vZGUpKSB7DQo+ID4gKwlkcm1fbW1fZm9yX2VhY2hfYmVzdF9o
-b2xlKGhvbGUsIG1tLCByYW5nZV9zdGFydCwgcmFuZ2VfZW5kLCBzaXplLCBtb2RlKSB7DQo+ID4g
-ICAJCXU2NCBob2xlX3N0YXJ0ID0gX19kcm1fbW1faG9sZV9ub2RlX3N0YXJ0KGhvbGUpOw0KPiA+
-ICAgCQl1NjQgaG9sZV9lbmQgPSBob2xlX3N0YXJ0ICsgaG9sZS0+aG9sZV9zaXplOw0KPiA+ICAg
-CQl1NjQgYWRqX3N0YXJ0LCBhZGpfZW5kOw0KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9k
-cm1fbW0uaCBiL2luY2x1ZGUvZHJtL2RybV9tbS5oDQo+ID4gaW5kZXggYWMzM2JhMWIxOGJjLi41
-MDU1NDQ3Njk3ZmEgMTAwNjQ0DQo+ID4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX21tLmgNCj4gPiAr
-KysgYi9pbmNsdWRlL2RybS9kcm1fbW0uaA0KPiA+IEBAIC0zMjIsNiArMzIyLDE3IEBAIHN0YXRp
-YyBpbmxpbmUgdTY0IF9fZHJtX21tX2hvbGVfbm9kZV9lbmQoY29uc3Qgc3RydWN0DQo+IGRybV9t
-bV9ub2RlICpob2xlX25vZGUpDQo+ID4gICAJcmV0dXJuIGxpc3RfbmV4dF9lbnRyeShob2xlX25v
-ZGUsIG5vZGVfbGlzdCktPnN0YXJ0Ow0KPiA+ICAgfQ0KPiA+DQo+ID4gK3N0cnVjdCBkcm1fbW1f
-bm9kZSAqDQo+ID4gK2RybV9tbV9maXJzdF9ob2xlKHN0cnVjdCBkcm1fbW0gKm1tLA0KPiA+ICsJ
-CSAgdTY0IHN0YXJ0LCB1NjQgZW5kLCB1NjQgc2l6ZSwNCj4gPiArCQkgIGVudW0gZHJtX21tX2lu
-c2VydF9tb2RlIG1vZGUpOw0KPiA+ICsNCj4gPiArc3RydWN0IGRybV9tbV9ub2RlICoNCj4gPiAr
-ZHJtX21tX25leHRfaG9sZShzdHJ1Y3QgZHJtX21tICptbSwNCj4gPiArCQkgc3RydWN0IGRybV9t
-bV9ub2RlICpub2RlLA0KPiA+ICsJCSB1NjQgc2l6ZSwNCj4gPiArCQkgZW51bSBkcm1fbW1faW5z
-ZXJ0X21vZGUgbW9kZSk7DQo+ID4gKw0KPiA+ICAgLyoqDQo+ID4gICAgKiBkcm1fbW1faG9sZV9u
-b2RlX2VuZCAtIGNvbXB1dGVzIHRoZSBlbmQgb2YgdGhlIGhvbGUgZm9sbG93aW5nIEBub2RlDQo+
-ID4gICAgKiBAaG9sZV9ub2RlOiBkcm1fbW1fbm9kZSB3aGljaCBpbXBsaWNpdGx5IHRyYWNrcyB0
-aGUgZm9sbG93aW5nIGhvbGUNCj4gPiBAQCAtNDAwLDYgKzQxMSwyNyBAQCBzdGF0aWMgaW5saW5l
-IHU2NCBkcm1fbW1faG9sZV9ub2RlX2VuZChjb25zdCBzdHJ1Y3QNCj4gZHJtX21tX25vZGUgKmhv
-bGVfbm9kZSkNCj4gPiAgIAkgICAgIDEgOiAwOyBcDQo+ID4gICAJICAgICBwb3MgPSBsaXN0X25l
-eHRfZW50cnkocG9zLCBob2xlX3N0YWNrKSkNCj4gPg0KPiA+ICsvKioNCj4gPiArICogZHJtX21t
-X2Zvcl9lYWNoX2Jlc3RfaG9sZSAtIGl0ZXJhdG9yIHRvIG9wdGltYWxseSB3YWxrIG92ZXIgYWxs
-IGhvbGVzID49IEBzaXplDQo+ID4gKyAqIEBwb3M6ICZkcm1fbW1fbm9kZSB1c2VkIGludGVybmFs
-bHkgdG8gdHJhY2sgcHJvZ3Jlc3MNCj4gPiArICogQG1tOiAmZHJtX21tIGFsbG9jYXRvciB0byB3
-YWxrDQo+ID4gKyAqIEByYW5nZV9zdGFydDogc3RhcnQgb2YgdGhlIGFsbG93ZWQgcmFuZ2UgZm9y
-IHRoZSBhbGxvY2F0aW9uDQo+ID4gKyAqIEByYW5nZV9lbmQ6IGVuZCBvZiB0aGUgYWxsb3dlZCBy
-YW5nZSBmb3IgdGhlIGFsbG9jYXRpb24NCj4gPiArICogQHNpemU6IHNpemUgb2YgdGhlIGFsbG9j
-YXRpb24NCj4gPiArICogQG1vZGU6IGZpbmUtdHVuZSB0aGUgYWxsb2NhdGlvbiBzZWFyY2gNCj4g
-PiArICoNCj4gPiArICogVGhpcyBpdGVyYXRvciB3YWxrcyBvdmVyIGFsbCBob2xlcyBzdWl0YWJs
-ZSBmb3IgdGhlIGFsbG9jYXRpb24gb2YgZ2l2ZW4NCj4gPiArICogQHNpemUgaW4gYSB2ZXJ5IGVm
-ZmljaWVudCBtYW5uZXIuIEl0IGlzIGltcGxlbWVudGVkIGJ5IGNhbGxpbmcNCj4gPiArICogZHJt
-X21tX2ZpcnN0X2hvbGUoKSBhbmQgZHJtX21tX25leHRfaG9sZSgpIHdoaWNoIGlkZW50aWZ5IHRo
-ZQ0KPiA+ICsgKiBhcHByb3ByaWF0ZSBob2xlcyB3aXRoaW4gdGhlIGdpdmVuIHJhbmdlIGJ5IGVm
-ZmljZW50bHkgdHJhdmVyc2luZyB0aGUNCj4gPiArICogcmJ0cmVlIGFzc29jaWF0ZWQgd2l0aCBA
-bW0uDQo+ID4gKyAqLw0KPiA+ICsjZGVmaW5lIGRybV9tbV9mb3JfZWFjaF9iZXN0X2hvbGUocG9z
-LCBtbSwgcmFuZ2Vfc3RhcnQsIHJhbmdlX2VuZCwgc2l6ZSwgbW9kZSkgXA0KPiANCj4gUHJvYmFi
-bHkgc2hvdWxkIG5vdCBoYXZlICJiZXN0IiBpbiB0aGUgbmFtZSBzaW5jZSB0aGUgbW9kZSBpcyBw
-YXNzZWQgaW4NCj4gYnkgdGhlIGNhbGxlci4NCltLYXNpcmVkZHksIFZpdmVrXSBIb3cgYWJvdXQg
-ZHJtX21tX2Zvcl9lYWNoX3N1aXRhYmxlX2hvbGUoLi4uKT8NCg0KPiANCj4gPiArCWZvciAocG9z
-ID0gZHJtX21tX2ZpcnN0X2hvbGUobW0sIHJhbmdlX3N0YXJ0LCByYW5nZV9lbmQsIHNpemUsIG1v
-ZGUpOyBcDQo+ID4gKwkgICAgIHBvczsgXA0KPiA+ICsJICAgICBwb3MgPSBtb2RlICYgRFJNX01N
-X0lOU0VSVF9PTkNFID8gXA0KPiA+ICsJICAgICBOVUxMIDogZHJtX21tX25leHRfaG9sZShtbSwg
-aG9sZSwgc2l6ZSwgbW9kZSkpDQo+IA0KPiBJIHRoaW5rIHlvdSB3b3VsZCBuZWVkIHRvIG1vZGlm
-eSB0aGUgZmlyc3QvbmV4dF9ob2xlIHRvIG1hc2sgb3V0DQo+IERSTV9NTV9JTlNFUlRfT05DRSwg
-b3RoZXJ3aXNlIGl0IHByb2JhYmx5IGRvZXMgbm90IHdvcmsgYXMgaXQgc3RhbmRzLg0KW0thc2ly
-ZWRkeSwgVml2ZWtdIEVpdGhlciB0aGF0IG9yIEkgZG8gdGhlIG1hc2sgb3V0IGluIHRoZSBtYWNy
-byBpdHNlbGY6DQojZGVmaW5lIGRybV9tbV9mb3JfZWFjaF9iZXN0X2hvbGUocG9zLCBtbSwgcmFu
-Z2Vfc3RhcnQsIHJhbmdlX2VuZCwgc2l6ZSwgbW9kZSkgXA0KICAgICAgICBmb3IgKHBvcyA9IGRy
-bV9tbV9maXJzdF9ob2xlKG1tLCByYW5nZV9zdGFydCwgcmFuZ2VfZW5kLCBzaXplLCBcDQogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbW9kZSAmIH5EUk1fTU1fSU5TRVJUX09O
-Q0UpOyBcDQogICAgICAgICAgICAgcG9zOyBcDQogICAgICAgICAgICAgcG9zID0gbW9kZSAmIERS
-TV9NTV9JTlNFUlRfT05DRSA/IFwNCiAgICAgICAgICAgICBOVUxMIDogZHJtX21tX25leHRfaG9s
-ZShtbSwgaG9sZSwgc2l6ZSwgXA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IG1vZGUgJiB+RFJNX01NX0lOU0VSVF9PTkNFKSkNCmFuZCBhbHNvIHRha2UgY2FyZSBvZiB0aGUg
-bG9jYXRpb25zIHdoZXJlIG1vZGUgaXMgY2hlY2tlZCBpbiB0aGUgbG9vcC4NCk9yLCBJIGNvdWxk
-IGp1c3QgcmV0YWluIHRoZSBvbmNlIGJvb2wgYW5kIHBhc3MgaXQgdG8gdGhlIG1hY3JvLiBOb3Qg
-c3VyZSBpZiB0aGlzIGlzIG9rDQpidXQgdGhlcmUgZG9uJ3Qgc2VlbSB0byBiZSBjbGVhbmVyL2Vs
-ZWdhbnQgb3B0aW9ucy4NCg0KVGhhbmtzLA0KVml2ZWsNCg0KDQo+IA0KPiBSZWdhcmRzLA0KPiAN
-Cj4gVHZydGtvDQo+IA0KPiA+ICsNCj4gPiAgIC8qDQo+ID4gICAgKiBCYXNpYyByYW5nZSBtYW5h
-Z2VyIHN1cHBvcnQgKGRybV9tbS5jKQ0KPiA+ICAgICovDQo=
+This adds support to discover the  buffer objects that belong to a
+process being checkpointed. The data corresponding to these buffer
+objects is returned to user space plugin running under criu master
+context which then stores this info to recreate these buffer objects
+during a restore operation.
+
+Signed-off-by: David Yat Sin <david.yatsin@amd.com>
+Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |   1 +
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  11 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  20 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |   2 +
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      | 177 +++++++++++++++++-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |   4 +-
+ 6 files changed, 213 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+index ac841ae8f5cc..395ba9566afe 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+@@ -297,6 +297,7 @@ int amdgpu_amdkfd_get_tile_config(struct amdgpu_device *adev,
+ 				struct tile_config *config);
+ void amdgpu_amdkfd_ras_poison_consumption_handler(struct amdgpu_device *adev,
+ 				bool reset);
++bool amdgpu_amdkfd_bo_mapped_to_dev(struct amdgpu_device *adev, struct kgd_mem *mem);
+ #if IS_ENABLED(CONFIG_HSA_AMD)
+ void amdgpu_amdkfd_gpuvm_init_mem_limits(void);
+ void amdgpu_amdkfd_gpuvm_destroy_cb(struct amdgpu_device *adev,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index 5df387c4d7fb..3485ef856860 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -2629,3 +2629,14 @@ int amdgpu_amdkfd_get_tile_config(struct amdgpu_device *adev,
+ 
+ 	return 0;
+ }
++
++bool amdgpu_amdkfd_bo_mapped_to_dev(struct amdgpu_device *adev, struct kgd_mem *mem)
++{
++	struct kfd_mem_attachment *entry;
++
++	list_for_each_entry(entry, &mem->attachments, list) {
++		if (entry->is_mapped && entry->adev == adev)
++			return true;
++	}
++	return false;
++}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index b9637d1cf147..5a32ee66d8c8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -1127,6 +1127,26 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_device *bdev,
+ 	return ttm_pool_free(&adev->mman.bdev.pool, ttm);
+ }
+ 
++/**
++ * amdgpu_ttm_tt_get_userptr - Return the userptr GTT ttm_tt for the current
++ * task
++ *
++ * @tbo: The ttm_buffer_object that contains the userptr
++ * @user_addr:  The returned value
++ */
++int amdgpu_ttm_tt_get_userptr(const struct ttm_buffer_object *tbo,
++			      uint64_t *user_addr)
++{
++	struct amdgpu_ttm_tt *gtt;
++
++	if (!tbo->ttm)
++		return -EINVAL;
++
++	gtt = (void *)tbo->ttm;
++	*user_addr = gtt->userptr;
++	return 0;
++}
++
+ /**
+  * amdgpu_ttm_tt_set_userptr - Initialize userptr GTT ttm_tt for the current
+  * task
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+index d9691f262f16..39d966e7185d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+@@ -181,6 +181,8 @@ static inline bool amdgpu_ttm_tt_get_user_pages_done(struct ttm_tt *ttm)
+ #endif
+ 
+ void amdgpu_ttm_tt_set_user_pages(struct ttm_tt *ttm, struct page **pages);
++int amdgpu_ttm_tt_get_userptr(const struct ttm_buffer_object *tbo,
++			      uint64_t *user_addr);
+ int amdgpu_ttm_tt_set_userptr(struct ttm_buffer_object *bo,
+ 			      uint64_t addr, uint32_t flags);
+ bool amdgpu_ttm_tt_has_userptr(struct ttm_tt *ttm);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index 29443419bbf0..17a937b7139f 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -1860,6 +1860,29 @@ static int kfd_ioctl_svm(struct file *filep, struct kfd_process *p, void *data)
+ }
+ #endif
+ 
++static int criu_checkpoint_process(struct kfd_process *p,
++			     uint8_t __user *user_priv_data,
++			     uint64_t *priv_offset)
++{
++	struct kfd_criu_process_priv_data process_priv;
++	int ret;
++
++	memset(&process_priv, 0, sizeof(process_priv));
++
++	process_priv.version = KFD_CRIU_PRIV_VERSION;
++
++	ret = copy_to_user(user_priv_data + *priv_offset,
++				&process_priv, sizeof(process_priv));
++
++	if (ret) {
++		pr_err("Failed to copy process information to user\n");
++		ret = -EFAULT;
++	}
++
++	*priv_offset += sizeof(process_priv);
++	return ret;
++}
++
+ uint32_t get_process_num_bos(struct kfd_process *p)
+ {
+ 	uint32_t num_of_bos = 0;
+@@ -1881,6 +1904,117 @@ uint32_t get_process_num_bos(struct kfd_process *p)
+ 	return num_of_bos;
+ }
+ 
++static int criu_checkpoint_bos(struct kfd_process *p,
++			       uint32_t num_bos,
++			       uint8_t __user *user_bos,
++			       uint8_t __user *user_priv_data,
++			       uint64_t *priv_offset)
++{
++	struct kfd_criu_bo_bucket *bo_buckets;
++	struct kfd_criu_bo_priv_data *bo_privs;
++	int ret = 0, pdd_index, bo_index = 0, id;
++	void *mem;
++
++	bo_buckets = kvzalloc(num_bos * sizeof(*bo_buckets), GFP_KERNEL);
++	if (!bo_buckets) {
++		ret = -ENOMEM;
++		goto exit;
++	}
++
++	bo_privs = kvzalloc(num_bos * sizeof(*bo_privs), GFP_KERNEL);
++	if (!bo_privs) {
++		ret = -ENOMEM;
++		goto exit;
++	}
++
++	for (pdd_index = 0; pdd_index < p->n_pdds; pdd_index++) {
++		struct kfd_process_device *pdd = p->pdds[pdd_index];
++		struct amdgpu_bo *dumper_bo;
++		struct kgd_mem *kgd_mem;
++
++		idr_for_each_entry(&pdd->alloc_idr, mem, id) {
++			struct kfd_criu_bo_bucket *bo_bucket;
++			struct kfd_criu_bo_priv_data *bo_priv;
++			int i, dev_idx = 0;
++
++			if (!mem) {
++				ret = -ENOMEM;
++				goto exit;
++			}
++
++			kgd_mem = (struct kgd_mem *)mem;
++			dumper_bo = kgd_mem->bo;
++
++			if ((uint64_t)kgd_mem->va <= pdd->gpuvm_base)
++				continue;
++
++			bo_bucket = &bo_buckets[bo_index];
++			bo_priv = &bo_privs[bo_index];
++
++			bo_bucket->addr = (uint64_t)kgd_mem->va;
++			bo_bucket->size = amdgpu_bo_size(dumper_bo);
++			bo_bucket->gpu_id = pdd->dev->id;
++			bo_bucket->alloc_flags = (uint32_t)kgd_mem->alloc_flags;
++			bo_priv->idr_handle = id;
++
++			if (bo_bucket->alloc_flags & KFD_IOC_ALLOC_MEM_FLAGS_USERPTR) {
++				ret = amdgpu_ttm_tt_get_userptr(&dumper_bo->tbo,
++								&bo_priv->user_addr);
++				if (ret) {
++					pr_err("Failed to obtain user address for user-pointer bo\n");
++					goto exit;
++				}
++			}
++			if (bo_bucket->alloc_flags & KFD_IOC_ALLOC_MEM_FLAGS_DOORBELL)
++				bo_bucket->offset = KFD_MMAP_TYPE_DOORBELL |
++					KFD_MMAP_GPU_ID(pdd->dev->id);
++			else if (bo_bucket->alloc_flags &
++				KFD_IOC_ALLOC_MEM_FLAGS_MMIO_REMAP)
++				bo_bucket->offset = KFD_MMAP_TYPE_MMIO |
++					KFD_MMAP_GPU_ID(pdd->dev->id);
++			else
++				bo_bucket->offset = amdgpu_bo_mmap_offset(dumper_bo);
++
++			for (i = 0; i < p->n_pdds; i++) {
++				if (amdgpu_amdkfd_bo_mapped_to_dev(p->pdds[i]->dev->adev, kgd_mem))
++					bo_priv->mapped_gpuids[dev_idx++] = p->pdds[i]->dev->id;
++			}
++
++			pr_debug("bo_size = 0x%llx, bo_addr = 0x%llx bo_offset = 0x%llx\n"
++					"gpu_id = 0x%x alloc_flags = 0x%x idr_handle = 0x%x",
++					bo_bucket->size,
++					bo_bucket->addr,
++					bo_bucket->offset,
++					bo_bucket->gpu_id,
++					bo_bucket->alloc_flags,
++					bo_priv->idr_handle);
++			bo_index++;
++		}
++	}
++
++	ret = copy_to_user(user_bos, bo_buckets, num_bos * sizeof(*bo_buckets));
++	if (ret) {
++		pr_err("Failed to copy BO information to user\n");
++		ret = -EFAULT;
++		goto exit;
++	}
++
++	ret = copy_to_user(user_priv_data + *priv_offset, bo_privs, num_bos * sizeof(*bo_privs));
++	if (ret) {
++		pr_err("Failed to copy BO priv information to user\n");
++		ret = -EFAULT;
++		goto exit;
++	}
++
++	*priv_offset += num_bos * sizeof(*bo_privs);
++
++exit:
++
++	kvfree(bo_buckets);
++	kvfree(bo_privs);
++	return ret;
++}
++
+ static void criu_get_process_object_info(struct kfd_process *p,
+ 					 uint32_t *num_bos,
+ 					 uint64_t *objs_priv_size)
+@@ -1900,7 +2034,48 @@ static int criu_checkpoint(struct file *filep,
+ 			   struct kfd_process *p,
+ 			   struct kfd_ioctl_criu_args *args)
+ {
+-	return 0;
++	int ret;
++	uint32_t num_bos;
++	uint64_t priv_size, priv_offset = 0;
++
++	if (!args->bos || !args->priv_data)
++		return -EINVAL;
++
++	mutex_lock(&p->mutex);
++
++	if (!p->n_pdds) {
++		pr_err("No pdd for given process\n");
++		ret = -ENODEV;
++		goto exit_unlock;
++	}
++
++	criu_get_process_object_info(p, &num_bos, &priv_size);
++
++	if (num_bos != args->num_bos ||
++	    priv_size != args->priv_data_size) {
++
++		ret = -EINVAL;
++		goto exit_unlock;
++	}
++
++	/* each function will store private data inside priv_data and adjust priv_offset */
++	ret = criu_checkpoint_process(p, (uint8_t __user *)args->priv_data, &priv_offset);
++	if (ret)
++		goto exit_unlock;
++
++	ret = criu_checkpoint_bos(p, num_bos, (uint8_t __user *)args->bos,
++			    (uint8_t __user *)args->priv_data, &priv_offset);
++	if (ret)
++		goto exit_unlock;
++
++exit_unlock:
++	mutex_unlock(&p->mutex);
++	if (ret)
++		pr_err("Failed to dump CRIU ret:%d\n", ret);
++	else
++		pr_debug("CRIU dump ret:%d\n", ret);
++
++	return ret;
+ }
+ 
+ static int criu_restore(struct file *filep,
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+index f928878196ef..a4d08b6b2e6b 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -1049,7 +1049,9 @@ struct kfd_criu_device_priv_data {
+ };
+ 
+ struct kfd_criu_bo_priv_data {
+-	uint64_t reserved;
++	uint64_t user_addr;
++	uint32_t idr_handle;
++	uint32_t mapped_gpuids[MAX_GPU_INSTANCE];
+ };
+ 
+ struct kfd_criu_svm_range_priv_data {
+-- 
+2.17.1
+
