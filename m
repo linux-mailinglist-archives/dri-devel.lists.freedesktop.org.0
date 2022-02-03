@@ -1,32 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B54B4A7ED4
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 06:04:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B724A7F57
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 07:39:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26BB810E1E8;
-	Thu,  3 Feb 2022 05:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0292610E25A;
+	Thu,  3 Feb 2022 06:39:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-54.freemail.mail.aliyun.com
- (out30-54.freemail.mail.aliyun.com [115.124.30.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58AC710E1E8;
- Thu,  3 Feb 2022 05:04:26 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04426; MF=yang.lee@linux.alibaba.com;
- NM=1; PH=DS; RN=11; SR=0; TI=SMTPD_---0V3UBAbC_1643864663; 
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0V3UBAbC_1643864663) by smtp.aliyun-inc.com(127.0.0.1);
- Thu, 03 Feb 2022 13:04:24 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: daniel@ffwll.ch
-Subject: [PATCH -next] drm/amdkfd: Fix resource_size.cocci warning
-Date: Thu,  3 Feb 2022 13:04:21 +0800
-Message-Id: <20220203050421.39285-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8001C10E25A
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 06:39:46 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 35e49199-84bc-11ec-ac19-0050568cd888;
+ Thu, 03 Feb 2022 06:40:43 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 52AFA194B3E;
+ Thu,  3 Feb 2022 07:39:40 +0100 (CET)
+Date: Thu, 3 Feb 2022 07:39:37 +0100
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Yizhuo Zhai <yzhai003@ucr.edu>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v6] fbdev: fbmem: Fix the implicit type casting
+Message-ID: <Yft4qf3Hw7ntxc98@ravnborg.org>
+References: <f3b28143-5f59-ad77-f2b8-6274a6edbfdc@roeck-us.net>
+ <20220202235811.1621017-1-yzhai003@ucr.edu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220202235811.1621017-1-yzhai003@ucr.edu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,40 +48,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Yang Li <yang.lee@linux.alibaba.com>,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: Xin Tan <tanxin.ctf@gmail.com>, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Zheyu Ma <zheyuma97@gmail.com>, linux-fbdev@vger.kernel.org,
+ Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use resource_size function on resource object instead of explicit
-computation.
+Hi Daniel,
 
-Eliminate the following coccicheck warning:
-./drivers/gpu/drm/amd/amdkfd/kfd_migrate.c:978:11-14: ERROR: Missing
-resource_size with res
+I assume you will take this.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patch is:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-index 8430f6475723..d4287a39be56 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-@@ -975,7 +975,7 @@ int svm_migrate_init(struct amdgpu_device *adev)
- 		pgmap->type = 0;
- 		if (pgmap->type == MEMORY_DEVICE_PRIVATE)
- 			devm_release_mem_region(adev->dev, res->start,
--						res->end - res->start + 1);
-+						resource_size(res));
- 		return PTR_ERR(r);
- 	}
- 
--- 
-2.20.1.7.g153144c
+	Sam
 
+On Wed, Feb 02, 2022 at 03:58:08PM -0800, Yizhuo Zhai wrote:
+> In function do_fb_ioctl(), the "arg" is the type of unsigned long,
+> and in "case FBIOBLANK:" this argument is casted into an int before
+> passig to fb_blank(). In fb_blank(), the comparision
+> if (blank > FB_BLANK_POWERDOWN) would be bypass if the original
+> "arg" is a large number, which is possible because it comes from
+> the user input. Fix this by adding the check before the function
+> call.
+> 
+> Signed-off-by: Yizhuo Zhai <yzhai003@ucr.edu>
+> ---
+>  drivers/video/fbdev/core/fbmem.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index 0fa7ede94fa6..13083ad8d751 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -1160,6 +1160,8 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+>  		ret = fbcon_set_con2fb_map_ioctl(argp);
+>  		break;
+>  	case FBIOBLANK:
+> +		if (arg > FB_BLANK_POWERDOWN)
+> +			return -EINVAL;
+>  		console_lock();
+>  		lock_fb_info(info);
+>  		ret = fb_blank(info, arg);
+> -- 
+> 2.25.1
