@@ -1,137 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933614A8887
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 17:26:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3C94A8890
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Feb 2022 17:29:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C21D610E6A8;
-	Thu,  3 Feb 2022 16:26:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0CEA10E53F;
+	Thu,  3 Feb 2022 16:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DFFA10E649;
- Thu,  3 Feb 2022 16:26:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643905561; x=1675441561;
- h=from:to:cc:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=umOHpoUefb7jlKPUswjucxN1iA4XwzgOtqz7EJcFseE=;
- b=HCYTwkiwife7lwNIEi/0vuGeIz/RWcCIBv/dzkKaY74VWhSm8Pwon2HD
- wylUIJrZ9Mu6Jfzyg8qdK7CVsESgAhzFPuXMzFKygxHe/H9zMO9jfA+PQ
- Z0T1uMZk54iz4jvLXxURBTM01HUqTLlYYNpbFZRGaq/qOV1vkwVv91hA3
- 2FertvNTUqsEDVV9f1s/MJya3pXmhSOy4yxdsLyCt7VqX4LsaARclq5o9
- x/hp1cl3iOtTeuRC2Dh2iAIgCO4Hb/dhaYVbaSCaANqXbfbNDNCYfUIZ+
- 92RDQPfEaofie5r5itreuGFvXk4le/h7uEfAZU95FJ3fk02ckG8egByEt w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10247"; a="308907618"
-X-IronPort-AV: E=Sophos;i="5.88,340,1635231600"; d="scan'208";a="308907618"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2022 08:26:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,340,1635231600"; d="scan'208";a="483289872"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by orsmga006.jf.intel.com with ESMTP; 03 Feb 2022 08:26:00 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 3 Feb 2022 08:25:59 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Thu, 3 Feb 2022 08:25:59 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.108)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Thu, 3 Feb 2022 08:25:59 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oRrIYlx8xWY19dxUKyJjtSNBNCTXjt/udpjP0IT6sdvkGxFdtatm/mzDhTKY8E1GtQa2FpkBLrT+IH9wicKdta4R5yIgErnI5db2KP0NffQ0qTIC2xDASYQsuALxeBo+XflDoqHx8rlF4HYx8FrSBO2Tu75WMEA7FYanDLcayTUEOQzYYqEpmyh92ohJlgVaoL1nEqGUPNi41Wf2q0y8IL5njFpQQGQr2Lr/zfYDBRKOrk+H+5QWskbf4WRpSBMbJdJi7HgEOkihXrPa6WOGkMPAAvYEZiWsr+ry0zx9DR1Eb5z+R9OaetBldxo9w27EkQ7fEjayCOrviVneaVeDqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BAsI81/u/c/VIKBkweI0YHgjBUxI4tL5+nRz3j0vMQ8=;
- b=ZIb8s0FE3xYNdOl1th6462TtzkoNgSD5h/5Obgxd1RCDHA0ALqRCx0KFo782gy5QaWjOckZbFVT3OMZbn5hjCDeGxJlGftpYohflnII7xH5Wy4kui6mSQiyV7WAtR/Ss/wV/RyCAeY5ijpZm/XNvMiRmOhKqT4NsYMUTFw4ccxMRCDjKeyDI//6HaBXPjgadgab7lszbKOvVYjtVoPNnAk3S2/0vBEAKRS85sXf5lvg24Eu7O4xHY30uMHI89w76Q7vs+7kLL9QX6lG7fO7LvLlXy55ctqwk6fTC54OWDsBFs3hOq79TVSt1KaKdTaiweAD4RDY7ompkl464Hlknpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ0PR11MB4894.namprd11.prod.outlook.com (2603:10b6:a03:2d4::5)
- by BN6PR1101MB2097.namprd11.prod.outlook.com (2603:10b6:405:50::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.19; Thu, 3 Feb
- 2022 16:25:56 +0000
-Received: from SJ0PR11MB4894.namprd11.prod.outlook.com
- ([fe80::4c25:af8f:60a8:3992]) by SJ0PR11MB4894.namprd11.prod.outlook.com
- ([fe80::4c25:af8f:60a8:3992%5]) with mapi id 15.20.4930.022; Thu, 3 Feb 2022
- 16:25:56 +0000
-From: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/i915: Add fallback inside memcpy_from_wc functions
-Date: Thu, 3 Feb 2022 21:57:03 +0530
-Message-ID: <20220203162703.352447-1-balasubramani.vivekanandan@intel.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BMXPR01CA0046.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:c::32) To SJ0PR11MB4894.namprd11.prod.outlook.com
- (2603:10b6:a03:2d4::5)
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 20B4510E4F7
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Feb 2022 16:29:43 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:55460.166802100
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id 4874910020E;
+ Fri,  4 Feb 2022 00:29:39 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-b7fbf7d79-bwdqx with ESMTP id
+ 5d9bde9577e844b4a52841e5a51828bb for maxime@cerno.tech; 
+ Fri, 04 Feb 2022 00:29:41 CST
+X-Transaction-ID: 5d9bde9577e844b4a52841e5a51828bb
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <f5381561-25da-61e3-5025-fa6dd61dd730@189.cn>
+Date: Fri, 4 Feb 2022 00:29:39 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db896d60-926f-4430-d2a9-08d9e731db18
-X-MS-TrafficTypeDiagnostic: BN6PR1101MB2097:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <BN6PR1101MB20977574E3D2F580EA1CBFB39F289@BN6PR1101MB2097.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1468;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hThF88jq2ErB7LKWuXFZIQ4qw8SOta+a/95E95ChXwUOW6rzBndAib5AflBingfDMvkiVUhe4eXJv2zShBYio7p1uRDdZhWHc7qE/wtXiojBKsd7esMwBNkOYMJeTCnslPYMdF9E51C7MfTPVikyPaSqHnzbJYGx0H9jaH21PD0toFiMaCV24/RbxbGRbcvewueVVt6FomMRsJkwpsy+nE0vH4wnytvdVpFj4JbSuku6+I0ZAzTdhMouC7AmiPyjGsoBZ+6UYBtO+2/sGvpj85Q+3ncBW3ZuK3gwdmg2wDm7AKPd3jxHH9vDcEMg0KeBF/FUz1aYlR2hW9++hA6/Jg1ptVvwtNo0tdtROYNstDAs20I+o/t6o1mHZNP/Ya09drpAb9EDYyQ5lnf7SivK88PZ79ABqDJMabknIitYjte5nXIUlsJxhEzLDywT3vBb9axAiaxKV8RQS0uOIvBs6uf453HiICVxsbLVpEusxjLZJL5PpZBe8gczKMCPcmBd6fcBvv/G8fpMhGE+hBpGzd8DpBBqWsdbxtEouf3Xg5WlCnPS9jMxu0XXS3dJV39hNXUd/Bq2HJPwnLZ5iBw+H5KifzP/7w9hoQ3t+DDk9NvgFKDttMB9VMh4JZJ6LQadKeViJ80bZ5yQbB5gkc1nYA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB4894.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(66556008)(6486002)(44832011)(66946007)(66476007)(508600001)(6512007)(5660300002)(450100002)(83380400001)(2616005)(2906002)(107886003)(316002)(26005)(186003)(1076003)(38100700002)(82960400001)(86362001)(36756003)(6666004)(6506007)(8936002)(8676002)(4326008);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aIZfZnetF4K3y6V53iJS2zsNlnsEuPdWlanVfB/T4UTkjlXfVF3SOAHiBLur?=
- =?us-ascii?Q?7nbabA3Kb32Ei4TwL9TsbyDh5zeFAUoocJ7KAUe8VhhLSSmlw5nmHmiZLWzW?=
- =?us-ascii?Q?sYNL7d9oSbQAQmHoBybIu1T6HlFOco+hiRviretnT/oQ5EWCeWP/hRaTc73V?=
- =?us-ascii?Q?tvr5ZFA8nu0SOOQkLqxagn/9WhtjkZHTmM8igy0Q3UsqiJLaxpqSrbftitVX?=
- =?us-ascii?Q?DBE8vyF4zcn/sYFGPQDnbm4pweSe9/huKPAtyzbS+cW/86eyW+KMm51m29B3?=
- =?us-ascii?Q?XyhBw9eunBHu+6+IhV4FTN3xGJi1YOLL4GAjhsrED/fBfQybGU2+pZbHBn+V?=
- =?us-ascii?Q?86+idlN/8LMB7uR+Y1DFFvH+to9Ngx4BO4kUFzEgs4PGFUtlpoizwbdcIppq?=
- =?us-ascii?Q?Vux7pUR4u3OeMqlcBfL22gHSBgjPXU9DuCRex8/vwPBpoLZICSOigPN7W18p?=
- =?us-ascii?Q?HRgjjzuwNoBa9uNEkaWm/orkEQnaE4PllXcSXxvbjm2IEv1fKeP+NgiJNrJe?=
- =?us-ascii?Q?XB7k5jlAiKFjYHbuF8EnQ934GteqBuwR+f2WPAuY5GqB3DnfRpU8UdgWFXrO?=
- =?us-ascii?Q?OivDb7lnzKcytKR10Eq2tVtO+R+nLqYKic2mCwPA0HyJ6gaOWv7/bB4dhTGi?=
- =?us-ascii?Q?WgE1Txtb3tVoqKyYXq5sd9Am22S/Tv2tPsfSBYjO+e5Fv1FB1maWFYSfsY6r?=
- =?us-ascii?Q?CDZXaqX5sh2M5cGVshC3ED1UzRLekHM+/aibgj2Q0jGYvRpdC57DzmGhJY29?=
- =?us-ascii?Q?BJdYwa4kjGk0D0nbdSeNah0tz/ql14BIFFaFslFrBaNYub2IJppmkrw2eBDx?=
- =?us-ascii?Q?qY4Cs7MnLrGZ9vDXxJwBJ3c1qqAn4oJ4GQr45HL3v2NzfwgzmrUE8SZ3gIxu?=
- =?us-ascii?Q?vVqga4LHgRK621xqYsdNlE+IAFf2tR3UGx3FGleEQ19HEulXtYjD+0xC7LUD?=
- =?us-ascii?Q?GXQDCF6DAxhfImENN5e0dP0PVQvTAKH7qTCnTQfI0XCLzWVycmjoZt/B75qI?=
- =?us-ascii?Q?HJ+Vz0ta/jG8sHNly2W1X86q+z68RDSwLDmBACdOOjRdT6xazHIBeL9tHg4y?=
- =?us-ascii?Q?mxEo9rPzcwkf+z3ypuMFnHsuLixRXvnR6g9rO9x8IL59zT6szgWTzDkIPjFs?=
- =?us-ascii?Q?RwRkFb+vNs6gqmTnU5UPc2NZ4ABFjQyzylc6FgU3ZRs6mpGooz7OXDrz3PwK?=
- =?us-ascii?Q?l8EvUM/3//JjsAUoeGRlxz0cDJ8b6ysvbEtDyTsaYy+Kpxq0JarVD5nMULj5?=
- =?us-ascii?Q?M07QTU0rANh2f5hPh3b8Uqz3DbZ6eO2qRiHlGa/9CyMGc2Rtd0iLajUzrQ8R?=
- =?us-ascii?Q?T0K7m3hzj4sL6KPSu2OdleOA1YWRRs/7N9ad7u40latpPwCI9jZoTjrHuKRx?=
- =?us-ascii?Q?/c7vm8GNW3+WaTF2WwoN591aAYe6/xXbj5PPLKpYNhNemqmO4/QfmHSkvxGC?=
- =?us-ascii?Q?FVoqnpwKkf4WQzyeImv/0sErgcsZVPcmp26tH02m5L7v9nE/B8Z6LzPUvXFz?=
- =?us-ascii?Q?XaNrDZprizzqByTb/fTf0jI/qZgjGX+ewTS18chz8H4UsN5yJPu6W9r4FNse?=
- =?us-ascii?Q?KDNp3IulTjVRSymbB3Xzt0q8vkkjI0YGaQmajvmhaLy0OMqg2sMZEXIx/E8y?=
- =?us-ascii?Q?3VSlBHQUv9sgSbbD2pRxLrGSr/IQboQ6Uk8Mf2uhHMzrYPjwjmByZVFllXW2?=
- =?us-ascii?Q?8DAgXIX/dtR8mD64ec8tCPHSSpXj35NNTgMY1BtA52N4NvzMvV0M4lgA/NHT?=
- =?us-ascii?Q?a9TFA0ls1A=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: db896d60-926f-4430-d2a9-08d9e731db18
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4894.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2022 16:25:56.6136 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rrerbf5UlsRQ2oiuiMMnQmwgazeD07VgBJCemw8jND1eleVdDgknTd+veMvd55hxUeAu0Q8fxWRxK/6wHUBaTuN/eX7Fc/zUFq5QjGDhjgllcEnqWfx9s2Hp7HWXz7Sa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1101MB2097
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 1/3] drm/lsdc: add drm driver for loongson display
+ controller
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220203082546.3099-1-15330273260@189.cn>
+ <20220203082546.3099-2-15330273260@189.cn>
+ <20220203085851.yqstkfgt4dz7rcnw@houat>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <20220203085851.yqstkfgt4dz7rcnw@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,277 +54,427 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, lucas.demarchi@intel.com, Balasubramani
- Vivekanandan <balasubramani.vivekanandan@intel.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
+ Roland Scheidegger <sroland@vmware.com>, linux-mips@vger.kernel.org,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Rob Herring <robh+dt@kernel.org>, Dan Carpenter <dan.carpenter@oracle.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-memcpy_from_wc functions can fail if SSE4.1 is not supported or the
-supplied addresses are not 16-byte aligned. It was then upto to the
-caller to use memcpy as fallback.
-Now fallback to memcpy is implemented inside memcpy_from_wc functions
-relieving the user from checking the return value of i915_memcpy_from_wc
-and doing fallback.
 
-When doing copying from io memory address memcpy_fromio should be used
-as fallback. So a new function is added to the family of memcpy_to_wc
-functions which should be used while copying from io memory.
+>> +static enum drm_mode_status
+>> +lsdc_crtc_helper_mode_valid(struct drm_crtc *crtc,
+>> +			    const struct drm_display_mode *mode)
+>> +{
+>> +	struct drm_device *ddev = crtc->dev;
+>> +	struct lsdc_device *ldev = to_lsdc(ddev);
+>> +	const struct lsdc_chip_desc *desc = ldev->desc;
+>> +
+>> +	if (mode->hdisplay > desc->max_width)
+>> +		return MODE_BAD_HVALUE;
+>> +	if (mode->vdisplay > desc->max_height)
+>> +		return MODE_BAD_VVALUE;
+>> +
+>> +	if (mode->clock > desc->max_pixel_clk) {
+>> +		drm_dbg_kms(ddev, "mode %dx%d, pixel clock=%d is too high\n",
+>> +				mode->hdisplay, mode->vdisplay, mode->clock);
+>> +		return MODE_CLOCK_HIGH;
+>> +	}
+>> +
+>> +	/* the crtc hardware dma take 256 bytes once a time
+>> +	 * TODO: check RGB565 support
+>> +	 */
+>> +	if ((mode->hdisplay * 4) % desc->stride_alignment) {
+>> +		drm_dbg_kms(ddev, "stride is not %u bytes aligned\n",
+>> +				desc->stride_alignment);
+>> +		return MODE_BAD;
+>> +	}
+>> +
+>> +	return MODE_OK;
+>> +}
+> mode_valid will only prevent the mode from being advertised to the
+> userspace, but you need atomic_check if you want to prevent those modes
+> to be used by anybody.
 
-This change is implemented also with an intention to perpare for porting
-memcpy_from_wc code to ARM64. Since SSE4.1 is not valid for ARM,
-accelerated reads will not be supported and the driver should rely on
-fallback always.
-So there would be few more places in the code where fallback should be
-introduced. For e.g. GuC log relay is currently not using fallback since
-a GPU supporting GuC submission will mostly have SSE4.1 enabled CPU.
-This is no more valid with Discrete GPU and with enabling support for
-ARM64.
-With fallback moved inside memcpy_from_wc function, call sites would
-look neat and fallback can be implemented in a uniform way.
+Yes, I used to change mode with mate-display-properties tools,
+what I though is the end user can't see it, they can't set it.
+I will add atomic_check() support at next version, thanks.
 
-Signed-off-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_object.c |  3 +-
- drivers/gpu/drm/i915/gt/selftest_reset.c   |  8 ++-
- drivers/gpu/drm/i915/i915_gpu_error.c      |  9 ++-
- drivers/gpu/drm/i915/i915_memcpy.c         | 78 ++++++++++++++++------
- drivers/gpu/drm/i915/i915_memcpy.h         | 18 ++---
- 5 files changed, 77 insertions(+), 39 deletions(-)
+>> +
+>> +static void lsdc_update_pixclk(struct drm_crtc *crtc, unsigned int pixclk, bool verbose)
+>> +{
+>> +	struct lsdc_display_pipe *dispipe;
+>> +	struct lsdc_pll *pixpll;
+>> +	const struct lsdc_pixpll_funcs *clkfun;
+>> +	struct lsdc_crtc_state *priv_crtc_state;
+>> +
+>> +	priv_crtc_state = to_lsdc_crtc_state(crtc->state);
+>> +
+>> +	dispipe = container_of(crtc, struct lsdc_display_pipe, crtc);
+>> +	pixpll = &dispipe->pixpll;
+>> +	clkfun = pixpll->funcs;
+>> +
+>> +	/* config the pixel pll */
+>> +	clkfun->update(pixpll, &priv_crtc_state->pparams);
+>> +
+>> +	if (verbose)
+>> +		clkfun->print(pixpll, pixclk);
+>> +}
+>> +
+>> +
+>> +static void lsdc_crtc_helper_mode_set_nofb(struct drm_crtc *crtc)
+>> +{
+>> +	struct drm_device *ddev = crtc->dev;
+>> +	struct lsdc_device *ldev = to_lsdc(ddev);
+>> +	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+>> +	unsigned int hr = mode->hdisplay;
+>> +	unsigned int hss = mode->hsync_start;
+>> +	unsigned int hse = mode->hsync_end;
+>> +	unsigned int hfl = mode->htotal;
+>> +	unsigned int vr = mode->vdisplay;
+>> +	unsigned int vss = mode->vsync_start;
+>> +	unsigned int vse = mode->vsync_end;
+>> +	unsigned int vfl = mode->vtotal;
+>> +	unsigned int pixclock = mode->clock;
+>> +	unsigned int index = drm_crtc_index(crtc);
+>> +
+>> +
+>> +	if (index == 0) {
+>> +		/* CRTC 0 */
+>> +		u32 hsync, vsync;
+>> +
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC0_FB_ORIGIN_REG, 0);
+>> +
+>> +		/* 26:16 total pixels, 10:0 visiable pixels, in horizontal */
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC0_HDISPLAY_REG,
+>> +			(mode->crtc_htotal << 16) | mode->crtc_hdisplay);
+>> +
+>> +		/* 26:16 total pixels, 10:0 visiable pixels, in vertical */
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC0_VDISPLAY_REG,
+>> +			(mode->crtc_vtotal << 16) | mode->crtc_vdisplay);
+>> +
+>> +		/* 26:16 hsync end, 10:0 hsync start */
+>> +		hsync = (mode->crtc_hsync_end << 16) | mode->crtc_hsync_start;
+>> +
+>> +		if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+>> +			hsync |= INV_HSYNC_BIT;
+>> +
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC0_HSYNC_REG, EN_HSYNC_BIT | hsync);
+>> +
+>> +		/* 26:16 vsync end, 10:0 vsync start */
+>> +		vsync = (mode->crtc_vsync_end << 16) | mode->crtc_vsync_start;
+>> +
+>> +		if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+>> +			vsync |= INV_VSYNC_BIT;
+>> +
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC0_VSYNC_REG, EN_VSYNC_BIT | vsync);
+>> +
+>> +	} else if (index == 1) {
+>> +		/* CRTC 1 */
+>> +		u32 hsync, vsync;
+>> +
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC1_FB_ORIGIN_REG, 0);
+>> +
+>> +		/* 26:16 total pixels, 10:0 visiable pixels, in horizontal */
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC1_HDISPLAY_REG,
+>> +			(mode->crtc_htotal << 16) | mode->crtc_hdisplay);
+>> +
+>> +		/* 26:16 total pixels, 10:0 visiable pixels, in vertical */
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC1_VDISPLAY_REG,
+>> +			(mode->crtc_vtotal << 16) | mode->crtc_vdisplay);
+>> +
+>> +		/* 26:16 hsync end, 10:0 hsync start */
+>> +		hsync = (mode->crtc_hsync_end << 16) | mode->crtc_hsync_start;
+>> +
+>> +		if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+>> +			hsync |= INV_HSYNC_BIT;
+>> +
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC1_HSYNC_REG, EN_HSYNC_BIT | hsync);
+>> +
+>> +		/* 26:16 vsync end, 10:0 vsync start */
+>> +		vsync = (mode->crtc_vsync_end << 16) | mode->crtc_vsync_start;
+>> +
+>> +		if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+>> +			vsync |= INV_VSYNC_BIT;
+>> +
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC1_VSYNC_REG, EN_VSYNC_BIT | vsync);
+>> +	}
+>> +
+>> +	drm_dbg_kms(ddev, "hdisplay=%d, hsync_start=%d, hsync_end=%d, htotal=%d\n",
+>> +			hr, hss, hse, hfl);
+>> +
+>> +	drm_dbg_kms(ddev, "vdisplay=%d, vsync_start=%d, vsync_end=%d, vtotal=%d\n",
+>> +			vr, vss, vse, vfl);
+>> +
+>> +	drm_dbg_kms(ddev, "%s modeset: %ux%u\n", crtc->name, hr, vr);
+>> +
+>> +	lsdc_update_pixclk(crtc, pixclock, ldev->verbose);
+>> +}
+>> +
+>> +
+>> +static void lsdc_enable_display(struct lsdc_device *ldev, unsigned int index)
+>> +{
+>> +	u32 val;
+>> +
+>> +	if (index == 0) {
+>> +		val = lsdc_reg_read32(ldev, LSDC_CRTC0_CFG_REG);
+>> +		val |= CFG_OUTPUT_EN_BIT;
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC0_CFG_REG, val);
+>> +	} else if (index == 1) {
+>> +		val = lsdc_reg_read32(ldev, LSDC_CRTC1_CFG_REG);
+>> +		val |= CFG_OUTPUT_EN_BIT;
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC1_CFG_REG, val);
+>> +	}
+>> +}
+>> +
+>> +
+>> +static void lsdc_disable_display(struct lsdc_device *ldev, unsigned int index)
+>> +{
+>> +	u32 val;
+>> +
+>> +	if (index == 0) {
+>> +		val = lsdc_reg_read32(ldev, LSDC_CRTC0_CFG_REG);
+>> +		val &= ~CFG_OUTPUT_EN_BIT;
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC0_CFG_REG, val);
+>> +	} else if (index == 1) {
+>> +		val = lsdc_reg_read32(ldev, LSDC_CRTC1_CFG_REG);
+>> +		val &= ~CFG_OUTPUT_EN_BIT;
+>> +		lsdc_reg_write32(ldev, LSDC_CRTC1_CFG_REG, val);
+>> +	}
+>> +}
+>> +
+>> +
+>> +static void lsdc_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+>> +					   struct drm_atomic_state *state)
+>> +{
+>> +	struct drm_device *ddev = crtc->dev;
+>> +	struct lsdc_device *ldev = to_lsdc(ddev);
+>> +
+>> +	drm_crtc_vblank_on(crtc);
+>> +
+>> +	lsdc_enable_display(ldev, drm_crtc_index(crtc));
+>> +
+>> +	drm_dbg_kms(ddev, "%s: enabled\n", crtc->name);
+>> +}
+>> +
+>> +
+>> +static void lsdc_crtc_helper_atomic_disable(struct drm_crtc *crtc,
+>> +					    struct drm_atomic_state *state)
+>> +{
+>> +	struct drm_device *ddev = crtc->dev;
+>> +	struct lsdc_device *ldev = to_lsdc(ddev);
+>> +
+>> +	drm_crtc_vblank_off(crtc);
+>> +
+>> +	lsdc_disable_display(ldev, drm_crtc_index(crtc));
+>> +
+>> +	drm_dbg_kms(ddev, "%s: disabled\n", crtc->name);
+>> +}
+>> +
+>> +
+>> +static void lsdc_crtc_atomic_flush(struct drm_crtc *crtc,
+>> +				   struct drm_atomic_state *state)
+>> +{
+>> +	struct drm_pending_vblank_event *event = crtc->state->event;
+>> +
+>> +	if (event) {
+>> +		crtc->state->event = NULL;
+>> +
+>> +		spin_lock_irq(&crtc->dev->event_lock);
+>> +		if (drm_crtc_vblank_get(crtc) == 0)
+>> +			drm_crtc_arm_vblank_event(crtc, event);
+>> +		else
+>> +			drm_crtc_send_vblank_event(crtc, event);
+>> +		spin_unlock_irq(&crtc->dev->event_lock);
+>> +	}
+>> +}
+>> +
+>> +
+>> +static const struct drm_crtc_helper_funcs lsdc_crtc_helper_funcs = {
+>> +	.mode_valid = lsdc_crtc_helper_mode_valid,
+>> +	.mode_set_nofb = lsdc_crtc_helper_mode_set_nofb,
+>> +	.atomic_enable = lsdc_crtc_helper_atomic_enable,
+>> +	.atomic_disable = lsdc_crtc_helper_atomic_disable,
+>> +	.atomic_flush = lsdc_crtc_atomic_flush,
+>> +};
+>> +
+>> +
+>> +
+>> +/**
+>> + * lsdc_crtc_init
+>> + *
+>> + * @ddev: point to the drm_device structure
+>> + * @index: hardware crtc index
+>> + *
+>> + * Init CRTC
+>> + */
+>> +int lsdc_crtc_init(struct drm_device *ddev,
+>> +		   struct drm_crtc *crtc,
+>> +		   unsigned int index,
+>> +		   struct drm_plane *primary,
+>> +		   struct drm_plane *cursor)
+>> +{
+>> +	int ret;
+>> +
+>> +	drm_crtc_helper_add(crtc, &lsdc_crtc_helper_funcs);
+>> +
+>> +	ret = drm_mode_crtc_set_gamma_size(crtc, 256);
+>> +	if (ret)
+>> +		drm_warn(ddev, "set the gamma table size failed\n");
+>> +
+>> +	return drm_crtc_init_with_planes(ddev,
+>> +					 crtc,
+>> +					 primary,
+>> +					 cursor,
+>> +					 &lsdc_crtc_funcs,
+>> +					 "crtc%d",
+>> +					 index);
+>> +}
+>> diff --git a/drivers/gpu/drm/lsdc/lsdc_drv.c b/drivers/gpu/drm/lsdc/lsdc_drv.c
+>> new file mode 100644
+>> index 000000000000..aac8901c3431
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/lsdc/lsdc_drv.c
+>> @@ -0,0 +1,846 @@
+>> +// SPDX-License-Identifier: GPL-2.0+
+>> +/*
+>> + * Copyright 2020 Loongson Corporation
+>> + *
+>> + * Permission is hereby granted, free of charge, to any person obtaining a
+>> + * copy of this software and associated documentation files (the
+>> + * "Software"), to deal in the Software without restriction, including
+>> + * without limitation the rights to use, copy, modify, merge, publish,
+>> + * distribute, sub license, and/or sell copies of the Software, and to
+>> + * permit persons to whom the Software is furnished to do so, subject to
+>> + * the following conditions:
+>> + *
+>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+>> + * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+>> + * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+>> + * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+>> + * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+>> + * USE OR OTHER DEALINGS IN THE SOFTWARE.
+>> + *
+>> + * The above copyright notice and this permission notice (including the
+>> + * next paragraph) shall be included in all copies or substantial portions
+>> + * of the Software.
+>> + */
+>> +
+>> +/*
+>> + * Authors:
+>> + *      Sui Jingfeng <suijingfeng@loongson.cn>
+>> + */
+>> +
+>> +#include <linux/errno.h>
+>> +#include <linux/string.h>
+>> +#include <linux/module.h>
+>> +#include <linux/pci.h>
+>> +#include <linux/of_reserved_mem.h>
+>> +
+>> +#include <drm/drm_drv.h>
+>> +#include <drm/drm_aperture.h>
+>> +#include <drm/drm_of.h>
+>> +#include <drm/drm_plane.h>
+>> +#include <drm/drm_vblank.h>
+>> +#include <drm/drm_debugfs.h>
+>> +#include <drm/drm_fb_helper.h>
+>> +#include <drm/drm_crtc_helper.h>
+>> +#include <drm/drm_gem_cma_helper.h>
+>> +#include <drm/drm_fb_cma_helper.h>
+>> +#include <drm/drm_gem_framebuffer_helper.h>
+>> +#include <drm/drm_atomic_helper.h>
+>> +#include <drm/drm_damage_helper.h>
+>> +#include <drm/drm_probe_helper.h>
+>> +
+>> +#include "lsdc_drv.h"
+>> +#include "lsdc_irq.h"
+>> +#include "lsdc_regs.h"
+>> +#include "lsdc_connector.h"
+>> +#include "lsdc_pll.h"
+>> +
+>> +
+>> +#define DRIVER_AUTHOR		"Sui Jingfeng <suijingfeng@loongson.cn>"
+>> +#define DRIVER_NAME		"lsdc"
+>> +#define DRIVER_DESC		"drm driver for loongson's display controller"
+>> +#define DRIVER_DATE		"20200701"
+>> +#define DRIVER_MAJOR		1
+>> +#define DRIVER_MINOR		0
+>> +#define DRIVER_PATCHLEVEL	0
+>> +
+>> +static int lsdc_modeset = 1;
+>> +MODULE_PARM_DESC(modeset, "Enable/disable CMA-based KMS(1 = enabled(default), 0 = disabled)");
+>> +module_param_named(modeset, lsdc_modeset, int, 0644);
+>> +
+>> +static int lsdc_cached_coherent = 1;
+>> +MODULE_PARM_DESC(cached_coherent, "uss cached coherent mapping(1 = enabled(default), 0 = disabled)");
+>> +module_param_named(cached_coherent, lsdc_cached_coherent, int, 0644);
+>> +
+>> +static int lsdc_dirty_update = -1;
+>> +MODULE_PARM_DESC(dirty_update, "enable dirty update(1 = enabled, 0 = disabled(default))");
+>> +module_param_named(dirty_update, lsdc_dirty_update, int, 0644);
+>> +
+>> +static int lsdc_use_vram_helper = -1;
+>> +MODULE_PARM_DESC(use_vram_helper, "use vram helper based solution(1 = enabled, 0 = disabled(default))");
+>> +module_param_named(use_vram_helper, lsdc_use_vram_helper, int, 0644);
+>> +
+>> +static int lsdc_verbose = -1;
+>> +MODULE_PARM_DESC(verbose, "Enable/disable print some key information");
+>> +module_param_named(verbose, lsdc_verbose, int, 0644);
+> It's not really clear to me why you need any of those parameters. Why
+> would a user want to use a non coherent mapping for example?
+>
+Because we are Mips architecture. Paul Cercueil already explained it
+in his mmap GEM buffers cachedpatch  <https://lkml.kernel.org/lkml/20200822164233.71583-1-paul@crapouillou.net/T/>. I drag part of it to here for
+convenient to reading:
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index e03e362d320b..b139a88fce70 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -452,8 +452,7 @@ i915_gem_object_read_from_page_iomap(struct drm_i915_gem_object *obj, u64 offset
- 				    PAGE_SIZE);
- 
- 	src_ptr = src_map + offset_in_page(offset);
--	if (!i915_memcpy_from_wc(dst, (void __force *)src_ptr, size))
--		memcpy_fromio(dst, src_ptr, size);
-+	i915_io_memcpy_from_wc(dst, src_ptr, size);
- 
- 	io_mapping_unmap(src_map);
- }
-diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
-index 37c38bdd5f47..64b8521a8b28 100644
---- a/drivers/gpu/drm/i915/gt/selftest_reset.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
-@@ -99,8 +99,10 @@ __igt_reset_stolen(struct intel_gt *gt,
- 			memset_io(s, STACK_MAGIC, PAGE_SIZE);
- 
- 		in = (void __force *)s;
--		if (i915_memcpy_from_wc(tmp, in, PAGE_SIZE))
-+		if (i915_can_memcpy_from_wc(tmp, in, PAGE_SIZE)) {
-+			i915_io_memcpy_from_wc(tmp, in, PAGE_SIZE);
- 			in = tmp;
-+		}
- 		crc[page] = crc32_le(0, in, PAGE_SIZE);
- 
- 		io_mapping_unmap(s);
-@@ -135,8 +137,10 @@ __igt_reset_stolen(struct intel_gt *gt,
- 				      PAGE_SIZE);
- 
- 		in = (void __force *)s;
--		if (i915_memcpy_from_wc(tmp, in, PAGE_SIZE))
-+		if (i915_can_memcpy_from_wc(tmp, in, PAGE_SIZE)) {
-+			i915_io_memcpy_from_wc(tmp, in, PAGE_SIZE);
- 			in = tmp;
-+		}
- 		x = crc32_le(0, in, PAGE_SIZE);
- 
- 		if (x != crc[page] &&
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index aee42eae4729..90db5de86c25 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -296,8 +296,10 @@ static int compress_page(struct i915_vma_compress *c,
- 	struct z_stream_s *zstream = &c->zstream;
- 
- 	zstream->next_in = src;
--	if (wc && c->tmp && i915_memcpy_from_wc(c->tmp, src, PAGE_SIZE))
-+	if (wc && c->tmp && i915_can_memcpy_from_wc(c->tmp, src, PAGE_SIZE)) {
-+		i915_io_memcpy_from_wc(c->tmp, src, PAGE_SIZE);
- 		zstream->next_in = c->tmp;
-+	}
- 	zstream->avail_in = PAGE_SIZE;
- 
- 	do {
-@@ -396,8 +398,11 @@ static int compress_page(struct i915_vma_compress *c,
- 	if (!ptr)
- 		return -ENOMEM;
- 
--	if (!(wc && i915_memcpy_from_wc(ptr, src, PAGE_SIZE)))
-+	if (wc)
-+		i915_io_memcpy_from_wc(ptr, src, PAGE_SIZE);
-+	else
- 		memcpy(ptr, src, PAGE_SIZE);
-+
- 	list_add_tail(&virt_to_page(ptr)->lru, &dst->page_list);
- 	cond_resched();
- 
-diff --git a/drivers/gpu/drm/i915/i915_memcpy.c b/drivers/gpu/drm/i915/i915_memcpy.c
-index 1b021a4902de..b1f8abf35452 100644
---- a/drivers/gpu/drm/i915/i915_memcpy.c
-+++ b/drivers/gpu/drm/i915/i915_memcpy.c
-@@ -24,15 +24,10 @@
- 
- #include <linux/kernel.h>
- #include <asm/fpu/api.h>
-+#include <linux/io.h>
- 
- #include "i915_memcpy.h"
- 
--#if IS_ENABLED(CONFIG_DRM_I915_DEBUG)
--#define CI_BUG_ON(expr) BUG_ON(expr)
--#else
--#define CI_BUG_ON(expr) BUILD_BUG_ON_INVALID(expr)
--#endif
--
- static DEFINE_STATIC_KEY_FALSE(has_movntdqa);
- 
- static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len)
-@@ -93,6 +88,26 @@ static void __memcpy_ntdqu(void *dst, const void *src, unsigned long len)
- 	kernel_fpu_end();
- }
- 
-+/* The movntdqa instructions used for memcpy-from-wc require 16-byte alignment,
-+ * as well as SSE4.1 support. To check beforehand, pass in the parameters to
-+ * i915_can_memcpy_from_wc() - since we only care about the low 4 bits,
-+ * you only need to pass in the minor offsets, page-aligned pointers are
-+ * always valid.
-+ *
-+ * For just checking for SSE4.1, in the foreknowledge that the future use
-+ * will be correctly aligned, just use i915_has_memcpy_from_wc().
-+ */
-+bool i915_can_memcpy_from_wc(void *dst, const void *src, unsigned long len)
-+{
-+	if (unlikely(((unsigned long)dst | (unsigned long)src | len) & 15))
-+		return false;
-+
-+	if (static_branch_likely(&has_movntdqa))
-+		return true;
-+
-+	return false;
-+}
-+
- /**
-  * i915_memcpy_from_wc: perform an accelerated *aligned* read from WC
-  * @dst: destination pointer
-@@ -104,24 +119,18 @@ static void __memcpy_ntdqu(void *dst, const void *src, unsigned long len)
-  * (@src, @dst) must be aligned to 16 bytes and @len must be a multiple
-  * of 16.
-  *
-- * To test whether accelerated reads from WC are supported, use
-- * i915_memcpy_from_wc(NULL, NULL, 0);
-- *
-- * Returns true if the copy was successful, false if the preconditions
-- * are not met.
-+ * If the acccelerated read from WC is not possible fallback to memcpy
-  */
--bool i915_memcpy_from_wc(void *dst, const void *src, unsigned long len)
-+void i915_memcpy_from_wc(void *dst, const void *src, unsigned long len)
- {
--	if (unlikely(((unsigned long)dst | (unsigned long)src | len) & 15))
--		return false;
--
--	if (static_branch_likely(&has_movntdqa)) {
-+	if (i915_can_memcpy_from_wc(dst, src, len)) {
- 		if (likely(len))
- 			__memcpy_ntdqa(dst, src, len >> 4);
--		return true;
-+		return;
- 	}
- 
--	return false;
-+	/* Fallback */
-+	memcpy(dst, src, len);
- }
- 
- /**
-@@ -134,12 +143,15 @@ bool i915_memcpy_from_wc(void *dst, const void *src, unsigned long len)
-  * @src to @dst using * non-temporal instructions where available, but
-  * accepts that its arguments may not be aligned, but are valid for the
-  * potential 16-byte read past the end.
-+ *
-+ * Fallback to memcpy if accelerated read is not supported
-  */
- void i915_unaligned_memcpy_from_wc(void *dst, const void *src, unsigned long len)
- {
- 	unsigned long addr;
- 
--	CI_BUG_ON(!i915_has_memcpy_from_wc());
-+	if (!i915_has_memcpy_from_wc())
-+		goto fallback;
- 
- 	addr = (unsigned long)src;
- 	if (!IS_ALIGNED(addr, 16)) {
-@@ -154,6 +166,34 @@ void i915_unaligned_memcpy_from_wc(void *dst, const void *src, unsigned long len
- 
- 	if (likely(len))
- 		__memcpy_ntdqu(dst, src, DIV_ROUND_UP(len, 16));
-+
-+	return;
-+
-+fallback:
-+	memcpy(dst, src, len);
-+}
-+
-+/**
-+ * i915_io_memcpy_from_wc: perform an accelerated *aligned* read from WC
-+ * @dst: destination pointer
-+ * @src: source pointer
-+ * @len: how many bytes to copy
-+ *
-+ * To be used when the when copying from io memory.
-+ *
-+ * memcpy_fromio() is used as fallback otherewise no difference to
-+ * i915_memcpy_from_wc()
-+ */
-+void i915_io_memcpy_from_wc(void *dst, const void __iomem *src, unsigned long len)
-+{
-+	if (i915_can_memcpy_from_wc(dst, src, len)) {
-+		if (likely(len))
-+			__memcpy_ntdqa(dst, src, len >> 4);
-+		return;
-+	}
-+
-+	/* Fallback */
-+	memcpy_fromio(dst, src, len);
- }
- 
- void i915_memcpy_init_early(struct drm_i915_private *dev_priv)
-diff --git a/drivers/gpu/drm/i915/i915_memcpy.h b/drivers/gpu/drm/i915/i915_memcpy.h
-index 3df063a3293b..3ae71ba9e3e5 100644
---- a/drivers/gpu/drm/i915/i915_memcpy.h
-+++ b/drivers/gpu/drm/i915/i915_memcpy.h
-@@ -12,23 +12,13 @@ struct drm_i915_private;
- 
- void i915_memcpy_init_early(struct drm_i915_private *i915);
- 
--bool i915_memcpy_from_wc(void *dst, const void *src, unsigned long len);
-+void i915_memcpy_from_wc(void *dst, const void *src, unsigned long len);
- void i915_unaligned_memcpy_from_wc(void *dst, const void *src, unsigned long len);
-+void i915_io_memcpy_from_wc(void *dst, const void *src, unsigned long len);
- 
--/* The movntdqa instructions used for memcpy-from-wc require 16-byte alignment,
-- * as well as SSE4.1 support. i915_memcpy_from_wc() will report if it cannot
-- * perform the operation. To check beforehand, pass in the parameters to
-- * to i915_can_memcpy_from_wc() - since we only care about the low 4 bits,
-- * you only need to pass in the minor offsets, page-aligned pointers are
-- * always valid.
-- *
-- * For just checking for SSE4.1, in the foreknowledge that the future use
-- * will be correctly aligned, just use i915_has_memcpy_from_wc().
-- */
--#define i915_can_memcpy_from_wc(dst, src, len) \
--	i915_memcpy_from_wc((void *)((unsigned long)(dst) | (unsigned long)(src) | (len)), NULL, 0)
-+bool i915_can_memcpy_from_wc(void *dst, const void *src, unsigned long len);
- 
- #define i915_has_memcpy_from_wc() \
--	i915_memcpy_from_wc(NULL, NULL, 0)
-+	i915_can_memcpy_from_wc(NULL, NULL, 0)
- 
- #endif /* __I915_MEMCPY_H__ */
--- 
-2.25.1
+/Traditionally, GEM buffers are mapped write-combine. Writes to the 
+buffer are accelerated, and reads are slow. Application doing lots////of alpha-blending paint inside shadow buffers, which is then memcpy'd////into the final GEM buffer.///
+"non coherent mapping" is actually cached and it is for CMA helpers
+base driver, not for VRAM helper based driver. For Loongson CPU/SoCs.
+The cache coherency is maintained by hardware, therefore there no
+need to worry about coherency problems. This is true at least for
+ls3a3000, ls3a4000 and ls3a5000.
+
+"non coherent" or "coherent" is not important here, the key point is
+that the backing memory of the framebuffer is cached with non coherent
+mapping, you don't need a shadow buffer layer when using X server's
+modesetting driver.
+
+Read and write to the framebuffer in system memory is much faster than
+read and write to the framebuffer in the VRAM.
+
+Why CMA helper based solution is faster than the VRAM based solution on Mips platform?
+
+Partly because of the CPU have L1, L2 and L3 cache, especially L3 cache
+is as large as 8MB, read and write from the cache is fast.
+
+Another reason is as Paul Cercueil said, read from VRAM with write-combine
+cache mode is slow. it is just uncache read.
+Please note that we don't have a GPU here, we are just a display controller.
+
+For the VRAM helper based driver case, the backing memory of the framebuffer
+is located at VRAM, When using X server's modesetting driver, we have to enable
+the ShadowFB option, Uncache acceleration support(at the kernel size) should
+also be enabled. Otherwise the performance of graphic application is just slow.
+
+Beside write-combine cache mode have bugs on our platform, a kernel side
+developer have disabled it. Write-combine cache mode just boil down to uncached
+now. See [1] and [2]
+
+[1]https://lkml.org/lkml/2020/8/10/255
+[2]https://lkml.kernel.org/lkml/1617701112-14007-1-git-send-email-yangtiezhu@loongson.cn/T/
+
+
+This is the reason why we prefer CMA helper base solution with non coherent mapping,
+simply because it is fast.
+
+As far as I know, Loongson's CPU does not has the concept of write-combine,
+it only support three caching mode:  uncached, cached and uncache acceleration.
+write-combine is implemented with uncache acceleration on Mips.
+
 
