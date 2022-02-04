@@ -1,65 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8804A9C98
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 17:00:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 909E64A9CDF
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 17:23:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8811610EDDD;
-	Fri,  4 Feb 2022 16:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8EB410E75D;
+	Fri,  4 Feb 2022 16:23:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85BB310EDDD
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 16:00:18 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 207B71F38F;
- Fri,  4 Feb 2022 16:00:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643990417; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2M3BfZySCU3GhkOTg/qWB9negQk+U4Xuhd8ksmzvsyQ=;
- b=RWF8wAE6L9ydFCZaY5vKQn4h2s2cYS/5AOB5shlZVn5PByU5hPly8UB/YFdUljBSorr9iO
- Y8kosYrA1DJCMkpxmuu2ljsEqRxwnGEoMLA7m/2cb2JIL5eDIa0CiseVqhlYVn7ZVOr7Ai
- HSwUdV9khVJLJLHd9kHgB2megroPHgI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643990417;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2M3BfZySCU3GhkOTg/qWB9negQk+U4Xuhd8ksmzvsyQ=;
- b=CAQluhTxJpv9o2O9L/ZGgyKGlXHGjyWOdAUl4eQ3JYMg4nAFaZ/2DyK4r9+Z0XnrYS9WJ6
- ojK7WjNRyRygvABw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D833613AE2;
- Fri,  4 Feb 2022 16:00:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yR7mM5BN/WFrOQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 04 Feb 2022 16:00:16 +0000
-Message-ID: <22cf9951-dc85-18b1-94fb-8387f76a94ab@suse.de>
-Date: Fri, 4 Feb 2022 17:00:16 +0100
-MIME-Version: 1.0
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2074.outbound.protection.outlook.com [40.107.212.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F031210E5A1;
+ Fri,  4 Feb 2022 16:23:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Oq4KJZ0TTDtOCPpIs8zvDZUe7EqpU4HBCmESqk/Doq12+UmiWaxSQWuc0P73pS/yHxhgs2zxLRDVWJ7TWuioiHanWn3BNb8dLVcZNK+U8t/vad4CoNvMYCkM+WTlfLbIKW1s+9B84Ze7ye57ejG15oiGYA91MHck2Dexh58Ej5WoIaVLJfu7DtzC92u796YZJ7pi6auKiic/1JJksJa499D0m/jGhYywNkQ+V8OLd0+hNHNkXyd2ZQIQNIjw9KGwz4a+8mcNb4eByPWbR5HOt6UAGOsXz0cdJ7rA7ODS6RdSJGOpgs7AoZU8UuW43esE2ZWrtLUxDQhDKLLeEgrrGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RfH15Sui/f6oVb5idu35Dj9/U6Y3T0Ve53NFnQ2g/Pc=;
+ b=Gk/j/mZaCkLB64EiffWYaCXKKdQPplWnh1CzPIwvbMburo7m/oxa/vt1LeFgeBSlduBRPEjzP3X/4MXkcbhfW2ZOuv7xBt6EhkY+UKKYH9f2TA1+uWlm/QtBRFEC3Xy6IZtOKrWNPfxG7PnXObnMW5aqQZa8w0EjH88zfTVIHErvy/w8yQHPMbjKJtPPnL4c0Xa0E6fklI2yPzA8bSQlyF316XirLf+Mk/oaHgO0Rk8n0NXuilO8id/+7iJYefI2ZSrbh65rjWRLgbH0W1x8O50EsEWrH8qKAZSYSruBCVggiOvvZMJLHOQ7LwDGTrB3MNhI7/QbA82+qFB3WHJ28g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RfH15Sui/f6oVb5idu35Dj9/U6Y3T0Ve53NFnQ2g/Pc=;
+ b=kuKGMs+OXrFvc3QAQncOPjqcMugj2mqj+VUxf7lD7XHFyhz5pI/oaL9+AwGSJIJqryBZ5ksdo0mhChkWl1Ry5ngW1owfZTg/ILHDxUzr5nz/Q/ruhrLjb/kkVAoWObKPqXYWXZzvaUC5O7qL3DeUDmyt2z7kPAeixaEansRvQHg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by DM6PR12MB3753.namprd12.prod.outlook.com (2603:10b6:5:1c7::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.11; Fri, 4 Feb
+ 2022 16:23:10 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::971:531c:e4f4:8a9a]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::971:531c:e4f4:8a9a%8]) with mapi id 15.20.4951.017; Fri, 4 Feb 2022
+ 16:23:09 +0000
+Message-ID: <ee0add19-530f-a289-4c91-4d4b2969a084@amd.com>
+Date: Fri, 4 Feb 2022 11:23:07 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 1/4] drm/format-helper: Add
- drm_fb_{xrgb8888,gray8}_to_mono_reversed()
+Subject: Re: [PATCH] drm/amdgpu: Fix recursive locking warning
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <20220204134347.1187749-2-javierm@redhat.com>
- <47100413-db63-1efa-45e9-028dfc430b7e@suse.de>
-In-Reply-To: <47100413-db63-1efa-45e9-028dfc430b7e@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------uKvC4ebQRAJ1axQI7V0U11rO"
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>, amd-gfx@lists.freedesktop.org
+References: <20220204031139.24717-1-rajneesh.bhardwaj@amd.com>
+ <c76050e6-6bbc-bccc-01df-1825ecd29387@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <c76050e6-6bbc-bccc-01df-1825ecd29387@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT3PR01CA0080.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:84::23) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 12e1d477-e50b-42af-6b4c-08d9e7faa1bb
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3753:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3753EDE2CD8262B62011CB8892299@DM6PR12MB3753.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 47AxXM5GeHJuSBn6SDxUjBRPKGcSYIk2bW3a+VFYEAbO8aaU0rskR8kybP5CLO9BQT9ZDgKJsKkhUGpRN3MZ9BH/UKLOpCNy7yUuFsb2EyuJCwJU1qO+2gv6u/KsQjlpM8asFBQOdqnpbf8eoklCA8vhqt382NwywnHPG1A+iM4JM2Q3GTorZANJCrQxdT1nZRePDDT2O8neFKYtHxg8hMas2fdFFGS1MlcWkpwY69t7GKgsAVlJWqntCm3E8CdGMfmtSbtrKMEsFzaL3t8ircqlnb0pz+gj9OdylYNww59XBCz5HsOnHLehPDzksa4Raw96Jkcu4aELqk6zi4tIOTq4laJSIwMCmKBc9OrgxMgu/Yvsdh3oCQ3qvizBQHRb6MsVq8UOTtwn5yqIjI4evMQGBHpwQukNmQ1L0/kWQc/CDEK+1oTdSF9t4eRiDRO/lFpc4R3BjVnkKyjsWdbBv9ynPP0bkJJw5i0h5Uh690Wu3+Q0LEcLEOlf02fTfOGe/zYmtFHW2HjzZOfqaMUEi+alJxN19goxbBXxGeQORex4P4Up6Ch8TnASKrooVCswxNTW+cNZiSkFEhaiMgIdDNoxsx/n5x+T1iGIuAM8DUF0pVq6kVQRgRXrS6vJ75xoUpHyaq/YhQSvkxjLOgKjHEH7UzBZpP8vDIMApQMHkXpCQLLIBKO48zpfLnMXS3nrSeA2DNM6nZ26T29IduDaKC/qPhradR5f+1F2Kd+UKFhEEgdw2Yu6VHlzidbmFeJr
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(66574015)(31686004)(316002)(2906002)(450100002)(508600001)(110136005)(186003)(36756003)(6506007)(6512007)(86362001)(66476007)(6486002)(66946007)(26005)(8936002)(4326008)(8676002)(38100700002)(2616005)(5660300002)(31696002)(44832011)(66556008)(83380400001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUZMOUhsK05aTThPWDR5MStlUlVhQkcxNnRYenkyamN2NDhtNTJYMlpsbkJ6?=
+ =?utf-8?B?d090aTJHZE1JRnRBQm80MFlvalUreTNMUnkyejJFdlZEbWFIRExIamFMTHp3?=
+ =?utf-8?B?aGNXYy9rNk1paCtoUjR6cTY5cldENUtoT1psb3dJclB2RmJVSklJNXZZSHdI?=
+ =?utf-8?B?MmwzVFRYSEYyRVZTRkFwMmFnUE5zem5hNlAzdVpLcm92SjRIMEJYWUlscUJu?=
+ =?utf-8?B?UFhPTXZCOXdzY1hMeE1rZS9ERlBIbEVWenlXaTlwbFFkUUZCKzlKVUNxYith?=
+ =?utf-8?B?dDJuVHBhYTVEaUsvL2ltQk4vMWRzTTZaSmRUdHJBWjY2RGpFOHNibVNSS2Nn?=
+ =?utf-8?B?aUhJT1hmNTE2RHFURktBUTluaERsRXN0NTU3UUticDVNelExWWZ1MUJuVlNi?=
+ =?utf-8?B?RCs4TWNqcG55bUUxaDlFU3M3d2V3a0NDSVlZUk4wc3IzQitrZGxvT09lenZh?=
+ =?utf-8?B?aXZZV0taNGN1Wld5dFRmaHFBNlJ3NnQraVQyV3FOVVRvaHlOR3BoTXNxU2JY?=
+ =?utf-8?B?dEVOQXdudjc4TmE3Z0FXM3p2SHFGS0dFdi91U2djaGp6VWRCVHlXQ1luK0kw?=
+ =?utf-8?B?UjYwdmJ1WlBvSk1vN3hVTlBkN3ZKUk5iNkpnZzRQaHk4WFJXRnZ2bEVNZEFx?=
+ =?utf-8?B?SkZ2alVnc0ZHdFdlWjdSSEM3dWJ1Sm1NOTNPVW13Q04yM1hjMzB5WWJjZlpL?=
+ =?utf-8?B?MnpGTXRUT21pK3BVNEFOQWM4NGNpQi8xL240emJnL0tDVjdGaHE0SHhlL2I1?=
+ =?utf-8?B?TkpMZHd0alN6V0tOTEM5SGtlLzZic3JCY1pSaThvUGgyaEhqVWtWdGpnd2pm?=
+ =?utf-8?B?RkgzYnVHN0ZvY2NmVWluZXYxTm5aVDV6dEw4aGkwM3RxdjdJQUJiU1VPbm5Q?=
+ =?utf-8?B?L1d3WkozUk52VEhaQTB4U2JqOWRjbnd0SVZFelhTSFptTUVlRU5mYll2SkFM?=
+ =?utf-8?B?T2FIYkZnMGFCZHdZeitkVkJodWtEWVN3dXhTQ0JCbmluRmZ3bkZMYmhqR3ls?=
+ =?utf-8?B?NjVTR3BmSmFCWHRpdE9VK3l6OXpoa0NwOFRiUTNOcCs3aDFjSmVFcHFQUDdu?=
+ =?utf-8?B?L1kvdlYvYUdWalVqT3BqZnRGMEZtZ041S2FZcEloYlhSNVMyL1RxRTlWMjlw?=
+ =?utf-8?B?UVl3SHlPbU0xMG4vdlJBSEVUeE1GdVpWZnZiRWUzT3VGRmJ3bmtvL0M2SnVj?=
+ =?utf-8?B?QW0vVnZzWnhEWEZUTFE2dURGdkY3dXVxL1RoUENNRDhEVjNZdjJJS2d0eHdZ?=
+ =?utf-8?B?QW1EcUpZNlBDL3F0MWVDRUZMUnN2dG9WTWg0R1h2aUVWQ3NEbmdTOUZSU1RR?=
+ =?utf-8?B?U1VhaG1FTjVCTkttSmV1ZkNpQklFZTRzN3lMMWVnMnpsY3VKa0FCV25JMkh4?=
+ =?utf-8?B?cC90NFo0cmhYa0hmT2hzQVE1ZGJ4WHc1Z3MzSlc4UGYyN1d0T0tIRHgyWTlV?=
+ =?utf-8?B?MTFJR2l3ZjRNSnNnOHNRdlA2cWpTUFlwK1FWZFhlSG84QlUrdXlsZHF3bFVO?=
+ =?utf-8?B?bWJ0dHdVbHJvV0hBKzBjVm1iR1ZCTThTeGZHbmU1VUY0YW04QndoMlp4VEE5?=
+ =?utf-8?B?d3FKWHdRUUYzeVVkc0lhZXljYWQ3YU1TWVJmbm5RYS9EeEkwK2d5SUtYM1Vm?=
+ =?utf-8?B?cmZVclVzdUtLQ3Z3TXhIZEFSQlN3bXF1eXRDYitiMDZoQ1lNTEl4SHBJU01y?=
+ =?utf-8?B?Ryt3STJXSkh1bU1WZlE4VmthT3M0TXVvUUFMNS9zMmUralBTNko0eGdWUjAy?=
+ =?utf-8?B?SDNlZmczM1krc1RJNXpZdElrSzg4a2lBMzlRYjFkR1VwdmZZSmkzdG1JNlJx?=
+ =?utf-8?B?L003YkttbXc3bHY1d0NkWE05V24yT25VdkVKcm4zRmhPdUlVazdGbXJWQ3F0?=
+ =?utf-8?B?dVk2MW5qMzIrODd6TC9veVIwZVV3WkZDYUxnZUhad3NoaThoOWJFRXVVTjFB?=
+ =?utf-8?B?UDArbHhKK253aDgzckZJY25mTlRsZTdzVnRWUjZpRUFRcFVVRzgxeVlxY1N6?=
+ =?utf-8?B?VlBEYmQwNWY1ekNzYlRRNkQ3ZnprNHJ4ZElENjNPd1g0ejRVMkNVSkhpZjRx?=
+ =?utf-8?B?SnRaeHUzTmNET3h0Wm1OckhRTFVLZllTT1RRdEJBcVZTMEMxUm1rNmtLTUF6?=
+ =?utf-8?B?cHJnRkRhRVVRWFFEWWZENzllUWl0c0VpTUVHYmt6T0J1U2lZVXdSVVd2d0JP?=
+ =?utf-8?Q?ZATMZAi4ICXnudL98c97A+Y=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12e1d477-e50b-42af-6b4c-08d9e7faa1bb
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2022 16:23:09.3233 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eg1KndJrYDxFneVKzd4qkZMooUfV/Byalb9Svl8A07URFHr4Q8JJJP//tk9O9/HjhGQBiAeX4e2hPV52I8LJIg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3753
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,133 +128,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Alex Deucher <Alexander.Deucher@amd.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------uKvC4ebQRAJ1axQI7V0U11rO
-Content-Type: multipart/mixed; boundary="------------Fyl6dR7v07pMrP2NZSYgcqjU";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard
- <maxime@cerno.tech>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <22cf9951-dc85-18b1-94fb-8387f76a94ab@suse.de>
-Subject: Re: [PATCH v2 1/4] drm/format-helper: Add
- drm_fb_{xrgb8888,gray8}_to_mono_reversed()
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <20220204134347.1187749-2-javierm@redhat.com>
- <47100413-db63-1efa-45e9-028dfc430b7e@suse.de>
-In-Reply-To: <47100413-db63-1efa-45e9-028dfc430b7e@suse.de>
 
---------------Fyl6dR7v07pMrP2NZSYgcqjU
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Am 2022-02-04 um 02:13 schrieb Christian König:
+> Am 04.02.22 um 04:11 schrieb Rajneesh Bhardwaj:
+>> Noticed the below warning while running a pytorch workload on vega10
+>> GPUs. Change to trylock to avoid conflicts with already held reservation
+>> locks.
+>>
+>> [  +0.000003] WARNING: possible recursive locking detected
+>> [  +0.000003] 5.13.0-kfd-rajneesh #1030 Not tainted
+>> [  +0.000004] --------------------------------------------
+>> [  +0.000002] python/4822 is trying to acquire lock:
+>> [  +0.000004] ffff932cd9a259f8 (reservation_ww_class_mutex){+.+.}-{3:3},
+>> at: amdgpu_bo_release_notify+0xc4/0x160 [amdgpu]
+>> [  +0.000203]
+>>                but task is already holding lock:
+>> [  +0.000003] ffff932cbb7181f8 (reservation_ww_class_mutex){+.+.}-{3:3},
+>> at: ttm_eu_reserve_buffers+0x270/0x470 [ttm]
+>> [  +0.000017]
+>>                other info that might help us debug this:
+>> [  +0.000002]  Possible unsafe locking scenario:
+>>
+>> [  +0.000003]        CPU0
+>> [  +0.000002]        ----
+>> [  +0.000002]   lock(reservation_ww_class_mutex);
+>> [  +0.000004]   lock(reservation_ww_class_mutex);
+>> [  +0.000003]
+>>                 *** DEADLOCK ***
+>>
+>> [  +0.000002]  May be due to missing lock nesting notation
+>>
+>> [  +0.000003] 7 locks held by python/4822:
+>> [  +0.000003]  #0: ffff932c4ac028d0 (&process->mutex){+.+.}-{3:3}, at:
+>> kfd_ioctl_map_memory_to_gpu+0x10b/0x320 [amdgpu]
+>> [  +0.000232]  #1: ffff932c55e830a8 (&info->lock#2){+.+.}-{3:3}, at:
+>> amdgpu_amdkfd_gpuvm_map_memory_to_gpu+0x64/0xf60 [amdgpu]
+>> [  +0.000241]  #2: ffff932cc45b5e68 (&(*mem)->lock){+.+.}-{3:3}, at:
+>> amdgpu_amdkfd_gpuvm_map_memory_to_gpu+0xdf/0xf60 [amdgpu]
+>> [  +0.000236]  #3: ffffb2b35606fd28
+>> (reservation_ww_class_acquire){+.+.}-{0:0}, at:
+>> amdgpu_amdkfd_gpuvm_map_memory_to_gpu+0x232/0xf60 [amdgpu]
+>> [  +0.000235]  #4: ffff932cbb7181f8
+>> (reservation_ww_class_mutex){+.+.}-{3:3}, at:
+>> ttm_eu_reserve_buffers+0x270/0x470 [ttm]
+>> [  +0.000015]  #5: ffffffffc045f700 (*(sspp++)){....}-{0:0}, at:
+>> drm_dev_enter+0x5/0xa0 [drm]
+>> [  +0.000038]  #6: ffff932c52da7078 (&vm->eviction_lock){+.+.}-{3:3},
+>> at: amdgpu_vm_bo_update_mapping+0xd5/0x4f0 [amdgpu]
+>> [  +0.000195]
+>>                stack backtrace:
+>> [  +0.000003] CPU: 11 PID: 4822 Comm: python Not tainted
+>> 5.13.0-kfd-rajneesh #1030
+>> [  +0.000005] Hardware name: GIGABYTE MZ01-CE0-00/MZ01-CE0-00, BIOS F02
+>> 08/29/2018
+>> [  +0.000003] Call Trace:
+>> [  +0.000003]  dump_stack+0x6d/0x89
+>> [  +0.000010]  __lock_acquire+0xb93/0x1a90
+>> [  +0.000009]  lock_acquire+0x25d/0x2d0
+>> [  +0.000005]  ? amdgpu_bo_release_notify+0xc4/0x160 [amdgpu]
+>> [  +0.000184]  ? lock_is_held_type+0xa2/0x110
+>> [  +0.000006]  ? amdgpu_bo_release_notify+0xc4/0x160 [amdgpu]
+>> [  +0.000184]  __ww_mutex_lock.constprop.17+0xca/0x1060
+>> [  +0.000007]  ? amdgpu_bo_release_notify+0xc4/0x160 [amdgpu]
+>> [  +0.000183]  ? lock_release+0x13f/0x270
+>> [  +0.000005]  ? lock_is_held_type+0xa2/0x110
+>> [  +0.000006]  ? amdgpu_bo_release_notify+0xc4/0x160 [amdgpu]
+>> [  +0.000183]  amdgpu_bo_release_notify+0xc4/0x160 [amdgpu]
+>> [  +0.000185]  ttm_bo_release+0x4c6/0x580 [ttm]
+>> [  +0.000010]  amdgpu_bo_unref+0x1a/0x30 [amdgpu]
+>> [  +0.000183]  amdgpu_vm_free_table+0x76/0xa0 [amdgpu]
+>> [  +0.000189]  amdgpu_vm_free_pts+0xb8/0xf0 [amdgpu]
+>> [  +0.000189]  amdgpu_vm_update_ptes+0x411/0x770 [amdgpu]
+>> [  +0.000191]  amdgpu_vm_bo_update_mapping+0x324/0x4f0 [amdgpu]
+>> [  +0.000191]  amdgpu_vm_bo_update+0x251/0x610 [amdgpu]
+>> [  +0.000191]  update_gpuvm_pte+0xcc/0x290 [amdgpu]
+>> [  +0.000229]  ? amdgpu_vm_bo_map+0xd7/0x130 [amdgpu]
+>> [  +0.000190]  amdgpu_amdkfd_gpuvm_map_memory_to_gpu+0x912/0xf60
+>> [amdgpu]
+>> [  +0.000234]  kfd_ioctl_map_memory_to_gpu+0x182/0x320 [amdgpu]
+>> [  +0.000218]  kfd_ioctl+0x2b9/0x600 [amdgpu]
+>> [  +0.000216]  ? kfd_ioctl_unmap_memory_from_gpu+0x270/0x270 [amdgpu]
+>> [  +0.000216]  ? lock_release+0x13f/0x270
+>> [  +0.000006]  ? __fget_files+0x107/0x1e0
+>> [  +0.000007]  __x64_sys_ioctl+0x8b/0xd0
+>> [  +0.000007]  do_syscall_64+0x36/0x70
+>> [  +0.000004]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+>> [  +0.000007] RIP: 0033:0x7fbff90a7317
+>> [  +0.000004] Code: b3 66 90 48 8b 05 71 4b 2d 00 64 c7 00 26 00 00 00
+>> 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f
+>> 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 41 4b 2d 00 f7 d8 64 89 01 48
+>> [  +0.000005] RSP: 002b:00007fbe301fe648 EFLAGS: 00000246 ORIG_RAX:
+>> 0000000000000010
+>> [  +0.000006] RAX: ffffffffffffffda RBX: 00007fbcc402d820 RCX:
+>> 00007fbff90a7317
+>> [  +0.000003] RDX: 00007fbe301fe690 RSI: 00000000c0184b18 RDI:
+>> 0000000000000004
+>> [  +0.000003] RBP: 00007fbe301fe690 R08: 0000000000000000 R09:
+>> 00007fbcc402d880
+>> [  +0.000003] R10: 0000000002001000 R11: 0000000000000246 R12:
+>> 00000000c0184b18
+>> [  +0.000003] R13: 0000000000000004 R14: 00007fbf689593a0 R15:
+>> 00007fbcc402d820
+>>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+>> Cc: Alex Deucher <Alexander.Deucher@amd.com>
+>>
+>> Fixes: 627b92ef9d7c ("drm/amdgpu: Wipe all VRAM on free when RAS is
+>> enabled")
+>> Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+>
+> The fixes tag is not necessarily correct, I would remove that.
+>
+> But apart from that the patch is Reviewed-by: Christian König 
+> <christian.koenig@amd.com>.
 
-DQpBbSAwNC4wMi4yMiB1bSAxNjo1MiBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOg0KWy4u
-Ll0NCj4+ICsvKioNCj4+ICsgKiBkcm1fZmJfeHJnYjg4ODhfdG9fbW9ub19yZXZlcnNlZCAt
-IENvbnZlcnQgWFJHQjg4ODggdG8gcmV2ZXJzZWQgDQo+PiBtb25vY2hyb21lDQo+PiArICog
-QGRzdDogcmV2ZXJzZWQgbW9ub2Nocm9tZSBkZXN0aW5hdGlvbiBidWZmZXINCj4+ICsgKiBA
-ZHN0X3BpdGNoOiBOdW1iZXIgb2YgYnl0ZXMgYmV0d2VlbiB0d28gY29uc2VjdXRpdmUgc2Nh
-bmxpbmVzIA0KPj4gd2l0aGluIGRzdA0KPj4gKyAqIEBzcmM6IFhSR0I4ODg4IHNvdXJjZSBi
-dWZmZXINCj4+ICsgKiBAZmI6IERSTSBmcmFtZWJ1ZmZlcg0KPj4gKyAqIEBjbGlwOiBDbGlw
-IHJlY3RhbmdsZSBhcmVhIHRvIGNvcHkNCj4+ICsgKg0KPj4gKyAqIERSTSBkb2Vzbid0IGhh
-dmUgbmF0aXZlIG1vbm9jaHJvbWUgc3VwcG9ydC4NCj4+ICsgKiBTdWNoIGRyaXZlcnMgY2Fu
-IGFubm91bmNlIHRoZSBjb21tb25seSBzdXBwb3J0ZWQgWFIyNCBmb3JtYXQgdG8gDQo+PiB1
-c2Vyc3BhY2UNCj4+ICsgKiBhbmQgdXNlIHRoaXMgZnVuY3Rpb24gdG8gY29udmVydCB0byB0
-aGUgbmF0aXZlIGZvcm1hdC4NCj4+ICsgKg0KPj4gKyAqIFRoaXMgZnVuY3Rpb24gdXNlcyBk
-cm1fZmJfeHJnYjg4ODhfdG9fZ3JheTgoKSB0byBjb252ZXJ0IHRvIA0KPj4gZ3JheXNjYWxl
-IGFuZA0KPj4gKyAqIHRoZW4gdGhlIHJlc3VsdCBpcyBjb252ZXJ0ZWQgZnJvbSBncmF5c2Nh
-bGUgdG8gcmV2ZXJzZWQgbW9ub2hyb21lLg0KPj4gKyAqLw0KPj4gK3ZvaWQgZHJtX2ZiX3hy
-Z2I4ODg4X3RvX21vbm9fcmV2ZXJzZWQodm9pZCAqZHN0LCB1bnNpZ25lZCBpbnQgDQo+PiBk
-c3RfcGl0Y2gsIGNvbnN0IHZvaWQgKnNyYywNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3Qgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIs
-DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0
-IHN0cnVjdCBkcm1fcmVjdCAqY2xpcCkNCj4+ICt7DQo+PiArwqDCoMKgIGlmIChXQVJOX09O
-KGZiLT5mb3JtYXQtPmZvcm1hdCAhPSBEUk1fRk9STUFUX1hSR0I4ODg4KSkNCj4+ICvCoMKg
-wqDCoMKgwqDCoCByZXR1cm47DQo+PiArDQo+PiArwqDCoMKgIGlmICghZHN0X3BpdGNoKQ0K
-Pj4gK8KgwqDCoMKgwqDCoMKgIGRzdF9waXRjaCA9IGRybV9yZWN0X3dpZHRoKGNsaXApOw0K
-Pj4gKw0KPj4gK8KgwqDCoCBkcm1fZmJfeHJnYjg4ODhfdG9fZ3JheTgoZHN0LCBkc3RfcGl0
-Y2gsIHNyYywgZmIsIGNsaXApOw0KPj4gK8KgwqDCoCBkcm1fZmJfZ3JheThfdG9fbW9ub19y
-ZXZlcnNlZChkc3QsIGRzdF9waXRjaCwgZHN0LCBmYiwgY2xpcCk7DQo+IA0KPiBDb252ZXJ0
-aW5nIGZyb20gZHN0IGludG8gZHN0IGNhbiBnaXZlIGluY29ycmVjdCByZXN1bHRzLiBBdCBz
-b21lIHBvaW50IA0KPiB3ZSBwcm9iYWJseSB3YW50IHRvIGFkZCByZXN0cmljdCBxdWFsaWZp
-ZXJzIHRvIHRoZXNlIHBvaW50ZXJzLCB0byBoZWxwIA0KPiB0aGUgY29tcGlsZXIgd2l0aCBv
-cHRpbWl6aW5nLg0KPiANCj4gQSBiZXR0ZXIgYXBwcm9hY2ggaGVyZSBpcyB0byBwdWxsIHRo
-ZSBwZXItbGluZSBjb252ZXJzaW9uIGZyb20gDQo+IGRybV9mYl94cmdiODg4OF90b19ncmF5
-OCgpIGludG8gYSBzZXBhcmF0ZSBoZWxwZXIgYW5kIGltcGxlbWVudCBhIA0KPiBsaW5lLWJ5
-LWxpbmUgY29udmVyc2lvbiBoZXJlLiBzb21ldGhpbmcgbGlrZSB0aGlzOg0KPiANCj4gIMKg
-IGRybV9mYl94cmdiODg4OF90b19tb25vX3JldmVyc2VkKCkNCj4gIMKgIHsNCj4gIMKgwqDC
-oCBjaGFyICp0bXAgPSBrbWFsbG9jKHNpemUgb2YgYSBzaW5nbGUgbGluZSBvZiBncmF5OCkN
-Cj4gDQo+ICDCoMKgwqAgZm9yIChoZWlndGgpIHsNCj4gIMKgwqDCoMKgwqDCoCBkcm1fZmJf
-eHJnYjg4ODhfdG9fZ3JheThfbGluZSh0bXAsIC4uLiwgc3JjLCAuLi4pOw0KPiAgwqDCoMKg
-wqDCoMKgIGRybV9mYl9ncmF5OF90b19tb25vX3JldmVyc2VkKGRzdCwgLi4uLCB0bXAsIC4u
-Lik7DQoNCkhlcmUsIEkgbWVhbnQgJ2RybV9mYl9ncmF5OF90b19tb25vX3JldmVyc2VkX2xp
-bmUoKScNCg0KPiANCj4gIMKgwqDCoMKgwqDCoCBzcmMgKz0gZmItPnBpdGNoZXNbMF0NCj4g
-IMKgwqDCoMKgwqDCoCBkc3QgKz0gZHN0X3BpdGNoOw0KPiAgwqDCoMKgIH0NCj4gDQo+ICDC
-oMKgwqAga2ZyZWUodG1wKTsNCj4gIMKgIH0NCg0KVG8gZWxhYm9yYXRlLCB0aGlzIGlzIGFu
-IGV4YW1wbGUgb2Ygd2hhdCBJIG1lYW50IGJ5IGNvbXBvc2FibGUuIEluIHRoZSANCmZ1dHVy
-ZSwgd2UgY2FuIGdlbmVyYWxpemUgdGhpcyBmdW5jdGlvbiBhbmQgaGFuZC1pbiAyIGZ1bmN0
-aW9uIHBvaW50ZXJzIA0KdGhlIGRvIHRoZSBjb252ZXJzaW9uIHdpdGggdG1wIGFzIGludGVy
-bWVkaWF0ZSBidWZmZXIuIFRoYXQgd291bGQgd29yayANCmZvciBhbnkgY29tYmluYXRpb24g
-b2YgZm9ybWF0cyB0aGF0IGhhdmUgYSBjb21tb24gaW50ZXJtZWRpYXRlIGZvcm1hdC4NCg0K
-PiANCj4gQmVzdCByZWdhcmRzDQo+IFRob21hcw0KPiANCj4+ICt9DQo+PiArRVhQT1JUX1NZ
-TUJPTChkcm1fZmJfeHJnYjg4ODhfdG9fbW9ub19yZXZlcnNlZCk7DQo+PiBkaWZmIC0tZ2l0
-IGEvaW5jbHVkZS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuaCANCj4+IGIvaW5jbHVkZS9kcm0v
-ZHJtX2Zvcm1hdF9oZWxwZXIuaA0KPj4gaW5kZXggYjMwZWQ1ZGUwYTMzLi44NWU1NTFhNWNi
-ZTYgMTAwNjQ0DQo+PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZm9ybWF0X2hlbHBlci5oDQo+
-PiArKysgYi9pbmNsdWRlL2RybS9kcm1fZm9ybWF0X2hlbHBlci5oDQo+PiBAQCAtNDMsNCAr
-NDMsMTEgQEAgaW50IGRybV9mYl9ibGl0X3RvaW8odm9pZCBfX2lvbWVtICpkc3QsIHVuc2ln
-bmVkIA0KPj4gaW50IGRzdF9waXRjaCwgdWludDMyX3QgZHN0X2Zvcg0KPj4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCB2b2lkICp2bWFwLCBjb25zdCBzdHJ1Y3QgZHJt
-X2ZyYW1lYnVmZmVyICpmYiwNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29u
-c3Qgc3RydWN0IGRybV9yZWN0ICpyZWN0KTsNCj4+ICt2b2lkIGRybV9mYl9ncmF5OF90b19t
-b25vX3JldmVyc2VkKHZvaWQgKmRzdCwgdW5zaWduZWQgaW50IGRzdF9waXRjaCwgDQo+PiBj
-b25zdCB2b2lkICpzcmMsDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIGNvbnN0IHN0cnVjdCBkcm1fcmVjdCAqY2xpcCk7DQo+PiArDQo+PiArdm9pZCBkcm1f
-ZmJfeHJnYjg4ODhfdG9fbW9ub19yZXZlcnNlZCh2b2lkICpkc3QsIHVuc2lnbmVkIGludCAN
-Cj4+IGRzdF9waXRjaCwgY29uc3Qgdm9pZCAqc3JjLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVy
-ICpmYiwNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-Y29uc3Qgc3RydWN0IGRybV9yZWN0ICpjbGlwKTsNCj4+ICsNCj4+IMKgICNlbmRpZiAvKiBf
-X0xJTlVYX0RSTV9GT1JNQVRfSEVMUEVSX0ggKi8NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1l
-cm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRp
-b25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJt
-YW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZv
-IFRvdGV2DQo=
+I suggested the Fixes tag since it was my patch that introduced the 
+problem. Without my patch, page table BOs wouldn't be cleared here, and 
+it wouldn't get that recursive lock warning.
 
---------------Fyl6dR7v07pMrP2NZSYgcqjU--
+Either way, the patch is also
 
---------------uKvC4ebQRAJ1axQI7V0U11rO
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmH9TZAFAwAAAAAACgkQlh/E3EQov+DD
-EA//XW1T5dlPdP+FgnzNjCMeveK9sg+O/IhpF0REJ6TZu/ksWP8nElDjulwxrEl2mg2wdrRJiaD5
-aT5fZ8oAUfbEu3KM+q1hEoQHVTCt4yDPHEReZHXC3xvMRGO4/8bNgCrTonvVnL1RjKIbqtJDy7C+
-2IokNfG7CmPkDOjzPD6fegEOfw+XyDQd5lTo4APyBryCXDurlSf/GMsvFzvuRQ1BFdfHspxcqZSY
-GtQJ2v4u5VfXiVyST/0/uWQ3HJJ3WQwnuLoEbVs+ugvq6A/TvgIe6pQz+PkL1yRKhpptn2siiMSI
-UqMH+5e8hoiFltGG1tjSfJaep7X7xW/bNQxp+0M46o21OowKUEE+8nS3SoX497VZhj3j6XezZNZf
-aI+LCyk60sVbCPHDW8IvYu/ziRco+W4yK137xME5T+/V07fFv6BqccpB6ZbrNah1NVjI9yDOXKcT
-iMG+tYN4IkavtWraOmRpOryYnsxXTllfZWGRkMfjIJIUaeHaK34DacgHjpUl2txhpy0QFSmj2U4I
-kgUbkL6ilDbeEmOos2zqRjhepGjarqvZxGa0aiaHlt9SaDW4GY/LA7obZtVtS8v1rVvoHT2T2WcA
-/8DbTV/wqFa9aDuvOjvYwdT+EYO5Xy+cn+OLHlxVjaAEKdox36J2gt4AUE2aG7XCLfB+uNdCK77T
-Xs8=
-=yBos
------END PGP SIGNATURE-----
-
---------------uKvC4ebQRAJ1axQI7V0U11rO--
+>
+> Thanks,
+> Christian.
+>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> index 36bb41b027ec..6ccd2be685f5 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> @@ -1306,7 +1306,8 @@ void amdgpu_bo_release_notify(struct 
+>> ttm_buffer_object *bo)
+>>           !(abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE))
+>>           return;
+>>   -    dma_resv_lock(bo->base.resv, NULL);
+>> +    if (WARN_ON_ONCE(!dma_resv_trylock(bo->base.resv)))
+>> +        return;
+>>         r = amdgpu_fill_buffer(abo, AMDGPU_POISON, bo->base.resv, 
+>> &fence);
+>>       if (!WARN_ON(r)) {
+>
