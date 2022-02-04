@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3A14A9733
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 10:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9270C4A9750
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 11:00:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFAFA10F4EE;
-	Fri,  4 Feb 2022 09:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3367910F52E;
+	Fri,  4 Feb 2022 10:00:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B7C110F326
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 09:55:54 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id q8so7871331oiw.7
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 01:55:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XKzS8W1xn5TPR/GlDWZaU+1+deO1Y4moF0e2Mpo7pSc=;
- b=Quhh01JzKbHRUffBESOLWyjLlWbeB8i5pzjWt1A0s0XBHW5Zn5tCiuJr+DOZ6pW8j7
- c6aJdxi2/tB1DuG/CECXYiBEAwp5dmwfaojWNbEYBId9998PRQQk9mBBxRRGzUcFJffV
- V5QgWaQaSllFMy+gUIH0bhIjksEIs/0rhpNoI=
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com
+ [209.85.221.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F86510F52E;
+ Fri,  4 Feb 2022 10:00:20 +0000 (UTC)
+Received: by mail-vk1-f171.google.com with SMTP id 48so3421404vki.0;
+ Fri, 04 Feb 2022 02:00:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XKzS8W1xn5TPR/GlDWZaU+1+deO1Y4moF0e2Mpo7pSc=;
- b=QwKV0shoxw5dAOmfqpE6WTdqURGi/SvBVEhI0efXKponr6gqkr9wHY2Jxl725M8cxt
- 0EUUUq/g72pDuqugdAqclwQOn3fe692L/L8ajAPH6eyOl3t8LsoVj3SaRKFHJhLt+ExE
- Y6YFRAn1uXWM7FjZEk8ZZAYxW0/u6PQ+kwYBHrBNGjpBOmWgm3IITdE4EjWTNAaEn6mj
- hSTn15jCV0ep+hNnF0yIgw2BU1AOzyxNyAfaU/hHN14xHG7GDFrZzJR1ZtvzgVMhWBsD
- 4sh6XyuzMEg73UpArGim6ZUsWUghcD1zmOzKSlzkS3ZhIIBQiC8tg6waXdP46CMC0jRm
- 70qA==
-X-Gm-Message-State: AOAM533PBbvcd2g9qZG/cIGp90ber9aXa+5Hcx4DuabuefztxtMx/YZz
- Y7/oI+3UNFdiKtCQguXSLvnORmnuU5vm4LHh4eLWwA==
-X-Google-Smtp-Source: ABdhPJyyGFbAIV3np0sHoMK1CHrGfgBVuMM2vjz3bXO7jC4g0CeeO9r0SZ2xP7NzeorjPw/NwT5wUZHimnLGh0NSKio=
-X-Received: by 2002:a05:6808:2221:: with SMTP id
- bd33mr930563oib.278.1643968553735; 
- Fri, 04 Feb 2022 01:55:53 -0800 (PST)
+ bh=0qfMcnOHtfS1bLvkZ8irbT3G/RJ7P/0NHu2x4nFmRtw=;
+ b=NTqw4R8HLzZjo2eEvjXRLhlISWf5LrBG/zADFGmy2eDtrN07khUhls9Kjr2D9wbuJa
+ aSwo1uBL/tMIlYqvhsIomJmvr+6iW9ad/PRxBQ0akfKR4wjuZitHWNlGISpzVPa3Ngpf
+ 0mipfb9QKv9Y8fiOzCusBCXmAA9okJP1m4NQX6FeFNfCNaoS/dqhwB6OV7437RxBI26j
+ y4EBh+t8vxn+BVvN8y15MKWJLpW6SKa8o46QgTAmNxUYTsq2Zi1yKwDXU2Hf+e3bCzbL
+ XZfXW6TyjoIzp62n8+c5QXpVZl8mnHDj/UDU7vqdYLidzllCLDmiosTSLmB5tUUuSTlH
+ MGaw==
+X-Gm-Message-State: AOAM533s/BjzDvayDQbQucVsGc6mwTc3mgcn4SVqSZNYj3uPTjdvEXix
+ Xwz2tuufUZNM7BEPnD66dWN/oZyCPStoag==
+X-Google-Smtp-Source: ABdhPJzal0lNsk6e6glHNQt9YZ1Ct392M3PBT6A4fiGHf9DK94VbGpSa7Tboueu1fd5eaZ/Rqb9t8w==
+X-Received: by 2002:a1f:9d0f:: with SMTP id g15mr771526vke.4.1643968819295;
+ Fri, 04 Feb 2022 02:00:19 -0800 (PST)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com.
+ [209.85.222.54])
+ by smtp.gmail.com with ESMTPSA id d74sm359859vkf.1.2022.02.04.02.00.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Feb 2022 02:00:18 -0800 (PST)
+Received: by mail-ua1-f54.google.com with SMTP id c36so9860465uae.13;
+ Fri, 04 Feb 2022 02:00:18 -0800 (PST)
+X-Received: by 2002:a67:5f83:: with SMTP id t125mr528892vsb.68.1643968818566; 
+ Fri, 04 Feb 2022 02:00:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20220119203541.2410082-1-John.C.Harrison@Intel.com>
- <20220119203541.2410082-3-John.C.Harrison@Intel.com>
-In-Reply-To: <20220119203541.2410082-3-John.C.Harrison@Intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 4 Feb 2022 10:55:42 +0100
-Message-ID: <CAKMK7uGijP097LzoNo=MtLHpu5a6fUj=XHP5+N6SmkW5c=9i9Q@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/i915/uapi: Add query for hwconfig table
-To: john.c.harrison@intel.com
+References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
+ <20220131210552.482606-5-daniel.vetter@ffwll.ch>
+In-Reply-To: <20220131210552.482606-5-daniel.vetter@ffwll.ch>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 4 Feb 2022 11:00:07 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUL=8xay27vvBvbv0iQ0T0oSwMgxMNrLdDmj03ozAM4Gw@mail.gmail.com>
+Message-ID: <CAMuHMdUL=8xay27vvBvbv0iQ0T0oSwMgxMNrLdDmj03ozAM4Gw@mail.gmail.com>
+Subject: Re: [PATCH 04/21] fbcon: delete a few unneeded forward decl
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,138 +63,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Kenneth Graunke <kenneth.w.graunke@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Slawomir Milczarek <slawomir.milczarek@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Du Cheng <ducheng2@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Claudio Suarez <cssk@net-c.es>, Daniel Vetter <daniel.vetter@intel.com>,
+ Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 9:35 PM <John.C.Harrison@intel.com> wrote:
+On Tue, Feb 1, 2022 at 9:50 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> I didn't bother with any code movement to fix the others, these just
+> got a bit in the way.
 >
-> From: Rodrigo Vivi <rodrigo.vivi@intel.com>
->
-> GuC contains a consolidated table with a bunch of information about the
-> current device.
->
-> Previously, this information was spread and hardcoded to all the components
-> including GuC, i915 and various UMDs. The goal here is to consolidate
-> the data into GuC in a way that all interested components can grab the
-> very latest and synchronized information using a simple query.
->
-> As per most of the other queries, this one can be called twice.
-> Once with item.length=0 to determine the exact buffer size, then
-> allocate the user memory and call it again for to retrieve the
-> table data. For example:
->   struct drm_i915_query_item item = {
->     .query_id = DRM_I915_QUERY_HWCONCFIG_TABLE;
->   };
->   query.items_ptr = (int64_t) &item;
->   query.num_items = 1;
->
->   ioctl(fd, DRM_IOCTL_I915_QUERY, query, sizeof(query));
->
->   if (item.length <= 0)
->     return -ENOENT;
->
->   data = malloc(item.length);
->   item.data_ptr = (int64_t) &data;
->   ioctl(fd, DRM_IOCTL_I915_QUERY, query, sizeof(query));
->
->   // Parse the data as appropriate...
->
-> The returned array is a simple and flexible KLV (Key/Length/Value)
-> formatted table. For example, it could be just:
->   enum device_attr {
->      ATTR_SOME_VALUE = 0,
->      ATTR_SOME_MASK  = 1,
->   };
->
->   static const u32 hwconfig[] = {
->       ATTR_SOME_VALUE,
->       1,             // Value Length in DWords
->       8,             // Value
->
->       ATTR_SOME_MASK,
->       3,
->       0x00FFFFFFFF, 0xFFFFFFFF, 0xFF000000,
->   };
->
-> The attribute ids are defined in a hardware spec.
->
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Kenneth Graunke <kenneth.w.graunke@intel.com>
-> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
-> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_query.c | 23 +++++++++++++++++++++++
->  include/uapi/drm/i915_drm.h       |  1 +
->  2 files changed, 24 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> index 2dfbc22857a3..609e64d5f395 100644
-> --- a/drivers/gpu/drm/i915/i915_query.c
-> +++ b/drivers/gpu/drm/i915/i915_query.c
-> @@ -479,12 +479,35 @@ static int query_memregion_info(struct drm_i915_private *i915,
->         return total_length;
->  }
->
-> +static int query_hwconfig_table(struct drm_i915_private *i915,
-> +                               struct drm_i915_query_item *query_item)
-> +{
-> +       struct intel_gt *gt = to_gt(i915);
-> +       struct intel_guc_hwconfig *hwconfig = &gt->uc.guc.hwconfig;
-> +
-> +       if (!hwconfig->size || !hwconfig->ptr)
-> +               return -ENODEV;
-> +
-> +       if (query_item->length == 0)
-> +               return hwconfig->size;
-> +
-> +       if (query_item->length < hwconfig->size)
-> +               return -EINVAL;
-> +
-> +       if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
-> +                        hwconfig->ptr, hwconfig->size))
-> +               return -EFAULT;
-> +
-> +       return hwconfig->size;
-> +}
-> +
->  static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
->                                         struct drm_i915_query_item *query_item) = {
->         query_topology_info,
->         query_engine_info,
->         query_perf_config,
->         query_memregion_info,
-> +       query_hwconfig_table,
->  };
->
->  int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 914ebd9290e5..132515199f27 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -2685,6 +2685,7 @@ struct drm_i915_query_item {
->  #define DRM_I915_QUERY_ENGINE_INFO     2
->  #define DRM_I915_QUERY_PERF_CONFIG      3
->  #define DRM_I915_QUERY_MEMORY_REGIONS   4
-> +#define DRM_I915_QUERY_HWCONFIG_TABLE   5
->  /* Must be kept compact -- no holes and well documented */
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-New uapi needs kerneldoc in the uapi header, and please fill in any
-gaps you have (i.e. if the query uapi this is built on top of isn't
-fully documented yet).
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Also this holds across the board, so please keep in mind in patch review.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
