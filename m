@@ -1,41 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462DD4AA02F
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 20:35:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2D94AA035
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 20:38:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0789410EA6D;
-	Fri,  4 Feb 2022 19:35:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56C8110EA8F;
+	Fri,  4 Feb 2022 19:38:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B91F10EA8F
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 19:35:41 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id c5bc346a-85f1-11ec-b20b-0050568c148b;
- Fri, 04 Feb 2022 19:36:39 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4145A10EA8F;
+ Fri,  4 Feb 2022 19:38:22 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id DD5A1194B91;
- Fri,  4 Feb 2022 20:35:34 +0100 (CET)
-Date: Fri, 4 Feb 2022 20:35:31 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 13/21] fbcon: move more common code into fb_open()
-Message-ID: <Yf2AAx9rlIsh/h8I@ravnborg.org>
-References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
- <20220131210552.482606-14-daniel.vetter@ffwll.ch>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D50E71F37D;
+ Fri,  4 Feb 2022 19:38:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1644003500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2Bj7Crn6RlY1c0S6KTbNxoV/A3V3gu/HAKD3zqn/Tw8=;
+ b=Dh6mKxgdnlCtuINYqCNX8hB6sfZKaaPx35FPBANzs7w5eRJbKGBub9M3WWSgWOv+DEBglv
+ C17Ubbtxjebu5STSvwoRGKj2EXa05HhqgEWxqSI2dYuOB62+4u7YRJkLwb6fi3i1R100WZ
+ F2/KV9mqXFns1C/RnHP8yfYcgG2iR+k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1644003500;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2Bj7Crn6RlY1c0S6KTbNxoV/A3V3gu/HAKD3zqn/Tw8=;
+ b=9tounWJ5W/tTNZksYOuofzVGqF/wQ61zJGMmo9Oa4li748XcMW6XM7zLzPsTKvqRKgw1uC
+ R/DxVwxE9XgvFaAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A6BFF13A91;
+ Fri,  4 Feb 2022 19:38:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id zsx3JqyA/WEFDgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 04 Feb 2022 19:38:20 +0000
+Message-ID: <c8442395-6cbd-8546-8ff6-64ebf9a479df@suse.de>
+Date: Fri, 4 Feb 2022 20:38:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220131210552.482606-14-daniel.vetter@ffwll.ch>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH 1/3] drm: Extract amdgpu_sa.c as a generic
+ suballocation helper
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220204174809.3366967-1-maarten.lankhorst@linux.intel.com>
+ <20220204174809.3366967-2-maarten.lankhorst@linux.intel.com>
+ <28be9b4b-dbe1-28fa-e013-570c45a5c705@amd.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <28be9b4b-dbe1-28fa-e013-570c45a5c705@amd.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------psVhXGzqbAqbHPfLlbqOxOMC"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,172 +74,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Du Cheng <ducheng2@gmail.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Claudio Suarez <cssk@net-c.es>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 31, 2022 at 10:05:44PM +0100, Daniel Vetter wrote:
-> No idea why con2fb_acquire_newinfo() initializes much less than
-> fbcon_startup(), but so be it. From a quick look most of the
-> un-initialized stuff should be fairly harmless, but who knows.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Claudio Suarez <cssk@net-c.es>
-> Cc: Du Cheng <ducheng2@gmail.com>
-> ---
->  drivers/video/fbdev/core/fbcon.c | 74 +++++++++++++-------------------
->  1 file changed, 31 insertions(+), 43 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index b83a5a77d8a8..5a3391ff038d 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -680,8 +680,18 @@ static int fbcon_invalid_charcount(struct fb_info *info, unsigned charcount)
->  
->  #endif /* CONFIG_MISC_TILEBLITTING */
->  
-> +static void fbcon_release(struct fb_info *info)
-> +{
-> +	if (info->fbops->fb_release)
-> +		info->fbops->fb_release(info, 0);
-> +
-> +	module_put(info->fbops->owner);
-> +}
-> +
->  static int fbcon_open(struct fb_info *info)
->  {
-> +	struct fbcon_ops *ops;
-> +
->  	if (!try_module_get(info->fbops->owner))
->  		return -ENODEV;
->  
-> @@ -691,19 +701,22 @@ static int fbcon_open(struct fb_info *info)
->  		return -ENODEV;
->  	}
->  
-> -	return 0;
-> -}
-> +	ops = kzalloc(sizeof(struct fbcon_ops), GFP_KERNEL);
-> +	if (!ops) {
-> +		fbcon_release(info);
-> +		return -ENOMEM;
-> +	}
->  
-> -static void fbcon_release(struct fb_info *info)
-> -{
-> -	if (info->fbops->fb_release)
-> -		info->fbops->fb_release(info, 0);
-> +	INIT_DELAYED_WORK(&ops->cursor_work, fb_flashcursor);
-> +	ops->info = info;
-> +	info->fbcon_par = ops;
-> +	ops->cur_blink_jiffies = HZ / 5;
->  
-> -	module_put(info->fbops->owner);
-> +	return 0;
->  }
->  
->  static int con2fb_acquire_newinfo(struct vc_data *vc, struct fb_info *info,
-> -				  int unit, int oldidx)
-> +				  int unit)
->  {
->  	struct fbcon_ops *ops = NULL;
->  	int err;
-> @@ -712,27 +725,10 @@ static int con2fb_acquire_newinfo(struct vc_data *vc, struct fb_info *info,
->  	if (err)
->  		return err;
->  
-> -	if (!err) {
-> -		ops = kzalloc(sizeof(struct fbcon_ops), GFP_KERNEL);
-> -		if (!ops)
-> -			err = -ENOMEM;
-> -
-> -		INIT_DELAYED_WORK(&ops->cursor_work, fb_flashcursor);
-> -	}
-> -
-> -	if (!err) {
-> -		ops->cur_blink_jiffies = HZ / 5;
-> -		ops->info = info;
-> -		info->fbcon_par = ops;
-> -
-> -		if (vc)
-> -			set_blitting_type(vc, info);
-> -	}
-> +	ops = info->fbcon_par;
->  
-> -	if (err) {
-> -		con2fb_map[unit] = oldidx;
-> -		fbcon_release(info);
-> -	}
-> +	if (vc)
-> +		set_blitting_type(vc, info);
->  
->  	return err;
->  }
-> @@ -840,9 +836,11 @@ static int set_con2fb_map(int unit, int newidx, int user)
->  
->  	found = search_fb_in_map(newidx);
->  
-> -	con2fb_map[unit] = newidx;
-> -	if (!err && !found)
-> -		err = con2fb_acquire_newinfo(vc, info, unit, oldidx);
-> +	if (!err && !found) {
-> +		err = con2fb_acquire_newinfo(vc, info, unit);
-> +		if (!err)
-> +			con2fb_map[unit] = newidx;
-> +	}
-This looks like an unintentional change of functionality as con2fb_map[unit] is
-only assigned when we do a con2fb_acquire_newinfo().
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------psVhXGzqbAqbHPfLlbqOxOMC
+Content-Type: multipart/mixed; boundary="------------mAZ8hn9hSOpb48Mjm0mWsPjd";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ intel-gfx@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Message-ID: <c8442395-6cbd-8546-8ff6-64ebf9a479df@suse.de>
+Subject: Re: [RFC PATCH 1/3] drm: Extract amdgpu_sa.c as a generic
+ suballocation helper
+References: <20220204174809.3366967-1-maarten.lankhorst@linux.intel.com>
+ <20220204174809.3366967-2-maarten.lankhorst@linux.intel.com>
+ <28be9b4b-dbe1-28fa-e013-570c45a5c705@amd.com>
+In-Reply-To: <28be9b4b-dbe1-28fa-e013-570c45a5c705@amd.com>
 
-Staring at the code I could not say it is wrong, but not nice to hide
-the change in this patch.
+--------------mAZ8hn9hSOpb48Mjm0mWsPjd
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-	Sam
+SGkNCg0KQW0gMDQuMDIuMjIgdW0gMTk6Mjkgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
+PiBPaCwgdGhhdCdzIG9uIG15IFRPRE8gbGlzdCBmb3IgeWVhcnMhDQo+IA0KPiBBbSAwNC4w
+Mi4yMiB1bSAxODo0OCBzY2hyaWViIE1hYXJ0ZW4gTGFua2hvcnN0Og0KPj4gU3ViYWxsb2Nh
+dGluZyBhIGJ1ZmZlciBvYmplY3QgaXMgc29tZXRoaW5nIHRoYXQgaXMgbm90IGRyaXZlcg0K
+Pj4gZ2VuZXJpYywgYW5kIGlzIHVzZWZ1bCBmb3Igb3RoZXIgZHJpdmVycyBhcyB3ZWxsLg0K
+Pj4NCj4+IFNpZ25lZC1vZmYtYnk6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmto
+b3JzdEBsaW51eC5pbnRlbC5jb20+DQo+PiAtLS0NCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9N
+YWtlZmlsZcKgwqDCoMKgwqDCoCB8wqDCoCA0ICstDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX3N1YmFsbG9jLmMgfCA0MjQgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+DQo+PiDCoCBpbmNsdWRlL2RybS9kcm1fc3ViYWxsb2MuaMKgwqDCoMKgIHzCoCA3OCArKysr
+KysNCj4+IMKgIDMgZmlsZXMgY2hhbmdlZCwgNTA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRp
+b24oLSkNCj4+IMKgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZHJtX3N1
+YmFsbG9jLmMNCj4+IMKgIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2RybS9kcm1fc3Vi
+YWxsb2MuaA0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vTWFrZWZpbGUg
+Yi9kcml2ZXJzL2dwdS9kcm0vTWFrZWZpbGUNCj4+IGluZGV4IDg2NzVjMmFmN2FlMS4uYjg0
+OGJjZjg3OTBjIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlDQo+
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vTWFrZWZpbGUNCj4+IEBAIC01Nyw3ICs1Nyw5IEBA
+IGRybV9rbXNfaGVscGVyLXkgOj0gZHJtX2JyaWRnZV9jb25uZWN0b3IubyANCj4+IGRybV9j
+cnRjX2hlbHBlci5vIFwNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBkcm1fc2NkY19oZWxwZXIu
+byBkcm1fZ2VtX2F0b21pY19oZWxwZXIubyBcDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZHJt
+X2dlbV9mcmFtZWJ1ZmZlcl9oZWxwZXIubyBcDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZHJt
+X2F0b21pY19zdGF0ZV9oZWxwZXIubyBkcm1fZGFtYWdlX2hlbHBlci5vIFwNCj4+IC3CoMKg
+wqDCoMKgwqDCoCBkcm1fZm9ybWF0X2hlbHBlci5vIGRybV9zZWxmX3JlZnJlc2hfaGVscGVy
+Lm8gZHJtX3JlY3Qubw0KPj4gK8KgwqDCoMKgwqDCoMKgIGRybV9mb3JtYXRfaGVscGVyLm8g
+ZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXIubyBkcm1fcmVjdC5vIFwNCj4+ICvCoMKgwqDCoMKg
+wqDCoCBkcm1fc3ViYWxsb2Mubw0KPj4gKw0KPiANCj4gSSB0aGluayB3ZSBzaG91bGQgcHV0
+IHRoYXQgaW50byBhIHNlcGFyYXRlIG1vZHVsZSBsaWtlIHdlIG5vdyBkbyB3aXRoIA0KPiBv
+dGhlciBoZWxwZXJzIGFzIHdlbGwuDQoNClBsZWFzZS4gS01TIGhlbHBlcnMgYXJlIG5vdyBs
+aWtlbHkgdG8gYmUgbGlua2VkIGludG8gdGhlIGtlcm5lbCBiaW5hcnkuIA0KSSd2ZSBhbHJl
+YWR5IHNwZW50IHRpbWUgdG8gcmVkdWNlIHRoZSBzaXplIG9mIHRoZSBtb2R1bGUuDQoNCkJl
+c3QgcmVnYXJkDQpUaG9tYXMNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
+RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
+DQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDks
+IEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
+--------------mAZ8hn9hSOpb48Mjm0mWsPjd--
 
->  
->  	/*
->  	 * If old fb is not mapped to any of the consoles,
-> @@ -939,20 +937,10 @@ static const char *fbcon_startup(void)
->  	if (fbcon_open(info))
->  		return NULL;
->  
-> -	ops = kzalloc(sizeof(struct fbcon_ops), GFP_KERNEL);
-> -	if (!ops) {
-> -		fbcon_release(info);
-> -		return NULL;
-> -	}
-> -
-> -	INIT_DELAYED_WORK(&ops->cursor_work, fb_flashcursor);
-> -
-> +	ops = info->fbcon_par;
->  	ops->currcon = -1;
->  	ops->graphics = 1;
->  	ops->cur_rotate = -1;
-> -	ops->cur_blink_jiffies = HZ / 5;
-> -	ops->info = info;
-> -	info->fbcon_par = ops;
->  
->  	p->con_rotate = initial_rotation;
->  	if (p->con_rotate == -1)
-> @@ -1022,7 +1010,7 @@ static void fbcon_init(struct vc_data *vc, int init)
->  		return;
->  
->  	if (!info->fbcon_par)
-> -		con2fb_acquire_newinfo(vc, info, vc->vc_num, -1);
-> +		con2fb_acquire_newinfo(vc, info, vc->vc_num);
->  
->  	/* If we are not the first console on this
->  	   fb, copy the font from that console */
-> -- 
-> 2.33.0
+--------------psVhXGzqbAqbHPfLlbqOxOMC
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmH9gKsFAwAAAAAACgkQlh/E3EQov+CE
+UxAAoJ4BV7WXUFzptZE+dhNxNFunrjwiOf1rRaATwf5SAqzyMphecf0igNjSmY/0oQPY+E2SjT54
+Wqb9QtCBmq1nWnM+HR65WFyrqs484poJb82EcRCq3szGpWGRWCShnwaeU4pDU8jDzI8aNL12gWVb
+w2ay1aFMf1MAqU/G7VCEc+s/IJZj0QxdIWcR9Gb45L30a43l8qrFtZOCmeW0bk+96gpTZACWF+TZ
+YWEXeX2xpscARX7TSkJexGj6tZcR0faOuRPfu57ZyJt6jyHIT0qlnH29ghFkGdwaRe3kW+JP+0sr
+PUmAHcHDvEx9yChCwITMvM2Su2osEFdDyjBlGL/n+8lLahowJolcjGjo6/CP9nEOS6GwHE3bVpSw
+81uOkG3FSkchbbKdHYOmS8ilp50GYvTDM5SnSIGHQiNwUplFiKfM4u2DnXW/oE3HXliKZ3kXbHEI
+kAqW13fO4hfrhbWq2T7MVxvTuvLrM7aPCTe9wY7XlYG0ET3m6zIO17FOqjJLHimj5l2o9TkcTQIg
+GUCmlzizKPVuWZJtrA5xe2fS9dgzH4GzNOMw+681s+PMX6BkL1HyNcH9a96vBJuVIll3UPRtzrFD
+400HJlgcdWA5NfwhDtFGY2WOpb1PcOU1AgbPV7JJifdIc7C9R7H9Kqi317r2dqm9O9V9nDLLQvB7
+n2I=
+=f0mx
+-----END PGP SIGNATURE-----
+
+--------------psVhXGzqbAqbHPfLlbqOxOMC--
