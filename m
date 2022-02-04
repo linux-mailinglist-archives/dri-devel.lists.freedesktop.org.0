@@ -2,63 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E80B4A9FD6
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 20:15:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5574A9FED
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 20:19:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8FE310E520;
-	Fri,  4 Feb 2022 19:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3330710E7BE;
+	Fri,  4 Feb 2022 19:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66C7110E520;
- Fri,  4 Feb 2022 19:15:15 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EF0921F382;
- Fri,  4 Feb 2022 19:15:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1644002113; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5410310E7BE
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 19:19:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644002358;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FBKXWHR6b5nXvL/toHyOGRrAUAZgKlhQ/zYqXm6S3JI=;
- b=Kt4mL4azAhb/wuiPw9KfiWAhDjTiqS6P1LKildokgfDxXJZDqjX9A7pxCyjRzwje4G89/j
- mtw7MxIg2cez5EIiP/HNDQ1gOFdg9tjkItJOyL0iL62K1xJsIJ0d4bsOn4DnBBL3qpSy0J
- BeKx0yriMTsd4oxU1ZjU8gf+e5h9c4s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1644002113;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FBKXWHR6b5nXvL/toHyOGRrAUAZgKlhQ/zYqXm6S3JI=;
- b=2ZyVrAeewZLEDTnIqq8g38nkNd1FDft+8jPqLtrXBCtjUlex56qVvAj837X3tBfTT9INll
- aJcf+rzywNMV9RDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8B5D713ADE;
- Fri,  4 Feb 2022 19:15:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yLNxIEF7/WE5BgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 04 Feb 2022 19:15:13 +0000
-Message-ID: <ebe6c396-efae-81a8-6c66-f5266ce4e20c@suse.de>
-Date: Fri, 4 Feb 2022 20:15:12 +0100
+ bh=1SmAWoGG3rpqZKZcFe80PxRS+gWlMoV37ErpIWQkO2c=;
+ b=bufMsc/ncUMEyC8g2/MZ1pqaWxe/G0zMgxGDuUU62LJG5Vuc3h9eYR/3lqlgbNVIbfU96A
+ UcxkNJ/BplNV5NPEC6n9m+YGej8EIAMyfYo8gBIdNbBDmNOuS/u/ZI9XuTqPXTolvpRmIO
+ 962YOhZ20GtdqNBnBOLQwnaJX3cUXJU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-318-ufhsd1SYNmyg6H4s1ZEOyA-1; Fri, 04 Feb 2022 14:19:15 -0500
+X-MC-Unique: ufhsd1SYNmyg6H4s1ZEOyA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ t14-20020adfa2ce000000b001e1ad2deb3dso2423637wra.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 11:19:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1SmAWoGG3rpqZKZcFe80PxRS+gWlMoV37ErpIWQkO2c=;
+ b=S9EjZYUE2vauDjcMUU5c7CoSWgbjKYrnDSza+HGfH9HyapUCPbpuOpTDBT91sxY74W
+ XLof3h80CEpoblIknTug3JlRIR0DsgnPTqZOzuQ2XRnmeBjyoioUcyUXw+lGexbLWD++
+ zoUj5Qg+KmjTVsKsH9He6pqXlw/2YQ0IMF357Fq63KvQCuHAobLAQ8x1Anv1QGZ8CPel
+ A48qBbAMffGMaBqk1NGJ47Lm9rrABimOZNxv85FGuwI3Olg12G3iyo5qwHMNREqNzI37
+ IKe0+++W4WCXsaXyDGlmehmBCahvxYBxQ5cquO6O4h1Vpu6DOPWwo6MEDzVeT5ejgio2
+ W9Dg==
+X-Gm-Message-State: AOAM531Y3Ik2/b3CMGaY1GPy4r7GHK4YtrGFHazo8Il6sydRdaSDptTX
+ 26gIglyaZKLlhqOMjbveeG0mtOkIHSbxO/3hVKubnWK1mqlgQPUF90c/85wN4G/hNfrip2PZ7mk
+ cOTuCsO/77ZgiY/3W6MphSVdy98jw
+X-Received: by 2002:a5d:47ae:: with SMTP id 14mr285300wrb.579.1644002354019;
+ Fri, 04 Feb 2022 11:19:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzPVEChhH2BIVt4abopCyjtBiEW3BtBxNXFj39pjkOolzuEHz/zA5giC+MmJkCFq0OZIBFvhA==
+X-Received: by 2002:a5d:47ae:: with SMTP id 14mr285277wrb.579.1644002353738;
+ Fri, 04 Feb 2022 11:19:13 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id o8sm2089562wmc.46.2022.02.04.11.19.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Feb 2022 11:19:13 -0800 (PST)
+Message-ID: <d4e8c16c-5586-3233-0b99-be15a4c0f7aa@redhat.com>
+Date: Fri, 4 Feb 2022 20:19:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 04/19] drm/i915/gt: Add helper for shmem copy to iosys_map
+Subject: Re: [PATCH v2 2/4] drm/tiny: Add driver for Solomon SSD130X OLED
+ displays
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20220204134347.1187749-1-javierm@redhat.com>
+ <20220204134347.1187749-3-javierm@redhat.com>
+ <Yf03sCSuQwHKvgA9@smile.fi.intel.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <Yf03sCSuQwHKvgA9@smile.fi.intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220204174436.830121-1-lucas.demarchi@intel.com>
- <20220204174436.830121-5-lucas.demarchi@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220204174436.830121-5-lucas.demarchi@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------rGniNOzacUQ0MHqNwoJIDw0N"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,146 +87,325 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- John Harrison <John.C.Harrison@Intel.com>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------rGniNOzacUQ0MHqNwoJIDw0N
-Content-Type: multipart/mixed; boundary="------------gQpv65UBWYKbWr9aCT0LHwKm";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: John Harrison <John.C.Harrison@Intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Matthew Auld <matthew.auld@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <ebe6c396-efae-81a8-6c66-f5266ce4e20c@suse.de>
-Subject: Re: [PATCH 04/19] drm/i915/gt: Add helper for shmem copy to iosys_map
-References: <20220204174436.830121-1-lucas.demarchi@intel.com>
- <20220204174436.830121-5-lucas.demarchi@intel.com>
-In-Reply-To: <20220204174436.830121-5-lucas.demarchi@intel.com>
+Hello Andy,
 
---------------gQpv65UBWYKbWr9aCT0LHwKm
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thanks for your feedback.
 
-SGkNCg0KQW0gMDQuMDIuMjIgdW0gMTg6NDQgc2NocmllYiBMdWNhcyBEZSBNYXJjaGk6DQo+
-IEFkZCBhIHZhcmlhbnQgb2Ygc2htZW1fcmVhZCgpIHRoYXQgdGFrZXMgYSBpb3N5c19tYXAg
-cG9pbnRlciByYXRoZXINCj4gdGhhbiBhIHBsYWluIHBvaW50ZXIgYXMgYXJndW1lbnQuIEl0
-J3MgbW9zdGx5IGEgY29weSBfX3NobWVtX3J3KCkgYnV0DQo+IGFkYXB0aW5nIHRoZSBhcGkg
-YW5kIHJlbW92aW5nIHRoZSB3cml0ZSBzdXBwb3J0IHNpbmNlIHRoZXJlJ3MgY3VycmVudGx5
-DQo+IG9ubHkgbmVlZCB0byB1c2UgaW9zeXNfbWFwIGFzIGRlc3RpbmF0aW9uLg0KPiANCj4g
-UmV3b3JraW5nIF9fc2htZW1fcncoKSB0byBzaGFyZSB0aGUgaW1wbGVtZW50YXRpb24gd2Fz
-IHRlbXB0aW5nLCBidXQNCj4gZmluZGluZyBhIGdvb2QgYmFsYW5jZSBiZXR3ZWVuIHJldXNl
-IGFuZCBjbGFyaXR5IHB1c2hlZCB0b3dhcmRzIGEgbGl0dGxlDQo+IGNvZGUgZHVwbGljYXRp
-b24uIFNpbmNlIHRoZSBmdW5jdGlvbiBpcyBzbWFsbCwganVzdCBhZGQgdGhlIHNpbWlsYXIN
-Cj4gZnVuY3Rpb24gd2l0aCBhIGNvcHkvcGFzdGUvYWRhcHQgYXBwcm9hY2guDQo+IA0KPiBD
-YzogTWF0dCBSb3BlciA8bWF0dGhldy5kLnJvcGVyQGludGVsLmNvbT4NCj4gQ2M6IEpvb25h
-cyBMYWh0aW5lbiA8am9vbmFzLmxhaHRpbmVuQGxpbnV4LmludGVsLmNvbT4NCj4gQ2M6IFR2
-cnRrbyBVcnN1bGluIDx0dnJ0a28udXJzdWxpbkBsaW51eC5pbnRlbC5jb20+DQo+IENjOiBE
-YXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+DQo+IENjOiBEYW5pZWwgVmV0dGVyIDxk
-YW5pZWxAZmZ3bGwuY2g+DQo+IENjOiBNYXR0aGV3IEF1bGQgPG1hdHRoZXcuYXVsZEBpbnRl
-bC5jb20+DQo+IENjOiBUaG9tYXMgSGVsbHN0csO2bSA8dGhvbWFzLmhlbGxzdHJvbUBsaW51
-eC5pbnRlbC5jb20+DQo+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9y
-c3RAbGludXguaW50ZWwuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBMdWNhcyBEZSBNYXJjaGkg
-PGx1Y2FzLmRlbWFyY2hpQGludGVsLmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L2k5MTUvZ3Qvc2htZW1fdXRpbHMuYyB8IDMzICsrKysrKysrKysrKysrKysrKysrKysrKysr
-Kw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L3NobWVtX3V0aWxzLmggfCAgMyArKysN
-Cj4gICAyIGZpbGVzIGNoYW5nZWQsIDM2IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9zaG1lbV91dGlscy5jIGIvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZ3Qvc2htZW1fdXRpbHMuYw0KPiBpbmRleCAwNjgzYjI3YTM4OTAuLjc2
-NGFkZWZkYjRiZSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Qvc2ht
-ZW1fdXRpbHMuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9zaG1lbV91dGls
-cy5jDQo+IEBAIC0zLDYgKzMsNyBAQA0KPiAgICAqIENvcHlyaWdodCDCqSAyMDIwIEludGVs
-IENvcnBvcmF0aW9uDQo+ICAgICovDQo+ICAgDQo+ICsjaW5jbHVkZSA8bGludXgvaW9zeXMt
-bWFwLmg+DQo+ICAgI2luY2x1ZGUgPGxpbnV4L21tLmg+DQo+ICAgI2luY2x1ZGUgPGxpbnV4
-L3BhZ2VtYXAuaD4NCj4gICAjaW5jbHVkZSA8bGludXgvc2htZW1fZnMuaD4NCj4gQEAgLTEy
-Myw2ICsxMjQsMzggQEAgc3RhdGljIGludCBfX3NobWVtX3J3KHN0cnVjdCBmaWxlICpmaWxl
-LCBsb2ZmX3Qgb2ZmLA0KPiAgIAlyZXR1cm4gMDsNCj4gICB9DQo+ICAgDQoNCkhlcmUncyBh
-IGdvb2QgZXhhbXBsZSBvZiBob3cgdG8gYXZvaWQgaW9zeXNfbWFwX2luY3IoKSBhbmQgdXNl
-IHRoZSANCm1lbWNweSBvZmZzZXQ6DQoNCj4gK2ludCBzaG1lbV9yZWFkX3RvX2lvc3lzX21h
-cChzdHJ1Y3QgZmlsZSAqZmlsZSwgbG9mZl90IG9mZiwNCj4gKwkJCSAgICBzdHJ1Y3QgaW9z
-eXNfbWFwICptYXAsIHNpemVfdCBsZW4pDQo+ICt7DQo+ICsJc3RydWN0IGlvc3lzX21hcCBt
-YXBfaXRlciA9ICptYXA7DQoNClJhdGhlciByZXBsYWNlIG1hcF9pdGVyIHdpdGggc29tZXRo
-aW5nIGxpa2UNCg0KICAgdW5zaWduZWQgbG9uZyBtYXBfb2ZmID0gMDsNCg0KPiArCXVuc2ln
-bmVkIGxvbmcgcGZuOw0KPiArDQo+ICsJZm9yIChwZm4gPSBvZmYgPj4gUEFHRV9TSElGVDsg
-bGVuOyBwZm4rKykgew0KPiArCQl1bnNpZ25lZCBpbnQgdGhpcyA9DQo+ICsJCQltaW5fdChz
-aXplX3QsIFBBR0VfU0laRSAtIG9mZnNldF9pbl9wYWdlKG9mZiksIGxlbik7DQo+ICsJCXN0
-cnVjdCBwYWdlICpwYWdlOw0KPiArCQl2b2lkICp2YWRkcjsNCj4gKw0KPiArCQlwYWdlID0g
-c2htZW1fcmVhZF9tYXBwaW5nX3BhZ2VfZ2ZwKGZpbGUtPmZfbWFwcGluZywgcGZuLA0KPiAr
-CQkJCQkJICAgR0ZQX0tFUk5FTCk7DQo+ICsJCWlmIChJU19FUlIocGFnZSkpDQo+ICsJCQly
-ZXR1cm4gUFRSX0VSUihwYWdlKTsNCj4gKw0KPiArCQl2YWRkciA9IGttYXAocGFnZSk7DQo+
-ICsJCWlvc3lzX21hcF9tZW1jcHlfdG8oJm1hcF9pdGVyLCAwLCB2YWRkciArIG9mZnNldF9p
-bl9wYWdlKG9mZiksDQo+ICsJCQkJICAgIHRoaXMpOw0KDQpVc2UgbWFwX29mZiB0byBpbmRl
-eCBpbnRvIG1hcCBkaXJlY3RseS4NCg0KPiArCQltYXJrX3BhZ2VfYWNjZXNzZWQocGFnZSk7
-DQo+ICsJCWt1bm1hcChwYWdlKTsNCj4gKwkJcHV0X3BhZ2UocGFnZSk7DQo+ICsNCj4gKwkJ
-bGVuIC09IHRoaXM7DQo+ICsJCWlvc3lzX21hcF9pbmNyKCZtYXBfaXRlciwgdGhpcyk7DQoN
-ClJhcGxhY2UgaW9zeXNfbWFwX2luY3IoKSB3aXRoIG1hcF9vZmYgKz0gdGhpczsNCg0KPiAr
-CQlvZmYgPSAwOw0KDQpNYXliZSBvZmYgKz0gdGhpcyA/DQoNCkkgdGhpbmsgdGhpcyBwYXR0
-ZXJuIHNob3VsZCBiZSBhcHBsaWVkIHRvIGFsbCBzaW1pbGFyIGNvZGUuIEFzIHlvdSANCmFs
-cmVhZHkgbm90ZWQsIGlvc3lzX21hcF9pbmNyKCkgaXMgcHJvYmxlbWF0aWMuDQoNCkJlc3Qg
-cmVnYXJkcw0KVGhvbWFzDQoNCj4gKwl9DQo+ICsNCj4gKwlyZXR1cm4gMDsNCj4gK30NCj4g
-Kw0KPiAgIGludCBzaG1lbV9yZWFkKHN0cnVjdCBmaWxlICpmaWxlLCBsb2ZmX3Qgb2ZmLCB2
-b2lkICpkc3QsIHNpemVfdCBsZW4pDQo+ICAgew0KPiAgIAlyZXR1cm4gX19zaG1lbV9ydyhm
-aWxlLCBvZmYsIGRzdCwgbGVuLCBmYWxzZSk7DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vaTkxNS9ndC9zaG1lbV91dGlscy5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Qv
-c2htZW1fdXRpbHMuaA0KPiBpbmRleCBjMTY2OTE3MGMzNTEuLmUxNzg0OTk5ZmFlZSAxMDA2
-NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Qvc2htZW1fdXRpbHMuaA0KPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9zaG1lbV91dGlscy5oDQo+IEBAIC04LDYg
-KzgsNyBAQA0KPiAgIA0KPiAgICNpbmNsdWRlIDxsaW51eC90eXBlcy5oPg0KPiAgIA0KPiAr
-c3RydWN0IGlvc3lzX21hcDsNCj4gICBzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdDsNCj4g
-ICBzdHJ1Y3QgZmlsZTsNCj4gICANCj4gQEAgLTE3LDYgKzE4LDggQEAgc3RydWN0IGZpbGUg
-KnNobWVtX2NyZWF0ZV9mcm9tX29iamVjdChzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAq
-b2JqKTsNCj4gICB2b2lkICpzaG1lbV9waW5fbWFwKHN0cnVjdCBmaWxlICpmaWxlKTsNCj4g
-ICB2b2lkIHNobWVtX3VucGluX21hcChzdHJ1Y3QgZmlsZSAqZmlsZSwgdm9pZCAqcHRyKTsN
-Cj4gICANCj4gK2ludCBzaG1lbV9yZWFkX3RvX2lvc3lzX21hcChzdHJ1Y3QgZmlsZSAqZmls
-ZSwgbG9mZl90IG9mZiwNCj4gKwkJCSAgICBzdHJ1Y3QgaW9zeXNfbWFwICptYXAsIHNpemVf
-dCBsZW4pOw0KPiAgIGludCBzaG1lbV9yZWFkKHN0cnVjdCBmaWxlICpmaWxlLCBsb2ZmX3Qg
-b2ZmLCB2b2lkICpkc3QsIHNpemVfdCBsZW4pOw0KPiAgIGludCBzaG1lbV93cml0ZShzdHJ1
-Y3QgZmlsZSAqZmlsZSwgbG9mZl90IG9mZiwgdm9pZCAqc3JjLCBzaXplX3QgbGVuKTsNCj4g
-ICANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Bl
-cg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1
-LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykN
-Ckdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+On 2/4/22 15:26, Andy Shevchenko wrote:
+> On Fri, Feb 04, 2022 at 02:43:45PM +0100, Javier Martinez Canillas wrote:
+>> Add a DRM driver for SSD1305, SSD1306, SSD1307 and SSD1309 Solomon OLED
+>> controllers that can be programmed via an I2C interface. This is a port
+>> of the ssd1307fb driver that already supports these devices.
+>>
+>> A Device Tree binding is not added because the DRM driver is compatible
+>> with the existing binding for the ssd1307fb driver.
+> 
+> ...
+> 
+>> +/*
+>> + * DRM driver for Solomon SSD130X OLED displays
+>> + *
+>> + * Copyright 2022 Red Hat Inc.
+>> + *
+>> + * Based on drivers/video/fbdev/ssd1307fb.c
+>> + * Copyright 2012 Free Electrons
+> 
+>> + *
+> 
+> No need for this blank line.
+>
 
---------------gQpv65UBWYKbWr9aCT0LHwKm--
+Ok.
+ 
+>> + */
+> 
+> ...
+> 
+>> +struct ssd130x_device {
+>> +	struct drm_device drm;
+>> +	struct drm_simple_display_pipe pipe;
+>> +	struct drm_display_mode mode;
+>> +	struct drm_connector connector;
+> 
+> 
+>> +	struct i2c_client *client;
+> 
+> Can we logically separate hw protocol vs hw interface from day 1, please?
+> This will allow to add SPI support for this panel much easier.
+> 
+> Technically I would like to see here
+> 
+> 	struct device *dev;
+>
+> and probably (I haven't looked into design)
+> 
+> 	struct ssd130x_ops *ops;
+> 
+> or something alike.
+>
 
---------------rGniNOzacUQ0MHqNwoJIDw0N
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Sure. I wanted to keep the driver simple, making the writes bus agnostic and
+adding a level of indirection would make it more complex. But I agree that
+it will also make easier to add more buses later. I will do that for v3.
 
------BEGIN PGP SIGNATURE-----
+[snip]
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmH9e0AFAwAAAAAACgkQlh/E3EQov+Cf
-5hAAnQm011yKWcHTrFiWS6HNoMdpDRlFZAR3o1t4k5eOAK1Y41st+9k0cLI+1Mbf2/6whQqKHmoZ
-4Q5aj+nDXkHkNflqms87O9jNiu/J953NximLGdOEsyeZG/zfFxNtlXxM+gmxVs1vEw/U9+sYK86v
-FV7LKmCRawPOMHs4y4kFqJ/DEK71zYMMDqRzyHX0LOJ8tPjS7sTTu0huF3JDD9ZjBxlySe2Sh8Oe
-dqF+JZ1WcjsIuULLtn/bOGnkcl/HoK77S6ZutdLQNch+SoRvvUGoDdUQ+4XUC8bI0kMnXCVrlW1M
-eEPYcKMIbigknBjs0HM19j5wXB2Cy8nKeVxqtmxyUevvTF9h0eIAS5oY6L9WX5AKrFGrrIndGUgN
-aFJ2REBHTNIkfutlpL0eqCwPjTtKIUdhXRJOORhnucTHZ+3LDHZHCTpFx6jGO+pGrXCaaH9LbOwo
-NG7TmMlFIgRj2GljsMMAs9n3gPorjG4rmP3GKZTukCIpcKmaVDo1nux5IVvON2n54cNG8Tb3EV64
-t41NkaK5KrUtwiCAYUlxg9S5mAKn1jgUaujXb/HbFKgEn3gF8PNKOKqmuWR27j45wEUXxcDyn+fD
-4UTd/FTJr/PhpkwD2acl2+7qEthZqtkOX1rtlPd57hsYPCmsK8gnocNRC3NcYR4ihbKVWiHFNoqH
-pMI=
-=vY0j
------END PGP SIGNATURE-----
+> 
+>> +static inline int ssd130x_write_value(struct i2c_client *client, u8 value)
+> 
+> Not sure inline does anything useful here.
+> Ditto for the rest similar cases.
+>
 
---------------rGniNOzacUQ0MHqNwoJIDw0N--
+Ok, I'll drop them.
+ 
+> ...
+> 
+>> +static inline int ssd130x_write_cmd(struct i2c_client *client, int count,
+>> +				    /* u8 cmd, u8 value, ... */...)
+>> +{
+>> +	va_list ap;
+>> +	u8 value;
+>> +	int ret;
+>> +
+>> +	va_start(ap, count);
+> 
+>> +	while (count--) {
+>> +		value = va_arg(ap, int);
+>> +		ret = ssd130x_write_value(client, (u8)value);
+>> +		if (ret)
+>> +			goto out_end;
+>> +	}
+> 
+> I'm wondering if this can be written in a form
+> 
+> 	do {
+> 		...
+> 	} while (--count);
+> 
+> In this case it will give a hint that count can't be 0.
+>
+
+Sure, I don't have a strong preference. I will change it.
+
+[snip]
+ 
+>> +	ssd130x->pwm = pwm_get(dev, NULL);
+>> +	if (IS_ERR(ssd130x->pwm)) {
+>> +		dev_err(dev, "Could not get PWM from device tree!\n");
+> 
+> "device tree" is a bit confusing here if I run this on ACPI.
+> Maybe something like "firmware description"?
+>
+
+Indeed.
+ 
+>> +		return PTR_ERR(ssd130x->pwm);
+>> +	}
+> 
+> ...
+> 
+>> +	/* Set initial contrast */
+>> +	ret = ssd130x_write_cmd(ssd130x->client, 2, SSD130X_CONTRAST, ssd130x->contrast);
+> 
+> Creating a local variable for client allows to:
+> - make lines shorter and might even be less LOCs
+> - allow to convert struct device to client in one place
+>   (as per my above comment)
+> 
+> Ditto for other similar cases.
+>
+
+Ok.
+ 
+[snip]
+
+>> +	/* Switch to horizontal addressing mode */
+>> +	ret = ssd130x_write_cmd(ssd130x->client, 2, SSD130X_SET_ADDRESS_MODE,
+>> +				SSD130X_SET_ADDRESS_MODE_HORIZONTAL);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	return 0;
+> 
+> Can it be
+> 
+> 	return ssd130x_write_cmd(...);
+> 
+> ?
+> 
+> ...
+>
+
+Yes.
+
+>> +	unsigned int line_length = DIV_ROUND_UP(width, 8);
+>> +	unsigned int pages = DIV_ROUND_UP(height, 8);
+> 
+> For power of two there are more efficient roundup()/rounddown()
+> (or with _ in the names, I don't remember by heart).
+>
+
+Oh, I didn't know about round_{up,down}(). Thanks a lot for the pointer.
+
+> ...
+> 
+>> +			for (k = 0; k < m; k++) {
+> 
+>> +				u8 byte = buf[(8 * i + k) * line_length +
+>> +					       j / 8];
+> 
+> One line?
+>
+
+Yes.
+
+>> +				u8 bit = (byte >> (j % 8)) & 1;
+>> +
+>> +				data |= bit << k;
+>> +			}
+> 
+> ...
+> 
+>> +static int ssd130x_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
+>> +					   const struct drm_display_mode *mode)
+>> +{
+>> +	struct ssd130x_device *ssd130x = drm_to_ssd130x(pipe->crtc.dev);
+>> +
+>> +	if (mode->hdisplay != ssd130x->mode.hdisplay &&
+>> +	    mode->vdisplay != ssd130x->mode.vdisplay)
+>> +		return MODE_ONE_SIZE;
+> 
+>> +	else if (mode->hdisplay != ssd130x->mode.hdisplay)
+>> +		return MODE_ONE_WIDTH;
+>> +	else if (mode->vdisplay != ssd130x->mode.vdisplay)
+>> +		return MODE_ONE_HEIGHT;
+> 
+> 'else' in both cases is redundant.
+>
+
+Indeed.
+ 
+>> +	return MODE_OK;
+>> +}
+> 
+> ...
+> 
+>> +poweroff:
+> 
+> out_power_off: ?
+>
+
+Ok.
+ 
+> ...
+> 
+>> +	if (!fb)
+>> +		return;
+> 
+> Can it happen?
+>
+
+I don't know, but saw that the handler of other drivers checked for this so
+preferred to play safe and do the same.
+ 
+> ...
+> 
+>> +	drm_mode_probed_add(connector, mode);
+>> +	drm_set_preferred_mode(connector, mode->hdisplay, mode->vdisplay);
+>> +
+>> +	return 1;
+> 
+> Positive code, what is the meaning of it?
+>
+
+It's the number of connector modes. The driver only supports 1.
+ 
+> ...
+> 
+>> +	if (device_property_read_u32(dev, "solomon,prechargep2", &ssd130x->prechargep2))
+>> +		ssd130x->prechargep2 = 2;
+> 
+> You can drop conditionals for the optional properties
+>
+
+
+ 
+> 	ssd130x->prechargep2 = 2;
+> 	device_property_read_u32(dev, "solomon,prechargep2", &ssd130x->prechargep2);
+> 
+> and so on for the similar.
+>
+
+Ok.
+ 
+> ...
+> 
+>> +	ssd130x->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+>> +	if (IS_ERR(ssd130x->reset)) {
+> 
+>> +		ret = PTR_ERR(ssd130x->reset);
+>> +		dev_err(dev, "Failed to get reset gpio: %d\n", ret);
+>> +		return ret;
+> 
+> Why not
+> 
+> 	return dev_err_probe()?
+> 
+> Each time you call it for deferred probe, it will spam logs.
+>
+
+Right. I'll change in all the places you pointed out.
+
+[snip] 
+
+> ...
+> 
+>> +	{},
+> 
+> Comma is not needed in terminator entry.
+>
+
+Right.
+ 
+> ...
+> 
+>> +static struct i2c_driver ssd130x_i2c_driver = {
+>> +	.driver = {
+>> +		.name = DRIVER_NAME,
+>> +		.of_match_table = ssd130x_of_match,
+>> +	},
+>> +	.probe_new = ssd130x_probe,
+>> +	.remove = ssd130x_remove,
+>> +	.shutdown = ssd130x_shutdown,
+>> +};
+> 
+>> +
+> 
+> Redundant blank line.
+>
+
+Ok.
+ 
+>> +module_i2c_driver(ssd130x_i2c_driver);
+> 
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
