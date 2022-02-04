@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2B24A9E16
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 18:45:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6C04A9E0B
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 18:45:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 602F910EF00;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B05C510EF03;
 	Fri,  4 Feb 2022 17:45:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D91510EEE2;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4976710EEE4;
  Fri,  4 Feb 2022 17:45:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1643996711; x=1675532711;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Y0ZMA6Um/DZ0QWAuNUEolwjktxzib+VsXrZoC0GFM6k=;
- b=JDY7aqc7qwkbhhoHOYyPsVxthzdrDfg4D91S6wbCInKK7mAF2YpCUjfK
- 2sjLym7ZWbfGyZpGopzgkdR3dEssqoYF7TaYbucZv+GpQJH/FicRK0jat
- s8QieR49KcBz8LH07q4pap6eH3D9ikoa3CgzH72NWm//bTtuVpJBjtQce
- 2iPRhFZO37S+1CqmHGOzM6/7ONO73yNu5YZJcJPSY8D0IV4GZT8uf98hw
- DhGnX3TEJ+J00u2qlAQ8xkOftRNIpVthBXVO+fhRWXv9Wus5Bz23YFlip
- nkHMR8Y2Q0XYrbUk6qNCZaC0RPwFDywh/I/DYCwOg3mfBn6U43r2AGjq/ w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10248"; a="247242181"
-X-IronPort-AV: E=Sophos;i="5.88,343,1635231600"; d="scan'208";a="247242181"
+ bh=EeK5zQnMqXIr0fQkGn4sBtqhR4vuLZogu26UMjYqYJI=;
+ b=Y2oHx29O4H2MRUQvzZsaf+01l3nzSQjswfhHIJpZO4cw7vAwlO7VP74a
+ CTKdetibrZDRfzTxnRJ7SHYAdesZN1b/dfXdt+OL25roToExQaKFxP5uP
+ i0y5fRxDaNte6F3z21Cp8GOZg3tZnAgDEz1ND2mv4uhB+jXpgSi+3RxdB
+ MlExfftZlAJ+T36RygPX3KYTn/7b0o7/2k4epNJ1Lid4q+cRNAnWvvZ2G
+ BlPJyJaph6kohyDqGyG6FEqq0c1qvIMWaE2x0rgPuFsu5COYjPk6VPw1X
+ bh42Hn979ctBFbLZMJOsf36+vdbqIm2dSSpNgTf8ht1vko4R8vXqfFIJZ w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10248"; a="247242183"
+X-IronPort-AV: E=Sophos;i="5.88,343,1635231600"; d="scan'208";a="247242183"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Feb 2022 09:45:10 -0800
-X-IronPort-AV: E=Sophos;i="5.88,343,1635231600"; d="scan'208";a="539240820"
+X-IronPort-AV: E=Sophos;i="5.88,343,1635231600"; d="scan'208";a="539240823"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Feb 2022 09:45:09 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/19] drm/i915/guc: Replace check for golden context size
-Date: Fri,  4 Feb 2022 09:44:29 -0800
-Message-Id: <20220204174436.830121-13-lucas.demarchi@intel.com>
+Subject: [PATCH 13/19] drm/i915/guc: Convert mapping table to iosys_map
+Date: Fri,  4 Feb 2022 09:44:30 -0800
+Message-Id: <20220204174436.830121-14-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220204174436.830121-1-lucas.demarchi@intel.com>
 References: <20220204174436.830121-1-lucas.demarchi@intel.com>
@@ -67,14 +67,9 @@ Cc: Matthew Brost <matthew.brost@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the other places in this function, guc->ads_map is being protected
-from access when it's not yet set. However the last check is actually
-about guc->ads_golden_ctxt_size been set before.  These checks should
-always match as the size is initialized on the first call to
-guc_prep_golden_context(), but it's clearer if we have a single return
-and check for guc->ads_golden_ctxt_size.
-
-This is just a readability improvement, no change in behavior.
+Use iosys_map to write the fields system_info.mapping_table[][].
+Since we already have the info_map around where needed, just use it
+instead of going through guc->ads_map.
 
 Cc: Matt Roper <matthew.d.roper@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
@@ -84,26 +79,49 @@ Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index 80fbab831536..098a4756e8c5 100644
+index 098a4756e8c5..9e96a44a6bbc 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -461,10 +461,10 @@ static int guc_prep_golden_context(struct intel_guc *guc)
- 		addr_ggtt += alloc_size;
- 	}
- 
--	if (iosys_map_is_null(&guc->ads_map))
--		return total_size;
-+	/* Make sure current size matches what we calculated previously */
-+	if (guc->ads_golden_ctxt_size)
-+		GEM_BUG_ON(guc->ads_golden_ctxt_size != total_size);
- 
--	GEM_BUG_ON(guc->ads_golden_ctxt_size != total_size);
- 	return total_size;
+@@ -204,7 +204,7 @@ int intel_guc_global_policies_update(struct intel_guc *guc)
  }
+ 
+ static void guc_mapping_table_init(struct intel_gt *gt,
+-				   struct guc_gt_system_info *system_info)
++				   struct iosys_map *info_map)
+ {
+ 	unsigned int i, j;
+ 	struct intel_engine_cs *engine;
+@@ -213,14 +213,14 @@ static void guc_mapping_table_init(struct intel_gt *gt,
+ 	/* Table must be set to invalid values for entries not used */
+ 	for (i = 0; i < GUC_MAX_ENGINE_CLASSES; ++i)
+ 		for (j = 0; j < GUC_MAX_INSTANCES_PER_CLASS; ++j)
+-			system_info->mapping_table[i][j] =
+-				GUC_MAX_INSTANCES_PER_CLASS;
++			info_map_write(info_map, mapping_table[i][j],
++				       GUC_MAX_INSTANCES_PER_CLASS);
+ 
+ 	for_each_engine(engine, gt, id) {
+ 		u8 guc_class = engine_class_to_guc_class(engine->class);
+ 
+-		system_info->mapping_table[guc_class][ilog2(engine->logical_mask)] =
+-			engine->instance;
++		info_map_write(info_map, mapping_table[guc_class][ilog2(engine->logical_mask)],
++			       engine->instance);
+ 	}
+ }
+ 
+@@ -595,7 +595,7 @@ static void __guc_ads_init(struct intel_guc *guc)
+ 	/* Golden contexts for re-initialising after a watchdog reset */
+ 	guc_prep_golden_context(guc);
+ 
+-	guc_mapping_table_init(guc_to_gt(guc), &blob->system_info);
++	guc_mapping_table_init(guc_to_gt(guc), &info_map);
+ 
+ 	base = intel_guc_ggtt_offset(guc, guc->ads_vma);
  
 -- 
 2.35.1
