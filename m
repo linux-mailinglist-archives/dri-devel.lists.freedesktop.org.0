@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CB94AA3A5
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 23:56:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C50C4AA432
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 00:20:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4EE110E120;
-	Fri,  4 Feb 2022 22:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4B3F10E1E9;
+	Fri,  4 Feb 2022 23:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E596910E55A
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 22:56:24 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id n8so15408201lfq.4
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 14:56:24 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F29F10E1E9
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 23:20:02 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id o12so15391628lfg.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 15:20:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=uJ2SfWJIKrClPsrMsUs9Ki+s62j3lbso96BhZUkKimY=;
- b=muioGVXuO2x4pm5jtybcWgkHT7DAXtdotk/bDOfEt8UV3BZ7GU9aCErijw3Ab4MDgw
- m90ypHVCyACUhKj7pfz+oSvtBRjHcv2GB1tMDsmu8tdehNvYB13nzVNoXeYAUGM5/A4C
- NfeEaJv0dB/ccBCHHiHV49zcVdh5oN/G+VZTyzRfubbh52+UyfT6Q5ISN6NAu/Melm2y
- kEmFmyA5vbzOevUCxJpc/gm7FhhK2UfHx/ZJD+9qHFRFGDcDySrZ895olXUXYhgQTnRF
- +8Ts5frCrJljQ41n/BeIPYkmLMy/iW7Eo/hcv9LlaonHCNwGZqcbQxH2WGaadl0qXWc1
- VXPQ==
+ bh=flwlMJ27njHOjeqRZQ4InBC38IOglsfPAMQaLfNrS4s=;
+ b=acaiLidFe5FLNuvOWRutaUD1GuHCGFYZT99qhMDgq+wekNUCiqkV55G7NDvg23MC2W
+ 0mdTmOFDjeBLt4uao2VjInHBnSuqrnCkUeG5N1YRFlkVhx2BR3k7YHeV6es8GJf1fTV7
+ q+FarM6vM+nkQrvbQFhztZVm5K9Nwi9Hh7WQC5z2vHjd/TQmnx2jKk31dYP5bNjpuN0w
+ DqWl0g7ZCtgvRCdLNu78VGkcj9BFBMGTllzjvoFk7CLr7raOwYcWFBPKiylndTNDpPiS
+ V3JKFZMMYi5II1SelYSPE1Tj5tuDWIOAcfej/SNoY7mkhdGzxdW8ImQ77DWga/L0ossH
+ +5rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=uJ2SfWJIKrClPsrMsUs9Ki+s62j3lbso96BhZUkKimY=;
- b=qaoxyi+gtIPzdsEspJ3qkyXycWBKhMEGk3aESbAlLXkPaCdf+0hcXDIpTeDqpr5naw
- 03XqCHW97D7A2QC+mQSK6S4cfE3y/foV6MckEqh259QV0GnsothJkwq9SdpQAe1XFW/p
- tsouBzuRuCO+dmfBACtoEle36Nbel/EAOX2fF0IXIHNWaPUlypbVYYV4WesxxcXs8sDr
- L9vyxfP99vRLLhisM0kseasqpuC4LZbfeNgRK+HOsAb9E88h2ZtyS05H00BBWmWouYU2
- YVjk/ydcYcZ0Cheq3HElh/yRVKZFDrFUrGyIqmLe5X/RAjBqjKQcb7kXzC8UPvMv4L1b
- pw3w==
-X-Gm-Message-State: AOAM533H0+3JmsiKN58xxxgIwJh65MusG0kpwj5QgP34zNUdiEgFKL02
- R3/AWj6ia0uHnWSiyi0AD6OKMw==
-X-Google-Smtp-Source: ABdhPJzIkA5FlUCnbdJ84WI3vQr5S2hI6afKkoswlkpocCsj2GfGs5QMoCFi5DN815Bb6gF0q96SnQ==
-X-Received: by 2002:ac2:5dc3:: with SMTP id x3mr797889lfq.73.1644015383179;
- Fri, 04 Feb 2022 14:56:23 -0800 (PST)
+ bh=flwlMJ27njHOjeqRZQ4InBC38IOglsfPAMQaLfNrS4s=;
+ b=A8XGEJOIfgCSzzIyznYdPwyx/cXN1fGQklEzuHxqe/gZm3qTyWYTGn102BEaRvH2/w
+ IpHGAVv34SN23iaj+Gz3dKQQSrbLoeKuFNY4oCajGX9Dv8lrrVA3pqnBzgS2pcdchugy
+ uJ6DrjwMlCAHumFLxIeOdpEG9+UFNgQSmaX7sM8ePun/FyjilkoJp0JPmqUlaYs5JmBV
+ s/I0GYUTyDkMSMercH0Y8S34t6mrpSYLRXxq3YdJk6aZdxaK2WX+6qiLi87OUwEtrmLN
+ MdPu/+hCehithxZcZzeI56Yri4hgyuYlHj19zEQB4QkX2Ci5eFSk/eCyfIBr9Lx2UvE5
+ i2OA==
+X-Gm-Message-State: AOAM533OpV9wJZiPv6SSsUauXXeY7cnnhcqcuWV97lhYbEK5NiWunp2r
+ XjJS86dieLdxlcZaiRvMZDewxA==
+X-Google-Smtp-Source: ABdhPJx+NFi0jMKMqB6lPTd77lhkyK9RivsH3eyYBnNOlb+RxW17HVG9BCEuzFclovL+qHIjxuZi1A==
+X-Received: by 2002:a05:6512:517:: with SMTP id
+ o23mr920761lfb.16.1644016800842; 
+ Fri, 04 Feb 2022 15:20:00 -0800 (PST)
 Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id f13sm487309lfg.69.2022.02.04.14.56.22
+ by smtp.gmail.com with ESMTPSA id u14sm492026lfo.58.2022.02.04.15.19.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Feb 2022 14:56:22 -0800 (PST)
-Message-ID: <0351391d-e9ad-cd4f-cf64-d76bdaed898d@linaro.org>
-Date: Sat, 5 Feb 2022 01:56:21 +0300
+ Fri, 04 Feb 2022 15:20:00 -0800 (PST)
+Message-ID: <47abeaa9-5bae-edfd-458b-bcb838f42858@linaro.org>
+Date: Sat, 5 Feb 2022 02:19:59 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 02/12] drm/msm/dpu: add dpu_hw_wb abstraction for
- writeback blocks
+Subject: Re: [PATCH 08/12] drm/msm/dpu: introduce the dpu_encoder_phys_* for
+ writeback
 Content-Language: en-GB
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org
 References: <1644009445-17320-1-git-send-email-quic_abhinavk@quicinc.com>
- <1644009445-17320-3-git-send-email-quic_abhinavk@quicinc.com>
+ <1644009445-17320-9-git-send-email-quic_abhinavk@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1644009445-17320-3-git-send-email-quic_abhinavk@quicinc.com>
+In-Reply-To: <1644009445-17320-9-git-send-email-quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,470 +81,956 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 05/02/2022 00:17, Abhinav Kumar wrote:
-> Add the dpu_hw_wb abstraction to program registers related to the
-> writeback block. These will be invoked once all the configuration
-> is set and ready to be programmed to the registers.
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Few minor comments bellow.
-
+> Introduce the dpu_encoder_phys_* for the writeback interface
+> to handle writeback specific hardware programming.
 > 
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+Mostly looks ok, see minor comments bellow.
+
 > ---
->   drivers/gpu/drm/msm/Makefile              |   1 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c | 267 ++++++++++++++++++++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h | 145 ++++++++++++++++
->   3 files changed, 413 insertions(+)
->   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
->   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+>   drivers/gpu/drm/msm/Makefile                       |   1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  36 +-
+>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    | 813 +++++++++++++++++++++
+>   3 files changed, 849 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
 > 
 > diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> index 03ab55c..c43ef35 100644
+> index c43ef35..3abaf84 100644
 > --- a/drivers/gpu/drm/msm/Makefile
 > +++ b/drivers/gpu/drm/msm/Makefile
-> @@ -66,6 +66,7 @@ msm-y := \
->   	disp/dpu1/dpu_hw_top.o \
->   	disp/dpu1/dpu_hw_util.o \
->   	disp/dpu1/dpu_hw_vbif.o \
-> +	disp/dpu1/dpu_hw_wb.o \
->   	disp/dpu1/dpu_io_util.o \
->   	disp/dpu1/dpu_kms.o \
->   	disp/dpu1/dpu_mdss.o \
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> @@ -53,6 +53,7 @@ msm-y := \
+>   	disp/dpu1/dpu_encoder.o \
+>   	disp/dpu1/dpu_encoder_phys_cmd.o \
+>   	disp/dpu1/dpu_encoder_phys_vid.o \
+> +	disp/dpu1/dpu_encoder_phys_wb.o \
+>   	disp/dpu1/dpu_formats.o \
+>   	disp/dpu1/dpu_hw_catalog.o \
+>   	disp/dpu1/dpu_hw_ctl.o \
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> index 7b3354d..80da0a9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> @@ -159,6 +159,7 @@ struct dpu_encoder_phys_ops {
+>    * @INTR_IDX_PINGPONG: Pingpong done unterrupt for cmd mode panel
+>    * @INTR_IDX_UNDERRUN: Underrun unterrupt for video and cmd mode panel
+>    * @INTR_IDX_RDPTR:    Readpointer done unterrupt for cmd mode panel
+> + * @INTR_IDX_WB_DONE:  Writeback fone interrupt for virtual connector
+>    */
+>   enum dpu_intr_idx {
+>   	INTR_IDX_VSYNC,
+> @@ -166,6 +167,7 @@ enum dpu_intr_idx {
+>   	INTR_IDX_UNDERRUN,
+>   	INTR_IDX_CTL_START,
+>   	INTR_IDX_RDPTR,
+> +	INTR_IDX_WB_DONE,
+>   	INTR_IDX_MAX,
+>   };
+>   
+> @@ -196,7 +198,7 @@ struct dpu_encoder_irq {
+>    * @hw_ctl:		Hardware interface to the ctl registers
+>    * @hw_pp:		Hardware interface to the ping pong registers
+>    * @hw_intf:		Hardware interface to the intf registers
+> - * @hw_wb:             Hardware interface to the wb registers
+> + * @hw_wb:		Hardware interface to the wb registers
+>    * @dpu_kms:		Pointer to the dpu_kms top level
+>    * @cached_mode:	DRM mode cached at mode_set time, acted on in enable
+>    * @enabled:		Whether the encoder has enabled and running a mode
+> @@ -250,6 +252,31 @@ static inline int dpu_encoder_phys_inc_pending(struct dpu_encoder_phys *phys)
+>   }
+>   
+>   /**
+> + * struct dpu_encoder_phys_wb - sub-class of dpu_encoder_phys to handle command
+> + *	mode specific operations
+> + * @base:	Baseclass physical encoder structure
+> + * @wbirq_refcount:     Reference count of writeback interrupt
+> + * @wb_done_timeout_cnt: number of wb done irq timeout errors
+> + * @wb_cfg:  writeback block config to store fb related details
+> + * @cdp_cfg: chroma down prefetch block config for wb
+> + * @aspace: address space to be used for wb framebuffer
+> + * @wb_conn: backpointer to writeback connector
+> + * @wb_job: backpointer to current writeback job
+> + * @dest:   dpu buffer layout for current writeback output buffer
+> + */
+> +struct dpu_encoder_phys_wb {
+> +	struct dpu_encoder_phys base;
+> +	atomic_t wbirq_refcount;
+> +	int wb_done_timeout_cnt;
+> +	struct dpu_hw_wb_cfg wb_cfg;
+> +	struct dpu_hw_wb_cdp_cfg cdp_cfg;
+
+What about moving them to the stack rather storing them in the structure?
+
+> +	struct msm_gem_address_space *aspace;
+> +	struct drm_writeback_connector *wb_conn;
+> +	struct drm_writeback_job *wb_job;
+> +	struct dpu_hw_fmt_layout dest;
+> +};
+> +
+> +/**
+>    * struct dpu_encoder_phys_cmd - sub-class of dpu_encoder_phys to handle command
+>    *	mode specific operations
+>    * @base:	Baseclass physical encoder structure
+> @@ -317,6 +344,13 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
+>   		struct dpu_enc_phys_init_params *p);
+>   
+>   /**
+> + * dpu_encoder_phys_wb_init - initialize writeback encoder
+> + * @init:	Pointer to init info structure with initialization params
+> + */
+> +struct dpu_encoder_phys *dpu_encoder_phys_wb_init(
+> +		struct dpu_enc_phys_init_params *p);
+> +
+> +/**
+>    * dpu_encoder_helper_trigger_start - control start helper function
+>    *	This helper function may be optionally specified by physical
+>    *	encoders if they require ctl_start triggering.
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
 > new file mode 100644
-> index 0000000..d395475
+> index 0000000..783f83e
 > --- /dev/null
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
-> @@ -0,0 +1,267 @@
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> @@ -0,0 +1,813 @@
 > +// SPDX-License-Identifier: GPL-2.0-only
-> + /*
-> +  * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved
-> +  */
+> +/*
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
 > +
-> +#include "dpu_hw_mdss.h"
-> +#include "dpu_hwio.h"
-> +#include "dpu_hw_catalog.h"
-> +#include "dpu_hw_wb.h"
+> +#define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
+> +
+> +#include <linux/debugfs.h>
+
+the header is unused
+
+> +
+> +#include "dpu_encoder_phys.h"
 > +#include "dpu_formats.h"
-> +#include "dpu_kms.h"
+> +#include "dpu_hw_top.h"
+> +#include "dpu_hw_wb.h"
+> +#include "dpu_hw_lm.h"
+> +#include "dpu_hw_blk.h"
+> +#include "dpu_hw_merge3d.h"
+> +#include "dpu_hw_interrupts.h"
+> +#include "dpu_core_irq.h"
+> +#include "dpu_vbif.h"
+> +#include "dpu_crtc.h"
+> +#include "disp/msm_disp_snapshot.h"
 > +
-> +#define WB_DST_FORMAT                         0x000
-> +#define WB_DST_OP_MODE                        0x004
-> +#define WB_DST_PACK_PATTERN                   0x008
-> +#define WB_DST0_ADDR                          0x00C
-> +#define WB_DST1_ADDR                          0x010
-> +#define WB_DST2_ADDR                          0x014
-> +#define WB_DST3_ADDR                          0x018
-> +#define WB_DST_YSTRIDE0                       0x01C
-> +#define WB_DST_YSTRIDE1                       0x020
-> +#define WB_DST_YSTRIDE1                       0x020
-> +#define WB_DST_DITHER_BITDEPTH                0x024
-> +#define WB_DST_MATRIX_ROW0                    0x030
-> +#define WB_DST_MATRIX_ROW1                    0x034
-> +#define WB_DST_MATRIX_ROW2                    0x038
-> +#define WB_DST_MATRIX_ROW3                    0x03C
-> +#define WB_DST_WRITE_CONFIG                   0x048
-> +#define WB_ROTATION_DNSCALER                  0x050
-> +#define WB_ROTATOR_PIPE_DOWNSCALER            0x054
-> +#define WB_N16_INIT_PHASE_X_C03               0x060
-> +#define WB_N16_INIT_PHASE_X_C12               0x064
-> +#define WB_N16_INIT_PHASE_Y_C03               0x068
-> +#define WB_N16_INIT_PHASE_Y_C12               0x06C
-> +#define WB_OUT_SIZE                           0x074
-> +#define WB_ALPHA_X_VALUE                      0x078
-> +#define WB_DANGER_LUT                         0x084
-> +#define WB_SAFE_LUT                           0x088
-> +#define WB_QOS_CTRL                           0x090
-> +#define WB_CREQ_LUT_0                         0x098
-> +#define WB_CREQ_LUT_1                         0x09C
-> +#define WB_UBWC_STATIC_CTRL                   0x144
-> +#define WB_MUX                                0x150
-> +#define WB_CROP_CTRL                          0x154
-> +#define WB_CROP_OFFSET                        0x158
-> +#define WB_CSC_BASE                           0x260
-> +#define WB_DST_ADDR_SW_STATUS                 0x2B0
-> +#define WB_CDP_CNTL                           0x2B4
-> +#define WB_OUT_IMAGE_SIZE                     0x2C0
-> +#define WB_OUT_XY                             0x2C4
+> +#define DEFAULT_MAX_WRITEBACK_WIDTH 2048
 > +
-> +/* WB_QOS_CTRL */
-> +#define WB_QOS_CTRL_DANGER_SAFE_EN            BIT(0)
+> +#define to_dpu_encoder_phys_wb(x) \
+> +	container_of(x, struct dpu_encoder_phys_wb, base)
 > +
-> +static const struct dpu_wb_cfg *_wb_offset(enum dpu_wb wb,
-> +		const struct dpu_mdss_cfg *m, void __iomem *addr,
-> +		struct dpu_hw_blk_reg_map *b)
+> +/**
+> + * dpu_encoder_phys_wb_is_master - report wb always as master encoder
+> + */
+> +static bool dpu_encoder_phys_wb_is_master(struct dpu_encoder_phys *phys_enc)
+> +{
+> +	return true;
+> +}
+
+A comment that there is only one physical enc for WB would be helpful 
+here. But maybe we should just pull a generic is_master into 
+dpu_encoder_phys.h (it would work here too).
+
+> +
+> +/**
+> + * dpu_encoder_phys_wb_set_ot_limit - set OT limit for writeback interface
+> + * @phys_enc:	Pointer to physical encoder
+> + */
+> +static void dpu_encoder_phys_wb_set_ot_limit(
+> +		struct dpu_encoder_phys *phys_enc)
+> +{
+> +	struct dpu_hw_wb *hw_wb = phys_enc->hw_wb;
+> +	struct dpu_vbif_set_ot_params ot_params;
+> +
+> +	memset(&ot_params, 0, sizeof(ot_params));
+> +	ot_params.xin_id = hw_wb->caps->xin_id;
+> +	ot_params.num = hw_wb->idx - WB_0;
+> +	ot_params.width = phys_enc->cached_mode.hdisplay;
+> +	ot_params.height = phys_enc->cached_mode.vdisplay;
+> +	ot_params.is_wfd = true;
+> +	ot_params.frame_rate = drm_mode_vrefresh(&phys_enc->cached_mode);
+> +	ot_params.vbif_idx = hw_wb->caps->vbif_idx;
+> +	ot_params.clk_ctrl = hw_wb->caps->clk_ctrl;
+> +	ot_params.rd = false;
+> +
+> +	dpu_vbif_set_ot_limit(phys_enc->dpu_kms, &ot_params);
+> +}
+> +
+> +/**
+> + * dpu_encoder_phys_wb_set_qos_remap - set QoS remapper for writeback
+> + * @phys_enc:	Pointer to physical encoder
+> + */
+> +static void dpu_encoder_phys_wb_set_qos_remap(
+> +		struct dpu_encoder_phys *phys_enc)
+> +{
+> +	struct dpu_hw_wb *hw_wb;
+> +	struct dpu_vbif_set_qos_params qos_params;
+> +
+> +	if (!phys_enc || !phys_enc->parent || !phys_enc->parent->crtc) {
+> +		DPU_ERROR("invalid arguments\n");
+> +		return;
+> +	}
+> +
+> +	if (!phys_enc->hw_wb || !phys_enc->hw_wb->caps) {
+> +		DPU_ERROR("invalid writeback hardware\n");
+> +		return;
+> +	}
+> +
+> +	hw_wb = phys_enc->hw_wb;
+> +
+> +	memset(&qos_params, 0, sizeof(qos_params));
+> +	qos_params.vbif_idx = hw_wb->caps->vbif_idx;
+> +	qos_params.xin_id = hw_wb->caps->xin_id;
+> +	qos_params.clk_ctrl = hw_wb->caps->clk_ctrl;
+> +	qos_params.num = hw_wb->idx - WB_0;
+> +	qos_params.is_rt = false;
+> +
+> +	DPU_DEBUG("[qos_remap] wb:%d vbif:%d xin:%d is_rt:%d\n",
+> +			qos_params.num,
+> +			qos_params.vbif_idx,
+> +			qos_params.xin_id, qos_params.is_rt);
+> +
+> +	dpu_vbif_set_qos_remap(phys_enc->dpu_kms, &qos_params);
+> +}
+> +
+> +//this can be moved to some common file?
+
+C99 comment and missing "FIXME: " :-D
+
+Yes, let's pull it into dpu_hw_util.c
+
+And if you (by chance) would see a value in unifying other 
+QoS/CDP-related functions let's move them to the dpu_hw_util.c too.
+
+> +static u64 _dpu_encoder_phys_wb_get_qos_lut(struct dpu_qos_lut_tbl *tbl,
+> +		u32 total_fl)
 > +{
 > +	int i;
 > +
-> +	for (i = 0; i < m->wb_count; i++) {
-> +		if (wb == m->wb[i].id) {
-> +			b->base_off = addr;
-> +			b->blk_off = m->wb[i].base;
-> +			b->length = m->wb[i].len;
-> +			b->hwversion = m->hwversion;
-> +			return &m->wb[i];
-> +		}
-> +	}
-> +	return ERR_PTR(-EINVAL);
+> +	if (!tbl || !tbl->nentry || !tbl->entries)
+> +		return 0;
+> +
+> +	for (i = 0; i < tbl->nentry; i++)
+> +		if (total_fl <= tbl->entries[i].fl)
+> +			return tbl->entries[i].lut;
+> +
+> +	/* if last fl is zero, use as default */
+> +	if (!tbl->entries[i-1].fl)
+> +		return tbl->entries[i-1].lut;
+> +
+> +	return 0;
 > +}
 > +
-> +static void dpu_hw_wb_setup_outaddress(struct dpu_hw_wb *ctx,
-> +		struct dpu_hw_wb_cfg *data)
+> +/**
+> + * dpu_encoder_phys_wb_set_qos - set QoS/danger/safe LUTs for writeback
+> + * @phys_enc:	Pointer to physical encoder
+> + */
+> +static void dpu_encoder_phys_wb_set_qos(struct dpu_encoder_phys *phys_enc)
 > +{
-> +	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> +	struct dpu_hw_wb *hw_wb;
+> +	struct dpu_hw_wb_qos_cfg qos_cfg;
+> +	struct dpu_mdss_cfg *catalog;
+> +	struct dpu_qos_lut_tbl *qos_lut_tb;
 > +
-> +	DPU_REG_WRITE(c, WB_DST0_ADDR, data->dest.plane_addr[0]);
-> +	DPU_REG_WRITE(c, WB_DST1_ADDR, data->dest.plane_addr[1]);
-> +	DPU_REG_WRITE(c, WB_DST2_ADDR, data->dest.plane_addr[2]);
-> +	DPU_REG_WRITE(c, WB_DST3_ADDR, data->dest.plane_addr[3]);
-> +}
-> +
-> +static void dpu_hw_wb_setup_format(struct dpu_hw_wb *ctx,
-> +		struct dpu_hw_wb_cfg *data)
-> +{
-> +	struct dpu_hw_blk_reg_map *c = &ctx->hw;
-> +	const struct dpu_format *fmt = data->dest.format;
-> +	u32 dst_format, pattern, ystride0, ystride1, outsize, chroma_samp;
-> +	u32 write_config = 0;
-> +	u32 opmode = 0;
-> +	u32 dst_addr_sw = 0;
-> +
-> +	chroma_samp = fmt->chroma_sample;
-> +
-> +	dst_format = (chroma_samp << 23) |
-> +		(fmt->fetch_planes << 19) |
-> +		(fmt->bits[C3_ALPHA] << 6) |
-> +		(fmt->bits[C2_R_Cr] << 4) |
-> +		(fmt->bits[C1_B_Cb] << 2) |
-> +		(fmt->bits[C0_G_Y] << 0);
-> +
-> +	if (fmt->bits[C3_ALPHA] || fmt->alpha_enable) {
-> +		dst_format |= BIT(8); /* DSTC3_EN */
-> +		if (!fmt->alpha_enable ||
-> +			!(ctx->caps->features & BIT(DPU_WB_PIPE_ALPHA)))
-> +			dst_format |= BIT(14); /* DST_ALPHA_X */
+> +	if (!phys_enc || !phys_enc->dpu_kms || !phys_enc->dpu_kms->catalog) {
+> +		DPU_ERROR("invalid parameter(s)\n");
+> +		return;
 > +	}
 > +
-> +	pattern = (fmt->element[3] << 24) |
-> +		(fmt->element[2] << 16) |
-> +		(fmt->element[1] << 8)  |
-> +		(fmt->element[0] << 0);
+> +	catalog = phys_enc->dpu_kms->catalog;
 > +
-> +	dst_format |= (fmt->unpack_align_msb << 18) |
-> +		(fmt->unpack_tight << 17) |
-> +		((fmt->unpack_count - 1) << 12) |
-> +		((fmt->bpp - 1) << 9);
+> +	hw_wb = phys_enc->hw_wb;
 > +
-> +	ystride0 = data->dest.plane_pitch[0] |
-> +		(data->dest.plane_pitch[1] << 16);
-> +	ystride1 = data->dest.plane_pitch[2] |
-> +	(data->dest.plane_pitch[3] << 16);
+> +	memset(&qos_cfg, 0, sizeof(struct dpu_hw_wb_qos_cfg));
+> +	qos_cfg.danger_safe_en = true;
+> +	qos_cfg.danger_lut =
+> +		catalog->perf.danger_lut_tbl[DPU_QOS_LUT_USAGE_NRT];
 > +
-> +	if (drm_rect_height(&data->roi) && drm_rect_width(&data->roi))
-> +		outsize = (drm_rect_height(&data->roi) << 16) | drm_rect_width(&data->roi);
-> +	else
-> +		outsize = (data->dest.height << 16) | data->dest.width;
+> +	qos_cfg.safe_lut = catalog->perf.safe_lut_tbl[DPU_QOS_LUT_USAGE_NRT];
 > +
-> +	DPU_REG_WRITE(c, WB_ALPHA_X_VALUE, 0xFF);
-> +	DPU_REG_WRITE(c, WB_DST_FORMAT, dst_format);
-> +	DPU_REG_WRITE(c, WB_DST_OP_MODE, opmode);
-> +	DPU_REG_WRITE(c, WB_DST_PACK_PATTERN, pattern);
-> +	DPU_REG_WRITE(c, WB_DST_YSTRIDE0, ystride0);
-> +	DPU_REG_WRITE(c, WB_DST_YSTRIDE1, ystride1);
-> +	DPU_REG_WRITE(c, WB_OUT_SIZE, outsize);
-> +	DPU_REG_WRITE(c, WB_DST_WRITE_CONFIG, write_config);
-> +	DPU_REG_WRITE(c, WB_DST_ADDR_SW_STATUS, dst_addr_sw);
+> +	qos_lut_tb = &catalog->perf.qos_lut_tbl[DPU_QOS_LUT_USAGE_NRT];
+> +	qos_cfg.creq_lut = _dpu_encoder_phys_wb_get_qos_lut(qos_lut_tb, 0);
+> +
+> +	if (hw_wb->ops.setup_qos_lut)
+> +		hw_wb->ops.setup_qos_lut(hw_wb, &qos_cfg);
 > +}
 > +
-> +static void dpu_hw_wb_roi(struct dpu_hw_wb *ctx, struct dpu_hw_wb_cfg *wb)
+> +/**
+> + * dpu_encoder_phys_wb_setup_fb - setup output framebuffer
+> + * @phys_enc:	Pointer to physical encoder
+> + * @fb:		Pointer to output framebuffer
+> + * @wb_roi:	Pointer to output region of interest
+> + */
+> +static void dpu_encoder_phys_wb_setup_fb(struct dpu_encoder_phys *phys_enc,
+> +		struct drm_framebuffer *fb)
 > +{
-> +	struct dpu_hw_blk_reg_map *c = &ctx->hw;
-> +	u32 image_size, out_size, out_xy;
+> +	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys_enc);
+> +	struct dpu_hw_wb *hw_wb;
+> +	struct dpu_hw_wb_cfg *wb_cfg;
+> +	struct dpu_hw_wb_cdp_cfg *cdp_cfg;
 > +
-> +	image_size = (wb->dest.height << 16) | wb->dest.width;
-> +	out_xy = 0;
-> +	out_size = (drm_rect_height(&wb->roi) << 16) | drm_rect_width(&wb->roi);
+> +	if (!phys_enc || !phys_enc->dpu_kms || !phys_enc->dpu_kms->catalog ||
+> +			!phys_enc->connector) {
+> +		DPU_ERROR("invalid encoder\n");
+> +		return;
+> +	}
 > +
-> +	DPU_REG_WRITE(c, WB_OUT_IMAGE_SIZE, image_size);
-> +	DPU_REG_WRITE(c, WB_OUT_XY, out_xy);
-> +	DPU_REG_WRITE(c, WB_OUT_SIZE, out_size);
+> +	hw_wb = phys_enc->hw_wb;
+> +	wb_cfg = &wb_enc->wb_cfg;
+> +	cdp_cfg = &wb_enc->cdp_cfg;
+> +
+> +	wb_cfg->intf_mode = phys_enc->intf_mode;
+> +	wb_cfg->roi.x1 = 0;
+> +	wb_cfg->roi.x2 = phys_enc->cached_mode.hdisplay;
+> +	wb_cfg->roi.y1 = 0;
+> +	wb_cfg->roi.y2 = phys_enc->cached_mode.vdisplay;
+> +
+> +	if (hw_wb->ops.setup_roi)
+> +		hw_wb->ops.setup_roi(hw_wb, wb_cfg);
+> +
+> +	if (hw_wb->ops.setup_outformat)
+> +		hw_wb->ops.setup_outformat(hw_wb, wb_cfg);
+> +
+> +	if (hw_wb->ops.setup_cdp) {
+> +		memset(cdp_cfg, 0, sizeof(struct dpu_hw_wb_cdp_cfg));
+> +
+> +		cdp_cfg->enable = phys_enc->dpu_kms->catalog->perf.cdp_cfg
+> +				[DPU_PERF_CDP_USAGE_NRT].wr_enable;
+> +		cdp_cfg->ubwc_meta_enable =
+> +				DPU_FORMAT_IS_UBWC(wb_cfg->dest.format);
+> +		cdp_cfg->tile_amortize_enable =
+> +				DPU_FORMAT_IS_UBWC(wb_cfg->dest.format) ||
+> +				DPU_FORMAT_IS_TILE(wb_cfg->dest.format);
+> +		cdp_cfg->preload_ahead = DPU_WB_CDP_PRELOAD_AHEAD_64;
+> +
+> +		hw_wb->ops.setup_cdp(hw_wb, cdp_cfg);
+> +	}
+> +
+> +	if (hw_wb->ops.setup_outaddress)
+> +		hw_wb->ops.setup_outaddress(hw_wb, wb_cfg);
 > +}
 > +
-> +static void dpu_hw_wb_setup_qos_lut(struct dpu_hw_wb *ctx,
-> +		struct dpu_hw_wb_qos_cfg *cfg)
+> +/**
+> + * dpu_encoder_phys_wb_setup_cdp - setup chroma down prefetch block
+> + * @phys_enc:Pointer to physical encoder
+> + */
+> +static void dpu_encoder_phys_wb_setup_cdp(struct dpu_encoder_phys *phys_enc)
 > +{
-> +	struct dpu_hw_blk_reg_map *c = &ctx->hw;
-> +	u32 qos_ctrl = 0;
+> +	struct dpu_hw_wb *hw_wb;
+> +	struct dpu_hw_ctl *ctl;
 > +
-> +	if (!ctx || !cfg)
+> +	if (!phys_enc) {
+> +		DPU_ERROR("invalid encoder\n");
+> +		return;
+> +	}
+> +
+> +	hw_wb = phys_enc->hw_wb;
+> +	ctl = phys_enc->hw_ctl;
+> +
+> +	if (test_bit(DPU_CTL_ACTIVE_CFG, &ctl->caps->features) &&
+> +		(phys_enc->hw_ctl &&
+> +		 phys_enc->hw_ctl->ops.setup_intf_cfg)) {
+> +		struct dpu_hw_intf_cfg intf_cfg = {0};
+> +		struct dpu_hw_pingpong *hw_pp = phys_enc->hw_pp;
+> +		enum dpu_3d_blend_mode mode_3d;
+> +
+> +		mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+> +
+> +		intf_cfg.intf = DPU_NONE;
+> +		intf_cfg.wb = hw_wb->idx;
+> +
+> +		if (mode_3d && hw_pp && hw_pp->merge_3d)
+> +			intf_cfg.merge_3d = hw_pp->merge_3d->idx;
+> +
+> +		if (phys_enc->hw_pp->merge_3d && phys_enc->hw_pp->merge_3d->ops.setup_3d_mode)
+> +			phys_enc->hw_pp->merge_3d->ops.setup_3d_mode(phys_enc->hw_pp->merge_3d,
+> +					mode_3d);
+> +
+> +		/* setup which pp blk will connect to this wb */
+> +		if (hw_pp && phys_enc->hw_wb->ops.bind_pingpong_blk)
+> +			phys_enc->hw_wb->ops.bind_pingpong_blk(phys_enc->hw_wb, true,
+> +					phys_enc->hw_pp->idx);
+> +
+> +		phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl,
+> +				&intf_cfg, true);
+> +	} else if (phys_enc->hw_ctl && phys_enc->hw_ctl->ops.setup_intf_cfg) {
+> +		struct dpu_hw_intf_cfg intf_cfg = {0};
+> +
+> +		intf_cfg.intf = DPU_NONE;
+> +		intf_cfg.wb = hw_wb->idx;
+> +		intf_cfg.mode_3d =
+> +			dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+> +		phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg, true);
+> +	}
+> +}
+> +
+> +/**
+> + * dpu_encoder_phys_wb_atomic_check - verify and fixup given atomic states
+> + * @phys_enc:	Pointer to physical encoder
+> + * @crtc_state:	Pointer to CRTC atomic state
+> + * @conn_state:	Pointer to connector atomic state
+> + */
+> +static int dpu_encoder_phys_wb_atomic_check(
+> +		struct dpu_encoder_phys *phys_enc,
+> +		struct drm_crtc_state *crtc_state,
+> +		struct drm_connector_state *conn_state)
+> +{
+> +	struct drm_framebuffer *fb;
+> +	const struct drm_display_mode *mode;
+> +
+> +	DPU_DEBUG("[atomic_check:%d, \"%s\",%d,%d]\n",
+> +			phys_enc->intf_idx, mode->name, mode->hdisplay, mode->vdisplay);
+> +
+> +	if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
+> +		return 0;
+> +
+> +	fb = conn_state->writeback_job->fb;
+> +	mode = &crtc_state->mode;
+> +
+> +	if (!conn_state || !conn_state->connector) {
+> +		DPU_ERROR("invalid connector state\n");
+> +		return -EINVAL;
+> +	} else if (conn_state->connector->status !=
+> +			connector_status_connected) {
+> +		DPU_ERROR("connector not connected %d\n",
+> +				conn_state->connector->status);
+> +		return -EINVAL;
+> +	}
+> +
+> +	DPU_DEBUG("[fb_id:%u][fb:%u,%u]\n", fb->base.id,
+> +			fb->width, fb->height);
+> +
+> +	if (fb->width != mode->hdisplay) {
+> +		DPU_ERROR("invalid fb w=%d, mode w=%d\n", fb->width,
+> +				mode->hdisplay);
+> +		return -EINVAL;
+> +	} else if (fb->height != mode->vdisplay) {
+> +		DPU_ERROR("invalid fb h=%d, mode h=%d\n", fb->height,
+> +				  mode->vdisplay);
+> +		return -EINVAL;
+> +	} else if (fb->width > DEFAULT_MAX_WRITEBACK_WIDTH) {
+> +		DPU_ERROR("invalid fb w=%d, maxlinewidth=%u\n",
+> +				  fb->width, DEFAULT_MAX_WRITEBACK_WIDTH);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +
+> +/**
+> + * _dpu_encoder_phys_wb_update_flush - flush hardware update
+> + * @phys_enc:	Pointer to physical encoder
+> + */
+> +static void _dpu_encoder_phys_wb_update_flush(struct dpu_encoder_phys *phys_enc)
+> +{
+> +	struct dpu_hw_wb *hw_wb;
+> +	struct dpu_hw_ctl *hw_ctl;
+> +	struct dpu_hw_pingpong *hw_pp;
+> +	u32 pending_flush = 0;
+> +
+> +	if (!phys_enc)
 > +		return;
 > +
-> +	DPU_REG_WRITE(c, WB_DANGER_LUT, cfg->danger_lut);
-> +	DPU_REG_WRITE(c, WB_SAFE_LUT, cfg->safe_lut);
+> +	hw_wb = phys_enc->hw_wb;
+> +	hw_pp = phys_enc->hw_pp;
+> +	hw_ctl = phys_enc->hw_ctl;
 > +
-> +	if (ctx->caps && test_bit(DPU_WB_QOS_8LVL, &ctx->caps->features)) {
-> +		DPU_REG_WRITE(c, WB_CREQ_LUT_0, cfg->creq_lut);
-> +		DPU_REG_WRITE(c, WB_CREQ_LUT_1, cfg->creq_lut >> 32);
+> +	DPU_DEBUG("[wb:%d]\n", hw_wb->idx - WB_0);
+> +
+> +	if (!hw_ctl) {
+> +		DPU_DEBUG("[wb:%d] no ctl assigned\n", hw_wb->idx - WB_0);
+> +		return;
 > +	}
 > +
-> +	if (cfg->danger_safe_en)
-> +		qos_ctrl |= WB_QOS_CTRL_DANGER_SAFE_EN;
+> +	if (hw_ctl->ops.update_pending_flush_wb)
+> +		hw_ctl->ops.update_pending_flush_wb(hw_ctl, hw_wb->idx);
 > +
-> +	DPU_REG_WRITE(c, WB_QOS_CTRL, qos_ctrl);
+> +	if (hw_ctl->ops.update_pending_flush_merge_3d && hw_pp && hw_pp->merge_3d)
+> +		hw_ctl->ops.update_pending_flush_merge_3d(hw_ctl,
+> +				hw_pp->merge_3d->idx);
+> +
+> +	if (hw_ctl->ops.get_pending_flush)
+> +		pending_flush = hw_ctl->ops.get_pending_flush(hw_ctl);
+> +
+> +	DPU_DEBUG("Pending flush mask for CTL_%d is 0x%x, WB %d\n",
+> +			hw_ctl->idx - CTL_0, pending_flush,
+> +			hw_wb->idx - WB_0);
 > +}
 > +
-> +static void dpu_hw_wb_setup_cdp(struct dpu_hw_wb *ctx,
-> +		struct dpu_hw_wb_cdp_cfg *cfg)
+> +/**
+> + * dpu_encoder_phys_wb_setup - setup writeback encoder
+> + * @phys_enc:	Pointer to physical encoder
+> + */
+> +static void dpu_encoder_phys_wb_setup(
+> +		struct dpu_encoder_phys *phys_enc)
 > +{
-> +	struct dpu_hw_blk_reg_map *c;
-> +	u32 cdp_cntl = 0;
+> +	struct dpu_hw_wb *hw_wb = phys_enc->hw_wb;
+> +	struct drm_display_mode mode = phys_enc->cached_mode;
+> +	struct drm_framebuffer *fb = NULL;
 > +
-> +	if (!ctx || !cfg)
-> +		return;
+> +	DPU_DEBUG("[mode_set:%d, \"%s\",%d,%d]\n",
+> +			hw_wb->idx - WB_0, mode.name,
+> +			mode.hdisplay, mode.vdisplay);
 > +
-> +	c = &ctx->hw;
+> +	dpu_encoder_phys_wb_set_ot_limit(phys_enc);
 > +
-> +	if (cfg->enable)
-> +		cdp_cntl |= BIT(0);
-> +	if (cfg->ubwc_meta_enable)
-> +		cdp_cntl |= BIT(1);
-> +	if (cfg->preload_ahead == DPU_WB_CDP_PRELOAD_AHEAD_64)
-> +		cdp_cntl |= BIT(3);
+> +	dpu_encoder_phys_wb_set_qos_remap(phys_enc);
 > +
-> +	DPU_REG_WRITE(c, WB_CDP_CNTL, cdp_cntl);
-> +}
-
-I thought for a moment if we can unify these several functions with SSPP 
-code. Most probably we can, but I'm not sure that it make sense.
-
+> +	dpu_encoder_phys_wb_set_qos(phys_enc);
 > +
-> +static void dpu_hw_wb_bind_pingpong_blk(
-> +		struct dpu_hw_wb *ctx,
-> +		bool enable, const enum dpu_pingpong pp)
-> +{
-> +	struct dpu_hw_blk_reg_map *c;
-> +	int mux_cfg = 0xF;
+> +	dpu_encoder_phys_wb_setup_fb(phys_enc, fb);
 > +
-> +	if (!ctx)
-> +		return;
+> +	dpu_encoder_phys_wb_setup_cdp(phys_enc);
 > +
-> +	c = &ctx->hw;
-> +	if (enable)
-> +		mux_cfg = (pp - PINGPONG_0) & 0x7;
-
-Just noticed that dpu_hw_intf_bind_pingpong_blk() keeps higher bits 
-rather than setting them to 0. Which policy should we follow here?
-
-> +
-> +	DPU_REG_WRITE(c, WB_MUX, mux_cfg);
 > +}
 > +
-> +static void _setup_wb_ops(struct dpu_hw_wb_ops *ops,
-> +		unsigned long features)
+> +static void _dpu_encoder_phys_wb_frame_done_helper(void *arg)
 > +{
-> +	ops->setup_outaddress = dpu_hw_wb_setup_outaddress;
-> +	ops->setup_outformat = dpu_hw_wb_setup_format;
+> +	struct dpu_encoder_phys *phys_enc = arg;
+> +	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys_enc);
 > +
-> +	if (test_bit(DPU_WB_XY_ROI_OFFSET, &features))
-> +		ops->setup_roi = dpu_hw_wb_roi;
+> +	struct dpu_hw_wb *hw_wb = phys_enc->hw_wb;
+> +	unsigned long lock_flags;
+> +	u32 event = DPU_ENCODER_FRAME_EVENT_DONE;
 > +
-> +	if (test_bit(DPU_WB_QOS, &features))
-> +		ops->setup_qos_lut = dpu_hw_wb_setup_qos_lut;
+> +	DPU_DEBUG("[wb:%d]\n", hw_wb->idx - WB_0);
 > +
-> +	if (test_bit(DPU_WB_CDP, &features))
-> +		ops->setup_cdp = dpu_hw_wb_setup_cdp;
+> +	if (phys_enc->parent_ops->handle_frame_done)
+> +		phys_enc->parent_ops->handle_frame_done(phys_enc->parent,
+> +				phys_enc, event);
 > +
-> +	if (test_bit(DPU_WB_INPUT_CTRL, &features))
-> +		ops->bind_pingpong_blk = dpu_hw_wb_bind_pingpong_blk;
+> +	if (phys_enc->parent_ops->handle_vblank_virt)
+> +		phys_enc->parent_ops->handle_vblank_virt(phys_enc->parent,
+> +				phys_enc);
+> +
+> +	spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
+> +	atomic_add_unless(&phys_enc->pending_kickoff_cnt, -1, 0);
+> +	spin_unlock_irqrestore(phys_enc->enc_spinlock, lock_flags);
+> +
+> +	if (wb_enc->wb_conn)
+> +		drm_writeback_signal_completion(wb_enc->wb_conn, 0);
+> +
+> +	/* Signal any waiting atomic commit thread */
+> +	wake_up_all(&phys_enc->pending_kickoff_wq);
 > +}
 > +
-> +struct dpu_hw_wb *dpu_hw_wb_init(enum dpu_wb idx,
-> +		void __iomem *addr, const struct dpu_mdss_cfg *m)
+> +/**
+> + * dpu_encoder_phys_wb_done_irq - writeback interrupt handler
+> + * @arg:	Pointer to writeback encoder
+> + * @irq_idx:	interrupt index
+> + */
+> +static void dpu_encoder_phys_wb_done_irq(void *arg, int irq_idx)
 > +{
-> +	struct dpu_hw_wb *c;
-> +	const struct dpu_wb_cfg *cfg;
+> +	_dpu_encoder_phys_wb_frame_done_helper(arg);
+> +}
 > +
-> +	if (!addr || !m)
-> +		return ERR_PTR(-EINVAL);
+> +/**
+> + * dpu_encoder_phys_wb_irq_ctrl - irq control of WB
+> + * @phys:	Pointer to physical encoder
+> + * @enable:	indicates enable or disable interrupts
+> + */
+> +static void dpu_encoder_phys_wb_irq_ctrl(
+> +		struct dpu_encoder_phys *phys, bool enable)
+> +{
 > +
-> +	c = kzalloc(sizeof(*c), GFP_KERNEL);
-> +	if (!c)
-> +		return ERR_PTR(-ENOMEM);
+> +	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys);
+> +	int ret = 0;
+> +	int refcount;
 > +
-> +	cfg = _wb_offset(idx, m, addr, &c->hw);
-> +	if (IS_ERR(cfg)) {
-> +		WARN(1, "Unable to find wb idx=%d\n", idx);
-> +		kfree(c);
-> +		return ERR_PTR(-EINVAL);
+> +	refcount = atomic_read(&wb_enc->wbirq_refcount);
+> +
+> +	if (enable && atomic_inc_return(&wb_enc->wbirq_refcount) == 1) {
+> +		dpu_encoder_helper_register_irq(phys, INTR_IDX_WB_DONE);
+> +		if (ret)
+> +			atomic_dec_return(&wb_enc->wbirq_refcount);
+> +	} else if (!enable &&
+> +			atomic_dec_return(&wb_enc->wbirq_refcount) == 0) {
+> +		dpu_encoder_helper_unregister_irq(phys, INTR_IDX_WB_DONE);
+> +		if (ret)
+> +			atomic_inc_return(&wb_enc->wbirq_refcount);
+> +	}
+> +}
+> +
+> +/**
+> + * dpu_encoder_phys_wb_mode_set - set display mode
+> + * @phys_enc:	Pointer to physical encoder
+> + * @mode:	Pointer to requested display mode
+> + * @adj_mode:	Pointer to adjusted display mode
+> + */
+> +static void dpu_encoder_phys_wb_mode_set(
+> +		struct dpu_encoder_phys *phys_enc,
+> +		struct drm_display_mode *mode,
+> +		struct drm_display_mode *adj_mode)
+> +{
+> +	struct dpu_encoder_irq *irq;
+> +
+> +	if (adj_mode) {
+> +		phys_enc->cached_mode = *adj_mode;
+> +		drm_mode_debug_printmodeline(adj_mode);
+> +		DPU_DEBUG("caching mode:\n");
 > +	}
 > +
-> +	/* Assign ops */
-> +	c->mdp = &m->mdp[0];
-> +	c->idx = idx;
-> +	c->caps = cfg;
-> +	_setup_wb_ops(&c->ops, c->caps->features);
-> +
-> +	return c;
+> +	irq = &phys_enc->irq[INTR_IDX_WB_DONE];
+> +	irq->irq_idx = phys_enc->hw_wb->caps->intr_wb_done;
 > +}
 > +
-> +void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb)
+> +static void _dpu_encoder_phys_wb_handle_wbdone_timeout(
+> +		struct dpu_encoder_phys *phys_enc)
 > +{
-> +	kfree(hw_wb);
+> +	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys_enc);
+> +	u32 frame_event = DPU_ENCODER_FRAME_EVENT_ERROR;
+> +
+> +	wb_enc->wb_done_timeout_cnt++;
+> +
+> +	if (wb_enc->wb_done_timeout_cnt == 1)
+> +		msm_disp_snapshot_state(phys_enc->parent->dev);
+> +
+> +	atomic_add_unless(&phys_enc->pending_kickoff_cnt, -1, 0);
+> +
+> +	/* request a ctl reset before the next kickoff */
+> +	phys_enc->enable_state = DPU_ENC_ERR_NEEDS_HW_RESET;
+> +
+> +	if (wb_enc->wb_conn)
+> +		drm_writeback_signal_completion(wb_enc->wb_conn, 0);
+> +
+> +	if (phys_enc->parent_ops->handle_frame_done)
+> +		phys_enc->parent_ops->handle_frame_done(
+> +				phys_enc->parent, phys_enc, frame_event);
 > +}
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
-> new file mode 100644
-> index 0000000..39d745f
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
-> @@ -0,0 +1,145 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved
-> + */
-> +
-> +#ifndef _DPU_HW_WB_H
-> +#define _DPU_HW_WB_H
-> +
-> +#include "dpu_hw_catalog.h"
-> +#include "dpu_hw_mdss.h"
-> +#include "dpu_hw_top.h"
-> +#include "dpu_hw_util.h"
-> +#include "dpu_hw_pingpong.h"
-> +
-> +struct dpu_hw_wb;
-> +
-> +struct dpu_hw_wb_cfg {
-> +	struct dpu_hw_fmt_layout dest;
-> +	enum dpu_intf_mode intf_mode;
-> +	struct drm_rect roi;
-> +	struct drm_rect crop;
-> +};
 > +
 > +/**
-> + * enum CDP preload ahead address size
+> + * dpu_encoder_phys_wb_wait_for_commit_done - wait until request is committed
+> + * @phys_enc:	Pointer to physical encoder
 > + */
-> +enum {
-> +	DPU_WB_CDP_PRELOAD_AHEAD_32,
-> +	DPU_WB_CDP_PRELOAD_AHEAD_64
-> +};
-> +
-> +/**
-> + * struct dpu_hw_wb_cdp_cfg : CDP configuration
-> + * @enable: true to enable CDP
-> + * @ubwc_meta_enable: true to enable ubwc metadata preload
-> + * @tile_amortize_enable: true to enable amortization control for tile format
-> + * @preload_ahead: number of request to preload ahead
-> + * SDE_WB_CDP_PRELOAD_AHEAD_32,
-> + * SDE_WB_CDP_PRELOAD_AHEAD_64
-> + */
-> +struct dpu_hw_wb_cdp_cfg {
-> +	bool enable;
-> +	bool ubwc_meta_enable;
-> +	bool tile_amortize_enable;
-> +	u32 preload_ahead;
-> +};
-> +
-> +/**
-> + * struct dpu_hw_wb_qos_cfg : Writeback pipe QoS configuration
-> + * @danger_lut: LUT for generate danger level based on fill level
-> + * @safe_lut: LUT for generate safe level based on fill level
-> + * @creq_lut: LUT for generate creq level based on fill level
-> + * @danger_safe_en: enable danger safe generation
-> + */
-> +struct dpu_hw_wb_qos_cfg {
-> +	u32 danger_lut;
-> +	u32 safe_lut;
-> +	u64 creq_lut;
-> +	bool danger_safe_en;
-> +};
-> +
-> +/**
-> + *
-> + * struct dpu_hw_wb_ops : Interface to the wb hw driver functions
-> + *  Assumption is these functions will be called after clocks are enabled
-> + *  @setup_outaddress: setup output address from the writeback job
-> + *  @setup_outformat: setup output format of writeback block from writeback job
-> + *  @setup_qos_lut:   setup qos LUT for writeback block based on input
-> + *  @setup_cdp:       setup chroma down prefetch block for writeback block
-> + *  @bind_pingpong_blk: enable/disable the connection with ping-pong block
-> + */
-> +struct dpu_hw_wb_ops {
-> +	void (*setup_outaddress)(struct dpu_hw_wb *ctx,
-> +			struct dpu_hw_wb_cfg *wb);
-> +
-> +	void (*setup_outformat)(struct dpu_hw_wb *ctx,
-> +			struct dpu_hw_wb_cfg *wb);
-> +
-> +	void (*setup_roi)(struct dpu_hw_wb *ctx,
-> +			struct dpu_hw_wb_cfg *wb);
-> +
-> +	void (*setup_qos_lut)(struct dpu_hw_wb *ctx,
-> +			struct dpu_hw_wb_qos_cfg *cfg);
-> +
-> +	void (*setup_cdp)(struct dpu_hw_wb *ctx,
-> +			struct dpu_hw_wb_cdp_cfg *cfg);
-> +
-> +	void (*bind_pingpong_blk)(struct dpu_hw_wb *ctx,
-> +			bool enable, const enum dpu_pingpong pp);
-> +};
-> +
-> +/**
-> + * struct dpu_hw_wb : WB driver object
-> + * @base: hardware block base structure
-> + * @hw: block hardware details
-> + * @mdp: pointer to associated mdp portion of the catalog
-> + * @idx: hardware index number within type
-> + * @wb_hw_caps: hardware capabilities
-> + * @ops: function pointers
-> + * @hw_mdp: MDP top level hardware block
-> + */
-> +struct dpu_hw_wb {
-> +	struct dpu_hw_blk base;
-> +	struct dpu_hw_blk_reg_map hw;
-> +	const struct dpu_mdp_cfg *mdp;
-> +
-> +	/* wb path */
-> +	int idx;
-> +	const struct dpu_wb_cfg *caps;
-> +
-> +	/* ops */
-> +	struct dpu_hw_wb_ops ops;
-> +
-> +	struct dpu_hw_mdp *hw_mdp;
-> +};
-> +
-> +/**
-> + * dpu_hw_wb - convert base object dpu_hw_base to container
-> + * @hw: Pointer to base hardware block
-> + * return: Pointer to hardware block container
-> + */
-> +static inline struct dpu_hw_wb *to_dpu_hw_wb(struct dpu_hw_blk *hw)
+> +static int dpu_encoder_phys_wb_wait_for_commit_done(
+> +		struct dpu_encoder_phys *phys_enc)
 > +{
-> +	return container_of(hw, struct dpu_hw_wb, base);
+> +	unsigned long ret;
+> +	struct dpu_encoder_wait_info wait_info;
+> +	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys_enc);
+> +
+> +	wait_info.wq = &phys_enc->pending_kickoff_wq;
+> +	wait_info.atomic_cnt = &phys_enc->pending_kickoff_cnt;
+> +	wait_info.timeout_ms = KICKOFF_TIMEOUT_MS;
+> +
+> +	ret = dpu_encoder_helper_wait_for_irq(phys_enc, INTR_IDX_WB_DONE,
+> +			&wait_info);
+> +	if (ret == -ETIMEDOUT)
+> +		_dpu_encoder_phys_wb_handle_wbdone_timeout(phys_enc);
+> +	else if (!ret)
+> +		wb_enc->wb_done_timeout_cnt = 0;
+> +
+> +	return ret;
 > +}
 > +
 > +/**
-> + * dpu_hw_wb_init(): Initializes and return writeback hw driver object.
-> + * @idx:  wb_path index for which driver object is required
-> + * @addr: mapped register io address of MDP
-> + * @m :   pointer to mdss catalog data
+> + * dpu_encoder_phys_wb_prepare_for_kickoff - pre-kickoff processing
+> + * @phys_enc:	Pointer to physical encoder
+> + * Returns:	Zero on success
 > + */
-> +struct dpu_hw_wb *dpu_hw_wb_init(enum dpu_wb idx,
-> +		void __iomem *addr,
-> +		const struct dpu_mdss_cfg *m);
+> +static void dpu_encoder_phys_wb_prepare_for_kickoff(
+> +		struct dpu_encoder_phys *phys_enc)
+> +{
+> +	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys_enc);
+> +	struct drm_connector *drm_conn;
+> +	struct drm_connector_state *state;
+> +
+> +	DPU_DEBUG("[wb:%d]\n", phys_enc->hw_wb->idx - WB_0);
+> +
+> +	if (!wb_enc->wb_conn || !wb_enc->wb_job) {
+> +		DPU_ERROR("invalid wb_conn or wb_job\n");
+> +		return;
+> +	}
+> +
+> +	drm_conn = wb_enc->wb_conn->base;
+> +	state = drm_conn->state;
+> +
+> +	if (wb_enc->wb_conn && wb_enc->wb_job)
+> +		drm_writeback_queue_job(wb_enc->wb_conn, state);
+> +
+> +	dpu_encoder_phys_wb_setup(phys_enc);
+> +
+> +	_dpu_encoder_phys_wb_update_flush(phys_enc);
+> +}
 > +
 > +/**
-> + * dpu_hw_wb_destroy(): Destroy writeback hw driver object.
-> + * @hw_wb:  Pointer to writeback hw driver object
+> + * dpu_encoder_phys_wb_needs_single_flush - trigger flush processing
+> + * @phys_enc:	Pointer to physical encoder
 > + */
-> +void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb);
+> +static bool dpu_encoder_phys_wb_needs_single_flush(struct dpu_encoder_phys *phys_enc)
+> +{
+> +	DPU_DEBUG("[wb:%d]\n", phys_enc->hw_wb->idx - WB_0);
+> +	return false;
+> +}
 > +
-> +#endif /*_DPU_HW_WB_H */
+> +/**
+> + * dpu_encoder_phys_wb_handle_post_kickoff - post-kickoff processing
+> + * @phys_enc:	Pointer to physical encoder
+> + */
+> +static void dpu_encoder_phys_wb_handle_post_kickoff(
+> +		struct dpu_encoder_phys *phys_enc)
+> +{
+> +	DPU_DEBUG("[wb:%d]\n", phys_enc->hw_wb->idx - WB_0);
 > +
+> +}
 > +
+> +/**
+> + * dpu_encoder_phys_wb_enable - enable writeback encoder
+> + * @phys_enc:	Pointer to physical encoder
+> + */
+> +static void dpu_encoder_phys_wb_enable(struct dpu_encoder_phys *phys_enc)
+> +{
+> +	DPU_DEBUG("[wb:%d]\n", phys_enc->hw_wb->idx - WB_0);
+> +	phys_enc->enable_state = DPU_ENC_ENABLED;
+> +}
+> +/**
+> + * dpu_encoder_phys_wb_disable - disable writeback encoder
+> + * @phys_enc:	Pointer to physical encoder
+> + */
+> +static void dpu_encoder_phys_wb_disable(struct dpu_encoder_phys *phys_enc)
+> +{
+> +	struct dpu_hw_wb *hw_wb = phys_enc->hw_wb;
+> +
+> +	DPU_DEBUG("[wb:%d]\n", hw_wb->idx - WB_0);
+> +
+> +	if (phys_enc->enable_state == DPU_ENC_DISABLED) {
+> +		DPU_ERROR("encoder is already disabled\n");
+> +		return;
+> +	}
+> +
+> +	/* reset h/w before final flush */
+> +	if (phys_enc->hw_ctl->ops.clear_pending_flush)
+> +		phys_enc->hw_ctl->ops.clear_pending_flush(phys_enc->hw_ctl);
+> +
+> +	/*
+> +	 * New CTL reset sequence from 5.0 MDP onwards.
+> +	 * If has_3d_merge_reset is not set, legacy reset
+> +	 * sequence is executed.
+> +	 *
+> +	 * Legacy reset sequence has not been implemented yet.
+> +	 * Any target earlier than SM8150 will need it and when
+> +	 * WB support is added to those targets will need to add
+> +	 * the legacy teardown sequence as well.
+> +	 */
+> +	if (phys_enc->hw_pp->merge_3d)
 
-extra empty lines in the end
+This is a bit.. counterintuitive. I'd prefer hw_ctl->caps->features & 
+BIT(DPU_ACTIVE_CTL).
+
+> +		dpu_encoder_helper_phys_cleanup(phys_enc);
+> +
+> +	phys_enc->enable_state = DPU_ENC_DISABLED;
+> +}
+> +
+> +/**
+> + * dpu_encoder_phys_wb_get_hw_resources - get hardware resources
+> + * @phys_enc:	Pointer to physical encoder
+> + * @hw_res:	Pointer to encoder resources
+> + */
+> +static void dpu_encoder_phys_wb_get_hw_resources(
+> +		struct dpu_encoder_phys *phys_enc,
+> +		struct dpu_encoder_hw_resources *hw_res)
+> +{
+> +	if (!phys_enc) {
+> +		DPU_ERROR("invalid encoder\n");
+> +		return;
+> +	}
+> +
+> +	hw_res->wbs[phys_enc->intf_idx - WB_0] = INTF_MODE_WB_LINE;
+> +	DPU_DEBUG("[wb:%d] intf_mode=%d\n", phys_enc->intf_idx - WB_0,
+> +			hw_res->wbs[phys_enc->intf_idx - WB_0]);
+> +}
+> +
+> +/**
+> + * dpu_encoder_phys_wb_destroy - destroy writeback encoder
+> + * @phys_enc:	Pointer to physical encoder
+> + */
+> +static void dpu_encoder_phys_wb_destroy(struct dpu_encoder_phys *phys_enc)
+> +{
+> +	DPU_DEBUG("[wb:%d]\n", phys_enc->intf_idx - INTF_0);
+> +
+> +	if (!phys_enc)
+> +		return;
+> +
+> +	kfree(phys_enc);
+> +}
+> +
+> +static void dpu_encoder_phys_wb_prepare_wb_job(struct dpu_encoder_phys *phys_enc,
+> +		struct drm_writeback_job *job)
+> +{
+> +	const struct msm_format *format;
+> +	struct dpu_hw_wb_cfg *wb_cfg;
+> +	int ret;
+> +	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys_enc);
+> +
+> +	if (!job->fb)
+> +		return;
+> +
+> +	wb_enc->wb_job = job;
+> +	wb_enc->wb_conn = job->connector;
+> +	wb_enc->aspace = phys_enc->dpu_kms->base.aspace;
+
+Any particular reason to cache it in wb_enc?
+
+> +
+> +	wb_cfg = &wb_enc->wb_cfg;
+> +
+> +	memset(wb_cfg, 0, sizeof(struct dpu_hw_wb_cfg));
+> +
+> +	ret = msm_framebuffer_prepare(job->fb, wb_enc->aspace);
+> +	if (ret) {
+> +		DPU_ERROR("prep fb failed, %d\n", ret);
+> +		return;
+> +	}
+> +
+> +	format = msm_framebuffer_format(job->fb);
+> +
+> +	wb_cfg->dest.format = dpu_get_dpu_format_ext(
+> +			format->pixel_format, job->fb->modifier);
+> +	if (!wb_cfg->dest.format) {
+> +		/* this error should be detected during atomic_check */
+> +		DPU_ERROR("failed to get format %x\n", format->pixel_format);
+> +		return;
+> +	}
+> +
+> +	ret = dpu_format_populate_layout(wb_enc->aspace, job->fb, &wb_cfg->dest);
+> +	if (ret) {
+> +		DPU_DEBUG("failed to populate layout %d\n", ret);
+> +		return;
+> +	}
+> +
+> +	wb_cfg->dest.width = job->fb->width;
+> +	wb_cfg->dest.height = job->fb->height;
+> +	wb_cfg->dest.num_planes = wb_cfg->dest.format->num_planes;
+> +
+> +	if ((wb_cfg->dest.format->fetch_planes == DPU_PLANE_PLANAR) &&
+> +			(wb_cfg->dest.format->element[0] == C1_B_Cb))
+> +		swap(wb_cfg->dest.plane_addr[1], wb_cfg->dest.plane_addr[2]);
+> +
+> +	DPU_DEBUG("[fb_offset:%8.8x,%8.8x,%8.8x,%8.8x]\n",
+> +			wb_cfg->dest.plane_addr[0], wb_cfg->dest.plane_addr[1],
+> +			wb_cfg->dest.plane_addr[2], wb_cfg->dest.plane_addr[3]);
+> +
+> +	DPU_DEBUG("[fb_stride:%8.8x,%8.8x,%8.8x,%8.8x]\n",
+> +			wb_cfg->dest.plane_pitch[0], wb_cfg->dest.plane_pitch[1],
+> +			wb_cfg->dest.plane_pitch[2], wb_cfg->dest.plane_pitch[3]);
+> +}
+> +
+> +static void dpu_encoder_phys_wb_cleanup_wb_job(struct dpu_encoder_phys *phys_enc,
+> +		struct drm_writeback_job *job)
+> +{
+> +	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys_enc);
+> +
+> +	if (!job->fb)
+> +		return;
+> +
+> +	msm_framebuffer_cleanup(job->fb, wb_enc->aspace);
+> +	// revisit this after everything else works
+
+Everything works now, doesn't it?
+
+> +	wb_enc->wb_job = NULL;
+> +	wb_enc->wb_conn = NULL;
+> +}
+> +
+> +/**
+> + * dpu_encoder_phys_wb_init_ops - initialize writeback operations
+> + * @ops:	Pointer to encoder operation table
+> + */
+> +static void dpu_encoder_phys_wb_init_ops(struct dpu_encoder_phys_ops *ops)
+> +{
+> +	ops->is_master = dpu_encoder_phys_wb_is_master;
+> +	ops->mode_set = dpu_encoder_phys_wb_mode_set;
+> +	ops->enable = dpu_encoder_phys_wb_enable;
+> +	ops->disable = dpu_encoder_phys_wb_disable;
+> +	ops->destroy = dpu_encoder_phys_wb_destroy;
+> +	ops->atomic_check = dpu_encoder_phys_wb_atomic_check;
+> +	ops->get_hw_resources = dpu_encoder_phys_wb_get_hw_resources;
+> +	ops->wait_for_commit_done = dpu_encoder_phys_wb_wait_for_commit_done;
+> +	ops->prepare_for_kickoff = dpu_encoder_phys_wb_prepare_for_kickoff;
+> +	ops->handle_post_kickoff = dpu_encoder_phys_wb_handle_post_kickoff;
+> +	ops->needs_single_flush = dpu_encoder_phys_wb_needs_single_flush;
+> +	ops->trigger_start = dpu_encoder_helper_trigger_start;
+> +	ops->prepare_wb_job = dpu_encoder_phys_wb_prepare_wb_job;
+> +	ops->cleanup_wb_job = dpu_encoder_phys_wb_cleanup_wb_job;
+> +	ops->irq_control = dpu_encoder_phys_wb_irq_ctrl;
+> +}
+> +
+> +/**
+> + * dpu_encoder_phys_wb_init - initialize writeback encoder
+> + * @init:	Pointer to init info structure with initialization params
+> + */
+> +struct dpu_encoder_phys *dpu_encoder_phys_wb_init(
+> +		struct dpu_enc_phys_init_params *p)
+> +{
+> +	struct dpu_encoder_phys *phys_enc = NULL;
+> +	struct dpu_encoder_phys_wb *wb_enc = NULL;
+> +
+> +	struct dpu_encoder_irq *irq;
+> +	int ret = 0;
+> +	int i;
+> +
+> +	DPU_DEBUG("\n");
+> +
+> +	if (!p || !p->parent) {
+> +		DPU_ERROR("invalid params\n");
+> +		ret = -EINVAL;
+> +		goto fail_alloc;
+> +	}
+> +
+> +	wb_enc = kzalloc(sizeof(*wb_enc), GFP_KERNEL);
+> +	if (!wb_enc) {
+> +		DPU_ERROR("failed to allocate wb phys_enc enc\n");
+> +		ret = -ENOMEM;
+> +		goto fail_alloc;
+> +	}
+> +
+> +	phys_enc = &wb_enc->base;
+> +	phys_enc->hw_mdptop = p->dpu_kms->hw_mdp;
+> +	phys_enc->intf_idx = p->intf_idx;
+> +
+> +	dpu_encoder_phys_wb_init_ops(&phys_enc->ops);
+> +	phys_enc->parent = p->parent;
+> +	phys_enc->parent_ops = p->parent_ops;
+> +	phys_enc->dpu_kms = p->dpu_kms;
+> +	phys_enc->split_role = p->split_role;
+> +	phys_enc->intf_mode = INTF_MODE_WB_LINE;
+> +	phys_enc->intf_idx = p->intf_idx;
+> +	phys_enc->enc_spinlock = p->enc_spinlock;
+> +
+> +	atomic_set(&wb_enc->wbirq_refcount, 0);
+> +
+> +	for (i = 0; i < INTR_IDX_MAX; i++) {
+> +		irq = &phys_enc->irq[i];
+> +		INIT_LIST_HEAD(&irq->cb.list);
+> +		irq->irq_idx = -EINVAL;
+> +		irq->cb.arg = phys_enc;
+> +	}
+> +
+> +	irq = &phys_enc->irq[INTR_IDX_WB_DONE];
+> +	irq->name = "wb_done";
+> +	irq->intr_idx = INTR_IDX_WB_DONE;
+> +	irq->cb.func = dpu_encoder_phys_wb_done_irq;
+> +
+> +	atomic_set(&phys_enc->pending_kickoff_cnt, 0);
+> +	atomic_set(&phys_enc->vblank_refcount, 0);
+> +	wb_enc->wb_done_timeout_cnt = 0;
+> +
+> +	init_waitqueue_head(&phys_enc->pending_kickoff_wq);
+> +	phys_enc->enable_state = DPU_ENC_DISABLED;
+> +
+> +	DPU_DEBUG("Created dpu_encoder_phys for wb %d\n",
+> +			phys_enc->intf_idx);
+> +
+> +	return phys_enc;
+> +
+> +fail_alloc:
+> +	return ERR_PTR(ret);
+> +}
+
 
 -- 
 With best wishes
