@@ -1,54 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08BC4A9A7A
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 14:58:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FDE64A9A98
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 15:02:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBA910F54E;
-	Fri,  4 Feb 2022 13:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF2010E80C;
+	Fri,  4 Feb 2022 14:02:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E727910F54E
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 13:58:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643983117; x=1675519117;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=2BxfKJHDVoUG3oQffGXWyy/SJf5pROrxwoiqlC67rMU=;
- b=ZCvKjs9u/1c0/e5P9OmEPvtLK2kCO1ahDLg0e0dqb8YVJ8jAdua4QilV
- fD4qE+ll4KFn9cZ6Zqby3MAVAYjkxdAmNPFxgx214vlFj8bIS4MT+GPVZ
- oqY6ymy6lb01CzD2snNYhWRA4GAEj9wCQAr7x1at3l0zKH4c2IatmAwYk
- 3hDL3HqWjJ5lYsBRqhMoGy8AalNp1/1g8nhm2WcV70/DA/MmDg7LNQNJs
- NIhuNG+BnrrQojf/aKB/lYk4yFkwtJAx32am5wq1pyKrSDAl1EjezS+3m
- +G8xY1EMk6eJE22v5/8Sn188Zb24zMD+9rb/UBxBNV9tk/Ef81n0xC3x4 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10247"; a="228342081"
-X-IronPort-AV: E=Sophos;i="5.88,342,1635231600"; d="scan'208";a="228342081"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 05:58:37 -0800
-X-IronPort-AV: E=Sophos;i="5.88,342,1635231600"; d="scan'208";a="627783155"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 05:58:34 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nFz5g-000o5W-Pc; Fri, 04 Feb 2022 15:57:32 +0200
-Date: Fri, 4 Feb 2022 15:57:32 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 3/4] MAINTAINERS: Add entry for Solomon SSD130X OLED
- displays DRM driver
-Message-ID: <Yf0wzOP/kaubDAhP@smile.fi.intel.com>
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <20220204134347.1187749-4-javierm@redhat.com>
+Received: from relay4.hostedemail.com (relay4.hostedemail.com [64.99.140.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6E110E80C
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 14:02:15 +0000 (UTC)
+Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
+ by unirelay01.hostedemail.com (Postfix) with ESMTP id CEA06614A8;
+ Fri,  4 Feb 2022 14:02:07 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
+ omf17.hostedemail.com (Postfix) with ESMTPA id A72A11B; 
+ Fri,  4 Feb 2022 14:01:08 +0000 (UTC)
+Message-ID: <7cb1ce88cbf977801f2519178c270c1271100ac6.camel@perches.com>
+Subject: Re: [PATCH] HPE BMC GXP SUPPORT
+From: Joe Perches <joe@perches.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Date: Fri, 04 Feb 2022 06:01:44 -0800
+In-Reply-To: <Yf0cihUQ1byjnh3d@shell.armlinux.org.uk>
+References: <nick.hawkins@hpe.com>
+ <20220202165315.18282-1-nick.hawkins@hpe.com>
+ <Yf0Wm1kOV1Pss9HJ@shell.armlinux.org.uk>
+ <ad56e88206a8d66b715035362abe16ece0bde7d3.camel@perches.com>
+ <Yf0cihUQ1byjnh3d@shell.armlinux.org.uk>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220204134347.1187749-4-javierm@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: A72A11B
+X-Spam-Status: No, score=-2.03
+X-Stat-Signature: c3yzg6zcu4cpdcebaczubogb94ck3gqq
+X-Rspamd-Server: rspamout07
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+KwoOMBfXWPFnO9qh3WITIVuG9hjhnLgA=
+X-HE-Tag: 1643983268-605794
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,32 +52,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Wang Kefeng <wangkefeng.wang@huawei.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
+ verdun@hpe.com, Amit Kucheria <amitk@kernel.org>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>, netdev@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Stanislav Jakubek <stano.jakubek@gmail.com>, Hao Fang <fanghao11@huawei.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Richard Weinberger <richard@nod.at>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, linux-pwm@vger.kernel.org,
+ linux-serial@vger.kernel.org,
+ Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ openipmi-developer@lists.sourceforge.net, Jakub Kicinski <kuba@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, Corey Minyard <minyard@acm.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, linux-gpio@vger.kernel.org,
+ soc@kernel.org, Rob Herring <robh+dt@kernel.org>, nick.hawkins@hpe.com,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 04, 2022 at 02:43:46PM +0100, Javier Martinez Canillas wrote:
-> To make sure that tools like the get_maintainer.pl script will suggest
-> to Cc me if patches are posted for this driver.
+On Fri, 2022-02-04 at 12:31 +0000, Russell King (Oracle) wrote:
+> On Fri, Feb 04, 2022 at 04:18:24AM -0800, Joe Perches wrote:
+> > On Fri, 2022-02-04 at 12:05 +0000, Russell King (Oracle) wrote:
+> > > On Wed, Feb 02, 2022 at 10:52:50AM -0600, nick.hawkins@hpe.com wrote:
+> > > > +	if (readb_relaxed(timer->control) & MASK_TCS_TC) {
+> > > > +		writeb_relaxed(MASK_TCS_TC, timer->control);
+> > > > +
+> > > > +		event_handler = READ_ONCE(timer->evt.event_handler);
+> > > > +		if (event_handler)
+> > > > +			event_handler(&timer->evt);
+> > > > +		return IRQ_HANDLED;
+> > > > +	} else {
+> > > > +		return IRQ_NONE;
+> > > > +	}
+> > > > +}
+> > 
+> > It's also less indented code and perhaps clearer to reverse the test
+> > 
+> > 	if (!readb_relaxed(timer->control) & MASK_TCS_TC)
 > 
-> Also include the Device Tree binding for the old ssd1307fb fbdev driver
-> since the new DRM driver was made compatible with the existing binding.
+> This will need to be:
+> 
+>  	if (!(readb_relaxed(timer->control) & MASK_TCS_TC))
 
-...
-
->  drivers/gpu/drm/drm_format_helper.c | 2 +-
-
-Nothing about this in the commit message...
-
-Stray change?
-
--- 
-With Best Regards,
-Andy Shevchenko
+right, thanks.
 
 
