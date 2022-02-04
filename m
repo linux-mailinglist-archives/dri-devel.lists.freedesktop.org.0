@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0FF94A976E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 11:04:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA894A976F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 11:04:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC05910F253;
-	Fri,  4 Feb 2022 10:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06D9910F25E;
+	Fri,  4 Feb 2022 10:04:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 936ED10F191;
- Fri,  4 Feb 2022 10:04:42 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id a8so17714460ejc.8;
- Fri, 04 Feb 2022 02:04:42 -0800 (PST)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6752510F253;
+ Fri,  4 Feb 2022 10:04:43 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id p7so11956379edc.12;
+ Fri, 04 Feb 2022 02:04:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Rx5rKIs1h4pkPPx07vOixo6aKMAm9lXxnCcc7E9V7dU=;
- b=V4HxWMBwmSqyCzF0puYOm75Pg4LHlZZd73dPSvLtWqQfaGywaL9ENrwR6EEhNWIATA
- PAE0aikq8WPBTui6YjH5O9t3lZML+wi4Nv5h8iP+mWG7RG5Kh6MOBNXec5UsqlRNpntP
- qc34PH94usI9h2CCHb6VTnBY/Z8ZtG5+aQU5PPt6kv/RbHa2vNu1my44LwHUTx3OkK2H
- J3Zm8SwAGRLQRsUr0lBZdiOSg+oGsyPhfpzPgMAL0MR6K+fnuesYR+kLAsjeC1S40k2b
- PK5gW9WEIUq21kGYU2NPSkxpJA0SMDTafKYAeFKmWAwSxRV5aKYT31ijCHFY/memfmpw
- +VsA==
+ bh=32x746+aqRVJfpOzq5mPUyMArnAKR0oshZjP3RNr6L8=;
+ b=Jz+HUiSG7XC9MjED/gcNv0zfCuUYFu9u04aTEsTpnY4EbHbkWKo9dESj6TOix/VqTZ
+ a2WlPyfMfnWgCJDQKyGlhNmo1XcGuTynUbjhCrCLMvnyhcMFQA7EQgea2/zM5WfUtetv
+ 7LU75cwoXcDVBi0SEoMk18kcWX8gl0PfdBULxU7oeIYtgdu7YuYsMYiuaH6VOu+FnIAE
+ tj5OSsML18o7A5+CgTltGSp/x1w7MO1OlrZpb+nc0nMwCZ7Y2gzG62hWXcZFAQsdDUHX
+ QX5Cm+c6bL67tiep+HF5Fw14FBxfiTnkz52F+he6uyg/vKIVS6vepSKw4KE++z3lC9hw
+ PDFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Rx5rKIs1h4pkPPx07vOixo6aKMAm9lXxnCcc7E9V7dU=;
- b=SrihcxnGlGAZ4aEdkzVsCV1T7KsHVY5IscszE1YHW5+hESQCjAxniRUgugitXdeTpd
- Gcu5cWVhfEMR7upF02mcgXB8jfsbNibkQibl/yjAH8isL430xpaIId/PDRsZapOljP8H
- j4f4lkQDq8F4nyi71OQ8nl/Eip5Um7toCyrVLokeH5azUuZafBTU4sFarjN0iJJOxOBs
- CD8ygExmKUCAIN3mEIXs5JF/gVwM2cjQVC05uhyMfUdVvNX2Nwe1/Elzk0gZ1JVglPyl
- Yi7oVxZBb7YsF/Y089n/6AYdheOdWWRZ5PG9dxpxMA7Xzbw3nSuUVVvdM9Bi3VIjQTRR
- 4IZQ==
-X-Gm-Message-State: AOAM5330RTYq9ZwDKfPuaG0vGpprJFatbUhiwY1cRKtLiLurb5aOHEac
- KpUuIzR9cpHyhpcEJpR52Xo=
-X-Google-Smtp-Source: ABdhPJztBHmTGU6YkwToxZohDq0/Ut4O8GCLLrmJNsoENbA0aLh4NmlUkJR6QhSWUvCE7XuAmCh5IA==
-X-Received: by 2002:a17:907:7f8f:: with SMTP id
- qk15mr1799850ejc.287.1643969081145; 
- Fri, 04 Feb 2022 02:04:41 -0800 (PST)
+ bh=32x746+aqRVJfpOzq5mPUyMArnAKR0oshZjP3RNr6L8=;
+ b=AdR93I3OqIaFm+zfWe2nP+iBufS9cmbROa+qpy3qjGoA1QW5f2ZW13UuleIwa1TCcf
+ 8oPPuNQIvak8P/aoa5A3S3KezyLyqzc7o/ejBDKuYseGYCQyV4ft27WjkO5g291YH8YQ
+ ow+goF8sIqz1w1LuHlWp+5WFEi+k5RbwxYQre5iiumptc4cPSM/wBkV222mMedKVC0we
+ vcHbhwMpmx1jTyJhrG8ZFsZYCSlKhV1rKPTPihuNSdJ05uT4y7u3iD16pkWtAqVZ5KIy
+ qY0Cf43MR/afB4LQk2611ZFwzDNADJN+Qgtt3rSeOH5WHc5VSQRZfT1hqRkQozGdSSHH
+ V73g==
+X-Gm-Message-State: AOAM532H9ehxnptmsiEO9jlNyQHu8OILrkrwoDS1O8ERswdIGCccP/XB
+ 7+JZrN51WLOOb94EsQaT5Tc=
+X-Google-Smtp-Source: ABdhPJyZWf/AMWiDhzdDt7PQoSdF8kB98XCNmcSmAiADBKdZzV3DJeepZ+hSzwe2wALWcX4P1fjOEw==
+X-Received: by 2002:aa7:d944:: with SMTP id l4mr2239665eds.117.1643969082010; 
+ Fri, 04 Feb 2022 02:04:42 -0800 (PST)
 Received: from able.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
- by smtp.gmail.com with ESMTPSA id z10sm633943edl.54.2022.02.04.02.04.40
+ by smtp.gmail.com with ESMTPSA id z10sm633943edl.54.2022.02.04.02.04.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 02:04:40 -0800 (PST)
+ Fri, 04 Feb 2022 02:04:41 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: sumit.semwal@linaro.org, thomas.hellstrom@linux.intel.com,
  daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/6] dma-buf: add dma_fence_chain_contained helper
-Date: Fri,  4 Feb 2022 11:04:28 +0100
-Message-Id: <20220204100429.2049-6-christian.koenig@amd.com>
+Subject: [PATCH 6/6] drm/amdgpu: use dma_fence_chain_contained
+Date: Fri,  4 Feb 2022 11:04:29 +0100
+Message-Id: <20220204100429.2049-7-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220204100429.2049-1-christian.koenig@amd.com>
 References: <20220204100429.2049-1-christian.koenig@amd.com>
@@ -76,65 +75,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's a reoccurring pattern that we need to extract the fence
-from a dma_fence_chain object. Add a helper for this.
+Instead of manually extracting the fence.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/dma-fence-chain.c |  6 ++----
- include/linux/dma-fence-chain.h   | 15 +++++++++++++++
- 2 files changed, 17 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-index 084c6927b735..06f8ef97c6e8 100644
---- a/drivers/dma-buf/dma-fence-chain.c
-+++ b/drivers/dma-buf/dma-fence-chain.c
-@@ -148,8 +148,7 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+index f7d8487799b2..40e06745fae9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+@@ -261,10 +261,9 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
  
- 	dma_fence_get(&head->base);
- 	dma_fence_chain_for_each(fence, &head->base) {
--		struct dma_fence_chain *chain = to_dma_fence_chain(fence);
--		struct dma_fence *f = chain ? chain->fence : fence;
-+		struct dma_fence *f = dma_fence_chain_contained(fence);
+ 	dma_resv_for_each_fence(&cursor, resv, true, f) {
+ 		dma_fence_chain_for_each(f, f) {
+-			struct dma_fence_chain *chain = to_dma_fence_chain(f);
++			struct dma_fence *tmp = dma_fence_chain_contained(f);
  
- 		dma_fence_get(f);
- 		if (!dma_fence_add_callback(f, &head->cb, dma_fence_chain_cb)) {
-@@ -165,8 +164,7 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
- static bool dma_fence_chain_signaled(struct dma_fence *fence)
- {
- 	dma_fence_chain_for_each(fence, fence) {
--		struct dma_fence_chain *chain = to_dma_fence_chain(fence);
--		struct dma_fence *f = chain ? chain->fence : fence;
-+		struct dma_fence *f = dma_fence_chain_contained(fence);
- 
- 		if (!dma_fence_is_signaled(f)) {
- 			dma_fence_put(fence);
-diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
-index ee906b659694..10d51bcdf7b7 100644
---- a/include/linux/dma-fence-chain.h
-+++ b/include/linux/dma-fence-chain.h
-@@ -66,6 +66,21 @@ to_dma_fence_chain(struct dma_fence *fence)
- 	return container_of(fence, struct dma_fence_chain, base);
- }
- 
-+/**
-+ * dma_fence_chain_contained - return the contained fence
-+ * @fence: the fence to test
-+ *
-+ * If the fence is a dma_fence_chain the function returns the fence contained
-+ * inside the chain object, otherwise it returns the fence itself.
-+ */
-+static inline struct dma_fence *
-+dma_fence_chain_contained(struct dma_fence *fence)
-+{
-+	struct dma_fence_chain *chain = to_dma_fence_chain(fence);
-+
-+	return chain ? chain->fence : fence;
-+}
-+
- /**
-  * dma_fence_chain_alloc
-  *
+-			if (amdgpu_sync_test_fence(adev, mode, owner, chain ?
+-						   chain->fence : f)) {
++			if (amdgpu_sync_test_fence(adev, mode, owner, tmp)) {
+ 				r = amdgpu_sync_fence(sync, f);
+ 				dma_fence_put(f);
+ 				if (r)
 -- 
 2.25.1
 
