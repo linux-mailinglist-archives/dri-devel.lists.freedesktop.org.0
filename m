@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4EF4A9E0E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 18:45:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DED54A9E28
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 18:46:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADB2B10EEFB;
-	Fri,  4 Feb 2022 17:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11C4B10EF1B;
+	Fri,  4 Feb 2022 17:45:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 704AF10EEE8;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7132D10EEEA;
  Fri,  4 Feb 2022 17:45:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1643996711; x=1675532711;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3Y8uTypFAIZENwtUG7FRR4yNPIjXk/Htz+k509+kEH8=;
- b=IwSTLG5CRZLnJKmKgKQajaQRYMKWlv5ftdJtfAlDi7vGG38kqN8jwILb
- HtHfsrZ1DV3LcQyBSwSv2OMyPiy76H/x97Db6f22WhuUqHA0wEeVWtOoJ
- Nf39Q1EGxafIqpbWKa/TegmfQp/SA9ifUSHEPn/UgXIjoeiI0ncFp93NH
- wEc+pbnBbwIMo7wKkIOegw3+Z9iHPKVNhQZsv8QLG8654ImouKQM3QXKn
- r4aqmDEapbbxtIEA0G3eQg+J1I7a/7iU1idIWE5C0yJCOdaXqU1I+JRWt
- jgYbLRqANyYw8GTerZI+q6qA4rhhapsfwBnTVRYqStmdx39Fj8SbLzB4m g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10248"; a="247242186"
-X-IronPort-AV: E=Sophos;i="5.88,343,1635231600"; d="scan'208";a="247242186"
+ bh=dwKpK+QWMv4aa1iZ4+++E713WBV59p0VhyhaTo+mxXA=;
+ b=kNrwSV7BrdTBspJ2D4UNiD7byognGBpUJYxey2axZRspIeD2wn+Has/h
+ MQfmfRFRSISsHZ8ci+TyyNg99HjjxGsdrv5uzMAZniC+3vtl6ksTxVezW
+ ZYFaJSzTZqaqowRgvsInCx3aXyXMQyzvT/3yfm8C3VQajCDGPkPGIT35Y
+ 19PIHD0e0MH1h4lWpIc405/LXG7gBgwghrf24rwZ/qV2gCaQ/rhxRH/xG
+ wfhKa9ouJPHqJXOdWtZQ+GFfeshLXaUKyOm1U+gSZZAskpqtzDqrRjjIm
+ dJcJ0PFrnNxa6l5n0fIpVcTiJ5UKa9PM0eB++QUyDj3m70ndz7WBi/fxV w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10248"; a="247242187"
+X-IronPort-AV: E=Sophos;i="5.88,343,1635231600"; d="scan'208";a="247242187"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Feb 2022 09:45:10 -0800
-X-IronPort-AV: E=Sophos;i="5.88,343,1635231600"; d="scan'208";a="539240832"
+X-IronPort-AV: E=Sophos;i="5.88,343,1635231600"; d="scan'208";a="539240835"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Feb 2022 09:45:09 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 16/19] drm/i915/guc: Use a single pass to calculate regset
-Date: Fri,  4 Feb 2022 09:44:33 -0800
-Message-Id: <20220204174436.830121-17-lucas.demarchi@intel.com>
+Subject: [PATCH 17/19] drm/i915/guc: Convert guc_mmio_reg_state_init to
+ iosys_map
+Date: Fri,  4 Feb 2022 09:44:34 -0800
+Message-Id: <20220204174436.830121-18-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220204174436.830121-1-lucas.demarchi@intel.com>
 References: <20220204174436.830121-1-lucas.demarchi@intel.com>
@@ -67,43 +68,9 @@ Cc: Matthew Brost <matthew.brost@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ADS initialitazion was using 2 passes to calculate the regset sent
-to GuC to initialize each engine: the first pass to just have the final
-object size and the second to set each register in place in the final
-gem object.
-
-However in order to maintain an ordered set of registers to pass to guc,
-each register needs to be added and moved in the final array. The second
-phase may actually happen in IO memory rather than system memory and
-accessing IO memory by simply dereferencing the pointer doesn't work on
-all architectures. Other places of the ADS initializaition were
-converted to use the iosys_map API, but here there may be a lot more
-accesses to IO memory. So, instead of following that same approach,
-convert the regset initialization to calculate the final array in 1
-pass and in the second pass that array is just copied to its final
-location, updating the pointers for each engine written to the ADS blob.
-
-One important thing is that struct temp_regset now have
-different semantics: `registers` continues to track the registers of a
-single engine, however the other fields are updated together, according
-to the newly added `storage`, which tracks the memory allocated for
-all the registers. So rename some of these fields and add a
-__mmio_reg_add(): this function (possibly) allocates memory and operates
-on the storage pointer while guc_mmio_reg_add() continues to manage the
-registers pointer.
-
-On a Tiger Lake system using enable_guc=3, the following log message is
-now seen:
-
-	[  187.334310] i915 0000:00:02.0: [drm:intel_guc_ads_create [i915]] Used 4 KB for temporary ADS regset
-
-This change has also been tested on an ARM64 host with DG2 and other
-discrete graphics cards.
-
-v2 (Daniele):
-  - Fix leaking tempset on error path
-  - Add comments on struct temp_regset to document the meaning of each
-    field
+Now that the regset list is prepared, convert guc_mmio_reg_state_init()
+to use iosys_map to copy the array to the final location and
+initialize additional fields in ads.reg_state_list.
 
 Cc: Matt Roper <matthew.d.roper@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
@@ -113,259 +80,80 @@ Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc.h     |   7 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 128 +++++++++++++--------
- 2 files changed, 90 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 30 +++++++++++++---------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 9b9ba79f7594..f857e9190750 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -152,6 +152,13 @@ struct intel_guc {
- 	struct iosys_map ads_map;
- 	/** @ads_regset_size: size of the save/restore regsets in the ADS */
- 	u32 ads_regset_size;
-+	/**
-+	 * @ads_regset_count: number of save/restore registers in the ADS for
-+	 * each engine
-+	 */
-+	u32 ads_regset_count[I915_NUM_ENGINES];
-+	/** @ads_regset: save/restore regsets in the ADS */
-+	struct guc_mmio_reg *ads_regset;
- 	/** @ads_golden_ctxt_size: size of the golden contexts in the ADS */
- 	u32 ads_golden_ctxt_size;
- 	/** @ads_engine_usage_size: size of engine usage in the ADS */
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index 3a4558948c31..c040d8d8d7a4 100644
+index c040d8d8d7a4..cf6fafa1024c 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -226,14 +226,18 @@ static void guc_mapping_table_init(struct intel_gt *gt,
- 
- /*
-  * The save/restore register list must be pre-calculated to a temporary
-- * buffer of driver defined size before it can be generated in place
-- * inside the ADS.
-+ * buffer before it can be copied inside the ADS.
-  */
--#define MAX_MMIO_REGS	128	/* Arbitrary size, increase as needed */
- struct temp_regset {
-+	/*
-+	 * ptr to the section of the storage for the engine currently being
-+	 * worked on
-+	 */
- 	struct guc_mmio_reg *registers;
--	u32 used;
--	u32 size;
-+	/* ptr to the base of the allocated storage for all engines */
-+	struct guc_mmio_reg *storage;
-+	u32 storage_used;
-+	u32 storage_max;
- };
- 
- static int guc_mmio_reg_cmp(const void *a, const void *b)
-@@ -244,18 +248,44 @@ static int guc_mmio_reg_cmp(const void *a, const void *b)
- 	return (int)ra->offset - (int)rb->offset;
+@@ -383,40 +383,46 @@ static long guc_mmio_reg_state_create(struct intel_guc *guc)
+ 	return ret;
  }
  
-+static struct guc_mmio_reg * __must_check
-+__mmio_reg_add(struct temp_regset *regset, struct guc_mmio_reg *reg)
-+{
-+	u32 pos = regset->storage_used;
-+	struct guc_mmio_reg *slot;
-+
-+	if (pos >= regset->storage_max) {
-+		size_t size = ALIGN((pos + 1) * sizeof(*slot), PAGE_SIZE);
-+		struct guc_mmio_reg *r = krealloc(regset->storage,
-+						  size, GFP_KERNEL);
-+		if (!r) {
-+			WARN_ONCE(1, "Incomplete regset list: can't add register (%d)\n",
-+				  -ENOMEM);
-+			return ERR_PTR(-ENOMEM);
-+		}
-+
-+		regset->registers = r + (regset->registers - regset->storage);
-+		regset->storage = r;
-+		regset->storage_max = size / sizeof(*slot);
-+	}
-+
-+	slot = &regset->storage[pos];
-+	regset->storage_used++;
-+	*slot = *reg;
-+
-+	return slot;
-+}
-+
- static long __must_check guc_mmio_reg_add(struct temp_regset *regset,
- 					  u32 offset, u32 flags)
+-static void guc_mmio_reg_state_init(struct intel_guc *guc,
+-				    struct __guc_ads_blob *blob)
++static void guc_mmio_reg_state_init(struct intel_guc *guc)
  {
--	u32 count = regset->used;
-+	u32 count = regset->storage_used - (regset->registers - regset->storage);
- 	struct guc_mmio_reg reg = {
- 		.offset = offset,
- 		.flags = flags,
- 	};
- 	struct guc_mmio_reg *slot;
- 
--	GEM_BUG_ON(count >= regset->size);
--
- 	/*
- 	 * The mmio list is built using separate lists within the driver.
- 	 * It's possible that at some point we may attempt to add the same
-@@ -266,9 +296,9 @@ static long __must_check guc_mmio_reg_add(struct temp_regset *regset,
- 		    sizeof(reg), guc_mmio_reg_cmp))
- 		return 0;
- 
--	slot = &regset->registers[count];
--	regset->used++;
--	*slot = reg;
-+	slot = __mmio_reg_add(regset, &reg);
-+	if (IS_ERR(slot))
-+		return PTR_ERR(slot);
- 
- 	while (slot-- > regset->registers) {
- 		GEM_BUG_ON(slot[0].offset == slot[1].offset);
-@@ -295,7 +325,11 @@ static int guc_mmio_regset_init(struct temp_regset *regset,
- 	unsigned int i;
- 	int ret = 0;
- 
--	regset->used = 0;
-+	/*
-+	 * Each engine's registers point to a new start relative to
-+	 * storage
-+	 */
-+	regset->registers = regset->storage + regset->storage_used;
- 
- 	ret |= GUC_MMIO_REG_ADD(regset, RING_MODE_GEN7(base), true);
- 	ret |= GUC_MMIO_REG_ADD(regset, RING_HWS_PGA(base), false);
-@@ -317,34 +351,36 @@ static int guc_mmio_regset_init(struct temp_regset *regset,
- 	return ret ? -1 : 0;
- }
- 
--static int guc_mmio_reg_state_query(struct intel_guc *guc)
-+static long guc_mmio_reg_state_create(struct intel_guc *guc)
- {
++	struct iosys_map ads_regset_map;
  	struct intel_gt *gt = guc_to_gt(guc);
  	struct intel_engine_cs *engine;
+-	struct guc_mmio_reg *ads_registers;
  	enum intel_engine_id id;
--	struct temp_regset temp_set;
--	u32 total;
-+	struct temp_regset temp_set = {};
-+	long total = 0;
-+	long ret;
- 
--	/*
--	 * Need to actually build the list in order to filter out
--	 * duplicates and other such data dependent constructions.
--	 */
--	temp_set.size = MAX_MMIO_REGS;
--	temp_set.registers = kmalloc_array(temp_set.size,
--					   sizeof(*temp_set.registers),
--					   GFP_KERNEL);
--	if (!temp_set.registers)
--		return -ENOMEM;
--
--	total = 0;
- 	for_each_engine(engine, gt, id) {
--		guc_mmio_regset_init(&temp_set, engine);
--		total += temp_set.used;
-+		u32 used = temp_set.storage_used;
-+
-+		ret = guc_mmio_regset_init(&temp_set, engine);
-+		if (ret < 0)
-+			goto fail_regset_init;
-+
-+		guc->ads_regset_count[id] = temp_set.storage_used - used;
-+		total += guc->ads_regset_count[id];
- 	}
- 
--	kfree(temp_set.registers);
-+	guc->ads_regset = temp_set.storage;
-+
-+	drm_dbg(&guc_to_gt(guc)->i915->drm, "Used %zu KB for temporary ADS regset\n",
-+		(temp_set.storage_max * sizeof(struct guc_mmio_reg)) >> 10);
- 
- 	return total * sizeof(struct guc_mmio_reg);
-+
-+fail_regset_init:
-+	kfree(temp_set.storage);
-+	return ret;
- }
- 
- static void guc_mmio_reg_state_init(struct intel_guc *guc,
-@@ -352,40 +388,38 @@ static void guc_mmio_reg_state_init(struct intel_guc *guc,
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
- 	struct intel_engine_cs *engine;
-+	struct guc_mmio_reg *ads_registers;
- 	enum intel_engine_id id;
--	struct temp_regset temp_set;
--	struct guc_mmio_reg_set *ads_reg_set;
  	u32 addr_ggtt, offset;
--	u8 guc_class;
  
  	offset = guc_ads_regset_offset(guc);
  	addr_ggtt = intel_guc_ggtt_offset(guc, guc->ads_vma) + offset;
--	temp_set.registers = (struct guc_mmio_reg *)(((u8 *)blob) + offset);
--	temp_set.size = guc->ads_regset_size / sizeof(temp_set.registers[0]);
-+	ads_registers = (struct guc_mmio_reg *)(((u8 *)blob) + offset);
-+
-+	memcpy(ads_registers, guc->ads_regset, guc->ads_regset_size);
+-	ads_registers = (struct guc_mmio_reg *)(((u8 *)blob) + offset);
++	ads_regset_map = IOSYS_MAP_INIT_OFFSET(&guc->ads_map, offset);
+ 
+-	memcpy(ads_registers, guc->ads_regset, guc->ads_regset_size);
++	iosys_map_memcpy_to(&ads_regset_map, 0, guc->ads_regset,
++			    guc->ads_regset_size);
  
  	for_each_engine(engine, gt, id) {
-+		u32 count = guc->ads_regset_count[id];
-+		struct guc_mmio_reg_set *ads_reg_set;
-+		u8 guc_class;
-+
+ 		u32 count = guc->ads_regset_count[id];
+-		struct guc_mmio_reg_set *ads_reg_set;
+ 		u8 guc_class;
+ 
  		/* Class index is checked in class converter */
  		GEM_BUG_ON(engine->instance >= GUC_MAX_INSTANCES_PER_CLASS);
  
  		guc_class = engine_class_to_guc_class(engine->class);
- 		ads_reg_set = &blob->ads.reg_state_list[guc_class][engine->instance];
+-		ads_reg_set = &blob->ads.reg_state_list[guc_class][engine->instance];
  
--		guc_mmio_regset_init(&temp_set, engine);
--		if (!temp_set.used) {
-+		if (!count) {
- 			ads_reg_set->address = 0;
- 			ads_reg_set->count = 0;
+ 		if (!count) {
+-			ads_reg_set->address = 0;
+-			ads_reg_set->count = 0;
++			ads_blob_write(guc,
++				       ads.reg_state_list[guc_class][engine->instance].address,
++				       0);
++			ads_blob_write(guc,
++				       ads.reg_state_list[guc_class][engine->instance].count,
++				       0);
  			continue;
  		}
  
- 		ads_reg_set->address = addr_ggtt;
--		ads_reg_set->count = temp_set.used;
-+		ads_reg_set->count = count;
+-		ads_reg_set->address = addr_ggtt;
+-		ads_reg_set->count = count;
++		ads_blob_write(guc,
++			       ads.reg_state_list[guc_class][engine->instance].address,
++			       addr_ggtt);
++		ads_blob_write(guc,
++			       ads.reg_state_list[guc_class][engine->instance].count,
++			       count);
  
--		temp_set.size -= temp_set.used;
--		temp_set.registers += temp_set.used;
--		addr_ggtt += temp_set.used * sizeof(struct guc_mmio_reg);
-+		addr_ggtt += count * sizeof(struct guc_mmio_reg);
+ 		addr_ggtt += count * sizeof(struct guc_mmio_reg);
  	}
--
--	GEM_BUG_ON(temp_set.size);
- }
+@@ -646,7 +652,7 @@ static void __guc_ads_init(struct intel_guc *guc)
+ 	blob->ads.gt_system_info = base + ptr_offset(blob, system_info);
  
- static void fill_engine_enable_masks(struct intel_gt *gt,
-@@ -634,8 +668,11 @@ int intel_guc_ads_create(struct intel_guc *guc)
+ 	/* MMIO save/restore list */
+-	guc_mmio_reg_state_init(guc, blob);
++	guc_mmio_reg_state_init(guc);
  
- 	GEM_BUG_ON(guc->ads_vma);
- 
--	/* Need to calculate the reg state size dynamically: */
--	ret = guc_mmio_reg_state_query(guc);
-+	/*
-+	 * Create reg state size dynamically on system memory to be copied to
-+	 * the final ads blob on gt init/reset
-+	 */
-+	ret = guc_mmio_reg_state_create(guc);
- 	if (ret < 0)
- 		return ret;
- 	guc->ads_regset_size = ret;
-@@ -681,6 +718,7 @@ void intel_guc_ads_destroy(struct intel_guc *guc)
- 	i915_vma_unpin_and_release(&guc->ads_vma, I915_VMA_RELEASE_MAP);
- 	guc->ads_blob = NULL;
- 	iosys_map_clear(&guc->ads_map);
-+	kfree(guc->ads_regset);
- }
- 
- static void guc_ads_private_data_reset(struct intel_guc *guc)
+ 	/* Private Data */
+ 	blob->ads.private_data = base + guc_ads_private_data_offset(guc);
 -- 
 2.35.1
 
