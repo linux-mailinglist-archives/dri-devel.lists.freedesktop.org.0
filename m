@@ -1,56 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73DBB4AA012
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 20:30:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09ED44AA019
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 20:31:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2F2610EADC;
-	Fri,  4 Feb 2022 19:30:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6CA510EB3B;
+	Fri,  4 Feb 2022 19:31:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9D810EADC
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 19:30:09 +0000 (UTC)
-Received: by mail-pg1-x531.google.com with SMTP id s16so5798320pgs.13
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 11:30:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sjz/d2uJSRskReEmVHKPPM9K20Vc4OsAmYuunLLpKFw=;
- b=nIRVyrBynAGmaqmots0Mq+aw1Avy4WkS6UPdfbbOrVc45NFzxxpY/9TWPB4t7o3pYY
- dll6b2poAli+XYy5rUVa4dTB5exq3qBNqKTnhC2Bf32hal1L/hovklTGk/YrufUtDo51
- h9TZPM1W6daiJ+dfC5cQOYRynQ4ltQhCmKqSYLep5Sn+r9USG6T/DhnBECkzhHDNWZJ+
- yf5FCQVjjG/R9Vvb2BLYD16zichIYpEBf8TeUT0x2XS/GhWXXsp5I2HZnx9lXleRP/yR
- mNgQa51908kvsqdlyNjPL5oHTXcNfsqJwyzQgtJf9/m4HKZtYG989mDnz6mclz4su77/
- 2aVg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE2210EB3B
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 19:31:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644003100;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XB7EqmHX3QJchDoebIRUn45wKZyDtzMRU7LbvShZrmI=;
+ b=XoEy8CyWXdXJ3PgmQkvIX6g0A8RdEWXkOB9j+UbPDOJx/AO4aZXgIoBpCCqsTU+sTEy5TJ
+ A0sh954FKmMT8WW65+yfJYr/9Ot0Bha3g3yIpnUX2HUuqCf1ymFKx204+ue/niSW8OxdtY
+ T4U8wd+RuO1tuadaPQ8SylXLS696kzQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-118-kto3r6cbPCOZbHElBttQlQ-1; Fri, 04 Feb 2022 14:31:39 -0500
+X-MC-Unique: kto3r6cbPCOZbHElBttQlQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ q4-20020adfbb84000000b001dd3cfddb2dso2443808wrg.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 11:31:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sjz/d2uJSRskReEmVHKPPM9K20Vc4OsAmYuunLLpKFw=;
- b=DtzRSPwa92w2QVZx9bLfjJmpU3zWzfgS6eR5m9MlaAwlkyCVoiK+GO0onaX27oJDhL
- hbF7K/5IlfaaI05gCO37jRQdy/tdyZJMz5VOm6VsbXMhFqCu7grd38xYYRImB604A2vN
- RQfdM/u9wIY0aFtropVAyGWS/ngQbh/sY6VSNd8DN0WR8x0PZdzNwBspNwwuyEUKvpp2
- DgV73VuDzNao/vkmO5Rb2fMDEhz4i7agLamj1Scsy+TwcZX0bghtm2IOdHkc5lL/uY7T
- LdUzvHhAsEKTSzJC1XqDyBBeNvhZlSvQ5tN7k51l5lKYco5xm6S+zzpQO4wY+KiJmVYM
- Wp3A==
-X-Gm-Message-State: AOAM530DaJY2aUg3reOGu+3+wHVXqbpsz1oGeiPNY6NppoJwZaZ20b0o
- Pznmt62CFHlfqJ08xJqLf/Fihr73+ezlieQhgZHMwN+Xm1k=
-X-Google-Smtp-Source: ABdhPJwl/Ikwm+SRw8mO/XCAwWW+cI6ZLc926D0tRc+KyiKrxJHhusUtS8WUK1022mB/ftpk6q2o5I90X1d7yB8ZhvM=
-X-Received: by 2002:a63:fc0b:: with SMTP id j11mr442424pgi.146.1644003008833; 
- Fri, 04 Feb 2022 11:30:08 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XB7EqmHX3QJchDoebIRUn45wKZyDtzMRU7LbvShZrmI=;
+ b=cFc66SyIxRoEKREly6kxyt4WoqrGUrZEmW9EvfetnxjY7sYb0UTdyHVJvgwfnRBVtk
+ DsXtUkMPZRWtA1vHUlXHMY4pqrgOTSyUYIedt87S2pHXiM5OTpnBrAkfH4zmHe5iTGx8
+ S8UOJu+3umqI/tcQ4lGikbrbi7ACmTIUoOF2VVCc3SW76TuCFmt44zel8bMyJrPmAA/j
+ xcKgNG7BmlWayy6no1Dvg2MongpMHI+pXAgx0i2iOK3WWd7GKJV/3UN3wxXGMDzwFblQ
+ JVSnwTHiJxj/TiI+eqTzGbHwl6dGC26zK1nGiq9d/ZXhJinfAUlyRWZQlThf5J3X0pEW
+ Ns8g==
+X-Gm-Message-State: AOAM531iz/kvKVacwR1pcDwQDVSDmNS33Auu7oUT0MUqx4tWsNVjiQFe
+ kHVFzAMw/SYderlYfejfUeTK9Y97AxfLloPawgVYGjPNrgeOKPIs9W5z0Ks1OtJg042q7Xg7Vyk
+ 9Lb2xUCIWYtUA/LQ/HzqX0t+zC4O9
+X-Received: by 2002:a05:600c:308:: with SMTP id
+ q8mr227585wmd.118.1644003098414; 
+ Fri, 04 Feb 2022 11:31:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwnUrl7L5DUkWi88NA0XDtQhKrbGlFf75d9R565igNT1eWA/BV6uT/4ED51bA6rarcBe+VNVg==
+X-Received: by 2002:a05:600c:308:: with SMTP id
+ q8mr227567wmd.118.1644003098213; 
+ Fri, 04 Feb 2022 11:31:38 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id y14sm3081929wrd.91.2022.02.04.11.31.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Feb 2022 11:31:37 -0800 (PST)
+Message-ID: <b388f295-920a-b4fc-41ef-d090bdcd69e2@redhat.com>
+Date: Fri, 4 Feb 2022 20:31:36 +0100
 MIME-Version: 1.0
-References: <20220202150201.290c7d3d@canb.auug.org.au>
- <20220202150320.3e9bdd62@canb.auug.org.au>
- <f50d5044-7192-bdb3-7ca9-7217ed311787@redhat.com>
-In-Reply-To: <f50d5044-7192-bdb3-7ca9-7217ed311787@redhat.com>
-From: Rajat Jain <rajatja@google.com>
-Date: Fri, 4 Feb 2022 11:29:32 -0800
-Message-ID: <CACK8Z6EKsFwJcpmqFoVOkQYqLMK37Qz3FYkf+-EhP4AFiscbeA@mail.gmail.com>
-Subject: Re: linux-next: build warning after merge of the drm tree
-To: Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/4] drm/format-helper: Add
+ drm_fb_{xrgb8888,gray8}_to_mono_reversed()
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+References: <20220204134347.1187749-1-javierm@redhat.com>
+ <20220204134347.1187749-2-javierm@redhat.com>
+ <47100413-db63-1efa-45e9-028dfc430b7e@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <47100413-db63-1efa-45e9-028dfc430b7e@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,41 +89,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 2, 2022 at 12:38 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 2/2/22 05:03, Stephen Rothwell wrote:
-> > Hi all,
-> >
-> > On Wed, 2 Feb 2022 15:02:01 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> >>
-> >> After merging the drm tree, today's linux-next build (htmldocs) produced
-> >> this warning:
-> >>
-> >> drivers/gpu/drm/drm_privacy_screen.c:X: warning: Function parameter or member 'data' not described in 'drm_privacy_screen_register'
-> >
-> > Actually:
-> >
-> > drivers/gpu/drm/drm_privacy_screen.c:392: warning: Function parameter or member 'data' not described in 'drm_privacy_screen_register'
->
-> Thank you for reporting this, I will prepare a patch fixing this.
+Hello Thomas,
 
-Thank you so much Hans!
+Thanks a lot for your feedback.
 
-Best Regards,
+On 2/4/22 16:52, Thomas Zimmermann wrote:
 
-Rajat
+[snip]
 
+>> +static void drm_fb_gray8_to_mono_reversed_line(u8 *dst, const u8 *src, size_t pixels)
+>> +{
+>> +	unsigned int xb, i;
+>> +
+>> +	for (xb = 0; xb < pixels / 8; xb++) {
+> 
+> In practice, all mode widths are multiples of 8 because VGA mandated it. 
+> So it's ok-ish to assume this here. You should probably at least print a 
+> warning somewhere if (pixels % 8 != 0)
 >
-> Regards,
+
+Agreed.
+ 
+[snip]
+
+>> + * DRM doesn't have native monochrome or grayscale support.
+>> + * Such drivers can announce the commonly supported XR24 format to userspace
+>> + * and use drm_fb_xrgb8888_to_gray8() to convert to grayscale and then this
+>> + * helper function to convert to the native format.
+>> + */
+>> +void drm_fb_gray8_to_mono_reversed(void *dst, unsigned int dst_pitch, const void *src,
+>> +				   const struct drm_rect *clip)
+> 
+> There's a bug here. You want to pass in a drm_framebuffer as fourth 
+> argument.
 >
-> Hans
+>> +{
+>> +
+>> +	size_t height = drm_rect_height(clip);
+>> +	size_t width = drm_rect_width(clip);
+>> +	unsigned int y;
+>> +	const u8 *gray8 = src;
+>> +	u8 *mono = dst;
+>> +
+>> +	if (!dst_pitch)
+>> +		dst_pitch = width;
+> 
+> The dst_pitch is given in bytes. You have to device by 8. Here would be 
+> a good place to warn if (width % 8 != 0).
 >
+
+Ok.
+ 
+>> +
+>> +	for (y = 0; y < height; y++) {
+>> +		drm_fb_gray8_to_mono_reversed_line(mono, gray8, dst_pitch);
+>> +		mono += (dst_pitch / 8);
+> 
+> The dst_pitch is already given in bytes.
+>
+
+Yes, I know but for reversed mono we want only 1/8 of the width since we
+are converting from 8 bits per pixel greyscale to 1 bit per pixel mono.
+
+Or am I misunderstanding what you meant ?
+
+>> +		gray8 += dst_pitch;
+> 
+> 'gray8 += fb->pitches[0]' would be correct.
+>
+
+Ok.
+ 
+[snip]
+
+>> + */
+>> +void drm_fb_xrgb8888_to_mono_reversed(void *dst, unsigned int dst_pitch, const void *src,
+>> +				      const struct drm_framebuffer *fb,
+>> +				      const struct drm_rect *clip)
+>> +{
+>> +	if (WARN_ON(fb->format->format != DRM_FORMAT_XRGB8888))
+>> +		return;
+>> +
+>> +	if (!dst_pitch)
+>> +		dst_pitch = drm_rect_width(clip);
+>> +
+>> +	drm_fb_xrgb8888_to_gray8(dst, dst_pitch, src, fb, clip);
+>> +	drm_fb_gray8_to_mono_reversed(dst, dst_pitch, dst, fb, clip);
+> 
+> Converting from dst into dst can give incorrect results. At some point 
+> we probably want to add restrict qualifiers to these pointers, to help 
+> the compiler with optimizing.
+> 
+> A better approach here is to pull the per-line conversion from 
+> drm_fb_xrgb8888_to_gray8() into a separate helper and implement a 
+> line-by-line conversion here. something like this:
+> 
+>    drm_fb_xrgb8888_to_mono_reversed()
+>    {
+>      char *tmp = kmalloc(size of a single line of gray8)
+> 
+>      for (heigth) {
+>         drm_fb_xrgb8888_to_gray8_line(tmp, ..., src, ...);
+>         drm_fb_gray8_to_mono_reversed(dst, ..., tmp, ...);
+> 
+>         src += fb->pitches[0]
+>         dst += dst_pitch;
+>      }
+> 
+>      kfree(tmp);
+>    }
+>
+
+I see. Yes, that sounds a much better approach. I'll change it in v3.
+ 
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
