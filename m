@@ -1,122 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5AB4A9F07
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 19:30:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 914944A9F28
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 19:35:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ACE410E468;
-	Fri,  4 Feb 2022 18:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FAAC10E394;
+	Fri,  4 Feb 2022 18:35:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0558F10E1E2;
- Fri,  4 Feb 2022 18:29:59 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB1D10E394;
+ Fri,  4 Feb 2022 18:35:49 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P0+xcUyypq7EXKkCTodAvBCrYXvUztQ23Fv2MKUF4HmWu3aT02CIm2flhkrjwMZ7bgmaLYZtxAf5Cy2kafRaspUSEPCZ6VwIwqs4vggU3SwJBwSNEbK72h88Fx/d4GyAvRqcDCmSJ2lKinkGqMzsAKQIPpnmEYB+cyBmy1cQn3DpzS8/9oUG0Wwtt5D4Vrtd2TF3SJVtulybWZC2H5vQS8gfCh2p2+JFSjFzJixxtaCxdAXUmhrNKe/xm+isWvY9y96gTvj+nQ30rE6Y5IO5i/pLxUftkGBSLDGOLysj65Nj1NtVzw93Cd8KK6YOewIAj/XEZMHlIi5sgz5DD2/E7A==
+ b=CvvG1H88zcjo/ReoCEha5kTd2XtqKHK3NqR8AcRps5/KKMM/bXCGgO2UBkh2E3nCwBU9tevWAe8fzWMrNS4LB5bNMRdTiTuJs/e9GTSJvMBdeHRTwNullcwnDBWCqhCC0Nb/4OESpm3a9+KzHhXZZQiDrxKzFPuBo+ePkA3BRxbZNWX9GM/Fe7/fgMJdDu9GBtzXppNVbZGdVil/n78AH07l7ATys0j/0ZkazDkr42HfVUfdcTrvNo4GUqXESqvDs9yFjhOcgvVg95IH2mvcmdCh3HBL3JDqMhYcAn2noc7MJZvPeeB4unoidM/2rKob6emG6yZrjhv/M2hJflWETg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MLoeuJ7IfZUrDJgREsXBIMcvAjwPGn4btZGZCkDX89M=;
- b=gqeJxA2nh/nb+5mVDSZaYfjlfQPU8SpaEpT213dNh4xOSWkZbmT645Nam5XM3vkRROAya4xL1qGvWwFduDJ9q/2njHyWvy/ioTrVIIkNrQ249dP7lFoYRYCTM3ApYbB+UgR2DsmLNXs5Ikf8qQU06Lj9z5QMDuYDANuIjYukghiKfUx62rBDdwGiEbe/PqIPBXcFVOxOaTDdihSd3EeZWY0lPOb+8wf8B/eJ8d9B2ssUhh/eUJ5xb6gkq5czAf8N8+i6Tb0/Kc597fgHH0rOIWbVymzaRCcmMcwUsITKOIuSubvxfr8qybeiUak0e2RSQZ4G7yCMzQ9IptBOWNNuRQ==
+ bh=M1B3pLSPE9kKpLaQTBCPKOHqa+wXGmdJ5XUJrvnKb00=;
+ b=X5B5IlVMoQ0QGeGULJSLwK5WqPVCNI5rskIPsJa7YX1A386F84zsKrBltwsGnfrND2XSU02AJbra9z3uboVDKNe9b2b97P/8bwulsVX67+pkhDdAKteRMkrzFWF7lF+K3/GfDX0iwK3JJCfUtsom0BoFSiw6MCv+Y336aJ932qehm5XFAyHqAFHMWmQ9ryc4DluIGxDMy/aqi5pPuNJslMnUx1sRy1DKQUVmtn2XZvOjN7IniHEkw9A/Kk1UJfGLEcCpVu3ZkAPUGz8v9aYyqC9DJaHcMRhs9aMv484r6varapCQErvjzXjWI/0Q2NIXIGlipWfpyF4LF1wWBMihzw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MLoeuJ7IfZUrDJgREsXBIMcvAjwPGn4btZGZCkDX89M=;
- b=fuu2N9aLEoG43/7psUOUAWFb/lQOeLsubr4dgMgT9smb6+KHtaos84Fva4TeLOqQJmpeildxNx0KU8ir/pD/TDx5sUCWeifE6RaRaP+w01+dqjTPrLKkdS1PPrv3FOKBuA4FrPAHTIy8xwxfD6/xMgOUmhIRufqtVHONMWAYcfU=
+ bh=M1B3pLSPE9kKpLaQTBCPKOHqa+wXGmdJ5XUJrvnKb00=;
+ b=J1CST43pVRIUgnsS+6KKuAa8kVgCe0a8EKx9bpAfkPcyXDYybmWBTXBpNItFDhTRiKF6OIluOCl0Hxsy6CRTi54OqTWl4cykov8h6yOy7BJmdoTJWdkaklh0ZrY4N25jt+Yn+Wlfrz+lLCDK9W1MHBoufdW0klnrldbXujGxwaQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BN8PR12MB2978.namprd12.prod.outlook.com (2603:10b6:408:42::30)
+ by BYAPR12MB3079.namprd12.prod.outlook.com (2603:10b6:a03:a9::21)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Fri, 4 Feb
- 2022 18:29:56 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.11; Fri, 4 Feb
+ 2022 18:35:46 +0000
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::d861:5699:8188:7bd3]) by BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::d861:5699:8188:7bd3%3]) with mapi id 15.20.4951.014; Fri, 4 Feb 2022
- 18:29:56 +0000
-Message-ID: <28be9b4b-dbe1-28fa-e013-570c45a5c705@amd.com>
-Date: Fri, 4 Feb 2022 19:29:50 +0100
+ 18:35:45 +0000
+Message-ID: <4156d270-b30a-402f-268a-7ce28b1f2237@amd.com>
+Date: Fri, 4 Feb 2022 19:35:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [RFC PATCH 1/3] drm: Extract amdgpu_sa.c as a generic
- suballocation helper
+Subject: Re: [PATCH 02/19] iosys-map: Add offset to iosys_map_memcpy_to()
 Content-Language: en-US
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20220204174809.3366967-1-maarten.lankhorst@linux.intel.com>
- <20220204174809.3366967-2-maarten.lankhorst@linux.intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220204174436.830121-1-lucas.demarchi@intel.com>
+ <20220204174436.830121-3-lucas.demarchi@intel.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220204174809.3366967-2-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20220204174436.830121-3-lucas.demarchi@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6PR0202CA0058.eurprd02.prod.outlook.com
- (2603:10a6:20b:3a::35) To BN8PR12MB3587.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0016.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::21) To BN8PR12MB3587.namprd12.prod.outlook.com
  (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: da3afd6b-21af-4951-247b-08d9e80c57b7
-X-MS-TrafficTypeDiagnostic: BN8PR12MB2978:EE_
-X-Microsoft-Antispam-PRVS: <BN8PR12MB29780C4DEC4C22BB1D8305E383299@BN8PR12MB2978.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Office365-Filtering-Correlation-Id: a773ca1e-2f63-4313-7da9-08d9e80d2821
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3079:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB3079BC91A5EE2F03E5A2F89F83299@BYAPR12MB3079.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fZK4yzizgBOiXsVz8ZY1FPFvn1f4bpjV916c72KPw+pglIWdn24yBxIxoPLKmYefE4jzEKRiIJEVAv93i7anCO6ahtQOlnPEC3E6vnYSGMBJzPdwzFBGO+q/aInGstJBJ/gvsjjZyUqgFWZIXZcCEZE0qMU09kEiGuK7QHzpa1/1m0DyGltlcvjkvLXhl6RjHyJaaoc+hub98sqC4EQ4Y5QWj/Fa/SggTARE64GItI3dGuhjEg8ATaY7RcwnZyUHUhMsNgjGFsqRcxwALgHt/KkhbKfbtQ5yBV7C1fdKrzrpKx5WAM29aiuxDcVMB+1thngpthdFUEku2NkcGoIklKZXh5IVK55dQrbClTKpjlPxyMXTnfA7ymrXLPkVQoAgn1xBdC1236iS+ea2RWSSOpF1nG3Cve6R9sIYjsDpvVwXFp8/hWslwJ5pRqcZXeoivN9g5Ai/XQtZm3i90FpP4l7hzbEMyGUbi0zYBl9gBD4Uw3K4uNokjSKaRw/9YxYCGiAwwhA0RLbMGMlcMF4mCII9CLRAXQy9zVSaeTeoe3QQcJcAQD2ppJBfQIZC37HDFaPvjP9lEik09oDqGKvKz4n7vm/s2AQORT/3laHbJU57Ii8sq3G8ZAZwM6SZUoO9l2ILiFRCm47TFRC6hsU4LtMo/WkBg6bv0Rulc3hDCcdxTZzjp4S8/6YoyaaEZ88mc870I49HO0l8uYOjY1mh+sU9ZZ3kZ5CUPsGYbbcz/K6+XzuLQ3gVVHIJKwjDO4KPZO/xjGic/vpDrB6aWb3Gbw==
+X-Microsoft-Antispam-Message-Info: eNGevhhXjVZ7erX2NJeb0oNlZzt4/96sUwUsOklK/+a3DyQ9Onk/WPerIHXyuGDxZxUXjrjLdODstSB7AbLmwUyOKh/kexTCCTdSodXkjYTssWK6sISNboOUmfOZDfDwzNKTbrHdNePIsm3s3NKVTQNi2pVSF/zyerc5kixXa5tpTCC7gRbQdTp7zvmSkj1z9fvjGsBMSOnARRE+i72WrEAnPS2Ir9B4f6A4vK//vA0/ICtmrYc0yRcV0NL490xQ9gxkJ087b6pSQ/Ig7HQ+MSsmaFfR4Jcc4wkUOZlmADpNMRq+AIGagLDrHJ759hu6n3k1NWx2azP9s6e7gARZPmna3jBBYbaCSPV2jkx6tj3bhdKZcxnCDGCIMUcsS4bwUeaaB6nQv8K6eEoYu2jwRNb8Yu9ruOl2KRNRFiAhuP4+szNxxyXNG5FzWJlz8v5SEJTe2d0SaFuEqZ/ymVJzOEP3rZ2OMCM7zCPV417MbkVT4rEHYcN0nP252zwaeesuQvm3mqE/u/Kq/7aEE+PqbnlfRJUhwigckg63Yk045eaeHVwLOwcQrgDM4rD3VIrsZ2wIHOUabD68Atc93lKyvUp7FI/2m2fIuGrPVmYdrXthTn/RlCYWybz0ddXxOA3Mk4F/uLJgW0zuELILJ46dOJirJd1k1k+W0j6jkrhb0v3ftbEskAhCih8n23xGOpFTyLeBM/d0/oha8lS67vOXSZOv2f6y41UD78oW88EchLbPMZJD6anJ3jNaAx3d3Oab
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(8936002)(186003)(36756003)(6486002)(38100700002)(66946007)(30864003)(31686004)(2906002)(6506007)(6512007)(54906003)(2616005)(83380400001)(86362001)(316002)(508600001)(4326008)(66556008)(6666004)(66476007)(31696002)(8676002)(41533002)(43740500002)(45980500001);
+ SFS:(13230001)(4636009)(366004)(186003)(2906002)(5660300002)(7416002)(38100700002)(2616005)(6506007)(316002)(6666004)(6512007)(54906003)(66556008)(8936002)(8676002)(4326008)(66946007)(66476007)(83380400001)(6486002)(36756003)(508600001)(31686004)(31696002)(86362001)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Rk02ellGaTMvOXBPTlJUNElnUkNFY3g4aUIvRzUwNWcrbGgrSjNuV1V5QUR4?=
- =?utf-8?B?SWJwdVlrOXRIUUpXWFNuS2lUMDU2dmVlTTcxdFZBbnpadUJEd3hnN0thdXRN?=
- =?utf-8?B?bkszL0VPQUlVcWQwZ3d6aEtDd3RpcGhYMkdtbE1iR01ESEtJUUVVVDJlVDZ6?=
- =?utf-8?B?OS9BTDRkT0lXdjl6aFdteUZKamdZcnNFdWFuRlJpbktSdU9NeXlSOGtKYU5D?=
- =?utf-8?B?cU5TYWhkcXNBUHNJb0lMWjJhN1FLVXYxR052c0xRTzV6bEVqbi8rUStlR0p3?=
- =?utf-8?B?RDBJRVduVWdpcWVEMm12eWNPZzI2Q3FpMWU2blNEQmc2U0VOeG13ZW95Vzcv?=
- =?utf-8?B?ZHJ1WjRYWitTYUhPWkNwNlQzZUNRSzhLcEIvYnN4YVdPdWVsL3FPaGdsSXR2?=
- =?utf-8?B?a1hOZWcwY0MxZW1keW42V0xJMlYvc25rRk5WNXV0cVNkdkdSakxlM1lmY1Zp?=
- =?utf-8?B?ZGtCbFB1OWZPTTh3eHlQZWRzWFIwZm9yZG1iZjJmaUV0dy92RjIxK0RRem1p?=
- =?utf-8?B?dHJiVlJOS1kvckZTUCtiR0UwRFhOdVRlNEZHNXJaV1FIbU5XQ3FxOHJLZkMy?=
- =?utf-8?B?djJjc3ZlQXZ1N2hTRmhWQ0FNclFzMCticFp2RUFLeE9wOVR6SjFOMnFUeEUv?=
- =?utf-8?B?RnZNQ20waHFHQ0dOZkR5ZVJHVmpsY3lBSVloQTdaNFFZbnp1VHMxMHgyTkFE?=
- =?utf-8?B?TlN3QlVSQ1ZKcUFmV2wwdi9EZGNuL2UyVXBDQTJJZHFUNnpQd2dmYXVNQkFi?=
- =?utf-8?B?SUwydGo2Ukc3eGExeXFhY0lRUzRLOFZya1Jrclgya0M5TkFLYi9DcnkrZ1N5?=
- =?utf-8?B?U3hON1ZzMVBRaDdUV3BRd1J1bEE5Mk0yaUM1ekNpOW42V2E5QmJ4QXpoWDAz?=
- =?utf-8?B?Z2N2ZW1LdXE1N1UxYXpZVDJ3NmtZYzdYM1VxbkcwajVYNDBJNlliNW9kb2Qr?=
- =?utf-8?B?RDByUVNvZTNhOXVnTmwxMS9MVVl6elBoK0pWNDhLTkozalkvV0NYN0oycC8z?=
- =?utf-8?B?dEhkZmRJUWZaYURtUkVHdTlHYm15Snl2RXpEcmxEc1BpdVZmZW5Iak1ZZVFn?=
- =?utf-8?B?K21GMjEwM0g4bmExWHdEWUJBUkVaeGpQdklWRnZoQmRBYjZwRm43Y3lKVEhh?=
- =?utf-8?B?QUJXR0RiRGM1SC9zN2szQk43V25aS2VRSXJRUkJ6WVE1cGZNVE9oOTFRYjlI?=
- =?utf-8?B?L2ZKbzRaVUFoZkVhRUVaNjF1Sk5ZdHlVTkh6RGx6bENwWE1CSWdUaEdEU2d6?=
- =?utf-8?B?bmtGNnpkQ2FaM0puSTgwdDVtUzZnOVVwRWhWcldhUG1TTmY1WUFOb1FZcGJ6?=
- =?utf-8?B?cjFwaFpQMW56YS9DQkZKdEUrakJoY01YRHVSQVA1TmNMZ2RZTjdnQWhtbDNj?=
- =?utf-8?B?UU9yWXhUNlF0REdDYXRvK25JWGoxY1V4NktSNWtkMFBvaEFURGlFMnJzdnVZ?=
- =?utf-8?B?RW53UDBPNnlDbzMzcXBmdFVSbTY0d0hpY0c2RWo0dEF3VXJqb05KQkhpUFpr?=
- =?utf-8?B?RG1oWFpQNG9TUjRMZ291NHpTcGlyZmNuL3hja2N0YjRVQ1Vaam9FeHp4OWQ1?=
- =?utf-8?B?N082YU8yNVFISE8xZVN2NFFic0taWFNRZm1rUnV5VGtpSkp6S0ltdmw3TWdw?=
- =?utf-8?B?dGtmblFicS80QWNoQjI2WVVWa2ltbmpIMnF6NmhKU3FhV2xqM085YzdkaCs1?=
- =?utf-8?B?UUlEYTJlWXVWWHFtZ3RlQ0VNaldCV1M3MlhPSnJNeTVsQ2R4VTA0TFlhUjJJ?=
- =?utf-8?B?bkJLSmhyZjFnNVhkQUZwOGVNeTNlOFlOY2VJc2YwTWRaZXpoWHhoeUNkcTNP?=
- =?utf-8?B?YWJqbkdUb08vVHV1cGtzdDhzS1luQ09UaEN5eW40UVc2TXBGSWl4UDJBSWtH?=
- =?utf-8?B?MEtpNmEvYk10dnVuWk82dHBnWFFQSUx5cWN5WDNVSysrWWFyUWUzVXk1QllN?=
- =?utf-8?B?WDNOdmplY3VPOU9obkkwQkNRU0JMTG9PQ3dremNGQmppNFljYTNtT1FHOGVy?=
- =?utf-8?B?SmlUZGlBNmswbG5PaG83R0xndWgyNTM2WUk1cXI2Mlk2T3FMQnlVMnhzY3dI?=
- =?utf-8?B?UlRvTndPNGg3M0tFTkVDVzk4US94eERmSWFxTzYzOUdMMmd0VjlTSm9EaXpS?=
- =?utf-8?B?THVtVGRNMlVJYTJvRTdBeGFsNVpOdSsrT3pTWkNVZG5aai9lMXFJTXB2RTB1?=
- =?utf-8?Q?3jSMefRyjRzm8L4kcfDbYtk=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dmVUalpZb0JPMlpNMGN4cG9KYUM3WUltQks1K2xmenJ2Z1E4UlYvNHN3SDdF?=
+ =?utf-8?B?TGNnYjhhMkd3VEZ3M3RJbkhKRy9wdjI0eEk2eUxMOXY1QzBZbzl1cHNHanlR?=
+ =?utf-8?B?cjRranlQZEtVMlhRNkt2WTlFSWNrWFd3eGVqUlc0blRLNlVwd1NTakRXdC81?=
+ =?utf-8?B?NW02NFIxQ1dQOXJiSXlBYlZoWEU2YXNQK0N4VHpFSlFCdGg0ckxHWkdxcGFl?=
+ =?utf-8?B?WkE0T0R0dWQ4NHlHZURUaCtHWW50QUVnVlV1dUxDUkZpS3loQ1JiQmRqdVFW?=
+ =?utf-8?B?VGtpT0xNbEpHYVJBYVBQdUJMSGkxSk03TS8xVXhHcE56TjRVemxXQ3pWVVZ0?=
+ =?utf-8?B?UkJUbFhNUDBndVFvYkM3a1c4UDNVaGRIYlhkd2xaY0pCK294SDBJUFVHRTFW?=
+ =?utf-8?B?VUhPUWRRSXRCNlBOaEttdTZqTnh5Y3ZBc0RWWjF5VHl3eEFYNnErbWxjVzZm?=
+ =?utf-8?B?R1RvLzRvMDNJRnkveDl1bHRKZFc5UzhVK3oyYXM0c2RJbEluQ0hNNzBwREJD?=
+ =?utf-8?B?Z3Q0WWtONHR5Uy9PMFJmSm1MUnI1NDU3Z3E2RnZtK292SFFFL211ZVhNNHBm?=
+ =?utf-8?B?eEsyZThoMnlnTkNhS0xRRGptckhiQVhjM0JhMHRwWmJRWVFVckZ3U2dKemdX?=
+ =?utf-8?B?L3o0Ryt2UXJLZWZPQkR1WkRkYlc3bHdTdGhtcFZMS3N6OUxiUWlMTnY1M05s?=
+ =?utf-8?B?ZG44VVN2aTlJdTI0RytzL2dHN1Bpa2xuVmd4eFFkcSsxNndURlh1ZFFQR29D?=
+ =?utf-8?B?NWRZZEY1VU5NR0RSWmJFaUFsR0p5aDBIL2FGK1Uva2xweVVqdHYrSHI2QlBK?=
+ =?utf-8?B?bXNORFRIeDZ1cFM3S0lDUGozbE9rNXJsZW9LU1drNFNEcC9GUWswbUlieDlT?=
+ =?utf-8?B?aEdqZkp6VS90VkhsWXk0K2VkTFlMeU1WbXRvcVN0N1lKTVk5S3JHZ2txL0Yw?=
+ =?utf-8?B?Tm1Nc21UTDlMWXNlbWl2M2c4Sjk2b1FTVi9SV1V5MGo3SFVQZmhNU01JMnR5?=
+ =?utf-8?B?RlB4MTdOUTlyZHJQNXltRXVJODc5eEx4eXJaZlJybGpZUTY0YW82S2hDZWhy?=
+ =?utf-8?B?cG0rV3F2cWZtTkU4Y3pTNXBVU1lDVGV1SjV6S0V2RDhac0tRcUp5V2JxQXNY?=
+ =?utf-8?B?bHN3azZNb0xuOGtyYTdrZ0JxVmxIQVptS3B4R0ZRT3JlR2xiTlJhdDZ5K2lS?=
+ =?utf-8?B?SFFBVTV1bkdVNEsrbTlwUFE5dCtuR3YwbFZQWkN6TEgwKyt2ZXIydDgrSjhl?=
+ =?utf-8?B?UVpwc1Q0Y0ViT2EwTm1UZEtEbWZldGRTR1JSakxOby9KYmgrbFdsL1Z3bXhN?=
+ =?utf-8?B?TkhHWnZ2NWlkTVFrcTVLdlVFcE5ObFhwSVVjN3hFR0FNcHBDVG41aVU0NDlU?=
+ =?utf-8?B?WGNzOTA1cUdreVh2UFFGWmZLRHJUMDAwVlAzek1vbFRITzN6UzlLVHNuMVNR?=
+ =?utf-8?B?dG1wSVlWeXgvQ2dXQ2ZYdEpwUlVRaWY2M1JjQldqdWtJQ1hTeWMvK3FUS0FV?=
+ =?utf-8?B?dUthSDk2aElWeUxLVjFLKzAraWdYMlpLN0J6WlAwNVc5Vm9CTExVb0s3L3Fl?=
+ =?utf-8?B?WVhLcElJaUFFcjVjbmE4bHNQQXdUYXBWQjJNbUEzQ1JIQzJJb1BhZnd3dmJO?=
+ =?utf-8?B?Tm84SnpoYTRDYVVOaUJWK0pjZkFwZFhBODluWWNkd1NRVFhNM01KQUV1Tkxx?=
+ =?utf-8?B?VTdWLzZDY1NVQmRPTXAwTlkyVDdiT2ZlMkFNamxFMmxIdDRZNnEzeGxJRzVq?=
+ =?utf-8?B?aDQ4ZWxSdm1FRWt3SnE2WVdZWHQzVEk2elFScStkRW90WThaaldVVDN1NFY5?=
+ =?utf-8?B?U01SSEZJWnd1cUFWSU1CR2lZNnQ1L202dFBQTTZoZkFJY1ZuTXFqR0FlTnd0?=
+ =?utf-8?B?aXBPYWFVc1V3WUt3cTJhbCs1WkFLNmp4Y2hrTExxcGRwR2p0MlZsMHJ4Mmlv?=
+ =?utf-8?B?Y0xlU0pibWFnaVlSdnNiSmg4eGZOVk9rZXNudUZjS2hXRzBnNVdwV1UxOG5R?=
+ =?utf-8?B?Y1FyNlF3Q1VNMzdtVkluZ1NveEpZS2hMdmdNcGxXL2NpMk5ZZnRmZVc3cU5h?=
+ =?utf-8?B?NUZTNmlHalF3bHQ1SnpYemsySUh6YjYrTnlEaXlNRGpuNWVEa1pZY2FoeHFp?=
+ =?utf-8?B?bURwNXJad3NKb3JFNkk0dklvSndaV2p6N2JvWGE0MjZENm9yd1RyUldOQ2pp?=
+ =?utf-8?Q?Z/OIyXvZkCz+9IK4nPpCyFo=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da3afd6b-21af-4951-247b-08d9e80c57b7
+X-MS-Exchange-CrossTenant-Network-Message-Id: a773ca1e-2f63-4313-7da9-08d9e80d2821
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2022 18:29:56.2101 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2022 18:35:45.7638 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h+bRiWkqdZKLk3NJinr1G78E9x3mXrkh47MHVKnf4DNwQvaT98jQNaHx4XiaAr22
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2978
+X-MS-Exchange-CrossTenant-UserPrincipalName: lS0gXj+eWx76yTop/GNWdQKeDmxBe6A3ZAOFfjKl9I4LVIQF7F4M8oJEimZnlNx4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,573 +128,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ linux-kernel@vger.kernel.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Oh, that's on my TODO list for years!
-
-Am 04.02.22 um 18:48 schrieb Maarten Lankhorst:
-> Suballocating a buffer object is something that is not driver
-> generic, and is useful for other drivers as well.
+Am 04.02.22 um 18:44 schrieb Lucas De Marchi:
+> In certain situations it's useful to be able to write to an
+> offset of the mapping. Add a dst_offset to iosys_map_memcpy_to().
 >
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+
+Reviewed-by: Christian König <christian.koenig@amd.com>
+
 > ---
->   drivers/gpu/drm/Makefile       |   4 +-
->   drivers/gpu/drm/drm_suballoc.c | 424 +++++++++++++++++++++++++++++++++
->   include/drm/drm_suballoc.h     |  78 ++++++
->   3 files changed, 505 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/gpu/drm/drm_suballoc.c
->   create mode 100644 include/drm/drm_suballoc.h
+>   drivers/gpu/drm/drm_cache.c     |  2 +-
+>   drivers/gpu/drm/drm_fb_helper.c |  2 +-
+>   include/linux/iosys-map.h       | 17 +++++++++--------
+>   3 files changed, 11 insertions(+), 10 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 8675c2af7ae1..b848bcf8790c 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -57,7 +57,9 @@ drm_kms_helper-y := drm_bridge_connector.o drm_crtc_helper.o \
->   		drm_scdc_helper.o drm_gem_atomic_helper.o \
->   		drm_gem_framebuffer_helper.o \
->   		drm_atomic_state_helper.o drm_damage_helper.o \
-> -		drm_format_helper.o drm_self_refresh_helper.o drm_rect.o
-> +		drm_format_helper.o drm_self_refresh_helper.o drm_rect.o \
-> +		drm_suballoc.o
-> +
-
-I think we should put that into a separate module like we now do with 
-other helpers as well.
-
->   drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
->   drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
+> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
+> index 66597e411764..c3e6e615bf09 100644
+> --- a/drivers/gpu/drm/drm_cache.c
+> +++ b/drivers/gpu/drm/drm_cache.c
+> @@ -218,7 +218,7 @@ static void memcpy_fallback(struct iosys_map *dst,
+>   	if (!dst->is_iomem && !src->is_iomem) {
+>   		memcpy(dst->vaddr, src->vaddr, len);
+>   	} else if (!src->is_iomem) {
+> -		iosys_map_memcpy_to(dst, src->vaddr, len);
+> +		iosys_map_memcpy_to(dst, 0, src->vaddr, len);
+>   	} else if (!dst->is_iomem) {
+>   		memcpy_fromio(dst->vaddr, src->vaddr_iomem, len);
+>   	} else {
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 238f815cb2a0..bf5cc9a42e5a 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -385,7 +385,7 @@ static void drm_fb_helper_damage_blit_real(struct drm_fb_helper *fb_helper,
+>   	iosys_map_incr(dst, offset); /* go to first pixel within clip rect */
 >   
-> diff --git a/drivers/gpu/drm/drm_suballoc.c b/drivers/gpu/drm/drm_suballoc.c
-> new file mode 100644
-> index 000000000000..e0bb35367b71
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_suballoc.c
-> @@ -0,0 +1,424 @@
-> +/*
-> + * Copyright 2011 Red Hat Inc.
-> + * All Rights Reserved.
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a
-> + * copy of this software and associated documentation files (the
-> + * "Software"), to deal in the Software without restriction, including
-> + * without limitation the rights to use, copy, modify, merge, publish,
-> + * distribute, sub license, and/or sell copies of the Software, and to
-> + * permit persons to whom the Software is furnished to do so, subject to
-> + * the following conditions:
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-> + * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-> + * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-> + * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-> + * USE OR OTHER DEALINGS IN THE SOFTWARE.
-> + *
-> + * The above copyright notice and this permission notice (including the
-> + * next paragraph) shall be included in all copies or substantial portions
-> + * of the Software.
-> + *
-> + */
-> +/*
-> + * Authors:
-> + *    Jerome Glisse <glisse@freedesktop.org>
-> + */
-
-That is hopelessly outdated. IIRC I completely rewrote that stuff in ~2012.
-
-> +/* Algorithm:
-> + *
-> + * We store the last allocated bo in "hole", we always try to allocate
-> + * after the last allocated bo. Principle is that in a linear GPU ring
-> + * progression was is after last is the oldest bo we allocated and thus
-> + * the first one that should no longer be in use by the GPU.
-> + *
-> + * If it's not the case we skip over the bo after last to the closest
-> + * done bo if such one exist. If none exist and we are not asked to
-> + * block we report failure to allocate.
-> + *
-> + * If we are asked to block we wait on all the oldest fence of all
-> + * rings. We just wait for any of those fence to complete.
-> + */
-> +
-> +#include <drm/drm_suballoc.h>
-> +#include <drm/drm_print.h>
-> +#include <linux/slab.h>
-> +#include <linux/sched.h>
-> +#include <linux/wait.h>
-> +#include <linux/dma-fence.h>
-> +
-> +static void drm_suballoc_remove_locked(struct drm_suballoc *sa);
-> +static void drm_suballoc_try_free(struct drm_suballoc_manager *sa_manager);
-> +
-> +/**
-> + * drm_suballoc_manager_init - Initialise the drm_suballoc_manager
-> + *
-> + * @sa_manager: pointer to the sa_manager
-> + * @size: number of bytes we want to suballocate
-> + * @align: alignment for each suballocated chunk
-> + *
-> + * Prepares the suballocation manager for suballocations.
-> + */
-> +void drm_suballoc_manager_init(struct drm_suballoc_manager *sa_manager,
-> +			       u32 size, u32 align)
-> +{
-> +	u32 i;
-> +
-> +	if (!align)
-> +		align = 1;
-> +
-> +	/* alignment must be a power of 2 */
-> +	BUG_ON(align & (align - 1));
-
-When we move that I think we should cleanup the code once more, e.g. use 
-is_power_of_2() function here for example.
-
-There are also a bunch of places with extra {} and constructs like "if 
-(....) return true; else return false;" which could certainly be simplified.
-
-Apart from that really great idea.
-
-Regards,
-Christian.
-
-> +
-> +	init_waitqueue_head(&sa_manager->wq);
-> +	sa_manager->size = size;
-> +	sa_manager->align = align;
-> +	sa_manager->hole = &sa_manager->olist;
-> +	INIT_LIST_HEAD(&sa_manager->olist);
-> +	for (i = 0; i < DRM_SUBALLOC_MAX_QUEUES; ++i)
-> +		INIT_LIST_HEAD(&sa_manager->flist[i]);
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_manager_init);
-> +
-> +/**
-> + * drm_suballoc_manager_fini - Destroy the drm_suballoc_manager
-> + *
-> + * @sa_manager: pointer to the sa_manager
-> + *
-> + * Cleans up the suballocation manager after use. All fences added
-> + * with drm_suballoc_free() must be signaled, or we cannot clean up
-> + * the entire manager.
-> + */
-> +void drm_suballoc_manager_fini(struct drm_suballoc_manager *sa_manager)
-> +{
-> +	struct drm_suballoc *sa, *tmp;
-> +
-> +	if (!sa_manager->size)
-> +		return;
-> +
-> +	if (!list_empty(&sa_manager->olist)) {
-> +		sa_manager->hole = &sa_manager->olist,
-> +		drm_suballoc_try_free(sa_manager);
-> +		if (!list_empty(&sa_manager->olist))
-> +			DRM_ERROR("sa_manager is not empty, clearing anyway\n");
-> +	}
-> +	list_for_each_entry_safe(sa, tmp, &sa_manager->olist, olist) {
-> +		drm_suballoc_remove_locked(sa);
-> +	}
-
-> +
-> +	sa_manager->size = 0;
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_manager_fini);
-> +
-> +static void drm_suballoc_remove_locked(struct drm_suballoc *sa)
-> +{
-> +	struct drm_suballoc_manager *sa_manager = sa->manager;
-> +	if (sa_manager->hole == &sa->olist) {
-> +		sa_manager->hole = sa->olist.prev;
-> +	}
-> +	list_del_init(&sa->olist);
-> +	list_del_init(&sa->flist);
-> +	dma_fence_put(sa->fence);
-> +	kfree(sa);
-> +}
-> +
-> +static void drm_suballoc_try_free(struct drm_suballoc_manager *sa_manager)
-> +{
-> +	struct drm_suballoc *sa, *tmp;
-> +
-> +	if (sa_manager->hole->next == &sa_manager->olist)
-> +		return;
-> +
-> +	sa = list_entry(sa_manager->hole->next, struct drm_suballoc, olist);
-> +	list_for_each_entry_safe_from(sa, tmp, &sa_manager->olist, olist) {
-> +		if (sa->fence == NULL ||
-> +		    !dma_fence_is_signaled(sa->fence)) {
-> +			return;
-> +		}
-> +		drm_suballoc_remove_locked(sa);
-> +	}
-> +}
-> +
-> +static inline unsigned drm_suballoc_hole_soffset(struct drm_suballoc_manager *sa_manager)
-> +{
-> +	struct list_head *hole = sa_manager->hole;
-> +
-> +	if (hole != &sa_manager->olist) {
-> +		return list_entry(hole, struct drm_suballoc, olist)->eoffset;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static inline unsigned drm_suballoc_hole_eoffset(struct drm_suballoc_manager *sa_manager)
-> +{
-> +	struct list_head *hole = sa_manager->hole;
-> +
-> +	if (hole->next != &sa_manager->olist) {
-> +		return list_entry(hole->next, struct drm_suballoc, olist)->soffset;
-> +	}
-> +	return sa_manager->size;
-> +}
-> +
-> +static bool drm_suballoc_try_alloc(struct drm_suballoc_manager *sa_manager,
-> +				   struct drm_suballoc *sa,
-> +				   unsigned size)
-> +{
-> +	unsigned soffset, eoffset;
-> +
-> +	soffset = drm_suballoc_hole_soffset(sa_manager);
-> +	eoffset = drm_suballoc_hole_eoffset(sa_manager);
-> +
-> +	if ((eoffset - soffset) >= size) {
-> +		sa->manager = sa_manager;
-> +		sa->soffset = soffset;
-> +		sa->eoffset = soffset + size;
-> +		list_add(&sa->olist, sa_manager->hole);
-> +		INIT_LIST_HEAD(&sa->flist);
-> +		sa_manager->hole = &sa->olist;
-> +		return true;
-> +	}
-> +	return false;
-> +}
-> +
-> +/**
-> + * drm_suballoc_event - Check if we can stop waiting
-> + *
-> + * @sa_manager: pointer to the sa_manager
-> + * @size: number of bytes we want to allocate
-> + * @align: alignment we need to match
-> + *
-> + * Check if either there is a fence we can wait for or
-> + * enough free memory to satisfy the allocation directly
-> + */
-> +static bool drm_suballoc_event(struct drm_suballoc_manager *sa_manager,
-> +			       u32 size)
-> +{
-> +	unsigned soffset, eoffset, i;
-> +
-> +	for (i = 0; i < DRM_SUBALLOC_MAX_QUEUES; ++i)
-> +		if (!list_empty(&sa_manager->flist[i]))
-> +			return true;
-> +
-> +	soffset = drm_suballoc_hole_soffset(sa_manager);
-> +	eoffset = drm_suballoc_hole_eoffset(sa_manager);
-> +
-> +	if ((eoffset - soffset) >= size) {
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +static bool drm_suballoc_next_hole(struct drm_suballoc_manager *sa_manager,
-> +				   struct dma_fence **fences,
-> +				   unsigned *tries)
-> +{
-> +	struct drm_suballoc *best_bo = NULL;
-> +	unsigned i, best_idx, soffset, best, tmp;
-> +
-> +	/* if hole points to the end of the buffer */
-> +	if (sa_manager->hole->next == &sa_manager->olist) {
-> +		/* try again with its beginning */
-> +		sa_manager->hole = &sa_manager->olist;
-> +		return true;
-> +	}
-> +
-> +	soffset = drm_suballoc_hole_soffset(sa_manager);
-> +	/* to handle wrap around we add sa_manager->size */
-> +	best = sa_manager->size * 2;
-> +	/* go over all fence list and try to find the closest sa
-> +	 * of the current last
-> +	 */
-> +	for (i = 0; i < DRM_SUBALLOC_MAX_QUEUES; ++i) {
-> +		struct drm_suballoc *sa;
-> +
-> +		fences[i] = NULL;
-> +
-> +		if (list_empty(&sa_manager->flist[i]))
-> +			continue;
-> +
-> +		sa = list_first_entry(&sa_manager->flist[i],
-> +					 struct drm_suballoc, flist);
-> +
-> +		if (!dma_fence_is_signaled(sa->fence)) {
-> +			fences[i] = sa->fence;
-> +			continue;
-> +		}
-> +
-> +		/* limit the number of tries each freelist gets */
-> +		if (tries[i] > 2) {
-> +			continue;
-> +		}
-> +
-> +		tmp = sa->soffset;
-> +		if (tmp < soffset) {
-> +			/* wrap around, pretend it's after */
-> +			tmp += sa_manager->size;
-> +		}
-> +		tmp -= soffset;
-> +		if (tmp < best) {
-> +			/* this sa bo is the closest one */
-> +			best = tmp;
-> +			best_idx = i;
-> +			best_bo = sa;
-> +		}
-> +	}
-> +
-> +	if (best_bo) {
-> +		++tries[best_idx];
-> +		sa_manager->hole = best_bo->olist.prev;
-> +
-> +		/* we knew that this one is signaled,
-> +		   so it's save to remote it */
-> +		drm_suballoc_remove_locked(best_bo);
-> +		return true;
-> +	}
-> +	return false;
-> +}
-> +
-> +/**
-> + * drm_suballoc_new - Make a suballocation.
-> + *
-> + * @sa_manager: pointer to the sa_manager
-> + * @size: number of bytes we want to suballocate.
-> + *
-> + * Try to make a suballocation of size @size, which will be rounded
-> + * up to the alignment specified in specified in drm_suballoc_manager_init().
-> + *
-> + * Returns a new suballocated bo, or an ERR_PTR.
-> + */
-> +struct drm_suballoc *
-> +drm_suballoc_new(struct drm_suballoc_manager *sa_manager, u32 size)
-> +{
-> +	struct dma_fence *fences[DRM_SUBALLOC_MAX_QUEUES];
-> +	unsigned tries[DRM_SUBALLOC_MAX_QUEUES];
-> +	unsigned count;
-> +	int i, r;
-> +	struct drm_suballoc *sa;
-> +
-> +	size = ALIGN(size, sa_manager->align);
-> +	if (WARN_ON_ONCE(size > sa_manager->size))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	sa = kmalloc(sizeof(struct drm_suballoc), GFP_KERNEL);
-> +	if (!sa)
-> +		return ERR_PTR(-ENOMEM);
-> +	sa->manager = sa_manager;
-> +	sa->fence = NULL;
-> +	INIT_LIST_HEAD(&sa->olist);
-> +	INIT_LIST_HEAD(&sa->flist);
-> +
-> +	spin_lock(&sa_manager->wq.lock);
-> +	do {
-> +		for (i = 0; i < DRM_SUBALLOC_MAX_QUEUES; ++i)
-> +			tries[i] = 0;
-> +
-> +		do {
-> +			drm_suballoc_try_free(sa_manager);
-> +
-> +			if (drm_suballoc_try_alloc(sa_manager, sa,
-> +						   size)) {
-> +				spin_unlock(&sa_manager->wq.lock);
-> +				return sa;
-> +			}
-> +
-> +			/* see if we can skip over some allocations */
-> +		} while (drm_suballoc_next_hole(sa_manager, fences, tries));
-> +
-> +		for (i = 0, count = 0; i < DRM_SUBALLOC_MAX_QUEUES; ++i)
-> +			if (fences[i])
-> +				fences[count++] = dma_fence_get(fences[i]);
-> +
-> +		if (count) {
-> +			long t;
-> +
-> +			spin_unlock(&sa_manager->wq.lock);
-> +			t = dma_fence_wait_any_timeout(fences, count, true,
-> +						       MAX_SCHEDULE_TIMEOUT,
-> +						       NULL);
-> +			for (i = 0; i < count; ++i)
-> +				dma_fence_put(fences[i]);
-> +
-> +			r = (t > 0) ? 0 : t;
-> +			spin_lock(&sa_manager->wq.lock);
-> +		} else {
-> +			/* if we have nothing to wait for block */
-> +			r = wait_event_interruptible_locked(
-> +				sa_manager->wq,
-> +				drm_suballoc_event(sa_manager, size)
-> +			);
-> +		}
-> +
-> +	} while (!r);
-> +
-> +	spin_unlock(&sa_manager->wq.lock);
-> +	kfree(sa);
-> +	return ERR_PTR(r);
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_new);
-> +
-> +/**
-> + * drm_suballoc_free - Free a suballocation
-> + *
-> + * @suballoc: pointer to the suballocation
-> + * @fence: fence that signals when suballocation is idle
-> + * @queue: the index to which queue the suballocation will be placed on the free list.
-> + *
-> + * Free the suballocation. The suballocation can be re-used after @fence signals.
-> + * @queue is used to allow waiting on multiple fence contexts in parallel in
-> + * drm_suballoc_new().
-> + */
-> +void drm_suballoc_free(struct drm_suballoc *suballoc,
-> +		       struct dma_fence *fence,
-> +		       u32 queue)
-> +{
-> +	struct drm_suballoc_manager *sa_manager;
-> +
-> +	if (!suballoc)
-> +		return;
-> +
-> +	sa_manager = suballoc->manager;
-> +	BUG_ON(queue >= DRM_SUBALLOC_MAX_QUEUES);
-> +
-> +	spin_lock(&sa_manager->wq.lock);
-> +	if (fence && !dma_fence_is_signaled(fence)) {
-> +		suballoc->fence = dma_fence_get(fence);
-> +		list_add_tail(&suballoc->flist, &sa_manager->flist[queue]);
-> +	} else {
-> +		drm_suballoc_remove_locked(suballoc);
-> +	}
-> +	wake_up_all_locked(&sa_manager->wq);
-> +	spin_unlock(&sa_manager->wq.lock);
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_free);
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +void drm_suballoc_dump_debug_info(struct drm_suballoc_manager *sa_manager,
-> +				  struct seq_file *m, u64 suballoc_base)
-> +{
-> +	struct drm_suballoc *i;
-> +
-> +	spin_lock(&sa_manager->wq.lock);
-> +	list_for_each_entry(i, &sa_manager->olist, olist) {
-> +		uint64_t soffset = i->soffset;
-> +		uint64_t eoffset = i->eoffset;
-> +		if (&i->olist == sa_manager->hole) {
-> +			seq_printf(m, ">");
-> +		} else {
-> +			seq_printf(m, " ");
-> +		}
-> +		seq_printf(m, "[0x%010llx 0x%010llx] size %8lld",
-> +			   suballoc_base + soffset, suballoc_base + eoffset, eoffset - soffset);
-> +
-> +		if (i->fence)
-> +			seq_printf(m, " protected by 0x%016llx on context %llu",
-> +				   i->fence->seqno, i->fence->context);
-> +
-> +		seq_printf(m, "\n");
-> +	}
-> +	spin_unlock(&sa_manager->wq.lock);
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_dump_debug_info);
-> +#endif
-> diff --git a/include/drm/drm_suballoc.h b/include/drm/drm_suballoc.h
-> new file mode 100644
-> index 000000000000..846c4a792fac
-> --- /dev/null
-> +++ b/include/drm/drm_suballoc.h
-> @@ -0,0 +1,78 @@
-> +/*
-> + * SPDX-License-Identifier: MIT
-> + *
-> + * Copyright © 2022 Intel Corporation
-> + */
-> +#ifndef _DRM_SUBALLOC_H_
-> +#define _DRM_SUBALLOC_H_
-> +
-> +#include <linux/types.h>
-> +#include <linux/list.h>
-> +#include <linux/wait.h>
-> +
-> +struct dma_fence;
-> +struct seq_file;
-> +
-> +/* sub-allocation manager, it has to be protected by another lock.
-> + * By conception this is an helper for other part of the driver
-> + * like the indirect buffer or semaphore, which both have their
-> + * locking.
-> + *
-> + * Principe is simple, we keep a list of sub allocation in offset
-> + * order (first entry has offset == 0, last entry has the highest
-> + * offset).
-> + *
-> + * When allocating new object we first check if there is room at
-> + * the end total_size - (last_object_offset + last_object_size) >=
-> + * alloc_size. If so we allocate new object there.
-> + *
-> + * When there is not enough room at the end, we start waiting for
-> + * each sub object until we reach object_offset+object_size >=
-> + * alloc_size, this object then become the sub object we return.
-> + *
-> + * Alignment can't be bigger than page size.
-> + *
-> + * Hole are not considered for allocation to keep things simple.
-> + * Assumption is that there won't be hole (all object on same
-> + * alignment).
-> + *
-> + * The actual buffer object handling depends on the driver,
-> + * and is not part of the helper implementation.
-> + */
-> +#define DRM_SUBALLOC_MAX_QUEUES 32
-> +
-> +struct drm_suballoc_manager {
-> +	wait_queue_head_t wq;
-> +	struct list_head *hole, olist, flist[DRM_SUBALLOC_MAX_QUEUES];
-> +	u32 size, align;
-> +};
-> +
-> +/* sub-allocation buffer */
-> +struct drm_suballoc {
-> +	struct list_head olist, flist;
-> +	struct drm_suballoc_manager *manager;
-> +	u32 soffset, eoffset;
-> +	struct dma_fence *fence;
-> +};
-> +
-> +void drm_suballoc_manager_init(struct drm_suballoc_manager *sa_manager,
-> +			       u32 size, u32 align);
-> +void drm_suballoc_manager_fini(struct drm_suballoc_manager *sa_manager);
-> +struct drm_suballoc *drm_suballoc_new(struct drm_suballoc_manager *sa_manager,
-> +				      u32 size);
-> +void drm_suballoc_free(struct drm_suballoc *sa_bo,
-> +		       struct dma_fence *fence,
-> +		       u32 queue);
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +void drm_suballoc_dump_debug_info(struct drm_suballoc_manager *sa_manager,
-> +				  struct seq_file *m, u64 suballoc_base);
-> +#else
-> +static inline void
-> +drm_suballoc_dump_debug_info(struct drm_suballoc_manager *sa_manager,
-> +			     struct seq_file *m, u64 suballoc_base)
-> +{ }
-> +
-> +#endif
-> +
-> +#endif /* _DRM_SUBALLOC_H_ */
+>   	for (y = clip->y1; y < clip->y2; y++) {
+> -		iosys_map_memcpy_to(dst, src, len);
+> +		iosys_map_memcpy_to(dst, 0, src, len);
+>   		iosys_map_incr(dst, fb->pitches[0]);
+>   		src += fb->pitches[0];
+>   	}
+> diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
+> index f4186f91caa6..edd7fa3be9e9 100644
+> --- a/include/linux/iosys-map.h
+> +++ b/include/linux/iosys-map.h
+> @@ -220,22 +220,23 @@ static inline void iosys_map_clear(struct iosys_map *map)
+>   }
+>   
+>   /**
+> - * iosys_map_memcpy_to - Memcpy into iosys mapping
+> + * iosys_map_memcpy_to_offset - Memcpy into offset of iosys_map
+>    * @dst:	The iosys_map structure
+> + * @dst_offset:	The offset from which to copy
+>    * @src:	The source buffer
+>    * @len:	The number of byte in src
+>    *
+> - * Copies data into a iosys mapping. The source buffer is in system
+> - * memory. Depending on the buffer's location, the helper picks the correct
+> - * method of accessing the memory.
+> + * Copies data into a iosys_map with an offset. The source buffer is in
+> + * system memory. Depending on the buffer's location, the helper picks the
+> + * correct method of accessing the memory.
+>    */
+> -static inline void iosys_map_memcpy_to(struct iosys_map *dst, const void *src,
+> -				       size_t len)
+> +static inline void iosys_map_memcpy_to(struct iosys_map *dst, size_t dst_offset,
+> +				       const void *src, size_t len)
+>   {
+>   	if (dst->is_iomem)
+> -		memcpy_toio(dst->vaddr_iomem, src, len);
+> +		memcpy_toio(dst->vaddr_iomem + dst_offset, src, len);
+>   	else
+> -		memcpy(dst->vaddr, src, len);
+> +		memcpy(dst->vaddr + dst_offset, src, len);
+>   }
+>   
+>   /**
 
