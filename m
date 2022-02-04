@@ -2,67 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9C84AA2C9
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 23:05:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B114AA304
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 23:19:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4573010E4C4;
-	Fri,  4 Feb 2022 22:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D29310E5BA;
+	Fri,  4 Feb 2022 22:19:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF04910E172
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 22:05:46 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id z4so424531lfg.5
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 14:05:46 -0800 (PST)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50E4510E5BA
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 22:19:35 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id u14so15179329lfo.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 14:19:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=XuPklbFP/fc/0dPlSsCQ5ZGoroApyYX5xaCS3twuJo0=;
- b=b9JDWnjrm3iOe3iGYZGMYwM63RP+E7UGWF5wVV2nyQomx1wYUcCWZC/eee8DXLwLlA
- hrRLcHgJU/GSY+1nagrW/W7O9HdFWOevHCms5AGg5DMKk7HHuF0k3vk194/AbmcN17O8
- lEgiGS8jSQKg3TlH4p/5ppfXplFGFEAKX/dDHK1M3B6vC1jJUb3sGZK+5INgmG+T0drE
- tOT09bhB70/ikFKCyxqwnttYaJKSnX/pk6zHw7N6sR1J3KdrREi7YmFm6BLx1l3nHdj5
- YUyhKqRfDqV4nOv8vQIoP1nmNtYXgmSL8OFUpvMT2LOXsknJeKaES2bRil0UVgPQ1DMt
- LCtA==
+ bh=P1dWc4knF1Zee83c3DYigR0UvoSdDJPSPywVOG74Thc=;
+ b=drxWczvETNcQbdSLKMXST0GWAKwE56kpoYI7/xTNe+R0quEYDeVYD5zLwZ9Yt1r8fo
+ 6b13wXbFBEHslLj17ufXnK/7LUex/mrdgybhf7ZcVTC57nky1lh+uIyx/uc+PAM+jyV1
+ euwj1FkKxm5iYV/5wklTChriL3tQQYoF9GVxN8nxTg2kVfz/ESZgNt75S2v56gJR+lLY
+ oEdrjYpCLpm392Mj7pOPOf5RxGMA0jgnkjrHFkmDvTNagKE0AcB0ejWk+GxijAkiTpu9
+ bZJYBLnFo8G7ihHRUd4Q2tFgzKWK0JSRHoAT6FrEJWlPT/DuhgnH8oFkSoZ+w91sOI6Z
+ QqZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=XuPklbFP/fc/0dPlSsCQ5ZGoroApyYX5xaCS3twuJo0=;
- b=ZOqHDRpo6HgiO6+I4emDGPQWZwIVWbACpcKzM8q91g+7hBCO7v9BenbI42hlt4PykD
- iwgd6XfGpBZwWMluJxQcpAt665E8YOy+CGKa9NxElj8j9+tYcTlOGVX5G1wADEvxQb85
- IZxJI1Xxt4It2P3jVfB1kAJZa9HvXp3qlxi7RGIiE3hqbyOzSp/Z3ShpPbgNX8Mf1eVX
- v6Z2NkmV6EVvIMtHHTLLlnNcJylRIDopt1Ofl5xae6DugorcuzZt74/4aB29ob6Ox6R2
- Z+7r/f+l7G+VJJAh4K9tBJOb6tZaLpYmVkOcVag5iOxfcM22ecFCwS0KymreDrqKIIY8
- +i1w==
-X-Gm-Message-State: AOAM533cCiaq1qQU4mlb6Zfn5AfP/NziNdqbcmZzdIXntwxOTcp1uGio
- xC+0Xn39QgBlmC9yUcQGzwPg+w==
-X-Google-Smtp-Source: ABdhPJw6EdE4r0SDZ5IGgQCyqb0x0l4A6H72ribqX+T6MBYeIexd/rE66QOn7AWl7hpzI7VL02xo3g==
-X-Received: by 2002:a05:6512:96a:: with SMTP id
- v10mr657014lft.497.1644012344995; 
- Fri, 04 Feb 2022 14:05:44 -0800 (PST)
+ bh=P1dWc4knF1Zee83c3DYigR0UvoSdDJPSPywVOG74Thc=;
+ b=7Di5/Y3x2lxUNTIc0SzqEJ+qAiB2T6gOoedbdp62AyCS+eoeIQQg9cvgS+ipPHStZB
+ JvYld3KU+BIXSObhbLWKzBMbg4zdbhjm7F9tON+NyjlsxmSWjYzwZX0Zgdsx9+zwjLyk
+ ihiUa10sus7/U2urNaQLbsKb0XXMf+O/aj/mK02o7Ves12R0+4alueLON0qO4TYZgXcn
+ Sb5TkKwFTaBbE25Kd8HGBIyQ/qHOWmSTobgXcvt7B/dUNh9a3daK55fV5RqZnknK//8J
+ SHL6xU5Q7ArqC/3CgqptU7dfy6LUWZZM0fIgJG7bFXyAnT4Dc9BVr4fsN2xAPQeaxDU7
+ u8DQ==
+X-Gm-Message-State: AOAM531Tnpgt7csssxEh/oAa83tybx3vW5zMuUwBxGDuSpUE+tv2mWTw
+ KzKAkW9uY6xFAKg79hDFyEiuew==
+X-Google-Smtp-Source: ABdhPJzT/TvxhBYFy1WlPvtURmJxes7SbmTcLu0off8Z+cvUTA+K+DPT4+iryP79fKqAbM8B5lBXcA==
+X-Received: by 2002:a05:6512:3341:: with SMTP id
+ y1mr743133lfd.58.1644013173525; 
+ Fri, 04 Feb 2022 14:19:33 -0800 (PST)
 Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id c27sm472570lfp.103.2022.02.04.14.05.44
+ by smtp.gmail.com with ESMTPSA id h17sm414852ljh.119.2022.02.04.14.19.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Feb 2022 14:05:44 -0800 (PST)
-Message-ID: <215d1870-bfa6-fe08-c885-c32161a74ff7@linaro.org>
-Date: Sat, 5 Feb 2022 01:05:43 +0300
+ Fri, 04 Feb 2022 14:19:32 -0800 (PST)
+Message-ID: <7743d896-7727-3e27-d436-9212a247961f@linaro.org>
+Date: Sat, 5 Feb 2022 01:19:32 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 1/3] drm/msm/dp: revise timing engine programming to
- support widebus feature
+Subject: Re: [PATCH 04/12] drm/msm/dpu: add changes to support writeback in
+ hw_ctl
 Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org, vkoul@kernel.org,
- daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
- bjorn.andersson@linaro.org
-References: <1643999801-20359-1-git-send-email-quic_khsieh@quicinc.com>
- <1643999801-20359-2-git-send-email-quic_khsieh@quicinc.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org
+References: <1644009445-17320-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1644009445-17320-5-git-send-email-quic_abhinavk@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1643999801-20359-2-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1644009445-17320-5-git-send-email-quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,300 +74,311 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, swboyd@chromium.org, nganji@codeaurora.org,
+ seanpaul@chromium.org, markyacoub@chromium.org, quic_jesszhan@quicinc.com,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/02/2022 21:36, Kuogee Hsieh wrote:
-> Widebus feature will transmit two pixel data per pixel clock to interface.
-> Timing engine provides driving force for this purpose. This patch base
-> on HPG (Hardware Programming Guide) to revise timing engine register
-> setting to accommodate both widebus and non widebus application. Also
-> horizontal width parameters need to be reduced by half since two pixel
-> data are clocked out per pixel clock when widebus feature enabled.
-> In addition, revised timing engine function is an generic function and
-> intend to be shared by all platforms to reduce maintenance efforts.
+On 05/02/2022 00:17, Abhinav Kumar wrote:
+> Add changes to support writeback module in the dpu_hw_ctl
+> interface. In addition inroduce a reset_intf_cfg op to reset
+> the interface bits for the currently active interfaces in
+> the ctl path.
 > 
-> Changes in v2:
-> -- remove compression related code from timing
-> -- remove op_info from  struct msm_drm_private
-> -- remove unnecessary wide_bus_en variables
-> -- pass wide_bus_en into timing configuration by struct msm_dp
-> 
-> Changes in v3:
-> -- split patch into 3 patches
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 10 +++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  2 +
->   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 14 +++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        | 99 ++++++++++++++--------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  2 +
->   5 files changed, 93 insertions(+), 34 deletions(-)
+>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |  3 +-
+>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  6 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         | 65 ++++++++++++++++++++--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         | 27 ++++++++-
+>   4 files changed, 91 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 0d315b4..0c22839 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -208,6 +208,8 @@ struct dpu_encoder_virt {
->   
->   	u32 idle_timeout;
->   
-> +	bool wide_bus_en;
-> +
->   	struct msm_dp *dp;
->   };
->   
-> @@ -217,6 +219,14 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
->   	15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
->   };
->   
-> +
-> +bool dpu_encoder_is_widebus_enabled(struct drm_encoder *drm_enc)
-> +{
-> +	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
-> +
-> +	return dpu_enc->wide_bus_en;
-> +}
-> +
->   static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp, unsigned bpc)
->   {
->   	struct dpu_hw_dither_cfg dither_cfg = { 0 };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> index 99a5d73..893d74d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> @@ -168,4 +168,6 @@ int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> index 34a6940..4cb72fa 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> @@ -1,5 +1,6 @@
+>   // SPDX-License-Identifier: GPL-2.0-only
+>   /*
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+>    * Copyright (c) 2015-2018, 2020-2021 The Linux Foundation. All rights reserved.
 >    */
->   int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc);
 >   
-> +bool dpu_encoder_is_widebus_enabled(struct drm_encoder *drm_enc);
-> +
->   #endif /* __DPU_ENCODER_H__ */
-
-This chunk does not apply against the msm-next. The conflict is trivial, 
-but it would be nice to know that the code was tested against the 
-current tip.
-
+> @@ -70,7 +71,7 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+>   	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_CMD;
+>   	intf_cfg.stream_sel = cmd_enc->stream_sel;
+>   	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+> -	ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
+> +	ctl->ops.setup_intf_cfg(ctl, &intf_cfg, false);
+>   }
+>   
+>   static void dpu_encoder_phys_cmd_pp_tx_done_irq(void *arg, int irq_idx)
 > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index 185379b..3d6c914 100644
+> index ddd9d89..950fcd6 100644
 > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
 > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -110,6 +110,20 @@ static void drm_mode_to_intf_timing_params(
->   		timing->v_back_porch += timing->v_front_porch;
->   		timing->v_front_porch = 0;
+> @@ -1,5 +1,7 @@
+>   // SPDX-License-Identifier: GPL-2.0-only
+> -/* Copyright (c) 2015-2018, 2020-2021 The Linux Foundation. All rights reserved.
+> +/*
+> + *  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + *  Copyright (c) 2015-2018, 2020-2021 The Linux Foundation. All rights reserved.
+>    */
+>   
+>   #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
+> @@ -290,7 +292,7 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
+>   	spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
+>   	phys_enc->hw_intf->ops.setup_timing_gen(phys_enc->hw_intf,
+>   			&timing_params, fmt);
+> -	phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg);
+> +	phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg, false);
+>   
+>   	/* setup which pp blk will connect to this intf */
+>   	if (phys_enc->hw_intf->ops.bind_pingpong_blk)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> index 02da9ec..a2069af 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> @@ -1,5 +1,6 @@
+>   // SPDX-License-Identifier: GPL-2.0-only
+> -/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+> +/* Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+>    */
+>   
+>   #include <linux/delay.h>
+> @@ -23,8 +24,10 @@
+>   #define   CTL_SW_RESET                  0x030
+>   #define   CTL_LAYER_EXTN_OFFSET         0x40
+>   #define   CTL_MERGE_3D_ACTIVE           0x0E4
+> +#define   CTL_WB_ACTIVE                 0x0EC
+>   #define   CTL_INTF_ACTIVE               0x0F4
+>   #define   CTL_MERGE_3D_FLUSH            0x100
+> +#define   CTL_WB_FLUSH                  0x108
+>   #define   CTL_INTF_FLUSH                0x110
+>   #define   CTL_INTF_MASTER               0x134
+>   #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
+> @@ -35,6 +38,7 @@
+>   #define DPU_REG_RESET_TIMEOUT_US        2000
+>   #define  MERGE_3D_IDX   23
+>   #define  INTF_IDX       31
+> +#define WB_IDX          16
+>   #define CTL_INVALID_BIT                 0xffff
+>   #define CTL_DEFAULT_GROUP_ID		0xf
+>   
+> @@ -128,6 +132,9 @@ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+>   	if (ctx->pending_flush_mask & BIT(INTF_IDX))
+>   		DPU_REG_WRITE(&ctx->hw, CTL_INTF_FLUSH,
+>   				ctx->pending_intf_flush_mask);
+> +	if (ctx->pending_flush_mask & BIT(WB_IDX))
+> +		DPU_REG_WRITE(&ctx->hw, CTL_WB_FLUSH,
+> +				ctx->pending_wb_flush_mask);
+>   
+>   	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
+>   }
+> @@ -248,6 +255,13 @@ static void dpu_hw_ctl_update_pending_flush_intf(struct dpu_hw_ctl *ctx,
 >   	}
-> +
-> +	timing->wide_bus_en = dpu_encoder_is_widebus_enabled(phys_enc->parent);
-> +
-> +	/*
-> +	 * for DP, divide the horizonal parameters by 2 when
-> +	 * widebus is enabled
-> +	 */
-> +	if (timing->wide_bus_en) {
-> +		timing->width = timing->width >> 1;
-> +		timing->xres = timing->xres >> 1;
-> +		timing->h_back_porch = timing->h_back_porch >> 1;
-> +		timing->h_front_porch = timing->h_front_porch >> 1;
-> +		timing->hsync_pulse_width = timing->hsync_pulse_width >> 1;
-> +	}
 >   }
 >   
->   static u32 get_horizontal_total(const struct intf_timing_params *timing)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> index 116e2b5..35d4aaa 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> @@ -33,6 +33,7 @@
->   #define INTF_TP_COLOR1                  0x05C
->   #define INTF_CONFIG2                    0x060
->   #define INTF_DISPLAY_DATA_HCTL          0x064
-> +#define INTF_ACTIVE_DATA_HCTL           0x068
->   #define INTF_FRAME_LINE_COUNT_EN        0x0A8
->   #define INTF_FRAME_COUNT                0x0AC
->   #define   INTF_LINE_COUNT               0x0B0
-> @@ -90,68 +91,95 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
->   	u32 hsync_period, vsync_period;
->   	u32 display_v_start, display_v_end;
->   	u32 hsync_start_x, hsync_end_x;
-> +	u32 hsync_data_start_x, hsync_data_end_x;
->   	u32 active_h_start, active_h_end;
->   	u32 active_v_start, active_v_end;
->   	u32 active_hctl, display_hctl, hsync_ctl;
->   	u32 polarity_ctl, den_polarity, hsync_polarity, vsync_polarity;
->   	u32 panel_format;
-> -	u32 intf_cfg, intf_cfg2 = 0, display_data_hctl = 0;
-> +	u32 intf_cfg, intf_cfg2 = 0;
-> +	u32 display_data_hctl = 0, active_data_hctl = 0;
-> +	u32 data_width;
-> +	bool dp_intf = false;
->   
->   	/* read interface_cfg */
->   	intf_cfg = DPU_REG_READ(c, INTF_CONFIG);
+> +static void dpu_hw_ctl_update_pending_flush_wb_v1(struct dpu_hw_ctl *ctx,
+> +		enum dpu_wb wb)
+> +{
+> +	ctx->pending_wb_flush_mask |= BIT(wb - WB_0);
+> +	ctx->pending_flush_mask |= BIT(WB_IDX);
+> +}
 > +
-> +	if (ctx->cap->type == INTF_EDP || ctx->cap->type == INTF_DP)
-> +		dp_intf = true;
-> +
->   	hsync_period = p->hsync_pulse_width + p->h_back_porch + p->width +
->   	p->h_front_porch;
->   	vsync_period = p->vsync_pulse_width + p->v_back_porch + p->height +
->   	p->v_front_porch;
+>   static void dpu_hw_ctl_update_pending_flush_intf_v1(struct dpu_hw_ctl *ctx,
+>   		enum dpu_intf intf)
+>   {
+> @@ -493,10 +507,11 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
 >   
->   	display_v_start = ((p->vsync_pulse_width + p->v_back_porch) *
-> -	hsync_period) + p->hsync_skew;
-> +			hsync_period) + p->hsync_skew;
->   	display_v_end = ((vsync_period - p->v_front_porch) * hsync_period) +
-> -	p->hsync_skew - 1;
-> +			p->hsync_skew - 1;
-> +
-> +	hsync_ctl = (hsync_period << 16) | p->hsync_pulse_width;
 >   
->   	hsync_start_x = p->h_back_porch + p->hsync_pulse_width;
->   	hsync_end_x = hsync_period - p->h_front_porch - 1;
+>   static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+> -		struct dpu_hw_intf_cfg *cfg)
+> +		struct dpu_hw_intf_cfg *cfg, bool is_wb)
+>   {
+>   	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+>   	u32 intf_active = 0;
+> +	u32 wb_active = 0;
+>   	u32 mode_sel = 0;
 >   
-> -	if (p->width != p->xres) {
-> -		active_h_start = hsync_start_x;
-> -		active_h_end = active_h_start + p->xres - 1;
-> -	} else {
-> -		active_h_start = 0;
-> -		active_h_end = 0;
-> -	}
-> +	/*
-> +	 * DATA_HCTL_EN controls data timing which can be different from
-> +	 * video timing. It is recommended to enable it for all cases, except
-> +	 * if compression is enabled in 1 pixel per clock mode
-> +	 */
-> +	if (p->wide_bus_en)
-> +		intf_cfg2 |= BIT(4);
+>   	/* CTL_TOP[31:28] carries group_id to collate CTL paths
+> @@ -509,18 +524,25 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+>   	if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
+>   		mode_sel |= BIT(17);
 >   
-> -	if (p->height != p->yres) {
-> -		active_v_start = display_v_start;
-> -		active_v_end = active_v_start + (p->yres * hsync_period) - 1;
-> -	} else {
-> -		active_v_start = 0;
-> -		active_v_end = 0;
-> -	}
-> +	if (p->wide_bus_en)
-> +		intf_cfg2 |= BIT(0);
->   
-> -	if (active_h_end) {
-> -		active_hctl = (active_h_end << 16) | active_h_start;
-> -		intf_cfg |= BIT(29);	/* ACTIVE_H_ENABLE */
-> -	} else {
-> -		active_hctl = 0;
-> -	}
-> +	/*
-> +	 * If widebus is disabled:
-> +	 * For uncompressed stream, the data is valid for the entire active
-> +	 * window period.
-> +	 * For compressed stream, data is valid for a shorter time period
-> +	 * inside the active window depending on the compression ratio.
-> +	 *
-> +	 * If widebus is enabled:
-> +	 * For uncompressed stream, data is valid for only half the active
-> +	 * window, since the data rate is doubled in this mode.
-> +	 * p->width holds the adjusted width for DP but unadjusted width for DSI
-> +	 * For compressed stream, data validity window needs to be adjusted for
-> +	 * compression ratio and then further halved.
-> +	 */
-> +	data_width = p->width;
+> -	intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
+> -	intf_active |= BIT(cfg->intf - INTF_0);
+> +	if (!is_wb) {
 
-This assignment is rewritten in the next few lines! Please drop it, it's 
-unused.
+I think we can judge if it is an INTF of WB by checking the cfg->intf 
+and cfg->wb, thus the is_wb argument is not needed.
 
-> +
-> +	if (!dp_intf && p->wide_bus_en)
+> +		intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
+> +		intf_active |= BIT(cfg->intf - INTF_0) > +	} else {
+> +		wb_active = DPU_REG_READ(c, CTL_WB_ACTIVE);
+> +		wb_active = BIT(cfg->wb - WB_0);
 
-This condition does not make sense. wide_bus_en can only be enabled for 
-dp_intf, can it not? So the condition is always false.
+wb_active |= BIT(...) ?
 
-> +		data_width = p->width >> 1;
-> +	else
-> +		data_width = p->width;
->   
-> -	if (active_v_end)
-> -		intf_cfg |= BIT(30); /* ACTIVE_V_ENABLE */
-> +	hsync_data_start_x = hsync_start_x;
-> +	hsync_data_end_x =  hsync_start_x + data_width - 1;
->   
-> -	hsync_ctl = (hsync_period << 16) | p->hsync_pulse_width;
->   	display_hctl = (hsync_end_x << 16) | hsync_start_x;
-> +	display_data_hctl = (hsync_data_end_x << 16) | hsync_data_start_x;
->   
-> -	if (ctx->cap->type == INTF_EDP || ctx->cap->type == INTF_DP) {
-> -		active_h_start = hsync_start_x;
-> -		active_h_end = active_h_start + p->xres - 1;
-> -		active_v_start = display_v_start;
-> -		active_v_end = active_v_start + (p->yres * hsync_period) - 1;
-> -
-> +	if (dp_intf) {
-> +		// DP timing adjustment
-
-This is the only place with the C99 comment. Please use the surrounding 
-syntax.
-
->   		display_v_start += p->hsync_pulse_width + p->h_back_porch;
-> +		display_v_end   -= p->h_front_porch;
 > +	}
-> +
-> +	active_h_start = hsync_start_x;
-> +	active_h_end = active_h_start + p->xres - 1;
-> +
-> +	active_v_start = display_v_start;
-> +	active_v_end = active_v_start + (p->yres * hsync_period) - 1;
-
-These assignments were only applied for the DP/eDP case. Could you 
-please elaborate the change? Why are you enabling them for the DSI and 
-HDMI outputs?
-
 >   
-> -		active_hctl = (active_h_end << 16) | active_h_start;
-> +	intf_cfg |= BIT(29);	/* ACTIVE_H_ENABLE */
-> +	intf_cfg |= BIT(30);	/* ACTIVE_V_ENABLE */
-
-These were enabled only when active_h_end / active_v_end were non-zero. 
-Any comments?
-
+>   	DPU_REG_WRITE(c, CTL_TOP, mode_sel);
+>   	DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
+> +	DPU_REG_WRITE(c, CTL_WB_ACTIVE, wb_active);
 > +
-> +	active_hctl = (active_h_end << 16) | active_h_start;
-> +
-> +	if (dp_intf)
->   		display_hctl = active_hctl;
-> -	}
->   
->   	den_polarity = 0;
->   	if (ctx->cap->type == INTF_HDMI) {
-> @@ -204,6 +232,9 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
->   	DPU_REG_WRITE(c, INTF_FRAME_LINE_COUNT_EN, 0x3);
->   	DPU_REG_WRITE(c, INTF_CONFIG, intf_cfg);
->   	DPU_REG_WRITE(c, INTF_PANEL_FORMAT, panel_format);
-> +	DPU_REG_WRITE(c, INTF_CONFIG2, intf_cfg2);
-> +	DPU_REG_WRITE(c, INTF_DISPLAY_DATA_HCTL, display_data_hctl);
-> +	DPU_REG_WRITE(c, INTF_ACTIVE_DATA_HCTL, active_data_hctl);
-
-I see. These writes are currently under the if (ctx->cap->features & 
-BIT(DPU_DATA_HCTL_EN)) condition. Please leave them there unless the 
-condition is wrong.
-
+>   	if (cfg->merge_3d)
+>   		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+>   			      BIT(cfg->merge_3d - MERGE_3D_0));
 >   }
 >   
->   static void dpu_hw_intf_enable_timing_engine(
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> index 3568be8..e4a518a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> @@ -30,6 +30,8 @@ struct intf_timing_params {
->   	u32 border_clr;
->   	u32 underflow_clr;
->   	u32 hsync_skew;
-> +
-> +	bool wide_bus_en;
->   };
+>   static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+> -		struct dpu_hw_intf_cfg *cfg)
+> +		struct dpu_hw_intf_cfg *cfg, bool is_wb)
+>   {
+>   	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+>   	u32 intf_cfg = 0;
+> @@ -532,6 +554,9 @@ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+>   		intf_cfg |= (cfg->mode_3d - 0x1) << 20;
+>   	}
 >   
->   struct intf_prog_fetch {
+> +	if (is_wb)
+> +		intf_cfg |= (cfg->wb & 0x3) + 2;
+> +
+>   	switch (cfg->intf_mode_sel) {
+>   	case DPU_CTL_MODE_SEL_VID:
+>   		intf_cfg &= ~BIT(17);
+> @@ -549,6 +574,34 @@ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+>   	DPU_REG_WRITE(c, CTL_TOP, intf_cfg);
+>   }
+>   
+> +static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+> +	struct dpu_hw_intf_cfg *cfg, bool is_wb)
+
+Could you please be more specific here (or in the documentation comment 
+bellow), what exactly is reset? For example the merge3d config is left 
+intact.
+
+> +{
+> +	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> +	u32 intf_active = 0;
+> +	u32 wb_active = 0;
+> +	u32 merge3d_active = 0;
+> +
+> +	if (cfg->merge_3d) {
+> +		merge3d_active = DPU_REG_READ(c, CTL_MERGE_3D_ACTIVE);
+> +		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+> +			      BIT(cfg->merge_3d - MERGE_3D_0));
+> +	}
+> +
+> +	dpu_hw_ctl_clear_all_blendstages(ctx);
+> +
+> +	if (!is_wb) {
+> +		intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
+> +		intf_active &= ~BIT(cfg->intf - INTF_0);
+> +		DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
+> +	} else {
+> +		wb_active = DPU_REG_READ(c, CTL_WB_ACTIVE);
+> +		wb_active &= ~BIT(cfg->wb - WB_0);
+> +		DPU_REG_WRITE(c, CTL_WB_ACTIVE, wb_active);
+> +	}
+
+The same comment as for the setup_intf_cfg(). Also can we just write 
+both CTL_INTF_ACTIVE and CTL_WB_ACTIVE to 0?
+
+> +}
+> +
+> +
+>   static void dpu_hw_ctl_set_fetch_pipe_active(struct dpu_hw_ctl *ctx,
+>   	unsigned long *fetch_active)
+>   {
+> @@ -572,10 +625,12 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+>   	if (cap & BIT(DPU_CTL_ACTIVE_CFG)) {
+>   		ops->trigger_flush = dpu_hw_ctl_trigger_flush_v1;
+>   		ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg_v1;
+> +		ops->reset_intf_cfg = dpu_hw_ctl_reset_intf_cfg_v1;
+>   		ops->update_pending_flush_intf =
+>   			dpu_hw_ctl_update_pending_flush_intf_v1;
+>   		ops->update_pending_flush_merge_3d =
+>   			dpu_hw_ctl_update_pending_flush_merge_3d_v1;
+> +		ops->update_pending_flush_wb = dpu_hw_ctl_update_pending_flush_wb_v1;
+>   	} else {
+>   		ops->trigger_flush = dpu_hw_ctl_trigger_flush;
+>   		ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> index 806c171..fb4baca 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> @@ -1,5 +1,6 @@
+>   /* SPDX-License-Identifier: GPL-2.0-only */
+> -/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+> +/* Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+>    */
+>   
+>   #ifndef _DPU_HW_CTL_H
+> @@ -43,6 +44,7 @@ struct dpu_hw_stage_cfg {
+>    */
+>   struct dpu_hw_intf_cfg {
+>   	enum dpu_intf intf;
+> +	enum dpu_wb wb;
+>   	enum dpu_3d_blend_mode mode_3d;
+>   	enum dpu_merge_3d merge_3d;
+>   	enum dpu_ctl_mode_sel intf_mode_sel;
+> @@ -93,6 +95,15 @@ struct dpu_hw_ctl_ops {
+>   		u32 flushbits);
+>   
+>   	/**
+> +	 * OR in the given flushbits to the cached pending_(wb_)flush_mask
+> +	 * No effect on hardware
+> +	 * @ctx       : ctl path ctx pointer
+> +	 * @blk       : writeback block index
+> +	 */
+> +	void (*update_pending_flush_wb)(struct dpu_hw_ctl *ctx,
+> +		enum dpu_wb blk);
+> +
+> +	/**
+>   	 * OR in the given flushbits to the cached pending_(intf_)flush_mask
+>   	 * No effect on hardware
+>   	 * @ctx       : ctl path ctx pointer
+> @@ -127,9 +138,19 @@ struct dpu_hw_ctl_ops {
+>   	 * Setup ctl_path interface config
+>   	 * @ctx
+>   	 * @cfg    : interface config structure pointer
+> +	 * @is_wb  : to indicate wb mode for programming the ctl path
+>   	 */
+>   	void (*setup_intf_cfg)(struct dpu_hw_ctl *ctx,
+> -		struct dpu_hw_intf_cfg *cfg);
+> +		struct dpu_hw_intf_cfg *cfg, bool is_wb);
+> +
+> +	/**
+> +	 * reset ctl_path interface config
+> +	 * @ctx
+> +	 * @cfg    : interface config structure pointer
+> +	 * @is_wb  : to indicate wb mode for programming the ctl path
+> +	 */
+> +	void (*reset_intf_cfg)(struct dpu_hw_ctl *ctx,
+> +		struct dpu_hw_intf_cfg *cfg, bool is_wb);
+>   
+>   	int (*reset)(struct dpu_hw_ctl *c);
+>   
+> @@ -182,6 +203,7 @@ struct dpu_hw_ctl_ops {
+>    * @mixer_hw_caps: mixer hardware capabilities
+>    * @pending_flush_mask: storage for pending ctl_flush managed via ops
+>    * @pending_intf_flush_mask: pending INTF flush
+> + * @pending_wb_flush_mask: pending WB flush
+>    * @ops: operation list
+>    */
+>   struct dpu_hw_ctl {
+> @@ -195,6 +217,7 @@ struct dpu_hw_ctl {
+>   	const struct dpu_lm_cfg *mixer_hw_caps;
+>   	u32 pending_flush_mask;
+>   	u32 pending_intf_flush_mask;
+> +	u32 pending_wb_flush_mask;
+>   	u32 pending_merge_3d_flush_mask;
+>   
+>   	/* ops */
 
 
 -- 
