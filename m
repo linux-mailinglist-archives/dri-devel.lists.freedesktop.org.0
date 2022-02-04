@@ -1,51 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326634A92E5
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 05:02:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A648E4A93D9
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 07:09:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E996F10E1C6;
-	Fri,  4 Feb 2022 04:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B93C10E4CE;
+	Fri,  4 Feb 2022 06:09:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D30610E1C6
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 04:02:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=ZVHTl+4evudUQqpMq9P89GgpdyRepegfNHN+y+ufozM=; b=PhMZnmS9MMflO7XTDTvul9jZwH
- BsGLWg+k6Iy6lPO/8Ns/G6iAcg+4UHE9H0AuqXo3KJcsERpiTk0x87C+OcWGMObU7LUVfuv6mDqmo
- gFXrSaI96tk5dtodHNqG9r7fjIXUqtGRWUbTsHvpgQANN9AeyO51eyLHzCsPFxMTgGVs7efv9ZvTS
- xB4U2Q3Kk3EtbFpPRilzEUszV5mL0ZQMqIIUXouKIkBCeurAGWJPr4U4Sf8ogRVpFY20xqPX5E/sz
- aAYkUOieCK7hKYoBR8ydzu/JTNUkHBVR8p8cVELmLXXdAXmZvkpoxHPvaNISYq1GeWL2iDTgIC+JN
- rQva5CmQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFpng-006jPR-3N; Fri, 04 Feb 2022 04:02:20 +0000
-Message-ID: <7ed6137e-cf19-3614-9404-e89389411a8f@infradead.org>
-Date: Thu, 3 Feb 2022 20:02:14 -0800
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94ECE10E1C1
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 06:09:27 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id ka4so16024902ejc.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Feb 2022 22:09:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=irPohvkYW/vu/tINGbfcT0yMRUasDFKKmSa2izf+JcI=;
+ b=aMddKGsuPh3qd0rOIqO9k1JKKZm+feThOV211oA6JRocAiR2gvwuNmWPG7WMMn8H+0
+ /tck16Ek/Gn7YK7VKTIjp9hYhtj/Lnw1heeEC87jEPNa9j+/TRegIRzlQxqUTQ8D3HL7
+ o+NDyAr1GMBStMksD8DY+k/KjdR7fLYAay2Xt74ZK2LbwpN04L/en7FuqeX1P1mytxLu
+ RD1hWrY91feOm+kKcQebg6/y2nE5NK8vjJ1/fQ8M7iHG0tcsJojj2BzXy7/cxXLcpbxq
+ mye80raZc81lFJrxl2OXYoeXYPvjr8VUbTgx4tVRRINo24HYDs4MdraqVbWjGjd11dJ2
+ jooQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=irPohvkYW/vu/tINGbfcT0yMRUasDFKKmSa2izf+JcI=;
+ b=2BouTad/3i1nu89y9gY4Rd3ZSBieLaPxy3RHQTmpvcdiM5FStm1xtgpV887S+07LMs
+ oMWDm2OQoiDG7KebETMx/kx8Pgtn3iiG7LL+q0Z8m1Lu3G5lTkhZb2XmAZmwqeUAPyxi
+ 9ctgPAUT+dEgD7iBsToGWdH8q+pwIDWlgLLFVy0cUgKRRVpXkC+YpcWMQFQbr18gJcbC
+ E6fLBpW+28q5SLF1iCEZeJdg28VZrMh24v+illXKxikDND6TpFAxnysIAmHmDGek+832
+ 1ab4JK+UyNYDYzDVKrdjTafsmws7U1gjXbcAw0d1zSiCbGxATkuP59JtC+viMHl7CXPW
+ Wd9Q==
+X-Gm-Message-State: AOAM5316rrmTfFXFhEH23G7gdF2iZnu+Xi0HJ+MW3CI8FmfUnm0OKbSp
+ Uv6kNfdet0Q90Tyn6mLZADjdFlt33Mr5zey3m2A=
+X-Google-Smtp-Source: ABdhPJwP1bbXEMt9wd6t0qLBiZSaPI0z98GUTDdpDr/7g/UE+k5Y0mloWJXKjqLzgwgpFLmRr9nv8jOPBrQy3TOG5PI=
+X-Received: by 2002:a17:907:948c:: with SMTP id
+ dm12mr1205388ejc.770.1643954965956; 
+ Thu, 03 Feb 2022 22:09:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: Kconfig CONFIG_FB dependency regression
-Content-Language: en-US
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Arnd Bergmann <arnd@kernel.org>
-References: <6fc4a81f-1a13-bff9-7b2e-d5bec382cb42@synopsys.com>
- <9bab4777-3034-b789-fdf6-ca8d7e6a8c35@infradead.org>
- <CAOMZO5Aa4WxuadfoFGwwyYyD4UGPm-E258xTWU3-ozp_hwG-7g@mail.gmail.com>
- <d8981e2a-4f61-72bb-e5cc-bf4ded29c08a@synopsys.com>
- <CAK8P3a3ELrSC=KX6cr8UnP6kkJN0AXeAE4EG4oUY=Zz7gG_dgg@mail.gmail.com>
- <b44de208-6d5f-3fcd-0e36-f05745297747@synopsys.com>
- <CAK8P3a27RtHxYwtj=rjxcDzkMdKhC-w9ho=SApHpczma_vU8JQ@mail.gmail.com>
- <6743d6b1-13fe-9c83-f706-82338dd03897@synopsys.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <6743d6b1-13fe-9c83-f706-82338dd03897@synopsys.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 4 Feb 2022 16:09:15 +1000
+Message-ID: <CAPM=9tx9Ag9zPenB48F0qCZ1B8gxF0vtRG5-h3We_2QW_z+pxg@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.17-rc3
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,112 +63,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- John Youn <John.Youn@synopsys.com>, Bing Yuan <Bing.Yuan@synopsys.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Linus,
 
+Regular fixes for the week. Daniel has agreed to bring back the fbcon
+hw acceleration under a CONFIG option for the non-drm fbdev users, we
+don't advise turning this on unless you are in the niche that is old
+fbdev drivers, Since it's essentially a revert and shouldn't be high
+impact seemed like a good time to do it now.
 
-On 2/3/22 19:21, Thinh Nguyen wrote:
-> Arnd Bergmann wrote:
->> On Thu, Feb 3, 2022 at 12:55 AM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
->>> Arnd Bergmann wrote:
->>>> On Wed, Feb 2, 2022 at 1:14 AM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
->>>>> Fabio Estevam wrote:
->>>>
->>>> CONFIG_FB should not normally be needed for booting, so unless
->>>> you have a graphical application in your initramfs that requires the /dev/fb0
->>>> device to work, it is not supposed to make a difference.
->>>>
->>>
->>> I'm not sure, but it seems like the setup we have isn't the only one
->>> that needed it. Fabio also noted that the imx_v6_v7_defconfig also needs
->>> to have CONFIG_FB set.
->>
->> No, that one is different: the change for imx_v6_v7_defconfig was
->> done because they actually use a framebuffer console on some devices,
->> so the patch just adds the symbol to enable the drivers they are using.
->>
->> This is expected with my original patch that doesn't implicitly enable
->> the framebuffer layer any more. What is not expected is for the kernel
->> to hang during boot as you reported for your unidentified platform.
->>
->>>> Are there any other differences in your .config before and after the patch?
->>>> It's possible that you use some other driver that in turn depends on
->>>> CONFIG_FB. Does your machine have any graphical output device?
->>>> If yes, which driver do you use?
->>>
->>> I don't have the answer to those questions yet. Need more investigation.
->>> I'm new to this particular test setup.
->>
->> Do you mean you don't know if there is a screen attached to the system?
->>
-> 
-> It does have a graphical output device, but I didn't check what it is or
-> what driver is driving it. I just notice that after the reported commit,
-> something stopped working.
-> 
->>>>
->>>> You may also want to make sure that you have 9d6366e743f3 ("drm:
->>>> fb_helper: improve CONFIG_FB dependency") in your kernel, which
->>>> fixes a minor problem with my original patch.
->>>>
->>>
->>> The issue also occurs in mainline, which has your minor fix commit
->>> above. The revert isn't clean for the latest kernel version. I also have
->>> to revert some of the changes along with CONFIG_FB. The revert looks
->>> more like this for the latest kernel:
->>>
->>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>> index b1f22e457fd0..7cbc733a8569 100644
->>> --- a/drivers/gpu/drm/Kconfig
->>> +++ b/drivers/gpu/drm/Kconfig
->>> @@ -118,8 +118,9 @@ config DRM_DEBUG_MODESET_LOCK
->>>
->>>  config DRM_FBDEV_EMULATION
->>>         bool "Enable legacy fbdev support for your modesetting driver"
->>> -       depends on DRM_KMS_HELPER
->>> -       depends on FB=y || FB=DRM_KMS_HELPER
->>> +       depends on DRM
->>> +       select DRM_KMS_HELPER
->>> +       select FB
->>>         select FB_CFB_FILLRECT
->>>         select FB_CFB_COPYAREA
->>>         select FB_CFB_IMAGEBLIT
->>>
->>>
->>>
->>> I attached the configs for kernel v5.17-rc1. The "bad" config is without
->>> any revert, the "good" config is with the change above.
->>
->> Looking at the config, I see that this is for an x86 machine,
->> and you have the FB_EFI driver and EFI_EARLYCON enabled.
->>
->> What I suspec is going on is that you are looking at a screen rather
->> than a serial console, and the kernel doesn't actually hang but you
->> just don't see any more messages after the DRM driver takes
->> over from EFI_EARLYCON because there is no console driver.
->>
->> In this case, what you see is the intended behavior, not a bug.
->> If you want a graphical console in your system, you need to
->> enable the support for this in your config.
->>
-> 
-> It sounds like that's the case. Unfortunately I'm not familiar with this
-> subsystem to say that's what happening. If there's nothing actually
-> broken from review, we can ignore this email thread.
+Otherwise, i915 and amdgpu fixes are most of it, along with some minor
+fixes elsewhere.
 
-Hi,
-I don't know of anything that is broken...
+Dave.
 
-I am curious how CONFIG_FB_EFI came to be set when going from bad.config to
-good.config.  Can you explain that?
+drm-fixes-2022-02-04:
+drm fixes for 5.17-rc3
 
-thanks.
--- 
-~Randy
+fbdev:
+- readd fbcon acceleration
+
+i915:
+- fix DP monitor via type-c dock
+- fix for engine busyness and read timeout with GuC
+- use ALLOW_FAIL for error capture buffer allocs
+- don't use interruptible lock on error paths
+- smatch fix to reject zero sized overlays.
+
+amdgpu:
+- mGPU fan boost fix for beige goby
+- S0ix fixes
+- Cyan skillfish hang fix
+- DCN fixes for DCN 3.1
+- DCN fixes for DCN 3.01
+- Apple retina panel fix
+- ttm logic inversion fix
+
+dma-buf:
+- heaps: fix potential spectre v1 gadget
+
+kmb:
+- fix potential oob access
+
+mxsfb:
+- fix NULL ptr deref
+
+nouveau:
+- fix potential oob access during BIOS decode
+The following changes since commit 26291c54e111ff6ba87a164d85d4a4e134b7315c=
+:
+
+  Linux 5.17-rc2 (2022-01-30 15:37:07 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-02-04
+
+for you to fetch changes up to 9ca3d3cd0857523c95ab8cdbb6cfe47b8f90e309:
+
+  Merge tag 'drm-intel-fixes-2022-02-03' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2022-02-04
+15:48:27 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.17-rc3
+
+fbdev:
+- readd fbcon acceleration
+
+i915:
+- fix DP monitor via type-c dock
+- fix for engine busyness and read timeout with GuC
+- use ALLOW_FAIL for error capture buffer allocs
+- don't use interruptible lock on error paths
+- smatch fix to reject zero sized overlays.
+
+amdgpu:
+- mGPU fan boost fix for beige goby
+- S0ix fixes
+- Cyan skillfish hang fix
+- DCN fixes for DCN 3.1
+- DCN fixes for DCN 3.01
+- Apple retina panel fix
+- ttm logic inversion fix
+
+dma-buf:
+- heaps: fix potential spectre v1 gadget
+
+kmb:
+- fix potential oob access
+
+mxsfb:
+- fix NULL ptr deref
+
+nouveau:
+- fix potential oob access during BIOS decode
+
+----------------------------------------------------------------
+Agustin Gutierrez (1):
+      drm/amd/display: Update watermark values for DCN301
+
+Alexander Stein (1):
+      drm: mxsfb: Fix NULL pointer dereference
+
+Anitha Chrisanthus (1):
+      drm/kmb: Fix for build errors with Warray-bounds
+
+Aun-Ali Zaidi (1):
+      drm/amd/display: Force link_rate as LINK_RATE_RBR2 for 2018 15"
+Apple Retina panels
+
+Christian K=C3=B6nig (1):
+      drm/amdgpu: fix logic inversion in check
+
+Dan Carpenter (1):
+      drm/i915/overlay: Prevent divide by zero bugs in scaling
+
+Dave Airlie (3):
+      Merge tag 'amd-drm-fixes-5.17-2022-02-02' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2022-02-03' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2022-02-03' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+
+Evan Quan (1):
+      drm/amd/pm: correct the MGpuFanBoost support for Beige Goby
+
+Helge Deller (3):
+      Revert "fbdev: Garbage collect fbdev scrolling acceleration,
+part 1 (from TODO list)"
+      Revert "fbcon: Disable accelerated scrolling"
+      fbcon: Add option to enable legacy hardware acceleration
+
+Imre Deak (1):
+      drm/i915/adlp: Fix TypeC PHY-ready status readout
+
+Jordy Zomer (1):
+      dma-buf: heaps: Fix potential spectre v1 gadget
+
+Lang Yu (1):
+      drm/amdgpu: fix a potential GPU hang on cyan skillfish
+
+Mario Limonciello (4):
+      drm/amd: Warn users about potential s0ix problems
+      drm/amd: add support to check whether the system is set to s3
+      drm/amd: Only run s3 or s0ix if system is configured properly
+      drm/amd: avoid suspend on dGPUs w/ s2idle support when runtime PM ena=
+bled
+
+Matthew Brost (2):
+      drm/i915: Allocate intel_engine_coredump_alloc with ALLOW_FAIL
+      drm/i915: Lock timeline mutex directly in error path of eb_pin_timeli=
+ne
+
+Nick Lopez (1):
+      drm/nouveau: fix off by one in BIOS boundary checking
+
+Paul Hsieh (1):
+      drm/amd/display: watermark latencies is not enough on DCN31
+
+Umesh Nerlige Ramappa (2):
+      drm/i915/pmu: Use PM timestamp instead of RING TIMESTAMP for referenc=
+e
+      drm/i915/pmu: Fix KMD and GuC race on accessing busyness
+
+Zhan Liu (1):
+      drm/amd/display: revert "Reset fifo after enable otg"
+
+ Documentation/gpu/todo.rst                         |  24 -
+ drivers/dma-buf/dma-heap.c                         |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |  37 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  11 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |   3 +
+ .../drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c |  16 +-
+ .../amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c   |  20 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  20 +
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    |   5 -
+ .../amd/display/dc/dcn10/dcn10_stream_encoder.c    |  15 -
+ .../amd/display/dc/dcn10/dcn10_stream_encoder.h    |   3 -
+ .../amd/display/dc/dcn20/dcn20_stream_encoder.c    |   2 -
+ .../display/dc/dcn30/dcn30_dio_stream_encoder.c    |   2 -
+ .../gpu/drm/amd/display/dc/inc/hw/stream_encoder.h |   4 -
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |   6 +-
+ drivers/gpu/drm/i915/display/intel_overlay.c       |   3 +
+ drivers/gpu/drm/i915/display/intel_tc.c            |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   9 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h             |   5 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  | 114 ++++-
+ drivers/gpu/drm/i915/i915_gpu_error.c              |   2 +-
+ drivers/gpu/drm/i915/i915_reg.h                    |   3 +-
+ drivers/gpu/drm/kmb/kmb_plane.c                    |   6 -
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c                  |   6 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/base.c    |   2 +-
+ drivers/video/console/Kconfig                      |  20 +
+ drivers/video/fbdev/core/bitblit.c                 |  16 +
+ drivers/video/fbdev/core/fbcon.c                   | 557 +++++++++++++++++=
++++-
+ drivers/video/fbdev/core/fbcon.h                   |  72 +++
+ drivers/video/fbdev/core/fbcon_ccw.c               |  28 +-
+ drivers/video/fbdev/core/fbcon_cw.c                |  28 +-
+ drivers/video/fbdev/core/fbcon_rotate.h            |   9 +
+ drivers/video/fbdev/core/fbcon_ud.c                |  37 +-
+ drivers/video/fbdev/core/tileblit.c                |  16 +
+ drivers/video/fbdev/skeletonfb.c                   |  12 +-
+ include/linux/fb.h                                 |   2 +-
+ 38 files changed, 972 insertions(+), 160 deletions(-)
