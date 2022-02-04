@@ -1,49 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B984AA187
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 22:02:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDCDC4AA1F8
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 22:17:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9C710E22B;
-	Fri,  4 Feb 2022 21:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85FE610E173;
+	Fri,  4 Feb 2022 21:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
- [209.85.166.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C0DA10E5AF
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 21:02:20 +0000 (UTC)
-Received: by mail-io1-f42.google.com with SMTP id r144so8897643iod.9
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 13:02:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=io04bmdGVqb9L2Bxd+sAlyc8gW4AQtHE1d41YIHwSP4=;
- b=Y2ilqNluEFTVeXBCDh9uRD3UpLLovwPaumH462BeMF3YuOE9T91BnUFrJlIVTuvC7N
- ahc3AUx6VOQojqTTs9WPUd2tZI2MX4KkVFv0lz4LXBfIfIZA7iS8pATWuvrl1zH4zCkN
- vjfBRbsFrE0+ZmK2/AWUULn/9wpG6OtmJs+LVNLQ9VLAcJQ3AByjqhUA92himb66Q76M
- 0+Dnhid69bP864eShhVKgymLOK/xg9BUiwA9vonyrL0cMImhE7VYhKfkAjty6SESq7a4
- Zxch67O+H8APSCijrC3ZIUN6HFnyChtZ05dEZEguWA9/DtWcqh9/WCEm2kuOoO3mlwqU
- Fzyw==
-X-Gm-Message-State: AOAM533OUECBA7vHaHxr2XDkpyHhoLC1QC1o5f7I7C2DG0G7KbZArPvA
- U8RdDwqPbpfGmFMkh6hh3f73Ns7vlZA5Lde3Mts=
-X-Google-Smtp-Source: ABdhPJxrFRPQc2dIB/rpJG3OFUuQ3pqcG6UwllwxN96YeNR7QHh9tWGlPWYKr5Z1Fter5IjlcEsyr2Pk7BW+lIpqJYs=
-X-Received: by 2002:a05:6602:158b:: with SMTP id
- e11mr418853iow.93.1644008539441; 
- Fri, 04 Feb 2022 13:02:19 -0800 (PST)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E77C010E173;
+ Fri,  4 Feb 2022 21:17:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1644009458; x=1675545458;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=Ed9N6J3V6XeJJPyBPWjY/qNKW6qKVATvTS8vjkdmgU4=;
+ b=sZbIOXIWASLyIXpI7lYOaQENOAsj1Ms7Srb6BVWGRnsuZheRayQvi7a4
+ tixxc72QSXWKhYZ0aKqyyqJ6qo2bWAIAzvp4Om1U5UXg+I8BhRyQZwSTJ
+ BIbnMJVCkiZiCVu+IZ6AOIvSeWHPWbkevsVBmbdbIYveCamuElX4/OfxM w=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 04 Feb 2022 13:17:37 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2022 13:17:36 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Fri, 4 Feb 2022 13:17:36 -0800
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Fri, 4 Feb 2022 13:17:35 -0800
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 00/12] Add writeback block support for DPU
+Date: Fri, 4 Feb 2022 13:17:13 -0800
+Message-ID: <1644009445-17320-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <20220204134347.1187749-2-javierm@redhat.com>
- <47100413-db63-1efa-45e9-028dfc430b7e@suse.de>
-In-Reply-To: <47100413-db63-1efa-45e9-028dfc430b7e@suse.de>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Fri, 4 Feb 2022 16:02:08 -0500
-Message-ID: <CAKb7UvgxhLFT4aqYSE+=dpqfuTkvr62tsGmQP5H46mAytaQBRg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/format-helper: Add drm_fb_{xrgb8888,
- gray8}_to_mono_reversed()
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,62 +58,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev <linux-fbdev@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ swboyd@chromium.org, nganji@codeaurora.org, seanpaul@chromium.org,
+ markyacoub@chromium.org, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 4, 2022 at 10:53 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Hi
->
-> Am 04.02.22 um 14:43 schrieb Javier Martinez Canillas:
-> > Add support to convert XR24 and 8-bit grayscale to reversed monochrome for
-> > drivers that control monochromatic panels, that only have 1 bit per pixel.
-> >
-> > The drm_fb_gray8_to_mono_reversed() helper was based on the function that
-> > does the same in the drivers/gpu/drm/tiny/repaper.c driver.
-> >
-> > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> > ---
-> >
-> > (no changes since v1)
-> >
-> >   drivers/gpu/drm/drm_format_helper.c | 80 +++++++++++++++++++++++++++++
-> >   include/drm/drm_format_helper.h     |  7 +++
-> >   2 files changed, 87 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-> > index 0f28dd2bdd72..cdce4b7c25d9 100644
-> > --- a/drivers/gpu/drm/drm_format_helper.c
-> > +++ b/drivers/gpu/drm/drm_format_helper.c
-> > @@ -584,3 +584,83 @@ int drm_fb_blit_toio(void __iomem *dst, unsigned int dst_pitch, uint32_t dst_for
-> >       return -EINVAL;
-> >   }
-> >   EXPORT_SYMBOL(drm_fb_blit_toio);
-> > +
-> > +static void drm_fb_gray8_to_mono_reversed_line(u8 *dst, const u8 *src, size_t pixels)
-> > +{
-> > +     unsigned int xb, i;
-> > +
-> > +     for (xb = 0; xb < pixels / 8; xb++) {
->
-> In practice, all mode widths are multiples of 8 because VGA mandated it.
-> So it's ok-ish to assume this here. You should probably at least print a
-> warning somewhere if (pixels % 8 != 0)
+This series adds support for writeback block on DPU. Writeback
+block is extremely useful to validate boards having no physical displays
+in addition to many other use-cases where we want to get the output
+of the display pipeline to examine whether issue is with the display
+pipeline or with the panel.
 
-Not sure if it's relevant, but 1366x768 was a fairly popular laptop
-resolution. There's even a dedicated drm_mode_fixup_1366x768 in
-drm_edid.c. (Would it have killed them to add 2 more horizontal
-pixels? Apparently.)
+These changes have been validated on SM8250 RB5 boards with IGT KMS
+writeback test-suite thereby further increasing the IGT test coverage
+for DPU. I am sharing the test results below.
 
-Cheers,
+root@linaro-developer:~/igt_repo/igt-gpu-tools/build/tests# ./kms_writeback
+[   35.066157] Console: switching to colour dummy device 80x25
+[   35.071964] [IGT] kms_writeback: executing
+IGT-Version: 1.26-gae2eb9e1 (aarch64) (Linux: 5.16.0-rc2-62171-g132577e2697b aarch64)
+[   35.611418] [IGT] kms_writeback: starting subtest writeback-pixel-formats
+Starting subtest: writeback-pixel-formats
+[   35.618528] [IGT] kms_writeback: starting subtest writeback-invalid-parameters
+Subtest writeback-pixel-formats: SUCCESS (0.000s)
+Starting subtest: writeback-invalid-parameters
+Subtest writeback-invalid-parameters: SUCCESS (0.028s)   35.657437] [IGT] kms_writeback: starting subtest writeback-fb-id
+Starting subtest: writeback-fb-id
+Subtest writeback-fb-id: SUCCESS (0.030s)
+[   35.698957] [IGT] kms_writeback: starting subtest writeback-check-output
+Starting subtest: writeback-check-output
+[   35.852834] [IGT] kms_writeback: exiting, ret=0
+Subtest writeback-check-output: SUCCESS (0.142s)
+[   35.861291] Console: switching to colour frame buffer device 240x67
+root@linaro-developer:~/igt_repo/igt-gpu-tools/build/tests# 
 
-  -ilia
+The changes can easily be extended to support any other chipset using
+the DPU driver by adding the support in the catalog.
+
+Writeback block supports various formats and features. The support
+for all of them can be incrementally added on top of this framework when
+validation is improved and the test frameworks are extended to validate
+them.
+
+Abhinav Kumar (12):
+  drm/msm/dpu: add writeback blocks to the sm8250 DPU catalog
+  drm/msm/dpu: add dpu_hw_wb abstraction for writeback blocks
+  drm/msm/dpu: add writeback blocks to DPU RM
+  drm/msm/dpu: add changes to support writeback in hw_ctl
+  drm/msm/dpu: add an API to reset the encoder related hw blocks
+  drm/msm/dpu: make changes to dpu_encoder to support virtual encoder
+  drm/msm/dpu: add encoder operations to prepare/cleanup wb job
+  drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback
+  drm/msm/dpu: add the writeback connector layer
+  drm/msm/dpu: initialize dpu encoder and connector for writeback
+  drm/msm/dpu: gracefully handle null fb commits for writeback
+  drm/msm/dpu: add writeback blocks to the display snapshot
+
+ drivers/gpu/drm/msm/Makefile                       |   3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |   9 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 241 +++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  25 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  50 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |   3 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   6 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    | 825 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  73 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  66 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  65 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  27 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          | 267 +++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          | 145 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  67 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |  71 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      |  71 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h      |  27 +
+ 20 files changed, 2007 insertions(+), 38 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
+
+-- 
+2.7.4
+
