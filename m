@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053A84AA20F
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 22:18:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC964AA245
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 22:26:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC70910E31A;
-	Fri,  4 Feb 2022 21:18:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDB7910E77C;
+	Fri,  4 Feb 2022 21:26:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8BC310E8A4;
- Fri,  4 Feb 2022 21:18:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644009488; x=1675545488;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=iSjFnXW/40308DRR3ZLcydXqDDWvo3I9upgYQFfAdes=;
- b=ks5R/6w8zjNX5EoFIFVMkqQQ+c/tJnNkLXj3s+se9k+ojn652OvZ7Jhx
- SLcm7kPmzFFJA8bt9luP3nSyVIRL7TVF8Xfs7mP6Iqgg+92bcv8870TOB
- 9z6RfUm0UTLhJxqlR6/mbutSjHfC7DoTrOeG3Lxs1I+uuq4hZvBdKacSY 8=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 04 Feb 2022 13:18:07 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 13:18:07 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Fri, 4 Feb 2022 13:18:06 -0800
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Fri, 4 Feb 2022 13:18:06 -0800
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 12/12] drm/msm/dpu: add writeback blocks to the display
- snapshot
-Date: Fri, 4 Feb 2022 13:17:25 -0800
-Message-ID: <1644009445-17320-13-git-send-email-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1644009445-17320-1-git-send-email-quic_abhinavk@quicinc.com>
-References: <1644009445-17320-1-git-send-email-quic_abhinavk@quicinc.com>
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 717A310E7A0
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 21:26:52 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 4eb75eee-8601-11ec-b20b-0050568c148b;
+ Fri, 04 Feb 2022 21:27:51 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 92C35194B45;
+ Fri,  4 Feb 2022 22:26:50 +0100 (CET)
+Date: Fri, 4 Feb 2022 22:26:48 +0100
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Subject: Re: [PATCH] drm/panel: simple: Assign data from panel_dpi_probe()
+ correctly
+Message-ID: <Yf2aGFBHuWr6tyXy@ravnborg.org>
+References: <20220201110153.3479-1-cniedermaier@dh-electronics.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220201110153.3479-1-cniedermaier@dh-electronics.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +48,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- swboyd@chromium.org, nganji@codeaurora.org, seanpaul@chromium.org,
- markyacoub@chromium.org, dmitry.baryshkov@linaro.org,
- quic_jesszhan@quicinc.com, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, David Airlie <airlied@linux.ie>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add writeback block information while capturing the display
-snapshot.
+On Tue, Feb 01, 2022 at 12:01:53PM +0100, Christoph Niedermaier wrote:
+> In the function panel_simple_probe() the pointer panel->desc is
+> assigned to the passed pointer desc. If function panel_dpi_probe()
+> is called panel->desc will be updated, but further on only desc
+> will be evaluated. So update the desc pointer to be able to use
+> the data from the function panel_dpi_probe().
+> 
+> Fixes: 4a1d0dbc8332 ("drm/panel: simple: add panel-dpi support")
+> 
+> Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> To: dri-devel@lists.freedesktop.org
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Thanks for fixing this
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 6327ba9..e227b35 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -987,6 +987,11 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
- 		msm_disp_snapshot_add_block(disp_state, cat->mixer[i].len,
- 				dpu_kms->mmio + cat->mixer[i].base, "lm_%d", i);
- 
-+	/* dump WB sub-blocks HW regs info */
-+	for (i = 0; i < cat->wb_count; i++)
-+		msm_disp_snapshot_add_block(disp_state, cat->wb[i].len,
-+				dpu_kms->mmio + cat->wb[i].base, "wb_%d", i);
-+
- 	msm_disp_snapshot_add_block(disp_state, top->hw.length,
- 			dpu_kms->mmio + top->hw.blk_off, "top");
- 
--- 
-2.7.4
-
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 9e46db5e359c..3c08f9827acf 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -588,6 +588,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+>  		err = panel_dpi_probe(dev, panel);
+>  		if (err)
+>  			goto free_ddc;
+> +		desc = panel->desc;
+>  	} else {
+>  		if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
+>  			panel_simple_parse_panel_timing_node(dev, panel, &dt);
+> -- 
+> 2.11.0
