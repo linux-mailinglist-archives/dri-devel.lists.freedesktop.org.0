@@ -1,69 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414E44A9794
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 11:17:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9BA84A97AA
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 11:24:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7440D10F555;
-	Fri,  4 Feb 2022 10:17:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B869D10F244;
+	Fri,  4 Feb 2022 10:24:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78DEF10F555
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 10:17:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1643969864;
- bh=X1MRy+vD8CkfqTDx60skeng1J5c/t86h/L2dzUIQEuE=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=WkG0g8mbgE8JR1nDOYhROOrodWj0VgSymyNNZStbEWPfFii1uVbuLaNLzedlLg2dZ
- 4G7jML8yU0/jJEP+ngjJMnGs9YeSbGv2l4OZEKLkuurt3i3aYaOk98ZswsGwawoNTx
- UV/B3yeIcG8kKp5C+W8bEy7/YO7voAdtKsZXo7M4=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.130.18]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MoO24-1mR8S01qzg-00ooJ8; Fri, 04
- Feb 2022 11:17:44 +0100
-Message-ID: <ee851128-1080-d0ae-6c55-e1816bc89e74@gmx.de>
-Date: Fri, 4 Feb 2022 11:17:33 +0100
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
+ [209.85.222.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A69910F244
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 10:24:35 +0000 (UTC)
+Received: by mail-ua1-f52.google.com with SMTP id m90so10068413uam.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 02:24:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=neWYzNB/qmpg+/pe+fqv1a9W50LwNAnahFMV//r7xao=;
+ b=zdlG+FQYu0f+epRMN58stasm4NvvcC0zrVoX6n7nODTOU6RaryXs9h3ZtnV08c8qrF
+ hPZerLwCUlZ5Li4Vz3YOgGiC9yhoFBRtMFNQLt03e26LIphVgPbpZi8EhQ5OSYNyOsmD
+ KD14UAZHDWJ1TCVVNzXeWthyuGIYN1KNtf5ihr5BJqaILi2gpj1GToJPXYI1B0w95EOW
+ sJ/GW3H7F87RXc2CJZ1ltvUEaBWT9gMQM+7g8A8yA2b/COH8Z+7LZ92fM0OSpk2LC07g
+ Ll40mapHvs1Mhz+yD4h6JpKluCu9JJ03f6xiQvP14noeur4ZmhntYev1kxrwJ4J+7T1w
+ 8Gqw==
+X-Gm-Message-State: AOAM530fpRaxxB/E6NZ8rei1wazuS4yEgdhuaHoTkIwqRpy3U00AJrjF
+ +nFLH4YnlyjH9ySFoOuE4qdetfAeIrfWXg==
+X-Google-Smtp-Source: ABdhPJwIPpcGQ4iX1uaVlzj5Ds2DS/DNViPr+eNB25I4w9A1lpS8Yu3g32GcOM1KSMSomRfANK8L5g==
+X-Received: by 2002:ab0:604e:: with SMTP id o14mr670717ual.71.1643970274231;
+ Fri, 04 Feb 2022 02:24:34 -0800 (PST)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com.
+ [209.85.222.42])
+ by smtp.gmail.com with ESMTPSA id r14sm359424vke.26.2022.02.04.02.24.33
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Feb 2022 02:24:33 -0800 (PST)
+Received: by mail-ua1-f42.google.com with SMTP id e17so9982785uad.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 02:24:33 -0800 (PST)
+X-Received: by 2002:ab0:6f0d:: with SMTP id r13mr862763uah.114.1643970273615; 
+ Fri, 04 Feb 2022 02:24:33 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4 3/3] fbcon: Add option to enable legacy hardware
- acceleration
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
 References: <20220202135531.92183-1-deller@gmx.de>
  <20220202135531.92183-4-deller@gmx.de>
  <CAMuHMdWTuFt12faj58sLv3H9rN0xK-+CCTkFeEiKdLSQTU2Lmg@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <CAMuHMdWTuFt12faj58sLv3H9rN0xK-+CCTkFeEiKdLSQTU2Lmg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HKEuiiAMmlsMFrW99nar/Wg5BrbdO7q6w9mqNlZShmLcaHlsfgP
- Sl0IMPACLyRZ+tieczUNkQuD2iWb6voEYM0pfb11cvHoRAj87JFHdgpnUid6cAidgYJgSeQ
- hsykB/okcmrN3/I7lFzKT4r9JZazHiaZ5SHU8N5womQB6LdH9M0t/ppbeMS2UN/ttVwGNBJ
- wIVHSil1w6DWDfp/dZJyA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZJRa8nzcCrs=:mZtuzVp3chq7a2URU6E3ww
- qNLHahlbA3Z6+4/r0HHFl23OZ+XW9U8df5XgVPkG0XGrQJ9BMFtlfkMCyHPvxFqbkuZaS4nuD
- enFXdGN/paHVgwrcJRG8dOPBxoqiDqvXIZDPeoh7IAXxeM2QHIwzXDITPqlxdpYVfKxAHNi2h
- gwlTqv+PS/1KwQtF0iEHJ7ggRjcVISJ0x/KZPGvQo04vNT8ov9cZ8iRGp8iyfk7EOvEpW5hBv
- xoPSBG9IqHVH4aVGI6XaDa/3gfZ5PkKY1reEBNA8fXbofwp8nnon6zKGjp4mfxmmSUpANpirr
- jAdibd+nPaTQYXblA1SOfa8+pnGGF26kRVdSSSg15IixvvurHKgwQuldZ7ojahXmXLGJDz/wd
- bwL49XrzQZfrsBrr5qfgVHIum9X7gUBwG96y9LJqbJAp4KFLHByrwqEdSCSdT3evmBlsmUad7
- 9X7i6ITTyetalhtZYDqsQ5+yioI0yj1Al7WeeMTzHVHgJIlQcSVg3IKrS+As0frhK8I/zCc9S
- rA2lNTQxCXWKaflAso9drg2YhxAxoNC4MuGx5tgxFpR29dmz1+cZHSaU1B2TZfDcbeRx9WoFF
- 0UorULX2xpAdcEyyusH09rXDg8Qg9DgvLzqs5mkyPNr4p/bXgKHrJ/FHV6TJKn7ltfcLUT1yb
- OI6m0TwviCgtBfPVPlympvwVKY4b0oGWs8ZGkVI0Hin5HAtta2g+SwNGpk4ZcHdSmQ6KXoni7
- fAiJ7eh7XztUpEU32NiyQAkGR+6XB5tmN3LcOmZESLaa7mZjscQ+wgogJYfy1gaXAQjI13rCi
- D4SI7y+JS5HcEkHgc852+ZXGT1ZOSIEa2maM5TE7roc7QKXRFYnyHggzfcxbIzdqxBCGoZ79x
- y977XB3TT5Ce8H1Vppu2p9KDW4sh2qges/neOqNQNaTC2p40HulimVOKIk9LuBW3E9xixbYHs
- oZ4F+fq4UcQ3M5NorsOQQHLSK4hcaNxIhyAmIpPRcEjR0u4pX9qIXhLNnEzwja/kGrK8uBm63
- u9SjYrT5JkwXGO0CURmPw4egorQ1nzvzMLOzHQjEiRaNJg4/EM75d/AJaGTb05aciqfN4hb4e
- mPe4356Da/Bc4uxLRmlv8zpgcvzXCdMh/xdDm5wnXR0dWDyMuF/VGwLs4wim2T3Tv0xqewu9F
- wUHFx7dQSdNF1DXMnaa/xlqKY6gtSmttuD3SGPkd/2piLibtJnFjGls2N0strJX18cwtJov95
- iJGo66NzURZinqkBwnXwPodkcntyTmFT1Iudw6hX600r6U1/mRf9RHQKG3eK1nzjkgVLpMvA1
- ngvXQTv9pHG0ZH3j7O1P23KBBLkxsgwMsIlZL6/rQ0y1UFjuegfsemXpquDBX8qRbdxRx9ec
+ <ee851128-1080-d0ae-6c55-e1816bc89e74@gmx.de>
+In-Reply-To: <ee851128-1080-d0ae-6c55-e1816bc89e74@gmx.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 4 Feb 2022 11:24:22 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWAs9RC843oL0ME+yJSrSdVVM0Ua+T-KcrX1QTjsO1DZQ@mail.gmail.com>
+Message-ID: <CAMuHMdWAs9RC843oL0ME+yJSrSdVVM0Ua+T-KcrX1QTjsO1DZQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] fbcon: Add option to enable legacy hardware
+ acceleration
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,18 +73,34 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Geert,
+Hi Helge,
 
-On 2/4/22 09:37, Geert Uytterhoeven wrote:
-> On Wed, Feb 2, 2022 at 8:05 PM Helge Deller <deller@gmx.de> wrote:
->> Add a config option CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION to
->> enable bitblt and fillrect hardware acceleration in the framebuffer
->> console. If disabled, such acceleration will not be used, even if it is
->> supported by the graphics hardware driver.
+On Fri, Feb 4, 2022 at 11:17 AM Helge Deller <deller@gmx.de> wrote:
+> On 2/4/22 09:37, Geert Uytterhoeven wrote:
+> > On Wed, Feb 2, 2022 at 8:05 PM Helge Deller <deller@gmx.de> wrote:
+> >> Add a config option CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION to
+> >> enable bitblt and fillrect hardware acceleration in the framebuffer
+> >> console. If disabled, such acceleration will not be used, even if it is
+> >> supported by the graphics hardware driver.
+> >
+> > Note that this also applies to vertical panning and wrapping.
 >
-> Note that this also applies to vertical panning and wrapping.
+> That's correct.
+> Would you mind to send a patch which adds this info?
 
-That's correct.
-Would you mind to send a patch which adds this info?
+To add it where? "bitblt and fillrect" are only mentioned in the patch
+description.
 
-Helge
+The Kconfig help entry just talks about "hardware acceleration",
+which can mean any trick supported by the hardware.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
