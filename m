@@ -2,48 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57724A9E21
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 18:46:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60394A9E47
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 18:48:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCE9110EF12;
-	Fri,  4 Feb 2022 17:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B735B10EF0A;
+	Fri,  4 Feb 2022 17:48:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95C9910E8D4;
- Fri,  4 Feb 2022 17:45:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643996711; x=1675532711;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zbqT/gPwxQCwXJagXSppxad3RgQpc1GCiVBmD4L0XEc=;
- b=TR5aBXPTaYHGYc6t/r5gJ1LtFNR1V8VBlt82RhSjuewrHyjjSiE3s8Om
- H1V3gVU4CySsySxRVhcr854Bn6+L8Sdn7LgVcHjfJi0Zp94gfO/yg0f6f
- 9qihPQMhp55XGeedqef1jSMI9j716KNUDd6WOZ5JgT8tdssV7NG8vCtlV
- J8CamjoSeFB8weTG1F8olzcc7pSPuyVApVvcsMrjdYuZCq3HwTs+GJ9Tu
- BlWcRAOqCnmwk3sI1K7P6HM/IwLhboAKA/umQN4vNkVjySn7C/Jcu8V/o
- 1oruX5g/IeRZyYraFaALsoASMtYJdASXvu1lG3hJAbiXX/ZD2SKwCSuhf g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10248"; a="247242189"
-X-IronPort-AV: E=Sophos;i="5.88,343,1635231600"; d="scan'208";a="247242189"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 09:45:10 -0800
-X-IronPort-AV: E=Sophos;i="5.88,343,1635231600"; d="scan'208";a="539240841"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 09:45:09 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 19/19] drm/i915/guc: Remove plain ads_blob pointer
-Date: Fri,  4 Feb 2022 09:44:36 -0800
-Message-Id: <20220204174436.830121-20-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220204174436.830121-1-lucas.demarchi@intel.com>
-References: <20220204174436.830121-1-lucas.demarchi@intel.com>
+Received: from mblankhorst.nl (mblankhorst.nl [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 384C810EF0C;
+ Fri,  4 Feb 2022 17:48:15 +0000 (UTC)
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH 0/3] drm/helpers: Make the suballocation manager drm
+ generic.
+Date: Fri,  4 Feb 2022 18:48:06 +0100
+Message-Id: <20220204174809.3366967-1-maarten.lankhorst@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,84 +33,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- John Harrison <John.C.Harrison@Intel.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now we have the access to content of GuC ADS either using iosys_map
-API or using a temporary buffer. Remove guc->ads_blob as there shouldn't
-be updates using the bare pointer anymore.
+The suballocation manager itself is not dependent on any implementation detail,
+and can be made generic. I want to potentially use it inside i915, as it looks
+like a clean implementation to do so. :)
 
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc.h     | 3 +--
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 8 ++++----
- 2 files changed, 5 insertions(+), 6 deletions(-)
+Looking for feedback and some testing, as I don't have a amdgpu/radeon myself.
+Only compile tested so far, so some stupid bugs may remain.
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index f857e9190750..bf7079480d47 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -147,8 +147,7 @@ struct intel_guc {
- 
- 	/** @ads_vma: object allocated to hold the GuC ADS */
- 	struct i915_vma *ads_vma;
--	/** @ads_blob: contents of the GuC ADS */
--	struct __guc_ads_blob *ads_blob;
-+	/** @ads_map: contents of the GuC ADS */
- 	struct iosys_map ads_map;
- 	/** @ads_regset_size: size of the save/restore regsets in the ADS */
- 	u32 ads_regset_size;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index 6262fd4e0d4a..7dd44b6d76da 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -672,6 +672,7 @@ static void __guc_ads_init(struct intel_guc *guc)
-  */
- int intel_guc_ads_create(struct intel_guc *guc)
- {
-+	void *ads_blob;
- 	u32 size;
- 	int ret;
- 
-@@ -696,14 +697,14 @@ int intel_guc_ads_create(struct intel_guc *guc)
- 	size = guc_ads_blob_size(guc);
- 
- 	ret = intel_guc_allocate_and_map_vma(guc, size, &guc->ads_vma,
--					     (void **)&guc->ads_blob);
-+					     &ads_blob);
- 	if (ret)
- 		return ret;
- 
- 	if (i915_gem_object_is_lmem(guc->ads_vma->obj))
--		iosys_map_set_vaddr_iomem(&guc->ads_map, (void __iomem *)guc->ads_blob);
-+		iosys_map_set_vaddr_iomem(&guc->ads_map, (void __iomem *)ads_blob);
- 	else
--		iosys_map_set_vaddr(&guc->ads_map, guc->ads_blob);
-+		iosys_map_set_vaddr(&guc->ads_map, ads_blob);
- 
- 	__guc_ads_init(guc);
- 
-@@ -725,7 +726,6 @@ void intel_guc_ads_init_late(struct intel_guc *guc)
- void intel_guc_ads_destroy(struct intel_guc *guc)
- {
- 	i915_vma_unpin_and_release(&guc->ads_vma, I915_VMA_RELEASE_MAP);
--	guc->ads_blob = NULL;
- 	iosys_map_clear(&guc->ads_map);
- 	kfree(guc->ads_regset);
- }
+Maarten Lankhorst (3):
+  drm: Extract amdgpu_sa.c as a generic suballocation helper
+  drm/amd: Convert amdgpu to use suballocation helper.
+  drm/radeon: Use the drm suballocation manager implementation.
+
+ drivers/gpu/drm/Makefile                   |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  29 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c     |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  21 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c     | 320 +---------------
+ drivers/gpu/drm/drm_suballoc.c             | 424 +++++++++++++++++++++
+ drivers/gpu/drm/radeon/radeon.h            |  55 +--
+ drivers/gpu/drm/radeon/radeon_ib.c         |  10 +-
+ drivers/gpu/drm/radeon/radeon_object.h     |  23 +-
+ drivers/gpu/drm/radeon/radeon_sa.c         | 314 ++-------------
+ drivers/gpu/drm/radeon/radeon_semaphore.c  |   6 +-
+ include/drm/drm_suballoc.h                 |  78 ++++
+ 12 files changed, 595 insertions(+), 694 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_suballoc.c
+ create mode 100644 include/drm/drm_suballoc.h
+
 -- 
-2.35.1
+2.34.1
 
