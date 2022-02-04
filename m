@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E584AA203
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 22:18:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666FE4AA204
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 22:18:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 615E110E2C6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4120E10E752;
 	Fri,  4 Feb 2022 21:17:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
  [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD4710E31A;
- Fri,  4 Feb 2022 21:17:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE9DF10E2C6;
+ Fri,  4 Feb 2022 21:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644009476; x=1675545476;
+ t=1644009475; x=1675545475;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=R4vc8veVE5vGtYvuP7FikCnvo+UspBg0N538lwNDY+A=;
- b=AS7eZP2by/Ao+XmAkDA+fEHF8PZLTYLQIljFe2JZwl6F6XuZRD86Hx0Y
- MQkjL3J5OBxoh8BrQGhknacAXbCfiYQB/27tDdP9Xe/HnNwkgSaZ466yF
- mSAQUb6oWWoyCuAqPtM19gUhKfJ6VtFIbTzy0ybXqhJy/petBTJLNrb2e o=;
+ bh=8VqePdW7QQ+UL43Ie3bgYrq4PCND3FJQmLZE8lTXUtM=;
+ b=nQlf8Fn/8tdrRIx0Wa4tWCXAAJKymmTvoPiTT0hBL5c+JKhTpQclfzfR
+ j1lKSMtdOOMkrELfMEpMv5pM5rykPoKaEfmnn/aWyWHkc41gUako3ONBZ
+ tKZgKCHKDWruDwMn4oxuIMp7b/9ySKicOvZ/rRaTHWP1lmubkXmaWkFv4 I=;
 Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
  by alexa-out-sd-01.qualcomm.com with ESMTP; 04 Feb 2022 13:17:55 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 13:17:54 -0800
+ 04 Feb 2022 13:17:55 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Fri, 4 Feb 2022 13:17:51 -0800
+ 15.2.922.19; Fri, 4 Feb 2022 13:17:52 -0800
 Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Fri, 4 Feb 2022 13:17:50 -0800
+ 15.2.922.19; Fri, 4 Feb 2022 13:17:52 -0800
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 04/12] drm/msm/dpu: add changes to support writeback in hw_ctl
-Date: Fri, 4 Feb 2022 13:17:17 -0800
-Message-ID: <1644009445-17320-5-git-send-email-quic_abhinavk@quicinc.com>
+Subject: [PATCH 05/12] drm/msm/dpu: add an API to reset the encoder related hw
+ blocks
+Date: Fri, 4 Feb 2022 13:17:18 -0800
+Message-ID: <1644009445-17320-6-git-send-email-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1644009445-17320-1-git-send-email-quic_abhinavk@quicinc.com>
 References: <1644009445-17320-1-git-send-email-quic_abhinavk@quicinc.com>
@@ -69,289 +70,179 @@ Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add changes to support writeback module in the dpu_hw_ctl
-interface. In addition inroduce a reset_intf_cfg op to reset
-the interface bits for the currently active interfaces in
-the ctl path.
+Add an API to reset the encoder related hw blocks to ensure
+a proper teardown of the pipeline. At the moment this is being
+used only for the writeback encoder but eventually we can start
+using this for all interfaces.
 
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |  3 +-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  6 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         | 65 ++++++++++++++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         | 27 ++++++++-
- 4 files changed, 91 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 92 ++++++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h | 10 +++
+ 2 files changed, 102 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index 34a6940..4cb72fa 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 1e648db..e977c05 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 @@ -1,5 +1,6 @@
  // SPDX-License-Identifier: GPL-2.0-only
  /*
 + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-  * Copyright (c) 2015-2018, 2020-2021 The Linux Foundation. All rights reserved.
-  */
- 
-@@ -70,7 +71,7 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
- 	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_CMD;
- 	intf_cfg.stream_sel = cmd_enc->stream_sel;
- 	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
--	ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
-+	ctl->ops.setup_intf_cfg(ctl, &intf_cfg, false);
+  * Copyright (c) 2014-2018, 2020-2021 The Linux Foundation. All rights reserved.
+  * Copyright (C) 2013 Red Hat
+  * Author: Rob Clark <robdclark@gmail.com>
+@@ -21,6 +22,7 @@
+ #include "dpu_hw_intf.h"
+ #include "dpu_hw_ctl.h"
+ #include "dpu_hw_dspp.h"
++#include "dpu_hw_merge3d.h"
+ #include "dpu_formats.h"
+ #include "dpu_encoder_phys.h"
+ #include "dpu_crtc.h"
+@@ -1813,6 +1815,96 @@ void dpu_encoder_kickoff(struct drm_encoder *drm_enc)
+ 	DPU_ATRACE_END("encoder_kickoff");
  }
  
- static void dpu_encoder_phys_cmd_pp_tx_done_irq(void *arg, int irq_idx)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index ddd9d89..950fcd6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -1,5 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-only
--/* Copyright (c) 2015-2018, 2020-2021 The Linux Foundation. All rights reserved.
-+/*
-+ *  Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ *  Copyright (c) 2015-2018, 2020-2021 The Linux Foundation. All rights reserved.
-  */
- 
- #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
-@@ -290,7 +292,7 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
- 	spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
- 	phys_enc->hw_intf->ops.setup_timing_gen(phys_enc->hw_intf,
- 			&timing_params, fmt);
--	phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg);
-+	phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg, false);
- 
- 	/* setup which pp blk will connect to this intf */
- 	if (phys_enc->hw_intf->ops.bind_pingpong_blk)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index 02da9ec..a2069af 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
--/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-+/* Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-  */
- 
- #include <linux/delay.h>
-@@ -23,8 +24,10 @@
- #define   CTL_SW_RESET                  0x030
- #define   CTL_LAYER_EXTN_OFFSET         0x40
- #define   CTL_MERGE_3D_ACTIVE           0x0E4
-+#define   CTL_WB_ACTIVE                 0x0EC
- #define   CTL_INTF_ACTIVE               0x0F4
- #define   CTL_MERGE_3D_FLUSH            0x100
-+#define   CTL_WB_FLUSH                  0x108
- #define   CTL_INTF_FLUSH                0x110
- #define   CTL_INTF_MASTER               0x134
- #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
-@@ -35,6 +38,7 @@
- #define DPU_REG_RESET_TIMEOUT_US        2000
- #define  MERGE_3D_IDX   23
- #define  INTF_IDX       31
-+#define WB_IDX          16
- #define CTL_INVALID_BIT                 0xffff
- #define CTL_DEFAULT_GROUP_ID		0xf
- 
-@@ -128,6 +132,9 @@ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
- 	if (ctx->pending_flush_mask & BIT(INTF_IDX))
- 		DPU_REG_WRITE(&ctx->hw, CTL_INTF_FLUSH,
- 				ctx->pending_intf_flush_mask);
-+	if (ctx->pending_flush_mask & BIT(WB_IDX))
-+		DPU_REG_WRITE(&ctx->hw, CTL_WB_FLUSH,
-+				ctx->pending_wb_flush_mask);
- 
- 	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
- }
-@@ -248,6 +255,13 @@ static void dpu_hw_ctl_update_pending_flush_intf(struct dpu_hw_ctl *ctx,
- 	}
- }
- 
-+static void dpu_hw_ctl_update_pending_flush_wb_v1(struct dpu_hw_ctl *ctx,
-+		enum dpu_wb wb)
++static void dpu_encoder_helper_reset_mixers(struct dpu_encoder_phys *phys_enc)
 +{
-+	ctx->pending_wb_flush_mask |= BIT(wb - WB_0);
-+	ctx->pending_flush_mask |= BIT(WB_IDX);
-+}
++	struct dpu_hw_mixer_cfg mixer;
++	int i, num_lm;
++	u32 flush_mask = 0;
++	struct dpu_global_state *global_state;
++	struct dpu_hw_blk *hw_lm[2];
++	struct dpu_hw_mixer *hw_mixer[2];
++	struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
 +
- static void dpu_hw_ctl_update_pending_flush_intf_v1(struct dpu_hw_ctl *ctx,
- 		enum dpu_intf intf)
- {
-@@ -493,10 +507,11 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
- 
- 
- static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
--		struct dpu_hw_intf_cfg *cfg)
-+		struct dpu_hw_intf_cfg *cfg, bool is_wb)
- {
- 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
- 	u32 intf_active = 0;
-+	u32 wb_active = 0;
- 	u32 mode_sel = 0;
- 
- 	/* CTL_TOP[31:28] carries group_id to collate CTL paths
-@@ -509,18 +524,25 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
- 	if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
- 		mode_sel |= BIT(17);
- 
--	intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
--	intf_active |= BIT(cfg->intf - INTF_0);
-+	if (!is_wb) {
-+		intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
-+		intf_active |= BIT(cfg->intf - INTF_0);
-+	} else {
-+		wb_active = DPU_REG_READ(c, CTL_WB_ACTIVE);
-+		wb_active = BIT(cfg->wb - WB_0);
-+	}
- 
- 	DPU_REG_WRITE(c, CTL_TOP, mode_sel);
- 	DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
-+	DPU_REG_WRITE(c, CTL_WB_ACTIVE, wb_active);
++	memset(&mixer, 0, sizeof(mixer));
 +
- 	if (cfg->merge_3d)
- 		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
- 			      BIT(cfg->merge_3d - MERGE_3D_0));
- }
- 
- static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
--		struct dpu_hw_intf_cfg *cfg)
-+		struct dpu_hw_intf_cfg *cfg, bool is_wb)
- {
- 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
- 	u32 intf_cfg = 0;
-@@ -532,6 +554,9 @@ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
- 		intf_cfg |= (cfg->mode_3d - 0x1) << 20;
- 	}
- 
-+	if (is_wb)
-+		intf_cfg |= (cfg->wb & 0x3) + 2;
++	/* reset all mixers for this encoder */
++	if (phys_enc->hw_ctl->ops.clear_all_blendstages)
++		phys_enc->hw_ctl->ops.clear_all_blendstages(phys_enc->hw_ctl);
 +
- 	switch (cfg->intf_mode_sel) {
- 	case DPU_CTL_MODE_SEL_VID:
- 		intf_cfg &= ~BIT(17);
-@@ -549,6 +574,34 @@ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
- 	DPU_REG_WRITE(c, CTL_TOP, intf_cfg);
- }
- 
-+static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_hw_ctl *ctx,
-+	struct dpu_hw_intf_cfg *cfg, bool is_wb)
-+{
-+	struct dpu_hw_blk_reg_map *c = &ctx->hw;
-+	u32 intf_active = 0;
-+	u32 wb_active = 0;
-+	u32 merge3d_active = 0;
++	global_state = dpu_kms_get_existing_global_state(phys_enc->dpu_kms);
 +
-+	if (cfg->merge_3d) {
-+		merge3d_active = DPU_REG_READ(c, CTL_MERGE_3D_ACTIVE);
-+		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
-+			      BIT(cfg->merge_3d - MERGE_3D_0));
-+	}
++	num_lm = dpu_rm_get_assigned_resources(&phys_enc->dpu_kms->rm, global_state,
++		phys_enc->parent->base.id, DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
 +
-+	dpu_hw_ctl_clear_all_blendstages(ctx);
++	for (i = 0; i < num_lm; i++) {
++		hw_mixer[i] = to_dpu_hw_mixer(hw_lm[i]);
++		flush_mask = phys_enc->hw_ctl->ops.get_bitmask_mixer(ctl, hw_mixer[i]->idx);
++		if (phys_enc->hw_ctl->ops.update_pending_flush)
++			phys_enc->hw_ctl->ops.update_pending_flush(ctl, flush_mask);
 +
-+	if (!is_wb) {
-+		intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
-+		intf_active &= ~BIT(cfg->intf - INTF_0);
-+		DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
-+	} else {
-+		wb_active = DPU_REG_READ(c, CTL_WB_ACTIVE);
-+		wb_active &= ~BIT(cfg->wb - WB_0);
-+		DPU_REG_WRITE(c, CTL_WB_ACTIVE, wb_active);
++		/* clear all blendstages */
++		if (phys_enc->hw_ctl->ops.setup_blendstage)
++			phys_enc->hw_ctl->ops.setup_blendstage(ctl, hw_mixer[i]->idx, NULL);
 +	}
 +}
 +
++void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
++{
++	struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
++	struct dpu_hw_intf_cfg intf_cfg = { 0 };
++	int i;
++	struct dpu_encoder_virt *dpu_enc;
 +
- static void dpu_hw_ctl_set_fetch_pipe_active(struct dpu_hw_ctl *ctx,
- 	unsigned long *fetch_active)
++	dpu_enc = to_dpu_encoder_virt(phys_enc->parent);
++
++	phys_enc->hw_ctl->ops.reset(ctl);
++
++	dpu_encoder_helper_reset_mixers(phys_enc);
++
++	if (phys_enc->hw_wb) {
++		/* disable the PP block */
++		if (phys_enc->hw_wb->ops.bind_pingpong_blk)
++			phys_enc->hw_wb->ops.bind_pingpong_blk(phys_enc->hw_wb, false,
++					phys_enc->hw_pp->idx);
++
++		/* mark WB flush as pending */
++		if (phys_enc->hw_ctl->ops.update_pending_flush_wb)
++			phys_enc->hw_ctl->ops.update_pending_flush_wb(ctl, phys_enc->hw_wb->idx);
++	} else {
++		for (i = 0; i < dpu_enc->num_phys_encs; i++) {
++			if (dpu_enc->phys_encs[i] && phys_enc->hw_intf->ops.bind_pingpong_blk)
++				phys_enc->hw_intf->ops.bind_pingpong_blk(
++						dpu_enc->phys_encs[i]->hw_intf, false,
++						dpu_enc->phys_encs[i]->hw_pp->idx);
++			/* mark INTF flush as pending */
++			if (phys_enc->hw_ctl->ops.update_pending_flush_intf)
++				phys_enc->hw_ctl->ops.update_pending_flush_intf(phys_enc->hw_ctl,
++						dpu_enc->phys_encs[i]->hw_intf->idx);
++		}
++	}
++
++	/* reset the merge 3D HW block */
++	if (phys_enc->hw_pp->merge_3d) {
++		phys_enc->hw_pp->merge_3d->ops.setup_3d_mode(phys_enc->hw_pp->merge_3d,
++				BLEND_3D_NONE);
++		if (phys_enc->hw_ctl->ops.update_pending_flush_merge_3d)
++			phys_enc->hw_ctl->ops.update_pending_flush_merge_3d(ctl,
++					phys_enc->hw_pp->merge_3d->idx);
++	}
++
++	intf_cfg.stream_sel = 0; /* Don't care value for video mode */
++	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
++	if (phys_enc->hw_pp->merge_3d)
++		intf_cfg.merge_3d = phys_enc->hw_pp->merge_3d->idx;
++
++	if (ctl->ops.reset_intf_cfg)
++		ctl->ops.reset_intf_cfg(ctl, &intf_cfg, true);
++
++	ctl->ops.trigger_flush(ctl);
++	ctl->ops.trigger_start(ctl);
++	ctl->ops.clear_pending_flush(ctl);
++}
++
+ void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc)
  {
-@@ -572,10 +625,12 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
- 	if (cap & BIT(DPU_CTL_ACTIVE_CFG)) {
- 		ops->trigger_flush = dpu_hw_ctl_trigger_flush_v1;
- 		ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg_v1;
-+		ops->reset_intf_cfg = dpu_hw_ctl_reset_intf_cfg_v1;
- 		ops->update_pending_flush_intf =
- 			dpu_hw_ctl_update_pending_flush_intf_v1;
- 		ops->update_pending_flush_merge_3d =
- 			dpu_hw_ctl_update_pending_flush_merge_3d_v1;
-+		ops->update_pending_flush_wb = dpu_hw_ctl_update_pending_flush_wb_v1;
- 	} else {
- 		ops->trigger_flush = dpu_hw_ctl_trigger_flush;
- 		ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-index 806c171..fb4baca 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+ 	struct dpu_encoder_virt *dpu_enc;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+index e7270eb..07c3525 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
 @@ -1,5 +1,6 @@
  /* SPDX-License-Identifier: GPL-2.0-only */
--/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-+/* Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+ /*
++ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+  * Copyright (c) 2015-2018 The Linux Foundation. All rights reserved.
   */
  
- #ifndef _DPU_HW_CTL_H
-@@ -43,6 +44,7 @@ struct dpu_hw_stage_cfg {
-  */
- struct dpu_hw_intf_cfg {
- 	enum dpu_intf intf;
-+	enum dpu_wb wb;
- 	enum dpu_3d_blend_mode mode_3d;
- 	enum dpu_merge_3d merge_3d;
- 	enum dpu_ctl_mode_sel intf_mode_sel;
-@@ -93,6 +95,15 @@ struct dpu_hw_ctl_ops {
- 		u32 flushbits);
+@@ -10,6 +11,7 @@
  
- 	/**
-+	 * OR in the given flushbits to the cached pending_(wb_)flush_mask
-+	 * No effect on hardware
-+	 * @ctx       : ctl path ctx pointer
-+	 * @blk       : writeback block index
-+	 */
-+	void (*update_pending_flush_wb)(struct dpu_hw_ctl *ctx,
-+		enum dpu_wb blk);
+ #include "dpu_kms.h"
+ #include "dpu_hw_intf.h"
++#include "dpu_hw_wb.h"
+ #include "dpu_hw_pingpong.h"
+ #include "dpu_hw_ctl.h"
+ #include "dpu_hw_top.h"
+@@ -189,6 +191,7 @@ struct dpu_encoder_irq {
+  * @hw_ctl:		Hardware interface to the ctl registers
+  * @hw_pp:		Hardware interface to the ping pong registers
+  * @hw_intf:		Hardware interface to the intf registers
++ * @hw_wb:             Hardware interface to the wb registers
+  * @dpu_kms:		Pointer to the dpu_kms top level
+  * @cached_mode:	DRM mode cached at mode_set time, acted on in enable
+  * @enabled:		Whether the encoder has enabled and running a mode
+@@ -218,6 +221,7 @@ struct dpu_encoder_phys {
+ 	struct dpu_hw_ctl *hw_ctl;
+ 	struct dpu_hw_pingpong *hw_pp;
+ 	struct dpu_hw_intf *hw_intf;
++	struct dpu_hw_wb *hw_wb;
+ 	struct dpu_kms *dpu_kms;
+ 	struct drm_display_mode cached_mode;
+ 	enum dpu_enc_split_role split_role;
+@@ -382,4 +386,10 @@ int dpu_encoder_helper_register_irq(struct dpu_encoder_phys *phys_enc,
+ int dpu_encoder_helper_unregister_irq(struct dpu_encoder_phys *phys_enc,
+ 		enum dpu_intr_idx intr_idx);
+ 
++/**
++ * dpu_encoder_helper_phys_cleanup - helper to cleanup dpu pipeline
++ * @phys_enc: Pointer to physical encoder structure
++ */
++void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc);
 +
-+	/**
- 	 * OR in the given flushbits to the cached pending_(intf_)flush_mask
- 	 * No effect on hardware
- 	 * @ctx       : ctl path ctx pointer
-@@ -127,9 +138,19 @@ struct dpu_hw_ctl_ops {
- 	 * Setup ctl_path interface config
- 	 * @ctx
- 	 * @cfg    : interface config structure pointer
-+	 * @is_wb  : to indicate wb mode for programming the ctl path
- 	 */
- 	void (*setup_intf_cfg)(struct dpu_hw_ctl *ctx,
--		struct dpu_hw_intf_cfg *cfg);
-+		struct dpu_hw_intf_cfg *cfg, bool is_wb);
-+
-+	/**
-+	 * reset ctl_path interface config
-+	 * @ctx
-+	 * @cfg    : interface config structure pointer
-+	 * @is_wb  : to indicate wb mode for programming the ctl path
-+	 */
-+	void (*reset_intf_cfg)(struct dpu_hw_ctl *ctx,
-+		struct dpu_hw_intf_cfg *cfg, bool is_wb);
- 
- 	int (*reset)(struct dpu_hw_ctl *c);
- 
-@@ -182,6 +203,7 @@ struct dpu_hw_ctl_ops {
-  * @mixer_hw_caps: mixer hardware capabilities
-  * @pending_flush_mask: storage for pending ctl_flush managed via ops
-  * @pending_intf_flush_mask: pending INTF flush
-+ * @pending_wb_flush_mask: pending WB flush
-  * @ops: operation list
-  */
- struct dpu_hw_ctl {
-@@ -195,6 +217,7 @@ struct dpu_hw_ctl {
- 	const struct dpu_lm_cfg *mixer_hw_caps;
- 	u32 pending_flush_mask;
- 	u32 pending_intf_flush_mask;
-+	u32 pending_wb_flush_mask;
- 	u32 pending_merge_3d_flush_mask;
- 
- 	/* ops */
+ #endif /* __dpu_encoder_phys_H__ */
 -- 
 2.7.4
 
