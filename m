@@ -2,83 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1624A9593
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 09:52:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3A14A9733
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 10:56:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1EFC10F4EA;
-	Fri,  4 Feb 2022 08:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFAFA10F4EE;
+	Fri,  4 Feb 2022 09:55:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-1.canonical.com
- (smtp-relay-internal-1.canonical.com [185.125.188.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36E7310F4E9
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 08:52:15 +0000 (UTC)
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 30DFA3F1D0
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 08:52:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1643964733;
- bh=iqZrLHxxMKYXcwDk+JH/xBRKoG0uPSeGw2pYz3/v6kY=;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
- In-Reply-To:Content-Type;
- b=eBIHCkKi09tjJqdWDZBoh6iZZuDeagxiGhsi8PTmN4ZBY1JFJ1plEen9alndKBpaa
- rZa25r7WemVcr/Bx6NCtnLoPmcYSswxky+lK1Vprp5zULdncJTDlsj1jhr9unEL+37
- CgMZr3cuaInfjFgXPkhtTMkhf90SGkA4DcHjETpJOlai5o6oC6dhVu5GCEn7VKpEjI
- em2yORSiXEHkXjyJWrN9LxinOyu8AyEXoRk1zfMSqqqEq9EL0xS4kzuezxyQSLbgmG
- RXKUWjiTX6UVV2h+jy9Q48+0w78TVhk0SnYeH1JBQPaASjUrgyx5Z+aTKPi3YAcZ2c
- 67T+4OKW7Zwzw==
-Received: by mail-ej1-f71.google.com with SMTP id
- ka12-20020a170907990c00b006c41c582397so745786ejc.11
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 00:52:13 -0800 (PST)
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B7C110F326
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 09:55:54 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id q8so7871331oiw.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 01:55:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XKzS8W1xn5TPR/GlDWZaU+1+deO1Y4moF0e2Mpo7pSc=;
+ b=Quhh01JzKbHRUffBESOLWyjLlWbeB8i5pzjWt1A0s0XBHW5Zn5tCiuJr+DOZ6pW8j7
+ c6aJdxi2/tB1DuG/CECXYiBEAwp5dmwfaojWNbEYBId9998PRQQk9mBBxRRGzUcFJffV
+ V5QgWaQaSllFMy+gUIH0bhIjksEIs/0rhpNoI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iqZrLHxxMKYXcwDk+JH/xBRKoG0uPSeGw2pYz3/v6kY=;
- b=ugYSknlOww+VFmbOyYPZ/QCSKQ/DMUD7pg43BL+IOxzblc1Hyh0l1t/txYofCgNWzV
- eGpF4Z+iZrQlaKEkI1SNRU4fRvCY3n9plsw4GLgUOgmbwBjNmjjb1TT4I3QfToiJ4OMb
- jPE7UXi6Ij0HI4vshOVpuApYK68ZYnqoLfGzaY5deERXo+tDSpUyAyqXMnjcMWOnZBk+
- ApKRHahvcKz9WlgdgVCVBKiSwAmP6HGJC4FwS15ljWzLyDq/xeNRd6iD0q4WRl07xHmp
- 9SnZGdSPPRfFtcI2dOvgOvs/+bnBbyGNliBVQ2SC1qlJc02pdqacslG8JXn9OUwhmYOQ
- Lajw==
-X-Gm-Message-State: AOAM533yP5BkT/6k/uyvyAqHcGeFUs/+eR6BN4rKI/YnwTHAfgYneq01
- kwdbftmGiJuzgvZcIojvvxaFIHeEh1P6ejMHmHhkHWDo60avwAUlvAgywDxZqhz379w6yS1CHOz
- xRsCFIBZ15y1wiAUW/Rh2pgvSacVGn1Me9J9Wl91YcsEilw==
-X-Received: by 2002:a05:6402:3492:: with SMTP id
- v18mr1976633edc.345.1643964732807; 
- Fri, 04 Feb 2022 00:52:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwVcZDvspQCzKUyW5YG8zjDVQmYqY/DEAG3sfjKSfnQIzLHqmc3NlVf9LlkkFskfuUgLPJavA==
-X-Received: by 2002:a05:6402:3492:: with SMTP id
- v18mr1976597edc.345.1643964732578; 
- Fri, 04 Feb 2022 00:52:12 -0800 (PST)
-Received: from [192.168.0.81] (xdsl-188-155-168-84.adslplus.ch.
- [188.155.168.84])
- by smtp.gmail.com with ESMTPSA id z8sm418238ejc.197.2022.02.04.00.52.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Feb 2022 00:52:11 -0800 (PST)
-Message-ID: <ed615fdb-5c30-697e-f197-a3a93c5336b9@canonical.com>
-Date: Fri, 4 Feb 2022 09:52:10 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XKzS8W1xn5TPR/GlDWZaU+1+deO1Y4moF0e2Mpo7pSc=;
+ b=QwKV0shoxw5dAOmfqpE6WTdqURGi/SvBVEhI0efXKponr6gqkr9wHY2Jxl725M8cxt
+ 0EUUUq/g72pDuqugdAqclwQOn3fe692L/L8ajAPH6eyOl3t8LsoVj3SaRKFHJhLt+ExE
+ Y6YFRAn1uXWM7FjZEk8ZZAYxW0/u6PQ+kwYBHrBNGjpBOmWgm3IITdE4EjWTNAaEn6mj
+ hSTn15jCV0ep+hNnF0yIgw2BU1AOzyxNyAfaU/hHN14xHG7GDFrZzJR1ZtvzgVMhWBsD
+ 4sh6XyuzMEg73UpArGim6ZUsWUghcD1zmOzKSlzkS3ZhIIBQiC8tg6waXdP46CMC0jRm
+ 70qA==
+X-Gm-Message-State: AOAM533PBbvcd2g9qZG/cIGp90ber9aXa+5Hcx4DuabuefztxtMx/YZz
+ Y7/oI+3UNFdiKtCQguXSLvnORmnuU5vm4LHh4eLWwA==
+X-Google-Smtp-Source: ABdhPJyyGFbAIV3np0sHoMK1CHrGfgBVuMM2vjz3bXO7jC4g0CeeO9r0SZ2xP7NzeorjPw/NwT5wUZHimnLGh0NSKio=
+X-Received: by 2002:a05:6808:2221:: with SMTP id
+ bd33mr930563oib.278.1643968553735; 
+ Fri, 04 Feb 2022 01:55:53 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] HPE BMC GXP SUPPORT
-Content-Language: en-US
-To: "Verdun, Jean-Marie" <verdun@hpe.com>, Rob Herring <robh+dt@kernel.org>,
- "Hawkins, Nick" <nick.hawkins@hpe.com>
-References: <nick.hawkins@hpe.com>
- <20220202165315.18282-1-nick.hawkins@hpe.com>
- <CAL_Jsq+K2t5WYE056so1iZgZr7CBKvDEjAwnJVTyUFQcK-VFSA@mail.gmail.com>
- <e79133f2-f872-3ed6-4038-526e94e84909@canonical.com>
- <1FEAAC19-1DD7-40D7-98FD-30C2659E7C0F@hpe.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <1FEAAC19-1DD7-40D7-98FD-30C2659E7C0F@hpe.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220119203541.2410082-1-John.C.Harrison@Intel.com>
+ <20220119203541.2410082-3-John.C.Harrison@Intel.com>
+In-Reply-To: <20220119203541.2410082-3-John.C.Harrison@Intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 4 Feb 2022 10:55:42 +0100
+Message-ID: <CAKMK7uGijP097LzoNo=MtLHpu5a6fUj=XHP5+N6SmkW5c=9i9Q@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/i915/uapi: Add query for hwconfig table
+To: john.c.harrison@intel.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,92 +60,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Wang Kefeng <wangkefeng.wang@huawei.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
- Amit Kucheria <amitk@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- MTD Maling List <linux-mtd@lists.infradead.org>,
- Linux I2C <linux-i2c@vger.kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>, netdev <netdev@vger.kernel.org>,
- Lee Jones <lee.jones@linaro.org>, Ard Biesheuvel <ardb@kernel.org>,
- Stanislav Jakubek <stano.jakubek@gmail.com>, Hao Fang <fanghao11@huawei.com>,
- Arnd Bergmann <arnd@arndb.de>, Richard Weinberger <richard@nod.at>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Russell King <linux@armlinux.org.uk>,
- Linux PWM List <linux-pwm@vger.kernel.org>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- "openipmi-developer@lists.sourceforge.net"
- <openipmi-developer@lists.sourceforge.net>, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- LINUX-WATCHDOG <linux-watchdog@vger.kernel.org>,
- Corey Minyard <minyard@acm.org>, Anshuman Khandual <anshuman.khandual@arm.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- SoC Team <soc@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "open list:THERMAL" <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>,
- "Russell King \(Oracle\)" <rmk+kernel@armlinux.org.uk>,
- linux-spi <linux-spi@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, "David S. Miller" <davem@davemloft.net>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Kenneth Graunke <kenneth.w.graunke@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Slawomir Milczarek <slawomir.milczarek@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/02/2022 18:07, Verdun, Jean-Marie wrote:
-> 
->    > Maybe it does not look like, but this is actually a v2. Nick was asked
->    > to change the naming for the nodes already in v1. Unfortunately it did
->    > not happen, so we have vuart, spifi, vic and more.
-> 
->    > It is a waste of reviewers' time to ask them to perform the same review
->    > twice or to ignore their comments.
-> 
->     Hi Krysztof,
-> 
->     Accept our apologies if you think you lose your time, it is clearly not our
->     intent. 
-> 
->     This is the first time that we (I mean the team) introduce a new arch into
->     the linux kernel and I must admit that we had hard time to understand
->     from which angle we needed to start.
-> 
->     I will probably write a Documentation afterward, as it is easy to find doc
->     on how to introduce a patch or a driver, but not when you want to 
->     introduce a new chip. 
-> 
->     We are trying to do our best, and clearly want to follow all of your inputs.
->     Mistakes happen and they are clearly not intentional and not driven in 
->     a way to make you lose your time.
-> 
->     Helping others, and teaching something new is definitely a way to 
->     optimize your time and this is what you are currently doing with us.
-> 
->     We appreciate it and hope you will too.
+On Wed, Jan 19, 2022 at 9:35 PM <John.C.Harrison@intel.com> wrote:
+>
+> From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>
+> GuC contains a consolidated table with a bunch of information about the
+> current device.
+>
+> Previously, this information was spread and hardcoded to all the components
+> including GuC, i915 and various UMDs. The goal here is to consolidate
+> the data into GuC in a way that all interested components can grab the
+> very latest and synchronized information using a simple query.
+>
+> As per most of the other queries, this one can be called twice.
+> Once with item.length=0 to determine the exact buffer size, then
+> allocate the user memory and call it again for to retrieve the
+> table data. For example:
+>   struct drm_i915_query_item item = {
+>     .query_id = DRM_I915_QUERY_HWCONCFIG_TABLE;
+>   };
+>   query.items_ptr = (int64_t) &item;
+>   query.num_items = 1;
+>
+>   ioctl(fd, DRM_IOCTL_I915_QUERY, query, sizeof(query));
+>
+>   if (item.length <= 0)
+>     return -ENOENT;
+>
+>   data = malloc(item.length);
+>   item.data_ptr = (int64_t) &data;
+>   ioctl(fd, DRM_IOCTL_I915_QUERY, query, sizeof(query));
+>
+>   // Parse the data as appropriate...
+>
+> The returned array is a simple and flexible KLV (Key/Length/Value)
+> formatted table. For example, it could be just:
+>   enum device_attr {
+>      ATTR_SOME_VALUE = 0,
+>      ATTR_SOME_MASK  = 1,
+>   };
+>
+>   static const u32 hwconfig[] = {
+>       ATTR_SOME_VALUE,
+>       1,             // Value Length in DWords
+>       8,             // Value
+>
+>       ATTR_SOME_MASK,
+>       3,
+>       0x00FFFFFFFF, 0xFFFFFFFF, 0xFF000000,
+>   };
+>
+> The attribute ids are defined in a hardware spec.
+>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Kenneth Graunke <kenneth.w.graunke@intel.com>
+> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
+> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>  drivers/gpu/drm/i915/i915_query.c | 23 +++++++++++++++++++++++
+>  include/uapi/drm/i915_drm.h       |  1 +
+>  2 files changed, 24 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+> index 2dfbc22857a3..609e64d5f395 100644
+> --- a/drivers/gpu/drm/i915/i915_query.c
+> +++ b/drivers/gpu/drm/i915/i915_query.c
+> @@ -479,12 +479,35 @@ static int query_memregion_info(struct drm_i915_private *i915,
+>         return total_length;
+>  }
+>
+> +static int query_hwconfig_table(struct drm_i915_private *i915,
+> +                               struct drm_i915_query_item *query_item)
+> +{
+> +       struct intel_gt *gt = to_gt(i915);
+> +       struct intel_guc_hwconfig *hwconfig = &gt->uc.guc.hwconfig;
+> +
+> +       if (!hwconfig->size || !hwconfig->ptr)
+> +               return -ENODEV;
+> +
+> +       if (query_item->length == 0)
+> +               return hwconfig->size;
+> +
+> +       if (query_item->length < hwconfig->size)
+> +               return -EINVAL;
+> +
+> +       if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
+> +                        hwconfig->ptr, hwconfig->size))
+> +               return -EFAULT;
+> +
+> +       return hwconfig->size;
+> +}
+> +
+>  static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
+>                                         struct drm_i915_query_item *query_item) = {
+>         query_topology_info,
+>         query_engine_info,
+>         query_perf_config,
+>         query_memregion_info,
+> +       query_hwconfig_table,
+>  };
+>
+>  int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index 914ebd9290e5..132515199f27 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -2685,6 +2685,7 @@ struct drm_i915_query_item {
+>  #define DRM_I915_QUERY_ENGINE_INFO     2
+>  #define DRM_I915_QUERY_PERF_CONFIG      3
+>  #define DRM_I915_QUERY_MEMORY_REGIONS   4
+> +#define DRM_I915_QUERY_HWCONFIG_TABLE   5
+>  /* Must be kept compact -- no holes and well documented */
 
-I understand, I also maybe over-reacted on this. Just please go through
-the comments you got for first submission and either apply them or
-respond why you disagree.
+New uapi needs kerneldoc in the uapi header, and please fill in any
+gaps you have (i.e. if the query uapi this is built on top of isn't
+fully documented yet).
 
-The next submissions (patchset split into several commits) should be a
-v3, preferably with cover letter (git format-patch --cover-letter -v3
-...) where you can document also changes you did to the patchset.
-
-It looks for example like this:
-https://lore.kernel.org/linux-samsung-soc/31da451b-a36c-74fb-5667-d4193284c6cd@canonical.com/T/#mf98d2ac27a8481dc69dd110f9861c8318cade252
-
-or like this (where changelogs are in each patch, although ordering is
-not correct because dt-bindings should be the first in the series):
-https://lore.kernel.org/all/20220103233948.198119-1-Mr.Bossman075@gmail.com/
-
-
-Best regards,
-Krzysztof
+Also this holds across the board, so please keep in mind in patch review.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
