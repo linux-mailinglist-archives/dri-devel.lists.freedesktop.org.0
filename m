@@ -1,45 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FDE64A9A98
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 15:02:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A13D74A9AA2
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Feb 2022 15:05:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF2010E80C;
-	Fri,  4 Feb 2022 14:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C35010E1D0;
+	Fri,  4 Feb 2022 14:05:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4.hostedemail.com (relay4.hostedemail.com [64.99.140.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6E110E80C
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 14:02:15 +0000 (UTC)
-Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay01.hostedemail.com (Postfix) with ESMTP id CEA06614A8;
- Fri,  4 Feb 2022 14:02:07 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
- omf17.hostedemail.com (Postfix) with ESMTPA id A72A11B; 
- Fri,  4 Feb 2022 14:01:08 +0000 (UTC)
-Message-ID: <7cb1ce88cbf977801f2519178c270c1271100ac6.camel@perches.com>
-Subject: Re: [PATCH] HPE BMC GXP SUPPORT
-From: Joe Perches <joe@perches.com>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Date: Fri, 04 Feb 2022 06:01:44 -0800
-In-Reply-To: <Yf0cihUQ1byjnh3d@shell.armlinux.org.uk>
-References: <nick.hawkins@hpe.com>
- <20220202165315.18282-1-nick.hawkins@hpe.com>
- <Yf0Wm1kOV1Pss9HJ@shell.armlinux.org.uk>
- <ad56e88206a8d66b715035362abe16ece0bde7d3.camel@perches.com>
- <Yf0cihUQ1byjnh3d@shell.armlinux.org.uk>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 761F610E1D0
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Feb 2022 14:05:30 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id d1so5212032plh.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 06:05:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2qpcRyh+24qtP2VVaX3PS7mv2lf5IWfW1neqWFvhdxM=;
+ b=HjMI8iZLqfdazRpmnpfZL//MzxxnWj63vgQoTMi7jsbHxH1ssKOVpsZzSZEQnOlY6E
+ wZAWPbVnJ5++71gvc3WZRhn/63ZmQAyUB0jZiJOkwwNcPxWvUETM53K37Dcw2Fu/ATWn
+ Jx0H11c+ls9yn0/KiuE9h4bDVdg6X+8QFjcbPYb5FjndjsGDzGDBLMsYL9kuE6BRizKQ
+ B71ju3Tpo160s0fXVOw/ZkbOpWxe4Ay+f3W05T9OY6Uli045hEVr2rC0WRQgQ+ZNNgpx
+ 3CfbNChebx1P8JuuOKOot8OtyCkJ3aK2q0Zy9HD1r5SdEDUGAvCLFWlABsXZBaN2MPio
+ c/Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2qpcRyh+24qtP2VVaX3PS7mv2lf5IWfW1neqWFvhdxM=;
+ b=rWqM4fh+3MaBQFgss46bxxd+5e0aa2DRa6pCFm3eiMhaxnK8xDZpfnfMsbdd/bQWr0
+ 4r+d7cMSX0uZBMlWegJqZ9YkcKqo6+0krc366zK2Z6AdsqckeN3aeYrLq0lQD4OeIL7Y
+ pFfJ9R2aPox+XZvuSTj/Nuh/5neP3ztzE5G1Vdie9e9oT8MwXe3hDSkUQvFpNXX7+aAr
+ 7T4DPCskEYnsrSFrfhzxkgnrHCZKLOp2ryz8tftzo++5TG7mX1ZeneaYf0PFFN03S8oS
+ XJy2F2hIbwnGBkpihL8mJfQB7G9AU4aEMPz54bqMy4r7BlcBu6rSETQGu4Qw8WMM9vrm
+ ldLg==
+X-Gm-Message-State: AOAM5304MmPT0/sSKwLDQ9G4m8ACvkemDe0d3SwweTVHhUxEhOu4TvL+
+ 3h8pvtlJDynCLqO4vopo2OyjtaOwgV3WhBVFe24V3oraBzrQPQIS
+X-Google-Smtp-Source: ABdhPJz/hl4o9naclBibn/3lZ3yW55IUCJbzoEq5EV8ShNlXxqU02ZIHt8TgohirAOEr5upB4OmCwB4CEpZUJ1U+1wU=
+X-Received: by 2002:a17:90b:4a86:: with SMTP id
+ lp6mr3334875pjb.152.1643983529997; 
+ Fri, 04 Feb 2022 06:05:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: A72A11B
-X-Spam-Status: No, score=-2.03
-X-Stat-Signature: c3yzg6zcu4cpdcebaczubogb94ck3gqq
-X-Rspamd-Server: rspamout07
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+KwoOMBfXWPFnO9qh3WITIVuG9hjhnLgA=
-X-HE-Tag: 1643983268-605794
+References: <20220119122843.1455611-1-narmstrong@baylibre.com>
+In-Reply-To: <20220119122843.1455611-1-narmstrong@baylibre.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Fri, 4 Feb 2022 15:05:16 +0100
+Message-ID: <CAG3jFyv15AhfZP0HTAt73U0yvKHNAMLmKzFu-9AfX9v76h7s6g@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: dw-hdmi: use safe format when first in
+ bridge chain
+To: Neil Armstrong <narmstrong@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,63 +63,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Wang Kefeng <wangkefeng.wang@huawei.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Sam Ravnborg <sam@ravnborg.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
- verdun@hpe.com, Amit Kucheria <amitk@kernel.org>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- Miquel Raynal <miquel.raynal@bootlin.com>, netdev@vger.kernel.org,
- Lee Jones <lee.jones@linaro.org>, Ard Biesheuvel <ardb@kernel.org>,
- Stanislav Jakubek <stano.jakubek@gmail.com>, Hao Fang <fanghao11@huawei.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Richard Weinberger <richard@nod.at>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, linux-pwm@vger.kernel.org,
- linux-serial@vger.kernel.org,
- Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- openipmi-developer@lists.sourceforge.net, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, Corey Minyard <minyard@acm.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>, linux-gpio@vger.kernel.org,
- soc@kernel.org, Rob Herring <robh+dt@kernel.org>, nick.hawkins@hpe.com,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Marc Zyngier <maz@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: jernej.skrabec@gmail.com, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kieran.bingham@ideasonboard.com,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ laurent.pinchart@ideasonboard.com, biju.das.jz@bp.renesas.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2022-02-04 at 12:31 +0000, Russell King (Oracle) wrote:
-> On Fri, Feb 04, 2022 at 04:18:24AM -0800, Joe Perches wrote:
-> > On Fri, 2022-02-04 at 12:05 +0000, Russell King (Oracle) wrote:
-> > > On Wed, Feb 02, 2022 at 10:52:50AM -0600, nick.hawkins@hpe.com wrote:
-> > > > +	if (readb_relaxed(timer->control) & MASK_TCS_TC) {
-> > > > +		writeb_relaxed(MASK_TCS_TC, timer->control);
-> > > > +
-> > > > +		event_handler = READ_ONCE(timer->evt.event_handler);
-> > > > +		if (event_handler)
-> > > > +			event_handler(&timer->evt);
-> > > > +		return IRQ_HANDLED;
-> > > > +	} else {
-> > > > +		return IRQ_NONE;
-> > > > +	}
-> > > > +}
-> > 
-> > It's also less indented code and perhaps clearer to reverse the test
-> > 
-> > 	if (!readb_relaxed(timer->control) & MASK_TCS_TC)
-> 
-> This will need to be:
-> 
->  	if (!(readb_relaxed(timer->control) & MASK_TCS_TC))
+On Wed, 19 Jan 2022 at 13:28, Neil Armstrong <narmstrong@baylibre.com> wrote:
+>
+> When the dw-hdmi bridge is in first place of the bridge chain, this
+> means there is no way to select an input format of the dw-hdmi HW
+> component.
+>
+> Since introduction of display-connector, negotiation was broken since
+> the dw-hdmi negotiation code only worked when the dw-hdmi bridge was
+> in last position of the bridge chain or behind another bridge also
+> supporting input & output format negotiation.
+>
+> Commit 0656d1285b79 ("drm/bridge: display-connector: implement bus fmts callbacks")
 
-right, thanks.
+I think this is the wrong hash. Is 7cd70656d128 the actual hash?
 
+> was introduced to make negotiation work again by making display-connector
+> act as a pass-through concerning input & output format negotiation.
+>
+> But in the case where the dw-hdmi is single in the bridge chain, for
+> example on Renesas SoCs, with the display-connector bridge the dw-hdmi
+> is no more single, breaking output format.
+>
+> Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Bisected-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Fixes: 0656d1285b79 ("drm/bridge: display-connector: implement bus fmts callbacks").
 
+This hash too.
+
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+> Changes since v1:
+> - Remove bad fix in dw_hdmi_bridge_atomic_get_input_bus_fmts
+> - Fix typos in commit message
+>
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 54d8fdad395f..97cdc61b57f6 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -2551,8 +2551,9 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+>         if (!output_fmts)
+>                 return NULL;
+>
+> -       /* If dw-hdmi is the only bridge, avoid negociating with ourselves */
+> -       if (list_is_singular(&bridge->encoder->bridge_chain)) {
+> +       /* If dw-hdmi is the first or only bridge, avoid negociating with ourselves */
+> +       if (list_is_singular(&bridge->encoder->bridge_chain) ||
+> +           list_is_first(&bridge->chain_node, &bridge->encoder->bridge_chain)) {
+>                 *num_output_fmts = 1;
+>                 output_fmts[0] = MEDIA_BUS_FMT_FIXED;
+>
+> --
+> 2.25.1
+>
+
+There are two checkstyle issues apart from the above mentioned hash
+issues, and I think we can ignore those. With the above mentioned
+issue fixed, feel free to add my r-b.
+
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
