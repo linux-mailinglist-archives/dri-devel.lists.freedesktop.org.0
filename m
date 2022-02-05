@@ -2,53 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0383B4AA745
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 08:15:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F954AA75B
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 08:40:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 196DB10E614;
-	Sat,  5 Feb 2022 07:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EACA10E7D1;
+	Sat,  5 Feb 2022 07:40:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D88C010E614
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Feb 2022 07:15:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644045338; x=1675581338;
- h=message-id:date:mime-version:cc:subject:to:references:
- from:in-reply-to:content-transfer-encoding;
- bh=wqxjsPauSARkDVGNFGjAynKzR2PwO1TvvGupa+oiPS4=;
- b=Xf8g8Z0uPjYiIlnpQQR6RdNpyxrvcXc6ItcZE7brsF16nqvZv+J+59/s
- mXCqF1DNdhtzxmdl7MR44xQcfr+bsclwHelcy8VTGVVcBnfHeUl+TP0lQ
- h07xpT1ExeNzY8/ZB6vDaLhApc6cWmaqWW9+Y0Rv/xqwyfYJBnUIkBLWr
- ruaY17lFP4Z0NekPyzVBHODl7RfCbLKEUiAFgamzwjf0fCT+QnyN+MxxR
- ietjq/zAC6h20N5NxGTKRZTEDo7sIln5eI5IJTletLrddxjURtAudk7Ul
- 0jLWyYuYioEuOzn9tMKT6Ka+i1zpkzhVShC5GM8ck8gX9bquSLV8GpC/s Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10248"; a="334891037"
-X-IronPort-AV: E=Sophos;i="5.88,345,1635231600"; d="scan'208";a="334891037"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 23:15:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,345,1635231600"; d="scan'208";a="677305032"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.118])
- ([10.239.159.118])
- by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2022 23:15:36 -0800
-Message-ID: <59dac4c6-b238-adb1-75a6-d17a260aa0ee@linux.intel.com>
-Date: Sat, 5 Feb 2022 15:14:29 +0800
+Received: from smtp.smtpout.orange.fr (smtp06.smtpout.orange.fr
+ [80.12.242.128])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFB4010E7D1
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Feb 2022 07:40:53 +0000 (UTC)
+Received: from pop-os.home ([90.126.236.122]) by smtp.orange.fr with ESMTPA
+ id GFggn1Io9IQAdGFggnd94L; Sat, 05 Feb 2022 08:40:51 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Sat, 05 Feb 2022 08:40:51 +0100
+X-ME-IP: 90.126.236.122
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Subject: [PATCH] backlight: pwm_bl: Avoid open coded arithmetic in memory
+ allocation
+Date: Sat,  5 Feb 2022 08:40:48 +0100
+Message-Id: <bd3d74acfa58d59f6f5f81fc5a9fb409edb8d747.1644046817.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] iommu/vt-d: Remove comment reference to
- iommu_dev_has_feature
-Content-Language: en-US
-To: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>,
- matthew.d.roper@intel.com, dri-devel@lists.freedesktop.org
-References: <20220202023743.28135-1-akeem.g.abodunrin@intel.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-In-Reply-To: <20220202023743.28135-1-akeem.g.abodunrin@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,40 +44,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: iommu@lists.linux-foundation.org, baolu.lu@linux.intel.com
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/2/22 10:37 AM, Akeem G Abodunrin wrote:
-> iommu_dev_has_feature() api has been removed by the commit 262948f8ba573
-> ("iommu: Delete iommu_dev_has_feature()") - So this patch removes comment
-> about the api to avoid any confusion.
-> 
-> Signed-off-by: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
-> Cc: Lu Baolu <baolu.lu@linux.intel.com>
+kmalloc_array()/kcalloc() should be used to avoid potential overflow when
+a multiplication is needed to compute the size of the requested memory.
 
-It's not a change for iommu/vt-d, but for iommu core.
+So turn a kzalloc()+explicit size computation into an equivalent kcalloc().
 
-Please add Joerg in the to list.
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/video/backlight/pwm_bl.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-Best regards,
-baolu
+diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+index 8d8959a70e44..c0523a0269ee 100644
+--- a/drivers/video/backlight/pwm_bl.c
++++ b/drivers/video/backlight/pwm_bl.c
+@@ -263,9 +263,8 @@ static int pwm_backlight_parse_dt(struct device *dev,
+ 
+ 	/* read brightness levels from DT property */
+ 	if (num_levels > 0) {
+-		size_t size = sizeof(*data->levels) * num_levels;
+-
+-		data->levels = devm_kzalloc(dev, size, GFP_KERNEL);
++		data->levels = devm_kcalloc(dev, num_levels,
++					    sizeof(*data->levels), GFP_KERNEL);
+ 		if (!data->levels)
+ 			return -ENOMEM;
+ 
+@@ -320,8 +319,8 @@ static int pwm_backlight_parse_dt(struct device *dev,
+ 			 * Create a new table of brightness levels with all the
+ 			 * interpolated steps.
+ 			 */
+-			size = sizeof(*table) * num_levels;
+-			table = devm_kzalloc(dev, size, GFP_KERNEL);
++			table = devm_kcalloc(dev, num_levels, sizeof(*table),
++					     GFP_KERNEL);
+ 			if (!table)
+ 				return -ENOMEM;
+ 			/*
+-- 
+2.32.0
 
-> ---
->   include/linux/iommu.h | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index de0c57a567c8..bea054f2bd4d 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -153,8 +153,7 @@ struct iommu_resv_region {
->    *			 supported, this feature must be enabled before and
->    *			 disabled after %IOMMU_DEV_FEAT_SVA.
->    *
-> - * Device drivers query whether a feature is supported using
-> - * iommu_dev_has_feature(), and enable it using iommu_dev_enable_feature().
-> + * Device drivers enable the feature via iommu_dev_enable_feature().
->    */
->   enum iommu_dev_features {
->   	IOMMU_DEV_FEAT_AUX,
