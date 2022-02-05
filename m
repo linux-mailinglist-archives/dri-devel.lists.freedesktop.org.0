@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8624AA4EE
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 01:14:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67144AA4EF
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 01:14:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52F6C10E233;
-	Sat,  5 Feb 2022 00:14:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5168210E290;
+	Sat,  5 Feb 2022 00:14:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 393FB10E172
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Feb 2022 00:14:11 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id y5so5490683pfe.4
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 16:14:11 -0800 (PST)
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07DF910E233
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Feb 2022 00:14:13 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id c194so6395591pfb.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 16:14:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Yhbxh7kkqGGusGWBNx2mCA04d+nWExRaG4eT8COW5H4=;
- b=lW6XJL1GStnh11sxE6c3AEle1jPDq08bgs8pl3Qpl/pK4zYtnr+ztxBX07afHyB6nu
- wSLkzJT/NtirEqBGto3hq3t4fbxaHfhHfEj7wRY6raIcpc0Jpb5eG0m4HIIvOxX+Ez6v
- QTdow9MsyanB+ZzJUlBgqSf5f9qWQJEzMJwPE=
+ bh=e1YXgPQg/QgIjJPLCBmICQvUckRJaQCi5C+VqMeIvS8=;
+ b=Sckp/asfIozxW6+xn26hgboYzojlq2fJp0f/cWViFPP5LEVqkjJNujfGR3enGVfekg
+ djCvSjwk9cRt3TXxY8kTZjjQ8be4dShkvIEpLPkjvoKx6c1KR4gXhXhm0cNQgCc5i3+z
+ hgyEmOmP8sG5U4Ef8pF/jwtlX4AicnYcnoDes=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Yhbxh7kkqGGusGWBNx2mCA04d+nWExRaG4eT8COW5H4=;
- b=s/sDk2ZzB/ISKmx+5m787VBrnR8MZCimigdDU4if6x6a1TUkmRwF7vWEQ4mYvUX1Fh
- GtVUnUsI5jm/F6TBRHMoQEW0PfiywI8r+yV1RRsCB4+xx5pcw5D47jeWuIn32t7razpq
- VtymYPO0O43qaY/uDXVK2LuOvqGBf7syo1J7AIv/H1a9G6quvHbtn6ux/J+NUEbAaQWm
- cjrg7nepNx+uzNFaA3s4u3HRtSxINfk/+DOrZXP65AxU0S+wZJ8Bxa90LNoGqocu/gl6
- fGk4OXe6cQfVoThVrLSi74xX0RSmYkvxVcxzJiGKyOCCo4RA7+Pwyi6h7b1S1Vv0GmHq
- oy3w==
-X-Gm-Message-State: AOAM532O66YfwjEuSn/e4jQbyqjUeg7vgqaQtHqGnzeAo6p1XZccpli8
- QjOTMnNxThKGjoxKPVksgDBQlUi+ab4Dew==
-X-Google-Smtp-Source: ABdhPJwHbENOYwTwkFtmdn6y83vbJk6FTR1NFcvBdcuuTC/JSeQWcPm1Se3dFMTqcxl6aZvQHwe4dQ==
-X-Received: by 2002:a63:690a:: with SMTP id e10mr1171147pgc.599.1644020050659; 
- Fri, 04 Feb 2022 16:14:10 -0800 (PST)
+ bh=e1YXgPQg/QgIjJPLCBmICQvUckRJaQCi5C+VqMeIvS8=;
+ b=5U7OqQD5zp+MmKdZeKaGvzPjfHXIIualGLEE3arToYB6dp3tFcRr90bNPW0Ey4xp6L
+ uz6fq+XEHRFIeSqaarpVMVunCc1JmO9vaXce2TQG8d9llW389N/V2RK8H63eBngMvTPx
+ 6jmOi4OgwDPU6jIP33z8h73mTERxpG7Wx/d7aKfoPwRRvtiGUL93VaGe1i+oInAMGpZr
+ DlVjQmcloN9g0iCv0S7FZhKph9cuuoOJwMSOL/vzevoFbQmXOjLcdAXHwQ7GCl0v+lCJ
+ iCRI5BDy+XDNSLDrvja8ol4g52jKsDBaXCTpU5e/l4IJCx0kbAqXb9UADtxnDZMm5acl
+ sjCg==
+X-Gm-Message-State: AOAM533ERWlJmz1lKQEk3+5/ewveC3ilt0QrUjGCYvm6quWhNz9dBJNk
+ JNdi58voE8fwfJ4v91i386WCZ2H30u6YMw==
+X-Google-Smtp-Source: ABdhPJz+Fkk9gqDAia0auO55LEycSweXxaTCerYWw5xHDV+zLvHydudS8AzzEA9Cikmz2NxmdWE4kQ==
+X-Received: by 2002:a63:6b41:: with SMTP id g62mr1194976pgc.538.1644020052438; 
+ Fri, 04 Feb 2022 16:14:12 -0800 (PST)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:d668:55ac:a465:88bf])
- by smtp.gmail.com with ESMTPSA id q13sm3720231pfj.44.2022.02.04.16.14.09
+ by smtp.gmail.com with ESMTPSA id q13sm3720231pfj.44.2022.02.04.16.14.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 16:14:10 -0800 (PST)
+ Fri, 04 Feb 2022 16:14:12 -0800 (PST)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/3] drm/bridge: ti-sn65dsi86: Use drm_bridge_connector
-Date: Fri,  4 Feb 2022 16:13:40 -0800
-Message-Id: <20220204161245.v2.1.I3ab26b7f197cc56c874246a43e57913e9c2c1028@changeid>
+Subject: [PATCH v2 2/3] drm: Plumb debugfs_init through to panels
+Date: Fri,  4 Feb 2022 16:13:41 -0800
+Message-Id: <20220204161245.v2.2.Ib0bd5346135cbb0b63006b69b61d4c8af6484740@changeid>
 X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
 In-Reply-To: <20220205001342.3155839-1-dianders@chromium.org>
 References: <20220205001342.3155839-1-dianders@chromium.org>
@@ -67,176 +67,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Javier Martinez Canillas <javierm@redhat.com>, robert.foss@linaro.org,
- Douglas Anderson <dianders@chromium.org>, jjsu@chromium.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>, jjsu@chromium.org,
  lschyi@chromium.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ti-sn65dsi86 driver shouldn't hand-roll its own bridge
-connector. It should use the normal drm_bridge_connector. Let's switch
-to do that, removing all of the custom code.
+We'd like panels to be able to add things to debugfs underneath the
+connector's directory. Let's plumb it through. A panel will be able to
+put things in a "panel" directory under the connector's
+directory. Note that debugfs is not ABI and so it's always possible
+that the location that the panel gets for its debugfs could change in
+the future.
 
-NOTE: this still _doesn't_ implement DRM_BRIDGE_ATTACH_NO_CONNECTOR
-support for ti-sn65dsi86 and that would still be a useful thing to do
-in the future. It was attempted in the past [1] but put on the back
-burner. However, unless we instantly change ti-sn65dsi86 fully from
-not supporting DRM_BRIDGE_ATTACH_NO_CONNECTOR at all to _only_
-supporting DRM_BRIDGE_ATTACH_NO_CONNECTOR then we'll still need a bit
-of time when we support both. This is a better way to support the old
-way where the driver hand rolls things itself.
+NOTE: this currently only works if you're using a modern
+architecture. Specifically the plumbing relies on _both_
+drm_bridge_connector and drm_panel_bridge. If you're not using one or
+both of these things then things won't be plumbed through.
 
-A new notes about the implementation here:
-* When using the drm_bridge_connector the connector should be created
-  after all the bridges, so we change the ordering a bit.
-* I'm reasonably certain that we don't need to do anything to "free"
-  the new drm_bridge_connector. If drm_bridge_connector_init() returns
-  success then we know drm_connector_init() was called with the
-  `drm_bridge_connector_funcs`. The `drm_bridge_connector_funcs` has a
-  .destroy() that does all the cleanup. drm_connector_init() calls
-  __drm_mode_object_add() with a drm_connector_free() that will call
-  the .destroy().
-* I'm also reasonably certain that I don't need to "undo" the
-  drm_bridge_attach() if drm_bridge_connector_init() fails. The
-  "detach" function is private and other similar code doesn't try to
-  undo the drm_bridge_attach() in error cases. There's also a comment
-  indicating the lack of balance at the top of drm_bridge_attach().
-
-[1] https://lore.kernel.org/r/20210920225801.227211-4-robdclark@gmail.com
+As a side effect of this change, drm_bridges can also get callbacks to
+put stuff underneath the connector's debugfs directory. At the moment
+all bridges in the chain have their debugfs_init() called with the
+connector's root directory.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
 Changes in v2:
-- ("ti-sn65dsi86: Use drm_bridge_connector") new for v2.
+- ("drm: Plumb debugfs_init through to panels") new for v2.
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 72 ++++++---------------------
- 1 file changed, 14 insertions(+), 58 deletions(-)
+ drivers/gpu/drm/bridge/panel.c         | 12 ++++++++++++
+ drivers/gpu/drm/drm_bridge_connector.c | 15 +++++++++++++++
+ drivers/gpu/drm/drm_debugfs.c          |  3 +++
+ include/drm/drm_bridge.h               |  7 +++++++
+ include/drm/drm_connector.h            |  7 +++++++
+ include/drm/drm_panel.h                |  8 ++++++++
+ 6 files changed, 52 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index ba136a188be7..38616aab12ac 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -26,6 +26,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/dp/drm_dp_aux_bus.h>
- #include <drm/dp/drm_dp_helper.h>
- #include <drm/drm_mipi_dsi.h>
-@@ -174,7 +175,7 @@ struct ti_sn65dsi86 {
- 	struct regmap			*regmap;
- 	struct drm_dp_aux		aux;
- 	struct drm_bridge		bridge;
--	struct drm_connector		connector;
-+	struct drm_connector		*connector;
- 	struct device_node		*host_node;
- 	struct mipi_dsi_device		*dsi;
- 	struct clk			*refclk;
-@@ -646,54 +647,6 @@ static struct auxiliary_driver ti_sn_aux_driver = {
- 	.id_table = ti_sn_aux_id_table,
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index b32295abd9e7..5be057575183 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -138,6 +138,17 @@ static int panel_bridge_get_modes(struct drm_bridge *bridge,
+ 	return drm_panel_get_modes(panel_bridge->panel, connector);
+ }
+ 
++static void panel_bridge_debugfs_init(struct drm_bridge *bridge,
++				      struct dentry *root)
++{
++	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
++	struct drm_panel *panel = panel_bridge->panel;
++
++	root = debugfs_create_dir("panel", root);
++	if (panel->funcs->debugfs_init)
++		panel->funcs->debugfs_init(panel, root);
++}
++
+ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
+ 	.attach = panel_bridge_attach,
+ 	.detach = panel_bridge_detach,
+@@ -150,6 +161,7 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
++	.debugfs_init = panel_bridge_debugfs_init,
  };
  
--/* -----------------------------------------------------------------------------
-- * DRM Connector Operations
-- */
--
--static struct ti_sn65dsi86 *
--connector_to_ti_sn65dsi86(struct drm_connector *connector)
--{
--	return container_of(connector, struct ti_sn65dsi86, connector);
--}
--
--static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
--{
--	struct ti_sn65dsi86 *pdata = connector_to_ti_sn65dsi86(connector);
--
--	return drm_bridge_get_modes(pdata->next_bridge, connector);
--}
--
--static struct drm_connector_helper_funcs ti_sn_bridge_connector_helper_funcs = {
--	.get_modes = ti_sn_bridge_connector_get_modes,
--};
--
--static const struct drm_connector_funcs ti_sn_bridge_connector_funcs = {
--	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = drm_connector_cleanup,
--	.reset = drm_atomic_helper_connector_reset,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
--};
--
--static int ti_sn_bridge_connector_init(struct ti_sn65dsi86 *pdata)
--{
--	int ret;
--
--	ret = drm_connector_init(pdata->bridge.dev, &pdata->connector,
--				 &ti_sn_bridge_connector_funcs,
--				 DRM_MODE_CONNECTOR_eDP);
--	if (ret) {
--		DRM_ERROR("Failed to initialize connector with drm\n");
--		return ret;
--	}
--
--	drm_connector_helper_add(&pdata->connector,
--				 &ti_sn_bridge_connector_helper_funcs);
--	drm_connector_attach_encoder(&pdata->connector, pdata->bridge.encoder);
--
--	return 0;
--}
--
- /*------------------------------------------------------------------------------
-  * DRM Bridge
-  */
-@@ -757,10 +710,6 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
- 		return ret;
- 	}
- 
--	ret = ti_sn_bridge_connector_init(pdata);
--	if (ret < 0)
--		goto err_conn_init;
--
- 	/* We never want the next bridge to *also* create a connector: */
- 	flags |= DRM_BRIDGE_ATTACH_NO_CONNECTOR;
- 
-@@ -768,13 +717,20 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
- 	ret = drm_bridge_attach(bridge->encoder, pdata->next_bridge,
- 				&pdata->bridge, flags);
- 	if (ret < 0)
--		goto err_dsi_host;
-+		goto err_initted_aux;
-+
-+	pdata->connector = drm_bridge_connector_init(pdata->bridge.dev,
-+						     pdata->bridge.encoder);
-+	if (IS_ERR(pdata->connector)) {
-+		ret = PTR_ERR(pdata->connector);
-+		goto err_initted_aux;
-+	}
-+
-+	drm_connector_attach_encoder(pdata->connector, pdata->bridge.encoder);
- 
- 	return 0;
- 
--err_dsi_host:
--	drm_connector_cleanup(&pdata->connector);
--err_conn_init:
-+err_initted_aux:
- 	drm_dp_aux_unregister(&pdata->aux);
- 	return ret;
+ /**
+diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+index 791379816837..60923cdfe8e1 100644
+--- a/drivers/gpu/drm/drm_bridge_connector.c
++++ b/drivers/gpu/drm/drm_bridge_connector.c
+@@ -216,6 +216,20 @@ static void drm_bridge_connector_destroy(struct drm_connector *connector)
+ 	kfree(bridge_connector);
  }
-@@ -824,7 +780,7 @@ static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
  
- static unsigned int ti_sn_bridge_get_bpp(struct ti_sn65dsi86 *pdata)
- {
--	if (pdata->connector.display_info.bpc <= 6)
-+	if (pdata->connector->display_info.bpc <= 6)
- 		return 18;
- 	else
- 		return 24;
++static void drm_bridge_connector_debugfs_init(struct drm_connector *connector,
++					      struct dentry *root)
++{
++	struct drm_bridge_connector *bridge_connector =
++		to_drm_bridge_connector(connector);
++	struct drm_encoder *encoder = bridge_connector->encoder;
++	struct drm_bridge *bridge;
++
++	list_for_each_entry(bridge, &encoder->bridge_chain, chain_node) {
++		if (bridge->funcs->debugfs_init)
++			bridge->funcs->debugfs_init(bridge, root);
++	}
++}
++
+ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
+ 	.reset = drm_atomic_helper_connector_reset,
+ 	.detect = drm_bridge_connector_detect,
+@@ -223,6 +237,7 @@ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
+ 	.destroy = drm_bridge_connector_destroy,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++	.debugfs_init = drm_bridge_connector_debugfs_init,
+ };
+ 
+ /* -----------------------------------------------------------------------------
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index b0a826489488..7f1b82dbaebb 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -436,6 +436,9 @@ void drm_debugfs_connector_add(struct drm_connector *connector)
+ 	/* vrr range */
+ 	debugfs_create_file("vrr_range", S_IRUGO, root, connector,
+ 			    &vrr_range_fops);
++
++	if (connector->funcs->debugfs_init)
++		connector->funcs->debugfs_init(connector, root);
+ }
+ 
+ void drm_debugfs_connector_remove(struct drm_connector *connector)
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 061d87313fac..f27b4060faa2 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -649,6 +649,13 @@ struct drm_bridge_funcs {
+ 	 * the DRM_BRIDGE_OP_HPD flag in their &drm_bridge->ops.
+ 	 */
+ 	void (*hpd_disable)(struct drm_bridge *bridge);
++
++	/**
++	 * @debugfs_init:
++	 *
++	 * Allows bridges to create bridge-specific debugfs files.
++	 */
++	void (*debugfs_init)(struct drm_bridge *bridge, struct dentry *root);
+ };
+ 
+ /**
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 64cf5f88c05b..54429dde744a 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1142,6 +1142,13 @@ struct drm_connector_funcs {
+ 	 * has been received from a source outside the display driver / device.
+ 	 */
+ 	void (*oob_hotplug_event)(struct drm_connector *connector);
++
++	/**
++	 * @debugfs_init:
++	 *
++	 * Allows connectors to create connector-specific debugfs files.
++	 */
++	void (*debugfs_init)(struct drm_connector *connector, struct dentry *root);
+ };
+ 
+ /**
+diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+index 4602f833eb51..1ba2d424a53f 100644
+--- a/include/drm/drm_panel.h
++++ b/include/drm/drm_panel.h
+@@ -29,6 +29,7 @@
+ #include <linux/list.h>
+ 
+ struct backlight_device;
++struct dentry;
+ struct device_node;
+ struct drm_connector;
+ struct drm_device;
+@@ -125,6 +126,13 @@ struct drm_panel_funcs {
+ 	 */
+ 	int (*get_timings)(struct drm_panel *panel, unsigned int num_timings,
+ 			   struct display_timing *timings);
++
++	/**
++	 * @debugfs_init:
++	 *
++	 * Allows panels to create panels-specific debugfs files.
++	 */
++	void (*debugfs_init)(struct drm_panel *panel, struct dentry *root);
+ };
+ 
+ /**
 -- 
 2.35.0.263.gb82422642f-goog
 
