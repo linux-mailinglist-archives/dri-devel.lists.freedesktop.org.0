@@ -2,72 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6416A4AA9AA
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 16:27:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6698E4AAAA8
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 18:38:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41CC410F587;
-	Sat,  5 Feb 2022 15:27:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A211A10F5F1;
+	Sat,  5 Feb 2022 17:38:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57F3E10F582
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Feb 2022 15:27:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644074855;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pjmtgD9hDbE2eSozwnUFT0OXCz+k5OPkUk+zbtWjpnw=;
- b=NAQOEHHkFIuQDliZ+7qz0nBN7mE2qEzGS0ZzondHgoBu/wieUa4HU2HmjwvXASr5vq/aZ/
- 0W5KERL1yuwdVUhfhLMA6rs4ZlTYP3w+4oQhU0mVt+0eCdFlUPsg3gJt4oXYFLX5BLIjYo
- sWEB9oq6S0aJgyGF+HSuwiIkUXGpWak=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-368-hIfdHluXM3CwaZfJH_wSFQ-1; Sat, 05 Feb 2022 10:27:32 -0500
-X-MC-Unique: hIfdHluXM3CwaZfJH_wSFQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d14-20020adfa34e000000b001e306be1ec8so781251wrb.17
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Feb 2022 07:27:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pjmtgD9hDbE2eSozwnUFT0OXCz+k5OPkUk+zbtWjpnw=;
- b=tZ3bxAb7PycpTJfI8bZrqp6SWNcQ9TpUmUNAGTdoSJx9sDcdRV5hJGzX0EcanTz3pm
- JX2wOQ4xv83xBr1UWkXrn+1czde9WoDGLxJiL/ejjJirA4wJJZokA0jvSpWoIGg/Xq5o
- S7BOmFuLvdXd0hskJ88mRf3HhbBqr1fwrR0MJq5TcVPmzCG1Q67n+0xLidn6l+SS/xMk
- ZQt7h8iZrPaqArTU4w0PRyYp6rxgCIC/2Jbw7dRFV3yQXdwBkLRw1zs/MypvtKexQ/eq
- FHJaQlBbhn5le18CHmgt+oh+VWwRzJauflCVzaN9xjZEQ0wLFHdD6GTpi+B4uy3dSCaR
- Q0CQ==
-X-Gm-Message-State: AOAM531dy4GWsRHhi5IftJm9Oc6r1JMhITO53lpvLEfhFiDxvKjsODAK
- anUlOEijzlSAPB6HISxQFKhmZZmEqUuVpU4Xv9xtD+eJ55//FYwTSlxVE1qhxGUFvCDQ5FXjRHa
- Sh9aiqyPBTuca0OVN93HwlIwXTDnr
-X-Received: by 2002:a5d:5052:: with SMTP id h18mr3552912wrt.350.1644074851204; 
- Sat, 05 Feb 2022 07:27:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxDXyrn2KzxrERhgoIpos43hCirk58UMQ3nCsqWFJ5g7LBqTHNLGaT6w0HYpj+eI+7jWIu5gw==
-X-Received: by 2002:a5d:5052:: with SMTP id h18mr3552891wrt.350.1644074850965; 
- Sat, 05 Feb 2022 07:27:30 -0800 (PST)
-Received: from kherbst.pingu.com (ip1f10bb48.dynamic.kabel-deutschland.de.
- [31.16.187.72])
- by smtp.gmail.com with ESMTPSA id j5sm4635019wrq.31.2022.02.05.07.27.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Feb 2022 07:27:30 -0800 (PST)
-From: Karol Herbst <kherbst@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] Revert "drm/nouveau/pmu/gm200-: avoid touching PMU outside of
- DEVINIT/PREOS/ACR"
-Date: Sat,  5 Feb 2022 16:27:28 +0100
-Message-Id: <20220205152729.2609837-1-kherbst@redhat.com>
-X-Mailer: git-send-email 2.34.1
+Received: from smtp.smtpout.orange.fr (smtp08.smtpout.orange.fr
+ [80.12.242.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5F0610F6A1
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Feb 2022 17:38:06 +0000 (UTC)
+Received: from pop-os.home ([90.126.236.122]) by smtp.orange.fr with ESMTPA
+ id GP0dngbZqxHdTGP0dnEjnn; Sat, 05 Feb 2022 18:38:04 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Sat, 05 Feb 2022 18:38:04 +0100
+X-ME-IP: 90.126.236.122
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/radeon: Avoid open coded arithmetic in memory allocation
+Date: Sat,  5 Feb 2022 18:38:01 +0100
+Message-Id: <1f44de96e6a49e912111fb3b664f087328b4c2cd.1644082664.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,99 +42,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 1d2271d2fb85e54bfc9630a6c30ac0feb9ffb983.
+kmalloc_array()/kcalloc() should be used to avoid potential overflow when
+a multiplication is needed to compute the size of the requested memory.
 
-This fix actually causes regressions, which I could verify on my systems
-as well. So let's revert it and figure out a proper fix for the original
-problem.
+So turn a kzalloc()+explicit size computation into an equivalent kcalloc().
 
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Bug: https://gitlab.freedesktop.org/drm/nouveau/-/issues/149
-Signed-off-by: Karol Herbst <kherbst@redhat.com>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- .../gpu/drm/nouveau/nvkm/subdev/pmu/base.c    | 37 ++++++++-----------
- 1 file changed, 16 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/radeon/radeon_atombios.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
-index 455e95a89259..24382875fb4f 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
-@@ -94,13 +94,20 @@ nvkm_pmu_fini(struct nvkm_subdev *subdev, bool suspend)
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/drm/radeon/radeon_atombios.c
+index 28c4413f4dc8..7b9cc7a9f42f 100644
+--- a/drivers/gpu/drm/radeon/radeon_atombios.c
++++ b/drivers/gpu/drm/radeon/radeon_atombios.c
+@@ -897,13 +897,13 @@ bool radeon_get_atom_connector_info_from_supported_devices_table(struct
+ 	union atom_supported_devices *supported_devices;
+ 	int i, j, max_device;
+ 	struct bios_connector *bios_connectors;
+-	size_t bc_size = sizeof(*bios_connectors) * ATOM_MAX_SUPPORTED_DEVICE;
+ 	struct radeon_router router;
  
--static void
-+static int
- nvkm_pmu_reset(struct nvkm_pmu *pmu)
- {
- 	struct nvkm_device *device = pmu->subdev.device;
+ 	router.ddc_valid = false;
+ 	router.cd_valid = false;
  
- 	if (!pmu->func->enabled(pmu))
--		return;
-+		return 0;
-+
-+	/* Inhibit interrupts, and wait for idle. */
-+	nvkm_wr32(device, 0x10a014, 0x0000ffff);
-+	nvkm_msec(device, 2000,
-+		if (!nvkm_rd32(device, 0x10a04c))
-+			break;
-+	);
+-	bios_connectors = kzalloc(bc_size, GFP_KERNEL);
++	bios_connectors = kcalloc(ATOM_MAX_SUPPORTED_DEVICE,
++				  sizeof(*bios_connectors), GFP_KERNEL);
+ 	if (!bios_connectors)
+ 		return false;
  
- 	/* Reset. */
- 	if (pmu->func->reset)
-@@ -111,37 +118,25 @@ nvkm_pmu_reset(struct nvkm_pmu *pmu)
- 		if (!(nvkm_rd32(device, 0x10a10c) & 0x00000006))
- 			break;
- 	);
-+
-+	return 0;
- }
- 
- static int
- nvkm_pmu_preinit(struct nvkm_subdev *subdev)
- {
- 	struct nvkm_pmu *pmu = nvkm_pmu(subdev);
--	nvkm_pmu_reset(pmu);
--	return 0;
-+	return nvkm_pmu_reset(pmu);
- }
- 
- static int
- nvkm_pmu_init(struct nvkm_subdev *subdev)
- {
- 	struct nvkm_pmu *pmu = nvkm_pmu(subdev);
--	struct nvkm_device *device = pmu->subdev.device;
--
--	if (!pmu->func->init)
--		return 0;
--
--	if (pmu->func->enabled(pmu)) {
--		/* Inhibit interrupts, and wait for idle. */
--		nvkm_wr32(device, 0x10a014, 0x0000ffff);
--		nvkm_msec(device, 2000,
--			if (!nvkm_rd32(device, 0x10a04c))
--				break;
--		);
--
--		nvkm_pmu_reset(pmu);
--	}
--
--	return pmu->func->init(pmu);
-+	int ret = nvkm_pmu_reset(pmu);
-+	if (ret == 0 && pmu->func->init)
-+		ret = pmu->func->init(pmu);
-+	return ret;
- }
- 
- static void *
 -- 
-2.34.1
+2.32.0
 
