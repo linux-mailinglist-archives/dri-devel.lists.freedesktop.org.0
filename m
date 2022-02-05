@@ -2,58 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565B24AA55D
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 02:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 018D74AA57A
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 02:55:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD67110E1BB;
-	Sat,  5 Feb 2022 01:41:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A83AB10E3EB;
+	Sat,  5 Feb 2022 01:55:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7593F10E251
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Feb 2022 01:41:14 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id z5so6583184plg.8
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 17:41:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=myz4g6Qa1WY7AUZda/vmt1iCRBi20oOlq1O4D8Tshf4=;
- b=WEQzYtgsyGerlT0ueBcIUWjjZDgUC2+53EpsPoDGP3uuPFB3ymg9NKe2NrgyUf8MMH
- j70XqajQ2TjQz9wOVN/Nlh7yoDGCHNk5bpcoN+iylAwS7btXeZnMpIBr8krgWPajbzQM
- sX14DVY5wOg8lE0oYHYUxgXxalig0VFjYSbPE=
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10EB210E3EB;
+ Sat,  5 Feb 2022 01:55:47 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ v13-20020a17090ac90d00b001b87bc106bdso727918pjt.4; 
+ Fri, 04 Feb 2022 17:55:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:to:cc:references
+ :from:in-reply-to:content-transfer-encoding;
+ bh=hGTVW+01e4GIAkWOjoFjzjXZ+1intL+wDAwZzXY0atY=;
+ b=MKyUMfHjlP5/X/3UuWqXNYJLGgIfTcrMciakaNzzdl5lJSqfrUaaYEygfM0LRmxhOs
+ fw6VQzFRdQQS9LGthD5la6HPu7wjOr4eBuXNeuQpQiSy7Zi0S3mhtvRyxIuOgvEBueGQ
+ Cyjl//36hjg0rLX6YXFubWfp0VLeNtiZQ26SqNw7w6wDFYbS/sOQrz4rLh5iSiAIq87l
+ ntU2ZymE3/eEO7ZdR6Gn5814oVCx0HsotkhlahfaX6mPky2zND6sXRtO6M3meyMvQ2q4
+ dZxORk6lg4X98K8vzE0i6JFArp4i+tI82K/464s+Z74VIpUSuEOF8rplAqWyeuYcG7h8
+ U5tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=myz4g6Qa1WY7AUZda/vmt1iCRBi20oOlq1O4D8Tshf4=;
- b=qyHfveq83YwG5acdpQZUbPbSXydUNDEZfx1Io9s0XDTAbdv8os+euf3LKg1ogIkCJ2
- s56AByBl3GYoReji/nfrHtxhKh/sIuPOxQNEmo/coZDwInCWfyyC3DgUFienMfTQ0TK9
- 6Y/TJoQT700pXy+L8iYS3XCWJIPMrInPYVff5sLPhOYkd+U4TwWav2q6x5vtpaipfXFC
- kKYKrHgDKJMYT/KqTbko9Ka322D1Uzt7xc1Yh+xAv3vDbL7V0DJGuhtCNIy0b0dEy05X
- 6kpV5ZGZdLJ3HJhz6XhxZ1Tu4cKEiN8B5YkI3wdhShFkZSCy3CYk9ayeVfw9+d6IxaAf
- B8HA==
-X-Gm-Message-State: AOAM533NrSz4d8bn4GrY6tnb+0JNbSvhVxPknJMRW37+IhFDALBHin/1
- jRMnyHtHSWIQQfJ4K/1eGqJGBA==
-X-Google-Smtp-Source: ABdhPJzXzaOsxAG+LTQCOUvqb9DGjAcqKyn2JVuV4Dl2+ulTvIQd3muaH0g4LnXS7BZmwpz/ijca3w==
-X-Received: by 2002:a17:902:ce8a:: with SMTP id
- f10mr6014427plg.35.1644025273975; 
- Fri, 04 Feb 2022 17:41:13 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id 8sm13774838pjs.39.2022.02.04.17.41.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 17:41:13 -0800 (PST)
-Date: Fri, 4 Feb 2022 17:41:12 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/dp: Remove common Post Cursor2 register handling
-Message-ID: <202202041740.F368F91F5@keescook>
-References: <20220105173507.2420910-1-keescook@chromium.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :to:cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=hGTVW+01e4GIAkWOjoFjzjXZ+1intL+wDAwZzXY0atY=;
+ b=GRvM1C5bgdnFbpPX0hQyx9B/saVevP0fltjmOk9cT9nCSyyqPJUVOiFLVkUALitf3Y
+ P7OhHs/yFrdSgVAT6KZeAxcehofLk1CrEYvGhXhz6FIsIsmTfQ1EipVKbLY3kyhA+oxG
+ 3HIhcGTTeG5VFSYngjoX3oStw+PaPPCsr087/PsMb7pnlD9QyAeecreV2p97ZfGVQ5TJ
+ xTKSFXuT0qiNnEAU8I9TXde8WmdFifc9wRQOu3XaJagJgtyVde6jSm6Le2S8IR2x/aGY
+ zJU9P2B4wZXy16cKPSAqW1Dees3+VabmRGTlaMOXOq9byoydIU1oH98NlnNCD/wNqqSL
+ es2g==
+X-Gm-Message-State: AOAM5325kWb6jWcudYBmwz287+4vO/3BRiyWTPItW4cbZ1gMFsnb8W4Z
+ Fg9hF04ZN+K5QX2BDhTqdfk=
+X-Google-Smtp-Source: ABdhPJzkj9ah/MKJt0tBrGU4CnDflWStMfgavXmyxNOSvps0iRQxrimCRm86/5KuVkfVZjtIIJTnPw==
+X-Received: by 2002:a17:902:e803:: with SMTP id
+ u3mr5800746plg.41.1644026147342; 
+ Fri, 04 Feb 2022 17:55:47 -0800 (PST)
+Received: from [10.200.0.18] ([85.203.23.14])
+ by smtp.gmail.com with ESMTPSA id y41sm3913585pfa.213.2022.02.04.17.55.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Feb 2022 17:55:46 -0800 (PST)
+Message-ID: <8fa82beb-468c-afb0-3eed-4240200395a3@gmail.com>
+Date: Sat, 5 Feb 2022 09:55:36 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220105173507.2420910-1-keescook@chromium.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [BUG] gpu: drm: radeon: two possible deadlocks involving locking
+ and waiting
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ alexander.deucher@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+References: <d5e4460f-7e26-81d2-2efe-6f47760b78d2@gmail.com>
+ <7cdc2d3f-df52-f7a9-15bf-fe4bc01d3c4f@amd.com>
+From: Jia-Ju Bai <baijiaju1990@gmail.com>
+In-Reply-To: <7cdc2d3f-df52-f7a9-15bf-fe4bc01d3c4f@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,118 +75,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- linux-hardening@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ping,
+Hi Christian,
 
-This is a OOB read fix. Can someone please pick this up?
+Thanks for the reply :)
 
--Kees
+On 2022/2/1 15:56, Christian König wrote:
+> Hi Jia-Ju,
+>
+> interesting that you have found those issues with an automated tool.
+>
+> And yes that is a well design flaw within the radeon driver which can 
+> happen on hardware faults, e.g. when radeon_ring_backup() needs to be 
+> called.
 
-On Wed, Jan 05, 2022 at 09:35:07AM -0800, Kees Cook wrote:
-> The link_status array was not large enough to read the Adjust Request
-> Post Cursor2 register, so remove the common helper function to avoid
-> an OOB read, found with a -Warray-bounds build:
-> 
-> drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_get_adjust_request_post_cursor':
-> drivers/gpu/drm/drm_dp_helper.c:59:27: error: array subscript 10 is outside array bounds of 'const u8[6]' {aka 'const unsigned char[6]'} [-Werror=array-bounds]
->    59 |         return link_status[r - DP_LANE0_1_STATUS];
->       |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/drm_dp_helper.c:147:51: note: while referencing 'link_status'
->   147 | u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
->       |                                          ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> Replace the only user of the helper with an open-coded fetch and decode,
-> similar to drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c.
-> 
-> Fixes: 79465e0ffeb9 ("drm/dp: Add helper to get post-cursor adjustments")
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
-> This is the alternative to:
-> https://lore.kernel.org/lkml/20211203084354.3105253-1-keescook@chromium.org/
-> ---
->  drivers/gpu/drm/drm_dp_helper.c | 10 ----------
->  drivers/gpu/drm/tegra/dp.c      | 11 ++++++++++-
->  include/drm/drm_dp_helper.h     |  2 --
->  3 files changed, 10 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-> index 23f9073bc473..c9528aa62c9c 100644
-> --- a/drivers/gpu/drm/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/drm_dp_helper.c
-> @@ -144,16 +144,6 @@ u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
->  }
->  EXPORT_SYMBOL(drm_dp_get_adjust_tx_ffe_preset);
->  
-> -u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
-> -					 unsigned int lane)
-> -{
-> -	unsigned int offset = DP_ADJUST_REQUEST_POST_CURSOR2;
-> -	u8 value = dp_link_status(link_status, offset);
-> -
-> -	return (value >> (lane << 1)) & 0x3;
-> -}
-> -EXPORT_SYMBOL(drm_dp_get_adjust_request_post_cursor);
-> -
->  static int __8b10b_clock_recovery_delay_us(const struct drm_dp_aux *aux, u8 rd_interval)
->  {
->  	if (rd_interval > 4)
-> diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
-> index 70dfb7d1dec5..f5535eb04c6b 100644
-> --- a/drivers/gpu/drm/tegra/dp.c
-> +++ b/drivers/gpu/drm/tegra/dp.c
-> @@ -549,6 +549,15 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
->  {
->  	struct drm_dp_link_train_set *adjust = &link->train.adjust;
->  	unsigned int i;
-> +	u8 post_cursor;
-> +	int err;
-> +
-> +	err = drm_dp_dpcd_read(link->aux, DP_ADJUST_REQUEST_POST_CURSOR2,
-> +			       &post_cursor, sizeof(post_cursor));
-> +	if (err < 0) {
-> +		DRM_ERROR("failed to read post_cursor2: %d\n", err);
-> +		post_cursor = 0;
-> +	}
->  
->  	for (i = 0; i < link->lanes; i++) {
->  		adjust->voltage_swing[i] =
-> @@ -560,7 +569,7 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
->  				DP_TRAIN_PRE_EMPHASIS_SHIFT;
->  
->  		adjust->post_cursor[i] =
-> -			drm_dp_get_adjust_request_post_cursor(status, i);
-> +			(post_cursor >> (i << 1)) & 0x3;
->  	}
->  }
->  
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index 472dac376284..fdf3cf6ccc02 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -1528,8 +1528,6 @@ u8 drm_dp_get_adjust_request_pre_emphasis(const u8 link_status[DP_LINK_STATUS_SI
->  					  int lane);
->  u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
->  				   int lane);
-> -u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
-> -					 unsigned int lane);
->  
->  #define DP_BRANCH_OUI_HEADER_SIZE	0xc
->  #define DP_RECEIVER_CAP_SIZE		0xf
-> -- 
-> 2.30.2
-> 
+In fact, my tool finds dozens of similar possible deadlocks caused by 
+wait_event_timeout() in radeon_fence_wait_seq_timeout().
+There are three other examples in Linux 5.16:
 
--- 
-Kees Cook
+#BUG 1
+radeon_dpm_change_power_state_locked()
+   mutex_lock(&rdev->ring_lock); --> Line 1133 (Lock A)
+   radeon_fence_wait_empty()
+     radeon_fence_wait_seq_timeout()
+       wait_event_timeout(rdev->fence_queue, ...) --> Line 504 (Wait X)
+
+radeon_fence_driver_fini()
+   mutex_lock(&rdev->ring_lock); --> Line 917 (Lock A)
+   wake_up_all(&rdev->fence_queue); --> Line 927 (Wake X)
+
+#BUG 2
+radeon_set_pm_profile()
+   mutex_lock(&rdev->pm.mutex); --> Line 382 (Lock A)
+   radeon_pm_set_clocks()
+     radeon_fence_wait_empty()
+       radeon_fence_wait_seq_timeout()
+         wait_event_timeout(rdev->fence_queue, ...) --> Line 504 (Wait X)
+
+radeon_dynpm_idle_work_handler()
+   mutex_lock(&rdev->pm.mutex); --> Line 1861 (Lock A)
+   radeon_fence_count_emitted()
+     radeon_fence_process()
+       wake_up_all(&rdev->fence_queue); --> Line 323 (Wake X)
+
+#BUG 3
+radeon_pm_fini_old()
+   mutex_lock(&rdev->pm.mutex); --> Line 1642 (Lock A)
+   radeon_pm_set_clocks()
+     radeon_fence_wait_empty()
+       radeon_fence_wait_seq_timeout()
+         wait_event_timeout(rdev->fence_queue, ...) --> Line 504 (Wait X)
+
+radeon_dynpm_idle_work_handler()
+   mutex_lock(&rdev->pm.mutex); --> Line 1861 (Lock A)
+   radeon_fence_count_emitted()
+     radeon_fence_process()
+       wake_up_all(&rdev->fence_queue); --> Line 323 (Wake X)
+
+Thus, to fix these possible deadlocks, we could moditify the code 
+related to radeon_fence_wait_seq_timeout().
+But I am not quite familar with the radeon driver, so I am not sure how 
+to moditify the code properly.
+
+>
+> But that happens so rarely and the driver is not developed further 
+> that we decided to not address this any more.
+
+Ah, okay.
+
+>
+> Regards,
+> Christian.
+>
+> Am 01.02.22 um 08:40 schrieb Jia-Ju Bai:
+>> Hello,
+>>
+>> My static analysis tool reports a possible deadlock in the radeon 
+>> driver in Linux 5.16:
+>>
+>> #BUG 1
+>> radeon_dpm_change_power_state_locked()
+>>   mutex_lock(&rdev->ring_lock); --> Line 1133 (Lock A)
+>>   radeon_fence_wait_empty()
+>>     radeon_fence_wait_seq_timeout()
+>>       wait_event_timeout(rdev->fence_queue, ...) --> Line 504 (Wait X)
+>>
+>> radeon_ring_backup()
+>>   mutex_lock(&rdev->ring_lock); --> Line 289(Lock A)
+>>   radeon_fence_count_emitted()
+>>     radeon_fence_process()
+>>       wake_up_all(&rdev->fence_queue); --> Line 323 (Wake X)
+>>
+>> When radeon_dpm_change_power_state_locked() is executed, "Wait X" is 
+>> performed by holding "Lock A". If radeon_ring_backup() is executed at 
+>> this time, "Wake X" cannot be performed to wake up "Wait X" in 
+>> radeon_dpm_change_power_state_locked(), because "Lock A" has been 
+>> already hold by radeon_dpm_change_power_state_locked(), causing a 
+>> possible deadlock.
+>> I find that "Wait X" is performed with a timeout 
+>> MAX_SCHEDULE_TIMEOUT, to relieve the possible deadlock; but I think 
+>> this timeout can cause inefficient execution.
+>>
+>> #BUG 2
+>> radeon_ring_lock()
+>>   mutex_lock(&rdev->ring_lock); --> Line 147 (Lock A)
+>>   radeon_ring_alloc()
+>>     radeon_fence_wait_next()
+>>       radeon_fence_wait_seq_timeout()
+>>         wait_event_timeout(rdev->fence_queue, ...) --> Line 504 (Wait X)
+>>
+>> radeon_ring_backup()
+>>   mutex_lock(&rdev->ring_lock); --> Line 289(Lock A)
+>>   radeon_fence_count_emitted()
+>>     radeon_fence_process()
+>>       wake_up_all(&rdev->fence_queue); --> Line 323 (Wake X)
+>>
+>> When radeon_ring_lock() is executed, "Wait X" is performed by holding 
+>> "Lock A". If radeon_ring_backup() is executed at this time, "Wake X" 
+>> cannot be performed to wake up "Wait X" in radeon_ring_lock(), 
+>> because "Lock A" has been already hold by radeon_ring_lock(), causing 
+>> a possible deadlock.
+>> I find that "Wait X" is performed with a timeout 
+>> MAX_SCHEDULE_TIMEOUT, to relieve the possible deadlock; but I think 
+>> this timeout can cause inefficient execution.
+>>
+>> I am not quite sure whether these possible problems are real and how 
+>> to fix them if they are real.
+>> Any feedback would be appreciated, thanks :)
+>>
+>>
+>> Best wishes,
+>> Jia-Ju Bai
+>>
+>
+
