@@ -1,56 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010844AA8FA
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 14:05:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F694AA990
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 16:00:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B05210E28B;
-	Sat,  5 Feb 2022 13:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 387AB10F572;
+	Sat,  5 Feb 2022 15:00:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3749810E28B
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Feb 2022 13:05:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644066328; x=1675602328;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=P8ih86m6G0IyyDLA73dvPC4Mr4i85BIOOZC9rN0gCSw=;
- b=WTQkS3qMbTkm+Qt1PmmEmNVZCcs1z1vSGuJRqN2tKBHqZAIYxC2fdj/v
- T4qLLwAOh8fxwnyVq49WdN3maHvSh63ophR5FgfBpnS7zdl1jfagjbUQO
- 62gRi0npht6pwzNOFY9FRryRU/l8rkxFWU6sm6RBRcU11z8Tloa7GE5AW
- 7qxgpPfTLRwJh/E0X828tSDbRxirL82egkfuUuDhFNg47+Po5PpRanjGI
- 6FFjOi2QgT33tOWfdvCIPdy/s7Pr9++2y3TNUmuu8Lyclk3QPMIJ3ks08
- 5fBK9hyNQzb5zCgPgfCmhVUqw3pf1m/Jztogpq+PONZvJ3/Qaj+ugPyNZ Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10248"; a="309255709"
-X-IronPort-AV: E=Sophos;i="5.88,345,1635231600"; d="scan'208";a="309255709"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2022 05:05:27 -0800
-X-IronPort-AV: E=Sophos;i="5.88,345,1635231600"; d="scan'208";a="567007845"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2022 05:05:23 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nGKjm-001GmE-8z; Sat, 05 Feb 2022 15:04:22 +0200
-Date: Sat, 5 Feb 2022 15:04:22 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 2/4] drm/tiny: Add driver for Solomon SSD130X OLED
- displays
-Message-ID: <Yf511hhojzIXcNXp@smile.fi.intel.com>
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <20220204134347.1187749-3-javierm@redhat.com>
- <Yf03sCSuQwHKvgA9@smile.fi.intel.com>
- <d4e8c16c-5586-3233-0b99-be15a4c0f7aa@redhat.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 747E610F56E
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Feb 2022 15:00:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644073222;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=713HQL5x//o/KghlUsgMrDORBx+gP5N718ebtgS9CfI=;
+ b=QUwCn2vDJxHTuHCYF3EfeHSmJy0/7goqkTxCwr8FKiCTkulJikmN6S2Za12hewRdwVO/n/
+ +fbMWc5ixYLfvl7nNaMfidbREigGIMEZkUzUencuwjdyBxZl/XaWMZfFneEHFZpdmoryGj
+ 3crbNmdSi8kbWLNeziUw3WxRzxzdZQ4=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-210-FneUOLgiMQOtj52AAKKQlA-1; Sat, 05 Feb 2022 10:00:19 -0500
+X-MC-Unique: FneUOLgiMQOtj52AAKKQlA-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ e14-20020ac84b4e000000b002cfbbdf8206so7209680qts.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Feb 2022 07:00:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=713HQL5x//o/KghlUsgMrDORBx+gP5N718ebtgS9CfI=;
+ b=kuPWPphcbXq37+33C4+ln8auG4l4ayJi1a9oUcKK5tEZ6uEQ75VYI9WNlF5iCSTk22
+ C9/BmPPmKQcqS+rr4Ad6HXIjOWVC5Ls7mnVnnNilqBZPrjnJ38C56MMaKRld/5mgYYme
+ 92SpTRUTrNlBgxotF3V7YVwsBWBi0AJCEZ+cZUwJACycdE1OWE+QgVnmieE8qOGD8Hx0
+ jsLesjgdLcUBQfkMVQD4i1o/E35Wgbwev1+yeo8trtu/3vcC+Sbq04lgdD0ebpl3So6v
+ 0wNKM18D1HkYF5Lpty6e2cL/wv0gdiB3gmJJlkmwgFtR8yIARlp39LlRJxMUxB+dHYxS
+ LCdw==
+X-Gm-Message-State: AOAM531nRkqp7twoBaNSfAkoCqJYzjQq/FdrXKuxNGKfessKH1hz3zul
+ WJx6z30oGvtAmbRlW4WqkLf4yOunQIXcJg9gw5vvT2H7RKAJNzQUkmrxZoluq7KwB7ovhHHElpJ
+ HbB2avQ6z+lzZ0Mi01OtbNJnF914V
+X-Received: by 2002:a05:620a:371d:: with SMTP id
+ de29mr2218860qkb.300.1644073219099; 
+ Sat, 05 Feb 2022 07:00:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzQMqxJhjsehYnlrGdRYlEx/4uzDQf3AvY1i5RUhxDDhxx+wOwMtIaQmWd3GyZr4OF2gUxNaQ==
+X-Received: by 2002:a05:620a:371d:: with SMTP id
+ de29mr2218834qkb.300.1644073218865; 
+ Sat, 05 Feb 2022 07:00:18 -0800 (PST)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
+ [24.205.208.113])
+ by smtp.gmail.com with ESMTPSA id d22sm2657159qkn.112.2022.02.05.07.00.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 05 Feb 2022 07:00:17 -0800 (PST)
+From: trix@redhat.com
+To: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch, nathan@kernel.org,
+ ndesaulniers@google.com, lijo.lazar@amd.com, darren.powell@amd.com,
+ guchun.chen@amd.com, andrey.grodzovsky@amd.com
+Subject: [PATCH] drm/amd/pm: fix error handling
+Date: Sat,  5 Feb 2022 07:00:08 -0800
+Message-Id: <20220205150008.1968218-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d4e8c16c-5586-3233-0b99-be15a4c0f7aa@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,83 +84,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 04, 2022 at 08:19:12PM +0100, Javier Martinez Canillas wrote:
-> On 2/4/22 15:26, Andy Shevchenko wrote:
-> > On Fri, Feb 04, 2022 at 02:43:45PM +0100, Javier Martinez Canillas wrote:
+From: Tom Rix <trix@redhat.com>
 
-...
+clang static analysis reports this error
+amdgpu_smu.c:2289:9: warning: Called function pointer
+  is null (null dereference)
+        return smu->ppt_funcs->emit_clk_levels(
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-> >> +struct ssd130x_device {
-> >> +	struct drm_device drm;
-> >> +	struct drm_simple_display_pipe pipe;
-> >> +	struct drm_display_mode mode;
-> >> +	struct drm_connector connector;
-> > 
-> > 
-> >> +	struct i2c_client *client;
-> > 
-> > Can we logically separate hw protocol vs hw interface from day 1, please?
-> > This will allow to add SPI support for this panel much easier.
-> > 
-> > Technically I would like to see here
-> > 
-> > 	struct device *dev;
-> >
-> > and probably (I haven't looked into design)
-> > 
-> > 	struct ssd130x_ops *ops;
-> > 
-> > or something alike.
-> 
-> Sure. I wanted to keep the driver simple, making the writes bus agnostic and
-> adding a level of indirection would make it more complex. But I agree that
-> it will also make easier to add more buses later. I will do that for v3.
+There is a logic error in the earlier check of
+emit_clk_levels.  The error value is set to
+the ret variable but ret is never used.  Return
+directly and remove the unneeded ret variable.
 
-I have SSD1306 display with SPI interface and I'm not able to test your series.
-With the above it at least gives me a point to consider helping (coding and
-testing)  with SPI one.
+Fixes: 5d64f9bbb628 ("amdgpu/pm: Implement new API function "emit" that accepts buffer base and write offset")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-...
-
-> >> +	if (!fb)
-> >> +		return;
-> > 
-> > Can it happen?
-> 
-> I don't know, but saw that the handler of other drivers checked for this so
-> preferred to play safe and do the same.
-
-So, either cargo-cult or indeed it may happen. Somebody may conduct a research
-on this...
-
-...
-
-> >> +	drm_mode_probed_add(connector, mode);
-> >> +	drm_set_preferred_mode(connector, mode->hdisplay, mode->vdisplay);
-> >> +
-> >> +	return 1;
-> > 
-> > Positive code, what is the meaning of it?
-> 
-> It's the number of connector modes. The driver only supports 1.
-
-A comment then?
-
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+index af368aa1fd0ae..5f3b3745a9b7a 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+@@ -2274,7 +2274,6 @@ static int smu_emit_ppclk_levels(void *handle, enum pp_clock_type type, char *bu
+ {
+ 	struct smu_context *smu = handle;
+ 	enum smu_clk_type clk_type;
+-	int ret = 0;
+ 
+ 	clk_type = smu_convert_to_smuclk(type);
+ 	if (clk_type == SMU_CLK_COUNT)
+@@ -2284,7 +2283,7 @@ static int smu_emit_ppclk_levels(void *handle, enum pp_clock_type type, char *bu
+ 		return -EOPNOTSUPP;
+ 
+ 	if (!smu->ppt_funcs->emit_clk_levels)
+-		ret = -ENOENT;
++		return -ENOENT;
+ 
+ 	return smu->ppt_funcs->emit_clk_levels(smu, clk_type, buf, offset);
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.26.3
 
