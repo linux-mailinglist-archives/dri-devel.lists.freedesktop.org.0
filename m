@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3417A4AA4F1
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 01:14:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF6EB4AA511
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Feb 2022 01:31:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7753710E3E3;
-	Sat,  5 Feb 2022 00:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC0810E122;
+	Sat,  5 Feb 2022 00:31:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58B8010E317
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Feb 2022 00:14:14 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id q132so6293442pgq.7
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Feb 2022 16:14:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JSn2M/yKAMsfnGZFwHB10y6iqnXx4FF2oGb2lIsnFpI=;
- b=lbZTKKPzut0pSDp0PGEfSw3i5JnQ5JXUOvWVZ6Bqe23XIqEF6A2W1GMcYGs4LM94eq
- 1tgtOTcFBq6W1UWg5oKNaKKyOSErFWPClzvAqvTWGYekDZykaMBZ7OGE6HsZzPuqH8ec
- VHPh6nksgC3cBqMWKW3nX7/jZgVqlYWTuHtTs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JSn2M/yKAMsfnGZFwHB10y6iqnXx4FF2oGb2lIsnFpI=;
- b=43UEihsUjLOiRWrU6TeFWvqndertph9g/TnLYjUDE8Nr4GT/EGJnP3yhFXK6jMfqOr
- 8Z01ecDAnvDMJI9xS2CUW8ZJcB9WYHh2siyuYgK1xyEci99Prxh2f+QOlcDTWSFocNDm
- XRsXUXdve33KHQL3F58uX+FdgBaJEoh7vCWatGyT6jmk2yRsk+l/+SscGeOBDgxMUKga
- 769j34INAsueANkzSAP8LNSuCPEogPLMNmpjhYFZizME1GP5mO7i1AcyyktWM71+a7iq
- UqDq6cImi+zqajfaoVjodEU6fWnH+peK0lCRokTZC85ln22Pec9zOD2usozXhoF6iyxd
- YD+Q==
-X-Gm-Message-State: AOAM533XWTyxLTAK+7WXpblug8wxy9HBzvrJjblfCcKGwQ9RPC9jIN9Y
- X0w5raAV2Vi4v4VdyzNL0f2Yum7Tt0suhw==
-X-Google-Smtp-Source: ABdhPJxn/GCPUuG4dWCd6GKM189yB7c+AgTeBQ6yKeW1fQ/otXDa51dtaC8z5cJVw357oaP3WHq34w==
-X-Received: by 2002:a05:6a00:1810:: with SMTP id
- y16mr5530158pfa.65.1644020053748; 
- Fri, 04 Feb 2022 16:14:13 -0800 (PST)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:d668:55ac:a465:88bf])
- by smtp.gmail.com with ESMTPSA id q13sm3720231pfj.44.2022.02.04.16.14.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Feb 2022 16:14:13 -0800 (PST)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/panel-edp: Allow querying the detected panel via
- debugfs
-Date: Fri,  4 Feb 2022 16:13:42 -0800
-Message-Id: <20220204161245.v2.3.I209d72bcc571e1d7d6b793db71bf15c9c0fc9292@changeid>
-X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
-In-Reply-To: <20220205001342.3155839-1-dianders@chromium.org>
-References: <20220205001342.3155839-1-dianders@chromium.org>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45FCA10E122;
+ Sat,  5 Feb 2022 00:31:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1644021074; x=1675557074;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=yeUUKb5DYjmyAlM1gP5sw0eFoBMMxibKzDYtb0NVUs0=;
+ b=kwK6O3R1yqSOzzLgb9+qQTIgA1/IhVtf9G+KV1c8zjX3TLn4Jmh7ah8P
+ YKoym2zlx0ZBAe3Yac7Dg+M7+d0nwyn7pNFoanhpOdH+cCTYP5zieSLV0
+ JXaOM5TwZXEpjkaEXBl0SFfcBKgdvanBsGOwoEZhvKQshJwjvI2txQCY1 Y=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 04 Feb 2022 16:31:13 -0800
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2022 16:31:13 -0800
+Received: from [10.71.111.172] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Fri, 4 Feb 2022
+ 16:31:13 -0800
+Message-ID: <c3c8d592-90ef-ecec-8390-27fec12de216@quicinc.com>
+Date: Fri, 4 Feb 2022 16:31:12 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [Freedreno] [PATCH v4 1/2] drm/msm/dpu: simplify clocks handling
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20220131210513.2177652-1-dmitry.baryshkov@linaro.org>
+ <20220131210513.2177652-2-dmitry.baryshkov@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20220131210513.2177652-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,141 +61,527 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>, robert.foss@linaro.org,
- Douglas Anderson <dianders@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>, jjsu@chromium.org,
- lschyi@chromium.org, Sam Ravnborg <sam@ravnborg.org>
+Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Recently we added generic "edp-panel"s probed by EDID. To support
-panels in this way we look at the panel ID in the EDID and look up the
-panel in a table that has power sequence timings. If we find a panel
-that's not in the table we will still attempt to use it but we'll use
-conservative timings. While it's likely that these conservative
-timings will work for most nearly all panels, the performance of
-turning the panel off and on suffers.
 
-We'd like to be able to reliably detect the case that we're using the
-hardcoded timings without relying on parsing dmesg. This allows us to
-implement tests that ensure that no devices get shipped that are
-relying on the conservative timings.
 
-Let's add a new debugfs entry to panel devices. It will have one of:
-* UNKNOWN - We tried to detect a panel but it wasn't in our table.
-* HARDCODED - We're not using generic "edp-panel" probed by EDID.
-* A panel name - This is the name of the panel from our table.
+On 1/31/2022 1:05 PM, Dmitry Baryshkov wrote:
+> DPU driver contains code to parse clock items from device tree into
+> special data struct and then enable/disable/set rate for the clocks
+> using that data struct. However the DPU driver itself uses only parsing
+> and enabling/disabling part (the rate setting is used by DP driver).
+> 
+> Move this implementation to the DP driver (which actually uses rate
+> setting) and replace hand-coded enable/disable/get loops in the DPU
+> with the respective clk_bulk operations. Put operation is removed
+> completely because, it is handled using devres instead.
+> 
+> DP implementation is unchanged for now.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+Tested-by: Jessica Zhang <quic_jesszhan@quicinc.com> # RB3 (sdm845) and 
+RB5  (qrb5165)
 
-Changes in v2:
-- Now using debugfs, not sysfs
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 
- drivers/gpu/drm/panel/panel-edp.c | 37 ++++++++++++++++++++++++++-----
- 1 file changed, 32 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index a394a15dc3fb..0fda1eb7b690 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -21,6 +21,7 @@
-  * DEALINGS IN THE SOFTWARE.
-  */
- 
-+#include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
- #include <linux/iopoll.h>
-@@ -222,6 +223,8 @@ struct panel_edp {
- 	struct gpio_desc *enable_gpio;
- 	struct gpio_desc *hpd_gpio;
- 
-+	const struct edp_panel_entry *detected_panel;
-+
- 	struct edid *edid;
- 
- 	struct drm_display_mode override_mode;
-@@ -606,6 +609,28 @@ static int panel_edp_get_timings(struct drm_panel *panel,
- 	return p->desc->num_timings;
- }
- 
-+static int detected_panel_show(struct seq_file *s, void *data)
-+{
-+	struct drm_panel *panel = s->private;
-+	struct panel_edp *p = to_panel_edp(panel);
-+
-+	if (IS_ERR(p->detected_panel))
-+		seq_puts(s, "UNKNOWN\n");
-+	else if (!p->detected_panel)
-+		seq_puts(s, "HARDCODED\n");
-+	else
-+		seq_printf(s, "%s\n", p->detected_panel->name);
-+
-+	return 0;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(detected_panel);
-+
-+static void panel_edp_debugfs_init(struct drm_panel *panel, struct dentry *root)
-+{
-+	debugfs_create_file("detected_panel", 0600, root, panel, &detected_panel_fops);
-+}
-+
- static const struct drm_panel_funcs panel_edp_funcs = {
- 	.disable = panel_edp_disable,
- 	.unprepare = panel_edp_unprepare,
-@@ -613,6 +638,7 @@ static const struct drm_panel_funcs panel_edp_funcs = {
- 	.enable = panel_edp_enable,
- 	.get_modes = panel_edp_get_modes,
- 	.get_timings = panel_edp_get_timings,
-+	.debugfs_init = panel_edp_debugfs_init,
- };
- 
- #define PANEL_EDP_BOUNDS_CHECK(to_check, bounds, field) \
-@@ -666,7 +692,6 @@ static const struct edp_panel_entry *find_edp_panel(u32 panel_id);
- 
- static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
- {
--	const struct edp_panel_entry *edp_panel;
- 	struct panel_desc *desc;
- 	u32 panel_id;
- 	char vend[4];
-@@ -705,14 +730,14 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
- 	}
- 	drm_edid_decode_panel_id(panel_id, vend, &product_id);
- 
--	edp_panel = find_edp_panel(panel_id);
-+	panel->detected_panel = find_edp_panel(panel_id);
- 
- 	/*
- 	 * We're using non-optimized timings and want it really obvious that
- 	 * someone needs to add an entry to the table, so we'll do a WARN_ON
- 	 * splat.
- 	 */
--	if (WARN_ON(!edp_panel)) {
-+	if (WARN_ON(!panel->detected_panel)) {
- 		dev_warn(dev,
- 			 "Unknown panel %s %#06x, using conservative timings\n",
- 			 vend, product_id);
-@@ -734,12 +759,14 @@ static int generic_edp_panel_probe(struct device *dev, struct panel_edp *panel)
- 		 */
- 		desc->delay.unprepare = 2000;
- 		desc->delay.enable = 200;
-+
-+		panel->detected_panel = ERR_PTR(-EINVAL);
- 	} else {
- 		dev_info(dev, "Detected %s %s (%#06x)\n",
--			 vend, edp_panel->name, product_id);
-+			 vend, panel->detected_panel->name, product_id);
- 
- 		/* Update the delay; everything else comes from EDID */
--		desc->delay = *edp_panel->delay;
-+		desc->delay = *panel->detected_panel->delay;
- 	}
- 
- 	ret = 0;
--- 
-2.35.0.263.gb82422642f-goog
-
+> ---
+>   drivers/gpu/drm/msm/Makefile                  |  2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 24 ++-----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  6 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 46 +++----------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  4 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c      | 26 +++----
+>   .../dpu1/dpu_io_util.c => dp/dp_clk_util.c}   | 69 +------------------
+>   .../dpu1/dpu_io_util.h => dp/dp_clk_util.h}   |  8 +--
+>   drivers/gpu/drm/msm/dp/dp_parser.h            |  2 +-
+>   9 files changed, 37 insertions(+), 150 deletions(-)
+>   rename drivers/gpu/drm/msm/{disp/dpu1/dpu_io_util.c => dp/dp_clk_util.c} (61%)
+>   rename drivers/gpu/drm/msm/{disp/dpu1/dpu_io_util.h => dp/dp_clk_util.h} (85%)
+> 
+> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> index 03ab55c37beb..a44abf0a7660 100644
+> --- a/drivers/gpu/drm/msm/Makefile
+> +++ b/drivers/gpu/drm/msm/Makefile
+> @@ -66,7 +66,6 @@ msm-y := \
+>   	disp/dpu1/dpu_hw_top.o \
+>   	disp/dpu1/dpu_hw_util.o \
+>   	disp/dpu1/dpu_hw_vbif.o \
+> -	disp/dpu1/dpu_io_util.o \
+>   	disp/dpu1/dpu_kms.o \
+>   	disp/dpu1/dpu_mdss.o \
+>   	disp/dpu1/dpu_plane.o \
+> @@ -102,6 +101,7 @@ msm-$(CONFIG_DRM_MSM_GPU_STATE)	+= adreno/a6xx_gpu_state.o
+>   
+>   msm-$(CONFIG_DRM_MSM_DP)+= dp/dp_aux.o \
+>   	dp/dp_catalog.o \
+> +	dp/dp_clk_util.o \
+>   	dp/dp_ctrl.o \
+>   	dp/dp_display.o \
+>   	dp/dp_drm.o \
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> index 60fe06018581..4d184122d63e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> @@ -284,17 +284,6 @@ void dpu_core_perf_crtc_release_bw(struct drm_crtc *crtc)
+>   	}
+>   }
+>   
+> -static int _dpu_core_perf_set_core_clk_rate(struct dpu_kms *kms, u64 rate)
+> -{
+> -	struct dss_clk *core_clk = kms->perf.core_clk;
+> -
+> -	if (core_clk->max_rate && (rate > core_clk->max_rate))
+> -		rate = core_clk->max_rate;
+> -
+> -	core_clk->rate = rate;
+> -	return dev_pm_opp_set_rate(&kms->pdev->dev, core_clk->rate);
+> -}
+> -
+>   static u64 _dpu_core_perf_get_core_clk_rate(struct dpu_kms *kms)
+>   {
+>   	u64 clk_rate = kms->perf.perf_tune.min_core_clk;
+> @@ -306,7 +295,7 @@ static u64 _dpu_core_perf_get_core_clk_rate(struct dpu_kms *kms)
+>   			dpu_cstate = to_dpu_crtc_state(crtc->state);
+>   			clk_rate = max(dpu_cstate->new_perf.core_clk_rate,
+>   							clk_rate);
+> -			clk_rate = clk_round_rate(kms->perf.core_clk->clk,
+> +			clk_rate = clk_round_rate(kms->perf.core_clk,
+>   					clk_rate);
+>   		}
+>   	}
+> @@ -405,10 +394,11 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
+>   
+>   		trace_dpu_core_perf_update_clk(kms->dev, stop_req, clk_rate);
+>   
+> -		ret = _dpu_core_perf_set_core_clk_rate(kms, clk_rate);
+> +		if (clk_rate > kms->perf.max_core_clk_rate)
+> +			clk_rate = kms->perf.max_core_clk_rate;
+> +		ret = dev_pm_opp_set_rate(&kms->pdev->dev, clk_rate);
+>   		if (ret) {
+> -			DPU_ERROR("failed to set %s clock rate %llu\n",
+> -					kms->perf.core_clk->clk_name, clk_rate);
+> +			DPU_ERROR("failed to set core clock rate %llu\n", clk_rate);
+>   			return ret;
+>   		}
+>   
+> @@ -529,13 +519,13 @@ void dpu_core_perf_destroy(struct dpu_core_perf *perf)
+>   int dpu_core_perf_init(struct dpu_core_perf *perf,
+>   		struct drm_device *dev,
+>   		struct dpu_mdss_cfg *catalog,
+> -		struct dss_clk *core_clk)
+> +		struct clk *core_clk)
+>   {
+>   	perf->dev = dev;
+>   	perf->catalog = catalog;
+>   	perf->core_clk = core_clk;
+>   
+> -	perf->max_core_clk_rate = core_clk->max_rate;
+> +	perf->max_core_clk_rate = clk_get_rate(core_clk);
+>   	if (!perf->max_core_clk_rate) {
+>   		DPU_DEBUG("optional max core clk rate, use default\n");
+>   		perf->max_core_clk_rate = DPU_PERF_DEFAULT_MAX_CORE_CLK_RATE;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> index cf4b9b5964c6..8dfcc6db7176 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> @@ -56,7 +56,7 @@ struct dpu_core_perf_tune {
+>    * @dev: Pointer to drm device
+>    * @debugfs_root: top level debug folder
+>    * @catalog: Pointer to catalog configuration
+> - * @core_clk: Pointer to core clock structure
+> + * @core_clk: Pointer to the core clock
+>    * @core_clk_rate: current core clock rate
+>    * @max_core_clk_rate: maximum allowable core clock rate
+>    * @perf_tune: debug control for performance tuning
+> @@ -69,7 +69,7 @@ struct dpu_core_perf {
+>   	struct drm_device *dev;
+>   	struct dentry *debugfs_root;
+>   	struct dpu_mdss_cfg *catalog;
+> -	struct dss_clk *core_clk;
+> +	struct clk *core_clk;
+>   	u64 core_clk_rate;
+>   	u64 max_core_clk_rate;
+>   	struct dpu_core_perf_tune perf_tune;
+> @@ -120,7 +120,7 @@ void dpu_core_perf_destroy(struct dpu_core_perf *perf);
+>   int dpu_core_perf_init(struct dpu_core_perf *perf,
+>   		struct drm_device *dev,
+>   		struct dpu_mdss_cfg *catalog,
+> -		struct dss_clk *core_clk);
+> +		struct clk *core_clk);
+>   
+>   struct dpu_kms;
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 47fe11a84a77..9059c6d3631a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -998,29 +998,15 @@ static int _dpu_kms_mmu_init(struct dpu_kms *dpu_kms)
+>   	return 0;
+>   }
+>   
+> -static struct dss_clk *_dpu_kms_get_clk(struct dpu_kms *dpu_kms,
+> -		char *clock_name)
+> -{
+> -	struct dss_module_power *mp = &dpu_kms->mp;
+> -	int i;
+> -
+> -	for (i = 0; i < mp->num_clk; i++) {
+> -		if (!strcmp(mp->clk_config[i].clk_name, clock_name))
+> -			return &mp->clk_config[i];
+> -	}
+> -
+> -	return NULL;
+> -}
+> -
+>   u64 dpu_kms_get_clk_rate(struct dpu_kms *dpu_kms, char *clock_name)
+>   {
+> -	struct dss_clk *clk;
+> +	struct clk *clk;
+>   
+> -	clk = _dpu_kms_get_clk(dpu_kms, clock_name);
+> +	clk = msm_clk_bulk_get_clock(dpu_kms->clocks, dpu_kms->num_clocks, clock_name);
+>   	if (!clk)
+>   		return -EINVAL;
+>   
+> -	return clk_get_rate(clk->clk);
+> +	return clk_get_rate(clk);
+>   }
+>   
+>   static int dpu_kms_hw_init(struct msm_kms *kms)
+> @@ -1132,7 +1118,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>   	}
+>   
+>   	rc = dpu_core_perf_init(&dpu_kms->perf, dev, dpu_kms->catalog,
+> -			_dpu_kms_get_clk(dpu_kms, "core"));
+> +			msm_clk_bulk_get_clock(dpu_kms->clocks, dpu_kms->num_clocks, "core"));
+>   	if (rc) {
+>   		DPU_ERROR("failed to init perf %d\n", rc);
+>   		goto perf_err;
+> @@ -1219,7 +1205,6 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
+>   	struct platform_device *pdev = to_platform_device(dev);
+>   	struct drm_device *ddev = priv->dev;
+>   	struct dpu_kms *dpu_kms;
+> -	struct dss_module_power *mp;
+>   	int ret = 0;
+>   
+>   	dpu_kms = devm_kzalloc(&pdev->dev, sizeof(*dpu_kms), GFP_KERNEL);
+> @@ -1236,12 +1221,12 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
+>   		return ret;
+>   	}
+>   
+> -	mp = &dpu_kms->mp;
+> -	ret = msm_dss_parse_clock(pdev, mp);
+> -	if (ret) {
+> +	ret = devm_clk_bulk_get_all(&pdev->dev, &dpu_kms->clocks);
+> +	if (ret < 0) {
+>   		DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
+>   		return ret;
+>   	}
+> +	dpu_kms->num_clocks = ret;
+>   
+>   	platform_set_drvdata(pdev, dpu_kms);
+>   
+> @@ -1265,11 +1250,6 @@ static void dpu_unbind(struct device *dev, struct device *master, void *data)
+>   {
+>   	struct platform_device *pdev = to_platform_device(dev);
+>   	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
+> -	struct dss_module_power *mp = &dpu_kms->mp;
+> -
+> -	msm_dss_put_clk(mp->clk_config, mp->num_clk);
+> -	devm_kfree(&pdev->dev, mp->clk_config);
+> -	mp->num_clk = 0;
+>   
+>   	if (dpu_kms->rpm_enabled)
+>   		pm_runtime_disable(&pdev->dev);
+> @@ -1293,21 +1273,18 @@ static int dpu_dev_remove(struct platform_device *pdev)
+>   
+>   static int __maybe_unused dpu_runtime_suspend(struct device *dev)
+>   {
+> -	int i, rc = -1;
+> +	int i;
+>   	struct platform_device *pdev = to_platform_device(dev);
+>   	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
+> -	struct dss_module_power *mp = &dpu_kms->mp;
+>   
+>   	/* Drop the performance state vote */
+>   	dev_pm_opp_set_rate(dev, 0);
+> -	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, false);
+> -	if (rc)
+> -		DPU_ERROR("clock disable failed rc:%d\n", rc);
+> +	clk_bulk_disable_unprepare(dpu_kms->num_clocks, dpu_kms->clocks);
+>   
+>   	for (i = 0; i < dpu_kms->num_paths; i++)
+>   		icc_set_bw(dpu_kms->path[i], 0, 0);
+>   
+> -	return rc;
+> +	return 0;
+>   }
+>   
+>   static int __maybe_unused dpu_runtime_resume(struct device *dev)
+> @@ -1317,7 +1294,6 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
+>   	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
+>   	struct drm_encoder *encoder;
+>   	struct drm_device *ddev;
+> -	struct dss_module_power *mp = &dpu_kms->mp;
+>   	int i;
+>   
+>   	ddev = dpu_kms->dev;
+> @@ -1327,7 +1303,7 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
+>   	for (i = 0; i < dpu_kms->num_paths; i++)
+>   		icc_set_bw(dpu_kms->path[i], 0, Bps_to_icc(MIN_IB_BW));
+>   
+> -	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, true);
+> +	rc = clk_bulk_prepare_enable(dpu_kms->num_clocks, dpu_kms->clocks);
+>   	if (rc) {
+>   		DPU_ERROR("clock enable failed rc:%d\n", rc);
+>   		return rc;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> index 2d385b4b7f5e..5f562413bb63 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> @@ -21,7 +21,6 @@
+>   #include "dpu_hw_lm.h"
+>   #include "dpu_hw_interrupts.h"
+>   #include "dpu_hw_top.h"
+> -#include "dpu_io_util.h"
+>   #include "dpu_rm.h"
+>   #include "dpu_core_perf.h"
+>   
+> @@ -113,7 +112,8 @@ struct dpu_kms {
+>   	struct platform_device *pdev;
+>   	bool rpm_enabled;
+>   
+> -	struct dss_module_power mp;
+> +	struct clk_bulk_data *clocks;
+> +	int num_clocks;
+>   
+>   	/* reference count bandwidth requests, so we know when we can
+>   	 * release bandwidth.  Each atomic update increments, and frame-
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+> index 131c1f1a869c..8c038416e119 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+> @@ -29,7 +29,8 @@ struct dpu_irq_controller {
+>   struct dpu_mdss {
+>   	struct msm_mdss base;
+>   	void __iomem *mmio;
+> -	struct dss_module_power mp;
+> +	struct clk_bulk_data *clocks;
+> +	int num_clocks;
+>   	struct dpu_irq_controller irq_controller;
+>   };
+>   
+> @@ -136,10 +137,9 @@ static void _dpu_mdss_irq_domain_fini(struct dpu_mdss *dpu_mdss)
+>   static int dpu_mdss_enable(struct msm_mdss *mdss)
+>   {
+>   	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
+> -	struct dss_module_power *mp = &dpu_mdss->mp;
+>   	int ret;
+>   
+> -	ret = msm_dss_enable_clk(mp->clk_config, mp->num_clk, true);
+> +	ret = clk_bulk_prepare_enable(dpu_mdss->num_clocks, dpu_mdss->clocks);
+>   	if (ret) {
+>   		DPU_ERROR("clock enable failed, ret:%d\n", ret);
+>   		return ret;
+> @@ -174,21 +174,16 @@ static int dpu_mdss_enable(struct msm_mdss *mdss)
+>   static int dpu_mdss_disable(struct msm_mdss *mdss)
+>   {
+>   	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
+> -	struct dss_module_power *mp = &dpu_mdss->mp;
+> -	int ret;
+>   
+> -	ret = msm_dss_enable_clk(mp->clk_config, mp->num_clk, false);
+> -	if (ret)
+> -		DPU_ERROR("clock disable failed, ret:%d\n", ret);
+> +	clk_bulk_disable_unprepare(dpu_mdss->num_clocks, dpu_mdss->clocks);
+>   
+> -	return ret;
+> +	return 0;
+>   }
+>   
+>   static void dpu_mdss_destroy(struct msm_mdss *mdss)
+>   {
+>   	struct platform_device *pdev = to_platform_device(mdss->dev);
+>   	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
+> -	struct dss_module_power *mp = &dpu_mdss->mp;
+>   	int irq;
+>   
+>   	pm_runtime_suspend(mdss->dev);
+> @@ -196,8 +191,6 @@ static void dpu_mdss_destroy(struct msm_mdss *mdss)
+>   	_dpu_mdss_irq_domain_fini(dpu_mdss);
+>   	irq = platform_get_irq(pdev, 0);
+>   	irq_set_chained_handler_and_data(irq, NULL, NULL);
+> -	msm_dss_put_clk(mp->clk_config, mp->num_clk);
+> -	devm_kfree(&pdev->dev, mp->clk_config);
+>   
+>   	if (dpu_mdss->mmio)
+>   		devm_iounmap(&pdev->dev, dpu_mdss->mmio);
+> @@ -214,7 +207,6 @@ int dpu_mdss_init(struct platform_device *pdev)
+>   {
+>   	struct msm_drm_private *priv = platform_get_drvdata(pdev);
+>   	struct dpu_mdss *dpu_mdss;
+> -	struct dss_module_power *mp;
+>   	int ret;
+>   	int irq;
+>   
+> @@ -228,12 +220,12 @@ int dpu_mdss_init(struct platform_device *pdev)
+>   
+>   	DRM_DEBUG("mapped mdss address space @%pK\n", dpu_mdss->mmio);
+>   
+> -	mp = &dpu_mdss->mp;
+> -	ret = msm_dss_parse_clock(pdev, mp);
+> -	if (ret) {
+> +	ret = devm_clk_bulk_get_all(&pdev->dev, &dpu_mdss->clocks);
+> +	if (ret < 0) {
+>   		DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
+>   		goto clk_parse_err;
+>   	}
+> +	dpu_mdss->num_clocks = ret;
+>   
+>   	dpu_mdss->base.dev = &pdev->dev;
+>   	dpu_mdss->base.funcs = &mdss_funcs;
+> @@ -260,9 +252,7 @@ int dpu_mdss_init(struct platform_device *pdev)
+>   irq_error:
+>   	_dpu_mdss_irq_domain_fini(dpu_mdss);
+>   irq_domain_error:
+> -	msm_dss_put_clk(mp->clk_config, mp->num_clk);
+>   clk_parse_err:
+> -	devm_kfree(&pdev->dev, mp->clk_config);
+>   	if (dpu_mdss->mmio)
+>   		devm_iounmap(&pdev->dev, dpu_mdss->mmio);
+>   	dpu_mdss->mmio = NULL;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.c b/drivers/gpu/drm/msm/dp/dp_clk_util.c
+> similarity index 61%
+> rename from drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.c
+> rename to drivers/gpu/drm/msm/dp/dp_clk_util.c
+> index 078afc5f5882..44a4fc59ff31 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_clk_util.c
+> @@ -11,7 +11,7 @@
+>   
+>   #include <drm/drm_print.h>
+>   
+> -#include "dpu_io_util.h"
+> +#include "dp_clk_util.h"
+>   
+>   void msm_dss_put_clk(struct dss_clk *clk_arry, int num_clk)
+>   {
+> @@ -118,70 +118,3 @@ int msm_dss_enable_clk(struct dss_clk *clk_arry, int num_clk, int enable)
+>   
+>   	return rc;
+>   }
+> -
+> -int msm_dss_parse_clock(struct platform_device *pdev,
+> -			struct dss_module_power *mp)
+> -{
+> -	u32 i, rc = 0;
+> -	const char *clock_name;
+> -	int num_clk = 0;
+> -
+> -	if (!pdev || !mp)
+> -		return -EINVAL;
+> -
+> -	mp->num_clk = 0;
+> -	num_clk = of_property_count_strings(pdev->dev.of_node, "clock-names");
+> -	if (num_clk <= 0) {
+> -		pr_debug("clocks are not defined\n");
+> -		return 0;
+> -	}
+> -
+> -	mp->clk_config = devm_kcalloc(&pdev->dev,
+> -				      num_clk, sizeof(struct dss_clk),
+> -				      GFP_KERNEL);
+> -	if (!mp->clk_config)
+> -		return -ENOMEM;
+> -
+> -	for (i = 0; i < num_clk; i++) {
+> -		rc = of_property_read_string_index(pdev->dev.of_node,
+> -						   "clock-names", i,
+> -						   &clock_name);
+> -		if (rc) {
+> -			DRM_DEV_ERROR(&pdev->dev, "Failed to get clock name for %d\n",
+> -				i);
+> -			break;
+> -		}
+> -		strlcpy(mp->clk_config[i].clk_name, clock_name,
+> -			sizeof(mp->clk_config[i].clk_name));
+> -
+> -		mp->clk_config[i].type = DSS_CLK_AHB;
+> -	}
+> -
+> -	rc = msm_dss_get_clk(&pdev->dev, mp->clk_config, num_clk);
+> -	if (rc) {
+> -		DRM_DEV_ERROR(&pdev->dev, "Failed to get clock refs %d\n", rc);
+> -		goto err;
+> -	}
+> -
+> -	rc = of_clk_set_defaults(pdev->dev.of_node, false);
+> -	if (rc) {
+> -		DRM_DEV_ERROR(&pdev->dev, "Failed to set clock defaults %d\n", rc);
+> -		goto err;
+> -	}
+> -
+> -	for (i = 0; i < num_clk; i++) {
+> -		u32 rate = clk_get_rate(mp->clk_config[i].clk);
+> -		if (!rate)
+> -			continue;
+> -		mp->clk_config[i].rate = rate;
+> -		mp->clk_config[i].type = DSS_CLK_PCLK;
+> -		mp->clk_config[i].max_rate = rate;
+> -	}
+> -
+> -	mp->num_clk = num_clk;
+> -	return 0;
+> -
+> -err:
+> -	msm_dss_put_clk(mp->clk_config, num_clk);
+> -	return rc;
+> -}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.h b/drivers/gpu/drm/msm/dp/dp_clk_util.h
+> similarity index 85%
+> rename from drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.h
+> rename to drivers/gpu/drm/msm/dp/dp_clk_util.h
+> index e6b5c772fa3b..067bf87f3d97 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_clk_util.h
+> @@ -2,8 +2,8 @@
+>   /* Copyright (c) 2012, 2017-2018, The Linux Foundation. All rights reserved.
+>    */
+>   
+> -#ifndef __DPU_IO_UTIL_H__
+> -#define __DPU_IO_UTIL_H__
+> +#ifndef __DP_CLK_UTIL_H__
+> +#define __DP_CLK_UTIL_H__
+>   
+>   #include <linux/platform_device.h>
+>   #include <linux/types.h>
+> @@ -35,6 +35,4 @@ int msm_dss_get_clk(struct device *dev, struct dss_clk *clk_arry, int num_clk);
+>   void msm_dss_put_clk(struct dss_clk *clk_arry, int num_clk);
+>   int msm_dss_clk_set_rate(struct dss_clk *clk_arry, int num_clk);
+>   int msm_dss_enable_clk(struct dss_clk *clk_arry, int num_clk, int enable);
+> -int msm_dss_parse_clock(struct platform_device *pdev,
+> -		struct dss_module_power *mp);
+> -#endif /* __DPU_IO_UTIL_H__ */
+> +#endif /* __DP_CLK_UTIL_H__ */
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
+> index 3172da089421..094b39bfed8c 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
+> @@ -10,7 +10,7 @@
+>   #include <linux/phy/phy.h>
+>   #include <linux/phy/phy-dp.h>
+>   
+> -#include "dpu_io_util.h"
+> +#include "dp_clk_util.h"
+>   #include "msm_drv.h"
+>   
+>   #define DP_LABEL "MDSS DP DISPLAY"
+> -- 
+> 2.34.1
+> 
