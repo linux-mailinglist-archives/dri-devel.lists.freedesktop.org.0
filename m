@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3D24AB05B
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 16:44:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5D74AB059
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 16:44:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E222110E25C;
-	Sun,  6 Feb 2022 15:44:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C115210E2F3;
+	Sun,  6 Feb 2022 15:44:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
  [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EFF110E136
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7E9510E25C
  for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 15:44:26 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
  by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id cde7a7e9-8763-11ec-ac19-0050568cd888;
- Sun, 06 Feb 2022 15:45:26 +0000 (UTC)
+ id ce4c14d5-8763-11ec-ac19-0050568cd888;
+ Sun, 06 Feb 2022 15:45:27 +0000 (UTC)
 Received: from saturn.lan (80-162-45-141-cable.dk.customer.tdc.net
  [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 8195C194BCE;
- Sun,  6 Feb 2022 16:44:24 +0100 (CET)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 4EB86194BCF;
+ Sun,  6 Feb 2022 16:44:25 +0100 (CET)
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v1 5/9] drm/bridge: ti-sn65dsi86: Fetch bpc via
- drm_bridge_state
-Date: Sun,  6 Feb 2022 16:44:01 +0100
-Message-Id: <20220206154405.1243333-6-sam@ravnborg.org>
+Subject: [PATCH v1 6/9] drm/bridge: ti-sn65dsi86: Add NO_CONNECTOR support
+Date: Sun,  6 Feb 2022 16:44:02 +0100
+Message-Id: <20220206154405.1243333-7-sam@ravnborg.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220206154405.1243333-1-sam@ravnborg.org>
 References: <20220206154405.1243333-1-sam@ravnborg.org>
@@ -59,12 +58,21 @@ Cc: Rob Clark <robdclark@chromium.org>, Philip Chen <philipchen@chromium.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To prepare for DRM_BRIDGE_ATTACH_NO_CONNECTOR support,
-fix so the bpc is found using the output format.
+From: Rob Clark <robdclark@chromium.org>
 
-This avoids the use of the connector stored in the private data.
+Slightly awkward to fish out the display_info when we aren't creating
+own connector.  But I don't see an obvious better way.
 
+v3:
+ - Rebased and dropped the ti_sn_bridge_get_bpp() patch
+   as this was solved in a different way (Sam)
+
+v2:
+ - Remove error return with NO_CONNECTOR flag (Rob)
+
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Rob Clark <robdclark@chromium.org>
 Cc: Douglas Anderson <dianders@chromium.org>
 Cc: Andrzej Hajda <a.hajda@samsung.com>
 Cc: Neil Armstrong <narmstrong@baylibre.com>
@@ -73,72 +81,55 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index d681ab68205c..dc6ec40bc1ef 100644
+index dc6ec40bc1ef..a9041dfd2ae5 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -33,6 +33,7 @@
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/media-bus-format.h>
+@@ -746,11 +746,6 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+ 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+ 	int ret;
  
- #define SN_DEVICE_REV_REG			0x08
- #define SN_DPPLL_SRC_REG			0x0A
-@@ -823,9 +824,11 @@ static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
- 	regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
- }
+-	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+-		DRM_ERROR("Fix bridge driver to make connector optional!");
+-		return -EINVAL;
+-	}
+-
+ 	pdata->aux.drm_dev = bridge->dev;
+ 	ret = drm_dp_aux_register(&pdata->aux);
+ 	if (ret < 0) {
+@@ -758,12 +753,14 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+ 		return ret;
+ 	}
  
--static unsigned int ti_sn_bridge_get_bpp(struct ti_sn65dsi86 *pdata)
-+static unsigned int ti_sn_bridge_get_bpp(struct drm_bridge_state *bridge_state)
- {
--	if (pdata->connector.display_info.bpc <= 6)
-+	int bpc = media_bus_format_to_bpc(bridge_state->output_bus_cfg.format);
-+
-+	if (bpc <= 6)
- 		return 18;
- 	else
- 		return 24;
-@@ -840,7 +843,8 @@ static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
- 	0, 1620, 2160, 2430, 2700, 3240, 4320, 5400
- };
+-	ret = ti_sn_bridge_connector_init(pdata);
+-	if (ret < 0)
+-		goto err_conn_init;
++	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
++		ret = ti_sn_bridge_connector_init(pdata);
++		if (ret < 0)
++			goto err_conn_init;
  
--static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata)
-+static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata,
-+					     struct drm_bridge_state *bridge_state)
- {
- 	unsigned int bit_rate_khz, dp_rate_mhz;
- 	unsigned int i;
-@@ -848,7 +852,7 @@ static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata)
- 		&pdata->bridge.encoder->crtc->state->adjusted_mode;
+-	/* We never want the next bridge to *also* create a connector: */
+-	flags |= DRM_BRIDGE_ATTACH_NO_CONNECTOR;
++		/* We never want the next bridge to *also* create a connector: */
++		flags |= DRM_BRIDGE_ATTACH_NO_CONNECTOR;
++	}
  
- 	/* Calculate minimum bit rate based on our pixel clock. */
--	bit_rate_khz = mode->clock * ti_sn_bridge_get_bpp(pdata);
-+	bit_rate_khz = mode->clock * ti_sn_bridge_get_bpp(bridge_state);
+ 	/* Attach the next bridge */
+ 	ret = drm_bridge_attach(bridge->encoder, pdata->next_bridge,
+@@ -774,7 +771,8 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+ 	return 0;
  
- 	/* Calculate minimum DP data rate, taking 80% as per DP spec */
- 	dp_rate_mhz = DIV_ROUND_UP(bit_rate_khz * DP_CLK_FUDGE_NUM,
-@@ -1092,7 +1096,7 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
- 			   DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
- 
- 	/* Set the DP output format (18 bpp or 24 bpp) */
--	val = (ti_sn_bridge_get_bpp(pdata) == 18) ? BPP_18_RGB : 0;
-+	val = (ti_sn_bridge_get_bpp(old_bridge_state) == 18) ? BPP_18_RGB : 0;
- 	regmap_update_bits(pdata->regmap, SN_DATA_FORMAT_REG, BPP_18_RGB, val);
- 
- 	/* DP lane config */
-@@ -1103,7 +1107,7 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
- 	valid_rates = ti_sn_bridge_read_valid_rates(pdata);
- 
- 	/* Train until we run out of rates */
--	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata);
-+	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata, old_bridge_state);
- 	     dp_rate_idx < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
- 	     dp_rate_idx++) {
- 		if (!(valid_rates & BIT(dp_rate_idx)))
+ err_dsi_host:
+-	drm_connector_cleanup(&pdata->connector);
++	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
++		drm_connector_cleanup(&pdata->connector);
+ err_conn_init:
+ 	drm_dp_aux_unregister(&pdata->aux);
+ 	return ret;
 -- 
 2.32.0
 
