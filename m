@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C68A24AB1AB
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 20:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E225B4AB1AE
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 20:29:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2461010F2E6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A94D410F2F9;
 	Sun,  6 Feb 2022 19:29:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7DD510E203
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0A4B10E241
  for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 19:29:40 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 20671210EC;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 52AB41F386;
  Sun,  6 Feb 2022 19:29:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1644175779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=EE0dsbqXYhjzztfikcUp1KSQyxSJq7ecm+aajQB84oc=;
- b=B7710XX67t6TziSAX5A7s206Q7+u0n3e2yk6MlfnUfDzGrTeEmxRYYM6YDeANCeuTpEEia
- GAstHcK4IUFxPqCmUrm0vcWlr4KvEVevSqwDYy/ZtTC7DZj7gJwpJSdarRWlbeMMF7OnTE
- KlBqoAwH9/W1qfQeGSDdWYkcY3q+3IE=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7qn2YEnnkh0K8jChe/bWTsgMM/PVWs5HZfXZiHlsaRI=;
+ b=0CRTADOKMWxTJX9u8EFG5uofzw2tTBs9AcwszfWo/JihopmPuWHMAerysUmMWo3jxMPKOm
+ 6AQIX2A2n9ghkXFFnHGAhMbvNbbpR/nWXo/3DVNLOLFtcKqKsGbavFmP5CBMrl7NcDc5nO
+ iZjp7v96yruLfH0wyUaHwZx1fZtj6EU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1644175779;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=EE0dsbqXYhjzztfikcUp1KSQyxSJq7ecm+aajQB84oc=;
- b=cKSy3bPDBe9QTwHy02HEBomRMMIyGt21UqhLctL5DArnTnDaHCFt0XCWtnxScGqNh4wTol
- yOhWd0wnkpgUjqAQ==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7qn2YEnnkh0K8jChe/bWTsgMM/PVWs5HZfXZiHlsaRI=;
+ b=cJfgOlmxUNskrzGyXARDNQM71MwNTronfDCwkpbNuJwybC23tbK1dZtpYSLJoKim0nVCua
+ r2oZBRh9SlEHGDBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D5885139EF;
- Sun,  6 Feb 2022 19:29:38 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1DDF413A05;
+ Sun,  6 Feb 2022 19:29:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id UCtcMqIhAGLlJAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Sun, 06 Feb 2022 19:29:38 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id sCAzBqMhAGLlJAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sun, 06 Feb 2022 19:29:39 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, javierm@redhat.com, sam@ravnborg.org,
  noralf@tronnes.org
-Subject: [PATCH 0/5] drm/fb-helper: Fix and improve fbdevio clipping
-Date: Sun,  6 Feb 2022 20:29:30 +0100
-Message-Id: <20220206192935.24645-1-tzimmermann@suse.de>
+Subject: [PATCH 1/5] drm/fb-helper: Fix clip rectangle height
+Date: Sun,  6 Feb 2022 20:29:31 +0100
+Message-Id: <20220206192935.24645-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220206192935.24645-1-tzimmermann@suse.de>
+References: <20220206192935.24645-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,38 +73,29 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is one of several patchset s to improve fb deferred I/O and
-DRM's use of it. THe patches fix several problems with the current
-helpers and add some easy improvements.
+Computing the clip rectangle is prone to off-by-one errors when writes
+happen near the end of a memory page. Point the end of the memory area
+to the first trailing byte, so that (end - start) returns the area's
+length.
 
-Deferred I/O tracks dirty pages of the screen buffer, from which
-DRM calculates a bounding box of the damaged area. Patches 1 and 2
-resolve bugs in the computation. Speifically, it makes the damage
-handling work with overallocation and panning enabled.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_fb_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Patches 3 to 5 add an easy performance improvement. Instead of
-damaging the whole viewport after a write operation, only damage
-the written area. For large writes the area consists of multiple
-scanlines, for small writes the area might consist of only a few
-pixels on a single scanline. Write operations now also work correctly
-with overallocation and panning enabled.
-
-Thomas Zimmermann (5):
-  drm/fb-helper: Fix clip rectangle height
-  drm/fb-helper: Fix vertical damage clipping
-  drm/fb-helper: Calculate damaged area in separate helper
-  drm/fb-helper: Clip damage area to written memory range
-  drm/fb-helper: Clip damage area horizontally
-
- drivers/gpu/drm/drm_fb_helper.c | 69 ++++++++++++++++++++++++++-------
- 1 file changed, 54 insertions(+), 15 deletions(-)
-
-
-base-commit: 0bb81b5d6db5f689b67f9d8b35323235c45e890f
-prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
-prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-prerequisite-patch-id: 8e52143a6cd7b8fb789e656208f6edde71d0f499
-prerequisite-patch-id: 4b0e798cb2990b553d44e1bc39634d72d172ea7b
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index f15127a32f7a..a37fb4a980c8 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -699,7 +699,7 @@ void drm_fb_helper_deferred_io(struct fb_info *info,
+ 	max = 0;
+ 	list_for_each_entry(page, pagelist, lru) {
+ 		start = page->index << PAGE_SHIFT;
+-		end = start + PAGE_SIZE - 1;
++		end = start + PAGE_SIZE;
+ 		min = min(min, start);
+ 		max = max(max, end);
+ 	}
 -- 
 2.34.1
 
