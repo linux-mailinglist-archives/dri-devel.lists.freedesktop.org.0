@@ -1,51 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E974AAEB9
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 10:59:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6004AB052
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 16:44:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4F910EA76;
-	Sun,  6 Feb 2022 09:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA4D110E219;
+	Sun,  6 Feb 2022 15:44:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E350B10EA76
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 09:59:15 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA8510E136
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 15:44:23 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id cbdf1ec5-8763-11ec-ac19-0050568cd888;
+ Sun, 06 Feb 2022 15:45:23 +0000 (UTC)
+Received: from saturn.lan (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 46F3983678;
- Sun,  6 Feb 2022 10:59:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1644141553;
- bh=dJCr6qD4kHfY///u0isMNghXwz96q+hhH4ZkW4pAB2s=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=pogWGWi1aGoYxd0C1F1V6BSKqu2JPC9tooKmKhj71L9Lj+Idgf3aVsszMRZD+EP7J
- CNDwjyr2im6bq/8ikI6MdUBwiHY3I8FElg1Y1i6WgPCvOnmMeQ6hllLjGXOeGqbecZ
- dNxMfEtgq0uph790QhvA0CU/9ha/VxdqrubLLhV63H2pCZFwoMP2+GAQ10l6DVpKMF
- /kU6zFDDPevL/QLCySwo/4E83iijX6vN9uw65pYi06Jq14F/LIfxoDgLtTK4C66vX0
- KgXCvEKO1EenF9jJv+dS7cCBStOof6E1BjA0iv1ugFZaKIXljGEl+PdfjWHEVBZkGL
- 5t+aXWKUj0SQg==
-Message-ID: <2919d5e6-e520-ac34-371d-1c4473ec97fa@denx.de>
-Date: Sun, 6 Feb 2022 10:59:12 +0100
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 27216194BB5;
+ Sun,  6 Feb 2022 16:44:19 +0100 (CET)
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH v1 0/9] drm/bridge: ps8640 and ti-sn65dsi86 updates
+Date: Sun,  6 Feb 2022 16:43:56 +0100
+Message-Id: <20220206154405.1243333-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH] drm/panel: simple: Assign data from panel_dpi_probe()
- correctly
-Content-Language: en-US
-To: Sam Ravnborg <sam@ravnborg.org>,
- Christoph Niedermaier <cniedermaier@dh-electronics.com>
-References: <20220201110153.3479-1-cniedermaier@dh-electronics.com>
- <Yf2aGFBHuWr6tyXy@ravnborg.org>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <Yf2aGFBHuWr6tyXy@ravnborg.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,30 +45,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Philip Chen <philipchen@chromium.org>,
+ Jitao Shi <jitao.shi@mediatek.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Robert Foss <robert.foss@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/4/22 22:26, Sam Ravnborg wrote:
-> On Tue, Feb 01, 2022 at 12:01:53PM +0100, Christoph Niedermaier wrote:
->> In the function panel_simple_probe() the pointer panel->desc is
->> assigned to the passed pointer desc. If function panel_dpi_probe()
->> is called panel->desc will be updated, but further on only desc
->> will be evaluated. So update the desc pointer to be able to use
->> the data from the function panel_dpi_probe().
->>
->> Fixes: 4a1d0dbc8332 ("drm/panel: simple: add panel-dpi support")
->>
->> Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
->> Cc: Marek Vasut <marex@denx.de>
->> Cc: Thierry Reding <thierry.reding@gmail.com>
->> Cc: Sam Ravnborg <sam@ravnborg.org>
->> Cc: David Airlie <airlied@linux.ie>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> To: dri-devel@lists.freedesktop.org
-> 
-> Thanks for fixing this
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Add a new macro DRM_BRIDGE_STATE_OPS that can be used to
+assign atomic_reset and atomic_{duplicate,destroy}_state to
+the default implementations. They will be valid in most cases.
 
-Applied to drm-misc/drm-misc-fixes , thanks.
+Add a drm variant of media-bus-format.h to hold a single
+function to get the bpc from the bus format.
+
+Also add a small drm_atomic_helper_bridge_dsi_input_bus_fmt helper.
+
+Update ti-sn65dsi86 to support atomic and NO_CONNECTOR.
+The NO_CONNECTOR support was from Rob Clark - I just rebased it.
+To support NO_CONNECTOR use the newly introduced function to
+lokk up bpc from the bus format.
+
+Update parade-ps8640 to support atomic. To do this just migrate
+to the atomic variants of the operations and add the few mandatry
+missing callbacks.
+
+A few of the patches are migrated from a patchset I posted several
+months ago and I decided to add them here for now, which explains
+why there is a v4 of a patch in a v1 submission.
+
+For the output bus fmt stuff I did what I think is correct - but
+as I have paged out all my memory of this it may be all wrong.
+
+The code builds - but needs testing.
+
+I was temped to move bridge helpers to a new drm_bridge_helper.c
+but that will wait until next time.
+
+	Sam
+
+Rob Clark (1):
+      drm/bridge: ti-sn65dsi86: Add NO_CONNECTOR support
+
+Sam Ravnborg (8):
+      drm/bridge: add DRM_BRIDGE_STATE_OPS macro
+      drm: add drm specific media-bus-format header file
+      drm: add drm_atomic_helper_bridge_dsi_input_bus_fmt
+      drm/bridge: ti-sn65dsi86: Use atomic variants of drm_bridge_funcs
+      drm/bridge: ti-sn65dsi86: Fetch bpc via drm_bridge_state
+      drm/bridge: ps8640: Use atomic variants of drm_bridge_funcs
+      drm/bridge: ps8640: plug atomic_get_input_bus_fmts
+      drm/bridge: Drop unused drm_bridge_chain functions
+
+ drivers/gpu/drm/bridge/parade-ps8640.c |  18 ++++--
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c  |  57 +++++++++--------
+ drivers/gpu/drm/drm_atomic_helper.c    |  41 ++++++++++++
+ drivers/gpu/drm/drm_bridge.c           | 110 ---------------------------------
+ include/drm/drm_atomic_helper.h        |   7 +++
+ include/drm/drm_bridge.h               |  40 ++++--------
+ include/drm/media-bus-format.h         |  53 ++++++++++++++++
+ 7 files changed, 157 insertions(+), 169 deletions(-)
+
+
