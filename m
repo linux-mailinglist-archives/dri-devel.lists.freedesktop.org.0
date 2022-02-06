@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529494AB1AA
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 20:29:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA914AB1AF
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 20:29:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00A4D10E241;
-	Sun,  6 Feb 2022 19:29:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E571010F315;
+	Sun,  6 Feb 2022 19:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 817D710E241
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB71610E203
  for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 19:29:41 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 182EB210F0;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 518601F38D;
  Sun,  6 Feb 2022 19:29:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1644175780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+aE0WfX1J1NvBNCGniqikmYmuiPKDTkt+WqGxa9i5B0=;
- b=aAHSkSvEGjSS8hOfAY/pSPLuCUWwhd7nLADEzrVq4VG0c/xoUa7a/FE6XcHIM3wTzEglPt
- L8Qu8Xy0SyADfZ7GH1gATo02buicLkuXTWvapLTuzLmXsJB92sSA+whMqQXrEANKlzejkx
- mZv4ROf4vZoBc6FN4eQXVC8Yzic/Jyw=
+ bh=iPo7+9pfSjBhb0CozWFLCyj7uzuuX6nqwi3CqZDlDH8=;
+ b=SB4HnqWtlSPgMB+kgrQIOe/QgUV5wV6d6lrAhmmrYTMkvbWF39CVomLpMAhBAGzcWv9eXA
+ Fk6PegHAasb95UW4oq5/5l1nzUjcp1V/0uyUW66G2BPiEoH9/ooZVQ1+9BBYaLsLI3OGSQ
+ 0H9f2XI59iQ6Ct/hoEW4bG17q1M6Mbk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1644175780;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+aE0WfX1J1NvBNCGniqikmYmuiPKDTkt+WqGxa9i5B0=;
- b=jhcaZUZreRAoo8lWy7aDMK0xx619Oxkm4BuiL0dj42qkleDiefaDIHkgXTQSEgpaAhtsRL
- Y0ESsQPxK6XfRVDA==
+ bh=iPo7+9pfSjBhb0CozWFLCyj7uzuuX6nqwi3CqZDlDH8=;
+ b=//zCNQiDdAZSYi4m2PisGwiFKPH3C91Cd7bS9pQD9EsfioFIrX/l/FcFW2BeqVQODmVAF1
+ cpp6uTqm4K32KvDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CF9B3139EF;
- Sun,  6 Feb 2022 19:29:39 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C81513A05;
+ Sun,  6 Feb 2022 19:29:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YHJlMaMhAGLlJAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Sun, 06 Feb 2022 19:29:39 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id gMbvBaQhAGLlJAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sun, 06 Feb 2022 19:29:40 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, javierm@redhat.com, sam@ravnborg.org,
  noralf@tronnes.org
-Subject: [PATCH 4/5] drm/fb-helper: Clip damage area to written memory range
-Date: Sun,  6 Feb 2022 20:29:34 +0100
-Message-Id: <20220206192935.24645-5-tzimmermann@suse.de>
+Subject: [PATCH 5/5] drm/fb-helper: Clip damage area horizontally
+Date: Sun,  6 Feb 2022 20:29:35 +0100
+Message-Id: <20220206192935.24645-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220206192935.24645-1-tzimmermann@suse.de>
 References: <20220206192935.24645-1-tzimmermann@suse.de>
@@ -73,74 +73,37 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Write helpers used to mark the complete screen as dirty. This is
-wasteful for writes that only change a small portion of the screen.
-Fix the problem by computing the damaged area from the written
-memory range and perform damage handling accordingly.
+Clip the damage area horizontally if only a single scanline has been
+changed. This is helpful to reduce the memcpy overhead for small writes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_fb_helper.c | 28 +++++++++++++++++++++-------
- 1 file changed, 21 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index ae98990c7b66..bed58be1b205 100644
+index bed58be1b205..71e65d8999c2 100644
 --- a/drivers/gpu/drm/drm_fb_helper.c
 +++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -754,11 +754,18 @@ EXPORT_SYMBOL(drm_fb_helper_sys_read);
- ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char __user *buf,
- 				size_t count, loff_t *ppos)
- {
-+	loff_t pos = *ppos;
- 	ssize_t ret;
-+	struct drm_rect damage_area;
+@@ -690,6 +690,18 @@ static void drm_fb_helper_clip_to_memory_range(struct fb_info *info, off_t off,
+ 	u32 x2 = info->var.xres;
+ 	u32 y2 = DIV_ROUND_UP(end, info->fix.line_length);
  
- 	ret = fb_sys_write(info, buf, count, ppos);
--	if (ret > 0)
--		drm_fb_helper_damage(info, 0, 0, info->var.xres, info->var.yres);
-+	if (ret <= 0)
-+		return ret;
++	if ((y2 - y1) == 1) {
++		/*
++		 * We've only written to a single scanline. Try to reduce
++		 * the number of horizontal pixels that need an update.
++		 */
++		off_t bit_off = (off % info->fix.line_length) * 8;
++		off_t bit_end = (end % info->fix.line_length) * 8;
 +
-+	drm_fb_helper_clip_to_memory_range(info, pos, ret, &damage_area);
-+	drm_fb_helper_damage(info, damage_area.x1, damage_area.y1,
-+			     drm_rect_width(&damage_area),
-+			     drm_rect_height(&damage_area));
- 
- 	return ret;
- }
-@@ -2237,6 +2244,7 @@ static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
- 	loff_t pos = *ppos;
- 	size_t total_size;
- 	ssize_t ret;
-+	struct drm_rect damage_area;
- 	int err = 0;
- 
- 	if (info->screen_size)
-@@ -2265,13 +2273,19 @@ static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
- 	else
- 		ret = fb_write_screen_buffer(info, buf, count, pos);
- 
--	if (ret > 0)
--		*ppos += ret;
-+	if (ret < 0)
-+		return ret; /* return last error, if any */
-+	else if (!ret)
-+		return err; /* return previous error, if any */
- 
--	if (ret > 0)
--		drm_fb_helper_damage(info, 0, 0, info->var.xres_virtual, info->var.yres_virtual);
-+	*ppos += ret;
- 
--	return ret ? ret : err;
-+	drm_fb_helper_clip_to_memory_range(info, pos, ret, &damage_area);
-+	drm_fb_helper_damage(info, damage_area.x1, damage_area.y1,
-+			     drm_rect_width(&damage_area),
-+			     drm_rect_height(&damage_area));
++		x1 = bit_off / info->var.bits_per_pixel;
++		x2 = DIV_ROUND_UP(bit_end, info->var.bits_per_pixel);
++	}
 +
-+	return ret;
+ 	drm_rect_init(clip, x1, y1, x2 - x1, y2 - y1);
  }
  
- static void drm_fbdev_fb_fillrect(struct fb_info *info,
 -- 
 2.34.1
 
