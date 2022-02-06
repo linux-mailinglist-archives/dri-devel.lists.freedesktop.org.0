@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88AB14AB73B
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 10:09:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FFC94AB73E
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 10:09:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 487EC10EA0B;
-	Mon,  7 Feb 2022 09:09:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DAC410EE0A;
+	Mon,  7 Feb 2022 09:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.andi.de1.cc (mail.andi.de1.cc
  [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABD5010E463
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 08:20:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4415B10E463
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 08:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=MYAUEC/UZMELo1MbqHK5rjmELyPMbcMZ9mxI9J7DMHw=; b=THAuS0BOl3FNWTO7FoaompxmQh
- 49kneYzZfeE+gV/doz32Nr+jB6nJoP77s/rY7S5JRP1debSj2XUNyhhv1+JO53KG32Vg35VSi70bV
- 4QPUwfXSHBfl6XVdq88x2n/IFf2N+bQWIWmwmpo/1SQL4fR11yTkVWsBVgPEBFQrLgc8=;
+ bh=9wsuAuJLz5eoH1KRtjPrpQVHg19ELZD+EX1VrO99v30=; b=U7p+06RgR7Dt7Cagug2rdsSWqw
+ ZZJ3aFy8rJe6Ec+p8WRBLFv4szRRaOo+hHTthxCtXBraLeqNfiOwvYOGZb7Qn00lU0yymQ788n5kR
+ qS93bNfvtQe168/Q2MTsl8GD4oB9Fw3oT37+o+yXY/kEVN/15BElrPMpP1D9a2yRHrkc=;
 Received: from p200300ccff05f6001a3da2fffebfd33a.dip0.t-ipconnect.de
  ([2003:cc:ff05:f600:1a3d:a2ff:febf:d33a] helo=aktux)
  by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.89) (envelope-from <andreas@kemnade.info>)
- id 1nGcTK-0006VA-6U; Sun, 06 Feb 2022 09:00:34 +0100
+ id 1nGcTK-0006VM-Gv; Sun, 06 Feb 2022 09:00:35 +0100
 Received: from andi by aktux with local (Exim 4.94.2)
  (envelope-from <andreas@kemnade.info>)
- id 1nGcTJ-003LEh-LF; Sun, 06 Feb 2022 09:00:33 +0100
+ id 1nGcTK-003LEl-0n; Sun, 06 Feb 2022 09:00:34 +0100
 From: Andreas Kemnade <andreas@kemnade.info>
 To: p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch,
  robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -39,9 +39,9 @@ To: p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, alistair@alistair23.me, samuel@sholland.org,
  josua.mayer@jm0.eu, letux-kernel@openphoenux.org
-Subject: [RFC PATCH 2/6] drm: Add skeleton for EPDC driver
-Date: Sun,  6 Feb 2022 09:00:12 +0100
-Message-Id: <20220206080016.796556-3-andreas@kemnade.info>
+Subject: [RFC PATCH 3/6] drm: mxc-epdc: Add display and waveform initialisation
+Date: Sun,  6 Feb 2022 09:00:13 +0100
+Message-Id: <20220206080016.796556-4-andreas@kemnade.info>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220206080016.796556-1-andreas@kemnade.info>
 References: <20220206080016.796556-1-andreas@kemnade.info>
@@ -64,810 +64,996 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver is for the EPD controller in the i.MX SoCs. Add a skeleton
-and basic things for the driver
+Adds display parameter initialisation, display power up/down and
+waveform loading
 
 Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
 ---
- drivers/gpu/drm/Kconfig                 |   2 +
- drivers/gpu/drm/Makefile                |   1 +
- drivers/gpu/drm/mxc-epdc/Kconfig        |  15 +
- drivers/gpu/drm/mxc-epdc/Makefile       |   5 +
- drivers/gpu/drm/mxc-epdc/epdc_regs.h    | 442 ++++++++++++++++++++++++
- drivers/gpu/drm/mxc-epdc/mxc_epdc.h     |  20 ++
- drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c | 248 +++++++++++++
- 7 files changed, 733 insertions(+)
- create mode 100644 drivers/gpu/drm/mxc-epdc/Kconfig
- create mode 100644 drivers/gpu/drm/mxc-epdc/Makefile
- create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_regs.h
- create mode 100644 drivers/gpu/drm/mxc-epdc/mxc_epdc.h
- create mode 100644 drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c
+ drivers/gpu/drm/mxc-epdc/Makefile        |   2 +-
+ drivers/gpu/drm/mxc-epdc/epdc_hw.c       | 495 +++++++++++++++++++++++
+ drivers/gpu/drm/mxc-epdc/epdc_hw.h       |   8 +
+ drivers/gpu/drm/mxc-epdc/epdc_waveform.c | 189 +++++++++
+ drivers/gpu/drm/mxc-epdc/epdc_waveform.h |   7 +
+ drivers/gpu/drm/mxc-epdc/mxc_epdc.h      |  81 ++++
+ drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c  |  94 +++++
+ 7 files changed, 875 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_hw.c
+ create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_hw.h
+ create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_waveform.c
+ create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_waveform.h
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index b1f22e457fd0..6b6b44ff7556 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -390,6 +390,8 @@ source "drivers/gpu/drm/gud/Kconfig"
- 
- source "drivers/gpu/drm/sprd/Kconfig"
- 
-+source "drivers/gpu/drm/mxc-epdc/Kconfig"
-+
- config DRM_HYPERV
- 	tristate "DRM Support for Hyper-V synthetic video device"
- 	depends on DRM && PCI && MMU && HYPERV
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 301a44dc18e3..e5eb9815cf9a 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -131,6 +131,7 @@ obj-$(CONFIG_DRM_PANFROST) += panfrost/
- obj-$(CONFIG_DRM_ASPEED_GFX) += aspeed/
- obj-$(CONFIG_DRM_MCDE) += mcde/
- obj-$(CONFIG_DRM_TIDSS) += tidss/
-+obj-$(CONFIG_DRM_MXC_EPDC) += mxc-epdc/
- obj-y			+= xlnx/
- obj-y			+= gud/
- obj-$(CONFIG_DRM_HYPERV) += hyperv/
-diff --git a/drivers/gpu/drm/mxc-epdc/Kconfig b/drivers/gpu/drm/mxc-epdc/Kconfig
-new file mode 100644
-index 000000000000..3f5744161cff
---- /dev/null
-+++ b/drivers/gpu/drm/mxc-epdc/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0
-+config DRM_MXC_EPDC
-+	tristate "i.MX EPD Controller"
-+	depends on DRM && OF
-+	depends on (COMPILE_TEST || ARCH_MXC)
-+	select DRM_KMS_HELPER
-+	select DRM_KMS_CMA_HELPER
-+	select DMA_CMA if HAVE_DMA_CONTIGUOUS
-+	select CMA if HAVE_DMA_CONTIGUOUS
-+	help
-+	  Choose this option if you have an i.MX system with an EPDC.
-+	  It enables the usage of E-paper displays. A waveform is expected
-+	  to be present in /lib/firmware/imx/epdc/epdc.fw
-+
-+	  If M is selected this module will be called mxc_epdc_drm.
 diff --git a/drivers/gpu/drm/mxc-epdc/Makefile b/drivers/gpu/drm/mxc-epdc/Makefile
-new file mode 100644
-index 000000000000..a47ced72b7f6
---- /dev/null
+index a47ced72b7f6..0263ef2bf0db 100644
+--- a/drivers/gpu/drm/mxc-epdc/Makefile
 +++ b/drivers/gpu/drm/mxc-epdc/Makefile
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0
-+mxc_epdc_drm-y := mxc_epdc_drv.o
-+
-+obj-$(CONFIG_DRM_MXC_EPDC) += mxc_epdc_drm.o
-+
-diff --git a/drivers/gpu/drm/mxc-epdc/epdc_regs.h b/drivers/gpu/drm/mxc-epdc/epdc_regs.h
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+-mxc_epdc_drm-y := mxc_epdc_drv.o
++mxc_epdc_drm-y := mxc_epdc_drv.o epdc_hw.o epdc_waveform.o
+ 
+ obj-$(CONFIG_DRM_MXC_EPDC) += mxc_epdc_drm.o
+ 
+diff --git a/drivers/gpu/drm/mxc-epdc/epdc_hw.c b/drivers/gpu/drm/mxc-epdc/epdc_hw.c
 new file mode 100644
-index 000000000000..83445c56d911
+index 000000000000..a74cbd237e0d
 --- /dev/null
-+++ b/drivers/gpu/drm/mxc-epdc/epdc_regs.h
-@@ -0,0 +1,442 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/* Copyright (C) 2010-2013 Freescale Semiconductor, Inc. */
-+
-+#ifndef __EPDC_REGS_INCLUDED__
-+#define __EPDC_REGS_INCLUDED__
-+
-+/*************************************
-+ * Register addresses
-+ **************************************/
-+
-+#define EPDC_CTRL			0x000
-+#define EPDC_CTRL_SET			0x004
-+#define EPDC_CTRL_CLEAR			0x008
-+#define EPDC_CTRL_TOGGLE		0x00C
-+#define EPDC_WB_ADDR_TCE_V3		0x010
-+#define EPDC_WVADDR			0x020
-+#define EPDC_WB_ADDR			0x030
-+#define EPDC_RES			0x040
-+#define EPDC_FORMAT			0x050
-+#define EPDC_FORMAT_SET			0x054
-+#define EPDC_FORMAT_CLEAR		0x058
-+#define EPDC_FORMAT_TOGGLE		0x05C
-+#define EPDC_WB_FIELD0			0x060
-+#define EPDC_WB_FIELD0_SET		0x064
-+#define EPDC_WB_FIELD0_CLEAR		0x068
-+#define EPDC_WB_FIELD0_TOGGLE		0x06C
-+#define EPDC_WB_FIELD1			0x070
-+#define EPDC_WB_FIELD1_SET		0x074
-+#define EPDC_WB_FIELD1_CLEAR		0x078
-+#define EPDC_WB_FIELD1_TOGGLE		0x07C
-+#define EPDC_WB_FIELD2			0x080
-+#define EPDC_WB_FIELD2_SET		0x084
-+#define EPDC_WB_FIELD2_CLEAR		0x088
-+#define EPDC_WB_FIELD2_TOGGLE		0x08C
-+#define EPDC_WB_FIELD3			0x090
-+#define EPDC_WB_FIELD3_SET		0x094
-+#define EPDC_WB_FIELD3_CLEAR		0x098
-+#define EPDC_WB_FIELD3_TOGGLE		0x09C
-+#define EPDC_FIFOCTRL			0x0A0
-+#define EPDC_FIFOCTRL_SET		0x0A4
-+#define EPDC_FIFOCTRL_CLEAR		0x0A8
-+#define EPDC_FIFOCTRL_TOGGLE		0x0AC
-+#define EPDC_UPD_ADDR			0x100
-+#define EPDC_UPD_STRIDE			0x110
-+#define EPDC_UPD_CORD			0x120
-+#define EPDC_UPD_SIZE			0x140
-+#define EPDC_UPD_CTRL			0x160
-+#define EPDC_UPD_FIXED			0x180
-+#define EPDC_TEMP			0x1A0
-+#define EPDC_AUTOWV_LUT			0x1C0
-+#define EPDC_TCE_CTRL			0x200
-+#define EPDC_TCE_SDCFG			0x220
-+#define EPDC_TCE_GDCFG			0x240
-+#define EPDC_TCE_HSCAN1			0x260
-+#define EPDC_TCE_HSCAN2			0x280
-+#define EPDC_TCE_VSCAN			0x2A0
-+#define EPDC_TCE_OE			0x2C0
-+#define EPDC_TCE_POLARITY		0x2E0
-+#define EPDC_TCE_TIMING1		0x300
-+#define EPDC_TCE_TIMING2		0x310
-+#define EPDC_TCE_TIMING3		0x320
-+#define EPDC_PIGEON_CTRL0		0x380
-+#define EPDC_PIGEON_CTRL1		0x390
-+#define EPDC_IRQ_MASK1			0x3C0
-+#define EPDC_IRQ_MASK1_SET		0x3C4
-+#define EPDC_IRQ_MASK1_CLEAR		0x3C8
-+#define EPDC_IRQ_MASK1_TOGGLE		0x3CC
-+#define EPDC_IRQ_MASK2			0x3D0
-+#define EPDC_IRQ_MASK2_SET		0x3D4
-+#define EPDC_IRQ_MASK2_CLEAR		0x3D8
-+#define EPDC_IRQ_MASK2_TOGGLE		0x3DC
-+#define EPDC_IRQ1			0x3E0
-+#define EPDC_IRQ1_SET			0x3E4
-+#define EPDC_IRQ1_CLEAR			0x3E8
-+#define EPDC_IRQ1_TOGGLE		0x3EC
-+#define EPDC_IRQ2			0x3F0
-+#define EPDC_IRQ2_SET			0x3F4
-+#define EPDC_IRQ2_CLEAR			0x3F8
-+#define EPDC_IRQ2_TOGGLE		0x3FC
-+#define EPDC_IRQ_MASK			0x400
-+#define EPDC_IRQ_MASK_SET		0x404
-+#define EPDC_IRQ_MASK_CLEAR		0x408
-+#define EPDC_IRQ_MASK_TOGGLE		0x40C
-+#define EPDC_IRQ			0x420
-+#define EPDC_IRQ_SET			0x424
-+#define EPDC_IRQ_CLEAR			0x428
-+#define EPDC_IRQ_TOGGLE			0x42C
-+#define EPDC_STATUS_LUTS		0x440
-+#define EPDC_STATUS_LUTS_SET		0x444
-+#define EPDC_STATUS_LUTS_CLEAR		0x448
-+#define EPDC_STATUS_LUTS_TOGGLE		0x44C
-+#define EPDC_STATUS_LUTS2		0x450
-+#define EPDC_STATUS_LUTS2_SET		0x454
-+#define EPDC_STATUS_LUTS2_CLEAR		0x458
-+#define EPDC_STATUS_LUTS2_TOGGLE	0x45C
-+#define EPDC_STATUS_NEXTLUT		0x460
-+#define EPDC_STATUS_COL			0x480
-+#define EPDC_STATUS_COL2		0x490
-+#define EPDC_STATUS			0x4A0
-+#define EPDC_STATUS_SET			0x4A4
-+#define EPDC_STATUS_CLEAR		0x4A8
-+#define EPDC_STATUS_TOGGLE		0x4AC
-+#define EPDC_UPD_COL_CORD		0x4C0
-+#define EPDC_UPD_COL_SIZE		0x4E0
-+#define EPDC_DEBUG			0x500
-+#define EPDC_DEBUG_LUT			0x530
-+#define EPDC_HIST1_PARAM		0x600
-+#define EPDC_HIST2_PARAM		0x610
-+#define EPDC_HIST4_PARAM		0x620
-+#define EPDC_HIST8_PARAM0		0x630
-+#define EPDC_HIST8_PARAM1		0x640
-+#define EPDC_HIST16_PARAM0		0x650
-+#define EPDC_HIST16_PARAM1		0x660
-+#define EPDC_HIST16_PARAM2		0x670
-+#define EPDC_HIST16_PARAM3		0x680
-+#define EPDC_GPIO			0x700
-+#define EPDC_VERSION			0x7F0
-+#define EPDC_PIGEON_0_0			0x800
-+#define EPDC_PIGEON_0_1			0x810
-+#define EPDC_PIGEON_0_2			0x820
-+#define EPDC_PIGEON_1_0			0x840
-+#define EPDC_PIGEON_1_1			0x850
-+#define EPDC_PIGEON_1_2			0x860
-+#define EPDC_PIGEON_2_0			0x880
-+#define EPDC_PIGEON_2_1			0x890
-+#define EPDC_PIGEON_2_2			0x8A0
-+#define EPDC_PIGEON_3_0			0x8C0
-+#define EPDC_PIGEON_3_1			0x8D0
-+#define EPDC_PIGEON_3_2			0x8E0
-+#define EPDC_PIGEON_4_0			0x900
-+#define EPDC_PIGEON_4_1			0x910
-+#define EPDC_PIGEON_4_2			0x920
-+#define EPDC_PIGEON_5_0			0x940
-+#define EPDC_PIGEON_5_1			0x950
-+#define EPDC_PIGEON_5_2			0x960
-+#define EPDC_PIGEON_6_0			0x980
-+#define EPDC_PIGEON_6_1			0x990
-+#define EPDC_PIGEON_6_2			0x9A0
-+#define EPDC_PIGEON_7_0			0x9C0
-+#define EPDC_PIGEON_7_1			0x9D0
-+#define EPDC_PIGEON_7_2			0x9E0
-+#define EPDC_PIGEON_8_0			0xA00
-+#define EPDC_PIGEON_8_1			0xA10
-+#define EPDC_PIGEON_8_2			0xA20
-+#define EPDC_PIGEON_9_0			0xA40
-+#define EPDC_PIGEON_9_1			0xA50
-+#define EPDC_PIGEON_9_2			0xA60
-+#define EPDC_PIGEON_10_0		0xA80
-+#define EPDC_PIGEON_10_1		0xA90
-+#define EPDC_PIGEON_10_2		0xAA0
-+#define EPDC_PIGEON_11_0		0xAC0
-+#define EPDC_PIGEON_11_1		0xAD0
-+#define EPDC_PIGEON_11_2		0xAE0
-+#define EPDC_PIGEON_12_0		0xB00
-+#define EPDC_PIGEON_12_1		0xB10
-+#define EPDC_PIGEON_12_2		0xB20
-+#define EPDC_PIGEON_13_0		0xB40
-+#define EPDC_PIGEON_13_1		0xB50
-+#define EPDC_PIGEON_13_2		0xB60
-+#define EPDC_PIGEON_14_0		0xB80
-+#define EPDC_PIGEON_14_1		0xB90
-+#define EPDC_PIGEON_14_2		0xBA0
-+#define EPDC_PIGEON_15_0		0xBC0
-+#define EPDC_PIGEON_15_1		0xBD0
-+#define EPDC_PIGEON_15_2		0xBE0
-+#define EPDC_WB_ADDR_TCE		0xC10
-+
-+/*
-+ * Register field definitions
-+ */
-+
-+enum {
-+/* EPDC_CTRL field values */
-+	EPDC_CTRL_SFTRST = 0x80000000,
-+	EPDC_CTRL_CLKGATE = 0x40000000,
-+	EPDC_CTRL_SRAM_POWERDOWN = 0x100,
-+	EPDC_CTRL_UPD_DATA_SWIZZLE_MASK = 0xC0,
-+	EPDC_CTRL_UPD_DATA_SWIZZLE_NO_SWAP = 0,
-+	EPDC_CTRL_UPD_DATA_SWIZZLE_ALL_BYTES_SWAP = 0x40,
-+	EPDC_CTRL_UPD_DATA_SWIZZLE_HWD_SWAP = 0x80,
-+	EPDC_CTRL_UPD_DATA_SWIZZLE_HWD_BYTE_SWAP = 0xC0,
-+	EPDC_CTRL_LUT_DATA_SWIZZLE_MASK = 0x30,
-+	EPDC_CTRL_LUT_DATA_SWIZZLE_NO_SWAP = 0,
-+	EPDC_CTRL_LUT_DATA_SWIZZLE_ALL_BYTES_SWAP = 0x10,
-+	EPDC_CTRL_LUT_DATA_SWIZZLE_HWD_SWAP = 0x20,
-+	EPDC_CTRL_LUT_DATA_SWIZZLE_HWD_BYTE_SWAP = 0x30,
-+	EPDC_CTRL_BURST_LEN_8_8 = 0x1,
-+	EPDC_CTRL_BURST_LEN_8_16 = 0,
-+
-+/* EPDC_RES field values */
-+	EPDC_RES_VERTICAL_MASK = 0x1FFF0000,
-+	EPDC_RES_VERTICAL_OFFSET = 16,
-+	EPDC_RES_HORIZONTAL_MASK = 0x1FFF,
-+	EPDC_RES_HORIZONTAL_OFFSET = 0,
-+
-+/* EPDC_FORMAT field values */
-+	EPDC_FORMAT_BUF_PIXEL_SCALE_ROUND = 0x1000000,
-+	EPDC_FORMAT_DEFAULT_TFT_PIXEL_MASK = 0xFF0000,
-+	EPDC_FORMAT_DEFAULT_TFT_PIXEL_OFFSET = 16,
-+	EPDC_FORMAT_BUF_PIXEL_FORMAT_MASK = 0x700,
-+	EPDC_FORMAT_BUF_PIXEL_FORMAT_P2N = 0x200,
-+	EPDC_FORMAT_BUF_PIXEL_FORMAT_P3N = 0x300,
-+	EPDC_FORMAT_BUF_PIXEL_FORMAT_P4N = 0x400,
-+	EPDC_FORMAT_BUF_PIXEL_FORMAT_P5N = 0x500,
-+	EPDC_FORMAT_TFT_PIXEL_FORMAT_2BIT = 0x0,
-+	EPDC_FORMAT_TFT_PIXEL_FORMAT_2BIT_VCOM = 0x1,
-+	EPDC_FORMAT_TFT_PIXEL_FORMAT_4BIT = 0x2,
-+	EPDC_FORMAT_TFT_PIXEL_FORMAT_4BIT_VCOM = 0x3,
-+
-+/* EPDC_FIFOCTRL field values */
-+	EPDC_FIFOCTRL_ENABLE_PRIORITY = 0x80000000,
-+	EPDC_FIFOCTRL_FIFO_INIT_LEVEL_MASK = 0xFF0000,
-+	EPDC_FIFOCTRL_FIFO_INIT_LEVEL_OFFSET = 16,
-+	EPDC_FIFOCTRL_FIFO_H_LEVEL_MASK = 0xFF00,
-+	EPDC_FIFOCTRL_FIFO_H_LEVEL_OFFSET = 8,
-+	EPDC_FIFOCTRL_FIFO_L_LEVEL_MASK = 0xFF,
-+	EPDC_FIFOCTRL_FIFO_L_LEVEL_OFFSET = 0,
-+
-+/* EPDC_UPD_CORD field values */
-+	EPDC_UPD_CORD_YCORD_MASK = 0x1FFF0000,
-+	EPDC_UPD_CORD_YCORD_OFFSET = 16,
-+	EPDC_UPD_CORD_XCORD_MASK = 0x1FFF,
-+	EPDC_UPD_CORD_XCORD_OFFSET = 0,
-+
-+/* EPDC_UPD_SIZE field values */
-+	EPDC_UPD_SIZE_HEIGHT_MASK = 0x1FFF0000,
-+	EPDC_UPD_SIZE_HEIGHT_OFFSET = 16,
-+	EPDC_UPD_SIZE_WIDTH_MASK = 0x1FFF,
-+	EPDC_UPD_SIZE_WIDTH_OFFSET = 0,
-+
-+/* EPDC_UPD_CTRL field values */
-+	EPDC_UPD_CTRL_USE_FIXED = 0x80000000,
-+	EPDC_UPD_CTRL_LUT_SEL_MASK = 0x3F0000,
-+	EPDC_UPD_CTRL_LUT_SEL_OFFSET = 16,
-+	EPDC_UPD_CTRL_WAVEFORM_MODE_MASK = 0xFF00,
-+	EPDC_UPD_CTRL_WAVEFORM_MODE_OFFSET = 8,
-+	EPDC_UPD_CTRL_AUTOWV_PAUSE = 0x8,
-+	EPDC_UPD_CTRL_AUTOWV = 0x4,
-+	EPDC_UPD_CTRL_DRY_RUN = 0x2,
-+	EPDC_UPD_CTRL_UPDATE_MODE_FULL = 0x1,
-+
-+/* EPDC_UPD_FIXED field values */
-+	EPDC_UPD_FIXED_FIXNP_EN = 0x80000000,
-+	EPDC_UPD_FIXED_FIXCP_EN = 0x40000000,
-+	EPDC_UPD_FIXED_FIXNP_MASK = 0xFF00,
-+	EPDC_UPD_FIXED_FIXNP_OFFSET = 8,
-+	EPDC_UPD_FIXED_FIXCP_MASK = 0xFF,
-+	EPDC_UPD_FIXED_FIXCP_OFFSET = 0,
-+
-+/* EPDC_AUTOWV_LUT field values */
-+	EPDC_AUTOWV_LUT_DATA_MASK = 0xFF0000,
-+	EPDC_AUTOWV_LUT_DATA_OFFSET = 16,
-+	EPDC_AUTOWV_LUT_ADDR_MASK = 0xFF,
-+	EPDC_AUTOWV_LUT_ADDR_OFFSET = 0,
-+
-+/* EPDC_TCE_CTRL field values */
-+	EPDC_TCE_CTRL_VSCAN_HOLDOFF_MASK = 0x1FF0000,
-+	EPDC_TCE_CTRL_VSCAN_HOLDOFF_OFFSET = 16,
-+	EPDC_TCE_CTRL_VCOM_VAL_MASK = 0xC00,
-+	EPDC_TCE_CTRL_VCOM_VAL_OFFSET = 10,
-+	EPDC_TCE_CTRL_VCOM_MODE_AUTO = 0x200,
-+	EPDC_TCE_CTRL_VCOM_MODE_MANUAL = 0x000,
-+	EPDC_TCE_CTRL_DDR_MODE_ENABLE = 0x100,
-+	EPDC_TCE_CTRL_LVDS_MODE_CE_ENABLE = 0x80,
-+	EPDC_TCE_CTRL_LVDS_MODE_ENABLE = 0x40,
-+	EPDC_TCE_CTRL_SCAN_DIR_1_UP = 0x20,
-+	EPDC_TCE_CTRL_SCAN_DIR_0_UP = 0x10,
-+	EPDC_TCE_CTRL_DUAL_SCAN_ENABLE = 0x8,
-+	EPDC_TCE_CTRL_SDDO_WIDTH_16BIT = 0x4,
-+	EPDC_TCE_CTRL_PIXELS_PER_SDCLK_2 = 1,
-+	EPDC_TCE_CTRL_PIXELS_PER_SDCLK_4 = 2,
-+	EPDC_TCE_CTRL_PIXELS_PER_SDCLK_8 = 3,
-+
-+/* EPDC_TCE_SDCFG field values */
-+	EPDC_TCE_SDCFG_SDCLK_HOLD = 0x200000,
-+	EPDC_TCE_SDCFG_SDSHR = 0x100000,
-+	EPDC_TCE_SDCFG_NUM_CE_MASK = 0xF0000,
-+	EPDC_TCE_SDCFG_NUM_CE_OFFSET = 16,
-+	EPDC_TCE_SDCFG_SDDO_REFORMAT_STANDARD = 0,
-+	EPDC_TCE_SDCFG_SDDO_REFORMAT_FLIP_PIXELS = 0x4000,
-+	EPDC_TCE_SDCFG_SDDO_INVERT_ENABLE = 0x2000,
-+	EPDC_TCE_SDCFG_PIXELS_PER_CE_MASK = 0x1FFF,
-+	EPDC_TCE_SDCFG_PIXELS_PER_CE_OFFSET = 0,
-+
-+/* EPDC_TCE_GDCFG field values */
-+	EPDC_TCE_SDCFG_GDRL = 0x10,
-+	EPDC_TCE_SDCFG_GDOE_MODE_DELAYED_GDCLK = 0x2,
-+	EPDC_TCE_SDCFG_GDSP_MODE_FRAME_SYNC = 0x1,
-+	EPDC_TCE_SDCFG_GDSP_MODE_ONE_LINE = 0x0,
-+
-+/* EPDC_TCE_HSCAN1 field values */
-+	EPDC_TCE_HSCAN1_LINE_SYNC_WIDTH_MASK = 0xFFF0000,
-+	EPDC_TCE_HSCAN1_LINE_SYNC_WIDTH_OFFSET = 16,
-+	EPDC_TCE_HSCAN1_LINE_SYNC_MASK = 0xFFF,
-+	EPDC_TCE_HSCAN1_LINE_SYNC_OFFSET = 0,
-+
-+/* EPDC_TCE_HSCAN2 field values */
-+	EPDC_TCE_HSCAN2_LINE_END_MASK = 0xFFF0000,
-+	EPDC_TCE_HSCAN2_LINE_END_OFFSET = 16,
-+	EPDC_TCE_HSCAN2_LINE_BEGIN_MASK = 0xFFF,
-+	EPDC_TCE_HSCAN2_LINE_BEGIN_OFFSET = 0,
-+
-+/* EPDC_TCE_VSCAN field values */
-+	EPDC_TCE_VSCAN_FRAME_END_MASK = 0xFF0000,
-+	EPDC_TCE_VSCAN_FRAME_END_OFFSET = 16,
-+	EPDC_TCE_VSCAN_FRAME_BEGIN_MASK = 0xFF00,
-+	EPDC_TCE_VSCAN_FRAME_BEGIN_OFFSET = 8,
-+	EPDC_TCE_VSCAN_FRAME_SYNC_MASK = 0xFF,
-+	EPDC_TCE_VSCAN_FRAME_SYNC_OFFSET = 0,
-+
-+/* EPDC_TCE_OE field values */
-+	EPDC_TCE_OE_SDOED_WIDTH_MASK = 0xFF000000,
-+	EPDC_TCE_OE_SDOED_WIDTH_OFFSET = 24,
-+	EPDC_TCE_OE_SDOED_DLY_MASK = 0xFF0000,
-+	EPDC_TCE_OE_SDOED_DLY_OFFSET = 16,
-+	EPDC_TCE_OE_SDOEZ_WIDTH_MASK = 0xFF00,
-+	EPDC_TCE_OE_SDOEZ_WIDTH_OFFSET = 8,
-+	EPDC_TCE_OE_SDOEZ_DLY_MASK = 0xFF,
-+	EPDC_TCE_OE_SDOEZ_DLY_OFFSET = 0,
-+
-+/* EPDC_TCE_POLARITY field values */
-+	EPDC_TCE_POLARITY_GDSP_POL_ACTIVE_HIGH = 0x10,
-+	EPDC_TCE_POLARITY_GDOE_POL_ACTIVE_HIGH = 0x8,
-+	EPDC_TCE_POLARITY_SDOE_POL_ACTIVE_HIGH = 0x4,
-+	EPDC_TCE_POLARITY_SDLE_POL_ACTIVE_HIGH = 0x2,
-+	EPDC_TCE_POLARITY_SDCE_POL_ACTIVE_HIGH = 0x1,
-+
-+/* EPDC_TCE_TIMING1 field values */
-+	EPDC_TCE_TIMING1_SDLE_SHIFT_NONE = 0x00,
-+	EPDC_TCE_TIMING1_SDLE_SHIFT_1 = 0x10,
-+	EPDC_TCE_TIMING1_SDLE_SHIFT_2 = 0x20,
-+	EPDC_TCE_TIMING1_SDLE_SHIFT_3 = 0x30,
-+	EPDC_TCE_TIMING1_SDCLK_INVERT = 0x8,
-+	EPDC_TCE_TIMING1_SDCLK_SHIFT_NONE = 0,
-+	EPDC_TCE_TIMING1_SDCLK_SHIFT_1CYCLE = 1,
-+	EPDC_TCE_TIMING1_SDCLK_SHIFT_2CYCLES = 2,
-+	EPDC_TCE_TIMING1_SDCLK_SHIFT_3CYCLES = 3,
-+
-+/* EPDC_TCE_TIMING2 field values */
-+	EPDC_TCE_TIMING2_GDCLK_HP_MASK = 0xFFFF0000,
-+	EPDC_TCE_TIMING2_GDCLK_HP_OFFSET = 16,
-+	EPDC_TCE_TIMING2_GDSP_OFFSET_MASK = 0xFFFF,
-+	EPDC_TCE_TIMING2_GDSP_OFFSET_OFFSET = 0,
-+
-+/* EPDC_TCE_TIMING3 field values */
-+	EPDC_TCE_TIMING3_GDOE_OFFSET_MASK = 0xFFFF0000,
-+	EPDC_TCE_TIMING3_GDOE_OFFSET_OFFSET = 16,
-+	EPDC_TCE_TIMING3_GDCLK_OFFSET_MASK = 0xFFFF,
-+	EPDC_TCE_TIMING3_GDCLK_OFFSET_OFFSET = 0,
-+
-+/* EPDC_IRQ_MASK/EPDC_IRQ field values */
-+	EPDC_IRQ_WB_CMPLT_IRQ = 0x10000,
-+	EPDC_IRQ_LUT_COL_IRQ = 0x20000,
-+	EPDC_IRQ_TCE_UNDERRUN_IRQ = 0x40000,
-+	EPDC_IRQ_FRAME_END_IRQ = 0x80000,
-+	EPDC_IRQ_BUS_ERROR_IRQ = 0x100000,
-+	EPDC_IRQ_TCE_IDLE_IRQ = 0x200000,
-+	EPDC_IRQ_UPD_DONE_IRQ = 0x400000,
-+	EPDC_IRQ_PWR_IRQ = 0x800000,
-+
-+/* EPDC_STATUS_NEXTLUT field values */
-+	EPDC_STATUS_NEXTLUT_NEXT_LUT_VALID = 0x100,
-+	EPDC_STATUS_NEXTLUT_NEXT_LUT_MASK = 0x3F,
-+	EPDC_STATUS_NEXTLUT_NEXT_LUT_OFFSET = 0,
-+
-+/* EPDC_STATUS field values */
-+	EPDC_STATUS_HISTOGRAM_CP_MASK = 0x1F0000,
-+	EPDC_STATUS_HISTOGRAM_CP_OFFSET = 16,
-+	EPDC_STATUS_HISTOGRAM_NP_MASK = 0x1F00,
-+	EPDC_STATUS_HISTOGRAM_NP_OFFSET = 8,
-+	EPDC_STATUS_UPD_VOID = 0x8,
-+	EPDC_STATUS_LUTS_UNDERRUN = 0x4,
-+	EPDC_STATUS_LUTS_BUSY = 0x2,
-+	EPDC_STATUS_WB_BUSY = 0x1,
-+
-+/* EPDC_UPD_COL_CORD field values */
-+	EPDC_UPD_COL_CORD_YCORD_MASK = 0x1FFF0000,
-+	EPDC_UPD_COL_CORD_YCORD_OFFSET = 16,
-+	EPDC_UPD_COL_CORD_XCORD_MASK = 0x1FFF,
-+	EPDC_UPD_COL_CORD_XCORD_OFFSET = 0,
-+
-+/* EPDC_UPD_COL_SIZE field values */
-+	EPDC_UPD_COL_SIZE_HEIGHT_MASK = 0x1FFF0000,
-+	EPDC_UPD_COL_SIZE_HEIGHT_OFFSET = 16,
-+	EPDC_UPD_COL_SIZE_WIDTH_MASK = 0x1FFF,
-+	EPDC_UPD_COL_SIZE_WIDTH_OFFSET = 0,
-+
-+/* EPDC_DEBUG field values */
-+	EPDC_DEBUG_UNDERRUN_RECOVER = 0x2,
-+	EPDC_DEBUG_COLLISION_OFF = 0x1,
-+
-+/* EPDC_HISTx_PARAM field values */
-+	EPDC_HIST_PARAM_VALUE0_MASK = 0x1F,
-+	EPDC_HIST_PARAM_VALUE0_OFFSET = 0,
-+	EPDC_HIST_PARAM_VALUE1_MASK = 0x1F00,
-+	EPDC_HIST_PARAM_VALUE1_OFFSET = 8,
-+	EPDC_HIST_PARAM_VALUE2_MASK = 0x1F0000,
-+	EPDC_HIST_PARAM_VALUE2_OFFSET = 16,
-+	EPDC_HIST_PARAM_VALUE3_MASK = 0x1F000000,
-+	EPDC_HIST_PARAM_VALUE3_OFFSET = 24,
-+	EPDC_HIST_PARAM_VALUE4_MASK = 0x1F,
-+	EPDC_HIST_PARAM_VALUE4_OFFSET = 0,
-+	EPDC_HIST_PARAM_VALUE5_MASK = 0x1F00,
-+	EPDC_HIST_PARAM_VALUE5_OFFSET = 8,
-+	EPDC_HIST_PARAM_VALUE6_MASK = 0x1F0000,
-+	EPDC_HIST_PARAM_VALUE6_OFFSET = 16,
-+	EPDC_HIST_PARAM_VALUE7_MASK = 0x1F000000,
-+	EPDC_HIST_PARAM_VALUE7_OFFSET = 24,
-+	EPDC_HIST_PARAM_VALUE8_MASK = 0x1F,
-+	EPDC_HIST_PARAM_VALUE8_OFFSET = 0,
-+	EPDC_HIST_PARAM_VALUE9_MASK = 0x1F00,
-+	EPDC_HIST_PARAM_VALUE9_OFFSET = 8,
-+	EPDC_HIST_PARAM_VALUE10_MASK = 0x1F0000,
-+	EPDC_HIST_PARAM_VALUE10_OFFSET = 16,
-+	EPDC_HIST_PARAM_VALUE11_MASK = 0x1F000000,
-+	EPDC_HIST_PARAM_VALUE11_OFFSET = 24,
-+	EPDC_HIST_PARAM_VALUE12_MASK = 0x1F,
-+	EPDC_HIST_PARAM_VALUE12_OFFSET = 0,
-+	EPDC_HIST_PARAM_VALUE13_MASK = 0x1F00,
-+	EPDC_HIST_PARAM_VALUE13_OFFSET = 8,
-+	EPDC_HIST_PARAM_VALUE14_MASK = 0x1F0000,
-+	EPDC_HIST_PARAM_VALUE14_OFFSET = 16,
-+	EPDC_HIST_PARAM_VALUE15_MASK = 0x1F000000,
-+	EPDC_HIST_PARAM_VALUE15_OFFSET = 24,
-+
-+/* EPDC_GPIO field values */
-+	EPDC_GPIO_PWRCOM = 0x40,
-+	EPDC_GPIO_PWRCTRL_MASK = 0x3C,
-+	EPDC_GPIO_PWRCTRL_OFFSET = 2,
-+	EPDC_GPIO_BDR_MASK = 0x3,
-+	EPDC_GPIO_BDR_OFFSET = 0,
-+
-+/* EPDC_VERSION field values */
-+	EPDC_VERSION_MAJOR_MASK = 0xFF000000,
-+	EPDC_VERSION_MAJOR_OFFSET = 24,
-+	EPDC_VERSION_MINOR_MASK = 0xFF0000,
-+	EPDC_VERSION_MINOR_OFFSET = 16,
-+	EPDC_VERSION_STEP_MASK = 0xFFFF,
-+	EPDC_VERSION_STEP_OFFSET = 0,
-+};
-+
-+#endif	/* __EPDC_REGS_INCLUDED__ */
-diff --git a/drivers/gpu/drm/mxc-epdc/mxc_epdc.h b/drivers/gpu/drm/mxc-epdc/mxc_epdc.h
-new file mode 100644
-index 000000000000..c5f5280b574f
---- /dev/null
-+++ b/drivers/gpu/drm/mxc-epdc/mxc_epdc.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/* Copyright (C) 2022 Andreas Kemnade */
-+
-+#include <video/display_timing.h>
-+#include <video/of_display_timing.h>
-+#include <video/videomode.h>
-+
-+#include <drm/drm_drv.h>
-+#include <drm/drm_connector.h>
-+#include <drm/drm_simple_kms_helper.h>
-+
-+struct clk;
-+struct regulator;
-+struct mxc_epdc {
-+	struct drm_device drm;
-+	struct drm_simple_display_pipe pipe;
-+	struct drm_connector connector;
-+	struct display_timing timing;
-+};
-+
-diff --git a/drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c b/drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c
-new file mode 100644
-index 000000000000..c0b0a3bcdb57
---- /dev/null
-+++ b/drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c
-@@ -0,0 +1,248 @@
++++ b/drivers/gpu/drm/mxc-epdc/epdc_hw.c
+@@ -0,0 +1,495 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +// Copyright (C) 2022 Andreas Kemnade
++//
++/*
++ * based on the EPDC framebuffer driver
++ * Copyright (C) 2010-2016 Freescale Semiconductor, Inc.
++ * Copyright 2017 NXP
++ */
 +
 +#include <linux/module.h>
 +#include <linux/kernel.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/firmware.h>
-+#include <linux/fs.h>
-+#include <linux/of_graph.h>
++#include <linux/clk.h>
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/pinctrl/consumer.h>
 +#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/regulator/consumer.h>
 +
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fb_cma_helper.h>
-+#include <drm/drm_fb_helper.h>
-+#include <drm/drm_file.h>
-+#include <drm/drm_format_helper.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_ioctl.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_prime.h>
-+#include <drm/drm_probe_helper.h>
 +#include "mxc_epdc.h"
++#include "epdc_regs.h"
++#include "epdc_hw.h"
++#include "epdc_waveform.h"
 +
-+#define DRIVER_NAME "mxc_epdc"
-+#define DRIVER_DESC "IMX EPDC"
-+#define DRIVER_DATE "20220202"
-+#define DRIVER_MAJOR 1
-+#define DRIVER_MINOR 0
-+#define DRIVER_PATCHLEVEL 0
-+
-+#define to_mxc_epdc(x) container_of(x, struct mxc_epdc, drm)
-+
-+static const struct drm_mode_config_funcs mxc_epdc_mode_config_funcs = {
-+	.fb_create = drm_gem_fb_create_with_dirty,
-+	.atomic_check	   = drm_atomic_helper_check,
-+	.atomic_commit	  = drm_atomic_helper_commit,
-+};
-+
-+static struct mxc_epdc *
-+drm_pipe_to_mxc_epdc(struct drm_simple_display_pipe *pipe)
++void mxc_epdc_powerup(struct mxc_epdc *priv)
 +{
-+	return container_of(pipe, struct mxc_epdc, pipe);
-+}
++	int ret = 0;
 +
-+static struct mxc_epdc *
-+drm_connector_to_mxc_epdc(struct drm_connector *connector)
-+{
-+	return container_of(connector, struct mxc_epdc, connector);
-+}
++	mutex_lock(&priv->power_mutex);
 +
-+static void mxc_epdc_setup_mode_config(struct drm_device *drm)
-+{
-+	drm_mode_config_init(drm);
-+
-+	drm->mode_config.min_width = 0;
-+	drm->mode_config.min_height = 0;
 +	/*
-+	 * Maximum update buffer image width due to v2.0 and v2.1 errata
-+	 * ERR005313.
++	 * If power down request is pending, clear
++	 * powering_down to cancel the request.
 +	 */
-+	drm->mode_config.max_width = 2047;
-+	drm->mode_config.max_height = 2048;
-+	drm->mode_config.funcs = &mxc_epdc_mode_config_funcs;
-+}
++	if (priv->powering_down)
++		priv->powering_down = false;
 +
-+
-+DEFINE_DRM_GEM_CMA_FOPS(fops);
-+
-+static int mxc_epdc_get_modes(struct drm_connector *connector)
-+{
-+	struct mxc_epdc *priv = drm_connector_to_mxc_epdc(connector);
-+	struct drm_display_mode *mode;
-+	struct videomode vm;
-+
-+	videomode_from_timing(&priv->timing, &vm);
-+	mode = drm_mode_create(connector->dev);
-+	if (!mode) {
-+		dev_err(priv->drm.dev, "failed to add mode\n");
-+		return 0;
++	if (priv->powered) {
++		mutex_unlock(&priv->power_mutex);
++		return;
 +	}
 +
-+	drm_display_mode_from_videomode(&vm, mode);
-+	mode->type |= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
++	dev_dbg(priv->drm.dev, "EPDC Powerup\n");
 +
-+	drm_mode_probed_add(connector, mode);
++	priv->updates_active = true;
 +
-+	connector->display_info.width_mm = mode->width_mm;
-+	connector->display_info.height_mm = mode->height_mm;
++	/* Enable the v3p3 regulator */
++	ret = regulator_enable(priv->v3p3_regulator);
++	if (IS_ERR((void *)ret)) {
++		dev_err(priv->drm.dev,
++			"Unable to enable V3P3 regulator. err = 0x%x\n",
++			ret);
++		mutex_unlock(&priv->power_mutex);
++		return;
++	}
 +
-+	return 1;
++	usleep_range(1000, 2000);
++
++	pm_runtime_get_sync(priv->drm.dev);
++
++	/* Enable clocks to EPDC */
++	clk_prepare_enable(priv->epdc_clk_axi);
++	clk_prepare_enable(priv->epdc_clk_pix);
++
++	epdc_write(priv, EPDC_CTRL_CLEAR, EPDC_CTRL_CLKGATE);
++
++	/* Enable power to the EPD panel */
++	ret = regulator_enable(priv->display_regulator);
++	if (IS_ERR((void *)ret)) {
++		dev_err(priv->drm.dev,
++			"Unable to enable DISPLAY regulator. err = 0x%x\n",
++			ret);
++		mutex_unlock(&priv->power_mutex);
++		return;
++	}
++
++	ret = regulator_enable(priv->vcom_regulator);
++	if (IS_ERR((void *)ret)) {
++		dev_err(priv->drm.dev,
++			"Unable to enable VCOM regulator. err = 0x%x\n",
++			ret);
++		mutex_unlock(&priv->power_mutex);
++		return;
++	}
++
++	priv->powered = true;
++
++	mutex_unlock(&priv->power_mutex);
 +}
 +
-+static const struct
-+drm_connector_helper_funcs mxc_epdc_connector_helper_funcs = {
-+	.get_modes = mxc_epdc_get_modes,
-+};
-+
-+static const struct drm_connector_funcs mxc_epdc_connector_funcs = {
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy  = drm_connector_cleanup,
-+	.reset = drm_atomic_helper_connector_reset,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+int mxc_epdc_output(struct drm_device *drm)
++void mxc_epdc_powerdown(struct mxc_epdc *priv)
 +{
-+	struct mxc_epdc *priv = to_mxc_epdc(drm);
-+	int ret;
++	mutex_lock(&priv->power_mutex);
 +
-+	priv->connector.dpms = DRM_MODE_DPMS_OFF;
-+	priv->connector.polled = 0;
-+	drm_connector_helper_add(&priv->connector,
-+				 &mxc_epdc_connector_helper_funcs);
-+	ret = drm_connector_init(drm, &priv->connector,
-+				 &mxc_epdc_connector_funcs,
-+				 DRM_MODE_CONNECTOR_Unknown);
-+	if (ret)
-+		return ret;
-+	ret = of_get_display_timing(drm->dev->of_node, "timing", &priv->timing);
-+	if (ret)
-+		return ret;
++	/* If powering_down has been cleared, a powerup
++	 * request is pre-empting this powerdown request.
++	 */
++	if (!priv->powering_down
++		|| (!priv->powered)) {
++		mutex_unlock(&priv->power_mutex);
++		return;
++	}
++
++	dev_dbg(priv->drm.dev, "EPDC Powerdown\n");
++
++	/* Disable power to the EPD panel */
++	regulator_disable(priv->vcom_regulator);
++	regulator_disable(priv->display_regulator);
++
++	/* Disable clocks to EPDC */
++	epdc_write(priv, EPDC_CTRL_SET, EPDC_CTRL_CLKGATE);
++	clk_disable_unprepare(priv->epdc_clk_pix);
++	clk_disable_unprepare(priv->epdc_clk_axi);
++
++	pm_runtime_put_sync_suspend(priv->drm.dev);
++
++	/* turn off the V3p3 */
++	regulator_disable(priv->v3p3_regulator);
++
++	priv->powered = false;
++	priv->powering_down = false;
++
++	if (priv->wait_for_powerdown) {
++		priv->wait_for_powerdown = false;
++		complete(&priv->powerdown_compl);
++	}
++
++	mutex_unlock(&priv->power_mutex);
++}
++
++static void epdc_set_horizontal_timing(struct mxc_epdc *priv, u32 horiz_start,
++				       u32 horiz_end,
++				       u32 hsync_width, u32 hsync_line_length)
++{
++	u32 reg_val =
++	    ((hsync_width << EPDC_TCE_HSCAN1_LINE_SYNC_WIDTH_OFFSET) &
++	     EPDC_TCE_HSCAN1_LINE_SYNC_WIDTH_MASK)
++	    | ((hsync_line_length << EPDC_TCE_HSCAN1_LINE_SYNC_OFFSET) &
++	       EPDC_TCE_HSCAN1_LINE_SYNC_MASK);
++	epdc_write(priv, EPDC_TCE_HSCAN1, reg_val);
++
++	reg_val =
++	    ((horiz_start << EPDC_TCE_HSCAN2_LINE_BEGIN_OFFSET) &
++	     EPDC_TCE_HSCAN2_LINE_BEGIN_MASK)
++	    | ((horiz_end << EPDC_TCE_HSCAN2_LINE_END_OFFSET) &
++	       EPDC_TCE_HSCAN2_LINE_END_MASK);
++	epdc_write(priv, EPDC_TCE_HSCAN2, reg_val);
++}
++
++static void epdc_set_vertical_timing(struct mxc_epdc *priv,
++				     u32 vert_start,
++				     u32 vert_end,
++				     u32 vsync_width)
++{
++	u32 reg_val =
++	    ((vert_start << EPDC_TCE_VSCAN_FRAME_BEGIN_OFFSET) &
++	     EPDC_TCE_VSCAN_FRAME_BEGIN_MASK)
++	    | ((vert_end << EPDC_TCE_VSCAN_FRAME_END_OFFSET) &
++	       EPDC_TCE_VSCAN_FRAME_END_MASK)
++	    | ((vsync_width << EPDC_TCE_VSCAN_FRAME_SYNC_OFFSET) &
++	       EPDC_TCE_VSCAN_FRAME_SYNC_MASK);
++	epdc_write(priv, EPDC_TCE_VSCAN, reg_val);
++}
++
++static inline void epdc_set_screen_res(struct mxc_epdc *priv,
++				       u32 width, u32 height)
++{
++	u32 val = (height << EPDC_RES_VERTICAL_OFFSET) | width;
++
++	epdc_write(priv, EPDC_RES, val);
++}
++
++
++void epdc_init_settings(struct mxc_epdc *priv, struct drm_display_mode *m)
++{
++	u32 reg_val;
++	int num_ce;
++	int i;
++
++	/* Enable clocks to access EPDC regs */
++	clk_prepare_enable(priv->epdc_clk_axi);
++	clk_prepare_enable(priv->epdc_clk_pix);
++
++	/* Reset */
++	epdc_write(priv, EPDC_CTRL_SET, EPDC_CTRL_SFTRST);
++	while (!(epdc_read(priv, EPDC_CTRL) & EPDC_CTRL_CLKGATE))
++		;
++	epdc_write(priv, EPDC_CTRL_CLEAR, EPDC_CTRL_SFTRST);
++
++	/* Enable clock gating (clear to enable) */
++	epdc_write(priv, EPDC_CTRL_CLEAR, EPDC_CTRL_CLKGATE);
++	while (epdc_read(priv, EPDC_CTRL) & (EPDC_CTRL_SFTRST | EPDC_CTRL_CLKGATE))
++		;
++
++	/* EPDC_CTRL */
++	reg_val = epdc_read(priv, EPDC_CTRL);
++	reg_val &= ~EPDC_CTRL_UPD_DATA_SWIZZLE_MASK;
++	reg_val |= EPDC_CTRL_UPD_DATA_SWIZZLE_NO_SWAP;
++	reg_val &= ~EPDC_CTRL_LUT_DATA_SWIZZLE_MASK;
++	reg_val |= EPDC_CTRL_LUT_DATA_SWIZZLE_NO_SWAP;
++	epdc_write(priv, EPDC_CTRL_SET, reg_val);
++
++	/* EPDC_FORMAT - 2bit TFT and buf_pix_fmt Buf pixel format */
++	reg_val = EPDC_FORMAT_TFT_PIXEL_FORMAT_2BIT
++		| priv->buf_pix_fmt
++	    | ((0x0 << EPDC_FORMAT_DEFAULT_TFT_PIXEL_OFFSET) &
++	       EPDC_FORMAT_DEFAULT_TFT_PIXEL_MASK);
++	epdc_write(priv, EPDC_FORMAT, reg_val);
++	if (priv->rev >= 30) {
++		if (priv->buf_pix_fmt == EPDC_FORMAT_BUF_PIXEL_FORMAT_P5N) {
++			epdc_write(priv, EPDC_WB_FIELD2, 0xc554);
++			epdc_write(priv, EPDC_WB_FIELD1, 0xa004);
++		} else {
++			epdc_write(priv, EPDC_WB_FIELD2, 0xc443);
++			epdc_write(priv, EPDC_WB_FIELD1, 0xa003);
++		}
++	}
++
++	/* EPDC_FIFOCTRL (disabled) */
++	reg_val =
++	    ((100 << EPDC_FIFOCTRL_FIFO_INIT_LEVEL_OFFSET) &
++	     EPDC_FIFOCTRL_FIFO_INIT_LEVEL_MASK)
++	    | ((200 << EPDC_FIFOCTRL_FIFO_H_LEVEL_OFFSET) &
++	       EPDC_FIFOCTRL_FIFO_H_LEVEL_MASK)
++	    | ((100 << EPDC_FIFOCTRL_FIFO_L_LEVEL_OFFSET) &
++	       EPDC_FIFOCTRL_FIFO_L_LEVEL_MASK);
++	epdc_write(priv, EPDC_FIFOCTRL, reg_val);
++
++	/* EPDC_TEMP - Use default temp to get index */
++	epdc_write(priv, EPDC_TEMP,
++		   mxc_epdc_fb_get_temp_index(priv, TEMP_USE_AMBIENT));
++
++	/* EPDC_RES */
++	epdc_set_screen_res(priv, m->hdisplay, m->vdisplay);
++
++	/* EPDC_AUTOWV_LUT */
++	/* Initialize all auto-wavefrom look-up values to 2 - GC16 */
++	for (i = 0; i < 8; i++)
++		epdc_write(priv, EPDC_AUTOWV_LUT,
++			(2 << EPDC_AUTOWV_LUT_DATA_OFFSET) |
++			(i << EPDC_AUTOWV_LUT_ADDR_OFFSET));
++
++	/*
++	 * EPDC_TCE_CTRL
++	 * VSCAN_HOLDOFF = 4
++	 * VCOM_MODE = MANUAL
++	 * VCOM_VAL = 0
++	 * DDR_MODE = DISABLED
++	 * LVDS_MODE_CE = DISABLED
++	 * LVDS_MODE = DISABLED
++	 * DUAL_SCAN = DISABLED
++	 * SDDO_WIDTH = 8bit
++	 * PIXELS_PER_SDCLK = 4
++	 */
++	reg_val =
++	    ((priv->imx_mode.vscan_holdoff << EPDC_TCE_CTRL_VSCAN_HOLDOFF_OFFSET) &
++	     EPDC_TCE_CTRL_VSCAN_HOLDOFF_MASK)
++	    | EPDC_TCE_CTRL_PIXELS_PER_SDCLK_4;
++	epdc_write(priv, EPDC_TCE_CTRL, reg_val);
++
++	/* EPDC_TCE_HSCAN */
++	epdc_set_horizontal_timing(priv, m->hsync_start - m->hdisplay,
++				   m->htotal - m->hsync_end,
++				   m->hsync_end - m->hsync_start,
++				   m->hsync_end - m->hsync_start);
++
++	/* EPDC_TCE_VSCAN */
++	epdc_set_vertical_timing(priv, m->vsync_start - m->vdisplay,
++				 m->vtotal - m->vsync_end,
++				 m->vsync_end - m->vsync_start);
++
++	/* EPDC_TCE_OE */
++	reg_val =
++	    ((priv->imx_mode.sdoed_width << EPDC_TCE_OE_SDOED_WIDTH_OFFSET) &
++	     EPDC_TCE_OE_SDOED_WIDTH_MASK)
++	    | ((priv->imx_mode.sdoed_delay << EPDC_TCE_OE_SDOED_DLY_OFFSET) &
++	       EPDC_TCE_OE_SDOED_DLY_MASK)
++	    | ((priv->imx_mode.sdoez_width << EPDC_TCE_OE_SDOEZ_WIDTH_OFFSET) &
++	       EPDC_TCE_OE_SDOEZ_WIDTH_MASK)
++	    | ((priv->imx_mode.sdoez_delay << EPDC_TCE_OE_SDOEZ_DLY_OFFSET) &
++	       EPDC_TCE_OE_SDOEZ_DLY_MASK);
++	epdc_write(priv, EPDC_TCE_OE, reg_val);
++
++	/* EPDC_TCE_TIMING1 */
++	epdc_write(priv, EPDC_TCE_TIMING1, 0x0);
++
++	/* EPDC_TCE_TIMING2 */
++	reg_val =
++	    ((priv->imx_mode.gdclk_hp_offs << EPDC_TCE_TIMING2_GDCLK_HP_OFFSET) &
++	     EPDC_TCE_TIMING2_GDCLK_HP_MASK)
++	    | ((priv->imx_mode.gdsp_offs << EPDC_TCE_TIMING2_GDSP_OFFSET_OFFSET) &
++	       EPDC_TCE_TIMING2_GDSP_OFFSET_MASK);
++	epdc_write(priv, EPDC_TCE_TIMING2, reg_val);
++
++	/* EPDC_TCE_TIMING3 */
++	reg_val =
++	    ((priv->imx_mode.gdoe_offs << EPDC_TCE_TIMING3_GDOE_OFFSET_OFFSET) &
++	     EPDC_TCE_TIMING3_GDOE_OFFSET_MASK)
++	    | ((priv->imx_mode.gdclk_offs << EPDC_TCE_TIMING3_GDCLK_OFFSET_OFFSET) &
++	       EPDC_TCE_TIMING3_GDCLK_OFFSET_MASK);
++	epdc_write(priv, EPDC_TCE_TIMING3, reg_val);
++
++	/*
++	 * EPDC_TCE_SDCFG
++	 * SDCLK_HOLD = 1
++	 * SDSHR = 1
++	 * NUM_CE = 1
++	 * SDDO_REFORMAT = FLIP_PIXELS
++	 * SDDO_INVERT = DISABLED
++	 * PIXELS_PER_CE = display horizontal resolution
++	 */
++	num_ce = priv->imx_mode.num_ce;
++	if (num_ce == 0)
++		num_ce = 1;
++	reg_val = EPDC_TCE_SDCFG_SDCLK_HOLD | EPDC_TCE_SDCFG_SDSHR
++	    | ((num_ce << EPDC_TCE_SDCFG_NUM_CE_OFFSET) &
++	       EPDC_TCE_SDCFG_NUM_CE_MASK)
++	    | EPDC_TCE_SDCFG_SDDO_REFORMAT_FLIP_PIXELS
++	    | ((priv->epdc_mem_width/num_ce << EPDC_TCE_SDCFG_PIXELS_PER_CE_OFFSET) &
++	       EPDC_TCE_SDCFG_PIXELS_PER_CE_MASK);
++	epdc_write(priv, EPDC_TCE_SDCFG, reg_val);
++
++	/*
++	 * EPDC_TCE_GDCFG
++	 * GDRL = 1
++	 * GDOE_MODE = 0;
++	 * GDSP_MODE = 0;
++	 */
++	reg_val = EPDC_TCE_SDCFG_GDRL;
++	epdc_write(priv, EPDC_TCE_GDCFG, reg_val);
++
++	/*
++	 * EPDC_TCE_POLARITY
++	 * SDCE_POL = ACTIVE LOW
++	 * SDLE_POL = ACTIVE HIGH
++	 * SDOE_POL = ACTIVE HIGH
++	 * GDOE_POL = ACTIVE HIGH
++	 * GDSP_POL = ACTIVE LOW
++	 */
++	reg_val = EPDC_TCE_POLARITY_SDLE_POL_ACTIVE_HIGH
++	    | EPDC_TCE_POLARITY_SDOE_POL_ACTIVE_HIGH
++	    | EPDC_TCE_POLARITY_GDOE_POL_ACTIVE_HIGH;
++	epdc_write(priv, EPDC_TCE_POLARITY, reg_val);
++
++	/* EPDC_IRQ_MASK */
++	epdc_write(priv, EPDC_IRQ_MASK, EPDC_IRQ_TCE_UNDERRUN_IRQ);
++
++	/*
++	 * EPDC_GPIO
++	 * PWRCOM = ?
++	 * PWRCTRL = ?
++	 * BDR = ?
++	 */
++	reg_val = ((0 << EPDC_GPIO_PWRCTRL_OFFSET) & EPDC_GPIO_PWRCTRL_MASK)
++	    | ((0 << EPDC_GPIO_BDR_OFFSET) & EPDC_GPIO_BDR_MASK);
++	epdc_write(priv, EPDC_GPIO, reg_val);
++
++	epdc_write(priv, EPDC_WVADDR, priv->waveform_buffer_phys);
++	epdc_write(priv, EPDC_WB_ADDR, priv->working_buffer_phys);
++	if (priv->rev >= 30)
++		epdc_write(priv, EPDC_WB_ADDR_TCE_V3,
++			   priv->working_buffer_phys);
++	else
++		epdc_write(priv, EPDC_WB_ADDR_TCE,
++			   priv->working_buffer_phys);
++
++	/* Disable clock */
++	clk_disable_unprepare(priv->epdc_clk_axi);
++	clk_disable_unprepare(priv->epdc_clk_pix);
++}
++
++void mxc_epdc_init_sequence(struct mxc_epdc *priv, struct drm_display_mode *m)
++{
++	/* Initialize EPDC, passing pointer to EPDC registers */
++	struct clk *epdc_parent;
++	unsigned long rounded_parent_rate, epdc_pix_rate,
++			rounded_pix_clk, target_pix_clk;
++
++	/* Enable pix clk for EPDC */
++	clk_prepare_enable(priv->epdc_clk_axi);
++
++	target_pix_clk = m->clock * 1000;
++	rounded_pix_clk = clk_round_rate(priv->epdc_clk_pix, target_pix_clk);
++
++	if (((rounded_pix_clk >= target_pix_clk + target_pix_clk/100) ||
++		(rounded_pix_clk <= target_pix_clk - target_pix_clk/100))) {
++		/* Can't get close enough without changing parent clk */
++		epdc_parent = clk_get_parent(priv->epdc_clk_pix);
++		rounded_parent_rate = clk_round_rate(epdc_parent, target_pix_clk);
++
++		epdc_pix_rate = target_pix_clk;
++		while (epdc_pix_rate < rounded_parent_rate)
++			epdc_pix_rate *= 2;
++		clk_set_rate(epdc_parent, epdc_pix_rate);
++
++		rounded_pix_clk = clk_round_rate(priv->epdc_clk_pix, target_pix_clk);
++		if (((rounded_pix_clk >= target_pix_clk + target_pix_clk/100) ||
++			(rounded_pix_clk <= target_pix_clk - target_pix_clk/100)))
++			/* Still can't get a good clock, provide warning */
++			dev_err(priv->drm.dev,
++				"Unable to get an accurate EPDC pix clk desired = %lu, actual = %lu\n",
++				target_pix_clk,
++				rounded_pix_clk);
++	}
++
++	clk_set_rate(priv->epdc_clk_pix, rounded_pix_clk);
++	clk_prepare_enable(priv->epdc_clk_pix);
++
++	epdc_init_settings(priv, m);
++
++	priv->in_init = true;
++	mxc_epdc_powerup(priv);
++	/* Force power down event */
++	priv->powering_down = true;
++	mxc_epdc_powerdown(priv);
++	priv->updates_active = false;
++
++	/* Disable clocks */
++	clk_disable_unprepare(priv->epdc_clk_axi);
++	clk_disable_unprepare(priv->epdc_clk_pix);
++	priv->hw_ready = true;
++	priv->hw_initializing = false;
++
++}
++
++int mxc_epdc_init_hw(struct mxc_epdc *priv)
++{
++	struct pinctrl *pinctrl;
++	const char *thermal = NULL;
++	u32 val;
++
++	/* get pmic regulators */
++	priv->display_regulator = devm_regulator_get(priv->drm.dev, "DISPLAY");
++	if (IS_ERR(priv->display_regulator))
++		return dev_err_probe(priv->drm.dev, PTR_ERR(priv->display_regulator),
++				     "Unable to get display PMIC regulator\n");
++
++	priv->vcom_regulator = devm_regulator_get(priv->drm.dev, "VCOM");
++	if (IS_ERR(priv->vcom_regulator))
++		return dev_err_probe(priv->drm.dev, PTR_ERR(priv->vcom_regulator),
++				     "Unable to get VCOM regulator\n");
++
++	priv->v3p3_regulator = devm_regulator_get(priv->drm.dev, "V3P3");
++	if (IS_ERR(priv->v3p3_regulator))
++		return dev_err_probe(priv->drm.dev, PTR_ERR(priv->v3p3_regulator),
++				     "Unable to get V3P3 regulator\n");
++
++	of_property_read_string(priv->drm.dev->of_node,
++				"epd-thermal-zone", &thermal);
++	if (thermal) {
++		priv->thermal = thermal_zone_get_zone_by_name(thermal);
++		if (IS_ERR(priv->thermal))
++			return dev_err_probe(priv->drm.dev, PTR_ERR(priv->thermal),
++					     "unable to get thermal");
++	}
++	priv->iobase = devm_platform_get_and_ioremap_resource(to_platform_device(priv->drm.dev),
++							      0, NULL);
++	if (priv->iobase == NULL)
++		return -ENOMEM;
++
++	priv->epdc_clk_axi = devm_clk_get(priv->drm.dev, "axi");
++	if (IS_ERR(priv->epdc_clk_axi))
++		return dev_err_probe(priv->drm.dev, PTR_ERR(priv->epdc_clk_axi),
++				     "Unable to get EPDC AXI clk\n");
++
++	priv->epdc_clk_pix = devm_clk_get(priv->drm.dev, "pix");
++	if (IS_ERR(priv->epdc_clk_pix))
++		return dev_err_probe(priv->drm.dev, PTR_ERR(priv->epdc_clk_pix),
++				     "Unable to get EPDC pix clk\n");
++
++	clk_prepare_enable(priv->epdc_clk_axi);
++	val = epdc_read(priv, EPDC_VERSION);
++	clk_disable_unprepare(priv->epdc_clk_axi);
++	priv->rev = ((val & EPDC_VERSION_MAJOR_MASK) >>
++				EPDC_VERSION_MAJOR_OFFSET) * 10
++			+ ((val & EPDC_VERSION_MINOR_MASK) >>
++				EPDC_VERSION_MINOR_OFFSET);
++	dev_dbg(priv->drm.dev, "EPDC version = %d\n", priv->rev);
++
++	if (priv->rev <= 20) {
++		dev_err(priv->drm.dev, "Unsupported version (%d)\n", priv->rev);
++		return -ENODEV;
++	}
++
++	/* Initialize EPDC pins */
++	pinctrl = devm_pinctrl_get_select_default(priv->drm.dev);
++	if (IS_ERR(pinctrl)) {
++		dev_err(priv->drm.dev, "can't get/select pinctrl\n");
++		return PTR_ERR(pinctrl);
++	}
++
++	mutex_init(&priv->power_mutex);
 +
 +	return 0;
 +}
+diff --git a/drivers/gpu/drm/mxc-epdc/epdc_hw.h b/drivers/gpu/drm/mxc-epdc/epdc_hw.h
+new file mode 100644
+index 000000000000..dbf1f0d1e23e
+--- /dev/null
++++ b/drivers/gpu/drm/mxc-epdc/epdc_hw.h
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/* Copyright (C) 2022 Andreas Kemnade */
++void mxc_epdc_init_sequence(struct mxc_epdc *priv, struct drm_display_mode *m);
++int mxc_epdc_init_hw(struct mxc_epdc *priv);
 +
-+static void mxc_epdc_pipe_enable(struct drm_simple_display_pipe *pipe,
-+				   struct drm_crtc_state *crtc_state,
-+				   struct drm_plane_state *plane_state)
-+{
-+	struct mxc_epdc *priv = drm_pipe_to_mxc_epdc(pipe);
-+	struct drm_display_mode *m = &pipe->crtc.state->adjusted_mode;
++void mxc_epdc_powerup(struct mxc_epdc *priv);
++void mxc_epdc_powerdown(struct mxc_epdc *priv);
 +
-+	dev_info(priv->drm.dev, "Mode: %d x %d\n", m->hdisplay, m->vdisplay);
-+}
+diff --git a/drivers/gpu/drm/mxc-epdc/epdc_waveform.c b/drivers/gpu/drm/mxc-epdc/epdc_waveform.c
+new file mode 100644
+index 000000000000..4f2f199722d5
+--- /dev/null
++++ b/drivers/gpu/drm/mxc-epdc/epdc_waveform.c
+@@ -0,0 +1,189 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright (C) 2022 Andreas Kemnade
++//
++/*
++ * based on the EPDC framebuffer driver
++ * Copyright (C) 2010-2016 Freescale Semiconductor, Inc.
++ * Copyright 2017 NXP
++ */
 +
-+static void mxc_epdc_pipe_disable(struct drm_simple_display_pipe *pipe)
-+{
-+	struct mxc_epdc *priv = drm_pipe_to_mxc_epdc(pipe);
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/dma-mapping.h>
++#include "mxc_epdc.h"
 +
-+	dev_dbg(priv->drm.dev, "pipe disable\n");
-+}
++#define DEFAULT_TEMP_INDEX      0
++#define DEFAULT_TEMP            20 /* room temp in deg Celsius */
 +
-+static void mxc_epdc_pipe_update(struct drm_simple_display_pipe *pipe,
-+				   struct drm_plane_state *plane_state)
-+{
-+	struct mxc_epdc *priv = drm_pipe_to_mxc_epdc(pipe);
-+
-+	dev_dbg(priv->drm.dev, "pipe update\n");
-+}
-+
-+static const struct drm_simple_display_pipe_funcs mxc_epdc_funcs = {
-+	.enable	 = mxc_epdc_pipe_enable,
-+	.disable = mxc_epdc_pipe_disable,
-+	.update	= mxc_epdc_pipe_update,
-+	.prepare_fb = drm_gem_simple_display_pipe_prepare_fb,
++struct waveform_data_header {
++	unsigned int wi0;
++	unsigned int wi1;
++	unsigned int wi2;
++	unsigned int wi3;
++	unsigned int wi4;
++	unsigned int wi5;
++	unsigned int wi6;
++	unsigned int xwia:24;
++	unsigned int cs1:8;
++	unsigned int wmta:24;
++	unsigned int fvsn:8;
++	unsigned int luts:8;
++	unsigned int mc:8;
++	unsigned int trc:8;
++	unsigned int reserved0_0:8;
++	unsigned int eb:8;
++	unsigned int sb:8;
++	unsigned int reserved0_1:8;
++	unsigned int reserved0_2:8;
++	unsigned int reserved0_3:8;
++	unsigned int reserved0_4:8;
++	unsigned int reserved0_5:8;
++	unsigned int cs2:8;
 +};
 +
-+
-+static const uint32_t mxc_epdc_formats[] = {
-+	DRM_FORMAT_XRGB8888,
++struct mxcfb_waveform_data_file {
++	struct waveform_data_header wdh;
++	u32 *data;      /* Temperature Range Table + Waveform Data */
 +};
 +
-+static struct drm_driver mxc_epdc_driver = {
-+	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.fops = &fops,
-+	.dumb_create	    = drm_gem_cma_dumb_create,
-+	.prime_handle_to_fd     = drm_gem_prime_handle_to_fd,
-+	.prime_fd_to_handle     = drm_gem_prime_fd_to_handle,
-+	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
-+	.gem_prime_mmap	 = drm_gem_prime_mmap,
-+
-+	.name = DRIVER_NAME,
-+	.desc = DRIVER_DESC,
-+	.date = DRIVER_DATE,
-+	.major = DRIVER_MAJOR,
-+	.minor = DRIVER_MINOR,
-+	.patchlevel = DRIVER_PATCHLEVEL,
-+};
-+
-+
-+static int mxc_epdc_probe(struct platform_device *pdev)
++void mxc_epdc_set_update_waveform(struct mxc_epdc *priv,
++				  struct mxcfb_waveform_modes *wv_modes)
 +{
-+	struct mxc_epdc *priv;
-+	int ret;
++	u32 val;
 +
-+	priv = devm_drm_dev_alloc(&pdev->dev, &mxc_epdc_driver, struct mxc_epdc, drm);
-+	if (IS_ERR(priv))
-+		return PTR_ERR(priv);
++	/* Configure the auto-waveform look-up table based on waveform modes */
 +
-+	platform_set_drvdata(pdev, priv);
++	/* Entry 1 = DU, 2 = GC4, 3 = GC8, etc. */
++	val = (wv_modes->mode_du << EPDC_AUTOWV_LUT_DATA_OFFSET) |
++		(0 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
++	epdc_write(priv, EPDC_AUTOWV_LUT, val);
++	val = (wv_modes->mode_du << EPDC_AUTOWV_LUT_DATA_OFFSET) |
++		(1 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
++	epdc_write(priv, EPDC_AUTOWV_LUT, val);
++	val = (wv_modes->mode_gc4 << EPDC_AUTOWV_LUT_DATA_OFFSET) |
++		(2 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
++	epdc_write(priv, EPDC_AUTOWV_LUT, val);
++	val = (wv_modes->mode_gc8 << EPDC_AUTOWV_LUT_DATA_OFFSET) |
++		(3 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
++	epdc_write(priv, EPDC_AUTOWV_LUT, val);
++	val = (wv_modes->mode_gc16 << EPDC_AUTOWV_LUT_DATA_OFFSET) |
++		(4 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
++	epdc_write(priv, EPDC_AUTOWV_LUT, val);
++	val = (wv_modes->mode_gc32 << EPDC_AUTOWV_LUT_DATA_OFFSET) |
++		(5 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
++	epdc_write(priv, EPDC_AUTOWV_LUT, val);
++}
 +
-+	mxc_epdc_setup_mode_config(&priv->drm);
++int mxc_epdc_fb_get_temp_index(struct mxc_epdc *priv, int temp)
++{
++	int i;
++	int index = -1;
 +
-+	ret = mxc_epdc_output(&priv->drm);
++	if (temp == TEMP_USE_AMBIENT) {
++		if (priv->thermal) {
++			if (thermal_zone_get_temp(priv->thermal, &temp)) {
++				dev_err(priv->drm.dev,
++					"reading temperature failed");
++				return DEFAULT_TEMP_INDEX;
++			}
++			temp /= 1000;
++		} else
++			temp = DEFAULT_TEMP;
++	}
++
++	if (priv->trt_entries == 0) {
++		dev_err(priv->drm.dev,
++			"No TRT exists...using default temp index\n");
++		return DEFAULT_TEMP_INDEX;
++	}
++
++	/* Search temperature ranges for a match */
++	for (i = 0; i < priv->trt_entries - 1; i++) {
++		if ((temp >= priv->temp_range_bounds[i])
++			&& (temp < priv->temp_range_bounds[i+1])) {
++			index = i;
++			break;
++		}
++	}
++
++	if (index < 0) {
++		dev_err(priv->drm.dev,
++			"No TRT index match...using lowest/highest\n");
++		if (temp < priv->temp_range_bounds[0]) {
++			dev_dbg(priv->drm.dev, "temperature < minimum range\n");
++			return 0;
++		}
++
++		if (temp >= priv->temp_range_bounds[priv->trt_entries-1]) {
++			dev_dbg(priv->drm.dev, "temperature >= maximum range\n");
++			return priv->trt_entries-1;
++		}
++
++		return DEFAULT_TEMP_INDEX;
++	}
++
++	dev_dbg(priv->drm.dev, "Using temperature index %d\n", index);
++
++	return index;
++}
++
++
++
++int mxc_epdc_prepare_waveform(struct mxc_epdc *priv,
++			      const u8 *data, size_t size)
++{
++	const struct mxcfb_waveform_data_file *wv_file;
++	int wv_data_offs;
++	int i;
++
++	priv->wv_modes.mode_init = 0;
++	priv->wv_modes.mode_du = 1;
++	priv->wv_modes.mode_gc4 = 3;
++	priv->wv_modes.mode_gc8 = 2;
++	priv->wv_modes.mode_gc16 = 2;
++	priv->wv_modes.mode_gc32 = 2;
++	priv->wv_modes_update = true;
++
++	wv_file = (struct mxcfb_waveform_data_file *)data;
++
++	/* Get size and allocate temperature range table */
++	priv->trt_entries = wv_file->wdh.trc + 1;
++	priv->temp_range_bounds = devm_kzalloc(priv->drm.dev, priv->trt_entries, GFP_KERNEL);
++
++	for (i = 0; i < priv->trt_entries; i++)
++		dev_dbg(priv->drm.dev, "trt entry #%d = 0x%x\n", i, *((u8 *)&wv_file->data + i));
++
++	/* Copy TRT data */
++	memcpy(priv->temp_range_bounds, &wv_file->data, priv->trt_entries);
++
++	/* Set default temperature index using TRT and room temp */
++	priv->temp_index = mxc_epdc_fb_get_temp_index(priv, DEFAULT_TEMP);
++
++	/* Get offset and size for waveform data */
++	wv_data_offs = sizeof(wv_file->wdh) + priv->trt_entries + 1;
++	priv->waveform_buffer_size = size - wv_data_offs;
++
++	/* Allocate memory for waveform data */
++	priv->waveform_buffer_virt = dmam_alloc_coherent(priv->drm.dev,
++						priv->waveform_buffer_size,
++						&priv->waveform_buffer_phys,
++						GFP_DMA | GFP_KERNEL);
++	if (priv->waveform_buffer_virt == NULL) {
++		dev_err(priv->drm.dev, "Can't allocate mem for waveform!\n");
++		return -ENOMEM;
++	}
++
++	memcpy(priv->waveform_buffer_virt, (u8 *)(data) + wv_data_offs,
++		priv->waveform_buffer_size);
++
++	/* Read field to determine if 4-bit or 5-bit mode */
++	if ((wv_file->wdh.luts & 0xC) == 0x4)
++		priv->buf_pix_fmt = EPDC_FORMAT_BUF_PIXEL_FORMAT_P5N;
++	else
++		priv->buf_pix_fmt = EPDC_FORMAT_BUF_PIXEL_FORMAT_P4N;
++
++	dev_info(priv->drm.dev, "EPDC pix format: %x\n",
++		 priv->buf_pix_fmt);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/mxc-epdc/epdc_waveform.h b/drivers/gpu/drm/mxc-epdc/epdc_waveform.h
+new file mode 100644
+index 000000000000..c5c461b975cb
+--- /dev/null
++++ b/drivers/gpu/drm/mxc-epdc/epdc_waveform.h
+@@ -0,0 +1,7 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/* Copyright (C) 2022 Andreas Kemnade */
++int mxc_epdc_fb_get_temp_index(struct mxc_epdc *priv, int temp);
++int mxc_epdc_prepare_waveform(struct mxc_epdc *priv,
++			      const u8 *waveform, size_t size);
++void mxc_epdc_set_update_waveform(struct mxc_epdc *priv,
++				  struct mxcfb_waveform_modes *wv_modes);
+diff --git a/drivers/gpu/drm/mxc-epdc/mxc_epdc.h b/drivers/gpu/drm/mxc-epdc/mxc_epdc.h
+index c5f5280b574f..f7b1cbc4cc4e 100644
+--- a/drivers/gpu/drm/mxc-epdc/mxc_epdc.h
++++ b/drivers/gpu/drm/mxc-epdc/mxc_epdc.h
+@@ -8,6 +8,32 @@
+ #include <drm/drm_drv.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_simple_kms_helper.h>
++#include <linux/thermal.h>
++#include "epdc_regs.h"
++
++#define TEMP_USE_AMBIENT			0x1000
++
++struct mxcfb_waveform_modes {
++	int mode_init;
++	int mode_du;
++	int mode_gc4;
++	int mode_gc8;
++	int mode_gc16;
++	int mode_gc32;
++};
++
++struct imx_epdc_fb_mode {
++	u32 vscan_holdoff;
++	u32 sdoed_width;
++	u32 sdoed_delay;
++	u32 sdoez_width;
++	u32 sdoez_delay;
++	u32 gdclk_hp_offs;
++	u32 gdsp_offs;
++	u32 gdoe_offs;
++	u32 gdclk_offs;
++	u32 num_ce;
++};
+ 
+ struct clk;
+ struct regulator;
+@@ -16,5 +42,60 @@ struct mxc_epdc {
+ 	struct drm_simple_display_pipe pipe;
+ 	struct drm_connector connector;
+ 	struct display_timing timing;
++	struct imx_epdc_fb_mode imx_mode;
++	void __iomem *iobase;
++	struct completion powerdown_compl;
++	struct clk *epdc_clk_axi;
++	struct clk *epdc_clk_pix;
++	struct regulator *display_regulator;
++	struct regulator *vcom_regulator;
++	struct regulator *v3p3_regulator;
++	struct thermal_zone_device *thermal;
++	int rev;
++
++	dma_addr_t epdc_mem_phys;
++	void *epdc_mem_virt;
++	int epdc_mem_width;
++	int epdc_mem_height;
++	u32 *working_buffer_virt;
++	dma_addr_t working_buffer_phys;
++	u32 working_buffer_size;
++
++	/* waveform related stuff */
++	int trt_entries;
++	int temp_index;
++	u8 *temp_range_bounds;
++	int buf_pix_fmt;
++	struct mxcfb_waveform_modes wv_modes;
++	bool wv_modes_update;
++	u32 *waveform_buffer_virt;
++	dma_addr_t waveform_buffer_phys;
++	u32 waveform_buffer_size;
++
++	struct mutex power_mutex;
++	bool powered;
++	bool powering_down;
++	bool updates_active;
++	int wait_for_powerdown;
++	int pwrdown_delay;
++
++	/* elements related to EPDC updates */
++	int num_luts;
++	int max_num_updates;
++	bool in_init;
++	bool hw_ready;
++	bool hw_initializing;
++	bool waiting_for_idle;
++
+ };
+ 
++static inline u32 epdc_read(struct mxc_epdc *priv, u32 reg)
++{
++	return readl(priv->iobase + reg);
++}
++
++static inline void epdc_write(struct mxc_epdc *priv, u32 reg, u32 data)
++{
++	writel(data, priv->iobase + reg);
++}
++
+diff --git a/drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c b/drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c
+index c0b0a3bcdb57..4810e5c5bc6e 100644
+--- a/drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c
++++ b/drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c
+@@ -25,6 +25,8 @@
+ #include <drm/drm_prime.h>
+ #include <drm/drm_probe_helper.h>
+ #include "mxc_epdc.h"
++#include "epdc_hw.h"
++#include "epdc_waveform.h"
+ 
+ #define DRIVER_NAME "mxc_epdc"
+ #define DRIVER_DESC "IMX EPDC"
+@@ -122,6 +124,57 @@ int mxc_epdc_output(struct drm_device *drm)
+ 				 DRM_MODE_CONNECTOR_Unknown);
+ 	if (ret)
+ 		return ret;
++
++	ret = of_property_read_u32(drm->dev->of_node, "vscan-holdoff",
++				   &priv->imx_mode.vscan_holdoff);
 +	if (ret)
 +		return ret;
 +
-+	drm_simple_display_pipe_init(&priv->drm, &priv->pipe, &mxc_epdc_funcs,
-+				     mxc_epdc_formats,
-+				     ARRAY_SIZE(mxc_epdc_formats),
-+				     NULL,
-+				     &priv->connector);
-+	drm_plane_enable_fb_damage_clips(&priv->pipe.plane);
++	ret = of_property_read_u32(drm->dev->of_node, "sdoed-width",
++				   &priv->imx_mode.sdoed_width);
++	if (ret)
++		return ret;
 +
-+	drm_mode_config_reset(&priv->drm);
++	ret = of_property_read_u32(drm->dev->of_node, "sdoed-delay",
++				   &priv->imx_mode.sdoed_delay);
++	if (ret)
++		return ret;
 +
-+	ret = drm_dev_register(&priv->drm, 0);
++	ret = of_property_read_u32(drm->dev->of_node, "sdoez-width",
++				   &priv->imx_mode.sdoez_width);
++	if (ret)
++		return ret;
 +
-+	drm_fbdev_generic_setup(&priv->drm, 32);
-+	return 0;
-+}
++	ret = of_property_read_u32(drm->dev->of_node, "sdoez-delay",
++				   &priv->imx_mode.sdoez_delay);
++	if (ret)
++		return ret;
 +
-+static int mxc_epdc_remove(struct platform_device *pdev)
-+{
-+	struct mxc_epdc *priv = platform_get_drvdata(pdev);
++	ret = of_property_read_u32(drm->dev->of_node, "gdclk-hp-offs",
++				   &priv->imx_mode.gdclk_hp_offs);
++	if (ret)
++		return ret;
 +
-+	drm_dev_unregister(&priv->drm);
-+	drm_kms_helper_poll_fini(&priv->drm);
-+	drm_mode_config_cleanup(&priv->drm);
-+	return 0;
-+}
++	ret = of_property_read_u32(drm->dev->of_node, "gdsp-offs",
++				   &priv->imx_mode.gdsp_offs);
++	if (ret)
++		return ret;
 +
-+static const struct of_device_id imx_epdc_dt_ids[] = {
-+	{ .compatible = "fsl,imx6sl-epdc", },
-+	{ .compatible = "fsl,imx6sll-epdc", },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, imx_epdc_dt_ids);
++	ret = of_property_read_u32(drm->dev->of_node, "gdoe-offs",
++				   &priv->imx_mode.gdoe_offs);
++	if (ret)
++		return ret;
 +
-+static struct platform_driver pdev = {
-+	.driver = {
-+		.name   = "mxc_epdc",
-+		.of_match_table = of_match_ptr(imx_epdc_dt_ids),
-+	},
-+	.probe  = mxc_epdc_probe,
-+	.remove = mxc_epdc_remove,
-+};
++	ret = of_property_read_u32(drm->dev->of_node, "gdclk-offs",
++				   &priv->imx_mode.gdclk_offs);
++	if (ret)
++		return ret;
 +
-+module_platform_driver(pdev);
-+MODULE_DESCRIPTION("IMX EPDC driver");
-+MODULE_LICENSE("GPL");
++	ret = of_property_read_u32(drm->dev->of_node, "num-ce",
++				   &priv->imx_mode.num_ce);
++	if (ret)
++		return ret;
 +
+ 	ret = of_get_display_timing(drm->dev->of_node, "timing", &priv->timing);
+ 	if (ret)
+ 		return ret;
+@@ -137,6 +190,20 @@ static void mxc_epdc_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 	struct drm_display_mode *m = &pipe->crtc.state->adjusted_mode;
+ 
+ 	dev_info(priv->drm.dev, "Mode: %d x %d\n", m->hdisplay, m->vdisplay);
++	priv->epdc_mem_width = m->hdisplay;
++	priv->epdc_mem_height = m->vdisplay;
++	priv->epdc_mem_virt = dma_alloc_wc(priv->drm.dev,
++					   m->hdisplay * m->vdisplay,
++					   &priv->epdc_mem_phys, GFP_DMA | GFP_KERNEL);
++	priv->working_buffer_size = m->hdisplay * m->vdisplay * 2;
++	priv->working_buffer_virt =
++		dma_alloc_coherent(priv->drm.dev,
++				   priv->working_buffer_size,
++				   &priv->working_buffer_phys,
++				   GFP_DMA | GFP_KERNEL);
++
++	if (priv->working_buffer_virt && priv->epdc_mem_virt)
++		mxc_epdc_init_sequence(priv, m);
+ }
+ 
+ static void mxc_epdc_pipe_disable(struct drm_simple_display_pipe *pipe)
+@@ -144,6 +211,19 @@ static void mxc_epdc_pipe_disable(struct drm_simple_display_pipe *pipe)
+ 	struct mxc_epdc *priv = drm_pipe_to_mxc_epdc(pipe);
+ 
+ 	dev_dbg(priv->drm.dev, "pipe disable\n");
++
++	if (priv->epdc_mem_virt) {
++		dma_free_wc(priv->drm.dev, priv->epdc_mem_width * priv->epdc_mem_height,
++			    priv->epdc_mem_virt, priv->epdc_mem_phys);
++		priv->epdc_mem_virt = NULL;
++	}
++
++	if (priv->working_buffer_virt) {
++		dma_free_wc(priv->drm.dev, priv->working_buffer_size,
++			    priv->working_buffer_virt,
++			    priv->working_buffer_phys);
++		priv->working_buffer_virt = NULL;
++	}
+ }
+ 
+ static void mxc_epdc_pipe_update(struct drm_simple_display_pipe *pipe,
+@@ -187,6 +267,7 @@ static struct drm_driver mxc_epdc_driver = {
+ static int mxc_epdc_probe(struct platform_device *pdev)
+ {
+ 	struct mxc_epdc *priv;
++	const struct firmware *firmware;
+ 	int ret;
+ 
+ 	priv = devm_drm_dev_alloc(&pdev->dev, &mxc_epdc_driver, struct mxc_epdc, drm);
+@@ -195,6 +276,19 @@ static int mxc_epdc_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, priv);
+ 
++	ret = mxc_epdc_init_hw(priv);
++	if (ret)
++		return ret;
++
++	ret = request_firmware(&firmware, "imx/epdc/epdc.fw", priv->drm.dev);
++	if (ret)
++		return ret;
++
++	ret = mxc_epdc_prepare_waveform(priv, firmware->data, firmware->size);
++	release_firmware(firmware);
++	if (ret)
++		return ret;
++
+ 	mxc_epdc_setup_mode_config(&priv->drm);
+ 
+ 	ret = mxc_epdc_output(&priv->drm);
 -- 
 2.30.2
 
