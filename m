@@ -1,41 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879084AB264
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 22:33:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C074AB2D0
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 00:33:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 018D710F655;
-	Sun,  6 Feb 2022 21:33:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40BC610F682;
+	Sun,  6 Feb 2022 23:32:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0573D10F655
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 21:33:13 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 87b6f5d4-8794-11ec-b20b-0050568c148b;
- Sun, 06 Feb 2022 21:34:14 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id F280B194BAB;
- Sun,  6 Feb 2022 22:33:11 +0100 (CET)
-Date: Sun, 6 Feb 2022 22:33:09 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH v3] drm/bridge: dw-hdmi: use safe format when first in
- bridge chain
-Message-ID: <YgA+lcSNaQ2x4Wef@ravnborg.org>
-References: <20220204143337.89221-1-narmstrong@baylibre.com>
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F78F10F682
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 23:32:56 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id o12so9662578qke.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Feb 2022 15:32:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yKUPrrrZN1zJGy8+P0HeCrjugIvW5eEZadjOMXculXk=;
+ b=f+OCM/MTHwkbvDOaLnThnQxElSpJ2eZ0Yf4ZPJbvPshHr0b4lx5hYmh7Kd1fbOIYQc
+ jI00PnYCS/wtja0UCPIn6O1fK7yN5undOTaDmJzXHSJgqqmanyZ5nyi0KAMsN+vVU2bm
+ +4uK9o9zdc+g4wx3JV6JteK1//6Gnqf3xkhQfw0RbEp5nR+MbXaybFA1HjYqIkV7FmlZ
+ vsa+d5Vw7QfOSKVDHo5G6L9HzANgj/mJL/47CT6s6CRrytkpwSt8Jdtk/+3ensokCRPh
+ 9xF4COaL0gIP05mDfK35aIpO2WS8n6UFxHcidcuPhSva/ITILFrzJjPO2FY7SY7jI8k4
+ YudA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yKUPrrrZN1zJGy8+P0HeCrjugIvW5eEZadjOMXculXk=;
+ b=EWM29YmtoHmxx4KvFpGnLyLegR5bGVkjXiZuKfRlsz8eVgbjCLPRrOYU57eOdOdoHp
+ a5UuMx4htYp8TsZq3SQiKpcQ5yRpLHAC4az8i4uTS5zsjWoYKkgn3t4o5xqc3nqlcAxT
+ 35DIyW6KhU4QVo4a+p3baLY5THbehf/CsVH6+Cr1oBLKXYY1NzYqzxlXkKtBg22Lthvl
+ q2eRqWu1KzVi3k6Jgba9cfqE9PhBQ4CeGZoDBEVe356qn2xDAEgGjnGwcwrErxpC20qK
+ md9cGkNSMY0ppW9GnY38n5bwYbYHJ+IE/AeVyCrB3gdzdNSdhFqVhuoMrcAkqwuAVu/s
+ LPug==
+X-Gm-Message-State: AOAM532nLKvuhUijks8EMHpOEi1vz7BYMQLXjLPP0B0u6CccNt7ztp65
+ 7VRUcXLiLqyqs4041XPXD4Nl2wlWQGX/nUiWz6QtVcXDbsE=
+X-Google-Smtp-Source: ABdhPJx0/eVAlLlf25TH7z/Yc6Muyko9TQ2X+YOYufAEgyjmPgldn5IH9IeaO9m5UWsTeJmxsYua/048gfUoaNFv5jc=
+X-Received: by 2002:a05:620a:1664:: with SMTP id
+ d4mr5091098qko.363.1644190375442; 
+ Sun, 06 Feb 2022 15:32:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220204143337.89221-1-narmstrong@baylibre.com>
+References: <20220202085429.22261-1-suraj.kandpal@intel.com>
+ <20220202085429.22261-6-suraj.kandpal@intel.com>
+ <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com>
+ <87y22ts948.fsf@intel.com> <YfqGbqQQz5vrDaLI@pendragon.ideasonboard.com>
+In-Reply-To: <YfqGbqQQz5vrDaLI@pendragon.ideasonboard.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 7 Feb 2022 02:32:44 +0300
+Message-ID: <CAA8EJpqr6MB64EAtLU3nBjgjx1COwn4auenCCw4kHB489VG0CA@mail.gmail.com>
+Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting from
+ drm_writeback_connector structure changes
+To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,81 +66,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, robert.foss@linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kieran.bingham@ideasonboard.com,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- jernej.skrabec@gmail.com, biju.das.jz@bp.renesas.com,
- Laurent.pinchart@ideasonboard.com
+Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ arun.r.murthy@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neail,
+On Wed, 2 Feb 2022 at 16:26, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Jani,
+>
+> On Wed, Feb 02, 2022 at 03:15:03PM +0200, Jani Nikula wrote:
+> > On Wed, 02 Feb 2022, Laurent Pinchart wrote:
+> > > On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
+> > >> Changing rcar_du driver to accomadate the change of
+> > >> drm_writeback_connector.base and drm_writeback_connector.encoder
+> > >> to a pointer the reason for which is explained in the
+> > >> Patch(drm: add writeback pointers to drm_connector).
+> > >>
+> > >> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
+> > >> ---
+> > >>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
+> > >>  drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
+> > >>  2 files changed, 7 insertions(+), 3 deletions(-)
+> > >>
+> > >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> > >> index 66e8839db708..68f387a04502 100644
+> > >> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> > >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> > >> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
+> > >>    const char *const *sources;
+> > >>    unsigned int sources_count;
+> > >>
+> > >> +  struct drm_connector connector;
+> > >> +  struct drm_encoder encoder;
+> > >
+> > > Those fields are, at best, poorly named. Furthermore, there's no need in
+> > > this driver or in other drivers using drm_writeback_connector to create
+> > > an encoder or connector manually. Let's not polute all drivers because
+> > > i915 doesn't have its abstractions right.
+> >
+> > i915 uses the quite common model for struct inheritance:
+> >
+> >       struct intel_connector {
+> >               struct drm_connector base;
+> >               /* ... */
+> >       }
+> >
+> > Same with at least amd, ast, fsl-dcu, hisilicon, mga200, msm, nouveau,
+> > radeon, tilcdc, and vboxvideo.
+> >
+> > We could argue about the relative merits of that abstraction, but I
+> > think the bottom line is that it's popular and the drivers using it are
+> > not going to be persuaded to move away from it.
+>
+> Nobody said inheritance is bad.
+>
+> > It's no coincidence that the drivers who've implemented writeback so far
+> > (komeda, mali, rcar-du, vc4, and vkms) do not use the abstraction,
+> > because the drm_writeback_connector midlayer does, forcing the issue.
+>
+> Are you sure it's not a coincidence ? :-)
+>
+> The encoder and especially connector created by drm_writeback_connector
+> are there only because KMS requires a drm_encoder and a drm_connector to
+> be exposed to userspace (and I could argue that using a connector for
+> writeback is a hack, but that won't change). The connector is "virtual",
+> I still fail to see why i915 or any other driver would need to wrap it
+> into something else. The whole point of the drm_writeback_connector
+> abstraction is that drivers do not have to manage the writeback
+> drm_connector manually, they shouldn't touch it at all.
 
-On Fri, Feb 04, 2022 at 03:33:37PM +0100, Neil Armstrong wrote:
-> When the dw-hdmi bridge is in first place of the bridge chain, this
-> means there is no way to select an input format of the dw-hdmi HW
-> component.
-> 
-> Since introduction of display-connector, negotiation was broken since
-> the dw-hdmi negotiation code only worked when the dw-hdmi bridge was
-> in last position of the bridge chain or behind another bridge also
-> supporting input & output format negotiation.
-> 
-> Commit 7cd70656d128 ("drm/bridge: display-connector: implement bus fmts callbacks")
-> was introduced to make negotiation work again by making display-connector
-> act as a pass-through concerning input & output format negotiation.
-> 
-> But in the case where the dw-hdmi is single in the bridge chain, for
-> example on Renesas SoCs, with the display-connector bridge the dw-hdmi
-> is no more single, breaking output format.
+Laurent, I wanted to shift a bit from the question of drm_connector to
+the question of drm_encoder being embedded in the
+drm_writeback_connector.
+In case of the msm driver the drm_encoder is not a lightweight entity,
+but a full-featured driver part. Significant part of it can be shared
+with the writeback implementation, if we allow using a pointer to the
+external drm_encoder with the drm_writeback_connector.
+Does the following patch set stand a chance to receive your ack?
+ - Switch drm_writeback_connector to point to drm_encoder rather than
+embedding it?
+ - Create drm_encoder for the drm_writeback_connector when one is not
+specified, so the current drivers can be left unchanged.
 
-I have forgotten all the details during my leave from drm, so I
-may miss something obvious.
-This fix looks like it papers over some general thingy with the
-format negotiation.
+>
+> > So I think drm_writeback_connector should *not* use the inheritance
+> > abstraction because it's a midlayer that should leave that option to the
+> > drivers. I think drm_writeback_connector needs to be changed to
+> > accommodate that, and, unfortunately, it means current writeback users
+> > need to be changed as well.
+> >
+> > I am not sure, however, if the series at hand is the right
+> > approach. Perhaps writeback can be modified to allocate the stuff for
+> > you if you prefer it that way, as long as the drm_connector is not
+> > embedded in struct drm_writeback_connector.
+> >
+> > > Nack.
+> > >
+> > >>    struct drm_writeback_connector writeback;
+> > >>  };
+> > >>
+> > >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> > >> index c79d1259e49b..5b1e83380c47 100644
+> > >> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> > >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> > >> @@ -200,8 +200,10 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
+> > >>  {
+> > >>    struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
+> > >>
+> > >> -  wb_conn->encoder.possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+> > >> -  drm_connector_helper_add(&wb_conn->base,
+> > >> +  wb_conn->base = &rcrtc->connector;
+> > >> +  wb_conn->encoder = &rcrtc->encoder;
+> > >> +  wb_conn->encoder->possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+> > >> +  drm_connector_helper_add(wb_conn->base,
+> > >>                             &rcar_du_wb_conn_helper_funcs);
+> > >>
+> > >>    return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
+> > >> @@ -220,7 +222,7 @@ void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
+> > >>    struct drm_framebuffer *fb;
+> > >>    unsigned int i;
+> > >>
+> > >> -  state = rcrtc->writeback.base.state;
+> > >> +  state = rcrtc->writeback.base->state;
+> > >>    if (!state || !state->writeback_job)
+> > >>            return;
+> > >>
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-We do not want to see the below in all display drivers, so
-I assume the right fix is to stuff it in somewhere in the framework.
-
-Or do I miss something?
-
-	Sam
 
 
-> 
-> Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Bisected-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Fixes: 7cd70656d128 ("drm/bridge: display-connector: implement bus fmts callbacks").
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> ---
-> Changes since v2:
-> - Add rob's r-b
-> - Fix invalid Fixes commit hash
-> 
-> Changes since v1:
-> - Remove bad fix in dw_hdmi_bridge_atomic_get_input_bus_fmts
-> - Fix typos in commit message
-> 
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 54d8fdad395f..97cdc61b57f6 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2551,8 +2551,9 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
->  	if (!output_fmts)
->  		return NULL;
->  
-> -	/* If dw-hdmi is the only bridge, avoid negociating with ourselves */
-> -	if (list_is_singular(&bridge->encoder->bridge_chain)) {
-> +	/* If dw-hdmi is the first or only bridge, avoid negociating with ourselves */
-> +	if (list_is_singular(&bridge->encoder->bridge_chain) ||
-> +	    list_is_first(&bridge->chain_node, &bridge->encoder->bridge_chain)) {
->  		*num_output_fmts = 1;
->  		output_fmts[0] = MEDIA_BUS_FMT_FIXED;
->  
-> -- 
-> 2.25.1
+-- 
+With best wishes
+Dmitry
