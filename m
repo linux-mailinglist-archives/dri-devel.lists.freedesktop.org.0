@@ -2,61 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA914AB1AF
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 20:29:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F614AB1C5
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 20:40:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E571010F315;
-	Sun,  6 Feb 2022 19:29:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A185510E524;
+	Sun,  6 Feb 2022 19:40:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB71610E203
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 19:29:41 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from ixit.cz (ip-94-112-206-30.net.upcbroadband.cz [94.112.206.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10DD210E524
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 19:40:54 +0000 (UTC)
+Received: from [10.0.0.111] (_gateway [10.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 518601F38D;
- Sun,  6 Feb 2022 19:29:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1644175780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id 2DA9A20056;
+ Sun,  6 Feb 2022 20:40:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1644176453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iPo7+9pfSjBhb0CozWFLCyj7uzuuX6nqwi3CqZDlDH8=;
- b=SB4HnqWtlSPgMB+kgrQIOe/QgUV5wV6d6lrAhmmrYTMkvbWF39CVomLpMAhBAGzcWv9eXA
- Fk6PegHAasb95UW4oq5/5l1nzUjcp1V/0uyUW66G2BPiEoH9/ooZVQ1+9BBYaLsLI3OGSQ
- 0H9f2XI59iQ6Ct/hoEW4bG17q1M6Mbk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1644175780;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iPo7+9pfSjBhb0CozWFLCyj7uzuuX6nqwi3CqZDlDH8=;
- b=//zCNQiDdAZSYi4m2PisGwiFKPH3C91Cd7bS9pQD9EsfioFIrX/l/FcFW2BeqVQODmVAF1
- cpp6uTqm4K32KvDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C81513A05;
- Sun,  6 Feb 2022 19:29:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gMbvBaQhAGLlJAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Sun, 06 Feb 2022 19:29:40 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, javierm@redhat.com, sam@ravnborg.org,
- noralf@tronnes.org
-Subject: [PATCH 5/5] drm/fb-helper: Clip damage area horizontally
-Date: Sun,  6 Feb 2022 20:29:35 +0100
-Message-Id: <20220206192935.24645-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220206192935.24645-1-tzimmermann@suse.de>
-References: <20220206192935.24645-1-tzimmermann@suse.de>
+ bh=GszLNhMexLpLLdemM84LTJhxhkHraxd8L6Hl1gvyo7k=;
+ b=W8l16qF2FXpoSLj8nP+5jXthayGpPU4iuSNBhwCiDHSMvlzNUqvdrdwl00mzY9Re2QYC15
+ 5HvtPQ+bbo5MkvAlVZLQOOK4dVUkPpup9+73rDeb6gtuZSy1AISm/k9M+69BoFiE1NYbNU
+ 8cmHzahnRWjvujlkCMufvh/rruC+Q9s=
+Date: Sun, 06 Feb 2022 20:40:47 +0100
+From: David Heidelberg <david@ixit.cz>
+Subject: Re: [PATCH] drm/panel: JDI LT070ME05000 remove useless warning
+To: Sam Ravnborg <sam@ravnborg.org>
+Message-Id: <ZNEW6R.0SLJU7L5A6PW2@ixit.cz>
+In-Reply-To: <YgAg+lklFqPhVgS8@ravnborg.org>
+References: <20220206190702.450643-1-david@ixit.cz>
+ <YgAg+lklFqPhVgS8@ravnborg.org>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,41 +50,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ ~okias/devicetree@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clip the damage area horizontally if only a single scanline has been
-changed. This is helpful to reduce the memcpy overhead for small writes.
+On Sun, Feb 6 2022 at 20:26:50 +0100, Sam Ravnborg <sam@ravnborg.org> 
+wrote:
+> dev_err_probe
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_fb_helper.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Amazing, thanks I'll send fix right away.
+Davi
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index bed58be1b205..71e65d8999c2 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -690,6 +690,18 @@ static void drm_fb_helper_clip_to_memory_range(struct fb_info *info, off_t off,
- 	u32 x2 = info->var.xres;
- 	u32 y2 = DIV_ROUND_UP(end, info->fix.line_length);
- 
-+	if ((y2 - y1) == 1) {
-+		/*
-+		 * We've only written to a single scanline. Try to reduce
-+		 * the number of horizontal pixels that need an update.
-+		 */
-+		off_t bit_off = (off % info->fix.line_length) * 8;
-+		off_t bit_end = (end % info->fix.line_length) * 8;
-+
-+		x1 = bit_off / info->var.bits_per_pixel;
-+		x2 = DIV_ROUND_UP(bit_end, info->var.bits_per_pixel);
-+	}
-+
- 	drm_rect_init(clip, x1, y1, x2 - x1, y2 - y1);
- }
- 
--- 
-2.34.1
 
