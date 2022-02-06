@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6004AB171
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 19:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792454AB172
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Feb 2022 19:56:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E47D10E469;
-	Sun,  6 Feb 2022 18:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61DD310E4E0;
+	Sun,  6 Feb 2022 18:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69B0610E469
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 18:56:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88E1F10E4E0
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 18:56:51 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D842383BB6;
- Sun,  6 Feb 2022 19:56:12 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id C92C883BC8;
+ Sun,  6 Feb 2022 19:56:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1644173773;
- bh=KKbRm/BFOEm1V+kn3u3yaWlCpEdEA79AVu4d4zv8sKY=;
+ s=phobos-20191101; t=1644173810;
+ bh=7771urnV84NHRLgMxfwndh8/xeMivwsLCBYvo7vYehA=;
  h=From:To:Cc:Subject:Date:From;
- b=Awj6fEPaN+TMPGONEuVmdlhz4zrH/tjyfALmAXMcyLAvACNNxUrfUXhKYnlBXMEiP
- LiBiAsae1ICY3MA43iMH1kcU0evl10J3cupU/Hh/ZrXJCZirogfD34/m72pwhbF403
- w7zHmDNCwYRFE62ezpGznHCXFBIRwyBjnubl2BFotDIvnn1Q88Uc9NMjW7Ojhc49GB
- b0h3C7ZqNlyWJVkiQ94t5iQJthtpLmb0ByhFC0nUFALt1ylISzGCoyksWq8Ou/JbbR
- NKVD+Al9p/6BARg8ZU5Njx6xkWg8PtmtKEBddJIWrGhX4EMZgNXympCi/kay1/R582
- n+jbbVPccW/6A==
+ b=u2GG2abAS5C2x3Q9/+3plYaCMxLZn/b0vmGvDu3C0oYHhFb6VCi+Ol8oqqtop/0nM
+ FIS6gcv+oO2kdi6JFys6kaFlF1lFam5LqE8lhSv+GJ5vSxFojNIuyemweuE4PseJT/
+ lHVPa4REa+MdFfixSjqjArsb6jjXadKmJMAKiBVez6p4zvFSC5NdvkII3RG265nFwq
+ mNGnuWoKvlPfLzteCNn4dcxt6TBawW1z1ZOOnSK23N/zBPa0Cf4jum/ImyXhnC44Z1
+ e2r1vAu8GU/3jG8r/UzNy8gqYpaGkKM4A+VQBDbHXiPKUuWmemrVxXq4kyIjgkppWr
+ lnFvLP8RIc+IQ==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: mxsfb: Simplify LCDIF clock handling
-Date: Sun,  6 Feb 2022 19:55:55 +0100
-Message-Id: <20220206185555.275768-1-marex@denx.de>
+Subject: [PATCH] [RFC] drm: mxsfb: Implement LCDIF scanout CRC32 support
+Date: Sun,  6 Feb 2022 19:56:43 +0100
+Message-Id: <20220206185643.275811-1-marex@denx.de>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -57,11 +57,33 @@ Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current clock handling in the LCDIF driver is a convoluted mess.
-Implement runtime PM ops which turn the clock ON and OFF and let the
-pm_runtime_get_sync()/pm_runtime_put_sync() calls in .atomic_enable
-and .atomic_disable callbacks turn the clock ON and OFF at the right
-time.
+The LCDIF controller as present in i.MX6SX/i.MX8M Mini/Nano has a CRC_STAT
+register, which contains CRC32 of the frame as it was clocked out of the
+DPI interface of the LCDIF. This is likely meant as a functional safety
+register.
+
+Unfortunatelly, there is zero documentation on how the CRC32 is calculated,
+there is no documentation of the polynomial, the init value, nor on which
+data is the checksum applied.
+
+By applying brute-force on 8 pixel / 2 line frame, which is the minimum
+size LCDIF would work with, it turns out the polynomial is CRC32_POLY_LE
+0xedb88320 , init value is 0xffffffff , the input data are bitrev32()
+of the entire frame and the resulting CRC has to be also bitrev32()ed.
+
+Doing this calculation in software for each frame is unrealistic due to
+the CPU demand, implement at least a sysfs attribute which permits testing
+the current frame on demand.
+
+Unfortunatelly, this functionality has another problem. On all of those SoCs,
+it is possible to overload interconnect e.g. by concurrent USB and uSDHC
+transfers, at which point the LCDIF LFIFO suffers an UNDERFLOW condition,
+which results in the image being shifted to the right by exactly LFIFO size
+pixels. On i.MX8M Mini, the LFIFO is 76x256 bits = 2432 Byte ~= 810 pixel
+at 24bpp. In this case, the LCDIF does not assert UNDERFLOW_IRQ bit, the
+frame CRC32 indicated in CRC_STAT register matches the CRC32 of the frame
+in DRAM, the RECOVER_ON_UNDERFLOW bit has no effect, so if this mode of
+failure occurs, the failure gets undetected and uncorrected.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
@@ -72,250 +94,155 @@ Cc: Robby Cai <robby.cai@nxp.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Stefan Agner <stefan@agner.ch>
 ---
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 85 ++++++++++++++++++-------------
- drivers/gpu/drm/mxsfb/mxsfb_kms.c | 18 ++-----
- 2 files changed, 54 insertions(+), 49 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c  | 38 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/mxsfb/mxsfb_drv.h  |  3 +++
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 11 +++++----
+ drivers/gpu/drm/mxsfb/mxsfb_regs.h |  1 +
+ 4 files changed, 49 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 375f26d4a4172..4ff3c6195dd0c 100644
+index 4ff3c6195dd0c..6f296b398f28c 100644
 --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
 +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -72,18 +72,6 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
- 	},
- };
+@@ -9,6 +9,7 @@
+  */
  
--void mxsfb_enable_axi_clk(struct mxsfb_drm_private *mxsfb)
--{
--	if (mxsfb->clk_axi)
--		clk_prepare_enable(mxsfb->clk_axi);
--}
--
--void mxsfb_disable_axi_clk(struct mxsfb_drm_private *mxsfb)
--{
--	if (mxsfb->clk_axi)
--		clk_disable_unprepare(mxsfb->clk_axi);
--}
--
- static struct drm_framebuffer *
- mxsfb_fb_create(struct drm_device *dev, struct drm_file *file_priv,
- 		const struct drm_mode_fb_cmd2 *mode_cmd)
-@@ -224,33 +212,31 @@ static int mxsfb_load(struct drm_device *drm,
- 	if (IS_ERR(mxsfb->clk))
- 		return PTR_ERR(mxsfb->clk);
+ #include <linux/clk.h>
++#include <linux/crc32.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+@@ -292,6 +293,37 @@ static void mxsfb_unload(struct drm_device *drm)
+ 	pm_runtime_disable(drm->dev);
+ }
  
--	mxsfb->clk_axi = devm_clk_get(drm->dev, "axi");
-+	mxsfb->clk_axi = devm_clk_get_optional(drm->dev, "axi");
- 	if (IS_ERR(mxsfb->clk_axi))
--		mxsfb->clk_axi = NULL;
-+		return PTR_ERR(mxsfb->clk_axi);
++static ssize_t mxsfb_frame_checksum_show(struct device *dev,
++					     struct device_attribute *attr,
++					     char *buf)
++{
++	struct drm_device *drm = dev_get_drvdata(dev);
++	struct mxsfb_drm_private *mxsfb = drm->dev_private;
++	u32 hwcrc = readl(mxsfb->base, LCDC_V4_CRC_STAT);
++	u32 swcrc = 0xffffffff;
++	int i;
++
++	if (mxsfb->gem_vaddr) {
++		for (i = 0; i < mxsfb->gem_size / 4; i++) {
++			u32 data = bitrev32(((u32 *)mxsfb->gem_vaddr)[i]);
++			swcrc = crc32(swcrc, &data, 4);
++		}
++		swcrc = bitrev32(swcrc);
++	}
++
++	return sysfs_emit(buf, "HW:%08x,SW:%08x,OK:%d\n", hwcrc, swcrc, hwcrc == swcrc);
++}
++static DEVICE_ATTR(frame_checksum, 0444, mxsfb_frame_checksum_show, NULL);
++
++static struct attribute *mxsfb_attributes[] = {
++	&dev_attr_frame_checksum.attr,
++	NULL,
++};
++
++static const struct attribute_group mxsfb_attr_group = {
++	.attrs = mxsfb_attributes,
++};
++
+ DEFINE_DRM_GEM_CMA_FOPS(fops);
  
--	mxsfb->clk_disp_axi = devm_clk_get(drm->dev, "disp_axi");
-+	mxsfb->clk_disp_axi = devm_clk_get_optional(drm->dev, "disp_axi");
- 	if (IS_ERR(mxsfb->clk_disp_axi))
--		mxsfb->clk_disp_axi = NULL;
-+		return PTR_ERR(mxsfb->clk_disp_axi);
- 
- 	ret = dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(32));
+ static const struct drm_driver mxsfb_driver = {
+@@ -335,10 +367,16 @@ static int mxsfb_probe(struct platform_device *pdev)
  	if (ret)
- 		return ret;
+ 		goto err_unload;
  
--	pm_runtime_enable(drm->dev);
--
- 	/* Modeset init */
- 	drm_mode_config_init(drm);
- 
- 	ret = mxsfb_kms_init(mxsfb);
- 	if (ret < 0) {
- 		dev_err(drm->dev, "Failed to initialize KMS pipeline\n");
--		goto err_vblank;
-+		return ret;
- 	}
- 
- 	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
- 	if (ret < 0) {
- 		dev_err(drm->dev, "Failed to initialise vblank\n");
--		goto err_vblank;
-+		return ret;
- 	}
- 
- 	/* Start with vertical blanking interrupt reporting disabled. */
-@@ -260,7 +246,7 @@ static int mxsfb_load(struct drm_device *drm,
- 	if (ret) {
- 		if (ret != -EPROBE_DEFER)
- 			dev_err(drm->dev, "Cannot connect bridge: %d\n", ret);
--		goto err_vblank;
-+		return ret;
- 	}
- 
- 	drm->mode_config.min_width	= MXSFB_MIN_XRES;
-@@ -277,13 +263,10 @@ static int mxsfb_load(struct drm_device *drm,
- 		goto err_vblank;
- 	mxsfb->irq = ret;
- 
--	pm_runtime_get_sync(drm->dev);
- 	ret = mxsfb_irq_install(drm, mxsfb->irq);
--	pm_runtime_put_sync(drm->dev);
--
- 	if (ret < 0) {
- 		dev_err(drm->dev, "Failed to install IRQ handler\n");
--		goto err_vblank;
-+		return ret;
- 	}
- 
- 	drm_kms_helper_poll_init(drm);
-@@ -292,12 +275,9 @@ static int mxsfb_load(struct drm_device *drm,
- 
- 	drm_helper_hpd_irq_event(drm);
- 
--	return 0;
--
--err_vblank:
--	pm_runtime_disable(drm->dev);
-+	pm_runtime_enable(drm->dev);
- 
--	return ret;
-+	return 0;
- }
- 
- static void mxsfb_unload(struct drm_device *drm)
-@@ -305,9 +285,7 @@ static void mxsfb_unload(struct drm_device *drm)
- 	drm_kms_helper_poll_fini(drm);
- 	drm_mode_config_cleanup(drm);
- 
--	pm_runtime_get_sync(drm->dev);
- 	mxsfb_irq_uninstall(drm);
--	pm_runtime_put_sync(drm->dev);
- 
- 	drm->dev_private = NULL;
- 
-@@ -388,23 +366,60 @@ static void mxsfb_shutdown(struct platform_device *pdev)
- 	drm_atomic_helper_shutdown(drm);
- }
- 
--#ifdef CONFIG_PM_SLEEP
-+static int mxsfb_rpm_suspend(struct device *dev)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct mxsfb_drm_private *mxsfb = drm->dev_private;
-+
-+	/* These clock supply the DISPLAY CLOCK Domain */
-+	clk_disable_unprepare(mxsfb->clk);
-+	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
-+	clk_disable_unprepare(mxsfb->clk_disp_axi);
-+	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
-+	clk_disable_unprepare(mxsfb->clk_axi);
-+
-+	return 0;
-+}
-+
-+static int mxsfb_rpm_resume(struct device *dev)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct mxsfb_drm_private *mxsfb = drm->dev_private;
-+
-+	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
-+	clk_prepare_enable(mxsfb->clk_axi);
-+	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
-+	clk_prepare_enable(mxsfb->clk_disp_axi);
-+	/* These clock supply the DISPLAY CLOCK Domain */
-+	clk_prepare_enable(mxsfb->clk);
-+
-+	return 0;
-+}
-+
- static int mxsfb_suspend(struct device *dev)
- {
- 	struct drm_device *drm = dev_get_drvdata(dev);
-+	int ret;
- 
--	return drm_mode_config_helper_suspend(drm);
-+	ret = drm_mode_config_helper_suspend(drm);
++	ret = devm_device_add_group(drm->dev, &mxsfb_attr_group);
 +	if (ret)
-+		return ret;
++		goto err_attr;
 +
-+	return mxsfb_rpm_suspend(dev);
- }
+ 	drm_fbdev_generic_setup(drm, 32);
  
- static int mxsfb_resume(struct device *dev)
- {
- 	struct drm_device *drm = dev_get_drvdata(dev);
+ 	return 0;
  
-+	mxsfb_rpm_resume(dev);
++err_attr:
++	drm_dev_unregister(drm);
+ err_unload:
+ 	mxsfb_unload(drm);
+ err_free:
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+index ddb5b0417a82c..0a3e5dd1e8bab 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+@@ -44,6 +44,9 @@ struct mxsfb_drm_private {
+ 	struct drm_encoder		encoder;
+ 	struct drm_connector		*connector;
+ 	struct drm_bridge		*bridge;
 +
- 	return drm_mode_config_helper_resume(drm);
- }
--#endif
- 
- static const struct dev_pm_ops mxsfb_pm_ops = {
-+	.runtime_suspend = mxsfb_rpm_suspend,
-+	.runtime_resume = mxsfb_rpm_resume,
- 	SET_SYSTEM_SLEEP_PM_OPS(mxsfb_suspend, mxsfb_resume)
++	void				*gem_vaddr;
++	size_t				gem_size;
  };
  
+ static inline struct mxsfb_drm_private *
 diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index 0655582ae8ed6..03743a84c8e79 100644
+index 03743a84c8e79..2a4edf5a2ac57 100644
 --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
 +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -100,10 +100,6 @@ static void mxsfb_enable_controller(struct mxsfb_drm_private *mxsfb)
- {
- 	u32 reg;
- 
--	if (mxsfb->clk_disp_axi)
--		clk_prepare_enable(mxsfb->clk_disp_axi);
--	clk_prepare_enable(mxsfb->clk);
--
- 	/* Increase number of outstanding requests on all supported IPs */
- 	if (mxsfb->devdata->has_ctrl2) {
- 		reg = readl(mxsfb->base + LCDC_V4_CTRL2);
-@@ -168,10 +164,6 @@ static void mxsfb_disable_controller(struct mxsfb_drm_private *mxsfb)
- 	reg = readl(mxsfb->base + LCDC_VDCTRL4);
- 	reg &= ~VDCTRL4_SYNC_SIGNALS_ON;
- 	writel(reg, mxsfb->base + LCDC_VDCTRL4);
--
--	clk_disable_unprepare(mxsfb->clk);
--	if (mxsfb->clk_disp_axi)
--		clk_disable_unprepare(mxsfb->clk_disp_axi);
+@@ -196,7 +196,7 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
+ 	return clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_CLKGATE);
  }
  
- /*
-@@ -352,9 +344,6 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+-static dma_addr_t mxsfb_get_fb_paddr(struct drm_plane *plane)
++static dma_addr_t mxsfb_get_fb_paddr(struct mxsfb_drm_private *mxsfb, struct drm_plane *plane)
+ {
+ 	struct drm_framebuffer *fb = plane->state->fb;
+ 	struct drm_gem_cma_object *gem;
+@@ -208,6 +208,9 @@ static dma_addr_t mxsfb_get_fb_paddr(struct drm_plane *plane)
+ 	if (!gem)
+ 		return 0;
+ 
++	mxsfb->gem_vaddr = gem->vaddr;
++	mxsfb->gem_size = gem->base.size;
++
+ 	return gem->paddr;
+ }
+ 
+@@ -370,7 +373,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	mxsfb_crtc_mode_set_nofb(mxsfb, bus_format);
+ 
+ 	/* Write cur_buf as well to avoid an initial corrupt frame */
+-	paddr = mxsfb_get_fb_paddr(crtc->primary);
++	paddr = mxsfb_get_fb_paddr(mxsfb, crtc->primary);
+ 	if (paddr) {
+ 		writel(paddr, mxsfb->base + mxsfb->devdata->cur_buf);
+ 		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
+@@ -476,7 +479,7 @@ static void mxsfb_plane_primary_atomic_update(struct drm_plane *plane,
+ 	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
  	dma_addr_t paddr;
  
- 	pm_runtime_get_sync(drm->dev);
--	mxsfb_enable_axi_clk(mxsfb);
--
--	drm_crtc_vblank_on(crtc);
- 
- 	/* If there is a bridge attached to the LCDIF, use its bus format */
- 	if (mxsfb->bridge) {
-@@ -388,6 +377,8 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
- 	}
- 
- 	mxsfb_enable_controller(mxsfb);
-+
-+	drm_crtc_vblank_on(crtc);
+-	paddr = mxsfb_get_fb_paddr(plane);
++	paddr = mxsfb_get_fb_paddr(mxsfb, plane);
+ 	if (paddr)
+ 		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
  }
+@@ -492,7 +495,7 @@ static void mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
+ 	dma_addr_t paddr;
+ 	u32 ctrl;
  
- static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
-@@ -397,6 +388,8 @@ static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
- 	struct drm_device *drm = mxsfb->drm;
- 	struct drm_pending_vblank_event *event;
- 
-+	drm_crtc_vblank_off(crtc);
-+
- 	mxsfb_disable_controller(mxsfb);
- 
- 	spin_lock_irq(&drm->event_lock);
-@@ -407,9 +400,6 @@ static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
- 	}
- 	spin_unlock_irq(&drm->event_lock);
- 
--	drm_crtc_vblank_off(crtc);
--
--	mxsfb_disable_axi_clk(mxsfb);
- 	pm_runtime_put_sync(drm->dev);
- }
- 
+-	paddr = mxsfb_get_fb_paddr(plane);
++	paddr = mxsfb_get_fb_paddr(mxsfb, plane);
+ 	if (!paddr) {
+ 		writel(0, mxsfb->base + LCDC_AS_CTRL);
+ 		return;
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_regs.h b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+index 694fea13e893e..cf813a1da1d78 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
++++ b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+@@ -26,6 +26,7 @@
+ #define LCDC_VDCTRL2			0x90
+ #define LCDC_VDCTRL3			0xa0
+ #define LCDC_VDCTRL4			0xb0
++#define LCDC_V4_CRC_STAT		0x1a0
+ #define LCDC_V4_DEBUG0			0x1d0
+ #define LCDC_V3_DEBUG0			0x1f0
+ #define LCDC_AS_CTRL			0x210
 -- 
 2.34.1
 
