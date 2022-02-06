@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFC94AB73E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 10:09:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF034AB738
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 10:09:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DAC410EE0A;
-	Mon,  7 Feb 2022 09:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA97210E61D;
+	Mon,  7 Feb 2022 09:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.andi.de1.cc (mail.andi.de1.cc
  [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4415B10E463
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 08:20:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D08EC10E5C1
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 08:20:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9wsuAuJLz5eoH1KRtjPrpQVHg19ELZD+EX1VrO99v30=; b=U7p+06RgR7Dt7Cagug2rdsSWqw
- ZZJ3aFy8rJe6Ec+p8WRBLFv4szRRaOo+hHTthxCtXBraLeqNfiOwvYOGZb7Qn00lU0yymQ788n5kR
- qS93bNfvtQe168/Q2MTsl8GD4oB9Fw3oT37+o+yXY/kEVN/15BElrPMpP1D9a2yRHrkc=;
+ bh=e5p/TbL004aTyZDH8MzdTTYBthm4KEifsRARwVWWcIM=; b=ST39IFEeFHWO8OPXGvbHZkTS06
+ GHIPwXOjw74fFclnxEzqecURboEDm7evFfksWMo95HdLB+1aZpaELA7wx7PDG7D2/fkw4U+BMLDBp
+ MlIyAPigqLkkHzBv/ZuPuikyWCxViZWt02d38Jcq6cpt6nYsbPAJ2b1XkrD8xMydlAQU=;
 Received: from p200300ccff05f6001a3da2fffebfd33a.dip0.t-ipconnect.de
  ([2003:cc:ff05:f600:1a3d:a2ff:febf:d33a] helo=aktux)
  by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.89) (envelope-from <andreas@kemnade.info>)
- id 1nGcTK-0006VM-Gv; Sun, 06 Feb 2022 09:00:35 +0100
+ id 1nGcTK-0006VU-SM; Sun, 06 Feb 2022 09:00:37 +0100
 Received: from andi by aktux with local (Exim 4.94.2)
  (envelope-from <andreas@kemnade.info>)
- id 1nGcTK-003LEl-0n; Sun, 06 Feb 2022 09:00:34 +0100
+ id 1nGcTK-003LEo-BY; Sun, 06 Feb 2022 09:00:34 +0100
 From: Andreas Kemnade <andreas@kemnade.info>
 To: p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch,
  robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -39,9 +39,9 @@ To: p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, alistair@alistair23.me, samuel@sholland.org,
  josua.mayer@jm0.eu, letux-kernel@openphoenux.org
-Subject: [RFC PATCH 3/6] drm: mxc-epdc: Add display and waveform initialisation
-Date: Sun,  6 Feb 2022 09:00:13 +0100
-Message-Id: <20220206080016.796556-4-andreas@kemnade.info>
+Subject: [RFC PATCH 4/6] drm: mxc-epdc: Add update management
+Date: Sun,  6 Feb 2022 09:00:14 +0100
+Message-Id: <20220206080016.796556-5-andreas@kemnade.info>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220206080016.796556-1-andreas@kemnade.info>
 References: <20220206080016.796556-1-andreas@kemnade.info>
@@ -64,41 +64,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds display parameter initialisation, display power up/down and
-waveform loading
+The EPDC can process some dirty rectangles at a time, pick them up and
+forward them to the controller. Only processes not involving PXP are
+supported at the moment. Due to that and to work with more waveforms,
+there is some masking/shifting done. It was tested with the factory
+waveforms of Kobo Clara HD, Tolino Shine 3, and Tolino Shine 2HD.
+Also the waveform called epdc_E060SCM.fw from NXP BSP works with the
+i.MX6SL devices.
 
 Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
 ---
- drivers/gpu/drm/mxc-epdc/Makefile        |   2 +-
- drivers/gpu/drm/mxc-epdc/epdc_hw.c       | 495 +++++++++++++++++++++++
- drivers/gpu/drm/mxc-epdc/epdc_hw.h       |   8 +
- drivers/gpu/drm/mxc-epdc/epdc_waveform.c | 189 +++++++++
- drivers/gpu/drm/mxc-epdc/epdc_waveform.h |   7 +
- drivers/gpu/drm/mxc-epdc/mxc_epdc.h      |  81 ++++
- drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c  |  94 +++++
- 7 files changed, 875 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_hw.c
- create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_hw.h
- create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_waveform.c
- create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_waveform.h
+ drivers/gpu/drm/mxc-epdc/Makefile       |    2 +-
+ drivers/gpu/drm/mxc-epdc/epdc_hw.c      |    2 +
+ drivers/gpu/drm/mxc-epdc/epdc_update.c  | 1210 +++++++++++++++++++++++
+ drivers/gpu/drm/mxc-epdc/epdc_update.h  |    9 +
+ drivers/gpu/drm/mxc-epdc/mxc_epdc.h     |   50 +
+ drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c |   33 +-
+ 6 files changed, 1304 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_update.c
+ create mode 100644 drivers/gpu/drm/mxc-epdc/epdc_update.h
 
 diff --git a/drivers/gpu/drm/mxc-epdc/Makefile b/drivers/gpu/drm/mxc-epdc/Makefile
-index a47ced72b7f6..0263ef2bf0db 100644
+index 0263ef2bf0db..a55e2bfe824a 100644
 --- a/drivers/gpu/drm/mxc-epdc/Makefile
 +++ b/drivers/gpu/drm/mxc-epdc/Makefile
 @@ -1,5 +1,5 @@
  # SPDX-License-Identifier: GPL-2.0
--mxc_epdc_drm-y := mxc_epdc_drv.o
-+mxc_epdc_drm-y := mxc_epdc_drv.o epdc_hw.o epdc_waveform.o
+-mxc_epdc_drm-y := mxc_epdc_drv.o epdc_hw.o epdc_waveform.o
++mxc_epdc_drm-y := mxc_epdc_drv.o epdc_hw.o epdc_update.o epdc_waveform.o
  
  obj-$(CONFIG_DRM_MXC_EPDC) += mxc_epdc_drm.o
  
 diff --git a/drivers/gpu/drm/mxc-epdc/epdc_hw.c b/drivers/gpu/drm/mxc-epdc/epdc_hw.c
-new file mode 100644
-index 000000000000..a74cbd237e0d
---- /dev/null
+index a74cbd237e0d..22a065ac6992 100644
+--- a/drivers/gpu/drm/mxc-epdc/epdc_hw.c
 +++ b/drivers/gpu/drm/mxc-epdc/epdc_hw.c
-@@ -0,0 +1,495 @@
+@@ -20,6 +20,7 @@
+ #include "mxc_epdc.h"
+ #include "epdc_regs.h"
+ #include "epdc_hw.h"
++#include "epdc_update.h"
+ #include "epdc_waveform.h"
+ 
+ void mxc_epdc_powerup(struct mxc_epdc *priv)
+@@ -410,6 +411,7 @@ void mxc_epdc_init_sequence(struct mxc_epdc *priv, struct drm_display_mode *m)
+ 
+ 	priv->in_init = true;
+ 	mxc_epdc_powerup(priv);
++	mxc_epdc_draw_mode0(priv);
+ 	/* Force power down event */
+ 	priv->powering_down = true;
+ 	mxc_epdc_powerdown(priv);
+diff --git a/drivers/gpu/drm/mxc-epdc/epdc_update.c b/drivers/gpu/drm/mxc-epdc/epdc_update.c
+new file mode 100644
+index 000000000000..0c061982aa0b
+--- /dev/null
++++ b/drivers/gpu/drm/mxc-epdc/epdc_update.c
+@@ -0,0 +1,1210 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +// Copyright (C) 2022 Andreas Kemnade
 +//
@@ -108,952 +130,1366 @@ index 000000000000..a74cbd237e0d
 + * Copyright 2017 NXP
 + */
 +
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/clk.h>
++#include <linux/bits.h>
 +#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/pinctrl/consumer.h>
 +#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
-+
 +#include "mxc_epdc.h"
-+#include "epdc_regs.h"
 +#include "epdc_hw.h"
++#include "epdc_regs.h"
 +#include "epdc_waveform.h"
 +
-+void mxc_epdc_powerup(struct mxc_epdc *priv)
-+{
-+	int ret = 0;
++#define EPDC_V2_NUM_LUTS	64
++#define EPDC_V2_MAX_NUM_UPDATES 64
++#define INVALID_LUT	     (-1)
++#define DRY_RUN_NO_LUT	  100
 +
-+	mutex_lock(&priv->power_mutex);
++#define MERGE_OK	0
++#define MERGE_FAIL      1
++#define MERGE_BLOCK     2
++
++struct update_desc_list {
++	struct list_head list;
++	struct mxcfb_update_data upd_data;/* Update parameters */
++	u32 update_order;	/* Numeric ordering value for update */
++};
++
++/* This structure represents a list node containing both
++ * a memory region allocated as an output buffer for the PxP
++ * update processing task, and the update description (mode, region, etc.)
++ */
++struct update_data_list {
++	struct list_head list;
++	struct update_desc_list *update_desc;
++	int lut_num;		/* Assigned before update is processed into working buffer */
++	u64 collision_mask;	/* Set when update creates collision */
++				/* Mask of the LUTs the update collides with */
++};
++
++/********************************************************
++ * Start Low-Level EPDC Functions
++ ********************************************************/
++
++static inline void epdc_lut_complete_intr(struct mxc_epdc *priv, u32 lut_num, bool enable)
++{
++	if (enable) {
++		if (lut_num < 32)
++			epdc_write(priv, EPDC_IRQ_MASK1_SET, BIT(lut_num));
++		else
++			epdc_write(priv, EPDC_IRQ_MASK2_SET, BIT(lut_num - 32));
++	} else {
++		if (lut_num < 32)
++			epdc_write(priv, EPDC_IRQ_MASK1_CLEAR, BIT(lut_num));
++		else
++			epdc_write(priv, EPDC_IRQ_MASK2_CLEAR, BIT(lut_num - 32));
++	}
++}
++
++static inline void epdc_working_buf_intr(struct mxc_epdc *priv, bool enable)
++{
++	if (enable)
++		epdc_write(priv, EPDC_IRQ_MASK_SET, EPDC_IRQ_WB_CMPLT_IRQ);
++	else
++		epdc_write(priv, EPDC_IRQ_MASK_CLEAR, EPDC_IRQ_WB_CMPLT_IRQ);
++}
++
++static inline void epdc_clear_working_buf_irq(struct mxc_epdc *priv)
++{
++	epdc_write(priv, EPDC_IRQ_CLEAR,
++		   EPDC_IRQ_WB_CMPLT_IRQ | EPDC_IRQ_LUT_COL_IRQ);
++}
++
++static inline void epdc_eof_intr(struct mxc_epdc *priv, bool enable)
++{
++	if (enable)
++		epdc_write(priv, EPDC_IRQ_MASK_SET, EPDC_IRQ_FRAME_END_IRQ);
++	else
++		epdc_write(priv, EPDC_IRQ_MASK_CLEAR, EPDC_IRQ_FRAME_END_IRQ);
++}
++
++static inline void epdc_clear_eof_irq(struct mxc_epdc *priv)
++{
++	epdc_write(priv, EPDC_IRQ_CLEAR, EPDC_IRQ_FRAME_END_IRQ);
++}
++
++static inline bool epdc_signal_eof(struct mxc_epdc *priv)
++{
++	return (epdc_read(priv, EPDC_IRQ_MASK) & epdc_read(priv, EPDC_IRQ)
++		& EPDC_IRQ_FRAME_END_IRQ) ? true : false;
++}
++
++
++static void epdc_set_update_area(struct mxc_epdc *priv, u32 addr,
++				 u32 x, u32 y, u32 width, u32 height,
++				 u32 stride)
++{
++	u32 val;
++
++	epdc_write(priv, EPDC_UPD_ADDR, addr);
++	val = (y << EPDC_UPD_CORD_YCORD_OFFSET) | x;
++	epdc_write(priv, EPDC_UPD_CORD, val);
++	val = (height << EPDC_UPD_SIZE_HEIGHT_OFFSET) | width;
++	epdc_write(priv, EPDC_UPD_SIZE, val);
++	epdc_write(priv, EPDC_UPD_STRIDE, stride);
++}
++
++static bool is_free_list_full(struct mxc_epdc *priv)
++{
++	int count = 0;
++	struct update_data_list *plist;
++
++	/* Count buffers in free buffer list */
++	list_for_each_entry(plist, &priv->upd_buf_free_list, list)
++		count++;
++
++	/* Check to see if all buffers are in this list */
++	return (count == priv->max_num_updates);
++}
++
++static inline bool epdc_is_lut_complete(struct mxc_epdc *priv, u32 lut_num)
++{
++	u32 val;
++	bool is_compl;
++
++	if (lut_num < 32) {
++		val = epdc_read(priv, EPDC_IRQ1);
++		is_compl = val & BIT(lut_num) ? true : false;
++	} else {
++		val = epdc_read(priv, EPDC_IRQ2);
++		is_compl = val & BIT(lut_num - 32) ? true : false;
++	}
++
++	return is_compl;
++}
++static inline void epdc_clear_lut_complete_irq(struct mxc_epdc *priv, u32 lut_num)
++{
++	if (lut_num < 32)
++		epdc_write(priv, EPDC_IRQ1_CLEAR, BIT(lut_num));
++	else
++		epdc_write(priv, EPDC_IRQ2_CLEAR, BIT(lut_num - 32));
++}
++
++static inline bool epdc_is_working_buffer_busy(struct mxc_epdc *priv)
++{
++	u32 val = epdc_read(priv, EPDC_STATUS);
++	bool is_busy = (val & EPDC_STATUS_WB_BUSY) ? true : false;
++
++	return is_busy;
++}
++
++static inline bool epdc_is_working_buffer_complete(struct mxc_epdc *priv)
++{
++	u32 val = epdc_read(priv, EPDC_IRQ);
++	bool is_compl = (val & EPDC_IRQ_WB_CMPLT_IRQ) ? true : false;
++
++	return is_compl;
++}
++
++static inline bool epdc_is_lut_cancelled(struct mxc_epdc *priv)
++{
++	u32 val = epdc_read(priv, EPDC_STATUS);
++	bool is_void = (val & EPDC_STATUS_UPD_VOID) ? true : false;
++
++	return is_void;
++}
++
++static inline bool epdc_is_collision(struct mxc_epdc *priv)
++{
++	u32 val = epdc_read(priv, EPDC_IRQ);
++
++	return (val & EPDC_IRQ_LUT_COL_IRQ) ? true : false;
++}
++
++static inline u64 epdc_get_colliding_luts(struct mxc_epdc *priv)
++{
++	u64 val = (u64)(epdc_read(priv, EPDC_STATUS_COL));
++
++	val |= (u64)epdc_read(priv, EPDC_STATUS_COL2) << 32;
++	return val;
++}
++
++static irqreturn_t mxc_epdc_irq_handler(int irq, void *dev_id)
++{
++	struct mxc_epdc *priv = dev_id;
++	u32 ints_fired, luts1_ints_fired, luts2_ints_fired;
 +
 +	/*
-+	 * If power down request is pending, clear
-+	 * powering_down to cancel the request.
++	 * If we just completed one-time panel init, bypass
++	 * queue handling, clear interrupt and return
 +	 */
-+	if (priv->powering_down)
-+		priv->powering_down = false;
++	if (priv->in_init) {
++		if (epdc_is_working_buffer_complete(priv)) {
++			epdc_working_buf_intr(priv, false);
++			epdc_clear_working_buf_irq(priv);
++			dev_dbg(priv->drm.dev, "Cleared WB for init update\n");
++		}
 +
-+	if (priv->powered) {
-+		mutex_unlock(&priv->power_mutex);
-+		return;
++		if (epdc_is_lut_complete(priv, 0)) {
++			epdc_lut_complete_intr(priv, 0, false);
++			epdc_clear_lut_complete_irq(priv, 0);
++			priv->in_init = false;
++			dev_dbg(priv->drm.dev, "Cleared LUT complete for init update\n");
++		}
++
++		return IRQ_HANDLED;
 +	}
 +
-+	dev_dbg(priv->drm.dev, "EPDC Powerup\n");
++	ints_fired = epdc_read(priv, EPDC_IRQ_MASK) & epdc_read(priv, EPDC_IRQ);
 +
-+	priv->updates_active = true;
++	luts1_ints_fired = epdc_read(priv, EPDC_IRQ_MASK1) & epdc_read(priv, EPDC_IRQ1);
++	luts2_ints_fired = epdc_read(priv, EPDC_IRQ_MASK2) & epdc_read(priv, EPDC_IRQ2);
 +
-+	/* Enable the v3p3 regulator */
-+	ret = regulator_enable(priv->v3p3_regulator);
-+	if (IS_ERR((void *)ret)) {
++	if (!(ints_fired || luts1_ints_fired || luts2_ints_fired))
++		return IRQ_HANDLED;
++
++	if (epdc_read(priv, EPDC_IRQ) & EPDC_IRQ_TCE_UNDERRUN_IRQ) {
 +		dev_err(priv->drm.dev,
-+			"Unable to enable V3P3 regulator. err = 0x%x\n",
-+			ret);
-+		mutex_unlock(&priv->power_mutex);
-+		return;
++			"TCE underrun! Will continue to update panel\n");
++		/* Clear TCE underrun IRQ */
++		epdc_write(priv, EPDC_IRQ_CLEAR, EPDC_IRQ_TCE_UNDERRUN_IRQ);
 +	}
 +
-+	usleep_range(1000, 2000);
-+
-+	pm_runtime_get_sync(priv->drm.dev);
-+
-+	/* Enable clocks to EPDC */
-+	clk_prepare_enable(priv->epdc_clk_axi);
-+	clk_prepare_enable(priv->epdc_clk_pix);
-+
-+	epdc_write(priv, EPDC_CTRL_CLEAR, EPDC_CTRL_CLKGATE);
-+
-+	/* Enable power to the EPD panel */
-+	ret = regulator_enable(priv->display_regulator);
-+	if (IS_ERR((void *)ret)) {
-+		dev_err(priv->drm.dev,
-+			"Unable to enable DISPLAY regulator. err = 0x%x\n",
-+			ret);
-+		mutex_unlock(&priv->power_mutex);
-+		return;
++	/* Check if we are waiting on EOF to sync a new update submission */
++	if (epdc_signal_eof(priv)) {
++		epdc_eof_intr(priv, false);
++		epdc_clear_eof_irq(priv);
 +	}
 +
-+	ret = regulator_enable(priv->vcom_regulator);
-+	if (IS_ERR((void *)ret)) {
-+		dev_err(priv->drm.dev,
-+			"Unable to enable VCOM regulator. err = 0x%x\n",
-+			ret);
-+		mutex_unlock(&priv->power_mutex);
-+		return;
-+	}
-+
-+	priv->powered = true;
-+
-+	mutex_unlock(&priv->power_mutex);
-+}
-+
-+void mxc_epdc_powerdown(struct mxc_epdc *priv)
-+{
-+	mutex_lock(&priv->power_mutex);
-+
-+	/* If powering_down has been cleared, a powerup
-+	 * request is pre-empting this powerdown request.
++	/*
++	 * Workaround for EPDC v2.0/v2.1 errata: Must read collision status
++	 * before clearing IRQ, or else collision status for bits 16:63
++	 * will be automatically cleared.  So we read it here, and there is
++	 * no conflict with using it in epdc_intr_work_func since the
++	 * working buffer processing flow is strictly sequential (i.e.,
++	 * only one WB processing done at a time, so the data grabbed
++	 * here should be up-to-date and accurate when the WB processing
++	 * completes.  Also, note that there is no impact to other versions
++	 * of EPDC by reading LUT status here.
 +	 */
-+	if (!priv->powering_down
-+		|| (!priv->powered)) {
-+		mutex_unlock(&priv->power_mutex);
-+		return;
++	if (priv->cur_update != NULL)
++		priv->epdc_colliding_luts = epdc_get_colliding_luts(priv);
++
++	/* Clear the interrupt mask for any interrupts signalled */
++	epdc_write(priv, EPDC_IRQ_MASK_CLEAR, ints_fired);
++	epdc_write(priv, EPDC_IRQ_MASK1_CLEAR, luts1_ints_fired);
++	epdc_write(priv, EPDC_IRQ_MASK2_CLEAR, luts2_ints_fired);
++
++	dev_dbg(priv->drm.dev,
++		"EPDC interrupts fired = 0x%x, LUTS1 fired = 0x%x, LUTS2 fired = 0x%x\n",
++		ints_fired, luts1_ints_fired, luts2_ints_fired);
++
++	queue_work(priv->epdc_intr_workqueue,
++		&priv->epdc_intr_work);
++
++
++	return IRQ_HANDLED;
++}
++
++static void cleanup_update_list(void *data)
++{
++	struct mxc_epdc *priv = (struct mxc_epdc *)data;
++	struct update_data_list *plist, *temp_list;
++
++	list_for_each_entry_safe(plist, temp_list, &priv->upd_buf_free_list,
++			list) {
++		list_del(&plist->list);
++		kfree(plist);
++	}
++}
++
++static void epdc_done_work_func(struct work_struct *work)
++{
++	struct mxc_epdc *priv =
++		container_of(work, struct mxc_epdc,
++			epdc_done_work.work);
++	mxc_epdc_powerdown(priv);
++}
++
++static int epdc_submit_merge(struct update_desc_list *upd_desc_list,
++				struct update_desc_list *update_to_merge,
++				struct mxc_epdc *priv)
++{
++	struct mxcfb_update_data *a, *b;
++	struct drm_rect *arect, *brect;
++
++	a = &upd_desc_list->upd_data;
++	b = &update_to_merge->upd_data;
++	arect = &upd_desc_list->upd_data.update_region;
++	brect = &update_to_merge->upd_data.update_region;
++
++	if (a->update_mode != b->update_mode)
++		a->update_mode = UPDATE_MODE_FULL;
++
++	if (a->waveform_mode != b->waveform_mode)
++		a->waveform_mode = WAVEFORM_MODE_AUTO;
++
++	if ((arect->x1 > brect->x2) ||
++	    (brect->x1 > arect->x2) ||
++	    (arect->y1 > brect->y2) ||
++	    (brect->y1 > arect->y2))
++		return MERGE_FAIL;
++
++	arect->x1 = min(arect->x1, brect->x1);
++	arect->x2 = max(arect->x2, brect->x2);
++	arect->y1 = min(arect->y1, brect->y1);
++	arect->y2 = max(arect->y2, brect->y2);
++
++	/* Merged update should take on the earliest order */
++	upd_desc_list->update_order = max(upd_desc_list->update_order,
++					  update_to_merge->update_order);
++
++	return MERGE_OK;
++}
++
++static void epdc_from_rgb_clear_lower_nibble(struct drm_rect *clip,
++					     void *vaddr, int pitch,
++					     u8 *dst, int dst_pitch)
++{
++	unsigned int x, y;
++
++	dst += clip->y1 * dst_pitch;
++
++	for (y = clip->y1; y < clip->y2; y++, dst += dst_pitch) {
++		u32 *src;
++
++		src = vaddr + (y * pitch);
++		src += clip->x1;
++		for (x = clip->x1; x < clip->x2; x++) {
++			u8 r = (*src & 0x00ff0000) >> 16;
++			u8 g = (*src & 0x0000ff00) >> 8;
++			u8 b =  *src & 0x000000ff;
++
++			/* ITU BT.601: Y = 0.299 R + 0.587 G + 0.114 B */
++			u8 gray = (3 * r + 6 * g + b) / 10;
++
++			/*
++			 * done in Tolino 3.0.x kernels via PXP_LUT_AA
++			 * needed for 5 bit waveforms
++			 */
++
++			dst[x] = gray & 0xF0;
++			src++;
++		}
++	}
++}
++
++/* found by experimentation, reduced number of levels of gray */
++static void epdc_from_rgb_shift(struct drm_rect *clip, void *vaddr, int pitch,
++				u8 *dst, int dst_pitch)
++{
++	unsigned int x, y;
++
++	dst += clip->y1 * dst_pitch;
++
++	for (y = clip->y1; y < clip->y2; y++, dst += dst_pitch) {
++		u32 *src;
++
++		src = vaddr + (y * pitch);
++		src += clip->x1;
++		for (x = clip->x1; x < clip->x2; x++) {
++			u8 r = (*src & 0x00ff0000) >> 16;
++			u8 g = (*src & 0x0000ff00) >> 8;
++			u8 b =  *src & 0x000000ff;
++
++			/* ITU BT.601: Y = 0.299 R + 0.587 G + 0.114 B */
++			u8 gray = (3 * r + 6 * g + b) / 10;
++
++			dst[x] = (gray >> 2) | 0xC0;
++			src++;
++		}
++	}
++}
++
++static void epdc_submit_update(struct mxc_epdc *priv,
++			       u32 lut_num, u32 waveform_mode, u32 update_mode,
++			       bool use_dry_run, bool use_test_mode, u32 np_val)
++{
++	u32 reg_val = 0;
++
++	if (use_test_mode) {
++		reg_val |=
++		    ((np_val << EPDC_UPD_FIXED_FIXNP_OFFSET) &
++		     EPDC_UPD_FIXED_FIXNP_MASK) | EPDC_UPD_FIXED_FIXNP_EN;
++
++		epdc_write(priv, EPDC_UPD_FIXED, reg_val);
++
++		reg_val = EPDC_UPD_CTRL_USE_FIXED;
++	} else {
++		epdc_write(priv, EPDC_UPD_FIXED, reg_val);
 +	}
 +
-+	dev_dbg(priv->drm.dev, "EPDC Powerdown\n");
++	if (waveform_mode == WAVEFORM_MODE_AUTO)
++		reg_val |= EPDC_UPD_CTRL_AUTOWV;
++	else
++		reg_val |= ((waveform_mode <<
++				EPDC_UPD_CTRL_WAVEFORM_MODE_OFFSET) &
++				EPDC_UPD_CTRL_WAVEFORM_MODE_MASK);
 +
-+	/* Disable power to the EPD panel */
-+	regulator_disable(priv->vcom_regulator);
-+	regulator_disable(priv->display_regulator);
++	reg_val |= (use_dry_run ? EPDC_UPD_CTRL_DRY_RUN : 0) |
++	    ((lut_num << EPDC_UPD_CTRL_LUT_SEL_OFFSET) &
++	     EPDC_UPD_CTRL_LUT_SEL_MASK) |
++	    update_mode;
++	epdc_write(priv, EPDC_UPD_CTRL, reg_val);
++}
 +
-+	/* Disable clocks to EPDC */
-+	epdc_write(priv, EPDC_CTRL_SET, EPDC_CTRL_CLKGATE);
-+	clk_disable_unprepare(priv->epdc_clk_pix);
-+	clk_disable_unprepare(priv->epdc_clk_axi);
++static inline bool epdc_is_lut_active(struct mxc_epdc *priv, u32 lut_num)
++{
++	u32 val;
++	bool is_active;
 +
-+	pm_runtime_put_sync_suspend(priv->drm.dev);
-+
-+	/* turn off the V3p3 */
-+	regulator_disable(priv->v3p3_regulator);
-+
-+	priv->powered = false;
-+	priv->powering_down = false;
-+
-+	if (priv->wait_for_powerdown) {
-+		priv->wait_for_powerdown = false;
-+		complete(&priv->powerdown_compl);
++	if (lut_num < 32) {
++		val = epdc_read(priv, EPDC_STATUS_LUTS);
++		is_active = val & BIT(lut_num) ? true : false;
++	} else {
++		val = epdc_read(priv, EPDC_STATUS_LUTS2);
++		is_active = val & BIT(lut_num - 32) ? true : false;
 +	}
 +
-+	mutex_unlock(&priv->power_mutex);
++	return is_active;
 +}
 +
-+static void epdc_set_horizontal_timing(struct mxc_epdc *priv, u32 horiz_start,
-+				       u32 horiz_end,
-+				       u32 hsync_width, u32 hsync_line_length)
++static inline bool epdc_any_luts_active(struct mxc_epdc *priv)
 +{
-+	u32 reg_val =
-+	    ((hsync_width << EPDC_TCE_HSCAN1_LINE_SYNC_WIDTH_OFFSET) &
-+	     EPDC_TCE_HSCAN1_LINE_SYNC_WIDTH_MASK)
-+	    | ((hsync_line_length << EPDC_TCE_HSCAN1_LINE_SYNC_OFFSET) &
-+	       EPDC_TCE_HSCAN1_LINE_SYNC_MASK);
-+	epdc_write(priv, EPDC_TCE_HSCAN1, reg_val);
++	bool any_active;
 +
-+	reg_val =
-+	    ((horiz_start << EPDC_TCE_HSCAN2_LINE_BEGIN_OFFSET) &
-+	     EPDC_TCE_HSCAN2_LINE_BEGIN_MASK)
-+	    | ((horiz_end << EPDC_TCE_HSCAN2_LINE_END_OFFSET) &
-+	       EPDC_TCE_HSCAN2_LINE_END_MASK);
-+	epdc_write(priv, EPDC_TCE_HSCAN2, reg_val);
++	any_active = (epdc_read(priv, EPDC_STATUS_LUTS) |
++		      epdc_read(priv, EPDC_STATUS_LUTS2))	? true : false;
++
++	return any_active;
 +}
 +
-+static void epdc_set_vertical_timing(struct mxc_epdc *priv,
-+				     u32 vert_start,
-+				     u32 vert_end,
-+				     u32 vsync_width)
++static inline bool epdc_any_luts_available(struct mxc_epdc *priv)
 +{
-+	u32 reg_val =
-+	    ((vert_start << EPDC_TCE_VSCAN_FRAME_BEGIN_OFFSET) &
-+	     EPDC_TCE_VSCAN_FRAME_BEGIN_MASK)
-+	    | ((vert_end << EPDC_TCE_VSCAN_FRAME_END_OFFSET) &
-+	       EPDC_TCE_VSCAN_FRAME_END_MASK)
-+	    | ((vsync_width << EPDC_TCE_VSCAN_FRAME_SYNC_OFFSET) &
-+	       EPDC_TCE_VSCAN_FRAME_SYNC_MASK);
-+	epdc_write(priv, EPDC_TCE_VSCAN, reg_val);
++	bool luts_available =
++	    (epdc_read(priv, EPDC_STATUS_NEXTLUT) &
++	     EPDC_STATUS_NEXTLUT_NEXT_LUT_VALID) ? true : false;
++	return luts_available;
 +}
 +
-+static inline void epdc_set_screen_res(struct mxc_epdc *priv,
-+				       u32 width, u32 height)
++static inline int epdc_get_next_lut(struct mxc_epdc *priv)
 +{
-+	u32 val = (height << EPDC_RES_VERTICAL_OFFSET) | width;
++	u32 val =
++	    epdc_read(priv, EPDC_STATUS_NEXTLUT) &
++	    EPDC_STATUS_NEXTLUT_NEXT_LUT_MASK;
++	return val;
++}
 +
-+	epdc_write(priv, EPDC_RES, val);
++static int epdc_choose_next_lut(struct mxc_epdc *priv, int *next_lut)
++{
++	u64 luts_status, unprocessed_luts, used_luts;
++	/* Available LUTs are reduced to 16 in 5-bit waveform mode */
++	bool format_p5n = ((epdc_read(priv, EPDC_FORMAT) &
++	EPDC_FORMAT_BUF_PIXEL_FORMAT_MASK) ==
++	EPDC_FORMAT_BUF_PIXEL_FORMAT_P5N);
++
++	luts_status = epdc_read(priv, EPDC_STATUS_LUTS);
++	if (format_p5n)
++		luts_status &= 0xFFFF;
++	else
++		luts_status |= ((u64)epdc_read(priv, EPDC_STATUS_LUTS2) << 32);
++
++	unprocessed_luts = epdc_read(priv, EPDC_IRQ1) |
++		((u64)epdc_read(priv, EPDC_IRQ2) << 32);
++	if (format_p5n)
++		unprocessed_luts &= 0xFFFF;
++
++	/*
++	 * Note on unprocessed_luts: There is a race condition
++	 * where a LUT completes, but has not been processed by
++	 * IRQ handler workqueue, and then a new update request
++	 * attempts to use that LUT.  We prevent that here by
++	 * ensuring that the LUT we choose doesn't have its IRQ
++	 * bit set (indicating it has completed but not yet been
++	 * processed).
++	 */
++	used_luts = luts_status | unprocessed_luts;
++
++	if (format_p5n) {
++		*next_lut = fls64(used_luts);
++		if (*next_lut > 15)
++			*next_lut = ffz(used_luts);
++	} else {
++		if ((u32)used_luts != ~0UL)
++			*next_lut = ffz((u32)used_luts);
++		else if ((u32)(used_luts >> 32) != ~0UL)
++			*next_lut = ffz((u32)(used_luts >> 32)) + 32;
++		else
++			*next_lut = INVALID_LUT;
++	}
++
++	if (used_luts & 0x8000)
++		return 1;
++	else
++		return 0;
 +}
 +
 +
-+void epdc_init_settings(struct mxc_epdc *priv, struct drm_display_mode *m)
++
++
++static void epdc_submit_work_func(struct work_struct *work)
 +{
-+	u32 reg_val;
-+	int num_ce;
-+	int i;
++	struct update_data_list *next_update, *temp_update;
++	struct update_desc_list *next_desc, *temp_desc;
++	struct mxc_epdc *priv =
++		container_of(work, struct mxc_epdc, epdc_submit_work);
++	struct update_data_list *upd_data_list = NULL;
++	struct drm_rect adj_update_region, *upd_region;
++	bool end_merge = false;
++	u32 update_addr;
++	uint8_t *update_addr_virt;
++	int ret;
 +
-+	/* Enable clocks to access EPDC regs */
-+	clk_prepare_enable(priv->epdc_clk_axi);
-+	clk_prepare_enable(priv->epdc_clk_pix);
++	/* Protect access to buffer queues and to update HW */
++	mutex_lock(&priv->queue_mutex);
 +
-+	/* Reset */
-+	epdc_write(priv, EPDC_CTRL_SET, EPDC_CTRL_SFTRST);
-+	while (!(epdc_read(priv, EPDC_CTRL) & EPDC_CTRL_CLKGATE))
-+		;
-+	epdc_write(priv, EPDC_CTRL_CLEAR, EPDC_CTRL_SFTRST);
++	/*
++	 * Are any of our collision updates able to go now?
++	 * Go through all updates in the collision list and check to see
++	 * if the collision mask has been fully cleared
++	 */
++	list_for_each_entry_safe(next_update, temp_update,
++				&priv->upd_buf_collision_list, list) {
 +
-+	/* Enable clock gating (clear to enable) */
-+	epdc_write(priv, EPDC_CTRL_CLEAR, EPDC_CTRL_CLKGATE);
-+	while (epdc_read(priv, EPDC_CTRL) & (EPDC_CTRL_SFTRST | EPDC_CTRL_CLKGATE))
-+		;
++		if (next_update->collision_mask != 0)
++			continue;
 +
-+	/* EPDC_CTRL */
-+	reg_val = epdc_read(priv, EPDC_CTRL);
-+	reg_val &= ~EPDC_CTRL_UPD_DATA_SWIZZLE_MASK;
-+	reg_val |= EPDC_CTRL_UPD_DATA_SWIZZLE_NO_SWAP;
-+	reg_val &= ~EPDC_CTRL_LUT_DATA_SWIZZLE_MASK;
-+	reg_val |= EPDC_CTRL_LUT_DATA_SWIZZLE_NO_SWAP;
-+	epdc_write(priv, EPDC_CTRL_SET, reg_val);
++		dev_dbg(priv->drm.dev, "A collision update is ready to go!\n");
 +
-+	/* EPDC_FORMAT - 2bit TFT and buf_pix_fmt Buf pixel format */
-+	reg_val = EPDC_FORMAT_TFT_PIXEL_FORMAT_2BIT
-+		| priv->buf_pix_fmt
-+	    | ((0x0 << EPDC_FORMAT_DEFAULT_TFT_PIXEL_OFFSET) &
-+	       EPDC_FORMAT_DEFAULT_TFT_PIXEL_MASK);
-+	epdc_write(priv, EPDC_FORMAT, reg_val);
-+	if (priv->rev >= 30) {
-+		if (priv->buf_pix_fmt == EPDC_FORMAT_BUF_PIXEL_FORMAT_P5N) {
-+			epdc_write(priv, EPDC_WB_FIELD2, 0xc554);
-+			epdc_write(priv, EPDC_WB_FIELD1, 0xa004);
++		/* Force waveform mode to auto for resubmitted collisions */
++		next_update->update_desc->upd_data.waveform_mode =
++			WAVEFORM_MODE_AUTO;
++
++		/*
++		 * We have a collision cleared, so select it for resubmission.
++		 * If an update is already selected, attempt to merge.
++		 */
++		if (!upd_data_list) {
++			upd_data_list = next_update;
++			list_del_init(&next_update->list);
 +		} else {
-+			epdc_write(priv, EPDC_WB_FIELD2, 0xc443);
-+			epdc_write(priv, EPDC_WB_FIELD1, 0xa003);
++			switch (epdc_submit_merge(upd_data_list->update_desc,
++						  next_update->update_desc,
++						  priv)) {
++			case MERGE_OK:
++				dev_dbg(priv->drm.dev,
++					"Update merged [collision]\n");
++				list_del_init(&next_update->update_desc->list);
++				kfree(next_update->update_desc);
++				next_update->update_desc = NULL;
++				list_del_init(&next_update->list);
++				/* Add to free buffer list */
++				list_add_tail(&next_update->list,
++					 &priv->upd_buf_free_list);
++				break;
++			case MERGE_FAIL:
++				dev_dbg(priv->drm.dev,
++					"Update not merged [collision]\n");
++				break;
++			case MERGE_BLOCK:
++				dev_dbg(priv->drm.dev,
++					"Merge blocked [collision]\n");
++				end_merge = true;
++				break;
++			}
++
++			if (end_merge) {
++				end_merge = false;
++				break;
++			}
 +		}
 +	}
 +
-+	/* EPDC_FIFOCTRL (disabled) */
-+	reg_val =
-+	    ((100 << EPDC_FIFOCTRL_FIFO_INIT_LEVEL_OFFSET) &
-+	     EPDC_FIFOCTRL_FIFO_INIT_LEVEL_MASK)
-+	    | ((200 << EPDC_FIFOCTRL_FIFO_H_LEVEL_OFFSET) &
-+	       EPDC_FIFOCTRL_FIFO_H_LEVEL_MASK)
-+	    | ((100 << EPDC_FIFOCTRL_FIFO_L_LEVEL_OFFSET) &
-+	       EPDC_FIFOCTRL_FIFO_L_LEVEL_MASK);
-+	epdc_write(priv, EPDC_FIFOCTRL, reg_val);
++	/*
++	 * If we didn't find a collision update ready to go, we
++	 * need to get a free buffer and match it to a pending update.
++	 */
 +
-+	/* EPDC_TEMP - Use default temp to get index */
++	/*
++	 * Can't proceed if there are no free buffers (and we don't
++	 * already have a collision update selected)
++	 */
++	if (!upd_data_list &&
++		list_empty(&priv->upd_buf_free_list)) {
++		mutex_unlock(&priv->queue_mutex);
++		return;
++	}
++
++	list_for_each_entry_safe(next_desc, temp_desc,
++			&priv->upd_pending_list, list) {
++
++		dev_dbg(priv->drm.dev, "Found a pending update!\n");
++
++		if (!upd_data_list) {
++			if (list_empty(&priv->upd_buf_free_list))
++				break;
++			upd_data_list =
++				list_entry(priv->upd_buf_free_list.next,
++					struct update_data_list, list);
++			list_del_init(&upd_data_list->list);
++			upd_data_list->update_desc = next_desc;
++			list_del_init(&next_desc->list);
++		} else {
++			switch (epdc_submit_merge(upd_data_list->update_desc,
++					next_desc, priv)) {
++			case MERGE_OK:
++				dev_dbg(priv->drm.dev,
++					"Update merged [queue]\n");
++				list_del_init(&next_desc->list);
++				kfree(next_desc);
++				break;
++			case MERGE_FAIL:
++				dev_dbg(priv->drm.dev,
++					"Update not merged [queue]\n");
++				break;
++			case MERGE_BLOCK:
++				dev_dbg(priv->drm.dev,
++					"Merge blocked [collision]\n");
++				end_merge = true;
++				break;
++			}
++
++			if (end_merge)
++				break;
++		}
++	}
++
++	/* Is update list empty? */
++	if (!upd_data_list) {
++		mutex_unlock(&priv->queue_mutex);
++		return;
++	}
++
++	if ((!priv->powered)
++		|| priv->powering_down)
++		mxc_epdc_powerup(priv);
++
++	/*
++	 * Set update buffer pointer to the start of
++	 * the update region in the frame buffer.
++	 */
++	upd_region = &upd_data_list->update_desc->upd_data.update_region;
++	update_addr = priv->epdc_mem_phys +
++		((upd_region->y1 * priv->epdc_mem_width) +
++		upd_region->x1);
++	update_addr_virt = (u8 *)(priv->epdc_mem_virt) +
++		((upd_region->y1 * priv->epdc_mem_width) +
++		upd_region->x1);
++
++	adj_update_region = upd_data_list->update_desc->upd_data.update_region;
++	/*
++	 * Is the working buffer idle?
++	 * If the working buffer is busy, we must wait for the resource
++	 * to become free. The IST will signal this event.
++	 */
++	if (priv->cur_update != NULL) {
++		dev_dbg(priv->drm.dev, "working buf busy!\n");
++
++		/* Initialize event signalling an update resource is free */
++		init_completion(&priv->update_res_free);
++
++		priv->waiting_for_wb = true;
++
++		/* Leave spinlock while waiting for WB to complete */
++		mutex_unlock(&priv->queue_mutex);
++		wait_for_completion(&priv->update_res_free);
++		mutex_lock(&priv->queue_mutex);
++	}
++
++	/*
++	 * If there are no LUTs available,
++	 * then we must wait for the resource to become free.
++	 * The IST will signal this event.
++	 */
++	if (!epdc_any_luts_available(priv)) {
++		dev_dbg(priv->drm.dev, "no luts available!\n");
++
++		/* Initialize event signalling an update resource is free */
++		init_completion(&priv->update_res_free);
++
++		priv->waiting_for_lut = true;
++
++		/* Leave spinlock while waiting for LUT to free up */
++		mutex_unlock(&priv->queue_mutex);
++		wait_for_completion(&priv->update_res_free);
++		mutex_lock(&priv->queue_mutex);
++	}
++
++	ret = epdc_choose_next_lut(priv, &upd_data_list->lut_num);
++
++	/* LUTs are available, so we get one here */
++	priv->cur_update = upd_data_list;
++
++	/* Reset mask for LUTS that have completed during WB processing */
++	priv->luts_complete_wb = 0;
++
++	/* Mark LUT with order */
++	priv->lut_update_order[upd_data_list->lut_num] =
++			upd_data_list->update_desc->update_order;
++
++	epdc_lut_complete_intr(priv, upd_data_list->lut_num,
++				       true);
++
++	/* Enable Collision and WB complete IRQs */
++	epdc_working_buf_intr(priv, true);
++
 +	epdc_write(priv, EPDC_TEMP,
 +		   mxc_epdc_fb_get_temp_index(priv, TEMP_USE_AMBIENT));
 +
-+	/* EPDC_RES */
-+	epdc_set_screen_res(priv, m->hdisplay, m->vdisplay);
++	/* Program EPDC update to process buffer */
 +
-+	/* EPDC_AUTOWV_LUT */
-+	/* Initialize all auto-wavefrom look-up values to 2 - GC16 */
-+	for (i = 0; i < 8; i++)
-+		epdc_write(priv, EPDC_AUTOWV_LUT,
-+			(2 << EPDC_AUTOWV_LUT_DATA_OFFSET) |
-+			(i << EPDC_AUTOWV_LUT_ADDR_OFFSET));
++	epdc_set_update_area(priv, update_addr,
++			     adj_update_region.x1, adj_update_region.y1,
++			     drm_rect_width(&adj_update_region),
++			     drm_rect_height(&adj_update_region),
++			     priv->epdc_mem_width);
 +
-+	/*
-+	 * EPDC_TCE_CTRL
-+	 * VSCAN_HOLDOFF = 4
-+	 * VCOM_MODE = MANUAL
-+	 * VCOM_VAL = 0
-+	 * DDR_MODE = DISABLED
-+	 * LVDS_MODE_CE = DISABLED
-+	 * LVDS_MODE = DISABLED
-+	 * DUAL_SCAN = DISABLED
-+	 * SDDO_WIDTH = 8bit
-+	 * PIXELS_PER_SDCLK = 4
-+	 */
-+	reg_val =
-+	    ((priv->imx_mode.vscan_holdoff << EPDC_TCE_CTRL_VSCAN_HOLDOFF_OFFSET) &
-+	     EPDC_TCE_CTRL_VSCAN_HOLDOFF_MASK)
-+	    | EPDC_TCE_CTRL_PIXELS_PER_SDCLK_4;
-+	epdc_write(priv, EPDC_TCE_CTRL, reg_val);
++	if (priv->wv_modes_update &&
++		(upd_data_list->update_desc->upd_data.waveform_mode
++			== WAVEFORM_MODE_AUTO)) {
++		mxc_epdc_set_update_waveform(priv, &priv->wv_modes);
++		priv->wv_modes_update = false;
++	}
 +
-+	/* EPDC_TCE_HSCAN */
-+	epdc_set_horizontal_timing(priv, m->hsync_start - m->hdisplay,
-+				   m->htotal - m->hsync_end,
-+				   m->hsync_end - m->hsync_start,
-+				   m->hsync_end - m->hsync_start);
++	epdc_submit_update(priv, upd_data_list->lut_num,
++			   upd_data_list->update_desc->upd_data.waveform_mode,
++			   upd_data_list->update_desc->upd_data.update_mode,
++			   false,
++			   false, 0);
 +
-+	/* EPDC_TCE_VSCAN */
-+	epdc_set_vertical_timing(priv, m->vsync_start - m->vdisplay,
-+				 m->vtotal - m->vsync_end,
-+				 m->vsync_end - m->vsync_start);
-+
-+	/* EPDC_TCE_OE */
-+	reg_val =
-+	    ((priv->imx_mode.sdoed_width << EPDC_TCE_OE_SDOED_WIDTH_OFFSET) &
-+	     EPDC_TCE_OE_SDOED_WIDTH_MASK)
-+	    | ((priv->imx_mode.sdoed_delay << EPDC_TCE_OE_SDOED_DLY_OFFSET) &
-+	       EPDC_TCE_OE_SDOED_DLY_MASK)
-+	    | ((priv->imx_mode.sdoez_width << EPDC_TCE_OE_SDOEZ_WIDTH_OFFSET) &
-+	       EPDC_TCE_OE_SDOEZ_WIDTH_MASK)
-+	    | ((priv->imx_mode.sdoez_delay << EPDC_TCE_OE_SDOEZ_DLY_OFFSET) &
-+	       EPDC_TCE_OE_SDOEZ_DLY_MASK);
-+	epdc_write(priv, EPDC_TCE_OE, reg_val);
-+
-+	/* EPDC_TCE_TIMING1 */
-+	epdc_write(priv, EPDC_TCE_TIMING1, 0x0);
-+
-+	/* EPDC_TCE_TIMING2 */
-+	reg_val =
-+	    ((priv->imx_mode.gdclk_hp_offs << EPDC_TCE_TIMING2_GDCLK_HP_OFFSET) &
-+	     EPDC_TCE_TIMING2_GDCLK_HP_MASK)
-+	    | ((priv->imx_mode.gdsp_offs << EPDC_TCE_TIMING2_GDSP_OFFSET_OFFSET) &
-+	       EPDC_TCE_TIMING2_GDSP_OFFSET_MASK);
-+	epdc_write(priv, EPDC_TCE_TIMING2, reg_val);
-+
-+	/* EPDC_TCE_TIMING3 */
-+	reg_val =
-+	    ((priv->imx_mode.gdoe_offs << EPDC_TCE_TIMING3_GDOE_OFFSET_OFFSET) &
-+	     EPDC_TCE_TIMING3_GDOE_OFFSET_MASK)
-+	    | ((priv->imx_mode.gdclk_offs << EPDC_TCE_TIMING3_GDCLK_OFFSET_OFFSET) &
-+	       EPDC_TCE_TIMING3_GDCLK_OFFSET_MASK);
-+	epdc_write(priv, EPDC_TCE_TIMING3, reg_val);
-+
-+	/*
-+	 * EPDC_TCE_SDCFG
-+	 * SDCLK_HOLD = 1
-+	 * SDSHR = 1
-+	 * NUM_CE = 1
-+	 * SDDO_REFORMAT = FLIP_PIXELS
-+	 * SDDO_INVERT = DISABLED
-+	 * PIXELS_PER_CE = display horizontal resolution
-+	 */
-+	num_ce = priv->imx_mode.num_ce;
-+	if (num_ce == 0)
-+		num_ce = 1;
-+	reg_val = EPDC_TCE_SDCFG_SDCLK_HOLD | EPDC_TCE_SDCFG_SDSHR
-+	    | ((num_ce << EPDC_TCE_SDCFG_NUM_CE_OFFSET) &
-+	       EPDC_TCE_SDCFG_NUM_CE_MASK)
-+	    | EPDC_TCE_SDCFG_SDDO_REFORMAT_FLIP_PIXELS
-+	    | ((priv->epdc_mem_width/num_ce << EPDC_TCE_SDCFG_PIXELS_PER_CE_OFFSET) &
-+	       EPDC_TCE_SDCFG_PIXELS_PER_CE_MASK);
-+	epdc_write(priv, EPDC_TCE_SDCFG, reg_val);
-+
-+	/*
-+	 * EPDC_TCE_GDCFG
-+	 * GDRL = 1
-+	 * GDOE_MODE = 0;
-+	 * GDSP_MODE = 0;
-+	 */
-+	reg_val = EPDC_TCE_SDCFG_GDRL;
-+	epdc_write(priv, EPDC_TCE_GDCFG, reg_val);
-+
-+	/*
-+	 * EPDC_TCE_POLARITY
-+	 * SDCE_POL = ACTIVE LOW
-+	 * SDLE_POL = ACTIVE HIGH
-+	 * SDOE_POL = ACTIVE HIGH
-+	 * GDOE_POL = ACTIVE HIGH
-+	 * GDSP_POL = ACTIVE LOW
-+	 */
-+	reg_val = EPDC_TCE_POLARITY_SDLE_POL_ACTIVE_HIGH
-+	    | EPDC_TCE_POLARITY_SDOE_POL_ACTIVE_HIGH
-+	    | EPDC_TCE_POLARITY_GDOE_POL_ACTIVE_HIGH;
-+	epdc_write(priv, EPDC_TCE_POLARITY, reg_val);
-+
-+	/* EPDC_IRQ_MASK */
-+	epdc_write(priv, EPDC_IRQ_MASK, EPDC_IRQ_TCE_UNDERRUN_IRQ);
-+
-+	/*
-+	 * EPDC_GPIO
-+	 * PWRCOM = ?
-+	 * PWRCTRL = ?
-+	 * BDR = ?
-+	 */
-+	reg_val = ((0 << EPDC_GPIO_PWRCTRL_OFFSET) & EPDC_GPIO_PWRCTRL_MASK)
-+	    | ((0 << EPDC_GPIO_BDR_OFFSET) & EPDC_GPIO_BDR_MASK);
-+	epdc_write(priv, EPDC_GPIO, reg_val);
-+
-+	epdc_write(priv, EPDC_WVADDR, priv->waveform_buffer_phys);
-+	epdc_write(priv, EPDC_WB_ADDR, priv->working_buffer_phys);
-+	if (priv->rev >= 30)
-+		epdc_write(priv, EPDC_WB_ADDR_TCE_V3,
-+			   priv->working_buffer_phys);
-+	else
-+		epdc_write(priv, EPDC_WB_ADDR_TCE,
-+			   priv->working_buffer_phys);
-+
-+	/* Disable clock */
-+	clk_disable_unprepare(priv->epdc_clk_axi);
-+	clk_disable_unprepare(priv->epdc_clk_pix);
++	/* Release buffer queues */
++	mutex_unlock(&priv->queue_mutex);
 +}
 +
-+void mxc_epdc_init_sequence(struct mxc_epdc *priv, struct drm_display_mode *m)
++void mxc_epdc_flush_updates(struct mxc_epdc *priv)
 +{
-+	/* Initialize EPDC, passing pointer to EPDC registers */
-+	struct clk *epdc_parent;
-+	unsigned long rounded_parent_rate, epdc_pix_rate,
-+			rounded_pix_clk, target_pix_clk;
++	int ret;
 +
-+	/* Enable pix clk for EPDC */
-+	clk_prepare_enable(priv->epdc_clk_axi);
++	if (priv->in_init)
++		return;
 +
-+	target_pix_clk = m->clock * 1000;
-+	rounded_pix_clk = clk_round_rate(priv->epdc_clk_pix, target_pix_clk);
++	/* Grab queue lock to prevent any new updates from being submitted */
++	mutex_lock(&priv->queue_mutex);
 +
-+	if (((rounded_pix_clk >= target_pix_clk + target_pix_clk/100) ||
-+		(rounded_pix_clk <= target_pix_clk - target_pix_clk/100))) {
-+		/* Can't get close enough without changing parent clk */
-+		epdc_parent = clk_get_parent(priv->epdc_clk_pix);
-+		rounded_parent_rate = clk_round_rate(epdc_parent, target_pix_clk);
++	/*
++	 * 3 places to check for updates that are active or pending:
++	 *   1) Updates in the pending list
++	 *   2) Update buffers in use (e.g., PxP processing)
++	 *   3) Active updates to panel - We can key off of EPDC
++	 *      power state to know if we have active updates.
++	 */
++	if (!list_empty(&priv->upd_pending_list) ||
++		!is_free_list_full(priv) ||
++		(priv->updates_active == true)) {
++		/* Initialize event signalling updates are done */
++		init_completion(&priv->updates_done);
++		priv->waiting_for_idle = true;
 +
-+		epdc_pix_rate = target_pix_clk;
-+		while (epdc_pix_rate < rounded_parent_rate)
-+			epdc_pix_rate *= 2;
-+		clk_set_rate(epdc_parent, epdc_pix_rate);
-+
-+		rounded_pix_clk = clk_round_rate(priv->epdc_clk_pix, target_pix_clk);
-+		if (((rounded_pix_clk >= target_pix_clk + target_pix_clk/100) ||
-+			(rounded_pix_clk <= target_pix_clk - target_pix_clk/100)))
-+			/* Still can't get a good clock, provide warning */
++		mutex_unlock(&priv->queue_mutex);
++		/* Wait for any currently active updates to complete */
++		ret = wait_for_completion_timeout(&priv->updates_done,
++						msecs_to_jiffies(8000));
++		if (!ret)
 +			dev_err(priv->drm.dev,
-+				"Unable to get an accurate EPDC pix clk desired = %lu, actual = %lu\n",
-+				target_pix_clk,
-+				rounded_pix_clk);
++				"Flush updates timeout! ret = 0x%x\n", ret);
++
++		mutex_lock(&priv->queue_mutex);
++		priv->waiting_for_idle = false;
 +	}
 +
-+	clk_set_rate(priv->epdc_clk_pix, rounded_pix_clk);
-+	clk_prepare_enable(priv->epdc_clk_pix);
-+
-+	epdc_init_settings(priv, m);
-+
-+	priv->in_init = true;
-+	mxc_epdc_powerup(priv);
-+	/* Force power down event */
-+	priv->powering_down = true;
-+	mxc_epdc_powerdown(priv);
-+	priv->updates_active = false;
-+
-+	/* Disable clocks */
-+	clk_disable_unprepare(priv->epdc_clk_axi);
-+	clk_disable_unprepare(priv->epdc_clk_pix);
-+	priv->hw_ready = true;
-+	priv->hw_initializing = false;
-+
++	mutex_unlock(&priv->queue_mutex);
 +}
 +
-+int mxc_epdc_init_hw(struct mxc_epdc *priv)
++void mxc_epdc_draw_mode0(struct mxc_epdc *priv)
 +{
-+	struct pinctrl *pinctrl;
-+	const char *thermal = NULL;
-+	u32 val;
++	u32 *upd_buf_ptr;
++	int i;
++	u32 xres, yres;
 +
-+	/* get pmic regulators */
-+	priv->display_regulator = devm_regulator_get(priv->drm.dev, "DISPLAY");
-+	if (IS_ERR(priv->display_regulator))
-+		return dev_err_probe(priv->drm.dev, PTR_ERR(priv->display_regulator),
-+				     "Unable to get display PMIC regulator\n");
++	upd_buf_ptr = (u32 *)priv->epdc_mem_virt;
 +
-+	priv->vcom_regulator = devm_regulator_get(priv->drm.dev, "VCOM");
-+	if (IS_ERR(priv->vcom_regulator))
-+		return dev_err_probe(priv->drm.dev, PTR_ERR(priv->vcom_regulator),
-+				     "Unable to get VCOM regulator\n");
++	epdc_working_buf_intr(priv, true);
++	epdc_lut_complete_intr(priv, 0, true);
 +
-+	priv->v3p3_regulator = devm_regulator_get(priv->drm.dev, "V3P3");
-+	if (IS_ERR(priv->v3p3_regulator))
-+		return dev_err_probe(priv->drm.dev, PTR_ERR(priv->v3p3_regulator),
-+				     "Unable to get V3P3 regulator\n");
++	/* Use unrotated (native) width/height */
++	xres = priv->epdc_mem_width;
++	yres = priv->epdc_mem_height;
 +
-+	of_property_read_string(priv->drm.dev->of_node,
-+				"epd-thermal-zone", &thermal);
-+	if (thermal) {
-+		priv->thermal = thermal_zone_get_zone_by_name(thermal);
-+		if (IS_ERR(priv->thermal))
-+			return dev_err_probe(priv->drm.dev, PTR_ERR(priv->thermal),
-+					     "unable to get thermal");
++	/* Program EPDC update to process buffer */
++	epdc_set_update_area(priv, priv->epdc_mem_phys, 0, 0, xres, yres, 0);
++	epdc_submit_update(priv, 0, priv->wv_modes.mode_init, UPDATE_MODE_FULL,
++		false, true, 0xFF);
++
++	dev_dbg(priv->drm.dev, "Mode0 update - Waiting for LUT to complete...\n");
++
++	/* Will timeout after ~4-5 seconds */
++
++	for (i = 0; i < 40; i++) {
++		if (!epdc_is_lut_active(priv, 0)) {
++			dev_dbg(priv->drm.dev, "Mode0 init complete\n");
++			return;
++		}
++		msleep(100);
 +	}
-+	priv->iobase = devm_platform_get_and_ioremap_resource(to_platform_device(priv->drm.dev),
-+							      0, NULL);
-+	if (priv->iobase == NULL)
++
++	dev_err(priv->drm.dev, "Mode0 init failed!\n");
++}
++
++
++int mxc_epdc_send_single_update(struct drm_rect *clip, int pitch, void *vaddr,
++				struct mxc_epdc *priv)
++{
++	struct update_desc_list *upd_desc;
++
++	if (priv->rev < 30)
++		epdc_from_rgb_clear_lower_nibble(clip, vaddr, pitch,
++						 (u8 *)priv->epdc_mem_virt,
++						 priv->epdc_mem_width);
++	else
++		epdc_from_rgb_shift(clip, vaddr, pitch,
++				    (u8 *)priv->epdc_mem_virt,
++				    priv->epdc_mem_width);
++
++	/* Has EPDC HW been initialized? */
++	if (!priv->hw_ready) {
++		/* Throw message if we are not mid-initialization */
++		if (!priv->hw_initializing)
++			dev_err(priv->drm.dev, "Display HW not properly initialized. Aborting update.\n");
++		return -EPERM;
++	}
++
++	mutex_lock(&priv->queue_mutex);
++
++	if (priv->waiting_for_idle) {
++		dev_dbg(priv->drm.dev, "EPDC not active. Update request abort.\n");
++		mutex_unlock(&priv->queue_mutex);
++		return -EPERM;
++	}
++
++
++	/*
++	 * Create new update data structure, fill it with new update
++	 * data and add it to the list of pending updates
++	 */
++	upd_desc = kzalloc(sizeof(struct update_desc_list), GFP_KERNEL);
++	if (!upd_desc) {
++		mutex_unlock(&priv->queue_mutex);
++		return -ENOMEM;
++	}
++	/* Initialize per-update marker list */
++	upd_desc->upd_data.update_region = *clip;
++	upd_desc->upd_data.waveform_mode = WAVEFORM_MODE_AUTO;
++	upd_desc->upd_data.temp = TEMP_USE_AMBIENT;
++	upd_desc->upd_data.update_mode = UPDATE_MODE_PARTIAL;
++	upd_desc->update_order = priv->order_cnt++;
++	list_add_tail(&upd_desc->list, &priv->upd_pending_list);
++
++	/* Queued update scheme processing */
++
++	mutex_unlock(&priv->queue_mutex);
++
++	/* Signal workqueue to handle new update */
++	queue_work(priv->epdc_submit_workqueue,
++		   &priv->epdc_submit_work);
++
++	return 0;
++}
++
++static void epdc_intr_work_func(struct work_struct *work)
++{
++	struct mxc_epdc *priv =
++		container_of(work, struct mxc_epdc, epdc_intr_work);
++	struct update_data_list *collision_update;
++	u64 temp_mask;
++	u32 lut;
++	bool ignore_collision = false;
++	int i;
++	bool wb_lut_done = false;
++	bool free_update = true;
++	u32 epdc_luts_active, epdc_wb_busy, epdc_luts_avail, epdc_lut_cancelled;
++	u32 epdc_collision;
++	u64 epdc_irq_stat;
++	bool epdc_waiting_on_wb;
++	u32 coll_coord, coll_size;
++
++	/* Protect access to buffer queues and to update HW */
++	mutex_lock(&priv->queue_mutex);
++
++	/* Capture EPDC status one time to limit exposure to race conditions */
++	epdc_luts_active = epdc_any_luts_active(priv);
++	epdc_wb_busy = epdc_is_working_buffer_busy(priv);
++	epdc_lut_cancelled = epdc_is_lut_cancelled(priv);
++	epdc_luts_avail = epdc_any_luts_available(priv);
++	epdc_collision = epdc_is_collision(priv);
++
++	epdc_irq_stat = (u64)epdc_read(priv, EPDC_IRQ1) |
++			((u64)epdc_read(priv, EPDC_IRQ2) << 32);
++	epdc_waiting_on_wb = (priv->cur_update != NULL) ? true : false;
++
++	/* Free any LUTs that have completed */
++	for (i = 0; i < priv->num_luts; i++) {
++		if ((epdc_irq_stat & (1ULL << i)) == 0)
++			continue;
++
++		dev_dbg(priv->drm.dev, "LUT %d completed\n", i);
++
++		/* Disable IRQ for completed LUT */
++		epdc_lut_complete_intr(priv, i, false);
++
++		/*
++		 * Go through all updates in the collision list and
++		 * unmask any updates that were colliding with
++		 * the completed LUT.
++		 */
++		list_for_each_entry(collision_update,
++				    &priv->upd_buf_collision_list, list) {
++			collision_update->collision_mask =
++			    collision_update->collision_mask & ~BIT(i);
++		}
++
++		epdc_clear_lut_complete_irq(priv, i);
++
++		priv->luts_complete_wb |= 1ULL << i;
++
++		priv->lut_update_order[i] = 0;
++
++		/* Signal completion if submit workqueue needs a LUT */
++		if (priv->waiting_for_lut) {
++			complete(&priv->update_res_free);
++			priv->waiting_for_lut = false;
++		}
++
++		/*
++		 * Detect race condition where WB and its LUT complete
++		 * (i.e. full update completes) in one swoop
++		 */
++		if (epdc_waiting_on_wb &&
++			(i == priv->cur_update->lut_num))
++			wb_lut_done = true;
++	}
++
++	/* Check to see if all updates have completed */
++	if (list_empty(&priv->upd_pending_list) &&
++		is_free_list_full(priv) &&
++		!epdc_waiting_on_wb &&
++		!epdc_luts_active) {
++
++		priv->updates_active = false;
++
++		if (priv->pwrdown_delay != FB_POWERDOWN_DISABLE) {
++			/*
++			 * Set variable to prevent overlapping
++			 * enable/disable requests
++			 */
++			priv->powering_down = true;
++
++			/* Schedule task to disable EPDC HW until next update */
++			schedule_delayed_work(&priv->epdc_done_work,
++				msecs_to_jiffies(priv->pwrdown_delay));
++
++			/* Reset counter to reduce chance of overflow */
++			priv->order_cnt = 0;
++		}
++
++		if (priv->waiting_for_idle)
++			complete(&priv->updates_done);
++	}
++
++	/* Is Working Buffer busy? */
++	if (epdc_wb_busy) {
++		/* Can't submit another update until WB is done */
++		mutex_unlock(&priv->queue_mutex);
++		return;
++	}
++
++	/*
++	 * Were we waiting on working buffer?
++	 * If so, update queues and check for collisions
++	 */
++	if (epdc_waiting_on_wb) {
++		dev_dbg(priv->drm.dev, "\nWorking buffer completed\n");
++
++		/* Signal completion if submit workqueue was waiting on WB */
++		if (priv->waiting_for_wb) {
++			complete(&priv->update_res_free);
++			priv->waiting_for_wb = false;
++		}
++
++		if (epdc_lut_cancelled && !epdc_collision) {
++			/*
++			 * Note: The update may be cancelled (void) if all
++			 * pixels collided. In that case we handle it as a
++			 * collision, not a cancel.
++			 */
++
++			/* Clear LUT status (might be set if no AUTOWV used) */
++
++			/*
++			 * Disable and clear IRQ for the LUT used.
++			 * Even though LUT is cancelled in HW, the LUT
++			 * complete bit may be set if AUTOWV not used.
++			 */
++			epdc_lut_complete_intr(priv,
++					priv->cur_update->lut_num, false);
++			epdc_clear_lut_complete_irq(priv,
++					priv->cur_update->lut_num);
++
++			priv->lut_update_order[priv->cur_update->lut_num] = 0;
++
++			/* Signal completion if submit workqueue needs a LUT */
++			if (priv->waiting_for_lut) {
++				complete(&priv->update_res_free);
++				priv->waiting_for_lut = false;
++			}
++		} else if (epdc_collision) {
++			/* Check list of colliding LUTs, and add to our collision mask */
++			priv->cur_update->collision_mask =
++			    priv->epdc_colliding_luts;
++
++			/* Clear collisions that completed since WB began */
++			priv->cur_update->collision_mask &=
++				~priv->luts_complete_wb;
++
++			dev_dbg(priv->drm.dev, "Collision mask = 0x%llx\n",
++			       priv->epdc_colliding_luts);
++
++			/*
++			 * For EPDC 2.0 and later, minimum collision bounds
++			 * are provided by HW.  Recompute new bounds here.
++			 */
++
++			coll_coord = epdc_read(priv, EPDC_UPD_COL_CORD);
++			coll_size = epdc_read(priv, EPDC_UPD_COL_SIZE);
++			drm_rect_init(&priv->cur_update->update_desc->upd_data.update_region,
++				(coll_coord & EPDC_UPD_COL_CORD_XCORD_MASK)
++					>> EPDC_UPD_COL_CORD_XCORD_OFFSET,
++				(coll_coord & EPDC_UPD_COL_CORD_YCORD_MASK)
++					>> EPDC_UPD_COL_CORD_YCORD_OFFSET,
++				((coll_size & EPDC_UPD_COL_SIZE_WIDTH_MASK)
++					>> EPDC_UPD_COL_SIZE_WIDTH_OFFSET),
++				((coll_size & EPDC_UPD_COL_SIZE_HEIGHT_MASK)
++					>> EPDC_UPD_COL_SIZE_HEIGHT_OFFSET));
++
++			/*
++			 * If we collide with newer updates, then
++			 * we don't need to re-submit the update. The
++			 * idea is that the newer updates should take
++			 * precedence anyways, so we don't want to
++			 * overwrite them.
++			 */
++			for (temp_mask = priv->cur_update->collision_mask, lut = 0;
++				temp_mask != 0;
++				lut++, temp_mask = temp_mask >> 1) {
++				if (!(temp_mask & 0x1))
++					continue;
++
++				if (priv->lut_update_order[lut] >=
++					priv->cur_update->update_desc->update_order) {
++					dev_dbg(priv->drm.dev,
++						"Ignoring collision with newer update.\n");
++					ignore_collision = true;
++					break;
++				}
++			}
++
++			if (!ignore_collision) {
++				free_update = false;
++
++				/* Move to collision list */
++				list_add_tail(&priv->cur_update->list,
++					 &priv->upd_buf_collision_list);
++			}
++		}
++
++		/* Do we need to free the current update descriptor? */
++		if (free_update) {
++			/* Free update descriptor */
++			kfree(priv->cur_update->update_desc);
++
++			/* Add to free buffer list */
++			list_add_tail(&priv->cur_update->list,
++				 &priv->upd_buf_free_list);
++
++			/* Check to see if all updates have completed */
++			if (list_empty(&priv->upd_pending_list) &&
++				is_free_list_full(priv) &&
++				!epdc_luts_active) {
++
++				priv->updates_active = false;
++
++				if (priv->pwrdown_delay !=
++						FB_POWERDOWN_DISABLE) {
++					/*
++					 * Set variable to prevent overlapping
++					 * enable/disable requests
++					 */
++					priv->powering_down = true;
++
++					/* Schedule EPDC disable */
++					schedule_delayed_work(&priv->epdc_done_work,
++						msecs_to_jiffies(priv->pwrdown_delay));
++
++					/* Reset counter to reduce chance of overflow */
++					priv->order_cnt = 0;
++				}
++
++				if (priv->waiting_for_idle)
++					complete(&priv->updates_done);
++			}
++		}
++
++		/* Clear current update */
++		priv->cur_update = NULL;
++
++		/* Clear IRQ for working buffer */
++		epdc_working_buf_intr(priv, false);
++		epdc_clear_working_buf_irq(priv);
++	}
++
++	/* Schedule task to submit collision and pending update */
++	if (!priv->powering_down)
++		queue_work(priv->epdc_submit_workqueue,
++			&priv->epdc_submit_work);
++
++	/* Release buffer queues */
++	mutex_unlock(&priv->queue_mutex);
++}
++
++
++int mxc_epdc_init_update(struct mxc_epdc *priv)
++{
++	struct update_data_list *upd_list;
++	int ret;
++	int irq;
++	int i;
++	/*
++	 * Initialize lists for pending updates,
++	 * active update requests, update collisions,
++	 * and freely available updates.
++	 */
++	priv->num_luts = EPDC_V2_NUM_LUTS;
++	priv->max_num_updates = EPDC_V2_MAX_NUM_UPDATES;
++
++	INIT_LIST_HEAD(&priv->upd_pending_list);
++	INIT_LIST_HEAD(&priv->upd_buf_queue);
++	INIT_LIST_HEAD(&priv->upd_buf_free_list);
++	INIT_LIST_HEAD(&priv->upd_buf_collision_list);
++
++	devm_add_action_or_reset(priv->drm.dev, cleanup_update_list, priv);
++	/* Allocate update buffers and add them to the list */
++	for (i = 0; i < priv->max_num_updates; i++) {
++		upd_list = kzalloc(sizeof(*upd_list), GFP_KERNEL);
++		if (upd_list == NULL)
++			return -ENOMEM;
++
++		/* Add newly allocated buffer to free list */
++		list_add(&upd_list->list, &priv->upd_buf_free_list);
++	}
++
++
++
++	/* Initialize marker list */
++	INIT_LIST_HEAD(&priv->full_marker_list);
++
++	/* Initialize all LUTs to inactive */
++	priv->lut_update_order =
++		devm_kzalloc(priv->drm.dev, priv->num_luts * sizeof(u32 *), GFP_KERNEL);
++	if (!priv->lut_update_order)
 +		return -ENOMEM;
 +
-+	priv->epdc_clk_axi = devm_clk_get(priv->drm.dev, "axi");
-+	if (IS_ERR(priv->epdc_clk_axi))
-+		return dev_err_probe(priv->drm.dev, PTR_ERR(priv->epdc_clk_axi),
-+				     "Unable to get EPDC AXI clk\n");
++	for (i = 0; i < priv->num_luts; i++)
++		priv->lut_update_order[i] = 0;
 +
-+	priv->epdc_clk_pix = devm_clk_get(priv->drm.dev, "pix");
-+	if (IS_ERR(priv->epdc_clk_pix))
-+		return dev_err_probe(priv->drm.dev, PTR_ERR(priv->epdc_clk_pix),
-+				     "Unable to get EPDC pix clk\n");
++	INIT_DELAYED_WORK(&priv->epdc_done_work, epdc_done_work_func);
++	priv->epdc_submit_workqueue = alloc_workqueue("EPDC Submit",
++					WQ_MEM_RECLAIM | WQ_HIGHPRI |
++					WQ_CPU_INTENSIVE | WQ_UNBOUND, 1);
++	INIT_WORK(&priv->epdc_submit_work, epdc_submit_work_func);
++	priv->epdc_intr_workqueue = alloc_workqueue("EPDC Interrupt",
++					WQ_MEM_RECLAIM | WQ_HIGHPRI |
++					WQ_CPU_INTENSIVE | WQ_UNBOUND, 1);
++	INIT_WORK(&priv->epdc_intr_work, epdc_intr_work_func);
 +
-+	clk_prepare_enable(priv->epdc_clk_axi);
-+	val = epdc_read(priv, EPDC_VERSION);
-+	clk_disable_unprepare(priv->epdc_clk_axi);
-+	priv->rev = ((val & EPDC_VERSION_MAJOR_MASK) >>
-+				EPDC_VERSION_MAJOR_OFFSET) * 10
-+			+ ((val & EPDC_VERSION_MINOR_MASK) >>
-+				EPDC_VERSION_MINOR_OFFSET);
-+	dev_dbg(priv->drm.dev, "EPDC version = %d\n", priv->rev);
++	mutex_init(&priv->queue_mutex);
 +
-+	if (priv->rev <= 20) {
-+		dev_err(priv->drm.dev, "Unsupported version (%d)\n", priv->rev);
++	/* Retrieve EPDC IRQ num */
++	irq = platform_get_irq(to_platform_device(priv->drm.dev), 0);
++	if (irq < 0) {
++		dev_err(priv->drm.dev, "cannot get IRQ resource\n");
 +		return -ENODEV;
 +	}
++	priv->epdc_irq = irq;
 +
-+	/* Initialize EPDC pins */
-+	pinctrl = devm_pinctrl_get_select_default(priv->drm.dev);
-+	if (IS_ERR(pinctrl)) {
-+		dev_err(priv->drm.dev, "can't get/select pinctrl\n");
-+		return PTR_ERR(pinctrl);
++	/* Register IRQ handler */
++	ret = devm_request_irq(priv->drm.dev, priv->epdc_irq,
++				mxc_epdc_irq_handler, 0, "epdc", priv);
++	if (ret) {
++		dev_err(priv->drm.dev, "request_irq (%d) failed with error %d\n",
++			priv->epdc_irq, ret);
++		return ret;
 +	}
-+
-+	mutex_init(&priv->power_mutex);
 +
 +	return 0;
++
 +}
-diff --git a/drivers/gpu/drm/mxc-epdc/epdc_hw.h b/drivers/gpu/drm/mxc-epdc/epdc_hw.h
++
+diff --git a/drivers/gpu/drm/mxc-epdc/epdc_update.h b/drivers/gpu/drm/mxc-epdc/epdc_update.h
 new file mode 100644
-index 000000000000..dbf1f0d1e23e
+index 000000000000..b6f30cf8eda7
 --- /dev/null
-+++ b/drivers/gpu/drm/mxc-epdc/epdc_hw.h
-@@ -0,0 +1,8 @@
++++ b/drivers/gpu/drm/mxc-epdc/epdc_update.h
+@@ -0,0 +1,9 @@
 +/* SPDX-License-Identifier: GPL-2.0+ */
-+/* Copyright (C) 2022 Andreas Kemnade */
-+void mxc_epdc_init_sequence(struct mxc_epdc *priv, struct drm_display_mode *m);
-+int mxc_epdc_init_hw(struct mxc_epdc *priv);
++/* Copyright (C) 2020 Andreas Kemnade */
++int mxc_epdc_send_single_update(struct drm_rect *clip, int pitch,
++				void *vaddr,
++				struct mxc_epdc *priv);
++void mxc_epdc_draw_mode0(struct mxc_epdc *priv);
++int mxc_epdc_init_update(struct mxc_epdc *priv);
++void mxc_epdc_flush_updates(struct mxc_epdc *priv);
 +
-+void mxc_epdc_powerup(struct mxc_epdc *priv);
-+void mxc_epdc_powerdown(struct mxc_epdc *priv);
-+
-diff --git a/drivers/gpu/drm/mxc-epdc/epdc_waveform.c b/drivers/gpu/drm/mxc-epdc/epdc_waveform.c
-new file mode 100644
-index 000000000000..4f2f199722d5
---- /dev/null
-+++ b/drivers/gpu/drm/mxc-epdc/epdc_waveform.c
-@@ -0,0 +1,189 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright (C) 2022 Andreas Kemnade
-+//
-+/*
-+ * based on the EPDC framebuffer driver
-+ * Copyright (C) 2010-2016 Freescale Semiconductor, Inc.
-+ * Copyright 2017 NXP
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/dma-mapping.h>
-+#include "mxc_epdc.h"
-+
-+#define DEFAULT_TEMP_INDEX      0
-+#define DEFAULT_TEMP            20 /* room temp in deg Celsius */
-+
-+struct waveform_data_header {
-+	unsigned int wi0;
-+	unsigned int wi1;
-+	unsigned int wi2;
-+	unsigned int wi3;
-+	unsigned int wi4;
-+	unsigned int wi5;
-+	unsigned int wi6;
-+	unsigned int xwia:24;
-+	unsigned int cs1:8;
-+	unsigned int wmta:24;
-+	unsigned int fvsn:8;
-+	unsigned int luts:8;
-+	unsigned int mc:8;
-+	unsigned int trc:8;
-+	unsigned int reserved0_0:8;
-+	unsigned int eb:8;
-+	unsigned int sb:8;
-+	unsigned int reserved0_1:8;
-+	unsigned int reserved0_2:8;
-+	unsigned int reserved0_3:8;
-+	unsigned int reserved0_4:8;
-+	unsigned int reserved0_5:8;
-+	unsigned int cs2:8;
-+};
-+
-+struct mxcfb_waveform_data_file {
-+	struct waveform_data_header wdh;
-+	u32 *data;      /* Temperature Range Table + Waveform Data */
-+};
-+
-+void mxc_epdc_set_update_waveform(struct mxc_epdc *priv,
-+				  struct mxcfb_waveform_modes *wv_modes)
-+{
-+	u32 val;
-+
-+	/* Configure the auto-waveform look-up table based on waveform modes */
-+
-+	/* Entry 1 = DU, 2 = GC4, 3 = GC8, etc. */
-+	val = (wv_modes->mode_du << EPDC_AUTOWV_LUT_DATA_OFFSET) |
-+		(0 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
-+	epdc_write(priv, EPDC_AUTOWV_LUT, val);
-+	val = (wv_modes->mode_du << EPDC_AUTOWV_LUT_DATA_OFFSET) |
-+		(1 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
-+	epdc_write(priv, EPDC_AUTOWV_LUT, val);
-+	val = (wv_modes->mode_gc4 << EPDC_AUTOWV_LUT_DATA_OFFSET) |
-+		(2 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
-+	epdc_write(priv, EPDC_AUTOWV_LUT, val);
-+	val = (wv_modes->mode_gc8 << EPDC_AUTOWV_LUT_DATA_OFFSET) |
-+		(3 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
-+	epdc_write(priv, EPDC_AUTOWV_LUT, val);
-+	val = (wv_modes->mode_gc16 << EPDC_AUTOWV_LUT_DATA_OFFSET) |
-+		(4 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
-+	epdc_write(priv, EPDC_AUTOWV_LUT, val);
-+	val = (wv_modes->mode_gc32 << EPDC_AUTOWV_LUT_DATA_OFFSET) |
-+		(5 << EPDC_AUTOWV_LUT_ADDR_OFFSET);
-+	epdc_write(priv, EPDC_AUTOWV_LUT, val);
-+}
-+
-+int mxc_epdc_fb_get_temp_index(struct mxc_epdc *priv, int temp)
-+{
-+	int i;
-+	int index = -1;
-+
-+	if (temp == TEMP_USE_AMBIENT) {
-+		if (priv->thermal) {
-+			if (thermal_zone_get_temp(priv->thermal, &temp)) {
-+				dev_err(priv->drm.dev,
-+					"reading temperature failed");
-+				return DEFAULT_TEMP_INDEX;
-+			}
-+			temp /= 1000;
-+		} else
-+			temp = DEFAULT_TEMP;
-+	}
-+
-+	if (priv->trt_entries == 0) {
-+		dev_err(priv->drm.dev,
-+			"No TRT exists...using default temp index\n");
-+		return DEFAULT_TEMP_INDEX;
-+	}
-+
-+	/* Search temperature ranges for a match */
-+	for (i = 0; i < priv->trt_entries - 1; i++) {
-+		if ((temp >= priv->temp_range_bounds[i])
-+			&& (temp < priv->temp_range_bounds[i+1])) {
-+			index = i;
-+			break;
-+		}
-+	}
-+
-+	if (index < 0) {
-+		dev_err(priv->drm.dev,
-+			"No TRT index match...using lowest/highest\n");
-+		if (temp < priv->temp_range_bounds[0]) {
-+			dev_dbg(priv->drm.dev, "temperature < minimum range\n");
-+			return 0;
-+		}
-+
-+		if (temp >= priv->temp_range_bounds[priv->trt_entries-1]) {
-+			dev_dbg(priv->drm.dev, "temperature >= maximum range\n");
-+			return priv->trt_entries-1;
-+		}
-+
-+		return DEFAULT_TEMP_INDEX;
-+	}
-+
-+	dev_dbg(priv->drm.dev, "Using temperature index %d\n", index);
-+
-+	return index;
-+}
-+
-+
-+
-+int mxc_epdc_prepare_waveform(struct mxc_epdc *priv,
-+			      const u8 *data, size_t size)
-+{
-+	const struct mxcfb_waveform_data_file *wv_file;
-+	int wv_data_offs;
-+	int i;
-+
-+	priv->wv_modes.mode_init = 0;
-+	priv->wv_modes.mode_du = 1;
-+	priv->wv_modes.mode_gc4 = 3;
-+	priv->wv_modes.mode_gc8 = 2;
-+	priv->wv_modes.mode_gc16 = 2;
-+	priv->wv_modes.mode_gc32 = 2;
-+	priv->wv_modes_update = true;
-+
-+	wv_file = (struct mxcfb_waveform_data_file *)data;
-+
-+	/* Get size and allocate temperature range table */
-+	priv->trt_entries = wv_file->wdh.trc + 1;
-+	priv->temp_range_bounds = devm_kzalloc(priv->drm.dev, priv->trt_entries, GFP_KERNEL);
-+
-+	for (i = 0; i < priv->trt_entries; i++)
-+		dev_dbg(priv->drm.dev, "trt entry #%d = 0x%x\n", i, *((u8 *)&wv_file->data + i));
-+
-+	/* Copy TRT data */
-+	memcpy(priv->temp_range_bounds, &wv_file->data, priv->trt_entries);
-+
-+	/* Set default temperature index using TRT and room temp */
-+	priv->temp_index = mxc_epdc_fb_get_temp_index(priv, DEFAULT_TEMP);
-+
-+	/* Get offset and size for waveform data */
-+	wv_data_offs = sizeof(wv_file->wdh) + priv->trt_entries + 1;
-+	priv->waveform_buffer_size = size - wv_data_offs;
-+
-+	/* Allocate memory for waveform data */
-+	priv->waveform_buffer_virt = dmam_alloc_coherent(priv->drm.dev,
-+						priv->waveform_buffer_size,
-+						&priv->waveform_buffer_phys,
-+						GFP_DMA | GFP_KERNEL);
-+	if (priv->waveform_buffer_virt == NULL) {
-+		dev_err(priv->drm.dev, "Can't allocate mem for waveform!\n");
-+		return -ENOMEM;
-+	}
-+
-+	memcpy(priv->waveform_buffer_virt, (u8 *)(data) + wv_data_offs,
-+		priv->waveform_buffer_size);
-+
-+	/* Read field to determine if 4-bit or 5-bit mode */
-+	if ((wv_file->wdh.luts & 0xC) == 0x4)
-+		priv->buf_pix_fmt = EPDC_FORMAT_BUF_PIXEL_FORMAT_P5N;
-+	else
-+		priv->buf_pix_fmt = EPDC_FORMAT_BUF_PIXEL_FORMAT_P4N;
-+
-+	dev_info(priv->drm.dev, "EPDC pix format: %x\n",
-+		 priv->buf_pix_fmt);
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/mxc-epdc/epdc_waveform.h b/drivers/gpu/drm/mxc-epdc/epdc_waveform.h
-new file mode 100644
-index 000000000000..c5c461b975cb
---- /dev/null
-+++ b/drivers/gpu/drm/mxc-epdc/epdc_waveform.h
-@@ -0,0 +1,7 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/* Copyright (C) 2022 Andreas Kemnade */
-+int mxc_epdc_fb_get_temp_index(struct mxc_epdc *priv, int temp);
-+int mxc_epdc_prepare_waveform(struct mxc_epdc *priv,
-+			      const u8 *waveform, size_t size);
-+void mxc_epdc_set_update_waveform(struct mxc_epdc *priv,
-+				  struct mxcfb_waveform_modes *wv_modes);
 diff --git a/drivers/gpu/drm/mxc-epdc/mxc_epdc.h b/drivers/gpu/drm/mxc-epdc/mxc_epdc.h
-index c5f5280b574f..f7b1cbc4cc4e 100644
+index f7b1cbc4cc4e..db91e615bd89 100644
 --- a/drivers/gpu/drm/mxc-epdc/mxc_epdc.h
 +++ b/drivers/gpu/drm/mxc-epdc/mxc_epdc.h
-@@ -8,6 +8,32 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_simple_kms_helper.h>
-+#include <linux/thermal.h>
-+#include "epdc_regs.h"
+@@ -12,6 +12,35 @@
+ #include "epdc_regs.h"
+ 
+ #define TEMP_USE_AMBIENT			0x1000
++#define GRAYSCALE_8BIT				0x1
++#define GRAYSCALE_8BIT_INVERTED			0x2
++#define GRAYSCALE_4BIT			  0x3
++#define GRAYSCALE_4BIT_INVERTED		 0x4
 +
-+#define TEMP_USE_AMBIENT			0x1000
++#define AUTO_UPDATE_MODE_REGION_MODE		0
++#define AUTO_UPDATE_MODE_AUTOMATIC_MODE		1
 +
-+struct mxcfb_waveform_modes {
-+	int mode_init;
-+	int mode_du;
-+	int mode_gc4;
-+	int mode_gc8;
-+	int mode_gc16;
-+	int mode_gc32;
-+};
++#define UPDATE_SCHEME_SNAPSHOT			0
++#define UPDATE_SCHEME_QUEUE			1
++#define UPDATE_SCHEME_QUEUE_AND_MERGE		2
 +
-+struct imx_epdc_fb_mode {
-+	u32 vscan_holdoff;
-+	u32 sdoed_width;
-+	u32 sdoed_delay;
-+	u32 sdoez_width;
-+	u32 sdoez_delay;
-+	u32 gdclk_hp_offs;
-+	u32 gdsp_offs;
-+	u32 gdoe_offs;
-+	u32 gdclk_offs;
-+	u32 num_ce;
++#define UPDATE_MODE_PARTIAL			0x0
++#define UPDATE_MODE_FULL			0x1
++
++#define WAVEFORM_MODE_GLR16			4
++#define WAVEFORM_MODE_GLD16			5
++#define WAVEFORM_MODE_AUTO			257
++
++#define FB_POWERDOWN_DISABLE			-1
++
++struct mxcfb_update_data {
++	struct drm_rect update_region;
++	u32 waveform_mode;
++	u32 update_mode;
++	int temp;
++	int dither_mode;
++	int quant_bit;
 +};
  
- struct clk;
- struct regulator;
-@@ -16,5 +42,60 @@ struct mxc_epdc {
- 	struct drm_simple_display_pipe pipe;
- 	struct drm_connector connector;
- 	struct display_timing timing;
-+	struct imx_epdc_fb_mode imx_mode;
-+	void __iomem *iobase;
-+	struct completion powerdown_compl;
-+	struct clk *epdc_clk_axi;
-+	struct clk *epdc_clk_pix;
-+	struct regulator *display_regulator;
-+	struct regulator *vcom_regulator;
-+	struct regulator *v3p3_regulator;
-+	struct thermal_zone_device *thermal;
-+	int rev;
-+
-+	dma_addr_t epdc_mem_phys;
-+	void *epdc_mem_virt;
-+	int epdc_mem_width;
-+	int epdc_mem_height;
-+	u32 *working_buffer_virt;
-+	dma_addr_t working_buffer_phys;
-+	u32 working_buffer_size;
-+
-+	/* waveform related stuff */
-+	int trt_entries;
-+	int temp_index;
-+	u8 *temp_range_bounds;
-+	int buf_pix_fmt;
-+	struct mxcfb_waveform_modes wv_modes;
-+	bool wv_modes_update;
-+	u32 *waveform_buffer_virt;
-+	dma_addr_t waveform_buffer_phys;
-+	u32 waveform_buffer_size;
-+
-+	struct mutex power_mutex;
-+	bool powered;
-+	bool powering_down;
-+	bool updates_active;
-+	int wait_for_powerdown;
-+	int pwrdown_delay;
-+
-+	/* elements related to EPDC updates */
-+	int num_luts;
-+	int max_num_updates;
-+	bool in_init;
-+	bool hw_ready;
-+	bool hw_initializing;
-+	bool waiting_for_idle;
-+
+ struct mxcfb_waveform_modes {
+ 	int mode_init;
+@@ -87,6 +116,27 @@ struct mxc_epdc {
+ 	bool hw_initializing;
+ 	bool waiting_for_idle;
+ 
++	int order_cnt;
++	struct list_head upd_pending_list;
++	struct list_head upd_buf_queue;
++	struct list_head upd_buf_free_list;
++	struct list_head upd_buf_collision_list;
++	struct update_data_list *cur_update;
++	struct mutex queue_mutex;
++	int epdc_irq;
++	struct list_head full_marker_list;
++	u32 *lut_update_order;
++	u64 epdc_colliding_luts;
++	u64 luts_complete_wb;
++	struct completion updates_done;
++	struct delayed_work epdc_done_work;
++	struct workqueue_struct *epdc_submit_workqueue;
++	struct work_struct epdc_submit_work;
++	struct workqueue_struct *epdc_intr_workqueue;
++	struct work_struct epdc_intr_work;
++	bool waiting_for_wb;
++	bool waiting_for_lut;
++	struct completion update_res_free;
  };
  
-+static inline u32 epdc_read(struct mxc_epdc *priv, u32 reg)
-+{
-+	return readl(priv->iobase + reg);
-+}
-+
-+static inline void epdc_write(struct mxc_epdc *priv, u32 reg, u32 data)
-+{
-+	writel(data, priv->iobase + reg);
-+}
-+
+ static inline u32 epdc_read(struct mxc_epdc *priv, u32 reg)
 diff --git a/drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c b/drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c
-index c0b0a3bcdb57..4810e5c5bc6e 100644
+index 4810e5c5bc6e..a0bde06187ca 100644
 --- a/drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c
 +++ b/drivers/gpu/drm/mxc-epdc/mxc_epdc_drv.c
-@@ -25,6 +25,8 @@
- #include <drm/drm_prime.h>
+@@ -12,6 +12,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc_helper.h>
++#include <drm/drm_damage_helper.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_fb_cma_helper.h>
+ #include <drm/drm_fb_helper.h>
+@@ -26,6 +27,7 @@
  #include <drm/drm_probe_helper.h>
  #include "mxc_epdc.h"
-+#include "epdc_hw.h"
-+#include "epdc_waveform.h"
+ #include "epdc_hw.h"
++#include "epdc_update.h"
+ #include "epdc_waveform.h"
  
  #define DRIVER_NAME "mxc_epdc"
- #define DRIVER_DESC "IMX EPDC"
-@@ -122,6 +124,57 @@ int mxc_epdc_output(struct drm_device *drm)
- 				 DRM_MODE_CONNECTOR_Unknown);
- 	if (ret)
- 		return ret;
-+
-+	ret = of_property_read_u32(drm->dev->of_node, "vscan-holdoff",
-+				   &priv->imx_mode.vscan_holdoff);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_property_read_u32(drm->dev->of_node, "sdoed-width",
-+				   &priv->imx_mode.sdoed_width);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_property_read_u32(drm->dev->of_node, "sdoed-delay",
-+				   &priv->imx_mode.sdoed_delay);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_property_read_u32(drm->dev->of_node, "sdoez-width",
-+				   &priv->imx_mode.sdoez_width);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_property_read_u32(drm->dev->of_node, "sdoez-delay",
-+				   &priv->imx_mode.sdoez_delay);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_property_read_u32(drm->dev->of_node, "gdclk-hp-offs",
-+				   &priv->imx_mode.gdclk_hp_offs);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_property_read_u32(drm->dev->of_node, "gdsp-offs",
-+				   &priv->imx_mode.gdsp_offs);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_property_read_u32(drm->dev->of_node, "gdoe-offs",
-+				   &priv->imx_mode.gdoe_offs);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_property_read_u32(drm->dev->of_node, "gdclk-offs",
-+				   &priv->imx_mode.gdclk_offs);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_property_read_u32(drm->dev->of_node, "num-ce",
-+				   &priv->imx_mode.num_ce);
-+	if (ret)
-+		return ret;
-+
- 	ret = of_get_display_timing(drm->dev->of_node, "timing", &priv->timing);
- 	if (ret)
- 		return ret;
-@@ -137,6 +190,20 @@ static void mxc_epdc_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	struct drm_display_mode *m = &pipe->crtc.state->adjusted_mode;
- 
- 	dev_info(priv->drm.dev, "Mode: %d x %d\n", m->hdisplay, m->vdisplay);
-+	priv->epdc_mem_width = m->hdisplay;
-+	priv->epdc_mem_height = m->vdisplay;
-+	priv->epdc_mem_virt = dma_alloc_wc(priv->drm.dev,
-+					   m->hdisplay * m->vdisplay,
-+					   &priv->epdc_mem_phys, GFP_DMA | GFP_KERNEL);
-+	priv->working_buffer_size = m->hdisplay * m->vdisplay * 2;
-+	priv->working_buffer_virt =
-+		dma_alloc_coherent(priv->drm.dev,
-+				   priv->working_buffer_size,
-+				   &priv->working_buffer_phys,
-+				   GFP_DMA | GFP_KERNEL);
-+
-+	if (priv->working_buffer_virt && priv->epdc_mem_virt)
-+		mxc_epdc_init_sequence(priv, m);
- }
- 
- static void mxc_epdc_pipe_disable(struct drm_simple_display_pipe *pipe)
-@@ -144,6 +211,19 @@ static void mxc_epdc_pipe_disable(struct drm_simple_display_pipe *pipe)
+@@ -211,6 +213,7 @@ static void mxc_epdc_pipe_disable(struct drm_simple_display_pipe *pipe)
  	struct mxc_epdc *priv = drm_pipe_to_mxc_epdc(pipe);
  
  	dev_dbg(priv->drm.dev, "pipe disable\n");
-+
-+	if (priv->epdc_mem_virt) {
-+		dma_free_wc(priv->drm.dev, priv->epdc_mem_width * priv->epdc_mem_height,
-+			    priv->epdc_mem_virt, priv->epdc_mem_phys);
-+		priv->epdc_mem_virt = NULL;
-+	}
-+
-+	if (priv->working_buffer_virt) {
-+		dma_free_wc(priv->drm.dev, priv->working_buffer_size,
-+			    priv->working_buffer_virt,
-+			    priv->working_buffer_phys);
-+		priv->working_buffer_virt = NULL;
-+	}
++	mxc_epdc_flush_updates(priv);
+ 
+ 	if (priv->epdc_mem_virt) {
+ 		dma_free_wc(priv->drm.dev, priv->epdc_mem_width * priv->epdc_mem_height,
+@@ -227,11 +230,35 @@ static void mxc_epdc_pipe_disable(struct drm_simple_display_pipe *pipe)
  }
  
  static void mxc_epdc_pipe_update(struct drm_simple_display_pipe *pipe,
-@@ -187,6 +267,7 @@ static struct drm_driver mxc_epdc_driver = {
- static int mxc_epdc_probe(struct platform_device *pdev)
+-				   struct drm_plane_state *plane_state)
++				   struct drm_plane_state *old_state)
  {
- 	struct mxc_epdc *priv;
-+	const struct firmware *firmware;
- 	int ret;
+ 	struct mxc_epdc *priv = drm_pipe_to_mxc_epdc(pipe);
++	struct drm_gem_cma_object *gem;
++	struct drm_atomic_helper_damage_iter iter;
++	struct drm_rect clip;
++
  
- 	priv = devm_drm_dev_alloc(&pdev->dev, &mxc_epdc_driver, struct mxc_epdc, drm);
-@@ -195,6 +276,19 @@ static int mxc_epdc_probe(struct platform_device *pdev)
+ 	dev_dbg(priv->drm.dev, "pipe update\n");
++	if (!old_state->fb) {
++		dev_dbg(priv->drm.dev, "no fb, nothing to update\n");
++		return;
++	}
++
++	if (priv->epdc_mem_virt == NULL)
++		return;
++
++	gem = drm_fb_cma_get_gem_obj(old_state->fb, 0);
++	drm_atomic_helper_damage_iter_init(&iter, old_state, pipe->plane.state);
++	drm_atomic_for_each_plane_damage(&iter, &clip) {
++
++		dev_dbg(priv->drm.dev, "damaged: %d,%d-%d,%d\n",
++			clip.x1, clip.y1, clip.x2, clip.y2);
++
++		mxc_epdc_send_single_update(&clip, old_state->fb->pitches[0],
++					    gem->vaddr, priv);
++	}
++
++	return;
+ }
  
- 	platform_set_drvdata(pdev, priv);
+ static const struct drm_simple_display_pipe_funcs mxc_epdc_funcs = {
+@@ -280,6 +307,10 @@ static int mxc_epdc_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
  
-+	ret = mxc_epdc_init_hw(priv);
++	ret = mxc_epdc_init_update(priv);
 +	if (ret)
 +		return ret;
 +
-+	ret = request_firmware(&firmware, "imx/epdc/epdc.fw", priv->drm.dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = mxc_epdc_prepare_waveform(priv, firmware->data, firmware->size);
-+	release_firmware(firmware);
-+	if (ret)
-+		return ret;
-+
- 	mxc_epdc_setup_mode_config(&priv->drm);
- 
- 	ret = mxc_epdc_output(&priv->drm);
+ 	ret = request_firmware(&firmware, "imx/epdc/epdc.fw", priv->drm.dev);
+ 	if (ret)
+ 		return ret;
 -- 
 2.30.2
 
