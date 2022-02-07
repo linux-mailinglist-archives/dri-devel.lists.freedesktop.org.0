@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657474AC5C7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:35:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2774C4AC5C8
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:35:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21F4F10E310;
-	Mon,  7 Feb 2022 16:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB3510E2F6;
+	Mon,  7 Feb 2022 16:35:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A47F510E2F6
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:35:25 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 023CD5801DC;
- Mon,  7 Feb 2022 11:35:25 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 07 Feb 2022 11:35:25 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA08410E310
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:35:27 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 333BE5801D9;
+ Mon,  7 Feb 2022 11:35:27 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Mon, 07 Feb 2022 11:35:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=JXq4978RZHODPqVrUMOV4cMFQcwToP
- 3PtgokXOpf0iM=; b=Ay5D9Kcj2pj5m59th2Z9naY0WEtwqFOOi0kryZZZV7HKI3
- gEY83DVD/EWM4PKcza/LVdt3m9Z2YPjaFroKIMycSQgsQm4Ew6pf9BtQCqWs9kYi
- 9Od4mqhY4ESnyX0AO9v3ANNPbeB/SqhFtNq4+otpu+qevqjOnRMNzM77z5AtYl4U
- tKMKOnQzSiwzkcTI5cqkLr5PMuIEihw/tery9QebsMYnotqeOJoyyJ7qM0Sw44x/
- yapE36uof0XFmUcXMhAOql85tTkB7eBMZzAg/F6g5ElZOc1lxK3+06nqfP94R2TV
- 1giVh7kpgWGGAR8lgmOhBj0jcA6Wjj1LeRQswppg==
+ :subject:subject:to:to; s=fm2; bh=Vq8s0JyC8s00ltpimMwBVyZ8K4H9T1
+ h5mMPTBQXsouk=; b=YwVrjrzjdg53fsuxylT7gBbhDk7VZKP/pYcPCtqPqYP+Oa
+ VVXKTkEgrtUGMA9e/fJlacXkXsvDCwQZ+VTiAJo/lCiwf2Znu3CguLSf9Wud4xOf
+ BIPwYxyVkI3aVB9vwhRQgzManxEUmCG950FBo5w/i9rswob+G+VqjnCmw6zvVzcd
+ oB9bOKXxegjMsdE25R9eTlTVRbnaxwo3pywMtjY5rhcvo9rJcZv7g1XbM4+tJ5ha
+ ZDIkn6BV/N9xaEAbmchAMaZCXhHYBTV8Rb34Pttln6kxbJoQFWNSTHOW/Ou5G96D
+ +mBK677LnsPkFV+nx6o7ebv1vqP7MVJ9SBCs5zeQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=JXq497
- 8RZHODPqVrUMOV4cMFQcwToP3PtgokXOpf0iM=; b=Uqtzi7b0avZclQCqwVt++F
- vA4FWdfDsZkSZrq7QSf6x/GE/lxfOFXRlw95H+QnXcFc0Nc50O3QEywqWMLrQ6WH
- RWMgDpYxOWwK1uD4kiC1de5vv7tG6suSLboxp7Ilan8sY7h509zNb5Txkdr+zNch
- ej5HrqoNIIrMS+998zdWdCVo8olOPlvPetdvuvS0ZCDXCQ8Ks6IVSNy9zM5cpvtb
- uk+C/gDaLsF2eeaty9DSqmUl+tne+kjzDXKUt+Jz6+MZdbVTycTcU0etMt77zyeX
- novlzJy8z5R95FHRIdr/vD6LUEcSfYX8IIxaj6/YIZpv8O/qvmz4Rnnp0TStcIVA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Vq8s0J
+ yC8s00ltpimMwBVyZ8K4H9T1h5mMPTBQXsouk=; b=SfkXjYjTuAfwmZ7sgCb8Ih
+ 3VQyzb+bFVo3SzriD54qnjX6HnG5rcCHvbZitBLm3/WY0NDf3ozmL8i+e9dawCWw
+ ilPpLpQPQif68fjb+JHn33BTdqSvC92nNykCtfn4koBUjeP1YS4NlZYgBhasg9ti
+ kHXxNVp7Kszj/7cDH7eMH+CPllEeUh+XID5jBAD7qG9OVPXRXKSqn+3YEmF2y1hb
+ Kz9kpoJXnGBTa1PaQPWP4ZthMDz1XLN04ysUJlihdjoIVNTFkTdABYxNly6zfdQa
+ k5TKHe7jtWl+A4IgB/FAe8fAzNByOFdSiD23O9abZg6bj2i/9n4z63vVjLmMK8Qw
  ==
-X-ME-Sender: <xms:TEoBYjfhC7eiJbwWWq2YR0d3vJBGgz892nr93enSQ_yvcMvxFuWAhw>
- <xme:TEoBYpNqEDXm4on6oI4Jo8KzbnIQcxTO229h0E8ls9qklnWrbZtTbkR6jyOWrxEMR
- 9SwZz87locupEvDNE8>
-X-ME-Received: <xmr:TEoBYsjKoQgVd9GnBzwE17Dz3Wc5htAOrdJpREOmF7S1APqdcbseFcisBmrt_Oc2BlGhgNAth6Ha6D3vPAKGoYJj5HW9VKrKtLYb0hk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:TkoBYlNIaOl85tUWiN_cIfwakQGuYvMdVrqNEJaJhTEGIt0yEUPZzw>
+ <xme:TkoBYn952wB8ATR2yQMezAZaRJg9MISyJDLUo-ltp2uvnWNrhCTUA9KfxsdDMXKBP
+ m8x37vLZgVDyL6Bza4>
+X-ME-Received: <xmr:TkoBYkQtD6dbnh40RT9CGGWrjw1m0ZPm7s-pmrH6zX_D49J4MCRFawpda8caqr5DBYpPf1yXd--OM8MqaPkxRKBr00pE0PdGEbzutiE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
@@ -52,18 +52,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:TEoBYk9zVq4j6Pe4U7CwSdb3JW5KbjY1ZxFhFkeAyU0MNbhEWtjGrA>
- <xmx:TEoBYvvWf_H_kWusuEGXuLKI2KzaSFOw0nq4HUOCDi6DqUh6P2Pl4Q>
- <xmx:TEoBYjGn3ggd9vc96vl1A7E1WDtW2U-hkfBDGa-OfAm3JLBM4-ZgbA>
- <xmx:TEoBYjHooF7NrG0PELvNrrsftt64WCEeCLDIsdI48xbkc45g2_rjIg>
+X-ME-Proxy: <xmx:TkoBYhvKtLtZBhRDj-QevElvjmUPDpR-DM8_SK6n4a-dBfdsYGIEbA>
+ <xmx:TkoBYtcTtlAszQOmZVbrnoNpaKJAbRQYOoF_w_0BjiZtifZzRZsPRg>
+ <xmx:TkoBYt04dDDVKGS2ZAVtxPUD8YsW5hWlAHKdXgpKYIbk_04xsHgZsw>
+ <xmx:T0oBYt08rhh8E6v0Id_g6me6hUkax0IABPo4VmuM6l2vlatS7ymlRA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 11:35:24 -0500 (EST)
+ 7 Feb 2022 11:35:26 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH 02/23] drm/tegra: plane: switch to plane reset helper
-Date: Mon,  7 Feb 2022 17:34:54 +0100
-Message-Id: <20220207163515.1038648-3-maxime@cerno.tech>
+Subject: [PATCH 03/23] drm/tegra: hub: Fix zpos initial value mismatch
+Date: Mon,  7 Feb 2022 17:34:55 +0100
+Message-Id: <20220207163515.1038648-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220207163515.1038648-1-maxime@cerno.tech>
 References: <20220207163515.1038648-1-maxime@cerno.tech>
@@ -90,32 +90,34 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tegra_plane_reset() does the state initialisation by copying a lot of
-the code found in the __drm_atomic_helper_plane_reset(). Let's switch to
-that helper and reduce the boilerplate.
+While the tegra_shared_plane_create() function calls
+drm_plane_create_zpos_property() with an initial value of 0,
+tegra_plane_reset() will force it to the plane index.
+
+Fix the discrepancy by setting the initial zpos value to the plane index
+in the function call.
 
 Cc: linux-tegra@vger.kernel.org
 Cc: Jonathan Hunter <jonathanh@nvidia.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/tegra/plane.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/tegra/hub.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
-index 321cb1f13da6..ec0822c86926 100644
---- a/drivers/gpu/drm/tegra/plane.c
-+++ b/drivers/gpu/drm/tegra/plane.c
-@@ -37,8 +37,7 @@ static void tegra_plane_reset(struct drm_plane *plane)
+diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+index b910155f80c4..7f68a142d922 100644
+--- a/drivers/gpu/drm/tegra/hub.c
++++ b/drivers/gpu/drm/tegra/hub.c
+@@ -788,7 +788,7 @@ struct drm_plane *tegra_shared_plane_create(struct drm_device *drm,
+ 	}
  
- 	state = kzalloc(sizeof(*state), GFP_KERNEL);
- 	if (state) {
--		plane->state = &state->base;
--		plane->state->plane = plane;
-+		__drm_atomic_helper_plane_reset(plane, &state->base);
- 		plane->state->zpos = p->index;
- 		plane->state->normalized_zpos = p->index;
+ 	drm_plane_helper_add(p, &tegra_shared_plane_helper_funcs);
+-	drm_plane_create_zpos_property(p, 0, 0, 255);
++	drm_plane_create_zpos_property(p, index, 0, 255);
  
+ 	return p;
+ }
 -- 
 2.34.1
 
