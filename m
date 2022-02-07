@@ -1,43 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A114AB73C
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 10:09:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 719204AB772
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 10:19:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D5110F0CC;
-	Mon,  7 Feb 2022 09:09:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B42210E3A3;
+	Mon,  7 Feb 2022 09:19:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 525 seconds by postgrey-1.36 at gabe;
- Sun, 06 Feb 2022 22:35:47 UTC
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B32E910EDAD
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Feb 2022 22:35:47 +0000 (UTC)
-Received: by soltyk.jannau.net (Postfix, from userid 1000)
- id A786B26E369; Sun,  6 Feb 2022 23:27:00 +0100 (CET)
-Date: Sun, 6 Feb 2022 23:27:00 +0100
-From: Janne Grunau <j@jannau.net>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH v2 1/5] dt-bindings: reserved-memory: Document memory
- region specifier
-Message-ID: <20220206222700.GA1848@jannau.net>
-References: <YN4F/nH/9tDuWDnQ@orome.fritz.box>
- <7995b0ed-a277-ced1-b3d0-e0e7e02817a6@gmail.com>
- <YS+Ke4Ip0InHSnHR@orome.fritz.box>
- <CAL_Jsq+TQeb56UbrO1xKFSb1yo0d8U29DPynw3_jQ6gH6Peatw@mail.gmail.com>
- <YTIogpQDJjqJUTkG@orome.fritz.box>
- <CAL_JsqKG4+n_eNj+at3m7WuAbeJ1Kyi0mYD=8-MaVjfhzdPwkA@mail.gmail.com>
- <YTJA2xARFuNUMgMc@orome.fritz.box>
- <CAL_JsqJWt6ZELEpMi+tS6S6S4MYyMHysAC2ce_CfDQFqjfgnGQ@mail.gmail.com>
- <YTelDHx2REIIvV/N@orome.fritz.box>
- <YUIPCxnyRutMS47/@orome.fritz.box>
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-eopbgr60049.outbound.protection.outlook.com [40.107.6.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43C1810E3A3
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 09:19:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AU/9KE5OWNzcXpSu6fduc1UuBmXcbXP3TJWAJ5+c3Nv+9OaHd0kD3fwggPFu0q08HTDn7NK8sprdgwd2rdvF02q6ugD4+r1wiK9dmLELbmE9Nj9NrPboenh598pTnpTRM+R8+Me6E5beyHVXuRcNEb2MTj9yLwBZn27WIAEioalSp6peWx/zAa8c87yZOQS8p65bNFTgQcveccXoSLUHvLEwFyoEnaWL1wvB/7eQofhqeeyiVmr0lZKNa8B01IriRpuYONFJ2FPnWxDqmM5sJ2gdcEkjOA2TjkodQKmZxMPkzGqLwP1xOAaOztj4xANuUGAxXrwlTc698Q8PmAV4TQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qoVIqLSMHGHXa7p4wXiz/jk2AfrVdazypJ/MyGz0O1E=;
+ b=KQ3wY9yPEXXU0sKKadUX95k3A25yDWO1L3RdwWkFFN7D7sGzr6w5ZrZmJXmdwxnD590Koh6dHpNhhPp0porTI5Ktqf7tw7CL/EUhy1AOOikE0YL4LTfiOY77g0z1jvDKJ7oQuOwtOgaTrbOjnnhMaqn3ViZyNlCgAeL7zt5O1OJtltW3fZXZNlwxI99AtBRnAT7HMw9ei0pJCkNxbaajJNov76OW0iNFzs24k3CXMzCpjHiKdtnST6wu8cLvYoJPfLgMhf3x8gtuZyM6ObGTtX3JHE9DaQJlh+olKCjTuXuGr7tI7f7TMtMvmBLV6+u0zpgLIOWHcHquDj709M3HwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qoVIqLSMHGHXa7p4wXiz/jk2AfrVdazypJ/MyGz0O1E=;
+ b=A0DSGZ/jl1MfHHMfnLUtF32iRw1zDPjVLBMcW95IdDdcnUKzK2O3F6Hv6IB9QRp0kZBcEqfFB8b/gBnvMaQ0tkdMO7424WbJCvu2z9ZulrXwvwpRfCCcxdEZeQjFhSFD6ruxlQpIOnpTpNAN3CaP7OI+8JHMYf/D6oyWYP6YzT0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by DB7PR04MB5993.eurprd04.prod.outlook.com (2603:10a6:10:8d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.19; Mon, 7 Feb
+ 2022 09:19:15 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::ddca:beb1:95b0:1ae1]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::ddca:beb1:95b0:1ae1%4]) with mapi id 15.20.4951.019; Mon, 7 Feb 2022
+ 09:19:15 +0000
+Message-ID: <1020798373f3f54d1dd7df7174afaeb973ec86ff.camel@oss.nxp.com>
+Subject: Re: [PATCH] [RFC] drm: mxsfb: Implement LCDIF scanout CRC32 support
+From: Liu Ying <victor.liu@oss.nxp.com>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Date: Mon, 07 Feb 2022 17:18:43 +0800
+In-Reply-To: <9a2cc781-3277-7e09-530b-05c7361cdaa8@denx.de>
+References: <20220206185643.275811-1-marex@denx.de>
+ <d5ac849dc8aae325d98f215d4f92d492abd909c4.camel@oss.nxp.com>
+ <9a2cc781-3277-7e09-530b-05c7361cdaa8@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR06CA0004.apcprd06.prod.outlook.com
+ (2603:1096:4:186::20) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YUIPCxnyRutMS47/@orome.fritz.box>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Approved-At: Mon, 07 Feb 2022 09:09:20 +0000
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 73eb533a-fca1-46e5-1f9a-08d9ea1ae8fe
+X-MS-TrafficTypeDiagnostic: DB7PR04MB5993:EE_
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-Microsoft-Antispam-PRVS: <DB7PR04MB59930B9001CBEA7EE2FFB3C7D92C9@DB7PR04MB5993.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FBpu1kNCzZyuNetA7LX6L+abM8SzJn6ZENzgt4BS/RNz8KsXx+gQMCZyh9P3as428YCfpeWBJaEN2VWXkhB+CT8TpG8VrCMuo8l9mwxJ4A1V8AyRZMmgW5kd/X+aRPHbDD39yu2koHJz5umAPtNGhMeY53WOXVTJGEaHm3n9aVrprWuHvt0gJKNREcxQjfxu+neIiHPf22CMX57S87t4BAosM6lCd+vHAwneXVZ1FpX0c6X4URJREEgTHJQZ79T/v7HzKpabo5WbUGdvUeog/J2NikvCf9bTFJnLeJTqGFWxZwUwaqxZbMo/UiXpGrMHO4Y7LkgvL0sAJv/pyTDY5An9ka0dUXXiVLsvbe6VzJcfrx7GqqzabDTxdsjd3C/LM6q7XJf7HlYVyOp3jGfVaII14B+H1aGKp7lqCcO6ypyAGfgzi/jRSFAb1sjgO4VAP+nuUM8UgNm4S14BtIQ5loVODfTOItEDt4x1XdB/21Kq0jXJZBT9H1UUm4WIeDShT+xFrBMz4s/n0hpEj6x6rNgtEUdq27BxG3z3+MLkO4jCQ4rlvzNsiRMDPlNNqDVAgkq02Z0y7qIjQZTVPaVx7DxABFXzKPwRwVhzR3Ix8R4F1mDgklhXcKmZXZRjNGGP3YvJuchpPK1b+5OZCnyMy1txeO8Bev6c5cY1+hMO5H397cvhzavHOmuesRige5/2KFJ3r8vs6ek8cR+1Xf77g9mAN2HIbKJmOVHXE4Du/Ac=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(26005)(186003)(83380400001)(2616005)(52116002)(53546011)(66556008)(6512007)(6506007)(6666004)(4326008)(8936002)(66946007)(38350700002)(38100700002)(66476007)(8676002)(6486002)(54906003)(316002)(2906002)(5660300002)(508600001)(86362001)(99106002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dm1aeWVoZEo2RkxOQ0x0RTZjdHQ2WEZoczZuU0M2UDlTMVBvemxiUlpLU2F4?=
+ =?utf-8?B?TnllOGUvUnZJTmQvOGlvZUJ4TE94THZ2TFpvZzFGWk93eHYwWktsdWZMZG1x?=
+ =?utf-8?B?TUZEZjl3VW9HNG0zV3JLV3kxWHRIQ0xXTmpoR25iVVdnUk42VTUvY0pNRWdM?=
+ =?utf-8?B?N1E4cytjckw0dkVwSjlVSEswcXN5SGRqUnJhWUlpR1RlckhLNGx4UEdqc0F4?=
+ =?utf-8?B?MnMveUtKb2tRVUVROVo3V05Vc3UxL1pqUnFRTHN3MWJLTVZQYWV3TWVTV2N5?=
+ =?utf-8?B?ZEo2eEZIRUsrdkcycW9vc1p2Rkx4NTNyWG5MSnhkOTJ0bGs3RkptTkJFaGRl?=
+ =?utf-8?B?a2gvN0V4Rkw0OWxuNDBGU0JZdzNGTFM3SmhCQ1B4bTVYMDJ4TkcyTHZXSFZv?=
+ =?utf-8?B?cDViUVB6NE5VMWg4VGRhQkRUQnE1cm9pdzBvNGEvemxPa0xycmZKSjduM1Qz?=
+ =?utf-8?B?ZGoyWGFyd3dpN2FMS3ZZaXFJT3V1NHZlZTFtYWtDWUNTRWVNbmJ0UXRCc003?=
+ =?utf-8?B?bHRqOWp4VjlUN0s4d0xiUVN4QjRwR21rNmlCejVhVjB3NG1WbWtOUWt3bEVO?=
+ =?utf-8?B?Q2svOURHTHlManpGTnRaczNKOGJ0d2xvZ3Y5bnovQzFnK3o3Qndta1Z3NHEy?=
+ =?utf-8?B?RGloWW13NU9rOHJncm10U3dxa3N5ditlUHBlWTFxRTVsQ0MzeTljRVpGUnRi?=
+ =?utf-8?B?Y09KUFJETSsxWjk3eTRYZDBzWjBwaHNwemcwdGw5NzVxWEJtSXFIMGNDOGkx?=
+ =?utf-8?B?UVdLUmRuUzh2V1VyY0VRcUN2NkE4VmF4MjZLTElFK2lsY2JHQlVid1h1NzZM?=
+ =?utf-8?B?WVhaQnpLUm5qbmd2RlBmY0gvbWxRQ3dPY0p6T2FmSkhqbjJsTnArekhVM2FS?=
+ =?utf-8?B?dklXOG1UVkkweUxtVVZIenZsVWN3MkJINVp6RzRLTE1wMWZQNVp3NWVaang0?=
+ =?utf-8?B?dGt2OHQ0U01GYWlsZklFeDVDWCtuL0xFVVF0NWlvRHpOa1BTUUFRRXJqUHFn?=
+ =?utf-8?B?OHdOMmdVMnlGS3FvYi9RTDdhVXdHTGI5N3dDS3FPay9CUnRCZHRLeFd4bWpH?=
+ =?utf-8?B?aFZlWWRBRVNuV1ljNUFwdVE3LzVLamplaFg2bWdYdFhwK2drbGxBWC9GU1FD?=
+ =?utf-8?B?S3V4R0VibFNUaWRsRVREYWFDVVVkVDBubG53VmpST3hFMU5zZmpGTDhIYkJN?=
+ =?utf-8?B?TzFPdzBIRXNZOFJsanR0THd5R0cxM3JuS3Rwdy83b3dTeWxqQnVMUDJRbUYy?=
+ =?utf-8?B?aWZEdmxJZ0l6L2pDQjVTWUx6NlQ3Zm1VWG9tNFpRZ0pDZDhmZUNuQUlJcWtX?=
+ =?utf-8?B?WTRzYlE5VVQ2TER1VVdEV255QlZVdnFXMTN2aDhNOHVpQWNuWWZGSVJDendD?=
+ =?utf-8?B?c0pEMlNSUmpISDNlN0JBaWhUSEF1TG5zbmFjL2h4TVJON1BaMkJ4SlQvQi84?=
+ =?utf-8?B?Z25wbUJZd3ZTWGVUT2ljdVdsZEUvcDEwZFl2eUc1M2FhL1ViUEJxQklnamlD?=
+ =?utf-8?B?blp3T0FPUk9VYXo1ODJINlpsMWJNTE1ZcWFLZGF6ZFdxaHphSElNWnFiWm5J?=
+ =?utf-8?B?MWJGVkJLeXNXNjh2UHlabHk4bWRsQ05VN0NWaGdtbm5JK0lMM3VWM2JKbEJO?=
+ =?utf-8?B?VGY5RndKRmJkYUVCZ2hUNWdNWXdLU3dYSkNNS0VaZndDWFBPOUxmSXd1YlVs?=
+ =?utf-8?B?M2FKNGlIRlYyNk56Z0l4TFBTQ2NBTWF2ZmQwSU9HUWpkNlBOU2xlRzFIbTc5?=
+ =?utf-8?B?WFVyMmNxZmhoYmxzVXNQM1p5b0xqeDd2UG9KRDBMRUh3U2dQWWFpVW1OTkhW?=
+ =?utf-8?B?VFM0RVVueE1Pb0JMK0RUaFZSWE1CbjQ2YWFUUEhlU0ZLZlBZYng0S09NMlo3?=
+ =?utf-8?B?dXdoUXBBanVJVXRSdnJ0d2xtUm1FREtLclEzT3lBL3lSTzc1RUJxS3B0bHFk?=
+ =?utf-8?B?eDZOVXZyVjU4ZDVURUl1UEZTTllub0FTWmdOeVE5OVJrcXlRQTNKS2RvcGN4?=
+ =?utf-8?B?aVlGYWdJVWJiUi9DSjdxNzM4NFlJb1BWVkJRSVpRYWZxK3BTWjdhOFRHQ3Br?=
+ =?utf-8?B?bEZGN2NPWWN5TEVQSVhsTk54VEVnbDJGOGExNjRzSnhMWVBtVVJEVFNPZ3Ni?=
+ =?utf-8?B?c3gyRG9UbDBsblF1bUFoSEMrTVBYRFB4emtqMWVBek42YVROc0t1YWlYYVk5?=
+ =?utf-8?Q?sZIkPSfCliyFL125kRlY7HU=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73eb533a-fca1-46e5-1f9a-08d9ea1ae8fe
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 09:19:15.3189 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: K4FKbZs9XgWurl5R4mqsfcxLN53GE8zwQelBxcxAVQTe91TvUKuTrcAW1dSfsFbq1IpfsZK2EybKsH+L7+aSxw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB5993
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,378 +129,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sven Peter <sven@svenpeter.dev>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Linux IOMMU <iommu@lists.linux-foundation.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Krishna Reddy <vdumpa@nvidia.com>,
- Nicolin Chen <nicolinc@nvidia.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- linux-tegra <linux-tegra@vger.kernel.org>, Dmitry Osipenko <digetx@gmail.com>,
- Will Deacon <will@kernel.org>, devicetree@vger.kernel.org
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-09-15 17:19:39 +0200, Thierry Reding wrote:
-> On Tue, Sep 07, 2021 at 07:44:44PM +0200, Thierry Reding wrote:
-> > On Tue, Sep 07, 2021 at 10:33:24AM -0500, Rob Herring wrote:
-> > > On Fri, Sep 3, 2021 at 10:36 AM Thierry Reding <thierry.reding@gmail.com> wrote:
-> > > >
-> > > > On Fri, Sep 03, 2021 at 09:36:33AM -0500, Rob Herring wrote:
-> > > > > On Fri, Sep 3, 2021 at 8:52 AM Thierry Reding <thierry.reding@gmail.com> wrote:
-> > > > > >
-> > > > > > On Fri, Sep 03, 2021 at 08:20:55AM -0500, Rob Herring wrote:
-> > > > > > >
-> > > > > > > Couldn't we keep this all in /reserved-memory? Just add an iova
-> > > > > > > version of reg. Perhaps abuse 'assigned-address' for this purpose. The
-> > > > > > > issue I see would be handling reserved iova areas without a physical
-> > > > > > > area. That can be handled with just a iova and no reg. We already have
-> > > > > > > a no reg case.
-> > > > > >
-> > > > > > I had thought about that initially. One thing I'm worried about is that
-> > > > > > every child node in /reserved-memory will effectively cause the memory
-> > > > > > that it described to be reserved. But we don't want that for regions
-> > > > > > that are "virtual only" (i.e. IOMMU reservations).
-> > > > >
-> > > > > By virtual only, you mean no physical mapping, just a region of
-> > > > > virtual space, right? For that we'd have no 'reg' and therefore no
-> > > > > (physical) reservation by the OS. It's similar to non-static regions.
-> > > > > You need a specific handler for them. We'd probably want a compatible
-> > > > > as well for these virtual reservations.
-> > > >
-> > > > Yeah, these would be purely used for reserving regions in the IOVA so
-> > > > that they won't be used by the IOVA allocator. Typically these would be
-> > > > used for cases where those addresses have some special meaning.
-> > > >
-> > > > Do we want something like:
-> > > >
-> > > >         compatible = "iommu-reserved";
-> > > >
-> > > > for these? Or would that need to be:
-> > > >
-> > > >         compatible = "linux,iommu-reserved";
-> > > >
-> > > > ? There seems to be a mix of vendor-prefix vs. non-vendor-prefix
-> > > > compatible strings in the reserved-memory DT bindings directory.
-> > > 
-> > > I would not use 'linux,' here.
-> > > 
-> > > >
-> > > > On the other hand, do we actually need the compatible string? Because we
-> > > > don't really want to associate much extra information with this like we
-> > > > do for example with "shared-dma-pool". The logic to handle this would
-> > > > all be within the IOMMU framework. All we really need is for the
-> > > > standard reservation code to skip nodes that don't have a reg property
-> > > > so we don't reserve memory for "virtual-only" allocations.
-> > > 
-> > > It doesn't hurt to have one and I can imagine we might want to iterate
-> > > over all the nodes. It's slightly easier and more common to iterate
-> > > over compatible nodes rather than nodes with some property.
-> > > 
-> > > > > Are these being global in DT going to be a problem? Presumably we have
-> > > > > a virtual space per IOMMU. We'd know which IOMMU based on a device's
-> > > > > 'iommus' and 'memory-region' properties, but within /reserved-memory
-> > > > > we wouldn't be able to distinguish overlapping addresses from separate
-> > > > > address spaces. Or we could have 2 different IOVAs for 1 physical
-> > > > > space. That could be solved with something like this:
-> > > > >
-> > > > > iommu-addresses = <&iommu1 <address cells> <size cells>>;
-> > > >
-> > > > The only case that would be problematic would be if we have overlapping
-> > > > physical regions, because that will probably trip up the standard code.
-> > > >
-> > > > But this could also be worked around by looking at iommu-addresses. For
-> > > > example, if we had something like this:
-> > > >
-> > > >         reserved-memory {
-> > > >                 fb_dc0: fb@80000000 {
-> > > >                         reg = <0x80000000 0x01000000>;
-> > > >                         iommu-addresses = <0xa0000000 0x01000000>;
-> > > >                 };
-> > > >
-> > > >                 fb_dc1: fb@80000000 {
-> > > 
-> > > You can't have 2 nodes with the same name (actually, you can, they
-> > > just get merged together). Different names with the same unit-address
-> > > is a dtc warning. I'd really like to make that a full blown
-> > > overlapping region check.
-> > 
-> > Right... so this would be a lot easier to deal with using that earlier
-> > proposal where the IOMMU regions were a separate thing and referencing
-> > the reserved-memory nodes. In those cases we could just have the
-> > physical reservation for the framebuffer once (so we don't get any
-> > duplicates or overlaps) and then have each IOVA reservation reference
-> > that to create the mapping.
-> > 
-> > > 
-> > > >                         reg = <0x80000000 0x01000000>;
-> > > >                         iommu-addresses = <0xb0000000 0x01000000>;
-> > > >                 };
-> > > >         };
-> > > >
-> > > > We could make the code identify that this is for the same physical
-> > > > reservation (maybe make it so that reg needs to match exactly for this
-> > > > to be recognized) but with different virtual allocations.
-> > > >
-> > > > On a side-note: do we really need to repeat the size? I'd think if we
-> > > > want mappings then we'd likely want them for the whole reservation.
-> > > 
-> > > Humm, I suppose not, but dropping it paints us into a corner if we
-> > > come up with wanting a different size later. You could have a carveout
-> > > for double/triple buffering your framebuffer, but the bootloader
-> > > framebuffer is only single buffered. So would you want actual size?
-> > 
-> > Perhaps this needs to be a bit more verbose then. If we want the ability
-> > to create a mapping for only a partial reservation, I could imagine we
-> > may as well want one that doesn't start at the beginning. So perhaps an
-> > ever better solution would be to have a complete mapping, something that
-> > works similar to "ranges" perhaps, like so:
-> > 
-> > 	fb@80000000 {
-> > 		reg = <0x80000000 0x01000000>;
-> > 		iommu-ranges = <0x80000000 0x01000000 0x80000000>;
-> > 	};
-> > 
-> > That would be for a full identity mapping, but we could also have
-> > something along the lines of this:
-> > 
-> > 	fb@80000000 {
-> > 		reg = <0x80000000 0x01000000>;
-> > 		iommu-ranges = <0x80100000 0x00100000 0xa0000000>;
-> > 	};
-> > 
-> > So that would only map a 1 MiB chunk at offset 1 MiB (of the physical
-> > reservation) to I/O virtual address 0xa0000000.
-> > 
-> > > > I'd like to keep references to IOMMUs out of this because they would be
-> > > > duplicated. We will only use these nodes if they are referenced by a
-> > > > device node that also has an iommus property. Also, the IOMMU reference
-> > > > itself isn't enough. We'd also need to support the complete specifier
-> > > > because you can have things like SIDs in there to specify the exact
-> > > > address space that a device uses.
-> > > >
-> > > > Also, for some of these they may be reused independently of the IOMMU
-> > > > address space. For example the Tegra framebuffer identity mapping can
-> > > > be used by either of the 2-4 display controllers, each with (at least
-> > > > potentially) their own address space. But we don't want to have to
-> > > > describe the identity mapping separately for each display controller.
-> > > 
-> > > Okay, but I'd rather have to duplicate things in your case than not be
-> > > able to express some other case.
-> > 
-> > The earlier "separate iov-reserved-memory" proposal would be a good
-> > compromise here. It'd allow us to duplicate only the necessary bits
-> > (i.e. the IOVA mappings) but keep the common bits simple. And even
-> > the IOVA mappings could be shared for cases like identity mappings.
-> > See below for more on that.
-> > 
-> > > > Another thing to consider is that these nodes will often be added by
-> > > > firmware (e.g. firmware will allocate the framebuffer and set up the
-> > > > corresponding reserved memory region in DT). Wiring up references like
-> > > > this would get very complicated very quickly.
-> > > 
-> > > Yes.
-> > > 
-> > > The using 'iommus' property option below can be optional and doesn't
-> > > have to be defined/supported now. Just trying to think ahead and not
-> > > be stuck with something that can't be extended.
-> > 
-> > One other benefit of the separate iov-reserved-memory node would be that
-> > the iommus property could be simplified. If we have a physical
-> > reservation that needs to be accessed by multiple different display
-> > controllers, we'd end up with something fairly complex, such as this:
-> > 
-> > 	fb: fb@80000000 {
-> > 		reg = <0x80000000 0x01000000>;
-> > 		iommus = <&dc0_iommu 0xa0000000 0x01000000>,
-> > 			 <&dc1_iommu 0xb0000000 0x01000000>,
-> > 			 <&dc2_iommu 0xc0000000 0x01000000>;
-> > 	};
-> > 
-> > This would get even worse if we want to support partial mappings. Also,
-> > it'd become quite complicated to correlate this with the memory-region
-> > references:
-> > 
-> > 	dc0: dc@40000000 {
-> > 		...
-> > 		memory-region = <&fb>;
-> > 		iommus = <&dc0_iommu>;
-> > 		...
-> > 	};
-> > 
-> > So now you have to go match up the phandle (and potentially specifier)
-> > in the iommus property of the disp0 node with an entry in the fb node's
-> > iommus property. That's all fairly complicated stuff.
-> > 
-> > With separate iov-reserved-memory, this would be a bit more verbose, but
-> > each individual node would be simpler:
-> > 
-> > 	reserved-memory {
-> > 		fb: fb@80000000 {
-> > 			reg = <0x80000000 0x01000000>;
-> > 		};
-> > 	};
-> > 
-> > 	iov-reserved-memory {
-> > 		fb0: fb@80000000 {
-> > 			/* identity mapping, "reg" optional? */
-> > 			reg = <0x80000000 0x01000000>;
-> > 			memory-region = <&fb>;
-> > 		};
-> > 
-> > 		fb1: fb@90000000 {
-> > 			/* but doesn't have to be */
-> > 			reg = <0x90000000 0x01000000>;
-> > 			memory-region = <&fb>;
-> > 		};
-> > 
-> > 		fb2: fb@a0000000 {
-> > 			/* can be partial, too */
-> > 			ranges = <0x80000000 0x00800000 0xa0000000>;
-> > 			memory-region = <&fb>;
-> > 		};
-> > 	}
-> > 
-> > 	dc0: dc@40000000 {
-> > 		iov-memory-regions = <&fb0>;
-> > 		/* optional? */
-> > 		memory-region = <&fb>;
-> > 		iommus = <&dc0_iommu>;
-> > 	};
-> > 
-> > Alternatively, if we want to support partial mappings, we could replace
-> > those reg properties by ranges properties that I showed earlier. We may
-> > even want to support both. Use "reg" for virtual-only reservations and
-> > identity mappings, or "simple partial mappings" (that map a sub-region
-> > starting from the beginning). Identity mappings could still be
-> > simplified by just omitting the "reg" property. For more complicated
-> > mappings, such as the ones on M1, the "ranges" property could be used.
-> > 
-> > Note how this looks a bit boilerplate-y, but it's actually really quite
-> > simple to understand, even for humans, I think.
-> > 
-> > Also, the phandles in this are comparatively easy to wire up because
-> > they can all be generated in a hierarchical way: generate physical
-> > reservation and store phandle, then generate I/O virtual reservation
-> > to reference that phandle and store the new phandle as well. Finally,
-> > wire this up to the display controller (using either the IOV phandle or
-> > both).
-> > 
-> > Granted, this requires the addition of a new top-level node, but given
-> > how expressive this becomes, I think it might be worth a second
-> > consideration.
+On Mon, 2022-02-07 at 09:14 +0100, Marek Vasut wrote:
+> On 2/7/22 06:13, Liu Ying wrote:
+> > Hi Marek,
 > 
-> I guess as a middle-ground between your suggestion and mine, we could
-> also move the IOV nodes back into reserved-memory. If we make sure the
-> names (together with unit-addresses) are unique, to support cases where
-> we want to identity map, or have multiple mappings at the same address.
-> So it'd look something like this:
+> Hi,
 > 
-> 	reserved-memory {
-> 		fb: fb@80000000 {
-> 			reg = <0x80000000 0x01000000>;
-> 		};
+> > On Sun, 2022-02-06 at 19:56 +0100, Marek Vasut wrote:
+> > > The LCDIF controller as present in i.MX6SX/i.MX8M Mini/Nano has a
+> > > CRC_STAT
+> > > register, which contains CRC32 of the frame as it was clocked out
+> > > of the
+> > > DPI interface of the LCDIF. This is likely meant as a functional
+> > > safety
+> > > register.
+> > > 
+> > > Unfortunatelly, there is zero documentation on how the CRC32 is
+> > > calculated,
+> > > there is no documentation of the polynomial, the init value, nor
+> > > on which
+> > > data is the checksum applied.
+> > > 
+> > > By applying brute-force on 8 pixel / 2 line frame, which is the
+> > > minimum
+> > > size LCDIF would work with, it turns out the polynomial is
+> > > CRC32_POLY_LE
+> > > 0xedb88320 , init value is 0xffffffff , the input data are
+> > > bitrev32()
+> > > of the entire frame and the resulting CRC has to be also
+> > > bitrev32()ed.
+> > 
+> > No idea how the HW calculates the CRC value.
+> > I didn't hear anyone internal tried this feature.
 > 
-> 		audio-firmware@ff000000 {
-> 			/* perhaps add "iommu-reserved" for this case */
-> 			compatible = "iommu-mapping";
-> 			/*
-> 			 * no memory-region referencing a physical
-> 			 * reservation, indicates that this is an
-> 			 * IOMMU reservation, rather than a mapping
-> 			 /
-> 			reg = <0xff000000 0x01000000>;
-> 		};
+> It would be nice if the datasheet could be improved.
+
+Agreed.
+
 > 
-> 		fb0: fb-mapping@80000000 {
-> 			compatible = "iommu-mapping";
-> 			/* identity mapping, "reg" optional? */
-> 			reg = <0x80000000 0x01000000>;
-> 			memory-region = <&fb>;
-> 		};
+> There are many blank areas which are undocumented, this LCDIF CRC32 
+> feature, i.MX8M Mini Arteris NOC at 0x32700000 , the ARM GPV NIC-301
+> at 
+> 0x32{0,1,2,3,4,5,6,8}00000 and their master/slave port mapping. The
+> NOC 
+> and NICs were documented at least up to i.MX6QP and then that 
+> information disappeared from NXP datasheets. I think reconfiguring
+> the 
+> NOC/NIC QoS would help mitigate this shift issue described below (*).
+
+I also think the QoS would help if it is configureable.
+
 > 
-> 		fb1: fb-mapping@90000000 {
-> 			compatible = "iommu-mapping";
-> 			/* but doesn't have to be */
-> 			reg = <0x90000000 0x01000000>;
-> 			memory-region = <&fb>;
-> 		};
+> Do you know if there is some additional NOC/NIC documentation for
+> i.MX8M 
+> Mini available ?
+
+No.
+
 > 
-> 		fb2: fb-mapping@a0000000 {
-> 			compatible = "iommu-mapping";
-> 			/* can be partial, too */
-> 			ranges = <0xa0000000 0x00800000 0x80000000>;
-> 			memory-region = <&fb>;
-> 		};
-> 	}
+> > > Doing this calculation in software for each frame is unrealistic
+> > > due to
+> > > the CPU demand, implement at least a sysfs attribute which
+> > > permits testing
+> > > the current frame on demand.
+> > 
+> > Why not using the existing debugfs CRC support implemented
+> > in drivers/gpu/drm/drm_debugfs_crc.c?
 > 
-> 	dc0: dc@40000000 {
-> 		memory-region = <&fb0>;
-> 		iommus = <&dc0_iommu>;
-> 	};
+> I wasn't aware of that, thanks.
+
+No problem.
+
 > 
-> What do you think?
+> > > Unfortunatelly, this functionality has another problem. On all of
+> > > those SoCs,
+> > > it is possible to overload interconnect e.g. by concurrent USB
+> > > and uSDHC
+> > > transfers, at which point the LCDIF LFIFO suffers an UNDERFLOW
+> > > condition,
+> > > which results in the image being shifted to the right by exactly
+> > > LFIFO size
+> > > pixels. On i.MX8M Mini, the LFIFO is 76x256 bits = 2432 Byte ~=
+> > > 810 pixel
+> > > at 24bpp. In this case, the LCDIF does not assert UNDERFLOW_IRQ
+> > > bit, the
+> > > frame CRC32 indicated in CRC_STAT register matches the CRC32 of
+> > > the frame
+> > > in DRAM, the RECOVER_ON_UNDERFLOW bit has no effect, so if this
+> > > mode of
+> > > failure occurs, the failure gets undetected and uncorrected.
+> > 
+> > Hmmm, interesting, no UNDERFLOW_IRQ bit asserted when LCDIF suffers
+> > an
+> > UNDERFLOW condition?
+> 
+> Yes
 
-I converted the Apple M1 display controller driver to using reserved 
-regions using these bindings. It is sufficient for the needs of the M1 
-display controller which is so far the only device requiring this.
+Did you ever see UNDERFLOW_IRQ bit asserted in any case?
 
-I encountered two problems with this bindings proposal:
+Liu Ying
 
-1) It is impossible to express which iommu needs to be used if a device 
-has multiple "iommus" specified. This is on the M1 only a theoretical 
-problem as the display co-processor devices use a single iommu.
-
-2) The reserved regions can not easily looked up at iommu probe time.  
-The Apple M1 iommu driver resets the iommu at probe. This breaks the 
-framebuffer. The display controller appears to crash then an active 
-scan-out framebuffer is unmapped. Resetting the iommu looks like a 
-sensible approach though.
-To work around this I added custom property to the affected iommu node 
-to avoid the reset. This doesn't feel correct since the reason to avoid 
-the reset is that we have to maintain the reserved regions mapping until 
-the display controller driver takes over.
-As far as I can see the only method to retrieve devices with reserved 
-memory from the iommu is to iterate over all devices. This looks 
-impractical. The M1 has over 20 distinct iommus.
-
-One way to avoid both problems would be to move the mappings to the 
-iommu node as sub nodes. The device would then reference those.  This 
-way the mapping is readily available at iommu probe time and adding 
-iommu type specific parameters to map the region correctly is possible.
-
-The sample above would transfor to:
-
-	reserved-memory {
-		fb: fb@80000000 {
-			reg = <0x80000000 0x01000000>;
-		};
-	};
-
-	dc0_iommu: iommu@20000000 {
-		#iommu-cells = <1>;
-
-		fb0: fb-mapping@80000000 {
-			compatible = "iommu-mapping";
-			/* identity mapping, "reg" optional? */
-			reg = <0x80000000 0x01000000>;
-			memory-region = <&fb>;
-			device-id = <0>; /* for #iommu-cells*/
-		};
-
-		fb1: fb-mapping@90000000 {
-			compatible = "iommu-mapping";
-			/* but doesn't have to be */
-			reg = <0x90000000 0x01000000>;
-			memory-region = <&fb>;
-			device-id = <1>; /* for #iommu-cells*/
-		};
-	};
-
-	dc0: dc@40000000 {
-		iommu-region = <&fb0>;
-		iommus = <&dc0_iommu 0>;
-	};
-
-Does anyone see problems with this approach or can think of something 
-better?
-
-Janne
