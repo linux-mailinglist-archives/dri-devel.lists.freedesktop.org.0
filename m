@@ -1,63 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20834AB8D7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 11:41:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE274AB8DA
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 11:43:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C00610F758;
-	Mon,  7 Feb 2022 10:41:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A935410F767;
+	Mon,  7 Feb 2022 10:43:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3389010F74E;
- Mon,  7 Feb 2022 10:41:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id D03193F66D;
- Mon,  7 Feb 2022 11:41:22 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.11
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.11 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Authentication-Results: pio-pvt-msa1.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VWFB1NrJFz54; Mon,  7 Feb 2022 11:41:21 +0100 (CET)
-Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id ED1533F447;
- Mon,  7 Feb 2022 11:41:19 +0100 (CET)
-Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 50A6B360103;
- Mon,  7 Feb 2022 11:41:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1644230479; bh=eTHSXoMUC1Q54v1Z/kGwxntV/1MAni9SaS7TnEOSy5s=;
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4170A10F767
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 10:43:10 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id D42CC810F3;
+ Mon,  7 Feb 2022 11:43:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1644230588;
+ bh=WoK+8ikC+1krVIlblmSPiLmCXSJw+Jux31zfGUcLBQc=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lGH8X6oXgZhf6qVt9JOgXlrm1b+wf/6+bxbyGJXSrqdsBrXKs/St6RHZmpehgZPpa
- pZCOeP0YFHX2p/xNNVCAHYati0LJjljiv68Jq8s2Ub/uF+Z2EWu505QdBn+vfkzYf5
- FxhBCMPh0M7VBDIr5A7DRxIaN7lDiIQ5fSnqIkbA=
-Message-ID: <3c3b355c-43a7-cdde-26ba-fb911cb89783@shipmail.org>
-Date: Mon, 7 Feb 2022 11:41:18 +0100
+ b=n2vsrj0zGvPmQ11VxYNT02AXID1esX51cFm5flwqWvFV7RMI4CLLXdHvjG+ebIHxP
+ 1SO6OK1VFLODd2N86wYYqt00eUiyE2VbMwx3imnbM/OuWXx/Gsc21ishFQePfCA7Tj
+ 8ZaTAlk0JTMqbrHOq7YeY8Zjs+2UYKxBCwdnZVGOjN0oAAh8OGZBAMqhFbBW4KNvzO
+ U05d8UmepgNowkfDvHryjO+2aeuH4b3TdSxy/oN3WvBIptbaSe4HHCH87h0pu5ew/g
+ lQmtN8NV5VcHdAhHMJVsTs6y/iGsHqaeT2jIp0AZsE3LZFffgb917kQrvI182re81o
+ u4zjtMSUt70zg==
+Message-ID: <49519f3a-060d-feb5-891d-adaad10607e2@denx.de>
+Date: Mon, 7 Feb 2022 11:43:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [Intel-gfx] [RFC 1/2] drm/i915/ttm: Add extra pages for handling
- ccs data
+ Thunderbird/91.5.1
+Subject: Re: [PATCH] [RFC] drm: mxsfb: Implement LCDIF scanout CRC32 support
 Content-Language: en-US
-To: Ramalingam C <ramalingam.c@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-References: <20220207093743.14467-1-ramalingam.c@intel.com>
- <20220207093743.14467-2-ramalingam.c@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <20220207093743.14467-2-ramalingam.c@intel.com>
+To: Liu Ying <victor.liu@oss.nxp.com>, dri-devel@lists.freedesktop.org
+References: <20220206185643.275811-1-marex@denx.de>
+ <d5ac849dc8aae325d98f215d4f92d492abd909c4.camel@oss.nxp.com>
+ <9a2cc781-3277-7e09-530b-05c7361cdaa8@denx.de>
+ <1020798373f3f54d1dd7df7174afaeb973ec86ff.camel@oss.nxp.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <1020798373f3f54d1dd7df7174afaeb973ec86ff.camel@oss.nxp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,223 +58,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robert Chiras <robert.chiras@nxp.com>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Ram,
+On 2/7/22 10:18, Liu Ying wrote:
 
+Hi,
 
-On 2/7/22 10:37, Ramalingam C wrote:
-> While evicting the local memory data on flat-ccs capable platform we
-> need to evict the ccs data associated to the data.
+>>> On Sun, 2022-02-06 at 19:56 +0100, Marek Vasut wrote:
+>>>> The LCDIF controller as present in i.MX6SX/i.MX8M Mini/Nano has a
+>>>> CRC_STAT
+>>>> register, which contains CRC32 of the frame as it was clocked out
+>>>> of the
+>>>> DPI interface of the LCDIF. This is likely meant as a functional
+>>>> safety
+>>>> register.
+>>>>
+>>>> Unfortunatelly, there is zero documentation on how the CRC32 is
+>>>> calculated,
+>>>> there is no documentation of the polynomial, the init value, nor
+>>>> on which
+>>>> data is the checksum applied.
+>>>>
+>>>> By applying brute-force on 8 pixel / 2 line frame, which is the
+>>>> minimum
+>>>> size LCDIF would work with, it turns out the polynomial is
+>>>> CRC32_POLY_LE
+>>>> 0xedb88320 , init value is 0xffffffff , the input data are
+>>>> bitrev32()
+>>>> of the entire frame and the resulting CRC has to be also
+>>>> bitrev32()ed.
+>>>
+>>> No idea how the HW calculates the CRC value.
+>>> I didn't hear anyone internal tried this feature.
+>>
+>> It would be nice if the datasheet could be improved.
+> 
+> Agreed.
+> 
+>>
+>> There are many blank areas which are undocumented, this LCDIF CRC32
+>> feature, i.MX8M Mini Arteris NOC at 0x32700000 , the ARM GPV NIC-301
+>> at
+>> 0x32{0,1,2,3,4,5,6,8}00000 and their master/slave port mapping. The
+>> NOC
+>> and NICs were documented at least up to i.MX6QP and then that
+>> information disappeared from NXP datasheets. I think reconfiguring
+>> the
+>> NOC/NIC QoS would help mitigate this shift issue described below (*).
+> 
+> I also think the QoS would help if it is configureable.
 
->   For this, we are
-> adding extra pages ((size / 256) >> PAGE_SIZE) into the ttm_tt.
->
-> To achieve this we are adding a new param into the ttm_tt_init as
-> ccs_pages_needed, which will be added into the ttm_tt->num_pages.
+It is programmable, it's just the port mapping which is undocumented.
 
-Please use imperative form above, Instead of "We are adding..", use "Add"
+>> Do you know if there is some additional NOC/NIC documentation for
+>> i.MX8M
+>> Mini available ?
+> 
+> No.
 
+Can you ask someone internally in NXP maybe ?
 
->
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> Suggested-by: Thomas Hellstorm <thomas.hellstrom@intel.com>
-Hellstorm instead of Hellstrom might scare people off. :)
-> ---
->   drivers/gpu/drm/drm_gem_vram_helper.c      |  2 +-
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 23 +++++++++++++++++++++-
->   drivers/gpu/drm/qxl/qxl_ttm.c              |  2 +-
->   drivers/gpu/drm/ttm/ttm_agp_backend.c      |  2 +-
->   drivers/gpu/drm/ttm/ttm_tt.c               | 12 ++++++-----
->   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
->   include/drm/ttm/ttm_tt.h                   |  4 +++-
->   7 files changed, 36 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index 3f00192215d1..eef1f4dc7232 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -864,7 +864,7 @@ static struct ttm_tt *bo_driver_ttm_tt_create(struct ttm_buffer_object *bo,
->   	if (!tt)
->   		return NULL;
->   
-> -	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached);
-> +	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached, 0);
->   	if (ret < 0)
->   		goto err_ttm_tt_init;
->   
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 84cae740b4a5..bb71aa6d66c0 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -16,6 +16,7 @@
->   #include "gem/i915_gem_ttm.h"
->   #include "gem/i915_gem_ttm_move.h"
->   #include "gem/i915_gem_ttm_pm.h"
-> +#include "gt/intel_gpu_commands.h"
->   
->   #define I915_TTM_PRIO_PURGE     0
->   #define I915_TTM_PRIO_NO_PAGES  1
-> @@ -242,12 +243,27 @@ static const struct i915_refct_sgt_ops tt_rsgt_ops = {
->   	.release = i915_ttm_tt_release
->   };
->   
-> +static inline bool
-> +i915_gem_object_has_lmem_placement(struct drm_i915_gem_object *obj)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < obj->mm.n_placements; i++)
-> +		if (obj->mm.placements[i]->type == INTEL_MEMORY_LOCAL)
-> +			return true;
-> +
-> +	return false;
-> +}
-> +
->   static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
->   					 uint32_t page_flags)
->   {
-> +	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
-> +						     bdev);
->   	struct ttm_resource_manager *man =
->   		ttm_manager_type(bo->bdev, bo->resource->mem_type);
->   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-> +	unsigned long ccs_pages_needed = 0;
->   	enum ttm_caching caching;
->   	struct i915_ttm_tt *i915_tt;
->   	int ret;
-> @@ -270,7 +286,12 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
->   		i915_tt->is_shmem = true;
->   	}
->   
-> -	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching);
-> +	if (HAS_FLAT_CCS(i915) && i915_gem_object_has_lmem_placement(obj))
-> +		ccs_pages_needed = DIV_ROUND_UP(DIV_ROUND_UP(bo->base.size,
-> +					       NUM_CCS_BYTES_PER_BLOCK), PAGE_SIZE);
-> +
-> +	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags,
-> +			  caching, ccs_pages_needed);
+>>>> Doing this calculation in software for each frame is unrealistic
+>>>> due to
+>>>> the CPU demand, implement at least a sysfs attribute which
+>>>> permits testing
+>>>> the current frame on demand.
+>>>
+>>> Why not using the existing debugfs CRC support implemented
+>>> in drivers/gpu/drm/drm_debugfs_crc.c?
+>>
+>> I wasn't aware of that, thanks.
+> 
+> No problem.
+> 
+>>
+>>>> Unfortunatelly, this functionality has another problem. On all of
+>>>> those SoCs,
+>>>> it is possible to overload interconnect e.g. by concurrent USB
+>>>> and uSDHC
+>>>> transfers, at which point the LCDIF LFIFO suffers an UNDERFLOW
+>>>> condition,
+>>>> which results in the image being shifted to the right by exactly
+>>>> LFIFO size
+>>>> pixels. On i.MX8M Mini, the LFIFO is 76x256 bits = 2432 Byte ~=
+>>>> 810 pixel
+>>>> at 24bpp. In this case, the LCDIF does not assert UNDERFLOW_IRQ
+>>>> bit, the
+>>>> frame CRC32 indicated in CRC_STAT register matches the CRC32 of
+>>>> the frame
+>>>> in DRAM, the RECOVER_ON_UNDERFLOW bit has no effect, so if this
+>>>> mode of
+>>>> failure occurs, the failure gets undetected and uncorrected.
+>>>
+>>> Hmmm, interesting, no UNDERFLOW_IRQ bit asserted when LCDIF suffers
+>>> an
+>>> UNDERFLOW condition?
+>>
+>> Yes
+> 
+> Did you ever see UNDERFLOW_IRQ bit asserted in any case?
 
-I'd suggest a patch that first adds the functionality to TTM, where even 
-i915 passes in 0 here, and a follow-up patch for the i915 functionality 
-where we add the ccs requirement.
+I didn't see the UNDERFLOW_IRQ bit asserted during my tests, either with 
+this IRQ enabled (UNDERFLOW_IRQ_EN=1) or with the IRQ disabled 
+(UNDERFLOW_IRQ_EN=0) by reading the CTRL1 register in interrupt handler 
+when CUR_FRAME_DONE_IRQ triggered the IRQ handler.
 
-
->   	if (ret)
->   		goto err_free;
->   
-> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-> index b2e33d5ba5d0..52156b54498f 100644
-> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> @@ -113,7 +113,7 @@ static struct ttm_tt *qxl_ttm_tt_create(struct ttm_buffer_object *bo,
->   	ttm = kzalloc(sizeof(struct ttm_tt), GFP_KERNEL);
->   	if (ttm == NULL)
->   		return NULL;
-> -	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached)) {
-> +	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached, 0)) {
->   		kfree(ttm);
->   		return NULL;
->   	}
-> diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> index 6ddc16f0fe2b..d27691f2e451 100644
-> --- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> +++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> @@ -134,7 +134,7 @@ struct ttm_tt *ttm_agp_tt_create(struct ttm_buffer_object *bo,
->   	agp_be->mem = NULL;
->   	agp_be->bridge = bridge;
->   
-> -	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined)) {
-> +	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined, 0)) {
->   		kfree(agp_be);
->   		return NULL;
->   	}
-> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-> index 79c870a3bef8..80355465f717 100644
-> --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> @@ -134,9 +134,10 @@ void ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
->   static void ttm_tt_init_fields(struct ttm_tt *ttm,
->   			       struct ttm_buffer_object *bo,
->   			       uint32_t page_flags,
-> -			       enum ttm_caching caching)
-> +			       enum ttm_caching caching,
-> +			       unsigned long ccs_pages)
->   {
-> -	ttm->num_pages = PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT;
-> +	ttm->num_pages = (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + ccs_pages;
->   	ttm->caching = ttm_cached;
->   	ttm->page_flags = page_flags;
->   	ttm->dma_address = NULL;
-> @@ -146,9 +147,10 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
->   }
->   
->   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> -		uint32_t page_flags, enum ttm_caching caching)
-> +		uint32_t page_flags, enum ttm_caching caching,
-> +		unsigned long ccs_pages)
->   {
-> -	ttm_tt_init_fields(ttm, bo, page_flags, caching);
-> +	ttm_tt_init_fields(ttm, bo, page_flags, caching, ccs_pages);
->   
->   	if (ttm_tt_alloc_page_directory(ttm)) {
->   		pr_err("Failed allocating page table\n");
-> @@ -180,7 +182,7 @@ int ttm_sg_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
->   {
->   	int ret;
->   
-> -	ttm_tt_init_fields(ttm, bo, page_flags, caching);
-> +	ttm_tt_init_fields(ttm, bo, page_flags, caching, 0);
->   
->   	if (page_flags & TTM_TT_FLAG_EXTERNAL)
->   		ret = ttm_sg_tt_alloc_page_directory(ttm);
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> index b84ecc6d6611..4e3938e62c08 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> @@ -517,7 +517,7 @@ static struct ttm_tt *vmw_ttm_tt_create(struct ttm_buffer_object *bo,
->   				     ttm_cached);
->   	else
->   		ret = ttm_tt_init(&vmw_be->dma_ttm, bo, page_flags,
-> -				  ttm_cached);
-> +				  ttm_cached, 0);
->   	if (unlikely(ret != 0))
->   		goto out_no_init;
->   
-> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-> index f20832139815..2c4ff08ea354 100644
-> --- a/include/drm/ttm/ttm_tt.h
-> +++ b/include/drm/ttm/ttm_tt.h
-> @@ -140,6 +140,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
->    * @bo: The buffer object we create the ttm for.
->    * @page_flags: Page flags as identified by TTM_TT_FLAG_XX flags.
->    * @caching: the desired caching state of the pages
-> + * @ccs_pages_needed: Extra pages needed for the ccs data of compression.
-
-The name and use-case ccs is driver specific, and TTM knows nothing 
-about CCS. Hence we should use "additional_pages", "additional_size" or 
-something similar for this. Christian might have some additional 
-guidance here.
-
->    *
->    * Create a struct ttm_tt to back data with system memory pages.
->    * No pages are actually allocated.
-> @@ -147,7 +148,8 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
->    * NULL: Out of memory.
->    */
->   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> -		uint32_t page_flags, enum ttm_caching caching);
-> +		uint32_t page_flags, enum ttm_caching caching,
-> +		unsigned long ccs_pages_needed);
->   int ttm_sg_tt_init(struct ttm_tt *ttm_dma, struct ttm_buffer_object *bo,
->   		   uint32_t page_flags, enum ttm_caching caching);
->   
-
-Thanks,
-
-Thomas
-
-
+I did see a few auto-recoveries of the panel back into non-shifted 
+image, that happened once in some 100-200 tests. Mostly the LCDIF does 
+not recover automatically.
