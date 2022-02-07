@@ -2,63 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424874AB802
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 11:00:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F6D4AB8A1
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 11:22:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64AE810E6E4;
-	Mon,  7 Feb 2022 10:00:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9C6D10E296;
+	Mon,  7 Feb 2022 10:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D110B10E6E4
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 10:00:48 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 2179CZSj016591;
- Mon, 7 Feb 2022 11:00:37 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=veZo0P/JfQdRJDIli6sGt4ZGDkxpZF8WrXm4WgcbFDs=;
- b=LyOM7OE32aQxV9zw7duuPrfrJldOPTSzvtdbO7khQHp6VH6nsQS/1nDO1hXbZLmJq3nw
- 7PsdcbDW2DruY7hmskH5TenmUVY9yx7uJ5i1DaUsAgLg+HOCJUkGv7VGwAMsVAtu4F96
- sCJ/nB5vp27U2qF3aQGMcKiyNcnqc+aDARpliHA9q4KtKmWvBpM2371vS0moSutXQlXv
- JD7nJX3nfnuqtwSrLyWpVfNb7yZ7m865ES71jT5FzTN6K3vYc11iMh0Vob87hfDscjJB
- 3OMPkL/dsoItJkdZBEb9HLlQ9rzsqz2u0jZF322OtUadHKol830UF6t/NX5nkfrXyXfN /w== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3e30kg08hy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Feb 2022 11:00:37 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5343C10002A;
- Mon,  7 Feb 2022 11:00:35 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3EFD9212FC5;
- Mon,  7 Feb 2022 11:00:35 +0100 (CET)
-Received: from [10.129.7.146] (10.75.127.49) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Mon, 7 Feb
- 2022 11:00:34 +0100
-Message-ID: <7bd0a0a9-4015-b54c-f745-f813496be61b@foss.st.com>
-Date: Mon, 7 Feb 2022 11:00:34 +0100
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65A7A10E296
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 10:22:27 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id D66F85C0180;
+ Mon,  7 Feb 2022 05:22:24 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 07 Feb 2022 05:22:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; bh=xdRRArzSTqmUDv
+ xiI6wBLv1+AxopfJjXjYcTEwFVKgU=; b=n9gfkghsn2mTZokKKNvqe07Kyz1QdD
+ f1rEiVHFuw94mSIYvGn3WZB/nMRWo2eHZG9dCYGil59oNRcUWFUJhARvBqT+RXud
+ zJ73F4JmeGjpMZo0A5ABdFeVveC6IuTYZoedKR2R+EtLOxKQLul8mcCbzrEROHgI
+ PXhp+ZhFLjEQnMU4qQxJezY/ocwhDRpOlKCBhYUszTVFP9uewTlRgzc2xPSxcrsn
+ sY1SwI3g6gMv0OcfXY1BsUvUsrHneS5flLd+rIPAbsPpDoYz22fPToA1G6vFE6LF
+ AifKUPoWyUM5ez/0Eb4+KCD+Hav/FYTFg96MYobMb6v8u4Jq/AStH8Cw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=xdRRArzSTqmUDvxiI6wBLv1+AxopfJjXjYcTEwFVK
+ gU=; b=J+GAhLq/wWu7T0I/IIWrH0L6KVZiYoxtNh54eNRmOjKC/cLEfD+e1XNhG
+ XKpuoI+QDcXPOSODAfYkzp+EjY667Zbyefh9PueGf0QHpK4PFLcT2E0kTPAw2zx3
+ w1L3sT34cFgUDMMrdq76N6oR4PagIxEvN2JCS5IYbmWKaZB89ELBwxby361yXMqX
+ gd6g5NnvazMAlcmZxYWGvwl6GLPI7j0+WhnW6qmB7gibUcELGJTekW96icQ+0YpQ
+ yZOFTlq9U0XStI4o+nozNbyuIOuMw2eBXKqCuJoYe1X4ueQR53aM/Sdxp5GeJbK5
+ iTJYkgbz6Tjc1BHKN0nuRb7esVqjg==
+X-ME-Sender: <xms:4PIAYiWo3eK5mbhjP8L7-7-8wgfPkx3sY2dly5E6MqFy43wKSoiQYA>
+ <xme:4PIAYunxgx0u16OAA8cwdjnGwJEByVzBk4yJkLA8UbkLbp-i6ioLG02f_4ZpTuh6T
+ DWohWJVuw_bpHCliI4>
+X-ME-Received: <xmr:4PIAYmausSRdWPks8WymKy94QFUqTcoAmHX5oH8ceDcxHl6eKyW6e4D7-ISTt2dIxdvtVJMoGJ21_d7fHxhbmRcxIGH2uWRw9gGjj64>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgddufecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
+ keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:4PIAYpVRQsEzELl_bD8AgzZenQgHAfu2TCNqGWSqDwJLnEbykmu4dw>
+ <xmx:4PIAYsleKIaNPzZpXQwa9YfQnPFWD2e0blr_4ux8nfQCFgRR8x27Lg>
+ <xmx:4PIAYueNi5S-0wDKRVtJAScfWBg1ysJUFtC5-b3v7FJeED5AAVsiiw>
+ <xmx:4PIAYtCwB7IH6vCpEdT252Z1rWEvfvVJroK96671I4rckSs6GLxmbw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Feb 2022 05:22:24 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maxime Ripard <maxime@cerno.tech>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: (subset) [PATCH] drm/vc4: crtc: Fix redundant variable assignment
+Date: Mon,  7 Feb 2022 11:22:21 +0100
+Message-Id: <164422933776.544573.12482553887651722804.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220203151151.1270461-1-maxime@cerno.tech>
+References: <20220203151151.1270461-1-maxime@cerno.tech>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 5/5] drm/stm: ltdc: add support of ycbcr pixel formats
-Content-Language: en-US
-To: Nathan Chancellor <nathan@kernel.org>
-References: <20211215214843.20703-1-yannick.fertre@foss.st.com>
- <Yfq3XwozrxYaFhgD@dev-arch.archlinux-ax161>
-From: yannick Fertre <yannick.fertre@foss.st.com>
-In-Reply-To: <Yfq3XwozrxYaFhgD@dev-arch.archlinux-ax161>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.49]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-07_03,2022-02-07_01,2021-12-02_01
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,102 +82,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- David Airlie <airlied@linux.ie>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ kernel test robot <yujie.liu@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nathan,
+On Thu, 3 Feb 2022 16:11:51 +0100, Maxime Ripard wrote:
+> The variable is assigned twice to the same value. Let's drop one.
+> 
+> 
 
-On 2/2/22 17:54, Nathan Chancellor wrote:
-> Hi Yannick,
-> 
-> On Wed, Dec 15, 2021 at 10:48:43PM +0100, Yannick Fertre wrote:
->> This patch adds the following YCbCr input pixel formats on the latest
->> LTDC hardware version:
->>
->> 1 plane  (co-planar)  : YUYV, YVYU, UYVY, VYUY
->> 2 planes (semi-planar): NV12, NV21
->> 3 planes (full-planar): YU12=I420=DRM YUV420, YV12=DRM YVU420
->>
->> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
-> 
-> <snip>
-> 
->> +static inline void ltdc_set_ycbcr_config(struct drm_plane *plane, u32 drm_pix_fmt)
->> +{
->> +	struct ltdc_device *ldev = plane_to_ltdc(plane);
->> +	struct drm_plane_state *state = plane->state;
->> +	u32 lofs = plane->index * LAY_OFS;
->> +	u32 val;
->> +
->> +	switch (drm_pix_fmt) {
->> +	case DRM_FORMAT_YUYV:
->> +		val = (YCM_I << 4) | LxPCR_YF | LxPCR_CBF;
->> +		break;
->> +	case DRM_FORMAT_YVYU:
->> +		val = (YCM_I << 4) | LxPCR_YF;
->> +		break;
->> +	case DRM_FORMAT_UYVY:
->> +		val = (YCM_I << 4) | LxPCR_CBF;
->> +		break;
->> +	case DRM_FORMAT_VYUY:
->> +		val = (YCM_I << 4);
->> +		break;
->> +	case DRM_FORMAT_NV12:
->> +		val = (YCM_SP << 4) | LxPCR_CBF;
->> +		break;
->> +	case DRM_FORMAT_NV21:
->> +		val = (YCM_SP << 4);
->> +		break;
->> +	case DRM_FORMAT_YUV420:
->> +	case DRM_FORMAT_YVU420:
->> +		val = (YCM_FP << 4);
->> +		break;
->> +	default:
->> +		/* RGB or not a YCbCr supported format */
->> +		break;
->> +	}
->> +
->> +	/* Enable limited range */
->> +	if (state->color_range == DRM_COLOR_YCBCR_LIMITED_RANGE)
->> +		val |= LxPCR_YREN;
->> +
->> +	/* enable ycbcr conversion */
->> +	val |= LxPCR_YCEN;
->> +
->> +	regmap_write(ldev->regmap, LTDC_L1PCR + lofs, val);
->> +}
-> 
-> This patch as commit 484e72d3146b ("drm/stm: ltdc: add support of ycbcr
-> pixel formats") in -next introduced the following clang warning:
-> 
-> drivers/gpu/drm/stm/ltdc.c:625:2: warning: variable 'val' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
->          default:
->          ^~~~~~~
-> drivers/gpu/drm/stm/ltdc.c:635:2: note: uninitialized use occurs here
->          val |= LxPCR_YCEN;
->          ^~~
-> drivers/gpu/drm/stm/ltdc.c:600:9: note: initialize the variable 'val' to silence this warning
->          u32 val;
->                 ^
->                  = 0
-> 1 warning generated.
-> 
-> Would it be okay to just return in the default case (maybe with a
-> message about an unsupported format?) or should there be another fix?
-> 
-> Cheers,
+Applied to drm/drm-misc (drm-misc-fixes).
 
-
-Thanks for your help.
-It'okay for a message for unsupported format with a return in the 
-default case.
-Do you want create & push the patch?
-
-Best regards
+Thanks!
+Maxime
