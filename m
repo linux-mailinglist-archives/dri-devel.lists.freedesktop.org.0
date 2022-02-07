@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD4A4AC5DB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:36:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0518E4AC5DC
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:36:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A75F10F9B2;
-	Mon,  7 Feb 2022 16:36:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ACB410FB09;
+	Mon,  7 Feb 2022 16:36:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A4F210FB09
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:36:30 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 85FCC5801E3;
- Mon,  7 Feb 2022 11:36:29 -0500 (EST)
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2133310FB09
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:36:33 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id DB60C2B00154;
+ Mon,  7 Feb 2022 11:36:31 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 07 Feb 2022 11:36:29 -0500
+ by compute5.internal (MEProxy); Mon, 07 Feb 2022 11:36:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=tUuaRCM/V57xS9/bxKdm9N2vJq5Tzx
- 2/8M4BwH//DCw=; b=EKLjIlwXiuwSfrh1YY+hlnIq0lkj48KvVHElSH8XMkQIjS
- /BCsrIgBFdePDReTCqNA1rrnyMUxoQGJlu4c5utKVaBDT3A9CjLINTUvRyOXCHue
- 1U/hxx+AhWB7QXPSAy0XJMYg/R7S/nTkpC1n9qLO/7TeDE210vbybntZDQOlBbjo
- QT8U75d7qt2TANGIRVF0go/+sAw4wHi0L6YFNsExQ2bachUtd+BEdIii5zF5AcWy
- 9uw5I6RXSjRzTGwhfXlIi52kr4hWmeRR+Q0TvBbrNDLUWZ6DQ66vtXI0dkPArj0F
- YCx5+M6BtJGbEKJkWgQKNZMzCvEt6zd8tDBqhdmQ==
+ :subject:subject:to:to; s=fm2; bh=uCJFJDWarZsHnFlN/AOqdk1VZm4dbf
+ pI6Jkbiavo2Rs=; b=az1WL3Gg+qjOM+d2vsrAUVb7KmFKgHXtrdmIpgf6mm+fYk
+ daWBQVhgUki5vuOHW2CavS9IkngbKkg3AYVtXV5n5W9+5RVHlCT6UrTIjkaiNW2J
+ aT0qyWpxty3cF57/MoFufr0klxG9xikgr4DjGzFnFoiBnxTa0R6LLAVtGdmHAT6x
+ HLMUcBDH+MnZKGuVxuW/NFQkKsWMykYQTKhobgFJsDrDXniTSBHM0OcNDsGK6Puh
+ fi6JNhG2aZuvEWFL+WFVADiY5kWiQZpXA531Cfzp6c5lAa3DGKGc3k87vj87yqdU
+ npe2a2sVfu0Adgn0YiYQEk8ZKaPQA4XFNKwrbI6A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=tUuaRC
- M/V57xS9/bxKdm9N2vJq5Tzx2/8M4BwH//DCw=; b=g7Y5TPiIhLDun0TfsIw3LW
- GTE+NmIy03RNei/nTYEgOWTLCI2AApJ+FX4ilEfPnwV+90RZvEtppO9uF0E4Dw8Z
- Px0jHbY9yfraODQDC6yi39sIAHE8XO8fBULEo7wDvFMeY12KrheaCURkVDSrvtgR
- oZcb7l6kp6b10gbXlRenGFOePsyU3ZALepHakhka+LhwpWpq/5vytKds0urjSQQS
- esh++tdgFxUa9Kzt2sJ3P78UN+goUa2CbSBecUCgmlrZ0XrlbL2h6QJO/6BCIrtP
- u9o+gl9bCtn3ugb4CxHu/i480KdXNa6i6ip13I02UWZ0/gxYa9PI/8iQwvXQc/tA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=uCJFJD
+ WarZsHnFlN/AOqdk1VZm4dbfpI6Jkbiavo2Rs=; b=oKXf/gPrA1YAR7CItR+cCw
+ 12hxh0WGce2SPx1HOUN+x5t48DIJW1WLQYhA04LFSDXpCRM2lKtH11NAyt3wU/HP
+ +Oukk/mMMJesa/33Rb045JacYqD+bOB+/aQH2cPnzS4UmECkkYyXB8rq0LajvW8e
+ qQG5svlJ6Fz1Tw7ECA3mMrcKt40KSgyZZb66AyC59A/FjEOo2KScuA40BTygIzDR
+ 8JofTgq7rwSYrr4UA1XUvVfpGqzNkw4XToLrGuc3/envwQrL/J7javqepHf0A5Jp
+ 9qc8iPwDv2hi10of05FwbzCeTPv2lTOnwvei5q2HOWguLEbCbxEbmt3vxzlLzCdQ
  ==
-X-ME-Sender: <xms:jUoBYgtUTbZS4nSl9IOptHYZ638_Br5eZkS1gug8A1Hd5Cn77LwlRA>
- <xme:jUoBYtfGiGTvR8DV7o9FnG8fvVL0PbJ0BCpO3dSqPaDmjZ4_iQFtOHGEPWQktTn7g
- fqiImBoLDZjkKEXTSY>
-X-ME-Received: <xmr:jUoBYrwrdmiXui4r_rNHRLkAF72XIwhksSXEnR49TY7hj8i3_BpqigR8B7rpHNI92NHwZWe9fP-gcFp-lRZmDTwn6HTJSLlZiFy9_7U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekkecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:j0oBYr-WOiVLnWLhMFJKHtMOA84xNCc7RnQLoBAZL3oI92dRNpnAPQ>
+ <xme:j0oBYnvla19ozKLvsVdslV4SN9RTtXGwusHe0wmWjEzYyplXCyoSm9NPJRfkOF_3u
+ dyqXOSK4oLdt_zgjKE>
+X-ME-Received: <xmr:j0oBYpCP4b-7UaJ6pMPlSyPnu2g0Ox1lEJbk6GzFluriqRnv9PCqXJoCaYemRFk8YFWxIrdSS3JE4gurpDkFOisqSv5J4w4HAf6RmXA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:jUoBYjPzzkMZQsWkfz5OZ98ahA5krJQxQbsZCZAjmjR_kT_xiv3Jow>
- <xmx:jUoBYg8j5XY9eGgBgeuTn2KMlgW917fQVQG7uw1r3lgxeOxzWKz8wA>
- <xmx:jUoBYrUDylHhhKCxxnEgBP83BI1JEFFCB5PHtedevwgZi4xjEAIGjA>
- <xmx:jUoBYjdogHJDv-y5K-iTcy8LiduMkKzevUYxvvdtoaiZ4OI0XUE5Vg>
+X-ME-Proxy: <xmx:j0oBYnfsqNe9A04O4jeGvWviumcpueo1JXB9-kh5PM0Et16QP4Vicg>
+ <xmx:j0oBYgNdVwMI5PAIfdY9dewIKfFw3maDyMs6QQOtkvAuWqv693Yvuw>
+ <xmx:j0oBYpnobcOdXo_0Nno8ikG57X7cmYCSO0QfkwhAmFrfapKOD8ODAg>
+ <xmx:j0oBYvoYvvYf7rELyEWWa6YbJnBpMNQivtCvLBGTQhkMaqaqPHuQ2pL8wo8>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 11:36:28 -0500 (EST)
+ 7 Feb 2022 11:36:30 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH 22/23] drm/imx: ipuv3-plane: Remove redundant color encoding
- and range initialisation
-Date: Mon,  7 Feb 2022 17:35:14 +0100
-Message-Id: <20220207163515.1038648-23-maxime@cerno.tech>
+Subject: [PATCH 23/23] drm/omap: plane: Remove redundant color encoding and
+ range initialisation
+Date: Mon,  7 Feb 2022 17:35:15 +0100
+Message-Id: <20220207163515.1038648-24-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220207163515.1038648-1-maxime@cerno.tech>
 References: <20220207163515.1038648-1-maxime@cerno.tech>
@@ -82,50 +82,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
- Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
+ dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomba@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The imx KMS driver will call drm_plane_create_color_properties() with
-a default encoding and range values of BT601 and Limited Range,
+The omap KMS driver will call drm_plane_create_color_properties() with
+a default encoding and range values of BT601 and Full Range,
 respectively.
 
 Since the initial value wasn't carried over in the state, the driver had
-to set it again in ipu_plane_state_reset(). However, the helpers have been
+to set it again in omap_plane_reset(). However, the helpers have been
 adjusted to set it properly at reset, so this is not needed anymore.
 
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Tomi Valkeinen <tomba@kernel.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/imx/ipuv3-plane.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/gpu/drm/omapdrm/omap_plane.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
-index 414bdf08d0b0..36b32e8806e3 100644
---- a/drivers/gpu/drm/imx/ipuv3-plane.c
-+++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-@@ -308,11 +308,8 @@ static void ipu_plane_state_reset(struct drm_plane *plane)
+diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
+index d96bc929072a..b83d91ec030a 100644
+--- a/drivers/gpu/drm/omapdrm/omap_plane.c
++++ b/drivers/gpu/drm/omapdrm/omap_plane.c
+@@ -403,7 +403,6 @@ void omap_plane_install_properties(struct drm_plane *plane,
  
- 	ipu_state = kzalloc(sizeof(*ipu_state), GFP_KERNEL);
+ static void omap_plane_reset(struct drm_plane *plane)
+ {
+-	struct omap_plane *omap_plane = to_omap_plane(plane);
+ 	struct omap_plane_state *omap_state;
  
--	if (ipu_state) {
-+	if (ipu_state)
- 		__drm_atomic_helper_plane_reset(plane, &ipu_state->base);
--		ipu_state->base.color_encoding = DRM_COLOR_YCBCR_BT601;
--		ipu_state->base.color_range = DRM_COLOR_YCBCR_LIMITED_RANGE;
--	}
+ 	if (plane->state)
+@@ -414,8 +413,6 @@ static void omap_plane_reset(struct drm_plane *plane)
+ 		return;
+ 
+ 	__drm_atomic_helper_plane_reset(plane, &omap_state->base);
+-	plane->state->color_encoding = DRM_COLOR_YCBCR_BT601;
+-	plane->state->color_range = DRM_COLOR_YCBCR_FULL_RANGE;
  }
  
  static struct drm_plane_state *
