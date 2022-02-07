@@ -2,50 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019E04ACB69
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 22:39:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEFF4ACBC4
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 23:04:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21CF410E166;
-	Mon,  7 Feb 2022 21:39:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC4310E168;
+	Mon,  7 Feb 2022 22:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92B7D10E166
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 21:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644269990;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=AvJ9N+RokT/quaPmMZhpaU8mvk15cL5DRf0vZEA2K/0=;
- b=HiiucCUTqHgj2undT9qDpunUqVFyFPZbAJJwXVihnIOdCHk+blxDb4/sdCJ+qac4r0KZv5
- P/IJUweghEsBXu2QWYFIsiB9FY+djpaPQQdykhBDELzcMkV8I8XXmidCD43Rd1TEQYFvaJ
- pm9uktXUwWmihiY3tKWD2wybhef6u0w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-vgSPi0YHOzOjbRTZsRCqcQ-1; Mon, 07 Feb 2022 16:39:45 -0500
-X-MC-Unique: vgSPi0YHOzOjbRTZsRCqcQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D0B1101F7A1;
- Mon,  7 Feb 2022 21:39:43 +0000 (UTC)
-Received: from emerald.redhat.com (unknown [10.22.8.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A52E1037F38;
- Mon,  7 Feb 2022 21:39:34 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/psr: Disable PSR2 selective fetch for all TGL steps
-Date: Mon,  7 Feb 2022 16:38:20 -0500
-Message-Id: <20220207213923.3605-1-lyude@redhat.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F49610E168
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 22:04:06 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 535E4499;
+ Mon,  7 Feb 2022 23:04:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1644271444;
+ bh=aYOSd4uk8eFHEQDh8Mak6xLLznN2eECkn0tIbMXKtPw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WTVwrPV+n6fZcElxY+rg5wV2kBV9P07lh7z11NjEMLFTTyZPMIGkN0mlaqu98YfOJ
+ kARYPJUIXnQ5FzB/c2G9bLIgNT39+GekIiUOPA8orgd3a1KdcXqU7qdgHFh9aqqLaZ
+ qGj0nmG5QXoMHWusNENZlTMCSRcb7Y9eAjKNsb40=
+Date: Tue, 8 Feb 2022 00:04:02 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 06/23] drm/object: Add
+ drm_object_property_get_default_value() function
+Message-ID: <YgGXUr/jAx5WJpXN@pendragon.ideasonboard.com>
+References: <20220207163515.1038648-1-maxime@cerno.tech>
+ <20220207163515.1038648-7-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220207163515.1038648-7-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,61 +48,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, stable@vger.kernel.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As we've unfortunately started to come to expect from PSR on Intel
-platforms, PSR2 selective fetch is not at all ready to be enabled on
-Tigerlake as it results in severe flickering issues - at least on this
-ThinkPad X1 Carbon 9th generation. The easiest way I've found of
-reproducing these issues is to just move the cursor around the left border
-of the screen (suspicious…).
+Hi Maxime and Dave,
 
-So, fix people's displays again and turn PSR2 selective fetch off for all
-steppings of Tigerlake. This can be re-enabled again if someone from Intel
-finds the time to fix this functionality on OEM machines.
+Thank you for the patch.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Fixes: 7f6002e58025 ("drm/i915/display: Enable PSR2 selective fetch by default")
-Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: José Roberto de Souza <jose.souza@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.16+
----
- drivers/gpu/drm/i915/display/intel_psr.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+On Mon, Feb 07, 2022 at 05:34:58PM +0100, Maxime Ripard wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> 
+> Some functions to create properties (drm_plane_create_zpos_property or
+> drm_plane_create_color_properties for example) will ask for a range of
+> acceptable value and an initial one.
+> 
+> This initial value is then stored in the values array for that property.
+> 
+> Let's provide an helper to access this property.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index a1a663f362e7..25c16abcd9cd 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -737,10 +737,14 @@ static bool intel_psr2_sel_fetch_config_valid(struct intel_dp *intel_dp,
- 		return false;
- 	}
- 
--	/* Wa_14010254185 Wa_14010103792 */
--	if (IS_TGL_DISPLAY_STEP(dev_priv, STEP_A0, STEP_C0)) {
-+	/*
-+	 * There's two things stopping this from being enabled on TGL:
-+	 * For steps A0-C0: workarounds Wa_14010254185 Wa_14010103792 are missing
-+	 * For all steps: PSR2 selective fetch causes screen flickering
-+	 */
-+	if (IS_TIGERLAKE(dev_priv)) {
- 		drm_dbg_kms(&dev_priv->drm,
--			    "PSR2 sel fetch not enabled, missing the implementation of WAs\n");
-+			    "PSR2 sel fetch not enabled, currently broken on TGL\n");
- 		return false;
- 	}
- 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/drm_mode_object.c | 53 +++++++++++++++++++++++++------
+>  include/drm/drm_mode_object.h     |  7 ++++
+>  2 files changed, 50 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+> index 86d9e907c0b2..ba1608effc0f 100644
+> --- a/drivers/gpu/drm/drm_mode_object.c
+> +++ b/drivers/gpu/drm/drm_mode_object.c
+> @@ -297,11 +297,26 @@ int drm_object_property_set_value(struct drm_mode_object *obj,
+>  }
+>  EXPORT_SYMBOL(drm_object_property_set_value);
+>  
+> +static int __drm_object_property_get_prop_value(struct drm_mode_object *obj,
+> +						struct drm_property *property,
+> +						uint64_t *val)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < obj->properties->count; i++) {
+> +		if (obj->properties->properties[i] == property) {
+> +			*val = obj->properties->values[i];
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+>  static int __drm_object_property_get_value(struct drm_mode_object *obj,
+>  					   struct drm_property *property,
+>  					   uint64_t *val)
+>  {
+> -	int i;
+>  
+>  	/* read-only properties bypass atomic mechanism and still store
+>  	 * their value in obj->properties->values[].. mostly to avoid
+> @@ -311,15 +326,7 @@ static int __drm_object_property_get_value(struct drm_mode_object *obj,
+>  			!(property->flags & DRM_MODE_PROP_IMMUTABLE))
+>  		return drm_atomic_get_property(obj, property, val);
+>  
+> -	for (i = 0; i < obj->properties->count; i++) {
+> -		if (obj->properties->properties[i] == property) {
+> -			*val = obj->properties->values[i];
+> -			return 0;
+> -		}
+> -
+> -	}
+> -
+> -	return -EINVAL;
+> +	return __drm_object_property_get_prop_value(obj, property, val);
+>  }
+>  
+>  /**
+> @@ -348,6 +355,32 @@ int drm_object_property_get_value(struct drm_mode_object *obj,
+>  }
+>  EXPORT_SYMBOL(drm_object_property_get_value);
+>  
+> +/**
+> + * drm_object_property_get_default_value - retrieve the default value of a
+> + * property when in atomic mode.
+> + * @obj: drm mode object to get property value from
+> + * @property: property to retrieve
+> + * @val: storage for the property value
+> + *
+> + * This function retrieves the default state of the given property as passed in
+> + * to drm_object_attach_property
+> + *
+> + * Only atomic drivers should call this function directly, as for non-atomic
+> + * drivers it will return the current value.
+> + *
+> + * Returns:
+> + * Zero on success, error code on failure.
+> + */
+> +int drm_object_property_get_default_value(struct drm_mode_object *obj,
+> +					  struct drm_property *property,
+> +					  uint64_t *val)
+> +{
+> +	WARN_ON(!drm_drv_uses_atomic_modeset(property->dev));
+> +
+> +	return __drm_object_property_get_prop_value(obj, property, val);
+> +}
+> +EXPORT_SYMBOL(drm_object_property_get_default_value);
+> +
+>  /* helper for getconnector and getproperties ioctls */
+>  int drm_mode_object_get_properties(struct drm_mode_object *obj, bool atomic,
+>  				   uint32_t __user *prop_ptr,
+> diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
+> index c34a3e8030e1..912f1e415685 100644
+> --- a/include/drm/drm_mode_object.h
+> +++ b/include/drm/drm_mode_object.h
+> @@ -98,6 +98,10 @@ struct drm_object_properties {
+>  	 * Hence atomic drivers should not use drm_object_property_set_value()
+>  	 * and drm_object_property_get_value() on mutable objects, i.e. those
+>  	 * without the DRM_MODE_PROP_IMMUTABLE flag set.
+> +	 *
+> +	 * For atomic drivers the default value of properties is stored in this
+> +	 * array, so drm_object_property_get_default_value can be used to
+> +	 * retrieve it.
+>  	 */
+>  	uint64_t values[DRM_OBJECT_MAX_PROPERTY];
+>  };
+> @@ -126,6 +130,9 @@ int drm_object_property_set_value(struct drm_mode_object *obj,
+>  int drm_object_property_get_value(struct drm_mode_object *obj,
+>  				  struct drm_property *property,
+>  				  uint64_t *value);
+> +int drm_object_property_get_default_value(struct drm_mode_object *obj,
+> +					  struct drm_property *property,
+> +					  uint64_t *val);
+>  
+>  void drm_object_attach_property(struct drm_mode_object *obj,
+>  				struct drm_property *property,
+> -- 
+> 2.34.1
+> 
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
