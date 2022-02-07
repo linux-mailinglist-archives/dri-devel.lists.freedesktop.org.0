@@ -1,120 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0799C4AD197
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 07:33:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 577C64AD331
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:24:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E3F10E43A;
-	Tue,  8 Feb 2022 06:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B734C10E505;
+	Tue,  8 Feb 2022 08:23:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2080.outbound.protection.outlook.com [40.107.223.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE33D10E43A;
- Tue,  8 Feb 2022 06:33:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LVXwPF1dMsG/i8qU/vSTe8mrqulbTnMDfI6RIg8A5UCfpsy10bNrWQ3edBPolKsYz6pN6u8Cx5I2LCvqdc3u7b1kipVnD6a+4u4svSBbu7QXNpXE0/1zIJgunzhDzRzKlg67cftNzhcJVcIOXE36ug4fLgzKhEt8pjUlkG4tAUNHpgmlW5NefJ79zysARBo7aduJgzVzeRIMz3KVzcoC3IFYXrCSSdiwMc1aNPDuBJIK/zAc0r06/6h+4yhTN+IoXMHrKp/u0r70tpbhOqMzBjvYWs+VxrnAedRdZ6J9Smk9Z9y+BJ7uzTRZGgWleiJICivwe6wxcwKbzWG8RlLsEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rRY2Kwgz0cN0ZiqDmDZZAU6M1XSO6uAlb9Zoy5jIBAM=;
- b=fA9mHKZYNz3cpp4x7H9gQV1hzNO3RaGfu7zden09dSCxXRK3nMtHQ9XJfqqIvtLnBjQQccI//v6uPQQ4T8EgaAJLR6VCjDkSA59Z2CfrcM0G4IfEOEX9nQBf3Bk29QGCJkIgZjXandW51B9Pu8iMwZ/17cZnIgPeaBso6DWIcegnt7OdFM2QxnCM9Acw4KCveQ8UhXo9hyZMr2meKJf7I4Cp01vHwaWa7xhll2qC0qWo3aRf+/TRe/Z5WOkPmtdOUocZOe83LGIBbnc6zAW9dt1ZZsYT8ZzGKJt5TaFUbvq42tKLr0Hb5QYNw67AkYAIMMH7SNoWP4Pe1DmBl13XjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rRY2Kwgz0cN0ZiqDmDZZAU6M1XSO6uAlb9Zoy5jIBAM=;
- b=Sk10Nj7FhxTIvzMhdE5pNOiztRAEfgKYDe5Eea3VVvsRCFkaScDYUpyimi6TQjysLV2E1NZHwmn1s7WRtyA8riiAB5Epat0bvZI/itHeW6Nu2tkTk5+K3SFEEwEWSdzgAdWT+g9zwQW3xp6tLlp9ja9QLVvprd3EstcTtuuJWKY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB4614.namprd12.prod.outlook.com (2603:10b6:a03:a6::22)
- by DM6PR12MB3308.namprd12.prod.outlook.com (2603:10b6:5:182::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Tue, 8 Feb
- 2022 06:33:25 +0000
-Received: from BYAPR12MB4614.namprd12.prod.outlook.com
- ([fe80::d0d1:eba5:5729:c636]) by BYAPR12MB4614.namprd12.prod.outlook.com
- ([fe80::d0d1:eba5:5729:c636%5]) with mapi id 15.20.4951.019; Tue, 8 Feb 2022
- 06:33:25 +0000
-Message-ID: <36e9956b-d195-b36f-00e4-2e0100de6953@amd.com>
-Date: Tue, 8 Feb 2022 12:03:08 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [RFC v3 06/12] drm/amdgpu: Drop hive->in_reset
-Content-Language: en-US
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20220125223752.200211-1-andrey.grodzovsky@amd.com>
- <20220125223752.200211-7-andrey.grodzovsky@amd.com>
-From: "Lazar, Lijo" <lijo.lazar@amd.com>
-In-Reply-To: <20220125223752.200211-7-andrey.grodzovsky@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BM1PR01CA0081.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:1::21) To BYAPR12MB4614.namprd12.prod.outlook.com
- (2603:10b6:a03:a6::22)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD6910F75B;
+ Mon,  7 Feb 2022 10:41:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644230495; x=1675766495;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ArwuPTxElsiJl5IMoTxOH+10k1P9ZTtUYu/OMQhIIYk=;
+ b=hYA8WV1XYW6SbUYBjWXya+QIaerkhQSRjEIfOgPs5f43Q2Stf7asezX2
+ uSsHbu5u6UdbEWO7/u0bv7XHy8oXHWxTTJwTYmcECWmS6+umpLouZDnq1
+ fgayPJ5p6n3Q5yjHYuwZVOBCQWziyaVvM9zFCggC9qFGzQg/EXxPHfjBc
+ rnOe5khifmirYsZB1iwiAKLsMjI97BNmDqMPQxltT7QjRtmPnjnb5SCq5
+ 6ugXzRUYy4VSH1tTk2rRAzKzZKXXD4w8i1orjLk6OvZWbS3/mCxiQTY7j
+ wKfB1nCWXIz2O2qrvIZhOM3LKBYlWPtWXP/SnSUuBX1hruLyLBch4MBzP Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="248453811"
+X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; d="scan'208";a="248453811"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 02:41:35 -0800
+X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; d="scan'208";a="540044702"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.251.209.116])
+ ([10.251.209.116])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 02:41:33 -0800
+Message-ID: <bd9e2cf2-4cee-a99a-7550-3eaf32c93e5e@linux.intel.com>
+Date: Mon, 7 Feb 2022 11:41:31 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 765f127f-ef1c-4119-fbb7-08d9eacce8db
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3308:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB3308FD96166B21B2890DCF5A972D9@DM6PR12MB3308.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1247;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /WYgG4rMgUmG2wc41aoWB8g7F7FRbs3X1Q75Dtw5kFi0CaPNOhDjBj5WXkZOMXM2F2q8ArFzOiOoMuGB9Pw4hGOoANdkuyQNVK+jbN2QKSPHDFK4m88pe3+XlVq3Yuy1zbRhHbojhiKHt5S4PdzhEAIEZvtNWvqoDDEjAcVR00hPQKv03uQ0uchWdrQ8G5fZilBbSvz1jdRHd3bv4/9XEJMLM43Z+qfmKeS6+s7240IwpjOGfUE5hsnxZdczpOrO1/PCAcMTquJLWC7tmIkAI4lfMAUupDKfQ0UKC6sed6MJigLhcHYh/3kHb3owIvgYtfBFXx68Bm2EygYUSJ9nweZlrOEmTFtanVcEuuCyaN6m+l6Yt4E/GwHIE+9JvgeO6jG+PII3qyGiUG+WrV3hoxttH6MXIw98VQUO+/6a2Xp7OvPDBYh/joLlKXB54JA8KOt6w4kVmNAsyAneLtxW6MLxf2J/jtLx95I9unqyH5wDM/rAaxq6TWGo6wbVAnaj9DFVUHiUceyL4dxT09AcZfE9MM50HNAzfjGs+55ZF52P3MKDmJK6eeikPKA89ZoVs0ewSCJSWG7x6UIkW4l3dnmbJmcqsVIxkwI2fxMfR+KZkzIl7GZfeP0L2Sh8egXR+fPHDZsj2/occwZDra6/xQopCGRAjga+W9u02RxIaK17vlE4cgY7viM+x+cI7ZVKvVqtQqvhQjlQtGIV3aFqECvv3vEgdNS/JtmCpxNmuSywcRiy+XJ+G/sR5MWEVAfc
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB4614.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(66476007)(66556008)(66946007)(36756003)(8676002)(8936002)(4326008)(6506007)(6512007)(6666004)(6486002)(53546011)(508600001)(83380400001)(316002)(26005)(38100700002)(2906002)(31686004)(2616005)(86362001)(31696002)(66574015)(186003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MTl0ZnVlU2Y4b3VBNUkrTFpRN1g2Mmx5S2hUc0c0cHdqQU9DbmJjTjg5ckp0?=
- =?utf-8?B?REQ4K1JVNGdhc0g3ZXVyc2NURW9qaERKeWpKRjNqL0JxNVRrdENmZTVza1dN?=
- =?utf-8?B?cTNRM01rbE9QaUYvakFUd01Mc1ExWHhVUld6TEhXOGdJS1RVcFFlcU5tV2wz?=
- =?utf-8?B?cWx4TmE3MEdMcTQrcU0yZnRIdUVUSHFSbDJzL1pWZnh5dGVJWUh5YkVWSmt5?=
- =?utf-8?B?OEVORmQ4bGZ4QkJaZlJCUHAzbEFtUk1kUDE5M0ROL3NmcFk0dW4xK2hRMk1r?=
- =?utf-8?B?M3I4UXhFRGMrVGdCdUQwbkJrNVlTM1phdEdtMHFXZC9FcWtEeE9VL1JsNnhL?=
- =?utf-8?B?V2hRd0xIWUcvOTVOTEFGTVRVdno5bmRSekV3MzRpV0NRZGMrN1BDcXptck50?=
- =?utf-8?B?VjI1UkpnUithaVdZaFN0NEZiemUzeFZnUERpdmFOcnVEZ1Y5T2txODNXUGpj?=
- =?utf-8?B?bGRlL2pjZEtoaWowbnhuUm14cVJDOURYV09nMThFNC93SjZuMGlqTDV4SUxZ?=
- =?utf-8?B?R0ZLeFlDSytyUTk2NU1hVmdUQ3luckxlOHlpRVRoeHF3TmhQLzFKc2U4MXgz?=
- =?utf-8?B?Q0hTcWZkbDV5QVJuTHdqejg2b1M5NllScTYwV2ovYzZueXlNdWZuaFRFai9C?=
- =?utf-8?B?SWJ1TUpQS1BrNy9XY2tJVjZzRURSRXhjUzJXUWNKcWJGZ2Y2dFZHNUp2RjRw?=
- =?utf-8?B?MkJYOHRSMnZpM1JzOFVNbEphK0FyZy9RZ3NTSEU0Y0pNRTMwTHAybGpQRVJ6?=
- =?utf-8?B?aWFuaEdwcXRzVnFpWVRocEJ5dCsxNHJPOUt3RTVyZTJlcCt4dll1N2Qvclgx?=
- =?utf-8?B?M2tLcys0QmdENnhVVzFNdFAvSzdEU3ZxWFZUMjRxMWhnRC9rOGlmV0ZRcG95?=
- =?utf-8?B?Z1BQK0t3cURaWXVqUUtmRnFVbGJ0eC8xdmlBTnFoanJ6SVVreU1jbURaZHhZ?=
- =?utf-8?B?bnQ3am4ycW1vWUNBTHJrNzI0azNRS0RPVlVTV2VNUTRyM1V0ZHpFdW9pbG1o?=
- =?utf-8?B?QWp1V1dhRXdVZlBQWjF5MkhpdU9UQWlwZjNIVWJGRmpJemEwWU1OeWRtNzIr?=
- =?utf-8?B?cTZjaTcveGRjWlY2LzhuL2xab2xXQkVoR2ZON3N5VW9ndFVxdG1waDVBVmNl?=
- =?utf-8?B?Qy9zZVF4T3htY2RadU1iY1k2bTdSNHRSSCs4SVMxa3U4UFVNQ21pWG4xZFVZ?=
- =?utf-8?B?K041QWp4aEVhZngwOUpMMVpibHZ2dkk1eGtvVlY3WkQyeFZaaW5QR1ZQVWd6?=
- =?utf-8?B?eTZVVEVtTlU2bVJDajNhenA4ZnNweHI2MmxaMDI4c0V3WWE0S0x0WC9pNzVp?=
- =?utf-8?B?eFdzTWY0N3BTNmJzTGhCQm1yTDRrc2s3blRDVGVIU3lhUGpBaUJOa2FibUVz?=
- =?utf-8?B?UDBQK1d0T3NLSlQwaU5pQUx1OGl5WnhDTnQ0R09jU0VGTVhKWGJmVnpkeml4?=
- =?utf-8?B?WDRpcmFuR1VMRXRvTDF1RmRkcVl4cGFmaEo0OHFxWVJMM2Mwcm9EZnYzM3VG?=
- =?utf-8?B?SnEvS0dwclFmRTJ5UU1oRXJQSlR1bzgxOU9aOVA5REx3OUpVTE01bGpyNkdp?=
- =?utf-8?B?VUhVVDVTQzNIM2Q3QnNLZjBIT2x6OUY0V1BqQ2EyeVNNOCtYV0MzM1EybG13?=
- =?utf-8?B?R1NxalJEZXk1QWpMcDJZMDhYd3FKSUFVMlBDcm5FZkoreFlkR1A4d2Y0SlBP?=
- =?utf-8?B?VS8vTXJVWnJqazRBWjAyRjY4T2c5bVBJQXVFc0dmenY5aVFsVHVNbXVIaCtE?=
- =?utf-8?B?T3BNeDRYOGpxUEZubVd6aTFTUjJTRk14ZTBVblJ4dXZub0VITzR2UGlndzR5?=
- =?utf-8?B?TFExOGIvUm9OUStzU0dIK3EreFRmVlJWM3RtaVB4bmV3c0haTlhTaHhwU3Ny?=
- =?utf-8?B?cnJmT3RnTlpES1M3VjFJdFR6Q212T2RnWVRMZkdvaTk4UEx1S0VhajZ5SXox?=
- =?utf-8?B?Ky9KbG03OVYzWEdaRW82aW9mc0szTUdOTk1tVnprTmRmaThFWG92d20zU0Vu?=
- =?utf-8?B?OStja1ZHRllHMVZpZHhEYmRwaENnUVYyOHhEdjdjSVhRV0kxNHJVeGtqMlFY?=
- =?utf-8?B?WU1rRVV0bTYzODRhS09tQmFuK0ZVVzhGdmErMDliNGhlbjA3NlJlZk1DRUdP?=
- =?utf-8?Q?Eea8=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 765f127f-ef1c-4119-fbb7-08d9eacce8db
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4614.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2022 06:33:25.5125 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PD84yXaM/pH2imMCcO1OqLHPY+r/RbjxxvTOqqVzvP/ie4y0Gnfmc97Ewws+D3Lf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3308
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [Intel-gfx] [RFC 1/2] drm/i915/ttm: Add extra pages for handling
+ ccs data
+Content-Language: en-US
+To: Ramalingam C <ramalingam.c@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
+References: <20220207093743.14467-1-ramalingam.c@intel.com>
+ <20220207093743.14467-2-ramalingam.c@intel.com>
+From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+In-Reply-To: <20220207093743.14467-2-ramalingam.c@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Tue, 08 Feb 2022 08:23:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,102 +64,206 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Monk.Liu@amd.com, horace.chen@amd.com, jingwech@amd.com,
- christian.koenig@amd.com
+Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 1/26/2022 4:07 AM, Andrey Grodzovsky wrote:
-> Since we serialize all resets no need to protect from concurrent
-> resets.
-> 
-> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+On 07/02/2022 10:37, Ramalingam C wrote:
+> While evicting the local memory data on flat-ccs capable platform we
+> need to evict the ccs data associated to the data. For this, we are
+> adding extra pages ((size / 256) >> PAGE_SIZE) into the ttm_tt.
+>
+> To achieve this we are adding a new param into the ttm_tt_init as
+> ccs_pages_needed, which will be added into the ttm_tt->num_pages.
+>
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Suggested-by: Thomas Hellstorm <thomas.hellstrom@intel.com>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 19 +------------------
->   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c   |  1 -
->   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h   |  1 -
->   3 files changed, 1 insertion(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 258ec3c0b2af..107a393ebbfd 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -5013,25 +5013,9 @@ int amdgpu_device_gpu_recover_imp(struct amdgpu_device *adev,
->   	dev_info(adev->dev, "GPU %s begin!\n",
->   		need_emergency_restart ? "jobs stop":"reset");
+>   drivers/gpu/drm/drm_gem_vram_helper.c      |  2 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 23 +++++++++++++++++++++-
+>   drivers/gpu/drm/qxl/qxl_ttm.c              |  2 +-
+>   drivers/gpu/drm/ttm/ttm_agp_backend.c      |  2 +-
+>   drivers/gpu/drm/ttm/ttm_tt.c               | 12 ++++++-----
+>   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
+>   include/drm/ttm/ttm_tt.h                   |  4 +++-
+>   7 files changed, 36 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+> index 3f00192215d1..eef1f4dc7232 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -864,7 +864,7 @@ static struct ttm_tt *bo_driver_ttm_tt_create(struct ttm_buffer_object *bo,
+>   	if (!tt)
+>   		return NULL;
 >   
-> -	/*
-> -	 * Here we trylock to avoid chain of resets executing from
-> -	 * either trigger by jobs on different adevs in XGMI hive or jobs on
-> -	 * different schedulers for same device while this TO handler is running.
-> -	 * We always reset all schedulers for device and all devices for XGMI
-> -	 * hive so that should take care of them too.
-> -	 */
->   	hive = amdgpu_get_xgmi_hive(adev);
-> -	if (hive) {
-> -		if (atomic_cmpxchg(&hive->in_reset, 0, 1) != 0) {
-> -			DRM_INFO("Bailing on TDR for s_job:%llx, hive: %llx as another already in progress",
-> -				job ? job->base.id : -1, hive->hive_id);
-> -			amdgpu_put_xgmi_hive(hive);
-> -			if (job && job->vm)
-> -				drm_sched_increase_karma(&job->base);
-> -			return 0;
-> -		}
-
-This function in general will reset all devices in a hive.
-
-In a situation like GPU0 in hive0 gets to this function first and GPU1 
-in hive0 also hangs shortly (before GPU0 recovery process starts 
-reseting other devices in hive), we don't want to execute work queued as 
-part of GPU1's recovery also.Both GPU0 and GPU1 recovery process will 
-try to reset all the devices in hive.
-
-In short - if a reset domain is already active, probably we don't need 
-to queue another work to the domain since all devices in the domain are 
-expected to get reset shortly.
-
-Thanks,
-Lijo
-
-> +	if (hive)
->   		mutex_lock(&hive->hive_lock);
-> -	}
+> -	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached);
+> +	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached, 0);
+>   	if (ret < 0)
+>   		goto err_ttm_tt_init;
 >   
->   	reset_context.method = AMD_RESET_METHOD_NONE;
->   	reset_context.reset_req_dev = adev;
-> @@ -5227,7 +5211,6 @@ int amdgpu_device_gpu_recover_imp(struct amdgpu_device *adev,
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 84cae740b4a5..bb71aa6d66c0 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -16,6 +16,7 @@
+>   #include "gem/i915_gem_ttm.h"
+>   #include "gem/i915_gem_ttm_move.h"
+>   #include "gem/i915_gem_ttm_pm.h"
+> +#include "gt/intel_gpu_commands.h"
 >   
->   skip_recovery:
->   	if (hive) {
-> -		atomic_set(&hive->in_reset, 0);
->   		mutex_unlock(&hive->hive_lock);
->   		amdgpu_put_xgmi_hive(hive);
+>   #define I915_TTM_PRIO_PURGE     0
+>   #define I915_TTM_PRIO_NO_PAGES  1
+> @@ -242,12 +243,27 @@ static const struct i915_refct_sgt_ops tt_rsgt_ops = {
+>   	.release = i915_ttm_tt_release
+>   };
+>   
+> +static inline bool
+> +i915_gem_object_has_lmem_placement(struct drm_i915_gem_object *obj)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < obj->mm.n_placements; i++)
+> +		if (obj->mm.placements[i]->type == INTEL_MEMORY_LOCAL)
+> +			return true;
+> +
+> +	return false;
+> +}
+> +
+>   static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+>   					 uint32_t page_flags)
+>   {
+> +	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
+> +						     bdev);
+>   	struct ttm_resource_manager *man =
+>   		ttm_manager_type(bo->bdev, bo->resource->mem_type);
+>   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+> +	unsigned long ccs_pages_needed = 0;
+>   	enum ttm_caching caching;
+>   	struct i915_ttm_tt *i915_tt;
+>   	int ret;
+> @@ -270,7 +286,12 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+>   		i915_tt->is_shmem = true;
 >   	}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-> index a858e3457c5c..9ad742039ac9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-> @@ -404,7 +404,6 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
->   	INIT_LIST_HEAD(&hive->device_list);
->   	INIT_LIST_HEAD(&hive->node);
->   	mutex_init(&hive->hive_lock);
-> -	atomic_set(&hive->in_reset, 0);
->   	atomic_set(&hive->number_devices, 0);
->   	task_barrier_init(&hive->tb);
->   	hive->pstate = AMDGPU_XGMI_PSTATE_UNKNOWN;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
-> index 6121aaa292cb..2f2ce53645a5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
-> @@ -33,7 +33,6 @@ struct amdgpu_hive_info {
->   	struct list_head node;
->   	atomic_t number_devices;
->   	struct mutex hive_lock;
-> -	atomic_t in_reset;
->   	int hi_req_count;
->   	struct amdgpu_device *hi_req_gpu;
->   	struct task_barrier tb;
-> 
+>   
+> -	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching);
+> +	if (HAS_FLAT_CCS(i915) && i915_gem_object_has_lmem_placement(obj))
+> +		ccs_pages_needed = DIV_ROUND_UP(DIV_ROUND_UP(bo->base.size,
+> +					       NUM_CCS_BYTES_PER_BLOCK), PAGE_SIZE);
+> +
+> +	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags,
+> +			  caching, ccs_pages_needed);
+
+I am wondering if we should do this in the driver itself and pass 
+ttm->num_pages with CCS size included.
+
+
+Regards,
+
+Nirmoy
+
+
+>   	if (ret)
+>   		goto err_free;
+>   
+> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+> index b2e33d5ba5d0..52156b54498f 100644
+> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
+> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+> @@ -113,7 +113,7 @@ static struct ttm_tt *qxl_ttm_tt_create(struct ttm_buffer_object *bo,
+>   	ttm = kzalloc(sizeof(struct ttm_tt), GFP_KERNEL);
+>   	if (ttm == NULL)
+>   		return NULL;
+> -	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached)) {
+> +	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached, 0)) {
+>   		kfree(ttm);
+>   		return NULL;
+>   	}
+> diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
+> index 6ddc16f0fe2b..d27691f2e451 100644
+> --- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
+> +++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
+> @@ -134,7 +134,7 @@ struct ttm_tt *ttm_agp_tt_create(struct ttm_buffer_object *bo,
+>   	agp_be->mem = NULL;
+>   	agp_be->bridge = bridge;
+>   
+> -	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined)) {
+> +	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined, 0)) {
+>   		kfree(agp_be);
+>   		return NULL;
+>   	}
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 79c870a3bef8..80355465f717 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -134,9 +134,10 @@ void ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
+>   static void ttm_tt_init_fields(struct ttm_tt *ttm,
+>   			       struct ttm_buffer_object *bo,
+>   			       uint32_t page_flags,
+> -			       enum ttm_caching caching)
+> +			       enum ttm_caching caching,
+> +			       unsigned long ccs_pages)
+>   {
+> -	ttm->num_pages = PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT;
+> +	ttm->num_pages = (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + ccs_pages;
+>   	ttm->caching = ttm_cached;
+>   	ttm->page_flags = page_flags;
+>   	ttm->dma_address = NULL;
+> @@ -146,9 +147,10 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+>   }
+>   
+>   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+> -		uint32_t page_flags, enum ttm_caching caching)
+> +		uint32_t page_flags, enum ttm_caching caching,
+> +		unsigned long ccs_pages)
+>   {
+> -	ttm_tt_init_fields(ttm, bo, page_flags, caching);
+> +	ttm_tt_init_fields(ttm, bo, page_flags, caching, ccs_pages);
+>   
+>   	if (ttm_tt_alloc_page_directory(ttm)) {
+>   		pr_err("Failed allocating page table\n");
+> @@ -180,7 +182,7 @@ int ttm_sg_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+>   {
+>   	int ret;
+>   
+> -	ttm_tt_init_fields(ttm, bo, page_flags, caching);
+> +	ttm_tt_init_fields(ttm, bo, page_flags, caching, 0);
+>   
+>   	if (page_flags & TTM_TT_FLAG_EXTERNAL)
+>   		ret = ttm_sg_tt_alloc_page_directory(ttm);
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> index b84ecc6d6611..4e3938e62c08 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> @@ -517,7 +517,7 @@ static struct ttm_tt *vmw_ttm_tt_create(struct ttm_buffer_object *bo,
+>   				     ttm_cached);
+>   	else
+>   		ret = ttm_tt_init(&vmw_be->dma_ttm, bo, page_flags,
+> -				  ttm_cached);
+> +				  ttm_cached, 0);
+>   	if (unlikely(ret != 0))
+>   		goto out_no_init;
+>   
+> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+> index f20832139815..2c4ff08ea354 100644
+> --- a/include/drm/ttm/ttm_tt.h
+> +++ b/include/drm/ttm/ttm_tt.h
+> @@ -140,6 +140,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
+>    * @bo: The buffer object we create the ttm for.
+>    * @page_flags: Page flags as identified by TTM_TT_FLAG_XX flags.
+>    * @caching: the desired caching state of the pages
+> + * @ccs_pages_needed: Extra pages needed for the ccs data of compression.
+>    *
+>    * Create a struct ttm_tt to back data with system memory pages.
+>    * No pages are actually allocated.
+> @@ -147,7 +148,8 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
+>    * NULL: Out of memory.
+>    */
+>   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+> -		uint32_t page_flags, enum ttm_caching caching);
+> +		uint32_t page_flags, enum ttm_caching caching,
+> +		unsigned long ccs_pages_needed);
+>   int ttm_sg_tt_init(struct ttm_tt *ttm_dma, struct ttm_buffer_object *bo,
+>   		   uint32_t page_flags, enum ttm_caching caching);
+>   
