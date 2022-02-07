@@ -2,65 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461A04AB77D
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 10:31:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D004AB78A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 10:37:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5823310EDF9;
-	Mon,  7 Feb 2022 09:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4159C10E726;
+	Mon,  7 Feb 2022 09:37:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 135F510EDF9
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 09:31:04 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id s10so20972601wra.5
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 01:31:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=e71qr5cQmHNfaTvqFdZSatwMnOkMecpoZmeynQAfXfU=;
- b=IipD0Md8PLGqTRc8YbhUGW9RZUZYMQMHks4wT414D4MJkTvXaIaxCLgX7q7EqqZkkE
- RniraUcxZGQqnV/BLhI8fR3OhKUqDYUBLkiKkwsuJN/ZNCuhQa9etjVpPPbBQ9jyOrwx
- MGb+BBECiHqPAOCpL/b5+NFypnEjgPgL0Rb5qKUiTSwuyDcdtYMjQxjnCr4gVMsnv1db
- 4Li8Ccoityy3n7nCqgyhw562KdbA+9+AlCO3h6k33jebIUk0d7GU1cLOM5H73yN+w4Xf
- YMhAHQA5StGpYsrAUVc3HUB89o5DXP0IdN5Syh15D5UZS0wH6QYVpbsbWtyqGxNwNZ4L
- OgFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=e71qr5cQmHNfaTvqFdZSatwMnOkMecpoZmeynQAfXfU=;
- b=PBRb3NbKDjX02Iu9OkxXmso0Q+EOxHs5Xww5UGMN0HR9R+xk1nN+5sRhaw5pjTKI4M
- OLts9fWRRPsjFVwKFJxMMzFT1BEu9coa7knAjsYi1tSxnIRFtkCM8QatvudbO6c1IrZb
- EvS4J2ILjNw70btgvAULAWbFe640lqzP1Dz2uNtGhK715SGc7Wt7sy7SMlUkFTUlTCjs
- lYI9c3mBQiznC+tOtORbof9KurvAn402xP49dGvAuo0S5Ir9L5el0JaOSECS7ZPFtM4i
- II8dLF8G94Oomf+HbVdR+jDtD8L9qNW5SeuFXU7SlUlyqDRxiTf+3vPiM7Yz8M4i0qZn
- gzWA==
-X-Gm-Message-State: AOAM532sRHdtuxPnByCJnSAc+NMVq4fmRl3GjYJR17cx2gcmLottiz1z
- d7oQuFcSSsCyiU4KO0m8kIiqpw==
-X-Google-Smtp-Source: ABdhPJxyfEhDPaQTrpIwF3s8f+P5EuB6O3syjtuhYC4gv/uXtG6GnEb8OsVA43hN5ymF4KDaQpvKuQ==
-X-Received: by 2002:a05:6000:385:: with SMTP id
- u5mr3350003wrf.105.1644226262555; 
- Mon, 07 Feb 2022 01:31:02 -0800 (PST)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
- [86.27.177.88])
- by smtp.gmail.com with ESMTPSA id n15sm10497806wrf.37.2022.02.07.01.31.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 01:31:01 -0800 (PST)
-Date: Mon, 7 Feb 2022 09:31:00 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH] backlight: pwm_bl: Avoid open coded arithmetic in memory
- allocation
-Message-ID: <YgDm1FWtlneMLCTS@google.com>
-References: <bd3d74acfa58d59f6f5f81fc5a9fb409edb8d747.1644046817.git.christophe.jaillet@wanadoo.fr>
- <20220207080128.xmvommcddjfgz7ey@pengutronix.de>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F174010E6F8;
+ Mon,  7 Feb 2022 09:37:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644226657; x=1675762657;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+WjNyMOTWcU+/oGaKHLdJ9BlsLdtIhU/yeC5ZfjQ0n0=;
+ b=jikDyqV7B2Dzd50npaL1InGQ0X1o0xefTWzsJxNAXOhKtS3ExguU3z/E
+ Q6DXxucY3dOc09AfMk/BZ2ukRv5a3ehE2La7f4YZoA7wrvg0ZlCdiGRAz
+ sSEbTwZS4p/O+oHhZ4HyYHWUjzdPOvz6W0a4GqKLSMfll7ycTNge6XO8F
+ dGJ0p4YJifLlOQ3QXCVVfiHo/gFVu7jesfNgsL4rhgLdBQskLduDxsCWM
+ +Cz5l3ejDT529mxtV6ES0z8sJn0hdtgqtVvqGEWrQNBrQNtruKYLK8RCe
+ 5oShDpSz3xakYPfu6NZCg1R4fIkjXmGGhXSmK9QgSxiOdBeM4t9cVs8Bm Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="273200178"
+X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; d="scan'208";a="273200178"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 01:37:36 -0800
+X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; d="scan'208";a="484360839"
+Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 01:37:34 -0800
+From: Ramalingam C <ramalingam.c@intel.com>
+To: dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
+Subject: [RFC 0/2] drm/i915/ttm: Evict and store of compressed object
+Date: Mon,  7 Feb 2022 15:07:41 +0530
+Message-Id: <20220207093743.14467-1-ramalingam.c@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220207080128.xmvommcddjfgz7ey@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,36 +54,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-fbdev@vger.kernel.org
+Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 07 Feb 2022, Uwe Kleine-König wrote:
+On flat-ccs capable platform we need to evict and resore the ccs data
+along with the corresponding main memory.
 
-> On Sat, Feb 05, 2022 at 08:40:48AM +0100, Christophe JAILLET wrote:
-> > kmalloc_array()/kcalloc() should be used to avoid potential overflow when
-> > a multiplication is needed to compute the size of the requested memory.
-> > 
-> > So turn a kzalloc()+explicit size computation into an equivalent kcalloc().
-> > 
-> > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> 
-> LGTM
-> 
-> Acked-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> 
-> Thanks
-> Uwe
+This ccs data can only be access through BLT engine through a special
+cmd ( )
 
-I am totally confused!
+To support above requirement of flat-ccs enabled i915 platforms this
+series adds new param called ccs_pages_needed to the ttm_tt_init(),
+to increase the ttm_tt->num_pages of system memory when the obj has the
+lmem placement possibility.
+
+This will be on top of the flat-ccs enabling series
+https://patchwork.freedesktop.org/series/95686/
+
+For more about flat-ccs feature please have a look at
+https://patchwork.freedesktop.org/patch/471777/?series=95686&rev=5
+
+Testing of the series is WIP and looking forward for the early review on
+the amendment to ttm_tt_init and the approach.
+
+Ramalingam C (2):
+  drm/i915/ttm: Add extra pages for handling ccs data
+  drm/i915/migrate: Evict and restore the ccs data
+
+ drivers/gpu/drm/drm_gem_vram_helper.c      |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  23 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.c    | 283 +++++++++++----------
+ drivers/gpu/drm/qxl/qxl_ttm.c              |   2 +-
+ drivers/gpu/drm/ttm/ttm_agp_backend.c      |   2 +-
+ drivers/gpu/drm/ttm/ttm_tt.c               |  12 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |   2 +-
+ include/drm/ttm/ttm_tt.h                   |   4 +-
+ 8 files changed, 191 insertions(+), 139 deletions(-)
 
 -- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.20.1
+
