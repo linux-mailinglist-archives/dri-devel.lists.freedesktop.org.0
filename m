@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CB44ACC14
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 23:34:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0304ACC16
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 23:34:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E78A10E23A;
-	Mon,  7 Feb 2022 22:34:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E89D810E24E;
+	Mon,  7 Feb 2022 22:34:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
- [IPv6:2607:f8b0:4864:20::d29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2879510E23A
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 22:34:27 +0000 (UTC)
-Received: by mail-io1-xd29.google.com with SMTP id c188so18871455iof.6
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 14:34:27 -0800 (PST)
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com
+ [IPv6:2607:f8b0:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02D0F10E24E
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 22:34:49 +0000 (UTC)
+Received: by mail-il1-x129.google.com with SMTP id f13so177563ilq.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 14:34:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=49K/FC0XgxvPLs02mphy+wvDgAB1sedLZp3jK1FmWWc=;
- b=CPIBKwKv/FwLg2yY0ZkogHcyqOJ6wXGdxtnuuT3KXumkKCCa4MBzSaFGOV8iguFlhV
- AuCW3nuq1WdCAGIVAr0+et1PxmlV3ge4N7sCdkSk73gECW4T5wZe/KPp/rM5K8TKCc9Y
- oOj0af7zPMRpqeDcjvQpUM87PAXyjfw9nhAzI=
+ :cc; bh=nI8I6k1huqpNpigUxEr6405hFZzG0kJQIV2x5bdsNIk=;
+ b=M7XU1yexhZPFZKXK/01M7HzlfcwSauRdTQChVlxQfWxDbV+r0YwtYs1KzoXsEKjLg0
+ n73GqGnoOVGCXUD0iD05axsECU423Dct+abiERXSuIM9dO03zQwxGO5HdEV5caUFzP8N
+ h9Zsok3/URP7tzamHG7/fS1a9+9Ao0QJcip/4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=49K/FC0XgxvPLs02mphy+wvDgAB1sedLZp3jK1FmWWc=;
- b=H+pfle34a3e8v61NvRJKw8Miaih34R/krjRh+2+z9CeM7zXhlrBI0nteZnwos3Wvvl
- dmdQDGhSZEqBuWhPOi9qQh1nczfGOSDuM4vMs7ZRHt3x14Rl5Ajz2JXEOlKcP9rrGs4p
- ixNyXFrByyWiW/T/8qUfMgLMxVUa049YdYWyVUL1fIXOvDPPtiHJ3vpfdX9S6X4y9Kps
- JGg06Ty19iaF++zBrz7TebUNX4KXN9Y7SwL63c1hbiy9XYyS/pKdMo1yKX/DJM6JvACC
- ggmh+YcqKldaqoGZIMMApLwdDc8B1AvumpAQ7XtcR6S7/hp6CQJBAjjcp/D0SQ43dHXU
- gY6w==
-X-Gm-Message-State: AOAM531B22EpFz1SaThZvYvR4I9kw/lNz91RBJ0K4iE4KEp1/IpYEyD2
- v0taayMO5qL9KxixnqqIoonT15iTODW5tA==
-X-Google-Smtp-Source: ABdhPJxOHwCRzClBRnDmzm6bqh0N59PZ89QzvgpeeI2/98GjhVlFhOdGE9otAvSg4yw+betqxLTG0A==
-X-Received: by 2002:a6b:3b8a:: with SMTP id i132mr781186ioa.85.1644273266153; 
- Mon, 07 Feb 2022 14:34:26 -0800 (PST)
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com.
- [209.85.166.47])
- by smtp.gmail.com with ESMTPSA id x19sm6974039iov.33.2022.02.07.14.34.23
+ bh=nI8I6k1huqpNpigUxEr6405hFZzG0kJQIV2x5bdsNIk=;
+ b=qIvc7M9qrcQkau81fwfrQ/0dpt6FLiLlmKKyLkmZnkJm+XeEuObZj1Pvo/ePe9zHhI
+ cpaJwt0XSimWVS5Txhe8Vb2VhiDnDsTgZ9St+sPY4REbifGQZpMg6UrIY4rS541DH1hq
+ HZ/KusmroEK0izgBi1z130eGPmyEerXq5Ys3r0/bSGKOLN2DkhfnruqTiIQr+b5hlCN1
+ z2dKt2X7JMGHN91srgyzYASG6Kri7jyCb/ZhtggpdTNztxWKuBpyS+9Z94iNZlR4Til4
+ m+qMOnINz+O8kAcWSgtmHjC8GzQJ7wmQpfWsx5RW4PitePgmW9Kwet6Ysl/kah0IReq/
+ lsDA==
+X-Gm-Message-State: AOAM531EECq3YM0HnqVEqi70qym9x5pV3xEbdFLKtDJ4knafcJJPHuQn
+ Flm7M4piYwxh0CZelbG43j7NZ/NE/R7NCA==
+X-Google-Smtp-Source: ABdhPJzJIWJhyQROGeoRtQGTXHCMO1Ftg9kmSN6KqaHQQZcMc7y71CB690d+TEYqCoL2Gw8QsN/ZTw==
+X-Received: by 2002:a05:6e02:1e04:: with SMTP id
+ g4mr821355ila.188.1644273289094; 
+ Mon, 07 Feb 2022 14:34:49 -0800 (PST)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com.
+ [209.85.166.51])
+ by smtp.gmail.com with ESMTPSA id r9sm1409693ilt.82.2022.02.07.14.34.47
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Feb 2022 14:34:24 -0800 (PST)
-Received: by mail-io1-f47.google.com with SMTP id 9so18930862iou.2
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 14:34:23 -0800 (PST)
-X-Received: by 2002:a02:cc8a:: with SMTP id s10mr805670jap.263.1644273263536; 
- Mon, 07 Feb 2022 14:34:23 -0800 (PST)
+ Mon, 07 Feb 2022 14:34:47 -0800 (PST)
+Received: by mail-io1-f51.google.com with SMTP id s18so18819273ioa.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 14:34:47 -0800 (PST)
+X-Received: by 2002:a05:6638:53a:: with SMTP id
+ j26mr856318jar.136.1644273286730; 
+ Mon, 07 Feb 2022 14:34:46 -0800 (PST)
 MIME-Version: 1.0
 References: <20220206154405.1243333-1-sam@ravnborg.org>
- <20220206154405.1243333-6-sam@ravnborg.org>
-In-Reply-To: <20220206154405.1243333-6-sam@ravnborg.org>
+ <20220206154405.1243333-7-sam@ravnborg.org>
+In-Reply-To: <20220206154405.1243333-7-sam@ravnborg.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 7 Feb 2022 14:34:10 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WW6HWLOD9AzTpjwva9UHY=AR+LABEWqJQznz6Nbb4sOw@mail.gmail.com>
-Message-ID: <CAD=FV=WW6HWLOD9AzTpjwva9UHY=AR+LABEWqJQznz6Nbb4sOw@mail.gmail.com>
-Subject: Re: [PATCH v1 5/9] drm/bridge: ti-sn65dsi86: Fetch bpc via
- drm_bridge_state
+Date: Mon, 7 Feb 2022 14:34:34 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Xhy__pDFM=t2bWAGkVthksXHSjfo9Oei3regqPdty12A@mail.gmail.com>
+Message-ID: <CAD=FV=Xhy__pDFM=t2bWAGkVthksXHSjfo9Oei3regqPdty12A@mail.gmail.com>
+Subject: Re: [PATCH v1 6/9] drm/bridge: ti-sn65dsi86: Add NO_CONNECTOR support
 To: Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,12 +87,21 @@ Hi,
 
 On Sun, Feb 6, 2022 at 7:44 AM Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> To prepare for DRM_BRIDGE_ATTACH_NO_CONNECTOR support,
-> fix so the bpc is found using the output format.
+> From: Rob Clark <robdclark@chromium.org>
 >
-> This avoids the use of the connector stored in the private data.
+> Slightly awkward to fish out the display_info when we aren't creating
+> own connector.  But I don't see an obvious better way.
 >
+> v3:
+>  - Rebased and dropped the ti_sn_bridge_get_bpp() patch
+>    as this was solved in a different way (Sam)
+>
+> v2:
+>  - Remove error return with NO_CONNECTOR flag (Rob)
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Rob Clark <robdclark@chromium.org>
 > Cc: Douglas Anderson <dianders@chromium.org>
 > Cc: Andrzej Hajda <a.hajda@samsung.com>
 > Cc: Neil Armstrong <narmstrong@baylibre.com>
@@ -100,75 +110,17 @@ On Sun, Feb 6, 2022 at 7:44 AM Sam Ravnborg <sam@ravnborg.org> wrote:
 > Cc: Jonas Karlman <jonas@kwiboo.se>
 > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index d681ab68205c..dc6ec40bc1ef 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -33,6 +33,7 @@
->  #include <drm/drm_panel.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
-> +#include <drm/media-bus-format.h>
->
->  #define SN_DEVICE_REV_REG                      0x08
->  #define SN_DPPLL_SRC_REG                       0x0A
-> @@ -823,9 +824,11 @@ static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
->         regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
->  }
->
-> -static unsigned int ti_sn_bridge_get_bpp(struct ti_sn65dsi86 *pdata)
-> +static unsigned int ti_sn_bridge_get_bpp(struct drm_bridge_state *bridge_state)
->  {
-> -       if (pdata->connector.display_info.bpc <= 6)
-> +       int bpc = media_bus_format_to_bpc(bridge_state->output_bus_cfg.format);
-> +
-> +       if (bpc <= 6)
->                 return 18;
->         else
->                 return 24;
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 20 +++++++++-----------
+>  1 file changed, 9 insertions(+), 11 deletions(-)
 
-Unfortunately this doesn't work as hoped. :(
-`bridge_state->output_bus_cfg.format` is 0 in my testing...
+This is fine by me assuming we can fix the previous patches.
 
-...and then media_bus_format_to_bpc() returns an error, which is
-negative and <= 6. That's not super ideal...
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-I guess this gets down to what the output bus format is _supposed_ to
-be for eDP. Based on my understanding of eDP there isn't really a
-concept of a fixed "bus format" that the panel ought to work at. There
-is a concept of the number of bits per component (6, 8, 10, 12) that a
-panel can run at but then after that I believe the format is standard,
-or at least it's something that's dynamic / negotiated. Also note that
-the format on the bus is more related to the current mode we're
-running the panel in than some inherent property of the panel. For
-instance, a 10 bpc panel can likely have data provided in 8 bpc and 6
-bpc. I've also seen 6 bpc panels that can accept 8 bpc data and can
-dither it. In any case, this type of stuff is really all dynamic for
-eDP. The old value we were looking at was really being interpreted as
-the "max" bpc that the panel could run in and we'd choose to run the
-panel in 8 bpc if the panel supported it and 6 bpc otherwise (this
-bridge chip only supports 6bpc or 8bpc).
+NOTE: to me, this isn't something to do _instead_ of my patch [1] but
+_in addition_ to it. ${SUBJECT} patch transitions us to a more modern
+approach of having the connector created elsewhere but doesn't remove
+the old fallback code. Might as well clean the fallback code up unless
+you think it's going to simply be deleted right away or something?
 
-So I guess the question is: how do we move forward here?
-
-Do we need to somehow figure out how to get "output_bus_cfg.format"
-filled in? Any suggestions for how to do that? Do we just implement
-atomic_get_output_bus_fmts() and then pick one of
-MEDIA_BUS_FMT_RGB666_1X18 or MEDIA_BUS_FMT_RBG888_1X24 based on the
-bpc in the connector state? ...or do we just list both of them and
-something magically will pick the right one? Hrm, I tried that and it
-didn't magically work, but I didn't debug further...
-
-One thing I realized is that, at least in theory, we might not know
-whether we want to run in 6 bpc or 8 bpc until we've done link
-training. It's at least somewhat plausible that there could be edge
-cases where we'd want to fall back to the low bpc if link training
-failed at the higher bpc. The driver doesn't support that right now,
-but ideally the design wouldn't preclude it. At the moment link
-training happens in enable. Maybe that's a problem to worry about
-another day, though?
-
--Doug
+[1] https://lore.kernel.org/r/20220204161245.v2.1.I3ab26b7f197cc56c874246a43e57913e9c2c1028@changeid
