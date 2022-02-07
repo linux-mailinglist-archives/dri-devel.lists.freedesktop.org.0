@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66D74AC3CB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 16:34:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2364AC3BB
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 16:33:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09A6F112472;
-	Mon,  7 Feb 2022 15:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F91E112471;
+	Mon,  7 Feb 2022 15:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C472112465
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 15:34:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644248083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5WIO5n6+3jqzKnCirxzx86dJnJZyXVHjiDs7Tj6xNnY=;
- b=DYrFdqE5DqHnWsAGMpYpUuLAD2Xxv0AUvjP50LloLQfxwgkChU5MI7FVSb+wvmPD+ewp6V
- NYRJJp6FVfhVkDv2HRrpxrUGN/fHHW1wTQSFK43JTnvhyYOgwmfBrzBqBcItRXhbkAdjVp
- 2v82nyxtKC3VeStcby714gXqGO1S2CI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-JpLtitjQOiWSR0ljzuCs7g-1; Mon, 07 Feb 2022 10:34:40 -0500
-X-MC-Unique: JpLtitjQOiWSR0ljzuCs7g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1648B85EE60;
- Mon,  7 Feb 2022 15:34:37 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.192.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 475ED5E495;
- Mon,  7 Feb 2022 15:34:29 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: kvm@vger.kernel.org
-Subject: [PATCH 30/30] KVM: x86: get rid of KVM_REQ_GET_NESTED_STATE_PAGES
-Date: Mon,  7 Feb 2022 17:28:47 +0200
-Message-Id: <20220207152847.836777-31-mlevitsk@redhat.com>
-In-Reply-To: <20220207152847.836777-1-mlevitsk@redhat.com>
-References: <20220207152847.836777-1-mlevitsk@redhat.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88FC7112465;
+ Mon,  7 Feb 2022 15:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644248016; x=1675784016;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=E2ZJyoWnOrNw0CyH9w3cujIWDOeDpZFfTrzxKlYe794=;
+ b=Govq2mAgoXN2NJootQ4To49sAAMmQDqOPbFFrgCxTE4pNV5yW+oRThqO
+ v+JqBumPpB6YA5ONR3Vlrwm7d9FrJ4esHcRL00XIjtIJXdOfIfj6lP66I
+ QR+85kNCmwxM0u2Ixm3pSAvvtan1ycNIv4eSmSRh3u5BCieay25zvfGTy
+ V2wG83m7vM21asD+gDexPsAHMtB/o/6kfq75reHDkSzHhpFG+JpM8E9jF
+ FX6YwARjN+c6gVgDCFr0k7cY84Tvbh5SQ165tWARU0zgDcZJMvVv3OW7H
+ sTfQzwLAdJG63sfy2hDd4unmBFisL8X6IwWV/V8Hb57SKv0Ilehr2NZMg w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="236141548"
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="236141548"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 07:33:35 -0800
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="525171212"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.203.144.108])
+ by orsmga007-auth.jf.intel.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 07:33:34 -0800
+Date: Mon, 7 Feb 2022 21:03:42 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: "Hellstrom, Thomas" <thomas.hellstrom@intel.com>
+Subject: Re: [RFC 2/2] drm/i915/migrate: Evict and restore the ccs data
+Message-ID: <20220207153342.GC15175@intel.com>
+References: <20220207093743.14467-1-ramalingam.c@intel.com>
+ <20220207093743.14467-3-ramalingam.c@intel.com>
+ <99824fde33f84f92679a39eb605d948e12e4ae6b.camel@intel.com>
+ <20220207151448.GB15175@intel.com>
+ <261dbdf7a49d1d66748da2be81a3b495475b1118.camel@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <261dbdf7a49d1d66748da2be81a3b495475b1118.camel@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,435 +60,532 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>,
- Wanpeng Li <wanpengli@tencent.com>, David Airlie <airlied@linux.ie>,
- "Chang S. Bae" <chang.seok.bae@intel.com>,
- "maintainer:X86 ARCHITECTURE 32-BIT AND 64-BIT" <x86@kernel.org>,
- "open list:X86 ARCHITECTURE 32-BIT AND 64-BIT" <linux-kernel@vger.kernel.org>,
- Maxim Levitsky <mlevitsk@redhat.com>, Tony Luck <tony.luck@intel.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Brijesh Singh <brijesh.singh@amd.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Jim Mattson <jmattson@google.com>,
- "open list:INTEL GVT-g DRIVERS Intel GPU Virtualization"
- <intel-gvt-dev@lists.freedesktop.org>,
- "open list:INTEL DRM DRIVERS excluding Poulsbo, Moorestow..., 
- Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
- Daniel Vetter <daniel@ffwll.ch>, \"H. Peter Anvin\" <hpa@zytor.com>,
- Ingo Molnar <mingo@redhat.com>, Sean Christopherson <seanjc@google.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>" <intel-gfx@lists.freedesktop.org>,
- Zhi Wang <zhi.a.wang@intel.com>, Kan Liang <kan.liang@linux.intel.com>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As it turned out this request isn't really needed,
-and it complicates the nested migration.
+On 2022-02-07 at 20:52:33 +0530, Hellstrom, Thomas wrote:
+> On Mon, 2022-02-07 at 20:44 +0530, Ramalingam C wrote:
+> > On 2022-02-07 at 20:25:42 +0530, Hellstrom, Thomas wrote:
+> > > Hi, Ram,
+> > >
+> > > A couple of quick questions before starting a more detailed review:
+> > >
+> > > 1) Does this also support migrating of compressed data LMEM->LMEM?
+> > > What-about inter-tile?
+> > Honestly this series mainly facused on eviction of lmem into smem and
+> > restoration of same.
+> >
+> > To cover migration, we need to handle this differently from eviction.
+> > Becasue when we migrate the compressed content we need to be able to
+> > use
+> > that from that new placement. can't keep the ccs data separately.
+> >
+> > Migration of lmem->smem needs decompression incorportated.
+> > Migration of lmem_m->lmem_n needs to maintain the
+> > compressed/decompressed state as it is.
+> >
+> > So we need to pass the information upto emit_copy to differentiate
+> > eviction and migration
+> >
+> > If you dont have objection I would like to take the migration once we
+> > have the eviction of lmem in place.
+> 
+> Sure NP. I was thinking that in the final solution we might also need
+> to think about the possibility that we might evict to another lmem
+> region, although I figure that won't be enabled until we support multi-
+> tile.
 
-In theory this patch can break userspace if
-userspace relies on updating KVM's memslots
-after setting nested state but there is little reason
-for it to rely on this.
+Yes we need it for multi tile enablement of XeHPSDV.
+> 
+> >
+> > >
+> > > 2) Do we need to block faulting of compressed data in the fault
+> > > handler
+> > > as a follow-up patch?
+> >
+> > In case of evicted compressed data we dont need to treat it
+> > differently
+> > from the evicted normal data. So I dont think this needs a special
+> > treatment. Sorry if i dont understand your question.
+> 
+> My question wasn't directly related to eviction actually, but does
+> user-space need to have mmap access to compressed data? If not, block
+> it?
 
-However this is undocumented and there is a good chance
-that no userspace relies on this, thus
-just try to remove this code.
+We shouldn't mmap the ccs data. As per my understanding we should be
+mmaping the obj size which doesn't count the ttm_tt inflated size.
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- arch/x86/include/asm/kvm_host.h |  5 +-
- arch/x86/kvm/hyperv.c           |  4 ++
- arch/x86/kvm/svm/nested.c       | 50 ++++-------------
- arch/x86/kvm/svm/svm.c          |  2 +-
- arch/x86/kvm/svm/svm.h          |  2 +-
- arch/x86/kvm/vmx/nested.c       | 99 +++++++++------------------------
- arch/x86/kvm/x86.c              |  6 --
- 7 files changed, 45 insertions(+), 123 deletions(-)
+I will verify this part and if needed will prepare a change to exclude
+increased pages from mmap range.
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 446ee29e6cc99..fc2d5628ad930 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -92,7 +92,6 @@
- #define KVM_REQ_HV_EXIT			KVM_ARCH_REQ(21)
- #define KVM_REQ_HV_STIMER		KVM_ARCH_REQ(22)
- #define KVM_REQ_LOAD_EOI_EXITMAP	KVM_ARCH_REQ(23)
--#define KVM_REQ_GET_NESTED_STATE_PAGES	KVM_ARCH_REQ(24)
- #define KVM_REQ_APICV_UPDATE \
- 	KVM_ARCH_REQ_FLAGS(25, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
- #define KVM_REQ_TLB_FLUSH_CURRENT	KVM_ARCH_REQ(26)
-@@ -1519,12 +1518,14 @@ struct kvm_x86_nested_ops {
- 	int (*set_state)(struct kvm_vcpu *vcpu,
- 			 struct kvm_nested_state __user *user_kvm_nested_state,
- 			 struct kvm_nested_state *kvm_state);
--	bool (*get_nested_state_pages)(struct kvm_vcpu *vcpu);
- 	int (*write_log_dirty)(struct kvm_vcpu *vcpu, gpa_t l2_gpa);
- 
- 	int (*enable_evmcs)(struct kvm_vcpu *vcpu,
- 			    uint16_t *vmcs_version);
- 	uint16_t (*get_evmcs_version)(struct kvm_vcpu *vcpu);
-+
-+	bool (*get_evmcs_page)(struct kvm_vcpu *vcpu);
-+
- };
- 
- struct kvm_x86_init_ops {
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index dac41784f2b87..d297d102c0910 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -1497,6 +1497,10 @@ static int kvm_hv_set_msr(struct kvm_vcpu *vcpu, u32 msr, u64 data, bool host)
- 					    gfn_to_gpa(gfn) | KVM_MSR_ENABLED,
- 					    sizeof(struct hv_vp_assist_page)))
- 			return 1;
-+
-+		if (host && kvm_x86_ops.nested_ops->get_evmcs_page)
-+			if (!kvm_x86_ops.nested_ops->get_evmcs_page(vcpu))
-+				return 1;
- 		break;
- 	}
- 	case HV_X64_MSR_EOI:
-diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
-index a426d4d3dcd82..ac813ad83d784 100644
---- a/arch/x86/kvm/svm/nested.c
-+++ b/arch/x86/kvm/svm/nested.c
-@@ -670,7 +670,7 @@ static void nested_svm_copy_common_state(struct vmcb *from_vmcb, struct vmcb *to
- }
- 
- int enter_svm_guest_mode(struct kvm_vcpu *vcpu, u64 vmcb12_gpa,
--			 struct vmcb *vmcb12, bool from_vmrun)
-+			 struct vmcb *vmcb12)
- {
- 	struct vcpu_svm *svm = to_svm(vcpu);
- 	int ret;
-@@ -700,15 +700,13 @@ int enter_svm_guest_mode(struct kvm_vcpu *vcpu, u64 vmcb12_gpa,
- 	nested_vmcb02_prepare_save(svm, vmcb12);
- 
- 	ret = nested_svm_load_cr3(&svm->vcpu, svm->nested.save.cr3,
--				  nested_npt_enabled(svm), from_vmrun);
-+				  nested_npt_enabled(svm), true);
- 	if (ret)
- 		return ret;
- 
- 	if (!npt_enabled)
- 		vcpu->arch.mmu->inject_page_fault = svm_inject_page_fault_nested;
- 
--	if (!from_vmrun)
--		kvm_make_request(KVM_REQ_GET_NESTED_STATE_PAGES, vcpu);
- 
- 	svm_set_gif(svm, true);
- 
-@@ -779,7 +777,7 @@ int nested_svm_vmrun(struct kvm_vcpu *vcpu)
- 
- 	svm->nested.nested_run_pending = 1;
- 
--	if (enter_svm_guest_mode(vcpu, vmcb12_gpa, vmcb12, true))
-+	if (enter_svm_guest_mode(vcpu, vmcb12_gpa, vmcb12))
- 		goto out_exit_err;
- 
- 	if (nested_svm_vmrun_msrpm(svm))
-@@ -863,8 +861,6 @@ int nested_svm_vmexit(struct vcpu_svm *svm)
- 	svm->nested.vmcb12_gpa = 0;
- 	WARN_ON_ONCE(svm->nested.nested_run_pending);
- 
--	kvm_clear_request(KVM_REQ_GET_NESTED_STATE_PAGES, vcpu);
--
- 	/* in case we halted in L2 */
- 	svm->vcpu.arch.mp_state = KVM_MP_STATE_RUNNABLE;
- 
-@@ -1069,8 +1065,6 @@ void svm_leave_nested(struct kvm_vcpu *vcpu)
- 		nested_svm_uninit_mmu_context(vcpu);
- 		vmcb_mark_all_dirty(svm->vmcb);
- 	}
--
--	kvm_clear_request(KVM_REQ_GET_NESTED_STATE_PAGES, vcpu);
- }
- 
- static int nested_svm_exit_handled_msr(struct vcpu_svm *svm)
-@@ -1562,53 +1556,31 @@ static int svm_set_nested_state(struct kvm_vcpu *vcpu,
- 	 */
- 
- 	ret = nested_svm_load_cr3(&svm->vcpu, vcpu->arch.cr3,
--				  nested_npt_enabled(svm), false);
-+				  nested_npt_enabled(svm), !vcpu->arch.pdptrs_from_userspace);
- 	if (WARN_ON_ONCE(ret))
- 		goto out_free;
- 
- 
--	kvm_make_request(KVM_REQ_GET_NESTED_STATE_PAGES, vcpu);
--	ret = 0;
--out_free:
--	kfree(save);
--	kfree(ctl);
--
--	return ret;
--}
--
--static bool svm_get_nested_state_pages(struct kvm_vcpu *vcpu)
--{
--	struct vcpu_svm *svm = to_svm(vcpu);
--
--	if (WARN_ON(!is_guest_mode(vcpu)))
--		return true;
--
--	if (!vcpu->arch.pdptrs_from_userspace &&
--	    !nested_npt_enabled(svm) && is_pae_paging(vcpu))
--		/*
--		 * Reload the guest's PDPTRs since after a migration
--		 * the guest CR3 might be restored prior to setting the nested
--		 * state which can lead to a load of wrong PDPTRs.
--		 */
--		if (CC(!load_pdptrs(vcpu, vcpu->arch.cr3)))
--			return false;
--
- 	if (!nested_svm_vmrun_msrpm(svm)) {
- 		vcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;
- 		vcpu->run->internal.suberror =
- 			KVM_INTERNAL_ERROR_EMULATION;
- 		vcpu->run->internal.ndata = 0;
--		return false;
-+		goto out_free;
- 	}
- 
--	return true;
-+	ret = 0;
-+out_free:
-+	kfree(save);
-+	kfree(ctl);
-+	return ret;
- }
- 
-+
- struct kvm_x86_nested_ops svm_nested_ops = {
- 	.leave_nested = svm_leave_nested,
- 	.check_events = svm_check_nested_events,
- 	.triple_fault = nested_svm_triple_fault,
--	.get_nested_state_pages = svm_get_nested_state_pages,
- 	.get_state = svm_get_nested_state,
- 	.set_state = svm_set_nested_state,
- };
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index afa4116ea938c..6d6421e0cadcd 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -4498,7 +4498,7 @@ static int svm_leave_smm(struct kvm_vcpu *vcpu, const char *smstate)
- 	vmcb12 = map.hva;
- 	nested_copy_vmcb_control_to_cache(svm, &vmcb12->control);
- 	nested_copy_vmcb_save_to_cache(svm, &vmcb12->save);
--	ret = enter_svm_guest_mode(vcpu, vmcb12_gpa, vmcb12, false);
-+	ret = enter_svm_guest_mode(vcpu, vmcb12_gpa, vmcb12);
- 
- 	if (ret)
- 		goto unmap_save;
-diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
-index dd3671d77258b..e2eb91851e922 100644
---- a/arch/x86/kvm/svm/svm.h
-+++ b/arch/x86/kvm/svm/svm.h
-@@ -551,7 +551,7 @@ static inline bool nested_exit_on_nmi(struct vcpu_svm *svm)
- }
- 
- int enter_svm_guest_mode(struct kvm_vcpu *vcpu,
--			 u64 vmcb_gpa, struct vmcb *vmcb12, bool from_vmrun);
-+			 u64 vmcb_gpa, struct vmcb *vmcb12);
- void svm_leave_nested(struct kvm_vcpu *vcpu);
- void svm_free_nested(struct vcpu_svm *svm);
- int svm_allocate_nested(struct vcpu_svm *svm);
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index e89b32b1d9efb..19331f742662d 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -294,8 +294,6 @@ static void free_nested(struct kvm_vcpu *vcpu)
- 	if (!vmx->nested.vmxon && !vmx->nested.smm.vmxon)
- 		return;
- 
--	kvm_clear_request(KVM_REQ_GET_NESTED_STATE_PAGES, vcpu);
--
- 	vmx->nested.vmxon = false;
- 	vmx->nested.smm.vmxon = false;
- 	vmx->nested.vmxon_ptr = INVALID_GPA;
-@@ -2593,7 +2591,8 @@ static int prepare_vmcs02(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12,
- 
- 	/* Shadow page tables on either EPT or shadow page tables. */
- 	if (nested_vmx_load_cr3(vcpu, vmcs12->guest_cr3, nested_cpu_has_ept(vmcs12),
--				from_vmentry, entry_failure_code))
-+				from_vmentry || !vcpu->arch.pdptrs_from_userspace,
-+				entry_failure_code))
- 		return -EINVAL;
- 
- 	/*
-@@ -3125,7 +3124,7 @@ static int nested_vmx_check_vmentry_hw(struct kvm_vcpu *vcpu)
- 	return 0;
- }
- 
--static bool nested_get_evmcs_page(struct kvm_vcpu *vcpu)
-+bool nested_get_evmcs_page(struct kvm_vcpu *vcpu)
- {
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
- 
-@@ -3161,18 +3160,6 @@ static bool nested_get_vmcs12_pages(struct kvm_vcpu *vcpu)
- 	struct page *page;
- 	u64 hpa;
- 
--	if (!vcpu->arch.pdptrs_from_userspace &&
--	    !nested_cpu_has_ept(vmcs12) && is_pae_paging(vcpu)) {
--		/*
--		 * Reload the guest's PDPTRs since after a migration
--		 * the guest CR3 might be restored prior to setting the nested
--		 * state which can lead to a load of wrong PDPTRs.
--		 */
--		if (CC(!load_pdptrs(vcpu, vcpu->arch.cr3)))
--			return false;
--	}
--
--
- 	if (nested_cpu_has2(vmcs12, SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES)) {
- 		/*
- 		 * Translate L1 physical address to host physical
-@@ -3254,25 +3241,6 @@ static bool nested_get_vmcs12_pages(struct kvm_vcpu *vcpu)
- 	return true;
- }
- 
--static bool vmx_get_nested_state_pages(struct kvm_vcpu *vcpu)
--{
--	if (!nested_get_evmcs_page(vcpu)) {
--		pr_debug_ratelimited("%s: enlightened vmptrld failed\n",
--				     __func__);
--		vcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;
--		vcpu->run->internal.suberror =
--			KVM_INTERNAL_ERROR_EMULATION;
--		vcpu->run->internal.ndata = 0;
--
--		return false;
--	}
--
--	if (is_guest_mode(vcpu) && !nested_get_vmcs12_pages(vcpu))
--		return false;
--
--	return true;
--}
--
- static int nested_vmx_write_pml_buffer(struct kvm_vcpu *vcpu, gpa_t gpa)
- {
- 	struct vmcs12 *vmcs12;
-@@ -3402,12 +3370,12 @@ enum nvmx_vmentry_status nested_vmx_enter_non_root_mode(struct kvm_vcpu *vcpu,
- 
- 	prepare_vmcs02_early(vmx, &vmx->vmcs01, vmcs12);
- 
--	if (from_vmentry) {
--		if (unlikely(!nested_get_vmcs12_pages(vcpu))) {
--			vmx_switch_vmcs(vcpu, &vmx->vmcs01);
--			return NVMX_VMENTRY_KVM_INTERNAL_ERROR;
--		}
-+	if (unlikely(!nested_get_vmcs12_pages(vcpu))) {
-+		vmx_switch_vmcs(vcpu, &vmx->vmcs01);
-+		return NVMX_VMENTRY_KVM_INTERNAL_ERROR;
-+	}
- 
-+	if (from_vmentry) {
- 		if (nested_vmx_check_vmentry_hw(vcpu)) {
- 			vmx_switch_vmcs(vcpu, &vmx->vmcs01);
- 			return NVMX_VMENTRY_VMFAIL;
-@@ -3429,24 +3397,14 @@ enum nvmx_vmentry_status nested_vmx_enter_non_root_mode(struct kvm_vcpu *vcpu,
- 		goto vmentry_fail_vmexit_guest_mode;
- 	}
- 
--	if (from_vmentry) {
--		failed_index = nested_vmx_load_msr(vcpu,
--						   vmcs12->vm_entry_msr_load_addr,
--						   vmcs12->vm_entry_msr_load_count);
--		if (failed_index) {
--			exit_reason.basic = EXIT_REASON_MSR_LOAD_FAIL;
--			vmcs12->exit_qualification = failed_index;
--			goto vmentry_fail_vmexit_guest_mode;
--		}
--	} else {
--		/*
--		 * The MMU is not initialized to point at the right entities yet and
--		 * "get pages" would need to read data from the guest (i.e. we will
--		 * need to perform gpa to hpa translation). Request a call
--		 * to nested_get_vmcs12_pages before the next VM-entry.  The MSRs
--		 * have already been set at vmentry time and should not be reset.
--		 */
--		kvm_make_request(KVM_REQ_GET_NESTED_STATE_PAGES, vcpu);
-+
-+	failed_index = nested_vmx_load_msr(vcpu,
-+					   vmcs12->vm_entry_msr_load_addr,
-+					   vmcs12->vm_entry_msr_load_count);
-+	if (failed_index) {
-+		exit_reason.basic = EXIT_REASON_MSR_LOAD_FAIL;
-+		vmcs12->exit_qualification = failed_index;
-+		goto vmentry_fail_vmexit_guest_mode;
- 	}
- 
- 	/*
-@@ -4516,16 +4474,6 @@ void nested_vmx_vmexit(struct kvm_vcpu *vcpu, u32 vm_exit_reason,
- 	/* Similarly, triple faults in L2 should never escape. */
- 	WARN_ON_ONCE(kvm_check_request(KVM_REQ_TRIPLE_FAULT, vcpu));
- 
--	if (kvm_check_request(KVM_REQ_GET_NESTED_STATE_PAGES, vcpu)) {
--		/*
--		 * KVM_REQ_GET_NESTED_STATE_PAGES is also used to map
--		 * Enlightened VMCS after migration and we still need to
--		 * do that when something is forcing L2->L1 exit prior to
--		 * the first L2 run.
--		 */
--		(void)nested_get_evmcs_page(vcpu);
--	}
--
- 	/* Service pending TLB flush requests for L2 before switching to L1. */
- 	kvm_service_local_tlb_flush_requests(vcpu);
- 
-@@ -6382,14 +6330,17 @@ static int vmx_set_nested_state(struct kvm_vcpu *vcpu,
- 
- 		set_current_vmptr(vmx, kvm_state->hdr.vmx.vmcs12_pa);
- 	} else if (kvm_state->flags & KVM_STATE_NESTED_EVMCS) {
-+
-+		vmx->nested.hv_evmcs_vmptr = EVMPTR_MAP_PENDING;
-+
- 		/*
- 		 * nested_vmx_handle_enlightened_vmptrld() cannot be called
--		 * directly from here as HV_X64_MSR_VP_ASSIST_PAGE may not be
--		 * restored yet. EVMCS will be mapped from
--		 * nested_get_vmcs12_pages().
-+		 * directly from here if HV_X64_MSR_VP_ASSIST_PAGE is not
-+		 * restored yet. EVMCS will be mapped when it is.
- 		 */
--		vmx->nested.hv_evmcs_vmptr = EVMPTR_MAP_PENDING;
--		kvm_make_request(KVM_REQ_GET_NESTED_STATE_PAGES, vcpu);
-+		if (kvm_hv_assist_page_enabled(vcpu))
-+			nested_get_evmcs_page(vcpu);
-+
- 	} else {
- 		return -EINVAL;
- 	}
-@@ -6811,8 +6762,8 @@ struct kvm_x86_nested_ops vmx_nested_ops = {
- 	.triple_fault = nested_vmx_triple_fault,
- 	.get_state = vmx_get_nested_state,
- 	.set_state = vmx_set_nested_state,
--	.get_nested_state_pages = vmx_get_nested_state_pages,
- 	.write_log_dirty = nested_vmx_write_pml_buffer,
- 	.enable_evmcs = nested_enable_evmcs,
- 	.get_evmcs_version = nested_get_evmcs_version,
-+	.get_evmcs_page = nested_get_evmcs_page,
- };
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 0ee2fbb068b17..48dd01fd7a1ec 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -9897,12 +9897,6 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
- 			r = -EIO;
- 			goto out;
- 		}
--		if (kvm_check_request(KVM_REQ_GET_NESTED_STATE_PAGES, vcpu)) {
--			if (unlikely(!kvm_x86_ops.nested_ops->get_nested_state_pages(vcpu))) {
--				r = 0;
--				goto out;
--			}
--		}
- 		if (kvm_check_request(KVM_REQ_MMU_RELOAD, vcpu))
- 			kvm_mmu_unload(vcpu);
- 		if (kvm_check_request(KVM_REQ_MIGRATE_TIMER, vcpu))
--- 
-2.26.3
-
+Ram.
+> 
+> Thanks,
+> Thomas
+> 
+> 
+> 
+> >
+> > Ram
+> > >
+> > > /Thomas
+> > >
+> > >
+> > > On Mon, 2022-02-07 at 15:07 +0530, Ramalingam C wrote:
+> > > > When we are swapping out the local memory obj on flat-ccs capable
+> > > > platform,
+> > > > we need to capture the ccs data too along with main meory and we
+> > > > need
+> > > > to
+> > > > restore it when we are swapping in the content.
+> > > >
+> > > > Extracting and restoring the CCS data is done through a special
+> > > > cmd
+> > > > called
+> > > > XY_CTRL_SURF_COPY_BLT
+> > > >
+> > > > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> > > > ---
+> > > >  drivers/gpu/drm/i915/gt/intel_migrate.c | 283 +++++++++++++-----
+> > > > ----
+> > > > --
+> > > >  1 file changed, 155 insertions(+), 128 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> > > > b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> > > > index 5bdab0b3c735..e60ae6ff1847 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> > > > @@ -449,14 +449,146 @@ static bool wa_1209644611_applies(int ver,
+> > > > u32
+> > > > size)
+> > > >         return height % 4 == 3 && height <= 8;
+> > > >  }
+> > > >
+> > > > +/**
+> > > > + * DOC: Flat-CCS - Memory compression for Local memory
+> > > > + *
+> > > > + * On Xe-HP and later devices, we use dedicated compression
+> > > > control
+> > > > state (CCS)
+> > > > + * stored in local memory for each surface, to support the 3D
+> > > > and
+> > > > media
+> > > > + * compression formats.
+> > > > + *
+> > > > + * The memory required for the CCS of the entire local memory is
+> > > > 1/256 of the
+> > > > + * local memory size. So before the kernel boot, the required
+> > > > memory
+> > > > is reserved
+> > > > + * for the CCS data and a secure register will be programmed
+> > > > with
+> > > > the CCS base
+> > > > + * address.
+> > > > + *
+> > > > + * Flat CCS data needs to be cleared when a lmem object is
+> > > > allocated.
+> > > > + * And CCS data can be copied in and out of CCS region through
+> > > > + * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data
+> > > > directly.
+> > > > + *
+> > > > + * When we exaust the lmem, if the object's placements support
+> > > > smem,
+> > > > then we can
+> > > > + * directly decompress the compressed lmem object into smem and
+> > > > start using it
+> > > > + * from smem itself.
+> > > > + *
+> > > > + * But when we need to swapout the compressed lmem object into a
+> > > > smem region
+> > > > + * though objects' placement doesn't support smem, then we copy
+> > > > the
+> > > > lmem content
+> > > > + * as it is into smem region along with ccs data (using
+> > > > XY_CTRL_SURF_COPY_BLT).
+> > > > + * When the object is referred, lmem content will be swaped in
+> > > > along
+> > > > with
+> > > > + * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at
+> > > > corresponding
+> > > > + * location.
+> > > > + *
+> > > > + *
+> > > > + * Flat-CCS Modifiers for different compression formats
+> > > > + * ----------------------------------------------------
+> > > > + *
+> > > > + * I915_FORMAT_MOD_F_TILED_DG2_RC_CCS - used to indicate the
+> > > > buffers
+> > > > of Flat CCS
+> > > > + * render compression formats. Though the general layout is same
+> > > > as
+> > > > + * I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS, new hashing/compression
+> > > > algorithm is
+> > > > + * used. Render compression uses 128 byte compression blocks
+> > > > + *
+> > > > + * I915_FORMAT_MOD_F_TILED_DG2_MC_CCS -used to indicate the
+> > > > buffers
+> > > > of Flat CCS
+> > > > + * media compression formats. Though the general layout is same
+> > > > as
+> > > > + * I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS, new hashing/compression
+> > > > algorithm is
+> > > > + * used. Media compression uses 256 byte compression blocks.
+> > > > + *
+> > > > + * I915_FORMAT_MOD_F_TILED_DG2_RC_CCS_CC - used to indicate the
+> > > > buffers of Flat
+> > > > + * CCS clear color render compression formats. Unified
+> > > > compression
+> > > > format for
+> > > > + * clear color render compression. The genral layout is a tiled
+> > > > layout using
+> > > > + * 4Kb tiles i.e Tile4 layout.
+> > > > + */
+> > > > +
+> > > > +static inline u32 *i915_flush_dw(u32 *cmd, u64 dst, u32 flags)
+> > > > +{
+> > > > +       /* Mask the 3 LSB to use the PPGTT address space */
+> > > > +       *cmd++ = MI_FLUSH_DW | flags;
+> > > > +       *cmd++ = lower_32_bits(dst);
+> > > > +       *cmd++ = upper_32_bits(dst);
+> > > > +
+> > > > +       return cmd;
+> > > > +}
+> > > > +
+> > > > +static u32 calc_ctrl_surf_instr_size(struct drm_i915_private
+> > > > *i915,
+> > > > int size)
+> > > > +{
+> > > > +       u32 num_cmds, num_blks, total_size;
+> > > > +
+> > > > +       if (!GET_CCS_SIZE(i915, size))
+> > > > +               return 0;
+> > > > +
+> > > > +       /*
+> > > > +        * XY_CTRL_SURF_COPY_BLT transfers CCS in 256 byte
+> > > > +        * blocks. one XY_CTRL_SURF_COPY_BLT command can
+> > > > +        * trnasfer upto 1024 blocks.
+> > > > +        */
+> > > > +       num_blks = GET_CCS_SIZE(i915, size);
+> > > > +       num_cmds = (num_blks + (NUM_CCS_BLKS_PER_XFER - 1)) >>
+> > > > 10;
+> > > > +       total_size = (XY_CTRL_SURF_INSTR_SIZE) * num_cmds;
+> > > > +
+> > > > +       /*
+> > > > +        * We need to add a flush before and after
+> > > > +        * XY_CTRL_SURF_COPY_BLT
+> > > > +        */
+> > > > +       total_size += 2 * MI_FLUSH_DW_SIZE;
+> > > > +       return total_size;
+> > > > +}
+> > > > +
+> > > > +static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64
+> > > > dst_addr,
+> > > > +                                    u8 src_mem_access, u8
+> > > > dst_mem_access,
+> > > > +                                    int src_mocs, int dst_mocs,
+> > > > +                                    u16 num_ccs_blocks)
+> > > > +{
+> > > > +       int i = num_ccs_blocks;
+> > > > +
+> > > > +       /*
+> > > > +        * The XY_CTRL_SURF_COPY_BLT instruction is used to copy
+> > > > the
+> > > > CCS
+> > > > +        * data in and out of the CCS region.
+> > > > +        *
+> > > > +        * We can copy at most 1024 blocks of 256 bytes using one
+> > > > +        * XY_CTRL_SURF_COPY_BLT instruction.
+> > > > +        *
+> > > > +        * In case we need to copy more than 1024 blocks, we need
+> > > > to
+> > > > add
+> > > > +        * another instruction to the same batch buffer.
+> > > > +        *
+> > > > +        * 1024 blocks of 256 bytes of CCS represent a total
+> > > > 256KB of
+> > > > CCS.
+> > > > +        *
+> > > > +        * 256 KB of CCS represents 256 * 256 KB = 64 MB of LMEM.
+> > > > +        */
+> > > > +       do {
+> > > > +               /*
+> > > > +                * We use logical AND with 1023 since the size
+> > > > field
+> > > > +                * takes values which is in the range of 0 - 1023
+> > > > +                */
+> > > > +               *cmd++ = ((XY_CTRL_SURF_COPY_BLT) |
+> > > > +                         (src_mem_access <<
+> > > > SRC_ACCESS_TYPE_SHIFT) |
+> > > > +                         (dst_mem_access <<
+> > > > DST_ACCESS_TYPE_SHIFT) |
+> > > > +                         (((i - 1) & 1023) << CCS_SIZE_SHIFT));
+> > > > +               *cmd++ = lower_32_bits(src_addr);
+> > > > +               *cmd++ = ((upper_32_bits(src_addr) & 0xFFFF) |
+> > > > +                         (src_mocs << XY_CTRL_SURF_MOCS_SHIFT));
+> > > > +               *cmd++ = lower_32_bits(dst_addr);
+> > > > +               *cmd++ = ((upper_32_bits(dst_addr) & 0xFFFF) |
+> > > > +                         (dst_mocs << XY_CTRL_SURF_MOCS_SHIFT));
+> > > > +               src_addr += SZ_64M;
+> > > > +               dst_addr += SZ_64M;
+> > > > +               i -= NUM_CCS_BLKS_PER_XFER;
+> > > > +       } while (i > 0);
+> > > > +
+> > > > +       return cmd;
+> > > > +}
+> > > > +
+> > > >  static int emit_copy(struct i915_request *rq,
+> > > > -                    u32 dst_offset, u32 src_offset, int size)
+> > > > +                    bool dst_is_lmem, u32 dst_offset,
+> > > > +                    bool src_is_lmem, u32 src_offset, int size)
+> > > >  {
+> > > > +       struct drm_i915_private *i915 = rq->engine->i915;
+> > > >         const int ver = GRAPHICS_VER(rq->engine->i915);
+> > > >         u32 instance = rq->engine->instance;
+> > > > +       u32 num_ccs_blks, ccs_ring_size;
+> > > > +       u8 src_access, dst_access;
+> > > >         u32 *cs;
+> > > >
+> > > > -       cs = intel_ring_begin(rq, ver >= 8 ? 10 : 6);
+> > > > +       ccs_ring_size = ((src_is_lmem || dst_is_lmem) &&
+> > > > HAS_FLAT_CCS(i915)) ?
+> > > > +                        calc_ctrl_surf_instr_size(i915, size) :
+> > > > 0;
+> > > > +
+> > > > +       cs = intel_ring_begin(rq, ver >= 8 ? 10 + ccs_ring_size :
+> > > > 6);
+> > > >         if (IS_ERR(cs))
+> > > >                 return PTR_ERR(cs);
+> > > >
+> > > > @@ -492,6 +624,25 @@ static int emit_copy(struct i915_request
+> > > > *rq,
+> > > >                 *cs++ = src_offset;
+> > > >         }
+> > > >
+> > > > +       if (ccs_ring_size) {
+> > > > +               /* TODO: Migration needs to be handled with
+> > > > resolve
+> > > > of compressed data */
+> > > > +               num_ccs_blks = (GET_CCS_SIZE(i915, size) +
+> > > > +                               NUM_CCS_BYTES_PER_BLOCK - 1) >>
+> > > > 8;
+> > > > +
+> > > > +               src_access = !src_is_lmem && dst_is_lmem;
+> > > > +               dst_access = !src_access;
+> > > > +
+> > > > +               if (src_access) /* Swapin of compressed data */
+> > > > +                       src_offset += size;
+> > > > +               else
+> > > > +                       dst_offset += size;
+> > > > +
+> > > > +               cs = _i915_ctrl_surf_copy_blt(cs, src_offset,
+> > > > dst_offset,
+> > > > +                                             src_access,
+> > > > dst_access,
+> > > > +                                             1, 1,
+> > > > num_ccs_blks);
+> > > > +               cs = i915_flush_dw(cs, dst_offset, MI_FLUSH_LLC |
+> > > > MI_FLUSH_CCS);
+> > > > +       }
+> > > > +
+> > > >         intel_ring_advance(rq, cs);
+> > > >         return 0;
+> > > >  }
+> > > > @@ -578,7 +729,8 @@ intel_context_migrate_copy(struct
+> > > > intel_context
+> > > > *ce,
+> > > >                 if (err)
+> > > >                         goto out_rq;
+> > > >
+> > > > -               err = emit_copy(rq, dst_offset, src_offset, len);
+> > > > +               err = emit_copy(rq, dst_is_lmem, dst_offset,
+> > > > +                               src_is_lmem, src_offset, len);
+> > > >
+> > > >                 /* Arbitration is re-enabled between requests. */
+> > > >  out_rq:
+> > > > @@ -596,131 +748,6 @@ intel_context_migrate_copy(struct
+> > > > intel_context
+> > > > *ce,
+> > > >         return err;
+> > > >  }
+> > > >
+> > > > -/**
+> > > > - * DOC: Flat-CCS - Memory compression for Local memory
+> > > > - *
+> > > > - * On Xe-HP and later devices, we use dedicated compression
+> > > > control
+> > > > state (CCS)
+> > > > - * stored in local memory for each surface, to support the 3D
+> > > > and
+> > > > media
+> > > > - * compression formats.
+> > > > - *
+> > > > - * The memory required for the CCS of the entire local memory is
+> > > > 1/256 of the
+> > > > - * local memory size. So before the kernel boot, the required
+> > > > memory
+> > > > is reserved
+> > > > - * for the CCS data and a secure register will be programmed
+> > > > with
+> > > > the CCS base
+> > > > - * address.
+> > > > - *
+> > > > - * Flat CCS data needs to be cleared when a lmem object is
+> > > > allocated.
+> > > > - * And CCS data can be copied in and out of CCS region through
+> > > > - * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data
+> > > > directly.
+> > > > - *
+> > > > - * When we exaust the lmem, if the object's placements support
+> > > > smem,
+> > > > then we can
+> > > > - * directly decompress the compressed lmem object into smem and
+> > > > start using it
+> > > > - * from smem itself.
+> > > > - *
+> > > > - * But when we need to swapout the compressed lmem object into a
+> > > > smem region
+> > > > - * though objects' placement doesn't support smem, then we copy
+> > > > the
+> > > > lmem content
+> > > > - * as it is into smem region along with ccs data (using
+> > > > XY_CTRL_SURF_COPY_BLT).
+> > > > - * When the object is referred, lmem content will be swaped in
+> > > > along
+> > > > with
+> > > > - * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at
+> > > > corresponding
+> > > > - * location.
+> > > > - *
+> > > > - *
+> > > > - * Flat-CCS Modifiers for different compression formats
+> > > > - * ----------------------------------------------------
+> > > > - *
+> > > > - * I915_FORMAT_MOD_F_TILED_DG2_RC_CCS - used to indicate the
+> > > > buffers
+> > > > of Flat CCS
+> > > > - * render compression formats. Though the general layout is same
+> > > > as
+> > > > - * I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS, new hashing/compression
+> > > > algorithm is
+> > > > - * used. Render compression uses 128 byte compression blocks
+> > > > - *
+> > > > - * I915_FORMAT_MOD_F_TILED_DG2_MC_CCS -used to indicate the
+> > > > buffers
+> > > > of Flat CCS
+> > > > - * media compression formats. Though the general layout is same
+> > > > as
+> > > > - * I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS, new hashing/compression
+> > > > algorithm is
+> > > > - * used. Media compression uses 256 byte compression blocks.
+> > > > - *
+> > > > - * I915_FORMAT_MOD_F_TILED_DG2_RC_CCS_CC - used to indicate the
+> > > > buffers of Flat
+> > > > - * CCS clear color render compression formats. Unified
+> > > > compression
+> > > > format for
+> > > > - * clear color render compression. The genral layout is a tiled
+> > > > layout using
+> > > > - * 4Kb tiles i.e Tile4 layout.
+> > > > - */
+> > > > -
+> > > > -static inline u32 *i915_flush_dw(u32 *cmd, u64 dst, u32 flags)
+> > > > -{
+> > > > -       /* Mask the 3 LSB to use the PPGTT address space */
+> > > > -       *cmd++ = MI_FLUSH_DW | flags;
+> > > > -       *cmd++ = lower_32_bits(dst);
+> > > > -       *cmd++ = upper_32_bits(dst);
+> > > > -
+> > > > -       return cmd;
+> > > > -}
+> > > > -
+> > > > -static u32 calc_ctrl_surf_instr_size(struct drm_i915_private
+> > > > *i915,
+> > > > int size)
+> > > > -{
+> > > > -       u32 num_cmds, num_blks, total_size;
+> > > > -
+> > > > -       if (!GET_CCS_SIZE(i915, size))
+> > > > -               return 0;
+> > > > -
+> > > > -       /*
+> > > > -        * XY_CTRL_SURF_COPY_BLT transfers CCS in 256 byte
+> > > > -        * blocks. one XY_CTRL_SURF_COPY_BLT command can
+> > > > -        * trnasfer upto 1024 blocks.
+> > > > -        */
+> > > > -       num_blks = GET_CCS_SIZE(i915, size);
+> > > > -       num_cmds = (num_blks + (NUM_CCS_BLKS_PER_XFER - 1)) >>
+> > > > 10;
+> > > > -       total_size = (XY_CTRL_SURF_INSTR_SIZE) * num_cmds;
+> > > > -
+> > > > -       /*
+> > > > -        * We need to add a flush before and after
+> > > > -        * XY_CTRL_SURF_COPY_BLT
+> > > > -        */
+> > > > -       total_size += 2 * MI_FLUSH_DW_SIZE;
+> > > > -       return total_size;
+> > > > -}
+> > > > -
+> > > > -static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64
+> > > > dst_addr,
+> > > > -                                    u8 src_mem_access, u8
+> > > > dst_mem_access,
+> > > > -                                    int src_mocs, int dst_mocs,
+> > > > -                                    u16 num_ccs_blocks)
+> > > > -{
+> > > > -       int i = num_ccs_blocks;
+> > > > -
+> > > > -       /*
+> > > > -        * The XY_CTRL_SURF_COPY_BLT instruction is used to copy
+> > > > the
+> > > > CCS
+> > > > -        * data in and out of the CCS region.
+> > > > -        *
+> > > > -        * We can copy at most 1024 blocks of 256 bytes using one
+> > > > -        * XY_CTRL_SURF_COPY_BLT instruction.
+> > > > -        *
+> > > > -        * In case we need to copy more than 1024 blocks, we need
+> > > > to
+> > > > add
+> > > > -        * another instruction to the same batch buffer.
+> > > > -        *
+> > > > -        * 1024 blocks of 256 bytes of CCS represent a total
+> > > > 256KB of
+> > > > CCS.
+> > > > -        *
+> > > > -        * 256 KB of CCS represents 256 * 256 KB = 64 MB of LMEM.
+> > > > -        */
+> > > > -       do {
+> > > > -               /*
+> > > > -                * We use logical AND with 1023 since the size
+> > > > field
+> > > > -                * takes values which is in the range of 0 - 1023
+> > > > -                */
+> > > > -               *cmd++ = ((XY_CTRL_SURF_COPY_BLT) |
+> > > > -                         (src_mem_access <<
+> > > > SRC_ACCESS_TYPE_SHIFT) |
+> > > > -                         (dst_mem_access <<
+> > > > DST_ACCESS_TYPE_SHIFT) |
+> > > > -                         (((i - 1) & 1023) << CCS_SIZE_SHIFT));
+> > > > -               *cmd++ = lower_32_bits(src_addr);
+> > > > -               *cmd++ = ((upper_32_bits(src_addr) & 0xFFFF) |
+> > > > -                         (src_mocs << XY_CTRL_SURF_MOCS_SHIFT));
+> > > > -               *cmd++ = lower_32_bits(dst_addr);
+> > > > -               *cmd++ = ((upper_32_bits(dst_addr) & 0xFFFF) |
+> > > > -                         (dst_mocs << XY_CTRL_SURF_MOCS_SHIFT));
+> > > > -               src_addr += SZ_64M;
+> > > > -               dst_addr += SZ_64M;
+> > > > -               i -= NUM_CCS_BLKS_PER_XFER;
+> > > > -       } while (i > 0);
+> > > > -
+> > > > -       return cmd;
+> > > > -}
+> > > > -
+> > > >  static int emit_clear(struct i915_request *rq,
+> > > >                       u64 offset,
+> > > >                       int size,
+> > >
+> 
