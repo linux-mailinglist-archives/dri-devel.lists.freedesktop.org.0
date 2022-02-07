@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1D44AC34B
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 16:29:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F9BC4AC34D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 16:29:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E428210E37A;
-	Mon,  7 Feb 2022 15:29:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C37D510E87A;
+	Mon,  7 Feb 2022 15:29:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC5E10E2A8
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 15:29:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCD7910E6B8
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 15:29:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644247755;
+ s=mimecast20190719; t=1644247759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EQ3ltiA1zD8GMi+gBPOuvalM+7bzpftE5TYI4/s1Kfw=;
- b=dVTJYxno/NYspxnnBMEzTXsoQ+To4p1/2Il/8iE/DfzExKmRJWqIM8tH9nDaJ6yNBZzSts
- 5htINDndEGdFz4WTcpMAimqSoZoU+7w8DwJ7m50g9sWcoRP44K7/3xCVSGOCQKIgUgxW1P
- U8+DlP4iqDZPkvLmekJQ4fQ2eY9lqBA=
+ bh=ZWkaPZigKR8ZVYYpYKUmXEITXI5Ito7CWFDFszKolT0=;
+ b=OossA3NuOzdxv0fIgilC/NcvtzLoNQ824eOm3PtDbj9IpVSeSA6uvd0mUGIS+AhJ55SBaC
+ VS1c8FvWbErVUEoUTLQFD/DmVa8N/s7cEST+f3BZJGm+h7gkbct6amvQ6qCYzSBDSc8akZ
+ a+NUd0RPpENh+ecapiiPu5l1Em9INQ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-110-A-kc9TDVMy6FspJpOB3tRw-1; Mon, 07 Feb 2022 10:29:11 -0500
-X-MC-Unique: A-kc9TDVMy6FspJpOB3tRw-1
+ us-mta-2-X643oSf_OgSyyqZjBs80qQ-1; Mon, 07 Feb 2022 10:29:18 -0500
+X-MC-Unique: X643oSf_OgSyyqZjBs80qQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 607DC8710F8;
- Mon,  7 Feb 2022 15:29:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 931A61091DA0;
+ Mon,  7 Feb 2022 15:29:15 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.192.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C86B84D38;
- Mon,  7 Feb 2022 15:28:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CCEA384A2C;
+ Mon,  7 Feb 2022 15:29:07 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: kvm@vger.kernel.org
-Subject: [PATCH 01/30] KVM: x86: SVM: don't passthrough SMAP/SMEP/PKE bits in
- !NPT && !gCR0.PG case
-Date: Mon,  7 Feb 2022 17:28:18 +0200
-Message-Id: <20220207152847.836777-2-mlevitsk@redhat.com>
+Subject: [PATCH 02/30] KVM: x86: nSVM: fix potential NULL derefernce on nested
+ migration
+Date: Mon,  7 Feb 2022 17:28:19 +0200
+Message-Id: <20220207152847.836777-3-mlevitsk@redhat.com>
 In-Reply-To: <20220207152847.836777-1-mlevitsk@redhat.com>
 References: <20220207152847.836777-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -84,74 +84,68 @@ Cc: Dave Hansen <dave.hansen@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the guest doesn't enable paging, and NPT/EPT is disabled, we
-use guest't paging CR3's as KVM's shadow paging pointer and
-we are technically in direct mode as if we were to use NPT/EPT.
+Turns out that due to review feedback and/or rebases
+I accidentally moved the call to nested_svm_load_cr3 to be too early,
+before the NPT is enabled, which is very wrong to do.
 
-In direct mode we create SPTEs with user mode permissions
-because usually in the direct mode the NPT/EPT doesn't
-need to restrict access based on guest CPL
-(there are MBE/GMET extenstions for that but KVM doesn't use them).
+KVM can't even access guest memory at that point as nested NPT
+is needed for that, and of course it won't initialize the walk_mmu,
+which is main issue the patch was addressing.
 
-In this special "use guest paging as direct" mode however,
-and if CR4.SMAP/CR4.SMEP are enabled, that will make the CPU
-fault on each access and KVM will enter endless loop of page faults.
+Fix this for real.
 
-Since page protection doesn't have any meaning in !PG case,
-just don't passthrough these bits.
-
-The fix is the same as was done for VMX in commit:
-commit 656ec4a4928a ("KVM: VMX: fix SMEP and SMAP without EPT")
-
-This fixes the boot of windows 10 without NPT for good.
-(Without this patch, BSP boots, but APs were stuck in endless
-loop of page faults, causing the VM boot with 1 CPU)
+Fixes: 232f75d3b4b5 ("KVM: nSVM: call nested_svm_load_cr3 on nested state load")
+Cc: stable@vger.kernel.org
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Cc: stable@vger.kernel.org
 ---
- arch/x86/kvm/svm/svm.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ arch/x86/kvm/svm/nested.c | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index 975be872cd1a3..995c203a62fd9 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -1596,6 +1596,7 @@ void svm_set_cr0(struct kvm_vcpu *vcpu, unsigned long cr0)
- {
- 	struct vcpu_svm *svm = to_svm(vcpu);
- 	u64 hcr0 = cr0;
-+	bool old_paging = is_paging(vcpu);
+diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
+index 1218b5a342fc8..39d280e7e80ef 100644
+--- a/arch/x86/kvm/svm/nested.c
++++ b/arch/x86/kvm/svm/nested.c
+@@ -1457,18 +1457,6 @@ static int svm_set_nested_state(struct kvm_vcpu *vcpu,
+ 	    !__nested_vmcb_check_save(vcpu, &save_cached))
+ 		goto out_free;
  
- #ifdef CONFIG_X86_64
- 	if (vcpu->arch.efer & EFER_LME && !vcpu->arch.guest_state_protected) {
-@@ -1612,8 +1613,11 @@ void svm_set_cr0(struct kvm_vcpu *vcpu, unsigned long cr0)
- #endif
- 	vcpu->arch.cr0 = cr0;
- 
--	if (!npt_enabled)
-+	if (!npt_enabled) {
- 		hcr0 |= X86_CR0_PG | X86_CR0_WP;
-+		if (old_paging != is_paging(vcpu))
-+			svm_set_cr4(vcpu, kvm_read_cr4(vcpu));
-+	}
+-	/*
+-	 * While the nested guest CR3 is already checked and set by
+-	 * KVM_SET_SREGS, it was set when nested state was yet loaded,
+-	 * thus MMU might not be initialized correctly.
+-	 * Set it again to fix this.
+-	 */
+-
+-	ret = nested_svm_load_cr3(&svm->vcpu, vcpu->arch.cr3,
+-				  nested_npt_enabled(svm), false);
+-	if (WARN_ON_ONCE(ret))
+-		goto out_free;
+-
  
  	/*
- 	 * re-enable caching here because the QEMU bios
-@@ -1657,8 +1661,12 @@ void svm_set_cr4(struct kvm_vcpu *vcpu, unsigned long cr4)
- 		svm_flush_tlb_current(vcpu);
+ 	 * All checks done, we can enter guest mode. Userspace provides
+@@ -1494,6 +1482,20 @@ static int svm_set_nested_state(struct kvm_vcpu *vcpu,
  
- 	vcpu->arch.cr4 = cr4;
--	if (!npt_enabled)
-+	if (!npt_enabled) {
- 		cr4 |= X86_CR4_PAE;
+ 	svm_switch_vmcb(svm, &svm->nested.vmcb02);
+ 	nested_vmcb02_prepare_control(svm);
 +
-+		if (!is_paging(vcpu))
-+			cr4 &= ~(X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_PKE);
-+	}
- 	cr4 |= host_cr4_mce;
- 	to_svm(vcpu)->vmcb->save.cr4 = cr4;
- 	vmcb_mark_dirty(to_svm(vcpu)->vmcb, VMCB_CR);
++	/*
++	 * While the nested guest CR3 is already checked and set by
++	 * KVM_SET_SREGS, it was set when nested state was yet loaded,
++	 * thus MMU might not be initialized correctly.
++	 * Set it again to fix this.
++	 */
++
++	ret = nested_svm_load_cr3(&svm->vcpu, vcpu->arch.cr3,
++				  nested_npt_enabled(svm), false);
++	if (WARN_ON_ONCE(ret))
++		goto out_free;
++
++
+ 	kvm_make_request(KVM_REQ_GET_NESTED_STATE_PAGES, vcpu);
+ 	ret = 0;
+ out_free:
 -- 
 2.26.3
 
