@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2ADB4AB78B
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 10:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D6F4AB78E
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 10:37:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87BC910F6AA;
-	Mon,  7 Feb 2022 09:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 490E210F6B9;
+	Mon,  7 Feb 2022 09:37:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAEB810F6AB;
- Mon,  7 Feb 2022 09:37:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D63010F6B7;
+ Mon,  7 Feb 2022 09:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644226658; x=1675762658;
+ t=1644226661; x=1675762661;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=A+kIHQG77dLJHf3DahtYowP52zTRA8sPIPDXIffRYbU=;
- b=aLerU6Qxo2J2faakeoyYxXRtpT+jNcIWuOI2ZE+X+3HOArtBvXy/aNfT
- jmkGAAdB0AEhWAXFD1GIy99P2r8whj+a7JrygpQN6YivBRJe0A4N1pWCd
- U+f+EyzKED+F/NalgMCQkOkQCYOKk1O6dDvHDB67CDjSI1qEo/fO9ZghT
- QI2eXmFG50BSs8KnHq65QtpufkvOzgmygpeoX/KSzm7b7CnZJun8f5Aw5
- zjOThcWjfAsLpR1/k8EiJ5DcTtiuZTn7TjXvjQSX45sdS8WnAobNQQ9he
- S84N5K7xgVpapQz+iYz0WGTAaWdywkHqm0pikp1CqsrWj2gssbgKb9Mhp Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="273200179"
-X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; d="scan'208";a="273200179"
+ bh=BE9Xr86GfvlPKb4HzfB/e1vh416aMq08g81SHhODJjE=;
+ b=VdF4Q3lDdtEDCBZ4kVg6Ku1n+WEXC9hXR8k91x/h/vZkbbfZ/cGucuNZ
+ L1jHHNSmKDoG8CQgAWl7XsK+Yac24529vp1ypmidNYB9yx3p8H/okAJw4
+ DK+3CXBB8C/UHrEsbdNYe/UZXjVkdA1RkB1fQjunPwSUe9Rv8hHAldS8m
+ RzRRz8PiTFAgnnYm8plYUNStNApsDi5uexfmwMsol/32KOIQOU27g3s2M
+ 3Nn8oeawFtpuaXNkSDm53SPVhEdtd8vndhNQNcRBnVGfYL9ZfGLiiAzwv
+ jQDs5tbhDtnSS/yRzK9FS74ZxXCi2GwpBTiV9OUsnN9iUGSjyXgEWXQBp A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="273200183"
+X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; d="scan'208";a="273200183"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 01:37:38 -0800
-X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; d="scan'208";a="484360845"
+ 07 Feb 2022 01:37:40 -0800
+X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; d="scan'208";a="484360854"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 01:37:36 -0800
+ 07 Feb 2022 01:37:38 -0800
 From: Ramalingam C <ramalingam.c@intel.com>
 To: dri-devel <dri-devel@lists.freedesktop.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>
-Subject: [RFC 1/2] drm/i915/ttm: Add extra pages for handling ccs data
-Date: Mon,  7 Feb 2022 15:07:42 +0530
-Message-Id: <20220207093743.14467-2-ramalingam.c@intel.com>
+Subject: [RFC 2/2] drm/i915/migrate: Evict and restore the ccs data
+Date: Mon,  7 Feb 2022 15:07:43 +0530
+Message-Id: <20220207093743.14467-3-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220207093743.14467-1-ramalingam.c@intel.com>
 References: <20220207093743.14467-1-ramalingam.c@intel.com>
@@ -61,192 +61,339 @@ Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While evicting the local memory data on flat-ccs capable platform we
-need to evict the ccs data associated to the data. For this, we are
-adding extra pages ((size / 256) >> PAGE_SIZE) into the ttm_tt.
+When we are swapping out the local memory obj on flat-ccs capable platform,
+we need to capture the ccs data too along with main meory and we need to
+restore it when we are swapping in the content.
 
-To achieve this we are adding a new param into the ttm_tt_init as
-ccs_pages_needed, which will be added into the ttm_tt->num_pages.
+Extracting and restoring the CCS data is done through a special cmd called
+XY_CTRL_SURF_COPY_BLT
 
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Suggested-by: Thomas Hellstorm <thomas.hellstrom@intel.com>
 ---
- drivers/gpu/drm/drm_gem_vram_helper.c      |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 23 +++++++++++++++++++++-
- drivers/gpu/drm/qxl/qxl_ttm.c              |  2 +-
- drivers/gpu/drm/ttm/ttm_agp_backend.c      |  2 +-
- drivers/gpu/drm/ttm/ttm_tt.c               | 12 ++++++-----
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
- include/drm/ttm/ttm_tt.h                   |  4 +++-
- 7 files changed, 36 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 283 +++++++++++++-----------
+ 1 file changed, 155 insertions(+), 128 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 3f00192215d1..eef1f4dc7232 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -864,7 +864,7 @@ static struct ttm_tt *bo_driver_ttm_tt_create(struct ttm_buffer_object *bo,
- 	if (!tt)
- 		return NULL;
- 
--	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached);
-+	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached, 0);
- 	if (ret < 0)
- 		goto err_ttm_tt_init;
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 84cae740b4a5..bb71aa6d66c0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -16,6 +16,7 @@
- #include "gem/i915_gem_ttm.h"
- #include "gem/i915_gem_ttm_move.h"
- #include "gem/i915_gem_ttm_pm.h"
-+#include "gt/intel_gpu_commands.h"
- 
- #define I915_TTM_PRIO_PURGE     0
- #define I915_TTM_PRIO_NO_PAGES  1
-@@ -242,12 +243,27 @@ static const struct i915_refct_sgt_ops tt_rsgt_ops = {
- 	.release = i915_ttm_tt_release
- };
- 
-+static inline bool
-+i915_gem_object_has_lmem_placement(struct drm_i915_gem_object *obj)
-+{
-+	int i;
-+
-+	for (i = 0; i < obj->mm.n_placements; i++)
-+		if (obj->mm.placements[i]->type == INTEL_MEMORY_LOCAL)
-+			return true;
-+
-+	return false;
-+}
-+
- static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
- 					 uint32_t page_flags)
- {
-+	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
-+						     bdev);
- 	struct ttm_resource_manager *man =
- 		ttm_manager_type(bo->bdev, bo->resource->mem_type);
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-+	unsigned long ccs_pages_needed = 0;
- 	enum ttm_caching caching;
- 	struct i915_ttm_tt *i915_tt;
- 	int ret;
-@@ -270,7 +286,12 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
- 		i915_tt->is_shmem = true;
- 	}
- 
--	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching);
-+	if (HAS_FLAT_CCS(i915) && i915_gem_object_has_lmem_placement(obj))
-+		ccs_pages_needed = DIV_ROUND_UP(DIV_ROUND_UP(bo->base.size,
-+					       NUM_CCS_BYTES_PER_BLOCK), PAGE_SIZE);
-+
-+	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags,
-+			  caching, ccs_pages_needed);
- 	if (ret)
- 		goto err_free;
- 
-diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-index b2e33d5ba5d0..52156b54498f 100644
---- a/drivers/gpu/drm/qxl/qxl_ttm.c
-+++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-@@ -113,7 +113,7 @@ static struct ttm_tt *qxl_ttm_tt_create(struct ttm_buffer_object *bo,
- 	ttm = kzalloc(sizeof(struct ttm_tt), GFP_KERNEL);
- 	if (ttm == NULL)
- 		return NULL;
--	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached)) {
-+	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached, 0)) {
- 		kfree(ttm);
- 		return NULL;
- 	}
-diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-index 6ddc16f0fe2b..d27691f2e451 100644
---- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
-+++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-@@ -134,7 +134,7 @@ struct ttm_tt *ttm_agp_tt_create(struct ttm_buffer_object *bo,
- 	agp_be->mem = NULL;
- 	agp_be->bridge = bridge;
- 
--	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined)) {
-+	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined, 0)) {
- 		kfree(agp_be);
- 		return NULL;
- 	}
-diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-index 79c870a3bef8..80355465f717 100644
---- a/drivers/gpu/drm/ttm/ttm_tt.c
-+++ b/drivers/gpu/drm/ttm/ttm_tt.c
-@@ -134,9 +134,10 @@ void ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
- static void ttm_tt_init_fields(struct ttm_tt *ttm,
- 			       struct ttm_buffer_object *bo,
- 			       uint32_t page_flags,
--			       enum ttm_caching caching)
-+			       enum ttm_caching caching,
-+			       unsigned long ccs_pages)
- {
--	ttm->num_pages = PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT;
-+	ttm->num_pages = (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + ccs_pages;
- 	ttm->caching = ttm_cached;
- 	ttm->page_flags = page_flags;
- 	ttm->dma_address = NULL;
-@@ -146,9 +147,10 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+index 5bdab0b3c735..e60ae6ff1847 100644
+--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
++++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+@@ -449,14 +449,146 @@ static bool wa_1209644611_applies(int ver, u32 size)
+ 	return height % 4 == 3 && height <= 8;
  }
  
- int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
--		uint32_t page_flags, enum ttm_caching caching)
-+		uint32_t page_flags, enum ttm_caching caching,
-+		unsigned long ccs_pages)
++/**
++ * DOC: Flat-CCS - Memory compression for Local memory
++ *
++ * On Xe-HP and later devices, we use dedicated compression control state (CCS)
++ * stored in local memory for each surface, to support the 3D and media
++ * compression formats.
++ *
++ * The memory required for the CCS of the entire local memory is 1/256 of the
++ * local memory size. So before the kernel boot, the required memory is reserved
++ * for the CCS data and a secure register will be programmed with the CCS base
++ * address.
++ *
++ * Flat CCS data needs to be cleared when a lmem object is allocated.
++ * And CCS data can be copied in and out of CCS region through
++ * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data directly.
++ *
++ * When we exaust the lmem, if the object's placements support smem, then we can
++ * directly decompress the compressed lmem object into smem and start using it
++ * from smem itself.
++ *
++ * But when we need to swapout the compressed lmem object into a smem region
++ * though objects' placement doesn't support smem, then we copy the lmem content
++ * as it is into smem region along with ccs data (using XY_CTRL_SURF_COPY_BLT).
++ * When the object is referred, lmem content will be swaped in along with
++ * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at corresponding
++ * location.
++ *
++ *
++ * Flat-CCS Modifiers for different compression formats
++ * ----------------------------------------------------
++ *
++ * I915_FORMAT_MOD_F_TILED_DG2_RC_CCS - used to indicate the buffers of Flat CCS
++ * render compression formats. Though the general layout is same as
++ * I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS, new hashing/compression algorithm is
++ * used. Render compression uses 128 byte compression blocks
++ *
++ * I915_FORMAT_MOD_F_TILED_DG2_MC_CCS -used to indicate the buffers of Flat CCS
++ * media compression formats. Though the general layout is same as
++ * I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS, new hashing/compression algorithm is
++ * used. Media compression uses 256 byte compression blocks.
++ *
++ * I915_FORMAT_MOD_F_TILED_DG2_RC_CCS_CC - used to indicate the buffers of Flat
++ * CCS clear color render compression formats. Unified compression format for
++ * clear color render compression. The genral layout is a tiled layout using
++ * 4Kb tiles i.e Tile4 layout.
++ */
++
++static inline u32 *i915_flush_dw(u32 *cmd, u64 dst, u32 flags)
++{
++	/* Mask the 3 LSB to use the PPGTT address space */
++	*cmd++ = MI_FLUSH_DW | flags;
++	*cmd++ = lower_32_bits(dst);
++	*cmd++ = upper_32_bits(dst);
++
++	return cmd;
++}
++
++static u32 calc_ctrl_surf_instr_size(struct drm_i915_private *i915, int size)
++{
++	u32 num_cmds, num_blks, total_size;
++
++	if (!GET_CCS_SIZE(i915, size))
++		return 0;
++
++	/*
++	 * XY_CTRL_SURF_COPY_BLT transfers CCS in 256 byte
++	 * blocks. one XY_CTRL_SURF_COPY_BLT command can
++	 * trnasfer upto 1024 blocks.
++	 */
++	num_blks = GET_CCS_SIZE(i915, size);
++	num_cmds = (num_blks + (NUM_CCS_BLKS_PER_XFER - 1)) >> 10;
++	total_size = (XY_CTRL_SURF_INSTR_SIZE) * num_cmds;
++
++	/*
++	 * We need to add a flush before and after
++	 * XY_CTRL_SURF_COPY_BLT
++	 */
++	total_size += 2 * MI_FLUSH_DW_SIZE;
++	return total_size;
++}
++
++static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64 dst_addr,
++				     u8 src_mem_access, u8 dst_mem_access,
++				     int src_mocs, int dst_mocs,
++				     u16 num_ccs_blocks)
++{
++	int i = num_ccs_blocks;
++
++	/*
++	 * The XY_CTRL_SURF_COPY_BLT instruction is used to copy the CCS
++	 * data in and out of the CCS region.
++	 *
++	 * We can copy at most 1024 blocks of 256 bytes using one
++	 * XY_CTRL_SURF_COPY_BLT instruction.
++	 *
++	 * In case we need to copy more than 1024 blocks, we need to add
++	 * another instruction to the same batch buffer.
++	 *
++	 * 1024 blocks of 256 bytes of CCS represent a total 256KB of CCS.
++	 *
++	 * 256 KB of CCS represents 256 * 256 KB = 64 MB of LMEM.
++	 */
++	do {
++		/*
++		 * We use logical AND with 1023 since the size field
++		 * takes values which is in the range of 0 - 1023
++		 */
++		*cmd++ = ((XY_CTRL_SURF_COPY_BLT) |
++			  (src_mem_access << SRC_ACCESS_TYPE_SHIFT) |
++			  (dst_mem_access << DST_ACCESS_TYPE_SHIFT) |
++			  (((i - 1) & 1023) << CCS_SIZE_SHIFT));
++		*cmd++ = lower_32_bits(src_addr);
++		*cmd++ = ((upper_32_bits(src_addr) & 0xFFFF) |
++			  (src_mocs << XY_CTRL_SURF_MOCS_SHIFT));
++		*cmd++ = lower_32_bits(dst_addr);
++		*cmd++ = ((upper_32_bits(dst_addr) & 0xFFFF) |
++			  (dst_mocs << XY_CTRL_SURF_MOCS_SHIFT));
++		src_addr += SZ_64M;
++		dst_addr += SZ_64M;
++		i -= NUM_CCS_BLKS_PER_XFER;
++	} while (i > 0);
++
++	return cmd;
++}
++
+ static int emit_copy(struct i915_request *rq,
+-		     u32 dst_offset, u32 src_offset, int size)
++		     bool dst_is_lmem, u32 dst_offset,
++		     bool src_is_lmem, u32 src_offset, int size)
  {
--	ttm_tt_init_fields(ttm, bo, page_flags, caching);
-+	ttm_tt_init_fields(ttm, bo, page_flags, caching, ccs_pages);
++	struct drm_i915_private *i915 = rq->engine->i915;
+ 	const int ver = GRAPHICS_VER(rq->engine->i915);
+ 	u32 instance = rq->engine->instance;
++	u32 num_ccs_blks, ccs_ring_size;
++	u8 src_access, dst_access;
+ 	u32 *cs;
  
- 	if (ttm_tt_alloc_page_directory(ttm)) {
- 		pr_err("Failed allocating page table\n");
-@@ -180,7 +182,7 @@ int ttm_sg_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
- {
- 	int ret;
+-	cs = intel_ring_begin(rq, ver >= 8 ? 10 : 6);
++	ccs_ring_size = ((src_is_lmem || dst_is_lmem) && HAS_FLAT_CCS(i915)) ?
++			 calc_ctrl_surf_instr_size(i915, size) : 0;
++
++	cs = intel_ring_begin(rq, ver >= 8 ? 10 + ccs_ring_size : 6);
+ 	if (IS_ERR(cs))
+ 		return PTR_ERR(cs);
  
--	ttm_tt_init_fields(ttm, bo, page_flags, caching);
-+	ttm_tt_init_fields(ttm, bo, page_flags, caching, 0);
+@@ -492,6 +624,25 @@ static int emit_copy(struct i915_request *rq,
+ 		*cs++ = src_offset;
+ 	}
  
- 	if (page_flags & TTM_TT_FLAG_EXTERNAL)
- 		ret = ttm_sg_tt_alloc_page_directory(ttm);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index b84ecc6d6611..4e3938e62c08 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -517,7 +517,7 @@ static struct ttm_tt *vmw_ttm_tt_create(struct ttm_buffer_object *bo,
- 				     ttm_cached);
- 	else
- 		ret = ttm_tt_init(&vmw_be->dma_ttm, bo, page_flags,
--				  ttm_cached);
-+				  ttm_cached, 0);
- 	if (unlikely(ret != 0))
- 		goto out_no_init;
++	if (ccs_ring_size) {
++		/* TODO: Migration needs to be handled with resolve of compressed data */
++		num_ccs_blks = (GET_CCS_SIZE(i915, size) +
++				NUM_CCS_BYTES_PER_BLOCK - 1) >> 8;
++
++		src_access = !src_is_lmem && dst_is_lmem;
++		dst_access = !src_access;
++
++		if (src_access) /* Swapin of compressed data */
++			src_offset += size;
++		else
++			dst_offset += size;
++
++		cs = _i915_ctrl_surf_copy_blt(cs, src_offset, dst_offset,
++					      src_access, dst_access,
++					      1, 1, num_ccs_blks);
++		cs = i915_flush_dw(cs, dst_offset, MI_FLUSH_LLC | MI_FLUSH_CCS);
++	}
++
+ 	intel_ring_advance(rq, cs);
+ 	return 0;
+ }
+@@ -578,7 +729,8 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 		if (err)
+ 			goto out_rq;
  
-diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index f20832139815..2c4ff08ea354 100644
---- a/include/drm/ttm/ttm_tt.h
-+++ b/include/drm/ttm/ttm_tt.h
-@@ -140,6 +140,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
-  * @bo: The buffer object we create the ttm for.
-  * @page_flags: Page flags as identified by TTM_TT_FLAG_XX flags.
-  * @caching: the desired caching state of the pages
-+ * @ccs_pages_needed: Extra pages needed for the ccs data of compression.
-  *
-  * Create a struct ttm_tt to back data with system memory pages.
-  * No pages are actually allocated.
-@@ -147,7 +148,8 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
-  * NULL: Out of memory.
-  */
- int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
--		uint32_t page_flags, enum ttm_caching caching);
-+		uint32_t page_flags, enum ttm_caching caching,
-+		unsigned long ccs_pages_needed);
- int ttm_sg_tt_init(struct ttm_tt *ttm_dma, struct ttm_buffer_object *bo,
- 		   uint32_t page_flags, enum ttm_caching caching);
+-		err = emit_copy(rq, dst_offset, src_offset, len);
++		err = emit_copy(rq, dst_is_lmem, dst_offset,
++				src_is_lmem, src_offset, len);
  
+ 		/* Arbitration is re-enabled between requests. */
+ out_rq:
+@@ -596,131 +748,6 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 	return err;
+ }
+ 
+-/**
+- * DOC: Flat-CCS - Memory compression for Local memory
+- *
+- * On Xe-HP and later devices, we use dedicated compression control state (CCS)
+- * stored in local memory for each surface, to support the 3D and media
+- * compression formats.
+- *
+- * The memory required for the CCS of the entire local memory is 1/256 of the
+- * local memory size. So before the kernel boot, the required memory is reserved
+- * for the CCS data and a secure register will be programmed with the CCS base
+- * address.
+- *
+- * Flat CCS data needs to be cleared when a lmem object is allocated.
+- * And CCS data can be copied in and out of CCS region through
+- * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data directly.
+- *
+- * When we exaust the lmem, if the object's placements support smem, then we can
+- * directly decompress the compressed lmem object into smem and start using it
+- * from smem itself.
+- *
+- * But when we need to swapout the compressed lmem object into a smem region
+- * though objects' placement doesn't support smem, then we copy the lmem content
+- * as it is into smem region along with ccs data (using XY_CTRL_SURF_COPY_BLT).
+- * When the object is referred, lmem content will be swaped in along with
+- * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at corresponding
+- * location.
+- *
+- *
+- * Flat-CCS Modifiers for different compression formats
+- * ----------------------------------------------------
+- *
+- * I915_FORMAT_MOD_F_TILED_DG2_RC_CCS - used to indicate the buffers of Flat CCS
+- * render compression formats. Though the general layout is same as
+- * I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS, new hashing/compression algorithm is
+- * used. Render compression uses 128 byte compression blocks
+- *
+- * I915_FORMAT_MOD_F_TILED_DG2_MC_CCS -used to indicate the buffers of Flat CCS
+- * media compression formats. Though the general layout is same as
+- * I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS, new hashing/compression algorithm is
+- * used. Media compression uses 256 byte compression blocks.
+- *
+- * I915_FORMAT_MOD_F_TILED_DG2_RC_CCS_CC - used to indicate the buffers of Flat
+- * CCS clear color render compression formats. Unified compression format for
+- * clear color render compression. The genral layout is a tiled layout using
+- * 4Kb tiles i.e Tile4 layout.
+- */
+-
+-static inline u32 *i915_flush_dw(u32 *cmd, u64 dst, u32 flags)
+-{
+-	/* Mask the 3 LSB to use the PPGTT address space */
+-	*cmd++ = MI_FLUSH_DW | flags;
+-	*cmd++ = lower_32_bits(dst);
+-	*cmd++ = upper_32_bits(dst);
+-
+-	return cmd;
+-}
+-
+-static u32 calc_ctrl_surf_instr_size(struct drm_i915_private *i915, int size)
+-{
+-	u32 num_cmds, num_blks, total_size;
+-
+-	if (!GET_CCS_SIZE(i915, size))
+-		return 0;
+-
+-	/*
+-	 * XY_CTRL_SURF_COPY_BLT transfers CCS in 256 byte
+-	 * blocks. one XY_CTRL_SURF_COPY_BLT command can
+-	 * trnasfer upto 1024 blocks.
+-	 */
+-	num_blks = GET_CCS_SIZE(i915, size);
+-	num_cmds = (num_blks + (NUM_CCS_BLKS_PER_XFER - 1)) >> 10;
+-	total_size = (XY_CTRL_SURF_INSTR_SIZE) * num_cmds;
+-
+-	/*
+-	 * We need to add a flush before and after
+-	 * XY_CTRL_SURF_COPY_BLT
+-	 */
+-	total_size += 2 * MI_FLUSH_DW_SIZE;
+-	return total_size;
+-}
+-
+-static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64 dst_addr,
+-				     u8 src_mem_access, u8 dst_mem_access,
+-				     int src_mocs, int dst_mocs,
+-				     u16 num_ccs_blocks)
+-{
+-	int i = num_ccs_blocks;
+-
+-	/*
+-	 * The XY_CTRL_SURF_COPY_BLT instruction is used to copy the CCS
+-	 * data in and out of the CCS region.
+-	 *
+-	 * We can copy at most 1024 blocks of 256 bytes using one
+-	 * XY_CTRL_SURF_COPY_BLT instruction.
+-	 *
+-	 * In case we need to copy more than 1024 blocks, we need to add
+-	 * another instruction to the same batch buffer.
+-	 *
+-	 * 1024 blocks of 256 bytes of CCS represent a total 256KB of CCS.
+-	 *
+-	 * 256 KB of CCS represents 256 * 256 KB = 64 MB of LMEM.
+-	 */
+-	do {
+-		/*
+-		 * We use logical AND with 1023 since the size field
+-		 * takes values which is in the range of 0 - 1023
+-		 */
+-		*cmd++ = ((XY_CTRL_SURF_COPY_BLT) |
+-			  (src_mem_access << SRC_ACCESS_TYPE_SHIFT) |
+-			  (dst_mem_access << DST_ACCESS_TYPE_SHIFT) |
+-			  (((i - 1) & 1023) << CCS_SIZE_SHIFT));
+-		*cmd++ = lower_32_bits(src_addr);
+-		*cmd++ = ((upper_32_bits(src_addr) & 0xFFFF) |
+-			  (src_mocs << XY_CTRL_SURF_MOCS_SHIFT));
+-		*cmd++ = lower_32_bits(dst_addr);
+-		*cmd++ = ((upper_32_bits(dst_addr) & 0xFFFF) |
+-			  (dst_mocs << XY_CTRL_SURF_MOCS_SHIFT));
+-		src_addr += SZ_64M;
+-		dst_addr += SZ_64M;
+-		i -= NUM_CCS_BLKS_PER_XFER;
+-	} while (i > 0);
+-
+-	return cmd;
+-}
+-
+ static int emit_clear(struct i915_request *rq,
+ 		      u64 offset,
+ 		      int size,
 -- 
 2.20.1
 
