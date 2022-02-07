@@ -1,46 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF724ACC9E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 00:32:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 914164ACCA3
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 00:42:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5602E10E1A3;
-	Mon,  7 Feb 2022 23:32:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F33210E3D0;
+	Mon,  7 Feb 2022 23:42:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0E110E4A5;
- Mon,  7 Feb 2022 23:32:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A9AE760E9D;
- Mon,  7 Feb 2022 23:32:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39CC0C004E1;
- Mon,  7 Feb 2022 23:32:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644276725;
- bh=Sip9F5Bfsba1zq25dZliHosPf+iJHY5BZ3ZAUNyiX9Q=;
- h=Date:From:To:Cc:Subject:From;
- b=Z10xrt4P2z6n/9x0o45n9hD44NEp74dqY2HFtNOkYHbDOZOBHzW3NM+X/d37mv1JW
- fRjbOnc3wDHiiE4Zr4YSykieNOuTFOEp3HVY6jZPNpVtd6kTIU7Sqpp9zzHNsnRj6E
- CXcbXcl1vAgcR0lmVoak0wAWhi2tv/dGkk46nimauCfCoAMuNJ51ZhdhrO4E0xVTwA
- dotKn5nQTpYAq10NCOZQIUHWMq2TMA+1jxDstrR0d0Q8tkjNqQWzjzAXy4caKkqill
- nZPNRBlLYoOKE4uUp8Btdwf2+zHjpK1cT8MkwCJzNFYPASeiAfvobxJEm1cXs8XZV5
- oYTFfvpydxkRg==
-Date: Mon, 7 Feb 2022 17:39:23 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH][next] nouveau/svm: Use struct_size() helper in
- nouveau_pfns_map()
-Message-ID: <20220207233923.GA524723@embeddedor>
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2319710E11A
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 23:42:51 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id n32so15747978pfv.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 15:42:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xL7zYBxlDA9OyfIUt1+hVo3jnzbaDpzhjP+X9npLjjg=;
+ b=wphYccQt9nxerxeU/p5xPEp3OdfAMZRtra+QtigCBGV2rEpNVW9+U6vtvsejhTgn8e
+ AjHdHHleGcguuyudfB/EYL8nXm+kpV8ZcSykDngC+byWUyRxqjSZ/RPjTH8AXc+RnLns
+ uIgVupROuzl/7/rcKGowF45+b0zBguco1bdtkEO3QuTU6AEph9xDvvOseyxx2hOke+gU
+ uNJF3+A19rkf9glt328qDrxjnlD9a+5MH5956bLQ7wt6C83PtpfdJpKPQIdDraMVj14L
+ rYSrK3ggYTWNdNsRn2y7f5gnAE9dOOC2PJVNruXRQWVHXWccOP1/uFHHzbWsGMDwZaME
+ cPJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xL7zYBxlDA9OyfIUt1+hVo3jnzbaDpzhjP+X9npLjjg=;
+ b=2ho4isvkVz3+4AlHDn2yydJWTM6oERN55gS8MuCSSYdYM/kBARpz8285xbBqDNIaNN
+ vVPAlGMPKa1Eglrrgxw5lTGIHXtvZBFTU5bYwbq2WedtYi1kY8AgZC/pG+4CfWbZBqtJ
+ aaUjVCVf/pek+lLy3dqZypemGmU5AqQgcCeEs5gLHI3pSte387RiERYqv3g/aDj7yhqT
+ zKhe0QqllZoIfqD3kBiLCZWRMIYOAbwajoHIJ6KJT8mcceheOdLVhwHQjhyX25fY8UA6
+ eWvz24gsCkU+AJHfDvBKUGOHti5p7bOHqYD91Dz0S/nLHiJcJL5z8g8vGLxukClc4/T0
+ 06Fg==
+X-Gm-Message-State: AOAM533ZXajGc95ArVNVaITlXYQerG//gjQhUmOrP96kceSxaDrGxk6l
+ e+JMLze3CPqZGK1LXMaiMTB5cc/B+4zND89wsbcp4w==
+X-Google-Smtp-Source: ABdhPJwrqWzltx/fzSQ9DuX2BTfk2qmQ+rOek9DuscJqYjd5cc23devekMbaCYKV7qKyZJb3bcu/cjHgnw2J/KhyG60=
+X-Received: by 2002:a65:484b:: with SMTP id i11mr1385516pgs.40.1644277370737; 
+ Mon, 07 Feb 2022 15:42:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20220207063249.1833066-1-hch@lst.de>
+ <20220207063249.1833066-6-hch@lst.de>
+In-Reply-To: <20220207063249.1833066-6-hch@lst.de>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Mon, 7 Feb 2022 15:42:39 -0800
+Message-ID: <CAPcyv4iP=+jtVgdnuZjR3b-jM27zH5uk167HM=wz+=PBfvA49Q@mail.gmail.com>
+Subject: Re: [PATCH 5/8] mm: simplify freeing of devmap managed pages
+To: Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,37 +63,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Linux NVDIMM <nvdimm@lists.linux.dev>,
+ Ralph Campbell <rcampbell@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Karol Herbst <kherbst@redhat.com>, Linux MM <linux-mm@kvack.org>,
+ nouveau@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Logan Gunthorpe <logang@deltatee.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make use of the struct_size() helper instead of an open-coded version,
-in order to avoid any potential type mistakes or integer overflows that,
-in the worse scenario, could lead to heap overflows.
+On Sun, Feb 6, 2022 at 10:33 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Make put_devmap_managed_page return if it took charge of the page
+> or not and remove the separate page_is_devmap_managed helper.
 
-Link: https://github.com/KSPP/linux/issues/160
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/gpu/drm/nouveau/nouveau_svm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Looks good to me:
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index 266809e511e2..46a5a1016e37 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -925,8 +925,8 @@ nouveau_pfns_map(struct nouveau_svmm *svmm, struct mm_struct *mm,
- 
- 	mutex_lock(&svmm->mutex);
- 
--	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args, sizeof(*args) +
--				npages * sizeof(args->p.phys[0]), NULL);
-+	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args,
-+				struct_size(args, p.phys, npages), NULL);
- 
- 	mutex_unlock(&svmm->mutex);
- }
--- 
-2.27.0
-
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
