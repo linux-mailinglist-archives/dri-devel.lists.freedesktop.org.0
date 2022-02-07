@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01654AC5D5
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:36:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF244AC5D6
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:36:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAD3610F8BB;
-	Mon,  7 Feb 2022 16:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C275310F9A4;
+	Mon,  7 Feb 2022 16:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB9110F9B2
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:36:10 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id A75632B0014F;
- Mon,  7 Feb 2022 11:36:08 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26DD310F9B2
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:36:14 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 7D31D2B00154;
+ Mon,  7 Feb 2022 11:36:12 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 07 Feb 2022 11:36:09 -0500
+ by compute5.internal (MEProxy); Mon, 07 Feb 2022 11:36:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=3ECsOgE6DiFXZvAslMe1/R9Cbtn2FP
- rfKSgkACIPH+M=; b=aWPv/V+MBXUmywDI6fVrx2Z6lGwT0ik6Kj/4rm/zuEKmWM
- 8gqtyv+HwtCgr7XBzxUOHJh8INlp4xA/m2hDgeNrk+lLEg75VsDxZSkuTLmrCIG5
- SOPGCaMIVfR96zmpbiWNUo4A7mpEixydBwFn1x23KE1BRkZX/TjkKCXxqqUOdWb6
- SxNRL5n6PXP9k9ocQhavxq1W0TtoN/xLt+vnZCUCbqHtYcHN4AaqxOIfYuSjaD2s
- XacfZiLCRjSCgtY9xXHceBEkV6zHzm2RwveSb4wuCYNURpnLzzcKS6ehrjypTcb5
- deEXcC81WwF3aq55ui4WuXDpyzXjqX5l4qGyGmFw==
+ :subject:subject:to:to; s=fm2; bh=ds8C44g9S8DeJrCcwJWHJ6tYKI+pgm
+ ZAmJQ8q2lrAoo=; b=e2eKjo7zdzpcqTNIH7psGB6XJ4x9HYoB7Ak1fhWrpYdqTy
+ B9lP/QIDweVl5AV+PFAEr841VjRoBfli6wSe/gJwh/DAssS0Dv0MnRsq0cMzKKu9
+ 2bTYzvQcy9CemsH1JJZW8RChhoqaH03/IBqTBCAI/3PpM4X3vlCON3vpd02BZAR4
+ shtlyUuLRFmezAihDoR/xWq61O5mfz2zKfajBapN0UlWxOt4DUkuHUe3+gx5Lzqw
+ piZS3uUN6qtLACadaA92FT7tGieGLYE5Y13IEuh0QNqYL2l5GFJ35JBY7g78QvUr
+ IhD/nh44QeCHCFUkhm+Vxm2IkACBQYtWnidqtTdg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3ECsOg
- E6DiFXZvAslMe1/R9Cbtn2FPrfKSgkACIPH+M=; b=GArr8k/Jy8ef71AAKZ48EA
- BCdgEpXhDCpruogFWDhwHaocGMNPlViPzFbXWcSAq72hPfkjkch9JajrItsB2QME
- nZX/gqOdc/79WdVvxjolbrmLmtDjsc87ZoCieD1XPUPJWoxAw2iHMRXiF6FGWvaj
- stiISLf79oiCdSUmJIPfawE38DOaTQiUByc4828a1nfALtKYYquNo+zcABX7tyoY
- ntuRoAKP2Nj0Bx8vFmSdPETiQm3qrKCwqjWcAYiiron8k4RMfUaVbP9ayY3yiQb6
- 4FzQH56PyMvCR8ofY9Sbo8bhWialA7bV683C8GUpVCmDW7rRTPzIHVAk08ET6KtQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ds8C44
+ g9S8DeJrCcwJWHJ6tYKI+pgmZAmJQ8q2lrAoo=; b=JEn8yTvRwidcBP+8iCjHBP
+ Kr9RcxD2esL+j1N8tyjl9x4uCygooazBfdjyJzWQd1jsAq0s8ljG3tNQX/nU8+F2
+ jziK06YTIkw+EpIrk3lB0SSJWNbgeCc2aFaiAoTdFDPmeCT9KM0VIW4gSNZPCcUV
+ 2HB1fZbwCurbKcibULzBzSVe762oUBOxemBeYxb4LnRxX3PuGF+Y4q3LUYR4ri50
+ iZzJ0hZmGAxUnblOk1l31wSAYm7R9DUIZCb0N/7x1jqsfou/m5073mm5FXCGd0J6
+ 8BvFbPbZRfc2QXKSDyiH3oqfK5gytYXMEp2gKDtD6tbnmMOIyJup1uAu6W+VVlGQ
  ==
-X-ME-Sender: <xms:eEoBYr0nr5iONbJECYx_lRdndmoregh4za46cY8cwglnQqzCkFI4Kw>
- <xme:eEoBYqHVeTChSYdv2P8gINnwaEd6UBBfb3WI4SvmGRIpAFh1mlb5BtSaLHdAP5O2r
- cg2-A_Xhva84Jy5BuY>
-X-ME-Received: <xmr:eEoBYr7zmp-vaOfUXF2YqYe8Q5yeKhXEWX6Sk3MrW6fSrnjqQPEuy5msPJqR145t6ji82VvU2ZqHHiGbHYUQfE_kq5CG7LkhSlUu4QA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekkecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:e0oBYkUdpBuz1w_Y6dNNdPEmTyQK6hUjXc7jfiC_ph8UF0S5-3kKqw>
+ <xme:e0oBYomQvlB4vjASC_xm0k0OT231FEkxnuCAVKkP5KzOF5aHpJlsnDZL1_Gx3lVgl
+ 6pH6nEZc5zKlQpB7VM>
+X-ME-Received: <xmr:e0oBYob4qprynsV8GYua218lQqvzMZ6tDtrFzHsg3VgYoGOkqdHB1naoPKm28axmoxEoR0rwPnotm4FkHjDD5bHQCncRfi5HvL6AbYw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:eEoBYg3oAehT3kFOw-ggEwioQNcT8K5UQ6v9j4oX9BPUkunMpseB0A>
- <xmx:eEoBYuE_i-0NE8Fz8MdSeo9dWznQ3NBUorkS_5h8HLJqZVLnSZ4ouw>
- <xmx:eEoBYh_1AMIv3a8MxKlNiel4aCjWkWOP7rGPwfaaxAXNoUPCnzNC4Q>
- <xmx:eEoBYp-NyjTPupmenEjHYw8oK40K106qVUjAgPaOk1yVjvZGnZsVay42rnA>
+X-ME-Proxy: <xmx:e0oBYjWhfwrUHW39Pm1BeSFVKHfSkwNTstGp0nho4CzlYLOa37NR1A>
+ <xmx:e0oBYukFTfKXJC_zvD7bEDo8c0X3vpJ0-RxpTVfKbLobj8_yxqiJKg>
+ <xmx:e0oBYod2zV-KUU6FiToUY4Ip8kXaH8qM2EAlaZ0OL3pr37PdeLUxeQ>
+ <xmx:fEoBYjh5w7JkZkliiBIXW3Lg5SeSghon6kRPn07Sbuf85P3X_xbvP_1igAk>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 11:36:07 -0500 (EST)
+ 7 Feb 2022 11:36:11 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH 16/23] drm/rcar: plane: Remove redundant zpos initialisation
-Date: Mon,  7 Feb 2022 17:35:08 +0100
-Message-Id: <20220207163515.1038648-17-maxime@cerno.tech>
+Subject: [PATCH 17/23] drm/sti: plane: Remove redundant zpos initialisation
+Date: Mon,  7 Feb 2022 17:35:09 +0100
+Message-Id: <20220207163515.1038648-18-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220207163515.1038648-1-maxime@cerno.tech>
 References: <20220207163515.1038648-1-maxime@cerno.tech>
@@ -83,55 +83,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Phil Elwell <phil@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alain Volmat <alain.volmat@foss.st.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The rcar-du KMS driver will call drm_plane_create_zpos_property() with an
+The sti KMS driver will call drm_plane_create_zpos_property() with an
 init value depending on the plane type.
 
 Since the initial value wasn't carried over in the state, the driver had
-to set it again in rcar_du_plane_reset() and rcar_du_vsp_plane_reset().
+to set it again in sti_plane_reset() and rcar_du_vsp_plane_reset().
 However, the helpers have been adjusted to set it properly at reset, so
 this is not needed anymore.
 
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Alain Volmat <alain.volmat@foss.st.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_plane.c | 1 -
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/gpu/drm/sti/sti_cursor.c | 2 +-
+ drivers/gpu/drm/sti/sti_gdp.c    | 2 +-
+ drivers/gpu/drm/sti/sti_hqvdp.c  | 2 +-
+ drivers/gpu/drm/sti/sti_plane.c  | 6 ------
+ drivers/gpu/drm/sti/sti_plane.h  | 1 -
+ 5 files changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index 862197be1e01..9dda5e06457d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -696,7 +696,6 @@ static void rcar_du_plane_reset(struct drm_plane *plane)
- 	state->hwindex = -1;
- 	state->source = RCAR_DU_PLANE_MEMORY;
- 	state->colorkey = RCAR_DU_COLORKEY_NONE;
--	state->state.zpos = plane->type == DRM_PLANE_TYPE_PRIMARY ? 0 : 1;
+diff --git a/drivers/gpu/drm/sti/sti_cursor.c b/drivers/gpu/drm/sti/sti_cursor.c
+index 1d6051b4f6fe..414c9973aa6d 100644
+--- a/drivers/gpu/drm/sti/sti_cursor.c
++++ b/drivers/gpu/drm/sti/sti_cursor.c
+@@ -351,7 +351,7 @@ static const struct drm_plane_funcs sti_cursor_plane_helpers_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+ 	.destroy = drm_plane_cleanup,
+-	.reset = sti_plane_reset,
++	.reset = drm_atomic_helper_plane_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+ 	.late_register = sti_cursor_late_register,
+diff --git a/drivers/gpu/drm/sti/sti_gdp.c b/drivers/gpu/drm/sti/sti_gdp.c
+index d1a35d97bc45..3db3768a3241 100644
+--- a/drivers/gpu/drm/sti/sti_gdp.c
++++ b/drivers/gpu/drm/sti/sti_gdp.c
+@@ -905,7 +905,7 @@ static const struct drm_plane_funcs sti_gdp_plane_helpers_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+ 	.destroy = drm_plane_cleanup,
+-	.reset = sti_plane_reset,
++	.reset = drm_atomic_helper_plane_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+ 	.late_register = sti_gdp_late_register,
+diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
+index 3c61ba8b43e0..2201a50353eb 100644
+--- a/drivers/gpu/drm/sti/sti_hqvdp.c
++++ b/drivers/gpu/drm/sti/sti_hqvdp.c
+@@ -1283,7 +1283,7 @@ static const struct drm_plane_funcs sti_hqvdp_plane_helpers_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+ 	.destroy = drm_plane_cleanup,
+-	.reset = sti_plane_reset,
++	.reset = drm_atomic_helper_plane_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+ 	.late_register = sti_hqvdp_late_register,
+diff --git a/drivers/gpu/drm/sti/sti_plane.c b/drivers/gpu/drm/sti/sti_plane.c
+index 3da4a46df2f2..173409cdb99e 100644
+--- a/drivers/gpu/drm/sti/sti_plane.c
++++ b/drivers/gpu/drm/sti/sti_plane.c
+@@ -112,12 +112,6 @@ static int sti_plane_get_default_zpos(enum drm_plane_type type)
+ 	return 0;
  }
  
- static int rcar_du_plane_atomic_set_property(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index b7fc5b069cbc..719c60034952 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -362,7 +362,6 @@ static void rcar_du_vsp_plane_reset(struct drm_plane *plane)
- 		return;
+-void sti_plane_reset(struct drm_plane *plane)
+-{
+-	drm_atomic_helper_plane_reset(plane);
+-	plane->state->zpos = sti_plane_get_default_zpos(plane->type);
+-}
+-
+ static void sti_plane_attach_zorder_property(struct drm_plane *drm_plane,
+ 					     enum drm_plane_type type)
+ {
+diff --git a/drivers/gpu/drm/sti/sti_plane.h b/drivers/gpu/drm/sti/sti_plane.h
+index 065ffffbfb4a..8e33e629d9b0 100644
+--- a/drivers/gpu/drm/sti/sti_plane.h
++++ b/drivers/gpu/drm/sti/sti_plane.h
+@@ -81,5 +81,4 @@ void sti_plane_update_fps(struct sti_plane *plane,
  
- 	__drm_atomic_helper_plane_reset(plane, &state->state);
--	state->state.zpos = plane->type == DRM_PLANE_TYPE_PRIMARY ? 0 : 1;
- }
- 
- static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
+ void sti_plane_init_property(struct sti_plane *plane,
+ 			     enum drm_plane_type type);
+-void sti_plane_reset(struct drm_plane *plane);
+ #endif
 -- 
 2.34.1
 
