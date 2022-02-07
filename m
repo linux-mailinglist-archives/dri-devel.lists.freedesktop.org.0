@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C094AC5D3
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:36:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38274AC5D4
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:36:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 264C910F8DC;
-	Mon,  7 Feb 2022 16:36:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B94010F995;
+	Mon,  7 Feb 2022 16:36:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B3E710F8BB
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:36:02 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 425982B0014F;
- Mon,  7 Feb 2022 11:36:01 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 07 Feb 2022 11:36:02 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA7F10F8BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:36:06 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id BA0B02B0014F;
+ Mon,  7 Feb 2022 11:36:04 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Mon, 07 Feb 2022 11:36:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=jL7uYegVQeL8Wy6fPZYFOhl8vanvRS
- yOBuwigSpRMpc=; b=J85drTNnm0oL86qM/72mCsyESh5PMNzlv+yrt9fVA13ain
- 6ieumesEwYw3L/YMh6anfJMOxBvLcKJO33mvAHaM9pfdwzFydBMB5kJPvUxCXZsc
- VZOFNF5Sq8dmYGeK6x0PH3M/0F7cmwgWxkTU+7JG90jloofLt7YcMXCYKgei6K+/
- Tsz+lClyWZtqZ2MxNVZXhAGbT01mXkjLNaaHZEOy3Nq3j/1O5Hu+JhUIptkqCHtB
- HWkx71TDa8Ui0+GY7biGrwgTkuWUFT9QhleVnb9DBVK2gaz17j/xiwj+lIBsCD+E
- x6GY8hJhDyE7HZVpIur207H9Gnf0/BSaRCSKiy3g==
+ :subject:subject:to:to; s=fm2; bh=Bov04kP2JGAYrnk1OzmvJ0etTOODRy
+ OvL+eaYVZaOxc=; b=R2cyBwwSds0EdygXTR/rfpDNIEhmV7aKk911zu/5ZX1MXJ
+ OwySGUF+miyylbWW1MVs04krASsyaEBmA3tI8faCaYoiBkoRmxarBcYn/fJDPe2t
+ PKGdxTjjBIJrYF30PF/QMYGeTWOGzQJKuc3OhlRhU7Ci/elBWYX255mkjMk0IGYT
+ +UTtzbrdkClTspDs+Ris7WlH8xOSwFRZXP1FHCizWsww/nQl6rS1F8mySgzqpbg6
+ JUkQ5a4M3fGoF8KPgzBi31DKss8eJK0zddsD0aUL1+vKcnSj0kxXiTvAx0dO39g5
+ bzs4faFJgFPJM86iKgpUwLfYqcaohSZU4lJVvpDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=jL7uYe
- gVQeL8Wy6fPZYFOhl8vanvRSyOBuwigSpRMpc=; b=EJZi1O7SkDtyJ1HekQvuId
- 9Fl578Lc3RQa0WotvZKeZs0qfR6cqa43PQYPGayNneVT7AZNGxs3DU6NRCEGP3Bf
- BsWJIAVXXIqfSn/LbbKeus8IpyJ3EjPdmP9E/QyqF6JP93Sk4shUmw+bmugrSC8G
- GgyT7wikO+1sAjcd6QrmDmepNFGXKRwLro6WApPb34PUIrwfMLKL41v+lCKVNICd
- HZGdWywM3qL8suiOsRN+NPeBQrVb33Yr1BLAHQQEfQB01HAEBQFEsIe2Gj3ChJDA
- G2h2Bthsc/MLARmHaD7BLF571uTuQZ3CDjp97YO30Cos809F98d+Dg6fMVCiwfrA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Bov04k
+ P2JGAYrnk1OzmvJ0etTOODRyOvL+eaYVZaOxc=; b=iyJXnOVu4VyEX0ij/yTENt
+ KXnSHmYsVEht+Jb5JrOnLGSQACwl6/FpYNVdKGkk8EjmpZnH15Lb9SyB+BAEfUEX
+ FwA2PGqljIRE4nu2Pk1Xl3qvZBjnMxINvXko/cRmHOIQoL623pP2pH/L5kgxKeM9
+ 6YxGWyhnl1y6T8kdSmUUWY6F527JyDJT2DEy8bskP2VH36xQIj2AhAye9iDweCBo
+ ow5EGREnzk3YbxkKOfTNB7Ax0fRZ2v8aGuFwEZI/sPKbvsmHzpqsNEDIV4fZ74gK
+ sBUmCMQjG08Z9nZ3dimHjmEcRtIwzTez+NHSzNyXYOCIK3BqPGA6k5OPBZQijnqA
  ==
-X-ME-Sender: <xms:cEoBYmvWxLw0Uhx71gsJU3jNs0Y_vde_Te-Po8aRke-gnfcRZI0OAQ>
- <xme:cEoBYreJDfX9yYVDGrD6WiPsiHHEOwPN2bjjRaXXoF1cer5E8S9alhDn7ESGsvuWd
- 80RFuYCeQzUUro3nsU>
-X-ME-Received: <xmr:cEoBYhxlkh4-b-ckseno2a6Mq6E7EA_xPcXmnl7iDOv-c0aw79ubVa1-cL9qlwKORUG8hzGHCHNZhbaBUmYElHxA16xiY_TsEAmuL3Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:dEoBYrF4C7DFVQDxOnuS3OYOB6OES3AwMT68NBgjQ_wV-zN45VIZBA>
+ <xme:dEoBYoWFc0zFomVjgJ9T1jWvKGX99XSD427ux-qNqJx3xCU_RoXIuYvGJvhZw5dtL
+ ywPuuTB9s48H-QALcM>
+X-ME-Received: <xmr:dEoBYtKvIbuaT19FxFU_16oRASOluDOPmdPE6stGnl1wNPUoQSBEXwdFxcDwL0mNZkpspdh5UiMvkUUQnz9_PyrfYPssBvnDrmve-60>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
@@ -52,18 +52,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:cEoBYhOh302pzaVoO9uYIz6j3FVHdiqQeBLHgXhNCkvkYybHdyZikQ>
- <xmx:cEoBYm9rtkZ5nmc_vAPcp2a0ABMMgC9PR0BZuZWQ1Y9JUV86R8hnlQ>
- <xmx:cEoBYpUUbM2b8TDz3djKTMMbMlsZOUsxprNbVHkPRjcCbrBcmZDA0g>
- <xmx:cEoBYpYsu74ynebZcmZdT9kJNl87hRwlfZpdVDPI0nLXfJCruKcSDEdU9Zg>
+X-ME-Proxy: <xmx:dEoBYpH0yWdF8a8rFvp33UYsznS_pC7GmuyQ6tBiqYFr9rF5Qm1pFA>
+ <xmx:dEoBYhUspxLWlg6VgYKfPQp6yLuF9D_PBEW6dsFtaiNfogzvL1LwTA>
+ <xmx:dEoBYkM_C32Z6lbmGI4c0iuAgFltKh2p1_dM1tl1x_sDPy5INm-Tiw>
+ <xmx:dEoBYpRb-TyYQemDBn5toAF3ZoApohVLqI5zEOPksGDYsNvCZMoNWVQClfg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 11:36:00 -0500 (EST)
+ 7 Feb 2022 11:36:03 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH 14/23] drm/omap: plane: Fix zpos initial value mismatch
-Date: Mon,  7 Feb 2022 17:35:06 +0100
-Message-Id: <20220207163515.1038648-15-maxime@cerno.tech>
+Subject: [PATCH 15/23] drm/omap: plane: Remove redundant zpos initialisation
+Date: Mon,  7 Feb 2022 17:35:07 +0100
+Message-Id: <20220207163515.1038648-16-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220207163515.1038648-1-maxime@cerno.tech>
 References: <20220207163515.1038648-1-maxime@cerno.tech>
@@ -89,50 +89,37 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While the omap_plane_init() function calls
-drm_plane_create_zpos_property() with an initial value of 0,
-omap_plane_reset() will force it to another value depending on the plane
-type.
+The omap KMS driver will call drm_plane_create_zpos_property() with an
+init value of the plane index and the plane type.
 
-Fix the discrepancy by setting the initial zpos value to the same value
-in the drm_plane_create_zpos_property() call.
+Since the initial value wasn't carried over in the state, the driver had
+to set it again in omap_plane_reset(). However, the helpers have been
+adjusted to set it properly at reset, so this is not needed anymore.
 
 Cc: Tomi Valkeinen <tomba@kernel.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/omapdrm/omap_plane.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/omapdrm/omap_plane.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-index b35205c4e979..e67baf9a942c 100644
+index e67baf9a942c..d96bc929072a 100644
 --- a/drivers/gpu/drm/omapdrm/omap_plane.c
 +++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-@@ -533,6 +533,7 @@ struct drm_plane *omap_plane_init(struct drm_device *dev,
- 	unsigned int num_planes = dispc_get_num_ovls(priv->dispc);
- 	struct drm_plane *plane;
- 	struct omap_plane *omap_plane;
-+	unsigned int zpos;
- 	int ret;
- 	u32 nformats;
- 	const u32 *formats;
-@@ -564,7 +565,16 @@ struct drm_plane *omap_plane_init(struct drm_device *dev,
- 	drm_plane_helper_add(plane, &omap_plane_helper_funcs);
+@@ -414,13 +414,6 @@ static void omap_plane_reset(struct drm_plane *plane)
+ 		return;
  
- 	omap_plane_install_properties(plane, &plane->base);
--	drm_plane_create_zpos_property(plane, 0, 0, num_planes - 1);
-+
-+	/*
-+	 * Set the zpos default depending on whether we are a primary or overlay
-+	 * plane.
-+	 */
-+	if (plane->type == DRM_PLANE_TYPE_PRIMARY)
-+		zpos = 0;
-+	else
-+		zpos = omap_plane->id;
-+	drm_plane_create_zpos_property(plane, zpos, 0, num_planes - 1);
- 	drm_plane_create_alpha_property(plane);
- 	drm_plane_create_blend_mode_property(plane, BIT(DRM_MODE_BLEND_PREMULTI) |
- 					     BIT(DRM_MODE_BLEND_COVERAGE));
+ 	__drm_atomic_helper_plane_reset(plane, &omap_state->base);
+-
+-	/*
+-	 * Set the zpos default depending on whether we are a primary or overlay
+-	 * plane.
+-	 */
+-	plane->state->zpos = plane->type == DRM_PLANE_TYPE_PRIMARY
+-			   ? 0 : omap_plane->id;
+ 	plane->state->color_encoding = DRM_COLOR_YCBCR_BT601;
+ 	plane->state->color_range = DRM_COLOR_YCBCR_FULL_RANGE;
+ }
 -- 
 2.34.1
 
