@@ -1,56 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 577C64AD331
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:24:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1394AD326
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:23:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B734C10E505;
-	Tue,  8 Feb 2022 08:23:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED4CD10E381;
+	Tue,  8 Feb 2022 08:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD6910F75B;
- Mon,  7 Feb 2022 10:41:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644230495; x=1675766495;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ArwuPTxElsiJl5IMoTxOH+10k1P9ZTtUYu/OMQhIIYk=;
- b=hYA8WV1XYW6SbUYBjWXya+QIaerkhQSRjEIfOgPs5f43Q2Stf7asezX2
- uSsHbu5u6UdbEWO7/u0bv7XHy8oXHWxTTJwTYmcECWmS6+umpLouZDnq1
- fgayPJ5p6n3Q5yjHYuwZVOBCQWziyaVvM9zFCggC9qFGzQg/EXxPHfjBc
- rnOe5khifmirYsZB1iwiAKLsMjI97BNmDqMPQxltT7QjRtmPnjnb5SCq5
- 6ugXzRUYy4VSH1tTk2rRAzKzZKXXD4w8i1orjLk6OvZWbS3/mCxiQTY7j
- wKfB1nCWXIz2O2qrvIZhOM3LKBYlWPtWXP/SnSUuBX1hruLyLBch4MBzP Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="248453811"
-X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; d="scan'208";a="248453811"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 02:41:35 -0800
-X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; d="scan'208";a="540044702"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.251.209.116])
- ([10.251.209.116])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 02:41:33 -0800
-Message-ID: <bd9e2cf2-4cee-a99a-7550-3eaf32c93e5e@linux.intel.com>
-Date: Mon, 7 Feb 2022 11:41:31 +0100
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C312C10F805
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 10:51:56 +0000 (UTC)
+Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JsjXS1KShz67xjg;
+ Mon,  7 Feb 2022 18:47:52 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 7 Feb 2022 11:51:53 +0100
+Received: from [10.47.86.164] (10.47.86.164) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Mon, 7 Feb
+ 2022 10:51:49 +0000
+Message-ID: <37dcfcad-ff08-09dd-b35c-a3f90fcaa37f@huawei.com>
+Date: Mon, 7 Feb 2022 10:51:45 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [Intel-gfx] [RFC 1/2] drm/i915/ttm: Add extra pages for handling
- ccs data
-Content-Language: en-US
-To: Ramalingam C <ramalingam.c@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-References: <20220207093743.14467-1-ramalingam.c@intel.com>
- <20220207093743.14467-2-ramalingam.c@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20220207093743.14467-2-ramalingam.c@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v2] iommu/core: Remove comment reference to
+ iommu_dev_has_feature
+To: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>,
+ <matthew.d.roper@intel.com>, <baolu.lu@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20220207032322.16667-1-akeem.g.abodunrin@intel.com>
+From: John Garry <john.garry@huawei.com>
+In-Reply-To: <20220207032322.16667-1-akeem.g.abodunrin@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.86.164]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 08 Feb 2022 08:23:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,206 +56,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: iommu@lists.linux-foundation.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 07/02/2022 03:23, Akeem G Abodunrin wrote:
+> iommu_dev_has_feature() api has been removed by the commit 262948f8ba573
+> ("iommu: Delete iommu_dev_has_feature()") - So this patch removes comment
+> about the api to avoid any confusion.
+> 
+> Signed-off-by: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+> Cc: Lu Baolu <baolu.lu@linux.intel.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-On 07/02/2022 10:37, Ramalingam C wrote:
-> While evicting the local memory data on flat-ccs capable platform we
-> need to evict the ccs data associated to the data. For this, we are
-> adding extra pages ((size / 256) >> PAGE_SIZE) into the ttm_tt.
->
-> To achieve this we are adding a new param into the ttm_tt_init as
-> ccs_pages_needed, which will be added into the ttm_tt->num_pages.
->
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> Suggested-by: Thomas Hellstorm <thomas.hellstrom@intel.com>
+Reviewed-by: John Garry <john.garry@huawei.com>
+
+BTW, It looks like we can get rid of iommu_ops.dev_has_feat also.
+
+It does not seem to be called, while arm-smmu-v3 driver does provide a 
+callback.
+
 > ---
->   drivers/gpu/drm/drm_gem_vram_helper.c      |  2 +-
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 23 +++++++++++++++++++++-
->   drivers/gpu/drm/qxl/qxl_ttm.c              |  2 +-
->   drivers/gpu/drm/ttm/ttm_agp_backend.c      |  2 +-
->   drivers/gpu/drm/ttm/ttm_tt.c               | 12 ++++++-----
->   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
->   include/drm/ttm/ttm_tt.h                   |  4 +++-
->   7 files changed, 36 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index 3f00192215d1..eef1f4dc7232 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -864,7 +864,7 @@ static struct ttm_tt *bo_driver_ttm_tt_create(struct ttm_buffer_object *bo,
->   	if (!tt)
->   		return NULL;
->   
-> -	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached);
-> +	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached, 0);
->   	if (ret < 0)
->   		goto err_ttm_tt_init;
->   
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 84cae740b4a5..bb71aa6d66c0 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -16,6 +16,7 @@
->   #include "gem/i915_gem_ttm.h"
->   #include "gem/i915_gem_ttm_move.h"
->   #include "gem/i915_gem_ttm_pm.h"
-> +#include "gt/intel_gpu_commands.h"
->   
->   #define I915_TTM_PRIO_PURGE     0
->   #define I915_TTM_PRIO_NO_PAGES  1
-> @@ -242,12 +243,27 @@ static const struct i915_refct_sgt_ops tt_rsgt_ops = {
->   	.release = i915_ttm_tt_release
->   };
->   
-> +static inline bool
-> +i915_gem_object_has_lmem_placement(struct drm_i915_gem_object *obj)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < obj->mm.n_placements; i++)
-> +		if (obj->mm.placements[i]->type == INTEL_MEMORY_LOCAL)
-> +			return true;
-> +
-> +	return false;
-> +}
-> +
->   static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
->   					 uint32_t page_flags)
->   {
-> +	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
-> +						     bdev);
->   	struct ttm_resource_manager *man =
->   		ttm_manager_type(bo->bdev, bo->resource->mem_type);
->   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-> +	unsigned long ccs_pages_needed = 0;
->   	enum ttm_caching caching;
->   	struct i915_ttm_tt *i915_tt;
->   	int ret;
-> @@ -270,7 +286,12 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
->   		i915_tt->is_shmem = true;
->   	}
->   
-> -	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching);
-> +	if (HAS_FLAT_CCS(i915) && i915_gem_object_has_lmem_placement(obj))
-> +		ccs_pages_needed = DIV_ROUND_UP(DIV_ROUND_UP(bo->base.size,
-> +					       NUM_CCS_BYTES_PER_BLOCK), PAGE_SIZE);
-> +
-> +	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags,
-> +			  caching, ccs_pages_needed);
-
-I am wondering if we should do this in the driver itself and pass 
-ttm->num_pages with CCS size included.
-
-
-Regards,
-
-Nirmoy
-
-
->   	if (ret)
->   		goto err_free;
->   
-> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-> index b2e33d5ba5d0..52156b54498f 100644
-> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> @@ -113,7 +113,7 @@ static struct ttm_tt *qxl_ttm_tt_create(struct ttm_buffer_object *bo,
->   	ttm = kzalloc(sizeof(struct ttm_tt), GFP_KERNEL);
->   	if (ttm == NULL)
->   		return NULL;
-> -	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached)) {
-> +	if (ttm_tt_init(ttm, bo, page_flags, ttm_cached, 0)) {
->   		kfree(ttm);
->   		return NULL;
->   	}
-> diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> index 6ddc16f0fe2b..d27691f2e451 100644
-> --- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> +++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> @@ -134,7 +134,7 @@ struct ttm_tt *ttm_agp_tt_create(struct ttm_buffer_object *bo,
->   	agp_be->mem = NULL;
->   	agp_be->bridge = bridge;
->   
-> -	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined)) {
-> +	if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined, 0)) {
->   		kfree(agp_be);
->   		return NULL;
->   	}
-> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-> index 79c870a3bef8..80355465f717 100644
-> --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> @@ -134,9 +134,10 @@ void ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
->   static void ttm_tt_init_fields(struct ttm_tt *ttm,
->   			       struct ttm_buffer_object *bo,
->   			       uint32_t page_flags,
-> -			       enum ttm_caching caching)
-> +			       enum ttm_caching caching,
-> +			       unsigned long ccs_pages)
->   {
-> -	ttm->num_pages = PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT;
-> +	ttm->num_pages = (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + ccs_pages;
->   	ttm->caching = ttm_cached;
->   	ttm->page_flags = page_flags;
->   	ttm->dma_address = NULL;
-> @@ -146,9 +147,10 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
->   }
->   
->   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> -		uint32_t page_flags, enum ttm_caching caching)
-> +		uint32_t page_flags, enum ttm_caching caching,
-> +		unsigned long ccs_pages)
->   {
-> -	ttm_tt_init_fields(ttm, bo, page_flags, caching);
-> +	ttm_tt_init_fields(ttm, bo, page_flags, caching, ccs_pages);
->   
->   	if (ttm_tt_alloc_page_directory(ttm)) {
->   		pr_err("Failed allocating page table\n");
-> @@ -180,7 +182,7 @@ int ttm_sg_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
->   {
->   	int ret;
->   
-> -	ttm_tt_init_fields(ttm, bo, page_flags, caching);
-> +	ttm_tt_init_fields(ttm, bo, page_flags, caching, 0);
->   
->   	if (page_flags & TTM_TT_FLAG_EXTERNAL)
->   		ret = ttm_sg_tt_alloc_page_directory(ttm);
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> index b84ecc6d6611..4e3938e62c08 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> @@ -517,7 +517,7 @@ static struct ttm_tt *vmw_ttm_tt_create(struct ttm_buffer_object *bo,
->   				     ttm_cached);
->   	else
->   		ret = ttm_tt_init(&vmw_be->dma_ttm, bo, page_flags,
-> -				  ttm_cached);
-> +				  ttm_cached, 0);
->   	if (unlikely(ret != 0))
->   		goto out_no_init;
->   
-> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-> index f20832139815..2c4ff08ea354 100644
-> --- a/include/drm/ttm/ttm_tt.h
-> +++ b/include/drm/ttm/ttm_tt.h
-> @@ -140,6 +140,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
->    * @bo: The buffer object we create the ttm for.
->    * @page_flags: Page flags as identified by TTM_TT_FLAG_XX flags.
->    * @caching: the desired caching state of the pages
-> + * @ccs_pages_needed: Extra pages needed for the ccs data of compression.
+>   include/linux/iommu.h | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index de0c57a567c8..bea054f2bd4d 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -153,8 +153,7 @@ struct iommu_resv_region {
+>    *			 supported, this feature must be enabled before and
+>    *			 disabled after %IOMMU_DEV_FEAT_SVA.
 >    *
->    * Create a struct ttm_tt to back data with system memory pages.
->    * No pages are actually allocated.
-> @@ -147,7 +148,8 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
->    * NULL: Out of memory.
+> - * Device drivers query whether a feature is supported using
+> - * iommu_dev_has_feature(), and enable it using iommu_dev_enable_feature().
+> + * Device drivers enable the feature via iommu_dev_enable_feature().
 >    */
->   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> -		uint32_t page_flags, enum ttm_caching caching);
-> +		uint32_t page_flags, enum ttm_caching caching,
-> +		unsigned long ccs_pages_needed);
->   int ttm_sg_tt_init(struct ttm_tt *ttm_dma, struct ttm_buffer_object *bo,
->   		   uint32_t page_flags, enum ttm_caching caching);
->   
+>   enum iommu_dev_features {
+>   	IOMMU_DEV_FEAT_AUX,
+
