@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6A74AC5CF
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:35:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3546A4AC5D0
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:35:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1572A10F86C;
-	Mon,  7 Feb 2022 16:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030F210F7FF;
+	Mon,  7 Feb 2022 16:35:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6DF210F86C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:35:48 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id EA81F2B00137;
- Mon,  7 Feb 2022 11:35:46 -0500 (EST)
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 819D410F871
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:35:51 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id DE89D5801E3;
+ Mon,  7 Feb 2022 11:35:50 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 07 Feb 2022 11:35:48 -0500
+ by compute1.internal (MEProxy); Mon, 07 Feb 2022 11:35:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=1SGLDDvT9aYX5Q4yTBAo0kI1LCc9lg
- 3fqbdaIZNH59U=; b=vUGRVq6w+kT7h3rMBtL57GtHJYL8E2SSUwaEzWcHpaddKi
- Zb7nJ9ThGQ75na/JHudkcP+CHBYZEU3WVR9mvsUNrjOkuvmOVbu9jsyUefGTApe2
- LXgyGs88Vvns0oIrZjPUqBk/7n+Q0j+ddzq6I3YgJO4qmc5Ju5NGlpHGQxRil+6w
- OrDCcq5iWNEa0+YYQD8u3vm19WQkhE3ZMC3nK1dkZflEk0/5VwrFew+tKqWrUrke
- rrbAWJunS6lkJW48htP87FBonSB9vRXgBd6ROZJZ7dStOCmVCHEM1v8pwWoldwwD
- Uh5qPXESIKPl6gza+rmF/I1ObAjhA7z3Sn2XsBxw==
+ :subject:subject:to:to; s=fm2; bh=xhKVkS6XIZgUH0LRLr+qOPiV5PE9/Z
+ MNzxpdkFVUd1Q=; b=Xd3R5cOhPJN7Wz5H5LxykZUI5Aub4u9z3b0wuRF6LrcPP1
+ LZjDRV2v1hXEPqQyhaUrbtEqG66GM4UYSUvN1f3Ty5JTbJfYXe8EFbnBibGi0Gsp
+ NELHLgbdDapZT1/k276lVwoHQq50lwj+WJt1FEJhq0MA4uaTYKcoNzrZ2UXlJqaW
+ J7CYXL/s97dZQHw8aeV7SRaAQc3z+yzZzG8ii2RcIul9iMY+VT6longG6Jc8/Xvl
+ Ji7uwjrEumP12kGY2BZwB9lThAzJ2K3KPfi4O+dpdvfubRuawoiln8Q/FmjvNzSf
+ sha+o3B1pVjn0Y3Ku/LseXNy2NhdXRJB7e8baelA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=1SGLDD
- vT9aYX5Q4yTBAo0kI1LCc9lg3fqbdaIZNH59U=; b=fkGFKOx+QchCRN9F2gQ/f9
- 249sVbTag7soZUqY1zgVOFaEDAXekuMaRAAG0XsYD2Kk/UIG2eE9FeUdl1+OxbvW
- IPVbkyuXFbspWWh4fQ080PJaaFWYLyIPPvmQ7hdeNuWiiY0mp998A32kzL1s6QUG
- PoEMwa7fNMvSXxDbXJ963NXara1pb3/EXTLa3Socnyr663AY2T9jkpmr/+kT2qK/
- QqKbNAjeh4ejqrS9Dn6t1ngSAI2QknowVp4Fht2PHtiaKmFrr7VnD7/YAOscJjyp
- oYFfYM88nI3GLaWhAq6YBCLSQ+kBrh3GapaOycvh/B3wJj3WLrAa+T70zrvYwHTg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=xhKVkS
+ 6XIZgUH0LRLr+qOPiV5PE9/ZMNzxpdkFVUd1Q=; b=b4fk5q7Q4sPW8OhQDSgjfv
+ PbRoOen5Z6TfAFGoVYXCLDySJfXXPj6R6M22QvNFHy6A81bT6jE2Ddpy2QIagfOi
+ PBoPe/tbbBZI/TGKImwj9JaP7emep8HgyNHYwzMJQ6zKnofIVhi+iG3463kY9kcL
+ /NzB5VgZviP/jj+FYmSYnpHrd5Vi46SFG6Ux0OA9WIEGzMm8+otQ2SwCnuxHIhrP
+ qDZ/02mjghwhux9s1dXE3/RVxYSvzwPPjS2e4FkqXNMUWbnjK9M9uDDBOzU0Z5lh
+ cq6gK0RmWUtP9TBbtTpbuuomtnXeKaJBgtBhC9stZNhLfjB0L/M/bDTyJARHg6fw
  ==
-X-ME-Sender: <xms:YkoBYoo0yK4FFIbWE5xhTRJF9CTJM-pF11nib-kax6N2ky6_rrvaWw>
- <xme:YkoBYup2oK0Z2hZzVOk2iuUeOmbiEjHGHQ5wGtaefLMovH79ik7l3yLim3HVLQagW
- 4WEF2JOf3va23pSUgQ>
-X-ME-Received: <xmr:YkoBYtM1QZtwYIhfRDA2I1KsB77431xYJ0MTfuDKMd8UHEpROiSVnlkL7XDvAFjf3SpEMVSYc_JcQejchdsHOp1b7lUFdkoNJ4pPMgs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:ZkoBYioJ4dVcsQt7bpDYCJvnz4aVcUtDYd7zNBACZL7iI2ituVAJsw>
+ <xme:ZkoBYgq_umX_CMsLDpKay0rKdGSbOebd8EJuGw7vYLHwoE5ry-XT1nsLULQW90Xh-
+ QYnlU8jXV_rQdrvRsU>
+X-ME-Received: <xmr:ZkoBYnOrvtjH_GUhFs0XT9ll721XSkU3ucxoJkISNtPxdignx0awzsc4EYcKnlW_te2TJIpnShsK26zMRtzhOsdI1epfB-YL_X3e4N8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:YkoBYv7oho4-fVuju5bdR0tyJwC1hJjQcXCvd42sO0gE4BkAxeYXgg>
- <xmx:YkoBYn4sMS-NDCwdefPoxDJoCiedmjRr7EG8kKklVwd0mIbbyAT09g>
- <xmx:YkoBYvjB9w4d0G2EZNWQ27hudL3rp1xRu-edV9FoVUXXUFh6YyLrmQ>
- <xmx:YkoBYrqL8TdqQLEurbc5oZWNpxVm2Yd6HdPz81JsTuM7zAgvfdO7SIHjCmA>
+X-ME-Proxy: <xmx:ZkoBYh6-H6SsJprHIQv3BuoLV7zbbyr5XKNu7myawrkKn2Qu0-xogQ>
+ <xmx:ZkoBYh6rPuoxEZRs2j8Iw7XseylUD8Njtunjg3x3THZm3V6g4opSzA>
+ <xmx:ZkoBYhhs-k48MQmhVNEenFX94kc0BT6FFoiLEQzMH0S3Sc4O7HTCYg>
+ <xmx:ZkoBYooeVjt0E3TcC_Gr5PpQIHjXzXwdWb31-zo9J86CXABYNTPE-Q>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 11:35:45 -0500 (EST)
+ 7 Feb 2022 11:35:49 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH 10/23] drm/exynos: plane: Remove redundant zpos initialisation
-Date: Mon,  7 Feb 2022 17:35:02 +0100
-Message-Id: <20220207163515.1038648-11-maxime@cerno.tech>
+Subject: [PATCH 11/23] drm/imx: ipuv3-plane: Remove redundant zpos
+ initialisation
+Date: Mon,  7 Feb 2022 17:35:03 +0100
+Message-Id: <20220207163515.1038648-12-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220207163515.1038648-1-maxime@cerno.tech>
 References: <20220207163515.1038648-1-maxime@cerno.tech>
@@ -81,63 +82,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- dri-devel@lists.freedesktop.org, Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alim Akhtar <alim.akhtar@samsung.com>, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org, Joonyoung Shim <jy0922.shim@samsung.com>
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The exynos KMS driver will call drm_plane_create_zpos_property() with an
+The imx KMS driver will call drm_plane_create_zpos_property() with an
 init value depending on the plane purpose.
 
 Since the initial value wasn't carried over in the state, the driver had
-to set it again in exynos_drm_plane_reset(). However, the helpers have
+to set it again in ipu_plane_state_reset(). However, the helpers have
 been adjusted to set it properly at reset, so this is not needed
 anymore.
 
 Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-samsung-soc@vger.kernel.org
-Cc: Alim Akhtar <alim.akhtar@samsung.com>
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/exynos/exynos_drm_plane.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/gpu/drm/imx/ipuv3-plane.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_plane.c b/drivers/gpu/drm/exynos/exynos_drm_plane.c
-index df76bdee7dca..3615cf329e32 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_plane.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_plane.c
-@@ -122,7 +122,6 @@ static void exynos_plane_mode_set(struct exynos_drm_plane_state *exynos_state)
+diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
+index 846c1aae69c8..414bdf08d0b0 100644
+--- a/drivers/gpu/drm/imx/ipuv3-plane.c
++++ b/drivers/gpu/drm/imx/ipuv3-plane.c
+@@ -297,7 +297,6 @@ void ipu_plane_disable_deferred(struct drm_plane *plane)
  
- static void exynos_drm_plane_reset(struct drm_plane *plane)
+ static void ipu_plane_state_reset(struct drm_plane *plane)
  {
--	struct exynos_drm_plane *exynos_plane = to_exynos_plane(plane);
- 	struct exynos_drm_plane_state *exynos_state;
+-	unsigned int zpos = (plane->type == DRM_PLANE_TYPE_PRIMARY) ? 0 : 1;
+ 	struct ipu_plane_state *ipu_state;
  
  	if (plane->state) {
-@@ -133,10 +132,8 @@ static void exynos_drm_plane_reset(struct drm_plane *plane)
+@@ -311,8 +310,6 @@ static void ipu_plane_state_reset(struct drm_plane *plane)
+ 
+ 	if (ipu_state) {
+ 		__drm_atomic_helper_plane_reset(plane, &ipu_state->base);
+-		ipu_state->base.zpos = zpos;
+-		ipu_state->base.normalized_zpos = zpos;
+ 		ipu_state->base.color_encoding = DRM_COLOR_YCBCR_BT601;
+ 		ipu_state->base.color_range = DRM_COLOR_YCBCR_LIMITED_RANGE;
  	}
- 
- 	exynos_state = kzalloc(sizeof(*exynos_state), GFP_KERNEL);
--	if (exynos_state) {
-+	if (exynos_state)
- 		__drm_atomic_helper_plane_reset(plane, &exynos_state->base);
--		plane->state->zpos = exynos_plane->config->zpos;
--	}
- }
- 
- static struct drm_plane_state *
 -- 
 2.34.1
 
