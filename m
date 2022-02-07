@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042374AC833
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 19:07:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9534AC835
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 19:08:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A701410E380;
-	Mon,  7 Feb 2022 18:07:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A84D310E3A5;
+	Mon,  7 Feb 2022 18:08:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08E2E10E380
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 18:07:27 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id w1so2179741plb.6
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 10:07:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F61110E3AC
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 18:08:12 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id m7so13615818pjk.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 10:08:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=swzHcE97EWJ7OExA0+SF5lfM55/faQZ/BsbJXPEANiw=;
- b=MoSpV+TDFejXNP/Ru5fVM0SnMAN0DIm2kwXFm48S1LyBGlYC8t7HeQMscFm1zsWKQn
- LpH1a8Ceo5svFDSSBvWLZyXXBK5hWFI1e0bMw9aoSoNP091uQXy4jKDDVPQ8zzdy4kTO
- vNU0JJWzHeu+nYrPtKLuHZkE5v57Ieo59KtoZZOkO8nqlH7D3tuJrwruQ1WmxCdYr8b+
- mS3G9zI1iy4tVs4geSWQiWA+O4nPVV0g7NESnSJXLQTbD/1+EwL5hVgDVzYn5vo2tui0
- DOtaACCrVWjRx4hjwXqeJJsiZRaXGKcmNkorCZv8sYmQuEtVwqN6kmXXsedGZaJhSUML
- hwnQ==
+ :cc; bh=nxHF7bigQnfZfNGCQpq6EtXcG8/j6GHHAEIHGHy2fyU=;
+ b=W2DDXQJis+1qeQfXY6E/rxnSkSH+QKQccGw4pZqh3cKQQ7Ll28D21ZTANWBpjdTXkB
+ +oBg0dRp7zXiF2K9fvNxjOnqLQ0NU4tSCX/uoDUgYXiPcW3lrnrEZ8WrBiPWSBgY4/tx
+ 9wQBgc3U+/16XX6zr1IGWZp+OTMhC+7AmHWl4HQOtmJdf1TDvqV9PwZseP44xIAvTKTJ
+ lY9+rCsDVlGtJn+K+JfRbJQJUoxEyKL8bHmbimQ1ptdoTfcpwUfxMxs8lIMS2tr1n+Up
+ 0WNvMspuYRbKnLIowW6FPQwT66Mrqlup7UTEmGoUmJqEmINAArubT4xrd5hjAe0QVo24
+ gEeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=swzHcE97EWJ7OExA0+SF5lfM55/faQZ/BsbJXPEANiw=;
- b=GwDx9C9g1V/dLR1uQ3qN9HKslYNdOAwOSUK4x4DXY7ip2ytBpItx7Rmo82CZ4DuSAp
- 5v6LCkLh9REw60Z6J51Uc+WIjemtOIJI65gj9zdV9v6sW1EQNd2HYqh4RVws0IqTgAu7
- Uuce6AbOXmDwuUCH4lX+rtvFbEILgD4MVnOAGVMMLhQ9ITz+34nJ/4vYkUaf8zIRZG1I
- W1BZbwEo+LnMPWeYk3Nfce6Ni0AEim9n6bNPkmA/igeWi5TiuOPx0kF8xzrSZ5IMYKpP
- hBhHQu3Sh1+2oVj831Sj0ZO6s1Kfpo4F++B+avyXUBlRCy94yW229yEramKbQ7QWTn4H
- Gq0Q==
-X-Gm-Message-State: AOAM530bs147hfQIbQNkQDWiRL8WjrrofJrmuG2ZsRauAgIJxKjX7drE
- VhAE8QcZTSZiD2eMc6iyoF1Yb9dthZreDNnZ1r8Z5Q==
-X-Google-Smtp-Source: ABdhPJx4L9GwMqW7kHzYSw+H+7f8cha8zj7Ump2Ad5KV1U7ph3nV5BrC1hW9mlWB88S/6f/XzTuS/DAVPh+cVgIoKzs=
-X-Received: by 2002:a17:90a:348f:: with SMTP id
- p15mr106049pjb.173.1644257246368; 
- Mon, 07 Feb 2022 10:07:26 -0800 (PST)
+ bh=nxHF7bigQnfZfNGCQpq6EtXcG8/j6GHHAEIHGHy2fyU=;
+ b=dw5P73RBgANhBBV/2EcoVSRKvpFOkm4Uw/IawEa1WGvsNySjVbNZIv/g5RNKfwKXdv
+ aupi8pyfeq5RcvK+8Etk1FVlnnfZkO0RTLzSBn5OVNn+R//IrBZUWsBLAvX2pTS7BRgx
+ ZQWcJ7wmXIf3DsOOywkYxzYsXymQvl+jN1cEt0vQKVthXBXAmDrLRMkFvI+EQa3gmkNa
+ MvC0SL34oake+mu3iwkYL8QhYywCL6mMuuRwvQVe/edZMDOjN+8mAj1dTxmnCa/OUFyQ
+ pRgscFVsPvxf/4n2C0sH2Sd7iM3A0VK34nbvjuTbjIQ6/WUC/mdj+CUzeace2CcqHmfr
+ oi/Q==
+X-Gm-Message-State: AOAM533zGZWaDtCr2mEjKnzFFB8PG62Hyr26ezC0FnzAtyp+1Inok0kz
+ 2vMc/wOeENRahEKOKVdR7iOPWYcEgxzd4MahkmyCvw==
+X-Google-Smtp-Source: ABdhPJxbjfLp1vymzfVN/rUSu7NFfwM27TjFOxcEJErT+R82ivD+XXC3ZWylDTpvE/Ebzm6hUwz4bOsdTAqXcC6BA2A=
+X-Received: by 2002:a17:902:ccce:: with SMTP id
+ z14mr815477ple.34.1644257292200; 
+ Mon, 07 Feb 2022 10:08:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20220207113307.346281-1-hdegoede@redhat.com>
-In-Reply-To: <20220207113307.346281-1-hdegoede@redhat.com>
-From: Rajat Jain <rajatja@google.com>
-Date: Mon, 7 Feb 2022 10:06:50 -0800
-Message-ID: <CACK8Z6HnOU9W6BUnBeN2c3oFKvxaTaXdOXSR7hsNR8EAxdyaTw@mail.gmail.com>
-Subject: Re: [PATCH] drm/privacy-screen: Fix sphinx warning
-To: Hans de Goede <hdegoede@redhat.com>
+References: <20220207063249.1833066-1-hch@lst.de>
+ <20220207063249.1833066-2-hch@lst.de>
+In-Reply-To: <20220207063249.1833066-2-hch@lst.de>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Mon, 7 Feb 2022 10:08:01 -0800
+Message-ID: <CAPcyv4iKLXJftFL+jdAXFXt6-fjwSdK9D2un9PywfXDT0W7HzQ@mail.gmail.com>
+Subject: Re: [PATCH 1/8] mm: remove a pointless CONFIG_ZONE_DEVICE check in
+ memremap_pages
+To: Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,51 +65,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Linux NVDIMM <nvdimm@lists.linux.dev>,
+ Ralph Campbell <rcampbell@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Karol Herbst <kherbst@redhat.com>, Linux MM <linux-mm@kvack.org>,
+ nouveau@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Logan Gunthorpe <logang@deltatee.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In case it matters...
-
-On Mon, Feb 7, 2022 at 3:33 AM Hans de Goede <hdegoede@redhat.com> wrote:
+On Sun, Feb 6, 2022 at 10:33 PM Christoph Hellwig <hch@lst.de> wrote:
 >
-> Fix the following warning from "make htmldocs":
->
-> drivers/gpu/drm/drm_privacy_screen.c:392:
->   warning: Function parameter or member 'data' not described in
->   'drm_privacy_screen_register'
->
-> Fixes: 30598d925d46 ("drm/privacy_screen: Add drvdata in drm_privacy_screen")
-> Cc: Rajat Jain <rajatja@google.com>
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> memremap.c is only built when CONFIG_ZONE_DEVICE is set, so remove
+> the superflous extra check.
 
-Acked-by: Rajat Jain <rajatja@google.com>
+Looks good to me.
 
-Thanks Hans for taking care of this for me.
-
-Best Regards,
-
-Rajat
-
-
-> ---
->  drivers/gpu/drm/drm_privacy_screen.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/drm_privacy_screen.c b/drivers/gpu/drm/drm_privacy_screen.c
-> index 03b149cc455b..45c080134488 100644
-> --- a/drivers/gpu/drm/drm_privacy_screen.c
-> +++ b/drivers/gpu/drm/drm_privacy_screen.c
-> @@ -379,6 +379,7 @@ static void drm_privacy_screen_device_release(struct device *dev)
->   * drm_privacy_screen_register - register a privacy-screen
->   * @parent: parent-device for the privacy-screen
->   * @ops: &struct drm_privacy_screen_ops pointer with ops for the privacy-screen
-> + * @data: Private data owned by the privacy screen provider
->   *
->   * Create and register a privacy-screen.
->   *
-> --
-> 2.33.1
->
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
