@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE684AC9A3
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 20:35:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 014704AC9A6
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 20:35:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B39410F4DA;
-	Mon,  7 Feb 2022 19:35:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D00310E40F;
+	Mon,  7 Feb 2022 19:35:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
- [IPv6:2607:f8b0:4864:20::829])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ED8310F4DA
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 19:34:59 +0000 (UTC)
-Received: by mail-qt1-x829.google.com with SMTP id o3so12823079qtm.12
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 11:34:58 -0800 (PST)
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com
+ [IPv6:2607:f8b0:4864:20::f2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CA4710F916
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 19:35:10 +0000 (UTC)
+Received: by mail-qv1-xf2b.google.com with SMTP id o5so4606394qvm.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 11:35:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=9c7vpxYS+6RnfIRFWhHgAcQnmpWWsCXDoIZ8HfcxKVk=;
- b=eyrwc8BMMdOVC7JxxbPkKv0E+7XYg1mWVnxya1gkeBbn+6FIIKA4h5dIP4xxQ6Lyue
- PP3XS1TlpffXxqvfwJvChxVJKrRaJ4INlob/J3j8V4nhPl1/nALzUS4bebpDgN+o/Aus
- QQg2zEZcdkmCLgeogf4eYK3AO+nmond0PimC6gBZEbdgCdCPZ88/G1CIEJ9vhbSZK4os
- tk4KtyYHQy6WXksXzSrn8f5eOqxd/45+LU03LL1E7V5s7Z/zSb/UfyVa4YpBFVPoHCin
- OF1OweCzorEMyWiZQI+JHPsC+t/W26GR57RXRrAWC89poKcjeNO3WJ+VmGSwbNpLPdn4
- ljZQ==
+ bh=rboH21WjTo7Zpin6WU8ENnQ0jpp7u5mio4o8y61h1qA=;
+ b=VXh06X+F+pn59Qpun2TvClz1m9HjYoHgaKOI4lztMUBuiGjL99BTi+BawyYvV0b0yn
+ 9cSLWqxROo0MXIKlUdGoc9EE7z86T+5wHR+ArNTi5/pxBOI4IWPMYAGwHGhxndX7GpTZ
+ fSLPo9Dt2nuunse7tKeQTFKIcNt0CE4F9KzzI4ti/AgzATLEA1o9kXR4ml55Lqmm3Yhc
+ wbAAtoduBxENkPGmrIt8sbv6drZp6l+PHJ57vTSVfC3pA1NN7u0WuhjPEL0YmplkLBQR
+ SW4HkKGx0mKB2zSYzcqNdqN99/smutm6o5outMhJEioQPVTN6gdzMAHSMaOhfZa5HAKv
+ HEcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=9c7vpxYS+6RnfIRFWhHgAcQnmpWWsCXDoIZ8HfcxKVk=;
- b=RZHkiXiF9X6ylww2pQooeRm+zbrmN1Pq9YGuR3edu8sIgyV8/CMuO43jqkjvV9Y31v
- Gq9SMRx6fyt6QHdOwLj0AaHl+E4XPb3Ro6xssYgDr9HXKWIKTX8ITFvx7viJH+U6OLWL
- AF4r/It31oibBvUZcKGdYhxLv20trbrseDi1Cck6jNeHSG+Q6cu0qHzEqq8PW9uE4NMV
- mQI6hThII5z2uUlo7B3mE2WLimWAW/ViVwWq+zVd58mOb0gSRoyHwkSNaNAWzXMsubSA
- ljUIhyoXpGjEnf6C+TdJmO+JUZJTs9gX0MStE6Eotscn4qsHiO/raWjgigXwihS5h/H9
- TFvA==
-X-Gm-Message-State: AOAM532NMvgU0UKds2Tg0CNBOS9n5j7pRAdwXO3rpDjXAqNIbjOaYjLi
- QXvhjOj23Hyo7QFjAtufxf3i0A==
-X-Google-Smtp-Source: ABdhPJyvD659xk5KRCKkhy7N4LjGPrkEHjwUHp/EZt//+nT6eRHPcHoug24DbpSsFF9r7utyh5WJCw==
-X-Received: by 2002:ac8:7507:: with SMTP id u7mr761226qtq.518.1644262498222;
- Mon, 07 Feb 2022 11:34:58 -0800 (PST)
+ bh=rboH21WjTo7Zpin6WU8ENnQ0jpp7u5mio4o8y61h1qA=;
+ b=EaYairINTH/DpVHREd1SK9FlskTUa9g/WwKGtDyJJUgVJwOmJgiaKb6R0I6b5ADIQb
+ VkmNvkk1R7qqTuY6lALtxh7d4bfKADg+M7higT21cYSCPEL3KDM75C/zSXOrmIZlZod/
+ CsiI/5Wu8txt5TG7Qy1Dw/0VsbggJ2XG/vSNdZRSIZaToup/Zd9fu9nkFhsOakcT1ygu
+ VX71kD/Lx5Eb+XRcpZ9SYNuo9JjGSJy/6+iU4iLx8/Gc4AJPwqyjq+uW5l0quAtlGU94
+ 62mTNsfP74C6trTZ1VO8m5Trndu5ePxBtXs11U1xBGMmzSEXH2lX6Os9pldJp93mOstB
+ KJPA==
+X-Gm-Message-State: AOAM530Dlxcan2dVeCPltbBHftgSk+ACTD+KpKqD8EmZqX7UF4OaeSbv
+ BxoXJEA010p0TWYtFTVREGo7yenGQABHcQ==
+X-Google-Smtp-Source: ABdhPJwMTfVdQUHipluh+Ohvh/JxuUZnOnGCSsmXZVjjmoMxCtKJINJPPq28Adoz05obvbxhEw7l+Q==
+X-Received: by 2002:ad4:5942:: with SMTP id eo2mr803626qvb.7.1644262509546;
+ Mon, 07 Feb 2022 11:35:09 -0800 (PST)
 Received: from ziepe.ca
  (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id o18sm6033304qkp.26.2022.02.07.11.34.57
+ by smtp.gmail.com with ESMTPSA id bj24sm5684465qkb.115.2022.02.07.11.35.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 11:34:57 -0800 (PST)
+ Mon, 07 Feb 2022 11:35:09 -0800 (PST)
 Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1nH9mq-000I5O-UX; Mon, 07 Feb 2022 15:34:56 -0400
-Date: Mon, 7 Feb 2022 15:34:56 -0400
+ id 1nH9n2-000I62-Fa; Mon, 07 Feb 2022 15:35:08 -0400
+Date: Mon, 7 Feb 2022 15:35:08 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 5/8] mm: simplify freeing of devmap managed pages
-Message-ID: <20220207193456.GF49147@ziepe.ca>
+Subject: Re: [PATCH 6/8] mm: don't include <linux/memremap.h> in <linux/mm.h>
+Message-ID: <20220207193508.GG49147@ziepe.ca>
 References: <20220207063249.1833066-1-hch@lst.de>
- <20220207063249.1833066-6-hch@lst.de>
+ <20220207063249.1833066-7-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220207063249.1833066-6-hch@lst.de>
+In-Reply-To: <20220207063249.1833066-7-hch@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,16 +84,28 @@ Cc: nvdimm@lists.linux.dev, Ralph Campbell <rcampbell@nvidia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 07, 2022 at 07:32:46AM +0100, Christoph Hellwig wrote:
-> Make put_devmap_managed_page return if it took charge of the page
-> or not and remove the separate page_is_devmap_managed helper.
+On Mon, Feb 07, 2022 at 07:32:47AM +0100, Christoph Hellwig wrote:
+> Move the check for the actual pgmap types that need the free at refcount
+> one behavior into the out of line helper, and thus avoid the need to
+> pull memremap.h into mm.h.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  include/linux/mm.h | 34 ++++++++++------------------------
->  mm/memremap.c      | 20 +++++++++-----------
->  mm/swap.c          | 10 +---------
->  3 files changed, 20 insertions(+), 44 deletions(-)
+>  arch/arm64/mm/mmu.c                    |  1 +
+>  drivers/gpu/drm/amd/amdkfd/kfd_priv.h  |  1 +
+>  drivers/gpu/drm/drm_cache.c            |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_dmem.c |  1 +
+>  drivers/gpu/drm/nouveau/nouveau_svm.c  |  1 +
+>  drivers/infiniband/core/rw.c           |  1 +
+>  drivers/nvdimm/pmem.h                  |  1 +
+>  drivers/nvme/host/pci.c                |  1 +
+>  drivers/nvme/target/io-cmd-bdev.c      |  1 +
+>  fs/fuse/virtio_fs.c                    |  1 +
+>  include/linux/memremap.h               | 18 ++++++++++++++++++
+>  include/linux/mm.h                     | 20 --------------------
+>  lib/test_hmm.c                         |  1 +
+>  mm/memremap.c                          |  6 +++++-
+>  14 files changed, 34 insertions(+), 22 deletions(-)
 
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
