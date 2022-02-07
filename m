@@ -2,120 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD12E4ACB23
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 22:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F324ACB2A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 22:19:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61B7210F91E;
-	Mon,  7 Feb 2022 21:19:36 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2085.outbound.protection.outlook.com [40.107.237.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB52E10F904;
- Mon,  7 Feb 2022 21:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 140D810F92F;
+	Mon,  7 Feb 2022 21:19:44 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 171A410F92A;
+ Mon,  7 Feb 2022 21:19:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644268783; x=1675804783;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=rBwi/mp9mufDNk+Kvzntt/EmXxZM4BjaVCnxg4CO5Q0=;
+ b=VQqD5ScIenozKH16h7rgaNJyXTqXLA75A5/7ViNOsUO3o/jJa6ROWoyJ
+ qYv/bklJDQQf6gNMlR3VbyQw7C9zwStUZEN5ccCdqV5JkxZAIChv6fT2S
+ Vl2I3b2pqdLp3ZbZTkRENYlmpBKzfiFrNO1CAGPoPBAVkmUjTIySPY9d0
+ VyuwaOq2wZRdAal/4acYSn9TDM75T0YOWSv/aDDDa1mT1zLuek4MhiDLk
+ ZZ3wFbP9OSxReOjwvOIRFrYJ3dQW52jp7Mm+hMotY3y9gDWR8reL2pVtr
+ tuLZYLMbUGG5rWygZqLGqwQUBTHXDK6Rbw0/IrdWgFS0RFal0V/X9vyMW w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="335213121"
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="335213121"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 13:19:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="601023007"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga004.fm.intel.com with ESMTP; 07 Feb 2022 13:19:42 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 7 Feb 2022 13:19:41 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Mon, 7 Feb 2022 13:19:41 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Mon, 7 Feb 2022 13:19:41 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UZ6YtKuDtUjnGLhA3rysnPZIpbfRIxuEg/4EB0jlOxktmdjOkRSHJf3Dq+ahI6B9P5JEsakXiFupGV9747x9BBoh/rXAZ4JSIIdm7678VfWunlM2f5ijJ4qaK7WieHWyWb9s10jMrStS0C/nyLV3GZB6ptDx9/SShhHRwF+piauNKaymy0P5E/jpMVflOHXXbOysSP1um0YxsZjrqlPphHdG/1L3tRWEI8vBZJWW8wIDaSfeFvJ+JTTCuTKcOi4pDg4QTuOOMcAx7TAqB9i19huyLpJIQ37pV4+60Wya+drckRK53bKW0mZqZOeFFttyaySEwx5bI0zUZNwlJOkEuA==
+ b=DUdQsI15Whww5svB+zrbHXygieRtHxUX85zMaZpuWIYfUFA3eYVUmiZyST12u5s673XNu2U/jWIzxiS7NkJDmxV1S4qsK/+D5Q0xf58xMoApjKhtyKhcXwppscSvPPthoQ94R4AT37TiMHGqHZpC/A8rczIHEaplJBtCtIXwHQQfqismhPKSWlOReoqNrHi26i/20Wrs5auxBK3gSlO/LqCbdUrlwZbzgHmtzp/G4Q/QgRAeJoN5Xo2FJiTLRRjkexrOmYQ3Ip83RPAkDGJy2GtG91SN/WkBekFPjy/8F9jg0M5KWE3m47poFDtuFIsyIB/V2+UZ+OzhNegXoYh30g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qdTLTDt99eDVa++Z5iH9r+SNIk6aNNfYsy5ueSrK5Zc=;
- b=CvEVcBAN26eKA+q9TdzdpR82deHs7ohIzf8J1ysCUOo0A7kBuWWMO4FDWQvjuEO5Zew8DsEia0XTgGk2kW1fB/0BDp8WA6lOk7aoNEBj7mVY5bKhOdWC+XNRbc1PB5NHQQurGCsGaX6fdH5qmUlPdJXDAgepGyohle2yQPV5CIF5GQZZ1dPpTtcRXgcn/LWjqS6YP9KIpOwbL1IlcuntYrxL9Ox+BmP80KBFaOgC6wIowo/RRznsHw4WExGUt4axhoZsxvjE+MeQ8pei3cVBHiOE9uuDWfSRLfKK4bYsXvPv3jdiAGy+7CNJUI6iGvKrCY+yFZK6Uqe8vjYpgN47Kw==
+ bh=i0ZNHZtXIPupDRQ14hx5Sk4iLVxka3apymgt7g9METc=;
+ b=EQ+S7gLjgKr8siFdGu7Ya8OUqHyf907PkMoudo3htoZtx/oh3Ws/dh3H+KcTuX16p1Z8oMd5/+A1LiSMzU9kPI1tl841AUWgL+V3CISeISXvsLHWLg07Lb/oCmjMm7x/v4kxytEv2hM+l4Iwk/CLv2osB0RAx0T7fUe9ySU7xmj5jui5og5hZpIiEeoRMbRXPp9cxIEy+S4LUxr+PrzbdKMBZDzX8eYCHQRWY+MFanIiOd7ZTRCT3Bv9HlgXar4x/950rlGagx42v8Mnv6RDEfOzm4uHF9NWjwfwd7v9Hz0izBY20KxqMR6wIAHCcM9ZTy4lzZCIyaCQLtYhtxzqLw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qdTLTDt99eDVa++Z5iH9r+SNIk6aNNfYsy5ueSrK5Zc=;
- b=TUoqQoOG5HKdIpeBpD5xa0ftbd7u05yhc85ItYCB7e9ObF1jFou3GF1xLPLBbK0Qa98/dgRFe62lZ/vV6xBff5Ggv0HTSu08FjkuZPizg1gNCYIlpjpNiAzap8jK9NgZgn/YIXhedBYegxRw8QgWD8TqV0NXwfndw0iL634RN3c=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by MWHPR12MB1776.namprd12.prod.outlook.com (2603:10b6:300:113::7)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
+ by MN2PR11MB4552.namprd11.prod.outlook.com (2603:10b6:208:263::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Mon, 7 Feb
- 2022 21:19:31 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::971:531c:e4f4:8a9a]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::971:531c:e4f4:8a9a%8]) with mapi id 15.20.4951.019; Mon, 7 Feb 2022
- 21:19:31 +0000
-Message-ID: <3287da2f-defa-9adb-e21c-c498972e674d@amd.com>
-Date: Mon, 7 Feb 2022 16:19:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 6/8] mm: don't include <linux/memremap.h> in <linux/mm.h>
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Andrew Morton
- <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>
-References: <20220207063249.1833066-1-hch@lst.de>
- <20220207063249.1833066-7-hch@lst.de>
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <20220207063249.1833066-7-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0090.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:84::30) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+ 2022 21:19:37 +0000
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::31cf:9fdd:f7a4:70b8]) by BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::31cf:9fdd:f7a4:70b8%3]) with mapi id 15.20.4951.019; Mon, 7 Feb 2022
+ 21:19:37 +0000
+Message-ID: <4e4d90e5-ff7d-c572-1d19-df28602c394c@intel.com>
+Date: Mon, 7 Feb 2022 13:19:35 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.5.1
+Subject: Re: [PATCH v3] drm/i915/dg2: Define GuC firmware version for DG2
+Content-Language: en-GB
+To: <Intel-GFX@Lists.FreeDesktop.Org>
+References: <20220207203642.1875208-1-John.C.Harrison@Intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <20220207203642.1875208-1-John.C.Harrison@Intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0329.namprd03.prod.outlook.com
+ (2603:10b6:303:dd::34) To BY5PR11MB3911.namprd11.prod.outlook.com
+ (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d4a84fe0-231b-4598-4e53-08d9ea7f87be
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1776:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR12MB1776E2FDC7EA1C5FB68178B5922C9@MWHPR12MB1776.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Office365-Filtering-Correlation-Id: edbd63c7-fceb-4c8c-7592-08d9ea7f8b8d
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4552:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <MN2PR11MB4552337C8BE6159C20102F6FBD2C9@MN2PR11MB4552.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ywv86SR9WAtdng9B1Vr6miNH4FTFFdWV9AKD4DJ9BiEmGBtZeEh3tt0oh0qz5/Hp3xYJlHthXLSHTvEihqcFEVPDpTrFwHSWYVMKUuuSvgwPurxxsZwunYPNZamLNGo10FIOT+qYY8bEWwZq4IzhMQO+rDGr8N6hzF4Bw+XvDMnofzXzgoHjS6taOTpArkgO2SKhUJAPkvTy0lvD3rBZZx221Ra8YUNeLhkG9vCom/pFyyNjPq8uXQ9Q7BlV3tG2hcVqFEYqpMYbhfSCnCmvLiwvxohnFXJUz5q680vHNl5xgNsRExAEipRMPXezA9aKebHu8g4HklmG6B8ERpnxwJqgXs9pRNU8EOhtQtZOKqwT1EuiGJmlSbvfzaeblBRWIqVptUZTVB/h50TC0C/A5pYoG3WamaywBbNYHU6VFbESbBZXJ+L0CCmp+T2J5e0PJUfxwUPVIbqyIdSteIMzYasCnbH8xpOsSxUVm9dWd0Sh5U+n4l6dsD9GMkbSXsQUMf2ChzO7HQ1HM+lJoJYB5f0RXPdJpL1CvXSXboxh7GixEncuVINT1O9GhTC1ctTZCFj5LNeMEzFXQWxAF7/Yz3u/L80NRZfk2p/02Ia6sm4TbcAiRmzxi3EcjM+IyfB0A3suLIyrDdpWDeiRJAQTMGkXc6SS0P7tDzZq8PJexPRNxpxlqsct741tVLEZ1pLhyWDwQyv43wYbQmRlQulgVUh8enAe7aLU8qoHFEXHTDS0l6W8c8wV3DjVNtWXTK24
+X-Microsoft-Antispam-Message-Info: +VO/Z2UD1PDs1o7TOeQkIGSe7Q43fUlFp6MseEdtG1U23Xndq5ErF062mgu6xR0FTe6I1cejUGmIc19HRLqSflZRQwnLXsg7f5JS6/rSNKlUBmZjQ1wD+YAj7zAR3hk8nWKdn8dC/jWTzsSdHLwW+gwYpctJRbiriGIbsRFpVUgjCd94IcbCgcafkQ1EMqrt50SHRRN5DyAgKV5rkyqZf0Z2e2FGFU5mOFXg8nkzlac4/CD6/fr0/PXFhTxJG1eNGSxdGpljk5uNpbsDjNp0/1Vu0dG2e+f8OlnkVpD1h7IaTg3CzummrFFbTDHasDTVfm2cANdjLSVHTFZ//7HEo8gFrMvj0xE2hDvI56jQxMxc1se6v7NmSw1RouiPTSzvAaWfnclOjzgho/iCRiQK2PoLbW4slh4HNiRwnEaAu01lBcZ7SsFn9IrZYE644x+yXkcdlO0ob66DQWhZjY6ts18Sv7/9ed5+xJSFNletPgO6AlYtZOstMXCcCxFGbZJAUz2XN7pN9idqjPfkgj+RCOwjac3c24hQzsuTOZtMmipUx9MITcVxsHSWR6CBLU5h8ODyKl6Qqrek+8vNUOvC4rZTT0102iSety6NrRFO6EbrpuQpFjAGUWQeLU7OiztxOmg56UZO58C/lNKjY41WSMNIE/FLajuGrN1CYNf9PCgKnnE2AZ40smz4bXsk7AB7443VduvIZZg2D7+Jo6lMCKyYINgBunVrIKrzRbr7qFg=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(66574015)(66476007)(26005)(186003)(8676002)(83380400001)(31686004)(36756003)(66556008)(4326008)(54906003)(110136005)(316002)(8936002)(66946007)(5660300002)(6486002)(6512007)(7416002)(31696002)(6506007)(38100700002)(508600001)(44832011)(2616005)(2906002)(86362001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(31686004)(36756003)(2906002)(6486002)(5660300002)(38100700002)(82960400001)(53546011)(4326008)(8676002)(66556008)(186003)(66476007)(66946007)(450100002)(8936002)(316002)(26005)(6916009)(54906003)(2616005)(6512007)(107886003)(508600001)(31696002)(6506007)(86362001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QW9ocEl0aFZ6bHhraDduU21ndUFzTGdmK21QV1JiMGhIRXh3a0NNUk1oRkp2?=
- =?utf-8?B?cWJxb0d6MmpCcVYyaVI4Wi9URmN1RzNmODZLUlRhcnppRzZKakc3Z0lyNkJt?=
- =?utf-8?B?WDVyVTlESFNoaWI5OWltM1F5Tm5POSsrc2dHVjJQdkZNQ3ZiY0F2cldMUDg0?=
- =?utf-8?B?bEJrdHB5TUxEZ0x3czBJVTB6djA3RU9zUnltaGZWVkxKdUFubHcyT0hRKys4?=
- =?utf-8?B?dUJtZ2tSbkFCWGRvVWY4WEg2clZYV2JHMjJpRm9jcHJubm5jVTJiZUFISGk0?=
- =?utf-8?B?QlhxUlo5c3BpeEJxLzZNa25VYVJUNXlDckZYVnZrMHRjbjNXNmh2emh3TVIr?=
- =?utf-8?B?Z0hWcGxrelhJUkRFR0FobE9NT2xXcWp5V0Z5VlZPS3JNTHYxd1M4eExvME5W?=
- =?utf-8?B?bWlhaTNZc01OMmE1TklycXA0UWZkaVhwUEk0ODZHL0RFWUp1UmdSTUZTbkpQ?=
- =?utf-8?B?RjIxWS9rS1FIc2duQk9qbjN3VFdTeUJNZzRxWlhGZUpvbFhaVUREbzhTWnl0?=
- =?utf-8?B?WnB3Q25XWmtwTysvNTRhdDZiOHkreW56YjY0QUVtRzFFQVVxdUpEQUFYQjdk?=
- =?utf-8?B?N29PYmFXekkwbHc1bDdIUlVTcFdZNm5lTE5LcDZ3b3FraVJTOXhTL0YxZFh5?=
- =?utf-8?B?RXlQUnlGcUUrVTNNbkZBeGloYnZpVmo1WG9ueXd0QWZDZnJvUW4wMElWOXJP?=
- =?utf-8?B?ak00bitCNk5HZDVpQ0hKd0FpYUw5MTZ2WHpXb0dXSmhVYXJHMm9DL1E2Z2hm?=
- =?utf-8?B?Y2M1YVBUajJtZ211WVZkYTVwRU1zV1BTNEtCU0hVVTdsTUxackxmNkk0b3Na?=
- =?utf-8?B?YlpnRTNna3JMdmtwdVJ2TVJzbkI1dFZSY2tKdFJnMGRWd3RGNHYyTDhkSWhm?=
- =?utf-8?B?UGZhSXlITDlldG5KbGVRbTkwa2pGN2FSbkFXWE9YYlhURm1yYnJaMWJTMnNG?=
- =?utf-8?B?NjQ1d1U0QUFQZktqTFhRMEIvZVZGSy9rZUlQdVh2SlBrOHZHcnFFc0k4dnZj?=
- =?utf-8?B?c0pZbUEyOWZrZTBhVTFyUXFqcVUrekRoOTdPYUpOWXZtRnIwbGdhZkorRWVS?=
- =?utf-8?B?ODNKN2h2WU0rbkhHSU5iMHlxVEszcWYxSGNoM1Z5VC94YXhEbGlmWmNqUHQ1?=
- =?utf-8?B?aWNMMXRYMW5kM0trTCtRbXZLQ2pCbU1QYzYvNS82WDlTYkxqeXpFYVdaTzJF?=
- =?utf-8?B?Y3Z1eGd0dEh6VFBqS281VXo0VnZUYXhvcHZUYytXM29jVUtMekwrR0RXYTlE?=
- =?utf-8?B?eXNvRU5sS3dxUm1aNGNqNWdjdmkvWVRGYittaFgzZiszYUIxeUVQVXBLQzJV?=
- =?utf-8?B?bkp0M3R4ZTgzZTRNVWllNjhiYkpnOWJMdTVmWTYralY2YVpLRk5XUm5hT0Yw?=
- =?utf-8?B?VlJSOXArV01pUlZGMFJpSi9SVmpoREo2Njh6anNOcENYWm1NOEJWVDlFNE4v?=
- =?utf-8?B?T0dBajY1U2NTaForMlhJZE5mNjBSSGw1L0VBbUxpbHdkd3VYd0ZVZFBzeUho?=
- =?utf-8?B?TXR0V0t4bXBqZHhlVEgzeDhMaEF0cE5GVUtIbmJmU0RuZURmblllL1JQZndC?=
- =?utf-8?B?R2dhWmJOWmNCL0RZWGVCaFFnQTJnZ0paU3liU0docHFtWkhiUE9XdGRyM2Rk?=
- =?utf-8?B?eUoxdkJycTZyQ0lTcVJuMVJreDhTc2tBanU4UkFHWG5yUlQycmtEQkU4aUF0?=
- =?utf-8?B?ZTZUUGoxYTIzZ1pvR3pPNG9kdGo2bHhYSWJwaVZqcVRDWEdsM0N6aFJvdGJ2?=
- =?utf-8?B?WHdDK1JSd0lwR0sxa1p1TDl5Z3lnWGtXUUxBVU9NdzJVYmQ3NlZFSmhGVzRB?=
- =?utf-8?B?MjAyVnBOS3BWR0V2TWRhMjZ4WFhheER0N1lsVGJSZWNPdkdDNmthWG5MSWNS?=
- =?utf-8?B?cGN5UUFoZGQ5UUlIa0ljcDRWeUd5bEJzME03aXhPZEVSditlTFhmd2I2dStt?=
- =?utf-8?B?TEs2RHVKT0VBcXFLdjRZSjB5SUVoeVd2Y1Y4d2lYR1RNLzBjclc3bC9vOXJ2?=
- =?utf-8?B?U0xkcDhYV3V5TDM4SVRFbVBwamY2aHZvcWNlSkhpWkF5WUNaYWY2VlRHYVJs?=
- =?utf-8?B?OWQ4WVRDdHRKeHJnMUhYSkVjN1A5OUV4NXFobUpNU09kbkxoc2ZqUnEvZnJQ?=
- =?utf-8?B?WkJtVy9oQXFDNGRpeUp0RjdtVHdsdndsS1NsQWhKa01XdGRJcFZiZjdXcUZs?=
- =?utf-8?Q?KPsS9mZfO8MYHsbvr/kirvA=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4a84fe0-231b-4598-4e53-08d9ea7f87be
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WlBKTUNxeXJqVllLZk1LTXEraDc1bW1kZ2xNNksvNGVoVHg1UkxUS1E5TVNi?=
+ =?utf-8?B?dXdWRTdnYXVWandBcTA1VWQ5SFhOVGMyZjFLcU8reFpwOHllYmtodTh1Zmw4?=
+ =?utf-8?B?dkNuNzZzdllkQ0w3clRvT1pIQjJ4SDB0blZDZVNKbmVST1cwRGdtNEUwM1No?=
+ =?utf-8?B?WW5CK1JKWVhQNE5zbTFkVTFRTU5LeXhzQkVkd0tjd2JUVUExZk93TXEyanFP?=
+ =?utf-8?B?MVdUTndVdXJrNDNBelBEMTV6U0cvQ3MxRUhSaWZhSk1WR3NWS2MxeHJWc0Y2?=
+ =?utf-8?B?WG1XeXIwWTUrK21pRTBMdVFnaFgxcTl5UXBzMHhEU1dock5QaFYwR09ULzBF?=
+ =?utf-8?B?enE5b0l4RGRxbXVDRmozTUxYZldFUVlOZURTeXVpTDFrRnFmSEpLb3pwdW9s?=
+ =?utf-8?B?MlNKTFJITmFwNHhtT0xBdnhrSi9oZXRoMkxCSkdWSDE0MlFiSmJCSmYvZkpM?=
+ =?utf-8?B?RG1BYmQrTHcrUEhRSURsVHVRMm5sVm9xWkdKSG03K0JuNE1TMXBwa0xxWDlW?=
+ =?utf-8?B?WnN4S3VhRXg4UHNKNjd4TXZlODFCcWhnRXN6TEw0c3JqUnNlemJaYjJGVTB1?=
+ =?utf-8?B?VjJUQi9QTTlNdTNrK2NPYUUvcHVVTEZOaDNJbjYzb0hYRS9GZGRHMllvejFZ?=
+ =?utf-8?B?K1k5Qnp0NERWTWlxN0VtMWdJeXZSdVpNY0IyeUQyT2UrUlFOTk5jQ21WcG5z?=
+ =?utf-8?B?RGxIcmJLeUNMSGlNVk5MNWRDUVk2SUErOUJmci8yS1F3RUYrK0J1S1pBRk4r?=
+ =?utf-8?B?cHZid29FdVpZYm50cGN6Y25zYXY5azBvdjNkL2JGdmp3QUp1V2hIMk9uNE9P?=
+ =?utf-8?B?R3VURDJ0VzZzWjJiNk5tU1RqbTVlWWFST05FeGtmcllOZzBENDYzQSttdmdy?=
+ =?utf-8?B?NlRpaHpYSkRFVDR4R3creDBSbEhOc0J4RmV4bmd5bmhXYXdiSHBkcWkrNjFV?=
+ =?utf-8?B?MlMxSHRuVDJpQmYrL3pBazAxMmdkZGU1TEoyRGwrMnRsZUkyV1V5NkZ3aXgr?=
+ =?utf-8?B?Y2dNcU1Rc09hK1AzQVRGeHQ3MlJxdHF6U280NUtaMkpZWXBTQlY2aHVwYk90?=
+ =?utf-8?B?UFd5SVpqYUZsM01FWEZDUUdhZ2NmVFoydHpncEN2TVFIaDBEaFEwOXAxUUEr?=
+ =?utf-8?B?MWtuazlkZGMyZUFtTWlJMVMxRjRtYlVKdmdRVVUvVUFxOEZYWHQweFlIZUNY?=
+ =?utf-8?B?V3J0MUl1VnNFRUdFM2o2RFY1WHVucGdBMnNDMHBreVJLaFpwWi9FZFVVWnNi?=
+ =?utf-8?B?WnZ3WU5meGdEQ25qcU1mZzlBVG1xdzBFRERydS84NzNzT05uRTdjdjBWRll6?=
+ =?utf-8?B?M0RsT1A2d2k4SjdEbHRSQjN6UEwrODJ5Zi96NXdBbUR1WHpNMWRkZUF3NGg4?=
+ =?utf-8?B?d04xVTR5V2pjL2Q4Mm9YblZsQ3R2NnlKSWdxeXJKSTB2WlBqSUJjcEpueHZR?=
+ =?utf-8?B?ZWtHYXp3Si9BOHlFZDJEYVpwTVVzbE8rSk43UXdGaVRvSXpMcmY2UmpHRXAv?=
+ =?utf-8?B?SEVOQkJZLzkvY1ZickhZOXdheVJJMldyNjIzSnNic1M3NzhYL2pIb1hsQTB5?=
+ =?utf-8?B?RFY1ejRrQmtrOEZpVm9DQTlEdHJ0UWVwWHgvUTFSaEg4NG84cTExazdxRFNL?=
+ =?utf-8?B?RzZaVk1qa0hVUWZlek0yb0pXQTJRT1lsL0VNTEtDNmJhL3FNQjM3VmRpU1NQ?=
+ =?utf-8?B?UVpJbHg2YWZzMnhvaDQvc21jVkNhVGlZR2dsdEU2M0JlQjVmVGhTenNPNVNL?=
+ =?utf-8?B?SUcwcW96QmYxZEl4WEQ2S2EyVzcxSnhVdjZJSmZ5a0laSmN5ZVgyK01oTm5x?=
+ =?utf-8?B?ZUpudWFZV0t2WFlEVkNQM09UTHhCajdOZFBlbDRrZlpqTk8xeVcyRDd6REd3?=
+ =?utf-8?B?S0dBcjdsYWJiVm9lR0U4THVKN01xVG9tY0o1UEZWckx6aVBUVlB1ODI3NzdH?=
+ =?utf-8?B?bHorbjBEUWlVOGxnSzhiMkxVb1JlWklXK253WTlJS3NjR0piQTMyME1qT2p6?=
+ =?utf-8?B?NDdocE1sdzBpQWxEUUY0VmpDNXpBbDFkSVo1cFpZZklzSThkSE1zSVk0c2xF?=
+ =?utf-8?B?NFN1dkZNemtyTUU2UE50aUVSbHh4dXo0Zlk4Qll4Q3AyNy9jMUY5ZUMzWDRN?=
+ =?utf-8?B?bFA2QU9PNUd1cXFlem96TzhEWE1xSnU2eDlqL2x1L3h4aWx5VmRCV1pnZkpo?=
+ =?utf-8?B?dHE3VkZjZkZWdTBoK1VNL09YL21MRmZ6YWxtdTN3dHkrdE5TQkYzRGQvb05B?=
+ =?utf-8?B?SnorMS9hVXNWTUQ2NGJUOHNXVHZnPT0=?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: edbd63c7-fceb-4c8c-7592-08d9ea7f8b8d
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 21:19:31.1121 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 21:19:37.5185 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1zPO0TBl+3C3l8SLbGp/6FpTuHGuKSAp6rLAUNAI+8pFJZTnQRGOKLETQz2I+QhdcxEk9Rxc2j4iiihUE5QcMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1776
+X-MS-Exchange-CrossTenant-UserPrincipalName: iLYqWGivJvgSztMvGGiA9U3fVN3P4zi8SRZ807s9qah3DLO0o0nJ+4sjQoeHf757OmDn4uVtRJ93xZuVwOZSwmI+x7itoUggrbtaik4XIEo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4552
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,292 +156,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, Ralph Campbell <rcampbell@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, Karol Herbst <kherbst@redhat.com>,
- linux-mm@kvack.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Ben Skeggs <bskeggs@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Logan Gunthorpe <logang@deltatee.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Tomasz Mistat <tomasz.mistat@intel.com>, Daniele
+ Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hmm, this is actually v1 not v3! Had something stale when posting.
 
-Am 2022-02-07 um 01:32 schrieb Christoph Hellwig:
-> Move the check for the actual pgmap types that need the free at refcount
-> one behavior into the out of line helper, and thus avoid the need to
-> pull memremap.h into mm.h.
+John.
+
+
+On 2/7/2022 12:36, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
 >
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-The amdkfd part looks good to me.
-
-It looks like this patch is not based on Alex Sierra's coherent memory 
-series. He added two new helpers is_device_coherent_page and 
-is_dev_private_or_coherent_page that would need to be moved along with 
-is_device_private_page and is_pci_p2pdma_page.
-
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
-
-
+> First release of GuC for DG2.
+>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> CC: Tomasz Mistat <tomasz.mistat@intel.com>
+> CC: Ramalingam C <ramalingam.c@intel.com>
+> CC: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 > ---
->   arch/arm64/mm/mmu.c                    |  1 +
->   drivers/gpu/drm/amd/amdkfd/kfd_priv.h  |  1 +
->   drivers/gpu/drm/drm_cache.c            |  2 +-
->   drivers/gpu/drm/nouveau/nouveau_dmem.c |  1 +
->   drivers/gpu/drm/nouveau/nouveau_svm.c  |  1 +
->   drivers/infiniband/core/rw.c           |  1 +
->   drivers/nvdimm/pmem.h                  |  1 +
->   drivers/nvme/host/pci.c                |  1 +
->   drivers/nvme/target/io-cmd-bdev.c      |  1 +
->   fs/fuse/virtio_fs.c                    |  1 +
->   include/linux/memremap.h               | 18 ++++++++++++++++++
->   include/linux/mm.h                     | 20 --------------------
->   lib/test_hmm.c                         |  1 +
->   mm/memremap.c                          |  6 +++++-
->   14 files changed, 34 insertions(+), 22 deletions(-)
+>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-> index acfae9b41cc8c9..580abae6c0b93f 100644
-> --- a/arch/arm64/mm/mmu.c
-> +++ b/arch/arm64/mm/mmu.c
-> @@ -17,6 +17,7 @@
->   #include <linux/mman.h>
->   #include <linux/nodemask.h>
->   #include <linux/memblock.h>
-> +#include <linux/memremap.h>
->   #include <linux/memory.h>
->   #include <linux/fs.h>
->   #include <linux/io.h>
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-> index ea68f3b3a4e9cb..6d643b4b791d87 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-> @@ -25,6 +25,7 @@
->   
->   #include <linux/hashtable.h>
->   #include <linux/mmu_notifier.h>
-> +#include <linux/memremap.h>
->   #include <linux/mutex.h>
->   #include <linux/types.h>
->   #include <linux/atomic.h>
-> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-> index f19d9acbe95936..50b8a088f763a6 100644
-> --- a/drivers/gpu/drm/drm_cache.c
-> +++ b/drivers/gpu/drm/drm_cache.c
-> @@ -27,11 +27,11 @@
->   /*
->    * Authors: Thomas Hellström <thomas-at-tungstengraphics-dot-com>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> index ba4f0970749b..efe0a6dcf9f7 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> @@ -50,6 +50,7 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
+>    * firmware as TGL.
 >    */
-> -
->   #include <linux/dma-buf-map.h>
->   #include <linux/export.h>
->   #include <linux/highmem.h>
->   #include <linux/cc_platform.h>
-> +#include <linux/ioport.h>
->   #include <xen/xen.h>
->   
->   #include <drm/drm_cache.h>
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> index e886a3b9e08c7d..a5cdfbe32b5e54 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> @@ -39,6 +39,7 @@
->   
->   #include <linux/sched/mm.h>
->   #include <linux/hmm.h>
-> +#include <linux/memremap.h>
->   #include <linux/migrate.h>
->   
->   /*
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> index 266809e511e2c1..090b9b47708cca 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> @@ -35,6 +35,7 @@
->   #include <linux/sched/mm.h>
->   #include <linux/sort.h>
->   #include <linux/hmm.h>
-> +#include <linux/memremap.h>
->   #include <linux/rmap.h>
->   
->   struct nouveau_svm {
-> diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
-> index 5a3bd41b331c93..4d98f931a13ddd 100644
-> --- a/drivers/infiniband/core/rw.c
-> +++ b/drivers/infiniband/core/rw.c
-> @@ -2,6 +2,7 @@
->   /*
->    * Copyright (c) 2016 HGST, a Western Digital Company.
->    */
-> +#include <linux/memremap.h>
->   #include <linux/moduleparam.h>
->   #include <linux/slab.h>
->   #include <linux/pci-p2pdma.h>
-> diff --git a/drivers/nvdimm/pmem.h b/drivers/nvdimm/pmem.h
-> index 59cfe13ea8a85c..1f51a23614299b 100644
-> --- a/drivers/nvdimm/pmem.h
-> +++ b/drivers/nvdimm/pmem.h
-> @@ -3,6 +3,7 @@
->   #define __NVDIMM_PMEM_H__
->   #include <linux/page-flags.h>
->   #include <linux/badblocks.h>
-> +#include <linux/memremap.h>
->   #include <linux/types.h>
->   #include <linux/pfn_t.h>
->   #include <linux/fs.h>
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 6a99ed68091589..ab15bc72710dbe 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -15,6 +15,7 @@
->   #include <linux/init.h>
->   #include <linux/interrupt.h>
->   #include <linux/io.h>
-> +#include <linux/memremap.h>
->   #include <linux/mm.h>
->   #include <linux/module.h>
->   #include <linux/mutex.h>
-> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-> index 70ca9dfc1771a9..a141446db1bea3 100644
-> --- a/drivers/nvme/target/io-cmd-bdev.c
-> +++ b/drivers/nvme/target/io-cmd-bdev.c
-> @@ -6,6 +6,7 @@
->   #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->   #include <linux/blkdev.h>
->   #include <linux/blk-integrity.h>
-> +#include <linux/memremap.h>
->   #include <linux/module.h>
->   #include "nvmet.h"
->   
-> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> index 9d737904d07c0b..86b7dbb6a0d43e 100644
-> --- a/fs/fuse/virtio_fs.c
-> +++ b/fs/fuse/virtio_fs.c
-> @@ -8,6 +8,7 @@
->   #include <linux/dax.h>
->   #include <linux/pci.h>
->   #include <linux/pfn_t.h>
-> +#include <linux/memremap.h>
->   #include <linux/module.h>
->   #include <linux/virtio.h>
->   #include <linux/virtio_fs.h>
-> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> index 1fafcc38acbad6..514ab46f597e5c 100644
-> --- a/include/linux/memremap.h
-> +++ b/include/linux/memremap.h
-> @@ -1,6 +1,8 @@
->   /* SPDX-License-Identifier: GPL-2.0 */
->   #ifndef _LINUX_MEMREMAP_H_
->   #define _LINUX_MEMREMAP_H_
-> +
-> +#include <linux/mm.h>
->   #include <linux/range.h>
->   #include <linux/ioport.h>
->   #include <linux/percpu-refcount.h>
-> @@ -129,6 +131,22 @@ static inline unsigned long pgmap_vmemmap_nr(struct dev_pagemap *pgmap)
->   	return 1 << pgmap->vmemmap_shift;
->   }
->   
-> +static inline bool is_device_private_page(const struct page *page)
-> +{
-> +	return IS_ENABLED(CONFIG_DEV_PAGEMAP_OPS) &&
-> +		IS_ENABLED(CONFIG_DEVICE_PRIVATE) &&
-> +		is_zone_device_page(page) &&
-> +		page->pgmap->type == MEMORY_DEVICE_PRIVATE;
-> +}
-> +
-> +static inline bool is_pci_p2pdma_page(const struct page *page)
-> +{
-> +	return IS_ENABLED(CONFIG_DEV_PAGEMAP_OPS) &&
-> +		IS_ENABLED(CONFIG_PCI_P2PDMA) &&
-> +		is_zone_device_page(page) &&
-> +		page->pgmap->type == MEMORY_DEVICE_PCI_P2PDMA;
-> +}
-> +
->   #ifdef CONFIG_ZONE_DEVICE
->   void *memremap_pages(struct dev_pagemap *pgmap, int nid);
->   void memunmap_pages(struct dev_pagemap *pgmap);
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 26baadcef4556b..80fccfe31c3444 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -23,7 +23,6 @@
->   #include <linux/err.h>
->   #include <linux/page-flags.h>
->   #include <linux/page_ref.h>
-> -#include <linux/memremap.h>
->   #include <linux/overflow.h>
->   #include <linux/sizes.h>
->   #include <linux/sched.h>
-> @@ -1101,9 +1100,6 @@ static inline bool put_devmap_managed_page(struct page *page)
->   		return false;
->   	if (!is_zone_device_page(page))
->   		return false;
-> -	if (page->pgmap->type != MEMORY_DEVICE_PRIVATE &&
-> -	    page->pgmap->type != MEMORY_DEVICE_FS_DAX)
-> -		return false;
->   	return __put_devmap_managed_page(page);
->   }
->   
-> @@ -1114,22 +1110,6 @@ static inline bool put_devmap_managed_page(struct page *page)
->   }
->   #endif /* CONFIG_DEV_PAGEMAP_OPS */
->   
-> -static inline bool is_device_private_page(const struct page *page)
-> -{
-> -	return IS_ENABLED(CONFIG_DEV_PAGEMAP_OPS) &&
-> -		IS_ENABLED(CONFIG_DEVICE_PRIVATE) &&
-> -		is_zone_device_page(page) &&
-> -		page->pgmap->type == MEMORY_DEVICE_PRIVATE;
-> -}
-> -
-> -static inline bool is_pci_p2pdma_page(const struct page *page)
-> -{
-> -	return IS_ENABLED(CONFIG_DEV_PAGEMAP_OPS) &&
-> -		IS_ENABLED(CONFIG_PCI_P2PDMA) &&
-> -		is_zone_device_page(page) &&
-> -		page->pgmap->type == MEMORY_DEVICE_PCI_P2PDMA;
-> -}
-> -
->   /* 127: arbitrary random number, small enough to assemble well */
->   #define folio_ref_zero_or_close_to_overflow(folio) \
->   	((unsigned int) folio_ref_count(folio) + 127u <= 127u)
-> diff --git a/lib/test_hmm.c b/lib/test_hmm.c
-> index 396beee6b061d4..e5fc14ba71f33e 100644
-> --- a/lib/test_hmm.c
-> +++ b/lib/test_hmm.c
-> @@ -12,6 +12,7 @@
->   #include <linux/kernel.h>
->   #include <linux/cdev.h>
->   #include <linux/device.h>
-> +#include <linux/memremap.h>
->   #include <linux/mutex.h>
->   #include <linux/rwsem.h>
->   #include <linux/sched.h>
-> diff --git a/mm/memremap.c b/mm/memremap.c
-> index f41233a67edb12..a0ece2344c2cab 100644
-> --- a/mm/memremap.c
-> +++ b/mm/memremap.c
-> @@ -4,7 +4,7 @@
->   #include <linux/io.h>
->   #include <linux/kasan.h>
->   #include <linux/memory_hotplug.h>
-> -#include <linux/mm.h>
-> +#include <linux/memremap.h>
->   #include <linux/pfn_t.h>
->   #include <linux/swap.h>
->   #include <linux/mmzone.h>
-> @@ -504,6 +504,10 @@ void free_devmap_managed_page(struct page *page)
->   
->   bool __put_devmap_managed_page(struct page *page)
->   {
-> +	if (page->pgmap->type != MEMORY_DEVICE_PRIVATE &&
-> +	    page->pgmap->type != MEMORY_DEVICE_FS_DAX)
-> +		return false;
-> +
->   	/*
->   	 * devmap page refcounts are 1-based, rather than 0-based: if
->   	 * refcount is 1, then the page is free and the refcount is
+>   #define INTEL_GUC_FIRMWARE_DEFS(fw_def, guc_def) \
+> +	fw_def(DG2,          0, guc_def(dg2,  69, 0, 3)) \
+>   	fw_def(ALDERLAKE_P,  0, guc_def(adlp, 69, 0, 3)) \
+>   	fw_def(ALDERLAKE_S,  0, guc_def(tgl,  69, 0, 3)) \
+>   	fw_def(DG1,          0, guc_def(dg1,  69, 0, 3)) \
+
