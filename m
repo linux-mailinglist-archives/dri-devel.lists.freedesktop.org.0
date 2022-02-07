@@ -1,111 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270DF4AB380
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 05:27:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A554AB387
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 06:18:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8840610F4D6;
-	Mon,  7 Feb 2022 04:27:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 613C010F760;
+	Mon,  7 Feb 2022 05:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1anam02on2051.outbound.protection.outlook.com [40.107.96.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE9F910F6E2;
- Mon,  7 Feb 2022 04:27:25 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2055.outbound.protection.outlook.com [40.107.20.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28F3010F760
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 05:18:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ogA0w9wa8TkhN5HTcNTR+JGgJS7h3bF+Ded9d2sr7/zsUsy7otMPIG7lkZrg7GF7CRbyPhn5gNuGaMNUqKjRPWlTr/rK0rEYrHc2IDDB1GoBCaUzq0tRIPgg16/ZmJ4vH5TDo/yuH9uatATp6nl5Ra2W0hLIlbQXzxClocIuqtE+0pAogkp/+J5aOVdi+04eJw9t99HBhppdIT82w5aGblk+YesWL1z4vCx2RaucRTwg73Dj5q2zHLlLt6KTHAINULVpcilXARUDTlgxPaw1bV1GmFq6zCutyYI7pqWDemrI94YmqYv0GnQoP7nISMzu/YLfsu1w5lqq+WppW+XEyw==
+ b=NmAROZKWQJ6oTfsw52pciwbnMSvTU2bzGrB/0NeZnmHiOo/lHOfQPq5m4iVtF+NjbfkzCJFuRZDXlrUfT2mNTVY3/CN3wtyeesZuFssqHZwON8RMNykKkGgvLXQmAenk0J1Nbjbma31ljj4nOqAZ+mWMRnKY8DbzMcLmmav4VITWF2DUebJPjWalc4joU3Hrj3oFU1PLuXIiVQeMmicCbkF8EVArl4YEOHBumzUV62sCOupl5IWdSnXS8+48GGv3DKLHrvnBdVf+0PiMC7f9yAcqXiefUov9o/AH1zZkXoGnlbLOYApbZTFTgVNiqKNk8qdZPMTGIcGfWcQovrssRQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PWYhz0Sv1Rkjnmi/uR+BbDa+rT94UmYsyQ+O00QdUhU=;
- b=USFoxUpcNrN81VtksTj0smRIKCaCkPCGFOPhVYL0LC0NMIWgpHosVYgXf8OseJvkioAls/qs+wIDdM8pbBWcXfmAl507/ZMCcv4LD7Xepk+sZwrpTNx4OOGBjzvmDAcaO8rNdsEoEsMUiitixP7PtGBcmHYTYSDkNynnuY+s2mp8kxeOIcnTmPEInTb1sDbl+xoSh8Z4VQba9f7Pr+4VC3TlZCgjHdLa9vBXv3y/nW3uU7T2W6lhx1CjVzcoxP+dNvn7emp786tIFoQnOa5jmb67vFcU7yegPkSukKDpu+7lFdbjEcJnj8Ijyy338nmZpoBBvUTvs0MIgaA9uLUIgA==
+ bh=hOMnLnHs4+CXwicx4hF0qAcCjuK0o/Xgnz5FKS+i5Dk=;
+ b=WACb5J4cURCidtxSCp/NrtOO22kXrSsqjk+kEcBMmkT31dYqtv0U+Ywmk11Ag+7hY2Fh70gLrQAFaStb/x5h0A8ak0bWHHo+mEggWhGsuvbOUFD9T/vJxPFyIYX5/EHpZp90+/M4ChE60mYt93V9HbfrfiTyOpXlzjaQSBj8EhdDZlha/czlmkhZJ+s9azWUX8OMj2/w/yyDgAQAOld7z57V4a6ebZBYJRdQVR/qpU94mXbtpq/yqC8TF766xpJtv0x3H2bPYEL3co4ODrXWboZhq2ciViYEpWpTkGfuLEpocAYQbjjFaQ0pHTV162dAu2QWfy7dkYOXus9hhy0w9g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector2-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PWYhz0Sv1Rkjnmi/uR+BbDa+rT94UmYsyQ+O00QdUhU=;
- b=R6iAs1xt6CUxucLkLJOssho0VrV3mI5OGfBu4GyKM/5G3ALQFPcnr8OD/pCgUCM/p0TwhN6fn52At+b7TQBDGHEEkoxnzI1oDlHq5dTAhsuBmzZG6ulUqjLdPlHLBTLvJ06G5wJ7Zn88ooD4jph1GW5MUSySVbmJ2vJaIBPNgSHi5qS5EL5tsh6DGDwvJrnJkjn5NYmxZC9p2S4OSGdD5b+4VBsCT4hXvhiuuStBTlAquGDxEJUBU5FMXVmsMHaX1xN6ILglomAN7BIU8tZPsQbk0ysJrV0qakfzEyGLjvpnFrdZF0jdkHLTjs4QpKbNg7j18hFmfHJ1xzmtBk4hAQ==
+ bh=hOMnLnHs4+CXwicx4hF0qAcCjuK0o/Xgnz5FKS+i5Dk=;
+ b=BjRvRxmv04Cnd1sNoo4dN9QDb9EwG4nwBMHe+n3Bf6cK+yhluURHfDKYP72LkCLE9/yqd5RAGzznI1dL1hz0DJvFoHINQWX4OwlzyA8fVZw7Mbzd3MSMoVLByh6b8JrxRlWofrvwSUCfyrWfQvmUYAxsO0V2Zhnla9h40aMKydw=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
- by BL0PR12MB4705.namprd12.prod.outlook.com (2603:10b6:208:88::12)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by DB6PR0402MB2840.eurprd04.prod.outlook.com (2603:10a6:4:97::15)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.14; Mon, 7 Feb
- 2022 04:27:24 +0000
-Received: from BYAPR12MB3176.namprd12.prod.outlook.com
- ([fe80::1528:82a2:aa0:7aa6]) by BYAPR12MB3176.namprd12.prod.outlook.com
- ([fe80::1528:82a2:aa0:7aa6%5]) with mapi id 15.20.4951.018; Mon, 7 Feb 2022
- 04:27:24 +0000
-From: Alistair Popple <apopple@nvidia.com>
-To: akpm@linux-foundation.org,
-	linux-mm@kvack.org
-Subject: [PATCH v2 3/3] tools: add hmm gup test for long term pinned device
- pages
-Date: Mon,  7 Feb 2022 15:26:48 +1100
-Message-Id: <6a2145be66877fd3a08c9acec4ec3d53d82a864f.1644207242.git-series.apopple@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.0d3c846b1c6c294e055ff7ebe221fab9964c1436.1644207242.git-series.apopple@nvidia.com>
-References: <cover.0d3c846b1c6c294e055ff7ebe221fab9964c1436.1644207242.git-series.apopple@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0P220CA0002.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:41b::10) To BYAPR12MB3176.namprd12.prod.outlook.com
- (2603:10b6:a03:134::26)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.18; Mon, 7 Feb
+ 2022 05:18:14 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::ddca:beb1:95b0:1ae1]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::ddca:beb1:95b0:1ae1%4]) with mapi id 15.20.4951.019; Mon, 7 Feb 2022
+ 05:18:14 +0000
+Message-ID: <d5ac849dc8aae325d98f215d4f92d492abd909c4.camel@oss.nxp.com>
+Subject: Re: [PATCH] [RFC] drm: mxsfb: Implement LCDIF scanout CRC32 support
+From: Liu Ying <victor.liu@oss.nxp.com>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+In-Reply-To: <20220206185643.275811-1-marex@denx.de>
+References: <20220206185643.275811-1-marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 07 Feb 2022 13:13:27 +0800
+User-Agent: Evolution 3.36.4-0ubuntu1 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR01CA0117.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::21) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bb3447cc-a0e0-4b4a-f24b-08d9e9f2239d
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4705:EE_
-X-Microsoft-Antispam-PRVS: <BL0PR12MB470597566078582EFD88CFE4DF2C9@BL0PR12MB4705.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Office365-Filtering-Correlation-Id: ea9965eb-3af5-43f3-7d79-08d9e9f93d96
+X-MS-TrafficTypeDiagnostic: DB6PR0402MB2840:EE_
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-Microsoft-Antispam-PRVS: <DB6PR0402MB2840365CB6E3273B3D6CAF99D92C9@DB6PR0402MB2840.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SjFFvZzVhXBpJlIKvdwicyXL6IWHU9q4DDN5A2hsR8kdgn7oVV/9nT0IThYCP4tQv6Cl21TPmW7LienhI8LIWXoosFem69lc2WxIG4VXzIjds3cKW4C0AIbg/498WTk9XMmogy7WKegl8f0LVpgpNa85AwGY15PcNxXBw70OZP5km8XECSUyxLEfeY4ps7B2/W4if4Jx12gdXra/DBX774qpj9Vg9uptq5+zQwPQBsY9jB01F2hS86dz96K6YnnbbIEf0AJmC2BWuzExUfdfp5gQL/vNowb+Q5gmF91hD0n0FlcWYJEwCrA+Y/vTIh9LRv4eMQGC4eb8bxqTOiWJjndXOvZtePJhqbQdt1T2yi2UiWeFAlJ5w/fqx9Azq9RZiHlXO66G74OmnbPRsqSb5h0GbaWN2XG4otHZuN5Z+1nWKhNGpz6EBwLhTxSthWBzBtAp+HAWFQzK0soerbtiOGH7SAHSfwkQaoWrSMKXm0zZ+qY18nfLHBOVclXEmGCW1lkUHoDUGD2FFCgwL4xCrolGsyeoFuzS87shBtFeVmCrK6Xb2isEdyVgN+ZrxKbetyl4BT3nWNmHVygjoVaouQDM0ssFrS97pOFWNAvBJo3wpUY0qP3c+Pl/HMsFh+froZPfSo1xmWhX9gwborLStQ==
+X-Microsoft-Antispam-Message-Info: qQ6o4DrrgmXSkg7f4RojpLY69DSaeIfhRWTBHahylxUSq5yaMSAYU+Cw8tWdHL7dO8yclFmNZD2nq+DseRtW0ddcEXmWh9FNL+mCvD8Bv7cJNFqii8F+WpkPKqfUxFDzMGi+M0ewqNdmtpwbskEFb2yTnCb7dmE9Pwq7LEPvYvmtQpobY+aAQjGw+HBfDuhkgGSf+hVfqHiwE5S6XXtLB8USILa3AMqpgYBEKU9FFckhh/cktzcRWgOUJ333Vyg93MVqm29OFy20KCbplwwaF1xkpichhsq4bgveuWT8ZyYDe3jIFbchNgYIrb/3I2dzEldJPvJ33AUJVwPE2nnuNAExxB9bATLQD94SCagoxjbXHXcsYv+zuVk0Wls+gmd6AbERBHZbCzgHZZFS7wX8oB7WyyCLmONnTOwmY1soci2FBgZ+Xec/O+PRiaKNMTLhBljZ7KFeHnmpKSp4OBjLetj8cFXRYdiMiC4QUpugrAJNZI20phugMx+vVvzMXQEc2dcnwVOPswVrmiLpON/B1Wk7gee1aP4Il6teVwsa01uESPqq5ouhFl1ScHfJlvGiTdUMt8PgfOonomBL4GQLOUz9Z1sVmMWlj2SptahnjfhI1pTmjMxdk7qovViUTcXH6uHcb0g/78DlPYgCeRPpt/7jCqur+Zm79rCvBKgz5uHxM8JvIla+tmJ5YfY6noqk6j9aqlmVeshyciIT3rOMEw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(86362001)(107886003)(6486002)(2906002)(508600001)(26005)(186003)(6666004)(6506007)(2616005)(6512007)(316002)(66946007)(8936002)(36756003)(83380400001)(7416002)(38100700002)(5660300002)(4326008)(66476007)(66556008)(8676002);
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(2616005)(66556008)(8936002)(4326008)(66476007)(8676002)(508600001)(83380400001)(6486002)(26005)(38350700002)(6506007)(38100700002)(86362001)(52116002)(6512007)(5660300002)(66946007)(316002)(6666004)(54906003)(186003)(2906002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mry0VoqQoqGL4dKymdquKqr4N7+JrRbPoGs00o1HBKqPdLG0wKA9W/Un5Xi9?=
- =?us-ascii?Q?2Ww27XtNJWl/2tAEThMP6yRzourqhtu+4c/Uvd90+UgZQBBWTRjZ0uuZD2Zu?=
- =?us-ascii?Q?TBp/IxZtZyGXuojPOK8Mw5wYyzZQncvAWpiDdTUfHW+InegvIu4JEIQdQpqi?=
- =?us-ascii?Q?D5de2sXU7gwhzCuq0k/Bxb0YADKCPDRUJ86i+TPdoEWWbM1ShbJKgxEBxy7S?=
- =?us-ascii?Q?cLkLTrcHxRWFDIACFJlAufHkPYHbnv8dbOes5/uMoqSS7anV9RniElVqX0Hj?=
- =?us-ascii?Q?GTAtjvonQexEkhJ99C+q0iKDl2+MVgLE0IeUjJmYA6SsnSbEZptQg+zcJbEe?=
- =?us-ascii?Q?8lwy518V7h9bsrHRPE6mnMrRJyiKrRHyRLLuUIgowzMRfJ/dzrsYlNFuuaoH?=
- =?us-ascii?Q?hU3v90dDVmHaGzxwtZ7QWbayao902MB0vy0FL6sDP13+CEzonyFA9jMhLHet?=
- =?us-ascii?Q?DmIp5ctNttHtmvWwHuyp5b1yNwh6bI6vgmQelHxK6BHn/FJ3biGVn/m5u1Ca?=
- =?us-ascii?Q?VVD2Hnqnz1L9dwcWvlmGIUvOGR85FCHBx6NmHVkW68YaYD/8o+IsZyvRUovA?=
- =?us-ascii?Q?VkuVh+L5FGHp4u06DvTKDMYlkioQ0tP9ftH0P4xVp7Hd+/CvZEFXQfanrTzW?=
- =?us-ascii?Q?6B803rWL/N1QphGUi0AnJZhonLYNbSgQydrIz3G6ArXhYf5y3velegcikxrV?=
- =?us-ascii?Q?2fW990WkhFzUXh0b1Ge4vM5HSyfnWRo8cXgsAiNh85g4ozNtitiIqz/I5aOL?=
- =?us-ascii?Q?UTdo9u5DN9ef2ZAYLFlp7X/AC83T6Ko/n1n1h7xARGmvglXCZOHKMEx9LFZ1?=
- =?us-ascii?Q?uJGurn78z60Ccm4POfhFl/Ez+W6EMipsWpDek7zlUYb9AjXL2A7YLy4k+G2B?=
- =?us-ascii?Q?LGu6BYA4yz5dVVa2BmI1J3FcGsv8w47hMa3QD9YlHGmxw91RgRHCR1DdH21p?=
- =?us-ascii?Q?Hjm/vOJnIqono/ZzU2ujY/uRNuu6YJy0Ixlg5vwO4CTvsDsQ7c54hdYEtVaX?=
- =?us-ascii?Q?m0o9xlX+xHfKW2R9mDjQLi8gHob5HLejDS8AUDtCQnLnZsYnCF9oMHqqpFTL?=
- =?us-ascii?Q?CTzyN6JvvTMW4mAOtTrVAnj0z/nG3qjvrdHiw8D8eEOUYl2Gew8ZeFa4UcrC?=
- =?us-ascii?Q?5Dr5mGu76C0xm4TWvgDfQPDXJazEIzmk2bTJ6yj58hR5wb/ccAEQi0MpsvJg?=
- =?us-ascii?Q?l7jJPV/l1xczaExecCPIAPzvrT9MtzbA52x77lGZpTMYFRSbN8b0g0iv0mTo?=
- =?us-ascii?Q?DkgYJXvYhe7mIDOxiW6mHFmYk+IWA6Dh0rd12MN+CX5qcAZ5iG6M2lr6ZOvv?=
- =?us-ascii?Q?VJC7wvdJhyWrebPv0V34sFiGwQsoV3yoBwQPIRDj36oTVRKXSfXHJaiARsrz?=
- =?us-ascii?Q?I30YRUg/dVBvyxSaKXHChjm5TW/H6neDzBCElDlDJTLM8YLGAJCPhXoB2H0i?=
- =?us-ascii?Q?GvToS1iLQCxVVcBqmgbkh0ZPEmOGh4UqN2ALkoFABOr8F8YnSqVBplCC9irA?=
- =?us-ascii?Q?MOmUQ+Db7uBZ79u0GQJDb/LSnD4bGxCZH8zhRrFo7CS27UwEUm3IYWyt3cqR?=
- =?us-ascii?Q?F+oc4BCCemhKsJOdaCSUbZ8ebl9NCg0cFeNdl9qr0GC262A5d2D6H5dJP/4N?=
- =?us-ascii?Q?j6k1L5FfPXRJIYURtYKfGcE=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb3447cc-a0e0-4b4a-f24b-08d9e9f2239d
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3176.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a1RYaGZERmxkNEVMZDRpVmQrUUQwYlc3OHgzSVc5cTloczYyT1p3bHB3STg0?=
+ =?utf-8?B?cDJST05FQUlZTWw5NVZEcWhXMCtmYUlzaHhYNlpvNGlSYkxCM0t2dHFWR0dW?=
+ =?utf-8?B?REIvaDBPcnJQTU5DbVJkQjc3SW8rODJaN3NNajEveVpxb3I3a1hJaDFxc3Bl?=
+ =?utf-8?B?U0J2UnQyMHRSOFRzYVJhQ3FFQU5wcmhhNExwWittQXZVUmJGa1Z1UmgzcWcr?=
+ =?utf-8?B?bWVDYW8zUGR0VUR4dFB2UzZMRzhyRnFGVURPbi8xSG1MNkpmRHZlYVNXTDgw?=
+ =?utf-8?B?VjlvT05mM29TaW82b0RoN1hLbE5ZbXpvU3dGeDB5eXRLa0JLOVdKTEkrdFV4?=
+ =?utf-8?B?SlYrdFBzYzVFKzB3MEYzRmlLV3JZelNHbGFzSzl4R0lQcVVmYlBSMnBrWGx5?=
+ =?utf-8?B?ZVBMTGVLcjRjdWlNaWEyWVhYY29zOXFRcmZvM29zY2NxLzVnR3R0ZmdRSmk5?=
+ =?utf-8?B?OXpvL3FQRkZtcW5rUjN3YW5SZW5ISzhpWmpJdnhIWHZRM0o1VEt0b0w4bENw?=
+ =?utf-8?B?VzZwVDlIYW45VmcwQkVVQXNjVXlhYU5rSWVGM3JsbXhLdjR5TExmNUtvR2hk?=
+ =?utf-8?B?MjRKWkMxaWxGL3lvYytwUUtqaFo3eGs1ODhTYlJYelQ2OHpCZlMzRVpNUjN0?=
+ =?utf-8?B?amljS1A5SzgybXFuTUN0bzg5VG1COHdRRkNkL0dIWXZmREVqc1RpOHVGbGRm?=
+ =?utf-8?B?U0kycVpYSzU5dGVMSnJNd2xzSE0wNS9oU0xuOER3ZGZ5QWtMYkJwRkZ5RDFr?=
+ =?utf-8?B?K3h1Yk9PUkE2dFhyRXV1MjN0QXUrM3YzamthZ1UwRTMyeVZSdEV3a3dSNVl3?=
+ =?utf-8?B?N2REVTMya2pvc2c2MWNsb1lIM0tGdHk1bFVpVHRjdUtMV3ZneHl1aGd3aTVS?=
+ =?utf-8?B?Q01DODZkMkxFOE9VRmNLejRDUnViUll4VGhEZFB1RlZSSTFMcDRuYWFxOTZ5?=
+ =?utf-8?B?dlVOVmZRNUhtRnJnQjJXQ0NLb1pjZExFVlR5TVVSVnlLY1NUTGdKQlB0Znhi?=
+ =?utf-8?B?cnFiYlFleFhITThaZDYyK0hnWkhuY3VxRGlmZFVFZEtVL1lzRmF3blJDNElm?=
+ =?utf-8?B?VXdOWERsS2NvRFFMU0dQbW4rcHI1YTFsckgwdUZwQnpGMnNyTDFZQi9SZkNv?=
+ =?utf-8?B?NzJmYkNPNTFtMUNudkY5MDk2ckczQkw1d0ZwWFUvYXppSE1kVnlSREc5Lzhz?=
+ =?utf-8?B?aWVHV0tyd1dqZmdQL2owSTBNQW90QXdjMU9GQVdUMEFJSWxTTDNWT3NPZjJK?=
+ =?utf-8?B?SkxVS2RUYkNXNkRkVFlJdHl6K3c4cjE2ZGVUNU1RaHg4TEJ1VXE5YUFuNE1u?=
+ =?utf-8?B?SkJkcjU1cTZLSjhXZUhicEl2aUtSeVZKV1VLdUtQcTdtWTMvbWIwUFRDVG5K?=
+ =?utf-8?B?VTNhbzhyajhUTmxudWJDSVl3TzQwbE9DVHRiNFY2TEFKQWNjVnl0YlZPN0V0?=
+ =?utf-8?B?WWZUUnZsc3NEQTJaMUQydTV6UklBb1NoOUQ1NkwwQnJrVjVPa1Jzd2NwWGUx?=
+ =?utf-8?B?WE9OUWVtS2pNV1QycW1lV1Zza01raS9mWmJQK0FZbXNBNHhvS1FBYkFZcXow?=
+ =?utf-8?B?SzU1djdMNzVMMnMyN2c3bTRGYnIrYjlmL0ZXWkQwRUlUZDFwTlZtcDhBMVBs?=
+ =?utf-8?B?KytYN2E3Nmk5ZHlZKzJ1Ty9tTHhiTlNkVk91Z2d5N2k5SDFTSmtTZ2U3RVMz?=
+ =?utf-8?B?NnRVTlpad3dodVdxT3N2eXhod0VkSDltTEVzemYzUEI3WXdyWVlaZHcyazRG?=
+ =?utf-8?B?bmQ1dzUzSzl5L0lNQTNhUUszd0psZ1N0WUxvSXViYVpGa0pMTVFLRkpScDNS?=
+ =?utf-8?B?SldsZmhVZFczc1hBNHNxQzVoUEFUWU80VmVLdXd3ZXAzNWxrYStQeWJmUDVr?=
+ =?utf-8?B?UnNBbUN2M2o3SWF2MjNZYlZEbnJKTSs3VFlsYlFaUmN0Z3FtVE5NSjc2UUJp?=
+ =?utf-8?B?WWJYdHlKdmQxS2FlTDQ0N2VydVQyQVBVbFNQenNpYmV0dnRPRVpoaEVDd0x1?=
+ =?utf-8?B?bTdwRWc2VXBsbDV1UnNqKzYxM1hRT1ZvQUk4VngwcmN6R1lsOG5FOUEyT2xJ?=
+ =?utf-8?B?czY4MDhvNzAzSjRIL28yV25Gem11Rlh5M3M5TENBajlHNEJHNXc2bXFEQ3kr?=
+ =?utf-8?B?SXphS2Y5Q0JuOWJFK1g4QU5MS3k5dmxQMW1kdWJ6cnBxSUlTMWFLcXVqaTdU?=
+ =?utf-8?Q?FzK3xsdi7BG8ptk7fXlSQ3o=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea9965eb-3af5-43f3-7d79-08d9e9f93d96
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 04:27:23.9328 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 05:18:14.2630 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tykI1F9MB78yKbRXZkREQtCbJuUNUybhay+Y4lcYBcJuwuaoZqJbB4U7zyzngManKzCPJZVDxqTxiMxdhwJX0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4705
+X-MS-Exchange-CrossTenant-UserPrincipalName: XrYgtYkf65yYk0T7EdlZeG0Kmg/yCVy9kTYEhRQcxH8C5fxHWGS5jxNTa6w1JCw7noHEjIFe86ouOs5VLmzKtQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0402MB2840
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,148 +127,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex.sierra@amd.com, rcampbell@nvidia.com, willy@infradead.org,
- jhubbard@nvidia.com, Felix.Kuehling@amd.com,
- Alistair Popple <apopple@nvidia.com>, dri-devel@lists.freedesktop.org,
- linux-xfs@vger.kernel.org, jglisse@redhat.com, amd-gfx@lists.freedesktop.org,
- jgg@nvidia.com, linux-ext4@vger.kernel.org, hch@lst.de
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Peng Fan <peng.fan@nxp.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Sierra <alex.sierra@amd.com>
+Hi Marek,
 
-The intention is to test device coherent type pages that have been
-called through get user pages with PIN_LONGTERM flag set. These pages
-should get migrated back to normal system memory.
+On Sun, 2022-02-06 at 19:56 +0100, Marek Vasut wrote:
+> The LCDIF controller as present in i.MX6SX/i.MX8M Mini/Nano has a CRC_STAT
+> register, which contains CRC32 of the frame as it was clocked out of the
+> DPI interface of the LCDIF. This is likely meant as a functional safety
+> register.
+> 
+> Unfortunatelly, there is zero documentation on how the CRC32 is calculated,
+> there is no documentation of the polynomial, the init value, nor on which
+> data is the checksum applied.
+> 
+> By applying brute-force on 8 pixel / 2 line frame, which is the minimum
+> size LCDIF would work with, it turns out the polynomial is CRC32_POLY_LE
+> 0xedb88320 , init value is 0xffffffff , the input data are bitrev32()
+> of the entire frame and the resulting CRC has to be also bitrev32()ed.
 
-Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-Signed-off-by: Alistair Popple <apopple@nvidia.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com> 
----
+No idea how the HW calculates the CRC value.
+I didn't hear anyone internal tried this feature.
 
-Changes for v2:
- - Added Felix's Reviewed-by (thanks!)
+> 
+> Doing this calculation in software for each frame is unrealistic due to
+> the CPU demand, implement at least a sysfs attribute which permits testing
+> the current frame on demand.
 
- tools/testing/selftests/vm/Makefile    |  2 +-
- tools/testing/selftests/vm/hmm-tests.c | 81 +++++++++++++++++++++++++++-
- 2 files changed, 82 insertions(+), 1 deletion(-)
+Why not using the existing debugfs CRC support implemented
+in drivers/gpu/drm/drm_debugfs_crc.c?
 
-diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
-index 96714d2..32032c7 100644
---- a/tools/testing/selftests/vm/Makefile
-+++ b/tools/testing/selftests/vm/Makefile
-@@ -143,7 +143,7 @@ $(OUTPUT)/mlock-random-test $(OUTPUT)/memfd_secret: LDLIBS += -lcap
- 
- $(OUTPUT)/gup_test: ../../../../mm/gup_test.h
- 
--$(OUTPUT)/hmm-tests: local_config.h
-+$(OUTPUT)/hmm-tests: local_config.h ../../../../mm/gup_test.h
- 
- # HMM_EXTRA_LIBS may get set in local_config.mk, or it may be left empty.
- $(OUTPUT)/hmm-tests: LDLIBS += $(HMM_EXTRA_LIBS)
-diff --git a/tools/testing/selftests/vm/hmm-tests.c b/tools/testing/selftests/vm/hmm-tests.c
-index 84ec8c4..11b83a8 100644
---- a/tools/testing/selftests/vm/hmm-tests.c
-+++ b/tools/testing/selftests/vm/hmm-tests.c
-@@ -36,6 +36,7 @@
-  * in the usual include/uapi/... directory.
-  */
- #include "../../../../lib/test_hmm_uapi.h"
-+#include "../../../../mm/gup_test.h"
- 
- struct hmm_buffer {
- 	void		*ptr;
-@@ -60,6 +61,8 @@ enum {
- #define NTIMES		10
- 
- #define ALIGN(x, a) (((x) + (a - 1)) & (~((a) - 1)))
-+/* Just the flags we need, copied from mm.h: */
-+#define FOLL_WRITE	0x01	/* check pte is writable */
- 
- FIXTURE(hmm)
- {
-@@ -1766,4 +1769,82 @@ TEST_F(hmm, exclusive_cow)
- 	hmm_buffer_free(buffer);
- }
- 
-+/*
-+ * Test get user device pages through gup_test. Setting PIN_LONGTERM flag.
-+ * This should trigger a migration back to system memory for both, private
-+ * and coherent type pages.
-+ * This test makes use of gup_test module. Make sure GUP_TEST_CONFIG is added
-+ * to your configuration before you run it.
-+ */
-+TEST_F(hmm, hmm_gup_test)
-+{
-+	struct hmm_buffer *buffer;
-+	struct gup_test gup;
-+	int gup_fd;
-+	unsigned long npages;
-+	unsigned long size;
-+	unsigned long i;
-+	int *ptr;
-+	int ret;
-+	unsigned char *m;
-+
-+	gup_fd = open("/sys/kernel/debug/gup_test", O_RDWR);
-+	if (gup_fd == -1)
-+		SKIP(return, "Skipping test, could not find gup_test driver");
-+
-+	npages = 4;
-+	ASSERT_NE(npages, 0);
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_PRIVATE | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Migrate memory to device. */
-+	ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+	/* Check what the device read. */
-+	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i);
-+
-+	gup.nr_pages_per_call = npages;
-+	gup.addr = (unsigned long)buffer->ptr;
-+	gup.gup_flags = FOLL_WRITE;
-+	gup.size = size;
-+	/*
-+	 * Calling gup_test ioctl. It will try to PIN_LONGTERM these device pages
-+	 * causing a migration back to system memory for both, private and coherent
-+	 * type pages.
-+	 */
-+	if (ioctl(gup_fd, PIN_LONGTERM_BENCHMARK, &gup)) {
-+		perror("ioctl on PIN_LONGTERM_BENCHMARK\n");
-+		goto out_test;
-+	}
-+
-+	/* Take snapshot to make sure pages have been migrated to sys memory */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_SNAPSHOT, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+	m = buffer->mirror;
-+	for (i = 0; i < npages; i++)
-+		ASSERT_EQ(m[i], HMM_DMIRROR_PROT_WRITE);
-+out_test:
-+	close(gup_fd);
-+	hmm_buffer_free(buffer);
-+}
- TEST_HARNESS_MAIN
--- 
-git-series 0.9.1
+> 
+> Unfortunatelly, this functionality has another problem. On all of those SoCs,
+> it is possible to overload interconnect e.g. by concurrent USB and uSDHC
+> transfers, at which point the LCDIF LFIFO suffers an UNDERFLOW condition,
+> which results in the image being shifted to the right by exactly LFIFO size
+> pixels. On i.MX8M Mini, the LFIFO is 76x256 bits = 2432 Byte ~= 810 pixel
+> at 24bpp. In this case, the LCDIF does not assert UNDERFLOW_IRQ bit, the
+> frame CRC32 indicated in CRC_STAT register matches the CRC32 of the frame
+> in DRAM, the RECOVER_ON_UNDERFLOW bit has no effect, so if this mode of
+> failure occurs, the failure gets undetected and uncorrected.
+
+Hmmm, interesting, no UNDERFLOW_IRQ bit asserted when LCDIF suffers an
+UNDERFLOW condition?  Are you sure LCDIF really underflows?
+If the shifted image is seen on a MIPI DSI display, could that be a
+MIPI DSI or DPHY issue, like wrong horizontal parameter(s)?
+
+
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Robby Cai <robby.cai@nxp.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stefan Agner <stefan@agner.ch>
+> ---
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c  | 38 ++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.h  |  3 +++
+>  drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 11 +++++----
+>  drivers/gpu/drm/mxsfb/mxsfb_regs.h |  1 +
+>  4 files changed, 49 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> index 4ff3c6195dd0c..6f296b398f28c 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> @@ -9,6 +9,7 @@
+>   */
+>  
+>  #include <linux/clk.h>
+> +#include <linux/crc32.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+> @@ -292,6 +293,37 @@ static void mxsfb_unload(struct drm_device *drm)
+>  	pm_runtime_disable(drm->dev);
+>  }
+>  
+> +static ssize_t mxsfb_frame_checksum_show(struct device *dev,
+> +					     struct device_attribute *attr,
+> +					     char *buf)
+> +{
+> +	struct drm_device *drm = dev_get_drvdata(dev);
+> +	struct mxsfb_drm_private *mxsfb = drm->dev_private;
+> +	u32 hwcrc = readl(mxsfb->base, LCDC_V4_CRC_STAT);
+
+Access register without relevant clock(s) enabled?
+
+LCDC_V4_CRC_STAT seems to hint that there should be some verion control
+logic for MXSFB_V3/4/6.
+
+Regards,
+Liu Ying
+
+> +	u32 swcrc = 0xffffffff;
+> +	int i;
+> +
+> +	if (mxsfb->gem_vaddr) {
+> +		for (i = 0; i < mxsfb->gem_size / 4; i++) {
+> +			u32 data = bitrev32(((u32 *)mxsfb->gem_vaddr)[i]);
+> +			swcrc = crc32(swcrc, &data, 4);
+> +		}
+> +		swcrc = bitrev32(swcrc);
+> +	}
+> +
+> +	return sysfs_emit(buf, "HW:%08x,SW:%08x,OK:%d\n", hwcrc, swcrc, hwcrc == swcrc);
+> +}
+> +static DEVICE_ATTR(frame_checksum, 0444, mxsfb_frame_checksum_show, NULL);
+> +
+> +static struct attribute *mxsfb_attributes[] = {
+> +	&dev_attr_frame_checksum.attr,
+> +	NULL,
+> +};
+> +
+> +static const struct attribute_group mxsfb_attr_group = {
+> +	.attrs = mxsfb_attributes,
+> +};
+> +
+>  DEFINE_DRM_GEM_CMA_FOPS(fops);
+>  
+>  static const struct drm_driver mxsfb_driver = {
+> @@ -335,10 +367,16 @@ static int mxsfb_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_unload;
+>  
+> +	ret = devm_device_add_group(drm->dev, &mxsfb_attr_group);
+> +	if (ret)
+> +		goto err_attr;
+> +
+>  	drm_fbdev_generic_setup(drm, 32);
+>  
+>  	return 0;
+>  
+> +err_attr:
+> +	drm_dev_unregister(drm);
+>  err_unload:
+>  	mxsfb_unload(drm);
+>  err_free:
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+> index ddb5b0417a82c..0a3e5dd1e8bab 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+> @@ -44,6 +44,9 @@ struct mxsfb_drm_private {
+>  	struct drm_encoder		encoder;
+>  	struct drm_connector		*connector;
+>  	struct drm_bridge		*bridge;
+> +
+> +	void				*gem_vaddr;
+> +	size_t				gem_size;
+>  };
+>  
+>  static inline struct mxsfb_drm_private *
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> index 03743a84c8e79..2a4edf5a2ac57 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> @@ -196,7 +196,7 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
+>  	return clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_CLKGATE);
+>  }
+>  
+> -static dma_addr_t mxsfb_get_fb_paddr(struct drm_plane *plane)
+> +static dma_addr_t mxsfb_get_fb_paddr(struct mxsfb_drm_private *mxsfb, struct drm_plane *plane)
+>  {
+>  	struct drm_framebuffer *fb = plane->state->fb;
+>  	struct drm_gem_cma_object *gem;
+> @@ -208,6 +208,9 @@ static dma_addr_t mxsfb_get_fb_paddr(struct drm_plane *plane)
+>  	if (!gem)
+>  		return 0;
+>  
+> +	mxsfb->gem_vaddr = gem->vaddr;
+> +	mxsfb->gem_size = gem->base.size;
+> +
+>  	return gem->paddr;
+>  }
+>  
+> @@ -370,7 +373,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+>  	mxsfb_crtc_mode_set_nofb(mxsfb, bus_format);
+>  
+>  	/* Write cur_buf as well to avoid an initial corrupt frame */
+> -	paddr = mxsfb_get_fb_paddr(crtc->primary);
+> +	paddr = mxsfb_get_fb_paddr(mxsfb, crtc->primary);
+>  	if (paddr) {
+>  		writel(paddr, mxsfb->base + mxsfb->devdata->cur_buf);
+>  		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
+> @@ -476,7 +479,7 @@ static void mxsfb_plane_primary_atomic_update(struct drm_plane *plane,
+>  	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
+>  	dma_addr_t paddr;
+>  
+> -	paddr = mxsfb_get_fb_paddr(plane);
+> +	paddr = mxsfb_get_fb_paddr(mxsfb, plane);
+>  	if (paddr)
+>  		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
+>  }
+> @@ -492,7 +495,7 @@ static void mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
+>  	dma_addr_t paddr;
+>  	u32 ctrl;
+>  
+> -	paddr = mxsfb_get_fb_paddr(plane);
+> +	paddr = mxsfb_get_fb_paddr(mxsfb, plane);
+>  	if (!paddr) {
+>  		writel(0, mxsfb->base + LCDC_AS_CTRL);
+>  		return;
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_regs.h b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+> index 694fea13e893e..cf813a1da1d78 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+> @@ -26,6 +26,7 @@
+>  #define LCDC_VDCTRL2			0x90
+>  #define LCDC_VDCTRL3			0xa0
+>  #define LCDC_VDCTRL4			0xb0
+> +#define LCDC_V4_CRC_STAT		0x1a0
+>  #define LCDC_V4_DEBUG0			0x1d0
+>  #define LCDC_V3_DEBUG0			0x1f0
+>  #define LCDC_AS_CTRL			0x210
+
