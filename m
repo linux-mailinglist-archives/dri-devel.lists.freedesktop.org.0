@@ -1,60 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B0C4ACB55
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 22:30:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 019E04ACB69
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 22:39:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB7410E517;
-	Mon,  7 Feb 2022 21:30:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21CF410E166;
+	Mon,  7 Feb 2022 21:39:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46ADA10E517
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 21:30:18 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id u6so8462196lfc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 13:30:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ta04whGTCnFU1H5shz/mko09ftNjeI/vAJqNZLbgbaE=;
- b=Pxypyx8Nucm9a3KD8J2kuxpg5JyU7vFtrbKVwX4Ia4VHk/Y+ebMkLUCQpyzXFLKf/R
- izApD1EhHF6qMoMIrnLTqFtXeqAHanvuTvxEMdqg87dApAgSdm9hHnD8FE3rN63t/onI
- 51Vn6m4nVKpRkEW9u7qUSz7hItZgaLnqyGmWYpuPhCLqBdxJyF7t1JlsD3eXzdvkIyGJ
- zKUtfrvmsBarKyWAb782tuNA2pW/v38nXuf/TXNim+1Uu/d6mm+eLqiE0qcpAVfT7pkP
- +knNncueWv4iN70jK4/LU7cjgrNHufCkaecugiGC2Kgo4c7qHe64Qojix/b8lUG0hb+o
- LjHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ta04whGTCnFU1H5shz/mko09ftNjeI/vAJqNZLbgbaE=;
- b=pIm0tkGd/JP68vuCfGOnHvcNXEg1uJ7+3jWHxB7s9IvUSIh4fhfilosngK8wG1N0az
- lRXkSk1dYr9qUjfKhxHub2E4gbKqkdNbL/bZeP2khhp/zVimsO3vq56l1lDKftD0S0P8
- GobuGwnE5/z9CelaoN20jLxiLfDgSlQjKGXAO8G7D1NhdMRw/WdDNwAM4TmOQDpMl9jJ
- UhPDnid4BoFoVb4u0fSzBrBnWuaBZNIZNV1QBR1xZmsSZkFa8E460nVeKOjG0X4nVV1m
- 8FKfzhFqWsQWKsOhfA9+G0na6SuAQeMGERbDJUEOBEuEN2WBm7csEZPAwMcojzaId0mO
- EoPA==
-X-Gm-Message-State: AOAM5317TXY8sOfPXrsiTfUWjFmj5pX3/7YLAZwVRVMyr8TAm6BuMOVJ
- /AW8tKK5abKvGCGGqqX3jYw=
-X-Google-Smtp-Source: ABdhPJw8TSqr9ot64AAqq4OKoJZEeGlULYp2r2hWK9l3l8dZV4lqQfJf4KG5KtmQrzHwu1iBRhQP9A==
-X-Received: by 2002:ac2:46d3:: with SMTP id p19mr979333lfo.164.1644269416616; 
- Mon, 07 Feb 2022 13:30:16 -0800 (PST)
-Received: from localhost.localdomain (109-252-138-165.dynamic.spd-mgts.ru.
- [109.252.138.165])
- by smtp.gmail.com with ESMTPSA id y19sm1651246lfb.191.2022.02.07.13.30.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 13:30:16 -0800 (PST)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v1] drm/tegra: Use dev_err_probe()
-Date: Tue,  8 Feb 2022 00:29:23 +0300
-Message-Id: <20220207212923.10386-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92B7D10E166
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 21:39:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644269990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AvJ9N+RokT/quaPmMZhpaU8mvk15cL5DRf0vZEA2K/0=;
+ b=HiiucCUTqHgj2undT9qDpunUqVFyFPZbAJJwXVihnIOdCHk+blxDb4/sdCJ+qac4r0KZv5
+ P/IJUweghEsBXu2QWYFIsiB9FY+djpaPQQdykhBDELzcMkV8I8XXmidCD43Rd1TEQYFvaJ
+ pm9uktXUwWmihiY3tKWD2wybhef6u0w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-441-vgSPi0YHOzOjbRTZsRCqcQ-1; Mon, 07 Feb 2022 16:39:45 -0500
+X-MC-Unique: vgSPi0YHOzOjbRTZsRCqcQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D0B1101F7A1;
+ Mon,  7 Feb 2022 21:39:43 +0000 (UTC)
+Received: from emerald.redhat.com (unknown [10.22.8.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A52E1037F38;
+ Mon,  7 Feb 2022 21:39:34 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/psr: Disable PSR2 selective fetch for all TGL steps
+Date: Mon,  7 Feb 2022 16:38:20 -0500
+Message-Id: <20220207213923.3605-1-lyude@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,107 +58,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, stable@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace dev_printk() with a generic dev_err_probe() helper which silences
-noisy error messages about deferred probe and makes easy to debug failing
-deferred probe by printing notification about the failure to KMSG in the
-end of kernel booting process and by adding failing device and the reason
-of deferred probe to devices_deferred of debugfs. This was proven to be
-useful in the case of eDP driver regression by immediately showing why
-display driver was failing when user asked for help, otherwise it would've
-been much more difficult to debug such problems on a third party device
-that doesn't have developer setup.
+As we've unfortunately started to come to expect from PSR on Intel
+platforms, PSR2 selective fetch is not at all ready to be enabled on
+Tigerlake as it results in severe flickering issues - at least on this
+ThinkPad X1 Carbon 9th generation. The easiest way I've found of
+reproducing these issues is to just move the cursor around the left border
+of the screen (suspicious…).
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+So, fix people's displays again and turn PSR2 selective fetch off for all
+steppings of Tigerlake. This can be re-enabled again if someone from Intel
+finds the time to fix this functionality on OEM machines.
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: 7f6002e58025 ("drm/i915/display: Enable PSR2 selective fetch by default")
+Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: José Roberto de Souza <jose.souza@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.16+
 ---
- drivers/gpu/drm/tegra/dc.c   | 13 +++----------
- drivers/gpu/drm/tegra/hdmi.c | 34 +++++++++-------------------------
- 2 files changed, 12 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/i915/display/intel_psr.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index eb70eee8992a..9435c867c865 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -3211,16 +3211,9 @@ static int tegra_dc_probe(struct platform_device *pdev)
- 		return -ENXIO;
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+index a1a663f362e7..25c16abcd9cd 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.c
++++ b/drivers/gpu/drm/i915/display/intel_psr.c
+@@ -737,10 +737,14 @@ static bool intel_psr2_sel_fetch_config_valid(struct intel_dp *intel_dp,
+ 		return false;
+ 	}
  
- 	err = tegra_dc_rgb_probe(dc);
--	if (err < 0 && err != -ENODEV) {
--		const char *level = KERN_ERR;
--
--		if (err == -EPROBE_DEFER)
--			level = KERN_DEBUG;
--
--		dev_printk(level, dc->dev, "failed to probe RGB output: %d\n",
--			   err);
--		return err;
--	}
-+	if (err < 0 && err != -ENODEV)
-+		return dev_err_probe(&pdev->dev, err,
-+				     "failed to probe RGB output\n");
- 
- 	platform_set_drvdata(pdev, dc);
- 	pm_runtime_enable(&pdev->dev);
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index 8845af5d325f..bf240767dad9 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -1775,7 +1775,6 @@ static irqreturn_t tegra_hdmi_irq(int irq, void *data)
- 
- static int tegra_hdmi_probe(struct platform_device *pdev)
- {
--	const char *level = KERN_ERR;
- 	struct tegra_hdmi *hdmi;
- 	struct resource *regs;
- 	int err;
-@@ -1817,36 +1816,21 @@ static int tegra_hdmi_probe(struct platform_device *pdev)
- 
- 	hdmi->hdmi = devm_regulator_get(&pdev->dev, "hdmi");
- 	err = PTR_ERR_OR_ZERO(hdmi->hdmi);
--	if (err) {
--		if (err == -EPROBE_DEFER)
--			level = KERN_DEBUG;
--
--		dev_printk(level, &pdev->dev,
--			   "failed to get HDMI regulator: %d\n", err);
--		return err;
--	}
-+	if (err)
-+		return dev_err_probe(&pdev->dev, err,
-+				     "failed to get HDMI regulator\n");
- 
- 	hdmi->pll = devm_regulator_get(&pdev->dev, "pll");
- 	err = PTR_ERR_OR_ZERO(hdmi->pll);
--	if (err) {
--		if (err == -EPROBE_DEFER)
--			level = KERN_DEBUG;
--
--		dev_printk(level, &pdev->dev,
--			   "failed to get PLL regulator: %d\n", err);
--		return err;
--	}
-+	if (err)
-+		return dev_err_probe(&pdev->dev, err,
-+				     "failed to get PLL regulator\n");
- 
- 	hdmi->vdd = devm_regulator_get(&pdev->dev, "vdd");
- 	err = PTR_ERR_OR_ZERO(hdmi->vdd);
--	if (err) {
--		if (err == -EPROBE_DEFER)
--			level = KERN_DEBUG;
--
--		dev_printk(level, &pdev->dev,
--			   "failed to get VDD regulator: %d\n", err);
--		return err;
--	}
-+	if (err)
-+		return dev_err_probe(&pdev->dev, err,
-+				     "failed to get VDD regulator\n");
- 
- 	hdmi->output.dev = &pdev->dev;
+-	/* Wa_14010254185 Wa_14010103792 */
+-	if (IS_TGL_DISPLAY_STEP(dev_priv, STEP_A0, STEP_C0)) {
++	/*
++	 * There's two things stopping this from being enabled on TGL:
++	 * For steps A0-C0: workarounds Wa_14010254185 Wa_14010103792 are missing
++	 * For all steps: PSR2 selective fetch causes screen flickering
++	 */
++	if (IS_TIGERLAKE(dev_priv)) {
+ 		drm_dbg_kms(&dev_priv->drm,
+-			    "PSR2 sel fetch not enabled, missing the implementation of WAs\n");
++			    "PSR2 sel fetch not enabled, currently broken on TGL\n");
+ 		return false;
+ 	}
  
 -- 
 2.34.1
