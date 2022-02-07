@@ -1,48 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1394AD326
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:23:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 374334AD32A
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:24:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED4CD10E381;
-	Tue,  8 Feb 2022 08:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC4310E3C6;
+	Tue,  8 Feb 2022 08:23:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C312C10F805
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 10:51:56 +0000 (UTC)
-Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JsjXS1KShz67xjg;
- Mon,  7 Feb 2022 18:47:52 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Feb 2022 11:51:53 +0100
-Received: from [10.47.86.164] (10.47.86.164) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Mon, 7 Feb
- 2022 10:51:49 +0000
-Message-ID: <37dcfcad-ff08-09dd-b35c-a3f90fcaa37f@huawei.com>
-Date: Mon, 7 Feb 2022 10:51:45 +0000
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 918B010E29C;
+ Mon,  7 Feb 2022 14:49:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644245384; x=1675781384;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Hn1fek1PpUFCkbNObpOMi0iajsaNYauDx2f7N5NCOak=;
+ b=IHLS/VXJ5c3RnYciU6nheVLV2IZpKIVCHQvZZ1dWjVwOoJZH+D62aQec
+ T1jHdScsKo73RvxUTyyurHmqo1hTo8PJjmW11F+850JibgWcHxD1Uxac9
+ uMfU3ZK392vxqWqLts6g60NXpGjgbG/H+8rrMlY1B8Jp5uGmd8nWIq6C/
+ TTaNxExR6V7elh1ij1kK2himr3P5T9EEdTJyJZn6cnAAZUKReFiAMVX4e
+ Gb5/Fj/Igc9pGBEZFKH4IEDX5jLggySUFn56c+jJbiLLqKnvZn6YlX3cI
+ VOCgSy1NUxlDjMiSFMZkgSTkSO+TVdfK0R+ExKJO1DpPpNU8gv4tpCctb A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="236132905"
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="236132905"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 06:49:43 -0800
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="540129840"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.251.209.116])
+ ([10.251.209.116])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 06:49:42 -0800
+Message-ID: <36464392-9691-7e79-fc33-fa7c4485f6f1@linux.intel.com>
+Date: Mon, 7 Feb 2022 15:49:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH v2] iommu/core: Remove comment reference to
- iommu_dev_has_feature
-To: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>,
- <matthew.d.roper@intel.com>, <baolu.lu@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20220207032322.16667-1-akeem.g.abodunrin@intel.com>
-From: John Garry <john.garry@huawei.com>
-In-Reply-To: <20220207032322.16667-1-akeem.g.abodunrin@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.86.164]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Subject: Re: [Intel-gfx] [RFC 0/2] drm/i915/ttm: Evict and store of compressed
+ object
+Content-Language: en-US
+To: Ramalingam C <ramalingam.c@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20220207093743.14467-1-ramalingam.c@intel.com>
+ <1a195c03-d2a9-d35e-7b62-a8b70a5c21b3@amd.com>
+ <20220207135335.GA15175@intel.com>
+From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+In-Reply-To: <20220207135335.GA15175@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 08 Feb 2022 08:23:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,42 +64,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: iommu@lists.linux-foundation.org, hch@lst.de
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Hellstrom Thomas <thomas.hellstrom@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/02/2022 03:23, Akeem G Abodunrin wrote:
-> iommu_dev_has_feature() api has been removed by the commit 262948f8ba573
-> ("iommu: Delete iommu_dev_has_feature()") - So this patch removes comment
-> about the api to avoid any confusion.
-> 
-> Signed-off-by: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
-> Cc: Lu Baolu <baolu.lu@linux.intel.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+Thanks for the clarification, Ram!
 
-Reviewed-by: John Garry <john.garry@huawei.com>
-
-BTW, It looks like we can get rid of iommu_ops.dev_has_feat also.
-
-It does not seem to be called, while arm-smmu-v3 driver does provide a 
-callback.
-
-> ---
->   include/linux/iommu.h | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index de0c57a567c8..bea054f2bd4d 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -153,8 +153,7 @@ struct iommu_resv_region {
->    *			 supported, this feature must be enabled before and
->    *			 disabled after %IOMMU_DEV_FEAT_SVA.
->    *
-> - * Device drivers query whether a feature is supported using
-> - * iommu_dev_has_feature(), and enable it using iommu_dev_enable_feature().
-> + * Device drivers enable the feature via iommu_dev_enable_feature().
->    */
->   enum iommu_dev_features {
->   	IOMMU_DEV_FEAT_AUX,
-
+On 07/02/2022 14:53, Ramalingam C wrote:
+> On 2022-02-07 at 12:41:59 +0100, Christian König wrote:
+>> Am 07.02.22 um 10:37 schrieb Ramalingam C:
+>>> On flat-ccs capable platform we need to evict and resore the ccs data
+>>> along with the corresponding main memory.
+>>>
+>>> This ccs data can only be access through BLT engine through a special
+>>> cmd ( )
+>>>
+>>> To support above requirement of flat-ccs enabled i915 platforms this
+>>> series adds new param called ccs_pages_needed to the ttm_tt_init(),
+>>> to increase the ttm_tt->num_pages of system memory when the obj has the
+>>> lmem placement possibility.
+>> Well question is why isn't the buffer object allocated with the extra space
+>> in the first place?
+> Hi Christian,
+>
+> On Xe-HP and later devices, we use dedicated compression control state (CCS)
+> stored in local memory for each surface, to support the 3D and media
+> compression formats.
+>
+> The memory required for the CCS of the entire local memory is 1/256 of the
+> local memory size. So before the kernel boot, the required memory is reserved
+> for the CCS data and a secure register will be programmed with the CCS base
+> address
+>
+> So when we allocate a object in local memory we dont need to explicitly
+> allocate the space for ccs data. But when we evict the obj into the smem
+>   to hold the compression related data along with the obj we need smem
+>   space of obj_size + (obj_size/256).
+>
+>   Hence when we create smem for an obj with lmem placement possibility we
+>   create with the extra space.
+>
+>   Ram.
+>> Regards,
+>> Christian.
+>>
+>>> This will be on top of the flat-ccs enabling series
+>>> https://patchwork.freedesktop.org/series/95686/
+>>>
+>>> For more about flat-ccs feature please have a look at
+>>> https://patchwork.freedesktop.org/patch/471777/?series=95686&rev=5
+>>>
+>>> Testing of the series is WIP and looking forward for the early review on
+>>> the amendment to ttm_tt_init and the approach.
+>>>
+>>> Ramalingam C (2):
+>>>     drm/i915/ttm: Add extra pages for handling ccs data
+>>>     drm/i915/migrate: Evict and restore the ccs data
+>>>
+>>>    drivers/gpu/drm/drm_gem_vram_helper.c      |   2 +-
+>>>    drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  23 +-
+>>>    drivers/gpu/drm/i915/gt/intel_migrate.c    | 283 +++++++++++----------
+>>>    drivers/gpu/drm/qxl/qxl_ttm.c              |   2 +-
+>>>    drivers/gpu/drm/ttm/ttm_agp_backend.c      |   2 +-
+>>>    drivers/gpu/drm/ttm/ttm_tt.c               |  12 +-
+>>>    drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |   2 +-
+>>>    include/drm/ttm/ttm_tt.h                   |   4 +-
+>>>    8 files changed, 191 insertions(+), 139 deletions(-)
+>>>
