@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0CDC4AC5CA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422B84AC5CB
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:35:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0444C10E964;
-	Mon,  7 Feb 2022 16:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C322710F4A3;
+	Mon,  7 Feb 2022 16:35:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04CA010E311
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:35:34 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 5C5CE5801D7;
- Mon,  7 Feb 2022 11:35:33 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 07 Feb 2022 11:35:33 -0500
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12E4D10F70E
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:35:37 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id C7DB6320217E;
+ Mon,  7 Feb 2022 11:35:35 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 07 Feb 2022 11:35:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=Wpd1pV4OsjXu8K
- McYu4OFX/LXZsN9ht6MuXhmtDiIss=; b=G3gXMr3hhK3OOVvFZPTeerAsvAvUCu
- kMSa5zdkFOj9aaeOhzi60jweTJmoCykNAaiHfw7fulEF220dv5rJCVNTJYnndgPd
- QbfU/GHkFdq/SqHGhQm0+L9eg66SmI2459Frurycm7dhpbibcQNIneGPGPB9AHU/
- mWW7pIvowLPNfLJhiMeel8NoWeGeTnkny2CrN0CDSizPcKCX2fMHI4tbTNfrGX4L
- tfLfqc484vOsdjj+mmEZcuJHDI5cA1rnUsnmBE98ej4LJo0oo2dJeafDAmGqieNg
- Cm+cpLceW3op0q2nGLHfhjGJpxIeS2tWMgI+Wtznl1huSaDjbEy521gA==
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; bh=JLj+hmr4cIKjTRDSkfZU9h1B3lQK4P
+ iy6lhAy5Q3ITU=; b=e0ic/mLu/gf5jDHe/w4NJZpU+LRD3WVAhc15cXzZZTUvaM
+ G24plSoWdy0Sc1wEB46ZA2rUqp6yjuvmV4BeCsh6cnof5K56xjbYBZcYeFiEivRX
+ Uc1iRxcgBejlOSmyVvMmcWEp6hd1+TjpKCoho6Dh4DLRlrVZTDJ/wtbNCBVDfkSD
+ lTLTUGH93i5AoK626PxpyZXE1MV24/h0L+rhgYZ2OoXiKWPknMd78zHztd5poAk+
+ C+3Z5bwtZ304kSFuduQstALAsEcPAbYERMe+pEip/XOrPBDNX2OzGiBHlvD2iUmP
+ LvscMKYG4LSYjcUAlC5ICVYZjtzQKIe7u6zBPvVA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=Wpd1pV4OsjXu8KMcYu4OFX/LXZsN9ht6MuXhmtDiI
- ss=; b=hd++mgzAKPZOLRfy1uneFgd6GEK9UpS28tHfJsl4slEo5OJ3Lvz9cCWQt
- HNZzfpOoAYPH5bYUHU6Vhn1Skmdyl2HvFIQR0Phl8LN/QPTx5PuK2un4NOPMhU2Y
- OVBtMK2NclveoGfX520xZ/3Q/RSg/ik+KksqhBaj36XSFmxeMMjUh6eRYUl5Nnl8
- vOwEHUs1A31ibgErbeYSYg5aLw5dYS8RLyXQ2uXl3hcS6oBxdlTFXabE/KHb5a1X
- nJzKfRKlBE4HhPKjgBv7fxEVxI6r/7Sz5oPbUhh7sPId+Z1Gl5VW1aPPaXxDePI7
- +lIfzAAA30eUw5rFo8P1zyIW01IXg==
-X-ME-Sender: <xms:VUoBYpIpehjqCa6BjbCzT2ls3_ufHCfCItC769j43cFlncQMRjM-Tw>
- <xme:VUoBYlL76mOF9Oc3pCN63oE3kUdX7f40WC4yEa6xXVmzEoBaZVpI438hHGMPT5kKn
- TclXPRVwt3-px4wL6g>
-X-ME-Received: <xmr:VUoBYhsG0WuKByK4SSVriFxXdSAmAnlkdJL6Q7IG7Kn6az3_babENcTCVqUePpAaovhMrvt8dduNKcjy3fIc7s0Yeu9dffu5q3tWBVM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdotefrodftvf
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=JLj+hm
+ r4cIKjTRDSkfZU9h1B3lQK4Piy6lhAy5Q3ITU=; b=GD285zkLM5vy7DUeTQMf23
+ ge0+2czRDgXcvTz1j+Hd+dCyOJjPFxcSzvYxPj06Dwg8wHssn8PgwV50ADegmArF
+ GpuOJC7A0gryOnlitY9g1lGhBjI1JVp+sRBW/MUZoLe/0SK/gkSc6S84/ARWZaGd
+ s1i9FCvANgRmp4TVh3Ep17066i6B1xT4J69eO074Vhz2YY6g4MpxakQLYaot5Pu1
+ vC5P+zSjpQp2Vd9cm8vtpWoBuwzQP1yj0QCw9FPqQ1RLY+kAakiSEapx62G6++hx
+ lReGt1H7KpLioBtfbxbO2mErfZdI/lvTYsJSYkOCz8eijorLuNnlU5r/IfITrqxw
+ ==
+X-ME-Sender: <xms:V0oBYpFn-l8jT-PR5YMSqnZMHm-i2B-LMCAwREHs5geGSgSuDKsaxg>
+ <xme:V0oBYuV6TFbjN8K7dB9TsylBvsgo1DHtdfQxgonRajL6kaS2r9RYLp1hwA49At84c
+ Vg_5csZkYZHBUOBnj8>
+X-ME-Received: <xmr:V0oBYrJpdk3oFtgIg5TBMxnvyl8SZO3K8BxYpVvf-eXlpYjVBPvuUQaQR2Fqp0LUdg1jDY0SN8JahrUPQMXUrRx3ZzSwwM-BTUugRZ4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
- keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:VUoBYqZHQwMjXncR4bh3EW_0PFXmgyDW9bFelYCwDy1HwvVNbpRBlw>
- <xmx:VUoBYgZqUBOFp5xgkQtjdRAnvPE7-ommJuOThMzVallwpjO2uyVOdw>
- <xmx:VUoBYuAk7eq4pfRamPQ1AnljgOXXSNTU_jTCKWXKuzFF9P8xCdhRBA>
- <xmx:VUoBYtJ9IE3UyeMCROSBzPB7h0QnA-nYkRAA1K7StnCmMaEgrw687w>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:V0oBYvFYXG-CPpFbLELtUeVI70x_C7ExVn7YDwN-aZiYYidL-bK9pw>
+ <xmx:V0oBYvUoqprdJrRSDbEOiBA8v5XcA55tbdQtnlmlBU8KW5uqUYQFSA>
+ <xmx:V0oBYqMqAnT4HVEofnojP9gommRwYAqsfEBOu-P4dMXGBKyAlizZ9g>
+ <xmx:V0oBYroiO3QqHc29p1ihQyIWmaHOSepLjygZuR6YOkksl9Ine-FNcg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 11:35:32 -0500 (EST)
+ 7 Feb 2022 11:35:34 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH 05/23] drm/amd/display: Fix color encoding mismatch
-Date: Mon,  7 Feb 2022 17:34:57 +0100
-Message-Id: <20220207163515.1038648-6-maxime@cerno.tech>
+Subject: [PATCH 06/23] drm/object: Add drm_object_property_get_default_value()
+ function
+Date: Mon,  7 Feb 2022 17:34:58 +0100
+Message-Id: <20220207163515.1038648-7-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220207163515.1038648-1-maxime@cerno.tech>
 References: <20220207163515.1038648-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,52 +82,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The amdgpu KMS driver calls drm_plane_create_color_properties() with a
-default encoding set to BT709.
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-However, the core will ignore it and the driver doesn't force it in its
-plane state reset hook, so the initial value will be 0, which represents
-BT601.
+Some functions to create properties (drm_plane_create_zpos_property or
+drm_plane_create_color_properties for example) will ask for a range of
+acceptable value and an initial one.
 
-Fix the mismatch by using an initial value of BT601 in
-drm_plane_create_color_properties().
+This initial value is then stored in the values array for that property.
 
-Cc: amd-gfx@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Let's provide an helper to access this property.
+
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_mode_object.c | 53 +++++++++++++++++++++++++------
+ include/drm/drm_mode_object.h     |  7 ++++
+ 2 files changed, 50 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index feccf2b555d2..86b27a355e90 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7914,7 +7914,7 @@ static int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
- 			BIT(DRM_COLOR_YCBCR_BT2020),
- 			BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
- 			BIT(DRM_COLOR_YCBCR_FULL_RANGE),
--			DRM_COLOR_YCBCR_BT709, DRM_COLOR_YCBCR_LIMITED_RANGE);
-+			DRM_COLOR_YCBCR_BT601, DRM_COLOR_YCBCR_LIMITED_RANGE);
- 	}
+diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+index 86d9e907c0b2..ba1608effc0f 100644
+--- a/drivers/gpu/drm/drm_mode_object.c
++++ b/drivers/gpu/drm/drm_mode_object.c
+@@ -297,11 +297,26 @@ int drm_object_property_set_value(struct drm_mode_object *obj,
+ }
+ EXPORT_SYMBOL(drm_object_property_set_value);
  
- 	supported_rotations =
++static int __drm_object_property_get_prop_value(struct drm_mode_object *obj,
++						struct drm_property *property,
++						uint64_t *val)
++{
++	int i;
++
++	for (i = 0; i < obj->properties->count; i++) {
++		if (obj->properties->properties[i] == property) {
++			*val = obj->properties->values[i];
++			return 0;
++		}
++	}
++
++	return -EINVAL;
++}
++
+ static int __drm_object_property_get_value(struct drm_mode_object *obj,
+ 					   struct drm_property *property,
+ 					   uint64_t *val)
+ {
+-	int i;
+ 
+ 	/* read-only properties bypass atomic mechanism and still store
+ 	 * their value in obj->properties->values[].. mostly to avoid
+@@ -311,15 +326,7 @@ static int __drm_object_property_get_value(struct drm_mode_object *obj,
+ 			!(property->flags & DRM_MODE_PROP_IMMUTABLE))
+ 		return drm_atomic_get_property(obj, property, val);
+ 
+-	for (i = 0; i < obj->properties->count; i++) {
+-		if (obj->properties->properties[i] == property) {
+-			*val = obj->properties->values[i];
+-			return 0;
+-		}
+-
+-	}
+-
+-	return -EINVAL;
++	return __drm_object_property_get_prop_value(obj, property, val);
+ }
+ 
+ /**
+@@ -348,6 +355,32 @@ int drm_object_property_get_value(struct drm_mode_object *obj,
+ }
+ EXPORT_SYMBOL(drm_object_property_get_value);
+ 
++/**
++ * drm_object_property_get_default_value - retrieve the default value of a
++ * property when in atomic mode.
++ * @obj: drm mode object to get property value from
++ * @property: property to retrieve
++ * @val: storage for the property value
++ *
++ * This function retrieves the default state of the given property as passed in
++ * to drm_object_attach_property
++ *
++ * Only atomic drivers should call this function directly, as for non-atomic
++ * drivers it will return the current value.
++ *
++ * Returns:
++ * Zero on success, error code on failure.
++ */
++int drm_object_property_get_default_value(struct drm_mode_object *obj,
++					  struct drm_property *property,
++					  uint64_t *val)
++{
++	WARN_ON(!drm_drv_uses_atomic_modeset(property->dev));
++
++	return __drm_object_property_get_prop_value(obj, property, val);
++}
++EXPORT_SYMBOL(drm_object_property_get_default_value);
++
+ /* helper for getconnector and getproperties ioctls */
+ int drm_mode_object_get_properties(struct drm_mode_object *obj, bool atomic,
+ 				   uint32_t __user *prop_ptr,
+diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
+index c34a3e8030e1..912f1e415685 100644
+--- a/include/drm/drm_mode_object.h
++++ b/include/drm/drm_mode_object.h
+@@ -98,6 +98,10 @@ struct drm_object_properties {
+ 	 * Hence atomic drivers should not use drm_object_property_set_value()
+ 	 * and drm_object_property_get_value() on mutable objects, i.e. those
+ 	 * without the DRM_MODE_PROP_IMMUTABLE flag set.
++	 *
++	 * For atomic drivers the default value of properties is stored in this
++	 * array, so drm_object_property_get_default_value can be used to
++	 * retrieve it.
+ 	 */
+ 	uint64_t values[DRM_OBJECT_MAX_PROPERTY];
+ };
+@@ -126,6 +130,9 @@ int drm_object_property_set_value(struct drm_mode_object *obj,
+ int drm_object_property_get_value(struct drm_mode_object *obj,
+ 				  struct drm_property *property,
+ 				  uint64_t *value);
++int drm_object_property_get_default_value(struct drm_mode_object *obj,
++					  struct drm_property *property,
++					  uint64_t *val);
+ 
+ void drm_object_attach_property(struct drm_mode_object *obj,
+ 				struct drm_property *property,
 -- 
 2.34.1
 
