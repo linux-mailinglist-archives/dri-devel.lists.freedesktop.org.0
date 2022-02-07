@@ -1,65 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F544AC979
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 20:27:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF7C14AC97F
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 20:29:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6EE10F8E5;
-	Mon,  7 Feb 2022 19:27:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3F0D10E6B3;
+	Mon,  7 Feb 2022 19:28:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
- [IPv6:2607:f8b0:4864:20::82a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7982610F8EB
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 19:27:32 +0000 (UTC)
-Received: by mail-qt1-x82a.google.com with SMTP id t1so6828579qtq.13
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 11:27:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=BoyrZhI/SFo2F7HoszDIan4CMWU1RWbm6+Gl19zQGEA=;
- b=Ch8C10PSNgUgzrJSYUwNmUYPnK3KqD5nVzs8U25K8dQe5Nz0RHnqD34dfcVzOfHQn0
- Z7A2NrwTV3T8U5qAOPkdl18fdhCkDtt27sDhMF9az9KwL3bhZc1wWsNakacs8mHp4+2i
- ATHSdkH9LZE8z74Q7FsDuavDIliXPR3QE65Wv381+/ZcyQuEMN7ZFrlis4MW0UWFA66p
- hAq2I0gQh10LCJLc1hBJhl0b+SX/rRCFuGSDgkT7h5GKbOua68a4YV58mo6/qZ9LpsXw
- xHl/NBuQ1Pg3+hWr0zmMYM2z5/HBKY5RxkuejNX/FdePkUnSlgZKK24pt/x4bYmxOQsS
- FISQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BoyrZhI/SFo2F7HoszDIan4CMWU1RWbm6+Gl19zQGEA=;
- b=xItnCFD0VJJ+7k6+qyPAY8Cf2Cdie8XiHbxBF1mFTMSCxLcTk74jSDCJC+ywe+OcSG
- WyjFVqxvPPrFVPJme1NuMetn7Ycg2lxpsH4H0SennrUEiXjLdy0PFC5jBjOQt75dA6gX
- +WkOWHkQ8QRwk4LD7AlaNuYp+Rosm/jFvPrFAisacLU2/EpWYMPYMi7zJ5Kpa8fhk71U
- euFW9U964fTGUynh9gDjTavJSay1QNLxEoN7AiL4h2A2u1edirs5RPTE4jQPlIBVB9kG
- ENR9LaIx+r0x4RjW+EH3HvD6EswPaMwQ8WHAqqctYQAu81IOa6ZBcEE6X4O4dnUIpwIr
- irKA==
-X-Gm-Message-State: AOAM533e00dFDzUd7N2ccGD5Y7FH923Irff+f0qG/KySuOTGT2oLsopy
- OUankFMAhU9KJe15F/Y/bJ4OLQ==
-X-Google-Smtp-Source: ABdhPJxE/dHX+9xmPplXl1VvJP7kBTi3tiLgJTGk2+Y/ZJni8J0n6I1+6ACqdKe2xRydNCRf+KVUww==
-X-Received: by 2002:ac8:7ca4:: with SMTP id z4mr750427qtv.526.1644262051598;
- Mon, 07 Feb 2022 11:27:31 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id de15sm5546110qkb.107.2022.02.07.11.27.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 11:27:31 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1nH9fe-000HwP-GM; Mon, 07 Feb 2022 15:27:30 -0400
-Date: Mon, 7 Feb 2022 15:27:30 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 4/8] mm: move free_devmap_managed_page to memremap.c
-Message-ID: <20220207192730.GE49147@ziepe.ca>
-References: <20220207063249.1833066-1-hch@lst.de>
- <20220207063249.1833066-5-hch@lst.de>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5440610E49D;
+ Mon,  7 Feb 2022 19:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644262137; x=1675798137;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=tFH0rM7pbt36g1beQ6IMSi+8H19nMs9nOTv9B7HTClw=;
+ b=Sky/G2NW7hc65wJdy76SvQcS+duLzWDeVxJc+EUezSnD/sr6ezlvnQ0S
+ TdP+tpKzLd/ILUhSQ0vfvfhazF0JbKSCLJdp0rWF7NDaygjj4OOs0QCk7
+ oT6/OjNv9TNxhrCT2qOkkctSp9lM36RBaI87ZHjgI4TzmXifovBZ8FFEA
+ FgvBCgA9p9gdZyIYIozKybnoCw6mdrwThPMitZQQPG820XTQcGCUAdn74
+ TivZR51QvJgWXIwRJ//Z385JfSCnLn5NvgHQVb1sgeE9jCiUZh+yz4/CA
+ 0Dz0Le1vqyhxazLremrjdj4EkNZRHHV8GS17tiGefFD61c3L9yO+Lldvu A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="228762592"
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="228762592"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 11:28:56 -0800
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="484536967"
+Received: from normanma-mobl.amr.corp.intel.com (HELO localhost)
+ ([10.209.85.164])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 11:28:56 -0800
+From: Jordan Justen <jordan.l.justen@intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH 0/4] GuC HWCONFIG with documentation
+Date: Mon,  7 Feb 2022 11:28:50 -0800
+Message-Id: <20220207192854.862959-1-jordan.l.justen@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220207063249.1833066-5-hch@lst.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,29 +54,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, Ralph Campbell <rcampbell@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, dri-devel@lists.freedesktop.org,
- Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, linux-mm@kvack.org,
- Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Logan Gunthorpe <logang@deltatee.com>, Dan Williams <dan.j.williams@intel.com>
+Cc: Jordan Justen <jordan.l.justen@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 07, 2022 at 07:32:45AM +0100, Christoph Hellwig wrote:
-> free_devmap_managed_page has nothing to do with the code in swap.c,
-> move it to live with the rest of the code for devmap handling.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  include/linux/mm.h |  1 -
->  mm/memremap.c      | 21 +++++++++++++++++++++
->  mm/swap.c          | 23 -----------------------
->  3 files changed, 21 insertions(+), 24 deletions(-)
+This is John/Rodrigo's 2 patches with some minor changes, and I added
+2 patches.
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+"drm/i915/uapi: Add query for hwconfig blob" was changed:
 
-Jason
+ * Rename DRM_I915_QUERY_HWCONFIG_TABLE to DRM_I915_QUERY_HWCONFIG_BLOB
+   as requested by Joonas.
+
+ * Reword commit message
+
+ * I added Acked-by to this patch, but this only applies in the
+   context of this version of the patchset. If my changes are
+   rejected, then please *do not* add my Acked-by to the other series.
+
+   In particular, I do not want my Acked-by on the patch if the patch
+   mentions the HWCONFIG format, but is not willing to add that to the
+   actual uAPI.
+
+   I also do not want my Acked-by on it if it mentions "consolidation"
+   of this data. Since we are dealing with open source projects (aside
+   from GuC), this doesn't seem appropriate.
+
+"drm/i915/uapi: Add struct drm_i915_query_hwconfig_blob_item" adds a
+struct to the uAPI and documents the return value for
+DRM_I915_QUERY_HWCONFIG_BLOB. (Except, keys / values are still
+deferred to the PRM.)
+
+"drm/i915/guc: Verify hwconfig blob matches supported format" does the
+simple verification of the blob to make sure it matches what the uAPI
+documents.
+
+John Harrison (1):
+  drm/i915/guc: Add fetch of hwconfig table
+
+Jordan Justen (2):
+  drm/i915/uapi: Add struct drm_i915_query_hwconfig_blob_item
+  drm/i915/guc: Verify hwconfig blob matches supported format
+
+Rodrigo Vivi (1):
+  drm/i915/uapi: Add query for hwconfig blob
+
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 +
+ .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |   4 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   3 +
+ .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.c   | 177 ++++++++++++++++++
+ .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.h   |  19 ++
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   6 +
+ drivers/gpu/drm/i915/i915_query.c             |  23 +++
+ include/uapi/drm/i915_drm.h                   |  25 +++
+ 9 files changed, 259 insertions(+)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.h
+
+-- 
+2.34.1
+
