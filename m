@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17C874ACCA0
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 00:37:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF724ACC9E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 00:32:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 467EA10E323;
-	Mon,  7 Feb 2022 23:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5602E10E1A3;
+	Mon,  7 Feb 2022 23:32:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA0210E11A;
- Mon,  7 Feb 2022 23:37:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644277024; x=1675813024;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=k/0gQIxOM/A5eqSnHd8iXZqSwly2pP5OyyjTtf3ubmM=;
- b=e52fwOESFjbyrURF7MCnEj5YUIYkWyHzz/ubmr0B1REkeOewbZ6OAMMg
- C6ELHnjv6fh3uFB0cN4mmPcx5PwI/3ojOfD1DOQytNkoPYhsM3yKc2Yza
- M0x8izwmNa8LNeTi2ri7rxo1uHSt9gRaBlhsH1ig+/2bc47WHBEl+sQMS
- +p4o3wZgdcCx15Npb+HEvl/+CDB+e3E72AeRkBfBAyVKtcniz4uFTeF14
- Ko8tpFKt2zDWqt3hGIDdMSkcBM7H+l5QAdIfVSWdjzblMW2+RkJgqbuGG
- y186HD6Id5cjrbLI53OPfLoQGIp5JTFJoV9HQfRIwDpm2+lWcQjwzXGVn Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="236236006"
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="236236006"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 15:37:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="525321049"
-Received: from lkp-server01.sh.intel.com (HELO 9dd77a123018) ([10.239.97.150])
- by orsmga007.jf.intel.com with ESMTP; 07 Feb 2022 15:37:02 -0800
-Received: from kbuild by 9dd77a123018 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nHDZ7-00016N-Fv; Mon, 07 Feb 2022 23:37:01 +0000
-Date: Tue, 8 Feb 2022 07:36:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jordan Justen <jordan.l.justen@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915/guc: Verify hwconfig blob
- matches supported format
-Message-ID: <202202080749.RRjxhCB2-lkp@intel.com>
-References: <20220207192854.862959-5-jordan.l.justen@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0E110E4A5;
+ Mon,  7 Feb 2022 23:32:06 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A9AE760E9D;
+ Mon,  7 Feb 2022 23:32:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39CC0C004E1;
+ Mon,  7 Feb 2022 23:32:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644276725;
+ bh=Sip9F5Bfsba1zq25dZliHosPf+iJHY5BZ3ZAUNyiX9Q=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Z10xrt4P2z6n/9x0o45n9hD44NEp74dqY2HFtNOkYHbDOZOBHzW3NM+X/d37mv1JW
+ fRjbOnc3wDHiiE4Zr4YSykieNOuTFOEp3HVY6jZPNpVtd6kTIU7Sqpp9zzHNsnRj6E
+ CXcbXcl1vAgcR0lmVoak0wAWhi2tv/dGkk46nimauCfCoAMuNJ51ZhdhrO4E0xVTwA
+ dotKn5nQTpYAq10NCOZQIUHWMq2TMA+1jxDstrR0d0Q8tkjNqQWzjzAXy4caKkqill
+ nZPNRBlLYoOKE4uUp8Btdwf2+zHjpK1cT8MkwCJzNFYPASeiAfvobxJEm1cXs8XZV5
+ oYTFfvpydxkRg==
+Date: Mon, 7 Feb 2022 17:39:23 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH][next] nouveau/svm: Use struct_size() helper in
+ nouveau_pfns_map()
+Message-ID: <20220207233923.GA524723@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220207192854.862959-5-jordan.l.justen@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,70 +53,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, dri-devel <dri-devel@lists.freedesktop.org>
+Cc: nouveau@lists.freedesktop.org, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jordan,
+Make use of the struct_size() helper instead of an open-coded version,
+in order to avoid any potential type mistakes or integer overflows that,
+in the worse scenario, could lead to heap overflows.
 
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-tip/drm-tip drm-exynos/exynos-drm-next drm/drm-next tegra-drm/drm/tegra/for-next v5.17-rc3 next-20220207]
-[cannot apply to airlied/drm-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Jordan-Justen/GuC-HWCONFIG-with-documentation/20220208-032950
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-config: i386-randconfig-a016-20220207 (https://download.01.org/0day-ci/archive/20220208/202202080749.RRjxhCB2-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/c122b0dea958e76766ce9b4b9f34d2eed16fb566
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Jordan-Justen/GuC-HWCONFIG-with-documentation/20220208-032950
-        git checkout c122b0dea958e76766ce9b4b9f34d2eed16fb566
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c: In function 'verify_hwconfig_blob':
->> drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c:79:2: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
-      79 |  struct drm_i915_query_hwconfig_blob_item *pos = hwconfig->ptr;
-         |  ^~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +79 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
-
-    73	
-    74	static int verify_hwconfig_blob(const struct intel_guc_hwconfig *hwconfig)
-    75	{
-    76		if (hwconfig->size % 4 != 0 || hwconfig->ptr == NULL)
-    77			return -EINVAL;
-    78	
-  > 79		struct drm_i915_query_hwconfig_blob_item *pos = hwconfig->ptr;
-    80		u32 remaining = (hwconfig->size / 4);
-    81		while (remaining > 0) {
-    82			if (remaining < 2)
-    83				return -EINVAL;
-    84			if (pos->length > remaining - 2)
-    85				return -EINVAL;
-    86			remaining -= 2 + pos->length;
-    87			pos = (void *)&pos->data[pos->length];
-    88		}
-    89	
-    90		DRM_INFO("hwconfig blob format appears valid\n");
-    91		return 0;
-    92	}
-    93	
-
+Link: https://github.com/KSPP/linux/issues/160
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/gpu/drm/nouveau/nouveau_svm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index 266809e511e2..46a5a1016e37 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -925,8 +925,8 @@ nouveau_pfns_map(struct nouveau_svmm *svmm, struct mm_struct *mm,
+ 
+ 	mutex_lock(&svmm->mutex);
+ 
+-	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args, sizeof(*args) +
+-				npages * sizeof(args->p.phys[0]), NULL);
++	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args,
++				struct_size(args, p.phys, npages), NULL);
+ 
+ 	mutex_unlock(&svmm->mutex);
+ }
+-- 
+2.27.0
+
