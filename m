@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913754AC3BD
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 16:33:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C074AC3C1
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 16:34:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D014E112467;
-	Mon,  7 Feb 2022 15:33:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08D7010E450;
+	Mon,  7 Feb 2022 15:34:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CBCF112464
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 15:33:43 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDB65112464
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 15:34:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644248022;
+ s=mimecast20190719; t=1644248057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0YZKFPfPAlzbRhVzmbaqcoTuZ3BdIzpFOausE6A/ZGI=;
- b=SfSt4Sm3UYkFFFQtFWFcvTvyOUxWk4fDL2tNoe+zFPiK3mm0ZjA50OH44O97rCVNxkEHHp
- /l/9RtxTNkk1nwqK4/wx1hQ2SrXwrT5S0pi4ZHCMKdxXUeVsqRzTCJUBfi3jxTgFeA8T1w
- I0VX1s+tYhJw8I1+uv2Vbiaz+8QJlPo=
+ bh=0Xxoic2Sn/qFA/mhRCvHnS08xjpesyCCqOxwVNKsehI=;
+ b=U3zMK3SQfj2XiOlmHaGPD7y3qcOBC0nDpA3Ix0iTaSgEvPr3SBdPNG7UQoqwvAxQSrj90n
+ KoNFEVqxAhDi77XTJOzRXPGgFxOwoE2tdaF0l2kKeHXHR9PTox+dn7cMkuGAuqYfNVDItX
+ e/xlVZeJLrFYXaw0j53sqFgWzqBqJSM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-301-z8blMLWqNNKtRwtuJROlbw-1; Mon, 07 Feb 2022 10:33:41 -0500
-X-MC-Unique: z8blMLWqNNKtRwtuJROlbw-1
+ us-mta-648-liy7FMWTPFmy0kaoiLc8fg-1; Mon, 07 Feb 2022 10:34:14 -0500
+X-MC-Unique: liy7FMWTPFmy0kaoiLc8fg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 190331006AA9;
- Mon,  7 Feb 2022 15:33:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C90F3363A4;
+ Mon,  7 Feb 2022 15:34:11 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.192.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B75755E495;
- Mon,  7 Feb 2022 15:33:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8809184FF5;
+ Mon,  7 Feb 2022 15:33:38 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: kvm@vger.kernel.org
-Subject: [PATCH 26/30] KVM: x86: nSVM: implement nested vGIF
-Date: Mon,  7 Feb 2022 17:28:43 +0200
-Message-Id: <20220207152847.836777-27-mlevitsk@redhat.com>
+Subject: [PATCH 27/30] KVM: x86: add force_intercept_exceptions_mask
+Date: Mon,  7 Feb 2022 17:28:44 +0200
+Message-Id: <20220207152847.836777-28-mlevitsk@redhat.com>
 In-Reply-To: <20220207152847.836777-1-mlevitsk@redhat.com>
 References: <20220207152847.836777-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -77,157 +77,95 @@ Cc: Dave Hansen <dave.hansen@linux.intel.com>,
  Ingo Molnar <mingo@redhat.com>, Sean Christopherson <seanjc@google.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>" <intel-gfx@lists.freedesktop.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@suse.de>" <intel-gfx@lists.freedesktop.org>,
  Zhi Wang <zhi.a.wang@intel.com>, Kan Liang <kan.liang@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In case L1 enables vGIF for L2, the L2 cannot affect L1's GIF, regardless
-of STGI/CLGI intercepts, and since VM entry enables GIF, this means
-that L1's GIF is always 1 while L2 is running.
+This parameter will be used by VMX and SVM code to force
+interception of a set of exceptions, given by a bitmask
+for guest debug and/or kvm debug.
 
-Thus in this case leave L1's vGIF in vmcb01, while letting L2
-control the vGIF thus implementing nested vGIF.
+This is based on an idea first shown here:
+https://patchwork.kernel.org/project/kvm/patch/20160301192822.GD22677@pd.tnic/
 
-Also allow KVM to toggle L1's GIF during nested entry/exit
-by always using vmcb01.
-
+CC: Borislav Petkov <bp@suse.de>
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- arch/x86/kvm/svm/nested.c | 17 +++++++++++++----
- arch/x86/kvm/svm/svm.c    |  5 +++++
- arch/x86/kvm/svm/svm.h    | 25 +++++++++++++++++++++----
- 3 files changed, 39 insertions(+), 8 deletions(-)
+ arch/x86/include/asm/kvm_host.h | 7 +++++++
+ arch/x86/kvm/x86.c              | 9 +++++++++
+ arch/x86/kvm/x86.h              | 5 +++++
+ 3 files changed, 21 insertions(+)
 
-diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
-index 601d38ae05cc6..a426d4d3dcd82 100644
---- a/arch/x86/kvm/svm/nested.c
-+++ b/arch/x86/kvm/svm/nested.c
-@@ -408,6 +408,10 @@ void nested_sync_control_from_vmcb02(struct vcpu_svm *svm)
- 		 */
- 		mask &= ~V_IRQ_MASK;
- 	}
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 428ab1cc7dd34..fa498612839a0 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -1168,6 +1168,13 @@ struct kvm_arch {
+ 	struct kvm_pmu_event_filter __rcu *pmu_event_filter;
+ 	struct task_struct *nx_lpage_recovery_thread;
+ 
++	/*
++	 * Bitmask of exceptions that KVM will intercept
++	 * and forward to the guest, even if that is not needed
++	 * for normal operation. Debug feature.
++	 */
++	u32 force_intercept_exceptions_bitmask;
 +
-+	if (nested_vgif_enabled(svm))
-+		mask |= V_GIF_MASK;
+ #ifdef CONFIG_X86_64
+ 	/*
+ 	 * Whether the TDP MMU is enabled for this VM. This contains a
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 63d84c373e465..202c34697852f 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -193,6 +193,13 @@ module_param(enable_pmu, bool, 0444);
+ bool __read_mostly eager_page_split = true;
+ module_param(eager_page_split, bool, 0644);
+ 
++/*
++ * force_intercept_exceptions_mask is a writable param and its value
++ * is snapshotted when a VM is created
++ */
++static uint force_intercept_exceptions_mask;
++module_param(force_intercept_exceptions_mask, uint, S_IRUGO | S_IWUSR);
 +
- 	svm->nested.ctl.int_ctl        &= ~mask;
- 	svm->nested.ctl.int_ctl        |= svm->vmcb->control.int_ctl & mask;
+ /*
+  * Restoring the host value for MSRs that are only consumed when running in
+  * usermode, e.g. SYSCALL MSRs and TSC_AUX, can be deferred until the CPU
+@@ -11646,6 +11653,7 @@ int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
+ 	raw_spin_unlock_irqrestore(&kvm->arch.tsc_write_lock, flags);
+ 
+ 	kvm->arch.guest_can_read_msr_platform_info = true;
++	kvm->arch.force_intercept_exceptions_bitmask = force_intercept_exceptions_mask;
+ 
+ #if IS_ENABLED(CONFIG_HYPERV)
+ 	spin_lock_init(&kvm->arch.hv_root_tdp_lock);
+@@ -12886,6 +12894,7 @@ int kvm_sev_es_string_io(struct kvm_vcpu *vcpu, unsigned int size,
  }
-@@ -573,10 +577,8 @@ static void nested_vmcb02_prepare_save(struct vcpu_svm *svm, struct vmcb *vmcb12
- 
- static void nested_vmcb02_prepare_control(struct vcpu_svm *svm)
- {
--	const u32 int_ctl_vmcb01_bits =
--		V_INTR_MASKING_MASK | V_GIF_MASK | V_GIF_ENABLE_MASK;
--
--	const u32 int_ctl_vmcb12_bits = V_TPR_MASK | V_IRQ_INJECTION_BITS_MASK;
-+	u32 int_ctl_vmcb01_bits = V_INTR_MASKING_MASK;
-+	u32 int_ctl_vmcb12_bits = V_TPR_MASK | V_IRQ_INJECTION_BITS_MASK;
- 
- 	struct kvm_vcpu *vcpu = &svm->vcpu;
- 
-@@ -586,6 +588,13 @@ static void nested_vmcb02_prepare_control(struct vcpu_svm *svm)
- 	 */
- 
+ EXPORT_SYMBOL_GPL(kvm_sev_es_string_io);
  
 +
-+
-+	if (svm->vgif_enabled && (svm->nested.ctl.int_ctl & V_GIF_ENABLE_MASK))
-+		int_ctl_vmcb12_bits |= (V_GIF_MASK | V_GIF_ENABLE_MASK);
-+	else
-+		int_ctl_vmcb01_bits |= (V_GIF_MASK | V_GIF_ENABLE_MASK);
-+
- 	/* Copied from vmcb01.  msrpm_base can be overwritten later.  */
- 	svm->vmcb->control.nested_ctl = svm->vmcb01.ptr->control.nested_ctl;
- 	svm->vmcb->control.iopm_base_pa = svm->vmcb01.ptr->control.iopm_base_pa;
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index e49043807ec44..1cf682d1553cc 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -4008,6 +4008,8 @@ static void svm_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
- 		svm->pause_threshold_enabled = false;
- 	}
- 
-+	svm->vgif_enabled = vgif && guest_cpuid_has(vcpu, X86_FEATURE_VGIF);
-+
- 	svm_recalc_instruction_intercepts(vcpu, svm);
- 
- 	/* For sev guests, the memory encryption bit is not reserved in CR3.  */
-@@ -4823,6 +4825,9 @@ static __init void svm_set_cpu_caps(void)
- 		if (pause_filter_thresh)
- 			kvm_cpu_cap_set(X86_FEATURE_PFTHRESHOLD);
- 
-+		if (vgif)
-+			kvm_cpu_cap_set(X86_FEATURE_VGIF);
-+
- 		/* Nested VM can receive #VMEXIT instead of triggering #GP */
- 		kvm_cpu_cap_set(X86_FEATURE_SVME_ADDR_CHK);
- 	}
-diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
-index 297ec57f9941c..73cc9d3e784bd 100644
---- a/arch/x86/kvm/svm/svm.h
-+++ b/arch/x86/kvm/svm/svm.h
-@@ -224,6 +224,7 @@ struct vcpu_svm {
- 	bool v_vmload_vmsave_enabled      : 1;
- 	bool pause_filter_enabled         : 1;
- 	bool pause_threshold_enabled      : 1;
-+	bool vgif_enabled                 : 1;
- 
- 	u32 ldr_reg;
- 	u32 dfr_reg;
-@@ -442,31 +443,47 @@ static inline bool svm_is_intercept(struct vcpu_svm *svm, int bit)
- 	return vmcb_is_intercept(&svm->vmcb->control, bit);
+ EXPORT_TRACEPOINT_SYMBOL_GPL(kvm_entry);
+ EXPORT_TRACEPOINT_SYMBOL_GPL(kvm_exit);
+ EXPORT_TRACEPOINT_SYMBOL_GPL(kvm_fast_mmio);
+diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
+index e9b303b21f173..34f96f483c7e5 100644
+--- a/arch/x86/kvm/x86.h
++++ b/arch/x86/kvm/x86.h
+@@ -91,6 +91,11 @@ static inline bool kvm_exception_is_soft(unsigned int nr)
+ 	return (nr == BP_VECTOR) || (nr == OF_VECTOR);
  }
  
-+static bool nested_vgif_enabled(struct vcpu_svm *svm)
++static inline bool kvm_is_exception_force_intercepted(struct kvm *kvm, int exception)
 +{
-+	if (!is_guest_mode(&svm->vcpu) || !svm->vgif_enabled)
-+		return false;
-+	return svm->nested.ctl.int_ctl & V_GIF_ENABLE_MASK;
++	return kvm->arch.force_intercept_exceptions_bitmask & BIT(exception);
 +}
 +
- static inline bool vgif_enabled(struct vcpu_svm *svm)
+ static inline bool is_protmode(struct kvm_vcpu *vcpu)
  {
--	return !!(svm->vmcb->control.int_ctl & V_GIF_ENABLE_MASK);
-+	struct vmcb *vmcb = nested_vgif_enabled(svm) ? svm->vmcb01.ptr : svm->vmcb;
-+
-+	return !!(vmcb->control.int_ctl & V_GIF_ENABLE_MASK);
- }
- 
- static inline void enable_gif(struct vcpu_svm *svm)
- {
-+	struct vmcb *vmcb = nested_vgif_enabled(svm) ? svm->vmcb01.ptr : svm->vmcb;
-+
- 	if (vgif_enabled(svm))
--		svm->vmcb->control.int_ctl |= V_GIF_MASK;
-+		vmcb->control.int_ctl |= V_GIF_MASK;
- 	else
- 		svm->vcpu.arch.hflags |= HF_GIF_MASK;
- }
- 
- static inline void disable_gif(struct vcpu_svm *svm)
- {
-+	struct vmcb *vmcb = nested_vgif_enabled(svm) ? svm->vmcb01.ptr : svm->vmcb;
-+
- 	if (vgif_enabled(svm))
--		svm->vmcb->control.int_ctl &= ~V_GIF_MASK;
-+		vmcb->control.int_ctl &= ~V_GIF_MASK;
- 	else
- 		svm->vcpu.arch.hflags &= ~HF_GIF_MASK;
-+
- }
- 
- static inline bool gif_set(struct vcpu_svm *svm)
- {
-+	struct vmcb *vmcb = nested_vgif_enabled(svm) ? svm->vmcb01.ptr : svm->vmcb;
-+
- 	if (vgif_enabled(svm))
--		return !!(svm->vmcb->control.int_ctl & V_GIF_MASK);
-+		return !!(vmcb->control.int_ctl & V_GIF_MASK);
- 	else
- 		return !!(svm->vcpu.arch.hflags & HF_GIF_MASK);
- }
+ 	return kvm_read_cr0_bits(vcpu, X86_CR0_PE);
 -- 
 2.26.3
 
