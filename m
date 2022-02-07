@@ -1,56 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374334AD32A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:24:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9D54AD32B
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:24:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC4310E3C6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 660AA10E3CA;
 	Tue,  8 Feb 2022 08:23:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 918B010E29C;
- Mon,  7 Feb 2022 14:49:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644245384; x=1675781384;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Hn1fek1PpUFCkbNObpOMi0iajsaNYauDx2f7N5NCOak=;
- b=IHLS/VXJ5c3RnYciU6nheVLV2IZpKIVCHQvZZ1dWjVwOoJZH+D62aQec
- T1jHdScsKo73RvxUTyyurHmqo1hTo8PJjmW11F+850JibgWcHxD1Uxac9
- uMfU3ZK392vxqWqLts6g60NXpGjgbG/H+8rrMlY1B8Jp5uGmd8nWIq6C/
- TTaNxExR6V7elh1ij1kK2himr3P5T9EEdTJyJZn6cnAAZUKReFiAMVX4e
- Gb5/Fj/Igc9pGBEZFKH4IEDX5jLggySUFn56c+jJbiLLqKnvZn6YlX3cI
- VOCgSy1NUxlDjMiSFMZkgSTkSO+TVdfK0R+ExKJO1DpPpNU8gv4tpCctb A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="236132905"
-X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="236132905"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 06:49:43 -0800
-X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="540129840"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.251.209.116])
- ([10.251.209.116])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 06:49:42 -0800
-Message-ID: <36464392-9691-7e79-fc33-fa7c4485f6f1@linux.intel.com>
-Date: Mon, 7 Feb 2022 15:49:39 +0100
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F46410F96B
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 17:38:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
+ Message-ID:From:References:Cc:To:content-disposition;
+ bh=fEpCgCTX3h2p5UN6S8G2mb2i3aC8G4ppdXgJ4LAUOGU=; b=XtZxNl7rveoZfo3hm92UT9KtIn
+ TtfEzS/obXfk3nfrPZQaNcvNJUwwbQ6FzvaeEldi8mcXvPcHXrxfFOT99cxGORMyDdpOVPqYgWzhi
+ NJnUpgdumuFyV2Tyl4IQts6oBLVaEJ6HMSLjCaSC8BxCiLvC8sRYx1T5KoSKEkaCFuFOKFauwDLJT
+ qDYAHUO9NbVOKwEI0y/pDnprLXyf0uJTBMutoNPy5QjfIiwWCMAn64wh72jOJz0AvGzbx5ngPzJla
+ 9IgNxQUju0gJaTa8Q0ExQHFh65YjcZN7/8ClykiaX2fTLk5f5rYdLc6sSPtEu6A4YR4u/mO5qpQUx
+ bob8LGjg==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+ by ale.deltatee.com with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <logang@deltatee.com>)
+ id 1nH7xp-00EVc6-C4; Mon, 07 Feb 2022 10:38:09 -0700
+To: Christoph Hellwig <hch@lst.de>, Andrew Morton
+ <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>
+References: <20220207063249.1833066-1-hch@lst.de>
+ <20220207063249.1833066-7-hch@lst.de>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <a8c54032-3347-c999-d644-02e6e7d2bfa4@deltatee.com>
+Date: Mon, 7 Feb 2022 10:38:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [Intel-gfx] [RFC 0/2] drm/i915/ttm: Evict and store of compressed
- object
-Content-Language: en-US
-To: Ramalingam C <ramalingam.c@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220207093743.14467-1-ramalingam.c@intel.com>
- <1a195c03-d2a9-d35e-7b62-a8b70a5c21b3@amd.com>
- <20220207135335.GA15175@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20220207135335.GA15175@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220207063249.1833066-7-hch@lst.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: linux-mm@kvack.org, nvdimm@lists.linux.dev,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rcampbell@nvidia.com, apopple@nvidia.com, jgg@ziepe.ca, lyude@redhat.com,
+ kherbst@redhat.com, bskeggs@redhat.com, Xinhui.Pan@amd.com,
+ christian.koenig@amd.com, alexander.deucher@amd.com, Felix.Kuehling@amd.com,
+ dan.j.williams@intel.com, akpm@linux-foundation.org, hch@lst.de
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ MYRULES_FREE,NICE_REPLY_A,T_SCC_BODY_TEXT_LINE autolearn=no
+ autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 6/8] mm: don't include <linux/memremap.h> in <linux/mm.h>
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-Mailman-Approved-At: Tue, 08 Feb 2022 08:23:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,72 +70,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Hellstrom Thomas <thomas.hellstrom@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: nvdimm@lists.linux.dev, Ralph Campbell <rcampbell@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Karol Herbst <kherbst@redhat.com>, linux-mm@kvack.org,
+ nouveau@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for the clarification, Ram!
 
-On 07/02/2022 14:53, Ramalingam C wrote:
-> On 2022-02-07 at 12:41:59 +0100, Christian König wrote:
->> Am 07.02.22 um 10:37 schrieb Ramalingam C:
->>> On flat-ccs capable platform we need to evict and resore the ccs data
->>> along with the corresponding main memory.
->>>
->>> This ccs data can only be access through BLT engine through a special
->>> cmd ( )
->>>
->>> To support above requirement of flat-ccs enabled i915 platforms this
->>> series adds new param called ccs_pages_needed to the ttm_tt_init(),
->>> to increase the ttm_tt->num_pages of system memory when the obj has the
->>> lmem placement possibility.
->> Well question is why isn't the buffer object allocated with the extra space
->> in the first place?
-> Hi Christian,
->
-> On Xe-HP and later devices, we use dedicated compression control state (CCS)
-> stored in local memory for each surface, to support the 3D and media
-> compression formats.
->
-> The memory required for the CCS of the entire local memory is 1/256 of the
-> local memory size. So before the kernel boot, the required memory is reserved
-> for the CCS data and a secure register will be programmed with the CCS base
-> address
->
-> So when we allocate a object in local memory we dont need to explicitly
-> allocate the space for ccs data. But when we evict the obj into the smem
->   to hold the compression related data along with the obj we need smem
->   space of obj_size + (obj_size/256).
->
->   Hence when we create smem for an obj with lmem placement possibility we
->   create with the extra space.
->
->   Ram.
->> Regards,
->> Christian.
->>
->>> This will be on top of the flat-ccs enabling series
->>> https://patchwork.freedesktop.org/series/95686/
->>>
->>> For more about flat-ccs feature please have a look at
->>> https://patchwork.freedesktop.org/patch/471777/?series=95686&rev=5
->>>
->>> Testing of the series is WIP and looking forward for the early review on
->>> the amendment to ttm_tt_init and the approach.
->>>
->>> Ramalingam C (2):
->>>     drm/i915/ttm: Add extra pages for handling ccs data
->>>     drm/i915/migrate: Evict and restore the ccs data
->>>
->>>    drivers/gpu/drm/drm_gem_vram_helper.c      |   2 +-
->>>    drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  23 +-
->>>    drivers/gpu/drm/i915/gt/intel_migrate.c    | 283 +++++++++++----------
->>>    drivers/gpu/drm/qxl/qxl_ttm.c              |   2 +-
->>>    drivers/gpu/drm/ttm/ttm_agp_backend.c      |   2 +-
->>>    drivers/gpu/drm/ttm/ttm_tt.c               |  12 +-
->>>    drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |   2 +-
->>>    include/drm/ttm/ttm_tt.h                   |   4 +-
->>>    8 files changed, 191 insertions(+), 139 deletions(-)
->>>
+
+On 2022-02-06 11:32 p.m., Christoph Hellwig wrote:
+> Move the check for the actual pgmap types that need the free at refcount
+> one behavior into the out of line helper, and thus avoid the need to
+> pull memremap.h into mm.h.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+I've noticed mm/memcontrol.c uses is_device_private_page() and also
+needs a memremap.h include added to compile with my configuration.
+
+Logan
