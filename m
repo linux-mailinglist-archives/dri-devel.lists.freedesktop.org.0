@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABEFF4ACBC4
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 23:04:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 361604ACBD0
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 23:05:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC4310E168;
-	Mon,  7 Feb 2022 22:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E080310E255;
+	Mon,  7 Feb 2022 22:05:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F49610E168
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 22:04:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DBCD10E255
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 22:05:52 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 535E4499;
- Mon,  7 Feb 2022 23:04:04 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9B22D499;
+ Mon,  7 Feb 2022 23:05:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1644271444;
- bh=aYOSd4uk8eFHEQDh8Mak6xLLznN2eECkn0tIbMXKtPw=;
+ s=mail; t=1644271550;
+ bh=tW9q9g69CXOS6X66C07+I/Jek9gx1lUfNc6/1P6Br7o=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WTVwrPV+n6fZcElxY+rg5wV2kBV9P07lh7z11NjEMLFTTyZPMIGkN0mlaqu98YfOJ
- kARYPJUIXnQ5FzB/c2G9bLIgNT39+GekIiUOPA8orgd3a1KdcXqU7qdgHFh9aqqLaZ
- qGj0nmG5QXoMHWusNENZlTMCSRcb7Y9eAjKNsb40=
-Date: Tue, 8 Feb 2022 00:04:02 +0200
+ b=hlBtGWg7RfR/3NR3ywyG8n8lddfxgSgM+9b8fZZ7cI8bAAAWyTqtpMnDWNbbpEZZj
+ HmqQQsHtveX/ou4m70m0jR/1eydQq2ojqYS55GSjA4O7o4AK0XZFaeT67d/Hc/78ul
+ clsgbCwWK9BaWVtFOmnd76OlSnezB4PqKKS3F81Q=
+Date: Tue, 8 Feb 2022 00:05:48 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 06/23] drm/object: Add
- drm_object_property_get_default_value() function
-Message-ID: <YgGXUr/jAx5WJpXN@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 07/23] drm/object: Add default zpos value at reset
+Message-ID: <YgGXvCSWKXocAAse@pendragon.ideasonboard.com>
 References: <20220207163515.1038648-1-maxime@cerno.tech>
- <20220207163515.1038648-7-maxime@cerno.tech>
+ <20220207163515.1038648-8-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220207163515.1038648-7-maxime@cerno.tech>
+In-Reply-To: <20220207163515.1038648-8-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,137 +59,60 @@ Hi Maxime and Dave,
 
 Thank you for the patch.
 
-On Mon, Feb 07, 2022 at 05:34:58PM +0100, Maxime Ripard wrote:
+On Mon, Feb 07, 2022 at 05:34:59PM +0100, Maxime Ripard wrote:
 > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > 
-> Some functions to create properties (drm_plane_create_zpos_property or
-> drm_plane_create_color_properties for example) will ask for a range of
-> acceptable value and an initial one.
+> The drm_plane_create_zpos_property() function asks for an initial value,
+> and will set the associated plane state variable with that value if a
+> state is present.
 > 
-> This initial value is then stored in the values array for that property.
+> However, that function is usually called at a time where there's no
+> state yet. Since the drm_plane_state reset helper doesn't take care of
+> reading that value when it's called, it means that in most cases the
+> initial value will be 0, or the drivers will have to work around it.
 > 
-> Let's provide an helper to access this property.
+> Let's add some code in __drm_atomic_helper_plane_state_reset() to get
+> the initial zpos value if the property has been attached in order to fix
+> this.
 > 
 > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
+Looks reasonable.
+
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/drm_mode_object.c | 53 +++++++++++++++++++++++++------
->  include/drm/drm_mode_object.h     |  7 ++++
->  2 files changed, 50 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/drm_atomic_state_helper.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-> index 86d9e907c0b2..ba1608effc0f 100644
-> --- a/drivers/gpu/drm/drm_mode_object.c
-> +++ b/drivers/gpu/drm/drm_mode_object.c
-> @@ -297,11 +297,26 @@ int drm_object_property_set_value(struct drm_mode_object *obj,
->  }
->  EXPORT_SYMBOL(drm_object_property_set_value);
->  
-> +static int __drm_object_property_get_prop_value(struct drm_mode_object *obj,
-> +						struct drm_property *property,
-> +						uint64_t *val)
-> +{
-> +	int i;
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index ddcf5c2c8e6a..1412cee404ca 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -243,11 +243,22 @@ EXPORT_SYMBOL(drm_atomic_helper_crtc_destroy_state);
+>  void __drm_atomic_helper_plane_state_reset(struct drm_plane_state *plane_state,
+>  					   struct drm_plane *plane)
+>  {
+> +	u64 val;
 > +
-> +	for (i = 0; i < obj->properties->count; i++) {
-> +		if (obj->properties->properties[i] == property) {
-> +			*val = obj->properties->values[i];
-> +			return 0;
+>  	plane_state->plane = plane;
+>  	plane_state->rotation = DRM_MODE_ROTATE_0;
+>  
+>  	plane_state->alpha = DRM_BLEND_ALPHA_OPAQUE;
+>  	plane_state->pixel_blend_mode = DRM_MODE_BLEND_PREMULTI;
+> +
+> +	if (plane->zpos_property) {
+> +		if (!drm_object_property_get_default_value(&plane->base,
+> +							   plane->zpos_property,
+> +							   &val)) {
+> +			plane_state->zpos = val;
+> +			plane_state->normalized_zpos = val;
 > +		}
 > +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
->  static int __drm_object_property_get_value(struct drm_mode_object *obj,
->  					   struct drm_property *property,
->  					   uint64_t *val)
->  {
-> -	int i;
->  
->  	/* read-only properties bypass atomic mechanism and still store
->  	 * their value in obj->properties->values[].. mostly to avoid
-> @@ -311,15 +326,7 @@ static int __drm_object_property_get_value(struct drm_mode_object *obj,
->  			!(property->flags & DRM_MODE_PROP_IMMUTABLE))
->  		return drm_atomic_get_property(obj, property, val);
->  
-> -	for (i = 0; i < obj->properties->count; i++) {
-> -		if (obj->properties->properties[i] == property) {
-> -			*val = obj->properties->values[i];
-> -			return 0;
-> -		}
-> -
-> -	}
-> -
-> -	return -EINVAL;
-> +	return __drm_object_property_get_prop_value(obj, property, val);
 >  }
+>  EXPORT_SYMBOL(__drm_atomic_helper_plane_state_reset);
 >  
->  /**
-> @@ -348,6 +355,32 @@ int drm_object_property_get_value(struct drm_mode_object *obj,
->  }
->  EXPORT_SYMBOL(drm_object_property_get_value);
->  
-> +/**
-> + * drm_object_property_get_default_value - retrieve the default value of a
-> + * property when in atomic mode.
-> + * @obj: drm mode object to get property value from
-> + * @property: property to retrieve
-> + * @val: storage for the property value
-> + *
-> + * This function retrieves the default state of the given property as passed in
-> + * to drm_object_attach_property
-> + *
-> + * Only atomic drivers should call this function directly, as for non-atomic
-> + * drivers it will return the current value.
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int drm_object_property_get_default_value(struct drm_mode_object *obj,
-> +					  struct drm_property *property,
-> +					  uint64_t *val)
-> +{
-> +	WARN_ON(!drm_drv_uses_atomic_modeset(property->dev));
-> +
-> +	return __drm_object_property_get_prop_value(obj, property, val);
-> +}
-> +EXPORT_SYMBOL(drm_object_property_get_default_value);
-> +
->  /* helper for getconnector and getproperties ioctls */
->  int drm_mode_object_get_properties(struct drm_mode_object *obj, bool atomic,
->  				   uint32_t __user *prop_ptr,
-> diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
-> index c34a3e8030e1..912f1e415685 100644
-> --- a/include/drm/drm_mode_object.h
-> +++ b/include/drm/drm_mode_object.h
-> @@ -98,6 +98,10 @@ struct drm_object_properties {
->  	 * Hence atomic drivers should not use drm_object_property_set_value()
->  	 * and drm_object_property_get_value() on mutable objects, i.e. those
->  	 * without the DRM_MODE_PROP_IMMUTABLE flag set.
-> +	 *
-> +	 * For atomic drivers the default value of properties is stored in this
-> +	 * array, so drm_object_property_get_default_value can be used to
-> +	 * retrieve it.
->  	 */
->  	uint64_t values[DRM_OBJECT_MAX_PROPERTY];
->  };
-> @@ -126,6 +130,9 @@ int drm_object_property_set_value(struct drm_mode_object *obj,
->  int drm_object_property_get_value(struct drm_mode_object *obj,
->  				  struct drm_property *property,
->  				  uint64_t *value);
-> +int drm_object_property_get_default_value(struct drm_mode_object *obj,
-> +					  struct drm_property *property,
-> +					  uint64_t *val);
->  
->  void drm_object_attach_property(struct drm_mode_object *obj,
->  				struct drm_property *property,
-> -- 
-> 2.34.1
-> 
 
 -- 
 Regards,
