@@ -1,55 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9734A4AC9CA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 20:45:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B81A4ACA1D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 21:11:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FAFF10E3CF;
-	Mon,  7 Feb 2022 19:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE95410F936;
+	Mon,  7 Feb 2022 20:11:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6ADE10E3CF
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 19:45:07 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id z20so21250473ljo.6
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 11:45:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lZDpDADdfwq40jZPbE/sznh7Bnymle3eu2MsiKyAnHI=;
- b=BdiDafPxAfgT1LadX6/qdSNo8n3l0Xa/GtCJEktDJMXEmp52SrE42F60zh+yNtgnej
- uafnZUT8MJqOawyMYksVSqsD8w5zXATUGodDDaf2n0OSYIP77vOHkN1WwPFv0stLOa78
- +4ATpfopW4dS5hdH2p54SyosNF1m7zjr8r+2YE4GWs0neqc92bzF3dIJD7hE8cA0PJPs
- kQu1XjE348Lq3znmdTjfrSq9FD04iuxmobdD48LoM7k4xW51/uiPDMkZVxL359FVEki8
- 6hN3NzqdifRAShPzrX73QDVc8Pe4IH8JQaohdbJyNHzgPOa0p/tQFkgSdDhkiO0KiTmj
- Kknw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lZDpDADdfwq40jZPbE/sznh7Bnymle3eu2MsiKyAnHI=;
- b=wUppmlyRz0fXc4caUaYp+G7CovNDiuNyGWyGutloRVINrKx8CuRNxUBoCF+gA1xVmO
- bO5az0BQLL04/3MMX6Eb9JkI/Hf4KPobkN+Tx8um930qoRJA7T/G6vn0gJv4EmogwvWR
- hIkpJPJSsAQHECxi8Oqk93JyDqBN7rPEUUbT8JNWj2A2UlY3H4h8PMy3K9B60h/7Kfu7
- 7OKqCECNAI2eIeEMrSegpDkPRIvlFychqA9Xs2LNPC6/ZOqKRIgFKgychXGFvhgtHQzo
- I5I86thR6p8eMdw6VJr1MV42NxZirZKpNJgl5Uh2VMy3p3KYpZkw9mmYTgYVGqW9M1PV
- nm5g==
-X-Gm-Message-State: AOAM531ovEoKmuXby6Dje3JQLZ4UVRKCpAg7pVQSFllrhiu8NrNUlmSs
- 46C50cIMtyRQQlkQl57+nLOH+EnSbAR0dknLTzwKdA==
-X-Google-Smtp-Source: ABdhPJwv1WF2F6ndc/bGUuNT+neSxWAOv6iXkCytc6pktYWRpfycPf6E/KpzZmQrd8aUu/NlJ8No19+iCvFMptVtXu4=
-X-Received: by 2002:a2e:7c0c:: with SMTP id x12mr648215ljc.526.1644263105665; 
- Mon, 07 Feb 2022 11:45:05 -0800 (PST)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52E5910E610;
+ Mon,  7 Feb 2022 20:11:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644264691; x=1675800691;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=92reNZ4Bin03Kd2WLn/K7khpGT3+5O6hrpHvHhrhJ0c=;
+ b=UT7FZe5cTbngYnIPmotTXeOiKsPSuiro2fqXksdGVWQsUmMUv3sFtrsU
+ kEDmFoOQlDtKVHQihJgJSyo2MtoiqFgmwDe26/5g2IsDsYk7frluSzmA2
+ Y7OBQL1ILs5juLZ+OgegulaIiP8bfThIH5ZX7EqA9ztcyZzIRPYdzPocM
+ f36HO61FAPATIqyRRs9rfLz+GWoZIPFq0FbrAdJhGBE69Z7SZWoK/S3PE
+ iW3zyRlA/JvQPInerhLkw9jXFhzI0kWXubAs6cpGcxNrjigRoOsA3h1Un
+ Yn2kHnbb0GuTzy+gKkaTYc9wjxoBmjjiSqX8+g1Zhh5Ml4ZmjG0UfUSg3 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="229448809"
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="229448809"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 12:11:30 -0800
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; d="scan'208";a="770754191"
+Received: from vdixit-mobl.amr.corp.intel.com (HELO mvcheng-desk2.intel.com)
+ ([10.209.60.7])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 12:11:30 -0800
+From: Michael Cheng <michael.cheng@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v6 0/6] Use drm_clflush* instead of clflush
+Date: Mon,  7 Feb 2022 12:11:21 -0800
+Message-Id: <20220207201127.648624-1-michael.cheng@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220207165304.1046867-1-nathan@kernel.org>
-In-Reply-To: <20220207165304.1046867-1-nathan@kernel.org>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Mon, 7 Feb 2022 11:44:53 -0800
-Message-ID: <CAKwvOdkXe8CB3QGe2e6Fhz8_SLOsOpcMumoKBiAzGE_VTXCkVg@mail.gmail.com>
-Subject: Re: [PATCH] drm/stm: Avoid using val uninitialized in
- ltdc_set_ycbcr_config()
-To: Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,71 +54,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yannick Fertre <yannick.fertre@foss.st.com>, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: tvrtko.ursulin@linux.intel.com, michael.cheng@intel.com,
+ balasubramani.vivekanandan@intel.com, wayne.boyer@intel.com,
+ casey.g.bowman@intel.com, lucas.demarchi@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 7, 2022 at 8:53 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> Clang warns:
->
->   drivers/gpu/drm/stm/ltdc.c:625:2: warning: variable 'val' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
->           default:
->           ^~~~~~~
->   drivers/gpu/drm/stm/ltdc.c:635:2: note: uninitialized use occurs here
->           val |= LxPCR_YCEN;
->           ^~~
->   drivers/gpu/drm/stm/ltdc.c:600:9: note: initialize the variable 'val' to silence this warning
->           u32 val;
->                  ^
->                   = 0
->   1 warning generated.
->
-> Use a return instead of break in the default case to fix the warning.
-> Add an error message so that this return is not silent, which could hide
-> issues in the future.
->
-> Fixes: 484e72d3146b ("drm/stm: ltdc: add support of ycbcr pixel formats")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1575
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  drivers/gpu/drm/stm/ltdc.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index 5eeb32c9c9ce..447ddde1786c 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -624,7 +624,8 @@ static inline void ltdc_set_ycbcr_config(struct drm_plane *plane, u32 drm_pix_fm
->                 break;
->         default:
->                 /* RGB or not a YCbCr supported format */
-> -               break;
-> +               drm_err(plane->dev, "Unsupported pixel format: %u\n", drm_pix_fmt);
+This patch series re-work a few i915 functions to use drm_clflush_virt_range    
+instead of calling clflush or clflushopt directly. This will prevent errors     
+when building for non-x86 architectures.                                        
+                                                                                 
+v2: s/PAGE_SIZE/sizeof(value) for Re-work intel_write_status_page and added     
+more patches to convert additional clflush/clflushopt to use drm_clflush*.      
+(Michael Cheng)                                                                 
+                                                                                 
+v3: Drop invalidate_csb_entries and directly invoke drm_clflush_virt_ran        
+                                                                                 
+v4: Remove extra memory barriers                                                
+                                                                                 
+v5: s/cache_clflush_range/drm_clflush_virt_range  
 
-This is fine, but in the future you should add an explicit
-#include <drm/drm_print.h>
-to avoid implicit header dependencies (like the ones that Mingo is
-trying to detangle) for the declaration of drm_err. `drm_vprintf`
-needs it, too.
+v6: Fix up "Drop invalidate_csb_entries" to use correct parameters. Also
+added in arm64 support for drm_clflush_virt_range.
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Michael Cheng (6):
+  drm/i915/gt: Re-work intel_write_status_page
+  drm/i915/gt: Drop invalidate_csb_entries
+  drm/i915/gt: Re-work reset_csb
+  drm/i915/: Re-work clflush_write32
+  drm/i915/gt: replace cache_clflush_range
+  drm: Add arch arm64 for drm_clflush_virt_range
 
-> +               return;
->         }
->
->         /* Enable limited range */
->
-> base-commit: 542898c5aa5c6a3179dffb1d1606884a63f75fed
-> --
-> 2.35.1
->
-
+ drivers/gpu/drm/drm_cache.c                   |  4 ++++
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  8 +++-----
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 12 ++++++------
+ drivers/gpu/drm/i915/gt/intel_engine.h        | 13 ++++---------
+ .../drm/i915/gt/intel_execlists_submission.c  | 19 ++++++-------------
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  2 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  2 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 +-
+ 8 files changed, 26 insertions(+), 36 deletions(-)
 
 -- 
-Thanks,
-~Nick Desaulniers
+2.25.1
+
