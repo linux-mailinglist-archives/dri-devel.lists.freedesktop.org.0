@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C85D4AC5CC
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:35:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F37E4AC5CD
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:35:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3058F10F70E;
-	Mon,  7 Feb 2022 16:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69D1E10F76B;
+	Mon,  7 Feb 2022 16:35:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64B7910F70E
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:35:40 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 3F651320217E;
- Mon,  7 Feb 2022 11:35:39 -0500 (EST)
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1313D10F76B
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:35:43 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 6D93D5801E1;
+ Mon,  7 Feb 2022 11:35:42 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 07 Feb 2022 11:35:40 -0500
+ by compute5.internal (MEProxy); Mon, 07 Feb 2022 11:35:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=byzTtlzdaImK13sPZJr8iYbs+nhbt0
- JeeeVZ63o95EE=; b=cqKlDrWVchU4qZyTBW/OnDh63qQYbf5fZDqX9OMEIDf6Tw
- orFRmno/eETqzNO1Fn8jTOcn1+UfG0Smn8v6i9SOj8OYRGaQwAe6E2YnjLZgyOHi
- H+X/BjubyVXCppn2nlrGaZ8rkGhH1vTkag3t0cDQhZkK9uOktuBK+v+wnQIvYhWS
- KHjG04AsDK6hZXzsUb6TDqS77x2/sMcHkD2GV9XCuyt7oeL8z9+gIu/aHHkk8nTn
- yXbEbCm5lyuroc8iQpzAJ1oPa9Ya0CUlsLbI3aFFwRsqT1nVu9O6FfE3TB4t3+w5
- BgIqvAZKoVSev/v8M2+3XyySbxL6+y0H0sPNV6Sw==
+ :subject:subject:to:to; s=fm2; bh=EwNtqwTz4wJMKViqLw0g5DhuPbcVe3
+ 1YFuSiAGaRGSQ=; b=Csgb2OuGWPA1xTWxg6M7/jOB7wsmuAePCO/NlXwZUY2w/7
+ lr/JxT95F8xpKzviHQlUt+dNxWKX2KIIlzcmJu4JIYH2fatmGoWNy849VR9jauva
+ VNG4ECXwUYmJojraifpXCzErOKHiEtgD+2xFZO1VOUWfa33HtdC4TKtLrLNGdc35
+ 8sq6JiNd6oB3BR5un2vZSEK02SA8NS/x5ZlDMTTcNDrCYyzsfWJO1yxJcWor/1Uj
+ pH4DJcVV9HNOyun9+iR5DnbBy9xzbh64dyu1MzY0X6pFSr/3mu16FWL4nvLDZYfE
+ nEJn+iuQwnq8mTbgOiKWevb/JLbGj8DdEasQjkMw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=byzTtl
- zdaImK13sPZJr8iYbs+nhbt0JeeeVZ63o95EE=; b=GlW7nMSPd7SYUAC99wLdd6
- e1qJw+mvFgmTl98Sfm6V82xcD6dtRQTFug/SmP+PisjjlvH6W1H5TfwytzXl2c7v
- i4lbqA/7eN3G8I6kYqFMK5ek43SYrl9Msr2qLqozORAt9Qr4OXweumtu23xccjwA
- HgEtp8sv7lHwlMXpdGv25lYBAxKnTqlm8fnI85Nlx7FfG2oSgSB0q8XjP27LG8/9
- uLu4b5AGzCMWr6wPm1vTohi1rlL4vMU0MYgjBiyT01ZEy/G+6lE5t5TwfMJ/OklC
- lNo6atPNOLmVeE4aS+bSyKnwWgjSS2IP7Ssuls/tOIwuGfy0qRkL1BZtP9YQVxnA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=EwNtqw
+ Tz4wJMKViqLw0g5DhuPbcVe31YFuSiAGaRGSQ=; b=S8SomocG97/Ygy0Scz6MSH
+ wLPbOkw6LM0xcwddWLPyAwMLX/AB3SYju5xh9Tn++8e4ZgASipOxB0ASfXDvJliW
+ KETZvVhyFayfB4aNyg0TkW4RbY/UtXuzXNSZa74gkEMxhQ8yrOxQDcmGSiXm85RS
+ q/kUiPk8N0NDOJmGVXP2R2NWFjaLdwvG8rAONIlY/5+Flr4xrikImFnADVgnEHgA
+ QjU2bxNr7O0e3LcGoDneON9uGSYSS9Osk3YZKNxopQ40Ww50XKBxL8psc4AiYoDo
+ lZjiEAhL2Zp+QtrQIIrkEu26IN0jIyb0BwXbeOXtew8TmpeJ/qiMj0prSAWt9DkA
  ==
-X-ME-Sender: <xms:WkoBYqHSLfqGhyZmKOVu-_7F_hQlGktWCp61zdd6xpd2E9Fm7SXeiw>
- <xme:WkoBYrVwIcPaC5XGLFJdCwQSzLEUe3LjGEyfpljKMQA-Fe5HhTsxGC-mp5sVkAPjN
- E0jocFtES13bDQL2T0>
-X-ME-Received: <xmr:WkoBYkLzu_T41ncVKEcNbF9R-itYYFxsIxRg22IBKGztRPUXLZxHAdJazSzpmJpcD5Up5TOFnWT3HVXfa-SxEqdCttfdGCZQuZqDOwU>
+X-ME-Sender: <xms:XkoBYip6rzXjyllpJMhW5vbuA8AiIfsw55c-X1a-zhN8YHH4RFk2Bw>
+ <xme:XkoBYgrcJtZ8-nrGsdfDZwgoSnyvzEp6yW-3MmFLPuQb6trbJ9d3FTe5GxpSz5v2K
+ vFtYoE4fHTDzJxCbA0>
+X-ME-Received: <xmr:XkoBYnME1ZT9dEGxl8MmU_liBoIE69s-sFkrvOohZeN3cuBoI_d0lpti4Htn5zuIho9aMdiiDlt7_Ax1bwB_2t07fiY6mbjuj491jV8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:WkoBYkFLT9KJMmhW0KK-Q0r7uyrKINw_i7lga7P8IUAGcC3UE5JzOA>
- <xmx:WkoBYgU1j8OwhTVFH8oSsjVtKq9cJ079iAH8s06fCq9lSrovJdIV5g>
- <xmx:WkoBYnOtHqVdBgjoQnXypM29zulKYzJlYQwoucToUyLpbaL3194zng>
- <xmx:WkoBYkowNs1aul1NIhPPQOc5R0uck--Ek-RAM1HAEYy3QP-6ETombw>
+X-ME-Proxy: <xmx:XkoBYh6jmdmTMO5pRtj7ICPsPTCiXHLgxUgz5lo9zlzhgqdGZ2Z5PQ>
+ <xmx:XkoBYh4s407WNWqV4Yd0-ZYWhUeweZXUC5RsjleYc0h3G6qW43XlUQ>
+ <xmx:XkoBYhhZ6-BUFOTVmwyio5Gy_JRPyLMRbm-l9ZmRvOEERfF0bGTC8Q>
+ <xmx:XkoBYtjh6Y-QMlaJeTNT-zfplHojq21Qh-9KF-thLTvYju-orUW_jg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 11:35:38 -0500 (EST)
+ 7 Feb 2022 11:35:41 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH 07/23] drm/object: Add default zpos value at reset
-Date: Mon,  7 Feb 2022 17:34:59 +0100
-Message-Id: <20220207163515.1038648-8-maxime@cerno.tech>
+Subject: [PATCH 08/23] drm/tegra: plane: Remove redundant zpos initialisation
+Date: Mon,  7 Feb 2022 17:35:00 +0100
+Message-Id: <20220207163515.1038648-9-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220207163515.1038648-1-maxime@cerno.tech>
 References: <20220207163515.1038648-1-maxime@cerno.tech>
@@ -83,59 +83,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>, Phil Elwell <phil@raspberrypi.com>
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
+ Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+The tegra KMS driver will call drm_plane_create_zpos_property() with an
+init value of the plane index.
 
-The drm_plane_create_zpos_property() function asks for an initial value,
-and will set the associated plane state variable with that value if a
-state is present.
+Since the initial value wasn't carried over in the state, the driver had
+to set it again in tegra_plane_reset(). However, the helpers have been
+adjusted to set it properly at reset, so this is not needed anymore.
 
-However, that function is usually called at a time where there's no
-state yet. Since the drm_plane_state reset helper doesn't take care of
-reading that value when it's called, it means that in most cases the
-initial value will be 0, or the drivers will have to work around it.
-
-Let's add some code in __drm_atomic_helper_plane_state_reset() to get
-the initial zpos value if the property has been attached in order to fix
-this.
-
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: linux-tegra@vger.kernel.org
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_atomic_state_helper.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/tegra/plane.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index ddcf5c2c8e6a..1412cee404ca 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -243,11 +243,22 @@ EXPORT_SYMBOL(drm_atomic_helper_crtc_destroy_state);
- void __drm_atomic_helper_plane_state_reset(struct drm_plane_state *plane_state,
- 					   struct drm_plane *plane)
+diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
+index ec0822c86926..a00913d064d3 100644
+--- a/drivers/gpu/drm/tegra/plane.c
++++ b/drivers/gpu/drm/tegra/plane.c
+@@ -25,7 +25,6 @@ static void tegra_plane_destroy(struct drm_plane *plane)
+ 
+ static void tegra_plane_reset(struct drm_plane *plane)
  {
-+	u64 val;
-+
- 	plane_state->plane = plane;
- 	plane_state->rotation = DRM_MODE_ROTATE_0;
+-	struct tegra_plane *p = to_tegra_plane(plane);
+ 	struct tegra_plane_state *state;
+ 	unsigned int i;
  
- 	plane_state->alpha = DRM_BLEND_ALPHA_OPAQUE;
- 	plane_state->pixel_blend_mode = DRM_MODE_BLEND_PREMULTI;
-+
-+	if (plane->zpos_property) {
-+		if (!drm_object_property_get_default_value(&plane->base,
-+							   plane->zpos_property,
-+							   &val)) {
-+			plane_state->zpos = val;
-+			plane_state->normalized_zpos = val;
-+		}
-+	}
- }
- EXPORT_SYMBOL(__drm_atomic_helper_plane_state_reset);
+@@ -38,8 +37,6 @@ static void tegra_plane_reset(struct drm_plane *plane)
+ 	state = kzalloc(sizeof(*state), GFP_KERNEL);
+ 	if (state) {
+ 		__drm_atomic_helper_plane_reset(plane, &state->base);
+-		plane->state->zpos = p->index;
+-		plane->state->normalized_zpos = p->index;
  
+ 		for (i = 0; i < 3; i++)
+ 			state->iova[i] = DMA_MAPPING_ERROR;
 -- 
 2.34.1
 
