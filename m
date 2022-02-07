@@ -2,72 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0518E4AC5DC
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:36:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E434AC66E
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:53:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7ACB410FB09;
-	Mon,  7 Feb 2022 16:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09D5210E33E;
+	Mon,  7 Feb 2022 16:53:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2133310FB09
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:36:33 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id DB60C2B00154;
- Mon,  7 Feb 2022 11:36:31 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 07 Feb 2022 11:36:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=uCJFJDWarZsHnFlN/AOqdk1VZm4dbf
- pI6Jkbiavo2Rs=; b=az1WL3Gg+qjOM+d2vsrAUVb7KmFKgHXtrdmIpgf6mm+fYk
- daWBQVhgUki5vuOHW2CavS9IkngbKkg3AYVtXV5n5W9+5RVHlCT6UrTIjkaiNW2J
- aT0qyWpxty3cF57/MoFufr0klxG9xikgr4DjGzFnFoiBnxTa0R6LLAVtGdmHAT6x
- HLMUcBDH+MnZKGuVxuW/NFQkKsWMykYQTKhobgFJsDrDXniTSBHM0OcNDsGK6Puh
- fi6JNhG2aZuvEWFL+WFVADiY5kWiQZpXA531Cfzp6c5lAa3DGKGc3k87vj87yqdU
- npe2a2sVfu0Adgn0YiYQEk8ZKaPQA4XFNKwrbI6A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=uCJFJD
- WarZsHnFlN/AOqdk1VZm4dbfpI6Jkbiavo2Rs=; b=oKXf/gPrA1YAR7CItR+cCw
- 12hxh0WGce2SPx1HOUN+x5t48DIJW1WLQYhA04LFSDXpCRM2lKtH11NAyt3wU/HP
- +Oukk/mMMJesa/33Rb045JacYqD+bOB+/aQH2cPnzS4UmECkkYyXB8rq0LajvW8e
- qQG5svlJ6Fz1Tw7ECA3mMrcKt40KSgyZZb66AyC59A/FjEOo2KScuA40BTygIzDR
- 8JofTgq7rwSYrr4UA1XUvVfpGqzNkw4XToLrGuc3/envwQrL/J7javqepHf0A5Jp
- 9qc8iPwDv2hi10of05FwbzCeTPv2lTOnwvei5q2HOWguLEbCbxEbmt3vxzlLzCdQ
- ==
-X-ME-Sender: <xms:j0oBYr-WOiVLnWLhMFJKHtMOA84xNCc7RnQLoBAZL3oI92dRNpnAPQ>
- <xme:j0oBYnvla19ozKLvsVdslV4SN9RTtXGwusHe0wmWjEzYyplXCyoSm9NPJRfkOF_3u
- dyqXOSK4oLdt_zgjKE>
-X-ME-Received: <xmr:j0oBYpCP4b-7UaJ6pMPlSyPnu2g0Ox1lEJbk6GzFluriqRnv9PCqXJoCaYemRFk8YFWxIrdSS3JE4gurpDkFOisqSv5J4w4HAf6RmXA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:j0oBYnfsqNe9A04O4jeGvWviumcpueo1JXB9-kh5PM0Et16QP4Vicg>
- <xmx:j0oBYgNdVwMI5PAIfdY9dewIKfFw3maDyMs6QQOtkvAuWqv693Yvuw>
- <xmx:j0oBYpnobcOdXo_0Nno8ikG57X7cmYCSO0QfkwhAmFrfapKOD8ODAg>
- <xmx:j0oBYvoYvvYf7rELyEWWa6YbJnBpMNQivtCvLBGTQhkMaqaqPHuQ2pL8wo8>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 11:36:30 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>,
-	David Airlie <airlied@linux.ie>
-Subject: [PATCH 23/23] drm/omap: plane: Remove redundant color encoding and
- range initialisation
-Date: Mon,  7 Feb 2022 17:35:15 +0100
-Message-Id: <20220207163515.1038648-24-maxime@cerno.tech>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220207163515.1038648-1-maxime@cerno.tech>
-References: <20220207163515.1038648-1-maxime@cerno.tech>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D7B810E33E
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:53:19 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 54772B812AA;
+ Mon,  7 Feb 2022 16:53:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D23FC340ED;
+ Mon,  7 Feb 2022 16:53:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644252797;
+ bh=X39xYx51fikLum/6dHtmOj01yGauqmQNBgR0dA+t/T4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=daQ/U5GjWfNjCv/LB9Bb4/XbLHnn7bL1gcbSSNpasT2b/VlhN0hVFOpSqKam/0dEa
+ bpyiUxlfQlTzbqNwEtgG7vDWrd8uTKgWFaeN1z9j77gL17m0Fwx1GvlcoFD63IOhZ6
+ aUAt6UccpTa0iMVMP9JhHEpJoTaCOugnlvW8u+Xcb44//9MHg7zH6jZkEevSiBr5bN
+ xJhMylojME3ZonO9bIqbR2RjxTze8Mkm7FQcxq352Y2N5gUjNNJ/fGADzZoIUk2KIm
+ pNe/efhQ4UaqmLRW6nyXUhxuqSKaDTbO0GKhwVkYXJ8XUDIdziHpTCA1yN/rYFThfc
+ pTYRUq7PJmu3g==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Yannick Fertre <yannick.fertre@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Subject: [PATCH] drm/stm: Avoid using val uninitialized in
+ ltdc_set_ycbcr_config()
+Date: Mon,  7 Feb 2022 09:53:04 -0700
+Message-Id: <20220207165304.1046867-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,49 +52,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomba@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Phil Elwell <phil@raspberrypi.com>
+Cc: llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The omap KMS driver will call drm_plane_create_color_properties() with
-a default encoding and range values of BT601 and Full Range,
-respectively.
+Clang warns:
 
-Since the initial value wasn't carried over in the state, the driver had
-to set it again in omap_plane_reset(). However, the helpers have been
-adjusted to set it properly at reset, so this is not needed anymore.
+  drivers/gpu/drm/stm/ltdc.c:625:2: warning: variable 'val' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+          default:
+          ^~~~~~~
+  drivers/gpu/drm/stm/ltdc.c:635:2: note: uninitialized use occurs here
+          val |= LxPCR_YCEN;
+          ^~~
+  drivers/gpu/drm/stm/ltdc.c:600:9: note: initialize the variable 'val' to silence this warning
+          u32 val;
+                 ^
+                  = 0
+  1 warning generated.
 
-Cc: Tomi Valkeinen <tomba@kernel.org>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Use a return instead of break in the default case to fix the warning.
+Add an error message so that this return is not silent, which could hide
+issues in the future.
+
+Fixes: 484e72d3146b ("drm/stm: ltdc: add support of ycbcr pixel formats")
+Link: https://github.com/ClangBuiltLinux/linux/issues/1575
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- drivers/gpu/drm/omapdrm/omap_plane.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/stm/ltdc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-index d96bc929072a..b83d91ec030a 100644
---- a/drivers/gpu/drm/omapdrm/omap_plane.c
-+++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-@@ -403,7 +403,6 @@ void omap_plane_install_properties(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index 5eeb32c9c9ce..447ddde1786c 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -624,7 +624,8 @@ static inline void ltdc_set_ycbcr_config(struct drm_plane *plane, u32 drm_pix_fm
+ 		break;
+ 	default:
+ 		/* RGB or not a YCbCr supported format */
+-		break;
++		drm_err(plane->dev, "Unsupported pixel format: %u\n", drm_pix_fmt);
++		return;
+ 	}
  
- static void omap_plane_reset(struct drm_plane *plane)
- {
--	struct omap_plane *omap_plane = to_omap_plane(plane);
- 	struct omap_plane_state *omap_state;
- 
- 	if (plane->state)
-@@ -414,8 +413,6 @@ static void omap_plane_reset(struct drm_plane *plane)
- 		return;
- 
- 	__drm_atomic_helper_plane_reset(plane, &omap_state->base);
--	plane->state->color_encoding = DRM_COLOR_YCBCR_BT601;
--	plane->state->color_range = DRM_COLOR_YCBCR_FULL_RANGE;
- }
- 
- static struct drm_plane_state *
+ 	/* Enable limited range */
+
+base-commit: 542898c5aa5c6a3179dffb1d1606884a63f75fed
 -- 
-2.34.1
+2.35.1
 
