@@ -1,72 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450DB4AC51C
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:14:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 109134AC55A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Feb 2022 17:21:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 340AE10F831;
-	Mon,  7 Feb 2022 16:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 361DB10E300;
+	Mon,  7 Feb 2022 16:21:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D65010F831
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:14:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644250488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IFrUiE399AWkgKFh5f0w6DFQ5l0IKVbpkKeYpipiJKA=;
- b=DeCwOcj2O4hEM4CFCgcuxAbhM1NAAhEvQ4s9LWgIm/FiAfwE0UUsV4tmig4zhUNOI/7lMZ
- rl5qir32wq3k611vTLMbJJR2Vb20HZ79ing8Cds8itSKn4z6ge9IOhkxSMVWIlUHp9UkDN
- icvr3nY/LZCZVzyI23TQamDwi56ve7g=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-444-u17T8AsdNeKsK283l5sQ3w-1; Mon, 07 Feb 2022 11:14:46 -0500
-X-MC-Unique: u17T8AsdNeKsK283l5sQ3w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f7-20020a1cc907000000b0034b63f314ccso5835492wmb.6
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 08:14:45 -0800 (PST)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AEB310E300
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Feb 2022 16:21:11 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id s10so23195174wra.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 08:21:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Np4LH/PHz6uNkDpTZmQ/zoxgwDp96GbmnvDa2V7nWjk=;
+ b=QgufGM+1w3bsYZSJ9xlKRmy3+TsigV3ZsM/lqCkrk+2PFrRq2qAxjaRIcbaZ6XTMpd
+ dHN3csVfUdJlhnr4ISuVdfwWYthqcjlVkwEKaIzb9ohnAgPPPEnUh8ZXbwWBB4FE5VTD
+ v4qiUp1+V61ZK9GFt06cQBjo9kwCIXouNxnx1dWjOOpSi6rvXPFsU0oBn2JtQQ8qDYSE
+ JTzdjg3Q550FQW+DQ/yUhMrzvS9yoNZmt/a2M2/z7siYRPqcfv6jjVIuNkLoSpWuQ8d/
+ sOwBN4knqfQHkxWpOzloC+DeoSvsFYb63wY9gAxv2vVkHqYOCumGB9afLCGKIFbX2MJ5
+ xl2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IFrUiE399AWkgKFh5f0w6DFQ5l0IKVbpkKeYpipiJKA=;
- b=SdY9qi/Aq4pNrtYSAK8FDE+ZR4nXIypTk176c0SyEsox2RhNFGiMbUHp3xqayF2vJF
- ZrRXAbc5wKn5xTIaOWCvbdxOXod3RPa2vFXcC1zpjq4ldZBLDUkJDM3Z52qxh6UN9EdM
- GiJqLsluImUb2dbsq4z1jIV7BZbg+uL4gyFi8NHWA1PCoJoTImncApSnm6L7My68/8HK
- ETS52WYUCCYyUxBE93WeZShRTS9kNyf8kQGqePCNF7XKIKXaYNT3ulVQdEYCQt2vSIHK
- K4y6TuwNIHT1AkD8X/uiCFGb78Jvkerfi0KVxJEH0gDtTaVagYpaj8jsZTpE0tmPOEDD
- XkEA==
-X-Gm-Message-State: AOAM532dqPqWRUU0nYd8Nlwpj1mqla19v5w5+eDdE/9zvaR8Om9Yy1uU
- WglRF4oNq4vbGlOv60cluAlyxSINLLpkYmnRzG6Sx2OWHkj8ELUlMSfGOt2apRb1O9qba3nwXwx
- vfNn4LwEaAYQiXrvuLbPhpB9MwXH4
-X-Received: by 2002:a5d:40ca:: with SMTP id b10mr178628wrq.6.1644250484854;
- Mon, 07 Feb 2022 08:14:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxag/VMAQvDNvrhkp9126/FEr3+jzTAsqTwom1rxeqdyBy5yKiDpvjeiVrKAD+kaImszZyfLA==
-X-Received: by 2002:a5d:40ca:: with SMTP id b10mr178611wrq.6.1644250484657;
- Mon, 07 Feb 2022 08:14:44 -0800 (PST)
-Received: from kherbst.pingu.com (ip1f10bb48.dynamic.kabel-deutschland.de.
- [31.16.187.72])
- by smtp.gmail.com with ESMTPSA id f8sm12358148wry.12.2022.02.07.08.14.43
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Np4LH/PHz6uNkDpTZmQ/zoxgwDp96GbmnvDa2V7nWjk=;
+ b=cCNAXKEE3eX34TRfbPIUyECI+zn4RuApBMeyWoYm+WfVB1ZvJZN6WUu78Ah9ENcTdB
+ 7kwk0fCuesBCd2RrrW1EzdRsPzfZ2oCFO/Lsj0bkUgVFRIToiliRYHuKOO0h7S5NGiLU
+ 1Gw9qmkyJbgNtu53DlodeBJjLtfXZuNBUHSwr8j+S0bfo1KgDvoRlI7tEU+yPN51q/6l
+ vUFHpW54T8iWedejPa8jifcAcp2rjC9a+ZofXRXzMB5qYYVNzd4kkqE0hhMFnbB0iJls
+ hIoZEuLMEHEIRwzXUhKTuVQtyaj8DlY26zzAfbZwjoQ9vLvphuxJtQP63GcoWwqYvriQ
+ T6Ow==
+X-Gm-Message-State: AOAM531E8v9EXKwJGz26LnjK5W/IKJVsZwKHsjdN57rskd0DTCe4Tj/T
+ 7U77h+eKrfPyHWbGJKxOsd2sng==
+X-Google-Smtp-Source: ABdhPJx9cikXNjt/6MFPqIqkMx5U5Ng8Uv5wYgVhdvs4xghr+YQWYDB7vr7F/zL+84q9GXPE6QDA6w==
+X-Received: by 2002:a5d:50c2:: with SMTP id f2mr173218wrt.694.1644250870003;
+ Mon, 07 Feb 2022 08:21:10 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id k9sm9789271wrv.81.2022.02.07.08.21.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Feb 2022 08:14:44 -0800 (PST)
-From: Karol Herbst <kherbst@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau/mmu: fix reuse of nvkm_umem
-Date: Mon,  7 Feb 2022 17:14:42 +0100
-Message-Id: <20220207161443.1843660-1-kherbst@redhat.com>
-X-Mailer: git-send-email 2.34.1
+ Mon, 07 Feb 2022 08:21:09 -0800 (PST)
+Date: Mon, 7 Feb 2022 16:21:07 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] backlight: pwm_bl: Avoid open coded arithmetic in memory
+ allocation
+Message-ID: <20220207162107.eblu6rxyhkuyyqnf@maple.lan>
+References: <bd3d74acfa58d59f6f5f81fc5a9fb409edb8d747.1644046817.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bd3d74acfa58d59f6f5f81fc5a9fb409edb8d747.1644046817.git.christophe.jaillet@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,59 +69,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, stable@vger.kernel.org,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I am not entirely sure if this fixes anything, but the code standed out
-while investigated problematic calls to vunmap.
+On Sat, Feb 05, 2022 at 08:40:48AM +0100, Christophe JAILLET wrote:
+> kmalloc_array()/kcalloc() should be used to avoid potential overflow when
+> a multiplication is needed to compute the size of the requested memory.
+> 
+> So turn a kzalloc()+explicit size computation into an equivalent kcalloc().
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-nvkm_umem.io is only ever set for the NVKM_OBJECT_MAP_IO case in
-nvkm_umem_map, but never for the NVKM_OBJECT_MAP_VA one, which could lead
-to taking the wrong patch inside nvkm_umem_unmap.
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-I just don't know if this is a real issue or not, but the code doesn't
-look correct this way.
 
-Fixes: c83c4097eba8 ("drm/nouveau/mmu: define user interfaces to mmu memory allocation")
-Cc: <stable@vger.kernel.org> # v4.15+
----
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/umem.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/umem.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/umem.c
-index e530bb8b3b17..2608e0796066 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/umem.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/umem.c
-@@ -102,6 +102,7 @@ nvkm_umem_map(struct nvkm_object *object, void *argv, u32 argc,
- 		*handle = (unsigned long)(void *)umem->map;
- 		*length = nvkm_memory_size(umem->memory);
- 		*type = NVKM_OBJECT_MAP_VA;
-+		umem->io = false;
- 		return 0;
- 	} else
- 	if ((umem->type & NVKM_MEM_VRAM) ||
-@@ -112,12 +113,11 @@ nvkm_umem_map(struct nvkm_object *object, void *argv, u32 argc,
- 			return ret;
- 
- 		*type = NVKM_OBJECT_MAP_IO;
--	} else {
--		return -EINVAL;
-+		umem->io = true;
-+		return 0;
- 	}
- 
--	umem->io = (*type == NVKM_OBJECT_MAP_IO);
--	return 0;
-+	return -EINVAL;
- }
- 
- static void *
--- 
-2.34.1
-
+Daniel.
