@@ -1,66 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B5D4AD4BC
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 10:24:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D006C4AD515
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 10:36:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE89910E3F7;
-	Tue,  8 Feb 2022 09:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79D9410E436;
+	Tue,  8 Feb 2022 09:36:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC3B10E52F
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 09:24:22 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so1137551wms.3
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 01:24:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=U4eTC6qoUMprkOAPi/nq4R8RnDpnU3YMicKdHmccZLQ=;
- b=OjSkWWAHIdktAsoxsPi8byPQ2FeJ3bEHJsUZ77uP4OKAnFUO5xzu8gJgEUWd9BJvBz
- aO9juV01Jl+Jg51nPtatv0IZ7mhfSBtVI2MgFLAD7hRQhDhCKaCghTlC7XJOB4AytX2/
- UAC8qQsvDpuYIsar6dqeLQttRFVBOCGRSP/kOjCVp0iPeQVX5eWrBKnmGyMClgEKMPaQ
- uRN+U37PNeVifs+mA5ddKOWgc4VOK+8xIYZhqyAJQgcBY5ZQN+1I5Ajxr+QzVIjxBQax
- q7lAMPJoX4Cm4+OenG6xR9SaqiNfcTMbrnGzlg7YTuXhm7VnbLDUwDnsqIjtdsDoePeS
- agyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=U4eTC6qoUMprkOAPi/nq4R8RnDpnU3YMicKdHmccZLQ=;
- b=eXz7dtFygdA54oZoETCASQoJAdq+OU6N9jX0DkCtbBZpO5aIhMkmKhkVgMl3EObDyu
- 6b4biJvj/sB/kUk+tasUihoegXafRGmkfmc7COiVrGhPlaKJEVRJd2rFDxQyOPRohX7v
- fftmKioEVTJcR0PD8vwGqn2aXMEQ+uXennbQw2tSwVyNJmuEgrCYx6zV/fQudzRM3HgL
- qW8+VNCT9/3DXK9+nP2feeNBvw2zlCK0stFrKlvQuljvvlbJC/ZMxHPYwGDORWYP8Tvx
- 46Lb++LR9Pm2OsRd6AlWJsHE17GTOuJXv/yi3ypvkvUyoMJO0sK7Qix7T116mtfTPb4V
- kSaA==
-X-Gm-Message-State: AOAM533Q+SNjKS0BXeEpurnofejCvvg/yUGKUfynBqQOn4AQ8A6bY67S
- bb6sjMtHAPwtdsw3+7c61b0HgA==
-X-Google-Smtp-Source: ABdhPJyETs0h54mjP52R9i4urCVEkYxAlnNZHIWK+XSjvKFVpOSKSwgint1uilZINo2Imx/EJawJvw==
-X-Received: by 2002:a05:600c:4e90:: with SMTP id
- f16mr274231wmq.175.1644312260622; 
- Tue, 08 Feb 2022 01:24:20 -0800 (PST)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net.
- [86.27.177.88])
- by smtp.gmail.com with ESMTPSA id j46sm27994wrj.58.2022.02.08.01.24.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 01:24:19 -0800 (PST)
-Date: Tue, 8 Feb 2022 09:24:17 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Subject: Re: [PATCH 2/4] backlight: qcom-wled: Add PM6150L compatible
-Message-ID: <YgI2wXYHjrcsF40f@google.com>
-References: <20211229170358.2457006-1-luca.weiss@fairphone.com>
- <20211229170358.2457006-3-luca.weiss@fairphone.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD4010E42F;
+ Tue,  8 Feb 2022 09:36:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644313007; x=1675849007;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=yMJYV5fPjd+nFrrPCn4pJ9QTO2c+P3sRo9n7hyZF838=;
+ b=Nh0TTf9t49eMBpFD7va7DQfOpZ+cScfTj+aT5tCEJNGJjJ/OLE3Jkcze
+ CvPUuTU8pdGl9/O3zwTw5vyFEAx8tl1xL5z8HhOVa6ucQxDtFBDE/nIrb
+ agJEWOLui+IxSnbhadL3hXEV+J67ar85WXQ2ICbXHfilG7etuvMEpUrT6
+ FxPH3og8f8mAOFo4kEeI+YS+vIP+kmgCTCm7/+V2GeQi3XUHTZSIBHJXW
+ arYEpg6qlroYwsx/6OxQRBvR/LEHKxzY6z4u/NnLaty9FLPyiSIEVAxLU
+ AIPfF07V1lfOEYxUO/4bJzqiHaI3yk/XzR6rO/jPk/hQURoUfzkhR8LhE A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="335313505"
+X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="335313505"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2022 01:36:46 -0800
+X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="484752303"
+Received: from kgonza2-mobl2.gar.corp.intel.com (HELO [10.213.198.226])
+ ([10.213.198.226])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2022 01:36:45 -0800
+Message-ID: <f23cd56f-786f-358a-c363-70417d10fcab@linux.intel.com>
+Date: Tue, 8 Feb 2022 09:36:43 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211229170358.2457006-3-luca.weiss@fairphone.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915/guc: Verify hwconfig blob
+ matches supported format
+Content-Language: en-US
+To: Jordan Justen <jordan.l.justen@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
+References: <20220207192854.862959-1-jordan.l.justen@intel.com>
+ <20220207192854.862959-5-jordan.l.justen@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220207192854.862959-5-jordan.l.justen@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,27 +63,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>, linux-arm-msm@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Jingoo Han <jingoohan1@gmail.com>,
- phone-devel@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 29 Dec 2021, Luca Weiss wrote:
 
-> PM6150L contains WLED of version 5. Add support ofr it to the driver.
-> 
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Hi,
+
+Commit message please.
+
+Will GuC folks be reviewing this work?
+
+Quick sanity check maybe makes sense, given data is being "sent" to 
+userspace directly, I am just not sure if it is worth having in 
+non-debug builds of i915. Though I will agree not having it in 
+production then largely defeats the purpose so dunno. Effective 
+difference if GuC load fails versus userspace libraries failing to parse 
+hwconfig?
+
+On 07/02/2022 19:28, Jordan Justen wrote:
+> Signed-off-by: Jordan Justen <jordan.l.justen@intel.com>
 > ---
->  drivers/video/backlight/qcom-wled.c | 1 +
->  1 file changed, 1 insertion(+)
+>   .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.c   | 26 +++++++++++++++++++
+>   1 file changed, 26 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+> index ce6088f112d4..695ef7a8f519 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+> @@ -71,6 +71,26 @@ static int guc_hwconfig_discover_size(struct intel_guc_hwconfig *hwconfig)
+>   	return 0;
+>   }
+>   
+> +static int verify_hwconfig_blob(const struct intel_guc_hwconfig *hwconfig)
+> +{
+> +	if (hwconfig->size % 4 != 0 || hwconfig->ptr == NULL)
+> +		return -EINVAL;
 
-Applied, thanks.
+So individual item size is minimum one u32, or zero? Document that in 
+patch 3?
 
--- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+> +
+> +	struct drm_i915_query_hwconfig_blob_item *pos = hwconfig->ptr;
+
+kbuild robot told you about mixing declarations and code already. :)
+
+> +	u32 remaining = (hwconfig->size / 4);
+
+Blank line here and braces not needed.
+
+> +	while (remaining > 0) {
+> +		if (remaining < 2)
+> +			return -EINVAL;
+> +		if (pos->length > remaining - 2)
+> +			return -EINVAL;
+> +		remaining -= 2 + pos->length;
+> +		pos = (void *)&pos->data[pos->length];
+> +	}
+> +
+> +	DRM_INFO("hwconfig blob format appears valid\n");
+
+Probably debug level at most.
+
+> +	return 0;
+> +}
+> +
+>   static int guc_hwconfig_fill_buffer(struct intel_guc_hwconfig *hwconfig)
+>   {
+>   	struct intel_guc *guc = hwconfig_to_guc(hwconfig);
+> @@ -91,6 +111,12 @@ static int guc_hwconfig_fill_buffer(struct intel_guc_hwconfig *hwconfig)
+>   	if (ret >= 0)
+>   		memcpy(hwconfig->ptr, vaddr, hwconfig->size);
+>   
+> +	if (verify_hwconfig_blob(hwconfig)) {
+
+Merge under the "ret >= 0" branch above?
+
+> +		DRM_ERROR("Ignoring invalid hwconfig blob received from "
+> +			  "GuC!\n");
+
+Use drm_dbg/drm_err so the log is tied to a device in multi-gpu systems.
+
+Also keep the string on one line as per kernel coding style guide.
+
+Regards,
+
+Tvrtko
+
+> +		return -EINVAL;
+> +	}
+> +
+>   	i915_vma_unpin_and_release(&vma, I915_VMA_RELEASE_MAP);
+>   
+>   	return ret;
