@@ -1,83 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6F84AE32D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 23:02:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E5B4AE38C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 23:23:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DACBF10E523;
-	Tue,  8 Feb 2022 22:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2080B10E4AC;
+	Tue,  8 Feb 2022 22:23:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1473810E27B
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 22:02:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644357749;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v+/tNcBi1hqQ3zAZ+kreP8zrjRNSZd5An8aAqUlnWDs=;
- b=IgYTq4zSiYt9lO6prQQmO+Ammvc6Z4XYuY7kvg7lBxOSAOf3nJ5HfwGVUvg2beP+bxGjqs
- ojkbCe19Gg+GLh73YsByj3jhWAaQALN0NX3cnVR+sZadNJAGENZneOJ8WmBj0sjOGPxkH1
- vDE/ZA/yEUzI046Z0Y2NiwKEysvcF20=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-325-cefXVui8PxGZ_aCuus3vtg-1; Tue, 08 Feb 2022 17:02:22 -0500
-X-MC-Unique: cefXVui8PxGZ_aCuus3vtg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- q5-20020a05620a0d8500b004738c1b48beso151215qkl.7
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 14:02:22 -0800 (PST)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4180010E4BC
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 22:23:46 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id 10so578446plj.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 14:23:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=vMaF5jT9/UaEWAfDk+2t6KL6ikIYvAUy+840Rteop/E=;
+ b=j7gQSdsIWiZdmU//a2QwO46EbQ5SIOH5fWGlAvhnBWPyFq4bLW/fWbmZlxZwzUEr4f
+ 8jomGnNxVxG+1yeClJtxG+wNefH84zBQj8X1Q+/CXgcqGY0ThDT1+d0SNl+SrNbcDLGZ
+ 9bNGdlRDRHEbDB/cx8WWmOR4hrIdnDY9Pb6jo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=v+/tNcBi1hqQ3zAZ+kreP8zrjRNSZd5An8aAqUlnWDs=;
- b=0HHzkhRptlvRHfPtX7JhTBCvRve7lL+qVgaV1z2JxttB1OTkJ6oRNVy8TX5IQLLiz9
- W5wCqYwbvfIyPO49+dqg4vUff/RHxKQLA+ZX5+kxg0LRiaKDbyx8mv87PHfKxHNwllVy
- IXCkyDnfTxHRIQk/coeABdoxT5wiQAFevsmiafmJc0a0nhoJfiP4YYFQsNjdBAMHZDJq
- QbEYoD9wSKTpD9tDA2FFzTXDUM9bHBE241oJz0chaFKstaInO7tTT9YWyvvbXbg18J2h
- rqUlrlZXsB5rnCJN/KPH1U9DzK1EvzK0fHH9XrDQN6StbvFb/jGOxsSlkW5dEKTs1tgv
- eMUw==
-X-Gm-Message-State: AOAM533mr2ZpcdlgPYdApQ4/8ADVMGFq+PyZTV8gNTkDYjZY8yjq5+k0
- 7fZnzH5LG+f2cEQY0xktB5Dpqq2P3sCA2SFu5bOHRuW3IaOXe5QCjg0pcLHxSwXTTe9KSdqZ3If
- 9H4VaWedeZVUOeQg5GwuzLinPC4EO
-X-Received: by 2002:a05:6214:62b:: with SMTP id
- a11mr4576789qvx.99.1644357741253; 
- Tue, 08 Feb 2022 14:02:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxzDmob0mRw3m+J1LeJvrujTFW2KQpp8qCWQ71N6Q6IhmpZwPecRLzOaHkQFsysr2sKjwHqKQ==
-X-Received: by 2002:a05:6214:62b:: with SMTP id
- a11mr4576772qvx.99.1644357741022; 
- Tue, 08 Feb 2022 14:02:21 -0800 (PST)
-Received: from [192.168.8.138] (pool-96-230-100-15.bstnma.fios.verizon.net.
- [96.230.100.15])
- by smtp.gmail.com with ESMTPSA id d6sm8080823qtb.55.2022.02.08.14.02.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 14:02:20 -0800 (PST)
-Message-ID: <10bfefe40b9cb82610d4f1e8d3e7293824fac03b.camel@redhat.com>
-Subject: Re: [PATCH] drm/i915/psr: Disable PSR2 selective fetch for all TGL
- steps
-From: Lyude Paul <lyude@redhat.com>
-To: "Souza, Jose" <jose.souza@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Date: Tue, 08 Feb 2022 17:02:18 -0500
-In-Reply-To: <47eed687da699a6abbfd7726439fd307786c9d93.camel@intel.com>
-References: <20220207213923.3605-1-lyude@redhat.com>
- <47eed687da699a6abbfd7726439fd307786c9d93.camel@intel.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vMaF5jT9/UaEWAfDk+2t6KL6ikIYvAUy+840Rteop/E=;
+ b=1yA/Sc7+vfZs7o1eEPiMyE0gpsCmVuwmUJXdsdQu9CogCs3ARA4sXAZpHYVkhJbaSG
+ 4aVh+Y++aOn4w1CXAo99aM6EPwEyf9OHIluCv/z4SoXcO3yeyTq3Kf9swfPHdBZvmpi5
+ LHLFOx4eHi2MU3NbzX/DoCBcbBRDBQPuAfXjD+8yoOV8cY4C/LhJyq7QQLNgdpDDoclv
+ pdLvtMVk7NHjbXIutHzzFRvEA71fUYIx7axa3mq0HnlRxVqHPSzQx0YTYRbTSmckDbH6
+ XEzXda+NXsP2Be8zFzQfSE7LvjT/zBDmLJuBG00GSpllj+r7pHUw960y6wftQyZv4tRw
+ abww==
+X-Gm-Message-State: AOAM531k7ZzYCDVlkMd1RRf3P24lgcu0+DGdxdwvbXffffxAGsTxazTR
+ 0Uh7IIQKYK9HsAnrab/1DufqaQ==
+X-Google-Smtp-Source: ABdhPJxcJ61KROyKtZBAr6c9l+ods/Vf3fMBBg9aC+tckxuWCgMKjcQOdpiGoKC76Uo39dfbYIvJFQ==
+X-Received: by 2002:a17:90a:4811:: with SMTP id
+ a17mr99117pjh.159.1644359025755; 
+ Tue, 08 Feb 2022 14:23:45 -0800 (PST)
+Received: from localhost ([2620:15c:202:201:23dc:d215:b887:777d])
+ by smtp.gmail.com with UTF8SMTPSA id q2sm3684055pjj.32.2022.02.08.14.23.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Feb 2022 14:23:45 -0800 (PST)
+Date: Tue, 8 Feb 2022 14:23:43 -0800
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Subject: Re: [PATCH v2 2/4] arm64: dts: qcom: sc7280: Add support for eDP
+ panel on CRD
+Message-ID: <YgLtb8NCGKDi2uh4@google.com>
+References: <1644333525-30920-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1644333525-30920-3-git-send-email-quic_sbillaka@quicinc.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1644333525-30920-3-git-send-email-quic_sbillaka@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,86 +67,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
- "airlied@linux.ie" <airlied@linux.ie>, "De Marchi,
- Lucas" <lucas.demarchi@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>, "Mun, 
- Gwan-gyeong" <gwan-gyeong.mun@intel.com>, "Kahola,
- Mika" <mika.kahola@intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "Hogander, Jouni" <jouni.hogander@intel.com>
+Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org, dianders@chromium.org,
+ sam@ravnborg.org, krzysztof.kozlowski@canonical.com, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, quic_khsieh@quicinc.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, quic_abhinavk@quicinc.com, robh+dt@kernel.org,
+ agross@kernel.org, seanpaul@chromium.org, thierry.reding@gmail.com,
+ swboyd@chromium.org, freedreno@lists.freedesktop.org, quic_mkrishn@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Opened the issue at https://gitlab.freedesktop.org/drm/intel/-/issues/5077 ,
-included dmesg + video. Feel free to let me know if you need any more info, or
-need me to try any patches
-
-On Tue, 2022-02-08 at 13:06 +0000, Souza, Jose wrote:
-> On Mon, 2022-02-07 at 16:38 -0500, Lyude Paul wrote:
-> > As we've unfortunately started to come to expect from PSR on Intel
-> > platforms, PSR2 selective fetch is not at all ready to be enabled on
-> > Tigerlake as it results in severe flickering issues - at least on this
-> > ThinkPad X1 Carbon 9th generation. The easiest way I've found of
-> > reproducing these issues is to just move the cursor around the left border
-> > of the screen (suspicious…).
+On Tue, Feb 08, 2022 at 08:48:43PM +0530, Sankeerth Billakanti wrote:
+> Enable the eDP display panel support without HPD on sc7280 platform.
 > 
-> Where is the bug for that? Where is the logs?
-> We can't go from enabled to disabled without any debug and because of a
-> single device.
-> In the mean time you have the option to set the i915 parameter to disable
-> it.
+> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+> ---
 > 
-> > 
-> > So, fix people's displays again and turn PSR2 selective fetch off for all
-> > steppings of Tigerlake. This can be re-enabled again if someone from Intel
-> > finds the time to fix this functionality on OEM machines.
-> > 
-> > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > Fixes: 7f6002e58025 ("drm/i915/display: Enable PSR2 selective fetch by
-> > default")
-> > Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > Cc: José Roberto de Souza <jose.souza@intel.com>
-> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Cc: intel-gfx@lists.freedesktop.org
-> > Cc: <stable@vger.kernel.org> # v5.16+
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_psr.c | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_psr.c
-> > b/drivers/gpu/drm/i915/display/intel_psr.c
-> > index a1a663f362e7..25c16abcd9cd 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_psr.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_psr.c
-> > @@ -737,10 +737,14 @@ static bool intel_psr2_sel_fetch_config_valid(struct
-> > intel_dp *intel_dp,
-> >                 return false;
-> >         }
-> >  
-> > -       /* Wa_14010254185 Wa_14010103792 */
-> > -       if (IS_TGL_DISPLAY_STEP(dev_priv, STEP_A0, STEP_C0)) {
-> > +       /*
-> > +        * There's two things stopping this from being enabled on TGL:
-> > +        * For steps A0-C0: workarounds Wa_14010254185 Wa_14010103792 are
-> > missing
-> > +        * For all steps: PSR2 selective fetch causes screen flickering
-> > +        */
-> > +       if (IS_TIGERLAKE(dev_priv)) {
-> >                 drm_dbg_kms(&dev_priv->drm,
-> > -                           "PSR2 sel fetch not enabled, missing the
-> > implementation of WAs\n");
-> > +                           "PSR2 sel fetch not enabled, currently broken
-> > on TGL\n");
-> >                 return false;
-> >         }
-> >  
+> Changes in v2:
+>   - sort node references alphabetically
+>   - improve readability
+>   - move the pwm pinctrl to pwm node
+>   - move the regulators to root
+>   - define backlight power
+>   - remove dummy regulator node
+>   - cleanup pinctrl definitions
 > 
+>  arch/arm64/boot/dts/qcom/sc7280-crd.dts | 122 ++++++++++++++++++++++++++++++++
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi    |   2 -
+>  2 files changed, 122 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280-crd.dts b/arch/arm64/boot/dts/qcom/sc7280-crd.dts
+> index e2efbdd..bff2707 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280-crd.dts
+> +++ b/arch/arm64/boot/dts/qcom/sc7280-crd.dts
+> @@ -21,6 +21,34 @@
+>  	chosen {
+>  		stdout-path = "serial0:115200n8";
+>  	};
+> +
+> +	backlight_power: backlight-power {
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+nit: the other fixed regulator in sc7280-idp.dtsi is called
+'nvme_3v3_regulator', if you wanted to be consistent you
+could call this backlight_3v3_regulator.
 
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "backlight_power";
+> +
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
+> +
+> +		gpio = <&pm8350c_gpios 7 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&edp_bl_power>;
+> +	};
+> +
+> +	edp_power: edp-power {
+
+nit: see above
+
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "edp_power";
+> +
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +
+> +		gpio = <&tlmm 80 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&edp_panel_power>;
+> +	};
+>  };
+>  
+>  &apps_rsc {
+> @@ -76,6 +104,42 @@ ap_ts_pen_1v8: &i2c13 {
+>  	};
+>  };
+>  
+> +&edp_out {
+> +	remote-endpoint = <&edp_panel_in>;
+> +};
+> +
+> +&mdss {
+> +	status = "okay";
+> +};
+> +
+> +&mdss_edp {
+> +	status = "okay";
+> +
+> +	vdda-1p2-supply = <&vreg_l6b_1p2>;
+> +	vdda-0p9-supply = <&vreg_l10c_0p8>;
+> +};
+> +
+> +&mdss_edp_phy {
+> +	status = "okay";
+> +
+> +	vdda-1p2-supply = <&vreg_l6b_1p2>;
+> +	vdda-0p9-supply = <&vreg_l10c_0p8>;
+> +};
+> +
+> +&mdss_dp {
+
+should be before 'mdss_edp'.
+
+> +	status = "okay";
+> +
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&dp_hot_plug_det>;
+> +	data-lanes = <0 1>;
+> +	vdda-1p2-supply = <&vreg_l6b_1p2>;
+> +	vdda-0p9-supply = <&vreg_l1b_0p8>;
+> +};
+> +
+> +&mdss_mdp {
+> +	status = "okay";
+> +};
+> +
+>  &nvme_3v3_regulator {
+>  	gpio = <&tlmm 51 GPIO_ACTIVE_HIGH>;
+>  };
+> @@ -84,7 +148,65 @@ ap_ts_pen_1v8: &i2c13 {
+>  	pins = "gpio51";
+>  };
+>  
+> +&pm8350c_pwm {
+> +	status = "okay";
+> +
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&edp_bl_pwm>;
+> +};
+> +
+> +&pm8350c_gpios {
+
+should be before 'pm8350c_pwm'
+
+> +	edp_bl_power: edp-bl-power {
+> +		pins = "gpio7";
+> +		function = "normal";
+> +		qcom,drive-strength = <PMIC_GPIO_STRENGTH_LOW>;
+> +		bias-disable;
+> +		output-low;
+> +	};
+> +
+> +	edp_bl_pwm: edp-bl-pwm {
+> +		pins = "gpio8";
+> +		function = "func1";
+> +		qcom,drive-strength = <PMIC_GPIO_STRENGTH_LOW>;
+> +		bias-disable;
+> +		output-low;
+> +	};
+> +};
+> +
+> +&soc {
+> +	edp_backlight: edp-backlight {
+> +		compatible = "pwm-backlight";
+> +
+> +		power-supply = <&backlight_power>;
+> +		pwms = <&pm8350c_pwm 3 65535>;
+> +	};
+> +
+> +	edp_panel: edp_panel {
+
+in difference to labels node names should use dashes as separator, not
+underscores (i.e. 'edp-panel')
+
+> +		compatible = "sharp,lq140m1jw46";
+> +
+> +		power-supply = <&edp_power>;
+> +		backlight = <&edp_backlight>;
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			port@0 {
+> +				reg = <0>;
+> +				edp_panel_in: endpoint {
+> +					remote-endpoint = <&edp_out>;
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>  &tlmm {
+> +	edp_panel_power: edp-panel-power {
+> +		pins = "gpio80";
+> +		function = "gpio";
+> +		bias-pull-down;
+> +	};
+> +
+>  	tp_int_odl: tp-int-odl {
+>  		pins = "gpio7";
+>  		function = "gpio";
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> index 3572399..f8fa716 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> @@ -3012,8 +3012,6 @@
+>  
+>  			mdss_edp: edp@aea0000 {
+>  				compatible = "qcom,sc7280-edp";
+> -				pinctrl-names = "default";
+> -				pinctrl-0 = <&edp_hot_plug_det>;
+
+This was just added a few days ago by commit 118cd3b8ec0d ("arm64: dts: qcom:
+sc7280: Add edp_out port and HPD lines"). The patch assumes that the 'Hot
+Plug Detect line (which functions as "panel ready" in eDP) is highly likely
+to be used by boards.'. If that is indeed the case and the CRD is the
+exception then it seems that deleting the two properties from the CRD DT
+would be a better solution.
