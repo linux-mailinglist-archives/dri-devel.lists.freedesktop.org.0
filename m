@@ -2,42 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7C34AD329
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:24:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB5C4AD32F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:24:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7DF210E446;
-	Tue,  8 Feb 2022 08:23:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6DF10E52B;
+	Tue,  8 Feb 2022 08:23:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1142 seconds by postgrey-1.36 at gabe;
- Tue, 08 Feb 2022 03:22:42 UTC
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785CD10E280;
- Tue,  8 Feb 2022 03:22:42 +0000 (UTC)
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Jt78W1rN6z9rvT;
- Tue,  8 Feb 2022 11:02:03 +0800 (CST)
-Received: from [10.174.177.76] (10.174.177.76) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 8 Feb 2022 11:03:33 +0800
-Subject: Re: start sorting out the ZONE_DEVICE refcount mess
-To: Christoph Hellwig <hch@lst.de>
-References: <20220207063249.1833066-1-hch@lst.de>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <8efd8321-8f0b-e5c3-8837-b0fe62f36c14@huawei.com>
-Date: Tue, 8 Feb 2022 11:03:32 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from qq.com (smtpbg465.qq.com [59.36.132.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E474510E227;
+ Tue,  8 Feb 2022 03:16:01 +0000 (UTC)
+X-QQ-mid: bizesmtp5t1644290101twk3qzvo1
+Received: from localhost.localdomain (unknown [58.240.82.166])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Tue, 08 Feb 2022 11:14:55 +0800 (CST)
+X-QQ-SSF: 01400000002000B0G000B00A0000000
+X-QQ-FEAT: JykYnMR+PRaregM+pIQhKrCVgehtTaXMsvfTUbZBq8GKqCGcWGTTX7/H02IY0
+ Xny1+TYdI5N9onp89RFeBj7W2HlImuB/4IoErmVjLgtrwJTgNKSxyDNihuFgEpKWpzbv5bR
+ Vxub8i3/Evxpe50Kb/Q7g+dtHYPsPiD+HDeuEAAVA8FeczBi+gziHPKcub94J8vSQvwEeQm
+ i819Rfxt1S+Sv1tgFKqD/ry5UP8pRPJrWdzQUU4BGQpb/5ipMlZTZOs53G2sSTW6+P4Pb4X
+ TNcJv7LkJcpk8xR/UdoWvUKJ0vJ7ABvV/M8t4c+ykCKXr+rRmoy8hD7LhmC3f6gV/7yBD4g
+ FdjG1sx
+X-QQ-GoodBg: 2
+From: zhanglianjie <zhanglianjie@uniontech.com>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH v2 2/2] drm/radeon/uvd: Fix forgotten unmap buffer objects
+Date: Tue,  8 Feb 2022 11:14:54 +0800
+Message-Id: <20220208031454.24232-1-zhanglianjie@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20220207063249.1833066-1-hch@lst.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.177.76]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign6
+X-QQ-Bgrelay: 1
 X-Mailman-Approved-At: Tue, 08 Feb 2022 08:23:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,60 +48,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, Ralph Campbell <rcampbell@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, dri-devel@lists.freedesktop.org,
- Karol Herbst <kherbst@redhat.com>, linux-mm@kvack.org,
- nouveau@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Dan Williams <dan.j.williams@intel.com>,
+Cc: David Airlie <airlied@linux.ie>, Xinhui.Pan@amd.com,
  linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Ben Skeggs <bskeggs@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Logan Gunthorpe <logang@deltatee.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+ zhanglianjie <zhanglianjie@uniontech.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022/2/7 14:32, Christoph Hellwig wrote:
-> Hi all,
-> 
-> this series removes the offset by one refcount for ZONE_DEVICE pages
-> that are freed back to the driver owning them, which is just device
-> private ones for now, but also the planned device coherent pages
-> and the ehanced p2p ones pending.
-> 
+after the buffer object is successfully mapped, call radeon_bo_kunmap before the function returns.
 
-Many thanks for doing this, I remember the hard time when I read the relevant code. :)
+Signed-off-by: zhanglianjie <zhanglianjie@uniontech.com>
 
-> It does not address the fsdax pages yet, which will be attacked in a
-> follow on series.
-> 
-> Diffstat:
->  arch/arm64/mm/mmu.c                      |    1 
->  arch/powerpc/kvm/book3s_hv_uvmem.c       |    1 
->  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |    2 
->  drivers/gpu/drm/amd/amdkfd/kfd_priv.h    |    1 
->  drivers/gpu/drm/drm_cache.c              |    2 
->  drivers/gpu/drm/nouveau/nouveau_dmem.c   |    3 -
->  drivers/gpu/drm/nouveau/nouveau_svm.c    |    1 
->  drivers/infiniband/core/rw.c             |    1 
->  drivers/nvdimm/pmem.h                    |    1 
->  drivers/nvme/host/pci.c                  |    1 
->  drivers/nvme/target/io-cmd-bdev.c        |    1 
->  fs/Kconfig                               |    2 
->  fs/fuse/virtio_fs.c                      |    1 
->  include/linux/hmm.h                      |    9 ----
->  include/linux/memremap.h                 |   22 +++++++++-
->  include/linux/mm.h                       |   59 ++++-------------------------
->  lib/test_hmm.c                           |    4 +
->  mm/Kconfig                               |    4 -
->  mm/internal.h                            |    2 
->  mm/memcontrol.c                          |   11 +----
->  mm/memremap.c                            |   63 ++++++++++++++++---------------
->  mm/migrate.c                             |    6 --
->  mm/swap.c                                |   49 ++----------------------
->  23 files changed, 90 insertions(+), 157 deletions(-)
-> 
-> .
-> 
+diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
+index 377f9cdb5b53..0558d928d98d 100644
+--- a/drivers/gpu/drm/radeon/radeon_uvd.c
++++ b/drivers/gpu/drm/radeon/radeon_uvd.c
+@@ -497,6 +497,7 @@ static int radeon_uvd_cs_msg(struct radeon_cs_parser *p, struct radeon_bo *bo,
+ 	handle = msg[2];
+
+ 	if (handle == 0) {
++		radeon_bo_kunmap(bo);
+ 		DRM_ERROR("Invalid UVD handle!\n");
+ 		return -EINVAL;
+ 	}
+@@ -559,12 +560,10 @@ static int radeon_uvd_cs_msg(struct radeon_cs_parser *p, struct radeon_bo *bo,
+ 		return 0;
+
+ 	default:
+-
+ 		DRM_ERROR("Illegal UVD message type (%d)!\n", msg_type);
+-		return -EINVAL;
+ 	}
+
+-	BUG();
++	radeon_bo_kunmap(bo);
+ 	return -EINVAL;
+ }
+
+--
+2.20.1
+
+
 
