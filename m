@@ -2,123 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE574AD602
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 12:12:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 931544AD66F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 12:25:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B33A710E604;
-	Tue,  8 Feb 2022 11:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE7810E1F6;
+	Tue,  8 Feb 2022 11:25:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC5E710E1F6;
- Tue,  8 Feb 2022 11:12:40 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2078.outbound.protection.outlook.com [40.107.244.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A06E510E1F6;
+ Tue,  8 Feb 2022 11:25:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FAQ8k8rjhiqMbf6M5kAV3r+JGAoXCsPKY01SNL7FEdWawNoU9U3sVfnhQwj7T12C9C2ZUSAK+CphHsaRnteq9uO/tpb5LXBfPqrC2vMrm9h0w3bwI4CQ1bYAM3biBUx3isUC0tZERMR+arCEBl/gghYga8GShvLtNBhtcE+C7Vwt3nAsvKSazTdxHTFljLJ4k3LGogmwWrpcX8hFtgFO2otw8Ipx0p9+jGV7m+racXIlt7tmysPPbsObk3ZlkyXN4USuHZ9mbWgyLFn9UqozJ0Gdp9xJQGtV28/BcPV83Dix/6YrYbFc1LGas4Yzpui3Eicm2Vj6Af3mWHpHESTS0A==
+ b=GDH7UBaY0WBSuRuFAd7OGk4GsMgbqijGATFAhtyITtzjVCm3VISi+cWmR42cLZwXl7K35qlUwHPGiihc1alijBX8gZwV4w53AG4bsgIThZvM96k8cxXh5SOvUf4VFcC7uPiSsEuzldFDo3Q6wtkfMdw2HB/ZveHus8FhDhBIik3LrS31ndhIeU+yFZ3mJLttiP6oGnZqUlQez7zNWCqcdmYn68/tD4H4kkW2tyfjnVgxdNsVAovIvDcUVVYyisk3TVrbGnW6097/WGS7DpbSSohzzDIBkg0QHktawHBd3JtSNJFVME2WJkx4ge+xXtY8H7/ymKuX8a5IBR7E6tR8lA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M6L7JBXE4C5yqcPXiQJvmIUtxMvOkrfwR6mkukpMSI4=;
- b=fiL3hyZkCLRT4nrdXCceWYOXvx7MJ1SfBVr9dR+0o1l+YL0RpwPcPyMVjzho2y2FXCEMF+w3H5iSmQLdZFKhDMTYDeEEQ1dI0yTvxuVF9lRSFUFtf5SfhTSM3fd22tsAy7ddfYTQn3FzlWIHKKsbUa4TMiwAsEK0ZWtrH/laWqmDSaBRd8wWDX/rgbmTQsCMGQXXB5RdghzQ02i4ZkGUWfWigacK5fKXolPPIaxQzid6McRuRXx5M71PCsyDSM+dkMtasNND2VcvTs37x4pCjymsFK8uTzwSFqt+ys8o9B5jzGiF1CRU4vUhcpBcTizl9EKAetBIxKsB7lUH3866aA==
+ bh=Unp5uLMaImNyFGRgeG0LnVtf5Sb/otIqfLR83uLvMh8=;
+ b=UH0uTcNhG7Q4yY6+uABE4iLqepMMjgQnrk6X6CGH2fawdZB7sIS9fNNMhqUbAYTVm0JVOXsF8HYtHz9t+6xOdctKe1pfwhRAIDpDUhssy+3PYD7wZ05BPf3aRtuA2Slm8/JBLPavMteocQFhBFMqxTeIE/YUAOmLusFy+uVHNQbetv1D5mcvxLGZ5HiqaqjmKlYzELqW3wjW58tagTGxaCsedb8n/5YvEUyDbDgtC6+hDY2cGxQ2MYOr1gF1PPLZqZpWG2d/pQ++tgsX8koco5aW9rf053qx+Ndq9jpwF8Nt677amRhzcD+DB9b1qke/HjCnYqfqLkYmf5j5KHm0jw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M6L7JBXE4C5yqcPXiQJvmIUtxMvOkrfwR6mkukpMSI4=;
- b=fJWO/Mj4Ak8nhutOD3diwreNyNp/dFN9pL9jIwvtyipknL6W3UDViwAFhC04ewIcj8n8a8BoAjpSFbDUtgITmd9MMPEA00OG7lwDt+OepOf2cIPjYunNJn1e1rvlT3N00/sHfv2S2UW71zhF0VTzZiiGXgYXq3PjkcGxgdO3xWU=
+ bh=Unp5uLMaImNyFGRgeG0LnVtf5Sb/otIqfLR83uLvMh8=;
+ b=txHrXVk7Jb5huckamR8zrPHlCh6b6x0h1uy6nWJcObq1J6CiiN/q00D6h/7roGsTRl+dGU8OajVZBPFDDeIP5rPY7MpSbzRxX1/Gk39z1uf0vHOqRgjM2KHNytB/K3t0V2ZGTtRuI3+KP34aCSweXpuFLiLJJY0Lj3NtOUDPMfY=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
- by MN2PR12MB3085.namprd12.prod.outlook.com (2603:10b6:208:c5::29)
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com (2603:10b6:a03:a6::22)
+ by CY4PR1201MB0040.namprd12.prod.outlook.com (2603:10b6:910:1b::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.17; Tue, 8 Feb
- 2022 11:12:38 +0000
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::c411:8d69:9007:aed6]) by MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::c411:8d69:9007:aed6%5]) with mapi id 15.20.4951.019; Tue, 8 Feb 2022
- 11:12:38 +0000
-Message-ID: <46c843dd-3171-9448-3a7e-590c8c23844d@amd.com>
-Date: Tue, 8 Feb 2022 16:50:11 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v11 5/5] drm/amdgpu: add drm buddy support to amdgpu
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.16; Tue, 8 Feb
+ 2022 11:25:46 +0000
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::d0d1:eba5:5729:c636]) by BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::d0d1:eba5:5729:c636%5]) with mapi id 15.20.4951.019; Tue, 8 Feb 2022
+ 11:25:46 +0000
+Message-ID: <8e4dc322-2946-9047-7cd4-8a734dc29bd3@amd.com>
+Date: Tue, 8 Feb 2022 16:55:30 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [RFC v4] drm/amdgpu: Rework reset domain to be refcounted.
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Matthew Auld <matthew.william.auld@gmail.com>
-References: <20220127141107.173692-1-Arunpravin.PaneerSelvam@amd.com>
- <20220127141107.173692-5-Arunpravin.PaneerSelvam@amd.com>
- <CAM0jSHOdMDQvWxGyHfW01UAe-x_eefFQSJnzU43=t6qL_Ec77g@mail.gmail.com>
- <c842bcfc-80ff-fafa-7242-cfca3ed65087@amd.com>
- <b9d3da49-a02e-82d4-66c5-d95f824873cd@gmail.com>
-From: Arunpravin <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <b9d3da49-a02e-82d4-66c5-d95f824873cd@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BMXPR01CA0096.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:54::36) To MN2PR12MB4342.namprd12.prod.outlook.com
- (2603:10b6:208:264::7)
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20220125223752.200211-9-andrey.grodzovsky@amd.com>
+ <20220202172617.16181-1-andrey.grodzovsky@amd.com>
+From: "Lazar, Lijo" <lijo.lazar@amd.com>
+In-Reply-To: <20220202172617.16181-1-andrey.grodzovsky@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BM1PR0101CA0044.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:1a::30) To BYAPR12MB4614.namprd12.prod.outlook.com
+ (2603:10b6:a03:a6::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0889650e-e0c1-4a77-02ef-08d9eaf3ea14
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3085:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB30854D41BEB7AC52E9115170E42D9@MN2PR12MB3085.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 16fde6e6-e0db-4f42-ea2f-08d9eaf5bfe8
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0040:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB0040F8A4846D100F5C366C2C972D9@CY4PR1201MB0040.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ixkOhKSwxRedGIgMwo8I0V3pzeWybacN/suvK8a5WT1uFkbs2NS8Xm3osyMHVIBVOak7mliFtgyDYuCXoHReI6jzEBu70+Mgf/N1sozPHMJq+dq0i9aKGnd/EQseehUNP5XTolOd4pSOnvX2ccqN7dfHv49TGoi36A521N7n5/YLF+8toaptK0GEhgULd49mFHnMfr11D7ff1RsQhpnzsxf7W3mRrYJQZLCOzmjvlCQL9Yf/0HvtK5ODGRJIUkwerqBklwr83Fz75zDPUi2DNgza6L4sn+g0gNkEj8VT76zfv6GR+kEQk9Me9/8u+mOPoixujFIL02HoYatBs1/tQjnXYi4BakQOQNt5YdGZ9nhC2OuYSpvO3dTD+6nKb0KKHwv19gmCTS4HHUksccHnhjZl9LfYY9Hw9cN4BGS21lFS1uaTwhLtSPYACz+VsWS0OcWQFkiBp0K+Q6QWIfvzdPknCXmEVaXDQQtfS7x1sNKMDTGCj1Cvol1MKKgRs04W/Z89X5FDYa0OSykrutJrzcR2Y3iIpgRNNCo+hfPBBMDNTa+JHBZFr67RtTDoj93ttrxUyjHobYw9YIQj/Hgd+w1VdMOrtot56HlzDUwufflh042g7IKRw+GGtLHMn7of4s2ZlmIF0LA1BiAmTTmufAV92vBSfCMhBDb0nMR5UgzQZ/vM3Qp/d7Wy682oRK+Sn7RxeJvtUxybdWNuLCKdF1uv1KJrUWa9ruHlA6KHZE0=
+X-Microsoft-Antispam-Message-Info: JBnQm6Q4yx0WOdvXbbUexIvpLtilAdFRKaUQqpVKn46Axr9JDDYq0NRrMbt1QU1Bf44yLnKnkC0k2OfJ/YyT+98OolyZ9jGEwfC4rtqVVM3/D+X1VUQx9cElKAMnDdQvnGcVe5Joi1I6JQDMPh4dlF7aQjHLwDHh+jp+KZfogvBfa3azJfJlMPmeMdLfUdeoXb7048UdYm50BhTMULX0ThcB2I3n5HZqIzSYuSlCcXw1Ib+DklWMzcb/UGXXzfLd4XYBHjpGuLtIRFySHYHoRZj2Tnz3jrmhVj6vsIkPOlrirq7aSEnmBK06F36FX/Z5gsWp5dZtRXS73yX5Yh4IQVbB23lBC0d4uuyERMtdI26OKb/bTWwpfJPH9cWcif2fP3kAcUT4m3GurwmlJk16m0WTJOMcFbv7oFuf1/xBAMdG4lwpHD0tG4vJh3lnRaLjXnpJlIPWTFrl61GlPeQcHoXlHiH41kXtVeumoYxQVqpU0KkLvZLC/gFCU+ZbQljxYRx9afFLFMI8nA7h9qkSLLvGPbE5GqqhC/tGCAlEw7OHvBai876n6mX58TjOzH5NQaQ+S/9+doni9esmjGHpKLmYNeXKyXBgicIn3bvd5memqf0o5obkv/yOPSsbrsEbevf110J4epTrODDo+NsueqJWRHtB1TrGxPmUAqD56b1nSq54r3xHZA9H7DT1hUMSjIrx1Bnj15a7ARGrmanmxe2fvEoAkR1S2CJf/On2IZ406UKIur4+BvC1uZQAFMoyo2hVivzmsptUKaX6zrWKBJvUm4n6GJ37bFObpDOBsVS3zDo5n5M8w6vRLQNFxN1BljvZbqWlb0Y4X8GeF6JH2A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(31686004)(508600001)(53546011)(6486002)(5660300002)(54906003)(86362001)(31696002)(66574015)(110136005)(316002)(8936002)(6666004)(6512007)(6506007)(4326008)(38100700002)(66476007)(83380400001)(66946007)(8676002)(2906002)(26005)(186003)(2616005)(66556008)(36756003)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB4614.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(4326008)(36756003)(8676002)(66556008)(66476007)(6666004)(30864003)(86362001)(5660300002)(316002)(66946007)(8936002)(26005)(2616005)(83380400001)(53546011)(31696002)(6506007)(186003)(6486002)(966005)(31686004)(38100700002)(508600001)(2906002)(6512007)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TDFkQi8rMlFWakVJdlp6NGZNVXlFNUNpRU1yVEZHTGUzTXZpK3FTVXNFZUFp?=
- =?utf-8?B?R2JRYWpSdFdTVTlVd21wdVRnR0QrcXh2SHF5VFFPRnYxQm4yYnF3QUFJd3Nz?=
- =?utf-8?B?dnNiaG1qaFFCZjZ4ZUR1K0dZL1dxTTNBMXlUc2RBMWljaFJqWXY0bURwSEhW?=
- =?utf-8?B?elg2ampoNTZWeER3MU5rbU4wSVNjNG9lMWlRelNMOVg4bkJlT0JrNXBzV25p?=
- =?utf-8?B?MkZYWFdsQkhqZzVhVEpRZnI4aEJvMmFTZHBTSjUvQUZhWmx1ZG5TL2IweHhH?=
- =?utf-8?B?S1FiSkczNUtSeG92UW1MSDhBSXFZWFNGK0NDamJ0UjJSeHZEWXBjV1Z1azVJ?=
- =?utf-8?B?R2swZEh1S1JBeTB0MFlzV29WVnZnMXRianJ6eGZkdU5lNEswYjcva2tUYnhk?=
- =?utf-8?B?OXg5YVFLdng4bDQ2Rjc3L1hQUXVjTUJkUitRWWRKVC9FWlF4OEpRR3NtTFNM?=
- =?utf-8?B?WkVMZGhCaVVsWHJES2h1SklocFh1cmF0T1FPb25aWm1rR2VKR0xFaXpSbDBF?=
- =?utf-8?B?QUhNZnJMeVJyQUlCSFJOSTJWZjJjbmR5MExiSjBFZ3pybC9WcGQ4bWltTENH?=
- =?utf-8?B?VVo3OURyeFJSc2cwcG5zYks2bVBvRU13cFhmUzN1TnJLT1l3ejNKbnFYbFl6?=
- =?utf-8?B?QzhNTDAvR05HWitoV2RoQVROcVYxaENEZWRJVU9SdW1kcWt3L3hNaXRaVUVL?=
- =?utf-8?B?elF2Y3NuNnZxZ09yeHpTcVk3ZUJTUllPN0xhSjAwMDN0OEplT0R4ODJGZFpN?=
- =?utf-8?B?b0sxK0t6d1ZhZDgxVlFQM3FBNjliWk5Jd01McGtDcTllR1VmYkZrMWY1NzQv?=
- =?utf-8?B?Q2U3OGVIZ1Z3aU5ZNlMvcllNMExVWUdaVy9MZ2o3VERwZkw2eElmK0VEbjNz?=
- =?utf-8?B?bFE3amVoM0VBek9nQzY1NkZjQVZRR2Z1WmVhY05XcFZjc1dZMmt2ckNQd0VQ?=
- =?utf-8?B?eDhJUDYybkJqY1JYWDd5NzhEdnhuanU3L1pmd1JZRVZBb3Q3c3dOMGh2WFhj?=
- =?utf-8?B?ZDQwU0dWcTZYVVFqVWc0YTl0NTMvVWdUeUpCVTI5RzFXSkFuRlg1TzBqeU8w?=
- =?utf-8?B?TXRVWmtNdjdoR3FUbG1vSncrajBqa01YWkpGNnN3bGU5ek5sZEtxalkxSzRG?=
- =?utf-8?B?M1haOHllQ0gwbG9IQVZ4NUpNQ0xSV0F3cUJwVHRPb3lKcm50V1hPNlNvRVdx?=
- =?utf-8?B?VUZLaWtGWEhsNXZ5ZmRGdGxqNEpnb0YwcTFyR0pNMVJRYjdhd0N3OFJ0Ujk1?=
- =?utf-8?B?TDRpRmk4d3M2Wjhzajk5TXM3REdHSEIwREE1aURoOEh6VFc2ZloxRTZnQ3JI?=
- =?utf-8?B?K1N5Ym9PL29tc29rVjFoZ3ZxbHpXY0J2OEFIRVBxT01IcVdPcTlqcWt6Tjhj?=
- =?utf-8?B?K2J2OTNmL2hLS3BwTTd5eWp1WDRmcVV6WUs5NFpBbUpLdTBzRVJRb3JUQ3lL?=
- =?utf-8?B?VjBpd2VVNEpmbDdvQVlJTXVUQXErVzVYNzdmc09sLzc3NG9HYmJJYUhYM1J2?=
- =?utf-8?B?RFZTMkdhbVA4SUVWdnVSckZYOW03UC9aVEZBNWZZcHpMcURZOWg3TFdscThv?=
- =?utf-8?B?MGhmMjZrNDFqUWJOdVpGUHI1SnI5UG5UcnJZc3B2N3lvK0RxMXdnWmp5aTR3?=
- =?utf-8?B?eHZVU1IxNUxVcGdUUW1ZK0Fsa01SNUJLK2xKMG5NVlF0SzZ2Vk9aL2N6M0w0?=
- =?utf-8?B?VWFTWG9FK2tyZWNZYTBwQU5ub3kzZGlxems3TW1Zc3V5RmtrRFNiS09EeThu?=
- =?utf-8?B?K21OTEpPSHJlLzFyNHZrSmEvWXNaT2V5amQ0NTNnNlZyeDh5c0xHWWE5QTJ0?=
- =?utf-8?B?ZmtQL0xNV0NwM252SXlLMVpqZnhNSE53aEZ2T3BMdW4vUUxwR1lJc05sSzk3?=
- =?utf-8?B?bDRJMUQ2L3MwZ0hNNEVMOGpMVHpId2g2VVdsTDkwSWxQMkRkMy91bnlRR0VR?=
- =?utf-8?B?SFRybXkvRkhkdFRvaFArOHBld3ArZ210ZlRuOTZwcG9TKzV3ZHVpT2piYUhW?=
- =?utf-8?B?VkEvRmdtdndLT2RBSFNSNm00MUFIdmhBQUN4YmRDRFVHSUtlNlAvbnlpaE5q?=
- =?utf-8?B?V3F6QTdFNDY2VDUzUlFUaVlWWTRhelc4MjhuQzNEUjhZUnJTdWZyQVY2eWtn?=
- =?utf-8?B?WEVUUEIvQkVtSFMvZnZBMlloY2ttSGJlU2FidGJMckN3QndIODFkZW5MbVdw?=
- =?utf-8?Q?kvwAk8GZTRZM5Hi/4Oy9mz8=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVhPYXZWMWlLa1ErNm1Mc2VtcDZ0MTEyVVBsS2lkeDdVc1BVT2pjRGdxeHRH?=
+ =?utf-8?B?VFFpckVCOFNvdm12Vy9oaVlBK3dUdlR5N1Q4R01rVitXZWZzbFlzZlZIcXFI?=
+ =?utf-8?B?elZFYnVlRW1KSXFsZ21JSklpTXRZTElRQ0paOEhxK3hpZmhvMXJUUWVWb2ZC?=
+ =?utf-8?B?RjdYazNMbTdYL21PcVhjQnd3eUwxbkpFRXlMeDdOMGJQYzNEWW45TmdKQWZB?=
+ =?utf-8?B?WlNvUTlZekFkYThRZHBiK29hSTc2bDh4MzRZbk5HbzNKbkNIbHlOa0VEV3VM?=
+ =?utf-8?B?N2Z2SUhMNzJkSFpBVTBLUW5uZkVSR3A3cWJnWW9jMHJHQ1lLRU9DVW05VGFv?=
+ =?utf-8?B?M3Qyd2tTWXFGMnBGVStxT0ROM1k3OVdudTVTOTM2MHF4WVBpTHRudllXNk5r?=
+ =?utf-8?B?MHlNdU9nUkFVZUFUaGN5MHgycU1Pa0QzdTRHSWRqSDhGeUNvRzh2TVhYdkxh?=
+ =?utf-8?B?MXc1Y1RDaGFUbTlYN0RiNnVpdlc2T3FpMjd5cklJSTRPTERQcUtYZXpBYk1n?=
+ =?utf-8?B?bjk4SVNpV0wyZDFsQ1ZZUXRmZlJ0UWxCUENpZ0tQUzZrQTVwVXRlaFRBSks3?=
+ =?utf-8?B?cllac3VPRmJkTmpiZnNSS0JubzZzQU5IcVF6ekNtZHFLb3RxeXlXcENNbDZF?=
+ =?utf-8?B?cFBndlE5SDAvSjJZcUZNWkVCQmNoWVZ4RE1HdEh6NGdoZVdHNVQvOGg0YnNj?=
+ =?utf-8?B?RkNITXRMZTRPWHNDSTJDR2taMThheFZFUkpVNkxld3cyZURFcjJFMzdoZHNG?=
+ =?utf-8?B?TjhtQTJQSkNkQjZvRWRTNWZ0RVZBUGxMVy8zVCt6cm9NYUZmZjFEZXhLRXgr?=
+ =?utf-8?B?aWRZa2pSSTRjVnVCc09WakZEZVNWNWV4dW5uU3hiVnhRa1pYdm1ORlViK3RO?=
+ =?utf-8?B?OVBJNDJvQUx6YlVNeXZ4RFRLTU1jSlRJY0kzbFF4QWhFNTNQMEZMb0JvUGFk?=
+ =?utf-8?B?cS80dy9uZEpjZmJCVTZQZXF5aUdlaGhjQlQ0YXhlaVcvQ09VNUdZZGRqbTlp?=
+ =?utf-8?B?RVJGVVp4QndydWh0UFhqbzlhQVZmTms3clgvRW1WR25EWDI5cFpRVDFWWUJO?=
+ =?utf-8?B?WHc3LzZKWEh1ZmFiVUUzRS9ZUWxKV2t0NW0vaUtJMjlDbVdqcE5rUllkampX?=
+ =?utf-8?B?RlFzVHRBelRBYUZIaUNyS1JNVkt1V0ZzdFJJUis3UlEzelBYUm5rNjFLbUJM?=
+ =?utf-8?B?M2VKWTBCbEsrTnVsL044ZEY3ZGZlS1ZaM1g3SkRjSVB5K2d5NHJDMUcxeEpZ?=
+ =?utf-8?B?enArUVJsZWlTSjNWeXlJbzM2K2lQby9lN1dIWUYzWEEwUS9rczBRMEdYaWZz?=
+ =?utf-8?B?UEEyb2tJOG9zY0dFMEd6SmpzR1pITnlLcmxwY2ZuRnNqYnhaaTJlaDVOMVNm?=
+ =?utf-8?B?OEFvUklsUGhBcjJiM0J1d0NmcllRL1B6Q293U3pmRlR5SktGazlBbVR4djVI?=
+ =?utf-8?B?VkRFOW81N3BCRmx5azBIQ1NmdHNFKzVRTnpHbEoyNmdoZ2JESTcrcVFPWGdr?=
+ =?utf-8?B?TFBNaDZZTmlYNUM3Q29TK3lYUHgxL0tiY2tHcUxETUNXUkptTjhtUWNPVUF2?=
+ =?utf-8?B?WDd5NWlWZTM1anJVWkFaLytxdkpVckcrdWh2TUFZOElPMlFWOGlOYXJMVnhw?=
+ =?utf-8?B?Qzd0SENpeTJCK09SMjhXSnprcHR4aDJoOE5aeGsxcFE2WVVkcXJTV3Rpci93?=
+ =?utf-8?B?MEZmcEE3Z1NjZE5uTWMvejByQUdDZkFYcWY5QTF1VDVRTUdUT2g4Q21SVWFj?=
+ =?utf-8?B?M2xXYVFGWVlZeEdrNGYzbzloclFORGRTSmszTnF3Tnk4NU9WMkpXdTVGejhO?=
+ =?utf-8?B?b0hDcVlCRU9hY01JT3NWT2tOYnhoVzYvcmRXYS9MWXd3VkpJRU9WNzY3MWxC?=
+ =?utf-8?B?aklJUE9HYUVNSVZPUndVcVJxb2lYN0ZNN1pySXM5U0xJRjJKeTZpeHU1Uk16?=
+ =?utf-8?B?MWhLRU1Ob1dHQTAxa0NscURvcEtPbW9IWnB2VEI3MlM0MXR0RW1lSG9BMXE5?=
+ =?utf-8?B?RXpiZitEMnJwOEE0Ujk5TUxxZ2oyd2swdUR1T2tZMkZoSlVzYmY1NCs2cU5w?=
+ =?utf-8?B?aTZPNEFvRGZzUHZyekJzeUZKc2JHeFhWL3BJNDIxV0FtMkhrSWM5RlJWcW93?=
+ =?utf-8?Q?cvYs=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0889650e-e0c1-4a77-02ef-08d9eaf3ea14
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16fde6e6-e0db-4f42-ea2f-08d9eaf5bfe8
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4614.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2022 11:12:38.0380 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2022 11:25:46.1766 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WrIVDOmfoPjtPiIFo2NQpbtAlbamPH/XWWu2eUe330Acet8WlVU2rNNYa3z2/nN+zYWP9iVrjyhR4JQYxZEAFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3085
+X-MS-Exchange-CrossTenant-UserPrincipalName: IzOli+Y2rcq40hUTQBSd/1dFdv7giFEmltfyn9zNatZOlfZ5Q83bOYKN6VHoH6nV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0040
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,282 +127,377 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, tzimmermann@suse.de,
- alexander.deucher@amd.com,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: Monk.Liu@amd.com, horace.chen@amd.com, jingwech@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 04/02/22 6:53 pm, Christian König wrote:
-> Am 04.02.22 um 12:22 schrieb Arunpravin:
->> On 28/01/22 7:48 pm, Matthew Auld wrote:
->>> On Thu, 27 Jan 2022 at 14:11, Arunpravin
->>> <Arunpravin.PaneerSelvam@amd.com> wrote:
->>>> - Remove drm_mm references and replace with drm buddy functionalities
->>>> - Add res cursor support for drm buddy
->>>>
->>>> v2(Matthew Auld):
->>>>    - replace spinlock with mutex as we call kmem_cache_zalloc
->>>>      (..., GFP_KERNEL) in drm_buddy_alloc() function
->>>>
->>>>    - lock drm_buddy_block_trim() function as it calls
->>>>      mark_free/mark_split are all globally visible
->>>>
->>>> v3(Matthew Auld):
->>>>    - remove trim method error handling as we address the failure case
->>>>      at drm_buddy_block_trim() function
->>>>
->>>> v4:
->>>>    - fix warnings reported by kernel test robot <lkp@intel.com>
->>>>
->>>> v5:
->>>>    - fix merge conflict issue
->>>>
->>>> v6:
->>>>    - fix warnings reported by kernel test robot <lkp@intel.com>
->>>>
->>>> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
->>>> ---
->>>>   drivers/gpu/drm/Kconfig                       |   1 +
->>>>   .../gpu/drm/amd/amdgpu/amdgpu_res_cursor.h    |  97 +++++--
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |   7 +-
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  | 259 ++++++++++--------
->>>>   4 files changed, 231 insertions(+), 133 deletions(-)
->>> <snip>
->>>
->>>> -/**
->>>> - * amdgpu_vram_mgr_virt_start - update virtual start address
->>>> - *
->>>> - * @mem: ttm_resource to update
->>>> - * @node: just allocated node
->>>> - *
->>>> - * Calculate a virtual BO start address to easily check if everything is CPU
->>>> - * accessible.
->>>> - */
->>>> -static void amdgpu_vram_mgr_virt_start(struct ttm_resource *mem,
->>>> -                                      struct drm_mm_node *node)
->>>> -{
->>>> -       unsigned long start;
->>>> -
->>>> -       start = node->start + node->size;
->>>> -       if (start > mem->num_pages)
->>>> -               start -= mem->num_pages;
->>>> -       else
->>>> -               start = 0;
->>>> -       mem->start = max(mem->start, start);
->>>> -}
->>>> -
->>>>   /**
->>>>    * amdgpu_vram_mgr_new - allocate new ranges
->>>>    *
->>>> @@ -366,13 +357,13 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
->>>>                                 const struct ttm_place *place,
->>>>                                 struct ttm_resource **res)
->>>>   {
->>>> -       unsigned long lpfn, num_nodes, pages_per_node, pages_left, pages;
->>>> +       unsigned long lpfn, pages_per_node, pages_left, pages, n_pages;
->>>> +       u64 vis_usage = 0, mem_bytes, max_bytes, min_page_size;
->>>>          struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
->>>>          struct amdgpu_device *adev = to_amdgpu_device(mgr);
->>>> -       uint64_t vis_usage = 0, mem_bytes, max_bytes;
->>>> -       struct ttm_range_mgr_node *node;
->>>> -       struct drm_mm *mm = &mgr->mm;
->>>> -       enum drm_mm_insert_mode mode;
->>>> +       struct amdgpu_vram_mgr_node *node;
->>>> +       struct drm_buddy *mm = &mgr->mm;
->>>> +       struct drm_buddy_block *block;
->>>>          unsigned i;
->>>>          int r;
->>>>
->>>> @@ -391,10 +382,9 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
->>>>                  goto error_sub;
->>>>          }
->>>>
->>>> -       if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
->>>> +       if (place->flags & TTM_PL_FLAG_CONTIGUOUS)
->>>>                  pages_per_node = ~0ul;
->>>> -               num_nodes = 1;
->>>> -       } else {
->>>> +       else {
->>>>   #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>>>                  pages_per_node = HPAGE_PMD_NR;
->>>>   #else
->>>> @@ -403,11 +393,9 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
->>>>   #endif
->>>>                  pages_per_node = max_t(uint32_t, pages_per_node,
->>>>                                         tbo->page_alignment);
->>>> -               num_nodes = DIV_ROUND_UP_ULL(PFN_UP(mem_bytes), pages_per_node);
->>>>          }
->>>>
->>>> -       node = kvmalloc(struct_size(node, mm_nodes, num_nodes),
->>>> -                       GFP_KERNEL | __GFP_ZERO);
->>>> +       node = kzalloc(sizeof(*node), GFP_KERNEL);
->>>>          if (!node) {
->>>>                  r = -ENOMEM;
->>>>                  goto error_sub;
->>>> @@ -415,9 +403,17 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
->>>>
->>>>          ttm_resource_init(tbo, place, &node->base);
->>>>
->>>> -       mode = DRM_MM_INSERT_BEST;
->>>> +       INIT_LIST_HEAD(&node->blocks);
->>>> +
->>>>          if (place->flags & TTM_PL_FLAG_TOPDOWN)
->>>> -               mode = DRM_MM_INSERT_HIGH;
->>>> +               node->flags |= DRM_BUDDY_TOPDOWN_ALLOCATION;
->>>> +
->>>> +       if (place->fpfn || lpfn != man->size)
->>>> +               /* Allocate blocks in desired range */
->>>> +               node->flags |= DRM_BUDDY_RANGE_ALLOCATION;
->>>> +
->>>> +       min_page_size = mgr->default_page_size;
->>>> +       BUG_ON(min_page_size < mm->chunk_size);
->>>>
->>>>          pages_left = node->base.num_pages;
->>>>
->>>> @@ -425,36 +421,61 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
->>>>          pages = min(pages_left, 2UL << (30 - PAGE_SHIFT));
->>>>
->>>>          i = 0;
->>>> -       spin_lock(&mgr->lock);
->>>>          while (pages_left) {
->>>> -               uint32_t alignment = tbo->page_alignment;
->>>> -
->>>>                  if (pages >= pages_per_node)
->>>> -                       alignment = pages_per_node;
->>>> -
->>>> -               r = drm_mm_insert_node_in_range(mm, &node->mm_nodes[i], pages,
->>>> -                                               alignment, 0, place->fpfn,
->>>> -                                               lpfn, mode);
->>>> -               if (unlikely(r)) {
->>>> -                       if (pages > pages_per_node) {
->>>> -                               if (is_power_of_2(pages))
->>>> -                                       pages = pages / 2;
->>>> -                               else
->>>> -                                       pages = rounddown_pow_of_two(pages);
->>>> -                               continue;
->>>> -                       }
->>>> -                       goto error_free;
->>>> +                       pages = pages_per_node;
->>>> +
->>>> +               n_pages = pages;
->>>> +
->>>> +               if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
->>>> +                       n_pages = roundup_pow_of_two(n_pages);
->>>> +                       min_page_size = (u64)n_pages << PAGE_SHIFT;
->>>> +
->>>> +                       if (n_pages > lpfn)
->>>> +                               lpfn = n_pages;
->>>>                  }
->>>>
->>>> -               vis_usage += amdgpu_vram_mgr_vis_size(adev, &node->mm_nodes[i]);
->>>> -               amdgpu_vram_mgr_virt_start(&node->base, &node->mm_nodes[i]);
->>>> +               mutex_lock(&mgr->lock);
->>>> +               r = drm_buddy_alloc_blocks(mm, (u64)place->fpfn << PAGE_SHIFT,
->>>> +                                          (u64)lpfn << PAGE_SHIFT,
->>>> +                                          (u64)n_pages << PAGE_SHIFT,
->>>> +                                          min_page_size,
->>>> +                                          &node->blocks,
->>>> +                                          node->flags);
->>>> +               mutex_unlock(&mgr->lock);
->>>> +               if (unlikely(r))
->>>> +                       goto error_free_blocks;
->>>> +
->>>>                  pages_left -= pages;
->>>>                  ++i;
->>>>
->>>>                  if (pages > pages_left)
->>>>                          pages = pages_left;
->>>>          }
->>>> -       spin_unlock(&mgr->lock);
->>>> +
->>>> +       /* Free unused pages for contiguous allocation */
->>>> +       if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
->>>> +               u64 actual_size = (u64)node->base.num_pages << PAGE_SHIFT;
->>>> +
->>>> +               mutex_lock(&mgr->lock);
->>>> +               drm_buddy_block_trim(mm,
->>>> +                                    actual_size,
->>>> +                                    &node->blocks);
->>>> +               mutex_unlock(&mgr->lock);
->>>> +       }
->>>> +
->>>> +       list_for_each_entry(block, &node->blocks, link)
->>>> +               vis_usage += amdgpu_vram_mgr_vis_size(adev, block);
->>>> +
->>>> +       block = list_first_entry_or_null(&node->blocks,
->>>> +                                        struct drm_buddy_block,
->>>> +                                        link);
->>>> +       if (!block) {
->>>> +               r = -ENOENT;
->>>> +               goto error_free_res;
->>>> +       }
->>>> +
->>>> +       node->base.start = amdgpu_node_start(block) >> PAGE_SHIFT;
->>> Hmm, does this work? It looks like there are various places checking
->>> that res->start + res->num_pages <= visible_size, which IIUC should
->>> only return true when the entire object is placed in the mappable
->>> portion. i915 is doing something similar. Also it looks like
->>> ttm_resource_compat() is potentially relying on this, like when moving
->>> something from non-mappable -> mappable in
->>> amdgpu_bo_fault_reserve_notify()?
->>>
->>> Perhaps something like:
->>>
->>> if (vis_usage == num_pages)
->>>      base.start = 0;
->>> else
->>>      base.start = visible_size;
->>>
->>> Otherwise I guess just keep amdgpu_vram_mgr_virt_start()?
->>>
->> hmm, I wonder how it works, may be we didn't go through the corner case
->> where res->start + res->num_pages > visible_size
->>
->> in amdgpu if AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED flag is enabled, we
->> set the ttm_place.lpfn = visible_pfn at
->> amdgpu_bo_placement_from_domain(). Hence, in amdgpu_vram_mgr_new()
->> function DRM_BUDDY_RANGE_ALLOCATION flag is enabled, which calls the
->> alloc_range_bias() in drm_buddy.c.
->>
->> Here we get blocks chained together in random order complying
->> visible_pfn range. say for instance num_pages = 13
->> we may get,
->> Block 1 addr - 500 (order-3)
->> Block 2 addr - 400 (order-2)
->> Block 3 addr - 600 (order-0)
->>
->> I think currently base.start = Block 1 start address fetched from the
->> list and the address 500 assigned to it, which is good for the resource
->> access since we access the blocks using the list link
->>
->> But for the check res->start + res->num_pages <= visible_size in few
->> places, this doesn't work. AFAIK, keeping amdgpu_vram_mgr_virt_start()
->> doesn't work since the function looks for nodes in continuous address to
->> calculate the start address. AFAIK, assigning the start address (400 +
->> num_pages <= visible_size) mislead in our case since we use linked list
->>
->> how about replacing the check with a bool type return function which
->> checks the each block start address + block size <= visible_size?
+On 2/2/2022 10:56 PM, Andrey Grodzovsky wrote:
+> The reset domain contains register access semaphor
+> now and so needs to be present as long as each device
+> in a hive needs it and so it cannot be binded to XGMI
+> hive life cycle.
+> Adress this by making reset domain refcounted and pointed
+> by each member of the hive and the hive itself.
 > 
-> Yeah, we already have that in the TTM code. It's just not used 
-> everywhere IIRC.
+> v4:
+> Fix crash on boot with XGMI hive by adding type to reset_domain.
+> XGMI will only create a new reset_domain if prevoius was of single
+> device type meaning it's first boot. Otherwsie it will take a
+> refocunt to exsiting reset_domain from the amdgou device.
+> 
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  6 +--
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 44 +++++++++++++---------
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c  | 38 +++++++++++++++++++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h  | 18 +++++++++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c   | 29 +++++++++++---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h   |  2 +-
+>   drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c      |  4 +-
+>   drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c      |  4 +-
+>   drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c      |  4 +-
+>   9 files changed, 118 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 8e96b9a14452..f2ba460bfd59 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -813,9 +813,7 @@ struct amd_powerplay {
+>   #define AMDGPU_RESET_MAGIC_NUM 64
+>   #define AMDGPU_MAX_DF_PERFMONS 4
+>   
+> -struct amdgpu_reset_domain {
+> -	struct workqueue_struct *wq;
+> -};
+> +struct amdgpu_reset_domain;
+>   
+>   struct amdgpu_device {
+>   	struct device			*dev;
+> @@ -1102,7 +1100,7 @@ struct amdgpu_device {
+>   	struct amdgpu_reset_control     *reset_cntl;
+>   	uint32_t                        ip_versions[HW_ID_MAX][HWIP_MAX_INSTANCE];
+>   
+> -	struct amdgpu_reset_domain	reset_domain;
+> +	struct amdgpu_reset_domain	*reset_domain;
+>   };
+>   
+>   static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index fef952ca8db5..cd1b7af69c35 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -2313,7 +2313,7 @@ static int amdgpu_device_init_schedulers(struct amdgpu_device *adev)
+>   
+>   		r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
+>   				   ring->num_hw_submission, amdgpu_job_hang_limit,
+> -				   timeout, adev->reset_domain.wq, ring->sched_score, ring->name);
+> +				   timeout, adev->reset_domain->wq, ring->sched_score, ring->name);
+>   		if (r) {
+>   			DRM_ERROR("Failed to create scheduler on ring %s.\n",
+>   				  ring->name);
+> @@ -2432,24 +2432,22 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
+>   	if (r)
+>   		goto init_failed;
+>   
+> +	/**
+> +	 * In case of XGMI grab extra reference for reset domain for this device
+> +	 */
+>   	if (adev->gmc.xgmi.num_physical_nodes > 1) {
+> -		struct amdgpu_hive_info *hive;
+> -
+> -		amdgpu_xgmi_add_device(adev);
+> +		if (amdgpu_xgmi_add_device(adev) == 0) {
+> +			struct amdgpu_hive_info *hive = amdgpu_get_xgmi_hive(adev);
+>   
+> -		hive = amdgpu_get_xgmi_hive(adev);
+> -		if (!hive || !hive->reset_domain.wq) {
+> -			DRM_ERROR("Failed to obtain reset domain info for XGMI hive:%llx", hive->hive_id);
+> -			r = -EINVAL;
+> -			goto init_failed;
+> -		}
+> +			if (!hive->reset_domain ||
+> +			    !kref_get_unless_zero(&hive->reset_domain->refcount)) {
+> +				r = -ENOENT;
+> +				goto init_failed;
+> +			}
+>   
+> -		adev->reset_domain.wq = hive->reset_domain.wq;
+> -	} else {
+> -		adev->reset_domain.wq = alloc_ordered_workqueue("amdgpu-reset-dev", 0);
+> -		if (!adev->reset_domain.wq) {
+> -			r = -ENOMEM;
+> -			goto init_failed;
+> +			/* Drop the early temporary reset domain we created for device */
+> +			kref_put(&adev->reset_domain->refcount, amdgpu_reset_destroy_reset_domain);
+> +			adev->reset_domain = hive->reset_domain;
+>   		}
+>   	}
+>   
+> @@ -3599,6 +3597,15 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>   		return r;
+>   	}
+>   
+> +	/*
+> +	 * Reset domain needs to be present early, before XGMI hive discovered
+> +	 * (if any) and intitialized to use reset sem and in_gpu reset flag
+> +	 * early on during init.
+> +	 */
+> +	adev->reset_domain = amdgpu_reset_create_reset_domain(SINGLE_DEVICE ,"amdgpu-reset-dev");
+> +	if (!adev->reset_domain)
+> +		return -ENOMEM;
+> +
+>   	/* early init functions */
+>   	r = amdgpu_device_ip_early_init(adev);
+>   	if (r)
+> @@ -3949,6 +3956,9 @@ void amdgpu_device_fini_sw(struct amdgpu_device *adev)
+>   	if (adev->mman.discovery_bin)
+>   		amdgpu_discovery_fini(adev);
+>   
+> +	kref_put(&adev->reset_domain->refcount, amdgpu_reset_destroy_reset_domain);
+> +	adev->reset_domain = NULL;
+> +
+>   	kfree(adev->pci_state);
+>   
+>   }
+> @@ -5186,7 +5196,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+>   
+>   	INIT_WORK(&work.base, amdgpu_device_queue_gpu_recover_work);
+>   
+> -	if (!queue_work(adev->reset_domain.wq, &work.base))
+> +	if (!queue_work(adev->reset_domain->wq, &work.base))
+>   		return -EAGAIN;
+>   
+>   	flush_work(&work.base);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+> index 02afd4115675..14f003d5ebe8 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+> @@ -96,3 +96,41 @@ int amdgpu_reset_perform_reset(struct amdgpu_device *adev,
+>   	return reset_handler->restore_hwcontext(adev->reset_cntl,
+>   						reset_context);
+>   }
+> +
+> +
+> +void amdgpu_reset_destroy_reset_domain(struct kref *ref)
+> +{
+> +	struct amdgpu_reset_domain *reset_domain = container_of(ref,
+> +								struct amdgpu_reset_domain,
+> +								refcount);
+> +	destroy_workqueue(reset_domain->wq);
+> +	kvfree(reset_domain);
+> +}
+> +
+> +struct amdgpu_reset_domain *amdgpu_reset_create_reset_domain(enum amdgpu_reset_domain_type type,
+> +							     char *wq_name)
+> +{
+> +	struct amdgpu_reset_domain *reset_domain;
+> +
+> +	reset_domain = kvzalloc(sizeof(struct amdgpu_reset_domain), GFP_KERNEL);
+> +	if (!reset_domain) {
+> +		DRM_ERROR("Failed to allocate amdgpu_reset_domain!");
+> +		return NULL;
+> +	}
+> +
+> +	reset_domain->type = type;
+> +	kref_init(&reset_domain->refcount);
+> +
+> +	reset_domain->wq = create_singlethread_workqueue(wq_name);
+> +	if (!reset_domain->wq) {
+> +		DRM_ERROR("Failed to allocate wq for amdgpu_reset_domain!");
+> +		kref_put(&reset_domain->refcount, amdgpu_reset_destroy_reset_domain);
+> +		return NULL;
+> +
+> +	}
+> +
+> +	return reset_domain;
+> +}
+> +
+> +
+> +
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
+> index e00d38d9160a..0b310cd963d9 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
+> @@ -70,6 +70,19 @@ struct amdgpu_reset_control {
+>   	void (*async_reset)(struct work_struct *work);
+>   };
+>   
+> +
+> +enum amdgpu_reset_domain_type {
+> +	SINGLE_DEVICE,
+> +	XGMI_HIVE
+> +};
+> +
+> +struct amdgpu_reset_domain {
+> +	struct kref refcount;
+> +	struct workqueue_struct *wq;
+> +	enum amdgpu_reset_domain_type type;
+> +};
+> +
+> +
+>   int amdgpu_reset_init(struct amdgpu_device *adev);
+>   int amdgpu_reset_fini(struct amdgpu_device *adev);
+>   
+> @@ -82,4 +95,9 @@ int amdgpu_reset_perform_reset(struct amdgpu_device *adev,
+>   int amdgpu_reset_add_handler(struct amdgpu_reset_control *reset_ctl,
+>   			     struct amdgpu_reset_handler *handler);
+>   
+> +struct amdgpu_reset_domain *amdgpu_reset_create_reset_domain(enum amdgpu_reset_domain_type type,
+> +							     char *wq_name);
+> +
+> +void amdgpu_reset_destroy_reset_domain(struct kref *ref);
+> +
+>   #endif
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+> index 9ad742039ac9..a216e88a7b54 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+> @@ -32,6 +32,8 @@
+>   #include "wafl/wafl2_4_0_0_smn.h"
+>   #include "wafl/wafl2_4_0_0_sh_mask.h"
+>   
+> +#include "amdgpu_reset.h"
+> +
+>   #define smnPCS_XGMI23_PCS_ERROR_STATUS   0x11a01210
+>   #define smnPCS_XGMI3X16_PCS_ERROR_STATUS 0x11a0020c
+>   #define smnPCS_GOPX1_PCS_ERROR_STATUS    0x12200210
+> @@ -226,6 +228,9 @@ static void amdgpu_xgmi_hive_release(struct kobject *kobj)
+>   	struct amdgpu_hive_info *hive = container_of(
+>   		kobj, struct amdgpu_hive_info, kobj);
+>   
+> +	kref_put(&hive->reset_domain->refcount, amdgpu_reset_destroy_reset_domain);
+> +	hive->reset_domain = NULL;
+> +
+>   	mutex_destroy(&hive->hive_lock);
+>   	kfree(hive);
+>   }
+> @@ -392,12 +397,24 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
+>   		goto pro_end;
+>   	}
+>   
+> -	hive->reset_domain.wq = alloc_ordered_workqueue("amdgpu-reset-hive", 0);
+> -	if (!hive->reset_domain.wq) {
+> -		dev_err(adev->dev, "XGMI: failed allocating wq for reset domain!\n");
+> -		kfree(hive);
+> -		hive = NULL;
+> -		goto pro_end;
+> +	/**
+> +	 * Avoid recreating reset domain when hive is reconstructed for the case
+> +	 * of reset the devices in the XGMI hive during probe for SRIOV
+> +	 * See https://www.spinics.net/lists/amd-gfx/msg58836.html
+> +	 */
+> +	if (adev->reset_domain->type != XGMI_HIVE) {
+> +		hive->reset_domain = amdgpu_reset_create_reset_domain(XGMI_HIVE, "amdgpu-reset-hive");
+> +			if (!hive->reset_domain) {
+> +				dev_err(adev->dev, "XGMI: failed initializing reset domain for xgmi hive\n");
+> +				ret = -ENOMEM;
+> +				kobject_put(&hive->kobj);
+> +				kfree(hive);
+> +				hive = NULL;
+> +				goto pro_end;
+> +			}
+> +	} else {
+> +		kref_get_unless_zero(&adev->reset_domain->refcount);
+> +		hive->reset_domain = adev->reset_domain;
 
-Hi Christian,
-here we have a problem, many places in ttm and amdgpu, we are using the
-tbo->resource->start + bo->resource->num_pages operation, this doesn't
-work in case of drm buddy since it allocates blocks in different
-locations which are chained together using linked list.
+Suggest to wrap this like -
+	amdgpu_reset_domain_get(reset_domain)
+
+and another like
+	amdgpu_reset_domain_put(reset_domain)
+
+Even smaller wrappers like
+	amdgpu_reset_domain_schedule(reset_domain, reset_work)
+
+Other than that, looks good to me (need to combine with earlier series 
+as this misses a few other members in reset domain).
+
+Thanks,
+Lijo
+	
+>   	}
+>   
+>   	hive->hive_id = adev->gmc.xgmi.hive_id;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
+> index 2f2ce53645a5..dcaad22be492 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
+> @@ -42,7 +42,7 @@ struct amdgpu_hive_info {
+>   		AMDGPU_XGMI_PSTATE_UNKNOWN
+>   	} pstate;
+>   
+> -	struct amdgpu_reset_domain reset_domain;
+> +	struct amdgpu_reset_domain *reset_domain;
+>   };
+>   
+>   struct amdgpu_pcs_ras_field {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c b/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
+> index b2b40e169342..05e98af30b48 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
+> @@ -32,6 +32,8 @@
+>   #include "soc15_common.h"
+>   #include "mxgpu_ai.h"
+>   
+> +#include "amdgpu_reset.h"
+> +
+>   static void xgpu_ai_mailbox_send_ack(struct amdgpu_device *adev)
+>   {
+>   	WREG8(AI_MAIBOX_CONTROL_RCV_OFFSET_BYTE, 2);
+> @@ -302,7 +304,7 @@ static int xgpu_ai_mailbox_rcv_irq(struct amdgpu_device *adev,
+>   	switch (event) {
+>   		case IDH_FLR_NOTIFICATION:
+>   		if (amdgpu_sriov_runtime(adev) && !amdgpu_in_reset(adev))
+> -			WARN_ONCE(!queue_work(adev->reset_domain.wq,
+> +			WARN_ONCE(!queue_work(adev->reset_domain->wq,
+>   					      &adev->virt.flr_work),
+>   				  "Failed to queue work! at %s",
+>   				  __func__);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c b/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
+> index 08411924150d..6e12055f3f4a 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
+> @@ -31,6 +31,8 @@
+>   #include "soc15_common.h"
+>   #include "mxgpu_nv.h"
+>   
+> +#include "amdgpu_reset.h"
+> +
+>   static void xgpu_nv_mailbox_send_ack(struct amdgpu_device *adev)
+>   {
+>   	WREG8(NV_MAIBOX_CONTROL_RCV_OFFSET_BYTE, 2);
+> @@ -337,7 +339,7 @@ static int xgpu_nv_mailbox_rcv_irq(struct amdgpu_device *adev,
+>   	switch (event) {
+>   	case IDH_FLR_NOTIFICATION:
+>   		if (amdgpu_sriov_runtime(adev) && !amdgpu_in_reset(adev))
+> -			WARN_ONCE(!queue_work(adev->reset_domain.wq,
+> +			WARN_ONCE(!queue_work(adev->reset_domain->wq,
+>   					      &adev->virt.flr_work),
+>   				  "Failed to queue work! at %s",
+>   				  __func__);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c b/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+> index 02290febfcf4..fe1570c2146e 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+> @@ -42,6 +42,8 @@
+>   #include "smu/smu_7_1_3_d.h"
+>   #include "mxgpu_vi.h"
+>   
+> +#include "amdgpu_reset.h"
+> +
+>   /* VI golden setting */
+>   static const u32 xgpu_fiji_mgcg_cgcg_init[] = {
+>   	mmRLC_CGTT_MGCG_OVERRIDE, 0xffffffff, 0xffffffff,
+> @@ -551,7 +553,7 @@ static int xgpu_vi_mailbox_rcv_irq(struct amdgpu_device *adev,
+>   
+>   		/* only handle FLR_NOTIFY now */
+>   		if (!r && !amdgpu_in_reset(adev))
+> -			WARN_ONCE(!queue_work(adev->reset_domain.wq,
+> +			WARN_ONCE(!queue_work(adev->reset_domain->wq,
+>   					      &adev->virt.flr_work),
+>   				  "Failed to queue work! at %s",
+>   				  __func__);
 > 
-> The node->start can just be set to the invalid offset for now and should 
-> be removed as soon as we don't need it any more.
-Assigning the start block offset to resource->start doesn't work,
-If we set node->start to invalid offset, we get an incorrect value?
-> 
-> Regards,
-> Christian.
