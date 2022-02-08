@@ -1,54 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9AE94AD04E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 05:22:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB3C4AD06F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 05:41:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 503C810E389;
-	Tue,  8 Feb 2022 04:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 306FC10E197;
+	Tue,  8 Feb 2022 04:41:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C34B110E389;
- Tue,  8 Feb 2022 04:22:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644294137; x=1675830137;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=jJpR/eyRZsZGilrbLub28IVNMNAl8da6THsTHWAmYYo=;
- b=hi4ONtO1fnp0LUJ3pXrJBMOKl1CFfR5r5YytVrOutMk5Mj5VjQV+sFko
- qe8pAfhovycQpYW1tLw4i5VHGRtJjbsF3B6PhGbo96KBPOqjC1tmHC3jU
- crehc7bQnCGdTZB0FCLT5Yz9+hRfDhhoUc/Gu0Hv8N+k5Dib7lzdhCtkq
- Hx8Bp+HoccIDRsFWf5YJXweNNIvEp9JVqwasiu0dl1aBXWnONJjtsMKN9
- libR2UDb7TWSI90bcgt4XJ1FlUOBlWqQch2TMvDxJXI4/gNgo6Y5vk0WK
- DR1hGDw48l5TvKej45gpJMAIQisnbTaioGesSO+5a50gYkFq0tmrAcBJf Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="335270928"
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="335270928"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 20:22:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="567715938"
-Received: from lkp-server01.sh.intel.com (HELO 9dd77a123018) ([10.239.97.150])
- by orsmga001.jf.intel.com with ESMTP; 07 Feb 2022 20:22:15 -0800
-Received: from kbuild by 9dd77a123018 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nHI17-0001LK-L4; Tue, 08 Feb 2022 04:22:13 +0000
-Date: Tue, 8 Feb 2022 12:22:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michael Cheng <michael.cheng@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v6 6/6] drm: Add arch arm64 for
- drm_clflush_virt_range
-Message-ID: <202202081258.VY7Y7JnA-lkp@intel.com>
-References: <20220207201127.648624-7-michael.cheng@intel.com>
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2947D10E283
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 04:41:10 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ n6-20020a9d6f06000000b005a0750019a7so12442622otq.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 20:41:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=esjcw5J1950tYULEo1Mi5rlx0creI3trE/Z1yqFmq9U=;
+ b=ip03ry5nqNDMKLD/txk0cpnpGu1BvjmtduHQhiYMDZpn5vJRKhomQqMBgVAUV9p5PV
+ 3xrn4cnCiRNPB/VaCfnqZhPnd6KJm6T6p/Qwoo2K8DYmR59WBKOjBe05u/COnPxqKiJu
+ EqlHzDIxVCoDeopGi4kwr0th6q3BXHzubpSmeCksw9GLws5mb3eY4eRv5Z4+QKWjOS0Y
+ KPeWUeFJFh6xDAyoWwt5pNIypf7EQ2wDAripNLU9/qsxjaW8t6yQrxYqf/j41O4nfDV+
+ Y+mDQYBT/pqa9wJDrE85riLOVO73QXylarUrOvwHg7M7L1Kpu8vh4YtdNTS7uY5knGR9
+ pv/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=esjcw5J1950tYULEo1Mi5rlx0creI3trE/Z1yqFmq9U=;
+ b=GMw5K7fzA3mYJFVoQlJdVanZ8xzuRyAqHDSFKm21qoC9Ioi/7wNFNfoerJ+AB7ymS8
+ UdpbqmGIic6Xwkcm07QkJ6BDEMtHzZoqAdYJRaQFI5mO0s5qPH5ajOjMnjBlrfcLRMBi
+ o3QBdoPxRW5x/6CdkcxKnKkh0Ff8dOocAblGfH1caC61402+C5m0XkmyXpLtIO5O1vKh
+ uXBzcx+dJuTgAXI7NMf1ivPqewafL5FiZ+GZN12Ceq5mTlvtwYW7rJItnGp/KTeHLZst
+ dV4BqEahxTRlt+NOrtqb5+Sx6HG5qrz021yvYb7taEaO1HVtG8RJp598I8O5jNfgsBqS
+ ovjA==
+X-Gm-Message-State: AOAM530rumup5zw3ColSkpGhNiKSUHYUviHCmtVxiWwFif3BEQfBs+4g
+ fDs9mbjEJIXnhS7bbzPjYRFbLA==
+X-Google-Smtp-Source: ABdhPJweY3q0vp0/f4DbyZgWE7ZXp0PpJrKT96m0Flrtcs1E/0Ff8vVW1yzoCSR4VtmcCjJaJS6RUQ==
+X-Received: by 2002:a9d:2c28:: with SMTP id f37mr1162716otb.65.1644295269183; 
+ Mon, 07 Feb 2022 20:41:09 -0800 (PST)
+Received: from ripper.. ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+ by smtp.gmail.com with ESMTPSA id l14sm4709367ooq.12.2022.02.07.20.41.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Feb 2022 20:41:08 -0800 (PST)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 1/2] drm: Add HPD state to drm_connector_oob_hotplug_event()
+Date: Mon,  7 Feb 2022 20:43:27 -0800
+Message-Id: <20220208044328.588860-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220207201127.648624-7-michael.cheng@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,98 +71,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lucas.demarchi@intel.com, michael.cheng@intel.com, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michael,
+In some implementations, such as the Qualcomm platforms, the display
+driver has no way to query the current HPD state and as such it's
+impossible to distinguish between disconnect and attention events.
 
-Thank you for the patch! Yet something to improve:
+Add a parameter to drm_connector_oob_hotplug_event() to pass the HPD
+state.
 
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-tip/drm-tip drm/drm-next v5.17-rc3 next-20220207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Also push the test for unchanged state in the displayport altmode driver
+into the i915 driver, to allow other drivers to act upon each update.
 
-url:    https://github.com/0day-ci/linux/commits/Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220208-041326
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20220208/202202081258.VY7Y7JnA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/f2fb6ade1531d88b046e245e8b854a7422a05a14
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220208-041326
-        git checkout f2fb6ade1531d88b046e245e8b854a7422a05a14
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/drm_cache.c: In function 'drm_clflush_virt_range':
->> drivers/gpu/drm/drm_cache.c:182:32: warning: dereferencing 'void *' pointer
-     182 |         flush_tlb_kernel_range(*addr, *end);
-         |                                ^~~~~
-   drivers/gpu/drm/drm_cache.c:182:39: warning: dereferencing 'void *' pointer
-     182 |         flush_tlb_kernel_range(*addr, *end);
-         |                                       ^~~~
->> drivers/gpu/drm/drm_cache.c:182:32: error: invalid use of void expression
-     182 |         flush_tlb_kernel_range(*addr, *end);
-         |                                ^~~~~
-   drivers/gpu/drm/drm_cache.c:182:39: error: invalid use of void expression
-     182 |         flush_tlb_kernel_range(*addr, *end);
-         |                                       ^~~~
-
-
-vim +182 drivers/gpu/drm/drm_cache.c
-
-   151	
-   152	/**
-   153	 * drm_clflush_virt_range - Flush dcache lines of a region
-   154	 * @addr: Initial kernel memory address.
-   155	 * @length: Region size.
-   156	 *
-   157	 * Flush every data cache line entry that points to an address in the
-   158	 * region requested.
-   159	 */
-   160	void
-   161	drm_clflush_virt_range(void *addr, unsigned long length)
-   162	{
-   163	#if defined(CONFIG_X86)
-   164		if (static_cpu_has(X86_FEATURE_CLFLUSH)) {
-   165			const int size = boot_cpu_data.x86_clflush_size;
-   166			void *end = addr + length;
-   167	
-   168			addr = (void *)(((unsigned long)addr) & -size);
-   169			mb(); /*CLFLUSH is only ordered with a full memory barrier*/
-   170			for (; addr < end; addr += size)
-   171				clflushopt(addr);
-   172			clflushopt(end - 1); /* force serialisation */
-   173			mb(); /*Ensure that every data cache line entry is flushed*/
-   174			return;
-   175		}
-   176	
-   177		if (wbinvd_on_all_cpus())
-   178			pr_err("Timed out waiting for cache flush\n");
-   179	
-   180	#elif defined(CONFIG_ARM64)
-   181		void *end = addr + length;
- > 182		flush_tlb_kernel_range(*addr, *end);
-   183	#else
-   184		pr_err("Architecture has no drm_cache.c support\n");
-   185		WARN_ON_ONCE(1);
-   186	#endif
-   187	}
-   188	EXPORT_SYMBOL(drm_clflush_virt_range);
-   189	
-
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+Note that the Intel driver has only been compile tested with this patch.
+
+ drivers/gpu/drm/drm_connector.c          |  6 ++++--
+ drivers/gpu/drm/i915/display/intel_dp.c  | 14 +++++++++++---
+ drivers/gpu/drm/i915/i915_drv.h          |  3 +++
+ drivers/usb/typec/altmodes/displayport.c |  9 ++-------
+ include/drm/drm_connector.h              |  5 +++--
+ 5 files changed, 23 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index a50c82bc2b2f..ad7295597c0f 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -2825,6 +2825,7 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
+ /**
+  * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
+  * @connector_fwnode: fwnode_handle to report the event on
++ * @hpd_state: number of data lanes available
+  *
+  * On some hardware a hotplug event notification may come from outside the display
+  * driver / device. An example of this is some USB Type-C setups where the hardware
+@@ -2834,7 +2835,8 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
+  * This function can be used to report these out-of-band events after obtaining
+  * a drm_connector reference through calling drm_connector_find_by_fwnode().
+  */
+-void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
++void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
++				     bool hpd_state)
+ {
+ 	struct drm_connector *connector;
+ 
+@@ -2843,7 +2845,7 @@ void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
+ 		return;
+ 
+ 	if (connector->funcs->oob_hotplug_event)
+-		connector->funcs->oob_hotplug_event(connector);
++		connector->funcs->oob_hotplug_event(connector, hpd_state);
+ 
+ 	drm_connector_put(connector);
+ }
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 146b83916005..00520867d37b 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -4816,15 +4816,23 @@ static int intel_dp_connector_atomic_check(struct drm_connector *conn,
+ 	return intel_modeset_synced_crtcs(state, conn);
+ }
+ 
+-static void intel_dp_oob_hotplug_event(struct drm_connector *connector)
++static void intel_dp_oob_hotplug_event(struct drm_connector *connector, bool hpd_state)
+ {
+ 	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
+ 	struct drm_i915_private *i915 = to_i915(connector->dev);
++	bool need_work = false;
+ 
+ 	spin_lock_irq(&i915->irq_lock);
+-	i915->hotplug.event_bits |= BIT(encoder->hpd_pin);
++	if (hpd_state != i915->hotplug.oob_hotplug_state) {
++		i915->hotplug.event_bits |= BIT(encoder->hpd_pin);
++
++		i915->hotplug.oob_hotplug_state = hpd_state;
++		need_work = true;
++	}
+ 	spin_unlock_irq(&i915->irq_lock);
+-	queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
++
++	if (need_work)
++		queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
+ }
+ 
+ static const struct drm_connector_funcs intel_dp_connector_funcs = {
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 8c1706fd81f9..543ebf1cfcf4 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -149,6 +149,9 @@ struct i915_hotplug {
+ 	/* Whether or not to count short HPD IRQs in HPD storms */
+ 	u8 hpd_short_storm_enabled;
+ 
++	/* Last state reported by oob_hotplug_event */
++	bool oob_hotplug_state;
++
+ 	/*
+ 	 * if we get a HPD irq from DP and a HPD irq from non-DP
+ 	 * the non-DP HPD could block the workqueue on a mode config
+diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+index c1d8c23baa39..a4596be4d34a 100644
+--- a/drivers/usb/typec/altmodes/displayport.c
++++ b/drivers/usb/typec/altmodes/displayport.c
+@@ -59,7 +59,6 @@ struct dp_altmode {
+ 	struct typec_displayport_data data;
+ 
+ 	enum dp_state state;
+-	bool hpd;
+ 
+ 	struct mutex lock; /* device lock */
+ 	struct work_struct work;
+@@ -143,10 +142,7 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
+ 		if (!ret)
+ 			dp->state = DP_STATE_CONFIGURE;
+ 	} else {
+-		if (dp->hpd != hpd) {
+-			drm_connector_oob_hotplug_event(dp->connector_fwnode);
+-			dp->hpd = hpd;
+-		}
++		drm_connector_oob_hotplug_event(dp->connector_fwnode, hpd);
+ 	}
+ 
+ 	return ret;
+@@ -573,8 +569,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
+ 	cancel_work_sync(&dp->work);
+ 
+ 	if (dp->connector_fwnode) {
+-		if (dp->hpd)
+-			drm_connector_oob_hotplug_event(dp->connector_fwnode);
++		drm_connector_oob_hotplug_event(dp->connector_fwnode, false);
+ 
+ 		fwnode_handle_put(dp->connector_fwnode);
+ 	}
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 64cf5f88c05b..7c90b8eb2ace 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1141,7 +1141,7 @@ struct drm_connector_funcs {
+ 	 * This will get called when a hotplug-event for a drm-connector
+ 	 * has been received from a source outside the display driver / device.
+ 	 */
+-	void (*oob_hotplug_event)(struct drm_connector *connector);
++	void (*oob_hotplug_event)(struct drm_connector *connector, bool hpd_state);
+ };
+ 
+ /**
+@@ -1742,7 +1742,8 @@ drm_connector_is_unregistered(struct drm_connector *connector)
+ 		DRM_CONNECTOR_UNREGISTERED;
+ }
+ 
+-void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode);
++void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
++				     bool hpd_state);
+ const char *drm_get_connector_type_name(unsigned int connector_type);
+ const char *drm_get_connector_status_name(enum drm_connector_status status);
+ const char *drm_get_subpixel_order_name(enum subpixel_order order);
+-- 
+2.33.1
+
