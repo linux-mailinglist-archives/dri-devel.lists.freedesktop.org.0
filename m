@@ -2,58 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3FA4AE054
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 19:08:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D56544AE057
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 19:09:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A41E810E972;
-	Tue,  8 Feb 2022 18:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C745310E79A;
+	Tue,  8 Feb 2022 18:09:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7A4210E972
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 18:08:04 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id d27so3985573wrc.6
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 10:08:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6JMh0kEFjwRWWk+1XHv7gVJ8Hpyf3EWCdFFn+Jweb7k=;
- b=TBxL7N3MT59b7iiL8T3Liji0tNYRV0YQpr4VmZbtlCwTDF6guicYakW3piuqkblF6P
- z5w66wT4auVoLP/HQsQfYoQIi2zUJIO32+Qg98sUNPevUEo+zZDuyUXV1t7LLIszesZC
- sB36y65LcRJKT18Dk2koP4XEHOUhVJKWU5TUZgq62Eu6dYAbIfUZb6H1sTmGneM2zPfQ
- Ho3tEIrIe3vh4urF9r9MPrmqzOIYc7jPdtdzoDxlHNGbQ7zfocSkk7C1stAjVhUpiGu6
- cL+fuzXHxh6MAGkBdSnMiwNDf6mQtm5UuazSL5MsFW457C6jagrNgaxTyZ0mtukOPMUe
- WiAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6JMh0kEFjwRWWk+1XHv7gVJ8Hpyf3EWCdFFn+Jweb7k=;
- b=b0VEiGeuq7HRIuqnDLu7i1oDnYCT4vpubbRswlTum5F9xpfBmKII85avZcaPogL3Sh
- dG52fzMLB3l0ZLBNLcjIVfhCcRIl+98+Cdf3C/HneQDoUe3IJWl9PWQdufhKq8dwBye9
- GeFyMxURHftqpapgnrHS+Pc5eDMYfhy76hFJr3CmNX+3FX5hb0JROmp1Cs7MEFz+l2zQ
- WobpN/R5NJQU04lncRXuzLhO/rT7XWryJqroB4c/L3LQsuEOdC7MM+FeZ5evRIMF9l80
- a9KylG97ZA5yYjBXowc1AW69pkfItKVqRAuZ33pVokvW1zFWw439Q0HsY7VsZmv0K13P
- KFCg==
-X-Gm-Message-State: AOAM531g+Qjquaf1qEhEDkXjW5g6MmN4raXn+eiTETma4ugtLxoaPkNu
- sZ5xBE+cFd7nVPeW1ZH3ONs=
-X-Google-Smtp-Source: ABdhPJxtksjX91rPiGjY9Ly7fTiS/Xhqn6J3q2EbZpF9HlFuxavVAE6e4Z+m2/JR4F8eDfTQluGJpA==
-X-Received: by 2002:adf:f504:: with SMTP id q4mr1514450wro.670.1644343683027; 
- Tue, 08 Feb 2022 10:08:03 -0800 (PST)
-Received: from localhost.localdomain ([94.73.33.246])
- by smtp.gmail.com with ESMTPSA id j46sm1218519wrj.58.2022.02.08.10.08.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 10:08:02 -0800 (PST)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: rodrigosiqueiramelo@gmail.com
-Subject: [PATCH -next RESEND v3] drm/vkms: set plane modifiers
-Date: Tue,  8 Feb 2022 19:07:46 +0100
-Message-Id: <20220208180746.24141-1-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2E2D10E893
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 18:09:11 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 5c4c73a6-890a-11ec-b20b-0050568c148b;
+ Tue, 08 Feb 2022 18:10:13 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 0DD9A194B43;
+ Tue,  8 Feb 2022 19:09:08 +0100 (CET)
+Date: Tue, 8 Feb 2022 19:09:05 +0100
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: DRI Development <dri-devel@lists.freedesktop.org>,
+ linux-fbdev@vger.kernel.org, Du Cheng <ducheng2@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Claudio Suarez <cssk@net-c.es>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH 06/21] fbcon: delete delayed loading code
+Message-ID: <YgKxwfjhL00hfdNk@ravnborg.org>
+References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
+ <20220131210552.482606-7-daniel.vetter@ffwll.ch>
+ <Yfw+6VUOX6xcf664@ravnborg.org>
+ <YgJzQboE3VVj6OL7@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YgJzQboE3VVj6OL7@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,66 +56,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- Chris Healy <cphealy@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Where no modifiers are exposed, usually linear modifier is assumed.
-However, userspace code is starting to expect IN_FORMATS even when the
-only supported modifiers are linear [1].
+Hi Daniel,
 
-To avoid possible issues, explicitly set the DRM_FORMAT_MOD_LINEAR
-modifier.
+On Tue, Feb 08, 2022 at 02:42:25PM +0100, Daniel Vetter wrote:
+> On Thu, Feb 03, 2022 at 09:45:29PM +0100, Sam Ravnborg wrote:
+> > Hi Daniel,
+> > 
+> > On Mon, Jan 31, 2022 at 10:05:37PM +0100, Daniel Vetter wrote:
+> > > Before
+> > > 
+> > > commit 6104c37094e729f3d4ce65797002112735d49cd1
+> > > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > Date:   Tue Aug 1 17:32:07 2017 +0200
+> > > 
+> > >     fbcon: Make fbcon a built-time depency for fbdev
+> > > 
+> > > it was possible to load fbcon and fbdev drivers in any order, which
+> > > means that fbcon init had to handle the case where fbdev drivers where
+> > > already registered.
+> > > 
+> > > This is no longer possible, hence delete that code.
+> > > 
+> > > Note that the exit case is a bit more complex and will be done in a
+> > > separate patch.
+> > > 
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > Cc: Helge Deller <deller@gmx.de>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > Cc: Claudio Suarez <cssk@net-c.es>
+> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > > Cc: Du Cheng <ducheng2@gmail.com>
+> > > ---
+> > >  drivers/video/fbdev/core/fbcon.c | 13 +------------
+> > >  1 file changed, 1 insertion(+), 12 deletions(-)
+> > > 
+> > > diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> > > index 8f971de35885..814b648e8f09 100644
+> > > --- a/drivers/video/fbdev/core/fbcon.c
+> > > +++ b/drivers/video/fbdev/core/fbcon.c
+> > > @@ -942,7 +942,7 @@ static const char *fbcon_startup(void)
+> > >  		return display_desc;
+> > >  	/*
+> > >  	 * Instead of blindly using registered_fb[0], we use info_idx, set by
+> > > -	 * fb_console_init();
+> > > +	 * fbcon_fb_registered();
+> > >  	 */
+> > This comment change looks like it does not belong in this patch.
+> > Also, the comment is wrong as info_idx is set in several places.
+> > Like set_con2fb_map(), fbcon_remap_all(), and more.
+> 
+> Yeah I can split this out into a separate patch, but I spotted this wrong
+> comment as part of reviewing this code change here - essentially you have
+> to check how fb_info for fbcon are registered and fbcon init happens to
+> validate that deleting the below code is correct.
+> 
+> Ok if I put this explainer into the commit message, or do you want me to
+> split this out fully?
+Keep it and add my a-b
 
-[1] https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/599/diffs?commit_id=5aea1bc522f0874e6cc07f5120fbcf1736706536
-
-Suggested-by: Chris Healy <cphealy@gmail.com>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-
----
-
-v2:
-
-  Implement format_mod_supported (Simon Ser)
-
-v3:
-
-  Now that "drm_plane_funcs.format_mod_supported" has been made truly
-  optional [1] its implementations has been removed.
-
-  [1] https://lore.kernel.org/dri-devel/20211222090552.25972-1-jose.exposito89@gmail.com/T/
----
- drivers/gpu/drm/vkms/vkms_plane.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 32409e15244b..1666fa59189b 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -20,6 +20,11 @@ static const u32 vkms_plane_formats[] = {
- 	DRM_FORMAT_XRGB8888
- };
- 
-+static const u64 vkms_plane_modifiers[] = {
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID
-+};
-+
- static struct drm_plane_state *
- vkms_plane_duplicate_state(struct drm_plane *plane)
- {
-@@ -189,7 +194,7 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
- 	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 << index,
- 					   &vkms_plane_funcs,
- 					   formats, nformats,
--					   NULL, type, NULL);
-+					   vkms_plane_modifiers, type, NULL);
- 	if (IS_ERR(plane))
- 		return plane;
- 
--- 
-2.25.1
-
+	Sam
