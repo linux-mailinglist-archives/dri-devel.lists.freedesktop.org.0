@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2127A4ACFE4
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 04:52:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9AE94AD04E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 05:22:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4741110E148;
-	Tue,  8 Feb 2022 03:52:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 503C810E389;
+	Tue,  8 Feb 2022 04:22:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59C5A10E148;
- Tue,  8 Feb 2022 03:52:12 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C34B110E389;
+ Tue,  8 Feb 2022 04:22:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644292332; x=1675828332;
+ t=1644294137; x=1675830137;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=gni8ZAnSjS2QQ6jPRCIKsoiZCM6QkQtCXQebf87OVz0=;
- b=OPgkXkG/Tz2r0QpriTOs98J0k6UFR5tVlseRjJT/aR0R5oM/37pbWLv/
- yXyx/NG2L4ytwh+yGnntJ6fAaywXjBrovs+LQSKjbhY1x/SBZLHKHiQdg
- IhlvXnRGDRDz78qbzW503ms1tGMZg1QfUtVA4+7GLYEz3FH4nrhU4ZdYU
- M86GeTCmGI17jOSpJZI4CF8MuhPyMRypCmjFYHsjpMsuzKyXBZaaOi34b
- JeMCOGLDe/0dgcXh1TCmdKBpjDSAGQzpPnHlOHSTnXpJgBe8jEogzVBt1
- kjwLCbWOuO/GgI1V4Rpm4SXrO9dhuBHiJmNTnUQdk+IZMBswjc3nm6I1Y w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="309608509"
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="309608509"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 19:52:10 -0800
+ bh=jJpR/eyRZsZGilrbLub28IVNMNAl8da6THsTHWAmYYo=;
+ b=hi4ONtO1fnp0LUJ3pXrJBMOKl1CFfR5r5YytVrOutMk5Mj5VjQV+sFko
+ qe8pAfhovycQpYW1tLw4i5VHGRtJjbsF3B6PhGbo96KBPOqjC1tmHC3jU
+ crehc7bQnCGdTZB0FCLT5Yz9+hRfDhhoUc/Gu0Hv8N+k5Dib7lzdhCtkq
+ Hx8Bp+HoccIDRsFWf5YJXweNNIvEp9JVqwasiu0dl1aBXWnONJjtsMKN9
+ libR2UDb7TWSI90bcgt4XJ1FlUOBlWqQch2TMvDxJXI4/gNgo6Y5vk0WK
+ DR1hGDw48l5TvKej45gpJMAIQisnbTaioGesSO+5a50gYkFq0tmrAcBJf Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="335270928"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="335270928"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 20:22:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="484669090"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="567715938"
 Received: from lkp-server01.sh.intel.com (HELO 9dd77a123018) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 07 Feb 2022 19:52:09 -0800
+ by orsmga001.jf.intel.com with ESMTP; 07 Feb 2022 20:22:15 -0800
 Received: from kbuild by 9dd77a123018 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1nHHY0-0001JL-DI; Tue, 08 Feb 2022 03:52:08 +0000
-Date: Tue, 8 Feb 2022 11:51:21 +0800
+ id 1nHI17-0001LK-L4; Tue, 08 Feb 2022 04:22:13 +0000
+Date: Tue, 8 Feb 2022 12:22:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: Michael Cheng <michael.cheng@intel.com>,
 	intel-gfx@lists.freedesktop.org
 Subject: Re: [Intel-gfx] [PATCH v6 6/6] drm: Add arch arm64 for
  drm_clflush_virt_range
-Message-ID: <202202081151.wYD1tE4p-lkp@intel.com>
+Message-ID: <202202081258.VY7Y7JnA-lkp@intel.com>
 References: <20220207201127.648624-7-michael.cheng@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -61,8 +61,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lucas.demarchi@intel.com, michael.cheng@intel.com, llvm@lists.linux.dev,
- kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org
+Cc: lucas.demarchi@intel.com, michael.cheng@intel.com, kbuild-all@lists.01.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -78,33 +78,37 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220208-041326
 base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-config: arm64-randconfig-r005-20220207 (https://download.01.org/0day-ci/archive/20220208/202202081151.wYD1tE4p-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0d8850ae2cae85d49bea6ae0799fa41c7202c05c)
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20220208/202202081258.VY7Y7JnA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
         # https://github.com/0day-ci/linux/commit/f2fb6ade1531d88b046e245e8b854a7422a05a14
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220208-041326
         git checkout f2fb6ade1531d88b046e245e8b854a7422a05a14
         # save the config file to linux build tree
         mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_cache.c:182:25: error: passing 'void' to parameter of incompatible type 'unsigned long'
-           flush_tlb_kernel_range(*addr, *end);
-                                  ^~~~~
-   arch/arm64/include/asm/tlbflush.h:374:57: note: passing argument to parameter 'start' here
-   static inline void flush_tlb_kernel_range(unsigned long start, unsigned long end)
-                                                           ^
-   1 error generated.
+   drivers/gpu/drm/drm_cache.c: In function 'drm_clflush_virt_range':
+>> drivers/gpu/drm/drm_cache.c:182:32: warning: dereferencing 'void *' pointer
+     182 |         flush_tlb_kernel_range(*addr, *end);
+         |                                ^~~~~
+   drivers/gpu/drm/drm_cache.c:182:39: warning: dereferencing 'void *' pointer
+     182 |         flush_tlb_kernel_range(*addr, *end);
+         |                                       ^~~~
+>> drivers/gpu/drm/drm_cache.c:182:32: error: invalid use of void expression
+     182 |         flush_tlb_kernel_range(*addr, *end);
+         |                                ^~~~~
+   drivers/gpu/drm/drm_cache.c:182:39: error: invalid use of void expression
+     182 |         flush_tlb_kernel_range(*addr, *end);
+         |                                       ^~~~
 
 
 vim +182 drivers/gpu/drm/drm_cache.c
