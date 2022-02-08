@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C264ADC4E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 16:19:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E204ADC53
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 16:19:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F05810E61C;
-	Tue,  8 Feb 2022 15:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3315D10E44C;
+	Tue,  8 Feb 2022 15:19:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A69A710E189;
- Tue,  8 Feb 2022 15:19:21 +0000 (UTC)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC4A510E44C;
+ Tue,  8 Feb 2022 15:19:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644333561; x=1675869561;
+ t=1644333569; x=1675869569;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=Hr+erJv13IsDCdHfbYTGqKmwd31gTxSGKV+RdCXu8+8=;
- b=uguSAumhNz9M7nz0w4ogHeX2OLzf1KitGX+biyndm+2YHrPpZbFPg5yM
- XE+5z2Zhxo7JDE9Hl1/MuJ0mQ2CVcbJ28y/RVVt0IRDLZVeHK7I8+H/p3
- By30O12b6eLkUku37Qtx+7nl/gRCUGT+eJ66MUuq1A+DswkIuhmF1UZ/1 c=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 08 Feb 2022 07:19:21 -0800
+ bh=AehZw/m0Nas6LkoMeQNIU5pK46BRtTYHOumWG56ikG0=;
+ b=hgOJBvAlxmLb6nUD6tlDoriP0Zd2ycn9SAir6pqC6cSfeWj4D0Eg4wFK
+ KYSTkDxIFzeamgFC9sywTM354BPXsFPDXyFRWwDQ7CvVaFCPQxgAEl2mD
+ jWz0wK4TFL2MSSxvqYlk8X+B4mGsYhlVH0VdQ+JFjg3ALZry5FDJ8+14t c=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 08 Feb 2022 07:19:29 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 07:19:20 -0800
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2022 07:19:30 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 8 Feb 2022 07:19:19 -0800
+ 15.2.922.19; Tue, 8 Feb 2022 07:19:28 -0800
 Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 8 Feb 2022 07:19:13 -0800
+ 15.2.922.19; Tue, 8 Feb 2022 07:19:22 -0800
 From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
  <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
@@ -43,10 +44,9 @@ To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
  <seanpaul@chromium.org>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <krzysztof.kozlowski@canonical.com>, <thierry.reding@gmail.com>,
  <sam@ravnborg.org>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH v2 2/4] arm64: dts: qcom: sc7280: Add support for eDP panel on
- CRD
-Date: Tue, 8 Feb 2022 20:48:43 +0530
-Message-ID: <1644333525-30920-3-git-send-email-quic_sbillaka@quicinc.com>
+Subject: [PATCH v2 3/4] drm/panel-edp: Add eDP sharp panel support
+Date: Tue, 8 Feb 2022 20:48:44 +0530
+Message-ID: <1644333525-30920-4-git-send-email-quic_sbillaka@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1644333525-30920-1-git-send-email-quic_sbillaka@quicinc.com>
 References: <1644333525-30920-1-git-send-email-quic_sbillaka@quicinc.com>
@@ -72,185 +72,68 @@ Cc: quic_kalyant@quicinc.com, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the eDP display panel support without HPD on sc7280 platform.
+Add support for the 14" sharp,lq140m1jw46 eDP panel.
 
 Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 ---
 
 Changes in v2:
-  - sort node references alphabetically
-  - improve readability
-  - move the pwm pinctrl to pwm node
-  - move the regulators to root
-  - define backlight power
-  - remove dummy regulator node
-  - cleanup pinctrl definitions
+  - add mode when not using hpd
+  - add delays
+  - put dt-bindings
 
- arch/arm64/boot/dts/qcom/sc7280-crd.dts | 122 ++++++++++++++++++++++++++++++++
- arch/arm64/boot/dts/qcom/sc7280.dtsi    |   2 -
- 2 files changed, 122 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-edp.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280-crd.dts b/arch/arm64/boot/dts/qcom/sc7280-crd.dts
-index e2efbdd..bff2707 100644
---- a/arch/arm64/boot/dts/qcom/sc7280-crd.dts
-+++ b/arch/arm64/boot/dts/qcom/sc7280-crd.dts
-@@ -21,6 +21,34 @@
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
-+
-+	backlight_power: backlight-power {
-+		compatible = "regulator-fixed";
-+		regulator-name = "backlight_power";
-+
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+
-+		gpio = <&pm8350c_gpios 7 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&edp_bl_power>;
-+	};
-+
-+	edp_power: edp-power {
-+		compatible = "regulator-fixed";
-+		regulator-name = "edp_power";
-+
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+
-+		gpio = <&tlmm 80 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&edp_panel_power>;
-+	};
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index a394a15..5d13ccc 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1605,6 +1605,34 @@ static const struct panel_desc sharp_lq123p1jx31 = {
+ 	},
  };
  
- &apps_rsc {
-@@ -76,6 +104,42 @@ ap_ts_pen_1v8: &i2c13 {
- 	};
- };
- 
-+&edp_out {
-+	remote-endpoint = <&edp_panel_in>;
++static const struct drm_display_mode sharp_lq140m1jw46_mode = {
++	.clock = 144370,
++	.hdisplay = 1920,
++	.hsync_start = 1920 + 48,
++	.hsync_end = 1920 + 48 + 32,
++	.htotal = 1920 + 48 + 32 + 80,
++	.vdisplay = 1080,
++	.vsync_start = 1080 + 3,
++	.vsync_end = 1080 + 3 + 5,
++	.vtotal = 1080 + 3 + 5 + 69,
++	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
 +};
 +
-+&mdss {
-+	status = "okay";
++static const struct panel_desc sharp_lq140m1jw46 = {
++	.modes = &sharp_lq140m1jw46_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 309,
++		.height = 174,
++	},
++	.delay = {
++		.hpd_absent = 80,
++		.enable = 50,
++		.unprepare = 500,
++	},
 +};
 +
-+&mdss_edp {
-+	status = "okay";
-+
-+	vdda-1p2-supply = <&vreg_l6b_1p2>;
-+	vdda-0p9-supply = <&vreg_l10c_0p8>;
-+};
-+
-+&mdss_edp_phy {
-+	status = "okay";
-+
-+	vdda-1p2-supply = <&vreg_l6b_1p2>;
-+	vdda-0p9-supply = <&vreg_l10c_0p8>;
-+};
-+
-+&mdss_dp {
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&dp_hot_plug_det>;
-+	data-lanes = <0 1>;
-+	vdda-1p2-supply = <&vreg_l6b_1p2>;
-+	vdda-0p9-supply = <&vreg_l1b_0p8>;
-+};
-+
-+&mdss_mdp {
-+	status = "okay";
-+};
-+
- &nvme_3v3_regulator {
- 	gpio = <&tlmm 51 GPIO_ACTIVE_HIGH>;
- };
-@@ -84,7 +148,65 @@ ap_ts_pen_1v8: &i2c13 {
- 	pins = "gpio51";
- };
- 
-+&pm8350c_pwm {
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&edp_bl_pwm>;
-+};
-+
-+&pm8350c_gpios {
-+	edp_bl_power: edp-bl-power {
-+		pins = "gpio7";
-+		function = "normal";
-+		qcom,drive-strength = <PMIC_GPIO_STRENGTH_LOW>;
-+		bias-disable;
-+		output-low;
-+	};
-+
-+	edp_bl_pwm: edp-bl-pwm {
-+		pins = "gpio8";
-+		function = "func1";
-+		qcom,drive-strength = <PMIC_GPIO_STRENGTH_LOW>;
-+		bias-disable;
-+		output-low;
-+	};
-+};
-+
-+&soc {
-+	edp_backlight: edp-backlight {
-+		compatible = "pwm-backlight";
-+
-+		power-supply = <&backlight_power>;
-+		pwms = <&pm8350c_pwm 3 65535>;
-+	};
-+
-+	edp_panel: edp_panel {
-+		compatible = "sharp,lq140m1jw46";
-+
-+		power-supply = <&edp_power>;
-+		backlight = <&edp_backlight>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			port@0 {
-+				reg = <0>;
-+				edp_panel_in: endpoint {
-+					remote-endpoint = <&edp_out>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &tlmm {
-+	edp_panel_power: edp-panel-power {
-+		pins = "gpio80";
-+		function = "gpio";
-+		bias-pull-down;
-+	};
-+
- 	tp_int_odl: tp-int-odl {
- 		pins = "gpio7";
- 		function = "gpio";
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index 3572399..f8fa716 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -3012,8 +3012,6 @@
- 
- 			mdss_edp: edp@aea0000 {
- 				compatible = "qcom,sc7280-edp";
--				pinctrl-names = "default";
--				pinctrl-0 = <&edp_hot_plug_det>;
- 
- 				reg = <0 0xaea0000 0 0x200>,
- 				      <0 0xaea0200 0 0x200>,
+ static const struct drm_display_mode starry_kr122ea0sra_mode = {
+ 	.clock = 147000,
+ 	.hdisplay = 1920,
+@@ -1719,6 +1747,9 @@ static const struct of_device_id platform_of_match[] = {
+ 		.compatible = "sharp,lq123p1jx31",
+ 		.data = &sharp_lq123p1jx31,
+ 	}, {
++		.compatible = "sharp,lq140m1jw46",
++		.data = &sharp_lq140m1jw46,
++	}, {
+ 		.compatible = "starry,kr122ea0sra",
+ 		.data = &starry_kr122ea0sra,
+ 	}, {
 -- 
 2.7.4
 
