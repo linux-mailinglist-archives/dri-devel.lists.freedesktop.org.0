@@ -1,81 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5214ADD02
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 16:40:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE5F4ADD3C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 16:44:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2D0910E64E;
-	Tue,  8 Feb 2022 15:40:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B71B310E646;
+	Tue,  8 Feb 2022 15:44:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 112E910E64E
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 15:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644334816;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R3+ygx7WT3LgjARaNLFe1zhALwKjcISILkzjd4t3g78=;
- b=QrBnP80borMCiE9iMIYH0/RL+5dFSfYpD2wxs02qMZFaeCYJRgeAuHDrlEpf8YzRGS2Y0T
- +jgpSyp+MOifsvLvBjyA+TvQCSoSjXRkKHGPvFMUNEGDrGXTiVsONPs/yz7yChXnMvjEAS
- 9nF+157J6zhEEr8TrSh2SjNhn0OF0z0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-48-gOc3cbvxN2e5qnZHyz6-Zg-1; Tue, 08 Feb 2022 10:40:15 -0500
-X-MC-Unique: gOc3cbvxN2e5qnZHyz6-Zg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- p9-20020adf9589000000b001e333885ac1so1382988wrp.10
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 07:40:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=R3+ygx7WT3LgjARaNLFe1zhALwKjcISILkzjd4t3g78=;
- b=BiBvjxnUEufR+GctQqRTOolCg8huEvOHcCwva4YbnV90yme5uS5MJTlrXOc1z7ksn2
- y1tkjCuhfNOzk6xI8/g5+0a7a4VOnlY3/yqDWeZsyfTBQuFnAY7GRbIuNp831tnCJ0hi
- U99Hx+y5anGIqnr864x8mU1Faq8FbokCYbCfmPOGZE7SR+fIU4/C4iqQe40+C4ZcLUxq
- hnZ5QshU5i4oQDmJIYjXHP1xlfhGyHBoeDM/9L9IG4bBbn8J482QkHnlRqQp1+cRqVBe
- 0TWdbEKVFtwcu4omvrL2XOAEF0K2ltaA6Blzav8d00jYt0qsbPzCjfKtlBhjuymUFYjE
- 1Y3w==
-X-Gm-Message-State: AOAM531wQoVrkRaR23Rnew1StwR1pm/09bczFWcRdr6Ky68R/IzV4uGH
- b1Md5OWByhqJFP3ULhLXOoQg2YCS6cyAyBhNfbIqQQHsIx6iqkjz3rmDcyQIWgyC5C7+NXChSbZ
- PYlk1viJcmq6LZA8D3eTVXJkLp2iY
-X-Received: by 2002:a5d:588e:: with SMTP id n14mr4244921wrf.45.1644334814511; 
- Tue, 08 Feb 2022 07:40:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwgsRW+lrC/D9yn6NeNRRQqunCaYEb9CMC26g+Mn3KPfiRrXRhLKFGC8C3j1dq2BkDZsEKSLg==
-X-Received: by 2002:a5d:588e:: with SMTP id n14mr4244901wrf.45.1644334814281; 
- Tue, 08 Feb 2022 07:40:14 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id v18sm9972089wrm.105.2022.02.08.07.40.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 07:40:14 -0800 (PST)
-Message-ID: <02d5b225-e1a8-77f6-7e4e-18d6a1df5e48@redhat.com>
-Date: Tue, 8 Feb 2022 16:40:12 +0100
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB42A10E646
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 15:44:32 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 218AXaZg001203;
+ Tue, 8 Feb 2022 16:44:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=ddNKQeBNsufwtCR82T3hW0VvpqNHVS9IOC40mmH+H4Y=;
+ b=r7xz+kjguAgrfwFsWKvHgj8PszyLfubCiP0Sm9Ix80tW1MFjXbvTFgXLqOTb7v6CwgdB
+ oCSg34AYk0aNVKnfP3wIlIM/vbiYxBTIcgevTazRr8y0P7jh7PskiqSjKQF6l8KlR0Ql
+ kxt9VIzRQQ7jN3sKzPe7AUgjqcslVHx5lRerGl5Pxj8YS61QlE242zVsdyTSOss2myJT
+ dtgjyEKvMhFwkjXAU1wgO9oVMLqUNPJ+trprw16r+NFf9dMrnoRu46SDsNsYIwQrXTMh
+ c3gAdRYfYxom5aFLtg00gc4BeWUM9ZXD9CU3X82sAI1lDAI4UVzjr9PJTwK40GKW0vQo +g== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3e37nk5n3r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Feb 2022 16:44:19 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E317F10002A;
+ Tue,  8 Feb 2022 16:44:17 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D584E221778;
+ Tue,  8 Feb 2022 16:44:17 +0100 (CET)
+Received: from [10.129.7.146] (10.75.127.51) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Tue, 8 Feb
+ 2022 16:44:17 +0100
+Message-ID: <aea58d59-9b1c-608b-7212-1d64ce2f07db@foss.st.com>
+Date: Tue, 8 Feb 2022 16:44:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED
- displays
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <CAMuHMdVTVX7LFay-rfv=oW96dMA24duMUVGRE62jQSNkrKtyMg@mail.gmail.com>
- <f178de92-7cb1-dcc5-1f60-9ccfc56bc0a4@redhat.com>
- <CAMuHMdWvrJip+W6ZZoO2ZURLc5CYmFno3=Sa2mL4xJE8gMzFqg@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAMuHMdWvrJip+W6ZZoO2ZURLc5CYmFno3=Sa2mL4xJE8gMzFqg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH] drm/stm: Avoid using val uninitialized in
+ ltdc_set_ycbcr_config()
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Nathan Chancellor <nathan@kernel.org>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Benjamin Gaignard
+ <benjamin.gaignard@linaro.org>
+References: <20220207165304.1046867-1-nathan@kernel.org>
+From: yannick Fertre <yannick.fertre@foss.st.com>
+In-Reply-To: <20220207165304.1046867-1-nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.51]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-08_05,2022-02-07_02,2021-12-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,59 +73,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Sam Ravnborg <sam@ravnborg.org>, Linux PWM List <linux-pwm@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Mark Brown <broonie@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/8/22 16:23, Geert Uytterhoeven wrote:
+Hi Nathan,
+Thenks for the patch.
 
-[snip]
+Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
->>>   - The logo (I have a custom monochrome logo enabled) is no longer shown.
->>
->> I was able to display your tux monochrome with ./fbtest -f /dev/fb1 test004
+Best regards
+
+On 2/7/22 17:53, Nathan Chancellor wrote:
+> Clang warns:
 > 
-> I meant the kernel's logo (FB_LOGO_*),. Obviously you need to enable
-> a smaller one, as the default 80x80 logo is too large, and thus can't
-> be drawn on your 128x64 or my 128x32 display.
->
-
-That makes sense.
- 
->>>   - The screen is empty, with a (very very slow) flashing cursor in the
->>>     middle of the screen, with a bogus long line next to it, which I can
->>>     see being redrawn.
->>>   - Writing text (e.g. hello) to /dev/tty0, I first see the text,
->>>     followed by an enlargement of some of the characters.
->>
->> So far I was mostly testing using your fbtest repo tests and all of them
->> (modulo test009 that says "Screen size too small for this test").
->>
->> But I've tried now using as a VT and I see the same visual artifacts. I
->> wonder what's the difference between fbcon and the way your tests use
->> the fbdev API.
+>    drivers/gpu/drm/stm/ltdc.c:625:2: warning: variable 'val' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+>            default:
+>            ^~~~~~~
+>    drivers/gpu/drm/stm/ltdc.c:635:2: note: uninitialized use occurs here
+>            val |= LxPCR_YCEN;
+>            ^~~
+>    drivers/gpu/drm/stm/ltdc.c:600:9: note: initialize the variable 'val' to silence this warning
+>            u32 val;
+>                   ^
+>                    = 0
+>    1 warning generated.
 > 
-> Fbcon does small writes to the shadow frame buffer, while fbtest
-> writes to the mmap()ed /dev/fbX, causing a full page to be updated.
->
-
-I see. Thanks for the information.
-
-Best regards, -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+> Use a return instead of break in the default case to fix the warning.
+> Add an error message so that this return is not silent, which could hide
+> issues in the future.
+> 
+> Fixes: 484e72d3146b ("drm/stm: ltdc: add support of ycbcr pixel formats")
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1575
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>   drivers/gpu/drm/stm/ltdc.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index 5eeb32c9c9ce..447ddde1786c 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -624,7 +624,8 @@ static inline void ltdc_set_ycbcr_config(struct drm_plane *plane, u32 drm_pix_fm
+>   		break;
+>   	default:
+>   		/* RGB or not a YCbCr supported format */
+> -		break;
+> +		drm_err(plane->dev, "Unsupported pixel format: %u\n", drm_pix_fmt);
+> +		return;
+>   	}
+>   
+>   	/* Enable limited range */
+> 
+> base-commit: 542898c5aa5c6a3179dffb1d1606884a63f75fed
