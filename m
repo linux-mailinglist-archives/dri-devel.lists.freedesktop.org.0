@@ -1,54 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA3E4AD444
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 10:03:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE314AD44C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 10:04:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 028C110E28D;
-	Tue,  8 Feb 2022 09:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E516D10E1AB;
+	Tue,  8 Feb 2022 09:04:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3D3910E1AB;
- Tue,  8 Feb 2022 09:03:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644310982; x=1675846982;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=6gsHdhECg7qlbF1Xa5g8nzFYNyaEDNCQeKH80eWPTZo=;
- b=nk+a4NLEYtdW+izBOOy4icDWG1aFRPoSLUDkjPaU3HcjpHBNGzXKxYPC
- AoBTfC0TshuCQg0uJd91UA9Tydx4WJgNWfnty9iddmBGw3L6Oz9llJk6w
- 4S+QyK0LyQO07IVkTwjSHWk+F72ZAnpk0C6FUvry2B2jXSOmINqsq8oVq
- 7+c3rR9rgKxLVyH5yv8HOZvVwoKU6OpDTA4le4NhNgNPooplHqk7/KtFE
- K+3dE+Jb4n0p/Guvno0jK7h5oFLd3IUcEsEtl6QvJ+1Cczo/4LC4PCren
- 0J7E0BcwclSdRsFGgyinFC33Z9zdoFcZkt/EUEMdRnGe9BypUwCQx7KzQ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="249113691"
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="249113691"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 01:03:01 -0800
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="484742565"
-Received: from kgonza2-mobl2.gar.corp.intel.com (HELO [10.213.198.226])
- ([10.213.198.226])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 01:02:59 -0800
-Message-ID: <1616b843-7fb0-8d81-c152-128fe9da8d28@linux.intel.com>
-Date: Tue, 8 Feb 2022 09:02:57 +0000
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7208710E1AB
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 09:04:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 5ED6B1F4474E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1644311042;
+ bh=9sgJPXTqfK75Hu2kDZUDOsgZGJfuQ/MhsF+51PqY9d8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cxeCpY9JpTWim2lNGoN3hul0SMhHdA/NQydI8he7rdyfhWY7N9QUuad1cg8/AY4EW
+ E55D03ZuSDgOfbQo4tRF+hDHOQ2ew1uqD3KM63YuMNQjiS/tdWjLKKh5/1VY6lipsm
+ qEdIcTrFzLViuTltNWGVYE8IksuFoKoGdyXIw0n6DgNseDxH9jb+vFIbW3bvH6kAK4
+ gWmHxHi/8YMCppgoaUyjEncsnx7jK9hhehV6oZp0HyEw37HccDD37SONlwwcufc+KW
+ O4YMvTxxPVG/z2Sxymn98QaaU75LOL234XZt1qXP0oqe2GItnewSEEqfgAVwFpELgh
+ lmXub2km4nYnQ==
+Message-ID: <bf486a23-4322-328e-abdc-962a66792f23@collabora.com>
+Date: Tue, 8 Feb 2022 10:03:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH v5 0/5] Use drm_clflush* instead of clflush
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v4] drm/mediatek: mtk_dsi: Avoid EPROBE_DEFER loop with
+ external bridge
 Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Michael Cheng <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220204163711.439403-1-michael.cheng@intel.com>
- <f245951e-6f6c-1eab-7cba-ccb774db1194@linux.intel.com>
- <87pmnyrglt.fsf@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <87pmnyrglt.fsf@intel.com>
+To: CK Hu <ck.hu@mediatek.com>, dri-devel@lists.freedesktop.org
+References: <20220131085520.287105-1-angelogioacchino.delregno@collabora.com>
+ <20755168cc2be0d1bb5e40907cfe27cea25a9363.camel@mediatek.com>
+ <b886b9a8a3368127be7357e8921e18358987033d.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <b886b9a8a3368127be7357e8921e18358987033d.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,42 +52,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lucas.demarchi@intel.com, dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ Jagan Teki <jagan@amarulasolutions.com>, andrzej.hajda@intel.com,
+ matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 07/02/2022 12:44, Jani Nikula wrote:
-> On Mon, 07 Feb 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->> On 04/02/2022 16:37, Michael Cheng wrote:
->>> This patch series re-work a few i915 functions to use drm_clflush_virt_range
->>> instead of calling clflush or clflushopt directly. This will prevent errors
->>> when building for non-x86 architectures.
->>>
->>> v2: s/PAGE_SIZE/sizeof(value) for Re-work intel_write_status_page and added
->>> more patches to convert additional clflush/clflushopt to use drm_clflush*.
->>> (Michael Cheng)
->>>
->>> v3: Drop invalidate_csb_entries and directly invoke drm_clflush_virt_ran
->>>
->>> v4: Remove extra memory barriers
->>>
->>> v5: s/cache_clflush_range/drm_clflush_virt_range
->>
->> Is anyone interested in this story noticing my open? I will repeat:
->>
->> How about we add i915_clflush_virt_range as static inline and by doing
->> so avoid adding function calls to code paths which are impossible on Arm
->> builds? Case in point relocations, probably execlists backend as well.
->>
->> Downside would be effectively duplicating drm_clfush_virt_range code.
->> But for me, (Also considering no other driver calls it so why it is
->> there? Should it be deleted?), that would be okay.
+Il 08/02/22 09:32, CK Hu ha scritto:
+> Hi, Angelo:
 > 
-> Keep it simple first, optimize later if necessary?
+> On Tue, 2022-02-08 at 16:20 +0800, CK Hu wrote:
+>> Hi, Angelo:
+>>
+>> On Mon, 2022-01-31 at 09:55 +0100, AngeloGioacchino Del Regno wrote:
+>>> DRM bridge drivers are now attaching their DSI device at probe
+>>> time,
+>>> which requires us to register our DSI host in order to let the
+>>> bridge
+>>> to probe: this recently started producing an endless -EPROBE_DEFER
+>>> loop on some machines that are using external bridges, like the
+>>> parade-ps8640, found on the ACER Chromebook R13.
+>>>
+>>> Now that the DSI hosts/devices probe sequence is documented, we can
+>>> do adjustments to the mtk_dsi driver as to both fix now and make
+>>> sure
+>>> to avoid this situation in the future: for this, following what is
+>>> documented in drm_bridge.c, move the mtk_dsi component_add() to the
+>>> mtk_dsi_ops.attach callback and delete it in the detach callback;
+>>> keeping in mind that we are registering a drm_bridge for our DSI,
+>>> which is only used/attached if the DSI Host is bound, it wouldn't
+>>> make sense to keep adding our bridge at probe time (as it would
+>>> be useless to have it if mtk_dsi_ops.attach() fails!), so also move
+>>> that one to the dsi host attach function (and remove it in detach).
+>>>
+>>> Cc: <stable@vger.kernel.org> # 5.15.x
+>>> Signed-off-by: AngeloGioacchino Del Regno <
+>>> angelogioacchino.delregno@collabora.com>
+>>> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+>>> Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
+>>>
+>>> ---
+>>>   drivers/gpu/drm/mediatek/mtk_dsi.c | 167 +++++++++++++++----------
+>>> ----
+>>>   1 file changed, 84 insertions(+), 83 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+>>> b/drivers/gpu/drm/mediatek/mtk_dsi.c
+>>> index 5d90d2eb0019..bced4c7d668e 100644
+>>> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+>>> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+>>> @@ -786,18 +786,101 @@ void mtk_dsi_ddp_stop(struct device *dev)
+>>>   	mtk_dsi_poweroff(dsi);
+>>>   }
+>>>   
+>>>
+>>
+>> [snip]
+>>
+>>> +
+>>>   static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
+>>>   			       struct mipi_dsi_device *device)
+>>>   {
+>>>   	struct mtk_dsi *dsi = host_to_dsi(host);
+>>> +	struct device *dev = host->dev;
+>>> +	int ret;
+>>>   
+>>>   	dsi->lanes = device->lanes;
+>>>   	dsi->format = device->format;
+>>>   	dsi->mode_flags = device->mode_flags;
+>>> +	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0,
+>>> 0);
+>>
+>> The original would process panel. Why do you remove the panel part?
+>> It's better that someone has a platform of DSI->Panel to test this
+>> patch.
+> 
+> Sorry, devm_drm_of_get_bridge() has processed the panel part, so for
+> this patch,
+> 
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> 
 
-I don't think it would ever happen unless done from the start. :/
+No worries! Thanks for the review/approval.
 
 Regards,
+Angelo
 
-Tvrtko
+>>
+>> Regards,
+>> CK
+>>
