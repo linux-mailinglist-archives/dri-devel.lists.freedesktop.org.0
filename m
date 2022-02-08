@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA554AE2CC
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 22:05:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8364AE2CB
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 22:05:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39A5710E388;
-	Tue,  8 Feb 2022 21:05:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F08710E275;
+	Tue,  8 Feb 2022 21:05:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9683610E275;
- Tue,  8 Feb 2022 21:05:11 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BED0B10E24B;
+ Tue,  8 Feb 2022 21:05:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644354311; x=1675890311;
+ t=1644354312; x=1675890312;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=WDHseBhjzcsQgn9JFZ5GO43d+BRnMramJiKZw+0ghmM=;
- b=CKMsBZK1Ntd2hmmaWule4tA6Szj43Xeq2V76drHOXNi0rf6QT97GKFU4
- o7TLo9uFLuRgEkyLt4p6mEhnH/SN1fnPmLDRmOAniVD023A7OmZtIPByY
- J0t5YqRFS4HHXD/kCLGBFts50PB8KO2+i/8s0gWBZOvCL5hOfLRoaQotD
- JXZEG0U9CXuLe/+dntPz3+Pd2Gx+0aqxyAyHoDUzEqPBExc1c9mdfo/Z9
- ub1OOW8ziacujdH9KB0Ov9ZckEB9gY6RWRjk7Mnn2Ta9RrA4L6ajHk/xV
- gO9PIEWcA3su1Q1D5jFMRRihTePHKgH3FVYxqVal+YwJoii7RduxKs9f1 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="335454244"
-X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; d="scan'208";a="335454244"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 13:05:10 -0800
-X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; d="scan'208";a="482080859"
+ bh=0WtSAqBxNaHkhuPNDVZQh7lGa8qqdWEbVRypYzph9ys=;
+ b=Cuha5/puANA+cxoy9l5G43U9DUfVRNt8dpZmQhk4Sfb2M64L9s3iWESC
+ Ta9I/ykedTUjINA+iIkLEiuor0AIoR1OBCgSt8kJNNyQZTrbzBNxNGkLW
+ x5c0/scO6ZHkbkzI6gS3HhPMqDedgMuWZHOh6MrRHCp55maRUEFQjp0jZ
+ 9zTwcSknNMb8QWxuvJKk54gIyQbkuyBfmNtkdlDR/gQ7vKMCl7ySQXK04
+ cxaOg4JDJjw4a1SfavHUx2jLAvSjBuSeD1TOrtjJx580qPzhCORzf8i9b
+ 6YD+8y90I0bFvH3o3fdpFGsA/RTI2mTBrrxF8E9nSRQ+eysBeqMTEQOiS w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="236459630"
+X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; d="scan'208";a="236459630"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2022 13:05:11 -0800
+X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; d="scan'208";a="499706599"
 Received: from fpaillet-mobl.amr.corp.intel.com (HELO localhost)
  ([10.209.65.117])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 13:05:10 -0800
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2022 13:05:11 -0800
 From: Jordan Justen <jordan.l.justen@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v3 3/4] drm/i915/uapi: Add struct
- drm_i915_query_hwconfig_blob_item
-Date: Tue,  8 Feb 2022 13:05:02 -0800
-Message-Id: <20220208210503.869491-4-jordan.l.justen@intel.com>
+Subject: [PATCH v3 4/4] drm/i915/guc: Verify hwconfig blob matches supported
+ format
+Date: Tue,  8 Feb 2022 13:05:03 -0800
+Message-Id: <20220208210503.869491-5-jordan.l.justen@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220208210503.869491-1-jordan.l.justen@intel.com>
 References: <20220208210503.869491-1-jordan.l.justen@intel.com>
@@ -58,65 +58,109 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jordan Justen <jordan.l.justen@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Also, document DRM_I915_QUERY_HWCONFIG_BLOB with this struct.
+i915_drm.h now defines the format of the returned
+DRM_I915_QUERY_HWCONFIG_BLOB query item. Since i915 receives this from
+the black box GuC software, it should verify that the data matches
+that format before sending it to user-space.
+
+The verification makes a single simple pass through the blob contents,
+so this verification step should not add a significant amount of init
+time to i915.
 
 v3:
  * Add various changes suggested by Tvrtko
 
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Jordan Justen <jordan.l.justen@intel.com>
 ---
- include/uapi/drm/i915_drm.h | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.c   | 56 ++++++++++++++++++-
+ 1 file changed, 53 insertions(+), 3 deletions(-)
 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 069d2fadfbd9..c3faee3b3f70 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -3276,6 +3276,38 @@ struct drm_i915_gem_create_ext_protected_content {
- 	__u32 flags;
- };
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+index ce6088f112d4..350a0517b9f0 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+@@ -71,7 +71,52 @@ static int guc_hwconfig_discover_size(struct intel_guc_hwconfig *hwconfig)
+ 	return 0;
+ }
  
-+/**
-+ * DOC: GuC HWCONFIG blob uAPI
-+ *
-+ * The GuC produces a blob with information about the current device.
-+ * i915 reads this blob from GuC and makes it available via this uAPI.
-+ *
-+ * The returned blob is a sequence of items of variable length
-+ * described by struct drm_i915_query_hwconfig_blob_item. The
-+ * drm_i915_query_hwconfig_blob_item length field gives the length of
-+ * the drm_i915_query_hwconfig_blob_item data[] array for the item and
-+ * thereby determines the length of that item. The key and length
-+ * fields are required, so the minimum item size is 2 x __u32, or 8
-+ * bytes.
-+ *
-+ * The overall blob returned by DRM_I915_QUERY_HWCONFIG_BLOB will end
-+ * at the same location as the end of the final
-+ * drm_i915_query_hwconfig_blob_item. In other words, walking through
-+ * the individual items is guaranteed to eventually arrive at the
-+ * exact end of the entire blob.
-+ *
-+ * The meaning of the key field and the data values are documented in
-+ * the Programmer's Reference Manual.
-+ */
-+struct drm_i915_query_hwconfig_blob_item {
-+	/** @key: Enum which defines how to interpret @data values. */
-+	__u32 key;
-+	/** @length: Length of the @data array. */
-+	__u32 length;
-+	/** @key: Array of values with meaning defined by @key */
-+	__u32 data[];
-+};
+-static int guc_hwconfig_fill_buffer(struct intel_guc_hwconfig *hwconfig)
++static int verify_hwconfig_blob(struct drm_device *drm,
++				const struct intel_guc_hwconfig *hwconfig)
++{
++	struct drm_i915_query_hwconfig_blob_item *pos;
++	u32 remaining;
 +
- /* ID of the protected content session managed by i915 when PXP is active */
- #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
++	if (hwconfig->size % 4 != 0 || hwconfig->ptr == NULL)
++		return -EINVAL;
++
++	pos = hwconfig->ptr;
++	/* The number of dwords in the blob to validate. Each loop
++	 * pass will process at least 2 dwords corresponding to the
++	 * key and length fields of the item. In addition, the length
++	 * field of the item indicates the length of the data array,
++	 * and that number of dwords will be processed (skipped) as
++	 * well.
++	 */
++	remaining = hwconfig->size / 4;
++
++	while (remaining > 0) {
++		/* Each item requires at least 2 dwords for the key
++		 * and length fields. If the length field is 0, then
++		 * the data array would be of length 0.
++		 */
++		if (remaining < 2)
++			return -EINVAL;
++		/* remaining >= 2, so subtracting 2 is ok, whereas
++		 * adding 2 to pos->length could overflow.
++		 */
++		if (pos->length > remaining - 2)
++			return -EINVAL;
++		/* The length check above ensures that the adjustment
++		 * of the remaining variable will not underflow, and
++		 * that the adjustment of the pos variable will not
++		 * pass the end of the blob data.
++		 */
++		remaining -= 2 + pos->length;
++		pos = (void *)&pos->data[pos->length];
++	}
++
++	drm_dbg(drm, "hwconfig blob format is valid\n");
++	return 0;
++}
++
++static int guc_hwconfig_fill_buffer(struct drm_device *drm,
++				    struct intel_guc_hwconfig *hwconfig)
+ {
+ 	struct intel_guc *guc = hwconfig_to_guc(hwconfig);
+ 	struct i915_vma *vma;
+@@ -88,8 +133,13 @@ static int guc_hwconfig_fill_buffer(struct intel_guc_hwconfig *hwconfig)
+ 	ggtt_offset = intel_guc_ggtt_offset(guc, vma);
  
+ 	ret = __guc_action_get_hwconfig(hwconfig, ggtt_offset, hwconfig->size);
+-	if (ret >= 0)
++	if (ret >= 0) {
+ 		memcpy(hwconfig->ptr, vaddr, hwconfig->size);
++		if (verify_hwconfig_blob(drm, hwconfig)) {
++			drm_err(drm, "Ignoring invalid hwconfig blob received from GuC!\n");
++			ret = -EINVAL;
++		}
++	}
+ 
+ 	i915_vma_unpin_and_release(&vma, I915_VMA_RELEASE_MAP);
+ 
+@@ -141,7 +191,7 @@ int intel_guc_hwconfig_init(struct intel_guc_hwconfig *hwconfig)
+ 		return -ENOMEM;
+ 	}
+ 
+-	ret = guc_hwconfig_fill_buffer(hwconfig);
++	ret = guc_hwconfig_fill_buffer(&i915->drm, hwconfig);
+ 	if (ret < 0) {
+ 		intel_guc_hwconfig_fini(hwconfig);
+ 		return ret;
 -- 
 2.34.1
 
