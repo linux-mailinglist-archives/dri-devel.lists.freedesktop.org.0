@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1414AE29A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 21:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE1B4AE2A5
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 21:46:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 338EF10E2D4;
-	Tue,  8 Feb 2022 20:34:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24E4E10E18C;
+	Tue,  8 Feb 2022 20:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 435AB10E1F1;
- Tue,  8 Feb 2022 20:34:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id 558071F450AA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1644352476;
- bh=7xQvHqE5JkxFe/B6GU5XOuYuw6gmCUNHi1lLN9/W+eo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M6+FjTNxa/BvKG9ip0I4YpTexVKfHVNgZrLnLDrKoh2FEb1ow32Rhn2d064vk+fta
- kSh8BujX0yQb0TbeKk/+AAaWtc4wO/vu5Ud1I2Wo6RIeImLmJNGDPMU4YS5aEu5yle
- IlfvvaHz8MTq2xUl/phMYahYiIdjCiK9etvvRacW2iJOywExOSgWe8giMwPL06iJ1c
- oX4u3r+cV/c+D85+pqq4kzw8J1P3jJoZFGnZ+iYATBeLSVUAGvRuqhlYlstRjGa/TF
- acoy5vh6mbPEFBPSQiQmyYbRZWrQQ2mhz7Gom5JW43l3W9gxlGw5AZIPJgX/WSbDbR
- hFunc0nxpxAhw==
-From: Robert Beckett <bob.beckett@collabora.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v8 5/5] drm/i915/uapi: document behaviour for DG2 64K support
-Date: Tue,  8 Feb 2022 20:34:19 +0000
-Message-Id: <20220208203419.1094362-6-bob.beckett@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220208203419.1094362-1-bob.beckett@collabora.com>
-References: <20220208203419.1094362-1-bob.beckett@collabora.com>
+Received: from desiato.infradead.org (desiato.infradead.org
+ [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4099C10E18C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 20:46:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+ :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=yF5UcKFGU/samSHsGDregSgKCpT7s6aDPXmfk7zYBtM=; b=XzuhX99mlQKkLO0D7MPlvbCNsT
+ S3nvR89L000uXMP1dF73NgG5R/DKClIfbKDjATU8dyILBRZvZ7ciQBAR5zixVjJR//QA9YNHEx7Yn
+ mMG9ZakZFzDUEw//XZ1DyFbHoG/noPZMwx7F7AE09AzErpwRW3Cw48kQJz1BvN69NncNAfPvHdfFC
+ U3Vp9c/9pNtbRhVLp/PK/yw+/vED7AN+jdX6iw351ri8MOB/no/5JRjjX/DWGbZLp7JBsZhmOP+AM
+ s80dMNqw0gY2sFrJbn8WAa/5fYfcl2foE6qCMRjfQ/D90FooMFBSmCVeLadar6siVCOjHEvcFhsHZ
+ 1o4bKxlA==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+ by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nHXMv-008DTy-C8; Tue, 08 Feb 2022 20:45:46 +0000
+Message-ID: <2434f050-b82c-03e6-ee8f-8c8799119815@infradead.org>
+Date: Tue, 8 Feb 2022 12:45:38 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: Kconfig CONFIG_FB dependency regression
+Content-Language: en-US
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Arnd Bergmann <arnd@kernel.org>
+References: <6fc4a81f-1a13-bff9-7b2e-d5bec382cb42@synopsys.com>
+ <9bab4777-3034-b789-fdf6-ca8d7e6a8c35@infradead.org>
+ <CAOMZO5Aa4WxuadfoFGwwyYyD4UGPm-E258xTWU3-ozp_hwG-7g@mail.gmail.com>
+ <d8981e2a-4f61-72bb-e5cc-bf4ded29c08a@synopsys.com>
+ <CAK8P3a3ELrSC=KX6cr8UnP6kkJN0AXeAE4EG4oUY=Zz7gG_dgg@mail.gmail.com>
+ <b44de208-6d5f-3fcd-0e36-f05745297747@synopsys.com>
+ <CAK8P3a27RtHxYwtj=rjxcDzkMdKhC-w9ho=SApHpczma_vU8JQ@mail.gmail.com>
+ <6743d6b1-13fe-9c83-f706-82338dd03897@synopsys.com>
+ <7ed6137e-cf19-3614-9404-e89389411a8f@infradead.org>
+ <992f01cc-eb0c-b503-f9b4-4a037c6cf67a@synopsys.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <992f01cc-eb0c-b503-f9b4-4a037c6cf67a@synopsys.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,108 +60,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Beckett <bob.beckett@collabora.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Jordan Justen <jordan.l.justen@intel.com>,
- intel-gfx@lists.freedesktop.org, Kenneth Graunke <kenneth@whitecape.org>,
- Tony Ye <tony.ye@intel.com>, Slawomir Milczarek <slawomir.milczarek@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, mesa-dev@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ John Youn <John.Youn@synopsys.com>, Bing Yuan <Bing.Yuan@synopsys.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Auld <matthew.auld@intel.com>
+Hi--
 
-On discrete platforms like DG2, we need to support a minimum page size
-of 64K when dealing with device local-memory. This is quite tricky for
-various reasons, so try to document the new implicit uapi for this.
+On 2/8/22 12:10, Thinh Nguyen wrote:
+> Randy Dunlap wrote:
+>>
+>>
+>> On 2/3/22 19:21, Thinh Nguyen wrote:
+>>> Arnd Bergmann wrote:
+>>>> On Thu, Feb 3, 2022 at 12:55 AM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
+>>>>> Arnd Bergmann wrote:
+>>>>>> On Wed, Feb 2, 2022 at 1:14 AM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
+>>>>>>> Fabio Estevam wrote:
+>>>>>>
+>>>>>> CONFIG_FB should not normally be needed for booting, so unless
+>>>>>> you have a graphical application in your initramfs that requires the /dev/fb0
+>>>>>> device to work, it is not supposed to make a difference.
+>>>>>>
+>>>>>
+>>>>> I'm not sure, but it seems like the setup we have isn't the only one
+>>>>> that needed it. Fabio also noted that the imx_v6_v7_defconfig also needs
+>>>>> to have CONFIG_FB set.
+>>>>
+>>>> No, that one is different: the change for imx_v6_v7_defconfig was
+>>>> done because they actually use a framebuffer console on some devices,
+>>>> so the patch just adds the symbol to enable the drivers they are using.
+>>>>
+>>>> This is expected with my original patch that doesn't implicitly enable
+>>>> the framebuffer layer any more. What is not expected is for the kernel
+>>>> to hang during boot as you reported for your unidentified platform.
+>>>>
+>>>>>> Are there any other differences in your .config before and after the patch?
+>>>>>> It's possible that you use some other driver that in turn depends on
+>>>>>> CONFIG_FB. Does your machine have any graphical output device?
+>>>>>> If yes, which driver do you use?
+>>>>>
+>>>>> I don't have the answer to those questions yet. Need more investigation.
+>>>>> I'm new to this particular test setup.
+>>>>
+>>>> Do you mean you don't know if there is a screen attached to the system?
+>>>>
+>>>
+>>> It does have a graphical output device, but I didn't check what it is or
+>>> what driver is driving it. I just notice that after the reported commit,
+>>> something stopped working.
+>>>
+>>>>>>
+>>>>>> You may also want to make sure that you have 9d6366e743f3 ("drm:
+>>>>>> fb_helper: improve CONFIG_FB dependency") in your kernel, which
+>>>>>> fixes a minor problem with my original patch.
+>>>>>>
+>>>>>
+>>>>> The issue also occurs in mainline, which has your minor fix commit
+>>>>> above. The revert isn't clean for the latest kernel version. I also have
+>>>>> to revert some of the changes along with CONFIG_FB. The revert looks
+>>>>> more like this for the latest kernel:
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>>>>> index b1f22e457fd0..7cbc733a8569 100644
+>>>>> --- a/drivers/gpu/drm/Kconfig
+>>>>> +++ b/drivers/gpu/drm/Kconfig
+>>>>> @@ -118,8 +118,9 @@ config DRM_DEBUG_MODESET_LOCK
+>>>>>
+>>>>>  config DRM_FBDEV_EMULATION
+>>>>>         bool "Enable legacy fbdev support for your modesetting driver"
+>>>>> -       depends on DRM_KMS_HELPER
+>>>>> -       depends on FB=y || FB=DRM_KMS_HELPER
+>>>>> +       depends on DRM
+>>>>> +       select DRM_KMS_HELPER
+>>>>> +       select FB
+>>>>>         select FB_CFB_FILLRECT
+>>>>>         select FB_CFB_COPYAREA
+>>>>>         select FB_CFB_IMAGEBLIT
+>>>>>
+>>>>>
+>>>>>
+>>>>> I attached the configs for kernel v5.17-rc1. The "bad" config is without
+>>>>> any revert, the "good" config is with the change above.
+>>>>
+>>>> Looking at the config, I see that this is for an x86 machine,
+>>>> and you have the FB_EFI driver and EFI_EARLYCON enabled.
+>>>>
+>>>> What I suspec is going on is that you are looking at a screen rather
+>>>> than a serial console, and the kernel doesn't actually hang but you
+>>>> just don't see any more messages after the DRM driver takes
+>>>> over from EFI_EARLYCON because there is no console driver.
+>>>>
+>>>> In this case, what you see is the intended behavior, not a bug.
+>>>> If you want a graphical console in your system, you need to
+>>>> enable the support for this in your config.
+>>>>
+>>>
+>>> It sounds like that's the case. Unfortunately I'm not familiar with this
+>>> subsystem to say that's what happening. If there's nothing actually
+>>> broken from review, we can ignore this email thread.
+>>
+>> Hi,
+>> I don't know of anything that is broken...
+>>
+>> I am curious how CONFIG_FB_EFI came to be set when going from bad.config to
+>> good.config.  Can you explain that?
+>>
+> 
+> I just use the change above and "make" with olddefconfig option. Is it
+> not expected?
 
-v3: fix typos and less emphasis
-v2: Fixed suggestions on formatting [Daniel]
+Maybe I am not doing the same as you. If I take your previous bad.config
+with kernel v5.17-rc2 and use your Kconfig patch:
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-Acked-by: Jordan Justen <jordan.l.justen@intel.com>
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-cc: Simon Ser <contact@emersion.fr>
-cc: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Jordan Justen <jordan.l.justen@intel.com>
-Cc: Kenneth Graunke <kenneth@whitecape.org>
-Cc: mesa-dev@lists.freedesktop.org
-Cc: Tony Ye <tony.ye@intel.com>
-Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
----
- include/uapi/drm/i915_drm.h | 44 ++++++++++++++++++++++++++++++++-----
- 1 file changed, 39 insertions(+), 5 deletions(-)
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index b1f22e457fd0..7cbc733a8569 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -118,8 +118,9 @@ config DRM_DEBUG_MODESET_LOCK
 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 5e678917da70..77e5e74c32c1 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -1118,10 +1118,16 @@ struct drm_i915_gem_exec_object2 {
- 	/**
- 	 * When the EXEC_OBJECT_PINNED flag is specified this is populated by
- 	 * the user with the GTT offset at which this object will be pinned.
-+	 *
- 	 * When the I915_EXEC_NO_RELOC flag is specified this must contain the
- 	 * presumed_offset of the object.
-+	 *
- 	 * During execbuffer2 the kernel populates it with the value of the
- 	 * current GTT offset of the object, for future presumed_offset writes.
-+	 *
-+	 * See struct drm_i915_gem_create_ext for the rules when dealing with
-+	 * alignment restrictions with I915_MEMORY_CLASS_DEVICE, on devices with
-+	 * minimum page sizes, like DG2.
- 	 */
- 	__u64 offset;
- 
-@@ -3145,11 +3151,39 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * The (page-aligned) allocated size for the object will be returned.
- 	 *
--	 * Note that for some devices we have might have further minimum
--	 * page-size restrictions(larger than 4K), like for device local-memory.
--	 * However in general the final size here should always reflect any
--	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
--	 * extension to place the object in device local-memory.
-+	 *
-+	 * DG2 64K min page size implications:
-+	 *
-+	 * On discrete platforms, starting from DG2, we have to contend with GTT
-+	 * page size restrictions when dealing with I915_MEMORY_CLASS_DEVICE
-+	 * objects.  Specifically the hardware only supports 64K or larger GTT
-+	 * page sizes for such memory. The kernel will already ensure that all
-+	 * I915_MEMORY_CLASS_DEVICE memory is allocated using 64K or larger page
-+	 * sizes underneath.
-+	 *
-+	 * Note that the returned size here will always reflect any required
-+	 * rounding up done by the kernel, i.e 4K will now become 64K on devices
-+	 * such as DG2.
-+	 *
-+	 * Special DG2 GTT address alignment requirement:
-+	 *
-+	 * The GTT alignment will also need to be at least 2M for such objects.
-+	 *
-+	 * Note that due to how the hardware implements 64K GTT page support, we
-+	 * have some further complications:
-+	 *
-+	 *   1) The entire PDE (which covers a 2MB virtual address range), must
-+	 *   contain only 64K PTEs, i.e mixing 4K and 64K PTEs in the same
-+	 *   PDE is forbidden by the hardware.
-+	 *
-+	 *   2) We still need to support 4K PTEs for I915_MEMORY_CLASS_SYSTEM
-+	 *   objects.
-+	 *
-+	 * To keep things simple for userland, we mandate that any GTT mappings
-+	 * must be aligned to and rounded up to 2MB. As this only wastes virtual
-+	 * address space and avoids userland having to copy any needlessly
-+	 * complicated PDE sharing scheme (coloring) and only affects DG2, this
-+	 * is deemed to be a good compromise.
- 	 */
- 	__u64 size;
- 	/**
+ config DRM_FBDEV_EMULATION
+        bool "Enable legacy fbdev support for your modesetting driver"
+-       depends on DRM_KMS_HELPER
+-       depends on FB=y || FB=DRM_KMS_HELPER
++       depends on DRM
++       select DRM_KMS_HELPER
++       select FB
+        select FB_CFB_FILLRECT
+        select FB_CFB_COPYAREA
+        select FB_CFB_IMAGEBLIT
+
+and then run
+'make olddefconfig', I see:
+
+# CONFIG_FB_EFI is not set
+
+which is what I would expect to see.
+
+
+thanks.
 -- 
-2.25.1
-
+~Randy
