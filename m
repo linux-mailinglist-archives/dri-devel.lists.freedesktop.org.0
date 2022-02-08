@@ -1,53 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE1B4AE2A5
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 21:46:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B9F4AE2B1
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 21:56:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24E4E10E18C;
-	Tue,  8 Feb 2022 20:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9E410E17F;
+	Tue,  8 Feb 2022 20:56:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4099C10E18C
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 20:46:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=yF5UcKFGU/samSHsGDregSgKCpT7s6aDPXmfk7zYBtM=; b=XzuhX99mlQKkLO0D7MPlvbCNsT
- S3nvR89L000uXMP1dF73NgG5R/DKClIfbKDjATU8dyILBRZvZ7ciQBAR5zixVjJR//QA9YNHEx7Yn
- mMG9ZakZFzDUEw//XZ1DyFbHoG/noPZMwx7F7AE09AzErpwRW3Cw48kQJz1BvN69NncNAfPvHdfFC
- U3Vp9c/9pNtbRhVLp/PK/yw+/vED7AN+jdX6iw351ri8MOB/no/5JRjjX/DWGbZLp7JBsZhmOP+AM
- s80dMNqw0gY2sFrJbn8WAa/5fYfcl2foE6qCMRjfQ/D90FooMFBSmCVeLadar6siVCOjHEvcFhsHZ
- 1o4bKxlA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nHXMv-008DTy-C8; Tue, 08 Feb 2022 20:45:46 +0000
-Message-ID: <2434f050-b82c-03e6-ee8f-8c8799119815@infradead.org>
-Date: Tue, 8 Feb 2022 12:45:38 -0800
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D081910E17F
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 20:56:42 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id v12so569729wrv.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 12:56:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8rCyE259QoTAuF9ujcMI8WQXkRdDBnGG4G9shkzQjfs=;
+ b=TClcMH3/O8IpIo3td4YsN56mO1iC7OT2x7WX2FMn/DpIGkX8EwvlmyzJbHfyaO9kmA
+ QR+OyCNEr5uu9lVSwWwjtgl0lfk3CYGV3p3l0yw3SkRJWXcGZ93pUtqvBqM9Zhqox2W1
+ OsfUI+doa0d/YIr1nV4EX0pA8AvKm9sFFLitM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=8rCyE259QoTAuF9ujcMI8WQXkRdDBnGG4G9shkzQjfs=;
+ b=jtluOchyJJgw3e1stMhiigWonGffPcgACxADf32beLa0heA5MttXo++fsakm6OXew7
+ 1ZkfUVipyPuUeSyK52uoOlZHT6nmJFRpgNIxBIrJglxAKjfq42cg3Gun84JxgxcfL1El
+ j5uCCuukBBgX5fQYLt8nJkSG7has4QwcYu6Tnzi4PB/VQ0A3WlcUR099cWC8wb/VGTeE
+ Zc1y5i/dhZVgucxQmvfUXT5468cOSzh9wUxk275f0t7YWnk45H0ukwg9PSc+Rc3rRr15
+ LJ78XbePusMobT5pFqSpHEQ/angcNbWcNrvZKcQbi0iUeZORgtxY1GpLG2w9lH0GyoYA
+ WMHQ==
+X-Gm-Message-State: AOAM5334WyD+tDScPfgbm7WCkDXlB9fzrBThy1AZCiwCfRfnu9qKOIUA
+ MCtNrbzm4cquYZvhacf/AZP4qg==
+X-Google-Smtp-Source: ABdhPJz/N9Po0VxZ50ccE3Hf10GsDJ0883pAqCSvxgXcU5GA5wUMfraP7XMA8MXRBfr2C51K9jlMiQ==
+X-Received: by 2002:a05:6000:1a89:: with SMTP id
+ f9mr5048305wry.573.1644353801125; 
+ Tue, 08 Feb 2022 12:56:41 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id b16sm3490549wrj.26.2022.02.08.12.56.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 12:56:40 -0800 (PST)
+Date: Tue, 8 Feb 2022 21:56:38 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 21/21] fbdev: Make registered_fb[] private to fbmem.c
+Message-ID: <YgLZBlrXW+DYNkFN@phenom.ffwll.local>
+Mail-Followup-To: Sam Ravnborg <sam@ravnborg.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linux-fbdev@vger.kernel.org, Zheyu Ma <zheyuma97@gmail.com>,
+ Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+ Jens Frederich <jfrederich@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ linux-staging@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jon Nettleton <jon.nettleton@gmail.com>,
+ Helge Deller <deller@gmx.de>
+References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
+ <20220131210552.482606-22-daniel.vetter@ffwll.ch>
+ <YgK91i6zHWPBwYOq@ravnborg.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: Kconfig CONFIG_FB dependency regression
-Content-Language: en-US
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Arnd Bergmann <arnd@kernel.org>
-References: <6fc4a81f-1a13-bff9-7b2e-d5bec382cb42@synopsys.com>
- <9bab4777-3034-b789-fdf6-ca8d7e6a8c35@infradead.org>
- <CAOMZO5Aa4WxuadfoFGwwyYyD4UGPm-E258xTWU3-ozp_hwG-7g@mail.gmail.com>
- <d8981e2a-4f61-72bb-e5cc-bf4ded29c08a@synopsys.com>
- <CAK8P3a3ELrSC=KX6cr8UnP6kkJN0AXeAE4EG4oUY=Zz7gG_dgg@mail.gmail.com>
- <b44de208-6d5f-3fcd-0e36-f05745297747@synopsys.com>
- <CAK8P3a27RtHxYwtj=rjxcDzkMdKhC-w9ho=SApHpczma_vU8JQ@mail.gmail.com>
- <6743d6b1-13fe-9c83-f706-82338dd03897@synopsys.com>
- <7ed6137e-cf19-3614-9404-e89389411a8f@infradead.org>
- <992f01cc-eb0c-b503-f9b4-4a037c6cf67a@synopsys.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <992f01cc-eb0c-b503-f9b4-4a037c6cf67a@synopsys.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YgK91i6zHWPBwYOq@ravnborg.org>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,148 +85,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- John Youn <John.Youn@synopsys.com>, Bing Yuan <Bing.Yuan@synopsys.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ Xiyu Yang <xiyuyang19@fudan.edu.cn>, Jens Frederich <jfrederich@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Zheyu Ma <zheyuma97@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Matthew Wilcox <willy@infradead.org>, Helge Deller <deller@gmx.de>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jon Nettleton <jon.nettleton@gmail.com>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi--
-
-On 2/8/22 12:10, Thinh Nguyen wrote:
-> Randy Dunlap wrote:
->>
->>
->> On 2/3/22 19:21, Thinh Nguyen wrote:
->>> Arnd Bergmann wrote:
->>>> On Thu, Feb 3, 2022 at 12:55 AM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
->>>>> Arnd Bergmann wrote:
->>>>>> On Wed, Feb 2, 2022 at 1:14 AM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
->>>>>>> Fabio Estevam wrote:
->>>>>>
->>>>>> CONFIG_FB should not normally be needed for booting, so unless
->>>>>> you have a graphical application in your initramfs that requires the /dev/fb0
->>>>>> device to work, it is not supposed to make a difference.
->>>>>>
->>>>>
->>>>> I'm not sure, but it seems like the setup we have isn't the only one
->>>>> that needed it. Fabio also noted that the imx_v6_v7_defconfig also needs
->>>>> to have CONFIG_FB set.
->>>>
->>>> No, that one is different: the change for imx_v6_v7_defconfig was
->>>> done because they actually use a framebuffer console on some devices,
->>>> so the patch just adds the symbol to enable the drivers they are using.
->>>>
->>>> This is expected with my original patch that doesn't implicitly enable
->>>> the framebuffer layer any more. What is not expected is for the kernel
->>>> to hang during boot as you reported for your unidentified platform.
->>>>
->>>>>> Are there any other differences in your .config before and after the patch?
->>>>>> It's possible that you use some other driver that in turn depends on
->>>>>> CONFIG_FB. Does your machine have any graphical output device?
->>>>>> If yes, which driver do you use?
->>>>>
->>>>> I don't have the answer to those questions yet. Need more investigation.
->>>>> I'm new to this particular test setup.
->>>>
->>>> Do you mean you don't know if there is a screen attached to the system?
->>>>
->>>
->>> It does have a graphical output device, but I didn't check what it is or
->>> what driver is driving it. I just notice that after the reported commit,
->>> something stopped working.
->>>
->>>>>>
->>>>>> You may also want to make sure that you have 9d6366e743f3 ("drm:
->>>>>> fb_helper: improve CONFIG_FB dependency") in your kernel, which
->>>>>> fixes a minor problem with my original patch.
->>>>>>
->>>>>
->>>>> The issue also occurs in mainline, which has your minor fix commit
->>>>> above. The revert isn't clean for the latest kernel version. I also have
->>>>> to revert some of the changes along with CONFIG_FB. The revert looks
->>>>> more like this for the latest kernel:
->>>>>
->>>>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>>>> index b1f22e457fd0..7cbc733a8569 100644
->>>>> --- a/drivers/gpu/drm/Kconfig
->>>>> +++ b/drivers/gpu/drm/Kconfig
->>>>> @@ -118,8 +118,9 @@ config DRM_DEBUG_MODESET_LOCK
->>>>>
->>>>>  config DRM_FBDEV_EMULATION
->>>>>         bool "Enable legacy fbdev support for your modesetting driver"
->>>>> -       depends on DRM_KMS_HELPER
->>>>> -       depends on FB=y || FB=DRM_KMS_HELPER
->>>>> +       depends on DRM
->>>>> +       select DRM_KMS_HELPER
->>>>> +       select FB
->>>>>         select FB_CFB_FILLRECT
->>>>>         select FB_CFB_COPYAREA
->>>>>         select FB_CFB_IMAGEBLIT
->>>>>
->>>>>
->>>>>
->>>>> I attached the configs for kernel v5.17-rc1. The "bad" config is without
->>>>> any revert, the "good" config is with the change above.
->>>>
->>>> Looking at the config, I see that this is for an x86 machine,
->>>> and you have the FB_EFI driver and EFI_EARLYCON enabled.
->>>>
->>>> What I suspec is going on is that you are looking at a screen rather
->>>> than a serial console, and the kernel doesn't actually hang but you
->>>> just don't see any more messages after the DRM driver takes
->>>> over from EFI_EARLYCON because there is no console driver.
->>>>
->>>> In this case, what you see is the intended behavior, not a bug.
->>>> If you want a graphical console in your system, you need to
->>>> enable the support for this in your config.
->>>>
->>>
->>> It sounds like that's the case. Unfortunately I'm not familiar with this
->>> subsystem to say that's what happening. If there's nothing actually
->>> broken from review, we can ignore this email thread.
->>
->> Hi,
->> I don't know of anything that is broken...
->>
->> I am curious how CONFIG_FB_EFI came to be set when going from bad.config to
->> good.config.  Can you explain that?
->>
+On Tue, Feb 08, 2022 at 08:00:38PM +0100, Sam Ravnborg wrote:
+> Hi Daniel,
 > 
-> I just use the change above and "make" with olddefconfig option. Is it
-> not expected?
+> On Mon, Jan 31, 2022 at 10:05:52PM +0100, Daniel Vetter wrote:
+> > Well except when the olpc dcon fbdev driver is enabled, that thing
+> > digs around in there in rather unfixable ways.
+> > 
+> > Cc oldc_dcon maintainers as fyi.
+> > 
+> > Cc: Jens Frederich <jfrederich@gmail.com>
+> > Cc: Jon Nettleton <jon.nettleton@gmail.com>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: linux-staging@lists.linux.dev
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Helge Deller <deller@gmx.de>
+> > Cc: Matthew Wilcox <willy@infradead.org>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+> > Cc: Zhen Lei <thunder.leizhen@huawei.com>
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+> > Cc: linux-fbdev@vger.kernel.org
+> > Cc: Zheyu Ma <zheyuma97@gmail.com>
+> > Cc: Guenter Roeck <linux@roeck-us.net>
+> 
+> with the build thingy fixed:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> I do wonder if there is a more clean way to trigger a blank
+> in the main fbdev driver from the olpc driver.
+> 
+> The current hack is not nice and it would be good to see it gone.
 
-Maybe I am not doing the same as you. If I take your previous bad.config
-with kernel v5.17-rc2 and use your Kconfig patch:
+Yeah this is just badly engineered. In drm we'd do this with the self
+refresh helpers, which pretty much give you this exact functionality, but
+in the helpers, while not randomly breaking actual visible behaviour of
+the display driver.
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index b1f22e457fd0..7cbc733a8569 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -118,8 +118,9 @@ config DRM_DEBUG_MODESET_LOCK
+Well ok the illusion is not perfect, since if the display is suspended the
+next page flip will take a tad longer. But that's it.
 
- config DRM_FBDEV_EMULATION
-        bool "Enable legacy fbdev support for your modesetting driver"
--       depends on DRM_KMS_HELPER
--       depends on FB=y || FB=DRM_KMS_HELPER
-+       depends on DRM
-+       select DRM_KMS_HELPER
-+       select FB
-        select FB_CFB_FILLRECT
-        select FB_CFB_COPYAREA
-        select FB_CFB_IMAGEBLIT
+I'll also add this to the TODO.
+-Daniel
 
-and then run
-'make olddefconfig', I see:
+> 
+> 	Sam
+> 
+> > ---
+> >  drivers/video/fbdev/core/fbmem.c | 8 ++++++--
+> >  include/linux/fb.h               | 7 +++----
+> >  2 files changed, 9 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> > index 904ef1250677..dad6572942fa 100644
+> > --- a/drivers/video/fbdev/core/fbmem.c
+> > +++ b/drivers/video/fbdev/core/fbmem.c
+> > @@ -48,10 +48,14 @@
+> >  static DEFINE_MUTEX(registration_lock);
+> >  
+> >  struct fb_info *registered_fb[FB_MAX] __read_mostly;
+> > -EXPORT_SYMBOL(registered_fb);
+> > -
+> >  int num_registered_fb __read_mostly;
+> > +#if IS_ENABLED(CONFIG_OLPC_DCON)
+> > +EXPORT_SYMBOL(registered_fb);
+> >  EXPORT_SYMBOL(num_registered_fb);
+> > +#endif
+> > +#define for_each_registered_fb(i)		\
+> > +	for (i = 0; i < FB_MAX; i++)		\
+> > +		if (!registered_fb[i]) {} else
+> >  
+> >  bool fb_center_logo __read_mostly;
+> >  
+> > diff --git a/include/linux/fb.h b/include/linux/fb.h
+> > index a8a00d2ba1f3..e236817502c2 100644
+> > --- a/include/linux/fb.h
+> > +++ b/include/linux/fb.h
+> > @@ -622,16 +622,15 @@ extern int fb_get_color_depth(struct fb_var_screeninfo *var,
+> >  extern int fb_get_options(const char *name, char **option);
+> >  extern int fb_new_modelist(struct fb_info *info);
+> >  
+> > +#if IS_ENABLED(CONFIG_OLPC_DCON)
+> >  extern struct fb_info *registered_fb[FB_MAX];
+> > +
+> >  extern int num_registered_fb;
+> > +#endif
+> >  extern bool fb_center_logo;
+> >  extern int fb_logo_count;
+> >  extern struct class *fb_class;
+> >  
+> > -#define for_each_registered_fb(i)		\
+> > -	for (i = 0; i < FB_MAX; i++)		\
+> > -		if (!registered_fb[i]) {} else
+> > -
+> >  static inline void lock_fb_info(struct fb_info *info)
+> >  {
+> >  	mutex_lock(&info->lock);
+> > -- 
+> > 2.33.0
 
-# CONFIG_FB_EFI is not set
-
-which is what I would expect to see.
-
-
-thanks.
 -- 
-~Randy
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
