@@ -1,60 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BE14ADC56
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 16:19:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C667C4ADC79
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 16:23:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAFED10E635;
-	Tue,  8 Feb 2022 15:19:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9E2610E189;
+	Tue,  8 Feb 2022 15:23:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E549010E189;
- Tue,  8 Feb 2022 15:19:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644333577; x=1675869577;
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07DE810E189;
+ Tue,  8 Feb 2022 15:23:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644333806; x=1675869806;
  h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=ZLy+VydtbyF6fTJrG/RozIsN85Y7hFPmu++UBQG8hPc=;
- b=g9IpMg1yAqX54bmG/KLlfwgYiBKsKgFJWefoNEc41w7R2h4kaLXsBUId
- R1LqSwHMlBKK6gFPQ0+TVCv9ndWGgCeHsgxZh0P0InHx/TC4SITaZJb9q
- 9dLn67E2sm70STpTW95F5Ae5hp+OtsigCfKut+YREO4z8cWgB+nfugxe/ g=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 08 Feb 2022 07:19:37 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 07:19:36 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 8 Feb 2022 07:19:36 -0800
-Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 8 Feb 2022 07:19:30 -0800
-From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <agross@kernel.org>,
- <bjorn.andersson@linaro.org>, <robh+dt@kernel.org>, <robdclark@gmail.com>,
- <seanpaul@chromium.org>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <krzysztof.kozlowski@canonical.com>, <thierry.reding@gmail.com>,
- <sam@ravnborg.org>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH v2 4/4] drm/msm/dp: Add driver support to utilize drm panel
-Date: Tue, 8 Feb 2022 20:48:45 +0530
-Message-ID: <1644333525-30920-5-git-send-email-quic_sbillaka@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1644333525-30920-1-git-send-email-quic_sbillaka@quicinc.com>
-References: <1644333525-30920-1-git-send-email-quic_sbillaka@quicinc.com>
+ references:mime-version:content-transfer-encoding;
+ bh=TrHVYXAMBKHp7hUg20VQ1nt0bPRibRkoSabZl31CoCs=;
+ b=iWBfaeIo9cawqYbsgdaCq7bB6zX6XUVcrD1mkcArIs5clbqN4bPiU3nS
+ edFAdc7YUCBo0V8eKunisvyWHObOc8zLIT2eXtnXLQZqbgjYJmyZsf+gu
+ oEAlbu8YgSc2IHXP9YIra2RhxqawdWDmXpI3m7mwiEh6w1oG1/VL5IvSc
+ FvQCbY69UkI1mJ33v6MYLjkWryVq1oFjQ8mk1euCFsvaGqFDPL4UX6WAm
+ 49PNNCtlPG7e2AEK+V1ytlvoGIRVxcIQ48tnp5Qy9dN+V9HVQeCJlBYdL
+ WsaiE47j8rvJ7DSM+vA6HtRce+ft//Fu2nVklhIgjfqELB/n7Xk0oe0Yy Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="228937199"
+X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; d="scan'208";a="228937199"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2022 07:23:25 -0800
+X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; d="scan'208";a="540640386"
+Received: from ijbeckin-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.19.63])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2022 07:23:22 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] drm/i915/mst: update slot information for 128b/132b
+Date: Tue,  8 Feb 2022 17:23:17 +0200
+Message-Id: <20220208152317.3019070-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <fecbe3e9c93e33a16b24481432de5a524821677d.1643878928.git.jani.nikula@intel.com>
+References: <fecbe3e9c93e33a16b24481432de5a524821677d.1643878928.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,156 +59,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- quic_mkrishn@quicinc.com, quic_abhinavk@quicinc.com, quic_khsieh@quicinc.com
+Cc: uma.shankar@intel.com, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support in the DP driver to utilize the custom eDP panels
-from drm/panels.
+128b/132b supports using 64 slots starting from 0, while 8b/10b reserves
+slot 0 for metadata.
 
-An eDP panel is always connected to the platform. So, the eDP
-connector can be reported as always connected. The display mode
-will be sourced from the panel. The panel mode will be set after
-the link training is completed.
+Commit d6c6a76f80a1 ("drm: Update MST First Link Slot Information Based
+on Encoding Format") added support for updating the topology state
+accordingly, and commit 41724ea273cd ("drm/amd/display: Add DP 2.0 MST
+DM Support") started using it in the amd driver.
 
-The eDP driver needs to register for IRQ_HPD only.
-This support will be added later.
+This feels more than a little cumbersome, especially updating the
+information in atomic check. For i915, add the update to MST connector
+.compute_config hook rather than iterating over all MST managers and
+connectors in global mode config .atomic_check. Fingers crossed.
 
-Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+v3:
+- Propagate errors from intel_dp_mst_update_slots() (Ville)
+
+v2:
+- Update in .compute_config() not .atomic_check (Ville)
+
+Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Uma Shankar <uma.shankar@intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Acked-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c |  8 ++++++
- drivers/gpu/drm/msm/dp/dp_drm.c     | 54 +++++++++++++++++++++++++++++++++----
- drivers/gpu/drm/msm/dp/dp_parser.h  |  3 +++
- 3 files changed, 60 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 33 +++++++++++++++++++--
+ 1 file changed, 31 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 7cc4d21..410fda4 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1513,6 +1513,10 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
- 		return -EINVAL;
- 	}
- 
-+	/* handle eDP on */
-+	if (dp->connector_type == DRM_MODE_CONNECTOR_eDP)
-+		dp_hpd_plug_handle(dp_display, 0);
-+
- 	mutex_lock(&dp_display->event_mutex);
- 
- 	/* stop sentinel checking */
-@@ -1577,6 +1581,10 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
- 
- 	dp_display = container_of(dp, struct dp_display_private, dp_display);
- 
-+	/* handle edp off */
-+	if (dp->connector_type == DRM_MODE_CONNECTOR_eDP)
-+		dp_hpd_unplug_handle(dp_display, 0);
-+
- 	mutex_lock(&dp_display->event_mutex);
- 
- 	/* stop sentinel checking */
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index d4d360d..12fa8c1 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -39,6 +39,10 @@ static enum drm_connector_status dp_connector_detect(struct drm_connector *conn,
- 
- 	dp = to_dp_connector(conn)->dp_display;
- 
-+	/* eDP is always  connected */
-+	if (dp->connector_type == DRM_MODE_CONNECTOR_eDP)
-+		return connector_status_connected;
-+
- 	DRM_DEBUG_DP("is_connected = %s\n",
- 		(dp->is_connected) ? "true" : "false");
- 
-@@ -123,6 +127,35 @@ static enum drm_mode_status dp_connector_mode_valid(
- 	return dp_display_validate_mode(dp_disp, mode->clock);
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index 6b6eab507d30..e30e698aa684 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -99,6 +99,29 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
+ 	return 0;
  }
  
-+static int edp_connector_get_modes(struct drm_connector *connector)
++static int intel_dp_mst_update_slots(struct intel_encoder *encoder,
++				     struct intel_crtc_state *crtc_state,
++				     struct drm_connector_state *conn_state)
 +{
-+	struct msm_dp *dp;
++	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
++	struct intel_dp_mst_encoder *intel_mst = enc_to_mst(encoder);
++	struct intel_dp *intel_dp = &intel_mst->primary->dp;
++	struct drm_dp_mst_topology_mgr *mgr = &intel_dp->mst_mgr;
++	struct drm_dp_mst_topology_state *topology_state;
++	u8 link_coding_cap = intel_dp_is_uhbr(crtc_state) ?
++		DP_CAP_ANSI_128B132B : DP_CAP_ANSI_8B10B;
 +
-+	if (!connector)
-+		return 0;
-+
-+	dp = to_dp_connector(connector)->dp_display;
-+
-+	return drm_bridge_get_modes(dp->panel_bridge, connector);
-+}
-+
-+static enum drm_mode_status edp_connector_mode_valid(
-+		struct drm_connector *connector,
-+		struct drm_display_mode *mode)
-+{
-+	struct msm_dp *dp;
-+
-+	if (!connector)
-+		return 0;
-+
-+	dp = to_dp_connector(connector)->dp_display;
-+
-+	if (mode->clock > EDP_MAX_PIXEL_CLK_KHZ)
-+		return MODE_BAD;
-+
-+	return MODE_OK;
-+}
-+
- static const struct drm_connector_funcs dp_connector_funcs = {
- 	.detect = dp_connector_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
-@@ -137,6 +170,12 @@ static const struct drm_connector_helper_funcs dp_connector_helper_funcs = {
- 	.mode_valid = dp_connector_mode_valid,
- };
- 
-+static const struct drm_connector_helper_funcs edp_connector_helper_funcs = {
-+	.get_modes = edp_connector_get_modes,
-+	.mode_valid = edp_connector_mode_valid,
-+
-+};
-+
- /* connector initialization */
- struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
- {
-@@ -160,12 +199,17 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	drm_connector_helper_add(connector, &dp_connector_helper_funcs);
-+	if (dp_display->connector_type == DRM_MODE_CONNECTOR_eDP) {
-+		drm_connector_helper_add(connector,
-+				&edp_connector_helper_funcs);
-+	} else {
-+		drm_connector_helper_add(connector, &dp_connector_helper_funcs);
- 
--	/*
--	 * Enable HPD to let hpd event is handled when cable is connected.
--	 */
--	connector->polled = DRM_CONNECTOR_POLL_HPD;
-+		/*
-+		 * Enable HPD to let hpd event is handled when cable is connected.
-+		 */
-+		connector->polled = DRM_CONNECTOR_POLL_HPD;
++	topology_state = drm_atomic_get_mst_topology_state(conn_state->state, mgr);
++	if (IS_ERR(topology_state)) {
++		drm_dbg_kms(&i915->drm, "slot update failed\n");
++		return PTR_ERR(topology_state);
 +	}
- 
- 	drm_connector_attach_encoder(connector, dp_display->encoder);
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-index 3172da0..58c4f27 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.h
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-@@ -17,6 +17,9 @@
- #define DP_MAX_PIXEL_CLK_KHZ	675000
- #define DP_MAX_NUM_DP_LANES	4
- 
-+/* Maximum validated clock */
-+#define EDP_MAX_PIXEL_CLK_KHZ	285550
 +
- enum dp_pm_type {
- 	DP_CORE_PM,
- 	DP_CTRL_PM,
++	drm_dp_mst_update_slots(topology_state, link_coding_cap);
++
++	return 0;
++}
++
+ static int intel_dp_mst_compute_config(struct intel_encoder *encoder,
+ 				       struct intel_crtc_state *pipe_config,
+ 				       struct drm_connector_state *conn_state)
+@@ -155,6 +178,10 @@ static int intel_dp_mst_compute_config(struct intel_encoder *encoder,
+ 	if (ret)
+ 		return ret;
+ 
++	ret = intel_dp_mst_update_slots(encoder, pipe_config, conn_state);
++	if (ret)
++		return ret;
++
+ 	pipe_config->limited_color_range =
+ 		intel_dp_limited_color_range(pipe_config, conn_state);
+ 
+@@ -357,6 +384,7 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
+ 	struct intel_connector *connector =
+ 		to_intel_connector(old_conn_state->connector);
+ 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
++	int start_slot = intel_dp_is_uhbr(old_crtc_state) ? 0 : 1;
+ 	int ret;
+ 
+ 	drm_dbg_kms(&i915->drm, "active links %d\n",
+@@ -366,7 +394,7 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
+ 
+ 	drm_dp_mst_reset_vcpi_slots(&intel_dp->mst_mgr, connector->port);
+ 
+-	ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr, 1);
++	ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr, start_slot);
+ 	if (ret) {
+ 		drm_dbg_kms(&i915->drm, "failed to update payload %d\n", ret);
+ 	}
+@@ -475,6 +503,7 @@ static void intel_mst_pre_enable_dp(struct intel_atomic_state *state,
+ 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+ 	struct intel_connector *connector =
+ 		to_intel_connector(conn_state->connector);
++	int start_slot = intel_dp_is_uhbr(pipe_config) ? 0 : 1;
+ 	int ret;
+ 	bool first_mst_stream;
+ 
+@@ -509,7 +538,7 @@ static void intel_mst_pre_enable_dp(struct intel_atomic_state *state,
+ 
+ 	intel_dp->active_mst_links++;
+ 
+-	ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr, 1);
++	ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr, start_slot);
+ 
+ 	/*
+ 	 * Before Gen 12 this is not done as part of
 -- 
-2.7.4
+2.30.2
 
