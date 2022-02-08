@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072924AD2B1
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:04:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 890424AD2BB
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:07:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 989FD10E13A;
-	Tue,  8 Feb 2022 08:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26BBA10E16C;
+	Tue,  8 Feb 2022 08:07:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2525110E13A;
- Tue,  8 Feb 2022 08:04:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644307456; x=1675843456;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:to:cc:subject:from:message-id:date;
- bh=AUUalteisJVotgwm2A5rb5kQMU4MKwe9fDedhXPmsdY=;
- b=ISajwYDkQ3UTA6UsP3EB/nbS7PtnugVeeCC+MfxNhP/uxsT5VQF/lz/K
- DNSGF5nQ3Ebf+BF3XXZCzR/TjW8TItGxCyAhIT6mTL0iKqf/Fit0TxCKs
- OUILcEHrBAsmwyH0Q/4yIQXJhCaSKcDjIukMquvfrxM2hxR8srE4G5p7f
- +PdrTeYQwwvA+Ayi7snpAomuW5rMFJNp4KLI3OAnCR/fZGGwzwTU0o//J
- rg8Qh7ojhCEWd0PQsEE/pu0lbfW2u2gL9GHzQzO63Gn2GbryhlRbLKMCU
- hL/Ccou0zVknJ86MXNBqlzSryZfOEwVJ/SAYIuBBijESOEE5MPaLwcGNA g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="232463872"
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="232463872"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 00:04:14 -0800
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="540492714"
-Received: from zimmerer-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.39.149])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 00:04:10 -0800
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
+ [IPv6:2607:f8b0:4864:20::b34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA3F010E16C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 08:07:07 +0000 (UTC)
+Received: by mail-yb1-xb34.google.com with SMTP id y129so11234308ybe.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 00:07:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lrJ/uUGCKgoKFH52TnhTE0iJcbWnNbC2//ZX4wls2Dw=;
+ b=kNP/DVt8Qf+7bUY3UT5ZfqP8u/Zt0jSOyRJstDT02WFgtxz0uQpIo4XqdFFTnYfT/M
+ F2Df9FQ1s1DpZs0sKfObwDOAAXfKQ7/T2yeAjlKR3i/reWmzZVjWKP3xdxDfOd3jfA7b
+ tz5+cjBNS6/V6VXodt+MN/KM9Uxi0esuP7iu1e3jkfmQt4QdsMTpVKtJq5SLYiKaO6wV
+ GdLTObr64l6FVPZjPzvdKBJR2Rjj+n9hO45a68l8DCZafC6+U2M4uJdIA6MbLvDKJRJZ
+ DYHtfhyDzmb+GdSk9jY5Magnd6SN2eMgQm2n0M1xh1E5HMRa0EDjVN/rUBMFIXJjqzfO
+ gYMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lrJ/uUGCKgoKFH52TnhTE0iJcbWnNbC2//ZX4wls2Dw=;
+ b=EVPNN4qRApOrF7HIpVNMB2P/TH+j+OlFVbCB/Uj92saemFiC8mWYt5Rqe2cxYxLy5g
+ Hk1YfUMKranK/TItUv3JDHNZztORYUeQ+63AFLVjma94IiYGOhOXpF0yj2qv40XLSbnW
+ Z9i28xsWBBw4oSLhGSlsjQtVn3+QqFKqtW8Vue+hFccRKkT0N+tnoVOqGBp/JgJaNv8W
+ 02y3jSZhmQ5Dn+apQXS+Qs0DRCfo7/MuIlF/Nl8yUAg3cEn8S3xRWRb3pu0pyDJqNp9V
+ MsvsEY0rZ1Qq+jCSC59UT+KevjEEZq2GDuwM4BsXQt3ka1nC38BpPT6jDRjT5R0s1Mgq
+ 2Qpg==
+X-Gm-Message-State: AOAM533n7oHQMFBJRGwm4AtivZc+zES2WAdAE6M7oZdwpqXXAmmvOpPw
+ 8RwK60lDMJvCjYxEVt/d/v1mhm973CNIDgR2jrR7ng==
+X-Google-Smtp-Source: ABdhPJyc0mkGJILuXoiCncxc7dUnInOYzU71tTwuAgOjc/Gz6ioJ07N3R1Qa59huN3y/0lYz2j4xsFCGHPxb7jwVlxY=
+X-Received: by 2002:a25:e406:: with SMTP id b6mr3405161ybh.703.1644307626738; 
+ Tue, 08 Feb 2022 00:07:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <877da7rlzr.fsf@intel.com>
-References: <20220127120508.11330-1-zhi.a.wang@intel.com>
- <20220207073247.GA24327@lst.de>
- <DM4PR11MB5549FE45F8098368114ADE75CA2C9@DM4PR11MB5549.namprd11.prod.outlook.com>
- <20220207083535.GA25345@lst.de> <877da7rlzr.fsf@intel.com>
-To: "Wang, Zhi A" <zhi.a.wang@intel.com>, Christoph Hellwig <hch@lst.de>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 1/3] i915/gvt: Introduce the mmio_table.c to support VFIO
- new mdev API
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <164430744744.6827.16056768203919410118@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Tue, 08 Feb 2022 10:04:07 +0200
+References: <20220207063249.1833066-1-hch@lst.de>
+ <20220207063249.1833066-2-hch@lst.de>
+In-Reply-To: <20220207063249.1833066-2-hch@lst.de>
+From: Muchun Song <songmuchun@bytedance.com>
+Date: Tue, 8 Feb 2022 16:06:30 +0800
+Message-ID: <CAMZfGtUfqoaJ7L7rLP2Vdfy_nvr30qppRX-RfTFUh8TeO3ZznA@mail.gmail.com>
+Subject: Re: [PATCH 1/8] mm: remove a pointless CONFIG_ZONE_DEVICE check in
+ memremap_pages
+To: Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,48 +64,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhi Wang <zhi.wang.linux@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "jgg@nvidia.com" <jgg@nvidia.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- Christoph Hellwig <hch@lst.de>
+Cc: nvdimm@lists.linux.dev, Ralph Campbell <rcampbell@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Karol Herbst <kherbst@redhat.com>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ nouveau@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Ben Skeggs <bskeggs@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Logan Gunthorpe <logang@deltatee.com>, Dan Williams <dan.j.williams@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Jani Nikula (2022-02-07 12:48:08)
-> On Mon, 07 Feb 2022, Christoph Hellwig <hch@lst.de> wrote:
-> > On Mon, Feb 07, 2022 at 08:28:13AM +0000, Wang, Zhi A wrote:
-> >> 1) About having the mmio_table.h, I would like to keep the stuff in a
-> >> dedicated header as putting them in intel_gvt.h might needs i915 guys
-> >> to maintain it.
-> >> 2) The other one is about if we should move the mmio_table.c into
-> >> i915 folder. I guess we need the some comments from Jani. In the
-> >> current version that I am testing, it's still in GVT folder. Guess we
-> >> can submit a patch to move it to i915 folder later if Jani is ok
-> >> about that.
-> >
-> > Yes, let's have Jani chime in on these.  They're basically one and the
-> > same issue.  This code will have to be built into into the core i915
-> > driver even with my planned split, which is kindof the point of this
-> > exercise.  I think it makes sense to use the subdirectories as boundari=
-es
-> > for where the code ends up and not to declarare maintainership boundari=
-es,
-> > but it will be up to the i915 and gvt maintainers to decide that.
->=20
-> Agreed. If there's going to be a gvt.ko, I think all of gvt/ should be
-> part of that module, nothing more, nothing less.
->=20
-> The gvt related files in i915/ should probably be named intel_gvt* or
-> something, ditto for function naming, and we'll probably want patches
-> touching them be Cc'd to intel-gfx list.
->=20
-> Joonas, Rodrigo, Tvrtko, thoughts?
+On Mon, Feb 7, 2022 at 2:36 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> memremap.c is only built when CONFIG_ZONE_DEVICE is set, so remove
+> the superflous extra check.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Agreed on above. I don't think we expect much changes on the golden MMIO
-state capture set.
+Reviewed-by: Muchun Song <songmuchun@bytedance.com>
 
-Regards, Joonas
+Thanks.
