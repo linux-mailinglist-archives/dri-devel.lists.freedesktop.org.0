@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E904ACCC8
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 01:30:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47BF74ACCCF
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 01:40:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6C8610E128;
-	Tue,  8 Feb 2022 00:30:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB37610E129;
+	Tue,  8 Feb 2022 00:40:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 894E510E128
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 00:30:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5C010E1A6
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 00:40:33 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59492340;
- Tue,  8 Feb 2022 01:30:45 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 78826340;
+ Tue,  8 Feb 2022 01:40:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1644280245;
- bh=myyYYwF0zw0KqcsUrHoCyxQvYmLiqqpmlW/RBPnVask=;
+ s=mail; t=1644280831;
+ bh=/1yJXKIcbpw4XZahIMz7M2mrJlPPvMD22wqPJxSjErU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pw/5iLsIlW/vT3n6wFmZjGchQqYtpgEt25SHIvD54VsSOXeRi02D6UsGvE4vQ/PRC
- zsU7e8i77HLbdtsPNMHPOxwmH83bEL3IRxYpR3V0Ib/X6PBE2o+FfGq2Ag18sD33N5
- Anwm1Jhj/7hBi22Vi5LO4W1bcPNXBwjhtE2kOgnY=
-Date: Tue, 8 Feb 2022 02:30:42 +0200
+ b=tOE3QNKYhIOxgas4QuwTkyktM4FjvG8XsEpDI/7/6MA3J9sl5HhBuK42dRGMUKJRB
+ M09Jfgg6I34mCRvW9pvD7oxWvjO8RmrAUtDQ0HlBVkFcECY6ti+qs2nvGr+IXWA05I
+ kWbB4h1aBI8wiAr0bI78sHj1XCSrjYM1OFcGy2J8=
+Date: Tue, 8 Feb 2022 02:40:29 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v1 1/9] drm/bridge: add DRM_BRIDGE_STATE_OPS macro
-Message-ID: <YgG5snx6y69SKU6w@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v1 2/9] drm: add drm specific media-bus-format header file
+Message-ID: <YgG7/eb6ymR/1U70@pendragon.ideasonboard.com>
 References: <20220206154405.1243333-1-sam@ravnborg.org>
- <20220206154405.1243333-2-sam@ravnborg.org>
+ <20220206154405.1243333-3-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220206154405.1243333-2-sam@ravnborg.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220206154405.1243333-3-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,56 +63,90 @@ Hi Sam,
 
 Thank you for the patch.
 
-On Sun, Feb 06, 2022 at 04:43:57PM +0100, Sam Ravnborg wrote:
-> The DRM_BRIDGE_STATE_OPS can be used as shortcut for bridge drivers that
-> do not subclass drm_bridge_state to assign the default operations for
-> reset, duplicate and destroy of the state.
+On Sun, Feb 06, 2022 at 04:43:58PM +0100, Sam Ravnborg wrote:
+> For now the header file includes a single method to retreive the bpc
+
+s/retreive/retrieve/
+
+> from the bus format.
+> The supported MEDIA_BUS_* codes are the ones used for the current panels
+> in DRM. The list can be extended as there are a need for more formats.
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  include/drm/drm_bridge.h | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  include/drm/media-bus-format.h | 53 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+>  create mode 100644 include/drm/media-bus-format.h
 > 
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 061d87313fac..fc00304be643 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -935,4 +935,16 @@ static inline struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
->  }
->  #endif
->  
-> +/**
-> + * DRM_BRIDGE_STATE_OPS - Default drm_bridge state funcs
-
-I'd name the macro DRM_BRIDGE_STATE_DEFAULT_OPS.
-
-> + *
-> + * Bridge driver that do not subclass &drm_bridge_state can use the helpers
-> + * for reset, duplicate, and destroy. This macro provides a shortcut for
-> + * setting the helpers in the &drm_bridge_funcs structure.
+> diff --git a/include/drm/media-bus-format.h b/include/drm/media-bus-format.h
+> new file mode 100644
+> index 000000000000..d4d18f19a70f
+> --- /dev/null
+> +++ b/include/drm/media-bus-format.h
+> @@ -0,0 +1,53 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2022 Sam Ravnborg
 > + */
-> +#define DRM_BRIDGE_STATE_OPS \
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,				\
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,	\
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state
+> +
+> +#ifndef __LINUX_DRM_MEDIA_BUS_FORMAT
+> +#define __LINUX_DRM_MEDIA_BUS_FORMAT
+> +
+> +#include <linux/bug.h>
+> +#include <linux/media-bus-format.h>
+> +#include <linux/types.h>
+> +
+> +/**
+> + * media_bus_format_to_bpc - The bits per color channel for the bus_format
+> + *
+> + * Based on the supplied bus_format return the maximum number of bits
+> + * per color channel.
+> + *
+> + * RETURNS
+> + * The number of bits per color channel, or -EINVAL if the bus_format
+> + * is unknown.
+> + */
+> +static inline int media_bus_format_to_bpc(u32 bus_format)
+> +{
+> +	switch (bus_format) {
+> +	/* DPI */
+> +	case MEDIA_BUS_FMT_RGB565_1X16:
+> +	case MEDIA_BUS_FMT_RGB666_1X18:
+> +		return 6;
+> +
+> +	/* DPI */
+> +	case MEDIA_BUS_FMT_RGB888_1X24:
+> +	case MEDIA_BUS_FMT_RGB888_3X8:
+> +	case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
+> +	case MEDIA_BUS_FMT_Y8_1X8:
+> +		return 8;
+> +
+> +     	/* LVDS */
 
-I'm not a big fan of such macros for a small number of operations, as I
-find that it obfuscates the code a bit, but that could change once I get
-used to the new macro :-)
+Wrong indentation.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
+> +		return 6;
+> +
+> +     	/* LVDS */
+> +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
+> +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
+> +		return 8;
+> +
+> +	default:
+> +		WARN(1, "Unknown MEDIA_BUS format %d\n", bus_format);
+> +		return -EINVAL;
+> +	}
+> +}
+
+This seems a bit big for an inline function.
+
+If we add more helper functions, it will result in lots of switch...case
+statements. Could we use the same approach as in drm_fourcc.h with a
+format info structure ?
 
 > +
->  #endif
+> +#endif
 
 -- 
 Regards,
