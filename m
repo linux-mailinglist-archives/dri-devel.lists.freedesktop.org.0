@@ -2,54 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF554AD9E5
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 14:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B24A54ADA3E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 14:42:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 272E910E44E;
-	Tue,  8 Feb 2022 13:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59D0B10E4EB;
+	Tue,  8 Feb 2022 13:42:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1234A10E322;
- Tue,  8 Feb 2022 13:31:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644327106; x=1675863106;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=emLhjuFtiNvDf0ssl1nHQzlNU530Eeh8fTVjVghjVug=;
- b=a3230jJTcg8XTz+HE55S0RMA9CgFp6Qq1UU5EdF+QM93ngtzJ0oU/4dE
- QkW3IW4AvV5qmWDt7sOJJohVM7xeR1xsbROs7JklMARxy3ENasZJLhQLh
- wpEEQpKJDtBhzGrRukgj/XVeQuhCDsgK9dcJEwhZe1D/sGEdVbOFHBQVu
- 7DT4l3Iq794aA+4NbMZfB+Nsjezw3MOtby5l83wxm7meG5YL/j53j5UH+
- OLMxR+AyotOnulEaVhrQBA4PG/UhimSRDrHvcYy7HA4A7jLFCgc3E4OoG
- OJDbQzfVH0R5EfsVTnbWmr9czgv1mGGrDo9VHknA89Fus23kK69/Jwtof g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="236352411"
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="236352411"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 05:31:45 -0800
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="621904495"
-Received: from ijbeckin-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.19.63])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 05:31:43 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 5/8] drm/i915/dp: rewrite DP 2.0 128b/132b link
- training based on errata
-In-Reply-To: <YgJoWUYRVjJDQFq4@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1643878928.git.jani.nikula@intel.com>
- <bda92c2540e661c39613167b53b5e5388a57a730.1643878928.git.jani.nikula@intel.com>
- <Yf0P8kLCFcotNVkl@intel.com> <87k0e5ra3h.fsf@intel.com>
- <YgI6Pxspeg2yNr2s@intel.com> <87fsotr1zi.fsf@intel.com>
- <YgJoWUYRVjJDQFq4@intel.com>
-Date: Tue, 08 Feb 2022 15:31:41 +0200
-Message-ID: <87bkzhqybm.fsf@intel.com>
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A819710E45E
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 13:42:29 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id ka4so52262449ejc.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 05:42:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6maJYITlPCb5At2tK8fKqUeOaLx2xzFZeuz9bTxWtaA=;
+ b=NXKKgezbC9q9uaMIRiYHTN4bTXXumjui8I6ooy0xz8c5Emc2s/AqQ2WgPMbFEB1JPi
+ tt2C2CyOwM6xd/DPqgbd6nefn2Px3gvIEKg1+9NggBp29xPz1qIXxCAlvt5pzhWXmxWM
+ zG6YqnU4MScmVN6BImvTWU9YxJONaSzMmUzyU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=6maJYITlPCb5At2tK8fKqUeOaLx2xzFZeuz9bTxWtaA=;
+ b=YmlEfM/8uPHQANCImIOAHlPmOGMuLpqtcX+MYWKHpIecPJrgWa2Vq5U5aKaW6H85QV
+ g3xK7mJRpDgVqmAxIQct2KooQro50Feb7xqHQHoPWTQypiyBALczaXVYpFzRjYvFAJnU
+ sKZXu1lzMxpiwMN25DYNnGBAPze0rLozFvfzIifbBOIeIJ4h872ydjqVrNIt5zRqViRE
+ yHajCsMtxGXFKSslmF/Lc+C5SY+6yqoqPRRLQTb0xKN3NpzgvPG8pdAPBaFzGQK9D83P
+ 2XgGhz3Sl2rBcdYmoTe8VedqmQLzlayBqc709GreivwXdRlcRxE+dSLDOdKj4fdvn/5Y
+ 2kBA==
+X-Gm-Message-State: AOAM5323/3RLA1uDIxA3cSzUUv4FGSoADyoUNJDN6iAXqnSZn0Gy5dps
+ bsxxpqZrnk6i5AgrCywvcBIFyA==
+X-Google-Smtp-Source: ABdhPJyjB58jfzpksRF1ZWcvHtyXk7I9BbvVV9xbDrzhC2PMVDFWercPTHr2GmACQLgZcvydqAOBYg==
+X-Received: by 2002:a17:907:760a:: with SMTP id
+ jx10mr3810310ejc.713.1644327748049; 
+ Tue, 08 Feb 2022 05:42:28 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i6sm4831019eja.132.2022.02.08.05.42.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 05:42:27 -0800 (PST)
+Date: Tue, 8 Feb 2022 14:42:25 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 06/21] fbcon: delete delayed loading code
+Message-ID: <YgJzQboE3VVj6OL7@phenom.ffwll.local>
+Mail-Followup-To: Sam Ravnborg <sam@ravnborg.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linux-fbdev@vger.kernel.org, Du Cheng <ducheng2@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Claudio Suarez <cssk@net-c.es>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Helge Deller <deller@gmx.de>
+References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
+ <20220131210552.482606-7-daniel.vetter@ffwll.ch>
+ <Yfw+6VUOX6xcf664@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yfw+6VUOX6xcf664@ravnborg.org>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,73 +78,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, uma.shankar@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Du Cheng <ducheng2@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Claudio Suarez <cssk@net-c.es>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 08 Feb 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Tue, Feb 08, 2022 at 02:12:33PM +0200, Jani Nikula wrote:
->> On Tue, 08 Feb 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.=
-com> wrote:
->> > On Tue, Feb 08, 2022 at 11:17:22AM +0200, Jani Nikula wrote:
->> >> On Fri, 04 Feb 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.int=
-el.com> wrote:
->> >> > On Thu, Feb 03, 2022 at 11:03:54AM +0200, Jani Nikula wrote:
->> >> >> +
->> >> >> +		if (timeout) {
->> >> >> +			intel_dp_dump_link_status(intel_dp, DP_PHY_DPRX, link_status);
->> >> >> +			drm_err(&i915->drm,
->> >> >> +				"[ENCODER:%d:%s] Lane channel eq timeout\n",
->> >> >> +				encoder->base.base.id, encoder->base.name);
->> >> >> +			return false;
->> >> >> +		}
->> >> >> +
->> >> >> +		if (time_after(jiffies, deadline))
->> >> >> +			timeout =3D true; /* try one last time after deadline */
->> >> >
->> >> > Is there a reason we can't do this just before drm_dp_dpcd_read_lin=
-k_status()
->> >> > so we don't have to pass the timeout status from one loop iteration=
- to
->> >> > the next?
->> >>=20
->> >> The point is to check one last time after timeout has passed, like you
->> >> suggested in previous review, and I agreed.
->> >
->> > Sure but why can't it be something more like?
->> >
->> > timeout =3D time_after();
->> > read_status();
->> > if (bad)
->> > 	bail;
->> > if (timeout)
->> > 	bail;
->> >
->> > I think we have it more like that in wait_for()/etc.
->>=20
->> I was going to fix this, but then realized the "one more time" really
->> only makes sense if it includes updating the signal levels and training
->> set and then checking the status. I don't think there's point in "one
->> more time" only covering the status read.
->
-> Hmm. Yeah, I suppose that is true. We can't really know when the sink
-> updated the status so checking for the timeout just before that might
-> have the same issue as checking entirely after the status check.
->
->>=20
->> I've got the loop set up such that the flow is natural when entering the
->> loop i.e. I'd rather not have the adjust in the beginning with some if
->> (try !=3D 0) check.
->>=20
->> Or am I missing something?
->
-> Nah. I guess it's best leave it the way you have it now.
+On Thu, Feb 03, 2022 at 09:45:29PM +0100, Sam Ravnborg wrote:
+> Hi Daniel,
+> 
+> On Mon, Jan 31, 2022 at 10:05:37PM +0100, Daniel Vetter wrote:
+> > Before
+> > 
+> > commit 6104c37094e729f3d4ce65797002112735d49cd1
+> > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Date:   Tue Aug 1 17:32:07 2017 +0200
+> > 
+> >     fbcon: Make fbcon a built-time depency for fbdev
+> > 
+> > it was possible to load fbcon and fbdev drivers in any order, which
+> > means that fbcon init had to handle the case where fbdev drivers where
+> > already registered.
+> > 
+> > This is no longer possible, hence delete that code.
+> > 
+> > Note that the exit case is a bit more complex and will be done in a
+> > separate patch.
+> > 
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Helge Deller <deller@gmx.de>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Claudio Suarez <cssk@net-c.es>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > Cc: Du Cheng <ducheng2@gmail.com>
+> > ---
+> >  drivers/video/fbdev/core/fbcon.c | 13 +------------
+> >  1 file changed, 1 insertion(+), 12 deletions(-)
+> > 
+> > diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> > index 8f971de35885..814b648e8f09 100644
+> > --- a/drivers/video/fbdev/core/fbcon.c
+> > +++ b/drivers/video/fbdev/core/fbcon.c
+> > @@ -942,7 +942,7 @@ static const char *fbcon_startup(void)
+> >  		return display_desc;
+> >  	/*
+> >  	 * Instead of blindly using registered_fb[0], we use info_idx, set by
+> > -	 * fb_console_init();
+> > +	 * fbcon_fb_registered();
+> >  	 */
+> This comment change looks like it does not belong in this patch.
+> Also, the comment is wrong as info_idx is set in several places.
+> Like set_con2fb_map(), fbcon_remap_all(), and more.
 
-Thanks. Sent v3, but realized I'm still missing the intra-hop stuff.
+Yeah I can split this out into a separate patch, but I spotted this wrong
+comment as part of reviewing this code change here - essentially you have
+to check how fb_info for fbcon are registered and fbcon init happens to
+validate that deleting the below code is correct.
 
+Ok if I put this explainer into the commit message, or do you want me to
+split this out fully?
+-Daniel
 
+> 
+> Though it is not set by fb_console_init - so partly OK.
+> 
+> With the comment adjustment dropped.
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> at least the code deletion looked OK, I failed to follow all the logic.
+> So would be good if someone else could ack it too.
+> 
+> 	Sam
+> 
+> 
+> 
+> >  	info = registered_fb[info_idx];
+> >  	if (!info)
+> > @@ -3316,17 +3316,6 @@ static void fbcon_start(void)
+> >  		return;
+> >  	}
+> >  #endif
+> > -
+> > -	if (num_registered_fb) {
+> > -		int i;
+> > -
+> > -		for_each_registered_fb(i) {
+> > -			info_idx = i;
+> > -			break;
+> > -		}
+> > -
+> > -		do_fbcon_takeover(0);
+> > -	}
+> >  }
+> >  
+> >  static void fbcon_exit(void)
+> > -- 
+> > 2.33.0
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
