@@ -2,51 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF48D4ACEB8
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 03:14:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29AC84ACECC
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 03:21:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C638810E1FE;
-	Tue,  8 Feb 2022 02:14:11 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A98AC10E1FE
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 02:14:09 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5DBBFB817A0
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 02:14:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E651C340F2
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 02:14:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644286447;
- bh=Fph4PJDbouMfoaJHcmJukTeg2f451EsGTJKeTIiJZTQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=AKqCDZ0ciICkeWLsMS+jxD8yuxNERgXloYkmk70hFc5yTOC+PevPiv64CYSV8qUEt
- 03jcCn4L3b4+oEBOv81T9Q4lwzs1A2L+PK59kxWITXFncUbV3qrTcmDvZPRm79wesT
- 3xJRTK3IzIKA4G8zAd64fdg1a1aSLC9zUWPfJ+4+lydZult1W2+SQlYTbJPSVJxku/
- 4Vk8BWTD1vas64xk1lM7rfpqzJvFeU4kdPo6lHi1qpffOaDyvEadbn4cV/vBV9OPXG
- m9rXXZwraGKbwuaJLngPJmX9nHA6ch4bgmzXxgvrDoX3uF+X4xVvt5/TQJctzRHplH
- aAB5RWRiT7mZA==
-Received: by mail-vs1-f45.google.com with SMTP id g10so1820288vss.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 18:14:07 -0800 (PST)
-X-Gm-Message-State: AOAM532an16ilt/JzXnwcBdJ+HZyYBjfkbNbYB2CpzuqyaIH3X0UNoJQ
- 2WrclBotUbfSvlQD3sR+/vp4/QtUH/ldA0jxlrs=
-X-Google-Smtp-Source: ABdhPJxBTS0pV366Usd6d6kkxREmCecGZHF4ioCnF9MTIf24VW5LPFIZRFdfHNpyS5oeM33yCJWt7os6PB7tAr29L1w=
-X-Received: by 2002:a67:fd55:: with SMTP id g21mr720208vsr.53.1644286446000;
- Mon, 07 Feb 2022 18:14:06 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 535F810E3B5;
+	Tue,  8 Feb 2022 02:20:56 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E40910E3B5;
+ Tue,  8 Feb 2022 02:20:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644286855; x=1675822855;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=N3RzBJO56VwywwBScoMldiEqURxaR18R2o7F6QMZm7g=;
+ b=NG6j4/E3PAQ+HaBK8BoCAVcjXAk86QtXDLerOODf0TUo10JCxIFyXddJ
+ URrdlooUZDKD2qf5Nj/DHbvAzDxlIH2jd88kWtxMil5bbRepMwepldIED
+ tYtPDIpKOFSLCBwR5Kc99dax+nGEeRlRVAjoTMKlLBcwk1FhG4lcAur8z
+ Epv7O2F7O2ePKrgKz7HZ3W2F9nzGbnm0TN0i+LmIyfgTJyVlEvRx1/f1M
+ whVTteV6Oa3M16R0vRJIUMo0qIFs5HTPCZMDHXFkfFXV27eMIn7DQCP/Y
+ /5cdqRyTxlMYX0ZouHVA96k7bXLWfdiuQHRHDBFzTmGXQq8Igk0BLprHG w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="335257337"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="335257337"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 18:20:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="677960775"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by fmsmga001.fm.intel.com with ESMTP; 07 Feb 2022 18:20:54 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH 0/8] Prep work for next GuC release
+Date: Mon,  7 Feb 2022 18:20:46 -0800
+Message-Id: <20220208022054.2143332-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <b0a06a30-f479-df9f-980c-b789f0f26ce9@linux.intel.com>
- <20220207175909.GA406079@bhelgaas>
-In-Reply-To: <20220207175909.GA406079@bhelgaas>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 8 Feb 2022 10:14:08 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4t96wJZs50qjJVnFSHXv7n9YeaXPaV32AGvO2SASWmYw@mail.gmail.com>
-Message-ID: <CAAhV-H4t96wJZs50qjJVnFSHXv7n9YeaXPaV32AGvO2SASWmYw@mail.gmail.com>
-Subject: Re: [PATCH v8 00/10] vgaarb: Rework default VGA device selection
-To: Bjorn Helgaas <helgaas@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,49 +55,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-pci <linux-pci@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Bjorn Helgaas <bhelgaas@google.com>,
- Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bjorn,
+From: John Harrison <John.C.Harrison@Intel.com>
 
-On Tue, Feb 8, 2022 at 1:59 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> On Tue, Feb 01, 2022 at 04:46:33PM +0100, Maarten Lankhorst wrote:
-> > Op 31-01-2022 om 23:23 schreef Bjorn Helgaas:
-> > > [+to Maarten, Maxime, Thomas; beginning of thread:
-> > > https://lore.kernel.org/r/20220106000658.243509-1-helgaas@kernel.org]
-> > >
-> > > On Wed, Jan 05, 2022 at 06:06:48PM -0600, Bjorn Helgaas wrote:
-> > >> From: Bjorn Helgaas <bhelgaas@google.com>
-> > >>
-> > >> Current default VGA device selection fails in some cases because part of it
-> > >> is done in the vga_arb_device_init() subsys_initcall, and some arches
-> > >> enumerate PCI devices in pcibios_init(), which runs *after* that.
-> > > Where are we at with this series?  Is there anything I can do to move
-> > > it forward?
-> >
-> > I'm afraid that I don't understand the vga arbiter or the vga code
-> > well enough to review.
-> >
-> > Could you perhaps find someone who could review?
-> >
-> > I see Chen wrote some patches and tested, so perhaps they could?
->
-> Huacai, any chance you could review this?  I'm worried that this
-> series isn't going to go anywhere unless we can find somebody to
-> review it.
-I have reviewed and tested the whole series, it looks good to me
-(except the naming which has already changed). But I thought I cannot
-add a "Reviewed-by" because I was originally a co-developer. But if
-necessary,
+The next GuC firmware release includes some significant backwards
+breaking API changes. One such is that there is no longer an LRC
+descriptor pool. A bunch of prep work for that change can be done in
+advance - the descriptor pool was being used for things it shouldn't
+really have been used for anyway.
 
-Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
-Huacai
->
-> Bjorn
+
+John Harrison (8):
+  drm/i915/guc: Do not conflate lrc_desc with GuC id for registration
+  drm/i915/guc: Add an explicit 'submission_initialized' flag
+  drm/i915/guc: Better name for context id limit
+  drm/i915/guc: Split guc_lrc_desc_pin apart
+  drm/i915/guc: Move lrc desc setup to where it is needed
+  drm/i915/guc: Rename desc_idx to ctx_id
+  drm/i915/guc: Drop obsolete H2G definitions
+  drm/i915/guc: Fix potential invalid pointer dereferences when decoding
+    G2Hs
+
+ drivers/gpu/drm/i915/gt/intel_context.c       |   2 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   2 -
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   2 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   4 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 183 ++++++++++--------
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |   2 +-
+ 6 files changed, 112 insertions(+), 83 deletions(-)
+
+-- 
+2.25.1
+
