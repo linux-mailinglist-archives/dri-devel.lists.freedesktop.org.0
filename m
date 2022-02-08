@@ -2,53 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46ECF4AD588
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 11:35:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F38B4AD58C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 11:39:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A1E210E487;
-	Tue,  8 Feb 2022 10:35:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0611410E2C5;
+	Tue,  8 Feb 2022 10:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBA810E20C;
- Tue,  8 Feb 2022 10:35:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644316524; x=1675852524;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=x/Uv1dUJ3xcDqp0s0vto9hCh6YR2R94g1RngWFCibK8=;
- b=Eu5PBEjCptyYr7I7G3JI5bi58Os4cfCnRrKpH8zS5hZkT036V1SDV7jr
- wIFYJ74Mt8rus+mqSmfe+NGr7ScGwBn/oLmmluHDDVLdHML1BSIpLWQ+t
- lAyaH9qgOeN9chXhbdLElb+AarWYKXp+DYzd8WeSlpIdH/jUqD36VZUVR
- XHOQq9CErsvu0D3e6wrh+Kstt++OJ4S8hO/4eX41E8N2oERsWf77zFa3L
- Fx6ByPoCbstj9vaOdAZXe4Z56ix26R3a3I6qn77oBg4sILhqlGbY7TO6o
- EVieX9RLkyJpPhqyWYfet6g50oJyshCKjHOHsb7jfl56ZcgnEf1GYirbP A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="248869617"
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="248869617"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 02:35:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="585148692"
-Received: from amcgrat2-mobl1.ger.corp.intel.com (HELO [10.252.10.21])
- ([10.252.10.21])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 02:35:11 -0800
-Message-ID: <4af33e93-12c1-a6e8-4ae6-cc6122117373@intel.com>
-Date: Tue, 8 Feb 2022 10:35:09 +0000
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 481F210E12F;
+ Tue,  8 Feb 2022 10:39:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0E72CB80E8C;
+ Tue,  8 Feb 2022 10:39:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F3ADC340ED;
+ Tue,  8 Feb 2022 10:39:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1644316746;
+ bh=DhYrhVV0rhkeYgs8i86fDL5i6IUbr00I2qxJJPVyviw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hDHEA2k1rtgqThwWijxMFT+gR1N3I11PmBaK4CzVCM9QgSAyBycnB/xSLTnvwxRM7
+ +PH+wQH8aI66O9q+KH+0GTVOao9THoISx2Q3lU8MlugrCLK5lQBkE+j52HuGsdxSSy
+ 5+Plqq3c09303KWWgOzFm6kX77XadIqVnsiKIh20=
+Date: Tue, 8 Feb 2022 11:39:04 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: Re: [PATCH 1/2] drm: Add HPD state to
+ drm_connector_oob_hotplug_event()
+Message-ID: <YgJISIIacBnFyTLq@kroah.com>
+References: <20220208044328.588860-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/7] drm/selftests: Move i915 buddy selftests into drm
-Content-Language: en-GB
-To: Arunpravin <Arunpravin.PaneerSelvam@amd.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20220203133234.3350-1-Arunpravin.PaneerSelvam@amd.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220203133234.3350-1-Arunpravin.PaneerSelvam@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220208044328.588860-1-bjorn.andersson@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,126 +49,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, tzimmermann@suse.de, christian.koenig@amd.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, linux-usb@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/02/2022 13:32, Arunpravin wrote:
-> - move i915 buddy selftests into drm selftests folder
-> - add Makefile and Kconfig support
-> - add sanitycheck testcase
+On Mon, Feb 07, 2022 at 08:43:27PM -0800, Bjorn Andersson wrote:
+> In some implementations, such as the Qualcomm platforms, the display
+> driver has no way to query the current HPD state and as such it's
+> impossible to distinguish between disconnect and attention events.
 > 
-> Prerequisites
-> - These series of selftests patches are created on top of
->    drm buddy series
-> - Enable kselftests for DRM as a module in .config
+> Add a parameter to drm_connector_oob_hotplug_event() to pass the HPD
+> state.
 > 
-> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
-
-At some point I guess we also want some IGT that picks this up? Like we 
-do in tests/drm_mm.c? That way this can get picked up by CI?
-
-Acked-by: Matthew Auld <matthew.auld@intel.com>
-
+> Also push the test for unchanged state in the displayport altmode driver
+> into the i915 driver, to allow other drivers to act upon each update.
+> 
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > ---
->   drivers/gpu/drm/Kconfig                       |  1 +
->   drivers/gpu/drm/selftests/Makefile            |  3 +-
->   .../gpu/drm/selftests/drm_buddy_selftests.h   |  9 ++++
->   drivers/gpu/drm/selftests/test-drm_buddy.c    | 49 +++++++++++++++++++
->   4 files changed, 61 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/gpu/drm/selftests/drm_buddy_selftests.h
->   create mode 100644 drivers/gpu/drm/selftests/test-drm_buddy.c
 > 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index eb5a57ae3c5c..ff856df3f97f 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -71,6 +71,7 @@ config DRM_DEBUG_SELFTEST
->   	select DRM_DP_HELPER
->   	select DRM_LIB_RANDOM
->   	select DRM_KMS_HELPER
-> +	select DRM_BUDDY
->   	select DRM_EXPORT_FOR_TESTS if m
->   	default n
->   	help
-> diff --git a/drivers/gpu/drm/selftests/Makefile b/drivers/gpu/drm/selftests/Makefile
-> index 0856e4b12f70..5ba5f9138c95 100644
-> --- a/drivers/gpu/drm/selftests/Makefile
-> +++ b/drivers/gpu/drm/selftests/Makefile
-> @@ -4,4 +4,5 @@ test-drm_modeset-y := test-drm_modeset_common.o test-drm_plane_helper.o \
->   		      test-drm_damage_helper.o test-drm_dp_mst_helper.o \
->   		      test-drm_rect.o
->   
-> -obj-$(CONFIG_DRM_DEBUG_SELFTEST) += test-drm_mm.o test-drm_modeset.o test-drm_cmdline_parser.o
-> +obj-$(CONFIG_DRM_DEBUG_SELFTEST) += test-drm_mm.o test-drm_modeset.o test-drm_cmdline_parser.o \
-> +				    test-drm_buddy.o
-> diff --git a/drivers/gpu/drm/selftests/drm_buddy_selftests.h b/drivers/gpu/drm/selftests/drm_buddy_selftests.h
-> new file mode 100644
-> index 000000000000..a4bcf3a6dfe3
-> --- /dev/null
-> +++ b/drivers/gpu/drm/selftests/drm_buddy_selftests.h
-> @@ -0,0 +1,9 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/* List each unit test as selftest(name, function)
-> + *
-> + * The name is used as both an enum and expanded as igt__name to create
-> + * a module parameter. It must be unique and legal for a C identifier.
-> + *
-> + * Tests are executed in order by igt/drm_buddy
-> + */
-> +selftest(sanitycheck, igt_sanitycheck) /* keep first (selfcheck for igt) */
-> diff --git a/drivers/gpu/drm/selftests/test-drm_buddy.c b/drivers/gpu/drm/selftests/test-drm_buddy.c
-> new file mode 100644
-> index 000000000000..51e4d393d22c
-> --- /dev/null
-> +++ b/drivers/gpu/drm/selftests/test-drm_buddy.c
-> @@ -0,0 +1,49 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2019 Intel Corporation
-> + */
+> Note that the Intel driver has only been compile tested with this patch.
+> 
+>  drivers/gpu/drm/drm_connector.c          |  6 ++++--
+>  drivers/gpu/drm/i915/display/intel_dp.c  | 14 +++++++++++---
+>  drivers/gpu/drm/i915/i915_drv.h          |  3 +++
+>  drivers/usb/typec/altmodes/displayport.c |  9 ++-------
+>  include/drm/drm_connector.h              |  5 +++--
+>  5 files changed, 23 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index a50c82bc2b2f..ad7295597c0f 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -2825,6 +2825,7 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
+>  /**
+>   * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
+>   * @connector_fwnode: fwnode_handle to report the event on
+> + * @hpd_state: number of data lanes available
+
+"number"?
+
+>   *
+>   * On some hardware a hotplug event notification may come from outside the display
+>   * driver / device. An example of this is some USB Type-C setups where the hardware
+> @@ -2834,7 +2835,8 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
+>   * This function can be used to report these out-of-band events after obtaining
+>   * a drm_connector reference through calling drm_connector_find_by_fwnode().
+>   */
+> -void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
+> +void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
+> +				     bool hpd_state)
+
+This is a boolean, how can it be a number?
+
+And having a "flag" like this is a pain, how do you know what the
+parameter really means?
+
+>  {
+>  	struct drm_connector *connector;
+>  
+> @@ -2843,7 +2845,7 @@ void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
+>  		return;
+>  
+>  	if (connector->funcs->oob_hotplug_event)
+> -		connector->funcs->oob_hotplug_event(connector);
+> +		connector->funcs->oob_hotplug_event(connector, hpd_state);
+>  
+>  	drm_connector_put(connector);
+>  }
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 146b83916005..00520867d37b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -4816,15 +4816,23 @@ static int intel_dp_connector_atomic_check(struct drm_connector *conn,
+>  	return intel_modeset_synced_crtcs(state, conn);
+>  }
+>  
+> -static void intel_dp_oob_hotplug_event(struct drm_connector *connector)
+> +static void intel_dp_oob_hotplug_event(struct drm_connector *connector, bool hpd_state)
+>  {
+>  	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
+>  	struct drm_i915_private *i915 = to_i915(connector->dev);
+> +	bool need_work = false;
+>  
+>  	spin_lock_irq(&i915->irq_lock);
+> -	i915->hotplug.event_bits |= BIT(encoder->hpd_pin);
+> +	if (hpd_state != i915->hotplug.oob_hotplug_state) {
+> +		i915->hotplug.event_bits |= BIT(encoder->hpd_pin);
 > +
-> +#define pr_fmt(fmt) "drm_buddy: " fmt
+> +		i915->hotplug.oob_hotplug_state = hpd_state;
+> +		need_work = true;
+> +	}
+>  	spin_unlock_irq(&i915->irq_lock);
+> -	queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
 > +
-> +#include <linux/module.h>
+> +	if (need_work)
+> +		queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
+>  }
+>  
+>  static const struct drm_connector_funcs intel_dp_connector_funcs = {
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 8c1706fd81f9..543ebf1cfcf4 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -149,6 +149,9 @@ struct i915_hotplug {
+>  	/* Whether or not to count short HPD IRQs in HPD storms */
+>  	u8 hpd_short_storm_enabled;
+>  
+> +	/* Last state reported by oob_hotplug_event */
+> +	bool oob_hotplug_state;
 > +
-> +#include <drm/drm_buddy.h>
-> +
-> +#include "../lib/drm_random.h"
-> +
-> +#define TESTS "drm_buddy_selftests.h"
-> +#include "drm_selftest.h"
-> +
-> +static unsigned int random_seed;
-> +
-> +static int igt_sanitycheck(void *ignored)
-> +{
-> +	pr_info("%s - ok!\n", __func__);
-> +	return 0;
-> +}
-> +
-> +#include "drm_selftest.c"
-> +
-> +static int __init test_drm_buddy_init(void)
-> +{
-> +	int err;
-> +
-> +	while (!random_seed)
-> +		random_seed = get_random_int();
-> +
-> +	pr_info("Testing DRM buddy manager (struct drm_buddy), with random_seed=0x%x\n",
-> +		random_seed);
-> +	err = run_selftests(selftests, ARRAY_SIZE(selftests), NULL);
-> +
-> +	return err > 0 ? 0 : err;
-> +}
-> +
-> +static void __exit test_drm_buddy_exit(void)
-> +{
-> +}
-> +
-> +module_init(test_drm_buddy_init);
-> +module_exit(test_drm_buddy_exit);
-> +
-> +MODULE_AUTHOR("Intel Corporation");
-> +MODULE_LICENSE("GPL");
+>  	/*
+>  	 * if we get a HPD irq from DP and a HPD irq from non-DP
+>  	 * the non-DP HPD could block the workqueue on a mode config
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+> index c1d8c23baa39..a4596be4d34a 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -59,7 +59,6 @@ struct dp_altmode {
+>  	struct typec_displayport_data data;
+>  
+>  	enum dp_state state;
+> -	bool hpd;
+>  
+>  	struct mutex lock; /* device lock */
+>  	struct work_struct work;
+> @@ -143,10 +142,7 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
+>  		if (!ret)
+>  			dp->state = DP_STATE_CONFIGURE;
+>  	} else {
+> -		if (dp->hpd != hpd) {
+> -			drm_connector_oob_hotplug_event(dp->connector_fwnode);
+> -			dp->hpd = hpd;
+> -		}
+> +		drm_connector_oob_hotplug_event(dp->connector_fwnode, hpd);
+>  	}
+>  
+>  	return ret;
+> @@ -573,8 +569,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
+>  	cancel_work_sync(&dp->work);
+>  
+>  	if (dp->connector_fwnode) {
+> -		if (dp->hpd)
+> -			drm_connector_oob_hotplug_event(dp->connector_fwnode);
+> +		drm_connector_oob_hotplug_event(dp->connector_fwnode, false);
+
+See, what does "false" here mean?
+
+Name the function for what it does, do not have random flags as
+parameters, that makes it impossible to understand what the code is
+doing when you are reading it, without having to jump around and figure
+out what the flags are saying.
+
+And here they just don't even seem to be right :(
+
+thanks,
+
+greg k-h
