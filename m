@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B734AD528
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 10:45:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D9B4AD522
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 10:40:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DEE810E5D3;
-	Tue,  8 Feb 2022 09:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A493C10E5B7;
+	Tue,  8 Feb 2022 09:40:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE2F10E4F1
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 09:45:29 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id z17so3394304plb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 01:45:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fZ5YoyypaVIdNJWNBuLZoYFhoOEVTGQBx0XSyV/K64g=;
- b=pNjpHOvtGk7X2k8pye4V2WHMJ7dNNRrzdNfMbZZhyF+E5PPYKOmO91Sc5wQM0IkuTY
- dPBgHyQSiuWGu+PJnIbZOmV9+0/cgSwADvRm4OfjSPEZe1YYiuI+N19DW/ojNqYaR3Tg
- tbfGl1WYYSd3BLSV7l1jI0qC1O+2HF+TxHAymI9DlgGtZYp/4Z/qJ4mk0PdX/SFvplPP
- 22pYV/d9yMSggkijFMPtN8eKpTwdNd8T1grrlNxCpfXDBWBfFOjJqFMZVwk6nVdXaTq0
- 91ltG5gjjFuvui8SECnYYHEXfpFXoQ+95U7Gm9zmzB357dcQor6ZtyWchOjprzR7JNeN
- k4PQ==
-X-Gm-Message-State: AOAM5326Mt1NZtnmIJcxCDBcpPa3/Vwrq5bfyJhW/UbUs2h72G2mbv+y
- tjJOI63lCSRxfI9lIJuOsO0hUcvi8gvqnQ==
-X-Google-Smtp-Source: ABdhPJwlrxdPjEsjl2N3fkhiizZMnoYbkbECr5EZApDOZh6j1bMe0DOvyxGiLpeX+mZSvHOkqMta+g==
-X-Received: by 2002:a17:90a:af97:: with SMTP id
- w23mr414724pjq.162.1644313528824; 
- Tue, 08 Feb 2022 01:45:28 -0800 (PST)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com.
- [209.85.216.47])
- by smtp.gmail.com with ESMTPSA id cu21sm763449pjb.50.2022.02.08.01.45.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 01:45:28 -0800 (PST)
-Received: by mail-pj1-f47.google.com with SMTP id
- my12-20020a17090b4c8c00b001b528ba1cd7so2129001pjb.1
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 01:45:28 -0800 (PST)
-X-Received: by 2002:a67:fd63:: with SMTP id h3mr1094926vsa.77.1644313195369;
- Tue, 08 Feb 2022 01:39:55 -0800 (PST)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D55DD10E12F;
+ Tue,  8 Feb 2022 09:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644313214; x=1675849214;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=UBEa6bnATc1XckSSrH+Ga3bve1upbhNguIC65V8cxtY=;
+ b=SHasuJMu4LaBRujQr5mno8sg6B+r6Nef137k5/EpkA7wyDdAHY3c/Lx1
+ 0fO4lo8qs1opYZTZR/IXytfaPa+RrvAJxXk2rpS02Z2UfYpAvxpUet3zl
+ I00wGq+zMyM3sade87KlROJWNPiAffiS828kDvXSMpmMQCExEypnEJ35x
+ Ex/BFT7gYy/bjOL03AE5Ov8vRYIHiIa1iCtn/ElYwZoqsJw+BuTDjBvFZ
+ D954yw9Y6I8tuTdOsC0VePfSytD47ktpwJAXZsKaVWozA4smTiwI+XLTV
+ X/DKlw3WqPwwj/9JgMhc6MMTSA8vEnJuq2wHWh+RIO4SnEV0mi8LdMFxQ A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="249119116"
+X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="249119116"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2022 01:40:14 -0800
+X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="585133118"
+Received: from amcgrat2-mobl1.ger.corp.intel.com (HELO [10.252.10.21])
+ ([10.252.10.21])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2022 01:40:12 -0800
+Message-ID: <644ce762-cb6a-0cf1-d1e0-1e799a3405bf@intel.com>
+Date: Tue, 8 Feb 2022 09:40:10 +0000
 MIME-Version: 1.0
-References: <20220203093922.20754-1-tzimmermann@suse.de>
-In-Reply-To: <20220203093922.20754-1-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 8 Feb 2022 10:39:44 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWykWR4oKahC2GYF5jG4przRQ+MxNNm1BK7o62OhhGYwA@mail.gmail.com>
-Message-ID: <CAMuHMdWykWR4oKahC2GYF5jG4przRQ+MxNNm1BK7o62OhhGYwA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 2/7] drm/selftests: add drm buddy alloc limit testcase
+Content-Language: en-GB
+To: Arunpravin <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20220203133234.3350-1-Arunpravin.PaneerSelvam@amd.com>
+ <20220203133234.3350-2-Arunpravin.PaneerSelvam@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20220203133234.3350-2-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +62,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Randy Dunlap <rdunlap@infradead.org>, Doug Anderson <dianders@chromium.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Ard Biesheuvel <ardb@kernel.org>
+Cc: alexander.deucher@amd.com, tzimmermann@suse.de, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On 03/02/2022 13:32, Arunpravin wrote:
+> add a test to check the maximum allocation limit
+> 
+> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+> ---
+>   .../gpu/drm/selftests/drm_buddy_selftests.h   |  1 +
+>   drivers/gpu/drm/selftests/test-drm_buddy.c    | 60 +++++++++++++++++++
+>   2 files changed, 61 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/selftests/drm_buddy_selftests.h b/drivers/gpu/drm/selftests/drm_buddy_selftests.h
+> index a4bcf3a6dfe3..ebe16162762f 100644
+> --- a/drivers/gpu/drm/selftests/drm_buddy_selftests.h
+> +++ b/drivers/gpu/drm/selftests/drm_buddy_selftests.h
+> @@ -7,3 +7,4 @@
+>    * Tests are executed in order by igt/drm_buddy
+>    */
+>   selftest(sanitycheck, igt_sanitycheck) /* keep first (selfcheck for igt) */
+> +selftest(buddy_alloc_limit, igt_buddy_alloc_limit)
+> diff --git a/drivers/gpu/drm/selftests/test-drm_buddy.c b/drivers/gpu/drm/selftests/test-drm_buddy.c
+> index 51e4d393d22c..fd7d1a112458 100644
+> --- a/drivers/gpu/drm/selftests/test-drm_buddy.c
+> +++ b/drivers/gpu/drm/selftests/test-drm_buddy.c
+> @@ -16,6 +16,66 @@
+>   
+>   static unsigned int random_seed;
+>   
+> +static int igt_buddy_alloc_limit(void *arg)
+> +{
+> +	u64 end, size = U64_MAX, start = 0;
+> +	struct drm_buddy_block *block;
+> +	unsigned long flags = 0;
+> +	LIST_HEAD(allocated);
+> +	struct drm_buddy mm;
+> +	int err;
+> +
+> +	size = end = round_down(size, 4096);
+> +	err = drm_buddy_init(&mm, size, PAGE_SIZE);
+> +	if (err)
+> +		return err;
+> +
+> +	if (mm.max_order != DRM_BUDDY_MAX_ORDER) {
+> +		pr_err("mm.max_order(%d) != %d\n",
+> +		       mm.max_order, DRM_BUDDY_MAX_ORDER);
+> +		err = -EINVAL;
+> +		goto out_fini;
+> +	}
+> +
+> +	err = drm_buddy_alloc_blocks(&mm, start, end, size,
+> +				     PAGE_SIZE, &allocated, flags);
+> +
+> +	if (unlikely(err))
+> +		goto out_free;
+> +
+> +	block = list_first_entry_or_null(&allocated,
+> +					 struct drm_buddy_block,
+> +					 link);
+> +
+> +	if (!block)
 
-On Mon, Feb 7, 2022 at 12:31 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> As reported in [1], DRM_PANEL_EDP depends on DRM_DP_HELPER. Select
-> the option to fix the build failure. The error message is shown
-> below.
->
->   arm-linux-gnueabihf-ld: drivers/gpu/drm/panel/panel-edp.o: in function
->     `panel_edp_probe': panel-edp.c:(.text+0xb74): undefined reference to
->     `drm_panel_dp_aux_backlight'
->   make[1]: *** [/builds/linux/Makefile:1222: vmlinux] Error 1
->
-> The issue has been reported before, when DisplayPort helpers were
-> hidden behind the option CONFIG_DRM_KMS_HELPER. [2]
->
-> v2:
->         * fix and expand commit description (Arnd)
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+err = -EINVAL;
 
-Thanks for your patch!
+> +		goto out_fini;
+> +
+> +	if (drm_buddy_block_order(block) != mm.max_order) {
+> +		pr_err("block order(%d) != %d\n",
+> +		       drm_buddy_block_order(block), mm.max_order);
+> +		err = -EINVAL;
+> +		goto out_free;
+> +	}
+> +
+> +	if (drm_buddy_block_size(&mm, block) !=
+> +	    BIT_ULL(mm.max_order) * PAGE_SIZE) {
+> +		pr_err("block size(%llu) != %llu\n",
+> +		       drm_buddy_block_size(&mm, block),
+> +		       BIT_ULL(mm.max_order) * PAGE_SIZE);
+> +		err = -EINVAL;
+> +		goto out_free;
+> +	}
+> +
+> +	if (!err)
 
-This fixes the build errors I'm seeing, so
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Always true AFAICT?
 
-Gr{oetje,eeting}s,
+> +		pr_info("%s - succeeded\n", __func__);
 
-                        Geert
+I guess this could be made part of the run_selftests()? It looks like it 
+already prints the current test, perhaps that is already enough?
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+With the err = -EINVAL change, feel free to add,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +
+> +out_free:
+> +	drm_buddy_free_list(&mm, &allocated);
+> +out_fini:
+> +	drm_buddy_fini(&mm);
+> +	return err;
+> +}
+> +
+>   static int igt_sanitycheck(void *ignored)
+>   {
+>   	pr_info("%s - ok!\n", __func__);
