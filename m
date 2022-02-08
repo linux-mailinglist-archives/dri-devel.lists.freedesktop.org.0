@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347644AE2E3
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 22:09:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7012B4AE2E8
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 22:09:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C14CC10E4ED;
-	Tue,  8 Feb 2022 21:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2791810E5BB;
+	Tue,  8 Feb 2022 21:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1AF310E4ED
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 21:08:44 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id c192so142200wma.4
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 13:08:44 -0800 (PST)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC2FF10E51B
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 21:08:45 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ k3-20020a1ca103000000b0037bdea84f9cso177104wme.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 13:08:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gS4cB1np1M5WffNPCk4lBUp+Ft8dXY94oZrLVYHaHIU=;
- b=POlHKow3MVpKZFu37kNTQBf60vXI/Bdf0/kdIpeZxBk+FetbUOq7GWpdR/E7ywdHH6
- 6A8znecVyMGtnphv3jPdoQeC1TZW2v3uwbFzVY/WoLwOj8AtjmVGu62bi97NgT0FawcD
- T1Dvp2sActs5q6ehz/awhILYoFHe66ZE+SqPM=
+ bh=kxmmBkNFc2e7V4ERjxKal7nxxEacNSK1FsSHDJ/tyIc=;
+ b=Z09sK1MIQXvHodEW69pcLwZPAC2Jyh1Yq9ldGqdLR7reUraZE7M6u7jdOOeYRDBf89
+ UUxkLMzeLBfxd3O4D0f+4VPHvHICjubc4fPRQHDK7GB4hbBxyg8oSXZLVun1qG1/NbkT
+ QOvr5w/LmHavg6G1SUwn1zrJxyAMEJXhXZfiY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gS4cB1np1M5WffNPCk4lBUp+Ft8dXY94oZrLVYHaHIU=;
- b=nKqM6fUi3JPnq7Hmwd9SHW7CqLJOphowZbv+ApkFb2Bebr/ukE+G3Afgdx67vUuhLr
- nH/Z/hqvyQuZ5/BzjWhsOIpCwyS6qgv05xF/17HRfSBbfl68sRxdVXs5fFtHE2wA9rUH
- KweS0LNhcR0bf7HgKOMRnZlpDJTU5q4YaEhDeteZsZ9ZUONksqBmmbDhORX+L9HBquCa
- P6lXBc37Qxfxt6KX3oo4cx+kEOKs/2TeejOAxpbFuRPCrDf4x9/rx+Cnc2xZ533FTkeS
- Z0XlEG9VixlFL+/LOQ5SBAHxYTZwnFHH07qntq5M/Di+RIOYySOSXKCqQOOnvRx1KttD
- 4Jcw==
-X-Gm-Message-State: AOAM53025VUhOOiKQmXLOG2H0PLN14iqGygTCyDz7eoxoiQWKYhNjBOQ
- q0TdyJdm4MXP1PsQ0ITcW6NI/uxP9RAmbw==
-X-Google-Smtp-Source: ABdhPJw/XJ2Q8Ob/zJyksXM8gBtUTQabIf26mhSeRQ5qUe8UkM0HAwCg61/bEu2b1DdCs9/6qE+0Ng==
-X-Received: by 2002:a05:600c:3505:: with SMTP id
- h5mr2617699wmq.122.1644354523501; 
- Tue, 08 Feb 2022 13:08:43 -0800 (PST)
+ bh=kxmmBkNFc2e7V4ERjxKal7nxxEacNSK1FsSHDJ/tyIc=;
+ b=wQBVwVk4gebj+ryqeWXnEGoRO2lgj90SUT1zWkcLjhtySzc+gXRrgXBiTABhWcTgCR
+ 8ISKzcKyDWzkLzPHk2yeUc2a/HZ+w3u/ckG9s7GosBBgt3DJ0lVlmFFBZVKOiD72QFLR
+ 8o0m0QoIBFHo+VoQ1snfBoVjVD09ZirdR95nH4/vXJExki8aq1N8/3K2yXDOShreiyIg
+ E4che38jz1Sx6Y5O7NFCcJ8T2k7bWDYxRmMvDALyTmBtgnlmQFlrbxL6z6RA5Rfygojw
+ yX0J8MLr3OWgJkT4/yPpzZCDlIl7Dln511xSD1cBHt0B/4edJiW4C2t/O8389yuZwYu1
+ q1kw==
+X-Gm-Message-State: AOAM5335p9Xwdr/M8oyrjr76CF/LqDODiVTLpBehtrE8QKoZxDtpYxY4
+ r/tSzEiXbihEuuFiOsMMGKpRN2+V6eSwbw==
+X-Google-Smtp-Source: ABdhPJx9Pmbs1AtHCBnIRUQUhg6MOdNihnyQs/peWemRHhguZJlE+pEmulNqns55/ByeHXTnphkZ2g==
+X-Received: by 2002:a05:600c:3394:: with SMTP id
+ o20mr2536218wmp.186.1644354524370; 
+ Tue, 08 Feb 2022 13:08:44 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o14sm3033561wmr.3.2022.02.08.13.08.42
+ by smtp.gmail.com with ESMTPSA id o14sm3033561wmr.3.2022.02.08.13.08.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 13:08:42 -0800 (PST)
+ Tue, 08 Feb 2022 13:08:44 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 07/19] fbcon: Replace FBCON_FLAGS_INIT with a boolean
-Date: Tue,  8 Feb 2022 22:08:12 +0100
-Message-Id: <20220208210824.2238981-8-daniel.vetter@ffwll.ch>
+Subject: [PATCH v2 08/19] fb: Delete fb_info->queue
+Date: Tue,  8 Feb 2022 22:08:13 +0100
+Message-Id: <20220208210824.2238981-9-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220208210824.2238981-1-daniel.vetter@ffwll.ch>
 References: <20220208210824.2238981-1-daniel.vetter@ffwll.ch>
@@ -65,105 +66,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Du Cheng <ducheng2@gmail.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Claudio Suarez <cssk@net-c.es>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+ LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's only one flag and slightly tidier code.
+It was only used by fbcon, and that now switched to its own,
+private work.
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Du Cheng <ducheng2@gmail.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Claudio Suarez <cssk@net-c.es>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org
 ---
- drivers/video/fbdev/core/fbcon.c | 11 +++++------
- drivers/video/fbdev/core/fbcon.h |  4 +---
- 2 files changed, 6 insertions(+), 9 deletions(-)
+ include/linux/fb.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index a368ed602e2e..058e885d24f6 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -775,7 +775,7 @@ static void con2fb_init_display(struct vc_data *vc, struct fb_info *info,
- 
- 	ops->currcon = fg_console;
- 
--	if (info->fbops->fb_set_par && !(ops->flags & FBCON_FLAGS_INIT)) {
-+	if (info->fbops->fb_set_par && !ops->initialized) {
- 		ret = info->fbops->fb_set_par(info);
- 
- 		if (ret)
-@@ -784,7 +784,7 @@ static void con2fb_init_display(struct vc_data *vc, struct fb_info *info,
- 				"error code %d\n", ret);
- 	}
- 
--	ops->flags |= FBCON_FLAGS_INIT;
-+	ops->initialized = true;
- 	ops->graphics = 0;
- 	fbcon_set_disp(info, &info->var, unit);
- 
-@@ -1103,8 +1103,7 @@ static void fbcon_init(struct vc_data *vc, int init)
- 	 * We need to do it in fbcon_init() to prevent screen corruption.
- 	 */
- 	if (con_is_visible(vc) && vc->vc_mode == KD_TEXT) {
--		if (info->fbops->fb_set_par &&
--		    !(ops->flags & FBCON_FLAGS_INIT)) {
-+		if (info->fbops->fb_set_par && !ops->initialized) {
- 			ret = info->fbops->fb_set_par(info);
- 
- 			if (ret)
-@@ -1113,7 +1112,7 @@ static void fbcon_init(struct vc_data *vc, int init)
- 					"error code %d\n", ret);
- 		}
- 
--		ops->flags |= FBCON_FLAGS_INIT;
-+		ops->initialized = true;
- 	}
- 
- 	ops->graphics = 0;
-@@ -1186,7 +1185,7 @@ static void fbcon_deinit(struct vc_data *vc)
- 	if (con_is_visible(vc))
- 		fbcon_del_cursor_work(info);
- 
--	ops->flags &= ~FBCON_FLAGS_INIT;
-+	ops->initialized = false;
- finished:
- 
- 	fbcon_free_font(p, free_font);
-diff --git a/drivers/video/fbdev/core/fbcon.h b/drivers/video/fbdev/core/fbcon.h
-index 6708ca0048aa..0eaf54a21151 100644
---- a/drivers/video/fbdev/core/fbcon.h
-+++ b/drivers/video/fbdev/core/fbcon.h
-@@ -18,8 +18,6 @@
- 
- #include <asm/io.h>
- 
--#define FBCON_FLAGS_INIT         1
--
-    /*
-     *    This is the interface between the low-level console driver and the
-     *    low-level frame buffer device
-@@ -79,7 +77,7 @@ struct fbcon_ops {
- 	int    blank_state;
- 	int    graphics;
- 	int    save_graphics; /* for debug enter/leave */
--	int    flags;
-+	bool   initialized;
- 	int    rotate;
- 	int    cur_rotate;
- 	char  *cursor_data;
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 3d7306c9a706..23b19cf8bccd 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -449,7 +449,6 @@ struct fb_info {
+ 	struct fb_var_screeninfo var;	/* Current var */
+ 	struct fb_fix_screeninfo fix;	/* Current fix */
+ 	struct fb_monspecs monspecs;	/* Current Monitor specs */
+-	struct work_struct queue;	/* Framebuffer event queue */
+ 	struct fb_pixmap pixmap;	/* Image hardware mapper */
+ 	struct fb_pixmap sprite;	/* Cursor hardware mapper */
+ 	struct fb_cmap cmap;		/* Current cmap */
 -- 
 2.34.1
 
