@@ -1,49 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E230E4ADC3F
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 16:18:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 400604ADC49
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 16:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B16A010E3E5;
-	Tue,  8 Feb 2022 15:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 848B810E2D6;
+	Tue,  8 Feb 2022 15:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 405E310E3E5
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 15:18:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 17D9CB81B97;
- Tue,  8 Feb 2022 15:18:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 071E2C004E1;
- Tue,  8 Feb 2022 15:18:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644333501;
- bh=9zUs0iuzKwulU200Q6NMliFAJbLi0oQzH9htLDfo/j8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jec8CourqxGwtOULAuUJQ2M06wpyEydYcArcgJdKsAi2pDpknemzA3PLWTfMKSj7k
- UDzxVpfxINAj6NXq1W4KUyDdHKyM51z62OlSYsrEJOcVZbQybOEJNB6Y/FESnlSAdw
- s+kZ3C6+D9EpV9zfi/4v42c21hn321m0WQijY487BF3RlwwxK4RXsiIFqskCZKGg2X
- YZWojAT2oRg5AxPl4e2OOP/6DUinHkbXLQ7JADrUsYjDmOza9sAg5gbYVmYEefXPVj
- HhDLH0L2g/iD0eNGQf+ZyGAUmEYBS4BjNfqd7OdQKIK7dCh/DYx+/uRVmhDXdrYyYv
- JIrzOMR83Rk4w==
-Date: Tue, 8 Feb 2022 15:18:14 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED
- displays
-Message-ID: <YgKJtjoFMSzxNiiI@sirena.org.uk>
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <CAMuHMdVTVX7LFay-rfv=oW96dMA24duMUVGRE62jQSNkrKtyMg@mail.gmail.com>
- <f178de92-7cb1-dcc5-1f60-9ccfc56bc0a4@redhat.com>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C13F10E189;
+ Tue,  8 Feb 2022 15:19:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1644333543; x=1675869543;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=e+YAbU7tnC/KqDRS6bxzop0kr89RyJukXnDpmgP6asg=;
+ b=qRStOiLclJljQsupKjUTpco2ZR89eyR2tmstRA27sVYKHTBFf0CY9WIl
+ sAlo7eAjgXQJ2ed0pnkD+FjwrpXXhV3DJLG5CXw9/SJ0riMvPAlZ2HyzV
+ xCulmldkO0/VGr5eWc90+B7/cOVkzyTOz646dDnVKInQ4U9tkCAIIXCj7 g=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 08 Feb 2022 07:19:03 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2022 07:19:03 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 8 Feb 2022 07:19:01 -0800
+Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 8 Feb 2022 07:18:55 -0800
+From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <agross@kernel.org>,
+ <bjorn.andersson@linaro.org>, <robh+dt@kernel.org>, <robdclark@gmail.com>,
+ <seanpaul@chromium.org>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <krzysztof.kozlowski@canonical.com>, <thierry.reding@gmail.com>,
+ <sam@ravnborg.org>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH v2 0/4] Add support for the eDP panel on sc7280 CRD
+Date: Tue, 8 Feb 2022 20:48:41 +0530
+Message-ID: <1644333525-30920-1-git-send-email-quic_sbillaka@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6nCHMM5kfVPLymNn"
-Content-Disposition: inline
-In-Reply-To: <f178de92-7cb1-dcc5-1f60-9ccfc56bc0a4@redhat.com>
-X-Cookie: This is your fortune.
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,62 +64,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Sam Ravnborg <sam@ravnborg.org>, Linux PWM List <linux-pwm@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: quic_kalyant@quicinc.com, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ quic_mkrishn@quicinc.com, quic_abhinavk@quicinc.com, quic_khsieh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add support for the eDP panel on sc7280 CRD platform. The eDP panel does
+not need HPD line for connect disconnect. So, this series will report eDP
+as always connected. The driver needs to register for IRQ_HPD only for eDP.
+This support will be added later.
 
---6nCHMM5kfVPLymNn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+These changes are dependent on the following series:
+https://patchwork.kernel.org/project/linux-arm-msm/list/?series=586263&archive=both&state=*
+https://patchwork.kernel.org/project/linux-arm-msm/list/?series=560587&state=%2A&archive=both
 
-On Tue, Feb 08, 2022 at 04:10:49PM +0100, Javier Martinez Canillas wrote:
-> On 2/8/22 15:19, Geert Uytterhoeven wrote:
+Sankeerth Billakanti (4):
+  dt-bindings: display: simple: Add sharp LQ140M1JW46 panel
+  arm64: dts: qcom: sc7280: Add support for eDP panel on CRD
+  drm/panel-edp: Add eDP sharp panel support
+  drm/msm/dp: Add driver support to utilize drm panel
 
-> >   - "time ls" on the serial console (no files in the current directory,
-> >     so nothing to print) increases from 0.86s to 1.92s, so the system is
-> >     more loaded.  As ssd1307fb relied on deferred I/O too, the slowdown
-> >     might be (partly) due to redrawing of the visual artefacts
-> >     mentioned above.
+ .../bindings/display/panel/panel-simple.yaml       |   2 +
+ arch/arm64/boot/dts/qcom/sc7280-crd.dts            | 122 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi               |   2 -
+ drivers/gpu/drm/msm/dp/dp_display.c                |   8 ++
+ drivers/gpu/drm/msm/dp/dp_drm.c                    |  54 ++++++++-
+ drivers/gpu/drm/msm/dp/dp_parser.h                 |   3 +
+ drivers/gpu/drm/panel/panel-edp.c                  |  31 ++++++
+ 7 files changed, 215 insertions(+), 7 deletions(-)
 
-> I was trying to first have the driver and then figure out how to optimize
-> it. For v3 I'm using regmap to access instead of the I2C layer directly.
+-- 
+2.7.4
 
-> I noticed that this is even slower but it makes the driver more clean and
-> allows to support both I2C and SPI (untested but will include it as a WIP).
-
-I wouldn't have expected regmap to add huge overhead relative to I2C,
-partly predicated on I2C being rather slow itself.  There will be some
-overhead for concurrency protection and data marshalling but for I2C
-clocked at normal speeds it's surprising.
-
---6nCHMM5kfVPLymNn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmICibYACgkQJNaLcl1U
-h9AOugf/QJOPSSqlU4nYtDxke7z0DHEFzbA063OycyGY8coF3lZCkjrBvoV2zp5r
-gBY8Wdmv00psAkmZE7Pg3o8IZhaBn9mZ7+u/GZ0/Rzv7P+oNScm9ixRfPzOVAw5n
-8ipOUBx2JYFmxMaYKsahkKl/IMSZ7w14roD+GnSHomyk1yK47L+7+ILdJdzC9Gg4
-0rDNz+IF+tKQu4SrwyteAmwy0a3ufos9kj+zOH61iVOv4388BuSnoUCa0ADUCGMb
-n7MkSDMlJwuTJkX3sS5jJeJdi0AP+uuPwUa73zAAq3FDi7Zn3wjnRlEHP+QNa3B/
-yQIr2nXx8Oy5WWWQc8CPGM7d4u+3EQ==
-=0FAN
------END PGP SIGNATURE-----
-
---6nCHMM5kfVPLymNn--
