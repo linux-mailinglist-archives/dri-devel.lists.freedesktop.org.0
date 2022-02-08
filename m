@@ -2,47 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 717674ACE8E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 03:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF48D4ACEB8
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 03:14:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11A4810E3D3;
-	Tue,  8 Feb 2022 02:07:20 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D47110E324;
- Tue,  8 Feb 2022 02:07:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644286038; x=1675822038;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=R3/ys9ohxjEuZnYsD3UyY6kfSP3f1++9NkRvXXutvtE=;
- b=QRznG2XDoPZz4QCHC8ZRdlGTAAU6iayuAddB/xaRgG1rxUXW/9RuPPfa
- gdhUmvuxhlG7S4Li8xA4/SyLdcl5IQj2Z9mvMCPkRjXqgXv41TJ/2dqHS
- a2cLa72cag7DPS999Z8UkoR+nbWejCdvqAIP63kX1qNu5BgzT702JFa7f
- a7xOrimGIL2/8Q6ItjfDybwaZOQaq10dVTGNLYwrlN/ymstWjk4iacA/a
- lEExVhsSfM+SnXMqB8/AaSt/Opmv5vtlFesG8lma7OVIIre6IgUG3CN5S
- wyvnrTZ/yRyN7j7AfcUTc3Ip1deIddBcLBjlzgMyVRktEEta1exHbkHad w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="228821984"
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="228821984"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 18:07:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="540386498"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
- by orsmga008.jf.intel.com with ESMTP; 07 Feb 2022 18:07:16 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH] drm/i915/guc: Fix flag query to not modify state
-Date: Mon,  7 Feb 2022 18:07:16 -0800
-Message-Id: <20220208020716.2140157-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.25.1
+	by gabe.freedesktop.org (Postfix) with ESMTP id C638810E1FE;
+	Tue,  8 Feb 2022 02:14:11 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A98AC10E1FE
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 02:14:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 5DBBFB817A0
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 02:14:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E651C340F2
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 02:14:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644286447;
+ bh=Fph4PJDbouMfoaJHcmJukTeg2f451EsGTJKeTIiJZTQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=AKqCDZ0ciICkeWLsMS+jxD8yuxNERgXloYkmk70hFc5yTOC+PevPiv64CYSV8qUEt
+ 03jcCn4L3b4+oEBOv81T9Q4lwzs1A2L+PK59kxWITXFncUbV3qrTcmDvZPRm79wesT
+ 3xJRTK3IzIKA4G8zAd64fdg1a1aSLC9zUWPfJ+4+lydZult1W2+SQlYTbJPSVJxku/
+ 4Vk8BWTD1vas64xk1lM7rfpqzJvFeU4kdPo6lHi1qpffOaDyvEadbn4cV/vBV9OPXG
+ m9rXXZwraGKbwuaJLngPJmX9nHA6ch4bgmzXxgvrDoX3uF+X4xVvt5/TQJctzRHplH
+ aAB5RWRiT7mZA==
+Received: by mail-vs1-f45.google.com with SMTP id g10so1820288vss.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 18:14:07 -0800 (PST)
+X-Gm-Message-State: AOAM532an16ilt/JzXnwcBdJ+HZyYBjfkbNbYB2CpzuqyaIH3X0UNoJQ
+ 2WrclBotUbfSvlQD3sR+/vp4/QtUH/ldA0jxlrs=
+X-Google-Smtp-Source: ABdhPJxBTS0pV366Usd6d6kkxREmCecGZHF4ioCnF9MTIf24VW5LPFIZRFdfHNpyS5oeM33yCJWt7os6PB7tAr29L1w=
+X-Received: by 2002:a67:fd55:: with SMTP id g21mr720208vsr.53.1644286446000;
+ Mon, 07 Feb 2022 18:14:06 -0800 (PST)
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+References: <b0a06a30-f479-df9f-980c-b789f0f26ce9@linux.intel.com>
+ <20220207175909.GA406079@bhelgaas>
+In-Reply-To: <20220207175909.GA406079@bhelgaas>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Tue, 8 Feb 2022 10:14:08 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4t96wJZs50qjJVnFSHXv7n9YeaXPaV32AGvO2SASWmYw@mail.gmail.com>
+Message-ID: <CAAhV-H4t96wJZs50qjJVnFSHXv7n9YeaXPaV32AGvO2SASWmYw@mail.gmail.com>
+Subject: Re: [PATCH v8 00/10] vgaarb: Rework default VGA device selection
+To: Bjorn Helgaas <helgaas@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,40 +59,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <john.c.harrison@intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: David Airlie <airlied@linux.ie>, linux-pci <linux-pci@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Bjorn Helgaas <bhelgaas@google.com>,
+ Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+Hi, Bjorn,
 
-A flag query helper was actually writing to the flags word rather than
-just reading. Fix that. Also update the function's comment as it was
-out of date.
+On Tue, Feb 8, 2022 at 1:59 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> On Tue, Feb 01, 2022 at 04:46:33PM +0100, Maarten Lankhorst wrote:
+> > Op 31-01-2022 om 23:23 schreef Bjorn Helgaas:
+> > > [+to Maarten, Maxime, Thomas; beginning of thread:
+> > > https://lore.kernel.org/r/20220106000658.243509-1-helgaas@kernel.org]
+> > >
+> > > On Wed, Jan 05, 2022 at 06:06:48PM -0600, Bjorn Helgaas wrote:
+> > >> From: Bjorn Helgaas <bhelgaas@google.com>
+> > >>
+> > >> Current default VGA device selection fails in some cases because part of it
+> > >> is done in the vga_arb_device_init() subsys_initcall, and some arches
+> > >> enumerate PCI devices in pcibios_init(), which runs *after* that.
+> > > Where are we at with this series?  Is there anything I can do to move
+> > > it forward?
+> >
+> > I'm afraid that I don't understand the vga arbiter or the vga code
+> > well enough to review.
+> >
+> > Could you perhaps find someone who could review?
+> >
+> > I see Chen wrote some patches and tested, so perhaps they could?
+>
+> Huacai, any chance you could review this?  I'm worried that this
+> series isn't going to go anywhere unless we can find somebody to
+> review it.
+I have reviewed and tested the whole series, it looks good to me
+(except the naming which has already changed). But I thought I cannot
+add a "Reviewed-by" because I was originally a co-developer. But if
+necessary,
 
-Fixes: 0f7976506de61 ("drm/i915/guc: Rework and simplify locking")
-Signed-off-by: John Harrison <john.c.harrison@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b3a429a92c0d..d9f4218f5ef4 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -174,11 +174,8 @@ static inline void init_sched_state(struct intel_context *ce)
- __maybe_unused
- static bool sched_state_is_init(struct intel_context *ce)
- {
--	/*
--	 * XXX: Kernel contexts can have SCHED_STATE_NO_LOCK_REGISTERED after
--	 * suspend.
--	 */
--	return !(ce->guc_state.sched_state &=
-+	/* Kernel contexts can have SCHED_STATE_REGISTERED after suspend. */
-+	return !(ce->guc_state.sched_state &
- 		 ~(SCHED_STATE_BLOCKED_MASK | SCHED_STATE_REGISTERED));
- }
- 
--- 
-2.25.1
-
+Huacai
+>
+> Bjorn
