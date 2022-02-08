@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CD34AD5AB
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 11:45:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E404AD5A8
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 11:45:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE0E10E6C6;
-	Tue,  8 Feb 2022 10:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEE7410E68A;
+	Tue,  8 Feb 2022 10:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE2810E66B;
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73A2C10E666;
  Tue,  8 Feb 2022 10:45:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1644317114; x=1675853114;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2lrGnLRs5mNfikzeKc7WPr/9xYVAmPT9rkFqJSW9Wig=;
- b=Wo2JWYvQaTRxfEkzx+0NJm5AW8WTQSk0Rt54/mDdje0RsSFaNcAUN/JW
- uqEoITMQ6JMXCHdvZMMU8e6Uz1Un1G3drZApVZypwoShc8ZL2NBdpe5x7
- 44fEtcDDfCFbNWR5SAvwsO5U/ADvICfZUAz2AZ4DTLh4DswmKSeSYGdP0
- Pm1/NCliZzsS5/OQOeepB5P0S0IGYWdL8rE8V7xogH1YDl07ZKGndkvgj
- MGuYP4Vq6YHzGfUpv4xrqISmnYKn+fJptf+Xn5p5NUn4y8s9IxLr7WSyT
- hPFQqUzgTKRjBPsdGlCwYSxHWXMYGiUf6UxN1Uga/rRqCrUY1CuYLJjd0 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="249130489"
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="249130489"
+ bh=0/OoRPDXX62riH3Q2+wOmv/AJ58yGC4ThJd5eiZHi2I=;
+ b=MzN6GZ+rx97ZxsMHqXY0r7npsLGj3ravKEAUdtZeC1LBD6TzuwTYS2Mf
+ ctmICCI2nNOG/RyEU2dKAIzb6sjcmZxyOZFLlxeI/ABBCH5PQazLbfE1K
+ ib5BHHrkvy0Ku7gdrLLPH/84onX9Ukyjz39SuHSz3YVAdOxsrx6Xte3pf
+ duV8h1VoTiedVZ9LBd4Fw8if8YI3bYzl9mlOivI1ciucNKoAdnLh89AHY
+ a4IRnKzgMO6p/YFj6+jHOOSEkh8gi/PzI8uRsm2eZuQp+XFfBU/p/aq2E
+ Y1GFdX1TMfOCydr2iULEgjQP7F+N/zYMrT0QQOLl/TfrnPcSrH1J4Y1za w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="246511559"
+X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="246511559"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Feb 2022 02:45:12 -0800
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="700804145"
+X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="700804149"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Feb 2022 02:45:10 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 13/18] drm/i915/guc: Convert capture list to iosys_map
-Date: Tue,  8 Feb 2022 02:45:19 -0800
-Message-Id: <20220208104524.2516209-14-lucas.demarchi@intel.com>
+Subject: [PATCH v2 14/18] drm/i915/guc: Prepare for error propagation
+Date: Tue,  8 Feb 2022 02:45:20 -0800
+Message-Id: <20220208104524.2516209-15-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220208104524.2516209-1-lucas.demarchi@intel.com>
 References: <20220208104524.2516209-1-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,56 +66,106 @@ Cc: Matthew Brost <matthew.brost@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use iosys_map to write the fields ads.capture_*.
+Currently guc_mmio_reg_add() relies on having enough memory available in
+the array to add a new slot. It uses
+`GEM_BUG_ON(count >= regset->size);` to protect going above the
+threshold.
+
+In order to allow guc_mmio_reg_add() to handle the memory allocation by
+itself, it must return an error in case of failures.  Adjust return code
+so this error can be propagated to the callers of guc_mmio_reg_add() and
+guc_mmio_regset_init().
+
+No intended change in behavior.
 
 Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: John Harrison <John.C.Harrison@Intel.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 31 +++++++++++++---------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index 9230e1a499aa..1f6a3d4d9431 100644
+index 1f6a3d4d9431..21e975d371e6 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -541,7 +541,7 @@ static void guc_init_golden_context(struct intel_guc *guc)
- 	GEM_BUG_ON(guc->ads_golden_ctxt_size != total_size);
+@@ -244,8 +244,8 @@ static int guc_mmio_reg_cmp(const void *a, const void *b)
+ 	return (int)ra->offset - (int)rb->offset;
  }
  
--static void guc_capture_list_init(struct intel_guc *guc, struct __guc_ads_blob *blob)
-+static void guc_capture_list_init(struct intel_guc *guc)
+-static void guc_mmio_reg_add(struct temp_regset *regset,
+-			     u32 offset, u32 flags)
++static long __must_check guc_mmio_reg_add(struct temp_regset *regset,
++					  u32 offset, u32 flags)
  {
- 	int i, j;
- 	u32 addr_ggtt, offset;
-@@ -553,11 +553,11 @@ static void guc_capture_list_init(struct intel_guc *guc, struct __guc_ads_blob *
+ 	u32 count = regset->used;
+ 	struct guc_mmio_reg reg = {
+@@ -264,7 +264,7 @@ static void guc_mmio_reg_add(struct temp_regset *regset,
+ 	 */
+ 	if (bsearch(&reg, regset->registers, count,
+ 		    sizeof(reg), guc_mmio_reg_cmp))
+-		return;
++		return 0;
  
- 	for (i = 0; i < GUC_CAPTURE_LIST_INDEX_MAX; i++) {
- 		for (j = 0; j < GUC_MAX_ENGINE_CLASSES; j++) {
--			blob->ads.capture_instance[i][j] = addr_ggtt;
--			blob->ads.capture_class[i][j] = addr_ggtt;
-+			ads_blob_write(guc, ads.capture_instance[i][j], addr_ggtt);
-+			ads_blob_write(guc, ads.capture_class[i][j], addr_ggtt);
- 		}
+ 	slot = &regset->registers[count];
+ 	regset->used++;
+@@ -277,6 +277,8 @@ static void guc_mmio_reg_add(struct temp_regset *regset,
  
--		blob->ads.capture_global[i] = addr_ggtt;
-+		ads_blob_write(guc, ads.capture_global[i], addr_ggtt);
+ 		swap(slot[1], slot[0]);
  	}
++
++	return 0;
  }
  
-@@ -597,7 +597,7 @@ static void __guc_ads_init(struct intel_guc *guc)
- 	base = intel_guc_ggtt_offset(guc, guc->ads_vma);
+ #define GUC_MMIO_REG_ADD(regset, reg, masked) \
+@@ -284,32 +286,35 @@ static void guc_mmio_reg_add(struct temp_regset *regset,
+ 			 i915_mmio_reg_offset((reg)), \
+ 			 (masked) ? GUC_REGSET_MASKED : 0)
  
- 	/* Capture list for hang debug */
--	guc_capture_list_init(guc, blob);
-+	guc_capture_list_init(guc);
+-static void guc_mmio_regset_init(struct temp_regset *regset,
+-				 struct intel_engine_cs *engine)
++static int guc_mmio_regset_init(struct temp_regset *regset,
++				struct intel_engine_cs *engine)
+ {
+ 	const u32 base = engine->mmio_base;
+ 	struct i915_wa_list *wal = &engine->wa_list;
+ 	struct i915_wa *wa;
+ 	unsigned int i;
++	int ret = 0;
  
- 	/* ADS */
- 	blob->ads.scheduler_policies = base + ptr_offset(blob, policies);
+ 	regset->used = 0;
+ 
+-	GUC_MMIO_REG_ADD(regset, RING_MODE_GEN7(base), true);
+-	GUC_MMIO_REG_ADD(regset, RING_HWS_PGA(base), false);
+-	GUC_MMIO_REG_ADD(regset, RING_IMR(base), false);
++	ret |= GUC_MMIO_REG_ADD(regset, RING_MODE_GEN7(base), true);
++	ret |= GUC_MMIO_REG_ADD(regset, RING_HWS_PGA(base), false);
++	ret |= GUC_MMIO_REG_ADD(regset, RING_IMR(base), false);
+ 
+ 	for (i = 0, wa = wal->list; i < wal->count; i++, wa++)
+-		GUC_MMIO_REG_ADD(regset, wa->reg, wa->masked_reg);
++		ret |= GUC_MMIO_REG_ADD(regset, wa->reg, wa->masked_reg);
+ 
+ 	/* Be extra paranoid and include all whitelist registers. */
+ 	for (i = 0; i < RING_MAX_NONPRIV_SLOTS; i++)
+-		GUC_MMIO_REG_ADD(regset,
+-				 RING_FORCE_TO_NONPRIV(base, i),
+-				 false);
++		ret |= GUC_MMIO_REG_ADD(regset,
++					RING_FORCE_TO_NONPRIV(base, i),
++					false);
+ 
+ 	/* add in local MOCS registers */
+ 	for (i = 0; i < GEN9_LNCFCMOCS_REG_COUNT; i++)
+-		GUC_MMIO_REG_ADD(regset, GEN9_LNCFCMOCS(i), false);
++		ret |= GUC_MMIO_REG_ADD(regset, GEN9_LNCFCMOCS(i), false);
++
++	return ret ? -1 : 0;
+ }
+ 
+ static int guc_mmio_reg_state_query(struct intel_guc *guc)
 -- 
 2.35.1
 
