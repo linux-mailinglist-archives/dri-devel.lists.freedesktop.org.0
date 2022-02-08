@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C1E4AD337
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:24:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E394AD332
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:24:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E29C10E4E7;
-	Tue,  8 Feb 2022 08:23:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 962E110E3F8;
+	Tue,  8 Feb 2022 08:23:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 17231 seconds by postgrey-1.36 at gabe;
- Tue, 08 Feb 2022 08:02:54 UTC
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A1610E13A
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 08:02:54 +0000 (UTC)
-X-QQ-mid: bizesmtp33t1644307361t10mqirs
+X-Greylist: delayed 17306 seconds by postgrey-1.36 at gabe;
+ Tue, 08 Feb 2022 08:03:39 UTC
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20E9710E284
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 08:03:38 +0000 (UTC)
+X-QQ-mid: bizesmtp11t1644307407tplb3bxa
 Received: from localhost.localdomain (unknown [58.240.82.166])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 08 Feb 2022 16:02:37 +0800 (CST)
-X-QQ-SSF: 00400000002000B0H000B00A0000000
-X-QQ-FEAT: zD6y7hNAcUB0CO7eAtJeOBqOod74zZzxKc9Z5p7I4/HrPepLCfJzCWjdo72xF
- gQZlUSwaOM05cGmmj58PWwdBNEHju8GTAvTUnuOAqnawnSBQQMYzyUeUjy3u8Hc/rfjzBcL
- Ee66Z2FskkgLFReyfCgL4+rMBCxm9KMZrSNk8hvZ41FhZQ0j+bVPh9UTUNy/FWBVE2dgxje
- 07ap/9lyPyQnGQFbHOEiOb5F3/yQNStKnYkbzIXteJpKJpLHB8R7et1eU0JMjAFmmes8im8
- uMqPeuvzCr6NOSWvkzw4/qtkAi8WX0oufIDctkJTwwcZOOY9Ao6bTUOu/VSREoQ2ZhODd8y
- FN2DwSkR/lqc2673+vk6htik4RUikaU+zjxdwhR
+ id ; Tue, 08 Feb 2022 16:03:22 +0800 (CST)
+X-QQ-SSF: 01400000002000B0H000B00A0000000
+X-QQ-FEAT: FXvDfBZI5O4IwGAI4Arhf0Dt8rHM7FibgTP78zDJF6wrXhJ/JLYUvVyC1W7a1
+ qRmp3/fmzDIVWYaBhbyc8lSBKamRQ5NTx+30u0DdfHrn3meV9adKtjly2GR2w1+juwcH2uK
+ HtPitFRw4l5tS/AgwIXCFuXA4/BVyJyfpl9L56dsx662NTrOTjx6Y9J+nihms76pDBUc+aY
+ ajXC9MjN+QmbR91xgW+SkkmSVWde44T5t4BYIO5koO7hZ8Z5sL5D0CypqA9AqXfSag9qKx7
+ FCMfHK8gs8Sxe7Ofsja6yJAGXp1Bm7nuVC+I+tEOI5AlSUD2H8jNTTBhrR3dY+WZWVXqgg4
+ rjaWYxRgUowaIjYHBR6dpVEMUDLlKXqsBGrqyAX
 X-QQ-GoodBg: 2
 From: zhanglianjie <zhanglianjie@uniontech.com>
 To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Subject: [PATCH v3 2/2] drm/radeon/uvd: Fix forgotten unmap buffer objects
-Date: Tue,  8 Feb 2022 16:02:35 +0800
-Message-Id: <20220208080235.26349-1-zhanglianjie@uniontech.com>
+Date: Tue,  8 Feb 2022 16:03:20 +0800
+Message-Id: <20220208080320.26484-1-zhanglianjie@uniontech.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign2
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign5
 X-QQ-Bgrelay: 1
 X-Mailman-Approved-At: Tue, 08 Feb 2022 08:23:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
