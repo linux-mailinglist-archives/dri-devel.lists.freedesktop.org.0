@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C754ADF2E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 18:19:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E67FC4ADF31
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 18:19:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3983710E7FD;
-	Tue,  8 Feb 2022 17:19:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C601210E7D4;
+	Tue,  8 Feb 2022 17:19:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-relay-internal-0.canonical.com
  (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89AEF10E7D4
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:14 +0000 (UTC)
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28AD910E7D4
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:15 +0000 (UTC)
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 1E9FB3FFDB
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:12 +0000 (UTC)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 0281B4004C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1644340752;
- bh=ljNZXcV6Ym7/PH8vFjEM0hkawYJJLcPyRUsIX2ztPxc=;
+ s=20210705; t=1644340754;
+ bh=VHcPmkTeJVNyntx2kBlzhzsUutabuRvxOsRCpNXtu84=;
  h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
  MIME-Version;
- b=MnenrchCcxbLqRXNFVnXEZWrQFjXNDWsAnL6fDhWQwsDq5xhJ1xfBVYZrF+M+ILbe
- D/zcwNuiJwNb2GigcGJ+tSIzvk/Kf0sNhjchrTu6oLe9DHlaqzP8FNi8z5D1CGTyZP
- KJZj8XSM25br/gafWV8rEIx+I6+Det9UJpfpOC31IF/MQGW2h7AAu82dgv0OukQQWQ
- mCcjUUdFziRn2jdxa0yN4rVXa7rXKgcJWBFYyPKvq11PZJVtsCNsPydiOF1ju1qOVm
- kmSVMfkA6e3Wnk19AMsQs43A/iXypgFjZeI1YNkJWErMJ3tdCwbPV/E29l0fnTtJFe
- 5L7HMGWXdaDGA==
-Received: by mail-ej1-f72.google.com with SMTP id
- v2-20020a170906292200b006a94a27f903so6066148ejd.8
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 09:19:12 -0800 (PST)
+ b=eE06Fj4wsqL95Vd+feFDIykqxaN7KL2zmkLVutUvtJFuC1G/3vQiFAMOY7AuREyle
+ 22aMTq1RepW7dXoFMxxhYYs/rA0M424g/3puGRengNeLOvqP15OZY80NoB4a9zvvbs
+ e6e8Pe/NkcuSFdigFayGrq9hFt5ui/pHH8qz1bNcbaAuP0nb/asGXMSxQpVFmoysq7
+ L5vbblG1Czn5LC0/PxM13Zo/nTd0w/aP43vGIib0Baz07kVIkyoy4z4o/LFYIQe9fG
+ 5ZYLd7fxCIg9PiQ2P5equNqHeqe56eps8JguIYE3SovCg6XvfQIL9Dh4kSQewXJbVo
+ iQx2deKWRg0zg==
+Received: by mail-ed1-f71.google.com with SMTP id
+ 30-20020a508e5e000000b0040f6642e814so4061293edx.19
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 09:19:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ljNZXcV6Ym7/PH8vFjEM0hkawYJJLcPyRUsIX2ztPxc=;
- b=n44zPFG3QW6Y8hmfcTH96BHu0LckRxsD+QBlP3MwR76x58wr9gdznrVRdnBLQKGWPq
- wI2JQtowLFMpt/e9CTcudEirMA8SUXna9Cvnavl170PAuFg2hQIeqOwtuTZtg5BHYO08
- RczV7ralbkQo6gP93nkotE4BNMp78gJ+xCGSrBa9pgMiuFxzdcYqxK4+vOgKmJ89HG8t
- PDh9j26Fh5WcBAD2bBxIC5er0Rii+gAwWes7o5RLlkz7EBqX54QeEH0H1sRP5WnNfTv2
- PmCwCVccPsFAoe3OENbRdyZXp2HUjKUEkjMJMuKUoi3rn+IqWyBLU/P/67yZWL9bWdxv
- e2rA==
-X-Gm-Message-State: AOAM531I7oYXGVSeyvoiSA/oZFJX7efDHUxiRZ8tuOGOu6vyb5AkJxUp
- wKD3moxW9Oja6aTwb86c5SEFsO26Z6bn6G76cImFT8gyrDN4jHe6Jnt9mMlJ+wPrpEwfJ1Ptg67
- 31Qj2EXqCmgWbqivVLKrjtgcWR9gzd/hOYCFzEc4yKKuWHQ==
-X-Received: by 2002:a50:fb94:: with SMTP id e20mr5723260edq.292.1644340751869; 
- Tue, 08 Feb 2022 09:19:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzFtmSCjrFuZnV5QFldxP4RqEiUiHOeP0ej5h/rJ0gsHHDMvXDxxIkOQXiY9qgzDn7rJ1eDKQ==
-X-Received: by 2002:a50:fb94:: with SMTP id e20mr5723234edq.292.1644340751717; 
- Tue, 08 Feb 2022 09:19:11 -0800 (PST)
+ bh=VHcPmkTeJVNyntx2kBlzhzsUutabuRvxOsRCpNXtu84=;
+ b=aXYV0KQlMoPvI8jiqPSnIShvEARppvA1pObAPUgd/t9UMoVdlavM60A+xxoNh08MfP
+ RJOfkSBS8ZFAf+bvYodRqxFgBTGTB4R1Ha2fB0197Bz7Gb8LdvGTBouc0zRfbdZNpr2m
+ uUFAF7TxpAW1U6vZZW1xSnUEuDll7/1COqEz+SZ2dTTEpI2G4WSp2+g/bRObDcL/sJPn
+ wulconTLwhm+CTCZfDM2r99ccUlxGUP3W4gvvL5OEmy/M+U5oLB0/BZRgOvlyc3BfdOF
+ waHqjtRGZg7lV0vhbBS9a6Z32njhXBUABxYoT+7lh3MNNAo2KWWhgHVFvMJt51Kf324k
+ Fqzg==
+X-Gm-Message-State: AOAM530ovLCpjewmYu8zpWbfzZvzhWzunimaB3Dddj9z8UPs/3qADMVZ
+ oaQ2oL8/0xpRjmpzb5BvE9fY/m8cGDYZW6vx5BHgU20Aq5QOY/Z7ctAY19gOFdQhhHpTaef6WPg
+ wF94ElAI3xrtYdB3T2reT4ThxYT21RA1wW1vroIU7FEd3bg==
+X-Received: by 2002:aa7:dd88:: with SMTP id g8mr5421159edv.437.1644340753084; 
+ Tue, 08 Feb 2022 09:19:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzu+cFFUCenp9+7nbzSzHf1p2aHa5gSlHKLF75wAskvl768sx1e6yjGcesa9sVQ2V3f6PILbQ==
+X-Received: by 2002:aa7:dd88:: with SMTP id g8mr5421132edv.437.1644340752936; 
+ Tue, 08 Feb 2022 09:19:12 -0800 (PST)
 Received: from localhost.localdomain (xdsl-188-155-168-84.adslplus.ch.
  [188.155.168.84])
- by smtp.gmail.com with ESMTPSA id r10sm5125550ejy.148.2022.02.08.09.19.10
+ by smtp.gmail.com with ESMTPSA id r10sm5125550ejy.148.2022.02.08.09.19.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 09:19:11 -0800 (PST)
+ Tue, 08 Feb 2022 09:19:12 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  Seung-Woo Kim <sw0312.kim@samsung.com>,
@@ -69,9 +69,9 @@ To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: [PATCH 01/10] ARM: dts: exynos: add missing HDMI supplies on SMDK5250
-Date: Tue,  8 Feb 2022 18:18:14 +0100
-Message-Id: <20220208171823.226211-2-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 02/10] ARM: dts: exynos: add missing HDMI supplies on SMDK5420
+Date: Tue,  8 Feb 2022 18:18:15 +0100
+Message-Id: <20220208171823.226211-3-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220208171823.226211-1-krzysztof.kozlowski@canonical.com>
 References: <20220208171823.226211-1-krzysztof.kozlowski@canonical.com>
@@ -94,30 +94,30 @@ Cc: Sylwester Nawrocki <snawrocki@kernel.org>, stable@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add required VDD supplies to HDMI block on SMDK5250.  Without them, the
+Add required VDD supplies to HDMI block on SMDK5420.  Without them, the
 HDMI driver won't probe.  Because of lack of schematics, use same
-supplies as on Arndale 5250 board (voltage matches).
+supplies as on Arndale Octa and Odroid XU3 boards (voltage matches).
 
 Cc: <stable@vger.kernel.org> # v3.15+
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- arch/arm/boot/dts/exynos5250-smdk5250.dts | 3 +++
+ arch/arm/boot/dts/exynos5420-smdk5420.dts | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/arch/arm/boot/dts/exynos5250-smdk5250.dts b/arch/arm/boot/dts/exynos5250-smdk5250.dts
-index 65d2474f83eb..21fbbf3d8684 100644
---- a/arch/arm/boot/dts/exynos5250-smdk5250.dts
-+++ b/arch/arm/boot/dts/exynos5250-smdk5250.dts
-@@ -118,6 +118,9 @@ &hdmi {
- 	status = "okay";
- 	ddc = <&i2c_2>;
+diff --git a/arch/arm/boot/dts/exynos5420-smdk5420.dts b/arch/arm/boot/dts/exynos5420-smdk5420.dts
+index 2978b5775a6d..4d7b6d9008a7 100644
+--- a/arch/arm/boot/dts/exynos5420-smdk5420.dts
++++ b/arch/arm/boot/dts/exynos5420-smdk5420.dts
+@@ -124,6 +124,9 @@ &hdmi {
  	hpd-gpios = <&gpx3 7 GPIO_ACTIVE_HIGH>;
-+	vdd-supply = <&ldo8_reg>;
-+	vdd_osc-supply = <&ldo10_reg>;
-+	vdd_pll-supply = <&ldo8_reg>;
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&hdmi_hpd_irq>;
++	vdd-supply = <&ldo6_reg>;
++	vdd_osc-supply = <&ldo7_reg>;
++	vdd_pll-supply = <&ldo6_reg>;
  };
  
- &i2c_0 {
+ &hsi2c_4 {
 -- 
 2.32.0
 
