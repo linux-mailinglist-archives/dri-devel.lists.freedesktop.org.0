@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2570B4AD83D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 13:21:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0EA74AD840
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 13:22:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C541010E21E;
-	Tue,  8 Feb 2022 12:21:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F89E10E4B9;
+	Tue,  8 Feb 2022 12:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7E410E21E
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 12:21:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA83110E51A
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 12:22:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644322897;
+ s=mimecast20190719; t=1644322932;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+Mdb5Ebivxr6jzHOzSN/tIiK6XfSCOdpNYf9wIWORf4=;
- b=EgceZ2mq05boLTTXTrWM5FX0RNfpgPtKave8xMZOhN5IHKlFUCsTlnvc/fWXdu3I0G/fzu
- dCLE38POHEawoQcfeSifOO3HhfZPh4IxGeQNnRxOexn9IN6GmT3otmg3wiA/Dq7uVxE1ns
- bKlm4SN9E4BjRDyxSLdPbI4rfpqYe9A=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Mt0hncQ/RRm0riihXr626lJBH3pbgbYhHyz5dtgoOAs=;
+ b=WL2FRKkfFxp1OLndYDWJJp/R1C9zauMdAZZb+WeZlAOaj0H0wxUMO2EGq1qFkPZjgG3h+t
+ e2aL4ABRiBavAA3T2rrW+5eTpRnTR8vPrxK0Y0N0L9sAgG+FNtatgLR27kLK77pOMmXsHs
+ QKZbEfF//Ch0Qp7JkTGtkI21x+tnLUg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-413-47B28NUkMguYVoiEFa9vlA-1; Tue, 08 Feb 2022 07:21:32 -0500
-X-MC-Unique: 47B28NUkMguYVoiEFa9vlA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- n18-20020adfc612000000b001e3310ca453so1494203wrg.2
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 04:21:31 -0800 (PST)
+ us-mta-531-pCae8OTmNTWRgeQ9gZ7Acw-1; Tue, 08 Feb 2022 07:22:09 -0500
+X-MC-Unique: pCae8OTmNTWRgeQ9gZ7Acw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ v9-20020adfa1c9000000b001e33e5dbd5fso339187wrv.17
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 04:22:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+Mdb5Ebivxr6jzHOzSN/tIiK6XfSCOdpNYf9wIWORf4=;
- b=29bg92d9b67HtGytjEbBvssOuUJyxDtcy9mFDPKT6PpCB8bhrGOuIFWtZg+x5i9Jxt
- 4+8kkKC2X1be1nTCUO2V+E3N8M2xB8bJFHiPyovZiutWKuD/WyAClHBZFcmdmwwvkSKE
- EySmv7DBP/rWXxAygduRlDDtEixQ/oYJlHpQFmXNtHQpHwXJUq3OJijnbDP66GQKhkKP
- 6ofoXPSMYGNIWZagHHpID/WTX/V2plBhiiyy69EIMW5M1oKl7NfoLtju5BX3tIS9Yume
- wfpawOmlupqlZFn8NgKTvlK05kK7WGyMCabUe8bbcYIj233N0vLNVv3E2ISpxLkoGYnD
- GoIg==
-X-Gm-Message-State: AOAM530I/JihaKaN5S0HJSLlIdOaJ5JslBwqDh4VNmUrYvDZ70Yoj3yE
- JEAceHtJut03O3FdfU2A3UTy+Aa53/ebv8Ozixj/Y5rtJK7bpYJbDZtOHpx1Up4eYj+jJQgsIhu
- I7qDU3m6uuj+4tGBnMDFpHS58kYUg++D/Ra8RJnEhDknG
-X-Received: by 2002:adf:e281:: with SMTP id v1mr3333555wri.308.1644322890929; 
- Tue, 08 Feb 2022 04:21:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyLlALWJQvkTxajX4mY5wFPC0i9Cbyibc6vh+dA8xRid1wKDVpfMqtwnuSqGnDZsRaAsQEg1IKxzDseghgHQVU=
-X-Received: by 2002:adf:e281:: with SMTP id v1mr3333537wri.308.1644322890725; 
- Tue, 08 Feb 2022 04:21:30 -0800 (PST)
+ bh=Mt0hncQ/RRm0riihXr626lJBH3pbgbYhHyz5dtgoOAs=;
+ b=3GL5aZzm8Pwod9VmBC63D1gNauUMMvJJm5M5O0XUYrEf5RLJSQeJVJvkk/WoMVSGMR
+ jHTp2RztPhGEYh6LDmI2chRUCCA+dr2S1ol1hKxOL+7+yU0NCIVLNDj7zUM6ju6kyORL
+ RKZdc9U1Ps2ya6ttgUCLifK9DxBjoh2chKK8boRKtO4jz1ikELf6DiQAIR7DRxB4v5lQ
+ GhO9wOIVXxGav8Zuu4tJ0r3Mg9Wv99PecPbYpQgCgoG2UeKI1JY6mhmrSl1Y/A3Pj+gx
+ hWtI2KDFGX1qBlbrnl8hvhwf4hUbhNcj7XVJEJW+DHP+o2nBwaIz5CRxZaYSQAj5FTZz
+ 1jeA==
+X-Gm-Message-State: AOAM533fbcwGGN0TtxjQkjqq28wWLC+R3dW17DV7POldbFslWpqGlOa/
+ 279Ax+9j5apG0zLhRjLasXR8cF9FKKUltr5+Xnolgdmz1Wb/xxm88AF/0uVxfC6YsRFzallqgbs
+ 6/9YpJFIQXloHextkVMOnEk5yV6CQ6hdUIhG+A4nK7vq6
+X-Received: by 2002:a7b:c21a:: with SMTP id x26mr938350wmi.74.1644322928165;
+ Tue, 08 Feb 2022 04:22:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw05S2FM4hb+eMcua2vq2VzpKE6qzOqTT3pzSCAKpcyucQY5qglNO8kSljUgpASBmw4liJar8UCAeaCMl7/oQ0=
+X-Received: by 2002:a7b:c21a:: with SMTP id x26mr938337wmi.74.1644322927980;
+ Tue, 08 Feb 2022 04:22:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20220204180504.328999-1-lyude@redhat.com>
-In-Reply-To: <20220204180504.328999-1-lyude@redhat.com>
+References: <20220204193319.451119-1-lyude@redhat.com>
+In-Reply-To: <20220204193319.451119-1-lyude@redhat.com>
 From: Karol Herbst <kherbst@redhat.com>
-Date: Tue, 8 Feb 2022 13:21:12 +0100
-Message-ID: <CACO55ttjtNW9Gx6pJegGD+r37j53Do+jc5xoyTFf8aXaBt5y-g@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/backlight: Fix LVDS backlight detection on
- some laptops
+Date: Tue, 8 Feb 2022 13:21:57 +0100
+Message-ID: <CACO55tv1yFYeboJsdV9sg1KWqWhs3WfJVmHuBKjAV6FUi6BLSA@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/backlight: Just set all backlight types as RAW
 To: Lyude Paul <lyude@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
@@ -81,46 +80,58 @@ Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 4, 2022 at 7:05 PM Lyude Paul <lyude@redhat.com> wrote:
->
-> It seems that some laptops will report having both an eDP and LVDS
-> connector, even though only the LVDS connector is actually hooked up. This
-> can lead to issues with backlight registration if the eDP connector ends up
-> getting registered before the LVDS connector, as the backlight device will
-> then be registered to the eDP connector instead of the LVDS connector.
->
-> So, fix this by only registering the backlight on connectors that are
-> reported as being connected.
->
-
-I think the patch might risk breaking muxed systems where we have two
-GPUs, but.. the systems I know of have different ways of controlling
-the backlight anyway. So unless there is something I missed this is
-
 Reviewed-by: Karol Herbst <kherbst@redhat.com>
 
+On Fri, Feb 4, 2022 at 8:33 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> Currently we can get a warning on systems with eDP backlights like so:
+>
+>   nv_backlight: invalid backlight type
+>   WARNING: CPU: 4 PID: 454 at drivers/video/backlight/backlight.c:420
+>     backlight_device_register+0x226/0x250
+>
+> This happens as a result of us not filling out props.type for the eDP
+> backlight, even though we do it for all other backlight types.
+>
+> Since nothing in our driver uses anything but BACKLIGHT_RAW, let's take the
+> props\.type assignments out of the codepaths for individual backlight types
+> and just set it unconditionally to prevent this from happening again.
+>
 > Signed-off-by: Lyude Paul <lyude@redhat.com>
 > Fixes: 6eca310e8924 ("drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau")
-> Bugzilla: https://gitlab.freedesktop.org/drm/nouveau/-/issues/137
 > Cc: <stable@vger.kernel.org> # v5.15+
 > ---
->  drivers/gpu/drm/nouveau/nouveau_backlight.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/nouveau/nouveau_backlight.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> index ae2f2abc8f5a..6af12dc99d7f 100644
+> index 6af12dc99d7f..daf9f87477ba 100644
 > --- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
 > +++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> @@ -294,7 +294,8 @@ nv50_backlight_init(struct nouveau_backlight *bl,
->         struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
->         struct nvif_object *device = &drm->client.device.object;
->
-> -       if (!nvif_rd32(device, NV50_PDISP_SOR_PWM_CTL(ffs(nv_encoder->dcb->or) - 1)))
-> +       if (!nvif_rd32(device, NV50_PDISP_SOR_PWM_CTL(ffs(nv_encoder->dcb->or) - 1)) ||
-> +           nv_conn->base.status != connector_status_connected)
+> @@ -101,7 +101,6 @@ nv40_backlight_init(struct nouveau_encoder *encoder,
+>         if (!(nvif_rd32(device, NV40_PMC_BACKLIGHT) & NV40_PMC_BACKLIGHT_MASK))
 >                 return -ENODEV;
 >
->         if (nv_conn->type == DCB_CONNECTOR_eDP) {
+> -       props->type = BACKLIGHT_RAW;
+>         props->max_brightness = 31;
+>         *ops = &nv40_bl_ops;
+>         return 0;
+> @@ -343,7 +342,6 @@ nv50_backlight_init(struct nouveau_backlight *bl,
+>         else
+>                 *ops = &nva3_bl_ops;
+>
+> -       props->type = BACKLIGHT_RAW;
+>         props->max_brightness = 100;
+>
+>         return 0;
+> @@ -411,6 +409,7 @@ nouveau_backlight_init(struct drm_connector *connector)
+>                 goto fail_alloc;
+>         }
+>
+> +       props.type = BACKLIGHT_RAW;
+>         bl->dev = backlight_device_register(backlight_name, connector->kdev,
+>                                             nv_encoder, ops, &props);
+>         if (IS_ERR(bl->dev)) {
 > --
 > 2.34.1
 >
