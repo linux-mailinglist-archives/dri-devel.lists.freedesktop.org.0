@@ -1,50 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC634AD835
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 13:16:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2570B4AD83D
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 13:21:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8AA789B61;
-	Tue,  8 Feb 2022 12:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C541010E21E;
+	Tue,  8 Feb 2022 12:21:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D494589CF9
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 12:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZnDmcVC1x6gxo65bslhH2FYYzBNk0AndwKAobiaEeoc=; b=Mf8HDwqAg5ONQUFC8Q2LGg0lQ/
- Ct5qNBfU6aHf9zsq8adhmDXt0F03FZiQZUiRjD+oNKgThJbsG9nst+9gELORAYXoMR4VRFtSAfddu
- ApH9FTIMWq0Y7258BNHdzh0xBV0QCbsd1WrUfp2bFMk37j4nTF138sQ+EMWpwJ5ruwXrsyDYMSM9t
- 7b5KBeVz7Qh26T537VH7JZ8GRQLZ9guwcsqeaV5NomAEx4kDXcgmhX7RncqUNT3l6zQ6JUrRq5tGa
- B1BoJSZ4sry3xse+QUgcKwCw2o0ID5PQOx5vwv1CLeAJUlr0Izp1GbFSRuxuER9urz62/l1xRLd6s
- aauE7sVA==;
-Received: from [2a01:799:95e:a400:cca0:57ac:c55d:a485] (port=59343)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1nHPQN-0000KZ-0w; Tue, 08 Feb 2022 13:16:47 +0100
-Message-ID: <bebbd98c-ccba-b233-0299-45f58efee10b@tronnes.org>
-Date: Tue, 8 Feb 2022 13:16:44 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7E410E21E
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 12:21:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644322897;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+Mdb5Ebivxr6jzHOzSN/tIiK6XfSCOdpNYf9wIWORf4=;
+ b=EgceZ2mq05boLTTXTrWM5FX0RNfpgPtKave8xMZOhN5IHKlFUCsTlnvc/fWXdu3I0G/fzu
+ dCLE38POHEawoQcfeSifOO3HhfZPh4IxGeQNnRxOexn9IN6GmT3otmg3wiA/Dq7uVxE1ns
+ bKlm4SN9E4BjRDyxSLdPbI4rfpqYe9A=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-413-47B28NUkMguYVoiEFa9vlA-1; Tue, 08 Feb 2022 07:21:32 -0500
+X-MC-Unique: 47B28NUkMguYVoiEFa9vlA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ n18-20020adfc612000000b001e3310ca453so1494203wrg.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 04:21:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+Mdb5Ebivxr6jzHOzSN/tIiK6XfSCOdpNYf9wIWORf4=;
+ b=29bg92d9b67HtGytjEbBvssOuUJyxDtcy9mFDPKT6PpCB8bhrGOuIFWtZg+x5i9Jxt
+ 4+8kkKC2X1be1nTCUO2V+E3N8M2xB8bJFHiPyovZiutWKuD/WyAClHBZFcmdmwwvkSKE
+ EySmv7DBP/rWXxAygduRlDDtEixQ/oYJlHpQFmXNtHQpHwXJUq3OJijnbDP66GQKhkKP
+ 6ofoXPSMYGNIWZagHHpID/WTX/V2plBhiiyy69EIMW5M1oKl7NfoLtju5BX3tIS9Yume
+ wfpawOmlupqlZFn8NgKTvlK05kK7WGyMCabUe8bbcYIj233N0vLNVv3E2ISpxLkoGYnD
+ GoIg==
+X-Gm-Message-State: AOAM530I/JihaKaN5S0HJSLlIdOaJ5JslBwqDh4VNmUrYvDZ70Yoj3yE
+ JEAceHtJut03O3FdfU2A3UTy+Aa53/ebv8Ozixj/Y5rtJK7bpYJbDZtOHpx1Up4eYj+jJQgsIhu
+ I7qDU3m6uuj+4tGBnMDFpHS58kYUg++D/Ra8RJnEhDknG
+X-Received: by 2002:adf:e281:: with SMTP id v1mr3333555wri.308.1644322890929; 
+ Tue, 08 Feb 2022 04:21:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyLlALWJQvkTxajX4mY5wFPC0i9Cbyibc6vh+dA8xRid1wKDVpfMqtwnuSqGnDZsRaAsQEg1IKxzDseghgHQVU=
+X-Received: by 2002:adf:e281:: with SMTP id v1mr3333537wri.308.1644322890725; 
+ Tue, 08 Feb 2022 04:21:30 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: add bindings for MIPI DBI
- compatible SPI panels
-To: Rob Herring <robh@kernel.org>, Maxime Ripard <maxime@cerno.tech>
-References: <20220125175700.37408-1-noralf@tronnes.org>
- <20220125175700.37408-2-noralf@tronnes.org>
- <20220127093722.hsed3ny3gzk55o7w@houat> <YgGpWo80TvfTknhx@robh.at.kernel.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <YgGpWo80TvfTknhx@robh.at.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220204180504.328999-1-lyude@redhat.com>
+In-Reply-To: <20220204180504.328999-1-lyude@redhat.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Tue, 8 Feb 2022 13:21:12 +0100
+Message-ID: <CACO55ttjtNW9Gx6pJegGD+r37j53Do+jc5xoyTFf8aXaBt5y-g@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/backlight: Fix LVDS backlight detection on
+ some laptops
+To: Lyude Paul <lyude@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,254 +75,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, sam@ravnborg.org
+Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Feb 4, 2022 at 7:05 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> It seems that some laptops will report having both an eDP and LVDS
+> connector, even though only the LVDS connector is actually hooked up. This
+> can lead to issues with backlight registration if the eDP connector ends up
+> getting registered before the LVDS connector, as the backlight device will
+> then be registered to the eDP connector instead of the LVDS connector.
+>
+> So, fix this by only registering the backlight on connectors that are
+> reported as being connected.
+>
 
+I think the patch might risk breaking muxed systems where we have two
+GPUs, but.. the systems I know of have different ways of controlling
+the backlight anyway. So unless there is something I missed this is
 
-Den 08.02.2022 00.20, skrev Rob Herring:
-> On Thu, Jan 27, 2022 at 10:37:22AM +0100, Maxime Ripard wrote:
->> Hi,
->>
->> On Tue, Jan 25, 2022 at 06:56:58PM +0100, Noralf Trønnes wrote:
->>> Add binding for MIPI DBI compatible SPI panels.
->>>
->>> v2:
->>> - Fix path for panel-common.yaml
->>> - Use unevaluatedProperties
->>> - Drop properties which are in the allOf section
->>> - Drop model property (Rob)
->>>
->>> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
->>> ---
->>>  .../display/panel/panel-mipi-dbi-spi.yaml     | 59 +++++++++++++++++++
->>>  1 file changed, 59 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
->>> new file mode 100644
->>> index 000000000000..b7cbeea0f8aa
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
->>> @@ -0,0 +1,59 @@
->>> +# SPDX-License-Identifier: GPL-2.0-only
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/display/panel/panel-mipi-dbi-spi.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: MIPI DBI SPI Panels Device Tree Bindings
->>> +
->>> +maintainers:
->>> +  - Noralf Trønnes <noralf@tronnes.org>
->>> +
->>> +description:
->>> +  This binding is for display panels using a MIPI DBI controller
->>> +  in SPI mode.
->>> +
->>> +allOf:
->>> +  - $ref: panel-common.yaml#
->>> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->>> +
->>> +properties:
->>> +  compatible:
->>> +    const: panel-mipi-dbi-spi
->>
->> You need contains here, otherwise it will error out if you have two compatibles.
-> 
-> Shouldn't it always have 2?
-> 
-> Either way, this has to be split up between a common, shareable schema 
-> and specific, complete schema(s). Like this:
-> 
-> - A schema for everything common (that allows additional properties)
-> 
-> - A schema for 'panel-mipi-dbi-spi' referencing the common schema plus 
->   'unevaluatedProperties: false'
-> 
-> - Schemas for panels with their own additional properties (regulators, 
->   GPIOs, etc.)
-> 
-> LVDS was restructured like this IIRC.
-> 
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
 
-The whole point of this exercise is to avoid the need for controller
-specific bindings. This binding will cover all specifics about these
-controllers except for one thing and that is the controller
-configuration. Each controller has its own configuration commands. These
-commands will be loaded as a firmware file based on the compatible and
-applied by the driver.
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Fixes: 6eca310e8924 ("drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau")
+> Bugzilla: https://gitlab.freedesktop.org/drm/nouveau/-/issues/137
+> Cc: <stable@vger.kernel.org> # v5.15+
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_backlight.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> index ae2f2abc8f5a..6af12dc99d7f 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> @@ -294,7 +294,8 @@ nv50_backlight_init(struct nouveau_backlight *bl,
+>         struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
+>         struct nvif_object *device = &drm->client.device.object;
+>
+> -       if (!nvif_rd32(device, NV50_PDISP_SOR_PWM_CTL(ffs(nv_encoder->dcb->or) - 1)))
+> +       if (!nvif_rd32(device, NV50_PDISP_SOR_PWM_CTL(ffs(nv_encoder->dcb->or) - 1)) ||
+> +           nv_conn->base.status != connector_status_connected)
+>                 return -ENODEV;
+>
+>         if (nv_conn->type == DCB_CONNECTOR_eDP) {
+> --
+> 2.34.1
+>
 
-So this binding, the panel-common and spi-peripheral-props covers
-everything except for the controller configuration.
-
-Here's a copy of the DBI spec: https://www.docin.com/p-219732497.html
-
-This is my current version of the binding:
-
-# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
-%YAML 1.2
----
-$id: http://devicetree.org/schemas/display/panel/panel-mipi-dbi-spi.yaml#
-$schema: http://devicetree.org/meta-schemas/core.yaml#
-
-title: MIPI DBI SPI Panel
-
-maintainers:
-  - Noralf Trønnes <noralf@tronnes.org>
-
-description: |
-  This binding is for display panels using a MIPI DBI compatible controller
-  in SPI mode.
-
-  The MIPI Alliance Standard for Display Bus Interface defines the
-electrical
-  and logical interfaces for display controllers historically used in mobile
-  phones. The standard defines 4 display architecture types and this
-binding is
-  for type 1 which has full frame memory. There are 3 interface types in the
-  standard and type C is the serial interface.
-
-  The standard defines the following interface signals for type C:
-  - Power:
-    - Vdd: Power supply for display module
-    - Vddi: Logic level supply for interface signals
-    Combined into one in this binding called: power-supply
-  - Interface:
-    - CSx: Chip select
-    - SCL: Serial clock
-    - Dout: Serial out
-    - Din: Serial in
-    - SDA: Bidrectional in/out
-    - D/CX: Data/command selection, high=data, low=command
-      Called dc-gpios in this binding.
-    - RESX: Reset when low
-      Called reset-gpios in this binding.
-
-  The type C interface has 3 options:
-
-    - Option 1: 9-bit mode and D/CX as the 9th bit
-      |              Command              |  the next command or
-following data  |
-
-|<0><D7><D6><D5><D4><D3><D2><D1><D0>|<D/CX><D7><D6><D5><D4><D3><D2><D1><D0>|
-
-    - Option 2: 16-bit mode and D/CX as a 9th bit
-      |              Command or data                              |
-      |<X><X><X><X><X><X><X><D/CX><D7><D6><D5><D4><D3><D2><D1><D0>|
-
-    - Option 3: 8-bit mode and D/CX as a separate interface line
-      |        Command or data         |
-      |<D7><D6><D5><D4><D3><D2><D1><D0>|
-
-  The panel resolution is specified using the panel-timing node properties
-  hactive (width) and vactive (height). The other mandatory panel-timing
-  properties should be set to zero except clock-frequency which can be
-  optionally set to inform about the actual pixel clock frequency.
-
-  If the panel is wired to the controller at an offset specify this using
-  hback-porch (x-offset) and vback-porch (y-offset).
-
-allOf:
-  - $ref: panel-common.yaml#
-  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-
-properties:
-  compatible:
-    contains:
-      const: panel-dbi-spi
-
-  write-only:
-    type: boolean
-    description:
-      Controller is not readable (ie. MISO is not wired up).
-
-  dc-gpios:
-    maxItems: 1
-    description: |
-      Controller data/command selection (D/CX) in 4-line SPI mode.
-      If not set, the controller is in 3-line SPI mode.
-
-required:
-  - compatible
-  - reg
-  - panel-timing
-
-unevaluatedProperties: false
-
-examples:
-  - |
-    #include <dt-bindings/gpio/gpio.h>
-
-    spi {
-            #address-cells = <1>;
-            #size-cells = <0>;
-
-            display@0{
-                    compatible = "sainsmart18", "panel-dbi-spi";
-                    reg = <0>;
-                    spi-max-frequency = <40000000>;
-
-                    dc-gpios = <&gpio 24 GPIO_ACTIVE_HIGH>;
-                    reset-gpios = <&gpio 25 GPIO_ACTIVE_HIGH>;
-                    write-only;
-
-                    backlight = <&backlight>;
-
-                    width-mm = <35>;
-                    height-mm = <28>;
-
-                    panel-timing {
-                        hactive = <160>;
-                        vactive = <128>;
-                        hback-porch = <0>;
-                        vback-porch = <0>;
-
-                        clock-frequency = <0>;
-                        hfront-porch = <0>;
-                        hsync-len = <0>;
-                        vfront-porch = <0>;
-                        vsync-len = <0>;
-                    };
-            };
-    };
-
-...
-
-
->>> +  write-only:
->>> +    type: boolean
->>> +    description:
->>> +      Controller is not readable (ie. MISO is not wired up).
->>> +
->>> +  dc-gpios:
->>> +    maxItems: 1
->>> +    description: |
->>> +      Controller data/command selection (D/CX) in 4-line SPI mode.
->>> +      If not set, the controller is in 3-line SPI mode.
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +
->>> +unevaluatedProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    #include <dt-bindings/gpio/gpio.h>
->>> +
->>> +    spi {
->>> +            #address-cells = <1>;
->>> +            #size-cells = <0>;
->>> +
->>> +            display@0{
->>> +                    compatible = "panel-mipi-dbi-spi";
->>
->> We should have two compatibles in the example too
->>
->> Maxime
-> 
-> 
