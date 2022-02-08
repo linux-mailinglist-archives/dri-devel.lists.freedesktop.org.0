@@ -2,124 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7993E4AD330
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:24:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 476F54AD24F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 08:37:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF27210E50E;
-	Tue,  8 Feb 2022 08:23:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8A9310E335;
+	Tue,  8 Feb 2022 07:37:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2071.outbound.protection.outlook.com [40.107.101.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 770E810E1CA;
- Tue,  8 Feb 2022 07:34:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ROwFfg/DhkTOCVR90ibeV/zofvzdzdcGQXrEaDJsZZTcSrnO9rdF+Iae7ZvHKEJiNqhZ8D2XEP5YR0kueUUb2N9+jDU9fhRzRXbiTz3kcIM8/XIZ1FzOYI/WdjhsZy2yv9ZpHSKOYFAXVTQors0QBDolB0LtZyuKW+cToQIFJevLHwwKAMNKmqshPRyXLuOJVRQu3e/uBQCAZtuQdBSFZFkDVjPgrDA6FUV96phRH3yhxNkZZ7SMqRtwQO7+l6zFEnkBoh4y+PmmQ0toA5GHxBzscXtFDEOv+YvJM49KVSBIcxSXIIovPXnvbEE1IOBTqCZGmAz83G7d3h5Y9d+aZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bpv4CUC9roT9s/p7zmR18PqBIXBpym7ysRo8VGuGpCs=;
- b=Ct2+4GF3oqFI2uFY6qHUZWFSVBhnMKWtx6/SRAP4v+Mu2pt1QZngTiKwp+H3UolscHIG90TA4xEBUpYMJtsL6cqCtVEwnFC+1gk9eq4VT4Kvw7Ozm3KXoYymmZ95foZkdgqs1bn3TgNgpcH5BYXEumYFidfQaCRMU12Jps9HgmCBYDq8voTxJXIPTIKGUUEZ6UYWP1pijWqxZUE0xn/bttJsmboUX1W9TWvjkPJK6WLI6LQMheYfw60BJy+rFXqJUp6VbFtcdl2LwA+lsL+QeBmqx0Eg8cl93IHWeir4lhiHo5KKBKd7umtMVMqDO+tBir5EofdeA7oknt7T4HKgjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bpv4CUC9roT9s/p7zmR18PqBIXBpym7ysRo8VGuGpCs=;
- b=PNIdZK12oksxMrEzvSpN9L+c8m94n30Vs7a0O2IXnVfnu/k8wvPOMN6zwh5Q57VTVVx2czOyymL0xJV8rJJtpPn3+lxFGa7yu1ul88YB3lSCnFK7JseqvlgICtQtYQEewz4JIkRkJu92s2cZH9Hp9o47BzJinwpJDp8d70HrnUrjq05MEk++Nbijl2CGtQWBlb85s4O7YXT/2udfQtjNx8jnXlqd+LYwGK8mIbkgGA4/id3eaIb7q74MevOjtKZaAfUhJtp7Mw8TydJo2uWMh4VTf6vvmnvUe7+eKOgZ3HtfutxHlulDOP4QAaOFz8EyhHShqjEXgKYd6y2Tl+TdjQ==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by BL1PR12MB5336.namprd12.prod.outlook.com (2603:10b6:208:314::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Tue, 8 Feb
- 2022 07:34:04 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::846c:d3cd:5a30:c35]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::846c:d3cd:5a30:c35%5]) with mapi id 15.20.4951.019; Tue, 8 Feb 2022
- 07:34:04 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>, Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 4/8] mm: move free_devmap_managed_page to memremap.c
-Thread-Topic: [PATCH 4/8] mm: move free_devmap_managed_page to memremap.c
-Thread-Index: AQHYHL4/9oSrH7pfvkOYRPCGQzbM0Q==
-Date: Tue, 8 Feb 2022 07:34:04 +0000
-Message-ID: <59813968-de8c-e33c-b81e-2d491aa600a9@nvidia.com>
-References: <20220207063249.1833066-1-hch@lst.de>
- <20220207063249.1833066-5-hch@lst.de>
-In-Reply-To: <20220207063249.1833066-5-hch@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9cfa69fa-aa0e-4ffd-e904-08d9ead56242
-x-ms-traffictypediagnostic: BL1PR12MB5336:EE_
-x-microsoft-antispam-prvs: <BL1PR12MB53364EB04D56DABB50B32360A32D9@BL1PR12MB5336.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: i59zXoiPw9NuxefY0LHKrs6svSlrAscWqb7DLh0v/FXp85O2lk7coDYdT4dw2tvvf708+GJaFDco2rTX+yu5kvAQHhWhwn3Ng4QbLymQ8OAgMOc+6eJ/94kQgFkhbwjGZK4UaFtySfLce4ivTK6ahvrRHMtFTxYDtS97cnTWuxli0QEjQkdBPV/Yey/lcCgs8HM+KzcCLSyNrJKxRMIvxmpTpTbKZH8HS1e8Tn5JuQ33GI8O7Q3/Bvt3eZ0cA4OqN5P97wpWsXJFsnKy2XqlWfPXhWZaUnzGhmmJy9VG7JgCalCmQ+DhdaVrxbdSoJiplJ5TSzowMBEJGZd/Z05yXpoypSOTNGcR37zPZI0PEaQLaXiuKzr2JKsUhXkYdXZW2Mqtd05LPOzFEG3MCAAKXzZpqUmwQWi0POMQMotH4L7R1AeykS8+Y/Uxrru8eiFnthFugVRqRVWd/V5MDxHupoVVTJzEKO96VQLAy0u1c0PrLu4YNrbisiY1QguWtJBLeG7mcJ4Th0S870zd2PWTx5IIgozCgqlo9dZOrpYGALQCVx3cP//VqpEkpg9OlAJ4+5mBSZbhupI7H7/iTrUvgyVmXQFigUsXmktoeVfESM88RPeEyehckXSaHl3nhAS4y6sj7d6KfwBwnEGfDK66dNb8br08C08V4H1XGBROjL27tPSCV8wHVRT1Q7+gB4jfhZdAkY+7vAN7yfyonLW6xhVjrMVRiga2QFxO8eQRNWBW8Y04SU8tor8WWtOC9lhhmWG/GN0/s/8p9WFmI1JTZw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(64756008)(76116006)(2616005)(8676002)(66946007)(66556008)(66446008)(66476007)(6506007)(6512007)(38070700005)(186003)(6486002)(122000001)(86362001)(4326008)(91956017)(31696002)(38100700002)(8936002)(316002)(54906003)(110136005)(71200400001)(4744005)(53546011)(508600001)(7416002)(31686004)(36756003)(2906002)(5660300002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NVJ1QWJtTmsrTjRyUHJMZThtWGVVb1JmY1F1V0FoQk9LaWNmZnlFd0dTUUhK?=
- =?utf-8?B?WG1vUE03OWRibmw3VmxRLzMraEp0OGtvN2FiUmwwR1dJUWx5OUxoRGxXK0pP?=
- =?utf-8?B?YmpMZTRiUHFUTEcvZWNySGhDNjJhdTV2SEk2VThYUFJjcmMyS014Umg2RHhR?=
- =?utf-8?B?YVpxQnVxbGIwR3FLUjRocEVLRXdFeldmamdsNHJKU2ZVaEkwRUtSeGFhMTBY?=
- =?utf-8?B?Qm1uMGFWOExtbStIcWxPNWI4TVlOVUp4QlVvbklyMVY2ZVRMcVFaMmN3NVdN?=
- =?utf-8?B?K0xabi92WUJTR2YvUGJMdXVWNEJBNVdCNEpCUG9rRXZwL3hWZWxibVFFdm02?=
- =?utf-8?B?TGorQ1lqdFNUcFlHYWdIbzAzMTlDbEJsQlZKckxyMTdYRU5NaytyZk04UmR4?=
- =?utf-8?B?MWZGN3NkZXltTExBMUZLUGc0MkpkUTRUdmYvWkJTUTB0K2hTd0dwUXo5OFVX?=
- =?utf-8?B?YXFHK05UdjJBVEQwdUhuNWJkZEtOOFZaUVJ2bzJUalIvRHhMeDMxUFdvMUxO?=
- =?utf-8?B?WjB6NjhSUzJCaTg3L1RqclNIcmdHalhscUpwRUoxOWo0M0RUdWJHZkxhemlG?=
- =?utf-8?B?aE9Fc25VRWJjeC9memhOUm9iamNhYURxKy9wTVRFV05UU3N6RXVHVzNXUFMw?=
- =?utf-8?B?SkxYQkhvNXJmS3ZNS2RQNFVueStrVzF5UkNKYk9LdUUyaDh0NHJsSjJpalNQ?=
- =?utf-8?B?YWFGYUVzdVdNZXp0b04raVlpNnd1Sk5ranpGRXlEQm9LUmhLemhiU1c5TkRh?=
- =?utf-8?B?VG5LVEh0NGdoaGMxZC9kV05DT0FNam9WcEdSQzhrUmJYZ290UTE0QklVaFpn?=
- =?utf-8?B?YTU3OXphSFNxK05kVG1ua0xsc2tMcEwwbXc3dVFqa2VrQlNlQmxFd09pdHAv?=
- =?utf-8?B?dUtkN2ZYQjhGVWxBWEZTNyt1TzB2NnhpVUxMWDZPUi8xWFk5enpBdlNteUlj?=
- =?utf-8?B?SGdHcWVibE10eW1iOFJVUkxOVDlwMFpjMTYydktoUHJHdmtFV2xydnZGQmR4?=
- =?utf-8?B?SXh0NGhBWDMvcmVvTkd4TmZFL1hDSlJJTjBDdXhGQ0Q2aGFMdGQxUDZJL1dN?=
- =?utf-8?B?NDQ2OHlhc0ZGZzQ0R3RrNzh1ODd2cXpHVlcxbUhQN1VjNU8yYVFySnZQNnQw?=
- =?utf-8?B?NmRkanNnRVdMUTZjajhMa0hPS0o3cTZIZTY1TDkrblhlV0hRcHJnK05QckhC?=
- =?utf-8?B?QnJPbm1lc2NqRGNYTURsNGR5Zzd2TG9UYUYzRXdncW9XMGEzMWkrc01Pc21h?=
- =?utf-8?B?RW9kVG1YSVdSTytScXAxSEJsZE1YMnpqUllJYnBJcW1VYktnUFVFazlpMWg5?=
- =?utf-8?B?VWovSStJeTVmWWtsUVhtMytaVVpkNmNxeEJLZ0xjK2RKTExpVU92VVhGYzVv?=
- =?utf-8?B?b2RuR3VnVGZXS1IyT0lta0RXdmJtQlAvb1luWm1wYmIvK2QxSllNb1g4ZVND?=
- =?utf-8?B?OUg5S29HOGkzcnB6NU5TcjQvYk1UOGQ2OVZlR3B0eDY3blk0L2hLeElRQjlV?=
- =?utf-8?B?cXMwTW93VHdtcGdQRVJSMmRPa0RkendsL2pPUkFBb1hwVVZxSmtUbHVuSnZl?=
- =?utf-8?B?MkhtVmVjdWJoR2sxOUNtN2JzSlJmQ1BIYmw3VW1NYXFyRU5CTm16OTlSYWhs?=
- =?utf-8?B?QnNvb3VCYTkrVUNlQktOZjlFUytnSGJodVl2YnhQQkZ3aDl3SXlFdThDMkwr?=
- =?utf-8?B?cm5JK1FGaHNWdWVZeW1FRWtHUVQyZUpWRkoxdG5lWFFvaWtGcE5XQ1BFRDM1?=
- =?utf-8?B?Y1pRREE2YUxrQ3hGRWZWZUoxTVpxZjFFc0k4R1o2OU9QaFlnMzE1TlRHamRt?=
- =?utf-8?B?aS85L1pLeWc5ZEloallXY2REZ29od0s0M212S0FtRWRVMG5XZTJHMkpOSnFD?=
- =?utf-8?B?NU5IUkZiWHdUYloxNTY3d25jRTkxZXN6UXpmcy9EbTVjUXE3ZWVKY20yTTRH?=
- =?utf-8?B?ZTVhekRONmMzTmdPbERLekJMdnVZcmdCY1FyVWU1K0I5TGk4ZDM0cTNJdVBj?=
- =?utf-8?B?KzZCRFRsSjcrS1hMdERhaGZLam9lMlZtUVVsOTlybmxqaVV3eTZoSjRWTnIv?=
- =?utf-8?B?a3VTN2RFWDJnRFgrclRoTUMyTWplWFlaKzJBTERpQm1heDBna0ZiOTkvcm1S?=
- =?utf-8?B?OWU4VFlPT3MwWHZRcC9lV0tsSkVoNVVuK0cxbzErbVdnVHkzUnNwRjJQUytk?=
- =?utf-8?Q?naGK3zDGr8EK/+lzCX6Aga6xHQvE5E2pEJN31VRvbz2p?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <19DE456A4F48F8468DC6081EFCA1850A@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6AC910E1CA
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 07:37:20 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id i30so17431144pfk.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Feb 2022 23:37:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aFaS3Zy+SWBD6hADpuyt/Fc5oGC3hISjmOlmtlZpo6E=;
+ b=FwDd8H8hRetWj0sOM80rrBnHV4+4fr1rsP/WtYEzWlPxFhsCMGVDpBv1k6z+9zphJ0
+ Tl4xP260HYlVfy8uKNCBWyZ7ZnNca0wMLqVmWYH96F9i9tAozOs7VGp7c73Zv98fz5F9
+ gsWzvez5cK7EDpxZPr0n6UW2a9z+oEingTHps=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aFaS3Zy+SWBD6hADpuyt/Fc5oGC3hISjmOlmtlZpo6E=;
+ b=0JwR6IlREi5LDM0TwYijEPdsDmy7NIZIJpWrwTz3cP4Day1kM3RgLb2Eg1yC6fC/iD
+ wbYd/bThjq7x056ZACfI9bP4ILQFmNIVVURxKgk2J6K7AfytraTc3e2U/8yOoAJ6P6R8
+ 5zNfLMfAbsBM5PkvSV+fiB7kc1wHYeeJFY+ZFoveeGFrxnqdiJBTxhkF0LHe/dKyvE1U
+ 1TM+jAktRk9IPu64fh7x37Wd7iXaga759xgzAJ7K9i9Su9n89wBCFx+Uvbck80ZV2C/k
+ Gr6WM0YV7eLbGQA9keozGx8ciTsjMHZGNU+fRC5n5I9AkxhvHDo3WGN8IfyuNGZQYlyl
+ ZVUA==
+X-Gm-Message-State: AOAM532O39Snl0pQ6EFtfHCYnI1kTvxu/TLaanLlypuEvzYcCFgAnsOQ
+ Jr6CKW1cpGITiocArbc726eKNC7t7T/mRQ==
+X-Google-Smtp-Source: ABdhPJzS2LSJFwggJqoHtubTQKShRufuh6s/JeftmdUhmLSWfAzJ0dFroet697oSzmfkg58i/fGRMg==
+X-Received: by 2002:a63:8a42:: with SMTP id y63mr2489405pgd.413.1644305840042; 
+ Mon, 07 Feb 2022 23:37:20 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:7d9a:166e:9d34:ff4f])
+ by smtp.gmail.com with ESMTPSA id ip5sm1677243pjb.13.2022.02.07.23.37.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Feb 2022 23:37:19 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH v7 1/3] gpu: drm: separate panel orientation property creating
+ and value setting
+Date: Tue,  8 Feb 2022 15:37:12 +0800
+Message-Id: <20220208073714.1540390-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cfa69fa-aa0e-4ffd-e904-08d9ead56242
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Feb 2022 07:34:04.5715 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7cHvRGVtW1nmTzpQ5UJruY2Aph4s+TxTZpu01HK9YwPjR3hUXG/0D6vYKvLOzcWyLa2lT9z6yglw1WyApDssQg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5336
-X-Mailman-Approved-At: Tue, 08 Feb 2022 08:23:40 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,25 +66,247 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- Ralph Campbell <rcampbell@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Karol Herbst <kherbst@redhat.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Ben Skeggs <bskeggs@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Logan Gunthorpe <logang@deltatee.com>,
- =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMi82LzIyIDEwOjMyIFBNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToNCj4gZnJlZV9kZXZt
-YXBfbWFuYWdlZF9wYWdlIGhhcyBub3RoaW5nIHRvIGRvIHdpdGggdGhlIGNvZGUgaW4gc3dhcC5j
-LA0KPiBtb3ZlIGl0IHRvIGxpdmUgd2l0aCB0aGUgcmVzdCBvZiB0aGUgY29kZSBmb3IgZGV2bWFw
-IGhhbmRsaW5nLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoIEhlbGx3aWc8aGNoQGxz
-dC5kZT4NCg0KVHJ1ZSwgdGhlIG9ubHkgZGV2bWFwIGNvZGUgaXMgcHJlc2VudCBpbiB0aGUgc3dh
-cC5jIGlzIGNvdXBsZSBvZg0KY2FsbHMgaW4gbXkgdHJlZS4NCg0KTG9va3MgZ29vZC4NCg0KUmV2
-aWV3ZWQtYnk6IENoYWl0YW55YSBLdWxrYXJuaSA8a2NoQG52aWRpYS5jb20+DQoNCg==
+drm_dev_register() sets connector->registration_state to
+DRM_CONNECTOR_REGISTERED and dev->registered to true. If
+drm_connector_set_panel_orientation() is first called after
+drm_dev_register(), it will fail several checks and results in following
+warning.
+
+Add a function to create panel orientation property and set default value
+to UNKNOWN, so drivers can call this function to init the property earlier
+, and let the panel set the real value later.
+
+[    4.480976] ------------[ cut here ]------------
+[    4.485603] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:45 __drm_mode_object_add+0xb4/0xbc
+<snip>
+[    4.609772] Call trace:
+[    4.612208]  __drm_mode_object_add+0xb4/0xbc
+[    4.616466]  drm_mode_object_add+0x20/0x2c
+[    4.620552]  drm_property_create+0xdc/0x174
+[    4.624723]  drm_property_create_enum+0x34/0x98
+[    4.629241]  drm_connector_set_panel_orientation+0x64/0xa0
+[    4.634716]  boe_panel_get_modes+0x88/0xd8
+[    4.638802]  drm_panel_get_modes+0x2c/0x48
+[    4.642887]  panel_bridge_get_modes+0x1c/0x28
+[    4.647233]  drm_bridge_connector_get_modes+0xa0/0xd4
+[    4.652273]  drm_helper_probe_single_connector_modes+0x218/0x700
+[    4.658266]  drm_mode_getconnector+0x1b4/0x45c
+[    4.662699]  drm_ioctl_kernel+0xac/0x128
+[    4.666611]  drm_ioctl+0x268/0x410
+[    4.670002]  drm_compat_ioctl+0xdc/0xf0
+[    4.673829]  __arm64_compat_sys_ioctl+0xc8/0x100
+[    4.678436]  el0_svc_common+0xf4/0x1c0
+[    4.682174]  do_el0_svc_compat+0x28/0x3c
+[    4.686088]  el0_svc_compat+0x10/0x1c
+[    4.689738]  el0_sync_compat_handler+0xa8/0xcc
+[    4.694171]  el0_sync_compat+0x178/0x180
+[    4.698082] ---[ end trace b4f2db9d9c88610b ]---
+[    4.702721] ------------[ cut here ]------------
+[    4.707329] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:243 drm_object_attach_property+0x48/0xb8
+<snip>
+[    4.833830] Call trace:
+[    4.836266]  drm_object_attach_property+0x48/0xb8
+[    4.840958]  drm_connector_set_panel_orientation+0x84/0xa0
+[    4.846432]  boe_panel_get_modes+0x88/0xd8
+[    4.850516]  drm_panel_get_modes+0x2c/0x48
+[    4.854600]  panel_bridge_get_modes+0x1c/0x28
+[    4.858946]  drm_bridge_connector_get_modes+0xa0/0xd4
+[    4.863984]  drm_helper_probe_single_connector_modes+0x218/0x700
+[    4.869978]  drm_mode_getconnector+0x1b4/0x45c
+[    4.874410]  drm_ioctl_kernel+0xac/0x128
+[    4.878320]  drm_ioctl+0x268/0x410
+[    4.881711]  drm_compat_ioctl+0xdc/0xf0
+[    4.885536]  __arm64_compat_sys_ioctl+0xc8/0x100
+[    4.890142]  el0_svc_common+0xf4/0x1c0
+[    4.893879]  do_el0_svc_compat+0x28/0x3c
+[    4.897791]  el0_svc_compat+0x10/0x1c
+[    4.901441]  el0_sync_compat_handler+0xa8/0xcc
+[    4.905873]  el0_sync_compat+0x178/0x180
+[    4.909783] ---[ end trace b4f2db9d9c88610c ]---
+
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Reviewed-by: Sean Paul <seanpaul@chromium.org>
+---
+v6 -> v7:
+- Rebase to latest drm-misc.
+- Add function for amdgpu_dm.
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  1 +
+ drivers/gpu/drm/drm_connector.c               | 58 ++++++++++++++-----
+ drivers/gpu/drm/i915/display/icl_dsi.c        |  1 +
+ drivers/gpu/drm/i915/display/intel_dp.c       |  1 +
+ drivers/gpu/drm/i915/display/vlv_dsi.c        |  1 +
+ include/drm/drm_connector.h                   |  2 +
+ 6 files changed, 48 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index e8a994559b6580..3eb0be187292ff 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -8105,6 +8105,7 @@ static void amdgpu_set_panel_orientation(struct drm_connector *connector)
+ 	if (native_mode->hdisplay == 0 || native_mode->vdisplay == 0)
+ 		return;
+ 
++	drm_connector_init_panel_orientation_property(connector);
+ 	drm_connector_set_panel_orientation_with_quirk(connector,
+ 						       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
+ 						       native_mode->hdisplay,
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index a50c82bc2b2fec..041e496c8f15a9 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -1252,7 +1252,7 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+  *	INPUT_PROP_DIRECT) will still map 1:1 to the actual LCD panel
+  *	coordinates, so if userspace rotates the picture to adjust for
+  *	the orientation it must also apply the same transformation to the
+- *	touchscreen input coordinates. This property is initialized by calling
++ *	touchscreen input coordinates. This property value is set by calling
+  *	drm_connector_set_panel_orientation() or
+  *	drm_connector_set_panel_orientation_with_quirk()
+  *
+@@ -2341,8 +2341,8 @@ EXPORT_SYMBOL(drm_connector_set_vrr_capable_property);
+  * @connector: connector for which to set the panel-orientation property.
+  * @panel_orientation: drm_panel_orientation value to set
+  *
+- * This function sets the connector's panel_orientation and attaches
+- * a "panel orientation" property to the connector.
++ * This function sets the connector's panel_orientation value. If the property
++ * doesn't exist, it will return an error.
+  *
+  * Calling this function on a connector where the panel_orientation has
+  * already been set is a no-op (e.g. the orientation has been overridden with
+@@ -2373,19 +2373,11 @@ int drm_connector_set_panel_orientation(
+ 	info->panel_orientation = panel_orientation;
+ 
+ 	prop = dev->mode_config.panel_orientation_property;
+-	if (!prop) {
+-		prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
+-				"panel orientation",
+-				drm_panel_orientation_enum_list,
+-				ARRAY_SIZE(drm_panel_orientation_enum_list));
+-		if (!prop)
+-			return -ENOMEM;
+-
+-		dev->mode_config.panel_orientation_property = prop;
+-	}
++	if (WARN_ON(!prop))
++		return -EINVAL;
+ 
+-	drm_object_attach_property(&connector->base, prop,
+-				   info->panel_orientation);
++	drm_object_property_set_value(&connector->base, prop,
++				      info->panel_orientation);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_connector_set_panel_orientation);
+@@ -2393,7 +2385,7 @@ EXPORT_SYMBOL(drm_connector_set_panel_orientation);
+ /**
+  * drm_connector_set_panel_orientation_with_quirk - set the
+  *	connector's panel_orientation after checking for quirks
+- * @connector: connector for which to init the panel-orientation property.
++ * @connector: connector for which to set the panel-orientation property.
+  * @panel_orientation: drm_panel_orientation value to set
+  * @width: width in pixels of the panel, used for panel quirk detection
+  * @height: height in pixels of the panel, used for panel quirk detection
+@@ -2420,6 +2412,40 @@ int drm_connector_set_panel_orientation_with_quirk(
+ }
+ EXPORT_SYMBOL(drm_connector_set_panel_orientation_with_quirk);
+ 
++/**
++ * drm_connector_init_panel_orientation_property -
++ * 	create the connector's panel orientation property
++ *
++ * This function attaches a "panel orientation" property to the connector
++ * and initializes its value to DRM_MODE_PANEL_ORIENTATION_UNKNOWN.
++ *
++ * The value of the property can be set by drm_connector_set_panel_orientation()
++ * or drm_connector_set_panel_orientation_with_quirk() later.
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
++ */
++int drm_connector_init_panel_orientation_property(
++	struct drm_connector *connector)
++{
++	struct drm_device *dev = connector->dev;
++	struct drm_property *prop;
++
++	prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
++			"panel orientation",
++			drm_panel_orientation_enum_list,
++			ARRAY_SIZE(drm_panel_orientation_enum_list));
++	if (!prop)
++		return -ENOMEM;
++
++	dev->mode_config.panel_orientation_property = prop;
++	drm_object_attach_property(&connector->base, prop,
++				   DRM_MODE_PANEL_ORIENTATION_UNKNOWN);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_connector_init_panel_orientation_property);
++
+ static const struct drm_prop_enum_list privacy_screen_enum[] = {
+ 	{ PRIVACY_SCREEN_DISABLED,		"Disabled" },
+ 	{ PRIVACY_SCREEN_ENABLED,		"Enabled" },
+diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
+index 5781e9fac8b453..c351c3d3c2d4d0 100644
+--- a/drivers/gpu/drm/i915/display/icl_dsi.c
++++ b/drivers/gpu/drm/i915/display/icl_dsi.c
+@@ -1979,6 +1979,7 @@ static void icl_dsi_add_properties(struct intel_connector *connector)
+ 
+ 	connector->base.state->scaling_mode = DRM_MODE_SCALE_ASPECT;
+ 
++	drm_connector_init_panel_orientation_property(&connector->base);
+ 	drm_connector_set_panel_orientation_with_quirk(&connector->base,
+ 				intel_dsi_get_panel_orientation(connector),
+ 				connector->panel.fixed_mode->hdisplay,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index d8a0f7a2b9395a..776ddc2452f71f 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -5026,6 +5026,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+ 	intel_backlight_setup(intel_connector, pipe);
+ 
+ 	if (fixed_mode) {
++		drm_connector_init_panel_orientation_property(connector);
+ 		drm_connector_set_panel_orientation_with_quirk(connector,
+ 				dev_priv->vbt.orientation,
+ 				fixed_mode->hdisplay, fixed_mode->vdisplay);
+diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
+index 20141f33ed6444..ac65b23665d28a 100644
+--- a/drivers/gpu/drm/i915/display/vlv_dsi.c
++++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
+@@ -1649,6 +1649,7 @@ static void vlv_dsi_add_properties(struct intel_connector *connector)
+ 
+ 	connector->base.state->scaling_mode = DRM_MODE_SCALE_ASPECT;
+ 
++	drm_connector_init_panel_orientation_property(&connector->base);
+ 	drm_connector_set_panel_orientation_with_quirk(&connector->base,
+ 						       intel_dsi_get_panel_orientation(connector),
+ 						       connector->panel.fixed_mode->hdisplay,
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 64cf5f88c05b6a..d3448a71bb4d85 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1798,6 +1798,8 @@ int drm_connector_set_panel_orientation_with_quirk(
+ 	struct drm_connector *connector,
+ 	enum drm_panel_orientation panel_orientation,
+ 	int width, int height);
++int drm_connector_init_panel_orientation_property(
++	struct drm_connector *connector);
+ int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
+ 					  int min, int max);
+ void drm_connector_create_privacy_screen_properties(struct drm_connector *conn);
+-- 
+2.35.0.263.gb82422642f-goog
+
