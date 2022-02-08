@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAC84AD314
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:21:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123D84AD379
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 09:32:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A91510E36A;
-	Tue,  8 Feb 2022 08:21:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6719C10E22F;
+	Tue,  8 Feb 2022 08:32:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7361C10E36A
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 08:21:06 +0000 (UTC)
-X-UUID: f5ad159b30bd4423b18ddcd008c7b17b-20220208
-X-UUID: f5ad159b30bd4423b18ddcd008c7b17b-20220208
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF3E10E22F
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 08:32:04 +0000 (UTC)
+X-UUID: ab91830bc8c843acbb42b2d06d77bc71-20220208
+X-UUID: ab91830bc8c843acbb42b2d06d77bc71-20220208
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
  mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1936786812; Tue, 08 Feb 2022 16:21:02 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 8 Feb 2022 16:21:00 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 8 Feb 2022 16:21:00 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 629433519; Tue, 08 Feb 2022 16:32:01 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 8 Feb 2022 16:32:00 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 8 Feb 2022 16:21:00 +0800
-Message-ID: <20755168cc2be0d1bb5e40907cfe27cea25a9363.camel@mediatek.com>
+ Transport; Tue, 8 Feb 2022 16:32:00 +0800
+Message-ID: <b886b9a8a3368127be7357e8921e18358987033d.camel@mediatek.com>
 Subject: Re: [PATCH v4] drm/mediatek: mtk_dsi: Avoid EPROBE_DEFER loop with
  external bridge
 From: CK Hu <ck.hu@mediatek.com>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  <dri-devel@lists.freedesktop.org>
-Date: Tue, 8 Feb 2022 16:20:58 +0800
-In-Reply-To: <20220131085520.287105-1-angelogioacchino.delregno@collabora.com>
+Date: Tue, 8 Feb 2022 16:32:00 +0800
+In-Reply-To: <20755168cc2be0d1bb5e40907cfe27cea25a9363.camel@mediatek.com>
 References: <20220131085520.287105-1-angelogioacchino.delregno@collabora.com>
+ <20755168cc2be0d1bb5e40907cfe27cea25a9363.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -63,167 +62,179 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi, Angelo:
 
-On Mon, 2022-01-31 at 09:55 +0100, AngeloGioacchino Del Regno wrote:
-> DRM bridge drivers are now attaching their DSI device at probe time,
-> which requires us to register our DSI host in order to let the bridge
-> to probe: this recently started producing an endless -EPROBE_DEFER
-> loop on some machines that are using external bridges, like the
-> parade-ps8640, found on the ACER Chromebook R13.
+On Tue, 2022-02-08 at 16:20 +0800, CK Hu wrote:
+> Hi, Angelo:
 > 
-> Now that the DSI hosts/devices probe sequence is documented, we can
-> do adjustments to the mtk_dsi driver as to both fix now and make sure
-> to avoid this situation in the future: for this, following what is
-> documented in drm_bridge.c, move the mtk_dsi component_add() to the
-> mtk_dsi_ops.attach callback and delete it in the detach callback;
-> keeping in mind that we are registering a drm_bridge for our DSI,
-> which is only used/attached if the DSI Host is bound, it wouldn't
-> make sense to keep adding our bridge at probe time (as it would
-> be useless to have it if mtk_dsi_ops.attach() fails!), so also move
-> that one to the dsi host attach function (and remove it in detach).
+> On Mon, 2022-01-31 at 09:55 +0100, AngeloGioacchino Del Regno wrote:
+> > DRM bridge drivers are now attaching their DSI device at probe
+> > time,
+> > which requires us to register our DSI host in order to let the
+> > bridge
+> > to probe: this recently started producing an endless -EPROBE_DEFER
+> > loop on some machines that are using external bridges, like the
+> > parade-ps8640, found on the ACER Chromebook R13.
+> > 
+> > Now that the DSI hosts/devices probe sequence is documented, we can
+> > do adjustments to the mtk_dsi driver as to both fix now and make
+> > sure
+> > to avoid this situation in the future: for this, following what is
+> > documented in drm_bridge.c, move the mtk_dsi component_add() to the
+> > mtk_dsi_ops.attach callback and delete it in the detach callback;
+> > keeping in mind that we are registering a drm_bridge for our DSI,
+> > which is only used/attached if the DSI Host is bound, it wouldn't
+> > make sense to keep adding our bridge at probe time (as it would
+> > be useless to have it if mtk_dsi_ops.attach() fails!), so also move
+> > that one to the dsi host attach function (and remove it in detach).
+> > 
+> > Cc: <stable@vger.kernel.org> # 5.15.x
+> > Signed-off-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> > Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
+> > 
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dsi.c | 167 +++++++++++++++----------
+> > ----
+> >  1 file changed, 84 insertions(+), 83 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > index 5d90d2eb0019..bced4c7d668e 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > @@ -786,18 +786,101 @@ void mtk_dsi_ddp_stop(struct device *dev)
+> >  	mtk_dsi_poweroff(dsi);
+> >  }
+> >  
+> > 
 > 
-> Cc: <stable@vger.kernel.org> # 5.15.x
-> Signed-off-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
+> [snip]
 > 
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 167 +++++++++++++++----------
-> ----
->  1 file changed, 84 insertions(+), 83 deletions(-)
+> > +
+> >  static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
+> >  			       struct mipi_dsi_device *device)
+> >  {
+> >  	struct mtk_dsi *dsi = host_to_dsi(host);
+> > +	struct device *dev = host->dev;
+> > +	int ret;
+> >  
+> >  	dsi->lanes = device->lanes;
+> >  	dsi->format = device->format;
+> >  	dsi->mode_flags = device->mode_flags;
+> > +	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0,
+> > 0);
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 5d90d2eb0019..bced4c7d668e 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -786,18 +786,101 @@ void mtk_dsi_ddp_stop(struct device *dev)
->  	mtk_dsi_poweroff(dsi);
->  }
->  
+> The original would process panel. Why do you remove the panel part?
+> It's better that someone has a platform of DSI->Panel to test this
+> patch.
+
+Sorry, devm_drm_of_get_bridge() has processed the panel part, so for
+this patch,
+
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+
 > 
-
-[snip]
-
-> +
->  static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
->  			       struct mipi_dsi_device *device)
->  {
->  	struct mtk_dsi *dsi = host_to_dsi(host);
-> +	struct device *dev = host->dev;
-> +	int ret;
->  
->  	dsi->lanes = device->lanes;
->  	dsi->format = device->format;
->  	dsi->mode_flags = device->mode_flags;
-> +	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0,
-> 0);
-
-The original would process panel. Why do you remove the panel part?
-It's better that someone has a platform of DSI->Panel to test this
-patch.
-
-Regards,
-CK
-
-> +	if (IS_ERR(dsi->next_bridge))
-> +		return PTR_ERR(dsi->next_bridge);
-> +
-> +	drm_bridge_add(&dsi->bridge);
-> +
-> +	ret = component_add(host->dev, &mtk_dsi_component_ops);
-> +	if (ret) {
-> +		DRM_ERROR("failed to add dsi_host component: %d\n",
-> ret);
-> +		drm_bridge_remove(&dsi->bridge);
-> +		return ret;
-> +	}
->  
->  	return 0;
->  }
->  
-> +static int mtk_dsi_host_detach(struct mipi_dsi_host *host,
-> +			       struct mipi_dsi_device *device)
-> +{
-> +	struct mtk_dsi *dsi = host_to_dsi(host);
-> +
-> +	component_del(host->dev, &mtk_dsi_component_ops);
-> +	drm_bridge_remove(&dsi->bridge);
-> +	return 0;
-> +}
-> +
->  static void mtk_dsi_wait_for_idle(struct mtk_dsi *dsi)
->  {
->  	int ret;
-> @@ -938,73 +1021,14 @@ static ssize_t mtk_dsi_host_transfer(struct
-> mipi_dsi_host *host,
->  
->  static const struct mipi_dsi_host_ops mtk_dsi_ops = {
->  	.attach = mtk_dsi_host_attach,
-> +	.detach = mtk_dsi_host_detach,
->  	.transfer = mtk_dsi_host_transfer,
->  };
->  
+> Regards,
+> CK
 > 
-
-[snip]
-
-> -
->  static int mtk_dsi_probe(struct platform_device *pdev)
->  {
->  	struct mtk_dsi *dsi;
->  	struct device *dev = &pdev->dev;
-> -	struct drm_panel *panel;
->  	struct resource *regs;
->  	int irq_num;
->  	int ret;
-> @@ -1021,19 +1045,6 @@ static int mtk_dsi_probe(struct
-> platform_device *pdev)
->  		return ret;
->  	}
->  
-> -	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
-> -					  &panel, &dsi->next_bridge);
-> -	if (ret)
-> -		goto err_unregister_host;
-> -
-> -	if (panel) {
-> -		dsi->next_bridge = devm_drm_panel_bridge_add(dev,
-> panel);
-> -		if (IS_ERR(dsi->next_bridge)) {
-> -			ret = PTR_ERR(dsi->next_bridge);
-> -			goto err_unregister_host;
-> -		}
-> -	}
-> -
->  	dsi->driver_data = of_device_get_match_data(dev);
->  
->  	dsi->engine_clk = devm_clk_get(dev, "engine");
-> @@ -1098,14 +1109,6 @@ static int mtk_dsi_probe(struct
-> platform_device *pdev)
->  	dsi->bridge.of_node = dev->of_node;
->  	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
->  
-> -	drm_bridge_add(&dsi->bridge);
-> -
-> -	ret = component_add(&pdev->dev, &mtk_dsi_component_ops);
-> -	if (ret) {
-> -		dev_err(&pdev->dev, "failed to add component: %d\n",
-> ret);
-> -		goto err_unregister_host;
-> -	}
-> -
->  	return 0;
->  
->  err_unregister_host:
-> @@ -1118,8 +1121,6 @@ static int mtk_dsi_remove(struct
-> platform_device *pdev)
->  	struct mtk_dsi *dsi = platform_get_drvdata(pdev);
->  
->  	mtk_output_dsi_disable(dsi);
-> -	drm_bridge_remove(&dsi->bridge);
-> -	component_del(&pdev->dev, &mtk_dsi_component_ops);
->  	mipi_dsi_host_unregister(&dsi->host);
->  
->  	return 0;
+> > +	if (IS_ERR(dsi->next_bridge))
+> > +		return PTR_ERR(dsi->next_bridge);
+> > +
+> > +	drm_bridge_add(&dsi->bridge);
+> > +
+> > +	ret = component_add(host->dev, &mtk_dsi_component_ops);
+> > +	if (ret) {
+> > +		DRM_ERROR("failed to add dsi_host component: %d\n",
+> > ret);
+> > +		drm_bridge_remove(&dsi->bridge);
+> > +		return ret;
+> > +	}
+> >  
+> >  	return 0;
+> >  }
+> >  
+> > +static int mtk_dsi_host_detach(struct mipi_dsi_host *host,
+> > +			       struct mipi_dsi_device *device)
+> > +{
+> > +	struct mtk_dsi *dsi = host_to_dsi(host);
+> > +
+> > +	component_del(host->dev, &mtk_dsi_component_ops);
+> > +	drm_bridge_remove(&dsi->bridge);
+> > +	return 0;
+> > +}
+> > +
+> >  static void mtk_dsi_wait_for_idle(struct mtk_dsi *dsi)
+> >  {
+> >  	int ret;
+> > @@ -938,73 +1021,14 @@ static ssize_t mtk_dsi_host_transfer(struct
+> > mipi_dsi_host *host,
+> >  
+> >  static const struct mipi_dsi_host_ops mtk_dsi_ops = {
+> >  	.attach = mtk_dsi_host_attach,
+> > +	.detach = mtk_dsi_host_detach,
+> >  	.transfer = mtk_dsi_host_transfer,
+> >  };
+> >  
+> > 
+> 
+> [snip]
+> 
+> > -
+> >  static int mtk_dsi_probe(struct platform_device *pdev)
+> >  {
+> >  	struct mtk_dsi *dsi;
+> >  	struct device *dev = &pdev->dev;
+> > -	struct drm_panel *panel;
+> >  	struct resource *regs;
+> >  	int irq_num;
+> >  	int ret;
+> > @@ -1021,19 +1045,6 @@ static int mtk_dsi_probe(struct
+> > platform_device *pdev)
+> >  		return ret;
+> >  	}
+> >  
+> > -	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
+> > -					  &panel, &dsi->next_bridge);
+> > -	if (ret)
+> > -		goto err_unregister_host;
+> > -
+> > -	if (panel) {
+> > -		dsi->next_bridge = devm_drm_panel_bridge_add(dev,
+> > panel);
+> > -		if (IS_ERR(dsi->next_bridge)) {
+> > -			ret = PTR_ERR(dsi->next_bridge);
+> > -			goto err_unregister_host;
+> > -		}
+> > -	}
+> > -
+> >  	dsi->driver_data = of_device_get_match_data(dev);
+> >  
+> >  	dsi->engine_clk = devm_clk_get(dev, "engine");
+> > @@ -1098,14 +1109,6 @@ static int mtk_dsi_probe(struct
+> > platform_device *pdev)
+> >  	dsi->bridge.of_node = dev->of_node;
+> >  	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+> >  
+> > -	drm_bridge_add(&dsi->bridge);
+> > -
+> > -	ret = component_add(&pdev->dev, &mtk_dsi_component_ops);
+> > -	if (ret) {
+> > -		dev_err(&pdev->dev, "failed to add component: %d\n",
+> > ret);
+> > -		goto err_unregister_host;
+> > -	}
+> > -
+> >  	return 0;
+> >  
+> >  err_unregister_host:
+> > @@ -1118,8 +1121,6 @@ static int mtk_dsi_remove(struct
+> > platform_device *pdev)
+> >  	struct mtk_dsi *dsi = platform_get_drvdata(pdev);
+> >  
+> >  	mtk_output_dsi_disable(dsi);
+> > -	drm_bridge_remove(&dsi->bridge);
+> > -	component_del(&pdev->dev, &mtk_dsi_component_ops);
+> >  	mipi_dsi_host_unregister(&dsi->host);
+> >  
+> >  	return 0;
 
