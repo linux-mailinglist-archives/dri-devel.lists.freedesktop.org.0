@@ -1,53 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810D54AE5A9
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 00:52:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE6B4AE5A4
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 00:50:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A73B10E2A2;
-	Tue,  8 Feb 2022 23:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03DF810E332;
+	Tue,  8 Feb 2022 23:50:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFCDD10E2A2
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 23:52:14 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 9060A83DDF;
- Wed,  9 Feb 2022 00:52:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1644364332;
- bh=H8eW9+3mcVmhpPeNP0jiKyHLs9rbfP6Pvo0wsJGq/FU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kV2DJWs9YsqiSDoFUClP46c4xNiSvSGUrs/4+Pyh3uKL0tNXIZrJ13paApM6SYCdc
- 4cdQ52zzf07cNfKaQVX5L1oZb5cdzIqco4pXPnJrtflq9ifi+ScpnA6QEfldIA8FRa
- HVA4Nhu91w5Yq6K5kbMse/GusR2bnnwb3jQ0+FyhRMrbl+O/EIybXdOAhqqToUtf5Q
- qfyBTTqJhc0qqx4864R7oIkDxbIzaS/twkmhwfQRHH8G4RxiseECA0ZGsil/RY91jI
- wkrmfG7xzt3t7Kme6HscN5YrdUOrorjG9pm55LCDpn+OpPJvXM5osB/2GlXjVDukVc
- PUMtd6+5oezmg==
-Message-ID: <bef41ee6-d070-109f-33c2-95103e7ef6a3@denx.de>
-Date: Wed, 9 Feb 2022 00:52:10 +0100
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC85910E301
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 23:50:42 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id y23so749766oia.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 15:50:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ZfjRDOxBlYHHE14BCEgNLKQP/YKV4fajU6/9Z4+F+7A=;
+ b=BS1mRT/hnJZLCPbRnmOQrH/RP9NXql41p4yiX3I3vTpbaWa9H2QX9ueT/PbbIIpBuO
+ wKqnqoM3msoIl9hG3IiOugSaK1fQ8hoYA+r15JyTQPHg8hfVsy9t1ilb+jSAzpn6wcMK
+ gAS/tWHJXvWOtI1yFKDxXFYr2mF3e/kdxYNAAeEeMGFHRkJwhl3TCK59jaVEx76efa3A
+ DaCnejo/My5XGJocCbE3m5k8l7o9LKYrF0frYXql9fHASVIExKIvafASKEGaBPqk/WJR
+ /4Tthh1oC+i21lhVB8JNUmUR187U/N30084/wUF/y8Noy8UWZtM8jrTTKwcemIGn34+C
+ AIjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZfjRDOxBlYHHE14BCEgNLKQP/YKV4fajU6/9Z4+F+7A=;
+ b=XZhIm8Mk3YqftzvEsGkhfjvT61wm/CO/7lkftm6ZPdq1LnifZK5DlYDIHiAmT0mTPx
+ /kIRGXoVCkwowKH880bbn9/J23ue9PA3tV7z0wfifoo+MQUoacA2xtuVOAULEjzf8XJq
+ pgaTRjLV23TuYj0yo+WSiGp/IHVzyOkbWbmCxUdR9wuNgqwGOKiGHqWRaN8mp7kXZkb2
+ di3N6O/1bo6eKyk2cay5aVc4I/3ULHHFyyTIElmz1+fWumo/VV+5tYf2ukwKWBmhmZ1A
+ y5sg06L0DW6gESDArNLrsz5bNdnSk4jmK5r7XZ1vsCzcoScLLOmfqoM2of5JNp3AC4zZ
+ vlFw==
+X-Gm-Message-State: AOAM532raYqQt9KEb44C1zkoR3JKIMc00S/AIVUtxQ4TXSN8OTI2jCFK
+ vDDH95SebXCiY+E5x6vgy8M+hw==
+X-Google-Smtp-Source: ABdhPJwsbbOsQ2Ax/QBE65F8Xax4Q1ry58y4ohjRKiITBFnYm47y1u0Jiw5XKGU8I+Mz56JLFI6/nA==
+X-Received: by 2002:a05:6808:1920:: with SMTP id
+ bf32mr177216oib.304.1644364241902; 
+ Tue, 08 Feb 2022 15:50:41 -0800 (PST)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+ by smtp.gmail.com with ESMTPSA id d22sm5729003otp.79.2022.02.08.15.50.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 15:50:41 -0800 (PST)
+Date: Tue, 8 Feb 2022 15:52:59 -0800
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Subject: Re: [PATCH v2 2/4] arm64: dts: qcom: sc7280: Add support for eDP
+ panel on CRD
+Message-ID: <YgMCW9GrY6SRteOU@ripper>
+References: <1644333525-30920-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1644333525-30920-3-git-send-email-quic_sbillaka@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [RFC][PATCH] Revert "drm/panel-simple: drop use of data-mapping
- property"
-Content-Language: en-US
-To: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20220201110717.3585-1-cniedermaier@dh-electronics.com>
- <YfsXt1lU6l9cSctX@pendragon.ideasonboard.com>
- <4a2f4707c03d4509aa5f3a388cbfbe04@dh-electronics.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <4a2f4707c03d4509aa5f3a388cbfbe04@dh-electronics.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1644333525-30920-3-git-send-email-quic_sbillaka@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,116 +70,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- NXP Linux Team <linux-imx@nxp.com>
+Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org, dianders@chromium.org,
+ sam@ravnborg.org, krzysztof.kozlowski@canonical.com, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org,
+ quic_abhinavk@quicinc.com, robh+dt@kernel.org, agross@kernel.org,
+ seanpaul@chromium.org, thierry.reding@gmail.com, quic_khsieh@quicinc.com,
+ freedreno@lists.freedesktop.org, quic_mkrishn@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/8/22 22:27, Christoph Niedermaier wrote:
-> From: Laurent Pinchart [mailto:laurent.pinchart@ideasonboard.com]
-> Sent: Thursday, February 3, 2022 12:46 AM
->>
->> Hi Christoph,
->>
+On Tue 08 Feb 07:18 PST 2022, Sankeerth Billakanti wrote:
+
+> Enable the eDP display panel support without HPD on sc7280 platform.
 > 
-> Hi Laurent,
+> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+> ---
 > 
->> On Tue, Feb 01, 2022 at 12:07:17PM +0100, Christoph Niedermaier wrote:
->>> Without the data-mapping devicetree property my display won't
->>> work properly. It is flickering, because the bus flags won't
->>> be assigned without a defined bus format by the imx parallel
->>> display driver. There was a discussion about the removal [1]
->>> and an agreement that a better solution is needed, but it is
->>> missing so far. So what would be the better approach?
->>>
->>> [1] https://patchwork.freedesktop.org/patch/357659/?series=74705&rev=1
->>>
->>> This reverts commit d021d751c14752a0266865700f6f212fab40a18c.
->>>
->>> Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
->>> Cc: Marek Vasut <marex@denx.de>
->>> Cc: Sam Ravnborg <sam@ravnborg.org>
->>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>> Cc: Maxime Ripard <mripard@kernel.org>
->>> Cc: Philipp Zabel <p.zabel@pengutronix.de>
->>> Cc: David Airlie <airlied@linux.ie>
->>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>> Cc: Shawn Guo <shawnguo@kernel.org>
->>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
->>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
->>> Cc: Fabio Estevam <festevam@gmail.com>
->>> Cc: NXP Linux Team <linux-imx@nxp.com>
->>> Cc: linux-arm-kernel@lists.infradead.org
->>> To: dri-devel@lists.freedesktop.org
->>> ---
->>>   drivers/gpu/drm/panel/panel-simple.c | 11 +++++++++++
->>>   1 file changed, 11 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
->>> index 3c08f9827acf..2c683d94a3f3 100644
->>> --- a/drivers/gpu/drm/panel/panel-simple.c
->>> +++ b/drivers/gpu/drm/panel/panel-simple.c
->>> @@ -453,6 +453,7 @@ static int panel_dpi_probe(struct device *dev,
->>>        struct panel_desc *desc;
->>>        unsigned int bus_flags;
->>>        struct videomode vm;
->>> +     const char *mapping;
->>>        int ret;
->>>
->>>        np = dev->of_node;
->>> @@ -477,6 +478,16 @@ static int panel_dpi_probe(struct device *dev,
->>>        of_property_read_u32(np, "width-mm", &desc->size.width);
->>>        of_property_read_u32(np, "height-mm", &desc->size.height);
->>>
->>> +     of_property_read_string(np, "data-mapping", &mapping);
->>> +     if (!strcmp(mapping, "rgb24"))
->>> +             desc->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
->>> +     else if (!strcmp(mapping, "rgb565"))
->>> +             desc->bus_format = MEDIA_BUS_FMT_RGB565_1X16;
->>> +     else if (!strcmp(mapping, "bgr666"))
->>> +             desc->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
->>> +     else if (!strcmp(mapping, "lvds666"))
->>> +             desc->bus_format = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
->>
->> You're right that there's an issue, but a revert isn't the right option.
->> The commit you're reverting never made it in a stable release, because
->> it was deemed to not be a good enough option.
->>
->> First of all, any attempt to fix this should include an update to the DT
->> binding. Second, as this is about DPI panels, the LVDS option should be
->> dropped. Finally, I've shared some initial thoughts in [1], maybe you
->> can reply to that e-mail to continue the discussion there ?
+> Changes in v2:
+>   - sort node references alphabetically
+>   - improve readability
+>   - move the pwm pinctrl to pwm node
+>   - move the regulators to root
+>   - define backlight power
+>   - remove dummy regulator node
+>   - cleanup pinctrl definitions
 > 
-> According to your thoughts in [1] you mean that the bus format should be
-> build out of the devicetree properties bus-width and data-shift. It would
-> be possible for evenly structured busses like RGB888_1X24 and RGB666_1X18,
-> but what about a bus like RGB565_1X16, where each color has different
-> bus width. Also the order of the colors should be defined to differ
-> between busses like RGB888_1X24 and GBR888_1X24.
-> Are there any ideas how can this be covered?
+>  arch/arm64/boot/dts/qcom/sc7280-crd.dts | 122 ++++++++++++++++++++++++++++++++
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi    |   2 -
+>  2 files changed, 122 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280-crd.dts b/arch/arm64/boot/dts/qcom/sc7280-crd.dts
+> index e2efbdd..bff2707 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280-crd.dts
+> +++ b/arch/arm64/boot/dts/qcom/sc7280-crd.dts
+> @@ -21,6 +21,34 @@
+>  	chosen {
+>  		stdout-path = "serial0:115200n8";
+>  	};
+> +
+> +	backlight_power: backlight-power {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "backlight_power";
+> +
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
+> +
+> +		gpio = <&pm8350c_gpios 7 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&edp_bl_power>;
+> +	};
+> +
+> +	edp_power: edp-power {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "edp_power";
+> +
+> +		regulator-min-microvolt = <3300000>;
+> +		regulator-max-microvolt = <3300000>;
+> +
+> +		gpio = <&tlmm 80 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&edp_panel_power>;
+> +	};
+>  };
+>  
+>  &apps_rsc {
+> @@ -76,6 +104,42 @@ ap_ts_pen_1v8: &i2c13 {
+>  	};
+>  };
+>  
+> +&edp_out {
 
-Maybe with props like these ?
+Sorry for missing this while merging changes in sc7280.dtsi. But it
+would be really nice if this was labeled mdss_edp_out instead (or
+possibly defined within the &mdss_edp node).
 
-channel-width -- width of each color channel
-channel-shift -- shift of each color channel
-channel-map -- mapping of each color channel
+Now you will have &edp_out and &dp_out floating around away from the edp
+and dp nodes...
 
-So for RGB888
-channel-width = <8 8 8>;
-channel-shift = <0 0 0>;
-channel-map = "RGB"; // or something ?
+> +	remote-endpoint = <&edp_panel_in>;
+> +};
+> +
+> +&mdss {
+> +	status = "okay";
+> +};
+> +
+> +&mdss_edp {
+> +	status = "okay";
+> +
+> +	vdda-1p2-supply = <&vreg_l6b_1p2>;
+> +	vdda-0p9-supply = <&vreg_l10c_0p8>;
+> +};
+> +
+> +&mdss_edp_phy {
+> +	status = "okay";
+> +
+> +	vdda-1p2-supply = <&vreg_l6b_1p2>;
+> +	vdda-0p9-supply = <&vreg_l10c_0p8>;
+> +};
+> +
+> +&mdss_dp {
+> +	status = "okay";
+> +
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&dp_hot_plug_det>;
+> +	data-lanes = <0 1>;
+> +	vdda-1p2-supply = <&vreg_l6b_1p2>;
+> +	vdda-0p9-supply = <&vreg_l1b_0p8>;
+> +};
+> +
+> +&mdss_mdp {
+> +	status = "okay";
+> +};
+> +
+>  &nvme_3v3_regulator {
+>  	gpio = <&tlmm 51 GPIO_ACTIVE_HIGH>;
+>  };
+> @@ -84,7 +148,65 @@ ap_ts_pen_1v8: &i2c13 {
+>  	pins = "gpio51";
+>  };
+>  
+> +&pm8350c_pwm {
 
-For BGR565 panel connected to RGB24 scanout
-channel-width = <5 6 5>;
-channel-shift = <3 2 3>;
-channel-map = "BGR"; // or something ?
+This label doesn't exist, so I won't be able to merge this patch.
 
-For BGR565 panel connected to RGB565 scanout
-channel-width = <5 6 5>;
-channel-shift = <0 0 0>;
-channel-map = "BGR"; // or something ?
+> +	status = "okay";
+> +
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&edp_bl_pwm>;
+> +};
+> +
+> +&pm8350c_gpios {
+> +	edp_bl_power: edp-bl-power {
+> +		pins = "gpio7";
+> +		function = "normal";
+> +		qcom,drive-strength = <PMIC_GPIO_STRENGTH_LOW>;
+> +		bias-disable;
+> +		output-low;
+> +	};
+> +
+> +	edp_bl_pwm: edp-bl-pwm {
+> +		pins = "gpio8";
+> +		function = "func1";
+> +		qcom,drive-strength = <PMIC_GPIO_STRENGTH_LOW>;
+> +		bias-disable;
+> +		output-low;
+> +	};
+> +};
+> +
+> +&soc {
+> +	edp_backlight: edp-backlight {
+> +		compatible = "pwm-backlight";
+
+This is not a device on the mmio bus, so it should not love within the
+&soc.
+
+> +
+> +		power-supply = <&backlight_power>;
+> +		pwms = <&pm8350c_pwm 3 65535>;
+> +	};
+> +
+> +	edp_panel: edp_panel {
+
+Ditto.
+
+Regards,
+Bjorn
+
+> +		compatible = "sharp,lq140m1jw46";
+> +
+> +		power-supply = <&edp_power>;
+> +		backlight = <&edp_backlight>;
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			port@0 {
+> +				reg = <0>;
+> +				edp_panel_in: endpoint {
+> +					remote-endpoint = <&edp_out>;
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>  &tlmm {
+> +	edp_panel_power: edp-panel-power {
+> +		pins = "gpio80";
+> +		function = "gpio";
+> +		bias-pull-down;
+> +	};
+> +
+>  	tp_int_odl: tp-int-odl {
+>  		pins = "gpio7";
+>  		function = "gpio";
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> index 3572399..f8fa716 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> @@ -3012,8 +3012,6 @@
+>  
+>  			mdss_edp: edp@aea0000 {
+>  				compatible = "qcom,sc7280-edp";
+> -				pinctrl-names = "default";
+> -				pinctrl-0 = <&edp_hot_plug_det>;
+>  
+>  				reg = <0 0xaea0000 0 0x200>,
+>  				      <0 0xaea0200 0 0x200>,
+> -- 
+> 2.7.4
+> 
