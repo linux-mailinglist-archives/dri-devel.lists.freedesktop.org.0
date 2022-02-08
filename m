@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A1BF4AD51D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 10:39:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B734AD528
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 10:45:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8EBA10E42F;
-	Tue,  8 Feb 2022 09:39:36 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73F4D10E42F;
- Tue,  8 Feb 2022 09:39:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644313175; x=1675849175;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Df0C/LrFVscjyi5H5SdgDbADUUcMmmwnwJrI6V8QSCw=;
- b=U/Yn5ehK3FMieJ2Wo+HJRwW5ooVsGCPCyi/A2jYqoyUcQshh/3GoHLcz
- Ynl89iEZaqipMyhiDB2a1ABOqWRw2v0hoJdnJk5MEEOybtw39l1x/WiWD
- YLng8LkaVWBNPTSt/45nUPagDPWNEHwecd6Mb4qtxfj4wqOoN7VkeP+5N
- RD+iCB/JR0FlQk456st3LhXdLZJEbO6qpS8o+kNMnmieMeKrkStAnpX37
- tSSWqTWZTdHuv9figjyDw7VIgpCXDwMizhc+vAq7YUvaTnZvW0OgIY/LH
- 3az06QrmtQmHnaPlKLOx/uEykrZg8cSi+dYybdhpmxQaoqE6C3z7u621k g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="236317868"
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="236317868"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 01:39:35 -0800
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="484753098"
-Received: from kgonza2-mobl2.gar.corp.intel.com (HELO [10.213.198.226])
- ([10.213.198.226])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 01:39:34 -0800
-Message-ID: <ba8ce5c6-ba11-f2af-917c-9e6e14445d43@linux.intel.com>
-Date: Tue, 8 Feb 2022 09:39:32 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DEE810E5D3;
+	Tue,  8 Feb 2022 09:45:31 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE2F10E4F1
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 09:45:29 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id z17so3394304plb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 01:45:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fZ5YoyypaVIdNJWNBuLZoYFhoOEVTGQBx0XSyV/K64g=;
+ b=pNjpHOvtGk7X2k8pye4V2WHMJ7dNNRrzdNfMbZZhyF+E5PPYKOmO91Sc5wQM0IkuTY
+ dPBgHyQSiuWGu+PJnIbZOmV9+0/cgSwADvRm4OfjSPEZe1YYiuI+N19DW/ojNqYaR3Tg
+ tbfGl1WYYSd3BLSV7l1jI0qC1O+2HF+TxHAymI9DlgGtZYp/4Z/qJ4mk0PdX/SFvplPP
+ 22pYV/d9yMSggkijFMPtN8eKpTwdNd8T1grrlNxCpfXDBWBfFOjJqFMZVwk6nVdXaTq0
+ 91ltG5gjjFuvui8SECnYYHEXfpFXoQ+95U7Gm9zmzB357dcQor6ZtyWchOjprzR7JNeN
+ k4PQ==
+X-Gm-Message-State: AOAM5326Mt1NZtnmIJcxCDBcpPa3/Vwrq5bfyJhW/UbUs2h72G2mbv+y
+ tjJOI63lCSRxfI9lIJuOsO0hUcvi8gvqnQ==
+X-Google-Smtp-Source: ABdhPJwlrxdPjEsjl2N3fkhiizZMnoYbkbECr5EZApDOZh6j1bMe0DOvyxGiLpeX+mZSvHOkqMta+g==
+X-Received: by 2002:a17:90a:af97:: with SMTP id
+ w23mr414724pjq.162.1644313528824; 
+ Tue, 08 Feb 2022 01:45:28 -0800 (PST)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com.
+ [209.85.216.47])
+ by smtp.gmail.com with ESMTPSA id cu21sm763449pjb.50.2022.02.08.01.45.28
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Feb 2022 01:45:28 -0800 (PST)
+Received: by mail-pj1-f47.google.com with SMTP id
+ my12-20020a17090b4c8c00b001b528ba1cd7so2129001pjb.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 01:45:28 -0800 (PST)
+X-Received: by 2002:a67:fd63:: with SMTP id h3mr1094926vsa.77.1644313195369;
+ Tue, 08 Feb 2022 01:39:55 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Fix flag query to not modify
- state
-Content-Language: en-US
-To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
-References: <20220208020716.2140157-1-John.C.Harrison@Intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220208020716.2140157-1-John.C.Harrison@Intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220203093922.20754-1-tzimmermann@suse.de>
+In-Reply-To: <20220203093922.20754-1-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 8 Feb 2022 10:39:44 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWykWR4oKahC2GYF5jG4przRQ+MxNNm1BK7o62OhhGYwA@mail.gmail.com>
+Message-ID: <CAMuHMdWykWR4oKahC2GYF5jG4przRQ+MxNNm1BK7o62OhhGYwA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/panel: Select DRM_DP_HELPER for DRM_PANEL_EDP
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,47 +65,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Randy Dunlap <rdunlap@infradead.org>, Doug Anderson <dianders@chromium.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Thomas,
 
-On 08/02/2022 02:07, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> A flag query helper was actually writing to the flags word rather than
-> just reading. Fix that. Also update the function's comment as it was
-> out of date.
-> 
-> Fixes: 0f7976506de61 ("drm/i915/guc: Rework and simplify locking")
-> Signed-off-by: John Harrison <john.c.harrison@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 7 ++-----
->   1 file changed, 2 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index b3a429a92c0d..d9f4218f5ef4 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -174,11 +174,8 @@ static inline void init_sched_state(struct intel_context *ce)
->   __maybe_unused
->   static bool sched_state_is_init(struct intel_context *ce)
->   {
-> -	/*
-> -	 * XXX: Kernel contexts can have SCHED_STATE_NO_LOCK_REGISTERED after
-> -	 * suspend.
-> -	 */
-> -	return !(ce->guc_state.sched_state &=
-> +	/* Kernel contexts can have SCHED_STATE_REGISTERED after suspend. */
-> +	return !(ce->guc_state.sched_state &
->   		 ~(SCHED_STATE_BLOCKED_MASK | SCHED_STATE_REGISTERED));
->   }
->   
+On Mon, Feb 7, 2022 at 12:31 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> As reported in [1], DRM_PANEL_EDP depends on DRM_DP_HELPER. Select
+> the option to fix the build failure. The error message is shown
+> below.
+>
+>   arm-linux-gnueabihf-ld: drivers/gpu/drm/panel/panel-edp.o: in function
+>     `panel_edp_probe': panel-edp.c:(.text+0xb74): undefined reference to
+>     `drm_panel_dp_aux_backlight'
+>   make[1]: *** [/builds/linux/Makefile:1222: vmlinux] Error 1
+>
+> The issue has been reported before, when DisplayPort helpers were
+> hidden behind the option CONFIG_DRM_KMS_HELPER. [2]
+>
+> v2:
+>         * fix and expand commit description (Arnd)
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Looks important - what are the consequences?
+Thanks for your patch!
 
-Needs Cc: stable for 5.16?
+This fixes the build errors I'm seeing, so
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Regards,
+Gr{oetje,eeting}s,
 
-Tvrtko
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
