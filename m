@@ -1,63 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09514ADF36
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 18:19:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A482D4ADF3A
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 18:19:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C539810E8FE;
-	Tue,  8 Feb 2022 17:19:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5501B10E908;
+	Tue,  8 Feb 2022 17:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-relay-internal-0.canonical.com
  (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17E3410E8F3
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:25 +0000 (UTC)
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE0D10E8F6
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:27 +0000 (UTC)
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id E6FF54004D
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:23 +0000 (UTC)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id B06CD3F4B6
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1644340763;
- bh=kMaTNaBI2iO4IYdjvaEgTk0fgCfiFl3MO+VYGfyVvmE=;
+ s=20210705; t=1644340766;
+ bh=4Kqc6L6Q9tC6aVZ4IcSd8iWDDGh3wUIB157CLAeaaFw=;
  h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
  MIME-Version;
- b=lnBdMxEWMYw7AaM8GtmPI2mq4l9HHdv92EUan5YECg5hr/6jkwQRCnnzvySe2y/y7
- CpiDA5xnf2DIHS6du1h/7LHqAFvHelfpoJLMW+XUe/jeoz1y1us9eTJzY05dWhMG1g
- vmA1BWE5o7sTnkNXf2Za8N3FuOKdnXn8G6auP6Uw0HYwCgC5l9kbCkWuaAUWtC7arz
- zTbHFJSWhO5rVxRHCSUUed3ZYWMEScU7DNLUcoQ9KDd759Ih2YJ9KrwKKvz3gdcueR
- 4WrTU+5TBVST4GxCteBRkMgPDmN1NTam28m//WN2KkXMvaUZd3CW4gC9mCVYZL043d
- 6GDXkU4c2DIYQ==
-Received: by mail-ej1-f72.google.com with SMTP id
- hr36-20020a1709073fa400b006cd2c703959so889309ejc.14
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 09:19:23 -0800 (PST)
+ b=O1PmpqQwPIZrvIE1A5x/m5NFgG9XYL4KBweUbScZNb6gAMK0n66ygYDCYeMztalZM
+ +rvKk2vPoRqkU80WuJ4OJJKhQNi70diw5PTEahW4tquzlhDH8xG2qpcRNIcJfxjdt6
+ ieHsHMU1gA9xTiKG5Fi3AFLj92oFJXKy1wqk6Ff0ltGK0i9HO290WGoqtbNw7OYhmE
+ grJYr8/dND1YPl4kp5hEgAkQzbqMdNqdz2ZXzJdBst7Mwokc8Z3CRRY8lMlbatjw2Q
+ 0mduc6i9jXYcrhElebz0C/PTRJeCB3cCi2bsyJAtpVnTJJ1E0jHm8z1ywyoZo90ojT
+ LyUUSkhmkG/jA==
+Received: by mail-ed1-f71.google.com with SMTP id
+ k5-20020a508ac5000000b00408dec8390aso9977100edk.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 09:19:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kMaTNaBI2iO4IYdjvaEgTk0fgCfiFl3MO+VYGfyVvmE=;
- b=6DjRGqgAFWpu+kF23GqkS2GDJ3adNYYqT1HXN2QVS9d0qxi/TFR7kpY2YjFKty0JeV
- pmeOgZs3+XwozFKG+3bp+2PemokWp9CUJRlcOWav+1X+X230bOwNp8rebkoLUB+Ua4Yw
- h7CbYp+uD+4k8MxXTBx69NWSsTYNdOFWQKUULeKxQRYEAb6Pb6XI4LJRnxKwcKl4ode4
- M0qdKjOmXxpMpIk2250IkBNK6H6wMdNzQfHoJPY02ogueiDH2MQR1QK49KRXeWpBL4Pd
- kHWbINVOB2UBdieioGYMB1+qRLrs9FCOylYNvy92Ar5Ur+7YPy1iW1esBGaGe+lod23n
- pObw==
-X-Gm-Message-State: AOAM533ihGu0cxo2IakR5PmRLtBBES3mo3GNdBfg76WOE1Q5C6fhHK/f
- z+pV0Ch2MHiMQrngMMC37VF5qAfioKsDm6KHH9K19WrqXDpm7c7AOR+yDtmkD4Dd2LXci2x/ldT
- tXGt5U82j2Oyp3PcK1SE82RxOlBikDK8klEWBwvZNktUxdg==
-X-Received: by 2002:aa7:d809:: with SMTP id v9mr5652418edq.2.1644340763450;
- Tue, 08 Feb 2022 09:19:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwlLGYgUd+Cr4yCQlVE0VWHIHMy+r8JCbb5AQJa47VNi9iyYKn2B1Q1E+kn15abkGcHd22WRg==
-X-Received: by 2002:aa7:d809:: with SMTP id v9mr5652400edq.2.1644340763212;
- Tue, 08 Feb 2022 09:19:23 -0800 (PST)
+ bh=4Kqc6L6Q9tC6aVZ4IcSd8iWDDGh3wUIB157CLAeaaFw=;
+ b=G9IQKtW3+sD+qe/3FD8ceWgw9LBf1B9hCN6KGm7bhTo6EMMq7AJ21csfzzm5U3/2+n
+ he7CIEZGqGjVKbn7Q4I+HHFK7d6ANJ5wqvSBvtJDpIft0xo7IYGn+zIvcCL3ZDki9eBo
+ gZ9px9XiKZyDem0qNNAinTi2TzqxMB4j+RrBBDu/x/I+K/2opMo0oPUvGvVSYVUGvy/U
+ YcWsJhN7iBwa1SD5iCWxDgXFQUU7ujebsAUpdvqUqIDNqWogoKGGbEtj6zm2vmA14qTY
+ /1PeT5HISywpEmbw3zBgERbqYma7+YnGo0ZZhs2stVIXmIG5XvFiYp1k/STo78uvWIEb
+ GUuw==
+X-Gm-Message-State: AOAM532ZF1Bz3gDHnBvUJdcvMWiKw2oJ3pWozk9dgohUcsz4r7te2HaQ
+ xtkSrC/sLg1Nj6P67glYYvJJcyL1uaAAcB8Mc91fkXY0yIjitbzdb/W3UOg7jT2CI0BpVGn15my
+ jm6GFUAT+kK6v5ZOYF86ahxGs6kHm7267ASuNVBOUpGvpbw==
+X-Received: by 2002:a05:6402:510b:: with SMTP id
+ m11mr5597633edd.290.1644340765076; 
+ Tue, 08 Feb 2022 09:19:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxRZNXcZzMs0TAC2gPdxKPihRqli2IMBZU42Ls1ax0iChpkOJ4tgyVxzgjOsC0cDw2k6wkGXQ==
+X-Received: by 2002:a05:6402:510b:: with SMTP id
+ m11mr5597617edd.290.1644340764811; 
+ Tue, 08 Feb 2022 09:19:24 -0800 (PST)
 Received: from localhost.localdomain (xdsl-188-155-168-84.adslplus.ch.
  [188.155.168.84])
- by smtp.gmail.com with ESMTPSA id r10sm5125550ejy.148.2022.02.08.09.19.21
+ by smtp.gmail.com with ESMTPSA id r10sm5125550ejy.148.2022.02.08.09.19.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 09:19:22 -0800 (PST)
+ Tue, 08 Feb 2022 09:19:24 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  Seung-Woo Kim <sw0312.kim@samsung.com>,
@@ -69,10 +71,10 @@ To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: [PATCH 09/10] dt-bindings: display: samsung,
- exynos5433-mic: convert to dtschema
-Date: Tue,  8 Feb 2022 18:18:22 +0100
-Message-Id: <20220208171823.226211-10-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 10/10] dt-bindings: display: samsung,
+ exynos-fimd: convert to dtschema
+Date: Tue,  8 Feb 2022 18:18:23 +0100
+Message-Id: <20220208171823.226211-11-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220208171823.226211-1-krzysztof.kozlowski@canonical.com>
 References: <20220208171823.226211-1-krzysztof.kozlowski@canonical.com>
@@ -95,89 +97,145 @@ Cc: Sylwester Nawrocki <snawrocki@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Exynos5433 MIC bindings to DT schema format.
+Convert the S3C/S5P/Exynos FIMD bindings to DT schema format.
 
 The conversion includes also updates to the bindings, matching the
-current DTS and Linux driver: adding optional power-domains.
+current DTS and Linux driver: adding optional iommus and power-domains.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .../bindings/display/exynos/exynos-mic.txt    | 51 ----------
- .../samsung/samsung,exynos5433-mic.yaml       | 95 +++++++++++++++++++
- 2 files changed, 95 insertions(+), 51 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/exynos/exynos-mic.txt
- create mode 100644 Documentation/devicetree/bindings/display/samsung/samsung,exynos5433-mic.yaml
+ .../bindings/display/exynos/samsung-fimd.txt  | 107 ----------
+ .../display/samsung/samsung,fimd.yaml         | 198 ++++++++++++++++++
+ 2 files changed, 198 insertions(+), 107 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/exynos/samsung-fimd.txt
+ create mode 100644 Documentation/devicetree/bindings/display/samsung/samsung,fimd.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/exynos/exynos-mic.txt b/Documentation/devicetree/bindings/display/exynos/exynos-mic.txt
+diff --git a/Documentation/devicetree/bindings/display/exynos/samsung-fimd.txt b/Documentation/devicetree/bindings/display/exynos/samsung-fimd.txt
 deleted file mode 100644
-index 0fba2ee6440a..000000000000
---- a/Documentation/devicetree/bindings/display/exynos/exynos-mic.txt
+index b3096421d42b..000000000000
+--- a/Documentation/devicetree/bindings/display/exynos/samsung-fimd.txt
 +++ /dev/null
-@@ -1,51 +0,0 @@
--Device-Tree bindings for Samsung Exynos SoC mobile image compressor (MIC)
+@@ -1,107 +0,0 @@
+-Device-Tree bindings for Samsung SoC display controller (FIMD)
 -
--MIC (mobile image compressor) resides between decon and mipi dsi. Mipi dsi is
--not capable to transfer high resoltuion frame data as decon can send. MIC
--solves this problem by compressing the frame data by 1/2 before it is
--transferred through mipi dsi. The compressed frame data must be uncompressed in
--the panel PCB.
+-FIMD (Fully Interactive Mobile Display) is the Display Controller for the
+-Samsung series of SoCs which transfers the image data from a video memory
+-buffer to an external LCD interface.
 -
 -Required properties:
--- compatible: value should be "samsung,exynos5433-mic".
--- reg: physical base address and length of the MIC registers set and system
--       register of mic.
+-- compatible: value should be one of the following
+-		"samsung,s3c2443-fimd"; /* for S3C24XX SoCs */
+-		"samsung,s3c6400-fimd"; /* for S3C64XX SoCs */
+-		"samsung,s5pv210-fimd"; /* for S5PV210 SoC */
+-		"samsung,exynos3250-fimd"; /* for Exynos3250/3472 SoCs */
+-		"samsung,exynos4210-fimd"; /* for Exynos4 SoCs */
+-		"samsung,exynos5250-fimd"; /* for Exynos5250 SoCs */
+-		"samsung,exynos5420-fimd"; /* for Exynos5420/5422/5800 SoCs */
+-
+-- reg: physical base address and length of the FIMD registers set.
+-
+-- interrupts: should contain a list of all FIMD IP block interrupts in the
+-		 order: FIFO Level, VSYNC, LCD_SYSTEM. The interrupt specifier
+-		 format depends on the interrupt controller used.
+-
+-- interrupt-names: should contain the interrupt names: "fifo", "vsync",
+-	"lcd_sys", in the same order as they were listed in the interrupts
+-        property.
+-
+-- pinctrl-0: pin control group to be used for this controller.
+-
+-- pinctrl-names: must contain a "default" entry.
+-
 -- clocks: must include clock specifiers corresponding to entries in the
--	  clock-names property.
+-         clock-names property.
+-
 -- clock-names: list of clock names sorted in the same order as the clocks
--	       property. Must contain "pclk_mic0", "sclk_rgb_vclk_to_mic0".
--- samsung,disp-syscon: the reference node for syscon for DISP block.
--- ports: contains a port which is connected to decon node and dsi node.
--	 address-cells and size-cells must 1 and 0, respectively.
--- port: contains an endpoint node which is connected to the endpoint in the
--	decon node or dsi node. The reg value must be 0 and 1 respectively.
+-               property. Must contain "sclk_fimd" and "fimd".
+-
+-Optional Properties:
+-- power-domains: a phandle to FIMD power domain node.
+-- samsung,invert-vden: video enable signal is inverted
+-- samsung,invert-vclk: video clock signal is inverted
+-- display-timings: timing settings for FIMD, as described in document [1].
+-		Can be used in case timings cannot be provided otherwise
+-		or to override timings provided by the panel.
+-- samsung,sysreg: handle to syscon used to control the system registers
+-- i80-if-timings: timing configuration for lcd i80 interface support.
+-  - cs-setup: clock cycles for the active period of address signal is enabled
+-              until chip select is enabled.
+-              If not specified, the default value(0) will be used.
+-  - wr-setup: clock cycles for the active period of CS signal is enabled until
+-              write signal is enabled.
+-              If not specified, the default value(0) will be used.
+-  - wr-active: clock cycles for the active period of CS is enabled.
+-               If not specified, the default value(1) will be used.
+-  - wr-hold: clock cycles for the active period of CS is disabled until write
+-             signal is disabled.
+-             If not specified, the default value(0) will be used.
+-
+-  The parameters are defined as:
+-
+-    VCLK(internal)  __|??????|_____|??????|_____|??????|_____|??????|_____|??
+-                      :            :            :            :            :
+-    Address Output  --:<XXXXXXXXXXX:XXXXXXXXXXXX:XXXXXXXXXXXX:XXXXXXXXXXXX:XX
+-                      | cs-setup+1 |            :            :            :
+-                      |<---------->|            :            :            :
+-    Chip Select     ???????????????|____________:____________:____________|??
+-                                   | wr-setup+1 |            | wr-hold+1  |
+-                                   |<---------->|            |<---------->|
+-    Write Enable    ????????????????????????????|____________|???????????????
+-                                                | wr-active+1|
+-                                                |<---------->|
+-    Video Data      ----------------------------<XXXXXXXXXXXXXXXXXXXXXXXXX>--
+-
+-The device node can contain 'port' child nodes according to the bindings defined
+-in [2]. The following are properties specific to those nodes:
+-- reg: (required) port index, can be:
+-		0 - for CAMIF0 input,
+-		1 - for CAMIF1 input,
+-		2 - for CAMIF2 input,
+-		3 - for parallel output,
+-		4 - for write-back interface
+-
+-[1]: Documentation/devicetree/bindings/display/panel/display-timing.txt
+-[2]: Documentation/devicetree/bindings/media/video-interfaces.txt
 -
 -Example:
+-
 -SoC specific DT entry:
--mic: mic@13930000 {
--	compatible = "samsung,exynos5433-mic";
--	reg = <0x13930000 0x48>;
--	clocks = <&cmu_disp CLK_PCLK_MIC0>,
--	       <&cmu_disp CLK_SCLK_RGB_VCLK_TO_MIC0>;
--	clock-names = "pclk_mic0", "sclk_rgb_vclk_to_mic0";
--	samsung,disp-syscon = <&syscon_disp>;
 -
--	ports {
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		port@0 {
--			reg = <0>;
--			mic_to_decon: endpoint {
--				remote-endpoint = <&decon_to_mic>;
--			};
--		};
--
--		port@1 {
--			reg = <1>;
--			mic_to_dsi: endpoint {
--				remote-endpoint = <&dsi_to_mic>;
--			};
--		};
+-	fimd@11c00000 {
+-		compatible = "samsung,exynos4210-fimd";
+-		interrupt-parent = <&combiner>;
+-		reg = <0x11c00000 0x20000>;
+-		interrupt-names = "fifo", "vsync", "lcd_sys";
+-		interrupts = <11 0>, <11 1>, <11 2>;
+-		clocks = <&clock 140>, <&clock 283>;
+-		clock-names = "sclk_fimd", "fimd";
+-		power-domains = <&pd_lcd0>;
+-		status = "disabled";
 -	};
--};
-diff --git a/Documentation/devicetree/bindings/display/samsung/samsung,exynos5433-mic.yaml b/Documentation/devicetree/bindings/display/samsung/samsung,exynos5433-mic.yaml
+-
+-Board specific DT entry:
+-
+-	fimd@11c00000 {
+-		pinctrl-0 = <&lcd_clk &lcd_data24 &pwm1_out>;
+-		pinctrl-names = "default";
+-		status = "okay";
+-	};
+diff --git a/Documentation/devicetree/bindings/display/samsung/samsung,fimd.yaml b/Documentation/devicetree/bindings/display/samsung/samsung,fimd.yaml
 new file mode 100644
-index 000000000000..01fccb138ebd
+index 000000000000..9cf5f120d516
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/samsung/samsung,exynos5433-mic.yaml
-@@ -0,0 +1,95 @@
++++ b/Documentation/devicetree/bindings/display/samsung/samsung,fimd.yaml
+@@ -0,0 +1,198 @@
 +# SPDX-License-Identifier: GPL-2.0-only
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/samsung/samsung,exynos5433-mic.yaml#
++$id: http://devicetree.org/schemas/display/samsung/samsung,fimd.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Samsung Exynos5433 SoC Mobile Image Compressor (MIC)
++title: Samsung S3C/S5P/Exynos SoC Fully Interactive Mobile Display (FIMD)
 +
 +maintainers:
 +  - Inki Dae <inki.dae@samsung.com>
@@ -186,16 +244,19 @@ index 000000000000..01fccb138ebd
 +  - Kyungmin Park <kyungmin.park@samsung.com>
 +  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 +
-+description: |
-+  MIC (Mobile Image Compressor) resides between DECON and MIPI DSI. MIPI DSI is
-+  not capable of transferring high resoltuion frame data as DECON can send. MIC
-+  solves this problem by compressing the frame data by 1/2 before it is
-+  transferred through MIPI DSI. The compressed frame data must be uncompressed
-+  in the panel PCB.
-+
 +properties:
 +  compatible:
-+    const: samsung,exynos5433-mic
++    enum:
++      - samsung,s3c2443-fimd
++      - samsung,s3c6400-fimd
++      - samsung,s5pv210-fimd
++      - samsung,exynos3250-fimd
++      - samsung,exynos4210-fimd
++      - samsung,exynos5250-fimd
++      - samsung,exynos5420-fimd
++
++  '#address-cells':
++    const: 1
 +
 +  clocks:
 +    minItems: 2
@@ -203,13 +264,78 @@ index 000000000000..01fccb138ebd
 +
 +  clock-names:
 +    items:
-+      - const: pclk_mic0
-+      - const: sclk_rgb_vclk_to_mic0
++      - const: sclk_fimd
++      - const: fimd
 +
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+    description:
-+      Contains a port which is connected to mic node.
++  display-timings:
++    $ref: ../panel/display-timings.yaml#
++
++  i80-if-timings:
++    type: object
++    description: |
++      Timing configuration for lcd i80 interface support.
++      The parameters are defined as::
++      VCLK(internal)  __|??????|_____|??????|_____|??????|_____|??????|_____|??
++                        :            :            :            :            :
++      Address Output  --:<XXXXXXXXXXX:XXXXXXXXXXXX:XXXXXXXXXXXX:XXXXXXXXXXXX:XX
++                        | cs-setup+1 |            :            :            :
++                        |<---------->|            :            :            :
++      Chip Select     ???????????????|____________:____________:____________|??
++                                     | wr-setup+1 |            | wr-hold+1  |
++                                     |<---------->|            |<---------->|
++      Write Enable    ????????????????????????????|____________|???????????????
++                                                  | wr-active+1|
++                                                  |<---------->|
++      Video Data      ----------------------------<XXXXXXXXXXXXXXXXXXXXXXXXX>--
++
++    properties:
++      cs-setup:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Clock cycles for the active period of address signal is enabled until
++          chip select is enabled.
++        default: 0
++
++      wr-active:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Clock cycles for the active period of CS is enabled.
++        default: 1
++
++      wr-hold:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Clock cycles for the active period of CS is disabled until write
++          signal is disabled.
++        default: 0
++
++      wr-setup:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Clock cycles for the active period of CS signal is enabled until
++          write signal is enabled.
++        default: 0
++
++  iommus:
++    minItems: 1
++    maxItems: 2
++
++  iommu-names:
++    items:
++      - const: m0
++      - const: m1
++
++  interrupts:
++    items:
++      - description: FIFO level
++      - description: VSYNC
++      - description: LCD system
++
++  interrupt-names:
++    items:
++      - const: fifo
++      - const: vsync
++      - const: lcd_sys
 +
 +  power-domains:
 +    maxItems: 1
@@ -217,52 +343,87 @@ index 000000000000..01fccb138ebd
 +  reg:
 +    maxItems: 1
 +
-+  samsung,disp-syscon:
++  samsung,invert-vden:
++    type: boolean
++    description:
++      Video enable signal is inverted.
++
++  samsung,invert-vclk:
++    type: boolean
++    description:
++      Video clock signal is inverted.
++
++  samsung,sysreg:
 +    $ref: /schemas/types.yaml#/definitions/phandle
 +    description:
-+      Phandle to DISP system controller interface.
++      Phandle to System Register syscon.
++
++  '#size-cells':
++    const: 0
++
++patternProperties:
++  "^port@[0-4]+$":
++    $ref: /schemas/graph.yaml#/properties/port
++    description: |
++      Contains ports with port with index::
++       0 - for CAMIF0 input,
++       1 - for CAMIF1 input,
++       2 - for CAMIF2 input,
++       3 - for parallel output,
++       4 - for write-back interface
 +
 +required:
 +  - compatible
 +  - clocks
 +  - clock-names
-+  - ports
++  - interrupts
++  - interrupt-names
 +  - reg
-+  - samsung,disp-syscon
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: samsung,exynos5420-fimd
++    then:
++      properties:
++        iommus:
++          minItems: 2
++          maxItems: 2
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    #include <dt-bindings/clock/exynos5433.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/exynos4.h>
 +
-+    image-processor@13930000 {
-+        compatible = "samsung,exynos5433-mic";
-+        reg = <0x13930000 0x48>;
-+        clocks = <&cmu_disp CLK_PCLK_MIC0>,
-+                 <&cmu_disp CLK_SCLK_RGB_VCLK_TO_MIC0>;
-+        clock-names = "pclk_mic0",
-+                      "sclk_rgb_vclk_to_mic0";
-+        power-domains = <&pd_disp>;
-+        samsung,disp-syscon = <&syscon_disp>;
++    fimd@11c00000 {
++        compatible = "samsung,exynos4210-fimd";
++        interrupt-parent = <&combiner>;
++        reg = <0x11c00000 0x20000>;
++        interrupt-names = "fifo", "vsync", "lcd_sys";
++        interrupts = <11 0>, <11 1>, <11 2>;
++        clocks = <&clock CLK_SCLK_FIMD0>, <&clock CLK_FIMD0>;
++        clock-names = "sclk_fimd", "fimd";
++        power-domains = <&pd_lcd0>;
++        iommus = <&sysmmu_fimd0>;
++        samsung,sysreg = <&sys_reg>;
 +
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
++        #address-cells = <1>;
++        #size-cells = <0>;
 +
-+            port@0 {
-+                reg = <0>;
-+                mic_to_decon: endpoint {
-+                    remote-endpoint = <&decon_to_mic>;
-+                };
-+            };
++        samsung,invert-vden;
++        samsung,invert-vclk;
 +
-+            port@1 {
-+                reg = <1>;
-+                mic_to_dsi: endpoint {
-+                    remote-endpoint = <&dsi_to_mic>;
-+                };
++        pinctrl-0 = <&lcd_clk>, <&lcd_data24>;
++        pinctrl-names = "default";
++
++        port@3 {
++            reg = <3>;
++
++            fimd_dpi_ep: endpoint {
++                remote-endpoint = <&lcd_ep>;
 +            };
 +        };
 +    };
