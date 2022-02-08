@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2634AD599
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 11:45:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8144AD5A9
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 11:45:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5076410E62C;
-	Tue,  8 Feb 2022 10:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7857610E658;
+	Tue,  8 Feb 2022 10:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88DA510E3FB;
- Tue,  8 Feb 2022 10:45:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BAA410E224;
+ Tue,  8 Feb 2022 10:45:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644317112; x=1675853112;
+ t=1644317113; x=1675853113;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=pcLe0ux9Y0s/nsNexnDV2sQ+J3rsAIIztov0vnkqR1U=;
- b=erDQAWt3SHwJuIgHE/AT1ZqZMTtVhmx73ILGkhbnBKMhusQdZ5qoQCMf
- 5ysZLnSvmO7qrvPdVhyIMspdHySXOpd74JPr/NwPkrfPfDKY1lX5AymX/
- rSfrK/UzAlMe9XCtq8XTJf62VMYY3fbGJ5Idlu1+cCL/rgpq4R0oQOhWC
- EBRhFZSlfETXK/14dubqG4NdikGG7284Iy71DswzMo6DTiPPdiqDFkrqp
- etRL6J5d0YJVMU5cvV7atQ7dNEBI0LVs0kT/aAYexHFqdhkU7g43ujfWi
- yh5sUETJ3XVQd0LOmkH9PdHkgwCqehGSQcqrXwDwn+8SuQEYpQESkt1eC A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="246511542"
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="246511542"
+ bh=5gO6T8XWL1W/zM0H8HQzYzQpnrwHGrQIalBC7oa3aUw=;
+ b=Dzj9JSF1wKP5Z3TbMO89es8lpN/GooZ7sL2b+YAMHGIEqMeok2yaWFFW
+ g3VepS/y4ZPHTHpfxDfGVyvPNAwq0OdIMwJgLNl0rBEvUSW2UBciPD9/C
+ vx40ktMByqfM/aXdETSOaaiITQ/4XlRJt4/gupMzUlrai+9ohQYgTFT/r
+ zkLE9UUf3XKSv92+bR2dpH7Hy3bHq2tFvyx1f1QIlFws/jlpxwUU2oO0r
+ J/ddi9pQpyDzNwVk4wykv4BU77528msMsJ53ubMhSbRdnnFmGYVBkDYqv
+ IuFSIFReuJFRh+xLPDiizgHRJeBh+tLt6s4FDkXac5kek7ZgKPXJQ4Foa w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="246511544"
+X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="246511544"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 02:45:10 -0800
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="700804114"
+ 08 Feb 2022 02:45:11 -0800
+X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="700804117"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Feb 2022 02:45:09 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 03/18] drm/i915/gt: Add helper for shmem copy to iosys_map
-Date: Tue,  8 Feb 2022 02:45:09 -0800
-Message-Id: <20220208104524.2516209-4-lucas.demarchi@intel.com>
+Subject: [PATCH v2 04/18] drm/i915/guc: Keep iosys_map of ads_blob around
+Date: Tue,  8 Feb 2022 02:45:10 -0800
+Message-Id: <20220208104524.2516209-5-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220208104524.2516209-1-lucas.demarchi@intel.com>
 References: <20220208104524.2516209-1-lucas.demarchi@intel.com>
@@ -59,113 +59,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Matthew Brost <matthew.brost@intel.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a variant of shmem_read() that takes a iosys_map pointer rather
-than a plain pointer as argument. It's mostly a copy __shmem_rw() but
-adapting the api and removing the write support since there's currently
-only need to use iosys_map as destination.
-
-Reworking __shmem_rw() to share the implementation was tempting, but
-finding a good balance between reuse and clarity pushed towards a little
-code duplication. Since the function is small, just add the similar
-function with a copy/paste/adapt approach.
-
-v2: Add an offset as argument and instead of using a map iterator, use the
-offset to keep track of where we are writing data to.
+Convert intel_guc_ads_create() and initialization to use iosys_map
+rather than plain pointer and save it in the guc struct. This will help
+with additional updates to the ads_blob after the
+creation/initialization by abstracting the IO vs system memory.
 
 Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/gt/shmem_utils.c | 32 +++++++++++++++++++++++++++
- drivers/gpu/drm/i915/gt/shmem_utils.h |  3 +++
- 2 files changed, 35 insertions(+)
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h     | 4 +++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 6 ++++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/shmem_utils.c b/drivers/gpu/drm/i915/gt/shmem_utils.c
-index 0683b27a3890..402f085f3a02 100644
---- a/drivers/gpu/drm/i915/gt/shmem_utils.c
-+++ b/drivers/gpu/drm/i915/gt/shmem_utils.c
-@@ -3,6 +3,7 @@
-  * Copyright © 2020 Intel Corporation
-  */
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+index 697d9d66acef..9b9ba79f7594 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+@@ -6,8 +6,9 @@
+ #ifndef _INTEL_GUC_H_
+ #define _INTEL_GUC_H_
  
+-#include <linux/xarray.h>
+ #include <linux/delay.h>
 +#include <linux/iosys-map.h>
- #include <linux/mm.h>
- #include <linux/pagemap.h>
- #include <linux/shmem_fs.h>
-@@ -123,6 +124,37 @@ static int __shmem_rw(struct file *file, loff_t off,
++#include <linux/xarray.h>
+ 
+ #include "intel_uncore.h"
+ #include "intel_guc_fw.h"
+@@ -148,6 +149,7 @@ struct intel_guc {
+ 	struct i915_vma *ads_vma;
+ 	/** @ads_blob: contents of the GuC ADS */
+ 	struct __guc_ads_blob *ads_blob;
++	struct iosys_map ads_map;
+ 	/** @ads_regset_size: size of the save/restore regsets in the ADS */
+ 	u32 ads_regset_size;
+ 	/** @ads_golden_ctxt_size: size of the golden contexts in the ADS */
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index e61150adcbe9..13671b186908 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -624,6 +624,11 @@ int intel_guc_ads_create(struct intel_guc *guc)
+ 	if (ret)
+ 		return ret;
+ 
++	if (i915_gem_object_is_lmem(guc->ads_vma->obj))
++		iosys_map_set_vaddr_iomem(&guc->ads_map, (void __iomem *)guc->ads_blob);
++	else
++		iosys_map_set_vaddr(&guc->ads_map, guc->ads_blob);
++
+ 	__guc_ads_init(guc);
+ 
  	return 0;
+@@ -645,6 +650,7 @@ void intel_guc_ads_destroy(struct intel_guc *guc)
+ {
+ 	i915_vma_unpin_and_release(&guc->ads_vma, I915_VMA_RELEASE_MAP);
+ 	guc->ads_blob = NULL;
++	iosys_map_clear(&guc->ads_map);
  }
  
-+int shmem_read_to_iosys_map(struct file *file, loff_t off,
-+			    struct iosys_map *map, size_t map_off, size_t len)
-+{
-+	unsigned long pfn;
-+
-+	for (pfn = off >> PAGE_SHIFT; len; pfn++) {
-+		unsigned int this =
-+			min_t(size_t, PAGE_SIZE - offset_in_page(off), len);
-+		struct page *page;
-+		void *vaddr;
-+
-+		page = shmem_read_mapping_page_gfp(file->f_mapping, pfn,
-+						   GFP_KERNEL);
-+		if (IS_ERR(page))
-+			return PTR_ERR(page);
-+
-+		vaddr = kmap(page);
-+		iosys_map_memcpy_to(map, map_off, vaddr + offset_in_page(off),
-+				    this);
-+		mark_page_accessed(page);
-+		kunmap(page);
-+		put_page(page);
-+
-+		len -= this;
-+		map_off += this;
-+		off = 0;
-+	}
-+
-+	return 0;
-+}
-+
- int shmem_read(struct file *file, loff_t off, void *dst, size_t len)
- {
- 	return __shmem_rw(file, off, dst, len, false);
-diff --git a/drivers/gpu/drm/i915/gt/shmem_utils.h b/drivers/gpu/drm/i915/gt/shmem_utils.h
-index c1669170c351..b2b04d88c6e5 100644
---- a/drivers/gpu/drm/i915/gt/shmem_utils.h
-+++ b/drivers/gpu/drm/i915/gt/shmem_utils.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/types.h>
- 
-+struct iosys_map;
- struct drm_i915_gem_object;
- struct file;
- 
-@@ -17,6 +18,8 @@ struct file *shmem_create_from_object(struct drm_i915_gem_object *obj);
- void *shmem_pin_map(struct file *file);
- void shmem_unpin_map(struct file *file, void *ptr);
- 
-+int shmem_read_to_iosys_map(struct file *file, loff_t off,
-+			    struct iosys_map *map, size_t map_off, size_t len);
- int shmem_read(struct file *file, loff_t off, void *dst, size_t len);
- int shmem_write(struct file *file, loff_t off, void *src, size_t len);
- 
+ static void guc_ads_private_data_reset(struct intel_guc *guc)
 -- 
 2.35.1
 
