@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215E94ADC30
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 16:15:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E230E4ADC3F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 16:18:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3781910E2CB;
-	Tue,  8 Feb 2022 15:15:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B16A010E3E5;
+	Tue,  8 Feb 2022 15:18:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E87F10E261;
- Tue,  8 Feb 2022 15:15:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644333307; x=1675869307;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=vva12Cv/vVjOHL2Orkmr3Xei9YBMVXoD6aTawTWdu5U=;
- b=awv47y42SdOyMwzJ1Nu1nrjxAOWzSF4ZfYQJRuuJux3DGBZ65vT9mywD
- OV0DRl86677nTQzd3tGgrV3KBcgwoygz4hv3B0uYwpEILH57el3dfBPPI
- ZFQcM31BZ5PR+vwCFCMwxcco66pH2o1u8zBMnCV7HeatGuf4+DLJBgx4P
- QSKIJKG5bClXeAEgDgNv7DWd3UNsHu3iWAxqCYvXcDj3wxTTrLMb1pDTw
- AU0C/mI39dY+v1+A/WWBSt8AUbiZPvNltZOBUdMzHd7KyiXZMrS26lIr5
- Wkm0AacgZcVQ9Vx7R7+zYa6YUS40rsi3BL6slgspb+fHdRItC39KArky9 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="248914145"
-X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; d="scan'208";a="248914145"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 07:15:06 -0800
-X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; d="scan'208";a="540636634"
-Received: from ijbeckin-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.19.63])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 07:15:03 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Zhi Wang <zhi.wang.linux@gmail.com>, hch@lst.de, jgg@nvidia.com
-Subject: Re: [PATCH v6 1/3] i915/gvt: Introduce the mmio table to support
- VFIO new mdev API
-In-Reply-To: <20220208111151.13115-1-zhi.a.wang@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220208111151.13115-1-zhi.a.wang@intel.com>
-Date: Tue, 08 Feb 2022 17:15:00 +0200
-Message-ID: <871r0dqtjf.fsf@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 405E310E3E5
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 15:18:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 17D9CB81B97;
+ Tue,  8 Feb 2022 15:18:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 071E2C004E1;
+ Tue,  8 Feb 2022 15:18:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644333501;
+ bh=9zUs0iuzKwulU200Q6NMliFAJbLi0oQzH9htLDfo/j8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jec8CourqxGwtOULAuUJQ2M06wpyEydYcArcgJdKsAi2pDpknemzA3PLWTfMKSj7k
+ UDzxVpfxINAj6NXq1W4KUyDdHKyM51z62OlSYsrEJOcVZbQybOEJNB6Y/FESnlSAdw
+ s+kZ3C6+D9EpV9zfi/4v42c21hn321m0WQijY487BF3RlwwxK4RXsiIFqskCZKGg2X
+ YZWojAT2oRg5AxPl4e2OOP/6DUinHkbXLQ7JADrUsYjDmOza9sAg5gbYVmYEefXPVj
+ HhDLH0L2g/iD0eNGQf+ZyGAUmEYBS4BjNfqd7OdQKIK7dCh/DYx+/uRVmhDXdrYyYv
+ JIrzOMR83Rk4w==
+Date: Tue, 8 Feb 2022 15:18:14 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v2 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED
+ displays
+Message-ID: <YgKJtjoFMSzxNiiI@sirena.org.uk>
+References: <20220204134347.1187749-1-javierm@redhat.com>
+ <CAMuHMdVTVX7LFay-rfv=oW96dMA24duMUVGRE62jQSNkrKtyMg@mail.gmail.com>
+ <f178de92-7cb1-dcc5-1f60-9ccfc56bc0a4@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="6nCHMM5kfVPLymNn"
+Content-Disposition: inline
+In-Reply-To: <f178de92-7cb1-dcc5-1f60-9ccfc56bc0a4@redhat.com>
+X-Cookie: This is your fortune.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,196 +56,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhi Wang <zhi.wang.linux@gmail.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Vivi Rodrigo <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Zhi Wang <zhi.a.wang@intel.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Linux PWM List <linux-pwm@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 08 Feb 2022, Zhi Wang <zhi.wang.linux@gmail.com> wrote:
-> From: Zhi Wang <zhi.wang.linux@gmail.com>
->
-> To support the new mdev interfaces and the re-factor patches from
-> Christoph, which moves the GVT-g code into a dedicated module, the GVT-g
-> initialization path has to be separated into two phases:
->
-> a) Early initialization.
->
-> The early initialization of GVT requires to be done when loading i915.
-> Mostly it's because the initial clean HW state needs to be saved before
-> i915 touches the HW.
->
-> b) Late initalization.
->
-> This phases of initalization will setup the rest components of GVT-g,
-> which can be done later when the dedicated module is being loaded.
 
-What's the baseline for this series?
+--6nCHMM5kfVPLymNn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->
-> v6:
->
-> - Move the mmio_table.c into i915. (Christoph)
-> - Keep init_device_info and related structures in GVT-g. (Christoph)
-> - Refine the callbacks of the iterator. (Christoph)
-> - Move the flags of MMIO register defination to GVT-g. (Chrsitoph)
-> - Move the mmio block handling to GVT-g.
->
-> v5:
->
-> - Re-design the mmio table framework. (Christoph)
->
-> v4:
->
-> - Fix the errors of patch checking scripts.
->
-> v3:
->
-> - Fix the errors when CONFIG_DRM_I915_WERROR is turned on. (Jani)
->
-> v2:
->
-> - Implement a mmio table instead of generating it by marco in i915. (Jani)
->
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Jason Gunthorpe <jgg@nvidia.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Vivi Rodrigo <rodrigo.vivi@intel.com>
-> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-> Cc: Zhi Wang <zhi.a.wang@intel.com>
-> Tested-by: Terrence Xu <terrence.xu@intel.com>
-> Signed-off-by: Zhi Wang <zhi.wang.linux@gmail.com>
-> ---
->  drivers/gpu/drm/i915/Makefile               |    2 +-
->  drivers/gpu/drm/i915/gvt/cmd_parser.c       |    2 +-
->  drivers/gpu/drm/i915/gvt/gvt.h              |    3 +-
->  drivers/gpu/drm/i915/gvt/handlers.c         | 1062 ++-------------
->  drivers/gpu/drm/i915/gvt/mmio.h             |   17 -
->  drivers/gpu/drm/i915/gvt/reg.h              |    9 +-
->  drivers/gpu/drm/i915/intel_gvt.c            |   20 +-
->  drivers/gpu/drm/i915/intel_gvt.h            |   37 +
->  drivers/gpu/drm/i915/intel_gvt_mmio_table.c | 1308 +++++++++++++++++++
->  9 files changed, 1501 insertions(+), 959 deletions(-)
->  create mode 100644 drivers/gpu/drm/i915/intel_gvt_mmio_table.c
->
+On Tue, Feb 08, 2022 at 04:10:49PM +0100, Javier Martinez Canillas wrote:
+> On 2/8/22 15:19, Geert Uytterhoeven wrote:
 
-> diff --git a/drivers/gpu/drm/i915/intel_gvt.h b/drivers/gpu/drm/i915/intel_gvt.h
-> index d7d3fb6186fd..6d3031f3ac25 100644
-> --- a/drivers/gpu/drm/i915/intel_gvt.h
-> +++ b/drivers/gpu/drm/i915/intel_gvt.h
-> @@ -26,7 +26,32 @@
->  
->  struct drm_i915_private;
->  
-> +#include <linux/kernel.h>
+> >   - "time ls" on the serial console (no files in the current directory,
+> >     so nothing to print) increases from 0.86s to 1.92s, so the system is
+> >     more loaded.  As ssd1307fb relied on deferred I/O too, the slowdown
+> >     might be (partly) due to redrawing of the visual artefacts
+> >     mentioned above.
 
-Please use minimal includes. Looks like linux/types.h is enough. Please
-also put the includes before the forward declarations.
+> I was trying to first have the driver and then figure out how to optimize
+> it. For v3 I'm using regmap to access instead of the I2C layer directly.
 
-> +
->  #ifdef CONFIG_DRM_I915_GVT
-> +
-> +#define D_BDW   (1 << 0)
-> +#define D_SKL	(1 << 1)
-> +#define D_KBL	(1 << 2)
-> +#define D_BXT	(1 << 3)
-> +#define D_CFL	(1 << 4)
-> +
-> +#define D_GEN9PLUS	(D_SKL | D_KBL | D_BXT | D_CFL)
-> +#define D_GEN8PLUS	(D_BDW | D_SKL | D_KBL | D_BXT | D_CFL)
-> +
-> +#define D_SKL_PLUS	(D_SKL | D_KBL | D_BXT | D_CFL)
-> +#define D_BDW_PLUS	(D_BDW | D_SKL | D_KBL | D_BXT | D_CFL)
-> +
-> +#define D_PRE_SKL	(D_BDW)
-> +#define D_ALL		(D_BDW | D_SKL | D_KBL | D_BXT | D_CFL)
+> I noticed that this is even slower but it makes the driver more clean and
+> allows to support both I2C and SPI (untested but will include it as a WIP).
 
-If these really need to be in a header in i915/, I think they need to be
-longer with some namespacing or something. I do wish these could be
-hidden though.
+I wouldn't have expected regmap to add huge overhead relative to I2C,
+partly predicated on I2C being rather slow itself.  There will be some
+overhead for concurrency protection and data marshalling but for I2C
+clocked at normal speeds it's surprising.
 
-> +
-> +struct intel_gvt_mmio_table_iter {
-> +	struct drm_i915_private *i915;
-> +	void *data;
-> +	int (*handle_mmio_cb)(struct intel_gvt_mmio_table_iter *iter,
-> +			      u32 offset, u32 device, u32 size);
-> +};
+--6nCHMM5kfVPLymNn
+Content-Type: application/pgp-signature; name="signature.asc"
 
-We're heavily transitioning towards having a corresponding .h for each
-.c instead of catch all headers. It's still a work in progress, but I'd
-prefer having the declarations for stuff in intel_gvt_mmio_table.c
-placed in intel_gvt_mmio_table.h, and named accordingly. Like I
-suggested in my previous mails.
+-----BEGIN PGP SIGNATURE-----
 
-> +
->  int intel_gvt_init(struct drm_i915_private *dev_priv);
->  void intel_gvt_driver_remove(struct drm_i915_private *dev_priv);
->  int intel_gvt_init_device(struct drm_i915_private *dev_priv);
-> @@ -34,6 +59,8 @@ void intel_gvt_clean_device(struct drm_i915_private *dev_priv);
->  int intel_gvt_init_host(void);
->  void intel_gvt_sanitize_options(struct drm_i915_private *dev_priv);
->  void intel_gvt_resume(struct drm_i915_private *dev_priv);
-> +unsigned long intel_gvt_get_device_type(struct drm_i915_private *i915);
-> +int intel_gvt_iterate_mmio_table(struct intel_gvt_mmio_table_iter *iter);
->  #else
->  static inline int intel_gvt_init(struct drm_i915_private *dev_priv)
->  {
-> @@ -51,6 +78,16 @@ static inline void intel_gvt_sanitize_options(struct drm_i915_private *dev_priv)
->  static inline void intel_gvt_resume(struct drm_i915_private *dev_priv)
->  {
->  }
-> +
-> +unsigned long intel_gvt_get_device_type(struct drm_i915_private *i915)
-> +{
-> +	return 0;
-> +}
-> +
-> +int intel_gvt_iterate_mmio_table(struct intel_gvt_mmio_table_iter *iter)
-> +{
-> +	return 0;
-> +}
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmICibYACgkQJNaLcl1U
+h9AOugf/QJOPSSqlU4nYtDxke7z0DHEFzbA063OycyGY8coF3lZCkjrBvoV2zp5r
+gBY8Wdmv00psAkmZE7Pg3o8IZhaBn9mZ7+u/GZ0/Rzv7P+oNScm9ixRfPzOVAw5n
+8ipOUBx2JYFmxMaYKsahkKl/IMSZ7w14roD+GnSHomyk1yK47L+7+ILdJdzC9Gg4
+0rDNz+IF+tKQu4SrwyteAmwy0a3ufos9kj+zOH61iVOv4388BuSnoUCa0ADUCGMb
+n7MkSDMlJwuTJkX3sS5jJeJdi0AP+uuPwUa73zAAq3FDi7Zn3wjnRlEHP+QNa3B/
+yQIr2nXx8Oy5WWWQc8CPGM7d4u+3EQ==
+=0FAN
+-----END PGP SIGNATURE-----
 
-Stubs need to be static inlines.
-
->  #endif
->  
->  #endif /* _INTEL_GVT_H_ */
-> diff --git a/drivers/gpu/drm/i915/intel_gvt_mmio_table.c b/drivers/gpu/drm/i915/intel_gvt_mmio_table.c
-> new file mode 100644
-> index 000000000000..b9de72e939d3
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/intel_gvt_mmio_table.c
-> @@ -0,0 +1,1308 @@
-> +/*
-> + * Copyright(c) 2021 Intel Corporation. All rights reserved.
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a
-> + * copy of this software and associated documentation files (the "Software"),
-> + * to deal in the Software without restriction, including without limitation
-> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> + * and/or sell copies of the Software, and to permit persons to whom the
-> + * Software is furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice (including the next
-> + * paragraph) shall be included in all copies or substantial portions of the
-> + * Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-> + * SOFTWARE.
-
-Please use SPDX headers for new files.
-
-
-BR,
-Jani.
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+--6nCHMM5kfVPLymNn--
