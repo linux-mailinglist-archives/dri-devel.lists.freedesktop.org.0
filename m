@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1B84ADB0A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 15:20:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0711F4ADB2C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 15:32:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D98FC10E192;
-	Tue,  8 Feb 2022 14:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB70C10E1F0;
+	Tue,  8 Feb 2022 14:31:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
- [209.85.217.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2656810E192
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 14:20:12 +0000 (UTC)
-Received: by mail-vs1-f51.google.com with SMTP id a19so3513862vsi.2
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 06:20:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tWsUC/Af6ywp4UcAlxa6QvBdBkZWz95sQEwSbu3EUOM=;
- b=iaW9vCaO535JVhHGfMYgP2ckLiHiQrPtvoewCnkoMRr+xKgM/HdnEPvV/KUTn9V40g
- d9Jft+k/tKhBqXGRMn8TuacjyjmVR2XBnDRzXWFOtAbi7jmWGkL5yIDh1Ok22O9wOdpM
- uf7LBRmtx+h3fmkV11Tk0wW0R1rYR+7eaO2mwGbnA+lGvSwmsb5D8u1D5t67quhi1RDh
- ZF4UIDyqWy9VgB+AXNHTctYzkXy7wtamarxfzCqwerSJG2m6n7jNQpTs5S5Se+cGM4er
- R85aKARIkQFPGVtGjS/y9UwXIER8IgeQSXmYOBwHOliXH9cEtkNXDQT4BKlJ45dGuUBb
- iAEQ==
-X-Gm-Message-State: AOAM532a30C16zi22nPYobL8Ehi3l2zGX0wqQGq7LBgbTRfCz1IiVGpT
- 7Ui6ed51lEt6wJngm1Tp7lYKpRwXjXI96A==
-X-Google-Smtp-Source: ABdhPJwQV25pFNCdJR4nAqKNOK/XOtyJsMJp/6CNXi459b8E7m1cO6kxr7rGGccXPfIp3gEVxxWtmg==
-X-Received: by 2002:a05:6102:31a5:: with SMTP id
- d5mr1474697vsh.69.1644330010425; 
- Tue, 08 Feb 2022 06:20:10 -0800 (PST)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com.
- [209.85.217.43])
- by smtp.gmail.com with ESMTPSA id x47sm2888387uac.16.2022.02.08.06.20.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 06:20:09 -0800 (PST)
-Received: by mail-vs1-f43.google.com with SMTP id t184so3521104vst.13
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 06:20:09 -0800 (PST)
-X-Received: by 2002:a05:6102:34d9:: with SMTP id
- a25mr223540vst.68.1644330009205; 
- Tue, 08 Feb 2022 06:20:09 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D910A10E1F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 14:31:56 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 37B241F383;
+ Tue,  8 Feb 2022 14:31:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1644330715; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=8eXl9w9huskA5UfhxMUFp9g1LEG5boeqqob+ARgQeNo=;
+ b=e3uqgJysirY35ArDJkwysllJhSpzUSExK0ZFagNeS2bsYzsCt2U8eyT55+Kxf3QNonM/nC
+ cqueD8hVc+RfI46uyyyHgVC6d3HXNgscZQGoGs6Wg0xb2KL+JlB+MrWfKUrJ5QCcxqascW
+ 4RozEYhOZm03xEOh2vz+/3BgoWJlO9s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1644330715;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=8eXl9w9huskA5UfhxMUFp9g1LEG5boeqqob+ARgQeNo=;
+ b=vNS+aTgGpm0O/FqVKkDiMIbSLX8vlsu0ChjRC+ryEgrsSjX2huGk0quapomniw00x/4zY3
+ o2qyIN9gvEhzATAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 07C8413C79;
+ Tue,  8 Feb 2022 14:31:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /C2XO9p+AmJABgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 08 Feb 2022 14:31:54 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch,
+	airlied@linux.ie,
+	airlied@redhat.com,
+	sean@poorly.run
+Subject: [PATCH] drm/udl: Set VGA connector
+Date: Tue,  8 Feb 2022 15:31:52 +0100
+Message-Id: <20220208143152.5846-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220204134347.1187749-1-javierm@redhat.com>
-In-Reply-To: <20220204134347.1187749-1-javierm@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 8 Feb 2022 15:19:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVTVX7LFay-rfv=oW96dMA24duMUVGRE62jQSNkrKtyMg@mail.gmail.com>
-Message-ID: <CAMuHMdVTVX7LFay-rfv=oW96dMA24duMUVGRE62jQSNkrKtyMg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED
- displays
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,62 +64,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux PWM List <linux-pwm@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Mark Brown <broonie@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee.jones@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+Set the connector type to VGA. The previously exported DVII type
+isn't even supported by the driver.
 
-On Fri, Feb 4, 2022 at 2:43 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> This patch series adds a DRM driver for the Solomon OLED SSD1305, SSD1306,
-> SSD1307 and SSD1309 displays. It is a port of the ssd1307fb fbdev driver.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/udl/udl_connector.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I gave it a try on an Adafruit FeatherWing 128x32 OLED, connected to an
-OrangeCrab ECP5 FPGA board running a 64 MHz VexRiscv RISC-V softcore.
+diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
+index 930574ad2bca..318fdb38b47a 100644
+--- a/drivers/gpu/drm/udl/udl_connector.c
++++ b/drivers/gpu/drm/udl/udl_connector.c
+@@ -128,7 +128,7 @@ struct drm_connector *udl_connector_init(struct drm_device *dev)
+ 
+ 	connector = &udl_connector->connector;
+ 	drm_connector_init(dev, connector, &udl_connector_funcs,
+-			   DRM_MODE_CONNECTOR_DVII);
++			   DRM_MODE_CONNECTOR_VGA);
+ 	drm_connector_helper_add(connector, &udl_connector_helper_funcs);
+ 
+ 	connector->polled = DRM_CONNECTOR_POLL_HPD |
+-- 
+2.34.1
 
-Findings:
-  - Kernel size increased by 349 KiB,
-  - The "Memory:" line reports 412 KiB less memory,
-  - On top of that, "free" shows ca. 92 KiB more memory in use after
-    bootup.
-  - The logo (I have a custom monochrome logo enabled) is no longer shown.
-  - The screen is empty, with a (very very slow) flashing cursor in the
-    middle of the screen, with a bogus long line next to it, which I can
-    see being redrawn.
-  - Writing text (e.g. hello) to /dev/tty0, I first see the text,
-    followed by an enlargement of some of the characters.
-  - "time ls" on the serial console (no files in the current directory,
-    so nothing to print) increases from 0.86s to 1.92s, so the system is
-    more loaded.  As ssd1307fb relied on deferred I/O too, the slowdown
-    might be (partly) due to redrawing of the visual artefacts
-    mentioned above.
-
-So while the displays seems to be initialized correctly, it looks like
-there are some serious bugs in the conversion from xrgb8888 to
-monochrome.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
