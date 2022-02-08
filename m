@@ -1,44 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88864ACF78
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 04:04:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2127A4ACFE4
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 04:52:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA8510E167;
-	Tue,  8 Feb 2022 03:04:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4741110E148;
+	Tue,  8 Feb 2022 03:52:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF1B310E167
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 03:04:02 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4840B340;
- Tue,  8 Feb 2022 04:04:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1644289440;
- bh=J0PGEAYz7Us3Tun1bqmFowk71Fw/EivbBzb3uusglxU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZLId+mL19qaW6qRJuYCYm51rDKhWlew1wRe+FyP37hxT31ngh7nHYJSy6Yj8gxEvu
- qKSqFmRBteVlj6zaWtc4R3HMDZkzPun3rtMuAKrwJGUtXOZB6wWaUpC14gwmH6gNOv
- H+wNL0UExoUOt13EvBPqQEisnFBTiNC4H0ueabMM=
-Date: Tue, 8 Feb 2022 05:03:58 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Liu Ying <victor.liu@oss.nxp.com>
-Subject: Re: [PATCH] [RFC] drm: mxsfb: Implement LCDIF scanout CRC32 support
-Message-ID: <YgHdnggH46OVxKnw@pendragon.ideasonboard.com>
-References: <20220206185643.275811-1-marex@denx.de>
- <d5ac849dc8aae325d98f215d4f92d492abd909c4.camel@oss.nxp.com>
- <9a2cc781-3277-7e09-530b-05c7361cdaa8@denx.de>
- <1020798373f3f54d1dd7df7174afaeb973ec86ff.camel@oss.nxp.com>
- <49519f3a-060d-feb5-891d-adaad10607e2@denx.de>
- <fc56574745fd53dfcc65425aab7547d9341cd308.camel@oss.nxp.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59C5A10E148;
+ Tue,  8 Feb 2022 03:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644292332; x=1675828332;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=gni8ZAnSjS2QQ6jPRCIKsoiZCM6QkQtCXQebf87OVz0=;
+ b=OPgkXkG/Tz2r0QpriTOs98J0k6UFR5tVlseRjJT/aR0R5oM/37pbWLv/
+ yXyx/NG2L4ytwh+yGnntJ6fAaywXjBrovs+LQSKjbhY1x/SBZLHKHiQdg
+ IhlvXnRGDRDz78qbzW503ms1tGMZg1QfUtVA4+7GLYEz3FH4nrhU4ZdYU
+ M86GeTCmGI17jOSpJZI4CF8MuhPyMRypCmjFYHsjpMsuzKyXBZaaOi34b
+ JeMCOGLDe/0dgcXh1TCmdKBpjDSAGQzpPnHlOHSTnXpJgBe8jEogzVBt1
+ kjwLCbWOuO/GgI1V4Rpm4SXrO9dhuBHiJmNTnUQdk+IZMBswjc3nm6I1Y w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="309608509"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="309608509"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 19:52:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="484669090"
+Received: from lkp-server01.sh.intel.com (HELO 9dd77a123018) ([10.239.97.150])
+ by orsmga006.jf.intel.com with ESMTP; 07 Feb 2022 19:52:09 -0800
+Received: from kbuild by 9dd77a123018 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nHHY0-0001JL-DI; Tue, 08 Feb 2022 03:52:08 +0000
+Date: Tue, 8 Feb 2022 11:51:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michael Cheng <michael.cheng@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v6 6/6] drm: Add arch arm64 for
+ drm_clflush_virt_range
+Message-ID: <202202081151.wYD1tE4p-lkp@intel.com>
+References: <20220207201127.648624-7-michael.cheng@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fc56574745fd53dfcc65425aab7547d9341cd308.camel@oss.nxp.com>
+In-Reply-To: <20220207201127.648624-7-michael.cheng@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,67 +61,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, Robert Chiras <robert.chiras@nxp.com>,
- Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
+Cc: lucas.demarchi@intel.com, michael.cheng@intel.com, llvm@lists.linux.dev,
+ kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Liu Ying,
+Hi Michael,
 
-On Tue, Feb 08, 2022 at 10:41:59AM +0800, Liu Ying wrote:
-> On Mon, 2022-02-07 at 11:43 +0100, Marek Vasut wrote:
-> > On 2/7/22 10:18, Liu Ying wrote:
-> > > > > On Sun, 2022-02-06 at 19:56 +0100, Marek Vasut wrote:
-> > > > > > The LCDIF controller as present in i.MX6SX/i.MX8M Mini/Nano has a CRC_STAT
-> > > > > > register, which contains CRC32 of the frame as it was clocked out of the
-> > > > > > DPI interface of the LCDIF. This is likely meant as a functional safety
-> > > > > > register.
-> > > > > > 
-> > > > > > Unfortunatelly, there is zero documentation on how the CRC32 is calculated,
-> > > > > > there is no documentation of the polynomial, the init value, nor on which
-> > > > > > data is the checksum applied.
-> > > > > > 
-> > > > > > By applying brute-force on 8 pixel / 2 line frame, which is the minimum
-> > > > > > size LCDIF would work with, it turns out the polynomial is CRC32_POLY_LE
-> > > > > > 0xedb88320 , init value is 0xffffffff , the input data are bitrev32()
-> > > > > > of the entire frame and the resulting CRC has to be also bitrev32()ed.
-> > > > > 
-> > > > > No idea how the HW calculates the CRC value.
-> > > > > I didn't hear anyone internal tried this feature.
-> > > > 
-> > > > It would be nice if the datasheet could be improved.
-> > > 
-> > > Agreed.
-> > > 
-> > > > There are many blank areas which are undocumented, this LCDIF CRC32
-> > > > feature, i.MX8M Mini Arteris NOC at 0x32700000 , the ARM GPV NIC-301 at
-> > > > 0x32{0,1,2,3,4,5,6,8}00000 and their master/slave port mapping. The NOC
-> > > > and NICs were documented at least up to i.MX6QP and then that
-> > > > information disappeared from NXP datasheets. I think reconfiguring the
-> > > > NOC/NIC QoS would help mitigate this shift issue described below
-> > > > (*).
-> > > 
-> > > I also think the QoS would help if it is configureable.
-> > 
-> > It is programmable, it's just the port mapping which is undocumented.
-> > 
-> > > > Do you know if there is some additional NOC/NIC documentation for i.MX8M
-> > > > Mini available ?
-> > > 
-> > > No.
-> > 
-> > Can you ask someone internally in NXP maybe ?
-> 
-> Maybe, you may try community.nxp.com, like the i.MXRT case.
+Thank you for the patch! Yet something to improve:
 
-Overall we seem to have had little luck with community.nxp.com. I wonder
-if it would be possible for key community members to get some more
-direct access to support when working on upstream drivers. I'm pretty
-sure nobody will try to abuse it :-)
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-tip/drm-tip drm/drm-next v5.17-rc3 next-20220207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
--- 
-Regards,
+url:    https://github.com/0day-ci/linux/commits/Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220208-041326
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+config: arm64-randconfig-r005-20220207 (https://download.01.org/0day-ci/archive/20220208/202202081151.wYD1tE4p-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0d8850ae2cae85d49bea6ae0799fa41c7202c05c)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/f2fb6ade1531d88b046e245e8b854a7422a05a14
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220208-041326
+        git checkout f2fb6ade1531d88b046e245e8b854a7422a05a14
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
-Laurent Pinchart
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_cache.c:182:25: error: passing 'void' to parameter of incompatible type 'unsigned long'
+           flush_tlb_kernel_range(*addr, *end);
+                                  ^~~~~
+   arch/arm64/include/asm/tlbflush.h:374:57: note: passing argument to parameter 'start' here
+   static inline void flush_tlb_kernel_range(unsigned long start, unsigned long end)
+                                                           ^
+   1 error generated.
+
+
+vim +182 drivers/gpu/drm/drm_cache.c
+
+   151	
+   152	/**
+   153	 * drm_clflush_virt_range - Flush dcache lines of a region
+   154	 * @addr: Initial kernel memory address.
+   155	 * @length: Region size.
+   156	 *
+   157	 * Flush every data cache line entry that points to an address in the
+   158	 * region requested.
+   159	 */
+   160	void
+   161	drm_clflush_virt_range(void *addr, unsigned long length)
+   162	{
+   163	#if defined(CONFIG_X86)
+   164		if (static_cpu_has(X86_FEATURE_CLFLUSH)) {
+   165			const int size = boot_cpu_data.x86_clflush_size;
+   166			void *end = addr + length;
+   167	
+   168			addr = (void *)(((unsigned long)addr) & -size);
+   169			mb(); /*CLFLUSH is only ordered with a full memory barrier*/
+   170			for (; addr < end; addr += size)
+   171				clflushopt(addr);
+   172			clflushopt(end - 1); /* force serialisation */
+   173			mb(); /*Ensure that every data cache line entry is flushed*/
+   174			return;
+   175		}
+   176	
+   177		if (wbinvd_on_all_cpus())
+   178			pr_err("Timed out waiting for cache flush\n");
+   179	
+   180	#elif defined(CONFIG_ARM64)
+   181		void *end = addr + length;
+ > 182		flush_tlb_kernel_range(*addr, *end);
+   183	#else
+   184		pr_err("Architecture has no drm_cache.c support\n");
+   185		WARN_ON_ONCE(1);
+   186	#endif
+   187	}
+   188	EXPORT_SYMBOL(drm_clflush_virt_range);
+   189	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
