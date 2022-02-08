@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E9E04ADF37
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 18:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E09514ADF36
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 18:19:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D145610E8F6;
-	Tue,  8 Feb 2022 17:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C539810E8FE;
+	Tue,  8 Feb 2022 17:19:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-relay-internal-0.canonical.com
  (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D743810E8FE
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:24 +0000 (UTC)
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17E3410E8F3
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:25 +0000 (UTC)
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 860A23FDC7
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:22 +0000 (UTC)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id E6FF54004D
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 17:19:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1644340762;
- bh=H62uakMhiNj8wsN7JyhkhL3hR65WQAa3xO8BWW9DtO8=;
+ s=20210705; t=1644340763;
+ bh=kMaTNaBI2iO4IYdjvaEgTk0fgCfiFl3MO+VYGfyVvmE=;
  h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
  MIME-Version;
- b=FFDmm+MIwnG6Y2/xCQd2NHe6xJj2kzACeynn4MVTiJKPtFofKa/9Oo94xuavS7qJE
- k05mtlgJ0xvD1YjaxILz7czGe0XQH2PqCiVCcVvmpMYGg7Qf85f3uHmkRvGv60ku48
- P0neQUV6VUhGdCz/Pj5BUIZCN/QRfq8etm9AhhKGZ70E/iiPqZaLDzgxncpJGsjda6
- sOt6TnScxZL8h4COHdh+Utd3PcZ7uTwI+jRot2A5TDqbpfmeioM1QtLHCUB0Fiu+o8
- 2zujxkzO7SLVi9rFlRspqCbCjDxEXYKAb46nBBR5ZUge50PM1Ik9pHfr/SZ6GDJhG9
- 8+hXcYXBs3Aog==
-Received: by mail-ed1-f71.google.com with SMTP id
- ed6-20020a056402294600b004090fd8a936so10068785edb.23
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 09:19:22 -0800 (PST)
+ b=lnBdMxEWMYw7AaM8GtmPI2mq4l9HHdv92EUan5YECg5hr/6jkwQRCnnzvySe2y/y7
+ CpiDA5xnf2DIHS6du1h/7LHqAFvHelfpoJLMW+XUe/jeoz1y1us9eTJzY05dWhMG1g
+ vmA1BWE5o7sTnkNXf2Za8N3FuOKdnXn8G6auP6Uw0HYwCgC5l9kbCkWuaAUWtC7arz
+ zTbHFJSWhO5rVxRHCSUUed3ZYWMEScU7DNLUcoQ9KDd759Ih2YJ9KrwKKvz3gdcueR
+ 4WrTU+5TBVST4GxCteBRkMgPDmN1NTam28m//WN2KkXMvaUZd3CW4gC9mCVYZL043d
+ 6GDXkU4c2DIYQ==
+Received: by mail-ej1-f72.google.com with SMTP id
+ hr36-20020a1709073fa400b006cd2c703959so889309ejc.14
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 09:19:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=H62uakMhiNj8wsN7JyhkhL3hR65WQAa3xO8BWW9DtO8=;
- b=a6IrnLQdN1UY0D7wYLd4dMaSlkbykl8g9XwTQJtC8/P9ElT+4qTLDdudFaNJa4v9oH
- M4+UN5sf3n7X8R5kEs1/bOGZ/sOsNMiFK52UShBGusHWJBphiiul7fKnazQ64r2WOUfN
- RDRfRpwGywLeizS/5s8oKhObsg4BPPeUM5mGtcTlXOXicxtjiEG+cWeyJxWWp+TWRBwP
- DQbzf7C0nQtjb81wJNvabxPL0fRxtmkmpH8W0J8re9M3dOoOuDIZ/JCu6clOFfqlcjcr
- jriidEgag69gzDuEPkOf41bmeXetLRp61lPo06bN7xt27mLk1F+Zkr0TSxuTpiN/adev
- 4IyQ==
-X-Gm-Message-State: AOAM530GTbtsABWk4gqaO6RwAzcgq7aAlZDIqRbypbwxI9stNC6YIvBe
- Cpxs4WGgrxMw1fFS7v1gr/VnCmZtKiMGyIylaPaGyX73nLA243olscF06M1Cu1X6VrGqaCTsc7d
- 4Bnef/2dgZh7KJGIgLmtSbt8Mxn+FBZkVQlhVeJeGBrfEPg==
-X-Received: by 2002:a17:907:7d8e:: with SMTP id
- oz14mr4703495ejc.230.1644340762014; 
- Tue, 08 Feb 2022 09:19:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw64e71WROn4h7109M/ZIMvunExF5YO7bPY7dTOW0eRqIfnLB4BRRxNfmJ8+pMki5++CxBUkA==
-X-Received: by 2002:a17:907:7d8e:: with SMTP id
- oz14mr4703482ejc.230.1644340761740; 
- Tue, 08 Feb 2022 09:19:21 -0800 (PST)
+ bh=kMaTNaBI2iO4IYdjvaEgTk0fgCfiFl3MO+VYGfyVvmE=;
+ b=6DjRGqgAFWpu+kF23GqkS2GDJ3adNYYqT1HXN2QVS9d0qxi/TFR7kpY2YjFKty0JeV
+ pmeOgZs3+XwozFKG+3bp+2PemokWp9CUJRlcOWav+1X+X230bOwNp8rebkoLUB+Ua4Yw
+ h7CbYp+uD+4k8MxXTBx69NWSsTYNdOFWQKUULeKxQRYEAb6Pb6XI4LJRnxKwcKl4ode4
+ M0qdKjOmXxpMpIk2250IkBNK6H6wMdNzQfHoJPY02ogueiDH2MQR1QK49KRXeWpBL4Pd
+ kHWbINVOB2UBdieioGYMB1+qRLrs9FCOylYNvy92Ar5Ur+7YPy1iW1esBGaGe+lod23n
+ pObw==
+X-Gm-Message-State: AOAM533ihGu0cxo2IakR5PmRLtBBES3mo3GNdBfg76WOE1Q5C6fhHK/f
+ z+pV0Ch2MHiMQrngMMC37VF5qAfioKsDm6KHH9K19WrqXDpm7c7AOR+yDtmkD4Dd2LXci2x/ldT
+ tXGt5U82j2Oyp3PcK1SE82RxOlBikDK8klEWBwvZNktUxdg==
+X-Received: by 2002:aa7:d809:: with SMTP id v9mr5652418edq.2.1644340763450;
+ Tue, 08 Feb 2022 09:19:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwlLGYgUd+Cr4yCQlVE0VWHIHMy+r8JCbb5AQJa47VNi9iyYKn2B1Q1E+kn15abkGcHd22WRg==
+X-Received: by 2002:aa7:d809:: with SMTP id v9mr5652400edq.2.1644340763212;
+ Tue, 08 Feb 2022 09:19:23 -0800 (PST)
 Received: from localhost.localdomain (xdsl-188-155-168-84.adslplus.ch.
  [188.155.168.84])
- by smtp.gmail.com with ESMTPSA id r10sm5125550ejy.148.2022.02.08.09.19.20
+ by smtp.gmail.com with ESMTPSA id r10sm5125550ejy.148.2022.02.08.09.19.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 09:19:21 -0800 (PST)
+ Tue, 08 Feb 2022 09:19:22 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  Seung-Woo Kim <sw0312.kim@samsung.com>,
@@ -71,10 +69,10 @@ To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: [PATCH 08/10] dt-bindings: display: samsung,
- exynos-hdmi: convert to dtschema
-Date: Tue,  8 Feb 2022 18:18:21 +0100
-Message-Id: <20220208171823.226211-9-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 09/10] dt-bindings: display: samsung,
+ exynos5433-mic: convert to dtschema
+Date: Tue,  8 Feb 2022 18:18:22 +0100
+Message-Id: <20220208171823.226211-10-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220208171823.226211-1-krzysztof.kozlowski@canonical.com>
 References: <20220208171823.226211-1-krzysztof.kozlowski@canonical.com>
@@ -97,104 +95,89 @@ Cc: Sylwester Nawrocki <snawrocki@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Exynos HDMI bindings to DT schema format.
+Convert the Exynos5433 MIC bindings to DT schema format.
 
 The conversion includes also updates to the bindings, matching the
-current DTS and Linux driver:
-1. Add required properties: VDD supplies, power-domains.
-2. Add optional properties: HDMI-EN supply, ports.
+current DTS and Linux driver: adding optional power-domains.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .../bindings/display/exynos/exynos_hdmi.txt   |  64 -----
- .../display/samsung/samsung,exynos-hdmi.yaml  | 227 ++++++++++++++++++
- 2 files changed, 227 insertions(+), 64 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/exynos/exynos_hdmi.txt
- create mode 100644 Documentation/devicetree/bindings/display/samsung/samsung,exynos-hdmi.yaml
+ .../bindings/display/exynos/exynos-mic.txt    | 51 ----------
+ .../samsung/samsung,exynos5433-mic.yaml       | 95 +++++++++++++++++++
+ 2 files changed, 95 insertions(+), 51 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/exynos/exynos-mic.txt
+ create mode 100644 Documentation/devicetree/bindings/display/samsung/samsung,exynos5433-mic.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/exynos/exynos_hdmi.txt b/Documentation/devicetree/bindings/display/exynos/exynos_hdmi.txt
+diff --git a/Documentation/devicetree/bindings/display/exynos/exynos-mic.txt b/Documentation/devicetree/bindings/display/exynos/exynos-mic.txt
 deleted file mode 100644
-index 58b12e25bbb1..000000000000
---- a/Documentation/devicetree/bindings/display/exynos/exynos_hdmi.txt
+index 0fba2ee6440a..000000000000
+--- a/Documentation/devicetree/bindings/display/exynos/exynos-mic.txt
 +++ /dev/null
-@@ -1,64 +0,0 @@
--Device-Tree bindings for drm hdmi driver
+@@ -1,51 +0,0 @@
+-Device-Tree bindings for Samsung Exynos SoC mobile image compressor (MIC)
+-
+-MIC (mobile image compressor) resides between decon and mipi dsi. Mipi dsi is
+-not capable to transfer high resoltuion frame data as decon can send. MIC
+-solves this problem by compressing the frame data by 1/2 before it is
+-transferred through mipi dsi. The compressed frame data must be uncompressed in
+-the panel PCB.
 -
 -Required properties:
--- compatible: value should be one among the following:
--	1) "samsung,exynos4210-hdmi"
--	2) "samsung,exynos4212-hdmi"
--	3) "samsung,exynos5420-hdmi"
--	4) "samsung,exynos5433-hdmi"
--- reg: physical base address of the hdmi and length of memory mapped
--	region.
--- interrupts: interrupt number to the cpu.
--- hpd-gpios: following information about the hotplug gpio pin.
--	a) phandle of the gpio controller node.
--	b) pin number within the gpio controller.
--	c) optional flags and pull up/down.
--- ddc: phandle to the hdmi ddc node
--- phy: phandle to the hdmi phy node
--- samsung,syscon-phandle: phandle for system controller node for PMU.
--- #sound-dai-cells: should be 0.
--
--Required properties for Exynos 4210, 4212, 5420 and 5433:
--- clocks: list of clock IDs from SoC clock driver.
--	a) hdmi: Gate of HDMI IP bus clock.
--	b) sclk_hdmi: Gate of HDMI special clock.
--	c) sclk_pixel: Pixel special clock, one of the two possible inputs of
--		HDMI clock mux.
--	d) sclk_hdmiphy: HDMI PHY clock output, one of two possible inputs of
--		HDMI clock mux.
--	e) mout_hdmi: It is required by the driver to switch between the 2
--		parents i.e. sclk_pixel and sclk_hdmiphy. If hdmiphy is stable
--		after configuration, parent is set to sclk_hdmiphy else
--		sclk_pixel.
--- clock-names: aliases as per driver requirements for above clock IDs:
--	"hdmi", "sclk_hdmi", "sclk_pixel", "sclk_hdmiphy" and "mout_hdmi".
--
--Required properties for Exynos 5433:
--- clocks: list of clock specifiers according to common clock bindings.
--	a) hdmi_pclk: Gate of HDMI IP APB bus.
--	b) hdmi_i_pclk: Gate of HDMI-PHY IP APB bus.
--	d) i_tmds_clk: Gate of HDMI TMDS clock.
--	e) i_pixel_clk: Gate of HDMI pixel clock.
--	f) i_spdif_clk: Gate of HDMI SPDIF clock.
--	g) oscclk: Oscillator clock, used as parent of following *_user clocks
--		in case HDMI-PHY is not operational.
--	h) tmds_clko: TMDS clock generated by HDMI-PHY.
--	i) tmds_clko_user: MUX used to switch between oscclk and tmds_clko,
--		respectively if HDMI-PHY is off and operational.
--	j) pixel_clko: Pixel clock generated by HDMI-PHY.
--	k) pixel_clko_user: MUX used to switch between oscclk and pixel_clko,
--		respectively if HDMI-PHY is off and operational.
--- clock-names: aliases for above clock specfiers.
--- samsung,sysreg: handle to syscon used to control the system registers.
+-- compatible: value should be "samsung,exynos5433-mic".
+-- reg: physical base address and length of the MIC registers set and system
+-       register of mic.
+-- clocks: must include clock specifiers corresponding to entries in the
+-	  clock-names property.
+-- clock-names: list of clock names sorted in the same order as the clocks
+-	       property. Must contain "pclk_mic0", "sclk_rgb_vclk_to_mic0".
+-- samsung,disp-syscon: the reference node for syscon for DISP block.
+-- ports: contains a port which is connected to decon node and dsi node.
+-	 address-cells and size-cells must 1 and 0, respectively.
+-- port: contains an endpoint node which is connected to the endpoint in the
+-	decon node or dsi node. The reg value must be 0 and 1 respectively.
 -
 -Example:
+-SoC specific DT entry:
+-mic: mic@13930000 {
+-	compatible = "samsung,exynos5433-mic";
+-	reg = <0x13930000 0x48>;
+-	clocks = <&cmu_disp CLK_PCLK_MIC0>,
+-	       <&cmu_disp CLK_SCLK_RGB_VCLK_TO_MIC0>;
+-	clock-names = "pclk_mic0", "sclk_rgb_vclk_to_mic0";
+-	samsung,disp-syscon = <&syscon_disp>;
 -
--	hdmi {
--		compatible = "samsung,exynos4212-hdmi";
--		reg = <0x14530000 0x100000>;
--		interrupts = <0 95 0>;
--		hpd-gpios = <&gpx3 7 1>;
--		ddc = <&hdmi_ddc_node>;
--		phy = <&hdmi_phy_node>;
--		samsung,syscon-phandle = <&pmu_system_controller>;
+-	ports {
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-
+-		port@0 {
+-			reg = <0>;
+-			mic_to_decon: endpoint {
+-				remote-endpoint = <&decon_to_mic>;
+-			};
+-		};
+-
+-		port@1 {
+-			reg = <1>;
+-			mic_to_dsi: endpoint {
+-				remote-endpoint = <&dsi_to_mic>;
+-			};
+-		};
 -	};
-diff --git a/Documentation/devicetree/bindings/display/samsung/samsung,exynos-hdmi.yaml b/Documentation/devicetree/bindings/display/samsung/samsung,exynos-hdmi.yaml
+-};
+diff --git a/Documentation/devicetree/bindings/display/samsung/samsung,exynos5433-mic.yaml b/Documentation/devicetree/bindings/display/samsung/samsung,exynos5433-mic.yaml
 new file mode 100644
-index 000000000000..cb8e735ce3bd
+index 000000000000..01fccb138ebd
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/samsung/samsung,exynos-hdmi.yaml
-@@ -0,0 +1,227 @@
++++ b/Documentation/devicetree/bindings/display/samsung/samsung,exynos5433-mic.yaml
+@@ -0,0 +1,95 @@
 +# SPDX-License-Identifier: GPL-2.0-only
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/samsung/samsung,exynos-hdmi.yaml#
++$id: http://devicetree.org/schemas/display/samsung/samsung,exynos5433-mic.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Samsung Exynos SoC HDMI
++title: Samsung Exynos5433 SoC Mobile Image Compressor (MIC)
 +
 +maintainers:
 +  - Inki Dae <inki.dae@samsung.com>
@@ -203,45 +186,25 @@ index 000000000000..cb8e735ce3bd
 +  - Kyungmin Park <kyungmin.park@samsung.com>
 +  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 +
++description: |
++  MIC (Mobile Image Compressor) resides between DECON and MIPI DSI. MIPI DSI is
++  not capable of transferring high resoltuion frame data as DECON can send. MIC
++  solves this problem by compressing the frame data by 1/2 before it is
++  transferred through MIPI DSI. The compressed frame data must be uncompressed
++  in the panel PCB.
++
 +properties:
 +  compatible:
-+    enum:
-+      - samsung,exynos4210-hdmi
-+      - samsung,exynos4212-hdmi
-+      - samsung,exynos5420-hdmi
-+      - samsung,exynos5433-hdmi
++    const: samsung,exynos5433-mic
 +
 +  clocks:
-+    minItems: 5
-+    maxItems: 10
++    minItems: 2
++    maxItems: 2
 +
 +  clock-names:
-+    minItems: 5
-+    maxItems: 10
-+
-+  ddc:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Phandle to the HDMI DDC node.
-+
-+  hdmi-en-supply:
-+    description:
-+      Provides voltage source for DCC lines available on HDMI connector. When
-+      there is no power provided for DDC epprom, some TV-sets do not pulls up
-+      HPD (hot plug detect) line, what causes HDMI block to stay turned off.
-+      When provided, the regulator allows TV-set correctly signal HPD event.
-+
-+  hpd-gpios:
-+    maxItems: 1
-+    description:
-+      A GPIO line connected to HPD
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  phy:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Phandle to the HDMI PHY node.
++    items:
++      - const: pclk_mic0
++      - const: sclk_rgb_vclk_to_mic0
 +
 +  ports:
 +    $ref: /schemas/graph.yaml#/properties/ports
@@ -254,147 +217,35 @@ index 000000000000..cb8e735ce3bd
 +  reg:
 +    maxItems: 1
 +
-+  samsung,syscon-phandle:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Phandle to the PMU system controller node.
-+
-+  samsung,sysreg-phandle:
++  samsung,disp-syscon:
 +    $ref: /schemas/types.yaml#/definitions/phandle
 +    description:
 +      Phandle to DISP system controller interface.
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+  vdd-supply:
-+    description:
-+      VDD 1.0V HDMI TX.
-+
-+  vdd_osc-supply:
-+    description:
-+      VDD 1.8V HDMI OSC.
-+
-+  vdd_pll-supply:
-+    description:
-+      VDD 1.0V HDMI PLL.
 +
 +required:
 +  - compatible
 +  - clocks
 +  - clock-names
-+  - ddc
-+  - hpd-gpios
-+  - interrupts
-+  - phy
++  - ports
 +  - reg
-+  - samsung,syscon-phandle
-+  - '#sound-dai-cells'
-+  - vdd-supply
-+  - vdd_osc-supply
-+  - vdd_pll-supply
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: samsung,exynos5433-hdmi
-+    then:
-+      properties:
-+        clocks:
-+          items:
-+            - description: Gate of HDMI IP APB bus.
-+            - description: Gate of HDMI-PHY IP APB bus.
-+            - description: Gate of HDMI TMDS clock.
-+            - description: Gate of HDMI pixel clock.
-+            - description: TMDS clock generated by HDMI-PHY.
-+            - description: MUX used to switch between oscclk and tmds_clko,
-+                respectively if HDMI-PHY is off and operational.
-+            - description: Pixel clock generated by HDMI-PHY.
-+            - description: MUX used to switch between oscclk and pixel_clko,
-+                respectively if HDMI-PHY is off and operational.
-+            - description: Oscillator clock, used as parent of following *_user
-+                clocks in case HDMI-PHY is not operational.
-+            - description: Gate of HDMI SPDIF clock.
-+        clock-names:
-+          items:
-+            - const: hdmi_pclk
-+            - const: hdmi_i_pclk
-+            - const: i_tmds_clk
-+            - const: i_pixel_clk
-+            - const: tmds_clko
-+            - const: tmds_clko_user
-+            - const: pixel_clko
-+            - const: pixel_clko_user
-+            - const: oscclk
-+            - const: i_spdif_clk
-+      required:
-+        - samsung,sysreg-phandle
-+    else:
-+      properties:
-+        clocks:
-+          items:
-+            - description: Gate of HDMI IP bus clock.
-+            - description: Gate of HDMI special clock.
-+            - description: Pixel special clock, one of the two possible inputs
-+                of HDMI clock mux.
-+            - description: HDMI PHY clock output, one of two possible inputs of
-+                HDMI clock mux.
-+            - description: It is required by the driver to switch between the 2
-+                parents i.e. sclk_pixel and sclk_hdmiphy. If hdmiphy is stable
-+                after configuration, parent is set to sclk_hdmiphy else
-+                sclk_pixel.
-+        clock-names:
-+          items:
-+            - const: hdmi
-+            - const: sclk_hdmi
-+            - const: sclk_pixel
-+            - const: sclk_hdmiphy
-+            - const: mout_hdmi
++  - samsung,disp-syscon
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
 +    #include <dt-bindings/clock/exynos5433.h>
-+    #include <dt-bindings/gpio/gpio.h>
 +    #include <dt-bindings/interrupt-controller/arm-gic.h>
 +
-+    hdmi@13970000 {
-+        compatible = "samsung,exynos5433-hdmi";
-+        reg = <0x13970000 0x70000>;
-+        interrupts = <GIC_SPI 208 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&cmu_disp CLK_PCLK_HDMI>,
-+                 <&cmu_disp CLK_PCLK_HDMIPHY>,
-+                 <&cmu_disp CLK_PHYCLK_HDMIPHY_TMDS_CLKO>,
-+                 <&cmu_disp CLK_PHYCLK_HDMI_PIXEL>,
-+                 <&cmu_disp CLK_PHYCLK_HDMIPHY_TMDS_CLKO_PHY>,
-+                 <&cmu_disp CLK_MOUT_PHYCLK_HDMIPHY_TMDS_CLKO_USER>,
-+                 <&cmu_disp CLK_PHYCLK_HDMIPHY_PIXEL_CLKO_PHY>,
-+                 <&cmu_disp CLK_MOUT_PHYCLK_HDMIPHY_PIXEL_CLKO_USER>,
-+                 <&xxti>,
-+                 <&cmu_disp CLK_SCLK_HDMI_SPDIF>;
-+        clock-names = "hdmi_pclk",
-+                      "hdmi_i_pclk",
-+                      "i_tmds_clk",
-+                      "i_pixel_clk",
-+                      "tmds_clko",
-+                      "tmds_clko_user",
-+                      "pixel_clko",
-+                      "pixel_clko_user",
-+                      "oscclk",
-+                      "i_spdif_clk";
-+        phy = <&hdmiphy>;
-+        ddc = <&hsi2c_11>;
-+        samsung,syscon-phandle = <&pmu_system_controller>;
-+        samsung,sysreg-phandle = <&syscon_disp>;
-+        #sound-dai-cells = <0>;
-+
-+        hpd-gpios = <&gpa3 0 GPIO_ACTIVE_HIGH>;
-+        vdd-supply = <&ldo6_reg>;
-+        vdd_osc-supply = <&ldo7_reg>;
-+        vdd_pll-supply = <&ldo6_reg>;
++    image-processor@13930000 {
++        compatible = "samsung,exynos5433-mic";
++        reg = <0x13930000 0x48>;
++        clocks = <&cmu_disp CLK_PCLK_MIC0>,
++                 <&cmu_disp CLK_SCLK_RGB_VCLK_TO_MIC0>;
++        clock-names = "pclk_mic0",
++                      "sclk_rgb_vclk_to_mic0";
++        power-domains = <&pd_disp>;
++        samsung,disp-syscon = <&syscon_disp>;
 +
 +        ports {
 +            #address-cells = <1>;
@@ -402,15 +253,15 @@ index 000000000000..cb8e735ce3bd
 +
 +            port@0 {
 +                reg = <0>;
-+                hdmi_to_tv: endpoint {
-+                    remote-endpoint = <&tv_to_hdmi>;
++                mic_to_decon: endpoint {
++                    remote-endpoint = <&decon_to_mic>;
 +                };
 +            };
 +
 +            port@1 {
 +                reg = <1>;
-+                hdmi_to_mhl: endpoint {
-+                    remote-endpoint = <&mhl_to_hdmi>;
++                mic_to_dsi: endpoint {
++                    remote-endpoint = <&dsi_to_mic>;
 +                };
 +            };
 +        };
