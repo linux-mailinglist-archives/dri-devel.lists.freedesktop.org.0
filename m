@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8144AD5A9
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 11:45:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 917114AD5B8
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 11:46:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7857610E658;
-	Tue,  8 Feb 2022 10:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 954AB10E778;
+	Tue,  8 Feb 2022 10:45:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BAA410E224;
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD49C10E65C;
  Tue,  8 Feb 2022 10:45:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644317113; x=1675853113;
+ t=1644317114; x=1675853114;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=5gO6T8XWL1W/zM0H8HQzYzQpnrwHGrQIalBC7oa3aUw=;
- b=Dzj9JSF1wKP5Z3TbMO89es8lpN/GooZ7sL2b+YAMHGIEqMeok2yaWFFW
- g3VepS/y4ZPHTHpfxDfGVyvPNAwq0OdIMwJgLNl0rBEvUSW2UBciPD9/C
- vx40ktMByqfM/aXdETSOaaiITQ/4XlRJt4/gupMzUlrai+9ohQYgTFT/r
- zkLE9UUf3XKSv92+bR2dpH7Hy3bHq2tFvyx1f1QIlFws/jlpxwUU2oO0r
- J/ddi9pQpyDzNwVk4wykv4BU77528msMsJ53ubMhSbRdnnFmGYVBkDYqv
- IuFSIFReuJFRh+xLPDiizgHRJeBh+tLt6s4FDkXac5kek7ZgKPXJQ4Foa w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="246511544"
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="246511544"
+ bh=IcGbqu9JwjoZDQBVtnKJ+a5LtD4thTZqMXvP5aBPd2w=;
+ b=KK6DUm+tYkT5alLbRqSyOD74YKhLMs3QRydKPeMw0WyVcakXXXtq+vT5
+ CdMeerdn5eUFZHXEXMryjSgU+ozhKEQTLX/8L4WL7WpWyzGaXxtgdiovO
+ k1vgQ6mr2u3AD+OOxGiWfcLR2BtBR0Sn6XWtIeEkhqTP+Cr8JCJZqJlwT
+ 9Idg5tixKJZl2qJQpL42lNHsO7pOpAJTiBSRDOyQx1WuJBD5GM6JgayOX
+ lVlebecdYgazr8ABevf+gXuHZdduvIJ+n8PKfcgXRCQzEl6SQKDmrxh6L
+ QchVx4z4TNYGMM9fYUQYEfB/BB/CT82/0f1QkQby8RWRZQDJB4mKCos4T Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="249130475"
+X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="249130475"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Feb 2022 02:45:11 -0800
-X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="700804117"
+X-IronPort-AV: E=Sophos;i="5.88,352,1635231600"; d="scan'208";a="700804120"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Feb 2022 02:45:09 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 04/18] drm/i915/guc: Keep iosys_map of ads_blob around
-Date: Tue,  8 Feb 2022 02:45:10 -0800
-Message-Id: <20220208104524.2516209-5-lucas.demarchi@intel.com>
+Subject: [PATCH v2 05/18] drm/i915/guc: Add read/write helpers for ADS blob
+Date: Tue,  8 Feb 2022 02:45:11 -0800
+Message-Id: <20220208104524.2516209-6-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220208104524.2516209-1-lucas.demarchi@intel.com>
 References: <20220208104524.2516209-1-lucas.demarchi@intel.com>
@@ -67,10 +67,9 @@ Cc: Matthew Brost <matthew.brost@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert intel_guc_ads_create() and initialization to use iosys_map
-rather than plain pointer and save it in the guc struct. This will help
-with additional updates to the ads_blob after the
-creation/initialization by abstracting the IO vs system memory.
+Add helpers on top of iosys_map_read_field() /
+iosys_map_write_field() functions so they always use the right
+arguments and make code easier to read.
 
 Cc: Matt Roper <matthew.d.roper@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
@@ -80,57 +79,27 @@ Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc.h     | 4 +++-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 6 ++++++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 697d9d66acef..9b9ba79f7594 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -6,8 +6,9 @@
- #ifndef _INTEL_GUC_H_
- #define _INTEL_GUC_H_
- 
--#include <linux/xarray.h>
- #include <linux/delay.h>
-+#include <linux/iosys-map.h>
-+#include <linux/xarray.h>
- 
- #include "intel_uncore.h"
- #include "intel_guc_fw.h"
-@@ -148,6 +149,7 @@ struct intel_guc {
- 	struct i915_vma *ads_vma;
- 	/** @ads_blob: contents of the GuC ADS */
- 	struct __guc_ads_blob *ads_blob;
-+	struct iosys_map ads_map;
- 	/** @ads_regset_size: size of the save/restore regsets in the ADS */
- 	u32 ads_regset_size;
- 	/** @ads_golden_ctxt_size: size of the golden contexts in the ADS */
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index e61150adcbe9..13671b186908 100644
+index 13671b186908..9bf9096b8337 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -624,6 +624,11 @@ int intel_guc_ads_create(struct intel_guc *guc)
- 	if (ret)
- 		return ret;
+@@ -60,6 +60,13 @@ struct __guc_ads_blob {
+ 	struct guc_mmio_reg regset[0];
+ } __packed;
  
-+	if (i915_gem_object_is_lmem(guc->ads_vma->obj))
-+		iosys_map_set_vaddr_iomem(&guc->ads_map, (void __iomem *)guc->ads_blob);
-+	else
-+		iosys_map_set_vaddr(&guc->ads_map, guc->ads_blob);
++#define ads_blob_read(guc_, field_)					\
++	iosys_map_rd_field(&(guc_)->ads_map, 0, struct __guc_ads_blob, field_)
 +
- 	__guc_ads_init(guc);
- 
- 	return 0;
-@@ -645,6 +650,7 @@ void intel_guc_ads_destroy(struct intel_guc *guc)
++#define ads_blob_write(guc_, field_, val_)				\
++	iosys_map_wr_field(&(guc_)->ads_map, 0, struct __guc_ads_blob,	\
++			   field_, val_)
++
+ static u32 guc_ads_regset_size(struct intel_guc *guc)
  {
- 	i915_vma_unpin_and_release(&guc->ads_vma, I915_VMA_RELEASE_MAP);
- 	guc->ads_blob = NULL;
-+	iosys_map_clear(&guc->ads_map);
- }
- 
- static void guc_ads_private_data_reset(struct intel_guc *guc)
+ 	GEM_BUG_ON(!guc->ads_regset_size);
 -- 
 2.35.1
 
