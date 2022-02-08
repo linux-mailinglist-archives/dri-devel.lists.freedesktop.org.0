@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59E74ACF29
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 03:49:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C88864ACF78
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 04:04:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7890910E28A;
-	Tue,  8 Feb 2022 02:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA8510E167;
+	Tue,  8 Feb 2022 03:04:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1286210E280
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 02:49:18 +0000 (UTC)
-X-UUID: 5659ce3da13c4376b163f54d279ffd5b-20220208
-X-UUID: 5659ce3da13c4376b163f54d279ffd5b-20220208
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 371808986; Tue, 08 Feb 2022 10:49:13 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 8 Feb 2022 10:49:12 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 8 Feb 2022 10:49:12 +0800
-Message-ID: <dfdb1d9f0e8f65347a7cd33bcad67851b46ad14c.camel@mediatek.com>
-Subject: Re: [PATCH v7 8/8] drm/mediatek: Add mt8195 eDP support
-From: CK Hu <ck.hu@mediatek.com>
-To: Guillaume Ranquet <granquet@baylibre.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "David
- Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "Matthias
- Brugger" <matthias.bgg@gmail.com>
-Date: Tue, 8 Feb 2022 10:49:12 +0800
-In-Reply-To: <20211217150854.2081-9-granquet@baylibre.com>
-References: <20211217150854.2081-1-granquet@baylibre.com>
- <20211217150854.2081-9-granquet@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF1B310E167
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 03:04:02 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4840B340;
+ Tue,  8 Feb 2022 04:04:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1644289440;
+ bh=J0PGEAYz7Us3Tun1bqmFowk71Fw/EivbBzb3uusglxU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZLId+mL19qaW6qRJuYCYm51rDKhWlew1wRe+FyP37hxT31ngh7nHYJSy6Yj8gxEvu
+ qKSqFmRBteVlj6zaWtc4R3HMDZkzPun3rtMuAKrwJGUtXOZB6wWaUpC14gwmH6gNOv
+ H+wNL0UExoUOt13EvBPqQEisnFBTiNC4H0ueabMM=
+Date: Tue, 8 Feb 2022 05:03:58 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Liu Ying <victor.liu@oss.nxp.com>
+Subject: Re: [PATCH] [RFC] drm: mxsfb: Implement LCDIF scanout CRC32 support
+Message-ID: <YgHdnggH46OVxKnw@pendragon.ideasonboard.com>
+References: <20220206185643.275811-1-marex@denx.de>
+ <d5ac849dc8aae325d98f215d4f92d492abd909c4.camel@oss.nxp.com>
+ <9a2cc781-3277-7e09-530b-05c7361cdaa8@denx.de>
+ <1020798373f3f54d1dd7df7174afaeb973ec86ff.camel@oss.nxp.com>
+ <49519f3a-060d-feb5-891d-adaad10607e2@denx.de>
+ <fc56574745fd53dfcc65425aab7547d9341cd308.camel@oss.nxp.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <fc56574745fd53dfcc65425aab7547d9341cd308.camel@oss.nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,232 +51,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Markus Schneider-Pargmann <msp@baylibre.com>
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org, Robert Chiras <robert.chiras@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Guillaume:
+Hello Liu Ying,
 
-On Fri, 2021-12-17 at 16:08 +0100, Guillaume Ranquet wrote:
-> This adds support of eDP panel to the mt8195 DP driver.
+On Tue, Feb 08, 2022 at 10:41:59AM +0800, Liu Ying wrote:
+> On Mon, 2022-02-07 at 11:43 +0100, Marek Vasut wrote:
+> > On 2/7/22 10:18, Liu Ying wrote:
+> > > > > On Sun, 2022-02-06 at 19:56 +0100, Marek Vasut wrote:
+> > > > > > The LCDIF controller as present in i.MX6SX/i.MX8M Mini/Nano has a CRC_STAT
+> > > > > > register, which contains CRC32 of the frame as it was clocked out of the
+> > > > > > DPI interface of the LCDIF. This is likely meant as a functional safety
+> > > > > > register.
+> > > > > > 
+> > > > > > Unfortunatelly, there is zero documentation on how the CRC32 is calculated,
+> > > > > > there is no documentation of the polynomial, the init value, nor on which
+> > > > > > data is the checksum applied.
+> > > > > > 
+> > > > > > By applying brute-force on 8 pixel / 2 line frame, which is the minimum
+> > > > > > size LCDIF would work with, it turns out the polynomial is CRC32_POLY_LE
+> > > > > > 0xedb88320 , init value is 0xffffffff , the input data are bitrev32()
+> > > > > > of the entire frame and the resulting CRC has to be also bitrev32()ed.
+> > > > > 
+> > > > > No idea how the HW calculates the CRC value.
+> > > > > I didn't hear anyone internal tried this feature.
+> > > > 
+> > > > It would be nice if the datasheet could be improved.
+> > > 
+> > > Agreed.
+> > > 
+> > > > There are many blank areas which are undocumented, this LCDIF CRC32
+> > > > feature, i.MX8M Mini Arteris NOC at 0x32700000 , the ARM GPV NIC-301 at
+> > > > 0x32{0,1,2,3,4,5,6,8}00000 and their master/slave port mapping. The NOC
+> > > > and NICs were documented at least up to i.MX6QP and then that
+> > > > information disappeared from NXP datasheets. I think reconfiguring the
+> > > > NOC/NIC QoS would help mitigate this shift issue described below
+> > > > (*).
+> > > 
+> > > I also think the QoS would help if it is configureable.
+> > 
+> > It is programmable, it's just the port mapping which is undocumented.
+> > 
+> > > > Do you know if there is some additional NOC/NIC documentation for i.MX8M
+> > > > Mini available ?
+> > > 
+> > > No.
+> > 
+> > Can you ask someone internally in NXP maybe ?
 > 
-> This driver is based on an initial version by
-> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
+> Maybe, you may try community.nxp.com, like the i.MXRT case.
 
-This patch looks good to me, but I've a question. Do you have both
-display port platform and eDP platform? If you have only one of these,
-why do you upstream the one which you never have?
+Overall we seem to have had little luck with community.nxp.com. I wonder
+if it would be possible for key community members to get some more
+direct access to support when working on upstream drivers. I'm pretty
+sure nobody will try to abuse it :-)
 
+-- 
 Regards,
-CK
 
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dp.c | 102 +++++++++++++++++++++-------
-> --
->  1 file changed, 73 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c
-> b/drivers/gpu/drm/mediatek/mtk_dp.c
-> index 41e95a0bcaa2c..a256d55346a23 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -228,6 +228,11 @@ static struct regmap_config mtk_dp_regmap_config
-> = {
->  	.name = "mtk-dp-registers",
->  };
->  
-> +static bool mtk_dp_is_edp(struct mtk_dp *mtk_dp)
-> +{
-> +	return mtk_dp->next_bridge;
-> +}
-> +
->  static struct mtk_dp *mtk_dp_from_bridge(struct drm_bridge *b)
->  {
->  	return container_of(b, struct mtk_dp, bridge);
-> @@ -1185,26 +1190,49 @@ static int mtk_dp_get_calibration_data(struct
-> mtk_dp *mtk_dp)
->  		return PTR_ERR(buf);
->  	}
->  
-> -	cal_data->glb_bias_trim =
-> -		check_cal_data_valid(1, 0x1e, (buf[0] >> 27) & 0x1f,
-> 0xf);
-> -	cal_data->clktx_impse =
-> -		check_cal_data_valid(1, 0xe, (buf[0] >> 13) & 0xf,
-> 0x8);
-> -	cal_data->ln0_tx_impsel_pmos =
-> -		check_cal_data_valid(1, 0xe, (buf[1] >> 28) & 0xf,
-> 0x8);
-> -	cal_data->ln0_tx_impsel_nmos =
-> -		check_cal_data_valid(1, 0xe, (buf[1] >> 24) & 0xf,
-> 0x8);
-> -	cal_data->ln1_tx_impsel_pmos =
-> -		check_cal_data_valid(1, 0xe, (buf[1] >> 20) & 0xf,
-> 0x8);
-> -	cal_data->ln1_tx_impsel_nmos =
-> -		check_cal_data_valid(1, 0xe, (buf[1] >> 16) & 0xf,
-> 0x8);
-> -	cal_data->ln2_tx_impsel_pmos =
-> -		check_cal_data_valid(1, 0xe, (buf[1] >> 12) & 0xf,
-> 0x8);
-> -	cal_data->ln2_tx_impsel_nmos =
-> -		check_cal_data_valid(1, 0xe, (buf[1] >> 8) & 0xf, 0x8);
-> -	cal_data->ln3_tx_impsel_pmos =
-> -		check_cal_data_valid(1, 0xe, (buf[1] >> 4) & 0xf, 0x8);
-> -	cal_data->ln3_tx_impsel_nmos =
-> -		check_cal_data_valid(1, 0xe, buf[1] & 0xf, 0x8);
-> +	if (mtk_dp_is_edp(mtk_dp)) {
-> +		cal_data->glb_bias_trim =
-> +			check_cal_data_valid(1, 0x1e, (buf[3] >> 27) &
-> 0x1f, 0xf);
-> +		cal_data->clktx_impse =
-> +			check_cal_data_valid(1, 0xe, (buf[0] >> 9) &
-> 0xf, 0x8);
-> +		cal_data->ln0_tx_impsel_pmos =
-> +			check_cal_data_valid(1, 0xe, (buf[2] >> 28) &
-> 0xf, 0x8);
-> +		cal_data->ln0_tx_impsel_nmos =
-> +			check_cal_data_valid(1, 0xe, (buf[2] >> 24) &
-> 0xf, 0x8);
-> +		cal_data->ln1_tx_impsel_pmos =
-> +			check_cal_data_valid(1, 0xe, (buf[2] >> 20) &
-> 0xf, 0x8);
-> +		cal_data->ln1_tx_impsel_nmos =
-> +			check_cal_data_valid(1, 0xe, (buf[2] >> 16) &
-> 0xf, 0x8);
-> +		cal_data->ln2_tx_impsel_pmos =
-> +			check_cal_data_valid(1, 0xe, (buf[2] >> 12) &
-> 0xf, 0x8);
-> +		cal_data->ln2_tx_impsel_nmos =
-> +			check_cal_data_valid(1, 0xe, (buf[2] >> 8) &
-> 0xf, 0x8);
-> +		cal_data->ln3_tx_impsel_pmos =
-> +			check_cal_data_valid(1, 0xe, (buf[2] >> 4) &
-> 0xf, 0x8);
-> +		cal_data->ln3_tx_impsel_nmos =
-> +			check_cal_data_valid(1, 0xe, buf[2] & 0xf,
-> 0x8);
-> +	} else {
-> +		cal_data->glb_bias_trim =
-> +			check_cal_data_valid(1, 0x1e, (buf[0] >> 27) &
-> 0x1f, 0xf);
-> +		cal_data->clktx_impse =
-> +			check_cal_data_valid(1, 0xe, (buf[0] >> 13) &
-> 0xf, 0x8);
-> +		cal_data->ln0_tx_impsel_pmos =
-> +			check_cal_data_valid(1, 0xe, (buf[1] >> 28) &
-> 0xf, 0x8);
-> +		cal_data->ln0_tx_impsel_nmos =
-> +			check_cal_data_valid(1, 0xe, (buf[1] >> 24) &
-> 0xf, 0x8);
-> +		cal_data->ln1_tx_impsel_pmos =
-> +			check_cal_data_valid(1, 0xe, (buf[1] >> 20) &
-> 0xf, 0x8);
-> +		cal_data->ln1_tx_impsel_nmos =
-> +			check_cal_data_valid(1, 0xe, (buf[1] >> 16) &
-> 0xf, 0x8);
-> +		cal_data->ln2_tx_impsel_pmos =
-> +			check_cal_data_valid(1, 0xe, (buf[1] >> 12) &
-> 0xf, 0x8);
-> +		cal_data->ln2_tx_impsel_nmos =
-> +			check_cal_data_valid(1, 0xe, (buf[1] >> 8) &
-> 0xf, 0x8);
-> +		cal_data->ln3_tx_impsel_pmos =
-> +			check_cal_data_valid(1, 0xe, (buf[1] >> 4) &
-> 0xf, 0x8);
-> +		cal_data->ln3_tx_impsel_nmos =
-> +			check_cal_data_valid(1, 0xe, buf[1] & 0xf,
-> 0x8);
-> +	}
->  
->  	kfree(buf);
->  
-> @@ -1322,7 +1350,11 @@ static void mtk_dp_video_mute(struct mtk_dp
-> *mtk_dp, bool enable)
->  	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3000, val,
->  			   VIDEO_MUTE_SEL_DP_ENC0_P0_MASK |
->  			   VIDEO_MUTE_SW_DP_ENC0_P0_MASK);
-> -	mtk_dp_sip_atf_call(MTK_DP_SIP_ATF_VIDEO_UNMUTE, enable);
-> +
-> +	if (mtk_dp_is_edp(mtk_dp))
-> +		mtk_dp_sip_atf_call(MTK_DP_SIP_ATF_EDP_VIDEO_UNMUTE,
-> enable);
-> +	else
-> +		mtk_dp_sip_atf_call(MTK_DP_SIP_ATF_VIDEO_UNMUTE,
-> enable);
->  }
->  
->  static void mtk_dp_audio_mute(struct mtk_dp *mtk_dp, bool mute)
-> @@ -2326,6 +2358,9 @@ static enum drm_connector_status
-> mtk_dp_bdg_detect(struct drm_bridge *bridge)
->  	enum drm_connector_status ret = connector_status_disconnected;
->  	u8 sink_count = 0;
->  
-> +	if (mtk_dp_is_edp(mtk_dp))
-> +		return connector_status_connected;
-> +
->  	if (mtk_dp_plug_state(mtk_dp)) {
->  		drm_dp_dpcd_readb(&mtk_dp->aux, DP_SINK_COUNT,
-> &sink_count);
->  		if (DP_GET_SINK_COUNT(sink_count))
-> @@ -2888,7 +2923,11 @@ static int mtk_dp_probe(struct platform_device
-> *pdev)
->  	}
->  
->  	mtk_dp->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 
-> 1, 0);
-> -	if (IS_ERR(mtk_dp->next_bridge)) {
-> +	if (IS_ERR(mtk_dp->next_bridge) && PTR_ERR(mtk_dp->next_bridge) 
-> == -ENODEV) {
-> +		dev_info(dev,
-> +			 "No panel connected in devicetree, continuing
-> as external DP\n");
-> +		mtk_dp->next_bridge = NULL;
-> +	} else if (IS_ERR(mtk_dp->next_bridge)) {
->  		ret = PTR_ERR(mtk_dp->next_bridge);
->  		dev_err_probe(dev, ret, "Failed to get bridge\n");
->  		return ret;
-> @@ -2915,12 +2954,14 @@ static int mtk_dp_probe(struct
-> platform_device *pdev)
->  
->  	platform_set_drvdata(pdev, mtk_dp);
->  
-> -	mutex_init(&mtk_dp->update_plugged_status_lock);
-> -	ret = mtk_dp_register_audio_driver(dev);
-> -	if (ret) {
-> -		dev_err(dev, "Failed to register audio driver: %d\n",
-> -			ret);
-> -		return ret;
-> +	if (!mtk_dp_is_edp(mtk_dp)) {
-> +		mutex_init(&mtk_dp->update_plugged_status_lock);
-> +		ret = mtk_dp_register_audio_driver(dev);
-> +		if (ret) {
-> +			dev_err(dev, "Failed to register audio driver:
-> %d\n",
-> +				ret);
-> +			return ret;
-> +		}
->  	}
->  
->  	mtk_dp->phy_dev = platform_device_register_data(dev, "mediatek-
-> dp-phy",
-> @@ -2944,7 +2985,10 @@ static int mtk_dp_probe(struct platform_device
-> *pdev)
->  
->  	mtk_dp->bridge.funcs = &mtk_dp_bridge_funcs;
->  	mtk_dp->bridge.of_node = dev->of_node;
-> -	mtk_dp->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
-> +	if (mtk_dp_is_edp(mtk_dp))
-> +		mtk_dp->bridge.type = DRM_MODE_CONNECTOR_eDP;
-> +	else
-> +		mtk_dp->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
->  
->  	mtk_dp->bridge.ops =
->  		DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
-> DRM_BRIDGE_OP_HPD;
-
+Laurent Pinchart
