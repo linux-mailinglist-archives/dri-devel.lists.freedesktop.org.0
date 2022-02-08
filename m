@@ -1,43 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769434AD832
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 13:16:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC634AD835
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Feb 2022 13:16:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC5E899BE;
-	Tue,  8 Feb 2022 12:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8AA789B61;
+	Tue,  8 Feb 2022 12:16:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18107899BE
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 12:16:05 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30151A04;
- Tue,  8 Feb 2022 13:16:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1644322563;
- bh=/GjjOJT4Zd/yjR14F3vzx2OEgv5DVvS++eiwwIpsgp8=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=YHcLbg2g9OgWFlm4ZhjhS1A+Ossx/2xqFz2PV6wKWq42D8pMK2doeq4NniO88aIOf
- rePI9uum4QzGdRmApy4oCNCKIYhvKajFZExspZuCsD/oNfr43F00mviLwt3D8DDyl9
- 2ADY6LdwbGUrkCGd34Up29KYNbTJ2WROrvPfxals=
-Content-Type: text/plain; charset="utf-8"
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D494589CF9
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Feb 2022 12:16:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ZnDmcVC1x6gxo65bslhH2FYYzBNk0AndwKAobiaEeoc=; b=Mf8HDwqAg5ONQUFC8Q2LGg0lQ/
+ Ct5qNBfU6aHf9zsq8adhmDXt0F03FZiQZUiRjD+oNKgThJbsG9nst+9gELORAYXoMR4VRFtSAfddu
+ ApH9FTIMWq0Y7258BNHdzh0xBV0QCbsd1WrUfp2bFMk37j4nTF138sQ+EMWpwJ5ruwXrsyDYMSM9t
+ 7b5KBeVz7Qh26T537VH7JZ8GRQLZ9guwcsqeaV5NomAEx4kDXcgmhX7RncqUNT3l6zQ6JUrRq5tGa
+ B1BoJSZ4sry3xse+QUgcKwCw2o0ID5PQOx5vwv1CLeAJUlr0Izp1GbFSRuxuER9urz62/l1xRLd6s
+ aauE7sVA==;
+Received: from [2a01:799:95e:a400:cca0:57ac:c55d:a485] (port=59343)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1nHPQN-0000KZ-0w; Tue, 08 Feb 2022 13:16:47 +0100
+Message-ID: <bebbd98c-ccba-b233-0299-45f58efee10b@tronnes.org>
+Date: Tue, 8 Feb 2022 13:16:44 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220207163515.1038648-17-maxime@cerno.tech>
-References: <20220207163515.1038648-1-maxime@cerno.tech>
- <20220207163515.1038648-17-maxime@cerno.tech>
-Subject: Re: [PATCH 16/23] drm/rcar: plane: Remove redundant zpos
- initialisation
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maxime Ripard <maxime@cerno.tech>
-Date: Tue, 08 Feb 2022 12:16:00 +0000
-Message-ID: <164432256019.2921404.17702222253648308632@Monstersaurus>
-User-Agent: alot/0.10
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: add bindings for MIPI DBI
+ compatible SPI panels
+To: Rob Herring <robh@kernel.org>, Maxime Ripard <maxime@cerno.tech>
+References: <20220125175700.37408-1-noralf@tronnes.org>
+ <20220125175700.37408-2-noralf@tronnes.org>
+ <20220127093722.hsed3ny3gzk55o7w@houat> <YgGpWo80TvfTknhx@robh.at.kernel.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <YgGpWo80TvfTknhx@robh.at.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,68 +57,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Phil Elwell <phil@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, david@lechnology.com,
+ dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
+ thierry.reding@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Maxime Ripard (2022-02-07 16:35:08)
-> The rcar-du KMS driver will call drm_plane_create_zpos_property() with an
-> init value depending on the plane type.
->=20
-> Since the initial value wasn't carried over in the state, the driver had
-> to set it again in rcar_du_plane_reset() and rcar_du_vsp_plane_reset().
-> However, the helpers have been adjusted to set it properly at reset, so
-> this is not needed anymore.
 
-Sounds helpful ;-)
 
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Den 08.02.2022 00.20, skrev Rob Herring:
+> On Thu, Jan 27, 2022 at 10:37:22AM +0100, Maxime Ripard wrote:
+>> Hi,
+>>
+>> On Tue, Jan 25, 2022 at 06:56:58PM +0100, Noralf Trønnes wrote:
+>>> Add binding for MIPI DBI compatible SPI panels.
+>>>
+>>> v2:
+>>> - Fix path for panel-common.yaml
+>>> - Use unevaluatedProperties
+>>> - Drop properties which are in the allOf section
+>>> - Drop model property (Rob)
+>>>
+>>> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+>>> ---
+>>>  .../display/panel/panel-mipi-dbi-spi.yaml     | 59 +++++++++++++++++++
+>>>  1 file changed, 59 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+>>> new file mode 100644
+>>> index 000000000000..b7cbeea0f8aa
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+>>> @@ -0,0 +1,59 @@
+>>> +# SPDX-License-Identifier: GPL-2.0-only
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/display/panel/panel-mipi-dbi-spi.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: MIPI DBI SPI Panels Device Tree Bindings
+>>> +
+>>> +maintainers:
+>>> +  - Noralf Trønnes <noralf@tronnes.org>
+>>> +
+>>> +description:
+>>> +  This binding is for display panels using a MIPI DBI controller
+>>> +  in SPI mode.
+>>> +
+>>> +allOf:
+>>> +  - $ref: panel-common.yaml#
+>>> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: panel-mipi-dbi-spi
+>>
+>> You need contains here, otherwise it will error out if you have two compatibles.
+> 
+> Shouldn't it always have 2?
+> 
+> Either way, this has to be split up between a common, shareable schema 
+> and specific, complete schema(s). Like this:
+> 
+> - A schema for everything common (that allows additional properties)
+> 
+> - A schema for 'panel-mipi-dbi-spi' referencing the common schema plus 
+>   'unevaluatedProperties: false'
+> 
+> - Schemas for panels with their own additional properties (regulators, 
+>   GPIOs, etc.)
+> 
+> LVDS was restructured like this IIRC.
+> 
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+The whole point of this exercise is to avoid the need for controller
+specific bindings. This binding will cover all specifics about these
+controllers except for one thing and that is the controller
+configuration. Each controller has its own configuration commands. These
+commands will be loaded as a firmware file based on the compatible and
+applied by the driver.
 
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 1 -
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 1 -
->  2 files changed, 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rc=
-ar-du/rcar_du_plane.c
-> index 862197be1e01..9dda5e06457d 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> @@ -696,7 +696,6 @@ static void rcar_du_plane_reset(struct drm_plane *pla=
-ne)
->         state->hwindex =3D -1;
->         state->source =3D RCAR_DU_PLANE_MEMORY;
->         state->colorkey =3D RCAR_DU_COLORKEY_NONE;
-> -       state->state.zpos =3D plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY ?=
- 0 : 1;
->  }
-> =20
->  static int rcar_du_plane_atomic_set_property(struct drm_plane *plane,
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar=
--du/rcar_du_vsp.c
-> index b7fc5b069cbc..719c60034952 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> @@ -362,7 +362,6 @@ static void rcar_du_vsp_plane_reset(struct drm_plane =
-*plane)
->                 return;
-> =20
->         __drm_atomic_helper_plane_reset(plane, &state->state);
-> -       state->state.zpos =3D plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY ?=
- 0 : 1;
->  }
-> =20
->  static const struct drm_plane_funcs rcar_du_vsp_plane_funcs =3D {
-> --=20
-> 2.34.1
->
+So this binding, the panel-common and spi-peripheral-props covers
+everything except for the controller configuration.
+
+Here's a copy of the DBI spec: https://www.docin.com/p-219732497.html
+
+This is my current version of the binding:
+
+# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/display/panel/panel-mipi-dbi-spi.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: MIPI DBI SPI Panel
+
+maintainers:
+  - Noralf Trønnes <noralf@tronnes.org>
+
+description: |
+  This binding is for display panels using a MIPI DBI compatible controller
+  in SPI mode.
+
+  The MIPI Alliance Standard for Display Bus Interface defines the
+electrical
+  and logical interfaces for display controllers historically used in mobile
+  phones. The standard defines 4 display architecture types and this
+binding is
+  for type 1 which has full frame memory. There are 3 interface types in the
+  standard and type C is the serial interface.
+
+  The standard defines the following interface signals for type C:
+  - Power:
+    - Vdd: Power supply for display module
+    - Vddi: Logic level supply for interface signals
+    Combined into one in this binding called: power-supply
+  - Interface:
+    - CSx: Chip select
+    - SCL: Serial clock
+    - Dout: Serial out
+    - Din: Serial in
+    - SDA: Bidrectional in/out
+    - D/CX: Data/command selection, high=data, low=command
+      Called dc-gpios in this binding.
+    - RESX: Reset when low
+      Called reset-gpios in this binding.
+
+  The type C interface has 3 options:
+
+    - Option 1: 9-bit mode and D/CX as the 9th bit
+      |              Command              |  the next command or
+following data  |
+
+|<0><D7><D6><D5><D4><D3><D2><D1><D0>|<D/CX><D7><D6><D5><D4><D3><D2><D1><D0>|
+
+    - Option 2: 16-bit mode and D/CX as a 9th bit
+      |              Command or data                              |
+      |<X><X><X><X><X><X><X><D/CX><D7><D6><D5><D4><D3><D2><D1><D0>|
+
+    - Option 3: 8-bit mode and D/CX as a separate interface line
+      |        Command or data         |
+      |<D7><D6><D5><D4><D3><D2><D1><D0>|
+
+  The panel resolution is specified using the panel-timing node properties
+  hactive (width) and vactive (height). The other mandatory panel-timing
+  properties should be set to zero except clock-frequency which can be
+  optionally set to inform about the actual pixel clock frequency.
+
+  If the panel is wired to the controller at an offset specify this using
+  hback-porch (x-offset) and vback-porch (y-offset).
+
+allOf:
+  - $ref: panel-common.yaml#
+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+
+properties:
+  compatible:
+    contains:
+      const: panel-dbi-spi
+
+  write-only:
+    type: boolean
+    description:
+      Controller is not readable (ie. MISO is not wired up).
+
+  dc-gpios:
+    maxItems: 1
+    description: |
+      Controller data/command selection (D/CX) in 4-line SPI mode.
+      If not set, the controller is in 3-line SPI mode.
+
+required:
+  - compatible
+  - reg
+  - panel-timing
+
+unevaluatedProperties: false
+
+examples:
+  - |
+    #include <dt-bindings/gpio/gpio.h>
+
+    spi {
+            #address-cells = <1>;
+            #size-cells = <0>;
+
+            display@0{
+                    compatible = "sainsmart18", "panel-dbi-spi";
+                    reg = <0>;
+                    spi-max-frequency = <40000000>;
+
+                    dc-gpios = <&gpio 24 GPIO_ACTIVE_HIGH>;
+                    reset-gpios = <&gpio 25 GPIO_ACTIVE_HIGH>;
+                    write-only;
+
+                    backlight = <&backlight>;
+
+                    width-mm = <35>;
+                    height-mm = <28>;
+
+                    panel-timing {
+                        hactive = <160>;
+                        vactive = <128>;
+                        hback-porch = <0>;
+                        vback-porch = <0>;
+
+                        clock-frequency = <0>;
+                        hfront-porch = <0>;
+                        hsync-len = <0>;
+                        vfront-porch = <0>;
+                        vsync-len = <0>;
+                    };
+            };
+    };
+
+...
+
+
+>>> +  write-only:
+>>> +    type: boolean
+>>> +    description:
+>>> +      Controller is not readable (ie. MISO is not wired up).
+>>> +
+>>> +  dc-gpios:
+>>> +    maxItems: 1
+>>> +    description: |
+>>> +      Controller data/command selection (D/CX) in 4-line SPI mode.
+>>> +      If not set, the controller is in 3-line SPI mode.
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - reg
+>>> +
+>>> +unevaluatedProperties: false
+>>> +
+>>> +examples:
+>>> +  - |
+>>> +    #include <dt-bindings/gpio/gpio.h>
+>>> +
+>>> +    spi {
+>>> +            #address-cells = <1>;
+>>> +            #size-cells = <0>;
+>>> +
+>>> +            display@0{
+>>> +                    compatible = "panel-mipi-dbi-spi";
+>>
+>> We should have two compatibles in the example too
+>>
+>> Maxime
+> 
+> 
