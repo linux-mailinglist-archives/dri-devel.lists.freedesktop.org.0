@@ -2,74 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2504AF46E
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2AF4AF47A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:55:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BED7810E45A;
-	Wed,  9 Feb 2022 14:53:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD8C10E258;
+	Wed,  9 Feb 2022 14:55:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65D4010E506
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:53:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644418384;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=j/VJVwJcabH5SXTn4ZvXEnmPqcRm07U+dAsv8ELCv4A=;
- b=ZUnUbGvowMVxiMUCtLP03qoHy6wxoZ6IRx0YRR+xyr6NIeQpVmtBtPFpKoTsynWVV0vJTA
- 9e9RXqe3CQSeU/mCBx5aeNQfD0A3/Xxmtvu++orFB/63qZSNxQN1w+0FAyzHDXncRyROa/
- X8Z7M31HL3DsQeFNupNW4PNTO0Yp0rw=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-17-HeQMLuGQMWaGAdmyDg8TuQ-1; Wed, 09 Feb 2022 09:53:03 -0500
-X-MC-Unique: HeQMLuGQMWaGAdmyDg8TuQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- b18-20020a05620a089200b004e0e2f73f35so1531942qka.19
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 06:53:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=j/VJVwJcabH5SXTn4ZvXEnmPqcRm07U+dAsv8ELCv4A=;
- b=O+S0YtRfxk3s4ByHBd3+dSuE3I5kh7Dziz00UP0B6KQeY09fU8LGHmjDhXs3F2v0oc
- K7RNDU6T0u7eO4cxmaeGH5MXtKaaZ1S9SWq2gMmFWLpuKB9wn8bbwsXwRlPK76W1pyiW
- oL1HT2POHXWm8TzSx7RHIsdwvWWN55lv/lHlmy0qwmbnrdtw+IukbCLGWo91Mej+L34W
- jvRHjPEa5W+x5Kdmmbbi4D8UqNQC9aJuadEuanoeGcOst0LD8HYlLcIIsFG5zUWmF1Fn
- d44ROs5laN26U5QSPa/iR7wg/Z6anToAJBvKyP730wVmZefc0nVy++vOzeubUqYXKxC8
- hEKA==
-X-Gm-Message-State: AOAM531R5ix9caF8cjIJVFhLs3iC8HcGB0FmzzDEdLYturDXybA0X1ID
- 06oaH2m6myEnP+gOigZ9SQRf3xiZ2XXFVvKU0hZSaj7b5q60njOjzj/l/ws3CPnq/RrkLrjbtEk
- Z5s6h7YZ64ODCoWI9lSc4G4TPO689
-X-Received: by 2002:a05:622a:87:: with SMTP id o7mr1562256qtw.38.1644418382988; 
- Wed, 09 Feb 2022 06:53:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw5wcZMgzdbV24kPRKWlIzraNFqysXb9opnZC+c5gQEfuzVCDVwwO+VOEAL5ibZQMRfOE0JJw==
-X-Received: by 2002:a05:622a:87:: with SMTP id o7mr1562236qtw.38.1644418382803; 
- Wed, 09 Feb 2022 06:53:02 -0800 (PST)
-Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
- [24.205.208.113])
- by smtp.gmail.com with ESMTPSA id bk19sm8421478qkb.125.2022.02.09.06.53.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 06:53:02 -0800 (PST)
-From: trix@redhat.com
-To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, nathan@kernel.org, ndesaulniers@google.com,
- david.yatsin@amd.com, rajneesh.bhardwaj@amd.com
-Subject: [PATCH] drm/amdkfd: fix freeing an unset pointer
-Date: Wed,  9 Feb 2022 06:52:54 -0800
-Message-Id: <20220209145254.2291158-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD59410E258
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:54:58 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 21F9CB821F7
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:54:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89C26C340F2
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:54:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644418495;
+ bh=x3KYHTnQdcpuPpSms1usX2LA7bATNpiYgyATB3QLAbc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=DP8bgKOIhroqVt4vja7HreRX2JRYYft7GhrG1w+t9B6isH/MkkvyTg5+SG1Yush54
+ vlluQal/lOUpBfY3ljkUOMQi1GyeS0zQtB4uB4Gwa/AWP4T5SwNJ69D4yAEDD6mYT2
+ JXAvDi4PQs7+a+/vxVu/f2QtZivrpKjhdRlYj9zNgXQrI02PhH6fjwWwfxAJFGuh20
+ dkeExW4jcOlFPZK7/L9c5bWjS7822u3pMYOmx3/nAQJNX8iPS4rCES+arZNCXdSe2z
+ XLv/JVtJHu/woigCybi0kThymkgMkqy7oBHZa7wlsHFOlw2Q8vjEbBGt7HKj32eByY
+ xxT1uZ/gweetQ==
+Received: by mail-ej1-f50.google.com with SMTP id u20so3787676ejx.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 06:54:55 -0800 (PST)
+X-Gm-Message-State: AOAM532DnE16yA0yhgeOSHatWD24uaV2pOYHm3C1CpqzLngTDM3G+FdJ
+ DQDyOrubpzI0lbbHEx2DAulyxUjyZ51Y/FCcbA==
+X-Google-Smtp-Source: ABdhPJw1d9C+p2auPNdEqgcaTp3i90UkTDIFvXwjsigycoG7QKqrkkRdCImb6AEMWNRJXL/DDV7TXXvY/uMqwA6Xo28=
+X-Received: by 2002:a17:906:c10f:: with SMTP id
+ do15mr2266508ejc.638.1644418493696; 
+ Wed, 09 Feb 2022 06:54:53 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+References: <20220110084645.31191-1-nancy.lin@mediatek.com>
+ <20220110084645.31191-3-nancy.lin@mediatek.com>
+In-Reply-To: <20220110084645.31191-3-nancy.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 9 Feb 2022 22:54:42 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-3ekRhHcs0QstWMe9hE7X041zwjQeGcRhDq5gavBhPRw@mail.gmail.com>
+Message-ID: <CAAOTY_-3ekRhHcs0QstWMe9hE7X041zwjQeGcRhDq5gavBhPRw@mail.gmail.com>
+Subject: Re: [PATCH v11 02/22] dt-bindings: mediatek: add vdosys1 MERGE
+ property for mt8195
+To: "Nancy.Lin" <nancy.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,48 +62,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ srv_heupstream <srv_heupstream@mediatek.com>,
+ DTML <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Rix <trix@redhat.com>
+Hi, Nancy:
 
-clang static analysis reports this problem
-kfd_chardev.c:2092:2: warning: 1st function call argument
-  is an uninitialized value
-        kvfree(bo_privs);
-        ^~~~~~~~~~~~~~~~
+Nancy.Lin <nancy.lin@mediatek.com> =E6=96=BC 2022=E5=B9=B41=E6=9C=8810=E6=
+=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=884:46=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> MT8195 vdosys1 merge1 to merge4 have HW mute function.
+> Add MERGE additional mute property description.
 
-When bo_buckets alloc fails, it jumps to an error handler
-that frees the yet to be allocated bo_privs.  Because
-bo_buckets is the first error, return directly.
+Applied to mediatek-drm-next [1], thanks.
 
-Fixes: 5ccbb057c0a1 ("drm/amdkfd: CRIU Implement KFD checkpoint ioctl")
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Regards,
+Chun-Kuang
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index 64e3b4e3a7126..636391c61cafb 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -1982,10 +1982,8 @@ static int criu_checkpoint_bos(struct kfd_process *p,
- 	void *mem;
- 
- 	bo_buckets = kvzalloc(num_bos * sizeof(*bo_buckets), GFP_KERNEL);
--	if (!bo_buckets) {
--		ret = -ENOMEM;
--		goto exit;
--	}
-+	if (!bo_buckets)
-+		return -ENOMEM;
- 
- 	bo_privs = kvzalloc(num_bos * sizeof(*bo_privs), GFP_KERNEL);
- 	if (!bo_privs) {
--- 
-2.26.3
-
+>
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Acked-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora=
+.com>
+> ---
+>  .../devicetree/bindings/display/mediatek/mediatek,merge.yaml  | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+merge.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,me=
+rge.yaml
+> index 28be8ffeb429..f5b1e632bcd5 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.y=
+aml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.y=
+aml
+> @@ -61,6 +61,10 @@ properties:
+>        command to SMI to speed up the data rate.
+>      type: boolean
+>
+> +  mediatek,merge-mute:
+> +    description: Support mute function. Mute the content of merge output=
+.
+> +    type: boolean
+> +
+>    mediatek,gce-client-reg:
+>      description:
+>        The register of client driver can be configured by gce with 4 argu=
+ments
+> --
+> 2.18.0
+>
