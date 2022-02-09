@@ -1,55 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CB94AF338
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 14:48:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FEA64AF344
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 14:51:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C3B10E451;
-	Wed,  9 Feb 2022 13:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B42E10E490;
+	Wed,  9 Feb 2022 13:51:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8885410E451
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 13:48:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644414485; x=1675950485;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=mCLMTF/Kdx89pdQlhSi2Q8AM8SGXYokPeOlF4018GTY=;
- b=BsOz5rpHY6h/rL56PsMwi/zCDEiIe4oH9/D1knQAKk0BnBFQb+0z6JL2
- OPEivlPXxz82koMYqUr6v73S1saKe+Z/9LNGz597UAOnf5+KvQSBKkKaG
- 6uhIeip6dVn7bZdLCxSezXAt0WZj4HMBnPBYfPsfmfLPK5gW/SOxP1wGX
- XVa6qiCbgV0BwqmmhwFtm8KMAHlJEMuzuqMXwFW190ailt5gQgE9T2Qhv
- +PqjUGZxYm5a8k0zdPPpMF9T+HCQL6rLndFPovxFotipl/uyiRqmtSHXu
- sTtL+5zT0XXsGlTV9U/zm14VJyGHTliMKbrRBDTggokilvFL+OeWTccOB Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="229852583"
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="229852583"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 05:48:05 -0800
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="601625256"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 05:48:00 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nHnJG-002d2W-2F; Wed, 09 Feb 2022 15:47:02 +0200
-Date: Wed, 9 Feb 2022 15:47:01 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED
- displays
-Message-ID: <YgPF1cBMsd9973Dx@smile.fi.intel.com>
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <CAMuHMdVTVX7LFay-rfv=oW96dMA24duMUVGRE62jQSNkrKtyMg@mail.gmail.com>
- <f178de92-7cb1-dcc5-1f60-9ccfc56bc0a4@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f178de92-7cb1-dcc5-1f60-9ccfc56bc0a4@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2C2110E490
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 13:51:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1644414674;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=jA//raiEAQNJt49nn2RrsPVb29dWMlgBK10K+Ak3DxA=;
+ b=d6KPdwgPmdMsAhpKpVRJBy9e3u6cVVqGChNYv8v37GPaAuHoW0wuePBR6cxqAFQtss
+ Hpfeh+ldKDl3hY0b/kv8GvRNxH1/qtc43nMm5wPj3UjMlOhsy0C5B6fKM6acZ/trBjp3
+ dSapsDtabozCAsXYnzxXoiQ5ZNNA2xBamzAYiqQ1KS4ApYZ4SGikXKYhpaS5Wj+F/vDX
+ owxbDn2SbWxIECVdvKaYCYkbXKxz9cOf++A8DMOK7i5v2PA0m1pnyjtEV0LphhjOmJYZ
+ iVZGOTa/v19A6oYrJygxt2qlOIeAkrkzmV59thD6IgmgNOJIQYHnfida6KmKn3o7LOgm
+ jKvQ==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3iMYawg=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.39.0 DYNA|AUTH)
+ with ESMTPSA id L29417y19DpCguK
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Wed, 9 Feb 2022 14:51:12 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH v13 0/9] MIPS: JZ4780 and CI20 HDMI
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <9ZC17R.T1L0TBAW7MJA3@crapouillou.net>
+Date: Wed, 9 Feb 2022 14:51:12 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4294A500-52EB-4319-9B89-F9DAC48EBF03@goldelico.com>
+References: <cover.1643819482.git.hns@goldelico.com>
+ <9ZC17R.T1L0TBAW7MJA3@crapouillou.net>
+To: Paul Cercueil <paul@crapouillou.net>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,39 +59,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Sam Ravnborg <sam@ravnborg.org>, Linux PWM List <linux-pwm@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, linux-mips@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ letux-kernel@openphoenux.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 08, 2022 at 04:10:49PM +0100, Javier Martinez Canillas wrote:
-> On 2/8/22 15:19, Geert Uytterhoeven wrote:
-> > On Fri, Feb 4, 2022 at 2:43 PM Javier Martinez Canillas
-> > <javierm@redhat.com> wrote:
+Paul,
 
-> >   - Kernel size increased by 349 KiB,
-> >   - The "Memory:" line reports 412 KiB less memory,
-> >   - On top of that, "free" shows ca. 92 KiB more memory in use after
-> >     bootup.
+> Am 09.02.2022 um 12:52 schrieb Paul Cercueil <paul@crapouillou.net>:
+>=20
+> Hi Nikolaus,
+>=20
+> I tried applying patches 1-2, but they don't apply cleanly on top of =
+drm-misc/drm-misc-next.
 
-The memory consumption should really be taken seriously, because these kind of
-displays are for embedded platforms with limited amount of resources.
+Ok I had rebased to linux-next some days ago and it appears that patch =
+1/9 has now arrived in drm-misc/drm-misc-next.
+So we can drop 1/9.
 
-Thanks, Geert, for testing and reporting this issue in particular.
+>=20
+> Could you rebase on top of that tree?
 
--- 
-With Best Regards,
-Andy Shevchenko
+Sure.
 
+Unfortunatley my v14 breaks the display again. It is not much fun to =
+develop on top of such a moving target...
+So I have to find out first what was broken this time before I can send =
+out a new version.
 
+BR,
+Nikolaus=
