@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7734AF720
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 17:45:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 229334AF73E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 17:53:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7090910E39D;
-	Wed,  9 Feb 2022 16:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E982C10E3BE;
+	Wed,  9 Feb 2022 16:53:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3B7C10E39D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 16:45:55 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A77DB10E3BE;
+ Wed,  9 Feb 2022 16:53:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644425155; x=1675961155;
+ t=1644425600; x=1675961600;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=6o8PBrt2dlQLXaGpgRDUe/a5h6z2Gt3tbLxke74fXBE=;
- b=BoSiNaTaF/ZWlX6FT9MpJh1o9hUj+W+lIbsOOUGqG7euOLcji5tj6Fu4
- bSQoirC+Mb2TVVpHF9E7mLbPFcD8XFL/uQdTEvPcSBWQF/Rb9z+7KJOJx
- P1VNPt+WjHBWdLq04+4XTXkQSca56hNn/e/Me/qUej0VaVAbDyJ27XXiy
- 0dcJbJ2yAsLeAQGindItOWWIUI2czD/ghMe/lf5cSM6qdiLEy5nJsqIr/
- R6ly69qsJfUzTQY4lVXl7E8aothRRmi1K9HGFSDaZ+OhvLWGJ1IzHdbMv
- B+vKY0O98ntPNwIlxl7s30LrxfCZP+prCtmnitvyMpsHkdFBWFYrECWT+ A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="229216367"
-X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="229216367"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 08:45:54 -0800
-X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="633276717"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 08:45:49 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nHq5K-002g8V-C9; Wed, 09 Feb 2022 18:44:50 +0200
-Date: Wed, 9 Feb 2022 18:44:50 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v3 3/7] drm: Add driver for Solomon SSD130X OLED displays
-Message-ID: <YgPvgtQ7ANd540Ht@smile.fi.intel.com>
-References: <20220209090314.2511959-1-javierm@redhat.com>
- <20220209090314.2511959-4-javierm@redhat.com>
- <YgPZ3W0e7N7JQ1dT@smile.fi.intel.com>
- <e29eaccc-863a-21d4-e669-0b708604d723@redhat.com>
- <YgPnE0yj0Y0OJxq6@smile.fi.intel.com>
- <406152d8-13e4-de8a-9542-bf1d96dbab0a@redhat.com>
+ bh=6B6ryEspvgZouEmsloXgztSipdYSWlrTX4SjsdehvV8=;
+ b=GFp3GsEHdLnAE0vJVvOvsSGV8CnAKH8H9aVfpx3jxgXk6r3/KGxCgVFl
+ 0OjkLT27f3OxOvu4qwiXw7RsOWMwRrWLfEdWEIg7vpVBnwt1k6lLbtxmc
+ er9EfJfgD+YFg2lrenWIbOtkJJRZtthFK3BNhfDIumLl54teUbb+jKVHF
+ Kq0OLXKVKAq3/KJK239WzZdXmwUZVsLxELCAt9T/dPbEF2aANAurDfE9o
+ wc1UhfZY3Az/wvGjzAkVvD/i2NJkmyHJH0yOFMayVq4Si3FFgnQdDyGuh
+ xVwq9omKMP74dOdcSOuIiaeC20O6mlOSHhBP8zo+FpY1ZeU7VXt9XMlTy g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="309993257"
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="309993257"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 08:52:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="585621611"
+Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
+ by fmsmga008.fm.intel.com with ESMTP; 09 Feb 2022 08:52:57 -0800
+Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nHqDA-00024R-Cm; Wed, 09 Feb 2022 16:52:56 +0000
+Date: Thu, 10 Feb 2022 00:52:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michael Cheng <michael.cheng@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/: fix noderef.cocci warnings
+Message-ID: <20220209165201.GA22167@9a302928fedb>
+References: <20220207201127.648624-5-michael.cheng@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <406152d8-13e4-de8a-9542-bf1d96dbab0a@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20220207201127.648624-5-michael.cheng@intel.com>
+X-Patchwork-Hint: ignore
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +61,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: lucas.demarchi@intel.com, michael.cheng@intel.com, kbuild-all@lists.01.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 09, 2022 at 05:26:00PM +0100, Javier Martinez Canillas wrote:
-> On 2/9/22 17:08, Andy Shevchenko wrote:
+From: kernel test robot <lkp@intel.com>
 
-...
+drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1310:32-38: ERROR: application of sizeof to pointer
+drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1322:32-38: ERROR: application of sizeof to pointer
 
-> On that topic, I even typed a SPI driver because of your feedback :)
+ sizeof when applied to a pointer typed expression gives the size of
+ the pointer
 
-Much appreciated, makes me much easier to test.
+Generated by: scripts/coccinelle/misc/noderef.cocci
 
-Thank you for doing all this!
+CC: Michael Cheng <michael.cheng@intel.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: kernel test robot <lkp@intel.com>
+---
 
--- 
-With Best Regards,
-Andy Shevchenko
+url:    https://github.com/0day-ci/linux/commits/Michael-Cheng/Use-drm_clflush-instead-of-clflush/20220208-041326
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
 
+ i915_gem_execbuffer.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -1307,7 +1307,7 @@ static void clflush_write32(u32 *addr, u
+ {
+ 	if (unlikely(flushes & (CLFLUSH_BEFORE | CLFLUSH_AFTER))) {
+ 		if (flushes & CLFLUSH_BEFORE)
+-			drm_clflush_virt_range(addr, sizeof(addr));
++			drm_clflush_virt_range(addr, sizeof(*addr));
+ 
+ 		*addr = value;
+ 
+@@ -1319,7 +1319,7 @@ static void clflush_write32(u32 *addr, u
+ 		 * to ensure ordering of clflush wrt to the system.
+ 		 */
+ 		if (flushes & CLFLUSH_AFTER)
+-			drm_clflush_virt_range(addr, sizeof(addr));
++			drm_clflush_virt_range(addr, sizeof(*addr));
+ 	} else
+ 		*addr = value;
+ }
