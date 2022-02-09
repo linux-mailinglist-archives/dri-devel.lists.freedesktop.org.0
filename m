@@ -2,79 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286854AF248
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 14:04:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1B64AF258
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 14:07:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41A4510E14C;
-	Wed,  9 Feb 2022 13:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D6AD10E319;
+	Wed,  9 Feb 2022 13:07:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9200E10E14C
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 13:04:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644411863;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56D4E10E319
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 13:07:09 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EB5871F390;
+ Wed,  9 Feb 2022 13:07:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1644412027; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aUzAJD5kbTchlL+gjCOgw4eKuUNlJh2PUtfBXKNWAAo=;
- b=aCrBp+9SuSpreQB+O6e8IYfaHB64C2+3LuEntDiF8/3IsaFqIhT0r2OLqv2XV9H+P9Z/4y
- s45lHWB5mTbd3Dp4B5cWtv0viq/gkh4XUjqsRurNK+V/4RWxN/mJazQ0cnMl/L4uoRNDYL
- rCinQxoHCQWiLrE6uWvL4C3kfBFbOcc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-53-W0a-qPxvMTahGigcGR1YzA-1; Wed, 09 Feb 2022 08:04:21 -0500
-X-MC-Unique: W0a-qPxvMTahGigcGR1YzA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- bg32-20020a05600c3ca000b00349f2aca1beso462596wmb.9
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 05:04:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=aUzAJD5kbTchlL+gjCOgw4eKuUNlJh2PUtfBXKNWAAo=;
- b=0liO6GIXsgu61q7Hhae3fJzweivZYRtiAB/+Qjv8goZMepWOBYWr9eV7+INIvjlAhn
- 5k+FtE6XwqYHhAQYKtpVu50nxH7+btAdBVmyX1odW6lI2wkmymy1Aac4chb2NMN0zVqk
- nrwZd2McSjt8v0a1i+TGZXXlJHYdUxjML394wvOWTGd6upMGoJc7OLb7J70oYOElYvDP
- xRNAWkVUISqAYNPFRNiFsYtsvSbrKqLAUDnjWFDjTcz736DVXSCv9b3BFtgycGUo3Te2
- 40ldIOwrOH8l83Y1uCMUt7h3gIQFjiz625eyGTqZjocNpQNA1KF2DHrhjiaHpuseJakh
- Twlg==
-X-Gm-Message-State: AOAM532YY2UeMzrkeueK8QuLdwaLHkh3+9lIy7sGyfWreu7i8yxFud3s
- NKeSIKAkIojG2Ug6ycGvIaAeHSRBaG7lxnW+GlWyeZs9/HKkqaf543YJVPBIiCWG9GNQ5dL94w6
- XTtrnhG4IfrVfEGOcmjjdM0z+Hu2L
-X-Received: by 2002:adf:f384:: with SMTP id m4mr2089453wro.619.1644411859840; 
- Wed, 09 Feb 2022 05:04:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyiO4EFMylBV1d9vxTXEoIqL6kXbZmHBfOW0Qxtx/E3aYbo8p+lRqr/HlGnFxDb8si5vo3ofg==
-X-Received: by 2002:adf:f384:: with SMTP id m4mr2089432wro.619.1644411859577; 
- Wed, 09 Feb 2022 05:04:19 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id s26sm1994270wmh.47.2022.02.09.05.04.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 05:04:19 -0800 (PST)
-Message-ID: <e6efb2fd-300e-5282-1f2e-a68130d0b45a@redhat.com>
-Date: Wed, 9 Feb 2022 14:04:17 +0100
+ bh=Oi3J9H27Vcg1jDaeM3WF1JcC1V+b8NgG0yELLIkOT8I=;
+ b=wXGFlQuBb8E6IJ49GLrLjZXGeglVpAAWgZDatjIQiaRQ/MZBHgWDFoi+RRoNcJ82GIDsrM
+ HNkJpBF461RW80BKcGvgYWqcKEkflYU3lRghga9eI9+/qNUD4ObrDyQksMDypOUvnF3FDL
+ JFlZUiufpyJ6rNw3a80cUbMqlI+wzN8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1644412027;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Oi3J9H27Vcg1jDaeM3WF1JcC1V+b8NgG0yELLIkOT8I=;
+ b=7KbZthKArcpownQbDu/XZ+PrrsM10WVqCetNyxIEqr5lcQaXp3UBG7CRXLmFrhcpdBqeiN
+ +3G/Ymuyvxm4HoDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C0FF213D2F;
+ Wed,  9 Feb 2022 13:07:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id E8M+Lnu8A2KvPAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 09 Feb 2022 13:07:07 +0000
+Message-ID: <b5d16a42-d8d6-e78e-7089-2163e2066f6b@suse.de>
+Date: Wed, 9 Feb 2022 14:07:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 5/7] (WIP) drm/solomon: Add SSD130X OLED displays SPI
- support
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220209090314.2511959-1-javierm@redhat.com>
- <20220209091204.2513437-1-javierm@redhat.com>
- <CAMuHMdWSDBjpYJv6JtgvyaKiFKh_eqbvH78TR6VBtpDeFJvqFQ@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAMuHMdWSDBjpYJv6JtgvyaKiFKh_eqbvH78TR6VBtpDeFJvqFQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 4/5] drm/fb-helper: Clip damage area to written memory
+ range
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ sam@ravnborg.org, noralf@tronnes.org
+References: <20220206192935.24645-1-tzimmermann@suse.de>
+ <20220206192935.24645-5-tzimmermann@suse.de>
+ <5234738a-fce6-6df1-1200-94ae1ad1f5b9@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <5234738a-fce6-6df1-1200-94ae1ad1f5b9@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------3MK5PcUpbJW5gZOKzNNKVG9O"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,79 +74,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/9/22 13:25, Geert Uytterhoeven wrote:
-> Hi Javier,
-> 
-> On Wed, Feb 9, 2022 at 10:12 AM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->> The ssd130x driver only provides the core support for these devices but it
->> does not have any bus transport logic. Add a driver to interface over SPI.
->>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
-> Thanks for your patch!
-> 
->> --- /dev/null
->> +++ b/drivers/gpu/drm/solomon/ssd130x-spi.c
-> 
->> +static const struct of_device_id ssd130x_of_match[] = {
->> +       {
->> +               .compatible = "solomon,ssd1305fb-spi",
-> 
-> This needs an update to the DT bindings.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------3MK5PcUpbJW5gZOKzNNKVG9O
+Content-Type: multipart/mixed; boundary="------------KeLxaUzhpCy9TgqXlZsMTDnn";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ sam@ravnborg.org, noralf@tronnes.org
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <b5d16a42-d8d6-e78e-7089-2163e2066f6b@suse.de>
+Subject: Re: [PATCH 4/5] drm/fb-helper: Clip damage area to written memory
+ range
+References: <20220206192935.24645-1-tzimmermann@suse.de>
+ <20220206192935.24645-5-tzimmermann@suse.de>
+ <5234738a-fce6-6df1-1200-94ae1ad1f5b9@redhat.com>
+In-Reply-To: <5234738a-fce6-6df1-1200-94ae1ad1f5b9@redhat.com>
 
-Yes, I know. Didn't feel like it, because the patch is a WIP anyways
-(I haven't tested it but was included just for illustration purposes).
+--------------KeLxaUzhpCy9TgqXlZsMTDnn
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-If someone confirms that works then I will include a proper DT binding
-in the next revision.
+SGkNCg0KQW0gMDkuMDIuMjIgdW0gMTI6MDkgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IE9uIDIvNi8yMiAyMDoyOSwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+
+PiBXcml0ZSBoZWxwZXJzIHVzZWQgdG8gbWFyayB0aGUgY29tcGxldGUgc2NyZWVuIGFzIGRp
+cnR5LiBUaGlzIGlzDQo+PiB3YXN0ZWZ1bCBmb3Igd3JpdGVzIHRoYXQgb25seSBjaGFuZ2Ug
+YSBzbWFsbCBwb3J0aW9uIG9mIHRoZSBzY3JlZW4uDQo+PiBGaXggdGhlIHByb2JsZW0gYnkg
+Y29tcHV0aW5nIHRoZSBkYW1hZ2VkIGFyZWEgZnJvbSB0aGUgd3JpdHRlbg0KPj4gbWVtb3J5
+IHJhbmdlIGFuZCBwZXJmb3JtIGRhbWFnZSBoYW5kbGluZyBhY2NvcmRpbmdseS4NCj4+DQo+
+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
+ZT4NCj4+IC0tLQ0KPiANCj4gUmV2aWV3ZWQtYnk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxh
+cyA8amF2aWVybUByZWRoYXQuY29tPg0KPiANCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9m
+Yl9oZWxwZXIuYyB8IDI4ICsrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0NCj4+ICAgMSBm
+aWxlIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pDQo+Pg0KPj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jDQo+PiBpbmRleCBhZTk4OTkwYzdiNjYuLmJlZDU4
+YmUxYjIwNSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVy
+LmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMNCj4+IEBAIC03
+NTQsMTEgKzc1NCwxOCBAQCBFWFBPUlRfU1lNQk9MKGRybV9mYl9oZWxwZXJfc3lzX3JlYWQp
+Ow0KPj4gICBzc2l6ZV90IGRybV9mYl9oZWxwZXJfc3lzX3dyaXRlKHN0cnVjdCBmYl9pbmZv
+ICppbmZvLCBjb25zdCBjaGFyIF9fdXNlciAqYnVmLA0KPj4gICAJCQkJc2l6ZV90IGNvdW50
+LCBsb2ZmX3QgKnBwb3MpDQo+PiAgIHsNCj4+ICsJbG9mZl90IHBvcyA9ICpwcG9zOw0KPj4g
+ICAJc3NpemVfdCByZXQ7DQo+PiArCXN0cnVjdCBkcm1fcmVjdCBkYW1hZ2VfYXJlYTsNCj4+
+ICAgDQo+PiAgIAlyZXQgPSBmYl9zeXNfd3JpdGUoaW5mbywgYnVmLCBjb3VudCwgcHBvcyk7
+DQo+PiAtCWlmIChyZXQgPiAwKQ0KPj4gLQkJZHJtX2ZiX2hlbHBlcl9kYW1hZ2UoaW5mbywg
+MCwgMCwgaW5mby0+dmFyLnhyZXMsIGluZm8tPnZhci55cmVzKTsNCj4+ICsJaWYgKHJldCA8
+PSAwKQ0KPj4gKwkJcmV0dXJuIHJldDsNCj4+ICsNCj4gDQo+IEkgYWxzbyBsaWtlIGhvdyB5
+b3UgY2xlYW5lZCB1cCB0aGUgZXJyb3IgY2hlY2tpbmcgaGVyZSBhbmQgYmVsb3cNCj4gdG8g
+anVzdCByZXR1cm4gZWFybHksIGluc3RlYWQgb2YgY2hlY2tpbmcgaWYgcmV0ID4gMCB0byBw
+ZXJmb3JtDQo+IHRoZSBkYW1hZ2UgaGFuZGxpbmcuDQoNCkl0J3MgbW9yZSByZWFkYWJsZSBu
+b3cgSU1ITy4gQW5kIEkgdGhpbmsgSSByZWFkIHRoYXQgY29tcGlsZXJzIG9yIENQVXMgDQpl
+eHBlY3QgdGhpcyB0ZXN0IHRvIGZhaWwgYnkgZGVmYXVsdCBpbiB0aGVpciBicmFuY2ggcHJl
+ZGljdGlvbi4gU28gaXQgDQptaWdodCBldmVuIGJlIGZhc3RlciBieSBhIGZldyBjeWNsZXMu
+DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IEJlc3QgcmVnYXJkcywNCg0KLS0g
+DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
+w7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6Rm
+dHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-> Hence this may be a good time to deprecate the existing
-> "solomon,ssd130*fb-i2c" compatible values, and switch to
-> "solomon,ssd130*fb" instead, for both I2C and SPI.
+--------------KeLxaUzhpCy9TgqXlZsMTDnn--
 
-Is this the preferred approach ? Asking because most of the drivers I
-know use this -$bus suffix. From a device <--> driver matching point
-of view, shouldn't be an issue to have two different drivers to use
-the same compatible strings, as long as these are for different buses.
+--------------3MK5PcUpbJW5gZOKzNNKVG9O
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Since AFAIK the match only happens within the same struct bus_type. But
-I wonder if this could cause issues in other places, for example the
-module loading. IIRC the OF modaliases don't include the device type.
+-----BEGIN PGP SIGNATURE-----
 
-If instead the drivers were old platform drivers and have an i2c_device_id
-and spi_device_id tables, then using the same device name would not be an
-issue due the modalias having a i2c: and spi: prefix to make a distinction.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIDvHsFAwAAAAAACgkQlh/E3EQov+CZ
+VRAAzAqGATyqkRTjbD/bd0KOIPHiPoqcKZi5gjO6x4Iru+7ZJ32oy10DVsv04IDNHyerTDDEXxmx
+R9mQ6PqBl7UydMaf6FGF5bOKE6JNgslh8y5IOvJniUxy4nd533fB+K0Pc8pMQ8d+fQoFRSX2s+em
+TWT/9RPgzf+m+S9v0KEbUANKVt+lOaugg1Zgb7hCyqe1/rme6DbGaPuirBIkNZOAL52tNm49fhUt
+3drj8cw2/JGnDObzZrdhf4+x++5cREinUqq7HM7rRrORJcD5F8eq6sxp7nOfN0kf2AbbTRgmc8ON
+8I4lUjXB+IhTPOM2D4ASN0v0Cjq/kloouYFmQPFh7T1+fMsRj3ZMI8UMTEQkNWVWl4XiQ3WxMwrq
+Th15vMANQRbweU0igXz3cdkRgLjcaFvM7o+Dhr97F9GJaVvPK7DMTQB6RMyJTEifLrxo319gSv1x
+MXVu7lEWy0BXr5oUYLG7KiXKAMrB+lMA/65Uej8QtUwO6mgX4+1/zCelYoU82DMHmrxmJRHCqokI
+3YtROBhdeEtu1bYenAdB0xih0e7EH08536iAxn+Jo6/YM/eLe4PrAwe7yD7JOUoJ/KdTCQHWE5gs
+qov2vNXayz3OksWTe9pBvyq7lvmMWBuq7ER1fkVGFFFxFcmxvj9WOK9f6XzUgiO8PNY3OyrIh4ab
+Bo4=
+=Bznv
+-----END PGP SIGNATURE-----
 
-What I think we should do is drop the "fb" part, since that seemed to me
-that was included because it was an fbdev driver. And not really hardware
-description.
-
-> Of course the I2C subdriver still has to bind against the old values,
-> too, for backwards compatibility.
->
-
-Yes, agreed.
- 
->> +               .data = (void *)&ssd130x_ssd1305_deviceinfo,
-> 
-> The casts are not needed.
->
-
-Ok.
-
-Best regards, -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+--------------3MK5PcUpbJW5gZOKzNNKVG9O--
