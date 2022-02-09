@@ -2,30 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EFC24AEE8E
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 10:54:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 247294AEE86
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 10:54:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE8E10E6C0;
-	Wed,  9 Feb 2022 09:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCD510E6B4;
+	Wed,  9 Feb 2022 09:54:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9AFC10E6A5
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 09:54:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0855B10E6BC
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 09:54:02 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1nHjfj-0002On-EL; Wed, 09 Feb 2022 10:53:59 +0100
+ id 1nHjfj-0002Oo-EL; Wed, 09 Feb 2022 10:53:59 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1nHjff-008qaQ-T2; Wed, 09 Feb 2022 10:53:55 +0100
+ id 1nHjff-008qaT-TU; Wed, 09 Feb 2022 10:53:55 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 01/23] drm/encoder: Add of_graph port to struct drm_encoder
-Date: Wed,  9 Feb 2022 10:53:28 +0100
-Message-Id: <20220209095350.2104049-2-s.hauer@pengutronix.de>
+Subject: [PATCH v5 02/23] drm/rockchip: dw_hdmi: Do not leave clock enabled in
+ error case
+Date: Wed,  9 Feb 2022 10:53:29 +0100
+Message-Id: <20220209095350.2104049-3-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220209095350.2104049-1-s.hauer@pengutronix.de>
 References: <20220209095350.2104049-1-s.hauer@pengutronix.de>
@@ -57,28 +58,47 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a device node to drm_encoder which corresponds with the port node
-in the DT description of the encoder. This allows drivers to find the
-of_graph link between a crtc and an encoder.
+The driver returns an error when devm_phy_optional_get() fails leaving
+the previously enabled clock turned on. Change order and enable the
+clock only after the phy has been acquired.
 
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- include/drm/drm_encoder.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-index 6e91a0280f31..3acd054b1eb3 100644
---- a/include/drm/drm_encoder.h
-+++ b/include/drm/drm_encoder.h
-@@ -99,6 +99,8 @@ struct drm_encoder {
- 	struct drm_device *dev;
- 	struct list_head head;
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+index 830bdd5e9b7c..8677c8271678 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+@@ -529,13 +529,6 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 		return ret;
+ 	}
  
-+	struct device_node *port;
+-	ret = clk_prepare_enable(hdmi->vpll_clk);
+-	if (ret) {
+-		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI vpll: %d\n",
+-			      ret);
+-		return ret;
+-	}
+-
+ 	hdmi->phy = devm_phy_optional_get(dev, "hdmi");
+ 	if (IS_ERR(hdmi->phy)) {
+ 		ret = PTR_ERR(hdmi->phy);
+@@ -544,6 +537,13 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 		return ret;
+ 	}
+ 
++	ret = clk_prepare_enable(hdmi->vpll_clk);
++	if (ret) {
++		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI vpll: %d\n",
++			      ret);
++		return ret;
++	}
 +
- 	struct drm_mode_object base;
- 	char *name;
- 	/**
+ 	drm_encoder_helper_add(encoder, &dw_hdmi_rockchip_encoder_helper_funcs);
+ 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+ 
 -- 
 2.30.2
 
