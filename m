@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847E34AF4BC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 16:06:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9FD4AF4E0
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 16:13:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24EEA10E24F;
-	Wed,  9 Feb 2022 15:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B58A610E1DB;
+	Wed,  9 Feb 2022 15:13:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E8E010E24F
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 15:06:24 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id D8702B821FA
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 15:06:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 826F1C340F0
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 15:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644419181;
- bh=IAAtDwe4u5no9i26p8atsTlrMbokvE4vwXnd8unhvoE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=CZRFVqjNBFc70fy/8haPmLGDlqfqrNeVfOALfTg7JaWvUBR3MTdFnkAo2zPGgVyys
- K6AhmdZ2IJJ/QpI+MCBlgJ6G3VOklBl4xTmwOXd0OUYVxvdUNp9er2BvpFUUE95jbi
- 9hnELN1qhwq2uAGI2H2wj4Ru9LY+MpeR5RcyC+VNY2TXONbv6B2x3H2+E0xAt+5U2t
- hCukZlzjrYSViUpVl/p0jLSvhZop+L561uuFsZKRV//Y8kZKvv4QDQTlTrgBSo446n
- 51I1Ja8copXX3ngvA+Y8IOD8g/dik5ma6eviM930tQwJiiqlAG/Qwvg6FYchVaUNcg
- srLeEbBlQo30A==
-Received: by mail-ej1-f49.google.com with SMTP id p15so8154165ejc.7
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 07:06:21 -0800 (PST)
-X-Gm-Message-State: AOAM533RsppYbfCl6koV+WQ+Mza39aDKRpc4Dn0qzLH5TiWfYuyNhD3A
- ZnTLPfIKrZ8a1wkYiqIhXRmrvUK3qEtizEv03A==
-X-Google-Smtp-Source: ABdhPJzCW2Gs65y0TFtUGlvZaMpoUlyDhyjBICyaLIu5uSHfdbXc3UNvdRpe6Ec14RxbNQN/kp1ORuQr2h7/REpsrX4=
-X-Received: by 2002:a17:907:6e14:: with SMTP id
- sd20mr1423550ejc.749.1644419179751; 
- Wed, 09 Feb 2022 07:06:19 -0800 (PST)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AED5310E1DB
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 15:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644419617; x=1675955617;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=WnHoOKI6ZskCpbFPWhjafUby+06+1OCHKz8FEZmNV68=;
+ b=cidU9pyTkaqA05u3/bLd/QGWh0dDM9E7CqECfwSFRbzTO49TsjS0kmjZ
+ VG4BAJnR7kbqlwBHa/r5hv1Ed07smgDezXmaAsFlPJMsvZ2HwqMPfXuNv
+ QYwOfK/N7fw4/qAM7GpL+TX5DPs27ivR2oYHAa35AwYjKn5agrVqRYMlk
+ 2oIinjjzvx82764lpRRnW+FIEqBrzM8Umegp+4Rp3gGO+7XVM9wVxBAYa
+ lUTn+DKMS7YChk6KKdIxvAUCuG3ZfE+lD4xbR2dBhOZAfJcYwWu87ViqT
+ gt6mT5p/Xy7MP9y2RulEE+LD0NtX2DfGRwkh/LZ7OBNj7Lyh8/4d1CgkK w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="246807108"
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="246807108"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 07:13:36 -0800
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="568264164"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 07:13:29 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nHodx-002eU1-Ox; Wed, 09 Feb 2022 17:12:29 +0200
+Date: Wed, 9 Feb 2022 17:12:29 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v3 3/7] drm: Add driver for Solomon SSD130X OLED displays
+Message-ID: <YgPZ3W0e7N7JQ1dT@smile.fi.intel.com>
+References: <20220209090314.2511959-1-javierm@redhat.com>
+ <20220209090314.2511959-4-javierm@redhat.com>
 MIME-Version: 1.0
-References: <20220131085520.287105-1-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220131085520.287105-1-angelogioacchino.delregno@collabora.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 9 Feb 2022 23:06:08 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__6R6xLoANMNgA-MfibKRO9jib8H7V1CjDsnOp4Srcnng@mail.gmail.com>
-Message-ID: <CAAOTY__6R6xLoANMNgA-MfibKRO9jib8H7V1CjDsnOp4Srcnng@mail.gmail.com>
-Subject: Re: [PATCH v4] drm/mediatek: mtk_dsi: Avoid EPROBE_DEFER loop with
- external bridge
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220209090314.2511959-4-javierm@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,299 +60,279 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>, stable <stable@vger.kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, andrzej.hajda@intel.com,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Collabora Kernel ML <kernel@collabora.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
- Hi, Angelo:
+On Wed, Feb 09, 2022 at 10:03:10AM +0100, Javier Martinez Canillas wrote:
+> This adds a DRM driver for SSD1305, SSD1306, SSD1307 and SSD1309 Solomon
+> OLED display controllers.
+> 
+> It's only the core part of the driver and a bus specific driver is needed
+> for each transport interface supported by the display controllers.
 
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
-=BC
-2022=E5=B9=B41=E6=9C=8831=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=884:5=
-5=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> DRM bridge drivers are now attaching their DSI device at probe time,
-> which requires us to register our DSI host in order to let the bridge
-> to probe: this recently started producing an endless -EPROBE_DEFER
-> loop on some machines that are using external bridges, like the
-> parade-ps8640, found on the ACER Chromebook R13.
->
-> Now that the DSI hosts/devices probe sequence is documented, we can
-> do adjustments to the mtk_dsi driver as to both fix now and make sure
-> to avoid this situation in the future: for this, following what is
-> documented in drm_bridge.c, move the mtk_dsi component_add() to the
-> mtk_dsi_ops.attach callback and delete it in the detach callback;
-> keeping in mind that we are registering a drm_bridge for our DSI,
-> which is only used/attached if the DSI Host is bound, it wouldn't
-> make sense to keep adding our bridge at probe time (as it would
-> be useless to have it if mtk_dsi_ops.attach() fails!), so also move
-> that one to the dsi host attach function (and remove it in detach).
+Thank you for the update, my comments below.
 
-Applied to mediatek-drm-fixes[1], thanks.
+...
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-fixes
+>  source "drivers/gpu/drm/sprd/Kconfig"
+>  
+> +source "drivers/gpu/drm/solomon/Kconfig"
 
-Regards,
-Chun-Kuang.
+'o' before 'p' ?
 
->
-> Cc: <stable@vger.kernel.org> # 5.15.x
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
->
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 167 +++++++++++++++--------------
->  1 file changed, 84 insertions(+), 83 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
-k/mtk_dsi.c
-> index 5d90d2eb0019..bced4c7d668e 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -786,18 +786,101 @@ void mtk_dsi_ddp_stop(struct device *dev)
->         mtk_dsi_poweroff(dsi);
->  }
->
-> +static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *=
-dsi)
+...
+
+>  obj-$(CONFIG_DRM_SPRD) += sprd/
+> +obj-y			+= solomon/
+
+Ditto ?
+
+...
+
+> +/*
+> + * DRM driver for Solomon SSD130X OLED displays
+
+Solomon SSD130x (with lower letter it's easy to read and realize that it's
+not a model name).
+
+> + * Copyright 2022 Red Hat Inc.
+> + * Authors: Javier Martinez Canillas <javierm@redhat.com>
+> + *
+> + * Based on drivers/video/fbdev/ssd1307fb.c
+> + * Copyright 2012 Free Electrons
+> + */
+
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/property.h>
+> +#include <linux/pwm.h>
+> +#include <linux/regulator/consumer.h>
+
+...
+
+> +#define DRIVER_NAME	"ssd130x"
+> +#define DRIVER_DESC	"DRM driver for Solomon SSD130X OLED displays"
+> +#define DRIVER_DATE	"20220131"
+> +#define DRIVER_MAJOR	1
+> +#define DRIVER_MINOR	0
+
+Not sure it has a value when being defined. Only one string is reused and even
+if hard coded twice linker will optimize it.
+
+...
+
+> +/*
+> + * Helper to write command (SSD130X_COMMAND). The fist variadic argument
+> + * is the command to write and the following are the command options.
+> + */
+> +static int ssd130x_write_cmd(struct ssd130x_device *ssd130x, int count,
+> +				    /* u8 cmd, u8 option, ... */...)
 > +{
-> +       int ret;
+> +	va_list ap;
+> +	u8 value;
+> +	int ret;
 > +
-> +       ret =3D drm_simple_encoder_init(drm, &dsi->encoder,
-> +                                     DRM_MODE_ENCODER_DSI);
-> +       if (ret) {
-> +               DRM_ERROR("Failed to encoder init to drm\n");
-> +               return ret;
-> +       }
+> +	va_start(ap, count);
 > +
-> +       dsi->encoder.possible_crtcs =3D mtk_drm_find_possible_crtc_by_com=
-p(drm, dsi->host.dev);
+> +	do {
+> +		value = va_arg(ap, int);
+> +		ret = regmap_write(ssd130x->regmap, SSD130X_COMMAND, (u8)value);
+> +		if (ret)
+> +			goto out_end;
+> +	} while (--count);
 > +
-> +       ret =3D drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
-> +                               DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> +       if (ret)
-> +               goto err_cleanup_encoder;
+> +out_end:
+> +	va_end(ap);
 > +
-> +       dsi->connector =3D drm_bridge_connector_init(drm, &dsi->encoder);
-> +       if (IS_ERR(dsi->connector)) {
-> +               DRM_ERROR("Unable to create bridge connector\n");
-> +               ret =3D PTR_ERR(dsi->connector);
-> +               goto err_cleanup_encoder;
-> +       }
-> +       drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
-> +
-> +       return 0;
-> +
-> +err_cleanup_encoder:
-> +       drm_encoder_cleanup(&dsi->encoder);
-> +       return ret;
+> +	return ret;
+
+Can bulk operation be used in the callers instead?
+
+I have noticed that all of the callers are using
+- 1 -- makes no sense at all, can be replaced with regmap_write()
+- 2
+- 3
+
+Can be helpers for two and three arguments, with use of bulk call.
+
+What do you think?
+
 > +}
-> +
-> +static int mtk_dsi_bind(struct device *dev, struct device *master, void =
-*data)
+
+...
+
+> +static void ssd130x_reset(struct ssd130x_device *ssd130x)
 > +{
-> +       int ret;
-> +       struct drm_device *drm =3D data;
-> +       struct mtk_dsi *dsi =3D dev_get_drvdata(dev);
-> +
-> +       ret =3D mtk_dsi_encoder_init(drm, dsi);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return device_reset_optional(dev);
+> +	/* Reset the screen */
+> +	gpiod_set_value_cansleep(ssd130x->reset, 1);
+> +	udelay(4);
+> +	gpiod_set_value_cansleep(ssd130x->reset, 0);
+> +	udelay(4);
+
+I don't remember if reset pin is mandatory. fbtft does
+
+	if (!gpiod->reset)
+		return;
+
+	...do reset...
+
 > +}
+
+...
+
+> +	if (ssd130x->reset)
+
+A-ha, why not in the callee?
+
+> +		ssd130x_reset(ssd130x);
+
+...
+
+> +	/* Set COM direction */
+> +	com_invdir = 0xc0 | ssd130x->com_invdir << 3;
+
+Can 0xc0 and 3 be GENMASK()'ed and defined?
+
+...
+
+> +	/* Set clock frequency */
+> +	dclk = ((ssd130x->dclk_div - 1) & 0xf) | (ssd130x->dclk_frq & 0xf) << 4;
+
+GENMASK() ?
+
+...
+
+> +		u32 mode = ((ssd130x->area_color_enable ? 0x30 : 0) |
+> +			    (ssd130x->low_power ? 5 : 0));
+
+With if's it will look better.
+
+		u32 mode = 0;
+
+		if (ssd130x->area_color_enable)
+			mode |= 0x30;
+		if (ssd130x->low_power)
+			mode |= 5;
+
+...
+
+> +	/* Turn on the DC-DC Charge Pump */
+> +	chargepump = BIT(4) | (ssd130x->device_info->need_chargepump ? BIT(2) : 0);
+
+Ditto.
+
+...
+
+> +		for (i = 0; i < ARRAY_SIZE(ssd130x->lookup_table); ++i) {
+
+i++ should work as well.
+
+> +			u8 val = ssd130x->lookup_table[i];
 > +
-> +static void mtk_dsi_unbind(struct device *dev, struct device *master,
-> +                          void *data)
-> +{
-> +       struct mtk_dsi *dsi =3D dev_get_drvdata(dev);
+> +			if (val < 31 || val > 63)
+> +				dev_warn(ssd130x->dev,
+> +					 "lookup table index %d value out of range 31 <= %d <= 63\n",
+> +					 i, val);
+> +			ret = ssd130x_write_cmd(ssd130x, 1, val);
+> +			if (ret < 0)
+> +				return ret;
+> +		}
+
+...
+
+> +	u8 *buf = NULL;
+
 > +
-> +       drm_encoder_cleanup(&dsi->encoder);
-> +}
-> +
-> +static const struct component_ops mtk_dsi_component_ops =3D {
-> +       .bind =3D mtk_dsi_bind,
-> +       .unbind =3D mtk_dsi_unbind,
-> +};
-> +
->  static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
->                                struct mipi_dsi_device *device)
->  {
->         struct mtk_dsi *dsi =3D host_to_dsi(host);
-> +       struct device *dev =3D host->dev;
-> +       int ret;
->
->         dsi->lanes =3D device->lanes;
->         dsi->format =3D device->format;
->         dsi->mode_flags =3D device->mode_flags;
-> +       dsi->next_bridge =3D devm_drm_of_get_bridge(dev, dev->of_node, 0,=
- 0);
-> +       if (IS_ERR(dsi->next_bridge))
-> +               return PTR_ERR(dsi->next_bridge);
-> +
-> +       drm_bridge_add(&dsi->bridge);
-> +
-> +       ret =3D component_add(host->dev, &mtk_dsi_component_ops);
-> +       if (ret) {
-> +               DRM_ERROR("failed to add dsi_host component: %d\n", ret);
-> +               drm_bridge_remove(&dsi->bridge);
-> +               return ret;
-> +       }
->
->         return 0;
->  }
->
-> +static int mtk_dsi_host_detach(struct mipi_dsi_host *host,
-> +                              struct mipi_dsi_device *device)
-> +{
-> +       struct mtk_dsi *dsi =3D host_to_dsi(host);
-> +
-> +       component_del(host->dev, &mtk_dsi_component_ops);
-> +       drm_bridge_remove(&dsi->bridge);
-> +       return 0;
-> +}
-> +
->  static void mtk_dsi_wait_for_idle(struct mtk_dsi *dsi)
->  {
->         int ret;
-> @@ -938,73 +1021,14 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_d=
-si_host *host,
->
->  static const struct mipi_dsi_host_ops mtk_dsi_ops =3D {
->         .attach =3D mtk_dsi_host_attach,
-> +       .detach =3D mtk_dsi_host_detach,
->         .transfer =3D mtk_dsi_host_transfer,
->  };
->
-> -static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *=
-dsi)
-> -{
-> -       int ret;
-> -
-> -       ret =3D drm_simple_encoder_init(drm, &dsi->encoder,
-> -                                     DRM_MODE_ENCODER_DSI);
-> -       if (ret) {
-> -               DRM_ERROR("Failed to encoder init to drm\n");
-> -               return ret;
-> -       }
-> -
-> -       dsi->encoder.possible_crtcs =3D mtk_drm_find_possible_crtc_by_com=
-p(drm, dsi->host.dev);
-> -
-> -       ret =3D drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
-> -                               DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> -       if (ret)
-> -               goto err_cleanup_encoder;
-> -
-> -       dsi->connector =3D drm_bridge_connector_init(drm, &dsi->encoder);
-> -       if (IS_ERR(dsi->connector)) {
-> -               DRM_ERROR("Unable to create bridge connector\n");
-> -               ret =3D PTR_ERR(dsi->connector);
-> -               goto err_cleanup_encoder;
-> -       }
-> -       drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
-> -
-> -       return 0;
-> -
-> -err_cleanup_encoder:
-> -       drm_encoder_cleanup(&dsi->encoder);
-> -       return ret;
-> -}
-> -
-> -static int mtk_dsi_bind(struct device *dev, struct device *master, void =
-*data)
-> -{
-> -       int ret;
-> -       struct drm_device *drm =3D data;
-> -       struct mtk_dsi *dsi =3D dev_get_drvdata(dev);
-> -
-> -       ret =3D mtk_dsi_encoder_init(drm, dsi);
-> -       if (ret)
-> -               return ret;
-> -
-> -       return device_reset_optional(dev);
-> -}
-> -
-> -static void mtk_dsi_unbind(struct device *dev, struct device *master,
-> -                          void *data)
-> -{
-> -       struct mtk_dsi *dsi =3D dev_get_drvdata(dev);
-> -
-> -       drm_encoder_cleanup(&dsi->encoder);
-> -}
-> -
-> -static const struct component_ops mtk_dsi_component_ops =3D {
-> -       .bind =3D mtk_dsi_bind,
-> -       .unbind =3D mtk_dsi_unbind,
-> -};
-> -
->  static int mtk_dsi_probe(struct platform_device *pdev)
->  {
->         struct mtk_dsi *dsi;
->         struct device *dev =3D &pdev->dev;
-> -       struct drm_panel *panel;
->         struct resource *regs;
->         int irq_num;
->         int ret;
-> @@ -1021,19 +1045,6 @@ static int mtk_dsi_probe(struct platform_device *p=
-dev)
->                 return ret;
->         }
->
-> -       ret =3D drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
-> -                                         &panel, &dsi->next_bridge);
-> -       if (ret)
-> -               goto err_unregister_host;
-> -
-> -       if (panel) {
-> -               dsi->next_bridge =3D devm_drm_panel_bridge_add(dev, panel=
-);
-> -               if (IS_ERR(dsi->next_bridge)) {
-> -                       ret =3D PTR_ERR(dsi->next_bridge);
-> -                       goto err_unregister_host;
-> -               }
-> -       }
-> -
->         dsi->driver_data =3D of_device_get_match_data(dev);
->
->         dsi->engine_clk =3D devm_clk_get(dev, "engine");
-> @@ -1098,14 +1109,6 @@ static int mtk_dsi_probe(struct platform_device *p=
-dev)
->         dsi->bridge.of_node =3D dev->of_node;
->         dsi->bridge.type =3D DRM_MODE_CONNECTOR_DSI;
->
-> -       drm_bridge_add(&dsi->bridge);
-> -
-> -       ret =3D component_add(&pdev->dev, &mtk_dsi_component_ops);
-> -       if (ret) {
-> -               dev_err(&pdev->dev, "failed to add component: %d\n", ret)=
-;
-> -               goto err_unregister_host;
-> -       }
-> -
->         return 0;
->
->  err_unregister_host:
-> @@ -1118,8 +1121,6 @@ static int mtk_dsi_remove(struct platform_device *p=
-dev)
->         struct mtk_dsi *dsi =3D platform_get_drvdata(pdev);
->
->         mtk_output_dsi_disable(dsi);
-> -       drm_bridge_remove(&dsi->bridge);
-> -       component_del(&pdev->dev, &mtk_dsi_component_ops);
->         mipi_dsi_host_unregister(&dsi->host);
->
->         return 0;
-> --
-> 2.33.1
->
+
+Redundant blank line, not sure if checkpatch catches this.
+
+> +	struct drm_rect fullscreen = {
+> +		.x1 = 0,
+> +		.x2 = ssd130x->width,
+> +		.y1 = 0,
+> +		.y2 = ssd130x->height,
+> +	};
+
+...
+
+> +power_off:
+
+out_power_off: ?
+
+...
+
+> +		ret = PTR_ERR(ssd130x->vbat_reg);
+> +		if (ret == -ENODEV)
+> +			ssd130x->vbat_reg = NULL;
+> +		else
+> +			return dev_err_probe(dev, ret, "Failed to get VBAT regulator\n");
+
+Can it be
+
+		ret = PTR_ERR(ssd130x->vbat_reg);
+		if (ret != -ENODEV)
+			return dev_err_probe(dev, ret, "Failed to get VBAT regulator\n");
+
+		ssd130x->vbat_reg = NULL;
+
+?
+
+...
+
+> +	ssd130x = devm_drm_dev_alloc(dev, &ssd130x_drm_driver,
+> +				     struct ssd130x_device, drm);
+> +	if (IS_ERR(ssd130x)) {
+
+> +		dev_err(dev, "Failed to allocate DRM device: %d\n", ret);
+> +		return ssd130x;
+
+return dev_err_probe() ?
+
+> +	}
+
+...
+
+> +	bl = devm_backlight_device_register(dev, dev_name(dev), dev, ssd130x,
+> +					    &ssd130xfb_bl_ops, NULL);
+> +	if (IS_ERR(bl)) {
+> +		ret = PTR_ERR(bl);
+> +		dev_err(dev, "Unable to register backlight device: %d\n", ret);
+> +		return ERR_PTR(ret);
+
+Ditto.
+
+> +	}
+
+...
+
+> +	ret = drm_dev_register(drm, 0);
+> +	if (ret) {
+> +		dev_err(dev, "DRM device register failed: %d\n", ret);
+> +		return ERR_PTR(ret);
+
+Ditto.
+
+> +	}
+
+...
+
+I have feelings that half of my comments were ignored...
+Maybe I missed the discussion(s).
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
