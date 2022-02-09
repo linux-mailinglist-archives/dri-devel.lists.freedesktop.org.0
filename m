@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11134AF866
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 18:28:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C564AF8C1
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 18:50:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BDE089FE6;
-	Wed,  9 Feb 2022 17:28:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79E4B10E368;
+	Wed,  9 Feb 2022 17:49:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0296389FE6
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 17:28:18 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id p15so9363062ejc.7
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 09:28:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Oj1txH1U8co5rSGx4kpxKWpJZ2ixf2fNLNbwVSTc3q0=;
- b=TZ17UPMEdxa+llRScmyrtRpadlOV+mO6ficAHR/AbUbCAFhwoN3PIaUB+Dm6Yy1A0f
- Lap9E7pm1bPPbls/LT0WD1ZXVJve521S0VzMZKWcqIJZ8FoXJ6v29AZzGfVb0kiDwyy8
- kRRniTdMe2OwrtKbY29vq4LerKI5xG3sWstuS9/M6CmUoaIKOj1qGfgLiPQJ5G5BEnff
- jtOov4q7ZJLAsiQADR5B3Uh9rDuH+PyvxTFR0k4aQGBPtkd8YqVS5ZHgqYhk6cIc2+Bm
- mfdeYS4yAC3P5UVO8zIRO83+oZIIsv6fTa3ouk2e6vWOcRX+dM1inW5vwGLepDNTrXMc
- tHsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Oj1txH1U8co5rSGx4kpxKWpJZ2ixf2fNLNbwVSTc3q0=;
- b=i7kHo+RREAUldDVTItOa5qdQufVor0VWIteYysprDcEFncxcrshPobgCL214UF0NwD
- Zbe2m+LANjl7jm77F5im4G7CUdaSoOegSW6iJ+3auvz/GSGIwWYr1ZhlXg582G1UXIDM
- E67tpOV3WCmNoqT8F3x5l7RMAOibwr6uKB3p5FxpWrPAHTlgX4cKG0BSQh5y9eY/1efQ
- 5IK/A3RaZbBFsY7Me+1QkxTH1eLRfN0rCErYD2dBkda6cYW2P82FUltXE+CJFadzjxBv
- 3eTmO+aTfEmrcnZBsIWNfMt1hYN6qpBJrt1cjcAyXBIJ69mkf0EB9HUqwt4k8rAHSVgU
- 9+Aw==
-X-Gm-Message-State: AOAM530+sWFeTpAKoX/9rUlOM2nJ3T5rNsY9llkpSb9eJiidrFXOtzKv
- h2hRnixNRuwFVhyWN4j9nDs=
-X-Google-Smtp-Source: ABdhPJwE8armPOf2NcDudp4zU/H+APwY24uygKTAnE1PUaB/Qllz6QBMp5oDqRIgi8n1WHvAqkrNPA==
-X-Received: by 2002:a17:906:2bd9:: with SMTP id
- n25mr2924545ejg.359.1644427697091; 
- Wed, 09 Feb 2022 09:28:17 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net.
- [86.58.32.107])
- by smtp.gmail.com with ESMTPSA id q7sm2330396edv.93.2022.02.09.09.28.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 09:28:16 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Pin-Yen Lin <treapking@chromium.org>
-Subject: Re: [PATCH] drm/bridge: anx7625: Fix overflow issue on reading EDID
-Date: Wed, 09 Feb 2022 18:28:14 +0100
-Message-ID: <3151389.aeNJFYEL58@kista>
-In-Reply-To: <20220209055327.2472561-1-treapking@chromium.org>
-References: <20220209055327.2472561-1-treapking@chromium.org>
+X-Greylist: delayed 324 seconds by postgrey-1.36 at gabe;
+ Wed, 09 Feb 2022 17:49:57 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61D1810E368
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 17:49:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1644428995;
+ bh=bZbERGS5dPadQqxAada0Qnetp5usNMkkZudsQMtwL34=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=MFbIzzf8Ko+SNDhKlUxwO7HsTFORTEuyFDmwFIevTI0IdFXOEtRIk9tl0Bj2D6j5m
+ Qudq3lQQCPxqUyQDiGuQsdSl3NvA6jKFd6zzi05PjSkOPAwsvREhHV7BBDpiTqt7fC
+ R+YRlCPc3GXXPANoIRbyMe4w4CPAsAdbvZ+wCkNw=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [80.245.77.2] ([80.245.77.2]) by web-mail.gmx.net
+ (3c-app-gmx-bs62.server.lan [172.19.170.146]) (via HTTP); Wed, 9 Feb 2022
+ 18:44:13 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Message-ID: <trinity-0fd51fc6-00ab-402e-871a-71d3356623cb-1644428653437@3c-app-gmx-bs62>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Aw: [PATCH v5 00/23] drm/rockchip: RK356x VOP2 support
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 9 Feb 2022 18:44:13 +0100
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <20220209095350.2104049-1-s.hauer@pengutronix.de>
+References: <20220209095350.2104049-1-s.hauer@pengutronix.de>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:Kt6uAoUQy9KUxXYBKRna2pPwbagv75n8tB/ygcLmTad0OxyWH9GjeOrVm0AWTeIbrbqIq
+ Tm1s3jWc+KpbC6iwreK7KtjQNxoO4BOa0lbhoSv8XGtsEHshbXteWUQGpRXothSDjShyy1mXnZBT
+ hT1852znFykmSoCSO1QIUeC0etGbz2nof3MmQSE8+d+mbiy3hkxqwVpE8lxhW/CeeQ9jM94aYIZ/
+ oB7m9mFSP+Xnau4l7gLNvr5ybM0twlYFQNn71AWtH7j6JytJyppXurHMP5yW0oI9M3x0OYm/V0av
+ b8=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BdM/7l5539M=:ZFDvdxmyI42PXthARSt3qb
+ q2Xv/r82G6JykDdKBjQl4UJs+nQbYJMsOvQHB9vrJ1xdHb+Y2Fq0US8OsVuXe8CIefOpuUnmw
+ HAARrI15iARtUvrGWVDPw8ue8oNmI+xjtWsyw6VjtsNueE8OC4kSnoVs9pPbjUUox4li8AiXP
+ GKQ5Z1TfPofieJSruX+NKi5WKYxOpFxVKCx/KjDSLyzW3QhVeMInfhVTng/Dg6avhUV+ZNHmH
+ GmfN2iPq+Wt20MxxfQsbDzrG7e2bZxOIYUsPi/Qh43Z1WSjss34iV1403EvUTRgPQQVmiwDzN
+ ECVxLjg/J+CNMOBP2xjAUZAIUjFq96X7FXz+M32wo7x/p7ucFtXgcHCvBorSGShQRPmQ8n0r1
+ u7fZdz0ywayakYuBrxmUzCDMzKGA2XPRoygzk3F2xlY7GWNGZFSWu63pRr6fF2TRlxWA/kqQk
+ Oy/8AMkdiJFDYC80nbHVhfvHWB4yJ8a2SLTzPflTV/tmbumdpg/s190rgBj66o3LBnejTbMzB
+ PNHfCvxNNesdbTkJPIZS54ov3qyQBl4YNvQlTONhv7BJ8hLSwtgeWg1AIBJAx4omrFvoecdU3
+ r1tVx/BUbeVEWlxx6AXorti7wra9gp12JmyV+r45jVF46MJ7PCB6gfbbFJoW9o63NowDFBBQ7
+ HEwMdM3qwb0gnD8Qx//0OFsgMCdgyntKgcQILxzz1doHpw8cwe4JbXHYajOtP8Z/H1LHiSC20
+ eSvBp2mKaHVVgHW/LgFwj0M0KPqI4wf5SFFwZyrmm/f4MwW1pqsTPmu3BGTvKdta3M6O1xO9r
+ laloIRU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,26 +69,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tzung-Bi Shih <tzungbi@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Pin-Yen Lin <treapking@chromium.org>,
- Maxime Ripard <maxime@cerno.tech>, Pi-Hsun Shih <pihsun@chromium.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Xin Ji <xji@analogixsemi.com>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
+Hi Sascha
 
-Dne sreda, 09. februar 2022 ob 06:53:27 CET je Pin-Yen Lin napisal(a):
-> The length of EDID block can be longer than 256 bytes, so we should use
-> `int` instead of `u8` for the `edid_pos` variable.
-> 
-> Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
+tested full v5 Series + 3 clk-Patches from v4 on 5.17-rc2 on my rk3568 based Bananapi R2 Pro
 
-Please add "Fixes" tag. With that:
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+1280x720-32@60Hz
+1920x1080-32@60Hz
+3840x2160-32@60Hz
 
-Best regards,
-Jernej
+with fb console
 
+Tested-by: Frank Wunderlich <frank-w@public-files.de>
 
+regards Frank
