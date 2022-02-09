@@ -1,52 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40294AEFD4
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 12:12:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B446F4AEFD8
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 12:13:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0245610E184;
-	Wed,  9 Feb 2022 11:12:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA2410E39F;
+	Wed,  9 Feb 2022 11:13:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7464D10E184
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 11:12:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644405172; x=1675941172;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=uZij4IDv+vUY5n09X0g+EIbDNmB2ib4d4JtdcfO9h7Q=;
- b=XfLkLFuxtGwfbai4ixhTJ1AueruBaet03kI4v8h9L1AHKwHZKfBjwlu3
- McKx/QDAtbzFVlp+BZM+7V7fWgwpmFGzEa+r4Xts7x9RnmnHu0SRFW/t7
- uy7StUBjKxg1pnINaqmxxZpzcpNGJ01EprLTATpX2riBiWHQvgsAuSCfN
- M4ctBNVNNs6UMcWOjEBHuQ2UH82Pr9TZ6BD0rR6KOGmxejZU36T1IqPrL
- WyvKMBpSC9M74y8OjuQbnO4p7rIWUL/6vpa4/Z/9y9egZsbKJnRw3mtMm
- MYue8vbND0l0ydyIhTYhvsYDwTdBDn6l+b0o7IX3DWmEkaVMesnQUsfWB g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="229829827"
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="229829827"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 03:12:52 -0800
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="541049566"
-Received: from rcallina-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.18.41])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 03:12:48 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sascha Hauer <s.hauer@pengutronix.de>, David Airlie <airlied@linux.ie>
-Subject: Re: [PATCH v5 01/23] drm/encoder: Add of_graph port to struct
- drm_encoder
-In-Reply-To: <20220209100736.GV18637@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220209095350.2104049-1-s.hauer@pengutronix.de>
- <20220209095350.2104049-2-s.hauer@pengutronix.de>
- <20220209100736.GV18637@pengutronix.de>
-Date: Wed, 09 Feb 2022 13:12:45 +0200
-Message-ID: <87fsospa36.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02F4810E39F
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 11:13:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644405220;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2JEVs6dJDaci483+WWuPdcx6lEGE5ej3RH7W42QbFwI=;
+ b=ak7Yt2FixpL1Emna3sGWkPrwQxrgdF13yxM+8jCEVJ4rxv58OAGjjcgkjXibPbwrDIPoJP
+ yJIzEuU1h8LT44vkdG9mPeCiU82qdK3Ra5RGSkdJbnuPD30k69oXWrPYTrRcV29f5D3Xaj
+ KXuCcYfAGl6RsxwxNdJmyZLk7gSkAxM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-34-XJVAIMzVPYqTbgNEsrrynw-1; Wed, 09 Feb 2022 06:13:39 -0500
+X-MC-Unique: XJVAIMzVPYqTbgNEsrrynw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v185-20020a1cacc2000000b0034906580813so2506732wme.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 03:13:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2JEVs6dJDaci483+WWuPdcx6lEGE5ej3RH7W42QbFwI=;
+ b=W1ljuBGT530Wmh4TzVLNnBPB4v/C3HqaZ8OdKQNmxSu+xdBbSUcsdexre+xDkgfvuL
+ ri/ZotmaHGsHW7Kij9Z3sR9bIzrq5gNz9Jef8zuocIk6xNHtq7XUfGeRzt70rQo9y0sa
+ EC+yE3BMzfjcz3IifdcENlRIdR6HEc2BGAW0WG+UFfX7kfrsh9isaFnWFOR+5T/N2yJZ
+ 14G8wn0JYdu/kjEu9jg12YSqD//pRVXG6M3cxvzqMIGtXk5R8cQjHTtx6j4KiQByr/2c
+ VfK/rxxPzFAuVGq4BUS339E8IIrorO+GjJRZcr4do3UH3gamNxNkl7njgdDXjazJhsBw
+ 33UQ==
+X-Gm-Message-State: AOAM533Hl3G1yeVbmtIl/xTXiusMa8ZEfrW1nUd8jpflABRee4GugIHl
+ MI+kmNBIpdbkhS6l5cUTaTYkb2KH+CEf8bvWE1xWlC0vL2JMeAJUGKPMDdi2a9AcEifg32BiMSk
+ TJK0QmX2wuN2sEiSA0qHINDNcrv7g
+X-Received: by 2002:a05:600c:889:: with SMTP id
+ l9mr1582771wmp.79.1644405217826; 
+ Wed, 09 Feb 2022 03:13:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzBsaCXKduaHd1wSIkI44KcqodHTTHaP0IJw/CqG7+l/vRMXJsgmEfEtd82elX5UKU8E0n8cQ==
+X-Received: by 2002:a05:600c:889:: with SMTP id
+ l9mr1582757wmp.79.1644405217608; 
+ Wed, 09 Feb 2022 03:13:37 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id t18sm16260451wri.34.2022.02.09.03.13.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 03:13:37 -0800 (PST)
+Message-ID: <00a6c4bd-4166-1432-ead0-51efc9af9f6a@redhat.com>
+Date: Wed, 9 Feb 2022 12:13:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 5/5] drm/fb-helper: Clip damage area horizontally
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ sam@ravnborg.org, noralf@tronnes.org
+References: <20220206192935.24645-1-tzimmermann@suse.de>
+ <20220206192935.24645-6-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220206192935.24645-6-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,77 +89,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 09 Feb 2022, Sascha Hauer <s.hauer@pengutronix.de> wrote:
-> David, Daniel,
->
-> I'll need a word from you regarding this patch. It's needed in patch
-> 22/23 in this series.
-> vop2_crtc_atomic_enable() needs to control the mux which routes the
-> display output to the different encoders. Which encoder is used is
-> described in the of_graph port, so I need a way to identify the encoder
-> in the device tree.
+On 2/6/22 20:29, Thomas Zimmermann wrote:
+> Clip the damage area horizontally if only a single scanline has been
+> changed. This is helpful to reduce the memcpy overhead for small writes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-I think the question is how useful is this going to be in general. IMO
-we should not be adding members that are useful in a single driver only.
-
-For example i915 wraps encoders with:
-
-	struct intel_encoder {
-		struct drm_encoder base;
-
-		/* i915 specific stuff here*/
-	};
-
-So that we can add stuff of our own there. Of course, it does mean a
-bunch of overhead for the first time you need to do it. But adding
-driver specific stuff to struct drm_encoder adds overhead for everyone.
-
-All that said, *I* don't know how useful the port member would be in
-drivers that use device tree. Maybe it's worth it.
-
-BR,
-Jani.
-
->
-> Sascha
->
-> On Wed, Feb 09, 2022 at 10:53:28AM +0100, Sascha Hauer wrote:
->> Add a device node to drm_encoder which corresponds with the port node
->> in the DT description of the encoder. This allows drivers to find the
->> of_graph link between a crtc and an encoder.
->> 
->> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
->> ---
->>  include/drm/drm_encoder.h | 2 ++
->>  1 file changed, 2 insertions(+)
->> 
->> diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
->> index 6e91a0280f31..3acd054b1eb3 100644
->> --- a/include/drm/drm_encoder.h
->> +++ b/include/drm/drm_encoder.h
->> @@ -99,6 +99,8 @@ struct drm_encoder {
->>  	struct drm_device *dev;
->>  	struct list_head head;
->>  
->> +	struct device_node *port;
->> +
->>  	struct drm_mode_object base;
->>  	char *name;
->>  	/**
->> -- 
->> 2.30.2
->> 
->> 
-
+Best regards,
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
