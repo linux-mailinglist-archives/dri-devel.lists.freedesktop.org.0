@@ -2,54 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927124AFFED
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 23:14:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A954AFFFD
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 23:17:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C72B89EB7;
-	Wed,  9 Feb 2022 22:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7972B89F31;
+	Wed,  9 Feb 2022 22:17:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
- [209.85.167.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA05689EB7
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 22:14:13 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id ay7so4020061oib.8
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 14:14:13 -0800 (PST)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA2589F31
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 22:17:20 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id i34so6943074lfv.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 14:17:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=T9akMQGOGv0TdBQ+Zhymh6XiC98Y7uCuYr8S0QfufYw=;
+ b=So89NUtFvR12bmWOhO2nI5d8soc5b89oiH6ChTJGXB7g1HWfnQxgnN07opHsWJJbDY
+ +YcN7dVNKQiiXNQNyqF64SdA5fDsk/RHoHiSAtN+aD7T/RpjjWAAiezNp03ig23l4YWi
+ dXoxKgcP5yNxjFunr8JDwDmPnZjzNobzJ90mlchJ+akOWikw7A7mYM62pzQEW1PD10sx
+ /j5luWQKYxjGaxpaAxFNNnfI7KLJbBkjz3c1dA/Y4YO+OqpZCSSAWBwhv48NUUCq24bu
+ yWq3UtqIkCiHf3ONkQQuUSth6JYjyjgwM7f9sur8i6IjrY6uyLYA4JYlB2zGUH0fMNVK
+ o3cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5w3QoXmnLsihgEA/Et9MpIi6nloh2mbWHhlRSc4SJVU=;
- b=wClN9+OzF20pw1jLyWXQY05TPKYB43MMGgcm+oYo2K4qNng4WvXP3HAJBsqRoYsrBN
- Ge1LsQxTi8X45YEGU4JaFJwmcq8Morzq9m51TVcIteEh4qJI5JPjreLbmEbjP7kpQVPr
- lFBE/g4pq8H7VyqoBS6nlDihPi33hfylOFRrTXSHxoz4N8CMPCEYOk+OFdY+FkBSagzX
- ib7azcTCaxj1WVaCiGhIYIvdSWouGxPtwRJwXiNq973O0xJmpWVGQpkyj1wugEzbRiia
- WaIwRAoS5EK2OlmzsI+a9B1kDTCu5y4bVu8xxByGZwAI1uhIOgfqlnp57W2vxjiFhjdz
- GXmQ==
-X-Gm-Message-State: AOAM532WYDb0Ck3eALL70Fo+BGkt0ZGJAzRk3tteNdIC/E0ByHLSmzIK
- u76Nwj3R/KasDparlRF71Q==
-X-Google-Smtp-Source: ABdhPJzweqXLNVP7+tC8UIOfrH2IH0wKhXWBXS/zBWs578C+quPBmzcGsHsOdY/vYUi67D0BCYkOXw==
-X-Received: by 2002:a54:488c:: with SMTP id r12mr2027834oic.104.1644444852983; 
- Wed, 09 Feb 2022 14:14:12 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id f21sm7069506otq.4.2022.02.09.14.14.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 14:14:12 -0800 (PST)
-Received: (nullmailer pid 1028963 invoked by uid 1000);
- Wed, 09 Feb 2022 22:14:11 -0000
-Date: Wed, 9 Feb 2022 16:14:11 -0600
-From: Rob Herring <robh@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 4/4] dt-bindings: display: ssd1307fb: Add myself as
- binding co-maintainer
-Message-ID: <YgQ8s5S3mqYMPyqW@robh.at.kernel.org>
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <20220204134347.1187749-5-javierm@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=T9akMQGOGv0TdBQ+Zhymh6XiC98Y7uCuYr8S0QfufYw=;
+ b=PBCJRxq5f/oSkk3ZwCsftn2dMWKVrIGheGPCGjx6Dz7h5o3frGpnw72WV4qRx7Nvf2
+ qoK/piDYKXsY6W8p6Y/sgzajoqTquJ3TKX2KarD8r720GBFyUNDroOfkhBiwIO5orET2
+ +wLa2I3qwLgHUIk5ZwfuR1VcN5TIuE1wmdtIjyBYuqs0XC8h5KoMNAwByE5/5R+u0++b
+ Tz0x2oGhAS/i7mRwRQBioW/sCzVl4gwcrIf/jzQrOKWlzSeMxYUMTGUcAh0j19WR/gWI
+ c5jPeaUYhQj9ME+O3tN/oc0MaQRerJ6hvs0dls05D47Kcjwv+h/JKW9y1YoroG8cVl7T
+ K/Zw==
+X-Gm-Message-State: AOAM530H/QkLfPe40vahnZnZVXwUN+0YP7XpoCWHXOAA89+9angpjrsq
+ dTn+0smP2auJYbCmRZ7IZwUXWw==
+X-Google-Smtp-Source: ABdhPJxW/IKBuQbesqGO3kgP8T+UCOU7nfSM5QCDmtANUvL9RHgmlLxrVB+EsyElYkDADCFQXe+zNw==
+X-Received: by 2002:a05:6512:1502:: with SMTP id
+ bq2mr3004500lfb.551.1644445038733; 
+ Wed, 09 Feb 2022 14:17:18 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id k21sm2527309lfg.252.2022.02.09.14.17.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 14:17:18 -0800 (PST)
+Message-ID: <6ea0e85e-1ade-f102-86c2-4b71dbc24285@linaro.org>
+Date: Thu, 10 Feb 2022 01:17:17 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220204134347.1187749-5-javierm@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: gpu: drm: msm: use div64_u64() instead of do_div()
+Content-Language: en-GB
+To: Qing Wang <wangqing@vivo.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <1644395837-3845-1-git-send-email-wangqing@vivo.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1644395837-3845-1-git-send-email-wangqing@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,33 +76,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 04 Feb 2022 14:43:47 +0100, Javier Martinez Canillas wrote:
-> The ssd130x DRM driver also makes use of this Device Tree binding to allow
-> existing users of the fbdev driver to migrate without the need to change
-> their Device Trees.
+On 09/02/2022 11:37, Qing Wang wrote:
+> From: Wang Qing <wangqing@vivo.com>
 > 
-> Add myself as another maintainer of the binding, to make sure that I will
-> be on Cc when patches are proposed for it.
+> do_div() does a 64-by-32 division.
+> When the divisor is u64, do_div() truncates it to 32 bits, this means it
+> can test non-zero and be truncated to zero for division.
 > 
-> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
+> fix do_div.cocci warning:
+> do_div() does a 64-by-32 division, please consider using div64_u64 instead.
 > 
-> (no changes since v1)
-> 
->  Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> ---
+>   drivers/gpu/drm/msm/msm_gpu.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+> index 2c1049c..aa4617b
+> --- a/drivers/gpu/drm/msm/msm_gpu.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> @@ -648,7 +648,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+>   	/* Calculate the clock frequency from the number of CP cycles */
+>   	if (elapsed) {
+>   		clock = (stats->cpcycles_end - stats->cpcycles_start) * 1000;
+> -		do_div(clock, elapsed);
+> +		div64_u64(clock, elapsed);
+>   	}
+>   
+>   	trace_msm_gpu_submit_retired(submit, elapsed, clock,
+
+
+-- 
+With best wishes
+Dmitry
