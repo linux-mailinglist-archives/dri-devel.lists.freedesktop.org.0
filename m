@@ -2,46 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FD34AEA16
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 07:15:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD09D4AEA38
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 07:23:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E49DD10E29E;
-	Wed,  9 Feb 2022 06:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE38610E3B9;
+	Wed,  9 Feb 2022 06:23:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9FEE10E29E;
- Wed,  9 Feb 2022 06:15:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A19C110E3B9;
+ Wed,  9 Feb 2022 06:23:06 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D6BE161562;
- Wed,  9 Feb 2022 06:15:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B753DC340E7;
- Wed,  9 Feb 2022 06:15:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644387305;
- bh=OUPNHBAJBd42EIpzpVtb9lp5kMJbQTw7jGC1FYPoiXk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=IGD42/2Jb0d5SZJjI471MYihxC7OM3utb9RbC8h+OjELkaeknbfHc2Ni209paihrU
- kqLccFEAqqlInc/AHGaZB/ji+CAJKW5R1AfYYfulxbhW0EB1UgHvQNyRJvvoSnOMnt
- FF0XeD7dfALhqVs7dxTAdJxRU5kFYzW4egFmXBx2hb2/ic6CPPBXF8l7Ts2LsiJAC8
- tHoWBA2YbqM1HgTkiFhXUbP3apbqStVE8AXtdfqiCcd0nlNwK2qlvLY8d0w5RGcBs3
- i2KavDo3xNE2NIqWrQT4OVzbfw4Oohgri5kHjPuMGfAWYgQtmpTyqDq0kcLRxeWBSA
- EDIhrgIdTK8mw==
-Date: Wed, 9 Feb 2022 07:14:59 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0B7C9210F0;
+ Wed,  9 Feb 2022 06:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1644387785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uy68hcEWgASqotQY2eTfT/YVYgBCm/bemdvnGG5wI64=;
+ b=Wdfc5dqyivC61AvLB5G10QuXSUBESLEx/H9NBr81HiCA6+0M0AAyn+MXEpApLudV9bF0Io
+ jONzQCZkk+x1yQ2FrKBNmRPvIc+0W7zXKg27I1QpCYltALZTS5KAOABzuEGT41MQNXXeAL
+ cpvwY24wh+Lt4ZklBBgiN5b+FOCOmlc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1644387785;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uy68hcEWgASqotQY2eTfT/YVYgBCm/bemdvnGG5wI64=;
+ b=LXyV4K+KUIhjk+1W6HmWBHPT3J7didXOuzVHVJ60mXNyBY8eeOBXGrDrGXH8o0ExQVfBgE
+ Xu/TJFwWP4I8vOBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C15671332F;
+ Wed,  9 Feb 2022 06:23:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id npJ3LchdA2LkbwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 09 Feb 2022 06:23:04 +0000
+Message-ID: <863e61f9-2888-11a2-271b-a443f4681987@suse.de>
+Date: Wed, 9 Feb 2022 07:23:04 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
 Subject: Re: [PATCH v2 02/18] iosys-map: Add a few more helpers
-Message-ID: <20220209071459.06d4d397@coco.lan>
-In-Reply-To: <20220208104524.2516209-3-lucas.demarchi@intel.com>
+Content-Language: en-US
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 References: <20220208104524.2516209-1-lucas.demarchi@intel.com>
  <20220208104524.2516209-3-lucas.demarchi@intel.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220208104524.2516209-3-lucas.demarchi@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------KiAiXzNuou4lKnwlAN3xLhD0"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,345 +72,281 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Matthew Brost <matthew.brost@intel.com>,
- Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ linux-kernel@vger.kernel.org,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
  John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Tue,  8 Feb 2022 02:45:08 -0800
-Lucas De Marchi <lucas.demarchi@intel.com> escreveu:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------KiAiXzNuou4lKnwlAN3xLhD0
+Content-Type: multipart/mixed; boundary="------------UgFgHeVlDYvjGkUa4Fc8VSbx";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ linux-kernel@vger.kernel.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ John Harrison <John.C.Harrison@Intel.com>
+Message-ID: <863e61f9-2888-11a2-271b-a443f4681987@suse.de>
+Subject: Re: [PATCH v2 02/18] iosys-map: Add a few more helpers
+References: <20220208104524.2516209-1-lucas.demarchi@intel.com>
+ <20220208104524.2516209-3-lucas.demarchi@intel.com>
+In-Reply-To: <20220208104524.2516209-3-lucas.demarchi@intel.com>
 
-> First the simplest ones:
->=20
-> 	- iosys_map_memset(): when abstracting system and I/O memory,
-> 	  just like the memcpy() use case, memset() also has dedicated
-> 	  functions to be called for using IO memory.
-> 	- iosys_map_memcpy_from(): we may need to copy data from I/O
-> 	  memory, not only to.
->=20
-> In certain situations it's useful to be able to read or write to an
-> offset that is calculated by having the memory layout given by a struct
-> declaration. Usually we are going to read/write a u8, u16, u32 or u64.
->=20
-> As a pre-requisite for the implementation, add iosys_map_memcpy_from()
-> to be the equivalent of iosys_map_memcpy_to(), but in the other
-> direction. Then add 2 pairs of macros:
->=20
-> 	- iosys_map_rd() / iosys_map_wr()
-> 	- iosys_map_rd_field() / iosys_map_wr_field()
->=20
-> The first pair takes the C-type and offset to read/write. The second
-> pair uses a struct describing the layout of the mapping in order to
-> calculate the offset and size being read/written.
->=20
-> We could use readb, readw, readl, readq and the write* counterparts,
-> however due to alignment issues this may not work on all architectures.
-> If alignment needs to be checked to call the right function, it's not
-> possible to decide at compile-time which function to call: so just leave
-> the decision to the memcpy function that will do exactly that.
->=20
-> Finally, in order to use the above macros with a map derived from
-> another, add another initializer: IOSYS_MAP_INIT_OFFSET().
->=20
-> v2:
->   - Rework IOSYS_MAP_INIT_OFFSET() so it doesn't rely on aliasing rules
->     within the union
->   - Add offset to both iosys_map_rd_field() and iosys_map_wr_field() to
->     allow the struct itself to be at an offset from the mapping
->   - Add documentation to iosys_map_rd_field() with example and expected
->     memory layout
->=20
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+--------------UgFgHeVlDYvjGkUa4Fc8VSbx
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-LGTM.
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-Regards,
-Mauro
-
-> ---
->  include/linux/iosys-map.h | 202 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 202 insertions(+)
->=20
-> diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
-> index edd730b1e899..c6b223534b21 100644
-> --- a/include/linux/iosys-map.h
-> +++ b/include/linux/iosys-map.h
-> @@ -6,6 +6,7 @@
->  #ifndef __IOSYS_MAP_H__
->  #define __IOSYS_MAP_H__
-> =20
-> +#include <linux/kernel.h>
->  #include <linux/io.h>
->  #include <linux/string.h>
-> =20
-> @@ -120,6 +121,45 @@ struct iosys_map {
->  		.is_iomem =3D false,	\
->  	}
-> =20
-> +/**
-> + * IOSYS_MAP_INIT_OFFSET - Initializes struct iosys_map from another ios=
-ys_map
-> + * @map_:	The dma-buf mapping structure to copy from
-> + * @offset_:	Offset to add to the other mapping
-> + *
-> + * Initializes a new iosys_map struct based on another passed as argumen=
-t. It
-> + * does a shallow copy of the struct so it's possible to update the back=
- storage
-> + * without changing where the original map points to. It is the equivale=
-nt of
-> + * doing:
-> + *
-> + * .. code-block:: c
-> + *
-> + *	iosys_map map =3D other_map;
-> + *	iosys_map_incr(&map, &offset);
-> + *
-> + * Example usage:
-> + *
-> + * .. code-block:: c
-> + *
-> + *	void foo(struct device *dev, struct iosys_map *base_map)
-> + *	{
-> + *		...
-> + *		struct iosys_map map =3D IOSYS_MAP_INIT_OFFSET(base_map, FIELD_OFFSE=
-T);
-> + *		...
-> + *	}
-> + *
-> + * The advantage of using the initializer over just increasing the offse=
-t with
-> + * iosys_map_incr() like above is that the new map will always point to =
-the
-> + * right place of the buffer during its scope. It reduces the risk of up=
-dating
-> + * the wrong part of the buffer and having no compiler warning about tha=
-t. If
-> + * the assignment to IOSYS_MAP_INIT_OFFSET() is forgotten, the compiler =
-can warn
-> + * about the use of uninitialized variable.
-> + */
-> +#define IOSYS_MAP_INIT_OFFSET(map_, offset_) ({				\
-> +	struct iosys_map copy =3D *map_;					\
-> +	iosys_map_incr(&copy, offset_);					\
-> +	copy;								\
-> +})
-> +
->  /**
->   * iosys_map_set_vaddr - Sets a iosys mapping structure to an address in=
- system memory
->   * @map:	The iosys_map structure
-> @@ -239,6 +279,26 @@ static inline void iosys_map_memcpy_to(struct iosys_=
-map *dst, size_t dst_offset,
->  		memcpy(dst->vaddr + dst_offset, src, len);
->  }
-> =20
-> +/**
-> + * iosys_map_memcpy_from - Memcpy from iosys_map into system memory
-> + * @dst:	Destination in system memory
-> + * @src:	The iosys_map structure
-> + * @src_offset:	The offset from which to copy
-> + * @len:	The number of byte in src
-> + *
-> + * Copies data from a iosys_map with an offset. The dest buffer is in
-> + * system memory. Depending on the mapping location, the helper picks the
-> + * correct method of accessing the memory.
-> + */
-> +static inline void iosys_map_memcpy_from(void *dst, const struct iosys_m=
-ap *src,
-> +					 size_t src_offset, size_t len)
-> +{
-> +	if (src->is_iomem)
-> +		memcpy_fromio(dst, src->vaddr_iomem + src_offset, len);
-> +	else
-> +		memcpy(dst, src->vaddr + src_offset, len);
-> +}
-> +
->  /**
->   * iosys_map_incr - Increments the address stored in a iosys mapping
->   * @map:	The iosys_map structure
-> @@ -255,4 +315,146 @@ static inline void iosys_map_incr(struct iosys_map =
-*map, size_t incr)
->  		map->vaddr +=3D incr;
->  }
-> =20
-> +/**
-> + * iosys_map_memset - Memset iosys_map
-> + * @dst:	The iosys_map structure
-> + * @offset:	Offset from dst where to start setting value
-> + * @value:	The value to set
-> + * @len:	The number of bytes to set in dst
-> + *
-> + * Set value in iosys_map. Depending on the buffer's location, the helper
-> + * picks the correct method of accessing the memory.
-> + */
-> +static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
-> +				    int value, size_t len)
-> +{
-> +	if (dst->is_iomem)
-> +		memset_io(dst->vaddr_iomem + offset, value, len);
-> +	else
-> +		memset(dst->vaddr + offset, value, len);
-> +}
-> +
-> +/**
-> + * iosys_map_rd - Read a C-type value from the iosys_map
-> + *
-> + * @map__:	The iosys_map structure
-> + * @offset__:	The offset from which to read
-> + * @type__:	Type of the value being read
-> + *
-> + * Read a C type value from iosys_map, handling possible un-aligned acce=
-sses to
-> + * the mapping.
-> + *
-> + * Returns:
-> + * The value read from the mapping.
-> + */
-> +#define iosys_map_rd(map__, offset__, type__) ({			\
-> +	type__ val;							\
-> +	iosys_map_memcpy_from(&val, map__, offset__, sizeof(val));	\
-> +	val;								\
-> +})
-> +
-> +/**
-> + * iosys_map_wr - Write a C-type value to the iosys_map
-> + *
-> + * @map__:	The iosys_map structure
-> + * @offset__:	The offset from the mapping to write to
-> + * @type__:	Type of the value being written
-> + * @val__:	Value to write
-> + *
-> + * Write a C-type value to the iosys_map, handling possible un-aligned a=
-ccesses
-> + * to the mapping.
-> + */
-> +#define iosys_map_wr(map__, offset__, type__, val__) ({			\
-> +	type__ val =3D (val__);						\
-> +	iosys_map_memcpy_to(map__, offset__, &val, sizeof(val));	\
-> +})
-> +
-> +/**
-> + * iosys_map_rd_field - Read a member from a struct in the iosys_map
-> + *
-> + * @map__:		The iosys_map structure
-> + * @struct_offset__:	Offset from the beggining of the map, where the str=
-uct
-> + *			is located
-> + * @struct_type__:	The struct describing the layout of the mapping
-> + * @field__:		Member of the struct to read
-> + *
-> + * Read a value from iosys_map considering its layout is described by a =
-C struct
-> + * starting at @struct_offset__. The field offset and size is calculated=
- and its
-> + * value read handling possible un-aligned memory accesses. For example:=
- suppose
-> + * there is a @struct foo defined as below and the value ``foo.field2.in=
-ner2``
-> + * needs to be read from the iosys_map:
-> + *
-> + * .. code-block:: c
-> + *
-> + *	struct foo {
-> + *		int field1;
-> + *		struct {
-> + *			int inner1;
-> + *			int inner2;
-> + *		} field2;
-> + *		int field3;
-> + *	} __packed;
-> + *
-> + * This is the expected memory layout of a buffer using iosys_map_rd_fie=
-ld():
-> + *
-> + * +------------------------------+--------------------------+
-> + * | Address                      | Content                  |
-> + * +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-> + * | buffer + 0000                | start of mmapped buffer  |
-> + * |                              | pointed by iosys_map     |
-> + * +------------------------------+--------------------------+
-> + * | ...                          | ...                      |
-> + * +------------------------------+--------------------------+
-> + * | buffer + ``struct_offset__`` | start of ``struct foo``  |
-> + * +------------------------------+--------------------------+
-> + * | ...                          | ...                      |
-> + * +------------------------------+--------------------------+
-> + * | buffer + wwww                | ``foo.field2.inner2``    |
-> + * +------------------------------+--------------------------+
-> + * | ...                          | ...                      |
-> + * +------------------------------+--------------------------+
-> + * | buffer + yyyy                | end of ``struct foo``    |
-> + * +------------------------------+--------------------------+
-> + * | ...                          | ...                      |
-> + * +------------------------------+--------------------------+
-> + * | buffer + zzzz                | end of mmaped buffer     |
-> + * +------------------------------+--------------------------+
-> + *
-> + * Values automatically calculated by this macro or not needed are denot=
-ed by
-> + * wwww, yyyy and zzzz. This is the code to read that value:
-> + *
-> + * .. code-block:: c
-> + *
-> + *	x =3D iosys_map_rd_field(&map, offset, struct foo, field2.inner2);
-> + *
-> + * Returns:
-> + * The value read from the mapping.
-> + */
-> +#define iosys_map_rd_field(map__, struct_offset__, struct_type__, field_=
-_) ({	\
-> +	struct_type__ *s;							\
-> +	iosys_map_rd(map__, struct_offset__ + offsetof(struct_type__, field__),=
-	\
-> +		     typeof(s->field__));					\
-> +})
-> +
-> +/**
-> + * iosys_map_wr_field - Write to a member of a struct in the iosys_map
-> + *
-> + * @map__:		The iosys_map structure
-> + * @struct_offset__:	Offset from the beggining of the map, where the str=
-uct
-> + *			is located
-> + * @struct_type__:	The struct describing the layout of the mapping
-> + * @field__:		Member of the struct to read
-> + * @val__:		Value to write
-> + *
-> + * Write a value to the iosys_map considering its layout is described by=
- a C struct
-> + * starting at @struct_offset__. The field offset and size is calculated=
- and the
-> + * @val__ is written handling possible un-aligned memory accesses. Refer=
- to
-> + * iosys_map_rd_field() for expected usage and memory layout.
-> + */
-> +#define iosys_map_wr_field(map__, struct_offset__, struct_type__, field_=
-_, val__) ({	\
-> +	struct_type__ *s;								\
-> +	iosys_map_wr(map__, struct_offset__ + offsetof(struct_type__, field__),=
-		\
-> +		     typeof(s->field__), val__);					\
-> +})
-> +
->  #endif /* __IOSYS_MAP_H__ */
+SGkNCg0KQW0gMDguMDIuMjIgdW0gMTE6NDUgc2NocmllYiBMdWNhcyBEZSBNYXJjaGk6DQo+
+IEZpcnN0IHRoZSBzaW1wbGVzdCBvbmVzOg0KPiANCj4gCS0gaW9zeXNfbWFwX21lbXNldCgp
+OiB3aGVuIGFic3RyYWN0aW5nIHN5c3RlbSBhbmQgSS9PIG1lbW9yeSwNCj4gCSAganVzdCBs
+aWtlIHRoZSBtZW1jcHkoKSB1c2UgY2FzZSwgbWVtc2V0KCkgYWxzbyBoYXMgZGVkaWNhdGVk
+DQo+IAkgIGZ1bmN0aW9ucyB0byBiZSBjYWxsZWQgZm9yIHVzaW5nIElPIG1lbW9yeS4NCj4g
+CS0gaW9zeXNfbWFwX21lbWNweV9mcm9tKCk6IHdlIG1heSBuZWVkIHRvIGNvcHkgZGF0YSBm
+cm9tIEkvTw0KPiAJICBtZW1vcnksIG5vdCBvbmx5IHRvLg0KPiANCj4gSW4gY2VydGFpbiBz
+aXR1YXRpb25zIGl0J3MgdXNlZnVsIHRvIGJlIGFibGUgdG8gcmVhZCBvciB3cml0ZSB0byBh
+bg0KPiBvZmZzZXQgdGhhdCBpcyBjYWxjdWxhdGVkIGJ5IGhhdmluZyB0aGUgbWVtb3J5IGxh
+eW91dCBnaXZlbiBieSBhIHN0cnVjdA0KPiBkZWNsYXJhdGlvbi4gVXN1YWxseSB3ZSBhcmUg
+Z29pbmcgdG8gcmVhZC93cml0ZSBhIHU4LCB1MTYsIHUzMiBvciB1NjQuDQo+IA0KPiBBcyBh
+IHByZS1yZXF1aXNpdGUgZm9yIHRoZSBpbXBsZW1lbnRhdGlvbiwgYWRkIGlvc3lzX21hcF9t
+ZW1jcHlfZnJvbSgpDQo+IHRvIGJlIHRoZSBlcXVpdmFsZW50IG9mIGlvc3lzX21hcF9tZW1j
+cHlfdG8oKSwgYnV0IGluIHRoZSBvdGhlcg0KPiBkaXJlY3Rpb24uIFRoZW4gYWRkIDIgcGFp
+cnMgb2YgbWFjcm9zOg0KPiANCj4gCS0gaW9zeXNfbWFwX3JkKCkgLyBpb3N5c19tYXBfd3Io
+KQ0KPiAJLSBpb3N5c19tYXBfcmRfZmllbGQoKSAvIGlvc3lzX21hcF93cl9maWVsZCgpDQo+
+IA0KPiBUaGUgZmlyc3QgcGFpciB0YWtlcyB0aGUgQy10eXBlIGFuZCBvZmZzZXQgdG8gcmVh
+ZC93cml0ZS4gVGhlIHNlY29uZA0KPiBwYWlyIHVzZXMgYSBzdHJ1Y3QgZGVzY3JpYmluZyB0
+aGUgbGF5b3V0IG9mIHRoZSBtYXBwaW5nIGluIG9yZGVyIHRvDQo+IGNhbGN1bGF0ZSB0aGUg
+b2Zmc2V0IGFuZCBzaXplIGJlaW5nIHJlYWQvd3JpdHRlbi4NCj4gDQo+IFdlIGNvdWxkIHVz
+ZSByZWFkYiwgcmVhZHcsIHJlYWRsLCByZWFkcSBhbmQgdGhlIHdyaXRlKiBjb3VudGVycGFy
+dHMsDQo+IGhvd2V2ZXIgZHVlIHRvIGFsaWdubWVudCBpc3N1ZXMgdGhpcyBtYXkgbm90IHdv
+cmsgb24gYWxsIGFyY2hpdGVjdHVyZXMuDQo+IElmIGFsaWdubWVudCBuZWVkcyB0byBiZSBj
+aGVja2VkIHRvIGNhbGwgdGhlIHJpZ2h0IGZ1bmN0aW9uLCBpdCdzIG5vdA0KPiBwb3NzaWJs
+ZSB0byBkZWNpZGUgYXQgY29tcGlsZS10aW1lIHdoaWNoIGZ1bmN0aW9uIHRvIGNhbGw6IHNv
+IGp1c3QgbGVhdmUNCj4gdGhlIGRlY2lzaW9uIHRvIHRoZSBtZW1jcHkgZnVuY3Rpb24gdGhh
+dCB3aWxsIGRvIGV4YWN0bHkgdGhhdC4NCj4gDQo+IEZpbmFsbHksIGluIG9yZGVyIHRvIHVz
+ZSB0aGUgYWJvdmUgbWFjcm9zIHdpdGggYSBtYXAgZGVyaXZlZCBmcm9tDQo+IGFub3RoZXIs
+IGFkZCBhbm90aGVyIGluaXRpYWxpemVyOiBJT1NZU19NQVBfSU5JVF9PRkZTRVQoKS4NCj4g
+DQo+IHYyOg0KPiAgICAtIFJld29yayBJT1NZU19NQVBfSU5JVF9PRkZTRVQoKSBzbyBpdCBk
+b2Vzbid0IHJlbHkgb24gYWxpYXNpbmcgcnVsZXMNCj4gICAgICB3aXRoaW4gdGhlIHVuaW9u
+DQo+ICAgIC0gQWRkIG9mZnNldCB0byBib3RoIGlvc3lzX21hcF9yZF9maWVsZCgpIGFuZCBp
+b3N5c19tYXBfd3JfZmllbGQoKSB0bw0KPiAgICAgIGFsbG93IHRoZSBzdHJ1Y3QgaXRzZWxm
+IHRvIGJlIGF0IGFuIG9mZnNldCBmcm9tIHRoZSBtYXBwaW5nDQo+ICAgIC0gQWRkIGRvY3Vt
+ZW50YXRpb24gdG8gaW9zeXNfbWFwX3JkX2ZpZWxkKCkgd2l0aCBleGFtcGxlIGFuZCBleHBl
+Y3RlZA0KPiAgICAgIG1lbW9yeSBsYXlvdXQNCj4gDQo+IENjOiBTdW1pdCBTZW13YWwgPHN1
+bWl0LnNlbXdhbEBsaW5hcm8ub3JnPg0KPiBDYzogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0
+aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
+YW5uQHN1c2UuZGU+DQo+IENjOiBNYXVybyBDYXJ2YWxobyBDaGVoYWIgPG1jaGVoYWJAa2Vy
+bmVsLm9yZz4NCj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4gQ2M6
+IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4gU2lnbmVkLW9mZi1ieTogTHVjYXMg
+RGUgTWFyY2hpIDxsdWNhcy5kZW1hcmNoaUBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgIGluY2x1
+ZGUvbGludXgvaW9zeXMtbWFwLmggfCAyMDIgKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysNCj4gICAxIGZpbGUgY2hhbmdlZCwgMjAyIGluc2VydGlvbnMoKykNCj4g
+DQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oIGIvaW5jbHVkZS9s
+aW51eC9pb3N5cy1tYXAuaA0KPiBpbmRleCBlZGQ3MzBiMWU4OTkuLmM2YjIyMzUzNGIyMSAx
+MDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9saW51eC9pb3N5cy1tYXAuaA0KPiArKysgYi9pbmNs
+dWRlL2xpbnV4L2lvc3lzLW1hcC5oDQo+IEBAIC02LDYgKzYsNyBAQA0KPiAgICNpZm5kZWYg
+X19JT1NZU19NQVBfSF9fDQo+ICAgI2RlZmluZSBfX0lPU1lTX01BUF9IX18NCj4gICANCj4g
+KyNpbmNsdWRlIDxsaW51eC9rZXJuZWwuaD4NCj4gICAjaW5jbHVkZSA8bGludXgvaW8uaD4N
+Cj4gICAjaW5jbHVkZSA8bGludXgvc3RyaW5nLmg+DQoNCkFscGhhYmV0aWNhbGx5IHNvcnRl
+ZCwgcGxlYXNlLg0KDQpXaGF0IHJlcXVpcmVzIGtlcm5lbC5oPyBDYW4gdGhpcyBiZSByZWR1
+Y2VkIHRvIGFub3RoZXIgaW5jbHVkZSANCnN0YXRlbWVudD8gTWF5YmUgc3RkZGVmLmggZm9y
+IG9mZnNldG9mKCkgPw0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+ICAgDQo+IEBAIC0x
+MjAsNiArMTIxLDQ1IEBAIHN0cnVjdCBpb3N5c19tYXAgew0KPiAgIAkJLmlzX2lvbWVtID0g
+ZmFsc2UsCVwNCj4gICAJfQ0KPiAgIA0KPiArLyoqDQo+ICsgKiBJT1NZU19NQVBfSU5JVF9P
+RkZTRVQgLSBJbml0aWFsaXplcyBzdHJ1Y3QgaW9zeXNfbWFwIGZyb20gYW5vdGhlciBpb3N5
+c19tYXANCj4gKyAqIEBtYXBfOglUaGUgZG1hLWJ1ZiBtYXBwaW5nIHN0cnVjdHVyZSB0byBj
+b3B5IGZyb20NCj4gKyAqIEBvZmZzZXRfOglPZmZzZXQgdG8gYWRkIHRvIHRoZSBvdGhlciBt
+YXBwaW5nDQo+ICsgKg0KPiArICogSW5pdGlhbGl6ZXMgYSBuZXcgaW9zeXNfbWFwIHN0cnVj
+dCBiYXNlZCBvbiBhbm90aGVyIHBhc3NlZCBhcyBhcmd1bWVudC4gSXQNCj4gKyAqIGRvZXMg
+YSBzaGFsbG93IGNvcHkgb2YgdGhlIHN0cnVjdCBzbyBpdCdzIHBvc3NpYmxlIHRvIHVwZGF0
+ZSB0aGUgYmFjayBzdG9yYWdlDQo+ICsgKiB3aXRob3V0IGNoYW5naW5nIHdoZXJlIHRoZSBv
+cmlnaW5hbCBtYXAgcG9pbnRzIHRvLiBJdCBpcyB0aGUgZXF1aXZhbGVudCBvZg0KPiArICog
+ZG9pbmc6DQo+ICsgKg0KPiArICogLi4gY29kZS1ibG9jazo6IGMNCj4gKyAqDQo+ICsgKglp
+b3N5c19tYXAgbWFwID0gb3RoZXJfbWFwOw0KPiArICoJaW9zeXNfbWFwX2luY3IoJm1hcCwg
+Jm9mZnNldCk7DQo+ICsgKg0KPiArICogRXhhbXBsZSB1c2FnZToNCj4gKyAqDQo+ICsgKiAu
+LiBjb2RlLWJsb2NrOjogYw0KPiArICoNCj4gKyAqCXZvaWQgZm9vKHN0cnVjdCBkZXZpY2Ug
+KmRldiwgc3RydWN0IGlvc3lzX21hcCAqYmFzZV9tYXApDQo+ICsgKgl7DQo+ICsgKgkJLi4u
+DQo+ICsgKgkJc3RydWN0IGlvc3lzX21hcCBtYXAgPSBJT1NZU19NQVBfSU5JVF9PRkZTRVQo
+YmFzZV9tYXAsIEZJRUxEX09GRlNFVCk7DQo+ICsgKgkJLi4uDQo+ICsgKgl9DQo+ICsgKg0K
+PiArICogVGhlIGFkdmFudGFnZSBvZiB1c2luZyB0aGUgaW5pdGlhbGl6ZXIgb3ZlciBqdXN0
+IGluY3JlYXNpbmcgdGhlIG9mZnNldCB3aXRoDQo+ICsgKiBpb3N5c19tYXBfaW5jcigpIGxp
+a2UgYWJvdmUgaXMgdGhhdCB0aGUgbmV3IG1hcCB3aWxsIGFsd2F5cyBwb2ludCB0byB0aGUN
+Cj4gKyAqIHJpZ2h0IHBsYWNlIG9mIHRoZSBidWZmZXIgZHVyaW5nIGl0cyBzY29wZS4gSXQg
+cmVkdWNlcyB0aGUgcmlzayBvZiB1cGRhdGluZw0KPiArICogdGhlIHdyb25nIHBhcnQgb2Yg
+dGhlIGJ1ZmZlciBhbmQgaGF2aW5nIG5vIGNvbXBpbGVyIHdhcm5pbmcgYWJvdXQgdGhhdC4g
+SWYNCj4gKyAqIHRoZSBhc3NpZ25tZW50IHRvIElPU1lTX01BUF9JTklUX09GRlNFVCgpIGlz
+IGZvcmdvdHRlbiwgdGhlIGNvbXBpbGVyIGNhbiB3YXJuDQo+ICsgKiBhYm91dCB0aGUgdXNl
+IG9mIHVuaW5pdGlhbGl6ZWQgdmFyaWFibGUuDQo+ICsgKi8NCj4gKyNkZWZpbmUgSU9TWVNf
+TUFQX0lOSVRfT0ZGU0VUKG1hcF8sIG9mZnNldF8pICh7CQkJCVwNCj4gKwlzdHJ1Y3QgaW9z
+eXNfbWFwIGNvcHkgPSAqbWFwXzsJCQkJCVwNCj4gKwlpb3N5c19tYXBfaW5jcigmY29weSwg
+b2Zmc2V0Xyk7CQkJCQlcDQo+ICsJY29weTsJCQkJCQkJCVwNCj4gK30pDQo+ICsNCj4gICAv
+KioNCj4gICAgKiBpb3N5c19tYXBfc2V0X3ZhZGRyIC0gU2V0cyBhIGlvc3lzIG1hcHBpbmcg
+c3RydWN0dXJlIHRvIGFuIGFkZHJlc3MgaW4gc3lzdGVtIG1lbW9yeQ0KPiAgICAqIEBtYXA6
+CVRoZSBpb3N5c19tYXAgc3RydWN0dXJlDQo+IEBAIC0yMzksNiArMjc5LDI2IEBAIHN0YXRp
+YyBpbmxpbmUgdm9pZCBpb3N5c19tYXBfbWVtY3B5X3RvKHN0cnVjdCBpb3N5c19tYXAgKmRz
+dCwgc2l6ZV90IGRzdF9vZmZzZXQsDQo+ICAgCQltZW1jcHkoZHN0LT52YWRkciArIGRzdF9v
+ZmZzZXQsIHNyYywgbGVuKTsNCj4gICB9DQo+ICAgDQo+ICsvKioNCj4gKyAqIGlvc3lzX21h
+cF9tZW1jcHlfZnJvbSAtIE1lbWNweSBmcm9tIGlvc3lzX21hcCBpbnRvIHN5c3RlbSBtZW1v
+cnkNCj4gKyAqIEBkc3Q6CURlc3RpbmF0aW9uIGluIHN5c3RlbSBtZW1vcnkNCj4gKyAqIEBz
+cmM6CVRoZSBpb3N5c19tYXAgc3RydWN0dXJlDQo+ICsgKiBAc3JjX29mZnNldDoJVGhlIG9m
+ZnNldCBmcm9tIHdoaWNoIHRvIGNvcHkNCj4gKyAqIEBsZW46CVRoZSBudW1iZXIgb2YgYnl0
+ZSBpbiBzcmMNCj4gKyAqDQo+ICsgKiBDb3BpZXMgZGF0YSBmcm9tIGEgaW9zeXNfbWFwIHdp
+dGggYW4gb2Zmc2V0LiBUaGUgZGVzdCBidWZmZXIgaXMgaW4NCj4gKyAqIHN5c3RlbSBtZW1v
+cnkuIERlcGVuZGluZyBvbiB0aGUgbWFwcGluZyBsb2NhdGlvbiwgdGhlIGhlbHBlciBwaWNr
+cyB0aGUNCj4gKyAqIGNvcnJlY3QgbWV0aG9kIG9mIGFjY2Vzc2luZyB0aGUgbWVtb3J5Lg0K
+PiArICovDQo+ICtzdGF0aWMgaW5saW5lIHZvaWQgaW9zeXNfbWFwX21lbWNweV9mcm9tKHZv
+aWQgKmRzdCwgY29uc3Qgc3RydWN0IGlvc3lzX21hcCAqc3JjLA0KPiArCQkJCQkgc2l6ZV90
+IHNyY19vZmZzZXQsIHNpemVfdCBsZW4pDQo+ICt7DQo+ICsJaWYgKHNyYy0+aXNfaW9tZW0p
+DQo+ICsJCW1lbWNweV9mcm9taW8oZHN0LCBzcmMtPnZhZGRyX2lvbWVtICsgc3JjX29mZnNl
+dCwgbGVuKTsNCj4gKwllbHNlDQo+ICsJCW1lbWNweShkc3QsIHNyYy0+dmFkZHIgKyBzcmNf
+b2Zmc2V0LCBsZW4pOw0KPiArfQ0KPiArDQo+ICAgLyoqDQo+ICAgICogaW9zeXNfbWFwX2lu
+Y3IgLSBJbmNyZW1lbnRzIHRoZSBhZGRyZXNzIHN0b3JlZCBpbiBhIGlvc3lzIG1hcHBpbmcN
+Cj4gICAgKiBAbWFwOglUaGUgaW9zeXNfbWFwIHN0cnVjdHVyZQ0KPiBAQCAtMjU1LDQgKzMx
+NSwxNDYgQEAgc3RhdGljIGlubGluZSB2b2lkIGlvc3lzX21hcF9pbmNyKHN0cnVjdCBpb3N5
+c19tYXAgKm1hcCwgc2l6ZV90IGluY3IpDQo+ICAgCQltYXAtPnZhZGRyICs9IGluY3I7DQo+
+ICAgfQ0KPiAgIA0KPiArLyoqDQo+ICsgKiBpb3N5c19tYXBfbWVtc2V0IC0gTWVtc2V0IGlv
+c3lzX21hcA0KPiArICogQGRzdDoJVGhlIGlvc3lzX21hcCBzdHJ1Y3R1cmUNCj4gKyAqIEBv
+ZmZzZXQ6CU9mZnNldCBmcm9tIGRzdCB3aGVyZSB0byBzdGFydCBzZXR0aW5nIHZhbHVlDQo+
+ICsgKiBAdmFsdWU6CVRoZSB2YWx1ZSB0byBzZXQNCj4gKyAqIEBsZW46CVRoZSBudW1iZXIg
+b2YgYnl0ZXMgdG8gc2V0IGluIGRzdA0KPiArICoNCj4gKyAqIFNldCB2YWx1ZSBpbiBpb3N5
+c19tYXAuIERlcGVuZGluZyBvbiB0aGUgYnVmZmVyJ3MgbG9jYXRpb24sIHRoZSBoZWxwZXIN
+Cj4gKyAqIHBpY2tzIHRoZSBjb3JyZWN0IG1ldGhvZCBvZiBhY2Nlc3NpbmcgdGhlIG1lbW9y
+eS4NCj4gKyAqLw0KPiArc3RhdGljIGlubGluZSB2b2lkIGlvc3lzX21hcF9tZW1zZXQoc3Ry
+dWN0IGlvc3lzX21hcCAqZHN0LCBzaXplX3Qgb2Zmc2V0LA0KPiArCQkJCSAgICBpbnQgdmFs
+dWUsIHNpemVfdCBsZW4pDQo+ICt7DQo+ICsJaWYgKGRzdC0+aXNfaW9tZW0pDQo+ICsJCW1l
+bXNldF9pbyhkc3QtPnZhZGRyX2lvbWVtICsgb2Zmc2V0LCB2YWx1ZSwgbGVuKTsNCj4gKwll
+bHNlDQo+ICsJCW1lbXNldChkc3QtPnZhZGRyICsgb2Zmc2V0LCB2YWx1ZSwgbGVuKTsNCj4g
+K30NCj4gKw0KPiArLyoqDQo+ICsgKiBpb3N5c19tYXBfcmQgLSBSZWFkIGEgQy10eXBlIHZh
+bHVlIGZyb20gdGhlIGlvc3lzX21hcA0KPiArICoNCj4gKyAqIEBtYXBfXzoJVGhlIGlvc3lz
+X21hcCBzdHJ1Y3R1cmUNCj4gKyAqIEBvZmZzZXRfXzoJVGhlIG9mZnNldCBmcm9tIHdoaWNo
+IHRvIHJlYWQNCj4gKyAqIEB0eXBlX186CVR5cGUgb2YgdGhlIHZhbHVlIGJlaW5nIHJlYWQN
+Cj4gKyAqDQo+ICsgKiBSZWFkIGEgQyB0eXBlIHZhbHVlIGZyb20gaW9zeXNfbWFwLCBoYW5k
+bGluZyBwb3NzaWJsZSB1bi1hbGlnbmVkIGFjY2Vzc2VzIHRvDQo+ICsgKiB0aGUgbWFwcGlu
+Zy4NCj4gKyAqDQo+ICsgKiBSZXR1cm5zOg0KPiArICogVGhlIHZhbHVlIHJlYWQgZnJvbSB0
+aGUgbWFwcGluZy4NCj4gKyAqLw0KPiArI2RlZmluZSBpb3N5c19tYXBfcmQobWFwX18sIG9m
+ZnNldF9fLCB0eXBlX18pICh7CQkJXA0KPiArCXR5cGVfXyB2YWw7CQkJCQkJCVwNCj4gKwlp
+b3N5c19tYXBfbWVtY3B5X2Zyb20oJnZhbCwgbWFwX18sIG9mZnNldF9fLCBzaXplb2YodmFs
+KSk7CVwNCj4gKwl2YWw7CQkJCQkJCQlcDQo+ICt9KQ0KPiArDQo+ICsvKioNCj4gKyAqIGlv
+c3lzX21hcF93ciAtIFdyaXRlIGEgQy10eXBlIHZhbHVlIHRvIHRoZSBpb3N5c19tYXANCj4g
+KyAqDQo+ICsgKiBAbWFwX186CVRoZSBpb3N5c19tYXAgc3RydWN0dXJlDQo+ICsgKiBAb2Zm
+c2V0X186CVRoZSBvZmZzZXQgZnJvbSB0aGUgbWFwcGluZyB0byB3cml0ZSB0bw0KPiArICog
+QHR5cGVfXzoJVHlwZSBvZiB0aGUgdmFsdWUgYmVpbmcgd3JpdHRlbg0KPiArICogQHZhbF9f
+OglWYWx1ZSB0byB3cml0ZQ0KPiArICoNCj4gKyAqIFdyaXRlIGEgQy10eXBlIHZhbHVlIHRv
+IHRoZSBpb3N5c19tYXAsIGhhbmRsaW5nIHBvc3NpYmxlIHVuLWFsaWduZWQgYWNjZXNzZXMN
+Cj4gKyAqIHRvIHRoZSBtYXBwaW5nLg0KPiArICovDQo+ICsjZGVmaW5lIGlvc3lzX21hcF93
+cihtYXBfXywgb2Zmc2V0X18sIHR5cGVfXywgdmFsX18pICh7CQkJXA0KPiArCXR5cGVfXyB2
+YWwgPSAodmFsX18pOwkJCQkJCVwNCj4gKwlpb3N5c19tYXBfbWVtY3B5X3RvKG1hcF9fLCBv
+ZmZzZXRfXywgJnZhbCwgc2l6ZW9mKHZhbCkpOwlcDQo+ICt9KQ0KPiArDQo+ICsvKioNCj4g
+KyAqIGlvc3lzX21hcF9yZF9maWVsZCAtIFJlYWQgYSBtZW1iZXIgZnJvbSBhIHN0cnVjdCBp
+biB0aGUgaW9zeXNfbWFwDQo+ICsgKg0KPiArICogQG1hcF9fOgkJVGhlIGlvc3lzX21hcCBz
+dHJ1Y3R1cmUNCj4gKyAqIEBzdHJ1Y3Rfb2Zmc2V0X186CU9mZnNldCBmcm9tIHRoZSBiZWdn
+aW5pbmcgb2YgdGhlIG1hcCwgd2hlcmUgdGhlIHN0cnVjdA0KPiArICoJCQlpcyBsb2NhdGVk
+DQo+ICsgKiBAc3RydWN0X3R5cGVfXzoJVGhlIHN0cnVjdCBkZXNjcmliaW5nIHRoZSBsYXlv
+dXQgb2YgdGhlIG1hcHBpbmcNCj4gKyAqIEBmaWVsZF9fOgkJTWVtYmVyIG9mIHRoZSBzdHJ1
+Y3QgdG8gcmVhZA0KPiArICoNCj4gKyAqIFJlYWQgYSB2YWx1ZSBmcm9tIGlvc3lzX21hcCBj
+b25zaWRlcmluZyBpdHMgbGF5b3V0IGlzIGRlc2NyaWJlZCBieSBhIEMgc3RydWN0DQo+ICsg
+KiBzdGFydGluZyBhdCBAc3RydWN0X29mZnNldF9fLiBUaGUgZmllbGQgb2Zmc2V0IGFuZCBz
+aXplIGlzIGNhbGN1bGF0ZWQgYW5kIGl0cw0KPiArICogdmFsdWUgcmVhZCBoYW5kbGluZyBw
+b3NzaWJsZSB1bi1hbGlnbmVkIG1lbW9yeSBhY2Nlc3Nlcy4gRm9yIGV4YW1wbGU6IHN1cHBv
+c2UNCj4gKyAqIHRoZXJlIGlzIGEgQHN0cnVjdCBmb28gZGVmaW5lZCBhcyBiZWxvdyBhbmQg
+dGhlIHZhbHVlIGBgZm9vLmZpZWxkMi5pbm5lcjJgYA0KPiArICogbmVlZHMgdG8gYmUgcmVh
+ZCBmcm9tIHRoZSBpb3N5c19tYXA6DQo+ICsgKg0KPiArICogLi4gY29kZS1ibG9jazo6IGMN
+Cj4gKyAqDQo+ICsgKglzdHJ1Y3QgZm9vIHsNCj4gKyAqCQlpbnQgZmllbGQxOw0KPiArICoJ
+CXN0cnVjdCB7DQo+ICsgKgkJCWludCBpbm5lcjE7DQo+ICsgKgkJCWludCBpbm5lcjI7DQo+
+ICsgKgkJfSBmaWVsZDI7DQo+ICsgKgkJaW50IGZpZWxkMzsNCj4gKyAqCX0gX19wYWNrZWQ7
+DQo+ICsgKg0KPiArICogVGhpcyBpcyB0aGUgZXhwZWN0ZWQgbWVtb3J5IGxheW91dCBvZiBh
+IGJ1ZmZlciB1c2luZyBpb3N5c19tYXBfcmRfZmllbGQoKToNCj4gKyAqDQo+ICsgKiArLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+Kw0KPiArICogfCBBZGRyZXNzICAgICAgICAgICAgICAgICAgICAgIHwgQ29udGVudCAgICAg
+ICAgICAgICAgICAgIHwNCj4gKyAqICs9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0r
+PT09PT09PT09PT09PT09PT09PT09PT09PT0rDQo+ICsgKiB8IGJ1ZmZlciArIDAwMDAgICAg
+ICAgICAgICAgICAgfCBzdGFydCBvZiBtbWFwcGVkIGJ1ZmZlciAgfA0KPiArICogfCAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgcG9pbnRlZCBieSBpb3N5c19tYXAgICAgIHwN
+Cj4gKyAqICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0rDQo+ICsgKiB8IC4uLiAgICAgICAgICAgICAgICAgICAgICAgICAgfCAu
+Li4gICAgICAgICAgICAgICAgICAgICAgfA0KPiArICogKy0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gKyAqIHwgYnVmZmVy
+ICsgYGBzdHJ1Y3Rfb2Zmc2V0X19gYCB8IHN0YXJ0IG9mIGBgc3RydWN0IGZvb2BgICB8DQo+
+ICsgKiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tKw0KPiArICogfCAuLi4gICAgICAgICAgICAgICAgICAgICAgICAgIHwgLi4u
+ICAgICAgICAgICAgICAgICAgICAgIHwNCj4gKyAqICstLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rDQo+ICsgKiB8IGJ1ZmZlciAr
+IHd3d3cgICAgICAgICAgICAgICAgfCBgYGZvby5maWVsZDIuaW5uZXIyYGAgICAgfA0KPiAr
+ICogKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLSsNCj4gKyAqIHwgLi4uICAgICAgICAgICAgICAgICAgICAgICAgICB8IC4uLiAg
+ICAgICAgICAgICAgICAgICAgICB8DQo+ICsgKiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKw0KPiArICogfCBidWZmZXIgKyB5
+eXl5ICAgICAgICAgICAgICAgIHwgZW5kIG9mIGBgc3RydWN0IGZvb2BgICAgIHwNCj4gKyAq
+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0rDQo+ICsgKiB8IC4uLiAgICAgICAgICAgICAgICAgICAgICAgICAgfCAuLi4gICAg
+ICAgICAgICAgICAgICAgICAgfA0KPiArICogKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gKyAqIHwgYnVmZmVyICsgenp6
+eiAgICAgICAgICAgICAgICB8IGVuZCBvZiBtbWFwZWQgYnVmZmVyICAgICB8DQo+ICsgKiAr
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tKw0KPiArICoNCj4gKyAqIFZhbHVlcyBhdXRvbWF0aWNhbGx5IGNhbGN1bGF0ZWQgYnkg
+dGhpcyBtYWNybyBvciBub3QgbmVlZGVkIGFyZSBkZW5vdGVkIGJ5DQo+ICsgKiB3d3d3LCB5
+eXl5IGFuZCB6enp6LiBUaGlzIGlzIHRoZSBjb2RlIHRvIHJlYWQgdGhhdCB2YWx1ZToNCj4g
+KyAqDQo+ICsgKiAuLiBjb2RlLWJsb2NrOjogYw0KPiArICoNCj4gKyAqCXggPSBpb3N5c19t
+YXBfcmRfZmllbGQoJm1hcCwgb2Zmc2V0LCBzdHJ1Y3QgZm9vLCBmaWVsZDIuaW5uZXIyKTsN
+Cj4gKyAqDQo+ICsgKiBSZXR1cm5zOg0KPiArICogVGhlIHZhbHVlIHJlYWQgZnJvbSB0aGUg
+bWFwcGluZy4NCj4gKyAqLw0KPiArI2RlZmluZSBpb3N5c19tYXBfcmRfZmllbGQobWFwX18s
+IHN0cnVjdF9vZmZzZXRfXywgc3RydWN0X3R5cGVfXywgZmllbGRfXykgKHsJXA0KPiArCXN0
+cnVjdF90eXBlX18gKnM7CQkJCQkJCVwNCj4gKwlpb3N5c19tYXBfcmQobWFwX18sIHN0cnVj
+dF9vZmZzZXRfXyArIG9mZnNldG9mKHN0cnVjdF90eXBlX18sIGZpZWxkX18pLAlcDQo+ICsJ
+CSAgICAgdHlwZW9mKHMtPmZpZWxkX18pKTsJCQkJCVwNCj4gK30pDQo+ICsNCj4gKy8qKg0K
+PiArICogaW9zeXNfbWFwX3dyX2ZpZWxkIC0gV3JpdGUgdG8gYSBtZW1iZXIgb2YgYSBzdHJ1
+Y3QgaW4gdGhlIGlvc3lzX21hcA0KPiArICoNCj4gKyAqIEBtYXBfXzoJCVRoZSBpb3N5c19t
+YXAgc3RydWN0dXJlDQo+ICsgKiBAc3RydWN0X29mZnNldF9fOglPZmZzZXQgZnJvbSB0aGUg
+YmVnZ2luaW5nIG9mIHRoZSBtYXAsIHdoZXJlIHRoZSBzdHJ1Y3QNCj4gKyAqCQkJaXMgbG9j
+YXRlZA0KPiArICogQHN0cnVjdF90eXBlX186CVRoZSBzdHJ1Y3QgZGVzY3JpYmluZyB0aGUg
+bGF5b3V0IG9mIHRoZSBtYXBwaW5nDQo+ICsgKiBAZmllbGRfXzoJCU1lbWJlciBvZiB0aGUg
+c3RydWN0IHRvIHJlYWQNCj4gKyAqIEB2YWxfXzoJCVZhbHVlIHRvIHdyaXRlDQo+ICsgKg0K
+PiArICogV3JpdGUgYSB2YWx1ZSB0byB0aGUgaW9zeXNfbWFwIGNvbnNpZGVyaW5nIGl0cyBs
+YXlvdXQgaXMgZGVzY3JpYmVkIGJ5IGEgQyBzdHJ1Y3QNCj4gKyAqIHN0YXJ0aW5nIGF0IEBz
+dHJ1Y3Rfb2Zmc2V0X18uIFRoZSBmaWVsZCBvZmZzZXQgYW5kIHNpemUgaXMgY2FsY3VsYXRl
+ZCBhbmQgdGhlDQo+ICsgKiBAdmFsX18gaXMgd3JpdHRlbiBoYW5kbGluZyBwb3NzaWJsZSB1
+bi1hbGlnbmVkIG1lbW9yeSBhY2Nlc3Nlcy4gUmVmZXIgdG8NCj4gKyAqIGlvc3lzX21hcF9y
+ZF9maWVsZCgpIGZvciBleHBlY3RlZCB1c2FnZSBhbmQgbWVtb3J5IGxheW91dC4NCj4gKyAq
+Lw0KPiArI2RlZmluZSBpb3N5c19tYXBfd3JfZmllbGQobWFwX18sIHN0cnVjdF9vZmZzZXRf
+Xywgc3RydWN0X3R5cGVfXywgZmllbGRfXywgdmFsX18pICh7CVwNCj4gKwlzdHJ1Y3RfdHlw
+ZV9fICpzOwkJCQkJCQkJXA0KPiArCWlvc3lzX21hcF93cihtYXBfXywgc3RydWN0X29mZnNl
+dF9fICsgb2Zmc2V0b2Yoc3RydWN0X3R5cGVfXywgZmllbGRfXyksCQlcDQo+ICsJCSAgICAg
+dHlwZW9mKHMtPmZpZWxkX18pLCB2YWxfXyk7CQkJCQlcDQo+ICt9KQ0KPiArDQo+ICAgI2Vu
+ZGlmIC8qIF9fSU9TWVNfTUFQX0hfXyAqLw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
+cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
+YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
+QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
 
+--------------UgFgHeVlDYvjGkUa4Fc8VSbx--
 
-Thanks,
-Mauro
+--------------KiAiXzNuou4lKnwlAN3xLhD0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIDXcgFAwAAAAAACgkQlh/E3EQov+AF
+hBAAiffItWn+25NPAuV8c0PRlrIZfvYtRzOiVvlXqv/Nx7RKjgSJSs35n9kg3lmaprT5n4tCgRyF
+GQk7B6kkA/uP9AD6z+MjJ26zCJqrjXsKlDDBhHwvRdpEUSZO1Kt2Y7xE6RgDA1kLzl2Kt6siLyTW
+3B2JLwGEivEK7ldLzIxtJt/Rk+gAwuzdDMKCVIXJhMRUaSbpWBCfZJ/KkW3BYBLUevOHw8YzJoPl
+TiRkN/O0Xou51XhKklo+oRsRaq97kjka4so4sYmkNobmTuBLuK6qNbKvUkuc5BQRkwyq5ejKUa8z
+fHwkbh4ws9qQbmFBjeBHD5ieLffZEmOruwVQJby7KtDoOptHiGYq3VWocioCkz9zBQgtTYNiajuh
+qsCjl1LUuQuTFjfo4Rf0FgixbBqyixxyC5Uvty9E8tiTYVdJcQyg3ompTk/oTUemqMdznd5JkXAI
+ZUHKAelrUtHtz9IyfDCLKiZfS43tsef5Qjot+s6sqzjQTUddc3WKNLHzc9KHLusMmKIqee4yf8Rm
+XydKEig6Whk5tib6SCVdudVg474aEoiakSlK/2Sqm7xuSMmOOKk/zqKSG3Z5K7x67WWGrbtA6MmZ
+T397gutpwG9uakTyKufO18ZYzGIq6hNlBPDh0HuH+gStQACgosoRryLH0TIT1r/Qke8TXnfVY/LO
+pAw=
+=yw5E
+-----END PGP SIGNATURE-----
+
+--------------KiAiXzNuou4lKnwlAN3xLhD0--
