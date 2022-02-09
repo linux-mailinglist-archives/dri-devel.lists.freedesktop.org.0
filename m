@@ -2,72 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6714AEF60
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 11:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CFB4AEF88
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 11:51:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA9FA10E15A;
-	Wed,  9 Feb 2022 10:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3204010E159;
+	Wed,  9 Feb 2022 10:51:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08B4310E15A
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 10:37:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C64E710E159
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 10:51:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644403054;
+ s=mimecast20190719; t=1644403907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/6mTLE0lAzl4hXrXua1HUTk0EkIcOHrO4D+8EMJvhsI=;
- b=VP+fmw7a0bH8qSWFEnIpDIHynlKIQi+focVd2ClwkYL+v1zVs3PTNNAnw1NQdSSxN/aOP2
- djIYQJ0hVs/Q7Brdof5xLjSBdKQOXVDNAkIZv09vp3nFmQoV0Re6FeyHdYEbgZiJ6unZE5
- UvJTq63c1F4ET4s498uMBOpb4FCzuaU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EYFy7BMiWbtWBf8GaXfPbPwH1OfRn9IqKlMqs/8Tk+U=;
+ b=ehmEAbzjiVypG1BL7/0Yej+jz0gtn4cgwVSXnb8zgaW65lQsXeOFdmFG2jFSSfBudGH2hX
+ rr3twTNruZ/USDfXZKiUF4iD1CoUGG5cezZqsV/J85TR9tW9NQxdxh0hoP/EXXxnBSVwaU
+ SOmSBcB6OIW6N0RDwPAywMRMQipoBrg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-346-QVxBtAmePM2585V0nSYLoQ-1; Wed, 09 Feb 2022 05:37:32 -0500
-X-MC-Unique: QVxBtAmePM2585V0nSYLoQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h29-20020adfa4dd000000b001e498f51244so848857wrb.14
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 02:37:32 -0800 (PST)
+ us-mta-18-mhAGjj1zOxinjsm8SowksQ-1; Wed, 09 Feb 2022 05:51:45 -0500
+X-MC-Unique: mhAGjj1zOxinjsm8SowksQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ h82-20020a1c2155000000b003552c13626cso2474918wmh.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 02:51:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/6mTLE0lAzl4hXrXua1HUTk0EkIcOHrO4D+8EMJvhsI=;
- b=xLpDukEIB2my6FmyIlJHcM/hfPGCX2rXmxT7pNR2lv0G8yq/OlyGvYxyHCBAJl7YLT
- hobohqFgSRNcKi8XRG3bDFJWcjblogLg15HjnyOz+BazjpM6gBLogp+jgObaAsPebNfM
- CjmwIaLqY4bIjdB1ci+aWiwK5oDQBOPgUmPlGLptGpFsC0h6Ls72iW5LCULBvx7WBj7N
- PGHNimsnBB3/XlgSgTedpOR5KquxPqYZQrgrC8wqWygKkpbq4X3tNhK//i0WuBeeSfjD
- aOnoG8kH7sFTM1thUIRIF5Jv6ziFuYUU+RnKC0pBnKjNfQGF88hSNjep9PM5JPw/vQlI
- chCw==
-X-Gm-Message-State: AOAM532OMH3P7Uyzhsq8VBqSoKg+lCjhx3Zgp+fZA31f3d0Ylw4M7GHX
- NlbmBNQaqSkik+47055N8+jEOxYY3IWKRfJKZ2TnQMzqg7DmvoFnYMpLCFmUlYSM1G41nY28Fgx
- ma61mZ2LFKznLHRMvjLsn4dpwHNad
-X-Received: by 2002:adf:dd50:: with SMTP id u16mr1544554wrm.696.1644403051528; 
- Wed, 09 Feb 2022 02:37:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxbZZ4XjvTRl5IZk/7M89/Ey3CMZkM3vOVulKQRdylhDek1AIJqtdYpK3h0mZSbQ/QKDQe9Ag==
-X-Received: by 2002:adf:dd50:: with SMTP id u16mr1544540wrm.696.1644403051351; 
- Wed, 09 Feb 2022 02:37:31 -0800 (PST)
+ bh=EYFy7BMiWbtWBf8GaXfPbPwH1OfRn9IqKlMqs/8Tk+U=;
+ b=yibdqEx0Gy7FQd8tomBsN7BmznLP67P+PJvrSaURw6N/lCKLoXmSveajeSTrNRTZRk
+ glrNMxVxLVnt+nOGnk1Ye0moAruwsMZV9PHT2EGBay+9LkWLfHPYibbH+l4KDr8uQk3T
+ i4XESJMTl6xv45I3CVdmbLRPlp+0+mvHBbC2KG+QGMiSxeoU2GfR4mdVRSH8d7HvXMqx
+ VXIljN5BhpXKrKBkUb5IsxPddP3kqdSM51O+Dw3qtQPZ3q2aT7NG9ESUHTiLwxbOQ+3K
+ QHWLcu1vr/d45zQx9yUsd5bjVtS4tGaDmVHZ++LmfKbCyGiN8eOQsReoDialQiiwnr8r
+ E+OQ==
+X-Gm-Message-State: AOAM532hIFE8x49zPp2Lj5b6xoz9UZM7f2cOkf00QJ9LIeJMSs3CXBgW
+ AZgCxRBsiAm6RZkjuxOIB5kIDQSDGXo9MhyXZ8SV/WN1j2wYOIUtTNwaxSoZzEoAgXr+YfI8INP
+ 9Qm+BN3eQs33K8EpMRv5k4MC3YNqE
+X-Received: by 2002:a05:6000:1569:: with SMTP id
+ 9mr1599800wrz.512.1644403903511; 
+ Wed, 09 Feb 2022 02:51:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwgYybjUJxOSAgPruNUSwAdNJR1Q/vs8i9KEstYXtz0J/diEZUxlxM8Cm7ary/2ksQmUYLUFQ==
+X-Received: by 2002:a05:6000:1569:: with SMTP id
+ 9mr1599787wrz.512.1644403903310; 
+ Wed, 09 Feb 2022 02:51:43 -0800 (PST)
 Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id x7sm7980726wro.21.2022.02.09.02.37.30
+ by smtp.gmail.com with ESMTPSA id be11sm4521499wmb.19.2022.02.09.02.51.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 02:37:30 -0800 (PST)
-Message-ID: <de70b472-e8d5-6f03-bdf9-dc1057888f87@redhat.com>
-Date: Wed, 9 Feb 2022 11:37:30 +0100
+ Wed, 09 Feb 2022 02:51:42 -0800 (PST)
+Message-ID: <298626d6-c2b2-0f12-9700-249d03c19c18@redhat.com>
+Date: Wed, 9 Feb 2022 11:51:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/5] drm/fb-helper: Fix clip rectangle height
+Subject: Re: [PATCH 2/5] drm/fb-helper: Fix vertical damage clipping
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  sam@ravnborg.org, noralf@tronnes.org
 References: <20220206192935.24645-1-tzimmermann@suse.de>
- <20220206192935.24645-2-tzimmermann@suse.de>
+ <20220206192935.24645-3-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220206192935.24645-2-tzimmermann@suse.de>
+In-Reply-To: <20220206192935.24645-3-tzimmermann@suse.de>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,13 +93,27 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
-
 On 2/6/22 20:29, Thomas Zimmermann wrote:
-> Computing the clip rectangle is prone to off-by-one errors when writes
-> happen near the end of a memory page. Point the end of the memory area
-> to the first trailing byte, so that (end - start) returns the area's
-> length.
+> Don't clip the damage rectangle against the viewport. This only
+> works if the viewport is located at the beginning of the video
+> memory and the video memory doesn't extend the screen (i.e., if
+> there's no overallocation).
+> 
+> Fbdev emulation transfers data from write operations into a
+> possible shadow buffer, then into a GEM buffer object, and finally
+> via graphics driver onto the screen.
+> 
+> If callers write outside the currently visible area, clipping the
+> damage rectangle against the viewport will loose these updates in
+> the shadow buffer and the fbdev's buffer object will contain stale
+> data. Panning the viewport to the stale area of the buffer will
+> display obsolete data.
+> 
+> Instead, mark all written areas as damaged, so that the damage
+> handler updates the buffer object from the shadow buffer for all
+> such areas. The graphics driver's later has the option of clipping
+> the damaged area against the viewport when updating the screen
+> from the buffer object.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
