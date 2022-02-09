@@ -2,128 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59FC4AEAF4
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 08:22:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4801A4AEB13
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 08:32:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53A8110E38A;
-	Wed,  9 Feb 2022 07:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1217510E1D2;
+	Wed,  9 Feb 2022 07:32:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Wed, 09 Feb 2022 07:22:27 UTC
-Received: from esa.hc3962-90.iphmx.com (esa.hc3962-90.iphmx.com
- [216.71.140.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C105810E38A;
- Wed,  9 Feb 2022 07:22:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1644391347; x=1644996147;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=39Sb2TxnON5mWWvVSZpa5p12dwGxRjGRlVOCsxXa3+8=;
- b=Cg9tW4S4Y+hmxAPeONGL9HLCdm6B0ZZ7NKU72nW/g5dTC9C2jY79azGz
- gm/x9PH8QaGoDws2kn3XrpiV5JKG2faThA9K4u825z/Sa+zI2cduuA5oa
- 6LAqRZRTamszwOxDcOoIXTwjDHA9KLeLoOKawVrni2mFKC4hujuzI2oZ+ o=;
-Received: from mail-dm6nam10lp2105.outbound.protection.outlook.com (HELO
- NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.105])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 07:15:18 +0000
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2044.outbound.protection.outlook.com [40.107.237.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46CB410E1D2;
+ Wed,  9 Feb 2022 07:32:52 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cf++3pIm+itXeCKEPCoPDaALZ0nLRGC2J4UvbOcjDnpeEc5WP8EHowucMkeA8xT+FZzSGtFZfymRNYf1ok+uEPMpVsRxK7293zlPZXxVgDqjgn314EXc3/16VMCcbQLZ5NeOg2t8yqtKe8zLOXQPX3UtIGCW+5QznKzxQpqnsyKVaRUFrkDiewo+Sa6vBf7P+/KuAosQ26TCkwNEypFUePjv1hqXgfILnP3zJlbgT0VV5Ozx1gpxg7oTDbjUfePLvSa/aCuZVdYNtwaPgJyBmWuwPv2L+jlFbo4UTpwoN9j2kjouHev4bSlaukz/6Wm/ow5qxwIgrKkb4RxETKtviA==
+ b=iO5bIX+hBXh7lJH9QKHQ9AKu4igRTp1XNXaUjzlmuiN0UNqPFKlYwuckMadT/PwPkkCy8+1EQXXCAvYKt4rMLZPhCYfc83FaJz2LxjacNM1pKxIsz68hjPzKKD6N4hamjv1PdpQU1Zhx0Df8EsEreg31LDrdRFAUpcNK86skHZlIepClAIzi7PE10lq8J1HELF0fxbTciqgqJRWAtg8DQAahrWB5Sy9LrtNaS5RonIbyR/LpSxV9DuUqzLeq7XF1ijs0u8OS8YPvKyMBSKuquRtBFe+HcvYQ2IBp+wB1S4QbfSKknSZXNcMkrpiderVsIAV+siiBjvLaMHea+WYDGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=39Sb2TxnON5mWWvVSZpa5p12dwGxRjGRlVOCsxXa3+8=;
- b=H/c3JQY7HuDXxJ0ASd0MjPhdABsKVM1pSwXMVvg27lt3O89I+jX3Iimp3FP0G/hPmT6dEyn1iF051hkaxBMTA9Ed1aboB7tAhf0iB1Ut5ZhYUKSUTVHQ++jpTqXJMQu0GQlZWDjlBUhpo40qJTq/btqKcT/L73bTvxxCgEm/9FYZSxbHEMp/jbOpwUjZNHB4PJw2o1WRVYorj4sTDp/zvE8xYfLwgCmyJ6aQJ90WpRR1AcRclYfC8OISzcKHRrnooIbhR0kl6+PqBjN9nUry3i1STE6ZGK1J8B+Dg/dgE6X+ZJcmsVUlSXyd8S5VpC/cM8b67NrAdyCChW40IohKjw==
+ bh=jR0x8fEJEUICtqXrMnD92jrdkpdeWGNSzIA428L29Mc=;
+ b=eA65ZzLHR3FtP2iRHlrGKiU9CQWOnFP2DY3ipXMTWd0VzEFZg/JbLbJxIskHdPwVG315XUPgKWe+E3ITZ7+gf+mGeVSFy5r4W/HeaeSfMr/j2xfHFT+5typn4KzHNYZ9bsDoQXTxhCOekTqs4+Lv3Q+GGsqywFjP+fAVA7aZ27eSG85FZ8296231R0Bw0r3TCAsMIMjNPDmdLfuItzUielEbcrB3CYlM/iRxnBY02C/xFGS0YuFbU5X+1Ueb7LM3igAurB3PZJeotXzDH2oHiAcO4le4rOYy/CCYtHh4An/z7y7o3wE4FepLYRMF4+xs/2kh9iqXE8SM42gGiOscXw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
-Received: from MW4PR02MB7186.namprd02.prod.outlook.com (2603:10b6:303:73::6)
- by DM5PR02MB3147.namprd02.prod.outlook.com (2603:10b6:4:64::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.11; Wed, 9 Feb
- 2022 07:15:15 +0000
-Received: from MW4PR02MB7186.namprd02.prod.outlook.com
- ([fe80::2d87:6bad:f96d:9006]) by MW4PR02MB7186.namprd02.prod.outlook.com
- ([fe80::2d87:6bad:f96d:9006%3]) with mapi id 15.20.4975.011; Wed, 9 Feb 2022
- 07:15:15 +0000
-From: "Sankeerth Billakanti (QUIC)" <quic_sbillaka@quicinc.com>
-To: "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>, "Sankeerth
- Billakanti (QUIC)" <quic_sbillaka@quicinc.com>
-Subject: RE: [PATCH v2 2/4] arm64: dts: qcom: sc7280: Add support for eDP
- panel on CRD
-Thread-Topic: [PATCH v2 2/4] arm64: dts: qcom: sc7280: Add support for eDP
- panel on CRD
-Thread-Index: AQHYHP9CXGHnyqg4DUy0QOrgphcweKyKVAGAgAB7kDA=
-Date: Wed, 9 Feb 2022 07:15:15 +0000
-Message-ID: <MW4PR02MB7186BD4BD997059678968DEBE12E9@MW4PR02MB7186.namprd02.prod.outlook.com>
-References: <1644333525-30920-1-git-send-email-quic_sbillaka@quicinc.com>
- <1644333525-30920-3-git-send-email-quic_sbillaka@quicinc.com>
- <YgMCW9GrY6SRteOU@ripper>
-In-Reply-To: <YgMCW9GrY6SRteOU@ripper>
-Accept-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jR0x8fEJEUICtqXrMnD92jrdkpdeWGNSzIA428L29Mc=;
+ b=fhvcvekQfND1JIJCAN0LFooYH1p2kpeZJYHBhj8pBoIAStD90bF9aULXj2Ui8KL+BMArgSIrskRe+cmRH4JQFtHhD2mRGJBY2erbJfCa6svTyo8JNEkzuFtzBu3d4TSgcgZqgANoq6ci4Yso4Dvcc2RUk8RwPgArakMypmS+zJA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BYAPR12MB2759.namprd12.prod.outlook.com (2603:10b6:a03:61::32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.17; Wed, 9 Feb
+ 2022 07:32:49 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d861:5699:8188:7bd3]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d861:5699:8188:7bd3%3]) with mapi id 15.20.4951.019; Wed, 9 Feb 2022
+ 07:32:48 +0000
+Message-ID: <4dfd15b6-e402-f15d-f793-6d31e591fb20@amd.com>
+Date: Wed, 9 Feb 2022 08:32:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/doc: pull in drm_buddy.c
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=quicinc.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a76f0f6d-5821-4767-a32d-08d9eb9bebb8
-x-ms-traffictypediagnostic: DM5PR02MB3147:EE_
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-microsoft-antispam-prvs: <DM5PR02MB3147E0DB9B7471E277CA83C09D2E9@DM5PR02MB3147.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: oMMeXQ0CE33Z4/MRKCupJX6TzXlAxFxIoHR/6B2tj3Jb2KAi6FQDGQtGIjhkVJQFWGq2hKPuaPYf72Nb7SuWZtNFOo6PsVZpoHZEilJ4NpXYTrYza7ne/Qy1gqLNYNEYRUwhh23jJZ33dZM5iFvQ5gRsf0wYzsrAGQ9zwdS7HxxuQHacv1deWf//y1K9FHo06h3KO+GfwM9JIi7Ltl7xx1ARramKfSBScKCkg+p4hQRhHT4FWq0KLyrrnygm2ncpp8IoUFksmKZu9PsQ8I3YR3FERDmYB5qcfkNnUajUOfztClnqsvHxk0xflAbXsmirEg8ukYJRtN5j83UeTfDKED9HrvpgTtSPVs2ZTgUioe//h3+QTvRX+FnnjG1emIx9+F0XuV5TuqNwwoJtiRPHivV3FvE5rhvYiCHyEh1xjS02ffRZJIFyHVdCz3h7IUcke7bkJy6hRdQ46yP+WzxAUK3Pd22jELWpUIptl3TuwtbO5cbwWjbS86exPmQesIcB+q0Pqacqii5LJy0V4hw9bR5Ffu8vD7ZJ7PD2yudoLEUi3BCjgWhGZoWL2QxxktDVSLbR+f1mIvuBtEQAG59IO7Hni4FCBc61/hB1ujNsF8kVdPW99SpEBV9tF4him1hzqrfKtgfbFO5woVEg3/HdsiFT3Awz3bv/EUnAdU2DaLKHc0fOihciNbqKClyrgCoHN9sNXiA5gRT6xAE91HKtVaZkaPatGzLHYweMxRFoCrQxKtiNHgGzsJMWQG4gXpx/w4JUQ/oPwDxVwejAJlG4EYacEU7RLZmB5QI1WvuOJBQ=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR02MB7186.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(4326008)(83380400001)(186003)(110136005)(33656002)(26005)(38070700005)(107886003)(55016003)(5660300002)(86362001)(71200400001)(53546011)(9686003)(7696005)(316002)(7416002)(76116006)(66946007)(64756008)(66476007)(66446008)(66556008)(8676002)(8936002)(966005)(6506007)(38100700002)(2906002)(508600001)(122000001)(52536014)(54906003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?DPQztoyiug20vj6kPUBsSV22TLhTO/jCRE3udBs5HI2jtrtyQ7wSV5E/0tPt?=
- =?us-ascii?Q?slZktXJxW8uRfTTsgGbrYTHpEs/4gUMJYAIMvvDG0bK53ynOpKirZRqoWayl?=
- =?us-ascii?Q?6sC6uMl/9pfUqf1Ksl9GYG5WgDTbgcLDJEjkCPEoKQdEsB+b6Z85cstwkaT0?=
- =?us-ascii?Q?VD8H94HdGHfBYblRYBkqwu1uOFF3hh2fNh/hjJ6oroK61DNp/7DqGMqgJ58p?=
- =?us-ascii?Q?/OAajcw/oA9FU7HDGValn0SZOEOB7LTjm/HEpjr+ISjXJjez03iXOdICfTH9?=
- =?us-ascii?Q?DhYh6xndfwJBPb5cHfTUlk1aWeB57o5CKJ5KewG+JW0M5ny8cvFNa+eHM67D?=
- =?us-ascii?Q?SZxY21eNPXlyhh3ivG0jC0pvNF8jPacdMYT5EUn2mjMI7irmZyQNlwzoCXI8?=
- =?us-ascii?Q?4ZK8NT9Q+kG23T8QkYFrApl2Cb/ec2Vavm8rLq5DoSWN1uNEkUj5Xuq6p/sz?=
- =?us-ascii?Q?TjRsxkl/ysUNktalO9cTjwH7eRtUX4+qNuUQUbB2SKGVnzz+XxPpxYWMfyIP?=
- =?us-ascii?Q?k6zojCsT46Unem5yohpPdkaCHSoGO7nzlYPkY8jaffZG8WeSbcuj/KzCSJCG?=
- =?us-ascii?Q?Dw4fZksKtOcXdLhVjIlI1B01Wf5Fqs3PLQs3UdAKs6Bz1b2YEuUzo0vaMWFx?=
- =?us-ascii?Q?tPcl0khb3rjoYiA1uT0jlLAPWUiYv2xmsUqvvR0mfiMh0kzhB6PKcxIVYzz2?=
- =?us-ascii?Q?e8HGSKhrthBCFMZ6Hw3ED+UiJqbEvPMErDgMAGI1zIuZhxKk1nLxpp941t6s?=
- =?us-ascii?Q?aIVHaQeHwpQP5bpSEpnpfH4k+gFpky3QaF2/VinL82R8eEfwmiLxZUT3MMT1?=
- =?us-ascii?Q?UyXr1AlhNFzitoIFd+M1SCEAkqV3AyesngFkh/VULFJes/16JlvSZiKzE09M?=
- =?us-ascii?Q?Q9tL+kS8dBE3Ebpc+7ZM/rOWOwdrgfIVeHHiUrDQz4aKivgN33S5AtCOUp2f?=
- =?us-ascii?Q?lTEEJYiiFodGk2Hr1AZnD6C/LIaOPUGeGYEhABY5iroifMiH4ylahf9Tp3XD?=
- =?us-ascii?Q?YcXVVAecSYBSGiuDYXNFMeJAAotxx3MQYUEFr3AOxP6KsEvbgJQm8Fg6oZKw?=
- =?us-ascii?Q?J++4BM0W0c9m/+kSWPJ1fnSZ78ktnMRKt+ixDk2JYitNXz7MsvmDt6aANIvF?=
- =?us-ascii?Q?VQyUeCIfwN+0l+wuuGSokpKDM2nvCnz3bTd98/azF/f9zJ0FI0y6dzbQ1q2c?=
- =?us-ascii?Q?OCZAkstc/qNI51PVp1LsJlmk+txpEC8RMnNRr9lME4Y9kV8q8lqp5g6gCvFb?=
- =?us-ascii?Q?SBy2zpeYmw1DZODPol2tpNIxy48EOMjhZGM3zt9R65u69PpbIIQS9iK2bg5G?=
- =?us-ascii?Q?TNyeqJxK7eCTGRj918MP+1ySztGGko9jk6ssLellOmvtbkuEeR5WX820RLS2?=
- =?us-ascii?Q?qDoIDmviwsN01u2c9z2s3kTH/uoi5kjRx0mqz6PkA5/7pqZnx36Ir4os9kXQ?=
- =?us-ascii?Q?ZDwJXByZIQnsrlO80ulhfGOlkBSpIO23nWy3HPrxXknZ43trfGXqYn3iGSvW?=
- =?us-ascii?Q?vTjT4kS8QCQFmjaCe1lU2yqon2ly/d4DYVuP3j+ucjc3ZBceTXxpKnsat2kd?=
- =?us-ascii?Q?g+E+YEIzNQbrAeGibIM7Yxw9xZ0/PpncxAh00lwFy/m/W4nFUQaCZe0j4ijN?=
- =?us-ascii?Q?Kdju8YV+Fj1/EudXyZW9/Aomo82ukl/KQBlNxN0VeJymOGbALi5du2DACJaU?=
- =?us-ascii?Q?iHFzWg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220208151228.344997-1-matthew.auld@intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220208151228.344997-1-matthew.auld@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM6PR10CA0041.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:209:80::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6eb4bba9-6cd0-4ccc-47bf-08d9eb9e5f18
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2759:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB275939E31CC5AB9B30AE0272832E9@BYAPR12MB2759.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j/8Is/xUh0wcoLafzCUTEGYrFuFegnJ3z4Nj9T4ldO6XUMrFro0ENvUukvkmbnqfep4mvA+n0Bbdbqk1RCyfp2sK+HoAOAZTKOzpYwBacU7XCHy/Jpt9/QZzwzOi4nTDe8gL1sNVDkkS1349YRbkZ4eos/kHhM5aXGox+q+FXN3Lk9+v4pie05/ShwjTZdEE7NmlknwDxKNpDi2DoZrSa3hldl8RnsE0cNH8vhI7iEkuGcYKfAdMVyJNucEJ7b70UmxmJ/2dHbW/s8B0wXWtt85xd+rUXfiSYcINx0VuvS1k0WU44v+Exopk1HvtBd/PdqPibsXB1gGvdPySlMF7dgD2FD7aQjEoPvik4Y6H49zl4XvLI/d+FcxGI06pZGfhxIH+OFgOTvxFSbecrgEsGSzzTcx7kGszOCHGdkDvJ0o6nSjg6QHnGTpy7DU9q9oH30u8vu3CbXTvCkN6tc+nUBoaoZ84HjRe6FWE9St2ezCnjW+sylnfC8dSIjR/ydNQUW4r1o1OolUqu0gKMLC1pO3Cjt6EmSV7kIIbk5lhoFEpFVr7nFXF3lRP9zOsSognFFuiOeBgqX09Og+WPG6RQ+/jDGwA65MI37CsK8ycnSS7auBPZ30Dqx3gciHue/7GRTxP0Iy0KIjpi8oIQ6yTbPWgPskt3xNQt+76U/85prEDGQTtIBpY0bNaT/GGBcmPdPuJJL8Qp++TZKKD0Qe3jHV7vUEXUUthDfVMP1iL708=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(2616005)(2906002)(508600001)(31686004)(6486002)(36756003)(54906003)(66556008)(5660300002)(31696002)(186003)(38100700002)(66476007)(8936002)(8676002)(4326008)(86362001)(6666004)(66946007)(6512007)(316002)(6506007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K0pIQ0dHVWFXSWxZZTdNb3VqVTFnanhoWDlNQjFCYi9zcXZENGdYOUdIaCtn?=
+ =?utf-8?B?UGQ5dnhxZTVsVWFVeDgzZjk2NFR4M0VrT0FESUJ6Z01wZms1WHBwbkZsU3Zm?=
+ =?utf-8?B?aVZ6K0VpdnBWQ3EwbU82ZGhhSEpCeURaV2JjUlVyck5ZMjR1bFlXK1NYOWYr?=
+ =?utf-8?B?bEVSWUpSOTFUSUw0YjlLZnFhTmhxU1RXWjRwckVxamZBWmN3ZDNXSGZzajdx?=
+ =?utf-8?B?SkhKRmVka0tYWm43bXk3bjdIbkV3NXdwS3VYRHRFQlBrTTBZOVp4ekhycU44?=
+ =?utf-8?B?dUJ0QnpraHhGOWRHQWxuQzhNWlcxb1VNbFFSZzlpQ0Y5UTA0QnRiUC9QbnB3?=
+ =?utf-8?B?WkQwWEF2RVJVdTVZVVVmcGRZdW9LMUVrVnZ0b3ZNUnVjSXgwUVNvU2JvZkMr?=
+ =?utf-8?B?MHBvTzFwcXFTbExFR0NFblNHVWU3VktsK0U1V2NOd3ZMK0dxOUtHVVJjRHcy?=
+ =?utf-8?B?dWVscmpWWWU4OEtBN0hQQU9Kd1F2dFQwYkRyRzBCWUdnRUxOTHgwM09Mekpo?=
+ =?utf-8?B?ZHhMR3c3czB6SGN0L2dmSnN5NjlodklmdHpudWdBVk15TCtabVVQWEp6ellq?=
+ =?utf-8?B?QWtpa2xvVWxJK0pIVlFmQlJxb2M2T0lwRC93L1JWRTQrS3dHRU90Q0crcUEy?=
+ =?utf-8?B?YWUvK3dPQzZYb3daalBicG15UEV6TDI4SlhQY0w5RWYvZFRpazdOUHZlVSt1?=
+ =?utf-8?B?YnkxNFdqYzR4UHdNZFJKMDk1T0JUYTcwNDVvS082Q3B4Z1haUyt0SzhmeFov?=
+ =?utf-8?B?dytFamt5dTBXQjNoZXFhcTRsRzZTZUtnZHB6M3AyOFNYVVpNWnZLMG02UUZC?=
+ =?utf-8?B?VDlBcmM1cm1zcEZjQWplcm9ORkN6ZXFoSTFsR3YvV1dnZ2diUm5GaHBNZkhQ?=
+ =?utf-8?B?YnlNS1NuTXl2ZERkVmI3Qml2RXpMZ0VPNTE1MXpycisxNGxnaU9QSzFrR0NM?=
+ =?utf-8?B?eVRiaHZISm9jcEVEMFVpYlhGNjNjRDBzYXUrRkNaZk5SS3J5dEVoQ2dJaE9U?=
+ =?utf-8?B?RzRQMXM2UHBsaHcvMDdZS2MzKzBic0tGNnlRTm8wcU1uTlVLWlVEN2hNeVZD?=
+ =?utf-8?B?Nlc5T0h3VTNaZys0WUFuRDV0MzhKK0VlS0tSNUxUa2szSU5vc2VjbXQ1R0s5?=
+ =?utf-8?B?OVoxTDBheVk4TnhlR3pZS3VTbWltdUwwSnR4ZE1VQTArenVpc0xXSXVuL2Ri?=
+ =?utf-8?B?dFJJcDd6aVJFMjNzbFhRNXo5bVEzdUVPazFnQ093SUtITXBpdXhLNUd0UUhr?=
+ =?utf-8?B?bFdyRFFNRVZFSmkzaW9Za2RSUFJTTlRlTkxmeUdOSmwzaVI0dDN6blFYbmhH?=
+ =?utf-8?B?UTZyZHBab1lhQWdZY3NZUTIwUEM0THFXd2MvblczYXlwNy9JTFpEZFlmMmJl?=
+ =?utf-8?B?K01iOVhaa3FEaHBYdVdWWGlHUkk5RDdEb2lHMGVXbm1IL2VnUnZieVp2Z09F?=
+ =?utf-8?B?TnplS3ZTejAwRTBiSUtDdFZSNnJ4M3IvcUJnZWFzbTNlbEhCRStMSTRBaWlw?=
+ =?utf-8?B?UVIxcGduek9zUGdLcnBoQ1FrUWZDUHorVnc5R0hobW5Ub3c1NXNtS0NtQzZK?=
+ =?utf-8?B?RUNtM0JvTFVDaThJbFI1SFBnUVFNaWFLTmFYMk44bTlJc2FOa2pYREVzMi9D?=
+ =?utf-8?B?amNyODErSEZQdWtOaTdMTFdyRzR1a3RZc2ZSNWE3V1hSQnJWZVZSY3Mya2ZD?=
+ =?utf-8?B?MkFxUjRXMHpyaXZyYStFamQ3bXE2NUFZcjJldEw2RkJxajkwOFBQYWJsenp0?=
+ =?utf-8?B?ZWlYL1Qwb1RaV2NaRm9EUTJzV2Q3OHJtZ2tRQlpVVUdYNkkxU1VWdS9iZVhx?=
+ =?utf-8?B?b0RUdWNrdHBlbER5QXNlblh3UGl3MFpPSFdaQmZzaU5hKzRuazA0WFAzNTBy?=
+ =?utf-8?B?NlpVaGJHSHV1cWI5TlFVb1FhVUVkNTdiVEV5Vk9JQi9VQ3ZuejNQQzhwclVj?=
+ =?utf-8?B?WUpveXZwMyttcGdHaUtzSkdxWFJHMGdvQk5NWDJ4MzNNV2RKWTAzN2ExcndC?=
+ =?utf-8?B?TjlOajVPem8rYkRkOXBxdWZDWFhQUlBuNDJVUSt2MWVCaFFYZkVDb1p3bThm?=
+ =?utf-8?B?RlVhMmxVUWZ0S0JlT2dmTTR6bnZLSmNTeDZYbkRMZWpYNG1JbkxMY3RXeklK?=
+ =?utf-8?B?YzRhVUNBVGlreU5oYS8wT3d2T1BuQjZ6OURFdTR2YlQ0S2ovRTVOVS84RklU?=
+ =?utf-8?Q?hcQqzDDAAkKN90KSsjQP0rQ=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6eb4bba9-6cd0-4ccc-47bf-08d9eb9e5f18
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR02MB7186.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a76f0f6d-5821-4767-a32d-08d9eb9bebb8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Feb 2022 07:15:15.4809 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sAxcEKLbcCQAz1Sh97kgg/VWyyA6dfuKqAFRAKc0ZSaVQRz7p24obFY4w9a/GqJQkYkdo5Ba/g96bv5IIAXOgf9wxNr7mp/0nbg0wYx2FOc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB3147
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2022 07:32:48.6641 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1lFkQqkMvleDT6gmiLJfjK8Y3XCZmFtelElKkIMDTZ6H74P/aGn02H/+JZ4FYtGM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2759
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,259 +126,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "dianders@chromium.org" <dianders@chromium.org>,
- "sam@ravnborg.org" <sam@ravnborg.org>,
- "krzysztof.kozlowski@canonical.com" <krzysztof.kozlowski@canonical.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "swboyd@chromium.org" <swboyd@chromium.org>, "Abhinav Kumar
- \(QUIC\)" <quic_abhinavk@quicinc.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "agross@kernel.org" <agross@kernel.org>,
- "seanpaul@chromium.org" <seanpaul@chromium.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- quic_mkrishn <quic_mkrishn@quicinc.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Arunpravin <Arunpravin.PaneerSelvam@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bjorn,
+Am 08.02.22 um 16:12 schrieb Matthew Auld:
+> Make sure we pull in the kernel-doc for this.
+>
+> Reported-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+> Cc: Christian König <christian.koenig@amd.com>
 
-1. I will change the edp_out label to mdss_edp_out.
-2. The "pm8350c_pwm" node is part of the dependent series mentioned in the =
-cover letter. Below is the patch for the same:
-https://patchwork.kernel.org/project/linux-arm-msm/patch/1637917920-22041-4=
--git-send-email-quic_c_skakit@quicinc.com/
-3. I will move the edp_backlight and edp_panel nodes to the root.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Thank you,
-Sankeerth
-
------Original Message-----
-From: Bjorn Andersson <bjorn.andersson@linaro.org>=20
-Sent: Wednesday, February 9, 2022 5:23 AM
-To: Sankeerth Billakanti (QUIC) <quic_sbillaka@quicinc.com>
-Cc: dri-devel@lists.freedesktop.org; linux-arm-msm@vger.kernel.org; freedre=
-no@lists.freedesktop.org; linux-kernel@vger.kernel.org; devicetree@vger.ker=
-nel.org; agross@kernel.org; robh+dt@kernel.org; robdclark@gmail.com; seanpa=
-ul@chromium.org; swboyd@chromium.org; dianders@chromium.org; krzysztof.kozl=
-owski@canonical.com; thierry.reding@gmail.com; sam@ravnborg.org; airlied@li=
-nux.ie; daniel@ffwll.ch; quic_kalyant <quic_kalyant@quicinc.com>; Abhinav K=
-umar (QUIC) <quic_abhinavk@quicinc.com>; Kuogee Hsieh (QUIC) <quic_khsieh@q=
-uicinc.com>; quic_mkrishn <quic_mkrishn@quicinc.com>
-Subject: Re: [PATCH v2 2/4] arm64: dts: qcom: sc7280: Add support for eDP p=
-anel on CRD
-
-On Tue 08 Feb 07:18 PST 2022, Sankeerth Billakanti wrote:
-
-> Enable the eDP display panel support without HPD on sc7280 platform.
->=20
-> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 > ---
->=20
-> Changes in v2:
->   - sort node references alphabetically
->   - improve readability
->   - move the pwm pinctrl to pwm node
->   - move the regulators to root
->   - define backlight power
->   - remove dummy regulator node
->   - cleanup pinctrl definitions
->=20
->  arch/arm64/boot/dts/qcom/sc7280-crd.dts | 122 ++++++++++++++++++++++++++=
-++++++
->  arch/arm64/boot/dts/qcom/sc7280.dtsi    |   2 -
->  2 files changed, 122 insertions(+), 2 deletions(-)
->=20
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280-crd.dts=20
-> b/arch/arm64/boot/dts/qcom/sc7280-crd.dts
-> index e2efbdd..bff2707 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280-crd.dts
-> +++ b/arch/arm64/boot/dts/qcom/sc7280-crd.dts
-> @@ -21,6 +21,34 @@
->  	chosen {
->  		stdout-path =3D "serial0:115200n8";
->  	};
+>   Documentation/gpu/drm-mm.rst | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+>
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index 198bcc1affa1..f32ccce5722d 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -466,6 +466,15 @@ DRM MM Range Allocator Function References
+>   .. kernel-doc:: drivers/gpu/drm/drm_mm.c
+>      :export:
+>   
+> +DRM Buddy Allocator
+> +===================
 > +
-> +	backlight_power: backlight-power {
-> +		compatible =3D "regulator-fixed";
-> +		regulator-name =3D "backlight_power";
+> +DRM Buddy Function References
+> +-----------------------------
 > +
-> +		regulator-min-microvolt =3D <1800000>;
-> +		regulator-max-microvolt =3D <1800000>;
+> +.. kernel-doc:: drivers/gpu/drm/drm_buddy.c
+> +   :export:
 > +
-> +		gpio =3D <&pm8350c_gpios 7 GPIO_ACTIVE_HIGH>;
-> +		enable-active-high;
-> +
-> +		pinctrl-names =3D "default";
-> +		pinctrl-0 =3D <&edp_bl_power>;
-> +	};
-> +
-> +	edp_power: edp-power {
-> +		compatible =3D "regulator-fixed";
-> +		regulator-name =3D "edp_power";
-> +
-> +		regulator-min-microvolt =3D <3300000>;
-> +		regulator-max-microvolt =3D <3300000>;
-> +
-> +		gpio =3D <&tlmm 80 GPIO_ACTIVE_HIGH>;
-> +		enable-active-high;
-> +
-> +		pinctrl-names =3D "default";
-> +		pinctrl-0 =3D <&edp_panel_power>;
-> +	};
->  };
-> =20
->  &apps_rsc {
-> @@ -76,6 +104,42 @@ ap_ts_pen_1v8: &i2c13 {
->  	};
->  };
-> =20
-> +&edp_out {
+>   DRM Cache Handling and Fast WC memcpy()
+>   =======================================
+>   
 
-Sorry for missing this while merging changes in sc7280.dtsi. But it would b=
-e really nice if this was labeled mdss_edp_out instead (or possibly defined=
- within the &mdss_edp node).
-
-Now you will have &edp_out and &dp_out floating around away from the edp an=
-d dp nodes...
-
-> +	remote-endpoint =3D <&edp_panel_in>;
-> +};
-> +
-> +&mdss {
-> +	status =3D "okay";
-> +};
-> +
-> +&mdss_edp {
-> +	status =3D "okay";
-> +
-> +	vdda-1p2-supply =3D <&vreg_l6b_1p2>;
-> +	vdda-0p9-supply =3D <&vreg_l10c_0p8>;
-> +};
-> +
-> +&mdss_edp_phy {
-> +	status =3D "okay";
-> +
-> +	vdda-1p2-supply =3D <&vreg_l6b_1p2>;
-> +	vdda-0p9-supply =3D <&vreg_l10c_0p8>;
-> +};
-> +
-> +&mdss_dp {
-> +	status =3D "okay";
-> +
-> +	pinctrl-names =3D "default";
-> +	pinctrl-0 =3D <&dp_hot_plug_det>;
-> +	data-lanes =3D <0 1>;
-> +	vdda-1p2-supply =3D <&vreg_l6b_1p2>;
-> +	vdda-0p9-supply =3D <&vreg_l1b_0p8>;
-> +};
-> +
-> +&mdss_mdp {
-> +	status =3D "okay";
-> +};
-> +
->  &nvme_3v3_regulator {
->  	gpio =3D <&tlmm 51 GPIO_ACTIVE_HIGH>;
->  };
-> @@ -84,7 +148,65 @@ ap_ts_pen_1v8: &i2c13 {
->  	pins =3D "gpio51";
->  };
-> =20
-> +&pm8350c_pwm {
-
-This label doesn't exist, so I won't be able to merge this patch.
-
-> +	status =3D "okay";
-> +
-> +	pinctrl-names =3D "default";
-> +	pinctrl-0 =3D <&edp_bl_pwm>;
-> +};
-> +
-> +&pm8350c_gpios {
-> +	edp_bl_power: edp-bl-power {
-> +		pins =3D "gpio7";
-> +		function =3D "normal";
-> +		qcom,drive-strength =3D <PMIC_GPIO_STRENGTH_LOW>;
-> +		bias-disable;
-> +		output-low;
-> +	};
-> +
-> +	edp_bl_pwm: edp-bl-pwm {
-> +		pins =3D "gpio8";
-> +		function =3D "func1";
-> +		qcom,drive-strength =3D <PMIC_GPIO_STRENGTH_LOW>;
-> +		bias-disable;
-> +		output-low;
-> +	};
-> +};
-> +
-> +&soc {
-> +	edp_backlight: edp-backlight {
-> +		compatible =3D "pwm-backlight";
-
-This is not a device on the mmio bus, so it should not love within the &soc=
-.
-
-> +
-> +		power-supply =3D <&backlight_power>;
-> +		pwms =3D <&pm8350c_pwm 3 65535>;
-> +	};
-> +
-> +	edp_panel: edp_panel {
-
-Ditto.
-
-Regards,
-Bjorn
-
-> +		compatible =3D "sharp,lq140m1jw46";
-> +
-> +		power-supply =3D <&edp_power>;
-> +		backlight =3D <&edp_backlight>;
-> +
-> +		ports {
-> +			#address-cells =3D <1>;
-> +			#size-cells =3D <0>;
-> +			port@0 {
-> +				reg =3D <0>;
-> +				edp_panel_in: endpoint {
-> +					remote-endpoint =3D <&edp_out>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +};
-> +
->  &tlmm {
-> +	edp_panel_power: edp-panel-power {
-> +		pins =3D "gpio80";
-> +		function =3D "gpio";
-> +		bias-pull-down;
-> +	};
-> +
->  	tp_int_odl: tp-int-odl {
->  		pins =3D "gpio7";
->  		function =3D "gpio";
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi=20
-> b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> index 3572399..f8fa716 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> @@ -3012,8 +3012,6 @@
-> =20
->  			mdss_edp: edp@aea0000 {
->  				compatible =3D "qcom,sc7280-edp";
-> -				pinctrl-names =3D "default";
-> -				pinctrl-0 =3D <&edp_hot_plug_det>;
-> =20
->  				reg =3D <0 0xaea0000 0 0x200>,
->  				      <0 0xaea0200 0 0x200>,
-> --
-> 2.7.4
->=20
