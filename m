@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0494AED8D
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 10:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FEAB4AEDA8
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 10:09:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8CC10E678;
-	Wed,  9 Feb 2022 09:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1C0510E67E;
+	Wed,  9 Feb 2022 09:09:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBCCC10E672;
- Wed,  9 Feb 2022 09:05:04 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBAF510E67E;
+ Wed,  9 Feb 2022 09:09:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644397504; x=1675933504;
+ t=1644397786; x=1675933786;
  h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=k4hLpxCP5zG4YqnamMN0O5VXPbh5iT9Em3+ShBxtEzQ=;
- b=SVon6oegi7wCjyaGgsL4YUxyKUPTo9RscT65P3T8K9P8DUaYCN8Z1nA4
- z8xnnCHsM4x7PzbEBuYxlUCyGenyDIB22AMExxHlv4UZNqNEmXCFGXJcW
- eGq6MC16k+JAM6LRMkVgx9DRzLjzPCqRyKx/iB/qWR6LEznxE3s/wXhUl
- Lm6usHKjDSwGSV2AOR9UuVbtvxVy08xH2u9JI9ygjQnj85YyVBQuONLws
- QsrKByz3mlSbt8H3pp5NmHyf2XV3BG0R3X5bg8EMh3Jgn106sOjMWBPkg
- BXuqjlYC6j6lNw3zjGzE58NSX8vYoplcS4guALb0AyH4aXTgWOwEfotMi Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="273695793"
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="273695793"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 01:05:04 -0800
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="485168645"
+ message-id:mime-version:content-transfer-encoding;
+ bh=95ZRnm/EZiLCFa+hz45fEXAs8CAb4K/LgiRHS372AoU=;
+ b=PgdK1qAAPeqB+q3Qkeri75hzxmj65aMjP4idBRVvWtj7OdgBV0TK7KnH
+ CGgQGoGOavyJ/YBJQRWOg/8dBnY+v1HEFgvq/zF9dvL9dG1hlTYq+CKEb
+ 5LMUVueoRH7zHmHYsN0gYBWib/XKA5LHjLlqcR0hC+PjDiFJhdakmWD6F
+ T5lthe7v6pzJCb7RJoWHB3/sbwva+zLVG2NQurkRKbL7OgvNdlip3OOrO
+ qdTR6iQsnrwpz9yqjQnZGF1erCokUHTbekMV9EJsrhwnW3m9Lak8a/uXj
+ y1lhmst01WUYhhP1dM1oqeY12514RxE8mkPGpYSzZzNG8mgIadZMTN7E+ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="247995637"
+X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="247995637"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 01:09:46 -0800
+X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="525917225"
 Received: from rcallina-mobl3.ger.corp.intel.com (HELO localhost)
  ([10.252.18.41])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 01:04:59 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v6 1/3] i915/gvt: Introduce the mmio table to support
- VFIO new mdev API
-In-Reply-To: <20220209072805.GA9050@lst.de>
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 01:09:43 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v2 6/8] drm/i915/dp: add 128b/132b support to link
+ status checks
+In-Reply-To: <YgKG8JFIKC6PRmMG@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220208111151.13115-1-zhi.a.wang@intel.com>
- <871r0dqtjf.fsf@intel.com> <20220209072805.GA9050@lst.de>
-Date: Wed, 09 Feb 2022 11:04:57 +0200
-Message-ID: <87v8xopg06.fsf@intel.com>
+References: <cover.1643878928.git.jani.nikula@intel.com>
+ <cec395d435679a290a1c35fcbfc54555101bfad1.1643878928.git.jani.nikula@intel.com>
+ <YgKG8JFIKC6PRmMG@intel.com>
+Date: Wed, 09 Feb 2022 11:09:41 +0200
+Message-ID: <87sfsspfsa.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,54 +60,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhi Wang <zhi.wang.linux@gmail.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, jgg@nvidia.com,
- Vivi Rodrigo <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- hch@lst.de, Zhi Wang <zhi.a.wang@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, uma.shankar@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 09 Feb 2022, Christoph Hellwig <hch@lst.de> wrote:
-> On Tue, Feb 08, 2022 at 05:15:00PM +0200, Jani Nikula wrote:
->> >  #ifdef CONFIG_DRM_I915_GVT
->> > +
->> > +#define D_BDW   (1 << 0)
->> > +#define D_SKL	(1 << 1)
->> > +#define D_KBL	(1 << 2)
->> > +#define D_BXT	(1 << 3)
->> > +#define D_CFL	(1 << 4)
->> > +
->> > +#define D_GEN9PLUS	(D_SKL | D_KBL | D_BXT | D_CFL)
->> > +#define D_GEN8PLUS	(D_BDW | D_SKL | D_KBL | D_BXT | D_CFL)
->> > +
->> > +#define D_SKL_PLUS	(D_SKL | D_KBL | D_BXT | D_CFL)
->> > +#define D_BDW_PLUS	(D_BDW | D_SKL | D_KBL | D_BXT | D_CFL)
->> > +
->> > +#define D_PRE_SKL	(D_BDW)
->> > +#define D_ALL		(D_BDW | D_SKL | D_KBL | D_BXT | D_CFL)
->> 
->> If these really need to be in a header in i915/, I think they need to be
->> longer with some namespacing or something. I do wish these could be
->> hidden though.
+On Tue, 08 Feb 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Thu, Feb 03, 2022 at 11:03:55AM +0200, Jani Nikula wrote:
+>> Abstract link status check to a function that takes 128b/132b and 8b/10b
+>> into account, and use it. Also dump link status on failures.
+>>=20
+>> Cc: Uma Shankar <uma.shankar@intel.com>
+>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>  drivers/gpu/drm/i915/display/intel_dp.c       | 39 ++++++++++++++-----
+>>  .../drm/i915/display/intel_dp_link_training.c |  2 +-
+>>  .../drm/i915/display/intel_dp_link_training.h |  4 ++
+>>  3 files changed, 34 insertions(+), 11 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i=
+915/display/intel_dp.c
+>> index 146b83916005..8c5590f0409a 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+>> @@ -3628,6 +3628,32 @@ static void intel_dp_handle_test_request(struct i=
+ntel_dp *intel_dp)
+>>  			    "Could not write test response to sink\n");
+>>  }
+>>=20=20
+>> +static bool intel_dp_link_ok(struct intel_dp *intel_dp,
+>> +			     u8 link_status[DP_LINK_STATUS_SIZE])
+>> +{
+>> +	struct intel_encoder *encoder =3D &dp_to_dig_port(intel_dp)->base;
+>> +	struct drm_i915_private *i915 =3D to_i915(encoder->base.dev);
+>> +	bool uhbr =3D intel_dp->link_rate >=3D 1000000;
+>> +	bool ok;
+>> +
+>> +	if (uhbr)
+>> +		ok =3D drm_dp_128b132b_lane_channel_eq_done(link_status,
+>> +							  intel_dp->lane_count);
 >
-> I think we could actually kill them off entirely.  They are used as
-> arguments to the macros that setup the mmio table.
+> I was pondering whether we need to check more of the bits here. I guess
+> time will tell.
 >
-> Thefunctions to build these tabls are already organized by families,
-> so we'd need relatively few conditions to just build them the right
-> way.  There also are some runtime checks in the callbacks, but they
-> seem entirely superflous as far as I can tell.
->
-> Only the cmd parser is a bit messy.  So maybe we could keep these
-> constants just for the cmd parser inside of gvt for now (and clean
-> that up later) and remove them entirely from the mmio table.
+> Remainder of the series is
+> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 
-I'm fine with cleaning this up in follow-up, provided the follow-up
-actually happens! ;)
+Just to be on the safe side, does this cover patches 2 and 4 too?
+
+And thanks for all the reviews so far, much appreciated!
 
 BR,
 Jani.
 
 
--- 
+>
+>> +	else
+>> +		ok =3D drm_dp_channel_eq_ok(link_status, intel_dp->lane_count);
+>> +
+>> +	if (ok)
+>> +		return true;
+>> +
+>> +	intel_dp_dump_link_status(intel_dp, DP_PHY_DPRX, link_status);
+>> +	drm_dbg_kms(&i915->drm,
+>> +		    "[ENCODER:%d:%s] %s link not ok, retraining\n",
+>> +		    encoder->base.base.id, encoder->base.name,
+>> +		    uhbr ? "128b/132b" : "8b/10b");
+>> +
+>> +	return false;
+>> +}
+>> +
+>>  static void
+>>  intel_dp_mst_hpd_irq(struct intel_dp *intel_dp, u8 *esi, u8 *ack)
+>>  {
+>> @@ -3658,14 +3684,7 @@ static bool intel_dp_mst_link_status(struct intel=
+_dp *intel_dp)
+>>  		return false;
+>>  	}
+>>=20=20
+>> -	if (!drm_dp_channel_eq_ok(link_status, intel_dp->lane_count)) {
+>> -		drm_dbg_kms(&i915->drm,
+>> -			    "[ENCODER:%d:%s] channel EQ not ok, retraining\n",
+>> -			    encoder->base.base.id, encoder->base.name);
+>> -		return false;
+>> -	}
+>> -
+>> -	return true;
+>> +	return intel_dp_link_ok(intel_dp, link_status);
+>>  }
+>>=20=20
+>>  /**
+>> @@ -3779,8 +3798,8 @@ intel_dp_needs_link_retrain(struct intel_dp *intel=
+_dp)
+>>  					intel_dp->lane_count))
+>>  		return false;
+>>=20=20
+>> -	/* Retrain if Channel EQ or CR not ok */
+>> -	return !drm_dp_channel_eq_ok(link_status, intel_dp->lane_count);
+>> +	/* Retrain if link not ok */
+>> +	return !intel_dp_link_ok(intel_dp, link_status);
+>>  }
+>>=20=20
+>>  static bool intel_dp_has_connector(struct intel_dp *intel_dp,
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/dri=
+vers/gpu/drm/i915/display/intel_dp_link_training.c
+>> index cc2b82d9114c..0686da36c428 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+>> @@ -712,7 +712,7 @@ static bool intel_dp_adjust_request_changed(const st=
+ruct intel_crtc_state *crtc_
+>>  	return false;
+>>  }
+>>=20=20
+>> -static void
+>> +void
+>>  intel_dp_dump_link_status(struct intel_dp *intel_dp, enum drm_dp_phy dp=
+_phy,
+>>  			  const u8 link_status[DP_LINK_STATUS_SIZE])
+>>  {
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.h b/dri=
+vers/gpu/drm/i915/display/intel_dp_link_training.h
+>> index dbfb15705aaa..dc1556b46b85 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+>> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+>> @@ -29,6 +29,10 @@ void intel_dp_start_link_train(struct intel_dp *intel=
+_dp,
+>>  void intel_dp_stop_link_train(struct intel_dp *intel_dp,
+>>  			      const struct intel_crtc_state *crtc_state);
+>>=20=20
+>> +void
+>> +intel_dp_dump_link_status(struct intel_dp *intel_dp, enum drm_dp_phy dp=
+_phy,
+>> +			  const u8 link_status[DP_LINK_STATUS_SIZE]);
+>> +
+>>  /* Get the TPSx symbol type of the value programmed to DP_TRAINING_PATT=
+ERN_SET */
+>>  static inline u8 intel_dp_training_pattern_symbol(u8 pattern)
+>>  {
+>> --=20
+>> 2.30.2
+
+--=20
 Jani Nikula, Intel Open Source Graphics Center
