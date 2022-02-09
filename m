@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5334A4AF54E
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 16:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D11674AF55C
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 16:35:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 086A810E1DE;
-	Wed,  9 Feb 2022 15:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03C938997A;
+	Wed,  9 Feb 2022 15:35:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F311E10E1DE
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 15:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644420799; x=1675956799;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=/42HF8Fl+ZC1zv3DJFoHRFzFvjgFJQkv4Tte+gzujnA=;
- b=FBWV9qzVBT30hD+t11bE/IbXlcfzIplI9IDLocJ2L9TwgMnJSmW/+dBQ
- xPsQHVLy2n76uNC4oTCSqNh3DUTgUmcrUvPfklo4xfHWChi2nX5tZl+S+
- PlPozIqG5bruFPpHmmSYjW2xy1mfPqVIRMEZEr2yGMBaZ+Fz3CXy0SZAR
- vb6KbwakvIrcLj9zicz2yctPwTRzfAJ/dlXSFvpKRTG/nbV0QsVwmmGrD
- Q5MPtr4ikslJ+Yk1213EKpG0ol2sgEZSU639KhMlF8/CW4/S8xCg6GnTk
- qu/dER7GNZeBFck0i2SNHZMn/DhNv0y7Jz3ypqiswV3FqQbQ4jZQ1twWD Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="249176800"
-X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="249176800"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 07:33:19 -0800
-X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="585596858"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 07:33:14 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nHox5-002em2-RY; Wed, 09 Feb 2022 17:32:15 +0200
-Date: Wed, 9 Feb 2022 17:32:15 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED
- displays
-Message-ID: <YgPef3s5+AMqWpSH@smile.fi.intel.com>
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <CAMuHMdVTVX7LFay-rfv=oW96dMA24duMUVGRE62jQSNkrKtyMg@mail.gmail.com>
- <f178de92-7cb1-dcc5-1f60-9ccfc56bc0a4@redhat.com>
- <YgPF1cBMsd9973Dx@smile.fi.intel.com>
- <CAMuHMdXQdL_Do8Hjay1egfmd9H05R7BjNeKfLGq67mU4bQNVZA@mail.gmail.com>
- <f58b2608-0d51-3209-ae11-18bdac19dd66@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f58b2608-0d51-3209-ae11-18bdac19dd66@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
+ [209.85.167.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3878E8997A
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 15:35:11 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id m10so2858466oie.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 07:35:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=rue2p+rxxRzTcpzXBjAx6Nrna1JsJ4CzugHpoyHjtrM=;
+ b=fWFTNAK5Sp6yPV3EinRPowEfzOqwQkrBbsXlP65s4bAZsAI5MXPVkGQ7WvJIvG2Qho
+ GmHK9q3jJ7o90u29f1xdzvRNSWjVJB8vTiKGva7l9s1pqDBMxFZEnRfaCJIdOA42Qmy2
+ GvYKdTJYu++J6CpNAAuwjJDEUXliNNIAvjR1u6BX1IgS4KtgjdUOIIhfi/szpLauNoKI
+ 1jLkk1Im1EbWWdn77VHZlrOIRKqf1v2bMPrmOmpf/ce1Z6DmgcO8Ok+aTIvz8YXJBg8E
+ 0bKs5BAEu/xKrR4iL28fbcY1SacxYAlAes6mjV6FcLl7OeCV7FU+m5OxAGVNNO3avLfw
+ vYAg==
+X-Gm-Message-State: AOAM530hNsXbAG1QW250RM83BzxKtEqNWKlWvkjFow6g6sv83qZh+GHP
+ SysfogsM/98Cu1Bk3Tu5Sg==
+X-Google-Smtp-Source: ABdhPJxWKdE43poQgnWFP4/5cT7wgQczeGULboq8vh/fIH2TWeERikdANfIAYgAS4jESe/UbnkGqnw==
+X-Received: by 2002:aca:1a0f:: with SMTP id a15mr1226523oia.61.1644420910248; 
+ Wed, 09 Feb 2022 07:35:10 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id m26sm6845473ooa.36.2022.02.09.07.35.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 07:35:09 -0800 (PST)
+Received: (nullmailer pid 391812 invoked by uid 1000);
+ Wed, 09 Feb 2022 15:35:08 -0000
+From: Rob Herring <robh@kernel.org>
+To: Michael Riesch <michael.riesch@wolfvision.net>
+In-Reply-To: <20220209085110.3588035-2-michael.riesch@wolfvision.net>
+References: <20220209085110.3588035-1-michael.riesch@wolfvision.net>
+ <20220209085110.3588035-2-michael.riesch@wolfvision.net>
+Subject: Re: [PATCH v5 1/5] dt-bindings: gpu: mali-bifrost: describe clocks
+ for the rk356x gpu
+Date: Wed, 09 Feb 2022 09:35:08 -0600
+Message-Id: <1644420908.380944.391811.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,38 +59,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Sam Ravnborg <sam@ravnborg.org>, Linux PWM List <linux-pwm@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Alex Bee <knaerzche@gmail.com>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Peter Geis <pgwipeout@gmail.com>, Liang Chen <cl@rock-chips.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 09, 2022 at 03:42:16PM +0100, Javier Martinez Canillas wrote:
-> On 2/9/22 15:27, Geert Uytterhoeven wrote:
+On Wed, 09 Feb 2022 09:51:06 +0100, Michael Riesch wrote:
+> From: Alex Bee <knaerzche@gmail.com>
+> 
+> The Bifrost GPU in Rockchip RK356x SoCs has a core and a bus clock.
+> Reflect this in the SoC specific part of the binding.
+> 
+> Signed-off-by: Alex Bee <knaerzche@gmail.com>
+> [move the changes to the SoC section]
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> ---
+>  .../devicetree/bindings/gpu/arm,mali-bifrost.yaml | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
 
-...
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-> Now, this is a reason why I mentioned that the old fbdev driver shouldn't
-> be removed yet.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml:173:12: [warning] wrong indentation: expected 12 but found 11 (indentation)
 
-I agree on this conclusion.
+dtschema/dtc warnings/errors:
 
-I think based on the fbtft resurrection discussion I can send a new version
-to unorphan it, route via fbdev, and leave under staging, so it will be a
-compromise between all stakeholders.
+doc reference errors (make refcheckdocs):
 
--- 
-With Best Regards,
-Andy Shevchenko
+See https://patchwork.ozlabs.org/patch/1590238
 
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
