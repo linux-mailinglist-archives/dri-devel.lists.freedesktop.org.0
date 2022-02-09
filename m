@@ -2,64 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0B44AF5DA
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 16:56:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7560C4AF602
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 17:06:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9368010E26E;
-	Wed,  9 Feb 2022 15:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC97310E210;
+	Wed,  9 Feb 2022 16:06:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B86E810E1C9;
- Wed,  9 Feb 2022 15:56:39 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 176422110B;
- Wed,  9 Feb 2022 15:56:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1644422198; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1651310E210
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 16:06:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644422762;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SzEqIdUy3M5+nN3UMDCJHXE+Us/zy9il1r4EzwwLl2E=;
- b=b10BXCXe+W09zTSha9dud357DvYN4ugSsuYaNZvNht0QkeTEG7Ubt4MoC/2hbA4srtPNJM
- n+e9F+4QLpbzNSppJGX8i7JS7L4g7PLQ4edvCbgLVKC2c5XgKwC+m9eRMTJoMDexsASPgx
- Ezm3D2HkY5YuxeEdnBAuKbrfg9ChP4o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1644422198;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SzEqIdUy3M5+nN3UMDCJHXE+Us/zy9il1r4EzwwLl2E=;
- b=lf2EL5oJutkj11QiKE6sm/3RQr2E6l/he0Esj63EQ/iBxPuEYo+ciROHjdbNAEPwnq8YtK
- CFeLTpE9UE195dCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AA13513D86;
- Wed,  9 Feb 2022 15:56:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WIhgKDXkA2JxHAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 09 Feb 2022 15:56:37 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, yuq825@gmail.com, robh@kernel.org,
- tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, emma@anholt.net, kraxel@redhat.com,
- gurchetansingh@chromium.org, olvaffe@gmail.com
-Subject: [PATCH v2 2/2] drm/gem-shmem: Don't store mmap'ed buffers in core
- dumps
-Date: Wed,  9 Feb 2022 16:56:34 +0100
-Message-Id: <20220209155634.3994-3-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220209155634.3994-1-tzimmermann@suse.de>
-References: <20220209155634.3994-1-tzimmermann@suse.de>
+ bh=LEFCqKCSxGi9whZ4JcEN5a7NElBGZhBjkZkBGJeeZak=;
+ b=HAeQnG9zGRYf3Vk1WDDDN6FqSbmiqqmDfxjdt4BmR52Pu5LZX4pF/a6EREX3Si8GKV+d6D
+ TZStNHjtKklM0euRLn/ufFcohAwOae/jQimVkK0g7kzQrT3ZW44D6yBn5hXhXSSRBmehzQ
+ j9Q/g15D5pzHmt5VWkuAYXAlZAsa2Do=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-347-0D3hArXrOFSJRY00lBH7Iw-1; Wed, 09 Feb 2022 11:05:22 -0500
+X-MC-Unique: 0D3hArXrOFSJRY00lBH7Iw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bg16-20020a05600c3c9000b0034bea12c043so2861683wmb.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 08:05:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LEFCqKCSxGi9whZ4JcEN5a7NElBGZhBjkZkBGJeeZak=;
+ b=pDu31xxyMn5/Aib3JWzet4YrwFB9nwqkTfno4EuSuPMY/UP4e9wgO7HRJn+KK4E4P9
+ s8tellzYqr68eYuwOqRVWAucQvttMZzmc1WI0K4fzQXyJIpnOVWff4+7nh/Yhq0jBJyz
+ hHriH5Jzlwno2dHio5dpkvh0b7UFRWigZ9jCep5sajldBzay8bQUPNcEqV2YWkgqvZ9W
+ EAhZQ1EMgt7cn9a6pdifKyNia/maag0aynLrMqAQZjFDzSD47KAc3ARa2WCjYZgMDXtK
+ ZCLLI4JvSvQUK/n/0cXkd1So/sYfv0F/tjQsbQVBiekzeMkLVJm6cq3rXIsf3oGpdz/n
+ NLgQ==
+X-Gm-Message-State: AOAM532/TM8MLShDrEva4xfgO/N9miI8uiD2vSVAwtI6dIeuugkNIHLn
+ WPJlsZHYL0IdI9iF3tmCnJ+LTbHHp40lKU4lHCUt18za7uXuXLnC/i19Xl/c/0zg0VSPqyX4pR1
+ judWOIIk/auspMQW52Oj0TWnFEqOh
+X-Received: by 2002:a1c:2942:: with SMTP id p63mr2673407wmp.75.1644422721358; 
+ Wed, 09 Feb 2022 08:05:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx+j9ANRMCysRCXC83SlIGGD+b29Hyb7iOR9cmkjVggSgqjPJ0r7Mq6unfGb1nTB3jvtmr0qA==
+X-Received: by 2002:a1c:2942:: with SMTP id p63mr2673393wmp.75.1644422721161; 
+ Wed, 09 Feb 2022 08:05:21 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id i15sm1276298wmq.23.2022.02.09.08.05.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 08:05:20 -0800 (PST)
+Message-ID: <f3096131-4285-6e06-8e0a-47b23f8feb9c@redhat.com>
+Date: Wed, 9 Feb 2022 17:05:19 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 4/7] drm/solomon: Add SSD130X OLED displays I2C support
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20220209090314.2511959-1-javierm@redhat.com>
+ <20220209090314.2511959-5-javierm@redhat.com>
+ <YgPanXaAYQxHTjMd@smile.fi.intel.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YgPanXaAYQxHTjMd@smile.fi.intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,33 +86,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, lima@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set the VM_DONTDUMP flag on mmap'ed VMAs to omit them from core
-dumps. It's display-buffer memory; who knows what secrets these
-buffers contain.
+On 2/9/22 16:15, Andy Shevchenko wrote:
+> On Wed, Feb 09, 2022 at 10:03:11AM +0100, Javier Martinez Canillas wrote:
+>> The ssd130x driver only provides the core support for these devices but it
+>> does not have any bus transport logic. Add a driver to interface over I2C.
+> 
+> Thanks!
+> 
+> ...
+> 
+>> + * Authors: Javier Martinez Canillas <javierm@redhat.com>
+> 
+> s?!
+>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_gem_shmem_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 5991a22a9e22..bda06bde99fa 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -623,7 +623,7 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
- 		return ret;
- 	}
+Right.
  
--	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND;
-+	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
- 	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
- 	if (shmem->map_wc)
- 		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+> ...
+> 
+>> +#include <linux/i2c.h>
+>> +#include <linux/module.h>
+> 
+> regmap.h ?
+> err.h?
+>
+
+The regmap.h header is included in ssd130x.h and err.h in regmap.h.
+
+> ...
+> 
+>> +	ssd130x = ssd130x_probe(&client->dev, regmap);
+> 
+>> +
+> 
+> Redundant blank line.
+> 
+
+Ok.
+
+>> +	if (IS_ERR(ssd130x))
+>> +		return PTR_ERR(ssd130x);
+> 
+> ...
+> 
+>> +	{ /* sentinel */ },
+>
+> No comma for terminator entry.
+> 
+> 
+
+Right. I removed in one place bug forgot here.
+
+Best regards,
 -- 
-2.34.1
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
