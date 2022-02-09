@@ -2,35 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9674AF32B
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 14:44:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2AA4AF319
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 14:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D89810E3A8;
-	Wed,  9 Feb 2022 13:44:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62F8C10E287;
+	Wed,  9 Feb 2022 13:42:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 537 seconds by postgrey-1.36 at gabe;
- Wed, 09 Feb 2022 13:44:00 UTC
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
- by gabe.freedesktop.org (Postfix) with ESMTP id C284E10E3A8
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 13:44:00 +0000 (UTC)
-Received: from uucp (helo=alpha)
- by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
- id 1nHn7Y-0005Ye-00; Wed, 09 Feb 2022 14:34:56 +0100
-Received: by alpha.franken.de (Postfix, from userid 1000)
- id 4CC9AC24BD; Wed,  9 Feb 2022 14:34:15 +0100 (CET)
-Date: Wed, 9 Feb 2022 14:34:15 +0100
-From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [PATCH v13 8/9] MIPS: DTS: CI20: fix how ddc power is enabled
-Message-ID: <20220209133415.GA11741@alpha.franken.de>
-References: <cover.1643819482.git.hns@goldelico.com>
- <0e5dc9a7c67b1cdfdb4427f631a8caa43777270e.1643819482.git.hns@goldelico.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0901610E2FB
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 13:42:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644414137; x=1675950137;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=KNOrCxYQ76BbX5W2PuU+ObMnxpkvaWpKKPP8sBWs9fc=;
+ b=JRilfYXqtI8OtwpU954DYpQhc8/uKsYjN2b9FgUiNteplCH6wnpg2r21
+ PR8fM/ROEkDNJq+VnJ80XMNqFdramCUybUdr6BXxAb3nnmg2867WM93N3
+ 4l6g2Sd/C+PEVBs7HPRRQdKsrsrZgHGFsYpEqLWYgCRygZEoHBGdrFWF7
+ b5qCTBQL1ANU4B1/pKDkB9/6liLhzZevCEPTWlMaizt3dikgsYey35OBm
+ zN/rvo6+cc8fLhTveSO8EetU/2bQEJK20Dccov1PGfdhU8IGFiiYYzYy3
+ BZyphQ0aO+IftvFkL8WRbzeZDEIec1/XLP3P8B4h2WZMcUYcwNNCQaiVg g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="236610999"
+X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="236610999"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 05:42:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="678590566"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+ by fmsmga001.fm.intel.com with SMTP; 09 Feb 2022 05:42:13 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Wed, 09 Feb 2022 15:42:12 +0200
+Date: Wed, 9 Feb 2022 15:42:12 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: syzbot <syzbot+60df062e1c41940cae0f@syzkaller.appspotmail.com>
+Subject: Re: [syzbot] WARNING in component_del
+Message-ID: <YgPEtCGDlSrqa1fK@kuha.fi.intel.com>
+References: <00000000000016f4ae05d5cec832@google.com>
+ <000000000000a17f2305d77f4cb7@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0e5dc9a7c67b1cdfdb4427f631a8caa43777270e.1643819482.git.hns@goldelico.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <000000000000a17f2305d77f4cb7@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,45 +58,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, dri-devel@lists.freedesktop.org,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: rafael@kernel.org, gregkh@linuxfoundation.org, rafael.j.wysocki@intel.com,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, andriy.shevchenko@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 02, 2022 at 05:31:22PM +0100, H. Nikolaus Schaller wrote:
-> Originally we proposed a new hdmi-5v-supply regulator reference
-> for CI20 device tree but that was superseded by a better idea to use
-> the already defined "ddc-en-gpios" property of the "hdmi-connector".
+On Tue, Feb 08, 2022 at 02:37:10AM -0800, syzbot wrote:
+> syzbot has bisected this issue to:
 > 
-> Since "MIPS: DTS: CI20: Add DT nodes for HDMI setup" has already
-> been applied to v5.17-rc1, we add this on top.
+> commit 8c67d06f3fd9639c44d8147483fb1c132d71388f
+> Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Date:   Thu Dec 23 08:23:49 2021 +0000
 > 
-> Fixes: ae1b8d2c2de9 ("MIPS: DTS: CI20: Add DT nodes for HDMI setup")
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> Reviewed-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  arch/mips/boot/dts/ingenic/ci20.dts | 15 ++-------------
->  1 file changed, 2 insertions(+), 13 deletions(-)
+>     usb: Link the ports to the connectors they are attached to
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14063168700000
+> start commit:   555f3d7be91a Merge tag '5.17-rc3-ksmbd-server-fixes' of gi..
+> git tree:       upstream
+> final oops:     https://syzkaller.appspot.com/x/report.txt?x=16063168700000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=12063168700000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=266de9da75c71a45
+> dashboard link: https://syzkaller.appspot.com/bug?extid=60df062e1c41940cae0f
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15880d84700000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14de0c77b00000
+> 
+> Reported-by: syzbot+60df062e1c41940cae0f@syzkaller.appspotmail.com
+> Fixes: 8c67d06f3fd9 ("usb: Link the ports to the connectors they are attached to")
+> 
+> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
-applied to mips-fixes.
-
-Thomas.
+I'm guessing the component_add() is failing in this case. So I guess
+we need to consider the component_add() failures fatal in
+drivers/usb/core/port.c, which is a bit of a bummer. I'll send the
+fix.
 
 -- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+heikki
