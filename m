@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41564B0088
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 23:45:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A154B008C
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 23:45:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4225310E63A;
-	Wed,  9 Feb 2022 22:45:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B22A10E647;
+	Wed,  9 Feb 2022 22:45:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 776BD10E63A;
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B300910E63D;
  Wed,  9 Feb 2022 22:45:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1644446714; x=1675982714;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2c8oWetxkRvhFjcTJ47f6CTQoyf3NYWkcBODOntSdLo=;
- b=MkrZ7zGiQ5NL6GmLny472OjpEZGZqwmALy7B8gOXvY9yNoMXJYkPqW3n
- ALZoe7YLZlXNbCVIvj32QdFAOatI95IP2uuhXzA77KV+iqPG6BGmUuMlP
- 6AEAN4EZyCXrcKSGoB7AuuCcrXrhGQRI8UMOPSi+8z28pJ8c+aqREQWua
- M0zFx2KItlzZ65eTWAJVOKHxn4ITHIjXlR4rWVdsioL+qQxX4UO+JB2Dz
- 8pB8+tNbBu4CbaoRqoiETkyIGFYncXADowWH5H8upvIPClDu/99zp7AZo
- 7PvYNdYqYAKx/6NO/4zbVRiBiGoPKUMjaydYPNbyobsbW2cWkS/xYZ6bs w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10253"; a="232923522"
-X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="232923522"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ bh=OUbSlsflnQ6qLFjMTlTBVFjV37kRTSsxR3Djg6ZqRFM=;
+ b=ZHIbHY+Qz4W8k2dxRXou0sim8zJpzv72cko6TU7pHgl/j8SyD/3RPTdu
+ 1oRKOjCbqOprEwXUn2kPTPI4rb4XON274wkjpaKDogmxGhNn8iD1P2QaT
+ IUsZNS0F6HQ0pJkZQAxk4Bby9yJ+0kNxOIsuccKl+f0TvPN6OgbyoHns9
+ xzRsayKo9431Z/5LZDeEJ1BFsWFHBXYpKhbg3yahkEX41W0udOqr/4Qun
+ 3PGnV0byxN6HTAb8tPfa+9ZjsIp0vY78xD7L48SBzo5AMVnuwvmbzQJkz
+ vqzbIukzNctUc5kcAXa/2WD5mFkL/8pj03bthZbsv6SSX6wvwntUE31vJ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10253"; a="310101179"
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="310101179"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 14:45:14 -0800
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="485450916"
+Received: from liw3-mobl6.amr.corp.intel.com (HELO localhost)
+ ([10.212.169.188])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  09 Feb 2022 14:45:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="629462749"
-Received: from unknown (HELO localhost) ([10.212.169.188])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 14:45:12 -0800
 From: Jordan Justen <jordan.l.justen@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v4 1/4] drm/i915/guc: Add fetch of hwconfig table
-Date: Wed,  9 Feb 2022 14:45:04 -0800
-Message-Id: <20220209224507.874751-2-jordan.l.justen@intel.com>
+Subject: [PATCH v4 2/4] drm/i915/uapi: Add query for hwconfig blob
+Date: Wed,  9 Feb 2022 14:45:05 -0800
+Message-Id: <20220209224507.874751-3-jordan.l.justen@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220209224507.874751-1-jordan.l.justen@intel.com>
 References: <20220209224507.874751-1-jordan.l.justen@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,7 +57,11 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Kenneth Graunke <kenneth.w.graunke@intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
+ Slawomir Milczarek <slawomir.milczarek@intel.com>,
  Jon Bloomfield <jon.bloomfield@intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  John Harrison <John.C.Harrison@Intel.com>,
@@ -65,297 +69,98 @@ Cc: Matthew Brost <matthew.brost@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Implement support for fetching the hardware description table from the
-GuC. The call is made twice - once without a destination buffer to
-query the size and then a second time to fill in the buffer.
+The DRM_I915_QUERY_HWCONFIG_BLOB query item returns a blob of data
+which it receives from the GuC software. This blob provides some
+useful data about the hardware for drivers.
 
-Note that the table is only available on ADL-P and later platforms.
+Although the blob is not fully documented at this time, the basic
+format is an array of u32 values. The array is a simple and flexible
+KLV (Key/Length/Value) formatted table. For example, it could be just:
+enum device_attr { ATTR_SOME_VALUE = 0, ATTR_SOME_MASK = 1, };
 
+  static const u32 hwconfig[] = {
+      ATTR_SOME_VALUE,
+      1,             // Value Length in DWords
+      8,             // Value
+
+      ATTR_SOME_MASK,
+      3,
+      0x00FFFFFFFF, 0xFFFFFFFF, 0xFF000000,
+  };
+
+The attribute ids and meaning of the values will be documented in the
+Programmer Reference Manuals when released.
+
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Kenneth Graunke <kenneth.w.graunke@intel.com>
 Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Acked-by: Jordan Justen <jordan.l.justen@intel.com>
+Tested-by: Jordan Justen <jordan.l.justen@intel.com>
 Acked-by: Jon Bloomfield <jon.bloomfield@intel.com>
 ---
- drivers/gpu/drm/i915/Makefile                 |   1 +
- .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 +
- .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |   4 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   3 +
- .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.c   | 151 ++++++++++++++++++
- .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.h   |  19 +++
- drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   6 +
- 7 files changed, 185 insertions(+)
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.h
+ drivers/gpu/drm/i915/i915_query.c | 23 +++++++++++++++++++++++
+ include/uapi/drm/i915_drm.h       |  1 +
+ 2 files changed, 24 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 16cab8db012a..784949070d6c 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -192,6 +192,7 @@ i915-y += gt/uc/intel_uc.o \
- 	  gt/uc/intel_guc_rc.o \
- 	  gt/uc/intel_guc_slpc.o \
- 	  gt/uc/intel_guc_submission.o \
-+	  gt/uc/intel_guc_hwconfig.o \
- 	  gt/uc/intel_huc.o \
- 	  gt/uc/intel_huc_debugfs.o \
- 	  gt/uc/intel_huc_fw.o
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-index fe5d7d261797..4a61c819f32b 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-@@ -137,6 +137,7 @@ enum intel_guc_action {
- 	INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION = 0x1009,
- 	INTEL_GUC_ACTION_SETUP_PC_GUCRC = 0x3004,
- 	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
-+	INTEL_GUC_ACTION_GET_HWCONFIG = 0x4100,
- 	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
- 	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
- 	INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER = 0x4505,
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-index 488b6061ee89..f9e2a6aaef4a 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-@@ -8,6 +8,10 @@
- 
- enum intel_guc_response_status {
- 	INTEL_GUC_RESPONSE_STATUS_SUCCESS = 0x0,
-+	INTEL_GUC_RESPONSE_NOT_SUPPORTED = 0x20,
-+	INTEL_GUC_RESPONSE_NO_ATTRIBUTE_TABLE = 0x201,
-+	INTEL_GUC_RESPONSE_NO_DECRYPTION_KEY = 0x202,
-+	INTEL_GUC_RESPONSE_DECRYPTION_FAILED = 0x204,
- 	INTEL_GUC_RESPONSE_STATUS_GENERIC_FAIL = 0xF000,
- };
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index f9240d4baa69..ce2ff4bb0fd5 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -13,6 +13,7 @@
- #include "intel_guc_fw.h"
- #include "intel_guc_fwif.h"
- #include "intel_guc_ct.h"
-+#include "intel_guc_hwconfig.h"
- #include "intel_guc_log.h"
- #include "intel_guc_reg.h"
- #include "intel_guc_slpc_types.h"
-@@ -37,6 +38,8 @@ struct intel_guc {
- 	struct intel_guc_ct ct;
- 	/** @slpc: sub-structure containing SLPC related data and objects */
- 	struct intel_guc_slpc slpc;
-+	/** @hwconfig: hardware configuration KLV table */
-+	struct intel_guc_hwconfig hwconfig;
- 
- 	/** @sched_engine: Global engine used to submit requests to GuC */
- 	struct i915_sched_engine *sched_engine;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
-new file mode 100644
-index 000000000000..ce6088f112d4
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
-@@ -0,0 +1,151 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+#include "gt/intel_gt.h"
-+#include "i915_drv.h"
-+#include "i915_memcpy.h"
-+#include "intel_guc_hwconfig.h"
-+
-+static inline struct intel_guc *hwconfig_to_guc(struct intel_guc_hwconfig *hwconfig)
-+{
-+	return container_of(hwconfig, struct intel_guc, hwconfig);
-+}
-+
-+/*
-+ * GuC has a blob containing hardware configuration information (HWConfig).
-+ * This is formatted as a simple and flexible KLV (Key/Length/Value) table.
-+ *
-+ * For example, a minimal version could be:
-+ *   enum device_attr {
-+ *     ATTR_SOME_VALUE = 0,
-+ *     ATTR_SOME_MASK  = 1,
-+ *   };
-+ *
-+ *   static const u32 hwconfig[] = {
-+ *     ATTR_SOME_VALUE,
-+ *     1,		// Value Length in DWords
-+ *     8,		// Value
-+ *
-+ *     ATTR_SOME_MASK,
-+ *     3,
-+ *     0x00FFFFFFFF, 0xFFFFFFFF, 0xFF000000,
-+ *   };
-+ *
-+ * The attribute ids are defined in a hardware spec.
-+ */
-+
-+static int __guc_action_get_hwconfig(struct intel_guc_hwconfig *hwconfig,
-+				     u32 ggtt_offset, u32 ggtt_size)
-+{
-+	struct intel_guc *guc = hwconfig_to_guc(hwconfig);
-+	u32 action[] = {
-+		INTEL_GUC_ACTION_GET_HWCONFIG,
-+		ggtt_offset,
-+		0, /* upper 32 bits of address */
-+		ggtt_size,
-+	};
-+	int ret;
-+
-+	ret = intel_guc_send_mmio(guc, action, ARRAY_SIZE(action), NULL, 0);
-+	if (ret == -ENXIO)
-+		return -ENOENT;
-+
-+	if (!ggtt_size && !ret)
-+		ret = -EINVAL;
-+
-+	return ret;
-+}
-+
-+static int guc_hwconfig_discover_size(struct intel_guc_hwconfig *hwconfig)
-+{
-+	int ret;
-+
-+	/* Sending a query with too small a table will return the size of the table */
-+	ret = __guc_action_get_hwconfig(hwconfig, 0, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	hwconfig->size = ret;
-+	return 0;
-+}
-+
-+static int guc_hwconfig_fill_buffer(struct intel_guc_hwconfig *hwconfig)
-+{
-+	struct intel_guc *guc = hwconfig_to_guc(hwconfig);
-+	struct i915_vma *vma;
-+	u32 ggtt_offset;
-+	void *vaddr;
-+	int ret;
-+
-+	GEM_BUG_ON(!hwconfig->size);
-+
-+	ret = intel_guc_allocate_and_map_vma(guc, hwconfig->size, &vma, &vaddr);
-+	if (ret)
-+		return ret;
-+
-+	ggtt_offset = intel_guc_ggtt_offset(guc, vma);
-+
-+	ret = __guc_action_get_hwconfig(hwconfig, ggtt_offset, hwconfig->size);
-+	if (ret >= 0)
-+		memcpy(hwconfig->ptr, vaddr, hwconfig->size);
-+
-+	i915_vma_unpin_and_release(&vma, I915_VMA_RELEASE_MAP);
-+
-+	return ret;
-+}
-+
-+static bool has_table(struct drm_i915_private *i915)
-+{
-+	if (IS_ALDERLAKE_P(i915))
-+		return true;
-+
-+	return false;
-+}
-+
-+/**
-+ * intel_guc_hwconfig_fini - Finalize the HWConfig
-+ *
-+ * Free up the memory allocation holding the table.
-+ */
-+void intel_guc_hwconfig_fini(struct intel_guc_hwconfig *hwconfig)
-+{
-+	kfree(hwconfig->ptr);
-+	hwconfig->size = 0;
-+	hwconfig->ptr = NULL;
-+}
-+
-+/**
-+ * intel_guc_hwconfig_init - Initialize the HWConfig
-+ *
-+ * Retrieve the HWConfig table from the GuC and save it away in a local memory
-+ * allocation. It can then be queried on demand by other users later on.
-+ */
-+int intel_guc_hwconfig_init(struct intel_guc_hwconfig *hwconfig)
-+{
-+	struct intel_guc *guc = hwconfig_to_guc(hwconfig);
-+	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
-+	int ret;
-+
-+	if (!has_table(i915))
-+		return 0;
-+
-+	ret = guc_hwconfig_discover_size(hwconfig);
-+	if (ret)
-+		return ret;
-+
-+	hwconfig->ptr = kmalloc(hwconfig->size, GFP_KERNEL);
-+	if (!hwconfig->ptr) {
-+		hwconfig->size = 0;
-+		return -ENOMEM;
-+	}
-+
-+	ret = guc_hwconfig_fill_buffer(hwconfig);
-+	if (ret < 0) {
-+		intel_guc_hwconfig_fini(hwconfig);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.h
-new file mode 100644
-index 000000000000..fdd7f0d6e938
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+#ifndef _INTEL_GUC_HWCONFIG_H_
-+#define _INTEL_GUC_HWCONFIG_H_
-+
-+#include <linux/types.h>
-+
-+struct intel_guc_hwconfig {
-+	u32 size;
-+	void *ptr;
-+};
-+
-+int intel_guc_hwconfig_init(struct intel_guc_hwconfig *hwconfig);
-+void intel_guc_hwconfig_fini(struct intel_guc_hwconfig *hwconfig);
-+
-+#endif /* _INTEL_GUC_HWCONFIG_H_ */
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 09ed29df67bc..d045ff6d4d63 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -489,6 +489,10 @@ static int __uc_init_hw(struct intel_uc *uc)
- 	if (ret)
- 		goto err_log_capture;
- 
-+	ret = intel_guc_hwconfig_init(&guc->hwconfig);
-+	if (ret)
-+		drm_err(&i915->drm, "Failed to retrieve hwconfig table: %d\n", ret);
-+
- 	ret = guc_enable_communication(guc);
- 	if (ret)
- 		goto err_log_capture;
-@@ -562,6 +566,8 @@ static void __uc_fini_hw(struct intel_uc *uc)
- 	if (intel_uc_uses_guc_submission(uc))
- 		intel_guc_submission_disable(guc);
- 
-+	intel_guc_hwconfig_fini(&guc->hwconfig);
-+
- 	__uc_sanitize(uc);
+diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+index 2dfbc22857a3..195524e9a369 100644
+--- a/drivers/gpu/drm/i915/i915_query.c
++++ b/drivers/gpu/drm/i915/i915_query.c
+@@ -479,12 +479,35 @@ static int query_memregion_info(struct drm_i915_private *i915,
+ 	return total_length;
  }
  
++static int query_hwconfig_blob(struct drm_i915_private *i915,
++			       struct drm_i915_query_item *query_item)
++{
++	struct intel_gt *gt = to_gt(i915);
++	struct intel_guc_hwconfig *hwconfig = &gt->uc.guc.hwconfig;
++
++	if (!hwconfig->size || !hwconfig->ptr)
++		return -ENODEV;
++
++	if (query_item->length == 0)
++		return hwconfig->size;
++
++	if (query_item->length < hwconfig->size)
++		return -EINVAL;
++
++	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
++			 hwconfig->ptr, hwconfig->size))
++		return -EFAULT;
++
++	return hwconfig->size;
++}
++
+ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
+ 					struct drm_i915_query_item *query_item) = {
+ 	query_topology_info,
+ 	query_engine_info,
+ 	query_perf_config,
+ 	query_memregion_info,
++	query_hwconfig_blob,
+ };
+ 
+ int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index 914ebd9290e5..069d2fadfbd9 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -2685,6 +2685,7 @@ struct drm_i915_query_item {
+ #define DRM_I915_QUERY_ENGINE_INFO	2
+ #define DRM_I915_QUERY_PERF_CONFIG      3
+ #define DRM_I915_QUERY_MEMORY_REGIONS   4
++#define DRM_I915_QUERY_HWCONFIG_BLOB	5
+ /* Must be kept compact -- no holes and well documented */
+ 
+ 	/**
 -- 
 2.34.1
 
