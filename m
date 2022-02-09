@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA164AFFD2
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 23:03:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8F64AFFD3
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 23:03:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 444C010E4F0;
-	Wed,  9 Feb 2022 22:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B200D10E618;
+	Wed,  9 Feb 2022 22:03:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44D7D10E4F0
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 22:03:14 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id z19so6770584lfq.13
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 14:03:14 -0800 (PST)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4D4C10E618
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 22:03:24 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id i17so6788926lfg.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 14:03:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Itlsq3+hS5Y9iy3ygo9I7us+gV+aSgo7u4P79ICKVnY=;
- b=BxtvxGZwH9hhHiy8OqyqqNmLvOfu7ij2Mqnmp1/5TkvYA1LfHMseH8fEdM/KqWrykN
- Xm0Q88VB32Y9XlGI2Abv9KXlMdTaG38aIFCdiCuKZojEob2BNqc0PwmETvRdBGt18eNO
- YE2ukUodr4x8Krd0cGDZkTU1gsIkbZNtmCqMaBd3FAqf+BUmkEYElvzH6rLgbqXy/n8z
- t5sLgvnrGB4CX7TiB7d5NG++iEGROz5rrn7xBhS88wDTcJvPGjDeAfCHiPJ+FszE/K1i
- jBF5N31tpafZqL88FgpKmSEWb8qWkdE8RukMSS6pQoW7SgonlfQy6YPimpMCYckSiRVK
- XjNQ==
+ bh=m/jM298Q2lilwuRAcB9szC9CfZcuho3/psKjLfOmipk=;
+ b=TBVPofOcDZHSNsfDSrK9N25wXlUqmiOwgAkzkjmAX7pRNqnzIlCv+Yazw38kCracB1
+ PfVDsmtnw7AZxa6Rvn5RueZwpXPFbDHYD7wl8veFe5kS1uzo3pW+Q54NcX6wK7F4ifN9
+ kCIpFQOmGPlWeI+F+Daz9XRNW0Np/b/ccFxBcKS7/6U+f2704dO9X6NRZidd5HhbDpDO
+ jDr5wylLX3hFKJ2e6jweRbE0x4iGflbnv4rwQe6jxf7pTSNFufATUiEHoKNdn4H37ZiU
+ l2QWN6u7oLNWiu3x7fhNSVxYWqN2s67IOWxnFQ+cHgpG4/KqiJottk6xQuvfFpjx+4zG
+ p3KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Itlsq3+hS5Y9iy3ygo9I7us+gV+aSgo7u4P79ICKVnY=;
- b=ZKM09L3EGKZITIdRhzq17BCzyD0TJ1wK72FEWUIrSb9qSay5bGvbdhB7hHLTcy5QDV
- wPR3DHLDHwtg7lHGJPxn1t5JHuC8itI7IA+zvUj9X8g5ecXn1ht47QmuNdZeY5V0tQd2
- furTUGaBzEnSum8MrKFqb6bVInsG8+RUcCIK7O1O9w3EEtQT/3S3N37FryItoeFGCPHW
- sMrJx9k0h/iUAwc4N3f9zz6LLjGSs0OEz7Ud6fztu5Hm0s2Mfaildui20JTGvVOolg/E
- eHas677nBbEXQDO1j/eOJTX/547mtF06TrqwnhlCXsR872Vg5MXqM4AvdCBhavRLtVEK
- oHKA==
-X-Gm-Message-State: AOAM532mzL4DH7GNy8QRf4QzJObXZ5DRYFohcyEH16+uYy+KKcV5q6Fw
- YNJqBS3ldWAnp8kZkCuF2h/mgg==
-X-Google-Smtp-Source: ABdhPJxlN+/1YXu/VKKNfgOkXudTxUBopzACvjjI7nQLgtidHg+iQN17+32xjG9smnA2peFinqqZPQ==
-X-Received: by 2002:ac2:5185:: with SMTP id u5mr3138375lfi.589.1644444192609; 
- Wed, 09 Feb 2022 14:03:12 -0800 (PST)
+ bh=m/jM298Q2lilwuRAcB9szC9CfZcuho3/psKjLfOmipk=;
+ b=K8WsULmAJyyBuMveiaUkdSmIjYvrqeROewhyicmkMxAypzeXFDDVGSle6zmim7V64I
+ Svpi/6rADeYAq/0ykEUBVJK2hr57LOMEkF3vxSz0B5+a7UX1neqbyCaJLyVuZlEZKj4W
+ ZCWiqWyBjkXbUlcjQ1bfzRrLiZew3+csdOJkbRWtwB6gz7t0VjJge00YZbwzy/tj2jXS
+ W40nDDa/SLBoFpVynuf2SkS3Gmse/dtPPfIUWflnanRVHnJKV3N5+eUf+yEt62Cjsqds
+ LElnbrFJbG5EtxUkS+IpYlbKzFz9SIGGfPSMF6MyTpvsDbjrlgtdBNfiB7zQ5nrzAFyM
+ iGMw==
+X-Gm-Message-State: AOAM530CI5ESAYv68pr8aphhagRJ4+lUgmpLcMjY5F+s7aZToD/1ZLnF
+ 0JcArKYY3PLVIZNbpAL/NZywug==
+X-Google-Smtp-Source: ABdhPJxwEImBidIbwgxkjiktuZ2LvjO6+doHOTUKPtcJPGxnGqzJVQKkxUsjyj77e/ZRZY8CKdu1Dg==
+X-Received: by 2002:a05:6512:3a93:: with SMTP id
+ q19mr3041722lfu.487.1644444202900; 
+ Wed, 09 Feb 2022 14:03:22 -0800 (PST)
 Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id n9sm914012lft.2.2022.02.09.14.03.11
+ by smtp.gmail.com with ESMTPSA id a27sm2541809lfg.140.2022.02.09.14.03.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 14:03:11 -0800 (PST)
-Message-ID: <346cb67b-a5bb-b4ad-a15d-d2cfc850ccf5@linaro.org>
-Date: Thu, 10 Feb 2022 01:03:11 +0300
+ Wed, 09 Feb 2022 14:03:22 -0800 (PST)
+Message-ID: <32259670-1261-a305-2bcb-57ebde792f24@linaro.org>
+Date: Thu, 10 Feb 2022 01:03:21 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH v2 1/2] drm/msm/dsi: Remove spurious IRQF_ONESHOT flag
+Subject: Re: [PATCH v2 2/2] drm/msm/hdmi: Remove spurious IRQF_ONESHOT flag
 Content-Language: en-GB
 To: Daniel Thompson <daniel.thompson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
 References: <20220201174734.196718-1-daniel.thompson@linaro.org>
- <20220201174734.196718-2-daniel.thompson@linaro.org>
+ <20220201174734.196718-3-daniel.thompson@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220201174734.196718-2-daniel.thompson@linaro.org>
+In-Reply-To: <20220201174734.196718-3-daniel.thompson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,38 +86,38 @@ On 01/02/2022 20:47, Daniel Thompson wrote:
 > which need to keep the irq line disabled until the threaded handler has
 > been run.". When applied to an interrupt that doesn't request a threaded
 > irq then IRQF_ONESHOT has a lesser known (undocumented?) side effect,
-> which it to disable the forced threading of irqs (and for "normal" kernels
-> it is a nop). In this case I can find no evidence that suppressing forced
-> threading is intentional. Had it been intentional then a driver must adopt
-> the raw_spinlock API in order to avoid deadlocks on PREEMPT_RT kernels
-> (and avoid calling any kernel API that uses regular spinlocks).
+> which it to disable the forced threading of irqs. For "normal" kernels
+> if there is no thread_fn then IRQF_ONESHOT is a nop.
 > 
-> Fix this by removing the spurious additional flag.
+> In this case disabling forced threading is not appropriate because the
+> driver calls wake_up_all() (via msm_hdmi_i2c_irq) and also directly uses
+> the regular spinlock API for locking (in msm_hdmi_hdcp_irq() ). Neither
+> of these APIs can be called from no-thread interrupt handlers on
+> PREEMPT_RT systems.
 > 
-> This change is required for my Snapdragon 7cx Gen2 tablet to boot-to-GUI
-> with PREEMPT_RT enabled.
+> Fix this by removing IRQF_ONESHOT.
 > 
 > Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 > ---
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
+>   drivers/gpu/drm/msm/hdmi/hdmi.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 6b3ced4aaaf5d..3a3f53f0c8ae1 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1877,7 +1877,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> index 719720709e9e7..e167817b42958 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> @@ -306,7 +306,7 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+>   	}
 >   
->   	/* do not autoenable, will be enabled later */
->   	ret = devm_request_irq(&pdev->dev, msm_host->irq, dsi_host_irq,
-> -			IRQF_TRIGGER_HIGH | IRQF_ONESHOT | IRQF_NO_AUTOEN,
-> +			IRQF_TRIGGER_HIGH | IRQF_NO_AUTOEN,
->   			"dsi_isr", msm_host);
+>   	ret = devm_request_irq(&pdev->dev, hdmi->irq,
+> -			msm_hdmi_irq, IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+> +			msm_hdmi_irq, IRQF_TRIGGER_HIGH,
+>   			"hdmi_isr", hdmi);
 >   	if (ret < 0) {
->   		dev_err(&pdev->dev, "failed to request IRQ%u: %d\n",
+>   		DRM_DEV_ERROR(dev->dev, "failed to request IRQ%u: %d\n",
 
 
 -- 
