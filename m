@@ -1,90 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832B04B07CD
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 09:10:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A414B07D2
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 09:10:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56AB510E744;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E11410E754;
 	Thu, 10 Feb 2022 08:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A338610E38D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 12:11:01 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 813EA580194;
- Wed,  9 Feb 2022 07:00:54 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 09 Feb 2022 07:00:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; bh=k/14lupStqZ3f+
- qyVcVh73Hc4Y8P8+3tsS/s0bTopnA=; b=tMF6Ms7pA4NERuAW03cQdv9rTiWtwZ
- VrkX8GlNLI1yfrscquXOTvEDHIOfVBGvxlgGr47Tkj8wOmRsCpEF/yFfWWqAfVVB
- QZTFisRec5R957W7xRrkjjJRd6R5WV7017CDRd5toiUZGvumM9Tre6m8fwVB/ZdF
- cbRtNeoDCHRgl0gJ4+vu9xa2OIYUCGxrQHcsWnfquL6Cw+xXWpTv8BPT2isWzbkg
- WkUQmdWp0WxddEo2+Y76t2D90Y0EtSsUrxNawho+cBe1qIkvofaNGS5jO6KPLkyD
- qyzVwCUapi2XbpL91GW3rJijAUf70Rcmkx8TRjxcPlFuBU79V+bPdOLA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=k/14lupStqZ3f+qyVcVh73Hc4Y8P8+3tsS/s0bTop
- nA=; b=fZNmxAWMJIJSDWxtWT9oIWmcBK2IT9sUrQdVkNUfUe5cnQsLHjLbCsw31
- oP1WP+06tEnGJkcPTR7VpPPdvxvDUh0dr0Djt+0G1mFnoXCyu6R857FMm5l2DsUr
- 4uPf2dy7P97HTQG7WVuIwQ5lCVnBnFwyxoY8P84NdEVATOa7uvfzBgqVH2lyW6v3
- TW1/44RBULdIQrGKcgPurBC2bSbwq8mYM/Q+Zvd2CFnVH+czIIKRDOuRbYAE34JP
- VLGrtUOm/tOi+XbUnKSlnbOvOnDClX77MDzp0JZAaFyZvsgxXK1n9JdG5dGhL11A
- ZkXs8TkdL3HmPdHpWXDmT614mvKfw==
-X-ME-Sender: <xms:9KwDYp08JqwKs58hfWVfV9eOnIfs0IN0SAWIMNfB4oxpDXhIcA08pw>
- <xme:9KwDYgH5bvUXx1Eh_dyfTf6_DAyYwyKI4dW1k1Lu3pKUglLmiMJWn2cjUHYrNo27Y
- My8TW-FpLv1ebjafac>
-X-ME-Received: <xmr:9KwDYp5DQ5aGQ0jfh3Y86J2XbmHjIW3wif28O6zrv8R7Rgde056XXgln0JCGxJ8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheelgdeffecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
- fuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpefkffggfgfuvfhfhfgjtgfg
- sehtkeertddtfeejnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrd
- ihrghnghesfhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepleffgeeiiedt
- gfevieeuudetgedtkefhudefudeihedtiedthfffheeufeeljedvnecuffhomhgrihhnpe
- guvggsihgrnhdrohhrghdpghhithhhuhgsrdhiohenucevlhhushhtvghrufhiiigvpedt
- necurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorg
- htrdgtohhm
-X-ME-Proxy: <xmx:9awDYm0q7wcKzutDRKp4YzrpOb8_PcTBEekPUP9dk3nh4EfRAQMQow>
- <xmx:9awDYsHCsh80ok8fGMmYmOZbu7P7TWB3pNYpyf4or3vn6sn2DDvqsw>
- <xmx:9awDYn_u6ILecuNazwXVi5xeiCkN3p9JcCsgv9-asy8zyOvf89Pb5A>
- <xmx:9qwDYq9zbks952R0HB6S4OFI4mb4ecc8fI-nhIsOT2wooYFepTQ4_A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Feb 2022 07:00:50 -0500 (EST)
-Message-ID: <d2e26781-4cef-696d-f7c8-88bb4b71fd87@flygoat.com>
-Date: Wed, 9 Feb 2022 12:00:49 +0000
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79CAF89364
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 13:14:04 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id d10so7140070eje.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 05:14:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=MvIis3EoHhsjYRK616ll8LrYGwz8h4ztaz98uu56seM=;
+ b=kTl87A1TJNcgGG2yBnhVoDFTrKwfU57Z7c8LYPq5FqFVQWrO1b159uzhQyCPN/gL9B
+ pACxyZw3e1diVJdifCudk1+5al9GcTCsaamBOVPYLgDa+2pLJ/NwF2VcM63Fc0ucCH5S
+ mSziLxPioGzVqZdvwgZ/CF+7irkEorLlDB6aaR2QWhug6lmES1OFpxjgbgBV+ivzzBHB
+ /kCIr3teZS1rLbtQhsM3Gqtir230z5/Qr4B30CWPc7+MR1wDdZ3WOY7AUcmD9zW/2Z7N
+ RX3vlPliqvLAjuzzPbXyBT1zJK/13jOLDDOXvkhlrJ7wBAd1Od2BUXdr2nRa+WBge+75
+ yDUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=MvIis3EoHhsjYRK616ll8LrYGwz8h4ztaz98uu56seM=;
+ b=iuIIoP3MbCjREaZ14qAdweGw/OewPLxoBpD4uU/yWT4q6sKsjJIyiDdrLWq0HvrrGZ
+ rOJqbFb/yu28DEVOdOYVdK9fK9/6ijp3+IVPOhCM9QUxBvvFkQQDrDNXiuCHPAYYlCHP
+ rmY9rpEo8jPimuctSs/Ut+KjQ8nyb+cvR7MgTk9UfZJAEJW2glN8D3y9XMhC8rtRzZAK
+ luM8G3T8rwYf7J1YGTMaD9uZGBg9QhOiNqYc+azbkNXmpB6KOw7/ltnpGFrInZN6bOLJ
+ jUC2oTZubXt/VeOW3EXmMSFpmBcgDa23nZqcozSkyMQhiwWxvgw4hi4octoVTnV/SOjP
+ a5aQ==
+X-Gm-Message-State: AOAM531FaNKIOMOclvyLWIHePNtEQ4vMvNEZ6whNcUYKjF4pidj/ja4O
+ Ge58sk+OkfwyYiC0LI4ALaI=
+X-Google-Smtp-Source: ABdhPJzZVYKr7CaTzRFu8MIO+8Plg7oF3R3Wu/W58TC3ZginUEqjnEqHX8SJlEoLHlqMsPy2LxSvaQ==
+X-Received: by 2002:a17:906:7487:: with SMTP id
+ e7mr1916894ejl.58.1644412442827; 
+ Wed, 09 Feb 2022 05:14:02 -0800 (PST)
+Received: from Saturn.fritz.box ([194.191.225.82])
+ by smtp.googlemail.com with ESMTPSA id
+ cf15sm4361418ejb.121.2022.02.09.05.14.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 05:14:02 -0800 (PST)
+Message-ID: <78357e75dede2a7bff95126ff35784929335e918.camel@gmail.com>
+Subject: Re: [RFC][PATCH] Revert "drm/panel-simple: drop use of data-mapping
+ property"
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: Marek Vasut <marex@denx.de>, Christoph Niedermaier
+ <cniedermaier@dh-electronics.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>
+Date: Wed, 09 Feb 2022 14:14:01 +0100
+In-Reply-To: <bef41ee6-d070-109f-33c2-95103e7ef6a3@denx.de>
+References: <20220201110717.3585-1-cniedermaier@dh-electronics.com>
+ <YfsXt1lU6l9cSctX@pendragon.ideasonboard.com>
+ <4a2f4707c03d4509aa5f3a388cbfbe04@dh-electronics.com>
+ <bef41ee6-d070-109f-33c2-95103e7ef6a3@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v6 0/3] drm/lsdc: add drm driver for loongson display
- controller
-To: Sui Jingfeng <15330273260@189.cn>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Roland Scheidegger <sroland@vmware.com>,
- Zack Rusin <zackr@vmware.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Sam Ravnborg <sam@ravnborg.org>, suijingfeng <suijingfeng@loongson.cn>
-References: <20220203082546.3099-1-15330273260@189.cn>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <20220203082546.3099-1-15330273260@189.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Thu, 10 Feb 2022 08:10:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -98,209 +77,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ DenysDrozdov <denys.drozdov@toradex.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jingfeng,
+Hi
 
-Could you please keep me CCed for the for the whole thread when you respin
-the patch? Cuz I'm maintain MIPS/LOONGSON64 stuff and I believe this series
-is partially based on my work at Lemote.
+Am Mittwoch, den 09.02.2022, 00:52 +0100 schrieb Marek Vasut:
+> On 2/8/22 22:27, Christoph Niedermaier wrote:
+> > From: Laurent Pinchart [mailto:laurent.pinchart@ideasonboard.com]
+> > Sent: Thursday, February 3, 2022 12:46 AM
+> > > Hi Christoph,
+> > > 
+> > 
+> > Hi Laurent,
+> > 
+> > > On Tue, Feb 01, 2022 at 12:07:17PM +0100, Christoph Niedermaier wrote:
+> > > > Without the data-mapping devicetree property my display won't
+> > > > work properly. It is flickering, because the bus flags won't
+> > > > be assigned without a defined bus format by the imx parallel
+> > > > display driver. There was a discussion about the removal [1]
+> > > > and an agreement that a better solution is needed, but it is
+> > > > missing so far. So what would be the better approach?
+> > > > 
+> > > > [1] https://patchwork.freedesktop.org/patch/357659/?series=74705&rev=1
+> > > > 
+> > > > This reverts commit d021d751c14752a0266865700f6f212fab40a18c.
+> > > > 
+> > > > Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+> > > > Cc: Marek Vasut <marex@denx.de>
+> > > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > > > Cc: David Airlie <airlied@linux.ie>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > Cc: Shawn Guo <shawnguo@kernel.org>
+> > > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > > > Cc: Fabio Estevam <festevam@gmail.com>
+> > > > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > > > Cc: linux-arm-kernel@lists.infradead.org
+> > > > To: dri-devel@lists.freedesktop.org
+> > > > ---
+> > > >   drivers/gpu/drm/panel/panel-simple.c | 11 +++++++++++
+> > > >   1 file changed, 11 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> > > > index 3c08f9827acf..2c683d94a3f3 100644
+> > > > --- a/drivers/gpu/drm/panel/panel-simple.c
+> > > > +++ b/drivers/gpu/drm/panel/panel-simple.c
+> > > > @@ -453,6 +453,7 @@ static int panel_dpi_probe(struct device *dev,
+> > > >        struct panel_desc *desc;
+> > > >        unsigned int bus_flags;
+> > > >        struct videomode vm;
+> > > > +     const char *mapping;
+> > > >        int ret;
+> > > > 
+> > > >        np = dev->of_node;
+> > > > @@ -477,6 +478,16 @@ static int panel_dpi_probe(struct device *dev,
+> > > >        of_property_read_u32(np, "width-mm", &desc->size.width);
+> > > >        of_property_read_u32(np, "height-mm", &desc->size.height);
+> > > > 
+> > > > +     of_property_read_string(np, "data-mapping", &mapping);
+> > > > +     if (!strcmp(mapping, "rgb24"))
+> > > > +             desc->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> > > > +     else if (!strcmp(mapping, "rgb565"))
+> > > > +             desc->bus_format = MEDIA_BUS_FMT_RGB565_1X16;
+> > > > +     else if (!strcmp(mapping, "bgr666"))
+> > > > +             desc->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
+> > > > +     else if (!strcmp(mapping, "lvds666"))
+> > > > +             desc->bus_format = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
+> > > 
+> > > You're right that there's an issue, but a revert isn't the right option.
+> > > The commit you're reverting never made it in a stable release, because
+> > > it was deemed to not be a good enough option.
+> > > 
+> > > First of all, any attempt to fix this should include an update to the DT
+> > > binding. Second, as this is about DPI panels, the LVDS option should be
+> > > dropped. Finally, I've shared some initial thoughts in [1], maybe you
+> > > can reply to that e-mail to continue the discussion there ?
+> > 
+> > According to your thoughts in [1] you mean that the bus format should be
+> > build out of the devicetree properties bus-width and data-shift. It would
+> > be possible for evenly structured busses like RGB888_1X24 and RGB666_1X18,
+> > but what about a bus like RGB565_1X16, where each color has different
+> > bus width. Also the order of the colors should be defined to differ
+> > between busses like RGB888_1X24 and GBR888_1X24.
+> > Are there any ideas how can this be covered?
+> 
+> Maybe with props like these ?
+> 
+> channel-width -- width of each color channel
+> channel-shift -- shift of each color channel
+> channel-map -- mapping of each color channel
+> 
+> So for RGB888
+> channel-width = <8 8 8>;
+> channel-shift = <0 0 0>;
+> channel-map = "RGB"; // or something ?
+> 
+> For BGR565 panel connected to RGB24 scanout
+> channel-width = <5 6 5>;
+> channel-shift = <3 2 3>;
+> channel-map = "BGR"; // or something ?
+> 
+> For BGR565 panel connected to RGB565 scanout
+> channel-width = <5 6 5>;
+> channel-shift = <0 0 0>;
+> channel-map = "BGR"; // or something ?
+> 
 
-I will help with reviewing and explain some Loongson64 specified issue 
-if possible.
+To me this looks like it goes into the wrong direction.
+The goal is to set bus_format to one of the
+possible enum values.
+Using such a generic approach it would be possible to request bus
+formats for which no enum value is currently defined, i.e. the
+BGR565 example does not have a matching bus_format in
+media-bus-format.h.
 
-Thanks.
-- Jiaxun
+What about keeping the solution which the revert would give.
+Optionally with a changed property name s/data-mapping/bus-format/
+and a changed list of allowed strings to better match between the
+dt string and the enum name, i.e. s/"rgb24"/"RGB888_1X24"/.
+This would allow to extend DT binding and
+code to possible newly
+required values like e.g. MEDIA_BUS_FMT_BGR888_1X24.
 
-在 2022/2/3 8:25, Sui Jingfeng 写道:
-> There is a display controller in loongson's LS2K1000 SoC and LS7A1000
-> bridge, and the DC in those chip is a PCI device. This patch provide
-> a minimal support for this display controller which is mainly for
-> graphic environment bring up.
->
-> This display controller has two display pipes but with only one hardware
-> cursor. Each way has a DVO output interface and the CRTC is able to scanout
-> from 1920x1080 resolution at 60Hz. The maxmium resolution is 2048x2048@60hz.
->
-> LS2K1000 is a SoC, only system memory is available. Therefore scanout from
-> system memory is the only choice. We prefer the CMA helper base solution
-> because the gc1000 gpu can use etnaviv driver, in this case etnaviv and
-> lsdc could made a compatible pair. Even through it is possible to use VRAM
-> helper base solution on ls2k1000 by carving out part of system memory as
-> VRAM.
->
-> For LS7A1000, there are 4 gpios whos control register is located at the dc
-> register space which is not the geneal purpose GPIO. The 4 gpios can emulate
-> two way i2c. One for DVO0, another for DVO1. This is the reason the why we
-> are not using the drm bridge framework.
->
-> LS2K1000 and LS2K0500 SoC don't have such hardware, they use general purpose
-> GPIO emulated i2c or hardware i2c adapter from other module to serve this
-> purpose. Drm bridge and drm panel is suitable for those SoC, we have already
-> implement it on our own downstream kernel. But due to the upstream kernel
-> don't have gpio, pwm and i2c driver support for LS2K1000. We just can not
-> upstream our support for the drm bridge subsystem.
->
-> The DC in LS7A1000 can scanout from both the system memory and the dedicate
-> VRAM attached to the ddr3 memory controller. Sadly, only scanout from the
-> VRAM is proved to be a reliable solution for massive product. Scanout from
-> the system memory suffer from some hardware deficiency which cause the
-> screen flickering under RAM pressure. This is the reason why we integrate
-> two distict helpers into one piece of device driver. But CMA base helper is
-> still usable on ls7a1000 for normal usage, expecially on ls7a1000+ bridge
-> chip. We have also implemented demage update on top of CMA helper which
-> copy the demaged shadow framebuffer region from system RAM to the real
-> framebuffer in VRAM manually. Using "lsdc.dirty_update=1" in the commmand
-> line will enable this driver mode.
->
-> LS7A1000 have a 32x32 harware cursor, we just let the two CRTC share it
-> simply with the help of universe plane. LS7A2000 have two 64x64 harware
-> cursor. Surport for LS7A2000 is on the way.
->
-> In short, we have built-in gpio emulated i2c support, we also have hardware
-> cursor support. The kind of tiny drivers in drm/tiny is not suitable for us,
-> we are not "tiny".
->
->      +------+  HyperTransport 3.0
->      | DDR4 |       |
->      +------+       |     +------------------------------------+
->         || MC0      |     |   LS7A1000            +------------|
->    +----------+     |     |                       |    DDR3    |   +------+
->    | LS3A4000 |<--------->| +--------+  +-------+ |   memory   |<->| VRAM |
->    |   CPU    |<--------->| | GC1000 |  |  LSDC | | controller |   +------+
->    +----------+           | +--------+  +-+---+-+ +------------|
->         || MC1            +---------------|---|----------------+
->      +------+                             |   |
->      | DDR4 |          +-------+    DVO0  |   |  DVO1  +------+
->      +------+   VGA <--|ADV7125|<---------+   +------->|TFP410|--> DVI/HDMI
->                        +-------+                       +------+
->
-> The above picture give a simple usage of LS7A1000, note that the encoder
-> is not necessary adv7125 or tfp410, it is a choice of the downstream board
-> manufacturer. Other candicate encoder can be ch7034b, sil9022 and ite66121
-> etc. Therefore, we need device tree to provide board specific information.
-> Besides, the dc in both ls2k1000 and ls7k1000 have the vendor:device id of
-> 0x0014:0x7a06, the reverison id is also same. We can't tell it apart simply
-> (this is the firmware engineer's mistake). But firmware already flushed to
-> the board and borad already sold out, we choose to resolve those issues by
-> introduing device tree with board specific device support.
->
-> For lsdc, there is only a 1:1 mapping of encoders and connectors.
->
->       +-------------------+                                      _________
->       |                   |                                     |         |
->       |  CRTC0 --> DVO0 ---------> Encoder0 --> Connector0 ---> | Monitor |
->       |                   |           ^            ^            |_________|
->       |                   |           |            |
->       |                <----- i2c0 ----------------+
->       |   LSDC IP CORE    |
->       |                <----- i2c1 ----------------+
->       |                   |           |            |             _________
->       |                   |           |            |            |         |
->       |  CRTC1 --> DVO1 ---------> Encoder1 --> Connector1 ---> |  Panel  |
->       |                   |                                     |_________|
->       +-------------------+
->
-> Below is a brief introduction of loongson's CPU, bridge chip and SoC.
-> LS2K1000 is a double core 1.0Ghz mips64r2 compatible SoC[1]. LS7A1000 is
-> a bridge chip made by Loongson corporation which act as north and/or south
-> bridge of loongson's desktop and server level processor. It is equivalent
-> to AMD RS780E+SB710 or something like that. More details can be read from
-> its user manual[2].
->
-> This bridge chip is typically use with LS3A3000, LS3A4000 and LS3A5000 cpu.
-> LS3A3000 is 4 core 1.45gHz mips64r2 compatible cpu.
-> LS3A4000 is 4 core 1.8gHz mips64r5 compatible cpu.
-> LS3A5000 is 4 core 2.5gHz loongarch cpu[3].
->
-> Nearly all mordern loongson CPU's cache coherency is maintained by hardware,
-> except for early version of ls2k1000. So we using cached coherent memory by
-> default, not writecombine.
->
-> v2: fixup warnings reported by kernel test robot
->
-> v3: fix more grammar mistakes in Kconfig reported by Randy Dunlap and give
->      more details about lsdc.
->
-> v4:
->     1) Add dts required and explain why device tree is required.
->     2) Give more description about lsdc and vram helper base driver.
->     3) Fix warnings reported by kernel test robot.
->     4) Introduce stride_alignment member into struct lsdc_chip_desc, the
->        stride alignment is 256 bytes for ls7a1000, ls2k1000 and ls2k0500 SoC.
->        But ls7a2000 improve it to 32 bytes, We are prepare for extend the
->        support for the on coming device.
->
-> v5:
->     1) using writel and readl replace writeq and readq, to fix kernel test
->        robot report build error on other archtecture
->     2) set default fb format to XRGB8888 at crtc reset time.
->     3) fix typos.
->
-> v6:
->     1) Explain why we are not switch to drm dridge subsystem.
->     2) Explain why tiny drm driver is not suitable for us.
->     3) Give a short description of the trival dirty uppdate implement based
->        on CMA helper.
->     4) code clean up.
->
-> [1] https://wiki.debian.org/InstallingDebianOn/Lemote/Loongson2K1000
-> [2] https://loongson.github.io/LoongArch-Documentation/Loongson-7A1000-usermanual-EN.html
-> [3] https://loongson.github.io/LoongArch-Documentation/Loongson-3A5000-usermanual-EN.html
->
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: kernel test robot
-> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
-> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
->
-> suijingfeng (3):
->    drm/lsdc: add drm driver for loongson display controller
->    dt-bindings: ls2k1000: add the display controller device node
->    dt-bindings: mips: loongson: introduce board specific dts
->
->   arch/mips/boot/dts/loongson/lemote_a1901.dts  |  64 ++
->   .../boot/dts/loongson/loongson64-2k1000.dtsi  |  11 +
->   .../boot/dts/loongson/ls3a4000_7a1000_evb.dts |  68 ++
->   arch/mips/boot/dts/loongson/ls7a-pch.dtsi     |   2 +-
->   drivers/gpu/drm/Kconfig                       |   2 +
->   drivers/gpu/drm/Makefile                      |   1 +
->   drivers/gpu/drm/lsdc/Kconfig                  |  38 +
->   drivers/gpu/drm/lsdc/Makefile                 |  15 +
->   drivers/gpu/drm/lsdc/lsdc_connector.c         | 443 +++++++++
->   drivers/gpu/drm/lsdc/lsdc_connector.h         |  60 ++
->   drivers/gpu/drm/lsdc/lsdc_crtc.c              | 440 +++++++++
->   drivers/gpu/drm/lsdc/lsdc_drv.c               | 846 ++++++++++++++++++
->   drivers/gpu/drm/lsdc/lsdc_drv.h               | 216 +++++
->   drivers/gpu/drm/lsdc/lsdc_encoder.c           |  79 ++
->   drivers/gpu/drm/lsdc/lsdc_i2c.c               | 220 +++++
->   drivers/gpu/drm/lsdc/lsdc_i2c.h               |  61 ++
->   drivers/gpu/drm/lsdc/lsdc_irq.c               |  77 ++
->   drivers/gpu/drm/lsdc/lsdc_irq.h               |  37 +
->   drivers/gpu/drm/lsdc/lsdc_plane.c             | 681 ++++++++++++++
->   drivers/gpu/drm/lsdc/lsdc_pll.c               | 657 ++++++++++++++
->   drivers/gpu/drm/lsdc/lsdc_pll.h               | 109 +++
->   drivers/gpu/drm/lsdc/lsdc_regs.h              | 246 +++++
->   22 files changed, 4372 insertions(+), 1 deletion(-)
->   create mode 100644 arch/mips/boot/dts/loongson/lemote_a1901.dts
->   create mode 100644 arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts
->   create mode 100644 drivers/gpu/drm/lsdc/Kconfig
->   create mode 100644 drivers/gpu/drm/lsdc/Makefile
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_connector.c
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_connector.h
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_crtc.c
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_drv.c
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_drv.h
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_encoder.c
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_i2c.c
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_i2c.h
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_irq.c
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_irq.h
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_plane.c
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_pll.c
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_pll.h
->   create mode 100644 drivers/gpu/drm/lsdc/lsdc_regs.h
->
+Alternatively one could use the bus-width and data-shift
+properties and allow for (bus-width + data-shift) to be one
+of 16, 18, 24 and assume RGB. I.e. one could only specify
+MEDIA_BUS_FMT_RGB565_1X16, MEDIA_BUS_FMT_RGB666_1X18,
+MEDIA_BUS_FMT_RGB888_1X24 respectively.
+
+Max
+
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
