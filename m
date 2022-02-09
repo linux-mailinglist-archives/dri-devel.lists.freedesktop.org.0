@@ -1,101 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86614AEA08
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 07:06:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04FD34AEA16
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 07:15:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D17DF10E2E0;
-	Wed,  9 Feb 2022 06:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E49DD10E29E;
+	Wed,  9 Feb 2022 06:15:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2052.outbound.protection.outlook.com [40.107.237.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0EBE10E2CD;
- Wed,  9 Feb 2022 06:06:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G+0om0Tw1Cm6dWoBdWX9WvvFFGC854v8sUtcbDo8J8EFr2f5IB5F1o/AVy9gbf5Xd0YzU4I5pxkfOGJJiRFuWM6IevucJwxf5gMgYkbqWWTvz4T5a2ctFhQ3aE2tgliFgxkH/MhZuSXfPaIPtvqUgkC7tHcyRtzxZUSKcxYkgjvmhNu6M89J+GC/bcE6l1AVcXd7Gky5zrpYJ/6rlMjCzjpLc5uPTZ/fzdWThLde6y9sXgpIgheOkYWF5AMgGrWnkOxRpnqhfJKqPMni0vTMofkCJWwJQ2dAvdEh97MSdRF3yKItiHF2xYng2mtpXXdssg+1fDqkH4vs9w4N75/vqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FH8xX2T4rsvspVsRpX91or5mxVBxmDn27+XlHv9EG4k=;
- b=J3zTlj74Zk0jsC57wAKR0wj1pyASp0bv/3M2oxgRhv678UiXLZzCuRU+4TuFPB9a4uPAjEpc6eUFUry9tqzyneXW2T8PqwOPX/L2DRsXcPwN4Cny8PM6+fCvxtFNZtER0fzbVmd/6aR7UCktI9OMs5GGsFyrx8aHmQ/2K5C6yLmB5KdfOAbTiL4XBkTOgGaA8IhuMSJTX0gLZ4eJgZp1pNPng+S42coaHyy7L5lsnr5bC7D6flKiDumf9CuIzTR2AZrMsmbQIFQRgcdG/OAhhmM0983v5Lq9RyMaENRTT0dDZRZC0z2VHCFszXKx3QPCnUs39otDjZFobBWNQscWNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FH8xX2T4rsvspVsRpX91or5mxVBxmDn27+XlHv9EG4k=;
- b=S+vAHxX5pfIy7yDpm+d21wy+ztIMNJZHnqwE6e+Rui1TjlQaNDFyrdIb34ocO/WsCzoudAe5kWkXbu7pAYg5sgtCqLDb4iaxVt+GlGHkuF60mukPoVhtcfQyPos53x5U2Y1Z0fYuRMAMJfW5Ve1Z9/UVT1mVjoZ6YD+jyYu3fTo=
-Received: from BN0PR04CA0120.namprd04.prod.outlook.com (2603:10b6:408:ec::35)
- by MN2PR12MB3984.namprd12.prod.outlook.com (2603:10b6:208:16f::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Wed, 9 Feb
- 2022 06:06:23 +0000
-Received: from BN8NAM11FT014.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:ec:cafe::84) by BN0PR04CA0120.outlook.office365.com
- (2603:10b6:408:ec::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11 via Frontend
- Transport; Wed, 9 Feb 2022 06:06:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT014.mail.protection.outlook.com (10.13.177.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4975.11 via Frontend Transport; Wed, 9 Feb 2022 06:06:22 +0000
-Received: from [10.65.96.204] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 9 Feb
- 2022 00:06:19 -0600
-Subject: Re: [RFC v3 00/12] Define and use reset domain for GPU recovery in
- amdgpu
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-References: <20220125223752.200211-1-andrey.grodzovsky@amd.com>
- <22cc504b-8f40-2c11-c783-ed4548e092b2@amd.com>
- <630601d7-b409-ec99-732f-dd961f737b0b@amd.com>
-From: JingWen Chen <jingwech@amd.com>
-Message-ID: <6be81743-3e4b-c5cd-fd5c-2e1e98960948@amd.com>
-Date: Wed, 9 Feb 2022 14:06:17 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9FEE10E29E;
+ Wed,  9 Feb 2022 06:15:06 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D6BE161562;
+ Wed,  9 Feb 2022 06:15:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B753DC340E7;
+ Wed,  9 Feb 2022 06:15:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644387305;
+ bh=OUPNHBAJBd42EIpzpVtb9lp5kMJbQTw7jGC1FYPoiXk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=IGD42/2Jb0d5SZJjI471MYihxC7OM3utb9RbC8h+OjELkaeknbfHc2Ni209paihrU
+ kqLccFEAqqlInc/AHGaZB/ji+CAJKW5R1AfYYfulxbhW0EB1UgHvQNyRJvvoSnOMnt
+ FF0XeD7dfALhqVs7dxTAdJxRU5kFYzW4egFmXBx2hb2/ic6CPPBXF8l7Ts2LsiJAC8
+ tHoWBA2YbqM1HgTkiFhXUbP3apbqStVE8AXtdfqiCcd0nlNwK2qlvLY8d0w5RGcBs3
+ i2KavDo3xNE2NIqWrQT4OVzbfw4Oohgri5kHjPuMGfAWYgQtmpTyqDq0kcLRxeWBSA
+ EDIhrgIdTK8mw==
+Date: Wed, 9 Feb 2022 07:14:59 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [PATCH v2 02/18] iosys-map: Add a few more helpers
+Message-ID: <20220209071459.06d4d397@coco.lan>
+In-Reply-To: <20220208104524.2516209-3-lucas.demarchi@intel.com>
+References: <20220208104524.2516209-1-lucas.demarchi@intel.com>
+ <20220208104524.2516209-3-lucas.demarchi@intel.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <630601d7-b409-ec99-732f-dd961f737b0b@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fb9f631a-282c-4c26-8962-08d9eb924c75
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3984:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB39841BD36A476390E8997C5FB72E9@MN2PR12MB3984.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SWRmI2DeXfS+KRJenCVlGWS624fTWjrkC8ayMy9SC2W9u6ZFeH2s+Qm26mW2Nm0w21wjctus7ls0GjZlnX9HAjJNE7ATzwCXGmUVM9fgEvkgM+IsbOwEGfRgenbWR0hK0TZRN5C5mQrokjLspUrz1is2mWcp6g5jgEr8C75Y2Z+X1CT8+QbZ7zsOJksn6/Cet50RTkwnZvFqWqdg6n6MHrCVsRJ6ZCHW++zd9fhxonB+IQ+vC7OiqWYZf1cVTTVaRyp+XW24ZitRMLoQ1kevyORjf3438AFMqe587Rbi9QxGt9DUlGBT9no9PUIbmnbqOzxWWZM4GQLLFuacBeAd3HKMOW2GBagBnSZIi9B0wS0/PXW4H8cO5yjmTipurc6dwrLombwDH2pMlucJobiHBMVSyEiKaW2tSqFZr82A0WHsngc6tmez9/hTR4850bvhMLNRZZSJ02Hic4rka2e8Li6mR31GCaTUbeUQowFAANqnZPolzVC5vWlW5tUJ5MbQHwFbyC1Q2/kho3nY5Vrsa1yVwxIQbyC1BTgOpwzZ7K92/3MF2qT7mvTwypU7dciuToTIrHwKP4DaBHNqGkOfEQkpLxt77vLBgh9GxTbSxP9sgTdbZbtKdGKpFt1jd+BlXGt0hQZOi1djMsuuFqv/qhLw8fhOr7vujWgMgLRez85Kja0RI5dH/rIeh5CGO/LpF3YNlKxsR8mh86aevCFqJUTNYM1fmNB7hLr2d2ds/u9OS1fo4h8YV6mgIpI+vzGKWCO3pXeZp7ggF9KL8sW4i9d2j//pJPc9V2FOFvKlknN1JS02J18fnJo8A76UGR76cyDQQK5pN9YrIapeopo75vfqdLy5YlxVTEGuAcwOHYnp1BeEk9DZizi1xGqZYg5Y
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(83380400001)(966005)(31696002)(81166007)(356005)(82310400004)(47076005)(16526019)(426003)(40460700003)(336012)(186003)(26005)(2616005)(36860700001)(2906002)(36756003)(70206006)(53546011)(16576012)(31686004)(4326008)(508600001)(5660300002)(316002)(70586007)(110136005)(54906003)(8676002)(8936002)(36900700001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2022 06:06:22.9534 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb9f631a-282c-4c26-8962-08d9eb924c75
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT014.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3984
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,104 +54,346 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Monk.Liu@amd.com, horace.chen@amd.com, lijo.lazar@amd.com,
- christian.koenig@amd.com
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrey,
+Em Tue,  8 Feb 2022 02:45:08 -0800
+Lucas De Marchi <lucas.demarchi@intel.com> escreveu:
 
-I have been testing your patch and it seems fine till now.
+> First the simplest ones:
+>=20
+> 	- iosys_map_memset(): when abstracting system and I/O memory,
+> 	  just like the memcpy() use case, memset() also has dedicated
+> 	  functions to be called for using IO memory.
+> 	- iosys_map_memcpy_from(): we may need to copy data from I/O
+> 	  memory, not only to.
+>=20
+> In certain situations it's useful to be able to read or write to an
+> offset that is calculated by having the memory layout given by a struct
+> declaration. Usually we are going to read/write a u8, u16, u32 or u64.
+>=20
+> As a pre-requisite for the implementation, add iosys_map_memcpy_from()
+> to be the equivalent of iosys_map_memcpy_to(), but in the other
+> direction. Then add 2 pairs of macros:
+>=20
+> 	- iosys_map_rd() / iosys_map_wr()
+> 	- iosys_map_rd_field() / iosys_map_wr_field()
+>=20
+> The first pair takes the C-type and offset to read/write. The second
+> pair uses a struct describing the layout of the mapping in order to
+> calculate the offset and size being read/written.
+>=20
+> We could use readb, readw, readl, readq and the write* counterparts,
+> however due to alignment issues this may not work on all architectures.
+> If alignment needs to be checked to call the right function, it's not
+> possible to decide at compile-time which function to call: so just leave
+> the decision to the memcpy function that will do exactly that.
+>=20
+> Finally, in order to use the above macros with a map derived from
+> another, add another initializer: IOSYS_MAP_INIT_OFFSET().
+>=20
+> v2:
+>   - Rework IOSYS_MAP_INIT_OFFSET() so it doesn't rely on aliasing rules
+>     within the union
+>   - Add offset to both iosys_map_rd_field() and iosys_map_wr_field() to
+>     allow the struct itself to be at an offset from the mapping
+>   - Add documentation to iosys_map_rd_field() with example and expected
+>     memory layout
+>=20
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-Best Regards,
+LGTM.
 
-Jingwen Chen
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On 2022/2/3 上午2:57, Andrey Grodzovsky wrote:
-> Just another ping, with Shyun's help I was able to do some smoke testing on XGMI SRIOV system (booting and triggering hive reset)
-> and for now looks good.
->
-> Andrey
->
-> On 2022-01-28 14:36, Andrey Grodzovsky wrote:
->> Just a gentle ping if people have more comments on this patch set ? Especially last 5 patches
->> as first 7 are exact same as V2 and we already went over them mostly.
->>
->> Andrey
->>
->> On 2022-01-25 17:37, Andrey Grodzovsky wrote:
->>> This patchset is based on earlier work by Boris[1] that allowed to have an
->>> ordered workqueue at the driver level that will be used by the different
->>> schedulers to queue their timeout work. On top of that I also serialized
->>> any GPU reset we trigger from within amdgpu code to also go through the same
->>> ordered wq and in this way simplify somewhat our GPU reset code so we don't need
->>> to protect from concurrency by multiple GPU reset triggeres such as TDR on one
->>> hand and sysfs trigger or RAS trigger on the other hand.
->>>
->>> As advised by Christian and Daniel I defined a reset_domain struct such that
->>> all the entities that go through reset together will be serialized one against
->>> another.
->>>
->>> TDR triggered by multiple entities within the same domain due to the same reason will not
->>> be triggered as the first such reset will cancel all the pending resets. This is
->>> relevant only to TDR timers and not to triggered resets coming from RAS or SYSFS,
->>> those will still happen after the in flight resets finishes.
->>>
->>> v2:
->>> Add handling on SRIOV configuration, the reset notify coming from host
->>> and driver already trigger a work queue to handle the reset so drop this
->>> intermediate wq and send directly to timeout wq. (Shaoyun)
->>>
->>> v3:
->>> Lijo suggested puting 'adev->in_gpu_reset' in amdgpu_reset_domain struct.
->>> I followed his advise and also moved adev->reset_sem into same place. This
->>> in turn caused to do some follow-up refactor of the original patches
->>> where i decoupled amdgpu_reset_domain life cycle frolm XGMI hive because hive is destroyed and
->>> reconstructed for the case of reset the devices in the XGMI hive during probe for SRIOV See [2]
->>> while we need the reset sem and gpu_reset flag to always be present. This was attained
->>> by adding refcount to amdgpu_reset_domain so each device can safely point to it as long as
->>> it needs.
->>>
->>>
->>> [1] https://patchwork.kernel.org/project/dri-devel/patch/20210629073510.2764391-3-boris.brezillon@collabora.com/
->>> [2] https://www.spinics.net/lists/amd-gfx/msg58836.html
->>>
->>> P.S Going through drm-misc-next and not amd-staging-drm-next as Boris work hasn't landed yet there.
->>>
->>> P.P.S Patches 8-12 are the refactor on top of the original V2 patchset.
->>>
->>> P.P.P.S I wasn't able yet to test the reworked code on XGMI SRIOV system because drm-misc-next fails to load there.
->>> Would appriciate if maybe jingwech can try it on his system like he tested V2.
->>>
->>> Andrey Grodzovsky (12):
->>>    drm/amdgpu: Introduce reset domain
->>>    drm/amdgpu: Move scheduler init to after XGMI is ready
->>>    drm/amdgpu: Fix crash on modprobe
->>>    drm/amdgpu: Serialize non TDR gpu recovery with TDRs
->>>    drm/amd/virt: For SRIOV send GPU reset directly to TDR queue.
->>>    drm/amdgpu: Drop hive->in_reset
->>>    drm/amdgpu: Drop concurrent GPU reset protection for device
->>>    drm/amdgpu: Rework reset domain to be refcounted.
->>>    drm/amdgpu: Move reset sem into reset_domain
->>>    drm/amdgpu: Move in_gpu_reset into reset_domain
->>>    drm/amdgpu: Rework amdgpu_device_lock_adev
->>>    Revert 'drm/amdgpu: annotate a false positive recursive locking'
->>>
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  15 +-
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   |  10 +-
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 275 ++++++++++--------
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c     |  43 +--
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   2 +-
->>>   .../gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c    |  18 +-
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c     |  39 +++
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h     |  12 +
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h      |   2 +
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c      |  24 +-
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h      |   3 +-
->>>   drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c        |   6 +-
->>>   drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c         |  14 +-
->>>   drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c         |  19 +-
->>>   drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c         |  19 +-
->>>   drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c         |  11 +-
->>>   16 files changed, 313 insertions(+), 199 deletions(-)
->>>
+Regards,
+Mauro
+
+> ---
+>  include/linux/iosys-map.h | 202 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 202 insertions(+)
+>=20
+> diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
+> index edd730b1e899..c6b223534b21 100644
+> --- a/include/linux/iosys-map.h
+> +++ b/include/linux/iosys-map.h
+> @@ -6,6 +6,7 @@
+>  #ifndef __IOSYS_MAP_H__
+>  #define __IOSYS_MAP_H__
+> =20
+> +#include <linux/kernel.h>
+>  #include <linux/io.h>
+>  #include <linux/string.h>
+> =20
+> @@ -120,6 +121,45 @@ struct iosys_map {
+>  		.is_iomem =3D false,	\
+>  	}
+> =20
+> +/**
+> + * IOSYS_MAP_INIT_OFFSET - Initializes struct iosys_map from another ios=
+ys_map
+> + * @map_:	The dma-buf mapping structure to copy from
+> + * @offset_:	Offset to add to the other mapping
+> + *
+> + * Initializes a new iosys_map struct based on another passed as argumen=
+t. It
+> + * does a shallow copy of the struct so it's possible to update the back=
+ storage
+> + * without changing where the original map points to. It is the equivale=
+nt of
+> + * doing:
+> + *
+> + * .. code-block:: c
+> + *
+> + *	iosys_map map =3D other_map;
+> + *	iosys_map_incr(&map, &offset);
+> + *
+> + * Example usage:
+> + *
+> + * .. code-block:: c
+> + *
+> + *	void foo(struct device *dev, struct iosys_map *base_map)
+> + *	{
+> + *		...
+> + *		struct iosys_map map =3D IOSYS_MAP_INIT_OFFSET(base_map, FIELD_OFFSE=
+T);
+> + *		...
+> + *	}
+> + *
+> + * The advantage of using the initializer over just increasing the offse=
+t with
+> + * iosys_map_incr() like above is that the new map will always point to =
+the
+> + * right place of the buffer during its scope. It reduces the risk of up=
+dating
+> + * the wrong part of the buffer and having no compiler warning about tha=
+t. If
+> + * the assignment to IOSYS_MAP_INIT_OFFSET() is forgotten, the compiler =
+can warn
+> + * about the use of uninitialized variable.
+> + */
+> +#define IOSYS_MAP_INIT_OFFSET(map_, offset_) ({				\
+> +	struct iosys_map copy =3D *map_;					\
+> +	iosys_map_incr(&copy, offset_);					\
+> +	copy;								\
+> +})
+> +
+>  /**
+>   * iosys_map_set_vaddr - Sets a iosys mapping structure to an address in=
+ system memory
+>   * @map:	The iosys_map structure
+> @@ -239,6 +279,26 @@ static inline void iosys_map_memcpy_to(struct iosys_=
+map *dst, size_t dst_offset,
+>  		memcpy(dst->vaddr + dst_offset, src, len);
+>  }
+> =20
+> +/**
+> + * iosys_map_memcpy_from - Memcpy from iosys_map into system memory
+> + * @dst:	Destination in system memory
+> + * @src:	The iosys_map structure
+> + * @src_offset:	The offset from which to copy
+> + * @len:	The number of byte in src
+> + *
+> + * Copies data from a iosys_map with an offset. The dest buffer is in
+> + * system memory. Depending on the mapping location, the helper picks the
+> + * correct method of accessing the memory.
+> + */
+> +static inline void iosys_map_memcpy_from(void *dst, const struct iosys_m=
+ap *src,
+> +					 size_t src_offset, size_t len)
+> +{
+> +	if (src->is_iomem)
+> +		memcpy_fromio(dst, src->vaddr_iomem + src_offset, len);
+> +	else
+> +		memcpy(dst, src->vaddr + src_offset, len);
+> +}
+> +
+>  /**
+>   * iosys_map_incr - Increments the address stored in a iosys mapping
+>   * @map:	The iosys_map structure
+> @@ -255,4 +315,146 @@ static inline void iosys_map_incr(struct iosys_map =
+*map, size_t incr)
+>  		map->vaddr +=3D incr;
+>  }
+> =20
+> +/**
+> + * iosys_map_memset - Memset iosys_map
+> + * @dst:	The iosys_map structure
+> + * @offset:	Offset from dst where to start setting value
+> + * @value:	The value to set
+> + * @len:	The number of bytes to set in dst
+> + *
+> + * Set value in iosys_map. Depending on the buffer's location, the helper
+> + * picks the correct method of accessing the memory.
+> + */
+> +static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
+> +				    int value, size_t len)
+> +{
+> +	if (dst->is_iomem)
+> +		memset_io(dst->vaddr_iomem + offset, value, len);
+> +	else
+> +		memset(dst->vaddr + offset, value, len);
+> +}
+> +
+> +/**
+> + * iosys_map_rd - Read a C-type value from the iosys_map
+> + *
+> + * @map__:	The iosys_map structure
+> + * @offset__:	The offset from which to read
+> + * @type__:	Type of the value being read
+> + *
+> + * Read a C type value from iosys_map, handling possible un-aligned acce=
+sses to
+> + * the mapping.
+> + *
+> + * Returns:
+> + * The value read from the mapping.
+> + */
+> +#define iosys_map_rd(map__, offset__, type__) ({			\
+> +	type__ val;							\
+> +	iosys_map_memcpy_from(&val, map__, offset__, sizeof(val));	\
+> +	val;								\
+> +})
+> +
+> +/**
+> + * iosys_map_wr - Write a C-type value to the iosys_map
+> + *
+> + * @map__:	The iosys_map structure
+> + * @offset__:	The offset from the mapping to write to
+> + * @type__:	Type of the value being written
+> + * @val__:	Value to write
+> + *
+> + * Write a C-type value to the iosys_map, handling possible un-aligned a=
+ccesses
+> + * to the mapping.
+> + */
+> +#define iosys_map_wr(map__, offset__, type__, val__) ({			\
+> +	type__ val =3D (val__);						\
+> +	iosys_map_memcpy_to(map__, offset__, &val, sizeof(val));	\
+> +})
+> +
+> +/**
+> + * iosys_map_rd_field - Read a member from a struct in the iosys_map
+> + *
+> + * @map__:		The iosys_map structure
+> + * @struct_offset__:	Offset from the beggining of the map, where the str=
+uct
+> + *			is located
+> + * @struct_type__:	The struct describing the layout of the mapping
+> + * @field__:		Member of the struct to read
+> + *
+> + * Read a value from iosys_map considering its layout is described by a =
+C struct
+> + * starting at @struct_offset__. The field offset and size is calculated=
+ and its
+> + * value read handling possible un-aligned memory accesses. For example:=
+ suppose
+> + * there is a @struct foo defined as below and the value ``foo.field2.in=
+ner2``
+> + * needs to be read from the iosys_map:
+> + *
+> + * .. code-block:: c
+> + *
+> + *	struct foo {
+> + *		int field1;
+> + *		struct {
+> + *			int inner1;
+> + *			int inner2;
+> + *		} field2;
+> + *		int field3;
+> + *	} __packed;
+> + *
+> + * This is the expected memory layout of a buffer using iosys_map_rd_fie=
+ld():
+> + *
+> + * +------------------------------+--------------------------+
+> + * | Address                      | Content                  |
+> + * +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+> + * | buffer + 0000                | start of mmapped buffer  |
+> + * |                              | pointed by iosys_map     |
+> + * +------------------------------+--------------------------+
+> + * | ...                          | ...                      |
+> + * +------------------------------+--------------------------+
+> + * | buffer + ``struct_offset__`` | start of ``struct foo``  |
+> + * +------------------------------+--------------------------+
+> + * | ...                          | ...                      |
+> + * +------------------------------+--------------------------+
+> + * | buffer + wwww                | ``foo.field2.inner2``    |
+> + * +------------------------------+--------------------------+
+> + * | ...                          | ...                      |
+> + * +------------------------------+--------------------------+
+> + * | buffer + yyyy                | end of ``struct foo``    |
+> + * +------------------------------+--------------------------+
+> + * | ...                          | ...                      |
+> + * +------------------------------+--------------------------+
+> + * | buffer + zzzz                | end of mmaped buffer     |
+> + * +------------------------------+--------------------------+
+> + *
+> + * Values automatically calculated by this macro or not needed are denot=
+ed by
+> + * wwww, yyyy and zzzz. This is the code to read that value:
+> + *
+> + * .. code-block:: c
+> + *
+> + *	x =3D iosys_map_rd_field(&map, offset, struct foo, field2.inner2);
+> + *
+> + * Returns:
+> + * The value read from the mapping.
+> + */
+> +#define iosys_map_rd_field(map__, struct_offset__, struct_type__, field_=
+_) ({	\
+> +	struct_type__ *s;							\
+> +	iosys_map_rd(map__, struct_offset__ + offsetof(struct_type__, field__),=
+	\
+> +		     typeof(s->field__));					\
+> +})
+> +
+> +/**
+> + * iosys_map_wr_field - Write to a member of a struct in the iosys_map
+> + *
+> + * @map__:		The iosys_map structure
+> + * @struct_offset__:	Offset from the beggining of the map, where the str=
+uct
+> + *			is located
+> + * @struct_type__:	The struct describing the layout of the mapping
+> + * @field__:		Member of the struct to read
+> + * @val__:		Value to write
+> + *
+> + * Write a value to the iosys_map considering its layout is described by=
+ a C struct
+> + * starting at @struct_offset__. The field offset and size is calculated=
+ and the
+> + * @val__ is written handling possible un-aligned memory accesses. Refer=
+ to
+> + * iosys_map_rd_field() for expected usage and memory layout.
+> + */
+> +#define iosys_map_wr_field(map__, struct_offset__, struct_type__, field_=
+_, val__) ({	\
+> +	struct_type__ *s;								\
+> +	iosys_map_wr(map__, struct_offset__ + offsetof(struct_type__, field__),=
+		\
+> +		     typeof(s->field__), val__);					\
+> +})
+> +
+>  #endif /* __IOSYS_MAP_H__ */
+
+
+
+Thanks,
+Mauro
