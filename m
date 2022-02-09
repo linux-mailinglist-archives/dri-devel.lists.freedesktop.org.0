@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C774AF6FE
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 17:41:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BE74AF701
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 17:42:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0A2910E378;
-	Wed,  9 Feb 2022 16:41:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 427AD10E3AB;
+	Wed,  9 Feb 2022 16:42:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37E3010E378
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 16:41:24 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D310010E3AB
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 16:42:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644424884; x=1675960884;
+ t=1644424968; x=1675960968;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=r9L2ApNXksnGqO8AjDsuLj/L+RaApKpFYz722Z9aqx4=;
- b=n0X+kD9aFzQkzbxN1rb8OKL3uK5VoIejB1X9LewuF9jCRbUE1mX9ltoS
- FzLVkfY93xVH0he898WHFEKIE33KgZnXp0xV4z17CXoam7ao+SL/Blzlv
- c3RpMEIDn5sL9MmuTXwR6LYZw7OvGplCtCbLY8zajjE6WuZ3iez495fTl
- yuCaNxrN0xsZU1/lOik5wnZQNe86gG4jfmEol0CRRx1Xl00Lh2TJLUt+k
- EEDyilYXPUyQl3ZBgUucf3XOljyb9W2QA0p49CxUPVqjv2tqq1irvKguB
- /xW/YpF+Wbd14YY6mGHT4N6MaG9v/dvdWikLpjvmDllhb4Ado5ryt4RNg Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="229215449"
-X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="229215449"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 08:41:23 -0800
-X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="482386274"
+ bh=AopMkDTLeEwKPAPbEXhSp8It23rc+LgvM/ZoX0ip1zg=;
+ b=OyaFeK12ymzIMWg8u8HH6LDULdZQnE0xKNZD+MjmdwPorrdoHLVQgwzJ
+ gK466eCxw1SrYu5jvzQe44/9SU9YJP9flmOEGjMiQo5hHC/jQ5BZO8doR
+ nBaVTIWU9Yi0oCnojmTVGfNObd/VgJ3dsF7tN7LVL/rq7wWzV83S1ID5c
+ pvNZcqgENjtsGvowqcBqDsVuCXUNJ9VWKrjqchBlohhHu8KAW0rp9ox7s
+ ktiKL5yG7uSUPdHmpATXgcFKACuVdm5t3iEowvQtN/1ZBw0EwBRjbT1x+
+ FuAFEiJLWj7HQ0DBF89+G5OTQw7XOJfOgKAfl/0sXc9wa03stckWwXKnT Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="312540155"
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="312540155"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 08:42:48 -0800
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; d="scan'208";a="633275913"
 Received: from smile.fi.intel.com ([10.237.72.61])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 08:41:21 -0800
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 08:42:46 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.95)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nHq11-002g3O-CS; Wed, 09 Feb 2022 18:40:23 +0200
-Date: Wed, 9 Feb 2022 18:40:23 +0200
+ id 1nHq2N-002g5H-U8; Wed, 09 Feb 2022 18:41:47 +0200
+Date: Wed, 9 Feb 2022 18:41:47 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Subject: Re: [PATCH v3 5/7] (WIP) drm/solomon: Add SSD130X OLED displays SPI
  support
-Message-ID: <YgPudz6YTweyx8pg@smile.fi.intel.com>
+Message-ID: <YgPuy1QVv9A7rcCh@smile.fi.intel.com>
 References: <20220209090314.2511959-1-javierm@redhat.com>
  <20220209091204.2513437-1-javierm@redhat.com>
  <CAMuHMdWSDBjpYJv6JtgvyaKiFKh_eqbvH78TR6VBtpDeFJvqFQ@mail.gmail.com>
  <YgPbAL0I8Wn7nnNb@smile.fi.intel.com>
  <d32c731b-c06f-2dcb-5a6d-1a84351719b2@redhat.com>
+ <CAMuHMdXsAyp18ivtSe-ZVmu6xbBBnvjMuZ=H1w9Gk=Ys4rkCeg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d32c731b-c06f-2dcb-5a6d-1a84351719b2@redhat.com>
+In-Reply-To: <CAMuHMdXsAyp18ivtSe-ZVmu6xbBBnvjMuZ=H1w9Gk=Ys4rkCeg@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,36 +67,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 09, 2022 at 05:07:03PM +0100, Javier Martinez Canillas wrote:
-> On 2/9/22 16:17, Andy Shevchenko wrote:
-> > On Wed, Feb 09, 2022 at 01:25:46PM +0100, Geert Uytterhoeven wrote:
-> >> On Wed, Feb 9, 2022 at 10:12 AM Javier Martinez Canillas
-> >> <javierm@redhat.com> wrote:
-> > 
-> > ...
-> > 
-> >>> +               .compatible = "solomon,ssd1305fb-spi",
-> >>
-> >> This needs an update to the DT bindings.
-> >> Hence this may be a good time to deprecate the existing
-> >> "solomon,ssd130*fb-i2c" compatible values, and switch to
-> >> "solomon,ssd130*fb" instead, for both I2C and SPI.
-> > 
-> > Agree!
-> > 
-> 
-> Did you see my comment about automatic module loading ? I think
-> that would be an issue if we use the same compatible for both
-> I2C and SPI drivers.
+On Wed, Feb 09, 2022 at 05:25:03PM +0100, Geert Uytterhoeven wrote:
+> On Wed, Feb 9, 2022 at 5:07 PM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
 
-Bug in OF code? This is not a problem in ACPI AFAICT.
+...
+
+> Are they all broken?
+
+I guess it's incorrect question. The one we need to ask is is OF code broken?
+B/c ACPI can easily cope with this (they are different buses, can't clash).
 
 -- 
 With Best Regards,
