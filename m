@@ -2,52 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEAB4AEDA8
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 10:09:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4F34AEDB6
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 10:12:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1C0510E67E;
-	Wed,  9 Feb 2022 09:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E24E710E657;
+	Wed,  9 Feb 2022 09:12:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBAF510E67E;
- Wed,  9 Feb 2022 09:09:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644397786; x=1675933786;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=95ZRnm/EZiLCFa+hz45fEXAs8CAb4K/LgiRHS372AoU=;
- b=PgdK1qAAPeqB+q3Qkeri75hzxmj65aMjP4idBRVvWtj7OdgBV0TK7KnH
- CGgQGoGOavyJ/YBJQRWOg/8dBnY+v1HEFgvq/zF9dvL9dG1hlTYq+CKEb
- 5LMUVueoRH7zHmHYsN0gYBWib/XKA5LHjLlqcR0hC+PjDiFJhdakmWD6F
- T5lthe7v6pzJCb7RJoWHB3/sbwva+zLVG2NQurkRKbL7OgvNdlip3OOrO
- qdTR6iQsnrwpz9yqjQnZGF1erCokUHTbekMV9EJsrhwnW3m9Lak8a/uXj
- y1lhmst01WUYhhP1dM1oqeY12514RxE8mkPGpYSzZzNG8mgIadZMTN7E+ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="247995637"
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="247995637"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 01:09:46 -0800
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="525917225"
-Received: from rcallina-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.18.41])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 01:09:43 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 6/8] drm/i915/dp: add 128b/132b support to link
- status checks
-In-Reply-To: <YgKG8JFIKC6PRmMG@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1643878928.git.jani.nikula@intel.com>
- <cec395d435679a290a1c35fcbfc54555101bfad1.1643878928.git.jani.nikula@intel.com>
- <YgKG8JFIKC6PRmMG@intel.com>
-Date: Wed, 09 Feb 2022 11:09:41 +0200
-Message-ID: <87sfsspfsa.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E99E10E672
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 09:12:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644397945;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IVaOePIAiXFw8U75tAHDUKWkv70g1B3730fSEy8H3OQ=;
+ b=ArveYx0BjDMPlLdWJOR7DJ+xbvH8lrZt96D8ha83KQFXH7LjAgwu4z7dzuHETRp9rAcBp8
+ dS8v9u1O6UQHVnYA5At+n7aHshLvN0zsDfECGj+x/IwhM06BvIsRORclUObO9gzQCkKYNX
+ 16vDdUy3TyAT4Vwm1w7aTyVcJ9xk1Gs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-270-PlT-9Kd8NX2pEu18bRK2Lg-1; Wed, 09 Feb 2022 04:12:24 -0500
+X-MC-Unique: PlT-9Kd8NX2pEu18bRK2Lg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n3-20020a05600c294300b0037bc685b717so223792wmd.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 01:12:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=IVaOePIAiXFw8U75tAHDUKWkv70g1B3730fSEy8H3OQ=;
+ b=FTvT84fyzrnopK4RXA05ZSU+SPdsW+D5U7OgtQGU9cfpY+LtUgaqOvg+066SBzFB2p
+ C4uh4OQmvAuL0ZgoxFkzx9jmFTwJBycru/4sksoi/8YV+ujIQa9K16zcjlLLHIOVYqbg
+ xgiSDWErFoAsfNmg75T7Mtjzu3e9E/FXRNGJyJ2wnyG3OpjStRuqRfgsNxOE3MHQ18Ic
+ sMjQ96AhvHP8p2nYk0Csf1bmJrfY3ATH/9QyiNC1UzKcPeg5K7dP7NWuuPBDIUwA8OLj
+ F5VgGHMRRw0Y/pjPNIBbW1Vp0vpMZRvTC/CHCxCQk0Bk+ZFeeXs2TjVRYIrvLL+gQ9Ym
+ XjHw==
+X-Gm-Message-State: AOAM533XICDugmsW/K7ek+42RG9mw5pdD778fs1xw7r9yBmaZDYqwSKO
+ cUh/QvmVLw/R8rQbaj2hOA6aW1uYG3KJ+sOqZVPgTm6STrn4PWwqz9BVKve0nZ6khlVBTllMrEK
+ iRL4TD6GVrr7Cn2a76lTKYAepx2Om
+X-Received: by 2002:a05:600c:3b97:: with SMTP id
+ n23mr116347wms.116.1644397943072; 
+ Wed, 09 Feb 2022 01:12:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxmy9te2m+nFf5NChLb1Oyfbsc9hQqFDn/UG2mRdylATQQhkHE0nZ3daEy/SuR9+qJRmFJzGg==
+X-Received: by 2002:a05:600c:3b97:: with SMTP id
+ n23mr116329wms.116.1644397942870; 
+ Wed, 09 Feb 2022 01:12:22 -0800 (PST)
+Received: from minerva.home ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id m30sm4588068wms.34.2022.02.09.01.12.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 01:12:22 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v3 5/7] (WIP) drm/solomon: Add SSD130X OLED displays SPI
+ support
+Date: Wed,  9 Feb 2022 10:12:04 +0100
+Message-Id: <20220209091204.2513437-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220209090314.2511959-1-javierm@redhat.com>
+References: <20220209090314.2511959-1-javierm@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,147 +84,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, uma.shankar@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 08 Feb 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Thu, Feb 03, 2022 at 11:03:55AM +0200, Jani Nikula wrote:
->> Abstract link status check to a function that takes 128b/132b and 8b/10b
->> into account, and use it. Also dump link status on failures.
->>=20
->> Cc: Uma Shankar <uma.shankar@intel.com>
->> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/i915/display/intel_dp.c       | 39 ++++++++++++++-----
->>  .../drm/i915/display/intel_dp_link_training.c |  2 +-
->>  .../drm/i915/display/intel_dp_link_training.h |  4 ++
->>  3 files changed, 34 insertions(+), 11 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i=
-915/display/intel_dp.c
->> index 146b83916005..8c5590f0409a 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->> @@ -3628,6 +3628,32 @@ static void intel_dp_handle_test_request(struct i=
-ntel_dp *intel_dp)
->>  			    "Could not write test response to sink\n");
->>  }
->>=20=20
->> +static bool intel_dp_link_ok(struct intel_dp *intel_dp,
->> +			     u8 link_status[DP_LINK_STATUS_SIZE])
->> +{
->> +	struct intel_encoder *encoder =3D &dp_to_dig_port(intel_dp)->base;
->> +	struct drm_i915_private *i915 =3D to_i915(encoder->base.dev);
->> +	bool uhbr =3D intel_dp->link_rate >=3D 1000000;
->> +	bool ok;
->> +
->> +	if (uhbr)
->> +		ok =3D drm_dp_128b132b_lane_channel_eq_done(link_status,
->> +							  intel_dp->lane_count);
->
-> I was pondering whether we need to check more of the bits here. I guess
-> time will tell.
->
-> Remainder of the series is
-> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+The ssd130x driver only provides the core support for these devices but it
+does not have any bus transport logic. Add a driver to interface over SPI.
 
-Just to be on the safe side, does this cover patches 2 and 4 too?
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-And thanks for all the reviews so far, much appreciated!
+Changes in v3:
+- Add a separate driver for SSD130X chips SPI support (Andy Shevchenko)
 
-BR,
-Jani.
+ drivers/gpu/drm/solomon/Kconfig       |   9 ++
+ drivers/gpu/drm/solomon/Makefile      |   1 +
+ drivers/gpu/drm/solomon/ssd130x-spi.c | 114 ++++++++++++++++++++++++++
+ 3 files changed, 124 insertions(+)
+ create mode 100644 drivers/gpu/drm/solomon/ssd130x-spi.c
 
+diff --git a/drivers/gpu/drm/solomon/Kconfig b/drivers/gpu/drm/solomon/Kconfig
+index 47e16bc20e0d..16a2098f438c 100644
+--- a/drivers/gpu/drm/solomon/Kconfig
++++ b/drivers/gpu/drm/solomon/Kconfig
+@@ -19,3 +19,12 @@ config DRM_SSD130X_I2C
+ 	  Say Y here if the SSD130X OLED display is connected via I2C bus.
+ 
+ 	  If M is selected the module will be called ssd130x-i2c.
++
++config DRM_SSD130X_SPI
++	tristate "DRM support for Solomon SSD130X OLED displays (SPI bus)"
++	depends on DRM_SSD130X && SPI
++	select REGMAP_SPI
++	help
++	  Say Y here if the SSD130X OLED display is connected via SPI bus.
++
++	  If M is selected the module will be called ssd130x-spi.
+diff --git a/drivers/gpu/drm/solomon/Makefile b/drivers/gpu/drm/solomon/Makefile
+index 4bfc5acb0447..b5fc792257d7 100644
+--- a/drivers/gpu/drm/solomon/Makefile
++++ b/drivers/gpu/drm/solomon/Makefile
+@@ -1,2 +1,3 @@
+ obj-$(CONFIG_DRM_SSD130X)	+= ssd130x.o
+ obj-$(CONFIG_DRM_SSD130X_I2C)	+= ssd130x-i2c.o
++obj-$(CONFIG_DRM_SSD130X_SPI)	+= ssd130x-spi.o
+diff --git a/drivers/gpu/drm/solomon/ssd130x-spi.c b/drivers/gpu/drm/solomon/ssd130x-spi.c
+new file mode 100644
+index 000000000000..ccc56d2f3026
+--- /dev/null
++++ b/drivers/gpu/drm/solomon/ssd130x-spi.c
+@@ -0,0 +1,114 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * DRM driver for Solomon SSD130X OLED displays (SPI bus)
++ *
++ * Copyright 2022 Red Hat Inc.
++ * Authors: Javier Martinez Canillas <javierm@redhat.com>
++ */
++#include <linux/spi/spi.h>
++#include <linux/module.h>
++
++#include "ssd130x.h"
++
++#define DRIVER_NAME	"ssd130x-spi"
++#define DRIVER_DESC	"DRM driver for Solomon SSD130X OLED displays (SPI)"
++
++static const struct regmap_config ssd130x_spi_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++};
++
++static int ssd130x_spi_probe(struct spi_device *spi)
++{
++	struct ssd130x_device *ssd130x;
++	struct regmap *regmap;
++
++	regmap = devm_regmap_init_spi(spi, &ssd130x_spi_regmap_config);
++	if (IS_ERR(regmap))
++		return PTR_ERR(regmap);
++
++	ssd130x = ssd130x_probe(&spi->dev, regmap);
++
++	if (IS_ERR(ssd130x))
++		return PTR_ERR(ssd130x);
++
++	spi_set_drvdata(spi, ssd130x);
++
++	return 0;
++}
++
++static int ssd130x_spi_remove(struct spi_device *spi)
++{
++	struct ssd130x_device *ssd130x = spi_get_drvdata(spi);
++
++	return ssd130x_remove(ssd130x);
++}
++
++static void ssd130x_spi_shutdown(struct spi_device *spi)
++{
++	struct ssd130x_device *ssd130x = spi_get_drvdata(spi);
++
++	ssd130x_shutdown(ssd130x);
++}
++
++static struct ssd130x_deviceinfo ssd130x_ssd1305_deviceinfo = {
++	.default_vcomh = 0x34,
++	.default_dclk_div = 1,
++	.default_dclk_frq = 7,
++};
++
++static struct ssd130x_deviceinfo ssd130x_ssd1306_deviceinfo = {
++	.default_vcomh = 0x20,
++	.default_dclk_div = 1,
++	.default_dclk_frq = 8,
++	.need_chargepump = 1,
++};
++
++static struct ssd130x_deviceinfo ssd130x_ssd1307_deviceinfo = {
++	.default_vcomh = 0x20,
++	.default_dclk_div = 2,
++	.default_dclk_frq = 12,
++	.need_pwm = 1,
++};
++
++static struct ssd130x_deviceinfo ssd130x_ssd1309_deviceinfo = {
++	.default_vcomh = 0x34,
++	.default_dclk_div = 1,
++	.default_dclk_frq = 10,
++};
++
++static const struct of_device_id ssd130x_of_match[] = {
++	{
++		.compatible = "solomon,ssd1305fb-spi",
++		.data = (void *)&ssd130x_ssd1305_deviceinfo,
++	},
++	{
++		.compatible = "solomon,ssd1306fb-spi",
++		.data = (void *)&ssd130x_ssd1306_deviceinfo,
++	},
++	{
++		.compatible = "solomon,ssd1307fb-spi",
++		.data = (void *)&ssd130x_ssd1307_deviceinfo,
++	},
++	{
++		.compatible = "solomon,ssd1309fb-spi",
++		.data = (void *)&ssd130x_ssd1309_deviceinfo,
++	},
++	{ /* sentinel */ },
++};
++MODULE_DEVICE_TABLE(of, ssd130x_of_match);
++
++static struct spi_driver ssd130x_spi_driver = {
++	.driver = {
++		.name = DRIVER_NAME,
++		.of_match_table = ssd130x_of_match,
++	},
++	.probe = ssd130x_spi_probe,
++	.remove = ssd130x_spi_remove,
++	.shutdown = ssd130x_spi_shutdown,
++};
++module_spi_driver(ssd130x_spi_driver);
++
++MODULE_DESCRIPTION(DRIVER_DESC);
++MODULE_AUTHOR("Javier Martinez Canillas <javierm@redhat.com>");
++MODULE_LICENSE("GPL v2");
+-- 
+2.34.1
 
->
->> +	else
->> +		ok =3D drm_dp_channel_eq_ok(link_status, intel_dp->lane_count);
->> +
->> +	if (ok)
->> +		return true;
->> +
->> +	intel_dp_dump_link_status(intel_dp, DP_PHY_DPRX, link_status);
->> +	drm_dbg_kms(&i915->drm,
->> +		    "[ENCODER:%d:%s] %s link not ok, retraining\n",
->> +		    encoder->base.base.id, encoder->base.name,
->> +		    uhbr ? "128b/132b" : "8b/10b");
->> +
->> +	return false;
->> +}
->> +
->>  static void
->>  intel_dp_mst_hpd_irq(struct intel_dp *intel_dp, u8 *esi, u8 *ack)
->>  {
->> @@ -3658,14 +3684,7 @@ static bool intel_dp_mst_link_status(struct intel=
-_dp *intel_dp)
->>  		return false;
->>  	}
->>=20=20
->> -	if (!drm_dp_channel_eq_ok(link_status, intel_dp->lane_count)) {
->> -		drm_dbg_kms(&i915->drm,
->> -			    "[ENCODER:%d:%s] channel EQ not ok, retraining\n",
->> -			    encoder->base.base.id, encoder->base.name);
->> -		return false;
->> -	}
->> -
->> -	return true;
->> +	return intel_dp_link_ok(intel_dp, link_status);
->>  }
->>=20=20
->>  /**
->> @@ -3779,8 +3798,8 @@ intel_dp_needs_link_retrain(struct intel_dp *intel=
-_dp)
->>  					intel_dp->lane_count))
->>  		return false;
->>=20=20
->> -	/* Retrain if Channel EQ or CR not ok */
->> -	return !drm_dp_channel_eq_ok(link_status, intel_dp->lane_count);
->> +	/* Retrain if link not ok */
->> +	return !intel_dp_link_ok(intel_dp, link_status);
->>  }
->>=20=20
->>  static bool intel_dp_has_connector(struct intel_dp *intel_dp,
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/dri=
-vers/gpu/drm/i915/display/intel_dp_link_training.c
->> index cc2b82d9114c..0686da36c428 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
->> @@ -712,7 +712,7 @@ static bool intel_dp_adjust_request_changed(const st=
-ruct intel_crtc_state *crtc_
->>  	return false;
->>  }
->>=20=20
->> -static void
->> +void
->>  intel_dp_dump_link_status(struct intel_dp *intel_dp, enum drm_dp_phy dp=
-_phy,
->>  			  const u8 link_status[DP_LINK_STATUS_SIZE])
->>  {
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.h b/dri=
-vers/gpu/drm/i915/display/intel_dp_link_training.h
->> index dbfb15705aaa..dc1556b46b85 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.h
->> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
->> @@ -29,6 +29,10 @@ void intel_dp_start_link_train(struct intel_dp *intel=
-_dp,
->>  void intel_dp_stop_link_train(struct intel_dp *intel_dp,
->>  			      const struct intel_crtc_state *crtc_state);
->>=20=20
->> +void
->> +intel_dp_dump_link_status(struct intel_dp *intel_dp, enum drm_dp_phy dp=
-_phy,
->> +			  const u8 link_status[DP_LINK_STATUS_SIZE]);
->> +
->>  /* Get the TPSx symbol type of the value programmed to DP_TRAINING_PATT=
-ERN_SET */
->>  static inline u8 intel_dp_training_pattern_symbol(u8 pattern)
->>  {
->> --=20
->> 2.30.2
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
