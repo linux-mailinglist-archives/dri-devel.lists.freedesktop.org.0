@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67A44AF346
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 14:51:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB0F4AF345
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 14:51:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F00D10E4CB;
-	Wed,  9 Feb 2022 13:51:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8748E10E4A4;
+	Wed,  9 Feb 2022 13:51:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [81.169.146.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF66810E4B2
+Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
+ [85.215.255.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A409110E4A4
  for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 13:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1644414675;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1644414678;
  s=strato-dkim-0002; d=goldelico.com;
  h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
  From:Subject:Sender;
- bh=GQPlm8vXIXC8cptkyzh61KD3Ta4Bb5Atb1Q/XX/fIIc=;
- b=nXvev9PnWSndJCcJCBvMUmbwaNkRqZLfQDSglDhXULYjxYGbDbPZJoj04m3UCaTLy+
- 23EYzRVfbbvbsbb/rOdAAxdb1DS+zdhowalOY7ZQPbie8p7uCMGUAXHJ1aDuY9+gPA6X
- zwJTgtw82SHU0z36ZdOFWsXb7RwOZpC7U0y5m45ujETDScUgRPxHWnrKPRvn9AZZBnR/
- wtAowmeKX5tXtoDaGQVOQRlPSul9fWwn/K9D/H9rAFpOlrMpVxGprGmdKzk1i3136DPz
- Vqq8khCrV2klN0R/146pIf02+czmtlCang8G9OPKOtBcg9rX0rmZB3M9FIsvGQpRjnBg
- t/1g==
+ bh=tvGj33EBatPgN7fdgNMT5Uwzep9OEE1oZXhb92nFpC0=;
+ b=M+b+B2eRZJtmNi+t+MYTpNrmc59i+XJFTVkzdWj3EENACd1/5TTXKY+OqXR5XyxmwT
+ TAI578t9ilOZQU5S2BKANWK7+i8xQtAEZb5ARAi0raMtajkq2a7RuQd4bi+cna+eQhN6
+ 656boM9hWJ0Ffhiv+YMsdLnG+5E/RuDMyWtV7/KQsNWfEe0AXvsOXN65jSBC+HwX8+TW
+ 9n9h0EPlv96CD7D/7O5/4L8eNyz25by47IPa9Z+pLfUFqQ1Z0t4NdTdjGmp0JAgq34gj
+ giOrg6vJKOkCDv5U9HP0R6bzmQBAXB6Bhum0alyjzB1Cy2ff/7NKJbVQI1N26tCGnk5K
+ efJg==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3iMYawg=="
 X-RZG-CLASS-ID: mo00
 Received: from imac.fritz.box by smtp.strato.de (RZmta 47.39.0 DYNA|AUTH)
- with ESMTPSA id L29417y19DpFguL
+ with ESMTPSA id L29417y19DpHguM
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
  with 256 ECDH bits, eq. 3072 bits RSA))
  (Client did not present a certificate);
- Wed, 9 Feb 2022 14:51:15 +0100 (CET)
+ Wed, 9 Feb 2022 14:51:17 +0100 (CET)
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v13 5/9] drm/synopsys+ingenic: repair hot plug detection
+Subject: Re: [PATCH v13 6/9] dw-hdmi/ingenic-dw-hdmi: repair interworking with
+ hdmi-connector
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <4ED17R.TVHQS4U654LE@crapouillou.net>
-Date: Wed, 9 Feb 2022 14:51:15 +0100
+In-Reply-To: <E6E17R.ND5XW1IG4SYA@crapouillou.net>
+Date: Wed, 9 Feb 2022 14:51:17 +0100
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <29373704-13B1-4E40-873B-A13826A9859B@goldelico.com>
+Message-Id: <987D3DDA-FA93-4EDB-ABCB-6973DB7FD943@goldelico.com>
 References: <cover.1643819482.git.hns@goldelico.com>
- <08fb9549042d35c1904fd977e68aa52f74f755b0.1643819482.git.hns@goldelico.com>
- <4ED17R.TVHQS4U654LE@crapouillou.net>
+ <866f84621974992f4831bd471ae5a53414de9255.1643819482.git.hns@goldelico.com>
+ <E6E17R.ND5XW1IG4SYA@crapouillou.net>
 To: Paul Cercueil <paul@crapouillou.net>
 X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,84 +82,79 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Paul,
 
-> Am 09.02.2022 um 13:01 schrieb Paul Cercueil <paul@crapouillou.net>:
+> Am 09.02.2022 um 13:18 schrieb Paul Cercueil <paul@crapouillou.net>:
 >=20
 > Hi Nikolaus,
 >=20
-> Le mer., f=C3=A9vr. 2 2022 at 17:31:19 +0100, H. Nikolaus Schaller =
+> Le mer., f=C3=A9vr. 2 2022 at 17:31:20 +0100, H. Nikolaus Schaller =
 <hns@goldelico.com> a =C3=A9crit :
->> so that it calls drm_kms_helper_hotplug_event().
->> We need to set .poll_enabled but that struct component
->> can only be accessed in the core code. Hence we add a public
->> setter function.
+>> Commit 7cd70656d1285b ("drm/bridge: display-connector: implement bus =
+fmts callbacks")
+>> introduced a new mechanism to negotiate bus formats between hdmi =
+connector
+>> and the synopsys hdmi driver inside the jz4780.
+>> By this, the dw-hdmi is no longer the only bridge and sets up a list
+>> of formats in dw_hdmi_bridge_atomic_get_output_bus_fmts().
+>> This includes MEDIA_BUS_FMT_UYVY8_1X16 which is chosen for the jz4780 =
+but only
+>> produces a black screen.
+>> This fix is based on the observation that max_bpc =3D 0 when running =
+this
+>> function while info->bpc =3D 8. Since the formats checks before this =
+always test
+>> for max_bpc >=3D info->pbc indirectly my assumption is that we must =
+check it
+>> here as well.
+>=20
+> This fix looks really strange to me, so I'll let the DRM experts =
+comment.
+
+Well, yes. We should maybe look for comments by the synopsys/dw-hdmi =
+specialists.
+
+>=20
+> It would still be better to move the patch before the introduction of =
+dw-ingenic-hdmi.c, so that once this one is introduced, everything =
+works. This also enables bisectability.
+
+Ok, good.
+
+BR and thanks,
+Nikolaus
+
+>=20
+> Cheers,
+> -Paul
+>=20
+>=20
+>> Adding the proposed patch makes the CI20/jz4780 panel work again in
+>> MEDIA_BUS_FMT_RGB888_1X24 mode.
+>> Fixes: 7cd70656d1285b ("drm/bridge: display-connector: implement bus =
+fmts callbacks")
 >> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 >> ---
->> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 9 +++++++++
->> drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c | 2 ++
->> include/drm/bridge/dw_hdmi.h              | 1 +
->> 3 files changed, 12 insertions(+)
+>> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 ++--
+>> 1 file changed, 2 insertions(+), 2 deletions(-)
 >> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c =
 b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> index 54d8fdad395f5..52e7cd2e020d3 100644
+>> index 52e7cd2e020d3..34703a15ee4ff 100644
 >> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 >> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> @@ -3216,6 +3216,15 @@ static int dw_hdmi_parse_dt(struct dw_hdmi =
-*hdmi)
->> 	return 0;
->> }
->> +void dw_hdmi_enable_poll(struct dw_hdmi *hdmi, bool enable)
->> +{
->> +	if (hdmi->bridge.dev)
->> +		hdmi->bridge.dev->mode_config.poll_enabled =3D enable;
->> +	else
->> +		dev_warn(hdmi->dev, "no hdmi->bridge.dev");
->> +}
->> +EXPORT_SYMBOL_GPL(dw_hdmi_enable_poll);
->> +
->> struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
->> 			      const struct dw_hdmi_plat_data *plat_data)
->> {
->> diff --git a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c =
-b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
->> index 34e986dd606cf..90547a28dc5c7 100644
->> --- a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
->> +++ b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
->> @@ -55,6 +55,8 @@ ingenic_dw_hdmi_mode_valid(struct dw_hdmi *hdmi, =
-void *data,
->> 	if (mode->clock > 216000)
->> 		return MODE_CLOCK_HIGH;
->> +	dw_hdmi_enable_poll(hdmi, true);
->> +
+>> @@ -2620,10 +2620,10 @@ static u32 =
+*dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+>> 		output_fmts[i++] =3D MEDIA_BUS_FMT_RGB101010_1X30;
+>> 	}
+>> -	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+>> +	if (max_bpc >=3D info->bpc && info->color_formats & =
+DRM_COLOR_FORMAT_YCRCB422)
+>> 		output_fmts[i++] =3D MEDIA_BUS_FMT_UYVY8_1X16;
+>> -	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+>> +	if (max_bpc >=3D info->bpc && info->color_formats & =
+DRM_COLOR_FORMAT_YCRCB444)
+>> 		output_fmts[i++] =3D MEDIA_BUS_FMT_YUV8_1X24;
+>> 	/* Default 8bit RGB fallback */
+>> --
+>> 2.33.0
 >=20
-> It would be a better idea to move this patch before the patch that =
-creates ingenic-dw-hdmi.c. Then you wouldn't have to patch a file that =
-was just introduced.
-
-The main reason to have a separate patch was that I was not sure what is =
-already merged somewhere and what is not.
-And fixing something which is not yet introduced makes it quite =
-difficult to explain, why it is needed at all...
-
-So I would prefer to leave it as is until more comments arrive.
-
 >=20
-> As for the patch itself, I guess it's fine, but is that really needed? =
-My understanding is that it's the hdmi-connector's job to poll.
-
-The hardware gpio that we can define for the hdmi-connector seems not to =
-be available on all CI20 boards.
-
-Hence we must trigger (enable) the poll logic of the dw-hdmi bridge from =
-the SoC specialization.
-This seems to be best done in the ingenic-dw-hdmi driver.
-
-Unless someone has a better idea how the dw-hdmi driver could find out =
-that it should poll if a connector is defined.
-The base driver seems as if it has been developed long ago without =
-connectors and bridge chains in mind.
-Hence we are retrofitting fixes for changes introduced outside the =
-drivers.
-
-BR,
-Nikolaus
 
