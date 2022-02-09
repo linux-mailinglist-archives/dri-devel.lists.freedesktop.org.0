@@ -1,85 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B9A4AF798
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 18:05:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD794AF80B
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 18:25:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 232A310E3C3;
-	Wed,  9 Feb 2022 17:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94F3B89CE1;
+	Wed,  9 Feb 2022 17:25:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB10810E23E
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 17:04:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644426298;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5nGt1sk91AWrErDudwLdxz09p1Z/A3GC5vPQgc/7QHA=;
- b=fn4rjVms3TvKhIry+agCcOHNRr3YekAFd0CIcsuMyFVdM8OolKRvpopPix+62dxTCmUVNo
- d3RR2NdXXOS22ES1z6RdcQzingKRM9IwxAXM7wcyq/le+8kt11Z55ZwML/kE63EM9Iau1E
- kcingd9mpXqG5FQcMZvt0jjAMEnuXM0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-208-PopwhE1xPLifHmxbY1xYBg-1; Wed, 09 Feb 2022 12:04:57 -0500
-X-MC-Unique: PopwhE1xPLifHmxbY1xYBg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- b8-20020adfc748000000b001e333edbe40so1347174wrh.6
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 09:04:57 -0800 (PST)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 413FB89A34
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 17:25:24 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id 13so5538444lfp.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 09:25:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6QoNkw201jmWYI2ZvFOwA35KwNfMMnBn8u5YRCFPRuo=;
+ b=lekhbXiwBQhRlgUOFnQGhFF2kovB0evdrZ1prOnNfCG93Uplho9arDXFUwEwD8QK5+
+ CL8ASVgUHtY7q97MaI/im2nZiNIIdSs1J8RS2gFLTmdrbAVOqthhla0K74B3FZ5+xPZ+
+ 4LjBDtIfK90r2gjzi6qpi5fKnft2Lxn6pPRkJsibAFxZ+xv4Y+sLsJeM9ubKSAU8WChw
+ DkhfNOXtnG1G0N1EJjRBhT9BCD4L1EQg/IUjhqqjwyWmH7QQgaQKVk9UIsO58pKBIfaX
+ JCwwZ/y88m+VRoWn589Zpm3A94Ad91AzgkQ9a/JPD/wO+TFTCDqTQfj8Gj5fkW2eZRDh
+ 67cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=5nGt1sk91AWrErDudwLdxz09p1Z/A3GC5vPQgc/7QHA=;
- b=xxoCA+lW05tDsWpgY4NwcKYhDNJoFdXUSJgnNnDinEKKNNJTgt3MSdjhjoJX7PweUd
- SnF3/tDs/zKFCGtDruIy2Z+eMntTmjo4+O+ECGZYm7qs3zGQuGoWwNO/hvUQBNwapbmV
- ge/tLV0NPRL7a9j9YdpYG2DxjU80n9RNbjvR6QAtffDYZ/ZeiVAkagMbx43hHdQyBcbS
- 9UzOG0O3Gnf2BLmjoq5XMl89Td0zLD43xOsr5yFRhE9Ny8h/pHjDjLFH5+93ibLmRwpC
- xvPjdcnJEHbOI5w1qVu8vxTv8GyROdat0JkIsqhq1cr6LNR4ozW1b1Cqf+cACS83Nkqr
- YBcA==
-X-Gm-Message-State: AOAM533qNsUsE0G96O8qAXT0NjIDXuQA2Bnckjsbm5od1+0lblfqqUcZ
- DqPMZpzuXpkGUF3ExOW57V1D/8MKILiAcczQabvsLBdktoR7qHAo+H8y00vXFbXEiBJFEiIi1eC
- PT7nW+nMiho6dG6D4N3COsn5NoBW7
-X-Received: by 2002:a5d:52c9:: with SMTP id r9mr2859444wrv.449.1644426296220; 
- Wed, 09 Feb 2022 09:04:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxz9gThGzXLX/giWr/W1JvBYUZrrvATgUCuQX0yG/Chw7zuZKfaPye67aCPQ6VfuNzsiGcx7w==
-X-Received: by 2002:a5d:52c9:: with SMTP id r9mr2859414wrv.449.1644426295970; 
- Wed, 09 Feb 2022 09:04:55 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id o14sm5276066wmr.3.2022.02.09.09.04.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 09:04:55 -0800 (PST)
-Message-ID: <46b671fd-3929-4cf0-1e0d-5f6305464238@redhat.com>
-Date: Wed, 9 Feb 2022 18:04:54 +0100
+ bh=6QoNkw201jmWYI2ZvFOwA35KwNfMMnBn8u5YRCFPRuo=;
+ b=Bc7voMS5Ig8QaAAuxgDZXwbsXVNI7TdHpfXxXHmAPTjH2o6JCUJfiKECY5xUknpArk
+ xkC6S/5rhiVvWo6gz1+gJd8ziZiqDT/K83eIe30mfhSDhxYzQzWg6OYLWquNRYzlPFgp
+ lbjM0jPyCJnQlBxccAxRbJsKRgmOoUck2SIhAsGhg1lh+a+2visi1R0H2a6ZGSoeJJus
+ WgdoYHxQyUEPZfCphXR1z40NiaL+OT7StzWLtAgcqWGQNwyn+huQHejybvVlWoVZADxX
+ YtkUmtPqlMRCqPbzuEmm98syE/tgblyCgn/KY5w3NztLPMaFFvwjoL1R8YwT3fDryytc
+ 9Gew==
+X-Gm-Message-State: AOAM533gfCPDtp8H82H663kKm3zzXedJlN+LkZMiEE7YAXF3lxpjNAVz
+ 2FzpUw8HlR0BIi412sOvtiO63Q==
+X-Google-Smtp-Source: ABdhPJzspwOL8tBkHWxdZzBiE7r2qRpMZRD1XKC34zQnA/D9jM2b8gDJpfLQEj5hRBo5pZZdjjXNFw==
+X-Received: by 2002:a05:6512:3d17:: with SMTP id
+ d23mr2261513lfv.76.1644427522431; 
+ Wed, 09 Feb 2022 09:25:22 -0800 (PST)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id u14sm2560055lji.40.2022.02.09.09.25.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 09:25:21 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH 00/25] drm/msm/dpu: wide planes support
+Date: Wed,  9 Feb 2022 20:24:55 +0300
+Message-Id: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 5/7] (WIP) drm/solomon: Add SSD130X OLED displays SPI
- support
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220209090314.2511959-1-javierm@redhat.com>
- <20220209091204.2513437-1-javierm@redhat.com>
- <CAMuHMdWSDBjpYJv6JtgvyaKiFKh_eqbvH78TR6VBtpDeFJvqFQ@mail.gmail.com>
- <YgPbAL0I8Wn7nnNb@smile.fi.intel.com>
- <d32c731b-c06f-2dcb-5a6d-1a84351719b2@redhat.com>
- <CAMuHMdXsAyp18ivtSe-ZVmu6xbBBnvjMuZ=H1w9Gk=Ys4rkCeg@mail.gmail.com>
- <YgPuy1QVv9A7rcCh@smile.fi.intel.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YgPuy1QVv9A7rcCh@smile.fi.intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,34 +68,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/9/22 17:41, Andy Shevchenko wrote:
-> On Wed, Feb 09, 2022 at 05:25:03PM +0100, Geert Uytterhoeven wrote:
->> On Wed, Feb 9, 2022 at 5:07 PM Javier Martinez Canillas
->> <javierm@redhat.com> wrote:
-> 
-> ...
-> 
->> Are they all broken?
-> 
-> I guess it's incorrect question. The one we need to ask is is OF code broken?
-> B/c ACPI can easily cope with this (they are different buses, can't clash).
-> 
+It took me a way longer to finish than I expected. And more patches that
+I initially hoped. This patchset brings in multirect usage to support
+using two SSPP rectangles for a single plane. Virtual planes support is
+omitted from this pull request, it will come later.
 
-Yes, it's a problem specific to OF. It works correctly with both ACPI
-and legacy platform code.
+Dmitry Baryshkov (25):
+  drm/msm/dpu: rip out master planes support
+  drm/msm/dpu: do not limit the zpos property
+  drm/msm/dpu: add support for SSPP allocation to RM
+  drm/msm/dpu: move SSPP debugfs creation to dpu_kms.c
+  drm/msm/dpu: move pipe_hw to dpu_plane_state
+  drm/msm/dpu: inline dpu_plane_get_ctl_flush
+  drm/msm/dpu: drop dpu_plane_pipe function
+  drm/msm/dpu: get rid of cached flush_mask
+  drm/msm/dpu: dpu_crtc_blend_setup: split mixer and ctl logic
+  drm/msm/dpu: introduce struct dpu_sw_pipe
+  drm/msm/dpu: use dpu_sw_pipe for dpu_hw_sspp callbacks
+  drm/msm/dpu: inline _dpu_plane_set_scanout
+  drm/msm/dpu: pass dpu_format to _dpu_hw_sspp_setup_scaler3()
+  drm/msm/dpu: move stride programming to
+    dpu_hw_sspp_setup_sourceaddress
+  drm/msm/dpu: remove dpu_hw_fmt_layout from struct dpu_hw_pipe_cfg
+  drm/msm/dpu: drop EAGAIN check from dpu_format_populate_layout
+  drm/msm/dpu: drop src_split and multirect check from
+    dpu_crtc_atomic_check
+  drm/msm/dpu: move the rest of plane checks to dpu_plane_atomic_check()
+  drm/msm/dpu: don't use unsupported blend stages
+  drm/msm/dpu: add dpu_hw_pipe_cfg to dpu_plane_state
+  drm/msm/dpu: simplify dpu_plane_validate_src()
+  drm/msm/dpu: rewrite plane's QoS-related functions to take dpu_sw_pipe
+    and dpu_format
+  drm/msm/dpu: rework dpu_plane_atomic_check() and
+    dpu_plane_sspp_atomic_update()
+  drm/msm/dpu: populate SmartDMA features in hw catalog
+  drm/msm/dpu: add support for wide planes
 
-Best regards,
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 355 +++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h      |   1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |   4 -
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  78 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    |  35 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 136 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  88 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  21 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 813 +++++++++---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |  42 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  81 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |   6 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h     |  19 +-
+ 15 files changed, 827 insertions(+), 863 deletions(-)
+
 -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.34.1
 
