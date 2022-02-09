@@ -2,40 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEEA44AF463
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:48:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 246DC4AF467
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:50:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0066B10E288;
-	Wed,  9 Feb 2022 14:48:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC2B310E232;
+	Wed,  9 Feb 2022 14:50:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D16410E288
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:48:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: nfraprado) with ESMTPSA id 6C6821F45889
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1644418126;
- bh=YWqRaMse8wkQ3xG+y49Y53HHw6xq39YdnDTzPQLGhG0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DRpMhCDeuLo46HyugPFzku6BZLxKedezPp7Q8IOBKp0H0dDcL1tMLyifesywMEF7t
- G93lB0CMI7KtPFjzizw+1N7ON3aKdbniI8jYhWlp483pY4i3SBsZQrsMOv6z74OQso
- CC9PEB79/0BrfbQMlQNjRVtVhr9T4IMqMEHFVfmQBoUHkvH1ukOj0NrLNzo+IZ6h4j
- bego9MTTkEA8ptxEF4KnE4ykofQDZGjmH/OYYawLCaoEHuTihcQ/Ueseqb8poKxkL6
- qTFotTEkhgEC1qqKaA6c2bNfI5/hI/OTOpfgBMpMQaszyS4EX4gpNNfzI5g0bCHkcS
- psv46BxK3Z1iQ==
-Date: Wed, 9 Feb 2022 09:48:41 -0500
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v4] drm/mediatek: mtk_dsi: Avoid EPROBE_DEFER loop with
- external bridge
-Message-ID: <20220209144841.v2kjzy5kniukbunq@notapiano>
-References: <20220131085520.287105-1-angelogioacchino.delregno@collabora.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5005A10E24F
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644418218;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GCdwEoIBITb866ZII/MklMSrfR+LqGATKN4cy7oWV0k=;
+ b=Tz80JRVgzCJt1iWSVO0+IbvqfpexTrcYTsejKkYlUKToOOunUbAn/WbdvtU0jv+x1AC7mQ
+ JlJkLr/cA5aP1QdpsP+y/MpLUBrSy15Zj8sDVMplJbbY8OtuCOH9XpcCKmFQLxCwMQewpP
+ ifNPczo5aZm/pwGkbw5NCnrMCofW688=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-664-6qTWAMFRNfSOcbKznKZDAw-1; Wed, 09 Feb 2022 09:50:17 -0500
+X-MC-Unique: 6qTWAMFRNfSOcbKznKZDAw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d13-20020adfa34d000000b001e33a1c56f3so1185683wrb.20
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 06:50:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GCdwEoIBITb866ZII/MklMSrfR+LqGATKN4cy7oWV0k=;
+ b=3fgkadF48/9IW54N6ZAl+X9eTC011OlcCh7ePPG+rPkKuQWzXrth7pK4hm7QdgKA+q
+ NBdKZ4MTQkPNEkPgqDzI4WLcIacsD0HcpueF6xW03WIQAwCvW2D0zRtR1dE/yKU3xIS5
+ vtC6RXlXs19P/MoOsGd/H3e2QhlvbSFyhMjwMKsAK23NGj+pML0eio/H8GzLieCTeVGc
+ wFXkuZiuO1S0JCd3tUrb8BqifkM1qiBLU+B4PzLWdi4B7jXRZyLriYwPNB//yx+HXEzF
+ m6brQiEv3YL+aD034fSzj32MpvfrOA164nbqLg+w9B+81HTI/s1HhLE5Jek5u5QMDXdE
+ l9ew==
+X-Gm-Message-State: AOAM531N+gWRX3qmwmYWgJLrLX/JFFBLZMajXFjCD+Aq9/XtnjBIIVaW
+ TJzAXr4MvMdvd1LxmoBx6U0SGll+Z7TkF1AcOhv3uXgCEtk/VnZqkJ35ebiCfixuqGMb2BZmp9/
+ 8W3zN/BbcqyQV8z7Zf+h4QKPZJBZ5
+X-Received: by 2002:adf:c74f:: with SMTP id b15mr2468804wrh.307.1644418216020; 
+ Wed, 09 Feb 2022 06:50:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzZ+aCmdyVfsqG8nX2yK7Vow4vj4dB6fQbmE3flM8O2RH71KLJgArlRFmLkg6F73kXfRljWzw==
+X-Received: by 2002:adf:c74f:: with SMTP id b15mr2468781wrh.307.1644418215812; 
+ Wed, 09 Feb 2022 06:50:15 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id t4sm15470023wro.71.2022.02.09.06.50.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 06:50:15 -0800 (PST)
+Message-ID: <561e1f22-2741-b414-0267-14587d59d5de@redhat.com>
+Date: Wed, 9 Feb 2022 15:50:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220131085520.287105-1-angelogioacchino.delregno@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 3/7] drm: Add driver for Solomon SSD130X OLED displays
+To: Mark Brown <broonie@kernel.org>
+References: <20220209090314.2511959-1-javierm@redhat.com>
+ <20220209090314.2511959-4-javierm@redhat.com>
+ <YgPE8Z7HxU2wv7J/@sirena.org.uk>
+ <d1025530-90e1-fbc5-c06b-f62ed83f2f19@redhat.com>
+ <YgPOKf1QcOCtTisx@sirena.org.uk>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YgPOKf1QcOCtTisx@sirena.org.uk>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,277 +88,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
- linux-mediatek@lists.infradead.org, stable@vger.kernel.org,
- matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Angelo,
+On 2/9/22 15:22, Mark Brown wrote:
+> On Wed, Feb 09, 2022 at 03:17:06PM +0100, Javier Martinez Canillas wrote:
+>> On 2/9/22 14:43, Mark Brown wrote:
+> 
+>>> Unless the device supports power being physically omitted regulator
+>>> usage should not be optional, it's just more code and a recipie for poor
+>>> error handling.
+> 
+>> The device has a VCC pin but in most cases this is just connected to a
+>> power provided by the board in its pinout header. For example, I've it
+>> connected to a rpi4 3.3v pin.
+> 
+> That sounds like a very common configuration.
+>
 
-On Mon, Jan 31, 2022 at 09:55:20AM +0100, AngeloGioacchino Del Regno wrote:
-> DRM bridge drivers are now attaching their DSI device at probe time,
-> which requires us to register our DSI host in order to let the bridge
-> to probe: this recently started producing an endless -EPROBE_DEFER
-> loop on some machines that are using external bridges, like the
-> parade-ps8640, found on the ACER Chromebook R13.
+Yep.
+ 
+>> I guess in that case what we should do then is to just have a regulator
+>> fixed as the vbat-supply in the Device Tree, that's regulator-always-on.
 > 
-> Now that the DSI hosts/devices probe sequence is documented, we can
-> do adjustments to the mtk_dsi driver as to both fix now and make sure
-> to avoid this situation in the future: for this, following what is
-> documented in drm_bridge.c, move the mtk_dsi component_add() to the
-> mtk_dsi_ops.attach callback and delete it in the detach callback;
-> keeping in mind that we are registering a drm_bridge for our DSI,
-> which is only used/attached if the DSI Host is bound, it wouldn't
-> make sense to keep adding our bridge at probe time (as it would
-> be useless to have it if mtk_dsi_ops.attach() fails!), so also move
-> that one to the dsi host attach function (and remove it in detach).
+> Generally I'd suggest labelling things with whatever the supply is
+> called in the board's schematics/documentation, that tends to make
+> things clearer and easier to follow.
 > 
-> Cc: <stable@vger.kernel.org> # 5.15.x
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
 
-Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+The display controller datasheet and schematics mention VBAT as the power
+supply but the documentation says that it's just connected to VCC and the
+label in the display says VCC.
 
-Thanks,
-Nícolas
+But I understand why the Device Tree binding and fbdev driver used VBAT
+since that's what the documentation mentions.
 
+>> The old ssd1307fb fbdev driver also had this as optional and I wanted to
+>> keep the new driver as backward compatible. But I understand now that is
+>> not describing the hardware properly by making this regulator optional.
 > 
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 167 +++++++++++++++--------------
->  1 file changed, 84 insertions(+), 83 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 5d90d2eb0019..bced4c7d668e 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -786,18 +786,101 @@ void mtk_dsi_ddp_stop(struct device *dev)
->  	mtk_dsi_poweroff(dsi);
->  }
->  
-> +static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
-> +{
-> +	int ret;
-> +
-> +	ret = drm_simple_encoder_init(drm, &dsi->encoder,
-> +				      DRM_MODE_ENCODER_DSI);
-> +	if (ret) {
-> +		DRM_ERROR("Failed to encoder init to drm\n");
-> +		return ret;
-> +	}
-> +
-> +	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
-> +
-> +	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
-> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> +	if (ret)
-> +		goto err_cleanup_encoder;
-> +
-> +	dsi->connector = drm_bridge_connector_init(drm, &dsi->encoder);
-> +	if (IS_ERR(dsi->connector)) {
-> +		DRM_ERROR("Unable to create bridge connector\n");
-> +		ret = PTR_ERR(dsi->connector);
-> +		goto err_cleanup_encoder;
-> +	}
-> +	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
-> +
-> +	return 0;
-> +
-> +err_cleanup_encoder:
-> +	drm_encoder_cleanup(&dsi->encoder);
-> +	return ret;
-> +}
-> +
-> +static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
-> +{
-> +	int ret;
-> +	struct drm_device *drm = data;
-> +	struct mtk_dsi *dsi = dev_get_drvdata(dev);
-> +
-> +	ret = mtk_dsi_encoder_init(drm, dsi);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return device_reset_optional(dev);
-> +}
-> +
-> +static void mtk_dsi_unbind(struct device *dev, struct device *master,
-> +			   void *data)
-> +{
-> +	struct mtk_dsi *dsi = dev_get_drvdata(dev);
-> +
-> +	drm_encoder_cleanup(&dsi->encoder);
-> +}
-> +
-> +static const struct component_ops mtk_dsi_component_ops = {
-> +	.bind = mtk_dsi_bind,
-> +	.unbind = mtk_dsi_unbind,
-> +};
-> +
->  static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
->  			       struct mipi_dsi_device *device)
->  {
->  	struct mtk_dsi *dsi = host_to_dsi(host);
-> +	struct device *dev = host->dev;
-> +	int ret;
->  
->  	dsi->lanes = device->lanes;
->  	dsi->format = device->format;
->  	dsi->mode_flags = device->mode_flags;
-> +	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-> +	if (IS_ERR(dsi->next_bridge))
-> +		return PTR_ERR(dsi->next_bridge);
-> +
-> +	drm_bridge_add(&dsi->bridge);
-> +
-> +	ret = component_add(host->dev, &mtk_dsi_component_ops);
-> +	if (ret) {
-> +		DRM_ERROR("failed to add dsi_host component: %d\n", ret);
-> +		drm_bridge_remove(&dsi->bridge);
-> +		return ret;
-> +	}
->  
->  	return 0;
->  }
->  
-> +static int mtk_dsi_host_detach(struct mipi_dsi_host *host,
-> +			       struct mipi_dsi_device *device)
-> +{
-> +	struct mtk_dsi *dsi = host_to_dsi(host);
-> +
-> +	component_del(host->dev, &mtk_dsi_component_ops);
-> +	drm_bridge_remove(&dsi->bridge);
-> +	return 0;
-> +}
-> +
->  static void mtk_dsi_wait_for_idle(struct mtk_dsi *dsi)
->  {
->  	int ret;
-> @@ -938,73 +1021,14 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
->  
->  static const struct mipi_dsi_host_ops mtk_dsi_ops = {
->  	.attach = mtk_dsi_host_attach,
-> +	.detach = mtk_dsi_host_detach,
->  	.transfer = mtk_dsi_host_transfer,
->  };
->  
-> -static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
-> -{
-> -	int ret;
-> -
-> -	ret = drm_simple_encoder_init(drm, &dsi->encoder,
-> -				      DRM_MODE_ENCODER_DSI);
-> -	if (ret) {
-> -		DRM_ERROR("Failed to encoder init to drm\n");
-> -		return ret;
-> -	}
-> -
-> -	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
-> -
-> -	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
-> -				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> -	if (ret)
-> -		goto err_cleanup_encoder;
-> -
-> -	dsi->connector = drm_bridge_connector_init(drm, &dsi->encoder);
-> -	if (IS_ERR(dsi->connector)) {
-> -		DRM_ERROR("Unable to create bridge connector\n");
-> -		ret = PTR_ERR(dsi->connector);
-> -		goto err_cleanup_encoder;
-> -	}
-> -	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
-> -
-> -	return 0;
-> -
-> -err_cleanup_encoder:
-> -	drm_encoder_cleanup(&dsi->encoder);
-> -	return ret;
-> -}
-> -
-> -static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
-> -{
-> -	int ret;
-> -	struct drm_device *drm = data;
-> -	struct mtk_dsi *dsi = dev_get_drvdata(dev);
-> -
-> -	ret = mtk_dsi_encoder_init(drm, dsi);
-> -	if (ret)
-> -		return ret;
-> -
-> -	return device_reset_optional(dev);
-> -}
-> -
-> -static void mtk_dsi_unbind(struct device *dev, struct device *master,
-> -			   void *data)
-> -{
-> -	struct mtk_dsi *dsi = dev_get_drvdata(dev);
-> -
-> -	drm_encoder_cleanup(&dsi->encoder);
-> -}
-> -
-> -static const struct component_ops mtk_dsi_component_ops = {
-> -	.bind = mtk_dsi_bind,
-> -	.unbind = mtk_dsi_unbind,
-> -};
-> -
->  static int mtk_dsi_probe(struct platform_device *pdev)
->  {
->  	struct mtk_dsi *dsi;
->  	struct device *dev = &pdev->dev;
-> -	struct drm_panel *panel;
->  	struct resource *regs;
->  	int irq_num;
->  	int ret;
-> @@ -1021,19 +1045,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
->  		return ret;
->  	}
->  
-> -	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
-> -					  &panel, &dsi->next_bridge);
-> -	if (ret)
-> -		goto err_unregister_host;
-> -
-> -	if (panel) {
-> -		dsi->next_bridge = devm_drm_panel_bridge_add(dev, panel);
-> -		if (IS_ERR(dsi->next_bridge)) {
-> -			ret = PTR_ERR(dsi->next_bridge);
-> -			goto err_unregister_host;
-> -		}
-> -	}
-> -
->  	dsi->driver_data = of_device_get_match_data(dev);
->  
->  	dsi->engine_clk = devm_clk_get(dev, "engine");
-> @@ -1098,14 +1109,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
->  	dsi->bridge.of_node = dev->of_node;
->  	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
->  
-> -	drm_bridge_add(&dsi->bridge);
-> -
-> -	ret = component_add(&pdev->dev, &mtk_dsi_component_ops);
-> -	if (ret) {
-> -		dev_err(&pdev->dev, "failed to add component: %d\n", ret);
-> -		goto err_unregister_host;
-> -	}
-> -
->  	return 0;
->  
->  err_unregister_host:
-> @@ -1118,8 +1121,6 @@ static int mtk_dsi_remove(struct platform_device *pdev)
->  	struct mtk_dsi *dsi = platform_get_drvdata(pdev);
->  
->  	mtk_output_dsi_disable(dsi);
-> -	drm_bridge_remove(&dsi->bridge);
-> -	component_del(&pdev->dev, &mtk_dsi_component_ops);
->  	mipi_dsi_host_unregister(&dsi->host);
->  
->  	return 0;
-> -- 
-> 2.33.1
-> 
-> 
-> -- 
-> To unsubscribe, send mail to kernel-unsubscribe@lists.collabora.co.uk.
+> It is depressingly common to see broken code here, unfortunately
+> graphics drivers seem like one of the most common offendors.
+
+I'll include a patch for the existing DT binding and mark the vbat-supply
+property as required. Probably we won't be able to change the fbdev driver
+without causing regressions, and I'm not interested in that driver anyways.
+
+Best regards,
+--
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
