@@ -1,75 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B254AEDB9
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 10:14:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4304AEDC9
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 10:17:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA82A10E673;
-	Wed,  9 Feb 2022 09:14:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E47310E679;
+	Wed,  9 Feb 2022 09:17:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAB2210E68D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 09:13:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644398038;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HkjkJCV3RnHyv5DSE+jtNb73ClQ4fv7HXl/dV01kYKA=;
- b=V8up0W1gNdybembihHt8tLG8gm5WPwTt1i95mGkP0PLFofQh4jEPns+eO9ZjW6WR02HcLW
- vRA40cAyp2/ylIcgMmai9L67jdl6m+gbzZXxMHZzk7uQH6QGjK8i/k9gccAWp9wJzAZBeg
- 46tbUiBdmDoCrnMwJVFM0kZ5tdfBDpA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-3MhrqaMZPDWppfxyql6BmA-1; Wed, 09 Feb 2022 04:13:57 -0500
-X-MC-Unique: 3MhrqaMZPDWppfxyql6BmA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- j8-20020adfa548000000b001e33074ac51so849223wrb.11
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 01:13:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HkjkJCV3RnHyv5DSE+jtNb73ClQ4fv7HXl/dV01kYKA=;
- b=duORRUIwWxyU3P8fxwPHDjH0Y/n+4TGvBs8kirkqsDOxr/BkZc9DYDySIPjgJEOJCo
- PRt7BukWrdu0OwtXxM+iNU10+8gH4yyHflULF0eRY/1SSZZo0PmUDz4TNdZeqbnduPov
- 9bU1k/B/mZnxY7wtR+Bjrua9U4UhwGzvU/d8EGcJva7p94QnhvIbilqE+yCFN0CmKAxq
- eIWqjitK4o8K8wSTvI1QBECea9XceI5fmOauWkX8Z8ZWlM12VBJab8KAHEfcE8JRqI77
- Qmc/f65Rb3b1TcH8hTS9QGGKIkGsWw9luSN0YeHCpZ6rxNS+s1ymT0zYHwJ0No7wI8x2
- sHug==
-X-Gm-Message-State: AOAM5314zu7TMBj1/S2O2XT37HPoCK/yq7jPM6uHxo0BLGalqTaST8Fi
- 2JkvYtnWzIfZ4qGAHjN59NdmhiL2Ja0mBGzFttuC2qa6oIlgTzNmBSimqU2zpKqUvVlF8DLk+98
- s34XDVhZutSz47kEJ7mfdhDOXoUqv
-X-Received: by 2002:a5d:53c9:: with SMTP id a9mr1221604wrw.672.1644398035773; 
- Wed, 09 Feb 2022 01:13:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwN9IG1QALjH1ZUKqnf6ckKETjeoTD+yjoTXUPxM8Hq+sCkIBChwrk3c3nzhT8/h+bVv4FVsQ==
-X-Received: by 2002:a5d:53c9:: with SMTP id a9mr1221588wrw.672.1644398035459; 
- Wed, 09 Feb 2022 01:13:55 -0800 (PST)
-Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id w6sm13557623wrp.51.2022.02.09.01.13.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 01:13:55 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 7/7] dt-bindings: display: ssd1307fb: Add myself as binding
- co-maintainer
-Date: Wed,  9 Feb 2022 10:13:44 +0100
-Message-Id: <20220209091344.2513662-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220209090314.2511959-1-javierm@redhat.com>
-References: <20220209090314.2511959-1-javierm@redhat.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D29EB10E660;
+ Wed,  9 Feb 2022 09:17:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644398256; x=1675934256;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=bI9jE3UCp/K/cFyRnKt5ukkSaDgeXlu8v0cUPzcZZ6Q=;
+ b=l4400tznDWj/uxBMM1QmD67tLDUiRUnUqML6iKVci9VkSHPWZkjS1hpT
+ BHD6AccxQ8cVPNkOQX24ZI84JHaBt7r00I/oBLIpM1T3LBc9DnQ4dxbmk
+ K7+TbTL/IGgTa7sx8Q8d3+8EKUskmJUOjLx6cbIJP8+XlkuO46/iIjo79
+ GqgvGE/62jalC+t21AS6QeBJ3+nRbYrQv7lralK1FF4fnY0AUAqhSZfpI
+ ilpS6K7oOfunQ0WFHmTeSUNXNSFGoQZ73Tya/FZQgPy3PQcobHs2tiU3l
+ vNhYysp/s3bDOVkzg7pXYLxKiT/64XR5TL1MRdUTbh98A6ziGcJhG3+QF Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="249110121"
+X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="249110121"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 01:17:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="678459009"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
+ by fmsmga001.fm.intel.com with SMTP; 09 Feb 2022 01:17:31 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 09 Feb 2022 11:17:30 +0200
+Date: Wed, 9 Feb 2022 11:17:30 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v2 6/8] drm/i915/dp: add 128b/132b support to link status
+ checks
+Message-ID: <YgOGqmEigGnYIK8f@intel.com>
+References: <cover.1643878928.git.jani.nikula@intel.com>
+ <cec395d435679a290a1c35fcbfc54555101bfad1.1643878928.git.jani.nikula@intel.com>
+ <YgKG8JFIKC6PRmMG@intel.com> <87sfsspfsa.fsf@intel.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <87sfsspfsa.fsf@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,46 +62,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: intel-gfx@lists.freedesktop.org, uma.shankar@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ssd130x DRM driver also makes use of this Device Tree binding to allow
-existing users of the fbdev driver to migrate without the need to change
-their Device Trees.
+On Wed, Feb 09, 2022 at 11:09:41AM +0200, Jani Nikula wrote:
+> On Tue, 08 Feb 2022, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
+> > On Thu, Feb 03, 2022 at 11:03:55AM +0200, Jani Nikula wrote:
+> >> Abstract link status check to a function that takes 128b/132b and 8b/10b
+> >> into account, and use it. Also dump link status on failures.
+> >> 
+> >> Cc: Uma Shankar <uma.shankar@intel.com>
+> >> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> >> ---
+> >>  drivers/gpu/drm/i915/display/intel_dp.c       | 39 ++++++++++++++-----
+> >>  .../drm/i915/display/intel_dp_link_training.c |  2 +-
+> >>  .../drm/i915/display/intel_dp_link_training.h |  4 ++
+> >>  3 files changed, 34 insertions(+), 11 deletions(-)
+> >> 
+> >> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> >> index 146b83916005..8c5590f0409a 100644
+> >> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> >> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> >> @@ -3628,6 +3628,32 @@ static void intel_dp_handle_test_request(struct intel_dp *intel_dp)
+> >>  			    "Could not write test response to sink\n");
+> >>  }
+> >>  
+> >> +static bool intel_dp_link_ok(struct intel_dp *intel_dp,
+> >> +			     u8 link_status[DP_LINK_STATUS_SIZE])
+> >> +{
+> >> +	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
+> >> +	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
+> >> +	bool uhbr = intel_dp->link_rate >= 1000000;
+> >> +	bool ok;
+> >> +
+> >> +	if (uhbr)
+> >> +		ok = drm_dp_128b132b_lane_channel_eq_done(link_status,
+> >> +							  intel_dp->lane_count);
+> >
+> > I was pondering whether we need to check more of the bits here. I guess
+> > time will tell.
+> >
+> > Remainder of the series is
+> > Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> Just to be on the safe side, does this cover patches 2 and 4 too?
 
-Add myself as another maintainer of the binding, to make sure that I will
-be on Cc when patches are proposed for it.
+Yeah, pretty sure I read through all of them.
 
-Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+> 
+> And thanks for all the reviews so far, much appreciated!
+>
+> BR,
+> Jani.
+> 
+> 
+> >
+> >> +	else
+> >> +		ok = drm_dp_channel_eq_ok(link_status, intel_dp->lane_count);
+> >> +
+> >> +	if (ok)
+> >> +		return true;
+> >> +
+> >> +	intel_dp_dump_link_status(intel_dp, DP_PHY_DPRX, link_status);
+> >> +	drm_dbg_kms(&i915->drm,
+> >> +		    "[ENCODER:%d:%s] %s link not ok, retraining\n",
+> >> +		    encoder->base.base.id, encoder->base.name,
+> >> +		    uhbr ? "128b/132b" : "8b/10b");
+> >> +
+> >> +	return false;
+> >> +}
+> >> +
+> >>  static void
+> >>  intel_dp_mst_hpd_irq(struct intel_dp *intel_dp, u8 *esi, u8 *ack)
+> >>  {
+> >> @@ -3658,14 +3684,7 @@ static bool intel_dp_mst_link_status(struct intel_dp *intel_dp)
+> >>  		return false;
+> >>  	}
+> >>  
+> >> -	if (!drm_dp_channel_eq_ok(link_status, intel_dp->lane_count)) {
+> >> -		drm_dbg_kms(&i915->drm,
+> >> -			    "[ENCODER:%d:%s] channel EQ not ok, retraining\n",
+> >> -			    encoder->base.base.id, encoder->base.name);
+> >> -		return false;
+> >> -	}
+> >> -
+> >> -	return true;
+> >> +	return intel_dp_link_ok(intel_dp, link_status);
+> >>  }
+> >>  
+> >>  /**
+> >> @@ -3779,8 +3798,8 @@ intel_dp_needs_link_retrain(struct intel_dp *intel_dp)
+> >>  					intel_dp->lane_count))
+> >>  		return false;
+> >>  
+> >> -	/* Retrain if Channel EQ or CR not ok */
+> >> -	return !drm_dp_channel_eq_ok(link_status, intel_dp->lane_count);
+> >> +	/* Retrain if link not ok */
+> >> +	return !intel_dp_link_ok(intel_dp, link_status);
+> >>  }
+> >>  
+> >>  static bool intel_dp_has_connector(struct intel_dp *intel_dp,
+> >> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> >> index cc2b82d9114c..0686da36c428 100644
+> >> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> >> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> >> @@ -712,7 +712,7 @@ static bool intel_dp_adjust_request_changed(const struct intel_crtc_state *crtc_
+> >>  	return false;
+> >>  }
+> >>  
+> >> -static void
+> >> +void
+> >>  intel_dp_dump_link_status(struct intel_dp *intel_dp, enum drm_dp_phy dp_phy,
+> >>  			  const u8 link_status[DP_LINK_STATUS_SIZE])
+> >>  {
+> >> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.h b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+> >> index dbfb15705aaa..dc1556b46b85 100644
+> >> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+> >> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+> >> @@ -29,6 +29,10 @@ void intel_dp_start_link_train(struct intel_dp *intel_dp,
+> >>  void intel_dp_stop_link_train(struct intel_dp *intel_dp,
+> >>  			      const struct intel_crtc_state *crtc_state);
+> >>  
+> >> +void
+> >> +intel_dp_dump_link_status(struct intel_dp *intel_dp, enum drm_dp_phy dp_phy,
+> >> +			  const u8 link_status[DP_LINK_STATUS_SIZE]);
+> >> +
+> >>  /* Get the TPSx symbol type of the value programmed to DP_TRAINING_PATTERN_SET */
+> >>  static inline u8 intel_dp_training_pattern_symbol(u8 pattern)
+> >>  {
+> >> -- 
+> >> 2.30.2
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
 
-(no changes since v2)
-
-Changes in v2:
-- Add myself as co-maintainer of the ssd1370fb DT binding (Sam Ravnborg).
-
- Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-index 2ed2a7d0ca2f..9baafd0c42dd 100644
---- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-+++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-@@ -8,6 +8,7 @@ title: Solomon SSD1307 OLED Controller Framebuffer
- 
- maintainers:
-   - Maxime Ripard <mripard@kernel.org>
-+  - Javier Martinez Canillas <javierm@redhat.com>
- 
- properties:
-   compatible:
 -- 
-2.34.1
-
+Ville Syrjälä
+Intel
