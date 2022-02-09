@@ -1,79 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5454AF664
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 17:19:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BB54AF67A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 17:25:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C41FA10E22E;
-	Wed,  9 Feb 2022 16:19:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2B3710E277;
+	Wed,  9 Feb 2022 16:25:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB9610E22E
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 16:19:15 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 8395F580206;
- Wed,  9 Feb 2022 11:19:14 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 09 Feb 2022 11:19:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=55OcdTedgkHCnbbZ2TtGyVZyNIMSUAAyr5X9c0
- GKBAo=; b=v4uF0DiPVnte+ne88sk9qzpOAVX01TfYo6w65K0GaERxBknbIBSpOj
- xvkQ4x4ZF7Ib5pRqxvDw8S6edUrRP9YEXydxX8H1KPGe2KRTsVGyJiwR6g53YOFs
- 14ZZgZChtil8NH3pBopcVOS2rS1Oo6+UXNG1aCfxdVraU1uK86weFB7MjrQQOgWm
- zy9vI3MJ7dIP4LGHgNadh5bzArL7G1tVj5tOiDyyshfPvmHsYC/HV4FTbnTQslDP
- N/SuEdE0b3JsgtfLUEOQeTZTIOyZNLZvaS/44VtfE7gn8j2V2BP9GqLpm3oZuI7D
- vv3XUiY2KwMfPdBHzocgIC+lvn1Cz7pQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=55OcdTedgkHCnbbZ2
- TtGyVZyNIMSUAAyr5X9c0GKBAo=; b=QKx7tcdhSvKwrYqcqgNqoDzaNSr7aatII
- r/AZAo45FibgSdw54iu7sHS8XbJzcAe/cElcNy95RG9Fd2DgL/exIF+Qp1gSpNzb
- yLlaRnmaEHQp6969YQgV90nR48DPBBNJJHq1lhmO/ezw3ry8GBJ4Jf1Enm+bwIKS
- zRTDF/hWS4OoQfO5twepq9lI8Qri+NPoBhyfxALjvYGvTN4snJJFi6lThDUdaFH4
- BJ3oE5Y7QEjWsbdq+itBmJqNbNCmPIMEzYyZ3H2qKyRGkQ2CL3IEmrcFJJe+PEBg
- UlZXxa+C209sMipZKe9BAPYDqcWUhvxkKFZmNVCL2MZCDzV04Hwtg==
-X-ME-Sender: <xms:gekDYkeuA58gXxQ0wyORseyxSG8qm4NKR8QqXs4RBCSCbzzc7qgB6w>
- <xme:gekDYmMaj4bt8CYNBC3mmXNYRFB5dtqucfqSg-pYKguhQo1C612oTiSIGST9aR8mD
- Dcc_-ulJBRs4CU5mLU>
-X-ME-Received: <xmr:gekDYliGRwG8Kx3PxCpDc2PpXi3ba9mMWYnhR4NLJ-bRWw-hx-prNSaDfmMmTm_1f6pgtH0hOv3EbGPRveIuPjZqLYM1W95fLlLdFVM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheelgdekhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:gekDYp-vKjx7qfo0DnVHWJw3zjqPaQ-nwNJ3_72oh8v28CWeA_DbXw>
- <xmx:gekDYgtlzfycRTJFU0cyWdcdAXshxgYOoR9kAB-oRuneEAFSjhUHYg>
- <xmx:gekDYgGERl31H7ez-Xu_vcirfybh7cv_tPpHqYjGU77bKVycMX6d9A>
- <xmx:gukDYgQ0EWj40OfKWnf76vkG2LbPdongTb72ops65mEaW_tMIhd5Fw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Feb 2022 11:19:13 -0500 (EST)
-Date: Wed, 9 Feb 2022 17:19:11 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Sui Jingfeng <15330273260@189.cn>
-Subject: Re: [PATCH v6 1/3] drm/lsdc: add drm driver for loongson display
- controller
-Message-ID: <20220209161911.eififnhc2csg4y46@houat>
-References: <20220203082546.3099-1-15330273260@189.cn>
- <20220203082546.3099-2-15330273260@189.cn>
- <20220203085851.yqstkfgt4dz7rcnw@houat>
- <f5381561-25da-61e3-5025-fa6dd61dd730@189.cn>
- <20220209084331.fpq5ng3yuqxmby4q@houat>
- <def50622-fe08-01f7-83bd-e6e0bc39fe1b@189.cn>
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com
+ [209.85.217.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E75E10E277
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 16:25:16 +0000 (UTC)
+Received: by mail-vs1-f53.google.com with SMTP id z62so988124vsz.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 08:25:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4GuniAOq5DbLNh++mRg7r5HcnQnN5dB0Mrzttjolx/0=;
+ b=JvoXhqHh4fRaRTGFXjTUViYteMfWZYVEJjXVWgEP8jABE9TSdjnkZ5uDbw1qHW5LjQ
+ Sg0OmJkeARJKwdte7vAvaT22KQJVosDqipAO/UKOMmKx5aMGafBNcWdP+TZD+zgYznL4
+ SXx8J6d+vgCpdMCNWDlqLGAb/IYrEkxtsgsbyLyJHVWfIi+/hMT7C1TQA5sVH+8n/gQ7
+ leN11oRfiwOZOCt2ddnVf7Y/BMtCGXUr7GgIsSnOygpBflDfqibr33icBeLqxwSlCxn8
+ cvPFWr/FLqEXu0Adgq89dWWXSFdDtWSuzGYQabebCMOuAZdJFhEq2XuIbXdvjVLs3dCv
+ EGnQ==
+X-Gm-Message-State: AOAM5322p/KZEwSomq7UpeLXD9LhpnEumca+dbSfet0ly5jFRWBECd9e
+ 8zGay3jRdchQAJ6wf+/CfFIvgr/pnkfQ3g==
+X-Google-Smtp-Source: ABdhPJxgf9/Qbk5K4Ek+mTQtxWurGTeKdQJC6wxlV8NtdXwjp27Av8Z95RcpDNPf+qW/TOMew/0Sig==
+X-Received: by 2002:a05:6102:e0d:: with SMTP id
+ o13mr1078095vst.40.1644423914853; 
+ Wed, 09 Feb 2022 08:25:14 -0800 (PST)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com.
+ [209.85.217.44])
+ by smtp.gmail.com with ESMTPSA id m3sm5892vso.0.2022.02.09.08.25.14
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 08:25:14 -0800 (PST)
+Received: by mail-vs1-f44.google.com with SMTP id b2so3185149vso.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 08:25:14 -0800 (PST)
+X-Received: by 2002:a67:a401:: with SMTP id n1mr920976vse.38.1644423914101;
+ Wed, 09 Feb 2022 08:25:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ss2ssq6u6ix5jfma"
-Content-Disposition: inline
-In-Reply-To: <def50622-fe08-01f7-83bd-e6e0bc39fe1b@189.cn>
+References: <20220209090314.2511959-1-javierm@redhat.com>
+ <20220209091204.2513437-1-javierm@redhat.com>
+ <CAMuHMdWSDBjpYJv6JtgvyaKiFKh_eqbvH78TR6VBtpDeFJvqFQ@mail.gmail.com>
+ <YgPbAL0I8Wn7nnNb@smile.fi.intel.com>
+ <d32c731b-c06f-2dcb-5a6d-1a84351719b2@redhat.com>
+In-Reply-To: <d32c731b-c06f-2dcb-5a6d-1a84351719b2@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 9 Feb 2022 17:25:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXsAyp18ivtSe-ZVmu6xbBBnvjMuZ=H1w9Gk=Ys4rkCeg@mail.gmail.com>
+Message-ID: <CAMuHMdXsAyp18ivtSe-ZVmu6xbBBnvjMuZ=H1w9Gk=Ys4rkCeg@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] (WIP) drm/solomon: Add SSD130X OLED displays SPI
+ support
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,47 +69,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
- Roland Scheidegger <sroland@vmware.com>, linux-mips@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Rob Herring <robh+dt@kernel.org>, Dan Carpenter <dan.carpenter@oracle.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Maxime Ripard <maxime@cerno.tech>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Javier,
 
---ss2ssq6u6ix5jfma
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Feb 9, 2022 at 5:07 PM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> On 2/9/22 16:17, Andy Shevchenko wrote:
+> > On Wed, Feb 09, 2022 at 01:25:46PM +0100, Geert Uytterhoeven wrote:
+> >> On Wed, Feb 9, 2022 at 10:12 AM Javier Martinez Canillas
+> >> <javierm@redhat.com> wrote:
+> >
+> > ...
+> >
+> >>> +               .compatible = "solomon,ssd1305fb-spi",
+> >>
+> >> This needs an update to the DT bindings.
+> >> Hence this may be a good time to deprecate the existing
+> >> "solomon,ssd130*fb-i2c" compatible values, and switch to
+> >> "solomon,ssd130*fb" instead, for both I2C and SPI.
+> >
+> > Agree!
+> >
+>
+> Did you see my comment about automatic module loading ? I think
+> that would be an issue if we use the same compatible for both
+> I2C and SPI drivers.
 
-On Wed, Feb 09, 2022 at 11:41:06PM +0800, Sui Jingfeng wrote:
-> > Then, you have "modeset", and I'm not sure why it's supposed to be
-> > there, at all. This is a modesetting driver, why would I want to disable
-> > modesetting entirely?
->=20
-> Something you want fbdev driver, for example simple-framebuffer driver wh=
-ich
-> using the firmware passed fb (screeninfo).
->=20
-> besides, text mode support.
+We have several drivers that have a core and separate i2c and spi
+wrappers, see e.g.
 
-Then you want to use the generic nomodeset argument.
+$ git grep -w ltc2947_of_match
+drivers/hwmon/ltc2947-core.c:const struct of_device_id ltc2947_of_match[] = {
+drivers/hwmon/ltc2947-core.c:EXPORT_SYMBOL_GPL(ltc2947_of_match);
+drivers/hwmon/ltc2947-core.c:MODULE_DEVICE_TABLE(of, ltc2947_of_match);
+drivers/hwmon/ltc2947-i2c.c:            .of_match_table = ltc2947_of_match,
+drivers/hwmon/ltc2947-spi.c:            .of_match_table = ltc2947_of_match,
+drivers/hwmon/ltc2947.h:extern const struct of_device_id ltc2947_of_match[];
 
-Maxime
+Are they all broken?
 
---ss2ssq6u6ix5jfma
-Content-Type: application/pgp-signature; name="signature.asc"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgPpfwAKCRDj7w1vZxhR
-xRuMAP9hV9LEuGnyc5HgLOl062hnV9Xm6caWfQUzcStzgYP4/QD+OgIBr59jS/HJ
-IZmuqee4UGRHzgaXB+crDV4SBZIVFQA=
-=hzlD
------END PGP SIGNATURE-----
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---ss2ssq6u6ix5jfma--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
