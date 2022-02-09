@@ -1,51 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2AA4AF319
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 14:42:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0F64AF327
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 14:43:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62F8C10E287;
-	Wed,  9 Feb 2022 13:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D1C210E130;
+	Wed,  9 Feb 2022 13:43:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0901610E2FB
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 13:42:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644414137; x=1675950137;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=KNOrCxYQ76BbX5W2PuU+ObMnxpkvaWpKKPP8sBWs9fc=;
- b=JRilfYXqtI8OtwpU954DYpQhc8/uKsYjN2b9FgUiNteplCH6wnpg2r21
- PR8fM/ROEkDNJq+VnJ80XMNqFdramCUybUdr6BXxAb3nnmg2867WM93N3
- 4l6g2Sd/C+PEVBs7HPRRQdKsrsrZgHGFsYpEqLWYgCRygZEoHBGdrFWF7
- b5qCTBQL1ANU4B1/pKDkB9/6liLhzZevCEPTWlMaizt3dikgsYey35OBm
- zN/rvo6+cc8fLhTveSO8EetU/2bQEJK20Dccov1PGfdhU8IGFiiYYzYy3
- BZyphQ0aO+IftvFkL8WRbzeZDEIec1/XLP3P8B4h2WZMcUYcwNNCQaiVg g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="236610999"
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="236610999"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 05:42:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="678590566"
-Received: from kuha.fi.intel.com ([10.237.72.185])
- by fmsmga001.fm.intel.com with SMTP; 09 Feb 2022 05:42:13 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Wed, 09 Feb 2022 15:42:12 +0200
-Date: Wed, 9 Feb 2022 15:42:12 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: syzbot <syzbot+60df062e1c41940cae0f@syzkaller.appspotmail.com>
-Subject: Re: [syzbot] WARNING in component_del
-Message-ID: <YgPEtCGDlSrqa1fK@kuha.fi.intel.com>
-References: <00000000000016f4ae05d5cec832@google.com>
- <000000000000a17f2305d77f4cb7@google.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3AD210E130
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 13:43:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id CF93EB821A2;
+ Wed,  9 Feb 2022 13:43:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CEF5C340E7;
+ Wed,  9 Feb 2022 13:43:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644414200;
+ bh=37OR1ffupD9w9dKrsD/tXWDzbP9itwcwvYTx3uXtOps=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fUge2DMeusx+jhrGmSAodUdP1Qlf9acOZcs8TjQf49xFNLNknrvgg4CY0s7fVgCF8
+ Cix15WePuCE8YLeekKTb76Y/rXKbN1SD+6r0LxYI3H0d/imAIpMAl6lJgmm/jNVjzA
+ WVB148FwaqUS5h6YKprZT6lPNyNuX5vPGeT9sQsgVI6BSEAJ4IQISslWPIRma9Al4A
+ lAP9PBsiTlNG9LvPNdqJ/cdlV9LQad+75PzzcBLAgtfl1lKk9+d9kbJDxHLGVt79qY
+ AWui1oqCXtrqDGBpfykYd4GAzGL+a/BPqHb5kqhe2BYye1Vu+IpQlkWBJ40Wul6tk1
+ Pxlei95pitoIQ==
+Date: Wed, 9 Feb 2022 13:43:13 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v3 3/7] drm: Add driver for Solomon SSD130X OLED displays
+Message-ID: <YgPE8Z7HxU2wv7J/@sirena.org.uk>
+References: <20220209090314.2511959-1-javierm@redhat.com>
+ <20220209090314.2511959-4-javierm@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="hG/Egg4kkWequsOJ"
 Content-Disposition: inline
-In-Reply-To: <000000000000a17f2305d77f4cb7@google.com>
+In-Reply-To: <20220209090314.2511959-4-javierm@redhat.com>
+X-Cookie: Disc space -- the final frontier!
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,40 +54,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rafael@kernel.org, gregkh@linuxfoundation.org, rafael.j.wysocki@intel.com,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, andriy.shevchenko@linux.intel.com
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 08, 2022 at 02:37:10AM -0800, syzbot wrote:
-> syzbot has bisected this issue to:
-> 
-> commit 8c67d06f3fd9639c44d8147483fb1c132d71388f
-> Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Date:   Thu Dec 23 08:23:49 2021 +0000
-> 
->     usb: Link the ports to the connectors they are attached to
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14063168700000
-> start commit:   555f3d7be91a Merge tag '5.17-rc3-ksmbd-server-fixes' of gi..
-> git tree:       upstream
-> final oops:     https://syzkaller.appspot.com/x/report.txt?x=16063168700000
-> console output: https://syzkaller.appspot.com/x/log.txt?x=12063168700000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=266de9da75c71a45
-> dashboard link: https://syzkaller.appspot.com/bug?extid=60df062e1c41940cae0f
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15880d84700000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14de0c77b00000
-> 
-> Reported-by: syzbot+60df062e1c41940cae0f@syzkaller.appspotmail.com
-> Fixes: 8c67d06f3fd9 ("usb: Link the ports to the connectors they are attached to")
-> 
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
-I'm guessing the component_add() is failing in this case. So I guess
-we need to consider the component_add() failures fatal in
-drivers/usb/core/port.c, which is a bit of a bummer. I'll send the
-fix.
+--hG/Egg4kkWequsOJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
--- 
-heikki
+On Wed, Feb 09, 2022 at 10:03:10AM +0100, Javier Martinez Canillas wrote:
+
+> +	if (ssd130x->vbat_reg) {
+> +		ret = regulator_enable(ssd130x->vbat_reg);
+> +		if (ret) {
+> +			dev_err(dev, "Failed to enable VBAT: %d\n", ret);
+> +			return ret;
+> +		}
+> +	}
+
+Unless the device supports power being physically omitted regulator
+usage should not be optional, it's just more code and a recipie for poor
+error handling.
+
+--hG/Egg4kkWequsOJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmIDxPAACgkQJNaLcl1U
+h9BlsAf8DXkDpBzNae52DdUZC+O3yzYIWFFywhEjjDbPX9wmJ4924EI/wjD/igl6
+YeYnHYx0kj0SLfHYbpBFUehzykJQ/puIGOnDJ6FpE0SEtcl6fRWcLyKOuhvl+bHr
+2vaJbS/pQ53i53EbMU5Zg5PXsZ18GkuDd+9zgz3aC3wSJAOr4LkPIpLe8sQpfSUM
+O6QgrmffoUFahtVadrpjAd+We/dGDUuLvcJCrO184AWXoi3pHtpnzhI0k2/GHBfm
+qJghua+CfAPUdSthNyVYVZ/YAB+QLAS5NLfW+QX2Ot0XctA6Lk006jjJ+H8LxFWM
+BoGgjBzeIw+303F+wx4Ep1mBFYA2DA==
+=MgLt
+-----END PGP SIGNATURE-----
+
+--hG/Egg4kkWequsOJ--
