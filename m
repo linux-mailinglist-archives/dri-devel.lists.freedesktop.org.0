@@ -2,67 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8F64AFFD3
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 23:03:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927124AFFED
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 23:14:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B200D10E618;
-	Wed,  9 Feb 2022 22:03:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C72B89EB7;
+	Wed,  9 Feb 2022 22:14:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4D4C10E618
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 22:03:24 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id i17so6788926lfg.11
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 14:03:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=m/jM298Q2lilwuRAcB9szC9CfZcuho3/psKjLfOmipk=;
- b=TBVPofOcDZHSNsfDSrK9N25wXlUqmiOwgAkzkjmAX7pRNqnzIlCv+Yazw38kCracB1
- PfVDsmtnw7AZxa6Rvn5RueZwpXPFbDHYD7wl8veFe5kS1uzo3pW+Q54NcX6wK7F4ifN9
- kCIpFQOmGPlWeI+F+Daz9XRNW0Np/b/ccFxBcKS7/6U+f2704dO9X6NRZidd5HhbDpDO
- jDr5wylLX3hFKJ2e6jweRbE0x4iGflbnv4rwQe6jxf7pTSNFufATUiEHoKNdn4H37ZiU
- l2QWN6u7oLNWiu3x7fhNSVxYWqN2s67IOWxnFQ+cHgpG4/KqiJottk6xQuvfFpjx+4zG
- p3KA==
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
+ [209.85.167.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA05689EB7
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 22:14:13 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id ay7so4020061oib.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 14:14:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=m/jM298Q2lilwuRAcB9szC9CfZcuho3/psKjLfOmipk=;
- b=K8WsULmAJyyBuMveiaUkdSmIjYvrqeROewhyicmkMxAypzeXFDDVGSle6zmim7V64I
- Svpi/6rADeYAq/0ykEUBVJK2hr57LOMEkF3vxSz0B5+a7UX1neqbyCaJLyVuZlEZKj4W
- ZCWiqWyBjkXbUlcjQ1bfzRrLiZew3+csdOJkbRWtwB6gz7t0VjJge00YZbwzy/tj2jXS
- W40nDDa/SLBoFpVynuf2SkS3Gmse/dtPPfIUWflnanRVHnJKV3N5+eUf+yEt62Cjsqds
- LElnbrFJbG5EtxUkS+IpYlbKzFz9SIGGfPSMF6MyTpvsDbjrlgtdBNfiB7zQ5nrzAFyM
- iGMw==
-X-Gm-Message-State: AOAM530CI5ESAYv68pr8aphhagRJ4+lUgmpLcMjY5F+s7aZToD/1ZLnF
- 0JcArKYY3PLVIZNbpAL/NZywug==
-X-Google-Smtp-Source: ABdhPJxwEImBidIbwgxkjiktuZ2LvjO6+doHOTUKPtcJPGxnGqzJVQKkxUsjyj77e/ZRZY8CKdu1Dg==
-X-Received: by 2002:a05:6512:3a93:: with SMTP id
- q19mr3041722lfu.487.1644444202900; 
- Wed, 09 Feb 2022 14:03:22 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id a27sm2541809lfg.140.2022.02.09.14.03.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 14:03:22 -0800 (PST)
-Message-ID: <32259670-1261-a305-2bcb-57ebde792f24@linaro.org>
-Date: Thu, 10 Feb 2022 01:03:21 +0300
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5w3QoXmnLsihgEA/Et9MpIi6nloh2mbWHhlRSc4SJVU=;
+ b=wClN9+OzF20pw1jLyWXQY05TPKYB43MMGgcm+oYo2K4qNng4WvXP3HAJBsqRoYsrBN
+ Ge1LsQxTi8X45YEGU4JaFJwmcq8Morzq9m51TVcIteEh4qJI5JPjreLbmEbjP7kpQVPr
+ lFBE/g4pq8H7VyqoBS6nlDihPi33hfylOFRrTXSHxoz4N8CMPCEYOk+OFdY+FkBSagzX
+ ib7azcTCaxj1WVaCiGhIYIvdSWouGxPtwRJwXiNq973O0xJmpWVGQpkyj1wugEzbRiia
+ WaIwRAoS5EK2OlmzsI+a9B1kDTCu5y4bVu8xxByGZwAI1uhIOgfqlnp57W2vxjiFhjdz
+ GXmQ==
+X-Gm-Message-State: AOAM532WYDb0Ck3eALL70Fo+BGkt0ZGJAzRk3tteNdIC/E0ByHLSmzIK
+ u76Nwj3R/KasDparlRF71Q==
+X-Google-Smtp-Source: ABdhPJzweqXLNVP7+tC8UIOfrH2IH0wKhXWBXS/zBWs578C+quPBmzcGsHsOdY/vYUi67D0BCYkOXw==
+X-Received: by 2002:a54:488c:: with SMTP id r12mr2027834oic.104.1644444852983; 
+ Wed, 09 Feb 2022 14:14:12 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id f21sm7069506otq.4.2022.02.09.14.14.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 14:14:12 -0800 (PST)
+Received: (nullmailer pid 1028963 invoked by uid 1000);
+ Wed, 09 Feb 2022 22:14:11 -0000
+Date: Wed, 9 Feb 2022 16:14:11 -0600
+From: Rob Herring <robh@kernel.org>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: ssd1307fb: Add myself as
+ binding co-maintainer
+Message-ID: <YgQ8s5S3mqYMPyqW@robh.at.kernel.org>
+References: <20220204134347.1187749-1-javierm@redhat.com>
+ <20220204134347.1187749-5-javierm@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v2 2/2] drm/msm/hdmi: Remove spurious IRQF_ONESHOT flag
-Content-Language: en-GB
-To: Daniel Thompson <daniel.thompson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20220201174734.196718-1-daniel.thompson@linaro.org>
- <20220201174734.196718-3-daniel.thompson@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220201174734.196718-3-daniel.thompson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220204134347.1187749-5-javierm@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,51 +62,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/02/2022 20:47, Daniel Thompson wrote:
-> Quoting the header comments, IRQF_ONESHOT is "Used by threaded interrupts
-> which need to keep the irq line disabled until the threaded handler has
-> been run.". When applied to an interrupt that doesn't request a threaded
-> irq then IRQF_ONESHOT has a lesser known (undocumented?) side effect,
-> which it to disable the forced threading of irqs. For "normal" kernels
-> if there is no thread_fn then IRQF_ONESHOT is a nop.
+On Fri, 04 Feb 2022 14:43:47 +0100, Javier Martinez Canillas wrote:
+> The ssd130x DRM driver also makes use of this Device Tree binding to allow
+> existing users of the fbdev driver to migrate without the need to change
+> their Device Trees.
 > 
-> In this case disabling forced threading is not appropriate because the
-> driver calls wake_up_all() (via msm_hdmi_i2c_irq) and also directly uses
-> the regular spinlock API for locking (in msm_hdmi_hdcp_irq() ). Neither
-> of these APIs can be called from no-thread interrupt handlers on
-> PREEMPT_RT systems.
+> Add myself as another maintainer of the binding, to make sure that I will
+> be on Cc when patches are proposed for it.
 > 
-> Fix this by removing IRQF_ONESHOT.
-> 
-> Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 > ---
->   drivers/gpu/drm/msm/hdmi/hdmi.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index 719720709e9e7..e167817b42958 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -306,7 +306,7 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->   	}
->   
->   	ret = devm_request_irq(&pdev->dev, hdmi->irq,
-> -			msm_hdmi_irq, IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
-> +			msm_hdmi_irq, IRQF_TRIGGER_HIGH,
->   			"hdmi_isr", hdmi);
->   	if (ret < 0) {
->   		DRM_DEV_ERROR(dev->dev, "failed to request IRQ%u: %d\n",
+> (no changes since v1)
+> 
+>  Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-
--- 
-With best wishes
-Dmitry
+Acked-by: Rob Herring <robh@kernel.org>
