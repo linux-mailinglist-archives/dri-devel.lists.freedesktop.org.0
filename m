@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7FF4AEA57
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 07:30:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AC54AEA5A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 07:30:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AEC410E3DC;
-	Wed,  9 Feb 2022 06:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2306F10E431;
+	Wed,  9 Feb 2022 06:30:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62A9B10E3C7;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0A9C10E3DC;
  Wed,  9 Feb 2022 06:30:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1644388230; x=1675924230;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=n5RKJcp81B88J6tTgVRUp4ooYKldFrNbNiKg6W8kZms=;
- b=Ru2yLBESOwlTwTojpzCJ9NKCO8kXC8NS6NEjg788nBXL5CCA5LJf03bF
- pVrmXvSvpa08mxFfrquIbm7NXaH/+SUenQoyR4jo7PG9EX4mA4y6Xsn67
- 4pQDqs7JfWcJ1Q8LAkpjH0DBn91TyrtJBnWtlxYwnmjorWihmlynMsT+M
- de8zsQGwuIz+WDj3XIul2RuCuI53jsDe8tV04AT+c4hCcbKbveoCaB9rK
- /KAbsqJHIoPr7DZak07DZhA0cuTE9tIFAh+4CsN9ABRdE1k/wUmJH2IkG
- lKl6m1AYdJxeAj7DJse/FHQAGX/j15vuGjgJzg0+FiMYSdyodVjyqdvhx A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="248893161"
-X-IronPort-AV: E=Sophos;i="5.88,354,1635231600"; d="scan'208";a="248893161"
+ bh=o6HuYlnP32PX1lqgHE1fsvZCwjUKZXMxGSqa7+v9E8k=;
+ b=nDWgbuiQM8lz7LKrTLy3SAgeGBmijsAT4RQlRfWTCQ1d/K0j4UJnr5Kx
+ m54E1/UYRO5+ANpeXO0yY4JqhQWAUJbSNe+ap+Ci3CCyRNExppwDAcrZP
+ u2jKUWq6pb3ZYP+08+pyhOVt4RwWk3DOZUIUYjKzAMpW3wEr/DkGulunr
+ ciL/JPbz0/F0EpWvadcnvu5PmJ94LuDDADJyY2mdn7gTUUtLyq5x4OAtC
+ TjD/PJ3yaErNwCeHOTASbBEP24ntmaSVcBOlpJL3Ejh1ipSlraA28JPtQ
+ gNQ+8JM/fJ0WQeXzbD4CPOWk6wRmuj4wXScaqnbAwBh9wNZfVTOhmBJkJ Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="248893163"
+X-IronPort-AV: E=Sophos;i="5.88,354,1635231600"; d="scan'208";a="248893163"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 22:30:29 -0800
-X-IronPort-AV: E=Sophos;i="5.88,354,1635231600"; d="scan'208";a="585460776"
+ 08 Feb 2022 22:30:30 -0800
+X-IronPort-AV: E=Sophos;i="5.88,354,1635231600"; d="scan'208";a="585460781"
 Received: from cdrhee-mobl1.amr.corp.intel.com (HELO mvcheng-desk2.intel.com)
  ([10.209.78.217])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Feb 2022 22:30:29 -0800
 From: Michael Cheng <michael.cheng@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7 4/6] drm/i915/gt: Re-work reset_csb
-Date: Tue,  8 Feb 2022 22:30:21 -0800
-Message-Id: <20220209063023.914205-5-michael.cheng@intel.com>
+Subject: [PATCH v7 5/6] drm/i915/: Re-work clflush_write32
+Date: Tue,  8 Feb 2022 22:30:22 -0800
+Message-Id: <20220209063023.914205-6-michael.cheng@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220209063023.914205-1-michael.cheng@intel.com>
 References: <20220209063023.914205-1-michael.cheng@intel.com>
@@ -63,35 +63,40 @@ Cc: tvrtko.ursulin@linux.intel.com, michael.cheng@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm_clflush_virt_range instead of directly invoking clflush. This
-will prevent compiler errors when building for non-x86 architectures.
-
-v2(Michael Cheng): Remove extra clflush
-
-v3(Michael Cheng): Remove memory barrier since drm_clflush_virt_range
-		   takes care of it.
+Use drm_clflush_virt_range instead of clflushopt and remove the memory
+barrier, since drm_clflush_virt_range takes care of that.
 
 Signed-off-by: Michael Cheng <michael.cheng@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index 28f2581d3046..cc561cfae808 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -2944,9 +2944,8 @@ reset_csb(struct intel_engine_cs *engine, struct i915_request **inactive)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 498b458fd784..0854276ff7ba 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -1332,10 +1332,8 @@ static void *reloc_vaddr(struct i915_vma *vma,
+ static void clflush_write32(u32 *addr, u32 value, unsigned int flushes)
  {
- 	struct intel_engine_execlists * const execlists = &engine->execlists;
+ 	if (unlikely(flushes & (CLFLUSH_BEFORE | CLFLUSH_AFTER))) {
+-		if (flushes & CLFLUSH_BEFORE) {
+-			clflushopt(addr);
+-			mb();
+-		}
++		if (flushes & CLFLUSH_BEFORE)
++			drm_clflush_virt_range(addr, sizeof(addr));
  
--	mb(); /* paranoia: read the CSB pointers from after the reset */
--	clflush(execlists->csb_write);
--	mb();
-+	drm_clflush_virt_range(execlists->csb_write,
-+			sizeof(execlists->csb_write));
+ 		*addr = value;
  
- 	inactive = process_csb(engine, inactive); /* drain preemption events */
- 
+@@ -1347,7 +1345,7 @@ static void clflush_write32(u32 *addr, u32 value, unsigned int flushes)
+ 		 * to ensure ordering of clflush wrt to the system.
+ 		 */
+ 		if (flushes & CLFLUSH_AFTER)
+-			clflushopt(addr);
++			drm_clflush_virt_range(addr, sizeof(addr));
+ 	} else
+ 		*addr = value;
+ }
 -- 
 2.25.1
 
