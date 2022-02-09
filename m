@@ -2,68 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA154AF3DA
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:14:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641984AF3E3
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:17:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 708F910E5AD;
-	Wed,  9 Feb 2022 14:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7FD910E5CB;
+	Wed,  9 Feb 2022 14:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
- [IPv6:2607:f8b0:4864:20::733])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44D7C10E5AD
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:14:29 +0000 (UTC)
-Received: by mail-qk1-x733.google.com with SMTP id b35so1658074qkp.6
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 06:14:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=c8BMy3fH62yXJxfHY+j4P80h5ALqrjcvX+ObTuKf0iA=;
- b=V7onSa8ruWkEtkdB8irRTbQO5EhI5+EN5mjt3u01+vlKyYcQfcNp9aFh92tP1OzUTh
- ScFSSPOJZDc270JM0jq7Rhgv2t8FwpCHJ20+6gStJqzqZxWKPGAiZe6G30wozCGKb6G+
- ZLQWTS1Ro4hAfH5OwcrYeqPEFEKYoHUMzawcDJx2RgUNBo1ohb8nkxONIHkbUDMBpr5o
- apeGjKCH5BBxtNM0aA8Q1I0DV6rlydLedHpS7mVvMx/qFqliS9UfDYoHrCMy5D2aCL3F
- 0jecgeDZDBF6tjcMyMnIYAGizQnperLp47omGbCJq3v5uCCpJ63E6XzU+sfOUF4jG60Y
- /F8g==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B862210E5CB
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:17:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644416230;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KRUhAeA84UjsLS4HbxlBt5EQCd/sdN8Mn9sTcjqUddo=;
+ b=ebvB37XEVDGNG1FebJq3zHD7HgMjQmwBonivNYdUNNK8ACLoS/jw++nxdP2W0WeZw3JPof
+ hnkwCqRQe17s7icRJkDo/hlRT+i9SarminlNHc+herT8qlmzDZrOwK0SNR5dIiBcym8AXD
+ DiDDpNUnaAydAMRrgkYDUdRHdlXY6MY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-205-PC0piq9PP5KtTvCgeyFfJw-1; Wed, 09 Feb 2022 09:17:09 -0500
+X-MC-Unique: PC0piq9PP5KtTvCgeyFfJw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v185-20020a1cacc2000000b0034906580813so2725786wme.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 06:17:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=c8BMy3fH62yXJxfHY+j4P80h5ALqrjcvX+ObTuKf0iA=;
- b=beO1N1OpZ7wn7V5dF1paBZEBdQDaMOF9zk2uBbyAveejbDbJHN+e59uTgY4Iujsb5v
- cGQLEuWtaelY1IAXAKr8CPXi8GkbPzZ0gzjr1/EQmfG//vwBx4kViodfsfOExailDQ2N
- IR18OsVezuAYuUmFxIvfRcrSB6idWkpXILkpNHVjFwDkQ81CtK+UV8t7vlDt8Ey2IEfY
- fP3uTTBpmfJjd0jkH4brNZrHxBgs/W0TvusrU9LzIznC/j8oOsEUns2rw9r39ySWi3zD
- leOUyefj40RSDLZnBETen4GDLV+jN6EtL+xuoi/eYgCtSlIKtHSf0bFMCpU1LCgN8mw9
- 8dPg==
-X-Gm-Message-State: AOAM532SecXJL0xq1W0EchwlshXZcCU6SPV3f450aFKP06BGiqXS3La4
- JarCkx1WWfVbiEIDasRVLjYMeg==
-X-Google-Smtp-Source: ABdhPJzQ+iaZjCKRuCc0J8n0Ck+TXJ7O0pFZ7w0y3yYzv/vscWA+Im2JaGH4eENvWOVqnzWKMTNFCg==
-X-Received: by 2002:a05:620a:1351:: with SMTP id
- c17mr1137673qkl.460.1644416068212; 
- Wed, 09 Feb 2022 06:14:28 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id a14sm9094374qtb.92.2022.02.09.06.14.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 06:14:27 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1nHnjn-001FdR-1z; Wed, 09 Feb 2022 10:14:27 -0400
-Date: Wed, 9 Feb 2022 10:14:27 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 7/8] mm: remove the extra ZONE_DEVICE struct page refcount
-Message-ID: <20220209141427.GJ49147@ziepe.ca>
-References: <20220207063249.1833066-1-hch@lst.de>
- <20220207063249.1833066-8-hch@lst.de>
- <CAPcyv4h_axDTmkZ35KFfCdzMoOp8V3dc6btYGq6gCj1OmLXM=g@mail.gmail.com>
- <20220209062345.GB7739@lst.de> <20220209122956.GI49147@ziepe.ca>
- <20220209135351.GA20631@lst.de>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KRUhAeA84UjsLS4HbxlBt5EQCd/sdN8Mn9sTcjqUddo=;
+ b=JZOh5OFzgKdyYFYS0WucQe20R6wkLpkVSpitoLTo6B6f8x841EGFxuLKAYQP00/SdS
+ uDrM4EzeaXJ5J8x70xm7inIaBA5SOlt8wmKAj1pjZoZ9eRz0WITdyDlKcYbhkRZMw6hp
+ +ZzuddXofRg5GoTX5F6+KgzA2FdvIg3CDK3YDB/ebZEybygIG60TDLURidGQx2zDg+TS
+ LUsSH4G48a9p4EU4IdVR0b5D+cYx5MroSqMR+k3uFz4M48JxUrmFddwP0VOkro2ZiuiD
+ e2werfmAA2htrmX0aYNgIk+vwzqqykI5eebicjzLs8YFdPgrGvriGoIMg13dHsP9zkb+
+ AOXA==
+X-Gm-Message-State: AOAM533KIMorOmwSRXwtNzvBujFnMrNErwl/l+dP9ob3DYW01xd+AByA
+ 5+Db4kUZwDgrXBpDMLwYwZNt1JUDrsEwLiHw1aBH560VraPon1AqnYlTVhe1LlqAOGv33281h2j
+ HhiD9e13tZjOKs/5tf3RW7Nns/qLR
+X-Received: by 2002:a05:600c:4e16:: with SMTP id
+ b22mr2290155wmq.8.1644416228504; 
+ Wed, 09 Feb 2022 06:17:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxwIzQ5Y+IJIHsSpt0Pgn2iyoVM/suryQvdT8KlECfzPpYA1vTVAA9aQ4WkCb9TTM9E2pUG9Q==
+X-Received: by 2002:a05:600c:4e16:: with SMTP id
+ b22mr2290117wmq.8.1644416228230; 
+ Wed, 09 Feb 2022 06:17:08 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id f13sm5562779wmq.29.2022.02.09.06.17.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 06:17:07 -0800 (PST)
+Message-ID: <d1025530-90e1-fbc5-c06b-f62ed83f2f19@redhat.com>
+Date: Wed, 9 Feb 2022 15:17:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220209135351.GA20631@lst.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 3/7] drm: Add driver for Solomon SSD130X OLED displays
+To: Mark Brown <broonie@kernel.org>
+References: <20220209090314.2511959-1-javierm@redhat.com>
+ <20220209090314.2511959-4-javierm@redhat.com>
+ <YgPE8Z7HxU2wv7J/@sirena.org.uk>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YgPE8Z7HxU2wv7J/@sirena.org.uk>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,34 +88,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux NVDIMM <nvdimm@lists.linux.dev>,
- Ralph Campbell <rcampbell@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Linux MM <linux-mm@kvack.org>, Ben Skeggs <bskeggs@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Dan Williams <dan.j.williams@intel.com>, Logan Gunthorpe <logang@deltatee.com>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 09, 2022 at 02:53:51PM +0100, Christoph Hellwig wrote:
-> On Wed, Feb 09, 2022 at 08:29:56AM -0400, Jason Gunthorpe wrote:
-> > It is nice, but the other series are still impacted by the fsdax mess
-> > - they still stuff pages into ptes without proper refcounts and have
-> > to carry nonsense to dance around this problem.
-> > 
-> > I certainly would be unhappy if the amd driver, for instance, gained
-> > the fsdax problem as well and started pushing 4k pages into PMDs.
+Hello Mark,
+
+Thanks for your feedback.
+
+On 2/9/22 14:43, Mark Brown wrote:
+> On Wed, Feb 09, 2022 at 10:03:10AM +0100, Javier Martinez Canillas wrote:
 > 
-> As said before: I think this all needs to be fixed.  But I'd rather
-> fix it gradually and I think this series is a nice step forward.
-> After that we can look at the pte mappings.
+>> +	if (ssd130x->vbat_reg) {
+>> +		ret = regulator_enable(ssd130x->vbat_reg);
+>> +		if (ret) {
+>> +			dev_err(dev, "Failed to enable VBAT: %d\n", ret);
+>> +			return ret;
+>> +		}
+>> +	}
+> 
+> Unless the device supports power being physically omitted regulator
+> usage should not be optional, it's just more code and a recipie for poor
+> error handling.
 
-Right, I agree with this
+The device has a VCC pin but in most cases this is just connected to a
+power provided by the board in its pinout header. For example, I've it
+connected to a rpi4 3.3v pin.
 
-Jason
+I guess in that case what we should do then is to just have a regulator
+fixed as the vbat-supply in the Device Tree, that's regulator-always-on.
+
+The old ssd1307fb fbdev driver also had this as optional and I wanted to
+keep the new driver as backward compatible. But I understand now that is
+not describing the hardware properly by making this regulator optional.
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
