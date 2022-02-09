@@ -2,50 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6684AEDFA
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 10:26:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F6F4AEDFC
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 10:26:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 028CD10E690;
-	Wed,  9 Feb 2022 09:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D9CD10E6AC;
+	Wed,  9 Feb 2022 09:26:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2F610E690;
- Wed,  9 Feb 2022 09:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644398779; x=1675934779;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=GllsZFy7VsDBgzgNjpzQzJgs3iQUeZVLVav7e5Lx7jA=;
- b=L2RXZ3KFbjczmDy0UOMkdeUSf/iH154svbHDTLcTMY4ip5iWlXvEr1zb
- mIWk6GyvMNrMUR8jprR5hsIA29WP07NQuiunEfWEmRhXQt80rEDhmzFSR
- zyvsA79LIcuwMmy85rdtv05AatdiWTQUZWW0Kdav4UCagfjAHygTzu8ng
- ETozEcZLJKkoVO5UTthKXbo0m+Lj/fUPnAj2TvEq1uVHGpAKjMxknZOwt
- CxsBCNZo6POF9M842DHT9p8Igsy4jkdt1JGRs1TkeAxXXnFhF2zBL6Mia
- OBY9qhfMPu1G63v2p/7WabMESjmC1/bdLzEqL11kSE8vi0i7CGyeFa+8h w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="273699691"
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="273699691"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 01:26:18 -0800
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="541018030"
-Received: from rcallina-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.18.41])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 01:26:15 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 0/8] drm/dp, drm/i915: 128b/132b updates
-In-Reply-To: <cover.1643878928.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1643878928.git.jani.nikula@intel.com>
-Date: Wed, 09 Feb 2022 11:26:13 +0200
-Message-ID: <87pmnwpf0q.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8B8C10E696
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 09:26:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644398811;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JCp6XE7j+JLaNG3FyXBcvvob49a1fUjDSBM8HMYml68=;
+ b=Y4camNqI5nf3M/qjdxWMqee8yPmAKw8a0FNxxZp0ApsNSl2T8+Q/HoSkDbiXFb0s9hk7qY
+ zD82seyvbZLqks78joOT9fjvQ0Q2IkCRXD/5QnitkX0vcWOwxJXtzhHs5gpzsorHt0+L7f
+ rFraDuC+BIENrIjRXPmtkV87EG+u6lc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-186-40rk7yr4NuiGg5crgysHsw-1; Wed, 09 Feb 2022 04:26:51 -0500
+X-MC-Unique: 40rk7yr4NuiGg5crgysHsw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ t2-20020a7bc3c2000000b003528fe59cb9so243277wmj.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 01:26:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=JCp6XE7j+JLaNG3FyXBcvvob49a1fUjDSBM8HMYml68=;
+ b=SzK59W181nJYUrV3Rp4yjH1fr0Ohz7t2uRToeHeQ1czSJU0oxbM383jy07CGbepySA
+ bXKFqLWJu+HxFuizD/nJXHV5zrELzKnquF4gLbMqXDFh5gL/O1IowDRPOmFtU7qHMk57
+ kfsKhQrdmYWoJ2HvEjowxRCLQMxCKW2IIbCi2ESB9W5GA0jwf6QbxFfEeNqiw17nYi7A
+ SCcWTr1Wkh6xgLEA9uKtrqXqINlviFHf1emnhUuruougqGL4fVr1Mr5Xe/JuTvM1p1vm
+ 8fJ3XPlguemMdIew/O45PLTbdW7HbrmjxTWvImS4YryYzwr7yJWvdw/iW8VKBABmoYrF
+ UAUQ==
+X-Gm-Message-State: AOAM531pmqmbVW56SPDlBdVuaRD9rojcqb3l2DA0gC1+mjGVbVNiQbNd
+ UUBiw/wD2ysHR9YtuozCwfK7OR23xdBeYbZPuNKLL4c5nK3cXsHXMP9Qu+QyI5razn3mTv+ZVm8
+ 8VSWqC/tmtR9kdHvnlQnXcJRsuRer
+X-Received: by 2002:a5d:5112:: with SMTP id s18mr1264188wrt.296.1644398809815; 
+ Wed, 09 Feb 2022 01:26:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxAO4wnIGn2LFNuhtbLiD8ExuQm621fpN5xLqi0LFeQpL6SEOBzuEpEbxZ3RQGvxqNPQ7DVbw==
+X-Received: by 2002:a5d:5112:: with SMTP id s18mr1264174wrt.296.1644398809597; 
+ Wed, 09 Feb 2022 01:26:49 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id m6sm17580545wrw.54.2022.02.09.01.26.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 01:26:49 -0800 (PST)
+Message-ID: <923c1fb9-ec5d-8b6b-96d8-3af6c1c4c8bc@redhat.com>
+Date: Wed, 9 Feb 2022 10:26:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] lima: avoid error task dump attempt when not enabled
+To: Erico Nunes <nunes.erico@gmail.com>, Qiang Yu <yuq825@gmail.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220205185909.878643-1-nunes.erico@gmail.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220205185909.878643-1-nunes.erico@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,41 +85,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: uma.shankar@intel.com
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ lima@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 03 Feb 2022, Jani Nikula <jani.nikula@intel.com> wrote:
-> v2 of https://patchwork.freedesktop.org/series/99324/
->
-> BR,
-> Jani.
->
-> Jani Nikula (8):
->   drm/dp: add drm_dp_128b132b_read_aux_rd_interval()
->   drm/dp: add 128b/132b link status helpers from DP 2.0 E11
->   drm/dp: add some new DPCD macros from DP 2.0 E11
+Hello Erico,
 
-Maarten, Maxime, Thomas, can I get an ack for merging these via
-drm-intel please?
+On 2/5/22 19:59, Erico Nunes wrote:
+> Currently when users try to run an application with lima and that hits
+> an issue such as a timeout, a message saying "fail to save task state"
+> and "error task list is full" is shown in dmesg.
+> 
+> The error task dump is a debug feature disabled by default, so the
+> error task list is usually not going to be available at all.
+> The message can be misleading and creates confusion in bug reports.
+> 
+> We can avoid that code path and that particular message when the user
+> has not explicitly set the max_error_tasks parameter to enable the
+> feature.
+> 
+> Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
+> ---
 
-BR,
-Jani.
+Looks good to me. 
 
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
->   drm/i915/dp: move intel_dp_prepare_link_train() call
->   drm/i915/dp: rewrite DP 2.0 128b/132b link training based on errata
->   drm/i915/dp: add 128b/132b support to link status checks
->   drm/i915/mst: update slot information for 128b/132b
->   HACK: drm/i915/dp: give more time for CDS
->
->  drivers/gpu/drm/dp/drm_dp.c                   |  83 +++++
->  drivers/gpu/drm/i915/display/intel_dp.c       |  39 ++-
->  .../drm/i915/display/intel_dp_link_training.c | 288 +++++++++++++++++-
->  .../drm/i915/display/intel_dp_link_training.h |   4 +
->  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  29 +-
->  include/drm/dp/drm_dp_helper.h                |  24 +-
->  6 files changed, 446 insertions(+), 21 deletions(-)
-
+Best regards,
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
