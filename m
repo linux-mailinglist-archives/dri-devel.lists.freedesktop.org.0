@@ -2,59 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A3C4AF427
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:32:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D076F4AF438
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:38:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 404EF10E1D0;
-	Wed,  9 Feb 2022 14:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1271510E429;
+	Wed,  9 Feb 2022 14:38:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 262EB10E1D0
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:32:51 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id z1so1919811qto.3
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 06:32:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gJXDOrB/jL/yycfpf2+OsoUzWbEp18SJyGOgWCPyYcE=;
- b=WeWt8p/yH3Nl+l4m3nHhiwUZLVuJEtezDFDITyYZug4WbMs8wZn73AOhIIObFjeH/t
- 5Cr5K9BB2Ul3+N3gfEmo/kXn5PEl2ILrWk2QG/zPWq7WrmyUH0tNFn/HmE1ygRAFKilP
- CX3ng9t+lHNX6WVPNAE16NnwXtzpGRYvZrAeF9koDkvSss5F12lineRtcav243ptzmki
- V2jZOpB2NHhuhVeyxsJMRND8PXIJ6Cf00m4uVOrCjsj/D93X81rcaI53DaSUvvUWVcC3
- 6O+m3sni/e9srgp4/1jFQYl/nalFDoJmQTpFCWJTnyD+MBBT/lDcnWQMfGOKIEjXGyKr
- IzGw==
-X-Gm-Message-State: AOAM533KTMFiieUOWB85l/GGrBKDQAmCF+CpVvXTP7R0PDzCeVuu0lAK
- 4nj7BkgwJi4EEt9y5fA9tr3Os5QwsRUrbg==
-X-Google-Smtp-Source: ABdhPJwZp/hLDcunYfMGvrG8repOhEPt1UobpBmETnjaSUYaSQ3lmAi+E+GMfxcs7zg4FdjDrDhCuw==
-X-Received: by 2002:ac8:5990:: with SMTP id e16mr1498876qte.373.1644417169772; 
- Wed, 09 Feb 2022 06:32:49 -0800 (PST)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
- [209.85.219.182])
- by smtp.gmail.com with ESMTPSA id bm27sm8079301qkb.5.2022.02.09.06.32.49
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 06:32:49 -0800 (PST)
-Received: by mail-yb1-f182.google.com with SMTP id v186so6527377ybg.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 06:32:49 -0800 (PST)
-X-Received: by 2002:ab0:384c:: with SMTP id h12mr813487uaw.122.1644416853482; 
- Wed, 09 Feb 2022 06:27:33 -0800 (PST)
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AF04B10E429
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:38:48 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:46846.1353479076
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id 5A47810013E;
+ Wed,  9 Feb 2022 22:38:43 +0800 (CST)
+Received: from  ([172.27.8.53])
+ by gateway-151646-dep-b7fbf7d79-bwdqx with ESMTP id
+ b8ba3d7581f14446908f10874ba183d2 for maxime@cerno.tech; 
+ Wed, 09 Feb 2022 22:38:45 CST
+X-Transaction-ID: b8ba3d7581f14446908f10874ba183d2
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 172.27.8.53
+X-MEDUSA-Status: 0
+Message-ID: <84bfb2fc-595c-3bae-e8a0-c19ccbcfcfd8@189.cn>
+Date: Wed, 9 Feb 2022 22:38:41 +0800
 MIME-Version: 1.0
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <CAMuHMdVTVX7LFay-rfv=oW96dMA24duMUVGRE62jQSNkrKtyMg@mail.gmail.com>
- <f178de92-7cb1-dcc5-1f60-9ccfc56bc0a4@redhat.com>
- <YgPF1cBMsd9973Dx@smile.fi.intel.com>
-In-Reply-To: <YgPF1cBMsd9973Dx@smile.fi.intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 9 Feb 2022 15:27:22 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXQdL_Do8Hjay1egfmd9H05R7BjNeKfLGq67mU4bQNVZA@mail.gmail.com>
-Message-ID: <CAMuHMdXQdL_Do8Hjay1egfmd9H05R7BjNeKfLGq67mU4bQNVZA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED
- displays
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 1/3] drm/lsdc: add drm driver for loongson display
+ controller
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220203082546.3099-1-15330273260@189.cn>
+ <20220203082546.3099-2-15330273260@189.cn>
+ <20220203085851.yqstkfgt4dz7rcnw@houat>
+ <11ac5696-29e3-fefa-31c0-b7b86c88bbdc@189.cn>
+ <20220209084908.kub4bs64rzhvpvon@houat>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <20220209084908.kub4bs64rzhvpvon@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,88 +56,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Linux PWM List <linux-pwm@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
+ Roland Scheidegger <sroland@vmware.com>, linux-mips@vger.kernel.org,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Rob Herring <robh+dt@kernel.org>, Dan Carpenter <dan.carpenter@oracle.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
 
-On Wed, Feb 9, 2022 at 2:48 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> On Tue, Feb 08, 2022 at 04:10:49PM +0100, Javier Martinez Canillas wrote:
-> > On 2/8/22 15:19, Geert Uytterhoeven wrote:
-> > > On Fri, Feb 4, 2022 at 2:43 PM Javier Martinez Canillas
-> > > <javierm@redhat.com> wrote:
-> > >   - Kernel size increased by 349 KiB,
-> > >   - The "Memory:" line reports 412 KiB less memory,
-> > >   - On top of that, "free" shows ca. 92 KiB more memory in use after
-> > >     bootup.
+On 2022/2/9 16:49, Maxime Ripard wrote:
+> On Fri, Feb 04, 2022 at 12:04:19AM +0800, Sui Jingfeng wrote:
+>>>> +/* Get the simple EDID data from the device tree
+>>>> + * the length must be EDID_LENGTH, since it is simple.
+>>>> + *
+>>>> + * @np: device node contain edid data
+>>>> + * @edid_data: where the edid data to store to
+>>>> + */
+>>>> +static bool lsdc_get_edid_from_dtb(struct device_node *np,
+>>>> +				   unsigned char *edid_data)
+>>>> +{
+>>>> +	int length;
+>>>> +	const void *prop;
+>>>> +
+>>>> +	if (np == NULL)
+>>>> +		return false;
+>>>> +
+>>>> +	prop = of_get_property(np, "edid", &length);
+>>>> +	if (prop && (length == EDID_LENGTH)) {
+>>>> +		memcpy(edid_data, prop, EDID_LENGTH);
+>>>> +		return true;
+>>>> +	}
+>>>> +
+>>>> +	return false;
+>>>> +}
+>>> You don't have a device tree binding for that driver, this is something
+>>> that is required. And it's not clear to me why you'd want EDID in the
+>>> DTB?
+>> 1) It is left to the end user of this driver.
+>>
+>> The downstream motherboard maker may use a dpi(XRGB888) or LVDS panel
+>> which don't have DDC support either, doing this way allow them put a
+>> EDID property into the dc device node in the DTS. Then the entire system works.
+>> Note those panel usually support only one display mode.
+> I guess it depends on what we mean exactly by the user, but the DTB
+> usually isn't under the (end) user control. And the drm.edid_firmware is
+> here already to address exactly this issue.
 >
-> The memory consumption should really be taken seriously, because these kind of
-> displays are for embedded platforms with limited amount of resources.
+> On the other end, if the board has a static panel without any DDC lines,
+> then just put the timings in the device tree, there's no need for an
+> EDID blob.
 
-Thanks for your concern!
+Loongson have a long history of using PMON firmware, The PMON firmware
+support flush the dtb into the the firmware before grub loading the kernel.
+You press 'c' key, then the PMON will give you a shell. it is much like a
+UEFI shell. Suppose foo.dtb is what you want to pass to the vmlinuz.
+Then type the follow single command can flush the dtb into the PMON firmware.
 
-Looking at the options that are auto-enabled, a few stand out that
-look like they're not needed on systems witch such small displays,
-or on legacy systems predating DDC:
+|load_dtb /dev/fs/fat@usb0/foo.dtb|
 
-    menuconfig DRM
-            tristate "Direct Rendering Manager (XFree86 4.1.0 and
-higher DRI support)"
-            depends on (AGP || AGP=n) && !EMULATED_CMPXCHG && HAS_DMA
-            select DRM_NOMODESET
-            select DRM_PANEL_ORIENTATION_QUIRKS
-            select HDMI
+For our PMON firmware, it**is**  totally under developer/pc board maker's control.
+You can flush whatever dtb every time you bootup until you satisfied.
+It(the pmon firmware) is designed to let downstream motherboard maker and/or
+customers to play easily.
 
-Not everyone pays HDMI royalties ;-)
+Support of reading EDID from the dtb is really a feature which downstream
+motherboard maker or customer wanted. They sometimes using eDP also whose
+resolution is not 1024x768. This is out of control for a graphic driver
+developer like me. And drm.edid_firmware have only a few limited resolution
+which is weak.
 
-            select FB_CMDLINE
-            select I2C
-            select I2C_ALGOBIT
+I will consider to adding drm.edid_firmware support, thanks.
 
-I do need I2C, as it's the transport for my SSD1306 display, but not
-everyone needs it.
+>> 2) That is for the display controller in ls2k1000 SoC.
+>>
+>> Currently, the upstream kernel still don't have GPIO, PWM and I2C driver support
+>> for LS2K1000 SoC.
+>>
+>> How dose you read EDID from the monitor without a I2C driver?
+>>
+>> without reading EDID the device tree support, the screen just black,
+>> the lsdc driver just stall. With reading EDID from device tree support
+>> we do not need a i2c driver to light up the monitor.
+>>
+>> This make lsdc drm driver work on various ls2k1000 development board
+>> before I2C driver and GPIO driver and PWM backlight driver is upstream.
+>>
+>> I have many local private dts with the bindings, those local change just can not
+>> upstream at this time, below is an example.
+>>
+>> The device tree is a platform description language. It's there to let
+>> the OS know what the hardware is, but the state of hardware support in
+>> the said OS isn't a parameter we have to take into account for a new
+>> binding.
+>>
+>> If you don't have any DDC support at the moment, use the firmware
+>> mechanism above, or add fixed modes using drm_add_modes_noedid in the
+>> driver, and leave the DT out of it. Once you'll gain support for the
+>> EDID readout in the driver, then it'll just work and you won't need to
+>> change the DT again.
+>>
+The resolution will be 1024x768, it will also add a lot modes which may
+not supported by the specific panel. Take 1024x600 as an example,
+Both drm_add_modes_noedid() and firmware mechanism above will fail.
 
-            select DMA_SHARED_BUFFER
-            select SYNC_FILE
-    # gallium uses SYS_kcmp for os_same_file_description() to de-duplicate
-    # device and dmabuf fd. Let's make sure that is available for our userspace.
-            select KCMP
+Because the user supply EDID only and manufacturer of some strange panel
+supply EDID only.
 
-And:
-
-    config DRM_BRIDGE
-            def_bool y
-            depends on DRM
-            help
-              Bridge registration and lookup framework.
-
-    config DRM_PANEL_BRIDGE
-            def_bool y
-
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>> 3) Again, doing this way is for graphic environment bring up.
+>>
+>> &lsdc {
+>>
+>>      output-ports = <&dvo0 &dvo1>;
+>>      #address-cells = <1>;
+>>      #size-cells = <0>;
+>>      dvo0: dvo@0 {
+>>          reg = <0>;
+>>
+>>          connector = "dpi-connector";
+>>          encoder = "none";
+>>          status = "ok";
+>>
+>>          display-timings {
+>>              native-mode = <&mode_0_1024x600_60>;
+>>
+>>              mode_0_1024x600_60: panel-timing@0 {
+>>                  clock-frequency = <51200000>;
+>>                  hactive = <1024>;
+>>                  vactive = <600>;
+>>                  hsync-len = <4>;
+>>                  hfront-porch = <160>;
+>>                  hback-porch = <156>;
+>>                  vfront-porch = <11>;
+>>                  vback-porch = <23>;
+>>                  vsync-len = <1>;
+>>              };
+>>
+>>              mode_1_800x480_60: panel-timing@1 {
+>>                  clock-frequency = <30066000>;
+>>                  hactive = <800>;
+>>                  vactive = <480>;
+>>                  hfront-porch = <50>;
+>>                  hback-porch = <70>;
+>>                  hsync-len = <50>;
+>>                  vback-porch = <0>;
+>>                  vfront-porch = <0>;
+>>                  vsync-len = <50>;
+>>              };
+>>          };
+>>      };
+>>
+>>      dvo1: dvo@1 {
+>>          reg = <1>;
+>>
+>>          connector = "hdmi-connector";
+>>          type = "a";
+>>          encoder = "sil9022";
+>>
+>>          edid = [ 00 ff ff ff ff ff ff 00 1e 6d 54 5b 0b cc 04 00
+>>               02 1c 01 03 6c 30 1b 78 ea 31 35 a5 55 4e a1 26
+>>               0c 50 54 a5 4b 00 71 4f 81 80 95 00 b3 00 a9 c0
+>>               81 00 81 c0 90 40 02 3a 80 18 71 38 2d 40 58 2c
+>>               45 00 e0 0e 11 00 00 1e 00 00 00 fd 00 38 4b 1e
+>>               53 0f 00 0a 20 20 20 20 20 20 00 00 00 fc 00 4c
+>>               47 20 46 55 4c 4c 20 48 44 0a 20 20 00 00 00 ff
+>>               00 38 30 32 4e 54 43 5a 39 38 33 37 39 0a 00 35 ];
+>>
+>>          status = "ok";
+>>      };
+>> };
+> Yeah, this needs to be documented with a YAML schema
+>
+> Maxime
+Yes, It takes time to learn that.
