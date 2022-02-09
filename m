@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91984AEA52
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 07:30:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E15C4AEA56
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 07:30:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C1410E2A3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0DC010E3DE;
 	Wed,  9 Feb 2022 06:30:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4341410E364;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73D2310E2A3;
  Wed,  9 Feb 2022 06:30:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1644388229; x=1675924229;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=o7JI3XGPrNkGttUQ6fNaRPKqI6ykmG6E2jJC1U5YtLM=;
- b=edCQ6McyqdhQxMHO+Y547tcjLuDCXIqGAL361jtRKsm0iGivzzEXIIhm
- Sn36PphwN7NwHB18Kzbzlx0cgUguLo2FVx8bdjiwi1FgrTuImu7HX91q7
- kfRwSgybPNwH93Pm4/kI78SO3igCgYBbK7vR6L1LkXNHGSBs0PyOfJ+yR
- w2eZtBHPg8KZL9vDmofqAbkGvow3YvUL4byKYnOPu5uuESOyy2/xGLKNr
- lzzULCIa7Udp4+7twrF+4qOS5nY1KkwNhL17aBhqAo92MYO1puUC+8N9Q
- qisVHSjhksvcU2RF/jzHyLhV7EGbvnxtNoXx1ySx93uprW/FeLdYWN4A3 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="248893154"
-X-IronPort-AV: E=Sophos;i="5.88,354,1635231600"; d="scan'208";a="248893154"
+ bh=0faIJeanSVg4TVsukZep2SH9zNSBXKIPlWiirFMZ1bw=;
+ b=CLck1kJIvQtHh6B0VR0ugTi6doHwOV1SZgfi6WQaUnrQImSHBIb3Ua2+
+ Tb3dWDIeyFGbWfqe24S0nr/3qaQY5As6C/b3XcoGUhV0HWCWNouxDplE4
+ /n+4eaZ471Yw+Lx6jqy9q9dTZ3DrQ+aH76dRhonptuQuVhy+4BD/Otpst
+ /w0P+0exJz2zvlAZpK+CaWCVgwSGgarL6qqcDTbV9Q7ignvuhvioaALRE
+ gwiga5ZlpZytrLqo5a7gYu3Er3EGne2M2NkiJVdP0LtwE312vh/1oZJLP
+ 4JmUcSChu2LNbshzVOCoTfgtpT872vXpBED0hiMbVtXlyu+IaxCERpJSj w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="248893157"
+X-IronPort-AV: E=Sophos;i="5.88,354,1635231600"; d="scan'208";a="248893157"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Feb 2022 22:30:28 -0800
-X-IronPort-AV: E=Sophos;i="5.88,354,1635231600"; d="scan'208";a="585460758"
+X-IronPort-AV: E=Sophos;i="5.88,354,1635231600"; d="scan'208";a="585460762"
 Received: from cdrhee-mobl1.amr.corp.intel.com (HELO mvcheng-desk2.intel.com)
  ([10.209.78.217])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2022 22:30:27 -0800
+ 08 Feb 2022 22:30:28 -0800
 From: Michael Cheng <michael.cheng@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7 1/6] drm: Add arch arm64 for drm_clflush_virt_range
-Date: Tue,  8 Feb 2022 22:30:18 -0800
-Message-Id: <20220209063023.914205-2-michael.cheng@intel.com>
+Subject: [PATCH v7 2/6] drm/i915/gt: Re-work intel_write_status_page
+Date: Tue,  8 Feb 2022 22:30:19 -0800
+Message-Id: <20220209063023.914205-3-michael.cheng@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220209063023.914205-1-michael.cheng@intel.com>
 References: <20220209063023.914205-1-michael.cheng@intel.com>
@@ -63,44 +63,45 @@ Cc: tvrtko.ursulin@linux.intel.com, michael.cheng@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add arm64 support for drm_clflush_virt_range. dcache_clean_inval_poc
-performs a flush by first performing a clean, follow by an invalidation
-operation.
-
-v2 (Michael Cheng): Use correct macro for cleaning and invalidation the
-		    dcache.
+Re-work intel_write_status_page to use drm_clflush_virt_range. This
+will prevent compiler errors when building for non-x86 architectures.
 
 Signed-off-by: Michael Cheng <michael.cheng@intel.com>
 ---
- drivers/gpu/drm/drm_cache.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_engine.h | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-index f19d9acbe959..94b3cc3fd482 100644
---- a/drivers/gpu/drm/drm_cache.c
-+++ b/drivers/gpu/drm/drm_cache.c
-@@ -39,6 +39,10 @@
- /* A small bounce buffer that fits on the stack. */
- #define MEMCPY_BOUNCE_SIZE 128
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+index 0e353d8c2bc8..986777c2430d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+@@ -4,6 +4,7 @@
  
-+#if defined(CONFIG_ARM64)
-+#include <asm/cacheflush.h>
-+#endif
-+
- #if defined(CONFIG_X86)
- #include <asm/smp.h>
+ #include <asm/cacheflush.h>
+ #include <drm/drm_util.h>
++#include <drm/drm_cache.h>
  
-@@ -176,6 +180,10 @@ drm_clflush_virt_range(void *addr, unsigned long length)
+ #include <linux/hashtable.h>
+ #include <linux/irq_work.h>
+@@ -143,15 +144,9 @@ intel_write_status_page(struct intel_engine_cs *engine, int reg, u32 value)
+ 	 * of extra paranoia to try and ensure that the HWS takes the value
+ 	 * we give and that it doesn't end up trapped inside the CPU!
+ 	 */
+-	if (static_cpu_has(X86_FEATURE_CLFLUSH)) {
+-		mb();
+-		clflush(&engine->status_page.addr[reg]);
+-		engine->status_page.addr[reg] = value;
+-		clflush(&engine->status_page.addr[reg]);
+-		mb();
+-	} else {
+-		WRITE_ONCE(engine->status_page.addr[reg], value);
+-	}
++	drm_clflush_virt_range(&engine->status_page.addr[reg], sizeof(value));
++	WRITE_ONCE(engine->status_page.addr[reg], value);
++	drm_clflush_virt_range(&engine->status_page.addr[reg], sizeof(value));
+ }
  
- 	if (wbinvd_on_all_cpus())
- 		pr_err("Timed out waiting for cache flush\n");
-+
-+#elif defined(CONFIG_ARM64)
-+	void *end = addr + length;
-+	dcache_clean_inval_poc((unsigned long)addr, (unsigned long)end);
- #else
- 	pr_err("Architecture has no drm_cache.c support\n");
- 	WARN_ON_ONCE(1);
+ /*
 -- 
 2.25.1
 
