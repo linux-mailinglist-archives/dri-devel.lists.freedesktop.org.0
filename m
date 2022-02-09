@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C564AF8C1
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 18:50:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A124AF8B5
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 18:48:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79E4B10E368;
-	Wed,  9 Feb 2022 17:49:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4242510E2DB;
+	Wed,  9 Feb 2022 17:48:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 324 seconds by postgrey-1.36 at gabe;
- Wed, 09 Feb 2022 17:49:57 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61D1810E368
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 17:49:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1644428995;
- bh=bZbERGS5dPadQqxAada0Qnetp5usNMkkZudsQMtwL34=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=MFbIzzf8Ko+SNDhKlUxwO7HsTFORTEuyFDmwFIevTI0IdFXOEtRIk9tl0Bj2D6j5m
- Qudq3lQQCPxqUyQDiGuQsdSl3NvA6jKFd6zzi05PjSkOPAwsvREhHV7BBDpiTqt7fC
- R+YRlCPc3GXXPANoIRbyMe4w4CPAsAdbvZ+wCkNw=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [80.245.77.2] ([80.245.77.2]) by web-mail.gmx.net
- (3c-app-gmx-bs62.server.lan [172.19.170.146]) (via HTTP); Wed, 9 Feb 2022
- 18:44:13 +0100
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
+ [209.85.161.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B56010E2DB
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 17:48:49 +0000 (UTC)
+Received: by mail-oo1-f44.google.com with SMTP id
+ q145-20020a4a3397000000b002e85c7234b1so3308999ooq.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 09:48:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=9Q2I/VP+XFwXy/Za9m82QJTmUqxQOQNrGnI8flFPCzE=;
+ b=AXjeFXzscSkAvOKeGU6msJj7aB/TYiNHMwPOUtYHYPyFOMWk91/Ku/Kcr8wWPbPeuX
+ 6eoVlnFn3eLf9gfjgojEL8PQ50eX2rdKCVQDoqeBEuC+z97WVFmAd4v3/5JjdPzj/4lq
+ XCBxVdsiWQM0iEWUWgsnYZSNNNb62M5+TY8DBDBgQrF+29ozEnIt3doBn2DtbhEigwe3
+ TZJ2ZDqvG9/tu5arPzr6gBy5ZRCG0J3uENicLYgABHO7XbzbS57aMFDPtcaABzD+VHP4
+ JJzH1drkOYGvuDNADPWhMBNkXF19KesxIur1s+GcR0tLY6c8Zddnu8jv/vvNnv7T6l/C
+ JORA==
+X-Gm-Message-State: AOAM533HeIEGaulpyRq4ter5bZDk742ktubz8fleP+IkARV5dJKAvIkv
+ EUe8GIoA3t6L/bXBqyvjew==
+X-Google-Smtp-Source: ABdhPJxLVUkyLr5K9Jth1KPAM7TMJsJ9wGQtyn4evi3+a6WwLPinzkeFbOB9l+rfCrvEzu15f2MLgg==
+X-Received: by 2002:a05:6870:6296:: with SMTP id
+ s22mr1124414oan.338.1644428928376; 
+ Wed, 09 Feb 2022 09:48:48 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id r41sm6103687oap.2.2022.02.09.09.48.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 09:48:47 -0800 (PST)
+Received: (nullmailer pid 581562 invoked by uid 1000);
+ Wed, 09 Feb 2022 17:48:46 -0000
+Date: Wed, 9 Feb 2022 11:48:46 -0600
+From: Rob Herring <robh@kernel.org>
+To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+Subject: Re: [PATCH v5 1/5] dt-bindings: gpu: mali-bifrost: describe clocks
+ for the rk356x gpu
+Message-ID: <YgP+ftqvBcpLg6im@robh.at.kernel.org>
+References: <20220209085110.3588035-1-michael.riesch@wolfvision.net>
+ <1644420908.380944.391811.nullmailer@robh.at.kernel.org>
+ <01b78d95-fdf3-060a-831d-dae2abbc7109@wolfvision.net>
+ <3297396.uCXnvZdJcx@diego>
 MIME-Version: 1.0
-Message-ID: <trinity-0fd51fc6-00ab-402e-871a-71d3356623cb-1644428653437@3c-app-gmx-bs62>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Aw: [PATCH v5 00/23] drm/rockchip: RK356x VOP2 support
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 9 Feb 2022 18:44:13 +0100
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20220209095350.2104049-1-s.hauer@pengutronix.de>
-References: <20220209095350.2104049-1-s.hauer@pengutronix.de>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:Kt6uAoUQy9KUxXYBKRna2pPwbagv75n8tB/ygcLmTad0OxyWH9GjeOrVm0AWTeIbrbqIq
- Tm1s3jWc+KpbC6iwreK7KtjQNxoO4BOa0lbhoSv8XGtsEHshbXteWUQGpRXothSDjShyy1mXnZBT
- hT1852znFykmSoCSO1QIUeC0etGbz2nof3MmQSE8+d+mbiy3hkxqwVpE8lxhW/CeeQ9jM94aYIZ/
- oB7m9mFSP+Xnau4l7gLNvr5ybM0twlYFQNn71AWtH7j6JytJyppXurHMP5yW0oI9M3x0OYm/V0av
- b8=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BdM/7l5539M=:ZFDvdxmyI42PXthARSt3qb
- q2Xv/r82G6JykDdKBjQl4UJs+nQbYJMsOvQHB9vrJ1xdHb+Y2Fq0US8OsVuXe8CIefOpuUnmw
- HAARrI15iARtUvrGWVDPw8ue8oNmI+xjtWsyw6VjtsNueE8OC4kSnoVs9pPbjUUox4li8AiXP
- GKQ5Z1TfPofieJSruX+NKi5WKYxOpFxVKCx/KjDSLyzW3QhVeMInfhVTng/Dg6avhUV+ZNHmH
- GmfN2iPq+Wt20MxxfQsbDzrG7e2bZxOIYUsPi/Qh43Z1WSjss34iV1403EvUTRgPQQVmiwDzN
- ECVxLjg/J+CNMOBP2xjAUZAIUjFq96X7FXz+M32wo7x/p7ucFtXgcHCvBorSGShQRPmQ8n0r1
- u7fZdz0ywayakYuBrxmUzCDMzKGA2XPRoygzk3F2xlY7GWNGZFSWu63pRr6fF2TRlxWA/kqQk
- Oy/8AMkdiJFDYC80nbHVhfvHWB4yJ8a2SLTzPflTV/tmbumdpg/s190rgBj66o3LBnejTbMzB
- PNHfCvxNNesdbTkJPIZS54ov3qyQBl4YNvQlTONhv7BJ8hLSwtgeWg1AIBJAx4omrFvoecdU3
- r1tVx/BUbeVEWlxx6AXorti7wra9gp12JmyV+r45jVF46MJ7PCB6gfbbFJoW9o63NowDFBBQ7
- HEwMdM3qwb0gnD8Qx//0OFsgMCdgyntKgcQILxzz1doHpw8cwe4JbXHYajOtP8Z/H1LHiSC20
- eSvBp2mKaHVVgHW/LgFwj0M0KPqI4wf5SFFwZyrmm/f4MwW1pqsTPmu3BGTvKdta3M6O1xO9r
- laloIRU
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3297396.uCXnvZdJcx@diego>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,26 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+Cc: devicetree@vger.kernel.org, Peter Geis <pgwipeout@gmail.com>,
+ David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Alex Bee <knaerzche@gmail.com>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
  linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+ Michael Riesch <michael.riesch@wolfvision.net>, Liang Chen <cl@rock-chips.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sascha
+On Wed, Feb 09, 2022 at 05:28:05PM +0100, Heiko Stübner wrote:
+> Hi Michael,
+> 
+> Am Mittwoch, 9. Februar 2022, 16:46:28 CET schrieb Michael Riesch:
+> > Hi Rob,
+> > 
+> > On 2/9/22 16:35, Rob Herring wrote:
+> > > On Wed, 09 Feb 2022 09:51:06 +0100, Michael Riesch wrote:
+> > >> From: Alex Bee <knaerzche@gmail.com>
+> > >>
+> > >> The Bifrost GPU in Rockchip RK356x SoCs has a core and a bus clock.
+> > >> Reflect this in the SoC specific part of the binding.
+> > >>
+> > >> Signed-off-by: Alex Bee <knaerzche@gmail.com>
+> > >> [move the changes to the SoC section]
+> > >> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> > >> ---
+> > >>  .../devicetree/bindings/gpu/arm,mali-bifrost.yaml | 15 +++++++++++++++
+> > >>  1 file changed, 15 insertions(+)
+> > >>
+> > > 
+> > > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> > > on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> > > 
+> > > yamllint warnings/errors:
+> > > ./Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml:173:12: [warning] wrong indentation: expected 12 but found 11 (indentation)
+> > 
+> > D'oh! Sorry for the stupid mistake, I found that yamllint was indeed
+> > missing.
+> > 
+> > Lines 173 and 174 need an extra space. In the case that a v6 is required
+> > I'll fix this. But of course I wouldn't say no if this could be fixed
+> > when the patch is applied :-)
+> 
+> My guess is, Rob's bot filters out the easy wrongs, so I'm not sure if he
+> actually looks at these in person.
 
-tested full v5 Series + 3 clk-Patches from v4 on 5.17-rc2 on my rk3568 based Bananapi R2 Pro
+I do because there are sometimes false positives. It's not a free 
+testing service. (Well, it might be free beer for you, but that's 
+because I'm buying. :) ) For just indentation I will still review them 
+(eventually).
 
-1280x720-32@60Hz
-1920x1080-32@60Hz
-3840x2160-32@60Hz
+> So doing a v6 might actually be better for a Review :-)
 
-with fb console
+Resending just moves you to the back of the line (usually). 
 
-Tested-by: Frank Wunderlich <frank-w@public-files.de>
-
-regards Frank
+Rob
