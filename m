@@ -2,66 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D9D4AFF55
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 22:41:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60AD94AFF5C
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 22:46:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36EF010E5DE;
-	Wed,  9 Feb 2022 21:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B00B110E502;
+	Wed,  9 Feb 2022 21:46:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F12AF10E620
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 21:41:40 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id e17so5343152ljk.5
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 13:41:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=R1uWyugCH/vPTxtjhYz117MIhRAd/x5SqtuzRQGNO7k=;
- b=zZoAmwSbFWkT+qaM3L89XxyPfn74RZ1OptcMP8KOq5GGK7lY+DiRROxzh4KNuR57FY
- GtqQKlZultyRghyjFnskFGKdeSQSiYxHWnMNvyPY7pdjcKmd5V9Go7cAz/xrmE3DS4mG
- yJ91e0R8C/Pf5d0RVTPpl2rMjVthiCr2+pVqD5sOmd2TwSUL7KBvhRBXO3AoyMraxh0x
- sjTRRwZPTuCgeGguCi6k3xGyTdLDpCEXAgXHWfaRy/5c/GOpCECmC8+oyi4s/K7dkQsO
- 0MnU7my7plDRXQJRzJRYDODlr4qwaxX/u8tWA+PUbt8Xok8AJT/tMW8E9BE/QtjmPTzR
- mTcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=R1uWyugCH/vPTxtjhYz117MIhRAd/x5SqtuzRQGNO7k=;
- b=1zilPRt3FymxWBwvHMhDz2rFKWVE5mP7TF6Gu2mb2CeBK1eCrjPTeq/BIbU/T6t0Df
- ylWA/9Lxrrczei6ITXyx5rZD58g6OzXpyKVtU4iuO3mcEBSWhQLljQrMmzYkbssHTYAp
- LvX1NkUlyyU3aqmkSOAs81liN1j5qFhVo9gl2kBlBxI90kfMU+bNleIf/yWyf9547tMK
- NL7np9fe1gqZnir43BoHAGQZi4VMp2aYyZrYf4MuJvFkmUyHWhvK8qVVXaSAr6qM7iD+
- C2JmRKN3zgrpgCZpIvrWcSKmU1f94rwswaYOTppeFFScEmwjKPcE5FgcXEPLFgbAYwJE
- R23A==
-X-Gm-Message-State: AOAM533SRnpDGglVwDEgYiBgM49HMWHkDZWICmQjTTGYbfwUrGFBKqnr
- 5rp29u+6OUTKyK74frGZjs9GOw==
-X-Google-Smtp-Source: ABdhPJwxroOZE9FcZiRjresHvnDBQ+YaRfSMonsSeUCXZuhaw9bhndupGBAS8Lr0bPUwfq5fGaMGWw==
-X-Received: by 2002:a2e:8957:: with SMTP id b23mr3059633ljk.64.1644442898863; 
- Wed, 09 Feb 2022 13:41:38 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id l3sm2648256ljg.34.2022.02.09.13.41.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 13:41:37 -0800 (PST)
-Message-ID: <b53a6836-e4f7-5685-554c-8ba40606f337@linaro.org>
-Date: Thu, 10 Feb 2022 00:41:37 +0300
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD7A10E502
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 21:46:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=bMGIX75DfKw/hsEWf54VHeJnwl2naQpnQ6jTG4fSWks=; b=BNB4cNVhY+J02x/cUEkKNyocHI
+ c+SpgjMZ7eN5CzHu4fbUFUxKbkn8kQsFYkDWsjXA5Pesj8xMFUA87NHYvgEwTys6l+0x7z+XW5oWG
+ OTY/gI3MVbyf7Ooe0lhZ528AOAzO21Z5JzdHJy7gIVejHYHKR7NhE3EGkPfG/KXbGf92lAGUKEeoW
+ MNHlMGeePY06+myew6Hqhujj5pCNxaqNTnLEvg0fnkq7M2qriq3FyJfjfTh+x6rts2+QA4dk+8hzp
+ nnFsN7YG6whyZuKCl21tce3OSAQGuYO/Sa0mKXkWMg8PIfoy0IaajOmLdYyZ3EHb5Fj1Uyf7RMi91
+ gFoy8vzg==;
+Received: from [41.79.127.22] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1nHumf-0005Os-J9; Wed, 09 Feb 2022 22:45:53 +0100
+Date: Wed, 9 Feb 2022 20:45:35 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Igor Torrente <igormtorrente@gmail.com>
+Subject: Re: [PATCH v4 7/9] drm: vkms: Refactor the plane composer to accept
+ new formats
+Message-ID: <20220209214535.wqoe3otgelry2kef@mail.igalia.com>
+References: <20220121213831.47229-1-igormtorrente@gmail.com>
+ <20220121213831.47229-8-igormtorrente@gmail.com>
+ <20220208104018.cxnxgzgjn3ecf53l@mail.igalia.com>
+ <b40b3f1b-1b0d-0b81-a5cf-1496fb479920@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v4 14/14] drm/msm: Implement HDCP 1.x using the new drm
- HDCP helpers
-Content-Language: en-GB
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, freedreno@lists.freedesktop.org
-References: <20211105030434.2828845-1-sean@poorly.run>
- <20211105030434.2828845-15-sean@poorly.run>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20211105030434.2828845-15-sean@poorly.run>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="iepqa4kwobo2iast"
+Content-Disposition: inline
+In-Reply-To: <b40b3f1b-1b0d-0b81-a5cf-1496fb479920@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,1161 +56,811 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, linux-arm-msm@vger.kernel.org,
- abhinavk@codeaurora.org, swboyd@chromium.org, David Airlie <airlied@linux.ie>,
- Sean Paul <seanpaul@chromium.org>, bjorn.andersson@linaro.org
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ ~lkcamp/patches@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/11/2021 06:04, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> This patch adds HDCP 1.x support to msm DP connectors using the new HDCP
-> helpers.
 
-Sean, is this something that you'd like to pursue further?
-We have picked up patches 8-11, which were independent from the rest of 
-the changes. The rest seems to have dependencies on core changes (which 
-were not acked)
+--iepqa4kwobo2iast
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> Cc: Abhinav Kumar <abhinavk@codeaurora.org>
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-15-sean@poorly.run #v1
-> Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-14-sean@poorly.run #v2
-> Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-15-sean@poorly.run #v3
-> 
-> Changes in v2:
-> -Squash [1] into this patch with the following changes (Stephen)
->    -Update the sc7180 dtsi file
->    -Remove resource names and just use index (Stephen)
-> Changes in v3:
-> -Split out the dtsi change from v2 (Stephen)
-> -Fix set-but-unused warning identified by 0-day
-> -Fix up a couple of style nits (Stephen)
-> -Store HDCP key directly in dp_hdcp struct (Stephen)
-> -Remove wmb in HDCP key initialization, move an_seed (Stephen)
-> -Use FIELD_PREP for bstatus/bcaps (Stephen)
-> -#define read_poll_timeout values (Stephen)
-> -Remove unnecessary parentheses in dp_hdcp_store_ksv_fifo (Stephen)
-> -Add compatible string for hdcp (Stephen)
-> -Rename dp_hdcp_write_* functions (Abhinav)
-> -Add 1us delay between An reads (Abhinav)
-> -Delete unused dp_hdcp_read_* functions
-> Changes in v4:
-> -Rebase on Bjorn's multi-dp patchset
-> 
-> [1] https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-14-sean@poorly.run
-> ---
->   drivers/gpu/drm/msm/Makefile        |   1 +
->   drivers/gpu/drm/msm/dp/dp_debug.c   |  46 ++-
->   drivers/gpu/drm/msm/dp/dp_debug.h   |   6 +-
->   drivers/gpu/drm/msm/dp/dp_display.c |  46 ++-
->   drivers/gpu/drm/msm/dp/dp_display.h |   5 +
->   drivers/gpu/drm/msm/dp/dp_drm.c     |  68 +++-
->   drivers/gpu/drm/msm/dp/dp_drm.h     |   5 +
->   drivers/gpu/drm/msm/dp/dp_hdcp.c    | 462 ++++++++++++++++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_hdcp.h    |  27 ++
->   drivers/gpu/drm/msm/dp/dp_parser.c  |  20 +-
->   drivers/gpu/drm/msm/dp/dp_parser.h  |   4 +
->   drivers/gpu/drm/msm/dp/dp_reg.h     |  32 +-
->   drivers/gpu/drm/msm/msm_atomic.c    |  15 +
->   13 files changed, 729 insertions(+), 8 deletions(-)
->   create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.c
->   create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.h
-> 
-> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> index 40577f8856d8..fb3411a74e61 100644
-> --- a/drivers/gpu/drm/msm/Makefile
-> +++ b/drivers/gpu/drm/msm/Makefile
-> @@ -108,6 +108,7 @@ msm-$(CONFIG_DRM_MSM_DP)+= dp/dp_aux.o \
->   	dp/dp_ctrl.o \
->   	dp/dp_display.o \
->   	dp/dp_drm.o \
-> +	dp/dp_hdcp.o \
->   	dp/dp_hpd.o \
->   	dp/dp_link.o \
->   	dp/dp_panel.o \
-> diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
-> index da4323556ef3..c16fce17d096 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_debug.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_debug.c
-> @@ -8,6 +8,7 @@
->   #include <linux/debugfs.h>
->   #include <drm/drm_connector.h>
->   #include <drm/drm_file.h>
-> +#include <drm/drm_hdcp.h>
->   
->   #include "dp_parser.h"
->   #include "dp_catalog.h"
-> @@ -15,6 +16,7 @@
->   #include "dp_ctrl.h"
->   #include "dp_debug.h"
->   #include "dp_display.h"
-> +#include "dp_hdcp.h"
->   
->   #define DEBUG_NAME "msm_dp"
->   
-> @@ -25,6 +27,7 @@ struct dp_debug_private {
->   	struct dp_link *link;
->   	struct dp_panel *panel;
->   	struct drm_connector *connector;
-> +	struct dp_hdcp *hdcp;
->   	struct device *dev;
->   	struct drm_device *drm_dev;
->   
-> @@ -198,6 +201,35 @@ static int dp_test_active_open(struct inode *inode,
->   			inode->i_private);
->   }
->   
-> +static ssize_t dp_hdcp_key_write(struct file *file, const char __user *ubuf,
-> +				 size_t len, loff_t *offp)
-> +{
-> +	char *input_buffer;
-> +	int ret;
-> +	struct dp_debug_private *debug = file->private_data;
-> +
-> +	if (len != (DRM_HDCP_KSV_LEN + DP_HDCP_NUM_KEYS * DP_HDCP_KEY_LEN))
-> +		return -EINVAL;
-> +
-> +	if (!debug->hdcp)
-> +		return -ENOENT;
-> +
-> +	input_buffer = memdup_user_nul(ubuf, len);
-> +	if (IS_ERR(input_buffer))
-> +		return PTR_ERR(input_buffer);
-> +
-> +	ret = dp_hdcp_ingest_key(debug->hdcp, input_buffer, len);
-> +
-> +	kfree(input_buffer);
-> +	if (ret < 0) {
-> +		DRM_ERROR("Could not ingest HDCP key, ret=%d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	*offp += len;
-> +	return len;
-> +}
-> +
->   static const struct file_operations test_active_fops = {
->   	.owner = THIS_MODULE,
->   	.open = dp_test_active_open,
-> @@ -207,6 +239,12 @@ static const struct file_operations test_active_fops = {
->   	.write = dp_test_active_write
->   };
->   
-> +static const struct file_operations dp_hdcp_key_fops = {
-> +	.owner = THIS_MODULE,
-> +	.open = simple_open,
-> +	.write = dp_hdcp_key_write,
-> +};
-> +
->   static int dp_debug_init(struct dp_debug *dp_debug, struct drm_minor *minor)
->   {
->   	int rc = 0;
-> @@ -228,6 +266,10 @@ static int dp_debug_init(struct dp_debug *dp_debug, struct drm_minor *minor)
->   			minor->debugfs_root,
->   			debug, &dp_test_type_fops);
->   
-> +	debugfs_create_file("msm_dp_hdcp_key", 0222,
-> +			minor->debugfs_root,
-> +			debug, &dp_hdcp_key_fops);
-> +
->   	debug->root = minor->debugfs_root;
->   
->   	return rc;
-> @@ -235,7 +277,8 @@ static int dp_debug_init(struct dp_debug *dp_debug, struct drm_minor *minor)
->   
->   struct dp_debug *dp_debug_get(struct device *dev, struct dp_panel *panel,
->   		struct dp_usbpd *usbpd, struct dp_link *link,
-> -		struct drm_connector *connector, struct drm_minor *minor)
-> +		struct dp_hdcp *hdcp, struct drm_connector *connector,
-> +		struct drm_minor *minor)
->   {
->   	int rc = 0;
->   	struct dp_debug_private *debug;
-> @@ -257,6 +300,7 @@ struct dp_debug *dp_debug_get(struct device *dev, struct dp_panel *panel,
->   	debug->usbpd = usbpd;
->   	debug->link = link;
->   	debug->panel = panel;
-> +	debug->hdcp = hdcp;
->   	debug->dev = dev;
->   	debug->drm_dev = minor->dev;
->   	debug->connector = connector;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_debug.h b/drivers/gpu/drm/msm/dp/dp_debug.h
-> index 8c0d0b5178fd..55ab008876e7 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_debug.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_debug.h
-> @@ -6,6 +6,7 @@
->   #ifndef _DP_DEBUG_H_
->   #define _DP_DEBUG_H_
->   
-> +#include "dp_hdcp.h"
->   #include "dp_panel.h"
->   #include "dp_link.h"
->   
-> @@ -43,7 +44,7 @@ struct dp_debug {
->    */
->   struct dp_debug *dp_debug_get(struct device *dev, struct dp_panel *panel,
->   		struct dp_usbpd *usbpd, struct dp_link *link,
-> -		struct drm_connector *connector,
-> +		struct dp_hdcp *hdcp, struct drm_connector *connector,
->   		struct drm_minor *minor);
->   
->   /**
-> @@ -60,7 +61,8 @@ void dp_debug_put(struct dp_debug *dp_debug);
->   static inline
->   struct dp_debug *dp_debug_get(struct device *dev, struct dp_panel *panel,
->   		struct dp_usbpd *usbpd, struct dp_link *link,
-> -		struct drm_connector *connector, struct drm_minor *minor)
-> +		struct dp_hdcp *hdcp, struct drm_connector *connector,
-> +		struct drm_minor *minor)
->   {
->   	return ERR_PTR(-EINVAL);
->   }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 79412a8fbaff..5d8c118e7365 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -27,6 +27,7 @@
->   #include "dp_drm.h"
->   #include "dp_audio.h"
->   #include "dp_debug.h"
-> +#include "dp_hdcp.h"
->   
->   #define HPD_STRING_SIZE 30
->   
-> @@ -98,6 +99,7 @@ struct dp_display_private {
->   	struct dp_panel   *panel;
->   	struct dp_ctrl    *ctrl;
->   	struct dp_debug   *debug;
-> +	struct dp_hdcp	  *hdcp;
->   
->   	struct dp_usbpd_cb usbpd_cb;
->   	struct dp_display_mode dp_mode;
-> @@ -147,6 +149,15 @@ static struct dp_display_private *dev_get_dp_display_private(struct device *dev)
->   	return container_of(dp, struct dp_display_private, dp_display);
->   }
->   
-> +struct dp_hdcp *dp_display_connector_to_hdcp(struct drm_connector *connector)
-> +{
-> +	struct msm_dp *dp_display = msm_dp_from_connector(connector);
-> +	struct dp_display_private *dp;
-> +
-> +	dp = container_of(dp_display, struct dp_display_private, dp_display);
-> +	return dp->hdcp;
-> +}
-> +
->   static int dp_add_event(struct dp_display_private *dp_priv, u32 event,
->   						u32 data, u32 delay)
->   {
-> @@ -707,6 +718,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
->   static void dp_display_deinit_sub_modules(struct dp_display_private *dp)
->   {
->   	dp_debug_put(dp->debug);
-> +	dp_hdcp_put(dp->hdcp);
->   	dp_audio_put(dp->audio);
->   	dp_panel_put(dp->panel);
->   	dp_aux_put(dp->aux);
-> @@ -803,8 +815,18 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
->   		goto error_ctrl;
->   	}
->   
-> +	dp->hdcp = dp_hdcp_get(dp->parser, dp->aux);
-> +	if (IS_ERR(dp->hdcp)) {
-> +		rc = PTR_ERR(dp->hdcp);
-> +		DRM_ERROR("failed to initialize hdcp, rc = %d\n", rc);
-> +		dp->hdcp = NULL;
-> +		goto error_hdcp;
-> +	}
-> +
->   	return rc;
->   
-> +error_hdcp:
-> +	dp_audio_put(dp->audio);
->   error_ctrl:
->   	dp_panel_put(dp->panel);
->   error_link:
-> @@ -919,6 +941,16 @@ int dp_display_set_plugged_cb(struct msm_dp *dp_display,
->   	return 0;
->   }
->   
-> +void dp_display_hdcp_commit(struct msm_dp *dp, struct drm_atomic_state *state)
-> +{
-> +	struct dp_display_private *dp_display;
-> +
-> +	dp_display = container_of(dp, struct dp_display_private, dp_display);
-> +
-> +	if (dp_display->hdcp)
-> +		dp_hdcp_commit(dp_display->hdcp, state);
-> +}
-> +
->   int dp_display_validate_mode(struct msm_dp *dp, u32 mode_pclk_khz)
->   {
->   	const u32 num_components = 3, default_bpp = 24;
-> @@ -1442,8 +1474,8 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
->   	dev = &dp->pdev->dev;
->   
->   	dp->debug = dp_debug_get(dev, dp->panel, dp->usbpd,
-> -					dp->link, dp->dp_display.connector,
-> -					minor);
-> +					dp->link, dp->hdcp,
-> +					dp->dp_display.connector, minor);
->   	if (IS_ERR(dp->debug)) {
->   		rc = PTR_ERR(dp->debug);
->   		DRM_ERROR("failed to initialize debug, rc = %d\n", rc);
-> @@ -1454,12 +1486,16 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
->   int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->   			struct drm_encoder *encoder)
->   {
-> +	struct dp_display_private *dp_display_priv;
->   	struct msm_drm_private *priv;
->   	int ret;
->   
->   	if (WARN_ON(!encoder) || WARN_ON(!dp_display) || WARN_ON(!dev))
->   		return -EINVAL;
->   
-> +	dp_display_priv = container_of(dp_display, struct dp_display_private,
-> +				       dp_display);
-> +
->   	priv = dev->dev_private;
->   	dp_display->drm_dev = dev;
->   
-> @@ -1480,6 +1516,12 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->   		return ret;
->   	}
->   
-> +	ret = dp_hdcp_attach(dp_display_priv->hdcp, dp_display->connector);
-> +	if (ret) {
-> +		DRM_ERROR("Failed to attach hdcp, ret=%d\n", ret);
-> +		return ret;
-> +	}
-> +
->   	priv->connectors[priv->num_connectors++] = dp_display->connector;
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 8e80e3bac394..1d202223593c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -29,8 +29,13 @@ struct msm_dp {
->   	struct dp_audio *dp_audio;
->   };
->   
-> +struct drm_atomic_state;
-> +
->   int dp_display_set_plugged_cb(struct msm_dp *dp_display,
->   		hdmi_codec_plugged_cb fn, struct device *codec_dev);
-> +struct dp_hdcp *dp_display_connector_to_hdcp(struct drm_connector *connector);
-> +void dp_display_hdcp_commit(struct msm_dp *dp_display,
-> +			    struct drm_atomic_state *state);
->   int dp_display_validate_mode(struct msm_dp *dp_display, u32 mode_pclk_khz);
->   int dp_display_get_modes(struct msm_dp *dp_display,
->   		struct dp_display_mode *dp_mode);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index 76856c4ee1d6..f6694ed82169 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -6,11 +6,20 @@
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_bridge.h>
-> +#include <drm/drm_connector.h>
->   #include <drm/drm_crtc.h>
-> +#include <drm/drm_hdcp.h>
->   
->   #include "msm_drv.h"
->   #include "msm_kms.h"
->   #include "dp_drm.h"
-> +#include "dp_hdcp.h"
-> +
-> +struct dp_connector_state {
-> +	struct drm_connector_state base;
-> +	bool hdcp_transition;
-> +};
-> +#define to_dp_connector_state(x) container_of(x, struct dp_connector_state, base)
->   
->   struct dp_connector {
->   	struct drm_connector base;
-> @@ -18,6 +27,11 @@ struct dp_connector {
->   };
->   #define to_dp_connector(x) container_of(x, struct dp_connector, base)
->   
-> +struct msm_dp *msm_dp_from_connector(struct drm_connector *connector)
-> +{
-> +	return to_dp_connector(connector)->dp_display;
-> +}
-> +
->   /**
->    * dp_connector_detect - callback to determine if connector is connected
->    * @conn: Pointer to drm connector structure
-> @@ -115,20 +129,72 @@ static enum drm_mode_status dp_connector_mode_valid(
->   	return dp_display_validate_mode(dp_disp, mode->clock);
->   }
->   
-> +static int dp_connector_atomic_check(struct drm_connector *connector,
-> +				     struct drm_atomic_state *state)
-> +{
-> +	struct drm_connector_state *conn_state;
-> +	struct dp_connector_state *dp_state;
-> +
-> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
-> +	dp_state = to_dp_connector_state(conn_state);
-> +
-> +	dp_state->hdcp_transition = drm_hdcp_atomic_check(connector, state);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct drm_connector_state *
-> +dp_connector_atomic_duplicate_state(struct drm_connector *connector)
-> +{
-> +	struct dp_connector_state *state;
-> +
-> +	state = kzalloc(sizeof(*state), GFP_KERNEL);
-> +	if (!state)
-> +		return NULL;
-> +
-> +	state->hdcp_transition = false;
-> +
-> +	__drm_atomic_helper_connector_duplicate_state(connector, &state->base);
-> +	return &state->base;
-> +}
-> +
->   static const struct drm_connector_funcs dp_connector_funcs = {
->   	.detect = dp_connector_detect,
->   	.fill_modes = drm_helper_probe_single_connector_modes,
->   	.destroy = drm_connector_cleanup,
->   	.reset = drm_atomic_helper_connector_reset,
-> -	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> +	.atomic_duplicate_state = dp_connector_atomic_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->   };
->   
->   static const struct drm_connector_helper_funcs dp_connector_helper_funcs = {
->   	.get_modes = dp_connector_get_modes,
->   	.mode_valid = dp_connector_mode_valid,
-> +	.atomic_check = dp_connector_atomic_check,
->   };
->   
-> +bool dp_drm_is_connector_msm_dp(struct drm_connector *connector)
-> +{
-> +	return connector->funcs == &dp_connector_funcs;
-> +}
-> +
-> +void dp_drm_atomic_commit(struct drm_connector *connector,
-> +			  struct drm_connector_state *conn_state,
-> +			  struct drm_atomic_state *state)
-> +{
-> +	struct dp_connector_state *dp_state;
-> +	struct msm_dp *dp_disp;
-> +
-> +	dp_state = to_dp_connector_state(conn_state);
-> +
-> +	if (!dp_state->hdcp_transition)
-> +		return;
-> +
-> +	dp_disp = msm_dp_from_connector(connector);
-> +
-> +	dp_display_hdcp_commit(dp_disp, state);
-> +}
-> +
->   /* connector initialization */
->   struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
->   {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-> index c27bfceefdf0..a5d95c6acd67 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-> @@ -14,5 +14,10 @@
->   #include "dp_display.h"
->   
->   struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display);
-> +struct msm_dp *msm_dp_from_connector(struct drm_connector *connector);
-> +bool dp_drm_is_connector_msm_dp(struct drm_connector *connector);
-> +void dp_drm_atomic_commit(struct drm_connector *connector,
-> +			  struct drm_connector_state *conn_state,
-> +			  struct drm_atomic_state *state);
->   
->   #endif /* _DP_DRM_H_ */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_hdcp.c b/drivers/gpu/drm/msm/dp/dp_hdcp.c
-> new file mode 100644
-> index 000000000000..03ea3a974576
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/dp/dp_hdcp.c
-> @@ -0,0 +1,462 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright (C) 2021 Google, Inc.
-> + *
-> + * Authors:
-> + * Sean Paul <seanpaul@chromium.org>
-> + */
-> +
-> +#include "dp_display.h"
-> +#include "dp_drm.h"
-> +#include "dp_hdcp.h"
-> +#include "dp_reg.h"
-> +
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_dp_helper.h>
-> +#include <drm/drm_hdcp.h>
-> +#include <drm/drm_print.h>
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/bits.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/mutex.h>
-> +#include <linux/random.h>
-> +#include <linux/slab.h>
-> +
-> +/* Offsets based on hdcp_ksv mmio */
-> +#define DP_HDCP_KSV_AN_LSB			0x0
-> +#define DP_HDCP_KSV_AN_MSB			0x4
-> +#define DP_HDCP_KSV_AKSV_MSB			0x1D8
-> +#define DP_HDCP_KSV_AKSV_LSB			0x1DC
-> +
-> +/* Key offsets based on hdcp_key mmio */
-> +#define DP_HDCP_KEY_BASE			0x30
-> +#define  DP_HDCP_KEY_MSB(x) 			(DP_HDCP_KEY_BASE + (x * 8))
-> +#define  DP_HDCP_KEY_LSB(x) 			(DP_HDCP_KEY_MSB(x) + 4)
-> +#define DP_HDCP_KEY_VALID			0x170
-> +#define  DP_HDCP_SW_KEY_VALID			BIT(0)
-> +
-> +/* Timeouts */
-> +#define DP_KEYS_VALID_SLEEP_US			(20 * 1000)
-> +#define DP_KEYS_VALID_TIMEOUT_US		(100 * 1000)
-> +#define DP_AN_READY_SLEEP_US			100
-> +#define DP_AN_READY_TIMEOUT_US			(10 * 1000)
-> +#define DP_R0_READY_SLEEP_US			100
-> +#define DP_R0_READY_TIMEOUT_US			(10 * 1000)
-> +#define DP_RI_MATCH_SLEEP_US			(20 * 1000)
-> +#define DP_RI_MATCH_TIMEOUT_US			(100 * 1000)
-> +#define DP_KSV_WRITTEN_SLEEP_US			100
-> +#define DP_KSV_WRITTEN_TIMEOUT_US		(100 * 1000)
-> +#define DP_SHA_COMPUTATION_SLEEP_US		100
-> +#define DP_SHA_COMPUTATION_TIMEOUT_US		(100 * 1000)
-> +#define DP_AN_READ_DELAY_US			1
-> +
-> +/*
-> + * dp_hdcp_key - structure which contains an HDCP key set
-> + * @ksv: The key selection vector
-> + * @keys: Contains 40 keys
-> + */
-> +struct dp_hdcp_key {
-> +	struct drm_hdcp_ksv ksv;
-> +	union {
-> +		u32 words[2];
-> +		u8 bytes[DP_HDCP_KEY_LEN];
-> +	} keys[DP_HDCP_NUM_KEYS];
-> +	bool valid;
-> +};
-> +
-> +struct dp_hdcp {
-> +	struct drm_device *dev;
-> +	struct drm_connector *connector;
-> +
-> +	struct drm_dp_aux *aux;
-> +	struct dp_parser *parser;
-> +
-> +	struct drm_hdcp_helper_data *helper_data;
-> +
-> +	struct mutex key_lock;
-> +	struct dp_hdcp_key key;
-> +};
-> +
-> +static inline void dp_hdcp_write_ahb(struct dp_hdcp *hdcp, u32 offset, u32 val)
-> +{
-> +	writel(val, hdcp->parser->io.dp_controller.ahb.base + offset);
-> +}
-> +
-> +static inline u32 dp_hdcp_read_ahb(struct dp_hdcp *hdcp, u32 offset)
-> +{
-> +	return readl(hdcp->parser->io.dp_controller.ahb.base + offset);
-> +}
-> +
-> +static inline void dp_hdcp_write_aux(struct dp_hdcp *hdcp, u32 offset, u32 val)
-> +{
-> +	writel(val, hdcp->parser->io.dp_controller.aux.base + offset);
-> +}
-> +
-> +static inline u32 dp_hdcp_read_aux(struct dp_hdcp *hdcp, u32 offset)
-> +{
-> +	return readl(hdcp->parser->io.dp_controller.aux.base + offset);
-> +}
-> +
-> +static inline void dp_hdcp_write_link(struct dp_hdcp *hdcp, u32 offset, u32 val)
-> +{
-> +	writel(val, hdcp->parser->io.dp_controller.link.base + offset);
-> +}
-> +
-> +static inline u32 dp_hdcp_read_link(struct dp_hdcp *hdcp, u32 offset)
-> +{
-> +	return readl(hdcp->parser->io.dp_controller.link.base + offset);
-> +}
-> +
-> +static inline void dp_hdcp_write_key(struct dp_hdcp *hdcp, u32 offset, u32 val)
-> +{
-> +	writel(val, hdcp->parser->io.dp_controller.hdcp_key.base + offset);
-> +}
-> +
-> +static inline void dp_hdcp_write_tz_hlos(struct dp_hdcp *hdcp, u32 offset,
-> +					 u32 val)
-> +{
-> +	writel(val, hdcp->parser->io.dp_controller.hdcp_tz.base + offset);
-> +}
-> +
-> +int dp_hdcp_ingest_key(struct dp_hdcp *hdcp, const u8 *raw_key, int raw_len)
-> +{
-> +	unsigned int ksv_weight;
-> +	int i, ret = 0;
-> +
-> +	if (raw_len != (DRM_HDCP_KSV_LEN + DP_HDCP_NUM_KEYS * DP_HDCP_KEY_LEN)) {
-> +		DRM_ERROR("Invalid HDCP key length expected=%d actual=%d\n",
-> +			  (DRM_HDCP_KSV_LEN + DP_HDCP_NUM_KEYS * DP_HDCP_KEY_LEN),
-> +			  raw_len);
-> +		return -EINVAL;
-> +	}
-> +
-> +	mutex_lock(&hdcp->key_lock);
-> +
-> +	memcpy(hdcp->key.ksv.bytes, raw_key, DRM_HDCP_KSV_LEN);
-> +	ksv_weight = hweight32(hdcp->key.ksv.words[0]) +
-> +		     hweight32(hdcp->key.ksv.words[1]);
-> +	if (ksv_weight != 20) {
-> +		DRM_ERROR("Invalid ksv weight, expected=20 actual=%d\n",
-> +			  ksv_weight);
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
-> +	raw_key += DRM_HDCP_KSV_LEN;
-> +	for (i = 0; i < DP_HDCP_NUM_KEYS; i++) {
-> +		memcpy(hdcp->key.keys[i].bytes, raw_key, DP_HDCP_KEY_LEN);
-> +		raw_key += DP_HDCP_KEY_LEN;
-> +	}
-> +
-> +	DRM_DEBUG_DRIVER("Successfully ingested HDCP key\n");
-> +	hdcp->key.valid = true;
-> +
-> +out:
-> +	mutex_unlock(&hdcp->key_lock);
-> +	return ret;
-> +}
-> +
-> +static bool dp_hdcp_are_keys_valid(struct drm_connector *connector)
-> +{
-> +	struct dp_hdcp *hdcp = dp_display_connector_to_hdcp(connector);
-> +	u32 val;
-> +
-> +	val = dp_hdcp_read_ahb(hdcp, DP_HDCP_STATUS);
-> +	return FIELD_GET(DP_HDCP_KEY_STATUS, val) == DP_HDCP_KEY_STATUS_VALID;
-> +}
-> +
-> +static int dp_hdcp_load_keys(struct drm_connector *connector)
-> +{
-> +	struct dp_hdcp *hdcp = dp_display_connector_to_hdcp(connector);
-> +	int i, ret = 0;
-> +	u64 an_seed = get_random_u64();
-> +
-> +	mutex_lock(&hdcp->key_lock);
-> +
-> +	if (!hdcp->key.valid) {
-> +		ret = -ENOENT;
-> +		goto out;
-> +	}
-> +
-> +	dp_hdcp_write_aux(hdcp, DP_HDCP_SW_LOWER_AKSV, hdcp->key.ksv.words[0]);
-> +	dp_hdcp_write_aux(hdcp, DP_HDCP_SW_UPPER_AKSV, hdcp->key.ksv.words[1]);
-> +
-> +	for (i = 0; i < DP_HDCP_NUM_KEYS; i++) {
-> +		dp_hdcp_write_key(hdcp, DP_HDCP_KEY_LSB(i),
-> +				 hdcp->key.keys[i].words[0]);
-> +		dp_hdcp_write_key(hdcp, DP_HDCP_KEY_MSB(i),
-> +				 hdcp->key.keys[i].words[1]);
-> +	}
-> +
-> +	dp_hdcp_write_key(hdcp, DP_HDCP_KEY_VALID, DP_HDCP_SW_KEY_VALID);
-> +
-> +	dp_hdcp_write_link(hdcp, DP_HDCP_ENTROPY_CTRL0,
-> +			      FIELD_GET(GENMASK(31,0), an_seed));
-> +	dp_hdcp_write_link(hdcp, DP_HDCP_ENTROPY_CTRL1,
-> +			      FIELD_GET(GENMASK_ULL(63,32), an_seed));
-> +
-> +out:
-> +	mutex_unlock(&hdcp->key_lock);
-> +	return ret;
-> +}
-> +
-> +static int dp_hdcp_hdcp2_capable(struct drm_connector *connector, bool *capable)
-> +{
-> +	*capable = false;
-> +	return 0;
-> +}
-> +
-> +static int dp_hdcp_hdcp1_read_an_aksv(struct drm_connector *connector,
-> +				      u32 *an, u32 *aksv)
-> +{
-> +	struct dp_hdcp *hdcp = dp_display_connector_to_hdcp(connector);
-> +	bool keys_valid;
-> +	int ret;
-> +	u32 val;
-> +
-> +	dp_hdcp_write_ahb(hdcp, DP_HDCP_CTRL, 1);
-> +
-> +	ret = read_poll_timeout(dp_hdcp_are_keys_valid, keys_valid, keys_valid,
-> +				DP_KEYS_VALID_SLEEP_US,
-> +				DP_KEYS_VALID_TIMEOUT_US, false, connector);
-> +	if (ret) {
-> +		drm_err(hdcp->dev, "HDCP keys invalid %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	/* Clear AInfo */
-> +	dp_hdcp_write_aux(hdcp, DP_HDCP_RCVPORT_DATA4, 0);
-> +
-> +	aksv[0] = dp_hdcp_read_aux(hdcp, DP_HDCP_RCVPORT_DATA3);
-> +	aksv[1] = GENMASK(7, 0) & dp_hdcp_read_aux(hdcp, DP_HDCP_RCVPORT_DATA4);
-> +
-> +	ret = read_poll_timeout(dp_hdcp_read_ahb, val,
-> +		(val & DP_HDCP_AN_READY_MASK) == DP_HDCP_AN_READY_MASK,
-> +		DP_AN_READY_SLEEP_US, DP_AN_READY_TIMEOUT_US,
-> +		false, hdcp, DP_HDCP_STATUS);
-> +	if (ret) {
-> +		drm_err(hdcp->dev, "AN failed to become ready %x/%d\n", val,
-> +			ret);
-> +		return ret;
-> +	}
-> +
-> +	/*
-> +	 * Get An from hardware, for unknown reasons we need to read the reg
-> +	 * twice to get valid data.
-> +	 */
-> +	dp_hdcp_read_ahb(hdcp, DP_HDCP_RCVPORT_DATA5);
-> +	an[0] = dp_hdcp_read_ahb(hdcp, DP_HDCP_RCVPORT_DATA5);
-> +
-> +	udelay(DP_AN_READ_DELAY_US);
-> +
-> +	dp_hdcp_read_ahb(hdcp, DP_HDCP_RCVPORT_DATA6);
-> +	an[1] = dp_hdcp_read_ahb(hdcp, DP_HDCP_RCVPORT_DATA6);
-> +
-> +	return 0;
-> +}
-> +
-> +static int dp_hdcp_hdcp1_store_receiver_info(struct drm_connector *connector,
-> +					     u32 *ksv, u32 status, u8 bcaps,
-> +					     bool is_repeater)
-> +{
-> +	struct dp_hdcp *hdcp = dp_display_connector_to_hdcp(connector);
-> +	u32 val;
-> +
-> +	dp_hdcp_write_tz_hlos(hdcp, HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA0,
-> +			      ksv[0]);
-> +	dp_hdcp_write_tz_hlos(hdcp, HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA1,
-> +			      ksv[1]);
-> +
-> +	val = FIELD_PREP(GENMASK(23, 8), status) |
-> +	      FIELD_PREP(GENMASK(7, 0), bcaps);
-> +
-> +	dp_hdcp_write_tz_hlos(hdcp, HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA12,
-> +			      val);
-> +
-> +	return 0;
-> +}
-> +
-> +static int dp_hdcp_hdcp1_enable_encryption(struct drm_connector *connector)
-> +{
-> +	return 0;
-> +}
-> +
-> +static int dp_hdcp_hdcp1_wait_for_r0(struct drm_connector *connector)
-> +{
-> +	struct dp_hdcp *hdcp = dp_display_connector_to_hdcp(connector);
-> +	int ret;
-> +	u32 val;
-> +
-> +	ret = read_poll_timeout(dp_hdcp_read_ahb, val, (val & DP_HDCP_R0_READY),
-> +				DP_R0_READY_SLEEP_US, DP_R0_READY_TIMEOUT_US,
-> +				false, hdcp, DP_HDCP_STATUS);
-> +	if (ret) {
-> +		drm_err(hdcp->dev, "HDCP R0 not ready %x/%d\n", val, ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dp_hdcp_hdcp1_match_ri(struct drm_connector *connector, u32 ri_prime)
-> +{
-> +	struct dp_hdcp *hdcp = dp_display_connector_to_hdcp(connector);
-> +	int ret;
-> +	u32 val;
-> +
-> +	dp_hdcp_write_ahb(hdcp, DP_HDCP_RCVPORT_DATA2_0, ri_prime);
-> +
-> +	ret = read_poll_timeout(dp_hdcp_read_ahb, val, (val & DP_HDCP_RI_MATCH),
-> +				DP_RI_MATCH_SLEEP_US, DP_RI_MATCH_TIMEOUT_US,
-> +				false, hdcp, DP_HDCP_STATUS);
-> +	if (ret) {
-> +		drm_err(hdcp->dev, "Failed to match Ri and Ri` (%08x) %08x/%d\n",
-> +			ri_prime, val, ret);
-> +		return ret;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int dp_hdcp_hdcp1_store_ksv_fifo(struct drm_connector *connector,
-> +					u8 *ksv_fifo, u8 num_downstream,
-> +					u8 *bstatus, u32 *vprime)
-> +{
-> +	struct dp_hdcp *hdcp = dp_display_connector_to_hdcp(connector);
-> +	int num_bytes = num_downstream * DRM_HDCP_KSV_LEN;
-> +	int ret, i;
-> +	u32 val;
-> +
-> +	/* Reset the SHA computation block */
-> +	dp_hdcp_write_tz_hlos(hdcp, HDCP_SEC_DP_TZ_HV_HLOS_HDCP_SHA_CTRL,
-> +			      DP_HDCP_SHA_CTRL_RESET);
-> +	dp_hdcp_write_tz_hlos(hdcp, HDCP_SEC_DP_TZ_HV_HLOS_HDCP_SHA_CTRL, 0);
-> +
-> +	/*
-> +	 * KSV info gets written a byte at a time in the same order it was
-> +	 * received. Every 64 bytes, we need to wait for the SHA_BLOCK_DONE
-> +	 * bit to be set in SHA_CTRL.
-> +	 */
-> +	for (i = 0; i < num_bytes; i++) {
-> +		val = FIELD_PREP(DP_HDCP_SHA_DATA_MASK, ksv_fifo[i]);
-> +
-> +		if (i == (num_bytes - 1))
-> +			val |= DP_HDCP_SHA_DATA_DONE;
-> +
-> +		dp_hdcp_write_tz_hlos(hdcp,
-> +				      HDCP_SEC_DP_TZ_HV_HLOS_HDCP_SHA_DATA,
-> +				      val);
-> +
-> +		if (((i + 1) % 64) != 0)
-> +			continue;
-> +
-> +		ret = read_poll_timeout(dp_hdcp_read_ahb, val,
-> +					(val & DP_HDCP_SHA_DONE),
-> +					DP_KSV_WRITTEN_SLEEP_US,
-> +					DP_KSV_WRITTEN_TIMEOUT_US, false, hdcp,
-> +					DP_HDCP_SHA_STATUS);
-> +		if (ret) {
-> +			drm_err(hdcp->dev, "SHA block incomplete %d\n", ret);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	ret = read_poll_timeout(dp_hdcp_read_ahb, val,
-> +				(val & DP_HDCP_SHA_COMP_DONE),
-> +				DP_SHA_COMPUTATION_SLEEP_US,
-> +				DP_SHA_COMPUTATION_TIMEOUT_US,
-> +				false, hdcp, DP_HDCP_SHA_STATUS);
-> +	if (ret) {
-> +		drm_err(hdcp->dev, "SHA computation incomplete %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dp_hdcp_hdcp1_disable(struct drm_connector *connector)
-> +{
-> +	struct dp_hdcp *hdcp = dp_display_connector_to_hdcp(connector);
-> +	u32 val;
-> +
-> +	val = dp_hdcp_read_ahb(hdcp, REG_DP_SW_RESET);
-> +	dp_hdcp_write_ahb(hdcp, REG_DP_SW_RESET, val | DP_HDCP_SW_RESET);
-> +
-> +	/* Disable encryption and disable the HDCP block */
-> +	dp_hdcp_write_ahb(hdcp, DP_HDCP_CTRL, 0);
-> +
-> +	dp_hdcp_write_ahb(hdcp, REG_DP_SW_RESET, val);
-> +
-> +	return 0;
-> +}
-> +
-> +void dp_hdcp_commit(struct dp_hdcp *hdcp, struct drm_atomic_state *state)
-> +{
-> +	drm_hdcp_helper_atomic_commit(hdcp->helper_data, state, NULL);
-> +}
-> +
-> +static const struct drm_hdcp_helper_funcs dp_hdcp_funcs = {
-> +	.are_keys_valid = dp_hdcp_are_keys_valid,
-> +	.load_keys = dp_hdcp_load_keys,
-> +	.hdcp2_capable = dp_hdcp_hdcp2_capable,
-> +	.hdcp1_read_an_aksv = dp_hdcp_hdcp1_read_an_aksv,
-> +	.hdcp1_store_receiver_info = dp_hdcp_hdcp1_store_receiver_info,
-> +	.hdcp1_enable_encryption = dp_hdcp_hdcp1_enable_encryption,
-> +	.hdcp1_wait_for_r0 = dp_hdcp_hdcp1_wait_for_r0,
-> +	.hdcp1_match_ri = dp_hdcp_hdcp1_match_ri,
-> +	.hdcp1_store_ksv_fifo = dp_hdcp_hdcp1_store_ksv_fifo,
-> +	.hdcp1_disable = dp_hdcp_hdcp1_disable,
-> +};
-> +
-> +int dp_hdcp_attach(struct dp_hdcp *hdcp, struct drm_connector *connector)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	struct drm_hdcp_helper_data *helper_data;
-> +	int ret;
-> +
-> +	/* HDCP is not configured for this device */
-> +	if (!hdcp->parser->io.dp_controller.hdcp_key.base)
-> +		return 0;
-> +
-> +	helper_data = drm_hdcp_helper_initialize_dp(connector, hdcp->aux,
-> +						    &dp_hdcp_funcs, false);
-> +	if (IS_ERR_OR_NULL(helper_data))
-> +		return PTR_ERR(helper_data);
-> +
-> +	ret = drm_connector_attach_content_protection_property(connector, false);
-> +	if (ret) {
-> +		drm_hdcp_helper_destroy(helper_data);
-> +		drm_err(dev, "Failed to attach content protection prop %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	hdcp->dev = connector->dev;
-> +	hdcp->connector = connector;
-> +	hdcp->helper_data = helper_data;
-> +
-> +	return 0;
-> +}
-> +
-> +struct dp_hdcp *dp_hdcp_get(struct dp_parser *parser, struct drm_dp_aux *aux)
-> +{
-> +	struct device *dev = &parser->pdev->dev;
-> +	struct dp_hdcp *hdcp;
-> +
-> +	hdcp = devm_kzalloc(dev, sizeof(*hdcp), GFP_KERNEL);
-> +	if (!hdcp)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	hdcp->parser = parser;
-> +	hdcp->aux = aux;
-> +
-> +	mutex_init(&hdcp->key_lock);
-> +
-> +	return hdcp;
-> +}
-> +
-> +void dp_hdcp_put(struct dp_hdcp *hdcp)
-> +{
-> +	if (hdcp)
-> +		drm_hdcp_helper_destroy(hdcp->helper_data);
-> +}
-> diff --git a/drivers/gpu/drm/msm/dp/dp_hdcp.h b/drivers/gpu/drm/msm/dp/dp_hdcp.h
-> new file mode 100644
-> index 000000000000..5637a9b0dea2
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/dp/dp_hdcp.h
-> @@ -0,0 +1,27 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright (C) 2021 Google, Inc.
-> + *
-> + * Authors:
-> + * Sean Paul <seanpaul@chromium.org>
-> + */
-> +
-> +#ifndef DP_HDCP_H_
-> +#define DP_HDCP_H_
-> +
-> +#define DP_HDCP_KEY_LEN				7
-> +#define DP_HDCP_NUM_KEYS			40
-> +
-> +struct dp_hdcp;
-> +struct dp_parser;
-> +struct drm_atomic_state;
-> +struct drm_dp_aux;
-> +
-> +struct dp_hdcp *dp_hdcp_get(struct dp_parser *parser, struct drm_dp_aux *aux);
-> +void dp_hdcp_put(struct dp_hdcp *hdcp);
-> +
-> +int dp_hdcp_attach(struct dp_hdcp *hdcp, struct drm_connector *connector);
-> +int dp_hdcp_ingest_key(struct dp_hdcp *hdcp, const u8 *raw_key, int raw_len);
-> +void dp_hdcp_commit(struct dp_hdcp *hdcp, struct drm_atomic_state *state);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index a7acc23f742b..5d35ef46120b 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -66,7 +66,6 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
->   				DRM_ERROR("legacy memory region not large enough\n");
->   				return -EINVAL;
->   			}
-> -
->   			dss->ahb.len = DP_DEFAULT_AHB_SIZE;
->   			dss->aux.base = dss->ahb.base + DP_DEFAULT_AUX_OFFSET;
->   			dss->aux.len = DP_DEFAULT_AUX_SIZE;
-> @@ -74,6 +73,10 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
->   			dss->link.len = DP_DEFAULT_LINK_SIZE;
->   			dss->p0.base = dss->ahb.base + DP_DEFAULT_P0_OFFSET;
->   			dss->p0.len = DP_DEFAULT_P0_SIZE;
-> +			dss->hdcp_key.base = NULL;
-> +			dss->hdcp_key.len = 0;
-> +			dss->hdcp_tz.base = NULL;
-> +			dss->hdcp_tz.len = 0;
->   		} else {
->   			DRM_ERROR("unable to remap aux region: %pe\n", dss->aux.base);
->   			return PTR_ERR(dss->aux.base);
-> @@ -90,6 +93,21 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
->   			DRM_ERROR("unable to remap p0 region: %pe\n", dss->p0.base);
->   			return PTR_ERR(dss->p0.base);
->   		}
-> +
-> +		dss->hdcp_key.base = dp_ioremap(pdev, 5, &dss->hdcp_key.len);
-> +		if (!IS_ERR(dss->hdcp_key.base)) {
-> +			dss->hdcp_tz.base = dp_ioremap(pdev, 6, &dss->hdcp_tz.len);
-> +			if (IS_ERR(dss->hdcp_tz.base)) {
-> +				DRM_ERROR("unable to remap hdcp_tz region: %pe\n",
-> +					dss->hdcp_tz.base);
-> +				return PTR_ERR(dss->hdcp_tz.base);
-> +			}
-> +		} else {
-> +			dss->hdcp_key.base = NULL;
-> +			dss->hdcp_key.len = 0;
-> +			dss->hdcp_tz.base = NULL;
-> +			dss->hdcp_tz.len = 0;
-> +		}
->   	}
->   
->   	io->phy = devm_phy_get(&pdev->dev, "dp");
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-> index 3172da089421..4edd499ebaf2 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-> @@ -35,6 +35,8 @@ struct dss_io_data {
->   	struct dss_io_region aux;
->   	struct dss_io_region link;
->   	struct dss_io_region p0;
-> +	struct dss_io_region hdcp_key;
-> +	struct dss_io_region hdcp_tz;
->   };
->   
->   static inline const char *dp_parser_pm_name(enum dp_pm_type module)
-> @@ -69,6 +71,8 @@ struct dp_display_data {
->    * struct dp_ctrl_resource - controller's IO related data
->    *
->    * @dp_controller: Display Port controller mapped memory address
-> + * @hdcp_key: mapped memory for HDCP key ingestion
-> + * @hdcp_tz: mapped memory for HDCP TZ interaction
->    * @phy_io: phy's mapped memory address
->    */
->   struct dp_io {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
-> index 268602803d9a..61ab70850f6b 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_reg.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_reg.h
-> @@ -6,11 +6,14 @@
->   #ifndef _DP_REG_H_
->   #define _DP_REG_H_
->   
-> +#include <linux/bits.h>
-> +
->   /* DP_TX Registers */
->   #define REG_DP_HW_VERSION			(0x00000000)
->   
->   #define REG_DP_SW_RESET				(0x00000010)
-> -#define DP_SW_RESET				(0x00000001)
-> +#define  DP_SW_RESET				BIT(0)
-> +#define  DP_HDCP_SW_RESET			BIT(1)
->   
->   #define REG_DP_PHY_CTRL				(0x00000014)
->   #define DP_PHY_CTRL_SW_RESET_PLL		(0x00000001)
-> @@ -283,19 +286,46 @@
->   /* DP HDCP 1.3 registers */
->   #define DP_HDCP_CTRL                                   (0x0A0)
->   #define DP_HDCP_STATUS                                 (0x0A4)
-> +#define  DP_HDCP_KEY_STATUS			       GENMASK(18, 16)
-> +#define   DP_HDCP_KEY_STATUS_NO_KEYS		       0
-> +#define   DP_HDCP_KEY_STATUS_NOT_CHECKED	       1
-> +#define   DP_HDCP_KEY_STATUS_CHECKING		       2
-> +#define   DP_HDCP_KEY_STATUS_VALID		       3
-> +#define   DP_HDCP_KEY_STATUS_INVALID_AKSV	       4
-> +#define   DP_HDCP_KEY_STATUS_BAD_CHECKSUM	       5
-> +#define   DP_HDCP_KEY_STATUS_PROD_AKSV		       6
-> +#define   DP_HDCP_KEY_STATUS_RESV		       7
-> +#define  DP_HDCP_R0_READY			       BIT(14)
-> +#define  DP_HDCP_SHA_V_MATCH			       BIT(13)
-> +#define  DP_HDCP_RI_MATCH			       BIT(12)
-> +#define  DP_HDCP_AN_MSB_READY			       BIT(9)
-> +#define  DP_HDCP_AN_LSB_READY			       BIT(8)
-> +#define  DP_HDCP_AN_READY_MASK			       (DP_HDCP_AN_MSB_READY | DP_HDCP_AN_LSB_READY)
-> +#define  DP_HDCP_AUTH_FAIL_INFO			       GENMASK(7, 4)
-> +#define   DP_HDCP_AUTH_FAIL_INVALID_AKSV	       3
-> +#define   DP_HDCP_AUTH_FAIL_INVALID_BKSV	       4
-> +#define   DP_HDCP_AUTH_FAIL_RI_MISMATCH		       5
-> +#define  DP_HDCP_AUTH_FAIL			       BIT(2)
-> +#define  DP_HDCP_AUTH_SUCCESS			       BIT(0)
->   #define DP_HDCP_SW_UPPER_AKSV                          (0x098)
->   #define DP_HDCP_SW_LOWER_AKSV                          (0x09C)
->   #define DP_HDCP_ENTROPY_CTRL0                          (0x350)
->   #define DP_HDCP_ENTROPY_CTRL1                          (0x35C)
->   #define DP_HDCP_SHA_STATUS                             (0x0C8)
-> +#define  DP_HDCP_SHA_COMP_DONE			       BIT(4)
-> +#define  DP_HDCP_SHA_DONE			       BIT(0)
->   #define DP_HDCP_RCVPORT_DATA2_0                        (0x0B0)
->   #define DP_HDCP_RCVPORT_DATA3                          (0x0A4)
->   #define DP_HDCP_RCVPORT_DATA4                          (0x0A8)
->   #define DP_HDCP_RCVPORT_DATA5                          (0x0C0)
->   #define DP_HDCP_RCVPORT_DATA6                          (0x0C4)
-> +#define DP_HDCP_RCVPORT_DATA7                          (0x0C8)
->   
->   #define HDCP_SEC_DP_TZ_HV_HLOS_HDCP_SHA_CTRL           (0x024)
-> +#define  DP_HDCP_SHA_CTRL_RESET			       BIT(0)
->   #define HDCP_SEC_DP_TZ_HV_HLOS_HDCP_SHA_DATA           (0x028)
-> +#define  DP_HDCP_SHA_DATA_MASK			       GENMASK(23, 16)
-> +#define  DP_HDCP_SHA_DATA_DONE			       BIT(0)
->   #define HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA0      (0x004)
->   #define HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA1      (0x008)
->   #define HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA7      (0x00C)
-> diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-> index 27c9ae563f2f..8bcade1c1e6c 100644
-> --- a/drivers/gpu/drm/msm/msm_atomic.c
-> +++ b/drivers/gpu/drm/msm/msm_atomic.c
-> @@ -8,6 +8,7 @@
->   #include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_vblank.h>
->   
-> +#include "dp_drm.h"
->   #include "msm_atomic_trace.h"
->   #include "msm_drv.h"
->   #include "msm_gem.h"
-> @@ -194,6 +195,18 @@ static unsigned get_crtc_mask(struct drm_atomic_state *state)
->   	return mask;
->   }
->   
-> +static void msm_atomic_commit_connectors(struct drm_atomic_state *state)
-> +{
-> +	struct drm_connector_state *conn_state;
-> +	struct drm_connector *connector;
-> +	int i;
-> +
-> +	for_each_new_connector_in_state(state, connector, conn_state, i) {
-> +		if (dp_drm_is_connector_msm_dp(connector))
-> +			dp_drm_atomic_commit(connector, conn_state, state);
-> +	}
-> +}
-> +
->   void msm_atomic_commit_tail(struct drm_atomic_state *state)
->   {
->   	struct drm_device *dev = state->dev;
-> @@ -230,6 +243,8 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
->   	drm_atomic_helper_commit_planes(dev, state, 0);
->   	drm_atomic_helper_commit_modeset_enables(dev, state);
->   
-> +	msm_atomic_commit_connectors(state);
-> +
->   	if (async) {
->   		struct msm_pending_timer *timer =
->   			&kms->pending_timers[drm_crtc_index(async_crtc)];
+On 02/08, Igor Torrente wrote:
+> Hi Melissa,
+>=20
+> On 2/8/22 07:40, Melissa Wen wrote:
+> > On 01/21, Igor Torrente wrote:
+> > > Currently the blend function only accepts XRGB_8888 and ARGB_8888
+> > > as a color input.
+> > >=20
+> > > This patch refactors all the functions related to the plane compositi=
+on
+> > > to overcome this limitation.
+> > >=20
+> > > A new internal format(`struct pixel`) is introduced to deal with all
+> > > possible inputs. It consists of 16 bits fields that represent each of
+> > > the channels.
+> > >=20
+> > > The pixels blend is done using this internal format. And new handlers
+> > > are being added to convert a specific format to/from this internal fo=
+rmat.
+> > >=20
+> > > So the blend operation depends on these handlers to convert to this c=
+ommon
+> > > format. The blended result, if necessary, is converted to the writeba=
+ck
+> > > buffer format.
+> > >=20
+> > > This patch introduces three major differences to the blend function.
+> > > 1 - All the planes are blended at once.
+> > > 2 - The blend calculus is done as per line instead of per pixel.
+> > > 3 - It is responsible to calculates the CRC and writing the writeback
+> > >      buffer(if necessary).
+> > >=20
+> > > These changes allow us to allocate way less memory in the intermediate
+> > > buffer to compute these operations. Because now we don't need to
+> > > have the entire intermediate image lines at once, just one line is
+> > > enough.
+> > >=20
+> > > | Memory consumption (output dimensions) |
+> > > |:--------------------------------------:|
+> > > |       Current      |     This patch    |
+> > > |:------------------:|:-----------------:|
+> > > |   Width * Heigth   |     2 * Width     |
+> > >=20
+> > > Beyond memory, we also have a minor performance benefit from all
+> > > these changes. Results running the IGT tests `*kms_cursor_crc*`:
+> > >=20
+> > First, thanks for this improvement.
+> >=20
+> > Some recent changes in kms_cursor_crc caused VKMS to fail in most test
+> > cases (iirc, only size-change and alpha-opaque are passing currently).
+>=20
+> I updated my igt and kernel(from drm_misc/drm-misc-next) to the latest
+> commit[1][2] and I'm getting mixed results. Sometimes most of the test
+> passes, sometimes almost nothing passes.
+hmm.. is it happening when running kms_cursor_crc? Is the results
+variation random or is it possible to follow a set of steps to reproduce
+it? When failing, what is the reason displayed by the log?
 
+=46rom my side, only the first two subtest of kms_cursor_crc is passing
+before this patch. And after your changes here, all subtests are
+successful again, except those related to 32x10 cursor size (that needs
+futher investigation). I didn't check how the recent changes in
+kms_cursor_crc affect VKMS performance on it, but I bet that clearing
+the alpha channel is the reason to have the performance back.
+>=20
+> [1] a96674e7 (tests/api_intel_bb: Handle different alignments in
+> delta-check)
+> [2] b21a142fd205 (drm/nouveau/backlight: Just set all backlight types as
+> RAW)
+>=20
+> > But saying that performance improvement here would cause a
+> > misunderstanding when reviewing the change history. Can you update this
+> > statistics here? I think you can specify the IGT hash to specify the
+> > test case version or you can pick another test for comparison.
+>=20
+> OK, I will do both.
+>=20
+> > > |                 Frametime                  |
+> > > |:------------------------------------------:|
+> > > |  Implementation |  Current  |  This commit |
+> > > |:---------------:|:---------:|:------------:|
+> > > | frametime range |  8~22 ms  |    5~18 ms   |
+> > > |     Average     |  10.0 ms  |    7.3 ms    |
+> > >=20
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > A little confusing for me to have this reported-by tag without any
+> > explanation of what was reported and fixed. Can you specify it?
+> > > Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
+> > > ---
+> > > V2: Improves the performance drastically, by perfoming the operations
+> > >      per-line and not per-pixel(Pekka Paalanen).
+> > >      Minor improvements(Pekka Paalanen).
+> > >=20
+> > > V3: Changes the code to blend the planes all at once. This improves
+> > >      performance, memory consumption, and removes much of the weirdne=
+ss
+> > >      of the V2(Pekka Paalanen and me).
+> > >      Minor improvements(Pekka Paalanen and me).
+> > >=20
+> > > V4: Rebase the code and adapt it to the new NUM_OVERLAY_PLANES consta=
+nt.
+> > Can you move version changes up so that they are not ignored?
+> >=20
+> > I also pointed out minor code style issue below.
+> > With these comments addressed, you can add my r-b tag in the next
+> > version.
+> > > ---
+> > >   drivers/gpu/drm/vkms/Makefile        |   1 +
+> > >   drivers/gpu/drm/vkms/vkms_composer.c | 335 +++++++++++++-----------=
+---
+> > >   drivers/gpu/drm/vkms/vkms_formats.c  | 138 +++++++++++
+> > >   drivers/gpu/drm/vkms/vkms_formats.h  |  31 +++
+> > >   4 files changed, 333 insertions(+), 172 deletions(-)
+> > >   create mode 100644 drivers/gpu/drm/vkms/vkms_formats.c
+> > >   create mode 100644 drivers/gpu/drm/vkms/vkms_formats.h
+> > >=20
+> > > diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Mak=
+efile
+> > > index 72f779cbfedd..1b28a6a32948 100644
+> > > --- a/drivers/gpu/drm/vkms/Makefile
+> > > +++ b/drivers/gpu/drm/vkms/Makefile
+> > > @@ -3,6 +3,7 @@ vkms-y :=3D \
+> > >   	vkms_drv.o \
+> > >   	vkms_plane.o \
+> > >   	vkms_output.o \
+> > > +	vkms_formats.o \
+> > >   	vkms_crtc.o \
+> > >   	vkms_composer.o \
+> > >   	vkms_writeback.o
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/v=
+kms/vkms_composer.c
+> > > index 95029d2ebcac..9f70fcf84fb9 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> > > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> > > @@ -9,202 +9,210 @@
+> > >   #include <drm/drm_vblank.h>
+> > >   #include "vkms_drv.h"
+> > > +#include "vkms_formats.h"
+> > > -static u32 get_pixel_from_buffer(int x, int y, const u8 *buffer,
+> > > -				 const struct vkms_frame_info *frame_info)
+> > > +static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+> > >   {
+> > > -	u32 pixel;
+> > > -	int src_offset =3D frame_info->offset + (y * frame_info->pitch)
+> > > -					    + (x * frame_info->cpp);
+> > > +	u32 new_color;
+> > > -	pixel =3D *(u32 *)&buffer[src_offset];
+> > > +	new_color =3D (src * 0xffff + dst * (0xffff - alpha));
+> > > -	return pixel;
+> > > +	return DIV_ROUND_UP(new_color, 0xffff);
+> > >   }
+> > >   /**
+> > > - * compute_crc - Compute CRC value on output frame
+> > > + * pre_mul_alpha_blend - alpha blending equation
+> > > + * @src_frame_info: source framebuffer's metadata
+> > > + * @stage_buffer: The line with the pixels from src_plane
+> > > + * @output_buffer: A line buffer that receives all the blends output
+> > >    *
+> > > - * @vaddr: address to final framebuffer
+> > > - * @frame_info: framebuffer's metadata
+> > > + * Using the information from the `frame_info`, this blends only the
+> > > + * necessary pixels from the `stage_buffer` to the `output_buffer`
+> > > + * using premultiplied blend formula.
+> > >    *
+> > > - * returns CRC value computed using crc32 on the visible portion of
+> > > - * the final framebuffer at vaddr_out
+> > > + * The current DRM assumption is that pixel color values have been a=
+lready
+> > > + * pre-multiplied with the alpha channel values. See more
+> > > + * drm_plane_create_blend_mode_property(). Also, this formula assume=
+s a
+> > > + * completely opaque background.
+> > >    */
+> > > -static uint32_t compute_crc(const u8 *vaddr,
+> > > -			    const struct vkms_frame_info *frame_info)
+> > > +static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
+> > > +				struct line_buffer *stage_buffer,
+> > > +				struct line_buffer *output_buffer)
+> > >   {
+> > > -	int x, y;
+> > > -	u32 crc =3D 0, pixel =3D 0;
+> > > -	int x_src =3D frame_info->src.x1 >> 16;
+> > > -	int y_src =3D frame_info->src.y1 >> 16;
+> > > -	int h_src =3D drm_rect_height(&frame_info->src) >> 16;
+> > > -	int w_src =3D drm_rect_width(&frame_info->src) >> 16;
+> > > -
+> > > -	for (y =3D y_src; y < y_src + h_src; ++y) {
+> > > -		for (x =3D x_src; x < x_src + w_src; ++x) {
+> > > -			pixel =3D get_pixel_from_buffer(x, y, vaddr, frame_info);
+> > > -			crc =3D crc32_le(crc, (void *)&pixel, sizeof(u32));
+> > > -		}
+> > > +	int x, x_dst =3D frame_info->dst.x1;
+> > > +	int x_limit =3D drm_rect_width(&frame_info->dst);
+> > > +	struct line_buffer *out =3D output_buffer + x_dst;
+> > > +	struct line_buffer *in =3D stage_buffer;
+> > > +
+> > > +	for (x =3D 0; x < x_limit; x++) {
+> > > +		out[x].a =3D (u16)0xffff;
+> > > +		out[x].r =3D pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
+> > > +		out[x].g =3D pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
+> > > +		out[x].b =3D pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
+> > >   	}
+> > > -
+> > > -	return crc;
+> > >   }
+> > > -static u8 blend_channel(u8 src, u8 dst, u8 alpha)
+> > > +static bool check_y_limit(struct vkms_frame_info *frame_info, int y)
+> > >   {
+> > > -	u32 pre_blend;
+> > > -	u8 new_color;
+> > > -
+> > > -	pre_blend =3D (src * 255 + dst * (255 - alpha));
+> > > -
+> > > -	/* Faster div by 255 */
+> > > -	new_color =3D ((pre_blend + ((pre_blend + 257) >> 8)) >> 8);
+> > > +	if (y >=3D frame_info->dst.y1 && y < frame_info->dst.y2)
+> > > +		return true;
+> > > -	return new_color;
+> > > +	return false;
+> > >   }
+> > >   /**
+> > > - * alpha_blend - alpha blending equation
+> > > - * @argb_src: src pixel on premultiplied alpha mode
+> > > - * @argb_dst: dst pixel completely opaque
+> > > - *
+> > > - * blend pixels using premultiplied blend formula. The current DRM a=
+ssumption
+> > > - * is that pixel color values have been already pre-multiplied with =
+the alpha
+> > > - * channel values. See more drm_plane_create_blend_mode_property(). =
+Also, this
+> > > - * formula assumes a completely opaque background.
+> > > - */
+> > > -static void alpha_blend(const u8 *argb_src, u8 *argb_dst)
+> > > -{
+> > > -	u8 alpha;
+> > > -
+> > > -	alpha =3D argb_src[3];
+> > > -	argb_dst[0] =3D blend_channel(argb_src[0], argb_dst[0], alpha);
+> > > -	argb_dst[1] =3D blend_channel(argb_src[1], argb_dst[1], alpha);
+> > > -	argb_dst[2] =3D blend_channel(argb_src[2], argb_dst[2], alpha);
+> > > -}
+> > > -
+> > > -/**
+> > > - * x_blend - blending equation that ignores the pixel alpha
+> > > - *
+> > > - * overwrites RGB color value from src pixel to dst pixel.
+> > > - */
+> > > -static void x_blend(const u8 *xrgb_src, u8 *xrgb_dst)
+> > > -{
+> > > -	memcpy(xrgb_dst, xrgb_src, sizeof(u8) * 3);
+> > > -}
+> > > -
+> > > -/**
+> > > - * blend - blend value at vaddr_src with value at vaddr_dst
+> > > - * @vaddr_dst: destination address
+> > > - * @vaddr_src: source address
+> > > - * @dst_frame_info: destination framebuffer's metadata
+> > > - * @src_frame_info: source framebuffer's metadata
+> > > - * @pixel_blend: blending equation based on plane format
+> > > + * @wb_frame_info: The writeback frame buffer metadata
+> > > + * @wb_fmt_func: The format tranformatio function to the wb buffer
+> > > + * @crtc_state: The crtc state
+> > > + * @plane_fmt_func: A format tranformation function to each plane
+> > > + * @crc32: The crc output of the final frame
+> > > + * @output_buffer: A buffer of a row that will receive the result of=
+ the blend(s)
+> > > + * @stage_buffer: The line with the pixels from src_compositor
+> > >    *
+> > > - * Blend the vaddr_src value with the vaddr_dst value using a pixel =
+blend
+> > > - * equation according to the supported plane formats DRM_FORMAT_(A/X=
+RGB8888)
+> > > - * and clearing alpha channel to an completely opaque background. Th=
+is function
+> > > - * uses buffer's metadata to locate the new composite values at vadd=
+r_dst.
+> > > + * This function blends the pixels (Using the `pre_mul_alpha_blend`)
+> > > + * from all planes, calculates the crc32 of the output from the form=
+er step,
+> > > + * and, if necessary, convert and store the output to the writeback =
+buffer.
+> > >    *
+> > >    * TODO: completely clear the primary plane (a =3D 0xff) before sta=
+rting to blend
+> > >    * pixel color values
+> > >    */
+> > > -static void blend(void *vaddr_dst, void *vaddr_src,
+> > > -		  struct vkms_frame_info *dst_frame_info,
+> > > -		  struct vkms_frame_info *src_frame_info,
+> > > -		  void (*pixel_blend)(const u8 *, u8 *))
+> > > +static void blend(struct vkms_frame_info *wb_frame_info,
+> > > +		  format_transform_func wb_fmt_func,
+> > > +		  struct vkms_crtc_state *crtc_state,
+> > > +		  format_transform_func *plane_fmt_func,
+> > > +		  u32 *crc32, struct line_buffer *stage_buffer,
+> > > +		  struct line_buffer *output_buffer, s64 row_size)
+> > >   {
+> > > -	int i, j, j_dst, i_dst;
+> > > -	int offset_src, offset_dst;
+> > > -	u8 *pixel_dst, *pixel_src;
+> > > -
+> > > -	int x_src =3D src_frame_info->src.x1 >> 16;
+> > > -	int y_src =3D src_frame_info->src.y1 >> 16;
+> > > -
+> > > -	int x_dst =3D src_frame_info->dst.x1;
+> > > -	int y_dst =3D src_frame_info->dst.y1;
+> > > -	int h_dst =3D drm_rect_height(&src_frame_info->dst);
+> > > -	int w_dst =3D drm_rect_width(&src_frame_info->dst);
+> > > +	struct vkms_plane_state **plane =3D crtc_state->active_planes;
+> > > +	struct vkms_frame_info *primary_plane_info =3D plane[0]->frame_info;
+> > > +	u32 n_active_planes =3D crtc_state->num_active_planes;
+> > > +	int y_src =3D primary_plane_info->dst.y1;
+> > > +	int h_dst =3D drm_rect_height(&primary_plane_info->dst);
+> > >   	int y_limit =3D y_src + h_dst;
+> > > -	int x_limit =3D x_src + w_dst;
+> > > -
+> > > -	for (i =3D y_src, i_dst =3D y_dst; i < y_limit; ++i) {
+> > > -		for (j =3D x_src, j_dst =3D x_dst; j < x_limit; ++j) {
+> > > -			offset_dst =3D dst_frame_info->offset
+> > > -				     + (i_dst * dst_frame_info->pitch)
+> > > -				     + (j_dst++ * dst_frame_info->cpp);
+> > > -			offset_src =3D src_frame_info->offset
+> > > -				     + (i * src_frame_info->pitch)
+> > > -				     + (j * src_frame_info->cpp);
+> > > -
+> > > -			pixel_src =3D (u8 *)(vaddr_src + offset_src);
+> > > -			pixel_dst =3D (u8 *)(vaddr_dst + offset_dst);
+> > > -			pixel_blend(pixel_src, pixel_dst);
+> > > -			/* clearing alpha channel (0xff)*/
+> > > -			pixel_dst[3] =3D 0xff;
+> > > +	int y, i;
+> > > +
+> > > +	for (y =3D y_src; y < y_limit; y++) {
+> > > +		plane_fmt_func[0](primary_plane_info, y, output_buffer);
+> > > +
+> > > +		/* If there are other planes besides primary, we consider the acti=
+ve
+> > > +		 * planes should be in z-order and compose them associatively:
+> > > +		 * ((primary <- overlay) <- cursor)
+> > > +		 */
+> > > +		for (i =3D 1; i < n_active_planes; i++) {
+> > > +			if (!check_y_limit(plane[i]->frame_info, y))
+> > > +				continue;
+> > > +
+> > > +			plane_fmt_func[i](plane[i]->frame_info, y, stage_buffer);
+> > > +			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+> > > +					    output_buffer);
+> > >   		}
+> > > -		i_dst++;
+> > > +
+> > > +		*crc32 =3D crc32_le(*crc32, (void *)output_buffer, row_size);
+> > > +
+> > > +		if (wb_frame_info)
+> > > +			wb_fmt_func(wb_frame_info, y, output_buffer);
+> > >   	}
+> > >   }
+> > > -static void compose_plane(struct vkms_frame_info *primary_plane_info,
+> > > -			  struct vkms_frame_info *plane_frame_info,
+> > > -			  void *vaddr_out)
+> > > +static void get_format_transform_functions(struct vkms_crtc_state *c=
+rtc_state,
+> > > +					   format_transform_func plane_funcs[])
+> > >   {
+> > > -	struct drm_framebuffer *fb =3D plane_frame_info->fb;
+> > > -	void *vaddr;
+> > > -	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
+> > > +	struct vkms_plane_state **active_planes =3D crtc_state->active_plan=
+es;
+> > > +	u32 n_active_planes =3D crtc_state->num_active_planes, s_fmt;
+> > > +	int i;
+> > > -	if (WARN_ON(dma_buf_map_is_null(&primary_plane_info->map[0])))
+> > > -		return;
+> > > +	for (i =3D 0; i < n_active_planes; i++) {
+> > > +		s_fmt =3D active_planes[i]->frame_info->fb->format->format;
+> > > +		plane_funcs[i] =3D get_fmt_transform_function(s_fmt);
+> > > +	}
+> > > +}
+> > > -	vaddr =3D plane_frame_info->map[0].vaddr;
+> > > +static bool check_planes_x_bounds(struct vkms_crtc_state *crtc_state,
+> > > +				  struct vkms_frame_info *wb_frame_info)
+> > > +{
+> > > +	struct vkms_plane_state **planes =3D crtc_state->active_planes;
+> > > +	struct vkms_frame_info *primary_plane_info =3D planes[0]->frame_inf=
+o;
+> > > +	int line_width =3D drm_rect_width(&primary_plane_info->dst);
+> > > +	u32 n_active_planes =3D crtc_state->num_active_planes;
+> > > +	int i;
+> > > -	if (fb->format->format =3D=3D DRM_FORMAT_ARGB8888)
+> > > -		pixel_blend =3D &alpha_blend;
+> > > -	else
+> > > -		pixel_blend =3D &x_blend;
+> > > +	for (i =3D 0; i < n_active_planes; i++) {
+> > > +		int x_dst =3D planes[i]->frame_info->dst.x1;
+> > > +		int x_src =3D planes[i]->frame_info->src.x1 >> 16;
+> > > +		int x2_src =3D planes[i]->frame_info->src.x2 >> 16;
+> > > +		int x_limit =3D drm_rect_width(&planes[i]->frame_info->dst);
+> > > -	blend(vaddr_out, vaddr, primary_plane_info,
+> > > -	      plane_frame_info, pixel_blend);
+> > > +		if (x_dst + x_limit > line_width)
+> > > +			return false;
+> > > +		if (x_src + x_limit > x2_src)
+> > > +			return false;
+> > > +	}
+> > > +
+> > > +	return true;
+> > >   }
+> > > -static int compose_active_planes(void **vaddr_out,
+> > > -				 struct vkms_frame_info *primary_plane_info,
+> > > -				 struct vkms_crtc_state *crtc_state)
+> > > +static int compose_active_planes(struct vkms_frame_info *wb_frame_in=
+fo,
+> > > +				 struct vkms_crtc_state *crtc_state,
+> > > +				 u32 *crc32)
+> > >   {
+> > > -	struct drm_framebuffer *fb =3D primary_plane_info->fb;
+> > > -	struct drm_gem_object *gem_obj =3D drm_gem_fb_get_obj(fb, 0);
+> > > -	const void *vaddr;
+> > > -	int i;
+> > > +	format_transform_func plane_funcs[NUM_OVERLAY_PLANES], wb_func =3D =
+NULL;
+> > > +	int line_width, ret =3D 0, pixel_size =3D sizeof(struct line_buffer=
+);
+> > > +	struct vkms_frame_info *primary_plane_info =3D NULL;
+> > > +	struct line_buffer *output_buffer, *stage_buffer;
+> > > +	struct vkms_plane_state *act_plane =3D NULL;
+> > > +	u32 wb_format;
+> > > -	if (!*vaddr_out) {
+> > > -		*vaddr_out =3D kvzalloc(gem_obj->size, GFP_KERNEL);
+> > > -		if (!*vaddr_out) {
+> > > -			DRM_ERROR("Cannot allocate memory for output frame.");
+> > > -			return -ENOMEM;
+> > > -		}
+> > > +	if (WARN_ON(pixel_size !=3D 8))
+> > > +		return -EINVAL;
+> > > +
+> > > +	if (crtc_state->num_active_planes >=3D 1) {
+> > > +		act_plane =3D crtc_state->active_planes[0];
+> > > +		if (act_plane->base.base.plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY)
+> > > +			primary_plane_info =3D act_plane->frame_info;
+> > >   	}
+> > > +	if (!primary_plane_info)
+> > > +		return -EINVAL;
+> > > +
+> > >   	if (WARN_ON(dma_buf_map_is_null(&primary_plane_info->map[0])))
+> > >   		return -EINVAL;
+> > > -	vaddr =3D primary_plane_info->map[0].vaddr;
+> > > +	if (WARN_ON(!check_planes_x_bounds(crtc_state, wb_frame_info)))
+> > > +		return -EINVAL;
+> > > -	memcpy(*vaddr_out, vaddr, gem_obj->size);
+> > > +	line_width =3D drm_rect_width(&primary_plane_info->dst);
+> > > -	/* If there are other planes besides primary, we consider the active
+> > > -	 * planes should be in z-order and compose them associatively:
+> > > -	 * ((primary <- overlay) <- cursor)
+> > > -	 */
+> > > -	for (i =3D 1; i < crtc_state->num_active_planes; i++)
+> > > -		compose_plane(primary_plane_info,
+> > > -			      crtc_state->active_planes[i]->frame_info,
+> > > -			      *vaddr_out);
+> > > +	stage_buffer =3D kvmalloc(line_width * pixel_size, GFP_KERNEL);
+> > > +	if (!stage_buffer) {
+> > > +		DRM_ERROR("Cannot allocate memory for the output line buffer");
+> > > +		return -ENOMEM;
+> > > +	}
+> > > -	return 0;
+> > > +	output_buffer =3D kvmalloc(line_width * pixel_size, GFP_KERNEL);
+> > > +	if (!output_buffer) {
+> > > +		DRM_ERROR("Cannot allocate memory for intermediate line buffer");
+> > > +		ret =3D -ENOMEM;
+> > > +		goto free_stage_buffer;
+> > > +	}
+> > > +
+> > > +	get_format_transform_functions(crtc_state, plane_funcs);
+> > > +
+> > > +	if (wb_frame_info) {
+> > > +		wb_format =3D wb_frame_info->fb->format->format;
+> > > +		wb_func =3D get_wb_fmt_transform_function(wb_format);
+> > > +		wb_frame_info->src =3D primary_plane_info->src;
+> > > +		wb_frame_info->dst =3D primary_plane_info->dst;
+> > > +	}
+> > > +
+> > > +	blend(wb_frame_info, wb_func, crtc_state, plane_funcs, crc32,
+> > > +	      stage_buffer, output_buffer, (s64)line_width * pixel_size);
+> > > +
+> > > +	kvfree(output_buffer);
+> > > +free_stage_buffer:
+> > > +	kvfree(stage_buffer);
+> > > +
+> > > +	return ret;
+> > >   }
+> > >   /**
+> > > @@ -222,13 +230,12 @@ void vkms_composer_worker(struct work_struct *w=
+ork)
+> > >   						struct vkms_crtc_state,
+> > >   						composer_work);
+> > >   	struct drm_crtc *crtc =3D crtc_state->base.crtc;
+> > > +	struct vkms_writeback_job *active_wb =3D crtc_state->active_writeba=
+ck;
+> > > +	struct vkms_frame_info *wb_frame_info =3D &active_wb->frame_info;
+> > >   	struct vkms_output *out =3D drm_crtc_to_vkms_output(crtc);
+> > > -	struct vkms_frame_info *primary_plane_info =3D NULL;
+> > > -	struct vkms_plane_state *act_plane =3D NULL;
+> > >   	bool crc_pending, wb_pending;
+> > > -	void *vaddr_out =3D NULL;
+> > > -	u32 crc32 =3D 0;
+> > >   	u64 frame_start, frame_end;
+> > > +	u32 crc32 =3D 0;
+> > >   	int ret;
+> > >   	spin_lock_irq(&out->composer_lock);
+> > > @@ -248,35 +255,19 @@ void vkms_composer_worker(struct work_struct *w=
+ork)
+> > >   	if (!crc_pending)
+> > >   		return;
+> > > -	if (crtc_state->num_active_planes >=3D 1) {
+> > > -		act_plane =3D crtc_state->active_planes[0];
+> > > -		if (act_plane->base.base.plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY)
+> > > -			primary_plane_info =3D act_plane->frame_info;
+> > > -	}
+> > > -
+> > > -	if (!primary_plane_info)
+> > > -		return;
+> > > -
+> > >   	if (wb_pending)
+> > > -		vaddr_out =3D crtc_state->active_writeback->data[0].vaddr;
+> > > +		ret =3D compose_active_planes(wb_frame_info, crtc_state, &crc32);
+> > > +	else
+> > > +		ret =3D compose_active_planes(NULL, crtc_state, &crc32);
+> > > -	ret =3D compose_active_planes(&vaddr_out, primary_plane_info,
+> > > -				    crtc_state);
+> > > -	if (ret) {
+> > > -		if (ret =3D=3D -EINVAL && !wb_pending)
+> > > -			kvfree(vaddr_out);
+> > > +	if (ret)
+> > >   		return;
+> > > -	}
+> > > -
+> > > -	crc32 =3D compute_crc(vaddr_out, primary_plane_info);
+> > >   	if (wb_pending) {
+> > >   		drm_writeback_signal_completion(&out->wb_connector, 0);
+> > >   		spin_lock_irq(&out->composer_lock);
+> > >   		crtc_state->wb_pending =3D false;
+> > >   		spin_unlock_irq(&out->composer_lock);
+> > > -	} else {
+> > > -		kvfree(vaddr_out);
+> > >   	}
+> > >   	/*
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vk=
+ms/vkms_formats.c
+> > > new file mode 100644
+> > > index 000000000000..0d1838d1b835
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> > > @@ -0,0 +1,138 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0+ */
+> > checkpatch complains here ^ Use `\\`
+>=20
+> I change it, but:
+>=20
+> WARNING: Improper SPDX comment style for
+> 'drivers/gpu/drm/vkms/vkms_formats.h', please use '/*' instead
+> #660: FILE: drivers/gpu/drm/vkms/vkms_formats.h:1:
+> +// SPDX-License-Identifier: GPL-2.0+
+Ok, previously checkpatch was complaining only for `vkms_format.c` but
+not for the header. I got it wrong when I pointed to the .h file too,
+sorry. I had two points in mind, but the second issue is not here, it is
+`multiple blank lines` in the next patch.
 
--- 
-With best wishes
-Dmitry
+btw, you find more details about the comment style for SPDX here:
+https://www.kernel.org/doc/html/latest/process/license-rules.html#license-i=
+dentifier-syntax
+
+>=20
+> I keep the change to be consitent with the rest of the vkms files.
+>=20
+> > > +
+> > > +#include <drm/drm_rect.h>
+> > > +#include "vkms_formats.h"
+> > > +
+> > > +format_transform_func get_fmt_transform_function(u32 format)
+> > > +{
+> > > +	if (format =3D=3D DRM_FORMAT_ARGB8888)
+> > > +		return &ARGB8888_to_ARGB16161616;
+> > > +	else
+> > > +		return &XRGB8888_to_ARGB16161616;
+> > > +}
+> > > +
+> > > +format_transform_func get_wb_fmt_transform_function(u32 format)
+> > > +{
+> > > +	if (format =3D=3D DRM_FORMAT_ARGB8888)
+> > > +		return &convert_to_ARGB8888;
+> > > +	else
+> > > +		return &convert_to_XRGB8888;
+> > > +}
+> > > +
+> > > +static int pixel_offset(struct vkms_frame_info *frame_info, int x, i=
+nt y)
+> > > +{
+> > > +	return frame_info->offset + (y * frame_info->pitch)
+> > > +				  + (x * frame_info->cpp);
+> > > +}
+> > > +
+> > > +/*
+> > > + * packed_pixels_addr - Get the pointer to pixel of a given pair of =
+coordinates
+> > > + *
+> > > + * @frame_info: Buffer metadata
+> > > + * @x: The x(width) coordinate of the 2D buffer
+> > > + * @y: The y(Heigth) coordinate of the 2D buffer
+> > > + *
+> > > + * Takes the information stored in the frame_info, a pair of coordin=
+ates, and
+> > > + * returns the address of the first color channel.
+> > > + * This function assumes the channels are packed together, i.e. a co=
+lor channel
+> > > + * comes immediately after another in the memory. And therefore, thi=
+s function
+> > > + * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV2=
+1).
+> > > + */
+> > > +static void *packed_pixels_addr(struct vkms_frame_info *frame_info, =
+int x, int y)
+> > > +{
+> > > +	int offset =3D pixel_offset(frame_info, x, y);
+> > > +
+> > > +	return (u8 *)frame_info->map[0].vaddr + offset;
+> > > +}
+> > > +
+> > > +static void *get_packed_src_addr(struct vkms_frame_info *frame_info,=
+ int y)
+> > > +{
+> > > +	int x_src =3D frame_info->src.x1 >> 16;
+> > > +	int y_src =3D y - frame_info->dst.y1 + (frame_info->src.y1 >> 16);
+> > > +
+> > > +	return packed_pixels_addr(frame_info, x_src, y_src);
+> > > +}
+> > > +
+> > > +void ARGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, in=
+t y,
+> > > +			      struct line_buffer *stage_buffer)
+> > > +{
+> > > +	u8 *src_pixels =3D get_packed_src_addr(frame_info, y);
+> > > +	int x, x_limit =3D drm_rect_width(&frame_info->dst);
+> > > +
+> > > +	for (x =3D 0; x < x_limit; x++, src_pixels +=3D 4) {
+> > > +		/*
+> > > +		 * Organizes the channels in their respective positions and conver=
+ts
+> > > +		 * the 8 bits channel to 16.
+> > > +		 * The 257 is the "conversion ratio". This number is obtained by t=
+he
+> > > +		 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to =
+get
+> > > +		 * the best color value in a pixel format with more possibilities.
+> > > +		 * And a similar idea applies to others RGB color conversions.
+> > > +		 */
+> > > +		stage_buffer[x].a =3D (u16)src_pixels[3] * 257;
+> > > +		stage_buffer[x].r =3D (u16)src_pixels[2] * 257;
+> > > +		stage_buffer[x].g =3D (u16)src_pixels[1] * 257;
+> > > +		stage_buffer[x].b =3D (u16)src_pixels[0] * 257;
+> > > +	}
+> > > +}
+> > > +
+> > > +void XRGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, in=
+t y,
+> > > +			      struct line_buffer *stage_buffer)
+> > > +{
+> > > +	u8 *src_pixels =3D get_packed_src_addr(frame_info, y);
+> > > +	int x, x_limit =3D drm_rect_width(&frame_info->dst);
+> > > +
+> > > +	for (x =3D 0; x < x_limit; x++, src_pixels +=3D 4) {
+> > > +		stage_buffer[x].a =3D (u16)0xffff;
+> > > +		stage_buffer[x].r =3D (u16)src_pixels[2] * 257;
+> > > +		stage_buffer[x].g =3D (u16)src_pixels[1] * 257;
+> > > +		stage_buffer[x].b =3D (u16)src_pixels[0] * 257;
+> > > +	}
+> > > +}
+> > > +
+> > > +/*
+> > > + * The following  functions take an line of ARGB16161616 pixels from=
+ the
+> > > + * src_buffer, convert them to a specific format, and store them in =
+the
+> > > + * destination.
+> > > + *
+> > > + * They are used in the `compose_active_planes` to convert and store=
+ a line
+> > > + * from the src_buffer to the writeback buffer.
+> > > + */
+> > > +void convert_to_ARGB8888(struct vkms_frame_info *frame_info,
+> > > +			 int y, struct line_buffer *src_buffer)
+> > > +{
+> > > +	int x, x_dst =3D frame_info->dst.x1;
+> > > +	u8 *dst_pixels =3D packed_pixels_addr(frame_info, x_dst, y);
+> > > +	int x_limit =3D drm_rect_width(&frame_info->dst);
+> > > +
+> > > +	for (x =3D 0; x < x_limit; x++, dst_pixels +=3D 4) {
+> > > +		/*
+> > > +		 * This sequence below is important because the format's byte orde=
+r is
+> > > +		 * in little-endian. In the case of the ARGB8888 the memory is
+> > > +		 * organized this way:
+> > > +		 *
+> > > +		 * | Addr     | =3D blue channel
+> > > +		 * | Addr + 1 | =3D green channel
+> > > +		 * | Addr + 2 | =3D Red channel
+> > > +		 * | Addr + 3 | =3D Alpha channel
+> > > +		 */
+> > > +		dst_pixels[3] =3D DIV_ROUND_UP(src_buffer[x].a, 257);
+> > > +		dst_pixels[2] =3D DIV_ROUND_UP(src_buffer[x].r, 257);
+> > > +		dst_pixels[1] =3D DIV_ROUND_UP(src_buffer[x].g, 257);
+> > > +		dst_pixels[0] =3D DIV_ROUND_UP(src_buffer[x].b, 257);
+> > > +	}
+> > > +}
+> > > +
+> > > +void convert_to_XRGB8888(struct vkms_frame_info *frame_info,
+> > > +			 int y, struct line_buffer *src_buffer)
+> > > +{
+> > > +	int x, x_dst =3D frame_info->dst.x1;
+> > > +	u8 *dst_pixels =3D packed_pixels_addr(frame_info, x_dst, y);
+> > > +	int x_limit =3D drm_rect_width(&frame_info->dst);
+> > > +
+> > > +	for (x =3D 0; x < x_limit; x++, dst_pixels +=3D 4) {
+> > > +		dst_pixels[3] =3D (u8)0xff;
+> > > +		dst_pixels[2] =3D DIV_ROUND_UP(src_buffer[x].r, 257);
+> > > +		dst_pixels[1] =3D DIV_ROUND_UP(src_buffer[x].g, 257);
+> > > +		dst_pixels[0] =3D DIV_ROUND_UP(src_buffer[x].b, 257);
+> > > +	}
+> > > +}
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vk=
+ms/vkms_formats.h
+> > > new file mode 100644
+> > > index 000000000000..817e8b2124ae
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/vkms/vkms_formats.h
+> > > @@ -0,0 +1,31 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0+ */
+> > and here ^
+> >=20
+> > > +
+> > > +#ifndef _VKMS_FORMATS_H_
+> > > +#define _VKMS_FORMATS_H_
+> > > +
+> > > +#include "vkms_drv.h"
+> > > +
+> > > +struct line_buffer {
+> > > +	u16 a, r, g, b;
+> > > +};
+> > > +
+> > > +void ARGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, in=
+t y,
+> > > +			      struct line_buffer *stage_buffer);
+> > > +
+> > > +void XRGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, in=
+t y,
+> > > +			      struct line_buffer *stage_buffer);
+> > > +
+> > > +void convert_to_ARGB8888(struct vkms_frame_info *frame_info, int y,
+> > > +			 struct line_buffer *src_buffer);
+> > > +
+> > > +void convert_to_XRGB8888(struct vkms_frame_info *frame_info, int y,
+> > > +			 struct line_buffer *src_buffer);
+> > > +
+> > > +typedef void (*format_transform_func)(struct vkms_frame_info *frame_=
+info, int y,
+> > > +				      struct line_buffer *buffer);
+> > > +
+> > > +format_transform_func get_fmt_transform_function(u32 format);
+> > > +
+> > > +format_transform_func get_wb_fmt_transform_function(u32 format);
+> > > +
+> > > +#endif /* _VKMS_FORMATS_H_ */
+> > > --=20
+> > > 2.30.2
+> > >=20
+
+--iepqa4kwobo2iast
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmIENfsACgkQwqF3j0dL
+ehzarhAAvxVeK6wEpRAVg7n6fWKcnQNAjPG000dwPt8DCsxzasF7SnjS5IZpdkGB
+LvbJQLwmiopUk3xnRy0Dn6dDsVqb/FHgHVYEyjMdoHxds1SJi3EAu+DSizpc75Dt
+MgpCf9gPaEKBwOSiFKikbssO/QhsRELFh8/szRuDpf5Cg6E68e6Xx+8IE5ylCuI9
+CwVeRDDiLuAl7Z4/dxAs0bnYvabm3pkgnUimw3TurQ60AbSBTqR9IpCu5G7leBhs
+ksRIG/M/hpBKOY4lRfTX0R42AetiVou6SENRHhpswCDxe6jjs2p5jyw49rDS/fg3
+XnRXL57L/4Uxftj+FJ0vvFrzhn1oEJLiwDV16roqFrGCUVM3urgzTroflhwpBNs8
+UpREMkwHnUQNoRO6ySfKd1mMvJsEseV5uWvSTfKv4l15rzTyesFveR6sBoBHASwx
+r89T15sOX/fJlMlIC3R3QFQkfhPZCqSn1Cs2/XyTu77zkQY+zygRewlS4R+D/GiT
+sP7gqA9PW/197eiFumNkgre9HZmMavkW1HbBWwvWiHxVoWiERZRAYRr4DWcLVvyx
+ReEg31dFVPRdYGCZ0DCRH4Gq/4toSPvMR4T96E7PtmxF8Rs/ckUshyCJrSYslTyb
+RCUL+6nsM0JEZo00gXYVUqTxcykdJC9kuaYIiuUIMn/gqVeAMDE=
+=7NMU
+-----END PGP SIGNATURE-----
+
+--iepqa4kwobo2iast--
