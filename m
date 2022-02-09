@@ -1,49 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA334AFB36
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 19:44:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A104AFC15
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 19:54:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 137D210E55F;
-	Wed,  9 Feb 2022 18:44:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 356BF10E1E5;
+	Wed,  9 Feb 2022 18:54:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D519E10E53B;
- Wed,  9 Feb 2022 18:44:02 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E90710E1E5
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 18:54:37 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id decf265d-89d9-11ec-ac19-0050568cd888;
+ Wed, 09 Feb 2022 18:55:38 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 74A40B82215;
- Wed,  9 Feb 2022 18:44:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B77E0C340ED;
- Wed,  9 Feb 2022 18:43:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644432240;
- bh=68TEqlEr7oRnJi0vtYWnGuAH20gM7jHIJnUnx/9lt/Y=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eH4LDAyEpu7X683H+Yf+tUrEaE1giN+0dXrzwBE1ggDvdkKJEkZ3Mg/7I744WkcFw
- FpZpPLa4QkkesduaJtHNEqo0p72bUOr35B746cxkqVTzlDdk34ugpYZg1MNiY1BN52
- 7UvTlfK41dLjQILckKAG5UTYDtereKetGz4Ef8EOuPB7h8PmNxFfn5W2ZlGVxDAqi2
- NNKs1N9Qs/m2/IUQ9lSAD9B1JZ+CFKEpJuVI5mO15UdHnCnlDgMutReCvo2FajsrXQ
- f7jXpc5jOyVJCr8KWg23mNMN4bdCdub8/wqTp9bTfQZhN9ri1yWT39JcWPPVYzt7Nq
- +xX7R5oCmoMuw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 14/15] drm/amdgpu: fix logic inversion in check
-Date: Wed,  9 Feb 2022 13:43:00 -0500
-Message-Id: <20220209184305.47983-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220209184305.47983-1-sashal@kernel.org>
-References: <20220209184305.47983-1-sashal@kernel.org>
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 962EC194B52;
+ Wed,  9 Feb 2022 19:54:28 +0100 (CET)
+Date: Wed, 9 Feb 2022 19:54:25 +0100
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: cgel.zte@gmail.com
+Subject: Re: [PATCH] fbcon: use min() to make code cleaner
+Message-ID: <YgQN4WXXjSHVDiBK@ravnborg.org>
+References: <20220209084810.1561184-1-deng.changcheng@zte.com.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220209084810.1561184-1-deng.changcheng@zte.com.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,43 +47,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip.Yang@amd.com, Oak.Zeng@amd.com,
- tzimmermann@suse.de, kevin1.wang@amd.com, airlied@linux.ie,
- Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, nirmoy.das@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-fbdev@vger.kernel.org, ducheng2@gmail.com,
+ penguin-kernel@i-love.sakura.ne.jp, daniel.vetter@ffwll.ch, deller@gmx.de,
+ deng.changcheng@zte.com.cn, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, cssk@net-c.es, geert@linux-m68k.org,
+ svens@stackframe.org, Zeal Robot <zealci@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christian König <christian.koenig@amd.com>
+On Wed, Feb 09, 2022 at 08:48:10AM +0000, cgel.zte@gmail.com wrote:
+> From: Changcheng Deng <deng.changcheng@zte.com.cn>
+> 
+> Use min() in order to make code cleaner.
+> 
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-[ Upstream commit e8ae38720e1a685fd98cfa5ae118c9d07b45ca79 ]
+I had preferred in minmax.h was included, but it has an indirect include
+so shrug.
 
-We probably never trigger this, but the logic inside the check is
-inverted.
+I assume Daniel or Helge will pick it up.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+	Sam
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 58e14d3040f03..870dd78d5a21a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -1976,7 +1976,7 @@ int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
- 	unsigned i;
- 	int r;
- 
--	if (direct_submit && !ring->sched.ready) {
-+	if (!direct_submit && !ring->sched.ready) {
- 		DRM_ERROR("Trying to move memory with ring turned off.\n");
- 		return -EINVAL;
- 	}
--- 
-2.34.1
-
+> ---
+>  drivers/video/fbdev/core/fbcon.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index f36829eeb5a9..61171159fee2 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -602,7 +602,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
+>  		save = kmalloc(array3_size(logo_lines, new_cols, 2),
+>  			       GFP_KERNEL);
+>  		if (save) {
+> -			int i = cols < new_cols ? cols : new_cols;
+> +			int i = min(cols, new_cols);
+>  			scr_memsetw(save, erase, array3_size(logo_lines, new_cols, 2));
+>  			r = q - step;
+>  			for (cnt = 0; cnt < logo_lines; cnt++, r += i)
+> -- 
+> 2.25.1
