@@ -2,70 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48BF4AF44B
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:42:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEA44AF463
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:48:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B04C510E4A7;
-	Wed,  9 Feb 2022 14:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0066B10E288;
+	Wed,  9 Feb 2022 14:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E017010E4A7;
- Wed,  9 Feb 2022 14:42:50 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id ch26so5444171edb.12;
- Wed, 09 Feb 2022 06:42:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=LQZSYMviOXU46IrK/WW3TYqqEQdPNThwvuJaW7Mm9Nc=;
- b=VSO0NVVWJlw32DWMYNVjoy8yhHXWr2O2kXDw+INIS3xZ6yOUFSQexAXcjb5QY689vl
- QGluNByx9hJEioPOvvovKESE+1sFve9DQ1DrNp4zlq55Uq82+0C90vrFws0clXbe4ft8
- 0BfDxrw/nS3YP6fxu94lr9FREDTUsJ5VeKalnC3tyc+MEw0L7v+G5RxZH+CbstCEtR5g
- 5qMWWrzsQE4UrLDWnPTz2+dLJVebCEf/3rX8f06MSzP64QmnxY3zFjufttf4owmvQAro
- Rlr/KZcFPb3mlbcyDd9sNo2EsCpSAx1GeEvxVABW5z/SuJUS6loQuT1au5UhehWQ5J1t
- +TCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LQZSYMviOXU46IrK/WW3TYqqEQdPNThwvuJaW7Mm9Nc=;
- b=UuQpyQvxpFW/oF1C3Q89sogrRcjrvDgJPExsAe4htPTkWbDSzIO7u3vE+ewWCwP7J2
- N2zOUfAwBNHVc/zGz29p705T9cBpfFGHySZYZrKD+WFakpARZo2lRiXUa5IG/2pXZ51q
- QLvR6ak0o4wz5mk7ogyuh0FJOmqBdo4kxN/2k+bA7+69l3PFwaoQl2uz2NNUvelsgtH7
- iFpzT8rOnvQx2CwFJXS6k7nccOQCgF8LYnW+YJD0sOt1rbcU3s4soyBpDbRFjSQI74rd
- NAPsTSqwfUa/iq4rUyKtIVG18SjPKj6T09c7/EpFI6ZvVeH4NpcvDQA1vxNNISBWtHd+
- ZteA==
-X-Gm-Message-State: AOAM533QiSq4jqHIH1MlsjrDE5MfVe05SrBFfc2kFOe8YjEjaMfljkYJ
- szQxdmQTxKmGznPJ4Ax3XU4=
-X-Google-Smtp-Source: ABdhPJyizq11JRyFdw+580WCuNoex9CCHlTUfmQPX0ns6bRJjIP7UVCkVtsFpM6wRyUYfhDQqOneNA==
-X-Received: by 2002:a05:6402:60f:: with SMTP id
- n15mr2779654edv.316.1644417769244; 
- Wed, 09 Feb 2022 06:42:49 -0800 (PST)
-Received: from ?IPV6:2a02:908:1252:fb60:575:1502:6989:b456?
- ([2a02:908:1252:fb60:575:1502:6989:b456])
- by smtp.gmail.com with ESMTPSA id ee23sm6369953edb.19.2022.02.09.06.42.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 06:42:48 -0800 (PST)
-Message-ID: <97918c8e-6b88-ade5-0dd5-6de01f4f41c3@gmail.com>
-Date: Wed, 9 Feb 2022 15:42:47 +0100
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D16410E288
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:48:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: nfraprado) with ESMTPSA id 6C6821F45889
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1644418126;
+ bh=YWqRaMse8wkQ3xG+y49Y53HHw6xq39YdnDTzPQLGhG0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DRpMhCDeuLo46HyugPFzku6BZLxKedezPp7Q8IOBKp0H0dDcL1tMLyifesywMEF7t
+ G93lB0CMI7KtPFjzizw+1N7ON3aKdbniI8jYhWlp483pY4i3SBsZQrsMOv6z74OQso
+ CC9PEB79/0BrfbQMlQNjRVtVhr9T4IMqMEHFVfmQBoUHkvH1ukOj0NrLNzo+IZ6h4j
+ bego9MTTkEA8ptxEF4KnE4ykofQDZGjmH/OYYawLCaoEHuTihcQ/Ueseqb8poKxkL6
+ qTFotTEkhgEC1qqKaA6c2bNfI5/hI/OTOpfgBMpMQaszyS4EX4gpNNfzI5g0bCHkcS
+ psv46BxK3Z1iQ==
+Date: Wed, 9 Feb 2022 09:48:41 -0500
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v4] drm/mediatek: mtk_dsi: Avoid EPROBE_DEFER loop with
+ external bridge
+Message-ID: <20220209144841.v2kjzy5kniukbunq@notapiano>
+References: <20220131085520.287105-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 3/6] dma-buf: Warn about dma_fence_chain container rules v2
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- sumit.semwal@linaro.org, daniel.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-References: <20220204100429.2049-1-christian.koenig@amd.com>
- <20220204100429.2049-4-christian.koenig@amd.com>
- <b384ad5f76da0009dd49965769bcddbc0395111a.camel@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <b384ad5f76da0009dd49965769bcddbc0395111a.camel@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220131085520.287105-1-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,33 +48,277 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: chunkuang.hu@kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
+ linux-mediatek@lists.infradead.org, stable@vger.kernel.org,
+ matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 09.02.22 um 15:02 schrieb Thomas Hellström:
-> On Fri, 2022-02-04 at 11:04 +0100, Christian König wrote:
->> Chaining of dma_fence_chain objects is only allowed through the prev
->> fence and not through the contained fence.
->>
->> Warn about that when we create a dma_fence_chain.
->>
->> v2: fix comment style
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> It looks like this blows up in generic drm code...
->
-> https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_22201/shard-skl10/igt@syncobj_timeline@transfer-timeline-point.html
+Hi Angelo,
 
-Thanks for the notice.  Going to take a look.
+On Mon, Jan 31, 2022 at 09:55:20AM +0100, AngeloGioacchino Del Regno wrote:
+> DRM bridge drivers are now attaching their DSI device at probe time,
+> which requires us to register our DSI host in order to let the bridge
+> to probe: this recently started producing an endless -EPROBE_DEFER
+> loop on some machines that are using external bridges, like the
+> parade-ps8640, found on the ACER Chromebook R13.
+> 
+> Now that the DSI hosts/devices probe sequence is documented, we can
+> do adjustments to the mtk_dsi driver as to both fix now and make sure
+> to avoid this situation in the future: for this, following what is
+> documented in drm_bridge.c, move the mtk_dsi component_add() to the
+> mtk_dsi_ops.attach callback and delete it in the detach callback;
+> keeping in mind that we are registering a drm_bridge for our DSI,
+> which is only used/attached if the DSI Host is bound, it wouldn't
+> make sense to keep adding our bridge at probe time (as it would
+> be useless to have it if mtk_dsi_ops.attach() fails!), so also move
+> that one to the dsi host attach function (and remove it in detach).
+> 
+> Cc: <stable@vger.kernel.org> # 5.15.x
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
 
-I'm wondering why the last CI report I've got didn't showed that.
+Tested-by: N�colas F. R. A. Prado <nfraprado@collabora.com>
 
-Christian.
+Thanks,
+N�colas
 
->
-> /Thomas
->
->
-
+> 
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 167 +++++++++++++++--------------
+>  1 file changed, 84 insertions(+), 83 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index 5d90d2eb0019..bced4c7d668e 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -786,18 +786,101 @@ void mtk_dsi_ddp_stop(struct device *dev)
+>  	mtk_dsi_poweroff(dsi);
+>  }
+>  
+> +static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
+> +{
+> +	int ret;
+> +
+> +	ret = drm_simple_encoder_init(drm, &dsi->encoder,
+> +				      DRM_MODE_ENCODER_DSI);
+> +	if (ret) {
+> +		DRM_ERROR("Failed to encoder init to drm\n");
+> +		return ret;
+> +	}
+> +
+> +	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
+> +
+> +	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
+> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> +	if (ret)
+> +		goto err_cleanup_encoder;
+> +
+> +	dsi->connector = drm_bridge_connector_init(drm, &dsi->encoder);
+> +	if (IS_ERR(dsi->connector)) {
+> +		DRM_ERROR("Unable to create bridge connector\n");
+> +		ret = PTR_ERR(dsi->connector);
+> +		goto err_cleanup_encoder;
+> +	}
+> +	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
+> +
+> +	return 0;
+> +
+> +err_cleanup_encoder:
+> +	drm_encoder_cleanup(&dsi->encoder);
+> +	return ret;
+> +}
+> +
+> +static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
+> +{
+> +	int ret;
+> +	struct drm_device *drm = data;
+> +	struct mtk_dsi *dsi = dev_get_drvdata(dev);
+> +
+> +	ret = mtk_dsi_encoder_init(drm, dsi);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return device_reset_optional(dev);
+> +}
+> +
+> +static void mtk_dsi_unbind(struct device *dev, struct device *master,
+> +			   void *data)
+> +{
+> +	struct mtk_dsi *dsi = dev_get_drvdata(dev);
+> +
+> +	drm_encoder_cleanup(&dsi->encoder);
+> +}
+> +
+> +static const struct component_ops mtk_dsi_component_ops = {
+> +	.bind = mtk_dsi_bind,
+> +	.unbind = mtk_dsi_unbind,
+> +};
+> +
+>  static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
+>  			       struct mipi_dsi_device *device)
+>  {
+>  	struct mtk_dsi *dsi = host_to_dsi(host);
+> +	struct device *dev = host->dev;
+> +	int ret;
+>  
+>  	dsi->lanes = device->lanes;
+>  	dsi->format = device->format;
+>  	dsi->mode_flags = device->mode_flags;
+> +	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+> +	if (IS_ERR(dsi->next_bridge))
+> +		return PTR_ERR(dsi->next_bridge);
+> +
+> +	drm_bridge_add(&dsi->bridge);
+> +
+> +	ret = component_add(host->dev, &mtk_dsi_component_ops);
+> +	if (ret) {
+> +		DRM_ERROR("failed to add dsi_host component: %d\n", ret);
+> +		drm_bridge_remove(&dsi->bridge);
+> +		return ret;
+> +	}
+>  
+>  	return 0;
+>  }
+>  
+> +static int mtk_dsi_host_detach(struct mipi_dsi_host *host,
+> +			       struct mipi_dsi_device *device)
+> +{
+> +	struct mtk_dsi *dsi = host_to_dsi(host);
+> +
+> +	component_del(host->dev, &mtk_dsi_component_ops);
+> +	drm_bridge_remove(&dsi->bridge);
+> +	return 0;
+> +}
+> +
+>  static void mtk_dsi_wait_for_idle(struct mtk_dsi *dsi)
+>  {
+>  	int ret;
+> @@ -938,73 +1021,14 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
+>  
+>  static const struct mipi_dsi_host_ops mtk_dsi_ops = {
+>  	.attach = mtk_dsi_host_attach,
+> +	.detach = mtk_dsi_host_detach,
+>  	.transfer = mtk_dsi_host_transfer,
+>  };
+>  
+> -static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
+> -{
+> -	int ret;
+> -
+> -	ret = drm_simple_encoder_init(drm, &dsi->encoder,
+> -				      DRM_MODE_ENCODER_DSI);
+> -	if (ret) {
+> -		DRM_ERROR("Failed to encoder init to drm\n");
+> -		return ret;
+> -	}
+> -
+> -	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
+> -
+> -	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
+> -				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> -	if (ret)
+> -		goto err_cleanup_encoder;
+> -
+> -	dsi->connector = drm_bridge_connector_init(drm, &dsi->encoder);
+> -	if (IS_ERR(dsi->connector)) {
+> -		DRM_ERROR("Unable to create bridge connector\n");
+> -		ret = PTR_ERR(dsi->connector);
+> -		goto err_cleanup_encoder;
+> -	}
+> -	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
+> -
+> -	return 0;
+> -
+> -err_cleanup_encoder:
+> -	drm_encoder_cleanup(&dsi->encoder);
+> -	return ret;
+> -}
+> -
+> -static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
+> -{
+> -	int ret;
+> -	struct drm_device *drm = data;
+> -	struct mtk_dsi *dsi = dev_get_drvdata(dev);
+> -
+> -	ret = mtk_dsi_encoder_init(drm, dsi);
+> -	if (ret)
+> -		return ret;
+> -
+> -	return device_reset_optional(dev);
+> -}
+> -
+> -static void mtk_dsi_unbind(struct device *dev, struct device *master,
+> -			   void *data)
+> -{
+> -	struct mtk_dsi *dsi = dev_get_drvdata(dev);
+> -
+> -	drm_encoder_cleanup(&dsi->encoder);
+> -}
+> -
+> -static const struct component_ops mtk_dsi_component_ops = {
+> -	.bind = mtk_dsi_bind,
+> -	.unbind = mtk_dsi_unbind,
+> -};
+> -
+>  static int mtk_dsi_probe(struct platform_device *pdev)
+>  {
+>  	struct mtk_dsi *dsi;
+>  	struct device *dev = &pdev->dev;
+> -	struct drm_panel *panel;
+>  	struct resource *regs;
+>  	int irq_num;
+>  	int ret;
+> @@ -1021,19 +1045,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+>  
+> -	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
+> -					  &panel, &dsi->next_bridge);
+> -	if (ret)
+> -		goto err_unregister_host;
+> -
+> -	if (panel) {
+> -		dsi->next_bridge = devm_drm_panel_bridge_add(dev, panel);
+> -		if (IS_ERR(dsi->next_bridge)) {
+> -			ret = PTR_ERR(dsi->next_bridge);
+> -			goto err_unregister_host;
+> -		}
+> -	}
+> -
+>  	dsi->driver_data = of_device_get_match_data(dev);
+>  
+>  	dsi->engine_clk = devm_clk_get(dev, "engine");
+> @@ -1098,14 +1109,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+>  	dsi->bridge.of_node = dev->of_node;
+>  	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+>  
+> -	drm_bridge_add(&dsi->bridge);
+> -
+> -	ret = component_add(&pdev->dev, &mtk_dsi_component_ops);
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "failed to add component: %d\n", ret);
+> -		goto err_unregister_host;
+> -	}
+> -
+>  	return 0;
+>  
+>  err_unregister_host:
+> @@ -1118,8 +1121,6 @@ static int mtk_dsi_remove(struct platform_device *pdev)
+>  	struct mtk_dsi *dsi = platform_get_drvdata(pdev);
+>  
+>  	mtk_output_dsi_disable(dsi);
+> -	drm_bridge_remove(&dsi->bridge);
+> -	component_del(&pdev->dev, &mtk_dsi_component_ops);
+>  	mipi_dsi_host_unregister(&dsi->host);
+>  
+>  	return 0;
+> -- 
+> 2.33.1
+> 
+> 
+> -- 
+> To unsubscribe, send mail to kernel-unsubscribe@lists.collabora.co.uk.
