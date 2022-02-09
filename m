@@ -1,68 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2544AF1A0
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 13:30:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E65A64AF1DB
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 13:38:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5272D10E3F1;
-	Wed,  9 Feb 2022 12:30:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE83510E440;
+	Wed,  9 Feb 2022 12:37:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com
- [IPv6:2607:f8b0:4864:20::f36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 031C310E3F1
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 12:29:58 +0000 (UTC)
-Received: by mail-qv1-xf36.google.com with SMTP id k4so1591063qvt.6
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 04:29:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=JpFYQSMAVe6I09BHQOjAX13imKhzUaXlc2+fdsD9V6E=;
- b=Z4Eu786ojGcRgS8Eos4sLr66z2Uqqmgi/bDj6/Y33EEsvVWVKeCNJioyDR9vfy9xaY
- yz3EOxCOZS/4g/fgKsh1/TNwzJVTuJBYxARJaHsw7OoHQBYA7L/O3QtbTl8+Tpf3u32c
- Go3MoLTkH16938QXNFcpZV2qsCQ+/yOIxJO8+ooqAbmuC9zUdvg0Bg4KHC7DQZrRu5Pr
- MEV4AdWysZ66pZX4YRzJgy6PJ/mfwT6AapS6FtqHr95tVUvZ/ng6ysJBJp+d6N+bSxfV
- V5qGUskZ4AiQdRAYVMO4Llk3dzOmsNqH1liuPvseANE5HTBFUWXt5H7TVNAa03BHV8C3
- wh9Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFFDF10E478
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 12:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644410275;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yv06k0qcIVzfebmQao0F8lU/DvXpAPuqfxT+fivD3r4=;
+ b=ZZlWb2bWOJA/YRe6waWsCNKNEeE0XUgDMxeO6QzMqjDa/E9IseV8snOkWI8cR7uGQZFcvP
+ MnZAyS9LzOW7JOsDGS71a+zKanbTRmokx4BvGHpdPjX6d937Z8EKeTCN71tZBCOLyxpPBx
+ GSvlmkaEAaFWc2B0HD2RaO0I333MbKs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-302-HQMaLqJXOn-CQN-xVWrQmw-1; Wed, 09 Feb 2022 07:37:54 -0500
+X-MC-Unique: HQMaLqJXOn-CQN-xVWrQmw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ n18-20020adfc612000000b001e3310ca453so1058517wrg.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 04:37:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JpFYQSMAVe6I09BHQOjAX13imKhzUaXlc2+fdsD9V6E=;
- b=d8sez69msLRhGns6R+F6+/4lPZ6ZG+71pcgS5nnfFv/JiZhT41MjXdV/0KZxOPXbiU
- SiAAd0v+JtY5X0IsDIrLT1+BICxGlsBk7sRb0GsngrhwpTG+8vPqVwvF8/niyNeD960K
- 3ZY49jUzPYHeUjo2LE88KgzdsNyQc+ECMeg0m5cFsn2THMW+miNy6mW5m+Zb5v26DeyH
- 32hU1gqVhsReQvqAbc0tqNUiQp9NpLH5Kz6y39d3ewLltd7P3ara9Efdn28BtT9tT4GE
- Q0jaBwUAtaUxHP8ZJ/SmKKG6N1o6VHfNjwarA1v9oKwKhj8sYCa8ITHbTFdYzNqGWnnq
- 2T1g==
-X-Gm-Message-State: AOAM530DeJBhp1+EVkAmFyxt2siTtLlwsMt0FQcShnYicyM2triQsMky
- JXdf2scw85v1OHMaPH/YxUyxQw==
-X-Google-Smtp-Source: ABdhPJwf9mdnK2ldlbFJ89Gp7ICZZlJoeyugDA0YNF0idT1dfs12KR4knXDFD3wj+Sh7mIvt9ShqvQ==
-X-Received: by 2002:a05:6214:21ac:: with SMTP id
- t12mr1263884qvc.123.1644409797997; 
- Wed, 09 Feb 2022 04:29:57 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id w13sm8052274qkb.106.2022.02.09.04.29.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Feb 2022 04:29:57 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1nHm6e-001DJi-6l; Wed, 09 Feb 2022 08:29:56 -0400
-Date: Wed, 9 Feb 2022 08:29:56 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 7/8] mm: remove the extra ZONE_DEVICE struct page refcount
-Message-ID: <20220209122956.GI49147@ziepe.ca>
-References: <20220207063249.1833066-1-hch@lst.de>
- <20220207063249.1833066-8-hch@lst.de>
- <CAPcyv4h_axDTmkZ35KFfCdzMoOp8V3dc6btYGq6gCj1OmLXM=g@mail.gmail.com>
- <20220209062345.GB7739@lst.de>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=yv06k0qcIVzfebmQao0F8lU/DvXpAPuqfxT+fivD3r4=;
+ b=oey553bTGCwZDObZGwc3R84IKlx7+zyA+oY5n/qH+4XVVn6v4LUJDqftLyz7/yq2jw
+ WE3EhPFb42rekworGdpbIyQmTLigmrK40sXL/GQo/lTTGPBEfvCc34tLWcezOMGSxIpP
+ 5QSVB2epRdtoIgsCPKHd3lYbRoSPSeyyoT3rKFxXWJixFh/CVqHsb2bGTbi6cJ6CTAfC
+ 2oBxNkcV3raUqKBFwNH2qVgweFkfe0hvty16gD3LeyG0f5fGkGzBb614IvurcsLLrTE9
+ E6CVqgONvOwKy55NY+iVpF5tHLFuqAgNEiX9kk+247dBXxYWRtfIq8koDMaa2GqyjC0p
+ 4w3A==
+X-Gm-Message-State: AOAM533uApdK8rLwoN4Dhi6VHycdjMrMyZl0qlZ0fL18mfAEjx37t9ju
+ 33RI9oKgHVoFM5KDaeZBdK4fwOT7YpJaSLPh5H1pAUjgE7fmqQDeUfFvoUvkPLp2qm1wwT3DOzI
+ 13yBPeBxA6J1WLzSse6yO8Jo+pOuY
+X-Received: by 2002:a05:600c:4fc2:: with SMTP id
+ o2mr1884049wmq.145.1644410273533; 
+ Wed, 09 Feb 2022 04:37:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzmjpeXcKAGK2lwWC20JlgA2fV6RbEkugJVOCgWV8vBNqH8VPABqTYOsxX7qWXxzkqn+qGm5A==
+X-Received: by 2002:a05:600c:4fc2:: with SMTP id
+ o2mr1884035wmq.145.1644410273273; 
+ Wed, 09 Feb 2022 04:37:53 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id l28sm14096444wrz.90.2022.02.09.04.37.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 04:37:52 -0800 (PST)
+Message-ID: <58ebacd2-d44d-c7e9-e752-de7815dd4cc1@redhat.com>
+Date: Wed, 9 Feb 2022 13:37:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220209062345.GB7739@lst.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 0/7] drm: Add driver for Solomon SSD130X OLED displays
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220209090314.2511959-1-javierm@redhat.com>
+ <CAMuHMdVs750iE=kP1vabwgsGOb8sHc8aC5k=HwCU32CURnYktw@mail.gmail.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <CAMuHMdVs750iE=kP1vabwgsGOb8sHc8aC5k=HwCU32CURnYktw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,38 +87,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux NVDIMM <nvdimm@lists.linux.dev>,
- Ralph Campbell <rcampbell@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Linux PWM List <linux-pwm@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Linux MM <linux-mm@kvack.org>, Ben Skeggs <bskeggs@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Dan Williams <dan.j.williams@intel.com>, Logan Gunthorpe <logang@deltatee.com>,
- Andrew Morton <akpm@linux-foundation.org>
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 09, 2022 at 07:23:45AM +0100, Christoph Hellwig wrote:
-> On Tue, Feb 08, 2022 at 07:30:11PM -0800, Dan Williams wrote:
-> > Interesting. I had expected that to really fix the refcount problem
-> > that fs/dax.c would need to start taking real page references as pages
-> > were added to a mapping, just like page cache.
+Hello Geert,
+
+On 2/9/22 13:19, Geert Uytterhoeven wrote:
+> Hi Javier,
 > 
-> I think we should do that eventually.  But I think this series that
-> just attacks the device private type and extends to the device coherent
-> and p2p enhacements is a good first step to stop the proliferation of
-> the one off refcount and to allow to deal with the fsdax pages in another
-> more focuessed series.
+> On Wed, Feb 9, 2022 at 10:03 AM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
+>> This patch series adds a DRM driver for the Solomon OLED SSD1305, SSD1306,
+>> SSD1307 and SSD1309 displays. It is a port of the ssd1307fb fbdev driver.
+> 
+> [...]
+> 
+>> - Fix a bug when doing partial updates (Geert Uytterhoeven)
+> 
+> Thanks, the text console is now more or less working as expected.
 
-It is nice, but the other series are still impacted by the fsdax mess
-- they still stuff pages into ptes without proper refcounts and have
-to carry nonsense to dance around this problem.
+Thanks for giving it a try to this version too! Glad to know that
+is working better now.
 
-I certainly would be unhappy if the amd driver, for instance, gained
-the fsdax problem as well and started pushing 4k pages into PMDs.
+> There is still an issue with the cursor, though.
+> After doing "echo hello > /dev/tty0", the text appears, but the cursor
+> is gone. "clear > /dev/tty0" brings it back.
+>
 
-Jason
+Hmm, I was able to reproduce this too. Thanks for pointing it out,
+I'll investigate what the problem is.
+ 
+> The execution time of "time ls" has improved. It now takes 1.21s
+> (0.86s with ssd1306fb).
+>
+
+Yes, I believe that was due the bug I mentioned that partial updates
+weren't done but a full screen update instead.
+ 
+> The logo is not shown, even when I create a 16-color or 224-color
+> version of the small monochrome logo I'm using.
+>
+
+I'll also dig into this.
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
