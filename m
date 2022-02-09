@@ -2,53 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251944AF380
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:02:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D28B4AF38E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 15:03:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDEBC10E4EA;
-	Wed,  9 Feb 2022 14:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22A010E53A;
+	Wed,  9 Feb 2022 14:03:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA30710E4EA;
- Wed,  9 Feb 2022 14:02:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644415336; x=1675951336;
- h=message-id:subject:from:to:date:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=g06LB+wvvw32xEoQsGOkCJmGKIE3q5aMdFKDmLcj+B8=;
- b=TR0/hHaA45s7ZYEjRDTUAQ3lpKcB3ieuBvETv/d8GxiQrEXYlQx5kCoo
- MujzKSBdWa+Ak49mIpeVU9olE8dMLErNduVmsG2OT3ggfLwSFaltHf+1w
- wezxiNyc4McUIj/g3+9IfP6qi21XsNpdwRAc6U+8Vj5vRnS8khtOq5qGK
- dPq+AcALhODecv2FtrdscH+4+AuU4IwIzk4OMK7hb4PBvmAzAwG1+wgVs
- NRhXV388JqCuJXT29dBxuCjxz8lVHo7R0nKk3tCio7ym1p88Zti7EJimQ
- 64tjOGGDPEfXfxZrDHzBndlh/9kCna6J41qP3la+DCFCdr8MChfQBusk+ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="246792974"
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="246792974"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 06:02:16 -0800
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; d="scan'208";a="701260468"
-Received: from ksenyako-mobl.ccr.corp.intel.com (HELO [10.249.254.168])
- ([10.249.254.168])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 06:02:14 -0800
-Message-ID: <b384ad5f76da0009dd49965769bcddbc0395111a.camel@linux.intel.com>
-Subject: Re: [PATCH 3/6] dma-buf: Warn about dma_fence_chain container rules v2
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- sumit.semwal@linaro.org, daniel.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org,  linux-media@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-Date: Wed, 09 Feb 2022 15:02:11 +0100
-In-Reply-To: <20220204100429.2049-4-christian.koenig@amd.com>
-References: <20220204100429.2049-1-christian.koenig@amd.com>
- <20220204100429.2049-4-christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D32EB10E53A
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 14:02:59 +0000 (UTC)
+Date: Wed, 09 Feb 2022 14:02:39 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v13 0/9] MIPS: JZ4780 and CI20 HDMI
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <F0J17R.I8VTR1ZGV2Z2@crapouillou.net>
+In-Reply-To: <4294A500-52EB-4319-9B89-F9DAC48EBF03@goldelico.com>
+References: <cover.1643819482.git.hns@goldelico.com>
+ <9ZC17R.T1L0TBAW7MJA3@crapouillou.net>
+ <4294A500-52EB-4319-9B89-F9DAC48EBF03@goldelico.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,25 +36,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, linux-mips@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ letux-kernel@openphoenux.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2022-02-04 at 11:04 +0100, Christian König wrote:
-> Chaining of dma_fence_chain objects is only allowed through the prev
-> fence and not through the contained fence.
-> 
-> Warn about that when we create a dma_fence_chain.
-> 
-> v2: fix comment style
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Hi,
 
-It looks like this blows up in generic drm code...
+Le mer., f=E9vr. 9 2022 at 14:51:12 +0100, H. Nikolaus Schaller=20
+<hns@goldelico.com> a =E9crit :
+> Paul,
+>=20
+>>  Am 09.02.2022 um 12:52 schrieb Paul Cercueil <paul@crapouillou.net>:
+>>=20
+>>  Hi Nikolaus,
+>>=20
+>>  I tried applying patches 1-2, but they don't apply cleanly on top=20
+>> of drm-misc/drm-misc-next.
+>=20
+> Ok I had rebased to linux-next some days ago and it appears that=20
+> patch 1/9 has now arrived in drm-misc/drm-misc-next.
+> So we can drop 1/9.
 
-https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_22201/shard-skl10/igt@syncobj_timeline@transfer-timeline-point.html
+Yes, some weeks ago I did apply patch 1/9 from one of your previous=20
+patchsets. Patch 2 was applied as well (commit b807fd2c43fe=20
+("drm/ingenic: Add support for JZ4780 and HDMI output")), but you then=20
+said that it didn't work and needed a fix.
 
-/Thomas
+For this patchset you should always base on top of=20
+drm-misc/drm-misc-next, and not on linux-next; they have different=20
+schedules. You can drop patch #1, and rework patch #2 so that it only=20
+fixes the previously incorrect behaviour.
+
+>=20
+>>=20
+>>  Could you rebase on top of that tree?
+>=20
+> Sure.
+>=20
+> Unfortunatley my v14 breaks the display again. It is not much fun to=20
+> develop on top of such a moving target...
+
+I can imagine...
+
+Cheers,
+-Paul
+
+> So I have to find out first what was broken this time before I can=20
+> send out a new version.
+>=20
+> BR,
+> Nikolaus
 
 
