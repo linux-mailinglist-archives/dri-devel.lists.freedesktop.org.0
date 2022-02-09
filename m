@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52EB84AE7DC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 04:30:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC13D4AE7DF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 04:30:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 979FC10E36E;
-	Wed,  9 Feb 2022 03:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A5C810E3D4;
+	Wed,  9 Feb 2022 03:30:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D80A10E3FE
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 03:30:22 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id d187so1926027pfa.10
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 19:30:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2Je4ysSvm0qGToTfluoX75kuGzoNSHI2qP2Y0C0VNAg=;
- b=CACwA3iWs0mIexxr+JBAReAIEm1js+p8Gd1PctwBpcCRlFarncrQq8u4LV6np8g3is
- D/VOuIRXeoPfghb+/9LTlJtNpAvNKgMSy3Wr4lug4rsCM8eyWtwax7omfbUtcsy/9gV0
- 7zKe0Yw5vrIzVjXV0RntPZ6HYUDb3Ci9Ac0MxBz7ePn0Cx3ZAESjOlA/plyTn3cK/JDB
- /4GywPgMyr1VKT1Ars0+RfQs5u2gxDhVAMm6XqUo1P+6wobSWI5xZqPyxvBbdotA9rpW
- M0SPWo6TnlLbTZEqquatVpsjK0f4E620XEFwl1wrQ1s/OMsFf6/RTMOBX8yu4cXgNOQf
- 8MqQ==
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
+ [209.85.167.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C548B10E2BE
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 03:30:29 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id v67so1194431oie.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 19:30:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2Je4ysSvm0qGToTfluoX75kuGzoNSHI2qP2Y0C0VNAg=;
- b=Hmr9RWnDCytqGebzarfon1cXUVJLxUN3nymhjH5oLzCwy2xT9YA4uyRs4gV0aQ64IN
- Gp7OG7G+N+5trrrDOSwK1NqzV7o4TBFjKqqDXiPVVKscrMWPm+5jjVccfWAbOIKfGhZJ
- oOwHQ1DzfKJW6nBrVhoR9PIUS7VJdLnr6jkB3ZyZhKH9U/aJBI/4sBrKvw4O5unQfm/p
- chagi7v6Egvo1gB67+yLghcuwXAuKa24gQ6pcgHoqZmFb/71MuKnBcA7f7mAS8P+N4W5
- 7xyeLOD2mPe/yliIH5i9c10aIWOEzBDY8nfqpppFfdXgvwieyQDoRNvr892F69oTo3f/
- +O0g==
-X-Gm-Message-State: AOAM533ZhZsSi0UbgKVTzwer6FkyiT2WYyof2qpXX87LVLCTMC1Km8rC
- Sj6tN4OSjPcgo2XhjggdacD7SpqzMoSI9nywvBSypA==
-X-Google-Smtp-Source: ABdhPJxPkAe7JqNfPN0pMdUWTXV1LFyPzWR+xK9edhPa72Ip0qH/EBHDfJCzGhUn69nUH5cFutBmSs7V8IMhNpn2WjE=
-X-Received: by 2002:a62:e907:: with SMTP id j7mr354037pfh.3.1644377421975;
- Tue, 08 Feb 2022 19:30:21 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=m7oHOuveJzjB7zvN+hnuLSMzifBzu2e4cvQ37V0Sy9A=;
+ b=VcIjbxaCPXlmmrlb9eP1bZT8E6cIAM/VXjr1Z0M7ARF4zBQHmCu1wAZgI+NMAFgqRe
+ 1fmbBLYh0LFX+D5R78Dg2a5XiXEmAVeG2qjPrqlNBJmeulOPgfoiFJ5HfNBsEv5/RNTZ
+ NratKOz72BuUtbioXe6dd2aOVKYQN5zPeXMbeaAuhdovlv0E+T7hkOuxC5LlyyaAA6ld
+ LQQloLJIDFwN15aA35SQLmpgmQw5OVfPo38sk6n1lZKFLU7geOVt5eff7VwkVYjL+8ss
+ GGTRjT+vi9D6EhzmgSgY6hWV/TnoQy8T8HhUifVVunPkYpWrOgFPF2w2MB1WKi278aXM
+ 9rYw==
+X-Gm-Message-State: AOAM533VOiuCcFxcePDC+co59GgzexSlRYTwtKjFa4Vs1p+bDXgEd75h
+ jlCzIuMUWMaMh8uklDln2w==
+X-Google-Smtp-Source: ABdhPJwQW+Z7UZFyx5cKb/tU/AIPO7Ff6qsz6P71dMzoL3waysd8bq9+j1OieOPYWxiCOUyE2Qan5A==
+X-Received: by 2002:a05:6808:189f:: with SMTP id
+ bi31mr117634oib.5.1644377428874; 
+ Tue, 08 Feb 2022 19:30:28 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id c6sm6025419ooo.19.2022.02.08.19.30.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 19:30:28 -0800 (PST)
+Received: (nullmailer pid 3582798 invoked by uid 1000);
+ Wed, 09 Feb 2022 03:30:27 -0000
+Date: Tue, 8 Feb 2022 21:30:27 -0600
+From: Rob Herring <robh@kernel.org>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH 15/27] dt-bindings: display: rockchip: dw-hdmi: Add
+ regulator support
+Message-ID: <YgM1U+4wqcky0KQy@robh.at.kernel.org>
+References: <20220126145549.617165-1-s.hauer@pengutronix.de>
+ <20220126145549.617165-16-s.hauer@pengutronix.de>
 MIME-Version: 1.0
-References: <20220207063249.1833066-1-hch@lst.de>
- <20220207063249.1833066-8-hch@lst.de>
-In-Reply-To: <20220207063249.1833066-8-hch@lst.de>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Tue, 8 Feb 2022 19:30:11 -0800
-Message-ID: <CAPcyv4h_axDTmkZ35KFfCdzMoOp8V3dc6btYGq6gCj1OmLXM=g@mail.gmail.com>
-Subject: Re: [PATCH 7/8] mm: remove the extra ZONE_DEVICE struct page refcount
-To: Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220126145549.617165-16-s.hauer@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,39 +63,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux NVDIMM <nvdimm@lists.linux.dev>,
- Ralph Campbell <rcampbell@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Karol Herbst <kherbst@redhat.com>, Linux MM <linux-mm@kvack.org>,
- nouveau@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Logan Gunthorpe <logang@deltatee.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 6, 2022 at 10:33 PM Christoph Hellwig <hch@lst.de> wrote:
-[..]
-> @@ -500,28 +482,27 @@ void free_devmap_managed_page(struct page *page)
->          */
->         page->mapping = NULL;
->         page->pgmap->ops->page_free(page);
-> +
-> +       /*
-> +        * Reset the page count to 1 to prepare for handing out the page again.
-> +        */
-> +       set_page_count(page, 1);
+On Wed, 26 Jan 2022 15:55:37 +0100, Sascha Hauer wrote:
+> The RK3568 has HDMI_TX_AVDD0V9 and HDMI_TX_AVDD_1V8 supply inputs
+> needed for the HDMI port. Add the binding for these supplies.
+> 
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>  .../bindings/display/rockchip/rockchip,dw-hdmi.yaml   | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
 
-Interesting. I had expected that to really fix the refcount problem
-that fs/dax.c would need to start taking real page references as pages
-were added to a mapping, just like page cache.
-
-This looks ok to me, and passes my tests. So given I'm still working
-my way back to fixing the references properly I'm ok for this hack to
-replace the more broken hack that is there presently.
-
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Acked-by: Rob Herring <robh@kernel.org>
