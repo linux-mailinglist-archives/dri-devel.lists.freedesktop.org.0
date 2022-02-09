@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BBFD4AEB83
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 08:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21794AEB88
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 08:54:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E76210E42D;
-	Wed,  9 Feb 2022 07:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3691610E453;
+	Wed,  9 Feb 2022 07:54:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7648710E41F;
- Wed,  9 Feb 2022 07:53:37 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id e7so782250ejn.13;
- Tue, 08 Feb 2022 23:53:37 -0800 (PST)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20A0F10E3FE;
+ Wed,  9 Feb 2022 07:54:45 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id a8so4806306ejc.8;
+ Tue, 08 Feb 2022 23:54:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=BaKOJvVfR232M/EG6IKG/02OcNcoREBRhFeRshFQaZ0=;
- b=CD2PY3fBTANpnM894RlfHd6fKm2Y/pEeU7nH6Ciq7GQHboWc50O3pYkIvbNKWAGBGk
- wxF4p+0LDOg2tqM5OFSNgaty+Ft3JcL363FKAwDg0qTlCe9O0W99/sGUgNzi6mTNWBR7
- F5Py7CoLv8YCafDyjTqYh9ZXujHZD28udWF5V5kf4DsrZ2cLiMhcu0qlmJ7OJ3RZbJap
- Q1FczXfpqTZwbWVxA8EeUcVyvwINJbRmz9JO3fxNBGTE9oJ4yOCvDrSubJ3wW8iiy2om
- 9Zz9BmQv7OvyjH7i0fHZE4Fmu9n0rpPB2xU/iq+haOu8qhFHfTWEHgSr6o3wuAP/uve4
- SuMw==
+ bh=T8VcAKbjJkQ4QKlnbd1DDwyxeMFhoJIv6sEL6W8M5Lk=;
+ b=WZUeETMGIE88oyQpYzNPqlQlYaB7Y3WlKP45jd9C/6y3bZIV0BDUP4OB3EPNOLeHvq
+ bKf69AM4IJkq9+zkhzj8pm3IHQLqgpB6l7OiqH2bj/jOkoKyUEnWH1dnDAUR4aYt/URw
+ 7EZnl5PQbAgcn+7Fxy16et52O5eFbla00j8W0vnsheI4L/4omxwVGAxGlkT26x+wvvvV
+ WLEQV8xjSIobJe/DhAcXwFkS1ptl7IP3xcBjVZSRyT1mQTAB3/kghrWt3bswpZtYJAZK
+ VhLqHS0iQ4nPg7D7V9Q5tVolFI1uQp6lOejhHovsKYDDKyRq/JoYsZlvkO5wPyAhvsL9
+ pHCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BaKOJvVfR232M/EG6IKG/02OcNcoREBRhFeRshFQaZ0=;
- b=BPtqb/AlkB+tVhLJO1H6vwB1UYTxT7IUgcrgy8k4EHVn1SnsFvRNIGM13Gur8a8MGu
- lhlqiXNZfEYznliydzOoszkJX1PQDVwXkhmvJ3oCQMQMqhd+twseh9zSyyQKnGOfIYE7
- EFuLIpEenP8z0SiwNTGXcwX9gefLHNxqs7rEgFD/bFAOMUGaZSxQaErRiBqbDJ1PUOVn
- MihQey1JXdXbjhWlGlvLP6B1VkeZynB3KDykWauAGJVC+OBGhDBUVqj47tmR+HSL0HWH
- udRN7m0SbGBNzDc3ZrkrupbBKMdNygzTV6hwkYfYd2sPQpPqe3kEQeJRrtfVx2jJ69Ny
- wadw==
-X-Gm-Message-State: AOAM530TafUWuCoeBZ4ExryY0jCpxlIgzaBLjAFhTls+YoAlRXcj8uMW
- AWw/iGpgwkOEIzMj54y2FUVff9BB6Kc=
-X-Google-Smtp-Source: ABdhPJwQXf89TSJLucsthAAgHw2EcZlpkRHTT/2Yje5qZy6XvM2yAjPv6evpgjcpWugbo7iJevzb0A==
-X-Received: by 2002:a17:906:6702:: with SMTP id
- a2mr844684ejp.383.1644393215654; 
- Tue, 08 Feb 2022 23:53:35 -0800 (PST)
+ bh=T8VcAKbjJkQ4QKlnbd1DDwyxeMFhoJIv6sEL6W8M5Lk=;
+ b=RSHawZ/n33/61SjJqvMfnpKSPJ4wnOWnis5HmNMRPyUzpgDtnMg9+T+GgOfN0Z00CH
+ uNnGwfIChXNF/UEjfHS8H5Z6bPoQMvrRIAw/AjLP/3CG0GQ+yQbBNGVeYQ3WYvf82a2Q
+ M389m+DErToHXSDVmkYAE8kGT06HK+2TDii41MsZdwsksbbnW7XtKBeNACjJ1TCeJpzV
+ gJ16b1Lh0P5SdCMCJ8nJsQrk43MuDldgzEHRU3mbhw9BfCV5n53GLSSiOwgFxq9Faw8+
+ 9ddbM8wJv3cxoojkhPqk7GU//7n1iOR0vJotO3tLwv5XhnhZunuL79P7QpP8QJTxSjqz
+ wa/Q==
+X-Gm-Message-State: AOAM531XXWcu+4DAUfpzeve4FDsmLzEmbqPIPRoAE/tpZURugqqlo1GG
+ DlYbvPGMRDc5mD7HCcdO8hc=
+X-Google-Smtp-Source: ABdhPJxmt9rUeZQVgRK7EbicJxgxd86ZamdHg0OrjQ25BUeeqYB8Z60g2dbv55ZT78bItI7EkbEFHg==
+X-Received: by 2002:a17:907:7212:: with SMTP id
+ dr18mr863593ejc.187.1644393283641; 
+ Tue, 08 Feb 2022 23:54:43 -0800 (PST)
 Received: from ?IPV6:2a02:908:1252:fb60:5f8a:b8f9:e10:2aaa?
  ([2a02:908:1252:fb60:5f8a:b8f9:e10:2aaa])
- by smtp.gmail.com with ESMTPSA id j19sm5683273ejm.111.2022.02.08.23.53.34
+ by smtp.gmail.com with ESMTPSA id y2sm5398102edt.54.2022.02.08.23.54.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Feb 2022 23:53:35 -0800 (PST)
-Message-ID: <d82ac1a0-d81d-9861-fc1b-8cc06017a2b5@gmail.com>
-Date: Wed, 9 Feb 2022 08:53:33 +0100
+ Tue, 08 Feb 2022 23:54:43 -0800 (PST)
+Message-ID: <947e0106-5c92-2f92-8a3d-502c25a7126d@gmail.com>
+Date: Wed, 9 Feb 2022 08:54:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [RFC v4 02/11] drm/amdgpu: Move scheduler init to after XGMI is
- ready
+Subject: Re: [RFC v4 04/11] drm/amd/virt: For SRIOV send GPU reset directly to
+ TDR queue.
 Content-Language: en-US
 To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 References: <20220209002320.6077-1-andrey.grodzovsky@amd.com>
- <20220209002320.6077-3-andrey.grodzovsky@amd.com>
+ <20220209002320.6077-5-andrey.grodzovsky@amd.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220209002320.6077-3-andrey.grodzovsky@amd.com>
+In-Reply-To: <20220209002320.6077-5-andrey.grodzovsky@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,165 +77,118 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: horace.chen@amd.com, lijo.lazar@amd.com, jingwech@amd.com,
- christian.koenig@amd.com, Monk.Liu@amd.com
+ christian.koenig@amd.com, Monk.Liu@amd.com, Liu Shaoyun <Shaoyun.Liu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+
+
 Am 09.02.22 um 01:23 schrieb Andrey Grodzovsky:
-> Before we initialize schedulers we must know which reset
-> domain are we in - for single device there iis a single
-> domain per device and so single wq per device. For XGMI
-> the reset domain spans the entire XGMI hive and so the
-> reset wq is per hive.
+> No need to to trigger another work queue inside the work queue.
 >
+> v3:
+>
+> Problem:
+> Extra reset caused by host side FLR notification
+> following guest side triggered reset.
+> Fix: Preven qeuing flr_work from mailbox irq if guest
+> already executing a reset.
+>
+> Suggested-by: Liu Shaoyun <Shaoyun.Liu@amd.com>
 > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 
-One more comment below, with that fixed Reviewed-by: Christian König 
-<christian.koenig@amd.com>.
-
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 45 ++++++++++++++++++++++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c  | 34 ++--------------
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |  2 +
->   3 files changed, 51 insertions(+), 30 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 9704b0e1fd82..00123b0013d3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -2287,6 +2287,47 @@ static int amdgpu_device_fw_loading(struct amdgpu_device *adev)
->   	return r;
->   }
->   
-> +static int amdgpu_device_init_schedulers(struct amdgpu_device *adev)
-> +{
-> +	long timeout;
-> +	int r, i;
-> +
-> +	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
-> +		struct amdgpu_ring *ring = adev->rings[i];
-> +
-> +		/* No need to setup the GPU scheduler for rings that don't need it */
-> +		if (!ring || ring->no_scheduler)
-> +			continue;
-> +
-> +		switch (ring->funcs->type) {
-> +		case AMDGPU_RING_TYPE_GFX:
-> +			timeout = adev->gfx_timeout;
-> +			break;
-> +		case AMDGPU_RING_TYPE_COMPUTE:
-> +			timeout = adev->compute_timeout;
-> +			break;
-> +		case AMDGPU_RING_TYPE_SDMA:
-> +			timeout = adev->sdma_timeout;
-> +			break;
-> +		default:
-> +			timeout = adev->video_timeout;
-> +			break;
-> +		}
-> +
-> +		r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
-> +				   ring->num_hw_submission, amdgpu_job_hang_limit,
-> +				   timeout, adev->reset_domain.wq, ring->sched_score, ring->name);
-> +		if (r) {
-> +			DRM_ERROR("Failed to create scheduler on ring %s.\n",
-> +				  ring->name);
-> +			return r;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +
->   /**
->    * amdgpu_device_ip_init - run init for hardware IPs
->    *
-> @@ -2419,6 +2460,10 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
->   		}
->   	}
->   
-> +	r = amdgpu_device_init_schedulers(adev);
-> +	if (r)
-> +		goto init_failed;
-> +
->   	/* Don't init kfd if whole hive need to be reset during init */
->   	if (!adev->gmc.xgmi.pending_reset)
->   		amdgpu_amdkfd_device_init(adev);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> index 45977a72b5dd..fa302540c69a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> @@ -457,8 +457,6 @@ int amdgpu_fence_driver_init_ring(struct amdgpu_ring *ring,
->   				  atomic_t *sched_score)
->   {
->   	struct amdgpu_device *adev = ring->adev;
-> -	long timeout;
-> -	int r;
->   
->   	if (!adev)
->   		return -EINVAL;
-> @@ -478,36 +476,12 @@ int amdgpu_fence_driver_init_ring(struct amdgpu_ring *ring,
->   	spin_lock_init(&ring->fence_drv.lock);
->   	ring->fence_drv.fences = kcalloc(num_hw_submission * 2, sizeof(void *),
->   					 GFP_KERNEL);
-> -	if (!ring->fence_drv.fences)
-> -		return -ENOMEM;
->   
-> -	/* No need to setup the GPU scheduler for rings that don't need it */
-> -	if (ring->no_scheduler)
-> -		return 0;
-> +	ring->num_hw_submission = num_hw_submission;
-> +	ring->sched_score = sched_score;
-
-Let's move this into the caller and then use ring->num_hw_submission in 
-the fence code as well.
-
-The maximum number of jobs on the ring is not really fence specific.
+Feel free to add an Acked-by: Christian König 
+<christian.koenig@amd.com>, but an rb from somebody more familiar with 
+the code would be better.
 
 Regards,
 Christian.
 
+> ---
+>   drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c | 9 ++++++---
+>   drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c | 9 ++++++---
+>   drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c | 9 ++++++---
+>   3 files changed, 18 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c b/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
+> index 56da5ab82987..5869d51d8bee 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
+> @@ -282,7 +282,7 @@ static void xgpu_ai_mailbox_flr_work(struct work_struct *work)
+>   	if (amdgpu_device_should_recover_gpu(adev)
+>   		&& (!amdgpu_device_has_job_running(adev) ||
+>   		adev->sdma_timeout == MAX_SCHEDULE_TIMEOUT))
+> -		amdgpu_device_gpu_recover(adev, NULL);
+> +		amdgpu_device_gpu_recover_imp(adev, NULL);
+>   }
 >   
-> -	switch (ring->funcs->type) {
-> -	case AMDGPU_RING_TYPE_GFX:
-> -		timeout = adev->gfx_timeout;
-> -		break;
-> -	case AMDGPU_RING_TYPE_COMPUTE:
-> -		timeout = adev->compute_timeout;
-> -		break;
-> -	case AMDGPU_RING_TYPE_SDMA:
-> -		timeout = adev->sdma_timeout;
-> -		break;
-> -	default:
-> -		timeout = adev->video_timeout;
-> -		break;
-> -	}
-> -
-> -	r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
-> -			   num_hw_submission, amdgpu_job_hang_limit,
-> -			   timeout, NULL, sched_score, ring->name);
-> -	if (r) {
-> -		DRM_ERROR("Failed to create scheduler on ring %s.\n",
-> -			  ring->name);
-> -		return r;
-> -	}
-> +	if (!ring->fence_drv.fences)
-> +		return -ENOMEM;
+>   static int xgpu_ai_set_mailbox_rcv_irq(struct amdgpu_device *adev,
+> @@ -307,8 +307,11 @@ static int xgpu_ai_mailbox_rcv_irq(struct amdgpu_device *adev,
+>   
+>   	switch (event) {
+>   		case IDH_FLR_NOTIFICATION:
+> -		if (amdgpu_sriov_runtime(adev))
+> -			schedule_work(&adev->virt.flr_work);
+> +		if (amdgpu_sriov_runtime(adev) && !amdgpu_in_reset(adev))
+> +			WARN_ONCE(!queue_work(adev->reset_domain.wq,
+> +					      &adev->virt.flr_work),
+> +				  "Failed to queue work! at %s",
+> +				  __func__);
+>   		break;
+>   		case IDH_QUERY_ALIVE:
+>   			xgpu_ai_mailbox_send_ack(adev);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c b/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
+> index 477d0dde19c5..5728a6401d73 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
+> @@ -309,7 +309,7 @@ static void xgpu_nv_mailbox_flr_work(struct work_struct *work)
+>   		adev->gfx_timeout == MAX_SCHEDULE_TIMEOUT ||
+>   		adev->compute_timeout == MAX_SCHEDULE_TIMEOUT ||
+>   		adev->video_timeout == MAX_SCHEDULE_TIMEOUT))
+> -		amdgpu_device_gpu_recover(adev, NULL);
+> +		amdgpu_device_gpu_recover_imp(adev, NULL);
+>   }
+>   
+>   static int xgpu_nv_set_mailbox_rcv_irq(struct amdgpu_device *adev,
+> @@ -337,8 +337,11 @@ static int xgpu_nv_mailbox_rcv_irq(struct amdgpu_device *adev,
+>   
+>   	switch (event) {
+>   	case IDH_FLR_NOTIFICATION:
+> -		if (amdgpu_sriov_runtime(adev))
+> -			schedule_work(&adev->virt.flr_work);
+> +		if (amdgpu_sriov_runtime(adev) && !amdgpu_in_reset(adev))
+> +			WARN_ONCE(!queue_work(adev->reset_domain.wq,
+> +					      &adev->virt.flr_work),
+> +				  "Failed to queue work! at %s",
+> +				  __func__);
+>   		break;
+>   		/* READY_TO_ACCESS_GPU is fetched by kernel polling, IRQ can ignore
+>   		 * it byfar since that polling thread will handle it,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c b/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+> index aef9d059ae52..02290febfcf4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+> @@ -521,7 +521,7 @@ static void xgpu_vi_mailbox_flr_work(struct work_struct *work)
+>   
+>   	/* Trigger recovery due to world switch failure */
+>   	if (amdgpu_device_should_recover_gpu(adev))
+> -		amdgpu_device_gpu_recover(adev, NULL);
+> +		amdgpu_device_gpu_recover_imp(adev, NULL);
+>   }
+>   
+>   static int xgpu_vi_set_mailbox_rcv_irq(struct amdgpu_device *adev,
+> @@ -550,8 +550,11 @@ static int xgpu_vi_mailbox_rcv_irq(struct amdgpu_device *adev,
+>   		r = xgpu_vi_mailbox_rcv_msg(adev, IDH_FLR_NOTIFICATION);
+>   
+>   		/* only handle FLR_NOTIFY now */
+> -		if (!r)
+> -			schedule_work(&adev->virt.flr_work);
+> +		if (!r && !amdgpu_in_reset(adev))
+> +			WARN_ONCE(!queue_work(adev->reset_domain.wq,
+> +					      &adev->virt.flr_work),
+> +				  "Failed to queue work! at %s",
+> +				  __func__);
+>   	}
 >   
 >   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> index fae7d185ad0d..7f20ce73a243 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> @@ -251,6 +251,8 @@ struct amdgpu_ring {
->   	bool			has_compute_vm_bug;
->   	bool			no_scheduler;
->   	int			hw_prio;
-> +	unsigned 		num_hw_submission;
-> +	atomic_t		*sched_score;
->   };
->   
->   #define amdgpu_ring_parse_cs(r, p, ib) ((r)->funcs->parse_cs((p), (ib)))
 
