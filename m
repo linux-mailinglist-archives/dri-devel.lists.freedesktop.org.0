@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0CE4AE7DA
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 04:30:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52EB84AE7DC
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 04:30:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D12B10E2AE;
-	Wed,  9 Feb 2022 03:30:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 979FC10E36E;
+	Wed,  9 Feb 2022 03:30:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
- [209.85.210.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E10D410E143
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 03:30:06 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id
- n6-20020a9d6f06000000b005a0750019a7so661800otq.5
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 19:30:06 -0800 (PST)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D80A10E3FE
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 03:30:22 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id d187so1926027pfa.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 19:30:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2Je4ysSvm0qGToTfluoX75kuGzoNSHI2qP2Y0C0VNAg=;
+ b=CACwA3iWs0mIexxr+JBAReAIEm1js+p8Gd1PctwBpcCRlFarncrQq8u4LV6np8g3is
+ D/VOuIRXeoPfghb+/9LTlJtNpAvNKgMSy3Wr4lug4rsCM8eyWtwax7omfbUtcsy/9gV0
+ 7zKe0Yw5vrIzVjXV0RntPZ6HYUDb3Ci9Ac0MxBz7ePn0Cx3ZAESjOlA/plyTn3cK/JDB
+ /4GywPgMyr1VKT1Ars0+RfQs5u2gxDhVAMm6XqUo1P+6wobSWI5xZqPyxvBbdotA9rpW
+ M0SPWo6TnlLbTZEqquatVpsjK0f4E620XEFwl1wrQ1s/OMsFf6/RTMOBX8yu4cXgNOQf
+ 8MqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zEVQ7Rw/tzHyjS5OXKqbzOVt0A9B00mYmLifv1I8/aY=;
- b=qV0dSO6SJgtJWRzwFk2hA+r5OAJgbSrMNJQkZePL+0ZgswbYfmqh7+I4nlGvrETlWq
- y6dBV6lMqlu1z3BpkDCG3wpT+3DBaHYhyKb1KY8+V7SBNIERWZRYUjTVyga5MxgpI5/A
- eavPuVLodloLVge3QjEvkzZ9I0zjqCbJng4sf4oyo2eWDpEL5CjaIMocYijOIK3mud4n
- rnNsRtc+wYs7B05Vitxpvt0eeqDzMKjfwCSwdMrlzzt8Fn5S8HVj1D4dIGrpxsOSGleX
- 0kxsmcC38J/DeFa8z6hnYRirDLFmKnij6beKZyYOIdyfe+UiHwUAYCuQ6U/UQ+nSeQhw
- wf0Q==
-X-Gm-Message-State: AOAM533XZaux7lDBDrBEVFA0bNzWap9F3fEl16ZPH0lKGk8bKlexmkIH
- UmyelkZT4qjDMwVYvGEuww==
-X-Google-Smtp-Source: ABdhPJz66Nmvy9lEMz85Tl+OIfWEdYgsLXBYEqdh227dri4jtALkvNMeZsjk0ExxLb3Wwdb8nzKfEQ==
-X-Received: by 2002:a9d:73d8:: with SMTP id m24mr188295otk.52.1644377405869;
- Tue, 08 Feb 2022 19:30:05 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id b20sm6021320otq.20.2022.02.08.19.30.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 19:30:05 -0800 (PST)
-Received: (nullmailer pid 3582173 invoked by uid 1000);
- Wed, 09 Feb 2022 03:30:04 -0000
-Date: Tue, 8 Feb 2022 21:30:04 -0600
-From: Rob Herring <robh@kernel.org>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH 14/27] dt-bindings: display: rockchip: dw-hdmi: use "ref"
- as clock name
-Message-ID: <YgM1PBsETHleuSNt@robh.at.kernel.org>
-References: <20220126145549.617165-1-s.hauer@pengutronix.de>
- <20220126145549.617165-15-s.hauer@pengutronix.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2Je4ysSvm0qGToTfluoX75kuGzoNSHI2qP2Y0C0VNAg=;
+ b=Hmr9RWnDCytqGebzarfon1cXUVJLxUN3nymhjH5oLzCwy2xT9YA4uyRs4gV0aQ64IN
+ Gp7OG7G+N+5trrrDOSwK1NqzV7o4TBFjKqqDXiPVVKscrMWPm+5jjVccfWAbOIKfGhZJ
+ oOwHQ1DzfKJW6nBrVhoR9PIUS7VJdLnr6jkB3ZyZhKH9U/aJBI/4sBrKvw4O5unQfm/p
+ chagi7v6Egvo1gB67+yLghcuwXAuKa24gQ6pcgHoqZmFb/71MuKnBcA7f7mAS8P+N4W5
+ 7xyeLOD2mPe/yliIH5i9c10aIWOEzBDY8nfqpppFfdXgvwieyQDoRNvr892F69oTo3f/
+ +O0g==
+X-Gm-Message-State: AOAM533ZhZsSi0UbgKVTzwer6FkyiT2WYyof2qpXX87LVLCTMC1Km8rC
+ Sj6tN4OSjPcgo2XhjggdacD7SpqzMoSI9nywvBSypA==
+X-Google-Smtp-Source: ABdhPJxPkAe7JqNfPN0pMdUWTXV1LFyPzWR+xK9edhPa72Ip0qH/EBHDfJCzGhUn69nUH5cFutBmSs7V8IMhNpn2WjE=
+X-Received: by 2002:a62:e907:: with SMTP id j7mr354037pfh.3.1644377421975;
+ Tue, 08 Feb 2022 19:30:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220126145549.617165-15-s.hauer@pengutronix.de>
+References: <20220207063249.1833066-1-hch@lst.de>
+ <20220207063249.1833066-8-hch@lst.de>
+In-Reply-To: <20220207063249.1833066-8-hch@lst.de>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Tue, 8 Feb 2022 19:30:11 -0800
+Message-ID: <CAPcyv4h_axDTmkZ35KFfCdzMoOp8V3dc6btYGq6gCj1OmLXM=g@mail.gmail.com>
+Subject: Re: [PATCH 7/8] mm: remove the extra ZONE_DEVICE struct page refcount
+To: Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,28 +63,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, Peter Geis <pgwipeout@gmail.com>
+Cc: Linux NVDIMM <nvdimm@lists.linux.dev>,
+ Ralph Campbell <rcampbell@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Karol Herbst <kherbst@redhat.com>, Linux MM <linux-mm@kvack.org>,
+ nouveau@lists.freedesktop.org, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Logan Gunthorpe <logang@deltatee.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Jan 2022 15:55:36 +0100, Sascha Hauer wrote:
-> "vpll" is a misnomer. A clock input to a device should be named after
-> the usage in the device, not after the clock that drives it. On the
-> rk3568 the same clock is driven by the HPLL.
-> This patch adds "ref" as a new alternative clock name for "vpll"
-> 
-> Changes since v3:
-> - Keep old clock name for compatibility reasons
-> 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> ---
->  .../bindings/display/rockchip/rockchip,dw-hdmi.yaml      | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
+On Sun, Feb 6, 2022 at 10:33 PM Christoph Hellwig <hch@lst.de> wrote:
+[..]
+> @@ -500,28 +482,27 @@ void free_devmap_managed_page(struct page *page)
+>          */
+>         page->mapping = NULL;
+>         page->pgmap->ops->page_free(page);
+> +
+> +       /*
+> +        * Reset the page count to 1 to prepare for handing out the page again.
+> +        */
+> +       set_page_count(page, 1);
 
-Acked-by: Rob Herring <robh@kernel.org>
+Interesting. I had expected that to really fix the refcount problem
+that fs/dax.c would need to start taking real page references as pages
+were added to a mapping, just like page cache.
+
+This looks ok to me, and passes my tests. So given I'm still working
+my way back to fixing the references properly I'm ok for this hack to
+replace the more broken hack that is there presently.
+
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
