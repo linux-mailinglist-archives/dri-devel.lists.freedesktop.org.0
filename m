@@ -2,65 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8724AF50D
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 16:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196074AF540
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 16:31:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4693D10E204;
-	Wed,  9 Feb 2022 15:21:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F264D10E272;
+	Wed,  9 Feb 2022 15:31:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D451610E204
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 15:21:09 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7F3F121102;
- Wed,  9 Feb 2022 15:21:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1644420068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD9F10E210
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 15:31:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644420663;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0gsG+OOopxEuh693BdcBnjh8UcladxYwrrkRHwJ7mBI=;
- b=pBAnMmrGo81oQ8oybIUu1ItVqogsohn4Zts7JQUKEXvkobQ9wLow5hz5Om3Cbm9MZLcwXM
- XYbC5wY7OhEp5lNn+yoALs/wJL1PmyX4H5UVyY9LeYbd5GcTqCtN8D1Zq/U0D85VeBfI7C
- 6K2S6BOEtVO2NlUzjzUzXu67cFwctpc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1644420068;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0gsG+OOopxEuh693BdcBnjh8UcladxYwrrkRHwJ7mBI=;
- b=SpTaNOjAwxnDTNd4Ycz8lGQrWa/3Y4JeC/YNVYwy8DGXiKllvIlZyJZofZay19Hgu/cKZk
- YBJE8tEZ/MeV+QCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4490E13D4F;
- Wed,  9 Feb 2022 15:21:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IsfAD+TbA2J6CAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 09 Feb 2022 15:21:08 +0000
-Message-ID: <d5fc654c-643a-7b20-85f1-54169a3aa889@suse.de>
-Date: Wed, 9 Feb 2022 16:21:07 +0100
+ bh=WPpvyB7McdG+sCGO6qQRcD8vYFMWX9f+Cg4663yTg2s=;
+ b=hxLMXAmaQ9We6Xp/1UoFFC4iVjBkLbELmMR17EPWWprOAmDpGR8ks9R6IolrymBqpHdrf6
+ njUNAWsxg0ALYnW7skem5l6wsFasQN+dy5okPVVGtibqPlj7YWQxwUTcIPSjbOkpWWhBy7
+ y6ZIL8Ev5STtvt7ROWUxYzb7ptsPKh0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-372-d6pzxae3OE-ngXR3MPiPvQ-1; Wed, 09 Feb 2022 10:31:02 -0500
+X-MC-Unique: d6pzxae3OE-ngXR3MPiPvQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ h82-20020a1c2155000000b003552c13626cso2828506wmh.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 07:31:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WPpvyB7McdG+sCGO6qQRcD8vYFMWX9f+Cg4663yTg2s=;
+ b=vrMtb2MXFtsnn1gBIiy2hZ1EdYOWz8chiNEKl0Ao7K7G0Iy4Suuwes4l3cjn6dX6se
+ Do8oe9lcSm6XxPDCImloEEnLYAQ40011+LNQKKOaKXBH0lM89FbuupiPzjgLW+QKsTKm
+ i1VW/YgLMKp/JyOL6lNhGzbasBK/y10Lpa5h3qkfwg5OvZSq3Xz7Dt76QGfvGGP+0L1h
+ 4kLF4jv4ttiHAuLDcDH13QfotJUW0OQvXOZsUTGLa0X9zMKFL8NnBkJZZl5OaKwbdJS+
+ 0wEnLstgDyjuj5AKUHFd4ADEJ8543IzBjdw+7I+sM0LAv5QK8cotRYNb2SP9+Fa2/SW9
+ FGoQ==
+X-Gm-Message-State: AOAM532gBwSeDRXJNiIXK9Ixy81r0YqWG8+0oXHPXSHqWcxY+cqBNcza
+ uAGz9w5Dej4taNVKQSMqiAPMNH6Zt2eiOVeet5CGWQ03D4FjjB1hhnTMOjVHstKbgLpXl/3grAe
+ P1TXxWRArbukqzl4YceVtkm7fwEiV
+X-Received: by 2002:a5d:40ca:: with SMTP id b10mr2557995wrq.6.1644420659909;
+ Wed, 09 Feb 2022 07:30:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyUJ460salQYs6rWREOZPwbsIL73KBkIAP9a0luO40gtQzhT1NgjwQDGKwNSlhfORRzFqslOg==
+X-Received: by 2002:a5d:40ca:: with SMTP id b10mr2557983wrq.6.1644420659724;
+ Wed, 09 Feb 2022 07:30:59 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id c8sm6408714wmq.39.2022.02.09.07.30.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Feb 2022 07:30:59 -0800 (PST)
+Message-ID: <3b6fe640-47e5-8765-3a09-8f9f2f0a6329@redhat.com>
+Date: Wed, 9 Feb 2022 16:30:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
 Subject: Re: [PATCH v3 2/7] drm/format-helper: Add drm_fb_{xrgb8888,
  gray8}_to_mono_reversed()
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
 References: <20220209090314.2511959-1-javierm@redhat.com>
  <20220209090314.2511959-3-javierm@redhat.com>
  <6df9c28d-968d-ff16-988e-8e88e4734e49@suse.de>
  <f75a1544-5a3e-e49f-7eab-5dd5c72584b9@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <f75a1544-5a3e-e49f-7eab-5dd5c72584b9@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------wUsU9n6TUXoMmXjFd6Sl01Qi"
+ <d5fc654c-643a-7b20-85f1-54169a3aa889@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <d5fc654c-643a-7b20-85f1-54169a3aa889@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,138 +98,67 @@ Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------wUsU9n6TUXoMmXjFd6Sl01Qi
-Content-Type: multipart/mixed; boundary="------------SboH3Z97a8U5LshpeDClu6bl";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard
- <maxime@cerno.tech>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <d5fc654c-643a-7b20-85f1-54169a3aa889@suse.de>
-Subject: Re: [PATCH v3 2/7] drm/format-helper: Add drm_fb_{xrgb8888,
- gray8}_to_mono_reversed()
-References: <20220209090314.2511959-1-javierm@redhat.com>
- <20220209090314.2511959-3-javierm@redhat.com>
- <6df9c28d-968d-ff16-988e-8e88e4734e49@suse.de>
- <f75a1544-5a3e-e49f-7eab-5dd5c72584b9@redhat.com>
-In-Reply-To: <f75a1544-5a3e-e49f-7eab-5dd5c72584b9@redhat.com>
+On 2/9/22 16:21, Thomas Zimmermann wrote:
 
---------------SboH3Z97a8U5LshpeDClu6bl
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+[snip]
 
-SGkNCg0KQW0gMDkuMDIuMjIgdW0gMTQ6MjYgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IEhlbGxvIFRob21hcywNCj4gDQo+IFRoYW5rcyBhIGxvdCBmb3IgeW91ciBm
-ZWVkYmFjay4NCj4gDQo+IE9uIDIvOS8yMiAxMzo1MSwgVGhvbWFzIFppbW1lcm1hbm4gd3Jv
-dGU6DQo+PiBIaQ0KPj4NCj4gDQo+IFtzbmlwXQ0KPiANCj4+PiArDQo+Pj4gKwkJaWYgKHhi
-ID09IHBpeGVscyAtIDEgJiYgZW5kX29mZnNldCkNCj4+PiArCQkJZW5kID0gZW5kX29mZnNl
-dDsNCj4+DQo+PiBlbmRfb2Zmc2V0IHNob3VsZCBiZSBjYWxsZWQgZW5kX2xlbiwgYmVjYXVz
-ZSBpdCBpcyB0aGUgbnVtYmVyIG9mIGJpdHMgaW4NCj4+IHRoZSBmaW5hbCBieXRlOyBidXQg
-bm90IHRoZSBvZmZzZXQgb2YgdGhlIGZpbmFsIGJpdC4NCj4+DQo+IA0KPiBJbmRlZWQuDQo+
-IA0KPiBbc25pcF0NCj4gDQo+Pj4gK3ZvaWQgZHJtX2ZiX2dyYXk4X3RvX21vbm9fcmV2ZXJz
-ZWQodm9pZCAqZHN0LCB1bnNpZ25lZCBpbnQgZHN0X3BpdGNoLCBjb25zdCB2b2lkICp2YWRk
-ciwNCj4+PiArCQkJCSAgIGNvbnN0IHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLA0KPj4+
-ICsJCQkJICAgY29uc3Qgc3RydWN0IGRybV9yZWN0ICpjbGlwKQ0KPiANCj4gW3NuaXBdDQo+
-IA0KPj4NCj4+IERvIHlvdSByZWFsbHkgbmVlZCB0aGF0IGZ1bmN0aW9uLiBJdCdzIG5vdCBl
-eHBvcnRlZCBhbmQgaWYgaXQncyBub3QNCj4+IG90aGVyd2lzZSB1c2VkLCBJJ2QganVzdCBy
-ZW1vdmUgaXQuICBXZSBkb24ndCBrZWVwIHVudXNlZCBpbnRlcmZhY2VzIGFyb3VuZC4NCj4+
-DQo+IA0KPiBBdCB0aGUgZW5kIGFmdGVyIHlvdXIgc3VnZ2VzdGlvbiBvZiBkb2luZyBsaW5l
-LXBlci1saW5lIGNvbnZlcnNpb25zIGl0IGlzIG5vdA0KPiBuZWVkZWQsIGJ1dCBzaW5jZSBJ
-IGFscmVhZHkgdHlwZWQgaXQgYW5kIHdlIHdlcmUgdGFsa2luZyBhYm91dCBhZGRpbmcgb3Ro
-ZXINCj4gZm9ybWF0cyBiZXNpZGVzIHRoZSBmYWtlIFhSR0I4ODg4IGFzIGFuIG9wdGltaXph
-dGlvbiAoUjggZm9yIGdyYXlzY2FsZSBhbmQNCj4gRHggb3Igc29tZXRoaW5nIGxpa2UgdGhh
-dCBmb3IgcmV2ZXJzZWQgbW9ubyksIEkgdGhvdWdodCB0aGF0IHdvdWxkIGJlIHVzZWZ1bA0K
-PiB0byBoYXZlIGl0IGFzIGEgaGVscGVyLg0KPiANCj4gQWxzbyBvdGhlciBkcml2ZXJzIHRo
-YXQgd2FudCB0byBhZHZlcnRpc2UgYSBSOCBmb3JtYXQgY291bGQganVzdCB1c2UgaXQgYW5k
-DQo+IG5vdCBoYXZpbmcgdG8gYWRkIHRoZWlyIG93biBoZWxwZXIuIEJ1dCBJJ20gaGFwcHkg
-dG8gZHJvcCBpdCBpbiB2NCBpZiB5b3UNCj4gdGhpbmsgdGhhdCdzIGJldHRlciB0byBub3Qg
-aGF2ZSB1bnVzZWQgaGVscGVycy4NCj4gDQo+IEl0IGNvdWxkIGJlIHRha2VuIGZyb20gdGhp
-cyBwYXRjaC1zZXQgYW55d2F5cyBpZiBzb21lb25lIHdhbnRzIHRvIHdpcmUgdGhlDQo+IG5l
-ZWRlZCBzdXBwb3J0IGZvciBSOC4NCg0KSSB0aGluaywgcG9saWN5IGlzIHRvIG5vdCBrZWVw
-IHVudXNlZCBjb2RlIGFyb3VuZC4NCg0KPiANCj4gW3NuaXBdDQo+IA0KPj4+ICsNCj4+PiAr
-CS8qDQo+Pj4gKwkgKiBUaGUgcmV2ZXJzZWQgbW9ubyBkZXN0aW5hdGlvbiBidWZmZXIgY29u
-dGFpbnMgMSBiaXQgcGVyIHBpeGVsDQo+Pj4gKwkgKiBhbmQgZGVzdGluYXRpb24gc2Nhbmxp
-bmVzIGhhdmUgdG8gYmUgaW4gbXVsdGlwbGUgb2YgOCBwaXhlbHMuDQo+Pj4gKwkgKi8NCj4+
-PiArCWlmICghZHN0X3BpdGNoKQ0KPj4+ICsJCWRzdF9waXRjaCA9IERJVl9ST1VORF9VUChs
-aW5lcGl4ZWxzLCA4KTsNCj4+DQo+PiBJJ2QgZG8gYSB3YXJuX29uY2UgaWYgKGRzdF9waXRj
-aCAlIDggIT0gMCkuDQo+Pg0KPiANCj4gQWdyZWVkLiBJJ2xsIGFkZCBhIHdhcm5pbmcgYW4g
-bWVudGlvbiB0aGF0IHdpbGwgYmUgcm91bmRlZCB1cC4NCj4gDQo+Pg0KPj4+ICsNCj4+PiAr
-CS8qDQo+Pj4gKwkgKiBUaGUgY21hIG1lbW9yeSBpcyB3cml0ZS1jb21iaW5lZCBzbyByZWFk
-cyBhcmUgdW5jYWNoZWQuDQo+Pj4gKwkgKiBTcGVlZCB1cCBieSBmZXRjaGluZyBvbmUgbGlu
-ZSBhdCBhIHRpbWUuDQo+Pg0KPj4gSSBvbmNlIGhhZCBhIHBhdGNoc2V0IHRoYXQgYWRkcyBj
-YWNoaW5nIGluZm9ybWF0aW9uIHRvIHN0cnVjdA0KPj4gZG1hX2J1Zl9tYXAgKHNvb24gdG8g
-YmUgbmFtZWQgc3RydWN0IGlvc3lzX21hcCkuICBCbGl0dGluZyBoZWxwZXJzIHdvdWxkDQo+
-PiBiZSBhYmxlIHRvIGVuYWJsZS9kaXNhYmxlIHRoaXMgb3B0aW1pemF0aW9uIGFzIG5lZWRl
-ZC4NCj4+DQo+PiBIb3dldmVyLCB5b3VyIGRyaXZlciBkb2Vzbid0IHVzZSBDTUEuIEl0J3Mg
-YmFja2VkIGJ5IFNITUVNLiBEbyB5b3UNCj4+IHJlYWxseSB3YW50IHRvIGtlZXAgdGhhdCBj
-b2RlIGluPw0KPj4NCj4gDQo+IEl0IGRvZXNuJ3QgYnV0IHRoZSByZXBhcGVyIGRvZXMuIEFu
-ZCBzaW5jZSB0aGUgcGxhbiB3YXMgdG8gbWFrZSB0aGF0IGRyaXZlcg0KPiB0byB1c2UgdGhl
-IGhlbHBlciBpbnN0ZWFkIG9mIGhhdmluZyB0aGVpciBvd24sIEkgd2FudGVkIHRvIGFsc28g
-bWFrZSBzdXJlDQo+IHRoYXQgd291bGQgd29yayB3ZWxsIHdpdGggQ01BLg0KDQpUaGF0IG1h
-a2VzIHNlbnNlIHRoZW4uDQoNCj4gDQo+Pg0KPj4+ICsJICovDQo+Pj4gKwlzcmMzMiA9IGtt
-YWxsb2MobGVuX3NyYzMyLCBHRlBfS0VSTkVMKTsNCj4+PiArCWlmICghc3JjMzIpDQo+Pj4g
-KwkJcmV0dXJuOw0KPj4+ICsNCj4+PiArCS8qDQo+Pj4gKwkgKiBDb3BpZXMgYXJlIGRvbmUg
-bGluZS1ieS1saW5lLCBhbGxvY2F0ZSBhbiBpbnRlcm1lZGlhdGUNCj4+PiArCSAqIGJ1ZmZl
-ciB0byBjb3B5IHRoZSBncmF5OCBsaW5lcyBhbmQgdGhlbiBjb252ZXJ0IHRvIG1vbm8uDQo+
-Pj4gKwkgKi8NCj4+PiArCWdyYXk4ID0ga21hbGxvYyhsaW5lcGl4ZWxzLCBHRlBfS0VSTkVM
-KTsNCj4+PiArCWlmICghZ3JheTgpDQo+Pj4gKwkJZ290byBmcmVlX3NyYzMyOw0KPj4NCj4+
-IElmIG1pZ2h0IGJlIGZhc3RlciB0byBhbGxvY2F0ZSBib3RoIGJ1ZmZlcnMgaW4gb25lIHN0
-ZXAgYW5kIHNldCB0aGUNCj4+IHBvaW50ZXJzIGludG8gdGhlIGFsbG9jYXRlZCBidWZmZXIu
-DQo+Pg0KPiANCj4gTm90IHN1cmUgSSBnb3QgdGhpcy4gRG8geW91IG1lYW4gdG8gaGF2ZSBh
-IHNpbmdsZSBidWZmZXIgd2l0aCBsZW5ndGgNCj4gbGluZXBpeGVscyArIGxlbl9zcmMzMiBh
-bmQgcG9pbnQgc3JjMzIgYW5kIGdyYXk4IHRvIHRoZSBzYW1lIGJ1ZmZlciA/DQoNClRoYXQn
-cyB0aGUgaWRlYS4gSSBkb24ndCBrbm93IHRoZSBleGFjdCBvdmVyaGVhZCBmb3Iga2FsbG9j
-KCksIGJ1dCBhdCANCmxlYXN0IHRoZSBpbiB1c2Vyc3BhY2UsIG1hbGxvYygpIGluIGhvdCBj
-b2RlIHBhdGhzIGlzIG5vdCBhIGdvb2QgaWRlYS4gDQpUaGVyZSdzIHVzdWFsbHkgc29tZSBz
-ZWFyY2hpbmcgZm9yIGZyZWUgc3BhY2UgaW52b2x2ZWQuDQoNCkluIHRoZSBsb25nIHRlcm0s
-IHdlIGNvdWxkIGFkZCBhIGZpZWxkIGluIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgdG8ga2Vl
-cCANCnN1Y2ggYnVmZmVycyBhcm91bmQgZm9yIHJldXNlLg0KDQo+IA0KPj4+ICsNCj4+PiAr
-CS8qDQo+Pj4gKwkgKiBGb3IgZGFtYWdlIGhhbmRsaW5nLCBpdCBpcyBwb3NzaWJsZSB0aGF0
-IG9ubHkgcGFydHMgb2YgdGhlIHNvdXJjZQ0KPj4+ICsJICogYnVmZmVyIGlzIGNvcGllZCBh
-bmQgdGhpcyBjb3VsZCBsZWFkIHRvIHN0YXJ0IGFuZCBlbmQgcGl4ZWxzIHRoYXQNCj4+PiAr
-CSAqIGFyZSBub3QgYWxpZ25lZCB0byBtdWx0aXBsZSBvZiA4Lg0KPj4+ICsJICoNCj4+PiAr
-CSAqIENhbGN1bGF0ZSBpZiB0aGUgc3RhcnQgYW5kIGVuZCBwaXhlbHMgYXJlIG5vdCBhbGln
-bmVkIGFuZCBzZXQgdGhlDQo+Pj4gKwkgKiBvZmZzZXRzIGZvciB0aGUgcmV2ZXJzZWQgbW9u
-byBsaW5lIGNvbnZlcnNpb24gZnVuY3Rpb24gdG8gYWRqdXN0Lg0KPj4+ICsJICovDQo+Pj4g
-KwlzdGFydF9vZmZzZXQgPSBjbGlwLT54MSAlIDg7DQo+Pj4gKwllbmRfb2Zmc2V0ID0gY2xp
-cC0+eDIgJSA4Ow0KPj4NCj4+IGVuZF9sZW4sIGFnYWluLiBJZiB5b3UgaGF2ZSAxIHNpbmds
-ZSBiaXQgc2V0IGluIHRoZSBmaW5hbCBieXRlLCB0aGUNCj4+IG9mZnNldCBpcyAwLCBidXQg
-dGhlIGxlbmd0aCBpcyAxLg0KPj4NCj4gDQo+IEFncmVlZCwgd2lsbCBjaGFuZ2UgaXQgdG9v
-Lg0KDQpGZWVsIGZyZWUgdG8gYWRkIG15DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVy
-bWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KdG8gdGhlIG5leHQgdmVyc2lvbi4NCg0K
-QmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gQmVzdCByZWdhcmRzLA0KDQotLSANClRo
-b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
-YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
-YmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bD
-vGhyZXI6IEl2byBUb3Rldg0K
+>>
+>> It could be taken from this patch-set anyways if someone wants to wire the
+>> needed support for R8.
+> 
+> I think, policy is to not keep unused code around.
+>
 
---------------SboH3Z97a8U5LshpeDClu6bl--
+Ok, I'll drop it then. We can include it again when adding R8 formats.
+ 
+[snip]
 
---------------wUsU9n6TUXoMmXjFd6Sl01Qi
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+>>> If might be faster to allocate both buffers in one step and set the
+>>> pointers into the allocated buffer.
+>>>
+>>
+>> Not sure I got this. Do you mean to have a single buffer with length
+>> linepixels + len_src32 and point src32 and gray8 to the same buffer ?
+> 
+> That's the idea. I don't know the exact overhead for kalloc(), but at 
+> least the in userspace, malloc() in hot code paths is not a good idea. 
+> There's usually some searching for free space involved.
+>
 
------BEGIN PGP SIGNATURE-----
+Sure, let's do it in one allocation then and I'll add some comments to
+make easier for people to follow the code.
+ 
+> In the long term, we could add a field in struct drm_framebuffer to keep 
+> such buffers around for reuse.
+> 
+>>
+>>>> +
+>>>> +	/*
+>>>> +	 * For damage handling, it is possible that only parts of the source
+>>>> +	 * buffer is copied and this could lead to start and end pixels that
+>>>> +	 * are not aligned to multiple of 8.
+>>>> +	 *
+>>>> +	 * Calculate if the start and end pixels are not aligned and set the
+>>>> +	 * offsets for the reversed mono line conversion function to adjust.
+>>>> +	 */
+>>>> +	start_offset = clip->x1 % 8;
+>>>> +	end_offset = clip->x2 % 8;
+>>>
+>>> end_len, again. If you have 1 single bit set in the final byte, the
+>>> offset is 0, but the length is 1.
+>>>
+>>
+>> Agreed, will change it too.
+> 
+> Feel free to add my
+> 
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmID2+MFAwAAAAAACgkQlh/E3EQov+CS
-nA//bppg88zizs6GVQYgs+Eirsf8zaZp2LGOvV941RQgPr7a45UIpIihJxxqVmNDW+D4yve5jn1g
-fRQ1ybGsu/7H6QBptrJwJUJ+3aSQSeEcCOtN6T9Na5ELm6CYu8HG/46cgjcIeMV9PpZNKSxeqPl9
-SqoJCgxLpkfn58HQ7L7B8aP36Ii1KHaQa414lLyhrsUJvgwVfmWHcQFQyXFn4w+IMGGRNwBx1J2z
-2AvQQhIN6y/89/RQZYfjeqBQzyEWT7IAO4RHfQnBbfr3PcdMTAFXgZOtVZLqn19Nn1Owlrk4hdhU
-2PDvJA1Tz5lqsK1i9MI9aP4cDOr8BtzRcIkjUnk8EdG1Gc3jqjSPLUjWodg9iMtkY1erVyorZiIt
-mc4oC1f/K/WXWrsKgYW4/k349TLihSj0o3IKeoQojMhe3nWczGfuQ9kY5qgzkEBjMPQKOWcjqhSx
-XMjw0me0pLCUhsckzE4wFzhkFaZu/CcsgrcAyMxNrC7y4XWPKgVPXFJUzIbGpCnVyZ574DTRWhlf
-FJ2+bwp1q63yAisdwNZs5pCpYP7KXqQWCqaZYb0KGLIIBr/n8gFMHi+UYgiBDQ28HGRBEoXZDWg8
-X/afCjUbIKWs/uVcBIncwJqTN3Mjit2J3XtknihvqdHeZwx0v4F4doSzGRJpXHt9/3ZSONEEA2je
-bYs=
-=OfCw
------END PGP SIGNATURE-----
+Thanks!
 
---------------wUsU9n6TUXoMmXjFd6Sl01Qi--
+Best regards, -- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
