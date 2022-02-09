@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4054AEF9A
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 12:03:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F3B4AEFAA
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 12:09:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEFFF10E2C9;
-	Wed,  9 Feb 2022 11:02:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACE010E138;
+	Wed,  9 Feb 2022 11:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCBBC10E31E
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 11:02:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D26CB10E138
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 11:09:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644404570;
+ s=mimecast20190719; t=1644404980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nef1goY/slt7UBZOkizAts7GcGY5ITyc9fc+g3Ej4is=;
- b=IptJsJ52CczIaRV6a/goK862eheAU2CfcMJS/rxEDLo1VDIptWQ2/VtAU4uTNr94eBhr6E
- 6CDVsxpOF8+DqbJ4dWawnXdg7IyL57jXUuBHukxLfq7LNllxCVs7KPdf3dnFKJQGdTSMrT
- rdt2r0PdbVJYrZO2aZg8Vb/teB+JpQ8=
+ bh=N4o+LNJaYo3X9fH4YBPRei9jJzogxbgFD0IPNn+FC5s=;
+ b=UVtpIO7ukuVPnkgt1MDabbpG74v2Ut9yrwF10lF1ssqq/bYWdOXSWM0XwWuvT1XNNj7SYO
+ jMXpduCx/Imw3XAbxOC9/bKN3A5mGNIPbmRd0NSPdMF1QyikvkV26JA2Dhu3qWQPJfFAEQ
+ 94boUtHrnCq49th+mji6uzMXWyw1qbk=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-382-oP9N5fS1MkGy34oP5TmwBQ-1; Wed, 09 Feb 2022 06:02:49 -0500
-X-MC-Unique: oP9N5fS1MkGy34oP5TmwBQ-1
+ us-mta-466-58qNJOKvPUKIGrlQyHioLQ-1; Wed, 09 Feb 2022 06:09:39 -0500
+X-MC-Unique: 58qNJOKvPUKIGrlQyHioLQ-1
 Received: by mail-wr1-f70.google.com with SMTP id
- g17-20020adfa591000000b001da86c91c22so972138wrc.5
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 03:02:49 -0800 (PST)
+ w26-20020adf8bda000000b001e33dbc525cso948729wra.18
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 03:09:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=nef1goY/slt7UBZOkizAts7GcGY5ITyc9fc+g3Ej4is=;
- b=ssujxZPb1DLT2gohwQV/vxF/DpA8eeUgOfp8OOY7g8s+i2epqnhPGZOAsQ+6kiVdxY
- mQtU6eCusdtwsplTSYAbaYcDoTEpYDSq9A3wtJJVeT2siaIc1FF53HoWWo5eWR0x+T+J
- ohViLHnvURX8oqvxDULg6KsGo7t8ZcRoGk2AGdJtElz+nKAzUmYeypGRN/MRW+uGdlGo
- gAIP7O96D9udFzpHyLXinlWP+z87QnPbj7gpCJPwQkPpV9TmWGWhsVRTjtDiUIJGgDYY
- hTEq8CZc0tdm3twL/mqv6jHTjQtXT17vQqqgR94mUkv2MKyoIXqnk6OKrghfTV1BXJB7
- vtNw==
-X-Gm-Message-State: AOAM532RcozZq7Ni94UPSw479F9wcKisujH/PTxY7jHGSo1Vr8Z+i4W3
- 4qHPZUFzMPTXl9RkedwVHM0aTdtDdGnph5v2EJFOp3rzXz1dB1m+45PgaLLTDEUKYCqchuxa/R5
- lKCIeyOV2ejbclEBhZm1fqkB33Vrc
-X-Received: by 2002:adf:ea11:: with SMTP id q17mr1628940wrm.204.1644404568541; 
- Wed, 09 Feb 2022 03:02:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwJuwR//wwSHP0DQR6RaZg1S41g4bceGx5FADwVg4VgnLDZBwky1cJ7TcTQMycU2J7+8TJEdQ==
-X-Received: by 2002:adf:ea11:: with SMTP id q17mr1628929wrm.204.1644404568358; 
- Wed, 09 Feb 2022 03:02:48 -0800 (PST)
+ bh=N4o+LNJaYo3X9fH4YBPRei9jJzogxbgFD0IPNn+FC5s=;
+ b=KELtYiNRjznjeJaubEuTvEKSJZMr8HOWCB167oAif3IetMbYWKS8P8v6UgqTeadngI
+ NC2NHca3uEFsGl8cSoaHTMFrFqSaeM7GAnl7pdyw2Efk0bMkUBZMnvfUUGNLzdS+EdPr
+ 0e9GCbZA0+irxOYssexSG+6P7FI/Fx2crqMGGdp8RnuBIN8tGrIQp8kOdqUJ2XdP0Jg+
+ mTS0uksx2Ng+CZYKI/0vZgyHs0ROnt5RSQvq/QIC9etuiyAoanjXKjGmzqqWxvpOf+6C
+ uI9IiGQkjWCIltGZ8qp5/8rEyVBJZnvl25VwA6APlKpsddzvLM7nfIzxLW2EMeodm9s/
+ oXLQ==
+X-Gm-Message-State: AOAM530WwuRbDvyCbORjq+esbcNOCuh2E6WKLzEy/QeNHjzzHxORFTCI
+ fXg9gbzBXJuy1vI2fDCZHTKKNNQG3r3W6J3yB2pfyGGIp5atEOE/k+s090hwd1RShSqbjTWBndL
+ SlfELJH9IgDaJXPphc+M8Pl1+qzH8
+X-Received: by 2002:a5d:6888:: with SMTP id h8mr1624177wru.57.1644404978319;
+ Wed, 09 Feb 2022 03:09:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzDoPHULtn9/QeN9cxKfJa/NBq5uBR0MOWtO02HJst3Wn/rODCXZx/njzQuiRqWSRFEvsDVvA==
+X-Received: by 2002:a5d:6888:: with SMTP id h8mr1624160wru.57.1644404978143;
+ Wed, 09 Feb 2022 03:09:38 -0800 (PST)
 Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id d7sm5250241wmb.18.2022.02.09.03.02.47
+ by smtp.gmail.com with ESMTPSA id r2sm6140234wmq.24.2022.02.09.03.09.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 03:02:48 -0800 (PST)
-Message-ID: <978298f5-3775-c19a-37b0-8eec2f3aa696@redhat.com>
-Date: Wed, 9 Feb 2022 12:02:47 +0100
+ Wed, 09 Feb 2022 03:09:37 -0800 (PST)
+Message-ID: <5234738a-fce6-6df1-1200-94ae1ad1f5b9@redhat.com>
+Date: Wed, 9 Feb 2022 12:09:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 3/5] drm/fb-helper: Calculate damaged area in separate
- helper
+Subject: Re: [PATCH 4/5] drm/fb-helper: Clip damage area to written memory
+ range
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  sam@ravnborg.org, noralf@tronnes.org
 References: <20220206192935.24645-1-tzimmermann@suse.de>
- <20220206192935.24645-4-tzimmermann@suse.de>
+ <20220206192935.24645-5-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220206192935.24645-4-tzimmermann@suse.de>
+In-Reply-To: <20220206192935.24645-5-tzimmermann@suse.de>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,42 +93,41 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 2/6/22 20:29, Thomas Zimmermann wrote:
-> Add drm_fb_helper_clip_to_memory_range(), a helper function that
-> accepts an linear range of video memory and converts it into a
-> rectangle. The computed rectangle describes the damaged area in
-> terms of scanlines and pixels per scanline.
-> 
-> While at it, make the code more readable by using struct drm_rect
-> and related helpers.
-> 
-> The code was previously part of the deferred I/O helpers, but is
-> also useful for damage handling of regular write operations. Update
-> the deferred I/O code to use the new function.
+> Write helpers used to mark the complete screen as dirty. This is
+> wasteful for writes that only change a small portion of the screen.
+> Fix the problem by computing the damaged area from the written
+> memory range and perform damage handling accordingly.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/drm_fb_helper.c | 26 ++++++++++++++++++++------
->  1 file changed, 20 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 87c47093c3a2..ae98990c7b66 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -680,6 +680,19 @@ static void drm_fb_helper_damage(struct fb_info *info, u32 x, u32 y,
->  	schedule_work(&helper->damage_work);
->  }
->  
-> +/* Convert memory region into area of scanlines and pixels per scanline */
-> +static void drm_fb_helper_clip_to_memory_range(struct fb_info *info, off_t off, size_t len,
-> +					       struct drm_rect *clip)
-> +{
-
-Shouldn't be called drm_fb_helper_clip_from_memory_range() or
-drm_fb_helper_memory_range_to_clip() instead ?
-
-Otherwise it looks good to me.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+>  drivers/gpu/drm/drm_fb_helper.c | 28 +++++++++++++++++++++-------
+>  1 file changed, 21 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index ae98990c7b66..bed58be1b205 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -754,11 +754,18 @@ EXPORT_SYMBOL(drm_fb_helper_sys_read);
+>  ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char __user *buf,
+>  				size_t count, loff_t *ppos)
+>  {
+> +	loff_t pos = *ppos;
+>  	ssize_t ret;
+> +	struct drm_rect damage_area;
+>  
+>  	ret = fb_sys_write(info, buf, count, ppos);
+> -	if (ret > 0)
+> -		drm_fb_helper_damage(info, 0, 0, info->var.xres, info->var.yres);
+> +	if (ret <= 0)
+> +		return ret;
+> +
+
+I also like how you cleaned up the error checking here and below
+to just return early, instead of checking if ret > 0 to perform
+the damage handling.
 
 Best regards,
 -- 
