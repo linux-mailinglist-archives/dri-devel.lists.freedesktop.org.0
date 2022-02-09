@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F7A4AE750
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 04:02:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9694AE76E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Feb 2022 04:07:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAD7510E150;
-	Wed,  9 Feb 2022 03:02:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0AC10E19D;
+	Wed,  9 Feb 2022 03:06:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
- [209.85.161.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE8C710E150
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 03:02:12 +0000 (UTC)
-Received: by mail-oo1-f44.google.com with SMTP id
- r15-20020a4ae5cf000000b002edba1d3349so1002480oov.3
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 19:02:12 -0800 (PST)
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
+ [209.85.167.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24D3110E19D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Feb 2022 03:06:50 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id 4so1146734oil.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Feb 2022 19:06:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=r9n/VE8ShNQNiwipYWkPFL8cBHsQZxENNYkTj1Nzpt8=;
- b=Tjz20WMstZzD8LV9y5NXFTIZ477ww1UsoCBzV82N2RZIphzEkjSAKFTSLeoBU4vWn7
- JvULPhmaGVpWLPPY5e7u/ZmvJzzHJoO+PXjoHtFldgzxOaUcuanrJO+RjTwTbeDKDial
- BJkvuUdHvXQYHI31Qra/ibnsj2gfSDmL3OboFGrh+bfpgESZONjLljLf4SMlIZop8JSo
- sCwVMy/+r26a5o5X2Fu4SIaIZyjtJ47uSf4UR0fYqzr9XQIN5K+viGKJDQ/sPCqervks
- 7jNa+6Wb5C3VJspS1c/yNh6OjBDVEdw3xiz6UZc7PKeT+xysTk6gX2bBu2556RRzwcVU
- 3RvQ==
-X-Gm-Message-State: AOAM531P8AKlCReQeh38lr/2EZUmVcXRhdglIt87XF2uKQVKXFSSnu0G
- zgQmUteSZoH/xesV67Gx0w==
-X-Google-Smtp-Source: ABdhPJzet+Dv7YYDkSGgJ2JnIoD3tapZgHhdllycdoCmXgkx2+9s9J1YxBIMJuyIWUjbzLMqyE9qyQ==
-X-Received: by 2002:a05:6870:91c6:: with SMTP id
- c6mr103120oaf.147.1644375732021; 
- Tue, 08 Feb 2022 19:02:12 -0800 (PST)
+ bh=LVeDVNu/BCICylDILAovuwAjxje6g+Ysjhgt1fngzyo=;
+ b=CCoPCkaF2reFstZmAJiFV3fDuXtx1P87tXUdSvSb+MnpKRD5WWnCsFeslepihkYmz+
+ hiizBy43OsE3NUV8HigwvMqCJ95wqU8QljnklLhRy4GD26xRh97rjiZ0moyHpeGwX1Fw
+ 3SaSpMuPvIzpxr68WbjgJzfkaknPLE0ZHiOatdOhD0locUJXJMgEkJ+FqTkxoP3wb35O
+ l6IH9nSl3FIAtnwdeqoNyAAOQL3WS44WMgqXN/mjT0vqZAk4ng/AsKsmNI/feo+MbQ4X
+ iaInp/9kJEqd75qaOwWxalMV9MphJHxYRDuI40fN4SerDoLehBPDJdIns197f5F5lmDP
+ pL1g==
+X-Gm-Message-State: AOAM532g0FpiW4Wca7qJ9w1/l+t8Rh3e2IpS5Jlvd5Bbz4W+IcfqTkPI
+ zBPpDq5jBhTR2BPLlmcvIQ==
+X-Google-Smtp-Source: ABdhPJx7cq9TDX0KZTFuW81BDWG1EoY4kxSCvCuwLrOluU5T0RnjLOr+uJoVJdCOGfn8uJmNHIWu7Q==
+X-Received: by 2002:a05:6808:1702:: with SMTP id
+ bc2mr484788oib.214.1644376009186; 
+ Tue, 08 Feb 2022 19:06:49 -0800 (PST)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
  [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id r186sm6264409oie.23.2022.02.08.19.02.10
+ by smtp.gmail.com with ESMTPSA id j19sm6006307ots.21.2022.02.08.19.06.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 19:02:11 -0800 (PST)
-Received: (nullmailer pid 3539514 invoked by uid 1000);
- Wed, 09 Feb 2022 03:02:09 -0000
-Date: Tue, 8 Feb 2022 21:02:09 -0600
+ Tue, 08 Feb 2022 19:06:47 -0800 (PST)
+Received: (nullmailer pid 3546662 invoked by uid 1000);
+ Wed, 09 Feb 2022 03:06:46 -0000
+Date: Tue, 8 Feb 2022 21:06:46 -0600
 From: Rob Herring <robh@kernel.org>
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Subject: Re: [PATCH v1, 2/3] dt-bindings: media: mtk-vcodec: Adds decoder
- dt-bindings for mt8186
-Message-ID: <YgMusfSSXXLlyxyX@robh.at.kernel.org>
-References: <20220122075606.19373-1-yunfei.dong@mediatek.com>
- <20220122075606.19373-3-yunfei.dong@mediatek.com>
+To: Caleb Connolly <caleb@connolly.tech>
+Subject: Re: [PATCH 3/6] dt-bindings: display: visionox-rm69299: document new
+ compatible string
+Message-ID: <YgMvxpbUpgw3XdxS@robh.at.kernel.org>
+References: <20220123173650.290349-4-caleb@connolly.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220122075606.19373-3-yunfei.dong@mediatek.com>
+In-Reply-To: <20220123173650.290349-4-caleb@connolly.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,31 +62,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Steve Cho <stevecho@chromium.org>,
- Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa <tfiga@google.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- srv_heupstream@mediatek.com, Alexandre Courbot <acourbot@chromium.org>,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: devicetree@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Kees Cook <keescook@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Tony Luck <tony.luck@intel.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Anton Vorontsov <anton@enomsg.org>,
+ Harigovindan P <harigovi@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Alexander Martinz <amartinz@shiftphones.com>, Andy Gross <agross@kernel.org>,
+ Colin Cross <ccross@android.com>, linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 22 Jan 2022 15:56:05 +0800, Yunfei Dong wrote:
-> Adds decoder dt-bindings for mt8186.
+On Sun, 23 Jan 2022 17:37:41 +0000, Caleb Connolly wrote:
+> Document a new compatible string for the second panel variant.
 > 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
 > ---
->  .../bindings/media/mediatek,vcodec-subdev-decoder.yaml        | 4 +++-
+>  .../devicetree/bindings/display/panel/visionox,rm69299.yaml   | 4 +++-
 >  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
 
