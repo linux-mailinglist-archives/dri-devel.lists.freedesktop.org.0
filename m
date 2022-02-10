@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760524B1910
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 00:09:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F4A4B1984
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 00:31:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 409C110E1A1;
-	Thu, 10 Feb 2022 23:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17C4B10E988;
+	Thu, 10 Feb 2022 23:31:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EBD010E1A1;
- Thu, 10 Feb 2022 23:09:32 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id t1so7141185qtq.13;
- Thu, 10 Feb 2022 15:09:32 -0800 (PST)
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 188C410E988;
+ Thu, 10 Feb 2022 23:31:39 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id c12so5036625ilm.8;
+ Thu, 10 Feb 2022 15:31:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Il/njuSffEOrDW4E6Z5WwCggqy6XxgY6UGpPrL0AIR4=;
- b=JHJhNoUxh9ZuIiGYQov/FCIzAnjDxw6DqtVPkL1Zy1CLrsVwmf/L1YO0+GvOXbDRZ1
- pqP9mY9GzQYWTgjathqD6S833i3Jn5LhtxZir6zDdzPkcq0f+VaqtHxlBS6ulo5m01Uc
- 5DJQwrfoKFPrAReQX/OlzhfusR6gY3jUDmZ2vXh/MK0XJxvb+JBDrj+24HC4sMqKBH2x
- kal6x+3q2ykI4/TCu98o6Mozggc8N7XorGZWzB7iKSz5i9wIizC8TdU+Cz+wzu1nNQay
- JFJ9W+P6+SkdtD9v9e2pIYBVGBN0oQwzdYpdb3O/UPoDayEfqa2+ziM7S0gFtv3xwP3k
- JINw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=cBa2U3XOOVlsojEDVXj/o83IuBw5ETmXBNJi4yT/mck=;
+ b=jHSBDPHH5F/Vu7vkrUGPef+o7tUEfAEhl2PoRlxgkCIVVBSidmw9uoJm5ymTT6uz7U
+ 3pffuiDZNdBK94zTP95WUpBGuA4KamvVVf+MC7XSjB2nZG+dK2TvwXlQ6Bckx4CEO+Yo
+ e0MBSfMLtj2iby5Q2GF35xLHWDBso6GFt1XjoBnPxNu86jWo1lCR2vG4HtD5+tH/9aJP
+ OAruOIYwdHx6XDS8/GY+DdK51p13TeK26Uf/QDWOoZldYjOXc5rWsvHHoTuWsRjT3/AS
+ 10ubpI+g8KCocxoIO6IF2muT6+nBFRdueT1NFzZW82akR34riORhlm6VJ3wgO4FgV413
+ BSJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Il/njuSffEOrDW4E6Z5WwCggqy6XxgY6UGpPrL0AIR4=;
- b=VCMhyiz53HcWPa12qZdBd7NM2OL3Z7DhCa0VHTYzkUp0wRdg3xmzefayZShNXwFK2I
- nDCwZBDlFFFO8io4Du3i36kMeCTsgzKW1QvxEx2dLm/arqZMdqQGTAy/kvuWQs+aGRsJ
- UnqhKf6lMQOsPFwZ71hwCz7fjWIzrocRLlLTAP6jiYiaO7/gUrhYdDeWCpEZ2K0QhGIV
- sW/uaM1BbmcuTF704V/TMQTEKuc13ypP1s6Y97Dwf7yMKL/QiS9vj0vNiwJ30G74guWI
- /0tfVg+4hs5GHv5I9vGwZ1zIgpIs01PVrZ0NQe8MFa35+yb8ViyjCBeUk/b02FuFCnll
- b3oQ==
-X-Gm-Message-State: AOAM532Xh8dGFo0MYMciEhP/JAqqWG97lIvobn1aAiAMI3dlbuiIEDyq
- vG/Vk4YEKNaptrKz7hCJtDI=
-X-Google-Smtp-Source: ABdhPJyv7MT5wCGfdlfCLRk0wYTBM2q1x++ztUAm4XQN4J6MUGrqRSzzk5Brej8rnmEAO7fi58Ap6g==
-X-Received: by 2002:a05:622a:1304:: with SMTP id
- v4mr6649618qtk.359.1644534571568; 
- Thu, 10 Feb 2022 15:09:31 -0800 (PST)
+ bh=cBa2U3XOOVlsojEDVXj/o83IuBw5ETmXBNJi4yT/mck=;
+ b=H0R5p4+mdN5Xt+lasaIc4vmjSt1KHG32qdCfpnpRL1idNn5vfwyU3n58FHtkntIMMM
+ BCaHqK2fubXSeCsySLRRUG/Ev9V4xi0dozWaVvS+UTIufS0JGnm9kP6AX7DukXoEb7Wu
+ 1nriLLlY1mCLP9+Amm7OwHkzM8Dd6O0+Y4CQnAHL2ghDDP149w97GgZPjpe/pJVFEOdG
+ 7Dv1fyqvQsBqyKajdTmSrmU0b+Gq+w8q4cGe/Pmfq+Mj7iC/MVjS/ZAJGWzlEXuTEPrP
+ h9UCDNAW0ocC5ix/ItOOYRHG6yXxw4s9hn77a73HVUW0Iqnt9HD1RM/m26t4HKhGhD/0
+ cDzQ==
+X-Gm-Message-State: AOAM533InxUbOzgmZB6P+XBjS9Ht7UFup/qCINaSGbjc9NfAk/+qq0+X
+ oNiuI8M/mmEske1dv5qEIZU=
+X-Google-Smtp-Source: ABdhPJy8lL1944IEHiv7kjDJbzucordqvuC8LbtZQRP1RQFcCYSZIqSbwhqVBTtPLxpQaswpU1x/lA==
+X-Received: by 2002:a05:6e02:148:: with SMTP id
+ j8mr4737390ilr.218.1644535898397; 
+ Thu, 10 Feb 2022 15:31:38 -0800 (PST)
 Received: from localhost ([12.28.44.171])
- by smtp.gmail.com with ESMTPSA id s6sm11824113qtw.18.2022.02.10.15.09.30
+ by smtp.gmail.com with ESMTPSA id l6sm7395096ilt.16.2022.02.10.15.31.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Feb 2022 15:09:31 -0800 (PST)
+ Thu, 10 Feb 2022 15:31:38 -0800 (PST)
 From: Yury Norov <yury.norov@gmail.com>
 To: Yury Norov <yury.norov@gmail.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -59,14 +59,16 @@ To: Yury Norov <yury.norov@gmail.com>,
  Nicholas Piggin <npiggin@gmail.com>,
  Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
  Alexey Klimov <aklimov@redhat.com>, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: [PATCH 08/49] drm: replace bitmap_weight with bitmap_empty where
- appropriate
-Date: Thu, 10 Feb 2022 14:48:52 -0800
-Message-Id: <20220210224933.379149-9-yury.norov@gmail.com>
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH 18/49] drm/i915/pmu: replace cpumask_weight with cpumask_empty
+ where appropriate
+Date: Thu, 10 Feb 2022 14:49:02 -0800
+Message-Id: <20220210224933.379149-19-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220210224933.379149-1-yury.norov@gmail.com>
 References: <20220210224933.379149-1-yury.norov@gmail.com>
@@ -84,33 +86,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-smp_request_block() in drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c calls
-bitmap_weight() to check if any bit of a given bitmap is set. It's
-better to use bitmap_empty() in that case because bitmap_empty() stops
-traversing the bitmap as soon as it finds first set bit, while
-bitmap_weight() counts all bits unconditionally.
+i915_pmu_cpu_online() calls cpumask_weight() to check if any bit of a
+given cpumask is set. We can do it more efficiently with cpumask_empty()
+because cpumask_empty() stops traversing the cpumask as soon as it finds
+first set bit, while cpumask_weight() counts all bits unconditionally.
 
 Signed-off-by: Yury Norov <yury.norov@gmail.com>
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c | 2 +-
+ drivers/gpu/drm/i915/i915_pmu.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c
-index d7fa2c49e741..56a3063545ec 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c
-@@ -68,7 +68,7 @@ static int smp_request_block(struct mdp5_smp *smp,
- 	uint8_t reserved;
+diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+index cfc21042499d..7299ed9937dd 100644
+--- a/drivers/gpu/drm/i915/i915_pmu.c
++++ b/drivers/gpu/drm/i915/i915_pmu.c
+@@ -1050,7 +1050,7 @@ static int i915_pmu_cpu_online(unsigned int cpu, struct hlist_node *node)
+ 	GEM_BUG_ON(!pmu->base.event_init);
  
- 	/* we shouldn't be requesting blocks for an in-use client: */
--	WARN_ON(bitmap_weight(cs, cnt) > 0);
-+	WARN_ON(!bitmap_empty(cs, cnt));
+ 	/* Select the first online CPU as a designated reader. */
+-	if (!cpumask_weight(&i915_pmu_cpumask))
++	if (cpumask_empty(&i915_pmu_cpumask))
+ 		cpumask_set_cpu(cpu, &i915_pmu_cpumask);
  
- 	reserved = smp->reserved[cid];
- 
+ 	return 0;
 -- 
 2.32.0
 
