@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38A54B11DF
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 16:40:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FCCD4B1208
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 16:48:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9348710E891;
-	Thu, 10 Feb 2022 15:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4573810E89C;
+	Thu, 10 Feb 2022 15:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C586110E891
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 15:40:36 +0000 (UTC)
-Date: Thu, 10 Feb 2022 15:40:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1644507633;
- bh=ECe2L9xWylm7q8RA9P0cKfPheXFnINjfWPDIgLNlj84=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID;
- b=SDKFNkc1XP0FclM8EeWusC1CSXDM9LIZUPeqZnXkJl9wBJKi7WX60MJs/33MV5lN8
- 9w5Gr4H90LtAjfEC833PKFK6VJJCrai1VghmsaS8YI9Dhm0Ww3uGn+d8v0D/ugG+sJ
- JFHt+hG08vACo5C/bz1RfGe3KXcwHoolMCs4jzc2boo2WhLds75dSOKPgDPRPIQIQ8
- jIfpgNDZz+j2k1dTtmSp0CR8pUsWkHah9W3/aaSLyuXgxA4TlBeML71eOZfIRVnd9O
- P1F27o2t/7/nioFpc6UJvAy1+51GKQLEtGqmug0MW0WOp+HzY244IgpFllNrzUDec3
- jQmcRPf1oiKnQ==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH] drm/dp_mst: fix drm_dp_dpcd_read return value checks
-Message-ID: <20220210154012.118472-1-contact@emersion.fr>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BA3EB10E89C;
+ Thu, 10 Feb 2022 15:48:49 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F089D6E;
+ Thu, 10 Feb 2022 07:48:49 -0800 (PST)
+Received: from [10.57.38.35] (unknown [10.57.38.35])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE3B53F718;
+ Thu, 10 Feb 2022 07:48:46 -0800 (PST)
+Message-ID: <c5077902-2602-6ebb-802a-aad4ce0153c3@arm.com>
+Date: Thu, 10 Feb 2022 15:48:45 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,T_SCC_BODY_TEXT_LINE
- shortcircuit=no autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/2] drm/gem-shmem: Set vm_ops in static initializer
+Content-Language: en-GB
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ yuq825@gmail.com, robh@kernel.org, tomeu.vizoso@collabora.com,
+ alyssa.rosenzweig@collabora.com, emma@anholt.net, kraxel@redhat.com,
+ gurchetansingh@chromium.org, olvaffe@gmail.com
+References: <20220209155634.3994-1-tzimmermann@suse.de>
+ <20220209155634.3994-2-tzimmermann@suse.de>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20220209155634.3994-2-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,67 +48,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
+Cc: dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_dp_dpcd_read returns the number of bytes read. The previous code
-would print garbage on DPCD error, and would exit with on error on
-success.
+On 09/02/2022 15:56, Thomas Zimmermann wrote:
+> Initialize default vm_ops in static initialization of the GEM SHMEM funcs,
+> instead of the mmap code. It's simply better style. GEM helpers will later
+> set a VMA's vm_ops from the default automatically.
+> 
+> v2:
+> 	* also update the drivers that build upon GEM SHMEM
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Fixes: cb897542c6d2 ("drm/dp_mst: Fix W=3D1 warnings")
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
----
- drivers/gpu/drm/dp/drm_dp_mst_topology.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-diff --git a/drivers/gpu/drm/dp/drm_dp_mst_topology.c b/drivers/gpu/drm/dp/=
-drm_dp_mst_topology.c
-index 11300b53d24f..f5998b7cf602 100644
---- a/drivers/gpu/drm/dp/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/dp/drm_dp_mst_topology.c
-@@ -4912,21 +4912,21 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
- =09=09int ret;
-=20
- =09=09ret =3D drm_dp_dpcd_read(mgr->aux, DP_DPCD_REV, buf, DP_RECEIVER_CAP=
-_SIZE);
--=09=09if (ret) {
-+=09=09if (ret !=3D DP_RECEIVER_CAP_SIZE) {
- =09=09=09seq_printf(m, "dpcd read failed\n");
- =09=09=09goto out;
- =09=09}
- =09=09seq_printf(m, "dpcd: %*ph\n", DP_RECEIVER_CAP_SIZE, buf);
-=20
- =09=09ret =3D drm_dp_dpcd_read(mgr->aux, DP_FAUX_CAP, buf, 2);
--=09=09if (ret) {
-+=09=09if (ret !=3D 2) {
- =09=09=09seq_printf(m, "faux/mst read failed\n");
- =09=09=09goto out;
- =09=09}
- =09=09seq_printf(m, "faux/mst: %*ph\n", 2, buf);
-=20
- =09=09ret =3D drm_dp_dpcd_read(mgr->aux, DP_MSTM_CTRL, buf, 1);
--=09=09if (ret) {
-+=09=09if (ret !=3D 1) {
- =09=09=09seq_printf(m, "mst ctrl read failed\n");
- =09=09=09goto out;
- =09=09}
-@@ -4934,7 +4934,7 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
-=20
- =09=09/* dump the standard OUI branch header */
- =09=09ret =3D drm_dp_dpcd_read(mgr->aux, DP_BRANCH_OUI, buf, DP_BRANCH_OUI=
-_HEADER_SIZE);
--=09=09if (ret) {
-+=09=09if (ret !=3D DP_BRANCH_OUI_HEADER_SIZE) {
- =09=09=09seq_printf(m, "branch oui read failed\n");
- =09=09=09goto out;
- =09=09}
-
-base-commit: ded74cafeea9311c1eaf6fccce963de2516145f7
---=20
-2.35.1
-
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c  | 5 +++--
+>  drivers/gpu/drm/lima/lima_gem.c         | 1 +
+>  drivers/gpu/drm/panfrost/panfrost_gem.c | 1 +
+>  drivers/gpu/drm/v3d/v3d_bo.c            | 1 +
+>  drivers/gpu/drm/virtio/virtgpu_object.c | 1 +
+>  include/drm/drm_gem_shmem_helper.h      | 2 ++
+>  6 files changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 621924116eb4..5991a22a9e22 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -46,6 +46,7 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+>  	.vmap = drm_gem_shmem_object_vmap,
+>  	.vunmap = drm_gem_shmem_object_vunmap,
+>  	.mmap = drm_gem_shmem_object_mmap,
+> +	.vm_ops = &drm_gem_shmem_vm_ops,
+>  };
+>  
+>  static struct drm_gem_shmem_object *
+> @@ -585,11 +586,12 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
+>  	drm_gem_vm_close(vma);
+>  }
+>  
+> -static const struct vm_operations_struct drm_gem_shmem_vm_ops = {
+> +const struct vm_operations_struct drm_gem_shmem_vm_ops = {
+>  	.fault = drm_gem_shmem_fault,
+>  	.open = drm_gem_shmem_vm_open,
+>  	.close = drm_gem_shmem_vm_close,
+>  };
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_ops);
+>  
+>  /**
+>   * drm_gem_shmem_mmap - Memory-map a shmem GEM object
+> @@ -625,7 +627,6 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
+>  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+>  	if (shmem->map_wc)
+>  		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+> -	vma->vm_ops = &drm_gem_shmem_vm_ops;
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+> index f9a9198ef198..6a6f6f2ead75 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -213,6 +213,7 @@ static const struct drm_gem_object_funcs lima_gem_funcs = {
+>  	.vmap = lima_gem_vmap,
+>  	.vunmap = drm_gem_shmem_object_vunmap,
+>  	.mmap = lima_gem_mmap,
+> +	.vm_ops = &drm_gem_shmem_vm_ops,
+>  };
+>  
+>  struct drm_gem_object *lima_gem_create_object(struct drm_device *dev, size_t size)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> index ead65f5fa2bc..293e799e2fe8 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -206,6 +206,7 @@ static const struct drm_gem_object_funcs panfrost_gem_funcs = {
+>  	.vmap = drm_gem_shmem_object_vmap,
+>  	.vunmap = drm_gem_shmem_object_vunmap,
+>  	.mmap = drm_gem_shmem_object_mmap,
+> +	.vm_ops = &drm_gem_shmem_vm_ops,
+>  };
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+> index 6e3113f419f4..8b3229a37c6d 100644
+> --- a/drivers/gpu/drm/v3d/v3d_bo.c
+> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
+> @@ -59,6 +59,7 @@ static const struct drm_gem_object_funcs v3d_gem_funcs = {
+>  	.vmap = drm_gem_shmem_object_vmap,
+>  	.vunmap = drm_gem_shmem_object_vunmap,
+>  	.mmap = drm_gem_shmem_object_mmap,
+> +	.vm_ops = &drm_gem_shmem_vm_ops,
+>  };
+>  
+>  /* gem_create_object function for allocating a BO struct and doing
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+> index baef2c5f2aaf..f293e6ad52da 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+> @@ -124,6 +124,7 @@ static const struct drm_gem_object_funcs virtio_gpu_shmem_funcs = {
+>  	.vmap = drm_gem_shmem_object_vmap,
+>  	.vunmap = drm_gem_shmem_object_vunmap,
+>  	.mmap = drm_gem_shmem_object_mmap,
+> +	.vm_ops = &drm_gem_shmem_vm_ops,
+>  };
+>  
+>  bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo)
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index 311d66c9cf4b..08e7846e8abc 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -135,6 +135,8 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
+>  void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
+>  			      struct drm_printer *p, unsigned int indent);
+>  
+> +extern const struct vm_operations_struct drm_gem_shmem_vm_ops;
+> +
+>  /*
+>   * GEM object functions
+>   */
 
