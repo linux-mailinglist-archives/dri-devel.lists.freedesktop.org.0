@@ -1,47 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1714B089B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 09:41:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 586924B08A3
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 09:42:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC1ED10E757;
-	Thu, 10 Feb 2022 08:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9DB10E79B;
+	Thu, 10 Feb 2022 08:42:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 284C410E757
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 08:41:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 1F71E1F45FED
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1644482459;
- bh=dxxB5y7E7AReW2OAClnLIQexw3iKhotkP4SOeOAGdAE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lymY0FiuiysUb7/sSKRGIAg4jthJDb4GiQzlbfekQkSWXBOvc5GXsheGI2D39J1Qi
- k3vPiOsX1+GILO03JWThkAH1dG6l+O2/r5mfnGztJ0BOCm05187+jqRK+CupRNXscf
- 8dVNhlmp9hrk5o4Ovl1lidzZFLamLR6CSZwgupmALF+H0sAgSH1XA9hwLQqYRDgzh+
- q0WsnrGIZDrVnlsWpC4OslPfBt9Ww3yFdx067aDeyIWs8l4V+hlIwGYGc5mfb1ossx
- jKqVmmQpyz+sUPAhv1UfvSxb/UCIP2+mkls3Ei8ZXuqiZEcWe8v06niHjVo4uepz4E
- k7FeUraA0G4cg==
-Message-ID: <f807c862-d327-5b12-7443-c4fed6e1ef6a@collabora.com>
-Date: Thu, 10 Feb 2022 09:40:55 +0100
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB5710E79B;
+ Thu, 10 Feb 2022 08:42:47 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 786B1580162;
+ Thu, 10 Feb 2022 03:42:46 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 10 Feb 2022 03:42:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=8UmB/0ivT0J8zqbGGFQS2Ruey/l6Z0P8AFKloL
+ LCMgA=; b=V2ZJBt1VA11btQmfjyO0mhTP3qZyF6OlfzA3V0Yn0BqcZx71YHuZVk
+ +JhBITlcoXhGeJwQAjC/tHOzCapnDi4KT46i0Q/dm+ycqgK0lhCi+w8la2V9eGRh
+ KsWEoZfS45Tefej/RW2O/sEDzmXvREe7LYE0x5PHxQIztJ0C1dyhJqG8w3u1B6Is
+ 4R44tdJ+ESOEzbZPkqVFoIB7gZNjVA1Fnf1Uhb4ulUmzvJdP0XliU6fwScMyMSt8
+ q7TQHFDWizOF2RdRdJqJ9c3FaFPD4ZC4uXIvUB4FHo1vsF4sjV24jaoHta7jGGHb
+ suBQaBHv/EfzmDJsCsa5kUvZD/KLTwfA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=8UmB/0ivT0J8zqbGG
+ FQS2Ruey/l6Z0P8AFKloLLCMgA=; b=KQQzmRJVllZnBpcnVd3MjVhgIWssn7oPK
+ qwOrY3T13EitF4yzwN4Uinvj5zqUkg2XxknpoLzGO6+D1LW/I/D7DQkmQL3iAhmV
+ TinFNTAZyn4pG5K8XHq5Hgx80O8fhFTD16pqSgfvwsfLgfUPdFx6to0tn6km+kiw
+ G8VyrkV5F28FiYolOc1MiTDCJ8DXJYSmzYAa5/8z/8bq/Fe9fnNY9giKljL5Z5gJ
+ 9XPHjCTKMQJzypmbZmSRTe5+NgikFdJe6KwYDuxV2KfOx80ySi3pAP/mul9HLNzW
+ /VVJgGxhVS6Py6NVuOfrLFubcgQluUn08BtCbLGmS1XURQcY6SlYQ==
+X-ME-Sender: <xms:BtAEYkv_F3qBcQUSEmKXTM-wkw6rgpoz5qdMpb3w3kUGDZiw_-wkmQ>
+ <xme:BtAEYhcxrzaWujr41iuEAwDqdhUJ_-jQ3QEf28K1Dqpv2dpNXHspL6hF7FJCZqIrH
+ zXl7ND7TXqcw0LZyzI>
+X-ME-Received: <xmr:BtAEYvzoRtn19X6FFsHaZKUBT-SI_KjaitBiH9nDAJQwLmYOIyvfOwaxqdJfbmrPrWTmUUfBMdOrLubo3l5K5ara7bV4mBC2EIwTml0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddriedtgdduvdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:BtAEYnMHt83zZ4SjuOS5BT_2PCFBNrvRZ-yszzg1XY1UKxYkLfBjnw>
+ <xmx:BtAEYk9C59ubWdp_QCdPFitqLJCaPM6Q0MClTwYA0lV_ra2B-gI4OQ>
+ <xmx:BtAEYvXRxIpXtBLIO0-iKainjjVRPzyQW_S_HToLPK5iNWDcNWtKjQ>
+ <xmx:BtAEYoWS6keON82kSNH2Tm4GqIQfQT_x-eBFHpKbQ1YLwkuWu7dTrw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 10 Feb 2022 03:42:45 -0500 (EST)
+Date: Thu, 10 Feb 2022 09:42:43 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH 05/23] drm/amd/display: Fix color encoding mismatch
+Message-ID: <20220210084243.grmjum55qc6sei52@houat>
+References: <20220207163515.1038648-1-maxime@cerno.tech>
+ <20220207163515.1038648-6-maxime@cerno.tech>
+ <8aa30074-6039-ba5c-c25d-38a0c2f52619@amd.com>
+ <3a9f5ff6-52fd-25f5-2714-8801eba13dab@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v2, 1/7] dt-bindings: media: mtk-vcodec: Adds decoder
- dt-bindings for lat soc
-Content-Language: en-US
-To: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
- Rob Herring <robh@kernel.org>
-References: <20220128035440.24533-1-yunfei.dong@mediatek.com>
- <20220128035440.24533-2-yunfei.dong@mediatek.com>
- <YgQl8CtttQ99+8lB@robh.at.kernel.org>
- <aa72bec2064e25990e1a3641b920cb5528cfccd4.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <aa72bec2064e25990e1a3641b920cb5528cfccd4.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zqzqaf7ypljyfqok"
+Content-Disposition: inline
+In-Reply-To: <3a9f5ff6-52fd-25f5-2714-8801eba13dab@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,133 +83,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Irui Wang <irui.wang@mediatek.com>,
- George Sun <george.sun@mediatek.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa <tfiga@google.com>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Leo Li <sunpeng.li@amd.com>,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 10/02/22 04:06, yunfei.dong@mediatek.com ha scritto:
-> Hi Rob,
-> 
-> Thanks for your suggestion.
-> On Wed, 2022-02-09 at 14:37 -0600, Rob Herring wrote:
->> On Fri, Jan 28, 2022 at 11:54:34AM +0800, Yunfei Dong wrote:
->>> Adds decoder dt-bindings for compatible "mediatek,mtk-vcodec-lat-
->>> soc".
->>
->> What's lat soc? How does this relate to what's already there in this
->> binding.
->>
-> lat soc is another hardware, is related with some vdec larb ports.
-> Won't be used to decode, but must to write it in dtsi, or hardware
-> can't work well.
 
-Hello Yunfei,
+--zqzqaf7ypljyfqok
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-as a suggestion, writing the meaning of the "LAT" acronym may also
-help to clear some doubts around (please, also do that in the yaml file,
-other than the commit description).
+Hi Harry,
 
-Thank you!
-Angelo
+On Mon, Feb 07, 2022 at 01:59:38PM -0500, Harry Wentland wrote:
+> On 2022-02-07 13:57, Harry Wentland wrote:
+> > On 2022-02-07 11:34, Maxime Ripard wrote:
+> >> The amdgpu KMS driver calls drm_plane_create_color_properties() with a
+> >> default encoding set to BT709.
+> >>
+> >> However, the core will ignore it and the driver doesn't force it in its
+> >> plane state reset hook, so the initial value will be 0, which represen=
+ts
+> >> BT601.
+> >>
+> >=20
+> > Isn't this a core issue? Should __drm_atomic_helper_plane_state_reset
+> > reset all plane_state members to their properties' default values?
+> >=20
+>=20
+> Ah, looks like that's exactly what you do in the later patches, which is
+> perfect. With that, I don't think you'll need this patch anymore.
 
-> 
-> Need to enable clock/power/iommus, no interrupt.
->> The subject space is limited, avoid saying the same thing twice
->> (dt-bindings).
->>
-> 
-> Best Regards,
-> Yunfei Dong
->>>
->>> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
->>> ---
->>>   .../media/mediatek,vcodec-subdev-decoder.yaml | 49
->>> +++++++++++++++++++
->>>   1 file changed, 49 insertions(+)
->>>
->>> diff --git
->>> a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-
->>> decoder.yaml
->>> b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-
->>> decoder.yaml
->>> index 6415c9f29130..a3c892338ac0 100644
->>> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-
->>> subdev-decoder.yaml
->>> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-
->>> subdev-decoder.yaml
->>> @@ -189,6 +189,55 @@ patternProperties:
->>>   
->>>       additionalProperties: false
->>>   
->>> +  '^vcodec-lat-soc@[0-9a-f]+$':
->>> +    type: object
->>> +
->>> +    properties:
->>> +      compatible:
->>> +        const: mediatek,mtk-vcodec-lat-soc
->>> +
->>> +      reg:
->>> +        maxItems: 1
->>> +
->>> +      iommus:
->>> +        minItems: 1
->>> +        maxItems: 32
->>> +        description: |
->>> +          List of the hardware port in respective IOMMU block for
->>> current Socs.
->>> +          Refer to bindings/iommu/mediatek,iommu.yaml.
->>> +
->>> +      clocks:
->>> +        maxItems: 5
->>> +
->>> +      clock-names:
->>> +        items:
->>> +          - const: sel
->>> +          - const: soc-vdec
->>> +          - const: soc-lat
->>> +          - const: vdec
->>> +          - const: top
->>> +
->>> +      assigned-clocks:
->>> +        maxItems: 1
->>> +
->>> +      assigned-clock-parents:
->>> +        maxItems: 1
->>> +
->>> +      power-domains:
->>> +        maxItems: 1
->>> +
->>> +    required:
->>> +      - compatible
->>> +      - reg
->>> +      - iommus
->>> +      - clocks
->>> +      - clock-names
->>> +      - assigned-clocks
->>> +      - assigned-clock-parents
->>> +      - power-domains
->>> +
->>> +    additionalProperties: false
->>> +
->>>   required:
->>>     - compatible
->>>     - reg
->>> -- 
->>> 2.25.1
->>>
->>>
-> 
+Ok, I'll squash it into the patch that removes the reset code.
 
+Thanks!
+Maxime
+
+--zqzqaf7ypljyfqok
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgTQAwAKCRDj7w1vZxhR
+xS9UAQDxZHzWI/TgE+H2KV94xkGKONXDoO5HPthQTVHFCaxKvwEA6xiQuQcP6y+S
+9Kw6J1AxwVSzFV1awfCbQ5WIgtv24wI=
+=d0Xh
+-----END PGP SIGNATURE-----
+
+--zqzqaf7ypljyfqok--
