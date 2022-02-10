@@ -1,122 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73224B07D1
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 09:10:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 624B34B07D3
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 09:10:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 312D310E756;
-	Thu, 10 Feb 2022 08:10:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5A9610E74B;
+	Thu, 10 Feb 2022 08:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13FC010E3C0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 04:03:43 +0000 (UTC)
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20220210040342epoutp0419658dace2e69efc142b65c35b320fb4~SUPP9pDVt2259722597epoutp04M
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 04:03:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20220210040342epoutp0419658dace2e69efc142b65c35b320fb4~SUPP9pDVt2259722597epoutp04M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1644465822;
- bh=s98+9VPav5RQZNoXRdsXGL9ubyNPY1JXXOB4R8f7M0Y=;
- h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
- b=sM0jOl/UcXHS5CA5wIFZlQOqJ04l4K5gMPteGtG5vYHP7wC6ajUB5o4f2PYO5iApB
- qd+d/eqSY9kiWP8jXJnyAmw5wqjh9pVaMC9CtkAXRCAy/JK8z68BcO3Nn7szRUGGaQ
- kjNJ95ZO9CG1YiqGK/mSSMl3yeuuLjbqVdRYqKVk=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTP id
- 20220210040341epcas5p1226981efca4e61735205421bc2def079~SUPPIcF6r0129601296epcas5p1n;
- Thu, 10 Feb 2022 04:03:41 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4JvNQc44s3z4x9Q0; Thu, 10 Feb
- 2022 04:03:36 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- CB.1E.06423.19E84026; Thu, 10 Feb 2022 13:03:29 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220210040328epcas5p233a2f8ef33593694404334f11c6dde34~SUPDAJ3FA0864808648epcas5p2b;
- Thu, 10 Feb 2022 04:03:28 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220210040328epsmtrp26876f1897f533d89d65955b8851ed1ca~SUPDAOSDw2508625086epsmtrp2B;
- Thu, 10 Feb 2022 04:03:28 +0000 (GMT)
-X-AuditID: b6c32a49-b13ff70000001917-fc-62048e9151df
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 2C.EA.08738.09E84026; Thu, 10 Feb 2022 13:03:28 +0900 (KST)
-Received: from alimakhtar03 (unknown [107.122.12.5]) by epsmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20220210040326epsmtip15aa9d8c1f673af62fe86ddc57a0bf836~SUPAfxDt_2289122891epsmtip1s;
- Thu, 10 Feb 2022 04:03:26 +0000 (GMT)
-From: "Alim Akhtar" <alim.akhtar@samsung.com>
-To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@canonical.com>, "'Inki
- Dae'" <inki.dae@samsung.com>, "'Joonyoung Shim'" <jy0922.shim@samsung.com>,
- "'Seung-Woo Kim'" <sw0312.kim@samsung.com>, "'Kyungmin	Park'"
- <kyungmin.park@samsung.com>, "'David Airlie'" <airlied@linux.ie>, "'Daniel
- Vetter'" <daniel@ffwll.ch>, "'Rob Herring'" <robh+dt@kernel.org>, "'Kishon
- Vijay Abraham I'" <kishon@ti.com>, "'Vinod	Koul'" <vkoul@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-phy@lists.infradead.org>
-In-Reply-To: <20220208171823.226211-3-krzysztof.kozlowski@canonical.com>
-Subject: RE: [PATCH 02/10] ARM: dts: exynos: add missing HDMI supplies on
- SMDK5420
-Date: Thu, 10 Feb 2022 09:33:24 +0530
-Message-ID: <003301d81e33$28712a20$79537e60$@samsung.com>
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0AF410E71E
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 06:58:45 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id v12so7825291wrv.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 22:58:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u78B18o9gcsc4cL6IkzErLE1PeBzNrlXsUNhAfo/eQA=;
+ b=Z+CyvLG7KD/HpWPAArX/wKn2XNrlxk7iy8frG7an2ljCw2UYm4L+d2nlDwDzVHi3lP
+ jFbwovb1dRqTM/2101G1HUM/8mtO8uLvQ0gVqEf3ulnKJeMOY6IJVtgcy35mntS9byQy
+ alpXiBuP+DJ5fBtj4gakO1YdgI1d2qoUG5bvX2ecVuzvRQZkkl7FOGaxxOeyvuAXZpsa
+ Cmss2vfY1cWUZu/F+ggYvG6vOhgeVCyXVfM820UicCMYzO15VyUl9/aH3zciHnzreBM6
+ GuOrzWPgzGxeROCjQqdoDth5TVAsYGaY6KRNT/CU6VNNsoVZsMWbHG4/qIdEXwyFqVcQ
+ zIVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u78B18o9gcsc4cL6IkzErLE1PeBzNrlXsUNhAfo/eQA=;
+ b=yq5HzXOBYkDByTynp7v/+3uuGFi4ihhr+rhxQY4vWCZmeQDjFy+5vQKgKjdavc7mFz
+ PLFvr6Kn9tKDDgAUWr41qcKCsRdgxMJRGU3ate6DdjPZ7cncCCn5UEs6RvLrIGD64qbg
+ Fc/fRyfWpZucp7IVIp0N/JCIFqdzcdMohZw8+9hy5+k2utNhuc/zlIRTA9MYuEyT/qE/
+ /kcMiIBFY67vNYbRtIzQeXRWXDQzPEt8SeRC74Mm4V3zkHtP0omIN+583VXYZQ/LzkiN
+ AjiH0yFwvZ4DQ6j5yOgx9L7j7tszb8xhSK+yCEQRFaRJL30r5BIzEdGIEOTLTqI9KDKz
+ opHA==
+X-Gm-Message-State: AOAM5320d5ryAdzuhdkLGQ4QhKJgwJ+4BH+O5wEWHJMfSvTW/XVnhVid
+ vgJgfhijDqUlT4jhHQEoRY4=
+X-Google-Smtp-Source: ABdhPJwe+XGoIjBrzTJSHQ7oKv5mlppiFkBHW6003ML4aU0ugi6ehTht+78ijXA2D7tO+Ul/JUwQrA==
+X-Received: by 2002:a05:6000:178f:: with SMTP id
+ e15mr5133719wrg.439.1644476324368; 
+ Wed, 09 Feb 2022 22:58:44 -0800 (PST)
+Received: from localhost.localdomain ([64.64.123.24])
+ by smtp.gmail.com with ESMTPSA id v9sm6621456wrw.84.2022.02.09.22.58.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Feb 2022 22:58:44 -0800 (PST)
+From: Zhouyi Zhou <zhouzhouyi@gmail.com>
+To: daniel@ffwll.ch, deller@gmx.de, sam@ravnborg.org, linux@roeck-us.net,
+ willy@infradead.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ paulmck@kernel.org, rcu@vger.kernel.org, pmenzel@molgen.mpg.de
+Subject: [PATCH linux-next] video: fbdev: fbmem: fix pointer reference to null
+ device field
+Date: Thu, 10 Feb 2022 14:58:24 +0800
+Message-Id: <20220210065824.368355-1-zhouzhouyi@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQKO+pA4e/0lxhjrdKzLnJfOvLS5zwJNwtwxAgVrE2eq+9du0A==
-Content-Language: en-us
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrOJsWRmVeSWpSXmKPExsWy7bCmuu7EPpYkg8sfVS16z51ksvi/bSKz
- xfwj51gtrnx9z2Yx6f4EFosX9y6yWFx42sNmsfHtDyaLs01v2C02Pb7GanF51xw2iwmrvrFY
- zDi/j8li7ZG77Bate4+wW7Q/fclssWDjI0aLGZNfslnsvHOC2UHYY1ZDL5vH3m8LWDw2repk
- 89j+7QGrx/3u40wem5fUe/RtWcXocfzGdiaPz5vkAjijsm0yUhNTUosUUvOS81My89JtlbyD
- 453jTc0MDHUNLS3MlRTyEnNTbZVcfAJ03TJzgL5SUihLzCkFCgUkFhcr6dvZFOWXlqQqZOQX
- l9gqpRak5BSYFOgVJ+YWl+al6+WlllgZGhgYmQIVJmRnTDh9ia3gD3/F388H2RsYv/F2MXJy
- SAiYSHQdb2IDsYUEdjNKbJzL38XIBWR/YpRo/rmeBcL5zCixc9ECoCoOsI7+U+4QDbsYJSbN
- K4aoecko0bdrCTNIgk1AV2LH4jY2kISIQDerxINji8FWMAvUSdx5uQCsiFPAQ+L03y6wuLBA
- iMT9ywuYQGwWAVWJ1h8fwGxeAUuJ55uXQtmCEidnPmGBmCMvsf3tHGaIFxQkfj5dxgpiiwg4
- Sew+OZ8VokZc4uXRI+wgR0gITOaU2PhpMztEg4vEitZpjBC2sMSr41ug4lISn9/thfoyW6Jn
- lzFEuEZi6bxjLBC2vcSBK3NYQEqYBTQl1u/Sh1jFJ9H7+wkTRCevREebEES1qkTzu6tQndIS
- E7u7WSFsD4kdW98zT2BUnIXksVlIHpuF5IFZCMsWMLKsYpRMLSjOTU8tNi0wzEsth8d2cn7u
- JkZwitfy3MF498EHvUOMTByMhxglOJiVRHhP1TMnCfGmJFZWpRblxxeV5qQWH2I0BYb2RGYp
- 0eR8YJbJK4k3NLE0MDEzMzOxNDYzVBLnPZ2+IVFIID2xJDU7NbUgtQimj4mDU6qBKaLItIyD
- dY2ocdC0txtmLZ7oXiZ7XfuJ8aXX3hv6tT/+/hq3r+TB4cLLu548OHv5uUzeqqj+nFnXtGo4
- l508VbPxvvTatX6lp78t8bwWtMbpepT3vBV/l/IH7v3iZyS1OPfOHuE983Mypt74dHj/j0tv
- L53+bqXcqvBo7vuK5tXb72exL0yb+vcz7x2Zq16JKhUmc134Tn83SgxQauKb1d3VFukUd+rw
- 78iImmAN96MupUHnVnk4zd9zssW8SiElr08rZXbQl9UP7JKjJ906uTDmBkN0PlOJ9k9nL57/
- uftj3G4KHdVJ33Do6fMLa6SyX/y8z/oyeFnV2t4QVT7VI/v8GtwWGGxuK9HYyHC6sFOJpTgj
- 0VCLuag4EQDAO3ZkegQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIIsWRmVeSWpSXmKPExsWy7bCSnO6EPpYkg1v3LCx6z51ksvi/bSKz
- xfwj51gtrnx9z2Yx6f4EFosX9y6yWFx42sNmsfHtDyaLs01v2C02Pb7GanF51xw2iwmrvrFY
- zDi/j8li7ZG77Bate4+wW7Q/fclssWDjI0aLGZNfslnsvHOC2UHYY1ZDL5vH3m8LWDw2repk
- 89j+7QGrx/3u40wem5fUe/RtWcXocfzGdiaPz5vkAjijuGxSUnMyy1KL9O0SuDImnL7EVvCH
- v+Lv54PsDYzfeLsYOTgkBEwk+k+5dzFycQgJ7GCUuHOnjaWLkRMoLi1xfeMEdghbWGLlv+fs
- EEXPGSW6781gBEmwCehK7FjcxgaSEBGYySqxYPs0sG5mgQZGiR1/1CE6rjJKHNi/BmwUp4CH
- xOm/XWwgtrBAkMSPkx1gk1gEVCVaf3xgArF5BSwlnm9eCmULSpyc+YQF5FRmAT2Jto2MEPPl
- Jba/ncMMcZ2CxM+ny1hBbBEBJ4ndJ+ezQtSIS7w8eoR9AqPwLCSTZiFMmoVk0iwkHQsYWVYx
- SqYWFOem5xYbFhjlpZbrFSfmFpfmpesl5+duYgTHupbWDsY9qz7oHWJk4mA8xCjBwawkwnuq
- njlJiDclsbIqtSg/vqg0J7X4EKM0B4uSOO+FrpPxQgLpiSWp2ampBalFMFkmDk6pBibbFaKe
- fmFXD0ZzfmizmPdKPaaAb4LrYuNSt+I/C6Ov8+QvK1sZdeOD0eP/VkEMcbUZXLcXTHmRVuSd
- pJW2OjMp9JHWH+8fe6pK5tR+4/pfyiG+0bpE2WvK1KeeGeW/epv0suYGTz8eZX1sL3ecdv4E
- 9ikzMw2POhcqXlp196C/IZfVkdP7LabMj1nk9mhq+NQuvvZvu1kuVX7qnMS85v7Lghqb54cO
- Pf9qMevcqX1f912LvP+andPxs1f59WeqSeVT3pxIvTKXU9ImPWDXgQuHt+6/pvxns9Y2d7fd
- /RIFwmeffe+XWLjwxPyIxvvTnV+teKumbjz52uvbC8sdune5Hd1y+Iouq7B3PP82p+hmJZbi
- jERDLeai4kQA3gf9IGQDAAA=
-X-CMS-MailID: 20220210040328epcas5p233a2f8ef33593694404334f11c6dde34
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220208171919epcas5p34f600badf08124d3c86c91fcb4065d11
-References: <20220208171823.226211-1-krzysztof.kozlowski@canonical.com>
- <CGME20220208171919epcas5p34f600badf08124d3c86c91fcb4065d11@epcas5p3.samsung.com>
- <20220208171823.226211-3-krzysztof.kozlowski@canonical.com>
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 10 Feb 2022 08:10:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -130,65 +71,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: 'Sylwester Nawrocki' <snawrocki@kernel.org>, stable@vger.kernel.org,
- 'Marek Szyprowski' <m.szyprowski@samsung.com>
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+In function do_remove_conflicting_framebuffers, if device is NULL, there
+will be null pointer reference. The patch add a check to the if expression.
 
+Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+---
+Dear Linux folks
 
->-----Original Message-----
->From: Krzysztof Kozlowski [mailto:krzysztof.kozlowski@canonical.com]
->Sent: Tuesday, February 8, 2022 10:48 PM
->To: Inki Dae <inki.dae@samsung.com>; Joonyoung Shim
-><jy0922.shim@samsung.com>; Seung-Woo Kim
-><sw0312.kim@samsung.com>; Kyungmin Park
-><kyungmin.park@samsung.com>; David Airlie <airlied@linux.ie>; Daniel
->Vetter <daniel@ffwll.ch>; Rob Herring <robh+dt@kernel.org>; Krzysztof
->Kozlowski <krzysztof.kozlowski@canonical.com>; Alim Akhtar
-><alim.akhtar@samsung.com>; Kishon Vijay Abraham I <kishon@ti.com>;
->Vinod Koul <vkoul@kernel.org>; dri-devel@lists.freedesktop.org;
->devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org; linux-
->samsung-soc@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
->phy@lists.infradead.org
->Cc: Marek Szyprowski <m.szyprowski@samsung.com>; Sylwester Nawrocki
-><snawrocki@kernel.org>; stable@vger.kernel.org
->Subject: [PATCH 02/10] ARM: dts: exynos: add missing HDMI supplies on
->SMDK5420
->
->Add required VDD supplies to HDMI block on SMDK5420.  Without them, the
->HDMI driver won't probe.  Because of lack of schematics, use same supplies
-as
->on Arndale Octa and Odroid XU3 boards (voltage matches).
->
->Cc: <stable@vger.kernel.org> # v3.15+
->Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
->---
-> arch/arm/boot/dts/exynos5420-smdk5420.dts | 3 +++
-> 1 file changed, 3 insertions(+)
->
->diff --git a/arch/arm/boot/dts/exynos5420-smdk5420.dts
->b/arch/arm/boot/dts/exynos5420-smdk5420.dts
->index 2978b5775a6d..4d7b6d9008a7 100644
->--- a/arch/arm/boot/dts/exynos5420-smdk5420.dts
->+++ b/arch/arm/boot/dts/exynos5420-smdk5420.dts
->@@ -124,6 +124,9 @@ &hdmi {
-> 	hpd-gpios = <&gpx3 7 GPIO_ACTIVE_HIGH>;
-> 	pinctrl-names = "default";
-> 	pinctrl-0 = <&hdmi_hpd_irq>;
->+	vdd-supply = <&ldo6_reg>;
->+	vdd_osc-supply = <&ldo7_reg>;
->+	vdd_pll-supply = <&ldo6_reg>;
-> };
+I discover this bug in the PowerPC VM provided by
+Open source lab of Oregon State University:
 
+https://lkml.org/lkml/2022/2/8/1145
 
-Same supply found on smdk5420 as well.
+I found that the root cause of null device field is in offb_init_fb:
+info = framebuffer_alloc(sizeof(u32) * 16, NULL);
 
-Reviewed-by: Alim Akhtar <alim.akhtar@samsung.com>
+I have tested the patch in the PowerPC VM. Hope my patch can be correct.
 
->
-> &hsi2c_4 {
->--
->2.32.0
+Many Thanks
+Zhouyi
+--
+ drivers/video/fbdev/core/fbmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 34d6bb1bf82e..422b1fc01722 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1579,7 +1579,7 @@ static void do_remove_conflicting_framebuffers(struct apertures_struct *a,
+ 			 * If it's not a platform device, at least print a warning. A
+ 			 * fix would add code to remove the device from the system.
+ 			 */
+-			if (dev_is_platform(device)) {
++			if (device && dev_is_platform(device)) {
+ 				registered_fb[i]->forced_out = true;
+ 				platform_device_unregister(to_platform_device(device));
+ 			} else {
+-- 
+2.25.1
 
