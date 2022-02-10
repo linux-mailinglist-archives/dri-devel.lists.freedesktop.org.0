@@ -1,49 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F3ED4B0223
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 02:26:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 909B44B0272
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 02:40:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98ED110E713;
-	Thu, 10 Feb 2022 01:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9BFF10E144;
+	Thu, 10 Feb 2022 01:40:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E66D10E3C4;
- Thu, 10 Feb 2022 01:26:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644456384; x=1675992384;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=dgLlbbEhY5qijXM7qOREhUoDQwP/TPT9aXOmmK5zR9k=;
- b=BjWhzN/eSNmvtGGjIUKWqiPju7whtn8brebjCR/uNkJ95WjDsFPU72mN
- 9PNDjJthMPFWEeAOW0/F9lQtDo/dvjOIKcL12FtGaFV++1hOfMEMVFTS7
- 6qp5AFe9KlR0/uHAnhA9/yW5wSqM3jODBj5hDZm3yNmzLSLoLubqH+Gli
- BL7/z8Mu+4eT+81u8gZCqXXTQny7BpX9oKagx7btDKtRarER/WYBCF3LO
- zk25o5JQw888Pj1xz/1nWUjfiSIYTppWGtSNQpDE2zLw0ASfyA/iVZt5H
- 90W9p9RpgbBIeLq3mI8m8l+xx17zW3PJhG0oEbdZgLDHOD0Kebg3/zwe3 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10253"; a="249591587"
-X-IronPort-AV: E=Sophos;i="5.88,357,1635231600"; d="scan'208";a="249591587"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 17:26:24 -0800
-X-IronPort-AV: E=Sophos;i="5.88,357,1635231600"; d="scan'208";a="773706194"
-Received: from sroy1-mobl.amr.corp.intel.com (HELO mvcheng-desk2.intel.com)
- ([10.209.85.186])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2022 17:26:23 -0800
-From: Michael Cheng <michael.cheng@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v9 6/6] drm/i915/gt: replace cache_clflush_range
-Date: Wed,  9 Feb 2022 17:26:17 -0800
-Message-Id: <20220210012617.1061641-7-michael.cheng@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220210012617.1061641-1-michael.cheng@intel.com>
-References: <20220210012617.1061641-1-michael.cheng@intel.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2194210E144;
+ Thu, 10 Feb 2022 01:40:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1644457235; x=1675993235;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=IdhJmAuHcpnl7r52UypyEArMy3XDN1yK4jY8bP56ojU=;
+ b=IGAfIigJgslzGToiTyyc1MYPKvaxVrfyG2qugA/FuTYeQHFiKIZsDBsC
+ 33FGVPlxKPFXTI6cso83SmA7Y5LhTT0TQyYSeq1KKk4DwAwreVJq4ByNt
+ c18GMzTMAsNdZNrK+8z19rRMHa51Q9VjhE1Dxi/3sr3p4QVuJ0BVU0gG6 w=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 09 Feb 2022 17:40:34 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 17:40:34 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Wed, 9 Feb 2022 17:40:33 -0800
+Received: from [10.111.162.111] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 9 Feb 2022
+ 17:40:31 -0800
+Message-ID: <54fc4268-6418-817b-7cec-28a9dc9ba7b5@quicinc.com>
+Date: Wed, 9 Feb 2022 17:40:29 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting from
+ drm_writeback_connector structure changes
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>
+References: <20220202085429.22261-1-suraj.kandpal@intel.com>
+ <20220202085429.22261-6-suraj.kandpal@intel.com>
+ <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com> <87y22ts948.fsf@intel.com>
+ <YfqGbqQQz5vrDaLI@pendragon.ideasonboard.com>
+ <CAA8EJpqr6MB64EAtLU3nBjgjx1COwn4auenCCw4kHB489VG0CA@mail.gmail.com>
+ <d69038d6-a853-d2d9-81de-0ad10c4d6a3a@quicinc.com>
+In-Reply-To: <d69038d6-a853-d2d9-81de-0ad10c4d6a3a@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,132 +70,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, michael.cheng@intel.com,
- balasubramani.vivekanandan@intel.com, wayne.boyer@intel.com,
- casey.g.bowman@intel.com, lucas.demarchi@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, arun.r.murthy@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace all occurance of cache_clflush_range with
-drm_clflush_virt_range. This will prevent compile errors on non-x86
-platforms.
+Hi Laurent
 
-Signed-off-by: Michael Cheng <michael.cheng@intel.com>
----
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c                 | 12 ++++++------
- drivers/gpu/drm/i915/gt/intel_execlists_submission.c |  2 +-
- drivers/gpu/drm/i915/gt/intel_gtt.c                  |  2 +-
- drivers/gpu/drm/i915/gt/intel_ppgtt.c                |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c    |  2 +-
- 5 files changed, 10 insertions(+), 10 deletions(-)
+Gentle reminder on this.
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-index c43e724afa9f..d0999e92621b 100644
---- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-@@ -444,11 +444,11 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
- 				pd = pdp->entry[gen8_pd_index(idx, 2)];
- 			}
- 
--			clflush_cache_range(vaddr, PAGE_SIZE);
-+			drm_clflush_virt_range(vaddr, PAGE_SIZE);
- 			vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
- 		}
- 	} while (1);
--	clflush_cache_range(vaddr, PAGE_SIZE);
-+	drm_clflush_virt_range(vaddr, PAGE_SIZE);
- 
- 	return idx;
- }
-@@ -532,7 +532,7 @@ static void gen8_ppgtt_insert_huge(struct i915_address_space *vm,
- 			}
- 		} while (rem >= page_size && index < I915_PDES);
- 
--		clflush_cache_range(vaddr, PAGE_SIZE);
-+		drm_clflush_virt_range(vaddr, PAGE_SIZE);
- 
- 		/*
- 		 * Is it safe to mark the 2M block as 64K? -- Either we have
-@@ -548,7 +548,7 @@ static void gen8_ppgtt_insert_huge(struct i915_address_space *vm,
- 					      I915_GTT_PAGE_SIZE_2M)))) {
- 			vaddr = px_vaddr(pd);
- 			vaddr[maybe_64K] |= GEN8_PDE_IPS_64K;
--			clflush_cache_range(vaddr, PAGE_SIZE);
-+			drm_clflush_virt_range(vaddr, PAGE_SIZE);
- 			page_size = I915_GTT_PAGE_SIZE_64K;
- 
- 			/*
-@@ -569,7 +569,7 @@ static void gen8_ppgtt_insert_huge(struct i915_address_space *vm,
- 				for (i = 1; i < index; i += 16)
- 					memset64(vaddr + i, encode, 15);
- 
--				clflush_cache_range(vaddr, PAGE_SIZE);
-+				drm_clflush_virt_range(vaddr, PAGE_SIZE);
- 			}
- 		}
- 
-@@ -617,7 +617,7 @@ static void gen8_ppgtt_insert_entry(struct i915_address_space *vm,
- 
- 	vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
- 	vaddr[gen8_pd_index(idx, 0)] = gen8_pte_encode(addr, level, flags);
--	clflush_cache_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
-+	drm_clflush_virt_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
- }
- 
- static int gen8_init_scratch(struct i915_address_space *vm)
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index cc561cfae808..bbe33794b34d 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -2822,7 +2822,7 @@ static void execlists_sanitize(struct intel_engine_cs *engine)
- 	sanitize_hwsp(engine);
- 
- 	/* And scrub the dirty cachelines for the HWSP */
--	clflush_cache_range(engine->status_page.addr, PAGE_SIZE);
-+	drm_clflush_virt_range(engine->status_page.addr, PAGE_SIZE);
- 
- 	intel_engine_reset_pinned_contexts(engine);
- }
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index 0d6bbc8c57f2..9b594be9102f 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -255,7 +255,7 @@ fill_page_dma(struct drm_i915_gem_object *p, const u64 val, unsigned int count)
- 	void *vaddr = __px_vaddr(p);
- 
- 	memset64(vaddr, val, count);
--	clflush_cache_range(vaddr, PAGE_SIZE);
-+	drm_clflush_virt_range(vaddr, PAGE_SIZE);
- }
- 
- static void poison_scratch_page(struct drm_i915_gem_object *scratch)
-diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-index 48e6e2f87700..bd474a5123cb 100644
---- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-@@ -90,7 +90,7 @@ write_dma_entry(struct drm_i915_gem_object * const pdma,
- 	u64 * const vaddr = __px_vaddr(pdma);
- 
- 	vaddr[idx] = encoded_entry;
--	clflush_cache_range(&vaddr[idx], sizeof(u64));
-+	drm_clflush_virt_range(&vaddr[idx], sizeof(u64));
- }
- 
- void
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b3a429a92c0d..89020706adc4 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -3573,7 +3573,7 @@ static void guc_sanitize(struct intel_engine_cs *engine)
- 	sanitize_hwsp(engine);
- 
- 	/* And scrub the dirty cachelines for the HWSP */
--	clflush_cache_range(engine->status_page.addr, PAGE_SIZE);
-+	drm_clflush_virt_range(engine->status_page.addr, PAGE_SIZE);
- 
- 	intel_engine_reset_pinned_contexts(engine);
- }
--- 
-2.25.1
+Thanks
 
+Abhinav
+
+On 2/6/2022 11:20 PM, Abhinav Kumar wrote:
+> Hi Laurent
+> 
+> On 2/6/2022 3:32 PM, Dmitry Baryshkov wrote:
+>> On Wed, 2 Feb 2022 at 16:26, Laurent Pinchart
+>> <laurent.pinchart@ideasonboard.com> wrote:
+>>>
+>>> Hi Jani,
+>>>
+>>> On Wed, Feb 02, 2022 at 03:15:03PM +0200, Jani Nikula wrote:
+>>>> On Wed, 02 Feb 2022, Laurent Pinchart wrote:
+>>>>> On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
+>>>>>> Changing rcar_du driver to accomadate the change of
+>>>>>> drm_writeback_connector.base and drm_writeback_connector.encoder
+>>>>>> to a pointer the reason for which is explained in the
+>>>>>> Patch(drm: add writeback pointers to drm_connector).
+>>>>>>
+>>>>>> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
+>>>>>> ---
+>>>>>>   drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
+>>>>>>   drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
+>>>>>>   2 files changed, 7 insertions(+), 3 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h 
+>>>>>> b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>>>>>> index 66e8839db708..68f387a04502 100644
+>>>>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>>>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>>>>>> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
+>>>>>>     const char *const *sources;
+>>>>>>     unsigned int sources_count;
+>>>>>>
+>>>>>> +  struct drm_connector connector;
+>>>>>> +  struct drm_encoder encoder;
+>>>>>
+>>>>> Those fields are, at best, poorly named. Furthermore, there's no 
+>>>>> need in
+>>>>> this driver or in other drivers using drm_writeback_connector to 
+>>>>> create
+>>>>> an encoder or connector manually. Let's not polute all drivers because
+>>>>> i915 doesn't have its abstractions right.
+>>>>
+>>>> i915 uses the quite common model for struct inheritance:
+>>>>
+>>>>        struct intel_connector {
+>>>>                struct drm_connector base;
+>>>>                /* ... */
+>>>>        }
+>>>>
+>>>> Same with at least amd, ast, fsl-dcu, hisilicon, mga200, msm, nouveau,
+>>>> radeon, tilcdc, and vboxvideo.
+>>>>
+>>>> We could argue about the relative merits of that abstraction, but I
+>>>> think the bottom line is that it's popular and the drivers using it are
+>>>> not going to be persuaded to move away from it.
+>>>
+>>> Nobody said inheritance is bad.
+>>>
+>>>> It's no coincidence that the drivers who've implemented writeback so 
+>>>> far
+>>>> (komeda, mali, rcar-du, vc4, and vkms) do not use the abstraction,
+>>>> because the drm_writeback_connector midlayer does, forcing the issue.
+>>>
+>>> Are you sure it's not a coincidence ? :-)
+>>>
+>>> The encoder and especially connector created by drm_writeback_connector
+>>> are there only because KMS requires a drm_encoder and a drm_connector to
+>>> be exposed to userspace (and I could argue that using a connector for
+>>> writeback is a hack, but that won't change). The connector is "virtual",
+>>> I still fail to see why i915 or any other driver would need to wrap it
+>>> into something else. The whole point of the drm_writeback_connector
+>>> abstraction is that drivers do not have to manage the writeback
+>>> drm_connector manually, they shouldn't touch it at all.
+>>
+>> Laurent, I wanted to shift a bit from the question of drm_connector to
+>> the question of drm_encoder being embedded in the
+>> drm_writeback_connector.
+>> In case of the msm driver the drm_encoder is not a lightweight entity,
+>> but a full-featured driver part. Significant part of it can be shared
+>> with the writeback implementation, if we allow using a pointer to the
+>> external drm_encoder with the drm_writeback_connector.
+>> Does the following patch set stand a chance to receive your ack?
+>>   - Switch drm_writeback_connector to point to drm_encoder rather than
+>> embedding it?
+>>   - Create drm_encoder for the drm_writeback_connector when one is not
+>> specified, so the current drivers can be left unchanged.
+>>
+> 
+> I second Dmitry's request here. For the reasons he has mentioned along 
+> with the possibility of the writeback encoder being shared across 
+> display pipelines, strengthens our request of the drm encoder being a 
+> pointer inside the drm_writeback_connector instead of embedding it.
+> 
+> Like I had shown in my RFC, in case the other drivers dont specify one,
+> we can allocate one:
+> 
+> https://patchwork.kernel.org/project/dri-devel/patch/1642732195-25349-1-git-send-email-quic_abhinavk@quicinc.com/ 
+> 
+> 
+> We think this should be a reasonable accomodation to the existing
+> drm_writeback driver.
+> 
+> Thanks
+> 
+> Abhinav
+> 
+>>>
+>>>> So I think drm_writeback_connector should *not* use the inheritance
+>>>> abstraction because it's a midlayer that should leave that option to 
+>>>> the
+>>>> drivers. I think drm_writeback_connector needs to be changed to
+>>>> accommodate that, and, unfortunately, it means current writeback users
+>>>> need to be changed as well.
+>>>>
+>>>> I am not sure, however, if the series at hand is the right
+>>>> approach. Perhaps writeback can be modified to allocate the stuff for
+>>>> you if you prefer it that way, as long as the drm_connector is not
+>>>> embedded in struct drm_writeback_connector.
+>>>>
+>>>>> Nack.
+>>>>>
+>>>>>>     struct drm_writeback_connector writeback;
+>>>>>>   };
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c 
+>>>>>> b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+>>>>>> index c79d1259e49b..5b1e83380c47 100644
+>>>>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+>>>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+>>>>>> @@ -200,8 +200,10 @@ int rcar_du_writeback_init(struct 
+>>>>>> rcar_du_device *rcdu,
+>>>>>>   {
+>>>>>>     struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
+>>>>>>
+>>>>>> -  wb_conn->encoder.possible_crtcs = 1 << 
+>>>>>> drm_crtc_index(&rcrtc->crtc);
+>>>>>> -  drm_connector_helper_add(&wb_conn->base,
+>>>>>> +  wb_conn->base = &rcrtc->connector;
+>>>>>> +  wb_conn->encoder = &rcrtc->encoder;
+>>>>>> +  wb_conn->encoder->possible_crtcs = 1 << 
+>>>>>> drm_crtc_index(&rcrtc->crtc);
+>>>>>> +  drm_connector_helper_add(wb_conn->base,
+>>>>>>                              &rcar_du_wb_conn_helper_funcs);
+>>>>>>
+>>>>>>     return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
+>>>>>> @@ -220,7 +222,7 @@ void rcar_du_writeback_setup(struct 
+>>>>>> rcar_du_crtc *rcrtc,
+>>>>>>     struct drm_framebuffer *fb;
+>>>>>>     unsigned int i;
+>>>>>>
+>>>>>> -  state = rcrtc->writeback.base.state;
+>>>>>> +  state = rcrtc->writeback.base->state;
+>>>>>>     if (!state || !state->writeback_job)
+>>>>>>             return;
+>>>>>>
+>>>
+>>> -- 
+>>> Regards,
+>>>
+>>> Laurent Pinchart
+>>
+>>
+>>
