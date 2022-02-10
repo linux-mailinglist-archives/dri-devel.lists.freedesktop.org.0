@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67F84B0ABD
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:35:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4264B0ABF
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:35:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63A5010E7DF;
-	Thu, 10 Feb 2022 10:34:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB6F10E7D6;
+	Thu, 10 Feb 2022 10:35:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1944910E7DB;
- Thu, 10 Feb 2022 10:34:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32C9010E7D6;
+ Thu, 10 Feb 2022 10:34:59 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9500D61BAC;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AC80B61B96;
+ Thu, 10 Feb 2022 10:34:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 051D8C004E1;
  Thu, 10 Feb 2022 10:34:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFAC6C340ED;
- Thu, 10 Feb 2022 10:34:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644489294;
- bh=/Jj3Lmsl2bhD8w66aeCtQ+hifD/+nP3PmzaGwSrG6OM=;
+ s=k20201202; t=1644489298;
+ bh=s77zX8tlQZGtLkt3yoLZJ4/EQEAGs6BTpnX/BQtdbYo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cZHX5+uH9cn6VgwBYSOfyYOfxpmNMpKkwpBs+cmWxRlKGdA9duBgbwr3SNE9dCR3c
- j5SzCTTUydpooMuq1SKJN5zSaJppj++RTwbx+2iIxooyuEGT1tSevjd0SJuv+4ePy9
- illexb9NETHzlIh1JExI1FpRPfr/zS61mdLBjnnDKLo6OBLBjDJ3s8NsyXONPA4mnB
- PuMqINSalFyofWdlsxnwRcirr4QPa4nOY1/A8v6BMcBlVFGfngGRHyG9mbK+W27mGh
- YmiTlPVm9aNF6XJtnumhlXUnfZ1eOmbo8A16chTKOq8m/ACQqibalHptWNA+zVbAz5
- uakNeivSfxotA==
+ b=gHRGD9b92gcyrUm5uzA4/hTcbQZonWdYW3ITgsSZv/o7g5RSJMCHTYocCGoDJbQKV
+ 95oGsjC2j26rYBfW9cF0Ii8CbfHwApE7/ia+s7qb1tA2vWdDjI07S5zow4vQ16h0Ey
+ 8ho2lfovcwNdiFDd7T2YIU9mgJc7nkAG6gLMQMDetlMYzY8njKFNjEehNnwD3W4f5T
+ cNqPZDX1gAUy4+M1ooWzOTxos3r4mi/LHAKLG8hYVxL2OnNvGcXCSuatxZOP1VBtYK
+ IP0WdVlizy6woYoQZR/9KZxHgsNkPDczsmCwi49aPlnukUIMiwws5bOgQzNJWqx7qj
+ uVXKZa/vjC20A==
 From: Vinod Koul <vkoul@kernel.org>
 To: Rob Clark <robdclark@gmail.com>
-Subject: [REPOST PATCH v4 05/13] drm/msm/disp/dpu1: Add DSC for SDM845 to
- hw_catalog
-Date: Thu, 10 Feb 2022 16:04:15 +0530
-Message-Id: <20220210103423.271016-6-vkoul@kernel.org>
+Subject: [REPOST PATCH v4 06/13] drm/msm/disp/dpu1: Add DSC support in hw_ctl
+Date: Thu, 10 Feb 2022 16:04:16 +0530
+Message-Id: <20220210103423.271016-7-vkoul@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220210103423.271016-1-vkoul@kernel.org>
 References: <20220210103423.271016-1-vkoul@kernel.org>
@@ -62,52 +61,86 @@ Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds SDM845 DSC blocks into hw_catalog
+Later gens of hardware have DSC bits moved to hw_ctl, so configure these
+bits so that DSC would work there as well
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Vinod Koul <vkoul@kernel.org>
 ---
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 11 ++++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h |  2 ++
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index aa75991903a6..9c09cf318dfb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -821,6 +821,24 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
- 	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, 0, sc7280_pp_sblk, -1, -1),
- 	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, 0, sc7280_pp_sblk, -1, -1),
- };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index 02da9ecf71f1..49659165cea8 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -25,6 +25,8 @@
+ #define   CTL_MERGE_3D_ACTIVE           0x0E4
+ #define   CTL_INTF_ACTIVE               0x0F4
+ #define   CTL_MERGE_3D_FLUSH            0x100
++#define   CTL_DSC_ACTIVE                0x0E8
++#define   CTL_DSC_FLUSH                0x104
+ #define   CTL_INTF_FLUSH                0x110
+ #define   CTL_INTF_MASTER               0x134
+ #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
+@@ -34,6 +36,7 @@
+ 
+ #define DPU_REG_RESET_TIMEOUT_US        2000
+ #define  MERGE_3D_IDX   23
++#define  DSC_IDX        22
+ #define  INTF_IDX       31
+ #define CTL_INVALID_BIT                 0xffff
+ #define CTL_DEFAULT_GROUP_ID		0xf
+@@ -121,7 +124,6 @@ static u32 dpu_hw_ctl_get_pending_flush(struct dpu_hw_ctl *ctx)
+ 
+ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+ {
+-
+ 	if (ctx->pending_flush_mask & BIT(MERGE_3D_IDX))
+ 		DPU_REG_WRITE(&ctx->hw, CTL_MERGE_3D_FLUSH,
+ 				ctx->pending_merge_3d_flush_mask);
+@@ -506,6 +508,9 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 	if ((test_bit(DPU_CTL_VM_CFG, &ctx->caps->features)))
+ 		mode_sel = CTL_DEFAULT_GROUP_ID  << 28;
+ 
++	if (cfg->dsc)
++		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH, cfg->dsc);
 +
-+/*************************************************************
-+ * DSC sub blocks config
-+ *************************************************************/
-+#define DSC_BLK(_name, _id, _base) \
-+	{\
-+	.name = _name, .id = _id, \
-+	.base = _base, .len = 0x140, \
-+	.features = 0, \
+ 	if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
+ 		mode_sel |= BIT(17);
+ 
+@@ -517,6 +522,10 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 	if (cfg->merge_3d)
+ 		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+ 			      BIT(cfg->merge_3d - MERGE_3D_0));
++	if (cfg->dsc) {
++		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, cfg->dsc);
++		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
 +	}
-+
-+static struct dpu_dsc_cfg sdm845_dsc[] = {
-+	DSC_BLK("dsc_0", DSC_0, 0x80000),
-+	DSC_BLK("dsc_1", DSC_1, 0x80400),
-+	DSC_BLK("dsc_2", DSC_2, 0x80800),
-+	DSC_BLK("dsc_3", DSC_3, 0x80c00),
-+};
-+
- /*************************************************************
-  * INTF sub blocks config
-  *************************************************************/
-@@ -1124,6 +1142,8 @@ static void sdm845_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
- 		.mixer = sdm845_lm,
- 		.pingpong_count = ARRAY_SIZE(sdm845_pp),
- 		.pingpong = sdm845_pp,
-+		.dsc_count = ARRAY_SIZE(sdm845_dsc),
-+		.dsc = sdm845_dsc,
- 		.intf_count = ARRAY_SIZE(sdm845_intf),
- 		.intf = sdm845_intf,
- 		.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ }
+ 
+ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+index 806c171e5df2..9847c9c46d6f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+@@ -40,6 +40,7 @@ struct dpu_hw_stage_cfg {
+  * @merge_3d:              3d merge block used
+  * @intf_mode_sel:         Interface mode, cmd / vid
+  * @stream_sel:            Stream selection for multi-stream interfaces
++ * @dsc:                   DSC BIT masks
+  */
+ struct dpu_hw_intf_cfg {
+ 	enum dpu_intf intf;
+@@ -47,6 +48,7 @@ struct dpu_hw_intf_cfg {
+ 	enum dpu_merge_3d merge_3d;
+ 	enum dpu_ctl_mode_sel intf_mode_sel;
+ 	int stream_sel;
++	unsigned int dsc;
+ };
+ 
+ /**
 -- 
 2.31.1
 
