@@ -2,64 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBDE4B0BA2
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 12:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCEF64B0B7C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:55:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB2D410E7FE;
-	Thu, 10 Feb 2022 11:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A73C110E7FC;
+	Thu, 10 Feb 2022 10:55:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DAFB10E7EE
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 11:00:26 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 21A71aUJ029156;
- Thu, 10 Feb 2022 12:00:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=/Q3SruRHMblZXsjsJN/A+imrZxvyXbW6Zyd1f5PD5XI=;
- b=BXkujKW5W3cbsmt8tbvFRM2v7vlK20oPGWunuWM1g+MEDzmgGN62Rlydo6SR9wEQbdMH
- dMhRV02xrlLGzsEAfzhgvMGVfHKcueqevDGrFmLGV16EVbQVriQ4u4kE0f4upejYcngf
- LFC1dslRBoyr/svQmDscokKM4EVt4wEYTIKNnGrWSOab7LgOtkEp5YNrQuFpv9/h5G1S
- PXot/L2Ey6veYf7uCGPWbv+MDHUeXsn2shGXaHRVG6luusnzqjcFhonmvw79lHRyoSGO
- Mq9KGuT/BSckA+FGJW1YYXVFqk4X+LqGgUFupSmcbnWVTIh+swcujCdXI92WFChEeVhO 3A== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3e4wy1hgg5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Feb 2022 12:00:18 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id DD88710003D;
- Thu, 10 Feb 2022 12:00:15 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 05C3021BF7C;
- Thu, 10 Feb 2022 12:00:15 +0100 (CET)
-Received: from lmecxl0993.lme.st.com (10.75.127.46) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 10 Feb
- 2022 12:00:13 +0100
-Subject: Re: [PATCH 17/23] drm/sti: plane: Remove redundant zpos initialisation
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>
-References: <20220207163515.1038648-1-maxime@cerno.tech>
- <20220207163515.1038648-18-maxime@cerno.tech>
-From: Philippe CORNU <philippe.cornu@foss.st.com>
-Message-ID: <6ad77dcb-7821-95ac-094b-822938e5dabc@foss.st.com>
-Date: Thu, 10 Feb 2022 12:00:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ADBD10E7FC
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 10:55:37 +0000 (UTC)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20220210105535epoutp02d1a54f432586b7267dc5802ec8e696ae~SZ23wVz_P0770107701epoutp02S
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 10:55:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20220210105535epoutp02d1a54f432586b7267dc5802ec8e696ae~SZ23wVz_P0770107701epoutp02S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1644490535;
+ bh=R7L8MKVkBoaq0s3DJCdA68+g2suhf8EBgyskpwWxmaI=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=mPQGS1sAEHE65gCRItQaE7C4nI26ncCNdP91/foddI+bWK7i6z+50DsU5jQaBqds5
+ iHiT/h8FarYEq2Ah2dfHIiC6hXLrJwrWr9n/4oVNC3SqEXHuzDopZEX8TaGv8s+Cvs
+ 7+lpcIPb+z0wSjHnp1NsYLIxd2a1vM2yanIQ2NZ4=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220210105535epcas1p23d0882f7c125b3ad907b9993e2d14d12~SZ23liQlx1196311963epcas1p2q;
+ Thu, 10 Feb 2022 10:55:35 +0000 (GMT)
+Received: from epsmges1p2.samsung.com (unknown [182.195.38.233]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4JvYYv6pdrz4x9Q7; Thu, 10 Feb
+ 2022 10:55:31 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+ epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 01.55.08277.32FE4026; Thu, 10 Feb 2022 19:55:31 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5~SZ2yeBU6o0814508145epcas1p2x;
+ Thu, 10 Feb 2022 10:55:30 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220210105530epsmtrp1e0635384650c0663d14a6ff74fe41c4e~SZ2ydLgnd1068010680epsmtrp1Z;
+ Thu, 10 Feb 2022 10:55:30 +0000 (GMT)
+X-AuditID: b6c32a36-1edff70000002055-f9-6204ef232f86
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 11.5B.29871.22FE4026; Thu, 10 Feb 2022 19:55:30 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.113.221.211]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220210105529epsmtip1376af2c6489122ab6c8b09011b408bfb~SZ2yL8dLj1126711267epsmtip1R;
+ Thu, 10 Feb 2022 10:55:29 +0000 (GMT)
+From: Inki Dae <inki.dae@samsung.com>
+To: airlied@linux.ie, daniel.vetter@ffwll.ch
+Subject: [GIT PULL] exynos-drm-fixes
+Date: Thu, 10 Feb 2022 20:07:22 +0900
+Message-Id: <20220210110722.63523-1-inki.dae@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20220207163515.1038648-18-maxime@cerno.tech>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-10_03,2022-02-09_01,2021-12-02_01
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNKsWRmVeSWpSXmKPExsWy7bCmnq7ye5Ykg/aTAha9504yWSx8eJfZ
+ 4srX92wWM87vY3Jg8dj7bQGLx/ZvD1g97ncfZ/L4vEkugCUq2yYjNTEltUghNS85PyUzL91W
+ yTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMHaKWSQlliTilQKCCxuFhJ386mKL+0JFUh
+ I7+4xFYptSAlp8C0QK84Mbe4NC9dLy+1xMrQwMDIFKgwITujZ+NnxoKlAhU9fS8YGxj38XYx
+ cnJICJhIbGu/zwJiCwnsYJQ4ukSzi5ELyP7EKPHyxGMWCOcbo8SRT/tYYTrWHm5hh0jsZZSY
+ un8RM4TzhVGiZ+JqZpAqNgFViYkr7rN1MXJwiAjoSLw4UwASZhZwk/iz9CwLSFhYQEXiwEQ+
+ kDALUHXHgx9MIDavgKXE867/LBC75CVmXvrODhEXlDg58wkLxBh5ieats8HWSgisY5fo+r6W
+ HaLBRWLj8s3MELawxKvjW6DiUhIv+9vYIRomM0rcub6CBcKZwShx+Od1RogqY4n9SyczgVzH
+ LKApsX6XPkRYUWLn77mMEJv5JN597WEFKZEQ4JXoaBOCKFGSOHbxBtQUCYkLSyayQdgeEtf2
+ tDFBgjdW4vGnVrYJjPKzkPwzC8k/sxAWL2BkXsUollpQnJueWmxYYASP1OT83E2M4FSnZbaD
+ cdLbD3qHGJk4GA8xSnAwK4nwnqpnThLiTUmsrEotyo8vKs1JLT7EaAoM4YnMUqLJ+cBkm1cS
+ b2hiaWBiZmRsYmFoZqgkzrtq2ulEIYH0xJLU7NTUgtQimD4mDk6pBiZtgyDHfVxHX7uu8JcU
+ VAs9667kw5kUM1e61Cpw3nkOdwGf2WFT3AKT1bdd9DYJiX4jdCdoV5Pvy9OuBqcP+764EZC5
+ 97zccaGJwkslJCUcjc/rBr+vUJFSqJJ+ocP5zv1giNKp2PT2NsUwex6dKTqWyx78vN5jr9Ja
+ pnRs84qLXy0v5LQ83B+wPGgO74e11SXd+Tzf4pdFy+1TWsD9TjH7pVsXw1sD/0mXTIrv3hc6
+ NkeWwXu63UmXBT1y6266fjl/xMA7tbFWZ+n/Q51CIkmratf+TGmcrHb8tv1N9ayFR0467pgf
+ ZK9VnFB4tFZPtCI59+qRRVrblicmu9xPM63TfBCauFbl59H5ak13lFiKMxINtZiLihMBrD3F
+ Av4DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBLMWRmVeSWpSXmKPExsWy7bCSnK7Se5Ykg9kT2C16z51kslj48C6z
+ xZWv79ksZpzfx+TA4rH32wIWj+3fHrB63O8+zuTxeZNcAEsUl01Kak5mWWqRvl0CV0bPxs+M
+ BUsFKnr6XjA2MO7j7WLk5JAQMJFYe7iFvYuRi0NIYDejxKmd25m7GDmAEhISW7ZyQJjCEocP
+ F0OUfGKU2LRjKRtIL5uAqsTEFffBbBEBPYm2jlPsIDazgIfE+z2r2UF6hQVUJA5M5AMJswCV
+ dzz4wQRi8wpYSjzv+s8CcYK8xMxL39kh4oISJ2c+YYEYIy/RvHU28wRGvllIUrOQpBYwMq1i
+ lEwtKM5Nzy02LDDMSy3XK07MLS7NS9dLzs/dxAgOPC3NHYzbV33QO8TIxMF4iFGCg1lJhPdU
+ PXOSEG9KYmVValF+fFFpTmrxIUZpDhYlcd4LXSfjhQTSE0tSs1NTC1KLYLJMHJxSDUwrb5Xc
+ d+44Z9FpdMQlaJ3uGekW6fo3As99XFdcvWwv3RCvdUr+lYxrkVGwptuOL3aJCwza+UMYDh8T
+ 3H9J7aV6v3qj6t7ySY+653xSlyjS8u6+HCi0SkezdYa/ZnGQp8zcrfZuCbstj8hWMnuIis0v
+ Cbsy8bTb4+Utv3tCeP8XXl6o5v4iOv3a3EufcxVO/2/L+17v2Wf0oV1/3X/rr17bdnzkCnqU
+ slk5b0qpv7in5OObSZw7rSxXTvMMqT0fl7w5d6tB9aOdnyeEuBy8McvozqWwDZ2nrTvKlCMO
+ MLuETnzsMn/XSb28N/GPlA5uL4gu5PgZzCW1vTtTU1iNofjUlQ6rvY+2VmStyI1VVmIpzkg0
+ 1GIuKk4EAJ7NQyurAgAA
+X-CMS-MailID: 20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5
+References: <CGME20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5@epcas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,113 +111,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Alain Volmat <alain.volmat@foss.st.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave and Daniel,
 
+   Just two fixup series - one is to fix irq chaining issue and other is
+   regressions to TE-gpio handling.
 
-On 2/7/22 5:35 PM, Maxime Ripard wrote:
-> The sti KMS driver will call drm_plane_create_zpos_property() with an
-> init value depending on the plane type.
-> 
-> Since the initial value wasn't carried over in the state, the driver had
-> to set it again in sti_plane_reset() and rcar_du_vsp_plane_reset().
+Please let me know if there is any problem.
 
-Hi Maxime,
-and many thanks for your patches.
+Thanks,
+Inki Dae
 
-Great you added Alain as he is now the drm/sti maintainer (Maintainers 
-file should be updated soon)
+The following changes since commit dfd42facf1e4ada021b939b4e19c935dcdd55566:
 
-Minor typo in the commit message as rcar_du_vsp_plane_reset() is not 
-part of drm/sti
+  Linux 5.17-rc3 (2022-02-06 12:20:50 -0800)
 
-Reviewed-by: Philippe Cornu <philippe.cornu@foss.st.com>
+are available in the Git repository at:
 
-Philippe :-)
+  gitolite.kernel.org:/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-for-v5.17-rc4
 
+for you to fetch changes up to 38103fa72e0b70e3067fed489f8316dc5998f26c:
 
-> However, the helpers have been adjusted to set it properly at reset, so
-> this is not needed anymore.
-> 
-> Cc: Alain Volmat <alain.volmat@foss.st.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->   drivers/gpu/drm/sti/sti_cursor.c | 2 +-
->   drivers/gpu/drm/sti/sti_gdp.c    | 2 +-
->   drivers/gpu/drm/sti/sti_hqvdp.c  | 2 +-
->   drivers/gpu/drm/sti/sti_plane.c  | 6 ------
->   drivers/gpu/drm/sti/sti_plane.h  | 1 -
->   5 files changed, 3 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sti/sti_cursor.c b/drivers/gpu/drm/sti/sti_cursor.c
-> index 1d6051b4f6fe..414c9973aa6d 100644
-> --- a/drivers/gpu/drm/sti/sti_cursor.c
-> +++ b/drivers/gpu/drm/sti/sti_cursor.c
-> @@ -351,7 +351,7 @@ static const struct drm_plane_funcs sti_cursor_plane_helpers_funcs = {
->   	.update_plane = drm_atomic_helper_update_plane,
->   	.disable_plane = drm_atomic_helper_disable_plane,
->   	.destroy = drm_plane_cleanup,
-> -	.reset = sti_plane_reset,
-> +	.reset = drm_atomic_helper_plane_reset,
->   	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
->   	.late_register = sti_cursor_late_register,
-> diff --git a/drivers/gpu/drm/sti/sti_gdp.c b/drivers/gpu/drm/sti/sti_gdp.c
-> index d1a35d97bc45..3db3768a3241 100644
-> --- a/drivers/gpu/drm/sti/sti_gdp.c
-> +++ b/drivers/gpu/drm/sti/sti_gdp.c
-> @@ -905,7 +905,7 @@ static const struct drm_plane_funcs sti_gdp_plane_helpers_funcs = {
->   	.update_plane = drm_atomic_helper_update_plane,
->   	.disable_plane = drm_atomic_helper_disable_plane,
->   	.destroy = drm_plane_cleanup,
-> -	.reset = sti_plane_reset,
-> +	.reset = drm_atomic_helper_plane_reset,
->   	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
->   	.late_register = sti_gdp_late_register,
-> diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
-> index 3c61ba8b43e0..2201a50353eb 100644
-> --- a/drivers/gpu/drm/sti/sti_hqvdp.c
-> +++ b/drivers/gpu/drm/sti/sti_hqvdp.c
-> @@ -1283,7 +1283,7 @@ static const struct drm_plane_funcs sti_hqvdp_plane_helpers_funcs = {
->   	.update_plane = drm_atomic_helper_update_plane,
->   	.disable_plane = drm_atomic_helper_disable_plane,
->   	.destroy = drm_plane_cleanup,
-> -	.reset = sti_plane_reset,
-> +	.reset = drm_atomic_helper_plane_reset,
->   	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
->   	.late_register = sti_hqvdp_late_register,
-> diff --git a/drivers/gpu/drm/sti/sti_plane.c b/drivers/gpu/drm/sti/sti_plane.c
-> index 3da4a46df2f2..173409cdb99e 100644
-> --- a/drivers/gpu/drm/sti/sti_plane.c
-> +++ b/drivers/gpu/drm/sti/sti_plane.c
-> @@ -112,12 +112,6 @@ static int sti_plane_get_default_zpos(enum drm_plane_type type)
->   	return 0;
->   }
->   
-> -void sti_plane_reset(struct drm_plane *plane)
-> -{
-> -	drm_atomic_helper_plane_reset(plane);
-> -	plane->state->zpos = sti_plane_get_default_zpos(plane->type);
-> -}
-> -
->   static void sti_plane_attach_zorder_property(struct drm_plane *drm_plane,
->   					     enum drm_plane_type type)
->   {
-> diff --git a/drivers/gpu/drm/sti/sti_plane.h b/drivers/gpu/drm/sti/sti_plane.h
-> index 065ffffbfb4a..8e33e629d9b0 100644
-> --- a/drivers/gpu/drm/sti/sti_plane.h
-> +++ b/drivers/gpu/drm/sti/sti_plane.h
-> @@ -81,5 +81,4 @@ void sti_plane_update_fps(struct sti_plane *plane,
->   
->   void sti_plane_init_property(struct sti_plane *plane,
->   			     enum drm_plane_type type);
-> -void sti_plane_reset(struct drm_plane *plane);
->   #endif
-> 
+  drm/exynos: Search for TE-gpio in DSI panel's node (2022-02-10 19:17:22 +0900)
+
+----------------------------------------------------------------
+Fixups
+- Make display controller drivers for Exynos series to use platform_get_irq
+  and platform_get_irq_byname functions to get the interrupt, which prevents
+  irq chaining from messed up when using hierarchical interrupt domains
+  which use "interrupts" property in the node.
+- Fix two regressions to TE-gpio handling.
+
+----------------------------------------------------------------
+Lad Prabhakar (5):
+      drm/exynos/exynos7_drm_decon: Use platform_get_irq_byname() to get the interrupt
+      drm/exynos: mixer: Use platform_get_irq() to get the interrupt
+      drm/exynos/exynos_drm_fimd: Use platform_get_irq_byname() to get the interrupt
+      drm/exynos/fimc: Use platform_get_irq() to get the interrupt
+      drm/exynos: gsc: Use platform_get_irq() to get the interrupt
+
+Marek Szyprowski (2):
+      drm/exynos: Don't fail if no TE-gpio is defined for DSI driver
+      drm/exynos: Search for TE-gpio in DSI panel's node
+
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c | 12 +++---------
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c    |  6 ++++--
+ drivers/gpu/drm/exynos/exynos_drm_fimc.c   | 13 +++++--------
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c   | 13 ++++---------
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c    | 10 +++-------
+ drivers/gpu/drm/exynos/exynos_mixer.c      | 14 ++++++--------
+ 6 files changed, 25 insertions(+), 43 deletions(-)
