@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8AB4B1259
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 17:10:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55ECA4B127A
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 17:16:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B49810E8A1;
-	Thu, 10 Feb 2022 16:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B422F10E8A6;
+	Thu, 10 Feb 2022 16:16:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02C3D10E89F;
- Thu, 10 Feb 2022 16:10:21 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C97610E8A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 16:16:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644509422; x=1676045422;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=3barFkaw3uaQXSuEk0JvODtO+pjQm2YbfRa66mjpKTA=;
- b=oIwh3lwTzPLxaq38DKgZx0Vy36pEhItjAUqw9Q4hIjjSTy/9hGssG9gb
- JN5B5Qknhi0kCVCnpu771UOdp1xa2Kj/X4DxlHcz0vxMQ5OlRMm2upG24
- UUvIwTshZBiG17iSLmeYxHRMT8opYUHl8D2BedSGNJqTxZwG13eVTBKQW
- XaGysAxUjxFaoIidWwRSZMtODYakH/Nw+AM/V/XI6INQk2Rlty4lRLKFt
- KAeifBOnNeC2xodENKZT31TZzhTxjEiafq2j8zW+YrcPQBFRxtWwkKWAx
- 3Yi0OwVAdGTZDibwpijXvePBYSjUQyUyMyXSVYr7YDk0nQkn05qZ3GQut Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="247109447"
-X-IronPort-AV: E=Sophos;i="5.88,359,1635231600"; d="scan'208";a="247109447"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2022 08:10:21 -0800
-X-IronPort-AV: E=Sophos;i="5.88,359,1635231600"; d="scan'208";a="633713532"
-Received: from paulbarr-mobl2.ger.corp.intel.com (HELO [10.252.11.226])
- ([10.252.11.226])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2022 08:10:18 -0800
-Message-ID: <4763f9b0-6da7-b2a7-b73c-97c33e235826@intel.com>
-Date: Thu, 10 Feb 2022 16:10:16 +0000
+ t=1644509775; x=1676045775;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5BB2cUCZK0X3Qp7u/1cTOmI/FxAeIW6gGXvd1jK9un8=;
+ b=Uas45R94fBN8VfmCWJIK2KVXE6cuDMDprxTYfyYpnTJ2miwHLvbZlL7Z
+ 1IQ32YGKGYV7uVbqTHC+o/fUroekwWURQXAnZUF7RWiDATwyElXDHO9BL
+ DznoVXWNf84locyhuLpyr6yJnBRc1RBSsvV4zdr6Vf0dfaFP6PH1JOMnh
+ UyfEQxmpUyjcl0ziaeikBBuFHezGQxn8vZI4mXCeHmF7AbF2SD+nnFmjX
+ u+MEffl91Fth2o5V0ZYBItGmA2VfQDJrbbOmQF4KQgblslN90SUEcPW2/
+ NfZdbOVtiGl6+EiTDkdd1DSTO/iladjH6bnFXA6zaxbOtalRNPCOWZicT Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="312812129"
+X-IronPort-AV: E=Sophos;i="5.88,359,1635231600"; d="scan'208";a="312812129"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2022 08:16:12 -0800
+X-IronPort-AV: E=Sophos;i="5.88,359,1635231600"; d="scan'208";a="586005671"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2022 08:16:09 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nIC6B-0032lx-6G; Thu, 10 Feb 2022 18:15:11 +0200
+Date: Thu, 10 Feb 2022 18:15:10 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/2] fbdev: Don't sort deferred-I/O pages by default
+Message-ID: <YgU6Djy/aFrI1PGI@smile.fi.intel.com>
+References: <20220210141111.5231-1-tzimmermann@suse.de>
+ <20220210141111.5231-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v11 1/5] drm: improve drm_buddy_alloc function
-Content-Language: en-GB
-To: Arunpravin <Arunpravin.PaneerSelvam@amd.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20220127141107.173692-1-Arunpravin.PaneerSelvam@amd.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220127141107.173692-1-Arunpravin.PaneerSelvam@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220210141111.5231-3-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,621 +60,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, tzimmermann@suse.de, christian.koenig@amd.com
+Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, linux-staging@lists.linux.dev,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, bernie@plugable.com,
+ noralf@tronnes.org, jayalk@intworks.biz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/01/2022 14:11, Arunpravin wrote:
-> - Make drm_buddy_alloc a single function to handle
->    range allocation and non-range allocation demands
+On Thu, Feb 10, 2022 at 03:11:13PM +0100, Thomas Zimmermann wrote:
+> Fbdev's deferred I/O sorts all dirty pages by default, which incurs a
+> significant overhead. Make the sorting step optional and update the few
+> drivers that require it. Use a FIFO list by default.
 > 
-> - Implemented a new function alloc_range() which allocates
->    the requested power-of-two block comply with range limitations
+> Sorting pages by memory offset for deferred I/O performs an implicit
+> bubble-sort step on the list of dirty pages. The algorithm goes through
+> the list of dirty pages and inserts each new page according to its
+> index field. Even worse, list traversal always starts at the first
+> entry. As video memory is most likely updated scanline by scanline, the
+> algorithm traverses through the complete list for each updated page.
 > 
-> - Moved order computation and memory alignment logic from
->    i915 driver to drm buddy
+> For example, with 1024x768x32bpp a page covers exactly one scanline.
+> Writing a single screen update from top to bottom requires updating
+> 768 pages. With an average list length of 384 entries, a screen update
+> creates (768 * 384 =) 294912 compare operation.
 > 
-> v2:
->    merged below changes to keep the build unbroken
->     - drm_buddy_alloc_range() becomes obsolete and may be removed
->     - enable ttm range allocation (fpfn / lpfn) support in i915 driver
->     - apply enhanced drm_buddy_alloc() function to i915 driver
+> Fix this by making the sorting step opt-in and update the few drivers
+> that require it. All other drivers work with unsorted page lists. Pages
+> are appended to the list. Therefore, in the common case of writing the
+> framebuffer top to bottom, pages are still sorted by offset, which may
+> have a positive effect on performance.
 > 
-> v3(Matthew Auld):
->    - Fix alignment issues and remove unnecessary list_empty check
->    - add more validation checks for input arguments
->    - make alloc_range() block allocations as bottom-up
->    - optimize order computation logic
->    - replace uint64_t with u64, which is preferred in the kernel
+> Playing a video [1] in mplayer's benchmark mode shows the difference
+> (i7-4790, FullHD, simpledrm, kernel with debugging).
 > 
-> v4(Matthew Auld):
->    - keep drm_buddy_alloc_range() function implementation for generic
->      actual range allocations
->    - keep alloc_range() implementation for end bias allocations
+>   mplayer -benchmark -nosound -vo fbdev ./big_buck_bunny_720p_stereo.ogg
 > 
-> v5(Matthew Auld):
->    - modify drm_buddy_alloc() passing argument place->lpfn to lpfn
->      as place->lpfn will currently always be zero for i915
+> With sorted page lists:
 > 
-> v6(Matthew Auld):
->    - fixup potential uaf - If we are unlucky and can't allocate
->      enough memory when splitting blocks, where we temporarily
->      end up with the given block and its buddy on the respective
->      free list, then we need to ensure we delete both blocks,
->      and no just the buddy, before potentially freeing them
+>   BENCHMARKs: VC:  32.960s VO:  73.068s A:   0.000s Sys:   2.413s =  108.441s
+>   BENCHMARK%: VC: 30.3947% VO: 67.3802% A:  0.0000% Sys:  2.2251% = 100.0000%
 > 
->    - fix warnings reported by kernel test robot <lkp@intel.com>
+> With unsorted page lists:
 > 
-> v7(Matthew Auld):
->    - revert fixup potential uaf
->    - keep __alloc_range() add node to the list logic same as
->      drm_buddy_alloc_blocks() by having a temporary list variable
->    - at drm_buddy_alloc_blocks() keep i915 range_overflows macro
->      and add a new check for end variable
+>   BENCHMARKs: VC:  31.005s VO:  42.889s A:   0.000s Sys:   2.256s =   76.150s
+>   BENCHMARK%: VC: 40.7156% VO: 56.3219% A:  0.0000% Sys:  2.9625% = 100.0000%
 > 
-> v8:
->    - fix warnings reported by kernel test robot <lkp@intel.com>
-> 
-> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+> VC shows the overhead of video decoding, VO shows the overhead of the
+> video output. Using unsorted page lists reduces the benchmark's run time
+> by ~32s/~25%.
+
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+from fbtft perspective, thanks!
+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Link: https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_720p_stereo.ogg # [1]
 > ---
->   drivers/gpu/drm/drm_buddy.c                   | 315 +++++++++++++-----
->   drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |  67 ++--
->   drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |   2 +
->   include/drm/drm_buddy.h                       |  13 +-
->   4 files changed, 280 insertions(+), 117 deletions(-)
+>  drivers/staging/fbtft/fbtft-core.c  |  1 +
+>  drivers/video/fbdev/broadsheetfb.c  |  1 +
+>  drivers/video/fbdev/core/fb_defio.c | 19 ++++++++++++-------
+>  drivers/video/fbdev/metronomefb.c   |  1 +
+>  drivers/video/fbdev/udlfb.c         |  1 +
+>  include/linux/fb.h                  |  1 +
+>  6 files changed, 17 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index d60878bc9c20..cfc160a1ef1a 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -282,23 +282,97 @@ void drm_buddy_free_list(struct drm_buddy *mm, struct list_head *objects)
->   }
->   EXPORT_SYMBOL(drm_buddy_free_list);
->   
-> -/**
-> - * drm_buddy_alloc_blocks - allocate power-of-two blocks
-> - *
-> - * @mm: DRM buddy manager to allocate from
-> - * @order: size of the allocation
-> - *
-> - * The order value here translates to:
-> - *
-> - * 0 = 2^0 * mm->chunk_size
-> - * 1 = 2^1 * mm->chunk_size
-> - * 2 = 2^2 * mm->chunk_size
-> - *
-> - * Returns:
-> - * allocated ptr to the &drm_buddy_block on success
-> - */
-> -struct drm_buddy_block *
-> -drm_buddy_alloc_blocks(struct drm_buddy *mm, unsigned int order)
-> +static inline bool overlaps(u64 s1, u64 e1, u64 s2, u64 e2)
-> +{
-> +	return s1 <= e2 && e1 >= s2;
-> +}
-> +
-> +static inline bool contains(u64 s1, u64 e1, u64 s2, u64 e2)
-> +{
-> +	return s1 <= s2 && e1 >= e2;
-> +}
-> +
-> +static struct drm_buddy_block *
-> +alloc_range_bias(struct drm_buddy *mm,
-> +		 u64 start, u64 end,
-> +		 unsigned int order)
-> +{
-> +	struct drm_buddy_block *block;
-> +	struct drm_buddy_block *buddy;
-> +	LIST_HEAD(dfs);
-> +	int err;
-> +	int i;
-> +
-> +	end = end - 1;
-> +
-> +	for (i = 0; i < mm->n_roots; ++i)
-> +		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
-> +
-> +	do {
-> +		u64 block_start;
-> +		u64 block_end;
-> +
-> +		block = list_first_entry_or_null(&dfs,
-> +						 struct drm_buddy_block,
-> +						 tmp_link);
-> +		if (!block)
-> +			break;
-> +
-> +		list_del(&block->tmp_link);
-> +
-> +		if (drm_buddy_block_order(block) < order)
-> +			continue;
-> +
-> +		block_start = drm_buddy_block_offset(block);
-> +		block_end = block_start + drm_buddy_block_size(mm, block) - 1;
-> +
-> +		if (!overlaps(start, end, block_start, block_end))
-> +			continue;
-> +
-> +		if (drm_buddy_block_is_allocated(block))
-> +			continue;
-> +
-> +		if (contains(start, end, block_start, block_end) &&
-> +		    order == drm_buddy_block_order(block)) {
-> +			/*
-> +			 * Find the free block within the range.
-> +			 */
-> +			if (drm_buddy_block_is_free(block))
-> +				return block;
-> +
-> +			continue;
-> +		}
-> +
-> +		if (!drm_buddy_block_is_split(block)) {
-> +			err = split_block(mm, block);
-> +			if (unlikely(err))
-> +				goto err_undo;
-> +		}
-> +
-> +		list_add(&block->right->tmp_link, &dfs);
-> +		list_add(&block->left->tmp_link, &dfs);
-> +	} while (1);
-> +
-> +	return ERR_PTR(-ENOSPC);
-> +
-> +err_undo:
-> +	/*
-> +	 * We really don't want to leave around a bunch of split blocks, since
-> +	 * bigger is better, so make sure we merge everything back before we
-> +	 * free the allocated blocks.
-> +	 */
-> +	buddy = get_buddy(block);
-> +	if (buddy &&
-> +	    (drm_buddy_block_is_free(block) &&
-> +	     drm_buddy_block_is_free(buddy)))
-> +		__drm_buddy_free(mm, block);
-> +	return ERR_PTR(err);
-> +}
-> +
-> +static struct drm_buddy_block *
-> +alloc_from_freelist(struct drm_buddy *mm,
-> +		    unsigned int order,
-> +		    unsigned long flags)
->   {
->   	struct drm_buddy_block *block = NULL;
->   	unsigned int i;
-> @@ -320,78 +394,29 @@ drm_buddy_alloc_blocks(struct drm_buddy *mm, unsigned int order)
->   	while (i != order) {
->   		err = split_block(mm, block);
->   		if (unlikely(err))
-> -			goto out_free;
-> +			goto err_undo;
->   
-> -		/* Go low */
-> -		block = block->left;
-> +		block = block->right;
->   		i--;
->   	}
-> -
-> -	mark_allocated(block);
-> -	mm->avail -= drm_buddy_block_size(mm, block);
-> -	kmemleak_update_trace(block);
->   	return block;
->   
-> -out_free:
-> +err_undo:
->   	if (i != order)
->   		__drm_buddy_free(mm, block);
->   	return ERR_PTR(err);
->   }
-> -EXPORT_SYMBOL(drm_buddy_alloc_blocks);
-> -
-> -static inline bool overlaps(u64 s1, u64 e1, u64 s2, u64 e2)
-> -{
-> -	return s1 <= e2 && e1 >= s2;
-> -}
->   
-> -static inline bool contains(u64 s1, u64 e1, u64 s2, u64 e2)
-> -{
-> -	return s1 <= s2 && e1 >= e2;
-> -}
-> -
-> -/**
-> - * drm_buddy_alloc_range - allocate range
-> - *
-> - * @mm: DRM buddy manager to allocate from
-> - * @blocks: output list head to add allocated blocks
-> - * @start: start of the allowed range for this block
-> - * @size: size of the allocation
-> - *
-> - * Intended for pre-allocating portions of the address space, for example to
-> - * reserve a block for the initial framebuffer or similar, hence the expectation
-> - * here is that drm_buddy_alloc_blocks() is still the main vehicle for
-> - * allocations, so if that's not the case then the drm_mm range allocator is
-> - * probably a much better fit, and so you should probably go use that instead.
-> - *
-> - * Note that it's safe to chain together multiple alloc_ranges
-> - * with the same blocks list
-> - *
-> - * Returns:
-> - * 0 on success, error code on failure.
-> - */
-> -int drm_buddy_alloc_range(struct drm_buddy *mm,
-> -			  struct list_head *blocks,
-> -			  u64 start, u64 size)
-> +static int __alloc_range(struct drm_buddy *mm,
-> +			 struct list_head *dfs,
-> +			 u64 start, u64 size,
-> +			 struct list_head *blocks)
->   {
->   	struct drm_buddy_block *block;
->   	struct drm_buddy_block *buddy;
->   	LIST_HEAD(allocated);
-> -	LIST_HEAD(dfs);
->   	u64 end;
->   	int err;
-> -	int i;
-> -
-> -	if (size < mm->chunk_size)
-> -		return -EINVAL;
-> -
-> -	if (!IS_ALIGNED(size | start, mm->chunk_size))
-> -		return -EINVAL;
-> -
-> -	if (range_overflows(start, size, mm->size))
-> -		return -EINVAL;
-> -
-> -	for (i = 0; i < mm->n_roots; ++i)
-> -		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
->   
->   	end = start + size - 1;
->   
-> @@ -399,7 +424,7 @@ int drm_buddy_alloc_range(struct drm_buddy *mm,
->   		u64 block_start;
->   		u64 block_end;
->   
-> -		block = list_first_entry_or_null(&dfs,
-> +		block = list_first_entry_or_null(dfs,
->   						 struct drm_buddy_block,
->   						 tmp_link);
->   		if (!block)
-> @@ -436,8 +461,8 @@ int drm_buddy_alloc_range(struct drm_buddy *mm,
->   				goto err_undo;
->   		}
->   
-> -		list_add(&block->right->tmp_link, &dfs);
-> -		list_add(&block->left->tmp_link, &dfs);
-> +		list_add(&block->right->tmp_link, dfs);
-> +		list_add(&block->left->tmp_link, dfs);
->   	} while (1);
->   
->   	list_splice_tail(&allocated, blocks);
-> @@ -459,7 +484,143 @@ int drm_buddy_alloc_range(struct drm_buddy *mm,
->   	drm_buddy_free_list(mm, &allocated);
->   	return err;
->   }
-> -EXPORT_SYMBOL(drm_buddy_alloc_range);
-> +
-> +/**
-> + * __drm_buddy_alloc_range - actual range allocation
-> + *
-> + * @mm: DRM buddy manager to allocate from
-> + * @start: start of the allowed range for this block
-> + * @size: size of the allocation
-> + * @blocks: output list head to add allocated blocks
-
-I guess no need to add kernel-doc for static functions.
-
-> + *
-> + * Intended for pre-allocating portions of the address space, for example to
-> + * reserve a block for the initial framebuffer or similar
-> + *
-> + * Note that it's safe to chain together multiple alloc_ranges
-> + * with the same blocks list
-> + *
-> + * Returns:
-> + * 0 on success, error code on failure.
-> + */
-> +static int __drm_buddy_alloc_range(struct drm_buddy *mm,
-> +				   u64 start,
-> +				   u64 size,
-> +				   struct list_head *blocks)
-> +{
-> +	LIST_HEAD(dfs);
-> +	int i;
-> +
-> +	for (i = 0; i < mm->n_roots; ++i)
-> +		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
-> +
-> +	return __alloc_range(mm, &dfs, start, size, blocks);
-> +}
-> +
-> +/**
-> + * drm_buddy_alloc_blocks - allocate power-of-two blocks
-> + *
-> + * @mm: DRM buddy manager to allocate from
-> + * @start: start of the allowed range for this block
-> + * @end: end of the allowed range for this block
-> + * @size: size of the allocation
-> + * @min_page_size: alignment of the allocation
-> + * @blocks: output list head to add allocated blocks
-> + * @flags: DRM_BUDDY_*_ALLOCATION flags
-> + *
-> + * alloc_range_bias() called on range limitations, which traverses
-> + * the tree and returns the desired block.
-> + *
-> + * alloc_from_freelist() called when *no* range restrictions
-> + * are enforced, which picks the block from the freelist.
-> + *
-> + * blocks are allocated in order, the order value here translates to:
-> + *
-> + * 0 = 2^0 * mm->chunk_size
-> + * 1 = 2^1 * mm->chunk_size
-> + * 2 = 2^2 * mm->chunk_size
-
-The order stuff here can be dropped I think, since this is now just 'size'.
-
-> + *
-> + * Returns:
-> + * 0 on success, error code on failure.
-> + */
-> +int drm_buddy_alloc_blocks(struct drm_buddy *mm,
-> +			   u64 start, u64 end, u64 size,
-> +			   u64 min_page_size,
-> +			   struct list_head *blocks,
-> +			   unsigned long flags)
-> +{
-> +	struct drm_buddy_block *block = NULL;
-> +	unsigned int min_order, order;
-> +	unsigned long pages;
-> +	LIST_HEAD(allocated);
-> +	int err;
-> +
-> +	if (size < mm->chunk_size)
-> +		return -EINVAL;
-> +
-> +	if (min_page_size < mm->chunk_size)
-> +		return -EINVAL;
-> +
-> +	if (!is_power_of_2(min_page_size))
-> +		return -EINVAL;
-> +
-> +	if (!IS_ALIGNED(start | end | size, mm->chunk_size))
-> +		return -EINVAL;
-> +
-> +	if (end > mm->size)
-> +		return -EINVAL;
-> +
-> +	if (range_overflows(start, size, mm->size))
-> +		return -EINVAL;
-> +
-> +	/* Actual range allocation */
-> +	if (start + size == end)
-> +		return __drm_buddy_alloc_range(mm, start, size, blocks);
-> +
-> +	pages = size >> ilog2(mm->chunk_size);
-> +	order = fls(pages) - 1;
-> +	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
-> +
-> +	do {
-> +		order = min(order, (unsigned int)fls(pages) - 1);
-> +		BUG_ON(order > mm->max_order);
-> +		BUG_ON(order < min_order);
-> +
-> +		do {
-> +			if (flags & DRM_BUDDY_RANGE_ALLOCATION)
-
-Do we need an explicit flag for this? Can we not just check:
-
-if (start || end < size)
-
-We already implicitly determine the "actual range allocation" above. So 
-that would just leave the TODPOWN flag?
-
-Otherwise,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-
-> +				/* Allocate traversing within the range */
-> +				block = alloc_range_bias(mm, start, end, order);
-> +			else
-> +				/* Allocate from freelist */
-> +				block = alloc_from_freelist(mm, order, flags);
-> +
-> +			if (!IS_ERR(block))
-> +				break;
-> +
-> +			if (order-- == min_order) {
-> +				err = -ENOSPC;
-> +				goto err_free;
-> +			}
-> +		} while (1);
-> +
-> +		mark_allocated(block);
-> +		mm->avail -= drm_buddy_block_size(mm, block);
-> +		kmemleak_update_trace(block);
-> +		list_add_tail(&block->link, &allocated);
-> +
-> +		pages -= BIT(order);
-> +
-> +		if (!pages)
-> +			break;
-> +	} while (1);
-> +
-> +	list_splice_tail(&allocated, blocks);
-> +	return 0;
-> +
-> +err_free:
-> +	drm_buddy_free_list(mm, &allocated);
-> +	return err;
-> +}
-> +EXPORT_SYMBOL(drm_buddy_alloc_blocks);
->   
->   /**
->    * drm_buddy_block_print - print block information
-> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> index 247714bab044..a328a38fab07 100644
-> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> @@ -36,13 +36,14 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->   	struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
->   	struct i915_ttm_buddy_resource *bman_res;
->   	struct drm_buddy *mm = &bman->mm;
-> -	unsigned long n_pages;
-> -	unsigned int min_order;
-> +	unsigned long n_pages, lpfn;
->   	u64 min_page_size;
->   	u64 size;
->   	int err;
->   
-> -	GEM_BUG_ON(place->fpfn || place->lpfn);
-> +	lpfn = place->lpfn;
-> +	if (!lpfn)
-> +		lpfn = man->size;
->   
->   	bman_res = kzalloc(sizeof(*bman_res), GFP_KERNEL);
->   	if (!bman_res)
-> @@ -52,6 +53,9 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->   	INIT_LIST_HEAD(&bman_res->blocks);
->   	bman_res->mm = mm;
->   
-> +	if (place->fpfn || lpfn != man->size)
-> +		bman_res->flags |= DRM_BUDDY_RANGE_ALLOCATION;
-> +
->   	GEM_BUG_ON(!bman_res->base.num_pages);
->   	size = bman_res->base.num_pages << PAGE_SHIFT;
->   
-> @@ -60,10 +64,16 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->   		min_page_size = bo->page_alignment << PAGE_SHIFT;
->   
->   	GEM_BUG_ON(min_page_size < mm->chunk_size);
-> -	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
-> +
->   	if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
-> +		unsigned long pages;
-> +
->   		size = roundup_pow_of_two(size);
-> -		min_order = ilog2(size) - ilog2(mm->chunk_size);
-> +		min_page_size = size;
-> +
-> +		pages = size >> ilog2(mm->chunk_size);
-> +		if (pages > lpfn)
-> +			lpfn = pages;
->   	}
->   
->   	if (size > mm->size) {
-> @@ -73,34 +83,16 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->   
->   	n_pages = size >> ilog2(mm->chunk_size);
->   
-> -	do {
-> -		struct drm_buddy_block *block;
-> -		unsigned int order;
-> -
-> -		order = fls(n_pages) - 1;
-> -		GEM_BUG_ON(order > mm->max_order);
-> -		GEM_BUG_ON(order < min_order);
-> -
-> -		do {
-> -			mutex_lock(&bman->lock);
-> -			block = drm_buddy_alloc_blocks(mm, order);
-> -			mutex_unlock(&bman->lock);
-> -			if (!IS_ERR(block))
-> -				break;
-> -
-> -			if (order-- == min_order) {
-> -				err = -ENOSPC;
-> -				goto err_free_blocks;
-> -			}
-> -		} while (1);
-> -
-> -		n_pages -= BIT(order);
-> -
-> -		list_add_tail(&block->link, &bman_res->blocks);
-> -
-> -		if (!n_pages)
+> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+> index f2684d2d6851..4a35347b3020 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -654,6 +654,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+>  	fbops->fb_blank     =      fbtft_fb_blank;
+>  
+>  	fbdefio->delay =           HZ / fps;
+> +	fbdefio->sort_pagelist =   true;
+>  	fbdefio->deferred_io =     fbtft_deferred_io;
+>  	fb_deferred_io_init(info);
+>  
+> diff --git a/drivers/video/fbdev/broadsheetfb.c b/drivers/video/fbdev/broadsheetfb.c
+> index fd66f4d4a621..b9054f658838 100644
+> --- a/drivers/video/fbdev/broadsheetfb.c
+> +++ b/drivers/video/fbdev/broadsheetfb.c
+> @@ -1059,6 +1059,7 @@ static const struct fb_ops broadsheetfb_ops = {
+>  
+>  static struct fb_deferred_io broadsheetfb_defio = {
+>  	.delay		= HZ/4,
+> +	.sort_pagelist	= true,
+>  	.deferred_io	= broadsheetfb_dpy_deferred_io,
+>  };
+>  
+> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+> index 3727b1ca87b1..1f672cf253b2 100644
+> --- a/drivers/video/fbdev/core/fb_defio.c
+> +++ b/drivers/video/fbdev/core/fb_defio.c
+> @@ -132,15 +132,20 @@ static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
+>  	if (!list_empty(&page->lru))
+>  		goto page_already_added;
+>  
+> -	/* we loop through the pagelist before adding in order
+> -	to keep the pagelist sorted */
+> -	list_for_each_entry(cur, &fbdefio->pagelist, lru) {
+> -		if (cur->index > page->index)
 > -			break;
-> -	} while (1);
-> +	mutex_lock(&bman->lock);
-> +	err = drm_buddy_alloc_blocks(mm, (u64)place->fpfn << PAGE_SHIFT,
-> +				     (u64)lpfn << PAGE_SHIFT,
-> +				     (u64)n_pages << PAGE_SHIFT,
-> +				     min_page_size,
-> +				     &bman_res->blocks,
-> +				     bman_res->flags);
-> +	mutex_unlock(&bman->lock);
-> +	if (unlikely(err))
-> +		goto err_free_blocks;
->   
->   	*res = &bman_res->base;
->   	return 0;
-> @@ -268,10 +260,17 @@ int i915_ttm_buddy_man_reserve(struct ttm_resource_manager *man,
->   {
->   	struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
->   	struct drm_buddy *mm = &bman->mm;
-> +	unsigned long flags = 0;
->   	int ret;
->   
-> +	flags |= DRM_BUDDY_RANGE_ALLOCATION;
-> +
->   	mutex_lock(&bman->lock);
-> -	ret = drm_buddy_alloc_range(mm, &bman->reserved, start, size);
-> +	ret = drm_buddy_alloc_blocks(mm, start,
-> +				     start + size,
-> +				     size, mm->chunk_size,
-> +				     &bman->reserved,
-> +				     flags);
->   	mutex_unlock(&bman->lock);
->   
->   	return ret;
-> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
-> index 312077941411..72c90b432e87 100644
-> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
-> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
-> @@ -20,6 +20,7 @@ struct drm_buddy;
->    *
->    * @base: struct ttm_resource base class we extend
->    * @blocks: the list of struct i915_buddy_block for this resource/allocation
-> + * @flags: DRM_BUDDY_*_ALLOCATION flags
->    * @mm: the struct i915_buddy_mm for this resource
->    *
->    * Extends the struct ttm_resource to manage an address space allocation with
-> @@ -28,6 +29,7 @@ struct drm_buddy;
->   struct i915_ttm_buddy_resource {
->   	struct ttm_resource base;
->   	struct list_head blocks;
-> +	unsigned long flags;
->   	struct drm_buddy *mm;
->   };
->   
-> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
-> index f524db152413..54f25a372f27 100644
-> --- a/include/drm/drm_buddy.h
-> +++ b/include/drm/drm_buddy.h
-> @@ -22,6 +22,8 @@
->   	start__ >= max__ || size__ > max__ - start__; \
->   })
->   
-> +#define DRM_BUDDY_RANGE_ALLOCATION (1 << 0)
-> +
->   struct drm_buddy_block {
->   #define DRM_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
->   #define DRM_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10)
-> @@ -131,12 +133,11 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size);
->   
->   void drm_buddy_fini(struct drm_buddy *mm);
->   
-> -struct drm_buddy_block *
-> -drm_buddy_alloc_blocks(struct drm_buddy *mm, unsigned int order);
+> +	if (fbdefio->sort_pagelist) {
+> +		/*
+> +		 * We loop through the pagelist before adding in order
+> +		 * to keep the pagelist sorted.
+> +		 */
+> +		list_for_each_entry(cur, &fbdefio->pagelist, lru) {
+> +			if (cur->index > page->index)
+> +				break;
+> +		}
+> +		list_add_tail(&page->lru, &cur->lru);
+> +	} else {
+> +		list_add_tail(&page->lru, &fbdefio->pagelist);
+>  	}
+>  
+> -	list_add_tail(&page->lru, &cur->lru);
 > -
-> -int drm_buddy_alloc_range(struct drm_buddy *mm,
-> -			  struct list_head *blocks,
-> -			  u64 start, u64 size);
-> +int drm_buddy_alloc_blocks(struct drm_buddy *mm,
-> +			   u64 start, u64 end, u64 size,
-> +			   u64 min_page_size,
-> +			   struct list_head *blocks,
-> +			   unsigned long flags);
->   
->   void drm_buddy_free_block(struct drm_buddy *mm, struct drm_buddy_block *block);
->   
+>  page_already_added:
+>  	mutex_unlock(&fbdefio->lock);
+>  
+> diff --git a/drivers/video/fbdev/metronomefb.c b/drivers/video/fbdev/metronomefb.c
+> index 952826557a0c..af858dd23ea6 100644
+> --- a/drivers/video/fbdev/metronomefb.c
+> +++ b/drivers/video/fbdev/metronomefb.c
+> @@ -568,6 +568,7 @@ static const struct fb_ops metronomefb_ops = {
+>  
+>  static struct fb_deferred_io metronomefb_defio = {
+>  	.delay		= HZ,
+> +	.sort_pagelist	= true,
+>  	.deferred_io	= metronomefb_dpy_deferred_io,
+>  };
+>  
+> diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
+> index b9cdd02c1000..184bb8433b78 100644
+> --- a/drivers/video/fbdev/udlfb.c
+> +++ b/drivers/video/fbdev/udlfb.c
+> @@ -980,6 +980,7 @@ static int dlfb_ops_open(struct fb_info *info, int user)
+>  
+>  		if (fbdefio) {
+>  			fbdefio->delay = DL_DEFIO_WRITE_DELAY;
+> +			fbdefio->sort_pagelist = true;
+>  			fbdefio->deferred_io = dlfb_dpy_deferred_io;
+>  		}
+>  
+> diff --git a/include/linux/fb.h b/include/linux/fb.h
+> index 3d7306c9a706..9a77ab615c36 100644
+> --- a/include/linux/fb.h
+> +++ b/include/linux/fb.h
+> @@ -204,6 +204,7 @@ struct fb_pixmap {
+>  struct fb_deferred_io {
+>  	/* delay between mkwrite and deferred handler */
+>  	unsigned long delay;
+> +	bool sort_pagelist; /* sort pagelist by offset */
+>  	struct mutex lock; /* mutex that protects the page list */
+>  	struct list_head pagelist; /* list of touched pages */
+>  	/* callback */
+> -- 
+> 2.34.1
 > 
-> base-commit: 627e2885b51ab503a98aa89f0a0bd68416c731fc
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
