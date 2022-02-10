@@ -1,43 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5D64B12D8
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 17:36:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 214214B13C9
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 18:04:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACD0E10E8BA;
-	Thu, 10 Feb 2022 16:36:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D557110E8AC;
+	Thu, 10 Feb 2022 17:04:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35E0F10E165
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 16:36:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 4069B1F466A9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1644510978;
- bh=D6WwfmbStMmHxfTQqVmfzkYRd3e74eS+cdcYjWxj8bc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Qvx+ShQ5sHm0W4YLpcexIsfT19zd/qWWe7akYKUqQooiV+EMIg68i8SA0bmRxBPRh
- nB3k6gyUsDtnvsRPkA8yuXFt6JbF+Tz5XchHTcpQk085zpbMvfCyiWncGKCz+UJ/EC
- S6i7Y1CcylZ2C50U51JqKq2eA9JBZhgo9/dXs/Zpsd61kV8YO9swjgFrwBxQruy9j2
- mngas7Os73dbOaHkAMP70s7qAcZc54phBBBYxfLEbBHRx+5NKSiEf52K7PJyIQCaSs
- PW82F1dxZrsNfcNRZguU6LkUfmBUtzRds1XzuNRaQXTLZw7+bX1aKwqu429sBx+JAu
- codL35w1/4UnQ==
-Message-ID: <4907bdc1-b4a6-e9ad-5cfa-266fc20c0bec@collabora.com>
-Date: Thu, 10 Feb 2022 17:36:14 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57F5010E8AC
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 17:04:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644512669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yfg+rvc8vcVuTj7+GQ4UV9mGgjoAYvtiDa4kYWoYjJ8=;
+ b=WMwMOzmdhkD9Y07iDpW9dFKOGk1lhVtOCwZdjqMgw1DHolseXsZrv3yWXvnBw+SLMmCf0F
+ jZclJRP6fbhTMMQSyWrxXvXFSwNjYJgepoaxgBIFOwOinU/76Zedm3Gd5R9AP/w/cw3dsf
+ cixVmM6cS/4zhrajTFESIwvzTqcY+SA=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-544-kB72kxbeMfm3M57OjkWxgQ-1; Thu, 10 Feb 2022 12:04:25 -0500
+X-MC-Unique: kB72kxbeMfm3M57OjkWxgQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ ge15-20020a05621427cf00b00421df9f8f23so4371107qvb.17
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 09:04:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yfg+rvc8vcVuTj7+GQ4UV9mGgjoAYvtiDa4kYWoYjJ8=;
+ b=opp5qtEFR9T4OaPOLTTqIOK4iqJJF6rxRJ+pkeWIc5jKPeAVwDdxXpvFq5/oHbXvry
+ dA3UNphDBUDNYxyRUc4v+gF90AVsfQugOT3ZBanugMfOKXEFFc7A6NtT1qGHUiA56F+d
+ yNdlBBzmkIu4CLWmsFZIGb2FIHRX/l3m/QSHZxcTCDDoYJjWivb8cNRWFo14jcn/Kd7q
+ ktamvzDQfwdkiKy34YILJVhhyYhuhH73qVl7Py0FWeGvtj/1/jvMmP2n8wh38LJxH6et
+ qYzEaakAwNrhUPZhExT8oPiEpG/yQcuWOKpLYHf79KR76jxUMGIm97V9zpBg74aDWGlb
+ AEuw==
+X-Gm-Message-State: AOAM533fk3kKWZ3s6fwNylMpI0Rqy8nVG9x7FG0ngFnF14GC/ods6Rvf
+ sHehnODC4r9/1+iSA9PA6mmuup7nOgUZpZfG87tzEK9e3xAvAOL4OcgjSqfxGCuiZ5Mm2Ks8I+C
+ Tz50Xh5vHPRWigGUicFQb1jGASyir
+X-Received: by 2002:a05:622a:488:: with SMTP id
+ p8mr5619785qtx.97.1644512664764; 
+ Thu, 10 Feb 2022 09:04:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz6fO5DYKXU/juk8kup+dK1EWIDMNgxbwD2+eVcMOxOQtX4NtPMxUE/mv2fPNsQDd1zWg2wfQ==
+X-Received: by 2002:a05:622a:488:: with SMTP id
+ p8mr5619768qtx.97.1644512664592; 
+ Thu, 10 Feb 2022 09:04:24 -0800 (PST)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
+ [24.205.208.113])
+ by smtp.gmail.com with ESMTPSA id j11sm11156880qtj.74.2022.02.10.09.04.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Feb 2022 09:04:24 -0800 (PST)
+From: trix@redhat.com
+To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, nathan@kernel.org, ndesaulniers@google.com,
+ rajneesh.bhardwaj@amd.com, david.yatsin@amd.com
+Subject: [PATCH] drm/amdkfd: fix loop error handling
+Date: Thu, 10 Feb 2022 09:04:18 -0800
+Message-Id: <20220210170418.2404807-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v2] drm/mediatek: allow commands to be sent during video
- mode
-Content-Language: en-US
-To: Julien STEPHAN <jstephan@baylibre.com>, ck.hu@mediatek.com
-References: <20220210124638.2330904-1-jstephan@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220210124638.2330904-1-jstephan@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,138 +84,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
- "moderated list:DRM DRIVERS FOR MEDIATEK" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 10/02/22 13:46, Julien STEPHAN ha scritto:
-> Mipi dsi panel drivers can use mipi_dsi_dcs_{set,get}_display_brightness()
-> to request backlight changes.
-> 
-> This can be done during panel initialization (dsi is in command mode)
-> or afterwards (dsi is in Video Mode).
-> 
-> When the DSI is in Video Mode, all commands are rejected.
-> 
-> Detect current DSI mode in mtk_dsi_host_transfer() and switch modes
-> temporarily to allow commands to be sent.
-> 
-> Signed-off-by: Julien STEPHAN <jstephan@baylibre.com>
-> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+From: Tom Rix <trix@redhat.com>
 
-Hello Julien,
-thanks for the patch!
+Clang static analysis reports this problem
+kfd_chardev.c:2594:16: warning: The expression is an uninitialized value.
+  The computed value will also be garbage
+        while (ret && i--) {
+                      ^~~
 
-However, there's a severe issue to solve.
+i is a loop variable and this block unwinds a problem in the loop.
+When the error happens before the loop, this value is garbage.
+Move the initialization of i to its decalaration.
 
-> ---
-> Changes in v2:
->    - update commit message to be more descriptive
-> 
->   drivers/gpu/drm/mediatek/mtk_dsi.c | 34 ++++++++++++++++++++++--------
->   1 file changed, 25 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 5d90d2eb0019..7d66fdc7f81d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -891,24 +891,34 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
->   	u8 read_data[16];
->   	void *src_addr;
->   	u8 irq_flag = CMD_DONE_INT_FLAG;
-> -
-> -	if (readl(dsi->regs + DSI_MODE_CTRL) & MODE) {
-> -		DRM_ERROR("dsi engine is not command mode\n");
-> -		return -EINVAL;
-> +	u32 dsi_mode;
-> +
-> +	dsi_mode = readl(dsi->regs + DSI_MODE_CTRL);
-> +	if (dsi_mode & MODE) {
-> +		mtk_dsi_stop(dsi);
-> +		if (mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500)) {
-> +			recv_cnt = -EINVAL;
+Fixes: be072b06c739 ("drm/amdkfd: CRIU export BOs as prime dmabuf objects")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Variable recv_cnt is u32, hence unsigned... You cannot assign a negative error
-number to that variable.
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index 636391c61cafb..4310ca07af130 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -2374,7 +2374,7 @@ static int criu_restore_bos(struct kfd_process *p,
+ 	const bool criu_resume = true;
+ 	bool flush_tlbs = false;
+ 	int ret = 0, j = 0;
+-	uint32_t i;
++	uint32_t i = 0;
+ 
+ 	if (*priv_offset + (args->num_bos * sizeof(*bo_privs)) > max_priv_data_size)
+ 		return -EINVAL;
+@@ -2410,7 +2410,7 @@ static int criu_restore_bos(struct kfd_process *p,
+ 	*priv_offset += args->num_bos * sizeof(*bo_privs);
+ 
+ 	/* Create and map new BOs */
+-	for (i = 0; i < args->num_bos; i++) {
++	for (; i < args->num_bos; i++) {
+ 		struct kfd_criu_bo_bucket *bo_bucket;
+ 		struct kfd_criu_bo_priv_data *bo_priv;
+ 		struct kfd_dev *dev;
+-- 
+2.26.3
 
-While at it, please add a `int ret` variable to increase readability of this
-function after your additions... in which case, this would then be
-
-		ret = mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
-		if (ret)
-			goto restore_dsi_mode;
-
-...which also simplifies the flow, in my opinion (but that's personal preference).
-
-> +			goto restore_dsi_mode;
-> +		}
->   	}
->   
->   	if (MTK_DSI_HOST_IS_READ(msg->type))
->   		irq_flag |= LPRX_RD_RDY_INT_FLAG;
->   
-> -	if (mtk_dsi_host_send_cmd(dsi, msg, irq_flag) < 0)
-> -		return -ETIME;
-> +	if (mtk_dsi_host_send_cmd(dsi, msg, irq_flag) < 0) {
-> +		recv_cnt = -ETIME;
-
-This can be improved: mtk_dsi_host_send_cmd() already returns either zero or
--ETIME if mtk_dsi_wait_for_irq_done() times out.
-
-I would also suggest, at this point, to make function mtk_dsi_wait_for_irq_done()
-directly return -ETIME, so that also mtk_dsi_switch_to_cmd_mode() and
-mtk_dsi_host_send_cmd() are simplified.
-
-Whether you want to improve this file, or want to avoid improving it right now,
-this should anyway be like:
-
-	ret = mtk_dsi_host_send_cmd(..blah)
-	if (ret)
-		goto restore_dsi_mode;
-
-> +		goto restore_dsi_mode;
-> +	}
->   
-> -	if (!MTK_DSI_HOST_IS_READ(msg->type))
-> -		return 0;
-> +	if (!MTK_DSI_HOST_IS_READ(msg->type)) {
-> +		recv_cnt = 0;
-> +		goto restore_dsi_mode;
-> +	}
->   
->   	if (!msg->rx_buf) {
->   		DRM_ERROR("dsi receive buffer size may be NULL\n");
-> -		return -EINVAL;
-> +		recv_cnt = -EINVAL;
-> +		goto restore_dsi_mode;
->   	}
->   
->   	for (i = 0; i < 16; i++)
-> @@ -933,6 +943,12 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
->   	DRM_INFO("dsi get %d byte data from the panel address(0x%x)\n",
->   		 recv_cnt, *((u8 *)(msg->tx_buf)));
->   
-> +restore_dsi_mode:
-> +	if (dsi_mode & MODE) {
-> +		mtk_dsi_set_mode(dsi);
-> +		mtk_dsi_start(dsi);
-> +	}
-> +
->   	return recv_cnt;
-
-P.S.:   return ret < 0 ? ret : recv_cnt;
-
->   }
->   
-> 
-
-Thanks,
-Angelo
