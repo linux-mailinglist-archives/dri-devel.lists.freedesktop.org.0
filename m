@@ -2,48 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC814B155B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 19:36:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B7B4B159D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 19:55:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6385710E948;
-	Thu, 10 Feb 2022 18:36:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A69CC10E1FD;
+	Thu, 10 Feb 2022 18:55:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C87910E93C;
- Thu, 10 Feb 2022 18:36:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644518202; x=1676054202;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ho6kpFZAscusI7nIrWDNnWHNjVK2wgi7j6D5m4YBDOw=;
- b=EMJJii84nkqBH5zHNcEkutZm9O3KZAQQdabx58xS1Fmd6rhP1Xznn9ed
- oVm1fhs2MjkME/FFYfvJ6+uGfx3+KOidcMtkP6M/vltmy+C16A2xcJAAV
- nNopJ8dgS7MvKBtUWs6v1mQqTKt3YUGdnSoidTk0qSrkWqbKkYwA4uAmf
- K+etfkczI6U2KN/tetUs9ubcY2+5fM2XXXOid4I1uM79v0Igq2vzqYiy8
- ICCznsOfpeQUt/JxisQD2Q9SMwjwDH/RveMuytTtiDqe/JUSbB29uMrN1
- fGo/CR8sgeCrikxAGsR6pLoCplNoyOnEi8C68aM75OK7Wli20DPc89Ny9 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="248392700"
-X-IronPort-AV: E=Sophos;i="5.88,359,1635231600"; d="scan'208";a="248392700"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2022 10:36:41 -0800
-X-IronPort-AV: E=Sophos;i="5.88,359,1635231600"; d="scan'208";a="526616786"
-Received: from lmoua-mobl.amr.corp.intel.com (HELO mvcheng-desk2.intel.com)
- ([10.212.169.226])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2022 10:36:41 -0800
-From: Michael Cheng <michael.cheng@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v10 6/6] drm/i915/gt: replace cache_clflush_range
-Date: Thu, 10 Feb 2022 10:36:36 -0800
-Message-Id: <20220210183636.1187973-7-michael.cheng@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220210183636.1187973-1-michael.cheng@intel.com>
-References: <20220210183636.1187973-1-michael.cheng@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8280510E1FD
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 18:55:52 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2086321121;
+ Thu, 10 Feb 2022 18:55:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1644519350; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DdvRYUYPbeuUwugRz/zD5fkCcoVbL25yO1bIyTTrtQE=;
+ b=kbho8IjDsMCYYGtM1D3wg8uEHchZfhJ93p54CQVZZV4Ps3xA0QeVKQS6SmnK1WhosD0Ugp
+ eBjpwjMGG3X1RAfKZFlFwn6eHdv7x/XfOlEcjUkSQPJAG1FuJqNY5HCLQ6/ezgsdG4uPxB
+ sBZZirLaPeGQVKr5mTbereSFpjkWZJA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1644519350;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DdvRYUYPbeuUwugRz/zD5fkCcoVbL25yO1bIyTTrtQE=;
+ b=kn3NfczTzXNH5S4YABkE3WiOoJMtnuZJs+eToav08csO5x2B9klUAf96MArUbpSawcg3wf
+ lhSIs+86sjnMEjAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DBCE713C22;
+ Thu, 10 Feb 2022 18:55:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id t3hhNLVfBWKPcAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 10 Feb 2022 18:55:49 +0000
+Message-ID: <5df2f9bb-9181-56da-ea85-06af7ea8704a@suse.de>
+Date: Thu, 10 Feb 2022 19:55:49 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/ast: fix using freed memory
+Content-Language: en-US
+To: trix@redhat.com, airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
+ nathan@kernel.org, ndesaulniers@google.com, maxime@cerno.tech
+References: <20220203152305.1846862-1-trix@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220203152305.1846862-1-trix@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------092ooI4Qbv1X0dO7Q2ZFcB0X"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,131 +70,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, michael.cheng@intel.com,
- balasubramani.vivekanandan@intel.com, wayne.boyer@intel.com,
- casey.g.bowman@intel.com, lucas.demarchi@intel.com,
+Cc: llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace all occurrence of cache_clflush_range with drm_clflush_virt_range.
-This will prevent compile errors on non-x86 platforms.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------092ooI4Qbv1X0dO7Q2ZFcB0X
+Content-Type: multipart/mixed; boundary="------------O6FbTDLRmQ55Ds9EEjrFytE7";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: trix@redhat.com, airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
+ nathan@kernel.org, ndesaulniers@google.com, maxime@cerno.tech
+Cc: llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <5df2f9bb-9181-56da-ea85-06af7ea8704a@suse.de>
+Subject: Re: [PATCH] drm/ast: fix using freed memory
+References: <20220203152305.1846862-1-trix@redhat.com>
+In-Reply-To: <20220203152305.1846862-1-trix@redhat.com>
 
-Signed-off-by: Michael Cheng <michael.cheng@intel.com>
----
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c                 | 12 ++++++------
- drivers/gpu/drm/i915/gt/intel_execlists_submission.c |  2 +-
- drivers/gpu/drm/i915/gt/intel_gtt.c                  |  2 +-
- drivers/gpu/drm/i915/gt/intel_ppgtt.c                |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c    |  2 +-
- 5 files changed, 10 insertions(+), 10 deletions(-)
+--------------O6FbTDLRmQ55Ds9EEjrFytE7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-index c43e724afa9f..d0999e92621b 100644
---- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-@@ -444,11 +444,11 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
- 				pd = pdp->entry[gen8_pd_index(idx, 2)];
- 			}
- 
--			clflush_cache_range(vaddr, PAGE_SIZE);
-+			drm_clflush_virt_range(vaddr, PAGE_SIZE);
- 			vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
- 		}
- 	} while (1);
--	clflush_cache_range(vaddr, PAGE_SIZE);
-+	drm_clflush_virt_range(vaddr, PAGE_SIZE);
- 
- 	return idx;
- }
-@@ -532,7 +532,7 @@ static void gen8_ppgtt_insert_huge(struct i915_address_space *vm,
- 			}
- 		} while (rem >= page_size && index < I915_PDES);
- 
--		clflush_cache_range(vaddr, PAGE_SIZE);
-+		drm_clflush_virt_range(vaddr, PAGE_SIZE);
- 
- 		/*
- 		 * Is it safe to mark the 2M block as 64K? -- Either we have
-@@ -548,7 +548,7 @@ static void gen8_ppgtt_insert_huge(struct i915_address_space *vm,
- 					      I915_GTT_PAGE_SIZE_2M)))) {
- 			vaddr = px_vaddr(pd);
- 			vaddr[maybe_64K] |= GEN8_PDE_IPS_64K;
--			clflush_cache_range(vaddr, PAGE_SIZE);
-+			drm_clflush_virt_range(vaddr, PAGE_SIZE);
- 			page_size = I915_GTT_PAGE_SIZE_64K;
- 
- 			/*
-@@ -569,7 +569,7 @@ static void gen8_ppgtt_insert_huge(struct i915_address_space *vm,
- 				for (i = 1; i < index; i += 16)
- 					memset64(vaddr + i, encode, 15);
- 
--				clflush_cache_range(vaddr, PAGE_SIZE);
-+				drm_clflush_virt_range(vaddr, PAGE_SIZE);
- 			}
- 		}
- 
-@@ -617,7 +617,7 @@ static void gen8_ppgtt_insert_entry(struct i915_address_space *vm,
- 
- 	vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
- 	vaddr[gen8_pd_index(idx, 0)] = gen8_pte_encode(addr, level, flags);
--	clflush_cache_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
-+	drm_clflush_virt_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
- }
- 
- static int gen8_init_scratch(struct i915_address_space *vm)
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index 11b864fd68a5..67dd4b1fc185 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -2823,7 +2823,7 @@ static void execlists_sanitize(struct intel_engine_cs *engine)
- 	sanitize_hwsp(engine);
- 
- 	/* And scrub the dirty cachelines for the HWSP */
--	clflush_cache_range(engine->status_page.addr, PAGE_SIZE);
-+	drm_clflush_virt_range(engine->status_page.addr, PAGE_SIZE);
- 
- 	intel_engine_reset_pinned_contexts(engine);
- }
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index 0d6bbc8c57f2..9b594be9102f 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -255,7 +255,7 @@ fill_page_dma(struct drm_i915_gem_object *p, const u64 val, unsigned int count)
- 	void *vaddr = __px_vaddr(p);
- 
- 	memset64(vaddr, val, count);
--	clflush_cache_range(vaddr, PAGE_SIZE);
-+	drm_clflush_virt_range(vaddr, PAGE_SIZE);
- }
- 
- static void poison_scratch_page(struct drm_i915_gem_object *scratch)
-diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-index 48e6e2f87700..bd474a5123cb 100644
---- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-@@ -90,7 +90,7 @@ write_dma_entry(struct drm_i915_gem_object * const pdma,
- 	u64 * const vaddr = __px_vaddr(pdma);
- 
- 	vaddr[idx] = encoded_entry;
--	clflush_cache_range(&vaddr[idx], sizeof(u64));
-+	drm_clflush_virt_range(&vaddr[idx], sizeof(u64));
- }
- 
- void
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b3a429a92c0d..89020706adc4 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -3573,7 +3573,7 @@ static void guc_sanitize(struct intel_engine_cs *engine)
- 	sanitize_hwsp(engine);
- 
- 	/* And scrub the dirty cachelines for the HWSP */
--	clflush_cache_range(engine->status_page.addr, PAGE_SIZE);
-+	drm_clflush_virt_range(engine->status_page.addr, PAGE_SIZE);
- 
- 	intel_engine_reset_pinned_contexts(engine);
- }
--- 
-2.25.1
+SGkNCg0KQW0gMDMuMDIuMjIgdW0gMTY6MjMgc2NocmllYiB0cml4QHJlZGhhdC5jb206DQo+
+IEZyb206IFRvbSBSaXggPHRyaXhAcmVkaGF0LmNvbT4NCj4gDQo+IGNsYW5nIHN0YXRpYyBh
+bmFseXNpcyByZXBvcnRzIHRoaXMgcHJvYmxlbQ0KPiBhc3RfbW9kZS5jOjEyMzU6Mzogd2Fy
+bmluZzogVXNlIG9mIG1lbW9yeSBhZnRlciBpdCBpcyBmcmVlZA0KPiAgICBkcm1fY29ubmVj
+dG9yX3VwZGF0ZV9lZGlkX3Byb3BlcnR5KCZhc3RfY29ubmVjdG9yLT5iYXNlLCBlZGlkKTsN
+Cj4gICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn4NCj4gDQo+IFRoZSBzZWNvbmQgY29uZGl0aW9uIG9uDQo+IA0KPiAg
+ICBpZiAoIWZsYWdzICYmIGFzdF9jb25uZWN0b3ItPmkyYykNCj4gDQo+IE1lYW5zIHRoYXQg
+dGhlIGVkaWQgaXMgbm90IGFsd2F5cyBzZXQuICBJZiB0aGUgcHJldmlvdXMgYmxvY2sNCj4g
+ZmFpbHMgdGhlIGZyZWVkIGVkaWQgdmFsdWUgd2lsbCBiZSB1c2VkLiAgU28gc2V0IGVkaWQg
+dG8gTlVMTA0KPiBhZnRlciBmcmVlaW5nLg0KDQpUaGFua3MgZm9yIHlvdXIgcGF0Y2guIFdl
+IGhhdmUgbWVhbndoaWxlIG1lcmdlcyBhIGNoYW5nZSB0aGF0IHJlcGxhY2VzIA0KdGhlIGNv
+ZGUgZW50aXJlbHkuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IEZpeGVzOiA1
+NWRjNDQ5YTdjNjAgKCJkcm0vYXN0OiBIYW5kbGUgZmFpbGVkIEkyQyBpbml0aWFsaXphdGlv
+biBncmFjZWZ1bGx5IikNCj4gU2lnbmVkLW9mZi1ieTogVG9tIFJpeCA8dHJpeEByZWRoYXQu
+Y29tPg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMgfCA2ICsr
+KystLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5j
+IGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+IGluZGV4IGFiNTJlZmIxNTY3
+MGUuLjkxMzFkYzhhMWEyZmMgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3Qv
+YXN0X21vZGUuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMNCj4g
+QEAgLTEyMjQsMTAgKzEyMjQsMTIgQEAgc3RhdGljIGludCBhc3RfZ2V0X21vZGVzKHN0cnVj
+dCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpDQo+ICAgCQkJcmV0dXJuIC1FTk9NRU07DQo+
+ICAgDQo+ICAgCQlmbGFncyA9IGFzdF9kcDUwMV9yZWFkX2VkaWQoY29ubmVjdG9yLT5kZXYs
+ICh1OCAqKWVkaWQpOw0KPiAtCQlpZiAoZmxhZ3MpDQo+ICsJCWlmIChmbGFncykgew0KPiAg
+IAkJCWFzdC0+ZHA1MDFfbWF4Y2xrID0gYXN0X2dldF9kcDUwMV9tYXhfY2xrKGNvbm5lY3Rv
+ci0+ZGV2KTsNCj4gLQkJZWxzZQ0KPiArCQl9IGVsc2Ugew0KPiAgIAkJCWtmcmVlKGVkaWQp
+Ow0KPiArCQkJZWRpZCA9IE5VTEw7DQo+ICsJCX0NCj4gICAJfQ0KPiAgIAlpZiAoIWZsYWdz
+ICYmIGFzdF9jb25uZWN0b3ItPmkyYykNCj4gICAJCWVkaWQgPSBkcm1fZ2V0X2VkaWQoY29u
+bmVjdG9yLCAmYXN0X2Nvbm5lY3Rvci0+aTJjLT5hZGFwdGVyKTsNCg0KLS0gDQpUaG9tYXMg
+WmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBT
+b2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcs
+IEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVy
+OiBJdm8gVG90ZXYNCg==
 
+--------------O6FbTDLRmQ55Ds9EEjrFytE7--
+
+--------------092ooI4Qbv1X0dO7Q2ZFcB0X
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIFX7UFAwAAAAAACgkQlh/E3EQov+Bg
+wBAAksaQa3/SWLQEybFdtMJpVESyPa8f/LCtzK+RiiNrEDFUvwMLa9TiADFUgkqVasVgWX8TigZG
+V7S6dSyYE/2h3HvUwpLJvi4aFS9fm7Lzts15k1+Z2zqPr1XwI+RseeX7PrG6kCfpBR296oCIdpD1
+cDP2qy4lybkl/sH8Hj6CXTyEfnVl+UIw2TVI7DQ2ssICFtNsOlsBiVB4lTMJi3fsaUDIxIxZPwak
+xumRRY0EtrrRzoTuUdOYaEUO73dBQ8RpkKZPdeac2BBKv6w14U1+6j2N4NSls22mQK6MjJbZLkHs
+538dat6sGOzmMyOjL2G8ENQJ6BQ1g9JzWAedyWN1EW38es9PT2IsYZMU0wESZfrKBhINBN3MZnuq
+FUaZlCg1nGBJi33ircQkw8Ctkl60OhT7Bfqy5CkeSuf4HaokujZLv/a/xw1PItRGBYiWoBbAaADL
++eC1piBUxO5ZriVIa5nL38g+3empUpJxhE0+NKqd5x7TSgBD0bpXUxzgvuR042I9En1hfIHyBwD2
+1hk0dwf5c+9CCW9uYzxFVrLK/lCseATVr2lzx0YUDsXvVreYFKknlvhTydlQXqHGUS2kxvi8dOkA
+Mnh5Y/iR+IP46pvSuMTTJaRsf/nDzUFd48tFjCwtkSEc014a8Ht76o1WL/C//uJL1cY32CQU8vep
+aW8=
+=5Niu
+-----END PGP SIGNATURE-----
+
+--------------092ooI4Qbv1X0dO7Q2ZFcB0X--
