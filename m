@@ -1,104 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCEF64B0B7C
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:55:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF6F4B0BB4
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 12:03:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A73C110E7FC;
-	Thu, 10 Feb 2022 10:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED9C10E7EE;
+	Thu, 10 Feb 2022 11:03:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ADBD10E7FC
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 10:55:37 +0000 (UTC)
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20220210105535epoutp02d1a54f432586b7267dc5802ec8e696ae~SZ23wVz_P0770107701epoutp02S
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 10:55:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20220210105535epoutp02d1a54f432586b7267dc5802ec8e696ae~SZ23wVz_P0770107701epoutp02S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1644490535;
- bh=R7L8MKVkBoaq0s3DJCdA68+g2suhf8EBgyskpwWxmaI=;
- h=From:To:Cc:Subject:Date:References:From;
- b=mPQGS1sAEHE65gCRItQaE7C4nI26ncCNdP91/foddI+bWK7i6z+50DsU5jQaBqds5
- iHiT/h8FarYEq2Ah2dfHIiC6hXLrJwrWr9n/4oVNC3SqEXHuzDopZEX8TaGv8s+Cvs
- 7+lpcIPb+z0wSjHnp1NsYLIxd2a1vM2yanIQ2NZ4=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220210105535epcas1p23d0882f7c125b3ad907b9993e2d14d12~SZ23liQlx1196311963epcas1p2q;
- Thu, 10 Feb 2022 10:55:35 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.38.233]) by
- epsnrtp2.localdomain (Postfix) with ESMTP id 4JvYYv6pdrz4x9Q7; Thu, 10 Feb
- 2022 10:55:31 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
- epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 01.55.08277.32FE4026; Thu, 10 Feb 2022 19:55:31 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5~SZ2yeBU6o0814508145epcas1p2x;
- Thu, 10 Feb 2022 10:55:30 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220210105530epsmtrp1e0635384650c0663d14a6ff74fe41c4e~SZ2ydLgnd1068010680epsmtrp1Z;
- Thu, 10 Feb 2022 10:55:30 +0000 (GMT)
-X-AuditID: b6c32a36-1edff70000002055-f9-6204ef232f86
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 11.5B.29871.22FE4026; Thu, 10 Feb 2022 19:55:30 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.113.221.211]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20220210105529epsmtip1376af2c6489122ab6c8b09011b408bfb~SZ2yL8dLj1126711267epsmtip1R;
- Thu, 10 Feb 2022 10:55:29 +0000 (GMT)
-From: Inki Dae <inki.dae@samsung.com>
-To: airlied@linux.ie, daniel.vetter@ffwll.ch
-Subject: [GIT PULL] exynos-drm-fixes
-Date: Thu, 10 Feb 2022 20:07:22 +0900
-Message-Id: <20220210110722.63523-1-inki.dae@samsung.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C412810E7EE;
+ Thu, 10 Feb 2022 11:03:41 +0000 (UTC)
+X-UUID: f16f89fe7ede40bcb9dc9a77101ecd2b-20220210
+X-UUID: f16f89fe7ede40bcb9dc9a77101ecd2b-20220210
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1689102185; Thu, 10 Feb 2022 19:03:37 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 10 Feb 2022 19:03:36 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 10 Feb 2022 19:03:35 +0800
+Message-ID: <7c517b787d1dd768372d0141f5078e3089e883cb.camel@mediatek.com>
+Subject: Re: [PATCH v6 25/35] iommu/mediatek: Migrate to aggregate driver
+From: Yong Wu <yong.wu@mediatek.com>
+To: Stephen Boyd <swboyd@chromium.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Douglas Anderson <dianders@chromium.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Date: Thu, 10 Feb 2022 19:03:35 +0800
+In-Reply-To: <20220127200141.1295328-26-swboyd@chromium.org>
+References: <20220127200141.1295328-1-swboyd@chromium.org>
+ <20220127200141.1295328-26-swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNKsWRmVeSWpSXmKPExsWy7bCmnq7ye5Ykg/aTAha9504yWSx8eJfZ
- 4srX92wWM87vY3Jg8dj7bQGLx/ZvD1g97ncfZ/L4vEkugCUq2yYjNTEltUghNS85PyUzL91W
- yTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMHaKWSQlliTilQKCCxuFhJ386mKL+0JFUh
- I7+4xFYptSAlp8C0QK84Mbe4NC9dLy+1xMrQwMDIFKgwITujZ+NnxoKlAhU9fS8YGxj38XYx
- cnJICJhIbGu/zwJiCwnsYJQ4ukSzi5ELyP7EKPHyxGMWCOcbo8SRT/tYYTrWHm5hh0jsZZSY
- un8RM4TzhVGiZ+JqZpAqNgFViYkr7rN1MXJwiAjoSLw4UwASZhZwk/iz9CwLSFhYQEXiwEQ+
- kDALUHXHgx9MIDavgKXE867/LBC75CVmXvrODhEXlDg58wkLxBh5ieats8HWSgisY5fo+r6W
- HaLBRWLj8s3MELawxKvjW6DiUhIv+9vYIRomM0rcub6CBcKZwShx+Od1RogqY4n9SyczgVzH
- LKApsX6XPkRYUWLn77mMEJv5JN597WEFKZEQ4JXoaBOCKFGSOHbxBtQUCYkLSyayQdgeEtf2
- tDFBgjdW4vGnVrYJjPKzkPwzC8k/sxAWL2BkXsUollpQnJueWmxYYASP1OT83E2M4FSnZbaD
- cdLbD3qHGJk4GA8xSnAwK4nwnqpnThLiTUmsrEotyo8vKs1JLT7EaAoM4YnMUqLJ+cBkm1cS
- b2hiaWBiZmRsYmFoZqgkzrtq2ulEIYH0xJLU7NTUgtQimD4mDk6pBiZtgyDHfVxHX7uu8JcU
- VAs9667kw5kUM1e61Cpw3nkOdwGf2WFT3AKT1bdd9DYJiX4jdCdoV5Pvy9OuBqcP+764EZC5
- 97zccaGJwkslJCUcjc/rBr+vUJFSqJJ+ocP5zv1giNKp2PT2NsUwex6dKTqWyx78vN5jr9Ja
- pnRs84qLXy0v5LQ83B+wPGgO74e11SXd+Tzf4pdFy+1TWsD9TjH7pVsXw1sD/0mXTIrv3hc6
- NkeWwXu63UmXBT1y6266fjl/xMA7tbFWZ+n/Q51CIkmratf+TGmcrHb8tv1N9ayFR0467pgf
- ZK9VnFB4tFZPtCI59+qRRVrblicmu9xPM63TfBCauFbl59H5ak13lFiKMxINtZiLihMBrD3F
- Av4DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBLMWRmVeSWpSXmKPExsWy7bCSnK7Se5Ykg9kT2C16z51kslj48C6z
- xZWv79ksZpzfx+TA4rH32wIWj+3fHrB63O8+zuTxeZNcAEsUl01Kak5mWWqRvl0CV0bPxs+M
- BUsFKnr6XjA2MO7j7WLk5JAQMJFYe7iFvYuRi0NIYDejxKmd25m7GDmAEhISW7ZyQJjCEocP
- F0OUfGKU2LRjKRtIL5uAqsTEFffBbBEBPYm2jlPsIDazgIfE+z2r2UF6hQVUJA5M5AMJswCV
- dzz4wQRi8wpYSjzv+s8CcYK8xMxL39kh4oISJ2c+YYEYIy/RvHU28wRGvllIUrOQpBYwMq1i
- lEwtKM5Nzy02LDDMSy3XK07MLS7NS9dLzs/dxAgOPC3NHYzbV33QO8TIxMF4iFGCg1lJhPdU
- PXOSEG9KYmVValF+fFFpTmrxIUZpDhYlcd4LXSfjhQTSE0tSs1NTC1KLYLJMHJxSDUwrb5Xc
- d+44Z9FpdMQlaJ3uGekW6fo3As99XFdcvWwv3RCvdUr+lYxrkVGwptuOL3aJCwza+UMYDh8T
- 3H9J7aV6v3qj6t7ySY+653xSlyjS8u6+HCi0SkezdYa/ZnGQp8zcrfZuCbstj8hWMnuIis0v
- Cbsy8bTb4+Utv3tCeP8XXl6o5v4iOv3a3EufcxVO/2/L+17v2Wf0oV1/3X/rr17bdnzkCnqU
- slk5b0qpv7in5OObSZw7rSxXTvMMqT0fl7w5d6tB9aOdnyeEuBy8McvozqWwDZ2nrTvKlCMO
- MLuETnzsMn/XSb28N/GPlA5uL4gu5PgZzCW1vTtTU1iNofjUlQ6rvY+2VmStyI1VVmIpzkg0
- 1GIuKk4EAJ7NQyurAgAA
-X-CMS-MailID: 20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5
-References: <CGME20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5@epcas1p2.samsung.com>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,56 +51,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Saravana Kannan <saravanak@google.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org, Joerg
+ Roedel <joro@8bytes.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Russell King <rmk+kernel@arm.linux.org.uk>, Will Deacon <will@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On Thu, 2022-01-27 at 12:01 -0800, Stephen Boyd wrote:
+> Use an aggregate driver instead of component ops so that we can get
+> proper driver probe ordering of the aggregate device with respect to
+> all
+> the component devices that make up the aggregate device.
+> 
+> Cc: Yong Wu <yong.wu@mediatek.com>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Russell King <rmk+kernel@arm.linux.org.uk>
+> Cc: Saravana Kannan <saravanak@google.com>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 
-   Just two fixup series - one is to fix irq chaining issue and other is
-   regressions to TE-gpio handling.
++ Krzysztof
 
-Please let me know if there is any problem.
+The memory/mtk-smi.c is expected to get Ack from Krzysztof.
 
-Thanks,
-Inki Dae
+Tested-by: Yong Wu <yong.wu@mediatek.com>
 
-The following changes since commit dfd42facf1e4ada021b939b4e19c935dcdd55566:
+> ---
+>  drivers/iommu/mtk_iommu.c    | 14 +++++++++-----
+>  drivers/iommu/mtk_iommu.h    |  6 ++++--
+>  drivers/iommu/mtk_iommu_v1.c | 14 +++++++++-----
+>  drivers/memory/mtk-smi.c     | 10 ++++------
+>  4 files changed, 26 insertions(+), 18 deletions(-)
 
-  Linux 5.17-rc3 (2022-02-06 12:20:50 -0800)
+[...]
 
-are available in the Git repository at:
+> diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
+> index e201e5976f34..0910fe109f53 100644
+> --- a/drivers/memory/mtk-smi.c
+> +++ b/drivers/memory/mtk-smi.c
+> @@ -175,6 +175,8 @@ mtk_smi_larb_bind(struct device *dev, struct
+> device *master, void *data)
+>  			larb->larbid = i;
+>  			larb->mmu = &larb_mmu[i].mmu;
+>  			larb->bank = larb_mmu[i].bank;
+> +
+> +			pm_runtime_enable(dev);
+>  			return 0;
+>  		}
+>  	}
+> @@ -450,15 +452,11 @@ static int mtk_smi_larb_probe(struct
+> platform_device *pdev)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	pm_runtime_enable(dev);
+>  	platform_set_drvdata(pdev, larb);
+>  	ret = component_add(dev, &mtk_smi_larb_component_ops);
+> -	if (ret)
+> -		goto err_pm_disable;
+> -	return 0;
+> +	if (!ret)
+> +		return 0;
+>  
+> -err_pm_disable:
+> -	pm_runtime_disable(dev);
+>  	device_link_remove(dev, larb->smi_common_dev);
 
-  gitolite.kernel.org:/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-for-v5.17-rc4
+Here is right. But at a glance code here, I was confused why it always
+call device_link_remove here. If we have v7, Could you help keep the
+original format? something like below. This may be helpful when we add
+new error flow in future.
 
-for you to fetch changes up to 38103fa72e0b70e3067fed489f8316dc5998f26c:
+        if (ret)
+              goto dev_link_remove;
+        return ret;
 
-  drm/exynos: Search for TE-gpio in DSI panel's node (2022-02-10 19:17:22 +0900)
+dev_link_remove:
+        device_link_remove(dev, larb->smi_common_dev);
 
-----------------------------------------------------------------
-Fixups
-- Make display controller drivers for Exynos series to use platform_get_irq
-  and platform_get_irq_byname functions to get the interrupt, which prevents
-  irq chaining from messed up when using hierarchical interrupt domains
-  which use "interrupts" property in the node.
-- Fix two regressions to TE-gpio handling.
+Thanks.     
 
-----------------------------------------------------------------
-Lad Prabhakar (5):
-      drm/exynos/exynos7_drm_decon: Use platform_get_irq_byname() to get the interrupt
-      drm/exynos: mixer: Use platform_get_irq() to get the interrupt
-      drm/exynos/exynos_drm_fimd: Use platform_get_irq_byname() to get the interrupt
-      drm/exynos/fimc: Use platform_get_irq() to get the interrupt
-      drm/exynos: gsc: Use platform_get_irq() to get the interrupt
+>  	return ret;
+>  }
 
-Marek Szyprowski (2):
-      drm/exynos: Don't fail if no TE-gpio is defined for DSI driver
-      drm/exynos: Search for TE-gpio in DSI panel's node
-
- drivers/gpu/drm/exynos/exynos7_drm_decon.c | 12 +++---------
- drivers/gpu/drm/exynos/exynos_drm_dsi.c    |  6 ++++--
- drivers/gpu/drm/exynos/exynos_drm_fimc.c   | 13 +++++--------
- drivers/gpu/drm/exynos/exynos_drm_fimd.c   | 13 ++++---------
- drivers/gpu/drm/exynos/exynos_drm_gsc.c    | 10 +++-------
- drivers/gpu/drm/exynos/exynos_mixer.c      | 14 ++++++--------
- 6 files changed, 25 insertions(+), 43 deletions(-)
