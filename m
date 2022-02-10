@@ -1,53 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9A84B0AA3
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:32:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A32634B0AB2
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:34:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09C1210E7CD;
-	Thu, 10 Feb 2022 10:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC11610E3F0;
+	Thu, 10 Feb 2022 10:34:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2748210E7CB;
- Thu, 10 Feb 2022 10:32:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644489122; x=1676025122;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=aUoUIvaP0mKqGQFmuLEycrw4C0O3v4YsV66X2+0pIe8=;
- b=h35QXIFWEreuRHj23y9YZlst2k4d1h9wsxNspuuDIXVgrdX//2PWbMhB
- A6E26guMKuTKEePkNJh1p7nfGFqzWuOnbVF6QSpxHDgOqIfTqBjn9//oN
- F0OZOtqmRqo+oB0Nsnex4BpUVNgZlYbhh3G5l3SivBhMjFacGYBemnHFy
- 3FvQx/y2g/JhawHbdZH/LPtG8ldeabyYafQ2KkLLdOpBnGroImgFzvlsx
- JhkImOiGjFvYVy1MKr4OGiIxrfHrCFMbC2CUxtdNlF8Ug8ChuDljsV3qn
- 5sXmha5h0sHTlO2Q0pFQI0rRB+fI/KRryg+t9XBjzzUBIn/+/lReR1eDs g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10253"; a="233023666"
-X-IronPort-AV: E=Sophos;i="5.88,358,1635231600"; d="scan'208";a="233023666"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2022 02:32:01 -0800
-X-IronPort-AV: E=Sophos;i="5.88,358,1635231600"; d="scan'208";a="485636297"
-Received: from scurtin-mobl1.ger.corp.intel.com (HELO [10.213.201.86])
- ([10.213.201.86])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2022 02:31:59 -0800
-Message-ID: <1e4fec89-7314-cc7a-db0b-37a1afddec83@linux.intel.com>
-Date: Thu, 10 Feb 2022 10:31:57 +0000
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE9A10E3F0;
+ Thu, 10 Feb 2022 10:34:35 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7776761B96;
+ Thu, 10 Feb 2022 10:34:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 565EFC004E1;
+ Thu, 10 Feb 2022 10:34:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644489273;
+ bh=z4lRkqvA9DQ7TsxP/HD2yM3VcwHkhADf25A8nAfUPPY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ae6D0ytKLsz7gBHU1sA/gq5EyAjlOF9cmPSDLh1W7IvE77Xgrfd67bGRx1mkyMQvL
+ e4TYhw0qFi5LivMxdoodwuQDE/G18vEgAa0Uzt/rk5cgJ3ZdDrPFma+iZoa+GKB+wL
+ 1BLmYxAM7h7BOjTw/g6nQ+StvDHxxRDvCnwng1Z3v+dumCWqVm7AudWc9pUHdgnl2X
+ 77KT1AnrzyGDQf3MLG5Id3/cnDCoX6MNQB+alihSTbqksd7g9CNOP1JDpFSLqH7vBA
+ O6i3r2plmMnWss16utpT+7fEHSfCvzK/rHNAKBkvF5KtiDAw8U9xLnlNfbegAVf1Gz
+ QHg2GHKxA4+UQ==
+From: Vinod Koul <vkoul@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: [REPOST PATCH v4 00/13] drm/msm: Add Display Stream Compression
+ Support
+Date: Thu, 10 Feb 2022 16:04:10 +0530
+Message-Id: <20220210103423.271016-1-vkoul@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v9 1/6] drm: Add arch arm64 for drm_clflush_virt_range
-Content-Language: en-US
-To: Michael Cheng <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220210012617.1061641-1-michael.cheng@intel.com>
- <20220210012617.1061641-2-michael.cheng@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220210012617.1061641-2-michael.cheng@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,57 +50,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: balasubramani.vivekanandan@intel.com, wayne.boyer@intel.com,
- casey.g.bowman@intel.com, lucas.demarchi@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Display Stream Compression (DSC) compresses the display stream in host which
+is later decoded by panel. This series enables this for Qualcomm msm driver.
+This was tested on Google Pixel3 phone which use LGE SW43408 panel.
+ 
+The changes include DSC data and hardware block enabling for DPU1 then
+support in encoder. We also add support in DSI and introduce required
+topology changes.
+ 
+In order for panel to set the DSC parameters we add dsc in drm_panel and set
+it from the msm driver.
 
-On 10/02/2022 01:26, Michael Cheng wrote:
-> Add arm64 support for drm_clflush_virt_range. dcache_clean_inval_poc
-> performs a flush by first performing a clean, follow by an invalidation
-> operation.
-> 
-> v2 (Michael Cheng): Use correct macro for cleaning and invalidation the
-> 		    dcache.
-> 
-> v3 (Michael Cheng): Remove ifdef for asm/cacheflush.h
-> 
-> v4 (Michael Cheng): Rebase
-> 
-> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
-> ---
->   drivers/gpu/drm/drm_cache.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-> index 66597e411764..ec8d91b088ff 100644
-> --- a/drivers/gpu/drm/drm_cache.c
-> +++ b/drivers/gpu/drm/drm_cache.c
-> @@ -28,6 +28,7 @@
->    * Authors: Thomas Hellström <thomas-at-tungstengraphics-dot-com>
->    */
->   
-> +#include <asm/cacheflush.h>
+We still have dsc as a globabl entity. I think while doing DP + DSC we
+should be able to update it, right now comprehending the requirements are
+bit difficult.
+ 
+Complete changes which enable this for Pixel3 along with panel driver (not
+part of this series) and DT changes can be found at:
+git.linaro.org/people/vinod.koul/kernel.git pixel/dsc_v4
+ 
+Comments welcome!
 
-I thought linux/cacheflush.h would be correct.
+Changes since v3:
+ - Merge changes from Dmitry to have dsc per encoder instance
+ - add warning for dsc and mode3d enabled together
+ - set dsc in dpu_encoder_phys_vid as well
+ - remove dsc hardcoded mask
+ - use devm_kzalloc for memory allocation for dsc
 
-Regards,
+Changes since v2:
+ - Fix comments by Dimitry except the dsc being global.
+ - Move RM patch later for dependency on topology now
+ - Add patch for mode valid callback for dsi_mgr
+ - Add missing structure documentation patch
+ - Fix errors in mode_3d changes
+ - Rebase on v5.16-rc1 and test
 
-Tvrtko
+Changes since v1:
+ - Fix various issues spotted by kbuildbot
+ - Rebase to v5.15-rc3
+ - Remove unused fields and duplicate defines
+ - Enable DSC blocks only when DSC is enabled
+ - remove sdm845 feature mask, use 0
+ - Check for DSC in hw_ctl
 
->   #include <linux/cc_platform.h>
->   #include <linux/export.h>
->   #include <linux/highmem.h>
-> @@ -174,6 +175,10 @@ drm_clflush_virt_range(void *addr, unsigned long length)
->   
->   	if (wbinvd_on_all_cpus())
->   		pr_err("Timed out waiting for cache flush\n");
-> +
-> +#elif defined(CONFIG_ARM64)
-> +	void *end = addr + length;
-> +	dcache_clean_inval_poc((unsigned long)addr, (unsigned long)end);
->   #else
->   	WARN_ONCE(1, "Architecture has no drm_cache.c support\n");
->   #endif
+Changes since RFC:
+ - Drop the DT binding patch as we derive the configuration from panel
+ - Drop the drm api patch as we no longer need it (use pps drm api)
+ - Fix comments raised by Dimitry
+ - Add dsc parameters calculation from downstream
+
+Vinod Koul (13):
+  drm/msm/dsi: add support for dsc data
+  drm/msm/dsi: Pass DSC params to drm_panel
+  drm/msm/disp/dpu1: Add support for DSC
+  drm/msm/disp/dpu1: Add support for DSC in pingpong block
+  drm/msm/disp/dpu1: Add DSC for SDM845 to hw_catalog
+  drm/msm/disp/dpu1: Add DSC support in hw_ctl
+  drm/msm/disp/dpu1: Add support for DSC in encoder
+  drm/msm/disp/dpu1: Don't use DSC with mode_3d
+  drm/msm: Add missing structure documentation
+  drm/msm/disp/dpu1: Add support for DSC in topology
+  drm/msm/disp/dpu1: Add DSC support in RM
+  drm/msm/dsi: add mode valid callback for dsi_mgr
+  drm/msm/dsi: Add support for DSC configuration
+
+ drivers/gpu/drm/msm/Makefile                  |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 177 ++++++++++-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |   8 +
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |   4 +
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |   4 +
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  20 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  13 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    | 210 +++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h    |  77 +++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |  13 +
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   |  32 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   |  14 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  56 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |   1 +
+ drivers/gpu/drm/msm/dsi/dsi.c                 |   5 +
+ drivers/gpu/drm/msm/dsi/dsi.h                 |   3 +
+ drivers/gpu/drm/msm/dsi/dsi.xml.h             |  10 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c            | 289 +++++++++++++++++-
+ drivers/gpu/drm/msm/dsi/dsi_manager.c         |  12 +
+ drivers/gpu/drm/msm/msm_drv.h                 |  26 ++
+ include/drm/drm_panel.h                       |   7 +
+ 25 files changed, 1001 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+
+-- 
+2.31.1
+
