@@ -2,75 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB864B0905
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 10:00:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE11E4B0935
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 10:12:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE8410E788;
-	Thu, 10 Feb 2022 09:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C514010E7A1;
+	Thu, 10 Feb 2022 09:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A08610E788
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 09:00:10 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 58DD52B00198;
- Thu, 10 Feb 2022 04:00:09 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 10 Feb 2022 04:00:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=MGWByFSubqZQc+ek8V7h0D2NffjGhFVDBZaj7I
- 7Vn7A=; b=pNERgv/jdi2CiTfiq7VZkEfizypI9c+zIksswo8Yj5smY0Ae4maflC
- rkP9KEY54IlbZGqOdMpTw+U08oJ8C/staUDwn2YZJEtVy9+KusXPd7eZvsxSjWGs
- 8f4y245HddHrtoSkYCQzkfX/Z3JdhkmY93nOhd7R8hwoRBdXyZgqAFA6kwBSU9TT
- hUIkWZGj66zO7ml20nZaP9mMoWqp/UOh1zD26IbRwK+i+NE0/Kj0Wy4tD9GvSIFD
- aZ4X1oAt87IYFLUAn+ezGDPlvd1WiK2Jq9i5QksdwbnJ09WJmxaU6dJpM1TWAUwu
- bp2YdIotEMPXk8ZBs3RZtzcZ1jKxe7wA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=MGWByFSubqZQc+ek8
- V7h0D2NffjGhFVDBZaj7I7Vn7A=; b=KLMThvgL/eJlGhydqTZRArUukBDTwCi6b
- d21Irs9KJW34xxwq1DncgiGE0kchyrv7t4AsKPDWtkHmFBlRJa5z19DaPSkUtNEi
- +Fz1PZ7GXZ+P7SN8NQ6g61NrB+vA5j7D9HfLAsundbQW2eo5dPQJZ0l/9gPZCaw7
- Zu46djdW6roUKo9utdgzJ7U3UzX+rtOeX5qLrOz90LHxV9564tFbDwqRb13+byXm
- f3HQomgCHLIv6R5JYTNyqkWt8dLqXRQK//1koINeRcO5r4GBqidAmhNNn2iSQtuZ
- iGp6b75ubpaU4FnrrlyUi/zcQNLmxHAU1fsLBKRc4cicMGduTp1zQ==
-X-ME-Sender: <xms:GNQEYkFYR8JfM8kVEkm0h7BFLyIneRezHB0sV5LENIUcxbJnfPdJzw>
- <xme:GNQEYtUVjdOM6iC4Aub1UWs0yREnMypyxbaUz2IQup4tlDQtZwckc2uNcJf5GA5Ks
- n1f1A9BVrBzRzpm69M>
-X-ME-Received: <xmr:GNQEYuIBbKJylFHMsh8TvhcGVKkzqfGMuBH4f1NqHw0dChlu9ychBrSpIQwV0AqvZDP97rxoK468gtyEokUEwTtcAytpMTel59UrAoQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddriedtgdduvdegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
- gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:GNQEYmFF6S49a5FXO-MQIEprrZKtyzYgH_4C-ZF0_b1yeUpI_s-LvA>
- <xmx:GNQEYqV0V92QabTXIrlsIvdVSyxduc-PkZkJkb3rjG3p44XU94XAjg>
- <xmx:GNQEYpOEC_CC9dcGlF0nAyEf0gyvvJKBef3imPuE_i6MLk58ayLXPA>
- <xmx:GNQEYmSAzqiuBtyX7fBcNVpDZr_7NE7Kk69712SXA39cNtzXk9kSPjM59AA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Feb 2022 04:00:08 -0500 (EST)
-Date: Thu, 10 Feb 2022 10:00:03 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v5 2/6] drm/vc4: hdmi: Move clock calculation into its
- own function
-Message-ID: <20220210090003.6hh2dpwyr5ehqxde@houat>
-References: <20220127141021.302482-1-maxime@cerno.tech>
- <20220127141021.302482-3-maxime@cerno.tech>
- <Yfw0EwaI9OqS6keP@intel.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 007B810E7A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 09:11:54 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 4CBCB815D1;
+ Thu, 10 Feb 2022 10:11:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1644484313;
+ bh=CRnX4uqVb40YYEa04jJVtdzOTBsvwyrHFVDn1nJppRc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GjQ6em9Wj5B6hcc80NHpNJe48LCGmrCT7Ov88TukC3opzRy5G3jmKieG5v7W91Wyx
+ bkVtiwprmbsYQ5qL3GpoXLkZhJ8pTd3mnP22mS/UhJ1b1NfwrFPGPens5xBcEzEqV6
+ G0aUKtEt2wFHkbw88l+3FeFjcaZON4SFA/mNFOp7bFOH1WFIPIE7LmLlgEq8fLPJB6
+ uBPEfBEZQNBRSg38JMWotitCMWaGSbr5+Z/rZfsH9fuq/tFGL/5cmGLYfA5cfgwSrL
+ DZgv6Cf2S1Ti6gQnc402Vwyya10QF4jV8BQzfct726hzG2bI+eK++ukJPKEZMMkuHD
+ 40OXqqvgFj+7Q==
+Message-ID: <6f7cdef3-851d-a371-9de4-dc7c019b80ae@denx.de>
+Date: Thu, 10 Feb 2022 10:11:51 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="r2mvk4rz7opbm6ei"
-Content-Disposition: inline
-In-Reply-To: <Yfw0EwaI9OqS6keP@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH] [RFC] drm: mxsfb: Implement LCDIF scanout CRC32 support
+Content-Language: en-US
+To: Liu Ying <victor.liu@oss.nxp.com>, dri-devel@lists.freedesktop.org
+References: <20220206185643.275811-1-marex@denx.de>
+ <d5ac849dc8aae325d98f215d4f92d492abd909c4.camel@oss.nxp.com>
+ <9a2cc781-3277-7e09-530b-05c7361cdaa8@denx.de>
+ <1020798373f3f54d1dd7df7174afaeb973ec86ff.camel@oss.nxp.com>
+ <49519f3a-060d-feb5-891d-adaad10607e2@denx.de>
+ <fc56574745fd53dfcc65425aab7547d9341cd308.camel@oss.nxp.com>
+ <024db28a-491e-3252-48f7-79f0e2cc2d12@denx.de>
+ <695e387cf1cbe12060a394095322ea9bcf824678.camel@oss.nxp.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <695e387cf1cbe12060a394095322ea9bcf824678.camel@oss.nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,56 +62,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Werner Sembach <wse@tuxedocomputers.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robert Chiras <robert.chiras@nxp.com>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2/10/22 06:22, Liu Ying wrote:
 
---r2mvk4rz7opbm6ei
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hi Ville,
+[...]
 
-Thanks for your review
+>>>>>> There are many blank areas which are undocumented, this LCDIF
+>>>>>> CRC32
+>>>>>> feature, i.MX8M Mini Arteris NOC at 0x32700000 , the ARM GPV
+>>>>>> NIC-
+>>>>>> 301
+>>>>>> at
+>>>>>> 0x32{0,1,2,3,4,5,6,8}00000 and their master/slave port
+>>>>>> mapping.
+>>>>>> The
+>>>>>> NOC
+>>>>>> and NICs were documented at least up to i.MX6QP and then that
+>>>>>> information disappeared from NXP datasheets. I think
+>>>>>> reconfiguring
+>>>>>> the
+>>>>>> NOC/NIC QoS would help mitigate this shift issue described
+>>>>>> below
+>>>>>> (*).
+>>>>>
+>>>>> I also think the QoS would help if it is configureable.
+>>>>
+>>>> It is programmable, it's just the port mapping which is
+>>>> undocumented.
+>>>>
+>>>>>> Do you know if there is some additional NOC/NIC documentation
+>>>>>> for
+>>>>>> i.MX8M
+>>>>>> Mini available ?
+>>>>>
+>>>>> No.
+>>>>
+>>>> Can you ask someone internally in NXP maybe ?
+>>>
+>>> Maybe, you may try community.nxp.com, like the i.MXRT case.
+>>
+>> The community.nxp.com is unhelpful, the i.MXRT case it a good example
+>> -- 
+>> the solution to the problem has been found by the person who asked
+>> the
+>> question on their own, and elsewhere too.
+> 
+> AFAIK, there are questions answered by internal support team and RnD
+> team at that community.  I personally take it as a resource to use.
 
-On Thu, Feb 03, 2022 at 09:59:15PM +0200, Ville Syrj=E4l=E4 wrote:
-> > +static int
-> > +vc4_hdmi_encoder_compute_clock(const struct vc4_hdmi *vc4_hdmi,
-> > +			       struct vc4_hdmi_connector_state *vc4_state,
-> > +			       const struct drm_display_mode *mode,
-> > +			       unsigned int bpc)
-> > +{
-> > +	unsigned long long clock;
-> > +
-> > +	clock =3D vc4_hdmi_encoder_compute_mode_clock(mode, bpc);
-> > +	if (vc4_hdmi_encoder_clock_valid(vc4_hdmi, clock) !=3D MODE_OK)
-> > +		return -EINVAL;
-> > +
-> > +	vc4_state->pixel_rate =3D clock;
->=20
-> This thing seems a bit confused between pixels vs. TMDS characters.
-> Either that or some/all of the pixel_clock/rate things are just
-> misnamed?
+Sure, here is a list of links to similar problem triggered by various 
+people using the NXP BSP, neither of them in answered:
 
-Yeah, this is the TMDS characters rate, I'll rename it.
+https://community.nxp.com/t5/i-MX-Processors/Image-shift-right-for-LVDS/td-p/969581
+https://community.nxp.com/t5/i-MX-Processors/iMX8M-display-shifted-after-playing-decoded-video-with-gstreamer/td-p/928269
+https://community.nxp.com/t5/i-MX-Processors/Display-Wrap-Around-Issue/td-p/1084052
+https://community.nxp.com/t5/i-MX-Processors/Display-Vertically-shifted-IMX8mq-evk-board-in-dual-display-use/m-p/965726
+https://community.nxp.com/t5/i-MX-RT/iMXRT1052-LCD-Screen-shifted/td-p/1069978
 
-Maxime
+>> But note that the i.MXRT interconnect documentation is available in
+>> the
+>> i.MXRT datasheet, which made that possible in the first place. On
+>> i.MX,
+>> all that information has been removed from the datasheet in i.MX7
+>> and
+>> i.MX8M, so I cannot even help myself, even if I wanted to. This is
+>> very bad.
+> 
+> I'm not familiar with the documention in that area, so I personally
+> will not be helpful at the documention topic.  The main purpose I
+> jumped in this thread is to review the patch and share the idea to use
+> the existing drm debugfs crc support instead of creating a sysfs
+> attribute.
 
---r2mvk4rz7opbm6ei
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgTUEwAKCRDj7w1vZxhR
-xcUeAP9Ai7pwkpK98KTjSBUtOTRHqN1U6BRyihOM3sHwXHQCrQEA7tgyoNKEcOMf
-kjhfZunmIYtzgzXdUG60VxnY8kxehQM=
-=/vPc
------END PGP SIGNATURE-----
-
---r2mvk4rz7opbm6ei--
+Can you maybe ask someone inside NXP about this problem ?
