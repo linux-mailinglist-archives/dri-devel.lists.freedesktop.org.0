@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE534B18AE
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 23:44:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D293F4B18A9
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 23:44:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB7810E98E;
-	Thu, 10 Feb 2022 22:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5EE10E985;
+	Thu, 10 Feb 2022 22:43:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2074.outbound.protection.outlook.com [40.107.92.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9D0910E984;
- Thu, 10 Feb 2022 22:43:54 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2084.outbound.protection.outlook.com [40.107.244.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 674ED89DE5;
+ Thu, 10 Feb 2022 22:43:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R6HkABLvg8LCoKU+O7kZcPVfK9AH7DuXkyROwMhmEKqRzQpMQWCSSuSbQP4y4JCt0HRxpDNK/m6WUMucPEUgyvsyIoou4Dsu08BXhVYZISbvfX9EWAdB718QuGnszpVKKUM3BSypi4acqLlloS+3vHlRI7LDlXSXz9bfneWLC4ZZAuoUYCY4iYRCiaGUZDul0myuhhVs4IIM3gny//sDooRAprJM35RHTvJOLrLQ0/eeXWh78tG1A+a6uL5KD0258pn+BDcnBBljXnBiGxBclTW3TWOtls8JzwUcyb9rYkQpkso4PEKMauseWmU/4GsnZmhsVSE4I/GLrC7DrXaZpw==
+ b=gIWQzvLvimWitTxPtRjk6qKJAkjg9DeU5QWuc9i5Dz2Z4gQsfKMF88AirAN8fWyXQJQctghnVC5FFMF6/cOTdMaTQ5rS+WcfI1CO7Z0a4a3vjTvMx1aqAfemVXy/ajrCOU5pge705h4cWDHbL97vpp9EGL8sD/PvQ8Gk30poC6Tp0c6wgCRDqECIoiWBPCtqN9dFRagXIE/ltPs+VdR+iWPuT/yQynzf+1BQMILWheZ4H//egrG3/hhwDVYkG6eyk/G9R7D01Pa6l90IwrwDQH2yOQL7ItJD1uMkfZcS+VapoTFFddn5xOThhyFpoQIUsO/7Uu18CUms/zjWdyogZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=neyootgBRunSQAJPnXb1dPCfoyhMOxPxpCnyWraQL7E=;
- b=hfbzCPG2jAkbfTq3AHYYmXBwM6foZQXuRKg2RkmOdlryNDiq2VEnb5CzlsEg1eqrN4NeFHrJorRPueFhPvUa9+C2UrgTX706NYU6TjeRFSj+xHHD4yfVd6nvMlWkNqGI0BnNknhTjXdCfopUHRSKYxVGYBkIh7fuB6x/HZPmEJ3/8EgBf9/bSQHWxH/sF062F5aWrlIJgpunbkKlDnf4Iu6Pnb3vn1n127j37zeC9zX8BNnLF50e7Q6Ay3WtlGjwkwReSJgcTXTStWyzSu+0HhqO38su5y9gx/p7flbVbsLBa2f4/xhXWYR4H4PZad2ruGugIq5WvsPgSiziVmb8Kw==
+ bh=pIvYZ8/68wSzbmpsSTMm9oxoym5TV6xAjnkSns7DQfw=;
+ b=SAd8SYPOIGU+Mhpq7VsEyWeCAoBe+LPrEueye9B5Wz5DdKtoW/c8AlI4YvsKMSMua4+pHpCNlsPOk7S35Su5o6MDxW/Phwf0znihhP66eiC3EPuw+IUMsPQHQ9n9yuVAtrfd+GzkvFT1w++G6mzPGo/XDX66IyZu4zoqq87jwuqevxugzW7EjcBZepzjtBtJCxMlSUPZPo4SyhXhO14YOF4IMN3CQrCs9HzBTGnDWmWNJx+ayBjDQAd28fSIijgjfczj0vVqAw9IsRQAh7ugeHjg9vTuSDf8MBvOlAmHTA+GjI0VY/lBdMAbgy9xlFYOe+R62Q9mrnidg0ubwOF7Dg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=neyootgBRunSQAJPnXb1dPCfoyhMOxPxpCnyWraQL7E=;
- b=klko5pHTtNu1x23niXVcGhH714oTM3vvbtAcSY1TqDFgdVrIxvknPNT68biA6oGE9EZyQKbmwnaWbUYKky7hsvh851gjrusXhQacxbnYNBjXiZlW/faBLfibcDgDRZvjtI3L+1yXvPjDbNj8Nx7Z2R/XsxUy0igZQOcexjDtQIc=
-Received: from BN6PR2001CA0048.namprd20.prod.outlook.com
- (2603:10b6:405:16::34) by BN8PR12MB3138.namprd12.prod.outlook.com
- (2603:10b6:408:64::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.17; Thu, 10 Feb
- 2022 22:43:51 +0000
+ bh=pIvYZ8/68wSzbmpsSTMm9oxoym5TV6xAjnkSns7DQfw=;
+ b=j5nCXgIogXDW+4bm+lcinkEX6AVLfQ9lP2OtvC7MX8LGrtEWyo3pbnB2B60IBS2oshAgzF1ONN6nJDTdMay6zDo4Nq9110+4znatkFHuJT5Ejk62o4PY/tQvBksr0Nbl0seRSrJYuhdLO4afjvJKE27u/eL0gJGoC7bn4AsUEjQ=
+Received: from BN6PR2001CA0038.namprd20.prod.outlook.com
+ (2603:10b6:405:16::24) by CH2PR12MB3879.namprd12.prod.outlook.com
+ (2603:10b6:610:23::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Thu, 10 Feb
+ 2022 22:43:52 +0000
 Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:16:cafe::a3) by BN6PR2001CA0048.outlook.office365.com
- (2603:10b6:405:16::34) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:405:16:cafe::e3) by BN6PR2001CA0038.outlook.office365.com
+ (2603:10b6:405:16::24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.19 via Frontend
  Transport; Thu, 10 Feb 2022 22:43:51 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
@@ -51,7 +51,7 @@ Received: from SATLEXMB04.amd.com (165.204.84.17) by
 Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 10 Feb
- 2022 16:43:47 -0600
+ 2022 16:43:48 -0600
 From: Mario Limonciello <mario.limonciello@amd.com>
 To: Bjorn Helgaas <bhelgaas@google.com>, Andreas Noever
  <andreas.noever@gmail.com>, Mika Westerberg
@@ -62,10 +62,10 @@ To: Bjorn Helgaas <bhelgaas@google.com>, Andreas Noever
  <dri-devel@lists.freedesktop.org>, "open list:DRM DRIVER FOR NVIDIA
  GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>, "open list:X86 PLATFORM
  DRIVERS" <platform-driver-x86@vger.kernel.org>
-Subject: [PATCH v2 7/9] drm/radeon: drop the use of
+Subject: [PATCH v2 8/9] platform/x86: amd-gmux: drop the use of
  `pci_is_thunderbolt_attached`
-Date: Thu, 10 Feb 2022 16:43:27 -0600
-Message-ID: <20220210224329.2793-8-mario.limonciello@amd.com>
+Date: Thu, 10 Feb 2022 16:43:28 -0600
+Message-ID: <20220210224329.2793-9-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220210224329.2793-1-mario.limonciello@amd.com>
 References: <20220210224329.2793-1-mario.limonciello@amd.com>
@@ -77,28 +77,28 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 467eba18-0094-4d40-0726-08d9ece6cf39
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3138:EE_
-X-Microsoft-Antispam-PRVS: <BN8PR12MB31389E82D08D425E1F9148D2E22F9@BN8PR12MB3138.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:514;
+X-MS-Office365-Filtering-Correlation-Id: 725b5485-fa55-477b-15e4-08d9ece6cf8a
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3879:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR12MB3879883DA777789B86FB0BB0E22F9@CH2PR12MB3879.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:854;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: P339y8VAFhteLQ+lLzvWYC3t9TNCV49gwaV9iRj65dgWYZOA1sf6KOrfz+dNLbu7kddLQT+vcv1g4hh+svRPTjgmQ65qF6Cq+pxUkxKQ6j0mg1YXVIkoXETxbvzTdBFAVtTUHWOEopBfE+ChqH9D5JD0/zjkcHmOviNorCSVFzVlY/3rAQyx+iU7VmVX6vGcaNt/QzkgqJNxeLgXdYvGkh5J1NleU2gj1510AqMFPvoP7hvb8BzKorBlRgGD6L63xbX+CrixpQ3Lq4gtizyj5V4qCUm4ddkdR0SMLvCYKrUKTSoKbwrCKpUFTzWuPT1DP66U2Khn0ULnJJvTKiNLnvTUPcxSsR3LGhHjeTN37bToTH+TpKnuH/Yc+FNNWx6AV93KyeqjLmwDGKScHu9g7nCZDS4j7fCG+8YR+eDcCAV6JPAeKOARP7L2ycDzKHfR1HVva+hEzsHYP0BtWOPj7R6+JCSeNdhy1R5GtpZw/3SpXBS4kB0ykYlFTQvhi4608NORNEflvYQP0gi9L5y1ovZqLFPIY/hMsADHkrsRNgrV737KwauSaTDMEx3Trs2aOet/jYLQTGlAUOhiqjyyX0xjUZLL5LLmGOb7MyrkXCP4gdKITVLuPZl4bfSB1NCGC1PgYuRT3lAqfDD9/lKIFCwjBLGwQguP3NtyUgNOx1ub02UpNOZ3R7unaUHxQo0p2i0kslphvOpbQ+CPapjqltK1dpMDSyA/0YVXwqWb0uU=
+X-Microsoft-Antispam-Message-Info: ShwvN+90h5MzUEhumxRAx2PvVWULydU5Y8ZzPJsU3CR3FCPOY8ntsYKwkHZ/i17PVgh3UgRka3Q5pDZdpKI7/WVkI2AJhSskB7m8ZD8UovJ6gUYYP3uM/CTaZsoe7J1eczJ7W0agO38gL/ltQrchQIS4U8P5DvvKDrSGO5/Oa0/23MTN3ZietEQdVW+p3IQ/hzApo/Tjno1L59f8wy3Oq1FibkHMZ8nXOSbH3Bt9NY4ewgi0V7oRxdNKfVSiF5N9Do2sHTGmNkr6H+Uwd0HTqzno2oU16+KHGIdWpp0s6HmGxhG5wiwDrLEHYZ2p+obXrJsdgbp7zKWILudpsHeziqDHWwkBhqrU7KyuRleHJzTduPJCKZBZ4UabaVDuMoqiNX48TpumxmY7WE7ColaqhjP5BV0I2dwRt1cgdiwNREDvlVIYj5hdm7PWHeN8kAPIJFMjQJHfPky15zTynofZJ+ZLstyu+dwoV8RiJ0RuLI+tg8ZpqVreLUXUZNXFPzVSSN6tQmLEcsczsq/fYwPxdXadi2h9L7e496R+QgEYmWi9KEVVXlBOwWX/VxSGmEZRrbI36dHDgQlE5hriOwUQ2VM9qeBJEt47EBgMul6ykMyyJJh5G5B/i2ziPDKABFAKwXBUwdRa8PCJqaY4AjO+NMFohVkE867LLAv6KRzzCjkYC1WelaJ5iZYhGWccDNP8AVtRe8RD6CU3/5nDV6P48qkwqrWJwhTaN7kJOL/Hjxg=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(81166007)(2616005)(110136005)(44832011)(508600001)(336012)(2906002)(36756003)(356005)(426003)(40460700003)(316002)(8936002)(86362001)(1076003)(7416002)(186003)(5660300002)(70206006)(70586007)(16526019)(26005)(4326008)(54906003)(6666004)(8676002)(47076005)(36860700001)(7696005)(82310400004)(83380400001)(81973001)(36900700001);
+ SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(83380400001)(36756003)(47076005)(44832011)(6666004)(36860700001)(508600001)(1076003)(7416002)(5660300002)(4744005)(40460700003)(2906002)(4326008)(16526019)(70206006)(186003)(54906003)(8676002)(8936002)(82310400004)(70586007)(336012)(426003)(110136005)(26005)(2616005)(81166007)(316002)(86362001)(7696005)(356005)(81973001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 22:43:51.2108 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 467eba18-0094-4d40-0726-08d9ece6cf39
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 22:43:51.7577 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 725b5485-fa55-477b-15e4-08d9ece6cf8a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3138
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3879
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,45 +125,22 @@ can use this instead.
 
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/gpu/drm/radeon/radeon_device.c | 4 ++--
- drivers/gpu/drm/radeon/radeon_kms.c    | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/platform/x86/apple-gmux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-index 4f0fbf667431..5117fce23b3f 100644
---- a/drivers/gpu/drm/radeon/radeon_device.c
-+++ b/drivers/gpu/drm/radeon/radeon_device.c
-@@ -1439,7 +1439,7 @@ int radeon_device_init(struct radeon_device *rdev,
+diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
+index 04232fbc7d56..ffac15b9befd 100644
+--- a/drivers/platform/x86/apple-gmux.c
++++ b/drivers/platform/x86/apple-gmux.c
+@@ -596,7 +596,7 @@ static int gmux_resume(struct device *dev)
  
- 	if (rdev->flags & RADEON_IS_PX)
- 		runtime = true;
--	if (!pci_is_thunderbolt_attached(rdev->pdev))
-+	if (!dev_is_removable(&rdev->pdev->dev))
- 		vga_switcheroo_register_client(rdev->pdev,
- 					       &radeon_switcheroo_ops, runtime);
- 	if (runtime)
-@@ -1527,7 +1527,7 @@ void radeon_device_fini(struct radeon_device *rdev)
- 	/* evict vram memory */
- 	radeon_bo_evict_vram(rdev);
- 	radeon_fini(rdev);
--	if (!pci_is_thunderbolt_attached(rdev->pdev))
-+	if (!dev_is_removable(&rdev->pdev->dev))
- 		vga_switcheroo_unregister_client(rdev->pdev);
- 	if (rdev->flags & RADEON_IS_PX)
- 		vga_switcheroo_fini_domain_pm_ops(rdev->dev);
-diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
-index 11ad210919c8..e01ee7a5cf5d 100644
---- a/drivers/gpu/drm/radeon/radeon_kms.c
-+++ b/drivers/gpu/drm/radeon/radeon_kms.c
-@@ -139,7 +139,7 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
- 	if ((radeon_runtime_pm != 0) &&
- 	    radeon_has_atpx() &&
- 	    ((flags & RADEON_IS_IGP) == 0) &&
--	    !pci_is_thunderbolt_attached(pdev))
-+	    !dev_is_removable(&pdev->dev))
- 		flags |= RADEON_IS_PX;
+ static int is_thunderbolt(struct device *dev, void *data)
+ {
+-	return pci_is_thunderbolt_attached(to_pci_dev(dev));
++	return dev_is_removable(dev);
+ }
  
- 	/* radeon_device_init should report only fatal error
+ static int gmux_probe(struct pnp_dev *pnp, const struct pnp_device_id *id)
 -- 
 2.34.1
 
