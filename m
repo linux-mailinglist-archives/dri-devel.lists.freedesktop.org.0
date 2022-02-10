@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9101D4B0382
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 03:43:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DD154B03B7
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 04:06:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E9610E1BB;
-	Thu, 10 Feb 2022 02:43:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7CE10E251;
+	Thu, 10 Feb 2022 03:06:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8396110E1BB
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 02:43:33 +0000 (UTC)
-X-UUID: 555a339b79d549fba260c56417648fe2-20220210
-X-UUID: 555a339b79d549fba260c56417648fe2-20220210
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 662158609; Thu, 10 Feb 2022 10:43:29 +0800
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE2BD10E251
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 03:06:11 +0000 (UTC)
+X-UUID: 61480397f04c4a228c946c16b270b18b-20220210
+X-UUID: 61480397f04c4a228c946c16b270b18b-20220210
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 734615389; Thu, 10 Feb 2022 11:06:09 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Thu, 10 Feb 2022 10:43:28 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 10 Feb 2022 11:06:07 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 10 Feb 2022 10:43:28 +0800
-Message-ID: <f2fffc0a7d60d454f1722585f1352823910c30b3.camel@mediatek.com>
-Subject: Re: [PATCH] drm/mediatek: allow commands to be sent during video mode
-From: CK Hu <ck.hu@mediatek.com>
-To: Julien STEPHAN <jstephan@baylibre.com>
-Date: Thu, 10 Feb 2022 10:43:28 +0800
-In-Reply-To: <20220124152250.441809-1-jstephan@baylibre.com>
-References: <20220124152250.441809-1-jstephan@baylibre.com>
+ Transport; Thu, 10 Feb 2022 11:06:06 +0800
+Message-ID: <aa72bec2064e25990e1a3641b920cb5528cfccd4.camel@mediatek.com>
+Subject: Re: [PATCH v2, 1/7] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for lat soc
+From: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+To: Rob Herring <robh@kernel.org>
+Date: Thu, 10 Feb 2022 11:06:06 +0800
+In-Reply-To: <YgQl8CtttQ99+8lB@robh.at.kernel.org>
+References: <20220128035440.24533-1-yunfei.dong@mediatek.com>
+ <20220128035440.24533-2-yunfei.dong@mediatek.com>
+ <YgQl8CtttQ99+8lB@robh.at.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -49,105 +51,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David
- Airlie <airlied@linux.ie>, Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
- "moderated list:DRM DRIVERS FOR MEDIATEK" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, "moderated list:ARM/Mediatek SoC
- support" <linux-arm-kernel@lists.infradead.org>
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Steve Cho <stevecho@chromium.org>,
+ Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
+ Tiffany Lin <tiffany.lin@mediatek.com>, Tomasz Figa <tfiga@google.com>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ srv_heupstream@mediatek.com, Alexandre Courbot <acourbot@chromium.org>,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Julien:
+Hi Rob,
 
-On Mon, 2022-01-24 at 16:22 +0100, Julien STEPHAN wrote:
-> When the DSI is in video mode, all commands are rejected.
+Thanks for your suggestion.
+On Wed, 2022-02-09 at 14:37 -0600, Rob Herring wrote:
+> On Fri, Jan 28, 2022 at 11:54:34AM +0800, Yunfei Dong wrote:
+> > Adds decoder dt-bindings for compatible "mediatek,mtk-vcodec-lat-
+> > soc".
 > 
-> Detect current DSI mode in mtk_dsi_host_transfer() and switch modes
-> temporarily to allow commands to be sent.
-
-Is this patch a bug-fix or new feature? If this is a bug-fix, add Fixes
-tag [1] in this patch. If this is a new feature, describe more about
-more about this feature, such as support more panel or something.
-
-[1] 
-https://www.kernel.org/doc/html/v5.16/process/submitting-patches.html
-
-Regards,
-CK
-
+> What's lat soc? How does this relate to what's already there in this 
+> binding.
 > 
-> Signed-off-by: Julien STEPHAN <jstephan@baylibre.com>
-> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 34 ++++++++++++++++++++++----
-> ----
->  1 file changed, 25 insertions(+), 9 deletions(-)
+lat soc is another hardware, is related with some vdec larb ports.
+Won't be used to decode, but must to write it in dtsi, or hardware
+can't work well.
+
+Need to enable clock/power/iommus, no interrupt.
+> The subject space is limited, avoid saying the same thing twice 
+> (dt-bindings).
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 5d90d2eb0019..7d66fdc7f81d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -891,24 +891,34 @@ static ssize_t mtk_dsi_host_transfer(struct
-> mipi_dsi_host *host,
->  	u8 read_data[16];
->  	void *src_addr;
->  	u8 irq_flag = CMD_DONE_INT_FLAG;
-> -
-> -	if (readl(dsi->regs + DSI_MODE_CTRL) & MODE) {
-> -		DRM_ERROR("dsi engine is not command mode\n");
-> -		return -EINVAL;
-> +	u32 dsi_mode;
-> +
-> +	dsi_mode = readl(dsi->regs + DSI_MODE_CTRL);
-> +	if (dsi_mode & MODE) {
-> +		mtk_dsi_stop(dsi);
-> +		if (mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG,
-> 500)) {
-> +			recv_cnt = -EINVAL;
-> +			goto restore_dsi_mode;
-> +		}
->  	}
->  
->  	if (MTK_DSI_HOST_IS_READ(msg->type))
->  		irq_flag |= LPRX_RD_RDY_INT_FLAG;
->  
-> -	if (mtk_dsi_host_send_cmd(dsi, msg, irq_flag) < 0)
-> -		return -ETIME;
-> +	if (mtk_dsi_host_send_cmd(dsi, msg, irq_flag) < 0) {
-> +		recv_cnt = -ETIME;
-> +		goto restore_dsi_mode;
-> +	}
->  
-> -	if (!MTK_DSI_HOST_IS_READ(msg->type))
-> -		return 0;
-> +	if (!MTK_DSI_HOST_IS_READ(msg->type)) {
-> +		recv_cnt = 0;
-> +		goto restore_dsi_mode;
-> +	}
->  
->  	if (!msg->rx_buf) {
->  		DRM_ERROR("dsi receive buffer size may be NULL\n");
-> -		return -EINVAL;
-> +		recv_cnt = -EINVAL;
-> +		goto restore_dsi_mode;
->  	}
->  
->  	for (i = 0; i < 16; i++)
-> @@ -933,6 +943,12 @@ static ssize_t mtk_dsi_host_transfer(struct
-> mipi_dsi_host *host,
->  	DRM_INFO("dsi get %d byte data from the panel address(0x%x)\n",
->  		 recv_cnt, *((u8 *)(msg->tx_buf)));
->  
-> +restore_dsi_mode:
-> +	if (dsi_mode & MODE) {
-> +		mtk_dsi_set_mode(dsi);
-> +		mtk_dsi_start(dsi);
-> +	}
-> +
->  	return recv_cnt;
->  }
->  
+
+Best Regards,
+Yunfei Dong
+> > 
+> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> > ---
+> >  .../media/mediatek,vcodec-subdev-decoder.yaml | 49
+> > +++++++++++++++++++
+> >  1 file changed, 49 insertions(+)
+> > 
+> > diff --git
+> > a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-
+> > decoder.yaml
+> > b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-
+> > decoder.yaml
+> > index 6415c9f29130..a3c892338ac0 100644
+> > --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-
+> > subdev-decoder.yaml
+> > +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-
+> > subdev-decoder.yaml
+> > @@ -189,6 +189,55 @@ patternProperties:
+> >  
+> >      additionalProperties: false
+> >  
+> > +  '^vcodec-lat-soc@[0-9a-f]+$':
+> > +    type: object
+> > +
+> > +    properties:
+> > +      compatible:
+> > +        const: mediatek,mtk-vcodec-lat-soc
+> > +
+> > +      reg:
+> > +        maxItems: 1
+> > +
+> > +      iommus:
+> > +        minItems: 1
+> > +        maxItems: 32
+> > +        description: |
+> > +          List of the hardware port in respective IOMMU block for
+> > current Socs.
+> > +          Refer to bindings/iommu/mediatek,iommu.yaml.
+> > +
+> > +      clocks:
+> > +        maxItems: 5
+> > +
+> > +      clock-names:
+> > +        items:
+> > +          - const: sel
+> > +          - const: soc-vdec
+> > +          - const: soc-lat
+> > +          - const: vdec
+> > +          - const: top
+> > +
+> > +      assigned-clocks:
+> > +        maxItems: 1
+> > +
+> > +      assigned-clock-parents:
+> > +        maxItems: 1
+> > +
+> > +      power-domains:
+> > +        maxItems: 1
+> > +
+> > +    required:
+> > +      - compatible
+> > +      - reg
+> > +      - iommus
+> > +      - clocks
+> > +      - clock-names
+> > +      - assigned-clocks
+> > +      - assigned-clock-parents
+> > +      - power-domains
+> > +
+> > +    additionalProperties: false
+> > +
+> >  required:
+> >    - compatible
+> >    - reg
+> > -- 
+> > 2.25.1
+> > 
+> > 
 
