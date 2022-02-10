@@ -2,64 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B104B0B10
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:43:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E624B0B36
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:46:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EAAE10E7EB;
-	Thu, 10 Feb 2022 10:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC824898C4;
+	Thu, 10 Feb 2022 10:46:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA56D10E7EB
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 10:43:16 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id k18so7283040lji.12
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 02:43:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=chq6Chz0KIbchExNB+NjTVI9vDEBpcgZ1ZPLBHdHFFI=;
- b=qFh4nTtWbZFDBt9sPBtoIOcpQ3d4LOmQzZPy4Y8S07MKRsbAUQ138l2/S1OIZv858J
- NMT8dvyjCB6/WcfcR8EYgi6Vo9vP3PoHMCEF9Vb+DNrDKvl4igRsvEl5f021I6Uw8T0s
- wpbPtaCyOT4hcW+k2/PNm0rBFV2zhl0w/SazC6Jwo0QgPd7v/8GZvvvMScw+W73fkt+T
- pbNJkjUUx4qeedy3n2VL6uPy9yECpBcmQi4PL3aT8j3iYtSySamgewQFN9J9R0jXMe5E
- 37aKxsKei1URWUBdwSibiOzUmCzA8e6+03cE+Er6kPJE1cLy3koJ2CxUN3WqrH1PStVq
- iBZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=chq6Chz0KIbchExNB+NjTVI9vDEBpcgZ1ZPLBHdHFFI=;
- b=pRYgxBbJykAjUtbSn+vj6OnTZjHTMxoWY69QGXsHbmbP4IDJgFCy9pzsDhDjOdWxB8
- VlW9m8CRIvOJFtGtkoFwaa4ywdm2rt3xWrr+SkqpgGYPr82T9zxZgNPX+K7DA73w7nXC
- xON0SlDALMmXN+9zxsE8bbQmQ7m2UB3IlMeCScaaw600tGp/N0k1d2+I9HfK5iqyHTXX
- ItVtEe4SbaWqFPSeWH9W0klAb8pv91VjvKGXJaSrztLcNTpnKi4VUBZmq1EUosREPcql
- wJl+8DPM56HZlatW4l/LJNYB0bsNGhB6P6vF/0/Rly8x4/AOH8wtdw8H3yjBBLu0PrNC
- 5nOg==
-X-Gm-Message-State: AOAM533v+ADfJ+xs+B+0FJmt0ruNdD1fGj7BqCi8m8dM8m0pWJkUkdT9
- 9co9/P4BhCMVHkWGqLh44KkBqQ==
-X-Google-Smtp-Source: ABdhPJxCwgHQHmzCCi21NWhAsGNPVsNyu3AaeRPwuP/PZFdL53GmHfnLpYeV44gqhdA9pJkYJjD5/A==
-X-Received: by 2002:a2e:9918:: with SMTP id v24mr4444940lji.230.1644489795039; 
- Thu, 10 Feb 2022 02:43:15 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id z15sm572064lfd.177.2022.02.10.02.43.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 02:43:14 -0800 (PST)
-Message-ID: <da3285c5-0c57-e235-50f9-252b7a6044ea@linaro.org>
-Date: Thu, 10 Feb 2022 13:43:14 +0300
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2063.outbound.protection.outlook.com [40.107.237.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7B06898C4;
+ Thu, 10 Feb 2022 10:46:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hjToKzJo6aAJNlUy8oBFNkXFdJkw9SHGPfqjgQxo0xreISaR0rBuaKi/MMASr4dmt7AOUN9jGOwJYqWTzJ9qvpVZAjGSddlku2olcn71b8f/helyOArqPbwkuFJ3W86ETqLB6ti2P4DVtNu1g9oYDUMDB6E+EqEIowipkw36FV9md9mFajzb73nSpQr0sjZCnFr6kogi7i2CN+WTad6fxCZKF6fU6TXjCiT3tWmB5k9rFrCaBlYvVC1PhoPj/063+d5ZnJUYSbq3JVSs7KIXnaWWlxvbhwDr5I3zIOrR/h+03VKevAVxcAI5An9YPd9cmMx1dbwJbwuJ4zmhXwEQ8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bHJdHP3XsDlfuJQe2q73BClNb8AfWL94Ii6kL948ayI=;
+ b=LtcPoxwkaRjehZSTD7JdnXQMJgP3VY1A+b91VYRhqTqDV8TVl66nnFfbNZZuF44829+rnWXoURG/GDxXgyOXviTSDmUnveH5jyofsq57AWSzyvIfJ82CRSfUScx5QZdHDYpqmMz3jJiLSNKRpjUgZD5PFVSpbrX0rkMbat/OxhIv5eEoUTLTHgHFz9rkJILTco03Lp4S9wa4wt16v/Y2UM5rK2zPAWW0WgKlmQhYTJV9dg59IIX+Oi9t1hyejWyKyvShVW0uXJ3aVnJcnH9ha2YrjM5roDpIn5VkAVJfpHxsgDlkDo5RHTholib0nQKjZpzeRHCQLeQXEZ6TbOyupw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.238) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
+ (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bHJdHP3XsDlfuJQe2q73BClNb8AfWL94Ii6kL948ayI=;
+ b=t08YNwMf5i9ZNa/uMOjZPhXqIJjY0dOhIOONX79TkOQJ0jqVDbblePK4d2coGYabr5y/3ZfF467QkdC3eGvlZcKe2FJZThmxNgxQOAzNVgdO02jCEcA0IFU4OagruqrXRqKvKu38lLim1oOSRqTThLn5fLoYDjT00Gd3lFw9SjN+OhfYi6qVtHztn1bB95gGIhuxzpm5s9fuhwmyF90ps09zalTZ2SLEL+D/TboXUIQqSAiEADGr0vukOHkZKMr4I6AIC9nCdMr6YoGW3BqHFDNfyay9XyA2k73kXXg50tCQ+DA1KX8COtHf5ofgVXEMPGeA9USGEoOOCnp5bJ0fUg==
+Received: from MW4PR03CA0174.namprd03.prod.outlook.com (2603:10b6:303:8d::29)
+ by BL1PR12MB5378.namprd12.prod.outlook.com (2603:10b6:208:31d::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.14; Thu, 10 Feb
+ 2022 10:46:13 +0000
+Received: from CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8d:cafe::10) by MW4PR03CA0174.outlook.office365.com
+ (2603:10b6:303:8d::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11 via Frontend
+ Transport; Thu, 10 Feb 2022 10:46:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.238) by
+ CO1NAM11FT058.mail.protection.outlook.com (10.13.174.164) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4975.11 via Frontend Transport; Thu, 10 Feb 2022 10:46:12 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
+ (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Thu, 10 Feb 2022 10:46:12 +0000
+Received: from nvdebian.localnet (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Thu, 10 Feb 2022
+ 02:46:08 -0800
+From: Alistair Popple <apopple@nvidia.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Dan Williams
+ <dan.j.williams@intel.com>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 12/27] mm: refactor the ZONE_DEVICE handling in
+ migrate_vma_pages
+Date: Thu, 10 Feb 2022 21:46:05 +1100
+Message-ID: <2486253.gG6I7sY731@nvdebian>
+In-Reply-To: <20220210072828.2930359-13-hch@lst.de>
+References: <20220210072828.2930359-1-hch@lst.de>
+ <20220210072828.2930359-13-hch@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [REPOST PATCH v4 02/13] drm/msm/dsi: Pass DSC params to drm_panel
-Content-Language: en-GB
-To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
-References: <20220210103423.271016-1-vkoul@kernel.org>
- <20220210103423.271016-3-vkoul@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220210103423.271016-3-vkoul@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 77d714c6-ed32-4c04-57fb-08d9ec828e85
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5378:EE_
+X-Microsoft-Antispam-PRVS: <BL1PR12MB537860F44DF5F20D4F6BD0E5DF2F9@BL1PR12MB5378.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kcbEHdE6kpF7sxS6GDIcAxii/TzCQjGIOv1TKIZtg6Ntv2mjMBwPQzOd7uEpxfJFW9kF/q1L5hMlfd+jjQdqHYfi0m4HivdKa2wvwAlxw5L2Yl7kldWjwvsMm7yferitovqh8uxPP8jrJlImtwkVA9B/MtmzGNy7K1dmoqcxjk9KK6VgBjxiq80R81cJKsxuu9HhQDb96prDtj93rHwLt/EEVIhTC4mwOFymNZ8ZFozxwS3sfvoQlnc/kL4PE9DrHTu+iaVFHSHaT18A7Cnz2jdgMWU42dfr35WOnYsGQQa9fO51z5H+5/IFFQZJUbytM95QfblP/PHlYKsb7eYSrJcvkfIPpSdtQe06Mi9GMX+gZBIrTTNDAP7Zd19+DbEQpAsx+7KUr4JmcfKohfrOS4VQndBluxggjQSCnpA/+Iw2l151ToUohfESZprkWngb6FnR5ZFgUVpDurSVTFnIfjoV/w1aDW+cY5NA+Byztjfth5DRsGx3Q8sZDCMKu8saQQWNwrDBlS6nWZX2N9FVfp6vh83uMzQny+zcUElG6z4gLMI0X6kwxhRBN7mYj0kGjUSo1qM9B5gGI7K03X6hcr+ZQjarYXAmD/41iZeuhx7X7XsyzezEIqrEBKjTGvOGrzUKtDD9P8IVqdobW0rwPQ/6UaYvcth/3SvXre8GrN21GFJRhUiBvvV90U+V4T9SPwJTSp4OM5sJoTZWqLJ8Zg==
+X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(508600001)(26005)(5660300002)(54906003)(81166007)(186003)(426003)(336012)(7416002)(316002)(40460700003)(86362001)(356005)(16526019)(110136005)(70206006)(8676002)(33716001)(70586007)(9686003)(83380400001)(6666004)(36860700001)(47076005)(4326008)(82310400004)(2906002)(8936002)(9576002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 10:46:12.7518 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77d714c6-ed32-4c04-57fb-08d9ec828e85
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5378
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,178 +108,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: nvdimm@lists.linux.dev, Ralph Campbell <rcampbell@nvidia.com>,
+ dri-devel@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>,
+ linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+ Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Ben Skeggs <bskeggs@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Logan Gunthorpe <logang@deltatee.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/02/2022 13:34, Vinod Koul wrote:
-> When DSC is enabled, we need to pass the DSC parameters to panel driver
-> as well, so add a dsc parameter in panel and set it when DSC is enabled
-> 
-> Also, fetch and pass DSC configuration for DSI panels to DPU encoder,
-> which will enable and configure DSC hardware blocks accordingly.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Reviewed-by: Alistair Popple <apopple@nvidia.com>
 
-The patch description is incorrect. We do not pass DSC parameters to the 
-panel driver. Instead we fetch them from the panel. Could you please 
-correct it?
-
+On Thursday, 10 February 2022 6:28:13 PM AEDT Christoph Hellwig wrote:
+> Make the flow a little more clear and prepare for adding a new
+> ZONE_DEVICE memory type.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  2 ++
->   drivers/gpu/drm/msm/dsi/dsi.c           |  5 +++++
->   drivers/gpu/drm/msm/dsi/dsi.h           |  1 +
->   drivers/gpu/drm/msm/dsi/dsi_host.c      | 22 ++++++++++++++++++++++
->   drivers/gpu/drm/msm/msm_drv.h           |  8 ++++++++
->   include/drm/drm_panel.h                 |  7 +++++++
->   6 files changed, 45 insertions(+)
+>  mm/migrate.c | 27 ++++++++++++---------------
+>  1 file changed, 12 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 47fe11a84a77..ef6ddac22767 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -578,6 +578,8 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
->   			MSM_DISPLAY_CAP_CMD_MODE :
->   			MSM_DISPLAY_CAP_VID_MODE;
->   
-> +		info.dsc = msm_dsi_get_dsc_config(priv->dsi[i]);
-> +
->   		if (msm_dsi_is_bonded_dsi(priv->dsi[i]) && priv->dsi[other]) {
->   			rc = msm_dsi_modeset_init(priv->dsi[other], dev, encoder);
->   			if (rc) {
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-> index 052548883d27..3aeac15e7421 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
-> @@ -20,6 +20,11 @@ bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi)
->   	return !(host_flags & MIPI_DSI_MODE_VIDEO);
->   }
->   
-> +struct msm_display_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
-> +{
-> +	return msm_dsi_host_get_dsc_config(msm_dsi->host);
-> +}
-> +
->   static int dsi_get_phy(struct msm_dsi *msm_dsi)
->   {
->   	struct platform_device *pdev = msm_dsi->pdev;
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-> index c8dedc95428c..16cd9b2fce86 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
-> @@ -152,6 +152,7 @@ int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
->   int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
->   void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host);
->   void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host);
-> +struct msm_display_dsc_config *msm_dsi_host_get_dsc_config(struct mipi_dsi_host *host);
->   
->   /* dsi phy */
->   struct msm_dsi_phy;
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 27553194f9fa..7e9913eff724 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -2059,9 +2059,24 @@ int msm_dsi_host_modeset_init(struct mipi_dsi_host *host,
->   {
->   	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
->   	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
-> +	struct drm_panel *panel;
->   	int ret;
->   
->   	msm_host->dev = dev;
-> +	panel = msm_dsi_host_get_panel(&msm_host->base);
-> +
-> +	if (panel && panel->dsc) {
-> +		struct msm_display_dsc_config *dsc = msm_host->dsc;
-> +
-> +		if (!dsc) {
-> +			dsc = devm_kzalloc(&msm_host->pdev->dev, sizeof(*dsc), GFP_KERNEL);
-> +			if (!dsc)
-> +				return -ENOMEM;
-> +			dsc->drm = panel->dsc;
-> +			msm_host->dsc = dsc;
-> +		}
-> +	}
-> +
->   	ret = cfg_hnd->ops->tx_buf_alloc(msm_host, SZ_4K);
->   	if (ret) {
->   		pr_err("%s: alloc tx gem obj failed, %d\n", __func__, ret);
-> @@ -2626,3 +2641,10 @@ void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host)
->   		dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER,
->   				DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER_SW_TRIGGER);
->   }
-> +
-> +struct msm_display_dsc_config *msm_dsi_host_get_dsc_config(struct mipi_dsi_host *host)
-> +{
-> +	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-> +
-> +	return msm_host->dsc;
-> +}
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index 384f9bad4760..e7a312edfe67 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -119,6 +119,7 @@ struct msm_display_topology {
->    *                      based on num_of_h_tiles
->    * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
->    *				 used instead of panel TE in cmd mode panels
-> + * @dsc:		DSC configuration data for DSC-enabled displays
->    */
->   struct msm_display_info {
->   	int intf_type;
-> @@ -126,6 +127,7 @@ struct msm_display_info {
->   	uint32_t num_of_h_tiles;
->   	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
->   	bool is_te_using_watchdog_timer;
-> +	struct msm_display_dsc_config *dsc;
->   };
->   
->   /* Commit/Event thread specific structure */
-> @@ -365,6 +367,7 @@ void msm_dsi_snapshot(struct msm_disp_state *disp_state, struct msm_dsi *msm_dsi
->   bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi);
->   bool msm_dsi_is_bonded_dsi(struct msm_dsi *msm_dsi);
->   bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi);
-> +struct msm_display_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi);
->   #else
->   static inline void __init msm_dsi_register(void)
->   {
-> @@ -393,6 +396,11 @@ static inline bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi)
->   {
->   	return false;
->   }
-> +
-> +static inline struct msm_display_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
-> +{
-> +	return NULL;
-> +}
->   #endif
->   
->   #ifdef CONFIG_DRM_MSM_DP
-> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> index 4602f833eb51..eb8ae9bf32ed 100644
-> --- a/include/drm/drm_panel.h
-> +++ b/include/drm/drm_panel.h
-> @@ -171,6 +171,13 @@ struct drm_panel {
->   	 * Panel entry in registry.
->   	 */
->   	struct list_head list;
-> +
-> +	/**
-> +	 * @dsc:
-> +	 *
-> +	 * Panel DSC pps payload to be sent
-> +	 */
-> +	struct drm_dsc_config *dsc;
->   };
->   
->   void drm_panel_init(struct drm_panel *panel, struct device *dev,
+> diff --git a/mm/migrate.c b/mm/migrate.c
+> index 30ecd7223656c1..746e1230886ddb 100644
+> --- a/mm/migrate.c
+> +++ b/mm/migrate.c
+> @@ -2788,24 +2788,21 @@ void migrate_vma_pages(struct migrate_vma *migrate)
+>  
+>  		mapping = page_mapping(page);
+>  
+> -		if (is_zone_device_page(newpage)) {
+> -			if (is_device_private_page(newpage)) {
+> -				/*
+> -				 * For now only support private anonymous when
+> -				 * migrating to un-addressable device memory.
+> -				 */
+> -				if (mapping) {
+> -					migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
+> -					continue;
+> -				}
+> -			} else {
+> -				/*
+> -				 * Other types of ZONE_DEVICE page are not
+> -				 * supported.
+> -				 */
+> +		if (is_device_private_page(newpage)) {
+> +			/*
+> +			 * For now only support private anonymous when migrating
+> +			 * to un-addressable device memory.
+> +			 */
+> +			if (mapping) {
+>  				migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
+>  				continue;
+>  			}
+> +		} else if (is_zone_device_page(newpage)) {
+> +			/*
+> +			 * Other types of ZONE_DEVICE page are not supported.
+> +			 */
+> +			migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
+> +			continue;
+>  		}
+>  
+>  		r = migrate_page(mapping, newpage, page, MIGRATE_SYNC_NO_COPY);
+> 
 
 
--- 
-With best wishes
-Dmitry
+
+
