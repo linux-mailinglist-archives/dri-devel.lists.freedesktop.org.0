@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF564B0C8E
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 12:41:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCEC04B0D40
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 13:14:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A124D10E817;
-	Thu, 10 Feb 2022 11:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76EC210E82E;
+	Thu, 10 Feb 2022 12:14:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C70CB10E813;
- Thu, 10 Feb 2022 11:41:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4066361D1F;
- Thu, 10 Feb 2022 11:41:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 325A5C340F0;
- Thu, 10 Feb 2022 11:41:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644493285;
- bh=/OutVh/eSlM2D8L/jMfWJxxmWG0tTyYf7k89K741aNo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rl5jqfj6jAysGYxqiYPgAg6AcYBKVWA+be7zn8KTweo4BrfXSQEzU4cTA5bdnlpOU
- 6XPvLHgV6Sb5vXd+896oDooDKmf28WoBQXSXnvY3+c6B+TKEaGbaGLCfnCpWF+faOQ
- Se4X4Fghg5RP0+GcYjv8frytkY6c9V+63tYTqgN33LHXIFlFM2BomvD40Ku5h4MeL6
- 75FDh+UaW5i4vdBD4CQgJTwpJxOTjGMk5lmbP6jhG6YBBgXqtH0oTnQ8s2jKWMQG8i
- bycVXyrcOQZ3RhAQ/XKHHb7oDDAmstJzrlyXlBGp2SUiaeI/dwvcNOhAuBRKzx+76P
- wOrOqJwyVq+pQ==
-From: Vinod Koul <vkoul@kernel.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: [PATCH 3/3] drm/msm/dpu: Update function parameter documentation
-Date: Thu, 10 Feb 2022 17:11:06 +0530
-Message-Id: <20220210114106.290669-3-vkoul@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220210114106.290669-1-vkoul@kernel.org>
-References: <20220210114106.290669-1-vkoul@kernel.org>
+X-Greylist: delayed 1832 seconds by postgrey-1.36 at gabe;
+ Thu, 10 Feb 2022 12:14:29 UTC
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B917F10E82E;
+ Thu, 10 Feb 2022 12:14:29 +0000 (UTC)
+Received: from fsav119.sakura.ne.jp (fsav119.sakura.ne.jp [27.133.134.246])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 21ABhgt7011998;
+ Thu, 10 Feb 2022 20:43:42 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav119.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav119.sakura.ne.jp);
+ Thu, 10 Feb 2022 20:43:42 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav119.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 21ABhbnN011847
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 10 Feb 2022 20:43:42 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <7f6d61f4-042f-8c9d-23ed-da6f1dcb20d0@I-love.SAKURA.ne.jp>
+Date: Thu, 10 Feb 2022 20:43:36 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2 06/19] fbcon: Use delayed work for cursor
+Content-Language: en-US
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20220208210824.2238981-1-daniel.vetter@ffwll.ch>
+ <20220208210824.2238981-7-daniel.vetter@ffwll.ch>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <20220208210824.2238981-7-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,45 +55,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
- Guenter Roeck <linux@roeck-us.net>, Mark Yacoub <markyacoub@google.com>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Du Cheng <ducheng2@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Claudio Suarez <cssk@net-c.es>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dpu_core_irq_callback_handler() function comments seem to have become
-stale and emit a warning:
+On 2022/02/09 6:08, Daniel Vetter wrote:
+> @@ -714,6 +700,8 @@ static int con2fb_acquire_newinfo(struct vc_data *vc, struct fb_info *info,
+>  		ops = kzalloc(sizeof(struct fbcon_ops), GFP_KERNEL);
+>  		if (!ops)
+>  			err = -ENOMEM;
+> +
+> +		INIT_DELAYED_WORK(&ops->cursor_work, fb_flashcursor);
+>  	}
+>  
+>  	if (!err) {
 
-drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:147:
-warning: Function parameter or member 'dpu_kms' not described in 'dpu_core_irq_callback_handler'
-drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:147:
-warning: Excess function parameter 'arg' description in 'dpu_core_irq_callback_handler'
-
-Fix by updating the documentation
-
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-index 9341c88a336f..27073fd49fee 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-@@ -140,7 +140,7 @@ static const struct dpu_intr_reg dpu_intr_set[] = {
- 
- /**
-  * dpu_core_irq_callback_handler - dispatch core interrupts
-- * @arg:		private data of callback handler
-+ * @dpu_kms:		Pointer to DPU's KMS structure
-  * @irq_idx:		interrupt index
-  */
- static void dpu_core_irq_callback_handler(struct dpu_kms *dpu_kms, int irq_idx)
--- 
-2.31.1
-
+Memory allocation fault injection will hit NULL pointer dereference.
