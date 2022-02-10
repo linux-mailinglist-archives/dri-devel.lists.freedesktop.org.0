@@ -2,118 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589984B06CC
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 08:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1244B06E0
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 08:20:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56DE510E725;
-	Thu, 10 Feb 2022 07:06:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED1B10E72D;
+	Thu, 10 Feb 2022 07:20:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2078.outbound.protection.outlook.com [40.107.101.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B91910E71E;
- Thu, 10 Feb 2022 07:06:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lHWUEmzWH3HjJ+pI8P5JKtPejoaVRL1dLLslb3+c2BdjVboAsEXMnO7CRH8GTGU6d7TMK+1VWnrhQ8YaAD0zkDwoUZRgMJHEx3EYVBaVB1UcX12yU5rJUS72p/zCJyFgYO7NtkKBht614+9vT71ACLJ9Trlm1G6LmboS+IP6QPEMamC3NGT2NgXzo7Nl0lv8geSHkBmF/i6zE84rkFEXVh89Jx07J+Bk2IXJOR9wLACTwP/b3aZF1J6JCa7e62SINtUTaNxvwif6qizm/4+W4LWAvOGOrdOhDtfH02M531lKQLJwamfN9N06Hr0COLe6l2LVuTe68FksXsM8ctxuog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6BYENhU5l6+qMd67dewRKFynBxUyG+PTBy7Zo3yQNA4=;
- b=dDf2O1emNkxI+MahhrmXLuZ3aEu0X21B4KirDEe7VsjbkB7HMc9duqB9e/+gMSchL2HgPu/51MibpYgf7Ecd8IT3TR0CA68eFIvgaHEszy2TX7+W0KHDar0KhIFPohY9L7i9VMZAyr9xMyFt2b/NowW68zfhOeiW2SdSkV8x5xlQlHzanJey1A0nQX75fOx57Vf2Ju6tgbwUfkxTTZ6zEeku+/XLWiWYvoXG9ZRdp3EK0NXHrioTBMSzt/ThAB+dkX1ic6jFmAdUJYUuFTfBLO0DJJBZKF4iA5s2IQcqn9SOQCaDlQxctgPyHnKt1ohUthlM51u3yLZfG7wsijcenA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6BYENhU5l6+qMd67dewRKFynBxUyG+PTBy7Zo3yQNA4=;
- b=07QBGciazRfguCA16YCXtp6EHMySaMqDK4spjnkA/ETX9cSZOJBoFLcHn/y6GbbBawKkaehpr5277sa4b4FSVJ71ALYlSPSHAn/hxfhh5ulcPKT+YH6JD3EyUVElRErEekcf20MdpjSKWe6IXtUI6s4LG3mYTt8FPbZ+rfsmObs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM5PR1201MB0075.namprd12.prod.outlook.com (2603:10b6:4:54::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Thu, 10 Feb
- 2022 07:06:47 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d861:5699:8188:7bd3]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d861:5699:8188:7bd3%3]) with mapi id 15.20.4975.012; Thu, 10 Feb 2022
- 07:06:47 +0000
-Message-ID: <8b125a02-3fff-b3c3-0827-c31748446ce0@amd.com>
-Date: Thu, 10 Feb 2022 08:06:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/amdgpu: Fix compile error.
-Content-Language: en-US
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20220210031724.440943-1-andrey.grodzovsky@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220210031724.440943-1-andrey.grodzovsky@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM5PR0402CA0009.eurprd04.prod.outlook.com
- (2603:10a6:203:90::19) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 491C810E727;
+ Thu, 10 Feb 2022 07:20:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644477610; x=1676013610;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NkAoo7igp7yITpjKFRggXlychpRg3Gk6J4RP84JZDS8=;
+ b=OOssKRnrqXMmfLPjxXzIFqZmelO198vd4LJR3vterEe9Tpdh4Vqh1U+5
+ q7zQApP9cTZw2oip3v5q50cR2YHlq+Y8Bb88ttI+L0JNPmapupkNGiObz
+ rYqfgiUR0OJUBt6eUBMcp17UoeUR3ko0pzzqjM+5y7b1euwsLXjKw2rdQ
+ j69ksGn0l1WiJe88Nj/UVJT6B4UbTOm+MHuWiaOglGKUYh57N7o5pSndl
+ 621TgkPaimGid+T85YWP8v9ad94ROcvziZ2mMI9J6PSrYFLvbru9bn1zL
+ ZoW0k1PrUaadWVjuGnyEr9ZDD9C2Kf5XHhAtMV8MlfE3kh6IbWwpwPq9t g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10253"; a="236833041"
+X-IronPort-AV: E=Sophos;i="5.88,358,1635231600"; d="scan'208";a="236833041"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 23:20:09 -0800
+X-IronPort-AV: E=Sophos;i="5.88,358,1635231600"; d="scan'208";a="485581710"
+Received: from vanderss-mobl.ger.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.175])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 23:20:07 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Clarify vma lifetime
+Date: Thu, 10 Feb 2022 08:19:58 +0100
+Message-Id: <20220210071958.227234-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 11457c42-3860-4eed-0dec-08d9ec63e727
-X-MS-TrafficTypeDiagnostic: DM5PR1201MB0075:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR1201MB0075E7D8E491144C66A55C20832F9@DM5PR1201MB0075.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:160;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: k/pLQNzb9v445y2Qr+4ZiKGq0HjmY4FV1Hgj+KCEz3FUW+3jZDkcJChX+zM8k6ARGlZjacK7fv3wyABZ1R20ciBxKe2fnXBy83pxC4vQgM6WsOAG3o8SwbzGSt6BKnRHnCjs5yF1qchh59w/N5pCtssiCYo9TJnYmw/jjWK0f9TBWDccotrGjbP8wPi7/7Qt9KX/fCyrN/kd775r4MRahjDKpQyMhZqi6BbePYxpR+rUmSSfoaDyuzupA1XSOx5vb6hiDRgm8xpW0Xod2NE88XwTmbOgB+0MHDr0aNXauKCfSDoYAJtwhKHVfapNkpgWgZRpQMQa+DQFDhcX18JEe0POUgSwKqto5Sf/Mv+islXvfbpHoj/RWVxBpC5yBZp5I1StUgQ/EpC3G2zhBbSwZgcZtJahr1+tVZQjmzK9p5oUy1icB36RYw4kgyusO7PykNqOgmf7X5UpUr9MHMnt9rHfnRGDYRf89nRraipHvkUDT7M70s036pwOWyAyL6K1rbsJDf3DF3ycM3ovOuuFTHBTLUuKVxK1GGGsW5bpCMPPC17ZaM2ssvOVkdvuA4N1jnoJh7FI4p072B6vZzpS5SKCGoRcU1PZfEOulUg3GPXAeELzx/ZIemKOcy33r6A7c6c1bhdx5d4uzvTttcrDH2pNMqwQq7GSj83F28pAfX2uFBmKzZcJ7Im8Jb7zIFT05f2FMvCx+kSa0XCA0hG8bRtWhpWnlZn8x6Ztu9BVZQ8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(316002)(2906002)(31686004)(83380400001)(31696002)(66556008)(66476007)(6506007)(6512007)(4326008)(6666004)(8676002)(186003)(26005)(66946007)(8936002)(36756003)(508600001)(5660300002)(66574015)(86362001)(2616005)(38100700002)(6486002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3dNVld4WVZaL3B2SndRaG16amlUeXBWM0VOZkdtRHVxakFwbXk2RkVvZDU5?=
- =?utf-8?B?SmNtQmFRZmx4RjR4QUpmeHlMcnEwOUczSVAzMFBzOTJzSkJxS0k0R1VvNkdH?=
- =?utf-8?B?b1NCa2tLcGZKbFJBdUJUVGZWU3BtY3h4emZRNVl5WW5HQjloUEloT0EwMEd6?=
- =?utf-8?B?c0pabVVKbHhsd2NETHhYbUV0Z0VIMmRVTW9OQzkra0xDelJMb25mcUhsRkx4?=
- =?utf-8?B?bWpEOUw3WGFIajZzOUFaSHNUckZ2LzZMdWc1M2xUYjEreWRMZ2Z0citET0pl?=
- =?utf-8?B?aG55K1g2QTRuNzZrQklXc0F3UGp2UkthT0xsOXlOTGpWa2hkdXBjWXhyQW5z?=
- =?utf-8?B?cUVKT1hCUDJ1SncwM2pSZzFnSTVuUERDUjhiSVFIQzRoajc3dUt0WFB5YzJB?=
- =?utf-8?B?Yy9yR1JabjltcU1UL1B0b3JaSi93emhQTzBWU3BwQ1FmNWpEWXJSYi9iYU0x?=
- =?utf-8?B?dUFObWoxcUdiTFRWTkEwTEE1a2FGc3lBMk8xS1A4ZGxpQmhCaEtaMHIyR3NF?=
- =?utf-8?B?dXlIblN0UjNNQWpnT2didnBaYzhSL0JsdVJCWUJUS2dSZ2xxMmQyMGJYTjdN?=
- =?utf-8?B?RG41NFhHdTdaYlRyYVVqYXB2aUJFZ0hobnBJZjBHTU44Qmoza3NsWEdKRVVy?=
- =?utf-8?B?b2FVVTc0bDJZenkrczVBdUxzYW1yZk5oK1JtT1FWMTIvZktzdHNvREdDd3Yx?=
- =?utf-8?B?dFR3dFNMRFFLaDQ1Q1FUNmFWMklYdkxBYy9GSGtmT2ZXc0ZFYzBoQnNadDRU?=
- =?utf-8?B?M3o4cnBiRTZldGdtTFNuN2VyOExzQTcrMDZLSkh4eXpDeGMwRitmNFVvRHdx?=
- =?utf-8?B?dVBQTVIzZElpZllsenVPbHFPVXJNek9GMHU4WFpSQWJ0TlNESmJwU2ZlUWs5?=
- =?utf-8?B?TGNnUE5IT1E0N2tjT1Z0amEvU1gyMUZRMVJEMXM3UktuUXUxelNiVXRGNGV6?=
- =?utf-8?B?ZFJjZzBSQXlKMURPZ3FuODF2aWpuc0YxWnJ0a1dCMTYrNmdwZTQyendLKzU1?=
- =?utf-8?B?NU9vUE1CTVh5eGIxY1V4K0FZcDJHZ3hVNGtBL3lHZVpkRzFuQVVwRVJoS2l5?=
- =?utf-8?B?a2FvSzBNSndXMUNpTFdyUm55UU9IMFhGSzdqMDB5RGwvdTNoQVZSclFkY1VI?=
- =?utf-8?B?cTdkNks4MzM0d2xmK3FEYXV1Y2Q1RWtwei9XbHVOTndkU0llT3hCUjFyZGND?=
- =?utf-8?B?TlFFSkkxbVFCMlRjY3dEcDVxVXJxcHRMWjBjR0dBSEZDUE1VWEpCdnJCTGwz?=
- =?utf-8?B?S0g3cmw4Ym02Y2l2TVVBbTNhNzRDalJzZEg5S2xydHY1SHV4UHd1cE41Y3lo?=
- =?utf-8?B?TkhEcFJJQkw4UkhsQ0xOVFNtMHJGdGxoWVFLV3pwY1QrYStOUVBheVlkRWwr?=
- =?utf-8?B?UjZ1b1pqNGQrNXF6UWl6OXZyWWpydGp2bWFqcEZuTmpxNTBRdGxlTkJqUnNZ?=
- =?utf-8?B?cnVEZXBiM0xEUElFaGp6d0RIdUtSc0czTkxWMjRPTHVOOXhqUWEzSG8wL05m?=
- =?utf-8?B?MWZEQko5RFRvTFdrbjk4K2RDUVBJSHlMbGhiK0xxNXlyODY2dFZvTXh1SmpW?=
- =?utf-8?B?V2pmM1ErOG5mclVaK09pcnAwWE83WEpIZTJqLzRqeklLNEk1aHVBRy9uOWUz?=
- =?utf-8?B?VEpkWFphWDdGc09uMjhlaFYxNVFvbit0cHlaVExXQ1R5S2RaWlJGMnhVNmJB?=
- =?utf-8?B?WXJsOXBzclVicVpkcVlIZzlFZktNWDhHVDB1T29sL0x4M1EyZDl5TDBCZTlU?=
- =?utf-8?B?dDJ2bDdvWHZ1NnhmWFY0QWxiY3h1UU8zRUorRzNDWk9zeDh0dVhIem1scUJy?=
- =?utf-8?B?aWxtc3NzMmIyS1RYczNTV28zYy9XRkR2K1g5Nk5DcVMwTHpPMm5kQWt5bGl2?=
- =?utf-8?B?cmlHSWQxc0t3WUFTNTB6Vkg4QitWWjhudzg2L0crQ21uNmJkUStoVGtBMFkr?=
- =?utf-8?B?NTE2cDdTblIvN29tSGZNUHNGQyt3S01qVzdndFhFbUIwL21XM214QzNvUTdC?=
- =?utf-8?B?MmV6bWZheGJIYW5uS1JNSXNHcEErNndnWHdJZ0xDVGVOblFTMWc2K2JEQzRr?=
- =?utf-8?B?M0hXN0pFODlBeXpwNXdIYTc3bUV0SndOTXQ5dmRYdG9ldDVQNjRrc0pEK1VQ?=
- =?utf-8?Q?UROA=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11457c42-3860-4eed-0dec-08d9ec63e727
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 07:06:47.5368 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QTuvDEUqLjlpfTolK3Xt3+QemGutV1lCX4PFXnyHdfiQMd3Uy61GtYPRY2TE3urk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0075
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,39 +56,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, horace.chen@amd.com, lijo.lazar@amd.com,
- jingwech@amd.com, Monk.Liu@amd.com
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.02.22 um 04:17 schrieb Andrey Grodzovsky:
-> Seems I forgot to add this to the relevant commit
-> when submitting.
+It's unclear what reference the initial vma kref refernce refers to.
+A vma can have multiple weak references, the object vma list,
+the vm's bound list and the GT's closed_list, and the initial vma
+reference can be put from lookups of all these lists.
 
-Rebase/merge issue? Looks like it.
+With the current implementation this means
+that any holder of yet another vma refcount (currently only
+i915_gem_object_unbind()) needs to be holding two of either
+*) An object refcount,
+*) A vm open count
+*) A vma open count
 
->
-> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> Reported-by: kernel test robot <lkp@intel.com>
+in order for us to not risk leaking a reference by having the
+initial vma reference being put twice.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Address this by re-introducing i915_vma_destroy() which removes all
+weak references of the vma and *then* puts the initial vma refcount.
+This makes a strong vma reference hold on to the vma unconditionally.
 
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> index 92de3b7965a1..1949dbe28a86 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> @@ -118,8 +118,7 @@ static inline bool amdgpu_reset_domain_schedule(struct amdgpu_reset_domain *doma
->   	return queue_work(domain->wq, work);
->   }
->   
-> -void amdgpu_device_lock_reset_domain(struct amdgpu_reset_domain *reset_domain,
-> -				     struct amdgpu_hive_info *hive);
-> +void amdgpu_device_lock_reset_domain(struct amdgpu_reset_domain *reset_domain);
->   
->   void amdgpu_device_unlock_reset_domain(struct amdgpu_reset_domain *reset_domain);
->   
+Perhaps a better name would be i915_vma_revoke() or i915_vma_zombify(),
+since other callers may still hold a refcount, but with the prospect of
+being able to replace the vma refcount with the object lock in the near
+future, let's stick with i915_vma_destroy().
+
+Finally this commit fixes a race in that previously i915_vma_release() and
+now i915_vma_destroy() could destroy a vma without taking the vm->mutex
+after an advisory check that the vma mm_node was not allocated.
+This would race with the ungrab_vma() function creating a trace similar
+to the below one. This was fixed in one __i915_vma_put() callsites in
+Fixes: bc1922e5d349 ("drm/i915: Fix a race between vma / object destruction and unbinding")
+but although not seemingly triggered by CI, that
+is not sufficient. This patch is needed to fix that properly.
+
+[823.012188] Console: switching to colour dummy device 80x25
+[823.012422] [IGT] gem_ppgtt: executing
+[823.016667] [IGT] gem_ppgtt: starting subtest blt-vs-render-ctx0
+[852.436465] stack segment: 0000 [#1] PREEMPT SMP NOPTI
+[852.436480] CPU: 0 PID: 3200 Comm: gem_ppgtt Not tainted 5.16.0-CI-CI_DRM_11115+ #1
+[852.436489] Hardware name: Intel Corporation Alder Lake Client Platform/AlderLake-P DDR5 RVP, BIOS ADLPFWI1.R00.2422.A00.2110131104 10/13/2021
+[852.436499] RIP: 0010:ungrab_vma+0x9/0x80 [i915]
+[852.436711] Code: ef e8 4b 85 cf e0 e8 36 a3 d6 e0 8b 83 f8 9c 00 00 85 c0 75 e1 5b 5d 41 5c 41 5d c3 e9 d6 fd 14 00 55 53 48 8b af c0 00 00 00 <8b> 45 00 85 c0 75 03 5b 5d c3 48 8b 85 a0 02 00 00 48 89 fb 48 8b
+[852.436727] RSP: 0018:ffffc90006db7880 EFLAGS: 00010246
+[852.436734] RAX: 0000000000000000 RBX: ffffc90006db7598 RCX: 0000000000000000
+[852.436742] RDX: ffff88815349e898 RSI: ffff88815349e858 RDI: ffff88810a284140
+[852.436748] RBP: 6b6b6b6b6b6b6b6b R08: ffff88815349e898 R09: ffff88815349e8e8
+[852.436754] R10: 0000000000000001 R11: 0000000051ef1141 R12: ffff88810a284140
+[852.436762] R13: 0000000000000000 R14: ffff88815349e868 R15: ffff88810a284458
+[852.436770] FS:  00007f5c04b04e40(0000) GS:ffff88849f000000(0000) knlGS:0000000000000000
+[852.436781] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[852.436788] CR2: 00007f5c04b38fe0 CR3: 000000010a6e8001 CR4: 0000000000770ef0
+[852.436797] PKRU: 55555554
+[852.436801] Call Trace:
+[852.436806]  <TASK>
+[852.436811]  i915_gem_evict_for_node+0x33c/0x3c0 [i915]
+[852.437014]  i915_gem_gtt_reserve+0x106/0x130 [i915]
+[852.437211]  i915_vma_pin_ww+0x8f4/0xb60 [i915]
+[852.437412]  eb_validate_vmas+0x688/0x860 [i915]
+[852.437596]  i915_gem_do_execbuffer+0xc0e/0x25b0 [i915]
+[852.437770]  ? deactivate_slab+0x5f2/0x7d0
+[852.437778]  ? _raw_spin_unlock_irqrestore+0x50/0x60
+[852.437789]  ? i915_gem_execbuffer2_ioctl+0xc6/0x2c0 [i915]
+[852.437944]  ? init_object+0x49/0x80
+[852.437950]  ? __lock_acquire+0x5e6/0x2580
+[852.437963]  i915_gem_execbuffer2_ioctl+0x116/0x2c0 [i915]
+[852.438129]  ? i915_gem_do_execbuffer+0x25b0/0x25b0 [i915]
+[852.438300]  drm_ioctl_kernel+0xac/0x140
+[852.438310]  drm_ioctl+0x201/0x3d0
+[852.438316]  ? i915_gem_do_execbuffer+0x25b0/0x25b0 [i915]
+[852.438490]  __x64_sys_ioctl+0x6a/0xa0
+[852.438498]  do_syscall_64+0x37/0xb0
+[852.438507]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+[852.438515] RIP: 0033:0x7f5c0415b317
+[852.438523] Code: b3 66 90 48 8b 05 71 4b 2d 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 41 4b 2d 00 f7 d8 64 89 01 48
+[852.438542] RSP: 002b:00007ffd765039a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[852.438553] RAX: ffffffffffffffda RBX: 000055e4d7829dd0 RCX: 00007f5c0415b317
+[852.438562] RDX: 00007ffd76503a00 RSI: 00000000c0406469 RDI: 0000000000000017
+[852.438571] RBP: 00007ffd76503a00 R08: 0000000000000000 R09: 0000000000000081
+[852.438579] R10: 00000000ffffff7f R11: 0000000000000246 R12: 00000000c0406469
+[852.438587] R13: 0000000000000017 R14: 00007ffd76503a00 R15: 0000000000000000
+[852.438598]  </TASK>
+[852.438602] Modules linked in: snd_hda_codec_hdmi i915 mei_hdcp x86_pkg_temp_thermal snd_hda_intel snd_intel_dspcfg drm_buddy coretemp crct10dif_pclmul crc32_pclmul snd_hda_codec ttm ghash_clmulni_intel snd_hwdep snd_hda_core e1000e drm_dp_helper ptp snd_pcm mei_me drm_kms_helper pps_core mei syscopyarea sysfillrect sysimgblt fb_sys_fops prime_numbers intel_lpss_pci smsc75xx usbnet mii
+[852.440310] ---[ end trace e52cdd2fe4fd911c ]---
+
+Fixes: 7e00897be8bf ("drm/i915: Add object locking to i915_gem_evict_for_node and i915_gem_evict_something, v2.")
+Fixes: bc1922e5d349 ("drm/i915: Fix a race between vma / object destruction and unbinding")
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 14 +---
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  4 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           | 17 +++--
+ drivers/gpu/drm/i915/i915_vma.c               | 74 ++++++++++++++++---
+ drivers/gpu/drm/i915/i915_vma.h               |  3 +
+ 5 files changed, 79 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index e03e362d320b..78c4cbe82031 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -267,12 +267,6 @@ void __i915_gem_object_pages_fini(struct drm_i915_gem_object *obj)
+ 	if (!list_empty(&obj->vma.list)) {
+ 		struct i915_vma *vma;
+ 
+-		/*
+-		 * Note that the vma keeps an object reference while
+-		 * it is active, so it *should* not sleep while we
+-		 * destroy it. Our debug code errs insits it *might*.
+-		 * For the moment, play along.
+-		 */
+ 		spin_lock(&obj->vma.lock);
+ 		while ((vma = list_first_entry_or_null(&obj->vma.list,
+ 						       struct i915_vma,
+@@ -280,13 +274,7 @@ void __i915_gem_object_pages_fini(struct drm_i915_gem_object *obj)
+ 			GEM_BUG_ON(vma->obj != obj);
+ 			spin_unlock(&obj->vma.lock);
+ 
+-			/* Verify that the vma is unbound under the vm mutex. */
+-			mutex_lock(&vma->vm->mutex);
+-			atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
+-			__i915_vma_unbind(vma);
+-			mutex_unlock(&vma->vm->mutex);
+-
+-			__i915_vma_put(vma);
++			i915_vma_destroy(vma);
+ 
+ 			spin_lock(&obj->vma.lock);
+ 		}
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+index ba29767348be..af36bffd064b 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+@@ -167,7 +167,7 @@ static int check_partial_mapping(struct drm_i915_gem_object *obj,
+ 
+ out:
+ 	i915_gem_object_lock(obj, NULL);
+-	__i915_vma_put(vma);
++	i915_vma_destroy(vma);
+ 	i915_gem_object_unlock(obj);
+ 	return err;
+ }
+@@ -264,7 +264,7 @@ static int check_partial_mappings(struct drm_i915_gem_object *obj,
+ 			return err;
+ 
+ 		i915_gem_object_lock(obj, NULL);
+-		__i915_vma_put(vma);
++		i915_vma_destroy(vma);
+ 		i915_gem_object_unlock(obj);
+ 
+ 		if (igt_timeout(end_time,
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+index 0d6bbc8c57f2..341231c07635 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+@@ -106,14 +106,19 @@ void __i915_vm_close(struct i915_address_space *vm)
+ 	list_for_each_entry_safe(vma, vn, &vm->bound_list, vm_link) {
+ 		struct drm_i915_gem_object *obj = vma->obj;
+ 
+-		/* Keep the obj (and hence the vma) alive as _we_ destroy it */
+-		if (!kref_get_unless_zero(&obj->base.refcount))
++		if (!kref_get_unless_zero(&obj->base.refcount)) {
++			/*
++			 * Unbind the dying vma to ensure the bound_list
++			 * is completely drained. We leave the destruction to
++			 * the object destructor.
++			 */
++			atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
++			WARN_ON(__i915_vma_unbind(vma));
+ 			continue;
++		}
+ 
+-		atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
+-		WARN_ON(__i915_vma_unbind(vma));
+-		__i915_vma_put(vma);
+-
++		/* Keep the obj (and hence the vma) alive as _we_ destroy it */
++		i915_vma_destroy_locked(vma);
+ 		i915_gem_object_put(obj);
+ 	}
+ 	GEM_BUG_ON(!list_empty(&vm->bound_list));
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 845cd88f8313..ad23a4eaba4f 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -1609,15 +1609,27 @@ void i915_vma_reopen(struct i915_vma *vma)
+ void i915_vma_release(struct kref *ref)
+ {
+ 	struct i915_vma *vma = container_of(ref, typeof(*vma), ref);
++
++	i915_vm_put(vma->vm);
++	i915_active_fini(&vma->active);
++	GEM_WARN_ON(vma->resource);
++	i915_vma_free(vma);
++}
++
++static void force_unbind(struct i915_vma *vma)
++{
++	if (!drm_mm_node_allocated(&vma->node))
++		return;
++
++	atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
++	WARN_ON(__i915_vma_unbind(vma));
++	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
++}
++
++static void release_references(struct i915_vma *vma)
++{
+ 	struct drm_i915_gem_object *obj = vma->obj;
+ 
+-	if (drm_mm_node_allocated(&vma->node)) {
+-		mutex_lock(&vma->vm->mutex);
+-		atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
+-		WARN_ON(__i915_vma_unbind(vma));
+-		mutex_unlock(&vma->vm->mutex);
+-		GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
+-	}
+ 	GEM_BUG_ON(i915_vma_is_active(vma));
+ 
+ 	spin_lock(&obj->vma.lock);
+@@ -1627,11 +1639,49 @@ void i915_vma_release(struct kref *ref)
+ 	spin_unlock(&obj->vma.lock);
+ 
+ 	__i915_vma_remove_closed(vma);
+-	i915_vm_put(vma->vm);
+ 
+-	i915_active_fini(&vma->active);
+-	GEM_WARN_ON(vma->resource);
+-	i915_vma_free(vma);
++	__i915_vma_put(vma);
++}
++
++/**
++ * i915_vma_destroy_locked - Remove all weak reference to the vma and put
++ * the initial reference.
++ *
++ * This function should be called when it's decided the vma isn't needed
++ * anymore. The caller must assure that it doesn't race with another lookup
++ * plus destroy, typically by taking an appropriate reference.
++ *
++ * Current callsites are
++ * - __i915_gem_object_pages_fini()
++ * - __i915_vm_close() - Blocks the above function by taking a reference on
++ * the object.
++ * - __i915_vma_parked() - Blocks the above functions by taking an open-count on
++ * the vm and a reference on the object.
++ *
++ * Because of locks taken during destruction, a vma is also guaranteed to
++ * stay alive while the following locks are held if it was looked up while
++ * holding one of the locks:
++ * - vm->mutex
++ * - obj->vma.lock
++ * - gt->closed_lock
++ *
++ * A vma user can also temporarily keep the vma alive while holding a vma
++ * reference.
++ */
++void i915_vma_destroy_locked(struct i915_vma *vma)
++{
++	lockdep_assert_held(&vma->vm->mutex);
++
++	force_unbind(vma);
++	release_references(vma);
++}
++
++void i915_vma_destroy(struct i915_vma *vma)
++{
++	mutex_lock(&vma->vm->mutex);
++	force_unbind(vma);
++	mutex_unlock(&vma->vm->mutex);
++	release_references(vma);
+ }
+ 
+ void i915_vma_parked(struct intel_gt *gt)
+@@ -1665,7 +1715,7 @@ void i915_vma_parked(struct intel_gt *gt)
+ 
+ 		if (i915_gem_object_trylock(obj, NULL)) {
+ 			INIT_LIST_HEAD(&vma->closed_link);
+-			__i915_vma_put(vma);
++			i915_vma_destroy(vma);
+ 			i915_gem_object_unlock(obj);
+ 		} else {
+ 			/* back you go.. */
+diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+index 011af044ad4f..67ae7341c7e0 100644
+--- a/drivers/gpu/drm/i915/i915_vma.h
++++ b/drivers/gpu/drm/i915/i915_vma.h
+@@ -236,6 +236,9 @@ static inline void __i915_vma_put(struct i915_vma *vma)
+ 	kref_put(&vma->ref, i915_vma_release);
+ }
+ 
++void i915_vma_destroy_locked(struct i915_vma *vma);
++void i915_vma_destroy(struct i915_vma *vma);
++
+ #define assert_vma_held(vma) dma_resv_assert_held((vma)->obj->base.resv)
+ 
+ static inline void i915_vma_lock(struct i915_vma *vma)
+-- 
+2.34.1
 
