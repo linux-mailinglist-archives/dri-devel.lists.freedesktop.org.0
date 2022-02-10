@@ -2,79 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375624B084E
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 09:32:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1714B089B
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 09:41:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0398C10E786;
-	Thu, 10 Feb 2022 08:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC1ED10E757;
+	Thu, 10 Feb 2022 08:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2DD310E786
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 08:32:18 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 7B0702B000CD;
- Thu, 10 Feb 2022 03:32:14 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 10 Feb 2022 03:32:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=C/eXBq+gZ62G9kCMbvxgHoY4HT9QFjd3I7LMc4
- VqqdY=; b=ituAnSye7hGbmYW3uz3PGJC/qkvsI6a0H7OYi91PGWs9Ry6Qj2o6+7
- psPYX0O2MqlDtPKNXTiRKevzPRkk4l0CIRT3qkbgki6IkAW+hRpR2Opm+yzVXSaD
- uOJFMlzi6xI2S8OIriSyt+RK5x7bZRBbNVLpyLyr5O4Moo/JFi0KPeFd3Z2geDS8
- /u4s9cJIsI/1fLMJOlg9FesN0+5VSGp5+ARJJRKvZiZJ1+15zTay28R8aAu3eRkd
- O9UFCfxlzEDrf6PF8ynXjSxV4wSwTUEmA/h154NtuXdun+KiCAjrTWUzE5PTum5V
- NtGpKWRWr1/ozBFPIRUhHJQ29QUgy26A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=C/eXBq+gZ62G9kCMb
- vxgHoY4HT9QFjd3I7LMc4VqqdY=; b=OlRhPlrktWnn293Ix4vniS4/TLrLc8A9e
- zftKBpJXIKOiwP4FIvhRs7i960W1CnbFhPTrRUpcMbi2KiMCdSKr851NzmpalL0N
- oDUu6lLMjDQ5kN6awAKk+AqjIKq6tHdVeyW9IkHiwgCoFMH5ciIwryXV1mkRpjGb
- mrtioo5DaxLttoviThNTvUY42WxOlAMnMJ+vJkdnslgU06nlW3SBbTg2P3VuoArZ
- F9wMdcXEw1M1NzgddGF1fuo5T1XEKKCCdiDoUkPJtEm/bVucC8xXQUhMiVrqvnXw
- lhdRHvRLnjv40vrcRxbufaHFlABeZyrl49qsN6x1hVDy0zmOeAUcA==
-X-ME-Sender: <xms:jM0EYk1qx-1espsy7K0VZIF62yd7Em3ylB3xSK4ORcYGZfAQGsM3qw>
- <xme:jM0EYvGMW3SOp_Jd_d_Mau5ua01fK_Dnr_BON3ijKKpfDxbZY8P77M5gWIdM2xyaS
- 4qxS-9SfqTNNU36VZM>
-X-ME-Received: <xmr:jM0EYs7gJ6_UeLuTxMeB_ukS3Jdo2H50RxgWlwg3a5tIUuXnP9jl7i14niIVdl9ksuvtmQSPvz7xMTmGLGz6hjmpgFIHFQs1d9qpmpI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddriedtgdduudelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:jM0EYt03v46yxj4pMbCbQ2-2VwqTMarEfzts0AZ1o8mvPQ8jnEqP6A>
- <xmx:jM0EYnEbm_Ww5VF2fUbKnSDH_U-52OqCSWUqelDYYn76dAsjSH1Esg>
- <xmx:jM0EYm_RxLik0gCOuGd1caX0waikq_oeNaM_y9tgvpxlyDgd8qp5LQ>
- <xmx:js0EYoLBi4qU5l70RxzFJfsXtDvMU8D5FsJavd0OxYmqJU4lyn39smTPvtU>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Feb 2022 03:32:11 -0500 (EST)
-Date: Thu, 10 Feb 2022 09:32:09 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v2 0/4] drm/tiny: Add driver for Solomon SSD1307 OLED
- displays
-Message-ID: <20220210083209.c7r32rn2s22342ov@houat>
-References: <20220204134347.1187749-1-javierm@redhat.com>
- <CAMuHMdVTVX7LFay-rfv=oW96dMA24duMUVGRE62jQSNkrKtyMg@mail.gmail.com>
- <f178de92-7cb1-dcc5-1f60-9ccfc56bc0a4@redhat.com>
- <YgPF1cBMsd9973Dx@smile.fi.intel.com>
- <CAMuHMdXQdL_Do8Hjay1egfmd9H05R7BjNeKfLGq67mU4bQNVZA@mail.gmail.com>
- <f58b2608-0d51-3209-ae11-18bdac19dd66@redhat.com>
- <YgPef3s5+AMqWpSH@smile.fi.intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 284C410E757
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 08:41:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 1F71E1F45FED
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1644482459;
+ bh=dxxB5y7E7AReW2OAClnLIQexw3iKhotkP4SOeOAGdAE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lymY0FiuiysUb7/sSKRGIAg4jthJDb4GiQzlbfekQkSWXBOvc5GXsheGI2D39J1Qi
+ k3vPiOsX1+GILO03JWThkAH1dG6l+O2/r5mfnGztJ0BOCm05187+jqRK+CupRNXscf
+ 8dVNhlmp9hrk5o4Ovl1lidzZFLamLR6CSZwgupmALF+H0sAgSH1XA9hwLQqYRDgzh+
+ q0WsnrGIZDrVnlsWpC4OslPfBt9Ww3yFdx067aDeyIWs8l4V+hlIwGYGc5mfb1ossx
+ jKqVmmQpyz+sUPAhv1UfvSxb/UCIP2+mkls3Ei8ZXuqiZEcWe8v06niHjVo4uepz4E
+ k7FeUraA0G4cg==
+Message-ID: <f807c862-d327-5b12-7443-c4fed6e1ef6a@collabora.com>
+Date: Thu, 10 Feb 2022 09:40:55 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="yujxwkbg7rlinnus"
-Content-Disposition: inline
-In-Reply-To: <YgPef3s5+AMqWpSH@smile.fi.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v2, 1/7] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for lat soc
+Content-Language: en-US
+To: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
+ Rob Herring <robh@kernel.org>
+References: <20220128035440.24533-1-yunfei.dong@mediatek.com>
+ <20220128035440.24533-2-yunfei.dong@mediatek.com>
+ <YgQl8CtttQ99+8lB@robh.at.kernel.org>
+ <aa72bec2064e25990e1a3641b920cb5528cfccd4.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <aa72bec2064e25990e1a3641b920cb5528cfccd4.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,60 +54,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Linux PWM List <linux-pwm@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Irui Wang <irui.wang@mediatek.com>,
+ George Sun <george.sun@mediatek.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa <tfiga@google.com>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Il 10/02/22 04:06, yunfei.dong@mediatek.com ha scritto:
+> Hi Rob,
+> 
+> Thanks for your suggestion.
+> On Wed, 2022-02-09 at 14:37 -0600, Rob Herring wrote:
+>> On Fri, Jan 28, 2022 at 11:54:34AM +0800, Yunfei Dong wrote:
+>>> Adds decoder dt-bindings for compatible "mediatek,mtk-vcodec-lat-
+>>> soc".
+>>
+>> What's lat soc? How does this relate to what's already there in this
+>> binding.
+>>
+> lat soc is another hardware, is related with some vdec larb ports.
+> Won't be used to decode, but must to write it in dtsi, or hardware
+> can't work well.
 
---yujxwkbg7rlinnus
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Yunfei,
 
-On Wed, Feb 09, 2022 at 05:32:15PM +0200, Andy Shevchenko wrote:
-> On Wed, Feb 09, 2022 at 03:42:16PM +0100, Javier Martinez Canillas wrote:
-> > On 2/9/22 15:27, Geert Uytterhoeven wrote:
->=20
-> ...
->=20
-> > Now, this is a reason why I mentioned that the old fbdev driver shouldn=
-'t
-> > be removed yet.
->=20
-> I agree on this conclusion.
->=20
-> I think based on the fbtft resurrection discussion I can send a new versi=
-on
-> to unorphan it, route via fbdev, and leave under staging, so it will be a
-> compromise between all stakeholders.
+as a suggestion, writing the meaning of the "LAT" acronym may also
+help to clear some doubts around (please, also do that in the yaml file,
+other than the commit description).
 
-The DT bindings still don't belong anywhere in the main tree.
+Thank you!
+Angelo
 
-Maxime
+> 
+> Need to enable clock/power/iommus, no interrupt.
+>> The subject space is limited, avoid saying the same thing twice
+>> (dt-bindings).
+>>
+> 
+> Best Regards,
+> Yunfei Dong
+>>>
+>>> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>>> ---
+>>>   .../media/mediatek,vcodec-subdev-decoder.yaml | 49
+>>> +++++++++++++++++++
+>>>   1 file changed, 49 insertions(+)
+>>>
+>>> diff --git
+>>> a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-
+>>> decoder.yaml
+>>> b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-
+>>> decoder.yaml
+>>> index 6415c9f29130..a3c892338ac0 100644
+>>> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-
+>>> subdev-decoder.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-
+>>> subdev-decoder.yaml
+>>> @@ -189,6 +189,55 @@ patternProperties:
+>>>   
+>>>       additionalProperties: false
+>>>   
+>>> +  '^vcodec-lat-soc@[0-9a-f]+$':
+>>> +    type: object
+>>> +
+>>> +    properties:
+>>> +      compatible:
+>>> +        const: mediatek,mtk-vcodec-lat-soc
+>>> +
+>>> +      reg:
+>>> +        maxItems: 1
+>>> +
+>>> +      iommus:
+>>> +        minItems: 1
+>>> +        maxItems: 32
+>>> +        description: |
+>>> +          List of the hardware port in respective IOMMU block for
+>>> current Socs.
+>>> +          Refer to bindings/iommu/mediatek,iommu.yaml.
+>>> +
+>>> +      clocks:
+>>> +        maxItems: 5
+>>> +
+>>> +      clock-names:
+>>> +        items:
+>>> +          - const: sel
+>>> +          - const: soc-vdec
+>>> +          - const: soc-lat
+>>> +          - const: vdec
+>>> +          - const: top
+>>> +
+>>> +      assigned-clocks:
+>>> +        maxItems: 1
+>>> +
+>>> +      assigned-clock-parents:
+>>> +        maxItems: 1
+>>> +
+>>> +      power-domains:
+>>> +        maxItems: 1
+>>> +
+>>> +    required:
+>>> +      - compatible
+>>> +      - reg
+>>> +      - iommus
+>>> +      - clocks
+>>> +      - clock-names
+>>> +      - assigned-clocks
+>>> +      - assigned-clock-parents
+>>> +      - power-domains
+>>> +
+>>> +    additionalProperties: false
+>>> +
+>>>   required:
+>>>     - compatible
+>>>     - reg
+>>> -- 
+>>> 2.25.1
+>>>
+>>>
+> 
 
---yujxwkbg7rlinnus
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgTNiQAKCRDj7w1vZxhR
-xWgfAP9c/WNFJ2bN5djje6UoeI3NdmGyqQqkH/nOSnKreJjVggEAlkkecUX+M/D1
-o4NAxYKHGIWb/kzHxeNo7yoVXMbVaw4=
-=H8/+
------END PGP SIGNATURE-----
-
---yujxwkbg7rlinnus--
