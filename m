@@ -1,68 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E21EC4B07DD
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 09:11:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E0E4B0834
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 09:30:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D644510E75D;
-	Thu, 10 Feb 2022 08:11:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A190710E775;
+	Thu, 10 Feb 2022 08:30:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C61B910E757
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 08:11:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1644480693; x=1676016693;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=kxwlpMor//gWyfrKqUosYwhSlC3K9cpcg5I1mRkNgBA=;
- b=nnrr5uiaoeMkXZiEORO/ZC4pdEtWIb99AexeaQJ7TbDIwo5h+6CzfqYP
- Rfls+wC63Gg//M6Azip9BDSy1eG6RpYKQi8iW1aNjSfoPC3INy65rlbxJ
- QbP7StubeqMqtB17twfIcXIf4PuYjjJh8BGJ24DoAaEUmH2x6r0P7xsJI
- UPm+wkbu7Was+T0L36WyX8ir9dxFxn1tcKc14Iu+AGcqA0pk5kwlLjJ7S
- tmvKQVS80b3LF+aWfYsaTyGqWXgbQONBodo3A+BZnQKA6Gp+3ni9TAo95
- GmTt8wRYonY4ducOxEY0imNW375iFRBF3GH19LvYl8EGmLWpdA7pI0Dv/ Q==;
-X-IronPort-AV: E=Sophos;i="5.88,358,1635199200"; d="scan'208";a="22005705"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 10 Feb 2022 09:11:30 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Thu, 10 Feb 2022 09:11:30 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Thu, 10 Feb 2022 09:11:30 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1644480690; x=1676016690;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=kxwlpMor//gWyfrKqUosYwhSlC3K9cpcg5I1mRkNgBA=;
- b=pUD2W9KZbrVkexw76vwAQ9hTSK798St0HaiRt1LTmGMGvHKUG9I5tqN3
- yVwJzPJvXWMkSn4CrDvVbhQgrbhAo+bnOIGzh0Sw4BvzEcmJvqKzpVFP6
- 7XS8gQf09/Xpyqdz+1qa2YBHltER00su6mvoubZpq1Xn7bi6B0oQIwOZ7
- Rb8slwK6c4zbI+sdQjyWgZraqdSg3o4Iw4rToWQE5Edx2WP2ImTULaC6w
- e5m3cuz44Dt0TbWVKsvZiPuhoib6sHnpFWc7xq3XW05q4RLP7sFhzB8E7
- EIlHi0PD2cARc4WavJf/XYHGc897pTD/+yasHrXmXkAnprY1DdEwO9fSk Q==;
-X-IronPort-AV: E=Sophos;i="5.88,358,1635199200"; d="scan'208";a="22005704"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 10 Feb 2022 09:11:30 +0100
-Received: from steina-w.localnet (unknown [10.123.49.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 00B9B280065;
- Thu, 10 Feb 2022 09:11:29 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: (EXT) [PATCH] drm: mxsfb: Simplify LCDIF clock handling
-Date: Thu, 10 Feb 2022 09:11:27 +0100
-Message-ID: <7286643.lOV4Wx5bFT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20220206185555.275768-1-marex@denx.de>
-References: <20220206185555.275768-1-marex@denx.de>
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2114.outbound.protection.outlook.com [40.107.255.114])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE0C10E775;
+ Thu, 10 Feb 2022 08:30:13 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bI5S5ZIonnQEoEqFTw67AeT3GUdAFizld5wgNZ7Ko2m6KBG/u+ERL06GghB7/BtmnZbrIMPZV8FH1Ohwkie+UWkVs8vXhcvUZzPDyK4GxRAkm4Zw6tlfL4DNM+TDcucDBn41WqN0HkGRc2qJe1SNzNggZCBztQ09T1W5Ehmx8gDMUPh9r8CELi7NDrYUGx19p4rNDJO+MBDwgklWYAHlz/sVTCAIAYZUZcPDzxXhOxVwcbSw6MtyTJmXgrK96/1s5lZAUDmdo7jOD/UjVR6EjKxkPlqT95CzB8Q8GD2MYwwHvlrJVnB2KzFeTvgc6Le9fB99bg4r7kBytK0FvZXZ5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uiISIcM9l7paF91m3S6xkLnSA3s7jSVELqVf3j8YRkI=;
+ b=QTSpxU/UeYmT8Y9MK3SqiD2nL6gYQZ+Z/uHxq3XTnOez2j0pWvFGyCWf1RlsXNt9HBi0KN/bUdOxqCaxrj5WkkLzMN/fSfP2B6H9DnnxJUc2v6Js3IXSwi0JLYeAk454tXPXUPu3hj9ww7Ea6adaono2daAFLlxBLB94uJK5m2KZadah8b1QYPs7KSYqpWwYic1Lk+cHFezY/loBb9oZBlfiKtKk5NMQelRPTgr0jMvgJl/EztU5LKq2IEpSJP7NRUkVmK/iTC33OS6ukDm7+dtwVlBl0EsJ2hJUhSN5pjeeoDDHsiDA+cT7ff2MD+80YY7AIWob2NODLvy3p7MPwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uiISIcM9l7paF91m3S6xkLnSA3s7jSVELqVf3j8YRkI=;
+ b=UMBY/jdp1sCF/a/oOx20AUNYoQmxAOkt8awmECMrj7rdjyTU9s7DRMsvEM3hjgwCIEURoCoTCYxsdEgKtn3A/4UyTiY1dbKlOs+A65IpqNdNKLmjRCmrutCJMxAj+DUKII+etFU6y0e639okD7lCFJQRjeYJF0X7xNiOJMDp0qY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com (2603:1096:100:37::17)
+ by PSAPR06MB4005.apcprd06.prod.outlook.com (2603:1096:301:3a::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Thu, 10 Feb
+ 2022 08:30:10 +0000
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::80b4:e787:47a9:41bb]) by SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::80b4:e787:47a9:41bb%4]) with mapi id 15.20.4975.011; Thu, 10 Feb 2022
+ 08:30:10 +0000
+From: Qing Wang <wangqing@vivo.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] gpu: drm: i915: use time_after_eq() instead of jiffies
+ judgment
+Date: Thu, 10 Feb 2022 00:30:01 -0800
+Message-Id: <1644481802-14578-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR0401CA0014.apcprd04.prod.outlook.com
+ (2603:1096:3:1::24) To SL2PR06MB3082.apcprd06.prod.outlook.com
+ (2603:1096:100:37::17)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7adf405f-997a-4272-6559-08d9ec6f8cbf
+X-MS-TrafficTypeDiagnostic: PSAPR06MB4005:EE_
+X-Microsoft-Antispam-PRVS: <PSAPR06MB4005F0E8F455B96DBC52FA67BD2F9@PSAPR06MB4005.apcprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Z7IQA1rH4swEDgY3h8WU4Ou/0ObQtWe4TENrrzlT9llBD3VVJbSqAhXn5SZtgdwPbm2E6Zrjq/IvLWUS+M36DxIA2pgQqZScSmWU4joXX1wm/GZdNiDUW5RIObJJejOi8JfzwkeyjRjicOrqQGxnZfhyRQFPL9uTt6AewvsN8adK+2canWEqa1KM5Rwl8iiyq8uNsNqbBlhJaPSyN0egH/Cj3Zf/buBlE2TN0gF5zi9x7ZImL9VYG28qEoUfhKTKKgCtF8O7tmf84us/6RsN8Dw3MYxobUta/oaD7aT+zD1BdAwbhTo9WOBTFY2uQHP9bcUeJHzAUEarediL79e4g8uYi/BPfVlkfdG/YuelsRRuraD0WOrjoSdSx6Kj5B9nzVAUeSTfa4V4X0ylX/KciLO+uchJ8YgWdgIhLjFkrAn+yBrpshqW9nuBcGexWT7dvryoN1bZE8rk7NlunVNw/D8bTxQht6tjWtezFpj1mYTtnXLctldvn3ic6LNB/SQkxOK8zbGA/jKHFjHONkM5WGhufvSM7qcJladMpY0ER4LbgrP0JZbgv0ZOZd9gnOSlKXEQR2Px6racFIK+DavmzsNvD2LF878mJGB/jnYFWuyFdc7ZRCYwTtDlubLzA0bmFXwVZUtdXB38fgZvfcX+sw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SL2PR06MB3082.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(2906002)(8676002)(66946007)(5660300002)(4744005)(52116002)(8936002)(38100700002)(38350700002)(66556008)(6666004)(6512007)(6506007)(4326008)(6486002)(316002)(186003)(2616005)(110136005)(36756003)(86362001)(508600001)(83380400001)(107886003)(26005)(66476007)(21314003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: JTmvbm++szbCu4a+JmZYIcesiBRul9VNTEumJbadKqOqSKlzoGGwM30tfpgKKb8lCW9mFCk2Cz1HQN1W9dZWQLFUwKixS8u+pKBDv3Abvavau10OHcbPUvcxZ6/MRcLlrLSXqz2q5lJJXpV9w6aWwd1ikFaNcMwB45aAwPN5/iqmAxmW4aUktWwQ5U0UwMlbmN2KQgkjR0P+Ef8oJqeVHSmGZzrYFk1xwY6nbhj6o/GxxK7/jNNVxRCV6BauBxjUEla7B14i0zHZSSSsTw2InIDKoq+ypcWyZQszxPaBSwr0FIW8nUP9ItoR5nnW+n3cOH8E8bgS6QnVUOmez/avVXXEjI4wPscrReRJTc7e4yegYiDbZZfP+PCXhAjMgdlhj4PXMEG+iGHAkvZw/4WQAbQGFmNJ7g14iK0rPek6uMdvqBsAWqwFQN7WEQpzZ9HQ
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7adf405f-997a-4272-6559-08d9ec6f8cbf
+X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3082.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 08:30:09.9951 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FU6EYrE5aFREXPh9DQpZyTtJ2mLx3hEwbeQsQCiW8M+xOeg3yir5MBQ6Sp0jqFCGbHIes/72HpTyGzkLc2m5jQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4005
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,291 +91,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
+Cc: Wang Qing <wangqing@vivo.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+From: Wang Qing <wangqing@vivo.com>
 
-I like the overall idea. Thanks for the effort.
+It is better use time_xxx() directly instead of jiffies judgment
+for understanding.
 
-Am Sonntag, 6. Februar 2022, 19:55:55 CET schrieb Marek Vasut:
-> The current clock handling in the LCDIF driver is a convoluted mess.
-> Implement runtime PM ops which turn the clock ON and OFF and let the
-> pm_runtime_get_sync()/pm_runtime_put_sync() calls in .atomic_enable
-> and .atomic_disable callbacks turn the clock ON and OFF at the right
-> time.
+Signed-off-by: Wang Qing <wangqing@vivo.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Peng Fan <peng.fan@nxp.com>
-> Cc: Robby Cai <robby.cai@nxp.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Stefan Agner <stefan@agner.ch>
-> ---
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 85 ++++++++++++++++++-------------
->  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 18 ++-----
->  2 files changed, 54 insertions(+), 49 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> b/drivers/gpu/drm/mxsfb/mxsfb_drv.c index 375f26d4a4172..4ff3c6195dd0c
-> 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> @@ -72,18 +72,6 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
->  	},
->  };
-> 
-> -void mxsfb_enable_axi_clk(struct mxsfb_drm_private *mxsfb)
-> -{
-> -	if (mxsfb->clk_axi)
-> -		clk_prepare_enable(mxsfb->clk_axi);
-> -}
-> -
-> -void mxsfb_disable_axi_clk(struct mxsfb_drm_private *mxsfb)
-> -{
-> -	if (mxsfb->clk_axi)
-> -		clk_disable_unprepare(mxsfb->clk_axi);
-> -}
-> -
-
-The declarations for mxsfb_enable_axi_clk() and mxsfb_disable_axi_clk() are 
-still in drivers/gpu/drm/mxsfb/mxsfb_drv.h. Please remove them as well.
-You will then notice that they are still used at some places.
-
->  static struct drm_framebuffer *
->  mxsfb_fb_create(struct drm_device *dev, struct drm_file *file_priv,
->  		const struct drm_mode_fb_cmd2 *mode_cmd)
-> @@ -224,33 +212,31 @@ static int mxsfb_load(struct drm_device *drm,
->  	if (IS_ERR(mxsfb->clk))
->  		return PTR_ERR(mxsfb->clk);
-> 
-> -	mxsfb->clk_axi = devm_clk_get(drm->dev, "axi");
-> +	mxsfb->clk_axi = devm_clk_get_optional(drm->dev, "axi");
->  	if (IS_ERR(mxsfb->clk_axi))
-> -		mxsfb->clk_axi = NULL;
-> +		return PTR_ERR(mxsfb->clk_axi);
-> 
-> -	mxsfb->clk_disp_axi = devm_clk_get(drm->dev, "disp_axi");
-> +	mxsfb->clk_disp_axi = devm_clk_get_optional(drm->dev, "disp_axi");
->  	if (IS_ERR(mxsfb->clk_disp_axi))
-> -		mxsfb->clk_disp_axi = NULL;
-> +		return PTR_ERR(mxsfb->clk_disp_axi);
-> 
->  	ret = dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(32));
->  	if (ret)
->  		return ret;
-> 
-> -	pm_runtime_enable(drm->dev);
-> -
->  	/* Modeset init */
->  	drm_mode_config_init(drm);
-> 
->  	ret = mxsfb_kms_init(mxsfb);
->  	if (ret < 0) {
->  		dev_err(drm->dev, "Failed to initialize KMS 
-pipeline\n");
-> -		goto err_vblank;
-> +		return ret;
->  	}
-> 
->  	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
->  	if (ret < 0) {
->  		dev_err(drm->dev, "Failed to initialise vblank\n");
-> -		goto err_vblank;
-> +		return ret;
->  	}
-> 
->  	/* Start with vertical blanking interrupt reporting disabled. */
-> @@ -260,7 +246,7 @@ static int mxsfb_load(struct drm_device *drm,
->  	if (ret) {
->  		if (ret != -EPROBE_DEFER)
->  			dev_err(drm->dev, "Cannot connect bridge: 
-%d\n", ret);
-> -		goto err_vblank;
-> +		return ret;
->  	}
-> 
->  	drm->mode_config.min_width	= MXSFB_MIN_XRES;
-> @@ -277,13 +263,10 @@ static int mxsfb_load(struct drm_device *drm,
->  		goto err_vblank;
-
-You are still using err_vblank here which gets removed below.
-
-Alexander
-
->  	mxsfb->irq = ret;
-> 
-> -	pm_runtime_get_sync(drm->dev);
->  	ret = mxsfb_irq_install(drm, mxsfb->irq);
-> -	pm_runtime_put_sync(drm->dev);
-> -
->  	if (ret < 0) {
->  		dev_err(drm->dev, "Failed to install IRQ handler\n");
-> -		goto err_vblank;
-> +		return ret;
->  	}
-> 
->  	drm_kms_helper_poll_init(drm);
-> @@ -292,12 +275,9 @@ static int mxsfb_load(struct drm_device *drm,
-> 
->  	drm_helper_hpd_irq_event(drm);
-> 
-> -	return 0;
-> -
-> -err_vblank:
-> -	pm_runtime_disable(drm->dev);
-> +	pm_runtime_enable(drm->dev);
-> 
-> -	return ret;
-> +	return 0;
->  }
-> 
->  static void mxsfb_unload(struct drm_device *drm)
-> @@ -305,9 +285,7 @@ static void mxsfb_unload(struct drm_device *drm)
->  	drm_kms_helper_poll_fini(drm);
->  	drm_mode_config_cleanup(drm);
-> 
-> -	pm_runtime_get_sync(drm->dev);
->  	mxsfb_irq_uninstall(drm);
-> -	pm_runtime_put_sync(drm->dev);
-> 
->  	drm->dev_private = NULL;
-> 
-> @@ -388,23 +366,60 @@ static void mxsfb_shutdown(struct platform_device
-> *pdev) drm_atomic_helper_shutdown(drm);
->  }
-> 
-> -#ifdef CONFIG_PM_SLEEP
-> +static int mxsfb_rpm_suspend(struct device *dev)
-> +{
-> +	struct drm_device *drm = dev_get_drvdata(dev);
-> +	struct mxsfb_drm_private *mxsfb = drm->dev_private;
-> +
-> +	/* These clock supply the DISPLAY CLOCK Domain */
-> +	clk_disable_unprepare(mxsfb->clk);
-> +	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
-> +	clk_disable_unprepare(mxsfb->clk_disp_axi);
-> +	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
-> +	clk_disable_unprepare(mxsfb->clk_axi);
-> +
-> +	return 0;
-> +}
-> +
-> +static int mxsfb_rpm_resume(struct device *dev)
-> +{
-> +	struct drm_device *drm = dev_get_drvdata(dev);
-> +	struct mxsfb_drm_private *mxsfb = drm->dev_private;
-> +
-> +	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
-> +	clk_prepare_enable(mxsfb->clk_axi);
-> +	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
-> +	clk_prepare_enable(mxsfb->clk_disp_axi);
-> +	/* These clock supply the DISPLAY CLOCK Domain */
-> +	clk_prepare_enable(mxsfb->clk);
-> +
-> +	return 0;
-> +}
-> +
->  static int mxsfb_suspend(struct device *dev)
->  {
->  	struct drm_device *drm = dev_get_drvdata(dev);
-> +	int ret;
-> 
-> -	return drm_mode_config_helper_suspend(drm);
-> +	ret = drm_mode_config_helper_suspend(drm);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return mxsfb_rpm_suspend(dev);
->  }
-> 
->  static int mxsfb_resume(struct device *dev)
->  {
->  	struct drm_device *drm = dev_get_drvdata(dev);
-> 
-> +	mxsfb_rpm_resume(dev);
-> +
->  	return drm_mode_config_helper_resume(drm);
->  }
-> -#endif
-> 
->  static const struct dev_pm_ops mxsfb_pm_ops = {
-> +	.runtime_suspend = mxsfb_rpm_suspend,
-> +	.runtime_resume = mxsfb_rpm_resume,
->  	SET_SYSTEM_SLEEP_PM_OPS(mxsfb_suspend, mxsfb_resume)
->  };
-> 
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> b/drivers/gpu/drm/mxsfb/mxsfb_kms.c index 0655582ae8ed6..03743a84c8e79
-> 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> @@ -100,10 +100,6 @@ static void mxsfb_enable_controller(struct
-> mxsfb_drm_private *mxsfb) {
->  	u32 reg;
-> 
-> -	if (mxsfb->clk_disp_axi)
-> -		clk_prepare_enable(mxsfb->clk_disp_axi);
-> -	clk_prepare_enable(mxsfb->clk);
-> -
->  	/* Increase number of outstanding requests on all supported IPs */
->  	if (mxsfb->devdata->has_ctrl2) {
->  		reg = readl(mxsfb->base + LCDC_V4_CTRL2);
-> @@ -168,10 +164,6 @@ static void mxsfb_disable_controller(struct
-> mxsfb_drm_private *mxsfb) reg = readl(mxsfb->base + LCDC_VDCTRL4);
->  	reg &= ~VDCTRL4_SYNC_SIGNALS_ON;
->  	writel(reg, mxsfb->base + LCDC_VDCTRL4);
-> -
-> -	clk_disable_unprepare(mxsfb->clk);
-> -	if (mxsfb->clk_disp_axi)
-> -		clk_disable_unprepare(mxsfb->clk_disp_axi);
->  }
-> 
->  /*
-> @@ -352,9 +344,6 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc
-> *crtc, dma_addr_t paddr;
-> 
->  	pm_runtime_get_sync(drm->dev);
-> -	mxsfb_enable_axi_clk(mxsfb);
-> -
-> -	drm_crtc_vblank_on(crtc);
-> 
->  	/* If there is a bridge attached to the LCDIF, use its bus format 
-*/
->  	if (mxsfb->bridge) {
-> @@ -388,6 +377,8 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc
-> *crtc, }
-> 
->  	mxsfb_enable_controller(mxsfb);
-> +
-> +	drm_crtc_vblank_on(crtc);
->  }
-> 
->  static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
-> @@ -397,6 +388,8 @@ static void mxsfb_crtc_atomic_disable(struct drm_crtc
-> *crtc, struct drm_device *drm = mxsfb->drm;
->  	struct drm_pending_vblank_event *event;
-> 
-> +	drm_crtc_vblank_off(crtc);
-> +
->  	mxsfb_disable_controller(mxsfb);
-> 
->  	spin_lock_irq(&drm->event_lock);
-> @@ -407,9 +400,6 @@ static void mxsfb_crtc_atomic_disable(struct drm_crtc
-> *crtc, }
->  	spin_unlock_irq(&drm->event_lock);
-> 
-> -	drm_crtc_vblank_off(crtc);
-> -
-> -	mxsfb_disable_axi_clk(mxsfb);
->  	pm_runtime_put_sync(drm->dev);
->  }
-
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c b/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
+index 9db3dcb..b289abb
+--- a/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
+@@ -56,7 +56,7 @@ static bool pool_free_older_than(struct intel_gt_buffer_pool *pool, long keep)
+ 				node = list_entry(pos, typeof(*node), link);
+ 
+ 				age = READ_ONCE(node->age);
+-				if (!age || jiffies - age < keep)
++				if (!age || time_before(jiffies, age + keep))
+ 					break;
+ 
+ 				/* Check we are the first to claim this node */
+-- 
+2.7.4
 
