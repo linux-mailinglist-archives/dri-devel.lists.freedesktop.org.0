@@ -2,93 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B20F4B0447
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 05:12:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB454B04AF
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 05:59:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC5D910E3EF;
-	Thu, 10 Feb 2022 04:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5022110E6FD;
+	Thu, 10 Feb 2022 04:59:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2068.outbound.protection.outlook.com [40.107.223.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83D8510E3EF;
- Thu, 10 Feb 2022 04:11:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XlzRbmdjJNyhz6NdGzF2glFIzY6Oq52BkvbdbzEmm8CWxjybApsMTKm3viX4OVBjWld7d29QMq+tE2CxLmVqWlaJ2JZtSggoKJDFAvCn8BRv6dwAYV8ebeOz3BlktAt4WWXbzsuk9szyOaSQU3i1rdMVTiAK2VGcT/cCkR7XQ/yGLjUcWfs5OTG51/RTx5FXna70Dam/wmgb8SawFvUa2+/oz2ZprBbItM6Iq2/r8owQTPoIBH5K4bze5m3W5LkJGH318W31tMggRG1yUtxop1LIb4Uzoy/l+2bh3i6EIz7Bv7qIzkIaXM//Du3S/AkMVXmHmN/8USkj3mn37q84tA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GHWbi92/puk1zdctF0nLEfm2eOR3IkGNLM43e2KbH7A=;
- b=mqBFwcTwxkZx8yHutaGk1s90/wKElN9+89+ahPBIDmpVygYq15VgEHWvHFLlpGHrRJExsEPMb4C8Sh/66RulE9da0bPE5zGSNKnsBrlzYsHSS7A8FdyiLS4r3aH1MunUNWPG5aukoiOiMVb4rDLbQETLzjECe+ED00qGCHw7SXw1tkPkIzJXzje4KauEx3usM3wJhdoWnA/L3dBUDtE0g5FBGBC5XYkTr1ji9tlElS6iuLnhLPeKxkOnkm99DPSbl6wY+8zyq2evIaJSlsQTws9WdvtG9X0pyB7bZddYhI9A0YiXTeA7zK8+SvbJ8TwXxQTCaPpVrjapDNkSfI2Wlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GHWbi92/puk1zdctF0nLEfm2eOR3IkGNLM43e2KbH7A=;
- b=bgc8t75GFwhY9E6WrYwnHhnFkSpeUjpLkyKJONSfhSjyQupWpaSvZkuZKwl0t5S+vP2smo5RpDfwjOWSUtwVu6JU6CZZBjmCL2WoK4xG5q7Ipg3VzwF0edq18i2xVFHIvwcCNN0WSFRc9cnZnZ0jfsGXNkxmWZDZ1sUmzsaSsPs=
-Received: from BN6PR14CA0017.namprd14.prod.outlook.com (2603:10b6:404:79::27)
- by MN2PR12MB4503.namprd12.prod.outlook.com (2603:10b6:208:264::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Thu, 10 Feb
- 2022 04:11:53 +0000
-Received: from BN8NAM11FT065.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:79:cafe::5c) by BN6PR14CA0017.outlook.office365.com
- (2603:10b6:404:79::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11 via Frontend
- Transport; Thu, 10 Feb 2022 04:11:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT065.mail.protection.outlook.com (10.13.177.63) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4975.11 via Frontend Transport; Thu, 10 Feb 2022 04:11:53 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 9 Feb
- 2022 22:11:50 -0600
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu drm-fixes-5.17
-Date: Wed, 9 Feb 2022 23:11:37 -0500
-Message-ID: <20220210041137.5926-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32ED110E712;
+ Thu, 10 Feb 2022 04:59:05 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EBAA93;
+ Thu, 10 Feb 2022 05:59:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1644469143;
+ bh=iJpCupvq00OIRDE5Z4aCNPcYtnqopVnHnV3lxenbOnA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aViTl5Kl0ZjPHaDIIZnM+t0qQF+Pwep5EdLPPr4DjtSinSk28OGQHkBlgDRp0kct8
+ 9Xmn2SLUU6CIY1ZgZWRDCMjIVpE8YV+hmIBLBt28jS399Y2e15dcn1SBN09nKPVRqf
+ OnxjRn76lJZDCubo4gLMYNjMmfnHzrR7NwThySWk=
+Date: Thu, 10 Feb 2022 06:58:59 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH 5/6] drm/rcar_du: changes to rcar-du driver resulting
+ from drm_writeback_connector structure changes
+Message-ID: <YgSbk11nQ6bd4SWK@pendragon.ideasonboard.com>
+References: <20220202085429.22261-1-suraj.kandpal@intel.com>
+ <20220202085429.22261-6-suraj.kandpal@intel.com>
+ <Yfp8Q6OFqTAvESOi@pendragon.ideasonboard.com>
+ <87y22ts948.fsf@intel.com>
+ <YfqGbqQQz5vrDaLI@pendragon.ideasonboard.com>
+ <CAA8EJpqr6MB64EAtLU3nBjgjx1COwn4auenCCw4kHB489VG0CA@mail.gmail.com>
+ <d69038d6-a853-d2d9-81de-0ad10c4d6a3a@quicinc.com>
+ <54fc4268-6418-817b-7cec-28a9dc9ba7b5@quicinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6aca9433-87cd-4b3f-5b7d-08d9ec4b7845
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4503:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4503B0C7C01A6593224B8A11F72F9@MN2PR12MB4503.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:393;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6OCIRUmhE9ESjCtU7WPDaV3N9CjjLye0GB+Uc68uEPLyWMZqfLF1oJPdcWt7cyGmSxa3SKalW2DLuG2Ft8DWa/Q8CpnHFAnatgM3W7WLeoLd7XXkuIdlXL/FxJCwgqdepl00fveqCyzqpmaHji5kReyo/FBcsxY2PQxJ8ZtX1iHPvAzqKf0Z5oE+a//vYXadeeZadFxVuvCqTkUaT9IqC9Cith4J02UJwEEo1u1rxrTv1AHMsE7ghyJ1w7bwGCcfrD4iXJefZ/imdSq2FqSXhQRcU2xwdEdqMwbtTQ6ZlYXYVWaYvPpi3lS+g5BudJhUDHWW045dI7x6IxFrGGfAxWMt2xml0nnZcO6RypxwUFC9sI3dqv2i3JACaEZ0RnIrs0S9tpO8w2DwNaJv3YOOMpnlOQPFddEC/0SFeCRMyXcNynmmyUGHa8rKTuV/eA6yWcUk3fzSyJ3wJCDENLHUIJaebjcOtem61pfwtOhpGNo6LCJcKaYokpCgh1FlDGsG1pZaHxWaVWulo8bLBkPNKQrmp5mz/Nkoia4M0OMaDjEXPbzhOrNNeze3I6pOZKhglK001NFbhwqQJQc7OeCcJllX4Qlj1RTdSLKdhPDwXeMtu+J8G8ZruJqHroIOKGuWkrejDOCiMRj4/XCtQCM+kZglXYHcvezCLPGNNUYqykHXVcj3F48M74WPEAmNwXl/A8R58RzFAfClFhKW70ttQg==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(47076005)(36860700001)(2906002)(81166007)(6666004)(356005)(36756003)(70206006)(70586007)(4326008)(8676002)(40460700003)(86362001)(316002)(110136005)(508600001)(966005)(26005)(186003)(426003)(16526019)(336012)(83380400001)(2616005)(5660300002)(7696005)(8936002)(1076003)(82310400004)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 04:11:53.3368 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6aca9433-87cd-4b3f-5b7d-08d9ec4b7845
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT065.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4503
+In-Reply-To: <54fc4268-6418-817b-7cec-28a9dc9ba7b5@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,65 +55,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Kandpal Suraj <suraj.kandpal@intel.com>, carsten.haitzler@arm.com,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, arun.r.murthy@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Hi Abhinav,
 
-Fixes for 5.17.
+On Wed, Feb 09, 2022 at 05:40:29PM -0800, Abhinav Kumar wrote:
+> Hi Laurent
+> 
+> Gentle reminder on this.
 
-The following changes since commit dfd42facf1e4ada021b939b4e19c935dcdd55566:
+I won't have time before next week I'm afraid.
 
-  Linux 5.17-rc3 (2022-02-06 12:20:50 -0800)
+> On 2/6/2022 11:20 PM, Abhinav Kumar wrote:
+> > Hi Laurent
+> > 
+> > On 2/6/2022 3:32 PM, Dmitry Baryshkov wrote:
+> >> On Wed, 2 Feb 2022 at 16:26, Laurent Pinchart
+> >> <laurent.pinchart@ideasonboard.com> wrote:
+> >>>
+> >>> Hi Jani,
+> >>>
+> >>> On Wed, Feb 02, 2022 at 03:15:03PM +0200, Jani Nikula wrote:
+> >>>> On Wed, 02 Feb 2022, Laurent Pinchart wrote:
+> >>>>> On Wed, Feb 02, 2022 at 02:24:28PM +0530, Kandpal Suraj wrote:
+> >>>>>> Changing rcar_du driver to accomadate the change of
+> >>>>>> drm_writeback_connector.base and drm_writeback_connector.encoder
+> >>>>>> to a pointer the reason for which is explained in the
+> >>>>>> Patch(drm: add writeback pointers to drm_connector).
+> >>>>>>
+> >>>>>> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
+> >>>>>> ---
+> >>>>>>   drivers/gpu/drm/rcar-du/rcar_du_crtc.h      | 2 ++
+> >>>>>>   drivers/gpu/drm/rcar-du/rcar_du_writeback.c | 8 +++++---
+> >>>>>>   2 files changed, 7 insertions(+), 3 deletions(-)
+> >>>>>>
+> >>>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h 
+> >>>>>> b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> >>>>>> index 66e8839db708..68f387a04502 100644
+> >>>>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> >>>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> >>>>>> @@ -72,6 +72,8 @@ struct rcar_du_crtc {
+> >>>>>>     const char *const *sources;
+> >>>>>>     unsigned int sources_count;
+> >>>>>>
+> >>>>>> +  struct drm_connector connector;
+> >>>>>> +  struct drm_encoder encoder;
+> >>>>>
+> >>>>> Those fields are, at best, poorly named. Furthermore, there's no 
+> >>>>> need in
+> >>>>> this driver or in other drivers using drm_writeback_connector to 
+> >>>>> create
+> >>>>> an encoder or connector manually. Let's not polute all drivers because
+> >>>>> i915 doesn't have its abstractions right.
+> >>>>
+> >>>> i915 uses the quite common model for struct inheritance:
+> >>>>
+> >>>>        struct intel_connector {
+> >>>>                struct drm_connector base;
+> >>>>                /* ... */
+> >>>>        }
+> >>>>
+> >>>> Same with at least amd, ast, fsl-dcu, hisilicon, mga200, msm, nouveau,
+> >>>> radeon, tilcdc, and vboxvideo.
+> >>>>
+> >>>> We could argue about the relative merits of that abstraction, but I
+> >>>> think the bottom line is that it's popular and the drivers using it are
+> >>>> not going to be persuaded to move away from it.
+> >>>
+> >>> Nobody said inheritance is bad.
+> >>>
+> >>>> It's no coincidence that the drivers who've implemented writeback so 
+> >>>> far
+> >>>> (komeda, mali, rcar-du, vc4, and vkms) do not use the abstraction,
+> >>>> because the drm_writeback_connector midlayer does, forcing the issue.
+> >>>
+> >>> Are you sure it's not a coincidence ? :-)
+> >>>
+> >>> The encoder and especially connector created by drm_writeback_connector
+> >>> are there only because KMS requires a drm_encoder and a drm_connector to
+> >>> be exposed to userspace (and I could argue that using a connector for
+> >>> writeback is a hack, but that won't change). The connector is "virtual",
+> >>> I still fail to see why i915 or any other driver would need to wrap it
+> >>> into something else. The whole point of the drm_writeback_connector
+> >>> abstraction is that drivers do not have to manage the writeback
+> >>> drm_connector manually, they shouldn't touch it at all.
+> >>
+> >> Laurent, I wanted to shift a bit from the question of drm_connector to
+> >> the question of drm_encoder being embedded in the
+> >> drm_writeback_connector.
+> >> In case of the msm driver the drm_encoder is not a lightweight entity,
+> >> but a full-featured driver part. Significant part of it can be shared
+> >> with the writeback implementation, if we allow using a pointer to the
+> >> external drm_encoder with the drm_writeback_connector.
+> >> Does the following patch set stand a chance to receive your ack?
+> >>   - Switch drm_writeback_connector to point to drm_encoder rather than
+> >> embedding it?
+> >>   - Create drm_encoder for the drm_writeback_connector when one is not
+> >> specified, so the current drivers can be left unchanged.
+> >>
+> > 
+> > I second Dmitry's request here. For the reasons he has mentioned along 
+> > with the possibility of the writeback encoder being shared across 
+> > display pipelines, strengthens our request of the drm encoder being a 
+> > pointer inside the drm_writeback_connector instead of embedding it.
+> > 
+> > Like I had shown in my RFC, in case the other drivers dont specify one,
+> > we can allocate one:
+> > 
+> > https://patchwork.kernel.org/project/dri-devel/patch/1642732195-25349-1-git-send-email-quic_abhinavk@quicinc.com/ 
+> > 
+> > 
+> > We think this should be a reasonable accomodation to the existing
+> > drm_writeback driver.
+> > 
+> > Thanks
+> > 
+> > Abhinav
+> > 
+> >>>
+> >>>> So I think drm_writeback_connector should *not* use the inheritance
+> >>>> abstraction because it's a midlayer that should leave that option to 
+> >>>> the
+> >>>> drivers. I think drm_writeback_connector needs to be changed to
+> >>>> accommodate that, and, unfortunately, it means current writeback users
+> >>>> need to be changed as well.
+> >>>>
+> >>>> I am not sure, however, if the series at hand is the right
+> >>>> approach. Perhaps writeback can be modified to allocate the stuff for
+> >>>> you if you prefer it that way, as long as the drm_connector is not
+> >>>> embedded in struct drm_writeback_connector.
+> >>>>
+> >>>>> Nack.
+> >>>>>
+> >>>>>>     struct drm_writeback_connector writeback;
+> >>>>>>   };
+> >>>>>>
+> >>>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c 
+> >>>>>> b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> >>>>>> index c79d1259e49b..5b1e83380c47 100644
+> >>>>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> >>>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> >>>>>> @@ -200,8 +200,10 @@ int rcar_du_writeback_init(struct 
+> >>>>>> rcar_du_device *rcdu,
+> >>>>>>   {
+> >>>>>>     struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
+> >>>>>>
+> >>>>>> -  wb_conn->encoder.possible_crtcs = 1 << 
+> >>>>>> drm_crtc_index(&rcrtc->crtc);
+> >>>>>> -  drm_connector_helper_add(&wb_conn->base,
+> >>>>>> +  wb_conn->base = &rcrtc->connector;
+> >>>>>> +  wb_conn->encoder = &rcrtc->encoder;
+> >>>>>> +  wb_conn->encoder->possible_crtcs = 1 << 
+> >>>>>> drm_crtc_index(&rcrtc->crtc);
+> >>>>>> +  drm_connector_helper_add(wb_conn->base,
+> >>>>>>                              &rcar_du_wb_conn_helper_funcs);
+> >>>>>>
+> >>>>>>     return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
+> >>>>>> @@ -220,7 +222,7 @@ void rcar_du_writeback_setup(struct 
+> >>>>>> rcar_du_crtc *rcrtc,
+> >>>>>>     struct drm_framebuffer *fb;
+> >>>>>>     unsigned int i;
+> >>>>>>
+> >>>>>> -  state = rcrtc->writeback.base.state;
+> >>>>>> +  state = rcrtc->writeback.base->state;
+> >>>>>>     if (!state || !state->writeback_job)
+> >>>>>>             return;
+> >>>>>>
 
-are available in the Git repository at:
+-- 
+Regards,
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.17-2022-02-09
-
-for you to fetch changes up to 6e7545ddb13416fd200e0b91c0acfd0404e2e27b:
-
-  drm/amdgpu/display: change pipe policy for DCN 2.0 (2022-02-09 17:20:47 -0500)
-
-----------------------------------------------------------------
-amd-drm-fixes-5.17-2022-02-09:
-
-amdgpu:
-- DCN 3.1 display fixes
-- GC 10.3.1 harvest fix
-- Page flip irq fix
-- hwmon label fix
-- DCN 2.0 display fix
-
-----------------------------------------------------------------
-Aaron Liu (1):
-      drm/amdgpu: add utcl2_harvest to gc 10.3.1
-
-Alex Deucher (1):
-      drm/amdgpu/display: change pipe policy for DCN 2.0
-
-Dmytro Laktyushkin (1):
-      drm/amd/display: fix yellow carp wm clamping
-
-Mario Limonciello (1):
-      display/amd: decrease message verbosity about watermarks table failure
-
-Roman Li (1):
-      drm/amd/display: Cap pflip irqs per max otg number
-
-Yang Wang (1):
-      drm/amd/pm: fix hwmon node of power1_label create issue
-
-Zhan Liu (1):
-      drm/amd/display: keep eDP Vdd on when eDP stream is already enabled
-
- drivers/gpu/drm/amd/amdgpu/gfxhub_v2_1.c           |  7 ++-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  2 +-
- .../drm/amd/display/dc/clk_mgr/dcn31/dcn31_smu.c   |  6 ++-
- drivers/gpu/drm/amd/display/dc/core/dc.c           |  2 +
- drivers/gpu/drm/amd/display/dc/dc.h                |  1 +
- .../amd/display/dc/dce110/dce110_hw_sequencer.c    | 24 ++++++++-
- .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  |  2 +-
- .../gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.c    | 61 ++++++++++++----------
- drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  3 +-
- 9 files changed, 71 insertions(+), 37 deletions(-)
+Laurent Pinchart
