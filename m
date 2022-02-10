@@ -2,100 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17E624B0B36
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2700C4B0B3B
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:47:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC824898C4;
-	Thu, 10 Feb 2022 10:46:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53DCA10E7EF;
+	Thu, 10 Feb 2022 10:47:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2063.outbound.protection.outlook.com [40.107.237.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7B06898C4;
- Thu, 10 Feb 2022 10:46:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hjToKzJo6aAJNlUy8oBFNkXFdJkw9SHGPfqjgQxo0xreISaR0rBuaKi/MMASr4dmt7AOUN9jGOwJYqWTzJ9qvpVZAjGSddlku2olcn71b8f/helyOArqPbwkuFJ3W86ETqLB6ti2P4DVtNu1g9oYDUMDB6E+EqEIowipkw36FV9md9mFajzb73nSpQr0sjZCnFr6kogi7i2CN+WTad6fxCZKF6fU6TXjCiT3tWmB5k9rFrCaBlYvVC1PhoPj/063+d5ZnJUYSbq3JVSs7KIXnaWWlxvbhwDr5I3zIOrR/h+03VKevAVxcAI5An9YPd9cmMx1dbwJbwuJ4zmhXwEQ8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bHJdHP3XsDlfuJQe2q73BClNb8AfWL94Ii6kL948ayI=;
- b=LtcPoxwkaRjehZSTD7JdnXQMJgP3VY1A+b91VYRhqTqDV8TVl66nnFfbNZZuF44829+rnWXoURG/GDxXgyOXviTSDmUnveH5jyofsq57AWSzyvIfJ82CRSfUScx5QZdHDYpqmMz3jJiLSNKRpjUgZD5PFVSpbrX0rkMbat/OxhIv5eEoUTLTHgHFz9rkJILTco03Lp4S9wa4wt16v/Y2UM5rK2zPAWW0WgKlmQhYTJV9dg59IIX+Oi9t1hyejWyKyvShVW0uXJ3aVnJcnH9ha2YrjM5roDpIn5VkAVJfpHxsgDlkDo5RHTholib0nQKjZpzeRHCQLeQXEZ6TbOyupw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com; dmarc=pass
- (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
- (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bHJdHP3XsDlfuJQe2q73BClNb8AfWL94Ii6kL948ayI=;
- b=t08YNwMf5i9ZNa/uMOjZPhXqIJjY0dOhIOONX79TkOQJ0jqVDbblePK4d2coGYabr5y/3ZfF467QkdC3eGvlZcKe2FJZThmxNgxQOAzNVgdO02jCEcA0IFU4OagruqrXRqKvKu38lLim1oOSRqTThLn5fLoYDjT00Gd3lFw9SjN+OhfYi6qVtHztn1bB95gGIhuxzpm5s9fuhwmyF90ps09zalTZ2SLEL+D/TboXUIQqSAiEADGr0vukOHkZKMr4I6AIC9nCdMr6YoGW3BqHFDNfyay9XyA2k73kXXg50tCQ+DA1KX8COtHf5ofgVXEMPGeA9USGEoOOCnp5bJ0fUg==
-Received: from MW4PR03CA0174.namprd03.prod.outlook.com (2603:10b6:303:8d::29)
- by BL1PR12MB5378.namprd12.prod.outlook.com (2603:10b6:208:31d::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.14; Thu, 10 Feb
- 2022 10:46:13 +0000
-Received: from CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8d:cafe::10) by MW4PR03CA0174.outlook.office365.com
- (2603:10b6:303:8d::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11 via Frontend
- Transport; Thu, 10 Feb 2022 10:46:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.238) by
- CO1NAM11FT058.mail.protection.outlook.com (10.13.174.164) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4975.11 via Frontend Transport; Thu, 10 Feb 2022 10:46:12 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
- (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Thu, 10 Feb 2022 10:46:12 +0000
-Received: from nvdebian.localnet (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Thu, 10 Feb 2022
- 02:46:08 -0800
-From: Alistair Popple <apopple@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>, Dan Williams
- <dan.j.williams@intel.com>, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 12/27] mm: refactor the ZONE_DEVICE handling in
- migrate_vma_pages
-Date: Thu, 10 Feb 2022 21:46:05 +1100
-Message-ID: <2486253.gG6I7sY731@nvdebian>
-In-Reply-To: <20220210072828.2930359-13-hch@lst.de>
-References: <20220210072828.2930359-1-hch@lst.de>
- <20220210072828.2930359-13-hch@lst.de>
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB30910E7EF
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 10:47:10 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id h18so3438186lja.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 02:47:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Si66No5CKFrFvpoMi2VcVwPmZfUU/I2cyHdKw5dbztA=;
+ b=grxqdAc1f1QFBwusZUmsIV/Bf34oCwmv76M5RXlBdAU6lzaEUyBdlgOoYGjz1fipc8
+ kVoV7BDY6hk62RueMygbHddt+2QP2D93WgS61WXRge/a8d6/o8Rxyz1riTqJIDTrWI9n
+ PhnzbByYtTFxkkEEai2VYJzKxYH872gu/wqI2OHKCtcih2eyn4BEyUfgUZfTlqw4eYvT
+ tsVNKMGKQcKvSyIQWlZi6gHz2jsRab71z66ipFAAod3MdaYvFwaV3AIHEW2U9jZEe8mu
+ Ri64sros0J4oSd5QZqDw/ABCqmHuYpbuce+QPF3E2OPk/sTlb+z4s4kmkB2NPs2kz7Ya
+ W+Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Si66No5CKFrFvpoMi2VcVwPmZfUU/I2cyHdKw5dbztA=;
+ b=K+LvdxuWcSahT4ZBclKFTX1bcfAxpEpkWMhsXazQx4cRNvb/HwbANV1AYM5DSJawVe
+ WidAM0XglljWqivBgMZu0FD7YMNPh8Yx7UEAu3gPszPzCutK/HIp2BmdxCcV5KBhLL56
+ 9LASstItJIAcK2HkPvD4Z461o38qg+iXPlAqq96i4YMipRdTToHe1z2hjX8LlGIjybV5
+ UGH5zdr1KGPImNBzF9e9ave8x+rMeSeOr4bSdSV1yGM0hvM/ihO70msuUY3qOqBxYg0O
+ 8ou5ThSBOg4L54V3oiNa9fMQUsiktMIq5vjQiCXMSLhdmKAQ4273i6nCWLgGikTUQVBC
+ e8Dg==
+X-Gm-Message-State: AOAM531CAp5MJ0XW3CHkVTZelWHdRMIYjZcf4TnDaunCiYj4oI4VfnZy
+ HhfhtTI2kh8XG3IY0BG+CRvvcA==
+X-Google-Smtp-Source: ABdhPJxCjXGEHzBkaWIxlHF+2lJcctYy+Oasm0VbIfBw9xAhVkv0yGk+w6PTwRAzG4NWOan8BDUi1w==
+X-Received: by 2002:a2e:8746:: with SMTP id q6mr4647726ljj.308.1644490029030; 
+ Thu, 10 Feb 2022 02:47:09 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id k1sm2734192lfu.136.2022.02.10.02.47.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Feb 2022 02:47:08 -0800 (PST)
+Message-ID: <41aa2693-dc2f-27c3-cf64-43522c1503e3@linaro.org>
+Date: Thu, 10 Feb 2022 13:47:08 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.126.230.35]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 77d714c6-ed32-4c04-57fb-08d9ec828e85
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5378:EE_
-X-Microsoft-Antispam-PRVS: <BL1PR12MB537860F44DF5F20D4F6BD0E5DF2F9@BL1PR12MB5378.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kcbEHdE6kpF7sxS6GDIcAxii/TzCQjGIOv1TKIZtg6Ntv2mjMBwPQzOd7uEpxfJFW9kF/q1L5hMlfd+jjQdqHYfi0m4HivdKa2wvwAlxw5L2Yl7kldWjwvsMm7yferitovqh8uxPP8jrJlImtwkVA9B/MtmzGNy7K1dmoqcxjk9KK6VgBjxiq80R81cJKsxuu9HhQDb96prDtj93rHwLt/EEVIhTC4mwOFymNZ8ZFozxwS3sfvoQlnc/kL4PE9DrHTu+iaVFHSHaT18A7Cnz2jdgMWU42dfr35WOnYsGQQa9fO51z5H+5/IFFQZJUbytM95QfblP/PHlYKsb7eYSrJcvkfIPpSdtQe06Mi9GMX+gZBIrTTNDAP7Zd19+DbEQpAsx+7KUr4JmcfKohfrOS4VQndBluxggjQSCnpA/+Iw2l151ToUohfESZprkWngb6FnR5ZFgUVpDurSVTFnIfjoV/w1aDW+cY5NA+Byztjfth5DRsGx3Q8sZDCMKu8saQQWNwrDBlS6nWZX2N9FVfp6vh83uMzQny+zcUElG6z4gLMI0X6kwxhRBN7mYj0kGjUSo1qM9B5gGI7K03X6hcr+ZQjarYXAmD/41iZeuhx7X7XsyzezEIqrEBKjTGvOGrzUKtDD9P8IVqdobW0rwPQ/6UaYvcth/3SvXre8GrN21GFJRhUiBvvV90U+V4T9SPwJTSp4OM5sJoTZWqLJ8Zg==
-X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(508600001)(26005)(5660300002)(54906003)(81166007)(186003)(426003)(336012)(7416002)(316002)(40460700003)(86362001)(356005)(16526019)(110136005)(70206006)(8676002)(33716001)(70586007)(9686003)(83380400001)(6666004)(36860700001)(47076005)(4326008)(82310400004)(2906002)(8936002)(9576002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 10:46:12.7518 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77d714c6-ed32-4c04-57fb-08d9ec828e85
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT058.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5378
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [REPOST PATCH v4 10/13] drm/msm/disp/dpu1: Add support for DSC in
+ topology
+Content-Language: en-GB
+To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
+References: <20220210103423.271016-1-vkoul@kernel.org>
+ <20220210103423.271016-11-vkoul@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220210103423.271016-11-vkoul@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,72 +73,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, Ralph Campbell <rcampbell@nvidia.com>,
- dri-devel@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>,
- linux-mm@kvack.org, nouveau@lists.freedesktop.org,
- Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Ben Skeggs <bskeggs@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Logan Gunthorpe <logang@deltatee.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alistair Popple <apopple@nvidia.com>
-
-On Thursday, 10 February 2022 6:28:13 PM AEDT Christoph Hellwig wrote:
-> Make the flow a little more clear and prepare for adding a new
-> ZONE_DEVICE memory type.
+On 10/02/2022 13:34, Vinod Koul wrote:
+> For DSC to work we typically need a 2,2,1 configuration. This should
+> suffice for resolutions up to 4k. For more resolutions like 8k this won't
+> work.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Also, it is better to use 2 LMs and DSC instances as half width results
+> in lesser power consumption as compared to single LM, DSC at full width.
+> 
+> The panel has been tested only with 2,2,1 configuration, so for
+> now we blindly create 2,2,1 topology when DSC is enabled
+> 
+> Co-developed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > ---
->  mm/migrate.c | 27 ++++++++++++---------------
->  1 file changed, 12 insertions(+), 15 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 +++++++++++++
+>   drivers/gpu/drm/msm/msm_drv.h               |  2 ++
+>   2 files changed, 15 insertions(+)
 > 
-> diff --git a/mm/migrate.c b/mm/migrate.c
-> index 30ecd7223656c1..746e1230886ddb 100644
-> --- a/mm/migrate.c
-> +++ b/mm/migrate.c
-> @@ -2788,24 +2788,21 @@ void migrate_vma_pages(struct migrate_vma *migrate)
->  
->  		mapping = page_mapping(page);
->  
-> -		if (is_zone_device_page(newpage)) {
-> -			if (is_device_private_page(newpage)) {
-> -				/*
-> -				 * For now only support private anonymous when
-> -				 * migrating to un-addressable device memory.
-> -				 */
-> -				if (mapping) {
-> -					migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
-> -					continue;
-> -				}
-> -			} else {
-> -				/*
-> -				 * Other types of ZONE_DEVICE page are not
-> -				 * supported.
-> -				 */
-> +		if (is_device_private_page(newpage)) {
-> +			/*
-> +			 * For now only support private anonymous when migrating
-> +			 * to un-addressable device memory.
-> +			 */
-> +			if (mapping) {
->  				migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
->  				continue;
->  			}
-> +		} else if (is_zone_device_page(newpage)) {
-> +			/*
-> +			 * Other types of ZONE_DEVICE page are not supported.
-> +			 */
-> +			migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
-> +			continue;
->  		}
->  
->  		r = migrate_page(mapping, newpage, page, MIGRATE_SYNC_NO_COPY);
-> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 95a7bf362e81..13ccb7b3cce5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -574,8 +574,21 @@ static struct msm_display_topology dpu_encoder_get_topology(
+>   	topology.num_enc = 0;
+>   	topology.num_intf = intf_count;
+>   
+> +	if (dpu_enc->dsc) {
+> +		/* In case of Display Stream Compression DSC, we would use
+> +		 * 2 encoders, 2 line mixers and 1 interface
+> +		 * this is power optimal and can drive up to (including) 4k
+> +		 * screens
+> +		 */
+> +		topology.num_enc = 2;
+> +		topology.num_dsc = 2;
+> +		topology.num_intf = 1;
+> +		topology.num_lm = 2;
+> +	}
+> +
+>   	return topology;
+>   }
+> +
+>   static int dpu_encoder_virt_atomic_check(
+>   		struct drm_encoder *drm_enc,
+>   		struct drm_crtc_state *crtc_state,
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index 6425a42e997c..994d895d1a47 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -103,12 +103,14 @@ enum msm_event_wait {
+>    * @num_enc:      number of compression encoder blocks used
+>    * @num_intf:     number of interfaces the panel is mounted on
+>    * @num_dspp:     number of dspp blocks used
+> + * @num_dsc:      number of Display Stream Compression (DSC) blocks used
+>    */
+>   struct msm_display_topology {
+>   	u32 num_lm;
+>   	u32 num_enc;
+>   	u32 num_intf;
+>   	u32 num_dspp;
+> +	u32 num_dsc;
+>   };
+>   
+>   /**
 
 
-
-
+-- 
+With best wishes
+Dmitry
