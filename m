@@ -2,83 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1819D4B0B74
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C314B0B7B
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 11:55:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFF5610E7F9;
-	Thu, 10 Feb 2022 10:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 518E110E7FA;
+	Thu, 10 Feb 2022 10:55:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3220010E7F9
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 10:53:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644490422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JCuMYRkRk63t/uEdzFuVnTeGbIgzIgM+Be/IRayUXNE=;
- b=HP6LiHyIbRSO5YN/ObcqE1pST1a4ifY6VCrEM2DbGTuWhsYr+2bZdaXvHhz1yMnQwaR6MZ
- heaVIAcuT9scEk5K/M9SB1xSfq2cY/IjrLdC5VXfVhV98zWqVqoG6aXuuQGVCSnCTs06G6
- H9kC8IlWyVOkpxxrXxfj5IrW5cyk2jg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-91-7X1By7bbNnqbioU05AIIHw-1; Thu, 10 Feb 2022 05:53:41 -0500
-X-MC-Unique: 7X1By7bbNnqbioU05AIIHw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i186-20020a1c3bc3000000b0037bb9f6feeeso2708725wma.5
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 02:53:41 -0800 (PST)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47A3C10E7FA
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 10:55:32 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id h8so6416917lfj.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 02:55:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=gAbvkkOMr7PxpULPtXuB0NxD4mTH8ipHNDayBfqdakY=;
+ b=KurLFWxVHDrlTwpwvUuZQ1Mh5fqIYbgqlEzuomiNqwTvgqpguB4OTtOqbR8bs86gRg
+ vD2Q0Ir7QyYtRQjV4HymrwX1TKUb3zrQpocNjaNbb3lAxjli8wee0ZozTwg4aKvvjPFL
+ Y/G/SPrvNs88DXKiKIDeBYJhsaDlTeQz5Tg9yF9Mukp8TvNbbB7EtOv6KoUNl9y335pb
+ AWTvG931NnBR/PrLaEkFKCwPPbrYZ+/6WC590Jfm8xgHBqVUr1OrpjMGqmQpql7eOP6s
+ tNRg9yNPzp9ow7/NAy8kYN76F6hsXQPodez1XUSQZYH1lI8UC2Wjn/Ioo/YNZcn8iI5e
+ gKHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JCuMYRkRk63t/uEdzFuVnTeGbIgzIgM+Be/IRayUXNE=;
- b=DecGUnLhj/rUWo64ekoauI/aokgxCvhm021ZY6hDZNM0I3MCRs+2L/QOOaKT1sSViA
- NK9DN4OERmygFgQbpA2rCMETPKsIvjuDzI5j8y2kQoDRgQAIFzfRkdq78IAS5iC5RBCC
- S3IVyl8MfNzEEs/99DKimXnAMl+UKI1b92DUdvy5f8HsBCY1EciXboQfyzdijvBK49Bv
- EjhXxZrM8l+2lTZLRG5Y9EUbgrorXrH8Wkg4CzL11dkCr3pE7ZLxMn1+zfGN4MsMjgqx
- e+VWeOc6/ynpRWC3Gf8wl93LJEdrpgOiK/HYYwiE9056OR8USBuehgd6tRSxkv3G18I0
- AOkQ==
-X-Gm-Message-State: AOAM532rZHaCLkPxTZ//fUORNHGku7XWRmNmAFskED9+je0hC6v4D8A6
- VAKOrUuV13uUqDRFPu4wArG2hUaFBrrXThxo3YtMwAdFcxG2zjoCTlA+VEW89lg+BcDz/0RVhjZ
- N97n4EJ+bSqGkfq+zP+f1z60UF++A
-X-Received: by 2002:a05:600c:1988:: with SMTP id
- t8mr1662397wmq.66.1644490420017; 
- Thu, 10 Feb 2022 02:53:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwkvT5JZHYXYtY2UOZZws+goRiFcmq1p9MqivWc75eF2pkGueO44gfahvAR0YnoX7ep2nRGuw==
-X-Received: by 2002:a05:600c:1988:: with SMTP id
- t8mr1662365wmq.66.1644490419644; 
- Thu, 10 Feb 2022 02:53:39 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70b:f900:7b04:69ec:2caf:3b42?
- (p200300cbc70bf9007b0469ec2caf3b42.dip0.t-ipconnect.de.
- [2003:cb:c70b:f900:7b04:69ec:2caf:3b42])
- by smtp.gmail.com with ESMTPSA id 11sm21492095wrb.30.2022.02.10.02.53.38
+ bh=gAbvkkOMr7PxpULPtXuB0NxD4mTH8ipHNDayBfqdakY=;
+ b=pAI2jhDo7AmpbvxnpAQBGWd74SOBPS2e9HOt4NrA7CZWM+C6EuqHvXNIAOaaRuxChW
+ PDq90FKN8+fAT6foBwDZgm0fUrLQlYXyI7EoNN3LNdE1YZ8aDb666cmwG/NhC7JZWtmc
+ sHHa5jySJl1iai4W/LUqXARDLM0y6jL/99gkZHBBqb5DUgSHtAWpuBsdM0vrXIZJQLEQ
+ AnPay/Ppt1Fr3sVVWJt3prl3omiAvu6Vv54RnzBFT7TC5E4fPRXwDIZTqkORbb1plLwP
+ XoJp60wAJ68vC2wr6nGmJi+Qsr6QZkGlBSLtPs0ahkl1f9Nj0qqz931VBhmvhvYZ8ZNe
+ JXxg==
+X-Gm-Message-State: AOAM5303PYD9V6DH6JzWZZb5f570kUqqgnODfRhlkOUGA8aqb+FMWkAV
+ H6sE4ICzW/K7T2VVVeahV0sRXA==
+X-Google-Smtp-Source: ABdhPJwwSMqQiT+3qMl2wffuwYEg7FwRpyq6E9ToujIF0jMlsoGmBMJxIdnAVQKe0fK/8rkVJd5dRw==
+X-Received: by 2002:ac2:598e:: with SMTP id w14mr4783080lfn.218.1644490530615; 
+ Thu, 10 Feb 2022 02:55:30 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id d38sm2218378lfv.8.2022.02.10.02.55.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 02:53:39 -0800 (PST)
-Message-ID: <9117b387-3c73-0236-51d1-9e6baf43b34e@redhat.com>
-Date: Thu, 10 Feb 2022 11:53:38 +0100
+ Thu, 10 Feb 2022 02:55:30 -0800 (PST)
+Message-ID: <3035968b-8323-5380-afe3-4ddcc1ca65c4@linaro.org>
+Date: Thu, 10 Feb 2022 13:55:27 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 2/3] mm/gup.c: Migrate device coherent pages when
- pinning instead of failing
-To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org
-References: <cover.0d3c846b1c6c294e055ff7ebe221fab9964c1436.1644207242.git-series.apopple@nvidia.com>
- <dd9960b327ca49a9103d9f97868ea7b0b81186c4.1644207242.git-series.apopple@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <dd9960b327ca49a9103d9f97868ea7b0b81186c4.1644207242.git-series.apopple@nvidia.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/91.5.1
+Subject: Re: [REPOST PATCH v4 08/13] drm/msm/disp/dpu1: Don't use DSC with
+ mode_3d
+Content-Language: en-GB
+To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
+References: <20220210103423.271016-1-vkoul@kernel.org>
+ <20220210103423.271016-9-vkoul@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220210103423.271016-9-vkoul@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,142 +73,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex.sierra@amd.com, rcampbell@nvidia.com, willy@infradead.org,
- jhubbard@nvidia.com, Felix.Kuehling@amd.com, dri-devel@lists.freedesktop.org,
- linux-xfs@vger.kernel.org, jglisse@redhat.com, amd-gfx@lists.freedesktop.org,
- jgg@nvidia.com, linux-ext4@vger.kernel.org, hch@lst.de
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07.02.22 05:26, Alistair Popple wrote:
-> Currently any attempts to pin a device coherent page will fail. This is
-> because device coherent pages need to be managed by a device driver, and
-> pinning them would prevent a driver from migrating them off the device.
+On 10/02/2022 13:34, Vinod Koul wrote:
+> We cannot enable mode_3d when we are using the DSC. So pass
+> configuration to detect DSC is enabled and not enable mode_3d
+> when we are using DSC
 > 
-> However this is no reason to fail pinning of these pages. These are
-> coherent and accessible from the CPU so can be migrated just like
-> pinning ZONE_MOVABLE pages. So instead of failing all attempts to pin
-> them first try migrating them out of ZONE_DEVICE.
+> We add a helper dpu_encoder_helper_get_dsc() to detect dsc
+> enabled and pass this to .setup_intf_cfg()
 > 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+
+You seem to insist on this.
+Ok, lets agree that you did not test any other topologies and let 
+anybody adding support for SDE_RM_TOPOLOGY_DUALPIPE_3DMERGE_DSC handle this.
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 4 ++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 4 ++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c           | 7 ++++++-
+>   3 files changed, 14 insertions(+), 1 deletion(-)
 > 
-> Changes for v2:
-> 
->  - Added Felix's Acked-by
->  - Fixed missing check for dpage == NULL
-> 
->  mm/gup.c | 105 ++++++++++++++++++++++++++++++++++++++++++++++++++------
->  1 file changed, 95 insertions(+), 10 deletions(-)
-> 
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 56d9577..5e826db 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -1861,6 +1861,60 @@ struct page *get_dump_page(unsigned long addr)
->  
->  #ifdef CONFIG_MIGRATION
->  /*
-> + * Migrates a device coherent page back to normal memory. Caller should have a
-> + * reference on page which will be copied to the new page if migration is
-> + * successful or dropped on failure.
-> + */
-> +static struct page *migrate_device_page(struct page *page,
-> +					unsigned int gup_flags)
-> +{
-> +	struct page *dpage;
-> +	struct migrate_vma args;
-> +	unsigned long src_pfn, dst_pfn = 0;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> index 34a6940d12c5..ed37a4c21596 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> @@ -70,6 +70,10 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+>   	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_CMD;
+>   	intf_cfg.stream_sel = cmd_enc->stream_sel;
+>   	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+> +	intf_cfg.dsc = dpu_encoder_helper_get_dsc(phys_enc);
+> +	if (intf_cfg.dsc)
+> +		intf_cfg.mode_3d = 0;
 > +
-> +	lock_page(page);
-> +	src_pfn = migrate_pfn(page_to_pfn(page)) | MIGRATE_PFN_MIGRATE;
-> +	args.src = &src_pfn;
-> +	args.dst = &dst_pfn;
-> +	args.cpages = 1;
-> +	args.npages = 1;
-> +	args.vma = NULL;
-> +	migrate_vma_setup(&args);
-> +	if (!(src_pfn & MIGRATE_PFN_MIGRATE))
-> +		return NULL;
+>   	ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> index ddd9d89cd456..218009855fca 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> @@ -284,6 +284,10 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
+>   	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_VID;
+>   	intf_cfg.stream_sel = 0; /* Don't care value for video mode */
+>   	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+> +	intf_cfg.dsc = dpu_encoder_helper_get_dsc(phys_enc);
+> +	if (intf_cfg.dsc)
+> +		intf_cfg.mode_3d = 0;
 > +
-> +	dpage = alloc_pages(GFP_USER | __GFP_NOWARN, 0);
+>   	if (phys_enc->hw_pp->merge_3d)
+>   		intf_cfg.merge_3d = phys_enc->hw_pp->merge_3d->idx;
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> index 49659165cea8..6d5268b7da90 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> @@ -536,7 +536,12 @@ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+>   
+>   	intf_cfg |= (cfg->intf & 0xF) << 4;
+>   
+> -	if (cfg->mode_3d) {
+> +	/* In DSC we can't set merge, so check for dsc and complain */
+> +	if (cfg->mode_3d && cfg->dsc)
+> +		pr_err("DPU1: DSC and Merge 3D both are set!! it may not work\n");
 > +
-> +	/*
-> +	 * get/pin the new page now so we don't have to retry gup after
-> +	 * migrating. We already have a reference so this should never fail.
-> +	 */
-> +	if (dpage && WARN_ON_ONCE(!try_grab_page(dpage, gup_flags))) {
-> +		__free_pages(dpage, 0);
-> +		dpage = NULL;
-> +	}
-> +
-> +	if (dpage) {
-> +		lock_page(dpage);
-> +		dst_pfn = migrate_pfn(page_to_pfn(dpage));
-> +	}
-> +
-> +	migrate_vma_pages(&args);
-> +	if (src_pfn & MIGRATE_PFN_MIGRATE)
-> +		copy_highpage(dpage, page);
-> +	migrate_vma_finalize(&args);
-> +	if (dpage && !(src_pfn & MIGRATE_PFN_MIGRATE)) {
-> +		if (gup_flags & FOLL_PIN)
-> +			unpin_user_page(dpage);
-> +		else
-> +			put_page(dpage);
-> +		dpage = NULL;
-> +	}
-> +
-> +	return dpage;
-> +}
-> +
-> +/*
->   * Check whether all pages are pinnable, if so return number of pages.  If some
->   * pages are not pinnable, migrate them, and unpin all pages. Return zero if
->   * pages were migrated, or if some pages were not successfully isolated.
-> @@ -1888,15 +1942,40 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
->  			continue;
->  		prev_head = head;
->  		/*
-> -		 * If we get a movable page, since we are going to be pinning
-> -		 * these entries, try to move them out if possible.
-> +		 * Device coherent pages are managed by a driver and should not
-> +		 * be pinned indefinitely as it prevents the driver moving the
-> +		 * page. So when trying to pin with FOLL_LONGTERM instead try
-> +		 * migrating page out of device memory.
->  		 */
->  		if (is_dev_private_or_coherent_page(head)) {
-> +			/*
-> +			 * device private pages will get faulted in during gup
-> +			 * so it shouldn't be possible to see one here.
-> +			 */
->  			WARN_ON_ONCE(is_device_private_page(head));
-> -			ret = -EFAULT;
-> -			goto unpin_pages;
-> +			WARN_ON_ONCE(PageCompound(head));
-> +
-> +			/*
-> +			 * migration will fail if the page is pinned, so convert
-> +			 * the pin on the source page to a normal reference.
-> +			 */
-> +			if (gup_flags & FOLL_PIN) {
-> +				get_page(head);
-> +				unpin_user_page(head);
-> +			}
-> +
-> +			pages[i] = migrate_device_page(head, gup_flags);
+> +	/* set merge only when dsc is not set */
+> +	if (cfg->mode_3d && !cfg->dsc) {
+>   		intf_cfg |= BIT(19);
+>   		intf_cfg |= (cfg->mode_3d - 0x1) << 20;
+>   	}
 
-
-
-For ordinary migrate_pages(), we'll unpin all pages and return 0 so the
-caller will retry pinning by walking the page tables again.
-
-Why can't we apply the same mechanism here? This "let's avoid another
-walk" looks unnecessary complicated to me, but I might be wrong.
 
 -- 
-Thanks,
-
-David / dhildenb
-
+With best wishes
+Dmitry
