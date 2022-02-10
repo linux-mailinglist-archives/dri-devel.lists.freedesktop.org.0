@@ -2,67 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC8AC4B017B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 01:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A6F4B0183
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Feb 2022 01:25:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5F6010E31B;
-	Thu, 10 Feb 2022 00:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9CE10E343;
+	Thu, 10 Feb 2022 00:25:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89E1310E31B
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Feb 2022 00:10:36 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id m4so11366663ejb.9
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Feb 2022 16:10:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=KuWfWfuWnqE3Lf1pLThOJ9cbGV0fB5/az1fd713TDVM=;
- b=eORsgRc5opCCy82zZDyt/YscGu57swjkPfQHflgTUMgjhFWIaTU9Avbx8cRoq0Ja+0
- pPdE0URc2/SwKMYrfmpYNRCJlHk9mHA9K6htJlKYQkVrIVjWCL41AaKObtFjGuIbBb6m
- hafyl4vx9aXs9g6fxXOF8xxNLh56Nr+2udy3B6Uy8hagxNMDojP5oKiFOECZJ/S5n4l3
- 3AaeEKJbs8rAmJNha6Mj8uASFVLRJNnl0Y4A8t7V4I80A9SG/2jG5uoDSwDc+ldo8UoO
- Cd+Q+oxKWOFppQQz+jeUO69JYP6ixXpx/38c+iUWuwM6JoabkalmscwpEj4hQ3LIZYuw
- DZsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KuWfWfuWnqE3Lf1pLThOJ9cbGV0fB5/az1fd713TDVM=;
- b=DDqGiCCOSkPOzOemuoZVaRrfhIC+yg7dmt/UXttMCzjB6JwhoGBuID58PzwSDusKxm
- ByMf5odCZTrWqBMt531se0CDhjRkoKNF3QKxcvq8fCNArRGp4KEBCJ5bcsDgZpuBMthK
- 2YdpQ0thuhjfQkyhLk65Qv9Cc0sDueVKPhkFolXFulhIuaKsU0axACvz9CHqltHLMFVH
- VS79kue699BZQc2jX1V9c7mE6drB+rJEwJMfGZtobREe2gRn9SYfqScnS4y6UGHi4UJX
- 1PrSx4Vl83Ca+HbnvsCDP4uQ4FbtD2xxRwax07whbDHJoj26jRVoFf+f4+l5UMe548fA
- cR7A==
-X-Gm-Message-State: AOAM530v87E/AKsyGjJt+fWZ43lZ7oDdesexgBE5bo4OPyOtEpKJexlq
- f/9RI0dhxE+ZSyabdcEcc7Y=
-X-Google-Smtp-Source: ABdhPJz5HdwaLCZg0YGvrdms4wZCJ7d2vvjkkE7V8xjEya3YrI6hanWQq3TZeFNN4LgM/36xxIBSKQ==
-X-Received: by 2002:a17:906:4781:: with SMTP id
- cw1mr4273977ejc.264.1644451833902; 
- Wed, 09 Feb 2022 16:10:33 -0800 (PST)
-Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
- by smtp.gmail.com with ESMTPSA id
- i6sm8992267edf.20.2022.02.09.16.10.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Feb 2022 16:10:33 -0800 (PST)
-Message-ID: <3492afbf-b9fc-d5f5-6f7a-2157442d8209@gmail.com>
-Date: Thu, 10 Feb 2022 01:10:32 +0100
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8719510E343;
+ Thu, 10 Feb 2022 00:25:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1644452754; x=1675988754;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Bqojth4998kNzZqDtTnDXAIvmFzCH/6UNh+11JcMBts=;
+ b=p/Adc+w7FFXUwKCMi833F3dGzAr+9/Bq6qbuSkX5NpVUSanWnklU1JD5
+ KMLRSCt3A/yYDAw9Np6WWyHbQuaQSsSaptEMa3sIBbX7Iq7lB43k1P+dp
+ 7c4xv35xBkJDhIFXmbTO2DaohY/fU8dC4N6h/sSHp02d9Qly429kKR6vy k=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 09 Feb 2022 16:25:54 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2022 16:25:53 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Wed, 9 Feb 2022 16:25:53 -0800
+Received: from [10.111.162.111] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 9 Feb 2022
+ 16:25:51 -0800
+Message-ID: <0bc25257-b866-7c95-efa8-ac7eac96b316@quicinc.com>
+Date: Wed, 9 Feb 2022 16:25:49 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 19/23] arm64: dts: rockchip: rk3568-evb: Enable VOP2
- and hdmi
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v5 3/6] drm/msm/dpu: get INTF blocks directly rather than
+ through RM
 Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
-References: <20220209095350.2104049-1-s.hauer@pengutronix.de>
- <20220209095350.2104049-20-s.hauer@pengutronix.de>
-From: Johan Jonker <jbx6244@gmail.com>
-In-Reply-To: <20220209095350.2104049-20-s.hauer@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20220121210618.3482550-1-dmitry.baryshkov@linaro.org>
+ <20220121210618.3482550-4-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220121210618.3482550-4-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,160 +68,368 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sascha,
 
-Something with port and endpoint gives notifications.
-Somehow with the conversion of rockchip,dw-hdmi.txt to YAML not all SoC
-options were checked/covered (see rk3328 and rk3568).
 
-Allow multiple vop:
-port or
-port@0
-1x vop -> endpoint
-
-2x vop -> endpoint@0
-       -> endpoint@1
-
-Also allow for connector:
-(not all existing DT have this yet)
-port@1
-      -> endpoint
-
-See also at graph.yaml
-===
-
-dtc -I dtb -O dts rk3568-evb1-v10.dtb
-<stdout>: Warning (avoid_unnecessary_addr_size):
-/hdmi@fe0a0000/ports/port@1: unnecessary #address-cells/#size-cells
-without "ranges" or child "reg" property
-<stdout>: Warning (graph_child_address): /hdmi@fe0a0000/ports/port@0:
-graph node has single child node 'endpoint@0',
-#address-cells/#size-cells are not necessary
-<stdout>: Warning (graph_child_address): /hdmi@fe0a0000/ports/port@1:
-graph node has single child node 'endpoint', #address-cells/#size-cells
-are not necessary
-
-===
-
-ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make dtbs_check
-DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-
-  DTC     arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dt.yaml
-  CHECK   arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dt.yaml
-/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dt.yaml: hdmi@fe0a0000:
-ports: 'port' is a required property
-	From schema:
-/home/user/Downloads/linux-next-20220202/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-  DTC     arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dt.yaml
-  CHECK   arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dt.yaml
-/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dt.yaml: hdmi@fe0a0000:
-ports: 'port' is a required property
-	From schema:
-/home/user/Downloads/linux-next-20220202/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-
-===
-
-On 2/9/22 10:53, Sascha Hauer wrote:
-> This enabled the VOP2 display controller along with hdmi and the
-> required port routes which is enough to get a picture out of the
-> hdmi port of the board.
+On 1/21/2022 1:06 PM, Dmitry Baryshkov wrote:
+> INTF blocks are not really handled by resource manager, they are
+> assigned at dpu_encoder_setup_display using dpu_encoder_get_intf().
+> Then this allocation is passed to RM and then returned to then
+> dpu_encoder.
+> So allocate them outside of RM and use them directly.
 > 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+
+I have some questions about this approach.
+
+Agreed, that when there is one encoder tied to one interface, we dont 
+need to go through RM because RM just gives what the encoder asks. 
+Instead we can directly get the interface from encoder.
+
+But what happens when multiple displays are requesting the same interface?
+
+There are use-cases which we have handled especially in mid-tier chips 
+which do not have external display where between mode-switches
+OR between some user triggered events DSI0 was shared between two displays.
+
+So  lets say display 1 (with encoder X) requests DSI0
+and display 2 (with encoder Y) also requests DSI0,
+
+with this change, the code will allow that as there is no interface to
+encoder mapping.
+
 > ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 36 +---------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h   | 16 -----
+>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  5 --
+>   .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  8 ---
+>   .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |  8 ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  1 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 68 ++-----------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |  8 +++
+>   8 files changed, 16 insertions(+), 134 deletions(-)
 > 
-> Notes:
->     Changes since v4:
->     - Sort nodes alphabetically
->     
->     Changes since v3:
->     - Fix HDMI connector type
-> 
->  .../boot/dts/rockchip/rk3568-evb1-v10.dts     | 48 +++++++++++++++++++
->  1 file changed, 48 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-> index 184e2aa2416a..18f0f5abddcf 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-> +++ b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
-> @@ -7,6 +7,7 @@
->  /dts-v1/;
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/pinctrl/rockchip.h>
-> +#include <dt-bindings/soc/rockchip,vop2.h>
->  #include "rk3568.dtsi"
->  
->  / {
-> @@ -33,6 +34,17 @@ dc_12v: dc-12v {
->  		regulator-max-microvolt = <12000000>;
->  	};
->  
-> +	hdmi-con {
-> +		compatible = "hdmi-connector";
-> +		type = "a";
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 1e648db439f9..11f7126728db 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -420,26 +420,6 @@ int dpu_encoder_get_linecount(struct drm_encoder *drm_enc)
+>   	return linecount;
+>   }
+>   
+> -void dpu_encoder_get_hw_resources(struct drm_encoder *drm_enc,
+> -				  struct dpu_encoder_hw_resources *hw_res)
+> -{
+> -	struct dpu_encoder_virt *dpu_enc = NULL;
+> -	int i = 0;
+> -
+> -	dpu_enc = to_dpu_encoder_virt(drm_enc);
+> -	DPU_DEBUG_ENC(dpu_enc, "\n");
+> -
+> -	/* Query resources used by phys encs, expected to be without overlap */
+> -	memset(hw_res, 0, sizeof(*hw_res));
+> -
+> -	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+> -		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+> -
+> -		if (phys->ops.get_hw_resources)
+> -			phys->ops.get_hw_resources(phys, hw_res);
+> -	}
+> -}
+> -
+>   static void dpu_encoder_destroy(struct drm_encoder *drm_enc)
+>   {
+>   	struct dpu_encoder_virt *dpu_enc = NULL;
+> @@ -973,7 +953,7 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+>   	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
+>   	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC] = { NULL };
+>   	int num_lm, num_ctl, num_pp;
+> -	int i, j;
+> +	int i;
+>   
+>   	if (!drm_enc) {
+>   		DPU_ERROR("invalid encoder\n");
+> @@ -1040,8 +1020,6 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+>   	cstate->num_mixers = num_lm;
+>   
+>   	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+> -		int num_blk;
+> -		struct dpu_hw_blk *hw_blk[MAX_CHANNELS_PER_ENC];
+>   		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+>   
+>   		if (!dpu_enc->hw_pp[i]) {
+> @@ -1059,16 +1037,8 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+>   		phys->hw_pp = dpu_enc->hw_pp[i];
+>   		phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
+>   
+> -		num_blk = dpu_rm_get_assigned_resources(&dpu_kms->rm,
+> -			global_state, drm_enc->base.id, DPU_HW_BLK_INTF,
+> -			hw_blk, ARRAY_SIZE(hw_blk));
+> -		for (j = 0; j < num_blk; j++) {
+> -			struct dpu_hw_intf *hw_intf;
+> -
+> -			hw_intf = to_dpu_hw_intf(hw_blk[i]);
+> -			if (hw_intf->idx == phys->intf_idx)
+> -				phys->hw_intf = hw_intf;
+> -		}
+> +		if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
+> +			phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, phys->intf_idx);
+>   
+>   		if (!phys->hw_intf) {
+>   			DPU_ERROR_ENC(dpu_enc,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> index e241914a9677..722dd7db6bdf 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> @@ -18,22 +18,6 @@
+>   
+>   #define IDLE_TIMEOUT	(66 - 16/2)
+>   
+> -/**
+> - * Encoder functions and data types
+> - * @intfs:	Interfaces this encoder is using, INTF_MODE_NONE if unused
+> - */
+> -struct dpu_encoder_hw_resources {
+> -	enum dpu_intf_mode intfs[INTF_MAX];
+> -};
+> -
+> -/**
+> - * dpu_encoder_get_hw_resources - Populate table of required hardware resources
+> - * @encoder:	encoder pointer
+> - * @hw_res:	resource table to populate with encoder required resources
+> - */
+> -void dpu_encoder_get_hw_resources(struct drm_encoder *encoder,
+> -				  struct dpu_encoder_hw_resources *hw_res);
+> -
+>   /**
+>    * dpu_encoder_assign_crtc - Link the encoder to the crtc it's assigned to
+>    * @encoder:	encoder pointer
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> index e7270eb6b84b..42febfce79c7 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> @@ -91,9 +91,6 @@ struct dpu_encoder_virt_ops {
+>    * @disable:			DRM Call. Disable mode.
+>    * @atomic_check:		DRM Call. Atomic check new DRM state.
+>    * @destroy:			DRM Call. Destroy and release resources.
+> - * @get_hw_resources:		Populate the structure with the hardware
+> - *				resources that this phys_enc is using.
+> - *				Expect no overlap between phys_encs.
+>    * @control_vblank_irq		Register/Deregister for VBLANK IRQ
+>    * @wait_for_commit_done:	Wait for hardware to have flushed the
+>    *				current pending frames to hardware
+> @@ -129,8 +126,6 @@ struct dpu_encoder_phys_ops {
+>   			    struct drm_crtc_state *crtc_state,
+>   			    struct drm_connector_state *conn_state);
+>   	void (*destroy)(struct dpu_encoder_phys *encoder);
+> -	void (*get_hw_resources)(struct dpu_encoder_phys *encoder,
+> -				 struct dpu_encoder_hw_resources *hw_res);
+>   	int (*control_vblank_irq)(struct dpu_encoder_phys *enc, bool enable);
+>   	int (*wait_for_commit_done)(struct dpu_encoder_phys *phys_enc);
+>   	int (*wait_for_tx_complete)(struct dpu_encoder_phys *phys_enc);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> index 34a6940d12c5..7d2beea9cc4e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> @@ -534,13 +534,6 @@ static void dpu_encoder_phys_cmd_destroy(struct dpu_encoder_phys *phys_enc)
+>   	kfree(cmd_enc);
+>   }
+>   
+> -static void dpu_encoder_phys_cmd_get_hw_resources(
+> -		struct dpu_encoder_phys *phys_enc,
+> -		struct dpu_encoder_hw_resources *hw_res)
+> -{
+> -	hw_res->intfs[phys_enc->intf_idx - INTF_0] = INTF_MODE_CMD;
+> -}
+> -
+>   static void dpu_encoder_phys_cmd_prepare_for_kickoff(
+>   		struct dpu_encoder_phys *phys_enc)
+>   {
+> @@ -736,7 +729,6 @@ static void dpu_encoder_phys_cmd_init_ops(
+>   	ops->enable = dpu_encoder_phys_cmd_enable;
+>   	ops->disable = dpu_encoder_phys_cmd_disable;
+>   	ops->destroy = dpu_encoder_phys_cmd_destroy;
+> -	ops->get_hw_resources = dpu_encoder_phys_cmd_get_hw_resources;
+>   	ops->control_vblank_irq = dpu_encoder_phys_cmd_control_vblank_irq;
+>   	ops->wait_for_commit_done = dpu_encoder_phys_cmd_wait_for_commit_done;
+>   	ops->prepare_for_kickoff = dpu_encoder_phys_cmd_prepare_for_kickoff;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> index ddd9d89cd456..db6a9b896e42 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> @@ -465,13 +465,6 @@ static void dpu_encoder_phys_vid_destroy(struct dpu_encoder_phys *phys_enc)
+>   	kfree(phys_enc);
+>   }
+>   
+> -static void dpu_encoder_phys_vid_get_hw_resources(
+> -		struct dpu_encoder_phys *phys_enc,
+> -		struct dpu_encoder_hw_resources *hw_res)
+> -{
+> -	hw_res->intfs[phys_enc->intf_idx - INTF_0] = INTF_MODE_VIDEO;
+> -}
+> -
+>   static int dpu_encoder_phys_vid_wait_for_vblank(
+>   		struct dpu_encoder_phys *phys_enc)
+>   {
+> @@ -680,7 +673,6 @@ static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
+>   	ops->enable = dpu_encoder_phys_vid_enable;
+>   	ops->disable = dpu_encoder_phys_vid_disable;
+>   	ops->destroy = dpu_encoder_phys_vid_destroy;
+> -	ops->get_hw_resources = dpu_encoder_phys_vid_get_hw_resources;
+>   	ops->control_vblank_irq = dpu_encoder_phys_vid_control_vblank_irq;
+>   	ops->wait_for_commit_done = dpu_encoder_phys_vid_wait_for_commit_done;
+>   	ops->wait_for_vblank = dpu_encoder_phys_vid_wait_for_vblank;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> index 2d385b4b7f5e..3f518c809e33 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> @@ -144,7 +144,6 @@ struct dpu_global_state {
+>   	uint32_t pingpong_to_enc_id[PINGPONG_MAX - PINGPONG_0];
+>   	uint32_t mixer_to_enc_id[LM_MAX - LM_0];
+>   	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
+> -	uint32_t intf_to_enc_id[INTF_MAX - INTF_0];
+>   	uint32_t dspp_to_enc_id[DSPP_MAX - DSPP_0];
+>   };
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index 63ed0d7df848..8df21a46308e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -28,7 +28,6 @@ static inline bool reserved_by_other(uint32_t *res_map, int idx,
+>    */
+>   struct dpu_rm_requirements {
+>   	struct msm_display_topology topology;
+> -	struct dpu_encoder_hw_resources hw_res;
+>   };
+>   
+>   int dpu_rm_destroy(struct dpu_rm *rm)
+> @@ -448,54 +447,6 @@ static int _dpu_rm_reserve_ctls(
+>   	return 0;
+>   }
+>   
+> -static int _dpu_rm_reserve_intf(
+> -		struct dpu_rm *rm,
+> -		struct dpu_global_state *global_state,
+> -		uint32_t enc_id,
+> -		uint32_t id)
+> -{
+> -	int idx = id - INTF_0;
+> -
+> -	if (idx < 0 || idx >= ARRAY_SIZE(rm->intf_blks)) {
+> -		DPU_ERROR("invalid intf id: %d", id);
+> -		return -EINVAL;
+> -	}
+> -
+> -	if (!rm->intf_blks[idx]) {
+> -		DPU_ERROR("couldn't find intf id %d\n", id);
+> -		return -EINVAL;
+> -	}
+> -
+> -	if (reserved_by_other(global_state->intf_to_enc_id, idx, enc_id)) {
+> -		DPU_ERROR("intf id %d already reserved\n", id);
+> -		return -ENAVAIL;
+> -	}
+> -
+> -	global_state->intf_to_enc_id[idx] = enc_id;
+> -	return 0;
+> -}
+> -
+> -static int _dpu_rm_reserve_intf_related_hw(
+> -		struct dpu_rm *rm,
+> -		struct dpu_global_state *global_state,
+> -		uint32_t enc_id,
+> -		struct dpu_encoder_hw_resources *hw_res)
+> -{
+> -	int i, ret = 0;
+> -	u32 id;
+> -
+> -	for (i = 0; i < ARRAY_SIZE(hw_res->intfs); i++) {
+> -		if (hw_res->intfs[i] == INTF_MODE_NONE)
+> -			continue;
+> -		id = i + INTF_0;
+> -		ret = _dpu_rm_reserve_intf(rm, global_state, enc_id, id);
+> -		if (ret)
+> -			return ret;
+> -	}
+> -
+> -	return ret;
+> -}
+> -
+>   static int _dpu_rm_make_reservation(
+>   		struct dpu_rm *rm,
+>   		struct dpu_global_state *global_state,
+> @@ -517,11 +468,6 @@ static int _dpu_rm_make_reservation(
+>   		return ret;
+>   	}
+>   
+> -	ret = _dpu_rm_reserve_intf_related_hw(rm, global_state, enc->base.id,
+> -				&reqs->hw_res);
+> -	if (ret)
+> -		return ret;
+> -
+>   	return ret;
+>   }
+>   
+> @@ -530,8 +476,6 @@ static int _dpu_rm_populate_requirements(
+>   		struct dpu_rm_requirements *reqs,
+>   		struct msm_display_topology req_topology)
+>   {
+> -	dpu_encoder_get_hw_resources(enc, &reqs->hw_res);
+> -
+>   	reqs->topology = req_topology;
+>   
+>   	DRM_DEBUG_KMS("num_lm: %d num_enc: %d num_intf: %d\n",
+> @@ -561,8 +505,6 @@ void dpu_rm_release(struct dpu_global_state *global_state,
+>   		ARRAY_SIZE(global_state->mixer_to_enc_id), enc->base.id);
+>   	_dpu_rm_clear_mapping(global_state->ctl_to_enc_id,
+>   		ARRAY_SIZE(global_state->ctl_to_enc_id), enc->base.id);
+> -	_dpu_rm_clear_mapping(global_state->intf_to_enc_id,
+> -		ARRAY_SIZE(global_state->intf_to_enc_id), enc->base.id);
+>   }
+>   
+>   int dpu_rm_reserve(
+> @@ -626,11 +568,6 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>   		hw_to_enc_id = global_state->ctl_to_enc_id;
+>   		max_blks = ARRAY_SIZE(rm->ctl_blks);
+>   		break;
+> -	case DPU_HW_BLK_INTF:
+> -		hw_blks = rm->intf_blks;
+> -		hw_to_enc_id = global_state->intf_to_enc_id;
+> -		max_blks = ARRAY_SIZE(rm->intf_blks);
+> -		break;
+>   	case DPU_HW_BLK_DSPP:
+>   		hw_blks = rm->dspp_blks;
+>   		hw_to_enc_id = global_state->dspp_to_enc_id;
+> @@ -656,3 +593,8 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>   
+>   	return num_blks;
+>   }
 > +
-> +		port {
-> +			hdmi_con_in: endpoint {
-> +				remote-endpoint = <&hdmi_out_con>;
-> +			};
-> +		};
-> +	};
+> +struct dpu_hw_intf *dpu_rm_get_intf(struct dpu_rm *rm, enum dpu_intf intf_idx)
+> +{
+> +	return to_dpu_hw_intf(rm->intf_blks[intf_idx - INTF_0]);
+> +}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> index 0f27759211b5..ee50f6651b6e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> @@ -84,5 +84,13 @@ void dpu_rm_release(struct dpu_global_state *global_state,
+>   int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>   	struct dpu_global_state *global_state, uint32_t enc_id,
+>   	enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size);
 > +
->  	vcc3v3_sys: vcc3v3-sys {
->  		compatible = "regulator-fixed";
->  		regulator-name = "vcc3v3_sys";
-> @@ -106,6 +118,25 @@ &gmac1m1_rgmii_clk
->  	status = "okay";
->  };
->  
-> +&hdmi {
-> +	avdd-0v9-supply = <&vdda0v9_image>;
-> +	avdd-1v8-supply = <&vcca1v8_image>;
-> +	status = "okay";
-> +};
+> +/**
+> + * dpu_rm_get_intf - Return a struct dpu_hw_intf instance given it's index.
+> + * @rm: DPU Resource Manager handle
+> + * @intf_idx: INTF's index
+> + */
+> +struct dpu_hw_intf *dpu_rm_get_intf(struct dpu_rm *rm, enum dpu_intf intf_idx);
 > +
-> +&hdmi_in {
-> +	hdmi_in_vp0: endpoint@0 {
-> +		reg = <0>;
-> +		remote-endpoint = <&vp0_out_hdmi>;
-> +	};
-> +};
-> +
-> +&hdmi_out {
-> +	hdmi_out_con: endpoint {
-> +		remote-endpoint = <&hdmi_con_in>;
-> +	};
-> +};
-> +
->  &i2c0 {
->  	status = "okay";
->  
-> @@ -390,3 +421,20 @@ &sdmmc0 {
->  &uart2 {
->  	status = "okay";
->  };
-> +
-> +&vop {
-> +	assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
-> +	assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL>;
-> +	status = "okay";
-> +};
-> +
-> +&vop_mmu {
-> +	status = "okay";
-> +};
-> +
-> +&vp0 {
-> +	vp0_out_hdmi: endpoint@RK3568_VOP2_EP_HDMI {
-> +		reg = <RK3568_VOP2_EP_HDMI>;
-> +		remote-endpoint = <&hdmi_in_vp0>;
-> +	};
-> +};
+>   #endif /* __DPU_RM_H__ */
+>   
