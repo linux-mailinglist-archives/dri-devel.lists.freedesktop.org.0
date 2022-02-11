@@ -1,75 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6ED4B280A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 15:36:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E25A4B28A4
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 16:02:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACD1710EAC1;
-	Fri, 11 Feb 2022 14:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0DD10EC9A;
+	Fri, 11 Feb 2022 15:02:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D866910EAC1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 14:36:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644590185;
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAD1410ECB1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 15:02:34 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 4B480CDF30
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 14:54:49 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id E459C1C000C;
+ Fri, 11 Feb 2022 14:54:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1644591284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mUtEuWaqCGQh3IRK8HcXsRqsLNSC6YZZzta5hJkK91U=;
- b=ee/5eo8GC14Vzi7Vpdic2bScbij0vpmEKycqGZI4lUkMemiG2XTZETzDX9s+4N5cjIMznq
- ISAPA4m62kdB97x0zK8ZyZlj3Rczh48v+JJbZ+/HkAmxj7LPmwRdf6NovR3GezxGhErP5G
- ouFqAhuBiujztHwdVaHuNHqVCoTXfAc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-214-5gxGPquEOLehPwgwb3JN4Q-1; Fri, 11 Feb 2022 09:36:24 -0500
-X-MC-Unique: 5gxGPquEOLehPwgwb3JN4Q-1
-Received: by mail-wr1-f69.google.com with SMTP id
- t14-20020adfa2ce000000b001e1ad2deb3dso3935045wra.0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 06:36:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mUtEuWaqCGQh3IRK8HcXsRqsLNSC6YZZzta5hJkK91U=;
- b=jaAGAuxFqtCqc4xLn7oNpdWwLSsHSek2o0MBGL7vy6xPxxjLQR581em027FSXNzk1S
- rAf4HYFlBJ255JsUWMTUUpCHPPA3jyMU0GP0ZFSUGNQqfvhDmvPEjGgh9yxTYAjjqhst
- AfxOAFnndmReWT9YBo2p2M4hN73KVXNZfXFksPGD2xVloV6gwXK8ow77C595BR3+/LbT
- egec0MFZhS1tZMBH9HXYQF9x9TktWXoNTMZWr4BTQ7PSUo04zRirlqtknMnkaV8mK1V/
- 1yU9hQPnKHbPFr/BP0sFvJrhgfmcFHFKgRNXh7YL0lYAM73fWe6DE5YH8zK3OIMNLmK/
- yqjw==
-X-Gm-Message-State: AOAM532aAGlqfqFwkFEjdkgJCD36Z5+CTkiJJd+zFI7C8MqLtkL6WHYV
- TNFWgCgNJPM44Z7udwrAhV5sKcZGMqlj44hHHwTvQy1HAN+T+M6wNOllsDJ9O4/oNfu5KdAJkBt
- L+eBAOdNmejuVzkkXzeeZQqEM7BXS
-X-Received: by 2002:a1c:a550:: with SMTP id o77mr494932wme.121.1644590183460; 
- Fri, 11 Feb 2022 06:36:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxkpykMeULk3o3z734U+NNGKDB0UPb/QdCSIArUOUfzqYPoPK1eHc9CCs2as5dGckIMzeUTXg==
-X-Received: by 2002:a1c:a550:: with SMTP id o77mr494922wme.121.1644590183267; 
- Fri, 11 Feb 2022 06:36:23 -0800 (PST)
-Received: from minerva.redhat.com ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id d13sm159759wri.38.2022.02.11.06.36.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Feb 2022 06:36:22 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v5 6/6] dt-bindings: display: ssd1307fb: Add myself as binding
- co-maintainer
-Date: Fri, 11 Feb 2022 15:36:20 +0100
-Message-Id: <20220211143620.3113464-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220211143358.3112958-1-javierm@redhat.com>
-References: <20220211143358.3112958-1-javierm@redhat.com>
+ bh=/snWoyO1kCOhCBySz55Uo3NXloeQ7id88PKB2/aReeA=;
+ b=dfg7TkK0I/3exJfTOxYHVvr+fl22x+mJh10e7NYDZQrLuonafe07F0MGv4zTJwjUywdwFo
+ jszufveg/kUZOQseo7aSWH+ZDBcvBvoeUGIXooGkG9zRt7vZ4ZXkQXuyUEiJKBa3hL5v5z
+ VLjimiAl3xTxrobw3fTaaSlsB2FmK0aWuxFNKiErLGib6APgR2wqIuxyqMlNBE/CVJSVao
+ m5j1qNLRBIw+OhjrBFwakpt30YI4+kdgQ3oA9WZihYjswXyBWQznS97QrkPcL1aCexMaiY
+ RWHtH3TXANId8vXSxjIngtuLKGcITBqu8JEMrJhbgvQdBGniWJi2Q16d1PRMZg==
+Date: Fri, 11 Feb 2022 15:54:42 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v10 2/6] dt-bindings: gpio: logicvc: Add a compatible
+ with major version only
+Message-ID: <YgZ4sj1o4WzMPd0P@aptenodytes>
+References: <20220120150024.646714-1-paul.kocialkowski@bootlin.com>
+ <20220120150024.646714-3-paul.kocialkowski@bootlin.com>
+ <CACRpkdbnEKeDNmFCuUCLaySs6AtD9MPtxV+9JDxKuXvTs9iMVQ@mail.gmail.com>
+ <6f0e58dc-4b81-d819-13e3-9e0f79ba279c@arm.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="fi4rh3UJ303yTdHr"
+Content-Disposition: inline
+In-Reply-To: <6f0e58dc-4b81-d819-13e3-9e0f79ba279c@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,52 +56,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lee Jones <lee.jones@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ssd130x DRM driver also makes use of this Device Tree binding to allow
-existing users of the fbdev driver to migrate without the need to change
-their Device Trees.
 
-Add myself as another maintainer of the binding, to make sure that I will
-be on Cc when patches are proposed for it.
+--fi4rh3UJ303yTdHr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
+Hi,
 
-Changes in v5:
-- Add Andy Shevchenko's Reviewed-by tag to patch #6.
+On Wed 02 Feb 22, 14:26, Robin Murphy wrote:
+> On 2022-01-30 00:46, Linus Walleij wrote:
+> > On Thu, Jan 20, 2022 at 4:00 PM Paul Kocialkowski
+> > <paul.kocialkowski@bootlin.com> wrote:
+> >=20
+> > > There are lots of different versions of the logicvc block and it
+> > > makes little sense to list them all in compatibles since all versions
+> > > with the same major are found to be register-compatible.
+> >=20
+> > The reason we try to be precise is because sometime, long after the dri=
+ver
+> > has been merged and maintained for a few years, a bug is discovered
+> > in a specific version of the silicon.
+> >=20
+> > What happens is that a fix is applied on all silicon whether it is need=
+ed
+> > or not.
+> >=20
+> > If you have the precise silicon compatible, you can avoid this and targ=
+et
+> > only a specific version.
+>=20
+> Indeed, the better approach would be something like:
+>=20
+>   compatible:
+>     oneOf:
+>       - items:
+>           - enum:
+>               - foo,bar-v1.0
+>               - foo,bar,v1.1
+>           - const: foo,bar-v1
+>       - items:
+>           - enum:
+>               - foo,bar-v2.0
+>           - const: foo,bar-v2
+>=20
+> That way the DTs are future-proof, while drivers can still match on only =
+the
+> less-specific strings until a need arises. Plus it avoids the problem that
+> if an existing OS that only understands "foo,bar-v1.0" is given a new DT
+> with only "foo,bar-v1" for v1.0 hardware it won't be able to use the devi=
+ce,
+> even though it's *functionally* capable of doing so.
 
-Changes in v4:
-- Add Rob Herring Acked-by tag to patch adding as DT binding co-maintainer.
+Yes I understand that we need to keep compatibility with the already-defined
+compatible.
 
-Changes in v2:
-- Add myself as co-maintainer of the ssd1370fb DT binding (Sam Ravnborg).
+> However, from skimming patch #5, it looks possible that none of these
+> changes are needed at all. If LOGICVC_IP_VERSION_REG tells you the exact
+> revision, and is always present (as the unconditional reading of it
+> implies), then the only reason for adding new compatibles would be if, sa=
+y,
+> v5 has more clocks from v4 and you want the binding to enforce that;
+> otherwise, newer versions are literally compatible with the
+> currently-defined binding and therefore should continue to bind against t=
+he
+> existing string(s) to maximise forward- and backward-compatibility. Sure,
+> it's not the prettiest thing for a "generic" compatible to be based on an
+> oddly-specific version number that doesn't necessarily match the actual
+> software-discoverable version, but what's done is done and that's the cost
+> of ABI.
 
- Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Indeed it's true that hardware quirks can be applied based on the precise
+version read from the register, so I don't think there is a need for overly
+precise compatibles.
 
-diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-index 2ed2a7d0ca2f..9baafd0c42dd 100644
---- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-+++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-@@ -8,6 +8,7 @@ title: Solomon SSD1307 OLED Controller Framebuffer
- 
- maintainers:
-   - Maxime Ripard <mripard@kernel.org>
-+  - Javier Martinez Canillas <javierm@redhat.com>
- 
- properties:
-   compatible:
--- 
-2.34.1
+Since the device-tree binding is currently the same for all versions,
+I understand that it makes sense to keep a single compatible (the already
+defined one), so I guess I will make another iteration without introducing
+new compatibles. But I will probably update the binding document to reflect
+which versions are currently known to work with its current state.
 
+> (also, nitpick for that part of patch #5 since I'm here: please include
+> linux/bitfield.h rather than reinventing FIELD_GET() locally)
+
+Ah good to know thanks, first time hearing about those.
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--fi4rh3UJ303yTdHr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIGeLIACgkQ3cLmz3+f
+v9Fovwf9FazGyUpB/nAwH7VeTeXwajEB0NHvM9mlYAMba4/aI1h1YN7YzzP6bCm6
+xHVZg35DyCEzdwgDdrqhskFL94mRN43XIsu4a6tZhdJ38uqXAu91O/bjQDaNu4zM
+h37R+IAlna1D/+O9iiwQ/46t0mdI1kRmsgNcrMwG1ERdMQs7o2tZAupPuhHHioZk
+dPwBHCMAJkljVgzf80BgtFuNXglYHp8sunbv05NtodkFLZ/mAANkyRqq9IztJR3D
+Myu/D9/AZjU/57KFg3vuveYoMs3PJrPV0No5pgZX2HP0SJwVL9zmLj43L5K2POdK
+2LJbjDIKaSkNQ0iJE55P1Qzmqmb7Tg==
+=9Gbl
+-----END PGP SIGNATURE-----
+
+--fi4rh3UJ303yTdHr--
