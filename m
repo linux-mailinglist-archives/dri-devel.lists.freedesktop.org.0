@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657804B317C
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 00:47:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B24704B3180
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 00:49:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9921710EB23;
-	Fri, 11 Feb 2022 23:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B93D10EB2F;
+	Fri, 11 Feb 2022 23:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
  [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABDB410EB23;
- Fri, 11 Feb 2022 23:47:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18B2D10EB2F;
+ Fri, 11 Feb 2022 23:49:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644623244; x=1676159244;
+ t=1644623358; x=1676159358;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=25QBbEtIsfEMniSyceh3ql16RJK56V9YC6Vs/ELDSmg=;
- b=NH91YC/T/LdOYMjqb4eyjO2QRC6qQrA0g351/zsE96n8tmM1qETBtJ9I
- r+Tw0FE/lHRv7MVlSpXjB9sRQlkxXXor8b7eolCuIWBz73hpxzTQkY4CS
- KOGrBJKsyJqT4eatVEDIa9e00ix1qFKIEpsl1dfZik7BdmOMWviW/o9I8 M=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 11 Feb 2022 15:47:24 -0800
+ bh=RbmeyzVBa+azHvQMQiu+pZGJyYDCg5ATeUd+lwEpF+s=;
+ b=Wqq4uKEQUQ3iX1pxANqi+f+k2S4YiNNP6PzURKZUS2WeTKlkUaKdLhHB
+ NA2Ekx0d+pDkutIq0YAyuFI2QPx11EolmAWf162TnQ3bZyD4gyg+JD9g3
+ gfH8GgXO/PT8RC00WVXfjg/oPwMLPO/TZtgs20e2TpUZkuu+xF8M+vZwq g=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 11 Feb 2022 15:49:17 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 15:47:23 -0800
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 15:49:17 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Fri, 11 Feb 2022 15:47:23 -0800
+ 15.2.986.15; Fri, 11 Feb 2022 15:49:17 -0800
 Received: from [10.38.246.233] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Fri, 11 Feb
- 2022 15:47:20 -0800
-Message-ID: <e5f3d715-55a9-2f7e-36a3-60d0fe7bcc56@quicinc.com>
-Date: Fri, 11 Feb 2022 15:47:19 -0800
+ 2022 15:49:15 -0800
+Message-ID: <08285444-d49c-000e-e058-14923595e37c@quicinc.com>
+Date: Fri, 11 Feb 2022 15:49:12 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH 3/7] drm/msm/dpu: remove msm_dp cached in dpu_encoder_virt
+Subject: Re: [PATCH 4/7] drm/msm/dpu: drop bus_scaling_client field
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
  <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
  <sean@poorly.run>
 References: <20220203082611.2654810-1-dmitry.baryshkov@linaro.org>
- <20220203082611.2654810-4-dmitry.baryshkov@linaro.org>
+ <20220203082611.2654810-5-dmitry.baryshkov@linaro.org>
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220203082611.2654810-4-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220203082611.2654810-5-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,43 +76,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 2/3/2022 12:26 AM, Dmitry Baryshkov wrote:
-> Stop caching msm_dp instance in dpu_encoder_virt since it's not used
-> now.
+> We do not use MSM bus client, so drop bus_scaling_client field from
+> dpu_encoder_virt.
 > 
-> Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display enable and disable")
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 5 -----
->   1 file changed, 5 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 --
+>   1 file changed, 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index e8fc029ad607..6c1a19ffae38 100644
+> index 6c1a19ffae38..4530549850f0 100644
 > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -168,7 +168,6 @@ enum dpu_enc_rc_states {
->    * @vsync_event_work:		worker to handle vsync event for autorefresh
->    * @topology:                   topology of the display
->    * @idle_timeout:		idle timeout duration in milliseconds
-> - * @dp:				msm_dp pointer, for DP encoders
->    */
+> @@ -127,7 +127,6 @@ enum dpu_enc_rc_states {
+>    *	Virtual encoder registers itself with the DRM Framework as the encoder.
+>    * @base:		drm_encoder base class for registration with DRM
+>    * @enc_spinlock:	Virtual-Encoder-Wide Spin Lock for IRQ purposes
+> - * @bus_scaling_client:	Client handle to the bus scaling interface
+>    * @enabled:		True if the encoder is active, protected by enc_lock
+>    * @num_phys_encs:	Actual number of physical encoders contained.
+>    * @phys_encs:		Container of physical encoders managed.
+> @@ -172,7 +171,6 @@ enum dpu_enc_rc_states {
 >   struct dpu_encoder_virt {
 >   	struct drm_encoder base;
-> @@ -207,8 +206,6 @@ struct dpu_encoder_virt {
->   	struct msm_display_topology topology;
+>   	spinlock_t enc_spinlock;
+> -	uint32_t bus_scaling_client;
 >   
->   	u32 idle_timeout;
-> -
-> -	struct msm_dp *dp;
->   };
+>   	bool enabled;
 >   
->   #define to_dpu_encoder_virt(x) container_of(x, struct dpu_encoder_virt, base)
-> @@ -2118,8 +2115,6 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
->   		timer_setup(&dpu_enc->vsync_event_timer,
->   				dpu_encoder_vsync_event_handler,
->   				0);
-> -	else if (disp_info->intf_type == INTF_DP || disp_info->intf_type == INTF_EDP)
-> -		dpu_enc->dp = priv->dp[disp_info->h_tile_instance[0]];
->   
->   	INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
->   			dpu_encoder_off_work);
