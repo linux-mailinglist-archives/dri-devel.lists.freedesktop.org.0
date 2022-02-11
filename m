@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8334B27F5
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 15:34:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49FFB4B2805
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 15:35:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC04010EA73;
-	Fri, 11 Feb 2022 14:34:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF4C10EA7C;
+	Fri, 11 Feb 2022 14:35:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A6BE10EA90
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 14:34:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F3D210EA7C
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 14:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644590052;
+ s=mimecast20190719; t=1644590140;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fz2Kno8PPLHlny0kFyGFu1CzpGMejC9s0k6wv2123LE=;
- b=Q6txWiTApfIqE1us73ZcODKLbuhiaK7a9kfhM8nJFdFIzufqB7AO2H86Dg2l/zeAAtzxZR
- kcckNmQXbklmwg5fFUqtnU9MUahJSINCAhNPsyxf1q3XRqAdjD3Rh63V5nT2xJv8f3iiYk
- TrF/psT7G9zkAnY8mWBu7isTLQf+AEw=
+ bh=/q2y5mTkz1CvD38vxQgwPHqW1lB8ZACl+B53t5PD8iU=;
+ b=DaJB9BYZIv7NPPOdrxhT4biItPRs7QyJuuFwVzXA8ABTyb6HZOjwydEG0dJWIYCtzk++w4
+ 0GScqxjXKl6X7oKJ5io9wPD+ha9gWS095eWhc9O5NA6ahXar9txtfu8sR/T5y7BnT7mKTG
+ wkJfkXeqav4wRlJ6s60rrL6aLaks3no=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-aUVCaQ98ObiZZi17GjRWLA-1; Fri, 11 Feb 2022 09:34:11 -0500
-X-MC-Unique: aUVCaQ98ObiZZi17GjRWLA-1
+ us-mta-428-r0KjWdg2OVu3IdBG4ukG5Q-1; Fri, 11 Feb 2022 09:35:38 -0500
+X-MC-Unique: r0KjWdg2OVu3IdBG4ukG5Q-1
 Received: by mail-wm1-f71.google.com with SMTP id
- c7-20020a1c3507000000b0034a0dfc86aaso5989284wma.6
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 06:34:11 -0800 (PST)
+ h82-20020a1c2155000000b003552c13626cso5997000wmh.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 06:35:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Fz2Kno8PPLHlny0kFyGFu1CzpGMejC9s0k6wv2123LE=;
- b=PTEC31m+2UFyFP9z3QLQuXgCcOfJTKIROvwetSc9FaUpoh1+ETANPXxmYRr4CBuJT1
- lSJz1LjtNdY9bJeiIcSJTkf/26+cKCJ4EmXfyvkzD570LvWaLKJV4iYQvU9NiBVBCsT/
- konRFRFZfZM4dH2NprxXgcbbvwL6TLwLSDlDwhdMawyGEneHuQKVn+pLV6m9q8kucAzm
- 2piR73Cv/1M6WRlUKQCdj9ivcxt6bB5Jocg3OJfcLQ0DYV/uSfZAhLrCERhOQyU6qu6q
- iUdBj/4uHrCZIy4kzDiDHuST/BQZo4Ak3Mk6bdJrDB710LZKBypgqmzCFFHu3VweIM08
- 1OBg==
-X-Gm-Message-State: AOAM532JaHTkeiFJ2TDYUcMLJPWnlUFsHuYt5O58u4Pl72mLrHD4XKmN
- Hv6XlA2pueB0DMM1rbxn3pBBaG7MJ7u4sRWh3FGBxZzCQN/a/gjGD38tzSaRPM4gAjCZi3QFNWC
- ZWVFoNq1tMoOVJqgnnLSZt6u/M8MP
-X-Received: by 2002:adf:decd:: with SMTP id i13mr1616434wrn.314.1644590049849; 
- Fri, 11 Feb 2022 06:34:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJznBtKJaEhhYGX4nEC0I1gBzUDI6glrFk0hX33aohr/ENq8FE0yUVJyhR9x0JuIfNsT+0ZweA==
-X-Received: by 2002:adf:decd:: with SMTP id i13mr1616415wrn.314.1644590049605; 
- Fri, 11 Feb 2022 06:34:09 -0800 (PST)
+ bh=/q2y5mTkz1CvD38vxQgwPHqW1lB8ZACl+B53t5PD8iU=;
+ b=RQfyk7tRiIILsHcNEmnsmJiz5knlETXy+ZxB7hN9o91/MrtBYRfC5SSgQk5DLpnjeB
+ nMvQOAVi9pzYGjWjersw4qgyZITTIwubrcXITntLfdB3bFjQt4TYfGlxS4OiZD2eNSGj
+ udniIqCJ4A0N4/WYWh60cpgdX3bYQaIs36ycvTxOlCuQ9Mk2PFYBSQCVNoOTIJpwgBST
+ Td4V+bzS+IXLr8ej1gLB0X2icKlX7uFGEoEJpRrhM8dEaik16r/BjWDq/YQXxWSJSGOG
+ LmhG/9yd68W3nOkr04UJV58NFL4ysODi3EgsWn+Axlb1Tjkb08kIOLg/+2uSFLnZ2GjM
+ P/ug==
+X-Gm-Message-State: AOAM5328G6EUbi9rWRIjhLz8nWaBNM1y0y8gwxdJIhnBlZ/3PV2u3X7I
+ 7yTB2c2gN158CwQpSU1AJ5Lzpu3At5yShXchIh4Pu4KVDTNwB+WRl/uE4hZ/F0kFhm+ZiT3pgXq
+ FQ9xpoSdGI7TfSu4XcZLb38HwnnEl
+X-Received: by 2002:a7b:c416:: with SMTP id k22mr512218wmi.158.1644590137757; 
+ Fri, 11 Feb 2022 06:35:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy3id8OPm5IthkFCnhsiPNqFQDJ42Az4r2wBgsmJz/IrKLWa1JNMZFGUIf6GnCB51Af499MQg==
+X-Received: by 2002:a7b:c416:: with SMTP id k22mr512206wmi.158.1644590137543; 
+ Fri, 11 Feb 2022 06:35:37 -0800 (PST)
 Received: from minerva.redhat.com ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id o14sm24616012wry.104.2022.02.11.06.34.08
+ by smtp.gmail.com with ESMTPSA id k5sm8578640wrw.117.2022.02.11.06.35.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Feb 2022 06:34:09 -0800 (PST)
+ Fri, 11 Feb 2022 06:35:37 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v5 4/6] drm/solomon: Add SSD130x OLED displays I2C support
-Date: Fri, 11 Feb 2022 15:33:56 +0100
-Message-Id: <20220211143358.3112958-5-javierm@redhat.com>
+Subject: [PATCH v5 5/6] MAINTAINERS: Add entry for Solomon SSD130x OLED
+ displays DRM driver
+Date: Fri, 11 Feb 2022 15:35:34 +0100
+Message-Id: <20220211143534.3113303-1-javierm@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220211143358.3112958-1-javierm@redhat.com>
 References: <20220211143358.3112958-1-javierm@redhat.com>
@@ -81,187 +82,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
  =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ssd130x driver only provides the core support for these devices but it
-does not have any bus transport logic. Add a driver to interface over I2C.
+To make sure that tools like the get_maintainer.pl script will suggest
+to Cc me if patches are posted for this driver.
+
+Also include the Device Tree binding for the old ssd1307fb fbdev driver
+since the new DRM driver was made compatible with the existing binding.
 
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
 
 Changes in v5:
-- Add Andy Shevchenko's Reviewed-by tag to patch #4.
-
-Changes in v4:
-- Remove unnecessary casting (Geert Uytterhoeven)
-- Remove redundant blank lines (Andy Shevchenko)
-- Remove comma after of_device_id table terminator (Andy Shevchenko)
+- Add Andy Shevchenko's Reviewed-by tag to patch #5.
 
 Changes in v3:
-- Add a separate driver for SSD130X chips I2C support (Andy Shevchenko)
+- Adapt MAINTAINERS entry to point to the new drivers/gpu/drm/solomon directory.
 
- drivers/gpu/drm/solomon/Kconfig       |   9 ++
- drivers/gpu/drm/solomon/Makefile      |   1 +
- drivers/gpu/drm/solomon/ssd130x-i2c.c | 116 ++++++++++++++++++++++++++
- 3 files changed, 126 insertions(+)
- create mode 100644 drivers/gpu/drm/solomon/ssd130x-i2c.c
+Changes in v2:
+- Add Sam Ravnborg's acked-by to patch adding a MAINTAINERS entry (Sam Ravnborg)
 
-diff --git a/drivers/gpu/drm/solomon/Kconfig b/drivers/gpu/drm/solomon/Kconfig
-index 7720a7039e8d..5861c3ab7c45 100644
---- a/drivers/gpu/drm/solomon/Kconfig
-+++ b/drivers/gpu/drm/solomon/Kconfig
-@@ -10,3 +10,12 @@ config DRM_SSD130X
- 	  the appropriate bus transport in your chip also must be selected.
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d03ad8da1f36..05c306986ab0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6102,6 +6102,13 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	Documentation/devicetree/bindings/display/repaper.txt
+ F:	drivers/gpu/drm/tiny/repaper.c
  
- 	  If M is selected the module will be called ssd130x.
++DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
++M:	Javier Martinez Canillas <javierm@redhat.com>
++S:	Maintained
++T:	git git://anongit.freedesktop.org/drm/drm-misc
++F:	Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
++F:	drivers/gpu/drm/solomon/ssd130x*
 +
-+config DRM_SSD130X_I2C
-+	tristate "DRM support for Solomon SSD130x OLED displays (I2C bus)"
-+	depends on DRM_SSD130X && I2C
-+	select REGMAP_I2C
-+	help
-+	  Say Y here if the SSD130x OLED display is connected via I2C bus.
-+
-+	  If M is selected the module will be called ssd130x-i2c.
-diff --git a/drivers/gpu/drm/solomon/Makefile b/drivers/gpu/drm/solomon/Makefile
-index f685addb19fe..4bfc5acb0447 100644
---- a/drivers/gpu/drm/solomon/Makefile
-+++ b/drivers/gpu/drm/solomon/Makefile
-@@ -1 +1,2 @@
- obj-$(CONFIG_DRM_SSD130X)	+= ssd130x.o
-+obj-$(CONFIG_DRM_SSD130X_I2C)	+= ssd130x-i2c.o
-diff --git a/drivers/gpu/drm/solomon/ssd130x-i2c.c b/drivers/gpu/drm/solomon/ssd130x-i2c.c
-new file mode 100644
-index 000000000000..3126aeda4ced
---- /dev/null
-+++ b/drivers/gpu/drm/solomon/ssd130x-i2c.c
-@@ -0,0 +1,116 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * DRM driver for Solomon SSD130x OLED displays (I2C bus)
-+ *
-+ * Copyright 2022 Red Hat Inc.
-+ * Author: Javier Martinez Canillas <javierm@redhat.com>
-+ *
-+ * Based on drivers/video/fbdev/ssd1307fb.c
-+ * Copyright 2012 Free Electrons
-+ */
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+
-+#include "ssd130x.h"
-+
-+#define DRIVER_NAME	"ssd130x-i2c"
-+#define DRIVER_DESC	"DRM driver for Solomon SSD130x OLED displays (I2C)"
-+
-+static const struct regmap_config ssd130x_i2c_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+};
-+
-+static int ssd130x_i2c_probe(struct i2c_client *client)
-+{
-+	struct ssd130x_device *ssd130x;
-+	struct regmap *regmap;
-+
-+	regmap = devm_regmap_init_i2c(client, &ssd130x_i2c_regmap_config);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
-+
-+	ssd130x = ssd130x_probe(&client->dev, regmap);
-+	if (IS_ERR(ssd130x))
-+		return PTR_ERR(ssd130x);
-+
-+	i2c_set_clientdata(client, ssd130x);
-+
-+	return 0;
-+}
-+
-+static int ssd130x_i2c_remove(struct i2c_client *client)
-+{
-+	struct ssd130x_device *ssd130x = i2c_get_clientdata(client);
-+
-+	return ssd130x_remove(ssd130x);
-+}
-+
-+static void ssd130x_i2c_shutdown(struct i2c_client *client)
-+{
-+	struct ssd130x_device *ssd130x = i2c_get_clientdata(client);
-+
-+	ssd130x_shutdown(ssd130x);
-+}
-+
-+static struct ssd130x_deviceinfo ssd130x_ssd1305_deviceinfo = {
-+	.default_vcomh = 0x34,
-+	.default_dclk_div = 1,
-+	.default_dclk_frq = 7,
-+};
-+
-+static struct ssd130x_deviceinfo ssd130x_ssd1306_deviceinfo = {
-+	.default_vcomh = 0x20,
-+	.default_dclk_div = 1,
-+	.default_dclk_frq = 8,
-+	.need_chargepump = 1,
-+};
-+
-+static struct ssd130x_deviceinfo ssd130x_ssd1307_deviceinfo = {
-+	.default_vcomh = 0x20,
-+	.default_dclk_div = 2,
-+	.default_dclk_frq = 12,
-+	.need_pwm = 1,
-+};
-+
-+static struct ssd130x_deviceinfo ssd130x_ssd1309_deviceinfo = {
-+	.default_vcomh = 0x34,
-+	.default_dclk_div = 1,
-+	.default_dclk_frq = 10,
-+};
-+
-+static const struct of_device_id ssd130x_of_match[] = {
-+	{
-+		.compatible = "solomon,ssd1305fb-i2c",
-+		.data = &ssd130x_ssd1305_deviceinfo,
-+	},
-+	{
-+		.compatible = "solomon,ssd1306fb-i2c",
-+		.data = &ssd130x_ssd1306_deviceinfo,
-+	},
-+	{
-+		.compatible = "solomon,ssd1307fb-i2c",
-+		.data = &ssd130x_ssd1307_deviceinfo,
-+	},
-+	{
-+		.compatible = "solomon,ssd1309fb-i2c",
-+		.data = &ssd130x_ssd1309_deviceinfo,
-+	},
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ssd130x_of_match);
-+
-+static struct i2c_driver ssd130x_i2c_driver = {
-+	.driver = {
-+		.name = DRIVER_NAME,
-+		.of_match_table = ssd130x_of_match,
-+	},
-+	.probe_new = ssd130x_i2c_probe,
-+	.remove = ssd130x_i2c_remove,
-+	.shutdown = ssd130x_i2c_shutdown,
-+};
-+module_i2c_driver(ssd130x_i2c_driver);
-+
-+MODULE_DESCRIPTION(DRIVER_DESC);
-+MODULE_AUTHOR("Javier Martinez Canillas <javierm@redhat.com>");
-+MODULE_LICENSE("GPL v2");
+ DRM DRIVER FOR QEMU'S CIRRUS DEVICE
+ M:	Dave Airlie <airlied@redhat.com>
+ M:	Gerd Hoffmann <kraxel@redhat.com>
 -- 
 2.34.1
 
