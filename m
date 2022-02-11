@@ -1,74 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441794B2711
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 14:28:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B554B2727
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 14:31:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5313710EC25;
-	Fri, 11 Feb 2022 13:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA9D10EC26;
+	Fri, 11 Feb 2022 13:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8407810EC25
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 13:28:28 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 64B633202010;
- Fri, 11 Feb 2022 08:28:27 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 11 Feb 2022 08:28:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=LVaL0oZjNN2nlFiERRO631NJvt9v3Bn6gFKSM0
- SpSw4=; b=eSRvzw2vE23XtgiKGafcx+sZUPUJzfygI1RpGjpRhn0sqxxCyCqBwj
- NrBheJppRKLM09umdgrK7wUAWz9SuM1My+uw01kIocl9JajQyjqHbWBY13pQtEdp
- KlsV4j10oNxfPBBZjux+8Fvc69ZIVGdwkvRytw6vVUojQM1RlajZ8NSBIVkSSn9b
- 7LtZrMzkYo0PA/jLR5PgZHyIGTa2gbE/ZkLuxHNJnIDtMIP49SKBu2+SkCJDCXyU
- J1RhnyXDTqJ38quCooOKGsCSkuPTbVkphj98Ntl2E5PApntIx9Ej0OM5DDpmNCtX
- guf2sJ/taR/OwI7eNwGEakXNUdYeqfQA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=LVaL0oZjNN2nlFiER
- RO631NJvt9v3Bn6gFKSM0SpSw4=; b=ancHwhDkqaQKHzr+uwkAZUmG20MCe/IfL
- 4zlhTSC83L0tELHZ8i8GgOg4868P7fb5dcxfVq6UiSf6bSQeO84/GIvRW9DPIybJ
- pvsf0Ugun6DOoIgO0QYupS4f5TMp43NZ/bB+SvY15FPkpzD6s8EYzqFHFjkS92Hi
- 0tR9XwytYadxQ2g+ov4fkHdp0r3PxOS8WvLLVqnTX/bMYJLYoXcDFlmrO11zB0E/
- 6ZDM1bm8bPBMUwJhO0pUFeYVbOtHtP/kFfHcUruNnweGSim8YHxibC3aWNe4VkZG
- Jn7EJU/nYtNNKUBQKiJmsuF4A4n4COMI3T0l4j7Wm+r0lZ1l8EYTA==
-X-ME-Sender: <xms:emQGYuhmzUJHtIGhRq_66JRU7PzCNglHCfP-593JfCAEbv-zfPg0YQ>
- <xme:emQGYvBcv1Ht5tOZDWf15f6Njv-HFY6rvQN_GzoBzirEP5bfn_oQ9NK6_LzSx2swa
- e7wljVJvPHgcybGQC8>
-X-ME-Received: <xmr:emQGYmGKmoBlOjF5nFAYjRNstNlWqg2SdmRlTWI9O9jTr-wut7qU5HeN_Ixd3tqT3S00O3KXojsu5snjbkp52BXzrXjD_gsQqpyHfG4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrieefgdehudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
- veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:emQGYnR9b474h3tdzmxIEVhCZ6iyfSQbYHwIsd-FgglKhO-Vd4qJGA>
- <xmx:emQGYrxmYku-GH2JaWZLHBwMJwUqohaE6CSVc4qoC0adBcNX7PU6mA>
- <xmx:emQGYl5Cab_SLhhap7CFVEV5ZONRCzk0K1hL8HOuUr2kMWbjjnxBkQ>
- <xmx:emQGYilWgt0pbaWfQbxbGIn5vYQ-6AZTVk7f2Q40fdPUx7TZID1IFg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 11 Feb 2022 08:28:26 -0500 (EST)
-Date: Fri, 11 Feb 2022 14:28:25 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v3 3/3] drm/panel: Add MIPI DBI compatible SPI driver
-Message-ID: <20220211132825.7or4blrr6o7um7jf@houat>
-References: <20220211130434.20732-1-noralf@tronnes.org>
- <20220211130434.20732-4-noralf@tronnes.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4011A10EC29
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 13:31:00 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ore@pengutronix.de>)
+ id 1nIW0V-0005wu-IW; Fri, 11 Feb 2022 14:30:39 +0100
+Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ore@pengutronix.de>)
+ id 1nIW0S-009ju2-Qv; Fri, 11 Feb 2022 14:30:36 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3 0/5] ARM: dts: protonic maintenance patches
+Date: Fri, 11 Feb 2022 14:30:30 +0100
+Message-Id: <20220211133035.2321330-1-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="g25a6v77b7y56qgc"
-Content-Disposition: inline
-In-Reply-To: <20220211130434.20732-4-noralf@tronnes.org>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,57 +49,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org
+Cc: devicetree@vger.kernel.org, Robin van der Gracht <robin@protonic.nl>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Oleksij Rempel <o.rempel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ David Jander <david@protonic.nl>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+changes v3:
+- add missing SoB and commit message
 
---g25a6v77b7y56qgc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+changes v2:
+- add missing new lines
+- rename adc label to adc_ts
+- add thermal zones patch
 
-On Fri, Feb 11, 2022 at 02:04:34PM +0100, Noralf Tr=F8nnes wrote:
-> Add a driver that will work with most MIPI DBI compatible SPI panels.
-> This avoids adding a driver for every new MIPI DBI compatible controller
-> that is to be used by Linux. The 'compatible' Device Tree property with
-> a '.bin' suffix will be used to load a firmware file that contains the
-> controller configuration.
->=20
-> Example (driver will load sainsmart18.bin):
->=20
-> display@0 {
-> 	compatible =3D "sainsmart18", "panel-mipi-dbi-spi";
-> ...
-> };
->=20
-> v3:
-> - Move properties to DT (Maxime)
-> - The MIPI DPI spec has optional support for DPI where the controller is
->   configured over DBI. Rework the command functions so they can be moved
->   to drm_mipi_dbi and shared with a future panel-mipi-dpi-spi driver
->=20
-> v2:
-> - Drop model property and use compatible instead (Rob)
-> - Add wiki entry in MAINTAINERS
->=20
-> Signed-off-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+Oleksij Rempel (4):
+  ARM: dts: imx6dl-prtvt7: Add display and panel nodes
+  ARM: dts: imx6qdl-vicut1: add CAN termination support
+  ARM: dts: imx6dl: plym2m, prtvt7, victgo: make use of new
+    resistive-adc-touch driver
+  ARM: dts: imx6dl: plym2m, prtvt7, victgo: add thermal zones and hwmon
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+Robin van der Gracht (1):
+  ARM: dts: imx6dl-prtvt7: Add missing tvp5150 video decoder node
 
-Maxime
+ arch/arm/boot/dts/imx6dl-plym2m.dts   | 131 +++++++++++++++--
+ arch/arm/boot/dts/imx6dl-prtvt7.dts   | 203 ++++++++++++++++++++++++--
+ arch/arm/boot/dts/imx6dl-victgo.dts   | 121 +++++++++++++--
+ arch/arm/boot/dts/imx6qdl-vicut1.dtsi |  12 +-
+ 4 files changed, 413 insertions(+), 54 deletions(-)
 
---g25a6v77b7y56qgc
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.30.2
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgZkeQAKCRDj7w1vZxhR
-xedvAQCDkrYvU6FhjOWlUgb6KI54jCuobneFSC4S6W6a+XOtIQEArefCOAAxWjUa
-Ih3CQbp4Wi5svfMv61CggDzZnDiNHw0=
-=8qWf
------END PGP SIGNATURE-----
-
---g25a6v77b7y56qgc--
