@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA89E4B2BBB
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 18:28:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164FA4B2D3A
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 19:59:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B524110EADE;
-	Fri, 11 Feb 2022 17:28:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F6D510EAF7;
+	Fri, 11 Feb 2022 18:59:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2282D10EADE
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 17:28:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644600494; x=1676136494;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=kFSqnDXKLmnzkeqj34XrRG8BjVnVtFyc7BDAxOa/Lkg=;
- b=GbV3fzxcJUK0bCu1TnIb6f2ftwMByKXORgd6E5332V3+a3euXRbFFpwb
- Iv4Ik5oktfcT522MKaFQ7keh01lcY9FCZXkfVL4/iSFDOnTN1UEfYme6k
- WoxwVk8SchpqdXD6Kz0K5vEE8RdO3HkWcNVtsP9eLS3iRyIHY+IiP97rQ
- qLFcRBPwVihg+t/7tWUzStJ3CNin8iMl+GbfLt3bWNhlHoFXFkZPP6+fz
- F67l/KvMTt0/GHciI542loXzFCvnnnqQ9FwGNWrZB4vdcDTAuLebVIBDh
- Ied7dODVXKnqkAP/rzEAFXeV++xtSOUg626HJvhJh+csIC4c+WfRX6Hfs A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10255"; a="249720038"
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="249720038"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 09:28:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="772150602"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 09:28:09 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nIZhQ-003Wrs-CU; Fri, 11 Feb 2022 19:27:12 +0200
-Date: Fri, 11 Feb 2022 19:27:12 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v4 1/6] drm/format-helper: Add
- drm_fb_xrgb8888_to_gray8_line()
-Message-ID: <YgaccFjPfJO0Mj6a@smile.fi.intel.com>
-References: <20220211091927.2988283-1-javierm@redhat.com>
- <20220211091927.2988283-2-javierm@redhat.com>
- <YgY6OqN+guBlt/ED@smile.fi.intel.com>
- <4fa465d9-4fac-4199-9a04-d8e09d164308@redhat.com>
- <YgZEuXvJ2ZiOyNS+@smile.fi.intel.com>
- <7560cd10-0a7c-3fda-da83-9008833e3901@suse.de>
- <87pmnt7gm3.fsf@intel.com> <YgaDj6Wld4b7S6DF@smile.fi.intel.com>
- <87fsop74lu.fsf@intel.com>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC7110EAF7;
+ Fri, 11 Feb 2022 18:59:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1644605987; x=1676141987;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=10MNTyWKrFElxhMmkbbRa8eHQjuoljFrhQU1QJPnd58=;
+ b=pBoZcBIYrPz0oDlspynry8juVYDswgbzQaMO+aUwhXHJ3AYE2kM3IYEq
+ 2t0PFm9cZX633vTWARvVNBGs5YEPZyQd943sPTQwsobY0wLVL0l/q6kbf
+ hxKH7XQgPq3xNxO73VlH6l8BISP4L7gyCQKBxwrCxGWJiNLGJC4Q8GE2T 4=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 11 Feb 2022 10:59:46 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 10:59:44 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Fri, 11 Feb 2022 10:59:44 -0800
+Received: from [10.38.246.233] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Fri, 11 Feb
+ 2022 10:59:41 -0800
+Message-ID: <654d620b-9e14-c47f-b48c-762dc0bd32a1@quicinc.com>
+Date: Fri, 11 Feb 2022 10:59:39 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87fsop74lu.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH] devcoredump: increase the device delete timeout to 10 mins
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+References: <1644349472-31077-1-git-send-email-quic_abhinavk@quicinc.com>
+ <YgZD8vPqB7ISpRpZ@kroah.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <YgZD8vPqB7ISpRpZ@kroah.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,90 +65,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc: rafael@kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, khsieh@codeaurora.org, nganji@codeaurora.org,
+ seanpaul@chromium.org, dmitry.baryshkov@linaro.org, johannes@sipsolutions.net,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 11, 2022 at 06:25:17PM +0200, Jani Nikula wrote:
-> On Fri, 11 Feb 2022, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > On Fri, Feb 11, 2022 at 02:05:56PM +0200, Jani Nikula wrote:
-> >> On Fri, 11 Feb 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >> > Am 11.02.22 um 12:12 schrieb Andy Shevchenko:
-> >> >> On Fri, Feb 11, 2022 at 11:40:13AM +0100, Javier Martinez Canillas wrote:
-> >> >>> On 2/11/22 11:28, Andy Shevchenko wrote:
-> >> >>>> On Fri, Feb 11, 2022 at 10:19:22AM +0100, Javier Martinez Canillas wrote:
-> >
-> > ...
-> >
-> >> >>>>> +static void drm_fb_xrgb8888_to_gray8_line(u8 *dst, const u32 *src, unsigned int pixels)
-> >> >>>>> +{
-> >> >>>>> +	unsigned int x;
-> >> >>>>> +
-> >> >>>>> +	for (x = 0; x < pixels; x++) {
-> >> >>>>> +		u8 r = (*src & 0x00ff0000) >> 16;
-> >> >>>>> +		u8 g = (*src & 0x0000ff00) >> 8;
-> >> >>>>> +		u8 b =  *src & 0x000000ff;
-> >> >>>>> +
-> >> >>>>> +		/* ITU BT.601: Y = 0.299 R + 0.587 G + 0.114 B */
-> >> >>>>> +		*dst++ = (3 * r + 6 * g + b) / 10;
-> >> >>>>> +		src++;
-> >> >>>>> +	}
-> >> >>>>
-> >> >>>> Can be done as
-> >> >>>>
-> >> >>>> 	while (pixels--) {
-> >> >>>> 		...
-> >> >>>> 	}
-> >> >>>>
-> >> >>>> or
-> >> >>>>
-> >> >>>> 	do {
-> >> >>>> 		...
-> >> >>>> 	} while (--pixels);
-> >> >>>>
-> >> >>>
-> >> >>> I don't see why a while loop would be an improvement here TBH.
-> >> >> 
-> >> >> Less letters to parse when reading the code.
-> >> >
-> >> > It's a simple refactoring of code that has worked well so far. Let's 
-> >> > leave it as-is for now.
-> >> 
-> >> IMO *always* prefer a for loop over while or do-while.
-> >> 
-> >> The for (i = 0; i < N; i++) is such a strong paradigm in C. You
-> >> instantly know how many times you're going to loop, at a glance. Not so
-> >> with with the alternatives, which should be used sparingly.
-> >
-> > while () {}  _is_ a paradigm, for-loop is syntax sugar on top of it.
-> 
-> And while() is just syntax sugar for goto. :p
-> 
-> The for loop written as for (i = 0; i < N; i++) is hands down the most
-> obvious counting loop pattern there is in C.
-> 
-> >> And yes, the do-while suggested above is buggy, and you actually need to
-> >> stop and think to see why.
-> >
-> > It depends if pixels can be 0 or not and if it's not, then does it contain last
-> > or number.
-> >
-> > The do {} while (--pixels); might be buggy iff pixels may be 0.
-> 
-> Yeah. And how long does it take to figure that out?
+Hi Greg
 
-Okay, I made a mistake to drop the explanation. So, I (mistakenly) assumed
-that people know this difference between post-decrement and pre-decrement
-(note, while-loop here is not what is problematic).
+Thanks for the response.
 
--- 
-With Best Regards,
-Andy Shevchenko
+On 2/11/2022 3:09 AM, Greg KH wrote:
+> On Tue, Feb 08, 2022 at 11:44:32AM -0800, Abhinav Kumar wrote:
+>> There are cases where depending on the size of the devcoredump and the speed
+>> at which the usermode reads the dump, it can take longer than the current 5 mins
+>> timeout.
+>>
+>> This can lead to incomplete dumps as the device is deleted once the timeout expires.
+>>
+>> One example is below where it took 6 mins for the devcoredump to be completely read.
+>>
+>> 04:22:24.668 23916 23994 I HWDeviceDRM::DumpDebugData: Opening /sys/class/devcoredump/devcd6/data
+>> 04:28:35.377 23916 23994 W HWDeviceDRM::DumpDebugData: Freeing devcoredump node
+> 
+> What makes this so slow?  Reading from the kernel shouldn't be the
+> limit, is it where the data is being sent to?
+
+We are still checking this. We are seeing better read times when we bump 
+up the thread priority of the thread which was reading this.
+We are also trying to check if bumping up CPU speed is helping.
+But, results have not been consistently good enough. So we thought we 
+should also increase the timeout to be safe.
 
 
+> 
+>> Increase the timeout to 10 mins to accommodate system delays and large coredump
+>> sizes.
+> 
+> Nit, please wrap your changelog texts at 72 columns.
+> 
+Yes, i will fix this when I re-post.
+
+> And what is "large"?
+
+We are seeing devcoredumps in the range of 2.5MB-3MB. I can also mention 
+this in the commit text in the next post.
+
+Thanks
+
+Abhinav
+
+> 
+> thanks,
+> 
+> greg k-h
