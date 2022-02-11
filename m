@@ -1,48 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2674B26E0
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 14:12:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF3A4B270D
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 14:27:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05CB910EC20;
-	Fri, 11 Feb 2022 13:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95B1710EC1E;
+	Fri, 11 Feb 2022 13:27:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2C0410EC20
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 13:12:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 63270B82A35;
- Fri, 11 Feb 2022 13:12:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48B75C340E9;
- Fri, 11 Feb 2022 13:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644585165;
- bh=mxPPHCFOv9wOqSJ+SKD7smQ5QOZ5zf1PCwR9hM57WiE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SrdpEBXGjpXGCE1/I22U/bhwSgvIVifVhrGZcXx+2Bx5fldw8oE+99TGhztEcMZee
- gCceMWSfCKqYd20VeyRNb5Lj9oIZO9Qne588kkxSVBP6ZXkBdme/dxEvd+Vl/3I+E9
- 7uPDrliKfMD5myPHEgq5MmM/97R4+xDyd+q57hYgCGGLFWu1wbYhg/euMgIqG3GIWC
- Hl0T3OJtuahsIXrfzEd0Nm+rgw5Q35v6pDB5y+2o4aDVbSTdIlSSAd8/2L2Mo4yPNz
- 4ZY6xuTH16dESAr5c/txEju5evKmdeJ6tlJKUY6vXDn7bp+djDIWdGz2hrtaE5E700
- CoBakB84ijVoA==
-Date: Fri, 11 Feb 2022 21:12:37 +0800
-From: Shawn Guo <shawnguo@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Subject: Re: [PATCH v2 2/5] ARM: dts: imx6dl-prtvt7: Add missing tvp5150
- video decoder node
-Message-ID: <20220211131237.GW4909@dragon>
-References: <20220131102841.1955032-1-o.rempel@pengutronix.de>
- <20220131102841.1955032-3-o.rempel@pengutronix.de>
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E9A610EC1F
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 13:27:53 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 4CC1A3201FDE;
+ Fri, 11 Feb 2022 08:27:50 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Fri, 11 Feb 2022 08:27:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=f18KfTxd2ee/FLiVAwFuokRjJ08yesny4jQNWr
+ VyNVw=; b=kK51pOBHiWoUyNJsLhE1Wfq6T7TsmaMHJXa+Gk3yCwVrXYc53neLYq
+ tfXJ176q2vEityLoHDgxDo34N/4WtMOitcZIPXXIgeDNoOdANn8T7tEk1ZUPiEGN
+ KGS++On6ZsqTKrQyxpnhC55DwZXOfxVmAGtbKxEuQrcYSQGaAXXulxQLsQTRVvwA
+ vw0E4SJi2ZSRBqc0Wb/6uIik4huzBtsqmoED3v1wSKpP4lSN82eUdvY2tlR8MydF
+ UP7D8ICW1o2AUP7LuX07xMjUkmwexEuBYd0lyNxFhk9lPve2gPRCcAyp+kP+SH6B
+ N1GwWU51eGZIZoVQEYjKYjIX/5CSBLEw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=f18KfTxd2ee/FLiVA
+ wFuokRjJ08yesny4jQNWrVyNVw=; b=AQbh0FsKTr3KZe1h5JRFSNOFrcugRnd4b
+ mtXdGMDnJYpMsqbnPb9drX7+AvTIOzGRs40aiE+FSXDRBVvLie51XVF1yWYDEaau
+ PLvDaWzaPEEsiDsYcCZ+7AMGArJz/wJ8Fl9dJaYSHyMXGDeuwDDuN3sQROgf9Hn1
+ TemxmFG4m8rfLXctvCATboFJ5gmpC4qRaJZGPdZUNbh7gk6CQWamjb46Uf9nBcpX
+ 7RklCdC/3sFL9HFGmFRxw94BTLtljaPI1sRPhqqv23R6lE/Vj2nqV2PB8HojvbQK
+ nJfPa+GHOIegOicMFYPjlyNCfbdMEjenm0sgaEdmnGPi7hMiRWe0A==
+X-ME-Sender: <xms:VWQGYrtwK0Tshs80W34TYbjGrMaeIOh0VEqPxeMCVuTUiinEeDwCsQ>
+ <xme:VWQGYscdIWxj5IESGwc4bd9MbOhN38KS8cWVoE1cq7R6ElR3kbfQ7UPbpeZyreC0P
+ 7DXrTb8mFtoD_2IlcM>
+X-ME-Received: <xmr:VWQGYuzPrsd3AWzW-oeAldvo36mTpynuKMnxjWTJrXtxQLstyC2P_z3jmuyvql4bu_j0UsyfzzFmTO2A1OxevHs5VSxooceIB-LpK6I>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrieefgdehudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeehieefudethfevkeeigedvgfetjeeghfdvveekvdffueffteejtdejudffgfdu
+ keenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
+ vggthh
+X-ME-Proxy: <xmx:VWQGYqP7r65jkef-PkZxS59ZDYQI63THfVR5s2mSNJifUoz9lc0wng>
+ <xmx:VWQGYr9aig0YMShfUaM6hb2bZScBCpNjyEjpuS_Cn7WTRjHLWrBSbQ>
+ <xmx:VWQGYqXZatxWRvw0Q2Ws4Ta1lauwuqCoxHBkI1V023yz2xgu7EoCag>
+ <xmx:VWQGYrx6EoZUihfZiROCiaG8lCn8nshZEBPtsFcaoVPxOXBolmzclQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 11 Feb 2022 08:27:49 -0500 (EST)
+Date: Fri, 11 Feb 2022 14:27:45 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v3 1/3] dt-bindings: display: add bindings for MIPI DBI
+ compatible SPI panels
+Message-ID: <20220211132745.h5vyo7b7hrq6rkla@houat>
+References: <20220211130434.20732-1-noralf@tronnes.org>
+ <20220211130434.20732-2-noralf@tronnes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="yamwfma4skb5as4w"
 Content-Disposition: inline
-In-Reply-To: <20220131102841.1955032-3-o.rempel@pengutronix.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20220211130434.20732-2-noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,104 +83,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- David Airlie <airlied@linux.ie>, Robin van der Gracht <robin@protonic.nl>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- David Jander <david@protonic.nl>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, david@lechnology.com,
+ dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 31, 2022 at 11:28:38AM +0100, Oleksij Rempel wrote:
-> From: Robin van der Gracht <robin@protonic.nl>
-> 
-> Signed-off-by: Robin van der Gracht <robin@protonic.nl>
 
-Please write up some commit log.  Also your SoB is missing.
+--yamwfma4skb5as4w
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Shawn
-
+On Fri, Feb 11, 2022 at 02:04:32PM +0100, Noralf Tr=F8nnes wrote:
+> Add binding for MIPI DBI compatible SPI panels.
+>=20
+> v3:
+> - Move properties to Device Tree (Maxime)
+> - Use contains for compatible (Maxime)
+> - Add backlight property to example
+> - Flesh out description
+>=20
+> v2:
+> - Fix path for panel-common.yaml
+> - Use unevaluatedProperties
+> - Drop properties which are in the allOf section
+> - Drop model property (Rob)
+>=20
+> Signed-off-by: Noralf Tr=F8nnes <noralf@tronnes.org>
 > ---
->  arch/arm/boot/dts/imx6dl-prtvt7.dts | 42 +++++++++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/imx6dl-prtvt7.dts b/arch/arm/boot/dts/imx6dl-prtvt7.dts
-> index be7c4cb339e7..baaa6ffc4df9 100644
-> --- a/arch/arm/boot/dts/imx6dl-prtvt7.dts
-> +++ b/arch/arm/boot/dts/imx6dl-prtvt7.dts
-> @@ -6,6 +6,7 @@
->  /dts-v1/;
->  #include "imx6dl.dtsi"
->  #include "imx6qdl-prti6q.dtsi"
-> +#include <dt-bindings/display/sdtv-standards.h>
->  #include <dt-bindings/input/input.h>
->  #include <dt-bindings/leds/common.h>
->  #include <dt-bindings/sound/fsl-imx-audmux.h>
-> @@ -171,6 +172,18 @@ panel_in: endpoint {
->  		};
->  	};
->  
-> +	connector {
-> +		compatible = "composite-video-connector";
-> +		label = "Composite0";
-> +		sdtv-standards = <SDTV_STD_PAL_B>;
+>  .../display/panel/panel-mipi-dbi-spi.yaml     | 124 ++++++++++++++++++
+>  1 file changed, 124 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel=
+-mipi-dbi-spi.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-d=
+bi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-db=
+i-spi.yaml
+> new file mode 100644
+> index 000000000000..4d017a36ad4d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.=
+yaml
+> @@ -0,0 +1,124 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/panel-mipi-dbi-spi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +		port {
-> +			comp0_out: endpoint {
-> +				remote-endpoint = <&tvp5150_comp0_in>;
-> +			};
-> +		};
-> +	};
+> +title: MIPI DBI SPI Panel
 > +
->  	reg_bl_12v0: regulator-bl-12v0 {
->  		compatible = "regulator-fixed";
->  		pinctrl-names = "default";
-> @@ -295,6 +308,31 @@ sgtl5000: audio-codec@a {
->  		VDDIO-supply = <&reg_3v3>;
->  		VDDD-supply = <&reg_1v8>;
->  	};
+> +maintainers:
+> +  - Noralf Tr=F8nnes <noralf@tronnes.org>
 > +
-> +	video@5c {
-> +		compatible = "ti,tvp5150";
-> +		reg = <0x5c>;
+> +description: |
+> +  This binding is for display panels using a MIPI DBI compatible control=
+ler
+> +  in SPI mode.
 > +
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
+> +  The MIPI Alliance Standard for Display Bus Interface defines the elect=
+rical
+> +  and logical interfaces for display controllers historically used in mo=
+bile
+> +  phones. The standard defines 4 display architecture types and this bin=
+ding is
+> +  for type 1 which has full frame memory. There are 3 interface types in=
+ the
+> +  standard and type C is the serial interface.
 > +
-> +		port@0 {
-> +			reg = <0>;
+> +  The standard defines the following interface signals for type C:
+> +  - Power:
+> +    - Vdd: Power supply for display module
+> +    - Vddi: Logic level supply for interface signals
+> +    Combined into one in this binding called: power-supply
+> +  - Interface:
+> +    - CSx: Chip select
+> +    - SCL: Serial clock
+> +    - Dout: Serial out
+> +    - Din: Serial in
+> +    - SDA: Bidrectional in/out
+> +    - D/CX: Data/command selection, high=3Ddata, low=3Dcommand
+> +      Called dc-gpios in this binding.
+> +    - RESX: Reset when low
+> +      Called reset-gpios in this binding.
 > +
-> +			tvp5150_comp0_in: endpoint {
-> +				remote-endpoint = <&comp0_out>;
-> +			};
-> +		};
+> +  The type C interface has 3 options:
 > +
-> +		/* Output port 2 is video output pad */
-> +		port@2 {
-> +			reg = <2>;
+> +    - Option 1: 9-bit mode and D/CX as the 9th bit
+> +      |              Command              |  the next command or followi=
+ng data  |
+> +      |<0><D7><D6><D5><D4><D3><D2><D1><D0>|<D/CX><D7><D6><D5><D4><D3><D2=
+><D1><D0>|
 > +
-> +			tvp5151_to_ipu1_csi0_mux: endpoint {
-> +				remote-endpoint = <&ipu1_csi0_mux_from_parallel_sensor>;
-> +			};
-> +		};
-> +	};
->  };
->  
->  &i2c3 {
-> @@ -322,6 +360,10 @@ &ipu1_di0_disp0 {
->  	remote-endpoint = <&display_in>;
->  };
->  
-> +&ipu1_csi0_mux_from_parallel_sensor {
-> +	remote-endpoint = <&tvp5151_to_ipu1_csi0_mux>;
-> +};
+> +    - Option 2: 16-bit mode and D/CX as a 9th bit
+> +      |              Command or data                              |
+> +      |<X><X><X><X><X><X><X><D/CX><D7><D6><D5><D4><D3><D2><D1><D0>|
 > +
->  &pwm1 {
->  	pinctrl-names = "default";
->  	pinctrl-0 = <&pinctrl_pwm1>;
-> -- 
-> 2.30.2
-> 
+> +    - Option 3: 8-bit mode and D/CX as a separate interface line
+> +      |        Command or data         |
+> +      |<D7><D6><D5><D4><D3><D2><D1><D0>|
+> +
+> +  The panel resolution is specified using the panel-timing node properti=
+es
+> +  hactive (width) and vactive (height). The other mandatory panel-timing
+> +  properties should be set to zero except clock-frequency which can be
+> +  optionally set to inform about the actual pixel clock frequency.
+> +
+> +  If the panel is wired to the controller at an offset specify this using
+> +  hback-porch (x-offset) and vback-porch (y-offset).
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    contains:
+> +      const: panel-dbi-spi
+
+This could be further improved by using
+
+properties:
+  compatible:
+    items:
+      - {} # Panel Specific Compatible
+      - const: panel-dbi-spi
+
+To make it obvious we expect two compatible, and what the first one should =
+be.
+
+Once fixed,
+
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+
+Maxime
+
+--yamwfma4skb5as4w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgZkUQAKCRDj7w1vZxhR
+xSDOAP0Tov4MG92o7XvnehNhfLKRHpZSRn4LTz83ZVEnexlUvwEAp8/GskKie33v
+mTvde9M8LVC8pUJgL2NgBj/alUJPzw0=
+=0Y4m
+-----END PGP SIGNATURE-----
+
+--yamwfma4skb5as4w--
