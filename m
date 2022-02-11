@@ -1,54 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE4C4B22D3
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 11:11:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F02E14B22E8
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 11:14:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E948210EA67;
-	Fri, 11 Feb 2022 10:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC6310EA6F;
+	Fri, 11 Feb 2022 10:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED4C10EA66;
- Fri, 11 Feb 2022 10:11:29 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0740C10EA6B;
+ Fri, 11 Feb 2022 10:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644574289; x=1676110289;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=b4hMAeoDaRrPtaYMhAeKaZsyrYqSAbHgNHcQLOb62jg=;
- b=Sak/Pt9wzOwLZMRkMqax4y9O/xyPZ5xf7C1SBrt+B74vvc2krGbRzjhu
- s+6SFPPcisgY0YIqPtRMi3XORFkL3ynXpTPSeZ3amzQdRm3hl4aiGjuR8
- uGeT2+/Y1PY1j54Wn/b/KWgLFhtdFokRpbBMWIFT342uRZpGpK8esre+M
- R9UWk6ZNeDKWeLJDXX+/Rgm7GufNyEIWj5qxc3OCpZaatR+2ITrdKGkT/
- AoWsA5cyudUB6o8zC0qnG8nGshKLD7rTNvjBhIcoGHHvlGTdzboYT2drB
- p8gVNXIcNeSpoKjLYM13Y519BuGv8AYaCXFyFcJuIhFVsiEvHc5OS7mEd A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="230347605"
-X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="230347605"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 02:11:29 -0800
-X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="623177683"
-Received: from rriverox-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.19.108])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 02:11:26 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 6/8] drm/i915/dp: add 128b/132b support to link
- status checks
-In-Reply-To: <YgOGqmEigGnYIK8f@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1643878928.git.jani.nikula@intel.com>
- <cec395d435679a290a1c35fcbfc54555101bfad1.1643878928.git.jani.nikula@intel.com>
- <YgKG8JFIKC6PRmMG@intel.com> <87sfsspfsa.fsf@intel.com>
- <YgOGqmEigGnYIK8f@intel.com>
-Date: Fri, 11 Feb 2022 12:11:24 +0200
-Message-ID: <87v8xl7lwz.fsf@intel.com>
+ t=1644574486; x=1676110486;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Neh1eyXjLo4+6B3nwfPNQzZhJZtNY0ywdMiX4UqARNc=;
+ b=lGFKMQ9TlMWsH1LLC5ept7kkHvyrFpde8ri5dju2V4nG5CEKsI79pPe3
+ G2eKpZiXijCsaYQeNHpkYyJZ54WmlRYqQp/up4TJY7VBSe+NM+pr54272
+ r7msLhsUYj59m0QRfYDH8T27ULmG6HaafWIZdT1k1VBG2mXK/TKjwW5El
+ Akq9I11DiFiTpQUmZmLjOgVJi4RMnqyiyvXyO0KFLb0z4ldjoEI8YkfQi
+ yy1U4uepekJpFLQ0nYMnAPHdfitDPZeXSNjGK01d0CwhIlCLW4jyZ4QCi
+ uyRLt8hYp2RUvSkVw0IcY5gZGRWobklPSyzO5bo2iwnEBl7CMDqtaaPZi g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="336127506"
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="336127506"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 02:14:45 -0800
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="774203783"
+Received: from olindum-mobl1.ger.corp.intel.com (HELO [10.249.254.193])
+ ([10.249.254.193])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 02:14:44 -0800
+Message-ID: <55acf6bc-509a-458c-721e-fd833f0b8fcf@linux.intel.com>
+Date: Fri, 11 Feb 2022 11:14:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [Intel-gfx] [PATCH v2 12/15] drm/i915/create: apply
+ ALLOC_GPU_ONLY by default
+Content-Language: en-US
+To: Matthew Auld <matthew.william.auld@gmail.com>
+References: <20220210121313.701004-1-matthew.auld@intel.com>
+ <20220210121313.701004-13-matthew.auld@intel.com>
+ <e4f128ad-1738-cee7-6790-fbdbb6d5698d@linux.intel.com>
+ <CAM0jSHM8+KBAN2iMM7L+9HUKuTodH5u32o4XgGZbv8fvUrn67g@mail.gmail.com>
+ <45a64b08-1a7e-117f-fd20-e5c4a15f8d7c@linux.intel.com>
+ <CAM0jSHMrX9=MKunVqHS1kkZevW-Y9kmCNUrAPqOi=3xRmMk1AA@mail.gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <CAM0jSHMrX9=MKunVqHS1kkZevW-Y9kmCNUrAPqOi=3xRmMk1AA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,166 +65,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, uma.shankar@intel.com,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 09 Feb 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Wed, Feb 09, 2022 at 11:09:41AM +0200, Jani Nikula wrote:
->> On Tue, 08 Feb 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.=
-com> wrote:
->> > On Thu, Feb 03, 2022 at 11:03:55AM +0200, Jani Nikula wrote:
->> >> Abstract link status check to a function that takes 128b/132b and 8b/=
-10b
->> >> into account, and use it. Also dump link status on failures.
->> >>=20
->> >> Cc: Uma Shankar <uma.shankar@intel.com>
->> >> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> >> ---
->> >>  drivers/gpu/drm/i915/display/intel_dp.c       | 39 ++++++++++++++---=
---
->> >>  .../drm/i915/display/intel_dp_link_training.c |  2 +-
->> >>  .../drm/i915/display/intel_dp_link_training.h |  4 ++
->> >>  3 files changed, 34 insertions(+), 11 deletions(-)
->> >>=20
->> >> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/dr=
-m/i915/display/intel_dp.c
->> >> index 146b83916005..8c5590f0409a 100644
->> >> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->> >> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->> >> @@ -3628,6 +3628,32 @@ static void intel_dp_handle_test_request(struc=
-t intel_dp *intel_dp)
->> >>  			    "Could not write test response to sink\n");
->> >>  }
->> >>=20=20
->> >> +static bool intel_dp_link_ok(struct intel_dp *intel_dp,
->> >> +			     u8 link_status[DP_LINK_STATUS_SIZE])
->> >> +{
->> >> +	struct intel_encoder *encoder =3D &dp_to_dig_port(intel_dp)->base;
->> >> +	struct drm_i915_private *i915 =3D to_i915(encoder->base.dev);
->> >> +	bool uhbr =3D intel_dp->link_rate >=3D 1000000;
->> >> +	bool ok;
->> >> +
->> >> +	if (uhbr)
->> >> +		ok =3D drm_dp_128b132b_lane_channel_eq_done(link_status,
->> >> +							  intel_dp->lane_count);
->> >
->> > I was pondering whether we need to check more of the bits here. I guess
->> > time will tell.
->> >
->> > Remainder of the series is
->> > Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->>=20
->> Just to be on the safe side, does this cover patches 2 and 4 too?
->
-> Yeah, pretty sure I read through all of them.
 
-Thanks, pushed to drm-intel-next, patches 1-3 with Thomas' irc ack.
-
-BR,
-Jani.
-
-
-
->
->>=20
->> And thanks for all the reviews so far, much appreciated!
+On 2/11/22 11:00, Matthew Auld wrote:
+> On Fri, 11 Feb 2022 at 09:56, Thomas Hellström
+> <thomas.hellstrom@linux.intel.com> wrote:
 >>
->> BR,
->> Jani.
->>=20
->>=20
->> >
->> >> +	else
->> >> +		ok =3D drm_dp_channel_eq_ok(link_status, intel_dp->lane_count);
->> >> +
->> >> +	if (ok)
->> >> +		return true;
->> >> +
->> >> +	intel_dp_dump_link_status(intel_dp, DP_PHY_DPRX, link_status);
->> >> +	drm_dbg_kms(&i915->drm,
->> >> +		    "[ENCODER:%d:%s] %s link not ok, retraining\n",
->> >> +		    encoder->base.base.id, encoder->base.name,
->> >> +		    uhbr ? "128b/132b" : "8b/10b");
->> >> +
->> >> +	return false;
->> >> +}
->> >> +
->> >>  static void
->> >>  intel_dp_mst_hpd_irq(struct intel_dp *intel_dp, u8 *esi, u8 *ack)
->> >>  {
->> >> @@ -3658,14 +3684,7 @@ static bool intel_dp_mst_link_status(struct in=
-tel_dp *intel_dp)
->> >>  		return false;
->> >>  	}
->> >>=20=20
->> >> -	if (!drm_dp_channel_eq_ok(link_status, intel_dp->lane_count)) {
->> >> -		drm_dbg_kms(&i915->drm,
->> >> -			    "[ENCODER:%d:%s] channel EQ not ok, retraining\n",
->> >> -			    encoder->base.base.id, encoder->base.name);
->> >> -		return false;
->> >> -	}
->> >> -
->> >> -	return true;
->> >> +	return intel_dp_link_ok(intel_dp, link_status);
->> >>  }
->> >>=20=20
->> >>  /**
->> >> @@ -3779,8 +3798,8 @@ intel_dp_needs_link_retrain(struct intel_dp *in=
-tel_dp)
->> >>  					intel_dp->lane_count))
->> >>  		return false;
->> >>=20=20
->> >> -	/* Retrain if Channel EQ or CR not ok */
->> >> -	return !drm_dp_channel_eq_ok(link_status, intel_dp->lane_count);
->> >> +	/* Retrain if link not ok */
->> >> +	return !intel_dp_link_ok(intel_dp, link_status);
->> >>  }
->> >>=20=20
->> >>  static bool intel_dp_has_connector(struct intel_dp *intel_dp,
->> >> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/=
-drivers/gpu/drm/i915/display/intel_dp_link_training.c
->> >> index cc2b82d9114c..0686da36c428 100644
->> >> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
->> >> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
->> >> @@ -712,7 +712,7 @@ static bool intel_dp_adjust_request_changed(const=
- struct intel_crtc_state *crtc_
->> >>  	return false;
->> >>  }
->> >>=20=20
->> >> -static void
->> >> +void
->> >>  intel_dp_dump_link_status(struct intel_dp *intel_dp, enum drm_dp_phy=
- dp_phy,
->> >>  			  const u8 link_status[DP_LINK_STATUS_SIZE])
->> >>  {
->> >> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.h b/=
-drivers/gpu/drm/i915/display/intel_dp_link_training.h
->> >> index dbfb15705aaa..dc1556b46b85 100644
->> >> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.h
->> >> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
->> >> @@ -29,6 +29,10 @@ void intel_dp_start_link_train(struct intel_dp *in=
-tel_dp,
->> >>  void intel_dp_stop_link_train(struct intel_dp *intel_dp,
->> >>  			      const struct intel_crtc_state *crtc_state);
->> >>=20=20
->> >> +void
->> >> +intel_dp_dump_link_status(struct intel_dp *intel_dp, enum drm_dp_phy=
- dp_phy,
->> >> +			  const u8 link_status[DP_LINK_STATUS_SIZE]);
->> >> +
->> >>  /* Get the TPSx symbol type of the value programmed to DP_TRAINING_P=
-ATTERN_SET */
->> >>  static inline u8 intel_dp_training_pattern_symbol(u8 pattern)
->> >>  {
->> >> --=20
->> >> 2.30.2
->>=20
->> --=20
->> Jani Nikula, Intel Open Source Graphics Center
+>> On 2/11/22 10:52, Matthew Auld wrote:
+>>> On Fri, 11 Feb 2022 at 09:49, Thomas Hellström
+>>> <thomas.hellstrom@linux.intel.com> wrote:
+>>>> On 2/10/22 13:13, Matthew Auld wrote:
+>>>>> Starting from DG2+, when dealing with LMEM, we assume that by default
+>>>>> all userspace allocations should be placed in the non-mappable portion
+>>>>> of LMEM.  Note that dumb buffers are not included here, since these are
+>>>>> not "GPU accelerated" and likely need CPU access.
+>>>>>
+>>>>> In a later patch userspace will be able to provide a hint if CPU access
+>>>>> to the buffer is needed.
+>>>>>
+>>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>>>> ---
+>>>>>     drivers/gpu/drm/i915/gem/i915_gem_create.c | 9 +++++++++
+>>>>>     1 file changed, 9 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>>>> index 9402d4bf4ffc..cc9ddb943f96 100644
+>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>>>> @@ -424,6 +424,15 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+>>>>>                 ext_data.n_placements = 1;
+>>>>>         }
+>>>>>
+>>>>> +     /*
+>>>>> +      * TODO: add a userspace hint to force CPU_ACCESS for the object, which
+>>>>> +      * can override this.
+>>>>> +      */
+>>>>> +     if (!IS_DG1(i915) && (ext_data.n_placements > 1 ||
+>>>>> +                           ext_data.placements[0]->type !=
+>>>>> +                           INTEL_MEMORY_SYSTEM))
+>>>>> +             ext_data.flags |= I915_BO_ALLOC_GPU_ONLY;
+>>>>> +
+>>>> WRT previous review comment here, it would be easier to follow if the bo
+>>>> was marked as a GPU only buffer regardless. Then for example capture and
+>>>> other functions where it actually matters can choose to take action
+>>>> based on, for example, whether the BAR is restricted or not?
+>>> Yeah, I completely forgot about this, sorry. Will fix now.
+>> Actually you did reply, but I forgot to reply to that :).
+> Hmm, should we just drop the IS_DG1() check here(that was my first
+> thought), or go further and still apply even regardless of placements?
+> i.e it would be set on integrated
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+That was my first thought as well, but yes it makes sense to also drop 
+the placement checks and let the placement selection logic handle that 
+later?
+
+One alternative approach would also be to invert the thing and have a 
+BO_ALLOC_CPU_REQUIRE, that is set by default on some bos and can be set 
+on the others using the hint, but I figure that needs to be then set 
+also on kernel-only buffer objects. Not sure what is simplest.
+
+/Thomas
+
+
+>
+>> /Thomas
+>>
+>>
