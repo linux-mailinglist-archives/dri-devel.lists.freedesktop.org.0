@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF62A4B247E
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 12:35:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3D54B247F
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 12:36:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BA5D10EA88;
-	Fri, 11 Feb 2022 11:35:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7061210E9A5;
+	Fri, 11 Feb 2022 11:36:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C48B10EAD4
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 11:35:51 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 188BF10E9A5
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 11:36:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644579351; x=1676115351;
+ t=1644579363; x=1676115363;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=oKU+556CH19q9JkpqQw/lSP+Woo1fSuxfhrkttxrgN8=;
- b=jCxdonz7YaTXfPLUBhNlWJSpZz8U2RjRxgz4aHGHMYhaNbX1E6M2R0D9
- bgzkFWE7ACSLOcDPbYux7Gnd6skCPqmCWAJWhbNxA0B2HqMM8CdFNGmSH
- j52DblNzLE6IccRQVoBoP2uVK+LUJE0N4OzTtzDq/jAiZFmgRZRtsnQg4
- f6Hmi1w5FeVfNgUjS13nRYSXHzRz+CJuF15fxWZfkz9JYALN3+/FHH9oN
- JO5EU4cvqQyAF9BDl158TekaTg4EhHrRJ+Crp3r9LK4nRlWkqUnOKMJaS
- uc8fC4dJfIKSgT6cl+MO3DKZPnQjkItX6ymywblLQGEH2/60IW+P8MT9G Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="312998286"
-X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="312998286"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 03:35:50 -0800
-X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="542052949"
+ bh=bTdjHFPr4nUGXu4pkdc+I1g9MpzgJ+mPYB+7OmSpI0M=;
+ b=MMP5QmckpdYpIRE/HiLT2Z7/e6znx9IH91hnajBKHkWJik7XRR3OG39p
+ 392nFhOOJkmYq9QvWgDO92xloY1np7aeXWQVViwGPZT34BKCNQlYQ7D07
+ lTTZIH9Jyn9bg3v2thLOUrNYsFxVdngqYAZKIkpnOg+nPLJb4lllnHxWr
+ bwULEo2Gf6hqv5WR/5Ooq5SMofm7+fYLnNngYCMyBWJzHKflePPVMg9au
+ l0i8n6N5VpYDgmiomGZwHeMfDpf5V8QkuMWYOq1EPgQ9NYmZniOJD1dxQ
+ 4bRwZokrpmQBOvJAFbRS3Qz7ifCYMl3E5a8RAV9sri1P8weOFrYFeEuWs Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="336138309"
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="336138309"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 03:36:02 -0800
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="500756801"
 Received: from smile.fi.intel.com ([10.237.72.61])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 03:35:47 -0800
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 03:36:00 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.95)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nIUCQ-003QO6-FQ; Fri, 11 Feb 2022 13:34:50 +0200
-Date: Fri, 11 Feb 2022 13:34:50 +0200
+ id 1nIUCc-003QOI-Io; Fri, 11 Feb 2022 13:35:02 +0200
+Date: Fri, 11 Feb 2022 13:35:02 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v4 5/6] MAINTAINERS: Add entry for Solomon SSD130x OLED
- displays DRM driver
-Message-ID: <YgZJ2sV956zg9IXO@smile.fi.intel.com>
+Subject: Re: [PATCH v4 6/6] dt-bindings: display: ssd1307fb: Add myself as
+ binding co-maintainer
+Message-ID: <YgZJ5jX9BUZ4/0Ed@smile.fi.intel.com>
 References: <20220211091927.2988283-1-javierm@redhat.com>
- <20220211092157.2988713-1-javierm@redhat.com>
+ <20220211092253.2988843-1-javierm@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220211092157.2988713-1-javierm@redhat.com>
+In-Reply-To: <20220211092253.2988843-1-javierm@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,48 +69,42 @@ Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 11, 2022 at 10:21:57AM +0100, Javier Martinez Canillas wrote:
-> To make sure that tools like the get_maintainer.pl script will suggest
-> to Cc me if patches are posted for this driver.
+On Fri, Feb 11, 2022 at 10:22:53AM +0100, Javier Martinez Canillas wrote:
+> The ssd130x DRM driver also makes use of this Device Tree binding to allow
+> existing users of the fbdev driver to migrate without the need to change
+> their Device Trees.
 > 
-> Also include the Device Tree binding for the old ssd1307fb fbdev driver
-> since the new DRM driver was made compatible with the existing binding.
+> Add myself as another maintainer of the binding, to make sure that I will
+> be on Cc when patches are proposed for it.
 
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
+> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
 > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> Acked-by: Rob Herring <robh@kernel.org>
 > ---
 > 
-> (no changes since v3)
-> 
-> Changes in v3:
-> - Adapt MAINTAINERS entry to point to the new drivers/gpu/drm/solomon directory.
+> Changes in v4:
+> - Add Rob Herring Acked-by tag to patch adding as DT binding co-maintainer.
 > 
 > Changes in v2:
-> - Add Sam Ravnborg's acked-by to patch adding a MAINTAINERS entry (Sam Ravnborg)
+> - Add myself as co-maintainer of the ssd1370fb DT binding (Sam Ravnborg).
 > 
->  MAINTAINERS | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d03ad8da1f36..05c306986ab0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6102,6 +6102,13 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
->  F:	Documentation/devicetree/bindings/display/repaper.txt
->  F:	drivers/gpu/drm/tiny/repaper.c
+> diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> index 2ed2a7d0ca2f..9baafd0c42dd 100644
+> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> @@ -8,6 +8,7 @@ title: Solomon SSD1307 OLED Controller Framebuffer
 >  
-> +DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
-> +M:	Javier Martinez Canillas <javierm@redhat.com>
-> +S:	Maintained
-> +T:	git git://anongit.freedesktop.org/drm/drm-misc
-> +F:	Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> +F:	drivers/gpu/drm/solomon/ssd130x*
-> +
->  DRM DRIVER FOR QEMU'S CIRRUS DEVICE
->  M:	Dave Airlie <airlied@redhat.com>
->  M:	Gerd Hoffmann <kraxel@redhat.com>
+>  maintainers:
+>    - Maxime Ripard <mripard@kernel.org>
+> +  - Javier Martinez Canillas <javierm@redhat.com>
+>  
+>  properties:
+>    compatible:
 > -- 
 > 2.34.1
 > 
