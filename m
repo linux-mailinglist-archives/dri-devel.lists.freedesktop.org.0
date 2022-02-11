@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1EC44B2B38
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 18:05:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C89D34B2B4C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 18:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A295F10E3DD;
-	Fri, 11 Feb 2022 17:05:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA1EC10EAD7;
+	Fri, 11 Feb 2022 17:07:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2049.outbound.protection.outlook.com [40.107.236.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E093A10E3DD;
- Fri, 11 Feb 2022 17:05:06 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2084.outbound.protection.outlook.com [40.107.220.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40F5310EAD7;
+ Fri, 11 Feb 2022 17:07:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V+xoY9RGK9N4UAn+oe2OTB7XNgE0OW+2eoWLbNOezg+eq8p2WPKiJs0BK7aQ0lU7DP9JojuQTHRA2oiJ17Yl0al0PruDI6GmHGKJqyaWbGTv57OA+t+jaoAnYMBR/ukOG2w1bKIS8sGycst6+NLtT2MRebSHlkIa1NQJ4ke5ya5cnTq7Mn4m7IbjKiqLE7DbDr/W8C1ZTKsM5WHYY5jGg5qaQZztCTlwQVNuC4JcYur5ZdmwDrA5rRAY6rXgTgZtY0/trENhVNVjUa1ci1QESLnRPHljwygUwhez4TbmYl+0bGz8koDpbVfezIBLq7EWWpWy0drWi0amJUcQDLngnA==
+ b=Qce9LY45lLdRVZoG0GgO+NX0CIFRUGdzvmfCEyk0wYbOdYUeufF8QZgb8UYHxIuOpEPGaWblkPff2KB0uBlhNnMytuDBgMt5wkPaEcKYiMoILn2ASXWgTGjCPYqDTiEXF+tJP/yFnT5TFav8gupf7ODCFsG+qzghKS3WPZ2ngrULLx19VQaDXWX+ceAHDGkisucrFlgJCFYIfFGJxjfHeetH3TjIyB1gAg01OsvEAIMz51ahJVxyesmGhGCM0TdH6lJeu8VfqtfEYYOkcdCsuwXR1uaBc251ly3lFhj93LQSyBpVG5ccgjNEzPzvMuO/L5S13tSHe+rV2tETbXB7CA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zBktjK1nZQ4wJaNwkXaXP149Eo3dAwN754shguUapS4=;
- b=HJSEgCWkjcpmoq8GGbCtDaHI7bXInsWg09v3W0ABQSS9f+QDdhSsJ9rjtKiWH89B0wEO+JBu3+ym0IpTLtK4ETHnsWL0OAiMt/AiQb4JWeJ9ouy1rtO2DkqX7LWPmS1mr950ovFSqEaU5uWBpr95Y858nsoHowsqw+mm53tJd4Azk4pDHDhn+1jXEojCN//TVyipuiXIFr6zWyMDL46Fh1hJrfd1L14wvszOjkPrkjNhaJkZeJM/uTwFnicQ9WJTg0MtkYqpYn2bodGeF2VTe6Tc2ElSRJryNh26d5FConzziDSs+sw7pt9CT0RA4aeNKsR+bUJxvYiUVex76hntLQ==
+ bh=49+uABlHoF/XzoYLH/FogMU5ku/SkUq3CWWdN4lxGb4=;
+ b=ecH7HNJD3/1pSO03tShMA1I+eqbiVzG7uYe9BNYDPncZomfO2XhysP8ysL351+naLqwUB7XYjCxLsBl48KF0E+zT+OrsPQy2fdShhZLDNirSOP5+DeGR56lJ/3bQ+7GMK4jdAocaPM9lAMNOHpk4XoUNj8ls5u0kLApqgK7ryXmVw5SNwigl0rxIflj5R35cTP4mJVjwjB7JG0GTROYp95gb8QFKBlLmWqx8RQsmcyArTqWlHyyj+ZGbcE7PfQdRol2PPbLdNmLkaTW4OY/4f2IYUxy48bt5Ax6GOgtuHHpdmaO1iTBwdnzBi/OlZplAmofmU0PAKSjkNRzwXsun+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zBktjK1nZQ4wJaNwkXaXP149Eo3dAwN754shguUapS4=;
- b=SsNsOHzlIBASsLjykbGrI0i4Nk8ASfn69qxPngBvDuhYCTaaF7XJMqTdpzTmkgEUBJbeoavHy6zaLf2irps1x7md6+W+P/lG3cukFyzgPttf+HgnzKMS6R1lovtAy0227zjyv+qDR8mvqpdcmYnWKdd62j17RnZUbsV8p1NOQ9E=
+ bh=49+uABlHoF/XzoYLH/FogMU5ku/SkUq3CWWdN4lxGb4=;
+ b=xqhN/kBBxNi/jcTiBdZTM9Df3L5fBL741kiHIbs/uPn4PDnygUTLjq5fl1yFCNC5ObnzMoc2763Sfg5k1Kk1j2ej3HrMd8h86gFx/8lfvNjrz4xiJbzGy2z84JCdEdMFzPyB0HtYDLVsfpz6fL/xedva6MAPAWRxBEfOq3CYUEs=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by DM5PR12MB1369.namprd12.prod.outlook.com (2603:10b6:3:6f::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Fri, 11 Feb
- 2022 17:05:04 +0000
+ by CY4PR12MB1925.namprd12.prod.outlook.com (2603:10b6:903:120::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.17; Fri, 11 Feb
+ 2022 17:07:13 +0000
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com
  ([fe80::38ec:3a46:f85e:6cfa]) by BN9PR12MB5115.namprd12.prod.outlook.com
  ([fe80::38ec:3a46:f85e:6cfa%4]) with mapi id 15.20.4975.014; Fri, 11 Feb 2022
- 17:05:03 +0000
-Message-ID: <3acdebb4-310e-1edb-d7b0-a79db348f6f2@amd.com>
-Date: Fri, 11 Feb 2022 12:05:01 -0500
+ 17:07:13 +0000
+Message-ID: <a24d82d9-daf9-fa1a-8b9d-5db7fe10655e@amd.com>
+Date: Fri, 11 Feb 2022 12:07:11 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
 Subject: Re: [PATCH v6 01/10] mm: add zone device coherent type memory support
@@ -49,75 +49,76 @@ To: David Hildenbrand <david@redhat.com>, Alex Sierra <alex.sierra@amd.com>,
 References: <20220201154901.7921-1-alex.sierra@amd.com>
  <20220201154901.7921-2-alex.sierra@amd.com>
  <beb38138-2266-1ff8-cc82-8fe914bed862@redhat.com>
+ <f2af73c1-396b-168f-7f86-eb10b3b68a26@redhat.com>
 From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <beb38138-2266-1ff8-cc82-8fe914bed862@redhat.com>
+In-Reply-To: <f2af73c1-396b-168f-7f86-eb10b3b68a26@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0092.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:85::8) To BN9PR12MB5115.namprd12.prod.outlook.com
+X-ClientProxiedBy: YT3PR01CA0064.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:84::10) To BN9PR12MB5115.namprd12.prod.outlook.com
  (2603:10b6:408:118::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1e9714b5-3732-4da1-9308-08d9ed80a55d
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1369:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR12MB136962B5C80BB37F5171D4F392309@DM5PR12MB1369.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 5b65f081-ee5b-49bf-546e-08d9ed80f2a8
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1925:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR12MB1925241C51B7366D3470B40392309@CY4PR12MB1925.namprd12.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: euHVKqmpxJxYheCQv9ldlO9zPRgUG/+xZFmKqZxqk6/lXrKBcsworCSGAXmXzXxHtjzlXgK5Fbdc/gU5S43yl+83f9lAeXWqdHIKH7Rm0OZ7zLNFUwI+G8ojIMZs58RGqoNWulMiqNasmvtS46uUvGwD6STbQk21MnO8Cydo8DnZnetNDUVKH9B9EWomlRSistHeN4APE6eU77XLfZvrWRsd2uYfigy/fpSAuwgWD9GDdqLRRwvYslYH1E2+cmf0nJPinXbO0WwMcqRn+H9yogpO38x09A5JwBkIA+Q9pL9VplJiU0vi/V+GV4+rfBdvuOb5NH1PBAEluoi8hBhr/k3MxFqMkcboxVHZgfWwvwBrGLT4+oGzLzs0huUOv6VP4o3hLjANHbGH5bSq4VtpvwT6Kh1rzfariMGiLVWbiQPnrTq+OBZS8xpw4yi5+hVCfjIOs8TXfncduJWu62SABEwImpgL1Y14x/oBBk4V4+NaRlC7cO3dgwuziXf14nfoRVY6e+SmKk7HPRbpHEnEH1i+tMzSCtufmUr3nhDIKqMdtAVS/A1H/oHwm2aUYAnVR22Cu6FDeH5GhgaIqdhnbCgFnZgLsFfF7Sgqv8nUliKx/dokfr6aO07YhZ+fgWWmtZqmX6S1yMyrWuCx862a1zlYmlCVdXkeRDtDdEOz2N8y9bL/A5kIMuRkJH0HeKRRR9qpdIjBSiftkuzvjaE3t6Nxrx+qpMLkHiMQsQiLng3RZO4QKjKAfBnJiluipSyH
+X-Microsoft-Antispam-Message-Info: IHOSERCs1T0TNGvbXZkqFmAw9k3kTcVZ0xA3R6NKOPhhiWUFiv2NLTjk8TQCbOf/4JQ0KbskB2kKorkmbLgAtzHKDetAvKEADfomArP82dz7E0henlwQgkisVktVeTgs0/EQ+VQuLvj4JlRyGkOpTv4bNJbVq4WsWwtNsUoID7FT7G9mL5DIIJralLC9pnz9dsQEc1CL3TmHz+11JR8gVaV9si74E/L5fmqaZS8Nvqpa8uxTBdBrpAh43KkKuzxoiqF8d6IE0xxSZOFiTH4JYFYTIdp0PM9ml4FghiyTkKe8VP9zC6hqX2QwXjaEEJUYQY+Iwhq4rEXAE74s/fYm1YHBpg/14s1pAID3APsytaRZ2SxdtXfW02P4/5Y0xvD0g02e09jrGZh+23limhvjRh8SwDZsD2CYTQp7mK2N8R9owpjEkOmmdeH58J45a8wYiOHJt2MFT5Rn571mKW6ikhTfzVlM+JpNYBumqZlOYziUZ4jLlVju+LjgFQnNLzsq/XlwLs6EE/2baGuv2pHNRqrqaOU/e9ycKvjNqGS8dRum3s62OrOOFIRqihPLC6EWfYjTZA3Fi+uoOur19BPRZK4N6rfaAZmWMFpXzJxH3FBN13mLFcXcKQ8O1wRxIJCxAC/WDLguF5fOaB6jVR9psXEsZRalxZ64YrzTOayc6LP3re8oD586MCGg1/jDS2pBJh5GxUJ9Pdf/eb1z5JhInuIRuBJPJYmSINHOuG4JU0eUdg3DDA3UuA0J3C6tj9TY
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(38100700002)(83380400001)(31686004)(36756003)(186003)(2906002)(26005)(2616005)(44832011)(5660300002)(31696002)(7416002)(86362001)(508600001)(6506007)(53546011)(6486002)(66946007)(6512007)(316002)(110136005)(66476007)(66556008)(4326008)(8936002)(8676002)(43740500002)(45980500001);
+ SFS:(13230001)(4636009)(366004)(66556008)(6486002)(110136005)(53546011)(508600001)(8676002)(6506007)(38100700002)(31686004)(6512007)(66946007)(2906002)(66476007)(83380400001)(26005)(31696002)(36756003)(44832011)(2616005)(5660300002)(8936002)(316002)(7416002)(86362001)(186003)(4326008)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VzBQTVN4aHFpTmcxczY1N3A2STAzU1RpL1p6UnJFK21hQmdtd0szNm1lcVpB?=
- =?utf-8?B?N0dmc0hxQTNEdUV0WGw1NGY3dlZxekc4dFMwZGpReEtzd3NETlMyUmZaVUhW?=
- =?utf-8?B?MFFzOWJWWThWL2drUVlQNTE3UDVVVDF0US9UUDR2YzFseERJOGdSeDAxY1dJ?=
- =?utf-8?B?bEx2clNucnpDcG4zbmZ3UURYbUVSMElwMVk4L0J2ZFZwWlVYZ2g3Y0FEdlMw?=
- =?utf-8?B?a0c5alBTdzNnVGhZSHdFWSs1RWhoaHlPR09JL0VlNTdSVmErTTNaTlNVV1Rm?=
- =?utf-8?B?bTBIaWFTVFZmalBidjJkV3VPTi93c21uby9LNUZoQzBrMXZabmJEb0EwZ3VO?=
- =?utf-8?B?d1B2Q2R6NHY4S25ZNDdHMnhEM1RmNk15L0QxVlgyTXM2RmJGZ3hHcitkSU95?=
- =?utf-8?B?RWtYaVBnRFE0RzlONVRpeURzWWM4RDlvNGJhVFV2TU9ncmF0OC9KUGxoQ3FY?=
- =?utf-8?B?dEtqQ2tYQ08vZW5uZXpEbjY1N3UzcFk0ZXhGQjEzT0cxZEx5OFZPZUdWcDBF?=
- =?utf-8?B?RUo4UkxNMVFBbVNZblZaRlVDbXRGbmVlRWV5cG8rMlkzaHBCckFEMWVMT3Rj?=
- =?utf-8?B?eHJldVlxSEU2eHRHdWlrQ2Q4Z0htdzVSSEEvWWk5aEhxdFlkb1ZvZWl3SWhE?=
- =?utf-8?B?UVczNVNsb2p3a01MZlFwaXNXbzVIOHpzKzZQd0VMaU5CM2l2Q3NEd29Ud3VP?=
- =?utf-8?B?WFZSY0lxZmg0Z3duQnZEY014N09UNVhuZ2NNZnRZUTByRU1LVVE1MUE3U0Rs?=
- =?utf-8?B?L1Z5MFdaWnpvY2taK1pZU3F2TU04d3dKU2M4czd4ZTc0QThST0x5WmZ6cmZp?=
- =?utf-8?B?ZUNLTjh4Y205TndwVk11NW1Qb0xpTzluNlYyTWk3NHNmNS9MZG80bWlhYWpP?=
- =?utf-8?B?Q3RSVEs2RFEvWE55TXRUWU9XZ1Z6aU80dkdpNThTVGs1eGJPQXIwcHBNeGlP?=
- =?utf-8?B?SGNFV0NSVklYWWVqTXl2NkkwQktJd0FxdUY0cEw4bTc3OGJ0RXZmRjdNd2di?=
- =?utf-8?B?WHVxd3RxQ0w5dVZCOUZ1N0orTjIvcHpLeUdnR1RrNW5ZWUNybkgrZWgvUGFn?=
- =?utf-8?B?RXNOVGYwOGNZcmx1aWJPUnNNY3JTbVE0d3dwT2Q5SFJjL1ZKV21ZOFdOZExK?=
- =?utf-8?B?Qm8wWG5rTWs2cXFpTVd0c051bVgrSkZBYjhyZjNkVzkvSEl3dnEzRGhPRFY4?=
- =?utf-8?B?UVNCKys4UmMwWk1HS0RPY2ZHcG8xMlIrSGE1d0FJMVVOVXNEWkFvL1FZU1Fr?=
- =?utf-8?B?bVRqbUdMcERyU3hYYUlkT0hsUmhYUG4zZFZIWkJ5VTRpdzAyTGw5c0RaeVB5?=
- =?utf-8?B?U2hzdmxocU5pQSswMExKM3NBc1JJZkNGeXBGa2NaTlVOQU84bEJuU04xNGhr?=
- =?utf-8?B?OXN1Uks0NDJEdnc1R1VJbVl4eFlySkhIV3d1c2RRUS9MNkthd1g3QXFPZWVT?=
- =?utf-8?B?dHpMYzY3M3ZUaDl2VjFSZlV6MFNSN0ozZFVHa1ZwS0FhTmlNcWtFczZWZmk5?=
- =?utf-8?B?dWJ2QnV2MVQyOENZUGN2T0V5amNyVWpkUlcyUXB0ZE8xZUhSOGFudU9qMFIv?=
- =?utf-8?B?b2o3ZmZRUXcrdHByWDNCMmthNEE4REFuVjFzb1VuamNuUGtCZ2dyMlU0cG91?=
- =?utf-8?B?UXNkaHVGRFVmWnowanBJYUlQdU10azRyYVZBZDJEeWZTUGphaGl0MXV1VlRT?=
- =?utf-8?B?U0lvQjRvKzNpN3hKNGFObVBCMXFVNkl3L0pqZ1hyTENET0Vyd1kzSWJCcDZJ?=
- =?utf-8?B?ZmJQZXV2Z1NZcWhkOXJ5ZVl0MHBOS2UvaDRva0RTT1R2dkg1S0xjTmZvWVpM?=
- =?utf-8?B?UnpkQTdLaUxtTHA2akVBZlZNSElOekJ0Z1dldkxMMTMyWnIyczN0anpEN1g0?=
- =?utf-8?B?NktIV2VsODdXU0tXOWhnUHlEeVFhRFd4MSsyYnNNZGZNb05PYmR2czJtM1dW?=
- =?utf-8?B?SFJBcHJ3VjFkWWt3T2RtS0NPeEpOVjdJdSs3YnMxRElhNVRib2p0V29mRmJH?=
- =?utf-8?B?V1FJemNjWEIrYlBoVm4rcnBPUks0a21vM1hVKzhIdGRpc3E3OGd6bHFuT3RP?=
- =?utf-8?B?YkRYcmFTRm93c0JrT1RmQjBrek8ydDk1ckpYZDdFOS9nR1NJSkNvM3l3VU9F?=
- =?utf-8?B?bkc0MXZNT3U1Y082b3JGS1F0UlN3cUN3eWYvZTdUM3A2bHdGcXNSWHpobU14?=
- =?utf-8?Q?ntKxZf5q7Nu48FR+HzGjad8=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHdKdjRFVkYyTnY2R2ZvVWwzMTJiOGZyZlo2RjNWako3VWlpV3VRdWhVK2Zj?=
+ =?utf-8?B?WFYwdWNrbDk4U3ArSlAwVWV5QUxoUmhBNFluem9uYXpZS1ZVc0JXQkRLbUdw?=
+ =?utf-8?B?YnF6SGlXbVBSMmRUcnFyQ0I1dGRycm5PbGdXRFVGc0FnaUlqOTZlN2NsYXky?=
+ =?utf-8?B?TlpVK3djL0R6ME5HYmxYQVlBMC9KeVdFcTAvVmpQQmNBUEZHNE9FNDlmWTlJ?=
+ =?utf-8?B?K0E4cWRMczBrSmlrTGFkeXZzY3VibG5MWGZkMmltNkVDWkpZdVFKcEVMUS9G?=
+ =?utf-8?B?cjQza2t4SlhweXV1dTh2Zi8rMnU0bVBZM2xRcW5ESUhybGQva1ZrVmF4YzNN?=
+ =?utf-8?B?UnFlS3NlSFVldURSamR0a1djME9QdTFhL2UwdVlKMnp5QllZcUo2ZEh1YWNW?=
+ =?utf-8?B?RlNyNjRpbkJickJZRmhoTmpEZlJ5SXRxckNkbDU5QWxQRXZabENYVnBFampu?=
+ =?utf-8?B?bWRZWnoxdWw5T0ZKZW11ZDkvdEVxYkEyem5sZzgvR1JLaXl6ZTEyMkpFTjZG?=
+ =?utf-8?B?Q09sM0NqWHZXY3NRRkJ3RTI3eWJ0MjR2cDZKRFh0eDgxRHRtVmVDNmtKeU1L?=
+ =?utf-8?B?REVqRUdUa2xGWDQ5YVpjRnZONGpQaGorb1ExdjlhMlVIWCtaaTF2QXdmNXQr?=
+ =?utf-8?B?NEVvR0k1MlVIQStsZCt3cm83alNoWGNaRWdsQUxVdmV6dTdXYXJmTlJTMFY0?=
+ =?utf-8?B?MGVtV040bzJ2REJQU0hTdDJWN2pMV3BmbnRxRGdTZWFDd0pWVGkzbWNWWldB?=
+ =?utf-8?B?cEQ4a2tXeUFnbS9rOU9yZk1kTHRyRk92K1dnYm9DTUVpNlhDYm9JaEltVGRQ?=
+ =?utf-8?B?eHpsM3hGeVdMa0FEWC9wTjRHNWVQVmw3Y21ZVVUwMnRBaUhnb2txelJiNCs0?=
+ =?utf-8?B?KzlYYzdXYlFTWnVSamJpSVUvSE40Q2Z6ZnIwRlRLQTdyYzNINEkzZk1ncWlv?=
+ =?utf-8?B?UkNUb243VTBWbzA4MUxUR1krTEU0YlZjVmxWelFuOVlNb3cwS0Z6LzBuQVdq?=
+ =?utf-8?B?L0dwWGQrVzB5VmFHbDEyUzErVFZ4aU9nVGI0Ylp3OTRSQWh6ZW1yZkJiczAw?=
+ =?utf-8?B?a21iQ2pUb085UUVZNlJQQktzOXQ3S0d2NVVINkJNRTJ5OFB4UVJrVnIycDdp?=
+ =?utf-8?B?b21sVFZjTDVFRlVTSytQV21RVUpqajNCYlhKWkZnZldJMUxaOTY2YU5kZzMz?=
+ =?utf-8?B?cDJkSDAxSWd1dGNObXdlZjVDTXFKbFBtRmtwR1VQeXpyM20wL3RKRHdFck9j?=
+ =?utf-8?B?R0c0NGxyNW5GMEdmdlRkaXRuck5tZmF3cldwUXkyYzhnQmZ6NVhhb0ZxSHRM?=
+ =?utf-8?B?bkE1SDcrM2s3K1dxUDBYWTF0RWQyTnRnN1hBdElMcHdXUDRDeHpPK1lGTmE1?=
+ =?utf-8?B?THlBV2ZlR1oxVkNCbVRtRG1MN3ZWeC9vcHl4SVhZbnVMV3FLTVpwRlFKZ05C?=
+ =?utf-8?B?eElpY3R0c2UvNE1aNE1SeWt4THlmVlU1QUMwek11d1lPdkx6NFYrTDZGYy9k?=
+ =?utf-8?B?QTJsK1E4UlAyZW5qTUN5bWkxNWpvNzVNd3FmOXkvblo0cGd5M0krNjBUYWlz?=
+ =?utf-8?B?UmFWN1dFOFd1V1JVL09zUWN6eWhwSWZpc0grSWNkNGtOVjJnNE9kbnVhMUti?=
+ =?utf-8?B?WjI4RnE5RHViMmQ0UGRMSUdKS29yZ200VXh4UlFHUitXMms0bklnRGVJNDJr?=
+ =?utf-8?B?MlNtbERLTE1hRWZob0YvbmtwTFBMT3lEYWYybFJDUHl3QXhrSUtwR2RGd004?=
+ =?utf-8?B?Vzh1YUdMOGlwNHQ0akVOcUhHNjNET3Uwd2hsOXhoTWtFWFlWSVM1S0c1azdp?=
+ =?utf-8?B?R1FEVTRtZWR4RytTVVNRdjZQWlFGRTRmZzV3Z1E3dUtMWFVJZXpVSUlPRUlq?=
+ =?utf-8?B?OGpGUzVBR1dvZkU2dGxmQXMvMXFDMVc0ZEVsM1NUd3ppdVRnUkUzRXl0dHpx?=
+ =?utf-8?B?aE43SDFaNlZ5ZHdBd0F2WUpuYUsvS3NON2s0WG5pZWM4WmtwQnM3SmY1bk9S?=
+ =?utf-8?B?alhhK0xzWHd4MFRFMnY4ejJMVUZ6UDVmQytTOUVMN0pnVy9yN3dKSHpZbEpU?=
+ =?utf-8?B?RE55MnpkUkVGNXZkR0pDVmdxRlJzR2xTUU04SkRYRGdKcUJNQUM5TTZQZm5U?=
+ =?utf-8?B?empneGxieGQ1Nkh0SC9RUmkzRklCOGpqdXNSTVVjQTd1V0hpSnM4TitqUFgr?=
+ =?utf-8?Q?fQEqHi9zliDap43iP9X5btI=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e9714b5-3732-4da1-9308-08d9ed80a55d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b65f081-ee5b-49bf-546e-08d9ed80f2a8
 X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2022 17:05:03.7167 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2022 17:07:13.3444 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /M4CB/3Y25Yx86cHxacTw0yv2+BCVgoVWoHHEq6cAvQPhOwVjt8b399y1CisI2yWGiJVM3/8nQvOIW/cxQYFBw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1369
+X-MS-Exchange-CrossTenant-UserPrincipalName: uKbA+uuO0Vvo3mqirdvZIipYvNqwJxlwnWZXPzzlghUj1nZWX72Vqk/fQ35SUd7yHstsoudwIQhRK2F/HX4yQg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1925
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,108 +137,64 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-Am 2022-02-11 um 11:15 schrieb David Hildenbrand:
-> On 01.02.22 16:48, Alex Sierra wrote:
->> Device memory that is cache coherent from device and CPU point of view.
->> This is used on platforms that have an advanced system bus (like CAPI
->> or CXL). Any page of a process can be migrated to such memory. However,
->> no one should be allowed to pin such memory so that it can always be
->> evicted.
+Am 2022-02-11 um 11:39 schrieb David Hildenbrand:
+> On 11.02.22 17:15, David Hildenbrand wrote:
+>> On 01.02.22 16:48, Alex Sierra wrote:
+>>> Device memory that is cache coherent from device and CPU point of view.
+>>> This is used on platforms that have an advanced system bus (like CAPI
+>>> or CXL). Any page of a process can be migrated to such memory. However,
+>>> no one should be allowed to pin such memory so that it can always be
+>>> evicted.
+>>>
+>>> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+>>> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+>>> Reviewed-by: Alistair Popple <apopple@nvidia.com>
+>> So, I'm currently messing with PageAnon() pages and CoW semantics ...
+>> all these PageAnon() ZONE_DEVICE variants don't necessarily make my life
+>> easier but I'm not sure yet if they make my life harder. I hope you can
+>> help me understand some of that stuff.
 >>
->> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
->> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
->> Reviewed-by: Alistair Popple <apopple@nvidia.com>
-> So, I'm currently messing with PageAnon() pages and CoW semantics ...
-> all these PageAnon() ZONE_DEVICE variants don't necessarily make my life
-> easier but I'm not sure yet if they make my life harder. I hope you can
-> help me understand some of that stuff.
->
-> 1) What are expected CoW semantics for DEVICE_COHERENT?
->
-> I assume we'll share them just like other PageAnon() pages during fork()
-> readable, and the first sharer writing to them receives an "ordinary"
-> !ZONE_DEVICE copy.
+>> 1) What are expected CoW semantics for DEVICE_COHERENT?
+>>
+>> I assume we'll share them just like other PageAnon() pages during fork()
+>> readable, and the first sharer writing to them receives an "ordinary"
+>> !ZONE_DEVICE copy.
+>>
+>> So this would be just like DEVICE_EXCLUSIVE CoW handling I assume, just
+>> that we don't have to go through the loop of restoring a device
+>> exclusive entry?
+>>
+>> 2) How are these pages freed to clear/invalidate PageAnon() ?
+>>
+>> I assume for PageAnon() ZONE_DEVICE pages we'll always for via
+>> free_devmap_managed_page(), correct?
+>>
+>>
+>> 3) FOLL_PIN
+>>
+>> While you write "no one should be allowed to pin such memory", patch #2
+>> only blocks FOLL_LONGTERM. So I assume we allow ordinary FOLL_PIN and
+>> you might want to be a bit more precise?
+>>
+>>
+>> ... I'm pretty sure we cannot FOLL_PIN DEVICE_PRIVATE pages, but can we
+>> FILL_PIN DEVICE_EXCLUSIVE pages? I strongly assume so?
+>>
+>>
+>> Thanks for any information.
+>>
+> (digging a bit more, I realized that device exclusive pages are not
+> actually/necessarily ZONE_DEVICE pages -- so I assume DEVICE_COHERENT
+> will be the actual first PageAnon() ZONE_DEVICE pages that can be
+> present in a page table.)
 
-Yes.
-
-
->
-> So this would be just like DEVICE_EXCLUSIVE CoW handling I assume, just
-> that we don't have to go through the loop of restoring a device
-> exclusive entry?
-
-I'm not sure how DEVICE_EXCLUSIVE pages are handled under CoW. As I 
-understand it, they're not really in a special memory zone like 
-DEVICE_COHERENT. Just a special way of mapping an ordinary page in order 
-to allow device-exclusive access for some time. I suspect there may even 
-be a possibility that a page can be both DEVICE_EXCLUSIVE and 
-DEVICE_COHERENT.
-
-That said, your statement sounds correct. There is no requirement to do 
-anything with the new "ordinary" page after copying. What actually 
-happens to DEVICE_COHERENT pages on CoW is a bit convoluted:
-
-When the page is marked as CoW, it is marked R/O in the CPU page table. 
-This causes an MMU notifier that invalidates the device PTE. The next 
-device access in the parent process causes a page fault. If that's a 
-write fault (usually is in our current driver), it will trigger CoW, 
-which means the parent process now gets a new system memory copy of the 
-page, while the child process keeps the DEVICE_COHERENT page. The driver 
-could decide to migrate the page back to a new DEVICE_COHERENT allocation.
-
-In practice that means, "fork" basically causes all DEVICE_COHERENT 
-memory in the parent process to be migrated to ordinary system memory, 
-which is quite disruptive. What we have today results in correct 
-behaviour, but the performance is far from ideal.
-
-We could probably mitigate it by making the driver better at mapping 
-pages R/O in the device on read faults, at the potential cost of having 
-to handle a second (write) fault later.
-
-
->
-> 2) How are these pages freed to clear/invalidate PageAnon() ?
->
-> I assume for PageAnon() ZONE_DEVICE pages we'll always for via
-> free_devmap_managed_page(), correct?
-
-Yes. The driver depends on the the page->pgmap->ops->page_free callback 
-to free the device memory allocation backing the page.
-
-
->
->
-> 3) FOLL_PIN
->
-> While you write "no one should be allowed to pin such memory", patch #2
-> only blocks FOLL_LONGTERM. So I assume we allow ordinary FOLL_PIN and
-> you might want to be a bit more precise?
-
-I agree. I think the paragraph was written before we fully fleshed out 
-the interaction with GUP, and the forgotten.
-
-
->
->
-> ... I'm pretty sure we cannot FOLL_PIN DEVICE_PRIVATE pages,
-
-Right. Trying to GUP a DEVICE_PRIVATE page causes a page fault that 
-migrates the page back to normal system memory (using the 
-page->pgmap->ops->migrate_to_ram callback). Then you pin the system 
-memory page.
-
-
->   but can we
-> FILL_PIN DEVICE_EXCLUSIVE pages? I strongly assume so?
-
-I assume you mean DEVICE_COHERENT, not DEVICE_EXCLUSIVE? In that case 
-the answer is "Yes".
+I think DEVICE_GENERIC pages can also be mapped in the page table. In 
+fact, the first version of our patches attempted to add migration 
+support to DEVICE_GENERIC. But we were convinced to create a new 
+ZONE_DEVICE page type for our use case instead.
 
 Regards,
    Felix
 
 
->
->
-> Thanks for any information.
 >
