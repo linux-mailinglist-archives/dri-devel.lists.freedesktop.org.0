@@ -1,56 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4D04B2F02
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 22:02:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AD84B2F03
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 22:02:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A301010E291;
-	Fri, 11 Feb 2022 21:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC3E10E9E5;
+	Fri, 11 Feb 2022 21:02:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E519E10E25F;
- Fri, 11 Feb 2022 21:02:00 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- o192-20020a4a2cc9000000b00300af40d795so11749120ooo.13; 
- Fri, 11 Feb 2022 13:02:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tZeO5hcWCdKqnU1f53zfjTVOnwSJ9Wni2OfkSK8g/8Q=;
- b=i+UWfjEQcDeuesQh/b//2h18FVQeOfplmzqnZ7epGa5e7mL+spCmv8hW8ZCJEJbGnb
- fuZTG4ZmXDCq3x0dhVpdQFKpkOAW24uBhY9txj7Bhdk37MEZkcyBvh3b1wTudvW1ScvI
- PLz+SFDo6HfogYYHrR+PUCo4t/Ryf1TZZCp/ISRKM9Ss7LByNL69MSp6zP2QLO/FpjJC
- sEpp6Jny/qd+URXdU2xQO/BRgNs/6TsyTXV0JzabnH1A+q8Sn4GLK9e9sU7cCkACrpYe
- Ufparf1dN8Bc7neAF7dlBXcNQJqCz0o21JeZAL72G/FRe+TBjYJfBwFP1BiOWb1g4e0Q
- NVQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tZeO5hcWCdKqnU1f53zfjTVOnwSJ9Wni2OfkSK8g/8Q=;
- b=YaaqqMTCLr3Fe9DjQHvCninQKQ7l2V4lIkde1WluHehCxiT7Jhn+Am3RRnbto9lu0v
- RhMXaYN085R8op+bBTSg4nj/s1dhYK8863jnL4zGUWtlYPkLJ0IEsAev3/de12yc17nI
- LDyF6SKDWYSgtYxFB8h58OtphBsZPg5BpBJYjcC3T3D4ULXdJZ5Le2Y7FigLw46+YaK0
- QaIqsjsKf4PQ0P2tClyg9MDDFSGLvf+YErn1VWfnVq8vWXYpENZXBdDxdzN6dTqmYIqd
- 3cq2VYP8aiz746RqEvxV2MOH97A14w/CVDJ/vYLI7K2aCMs2OBI4kpPxZezj8w+fpV7b
- fRHw==
-X-Gm-Message-State: AOAM531LJf9fzvxZA+BxWknjFQBSn1fSBqeMSNsHelawF4rv3ID0Ergb
- 0axWe7AEcPnDlPtp2MpPIvL23X1Udl8EmL1S9V0=
-X-Google-Smtp-Source: ABdhPJx6q5W7dUdt31D6F8NEoc/p0VYD4pB6N0hi8Fs2KtDaR1R+ZoIzn1O4otKGJ/bl7zzIYys1+cJ9DKrKTC1keM8=
-X-Received: by 2002:a05:6870:54d6:: with SMTP id
- g22mr716407oan.225.1644613319800; 
- Fri, 11 Feb 2022 13:01:59 -0800 (PST)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 359AA10E9E5;
+ Fri, 11 Feb 2022 21:02:55 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D4AACB82CF8;
+ Fri, 11 Feb 2022 21:02:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51B97C340E9;
+ Fri, 11 Feb 2022 21:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644613370;
+ bh=ApT45q3g7mkRiUKpHndWjTAzQ/rKHh2xKyLJKPCYKpg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=QT6uV2oz9XTg8oBcDwpiSDNkfbOCuBDdwTQPQjrbpacmqAUuE9kRf9tTPNrr9J/Xb
+ UbdNCzO7kwyw5xX2S1c/YuKHeUr+qynZcdm/d37Ayjwwyu3gIzYnjXVncbYYI6sley
+ pzCaRuBA/J46LFhghaKiVktGCvFRv0xeimhv2bqZ2mJkYL9Br+fgk+qmD7iL/aERya
+ phT76xW8wXz/QjFyk5dBOqsp7fVv1LIzefSRor9FHR/Vkhrjy6/hK1u7QLs74eVkuK
+ tXzrpiT61ZTfJpU84aAGy1ahBx3V3Qxu5S38FQRB8ssvliOkfna8OjcnRynWZQAAxz
+ s4H9kso4K2C9Q==
+Date: Fri, 11 Feb 2022 15:02:48 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v3 01/12] thunderbolt: move definition of
+ PCI_CLASS_SERIAL_USB_USB4
+Message-ID: <20220211210248.GA734887@bhelgaas>
 MIME-Version: 1.0
-References: <20220211205500.601391-1-andrey.grodzovsky@amd.com>
-In-Reply-To: <20220211205500.601391-1-andrey.grodzovsky@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 11 Feb 2022 16:01:48 -0500
-Message-ID: <CADnq5_OCVUUoeBvQQBwK52HA-fVXkF+MMu7ssEqzEuGPajCfJg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Fix htmldoc warning
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220211193250.1904843-2-mario.limonciello@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,39 +52,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- kernel test robot <lkp@intel.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+ Michael Jamet <michael.jamet@intel.com>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 11, 2022 at 3:55 PM Andrey Grodzovsky
-<andrey.grodzovsky@amd.com> wrote:
->
-> Update function name.
->
-> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> Reported-by: kernel test robot <lkp@intel.com>
+On Fri, Feb 11, 2022 at 01:32:39PM -0600, Mario Limonciello wrote:
+> This PCI class definition of the USB4 device is currently located only in
+> the thunderbolt driver.
+> 
+> It will be needed by a few other drivers for upcoming changes. Move it into
+> the common include file.
+> 
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
+> Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+I would change the subject to:
+
+  PCI: Add USB4 class definition
+
+because this seems like more of a PCI thing than a Thunderbolt thing,
+but either way:
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 54f8e1fa4cae..d78141e2c509 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -4978,7 +4978,7 @@ static void amdgpu_device_recheck_guilty_jobs(
->  }
->
->  /**
-> - * amdgpu_device_gpu_recover - reset the asic and recover scheduler
-> + * amdgpu_device_gpu_recover_imp - reset the asic and recover scheduler
->   *
->   * @adev: amdgpu_device pointer
->   * @job: which job trigger hang
-> --
-> 2.25.1
->
+>  drivers/thunderbolt/nhi.h | 2 --
+>  include/linux/pci_ids.h   | 1 +
+>  2 files changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
+> index 69083aab2736..79e980b51f94 100644
+> --- a/drivers/thunderbolt/nhi.h
+> +++ b/drivers/thunderbolt/nhi.h
+> @@ -81,6 +81,4 @@ extern const struct tb_nhi_ops icl_nhi_ops;
+>  #define PCI_DEVICE_ID_INTEL_TGL_H_NHI0			0x9a1f
+>  #define PCI_DEVICE_ID_INTEL_TGL_H_NHI1			0x9a21
+>  
+> -#define PCI_CLASS_SERIAL_USB_USB4			0x0c0340
+> -
+>  #endif
+> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+> index aad54c666407..61b161d914f0 100644
+> --- a/include/linux/pci_ids.h
+> +++ b/include/linux/pci_ids.h
+> @@ -116,6 +116,7 @@
+>  #define PCI_CLASS_SERIAL_USB_OHCI	0x0c0310
+>  #define PCI_CLASS_SERIAL_USB_EHCI	0x0c0320
+>  #define PCI_CLASS_SERIAL_USB_XHCI	0x0c0330
+> +#define PCI_CLASS_SERIAL_USB_USB4	0x0c0340
+>  #define PCI_CLASS_SERIAL_USB_DEVICE	0x0c03fe
+>  #define PCI_CLASS_SERIAL_FIBER		0x0c04
+>  #define PCI_CLASS_SERIAL_SMBUS		0x0c05
+> -- 
+> 2.34.1
+> 
