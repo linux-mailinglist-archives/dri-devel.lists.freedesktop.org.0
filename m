@@ -1,83 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B394B29E6
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 17:15:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF1D4B2A1F
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 17:20:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C158A10E361;
-	Fri, 11 Feb 2022 16:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA1E10EAC7;
+	Fri, 11 Feb 2022 16:20:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06AE710E361
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 16:15:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644596130;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bCRcaleTGgKZtCPcAf/F4rdGaJxNLIOVjEVDZ1rkuA8=;
- b=ZMOaPJX0suHtoX5wZ/XZylqdA1qglUQW62fMDpIidgOdUFTs14G1bspDCy5HLrc7k10/oi
- kKY4OFyJ6oR5tIh29a/VDEN6ZMvT+WOwnkLvlf+Ai+/yR67c/55rWBxNEniiDlY1twrmjM
- rnDNxxHY6hvvBUxyDm4UDFgD7NeuOEI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-167-KKuwUbKdP2OnpKI-Nmd3Rg-1; Fri, 11 Feb 2022 11:15:28 -0500
-X-MC-Unique: KKuwUbKdP2OnpKI-Nmd3Rg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w7-20020adfbac7000000b001d6f75e4faeso4059429wrg.7
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 08:15:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=bCRcaleTGgKZtCPcAf/F4rdGaJxNLIOVjEVDZ1rkuA8=;
- b=cTZt0foN8VHTb5YBpcTkZbxqN4h2f2CQo1RD8+t69sNRQsuldHTCNfJuI3HbU0jcMT
- tkQHQPGL1JoacZRJsFTZm0332wEkeaFnG9nV8qw1heO/+pbVAmmvzxk18yIcsZyG3Pbr
- 07lHaI5Ngt0Z7W9kX4S6qDFbDe+07uBPIV3yGkAgYtwt+k7xLZyJuswS6TKrDfFAuuye
- CffkAHYkBHNgu/CMaOLwdAVN95Pg2+3QMg2SzU0lVe6dn4bGGQg49kps0cCWpLqKghD3
- ijgTd5GYKF8AjyyslQF0K7YsEgMoi2fltWNejBQbEBSjFwJAytskNM7iAhEdCrO8fhoL
- sb0A==
-X-Gm-Message-State: AOAM530CqTG5ExGMx1pLAfN1XZuvbMYF2y8B1ufmGBjl0ftthORtEeEG
- hgqMSKTACJ1iE+h5uY5Z98YjcibIiUy0CUIYZ1vLhTtcDPav/xqtbZaV5Oiq08tb32/DtAohSOv
- 2l61Ddln+C7as2oUL7OE2zfaIQlun
-X-Received: by 2002:adf:f904:: with SMTP id b4mr1897415wrr.183.1644596127727; 
- Fri, 11 Feb 2022 08:15:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxxWjE7RoWsgISgQBtP4hRDQ/YRVeK6b5oKT74teyBVgT9eGeQ23Quvk5zgwZNMOVVwPpSm9A==
-X-Received: by 2002:adf:f904:: with SMTP id b4mr1897388wrr.183.1644596127444; 
- Fri, 11 Feb 2022 08:15:27 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70c:aa00:4cc6:d24a:90ae:8c1f?
- (p200300cbc70caa004cc6d24a90ae8c1f.dip0.t-ipconnect.de.
- [2003:cb:c70c:aa00:4cc6:d24a:90ae:8c1f])
- by smtp.gmail.com with ESMTPSA id l21sm4770865wms.0.2022.02.11.08.15.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Feb 2022 08:15:26 -0800 (PST)
-Message-ID: <beb38138-2266-1ff8-cc82-8fe914bed862@redhat.com>
-Date: Fri, 11 Feb 2022 17:15:25 +0100
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11C3C10EAB8;
+ Fri, 11 Feb 2022 16:20:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644596410; x=1676132410;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=rjBaKou1SggQZNDW+0V5dlFmB6ixKQxsY2j9egax5dA=;
+ b=T3UbDxsqmw8mwlo/J9R7ryl7OTFsFgxaBeu13pjCgsUA936lswF8nrod
+ xRIxUcZ4J7pyQCEy6S3Nw8Z1PmbdFGH9rYHlqGtgDGydBCtOribE8MZ5k
+ mMqyXh52j3g9FQzTnt+jzXBrmNKurv8oB9gT/Ujm4vishL/kfJZudcfFR
+ VPHFQB52EnqHQ3FMoxcsfS+ZZCNTXMifySl1MaBELBMF5iP/WiEZZ3Smt
+ XIISw3PPWD8FS5YuSCpBw8cBxHgjg54BVhMJv5/f5VrVW/eWkxKJzKdnV
+ LqtWatLn8aVZ6LTTcUBZbwgyS/evGN/MaJeN5F9xZSkhx3ICvxXkyuj9R A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="248590720"
+X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="248590720"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 08:20:09 -0800
+X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="483484701"
+Received: from phughe1x-mobl2.ger.corp.intel.com (HELO [10.213.201.219])
+ ([10.213.201.219])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 08:20:06 -0800
+Message-ID: <1cc547fb-b220-3384-8a30-54dae9b2e037@linux.intel.com>
+Date: Fri, 11 Feb 2022 16:20:03 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-To: Alex Sierra <alex.sierra@amd.com>, akpm@linux-foundation.org,
- Felix.Kuehling@amd.com, linux-mm@kvack.org, rcampbell@nvidia.com,
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
-References: <20220201154901.7921-1-alex.sierra@amd.com>
- <20220201154901.7921-2-alex.sierra@amd.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v6 01/10] mm: add zone device coherent type memory support
-In-Reply-To: <20220201154901.7921-2-alex.sierra@amd.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 1/1] drm/i915/gt: Move wbvind_on_all_cpus #define
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Michael Cheng <michael.cheng@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220210214216.1227694-1-michael.cheng@intel.com>
+ <20220210214216.1227694-2-michael.cheng@intel.com> <87iltl7cjy.fsf@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <87iltl7cjy.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,58 +62,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: willy@infradead.org, apopple@nvidia.com, dri-devel@lists.freedesktop.org,
- jglisse@redhat.com, amd-gfx@lists.freedesktop.org, jgg@nvidia.com, hch@lst.de
+Cc: casey.g.bowman@intel.com, lucas.demarchi@intel.com,
+ balasubramani.vivekanandan@intel.com, dri-devel@lists.freedesktop.org,
+ wayne.boyer@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01.02.22 16:48, Alex Sierra wrote:
-> Device memory that is cache coherent from device and CPU point of view.
-> This is used on platforms that have an advanced system bus (like CAPI
-> or CXL). Any page of a process can be migrated to such memory. However,
-> no one should be allowed to pin such memory so that it can always be
-> evicted.
+
+On 11/02/2022 13:33, Jani Nikula wrote:
+> On Thu, 10 Feb 2022, Michael Cheng <michael.cheng@intel.com> wrote:
+>> Move wbvind_on_all_cpus to intel_gt.h. This will allow other wbind_on_all_cpus
+>> calls to benefit from the #define logic, and prevent compiler errors
+>> when building for non-x86 architectures.
+>>
+>> Signed-off-by: Michael Cheng <michael.cheng@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_pm.c | 7 -------
+>>   drivers/gpu/drm/i915/gt/intel_gt.h     | 7 +++++++
+>>   2 files changed, 7 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+>> index 6da68b38f00f..ff7340ae5ac8 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+>> @@ -12,13 +12,6 @@
+>>   
+>>   #include "i915_drv.h"
+>>   
+>> -#if defined(CONFIG_X86)
+>> -#include <asm/smp.h>
+>> -#else
+>> -#define wbinvd_on_all_cpus() \
+>> -	pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
+>> -#endif
+>> -
+>>   void i915_gem_suspend(struct drm_i915_private *i915)
+>>   {
+>>   	GEM_TRACE("%s\n", dev_name(i915->drm.dev));
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+>> index 2dad46c3eff2..149e8c13e402 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+>> @@ -10,6 +10,13 @@
+>>   #include "intel_gt_types.h"
+>>   #include "intel_reset.h"
+>>   
+>> +#if defined(CONFIG_X86)
+>> +#include <asm/smp.h>
+>> +#else
+>> +#define wbinvd_on_all_cpus() \
+>> +         pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
+>> +#endif
 > 
-> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> Reviewed-by: Alistair Popple <apopple@nvidia.com>
+> Don't include headers from headers if it can be avoided.
+> 
+> gt/intel_gt.h is included from 79 files. We don't want all of them to
+> include <asm/smp.h> when only 3 files actually need
+> wbinvd_on_all_cpus().
+> 
+> Also, gt/intel_gt.h has absolutely nothing to do with
+> wbinvd_on_all_cpus() or asm/smp.h. Please don't use topical headers as
+> dumping grounds for random things.
+> 
+> Maybe a better idea is to add a local wrapper for wbinvd_on_all_cpus()
+> that does the right thing. Or add the above in a dedicated header.
 
-So, I'm currently messing with PageAnon() pages and CoW semantics ...
-all these PageAnon() ZONE_DEVICE variants don't necessarily make my life
-easier but I'm not sure yet if they make my life harder. I hope you can
-help me understand some of that stuff.
++1, noting the naming angle:
 
-1) What are expected CoW semantics for DEVICE_COHERENT?
+WBINVD — Write Back and Invalidate Cache
 
-I assume we'll share them just like other PageAnon() pages during fork()
-readable, and the first sharer writing to them receives an "ordinary"
-!ZONE_DEVICE copy.
+Is an x86 instruction. Also interesting comment:
 
-So this would be just like DEVICE_EXCLUSIVE CoW handling I assume, just
-that we don't have to go through the loop of restoring a device
-exclusive entry?
+          * XXX: Consider doing a vmap flush or something, where possible.
+          * Currently we just do a heavy handed wbinvd_on_all_cpus() here since
+          * the underlying sg_table might not even point to struct pages, so we
+          * can't just call drm_clflush_sg or similar, like we do elsewhere in
+          * the driver.
+          */
+         if (i915_gem_object_can_bypass_llc(obj) ||
+             (!HAS_LLC(i915) && !IS_DG1(i915)))
+                 wbinvd_on_all_cpus();
 
-2) How are these pages freed to clear/invalidate PageAnon() ?
+The two together to me sound like the fix is to either find an equivalent existing platform agnostic API in the kernel, or if it does not exist create one and name it generically.
 
-I assume for PageAnon() ZONE_DEVICE pages we'll always for via
-free_devmap_managed_page(), correct?
+Either per-platform i915, if we go for my proposal, or I guess drm_cache.c if we don't.
 
+Regards,
 
-3) FOLL_PIN
-
-While you write "no one should be allowed to pin such memory", patch #2
-only blocks FOLL_LONGTERM. So I assume we allow ordinary FOLL_PIN and
-you might want to be a bit more precise?
-
-
-... I'm pretty sure we cannot FOLL_PIN DEVICE_PRIVATE pages, but can we
-FILL_PIN DEVICE_EXCLUSIVE pages? I strongly assume so?
-
-
-Thanks for any information.
-
--- 
-Thanks,
-
-David / dhildenb
-
+Tvrtko
