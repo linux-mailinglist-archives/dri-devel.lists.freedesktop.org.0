@@ -2,57 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02E14B22E8
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 11:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F5A4B2318
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 11:29:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC6310EA6F;
-	Fri, 11 Feb 2022 10:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24A1310EA6E;
+	Fri, 11 Feb 2022 10:29:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0740C10EA6B;
- Fri, 11 Feb 2022 10:14:45 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D81F610EA6A
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 10:29:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644574486; x=1676110486;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Neh1eyXjLo4+6B3nwfPNQzZhJZtNY0ywdMiX4UqARNc=;
- b=lGFKMQ9TlMWsH1LLC5ept7kkHvyrFpde8ri5dju2V4nG5CEKsI79pPe3
- G2eKpZiXijCsaYQeNHpkYyJZ54WmlRYqQp/up4TJY7VBSe+NM+pr54272
- r7msLhsUYj59m0QRfYDH8T27ULmG6HaafWIZdT1k1VBG2mXK/TKjwW5El
- Akq9I11DiFiTpQUmZmLjOgVJi4RMnqyiyvXyO0KFLb0z4ldjoEI8YkfQi
- yy1U4uepekJpFLQ0nYMnAPHdfitDPZeXSNjGK01d0CwhIlCLW4jyZ4QCi
- uyRLt8hYp2RUvSkVw0IcY5gZGRWobklPSyzO5bo2iwnEBl7CMDqtaaPZi g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="336127506"
-X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="336127506"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 02:14:45 -0800
-X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="774203783"
-Received: from olindum-mobl1.ger.corp.intel.com (HELO [10.249.254.193])
- ([10.249.254.193])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 02:14:44 -0800
-Message-ID: <55acf6bc-509a-458c-721e-fd833f0b8fcf@linux.intel.com>
-Date: Fri, 11 Feb 2022 11:14:42 +0100
+ t=1644575351; x=1676111351;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=mL2EGWEJ1+X7al0OFxqCBnHU+Yoy9youEb4rP8YJwsg=;
+ b=iqyhCRfLTafgqreykf3XCxMm7ctmlgSPY3bqJpqalRju/IFEQYO+JeRg
+ QjcjwibwoSbzAg243Bf90kFth3KZy4xS1N0SlgmZYzmttZNugTCFZ0J7Z
+ NlpZ6lYsBHHnnU/XmVnnK0moHzo+3xERIVdbT6W88x8KqKzFAqyc35EGn
+ ywfHDXw/CO7skGzL2Ydh0S+Gozb+vZe3aw4K3qz0EaekA2E2Tq5BHt3xD
+ 8JFS0wXjNOa7PD3mvUsE+Nvv5e0618TYcZKQQFPzCsezUkDcif56ncTBm
+ 8XLCDZGJUieWRO9O9fvQP73JOjqnCInEXK77h0eksKoEtcvCccJGdfnNx g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="229674469"
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="229674469"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 02:29:11 -0800
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="586307272"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 02:29:08 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nIT9u-003PIr-EB; Fri, 11 Feb 2022 12:28:10 +0200
+Date: Fri, 11 Feb 2022 12:28:10 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v4 1/6] drm/format-helper: Add
+ drm_fb_xrgb8888_to_gray8_line()
+Message-ID: <YgY6OqN+guBlt/ED@smile.fi.intel.com>
+References: <20220211091927.2988283-1-javierm@redhat.com>
+ <20220211091927.2988283-2-javierm@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [Intel-gfx] [PATCH v2 12/15] drm/i915/create: apply
- ALLOC_GPU_ONLY by default
-Content-Language: en-US
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20220210121313.701004-1-matthew.auld@intel.com>
- <20220210121313.701004-13-matthew.auld@intel.com>
- <e4f128ad-1738-cee7-6790-fbdbb6d5698d@linux.intel.com>
- <CAM0jSHM8+KBAN2iMM7L+9HUKuTodH5u32o4XgGZbv8fvUrn67g@mail.gmail.com>
- <45a64b08-1a7e-117f-fd20-e5c4a15f8d7c@linux.intel.com>
- <CAM0jSHMrX9=MKunVqHS1kkZevW-Y9kmCNUrAPqOi=3xRmMk1AA@mail.gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <CAM0jSHMrX9=MKunVqHS1kkZevW-Y9kmCNUrAPqOi=3xRmMk1AA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220211091927.2988283-2-javierm@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,75 +61,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Feb 11, 2022 at 10:19:22AM +0100, Javier Martinez Canillas wrote:
+> Pull the per-line conversion logic into a separate helper function.
+> 
+> This will allow to do line-by-line conversion in other helpers that
+> convert to a gray8 format.
 
-On 2/11/22 11:00, Matthew Auld wrote:
-> On Fri, 11 Feb 2022 at 09:56, Thomas Hellström
-> <thomas.hellstrom@linux.intel.com> wrote:
->>
->> On 2/11/22 10:52, Matthew Auld wrote:
->>> On Fri, 11 Feb 2022 at 09:49, Thomas Hellström
->>> <thomas.hellstrom@linux.intel.com> wrote:
->>>> On 2/10/22 13:13, Matthew Auld wrote:
->>>>> Starting from DG2+, when dealing with LMEM, we assume that by default
->>>>> all userspace allocations should be placed in the non-mappable portion
->>>>> of LMEM.  Note that dumb buffers are not included here, since these are
->>>>> not "GPU accelerated" and likely need CPU access.
->>>>>
->>>>> In a later patch userspace will be able to provide a hint if CPU access
->>>>> to the buffer is needed.
->>>>>
->>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>>> ---
->>>>>     drivers/gpu/drm/i915/gem/i915_gem_create.c | 9 +++++++++
->>>>>     1 file changed, 9 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>>>> index 9402d4bf4ffc..cc9ddb943f96 100644
->>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>>>> @@ -424,6 +424,15 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
->>>>>                 ext_data.n_placements = 1;
->>>>>         }
->>>>>
->>>>> +     /*
->>>>> +      * TODO: add a userspace hint to force CPU_ACCESS for the object, which
->>>>> +      * can override this.
->>>>> +      */
->>>>> +     if (!IS_DG1(i915) && (ext_data.n_placements > 1 ||
->>>>> +                           ext_data.placements[0]->type !=
->>>>> +                           INTEL_MEMORY_SYSTEM))
->>>>> +             ext_data.flags |= I915_BO_ALLOC_GPU_ONLY;
->>>>> +
->>>> WRT previous review comment here, it would be easier to follow if the bo
->>>> was marked as a GPU only buffer regardless. Then for example capture and
->>>> other functions where it actually matters can choose to take action
->>>> based on, for example, whether the BAR is restricted or not?
->>> Yeah, I completely forgot about this, sorry. Will fix now.
->> Actually you did reply, but I forgot to reply to that :).
-> Hmm, should we just drop the IS_DG1() check here(that was my first
-> thought), or go further and still apply even regardless of placements?
-> i.e it would be set on integrated
+...
 
-That was my first thought as well, but yes it makes sense to also drop 
-the placement checks and let the placement selection logic handle that 
-later?
+> +static void drm_fb_xrgb8888_to_gray8_line(u8 *dst, const u32 *src, unsigned int pixels)
+> +{
+> +	unsigned int x;
+> +
+> +	for (x = 0; x < pixels; x++) {
+> +		u8 r = (*src & 0x00ff0000) >> 16;
+> +		u8 g = (*src & 0x0000ff00) >> 8;
+> +		u8 b =  *src & 0x000000ff;
+> +
+> +		/* ITU BT.601: Y = 0.299 R + 0.587 G + 0.114 B */
+> +		*dst++ = (3 * r + 6 * g + b) / 10;
+> +		src++;
+> +	}
 
-One alternative approach would also be to invert the thing and have a 
-BO_ALLOC_CPU_REQUIRE, that is set by default on some bos and can be set 
-on the others using the hint, but I figure that needs to be then set 
-also on kernel-only buffer objects. Not sure what is simplest.
+Can be done as
 
-/Thomas
+	while (pixels--) {
+		...
+	}
+
+or
+
+	do {
+		...
+	} while (--pixels);
+
+> +}
 
 
->
->> /Thomas
->>
->>
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
