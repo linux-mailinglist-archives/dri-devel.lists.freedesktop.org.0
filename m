@@ -2,73 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3AD4B2075
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 09:46:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C49A74B2079
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 09:46:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA2310EA23;
-	Fri, 11 Feb 2022 08:46:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D1E010EA24;
+	Fri, 11 Feb 2022 08:46:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A86A910EA1F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 08:45:58 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B84B710EA24
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 08:46:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644569157;
+ s=mimecast20190719; t=1644569162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yhiejNdZNc9V7Q57Z4FGfEE9W4EtgIkRByXMCdx4jhQ=;
- b=jMniQzghdCSnuvlxHcu49FP/Obyx5NWFaPwcyzzfZdjxyooE8BajYvjCf1xUbnQO8F8ju5
- pcksNg21DA5dsfClrrEk6z6jgEmqdInXVwNh66SXER1+m99CNDJ/6SfYrSzCW5EaaIe6L4
- OpEEFD18jFoE4lIPWJk3cvN/ondEI+Q=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NIGJSGdDR+e/0lqDusmjI7J0UIItqFB5EseqZJ+/itg=;
+ b=iG/QeERaNs9Sr0kOvajlHT4Cdcd87A8jmtccJKoGpzlUC8YlJl1S6LZ65rtjXW6JmdFPwv
+ V/mmnpQlokDkZyGws5CNluJthiekVZuFrzMDpCy13ySHDwMt3prKEav2J3dzvtNgxldHvu
+ j2kZpMreGqFzfX5ErhqMoD/an4vY1Cw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-160-GnxJKc4GMru_0V3XF9XHlg-1; Fri, 11 Feb 2022 03:45:55 -0500
-X-MC-Unique: GnxJKc4GMru_0V3XF9XHlg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- b8-20020adfc748000000b001e333edbe40so3594302wrh.6
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 00:45:55 -0800 (PST)
+ us-mta-661-sDg08VwzNBqNFEHm7lDo7Q-1; Fri, 11 Feb 2022 03:46:00 -0500
+X-MC-Unique: sDg08VwzNBqNFEHm7lDo7Q-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ w3-20020a50c443000000b0040696821132so4911842edf.22
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 00:46:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=yhiejNdZNc9V7Q57Z4FGfEE9W4EtgIkRByXMCdx4jhQ=;
- b=nizypF74x1un1EG7282sj0tmre3t3e974sUolYoTFVR6gj8astAMO9cGcSNQrFcCd9
- pheDyC+yo5u51fC328cTeHepNDYZZyG15NlRaqjxDMobKzNikln/RB1dzoZN2SgV+ZfJ
- 020DByBvIAvfOBF3XJatk01ctg/3/0rZI2m/TGA9S3jfjBEu8KlX8eEHIuiIHhXpLrOg
- 8SPj2tuUsmPAgWiQlRuMgQWqHu+c6q8GeCX48yGkG0UvzSO5TcgU6sUMxHR4d0SpB/Tv
- WuAUR3pRFeUeOaKwmWAb+JgnKLcQDCaqdmKBv5njKQexzwEZ58v72Scq7OPzYtnDV+PK
- GnKg==
-X-Gm-Message-State: AOAM532tF8UazLi79/wmN2zmKjlK3GH2NjEU8JH0u3CPHVx+8EWXvINn
- 3T3NvJnssWAVE97I7LJ0V3Sk88J2PD7xclsOnnAw6GPDckqkdp59w8OSdn4jXm53q3O9ivSoJKe
- 0qFax8fHV3/4rrPgXpuEnKuNstQrk
-X-Received: by 2002:adf:edc9:: with SMTP id v9mr470915wro.135.1644569154549;
- Fri, 11 Feb 2022 00:45:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJydD7roXdtXZjQWp72Wo5fcJQ6eNKNYHlSPNx2dupK8zLBlB9eyylPxhSvKDBOJgfjPqx/X3w==
-X-Received: by 2002:adf:edc9:: with SMTP id v9mr470898wro.135.1644569154333;
- Fri, 11 Feb 2022 00:45:54 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id az21sm3460772wmb.11.2022.02.11.00.45.52
+ bh=NIGJSGdDR+e/0lqDusmjI7J0UIItqFB5EseqZJ+/itg=;
+ b=6Q8mdJz7yXTjvGwMI3HlAxRsJtWIQodwDvIMRYta9sJqwH6K8SJ+2eksQS5Ij/JTtg
+ YIDUxeTR7aC1h1ZvgDw4UD86PD2Ec1pkxQRifw5T9lMmVuAaQL/cBCyl06J6sXgBCGit
+ aREORk1sLUrKxb4uiAGiW7p6Za+ChqnYK4qJLsR9QWFwokzMMbcQJmTJXkCJ4sw/5NrG
+ wwpK+LvwLdYCmzVirC5gr66C3WsdcKSTa2tijtDAv9ru1Q63W4XI2jlGcWb5rDAiUd0g
+ FvX3s+K4OJdaSkLSGZBxR3H6zcY3SgNBIhQWTmJ2QFz0U06rzsxdl367nCb60hnFm5/d
+ EzMg==
+X-Gm-Message-State: AOAM530Vn72AF4wNNdKLMbjvCNbBRmmXwZBPaeU1f1eEYasozLrGy/8S
+ Y1M1A/nyAi4hNIbCr1OVzfnk92K3QN2sf4RuXMS8X2odh2JU1Gzo30m7gL7f04+u684Npvppv8k
+ oY0Bi/4jw56cZAm3l0GPj4GCiyG3P
+X-Received: by 2002:a17:907:168a:: with SMTP id
+ hc10mr466716ejc.283.1644569159083; 
+ Fri, 11 Feb 2022 00:45:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwQtGaHy5U9JGMvxdUhyHS51vk9smJiabHDR4QMkXJw//KX0Gh6ttUq7C+QmDdzvWmB7pzNDQ==
+X-Received: by 2002:a17:907:168a:: with SMTP id
+ hc10mr466695ejc.283.1644569158862; 
+ Fri, 11 Feb 2022 00:45:58 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1?
+ (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+ by smtp.gmail.com with ESMTPSA id v5sm10859303edb.15.2022.02.11.00.45.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Feb 2022 00:45:53 -0800 (PST)
-Message-ID: <9ee28446-2dda-7015-1a0a-44dc8385002e@redhat.com>
-Date: Fri, 11 Feb 2022 09:45:52 +0100
+ Fri, 11 Feb 2022 00:45:58 -0800 (PST)
+Message-ID: <d8c31b9a-49fd-e10b-34ef-751fe1262513@redhat.com>
+Date: Fri, 11 Feb 2022 09:45:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 0/7] drm: Add driver for Solomon SSD130X OLED displays
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220209090314.2511959-1-javierm@redhat.com>
- <CAMuHMdVs750iE=kP1vabwgsGOb8sHc8aC5k=HwCU32CURnYktw@mail.gmail.com>
- <58ebacd2-d44d-c7e9-e752-de7815dd4cc1@redhat.com>
-In-Reply-To: <58ebacd2-d44d-c7e9-e752-de7815dd4cc1@redhat.com>
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 8/9] platform/x86: amd-gmux: drop the use of
+ `pci_is_thunderbolt_attached`
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>
+References: <20220210224329.2793-1-mario.limonciello@amd.com>
+ <20220210224329.2793-9-mario.limonciello@amd.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220210224329.2793-9-mario.limonciello@amd.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -86,45 +100,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Sam Ravnborg <sam@ravnborg.org>, Linux PWM List <linux-pwm@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Mark Brown <broonie@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: Michael Jamet <michael.jamet@intel.com>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>, Alexander.Deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/9/22 13:37, Javier Martinez Canillas wrote:
+Hi,
 
-[snip]
-
+On 2/10/22 23:43, Mario Limonciello wrote:
+> Currently `pci_is_thunderbolt_attached` is used to indicate a device
+> is connected externally.
 > 
->> There is still an issue with the cursor, though.
->> After doing "echo hello > /dev/tty0", the text appears, but the cursor
->> is gone. "clear > /dev/tty0" brings it back.
->>
+> The PCI core now marks such devices as removable and downstream drivers
+> can use this instead.
 > 
-> Hmm, I was able to reproduce this too. Thanks for pointing it out,
-> I'll investigate what the problem is.
->
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 
-I still didn't have time to dig on this for v4. But I think that the
-driver works well enough to be merged and we can then fix the issues
-that are still present in the fbdev emulation and fbcon interaction
-as a follow-up.
+Thanks, this looks good to me. I assume that this whole series
+will be merged in one go through another tree (e.g. the PCI tree),
+so here is my ack for merging this patch through another tree:
 
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Acked-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
+
+> ---
+>  drivers/platform/x86/apple-gmux.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
+> index 04232fbc7d56..ffac15b9befd 100644
+> --- a/drivers/platform/x86/apple-gmux.c
+> +++ b/drivers/platform/x86/apple-gmux.c
+> @@ -596,7 +596,7 @@ static int gmux_resume(struct device *dev)
+>  
+>  static int is_thunderbolt(struct device *dev, void *data)
+>  {
+> -	return pci_is_thunderbolt_attached(to_pci_dev(dev));
+> +	return dev_is_removable(dev);
+>  }
+>  
+>  static int gmux_probe(struct pnp_dev *pnp, const struct pnp_device_id *id)
+> 
 
