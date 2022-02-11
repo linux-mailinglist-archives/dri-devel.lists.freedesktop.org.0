@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B624B2725
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 14:31:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8BA4B272A
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 14:31:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF8F710EC27;
-	Fri, 11 Feb 2022 13:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDB7D10EC2E;
+	Fri, 11 Feb 2022 13:31:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED0210EC26
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 13:30:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE9D10EC2C
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 13:31:27 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1nIW0V-0005x0-IV; Fri, 11 Feb 2022 14:30:39 +0100
+ id 1nIW0V-0005x1-Ie; Fri, 11 Feb 2022 14:30:39 +0100
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ore@pengutronix.de>)
- id 1nIW0T-009juX-5m; Fri, 11 Feb 2022 14:30:37 +0100
+ id 1nIW0T-009jug-9l; Fri, 11 Feb 2022 14:30:37 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 3/5] ARM: dts: imx6qdl-vicut1: add CAN termination support
-Date: Fri, 11 Feb 2022 14:30:33 +0100
-Message-Id: <20220211133035.2321330-4-o.rempel@pengutronix.de>
+Subject: [PATCH v3 4/5] ARM: dts: imx6dl: plym2m, prtvt7,
+ victgo: make use of new resistive-adc-touch driver
+Date: Fri, 11 Feb 2022 14:30:34 +0100
+Message-Id: <20220211133035.2321330-5-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220211133035.2321330-1-o.rempel@pengutronix.de>
 References: <20220211133035.2321330-1-o.rempel@pengutronix.de>
@@ -59,52 +60,256 @@ Cc: devicetree@vger.kernel.org, Robin van der Gracht <robin@protonic.nl>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The gpio1 0 pin is controlling CAN termination, not USB H1 VBUS. So,
-remove wrong regulator and assign this gpio to new DT CAN termnation
-property.
+The tsc2046 is an ADC used as touchscreen controller. To share as mach
+code as possible, we should use it as actual ADC + virtual touchscreen
+controller.
+With this patch we make use of the new kernel IIO and HID infrastructure.
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- arch/arm/boot/dts/imx6qdl-vicut1.dtsi | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ arch/arm/boot/dts/imx6dl-plym2m.dts | 59 +++++++++++++++++++++--------
+ arch/arm/boot/dts/imx6dl-prtvt7.dts | 57 +++++++++++++++++++++-------
+ arch/arm/boot/dts/imx6dl-victgo.dts | 59 ++++++++++++++++++++++-------
+ 3 files changed, 132 insertions(+), 43 deletions(-)
 
-diff --git a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
-index b9e305774fed..1ac7e13249d2 100644
---- a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
-+++ b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
-@@ -126,15 +126,6 @@ reg_3v3: regulator-3v3 {
- 		regulator-max-microvolt = <3300000>;
+diff --git a/arch/arm/boot/dts/imx6dl-plym2m.dts b/arch/arm/boot/dts/imx6dl-plym2m.dts
+index 60fe5f14666e..73c7622bfe0f 100644
+--- a/arch/arm/boot/dts/imx6dl-plym2m.dts
++++ b/arch/arm/boot/dts/imx6dl-plym2m.dts
+@@ -101,6 +101,18 @@ reg_12v0: regulator-12v0 {
+ 		regulator-min-microvolt = <12000000>;
+ 		regulator-max-microvolt = <12000000>;
  	};
++
++	touchscreen {
++		compatible = "resistive-adc-touch";
++		io-channels = <&adc_ts 1>, <&adc_ts 3>, <&adc_ts 4>,
++                              <&adc_ts 5>;
++		io-channel-names = "y", "z1", "z2", "x";
++		touchscreen-min-pressure = <64687>;
++		touchscreen-inverted-x;
++		touchscreen-inverted-y;
++		touchscreen-x-plate-ohms = <300>;
++		touchscreen-y-plate-ohms = <800>;
++	};
+ };
  
--	reg_h1_vbus: regulator-h1-vbus {
--		compatible = "regulator-fixed";
--		regulator-name = "h1-vbus";
--		regulator-min-microvolt = <5000000>;
--		regulator-max-microvolt = <5000000>;
--		gpio = <&gpio1 0 GPIO_ACTIVE_HIGH>;
--		enable-active-high;
--	};
--
- 	reg_otg_vbus: regulator-otg-vbus {
- 		compatible = "regulator-fixed";
- 		regulator-name = "otg-vbus";
-@@ -212,6 +203,8 @@ IMX_AUDMUX_V2_PTCR_SYN		IMX_AUDMUX_V2_PDCR_RXDSEL(0)
  &can1 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_can1>;
-+	termination-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
-+	termination-ohms = <150>;
+@@ -129,26 +141,41 @@ &ecspi2 {
+ 	pinctrl-0 = <&pinctrl_ecspi2>;
  	status = "okay";
+ 
+-	touchscreen@0 {
+-		compatible = "ti,tsc2046";
++	adc_ts: adc@0 {
++		compatible = "ti,tsc2046e-adc";
+ 		reg = <0>;
+ 		pinctrl-0 = <&pinctrl_tsc2046>;
+ 		pinctrl-names ="default";
+-		spi-max-frequency = <100000>;
+-		interrupts-extended = <&gpio3 20 IRQ_TYPE_EDGE_FALLING>;
+-		pendown-gpio = <&gpio3 20 GPIO_ACTIVE_LOW>;
++		spi-max-frequency = <1000000>;
++		interrupts-extended = <&gpio3 20 IRQ_TYPE_LEVEL_LOW>;
++		#io-channel-cells = <1>;
+ 
+-		touchscreen-inverted-x;
+-		touchscreen-inverted-y;
+-		touchscreen-max-pressure = <4095>;
+-
+-		ti,vref-delay-usecs = /bits/ 16 <100>;
+-		ti,x-plate-ohms = /bits/ 16 <800>;
+-		ti,y-plate-ohms = /bits/ 16 <300>;
+-		ti,debounce-max = /bits/ 16 <3>;
+-		ti,debounce-tol = /bits/ 16 <70>;
+-		ti,debounce-rep = /bits/ 16 <3>;
+-		wakeup-source;
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		channel@1 {
++			reg = <1>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
++
++		channel@3 {
++			reg = <3>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
++
++		channel@4 {
++			reg = <4>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
++
++		channel@5 {
++			reg = <5>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
+ 	};
  };
  
-@@ -492,7 +485,6 @@ &uart5 {
+diff --git a/arch/arm/boot/dts/imx6dl-prtvt7.dts b/arch/arm/boot/dts/imx6dl-prtvt7.dts
+index baaa6ffc4df9..59e0674420a1 100644
+--- a/arch/arm/boot/dts/imx6dl-prtvt7.dts
++++ b/arch/arm/boot/dts/imx6dl-prtvt7.dts
+@@ -235,6 +235,18 @@ simple-audio-card,codec {
+ 			frame-master;
+ 		};
+ 	};
++
++	touchscreen {
++		compatible = "resistive-adc-touch";
++		io-channels = <&adc_ts 1>, <&adc_ts 3>, <&adc_ts 4>,
++                              <&adc_ts 5>;
++		io-channel-names = "y", "z1", "z2", "x";
++		touchscreen-min-pressure = <64687>;
++		touchscreen-inverted-x;
++		touchscreen-inverted-y;
++		touchscreen-x-plate-ohms = <300>;
++		touchscreen-y-plate-ohms = <800>;
++	};
  };
  
- &usbh1 {
--	vbus-supply = <&reg_h1_vbus>;
- 	pinctrl-names = "default";
- 	phy_type = "utmi";
- 	dr_mode = "host";
+ &audmux {
+@@ -277,22 +289,41 @@ &ecspi2 {
+ 	pinctrl-0 = <&pinctrl_ecspi2>;
+ 	status = "okay";
+ 
+-	touchscreen@0 {
+-		compatible = "ti,tsc2046";
++	adc_ts: adc@0 {
++		compatible = "ti,tsc2046e-adc";
+ 		reg = <0>;
+ 		pinctrl-0 = <&pinctrl_tsc>;
+ 		pinctrl-names ="default";
+-		spi-max-frequency = <100000>;
+-		interrupts-extended = <&gpio3 20 IRQ_TYPE_EDGE_FALLING>;
+-		pendown-gpio = <&gpio3 20 GPIO_ACTIVE_LOW>;
+-		touchscreen-max-pressure = <4095>;
+-		ti,vref-delay-usecs = /bits/ 16 <100>;
+-		ti,x-plate-ohms = /bits/ 16 <800>;
+-		ti,y-plate-ohms = /bits/ 16 <300>;
+-		ti,debounce-max = /bits/ 16 <3>;
+-		ti,debounce-tol = /bits/ 16 <70>;
+-		ti,debounce-rep = /bits/ 16 <3>;
+-		wakeup-source;
++		spi-max-frequency = <1000000>;
++		interrupts-extended = <&gpio3 20 IRQ_TYPE_LEVEL_LOW>;
++		#io-channel-cells = <1>;
++
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		channel@1 {
++			reg = <1>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
++
++		channel@3 {
++			reg = <3>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
++
++		channel@4 {
++			reg = <4>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
++
++		channel@5 {
++			reg = <5>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
+ 	};
+ };
+ 
+diff --git a/arch/arm/boot/dts/imx6dl-victgo.dts b/arch/arm/boot/dts/imx6dl-victgo.dts
+index d37ba4ed847d..52de091ea452 100644
+--- a/arch/arm/boot/dts/imx6dl-victgo.dts
++++ b/arch/arm/boot/dts/imx6dl-victgo.dts
+@@ -181,6 +181,18 @@ simple-audio-card,codec {
+ 			frame-master;
+ 		};
+ 	};
++
++	touchscreen {
++		compatible = "resistive-adc-touch";
++		io-channels = <&adc_ts 1>, <&adc_ts 3>, <&adc_ts 4>,
++                              <&adc_ts 5>;
++		io-channel-names = "y", "z1", "z2", "x";
++		touchscreen-min-pressure = <64687>;
++		touchscreen-inverted-x;
++		touchscreen-inverted-y;
++		touchscreen-x-plate-ohms = <300>;
++		touchscreen-y-plate-ohms = <800>;
++	};
+ };
+ 
+ &audmux {
+@@ -244,22 +256,41 @@ &ecspi2 {
+ 	pinctrl-0 = <&pinctrl_ecspi2>;
+ 	status = "okay";
+ 
+-	touchscreen@0 {
+-		compatible = "ti,tsc2046";
++	adc_ts: adc@0 {
++		compatible = "ti,tsc2046e-adc";
+ 		reg = <0>;
+-		pinctrl-names = "default";
+ 		pinctrl-0 = <&pinctrl_touchscreen>;
+-		spi-max-frequency = <200000>;
+-		interrupts-extended = <&gpio5 8 IRQ_TYPE_EDGE_FALLING>;
+-		pendown-gpio = <&gpio5 8 GPIO_ACTIVE_LOW>;
+-		touchscreen-size-x = <800>;
+-		touchscreen-size-y = <480>;
+-		touchscreen-inverted-y;
+-		touchscreen-max-pressure = <4095>;
+-		ti,vref-delay-usecs = /bits/ 16 <100>;
+-		ti,x-plate-ohms = /bits/ 16 <800>;
+-		ti,y-plate-ohms = /bits/ 16 <300>;
+-		wakeup-source;
++		pinctrl-names ="default";
++		spi-max-frequency = <1000000>;
++		interrupts-extended = <&gpio5 8 IRQ_TYPE_LEVEL_LOW>;
++		#io-channel-cells = <1>;
++
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		channel@1 {
++			reg = <1>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
++
++		channel@3 {
++			reg = <3>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
++
++		channel@4 {
++			reg = <4>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
++
++		channel@5 {
++			reg = <5>;
++			settling-time-us = <700>;
++			oversampling-ratio = <5>;
++		};
+ 	};
+ };
+ 
 -- 
 2.30.2
 
