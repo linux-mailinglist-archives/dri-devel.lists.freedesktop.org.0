@@ -2,48 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E25A4B28A4
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 16:02:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8E84B2882
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 15:59:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0DD10EC9A;
-	Fri, 11 Feb 2022 15:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B039510EAD4;
+	Fri, 11 Feb 2022 14:59:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAD1410ECB1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 15:02:34 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 4B480CDF30
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 14:54:49 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id E459C1C000C;
- Fri, 11 Feb 2022 14:54:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1644591284;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/snWoyO1kCOhCBySz55Uo3NXloeQ7id88PKB2/aReeA=;
- b=dfg7TkK0I/3exJfTOxYHVvr+fl22x+mJh10e7NYDZQrLuonafe07F0MGv4zTJwjUywdwFo
- jszufveg/kUZOQseo7aSWH+ZDBcvBvoeUGIXooGkG9zRt7vZ4ZXkQXuyUEiJKBa3hL5v5z
- VLjimiAl3xTxrobw3fTaaSlsB2FmK0aWuxFNKiErLGib6APgR2wqIuxyqMlNBE/CVJSVao
- m5j1qNLRBIw+OhjrBFwakpt30YI4+kdgQ3oA9WZihYjswXyBWQznS97QrkPcL1aCexMaiY
- RWHtH3TXANId8vXSxjIngtuLKGcITBqu8JEMrJhbgvQdBGniWJi2Q16d1PRMZg==
-Date: Fri, 11 Feb 2022 15:54:42 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v10 2/6] dt-bindings: gpio: logicvc: Add a compatible
- with major version only
-Message-ID: <YgZ4sj1o4WzMPd0P@aptenodytes>
-References: <20220120150024.646714-1-paul.kocialkowski@bootlin.com>
- <20220120150024.646714-3-paul.kocialkowski@bootlin.com>
- <CACRpkdbnEKeDNmFCuUCLaySs6AtD9MPtxV+9JDxKuXvTs9iMVQ@mail.gmail.com>
- <6f0e58dc-4b81-d819-13e3-9e0f79ba279c@arm.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 197DB10EAD4
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 14:59:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id AB9271F46F3E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1644591538;
+ bh=F3ax7XMHOIL7WCIH+v/vikfT2oS1k1h4uZqDxGOXBbA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=NvYmTdRso1J2miZYp1LgGRAyGrnSimJXAFx6dtoqva1hd+H3d36tUMn0WFh9X0v2v
+ X8fTWwivbEdHRWL2zpNchaa0uHb0pyXHi9v4VY6awUSDcraXFkKSvuPS59qh8vVKgt
+ W1HnwtiYeKW+y9U+2p3/f2jZXTFn4Zt5sQ7k0s/iVjIgB0Rr7UYKSAnPROr+CZBzFr
+ AUkVcOJghkWw2kp7JyWHUau+aR4BTJwCk86jTLhG0AHST74AR16hLbCncHqzNmdzGT
+ v/Pbj8AEVY5ZI2fVTE2Ki/K/CJipHfbZbr9Go0l9bd6CJ1jc3nycX2kIhCfEUGTlZd
+ xX3qKp8ZRob1Q==
+From: alyssa.rosenzweig@collabora.com
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/panfrost: Handle IDVS_GROUP_SIZE feature
+Date: Fri, 11 Feb 2022 09:58:49 -0500
+Message-Id: <20220211145849.3148-1-alyssa.rosenzweig@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fi4rh3UJ303yTdHr"
-Content-Disposition: inline
-In-Reply-To: <6f0e58dc-4b81-d819-13e3-9e0f79ba279c@arm.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,119 +45,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lee Jones <lee.jones@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, steven.price@arm.com,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 
---fi4rh3UJ303yTdHr
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The IDVS group size feature was missing. It is used on some Bifrost and
+Valhall GPUs, and is the last kernel-relevant Bifrost feature we're
+missing.
 
-Hi,
+This feature adds an extra IDVS group size field to the JM_CONFIG
+register. In kbase, the value is configurable via the device tree; kbase
+uses 0xF as a default if no value is specified. Until we find a device
+demanding otherwise, let's always set the 0xF default on devices which
+support this feature mimicking kbase's behaviour.
 
-On Wed 02 Feb 22, 14:26, Robin Murphy wrote:
-> On 2022-01-30 00:46, Linus Walleij wrote:
-> > On Thu, Jan 20, 2022 at 4:00 PM Paul Kocialkowski
-> > <paul.kocialkowski@bootlin.com> wrote:
-> >=20
-> > > There are lots of different versions of the logicvc block and it
-> > > makes little sense to list them all in compatibles since all versions
-> > > with the same major are found to be register-compatible.
-> >=20
-> > The reason we try to be precise is because sometime, long after the dri=
-ver
-> > has been merged and maintained for a few years, a bug is discovered
-> > in a specific version of the silicon.
-> >=20
-> > What happens is that a fix is applied on all silicon whether it is need=
-ed
-> > or not.
-> >=20
-> > If you have the precise silicon compatible, you can avoid this and targ=
-et
-> > only a specific version.
->=20
-> Indeed, the better approach would be something like:
->=20
->   compatible:
->     oneOf:
->       - items:
->           - enum:
->               - foo,bar-v1.0
->               - foo,bar,v1.1
->           - const: foo,bar-v1
->       - items:
->           - enum:
->               - foo,bar-v2.0
->           - const: foo,bar-v2
->=20
-> That way the DTs are future-proof, while drivers can still match on only =
-the
-> less-specific strings until a need arises. Plus it avoids the problem that
-> if an existing OS that only understands "foo,bar-v1.0" is given a new DT
-> with only "foo,bar-v1" for v1.0 hardware it won't be able to use the devi=
-ce,
-> even though it's *functionally* capable of doing so.
+Tuning this register slightly improves performance of index-driven vertex
+shading. On Mali-G52 (with Mesa), overall glmark2 score is improved from 1026 to
+1037. Geometry-heavy scenes like -bshading are improved from 1068 to 1098.
 
-Yes I understand that we need to keep compatibility with the already-defined
-compatible.
+Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_features.h | 3 +++
+ drivers/gpu/drm/panfrost/panfrost_gpu.c      | 3 +++
+ drivers/gpu/drm/panfrost/panfrost_regs.h     | 1 +
+ 3 files changed, 7 insertions(+)
 
-> However, from skimming patch #5, it looks possible that none of these
-> changes are needed at all. If LOGICVC_IP_VERSION_REG tells you the exact
-> revision, and is always present (as the unconditional reading of it
-> implies), then the only reason for adding new compatibles would be if, sa=
-y,
-> v5 has more clocks from v4 and you want the binding to enforce that;
-> otherwise, newer versions are literally compatible with the
-> currently-defined binding and therefore should continue to bind against t=
-he
-> existing string(s) to maximise forward- and backward-compatibility. Sure,
-> it's not the prettiest thing for a "generic" compatible to be based on an
-> oddly-specific version number that doesn't necessarily match the actual
-> software-discoverable version, but what's done is done and that's the cost
-> of ABI.
+diff --git a/drivers/gpu/drm/panfrost/panfrost_features.h b/drivers/gpu/drm/panfrost/panfrost_features.h
+index 34f2bae1ec8c..36fadcf9634e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_features.h
++++ b/drivers/gpu/drm/panfrost/panfrost_features.h
+@@ -20,6 +20,7 @@ enum panfrost_hw_feature {
+ 	HW_FEATURE_AARCH64_MMU,
+ 	HW_FEATURE_TLS_HASHING,
+ 	HW_FEATURE_THREAD_GROUP_SPLIT,
++	HW_FEATURE_IDVS_GROUP_SIZE,
+ 	HW_FEATURE_3BIT_EXT_RW_L2_MMU_CONFIG,
+ };
+ 
+@@ -74,6 +75,7 @@ enum panfrost_hw_feature {
+ 	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
+ 	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
+ 	BIT_ULL(HW_FEATURE_PROTECTED_DEBUG_MODE) | \
++	BIT_ULL(HW_FEATURE_IDVS_GROUP_SIZE) | \
+ 	BIT_ULL(HW_FEATURE_COHERENCY_REG))
+ 
+ #define hw_features_g76 (\
+@@ -87,6 +89,7 @@ enum panfrost_hw_feature {
+ 	BIT_ULL(HW_FEATURE_COHERENCY_REG) | \
+ 	BIT_ULL(HW_FEATURE_AARCH64_MMU) | \
+ 	BIT_ULL(HW_FEATURE_TLS_HASHING) | \
++	BIT_ULL(HW_FEATURE_IDVS_GROUP_SIZE) | \
+ 	BIT_ULL(HW_FEATURE_3BIT_EXT_RW_L2_MMU_CONFIG))
+ 
+ #define hw_features_g31 (\
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index bbe628b306ee..50c8922694d7 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -145,6 +145,9 @@ static void panfrost_gpu_init_quirks(struct panfrost_device *pfdev)
+ 		quirks |= (COHERENCY_ACE_LITE | COHERENCY_ACE) <<
+ 			   JM_FORCE_COHERENCY_FEATURES_SHIFT;
+ 
++	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_IDVS_GROUP_SIZE))
++		quirks |= JM_DEFAULT_IDVS_GROUP_SIZE << JM_IDVS_GROUP_SIZE_SHIFT;
++
+ 	if (quirks)
+ 		gpu_write(pfdev, GPU_JM_CONFIG, quirks);
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+index 6c5a11ef1ee8..16e776cc82ea 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_regs.h
++++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+@@ -208,6 +208,7 @@
+ #define JM_MAX_JOB_THROTTLE_LIMIT	0x3F
+ #define JM_FORCE_COHERENCY_FEATURES_SHIFT 2
+ #define JM_IDVS_GROUP_SIZE_SHIFT	16
++#define JM_DEFAULT_IDVS_GROUP_SIZE	0xF
+ #define JM_MAX_IDVS_GROUP_SIZE		0x3F
+ 
+ 
+-- 
+2.34.1
 
-Indeed it's true that hardware quirks can be applied based on the precise
-version read from the register, so I don't think there is a need for overly
-precise compatibles.
-
-Since the device-tree binding is currently the same for all versions,
-I understand that it makes sense to keep a single compatible (the already
-defined one), so I guess I will make another iteration without introducing
-new compatibles. But I will probably update the binding document to reflect
-which versions are currently known to work with its current state.
-
-> (also, nitpick for that part of patch #5 since I'm here: please include
-> linux/bitfield.h rather than reinventing FIELD_GET() locally)
-
-Ah good to know thanks, first time hearing about those.
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---fi4rh3UJ303yTdHr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIGeLIACgkQ3cLmz3+f
-v9Fovwf9FazGyUpB/nAwH7VeTeXwajEB0NHvM9mlYAMba4/aI1h1YN7YzzP6bCm6
-xHVZg35DyCEzdwgDdrqhskFL94mRN43XIsu4a6tZhdJ38uqXAu91O/bjQDaNu4zM
-h37R+IAlna1D/+O9iiwQ/46t0mdI1kRmsgNcrMwG1ERdMQs7o2tZAupPuhHHioZk
-dPwBHCMAJkljVgzf80BgtFuNXglYHp8sunbv05NtodkFLZ/mAANkyRqq9IztJR3D
-Myu/D9/AZjU/57KFg3vuveYoMs3PJrPV0No5pgZX2HP0SJwVL9zmLj43L5K2POdK
-2LJbjDIKaSkNQ0iJE55P1Qzmqmb7Tg==
-=9Gbl
------END PGP SIGNATURE-----
-
---fi4rh3UJ303yTdHr--
