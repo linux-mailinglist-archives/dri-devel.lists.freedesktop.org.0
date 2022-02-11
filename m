@@ -1,36 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3BC4B289C
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 16:01:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 802B84B2938
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 16:42:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F40710EC92;
-	Fri, 11 Feb 2022 15:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79A0810EA6A;
+	Fri, 11 Feb 2022 15:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E914310EC84
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 15:01:40 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73645106F;
- Fri, 11 Feb 2022 07:01:40 -0800 (PST)
-Received: from [10.57.42.59] (unknown [10.57.42.59])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 93C583F718;
- Fri, 11 Feb 2022 07:01:39 -0800 (PST)
-Message-ID: <68dc6d42-dd6e-936f-1de4-5862c8b8c5a6@arm.com>
-Date: Fri, 11 Feb 2022 15:01:38 +0000
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49A2A10EA6A
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 15:42:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644594125; x=1676130125;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=T3ef5F65PJmfBcchWNRaBxXxdQ77ulKuIvsCxJQZ99I=;
+ b=bVKeKt28Y6DD5975ETB7oi+mvVF0r3Ik06C3lwQRmhAvmiK9nGWaoDVK
+ jF9Yra0BpEZQ2TUnevCQty8DkB3FNtHotwc7V7brfe1ozV02sSoWHubcp
+ qd9kWQC9DbJbubhN9tHYxAH6dSj3ImNsMWenWg2uLuglr7K/S73sc/68j
+ quLG47Yjh4PaGXyO3VdYnhlVFG1cFvTnsq1II71Y1uxlDzeXzQ9tqEVeH
+ e7pixcBtzp0fdw0Q0Z0ANOp2UOqr8fjclZzSD5NfbX/MmTdrHylHW+LxZ
+ OkLW23uSVR8Vc3Rup2cog/Fd9wmk2/olsy0bM0sjV1VGvzJuSUi9H++pu g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="248583209"
+X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="248583209"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 07:42:04 -0800
+X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="488056186"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 07:42:01 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nIY2i-003UaW-0O; Fri, 11 Feb 2022 17:41:04 +0200
+Date: Fri, 11 Feb 2022 17:41:03 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v4 1/6] drm/format-helper: Add
+ drm_fb_xrgb8888_to_gray8_line()
+Message-ID: <YgaDj6Wld4b7S6DF@smile.fi.intel.com>
+References: <20220211091927.2988283-1-javierm@redhat.com>
+ <20220211091927.2988283-2-javierm@redhat.com>
+ <YgY6OqN+guBlt/ED@smile.fi.intel.com>
+ <4fa465d9-4fac-4199-9a04-d8e09d164308@redhat.com>
+ <YgZEuXvJ2ZiOyNS+@smile.fi.intel.com>
+ <7560cd10-0a7c-3fda-da83-9008833e3901@suse.de>
+ <87pmnt7gm3.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2] drm/panfrost: Handle IDVS_GROUP_SIZE feature
-Content-Language: en-GB
-To: alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org
-References: <20220211145849.3148-1-alyssa.rosenzweig@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20220211145849.3148-1-alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87pmnt7gm3.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,89 +66,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, tomeu.vizoso@collabora.com
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/02/2022 14:58, alyssa.rosenzweig@collabora.com wrote:
-> From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> 
-> The IDVS group size feature was missing. It is used on some Bifrost and
-> Valhall GPUs, and is the last kernel-relevant Bifrost feature we're
-> missing.
-> 
-> This feature adds an extra IDVS group size field to the JM_CONFIG
-> register. In kbase, the value is configurable via the device tree; kbase
-> uses 0xF as a default if no value is specified. Until we find a device
-> demanding otherwise, let's always set the 0xF default on devices which
-> support this feature mimicking kbase's behaviour.
-> 
-> Tuning this register slightly improves performance of index-driven vertex
-> shading. On Mali-G52 (with Mesa), overall glmark2 score is improved from 1026 to
-> 1037. Geometry-heavy scenes like -bshading are improved from 1068 to 1098.
-> 
-> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+On Fri, Feb 11, 2022 at 02:05:56PM +0200, Jani Nikula wrote:
+> On Fri, 11 Feb 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > Am 11.02.22 um 12:12 schrieb Andy Shevchenko:
+> >> On Fri, Feb 11, 2022 at 11:40:13AM +0100, Javier Martinez Canillas wrote:
+> >>> On 2/11/22 11:28, Andy Shevchenko wrote:
+> >>>> On Fri, Feb 11, 2022 at 10:19:22AM +0100, Javier Martinez Canillas wrote:
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+...
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_features.h | 3 +++
->  drivers/gpu/drm/panfrost/panfrost_gpu.c      | 3 +++
->  drivers/gpu/drm/panfrost/panfrost_regs.h     | 1 +
->  3 files changed, 7 insertions(+)
+> >>>>> +static void drm_fb_xrgb8888_to_gray8_line(u8 *dst, const u32 *src, unsigned int pixels)
+> >>>>> +{
+> >>>>> +	unsigned int x;
+> >>>>> +
+> >>>>> +	for (x = 0; x < pixels; x++) {
+> >>>>> +		u8 r = (*src & 0x00ff0000) >> 16;
+> >>>>> +		u8 g = (*src & 0x0000ff00) >> 8;
+> >>>>> +		u8 b =  *src & 0x000000ff;
+> >>>>> +
+> >>>>> +		/* ITU BT.601: Y = 0.299 R + 0.587 G + 0.114 B */
+> >>>>> +		*dst++ = (3 * r + 6 * g + b) / 10;
+> >>>>> +		src++;
+> >>>>> +	}
+> >>>>
+> >>>> Can be done as
+> >>>>
+> >>>> 	while (pixels--) {
+> >>>> 		...
+> >>>> 	}
+> >>>>
+> >>>> or
+> >>>>
+> >>>> 	do {
+> >>>> 		...
+> >>>> 	} while (--pixels);
+> >>>>
+> >>>
+> >>> I don't see why a while loop would be an improvement here TBH.
+> >> 
+> >> Less letters to parse when reading the code.
+> >
+> > It's a simple refactoring of code that has worked well so far. Let's 
+> > leave it as-is for now.
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_features.h b/drivers/gpu/drm/panfrost/panfrost_features.h
-> index 34f2bae1ec8c..36fadcf9634e 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_features.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_features.h
-> @@ -20,6 +20,7 @@ enum panfrost_hw_feature {
->  	HW_FEATURE_AARCH64_MMU,
->  	HW_FEATURE_TLS_HASHING,
->  	HW_FEATURE_THREAD_GROUP_SPLIT,
-> +	HW_FEATURE_IDVS_GROUP_SIZE,
->  	HW_FEATURE_3BIT_EXT_RW_L2_MMU_CONFIG,
->  };
->  
-> @@ -74,6 +75,7 @@ enum panfrost_hw_feature {
->  	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
->  	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
->  	BIT_ULL(HW_FEATURE_PROTECTED_DEBUG_MODE) | \
-> +	BIT_ULL(HW_FEATURE_IDVS_GROUP_SIZE) | \
->  	BIT_ULL(HW_FEATURE_COHERENCY_REG))
->  
->  #define hw_features_g76 (\
-> @@ -87,6 +89,7 @@ enum panfrost_hw_feature {
->  	BIT_ULL(HW_FEATURE_COHERENCY_REG) | \
->  	BIT_ULL(HW_FEATURE_AARCH64_MMU) | \
->  	BIT_ULL(HW_FEATURE_TLS_HASHING) | \
-> +	BIT_ULL(HW_FEATURE_IDVS_GROUP_SIZE) | \
->  	BIT_ULL(HW_FEATURE_3BIT_EXT_RW_L2_MMU_CONFIG))
->  
->  #define hw_features_g31 (\
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> index bbe628b306ee..50c8922694d7 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> @@ -145,6 +145,9 @@ static void panfrost_gpu_init_quirks(struct panfrost_device *pfdev)
->  		quirks |= (COHERENCY_ACE_LITE | COHERENCY_ACE) <<
->  			   JM_FORCE_COHERENCY_FEATURES_SHIFT;
->  
-> +	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_IDVS_GROUP_SIZE))
-> +		quirks |= JM_DEFAULT_IDVS_GROUP_SIZE << JM_IDVS_GROUP_SIZE_SHIFT;
-> +
->  	if (quirks)
->  		gpu_write(pfdev, GPU_JM_CONFIG, quirks);
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> index 6c5a11ef1ee8..16e776cc82ea 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> @@ -208,6 +208,7 @@
->  #define JM_MAX_JOB_THROTTLE_LIMIT	0x3F
->  #define JM_FORCE_COHERENCY_FEATURES_SHIFT 2
->  #define JM_IDVS_GROUP_SIZE_SHIFT	16
-> +#define JM_DEFAULT_IDVS_GROUP_SIZE	0xF
->  #define JM_MAX_IDVS_GROUP_SIZE		0x3F
->  
->  
+> IMO *always* prefer a for loop over while or do-while.
+> 
+> The for (i = 0; i < N; i++) is such a strong paradigm in C. You
+> instantly know how many times you're going to loop, at a glance. Not so
+> with with the alternatives, which should be used sparingly.
+
+while () {}  _is_ a paradigm, for-loop is syntax sugar on top of it.
+
+> And yes, the do-while suggested above is buggy, and you actually need to
+> stop and think to see why.
+
+It depends if pixels can be 0 or not and if it's not, then does it contain last
+or number.
+
+The do {} while (--pixels); might be buggy iff pixels may be 0.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
