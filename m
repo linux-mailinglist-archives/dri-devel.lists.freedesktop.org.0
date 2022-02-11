@@ -1,54 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E121C4B20CA
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 09:56:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A57084B211E
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 10:11:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51E6F10EA1F;
-	Fri, 11 Feb 2022 08:56:29 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D1210EA1F;
- Fri, 11 Feb 2022 08:56:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644569788; x=1676105788;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=8YYToFT+4qx3BqaIO8/V8ReZe6XZ3bG98IBedjtO2LQ=;
- b=ZlvNp4R1blkAVmFPpBmV1Att+FPSQQs1yMONb5u5nllTpB+xZz57wpYe
- VdO0FkfujfZCS+zon9C7LvnbyA+yUf2socY9RVCx8/mGrQ6AasHEdt7p3
- 9jHf+gi7H2wyoAO++zf8EdansG3BCuk6C/p5b3PBy1nsWQkGlZ+kx3tLA
- WBmiHH5tOJKlc++EMn686VMjd4BtH7WIi0Ty5lw4SmZxaNBBpgmDVYBQp
- rqx3q/AMQbdAKBo2RsKq0yZY/6Us7pZG6PlkO/R/b1k6r8qj85K7GDTtv
- MJ2JYtVcuoeJiIDz/MD1DTa0WADndGcG6UhzO6RKTFTSirmkIlM8RyZz4 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="247284776"
-X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="247284776"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 00:56:27 -0800
-X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="483229157"
-Received: from phughe1x-mobl2.ger.corp.intel.com (HELO [10.213.201.219])
- ([10.213.201.219])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 00:56:26 -0800
-Message-ID: <5ab45355-15ed-74d9-3ef0-3982f41201f2@linux.intel.com>
-Date: Fri, 11 Feb 2022 08:56:24 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFBE310E344;
+	Fri, 11 Feb 2022 09:11:22 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3835310EA27;
+ Fri, 11 Feb 2022 09:00:56 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id n23so15150160pfo.1;
+ Fri, 11 Feb 2022 01:00:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TYfaiwKavc3e6ks5kgUb85H+DdokL0giIO6Sl6/ijvM=;
+ b=YirJZ/OrUY1KZE/c6Pg4WKdA/DVfcwtcmgwJ5LeUBhEbafCWoTh9dRaxYHbAAlx5/C
+ U2C+6mW0+lJAlHWtOg6Jfruy1phkB55fCjanV518XXMonO4Hm6ZSmv0a+hkiWX4Xf2l2
+ F9WP7bUMgjY+zB++WmbReucO/ta2ZBOXgrg92r7OGhkWQy37UA+S//xb9jpWn5ZKj96y
+ LnpuDVcC32NCF4RZ+6aqEftgT8/PJdiEZnC+VclBeG3Ei8dWYSEKoWoxv52Zf/WhHGnV
+ 07bulekwlPGroFxqE2alC/bi7t4P/vt0jqRGa474mzrGuPqiaFj5qHcTUhc6uew3QFCw
+ KNyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TYfaiwKavc3e6ks5kgUb85H+DdokL0giIO6Sl6/ijvM=;
+ b=MuvnwSIpa+QRzcC3Rc5w2fpUWi05xaSUfLnteha2U7gBv9igKYuB0wynCu2tsLeOFI
+ Zl/HDAld1iq3kq0jNXHPKhy82dHnFjuZr0fZ234vjUpwci8SXJ3KhbrCV6eGubb+h2DS
+ y5HVOumflR1dl8PbuRrtnW+bIJHrfQ+lMsECqtUroCO+4DerpF0xOGcJJhZ5S/Rz8DUW
+ o7GdaS9uR1EeRCLYkou0qlRhW2Eil6fANb9n/rZyMs9rqh1C+5fcHQpojq9rgp0FPI3g
+ VbXZcI6McoZy490XMaqblk7x75i72SEOVMGO5tA6uyMGYkii+rCQgABE/Dep/f49RNJv
+ CvKg==
+X-Gm-Message-State: AOAM531bgSN06zZboAIYKoO3AKxmiFVY7IKkCPHd5EPiIzJv7QgMXnKv
+ JVAM8Vsr4UQZrGinopK33oxfVRilteltTa3DkS0=
+X-Google-Smtp-Source: ABdhPJzcBNwwDsrsLQTMfyhXlsVQPJ2eITAU351K13T2qQrMZreubqDuNlWvqA9y1Wv+mW0Rsuhg0no4yZY/uUPEJeI=
+X-Received: by 2002:a05:6a00:2310:: with SMTP id
+ h16mr697184pfh.80.1644570055706; 
+ Fri, 11 Feb 2022 01:00:55 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Do not complain about stale
- reset notifications
-Content-Language: en-US
-To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
-References: <20220210214708.2911301-1-John.C.Harrison@Intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220210214708.2911301-1-John.C.Harrison@Intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220210224329.2793-1-mario.limonciello@amd.com>
+ <20220210224329.2793-9-mario.limonciello@amd.com>
+In-Reply-To: <20220210224329.2793-9-mario.limonciello@amd.com>
+From: Yehezkel Bernat <yehezkelshb@gmail.com>
+Date: Fri, 11 Feb 2022 11:00:39 +0200
+Message-ID: <CA+CmpXtah8AeVehExk0+eagyP=DQOPEy18DW3t2rQ0ZjyMk-Rw@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] platform/x86: amd-gmux: drop the use of
+ `pci_is_thunderbolt_attached`
+To: Mario Limonciello <mario.limonciello@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Fri, 11 Feb 2022 09:11:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,47 +65,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: Michael Jamet <michael.jamet@intel.com>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Alexander.Deucher@amd.com, Mika Westerberg <mika.westerberg@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 10/02/2022 21:47, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> It is possible for reset notifications to arrive for a context that is
-> in the process of being banned. So don't flag these as an error, just
-> report it as informational (because it is still useful to know that
-> resets are happening even if they are being ignored).
-
-Is the "invalid" in the log message correct then or it should be 
-something slightly different? Delayed? Ignored? "Ignoring .. for banned.." ?
-
-Regards,
-
-Tvrtko
-
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+On Fri, Feb 11, 2022 at 12:43 AM Mario Limonciello
+<mario.limonciello@amd.com> wrote:
+>
+> Currently `pci_is_thunderbolt_attached` is used to indicate a device
+> is connected externally.
+>
+> The PCI core now marks such devices as removable and downstream drivers
+> can use this instead.
+>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 > ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index b3a429a92c0d..3a4a87d1c89c 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -4022,10 +4022,10 @@ static void guc_handle_context_reset(struct intel_guc *guc,
->   		capture_error_state(guc, ce);
->   		guc_context_replay(ce);
->   	} else {
-> -		drm_err(&guc_to_gt(guc)->i915->drm,
-> -			"Invalid GuC engine reset notificaion for 0x%04X on %s: banned = %d, blocked = %d",
-> -			ce->guc_id.id, ce->engine->name, intel_context_is_banned(ce),
-> -			context_blocked(ce));
-> +		drm_info(&guc_to_gt(guc)->i915->drm,
-> +			 "Invalid GuC engine reset notification for 0x%04X on %s: banned = %d, blocked = %d",
-> +			 ce->guc_id.id, ce->engine->name, intel_context_is_banned(ce),
-> +			 context_blocked(ce));
->   	}
->   }
->   
+>  drivers/platform/x86/apple-gmux.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
+> index 04232fbc7d56..ffac15b9befd 100644
+> --- a/drivers/platform/x86/apple-gmux.c
+> +++ b/drivers/platform/x86/apple-gmux.c
+> @@ -596,7 +596,7 @@ static int gmux_resume(struct device *dev)
+>
+>  static int is_thunderbolt(struct device *dev, void *data)
+>  {
+> -       return pci_is_thunderbolt_attached(to_pci_dev(dev));
+> +       return dev_is_removable(dev);
+>  }
+>
+
+Maybe it's only me, but isn't it a bit strange to keep this function named
+`is_thunderbolt` while it's actually about being removable?
