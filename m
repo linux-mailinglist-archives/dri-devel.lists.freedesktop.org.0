@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635CD4B2A2E
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 17:25:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8306F4B2A6A
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 17:31:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F14410EAC4;
-	Fri, 11 Feb 2022 16:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB84810E136;
+	Fri, 11 Feb 2022 16:31:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4720410EAC4
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 16:25:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644596725; x=1676132725;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=M1mHs7WEgatmlRjx4H6HCF+8F6e5ANVvjld7uTPgqFk=;
- b=d0ZScXuVo9Y89nzCqNfhussMpzvG1Gihy29R5vt9gwPNGWLLVxdnhtEH
- 0nGy6jfAPQdQErQqfbzOk/C/i3SqMGx3DqXZC6TYcP5Qw8l7mpshoVy4u
- BX0+wEhFL+EYL+06/zOkLfbPVNNHzQXRKjbDZ8ebF8+aBnmgy+i1y/Aeb
- 7pUyYJfrxe3ekYV3xDsb1i9CPk0ZcR0oPfXZBvQfcTngy1r39ya16K2tM
- A9dqXXDsizHjWnYS8MTDaaMZ5lCLmRQO4kcj3/uwdpo2kOPlG/D1pY+Pp
- klECDRvx6XiGw+/hok9BF+Bb3nNCC6YTUsoif4Avo1pdh0Hw/NM2YCpOI g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="233313755"
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="233313755"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 08:25:24 -0800
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="527010658"
-Received: from rriverox-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.19.108])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 08:25:20 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v4 1/6] drm/format-helper: Add
- drm_fb_xrgb8888_to_gray8_line()
-In-Reply-To: <YgaDj6Wld4b7S6DF@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220211091927.2988283-1-javierm@redhat.com>
- <20220211091927.2988283-2-javierm@redhat.com>
- <YgY6OqN+guBlt/ED@smile.fi.intel.com>
- <4fa465d9-4fac-4199-9a04-d8e09d164308@redhat.com>
- <YgZEuXvJ2ZiOyNS+@smile.fi.intel.com>
- <7560cd10-0a7c-3fda-da83-9008833e3901@suse.de> <87pmnt7gm3.fsf@intel.com>
- <YgaDj6Wld4b7S6DF@smile.fi.intel.com>
-Date: Fri, 11 Feb 2022 18:25:17 +0200
-Message-ID: <87fsop74lu.fsf@intel.com>
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
+ [209.85.167.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEE7010E136
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 16:31:40 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id i5so10144911oih.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 08:31:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nFyYz6B61o6ZmAG6Z9u/1BTHXgZZ6LE9DEH+VRcvbuw=;
+ b=nMnTSA6HVJAfE6KEBfCq6PvP62x8YpkiN98yLhRIsD3aOK0ck5vr84S5lM6reYfC4/
+ OpOzgnEYo/6KMWXJ8Nglvvqb8qgzwJ8o5sWEIRtB+/RZLPlrCKN9FR3CqY/UZ7OmXvyg
+ oIB0h7pSOJgwOUW1/pMdNTb9s5GfYNMwDVwKTfCK3Y4l3oWG+rpt8o1vEgUCKF/pxncx
+ uX36KMcG0xl/4Hj60cv38puWo9IAHuPcGd72K669TTtIP9BexFiJYk9Ud3vROyeYqTpJ
+ 7EsIrRDDYg6tF8Ce9C5EjMhWmc/E/rfQkYIihZoIi6td6X9sePobdJXK48pKN1Tumxmn
+ ELsQ==
+X-Gm-Message-State: AOAM533bJjT+Br5eUuvZj1xS8xB4xUkIs8Ubx97NpsZ678iK/CVLsBi/
+ COy5seJtNEWO+SoWz+lJvA==
+X-Google-Smtp-Source: ABdhPJzMDrkvZvhakAn+3iVKL9Rft7BZPls2T14LUm00GHSM8rLsUZomTSrj9kvEapTDMlbz2LhKdA==
+X-Received: by 2002:a05:6808:1b22:: with SMTP id
+ bx34mr541927oib.298.1644597100188; 
+ Fri, 11 Feb 2022 08:31:40 -0800 (PST)
+Received: from robh.at.kernel.org ([2607:fb90:5fee:dfce:b6df:c3e1:b1e5:d6d8])
+ by smtp.gmail.com with ESMTPSA id
+ ay42sm10106671oib.5.2022.02.11.08.31.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Feb 2022 08:31:39 -0800 (PST)
+Received: (nullmailer pid 476413 invoked by uid 1000);
+ Fri, 11 Feb 2022 16:31:37 -0000
+Date: Fri, 11 Feb 2022 10:31:37 -0600
+From: Rob Herring <robh@kernel.org>
+To: David Heidelberg <david@ixit.cz>
+Subject: Re: [PATCH v2] dt-bindings: display: bridge: document Toshiba
+ TC358768 cells and panel node
+Message-ID: <YgaPaULepfCMUeDc@robh.at.kernel.org>
+References: <20220207223911.97180-1-david@ixit.cz>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220207223911.97180-1-david@ixit.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,86 +62,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Rob Herring <robh+dt@kernel.org>, Dmitry Osipenko <digetx@gmail.com>,
+ ~okias/devicetree@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Feb 2022, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> On Fri, Feb 11, 2022 at 02:05:56PM +0200, Jani Nikula wrote:
->> On Fri, 11 Feb 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> > Am 11.02.22 um 12:12 schrieb Andy Shevchenko:
->> >> On Fri, Feb 11, 2022 at 11:40:13AM +0100, Javier Martinez Canillas wrote:
->> >>> On 2/11/22 11:28, Andy Shevchenko wrote:
->> >>>> On Fri, Feb 11, 2022 at 10:19:22AM +0100, Javier Martinez Canillas wrote:
->
-> ...
->
->> >>>>> +static void drm_fb_xrgb8888_to_gray8_line(u8 *dst, const u32 *src, unsigned int pixels)
->> >>>>> +{
->> >>>>> +	unsigned int x;
->> >>>>> +
->> >>>>> +	for (x = 0; x < pixels; x++) {
->> >>>>> +		u8 r = (*src & 0x00ff0000) >> 16;
->> >>>>> +		u8 g = (*src & 0x0000ff00) >> 8;
->> >>>>> +		u8 b =  *src & 0x000000ff;
->> >>>>> +
->> >>>>> +		/* ITU BT.601: Y = 0.299 R + 0.587 G + 0.114 B */
->> >>>>> +		*dst++ = (3 * r + 6 * g + b) / 10;
->> >>>>> +		src++;
->> >>>>> +	}
->> >>>>
->> >>>> Can be done as
->> >>>>
->> >>>> 	while (pixels--) {
->> >>>> 		...
->> >>>> 	}
->> >>>>
->> >>>> or
->> >>>>
->> >>>> 	do {
->> >>>> 		...
->> >>>> 	} while (--pixels);
->> >>>>
->> >>>
->> >>> I don't see why a while loop would be an improvement here TBH.
->> >> 
->> >> Less letters to parse when reading the code.
->> >
->> > It's a simple refactoring of code that has worked well so far. Let's 
->> > leave it as-is for now.
->> 
->> IMO *always* prefer a for loop over while or do-while.
->> 
->> The for (i = 0; i < N; i++) is such a strong paradigm in C. You
->> instantly know how many times you're going to loop, at a glance. Not so
->> with with the alternatives, which should be used sparingly.
->
-> while () {}  _is_ a paradigm, for-loop is syntax sugar on top of it.
+On Mon, 07 Feb 2022 23:39:11 +0100, David Heidelberg wrote:
+> Inherit valid properties from the dsi-controller.
+> 
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+> v2:
+>  - added $ref ../dsi-controller.yaml# instead copying properties (Dmitry)
+>  - additionalProperties -> unevaluatedProperties (Dmitry)
+>  - example dsi-bridge@ -> dsi@ (Dmitry)
+> 
+>  .../bindings/display/bridge/toshiba,tc358768.yaml          | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
 
-And while() is just syntax sugar for goto. :p
-
-The for loop written as for (i = 0; i < N; i++) is hands down the most
-obvious counting loop pattern there is in C.
-
->> And yes, the do-while suggested above is buggy, and you actually need to
->> stop and think to see why.
->
-> It depends if pixels can be 0 or not and if it's not, then does it contain last
-> or number.
->
-> The do {} while (--pixels); might be buggy iff pixels may be 0.
-
-Yeah. And how long does it take to figure that out?
-
-
-BR,
-Jani.
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Applied, thanks!
