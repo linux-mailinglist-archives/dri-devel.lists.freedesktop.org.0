@@ -2,52 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A747C4B29E0
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 17:14:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00B394B29E6
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 17:15:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05A5510EAA2;
-	Fri, 11 Feb 2022 16:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C158A10E361;
+	Fri, 11 Feb 2022 16:15:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF6110E361
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 16:14:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644596055; x=1676132055;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=2sObmrIIJ6u7JgxEqMuhXgNJQeFbV1/jHHnxLE325BM=;
- b=Ho2Z1vLaSXw9C3ZYUNKHXqJ949xAeGMTE5ncjC6IO5sRzALyGeeNaGBa
- 9M8FL6SQmLdhRgLXrg8LSrWh7jlrcbMMBlpppKiSmEBQmI8eIBvDTL4PG
- jkrGDS35uv1yF8Me5sfSd9GTC/MvJQwD5I0QFH6WgqcDFrSxpYFhHBSLU
- hpNXwzhWn5Ylim4qjpNHfCMkRl4HRlu0W40f48seWA40EkZPmrv85ttKR
- 7+NsFcznypY5cG2plQar28tFA5zytFpsSIrWYqzG/9jxtwRsrdp1PEG/W
- 71crS0SqP11Jedr3xCbjyYR1/r6ZZv/PgJoHZ7m984VBWAJTOeybg+axd w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="233311251"
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="233311251"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 08:14:14 -0800
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="483479902"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 08:14:10 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nIYXo-003V6e-FM; Fri, 11 Feb 2022 18:13:12 +0200
-Date: Fri, 11 Feb 2022 18:13:12 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v5 3/6] drm: Add driver for Solomon SSD130x OLED displays
-Message-ID: <YgaLGDVscXlANxcZ@smile.fi.intel.com>
-References: <20220211143358.3112958-1-javierm@redhat.com>
- <20220211143358.3112958-4-javierm@redhat.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06AE710E361
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 16:15:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644596130;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bCRcaleTGgKZtCPcAf/F4rdGaJxNLIOVjEVDZ1rkuA8=;
+ b=ZMOaPJX0suHtoX5wZ/XZylqdA1qglUQW62fMDpIidgOdUFTs14G1bspDCy5HLrc7k10/oi
+ kKY4OFyJ6oR5tIh29a/VDEN6ZMvT+WOwnkLvlf+Ai+/yR67c/55rWBxNEniiDlY1twrmjM
+ rnDNxxHY6hvvBUxyDm4UDFgD7NeuOEI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-167-KKuwUbKdP2OnpKI-Nmd3Rg-1; Fri, 11 Feb 2022 11:15:28 -0500
+X-MC-Unique: KKuwUbKdP2OnpKI-Nmd3Rg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w7-20020adfbac7000000b001d6f75e4faeso4059429wrg.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 08:15:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=bCRcaleTGgKZtCPcAf/F4rdGaJxNLIOVjEVDZ1rkuA8=;
+ b=cTZt0foN8VHTb5YBpcTkZbxqN4h2f2CQo1RD8+t69sNRQsuldHTCNfJuI3HbU0jcMT
+ tkQHQPGL1JoacZRJsFTZm0332wEkeaFnG9nV8qw1heO/+pbVAmmvzxk18yIcsZyG3Pbr
+ 07lHaI5Ngt0Z7W9kX4S6qDFbDe+07uBPIV3yGkAgYtwt+k7xLZyJuswS6TKrDfFAuuye
+ CffkAHYkBHNgu/CMaOLwdAVN95Pg2+3QMg2SzU0lVe6dn4bGGQg49kps0cCWpLqKghD3
+ ijgTd5GYKF8AjyyslQF0K7YsEgMoi2fltWNejBQbEBSjFwJAytskNM7iAhEdCrO8fhoL
+ sb0A==
+X-Gm-Message-State: AOAM530CqTG5ExGMx1pLAfN1XZuvbMYF2y8B1ufmGBjl0ftthORtEeEG
+ hgqMSKTACJ1iE+h5uY5Z98YjcibIiUy0CUIYZ1vLhTtcDPav/xqtbZaV5Oiq08tb32/DtAohSOv
+ 2l61Ddln+C7as2oUL7OE2zfaIQlun
+X-Received: by 2002:adf:f904:: with SMTP id b4mr1897415wrr.183.1644596127727; 
+ Fri, 11 Feb 2022 08:15:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxxWjE7RoWsgISgQBtP4hRDQ/YRVeK6b5oKT74teyBVgT9eGeQ23Quvk5zgwZNMOVVwPpSm9A==
+X-Received: by 2002:adf:f904:: with SMTP id b4mr1897388wrr.183.1644596127444; 
+ Fri, 11 Feb 2022 08:15:27 -0800 (PST)
+Received: from ?IPV6:2003:cb:c70c:aa00:4cc6:d24a:90ae:8c1f?
+ (p200300cbc70caa004cc6d24a90ae8c1f.dip0.t-ipconnect.de.
+ [2003:cb:c70c:aa00:4cc6:d24a:90ae:8c1f])
+ by smtp.gmail.com with ESMTPSA id l21sm4770865wms.0.2022.02.11.08.15.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Feb 2022 08:15:26 -0800 (PST)
+Message-ID: <beb38138-2266-1ff8-cc82-8fe914bed862@redhat.com>
+Date: Fri, 11 Feb 2022 17:15:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220211143358.3112958-4-javierm@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+To: Alex Sierra <alex.sierra@amd.com>, akpm@linux-foundation.org,
+ Felix.Kuehling@amd.com, linux-mm@kvack.org, rcampbell@nvidia.com,
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
+References: <20220201154901.7921-1-alex.sierra@amd.com>
+ <20220201154901.7921-2-alex.sierra@amd.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v6 01/10] mm: add zone device coherent type memory support
+In-Reply-To: <20220201154901.7921-2-alex.sierra@amd.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,131 +90,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: willy@infradead.org, apopple@nvidia.com, dri-devel@lists.freedesktop.org,
+ jglisse@redhat.com, amd-gfx@lists.freedesktop.org, jgg@nvidia.com, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 11, 2022 at 03:33:55PM +0100, Javier Martinez Canillas wrote:
-> This adds a DRM driver for SSD1305, SSD1306, SSD1307 and SSD1309 Solomon
-> OLED display controllers.
+On 01.02.22 16:48, Alex Sierra wrote:
+> Device memory that is cache coherent from device and CPU point of view.
+> This is used on platforms that have an advanced system bus (like CAPI
+> or CXL). Any page of a process can be migrated to such memory. However,
+> no one should be allowed to pin such memory so that it can always be
+> evicted.
 > 
-> It's only the core part of the driver and a bus specific driver is needed
-> for each transport interface supported by the display controllers.
+> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> Reviewed-by: Alistair Popple <apopple@nvidia.com>
 
-...
+So, I'm currently messing with PageAnon() pages and CoW semantics ...
+all these PageAnon() ZONE_DEVICE variants don't necessarily make my life
+easier but I'm not sure yet if they make my life harder. I hope you can
+help me understand some of that stuff.
 
-> +#define SSD130X_SET_CLOCK_DIV_MASK		GENMASK(3, 0)
-> +#define SSD130X_SET_CLOCK_DIV_SET(val)		FIELD_PREP(SSD130X_SET_CLOCK_DIV_MASK, (val))
-> +#define SSD130X_SET_CLOCK_FREQ_MASK		GENMASK(7, 4)
-> +#define SSD130X_SET_CLOCK_FREQ_SET(val)		FIELD_PREP(SSD130X_SET_CLOCK_FREQ_MASK, (val))
-> +#define SSD130X_SET_PRECHARGE_PERIOD1_MASK	GENMASK(3, 0)
-> +#define SSD130X_SET_PRECHARGE_PERIOD1_SET(val)	FIELD_PREP(SSD130X_SET_PRECHARGE_PERIOD1_MASK, (val))
-> +#define SSD130X_SET_PRECHARGE_PERIOD2_MASK	GENMASK(7, 4)
-> +#define SSD130X_SET_PRECHARGE_PERIOD2_SET(val)	FIELD_PREP(SSD130X_SET_PRECHARGE_PERIOD2_MASK, (val))
+1) What are expected CoW semantics for DEVICE_COHERENT?
 
-> +#define SSD130X_SET_COM_PINS_CONFIG1_MASK	GENMASK(4, 4)
+I assume we'll share them just like other PageAnon() pages during fork()
+readable, and the first sharer writing to them receives an "ordinary"
+!ZONE_DEVICE copy.
 
-BIT(4)
+So this would be just like DEVICE_EXCLUSIVE CoW handling I assume, just
+that we don't have to go through the loop of restoring a device
+exclusive entry?
 
-> +#define SSD130X_SET_COM_PINS_CONFIG1_SET(val)	FIELD_PREP(SSD130X_SET_COM_PINS_CONFIG1_MASK, (!val))
-> +#define SSD130X_SET_COM_PINS_CONFIG2_MASK	GENMASK(5, 5)
+2) How are these pages freed to clear/invalidate PageAnon() ?
 
-BIT(5)
-
-> +#define SSD130X_SET_COM_PINS_CONFIG2_SET(val)	FIELD_PREP(SSD130X_SET_COM_PINS_CONFIG2_MASK, (val))
-
-I would put GENMASK() directly into FIELD(), but it's up to you
-(and I haven't checked the use of *_MASK anyway).
+I assume for PageAnon() ZONE_DEVICE pages we'll always for via
+free_devmap_managed_page(), correct?
 
 
-...
+3) FOLL_PIN
 
-> +static int ssd130x_write_data(struct ssd130x_device *ssd130x, u8 *values, int count)
-> +{
-> +	int ret;
-> +
-> +	ret = regmap_bulk_write(ssd130x->regmap, SSD130X_DATA, values, count);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
+While you write "no one should be allowed to pin such memory", patch #2
+only blocks FOLL_LONGTERM. So I assume we allow ordinary FOLL_PIN and
+you might want to be a bit more precise?
 
-return regmap_bulk_write(...);
 
-> +}
+... I'm pretty sure we cannot FOLL_PIN DEVICE_PRIVATE pages, but can we
+FILL_PIN DEVICE_EXCLUSIVE pages? I strongly assume so?
 
-...
 
-> +/*
-> + * Helper to write command (SSD130X_COMMAND). The fist variadic argument
-> + * is the command to write and the following are the command options.
-> + *
-> + * Note that the ssd130x protocol requires each command and option to be
-> + * written as a SSD130X_COMMAND device register value. That is why a call
-> + * to regmap_write(..., SSD130X_COMMAND, ...) is done for each argument.
-> + */
-
-Thanks!
-
-> +static int ssd130x_write_cmd(struct ssd130x_device *ssd130x, int count,
-> +				    /* u8 cmd, u8 option, ... */...)
-> +{
-> +	va_list ap;
-> +	u8 value;
-> +	int ret;
-> +
-> +	va_start(ap, count);
-> +
-> +	do {
-> +		value = va_arg(ap, int);
-> +		ret = regmap_write(ssd130x->regmap, SSD130X_COMMAND, (u8)value);
-
-Wondering if you really need this casting. value is u8 by definition.
-
-> +		if (ret)
-> +			goto out_end;
-> +	} while (--count);
-> +
-> +out_end:
-> +	va_end(ap);
-> +
-> +	return ret;
-> +}
-
-...
-
-> +	ssd130x = devm_drm_dev_alloc(dev, &ssd130x_drm_driver,
-> +				     struct ssd130x_device, drm);
-> +	if (IS_ERR(ssd130x)) {
-
-> +		dev_err_probe(dev, PTR_ERR(ssd130x),
-> +			      "Failed to allocate DRM device\n");
-> +		return ssd130x;
-
-This...
-
-> +	}
-
-...
-
-> +	bl = devm_backlight_device_register(dev, dev_name(dev), dev, ssd130x,
-> +					    &ssd130xfb_bl_ops, NULL);
-> +	if (IS_ERR(bl))
-> +		return ERR_PTR(dev_err_probe(dev, PTR_ERR(bl),
-> +					     "Unable to register backlight device\n"));
-
-Can be consistent with this then.
+Thanks for any information.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Thanks,
 
+David / dhildenb
 
