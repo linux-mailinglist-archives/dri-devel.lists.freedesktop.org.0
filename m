@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1E94B2E65
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 21:27:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057574B2E69
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 21:28:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7E510EB82;
-	Fri, 11 Feb 2022 20:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2390A10EB87;
+	Fri, 11 Feb 2022 20:27:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD1310EB82
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 20:27:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1D110EB82
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 20:27:43 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id 43ACC1F46D9B
+ (Authenticated sender: alyssa) with ESMTPSA id 68DF21F46DC4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1644611260;
- bh=IwJ14LoYZzda+/Av+WGvVFb98hP/XjwCxic3ZWFVHXM=;
+ s=mail; t=1644611262;
+ bh=YpsRozX87Lwm/mSXO0U4MSM6AfF4eXH6RKFVLo7Qnoo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=awomBp1Gon1K02Digb0TkalfIEdRoNWHhUy1MRS/taKCG7Fc7XiLfQEcaBkkJrEOf
- v9Y6DrtelFsM31hIssZdFS3+9FIRyOe1Of30MNEoyuG9FKTyuLspov5gBi1N45SEsb
- VkezQiDFHoIOosRWOz/eD9ZlSHTx+EMwuaBOpNs/ejCC5DaDzKNtfo0FHYLauRyscS
- yGIWVHYJBmpj6Ttagb/d6ATvytlh6PJFM4nD9unjNtvnvtPF0TOyal6oI5IFITNDVr
- jb2BZ3JtrcLSioMQnACmSO8EBkPe/fGZzaa61Gnz3sTjFhjEpw7HZ+E98IQnUPsSKJ
- PZk8QMyYxypUA==
+ b=RFUF9yuBa58vKGvvYjpd7ZmmShFRbQeZfFgmi74dKWZO2hZ/tcftiKm2JNuFuikA5
+ Yv0H9y3BvOsc7d4jA6x3arXOlclNgF3bRGQItocMdJMvEh20q7E1tyQdlmMlsF5CE9
+ V8sR283x1VD0SVUR6MhYippyP5sqT4NdTb3ZksMxqrNvkBF90041krbgldlaKxk3LI
+ SmNW7HrXCgODcd02/jYCCz4P94VgzttlEJAlZWpQWGfo+TSglFBdqxTTriLZmmdqp+
+ 0oUa2tSckbZrYCmn+xOl3iRSQTe9UdPVG+dqiVZt0hWBW5SLMOH4b28yVTX7MVokrU
+ J8cH8u7bGtlDQ==
 From: alyssa.rosenzweig@collabora.com
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/9] dt-bindings: Add arm,mali-valhall compatible
-Date: Fri, 11 Feb 2022 15:27:20 -0500
-Message-Id: <20220211202728.6146-2-alyssa.rosenzweig@collabora.com>
+Subject: [PATCH 2/9] drm/panfrost: Handle HW_ISSUE_TTRX_2968_TTRX_3162
+Date: Fri, 11 Feb 2022 15:27:21 -0500
+Message-Id: <20220211202728.6146-3-alyssa.rosenzweig@collabora.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220211202728.6146-1-alyssa.rosenzweig@collabora.com>
 References: <20220211202728.6146-1-alyssa.rosenzweig@collabora.com>
@@ -46,35 +46,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, devicetree@vger.kernel.org, airlied@linux.ie,
- steven.price@arm.com, Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, steven.price@arm.com,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 
-From the kernel's perspective, pre-CSF Valhall is more or less
-compatible with Bifrost, although they differ to userspace. Add a
-compatible for Valhall to the existing Bifrost bindings documentation.
+Add handling for the HW_ISSUE_TTRX_2968_TTRX_3162 quirk. Logic ported
+from kbase. kbase lists this workaround as used on Mali-G57.
 
 Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Cc: devicetree@vger.kernel.org
 ---
- Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/panfrost/panfrost_gpu.c    | 3 +++
+ drivers/gpu/drm/panfrost/panfrost_issues.h | 3 +++
+ drivers/gpu/drm/panfrost/panfrost_regs.h   | 1 +
+ 3 files changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index 63a08f3f321d..48aeabd2ed68 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -23,6 +23,7 @@ properties:
-           - rockchip,px30-mali
-           - rockchip,rk3568-mali
-       - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
-+      - const: arm,mali-valhall # Mali Valhall GPU model/revision is fully discoverable
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index 50c8922694d7..1c1e2017aa80 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -108,6 +108,9 @@ static void panfrost_gpu_init_quirks(struct panfrost_device *pfdev)
+ 			quirks |= SC_LS_ALLOW_ATTR_TYPES;
+ 	}
  
-   reg:
-     maxItems: 1
++	if (panfrost_has_hw_issue(pfdev, HW_ISSUE_TTRX_2968_TTRX_3162))
++		quirks |= SC_VAR_ALGORITHM;
++
+ 	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_TLS_HASHING))
+ 		quirks |= SC_TLS_HASH_ENABLE;
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_issues.h b/drivers/gpu/drm/panfrost/panfrost_issues.h
+index 8e59d765bf19..3af7d723377e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_issues.h
++++ b/drivers/gpu/drm/panfrost/panfrost_issues.h
+@@ -125,6 +125,9 @@ enum panfrost_hw_issue {
+ 	 * kernel must fiddle with L2 caches to prevent data leakage */
+ 	HW_ISSUE_TGOX_R1_1234,
+ 
++	/* Must set SC_VAR_ALGORITHM */
++	HW_ISSUE_TTRX_2968_TTRX_3162,
++
+ 	HW_ISSUE_END
+ };
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+index 16e776cc82ea..fa1e1af56e17 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_regs.h
++++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+@@ -195,6 +195,7 @@
+ #define SC_TLS_HASH_ENABLE		BIT(17)
+ #define SC_LS_ATTR_CHECK_DISABLE	BIT(18)
+ #define SC_ENABLE_TEXGRD_FLAGS		BIT(25)
++#define SC_VAR_ALGORITHM		BIT(29)
+ /* End SHADER_CONFIG register */
+ 
+ /* TILER_CONFIG register */
 -- 
 2.34.1
 
