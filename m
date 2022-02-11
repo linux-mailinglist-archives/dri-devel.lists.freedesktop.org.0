@@ -2,42 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A734B1FBD
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 08:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E784B1FD3
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Feb 2022 09:04:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5E410EA04;
-	Fri, 11 Feb 2022 07:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50B2710EA12;
+	Fri, 11 Feb 2022 08:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E54B310EA04
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 07:58:54 +0000 (UTC)
-Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi
- [91.156.85.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 718D793;
- Fri, 11 Feb 2022 08:58:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1644566333;
- bh=qLsGQ42ziV/GKSsffI76B9tGz3eMgBrcEnLOapSGr3c=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YiydTFg1Remf3/R5YD6qkCM4v7QiZw2mw8pjzPXvgrhDjQz6ZbFP924wLl0H38MG1
- GIoNuNN45wDtlxj+T57f6Z1g33lsAL8prmvR5tCb+xHCGvpVEyd2Q4ggq9+f3QOQ0d
- uWqzQ6T/rCJ8m+T204AwEB8Hwtt867Q4zSBrCam0=
-Message-ID: <2c534402-3302-047f-a362-18dfc2db2a39@ideasonboard.com>
-Date: Fri, 11 Feb 2022 09:58:49 +0200
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A37510EA0E
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 08:04:25 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id i14so13726018wrc.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 00:04:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/lcEOr4uqjKNofumghLHP70Sk12EtIo5iskvCPhpIT8=;
+ b=0EqUeIzqvPaZiaFn1tjWOUcGQ8QzV+DdWjPdiPzg+cAQtuKSAt6ufW+5FT8PvmmRrN
+ 5burrJjB5mpE0DsAkSCwsf2cggLbJgOREIPMNCnQIHioY72CF9jLttI9vQS+rmj3UI+9
+ nlP/YeKxTNFHGNaq03tBkO8U6z/LAeI0ti2JXyYZjungMfE68JHIwQoFFuSMP43fW4z4
+ vSjoNa96xCS657CO+J2Pr/zzLuqkhJLNPKDpXacY97H8sXCcIxQ1zANtRmRwcs8/z3Ux
+ vbgGjVp1tjj1NlHGWy3bw1ETpJWnkYzpIKi2/M2D7YrY3MalKhPAL6iJ7AbDhihvCuLa
+ JNOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/lcEOr4uqjKNofumghLHP70Sk12EtIo5iskvCPhpIT8=;
+ b=32uUyEFcXVTBIZL2cC/cjP8j6CJdkjUDYcgDltFCigA4/Vie8D4h9pTXLdfToFI4Tc
+ 3NZrcapggtzLJESSk9e62SaNl0fMR/IDnFDuPD8BHoxzGLASJrBz2lAefx6TBaEjO+aD
+ ddGcisgoAHUyLWMZeXISHSa0IOpq5P7JvyAn5DmEdX2POCxA7NS1+xgr9mDrWxfUfSPi
+ iKILP+bH3MYmbwcFjd0mhUPjbnKDuvIUTPD0nAOuxRBKlCDlss4pK4RujmonebkA+FzU
+ 7DeO0s0F/8Ep0fKyHAGjcwS53bn/QZ6sMrlRNwUd9b7XYiBTZHyKRP8vHICaEK/t9ORe
+ mgiw==
+X-Gm-Message-State: AOAM530OR3TJnWqXpNDycsL9BRZEhxnX5XrzTFkWlmM41BtlItxxAW7J
+ 93EWPKcBA0VQszE4jAE+lrQBrg==
+X-Google-Smtp-Source: ABdhPJwUaPbV+hpspCv+07XTweqV+qV7F9YlImFo8czFokOghyZPvgvkNPEvIXv29cTCyqj5fGceyw==
+X-Received: by 2002:a05:6000:1363:: with SMTP id
+ q3mr365638wrz.468.1644566663486; 
+ Fri, 11 Feb 2022 00:04:23 -0800 (PST)
+Received: from localhost.localdomain ([2001:861:44c0:66c0:97e4:3830:c79:136e])
+ by smtp.gmail.com with ESMTPSA id
+ u7sm12601533wrq.112.2022.02.11.00.04.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Feb 2022 00:04:22 -0800 (PST)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: Neil Armstrong <narmstrong@baylibre.com>,
+	robert.foss@linaro.org
+Subject: Re: [PATCH v3] drm/bridge: dw-hdmi: use safe format when first in
+ bridge chain
+Date: Fri, 11 Feb 2022 09:04:21 +0100
+Message-Id: <164456659389.920211.13712775936606850365.b4-ty@baylibre.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220204143337.89221-1-narmstrong@baylibre.com>
+References: <20220204143337.89221-1-narmstrong@baylibre.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/panel: simple: Initialize bpc in RK101II01D-CT panel
- descriptor
-Content-Language: en-US
-To: Rahul T R <r-ravikumar@ti.com>, thierry.reding@gmail.com
-References: <20220210140300.11900-1-r-ravikumar@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20220210140300.11900-1-r-ravikumar@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,38 +73,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
- sam@ravnborg.org, nikhil.nd@ti.com
+Cc: jernej.skrabec@gmail.com, jonas@kwiboo.se, kieran.bingham@ideasonboard.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent.pinchart@ideasonboard.com, biju.das.jz@bp.renesas.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/02/2022 16:03, Rahul T R wrote:
-> Initialize bpc while creating panel_desc structure for RK101II01D-CT
-> 
-> Below warning is triggered since bpc is not being initialized
-> 
-> WARNING: CPU: 2 PID: 47 at drivers/gpu/drm/panel/panel-simple.c:614
-> panel_simple_probe+0x1b0/0x3c8
-> 
-> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
-> ---
->   drivers/gpu/drm/panel/panel-simple.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index c324a3ed34b9..c09eb5ad65fc 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3058,6 +3058,7 @@ static const struct drm_display_mode rocktech_rk101ii01d_ct_mode = {
->   
->   static const struct panel_desc rocktech_rk101ii01d_ct = {
->   	.modes = &rocktech_rk101ii01d_ct_mode,
-> +	.bpc = 8,
->   	.num_modes = 1,
->   	.size = {
->   		.width = 217,
+Hi,
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On Fri, 4 Feb 2022 15:33:37 +0100, Neil Armstrong wrote:
+> When the dw-hdmi bridge is in first place of the bridge chain, this
+> means there is no way to select an input format of the dw-hdmi HW
+> component.
+> 
+> Since introduction of display-connector, negotiation was broken since
+> the dw-hdmi negotiation code only worked when the dw-hdmi bridge was
+> in last position of the bridge chain or behind another bridge also
+> supporting input & output format negotiation.
+> 
+> [...]
 
-  Tomi
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+
+[1/1] drm/bridge: dw-hdmi: use safe format when first in bridge chain
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=1528038385c0a706aac9ac165eeb24044fef6825
+
+-- 
+Neil
