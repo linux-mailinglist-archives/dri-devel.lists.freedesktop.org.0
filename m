@@ -2,64 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5494B3590
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 15:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA104B35AE
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 15:45:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7BD110E56E;
-	Sat, 12 Feb 2022 14:19:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02B8710E30B;
+	Sat, 12 Feb 2022 14:45:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de
- [85.215.255.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E432010E4AF
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 14:19:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1644675575;
- s=strato-dkim-0002; d=goldelico.com;
- h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
- From:Subject:Sender;
- bh=zCXgJblTF+rQHVFbLwGtG0urpFfPwR+Q4AYo+sbdsy4=;
- b=eOVtUGo2XPi/xKQ+TbTsqu7u3QWX1kgIzSR34+K/EWDhkes7pm1NAxx6CZ0FQiSlYN
- BS7GxcjyQEQpfyrw90MHU5T/HHQavZCrbo3NF7JWTLLxFbtLq7uhNXNh1HyJXbCYYs5c
- V9EvV8c3jT/wZVPsJw9aVwAwjQTgn6LcEidGTL1z9xFuvncUsr57DXLls+VxcOAo8gRJ
- C2hR87Zm/auXe4DCP15DvNQArCvcY3DIw8f2pH0z9yLjLl3VOOVXsnCfHQWTHg92yM5B
- i8FwlVB4ranmzt+/WJiPh9rPIdRdxhbbdufXxsz40FjsbUZLHuTnLDzGarxLFJ3lhilp
- l9Wg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UMf2MwPVblcdY="
-X-RZG-CLASS-ID: mo00
-Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.39.0 DYNA|AUTH)
- with ESMTPSA id L29417y1CEJYsqa
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Sat, 12 Feb 2022 15:19:34 +0100 (CET)
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kees Cook <keescook@chromium.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Paul Boddie <paul@boddie.org.uk>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v14 9/9] [RFC] drm/ingenic: add some more features specific to
- jz4780
-Date: Sat, 12 Feb 2022 15:19:27 +0100
-Message-Id: <8c204fa75a8e9aea5e7ed2428e7b4dead2b5110b.1644675567.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <cover.1644675566.git.hns@goldelico.com>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0F0A10E30B
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 14:45:12 +0000 (UTC)
+Date: Sat, 12 Feb 2022 14:44:56 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v14 1/9] drm/ingenic: Add support for JZ4780 and HDMI
+ output
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <WY477R.1XWC44S25QIN3@crapouillou.net>
+In-Reply-To: <31eff2819f94fefcb01aa5cb23c79ccf302d9238.1644675566.git.hns@goldelico.com>
 References: <cover.1644675566.git.hns@goldelico.com>
+ <31eff2819f94fefcb01aa5cb23c79ccf302d9238.1644675566.git.hns@goldelico.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,110 +36,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, linux-mips@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Paul Boddie <paul@boddie.org.uk>
+Hi Nikolaus,
 
-The jz4780 has some more features which should be initialized
-according to the vendor kernel.
+Le sam., f=E9vr. 12 2022 at 15:19:19 +0100, H. Nikolaus Schaller=20
+<hns@goldelico.com> a =E9crit :
+> From: Paul Boddie <paul@boddie.org.uk>
+>=20
+> Add support for the LCD controller present on JZ4780 SoCs.
+> This SoC uses 8-byte descriptors which extend the current
+> 4-byte descriptors used for other Ingenic SoCs.
+>=20
+> Note that plane f0 is not working and disabled to be
+> seen from user-space.
+>=20
+> Tested on MIPS Creator CI20 board.
 
-Signed-off-by: Paul Boddie <paul@boddie.org.uk>
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 34 +++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+That's not really what the patch does though. It's a fix for a commit=20
+that has the exact same title and description, and is already merged:=20
+b807fd2c43fe ("drm/ingenic: Add support for JZ4780 and HDMI output").
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index dcf44cb00821f..fb2cdb188b993 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -66,6 +66,9 @@ struct jz_soc_info {
- 	bool needs_dev_clk;
- 	bool has_osd;
- 	bool has_alpha;
-+	bool has_pcfg;
-+	bool has_recover;
-+	bool has_rgbc;
- 	bool map_noncoherent;
- 	bool use_extended_hwdesc;
- 	bool plane_f0_not_working;
-@@ -732,6 +735,9 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 		    | JZ_LCD_CFG_SPL_DISABLE | JZ_LCD_CFG_REV_DISABLE;
- 	}
- 
-+	if (priv->soc_info->has_recover)
-+		cfg |= JZ_LCD_CFG_RECOVER_FIFO_UNDERRUN;
-+
- 	if (priv->soc_info->use_extended_hwdesc)
- 		cfg |= JZ_LCD_CFG_DESCRIPTOR_8;
- 
-@@ -1320,6 +1326,22 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 		osdc |= JZ_LCD_OSDC_ALPHAEN;
- 	regmap_write(priv->map, JZ_REG_LCD_OSDC, osdc);
- 
-+	/* Magic values from the vendor kernel for the priority thresholds. */
-+	if (soc_info->has_pcfg)
-+		regmap_write(priv->map, JZ_REG_LCD_PCFG,
-+			     JZ_LCD_PCFG_PRI_MODE |
-+			     JZ_LCD_PCFG_HP_BST_16 |
-+			     (511 << JZ_LCD_PCFG_THRESHOLD2_OFFSET) |
-+			     (400 << JZ_LCD_PCFG_THRESHOLD1_OFFSET) |
-+			     (256 << JZ_LCD_PCFG_THRESHOLD0_OFFSET));
-+
-+	/* RGB output control may be superfluous. */
-+	if (soc_info->has_rgbc)
-+		regmap_write(priv->map, JZ_REG_LCD_RGBC,
-+			     JZ_LCD_RGBC_RGB_FORMAT_ENABLE |
-+			     JZ_LCD_RGBC_ODD_RGB |
-+			     JZ_LCD_RGBC_EVEN_RGB);
-+
- 	mutex_init(&priv->clk_mutex);
- 	priv->clock_nb.notifier_call = ingenic_drm_update_pixclk;
- 
-@@ -1483,6 +1505,9 @@ static const struct jz_soc_info jz4740_soc_info = {
- 	.needs_dev_clk = true,
- 	.has_osd = false,
- 	.map_noncoherent = false,
-+	.has_pcfg = false,
-+	.has_recover = false,
-+	.has_rgbc = false,
- 	.max_width = 800,
- 	.max_height = 600,
- 	.formats_f1 = jz4740_formats,
-@@ -1494,6 +1519,9 @@ static const struct jz_soc_info jz4725b_soc_info = {
- 	.needs_dev_clk = false,
- 	.has_osd = true,
- 	.map_noncoherent = false,
-+	.has_pcfg = false,
-+	.has_recover = true,
-+	.has_rgbc = true,
- 	.max_width = 800,
- 	.max_height = 600,
- 	.formats_f1 = jz4725b_formats_f1,
-@@ -1506,6 +1534,9 @@ static const struct jz_soc_info jz4770_soc_info = {
- 	.needs_dev_clk = false,
- 	.has_osd = true,
- 	.map_noncoherent = true,
-+	.has_pcfg = false,
-+	.has_recover = true,
-+	.has_rgbc = true,
- 	.max_width = 1280,
- 	.max_height = 720,
- 	.formats_f1 = jz4770_formats_f1,
-@@ -1518,6 +1549,9 @@ static const struct jz_soc_info jz4780_soc_info = {
- 	.needs_dev_clk = true,
- 	.has_osd = true,
- 	.has_alpha = true,
-+	.has_pcfg = true,
-+	.has_recover = true,
-+	.has_rgbc = true,
- 	.use_extended_hwdesc = true,
- 	.plane_f0_not_working = true,	/* REVISIT */
- 	.max_width = 4096,
--- 
-2.33.0
+Please rewrite the patch's title and description to actually describe=20
+its purpose.
+
+Cheers,
+-Paul
+
+>=20
+> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> ---
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
+> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 7f10d6eed549d..dcf44cb00821f 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -65,8 +65,10 @@ struct ingenic_dma_hwdescs {
+>  struct jz_soc_info {
+>  	bool needs_dev_clk;
+>  	bool has_osd;
+> +	bool has_alpha;
+>  	bool map_noncoherent;
+>  	bool use_extended_hwdesc;
+> +	bool plane_f0_not_working;
+>  	unsigned int max_width, max_height;
+>  	const u32 *formats_f0, *formats_f1;
+>  	unsigned int num_formats_f0, num_formats_f1;
+> @@ -453,7 +455,7 @@ static int ingenic_drm_plane_atomic_check(struct=20
+> drm_plane *plane,
+>  	if (!crtc)
+>  		return 0;
+>=20
+> -	if (plane =3D=3D &priv->f0)
+> +	if (priv->soc_info->plane_f0_not_working && plane =3D=3D &priv->f0)
+>  		return -EINVAL;
+>=20
+>  	crtc_state =3D drm_atomic_get_existing_crtc_state(state,
+> @@ -1055,6 +1057,7 @@ static int ingenic_drm_bind(struct device *dev,=20
+> bool has_components)
+>  	long parent_rate;
+>  	unsigned int i, clone_mask =3D 0;
+>  	int ret, irq;
+> +	u32 osdc =3D 0;
+>=20
+>  	soc_info =3D of_device_get_match_data(dev);
+>  	if (!soc_info) {
+> @@ -1312,7 +1315,10 @@ static int ingenic_drm_bind(struct device=20
+> *dev, bool has_components)
+>=20
+>  	/* Enable OSD if available */
+>  	if (soc_info->has_osd)
+> -		regmap_write(priv->map, JZ_REG_LCD_OSDC, JZ_LCD_OSDC_OSDEN);
+> +		osdc |=3D JZ_LCD_OSDC_OSDEN;
+> +	if (soc_info->has_alpha)
+> +		osdc |=3D JZ_LCD_OSDC_ALPHAEN;
+> +	regmap_write(priv->map, JZ_REG_LCD_OSDC, osdc);
+>=20
+>  	mutex_init(&priv->clk_mutex);
+>  	priv->clock_nb.notifier_call =3D ingenic_drm_update_pixclk;
+> @@ -1511,7 +1517,9 @@ static const struct jz_soc_info jz4770_soc_info=20
+> =3D {
+>  static const struct jz_soc_info jz4780_soc_info =3D {
+>  	.needs_dev_clk =3D true,
+>  	.has_osd =3D true,
+> +	.has_alpha =3D true,
+>  	.use_extended_hwdesc =3D true,
+> +	.plane_f0_not_working =3D true,	/* REVISIT */
+>  	.max_width =3D 4096,
+>  	.max_height =3D 2048,
+>  	.formats_f1 =3D jz4770_formats_f1,
+> --
+> 2.33.0
+>=20
+
 
