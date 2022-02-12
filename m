@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA104B35AE
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 15:45:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A20AD4B35B7
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 15:53:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02B8710E30B;
-	Sat, 12 Feb 2022 14:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFBC410E2D5;
+	Sat, 12 Feb 2022 14:53:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0F0A10E30B
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 14:45:12 +0000 (UTC)
-Date: Sat, 12 Feb 2022 14:44:56 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B656910E2D5
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 14:53:29 +0000 (UTC)
+Date: Sat, 12 Feb 2022 14:53:05 +0000
 From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v14 1/9] drm/ingenic: Add support for JZ4780 and HDMI
- output
+Subject: Re: [PATCH v14 2/9] dt-bindings: display: Add ingenic, jz4780-dw-hdmi
+ DT Schema
 To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <WY477R.1XWC44S25QIN3@crapouillou.net>
-In-Reply-To: <31eff2819f94fefcb01aa5cb23c79ccf302d9238.1644675566.git.hns@goldelico.com>
+Message-Id: <HC577R.0N5F78NY98FN1@crapouillou.net>
+In-Reply-To: <c806c6007f7bb090bf96ff6bd827f03e88bf4712.1644675566.git.hns@goldelico.com>
 References: <cover.1644675566.git.hns@goldelico.com>
- <31eff2819f94fefcb01aa5cb23c79ccf302d9238.1644675566.git.hns@goldelico.com>
+ <c806c6007f7bb090bf96ff6bd827f03e88bf4712.1644675566.git.hns@goldelico.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
@@ -46,8 +46,7 @@ Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
  Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
  Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ letux-kernel@openphoenux.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
  Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -56,98 +55,129 @@ Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
+Hi,
 
-Le sam., f=E9vr. 12 2022 at 15:19:19 +0100, H. Nikolaus Schaller=20
+Le sam., f=E9vr. 12 2022 at 15:19:20 +0100, H. Nikolaus Schaller=20
 <hns@goldelico.com> a =E9crit :
-> From: Paul Boddie <paul@boddie.org.uk>
+> From: Sam Ravnborg <sam@ravnborg.org>
 >=20
-> Add support for the LCD controller present on JZ4780 SoCs.
-> This SoC uses 8-byte descriptors which extend the current
-> 4-byte descriptors used for other Ingenic SoCs.
+> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
+> Based on .txt binding from Zubair Lutfullah Kakakhel
 >=20
-> Note that plane f0 is not working and disabled to be
-> seen from user-space.
->=20
-> Tested on MIPS Creator CI20 board.
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-That's not really what the patch does though. It's a fix for a commit=20
-that has the exact same title and description, and is already merged:=20
-b807fd2c43fe ("drm/ingenic: Add support for JZ4780 and HDMI output").
-
-Please rewrite the patch's title and description to actually describe=20
-its purpose.
+Patch pushed to drm-misc-next, thanks!
 
 Cheers,
 -Paul
 
->=20
-> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 > ---
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
+>  .../display/bridge/ingenic,jz4780-hdmi.yaml   | 82=20
+> +++++++++++++++++++
+>  1 file changed, 82 insertions(+)
+>  create mode 100644=20
+> Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
 >=20
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
-> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 7f10d6eed549d..dcf44cb00821f 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -65,8 +65,10 @@ struct ingenic_dma_hwdescs {
->  struct jz_soc_info {
->  	bool needs_dev_clk;
->  	bool has_osd;
-> +	bool has_alpha;
->  	bool map_noncoherent;
->  	bool use_extended_hwdesc;
-> +	bool plane_f0_not_working;
->  	unsigned int max_width, max_height;
->  	const u32 *formats_f0, *formats_f1;
->  	unsigned int num_formats_f0, num_formats_f1;
-> @@ -453,7 +455,7 @@ static int ingenic_drm_plane_atomic_check(struct=20
-> drm_plane *plane,
->  	if (!crtc)
->  		return 0;
->=20
-> -	if (plane =3D=3D &priv->f0)
-> +	if (priv->soc_info->plane_f0_not_working && plane =3D=3D &priv->f0)
->  		return -EINVAL;
->=20
->  	crtc_state =3D drm_atomic_get_existing_crtc_state(state,
-> @@ -1055,6 +1057,7 @@ static int ingenic_drm_bind(struct device *dev,=20
-> bool has_components)
->  	long parent_rate;
->  	unsigned int i, clone_mask =3D 0;
->  	int ret, irq;
-> +	u32 osdc =3D 0;
->=20
->  	soc_info =3D of_device_get_match_data(dev);
->  	if (!soc_info) {
-> @@ -1312,7 +1315,10 @@ static int ingenic_drm_bind(struct device=20
-> *dev, bool has_components)
->=20
->  	/* Enable OSD if available */
->  	if (soc_info->has_osd)
-> -		regmap_write(priv->map, JZ_REG_LCD_OSDC, JZ_LCD_OSDC_OSDEN);
-> +		osdc |=3D JZ_LCD_OSDC_OSDEN;
-> +	if (soc_info->has_alpha)
-> +		osdc |=3D JZ_LCD_OSDC_ALPHAEN;
-> +	regmap_write(priv->map, JZ_REG_LCD_OSDC, osdc);
->=20
->  	mutex_init(&priv->clk_mutex);
->  	priv->clock_nb.notifier_call =3D ingenic_drm_update_pixclk;
-> @@ -1511,7 +1517,9 @@ static const struct jz_soc_info jz4770_soc_info=20
-> =3D {
->  static const struct jz_soc_info jz4780_soc_info =3D {
->  	.needs_dev_clk =3D true,
->  	.has_osd =3D true,
-> +	.has_alpha =3D true,
->  	.use_extended_hwdesc =3D true,
-> +	.plane_f0_not_working =3D true,	/* REVISIT */
->  	.max_width =3D 4096,
->  	.max_height =3D 2048,
->  	.formats_f1 =3D jz4770_formats_f1,
+> diff --git=20
+> a/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.ya=
+ml=20
+> b/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.ya=
+ml
+> new file mode 100644
+> index 0000000000000..b8219eab4475a
+> --- /dev/null
+> +++=20
+> b/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.ya=
+ml
+> @@ -0,0 +1,82 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id:=20
+> http://devicetree.org/schemas/display/bridge/ingenic,jz4780-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Bindings for Ingenic JZ4780 HDMI Transmitter
+> +
+> +maintainers:
+> +  - H. Nikolaus Schaller <hns@goldelico.com>
+> +
+> +description: |
+> +  The HDMI Transmitter in the Ingenic JZ4780 is a Synopsys=20
+> DesignWare HDMI 1.4
+> +  TX controller IP with accompanying PHY IP.
+> +
+> +allOf:
+> +  - $ref: synopsys,dw-hdmi.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: ingenic,jz4780-dw-hdmi
+> +
+> +  reg-io-width:
+> +    const: 4
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Input from LCD controller output.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Link to the HDMI connector.
+> +
+> +required:
+> +  - compatible
+> +  - clocks
+> +  - clock-names
+> +  - ports
+> +  - reg-io-width
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/ingenic,jz4780-cgu.h>
+> +
+> +    hdmi: hdmi@10180000 {
+> +        compatible =3D "ingenic,jz4780-dw-hdmi";
+> +        reg =3D <0x10180000 0x8000>;
+> +        reg-io-width =3D <4>;
+> +        ddc-i2c-bus =3D <&i2c4>;
+> +        interrupt-parent =3D <&intc>;
+> +        interrupts =3D <3>;
+> +        clocks =3D <&cgu JZ4780_CLK_AHB0>, <&cgu JZ4780_CLK_HDMI>;
+> +        clock-names =3D "iahb", "isfr";
+> +
+> +        ports {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +            hdmi_in: port@0 {
+> +                reg =3D <0>;
+> +                dw_hdmi_in: endpoint {
+> +                    remote-endpoint =3D <&jz4780_lcd_out>;
+> +                };
+> +            };
+> +            hdmi_out: port@1 {
+> +                reg =3D <1>;
+> +                dw_hdmi_out: endpoint {
+> +                    remote-endpoint =3D <&hdmi_con>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
 > --
 > 2.33.0
 >=20
