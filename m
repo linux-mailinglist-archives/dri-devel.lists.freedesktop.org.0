@@ -2,46 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27434B3A6D
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Feb 2022 10:00:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F0D4B3A6F
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Feb 2022 10:00:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5F5410F3B7;
-	Sun, 13 Feb 2022 09:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 512B310F3BC;
+	Sun, 13 Feb 2022 09:00:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE9610E2C7;
- Sat, 12 Feb 2022 12:51:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644670317; x=1676206317;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=50dQc5iRLoamDKuzYExF3DU1PtV7IcxnHnP59rMc5AY=;
- b=qsn0ckNfTei4SBnqpe+y6Y6c6VuUe1AlyCiwq0+vDZY5DA0eLe6u4Z+U
- smVCldPQWVWqyOrnasj/DRws3tNGm8Ygn0KYGdsd9NS3tuljEkvg0t/Az
- R3DYVtsIg0PQcoMw648n4sjdZt/RGsJUSEZ0VR0cL2mqrClvR3MCVuT/G o=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 12 Feb 2022 04:51:57 -0800
-X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 12 Feb 2022 04:51:56 -0800
-X-QCInternal: smtphost
-Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
- by ironmsg02-blr.qualcomm.com with ESMTP; 12 Feb 2022 18:21:43 +0530
-Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id 4F5B6157F; Sat, 12 Feb 2022 18:21:42 +0530 (IST)
-From: Vinod Polimera <quic_vpolimer@quicinc.com>
-To: y@qualcomm.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: [v1 2/2] drm/msm/disp/dpu1: Add PSR support for eDP interface in dpu
- driver
-Date: Sat, 12 Feb 2022 18:21:35 +0530
-Message-Id: <1644670295-25068-2-git-send-email-quic_vpolimer@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1644670295-25068-1-git-send-email-quic_vpolimer@quicinc.com>
-References: <y> <1644670295-25068-1-git-send-email-quic_vpolimer@quicinc.com>
+Received: from mxout01.lancloud.ru (mxout01.lancloud.ru [45.84.86.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3BFF10E33E;
+ Sat, 12 Feb 2022 20:16:41 +0000 (UTC)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 380DE209AC65
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 2/2] platform: make platform_get_irq_byname_optional()
+ optional
+Date: Sat, 12 Feb 2022 23:16:31 +0300
+Message-ID: <20220212201631.12648-3-s.shtylyov@omp.ru>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20220212201631.12648-1-s.shtylyov@omp.ru>
+References: <20220212201631.12648-1-s.shtylyov@omp.ru>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 X-Mailman-Approved-At: Sun, 13 Feb 2022 09:00:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,386 +46,348 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
- quic_vproddut@quicinc.com, dianders@chromium.org, linux-kernel@vger.kernel.org,
- swboyd@chromium.org, Vinod Polimera <quic_vpolimer@quicinc.com>
+Cc: Andrew Lunn <andrew@lunn.ch>,
+ =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+ David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Aswath Govindraju <a-govindraju@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Florian Fainelli <f.fainelli@gmail.com>, lima@lists.freedesktop.org,
+ Kamal Dasu <kdasu.kdev@gmail.com>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Jose Abreu <joabreu@synopsys.com>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Jakub Kicinski <kuba@kernel.org>,
+ Vivien Didelot <vivien.didelot@gmail.com>, Wolfgang
+ Grandegger <wg@grandegger.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Pawel Laszczak <pawell@cadence.com>, linux-tegra@vger.kernel.org,
+ Mathias Nyman <mathias.nyman@intel.com>, linux-can@vger.kernel.org,
+ Roger Quadros <rogerq@kernel.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Marc Kleine-Budde <mkl@pengutronix.de>, Bjorn Helgaas <bhelgaas@google.com>,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, Jingoo Han <jingoohan1@gmail.com>,
+ Peter Chen <peter.chen@kernel.org>, linux-usb@vger.kernel.org,
+ Joakim Zhang <qiangqing.zhang@nxp.com>, linux-spi@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Qiang Yu <yuq825@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+ linux-mediatek@lists.infradead.org, Vladimir Oltean <olteanv@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable PSR on eDP interface using drm self-refresh librabry.
-This patch uses a trigger from self-refresh library to enter/exit
-into PSR, when there are no updates from framework.
+Currently platform_get_irq_byname_optional() returns an error code even
+if IRQ resource simply has not been found.  It prevents the callers from
+being error code agnostic in their error handling:
 
-Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
-Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+	ret = platform_get_irq_byname_optional(...);
+	if (ret < 0 && ret != -ENXIO)
+		return ret; // respect deferred probe
+	if (ret > 0)
+		...we get an IRQ...
+
+All other *_optional() APIs seem to return 0 or NULL in case an optional
+resource is not available.  Let's follow this good example, so that the
+callers would look like:
+
+	ret = platform_get_irq_byname_optional(...);
+	if (ret < 0)
+		return ret;
+	if (ret > 0)
+		...we get an IRQ...
+
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- drivers/gpu/drm/bridge/panel.c              | 64 +++++++++++++++++++++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 30 +++++++++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 71 ++++++++++++++++++++++++++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  2 +-
- 4 files changed, 142 insertions(+), 25 deletions(-)
+Changes in version 2:
+- added the error check using dev_err_probe() to
+  platform_get_irq_byname_optional();
+- reformatted the patch description.
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index b32295a..c440546 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -102,31 +102,71 @@ static void panel_bridge_detach(struct drm_bridge *bridge)
- 		drm_connector_cleanup(connector);
- }
- 
--static void panel_bridge_pre_enable(struct drm_bridge *bridge)
-+static void panel_bridge_pre_enable(struct drm_bridge *bridge,
-+		struct drm_bridge_state *old_bridge_state)
+ drivers/base/platform.c                         | 17 ++++++++++++++---
+ drivers/gpu/drm/lima/lima_device.c              |  2 +-
+ drivers/mailbox/tegra-hsp.c                     |  4 ++--
+ drivers/net/can/rcar/rcar_canfd.c               |  4 ++--
+ drivers/net/dsa/b53/b53_srab.c                  |  2 +-
+ drivers/net/ethernet/freescale/fec_main.c       |  2 +-
+ drivers/net/ethernet/freescale/fec_ptp.c        |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-stm32.c   |  4 ++--
+ .../ethernet/stmicro/stmmac/stmmac_platform.c   |  4 ++--
+ .../pci/controller/dwc/pcie-designware-host.c   |  2 +-
+ drivers/spi/spi-bcm-qspi.c                      |  2 +-
+ drivers/spi/spi-rspi.c                          |  8 ++++----
+ drivers/usb/cdns3/cdns3-plat.c                  |  5 +----
+ drivers/usb/host/xhci-mtk.c                     |  2 +-
+ drivers/usb/mtu3/mtu3_core.c                    |  2 +-
+ 15 files changed, 35 insertions(+), 27 deletions(-)
+
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index 52a8356f8261..c704d51a6dd5 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -500,14 +500,25 @@ EXPORT_SYMBOL_GPL(platform_get_irq_byname);
+  * @name: IRQ name
+  *
+  * Get an optional IRQ by name like platform_get_irq_byname(). Except that it
+- * does not print an error message if an IRQ can not be obtained.
++ * does not print an error message if an IRQ can not be obtained and returns
++ * 0 when IRQ resource has not been found.
+  *
+- * Return: non-zero IRQ number on success, negative error number on failure.
++ * Return: non-zero IRQ number on success, 0 if IRQ wasn't found, negative error
++ * number on failure.
+  */
+ int platform_get_irq_byname_optional(struct platform_device *dev,
+ 				     const char *name)
  {
- 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
--
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *cstate;
-+	int i;
+-	return __platform_get_irq_byname(dev, name);
++	int ret;
 +
-+	if (old_bridge_state->base.state) {
-+		for_each_old_crtc_in_state(old_bridge_state->base.state, crtc, cstate, i) {
-+			if (cstate->self_refresh_active && cstate->active)
-+				return;
-+		}
-+	}
- 	drm_panel_prepare(panel_bridge->panel);
- }
- 
--static void panel_bridge_enable(struct drm_bridge *bridge)
-+static void panel_bridge_enable(struct drm_bridge *bridge,
-+		struct drm_bridge_state *old_bridge_state)
- {
- 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
--
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *cstate;
-+	int i;
++	ret = __platform_get_irq_byname(dev, name);
++	if (ret == -ENXIO)
++		return 0;
++	if (ret < 0)
++		return dev_err_probe(&dev->dev, ret, "IRQ %s not found\n",
++				     name);
 +
-+	if (old_bridge_state->base.state) {
-+		for_each_old_crtc_in_state(old_bridge_state->base.state, crtc, cstate, i) {
-+			if (cstate->self_refresh_active)
-+				return;
-+		}
-+	}
- 	drm_panel_enable(panel_bridge->panel);
++	return ret;
  }
+ EXPORT_SYMBOL_GPL(platform_get_irq_byname_optional);
  
--static void panel_bridge_disable(struct drm_bridge *bridge)
-+static void panel_bridge_disable(struct drm_bridge *bridge,
-+		struct drm_bridge_state *old_bridge_state)
- {
- 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
--
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *cstate;
-+	int i;
-+
-+	if (old_bridge_state->base.state) {
-+		for_each_new_crtc_in_state(old_bridge_state->base.state, crtc, cstate, i) {
-+			if (cstate->self_refresh_active)
-+				return;
-+		}
-+	}
- 	drm_panel_disable(panel_bridge->panel);
- }
- 
--static void panel_bridge_post_disable(struct drm_bridge *bridge)
-+static void panel_bridge_post_disable(struct drm_bridge *bridge,
-+		struct drm_bridge_state *old_bridge_state)
- {
- 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
--
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *cstate;
-+	int i;
-+
-+	if (old_bridge_state->base.state) {
-+		for_each_new_crtc_in_state(old_bridge_state->base.state, crtc, cstate, i) {
-+			if (cstate->self_refresh_active)
-+				return;
-+		}
-+	}
- 	drm_panel_unprepare(panel_bridge->panel);
- }
- 
-@@ -141,10 +181,10 @@ static int panel_bridge_get_modes(struct drm_bridge *bridge,
- static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
- 	.attach = panel_bridge_attach,
- 	.detach = panel_bridge_detach,
--	.pre_enable = panel_bridge_pre_enable,
--	.enable = panel_bridge_enable,
--	.disable = panel_bridge_disable,
--	.post_disable = panel_bridge_post_disable,
-+	.atomic_pre_enable = panel_bridge_pre_enable,
-+	.atomic_enable = panel_bridge_enable,
-+	.atomic_disable = panel_bridge_disable,
-+	.atomic_post_disable = panel_bridge_post_disable,
- 	.get_modes = panel_bridge_get_modes,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index e7c9fe1..90223b8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -18,6 +18,7 @@
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_rect.h>
- #include <drm/drm_vblank.h>
-+#include <drm/drm_self_refresh_helper.h>
- 
- #include "dpu_kms.h"
- #include "dpu_hw_lm.h"
-@@ -457,7 +458,6 @@ static void _dpu_crtc_blend_setup(struct drm_crtc *crtc)
- 			mixer[i].mixer_op_mode,
- 			ctl->idx - CTL_0,
- 			mixer[i].flush_mask);
--
- 		ctl->ops.setup_blendstage(ctl, mixer[i].hw_lm->idx,
- 			&stage_cfg);
+diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
+index 02cef0cea657..08a86484ce6f 100644
+--- a/drivers/gpu/drm/lima/lima_device.c
++++ b/drivers/gpu/drm/lima/lima_device.c
+@@ -224,7 +224,7 @@ static int lima_init_ip(struct lima_device *dev, int index)
+ 	if (irq_name) {
+ 		err = must ? platform_get_irq_byname(pdev, irq_name) :
+ 			     platform_get_irq_byname_optional(pdev, irq_name);
+-		if (err < 0)
++		if (err <= 0)
+ 			goto out;
+ 		ip->irq = err;
  	}
-@@ -951,6 +951,14 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
+diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
+index acd0675da681..17aa88e31445 100644
+--- a/drivers/mailbox/tegra-hsp.c
++++ b/drivers/mailbox/tegra-hsp.c
+@@ -667,7 +667,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
+ 	hsp->num_si = (value >> HSP_nSI_SHIFT) & HSP_nINT_MASK;
  
- 	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
+ 	err = platform_get_irq_byname_optional(pdev, "doorbell");
+-	if (err >= 0)
++	if (err > 0)
+ 		hsp->doorbell_irq = err;
  
-+	if (old_crtc_state->self_refresh_active) {
-+		drm_for_each_encoder_mask(encoder, crtc->dev,
-+				 old_crtc_state->encoder_mask) {
-+			dpu_encoder_assign_crtc(encoder, NULL);
-+		}
-+		return;
-+	}
-+
- 	/* Disable/save vblank irq handling */
- 	drm_crtc_vblank_off(crtc);
+ 	if (hsp->num_si > 0) {
+@@ -687,7 +687,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
+ 				return -ENOMEM;
  
-@@ -962,7 +970,8 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
- 		 */
- 		if (dpu_encoder_get_intf_mode(encoder) == INTF_MODE_VIDEO)
- 			release_bandwidth = true;
--		dpu_encoder_assign_crtc(encoder, NULL);
-+		if (!crtc->state->self_refresh_active)
-+			dpu_encoder_assign_crtc(encoder, NULL);
+ 			err = platform_get_irq_byname_optional(pdev, name);
+-			if (err >= 0) {
++			if (err > 0) {
+ 				hsp->shared_irqs[i] = err;
+ 				count++;
+ 			}
+diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+index b7dc1c32875f..fa163ec0db80 100644
+--- a/drivers/net/can/rcar/rcar_canfd.c
++++ b/drivers/net/can/rcar/rcar_canfd.c
+@@ -1772,7 +1772,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+ 
+ 	if (chip_id == RENESAS_RCAR_GEN3) {
+ 		ch_irq = platform_get_irq_byname_optional(pdev, "ch_int");
+-		if (ch_irq < 0) {
++		if (ch_irq <= 0) {
+ 			/* For backward compatibility get irq by index */
+ 			ch_irq = platform_get_irq(pdev, 0);
+ 			if (ch_irq < 0)
+@@ -1780,7 +1780,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+ 		}
+ 
+ 		g_irq = platform_get_irq_byname_optional(pdev, "g_int");
+-		if (g_irq < 0) {
++		if (g_irq <= 0) {
+ 			/* For backward compatibility get irq by index */
+ 			g_irq = platform_get_irq(pdev, 1);
+ 			if (g_irq < 0)
+diff --git a/drivers/net/dsa/b53/b53_srab.c b/drivers/net/dsa/b53/b53_srab.c
+index 4591bb1c05d2..80b7c8f053ad 100644
+--- a/drivers/net/dsa/b53/b53_srab.c
++++ b/drivers/net/dsa/b53/b53_srab.c
+@@ -420,7 +420,7 @@ static int b53_srab_irq_enable(struct b53_device *dev, int port)
+ 	/* Interrupt is optional and was not specified, do not make
+ 	 * this fatal
+ 	 */
+-	if (p->irq == -ENXIO)
++	if (!p->irq)
+ 		return ret;
+ 
+ 	ret = request_threaded_irq(p->irq, b53_srab_port_isr,
+diff --git a/drivers/net/ethernet/freescale/fec_main.c b/drivers/net/ethernet/freescale/fec_main.c
+index 796133de527e..93d1cca831dd 100644
+--- a/drivers/net/ethernet/freescale/fec_main.c
++++ b/drivers/net/ethernet/freescale/fec_main.c
+@@ -3941,7 +3941,7 @@ fec_probe(struct platform_device *pdev)
+ 	for (i = 0; i < irq_cnt; i++) {
+ 		snprintf(irq_name, sizeof(irq_name), "int%d", i);
+ 		irq = platform_get_irq_byname_optional(pdev, irq_name);
+-		if (irq < 0)
++		if (irq <= 0)
+ 			irq = platform_get_irq(pdev, i);
+ 		if (irq < 0) {
+ 			ret = irq;
+diff --git a/drivers/net/ethernet/freescale/fec_ptp.c b/drivers/net/ethernet/freescale/fec_ptp.c
+index de1d23808b6c..a7ef0aaaf2be 100644
+--- a/drivers/net/ethernet/freescale/fec_ptp.c
++++ b/drivers/net/ethernet/freescale/fec_ptp.c
+@@ -611,7 +611,7 @@ void fec_ptp_init(struct platform_device *pdev, int irq_idx)
+ 	INIT_DELAYED_WORK(&fep->time_keep, fec_time_keep);
+ 
+ 	irq = platform_get_irq_byname_optional(pdev, "pps");
+-	if (irq < 0)
++	if (irq <= 0)
+ 		irq = platform_get_irq_optional(pdev, irq_idx);
+ 	/* Failure to get an irq is not fatal,
+ 	 * only the PTP_CLOCK_PPS clock events should stop
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
+index 2b38a499a404..5519b5b35365 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
+@@ -342,7 +342,7 @@ static int stm32mp1_parse_data(struct stm32_dwmac *dwmac,
+ 	if (dwmac->irq_pwr_wakeup == -EPROBE_DEFER)
+ 		return -EPROBE_DEFER;
+ 
+-	if (!dwmac->clk_eth_ck && dwmac->irq_pwr_wakeup >= 0) {
++	if (!dwmac->clk_eth_ck && dwmac->irq_pwr_wakeup > 0) {
+ 		err = device_init_wakeup(&pdev->dev, true);
+ 		if (err) {
+ 			dev_err(&pdev->dev, "Failed to init wake up irq\n");
+@@ -426,7 +426,7 @@ static int stm32_dwmac_remove(struct platform_device *pdev)
+ 
+ 	stm32_dwmac_clk_disable(priv->plat->bsp_priv);
+ 
+-	if (dwmac->irq_pwr_wakeup >= 0) {
++	if (dwmac->irq_pwr_wakeup > 0) {
+ 		dev_pm_clear_wake_irq(&pdev->dev);
+ 		device_init_wakeup(&pdev->dev, false);
  	}
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+index 5d29f336315b..33fdfab93aa6 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+@@ -679,7 +679,7 @@ int stmmac_get_platform_resources(struct platform_device *pdev,
+ 	 */
+ 	stmmac_res->wol_irq =
+ 		platform_get_irq_byname_optional(pdev, "eth_wake_irq");
+-	if (stmmac_res->wol_irq < 0) {
++	if (stmmac_res->wol_irq <= 0) {
+ 		if (stmmac_res->wol_irq == -EPROBE_DEFER)
+ 			return -EPROBE_DEFER;
+ 		dev_info(&pdev->dev, "IRQ eth_wake_irq not found\n");
+@@ -688,7 +688,7 @@ int stmmac_get_platform_resources(struct platform_device *pdev,
  
- 	/* wait for frame_event_done completion */
-@@ -1010,6 +1019,8 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
- 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
- 	struct drm_encoder *encoder;
- 	bool request_bandwidth = false;
-+	struct drm_crtc_state *old_crtc_state =
-+		drm_atomic_get_old_crtc_state(state, crtc);
+ 	stmmac_res->lpi_irq =
+ 		platform_get_irq_byname_optional(pdev, "eth_lpi");
+-	if (stmmac_res->lpi_irq < 0) {
++	if (stmmac_res->lpi_irq <= 0) {
+ 		if (stmmac_res->lpi_irq == -EPROBE_DEFER)
+ 			return -EPROBE_DEFER;
+ 		dev_info(&pdev->dev, "IRQ eth_lpi not found\n");
+diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
+index f4755f3a03be..00e1a33fd06d 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-host.c
++++ b/drivers/pci/controller/dwc/pcie-designware-host.c
+@@ -364,7 +364,7 @@ int dw_pcie_host_init(struct pcie_port *pp)
+ 		} else if (pp->has_msi_ctrl) {
+ 			if (!pp->msi_irq) {
+ 				pp->msi_irq = platform_get_irq_byname_optional(pdev, "msi");
+-				if (pp->msi_irq < 0) {
++				if (pp->msi_irq <= 0) {
+ 					pp->msi_irq = platform_get_irq(pdev, 0);
+ 					if (pp->msi_irq < 0)
+ 						return pp->msi_irq;
+diff --git a/drivers/spi/spi-bcm-qspi.c b/drivers/spi/spi-bcm-qspi.c
+index c9a769b8594b..21fb80291d03 100644
+--- a/drivers/spi/spi-bcm-qspi.c
++++ b/drivers/spi/spi-bcm-qspi.c
+@@ -1627,7 +1627,7 @@ int bcm_qspi_probe(struct platform_device *pdev,
+ 			irq = platform_get_irq(pdev, 0);
+ 		}
  
- 	pm_runtime_get_sync(crtc->dev->dev);
+-		if (irq  >= 0) {
++		if (irq > 0) {
+ 			ret = devm_request_irq(&pdev->dev, irq,
+ 					       qspi_irq_tab[val].irq_handler, 0,
+ 					       name,
+diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
+index bd5708d7e5a1..1ddbd30e68d5 100644
+--- a/drivers/spi/spi-rspi.c
++++ b/drivers/spi/spi-rspi.c
+@@ -1355,16 +1355,16 @@ static int rspi_probe(struct platform_device *pdev)
+ 	ctlr->max_native_cs = rspi->ops->num_hw_ss;
  
-@@ -1032,8 +1043,10 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
- 	trace_dpu_crtc_enable(DRMID(crtc), true, dpu_crtc);
- 	dpu_crtc->enabled = true;
- 
--	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
--		dpu_encoder_assign_crtc(encoder, crtc);
-+	if (!old_crtc_state->self_refresh_active) {
-+		drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
-+			dpu_encoder_assign_crtc(encoder, crtc);
-+	}
- 
- 	/* Enable/restore vblank irq handling */
- 	drm_crtc_vblank_on(crtc);
-@@ -1069,7 +1082,7 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 
- 	pstates = kzalloc(sizeof(*pstates) * DPU_STAGE_MAX * 4, GFP_KERNEL);
- 
--	if (!crtc_state->enable || !crtc_state->active) {
-+	if (!crtc_state->enable || !crtc_state->active || crtc_state->self_refresh_active) {
- 		DRM_DEBUG_ATOMIC("crtc%d -> enable %d, active %d, skip atomic_check\n",
- 				crtc->base.id, crtc_state->enable,
- 				crtc_state->active);
-@@ -1497,7 +1510,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
- {
- 	struct drm_crtc *crtc = NULL;
- 	struct dpu_crtc *dpu_crtc = NULL;
--	int i;
-+	int i, ret;
- 
- 	dpu_crtc = kzalloc(sizeof(*dpu_crtc), GFP_KERNEL);
- 	if (!dpu_crtc)
-@@ -1534,6 +1547,11 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
- 	/* initialize event handling */
- 	spin_lock_init(&dpu_crtc->event_lock);
- 
-+	ret = drm_self_refresh_helper_init(crtc);
-+	if (ret)
-+		DPU_ERROR("Failed to initialize %s with SR helpers %d\n",
-+			crtc->name, ret);
-+
- 	DRM_DEBUG_KMS("%s: successfully initialized crtc\n", dpu_crtc->name);
- 	return crtc;
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 1e648db..461fdd1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -217,6 +217,14 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
- 	15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
- };
- 
-+static inline bool is_self_refresh_active(struct drm_crtc_state *state)
-+{
-+	if (state && state->self_refresh_active)
-+		return true;
-+
-+	return false;
-+}
-+
- static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp, unsigned bpc)
- {
- 	struct dpu_hw_dither_cfg dither_cfg = { 0 };
-@@ -600,6 +608,9 @@ static int dpu_encoder_virt_atomic_check(
- 
- 	trace_dpu_enc_atomic_check(DRMID(drm_enc));
- 
-+	if (crtc_state->self_refresh_active)
-+		return ret;
-+
- 	/* perform atomic check on the first physical encoder (master) */
- 	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
- 		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
-@@ -1138,15 +1149,19 @@ void dpu_encoder_virt_runtime_resume(struct drm_encoder *drm_enc)
- 	mutex_unlock(&dpu_enc->enc_lock);
- }
- 
--static void dpu_encoder_virt_enable(struct drm_encoder *drm_enc)
-+static void dpu_encoder_virt_enable(struct drm_encoder *drm_enc,
-+	struct drm_atomic_state *state)
- {
- 	struct dpu_encoder_virt *dpu_enc = NULL;
- 	int ret = 0;
- 	struct msm_drm_private *priv;
- 	struct drm_display_mode *cur_mode = NULL;
-+	struct drm_crtc_state *old_crtc_state;
-+	struct drm_crtc *crtc;
- 
- 	dpu_enc = to_dpu_encoder_virt(drm_enc);
- 
-+	crtc = dpu_enc->crtc;
- 	mutex_lock(&dpu_enc->enc_lock);
- 	cur_mode = &dpu_enc->base.crtc->state->adjusted_mode;
- 	priv = drm_enc->dev->dev_private;
-@@ -1170,21 +1185,59 @@ static void dpu_encoder_virt_enable(struct drm_encoder *drm_enc)
- 
- 	_dpu_encoder_virt_enable_helper(drm_enc);
- 
--	dpu_enc->enabled = true;
-+	/* Coming back from self refresh, exit PSR */
-+	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS &&
-+			is_self_refresh_active(old_crtc_state))
-+		msm_dp_display_set_psr(dpu_enc->dp, false);
- 
-+	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS &&
-+			!is_self_refresh_active(old_crtc_state)) {
-+		ret = msm_dp_display_enable(dpu_enc->dp, drm_enc);
-+		if (ret) {
-+			DPU_ERROR_ENC(dpu_enc, "dp display enable failed: %d\n",
-+				ret);
-+			goto out;
-+		}
-+	}
-+
-+	dpu_enc->enabled = true;
- out:
- 	mutex_unlock(&dpu_enc->enc_lock);
- }
- 
--static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
-+static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc,
-+	struct drm_atomic_state *state)
- {
- 	struct dpu_encoder_virt *dpu_enc = NULL;
- 	struct msm_drm_private *priv;
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *old_state;
- 	int i = 0;
- 
- 	dpu_enc = to_dpu_encoder_virt(drm_enc);
- 	DPU_DEBUG_ENC(dpu_enc, "\n");
- 
-+	if (!drm_enc) {
-+		DPU_ERROR("invalid encoder\n");
-+		return;
-+	}
-+	dpu_enc = to_dpu_encoder_virt(drm_enc);
-+
-+	crtc = dpu_enc->crtc;
-+
-+	/* Enter PSR if encoder supports */
-+	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS  && is_self_refresh_active(crtc->state))
-+		msm_dp_display_set_psr(dpu_enc->dp, true);
-+
-+	old_state = drm_atomic_get_old_crtc_state(state, crtc);
-+
-+	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && is_self_refresh_active(old_state)) {
-+		msm_dp_display_set_psr(dpu_enc->dp, false);
-+		if (msm_dp_display_disable(dpu_enc->dp, drm_enc))
-+			DPU_ERROR_ENC(dpu_enc, "dp display disable failed\n");
-+		return;
-+	}
-+
- 	mutex_lock(&dpu_enc->enc_lock);
- 	dpu_enc->enabled = false;
- 
-@@ -1194,6 +1247,9 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
- 
- 	/* wait for idle */
- 	dpu_encoder_wait_for_event(drm_enc, MSM_ENC_TX_COMPLETE);
-+	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && !is_self_refresh_active(crtc->state))
-+		if (msm_dp_display_pre_disable(dpu_enc->dp, drm_enc))
-+			DPU_ERROR_ENC(dpu_enc, "dp display push idle failed\n");
- 
- 	dpu_encoder_resource_control(drm_enc, DPU_ENC_RC_EVENT_PRE_STOP);
- 
-@@ -1204,7 +1260,6 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
- 			phys->ops.disable(phys);
+ 	ret = platform_get_irq_byname_optional(pdev, "rx");
+-	if (ret < 0) {
++	if (ret <= 0) {
+ 		ret = platform_get_irq_byname_optional(pdev, "mux");
+-		if (ret < 0)
++		if (ret <= 0)
+ 			ret = platform_get_irq(pdev, 0);
+-		if (ret >= 0)
++		if (ret > 0)
+ 			rspi->rx_irq = rspi->tx_irq = ret;
+ 	} else {
+ 		rspi->rx_irq = ret;
+ 		ret = platform_get_irq_byname(pdev, "tx");
+-		if (ret >= 0)
++		if (ret > 0)
+ 			rspi->tx_irq = ret;
  	}
  
+diff --git a/drivers/usb/cdns3/cdns3-plat.c b/drivers/usb/cdns3/cdns3-plat.c
+index dc068e940ed5..3a0bdf726af2 100644
+--- a/drivers/usb/cdns3/cdns3-plat.c
++++ b/drivers/usb/cdns3/cdns3-plat.c
+@@ -110,10 +110,7 @@ static int cdns3_plat_probe(struct platform_device *pdev)
+ 	cdns->wakeup_irq = platform_get_irq_byname_optional(pdev, "wakeup");
+ 	if (cdns->wakeup_irq == -EPROBE_DEFER)
+ 		return cdns->wakeup_irq;
+-	else if (cdns->wakeup_irq == 0)
+-		return -EINVAL;
 -
- 	/* after phys waits for frame-done, should be no more frames pending */
- 	if (atomic_xchg(&dpu_enc->frame_done_timeout_ms, 0)) {
- 		DPU_ERROR("enc%d timeout pending\n", drm_enc->base.id);
-@@ -1219,6 +1274,10 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
- 
- 	DPU_DEBUG_ENC(dpu_enc, "encoder disabled\n");
- 
-+	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && !is_self_refresh_active(crtc->state))
-+		if (msm_dp_display_disable(dpu_enc->dp, drm_enc))
-+			DPU_ERROR_ENC(dpu_enc, "dp display disable failed\n");
-+
- 	mutex_unlock(&dpu_enc->enc_lock);
- }
- 
-@@ -2094,8 +2153,8 @@ static void dpu_encoder_frame_done_timeout(struct timer_list *t)
- 
- static const struct drm_encoder_helper_funcs dpu_encoder_helper_funcs = {
- 	.mode_set = dpu_encoder_virt_mode_set,
--	.disable = dpu_encoder_virt_disable,
--	.enable = dpu_encoder_virt_enable,
-+	.atomic_disable = dpu_encoder_virt_disable,
-+	.atomic_enable = dpu_encoder_virt_enable,
- 	.atomic_check = dpu_encoder_virt_atomic_check,
- };
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 47fe11a..aed8e09 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -495,7 +495,7 @@ static void dpu_kms_wait_for_commit_done(struct msm_kms *kms,
- 		return;
+-	if (cdns->wakeup_irq < 0) {
++	if (cdns->wakeup_irq <= 0) {
+ 		dev_dbg(dev, "couldn't get wakeup irq\n");
+ 		cdns->wakeup_irq = 0x0;
  	}
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index 91738af0ab14..19c742bf3ce0 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -493,7 +493,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
+ 		return ret;
  
--	if (!crtc->state->active) {
-+	if (!crtc->state->active && !crtc->state->self_refresh_active) {
- 		DPU_DEBUG("[crtc:%d] not active\n", crtc->base.id);
- 		return;
- 	}
+ 	irq = platform_get_irq_byname_optional(pdev, "host");
+-	if (irq < 0) {
++	if (irq <= 0) {
+ 		if (irq == -EPROBE_DEFER)
+ 			return irq;
+ 
+diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
+index c4a2c37abf62..08173c05a1d6 100644
+--- a/drivers/usb/mtu3/mtu3_core.c
++++ b/drivers/usb/mtu3/mtu3_core.c
+@@ -925,7 +925,7 @@ int ssusb_gadget_init(struct ssusb_mtk *ssusb)
+ 		return -ENOMEM;
+ 
+ 	mtu->irq = platform_get_irq_byname_optional(pdev, "device");
+-	if (mtu->irq < 0) {
++	if (mtu->irq <= 0) {
+ 		if (mtu->irq == -EPROBE_DEFER)
+ 			return mtu->irq;
+ 
 -- 
-2.7.4
+2.26.3
 
