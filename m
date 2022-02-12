@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9804B358A
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 15:19:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210AA4B3575
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 15:19:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 317EB10E551;
-	Sat, 12 Feb 2022 14:19:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0AE410E46A;
+	Sat, 12 Feb 2022 14:19:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de
  [81.169.146.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A34B10E470
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD74510E488
  for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 14:19:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1644675572;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1644675573;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
  From:Subject:Sender;
- bh=76+TPRGf0MB6hHRwPaUxmX8Eixo5outKfV374UIYYws=;
- b=aWk329+8WtFTSQFW0tU4F4FsNyw+Wkka7OQy5wrqZB5FszkqVeZz+DsRD4HtFLn61G
- JIkU5vbSNE2HAGQZ1kxZe8pzFGN4pxAmdUBOUD8UXfMkKQrBDncboNcj5/ZY6YvdUVry
- entTLZAURbz8+usjomfqZjltgbMKaqCZr+FqK+PyVVd+szjq7yF4Dak5UgrQeitTu7kY
- eWhZdIrMaleqVCG+VzKpoDWV41jFXcq1KUHCSrdtRHXOXXVTJ+g6Ky3DWMx7djdmiRJJ
- LD1k9ugwTz0YP78q6B53eIfmy0O4bZsnpTQ34fOsNdvDuHU+c//3xDN/hRFrqJDQ8rSR
- QUOg==
+ bh=kj93pV+O/Ut7gMVXVeqqXeECB+NG0uC4DImxZwcSglI=;
+ b=lSnv5wrFpNMKPlve8+bj0y/LSIvm7dJvYeHtQw8l4uzxs/HbNw4aLxHSaWdixLLgQz
+ 7dvTnP2tvhBUqJs54VeEtKWHrfmKfL5hSfJH+czBoHAKXzLn65roscScQj1osQeVaOxW
+ fx4fXqlIUMzADAzrjLjp58aXzQNSE4gEptoKYczrbVrTNZkXwRFcNhXfiVfvY+FJfv14
+ kFqJ2OOa/PpYcZVPVc+udSyvYEKTKjJMqwfAgos7W/gC2eCqpgtbKKk9FEXVVVoJ6lUX
+ jtBwEAWdPmZrd/grc6OblsCw3MS8FhGfZP8K5hE+BO7XzyAPzl0G2TfWzXeUhBW10lsf
+ 1odw==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UMf2MwPVblcdY="
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.39.0 DYNA|AUTH)
- with ESMTPSA id L29417y1CEJVsqW
+ with ESMTPSA id L29417y1CEJWsqX
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Sat, 12 Feb 2022 15:19:31 +0100 (CET)
+ Sat, 12 Feb 2022 15:19:32 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>,
@@ -51,10 +51,9 @@ To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Paul Boddie <paul@boddie.org.uk>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v14 5/9] drm/bridge: dw-hdmi: repair interworking with
- hdmi-connector for jz4780
-Date: Sat, 12 Feb 2022 15:19:23 +0100
-Message-Id: <8703a3e48574c09e8756b79e8f69be7d84926fe9.1644675566.git.hns@goldelico.com>
+Subject: [PATCH v14 6/9] drm/bridge: dw-hdmi: introduce dw_hdmi_enable_poll()
+Date: Sat, 12 Feb 2022 15:19:24 +0100
+Message-Id: <ba89671808ff5cf464bb923440a1630e50a0f7bb.1644675567.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <cover.1644675566.git.hns@goldelico.com>
 References: <cover.1644675566.git.hns@goldelico.com>
@@ -78,48 +77,45 @@ Cc: devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 7cd70656d1285b ("drm/bridge: display-connector: implement bus fmts callbacks")
+so that specialization drivers like ingenic-dw-hdmi can enable polling.
 
-introduced a new mechanism to negotiate bus formats between hdmi connector
-and the synopsys hdmi driver inside the jz4780.
-
-By this, the dw-hdmi is no longer the only bridge and sets up a list
-of formats in dw_hdmi_bridge_atomic_get_output_bus_fmts().
-
-This includes MEDIA_BUS_FMT_UYVY8_1X16 which is chosen for the jz4780 but only
-produces a black screen.
-
-This fix is based on the observation that max_bpc = 0 when running this
-function while info->bpc = 8. Since the formats checks before this always test
-for max_bpc >= info->pbc indirectly my assumption is that we must check it
-here as well.
-
-Adding the proposed patch makes the CI20/jz4780 panel work again in
-MEDIA_BUS_FMT_RGB888_1X24 mode.
-
-Fixes: 7cd70656d1285b ("drm/bridge: display-connector: implement bus fmts callbacks")
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 9 +++++++++
+ include/drm/bridge/dw_hdmi.h              | 1 +
+ 2 files changed, 10 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index b0d8110dd412c..826a055a7a273 100644
+index 826a055a7a273..fc2d5422c8a19 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2620,10 +2620,10 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
- 		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
- 	}
+@@ -3216,6 +3216,15 @@ static int dw_hdmi_parse_dt(struct dw_hdmi *hdmi)
+ 	return 0;
+ }
  
--	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
-+	if (max_bpc >= info->bpc && info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
- 		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
++void dw_hdmi_enable_poll(struct dw_hdmi *hdmi, bool enable)
++{
++	if (hdmi->bridge.dev)
++		hdmi->bridge.dev->mode_config.poll_enabled = enable;
++	else
++		dev_warn(hdmi->dev, "no hdmi->bridge.dev");
++}
++EXPORT_SYMBOL_GPL(dw_hdmi_enable_poll);
++
+ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 			      const struct dw_hdmi_plat_data *plat_data)
+ {
+diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
+index 2a1f85f9a8a3f..963960794b40e 100644
+--- a/include/drm/bridge/dw_hdmi.h
++++ b/include/drm/bridge/dw_hdmi.h
+@@ -196,5 +196,6 @@ enum drm_connector_status dw_hdmi_phy_read_hpd(struct dw_hdmi *hdmi,
+ void dw_hdmi_phy_update_hpd(struct dw_hdmi *hdmi, void *data,
+ 			    bool force, bool disabled, bool rxsense);
+ void dw_hdmi_phy_setup_hpd(struct dw_hdmi *hdmi, void *data);
++void dw_hdmi_enable_poll(struct dw_hdmi *hdmi, bool enable);
  
--	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
-+	if (max_bpc >= info->bpc && info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
- 		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
- 
- 	/* Default 8bit RGB fallback */
+ #endif /* __IMX_HDMI_H__ */
 -- 
 2.33.0
 
