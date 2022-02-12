@@ -2,58 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38054B319B
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 00:59:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144004B31A5
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 01:05:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E60310EB7A;
-	Fri, 11 Feb 2022 23:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4486D10EB6F;
+	Sat, 12 Feb 2022 00:05:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE1E210EB78;
- Fri, 11 Feb 2022 23:59:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644623989; x=1676159989;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=MyrLELfNgEsfFY2E34m1Wf9VNwa7IaaY1CO9pw8uQ/E=;
- b=i+aHuR4sk30no/pLgHCVZa0GgndBpdSWsbtMW4Hd9Lbch891dudTQBGq
- Do/5TK30ZAKbGv4EF3l52uhD/tZV7mLpDeOgLYAClb+FjLWRIavmj+9Bi
- 06+LCS1/SEBZ3+ysM81XmBnAy+qVOUj2UUXsWC2jhu1PAjpdHBz+5cO28 4=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 11 Feb 2022 15:59:48 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 15:59:47 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Fri, 11 Feb 2022 15:59:47 -0800
-Received: from [10.38.246.233] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Fri, 11 Feb
- 2022 15:59:45 -0800
-Message-ID: <1ca71848-e0e3-7f8c-a778-6a05b9d343b7@quicinc.com>
-Date: Fri, 11 Feb 2022 15:59:43 -0800
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6354010EB64
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 00:05:33 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id bu29so14254054lfb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Feb 2022 16:05:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=MxR41uJ8Ba3kNrCZ8Cz9v25zUvDnK6f4tQnMujmWb9M=;
+ b=eT2hxJuSWjTVIjbQvkUbjS+j91t1ayMosnPt3dEtgkZdovNpOMm413+36s4VImZSuQ
+ 0K1YyPAuyxcshlBekipg8NwlnYAPhoYL0Oc3SddMl8LXLuSOpUi+LXHJEOERCj1SZRU7
+ NqSSwl69ECyyvrrdan35+WooT8KI7/zBop9IB5qzXCRLfr1K5qm0HGyQvBlfzoJA0BMQ
+ afeF2eqyR9VX9JNEggOYLPHlRCdluzIX72pv5tOhUyyDsi0mUm7bFfXwNgKw7WBiLuTW
+ Ez+ew5a+kmQKPcYVK0m8jpEkgleYowG3BPP9zgaXMJ9WGY4DpQlhh5pdEHNaQK1Ir5TV
+ 7SCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=MxR41uJ8Ba3kNrCZ8Cz9v25zUvDnK6f4tQnMujmWb9M=;
+ b=ZR6ClV18SnrI5r2iZRLTfDLKdIZNMYjK+M1O3FAItJe90HYWr+CO8W1aEGUTnz/Qk3
+ b571XDgx0OFM7zcys5CGlWyhHCHvvvMc4YVFYXb6jmMsqWPIM98+ZtIGc5S7FFbInYX4
+ xhbpygjOjoEZcokkZZ4LxOnEW/zoq9NE6Hy8KQp9oMTW8R0C4KYSMpGgxp3Mias6STg+
+ d5M2MOkTqwxOMOD88dq0/TgOeFmfC3Wi+Yv90Rz5tD1wvy3TDAj6WW/xgjBfHqTnl5f9
+ Gyd0IiW0mryWzoRQmWuqvaBeU/9P9SAc8L7zNzUXSceDAnrSA/153pdP+ENgcI5WCHbm
+ zA5Q==
+X-Gm-Message-State: AOAM531kVl+jxzkWlx9Mbg1DSNP0nZ+RhoXut1KSpeG+tfW+rlL2BuHM
+ Poi5H2BoscVi6GqnHNvTkZ6avQ==
+X-Google-Smtp-Source: ABdhPJy0w7o1tVTBTCeEmBosesPeUjblZx9+81RnGtD0btBYoJLBSS5KaiFIRoDkbeUUPBlCdl6Vcg==
+X-Received: by 2002:a05:6512:33d1:: with SMTP id
+ d17mr2772701lfg.455.1644624331689; 
+ Fri, 11 Feb 2022 16:05:31 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id i9sm949813lfe.196.2022.02.11.16.05.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Feb 2022 16:05:31 -0800 (PST)
+Message-ID: <0dac8ffa-89a6-d972-bdc1-3f7755c5169d@linaro.org>
+Date: Sat, 12 Feb 2022 03:05:30 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH 6/7] drm/msm/dpu: switch dpu_encoder to use atomic_mode_set
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>
+Subject: Re: [PATCH 2/7] drm/msm/dpu: simplify intf allocation code
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
 References: <20220203082611.2654810-1-dmitry.baryshkov@linaro.org>
- <20220203082611.2654810-7-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220203082611.2654810-7-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+ <20220203082611.2654810-3-dmitry.baryshkov@linaro.org>
+ <423162c0-797d-51d6-d6f6-7ea14219632c@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <423162c0-797d-51d6-d6f6-7ea14219632c@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,211 +82,264 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/3/2022 12:26 AM, Dmitry Baryshkov wrote:
-> Make dpu_encoder use atomic_mode_set to receive connector and CRTC
-> states as arguments rather than finding connector and CRTC by manually
-> looping through the respective lists.
+On 12/02/2022 02:38, Abhinav Kumar wrote:
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Nice cleanup !!
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 37 +++++--------------
->   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  8 ++--
->   .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 18 ++-------
->   .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 14 ++-----
->   4 files changed, 21 insertions(+), 56 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index e1c43a0c0643..1462c426c14c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -930,16 +930,13 @@ static int dpu_encoder_resource_control(struct drm_encoder *drm_enc,
->   	return 0;
->   }
->   
-> -static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
-> -				      struct drm_display_mode *mode,
-> -				      struct drm_display_mode *adj_mode)
-> +static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
-> +					     struct drm_crtc_state *crtc_state,
-> +					     struct drm_connector_state *conn_state)
->   {
->   	struct dpu_encoder_virt *dpu_enc;
->   	struct msm_drm_private *priv;
->   	struct dpu_kms *dpu_kms;
-> -	struct list_head *connector_list;
-> -	struct drm_connector *conn = NULL, *conn_iter;
-> -	struct drm_crtc *drm_crtc;
->   	struct dpu_crtc_state *cstate;
->   	struct dpu_global_state *global_state;
->   	struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
-> @@ -959,7 +956,6 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
->   
->   	priv = drm_enc->dev->dev_private;
->   	dpu_kms = to_dpu_kms(priv->kms);
-> -	connector_list = &dpu_kms->dev->mode_config.connector_list;
->   
->   	global_state = dpu_kms_get_existing_global_state(dpu_kms);
->   	if (IS_ERR_OR_NULL(global_state)) {
-> @@ -969,22 +965,6 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
->   
->   	trace_dpu_enc_mode_set(DRMID(drm_enc));
->   
-> -	list_for_each_entry(conn_iter, connector_list, head)
-> -		if (conn_iter->encoder == drm_enc)
-> -			conn = conn_iter;
-> -
-> -	if (!conn) {
-> -		DPU_ERROR_ENC(dpu_enc, "failed to find attached connector\n");
-> -		return;
-> -	} else if (!conn->state) {
-> -		DPU_ERROR_ENC(dpu_enc, "invalid connector state\n");
-> -		return;
-> -	}
-> -
-> -	drm_for_each_crtc(drm_crtc, drm_enc->dev)
-> -		if (drm_crtc->state->encoder_mask & drm_encoder_mask(drm_enc))
-> -			break;
-> -
->   	/* Query resource that have been reserved in atomic check step. */
->   	num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
->   		drm_enc->base.id, DPU_HW_BLK_PINGPONG, hw_pp,
-> @@ -1001,7 +981,7 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
->   		dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
->   						: NULL;
->   
-> -	cstate = to_dpu_crtc_state(drm_crtc->state);
-> +	cstate = to_dpu_crtc_state(crtc_state);
->   
->   	for (i = 0; i < num_lm; i++) {
->   		int ctl_idx = (i < num_ctl) ? i : (num_ctl-1);
-> @@ -1050,9 +1030,10 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
->   			return;
->   		}
->   
-> -		phys->connector = conn->state->connector;
-> -		if (phys->ops.mode_set)
-> -			phys->ops.mode_set(phys, mode, adj_mode);
-> +		phys->connector = conn_state->connector;
-> +		phys->cached_mode = crtc_state->adjusted_mode;
-> +		if (phys->ops.atomic_mode_set)
-> +			phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
->   	}
->   }
->   
-> @@ -2057,7 +2038,7 @@ static void dpu_encoder_frame_done_timeout(struct timer_list *t)
->   }
->   
->   static const struct drm_encoder_helper_funcs dpu_encoder_helper_funcs = {
-> -	.mode_set = dpu_encoder_virt_mode_set,
-> +	.atomic_mode_set = dpu_encoder_virt_atomic_mode_set,
->   	.disable = dpu_encoder_virt_disable,
->   	.enable = dpu_encoder_virt_enable,
->   	.atomic_check = dpu_encoder_virt_atomic_check,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index 159deb8ed7fb..6e80321b13c5 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -84,7 +84,7 @@ struct dpu_encoder_virt_ops {
->    * @is_master:			Whether this phys_enc is the current master
->    *				encoder. Can be switched at enable time. Based
->    *				on split_role and current mode (CMD/VID).
-> - * @mode_set:			DRM Call. Set a DRM mode.
-> + * @atomic_mode_set:		DRM Call. Set a DRM mode.
->    *				This likely caches the mode, for use at enable.
->    * @enable:			DRM Call. Enable a DRM mode.
->    * @disable:			DRM Call. Disable mode.
-> @@ -115,9 +115,9 @@ struct dpu_encoder_phys_ops {
->   			struct dentry *debugfs_root);
->   	void (*prepare_commit)(struct dpu_encoder_phys *encoder);
->   	bool (*is_master)(struct dpu_encoder_phys *encoder);
-> -	void (*mode_set)(struct dpu_encoder_phys *encoder,
-> -			struct drm_display_mode *mode,
-> -			struct drm_display_mode *adjusted_mode);
-> +	void (*atomic_mode_set)(struct dpu_encoder_phys *encoder,
-> +			struct drm_crtc_state *crtc_state,
-> +			struct drm_connector_state *conn_state);
->   	void (*enable)(struct dpu_encoder_phys *encoder);
->   	void (*disable)(struct dpu_encoder_phys *encoder);
->   	void (*destroy)(struct dpu_encoder_phys *encoder);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index 45fe97fb612d..6de298d521ce 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -135,23 +135,13 @@ static void dpu_encoder_phys_cmd_underrun_irq(void *arg, int irq_idx)
->   			phys_enc);
->   }
->   
-> -static void dpu_encoder_phys_cmd_mode_set(
-> +static void dpu_encoder_phys_cmd_atomic_mode_set(
->   		struct dpu_encoder_phys *phys_enc,
-> -		struct drm_display_mode *mode,
-> -		struct drm_display_mode *adj_mode)
-> +		struct drm_crtc_state *crtc_state,
-> +		struct drm_connector_state *conn_state)
->   {
-> -	struct dpu_encoder_phys_cmd *cmd_enc =
-> -		to_dpu_encoder_phys_cmd(phys_enc);
->   	struct dpu_encoder_irq *irq;
->   
-> -	if (!mode || !adj_mode) {
-> -		DPU_ERROR("invalid args\n");
-> -		return;
-> -	}
-> -	phys_enc->cached_mode = *adj_mode;
-> -	DPU_DEBUG_CMDENC(cmd_enc, "caching mode:\n");
-> -	drm_mode_debug_printmodeline(adj_mode);
-> -
->   	irq = &phys_enc->irq[INTR_IDX_CTL_START];
->   	irq->irq_idx = phys_enc->hw_ctl->caps->intr_start;
->   
-> @@ -722,7 +712,7 @@ static void dpu_encoder_phys_cmd_init_ops(
->   {
->   	ops->prepare_commit = dpu_encoder_phys_cmd_prepare_commit;
->   	ops->is_master = dpu_encoder_phys_cmd_is_master;
-> -	ops->mode_set = dpu_encoder_phys_cmd_mode_set;
-> +	ops->atomic_mode_set = dpu_encoder_phys_cmd_atomic_mode_set;
->   	ops->enable = dpu_encoder_phys_cmd_enable;
->   	ops->disable = dpu_encoder_phys_cmd_disable;
->   	ops->destroy = dpu_encoder_phys_cmd_destroy;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index 1831fe37c88c..0c07db5021eb 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -348,19 +348,13 @@ static bool dpu_encoder_phys_vid_needs_single_flush(
->   	return phys_enc->split_role != ENC_ROLE_SOLO;
->   }
->   
-> -static void dpu_encoder_phys_vid_mode_set(
-> +static void dpu_encoder_phys_vid_atomic_mode_set(
->   		struct dpu_encoder_phys *phys_enc,
-> -		struct drm_display_mode *mode,
-> -		struct drm_display_mode *adj_mode)
-> +		struct drm_crtc_state *crtc_state,
-> +		struct drm_connector_state *conn_state)
->   {
->   	struct dpu_encoder_irq *irq;
->   
-> -	if (adj_mode) {
-> -		phys_enc->cached_mode = *adj_mode;
-> -		drm_mode_debug_printmodeline(adj_mode);
-> -		DPU_DEBUG_VIDENC(phys_enc, "caching mode:\n");
-> -	}
-> -
->   	irq = &phys_enc->irq[INTR_IDX_VSYNC];
->   	irq->irq_idx = phys_enc->hw_intf->cap->intr_vsync;
->   
-> @@ -662,7 +656,7 @@ static int dpu_encoder_phys_vid_get_frame_count(
->   static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
->   {
->   	ops->is_master = dpu_encoder_phys_vid_is_master;
-> -	ops->mode_set = dpu_encoder_phys_vid_mode_set;
-> +	ops->atomic_mode_set = dpu_encoder_phys_vid_atomic_mode_set;
->   	ops->enable = dpu_encoder_phys_vid_enable;
->   	ops->disable = dpu_encoder_phys_vid_disable;
->   	ops->destroy = dpu_encoder_phys_vid_destroy;
+> On 2/3/2022 12:26 AM, Dmitry Baryshkov wrote:
+>> Rather than passing DRM_MODE_ENCODER_* and letting dpu_encoder to guess,
+>> which intf type we mean, pass INTF_DSI/INTF_DP directly.
+>>
+> 
+> Typically, I am only seeing a 1:1 mapping like
+> 
+> DRM_MODE_ENCODER_DSI means DSI
+> DRM_MODE_ENCODER_VIRTUAL means WB
+> 
+> So I am not seeing any guessing for the encoder.
+
+s/guessing/deriving/
+
+Initially I spotted the DRM_MODE_CONNECTOR_DisplayPort comparison, then 
+I noticed that there is a misnaming, we were talking about the intf_type 
+(which clearly belongs to INTF_foo namespace), while passing 
+DRM_ENCODER_bar instead. Thus comes the proposal to make intf_type 
+actually contain INTF_type and let DRM_ENCODER live in encoder's code.
+
+
+> 
+> The only conflict I am seeing is between DP and EDP as both use
+> DRM_MODE_ENCODER_TMDS and hence this approach will be useful there.
+> 
+> But that has been marked as a "FIXME" below.
+> 
+> I am suggesting an approach to handle that as well below.
+> Let me know if you agree with that.
+
+Actually this brings a question to me. Do we need to distinguish between 
+INTF_DP and INTF_EDP from the DPU driver point of view? Are there any 
+differences? Or we'd better always use INTF_DP here and make INTF_EDP a 
+memorial of old eDP IP found in 8x74/8x84?
+
+So far I see that sc7280 uses INTF_5 for DRM_MODE_CONNECTOR_eDP, but 
+declares it as INTF_DP. Most probably we should stick to this idea and 
+drop INTF_EDP from dpu1?
+
+> 
+> 
+>> While we are at it, fix the DP audio enablement code which was comparing
+>> intf_type, DRM_MODE_ENCODER_TMDS (= 2) with
+>> DRM_MODE_CONNECTOR_DisplayPort (= 10).
+>> Which would never succeed.
+> 
+> This is a surprising catch for me and left me thinking for a while about 
+> how DP audio is working with this bug because that piece of code was 
+> done to program a register which is needed for DP audio.
+
+So did I!
+
+> 
+> This bug happened due to difference in the meaning of intf_type between
+> upstream and downstream.
+> 
+> After checking more, we found that the register in question has been 
+> deprecated on newer chipsets so I have asked Kuogee to selectively 
+> program it. Here is the change for that:
+> 
+> https://patchwork.freedesktop.org/patch/473869/
+
+I'll further comment on it in the respective thread.
+
+> 
+>>
+> 
+>> Fixes: d13e36d7d222 ("drm/msm/dp: add audio support for Display Port 
+>> on MSM")
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 28 +++++++--------------
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 +--
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  4 +--
+>>   3 files changed, 13 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> index 1e648db439f9..e8fc029ad607 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> @@ -493,7 +493,7 @@ void dpu_encoder_helper_split_config(
+>>       hw_mdptop = phys_enc->hw_mdptop;
+>>       disp_info = &dpu_enc->disp_info;
+>> -    if (disp_info->intf_type != DRM_MODE_ENCODER_DSI)
+>> +    if (disp_info->intf_type != INTF_DSI)
+>>           return;
+>>       /**
+>> @@ -555,7 +555,7 @@ static struct msm_display_topology 
+>> dpu_encoder_get_topology(
+>>       else
+>>           topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 
+>> : 1;
+>> -    if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
+>> +    if (dpu_enc->disp_info.intf_type == INTF_DSI) {
+>>           if (dpu_kms->catalog->dspp &&
+>>               (dpu_kms->catalog->dspp_count >= topology.num_lm))
+>>               topology.num_dspp = topology.num_lm;
+>> @@ -1099,7 +1099,7 @@ static void 
+>> _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+>>       }
+>> -    if (dpu_enc->disp_info.intf_type == 
+>> DRM_MODE_CONNECTOR_DisplayPort &&
+>> +    if (dpu_enc->disp_info.intf_type == INTF_DP &&
+>>           dpu_enc->cur_master->hw_mdptop &&
+>>           dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select)
+>>           dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select(
+>> @@ -1107,7 +1107,7 @@ static void 
+>> _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+>>       _dpu_encoder_update_vsync_source(dpu_enc, &dpu_enc->disp_info);
+>> -    if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI &&
+>> +    if (dpu_enc->disp_info.intf_type == INTF_DSI &&
+>>               !WARN_ON(dpu_enc->num_phys_encs == 0)) {
+>>           unsigned bpc = 
+>> dpu_enc->phys_encs[0]->connector->display_info.bpc;
+>>           for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
+>> @@ -1981,7 +1981,6 @@ static int dpu_encoder_setup_display(struct 
+>> dpu_encoder_virt *dpu_enc,
+>>   {
+>>       int ret = 0;
+>>       int i = 0;
+>> -    enum dpu_intf_type intf_type = INTF_NONE;
+>>       struct dpu_enc_phys_init_params phys_params;
+>>       if (!dpu_enc) {
+>> @@ -1997,15 +1996,6 @@ static int dpu_encoder_setup_display(struct 
+>> dpu_encoder_virt *dpu_enc,
+>>       phys_params.parent_ops = &dpu_encoder_parent_ops;
+>>       phys_params.enc_spinlock = &dpu_enc->enc_spinlock;
+>> -    switch (disp_info->intf_type) {
+>> -    case DRM_MODE_ENCODER_DSI:
+>> -        intf_type = INTF_DSI;
+>> -        break;
+>> -    case DRM_MODE_ENCODER_TMDS:
+>> -        intf_type = INTF_DP;
+>> -        break;
+>> -    }
+>> -
+>>       WARN_ON(disp_info->num_of_h_tiles < 1);
+>>       DPU_DEBUG("dsi_info->num_of_h_tiles %d\n", 
+>> disp_info->num_of_h_tiles);
+>> @@ -2037,11 +2027,11 @@ static int dpu_encoder_setup_display(struct 
+>> dpu_encoder_virt *dpu_enc,
+>>                   i, controller_id, phys_params.split_role);
+>>           phys_params.intf_idx = dpu_encoder_get_intf(dpu_kms->catalog,
+>> -                                                    intf_type,
+>> -                                                    controller_id);
+>> +                disp_info->intf_type,
+>> +                controller_id);
+>>           if (phys_params.intf_idx == INTF_MAX) {
+>>               DPU_ERROR_ENC(dpu_enc, "could not get intf: type %d, id 
+>> %d\n",
+>> -                          intf_type, controller_id);
+>> +                          disp_info->intf_type, controller_id);
+>>               ret = -EINVAL;
+>>           }
+>> @@ -2124,11 +2114,11 @@ int dpu_encoder_setup(struct drm_device *dev, 
+>> struct drm_encoder *enc,
+>>       timer_setup(&dpu_enc->frame_done_timer,
+>>               dpu_encoder_frame_done_timeout, 0);
+>> -    if (disp_info->intf_type == DRM_MODE_ENCODER_DSI)
+>> +    if (disp_info->intf_type == INTF_DSI)
+>>           timer_setup(&dpu_enc->vsync_event_timer,
+>>                   dpu_encoder_vsync_event_handler,
+>>                   0);
+>> -    else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS)
+>> +    else if (disp_info->intf_type == INTF_DP || disp_info->intf_type 
+>> == INTF_EDP)
+>>           dpu_enc->dp = priv->dp[disp_info->h_tile_instance[0]];
+>>       INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> index ebe3944355bb..3891bcbbe5a4 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> @@ -36,7 +36,7 @@ void dpu_encoder_get_hw_resources(struct drm_encoder 
+>> *encoder,
+>>   /**
+>>    * struct msm_display_info - defines display properties
+>> - * @intf_type:          DRM_MODE_ENCODER_ type
+>> + * @intf_type:          INTF_ type
+>>    * @capabilities:       Bitmask of display flags
+>>    * @num_of_h_tiles:     Number of horizontal tiles in case of split 
+>> interface
+>>    * @h_tile_instance:    Controller instance used per tile. Number of 
+>> elements is
+>> @@ -45,7 +45,7 @@ void dpu_encoder_get_hw_resources(struct drm_encoder 
+>> *encoder,
+>>    *                 used instead of panel TE in cmd mode panels
+>>    */
+>>   struct msm_display_info {
+>> -    int intf_type;
+>> +    enum dpu_intf_type intf_type;
+>>       uint32_t capabilities;
+>>       uint32_t num_of_h_tiles;
+>>       uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> index 47fe11a84a77..f4028be9e2e2 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> @@ -564,7 +564,7 @@ static int _dpu_kms_initialize_dsi(struct 
+>> drm_device *dev,
+>>           priv->encoders[priv->num_encoders++] = encoder;
+>>           memset(&info, 0, sizeof(info));
+>> -        info.intf_type = encoder->encoder_type;
+>> +        info.intf_type = INTF_DSI;
+>>           rc = msm_dsi_modeset_init(priv->dsi[i], dev, encoder);
+>>           if (rc) {
+>> @@ -630,7 +630,7 @@ static int _dpu_kms_initialize_displayport(struct 
+>> drm_device *dev,
+>>           info.num_of_h_tiles = 1;
+>>           info.h_tile_instance[0] = i;
+>>           info.capabilities = MSM_DISPLAY_CAP_VID_MODE;
+>> -        info.intf_type = encoder->encoder_type;
+> 
+> You can query the connector type from the DP driver like this:
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
+> b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 7cc4d21..0fae0fc 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -1457,7 +1457,7 @@ void msm_dp_debugfs_init(struct msm_dp 
+> *dp_display, struct drm_minor *minor)
+>   }
+> 
+>   int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device 
+> *dev,
+> -                       struct drm_encoder *encoder)
+> +                       struct drm_encoder *encoder, int **connector_type)
+>   {
+>          struct msm_drm_private *priv;
+>          int ret;
+> @@ -1498,6 +1498,8 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, 
+> struct drm_device *dev,
+> 
+>          priv->bridges[priv->num_bridges++] = dp_display->bridge;
+> 
+> +       *connector_type = dp_display->connector_type;
+> +
+>          return 0;
+>   }
+> 
+> Then you can do something like:
+> 
+> if (connector_type == eDP)
+>          info.intf_type = INTF_eDP;
+> else if (connector_type == DP)
+>          info.intf_type = INTF_DP;
+>> +        info.intf_type = INTF_DP; /* FIXME: support eDP too */
+>>           rc = dpu_encoder_setup(dev, encoder, &info);
+>>           if (rc) {
+>>               DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
+
+
+-- 
+With best wishes
+Dmitry
