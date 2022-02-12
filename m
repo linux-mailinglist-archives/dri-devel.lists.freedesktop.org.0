@@ -1,61 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE0D4B3727
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 19:23:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D85654B380D
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 21:52:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 881B410E151;
-	Sat, 12 Feb 2022 18:23:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC23010E32C;
+	Sat, 12 Feb 2022 20:52:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4DE10E151;
- Sat, 12 Feb 2022 18:23:41 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- m126-20020a1ca384000000b0037bb8e379feso9148204wme.5; 
- Sat, 12 Feb 2022 10:23:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=9OHuOKJbgH8itw9N7Okbk0KMW/V0yB0rDcvgbCzUOV0=;
- b=A7o0J6x2xfgsnZEqjw3jFbuYBBni4Tv+mlsISCbWTKTCGRdMPyC1txf4R148E4SF6h
- /cSII785FMECRtktBQiY7VW2WDOqPI4O1l6QkyE8gDfKOVGsJV7uy0kgZOLmkzb6eu7k
- NdOJBX68lVa5KpKEWGfK9ul/LuwblEI3mEKbUkqyysyt0xVUu1iLTp5b3j7WJ0B08Lv4
- 4Hg8hQbfuZsaPFZiy6nW3fUbeTeBPu3D7pEGFlfyDoBmMg1aZD4BUWeWOt3v5YjP2EwF
- 18l3LuMpXxpr2OaKU3lMyL1fNw47mI1Fb+wKyeMnuhkaO4s+9vIJTHFDXnMXNV7EcFMN
- mqBQ==
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+ [209.85.166.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E99D910E32C
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 20:52:50 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id 9so15622868iou.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 12:52:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :mime-version:content-disposition;
- bh=9OHuOKJbgH8itw9N7Okbk0KMW/V0yB0rDcvgbCzUOV0=;
- b=I4CMZlHD24myy0Te6E+ikm23y8wk265V3na51T8E7nyQ+hLmSD0cPte0Mx4mbIb8Dv
- IG3e7l87G6ve+7EcSbihui0JBjvSMk4AzTwMoXEwfj2oeYD+17OUJrixwTcwd40IZxrZ
- id6qweGNf2NGzeis2BSEmVPlKV2KrK+TVhKU49S0rv6Y26MeMscFxsdpJIHHVAqEqVV5
- S1prfmPliHEJyY8SjlYwpHu3gCgz4wVJk1npVyg0tpYOP82jHO3LdA/bEwiyNcy+XkMQ
- KJZvpJcX1T65qLaURIqw9N+ok7eCMyv/CV2oobf27kLiAFQpC+vu7/ZA1Qe+/gXDu6Xv
- 5nrA==
-X-Gm-Message-State: AOAM533ZSvN2mXhhy+bprjk9Uy74lfQM2l/mmLX6Vh4NGU1RT/rlg7we
- VRnrql4ZmBf6t8KIkDG8NLc=
-X-Google-Smtp-Source: ABdhPJzxmTgOVXXFWsejdulN4FAuR4wJNcyd7X7eM/NZoFOfS9+zOBb6XM7tmDaofyQGvmR+rJEgQA==
-X-Received: by 2002:a05:600c:4e16:: with SMTP id
- b22mr4832663wmq.31.1644690220157; 
- Sat, 12 Feb 2022 10:23:40 -0800 (PST)
-Received: from eldamar (80-218-24-251.dclient.hispeed.ch. [80.218.24.251])
- by smtp.gmail.com with ESMTPSA id c8sm8619122wmq.34.2022.02.12.10.23.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Feb 2022 10:23:39 -0800 (PST)
-Date: Sat, 12 Feb 2022 19:23:38 +0100
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: Regression from 3c196f056666 ("drm/amdgpu: always reset the asic in
- suspend (v2)") on suspend?
-Message-ID: <Ygf7KuWyc0d4HIFu@eldamar.lan>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EaOHzElyl19Lio2+IgXQrdRampgn3IJJk51hhGDrqvQ=;
+ b=KVqxiJGuWbJrdebicCaB7tX22B4zEAB3wwjo7W3SPoaLHL3BDkZyEKIahLKN/+Q7j4
+ 77LklzuygOVcwPnNRaGsHGYbwb03QXfYhlnYSPGE2HyHYDZhICdCwwWLowk2l8ume2qS
+ HfcyYoUTt9WHC82A/quACBaIPEblBoIG9gfBZY9eRA7F7DFsfP1Dqfcd3k90TOl/HFAv
+ IJf704B/KMPjd3lYlrG7cdy1y0zxAxvup8j08GCRHsWveW4wdZG2jV6hA2rXw0HiUg2o
+ GWmfYUe0lz1TiKJAqihQbda3S4QRpuwBxUSWOxJiG7k6hEmWmV0vzDcyLxzfP6C/KcyG
+ ypMg==
+X-Gm-Message-State: AOAM532XJMyxbEt5ZQipSH0OiwTrlrkt6FZ1cPF3gWZRW3b+DAq5VhOm
+ L/va8MxWAZXoW+2iuTqDX1554dyS0pvO575X2z8=
+X-Google-Smtp-Source: ABdhPJx930dZNCBqHCUogbSTyuDbp2FVQxBA/TLL+y3xo4J5StPz1eItQanT5mUqU7fNh7az3GyCJ7Yxv3mwAOSpRYU=
+X-Received: by 2002:a05:6638:37a1:: with SMTP id
+ w33mr3957440jal.73.1644699168559; 
+ Sat, 12 Feb 2022 12:52:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20220203082546.3099-1-15330273260@189.cn>
+ <20220203082546.3099-2-15330273260@189.cn>
+ <20220203085851.yqstkfgt4dz7rcnw@houat>
+ <11ac5696-29e3-fefa-31c0-b7b86c88bbdc@189.cn>
+ <20220209084908.kub4bs64rzhvpvon@houat>
+ <84bfb2fc-595c-3bae-e8a0-c19ccbcfcfd8@189.cn>
+ <20220209161624.42ijbnhanaaari46@houat>
+In-Reply-To: <20220209161624.42ijbnhanaaari46@houat>
+From: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Sat, 12 Feb 2022 15:52:37 -0500
+Message-ID: <CAKb7UvjJHaDtCnLkVpOpxXC90X6o3TLC+EQOmf9g-BPbS-_rHA@mail.gmail.com>
+Subject: Re: [PATCH v6 1/3] drm/lsdc: add drm driver for loongson display
+ controller
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,53 +60,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, 1005005@bugs.debian.org,
- Luben Tuikov <luben.tuikov@amd.com>, amd-gfx@lists.freedesktop.org,
- Evan Quan <evan.quan@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Dominique Dumont <dod@debian.org>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Roland Scheidegger <sroland@vmware.com>, linux-mips@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sui Jingfeng <15330273260@189.cn>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex, hi all
+On Wed, Feb 9, 2022 at 11:16 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Wed, Feb 09, 2022 at 10:38:41PM +0800, Sui Jingfeng wrote:
+> > On 2022/2/9 16:49, Maxime Ripard wrote:
+> > > On Fri, Feb 04, 2022 at 12:04:19AM +0800, Sui Jingfeng wrote:
+> > > > > > +/* Get the simple EDID data from the device tree
+> > > > > > + * the length must be EDID_LENGTH, since it is simple.
+> > > > > > + *
+> > > > > > + * @np: device node contain edid data
+> > > > > > + * @edid_data: where the edid data to store to
+> > > > > > + */
+> > > > > > +static bool lsdc_get_edid_from_dtb(struct device_node *np,
+> > > > > > +                                unsigned char *edid_data)
+> > > > > > +{
+> > > > > > +     int length;
+> > > > > > +     const void *prop;
+> > > > > > +
+> > > > > > +     if (np == NULL)
+> > > > > > +             return false;
+> > > > > > +
+> > > > > > +     prop = of_get_property(np, "edid", &length);
+> > > > > > +     if (prop && (length == EDID_LENGTH)) {
+> > > > > > +             memcpy(edid_data, prop, EDID_LENGTH);
+> > > > > > +             return true;
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     return false;
+> > > > > > +}
+> > > > > You don't have a device tree binding for that driver, this is something
+> > > > > that is required. And it's not clear to me why you'd want EDID in the
+> > > > > DTB?
+> > > > 1) It is left to the end user of this driver.
+> > > >
+> > > > The downstream motherboard maker may use a dpi(XRGB888) or LVDS panel
+> > > > which don't have DDC support either, doing this way allow them put a
+> > > > EDID property into the dc device node in the DTS. Then the entire system works.
+> > > > Note those panel usually support only one display mode.
+> > > I guess it depends on what we mean exactly by the user, but the DTB
+> > > usually isn't under the (end) user control. And the drm.edid_firmware is
+> > > here already to address exactly this issue.
+> > >
+> > > On the other end, if the board has a static panel without any DDC lines,
+> > > then just put the timings in the device tree, there's no need for an
+> > > EDID blob.
+> >
+> > Loongson have a long history of using PMON firmware, The PMON firmware
+> > support flush the dtb into the the firmware before grub loading the kernel.
+> > You press 'c' key, then the PMON will give you a shell. it is much like a
+> > UEFI shell. Suppose foo.dtb is what you want to pass to the vmlinuz.
+> > Then type the follow single command can flush the dtb into the PMON firmware.
+> >
+> > |load_dtb /dev/fs/fat@usb0/foo.dtb|
+> >
+> > For our PMON firmware, it**is**  totally under developer/pc board maker's control.
+> > You can flush whatever dtb every time you bootup until you satisfied.
+> > It(the pmon firmware) is designed to let downstream motherboard maker and/or
+> > customers to play easily.
+> >
+> > Support of reading EDID from the dtb is really a feature which downstream
+> > motherboard maker or customer wanted. They sometimes using eDP also whose
+> > resolution is not 1024x768. This is out of control for a graphic driver
+> > developer like me.
+>
+> And, to reinstate, we already have a mechanism to set an EDID, and if it
+> wasn't an option, the DT is not the place to store an EDID blob.
 
-In Debian we got a regression report from Dominique Dumont, CC'ed in
-https://bugs.debian.org/1005005 that afer an update to 5.15.15 based
-kernel, his machine noe longer suspends correctly, after screen going
-black as usual it comes back. The Debian bug above contians a trace.
+Note that it's pretty common on laptop GPUs to have the attached
+panel's EDID be baked into the VBIOS or ACPI (for LVDS / eDP). The hw
+drivers in question (e.g. nouveau, radeon, probably i915) know how to
+retrieve it specially. I'm no DT expert, but I'd imagine that it's
+meant to allow mirroring those types of configurations. Stuff like
+"drm.edid_firmware" isn't really meant for system-configuration-level
+things, more as an out in case something doesn't work as it should.
 
-Dominique confirmed that this issue persisted after updating to 5.16.7
-furthermore he bisected the issue and found 
+Cheers,
 
-	3c196f05666610912645c7c5d9107706003f67c3 is the first bad commit
-	commit 3c196f05666610912645c7c5d9107706003f67c3
-	Author: Alex Deucher <alexander.deucher@amd.com>
-	Date:   Fri Nov 12 11:25:30 2021 -0500
-
-	    drm/amdgpu: always reset the asic in suspend (v2)
-
-	    [ Upstream commit daf8de0874ab5b74b38a38726fdd3d07ef98a7ee ]
-
-	    If the platform suspend happens to fail and the power rail
-	    is not turned off, the GPU will be in an unknown state on
-	    resume, so reset the asic so that it will be in a known
-	    good state on resume even if the platform suspend failed.
-
-	    v2: handle s0ix
-
-	    Acked-by: Luben Tuikov <luben.tuikov@amd.com>
-	    Acked-by: Evan Quan <evan.quan@amd.com>
-	    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-	    Signed-off-by: Sasha Levin <sashal@kernel.org>
-
-	 drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 5 ++++-
-	 1 file changed, 4 insertions(+), 1 deletion(-)
-
-to be the first bad commit, see https://bugs.debian.org/1005005#34 .
-
-Does this ring any bell? Any idea on the problem?
-
-Regards,
-Salvatore
+  -ilia
