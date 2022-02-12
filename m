@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20AD4B35B7
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 15:53:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67FF4B35BF
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 15:58:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFBC410E2D5;
-	Sat, 12 Feb 2022 14:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE7A10E228;
+	Sat, 12 Feb 2022 14:58:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B656910E2D5
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 14:53:29 +0000 (UTC)
-Date: Sat, 12 Feb 2022 14:53:05 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 698EB10E228
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 14:58:32 +0000 (UTC)
+Date: Sat, 12 Feb 2022 14:58:12 +0000
 From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v14 2/9] dt-bindings: display: Add ingenic, jz4780-dw-hdmi
- DT Schema
+Subject: Re: [PATCH v14 8/9] [already applied to mips-fixes] MIPS: DTS: CI20:
+ fix how ddc power is enabled
 To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <HC577R.0N5F78NY98FN1@crapouillou.net>
-In-Reply-To: <c806c6007f7bb090bf96ff6bd827f03e88bf4712.1644675566.git.hns@goldelico.com>
+Message-Id: <0L577R.CVAM5NCZN3F72@crapouillou.net>
+In-Reply-To: <6722afd4a89d2bf0d95e49e6738ff50bf9f26245.1644675567.git.hns@goldelico.com>
 References: <cover.1644675566.git.hns@goldelico.com>
- <c806c6007f7bb090bf96ff6bd827f03e88bf4712.1644675566.git.hns@goldelico.com>
+ <6722afd4a89d2bf0d95e49e6738ff50bf9f26245.1644675567.git.hns@goldelico.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
@@ -57,127 +57,69 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-Le sam., f=E9vr. 12 2022 at 15:19:20 +0100, H. Nikolaus Schaller=20
+Le sam., f=E9vr. 12 2022 at 15:19:26 +0100, H. Nikolaus Schaller=20
 <hns@goldelico.com> a =E9crit :
-> From: Sam Ravnborg <sam@ravnborg.org>
+> Originally we proposed a new hdmi-5v-supply regulator reference
+> for CI20 device tree but that was superseded by a better idea to use
+> the already defined "ddc-en-gpios" property of the "hdmi-connector".
 >=20
-> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-> Based on .txt binding from Zubair Lutfullah Kakakhel
+> Since "MIPS: DTS: CI20: Add DT nodes for HDMI setup" has already
+> been applied to v5.17-rc1, we add this on top.
 >=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Fixes: ae1b8d2c2de9 ("MIPS: DTS: CI20: Add DT nodes for HDMI setup")
 > Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Paul Cercueil <paul@crapouillou.net>
 
-Patch pushed to drm-misc-next, thanks!
+Since it's already applied you don't have to send this patch anymore.
 
 Cheers,
 -Paul
 
 > ---
->  .../display/bridge/ingenic,jz4780-hdmi.yaml   | 82=20
-> +++++++++++++++++++
->  1 file changed, 82 insertions(+)
->  create mode 100644=20
-> Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
+>  arch/mips/boot/dts/ingenic/ci20.dts | 15 ++-------------
+>  1 file changed, 2 insertions(+), 13 deletions(-)
 >=20
-> diff --git=20
-> a/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.ya=
-ml=20
-> b/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.ya=
-ml
-> new file mode 100644
-> index 0000000000000..b8219eab4475a
-> --- /dev/null
-> +++=20
-> b/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.ya=
-ml
-> @@ -0,0 +1,82 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id:=20
-> http://devicetree.org/schemas/display/bridge/ingenic,jz4780-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/arch/mips/boot/dts/ingenic/ci20.dts=20
+> b/arch/mips/boot/dts/ingenic/ci20.dts
+> index 3e336b3dbb109..ab6e3dc0bc1d0 100644
+> --- a/arch/mips/boot/dts/ingenic/ci20.dts
+> +++ b/arch/mips/boot/dts/ingenic/ci20.dts
+> @@ -83,6 +83,8 @@ hdmi_out: connector {
+>  		label =3D "HDMI OUT";
+>  		type =3D "a";
+>=20
+> +		ddc-en-gpios =3D <&gpa 25 GPIO_ACTIVE_HIGH>;
 > +
-> +title: Bindings for Ingenic JZ4780 HDMI Transmitter
-> +
-> +maintainers:
-> +  - H. Nikolaus Schaller <hns@goldelico.com>
-> +
-> +description: |
-> +  The HDMI Transmitter in the Ingenic JZ4780 is a Synopsys=20
-> DesignWare HDMI 1.4
-> +  TX controller IP with accompanying PHY IP.
-> +
-> +allOf:
-> +  - $ref: synopsys,dw-hdmi.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: ingenic,jz4780-dw-hdmi
-> +
-> +  reg-io-width:
-> +    const: 4
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Input from LCD controller output.
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Link to the HDMI connector.
-> +
-> +required:
-> +  - compatible
-> +  - clocks
-> +  - clock-names
-> +  - ports
-> +  - reg-io-width
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/ingenic,jz4780-cgu.h>
-> +
-> +    hdmi: hdmi@10180000 {
-> +        compatible =3D "ingenic,jz4780-dw-hdmi";
-> +        reg =3D <0x10180000 0x8000>;
-> +        reg-io-width =3D <4>;
-> +        ddc-i2c-bus =3D <&i2c4>;
-> +        interrupt-parent =3D <&intc>;
-> +        interrupts =3D <3>;
-> +        clocks =3D <&cgu JZ4780_CLK_AHB0>, <&cgu JZ4780_CLK_HDMI>;
-> +        clock-names =3D "iahb", "isfr";
-> +
-> +        ports {
-> +            #address-cells =3D <1>;
-> +            #size-cells =3D <0>;
-> +            hdmi_in: port@0 {
-> +                reg =3D <0>;
-> +                dw_hdmi_in: endpoint {
-> +                    remote-endpoint =3D <&jz4780_lcd_out>;
-> +                };
-> +            };
-> +            hdmi_out: port@1 {
-> +                reg =3D <1>;
-> +                dw_hdmi_out: endpoint {
-> +                    remote-endpoint =3D <&hdmi_con>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+>  		port {
+>  			hdmi_con: endpoint {
+>  				remote-endpoint =3D <&dw_hdmi_out>;
+> @@ -114,17 +116,6 @@ otg_power: fixedregulator@2 {
+>  		gpio =3D <&gpf 14 GPIO_ACTIVE_LOW>;
+>  		enable-active-high;
+>  	};
+> -
+> -	hdmi_power: fixedregulator@3 {
+> -		compatible =3D "regulator-fixed";
+> -
+> -		regulator-name =3D "hdmi_power";
+> -		regulator-min-microvolt =3D <5000000>;
+> -		regulator-max-microvolt =3D <5000000>;
+> -
+> -		gpio =3D <&gpa 25 0>;
+> -		enable-active-high;
+> -	};
+>  };
+>=20
+>  &ext {
+> @@ -576,8 +567,6 @@ &hdmi {
+>  	pinctrl-names =3D "default";
+>  	pinctrl-0 =3D <&pins_hdmi_ddc>;
+>=20
+> -	hdmi-5v-supply =3D <&hdmi_power>;
+> -
+>  	ports {
+>  		#address-cells =3D <1>;
+>  		#size-cells =3D <0>;
 > --
 > 2.33.0
 >=20
