@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC5E4B35F4
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 16:50:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F232F4B35F8
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 16:50:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F4710E29C;
-	Sat, 12 Feb 2022 15:50:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A451010E2A1;
+	Sat, 12 Feb 2022 15:50:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [85.215.255.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38D8210E29C
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 15:50:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1644681013;
+Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
+ [81.169.146.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6691910E2A1
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 15:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1644681047;
  s=strato-dkim-0002; d=goldelico.com;
  h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
  From:Subject:Sender;
- bh=IdS2QAviQYspg0Ww5TTCvAHcJJtpXKbwyF+95baAn64=;
- b=AKgnoXpnbkpWFz+c0XV/zf9gpMR37hCSLDHSZsVBNHSNAQZ/I1IFF+buNbgTwT35MF
- oS69gCfqcHF9MUTj7NpQYXj2b0YzkAtYd2IfhSx44WgSfowJn48dhza6L7nQI96jGd2T
- 69fJhNx3qHf/XvcVosLvEPaq3KiQmH8tbfqPUOlA9gT4+ZN254NB0DfcbRKRNyF1EcVH
- 12snh2S2L6MmbysLJh85MKBxTF8p9Md1GE6HrLgZDfrd3DxkznWyngCORxwTDZVSdBxg
- tWTTNSGrbu5X+8UNL4f72dSXjGuOglZY1XJDN1ZuhySs+g1ON8k7T0kl3wYwJ4TDB3qF
- daGQ==
+ bh=Kikg1n0GjNW55lJXdn/Gh/3mpzDarcpb8bfYkSiBQ+E=;
+ b=taoy6ReN8rZfESOTY1+ddA3GC50ZJ5jrLicBV4du/McZON+8WtjNe6W60bwV5qe5QP
+ bMH7k409H0uLbwYe9Clcby+Tx5R3i7qsp7WeRoPvZ5SEUfQ/5yWh+rjONAJDIFpC3WxO
+ 0Ytf5IyRj6mJolyxA93sJ8xoSM/DDtoEDXA8xIR1yKjDMcbU9Cqe601jldLG+zBeRMCV
+ alNImiSPi8IiwXSlQdphXbLwKigEP1PSjZh4KLaZWN9Vtm91rdAIZi1S3bZJAbndXF0+
+ Z88inUe1XrjRPeaBVl5eZ3VsDfm7p9oRsv1ZsFPF8/LX5KQrba3R8LbauA7BxiA5ZWyH
+ VDpQ==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NIGH/jrwDaqyA=="
 X-RZG-CLASS-ID: mo00
 Received: from imac.fritz.box by smtp.strato.de (RZmta 47.39.0 DYNA|AUTH)
- with ESMTPSA id L29417y1CFoCswi
+ with ESMTPSA id L29417y1CFokswm
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
  with 256 ECDH bits, eq. 3072 bits RSA))
  (Client did not present a certificate);
- Sat, 12 Feb 2022 16:50:12 +0100 (CET)
+ Sat, 12 Feb 2022 16:50:46 +0100 (CET)
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v14 5/9] drm/bridge: dw-hdmi: repair interworking with
- hdmi-connector for jz4780
+Subject: Re: [PATCH v14 8/9] [already applied to mips-fixes] MIPS: DTS: CI20:
+ fix how ddc power is enabled
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <7Y577R.WAL64FW8KJZJ1@crapouillou.net>
-Date: Sat, 12 Feb 2022 16:50:12 +0100
+In-Reply-To: <0L577R.CVAM5NCZN3F72@crapouillou.net>
+Date: Sat, 12 Feb 2022 16:50:46 +0100
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <1AF73F85-8384-413C-8E2E-004E6DD75AAD@goldelico.com>
+Message-Id: <3B8B0942-1FC8-435A-B1AA-D06702D0718D@goldelico.com>
 References: <cover.1644675566.git.hns@goldelico.com>
- <8703a3e48574c09e8756b79e8f69be7d84926fe9.1644675566.git.hns@goldelico.com>
- <7Y577R.WAL64FW8KJZJ1@crapouillou.net>
+ <6722afd4a89d2bf0d95e49e6738ff50bf9f26245.1644675567.git.hns@goldelico.com>
+ <0L577R.CVAM5NCZN3F72@crapouillou.net>
 To: Paul Cercueil <paul@crapouillou.net>
 X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,74 +82,77 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-> Am 12.02.2022 um 16:06 schrieb Paul Cercueil <paul@crapouillou.net>:
+> Am 12.02.2022 um 15:58 schrieb Paul Cercueil <paul@crapouillou.net>:
 >=20
-> Hi Nikolaus,
+> Hi,
 >=20
->=20
-> Le sam., f=C3=A9vr. 12 2022 at 15:19:23 +0100, H. Nikolaus Schaller =
+> Le sam., f=C3=A9vr. 12 2022 at 15:19:26 +0100, H. Nikolaus Schaller =
 <hns@goldelico.com> a =C3=A9crit :
->> Commit 7cd70656d1285b ("drm/bridge: display-connector: implement bus =
-fmts callbacks")
->> introduced a new mechanism to negotiate bus formats between hdmi =
-connector
->> and the synopsys hdmi driver inside the jz4780.
->> By this, the dw-hdmi is no longer the only bridge and sets up a list
->> of formats in dw_hdmi_bridge_atomic_get_output_bus_fmts().
->> This includes MEDIA_BUS_FMT_UYVY8_1X16 which is chosen for the jz4780 =
-but only
->> produces a black screen.
+>> Originally we proposed a new hdmi-5v-supply regulator reference
+>> for CI20 device tree but that was superseded by a better idea to use
+>> the already defined "ddc-en-gpios" property of the "hdmi-connector".
+>> Since "MIPS: DTS: CI20: Add DT nodes for HDMI setup" has already
+>> been applied to v5.17-rc1, we add this on top.
+>> Fixes: ae1b8d2c2de9 ("MIPS: DTS: CI20: Add DT nodes for HDMI setup")
+>> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>> Reviewed-by: Paul Cercueil <paul@crapouillou.net>
 >=20
-> Neil pushed a fix yesterday that looks like it could fix your issue.
-> The fix is: 1528038385c0 ("drm/bridge: dw-hdmi: use safe format when =
-first in bridge chain")
->=20
-> Could you try if it does indeed fix your issue?
+> Since it's already applied you don't have to send this patch anymore.
 
-Sure.
+I see, it has arrived in linux-next but not yet in drm-misc-next...
+So if someone wants to test the series directly on top of drm-misc-next =
+(as I am doing), it would be incomplete without.
 
-Would have been nice and is a fix addressing same base commit, but is =
-not a replacement for my attempt :(
+IMHO these side-branches and partial merges here and there sometimes =
+make more problems than they seem to solve...
 
-Fortunately we can have both.
+But I leave already applied out commits for v15.
 
 >=20
 > Cheers,
 > -Paul
 >=20
->> This fix is based on the observation that max_bpc =3D 0 when running =
-this
->> function while info->bpc =3D 8. Since the formats checks before this =
-always test
->> for max_bpc >=3D info->pbc indirectly my assumption is that we must =
-check it
->> here as well.
->> Adding the proposed patch makes the CI20/jz4780 panel work again in
->> MEDIA_BUS_FMT_RGB888_1X24 mode.
->> Fixes: 7cd70656d1285b ("drm/bridge: display-connector: implement bus =
-fmts callbacks")
->> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 >> ---
->> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 4 ++--
->> 1 file changed, 2 insertions(+), 2 deletions(-)
->> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c =
-b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> index b0d8110dd412c..826a055a7a273 100644
->> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> @@ -2620,10 +2620,10 @@ static u32 =
-*dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
->> 		output_fmts[i++] =3D MEDIA_BUS_FMT_RGB101010_1X30;
->> 	}
->> -	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
->> +	if (max_bpc >=3D info->bpc && info->color_formats & =
-DRM_COLOR_FORMAT_YCBCR422)
->> 		output_fmts[i++] =3D MEDIA_BUS_FMT_UYVY8_1X16;
->> -	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
->> +	if (max_bpc >=3D info->bpc && info->color_formats & =
-DRM_COLOR_FORMAT_YCBCR444)
->> 		output_fmts[i++] =3D MEDIA_BUS_FMT_YUV8_1X24;
->> 	/* Default 8bit RGB fallback */
+>> arch/mips/boot/dts/ingenic/ci20.dts | 15 ++-------------
+>> 1 file changed, 2 insertions(+), 13 deletions(-)
+>> diff --git a/arch/mips/boot/dts/ingenic/ci20.dts =
+b/arch/mips/boot/dts/ingenic/ci20.dts
+>> index 3e336b3dbb109..ab6e3dc0bc1d0 100644
+>> --- a/arch/mips/boot/dts/ingenic/ci20.dts
+>> +++ b/arch/mips/boot/dts/ingenic/ci20.dts
+>> @@ -83,6 +83,8 @@ hdmi_out: connector {
+>> 		label =3D "HDMI OUT";
+>> 		type =3D "a";
+>> +		ddc-en-gpios =3D <&gpa 25 GPIO_ACTIVE_HIGH>;
+>> +
+>> 		port {
+>> 			hdmi_con: endpoint {
+>> 				remote-endpoint =3D <&dw_hdmi_out>;
+>> @@ -114,17 +116,6 @@ otg_power: fixedregulator@2 {
+>> 		gpio =3D <&gpf 14 GPIO_ACTIVE_LOW>;
+>> 		enable-active-high;
+>> 	};
+>> -
+>> -	hdmi_power: fixedregulator@3 {
+>> -		compatible =3D "regulator-fixed";
+>> -
+>> -		regulator-name =3D "hdmi_power";
+>> -		regulator-min-microvolt =3D <5000000>;
+>> -		regulator-max-microvolt =3D <5000000>;
+>> -
+>> -		gpio =3D <&gpa 25 0>;
+>> -		enable-active-high;
+>> -	};
+>> };
+>> &ext {
+>> @@ -576,8 +567,6 @@ &hdmi {
+>> 	pinctrl-names =3D "default";
+>> 	pinctrl-0 =3D <&pins_hdmi_ddc>;
+>> -	hdmi-5v-supply =3D <&hdmi_power>;
+>> -
+>> 	ports {
+>> 		#address-cells =3D <1>;
+>> 		#size-cells =3D <0>;
 >> --
 >> 2.33.0
 >=20
