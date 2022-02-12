@@ -2,66 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E024B39DB
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Feb 2022 07:51:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262954B3A6E
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Feb 2022 10:00:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7F4E10F2F7;
-	Sun, 13 Feb 2022 06:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF28510F3B8;
+	Sun, 13 Feb 2022 09:00:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE85B10F2F7;
- Sun, 13 Feb 2022 06:51:34 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id c4so2417836pfl.7;
- Sat, 12 Feb 2022 22:51:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8jN3bHrs2SjohtF/Og+xdp1QXzW54h0HCo7HFf5/MZw=;
- b=eGO6WKGk4GF2G1wmSF6YwpVCyUpzoU7kgAHkt2OWvZscvoVLb2sotXMmB0JArmFkdH
- GZxv240kCgeHEhPXTYzUDow84izMIzZxlfxRqdHQ6poqNxgqd3SBEdZaBIbOt2VfzCOz
- WB90oXtyxZJqjWoJkG72qtck4qMxHp+GNv+NNlHkFfVAzLOP6WpCXganJp/d3GKhz3Yp
- dDQ2IWWdYJRDLLYVl86vEf0KIoDIv6kqdWbViLcQzUP/6utM0FpBiWqZQKW5fLsjZNxa
- AqbUxPohLLEDKau9zLqZLxyzAnQdLrzEjf/iAMJb2D4TcTY3N0qUMmOdvnfMu8pjio9Y
- a0FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8jN3bHrs2SjohtF/Og+xdp1QXzW54h0HCo7HFf5/MZw=;
- b=sHrPkIwCfE5ZcONUxGpo5XNYMhvgPQMkvqtnFGXp6DcE32hB/E4b0d40/9w3u64q/Y
- ekKMlWnGltzW+Pxn4RjMYRQUqWu32D7b0fChPB84CsvsC1a4RdRUNwlos5Re4jzkQncV
- rV7A8S6YzTTbr7eVOwtYMnNunRKVswizANfsKEdn1GRPJPlRoobFuA04+O/gI2qK8JdY
- NTUepk4xqsNRMZ2ekLW1s2BSWtZNLbJIFJFbEOus+lCi7FNsiH5znf1Cydc72xSoKc+b
- 3Zho91B3gcjri/CfJQIq7WLDSTsVSLk1gQ6rAzJsi4M4FBnDSSh8EszRfjHI2bsEI7qN
- 3tiw==
-X-Gm-Message-State: AOAM531UlFFv0A8V6SFiM0XMVV2eAQVt0j46eHDdjZpl9McC4PHaOiip
- xjvUYfsggjeMw8ybpxWDj8Q=
-X-Google-Smtp-Source: ABdhPJzJFjlAe/vGkkjEE8ukKoZrPMom+3E9OHjTtQHdOrydJ0vW9rr7l+VrgOEHXNJQZysF9XqUjQ==
-X-Received: by 2002:a63:d318:: with SMTP id b24mr7253607pgg.255.1644735094326; 
- Sat, 12 Feb 2022 22:51:34 -0800 (PST)
-Received: from ubuntu-server.local
- (99-105-211-126.lightspeed.sntcca.sbcglobal.net. [99.105.211.126])
- by smtp.googlemail.com with ESMTPSA id v2sm9794515pjt.55.2022.02.12.22.51.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Feb 2022 22:51:34 -0800 (PST)
-From: Tong Zhang <ztong0001@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: [PATCH] drm/i915: fix build issue when using clang
-Date: Sat, 12 Feb 2022 22:51:06 -0800
-Message-Id: <20220213065106.48062-1-ztong0001@gmail.com>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 910 seconds by postgrey-1.36 at gabe;
+ Sat, 12 Feb 2022 02:45:15 UTC
+Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A62B110EB98
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 02:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Message-ID:Date:MIME-Version:From:Subject; bh=hnD6/
+ MAj8dW+YkPvw4z+qYD8VxUZ1mt7MjT1Dw6did4=; b=iD+2qv9JC7RSbzjac3GYo
+ 0wib5N9B6lJk8Rdf2OZXIxyIeJF6FZ7V9eW2oYHizfQN1Oalpb/f8/0ZI5JIQNXM
+ +kmEsZegagb0Xh/0D5+vyjOB3uktQyz753hIf+5ysCMrmQvjffH3/k0amLnyRdtW
+ iSjjLjpBdAN6IcPn5j4fRs=
+Received: from [192.168.3.109] (unknown [218.201.129.19])
+ by smtp7 (Coremail) with SMTP id C8CowAC37hqpGwdifV9fCg--.37742S2;
+ Sat, 12 Feb 2022 10:30:02 +0800 (CST)
+Message-ID: <11b64eb6-d0bb-6cfb-776f-5e6623dd984e@163.com>
+Date: Sat, 12 Feb 2022 10:29:25 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+To: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+From: qianfan <qianfanguijin@163.com>
+Subject: fbtft gpio backlight
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: C8CowAC37hqpGwdifV9fCg--.37742S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUoWlvUUUUU
+X-Originating-IP: [218.201.129.19]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbB2AKl7WBHIrLMcgAAsb
+X-Mailman-Approved-At: Sun, 13 Feb 2022 09:00:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,46 +51,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tong Zhang <ztong0001@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm/i915 target adds some extra cflags, especially it does re-apply -Wall.
-In clang this will override -Wno-format-security and cause the build to
-fail when CONFIG_DRM_I915_WERROR=y. While with GCC this does not happen.
-We reapply -Wno-format-security here to get around this issue.
+Hi:
 
-drivers/gpu/drm/i915/gt/intel_gt.c:983:2: error: format string is not a string literal (potentially insecure) [-Werror,-Wformat-security]
-        GEM_TRACE("ERROR\n");
-        ^~~~~~~~~~~~~~~~~~~~
-./drivers/gpu/drm/i915/i915_gem.h:76:24: note: expanded from macro 'GEM_TRACE'
- #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-./include/linux/kernel.h:369:3: note: expanded from macro 'trace_printk'
-                do_trace_printk(fmt, ##__VA_ARGS__);    \
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-./include/linux/kernel.h:383:30: note: expanded from macro 'do_trace_printk'
-                __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);   \
-                                           ^~~~~~~~~~~~~~~~
-drivers/gpu/drm/i915/gt/intel_gt.c:983:2: note: treat the string as an argument to avoid this
+fbtft_register_backlight assume backlight is off, get polarity from 
+current state of pin. but the led gpio is requested by GPIOD_OUT_LOW 
+flag, which means the gpio state when fbtft_register_backlight is always 
+low.
 
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
----
- drivers/gpu/drm/i915/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+Is it a bug?
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 1b62b9f65196..c04e05a3d39f 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -13,6 +13,7 @@
- # will most likely get a sudden build breakage... Hopefully we will fix
- # new warnings before CI updates!
- subdir-ccflags-y := -Wall -Wextra
-+subdir-ccflags-y += -Wno-format-security
- subdir-ccflags-y += -Wno-unused-parameter
- subdir-ccflags-y += -Wno-type-limits
- subdir-ccflags-y += -Wno-missing-field-initializers
--- 
-2.25.1
+Thanks
 
