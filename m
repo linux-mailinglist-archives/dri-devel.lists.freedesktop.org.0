@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42CA4B3BB7
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Feb 2022 15:17:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4FC4B3BB6
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Feb 2022 15:17:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73D5C10E631;
-	Sun, 13 Feb 2022 14:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57D3610E587;
+	Sun, 13 Feb 2022 14:17:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id 67C6E10E4A3
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Feb 2022 14:17:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id E65B810E587
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Feb 2022 14:17:05 +0000 (UTC)
 HMM_SOURCE_IP: 10.64.8.41:34274.536114013
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id B6FA21002B3;
- Sun, 13 Feb 2022 22:17:02 +0800 (CST)
+ by 189.cn (HERMES) with SMTP id 37A9C1002B5;
+ Sun, 13 Feb 2022 22:17:03 +0800 (CST)
 Received: from  ([114.242.206.180])
  by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id
- be66858997da4a03ade58a24083bc740 for mripard@kernel.org; 
- Sun, 13 Feb 2022 22:17:03 CST
-X-Transaction-ID: be66858997da4a03ade58a24083bc740
+ 825d0711674547fb96723e997e5ed85f for mripard@kernel.org; 
+ Sun, 13 Feb 2022 22:17:05 CST
+X-Transaction-ID: 825d0711674547fb96723e997e5ed85f
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 114.242.206.180
 X-MEDUSA-Status: 0
@@ -43,10 +43,9 @@ To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
  Li Yi <liyi@loongson.cn>, suijingfeng <suijingfeng@loongson.cn>
-Subject: [PATCH v7 6/7] MIPS: Loongson: Add dts for ls2k1000 pai evaluation
- board
-Date: Sun, 13 Feb 2022 22:16:48 +0800
-Message-Id: <20220213141649.1115987-7-15330273260@189.cn>
+Subject: [PATCH v7 7/7] MAINTAINERS: add maintainers for DRM LSDC driver
+Date: Sun, 13 Feb 2022 22:16:49 +0800
+Message-Id: <20220213141649.1115987-8-15330273260@189.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220213141649.1115987-1-15330273260@189.cn>
 References: <20220213141649.1115987-1-15330273260@189.cn>
@@ -71,111 +70,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: suijingfeng <suijingfeng@loongson.cn>
 
-   ___________________                           ____________________
-  |            -------|                         |                    |
-  |  CRTC0 --> | DVO0 ------------------------> | 1024x600 DPI Panel |
-  |  _   _     -------|                         |____________________|
-  | | | | |           |  i2c0 is not get used
-  | |_| |_|           |     +------+
-  |                   <---->| i2c0 |
-  |          LSDC     |     +------+
-  |  _   _            |     +------+
-  | | | | |           <---->| i2c1 |-----------+
-  | |_| |_|           |     +------+           |
-  |                   |        |               |               _________
-  |            -------|    +---------+         |              |         |
-  |  CRTC1 --> | DVO1 ---> | sii9022 | --> hdmi connector --> | Monitor |
-  |            -------|    +---------+                        |_________|
-  |___________________|
-
-The sii9022 tranmnitter working in tramsparent mode, that is the edid
-is read from the monitor directly, not through sil9022's ddc channel.
-The PMON firmware is responsible for consigure the sii9022 at boot time.
-
-[1] https://wiki.debian.org/InstallingDebianOn/Lemote/Loongson2K1000
-
 Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
 Signed-off-by: Sui Jingfeng <15330273260@189.cn>
 ---
- arch/mips/boot/dts/loongson/ls2k1000_pai.dts | 69 ++++++++++++++++++++
- 1 file changed, 69 insertions(+)
- create mode 100644 arch/mips/boot/dts/loongson/ls2k1000_pai.dts
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/arch/mips/boot/dts/loongson/ls2k1000_pai.dts b/arch/mips/boot/dts/loongson/ls2k1000_pai.dts
-new file mode 100644
-index 000000000000..6c18280d2129
---- /dev/null
-+++ b/arch/mips/boot/dts/loongson/ls2k1000_pai.dts
-@@ -0,0 +1,69 @@
-+// SPDX-License-Identifier: GPL-2.0
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ea3e6c914384..766cccdf7f73 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6453,6 +6453,15 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	drivers/gpu/drm/lima/
+ F:	include/uapi/drm/lima_drm.h
+ 
++DRM DRIVERS FOR LOONGSON
++M:	Sui Jingfeng <suijingfeng@loongson.cn>
++L:	dri-devel@lists.freedesktop.org
++R:	Li Yi <liyi@loongson.cn>
++S:	Maintained
++W:	https://www.loongson.cn/
++T:	git git://anongit.freedesktop.org/drm/drm-misc
++F:	drivers/gpu/drm/lsdc/
 +
-+/dts-v1/;
-+
-+#include "loongson64-2k1000.dtsi"
-+
-+/ {
-+	model = "LS2K1000_PAI_UDB_V1.5";
-+
-+	memory@200000 {
-+		compatible = "memory";
-+		device_type = "memory";
-+		// 238 MB at 2 MB
-+		// 2GB - 512 MB at 2GB + 512 MB
-+		// total 2 GB
-+		reg = <0x00000000 0x00200000 0x00000000 0x0EE00000
-+		       0x00000000 0xA0000000 0x00000000 0x60000000
-+		       0x00000001 0x10000000 0x00000000 0x10000000>;
-+	};
-+};
-+
-+&lsdc {
-+	output-ports = <&dvo0 &dvo1>;
-+
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	dvo0: dvo@0 {
-+		/* 0 for connector 0 (DVO0) */
-+		reg = <0>;
-+		connector = "dpi-connector";
-+		status = "ok";
-+
-+		display-timings {
-+			native-mode = <&mode_0_1024x600_60>;
-+
-+			mode_0_1024x600_60: panel-timing@0 {
-+				clock-frequency = <51200000>;
-+				hactive = <1024>;
-+				vactive = <600>;
-+				hsync-len = <4>;
-+				hfront-porch = <160>;
-+				hback-porch = <156>;
-+				vfront-porch = <11>;
-+				vback-porch = <23>;
-+				vsync-len = <1>;
-+			};
-+
-+			mode_1_800x480_60: panel-timing@1 {
-+				clock-frequency = <30066000>;
-+				hactive = <800>;
-+				vactive = <480>;
-+				hfront-porch = <50>;
-+				hback-porch = <70>;
-+				hsync-len = <50>;
-+				vback-porch = <0>;
-+				vfront-porch = <0>;
-+				vsync-len = <50>;
-+			};
-+		};
-+	};
-+
-+	dvo1: dvo@1 {
-+		/* 1 for connector 1 (DVO1) */
-+		reg = <1>;
-+		connector = "virtual-connector";
-+		status = "ok";
-+	};
-+};
+ DRM DRIVERS FOR MEDIATEK
+ M:	Chun-Kuang Hu <chunkuang.hu@kernel.org>
+ M:	Philipp Zabel <p.zabel@pengutronix.de>
 -- 
 2.25.1
 
