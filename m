@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5294B3BB0
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Feb 2022 15:17:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199F94B3BB5
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Feb 2022 15:17:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E949410E393;
-	Sun, 13 Feb 2022 14:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF97410E640;
+	Sun, 13 Feb 2022 14:17:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id 87A5B10E3A6
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Feb 2022 14:16:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 961A810E393
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Feb 2022 14:16:59 +0000 (UTC)
 HMM_SOURCE_IP: 10.64.8.41:34274.536114013
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id CC813100238;
- Sun, 13 Feb 2022 22:16:56 +0800 (CST)
+ by 189.cn (HERMES) with SMTP id 47B09100248;
+ Sun, 13 Feb 2022 22:16:57 +0800 (CST)
 Received: from  ([114.242.206.180])
  by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id
- be50116e07a543ef97972c6a8e43cc89 for mripard@kernel.org; 
- Sun, 13 Feb 2022 22:16:57 CST
-X-Transaction-ID: be50116e07a543ef97972c6a8e43cc89
+ 84b9622b98e3492ca64a02f2f5fd1ef5 for mripard@kernel.org; 
+ Sun, 13 Feb 2022 22:16:59 CST
+X-Transaction-ID: 84b9622b98e3492ca64a02f2f5fd1ef5
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 114.242.206.180
 X-MEDUSA-Status: 0
@@ -43,10 +43,10 @@ To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
  Li Yi <liyi@loongson.cn>, suijingfeng <suijingfeng@loongson.cn>
-Subject: [PATCH v7 2/7] MIPS: Loongson: ls7a-pch.dtsi: add has_dedicated_vram
- property
-Date: Sun, 13 Feb 2022 22:16:44 +0800
-Message-Id: <20220213141649.1115987-3-15330273260@189.cn>
+Subject: [PATCH v7 3/7] MIPS: Loongson: introduce dts for ls3A4000 evaluation
+ board
+Date: Sun, 13 Feb 2022 22:16:45 +0800
+Message-Id: <20220213141649.1115987-4-15330273260@189.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220213141649.1115987-1-15330273260@189.cn>
 References: <20220213141649.1115987-1-15330273260@189.cn>
@@ -71,37 +71,98 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: suijingfeng <suijingfeng@loongson.cn>
 
-The LS7A1000 bridge chip is equipped with a dedicated video memory
-which is typically 64MB or more. This patch add has_dedicated_vram
-property in the display controller device node to reflict this.
+This board has a VGA output and a DVI output, the VGA is connected to
+the DVO0 of the display controller and the DVI is connected to DVO1 of
+the display controller.
+
+    +------+            +-----------------------------------+
+    | DDR4 |            |  +-------------------+            |
+    +------+            |  | PCIe Root complex |   LS7A1000 |
+       || MC0           |  +--++---------++----+            |
+  +----------+  HT 3.0  |     ||         ||                 |
+  | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
+  |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
+  +----------+          | +--------+  +-+--+-+    +---------+   +------+
+       || MC1           +---------------|--|----------------+
+    +------+                            |  |
+    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
+    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
+                      +-------+                      +------+
 
 Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
 Signed-off-by: Sui Jingfeng <15330273260@189.cn>
 ---
- arch/mips/boot/dts/loongson/ls7a-pch.dtsi | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../boot/dts/loongson/ls3a4000_7a1000_evb.dts | 61 +++++++++++++++++++
+ 1 file changed, 61 insertions(+)
+ create mode 100644 arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts
 
-diff --git a/arch/mips/boot/dts/loongson/ls7a-pch.dtsi b/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
-index 2f45fce2cdc4..37a7a0aefcf1 100644
---- a/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
-+++ b/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
-@@ -160,7 +160,7 @@ gpu@6,0 {
- 				interrupt-parent = <&pic>;
- 			};
- 
--			dc@6,1 {
-+			lsdc: dc@6,1 {
- 				compatible = "pci0014,7a06.0",
- 						   "pci0014,7a06",
- 						   "pciclass030000",
-@@ -169,6 +169,7 @@ dc@6,1 {
- 				reg = <0x3100 0x0 0x0 0x0 0x0>;
- 				interrupts = <28 IRQ_TYPE_LEVEL_HIGH>;
- 				interrupt-parent = <&pic>;
-+				has_dedicated_vram;
- 			};
- 
- 			hda@7,0 {
+diff --git a/arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts b/arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts
+new file mode 100644
+index 000000000000..38abe8249e05
+--- /dev/null
++++ b/arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts
+@@ -0,0 +1,61 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/dts-v1/;
++
++#include "loongson64g-package.dtsi"
++#include "ls7a-pch.dtsi"
++
++/ {
++	model = "LS3A4000_7A1000_EVB_BOARD_V1_4";
++};
++
++&package0 {
++	htvec: interrupt-controller@efdfb000080 {
++		compatible = "loongson,htvec-1.0";
++		reg = <0xefd 0xfb000080 0x40>;
++		interrupt-controller;
++		#interrupt-cells = <1>;
++
++		interrupt-parent = <&liointc>;
++		interrupts = <24 IRQ_TYPE_LEVEL_HIGH>,
++			     <25 IRQ_TYPE_LEVEL_HIGH>,
++			     <26 IRQ_TYPE_LEVEL_HIGH>,
++			     <27 IRQ_TYPE_LEVEL_HIGH>,
++			     <28 IRQ_TYPE_LEVEL_HIGH>,
++			     <29 IRQ_TYPE_LEVEL_HIGH>,
++			     <30 IRQ_TYPE_LEVEL_HIGH>,
++			     <31 IRQ_TYPE_LEVEL_HIGH>;
++	};
++};
++
++&pch {
++	msi: msi-controller@2ff00000 {
++		compatible = "loongson,pch-msi-1.0";
++		reg = <0 0x2ff00000 0 0x8>;
++		interrupt-controller;
++		msi-controller;
++		loongson,msi-base-vec = <64>;
++		loongson,msi-num-vecs = <192>;
++		interrupt-parent = <&htvec>;
++	};
++};
++
++&lsdc {
++	output-ports = <&dvo0 &dvo1>;
++
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	dvo0: dvo@0 {
++		reg = <0>;
++		connector = "vga-connector";
++		status = "okay";
++	};
++
++	dvo1: dvo@1 {
++		reg = <1>;
++		connector = "dvi-connector";
++		digital;
++		status = "okay";
++	};
++};
 -- 
 2.25.1
 
