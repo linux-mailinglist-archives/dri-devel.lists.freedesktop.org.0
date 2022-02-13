@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 761294B38EC
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Feb 2022 03:27:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8554B3962
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Feb 2022 06:23:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5EA10E1A6;
-	Sun, 13 Feb 2022 02:27:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D77910F099;
+	Sun, 13 Feb 2022 05:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86C3810E1A6
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Feb 2022 02:27:04 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AADAE10F099
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Feb 2022 05:23:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 3A1A983095;
- Sun, 13 Feb 2022 03:27:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1644719222;
- bh=9zhagREQC9QDVIBVCcMDLxnDGxs/W1+y6okQrZrfq2Y=;
- h=From:To:Cc:Subject:Date:From;
- b=GY+9lQNW/FcAGNAkZMx7+jeQwK7Lh4Z/SBswUzs+yagK9DjzHog7F6/mqylvB9LhR
- J0sDsaCT4FPyQvI7xSCVOcXFzTc2mEuXczcnIAtMnMgFiuixCb9KKc/cfSVzCnClMy
- g3/aJUhZflxOttuR5Ivm909HtSdLkhpCyTV+9p24YD9bk4x5tPZ9NSV8xtPp40fqWi
- HjDdJakUyOXZHvZTIJ9dCOGRx+cuSAB4ST94Tx5obpFpwJPsuWqB9Cl1IHvFNeIGS9
- 8P7P5+zZHN7s5hGwAa1YM88ECbn5My7ysDDvtXPmhxmHzYq3HWZHRt0kUIcAibVzDw
- JXEfpKsoeCJCQ==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH][RESEND] drm/bridge: ti-sn65dsi83: Check link status register
- after enabling the bridge
-Date: Sun, 13 Feb 2022 03:26:48 +0100
-Message-Id: <20220213022648.495895-1-marex@denx.de>
-X-Mailer: git-send-email 2.34.1
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 64BF160F06;
+ Sun, 13 Feb 2022 05:23:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85784C004E1;
+ Sun, 13 Feb 2022 05:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644729794;
+ bh=vYSNojDh0K1HAwwbXJB0icOSyWl3HotrRpbPrie1v5Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=H3LdzOx7+QWnaej7zbIzdXyjlSb1bUPGyzAX2Lf1O3YzS5/6+qceDTh1EMDAEmnsI
+ 6NPWuwdQd2kvzKnVnd8bly82gQC8ZB32iqvIFn2remJY6I+difRAhzwMDWRSczZJ+D
+ 5mdT/1dKEFRg3I9LBjdI+5q4+IPEbbKWmSh8RhiWQ5X5xvgeu8FoFkmZSEQLPkGtKj
+ 5eWSDiqaTvzfPHy/B9+JaejGLntTX3lwAk/WgYGBr54xhneleAfxCUA7/X0qneyDds
+ xJJYOKBi8xkD/09xXUtkGVGVDLPoDZeevyQts+tsLDtH3KEhRtuHHSIDqNDWmFcpNi
+ 3Wc6GM89rPxWw==
+Date: Sun, 13 Feb 2022 13:23:06 +0800
+From: Shawn Guo <shawnguo@kernel.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Subject: Re: [PATCH v3 3/5] ARM: dts: imx6qdl-vicut1: add CAN termination
+ support
+Message-ID: <20220213052305.GP4909@dragon>
+References: <20220211133035.2321330-1-o.rempel@pengutronix.de>
+ <20220211133035.2321330-4-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220211133035.2321330-4-o.rempel@pengutronix.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,43 +54,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robin van der Gracht <robin@protonic.nl>, David Airlie <airlied@linux.ie>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ David Jander <david@protonic.nl>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In rare cases, the bridge may not start up correctly, which usually
-leads to no display output. In case this happens, warn about it in
-the kernel log.
+On Fri, Feb 11, 2022 at 02:30:33PM +0100, Oleksij Rempel wrote:
+> The gpio1 0 pin is controlling CAN termination, not USB H1 VBUS. So,
+> remove wrong regulator and assign this gpio to new DT CAN termnation
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Sigh, the typo is still there with a new version.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 19daaddd29a41..1d7c154ea1d79 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -488,6 +488,11 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
- 	/* Clear all errors that got asserted during initialization. */
- 	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
- 	regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
-+
-+	usleep_range(10000, 12000);
-+	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-+	if (pval)
-+		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
- }
- 
- static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
--- 
-2.34.1
+Fixed it up and applied the series.
 
+Shawn
+
+> property.
+> 
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+>  arch/arm/boot/dts/imx6qdl-vicut1.dtsi | 12 ++----------
+>  1 file changed, 2 insertions(+), 10 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
+> index b9e305774fed..1ac7e13249d2 100644
+> --- a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
+> +++ b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
+> @@ -126,15 +126,6 @@ reg_3v3: regulator-3v3 {
+>  		regulator-max-microvolt = <3300000>;
+>  	};
+>  
+> -	reg_h1_vbus: regulator-h1-vbus {
+> -		compatible = "regulator-fixed";
+> -		regulator-name = "h1-vbus";
+> -		regulator-min-microvolt = <5000000>;
+> -		regulator-max-microvolt = <5000000>;
+> -		gpio = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+> -		enable-active-high;
+> -	};
+> -
+>  	reg_otg_vbus: regulator-otg-vbus {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "otg-vbus";
+> @@ -212,6 +203,8 @@ IMX_AUDMUX_V2_PTCR_SYN		IMX_AUDMUX_V2_PDCR_RXDSEL(0)
+>  &can1 {
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&pinctrl_can1>;
+> +	termination-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+> +	termination-ohms = <150>;
+>  	status = "okay";
+>  };
+>  
+> @@ -492,7 +485,6 @@ &uart5 {
+>  };
+>  
+>  &usbh1 {
+> -	vbus-supply = <&reg_h1_vbus>;
+>  	pinctrl-names = "default";
+>  	phy_type = "utmi";
+>  	dr_mode = "host";
+> -- 
+> 2.30.2
+> 
