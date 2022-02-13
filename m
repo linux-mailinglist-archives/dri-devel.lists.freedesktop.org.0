@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040414B382D
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Feb 2022 22:15:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA194B38D3
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Feb 2022 02:45:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC4910E33E;
-	Sat, 12 Feb 2022 21:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B068B10E24E;
+	Sun, 13 Feb 2022 01:45:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26CF210E33E
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Feb 2022 21:15:37 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id f4f3cc90-8c48-11ec-b2df-0050568cd888;
- Sat, 12 Feb 2022 21:15:51 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39E6310E23A
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Feb 2022 01:45:05 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id B8055194B37;
- Sat, 12 Feb 2022 22:15:35 +0100 (CET)
-Date: Sat, 12 Feb 2022 22:15:32 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v1 1/9] drm/bridge: add DRM_BRIDGE_STATE_OPS macro
-Message-ID: <YggjdD3O4oaJbfPa@ravnborg.org>
-References: <20220206154405.1243333-1-sam@ravnborg.org>
- <20220206154405.1243333-2-sam@ravnborg.org>
- <YgG5snx6y69SKU6w@pendragon.ideasonboard.com>
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id C047382F73;
+ Sun, 13 Feb 2022 02:45:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1644716703;
+ bh=7ePAflYhculF4OSjAB1Dz5VMUdLgF7AjJZ0k6nObJA0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HJTv8l+FaKjJRfHyT8luWhsjCHddyshI1wJ8mBxsP+4SQg2cNyePimWiAjTRz4tQA
+ CiyvThhvS1PpBs+ipuzzmN9SUVRsI4z9brXXBAjrxrNiMGcFdIztwTgoVz8K6nZ5Yc
+ vOa0Mh8sn1OmJXRQssaG5vuOw5XN/7GSjN64thV2Z9pXa3DPD7eXb88gTg+1FRIlS4
+ vMJBYyUh1TbGgYf2uxuG2usVDdYIyyUxyoJpTGB9XAP9UDhYbsnoUEM+NFnsMNdc7c
+ SLDQ0RPU+pL2Cgb7oAFdcYP1tDhX8ZEd0jClXGeUIdbfA9Z7FtN+WHn8rILqf2PXn/
+ uYH5u22PAYDSw==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/bridge: lt9611: Switch to atomic operations
+Date: Sun, 13 Feb 2022 02:44:42 +0100
+Message-Id: <20220213014443.448080-1-marex@denx.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YgG5snx6y69SKU6w@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,83 +51,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Philip Chen <philipchen@chromium.org>,
- Jitao Shi <jitao.shi@mediatek.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- dri-devel@lists.freedesktop.org,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: Marek Vasut <marex@denx.de>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+Use the atomic version of the enable/disable operations to continue the
+transition to the atomic API. This will be needed to access the mode
+from the atomic state.
 
-On Tue, Feb 08, 2022 at 02:30:42AM +0200, Laurent Pinchart wrote:
-> Hi Sam,
-> 
-> Thank you for the patch.
-> 
-> On Sun, Feb 06, 2022 at 04:43:57PM +0100, Sam Ravnborg wrote:
-> > The DRM_BRIDGE_STATE_OPS can be used as shortcut for bridge drivers that
-> > do not subclass drm_bridge_state to assign the default operations for
-> > reset, duplicate and destroy of the state.
-> > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Douglas Anderson <dianders@chromium.org>
-> > Cc: Andrzej Hajda <a.hajda@samsung.com>
-> > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > Cc: Robert Foss <robert.foss@linaro.org>
-> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > Cc: Jonas Karlman <jonas@kwiboo.se>
-> > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > ---
-> >  include/drm/drm_bridge.h | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> > 
-> > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> > index 061d87313fac..fc00304be643 100644
-> > --- a/include/drm/drm_bridge.h
-> > +++ b/include/drm/drm_bridge.h
-> > @@ -935,4 +935,16 @@ static inline struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
-> >  }
-> >  #endif
-> >  
-> > +/**
-> > + * DRM_BRIDGE_STATE_OPS - Default drm_bridge state funcs
-> 
-> I'd name the macro DRM_BRIDGE_STATE_DEFAULT_OPS.
-OK, done.
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: John Stultz <john.stultz@linaro.org>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/bridge/lontium-lt9611.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-> 
-> > + *
-> > + * Bridge driver that do not subclass &drm_bridge_state can use the helpers
-> > + * for reset, duplicate, and destroy. This macro provides a shortcut for
-> > + * setting the helpers in the &drm_bridge_funcs structure.
-> > + */
-> > +#define DRM_BRIDGE_STATE_OPS \
-> > +	.atomic_reset = drm_atomic_helper_bridge_reset,				\
-> > +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,	\
-> > +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state
-> 
-> I'm not a big fan of such macros for a small number of operations, as I
-> find that it obfuscates the code a bit, but that could change once I get
-> used to the new macro :-)
-The use of the macro is a nice signal that all the relevant default
-operations are specified - no need to look up if all are included.
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index feb128a4557dc..b3b4df2f744f8 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -700,7 +700,9 @@ lt9611_connector_mode_valid(struct drm_connector *connector,
+ }
+ 
+ /* bridge funcs */
+-static void lt9611_bridge_enable(struct drm_bridge *bridge)
++static void
++lt9611_bridge_atomic_enable(struct drm_bridge *bridge,
++			    struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+ 
+@@ -721,7 +723,9 @@ static void lt9611_bridge_enable(struct drm_bridge *bridge)
+ 	regmap_write(lt9611->regmap, 0x8130, 0xea);
+ }
+ 
+-static void lt9611_bridge_disable(struct drm_bridge *bridge)
++static void
++lt9611_bridge_atomic_disable(struct drm_bridge *bridge,
++			     struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+ 	int ret;
+@@ -856,7 +860,9 @@ static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
+ 	lt9611->sleep = false;
+ }
+ 
+-static void lt9611_bridge_post_disable(struct drm_bridge *bridge)
++static void
++lt9611_bridge_atomic_post_disable(struct drm_bridge *bridge,
++				  struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+ 
+@@ -919,13 +925,17 @@ static void lt9611_bridge_hpd_enable(struct drm_bridge *bridge)
+ static const struct drm_bridge_funcs lt9611_bridge_funcs = {
+ 	.attach = lt9611_bridge_attach,
+ 	.mode_valid = lt9611_bridge_mode_valid,
+-	.enable = lt9611_bridge_enable,
+-	.disable = lt9611_bridge_disable,
+-	.post_disable = lt9611_bridge_post_disable,
+ 	.mode_set = lt9611_bridge_mode_set,
+ 	.detect = lt9611_bridge_detect,
+ 	.get_edid = lt9611_bridge_get_edid,
+ 	.hpd_enable = lt9611_bridge_hpd_enable,
++
++	.atomic_enable = lt9611_bridge_atomic_enable,
++	.atomic_disable = lt9611_bridge_atomic_disable,
++	.atomic_post_disable = lt9611_bridge_atomic_post_disable,
++	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset = drm_atomic_helper_bridge_reset,
+ };
+ 
+ static int lt9611_parse_dt(struct device *dev,
+-- 
+2.34.1
 
-I have on my TODO to update all relevant bridge drivers to use it.
-
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> > +
-> >  #endif
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
