@@ -1,82 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4254B4506
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 09:57:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B134B4515
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:00:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57BCE10E1C7;
-	Mon, 14 Feb 2022 08:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA4A910E230;
+	Mon, 14 Feb 2022 09:00:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7FC310E1FC
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 08:57:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644829048;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=69HvyvUIhOkkZrR25T0A4ak3h9jrAFSNcZowRzKJYOE=;
- b=S+8esS/sO8zKkBRL9PTA+HE1LGGv0nZFBSFSSwTogQ6JAmOuHsycMbyFO3/IJhoc7CqdWg
- Dve8vOC5kAHRTyg+RjZI3LtfcJiPVSZE9ycK4IClp3qNjeRn+KkJeO7uvuYjif6d7Dhb61
- HUTvl/HRjBaltMXKcHhqnrt1Tq0es+g=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-210-qyHfF4oSOja6sV3IY6dBzg-1; Mon, 14 Feb 2022 03:57:25 -0500
-X-MC-Unique: qyHfF4oSOja6sV3IY6dBzg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- j8-20020adfc688000000b001e3322ced69so6633413wrg.13
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 00:57:25 -0800 (PST)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73AFD10E20D
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:00:02 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id bu29so23937663lfb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 01:00:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=5l+v5pzNn5KQVnCblsmvtHCF/M7BFv5udnT/OOc7mTI=;
+ b=T22CPkeKleiEtfoVS9g2HIynFn43DvOSEhaNAsox1+oZQZIJ5VYAmqM6fOIhGPjNGR
+ l/ddwTCM5DeYuEmDzmb1FjFva1oj73R7Ab5EW7J/fILB0mAERhcdaPHfN9GPY8zt3ZJq
+ uP+1jMPX+wqmhIIGCCyEWX4dUe96jnQUkyuGzG8xL+xN/Vc4YXTucJjHv4PHgTxe5FQu
+ cSqahqXl125mcNUwnJ9G/Olk5Apz6EMWQfl/oJJe5ZK0awgGiiFisMQ/6TWS0Fzi2f8w
+ dPyva1LWfjzn9Xi9k2SVdZwTryQenS7blMt5WeVLi9IwgYoFRCH9BfpW782ome9OMtZp
+ ns2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=69HvyvUIhOkkZrR25T0A4ak3h9jrAFSNcZowRzKJYOE=;
- b=RXzi/84WGfN4jxMnwlz1v47Wl9bbVmLbWro5M8jZh81Ek4NmtaX/415IukZAek6eAx
- eFeW2lunJK6GHmMCPH1130VxVIpSVZcctPfztRGOQpFlkapH3mS12qlRjcedeer83N/w
- NjVruHWK6kGUwwO4OLVZP6ePJGcicuCSI/n89r34TPB2OuUKKKyp0xDwPEfms5sbHlag
- x+Tmw5aPAOQhmoAFBCQCYbpeTdKGB84+1gJHskUOuriduYAAagiP7ODmL2/CU37IH16T
- xrCGZtJRosOG5TO++PAnxRoRQRS0dM3oktvX87/qWOvX+MUE/4dKas/xPeryb3aq7VRe
- R6Ig==
-X-Gm-Message-State: AOAM532EjDvbmXVuzMtv61MonI92kRzRbRcGkycfFUQ5cRtlUFwpQrKV
- dVzRYYzeh05IiPIUBWSnF898RCD8K7ne5uWbqufD5NqiZyTzhV35xrVqHUJrQiX4bTjkZofBf1Z
- Tg5s1q6pYhkCMOBEqAW80eO/8xkMO
-X-Received: by 2002:a05:600c:501f:: with SMTP id
- n31mr10133004wmr.141.1644829044200; 
- Mon, 14 Feb 2022 00:57:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyLJdMQROn0HBjGMEca6+PzxDVdcjo/+C+qxpaxDMr5SR2UrWB2rcNzjEWlQvJ11E6dtoU4Jw==
-X-Received: by 2002:a05:600c:501f:: with SMTP id
- n31mr10132993wmr.141.1644829043953; 
- Mon, 14 Feb 2022 00:57:23 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id l20sm11561086wmq.22.2022.02.14.00.57.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Feb 2022 00:57:23 -0800 (PST)
-Message-ID: <e50211b1-08fa-de09-8948-664493423c33@redhat.com>
-Date: Mon, 14 Feb 2022 09:57:21 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=5l+v5pzNn5KQVnCblsmvtHCF/M7BFv5udnT/OOc7mTI=;
+ b=UF+c4dJ84K4Dd1d8WsBCixlPqlhticxPtZ5DSzrwS+QwXU3nF25ljxXi5P1WkSqtCT
+ g+4plXOYaanz1W7rUctyNi3rQvAqCrzf2mpKUJffkQBhoAMSNKu/qFN+VzO2h08dBRmh
+ 0i1tEAjuUyFBGAYQ2B6SDyJHbydVeRhyv2SeRHdv5cz0K0Qarg44YrDakvUh7SlNbgf2
+ U/voP5rf2hIlNvlgLR3Pxp2zWqyxZ4jzYT169YkalwjjJKKIW2zo6LMJ/RxvwUBdcjcL
+ 0itSwAjbnx+kPuFeyTwe44w4RHZ9+Vz1NXcoYHszdgbozGk8qBLQlZgNW1oag7LVplka
+ ibTw==
+X-Gm-Message-State: AOAM530erLI2NPK4n5+IR5gJmeA2ZOn2K4iLI7H1XyACthx6B9++H8eX
+ TJ5utH+kyhxq9/z7GI2xqDc=
+X-Google-Smtp-Source: ABdhPJxhJC87IskBvz+AIuUlSPJygS43mqmjho06rx5ZeM+1LclmLcZl0OXccErvkbzjxDrFF0bZfw==
+X-Received: by 2002:a05:6512:70a:: with SMTP id
+ b10mr10225611lfs.672.1644829200579; 
+ Mon, 14 Feb 2022 01:00:00 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id bp37sm3814816lfb.86.2022.02.14.00.59.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Feb 2022 01:00:00 -0800 (PST)
+Date: Mon, 14 Feb 2022 10:59:50 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH] drm/doc: Clarify what ioctls can be used on render nodes
+Message-ID: <20220214105950.7e399705@eldfell>
+In-Reply-To: <1644433047-20753-1-git-send-email-quic_jhugo@quicinc.com>
+References: <1644433047-20753-1-git-send-email-quic_jhugo@quicinc.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 2/6] drm/format-helper: Add
- drm_fb_xrgb8888_to_mono_reversed()
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220211143358.3112958-1-javierm@redhat.com>
- <20220211143358.3112958-3-javierm@redhat.com>
- <CAMuHMdUeqXs2PeV9s8+edPpOGodRT=it3g+fOTB7DuTuW2J9ZA@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAMuHMdUeqXs2PeV9s8+edPpOGodRT=it3g+fOTB7DuTuW2J9ZA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/=kW+PCAj.SVDDFlVSKplH9l";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,81 +68,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: tzimmermann@suse.de, corbet@lwn.net, airlied@linux.ie,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Geert,
+--Sig_/=kW+PCAj.SVDDFlVSKplH9l
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your feedback.
+On Wed, 9 Feb 2022 11:57:27 -0700
+Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
 
-On 2/12/22 16:54, Geert Uytterhoeven wrote:
+> The documentation for render nodes indicates that only "PRIME-related"
+> ioctls are valid on render nodes, but the documentation does not clarify
+> what that means.  If the reader is not familiar with PRIME, they may
+> beleive this to be only the ioctls with "PRIME" in the name and not other
+> ioctls such as set of syncobj ioctls.  Clarify the situation for the
+> reader by referencing where the reader will find a current list of valid
+> ioctls.
+>=20
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> ---
+>=20
+> I was confused by this when reading the documentation.  Now that I have
+> figured out what the documentation means, I would like to add a clarifica=
+tion
+> for the next reader which would have helped me.
+>=20
+>  Documentation/gpu/drm-uapi.rst | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
+rst
+> index 199afb5..ce47b42 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -148,7 +148,9 @@ clients together with the legacy drmAuth authenticati=
+on procedure.
+>  If a driver advertises render node support, DRM core will create a
+>  separate render node called renderD<num>. There will be one render node
+>  per device. No ioctls except PRIME-related ioctls will be allowed on
+> -this node. Especially GEM_OPEN will be explicitly prohibited. Render
+> +this node. Especially GEM_OPEN will be explicitly prohibited. For a
+> +complete list of driver-independent ioctls that can be used on render
+> +nodes, see the ioctls marked DRM_RENDER_ALLOW in drm_ioctl.c  Render
+>  nodes are designed to avoid the buffer-leaks, which occur if clients
+>  guess the flink names or mmap offsets on the legacy interface.
+>  Additionally to this basic interface, drivers must mark their
 
-[snip]
+Hi,
 
->> +
->> +               for (i = start; i < end; i++) {
->> +                       unsigned int x = xb * 8 + i;
->> +
->> +                       byte >>= 1;
->> +                       if (src[x] >> 7)
->> +                               byte |= BIT(7);
->> +               }
-> 
->     x = xb * 8;
->     for (i = start; i < end; i++) {
->             byte >>= 1;
->             byte |= src[x + i] & BIT(7);
->     }
-> 
+I think this is correct, but I didn't actually check the code, so
 
-I think the original version from Noralf is easier to read and understand.
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
-It makes explicit that the bit is set if the grayscale value is >= 128.
 
-[snip]
+Thanks,
+pq
 
->> +void drm_fb_xrgb8888_to_mono_reversed(void *dst, unsigned int dst_pitch, const void *vaddr,
->> +                                     const struct drm_framebuffer *fb, const struct drm_rect *clip)
->> +{
+--Sig_/=kW+PCAj.SVDDFlVSKplH9l
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-[snip]
+-----BEGIN PGP SIGNATURE-----
 
->> +       u8 *mono = dst, *gray8;
->> +       u32 *src32;
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmIKGgYACgkQI1/ltBGq
+qqcfSBAAi7KZBj4UfBbRpE+DZy55fcnl4riq7F9On+Dv7toIXXlgYEJw8EW22vct
+kCgVOHsNE2aL6qheIfk1p8QZysm8xYVByaM+w/qSBQLwAJHxmJsN12YsDohYQVgX
+C64vtWfUPo1Ckf9dWjNKVMv+xpjMB0O4WkpFluzi4hNC4QnycbdROLvgOwnlhfdA
+u53H9Nn3egNd9pkaXp3nS6yncUilzp6XPiR8PnXaCdYddLMAlC0TuCBjpkhP5hKN
+ELamOUEY7lhuJHon7xz5HCCB2NbXW2+CleHBole3L65Tloju+Kw2kMc8F4e4wIze
+gGAMD4/D4dri6F9tErrYaRSLg9Bps19qauCCxAdowfRZ7VHgsJYHMg5OBWwnHXb+
+ytwCHC3NP9vHav3AcTSUdzpa5Oj6mHQR4Bq+BAcy78Cz2jbqA51ReyCZ7wZC7rmJ
+aVVp4/ZY7iqbCSVqa0YwPadvEIgpJoxZrwzQnhZ6pPtfABYYyY6lUXr/wCpQBNPo
+QOSEDdPQK2LReDWVpu/2pO8jF4fbhy0m2hoWJns+YeKhn1RAIhZwEeftFnkp6s6t
+Q4oNnwehLaUIImAJre2IKRtWThwIVJIJD0Fc+XhNQENVHB11TFEzSWkrxAIVM3wd
+glZ7Fb61Z6hupf3ZJkB8ErtdGqTskaTNHse71qcAmVl+4AcNFfg=
+=nqHa
+-----END PGP SIGNATURE-----
 
-[snip]
-
->> +        *
->> +        * Allocate a buffer to be used for both copying from the cma
->> +        * memory and to store the intermediate grayscale line pixels.
->> +        */
->> +       src32 = kmalloc(len_src32 + linepixels, GFP_KERNEL);
->> +       if (!src32)
->> +               return;
->> +
->> +       gray8 = (u8 *)src32 + len_src32;
-> 
-> The cast can be removed if src32 is changed to "void *".
-> For symmetry, gray8 and mono can be changed to "void *", too.
->
-
-Yes, but these being "u32 *" and "u8 *" also express that the source buffer
-contains 32-bit XRGB8888 pixels, the intermediate buffer a 8-bit grayscale
-pixel format and the destination buffer a 8-bit packed reversed monochrome.
-
-Using "void *" for these would make that less clear when reading the code IMO.
-
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+--Sig_/=kW+PCAj.SVDDFlVSKplH9l--
