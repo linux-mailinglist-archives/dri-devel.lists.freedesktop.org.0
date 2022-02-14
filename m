@@ -1,53 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69B54B4902
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:18:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B262F4B4903
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:18:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41E0C10E50B;
-	Mon, 14 Feb 2022 10:18:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 551EF10E4F6;
+	Mon, 14 Feb 2022 10:18:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
- [IPv6:2607:f8b0:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE9410E4F5
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 10:18:22 +0000 (UTC)
-Received: by mail-il1-x12e.google.com with SMTP id m8so11906750ilg.7
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 02:18:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YUDVx4TIFTRbJIuv2rupyK084bb2oTVATeZ8Fn6KFXI=;
- b=Vy5TjXpR1UvKyYsGrQDajSEdq6i7nkBrs9dNkT8ZOiRnZH7iyE4oeURkMBOCh00XOL
- yj1cTNcNbUutaQQX2/qLgSLKlQ17IGKHKIwi1Dz9PkMqdGMt4ShElCGNHNNinwT6mHPK
- oMptJF1N2bFC6U+Eyf21jelIvX6riTkU8CImg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YUDVx4TIFTRbJIuv2rupyK084bb2oTVATeZ8Fn6KFXI=;
- b=MFvLalrkASCBr45m4zKrXNgSKZAJdTZSQYZxwnTr6Q+NMURD7XVfaiNyoGAEmltgdJ
- OSJLMkt79dLzl+Uhbr2DgDN7kc8zJK+tuf2FpZ9dc1TO5pGhR8SwcCe7X9q5rRPRJ82K
- ao1NJGQjR3yY3KFhk4cq1/Eg2mmV0SPB63hCCYBTcRme7QLauCCILjVM7jHb3YmPCrsG
- +UuWZ4HBIZuo/fTsNvvybPTTpX1dagyVPRQF8Cx1dO1uKfdlqSmN3jtDhJD7wD34C7HS
- 1B/6EWqjUJ1Hli7z5Z2ukmQDsHtBAkoYNiPpiQtHpSYe65MabMagobU62eo8fGcUslbz
- i6SA==
-X-Gm-Message-State: AOAM530jk9YVqQJAKdE9d2YYYFsubQlw5NzJ7tbG7ud8EGXREBf8QghJ
- zyr86mrRiZD4/Qps1svC/YYytXNaaUHfgbEBK4UqoA==
-X-Google-Smtp-Source: ABdhPJxouA9SM/xEm/8Xf2lg3Blaymfy9tRI6GOkeimZwqJOmKMUcENtZWCPXUvxeGblbu9sGRovxCTfui1pdv1kxmo=
-X-Received: by 2002:a92:d90b:: with SMTP id s11mr3230734iln.105.1644833901824; 
- Mon, 14 Feb 2022 02:18:21 -0800 (PST)
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AAB710E4F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 10:18:37 +0000 (UTC)
+Date: Mon, 14 Feb 2022 10:18:24 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v15 6/7] drm/ingenic: dw-hdmi: make hot plug detection
+ work for CI20
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <OYHA7R.1BKMZ91MRSP31@crapouillou.net>
+In-Reply-To: <88297a6ddd9d9eaf78c605e23030b7877bb521d8.1644681054.git.hns@goldelico.com>
+References: <cover.1644681054.git.hns@goldelico.com>
+ <88297a6ddd9d9eaf78c605e23030b7877bb521d8.1644681054.git.hns@goldelico.com>
 MIME-Version: 1.0
-References: <20220213063151.3321331-1-hsinyi@chromium.org>
- <7efb2a87-1b8e-5bab-651f-ffa21ea8d716@collabora.com>
-In-Reply-To: <7efb2a87-1b8e-5bab-651f-ffa21ea8d716@collabora.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Mon, 14 Feb 2022 18:17:56 +0800
-Message-ID: <CAJMQK-hCD7sCTODV_WPxC_eX27XQ3dWyhHJjp96KWNjzuPvquw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] drm/panel: Add inx Himax8279d MIPI-DSI LCD panel
- driver
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,42 +36,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Paul Boddie <paul@boddie.org.uk>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-mips@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, letux-kernel@openphoenux.org,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 14, 2022 at 6:10 PM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 13/02/22 07:31, Hsin-Yi Wang ha scritto:
-> > From: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
-> >
-> > Add STARRY 2081101QFH032011-53G 10.1" WUXGA TFT LCD panel
-> >
-> > Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
->
-> I have no way of testing this driver but the code itself looks good to me,
-> so, strictly for the code:
->
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->
+Hi Nikolaus,
 
-This driver is used by ASUS Chromebook Detachable CZ1 [1]. The dts
-will be accepted after this panel is accepted.
+Le sam., f=E9vr. 12 2022 at 16:50:54 +0100, H. Nikolaus Schaller=20
+<hns@goldelico.com> a =E9crit :
+> There is no hpd-gpio installed on the CI20 board HDMI connector.
+> Hence there is no hpd detection by the connector driver and we
+> have to enable polling by the dw-hdmi driver.
+>=20
+> We need to set .poll_enabled but that struct component
+> can only be accessed in the core code. Hence we use the public
+> setter function drm_kms_helper_hotplug_event().
 
-[1] https://patchwork.kernel.org/project/linux-mediatek/patch/20211213162856.235130-1-hsinyi@chromium.org/
+As I said in your v13 - if you move your patch [2/7] after the patch=20
+[5/7] then you can drop this patch (merge it with the patch that=20
+introduces ingenic-dw-hdmi.c).
 
-> > ---
-> > v2->v3:
-> > rebase to next-20220211
-> > ---
-> >   drivers/gpu/drm/panel/Kconfig                 |   9 +
-> >   drivers/gpu/drm/panel/Makefile                |   1 +
-> >   .../gpu/drm/panel/panel-innolux-himax8279d.c  | 515 ++++++++++++++++++
-> >   3 files changed, 525 insertions(+)
-> >   create mode 100644 drivers/gpu/drm/panel/panel-innolux-himax8279d.c
-> >
+Otherwise between the introduction of the driver and the hotplug=20
+detection fix, the driver is not usable.
+
+Cheers,
+-Paul
+
+>=20
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> ---
+>  drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c=20
+> b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
+> index 34e986dd606cf..90547a28dc5c7 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
+> @@ -55,6 +55,8 @@ ingenic_dw_hdmi_mode_valid(struct dw_hdmi *hdmi,=20
+> void *data,
+>  	if (mode->clock > 216000)
+>  		return MODE_CLOCK_HIGH;
+>=20
+> +	dw_hdmi_enable_poll(hdmi, true);
+> +
+>  	return MODE_OK;
+>  }
+>=20
+> --
+> 2.33.0
+>=20
+
+
