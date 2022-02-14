@@ -1,48 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B464B5059
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 13:40:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97EE54B506D
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 13:43:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA13E10E30F;
-	Mon, 14 Feb 2022 12:40:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79C0510E358;
+	Mon, 14 Feb 2022 12:43:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5133210E30F
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 12:40:21 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B5B0AB80E91;
- Mon, 14 Feb 2022 12:40:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4250FC340E9;
- Mon, 14 Feb 2022 12:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644842418;
- bh=IQKHs148sOwzSOJ9x7YM1yay1qSuKlbeZzKnX8pviEM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rWhH+LSokZ3Zs/QiXpu8o5Ki+KnAslQZ/LWSTzG9fMRcf+8pxIVHNAgtUU1oj6cvU
- ueXKCU7WZKJ/wRK68K+zEAjeJMdaM7s47AyvQ25N8LoFbUMh7pKIayN3VgCmqiQ99S
- EQR52sV8lX24QDh5Y6RmFhExf1wnMLker7AQ7F8D4NFlTeWtaasxrCVfhF99LVv4oK
- GCeaHeVIzO4MU8vxm/xgXbvG8u+tFoMpgRZSLd4+HwKHyKf5X75+YbpnFVMkkgUSk6
- fDvjyddaRrvSTNImWVKyRUoZuzRyOMhMV3cPUcakLZra9OnBOGXZW/szRhs+oQ3MYF
- 1e2CJ3Ew+jpfQ==
-Date: Mon, 14 Feb 2022 12:40:08 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Yong Wu <yong.wu@mediatek.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D03E10E351
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 12:43:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 5197F1F4384F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1644842626;
+ bh=IvY7iJXZuxVISQOzxTkzNan7PoRvkvKAMjY1GwjciqA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QXQIDpL+wlcUJSteZlDsqVfHd73wuzzjWwwDOoEFCt2econPievKZC/1oAO4p4kkI
+ Rw0W4lQ4fe47IkCH0j3J7XacuvmspOj0yZSG9NV+mDcZObophnvnWKosO5kKLfQwm3
+ SWAdkas796uUKoJn8PJauQoPFyK5U8w5KJ3m+CU2UpSPLH405q5Ic07RMybfGVeKGx
+ Zu/Wuog64S0en+WH1eYPiERDOEAEa/CdYr+Mo1tNNKxMzpwGwSrX70H/haQC71JmtV
+ s4VHzu3D1EW9XrQAYjzaDOn4GDiDAq5z6BzvHwQs/m4bKByE40tK8IXG8QvPNiSZj1
+ qorX5LpeI+OsA==
+Message-ID: <67b2e6e8-e4fe-06ca-3d12-9bba83743989@collabora.com>
+Date: Mon, 14 Feb 2022 13:43:42 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
 Subject: Re: [PATCH 20/23] ASoC: codecs: wcd938x: Make use of the helper
  component_compare/release_of
-Message-ID: <YgpNqLQzpx4J6d8K@sirena.org.uk>
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>, Yong Wu <yong.wu@mediatek.com>
 References: <20220214060819.7334-1-yong.wu@mediatek.com>
  <20220214060819.7334-21-yong.wu@mediatek.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="kmbocLNYrfZ7Ic0Q"
-Content-Disposition: inline
-In-Reply-To: <20220214060819.7334-21-yong.wu@mediatek.com>
-X-Cookie: Am I in GRADUATE SCHOOL yet?
+ <YgpNqLQzpx4J6d8K@sirena.org.uk>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <YgpNqLQzpx4J6d8K@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,7 +66,6 @@ Cc: alsa-devel@alsa-project.org, Liam Girdwood <lgirdwood@gmail.com>,
  Arnd Bergmann <arnd@arndb.de>, linux-mediatek@lists.infradead.org,
  Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
  Jaroslav Kysela <perex@perex.cz>, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  srv_heupstream@mediatek.com, Stephen Boyd <sboyd@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
  Tomasz Figa <tfiga@chromium.org>, iommu@lists.linux-foundation.org,
@@ -76,30 +73,19 @@ Cc: alsa-devel@alsa-project.org, Liam Girdwood <lgirdwood@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Il 14/02/22 13:40, Mark Brown ha scritto:
+> On Mon, Feb 14, 2022 at 02:08:16PM +0800, Yong Wu wrote:
+>> Use the common compare/release helpers from component.
+> 
+> What's the story with dependencies here?  I've just got this one patch
+> with no cover letter...
 
---kmbocLNYrfZ7Ic0Q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hello Mark,
+I agree, the cover letter should be sent to everyone; Yong, please add the
+proper Ccs to it next time.
 
-On Mon, Feb 14, 2022 at 02:08:16PM +0800, Yong Wu wrote:
-> Use the common compare/release helpers from component.
+Anyway, context:
+https://patchwork.kernel.org/project/linux-mediatek/cover/20220214060819.7334-1-yong.wu@mediatek.com/
 
-What's the story with dependencies here?  I've just got this one patch
-with no cover letter...
-
---kmbocLNYrfZ7Ic0Q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmIKTagACgkQJNaLcl1U
-h9ChNwf9H0Bf8Q4NJFX6MpkURJU1WTUkJZ8s9zjT9F5003kszR2qdhtG8TCUYisF
-m+Ywr7okO1EGsbMSae1gxr0q5In/J/buVsEnIjl42Be7doIn1xXcDB+3tjDyi4aH
-ZN/sHluDMyiwzeBgN2jiu99gsgHDVXThtPOdyMLab2QMCVo6PEox6vsKyIb6vO2F
-Rl7BLwS916U45mWEFF/XAJLWV7QPG5f43JvKlSkjKLgJhFP8H/cxKzlNZclRAdEi
-fSWK497fgwmyoHrXr2inZNyDmAh20f9np1WMgLBl2sJwN8LnmWSDpp76C/XfRV0T
-Qp7CAMe19I/TqvJsaFw7oluNeBT7Yg==
-=2URH
------END PGP SIGNATURE-----
-
---kmbocLNYrfZ7Ic0Q--
+Cheers,
+Angelo
