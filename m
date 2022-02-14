@@ -2,56 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4634B5135
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 14:10:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDFC4B5191
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 14:23:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 791D610E541;
-	Mon, 14 Feb 2022 13:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D261810E569;
+	Mon, 14 Feb 2022 13:23:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [81.169.146.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F64F10E540
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 13:10:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1644844232;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=nNzXcocpTLziiaXmJXtXXzZBikFlCFD2wzE+bmt0ETw=;
- b=j0JvdQarOl8QpUohjaJWAQGyijsKWzKTLGKxsVfCIblPtaURsH1lTToLD+8UoMhlYX
- /hoQ/oyp/mY1UhNg9iE4pW+w8DgIQKEc5Z+aJ51WlfbZHUbYxM5kpIudNUWpnuSHqljK
- dgasBbt43oSuXsfm82Ki3L9I09EIxqQj8KK15KiZGHadefAGFGmxMqXuga+RkLfrdE7+
- 6Q2uWphFmQGH1WgOHHDhLQNK3ukqbZVJ5iofPMWZpUcV8rwab7Mu0JolL4BFDlV0MyHB
- uwFyRAmVXbfuq3W7KJ/zjzDcCfyedSJZeGmbc1YhP+U38NzWSPx5uy03PqvN71Kk9jvd
- Z/Qw==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3jcR+"
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.39.0 DYNA|AUTH)
- with ESMTPSA id L29417y1EDAWyqv
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Mon, 14 Feb 2022 14:10:32 +0100 (CET)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v15 1/7] drm/ingenic: Fix support for JZ4780 HDMI output
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <3DOA7R.Q4SJK4LGL46R2@crapouillou.net>
-Date: Mon, 14 Feb 2022 14:10:31 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <EAF5E05C-EF33-4064-B9C3-D59C19815D5B@goldelico.com>
-References: <cover.1644681054.git.hns@goldelico.com>
- <9d3a2000d2bb014f1afb0613537bdc523202135d.1644681054.git.hns@goldelico.com>
- <PQHA7R.CIX6XS4CFLMM3@crapouillou.net>
- <CD0193A3-4E97-4B26-9D1F-1CFAD5B18506@goldelico.com>
- <U0OA7R.MYFTV5LL3N4A2@crapouillou.net>
- <93A6366F-1B51-459B-9927-04FCF730698E@goldelico.com>
- <3DOA7R.Q4SJK4LGL46R2@crapouillou.net>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3445.104.21)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFFE710E569
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 13:23:45 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id p9so14522924ejd.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 05:23:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=UzBd4GW7cdoz4EHMHmo3vyxA7tsHlSzkvFvCgPHfjtg=;
+ b=Wcr0eZJPtCAKVDu7uFM7zp0E5LtkdESvabOLviq4Mo0tNZtydy9YFEtePCxC0i90cs
+ f3LRcxyyLMA90PcA9XHzv785z2mynbg6fKO2hNPjn/4bMFyHLOoxV+YFZV0iHsPZkNXq
+ DkifX5wzaaepnCf86gtaW7kU+J8qazJ3lJ5YWa/1jzCuLrDA60Urblqt8RZYdP9Vz3sj
+ g3LPwjZTiGnkIZt7SKKmoXT0E5TKKAY58uTjzPm/YcG8GL3XB+PkNxUK/UNd5zmI+B0J
+ 7tjQMWpnhtwi/B8WkoGv1ph/ddNv1SrQI5T/RNK74tmJ29QZw3sUtSbG05mMtWKacyyQ
+ uXNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UzBd4GW7cdoz4EHMHmo3vyxA7tsHlSzkvFvCgPHfjtg=;
+ b=47mhZTqwnCdaPmpown+tumE+r7BYqEpucKFbc4uJqSd/LiYLcBUKRV6ranE6rD+lKt
+ lqj2UnjFV/1ax+32U+DXKZOgPrf+HzshF8ICKTZYt2fatQrzQjaQBVrtyRRQeH9lVELp
+ 2U2wmFqXLG+8g3dzw4c1DtyD9x3ewJnnX3/we+Xj3sZNU6cFiXik3MowNdHjhqlmHNPI
+ azpes8pOFxGnR1tPYfSIt3nLHBWWYeq12PV/Ax68649Rqhq3Q3bzYKMurhyIVWJzoa8C
+ eYCiNBRpbGTxs/ujpvVoadacWk5ZRSnQ2aPWhnl8nXTVSHkSE2QXpuedFayRpnWeNEGf
+ swxg==
+X-Gm-Message-State: AOAM530xiw2aEr0bsGoUZWoePFGOvO6L1d4t/b9qsbA+36+R+FCz2j0I
+ ttEGvDqeDngQJMOEs2nH3PE=
+X-Google-Smtp-Source: ABdhPJx3dRGZ6tdmBkBgJgxO1P0nhradBiMuBXcsJwNOZlwnYDNJUtuGV30U4FToAPqmcpmOe9AWiw==
+X-Received: by 2002:a17:906:7a5b:: with SMTP id
+ i27mr4130254ejo.276.1644845024177; 
+ Mon, 14 Feb 2022 05:23:44 -0800 (PST)
+Received: from ?IPV6:2a02:908:1252:fb60:2a37:737a:e023:f7be?
+ ([2a02:908:1252:fb60:2a37:737a:e023:f7be])
+ by smtp.gmail.com with ESMTPSA id eo7sm12470397edb.97.2022.02.14.05.23.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 05:23:43 -0800 (PST)
+Message-ID: <331d7611-2af6-cd22-7c7e-9e7188300d78@gmail.com>
+Date: Mon, 14 Feb 2022 14:23:42 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 02/11] drm/ttm: add common accounting to the resource mgr
+ v3
+Content-Language: en-US
+To: Matthew Auld <matthew.william.auld@gmail.com>
+References: <20220214093439.2989-1-christian.koenig@amd.com>
+ <20220214093439.2989-2-christian.koenig@amd.com>
+ <CAM0jSHO-h5i8yrX+eDf8P-5GL=4m-5t3ENkEb0HHjU3pU5fomw@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <CAM0jSHO-h5i8yrX+eDf8P-5GL=4m-5t3ENkEb0HHjU3pU5fomw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,56 +76,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Boddie <paul@boddie.org.uk>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-mips@vger.kernel.org, Ezequiel Garcia <ezequiel@collabora.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, letux-kernel@openphoenux.org,
- Maxime Ripard <maxime@cerno.tech>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ felix.kuehling@amd.com, ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 14.02.22 um 11:34 schrieb Matthew Auld:
+> On Mon, 14 Feb 2022 at 09:34, Christian König
+> <ckoenig.leichtzumerken@gmail.com> wrote:
+>> It makes sense to have this in the common manager for debugging and
+>> accounting of how much resources are used.
+>>
+>> v2: cleanup kerneldoc a bit
+>> v3: drop the atomic, update counter under lock instead
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> Reviewed-by: Huang Rui <ray.huang@amd.com> (v1)
+>> Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_resource.c | 30 ++++++++++++++++++++++++++++++
+>>   include/drm/ttm/ttm_resource.h     | 11 +++++++++--
+>>   2 files changed, 39 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+>> index ae40e144e728..bbb8a0f7aa14 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+>> @@ -41,6 +41,8 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>>                          const struct ttm_place *place,
+>>                          struct ttm_resource *res)
+>>   {
+>> +       struct ttm_resource_manager *man;
+>> +
+>>          res->start = 0;
+>>          res->num_pages = PFN_UP(bo->base.size);
+>>          res->mem_type = place->mem_type;
+>> @@ -50,6 +52,11 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>>          res->bus.is_iomem = false;
+>>          res->bus.caching = ttm_cached;
+>>          res->bo = bo;
+>> +
+>> +       man = ttm_manager_type(bo->bdev, place->mem_type);
+>> +       spin_lock(&bo->bdev->lru_lock);
+>> +       man->usage += bo->base.size;
+>> +       spin_unlock(&bo->bdev->lru_lock);
+>>   }
+>>   EXPORT_SYMBOL(ttm_resource_init);
+>>
+>> @@ -65,6 +72,9 @@ EXPORT_SYMBOL(ttm_resource_init);
+>>   void ttm_resource_fini(struct ttm_resource_manager *man,
+>>                         struct ttm_resource *res)
+>>   {
+>> +       spin_lock(&man->bdev->lru_lock);
+>> +       man->usage -= res->bo->base.size;
+>> +       spin_unlock(&man->bdev->lru_lock);
+>>   }
+>>   EXPORT_SYMBOL(ttm_resource_fini);
+>>
+>> @@ -166,6 +176,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
+>>          spin_lock_init(&man->move_lock);
+>>          man->bdev = bdev;
+>>          man->size = size;
+>> +       man->usage = 0;
+>>
+>>          for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+>>                  INIT_LIST_HEAD(&man->lru[i]);
+>> @@ -226,6 +237,24 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
+>>   }
+>>   EXPORT_SYMBOL(ttm_resource_manager_evict_all);
+>>
+>> +/**
+>> + * ttm_resource_manager_usage
+>> + *
+>> + * @man: A memory manager object.
+>> + *
+>> + * Return how many resources are currently used.
+> Maybe mention the units here?
+>
+> "Return how many resources are currently used, in bytes."
 
+Well exactly that's not correct. The whole idea here is that these are 
+driver defined units.
 
-> Am 14.02.2022 um 13:36 schrieb Paul Cercueil <paul@crapouillou.net>:
->=20
-> Hi,
->=20
-> Le lun., f=C3=A9vr. 14 2022 at 13:33:25 +0100, H. Nikolaus Schaller =
-<hns@goldelico.com> a =C3=A9crit :
->> Hi Paul,
->>> Am 14.02.2022 um 13:29 schrieb Paul Cercueil <paul@crapouillou.net>:
->>> Hi,
->>> Le lun., f=C3=A9vr. 14 2022 at 11:19:40 +0100, H. Nikolaus Schaller =
-<hns@goldelico.com> a =C3=A9crit :
->>>> Hi Paul,
->>>>> Am 14.02.2022 um 11:13 schrieb Paul Cercueil =
-<paul@crapouillou.net>:
->>>>> Hi,
->>>>> Le sam., f=C3=A9vr. 12 2022 at 16:50:49 +0100, H. Nikolaus =
-Schaller <hns@goldelico.com> a =C3=A9crit :
->>>>>> From: Paul Boddie <paul@boddie.org.uk>
->>>>>> We have to make sure that
->>>>>> - JZ_LCD_OSDC_ALPHAEN is set
->>>>>> - plane f0 is disabled and not seen from user-space
->>>>> Actually it will still be seen from user-space, but it won't be =
-possible to use it. So before applying I'll change this to:
->>>>> "plane f0 is disabled as it's not working yet"
->>>>> If that's OK with you.
->>>> Yes. You understand much better than me the implications...
->>> I reworded it to "plane f0 is disabled as it's not working yet", =
-added a Fixes: tag, and pushed this patch to drm-misc-next.
->> great and thanks.
->> So I drop it from v16.
->=20
-> Neil told me he'd review patch [4/7] this week so maybe hold off v16 =
-for a few days.
+E.g. for the AMDGPU OA and GWS resources it's essentially a hardware block.
 
-Ok.
+Regards,
+Christian.
 
-BR and thanks,
-Nikolaus
+>
+> Anyway,
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>
+>> + */
+>> +uint64_t ttm_resource_manager_usage(struct ttm_resource_manager *man)
+>> +{
+>> +       uint64_t usage;
+>> +
+>> +       spin_lock(&man->bdev->lru_lock);
+>> +       usage = man->usage;
+>> +       spin_unlock(&man->bdev->lru_lock);
+>> +       return usage;
+>> +}
+>> +EXPORT_SYMBOL(ttm_resource_manager_usage);
+>> +
+>>   /**
+>>    * ttm_resource_manager_debug
+>>    *
+>> @@ -238,6 +267,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+>>          drm_printf(p, "  use_type: %d\n", man->use_type);
+>>          drm_printf(p, "  use_tt: %d\n", man->use_tt);
+>>          drm_printf(p, "  size: %llu\n", man->size);
+>> +       drm_printf(p, "  usage: %llu\n", ttm_resource_manager_usage(man));
+>>          if (man->func->debug)
+>>                  man->func->debug(man, p);
+>>   }
+>> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+>> index 555a11fb8a7f..323c14a30c6b 100644
+>> --- a/include/drm/ttm/ttm_resource.h
+>> +++ b/include/drm/ttm/ttm_resource.h
+>> @@ -27,6 +27,7 @@
+>>
+>>   #include <linux/types.h>
+>>   #include <linux/mutex.h>
+>> +#include <linux/atomic.h>
+>>   #include <linux/dma-buf-map.h>
+>>   #include <linux/dma-fence.h>
+>>   #include <drm/drm_print.h>
+>> @@ -130,10 +131,15 @@ struct ttm_resource_manager {
+>>          struct dma_fence *move;
+>>
+>>          /*
+>> -        * Protected by the global->lru_lock.
+>> +        * Protected by the bdev->lru_lock.
+>>           */
+>> -
+>>          struct list_head lru[TTM_MAX_BO_PRIORITY];
+>> +
+>> +       /**
+>> +        * @usage: How much of the resources are used, protected by the
+>> +        * bdev->lru_lock.
+>> +        */
+>> +       uint64_t usage;
+>>   };
+>>
+>>   /**
+>> @@ -283,6 +289,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
+>>   int ttm_resource_manager_evict_all(struct ttm_device *bdev,
+>>                                     struct ttm_resource_manager *man);
+>>
+>> +uint64_t ttm_resource_manager_usage(struct ttm_resource_manager *man);
+>>   void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+>>                                  struct drm_printer *p);
+>>
+>> --
+>> 2.25.1
+>>
 
