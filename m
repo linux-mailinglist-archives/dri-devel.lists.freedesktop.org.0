@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AFF4B57F0
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 18:06:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C774B5834
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 18:11:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34FF410E20A;
-	Mon, 14 Feb 2022 17:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6978410E1E1;
+	Mon, 14 Feb 2022 17:11:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55CB210E1E1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 17:06:36 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E85A10E1E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 17:11:39 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id 1E71F1F43C01
+ (Authenticated sender: alyssa) with ESMTPSA id A71461F43C58
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1644858395;
- bh=8OiBok1lJ/PJZs7nKRMS8JpP3JTdqbTlg/lhpElOrkM=;
+ s=mail; t=1644858698;
+ bh=mOIHVEM5C9UVp2XYO3woFmVBYR18WhpWMPWVU08zD+M=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JFNVLYqf4VMx1IU9Wwn1iWDhIQy2gCL3aQAwxGgJtD/kCiiNOgWfmLjcLPaDGvFrd
- GJ09/BTzinpSUoRJgEEEd0HyjjSQ3LvvqI+zja1pC887TyvEjGwmjpDEmwOv0j6RPT
- A1pyo4EPcN9Phq4Rs9HNJdF56g88uDT5/cm14gZXG0y7az1FExsnP/akKA1inXdmi/
- vY3yHZdhJ6pH3sfb56QW+UMlltc3Z5Xyrlv9cHMEJXzTaeqT9ZxXFjwoPvAtASGi2z
- GuRVfUnD2yGzsXAa6uTPaI6TtgXJVV1Mek2qYOUsH5ZTF2Sm/BaRPeePCqhcv63xG4
- NAPCc9scZP5rw==
-Date: Mon, 14 Feb 2022 12:06:26 -0500
+ b=K3IOpYEe0YGYAf+dyULWzd3ZXAi1L3HBxJZlcPiPifwWo4sk2lSGfYihXbfCPcT1f
+ jIpvYD7tqp9e6rtkDsOL0LDWTqmI6Fs7+8CXq0H3tJw9j87hkUiKQcpmEiGeB70UGS
+ lxLxnPL3HtTrkrjOTHSXMIy45CtEJwLKMANyXN8Jc3YuoH4rjjciGurmOd1DYRe3EX
+ BZ20Kr8zDKFjUdFUUCRjBj3LoR2Ycjx9MSWsnZcgkC6XTQQtc8LSjzuVVhD5tqnSgo
+ ZvuJIPFGVv2O7LuKUQR0i7I8RhgTiVju1aTXyNDQ8mawLtJmLSq9YuPwb8kYbo4pCp
+ R3dhBxBzHogeQ==
+Date: Mon, 14 Feb 2022 12:11:30 -0500
 From: Alyssa Rosenzweig <alyssa@collabora.com>
 To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH 4/9] drm/panfrost: Handle HW_ISSUE_TTRX_3076
-Message-ID: <YgqMEqpgFxrrb8uX@maud>
+Subject: Re: [PATCH 5/9] drm/panfrost: Add HW_ISSUE_TTRX_3485 quirk
+Message-ID: <YgqNQpjwkBtPOgls@maud>
 References: <20220211202728.6146-1-alyssa.rosenzweig@collabora.com>
- <20220211202728.6146-5-alyssa.rosenzweig@collabora.com>
- <9eac9ce6-3bd8-0dc2-4686-9ea1e623b1c4@arm.com>
+ <20220211202728.6146-6-alyssa.rosenzweig@collabora.com>
+ <265e99b9-fbde-bdcf-d8e9-e5deba1d9564@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9eac9ce6-3bd8-0dc2-4686-9ea1e623b1c4@arm.com>
+In-Reply-To: <265e99b9-fbde-bdcf-d8e9-e5deba1d9564@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,44 +54,25 @@ Cc: tomeu.vizoso@collabora.com, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 14, 2022 at 04:23:18PM +0000, Steven Price wrote:
-> On 11/02/2022 20:27, alyssa.rosenzweig@collabora.com wrote:
-> > From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> > 
-> > Some Valhall GPUs require resets when encountering bus faults due to
-> > occlusion query writes. Add the issue bit for this and handle it.
-> > 
-> > Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> > TTRX_3485 requires the infamous "dummy job" workaround. I have this
+> > workaround implemented in a local branch, but I have not yet hit a case
+> > that requires it so I cannot test whether the implementation is correct.
+> > In the mean time, add the quirk bit so we can document which platforms
+> > may need it in the future.
 > 
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> (although one nit below)
-> 
-> Just in case any one is wondering - these bus faults occur when
-> switching the GPU's MMU to unmapped - it's not a normal "bus fault" from
-> the external bus. This is triggered by an attempt to read unmapped
-> memory which is completed by the driver by switching the entire MMU to
-> unmapped.
+> This one is hideous ;) Although to me this isn't the 'infamous' one as
+> it's not the earliest example of a dummy job.
 
-Ouch, that's subtle.
+Terrifying. I guess we narrowly avoided the 'replay' workaround which
+was far worse than this one...
 
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_issues.h b/drivers/gpu/drm/panfrost/panfrost_issues.h
-> > index a66692663833..058f6a4c8435 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_issues.h
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_issues.h
-> > @@ -128,6 +128,10 @@ enum panfrost_hw_issue {
-> >  	/* Must set SC_VAR_ALGORITHM */
-> >  	HW_ISSUE_TTRX_2968_TTRX_3162,
-> >  
-> > +	/* Bus fault from occlusion query write may cause future fragment jobs
-> > +	 * to hang */
-> 
-> NIT: Kernel comment style has the "/*" and "*/" on lines by themselves
-> for multi-line comments. checkpatch will complain!
+> However... I believe as Panfrost currently stands this is probably not
+> very possible to hit. It requires a job to be stopped (soft or hard) at
+> a critical point during submission - which at the moment Panfrost
+> basically never does (the exception is if you close the fd immediately
+> while a job is in progress). And of course the timing has to be 'just
+> right' to hit the bug.
 
-Yes, I am aware (and checkpatch did complain). The existing multi-line
-comments in that file do not have the extra lines. Consistency within
-the file seemed like the lesser evil. If you think it's better to
-appease checkpatch, I can reformat for v2.
-
-(I can also throw in a patch fixing the rest of that file's multiline
-comments but that seems a bit extra.)
+OK, that's good to know. Still "should" be fixed but that definitely
+lowers the priority of it. Frankly the multithreading bugs we have on
+the CPU side would hang the machine sooner...
