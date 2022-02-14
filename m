@@ -2,89 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B844B4185
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 06:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E724B4191
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 07:09:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46C8210E13C;
-	Mon, 14 Feb 2022 05:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 768F910E43D;
+	Mon, 14 Feb 2022 06:08:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 749FE10E13C
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 05:54:12 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id C8E14580250;
- Mon, 14 Feb 2022 00:54:09 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 14 Feb 2022 00:54:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; bh=7G1lu+Rs8krLJ/
- ey20PWYfJYeLvb+/uRN91S0nKBhFA=; b=zJHdmFpN/e/OJdqwKifAMyFVTpteDm
- Okgo/yjwGIcpIo3hy4N2PRAolI2CJWLdxdobtD6LAUfY7NAgxy63NcyNJJSu49gv
- 220erR8Q6vPwDG3K5oIzw4Hi75qhds8OG4BE6+EMMU9SO4y4sGyjxnvlE6QIC1oN
- Rcmcc7KdBcUqHDphMWsnzYiCCPFsWdXZdufoDgE6jfwIzgrB3kbsdbWJlaz+1Dnp
- fL8tst1uzkVNYFPsdsi6fZqmLQIhHmcRnm2TidDbdPks9ENOGt5yD0qwDGR22aAv
- UG9EBDFHwBBWZwZLqjSYEY4TLcq0B+uU7W48akP8N5CQoLyUzu7lfEQg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=7G1lu+Rs8krLJ/ey20PWYfJYeLvb+/uRN91S0nKBh
- FA=; b=Cvwydq+wnq3Hzm9BrFnHlgK86hB8Cl7f6wb90EbKyok6ldYahY5HCKYI+
- mocig9T8pQ2IRMMcHgkm2Drt3c4BYugPmw++Ykm2o2/7UN7o2KPD8eruLmrQ2nUQ
- vGvsJV4fr/0jLpwwgSrit13XJpRmwe9dwcNmfl7nm65Wzi21psfwJTbApOSxLVwz
- q9QQg84BiawRIAykblueIWmrBUVYGZx/NjGUI494P1pDVbRmrY6P+sQaJ8GdK5Ve
- X0Aeu3f3w4QN3WnVfisqQa3nAAjdDChHUJfGzxj2i9efa9DtInCzGgiAbrLEMTsz
- QXWyfdQvdf6LqOkSiup8EyaC8URLA==
-X-ME-Sender: <xms:gO4JYmVkUDIw-TmSNyP-uYrXQEZ6sa0sdLzpahEl7nXqN14QFZo6Iw>
- <xme:gO4JYimZfxFsyYrfHs8oiKFrAOI-7j4u1Mq0Fo2Oep80VlWDmBQFGDC_GJJf0yvpc
- FbebeRHiWu8NVSWlvE>
-X-ME-Received: <xmr:gO4JYqZkG85YzKfCyoeGZMjP1arMjHFNWzWGiI7OuEOyj1ZJKNTPVvp4h2WXFLs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjedugdekkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefkffggfgfuvfhfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
- nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
- ftrfgrthhtvghrnhepheeiuddvvefhkeejfedttdekieethfdukedvieeuueelgfelieej
- geehvdekudelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
- homhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:gO4JYtVqAmCKxJ13watKGjz3LW7X3ztU7BHdcrEWYxiyb55YoGiQzA>
- <xmx:gO4JYgmfonsGJ1mZwsQEqAfYdIri49t64ViQ7dnBz9Lzc_tVhQavNQ>
- <xmx:gO4JYidpUqqJo-QziOaNhambD0tDI1XwUwhcr0NN1ue335KMVor7HQ>
- <xmx:ge4JYqFR_fLxkl3mGl74OWIpn5adHaquvTV4RpEQpXATbx5ytSAnVQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Feb 2022 00:54:05 -0500 (EST)
-Message-ID: <380d93a4-6f36-00d2-6cd3-e4428534cbb1@flygoat.com>
-Date: Mon, 14 Feb 2022 05:54:03 +0000
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E144110E43D
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 06:08:55 +0000 (UTC)
+X-UUID: 8b968aa29df746e2abefbda71ce08e89-20220214
+X-UUID: 8b968aa29df746e2abefbda71ce08e89-20220214
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 748286038; Mon, 14 Feb 2022 14:08:52 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 14 Feb 2022 14:08:51 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 14 Feb 2022 14:08:49 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 00/23] component: Add common helpers for compare/release
+Date: Mon, 14 Feb 2022 14:07:56 +0800
+Message-ID: <20220214060819.7334-1-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v7 0/7] drm/lsdc: add drm driver for loongson display
- controller
-To: Sui Jingfeng <15330273260@189.cn>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
- Li Yi <liyi@loongson.cn>, suijingfeng <suijingfeng@loongson.cn>
-References: <20220213141649.1115987-1-15330273260@189.cn>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <20220213141649.1115987-1-15330273260@189.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,38 +47,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Will Deacon <will@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
+ James Wang <james.qian.wang@arm.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ srv_heupstream@mediatek.com, Stephen Boyd <sboyd@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The component requires the compare/release functions, there are many
+copies in current kernel. This patchset just defines four common helpers
+for them. No functional change.
+
+Change note:
+v1: a) Split the original patch into many small patches.
+    b) Use device_match_of_node helper.
+    c) Move the functions into c and export since
+    the callback doesn't look like it should be "inline".
+    d) Add "component_" prefix for the functon names.
+    e) Add a new component_compare_dev_name.    
+
+RFC: https://lore.kernel.org/dri-devel/20220128081101.27837-1-yong.wu@mediatek.com/
+    rebase on v5.17-rc1
+
+Yong Wu (23):
+  component: Add common helper for compare/release functions
+  drm/komeda: Make use of the helper component_compare_of
+  drm/armada: Make use of the helper component_compare_of/dev_name
+  drm/etnaviv: Make use of the helper component_compare_of/dev_name
+  drm/hirin: Make use of the helper component_compare_of
+  drm/ingenic: Make use of the helper component_compare_of
+  drm/mediatek: Make use of the helper component_compare_of
+  drm/meson: Make use of the helper component_compare_of
+  drm/msm: Make use of the helper component_compare_of
+  drm/sprd: Make use of the helper component_compare_of
+  drm/sti: Make use of the helper component_compare_of
+  drm/sun4i: Make use of the helper component_compare_of
+  drm/rockchip: Make use of the helper component_compare_dev
+  drm/exynos: Make use of the helper component_compare_dev
+  drm/mcde: Make use of the helper component_compare_dev
+  drm/omap: dss: Make use of the helper component_compare_dev
+  drm/vc4: Make use of the helper component_compare_dev
+  drm: of: Make use of the helper component_release_of
+  iommu/mediatek: Make use of the helper component_compare/release_of
+  ASoC: codecs: wcd938x: Make use of the helper
+    component_compare/release_of
+  power: supply: ab8500: Make use of the helper component_compare_dev
+  video: omapfb: dss: Make use of the helper component_compare_dev
+  ALSA: hda/realtek: Make use of the helper component_compare_dev_name
+
+ drivers/base/component.c                      | 58 +++++++++++++++++++
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   |  7 +--
+ drivers/gpu/drm/armada/armada_drv.c           | 17 +-----
+ drivers/gpu/drm/drm_of.c                      |  7 +--
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c         | 16 +----
+ drivers/gpu/drm/exynos/exynos_drm_drv.c       |  8 +--
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  7 +--
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  7 +--
+ drivers/gpu/drm/mcde/mcde_drv.c               |  7 +--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  7 +--
+ drivers/gpu/drm/meson/meson_drv.c             | 10 +---
+ drivers/gpu/drm/msm/msm_drv.c                 | 15 +----
+ drivers/gpu/drm/omapdrm/dss/dss.c             |  8 +--
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  7 +--
+ drivers/gpu/drm/sprd/sprd_drm.c               |  7 +--
+ drivers/gpu/drm/sti/sti_drv.c                 |  7 +--
+ drivers/gpu/drm/sun4i/sun4i_drv.c             | 11 +---
+ drivers/gpu/drm/vc4/vc4_drv.c                 |  7 +--
+ drivers/iommu/mtk_iommu.c                     |  4 +-
+ drivers/iommu/mtk_iommu.h                     | 10 ----
+ drivers/iommu/mtk_iommu_v1.c                  |  4 +-
+ drivers/power/supply/ab8500_charger.c         |  8 +--
+ drivers/video/fbdev/omap2/omapfb/dss/dss.c    |  8 +--
+ include/linux/component.h                     |  6 ++
+ sound/pci/hda/patch_realtek.c                 | 11 +---
+ sound/soc/codecs/wcd938x.c                    | 18 ++----
+ 26 files changed, 99 insertions(+), 183 deletions(-)
+
+-- 
+2.18.0
 
 
-在 2022/2/13 14:16, Sui Jingfeng 写道:
-> There is a display controller in loongson's LS2K1000 SoC and LS7A1000
-> bridge chip, the DC is a PCI device in those chips. It has two display
-> pipes but with only one hardware cursor. Each way has a DVO interface
-> which provide RGB888 signals, vertical & horizontal synchronisations,
-> data enable and the pixel clock. Each CRTC is able to scanout from
-> 1920x1080 resolution at 60Hz. The maxmium resolution is 2048x2048
-> according to the hardware spec.
-
-Hi Jiangfeng,
-
-I see you added dts for those boards, but I didn't see you wire up them
-in Makefile and code? How can you use them in present systems?
-
-I guess to make those dts work for general all-in-one kernel, what you
-need to do is, for example Lemota A1901:
-
-1. Add __dtb_lemote_a1901 to builtin_dtbs.h
-
-2. Wire up with something like:
-
-if (!strcmp("LEMOTE-/LS3A4000/-7A1000-1w-V01-pc", eboard->name)
-     loongson_fdt_blob = __dtb_lemote_a1901
-
-In arch/mips/loongson64/env.c.
-
-Thanks.
-- Jiaxun
