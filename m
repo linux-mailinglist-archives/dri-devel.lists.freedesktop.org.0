@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4384D4B41BD
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 07:11:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA084B41BF
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 07:11:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F97D10E4B8;
-	Mon, 14 Feb 2022 06:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAD6010E4C1;
+	Mon, 14 Feb 2022 06:11:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31E4B10E4AE
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 06:11:21 +0000 (UTC)
-X-UUID: 900f47d71e5d4a89952d8e9a3b3a24a6-20220214
-X-UUID: 900f47d71e5d4a89952d8e9a3b3a24a6-20220214
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25D0A10E4C1
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 06:11:30 +0000 (UTC)
+X-UUID: 2a46d0b4bb524588a229cb1befa6a6a1-20220214
+X-UUID: 2a46d0b4bb524588a229cb1befa6a6a1-20220214
 Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
  mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 589319721; Mon, 14 Feb 2022 14:11:18 +0800
+ with ESMTP id 729865382; Mon, 14 Feb 2022 14:11:27 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 14 Feb 2022 14:11:16 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Mon, 14 Feb 2022 14:11:25 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 14 Feb 2022 14:11:14 +0800
+ Transport; Mon, 14 Feb 2022 14:11:23 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, David Airlie
  <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 15/23] drm/mcde: Make use of the helper component_compare_dev
-Date: Mon, 14 Feb 2022 14:08:11 +0800
-Message-ID: <20220214060819.7334-16-yong.wu@mediatek.com>
+Subject: [PATCH 16/23] drm/omap: dss: Make use of the helper
+ component_compare_dev
+Date: Mon, 14 Feb 2022 14:08:12 +0800
+Message-ID: <20220214060819.7334-17-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220214060819.7334-1-yong.wu@mediatek.com>
 References: <20220214060819.7334-1-yong.wu@mediatek.com>
@@ -61,46 +62,51 @@ Cc: Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
  linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- srv_heupstream@mediatek.com, Stephen
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Tomi
+ Valkeinen <tomba@kernel.org>, srv_heupstream@mediatek.com, Stephen
  Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Tomasz Figa <tfiga@chromium.org>, Robin Murphy <robin.murphy@arm.com>
+ Tomasz Figa <tfiga@chromium.org>, Cai Huoqing <caihuoqing@baidu.com>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Use the common compare helper from component.
 
-Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Tomi Valkeinen <tomba@kernel.org>
+Cc: Cai Huoqing <caihuoqing@baidu.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 ---
- drivers/gpu/drm/mcde/mcde_drv.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/dss.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-index 5b5afc6aaf8e..a17bfbb152a2 100644
---- a/drivers/gpu/drm/mcde/mcde_drv.c
-+++ b/drivers/gpu/drm/mcde/mcde_drv.c
-@@ -265,11 +265,6 @@ static struct platform_driver *const mcde_component_drivers[] = {
- 	&mcde_dsi_driver,
+diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
+index 69b3e15b9356..0399f3390a0a 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dss.c
++++ b/drivers/gpu/drm/omapdrm/dss/dss.c
+@@ -1344,12 +1344,6 @@ static const struct component_master_ops dss_component_ops = {
+ 	.unbind = dss_unbind,
  };
  
--static int mcde_compare_dev(struct device *dev, void *data)
+-static int dss_component_compare(struct device *dev, void *data)
 -{
--	return dev == data;
+-	struct device *child = data;
+-	return dev == child;
 -}
 -
- static int mcde_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -399,7 +394,7 @@ static int mcde_probe(struct platform_device *pdev)
+ struct dss_component_match_data {
+ 	struct device *dev;
+ 	struct component_match **match;
+@@ -1379,7 +1373,7 @@ static int dss_add_child_component(struct device *dev, void *data)
+ 		return device_for_each_child(dev, cmatch,
+ 					     dss_add_child_component);
  
- 		while ((d = platform_find_device_by_driver(p, drv))) {
- 			put_device(p);
--			component_match_add(dev, &match, mcde_compare_dev, d);
-+			component_match_add(dev, &match, component_compare_dev, d);
- 			p = d;
- 		}
- 		put_device(p);
+-	component_match_add(cmatch->dev, match, dss_component_compare, dev);
++	component_match_add(cmatch->dev, match, component_compare_dev, dev);
+ 
+ 	return 0;
+ }
 -- 
 2.18.0
 
