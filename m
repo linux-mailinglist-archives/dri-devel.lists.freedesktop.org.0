@@ -1,47 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D69954B4CA1
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:50:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B174B4CA7
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6C8E89110;
-	Mon, 14 Feb 2022 10:50:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 022A410E404;
+	Mon, 14 Feb 2022 10:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id ACBC889110
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 10:50:46 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:50118.1293107163
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 90BA4100139;
- Mon, 14 Feb 2022 18:50:37 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id
- b714a88f38064ad8b49ade0c13fcf78c for maxime@cerno.tech; 
- Mon, 14 Feb 2022 18:50:44 CST
-X-Transaction-ID: b714a88f38064ad8b49ade0c13fcf78c
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <afeeabbe-29ba-2878-c0c5-78f576f7865f@189.cn>
-Date: Mon, 14 Feb 2022 18:50:36 +0800
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A635A10E404
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 10:52:17 +0000 (UTC)
+Date: Mon, 14 Feb 2022 10:52:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1644835934;
+ bh=MlZxepE7UcCIx7JdbAa36YidmF6d5y+C8F78t64Xio0=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID;
+ b=LThY4lgUqhN8sGqwUbzGNFG1jSZlOqseiQAm9FRwnlotQK8Bibz9NV5fvBRzZkA6e
+ AKdMcgVjEBUpigN+wbQqLLFpMpKqwoX4f/XY+4BKYUTk9WLnDIkOhF2IYvOYMxXq4H
+ /+su7TPrhRIkglRZdbbO4kQikJA2b6Qjq8D6y/OXk1/hIsJfRqkNgbPpDFTLkhegbZ
+ iaoLIMVLTzrHznyG58N/ooRjJnqpJpXq5iboveuFIgQPg4EJtHXoDn2D6MvMkgbJTs
+ nms6hiOAFWrVqs6w8Er37CEQVw+JzcW3PYzmzFJVIQyOmoq/+Qd497VPQPxmkUH7FK
+ VPZyRvj0tT/IA==
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v4 1/6] drm/format-helper: Add
+ drm_fb_xrgb8888_to_gray8_line()
+Message-ID: <aW25lLbuIQGCr0FHtnqiM-UB-VYfk-BaLhhwq3Ur9ONgrXyxHspO_JKXCIgAeI0IBhW7hqZwTdACzd9a1b8A9MIBDrn12ymzMGYjbeqcSYE=@emersion.fr>
+In-Reply-To: <YgoxFBGNsrezVxmi@smile.fi.intel.com>
+References: <20220211091927.2988283-1-javierm@redhat.com>
+ <20220211091927.2988283-2-javierm@redhat.com>
+ <YgY6OqN+guBlt/ED@smile.fi.intel.com>
+ <4fa465d9-4fac-4199-9a04-d8e09d164308@redhat.com>
+ <YgZEuXvJ2ZiOyNS+@smile.fi.intel.com>
+ <7560cd10-0a7c-3fda-da83-9008833e3901@suse.de> <87pmnt7gm3.fsf@intel.com>
+ <YgaDj6Wld4b7S6DF@smile.fi.intel.com>
+ <f87ce2fa-6b18-f985-eb86-506ce7103db3@suse.de>
+ <YgoxFBGNsrezVxmi@smile.fi.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v7 1/7] drm/lsdc: add drm driver for loongson display
- controller
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220213141649.1115987-1-15330273260@189.cn>
- <20220213141649.1115987-2-15330273260@189.cn>
- <20220214101031.kerresldiuopil6l@houat>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20220214101031.kerresldiuopil6l@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,T_SCC_BODY_TEXT_LINE
+ shortcircuit=no autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,162 +60,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, kernel test robot <lkp@intel.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
- suijingfeng <suijingfeng@loongson.cn>, Roland Scheidegger <sroland@vmware.com>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Li Yi <liyi@loongson.cn>,
- Randy Dunlap <rdunlap@infradead.org>, linux-mips@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "David S . Miller" <davem@davemloft.net>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Monday, February 14th, 2022 at 11:38, Andy Shevchenko <andriy.shevchenko=
+@linux.intel.com> wrote:
 
-On 2022/2/14 18:10, Maxime Ripard wrote:
-> On Sun, Feb 13, 2022 at 10:16:43PM +0800, Sui Jingfeng wrote:
->> From: suijingfeng <suijingfeng@loongson.cn>
->>
->> There is a display controller in loongson's LS2K1000 SoC and LS7A1000
->> bridge chip, the DC is a PCI device in those chips. It has two display
->> pipes but with only one hardware cursor. Each way has a DVO interface
->> which provide RGB888 signals, vertical & horizontal synchronisations,
->> data enable and the pixel clock. Each CRTC is able to scanout from
->> 1920x1080 resolution at 60Hz. The maxmium resolution is 2048x2048
->> according to the hardware spec.
->>
->> Loongson display controllers are simple which require scanout buffers
->> to be physically contiguous. LS2K1000 is a SOC, Only system memory is
->> available. Therefore CMA helper based driver is intended to be use,
->> although it is possible to use VRAM helper based solution by carving
->> out part of system memory as VRAM.
->>
->> On LS7A1000/LS7A2000 bridge chip, the DC is equipped with a dedicated
->> video memory which is typically 64MB or more. In this case, VRAM helper
->> based solution which scanout from local VRAM is reconmended to use.
->> It is reliable to use for massive production, but CMA based helper
->> solution is still usable on ls7a1000 and ls7a2000, at the price of
->> the CRTC must access the FB in RAM through the PCIe bus and HT3.0 bus.
->> This causes continuous traffic on the bus regardless of whether the FB
->> image is updating or not. Sadly, it suffer from screen flickering under
->> RAM pressure on LS7A1000. Luckily, It show extremely good condition on
->> LS7A2000 even under stressapptest, Maybe the hardware engineer resolve
->> this issue. Integrating two distict helpers based driver into one piece
->> allow code sharing.
->>
->> We have also implemented demage update on top of CMA helper which copy
->> the demaged region from the shadow framebuffer in system RAM to the real
->> framebuffer in VRAM manually. This is intend to overcome the screen
->> flicking issue on LS7A1000, but the performance is not good.
->> Using "lsdc.dirty_update=1" in the kernel commmand line if you would like
->> to have a try.
->>
->> For LS7A1000, there are 4 dedicated GPIOs whose control register is
->> located at the DC register space, They are used to emulate two way i2c.
->> One for DVO0, another for DVO1. This is the reason why this driver is
->> not switch to drm bridge framework yet. LS2K1000 and LS2K0500 SoC don't
->> have such GPIO hardwared, they grab i2c adapter from other module,
->> either general purpose GPIO emulated i2c or hardware i2c adapter.
->> Drm bridge and drm panel driver for the external encoder is suitable for
->> those SoC. We have already implemented this on our downstream 4.19.190
->> kernel. But due to the GPIO, PWM and I2C device driver support for
->> LS2K1000 is not upstreamed yet, this driver still can be use to bring
->> the graphic environment up by providing display timings or similar things
->> in the device tree.
->>
->> The DC in LS7A1000 has only one hardware cursor, we simply let the two
->> CRTC share it. The DC in LS7A2000 have two cursor, two built-in hdmi
->> encoder and one transparent vga encoder and more, surport for LS7A2000
->> is on the way. In short, we have built-in gpio emulated i2c support,
->> we also have hardware cursor support. LS7A2000 The kind of tiny drivers
->> in drm/tiny is not suitable for us.
->>
->>      +------+            +-----------------------------------+
->>      | DDR4 |            |  +-------------------+            |
->>      +------+            |  | PCIe Root complex |   LS7A1000 |
->>         || MC0           |  +--++---------++----+            |
->>    +----------+  HT 3.0  |     ||         ||                 |
->>    | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
->>    |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
->>    +----------+          | +--------+  +-+--+-+    +---------+   +------+
->>         || MC1           +---------------|--|----------------+
->>      +------+                            |  |
->>      | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
->>      +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
->>                        +-------+                      +------+
->>
->> The above picture give a simple usage of LS7A1000, note that the encoder
->> is not necessary adv7125 or tfp410, it is a choice of the downstream board
->> manufacturer. Other candicate encoders can be ch7034b, sil9022 and ite66121
->> lt8618 etc. Besides, the DC in both ls2k1000 and ls7k1000 has the same of
->> PCI vendor id and pci device id. Both is 0x0014:0x7a06, the reverison id
->> is also same. This is the firmware engineer's mistake, but such firmware
->> and various boards ship with such firmware already released. We choose to
->> deduce the chip's identification from information provided by device tree.
->> For lsdc, there is only a 1:1 mapping of encoders and connectors.
->>
->> v2: fixup warnings reported by kernel test robot
->>
->> v3: fix more grammar mistakes in Kconfig reported by Randy Dunlap and give
->>      more details about lsdc.
->>
->> v4:
->>     1) Add dts required and explain why device tree is required.
->>     2) Give more description about lsdc and vram helper base driver.
->>     3) Fix warnings reported by kernel test robot.
->>     4) Introduce stride_alignment member into struct lsdc_chip_desc, the
->>        stride alignment is 256 bytes for ls7a1000, ls2k1000 and ls2k0500.
->>        But ls7a2000 improve it to 32 bytes, for extend the support for the
->>        device on coming
->>
->> v5:
->>     1) using writel and readl replace writeq and readq, to fix kernel test
->>        robot report build error on other archtecture
->>     2) set default fb format to XRGB8888 at crtc reset time.
->>     3) fix typos.
->>
->> v6:
->>     1) Explain why we are not switch to drm dridge subsystem on ls2k1000.
->>     2) Explain why tiny drm driver is not suitable for us.
->>     3) Give a short description of the trival dirty uppdate implement based
->>        on CMA helper.
->>     4) code clean up
->>
->> v7:
->>     1) Remove select I2C_GPIO and I2C_LS2X in Kconfig, it is not ready now
->>     2) Licensing issues are fixed suggested by Krzysztof Kozlowski.
->>     3) lsdc_pixpll_print() is removed, part of it move to debugfs.
->>     4) Set prefer_shadow to true if vram based driver is in using.
->>     5) Replace double blank lines with single line in all files
->>     6) Verbose cmd line parameter is replaced with drm_dbg()
->>     7) All warnnings reported by ./scripts/checkpatch.pl --strict are fixed
->>     8) Get edid from dtb support is removed as suggested by Maxime Ripard
->>     9) Fix typos and various improvement
-> A lot of the major comments I had haven't been fixed though: you *need*
-> to have a DT bindings description,
-
-This driver works on most of board even no device tree is supplied, the dts are mainly
-supplement purpose. For example, it supports let you to tell which DVO is not get used.
-Even no device tree is provided, the driver still works.
-
-> Kconfig isn't the proper place to set the VRAM preference,
-
-It mainly helps you to code review, to tell you which function is VRAM helper related.
-DRM_LSDC_VRAM_DRIVER option is mean to be always enabled. It can be deselected if you
-only want CMA based solution. On LS2K1000, select this or deselect this doesn't matter.
-
-> the command line isn't either, the command line
-> isn't the solution for all your parameters, etc.
-
-The command line may not be a blocker, why support a command line block this driver be merged?
-You do NOT need to touch it, this driver will pick up the right driver instance to use.
-Command line is used to override the default behavior of the driver, it is only for advance user.
-
-> Those things are major blockers at the moment, so ignoring them won't
-> help getting this merged.
+> > > > IMO *always* prefer a for loop over while or do-while.
+> > > >
+> > > > The for (i =3D 0; i < N; i++) is such a strong paradigm in C. You
+> > > > instantly know how many times you're going to loop, at a glance. No=
+t so
+> > > > with with the alternatives, which should be used sparingly.
+> > >
+> > > while () {}  _is_ a paradigm, for-loop is syntax sugar on top of it.
+> >
+> > Naw, that's not true.
 >
-> Maxime
+> In the section 3.5 "Loops - While and For" in "The C Programming
+> Language" 2nd by K&R, the authors said:
+>
+> =09The for statement ... is equivalent to ... while..."
+>
+> They said that for is equivalent to while, and not otherwise.
+>
+> Also, syntax sugar by definition declares something that can be written a=
+s
+> a single line of code, which usually is done using more (not always).
+
+arr[i] is syntaxic sugar for *(arr + i), yet we keep writing the former,
+because it's way more readable. The same goes for the for vs. while loops.
+It may be obvious for you because you're a C guru, but to me it just obfusc=
+ates
+the code. Too many C projects end up becoming completely unreadable because=
+ of
+patterns like these.
+
+Idiomatic C code isn't written by doing pointless micro-optimizations.
