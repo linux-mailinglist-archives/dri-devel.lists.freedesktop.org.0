@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6674B42CA
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 08:27:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9AC4B42EB
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 08:36:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD5A410E207;
-	Mon, 14 Feb 2022 07:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFD8410E1AF;
+	Mon, 14 Feb 2022 07:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA6A10E207;
- Mon, 14 Feb 2022 07:27:20 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A8D710E1AF;
+ Mon, 14 Feb 2022 07:36:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644823640; x=1676359640;
+ t=1644824170; x=1676360170;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=3D+QYO7Pwm9FAUWke5CmBKJRJaBzCTD4KK+GctzE02M=;
- b=bEqDs83K67onjru0NlXVJuUGM4pDLdgmNUjEQJEAPrsXxBwQm+8f4ZLk
- kyv6ICmHtAhLetWaPEnS16MkAzyneeMUu11ExmQvgT0gNzpCupRS7DjsY
- t9ktakhkAnF54MR0PyY8rn+op+hgP9WycH0b6Mz5DMmvLSq6Qosj41Vct
- sGBjfXvI7KIHyLwPrO1SLfUrPWl0XqwG1ciMPCbd4uRCDg1NxhsTG6Ntm
- xoxgrMXFIizIaGl68y7eibLhKzXdZJ/KShtuk6In0SCkolQDqbvYBAAKa
- svx6diikkFLj3YqWvoEn5eWSGP/p3lRyNAsC7v9rcwflT3AZu/IWZC9et A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="336459435"
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="336459435"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2022 23:27:19 -0800
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="634979853"
+ bh=TtIgUTAIsXJ4XGN4YguPnu9VZqX5t+e944YjPkCfnAQ=;
+ b=iHWvdIoZgHtfCTj4Jhhc+qlls93Fz+d/JUxueLUUn8/tXAy5kpGvPD5m
+ hDk77VZ969/eUntwWODJEVAPujFNLKiqDxzh8UaU5YJeCcUVZ/sm2Qpth
+ O+bu3Ka7g0O0JOAHkEDRNRztD7xpUlF+0hM0Ppv9eEK6G31gy934aZteB
+ DnNNLDen94uiAE/ZJhMk1hku2IFLGZqqMVcufsUP25GtzN2RLCwuL/BWp
+ fihVxxIPBGVZgLlmqxoZAYDGcO3gNivagm1JPAnw54MXBOKCKEtdsM+iC
+ 1mcf98RTRzTXfk5f6oV25/aJKjr1xbuD7JkzLCdz9In4Yl/Eh4rGaQjih A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="247628391"
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="247628391"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2022 23:36:09 -0800
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="772875545"
 Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2022 23:27:15 -0800
-Received: by lahna (sSMTP sendmail emulation); Mon, 14 Feb 2022 09:27:13 +0200
-Date: Mon, 14 Feb 2022 09:27:13 +0200
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2022 23:36:04 -0800
+Received: by lahna (sSMTP sendmail emulation); Mon, 14 Feb 2022 09:34:26 +0200
+Date: Mon, 14 Feb 2022 09:34:26 +0200
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: "Limonciello, Mario" <mario.limonciello@amd.com>
-Subject: Re: [PATCH v3 04/12] PCI: Drop the `is_thunderbolt` attribute from
- PCI core
-Message-ID: <YgoEUYLbYUbk5A6Q@lahna>
-References: <20220211193250.1904843-1-mario.limonciello@amd.com>
- <20220211193250.1904843-5-mario.limonciello@amd.com>
- <20220213082056.GA23572@wunner.de>
- <0ef8f2cb-1978-f469-71d3-2cf7469eb8b6@amd.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH v3 05/12] PCI: Detect root port of internal USB4 devices
+ by `usb4-host-interface`
+Message-ID: <YgoGAkjZgCob8Mdl@lahna>
+References: <20220211193250.1904843-6-mario.limonciello@amd.com>
+ <20220211214546.GA737137@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0ef8f2cb-1978-f469-71d3-2cf7469eb8b6@amd.com>
+In-Reply-To: <20220211214546.GA737137@bhelgaas>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,51 +59,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
  Michael Jamet <michael.jamet@intel.com>,
  "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
  "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
  Yehezkel Bernat <YehezkelShB@gmail.com>,
  "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Andreas Noever <andreas.noever@gmail.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
  "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
  <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Alexander.Deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mario,
+Hi Bjorn,
 
-On Sun, Feb 13, 2022 at 11:26:56AM -0600, Limonciello, Mario wrote:
-> On 2/13/2022 02:20, Lukas Wunner wrote:
-> > On Fri, Feb 11, 2022 at 01:32:42PM -0600, Mario Limonciello wrote:
-> > > The `is_thunderbolt` attribute is currently a dumping ground for a
-> > > variety of things.
+On Fri, Feb 11, 2022 at 03:45:46PM -0600, Bjorn Helgaas wrote:
+> On Fri, Feb 11, 2022 at 01:32:43PM -0600, Mario Limonciello wrote:
+> > The root port used for PCIe tunneling should be marked as removable to
+> > ensure that the entire chain is marked removable.
 > > 
-> > It's not as arbitrary as it may seem.  Quite a bit of thought went into
-> > the current design.
+> > This can be done by looking for the device property specified in
+> > the ACPI tables `usb4-host-interface`.
 > > 
+> > Suggested-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> > Link: https://docs.microsoft.com/en-us/windows-hardware/drivers/pci/dsd-for-pcie-root-ports#mapping-native-protocols-pcie-displayport-tunneled-through-usb4-to-usb4-host-routers
+> > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> > ---
+> >  drivers/pci/pci-acpi.c | 10 ++++++++++
+> >  drivers/pci/pci.h      |  5 +++++
+> >  drivers/pci/probe.c    |  1 +
+> >  3 files changed, 16 insertions(+)
 > > 
-> > > Instead use the driver core removable attribute to indicate the
-> > > detail a device is attached to a thunderbolt or USB4 chain.
-> > 
-> > You're missing the point that "is_thunderbolt" is set on the *controller*
-> > (i.e. its upstream and downstream ports).
-> > 
-> > The controller itself is *not* removable if it's the host controller.
-> > 
-> > However a device can be assumed to be removable if it has an ancestor
-> > which has the "is_thunderbolt" flag set.
-> > 
+> > diff --git a/drivers/pci/pci-acpi.c b/drivers/pci/pci-acpi.c
+> > index a42dbf448860..6368e5633b1b 100644
+> > --- a/drivers/pci/pci-acpi.c
+> > +++ b/drivers/pci/pci-acpi.c
+> > @@ -1391,6 +1391,16 @@ void pci_acpi_cleanup(struct device *dev, struct acpi_device *adev)
+> >  	}
+> >  }
+> >  
+> > +bool pci_acpi_is_usb4(struct pci_dev *dev)
+> > +{
+> > +	struct acpi_device *adev = ACPI_COMPANION(&dev->dev);
+> > +
+> > +	if (!adev)
+> > +		return false;
+> > +	return fwnode_property_present(acpi_fwnode_handle(adev),
+> > +				       "usb4-host-interface");
 > 
-> Ah right... I wonder if really what this series should be about then is
-> setting up the the PCIe endpoints for PCIe tunneling and XHCI tunneling to
-> be marked as "external" instead then.  It would mean that existing code will
-> apply the removable attribute to everything downstream (and presumably at
-> least some of those drivers it will continue to make sense to drop
-> "pcie_is_thunderbolt_attached" and instead check dev_is_removable.
+> Maybe it's obvious to everybody but me that "USB4" means this device
+> is removable.  The Microsoft reference above doesn't say anything
+> about removability.
+> 
+> My expectation is that "USB" (like "PCI" and "PCIe") tells me
+> something about how a device is electrically connected and how
+> software can operate it.  It doesn't really tell me anything about
+> whether those electrical connections are permanent, made through an
+> internal slot, or made through an external connector and cable.
 
-Yes, I think this is the right thing to do. Anything connected over
-PCIe/USB 3.x tunnel is pretty much "removable" whereas the host
-controllers may or may not. Typically they are not.
+It is used to identify "tunneled" ports (whether PCIe, USB 3.x or
+DisplayPort). Tunnels are created by software (in Linux it is the
+Thunderbolt driver) and are dynamic in nature. The USB4 links go over
+USB Type-C cable which also is something user can plug/unplug freely.
+
+I would say it is reasonable expectation that anything behind these
+ports can be assumed as "removable".
