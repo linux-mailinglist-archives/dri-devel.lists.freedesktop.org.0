@@ -1,47 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 714CF4B41CD
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 07:12:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFA44B41E7
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 07:23:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 371AF10E4F8;
-	Mon, 14 Feb 2022 06:12:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A44CF10E322;
+	Mon, 14 Feb 2022 06:23:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 675E210E4F8
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 06:12:28 +0000 (UTC)
-X-UUID: 9a7bd2dcf0dd41049c8f537e789aee7f-20220214
-X-UUID: 9a7bd2dcf0dd41049c8f537e789aee7f-20220214
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1806270151; Mon, 14 Feb 2022 14:12:24 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 14 Feb 2022 14:12:23 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 14 Feb 2022 14:12:22 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 14 Feb 2022 14:12:20 +0800
-From: Yong Wu <yong.wu@mediatek.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 23/23] ALSA: hda/realtek: Make use of the helper
- component_compare_dev_name
-Date: Mon, 14 Feb 2022 14:08:19 +0800
-Message-ID: <20220214060819.7334-24-yong.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220214060819.7334-1-yong.wu@mediatek.com>
-References: <20220214060819.7334-1-yong.wu@mediatek.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFAC110E322;
+ Mon, 14 Feb 2022 06:23:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644819784; x=1676355784;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ogk0u9WIs4rRYT5evD6jDJdiJEu7Wt/pIAhA9485lVQ=;
+ b=ethgj9uOKOmh/Vur01mgsf50XYwrm/5NhDSoNQdEzfoOJdRS6YhSllQq
+ dftO26JQn2VppFKqD2PXoC/XeAZMAymCoUgobe4STqZGxs8TN30I/hFgi
+ rq8AujnNN8OCpwIvxXYwe7SqofXDfz0U3Kf90TnLIo9OAFUKCPn0f+2Mn
+ Pzk1em5WLCeIk8Wo6Wj2IGy6hnRVaiKqScP+7d2AbCFhdMcd6vZKOiv6k
+ qVDFr0WujmarjI0uerfBuF5jwBau4bi0xWZTwhjllcsaHAZMEYKn3RsHh
+ 6emCDolp3UwFlRd2xJ7maOKqVbbNrm4dnbL1n6YkJR9O3MGO0Q/zHjM9F A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="230662342"
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="230662342"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2022 22:23:03 -0800
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="527922292"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2022 22:22:59 -0800
+Received: by lahna (sSMTP sendmail emulation); Mon, 14 Feb 2022 08:22:56 +0200
+Date: Mon, 14 Feb 2022 08:22:56 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH v2 3/9] PCI: drop `is_thunderbolt` attribute
+Message-ID: <Ygn1QHF3aGsHpkS9@lahna>
+References: <20220210224329.2793-1-mario.limonciello@amd.com>
+ <20220210224329.2793-4-mario.limonciello@amd.com>
+ <YgY5N1eVWmi0Xyuw@lahna> <20220213083928.GB23572@wunner.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220213083928.GB23572@wunner.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,83 +59,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Lucas Tanure <tanureal@opensource.cirrus.com>,
- Jeremy Szu <jeremy.szu@canonical.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Werner Sembach <wse@tuxedocomputers.com>, linux-kernel@vger.kernel.org,
- Cameron Berkenpas <cam@neo-zeon.de>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Will Deacon <will@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, Joerg
- Roedel <joro@8bytes.org>, Takashi Iwai <tiwai@suse.com>,
- iommu@lists.linux-foundation.org, Hui
- Wang <hui.wang@canonical.com>, James Wang <james.qian.wang@arm.com>,
- Yong Wu <yong.wu@mediatek.com>, Sami Loone <sami@loone.fi>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav
- Kysela <perex@perex.cz>, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Kailang
- Yang <kailang@realtek.com>, srv_heupstream@mediatek.com, Stephen
- Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Tomasz Figa <tfiga@chromium.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: Michael Jamet <michael.jamet@intel.com>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Alexander.Deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the common compare helper from component.
+Hi,
 
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: Jeremy Szu <jeremy.szu@canonical.com>
-Cc: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Hui Wang <hui.wang@canonical.com>
-Cc: Cameron Berkenpas <cam@neo-zeon.de>
-Cc: Kailang Yang <kailang@realtek.com>
-Cc: Lucas Tanure <tanureal@opensource.cirrus.com>
-Cc: Sami Loone <sami@loone.fi>
-Cc: alsa-devel@alsa-project.org
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
----
- sound/pci/hda/patch_realtek.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+On Sun, Feb 13, 2022 at 09:39:28AM +0100, Lukas Wunner wrote:
+> On Fri, Feb 11, 2022 at 12:23:51PM +0200, Mika Westerberg wrote:
+> > On Thu, Feb 10, 2022 at 04:43:23PM -0600, Mario Limonciello wrote:
+> > > @@ -2955,7 +2955,7 @@ bool pci_bridge_d3_possible(struct pci_dev *bridge)
+> > >  			return true;
+> > >  
+> > >  		/* Even the oldest 2010 Thunderbolt controller supports D3. */
+> > > -		if (bridge->is_thunderbolt)
+> > > +		if (dev_is_removable(&bridge->dev))
+> > 
+> > For this, I'm not entirely sure this is what we want. The purpose of
+> > this check is to enable port power management of Apple systems with
+> > Intel Thunderbolt controller and therefore checking for "removable" here
+> > is kind of misleading IMHO.
+> [...]
+> > and then make a quirk in quirks.c that adds the software node property
+> > for the Apple systems? Or something along those lines.
+> 
+> Honestly, that feels wrong to me.
+> 
+> There are non-Apple products with Thunderbolt controllers,
+> e.g. Supermicro X10SAT was a Xeon board with Redwood Ridge
+> which was introduced in 2013.  This was way before Microsoft
+> came up with the HotPlugSupportInD3 property.  It was also way
+> before the 2015 BIOS cut-off date that we use to disable
+> power management on older boards.
+> 
+> Still, we currently whitelist the Thunderbolt ports on that
+> board for D3 because we know it works.  What if products like
+> this one use their own power management scheme and we'd cause
+> a power regression if we needlessly disable D3 for them now?
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 668274e52674..9da004d99cdb 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -6530,11 +6530,6 @@ static void alc287_fixup_legion_15imhg05_speakers(struct hda_codec *codec,
- 	}
- }
- 
--static int comp_match_dev_name(struct device *dev, void *data)
--{
--	return strcmp(dev_name(dev), data) == 0;
--}
--
- static int find_comp_by_dev_name(struct alc_spec *spec, const char *name)
- {
- 	int i;
-@@ -6595,7 +6590,7 @@ static void cs35l41_generic_fixup(struct hda_codec *cdc, int action, const char
- 					      "%s-%s:00-cs35l41-hda.%d", bus, hid, i);
- 			if (!name)
- 				return;
--			component_match_add(dev, &spec->match, comp_match_dev_name, name);
-+			component_match_add(dev, &spec->match, component_compare_dev_name, name);
- 		}
- 		ret = component_master_add_with_match(dev, &comp_master_ops, spec->match);
- 		if (ret)
-@@ -6644,9 +6639,9 @@ static void alc287_fixup_legion_16achg6_speakers(struct hda_codec *cdc, const st
- 
- 	switch (action) {
- 	case HDA_FIXUP_ACT_PRE_PROBE:
--		component_match_add(dev, &spec->match, comp_match_dev_name,
-+		component_match_add(dev, &spec->match, component_compare_dev_name,
- 				    "i2c-CLSA0100:00-cs35l41-hda.0");
--		component_match_add(dev, &spec->match, comp_match_dev_name,
-+		component_match_add(dev, &spec->match, component_compare_dev_name,
- 				    "i2c-CLSA0100:00-cs35l41-hda.1");
- 		ret = component_master_add_with_match(dev, &comp_master_ops, spec->match);
- 		if (ret)
--- 
-2.18.0
-
+All the non-Apple Thunderbolt products before "HotPlugSupportInD3" use
+ACPI "assisted" hotplug which means all the PM is done in the BIOS.
+Essentially it means the controller is only present if there is anything
+connected and in that case it is always in D0. Unplugging the device
+makes the controller to be hot-removed (ACPI hotplug) too and that's the
+only way early Thunderbolt used to save energy.
