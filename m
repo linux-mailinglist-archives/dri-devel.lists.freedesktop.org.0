@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2774B51A5
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 14:29:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC7394B51A8
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 14:31:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F56210E3EC;
-	Mon, 14 Feb 2022 13:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9381F10E4EB;
+	Mon, 14 Feb 2022 13:31:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8625B10E3EC
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 13:29:48 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2C13B1F38B;
- Mon, 14 Feb 2022 13:29:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1644845387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dBYFKpfYPiq5qXDA4uSe9C+FEeYwTU0ApnNbJpDmu7U=;
- b=vQIcyFZlRqNCiymSeRHK0mN+ozEkatEkESJ/IetNRGz+C2v0OUShJX9uDFaYG3elKooT+r
- Go86x6ctYgsXc9Zd2ggVYd7N4qnuplPenbB8Yl2bocNm9pMiN2oAlHOa7s3UAXGM5JVxyF
- ANnr0HEjqPceC6mt42UDur7aIMjXvuM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1644845387;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dBYFKpfYPiq5qXDA4uSe9C+FEeYwTU0ApnNbJpDmu7U=;
- b=zglN0Cribnhsg7fGfo2i8rCHebd7Lyd0jg0YrAvprUZSrshrAlg3AItBKF+GVYp9/lHAKH
- GMV8doFWJDSGotDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E520913B2B;
- Mon, 14 Feb 2022 13:29:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id HclINkpZCmKcJwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 14 Feb 2022 13:29:46 +0000
-Message-ID: <4a0697de-52db-97e7-d528-c7e2fe000e66@suse.de>
-Date: Mon, 14 Feb 2022 14:29:46 +0100
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC3710E4EB
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 13:31:34 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id y17so25059977edd.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 05:31:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=mDm9HPM2bapARNcvdbZt8FRotXfXtJjehDYtEm92BLs=;
+ b=X9+ZJPorcqFShgCQTTjibzbDsclQZ1nXVFuMhziYHQLY32y3CHw6I5ngDboP5WX5K5
+ OtFJe4ozPsLpQM5y81ho4toEjCWuC7FeetFRG85NxiEx4+N20SLpRnXn9MVRBUY1Oc1+
+ mZ/BdrooP2OP8Zii9mxQPjnhIZdh0dRrKFRLq9NQcqztHl7RKUFHYL2qBti0wWYFOsFk
+ zBMdRpiJR5Cju53+0zb0zwrTvRHFl+JLGSub9C3+3MJ8kJSdE8RwEsCOV+ejk1TgajuR
+ VEmRZZ6/4QXSGmZLa/a5ky5LYjYIOlcwPC8IX2JuYySoWTDZ4dw5o1JNWEFqUuoFZ+eU
+ 9/dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mDm9HPM2bapARNcvdbZt8FRotXfXtJjehDYtEm92BLs=;
+ b=S1ousQrFTCnkWXUj9BVyTb6h3NPddwF1nctj4GpFrxiDuO/VUXoNUNGnEesODZPzHv
+ huB3qLfjO1JrYEVD2mnBzc6vLa17hWJgs6o6ESo7egWouoURnfaiH/bIuVlVuxh/9G/9
+ XtGwVUJiPL5Td8Iup1ylBtXyQFdbRuQYNUirmtieKu8Ji2KQKgDTyUtwvzoBakqbYE9c
+ wY8WSLwRzRPo9hcmv4GCePh9bIco8kkWi2m6rP8M3WsHkudJii+aPJAjXqI3YFyIMRp2
+ zUR0A1TOFxs6gIrDTq4dbbyElVX9rT1EgXzyhBZ6/aF+EUkpbaxql4UjF9NE6aRpSGzx
+ 0QKQ==
+X-Gm-Message-State: AOAM533vR+fIXpdNFxIxLyhGSTB5lGj7PpXnpc6coa/XjPWsReZ2Ilvs
+ jaRaozxMyCqTSVrGWCVwru8=
+X-Google-Smtp-Source: ABdhPJxo566/92w/yXSfbmgTFsMM47qkp8T+5sD0ngMkLpTekHs9OnFFK4WhUubKMo60+1lLl+8tYw==
+X-Received: by 2002:aa7:c5c7:: with SMTP id h7mr2209310eds.428.1644845492477; 
+ Mon, 14 Feb 2022 05:31:32 -0800 (PST)
+Received: from ?IPV6:2a02:908:1252:fb60:2a37:737a:e023:f7be?
+ ([2a02:908:1252:fb60:2a37:737a:e023:f7be])
+ by smtp.gmail.com with ESMTPSA id r10sm10767427ejy.148.2022.02.14.05.31.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 05:31:32 -0800 (PST)
+Message-ID: <2f77b3e3-e859-12f5-5af5-6b91f1a3e5b3@gmail.com>
+Date: Mon, 14 Feb 2022 14:31:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 2/2] fbdev: Don't sort deferred-I/O pages by default
+Subject: Re: [PATCH 06/11] drm/amdgpu: remove GTT accounting v2
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220210141111.5231-1-tzimmermann@suse.de>
- <20220210141111.5231-3-tzimmermann@suse.de>
- <CAMuHMdVb1JjZkEo-PM6DTXOywcmJDRr0a=Ci94DJCj7dXbbihw@mail.gmail.com>
- <9b2e2649-1511-66a3-b346-60863de788fc@suse.de>
- <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------cY83eb3xDQ46xO4efc8b4xec"
+To: Matthew Auld <matthew.william.auld@gmail.com>
+References: <20220214093439.2989-1-christian.koenig@amd.com>
+ <20220214093439.2989-6-christian.koenig@amd.com>
+ <CAM0jSHMGb940wgBdddrS7DZL7XKPEzDi7xPmM-Nb5cfYqqtM7Q@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <CAM0jSHMGb940wgBdddrS7DZL7XKPEzDi7xPmM-Nb5cfYqqtM7Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,104 +74,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, linux-staging@lists.linux.dev,
- javierm@redhat.com, dri-devel@lists.freedesktop.org, bernie@plugable.com,
- noralf@tronnes.org, andriy.shevchenko@linux.intel.com, jayalk@intworks.biz
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ felix.kuehling@amd.com, ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------cY83eb3xDQ46xO4efc8b4xec
-Content-Type: multipart/mixed; boundary="------------7oyYbAfnymsn2oK8u0wDPWX0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-fbdev@vger.kernel.org, deller@gmx.de,
- linux-staging@lists.linux.dev, bernie@plugable.com,
- dri-devel@lists.freedesktop.org, javierm@redhat.com, noralf@tronnes.org,
- andriy.shevchenko@linux.intel.com, jayalk@intworks.biz
-Message-ID: <4a0697de-52db-97e7-d528-c7e2fe000e66@suse.de>
-Subject: Re: [PATCH 2/2] fbdev: Don't sort deferred-I/O pages by default
-References: <20220210141111.5231-1-tzimmermann@suse.de>
- <20220210141111.5231-3-tzimmermann@suse.de>
- <CAMuHMdVb1JjZkEo-PM6DTXOywcmJDRr0a=Ci94DJCj7dXbbihw@mail.gmail.com>
- <9b2e2649-1511-66a3-b346-60863de788fc@suse.de>
- <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
+Am 14.02.22 um 12:10 schrieb Matthew Auld:
+> On Mon, 14 Feb 2022 at 09:34, Christian König
+> <ckoenig.leichtzumerken@gmail.com> wrote:
+>> This is provided by TTM now.
+>>
+>> Also switch man->size to bytes instead of pages and fix the double
+>> printing of size and usage in debugfs.
+>>
+>> v2: fix size checking as well
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 49 +++++----------------
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     |  8 ++--
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     |  2 -
+>>   4 files changed, 16 insertions(+), 45 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+>> index e0c7fbe01d93..3bcd27ae379d 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+>> @@ -60,7 +60,7 @@ static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
+>>          struct ttm_resource_manager *man;
+>>
+>>          man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
+>> -       return sysfs_emit(buf, "%llu\n", man->size * PAGE_SIZE);
+>> +       return sysfs_emit(buf, "%llu\n", man->size);
+>>   }
+>>
+>>   /**
+>> @@ -77,8 +77,9 @@ static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
+>>   {
+>>          struct drm_device *ddev = dev_get_drvdata(dev);
+>>          struct amdgpu_device *adev = drm_to_adev(ddev);
+>> +       struct ttm_resource_manager *man = &adev->mman.gtt_mgr.manager;
+>>
+>> -       return sysfs_emit(buf, "%llu\n", amdgpu_gtt_mgr_usage(&adev->mman.gtt_mgr));
+>> +       return sysfs_emit(buf, "%llu\n", ttm_resource_manager_usage(man));
+>>   }
+>>
+>>   static DEVICE_ATTR(mem_info_gtt_total, S_IRUGO,
+>> @@ -130,20 +131,17 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
+>>          struct amdgpu_gtt_node *node;
+>>          int r;
+>>
+>> -       if (!(place->flags & TTM_PL_FLAG_TEMPORARY) &&
+>> -           atomic64_add_return(num_pages, &mgr->used) >  man->size) {
+>> -               atomic64_sub(num_pages, &mgr->used);
+> I guess this behaviour is now slightly different, since TEMPORARY will
+> now get accounted like everything else. Hopefully that is not a
+> concern.
 
---------------7oyYbAfnymsn2oK8u0wDPWX0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Yeah, that's correct but also unproblematic. See a few lines below.
 
-SGkNCg0KQW0gMTQuMDIuMjIgdW0gMTA6MDUgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIE1vbiwgRmViIDE0LCAyMDIyIGF0IDk6MjggQU0g
-VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4gQW0g
-MTQuMDIuMjIgdW0gMDk6MDUgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46DQo+Pj4gT24g
-VGh1LCBGZWIgMTAsIDIwMjIgYXQgNDoyNCBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pj4+IEZiZGV2J3MgZGVmZXJyZWQgSS9PIHNvcnRz
-IGFsbCBkaXJ0eSBwYWdlcyBieSBkZWZhdWx0LCB3aGljaCBpbmN1cnMgYQ0KPj4+PiBzaWdu
-aWZpY2FudCBvdmVyaGVhZC4gTWFrZSB0aGUgc29ydGluZyBzdGVwIG9wdGlvbmFsIGFuZCB1
-cGRhdGUgdGhlIGZldw0KPj4+PiBkcml2ZXJzIHRoYXQgcmVxdWlyZSBpdC4gVXNlIGEgRklG
-TyBsaXN0IGJ5IGRlZmF1bHQuDQo+Pj4+DQo+Pj4+IFNvcnRpbmcgcGFnZXMgYnkgbWVtb3J5
-IG9mZnNldCBmb3IgZGVmZXJyZWQgSS9PIHBlcmZvcm1zIGFuIGltcGxpY2l0DQo+Pj4+IGJ1
-YmJsZS1zb3J0IHN0ZXAgb24gdGhlIGxpc3Qgb2YgZGlydHkgcGFnZXMuIFRoZSBhbGdvcml0
-aG0gZ29lcyB0aHJvdWdoDQo+Pj4+IHRoZSBsaXN0IG9mIGRpcnR5IHBhZ2VzIGFuZCBpbnNl
-cnRzIGVhY2ggbmV3IHBhZ2UgYWNjb3JkaW5nIHRvIGl0cw0KPj4+PiBpbmRleCBmaWVsZC4g
-RXZlbiB3b3JzZSwgbGlzdCB0cmF2ZXJzYWwgYWx3YXlzIHN0YXJ0cyBhdCB0aGUgZmlyc3QN
-Cj4+Pj4gZW50cnkuIEFzIHZpZGVvIG1lbW9yeSBpcyBtb3N0IGxpa2VseSB1cGRhdGVkIHNj
-YW5saW5lIGJ5IHNjYW5saW5lLCB0aGUNCj4+Pj4gYWxnb3JpdGhtIHRyYXZlcnNlcyB0aHJv
-dWdoIHRoZSBjb21wbGV0ZSBsaXN0IGZvciBlYWNoIHVwZGF0ZWQgcGFnZS4NCj4+Pj4NCj4+
-Pj4gRm9yIGV4YW1wbGUsIHdpdGggMTAyNHg3Njh4MzJicHAgYSBwYWdlIGNvdmVycyBleGFj
-dGx5IG9uZSBzY2FubGluZS4NCj4+Pj4gV3JpdGluZyBhIHNpbmdsZSBzY3JlZW4gdXBkYXRl
-IGZyb20gdG9wIHRvIGJvdHRvbSByZXF1aXJlcyB1cGRhdGluZw0KPj4+PiA3NjggcGFnZXMu
-IFdpdGggYW4gYXZlcmFnZSBsaXN0IGxlbmd0aCBvZiAzODQgZW50cmllcywgYSBzY3JlZW4g
-dXBkYXRlDQo+Pj4+IGNyZWF0ZXMgKDc2OCAqIDM4NCA9KSAyOTQ5MTIgY29tcGFyZSBvcGVy
-YXRpb24uDQo+Pj4NCj4+PiBXaGF0IGFib3V0IHVzaW5nIGZvbGlvcz8NCj4+PiBJZiBjb25z
-ZWN1dGl2ZSBwYWdlcyBhcmUgbWVyZ2VkIGludG8gYSBzaW5nbGUgZW50cnksIHRoZXJlJ3Mg
-bXVjaCBsZXNzDQo+Pj4gKG9yIG5vdGhpbmcgaW4gdGhlIGV4YW1wbGUgYWJvdmUpIHRvIHNv
-cnQuDQo+Pg0KPj4gSG93IHdvdWxkIHRoZSBjb2RlIGtub3cgdGhhdD8gQ2FsbHMgdG8gcGFn
-ZV9ta3dyaXRlIGhhcHBlbg0KPj4gcGFnZWZhdWx0LWJ5LXBhZ2VmYXVsdCBpbiBhbnkgb3Jk
-ZXIgQUZBSUNULg0KPiANCj4gZmJfZGVmZXJyZWRfaW9fbWt3cml0ZSgpIHdvdWxkIHN0aWxs
-IGJlIGNhbGxlZCBmb3IgYSBwYWdlLCBidXQgYW4NCj4gYWRqYWNlbnQgcGFnZSBjYW4gYmUg
-bWVyZ2VkIHdpdGggYW4gZXhpc3RpbmcgZW50cnkgd2hpbGUgYWRkaW5nIGl0DQo+IHRvIHRo
-ZSBsaXN0Lg0KDQpJIHN0aWxsIGRvbid0IHVuZGVyc3RhbmQgaG93IHdlJ2QgdXNlIGl0IHRv
-IG91ciBhZHZhbnRhZ2UuIE1vc3QgZHJpdmVycyANCmRvbid0IG5lZWQgc29ydGVkIHBhZ2Vz
-IGF0IGFsbC4gQSBmb2xpbyBoYXMgc3Ryb25nIGFsaWdubWVudCANCnJlcXVpcmVtZW50cyBm
-b3Igc2l6ZSBhbmQgb2Zmc2V0IEFGQUlDVC4gV2UgbWlnaHQgZW5kIHVwIGZsdXNoaW5nIHdh
-eSANCnRvbyBtdWNoIG9mIHRoZSBkaXNwbGF5IG1lbW9yeS4NCg0KQmVzdCByZWdhcmRzDQpU
-aG9tYXMNCg0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgR2VlcnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBU
-aGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5v
-cmcNCj4gDQo+IEluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVv
-cGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQNCj4gd2hlbiBJJ20gdGFsa2luZyB0
-byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlr
-ZSB0aGF0Lg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBU
-b3J2YWxkcw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
-ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
-dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
-ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+>
+> Otherwise seems mechanical,
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>
+>
+>> -               return -ENOSPC;
+>> -       }
+>> -
+>>          node = kzalloc(struct_size(node, base.mm_nodes, 1), GFP_KERNEL);
+>> -       if (!node) {
+>> -               r = -ENOMEM;
+>> -               goto err_out;
+>> -       }
+>> +       if (!node)
+>> +               return -ENOMEM;
+>>
+>>          node->tbo = tbo;
+>>          ttm_resource_init(tbo, place, &node->base.base);
+>> +       if (!(place->flags & TTM_PL_FLAG_TEMPORARY) &&
+>> +           ttm_resource_manager_usage(man) > man->size) {
+>> +               r = -ENOSPC;
+>> +               goto err_free;
+>> +       }
 
---------------7oyYbAfnymsn2oK8u0wDPWX0--
+This here now takes care of TTM_PL_FLAG_TEMPORARY.
 
---------------cY83eb3xDQ46xO4efc8b4xec
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Regards,
+Christian.
 
------BEGIN PGP SIGNATURE-----
+>>
+>>          if (place->lpfn) {
+>>                  spin_lock(&mgr->lock);
+>> @@ -169,11 +167,6 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
+>>   err_free:
+>>          ttm_resource_fini(man, &node->base.base);
+>>          kfree(node);
+>> -
+>> -err_out:
+>> -       if (!(place->flags & TTM_PL_FLAG_TEMPORARY))
+>> -               atomic64_sub(num_pages, &mgr->used);
+>> -
+>>          return r;
+>>   }
+>>
+>> @@ -196,25 +189,10 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
+>>                  drm_mm_remove_node(&node->base.mm_nodes[0]);
+>>          spin_unlock(&mgr->lock);
+>>
+>> -       if (!(res->placement & TTM_PL_FLAG_TEMPORARY))
+>> -               atomic64_sub(res->num_pages, &mgr->used);
+>> -
+>>          ttm_resource_fini(man, res);
+>>          kfree(node);
+>>   }
+>>
+>> -/**
+>> - * amdgpu_gtt_mgr_usage - return usage of GTT domain
+>> - *
+>> - * @mgr: amdgpu_gtt_mgr pointer
+>> - *
+>> - * Return how many bytes are used in the GTT domain
+>> - */
+>> -uint64_t amdgpu_gtt_mgr_usage(struct amdgpu_gtt_mgr *mgr)
+>> -{
+>> -       return atomic64_read(&mgr->used) * PAGE_SIZE;
+>> -}
+>> -
+>>   /**
+>>    * amdgpu_gtt_mgr_recover - re-init gart
+>>    *
+>> @@ -260,9 +238,6 @@ static void amdgpu_gtt_mgr_debug(struct ttm_resource_manager *man,
+>>          spin_lock(&mgr->lock);
+>>          drm_mm_print(&mgr->mm, printer);
+>>          spin_unlock(&mgr->lock);
+>> -
+>> -       drm_printf(printer, "man size:%llu pages,  gtt used:%llu pages\n",
+>> -                  man->size, atomic64_read(&mgr->used));
+>>   }
+>>
+>>   static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func = {
+>> @@ -288,14 +263,12 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+>>          man->use_tt = true;
+>>          man->func = &amdgpu_gtt_mgr_func;
+>>
+>> -       ttm_resource_manager_init(man, &adev->mman.bdev,
+>> -                                 gtt_size >> PAGE_SHIFT);
+>> +       ttm_resource_manager_init(man, &adev->mman.bdev, gtt_size);
+>>
+>>          start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
+>>          size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
+>>          drm_mm_init(&mgr->mm, start, size);
+>>          spin_lock_init(&mgr->lock);
+>> -       atomic64_set(&mgr->used, 0);
+>>
+>>          ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, &mgr->manager);
+>>          ttm_resource_manager_set_used(man, true);
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+>> index 1ebb91db2274..9ff4aced5da7 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+>> @@ -684,7 +684,7 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+>>                  ui64 = amdgpu_vram_mgr_vis_usage(&adev->mman.vram_mgr);
+>>                  return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT : 0;
+>>          case AMDGPU_INFO_GTT_USAGE:
+>> -               ui64 = amdgpu_gtt_mgr_usage(&adev->mman.gtt_mgr);
+>> +               ui64 = ttm_resource_manager_usage(&adev->mman.gtt_mgr.manager);
+>>                  return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT : 0;
+>>          case AMDGPU_INFO_GDS_CONFIG: {
+>>                  struct drm_amdgpu_info_gds gds_info;
+>> @@ -716,7 +716,8 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+>>          case AMDGPU_INFO_MEMORY: {
+>>                  struct drm_amdgpu_memory_info mem;
+>>                  struct ttm_resource_manager *gtt_man =
+>> -                       ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
+>> +                       &adev->mman.gtt_mgr.manager;
+>> +
+>>                  memset(&mem, 0, sizeof(mem));
+>>                  mem.vram.total_heap_size = adev->gmc.real_vram_size;
+>>                  mem.vram.usable_heap_size = adev->gmc.real_vram_size -
+>> @@ -741,8 +742,7 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+>>                  mem.gtt.total_heap_size *= PAGE_SIZE;
+>>                  mem.gtt.usable_heap_size = mem.gtt.total_heap_size -
+>>                          atomic64_read(&adev->gart_pin_size);
+>> -               mem.gtt.heap_usage =
+>> -                       amdgpu_gtt_mgr_usage(&adev->mman.gtt_mgr);
+>> +               mem.gtt.heap_usage = ttm_resource_manager_usage(gtt_man);
+>>                  mem.gtt.max_allocation = mem.gtt.usable_heap_size * 3 / 4;
+>>
+>>                  return copy_to_user(out, &mem,
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> index 5661b82d84d4..514754142f69 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> @@ -451,7 +451,7 @@ static bool amdgpu_bo_validate_size(struct amdgpu_device *adev,
+>>          if (domain & AMDGPU_GEM_DOMAIN_GTT) {
+>>                  man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
+>>
+>> -               if (size < (man->size << PAGE_SHIFT))
+>> +               if (size < man->size)
+>>                          return true;
+>>                  else
+>>                          goto fail;
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> index f8f48be16d80..120b69ec9885 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> @@ -52,7 +52,6 @@ struct amdgpu_gtt_mgr {
+>>          struct ttm_resource_manager manager;
+>>          struct drm_mm mm;
+>>          spinlock_t lock;
+>> -       atomic64_t used;
+>>   };
+>>
+>>   struct amdgpu_preempt_mgr {
+>> @@ -114,7 +113,6 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev);
+>>   void amdgpu_vram_mgr_fini(struct amdgpu_device *adev);
+>>
+>>   bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *mem);
+>> -uint64_t amdgpu_gtt_mgr_usage(struct amdgpu_gtt_mgr *mgr);
+>>   int amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr);
+>>
+>>   uint64_t amdgpu_preempt_mgr_usage(struct ttm_resource_manager *man);
+>> --
+>> 2.25.1
+>>
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIKWUoFAwAAAAAACgkQlh/E3EQov+Cn
-7g//VR4bJ50USTs3KzUagxwdNLJmbwe8qSF9xEomwcWVoxO3uiUsIJWcOCJ66IN4S1HD19dAyCtf
-ic0+6vSkUtbtQ4M+Nzowv/yOng+nwoPQzUbK1GvNs8EyK5FHY+DwdvDeUPYssLXNcHVadJNjsrZ4
-hYBfdV+IXPO85D8ZYTG5MSBlVoQxxTpC/X1eqvE5ZhUsRD8khn021DdIcaIxzNAkyraSFpE91zDD
-Pys1ScZ1N1FYo6qv5u3T0zEdGHZMVTJ6ZL2VWoCSNOFMovWjtbzQfXyJ/7f0HtECNfrw5umY8MZC
-tQFgFvl3wg5u3xAXvIU8nIQenaLZobj2xKFeVvFVhmAcJrRQ/beFQ5HzH6BPvazS9YuoMdE/Goi4
-jct6jRA2Exx23aZhsfdZ19p7Wooj1f/vKHIEdoXIPBvzZK+r8DgDewYMqHgDmCdDL9Rc0+lPE8Wb
-acfSOUco4r59dmYnMcrxm0J/3LKQGaaK7ZP8NWg/6mRUjVft7HUbJKIGIr8GuMz+8CqvUtCRUMfg
-thbXvdEirLOd8htcoK4s/98rIHYsZ5fKHcAbPZsVniIKl8FVCEdZ/1Dit6CEnOGjOZjOHxQ4Lhvy
-yi3dtSQZWlpRUZypPAorOvtgP48lspmnjmYMDV4rsmU/g13Y3RtTLH8420qQmV1k2r27AFZ9/zRN
-YkQ=
-=GcVp
------END PGP SIGNATURE-----
-
---------------cY83eb3xDQ46xO4efc8b4xec--
