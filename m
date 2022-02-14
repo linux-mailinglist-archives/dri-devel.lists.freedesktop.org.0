@@ -1,59 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E924B592C
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 18:55:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAE8F4B593B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 18:59:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4D7410E267;
-	Mon, 14 Feb 2022 17:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88D4410E288;
+	Mon, 14 Feb 2022 17:59:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71E6310E267;
- Mon, 14 Feb 2022 17:55:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644861332; x=1676397332;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=C54/U+DHYBApPNlslBVdhM3KM9lFpe7aN8JQV9NJVek=;
- b=nBL5PqctNFY/9HpU5v72xuQXV0SHIVovT0uL7d+K4pmIqjKmfU3H0bD+
- xi+jCx5cWVCXd3LIzCtqTQCmguSJwNP9ToUVCn487gpqNM+mFKR8F1wUk
- tD3pc/J9R+hbsIZinLW1eUbEb8zSngUMfMJwx8eO0K2O8fWRy+GkkSwsp k=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Feb 2022 09:55:32 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 09:55:31 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Mon, 14 Feb 2022 09:55:31 -0800
-Received: from [10.110.63.253] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 14 Feb
- 2022 09:55:29 -0800
-Content-Type: multipart/alternative;
- boundary="------------02zNWf5tH0nkXnmCl0yO2N0H"
-Message-ID: <3b6cd2c2-5ebb-97a2-f9af-3c32d0899cd8@quicinc.com>
-Date: Mon, 14 Feb 2022 09:55:29 -0800
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A37110E258;
+ Mon, 14 Feb 2022 17:59:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644861577; x=1676397577;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=h2nLBru7ddRK3E/s9FlkhXeaiYmRggwF6jnGtDIawQM=;
+ b=E+OJvUkft7GSq42MfH4XOyyKxt74izsJLntHa2eRwYjs1RcheFqY1+w3
+ Ehe3tWjorR0ZrPJK+2C5WIwrs36vJe7ewl5QI8+5emMCjl73bu1nI4+GE
+ xtceRALhQV2jShvneGMkDvV2/zp/CDVlurALF0Pu/wPHx6OvfGOdYlAJf
+ GEDpFZ4R9UyFnAkbRut2C9aSaQpClYWTNn6PyRrmwvFptuKw60UJp2LQc
+ CvcXG83Ali6MTqIle8IGdFGCxcpUsrVbnKEcVC/O3eRK42VaI+k10ny1L
+ ALJpvMV0ZMmrEvpavbeGdG7FmFHQ3qI4t/gPUgB6DhU93Y81IoAXjmn2+ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10258"; a="250096086"
+X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="250096086"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 09:59:36 -0800
+X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="703210237"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 09:59:31 -0800
+Date: Mon, 14 Feb 2022 19:59:27 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: Re: [PATCH 1/2] drm: Add HPD state to
+ drm_connector_oob_hotplug_event()
+Message-ID: <20220214175927.GA594729@ideak-desk.fi.intel.com>
+References: <20220208044328.588860-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/msm: populate intf_audio_select() base on hardware
- capability
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <1644621822-25407-1-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJpqwAxDa142B_N6NA7KkQ6WuuG_Ma7No5SXEpJdBmgKvXQ@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAA8EJpqwAxDa142B_N6NA7KkQ6WuuG_Ma7No5SXEpJdBmgKvXQ@mail.gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220208044328.588860-1-bjorn.andersson@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,252 +56,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_abhinavk@quicinc.com, airlied@linux.ie,
- freedreno@lists.freedesktop.org, vkoul@kernel.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com,
- bjorn.andersson@linaro.org, sean@poorly.run, linux-kernel@vger.kernel.org
+Cc: Sean Paul <sean@poorly.run>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------02zNWf5tH0nkXnmCl0yO2N0H
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+On Mon, Feb 07, 2022 at 08:43:27PM -0800, Bjorn Andersson wrote:
+> In some implementations, such as the Qualcomm platforms, the display
+> driver has no way to query the current HPD state and as such it's
+> impossible to distinguish between disconnect and attention events.
+> 
+> Add a parameter to drm_connector_oob_hotplug_event() to pass the HPD
+> state.
+> 
+> Also push the test for unchanged state in the displayport altmode driver
+> into the i915 driver, to allow other drivers to act upon each update.
+> 
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+> 
+> Note that the Intel driver has only been compile tested with this patch.
+> 
+>  drivers/gpu/drm/drm_connector.c          |  6 ++++--
+>  drivers/gpu/drm/i915/display/intel_dp.c  | 14 +++++++++++---
+>  drivers/gpu/drm/i915/i915_drv.h          |  3 +++
+>  drivers/usb/typec/altmodes/displayport.c |  9 ++-------
+>  include/drm/drm_connector.h              |  5 +++--
+>  5 files changed, 23 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index a50c82bc2b2f..ad7295597c0f 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -2825,6 +2825,7 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
+>  /**
+>   * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
+>   * @connector_fwnode: fwnode_handle to report the event on
+> + * @hpd_state: number of data lanes available
+>   *
+>   * On some hardware a hotplug event notification may come from outside the display
+>   * driver / device. An example of this is some USB Type-C setups where the hardware
+> @@ -2834,7 +2835,8 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
+>   * This function can be used to report these out-of-band events after obtaining
+>   * a drm_connector reference through calling drm_connector_find_by_fwnode().
+>   */
+> -void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
+> +void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
+> +				     bool hpd_state)
+>  {
+>  	struct drm_connector *connector;
+>  
+> @@ -2843,7 +2845,7 @@ void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
+>  		return;
+>  
+>  	if (connector->funcs->oob_hotplug_event)
+> -		connector->funcs->oob_hotplug_event(connector);
+> +		connector->funcs->oob_hotplug_event(connector, hpd_state);
+>  
+>  	drm_connector_put(connector);
+>  }
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 146b83916005..00520867d37b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -4816,15 +4816,23 @@ static int intel_dp_connector_atomic_check(struct drm_connector *conn,
+>  	return intel_modeset_synced_crtcs(state, conn);
+>  }
+>  
+> -static void intel_dp_oob_hotplug_event(struct drm_connector *connector)
+> +static void intel_dp_oob_hotplug_event(struct drm_connector *connector, bool hpd_state)
+>  {
+>  	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
+>  	struct drm_i915_private *i915 = to_i915(connector->dev);
+> +	bool need_work = false;
+>  
+>  	spin_lock_irq(&i915->irq_lock);
+> -	i915->hotplug.event_bits |= BIT(encoder->hpd_pin);
+> +	if (hpd_state != i915->hotplug.oob_hotplug_state) {
 
+hpd_state is speific to the encoder (pin) so similarly to event_bits
+oob_hotplug_state should be a bitmask as well.
 
-On 2/11/2022 3:36 PM, Dmitry Baryshkov wrote:
-> On Sat, 12 Feb 2022 at 02:23, Kuogee Hsieh<quic_khsieh@quicinc.com>  wrote:
->> intf_audio_select() callback function use to configure
->> HDMI_DP_CORE_SELECT to decide audio output routes to HDMI or DP
->> interface. HDMI is obsoleted at newer chipset. To keep supporting
->> legacy hdmi application, intf_audio_select call back function have
->> to be populated base on hardware chip capability where legacy
->> chipsets have has_audio_select flag set to true.
->>
->> Signed-off-by: Kuogee Hsieh<quic_khsieh@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 ++
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 1 +
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c     | 9 ++++++---
->>   3 files changed, 9 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> index 272b14b..23680e7 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> @@ -201,6 +201,7 @@ static const struct dpu_caps sdm845_dpu_caps = {
->>          .has_dim_layer = true,
->>          .has_idle_pc = true,
->>          .has_3d_merge = true,
->> +       .has_audio_select = true,
->>          .max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
->>          .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->>          .max_hdeci_exp = MAX_HORZ_DECIMATION,
->> @@ -229,6 +230,7 @@ static const struct dpu_caps sm8150_dpu_caps = {
->>          .has_dim_layer = true,
->>          .has_idle_pc = true,
->>          .has_3d_merge = true,
->> +       .has_audio_select = true,
->>          .max_linewidth = 4096,
->>          .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->>          .max_hdeci_exp = MAX_HORZ_DECIMATION,
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->> index e5a96d6..b33f91b 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->> @@ -357,6 +357,7 @@ struct dpu_caps {
->>          bool has_dim_layer;
->>          bool has_idle_pc;
->>          bool has_3d_merge;
->> +       bool has_audio_select;
-> I'd suggest adding a bit to dpu_mdp_cfg's features instead, following
-> the example of other hardware blocks.
-
-it may cause mis leading if we put this in hardware level since 
-MDP_HDMI_DP_SELECT  bit has not be connected
-
-to logic for a while even it still present at ipcat. Also this bit but 
-will be  removed at next release.
-
-Is dpu_caps level more proper than in hardware feature level?
-
-
->
->>          /* SSPP limits */
->>          u32 max_linewidth;
->>          u32 pixel_ram_size;
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
->> index 282e3c6..e608f4d 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
->> @@ -261,14 +261,17 @@ static void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
->>   }
->>
->>   static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
->> -               unsigned long cap)
->> +               unsigned long cap,
->> +               const struct dpu_mdss_cfg *m)
->>   {
->>          ops->setup_split_pipe = dpu_hw_setup_split_pipe;
->>          ops->setup_clk_force_ctrl = dpu_hw_setup_clk_force_ctrl;
->>          ops->get_danger_status = dpu_hw_get_danger_status;
->>          ops->setup_vsync_source = dpu_hw_setup_vsync_source;
->>          ops->get_safe_status = dpu_hw_get_safe_status;
->> -       ops->intf_audio_select = dpu_hw_intf_audio_select;
->> +
->> +       if (m->caps->has_audio_select)
->> +               ops->intf_audio_select = dpu_hw_intf_audio_select;
->>   }
->>
->>   static const struct dpu_mdp_cfg *_top_offset(enum dpu_mdp mdp,
->> @@ -320,7 +323,7 @@ struct dpu_hw_mdp *dpu_hw_mdptop_init(enum dpu_mdp idx,
->>           */
->>          mdp->idx = idx;
->>          mdp->caps = cfg;
->> -       _setup_mdp_ops(&mdp->ops, mdp->caps->features);
->> +       _setup_mdp_ops(&mdp->ops, mdp->caps->features, m);
->>
->>          return mdp;
->>   }
---------------02zNWf5tH0nkXnmCl0yO2N0H
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2/11/2022 3:36 PM, Dmitry Baryshkov
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAA8EJpqwAxDa142B_N6NA7KkQ6WuuG_Ma7No5SXEpJdBmgKvXQ@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">On Sat, 12 Feb 2022 at 02:23, Kuogee Hsieh <a class="moz-txt-link-rfc2396E" href="mailto:quic_khsieh@quicinc.com">&lt;quic_khsieh@quicinc.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-intf_audio_select() callback function use to configure
-HDMI_DP_CORE_SELECT to decide audio output routes to HDMI or DP
-interface. HDMI is obsoleted at newer chipset. To keep supporting
-legacy hdmi application, intf_audio_select call back function have
-to be populated base on hardware chip capability where legacy
-chipsets have has_audio_select flag set to true.
-
-Signed-off-by: Kuogee Hsieh <a class="moz-txt-link-rfc2396E" href="mailto:quic_khsieh@quicinc.com">&lt;quic_khsieh@quicinc.com&gt;</a>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c     | 9 ++++++---
- 3 files changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 272b14b..23680e7 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -201,6 +201,7 @@ static const struct dpu_caps sdm845_dpu_caps = {
-        .has_dim_layer = true,
-        .has_idle_pc = true,
-        .has_3d_merge = true,
-+       .has_audio_select = true,
-        .max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-        .max_hdeci_exp = MAX_HORZ_DECIMATION,
-@@ -229,6 +230,7 @@ static const struct dpu_caps sm8150_dpu_caps = {
-        .has_dim_layer = true,
-        .has_idle_pc = true,
-        .has_3d_merge = true,
-+       .has_audio_select = true,
-        .max_linewidth = 4096,
-        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-        .max_hdeci_exp = MAX_HORZ_DECIMATION,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index e5a96d6..b33f91b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -357,6 +357,7 @@ struct dpu_caps {
-        bool has_dim_layer;
-        bool has_idle_pc;
-        bool has_3d_merge;
-+       bool has_audio_select;
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I'd suggest adding a bit to dpu_mdp_cfg's features instead, following
-the example of other hardware blocks.</pre>
-    </blockquote>
-    <p>it may cause mis leading if we put this in hardware level since 
-      MDP_HDMI_DP_SELECT  bit has not be connected</p>
-    <p>to logic for a while even it still present at ipcat. Also this
-      bit but will be  removed at next release. <br>
-    </p>
-    <p>Is dpu_caps level more proper than in hardware feature level?<br>
-    </p>
-    <p><br>
-      <span style="color: rgb(33, 37, 41); font-family: -apple-system,
-        BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto,
-        &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;,
-        sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI
-        Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color
-        Emoji&quot;; font-size: 14px; font-style: normal;
-        font-variant-ligatures: normal; font-variant-caps: normal;
-        font-weight: 400; letter-spacing: normal; orphans: 2;
-        text-align: left; text-indent: 0px; text-transform: none;
-        white-space: normal; widows: 2; word-spacing: 0px;
-        -webkit-text-stroke-width: 0px; background-color: rgb(200, 240,
-        200); text-decoration-thickness: initial; text-decoration-style:
-        initial; text-decoration-color: initial; display: inline
-        !important; float: none;"><span></span></span></p>
-    <blockquote type="cite"
-cite="mid:CAA8EJpqwAxDa142B_N6NA7KkQ6WuuG_Ma7No5SXEpJdBmgKvXQ@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">        /* SSPP limits */
-        u32 max_linewidth;
-        u32 pixel_ram_size;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-index 282e3c6..e608f4d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-@@ -261,14 +261,17 @@ static void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
- }
-
- static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
--               unsigned long cap)
-+               unsigned long cap,
-+               const struct dpu_mdss_cfg *m)
- {
-        ops-&gt;setup_split_pipe = dpu_hw_setup_split_pipe;
-        ops-&gt;setup_clk_force_ctrl = dpu_hw_setup_clk_force_ctrl;
-        ops-&gt;get_danger_status = dpu_hw_get_danger_status;
-        ops-&gt;setup_vsync_source = dpu_hw_setup_vsync_source;
-        ops-&gt;get_safe_status = dpu_hw_get_safe_status;
--       ops-&gt;intf_audio_select = dpu_hw_intf_audio_select;
-+
-+       if (m-&gt;caps-&gt;has_audio_select)
-+               ops-&gt;intf_audio_select = dpu_hw_intf_audio_select;
- }
-
- static const struct dpu_mdp_cfg *_top_offset(enum dpu_mdp mdp,
-@@ -320,7 +323,7 @@ struct dpu_hw_mdp *dpu_hw_mdptop_init(enum dpu_mdp idx,
-         */
-        mdp-&gt;idx = idx;
-        mdp-&gt;caps = cfg;
--       _setup_mdp_ops(&amp;mdp-&gt;ops, mdp-&gt;caps-&gt;features);
-+       _setup_mdp_ops(&amp;mdp-&gt;ops, mdp-&gt;caps-&gt;features, m);
-
-        return mdp;
- }
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------02zNWf5tH0nkXnmCl0yO2N0H--
+> +		i915->hotplug.event_bits |= BIT(encoder->hpd_pin);
+> +
+> +		i915->hotplug.oob_hotplug_state = hpd_state;
+> +		need_work = true;
+> +	}
+>  	spin_unlock_irq(&i915->irq_lock);
+> -	queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
+> +
+> +	if (need_work)
+> +		queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
+>  }
+>  
+>  static const struct drm_connector_funcs intel_dp_connector_funcs = {
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 8c1706fd81f9..543ebf1cfcf4 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -149,6 +149,9 @@ struct i915_hotplug {
+>  	/* Whether or not to count short HPD IRQs in HPD storms */
+>  	u8 hpd_short_storm_enabled;
+>  
+> +	/* Last state reported by oob_hotplug_event */
+> +	bool oob_hotplug_state;
+> +
+>  	/*
+>  	 * if we get a HPD irq from DP and a HPD irq from non-DP
+>  	 * the non-DP HPD could block the workqueue on a mode config
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+> index c1d8c23baa39..a4596be4d34a 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -59,7 +59,6 @@ struct dp_altmode {
+>  	struct typec_displayport_data data;
+>  
+>  	enum dp_state state;
+> -	bool hpd;
+>  
+>  	struct mutex lock; /* device lock */
+>  	struct work_struct work;
+> @@ -143,10 +142,7 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
+>  		if (!ret)
+>  			dp->state = DP_STATE_CONFIGURE;
+>  	} else {
+> -		if (dp->hpd != hpd) {
+> -			drm_connector_oob_hotplug_event(dp->connector_fwnode);
+> -			dp->hpd = hpd;
+> -		}
+> +		drm_connector_oob_hotplug_event(dp->connector_fwnode, hpd);
+>  	}
+>  
+>  	return ret;
+> @@ -573,8 +569,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
+>  	cancel_work_sync(&dp->work);
+>  
+>  	if (dp->connector_fwnode) {
+> -		if (dp->hpd)
+> -			drm_connector_oob_hotplug_event(dp->connector_fwnode);
+> +		drm_connector_oob_hotplug_event(dp->connector_fwnode, false);
+>  
+>  		fwnode_handle_put(dp->connector_fwnode);
+>  	}
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 64cf5f88c05b..7c90b8eb2ace 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1141,7 +1141,7 @@ struct drm_connector_funcs {
+>  	 * This will get called when a hotplug-event for a drm-connector
+>  	 * has been received from a source outside the display driver / device.
+>  	 */
+> -	void (*oob_hotplug_event)(struct drm_connector *connector);
+> +	void (*oob_hotplug_event)(struct drm_connector *connector, bool hpd_state);
+>  };
+>  
+>  /**
+> @@ -1742,7 +1742,8 @@ drm_connector_is_unregistered(struct drm_connector *connector)
+>  		DRM_CONNECTOR_UNREGISTERED;
+>  }
+>  
+> -void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode);
+> +void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
+> +				     bool hpd_state);
+>  const char *drm_get_connector_type_name(unsigned int connector_type);
+>  const char *drm_get_connector_status_name(enum drm_connector_status status);
+>  const char *drm_get_subpixel_order_name(enum subpixel_order order);
+> -- 
+> 2.33.1
+> 
