@@ -2,51 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9AC4B42EB
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 08:36:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F274B4330
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 09:03:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFD8410E1AF;
-	Mon, 14 Feb 2022 07:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6527510E1BD;
+	Mon, 14 Feb 2022 08:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A8D710E1AF;
- Mon, 14 Feb 2022 07:36:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644824170; x=1676360170;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=TtIgUTAIsXJ4XGN4YguPnu9VZqX5t+e944YjPkCfnAQ=;
- b=iHWvdIoZgHtfCTj4Jhhc+qlls93Fz+d/JUxueLUUn8/tXAy5kpGvPD5m
- hDk77VZ969/eUntwWODJEVAPujFNLKiqDxzh8UaU5YJeCcUVZ/sm2Qpth
- O+bu3Ka7g0O0JOAHkEDRNRztD7xpUlF+0hM0Ppv9eEK6G31gy934aZteB
- DnNNLDen94uiAE/ZJhMk1hku2IFLGZqqMVcufsUP25GtzN2RLCwuL/BWp
- fihVxxIPBGVZgLlmqxoZAYDGcO3gNivagm1JPAnw54MXBOKCKEtdsM+iC
- 1mcf98RTRzTXfk5f6oV25/aJKjr1xbuD7JkzLCdz9In4Yl/Eh4rGaQjih A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="247628391"
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="247628391"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2022 23:36:09 -0800
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="772875545"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2022 23:36:04 -0800
-Received: by lahna (sSMTP sendmail emulation); Mon, 14 Feb 2022 09:34:26 +0200
-Date: Mon, 14 Feb 2022 09:34:26 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v3 05/12] PCI: Detect root port of internal USB4 devices
- by `usb4-host-interface`
-Message-ID: <YgoGAkjZgCob8Mdl@lahna>
-References: <20220211193250.1904843-6-mario.limonciello@amd.com>
- <20220211214546.GA737137@bhelgaas>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50AF510E143
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 08:03:14 +0000 (UTC)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1nJWKA-0006vg-Ok; Mon, 14 Feb 2022 09:03:06 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Yong Wu <yong.wu@mediatek.com>
+Subject: Re: [PATCH 13/23] drm/rockchip: Make use of the helper
+ component_compare_dev
+Date: Mon, 14 Feb 2022 09:03:04 +0100
+Message-ID: <3640952.nfqboWGjmy@diego>
+In-Reply-To: <20220214060819.7334-14-yong.wu@mediatek.com>
+References: <20220214060819.7334-1-yong.wu@mediatek.com>
+ <20220214060819.7334-14-yong.wu@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220211214546.GA737137@bhelgaas>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,71 +43,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- Michael Jamet <michael.jamet@intel.com>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
- Yehezkel Bernat <YehezkelShB@gmail.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Alexander.Deucher@amd.com
+Cc: Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Will Deacon <will@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
+ linux-rockchip@lists.infradead.org, Sandy Huang <hjc@rock-chips.com>,
+ James Wang <james.qian.wang@arm.com>, Yong Wu <yong.wu@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ srv_heupstream@mediatek.com, Stephen Boyd <sboyd@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bjorn,
+Am Montag, 14. Februar 2022, 07:08:09 CET schrieb Yong Wu:
+> Use the common compare helper from component.
+>=20
+> Cc: Sandy Huang <hjc@rock-chips.com>
+> Cc: "Heiko St=A8=B9bner" <heiko@sntech.de>
+> Cc: linux-rockchip@lists.infradead.org
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 
-On Fri, Feb 11, 2022 at 03:45:46PM -0600, Bjorn Helgaas wrote:
-> On Fri, Feb 11, 2022 at 01:32:43PM -0600, Mario Limonciello wrote:
-> > The root port used for PCIe tunneling should be marked as removable to
-> > ensure that the entire chain is marked removable.
-> > 
-> > This can be done by looking for the device property specified in
-> > the ACPI tables `usb4-host-interface`.
-> > 
-> > Suggested-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> > Link: https://docs.microsoft.com/en-us/windows-hardware/drivers/pci/dsd-for-pcie-root-ports#mapping-native-protocols-pcie-displayport-tunneled-through-usb4-to-usb4-host-routers
-> > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> > ---
-> >  drivers/pci/pci-acpi.c | 10 ++++++++++
-> >  drivers/pci/pci.h      |  5 +++++
-> >  drivers/pci/probe.c    |  1 +
-> >  3 files changed, 16 insertions(+)
-> > 
-> > diff --git a/drivers/pci/pci-acpi.c b/drivers/pci/pci-acpi.c
-> > index a42dbf448860..6368e5633b1b 100644
-> > --- a/drivers/pci/pci-acpi.c
-> > +++ b/drivers/pci/pci-acpi.c
-> > @@ -1391,6 +1391,16 @@ void pci_acpi_cleanup(struct device *dev, struct acpi_device *adev)
-> >  	}
-> >  }
-> >  
-> > +bool pci_acpi_is_usb4(struct pci_dev *dev)
-> > +{
-> > +	struct acpi_device *adev = ACPI_COMPANION(&dev->dev);
-> > +
-> > +	if (!adev)
-> > +		return false;
-> > +	return fwnode_property_present(acpi_fwnode_handle(adev),
-> > +				       "usb4-host-interface");
-> 
-> Maybe it's obvious to everybody but me that "USB4" means this device
-> is removable.  The Microsoft reference above doesn't say anything
-> about removability.
-> 
-> My expectation is that "USB" (like "PCI" and "PCIe") tells me
-> something about how a device is electrically connected and how
-> software can operate it.  It doesn't really tell me anything about
-> whether those electrical connections are permanent, made through an
-> internal slot, or made through an external connector and cable.
+Acked-by: Heiko Stuebner <heiko@sntech.de>
 
-It is used to identify "tunneled" ports (whether PCIe, USB 3.x or
-DisplayPort). Tunnels are created by software (in Linux it is the
-Thunderbolt driver) and are dynamic in nature. The USB4 links go over
-USB Type-C cable which also is something user can plug/unplug freely.
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/dr=
+m/rockchip/rockchip_drm_drv.c
+> index bec207de4544..3c2f2d6ecc36 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> @@ -290,11 +290,6 @@ int rockchip_drm_endpoint_is_subdriver(struct device=
+_node *ep)
+>  	return false;
+>  }
+> =20
+> -static int compare_dev(struct device *dev, void *data)
+> -{
+> -	return dev =3D=3D (struct device *)data;
+> -}
+> -
+>  static void rockchip_drm_match_remove(struct device *dev)
+>  {
+>  	struct device_link *link;
+> @@ -321,7 +316,7 @@ static struct component_match *rockchip_drm_match_add=
+(struct device *dev)
+>  				break;
+> =20
+>  			device_link_add(dev, d, DL_FLAG_STATELESS);
+> -			component_match_add(dev, &match, compare_dev, d);
+> +			component_match_add(dev, &match, component_compare_dev, d);
+>  		} while (true);
+>  	}
+> =20
+>=20
 
-I would say it is reasonable expectation that anything behind these
-ports can be assumed as "removable".
+
+
+
