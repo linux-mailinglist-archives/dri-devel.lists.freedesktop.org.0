@@ -1,41 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FC34B41B7
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 07:11:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7854B41B9
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 07:11:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5158910E4A6;
-	Mon, 14 Feb 2022 06:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4097510E4AA;
+	Mon, 14 Feb 2022 06:11:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32C5E10E4A6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 06:11:00 +0000 (UTC)
-X-UUID: cc29d99d1df042f4b8b8e27cdef4c160-20220214
-X-UUID: cc29d99d1df042f4b8b8e27cdef4c160-20220214
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5924F10E4A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 06:11:09 +0000 (UTC)
+X-UUID: 79f8bf93bdf34329bdac0499ae51a473-20220214
+X-UUID: 79f8bf93bdf34329bdac0499ae51a473-20220214
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1930234839; Mon, 14 Feb 2022 14:10:58 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 14 Feb 2022 14:10:56 +0800
+ with ESMTP id 43978453; Mon, 14 Feb 2022 14:11:07 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Mon, 14 Feb 2022 14:11:06 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 14 Feb 2022 14:11:05 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 14 Feb 2022 14:10:54 +0800
+ Transport; Mon, 14 Feb 2022 14:11:03 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, David Airlie
  <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 12/23] drm/sun4i: Make use of the helper component_compare_of
-Date: Mon, 14 Feb 2022 14:08:08 +0800
-Message-ID: <20220214060819.7334-13-yong.wu@mediatek.com>
+Subject: [PATCH 13/23] drm/rockchip: Make use of the helper
+ component_compare_dev
+Date: Mon, 14 Feb 2022 14:08:09 +0800
+Message-ID: <20220214060819.7334-14-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220214060819.7334-1-yong.wu@mediatek.com>
 References: <20220214060819.7334-1-yong.wu@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,59 +59,54 @@ Cc: Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Will Deacon <will@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- James Wang <james.qian.wang@arm.com>, Yong Wu <yong.wu@mediatek.com>,
- linux-sunxi@lists.linux.dev, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, Joerg
+ Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
+ linux-rockchip@lists.infradead.org, Sandy
+ Huang <hjc@rock-chips.com>, James Wang <james.qian.wang@arm.com>,
+ Yong Wu <yong.wu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Arnd Bergmann <arnd@arndb.de>, linux-mediatek@lists.infradead.org,
  Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
  linux-arm-kernel@lists.infradead.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- srv_heupstream@mediatek.com, Stephen Boyd <sboyd@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- Robin Murphy <robin.murphy@arm.com>
+ srv_heupstream@mediatek.com, Stephen
+ Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Tomasz Figa <tfiga@chromium.org>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Use the common compare helper from component.
 
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
+Cc: Sandy Huang <hjc@rock-chips.com>
+Cc: "Heiko St¨¹bner" <heiko@sntech.de>
+Cc: linux-rockchip@lists.infradead.org
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 ---
- drivers/gpu/drm/sun4i/sun4i_drv.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index b630614b3d72..a3e3e51c600d 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -201,15 +201,6 @@ static bool sun4i_drv_node_is_tcon_top(struct device_node *node)
- 		!!of_match_node(sun8i_tcon_top_of_table, node);
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+index bec207de4544..3c2f2d6ecc36 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+@@ -290,11 +290,6 @@ int rockchip_drm_endpoint_is_subdriver(struct device_node *ep)
+ 	return false;
  }
  
--static int compare_of(struct device *dev, void *data)
+-static int compare_dev(struct device *dev, void *data)
 -{
--	DRM_DEBUG_DRIVER("Comparing of node %pOF with %pOF\n",
--			 dev->of_node,
--			 data);
--
--	return dev->of_node == data;
+-	return dev == (struct device *)data;
 -}
 -
- /*
-  * The encoder drivers use drm_of_find_possible_crtcs to get upstream
-  * crtcs from the device tree using of_graph. For the results to be
-@@ -329,7 +320,7 @@ static int sun4i_drv_add_endpoints(struct device *dev,
- 	     of_device_is_available(node))) {
- 		/* Add current component */
- 		DRM_DEBUG_DRIVER("Adding component %pOF\n", node);
--		drm_of_component_match_add(dev, match, compare_of, node);
-+		drm_of_component_match_add(dev, match, component_compare_of, node);
- 		count++;
+ static void rockchip_drm_match_remove(struct device *dev)
+ {
+ 	struct device_link *link;
+@@ -321,7 +316,7 @@ static struct component_match *rockchip_drm_match_add(struct device *dev)
+ 				break;
+ 
+ 			device_link_add(dev, d, DL_FLAG_STATELESS);
+-			component_match_add(dev, &match, compare_dev, d);
++			component_match_add(dev, &match, component_compare_dev, d);
+ 		} while (true);
  	}
  
 -- 
