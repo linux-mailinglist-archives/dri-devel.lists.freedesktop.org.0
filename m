@@ -2,52 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF424B4CBC
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:58:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFCB14B4CB7
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:57:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5985010E4FA;
-	Mon, 14 Feb 2022 10:58:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECB3510E51B;
+	Mon, 14 Feb 2022 10:57:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46ADB10E4FA;
- Mon, 14 Feb 2022 10:58:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644836301; x=1676372301;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=fqstnbilWmleOnIjJb3aDPlLE84EFgpMrS7YjBM/2dk=;
- b=IvgyhlIAVyqiOEPZXCmb4uonwoA85Jcdc5s/4b7laEPWIUs/+35Mffuu
- S4G+knTiUJKADgopzVw0k+/SHp3N6Jkh8nEuTEqY7r4TMZpKAHqepmtH9
- 5jXLXjyIn0HUarHtLgXm4EDrqqBM5QkHc+L0VR375kuThCFVyxAXZt1q7
- 4Tkwa1SUNE41sKHB9pf3x5Rhj2VZ80Ow/pSQmr9f/mRLTExA2AhE0b48T
- 7OclePP3BUye17yi6yCNCG8EHZwbzde2W7wCRZQTWv9C9aDnovC5UJeM2
- iVMGwEsXeaCexXHvX+F8ps/wksDGGyAW4uo6P/MBT1kyPKjST0kuzlWY+ Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="310803286"
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="310803286"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 02:58:20 -0800
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="528087732"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 02:58:15 -0800
-Received: by lahna (sSMTP sendmail emulation); Mon, 14 Feb 2022 12:56:58 +0200
-Date: Mon, 14 Feb 2022 12:56:58 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH v3 05/12] PCI: Detect root port of internal USB4 devices
- by `usb4-host-interface`
-Message-ID: <Ygo1eoVe8D0b80QF@lahna>
-References: <20220211193250.1904843-6-mario.limonciello@amd.com>
- <20220211214546.GA737137@bhelgaas> <YgoGAkjZgCob8Mdl@lahna>
- <20220214085202.GA21533@wunner.de>
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com
+ [209.85.217.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F221710E51B
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 10:57:33 +0000 (UTC)
+Received: by mail-vs1-f41.google.com with SMTP id j20so4377462vsg.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 02:57:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3C7RZsUPH67gE+tnYDZyMgOb/jtRDu7g+Ix4wmjevW8=;
+ b=UjzU7hgtrRKalLUYW2Ps4OH29qh3B8MI3pKiEdND7AnL4nSSjCxgRGgLSFPNABrc4W
+ jzBDkNYoIgBC/LRvlrxbCY4pj8i6T5ljz0bdgOIoWKWx9WzrLOJIxsKV5hIQUxSaBEu7
+ 89x8FdlMBe8eovw9maEgBCJx1iABHbld5bjrbnPxEz6C9KjBmsC5gJg+s6yzncb8Xi6U
+ anow88aK+trxdbD3eQBHI/Yt/3GS942yQt/EgfGKs/MJ63lDOdYsAP+rAuSBR18H+xiJ
+ o25tSNWVsBB3zwZXdFJvd7gCBqX6/DHzvHXfXXKlCHWlMLDGkVQVbtmWym0K6eKAiYGY
+ uvOw==
+X-Gm-Message-State: AOAM533eLVyKdmPIRh/jHAx7Ptcf1g+WyInTmPlnPKLxGS7o8el0nX7k
+ VFGtUU/qHFkRQenmwUPk4rV2D2ESIZRvQQ==
+X-Google-Smtp-Source: ABdhPJwsBAoORj8nRyifMP0JIbuxhTeMdur9mO8o4SXD7eBxmzpCsgpAuyRBJUQKujyJvMI3G2TaUw==
+X-Received: by 2002:a05:6102:508:: with SMTP id l8mr3837913vsa.1.1644836252813; 
+ Mon, 14 Feb 2022 02:57:32 -0800 (PST)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com.
+ [209.85.217.46])
+ by smtp.gmail.com with ESMTPSA id m3sm2288452vso.0.2022.02.14.02.57.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 02:57:32 -0800 (PST)
+Received: by mail-vs1-f46.google.com with SMTP id e26so1949870vso.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 02:57:31 -0800 (PST)
+X-Received: by 2002:a05:6102:440d:: with SMTP id
+ df13mr1065090vsb.5.1644836251571; 
+ Mon, 14 Feb 2022 02:57:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220214085202.GA21533@wunner.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220211091927.2988283-1-javierm@redhat.com>
+ <20220211091927.2988283-2-javierm@redhat.com>
+ <YgY6OqN+guBlt/ED@smile.fi.intel.com>
+ <4fa465d9-4fac-4199-9a04-d8e09d164308@redhat.com>
+ <YgZEuXvJ2ZiOyNS+@smile.fi.intel.com>
+ <7560cd10-0a7c-3fda-da83-9008833e3901@suse.de>
+ <87pmnt7gm3.fsf@intel.com> <YgaDj6Wld4b7S6DF@smile.fi.intel.com>
+ <f87ce2fa-6b18-f985-eb86-506ce7103db3@suse.de>
+ <YgoxFBGNsrezVxmi@smile.fi.intel.com>
+In-Reply-To: <YgoxFBGNsrezVxmi@smile.fi.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 14 Feb 2022 11:57:20 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVWUDo3v+=+Um_8_ys-a-5HovGTUeYjvkQ91R_JDf0Myg@mail.gmail.com>
+Message-ID: <CAMuHMdVWUDo3v+=+Um_8_ys-a-5HovGTUeYjvkQ91R_JDf0Myg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/6] drm/format-helper: Add
+ drm_fb_xrgb8888_to_gray8_line()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,44 +73,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
- Michael Jamet <michael.jamet@intel.com>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
- Yehezkel Bernat <YehezkelShB@gmail.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Alexander.Deucher@amd.com
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 14, 2022 at 09:52:02AM +0100, Lukas Wunner wrote:
-> On Mon, Feb 14, 2022 at 09:34:26AM +0200, Mika Westerberg wrote:
-> > On Fri, Feb 11, 2022 at 03:45:46PM -0600, Bjorn Helgaas wrote:
-> > > My expectation is that "USB" (like "PCI" and "PCIe") tells me
-> > > something about how a device is electrically connected and how
-> > > software can operate it.  It doesn't really tell me anything about
-> > > whether those electrical connections are permanent, made through an
-> > > internal slot, or made through an external connector and cable.
-> > 
-> > It is used to identify "tunneled" ports (whether PCIe, USB 3.x or
-> > DisplayPort). Tunnels are created by software (in Linux it is the
-> > Thunderbolt driver) and are dynamic in nature. The USB4 links go over
-> > USB Type-C cable which also is something user can plug/unplug freely.
-> > 
-> > I would say it is reasonable expectation that anything behind these
-> > ports can be assumed as "removable".
-> 
-> USB gadgets may be soldered to the mainboard.  Those cannot be
-> unplugged freely.  It is common practice to solder USB Ethernet
-> or USB FTDI serial ports and nothing's preventing a vendor to solder
-> USB4/Thunderbolt gadgets.
+Hi Andy,
 
-Right, that's why I say it is "reasonable expectation" that anything
-behind these ports can be assumed "removable" :) Of course they don't
-have to be but if we assume that in the driver where this actually
-matters we should be on the safe side, no?
+On Mon, Feb 14, 2022 at 11:39 AM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> On Mon, Feb 14, 2022 at 10:03:53AM +0100, Thomas Zimmermann wrote:
+> > Am 11.02.22 um 16:41 schrieb Andy Shevchenko:
+> > > > IMO *always* prefer a for loop over while or do-while.
+> > > >
+> > > > The for (i = 0; i < N; i++) is such a strong paradigm in C. You
+> > > > instantly know how many times you're going to loop, at a glance. Not so
+> > > > with with the alternatives, which should be used sparingly.
+> > >
+> > > while () {}  _is_ a paradigm, for-loop is syntax sugar on top of it.
+> >
+> > Naw, that's not true.
+>
+> In the section 3.5 "Loops - While and For" in "The C Programming
+> Language" 2nd by K&R, the authors said:
+>
+>         The for statement ... is equivalent to ... while..."
+>
+> They said that for is equivalent to while, and not otherwise.
+
+When I learned C, people told me to prefer while() over for() when
+possible, as several compilers are better at optimizing while()-loops
+than for()-loops.
+
+During the last 3 decades, optimizers got better, and all the bad
+old compilers went the way of the dodo (see also [1])...
+But even for a human, it's still less symbols to decode (and verify
+all the details about =/</>/<=/>=/++/--/...) for
+
+    while (n--) { ... }
+
+than for
+
+   for (i = 0; i < n; i++) { ... }
+
+[1] https://lwn.net/Articles/871283/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
