@@ -2,69 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795834B4523
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:04:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A9FB4B4525
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:05:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9217410E1FC;
-	Mon, 14 Feb 2022 09:03:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAD6D10E238;
+	Mon, 14 Feb 2022 09:05:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E60D910E249
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:03:55 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8502021102;
- Mon, 14 Feb 2022 09:03:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1644829434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=W3lMPiTg57Iko6QmDb0Lnn87uO6or+yWRk31NJauq84=;
- b=0ieHyXIAKW2yHHxjqXfbljyCAnHRnXYTitEbxfEPkFbob1DdWgu5RdjJh/gc8h2RyYB4Zw
- k3CEJNqS9FH+mReJXEc2Kqrh3j1S8o+LOPlgY4ihtxL1sFQMzY5cRtmzb5Jnk3sBnjqhbO
- +Fn46meiQRUZ5Tx0owCpauiPOGew2q0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1644829434;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=W3lMPiTg57Iko6QmDb0Lnn87uO6or+yWRk31NJauq84=;
- b=m1IJPTAHqiI4DsoaH/y8pmiur/j9G2cpZpciP37DP1HoNg0bDM87tmAT+eFRCkDJF9dWBQ
- PSVavyzuKCSy80Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F9FC139F7;
- Mon, 14 Feb 2022 09:03:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ZHcTDvoaCmJbFwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 14 Feb 2022 09:03:54 +0000
-Message-ID: <f87ce2fa-6b18-f985-eb86-506ce7103db3@suse.de>
-Date: Mon, 14 Feb 2022 10:03:53 +0100
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
+ [209.85.217.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C083610E238
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:05:27 +0000 (UTC)
+Received: by mail-vs1-f45.google.com with SMTP id g21so5240816vsp.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 01:05:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ACc7MhlmQaRHyX1iGzVS1S3D+ci69MdBwNfaRqsmbHE=;
+ b=5/hEOj5ThpVWz6Kw8+Ab59I9mz9I/iG1gExk7gCZxAVlT41Xi0gxyGiT8zij2NG1Gy
+ YHkN37/FmKtqfHT5/SuFYZNRb+sPGmVcais8ka3N9K0If1LllvvXBUyMYc6iFuDhiEnE
+ RgTOv2nXi66CThFbybsRafInvcZ9kT1oDS8+mlkGKx8/56U/UvyYg3FpMW+i6QFnJa95
+ y7A50F1Rc8b+L7mita5yne8DLSGMu02MtFI4sJNZoZlh7qjw0yohZScl2iErwA6Pl4xh
+ HnljFAUnRYRSFw98mm4yhy3jIFH2u9IkoeXy+oXwZYj9IczrEh5RRc2CheDN6I3Z0iOC
+ RIxw==
+X-Gm-Message-State: AOAM530sdXFI6FkFxjO+F9l2LeuRoRCd2gxZVD0EZ0fZx8Eh3YIp4w3A
+ Z8r8JqXgq45bxqsGazf/rCXAeoP308LljA==
+X-Google-Smtp-Source: ABdhPJzXwaifz9+WKsVp1OD2rwlQyzj9Z7E0wc9XTEiKflYpO3cmMi90B9wc4Y9aC0kqT4pmgCULKw==
+X-Received: by 2002:a05:6102:548a:: with SMTP id
+ bk10mr3688199vsb.27.1644829526643; 
+ Mon, 14 Feb 2022 01:05:26 -0800 (PST)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com.
+ [209.85.217.48])
+ by smtp.gmail.com with ESMTPSA id v30sm1231614vsi.19.2022.02.14.01.05.26
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 01:05:26 -0800 (PST)
+Received: by mail-vs1-f48.google.com with SMTP id u10so4998276vsu.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 01:05:26 -0800 (PST)
+X-Received: by 2002:a05:6102:440d:: with SMTP id
+ df13mr936716vsb.5.1644829525839; 
+ Mon, 14 Feb 2022 01:05:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 1/6] drm/format-helper: Add
- drm_fb_xrgb8888_to_gray8_line()
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-References: <20220211091927.2988283-1-javierm@redhat.com>
- <20220211091927.2988283-2-javierm@redhat.com>
- <YgY6OqN+guBlt/ED@smile.fi.intel.com>
- <4fa465d9-4fac-4199-9a04-d8e09d164308@redhat.com>
- <YgZEuXvJ2ZiOyNS+@smile.fi.intel.com>
- <7560cd10-0a7c-3fda-da83-9008833e3901@suse.de> <87pmnt7gm3.fsf@intel.com>
- <YgaDj6Wld4b7S6DF@smile.fi.intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <YgaDj6Wld4b7S6DF@smile.fi.intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------9r9vdwQSlsgyB0a0sZnBMljM"
+References: <20220210141111.5231-1-tzimmermann@suse.de>
+ <20220210141111.5231-3-tzimmermann@suse.de>
+ <CAMuHMdVb1JjZkEo-PM6DTXOywcmJDRr0a=Ci94DJCj7dXbbihw@mail.gmail.com>
+ <9b2e2649-1511-66a3-b346-60863de788fc@suse.de>
+In-Reply-To: <9b2e2649-1511-66a3-b346-60863de788fc@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 14 Feb 2022 10:05:14 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
+Message-ID: <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] fbdev: Don't sort deferred-I/O pages by default
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,88 +68,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, linux-staging@lists.linux.dev,
+ bernie@plugable.com, dri-devel@lists.freedesktop.org, javierm@redhat.com,
+ noralf@tronnes.org, andriy.shevchenko@linux.intel.com, jayalk@intworks.biz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------9r9vdwQSlsgyB0a0sZnBMljM
-Content-Type: multipart/mixed; boundary="------------TOhClv0puf9niKOCohE7Cq0Y";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Maxime Ripard <maxime@cerno.tech>, Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <f87ce2fa-6b18-f985-eb86-506ce7103db3@suse.de>
-Subject: Re: [PATCH v4 1/6] drm/format-helper: Add
- drm_fb_xrgb8888_to_gray8_line()
-References: <20220211091927.2988283-1-javierm@redhat.com>
- <20220211091927.2988283-2-javierm@redhat.com>
- <YgY6OqN+guBlt/ED@smile.fi.intel.com>
- <4fa465d9-4fac-4199-9a04-d8e09d164308@redhat.com>
- <YgZEuXvJ2ZiOyNS+@smile.fi.intel.com>
- <7560cd10-0a7c-3fda-da83-9008833e3901@suse.de> <87pmnt7gm3.fsf@intel.com>
- <YgaDj6Wld4b7S6DF@smile.fi.intel.com>
-In-Reply-To: <YgaDj6Wld4b7S6DF@smile.fi.intel.com>
+Hi Thomas,
 
---------------TOhClv0puf9niKOCohE7Cq0Y
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Mon, Feb 14, 2022 at 9:28 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Am 14.02.22 um 09:05 schrieb Geert Uytterhoeven:
+> > On Thu, Feb 10, 2022 at 4:24 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> >> Fbdev's deferred I/O sorts all dirty pages by default, which incurs a
+> >> significant overhead. Make the sorting step optional and update the few
+> >> drivers that require it. Use a FIFO list by default.
+> >>
+> >> Sorting pages by memory offset for deferred I/O performs an implicit
+> >> bubble-sort step on the list of dirty pages. The algorithm goes through
+> >> the list of dirty pages and inserts each new page according to its
+> >> index field. Even worse, list traversal always starts at the first
+> >> entry. As video memory is most likely updated scanline by scanline, the
+> >> algorithm traverses through the complete list for each updated page.
+> >>
+> >> For example, with 1024x768x32bpp a page covers exactly one scanline.
+> >> Writing a single screen update from top to bottom requires updating
+> >> 768 pages. With an average list length of 384 entries, a screen update
+> >> creates (768 * 384 =) 294912 compare operation.
+> >
+> > What about using folios?
+> > If consecutive pages are merged into a single entry, there's much less
+> > (or nothing in the example above) to sort.
+>
+> How would the code know that? Calls to page_mkwrite happen
+> pagefault-by-pagefault in any order AFAICT.
 
-SGkNCg0KQW0gMTEuMDIuMjIgdW0gMTY6NDEgc2NocmllYiBBbmR5IFNoZXZjaGVua286DQpb
-Li4uXQ0KPj4gSU1PICphbHdheXMqIHByZWZlciBhIGZvciBsb29wIG92ZXIgd2hpbGUgb3Ig
-ZG8td2hpbGUuDQo+Pg0KPj4gVGhlIGZvciAoaSA9IDA7IGkgPCBOOyBpKyspIGlzIHN1Y2gg
-YSBzdHJvbmcgcGFyYWRpZ20gaW4gQy4gWW91DQo+PiBpbnN0YW50bHkga25vdyBob3cgbWFu
-eSB0aW1lcyB5b3UncmUgZ29pbmcgdG8gbG9vcCwgYXQgYSBnbGFuY2UuIE5vdCBzbw0KPj4g
-d2l0aCB3aXRoIHRoZSBhbHRlcm5hdGl2ZXMsIHdoaWNoIHNob3VsZCBiZSB1c2VkIHNwYXJp
-bmdseS4NCj4gDQo+IHdoaWxlICgpIHt9ICBfaXNfIGEgcGFyYWRpZ20sIGZvci1sb29wIGlz
-IHN5bnRheCBzdWdhciBvbiB0b3Agb2YgaXQuDQoNCk5hdywgdGhhdCdzIG5vdCB0cnVlLiBB
-biBpZGlvbWF0aWMgZm9yIGxvb3AsIHN1Y2ggYXMgZm9yIChpID0gLi4uOyBpIDwgDQpOOyAr
-K2kpLCBpcyBzdWNoIGEgc3Ryb25nIHBhdHRlcm4gdGhhdCBpdCdzIHdheSBiZXR0ZXIgdGhh
-biB0aGUgDQpjb3JyZXNwb25kaW5nIHdoaWxlIGxvb3AuDQoNCkJlc3QgcmVnYXJkcw0KVGhv
-bWFzDQoNCj4gDQo+PiBBbmQgeWVzLCB0aGUgZG8td2hpbGUgc3VnZ2VzdGVkIGFib3ZlIGlz
-IGJ1Z2d5LCBhbmQgeW91IGFjdHVhbGx5IG5lZWQgdG8NCj4+IHN0b3AgYW5kIHRoaW5rIHRv
-IHNlZSB3aHkuDQo+IA0KPiBJdCBkZXBlbmRzIGlmIHBpeGVscyBjYW4gYmUgMCBvciBub3Qg
-YW5kIGlmIGl0J3Mgbm90LCB0aGVuIGRvZXMgaXQgY29udGFpbiBsYXN0DQo+IG9yIG51bWJl
-ci4NCj4gDQo+IFRoZSBkbyB7fSB3aGlsZSAoLS1waXhlbHMpOyBtaWdodCBiZSBidWdneSBp
-ZmYgcGl4ZWxzIG1heSBiZSAwLg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
-MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+fb_deferred_io_mkwrite() would still be called for a page, but an
+adjacent page can be merged with an existing entry while adding it
+to the list.
 
+Gr{oetje,eeting}s,
 
---------------TOhClv0puf9niKOCohE7Cq0Y--
+                        Geert
 
---------------9r9vdwQSlsgyB0a0sZnBMljM
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIKGvkFAwAAAAAACgkQlh/E3EQov+D1
-NRAAl0Tkel7hQbmEBYFBk33mWf2ADjIJdNKtcScF65RHWVgK8fsiKWL9EVPJCuWCMaoPpfCBSMko
-H4VQEK2ewznQEWCDiWT2dySckU5ThAbj2PemHophTeOE1AhMEsDQc+NmobiLU9uZNN8xLaLIg65d
-CtHxdV/wbfLL0n4kR4azCP6fOuaSlT+Bq6qFd9FioGPxpDGlAPB0ogID82N2iNz50X/nD/c8X/Ka
-Pbi1wi9vlS7ZKs2VcPTjEto6o1gGe24TngiOazAH0cFgSoWNEgg2d9E38KEfEkpOCSoz54h8zahU
-8i9d6UNiRE+Vjvi5JvZ6NYvNZ2iy1l678hudsR/Qxh2v7/1ybluL4Ve1EITFwip1F1Wa+g9HSi8z
-YrUqwSmYKmeoc7/hnRVbTPFehGiUSP0Ipf5uYQfsU7fNwpTDQ6/zT5f1OtLVApYJDzZvWrTXsayz
-45hNk/Tna5iRAYRgccftRHsHfNadThv94RkNZz/flTSNwU7U5B1b1Jm9rCoWPt0zgUjc/nr3JOqw
-fKANq6/yrd476g+1kwZSVq+DI0Zcc/ApvJZSlei7iFtHZc55kMJFTIFaYAZs25QXjewF/qNTl6rU
-V6kOzkXfrBWgynNJlVCb6qn5uuKdqrX44/t75wExhqvxPIY52AwX+Cbav7hXUhpLYmi2cQhjU4dY
-hzg=
-=2OAQ
------END PGP SIGNATURE-----
-
---------------9r9vdwQSlsgyB0a0sZnBMljM--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
