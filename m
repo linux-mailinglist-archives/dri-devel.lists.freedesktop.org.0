@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947114B4659
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:35:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA574B465E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:35:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B597810E26F;
-	Mon, 14 Feb 2022 09:34:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2228310E2AB;
+	Mon, 14 Feb 2022 09:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D23810E261
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:34:46 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id f17so26108277edd.2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 01:34:46 -0800 (PST)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 422BE10E26F
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:34:47 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id b14so1573790ede.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 01:34:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=RRnh9tbVPXPS8AhPbbw/qutM66S3hnu1Wtsw56OCnsE=;
- b=gOK5KunOgbYw5bDa4BM4nP6pBV/BJCtfMYGrpWjSFQyaKe0Ye6SEyLIk60qcZ2RsLp
- Iw9iZt2NlEaLYGYjNW/cZ1jqpTllMSa+0XxEBvZRmJ1i9cb1fChDPfYsm297+E91EPYv
- b5UiBypJfJ1ePkKfdtD2dKRdZYHndhnNRXER/zrE3DuidxyM8KRokme8PCu1yqzN8twm
- 5PcbJDZNBIr5ZHkt/SA0p6cpgrZQf2gnvLDgqNtqijj7BtvZIP8CXFZPyn6GVwqZ9l3C
- /8u34CA9b4xsZXqYWMl6MaEtnOzwt3+c+dgQsfJDOjkeubX1h4XtqPHziTKnOCg6Q2OL
- tpmg==
+ bh=+husCGohDqsG8B115jpopx22ukRwNHhKb8tUOXM5vR4=;
+ b=chVw/yWr7pYJYxK57QxIkpMpxpzIqUTevstLudhf8IqujdLoSIcqfHQdT9H89ow15W
+ tMfrD62OgNd+AoGSucbD8YCFQUQbtT0V7Q35qr/HS+XOzsLLmntiFR8eLAuvTg3uJ5Se
+ G7tFhhkpsG1hB8VSu9KaMEQuwCbR3Ah7ivZqwWiPVMwxU18ddLLGbOjwgO9qkHsmLymR
+ HINL9IIDIoG4O8UhdFrnzt3MNsUe6kdudwwx++5QRTSOHlCPkonoevdemyDo/WYlR+/H
+ T/hQmu9jRvJJC933M61IeXvZmoMqd0mNVrI7GR0hHEAS6uGChveoetzgORXNhcEhYO7c
+ 4REQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RRnh9tbVPXPS8AhPbbw/qutM66S3hnu1Wtsw56OCnsE=;
- b=7oKbmnonRPHPJ0A1BN6MDwolTeG81GS3hjGdHTbL+c8ISv4spyf+iTRiYIh39TRDcy
- 7pzK1F+8X2J4Z2SVjelqsKjvUWZLMOy8i2f7gm7ZrhbEldjKPwVytb4sEOp0f6X63Z9x
- 6qYXtEdUyweeQ56tCYHz4w9w5FUuWkD/NTC1xF9Vx3l4nMoFzkbJkF27s/mR2SX3O8B9
- +IFuKcQVrJbJwbqSMvZbFuZde7ZPzwAdeZH+dWN0S6egHVtikg5VOchQDHLdcJPDNJTw
- dO4SHfmPGzRQWhf6J8Ia/ut2EfTPAqQ4de5CJkY9LzLBcWv2huSi4hb9GkTsU2pmWQnw
- i+0w==
-X-Gm-Message-State: AOAM531/POBPF/Ok1PuT1W616Q/7Dz9GmpyovgFgDrS7vWsc+7PG6kgV
- cDgxVH3n1utuCPDpVU7oOjQ=
-X-Google-Smtp-Source: ABdhPJzVZOxaqa4rOIBuNOJ16+Fs8Yo9wAX1LGpX1LvoNxWW9usTCmDPsOmECv7sgLYyJ9usuK16+A==
-X-Received: by 2002:a05:6402:40c9:: with SMTP id
- z9mr14257013edb.119.1644831285061; 
+ bh=+husCGohDqsG8B115jpopx22ukRwNHhKb8tUOXM5vR4=;
+ b=MI/Ttb7CXb6cEhHo8JSFezx8UGwc5Ivno8X2pfv0qE8wzgK89+pUpEgikuv7X0Hc0g
+ L+wM6tKOzK6eoHEj2c6KkgC1GnGwHUjRCzgdLUZ8iOY0EfWLI5G15zBYUWodbslSk68h
+ pKF0Ba+eQAXfNDuS/L+qJ3kxY9pi2P+sU54/WgjTkvs1lQb8G6XrtD48hMbXe+xYSvOh
+ NyrsVUwfdUIApkWd4Iialy7l+ZscCBnJYGXFWB1JJ3tgkVdI55bUj8fJUDCSDS9LwQ0B
+ bo9MbuN/xcUl3NgQtdFVGLkh/CPVZ3g+zmaJxanHVDukeWEnSVg9Bp3VB3Tm05UN11W5
+ dZcw==
+X-Gm-Message-State: AOAM530rrd9Tgvupmdh0S2/jQtiWd09XQBx5uFWWtBRdzfWvlrdX6k2t
+ NlDyg/lwoxvachMEASQq7WY=
+X-Google-Smtp-Source: ABdhPJyUR5jW2+82ZPLiAAwLF62HjV+6rIdV9GURvplCegeQ6Oi2GvulewUas7pimy1p88S/THAq3Q==
+X-Received: by 2002:aa7:d790:: with SMTP id s16mr9187618edq.53.1644831285861; 
  Mon, 14 Feb 2022 01:34:45 -0800 (PST)
 Received: from able.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
- by smtp.gmail.com with ESMTPSA id y8sm4257940edc.41.2022.02.14.01.34.44
+ by smtp.gmail.com with ESMTPSA id y8sm4257940edc.41.2022.02.14.01.34.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 01:34:44 -0800 (PST)
+ Mon, 14 Feb 2022 01:34:45 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: matthew.william.auld@gmail.com, daniel@ffwll.ch,
  thomas.hellstrom@linux.intel.com, felix.kuehling@amd.com,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 06/11] drm/amdgpu: remove GTT accounting v2
-Date: Mon, 14 Feb 2022 10:34:34 +0100
-Message-Id: <20220214093439.2989-6-christian.koenig@amd.com>
+Subject: [PATCH 07/11] drm/amdgpu: remove PL_PREEMPT accounting
+Date: Mon, 14 Feb 2022 10:34:35 +0100
+Message-Id: <20220214093439.2989-7-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220214093439.2989-1-christian.koenig@amd.com>
 References: <20220214093439.2989-1-christian.koenig@amd.com>
@@ -78,202 +77,172 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is provided by TTM now.
 
-Also switch man->size to bytes instead of pages and fix the double
-printing of size and usage in debugfs.
-
-v2: fix size checking as well
-
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 49 +++++----------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     |  8 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     |  2 -
- 4 files changed, 16 insertions(+), 45 deletions(-)
+ .../gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c   | 62 ++-----------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |  7 +--
+ 2 files changed, 6 insertions(+), 63 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index e0c7fbe01d93..3bcd27ae379d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -60,7 +60,7 @@ static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
- 	struct ttm_resource_manager *man;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
+index 0d85c2096ab5..e8adfd0a570a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
+@@ -25,12 +25,6 @@
  
- 	man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
--	return sysfs_emit(buf, "%llu\n", man->size * PAGE_SIZE);
-+	return sysfs_emit(buf, "%llu\n", man->size);
- }
+ #include "amdgpu.h"
  
- /**
-@@ -77,8 +77,9 @@ static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
-+	struct ttm_resource_manager *man = &adev->mman.gtt_mgr.manager;
- 
--	return sysfs_emit(buf, "%llu\n", amdgpu_gtt_mgr_usage(&adev->mman.gtt_mgr));
-+	return sysfs_emit(buf, "%llu\n", ttm_resource_manager_usage(man));
- }
- 
- static DEVICE_ATTR(mem_info_gtt_total, S_IRUGO,
-@@ -130,20 +131,17 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 	struct amdgpu_gtt_node *node;
- 	int r;
- 
--	if (!(place->flags & TTM_PL_FLAG_TEMPORARY) &&
--	    atomic64_add_return(num_pages, &mgr->used) >  man->size) {
--		atomic64_sub(num_pages, &mgr->used);
--		return -ENOSPC;
--	}
--
- 	node = kzalloc(struct_size(node, base.mm_nodes, 1), GFP_KERNEL);
--	if (!node) {
--		r = -ENOMEM;
--		goto err_out;
--	}
-+	if (!node)
-+		return -ENOMEM;
- 
- 	node->tbo = tbo;
- 	ttm_resource_init(tbo, place, &node->base.base);
-+	if (!(place->flags & TTM_PL_FLAG_TEMPORARY) &&
-+	    ttm_resource_manager_usage(man) > man->size) {
-+		r = -ENOSPC;
-+		goto err_free;
-+	}
- 
- 	if (place->lpfn) {
- 		spin_lock(&mgr->lock);
-@@ -169,11 +167,6 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- err_free:
- 	ttm_resource_fini(man, &node->base.base);
- 	kfree(node);
--
--err_out:
--	if (!(place->flags & TTM_PL_FLAG_TEMPORARY))
--		atomic64_sub(num_pages, &mgr->used);
--
- 	return r;
- }
- 
-@@ -196,25 +189,10 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
- 		drm_mm_remove_node(&node->base.mm_nodes[0]);
- 	spin_unlock(&mgr->lock);
- 
--	if (!(res->placement & TTM_PL_FLAG_TEMPORARY))
--		atomic64_sub(res->num_pages, &mgr->used);
--
- 	ttm_resource_fini(man, res);
- 	kfree(node);
- }
- 
--/**
-- * amdgpu_gtt_mgr_usage - return usage of GTT domain
-- *
-- * @mgr: amdgpu_gtt_mgr pointer
-- *
-- * Return how many bytes are used in the GTT domain
-- */
--uint64_t amdgpu_gtt_mgr_usage(struct amdgpu_gtt_mgr *mgr)
+-static inline struct amdgpu_preempt_mgr *
+-to_preempt_mgr(struct ttm_resource_manager *man)
 -{
--	return atomic64_read(&mgr->used) * PAGE_SIZE;
+-	return container_of(man, struct amdgpu_preempt_mgr, manager);
 -}
 -
  /**
-  * amdgpu_gtt_mgr_recover - re-init gart
+  * DOC: mem_info_preempt_used
   *
-@@ -260,9 +238,6 @@ static void amdgpu_gtt_mgr_debug(struct ttm_resource_manager *man,
- 	spin_lock(&mgr->lock);
- 	drm_mm_print(&mgr->mm, printer);
- 	spin_unlock(&mgr->lock);
--
--	drm_printf(printer, "man size:%llu pages,  gtt used:%llu pages\n",
--		   man->size, atomic64_read(&mgr->used));
+@@ -45,10 +39,9 @@ static ssize_t mem_info_preempt_used_show(struct device *dev,
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+-	struct ttm_resource_manager *man;
++	struct ttm_resource_manager *man = &adev->mman.preempt_mgr;
+ 
+-	man = ttm_manager_type(&adev->mman.bdev, AMDGPU_PL_PREEMPT);
+-	return sysfs_emit(buf, "%llu\n", amdgpu_preempt_mgr_usage(man));
++	return sysfs_emit(buf, "%llu\n", ttm_resource_manager_usage(man));
  }
  
- static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func = {
-@@ -288,14 +263,12 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
- 	man->use_tt = true;
- 	man->func = &amdgpu_gtt_mgr_func;
+ static DEVICE_ATTR_RO(mem_info_preempt_used);
+@@ -68,16 +61,12 @@ static int amdgpu_preempt_mgr_new(struct ttm_resource_manager *man,
+ 				  const struct ttm_place *place,
+ 				  struct ttm_resource **res)
+ {
+-	struct amdgpu_preempt_mgr *mgr = to_preempt_mgr(man);
+-
+ 	*res = kzalloc(sizeof(**res), GFP_KERNEL);
+ 	if (!*res)
+ 		return -ENOMEM;
  
--	ttm_resource_manager_init(man, &adev->mman.bdev,
--				  gtt_size >> PAGE_SHIFT);
-+	ttm_resource_manager_init(man, &adev->mman.bdev, gtt_size);
+ 	ttm_resource_init(tbo, place, *res);
+ 	(*res)->start = AMDGPU_BO_INVALID_OFFSET;
+-
+-	atomic64_add((*res)->num_pages, &mgr->used);
+ 	return 0;
+ }
  
- 	start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
- 	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
- 	drm_mm_init(&mgr->mm, start, size);
- 	spin_lock_init(&mgr->lock);
--	atomic64_set(&mgr->used, 0);
+@@ -92,49 +81,13 @@ static int amdgpu_preempt_mgr_new(struct ttm_resource_manager *man,
+ static void amdgpu_preempt_mgr_del(struct ttm_resource_manager *man,
+ 				   struct ttm_resource *res)
+ {
+-	struct amdgpu_preempt_mgr *mgr = to_preempt_mgr(man);
+-
+-	atomic64_sub(res->num_pages, &mgr->used);
+ 	ttm_resource_fini(man, res);
+ 	kfree(res);
+ }
  
- 	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, &mgr->manager);
- 	ttm_resource_manager_set_used(man, true);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index 1ebb91db2274..9ff4aced5da7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -684,7 +684,7 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
- 		ui64 = amdgpu_vram_mgr_vis_usage(&adev->mman.vram_mgr);
- 		return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT : 0;
- 	case AMDGPU_INFO_GTT_USAGE:
--		ui64 = amdgpu_gtt_mgr_usage(&adev->mman.gtt_mgr);
-+		ui64 = ttm_resource_manager_usage(&adev->mman.gtt_mgr.manager);
- 		return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT : 0;
- 	case AMDGPU_INFO_GDS_CONFIG: {
- 		struct drm_amdgpu_info_gds gds_info;
-@@ -716,7 +716,8 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
- 	case AMDGPU_INFO_MEMORY: {
- 		struct drm_amdgpu_memory_info mem;
- 		struct ttm_resource_manager *gtt_man =
--			ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
-+			&adev->mman.gtt_mgr.manager;
-+
- 		memset(&mem, 0, sizeof(mem));
- 		mem.vram.total_heap_size = adev->gmc.real_vram_size;
- 		mem.vram.usable_heap_size = adev->gmc.real_vram_size -
-@@ -741,8 +742,7 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
- 		mem.gtt.total_heap_size *= PAGE_SIZE;
- 		mem.gtt.usable_heap_size = mem.gtt.total_heap_size -
- 			atomic64_read(&adev->gart_pin_size);
--		mem.gtt.heap_usage =
--			amdgpu_gtt_mgr_usage(&adev->mman.gtt_mgr);
-+		mem.gtt.heap_usage = ttm_resource_manager_usage(gtt_man);
- 		mem.gtt.max_allocation = mem.gtt.usable_heap_size * 3 / 4;
- 
- 		return copy_to_user(out, &mem,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 5661b82d84d4..514754142f69 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -451,7 +451,7 @@ static bool amdgpu_bo_validate_size(struct amdgpu_device *adev,
- 	if (domain & AMDGPU_GEM_DOMAIN_GTT) {
- 		man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
- 
--		if (size < (man->size << PAGE_SHIFT))
-+		if (size < man->size)
- 			return true;
- 		else
- 			goto fail;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index f8f48be16d80..120b69ec9885 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -52,7 +52,6 @@ struct amdgpu_gtt_mgr {
- 	struct ttm_resource_manager manager;
- 	struct drm_mm mm;
- 	spinlock_t lock;
--	atomic64_t used;
+-/**
+- * amdgpu_preempt_mgr_usage - return usage of PREEMPT domain
+- *
+- * @man: TTM memory type manager
+- *
+- * Return how many bytes are used in the GTT domain
+- */
+-uint64_t amdgpu_preempt_mgr_usage(struct ttm_resource_manager *man)
+-{
+-	struct amdgpu_preempt_mgr *mgr = to_preempt_mgr(man);
+-	s64 result = atomic64_read(&mgr->used);
+-
+-	return (result > 0 ? result : 0) * PAGE_SIZE;
+-}
+-
+-/**
+- * amdgpu_preempt_mgr_debug - dump VRAM table
+- *
+- * @man: TTM memory type manager
+- * @printer: DRM printer to use
+- *
+- * Dump the table content using printk.
+- */
+-static void amdgpu_preempt_mgr_debug(struct ttm_resource_manager *man,
+-				     struct drm_printer *printer)
+-{
+-	struct amdgpu_preempt_mgr *mgr = to_preempt_mgr(man);
+-
+-	drm_printf(printer, "man size:%llu pages, preempt used:%lld pages\n",
+-		   man->size, (u64)atomic64_read(&mgr->used));
+-}
+-
+ static const struct ttm_resource_manager_func amdgpu_preempt_mgr_func = {
+ 	.alloc = amdgpu_preempt_mgr_new,
+ 	.free = amdgpu_preempt_mgr_del,
+-	.debug = amdgpu_preempt_mgr_debug
  };
  
- struct amdgpu_preempt_mgr {
-@@ -114,7 +113,6 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev);
- void amdgpu_vram_mgr_fini(struct amdgpu_device *adev);
+ /**
+@@ -146,8 +99,7 @@ static const struct ttm_resource_manager_func amdgpu_preempt_mgr_func = {
+  */
+ int amdgpu_preempt_mgr_init(struct amdgpu_device *adev)
+ {
+-	struct amdgpu_preempt_mgr *mgr = &adev->mman.preempt_mgr;
+-	struct ttm_resource_manager *man = &mgr->manager;
++	struct ttm_resource_manager *man = &adev->mman.preempt_mgr;
+ 	int ret;
  
- bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *mem);
--uint64_t amdgpu_gtt_mgr_usage(struct amdgpu_gtt_mgr *mgr);
- int amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr);
+ 	man->use_tt = true;
+@@ -155,16 +107,13 @@ int amdgpu_preempt_mgr_init(struct amdgpu_device *adev)
  
- uint64_t amdgpu_preempt_mgr_usage(struct ttm_resource_manager *man);
+ 	ttm_resource_manager_init(man, &adev->mman.bdev, (1 << 30));
+ 
+-	atomic64_set(&mgr->used, 0);
+-
+ 	ret = device_create_file(adev->dev, &dev_attr_mem_info_preempt_used);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to create device file mem_info_preempt_used\n");
+ 		return ret;
+ 	}
+ 
+-	ttm_set_driver_manager(&adev->mman.bdev, AMDGPU_PL_PREEMPT,
+-			       &mgr->manager);
++	ttm_set_driver_manager(&adev->mman.bdev, AMDGPU_PL_PREEMPT, man);
+ 	ttm_resource_manager_set_used(man, true);
+ 	return 0;
+ }
+@@ -179,8 +128,7 @@ int amdgpu_preempt_mgr_init(struct amdgpu_device *adev)
+  */
+ void amdgpu_preempt_mgr_fini(struct amdgpu_device *adev)
+ {
+-	struct amdgpu_preempt_mgr *mgr = &adev->mman.preempt_mgr;
+-	struct ttm_resource_manager *man = &mgr->manager;
++	struct ttm_resource_manager *man = &adev->mman.preempt_mgr;
+ 	int ret;
+ 
+ 	ttm_resource_manager_set_used(man, false);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+index 120b69ec9885..4e8577dad16a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+@@ -54,11 +54,6 @@ struct amdgpu_gtt_mgr {
+ 	spinlock_t lock;
+ };
+ 
+-struct amdgpu_preempt_mgr {
+-	struct ttm_resource_manager manager;
+-	atomic64_t used;
+-};
+-
+ struct amdgpu_mman {
+ 	struct ttm_device		bdev;
+ 	bool				initialized;
+@@ -75,7 +70,7 @@ struct amdgpu_mman {
+ 
+ 	struct amdgpu_vram_mgr vram_mgr;
+ 	struct amdgpu_gtt_mgr gtt_mgr;
+-	struct amdgpu_preempt_mgr preempt_mgr;
++	struct ttm_resource_manager preempt_mgr;
+ 
+ 	uint64_t		stolen_vga_size;
+ 	struct amdgpu_bo	*stolen_vga_memory;
 -- 
 2.25.1
 
