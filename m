@@ -2,68 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDFC4B5191
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 14:23:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2774B51A5
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 14:29:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D261810E569;
-	Mon, 14 Feb 2022 13:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F56210E3EC;
+	Mon, 14 Feb 2022 13:29:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFFE710E569
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 13:23:45 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id p9so14522924ejd.6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 05:23:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=UzBd4GW7cdoz4EHMHmo3vyxA7tsHlSzkvFvCgPHfjtg=;
- b=Wcr0eZJPtCAKVDu7uFM7zp0E5LtkdESvabOLviq4Mo0tNZtydy9YFEtePCxC0i90cs
- f3LRcxyyLMA90PcA9XHzv785z2mynbg6fKO2hNPjn/4bMFyHLOoxV+YFZV0iHsPZkNXq
- DkifX5wzaaepnCf86gtaW7kU+J8qazJ3lJ5YWa/1jzCuLrDA60Urblqt8RZYdP9Vz3sj
- g3LPwjZTiGnkIZt7SKKmoXT0E5TKKAY58uTjzPm/YcG8GL3XB+PkNxUK/UNd5zmI+B0J
- 7tjQMWpnhtwi/B8WkoGv1ph/ddNv1SrQI5T/RNK74tmJ29QZw3sUtSbG05mMtWKacyyQ
- uXNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UzBd4GW7cdoz4EHMHmo3vyxA7tsHlSzkvFvCgPHfjtg=;
- b=47mhZTqwnCdaPmpown+tumE+r7BYqEpucKFbc4uJqSd/LiYLcBUKRV6ranE6rD+lKt
- lqj2UnjFV/1ax+32U+DXKZOgPrf+HzshF8ICKTZYt2fatQrzQjaQBVrtyRRQeH9lVELp
- 2U2wmFqXLG+8g3dzw4c1DtyD9x3ewJnnX3/we+Xj3sZNU6cFiXik3MowNdHjhqlmHNPI
- azpes8pOFxGnR1tPYfSIt3nLHBWWYeq12PV/Ax68649Rqhq3Q3bzYKMurhyIVWJzoa8C
- eYCiNBRpbGTxs/ujpvVoadacWk5ZRSnQ2aPWhnl8nXTVSHkSE2QXpuedFayRpnWeNEGf
- swxg==
-X-Gm-Message-State: AOAM530xiw2aEr0bsGoUZWoePFGOvO6L1d4t/b9qsbA+36+R+FCz2j0I
- ttEGvDqeDngQJMOEs2nH3PE=
-X-Google-Smtp-Source: ABdhPJx3dRGZ6tdmBkBgJgxO1P0nhradBiMuBXcsJwNOZlwnYDNJUtuGV30U4FToAPqmcpmOe9AWiw==
-X-Received: by 2002:a17:906:7a5b:: with SMTP id
- i27mr4130254ejo.276.1644845024177; 
- Mon, 14 Feb 2022 05:23:44 -0800 (PST)
-Received: from ?IPV6:2a02:908:1252:fb60:2a37:737a:e023:f7be?
- ([2a02:908:1252:fb60:2a37:737a:e023:f7be])
- by smtp.gmail.com with ESMTPSA id eo7sm12470397edb.97.2022.02.14.05.23.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Feb 2022 05:23:43 -0800 (PST)
-Message-ID: <331d7611-2af6-cd22-7c7e-9e7188300d78@gmail.com>
-Date: Mon, 14 Feb 2022 14:23:42 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8625B10E3EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 13:29:48 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2C13B1F38B;
+ Mon, 14 Feb 2022 13:29:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1644845387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dBYFKpfYPiq5qXDA4uSe9C+FEeYwTU0ApnNbJpDmu7U=;
+ b=vQIcyFZlRqNCiymSeRHK0mN+ozEkatEkESJ/IetNRGz+C2v0OUShJX9uDFaYG3elKooT+r
+ Go86x6ctYgsXc9Zd2ggVYd7N4qnuplPenbB8Yl2bocNm9pMiN2oAlHOa7s3UAXGM5JVxyF
+ ANnr0HEjqPceC6mt42UDur7aIMjXvuM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1644845387;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dBYFKpfYPiq5qXDA4uSe9C+FEeYwTU0ApnNbJpDmu7U=;
+ b=zglN0Cribnhsg7fGfo2i8rCHebd7Lyd0jg0YrAvprUZSrshrAlg3AItBKF+GVYp9/lHAKH
+ GMV8doFWJDSGotDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E520913B2B;
+ Mon, 14 Feb 2022 13:29:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id HclINkpZCmKcJwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 14 Feb 2022 13:29:46 +0000
+Message-ID: <4a0697de-52db-97e7-d528-c7e2fe000e66@suse.de>
+Date: Mon, 14 Feb 2022 14:29:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 02/11] drm/ttm: add common accounting to the resource mgr
- v3
+Subject: Re: [PATCH 2/2] fbdev: Don't sort deferred-I/O pages by default
 Content-Language: en-US
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20220214093439.2989-1-christian.koenig@amd.com>
- <20220214093439.2989-2-christian.koenig@amd.com>
- <CAM0jSHO-h5i8yrX+eDf8P-5GL=4m-5t3ENkEb0HHjU3pU5fomw@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CAM0jSHO-h5i8yrX+eDf8P-5GL=4m-5t3ENkEb0HHjU3pU5fomw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220210141111.5231-1-tzimmermann@suse.de>
+ <20220210141111.5231-3-tzimmermann@suse.de>
+ <CAMuHMdVb1JjZkEo-PM6DTXOywcmJDRr0a=Ci94DJCj7dXbbihw@mail.gmail.com>
+ <9b2e2649-1511-66a3-b346-60863de788fc@suse.de>
+ <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------cY83eb3xDQ46xO4efc8b4xec"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,159 +73,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- felix.kuehling@amd.com, ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, linux-staging@lists.linux.dev,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, bernie@plugable.com,
+ noralf@tronnes.org, andriy.shevchenko@linux.intel.com, jayalk@intworks.biz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 14.02.22 um 11:34 schrieb Matthew Auld:
-> On Mon, 14 Feb 2022 at 09:34, Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> It makes sense to have this in the common manager for debugging and
->> accounting of how much resources are used.
->>
->> v2: cleanup kerneldoc a bit
->> v3: drop the atomic, update counter under lock instead
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Reviewed-by: Huang Rui <ray.huang@amd.com> (v1)
->> Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
->> ---
->>   drivers/gpu/drm/ttm/ttm_resource.c | 30 ++++++++++++++++++++++++++++++
->>   include/drm/ttm/ttm_resource.h     | 11 +++++++++--
->>   2 files changed, 39 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
->> index ae40e144e728..bbb8a0f7aa14 100644
->> --- a/drivers/gpu/drm/ttm/ttm_resource.c
->> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
->> @@ -41,6 +41,8 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
->>                          const struct ttm_place *place,
->>                          struct ttm_resource *res)
->>   {
->> +       struct ttm_resource_manager *man;
->> +
->>          res->start = 0;
->>          res->num_pages = PFN_UP(bo->base.size);
->>          res->mem_type = place->mem_type;
->> @@ -50,6 +52,11 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
->>          res->bus.is_iomem = false;
->>          res->bus.caching = ttm_cached;
->>          res->bo = bo;
->> +
->> +       man = ttm_manager_type(bo->bdev, place->mem_type);
->> +       spin_lock(&bo->bdev->lru_lock);
->> +       man->usage += bo->base.size;
->> +       spin_unlock(&bo->bdev->lru_lock);
->>   }
->>   EXPORT_SYMBOL(ttm_resource_init);
->>
->> @@ -65,6 +72,9 @@ EXPORT_SYMBOL(ttm_resource_init);
->>   void ttm_resource_fini(struct ttm_resource_manager *man,
->>                         struct ttm_resource *res)
->>   {
->> +       spin_lock(&man->bdev->lru_lock);
->> +       man->usage -= res->bo->base.size;
->> +       spin_unlock(&man->bdev->lru_lock);
->>   }
->>   EXPORT_SYMBOL(ttm_resource_fini);
->>
->> @@ -166,6 +176,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
->>          spin_lock_init(&man->move_lock);
->>          man->bdev = bdev;
->>          man->size = size;
->> +       man->usage = 0;
->>
->>          for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
->>                  INIT_LIST_HEAD(&man->lru[i]);
->> @@ -226,6 +237,24 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
->>   }
->>   EXPORT_SYMBOL(ttm_resource_manager_evict_all);
->>
->> +/**
->> + * ttm_resource_manager_usage
->> + *
->> + * @man: A memory manager object.
->> + *
->> + * Return how many resources are currently used.
-> Maybe mention the units here?
->
-> "Return how many resources are currently used, in bytes."
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------cY83eb3xDQ46xO4efc8b4xec
+Content-Type: multipart/mixed; boundary="------------7oyYbAfnymsn2oK8u0wDPWX0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-fbdev@vger.kernel.org, deller@gmx.de,
+ linux-staging@lists.linux.dev, bernie@plugable.com,
+ dri-devel@lists.freedesktop.org, javierm@redhat.com, noralf@tronnes.org,
+ andriy.shevchenko@linux.intel.com, jayalk@intworks.biz
+Message-ID: <4a0697de-52db-97e7-d528-c7e2fe000e66@suse.de>
+Subject: Re: [PATCH 2/2] fbdev: Don't sort deferred-I/O pages by default
+References: <20220210141111.5231-1-tzimmermann@suse.de>
+ <20220210141111.5231-3-tzimmermann@suse.de>
+ <CAMuHMdVb1JjZkEo-PM6DTXOywcmJDRr0a=Ci94DJCj7dXbbihw@mail.gmail.com>
+ <9b2e2649-1511-66a3-b346-60863de788fc@suse.de>
+ <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
 
-Well exactly that's not correct. The whole idea here is that these are 
-driver defined units.
+--------------7oyYbAfnymsn2oK8u0wDPWX0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-E.g. for the AMDGPU OA and GWS resources it's essentially a hardware block.
+SGkNCg0KQW0gMTQuMDIuMjIgdW0gMTA6MDUgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIE1vbiwgRmViIDE0LCAyMDIyIGF0IDk6MjggQU0g
+VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4gQW0g
+MTQuMDIuMjIgdW0gMDk6MDUgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46DQo+Pj4gT24g
+VGh1LCBGZWIgMTAsIDIwMjIgYXQgNDoyNCBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pj4+IEZiZGV2J3MgZGVmZXJyZWQgSS9PIHNvcnRz
+IGFsbCBkaXJ0eSBwYWdlcyBieSBkZWZhdWx0LCB3aGljaCBpbmN1cnMgYQ0KPj4+PiBzaWdu
+aWZpY2FudCBvdmVyaGVhZC4gTWFrZSB0aGUgc29ydGluZyBzdGVwIG9wdGlvbmFsIGFuZCB1
+cGRhdGUgdGhlIGZldw0KPj4+PiBkcml2ZXJzIHRoYXQgcmVxdWlyZSBpdC4gVXNlIGEgRklG
+TyBsaXN0IGJ5IGRlZmF1bHQuDQo+Pj4+DQo+Pj4+IFNvcnRpbmcgcGFnZXMgYnkgbWVtb3J5
+IG9mZnNldCBmb3IgZGVmZXJyZWQgSS9PIHBlcmZvcm1zIGFuIGltcGxpY2l0DQo+Pj4+IGJ1
+YmJsZS1zb3J0IHN0ZXAgb24gdGhlIGxpc3Qgb2YgZGlydHkgcGFnZXMuIFRoZSBhbGdvcml0
+aG0gZ29lcyB0aHJvdWdoDQo+Pj4+IHRoZSBsaXN0IG9mIGRpcnR5IHBhZ2VzIGFuZCBpbnNl
+cnRzIGVhY2ggbmV3IHBhZ2UgYWNjb3JkaW5nIHRvIGl0cw0KPj4+PiBpbmRleCBmaWVsZC4g
+RXZlbiB3b3JzZSwgbGlzdCB0cmF2ZXJzYWwgYWx3YXlzIHN0YXJ0cyBhdCB0aGUgZmlyc3QN
+Cj4+Pj4gZW50cnkuIEFzIHZpZGVvIG1lbW9yeSBpcyBtb3N0IGxpa2VseSB1cGRhdGVkIHNj
+YW5saW5lIGJ5IHNjYW5saW5lLCB0aGUNCj4+Pj4gYWxnb3JpdGhtIHRyYXZlcnNlcyB0aHJv
+dWdoIHRoZSBjb21wbGV0ZSBsaXN0IGZvciBlYWNoIHVwZGF0ZWQgcGFnZS4NCj4+Pj4NCj4+
+Pj4gRm9yIGV4YW1wbGUsIHdpdGggMTAyNHg3Njh4MzJicHAgYSBwYWdlIGNvdmVycyBleGFj
+dGx5IG9uZSBzY2FubGluZS4NCj4+Pj4gV3JpdGluZyBhIHNpbmdsZSBzY3JlZW4gdXBkYXRl
+IGZyb20gdG9wIHRvIGJvdHRvbSByZXF1aXJlcyB1cGRhdGluZw0KPj4+PiA3NjggcGFnZXMu
+IFdpdGggYW4gYXZlcmFnZSBsaXN0IGxlbmd0aCBvZiAzODQgZW50cmllcywgYSBzY3JlZW4g
+dXBkYXRlDQo+Pj4+IGNyZWF0ZXMgKDc2OCAqIDM4NCA9KSAyOTQ5MTIgY29tcGFyZSBvcGVy
+YXRpb24uDQo+Pj4NCj4+PiBXaGF0IGFib3V0IHVzaW5nIGZvbGlvcz8NCj4+PiBJZiBjb25z
+ZWN1dGl2ZSBwYWdlcyBhcmUgbWVyZ2VkIGludG8gYSBzaW5nbGUgZW50cnksIHRoZXJlJ3Mg
+bXVjaCBsZXNzDQo+Pj4gKG9yIG5vdGhpbmcgaW4gdGhlIGV4YW1wbGUgYWJvdmUpIHRvIHNv
+cnQuDQo+Pg0KPj4gSG93IHdvdWxkIHRoZSBjb2RlIGtub3cgdGhhdD8gQ2FsbHMgdG8gcGFn
+ZV9ta3dyaXRlIGhhcHBlbg0KPj4gcGFnZWZhdWx0LWJ5LXBhZ2VmYXVsdCBpbiBhbnkgb3Jk
+ZXIgQUZBSUNULg0KPiANCj4gZmJfZGVmZXJyZWRfaW9fbWt3cml0ZSgpIHdvdWxkIHN0aWxs
+IGJlIGNhbGxlZCBmb3IgYSBwYWdlLCBidXQgYW4NCj4gYWRqYWNlbnQgcGFnZSBjYW4gYmUg
+bWVyZ2VkIHdpdGggYW4gZXhpc3RpbmcgZW50cnkgd2hpbGUgYWRkaW5nIGl0DQo+IHRvIHRo
+ZSBsaXN0Lg0KDQpJIHN0aWxsIGRvbid0IHVuZGVyc3RhbmQgaG93IHdlJ2QgdXNlIGl0IHRv
+IG91ciBhZHZhbnRhZ2UuIE1vc3QgZHJpdmVycyANCmRvbid0IG5lZWQgc29ydGVkIHBhZ2Vz
+IGF0IGFsbC4gQSBmb2xpbyBoYXMgc3Ryb25nIGFsaWdubWVudCANCnJlcXVpcmVtZW50cyBm
+b3Igc2l6ZSBhbmQgb2Zmc2V0IEFGQUlDVC4gV2UgbWlnaHQgZW5kIHVwIGZsdXNoaW5nIHdh
+eSANCnRvbyBtdWNoIG9mIHRoZSBkaXNwbGF5IG1lbW9yeS4NCg0KQmVzdCByZWdhcmRzDQpU
+aG9tYXMNCg0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgR2VlcnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBU
+aGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5v
+cmcNCj4gDQo+IEluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVv
+cGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQNCj4gd2hlbiBJJ20gdGFsa2luZyB0
+byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlr
+ZSB0aGF0Lg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBU
+b3J2YWxkcw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
+ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
+dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
+ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-Regards,
-Christian.
+--------------7oyYbAfnymsn2oK8u0wDPWX0--
 
->
-> Anyway,
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->
->> + */
->> +uint64_t ttm_resource_manager_usage(struct ttm_resource_manager *man)
->> +{
->> +       uint64_t usage;
->> +
->> +       spin_lock(&man->bdev->lru_lock);
->> +       usage = man->usage;
->> +       spin_unlock(&man->bdev->lru_lock);
->> +       return usage;
->> +}
->> +EXPORT_SYMBOL(ttm_resource_manager_usage);
->> +
->>   /**
->>    * ttm_resource_manager_debug
->>    *
->> @@ -238,6 +267,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
->>          drm_printf(p, "  use_type: %d\n", man->use_type);
->>          drm_printf(p, "  use_tt: %d\n", man->use_tt);
->>          drm_printf(p, "  size: %llu\n", man->size);
->> +       drm_printf(p, "  usage: %llu\n", ttm_resource_manager_usage(man));
->>          if (man->func->debug)
->>                  man->func->debug(man, p);
->>   }
->> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
->> index 555a11fb8a7f..323c14a30c6b 100644
->> --- a/include/drm/ttm/ttm_resource.h
->> +++ b/include/drm/ttm/ttm_resource.h
->> @@ -27,6 +27,7 @@
->>
->>   #include <linux/types.h>
->>   #include <linux/mutex.h>
->> +#include <linux/atomic.h>
->>   #include <linux/dma-buf-map.h>
->>   #include <linux/dma-fence.h>
->>   #include <drm/drm_print.h>
->> @@ -130,10 +131,15 @@ struct ttm_resource_manager {
->>          struct dma_fence *move;
->>
->>          /*
->> -        * Protected by the global->lru_lock.
->> +        * Protected by the bdev->lru_lock.
->>           */
->> -
->>          struct list_head lru[TTM_MAX_BO_PRIORITY];
->> +
->> +       /**
->> +        * @usage: How much of the resources are used, protected by the
->> +        * bdev->lru_lock.
->> +        */
->> +       uint64_t usage;
->>   };
->>
->>   /**
->> @@ -283,6 +289,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
->>   int ttm_resource_manager_evict_all(struct ttm_device *bdev,
->>                                     struct ttm_resource_manager *man);
->>
->> +uint64_t ttm_resource_manager_usage(struct ttm_resource_manager *man);
->>   void ttm_resource_manager_debug(struct ttm_resource_manager *man,
->>                                  struct drm_printer *p);
->>
->> --
->> 2.25.1
->>
+--------------cY83eb3xDQ46xO4efc8b4xec
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIKWUoFAwAAAAAACgkQlh/E3EQov+Cn
+7g//VR4bJ50USTs3KzUagxwdNLJmbwe8qSF9xEomwcWVoxO3uiUsIJWcOCJ66IN4S1HD19dAyCtf
+ic0+6vSkUtbtQ4M+Nzowv/yOng+nwoPQzUbK1GvNs8EyK5FHY+DwdvDeUPYssLXNcHVadJNjsrZ4
+hYBfdV+IXPO85D8ZYTG5MSBlVoQxxTpC/X1eqvE5ZhUsRD8khn021DdIcaIxzNAkyraSFpE91zDD
+Pys1ScZ1N1FYo6qv5u3T0zEdGHZMVTJ6ZL2VWoCSNOFMovWjtbzQfXyJ/7f0HtECNfrw5umY8MZC
+tQFgFvl3wg5u3xAXvIU8nIQenaLZobj2xKFeVvFVhmAcJrRQ/beFQ5HzH6BPvazS9YuoMdE/Goi4
+jct6jRA2Exx23aZhsfdZ19p7Wooj1f/vKHIEdoXIPBvzZK+r8DgDewYMqHgDmCdDL9Rc0+lPE8Wb
+acfSOUco4r59dmYnMcrxm0J/3LKQGaaK7ZP8NWg/6mRUjVft7HUbJKIGIr8GuMz+8CqvUtCRUMfg
+thbXvdEirLOd8htcoK4s/98rIHYsZ5fKHcAbPZsVniIKl8FVCEdZ/1Dit6CEnOGjOZjOHxQ4Lhvy
+yi3dtSQZWlpRUZypPAorOvtgP48lspmnjmYMDV4rsmU/g13Y3RtTLH8420qQmV1k2r27AFZ9/zRN
+YkQ=
+=GcVp
+-----END PGP SIGNATURE-----
+
+--------------cY83eb3xDQ46xO4efc8b4xec--
