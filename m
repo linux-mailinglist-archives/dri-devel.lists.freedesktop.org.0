@@ -2,65 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7394B51A8
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 14:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8814B51C5
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 14:37:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9381F10E4EB;
-	Mon, 14 Feb 2022 13:31:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B62E410E595;
+	Mon, 14 Feb 2022 13:37:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC3710E4EB
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 13:31:34 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id y17so25059977edd.10
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 05:31:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=mDm9HPM2bapARNcvdbZt8FRotXfXtJjehDYtEm92BLs=;
- b=X9+ZJPorcqFShgCQTTjibzbDsclQZ1nXVFuMhziYHQLY32y3CHw6I5ngDboP5WX5K5
- OtFJe4ozPsLpQM5y81ho4toEjCWuC7FeetFRG85NxiEx4+N20SLpRnXn9MVRBUY1Oc1+
- mZ/BdrooP2OP8Zii9mxQPjnhIZdh0dRrKFRLq9NQcqztHl7RKUFHYL2qBti0wWYFOsFk
- zBMdRpiJR5Cju53+0zb0zwrTvRHFl+JLGSub9C3+3MJ8kJSdE8RwEsCOV+ejk1TgajuR
- VEmRZZ6/4QXSGmZLa/a5ky5LYjYIOlcwPC8IX2JuYySoWTDZ4dw5o1JNWEFqUuoFZ+eU
- 9/dA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1179310E595
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 13:37:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644845856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=E7VbCtE2KmCInyzJqMXW68a9E8Ah5Xd1OvC5Dcb2NGA=;
+ b=ToUOkqMKbsyaZK/nGFO5F38BTpB0lsiGP6z6vqd9pLrU2jzSjMqFYUvIPx2tI9rXzpeZN2
+ ye97FTq0OTn2ai83H8kHcmATYYZSZDal3I7dUVjMebgfbquoVEolz+LfgjlFDw67k2Cv6w
+ hGyu8sPlOFuTPdcw1Emw3vbPjInBUr4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-458-de7qbU4RNJyJKdtoO-WfEg-1; Mon, 14 Feb 2022 08:37:34 -0500
+X-MC-Unique: de7qbU4RNJyJKdtoO-WfEg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ b17-20020a05600c4e1100b0037cc0d56524so1428498wmq.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 05:37:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=mDm9HPM2bapARNcvdbZt8FRotXfXtJjehDYtEm92BLs=;
- b=S1ousQrFTCnkWXUj9BVyTb6h3NPddwF1nctj4GpFrxiDuO/VUXoNUNGnEesODZPzHv
- huB3qLfjO1JrYEVD2mnBzc6vLa17hWJgs6o6ESo7egWouoURnfaiH/bIuVlVuxh/9G/9
- XtGwVUJiPL5Td8Iup1ylBtXyQFdbRuQYNUirmtieKu8Ji2KQKgDTyUtwvzoBakqbYE9c
- wY8WSLwRzRPo9hcmv4GCePh9bIco8kkWi2m6rP8M3WsHkudJii+aPJAjXqI3YFyIMRp2
- zUR0A1TOFxs6gIrDTq4dbbyElVX9rT1EgXzyhBZ6/aF+EUkpbaxql4UjF9NE6aRpSGzx
- 0QKQ==
-X-Gm-Message-State: AOAM533vR+fIXpdNFxIxLyhGSTB5lGj7PpXnpc6coa/XjPWsReZ2Ilvs
- jaRaozxMyCqTSVrGWCVwru8=
-X-Google-Smtp-Source: ABdhPJxo566/92w/yXSfbmgTFsMM47qkp8T+5sD0ngMkLpTekHs9OnFFK4WhUubKMo60+1lLl+8tYw==
-X-Received: by 2002:aa7:c5c7:: with SMTP id h7mr2209310eds.428.1644845492477; 
- Mon, 14 Feb 2022 05:31:32 -0800 (PST)
-Received: from ?IPV6:2a02:908:1252:fb60:2a37:737a:e023:f7be?
- ([2a02:908:1252:fb60:2a37:737a:e023:f7be])
- by smtp.gmail.com with ESMTPSA id r10sm10767427ejy.148.2022.02.14.05.31.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Feb 2022 05:31:32 -0800 (PST)
-Message-ID: <2f77b3e3-e859-12f5-5af5-6b91f1a3e5b3@gmail.com>
-Date: Mon, 14 Feb 2022 14:31:31 +0100
+ bh=E7VbCtE2KmCInyzJqMXW68a9E8Ah5Xd1OvC5Dcb2NGA=;
+ b=WqgLRWB9UuXiJPCDxvkyraEishpN0ELmKyQrrRaDZib9Ao1ddX6qDUUXOdD/8Eu5Qs
+ 5oH6XXJktOU9nOMKH5IYxb681BsmVpz794kILzrz4FIhkXIsndiDlU/mOQhmYA3TpFC/
+ BWwZDlA5WFC4ApFm3uGkopYpaI0HPxNwnbwHGuOPwGGPOG6J8zIx04yZcG8noV4h/CC0
+ esqH4w+r9Ke7Q70nb4UGVPXnT0xivLKjujMRbj3MHgS/7VogUWEaoYCpiZde2FP/e/bI
+ Sf6tdgPq2f8naoG/4MajKQOVEtJo3zjWoPWnB0WIue4curify6q+t4Q5jk/DEIEYAOcs
+ rcug==
+X-Gm-Message-State: AOAM530HUDvE21kbivGmk8SSXW5JhH2j2Anw1CmPxe9ATbjaWEURObQw
+ OJMCLzyhBzY+ffrWJXz6MBxq7UTXl2CuJHLCGIgeFyGte67PMbEOz6Wm1j8+gC4hbfftq/KgN7i
+ nkwO6dilWvSaBHqxbRCfomC/8kCQD
+X-Received: by 2002:a05:6000:156c:: with SMTP id
+ 12mr11043204wrz.387.1644845853196; 
+ Mon, 14 Feb 2022 05:37:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwEJcPlMluZEUn6DLefymoUGFabsVNHTL+FcWwwnNPI7RmBtR+DFGGYeprSdmw5t1Xg99qx8g==
+X-Received: by 2002:a05:6000:156c:: with SMTP id
+ 12mr11043183wrz.387.1644845852826; 
+ Mon, 14 Feb 2022 05:37:32 -0800 (PST)
+Received: from minerva.home ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id y6sm3568918wrd.30.2022.02.14.05.37.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Feb 2022 05:37:32 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v6 0/6] drm: Add driver for Solomon SSD130x OLED displays
+Date: Mon, 14 Feb 2022 14:37:04 +0100
+Message-Id: <20220214133710.3278506-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 06/11] drm/amdgpu: remove GTT accounting v2
-Content-Language: en-US
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20220214093439.2989-1-christian.koenig@amd.com>
- <20220214093439.2989-6-christian.koenig@amd.com>
- <CAM0jSHMGb940wgBdddrS7DZL7XKPEzDi7xPmM-Nb5cfYqqtM7Q@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CAM0jSHMGb940wgBdddrS7DZL7XKPEzDi7xPmM-Nb5cfYqqtM7Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,230 +80,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- felix.kuehling@amd.com, ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-pwm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 14.02.22 um 12:10 schrieb Matthew Auld:
-> On Mon, 14 Feb 2022 at 09:34, Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> This is provided by TTM now.
->>
->> Also switch man->size to bytes instead of pages and fix the double
->> printing of size and usage in debugfs.
->>
->> v2: fix size checking as well
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 49 +++++----------------
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     |  8 ++--
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     |  2 -
->>   4 files changed, 16 insertions(+), 45 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
->> index e0c7fbe01d93..3bcd27ae379d 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
->> @@ -60,7 +60,7 @@ static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
->>          struct ttm_resource_manager *man;
->>
->>          man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
->> -       return sysfs_emit(buf, "%llu\n", man->size * PAGE_SIZE);
->> +       return sysfs_emit(buf, "%llu\n", man->size);
->>   }
->>
->>   /**
->> @@ -77,8 +77,9 @@ static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
->>   {
->>          struct drm_device *ddev = dev_get_drvdata(dev);
->>          struct amdgpu_device *adev = drm_to_adev(ddev);
->> +       struct ttm_resource_manager *man = &adev->mman.gtt_mgr.manager;
->>
->> -       return sysfs_emit(buf, "%llu\n", amdgpu_gtt_mgr_usage(&adev->mman.gtt_mgr));
->> +       return sysfs_emit(buf, "%llu\n", ttm_resource_manager_usage(man));
->>   }
->>
->>   static DEVICE_ATTR(mem_info_gtt_total, S_IRUGO,
->> @@ -130,20 +131,17 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
->>          struct amdgpu_gtt_node *node;
->>          int r;
->>
->> -       if (!(place->flags & TTM_PL_FLAG_TEMPORARY) &&
->> -           atomic64_add_return(num_pages, &mgr->used) >  man->size) {
->> -               atomic64_sub(num_pages, &mgr->used);
-> I guess this behaviour is now slightly different, since TEMPORARY will
-> now get accounted like everything else. Hopefully that is not a
-> concern.
+This patch series adds a DRM driver for the Solomon OLED SSD1305, SSD1306,
+SSD1307 and SSD1309 displays. It is a port of the ssd1307fb fbdev driver.
 
-Yeah, that's correct but also unproblematic. See a few lines below.
+Using the DRM fbdev emulation, all the tests from Geert Uytterhoeven repo
+(https://git.kernel.org/pub/scm/linux/kernel/git/geert/fbtest.git) passes.
 
->
-> Otherwise seems mechanical,
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->
->
->> -               return -ENOSPC;
->> -       }
->> -
->>          node = kzalloc(struct_size(node, base.mm_nodes, 1), GFP_KERNEL);
->> -       if (!node) {
->> -               r = -ENOMEM;
->> -               goto err_out;
->> -       }
->> +       if (!node)
->> +               return -ENOMEM;
->>
->>          node->tbo = tbo;
->>          ttm_resource_init(tbo, place, &node->base.base);
->> +       if (!(place->flags & TTM_PL_FLAG_TEMPORARY) &&
->> +           ttm_resource_manager_usage(man) > man->size) {
->> +               r = -ENOSPC;
->> +               goto err_free;
->> +       }
+I've also tested it using the display as a VT output and even though fbcon
+seems to work, it is mostly unusable on a 128x64 SSD1306 display.
 
-This here now takes care of TTM_PL_FLAG_TEMPORARY.
+This is a v6 that addresses the issues pointed in v5. Thanks a lot to all
+reviewers that gave me feedback and comments.
 
-Regards,
-Christian.
+I didn't include the patch that adds the SPI support this time, because it
+will require changes in the existing Device Tree binding. And I wanted to
+avoid that bikesheeding for now, to focus on the core and I2C parts.
 
->>
->>          if (place->lpfn) {
->>                  spin_lock(&mgr->lock);
->> @@ -169,11 +167,6 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
->>   err_free:
->>          ttm_resource_fini(man, &node->base.base);
->>          kfree(node);
->> -
->> -err_out:
->> -       if (!(place->flags & TTM_PL_FLAG_TEMPORARY))
->> -               atomic64_sub(num_pages, &mgr->used);
->> -
->>          return r;
->>   }
->>
->> @@ -196,25 +189,10 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
->>                  drm_mm_remove_node(&node->base.mm_nodes[0]);
->>          spin_unlock(&mgr->lock);
->>
->> -       if (!(res->placement & TTM_PL_FLAG_TEMPORARY))
->> -               atomic64_sub(res->num_pages, &mgr->used);
->> -
->>          ttm_resource_fini(man, res);
->>          kfree(node);
->>   }
->>
->> -/**
->> - * amdgpu_gtt_mgr_usage - return usage of GTT domain
->> - *
->> - * @mgr: amdgpu_gtt_mgr pointer
->> - *
->> - * Return how many bytes are used in the GTT domain
->> - */
->> -uint64_t amdgpu_gtt_mgr_usage(struct amdgpu_gtt_mgr *mgr)
->> -{
->> -       return atomic64_read(&mgr->used) * PAGE_SIZE;
->> -}
->> -
->>   /**
->>    * amdgpu_gtt_mgr_recover - re-init gart
->>    *
->> @@ -260,9 +238,6 @@ static void amdgpu_gtt_mgr_debug(struct ttm_resource_manager *man,
->>          spin_lock(&mgr->lock);
->>          drm_mm_print(&mgr->mm, printer);
->>          spin_unlock(&mgr->lock);
->> -
->> -       drm_printf(printer, "man size:%llu pages,  gtt used:%llu pages\n",
->> -                  man->size, atomic64_read(&mgr->used));
->>   }
->>
->>   static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func = {
->> @@ -288,14 +263,12 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
->>          man->use_tt = true;
->>          man->func = &amdgpu_gtt_mgr_func;
->>
->> -       ttm_resource_manager_init(man, &adev->mman.bdev,
->> -                                 gtt_size >> PAGE_SHIFT);
->> +       ttm_resource_manager_init(man, &adev->mman.bdev, gtt_size);
->>
->>          start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
->>          size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
->>          drm_mm_init(&mgr->mm, start, size);
->>          spin_lock_init(&mgr->lock);
->> -       atomic64_set(&mgr->used, 0);
->>
->>          ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, &mgr->manager);
->>          ttm_resource_manager_set_used(man, true);
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
->> index 1ebb91db2274..9ff4aced5da7 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
->> @@ -684,7 +684,7 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
->>                  ui64 = amdgpu_vram_mgr_vis_usage(&adev->mman.vram_mgr);
->>                  return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT : 0;
->>          case AMDGPU_INFO_GTT_USAGE:
->> -               ui64 = amdgpu_gtt_mgr_usage(&adev->mman.gtt_mgr);
->> +               ui64 = ttm_resource_manager_usage(&adev->mman.gtt_mgr.manager);
->>                  return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT : 0;
->>          case AMDGPU_INFO_GDS_CONFIG: {
->>                  struct drm_amdgpu_info_gds gds_info;
->> @@ -716,7 +716,8 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
->>          case AMDGPU_INFO_MEMORY: {
->>                  struct drm_amdgpu_memory_info mem;
->>                  struct ttm_resource_manager *gtt_man =
->> -                       ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
->> +                       &adev->mman.gtt_mgr.manager;
->> +
->>                  memset(&mem, 0, sizeof(mem));
->>                  mem.vram.total_heap_size = adev->gmc.real_vram_size;
->>                  mem.vram.usable_heap_size = adev->gmc.real_vram_size -
->> @@ -741,8 +742,7 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
->>                  mem.gtt.total_heap_size *= PAGE_SIZE;
->>                  mem.gtt.usable_heap_size = mem.gtt.total_heap_size -
->>                          atomic64_read(&adev->gart_pin_size);
->> -               mem.gtt.heap_usage =
->> -                       amdgpu_gtt_mgr_usage(&adev->mman.gtt_mgr);
->> +               mem.gtt.heap_usage = ttm_resource_manager_usage(gtt_man);
->>                  mem.gtt.max_allocation = mem.gtt.usable_heap_size * 3 / 4;
->>
->>                  return copy_to_user(out, &mem,
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> index 5661b82d84d4..514754142f69 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> @@ -451,7 +451,7 @@ static bool amdgpu_bo_validate_size(struct amdgpu_device *adev,
->>          if (domain & AMDGPU_GEM_DOMAIN_GTT) {
->>                  man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
->>
->> -               if (size < (man->size << PAGE_SHIFT))
->> +               if (size < man->size)
->>                          return true;
->>                  else
->>                          goto fail;
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->> index f8f48be16d80..120b69ec9885 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->> @@ -52,7 +52,6 @@ struct amdgpu_gtt_mgr {
->>          struct ttm_resource_manager manager;
->>          struct drm_mm mm;
->>          spinlock_t lock;
->> -       atomic64_t used;
->>   };
->>
->>   struct amdgpu_preempt_mgr {
->> @@ -114,7 +113,6 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev);
->>   void amdgpu_vram_mgr_fini(struct amdgpu_device *adev);
->>
->>   bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *mem);
->> -uint64_t amdgpu_gtt_mgr_usage(struct amdgpu_gtt_mgr *mgr);
->>   int amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr);
->>
->>   uint64_t amdgpu_preempt_mgr_usage(struct ttm_resource_manager *man);
->> --
->> 2.25.1
->>
+Once this series land, I'll post patches for the SPI support. But the WIP
+patch posted in v3 should still apply cleanly on top of this v6:
+
+https://patchwork.kernel.org/project/dri-devel/patch/20220209091204.2513437-1-javierm@redhat.com/
+
+Patch #1 splits per-line conversion logic in drm_fb_xrgb8888_to_gray8() to
+a separate drm_fb_xrgb8888_to_gray8_line() helper function.
+
+Patch #2 adds a new drm_fb_xrgb8888_to_mono_reversed() helper function to
+convert from XR24 to reversed monochrome. The latter internally converts
+each line first to 8-bit grayscale and then to 1-bit reversed monochrome.
+
+Patch #3 adds the driver. This only has the core support and doesn't have
+any bus specific code, separate drivers are needed for the transport used.
+
+Patch #4 adds a driver to use the I2C bus to communicate with the device.
+
+Patch #5 adds a MAINTAINERS entry for the DRM driver and patch #6 adds
+myself as co-maintainer of the existing DT binding for the ssd1307fb,
+since the same DT binding is used for both the fbdev and DRM drivers.
+
+Best regards,
+Javier
+
+Changes in v6:
+- Add Andy Shevchenko's Reviewed-by to patch #1.
+- Add Andy Shevchenko's Reviewed-by to patch #2.
+- Just return regmap_bulk_write() in ssd130x_write_data() (Andy Shevchenko)
+- Remove unnecessary cast in ssd130x_write_cmd() (Andy Shevchenko)
+- Return ERR_PTR(dev_err_probe(...)) everywhere in probe (Andy Shevchenko)
+
+Changes in v5:
+- Add Thomas Zimmermann's Reviewed-by to patch #1.
+- Use drm_WARN_ON* macros instead of deprecated ones (Thomas Zimmermann)
+- Include <linux/bits.h> header (Andy Shevchenko)
+- Drop parenthesis for command options macros (Andy Shevchenko)
+- Explain in ssd130x_write_cmd() comment how commands are sent (Andy Shevchenko)
+- The pwm_*() functions check for NULL already (Andy Shevchenko)
+- Remove unnecesary blank line (Andy Shevchenko)
+- Simplify error handling for backlight registration failure (Geert Uytterhoeven)
+- Don't clear screen on enable, instead send the full buffer (Thomas Zimmermann)
+- Add Andy Shevchenko's Reviewed-by tag to patch #4.
+- Add Andy Shevchenko's Reviewed-by tag to patch #5.
+- Add Andy Shevchenko's Reviewed-by tag to patch #6.
+
+Changes in v4:
+- Rename end_offset to end_len (Thomas Zimmermann)
+- Warn once if dst_pitch is not a multiple of 8 (Thomas Zimmermann)
+- Drop drm_fb_gray8_to_mono_reversed() that's not used (Thomas Zimmermann)
+- Allocate single buffer for both copy cma memory and gray8 (Thomas Zimmermann)
+- Add Thomas Zimmermann Reviewed-by tag to patch adding XR24 -> mono helper.
+- Rename vbat supply to vcc since is how's labeled in the device (Mark Brown)
+- Don't make the regulator option since is always needed (Mark Brown)
+- Add solomon Kconfig source and directory inclusion sorted (Andy Shevchenko)
+- Use SSD130x instead of SSD130X to denote is not a model name (Andy Shevchenko)
+- Check if there's a reset pin in the callee and not the caller (Andy Shevchenko)
+- Define missing commands instead of using magic numbers (Andy Shevchenko)
+- Use GENMASK() and FIELD_PREP() macros when possible (Andy Shevchenko)
+- Avoid using ternary operators to ease code readablity (Andy Shevchenko)
+- Use i++ instead of --i on some for loops (Andy Shevchenko)
+- Remove redundant blank lines (Andy Shevchenko)
+- Rename power_off label to out_power_off (Andy Shevchenko)
+- Use dev_err_probe() even if no -EPROBE_DEFER (Andy Shevchenko)
+- Don't use plural Authors if there's only one (Andy Shevchenko)
+- Remove unnecessary casting (Geert Uytterhoeven)
+- Remove redundant blank lines (Andy Shevchenko)
+- Remove comma after of_device_id table terminator (Andy Shevchenko)
+- Add Rob Herring Acked-by tag to patch adding as DT binding co-maintainer.
+
+Changes in v3:
+- Add a drm_fb_xrgb8888_to_gray8_line() helper function (Thomas Zimmermann)
+- Also add a drm_fb_xrgb8888_to_mono_reversed() helper (Thomas Zimmermann)
+- Split lines copy to drm_fb_gray8_to_mono_reversed_line() (Thomas Zimmermann)
+- Handle case where the source buffer is not aligned to 8 (Thomas Zimmermann)
+- Move driver from tiny sub-dir to drivers/gpu/drm/solomon (Sam Ravnborg)
+- Split driver in a bus agnostic core and bus specific (Andy Shevchenko)
+- Use regmap to access the chip registers (Andy Shevchenko)
+- Remove unnecessary blank lines (Andy Shevchenko)
+- Remove unneeded inline specifier in functions (Andy Shevchenko)
+- Add a comment about always returning a single mode (Andy Shevchenko)
+- Change write command logic to use do while loop (Andy Shevchenko)
+- Use "firmware description" instead of "device tree" (Andy Shevchenko)
+- Use return foo() instead of returning the return value (Andy Shevchenko)
+- Don't split lines longer than 80 chars if makes less readable (Andy Shevchenko)
+- Remove redundant else statements in .mode_valid callback (Andy Shevchenko)
+- Rename powero{n,ff}() functions to power_o{n,ff)() (Andy Shevchenko)
+- Use dev_err_probe() to prevent spam logs on probe deferral (Andy Shevchenko)
+- Remove ',' after sentinel terminator in array (Andy Shevchenko)
+- Fix a bug when doing partial updates (Geert Uytterhoeven)
+- Add a separate driver for SSD130X chips I2C support (Andy Shevchenko)
+- Adapt MAINTAINERS entry to point to the new drivers/gpu/drm/solomon directory.
+
+Changes in v2:
+- Drop patch that was adding a DRM_MODE_CONNECTOR_I2C type.
+- Invert order of backlight {en,dis}able and display {on,off} (Sam Ravnborg)
+- Don't clear the screen and turn on display on probe (Sam Ravnborg)
+- Use backlight_get_brightness() macro to get BL brightness (Sam Ravnborg)
+- Use dev managed version of devm_backlight_device_register() (Sam Ravnborg)
+- Use dev_name(dev) for backlight name instead of an array (Sam Ravnborg)
+- Drop the .get_brightness callback since isn't needed  (Sam Ravnborg)
+- Rename driver to ssd130x since supports a display family (Thomas Zimmermann)
+- Drop the TINY prefix from the Kconfig symbol (Thomas Zimmermann)
+- Sort the Kconfig symbol dependencies alphabetically (Thomas Zimmermann)
+- Rename struct ssd130x_array to struct ssd130x_i2c_msg (Thomas Zimmermann)
+- Rename struct ssd130x_i2c_msg .type member to .cmd (Thomas Zimmermann)
+- Use sizeof(*foo) instead of sizeof(struct foo) (Thomas Zimmermann)
+- Use struct_size() macro to calculate sizeof(*foo) + len (Thomas Zimmermann)
+- Use kcalloc() instead of kmalloc_array() + memset() (Thomas Zimmermann)
+- Use shadow plane helpers virtual screen support (Thomas Zimmermann)
+- Remove unused goto label in ssd1307_fb_blit_rect() (Thomas Zimmermann)
+- Use drm_set_preferred_mode() inset of manually set (Thomas Zimmermann)
+- Use shadow plane helpers virtual screen support (Thomas Zimmermann)
+- Remove unused goto label in ssd1307_fb_blit_rect() (Thomas Zimmermann)
+- Use drm_set_preferred_mode() inset of manually set (Thomas Zimmermann)
+- Reorganize code in probe to make it more legible (Thomas Zimmermann)
+- ssd130x_write_cmd() uses varargs to simplify I2C code (Thomas Zimmermann)
+- Move regulator/pwm init logic to display pipe enable callback.
+- Add Sam Ravnborg's acked-by to patch adding a MAINTAINERS entry (Sam Ravnborg)
+- Add myself as co-maintainer of the ssd1370fb DT binding (Sam Ravnborg).
+
+Javier Martinez Canillas (6):
+  drm/format-helper: Add drm_fb_xrgb8888_to_gray8_line()
+  drm/format-helper: Add drm_fb_xrgb8888_to_mono_reversed()
+  drm: Add driver for Solomon SSD130x OLED displays
+  drm/solomon: Add SSD130x OLED displays I2C support
+  MAINTAINERS: Add entry for Solomon SSD130x OLED displays DRM driver
+  dt-bindings: display: ssd1307fb: Add myself as binding co-maintainer
+
+ .../bindings/display/solomon,ssd1307fb.yaml   |   1 +
+ MAINTAINERS                                   |   7 +
+ drivers/gpu/drm/Kconfig                       |   2 +
+ drivers/gpu/drm/Makefile                      |   1 +
+ drivers/gpu/drm/drm_format_helper.c           | 141 ++-
+ drivers/gpu/drm/solomon/Kconfig               |  21 +
+ drivers/gpu/drm/solomon/Makefile              |   2 +
+ drivers/gpu/drm/solomon/ssd130x-i2c.c         | 116 +++
+ drivers/gpu/drm/solomon/ssd130x.c             | 843 ++++++++++++++++++
+ drivers/gpu/drm/solomon/ssd130x.h             |  76 ++
+ include/drm/drm_format_helper.h               |   4 +
+ 11 files changed, 1202 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/gpu/drm/solomon/Kconfig
+ create mode 100644 drivers/gpu/drm/solomon/Makefile
+ create mode 100644 drivers/gpu/drm/solomon/ssd130x-i2c.c
+ create mode 100644 drivers/gpu/drm/solomon/ssd130x.c
+ create mode 100644 drivers/gpu/drm/solomon/ssd130x.h
+
+-- 
+2.34.1
 
