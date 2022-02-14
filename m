@@ -2,67 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB794B5B83
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 22:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F212D4B5C56
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 22:15:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B68A310E16A;
-	Mon, 14 Feb 2022 21:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF89110E227;
+	Mon, 14 Feb 2022 21:15:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86B3D10E227
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 21:00:29 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id g39so9849263lfv.10
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 13:00:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=2nOxSfxC5d0K6IVKp4zE1wrpFnLKPO0Xaise/eOirLY=;
- b=kPiZqYEwBCdmA51juRTF8Ufmi6EoniKHwK2suVXkdNN1vWkg+ku8KWKhE8o64PF3sl
- CO0DRcTllgOtv/LZZ1k2xKtQo+XC8Q2e0NxviDRjFnCUa6vNq9yMS5HzdX+EsvBhjfvC
- El7a24acxMwtpJJAHWH2sNdfLogGwHYxBlYbTumL6n9RuXjyy/iAc8Hfpp9yytBIAEta
- vsZ9ZSMmDcodI4Nh846ij8xXAYyD4VE0s/uU9bl4MRDmuAlqtBYWzc/peiPcEg3Wx0Pc
- vW3Vqk2OgDLbB362vue2kqlxjIS00yH4s90+1Bl+D/UqQyGF/rkOVNb59QNIkap2lSea
- n7hA==
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 144A210E227
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 21:15:28 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id c6so50091051ybk.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 13:15:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=koOwKzeH7/Gb78FEuOvCok9kPJwObv2S7DVJdDdOgNA=;
+ b=Pb5dbCHSbOY7B3ORjcQJ4tOqYQjm9jFUDuW4A8Uw3ddfl/KioQspJ7vPApWeypuuyQ
+ AbdlnFPPC52dg3yNb0beEJdpRbmFdEDeTuxJF39E+eg6ecEa/6ji0TduWQr0JYt33wqk
+ F00WTtwEQGRE8fkzuYE19P4BzBBNjs+GOqaHl31cAznCEZMsRqDikQkTwDJclPuKCvxV
+ kmxmrEI4FfjSSPAK5el+JyX7Hj1ZqafjYSIjdKPhGDhpAMZDyhpvvBv0wjDJRI2gXsaV
+ ekGOhI3vLetimUVdXqmZTzeAxc7HUExrhEQoRc2Vs4Ips6kQQ/pBnxkN2I0ZLJPdeW+t
+ EH2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2nOxSfxC5d0K6IVKp4zE1wrpFnLKPO0Xaise/eOirLY=;
- b=0Z/reLlUTBWau9tIe1N9j8IGvu0qMQcT9bbEy1Ir+TBsc1vifqv43jiU6WHreoRZsz
- vn/f3Tj/M0DY+1X2jq6fBLF+xkSWHz4qbo9nk6El5bKrY2m1u7BaJq0/LsZXI186Py93
- +EZORbIh3dG6wgF0KaWrBJOoCcGFtWENYeyzltxOrLk7ga8Ujdtn8cCJuwGei87JAwJ4
- /aPMr/W9e4ajCxzM9/OBhSWF/m2ux2cfSSNz88rCT4GzoGEI8cHdLsf2SevdObnB+E46
- fHfsHshAcvsfY+I/3IQQyiw2PTfh7Nai6j7vQckJdeHQ6m2hk5NVjicRm11/cd9schd+
- eQtQ==
-X-Gm-Message-State: AOAM531xjDzare+a5Jrn8GGjP3ztkDLxdX+Qefi3f9TdSw6fhwmfI+wB
- wM2VqbWptWHXlxDAGJy4edESbg==
-X-Google-Smtp-Source: ABdhPJzHSeOU0mjnUhdjqpKrFNyLy4bR7RR6F1D6uxTDz8QYlVVkR7sSpfcIQWDRm5o/aHx5D1Yl0g==
-X-Received: by 2002:a05:6512:22d4:: with SMTP id
- g20mr694127lfu.116.1644872427785; 
- Mon, 14 Feb 2022 13:00:27 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id m9sm3450661lfp.134.2022.02.14.13.00.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Feb 2022 13:00:27 -0800 (PST)
-Message-ID: <369073e5-4311-a752-786e-e5132b202796@linaro.org>
-Date: Tue, 15 Feb 2022 00:00:26 +0300
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=koOwKzeH7/Gb78FEuOvCok9kPJwObv2S7DVJdDdOgNA=;
+ b=td5/o3SCOm4uRXgs7O3LlGMjc3etJmRa5fexi9e0FdE026iDxvFaiaQ+91Py3SOrga
+ m8tjixAlyXS0fOC8Yq8QiMS+DRVLp84J+twkUJzpCVE4ZHRT5xId2x5y6At6C1HWQ1Vz
+ 6g6txEePM3z/GnKW5hGOtlDlcKw1p2DSkJp9XxRkjWHmsXp5zb0/jAJJEdDSjcxXv/XX
+ kpuuLm7kM0P+UGsRI7MAvnwtuz4vceSohFEUUancWx89gptQGe8jBaDWHk9l/myK6OkH
+ KVBhSy6NX1lTOZov0d8vE+5NR05C2V+cvSCR0nh4jjcBpvZF0unBGNokBo/JD8I0OW8M
+ hHFw==
+X-Gm-Message-State: AOAM531UD+BFrOkDWp09YEPPxUGGYy9q1yqCQktWw+/B68nR4YU1HmWY
+ h+bmrRTfcDdkMjZa512Qyq6dgY84+SN8rTh95vhLQA==
+X-Google-Smtp-Source: ABdhPJxYpCGSJ97h8+PYs4ql8r4Wi52kEXKqBk5pvfZj6f9b/g73lOi4fZfqGVy147NfKJkJXNKE6/edp4TkHfyblNY=
+X-Received: by 2002:a25:ad18:: with SMTP id y24mr1012325ybi.420.1644873327127; 
+ Mon, 14 Feb 2022 13:15:27 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH] drm/msm: populate intf_audio_select() base on hardware
- capability
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-References: <1644621822-25407-1-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJpqwAxDa142B_N6NA7KkQ6WuuG_Ma7No5SXEpJdBmgKvXQ@mail.gmail.com>
- <3b6cd2c2-5ebb-97a2-f9af-3c32d0899cd8@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <3b6cd2c2-5ebb-97a2-f9af-3c32d0899cd8@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220211161831.3493782-1-tjmercier@google.com>
+ <20220211161831.3493782-7-tjmercier@google.com> <Ygdfe3XSvN8iFuUc@kroah.com>
+ <CAHRSSEwoJ67Sr_=gtSaP91cbpjJjZdOo57cfAhv3r-ye0da7PA@mail.gmail.com>
+ <CAJuCfpHf=Ewm0e9kguY3MEGVHU_cyviVXByi0oQtq7kTtOOD=A@mail.gmail.com>
+ <CAHRSSEzsn-EVKXTRfmpbPR9u0wNpdvdZoX64Tm_mB1DQMRSUPQ@mail.gmail.com>
+ <CALAqxLVeLsv9ESCL2EoZQ8-tRgp0V+tmdYbkyakFetf=ewTH+A@mail.gmail.com>
+In-Reply-To: <CALAqxLVeLsv9ESCL2EoZQ8-tRgp0V+tmdYbkyakFetf=ewTH+A@mail.gmail.com>
+From: Hridya Valsaraju <hridya@google.com>
+Date: Mon, 14 Feb 2022 13:14:51 -0800
+Message-ID: <CA+wgaPM8AmQ4g6pDSwRABtc7hq11XMw+kH-rRkB8xNGJhM3OKA@mail.gmail.com>
+Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
+ ownership of fds
+To: John Stultz <john.stultz@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,119 +67,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_abhinavk@quicinc.com, airlied@linux.ie,
- freedreno@lists.freedesktop.org, vkoul@kernel.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com,
- bjorn.andersson@linaro.org, sean@poorly.run, linux-kernel@vger.kernel.org
+Cc: Zefan Li <lizefan.x@bytedance.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kenny.Ho@amd.com,
+ Jonathan Corbet <corbet@lwn.net>, Suren Baghdasaryan <surenb@google.com>,
+ Laura Abbott <labbott@redhat.com>, linux-media <linux-media@vger.kernel.org>,
+ Todd Kjos <tkjos@android.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ cgroups mailinglist <cgroups@vger.kernel.org>,
+ Martijn Coenen <maco@android.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
+ Todd Kjos <tkjos@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/02/2022 20:55, Kuogee Hsieh wrote:
-> 
-> On 2/11/2022 3:36 PM, Dmitry Baryshkov wrote:
->> On Sat, 12 Feb 2022 at 02:23, Kuogee Hsieh<quic_khsieh@quicinc.com>  wrote:
->>> intf_audio_select() callback function use to configure
->>> HDMI_DP_CORE_SELECT to decide audio output routes to HDMI or DP
->>> interface. HDMI is obsoleted at newer chipset. To keep supporting
->>> legacy hdmi application, intf_audio_select call back function have
->>> to be populated base on hardware chip capability where legacy
->>> chipsets have has_audio_select flag set to true.
->>>
->>> Signed-off-by: Kuogee Hsieh<quic_khsieh@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 ++
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 1 +
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c     | 9 ++++++---
->>>   3 files changed, 9 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>> index 272b14b..23680e7 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>> @@ -201,6 +201,7 @@ static const struct dpu_caps sdm845_dpu_caps = {
->>>          .has_dim_layer = true,
->>>          .has_idle_pc = true,
->>>          .has_3d_merge = true,
->>> +       .has_audio_select = true,
->>>          .max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
->>>          .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->>>          .max_hdeci_exp = MAX_HORZ_DECIMATION,
->>> @@ -229,6 +230,7 @@ static const struct dpu_caps sm8150_dpu_caps = {
->>>          .has_dim_layer = true,
->>>          .has_idle_pc = true,
->>>          .has_3d_merge = true,
->>> +       .has_audio_select = true,
->>>          .max_linewidth = 4096,
->>>          .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->>>          .max_hdeci_exp = MAX_HORZ_DECIMATION,
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> index e5a96d6..b33f91b 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> @@ -357,6 +357,7 @@ struct dpu_caps {
->>>          bool has_dim_layer;
->>>          bool has_idle_pc;
->>>          bool has_3d_merge;
->>> +       bool has_audio_select;
->> I'd suggest adding a bit to dpu_mdp_cfg's features instead, following
->> the example of other hardware blocks.
-> 
-> it may cause mis leading if we put this in hardware level since 
-> MDP_HDMI_DP_SELECT  bit has not be connected
-> 
-> to logic for a while even it still present at ipcat. Also this bit but 
-> will be  removed at next release.
+On Mon, Feb 14, 2022 at 12:37 PM John Stultz <john.stultz@linaro.org> wrote:
+>
+> On Mon, Feb 14, 2022 at 12:19 PM Todd Kjos <tkjos@google.com> wrote:
+> > On Mon, Feb 14, 2022 at 11:29 AM Suren Baghdasaryan <surenb@google.com> wrote:
+> > > On Mon, Feb 14, 2022 at 10:33 AM Todd Kjos <tkjos@google.com> wrote:
+> > > >
+> > > > Since we are creating a new gpu cgroup abstraction, couldn't this
+> > > > "transfer" be done in userspace by the target instead of in the kernel
+> > > > driver? Then this patch would reduce to just a flag on the buffer
+> > > > object.
+> > >
+> > > Are you suggesting to have a userspace accessible cgroup interface for
+> > > transferring buffer charges and the target process to use that
+> > > interface for requesting the buffer to be charged to its cgroup?
+> >
+> > Well, I'm asking why we need to do these cgroup-ish actions in the
+> > kernel when it seems more natural to do it in userspace.
 
-I'm sorry, I can't quite catch you. Why would you like to remove this 
-bit at the next release?
+This was our plan originally i.e. to create a cgroup interface that
+userspace could use for explicit charge transfer. However, in our
+initial discussions with all interested parties and cgroup maintainers
+we reached a conclusion that an explicit charge transfer UAPI for the
+cgroup controller did not fit in with the current cgroup
+charge/uncharge mechanisms. Like John mentioned, the charge transfer
+during binder IPC was suggested by Daniel during LPC.
 
-> 
-> Is dpu_caps level more proper than in hardware feature level?
+Regards,
+Hridya
 
-A priciple of the least surprise. In other hardware-dependent virtual 
-functions selection we use block's caps->features rather than boolean flags.
-
-> 
-> 
->>>          /* SSPP limits */
->>>          u32 max_linewidth;
->>>          u32 pixel_ram_size;
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
->>> index 282e3c6..e608f4d 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
->>> @@ -261,14 +261,17 @@ static void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
->>>   }
->>>
->>>   static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
->>> -               unsigned long cap)
->>> +               unsigned long cap,
->>> +               const struct dpu_mdss_cfg *m)
->>>   {
->>>          ops->setup_split_pipe = dpu_hw_setup_split_pipe;
->>>          ops->setup_clk_force_ctrl = dpu_hw_setup_clk_force_ctrl;
->>>          ops->get_danger_status = dpu_hw_get_danger_status;
->>>          ops->setup_vsync_source = dpu_hw_setup_vsync_source;
->>>          ops->get_safe_status = dpu_hw_get_safe_status;
->>> -       ops->intf_audio_select = dpu_hw_intf_audio_select;
->>> +
->>> +       if (m->caps->has_audio_select)
->>> +               ops->intf_audio_select = dpu_hw_intf_audio_select;
->>>   }
->>>
->>>   static const struct dpu_mdp_cfg *_top_offset(enum dpu_mdp mdp,
->>> @@ -320,7 +323,7 @@ struct dpu_hw_mdp *dpu_hw_mdptop_init(enum dpu_mdp idx,
->>>           */
->>>          mdp->idx = idx;
->>>          mdp->caps = cfg;
->>> -       _setup_mdp_ops(&mdp->ops, mdp->caps->features);
->>> +       _setup_mdp_ops(&mdp->ops, mdp->caps->features, m);
->>>
->>>          return mdp;
->>>   }
-
-
--- 
-With best wishes
-Dmitry
+> >
+>
+> In case its useful, some additional context from some of the Linux
+> Plumber's discussions last fall:
+>
+> Daniel Stone outlines some concerns with the cgroup userland handling
+> for accounting:
+>   https://youtu.be/3OqllZONTiQ?t=3430
+>
+> And the binder ownership transfer bit was suggested here by Daniel Vetter:
+>   https://youtu.be/3OqllZONTiQ?t=3730
+>
+> thanks
+> -john
