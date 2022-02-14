@@ -2,60 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2914B5755
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 17:45:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48114B578C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 17:59:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7683410E1C4;
-	Mon, 14 Feb 2022 16:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C794210E1C9;
+	Mon, 14 Feb 2022 16:59:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFCC410E169;
- Mon, 14 Feb 2022 16:45:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644857112; x=1676393112;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=R5ieivu0BFlgLSvg984cJ4TTRXItV8kiFd/9WEwoL3w=;
- b=NiRSMnprXRjEVLngh3asWJgcW3ih8AHEqnybglvWsTMMQ8DYErygCDC7
- wiBaEPaR5GDnkRKAyuyN3lEw/E8hvJFhgoRmyBfjJ6zzxRSwwolr8Lw1k
- 5BOSQSyoC0qzWDfpLnKff2/1r1CXqdmLbYWMm4QpUewqtWolAm5P1/lzz w=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Feb 2022 08:45:12 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 08:45:11 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Mon, 14 Feb 2022 08:45:10 -0800
-Received: from [10.110.63.253] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 14 Feb
- 2022 08:45:09 -0800
-Message-ID: <9e15b7fb-e37e-72d6-d2a7-e7a37e041f94@quicinc.com>
-Date: Mon, 14 Feb 2022 08:45:08 -0800
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C3B310E1C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 16:59:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id 927161F43B06
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1644857941;
+ bh=KOMYlczqCUUgeBE8RWdUWTc/oyxfXhKnikuX3b7RqAU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UVtWRZ/sTdMhiK7PS2PDQY0rB3/ut2g+vYHXlH1+9NBSa+UX4/aLTyKNXOPHGzuU8
+ ZPIoWfF8e+/jbAwlzpsY5BTNN1TuRGOA65WTk+4VWFAkJqgH6bdpXR0OomI3s/A6w2
+ xipKsTpK+Dqu7s5t2hUSnfnA4ZIWe0HQ4BXGCcLcNEwX9kJVq97LiWSGoi1k96/gro
+ 64Hhc/Fr+mPs449TaK1aM16xiaEYYgZoVo+FdNFeMpQAhO6ZzDTNuJu0oygwcIGSSy
+ mYaBzFyC8K8kd6/I0YE6/al7hFtRUZx3UIilsXMjnWtjqVsSlyqI6VWHdSw/+LsLRq
+ m7JTaf0SndAtg==
+Date: Mon, 14 Feb 2022 11:58:53 -0500
+From: Alyssa Rosenzweig <alyssa@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH 1/9] dt-bindings: Add arm,mali-valhall compatible
+Message-ID: <YgqKTQ0xLA1CbQW/@maud>
+References: <20220211202728.6146-1-alyssa.rosenzweig@collabora.com>
+ <20220211202728.6146-2-alyssa.rosenzweig@collabora.com>
+ <5ca70986-d6a5-7c3e-b876-40e970805775@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 0/3] Add connector_type to debug info to differentiate
- between eDP and DP
-Content-Language: en-US
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
- <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
- <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
-References: <1643828199-8564-1-git-send-email-quic_khsieh@quicinc.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <1643828199-8564-1-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5ca70986-d6a5-7c3e-b876-40e970805775@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,34 +49,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: tomeu.vizoso@collabora.com, devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen,
+> > diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> > index 63a08f3f321d..48aeabd2ed68 100644
+> > --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> > +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> > @@ -23,6 +23,7 @@ properties:
+> >            - rockchip,px30-mali
+> >            - rockchip,rk3568-mali
+> >        - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
+> > +      - const: arm,mali-valhall # Mali Valhall GPU model/revision is fully discoverable
+> 
+> It might be worth spelling out here that this is *pre-CSF* Valhall. I'm
+> pretty sure we're going to need different bindings for CSF GPUs.
 
-Can you please review this serial patches.
-
-On 2/2/2022 10:56 AM, Kuogee Hsieh wrote:
-> 1) Add connector_type to debug info to differentiate between eDP and DP
-> 2) add more debug info to cover dp Phy
-> 3) repalce DRM_DEBUG_DP with drm_debug_dp
->
-> Kuogee Hsieh (3):
->    drm/msm/dp: add connector type to enhance debug messages
->    drm/msm/dp: enhance debug info related to dp phy
->    drm/msm/dp:  replace DRM_DEBUG_DP marco with drm_dbg_dp
->
->   drivers/gpu/drm/msm/dp/dp_audio.c   |  49 +++++++++------
->   drivers/gpu/drm/msm/dp/dp_catalog.c |  34 ++++++-----
->   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 116 +++++++++++++++++++-----------------
->   drivers/gpu/drm/msm/dp/dp_display.c | 103 ++++++++++++++++++++++----------
->   drivers/gpu/drm/msm/dp/dp_drm.c     |   4 +-
->   drivers/gpu/drm/msm/dp/dp_link.c    |  99 +++++++++++++++++-------------
->   drivers/gpu/drm/msm/dp/dp_panel.c   |  43 +++++++------
->   drivers/gpu/drm/msm/dp/dp_parser.c  |   2 +-
->   drivers/gpu/drm/msm/dp/dp_power.c   |  20 ++++---
->   9 files changed, 283 insertions(+), 187 deletions(-)
->
+Yes, agreed, will make a note for v2.
