@@ -1,68 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E694B4661
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:36:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB654B4671
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:43:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70E9D10E2B2;
-	Mon, 14 Feb 2022 09:36:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7356E10E2B5;
+	Mon, 14 Feb 2022 09:43:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0C510E2B2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:36:42 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id v129so9252235wme.2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 01:36:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:references:in-reply-to:content-transfer-encoding;
- bh=bnk+2QCHjOg5HVJbs0OpnqiBPs+sMbu6BVO1V06EDGM=;
- b=O4Tb434c/5NEqD2Vj17dnf0UrNMhu7rua/D1kDPzrWYRyhiKkFW4mf7lYgWbGGOxOq
- Cd6KwajhtHjrj0xHgPnk0ZVoci2tB4CWt5FMwg492nli+CQ/ZxztdZNeddmPiyzJmvKo
- GgYx8CePsULbFqNZhe327FociYDcryoOxHG5sn+QQjMOulRlRtPzPepWMu56sI7IujF3
- dCI3W3jxI8J1TsAqi1q49QauQqOBgr8lqQGEdW+RspRgKwi7rkUqPQZfMLR4nStRM/HK
- ENcRIMYgtRGy22DgRo5m38E3AewbzKImUBOOpfTaeV0hH+yuvdLjOEuRPysczGh8euph
- wKZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:references:in-reply-to
- :content-transfer-encoding;
- bh=bnk+2QCHjOg5HVJbs0OpnqiBPs+sMbu6BVO1V06EDGM=;
- b=xMlWaEXcNsNjH546R/o99mqnCh5eg7DooGJDKUGpe/c0bVMtQxUVoIPDSaPSMh686i
- 7erD8C+tOct9/xzq+osJZYdXLjwN33ujoXI9SWJ70VdeMkO0Pulh7PPHJpPpYKtloV5j
- QjVl0skcLbJLLl3AyYzs0XiCmy+5gMcy7q+VwxYqV5/0SmA87gOYpERHQX5KINWPsofM
- 4WAB/91AfrcJu17NcT7VXDDqTdJpmI7cwJH8YENx6v4tlggfUEYIp40r74XT6+osskC+
- Fu7MOh1c/Wt2ZAzmi9q2c110HHzjVxI0nk7wX4ooYjfWh9FNgOOUkkfV2Rhz3G+gv9pI
- DRvg==
-X-Gm-Message-State: AOAM533k1cd4TQzGmvirkDijnsDmPL4n0GCqHo2kQieES6xp2EdAvdSM
- yccoQRbqks5e/AyDn0qd6PI=
-X-Google-Smtp-Source: ABdhPJwFrHXaW+pNblEAFbDsozUNk1NF43tF9JcO+cj77R/6wPqcf1OjEItrz5gP189emGCo+l6nrA==
-X-Received: by 2002:a1c:750f:: with SMTP id o15mr10153855wmc.137.1644831400769; 
- Mon, 14 Feb 2022 01:36:40 -0800 (PST)
-Received: from ?IPV6:2a02:908:1252:fb60:50d5:8646:21a1:a00a?
- ([2a02:908:1252:fb60:50d5:8646:21a1:a00a])
- by smtp.gmail.com with ESMTPSA id x1sm49471wrn.12.2022.02.14.01.36.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Feb 2022 01:36:40 -0800 (PST)
-Message-ID: <047b2d6f-584f-4818-7d9f-c794f389c7be@gmail.com>
-Date: Mon, 14 Feb 2022 10:36:39 +0100
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F173110E2B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:43:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id E5BAB1F43573
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1644831796;
+ bh=kuDQtUAXWzNyzTKHh3iQp9tj06g3aQJ3Vh8+/PtLxTk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=F/ChMnCt2ZvyLUCCDaKYxsNQ/HNeiyvut9l5Fd3guB+z90ls52jie0pFavRlj6EM5
+ NdRuf7sSAFZyA7RJQrIJoeXQBNFIlqkjDo+yNYU4rQg2TcGHgZ5islmi2tdUc8aj4H
+ uBvSw2GoxxjFIvo3nXdPbWlr2GPEHUs0f9ZmfetxG6wB6tyI9EOWk/E7htOIoi8Vm1
+ 39wM4YYpf6Mjq20Avo2GT+n/4g0y8mUlCBA3wNyIEHIXjShL5i1mdNVCa7OYDSwXdq
+ y/Ofm8F1jV5RVpZ18Khi77Ph4klSaNwj72GAbJMupguC+eJbeGOg+4jKvAyK41CJaJ
+ az59wNOPGjIAg==
+Message-ID: <0a331caa-7578-60f5-cbd8-f6c8c29a629f@collabora.com>
+Date: Mon, 14 Feb 2022 10:43:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 01/11] drm/ttm: fix resource manager size type and
- description
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v4] drm/mediatek: allow commands to be sent during video
+ mode
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: matthew.william.auld@gmail.com, daniel@ffwll.ch,
- thomas.hellstrom@linux.intel.com, felix.kuehling@amd.com,
- dri-devel@lists.freedesktop.org
-References: <20220214093439.2989-1-christian.koenig@amd.com>
-In-Reply-To: <20220214093439.2989-1-christian.koenig@amd.com>
+To: Julien STEPHAN <jstephan@baylibre.com>
+References: <20220214092742.3461587-1-jstephan@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220214092742.3461587-1-jstephan@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,64 +51,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
+ "moderated list:DRM DRIVERS FOR MEDIATEK" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi guys,
+Il 14/02/22 10:27, Julien STEPHAN ha scritto:
+> Mipi dsi panel drivers can use mipi_dsi_dcs_{set,get}_display_brightness()
+> to request backlight changes.
+> 
+> This can be done during panel initialization (dsi is in command mode)
+> or afterwards (dsi is in Video Mode).
+> 
+> When the DSI is in Video Mode, all commands are rejected.
+> 
+> Detect current DSI mode in mtk_dsi_host_transfer() and switch modes
+> temporarily to allow commands to be sent.
+> 
+> Signed-off-by: Julien STEPHAN <jstephan@baylibre.com>
+> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 
-crap I once more forgot the cover letter, but this set should be pretty 
-straight forward by now.
+Please, next time, don't drop the tags that reviewers are giving to you, unless
+the patch changes radically.
 
-Please review and comment,
-Christian.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Am 14.02.22 um 10:34 schrieb Christian König:
-> That are not pages any more.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
->   drivers/gpu/drm/ttm/ttm_resource.c | 6 +++---
->   include/drm/ttm/ttm_resource.h     | 2 +-
->   2 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> index 68344c90549b..ae40e144e728 100644
-> --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> @@ -153,19 +153,19 @@ void ttm_resource_set_bo(struct ttm_resource *res,
->    *
->    * @man: memory manager object to init
->    * @bdev: ttm device this manager belongs to
-> - * @p_size: size managed area in pages.
-> + * @size: size of managed resources in arbitary units
->    *
->    * Initialise core parts of a manager object.
->    */
->   void ttm_resource_manager_init(struct ttm_resource_manager *man,
->   			       struct ttm_device *bdev,
-> -			       unsigned long p_size)
-> +			       uint64_t size)
->   {
->   	unsigned i;
->   
->   	spin_lock_init(&man->move_lock);
->   	man->bdev = bdev;
-> -	man->size = p_size;
-> +	man->size = size;
->   
->   	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
->   		INIT_LIST_HEAD(&man->lru[i]);
-> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-> index 69eea9d6399b..555a11fb8a7f 100644
-> --- a/include/drm/ttm/ttm_resource.h
-> +++ b/include/drm/ttm/ttm_resource.h
-> @@ -278,7 +278,7 @@ void ttm_resource_set_bo(struct ttm_resource *res,
->   
->   void ttm_resource_manager_init(struct ttm_resource_manager *man,
->   			       struct ttm_device *bdev,
-> -			       unsigned long p_size);
-> +			       uint64_t size);
->   
->   int ttm_resource_manager_evict_all(struct ttm_device *bdev,
->   				   struct ttm_resource_manager *man);
+> Changes in v4:
+>      - fix missing space:  "ret : recv_cnt;"
+> Changes in v3:
+>      - increase readability of code and use correct return variable (see
+>        comment
+> https://lore.kernel.org/linux-mediatek/4907bdc1-b4a6-e9ad-5cfa-266fc20c0bec@collabora.com/)
+> 
+> Changes in v2:
+>      - update commit message to be more descriptive
+> 
+>   drivers/gpu/drm/mediatek/mtk_dsi.c | 33 ++++++++++++++++++++++--------
+>   1 file changed, 24 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index 5d90d2eb0019..abdd9cdebd86 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -891,24 +891,33 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
+>   	u8 read_data[16];
+>   	void *src_addr;
+>   	u8 irq_flag = CMD_DONE_INT_FLAG;
+> +	u32 dsi_mode;
+> +	int ret;
+> 
+> -	if (readl(dsi->regs + DSI_MODE_CTRL) & MODE) {
+> -		DRM_ERROR("dsi engine is not command mode\n");
+> -		return -EINVAL;
+> +	dsi_mode = readl(dsi->regs + DSI_MODE_CTRL);
+> +	if (dsi_mode & MODE) {
+> +		mtk_dsi_stop(dsi);
+> +		ret = mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
+> +		if (ret)
+> +			goto restore_dsi_mode;
+>   	}
+> 
+>   	if (MTK_DSI_HOST_IS_READ(msg->type))
+>   		irq_flag |= LPRX_RD_RDY_INT_FLAG;
+> 
+> -	if (mtk_dsi_host_send_cmd(dsi, msg, irq_flag) < 0)
+> -		return -ETIME;
+> +	ret = mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
+> +	if (ret)
+> +		goto restore_dsi_mode;
+> 
+> -	if (!MTK_DSI_HOST_IS_READ(msg->type))
+> -		return 0;
+> +	if (!MTK_DSI_HOST_IS_READ(msg->type)) {
+> +		recv_cnt = 0;
+> +		goto restore_dsi_mode;
+> +	}
+> 
+>   	if (!msg->rx_buf) {
+>   		DRM_ERROR("dsi receive buffer size may be NULL\n");
+> -		return -EINVAL;
+> +		ret = -EINVAL;
+> +		goto restore_dsi_mode;
+>   	}
+> 
+>   	for (i = 0; i < 16; i++)
+> @@ -933,7 +942,13 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
+>   	DRM_INFO("dsi get %d byte data from the panel address(0x%x)\n",
+>   		 recv_cnt, *((u8 *)(msg->tx_buf)));
+> 
+> -	return recv_cnt;
+> +restore_dsi_mode:
+> +	if (dsi_mode & MODE) {
+> +		mtk_dsi_set_mode(dsi);
+> +		mtk_dsi_start(dsi);
+> +	}
+> +
+> +	return ret < 0 ? ret : recv_cnt;
+>   }
+> 
+>   static const struct mipi_dsi_host_ops mtk_dsi_ops = {
+> --
+> 2.35.1
+> 
+
+
 
