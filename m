@@ -1,45 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B2E4B48C9
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:59:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB78F4B45B9
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:29:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0997E10E2AE;
-	Mon, 14 Feb 2022 09:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF9610E249;
+	Mon, 14 Feb 2022 09:28:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB6410E2AE
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:59:51 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1116BB80D6D;
- Mon, 14 Feb 2022 09:59:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24A1CC340E9;
- Mon, 14 Feb 2022 09:59:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1644832788;
- bh=+3V7kLPNkHtBcTLCEvk6zqPxgRYdatEipC65smgMYe0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nOxpilClTw/DyWOTn4Tcyohvwy61m0+unemrcM3byACA2WNpANn0Ubul80HemS/De
- QQHJJMANKsN1S9rWsZQ1XDvKzY9UG7ksy+WvnnNXqErJglNVYHAQj3ICFtH+DQcduy
- Xn7Cbp3n2gCV+xJLx3vnw4ClGrbUdPRKjLaH7GiQ=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 5.16 125/203] drm/panel: simple: Assign data from
- panel_dpi_probe() correctly
-Date: Mon, 14 Feb 2022 10:26:09 +0100
-Message-Id: <20220214092514.490834060@linuxfoundation.org>
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C48C89668
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:28:57 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id k1so25723919wrd.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 01:28:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KStTxY9XVfRTy0jNX2vsLO+sccZ6tcP3+MXbZKzhUog=;
+ b=RRmTvdH206P9cFagseNai5Qkh/Y3gvxhEZYcItRUx3Z9rEGdbrrj8+RMSJBQMDQ6Ti
+ /KIXUPdzytBTQ0ksw/z3Qy94t1bAcG+ahCZXsO5wv9qTuL6ocOaX36x2KxnoYqtfHLdE
+ nFbBnJLi7GqAsDtg8KQ+jO0zGiDqzGuWjOsar7FHjFlqRu68oHIVacm6iRybNRxOjlTl
+ Qws1U8zaHo6hRAFlR2mkexqUTohqw7KSmEu/U0A0tn4DOBw/2YdbewEFZPnm+YTTOocr
+ Wb13phnqsbITLtgPk2htUT1bTW3fTdqeyiUuqExmM68oWDlGVOFyFj6r2o+jO7ofAevM
+ SIag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KStTxY9XVfRTy0jNX2vsLO+sccZ6tcP3+MXbZKzhUog=;
+ b=dckn0KM0jq3HcqK0KNfGwdUBFt7AU8WVUKSK8k7LutQp29IeKnInzNPD/LJvcRiFyx
+ N/w25wk6CIZYRqIc9oaz9tow6NkKPIpHwLgdEy2NxVU7wHYZZigZkGXTTzBpKJcFyJNs
+ JKWPbcGMORxPSqOGSPFkoviC+AeZyO4DzsVLZIuzdeHlaDJstml1ivvwD4n3+wnjhu+l
+ Wb8NxMgqcDKhWAPicKGaXzPd10Nz5gOGLSl6AnG7lzOj7HMrzG6lsVf6eLf8miwvWQ0U
+ DocrGpAnrJUHQT2yO1/xPFNwyE8OaImASffctsa5TLvamk03mTi2sjQIZVydrHXbsWez
+ SilA==
+X-Gm-Message-State: AOAM533srHgC5OqvI84YsrL4lNPoSWSDVBQ7p2X2jY2cZf/tdbTHqB6G
+ tF/54Q69ioyiiNtVee6/M7wAnA==
+X-Google-Smtp-Source: ABdhPJyGQ/UgchooSSeFiGSP/VpjbWioBhy23eoI5rS7fHkwylzEihvSntyQAg6+0NSZa+CRPy+XjA==
+X-Received: by 2002:adf:fe01:: with SMTP id n1mr10579723wrr.141.1644830935927; 
+ Mon, 14 Feb 2022 01:28:55 -0800 (PST)
+Received: from localhost.localdomain (179.160.117.78.rev.sfr.net.
+ [78.117.160.179])
+ by smtp.gmail.com with ESMTPSA id o14sm11182012wmr.3.2022.02.14.01.28.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Feb 2022 01:28:55 -0800 (PST)
+From: Julien STEPHAN <jstephan@baylibre.com>
+To: angelogioacchino.delregno@collabora.com
+Subject: [PATCH v4] drm/mediatek: allow commands to be sent during video mode
+Date: Mon, 14 Feb 2022 10:27:42 +0100
+Message-Id: <20220214092742.3461587-1-jstephan@baylibre.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220214092510.221474733@linuxfoundation.org>
-References: <20220214092510.221474733@linuxfoundation.org>
-User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,55 +67,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- Marek Vasut <marex@denx.de>, Sasha Levin <sashal@kernel.org>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
+ "moderated list:DRM DRIVERS FOR MEDIATEK" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Julien STEPHAN <jstephan@baylibre.com>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Mipi dsi panel drivers can use mipi_dsi_dcs_{set,get}_display_brightness()
+to request backlight changes.
 
-[ Upstream commit 6df4432a5eca101b5fd80fbee41d309f3d67928d ]
+This can be done during panel initialization (dsi is in command mode)
+or afterwards (dsi is in Video Mode).
 
-In the function panel_simple_probe() the pointer panel->desc is
-assigned to the passed pointer desc. If function panel_dpi_probe()
-is called panel->desc will be updated, but further on only desc
-will be evaluated. So update the desc pointer to be able to use
-the data from the function panel_dpi_probe().
+When the DSI is in Video Mode, all commands are rejected.
 
-Fixes: 4a1d0dbc8332 ("drm/panel: simple: add panel-dpi support")
+Detect current DSI mode in mtk_dsi_host_transfer() and switch modes
+temporarily to allow commands to be sent.
 
-Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-To: dri-devel@lists.freedesktop.org
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220201110153.3479-1-cniedermaier@dh-electronics.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Julien STEPHAN <jstephan@baylibre.com>
+Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 1 +
- 1 file changed, 1 insertion(+)
+Changes in v4:
+    - fix missing space:  "ret : recv_cnt;"
+Changes in v3:
+    - increase readability of code and use correct return variable (see
+      comment
+https://lore.kernel.org/linux-mediatek/4907bdc1-b4a6-e9ad-5cfa-266fc20c0bec@collabora.com/)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index eb475a3a774b7..87f30bced7b7e 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -588,6 +588,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 		err = panel_dpi_probe(dev, panel);
- 		if (err)
- 			goto free_ddc;
-+		desc = panel->desc;
- 	} else {
- 		if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
- 			panel_simple_parse_panel_timing_node(dev, panel, &dt);
--- 
-2.34.1
+Changes in v2:
+    - update commit message to be more descriptive
 
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 33 ++++++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 5d90d2eb0019..abdd9cdebd86 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -891,24 +891,33 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
+ 	u8 read_data[16];
+ 	void *src_addr;
+ 	u8 irq_flag = CMD_DONE_INT_FLAG;
++	u32 dsi_mode;
++	int ret;
+
+-	if (readl(dsi->regs + DSI_MODE_CTRL) & MODE) {
+-		DRM_ERROR("dsi engine is not command mode\n");
+-		return -EINVAL;
++	dsi_mode = readl(dsi->regs + DSI_MODE_CTRL);
++	if (dsi_mode & MODE) {
++		mtk_dsi_stop(dsi);
++		ret = mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
++		if (ret)
++			goto restore_dsi_mode;
+ 	}
+
+ 	if (MTK_DSI_HOST_IS_READ(msg->type))
+ 		irq_flag |= LPRX_RD_RDY_INT_FLAG;
+
+-	if (mtk_dsi_host_send_cmd(dsi, msg, irq_flag) < 0)
+-		return -ETIME;
++	ret = mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
++	if (ret)
++		goto restore_dsi_mode;
+
+-	if (!MTK_DSI_HOST_IS_READ(msg->type))
+-		return 0;
++	if (!MTK_DSI_HOST_IS_READ(msg->type)) {
++		recv_cnt = 0;
++		goto restore_dsi_mode;
++	}
+
+ 	if (!msg->rx_buf) {
+ 		DRM_ERROR("dsi receive buffer size may be NULL\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto restore_dsi_mode;
+ 	}
+
+ 	for (i = 0; i < 16; i++)
+@@ -933,7 +942,13 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
+ 	DRM_INFO("dsi get %d byte data from the panel address(0x%x)\n",
+ 		 recv_cnt, *((u8 *)(msg->tx_buf)));
+
+-	return recv_cnt;
++restore_dsi_mode:
++	if (dsi_mode & MODE) {
++		mtk_dsi_set_mode(dsi);
++		mtk_dsi_start(dsi);
++	}
++
++	return ret < 0 ? ret : recv_cnt;
+ }
+
+ static const struct mipi_dsi_host_ops mtk_dsi_ops = {
+--
+2.35.1
 
