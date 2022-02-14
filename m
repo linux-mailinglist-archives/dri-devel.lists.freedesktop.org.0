@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C774B5834
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 18:11:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD694B5866
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 18:24:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6978410E1E1;
-	Mon, 14 Feb 2022 17:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A47A10E26A;
+	Mon, 14 Feb 2022 17:24:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E85A10E1E1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 17:11:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id A71461F43C58
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1644858698;
- bh=mOIHVEM5C9UVp2XYO3woFmVBYR18WhpWMPWVU08zD+M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=K3IOpYEe0YGYAf+dyULWzd3ZXAi1L3HBxJZlcPiPifwWo4sk2lSGfYihXbfCPcT1f
- jIpvYD7tqp9e6rtkDsOL0LDWTqmI6Fs7+8CXq0H3tJw9j87hkUiKQcpmEiGeB70UGS
- lxLxnPL3HtTrkrjOTHSXMIy45CtEJwLKMANyXN8Jc3YuoH4rjjciGurmOd1DYRe3EX
- BZ20Kr8zDKFjUdFUUCRjBj3LoR2Ycjx9MSWsnZcgkC6XTQQtc8LSjzuVVhD5tqnSgo
- ZvuJIPFGVv2O7LuKUQR0i7I8RhgTiVju1aTXyNDQ8mawLtJmLSq9YuPwb8kYbo4pCp
- R3dhBxBzHogeQ==
-Date: Mon, 14 Feb 2022 12:11:30 -0500
-From: Alyssa Rosenzweig <alyssa@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH 5/9] drm/panfrost: Add HW_ISSUE_TTRX_3485 quirk
-Message-ID: <YgqNQpjwkBtPOgls@maud>
-References: <20220211202728.6146-1-alyssa.rosenzweig@collabora.com>
- <20220211202728.6146-6-alyssa.rosenzweig@collabora.com>
- <265e99b9-fbde-bdcf-d8e9-e5deba1d9564@arm.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4CF110E26A
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 17:24:06 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1nJf51-0008Qe-HH; Mon, 14 Feb 2022 18:24:03 +0100
+Message-ID: <65a7fdadc60d0c76138a8979a0c6fe1d6cdeb85d.camel@pengutronix.de>
+Subject: Re: [PATCH] gpu: ipu-v3: Fix dev_dbg frequency output
+From: Lucas Stach <l.stach@pengutronix.de>
+To: "Jonas Mark (BT-FIR/ENG1-Grb)" <Mark.Jonas@de.bosch.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>
+Date: Mon, 14 Feb 2022 18:24:01 +0100
+In-Reply-To: <PAXPR10MB540528C7049118472B4F190EAD339@PAXPR10MB5405.EURPRD10.PROD.OUTLOOK.COM>
+References: <20220207151411.5009-1-mark.jonas@de.bosch.com>
+ <PAXPR10MB540528C7049118472B4F190EAD339@PAXPR10MB5405.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <265e99b9-fbde-bdcf-d8e9-e5deba1d9564@arm.com>
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,30 +50,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com
+Cc: "RUAN Tingquan \(BT-FIR/ENG1-Zhu\)" <Tingquan.Ruan@cn.bosch.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > TTRX_3485 requires the infamous "dummy job" workaround. I have this
-> > workaround implemented in a local branch, but I have not yet hit a case
-> > that requires it so I cannot test whether the implementation is correct.
-> > In the mean time, add the quirk bit so we can document which platforms
-> > may need it in the future.
+Am Montag, dem 14.02.2022 um 16:44 +0000 schrieb Jonas Mark (BT-FIR/ENG1-Grb):
+> Hi,
 > 
-> This one is hideous ;) Although to me this isn't the 'infamous' one as
-> it's not the earliest example of a dummy job.
+> > From: Leo Ruan <tingquan.ruan@cn.bosch.com>
+> > 
+> > This commit corrects the printing of the IPU clock error percentage if it is
+> > between -0.1% to -0.9%. For example, if the pixel clock requested is 27.2
+> > MHz but only 27.0 MHz can be achieved the deviation is -0.8%.
+> > But the fixed point math had a flaw and calculated error of 0.2%.
+> > 
+> > Before:
+> >   Clocks: IPU 270000000Hz DI 24716667Hz Needed 27200000Hz
+> >   IPU clock can give 27000000 with divider 10, error 0.2%
+> >   Want 27200000Hz IPU 270000000Hz DI 24716667Hz using IPU,
+> > 27000000Hz
+> > 
+> > After:
+> >   Clocks: IPU 270000000Hz DI 24716667Hz Needed 27200000Hz
+> >   IPU clock can give 27000000 with divider 10, error -0.8%
+> >   Want 27200000Hz IPU 270000000Hz DI 24716667Hz using IPU,
+> > 27000000Hz
+> > 
+> > Signed-off-by: Leo Ruan <tingquan.ruan@cn.bosch.com>
+> > Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
+> > ---
+> >  drivers/gpu/ipu-v3/ipu-di.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/ipu-v3/ipu-di.c b/drivers/gpu/ipu-v3/ipu-di.c index
+> > b4a31d506fcc..74eca68891ad 100644
+> > --- a/drivers/gpu/ipu-v3/ipu-di.c
+> > +++ b/drivers/gpu/ipu-v3/ipu-di.c
+> > @@ -451,8 +451,9 @@ static void ipu_di_config_clock(struct ipu_di *di,
+> > 
+> >  		error = rate / (sig->mode.pixelclock / 1000);
+> > 
+> > -		dev_dbg(di->ipu->dev, "  IPU clock can give %lu with divider
+> > %u, error %d.%u%%\n",
+> > -			rate, div, (signed)(error - 1000) / 10, error % 10);
+> > +		dev_dbg(di->ipu->dev, "  IPU clock can give %lu with divider
+> > %u, error %c%d.%d%%\n",
+> > +			rate, div, error < 1000 ? '-' : '+',
+> > +			abs(error - 1000) / 10, abs(error - 1000) % 10);
+> > 
+> >  		/* Allow a 1% error */
+> >  		if (error < 1010 && error >= 990) {
+> 
+> Is there anything I can do to help getting this patch mainline?
 
-Terrifying. I guess we narrowly avoided the 'replay' workaround which
-was far worse than this one...
+Philipp is still on vacation, but will be back in a few days. I guess
+he will take a look at those patches then.
 
-> However... I believe as Panfrost currently stands this is probably not
-> very possible to hit. It requires a job to be stopped (soft or hard) at
-> a critical point during submission - which at the moment Panfrost
-> basically never does (the exception is if you close the fd immediately
-> while a job is in progress). And of course the timing has to be 'just
-> right' to hit the bug.
+Regards,
+Lucas
 
-OK, that's good to know. Still "should" be fixed but that definitely
-lowers the priority of it. Frankly the multithreading bugs we have on
-the CPU side would hang the machine sooner...
