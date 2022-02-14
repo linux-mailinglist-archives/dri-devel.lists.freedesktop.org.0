@@ -2,30 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAA94B4E5C
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 12:31:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B322C4B4FC5
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 13:13:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CED3210E184;
-	Mon, 14 Feb 2022 11:31:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA6B510E12A;
+	Mon, 14 Feb 2022 12:12:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FA8710E184
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 11:31:17 +0000 (UTC)
-Date: Mon, 14 Feb 2022 11:30:54 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v15 2/7] drm/ingenic: Add dw-hdmi driver specialization
- for jz4780
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <IBLA7R.1NQX4KVACXPK3@crapouillou.net>
-In-Reply-To: <AD978522-8321-476D-955C-3CDD747EFCAC@goldelico.com>
-References: <cover.1644681054.git.hns@goldelico.com>
- <e6e1f3f44e6979a998ec9c372e329b6facaded15.1644681054.git.hns@goldelico.com>
- <58IA7R.PZ9FQXN7FVAK@crapouillou.net>
- <AD978522-8321-476D-955C-3CDD747EFCAC@goldelico.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F7B10E138;
+ Mon, 14 Feb 2022 12:12:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644840771; x=1676376771;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=/Bu4KOweNQGoBPbCgK6zUFcRkFzJe0NMscsE3+j7lc8=;
+ b=MWXL63/50bpBVEt+GqH9y0GK8sN//GhV2nsWE7fm4PVbnYFjv0AJnkgl
+ dW4+rRxhTBsm73GTWbf6vJCVEO3ThX5JRjE4B/WpnLlHfVwjrVnH65CbC
+ AVVliDMBR8aJ1RYtYnNmJpSDlBNeqRY2ECCGiHPjZQTAIDBh0iTh7xA6S
+ 1TCtB7wfar2A3LM9SXPzVffoK+uXX6cH9uVTTSzT+B1YVXVOwzL0SgdR7
+ ewkiLut2wB3kP1ttBg7FmqSvbpG1GfxJsaB90FzxZ7U25V6cmn1LLvGbf
+ QnSAqpqUK2kjYifdcBDFuTUlgmS+hQnoQvIvNnA2GEdU5j9qRiNXoP6HR g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="249825351"
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="249825351"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 04:12:51 -0800
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="635136813"
+Received: from unknown (HELO localhost) ([10.252.13.38])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 04:12:43 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Yaroslav Bolyukin <iam@lach.pw>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] edid: parse DRM VESA dsc bpp target
+In-Reply-To: <20220213133128.5833-1-iam@lach.pw>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220213133128.5833-1-iam@lach.pw>
+Date: Mon, 14 Feb 2022 14:12:41 +0200
+Message-ID: <877d9x7ikm.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,115 +56,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Boddie <paul@boddie.org.uk>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-mips <linux-mips@vger.kernel.org>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Yaroslav Bolyukin <iam@lach.pw>, David Airlie <airlied@linux.ie>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+Subject prefix should be drm/edid.
 
-Le lun., f=E9vr. 14 2022 at 12:02:53 +0100, H. Nikolaus Schaller=20
-<hns@goldelico.com> a =E9crit :
-> Hi Paul,
->=20
->>  Am 14.02.2022 um 11:24 schrieb Paul Cercueil <paul@crapouillou.net>:
->>=20
->>  Hi,
->>=20
->>  Le sam., f=E9vr. 12 2022 at 16:50:50 +0100, H. Nikolaus Schaller=20
->> <hns@goldelico.com> a =E9crit :
->=20
->>>  +static void ingenic_dw_hdmi_cleanup(void *data)
->>>  +{
->>>  +	struct dw_hdmi *hdmi =3D (struct dw_hdmi *)data;
->>>  +
->>>  +	dw_hdmi_remove(hdmi);
->>>  +}
->>>  +
->>>  +static int ingenic_dw_hdmi_probe(struct platform_device *pdev)
->>>  +{
->>>  +	struct dw_hdmi *hdmi;
->>>  +
->>>  +	hdmi =3D dw_hdmi_probe(pdev, &ingenic_dw_hdmi_plat_data);
->>>  +	if (IS_ERR(hdmi))
->>>  +		return PTR_ERR(hdmi);
->>>  +
->>>  +	return devm_add_action_or_reset(&pdev->dev,=20
->>> ingenic_dw_hdmi_cleanup, hdmi);
->>=20
->>  I think I said it already, but in this driver you could use a=20
->> .remove callback, there's not much point in using devm cleanups in=20
->> such a simple setup.
->=20
-> Well it was your suggestion after v8:
->=20
-> https://lore.kernel.org/all/DIA33R.QE29K7RKLI2C1@crapouillou.net/
+On Sun, 13 Feb 2022, Yaroslav Bolyukin <iam@lach.pw> wrote:
+> As per DisplayID v2.0 Errata E9 spec
 
-It made sense for your v8, not so much for your v15...
+Please be more elaborate about the changes.
 
-> So we now almost go back to RFC v1 almost 2 years ago:
->=20
-> https://patchwork.kernel.org/project/linux-mips/patch/2c131e1fb19e19f958a=
-612f7186bc83f4afb0b0a.1582744379.git.hns@goldelico.com/
->=20
-> Of course there was a good reason to better handle the regulator
-> AND the dw_hdmi_remove() by a single mechanism.
->=20
-> Now the regulator has gone and been replaced by the hdmi connector
-> and we can go back.
->=20
->>=20
->>  In your probe you could just:
->>  return PTR_ERR_OR_ZERO(hdmi);
->=20
-> No, this does not work since we need to platform_set_drvdata().
-> to be able to access the private struct in the remove callback.
-> And checking errors after platform_set_drvdata() can be done but
-> looks strange to me.
+You also need to update drm_reset_display_info().
 
-Yeah, I guess it would look strange. Fine then.
+BR,
+Jani.
 
-Then I guess just merge your current [6/7] with this one (and make sure=20
-it comes after your current [5/7]) and it looks mergeable to me.
+> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
+> ---
+>  drivers/gpu/drm/drm_edid.c  | 31 ++++++++++++++++++++-----------
+>  include/drm/drm_connector.h |  6 ++++++
+>  include/drm/drm_displayid.h |  4 ++++
+>  3 files changed, 30 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index a7663f9a1..83ee685c8 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -5270,7 +5270,7 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
+>  	if (oui(vesa->oui[0], vesa->oui[1], vesa->oui[2]) != VESA_IEEE_OUI)
+>  		return;
+>  
+> -	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
+> +	if (block->num_bytes < 5) {
+>  		drm_dbg_kms(connector->dev, "Unexpected VESA vendor block size\n");
+>  		return;
+>  	}
+> @@ -5290,20 +5290,29 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
+>  		break;
+>  	}
+>  
+> -	if (!info->mso_stream_count) {
+> -		info->mso_pixel_overlap = 0;
+> -		return;
+> +	info->mso_pixel_overlap = 0;
+> +
+> +	if (info->mso_stream_count) {
+> +		info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
+> +		if (info->mso_pixel_overlap > 8) {
+> +			drm_dbg_kms(connector->dev, "Reserved MSO pixel overlap value %u\n",
+> +				info->mso_pixel_overlap);
+> +			info->mso_pixel_overlap = 8;
+> +		}
+> +
+> +		drm_dbg_kms(connector->dev, "MSO stream count %u, pixel overlap %u\n",
+> +			info->mso_stream_count, info->mso_pixel_overlap);
+>  	}
+>  
+> -	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
+> -	if (info->mso_pixel_overlap > 8) {
+> -		drm_dbg_kms(connector->dev, "Reserved MSO pixel overlap value %u\n",
+> -			    info->mso_pixel_overlap);
+> -		info->mso_pixel_overlap = 8;
+> +	if (block->num_bytes < 7) {
+> +		/* DSC bpp is optional */
+> +		return;
+>  	}
+>  
+> -	drm_dbg_kms(connector->dev, "MSO stream count %u, pixel overlap %u\n",
+> -		    info->mso_stream_count, info->mso_pixel_overlap);
+> +	info->dp_dsc_bpp = FIELD_GET(DISPLAYID_VESA_DSC_BPP_INT, vesa->dsc_bpp_int) * 16 +
+> +		FIELD_GET(DISPLAYID_VESA_DSC_BPP_FRACT, vesa->dsc_bpp_fract);
+> +
+> +	drm_dbg_kms(connector->dev, "DSC bits per pixel %u\n", info->dp_dsc_bpp);
+>  }
+>  
+>  static void drm_update_mso(struct drm_connector *connector, const struct edid *edid)
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 5e36eb3df..04ef0e995 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -634,6 +634,12 @@ struct drm_display_info {
+>  	 * @mso_pixel_overlap: eDP MSO segment pixel overlap, 0-8 pixels.
+>  	 */
+>  	u8 mso_pixel_overlap;
+> +
+> +	/**
+> +	 * @dp_dsc_bpp: DP Display-Stream-Compression (DSC) timing's target
+> +	 * DST bits per pixel in 6.4 fixed point format. 0 means undefined
+> +	 */
+> +	u16 dp_dsc_bpp;
+>  };
+>  
+>  int drm_display_info_set_bus_formats(struct drm_display_info *info,
+> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
+> index 7ffbd9f7b..1be6deddc 100644
+> --- a/include/drm/drm_displayid.h
+> +++ b/include/drm/drm_displayid.h
+> @@ -131,12 +131,16 @@ struct displayid_detailed_timing_block {
+>  
+>  #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
+>  #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
+> +#define DISPLAYID_VESA_DSC_BPP_INT	GENMASK(5, 0)
+> +#define DISPLAYID_VESA_DSC_BPP_FRACT GENMASK(3, 0)
+>  
+>  struct displayid_vesa_vendor_specific_block {
+>  	struct displayid_block base;
+>  	u8 oui[3];
+>  	u8 data_structure_type;
+>  	u8 mso;
+> +	u8 dsc_bpp_int;
+> +	u8 dsc_bpp_fract;
+>  } __packed;
+>  
+>  /* DisplayID iteration */
+>
+> base-commit: 1528038385c0a706aac9ac165eeb24044fef6825
 
-Cheers,
--Paul
-
-> It is up to you what you prefer.
->=20
->>=20
->>>  +}
->>>  +
->>>  +static struct platform_driver ingenic_dw_hdmi_driver =3D {
->>>  +	.probe  =3D ingenic_dw_hdmi_probe,
->>>  +	.driver =3D {
->>>  +		.name =3D "dw-hdmi-ingenic",
->>>  +		.of_match_table =3D ingenic_dw_hdmi_dt_ids,
->>>  +	},
->>>  +};
->>>  +module_platform_driver(ingenic_dw_hdmi_driver);
->>>  +
->>>  +MODULE_DESCRIPTION("JZ4780 Specific DW-HDMI Driver Extension");
->>>  +MODULE_LICENSE("GPL v2");
->>>  +MODULE_ALIAS("platform:dwhdmi-ingenic");
->>=20
->>  Should probably be "platform:dw-hdmi-ingenic"?
->=20
-> Yes, indeed. Thanks for spotting!
->=20
-> Was also good in v1. Probably someone deleted the hyphen unnoticed=20
-> during editing of "jz4780" to "ingenic"...
-
-
-
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
