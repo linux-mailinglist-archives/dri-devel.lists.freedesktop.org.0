@@ -1,44 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB654B4671
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:43:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D1B4B467F
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:46:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7356E10E2B5;
-	Mon, 14 Feb 2022 09:43:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B89B10E2B8;
+	Mon, 14 Feb 2022 09:46:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F173110E2B5
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:43:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id E5BAB1F43573
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1644831796;
- bh=kuDQtUAXWzNyzTKHh3iQp9tj06g3aQJ3Vh8+/PtLxTk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=F/ChMnCt2ZvyLUCCDaKYxsNQ/HNeiyvut9l5Fd3guB+z90ls52jie0pFavRlj6EM5
- NdRuf7sSAFZyA7RJQrIJoeXQBNFIlqkjDo+yNYU4rQg2TcGHgZ5islmi2tdUc8aj4H
- uBvSw2GoxxjFIvo3nXdPbWlr2GPEHUs0f9ZmfetxG6wB6tyI9EOWk/E7htOIoi8Vm1
- 39wM4YYpf6Mjq20Avo2GT+n/4g0y8mUlCBA3wNyIEHIXjShL5i1mdNVCa7OYDSwXdq
- y/Ofm8F1jV5RVpZ18Khi77Ph4klSaNwj72GAbJMupguC+eJbeGOg+4jKvAyK41CJaJ
- az59wNOPGjIAg==
-Message-ID: <0a331caa-7578-60f5-cbd8-f6c8c29a629f@collabora.com>
-Date: Mon, 14 Feb 2022 10:43:13 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2E210E2B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:46:05 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4849347F;
+ Mon, 14 Feb 2022 10:46:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1644831963;
+ bh=8+kyEa+cdzy/DxEjkMvf9Hc7x6VolC3E/4NhE6SQ798=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WTzVRlwuVgrrAS4Rb/YYXcIyYwzneqv6IkqYbR46JQkPrZ9VtppEMvpo4ELwMwTtf
+ OEWDXmxhQc1iSMl9a41Gz2u56lbJa7MJbQY0fKyu04kdjQ2mycKKhI1Jl7PR5yaUgh
+ FGnnLz60Yjg7hhnjBZs0OZJXdMNfggCBMr8oFMaQ=
+Date: Mon, 14 Feb 2022 11:45:56 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>, Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v4 0/10] clk: Improve clock range handling
+Message-ID: <Ygok1IPElQ8Zn4Ii@pendragon.ideasonboard.com>
+References: <20220125141549.747889-1-maxime@cerno.tech>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v4] drm/mediatek: allow commands to be sent during video
- mode
-Content-Language: en-US
-To: Julien STEPHAN <jstephan@baylibre.com>
-References: <20220214092742.3461587-1-jstephan@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220214092742.3461587-1-jstephan@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220125141549.747889-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,115 +46,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
- "moderated list:DRM DRIVERS FOR MEDIATEK" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Mike Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 14/02/22 10:27, Julien STEPHAN ha scritto:
-> Mipi dsi panel drivers can use mipi_dsi_dcs_{set,get}_display_brightness()
-> to request backlight changes.
-> 
-> This can be done during panel initialization (dsi is in command mode)
-> or afterwards (dsi is in Video Mode).
-> 
-> When the DSI is in Video Mode, all commands are rejected.
-> 
-> Detect current DSI mode in mtk_dsi_host_transfer() and switch modes
-> temporarily to allow commands to be sent.
-> 
-> Signed-off-by: Julien STEPHAN <jstephan@baylibre.com>
-> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Hi Maxime and Stephen,
 
-Please, next time, don't drop the tags that reviewers are giving to you, unless
-the patch changes radically.
+We have recently posted a driver for the BCM2711 Unicam CSI-2 receiver
+(see [1]) which is a perfect candidate for this API, as it needs a
+minimum rate for the VPU clock. Any chance we can get this series merged
+? :-)
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+[1] https://lore.kernel.org/linux-media/20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com
 
-> ---
-> Changes in v4:
->      - fix missing space:  "ret : recv_cnt;"
-> Changes in v3:
->      - increase readability of code and use correct return variable (see
->        comment
-> https://lore.kernel.org/linux-mediatek/4907bdc1-b4a6-e9ad-5cfa-266fc20c0bec@collabora.com/)
+On Tue, Jan 25, 2022 at 03:15:39PM +0100, Maxime Ripard wrote:
+> Hi,
 > 
-> Changes in v2:
->      - update commit message to be more descriptive
+> This is a follow-up of the discussion here:
+> https://lore.kernel.org/linux-clk/20210319150355.xzw7ikwdaga2dwhv@gilmour/
 > 
->   drivers/gpu/drm/mediatek/mtk_dsi.c | 33 ++++++++++++++++++++++--------
->   1 file changed, 24 insertions(+), 9 deletions(-)
+> and here:
+> https://lore.kernel.org/all/20210914093515.260031-1-maxime@cerno.tech/
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 5d90d2eb0019..abdd9cdebd86 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -891,24 +891,33 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
->   	u8 read_data[16];
->   	void *src_addr;
->   	u8 irq_flag = CMD_DONE_INT_FLAG;
-> +	u32 dsi_mode;
-> +	int ret;
+> While the initial proposal implemented a new API to temporarily raise and lower
+> clock rates based on consumer workloads, Stephen suggested an
+> alternative approach implemented here.
 > 
-> -	if (readl(dsi->regs + DSI_MODE_CTRL) & MODE) {
-> -		DRM_ERROR("dsi engine is not command mode\n");
-> -		return -EINVAL;
-> +	dsi_mode = readl(dsi->regs + DSI_MODE_CTRL);
-> +	if (dsi_mode & MODE) {
-> +		mtk_dsi_stop(dsi);
-> +		ret = mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
-> +		if (ret)
-> +			goto restore_dsi_mode;
->   	}
+> The main issue that needed to be addressed in our case was that in a
+> situation where we would have multiple calls to clk_set_rate_range, we
+> would end up with a clock at the maximum of the minimums being set. This
+> would be expected, but the issue was that if one of the users was to
+> relax or drop its requirements, the rate would be left unchanged, even
+> though the ideal rate would have changed.
 > 
->   	if (MTK_DSI_HOST_IS_READ(msg->type))
->   		irq_flag |= LPRX_RD_RDY_INT_FLAG;
+> So something like
 > 
-> -	if (mtk_dsi_host_send_cmd(dsi, msg, irq_flag) < 0)
-> -		return -ETIME;
-> +	ret = mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
-> +	if (ret)
-> +		goto restore_dsi_mode;
+> clk_set_rate(user1_clk, 1000);
+> clk_set_min_rate(user1_clk, 2000);
+> clk_set_min_rate(user2_clk, 3000);
+> clk_set_min_rate(user2_clk, 1000);
 > 
-> -	if (!MTK_DSI_HOST_IS_READ(msg->type))
-> -		return 0;
-> +	if (!MTK_DSI_HOST_IS_READ(msg->type)) {
-> +		recv_cnt = 0;
-> +		goto restore_dsi_mode;
-> +	}
+> Would leave the clock running at 3000Hz, while the minimum would now be
+> 2000Hz.
 > 
->   	if (!msg->rx_buf) {
->   		DRM_ERROR("dsi receive buffer size may be NULL\n");
-> -		return -EINVAL;
-> +		ret = -EINVAL;
-> +		goto restore_dsi_mode;
->   	}
+> This was mostly due to the fact that the core only triggers a rate
+> change in clk_set_rate_range() if the current rate is outside of the
+> boundaries, but not if it's within the new boundaries.
 > 
->   	for (i = 0; i < 16; i++)
-> @@ -933,7 +942,13 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
->   	DRM_INFO("dsi get %d byte data from the panel address(0x%x)\n",
->   		 recv_cnt, *((u8 *)(msg->tx_buf)));
+> That series changes that and will trigger a rate change on every call,
+> with the former rate being tried again. This way, providers have a
+> chance to follow whatever policy they see fit for a given clock each
+> time the boundaries change.
 > 
-> -	return recv_cnt;
-> +restore_dsi_mode:
-> +	if (dsi_mode & MODE) {
-> +		mtk_dsi_set_mode(dsi);
-> +		mtk_dsi_start(dsi);
-> +	}
-> +
-> +	return ret < 0 ? ret : recv_cnt;
->   }
+> This series also implements some kunit tests, first to test a few rate
+> related functions in the CCF, and then extends it to make sure that
+> behaviour has some test coverage.
 > 
->   static const struct mipi_dsi_host_ops mtk_dsi_ops = {
-> --
-> 2.35.1
+> Let me know what you think
+> Maxime
 > 
+> Changes from v3:
+>   - Renamed the test file and Kconfig option
+>   - Add option to .kunitconfig
+>   - Switch to kunit_kzalloc
+>   - Use KUNIT_EXPECT_* instead of KUNIT_ASSERT_* where relevant
+>   - Test directly relevant calls instead of going through a temporary variable
+>   - Switch to more precise KUNIT_ASSERT_* macros where relevant
+> 
+> Changes from v2:
+>   - Rebased on current next
+>   - Rewrote the whole thing according to Stephen reviews
+>   - Implemented some kunit tests
+> 
+> Changes from v1:
+>   - Return NULL in clk_request_start if clk pointer is NULL
+>   - Test for clk_req pointer in clk_request_done
+>   - Add another user in vc4
+>   - Rebased on top of v5.15-rc1
+> 
+> Maxime Ripard (10):
+>   clk: Introduce Kunit Tests for the framework
+>   clk: Always clamp the rounded rate
+>   clk: Use clamp instead of open-coding our own
+>   clk: Always set the rate on clk_set_range_rate
+>   clk: Add clk_drop_range
+>   clk: bcm: rpi: Add variant structure
+>   clk: bcm: rpi: Set a default minimum rate
+>   clk: bcm: rpi: Run some clocks at the minimum rate allowed
+>   drm/vc4: Add logging and comments
+>   drm/vc4: hdmi: Remove clock rate initialization
+> 
+>  drivers/clk/.kunitconfig          |   1 +
+>  drivers/clk/Kconfig               |   7 +
+>  drivers/clk/Makefile              |   1 +
+>  drivers/clk/bcm/clk-raspberrypi.c | 125 +++++-
+>  drivers/clk/clk-test.c            | 621 ++++++++++++++++++++++++++++++
+>  drivers/clk/clk.c                 |  51 ++-
+>  drivers/gpu/drm/vc4/vc4_hdmi.c    |  13 -
+>  drivers/gpu/drm/vc4/vc4_kms.c     |  11 +
+>  include/linux/clk.h               |  11 +
+>  9 files changed, 786 insertions(+), 55 deletions(-)
+>  create mode 100644 drivers/clk/clk-test.c
 
+-- 
+Regards,
 
-
+Laurent Pinchart
