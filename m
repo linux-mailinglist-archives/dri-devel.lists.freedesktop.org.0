@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5514B57DA
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 18:04:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63AFF4B57F0
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 18:06:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D96B10E18D;
-	Mon, 14 Feb 2022 17:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34FF410E20A;
+	Mon, 14 Feb 2022 17:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 770D810E18D
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 17:04:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55CB210E1E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 17:06:36 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id 74CFA1F43C01
+ (Authenticated sender: alyssa) with ESMTPSA id 1E71F1F43C01
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1644858262;
- bh=NlFXDH8kQ9ySp/ZkYTmafpS6muY77CAzntMho3HND+k=;
+ s=mail; t=1644858395;
+ bh=8OiBok1lJ/PJZs7nKRMS8JpP3JTdqbTlg/lhpElOrkM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jzwv3Gw4X97fyF+f2hAckZL2F8qWYjF1SexnFnFj39pOD3CAO9j5EFNcSnjQpM5fP
- SwGMd+RZHcGuEVBkIGXsT8MEj1FxVJ/apFROrT1JV2fDatKFemPWxft5yJJPfXiZmg
- quNOr+j2vkadhCteMDI5IJJmdoTTv9SfiON2PU6DAgVuxjnh8UwaKzRHJGvaAUbmFP
- CB8GHBeVmg11cCuoaCnqX4LpqNCb1f0PobM7HJmA6feTEEPvBlhMhGxF/LEqdrxAHe
- lvqUwcAbfAuR5kuElFcbALRrlTtN24GNge0UObBRHk0uiY4C01q4/cR7yQYYZovbb5
- k71p5LNy2GGfw==
-Date: Mon, 14 Feb 2022 12:04:14 -0500
+ b=JFNVLYqf4VMx1IU9Wwn1iWDhIQy2gCL3aQAwxGgJtD/kCiiNOgWfmLjcLPaDGvFrd
+ GJ09/BTzinpSUoRJgEEEd0HyjjSQ3LvvqI+zja1pC887TyvEjGwmjpDEmwOv0j6RPT
+ A1pyo4EPcN9Phq4Rs9HNJdF56g88uDT5/cm14gZXG0y7az1FExsnP/akKA1inXdmi/
+ vY3yHZdhJ6pH3sfb56QW+UMlltc3Z5Xyrlv9cHMEJXzTaeqT9ZxXFjwoPvAtASGi2z
+ GuRVfUnD2yGzsXAa6uTPaI6TtgXJVV1Mek2qYOUsH5ZTF2Sm/BaRPeePCqhcv63xG4
+ NAPCc9scZP5rw==
+Date: Mon, 14 Feb 2022 12:06:26 -0500
 From: Alyssa Rosenzweig <alyssa@collabora.com>
 To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH 8/9] drm/panfrost: Add Mali-G57 "Natt" support
-Message-ID: <YgqLjmBHNFrg+7Lp@maud>
+Subject: Re: [PATCH 4/9] drm/panfrost: Handle HW_ISSUE_TTRX_3076
+Message-ID: <YgqMEqpgFxrrb8uX@maud>
 References: <20220211202728.6146-1-alyssa.rosenzweig@collabora.com>
- <20220211202728.6146-9-alyssa.rosenzweig@collabora.com>
- <e9d3425f-2e26-1bc1-da98-a7836da68d76@arm.com>
+ <20220211202728.6146-5-alyssa.rosenzweig@collabora.com>
+ <9eac9ce6-3bd8-0dc2-4686-9ea1e623b1c4@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e9d3425f-2e26-1bc1-da98-a7836da68d76@arm.com>
+In-Reply-To: <9eac9ce6-3bd8-0dc2-4686-9ea1e623b1c4@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,26 +53,44 @@ Cc: tomeu.vizoso@collabora.com, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > index b8865fc9efce..1a0dc7f7f857 100644
+On Mon, Feb 14, 2022 at 04:23:18PM +0000, Steven Price wrote:
+> On 11/02/2022 20:27, alyssa.rosenzweig@collabora.com wrote:
+> > From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> > 
+> > Some Valhall GPUs require resets when encountering bus faults due to
+> > occlusion query writes. Add the issue bit for this and handle it.
+> > 
+> > Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> 
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> (although one nit below)
+> 
+> Just in case any one is wondering - these bus faults occur when
+> switching the GPU's MMU to unmapped - it's not a normal "bus fault" from
+> the external bus. This is triggered by an attempt to read unmapped
+> memory which is completed by the driver by switching the entire MMU to
+> unmapped.
+
+Ouch, that's subtle.
+
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_issues.h b/drivers/gpu/drm/panfrost/panfrost_issues.h
+> > index a66692663833..058f6a4c8435 100644
 > > --- a/drivers/gpu/drm/panfrost/panfrost_issues.h
 > > +++ b/drivers/gpu/drm/panfrost/panfrost_issues.h
-> > @@ -258,6 +258,11 @@ enum panfrost_hw_issue {
+> > @@ -128,6 +128,10 @@ enum panfrost_hw_issue {
+> >  	/* Must set SC_VAR_ALGORITHM */
+> >  	HW_ISSUE_TTRX_2968_TTRX_3162,
 > >  
-> >  #define hw_issues_g76 0
-> >  
-> > +#define hw_issues_g57 (\
-> > +	BIT_ULL(HW_ISSUE_TTRX_2968_TTRX_3162) | \
-> > +	BIT_ULL(HW_ISSUE_TTRX_3076) | \
-> > +	BIT_ULL(HW_ISSUE_TTRX_3485))
+> > +	/* Bus fault from occlusion query write may cause future fragment jobs
+> > +	 * to hang */
 > 
-> Do you know whether you have an r0p0 or an r0p1 Natt? Only the r0p0 has
-> the 3485 issue, and we might be lucky and it's the r0p1 that's "in the
-> wild".
+> NIT: Kernel comment style has the "/*" and "*/" on lines by themselves
+> for multi-line comments. checkpatch will complain!
 
-Sadly, I believe I have an r0p0. I don't know if future spins of the
-same SoC would be bumped up, but I'm skeptical.
+Yes, I am aware (and checkpatch did complain). The existing multi-line
+comments in that file do not have the extra lines. Consistency within
+the file seemed like the lesser evil. If you think it's better to
+appease checkpatch, I can reformat for v2.
 
-> It would be good to annotate these lists with the hardware revisions
-> when there is a difference.
-
-Sure.
+(I can also throw in a patch fixing the rest of that file's multiline
+comments but that seems a bit extra.)
