@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4A24B58AE
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 18:39:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E924B592C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 18:55:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF8C8876A;
-	Mon, 14 Feb 2022 17:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4D7410E267;
+	Mon, 14 Feb 2022 17:55:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6863A10E258
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 17:38:56 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id 124so20263646ybn.11
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:38:56 -0800 (PST)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71E6310E267;
+ Mon, 14 Feb 2022 17:55:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nn6pV9zr7Y/HfRsxvJAInmjq54QbtdPj0RXX0Okyrk4=;
- b=EBDcE93JVDHCmCw9qrdUcmvIQzBJjyUwD7fn1+GwStxogaP2u1MpX5ILriuk6jdn2a
- H6QDWolci+D/lOiOOCQNb9YZPP7NXq9WolVe/6G7XqHqeHuRnQ7Wu+Ty7C8g8vwOE/un
- m0DJEjL0mXIcxFxlzzHYd7ziHU/YlTUx4xnNH8F9keNDVvqMNV/g47KfDldt/G2WXx+o
- +GDIPzh2XzqftTGjVs6g5fitl0dwhCCJQb5i/HWPKZn5dqOs6gtKvXyXdvafMNjKRLqV
- BAroGLQAEX7uERraGbi7EvcLYyyBWJ2rEwvwhCxBP5FRurs/GSHr+ceny/Hw/D3C58u3
- e7zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nn6pV9zr7Y/HfRsxvJAInmjq54QbtdPj0RXX0Okyrk4=;
- b=bzJ/vOU0z2FI4sZt3zOokvSF4dXykXlthT7SjV5HyTnljTu3kd5xc+zEpPpT1EQahE
- BxptTtbCdjF+RiI13X2eQY/9kWsFmI0EoVfL4qQoE3gi3ZoFvBa3k9quDDy7K7fZ2Lt2
- 7CURThuoL6GWQWMnR8p/A1XE26dqk/Xhn4mJAllAXhUe+vewHBaw3kaovErJQyyO+qVZ
- 9eJAxKNr8obLA3Dn96K3VbseOVRArPIOde2AnHRGwxc5xjMUB56tLe+JX1n3Ndlmabtg
- pP9kGqhCmbvzbQlmTnm6C2ECCqawlAGQBKCMfxe50dKrz4HCbNzjqM+W+bXUuQ9HEVrx
- Y4Jg==
-X-Gm-Message-State: AOAM532ruqq7MXfTeWgOs8A+clyB1kMpP6cMBnw3hqwpMEJk5ajXILF2
- aN39ynjTZrgAastnaHq2NGyUdsEr3QJIQ4cKx/W+lg==
-X-Google-Smtp-Source: ABdhPJzGaFahdaS9OnnivDBgzQhJSbtRiZO6xabYT+mvz3LNDNMr4zN7qlSTQ3PGiHjgQpWre/4gtNLu+fT9GjPv+rs=
-X-Received: by 2002:a81:34d0:: with SMTP id b199mr779268ywa.385.1644860335419; 
- Mon, 14 Feb 2022 09:38:55 -0800 (PST)
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1644861332; x=1676397332;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to;
+ bh=C54/U+DHYBApPNlslBVdhM3KM9lFpe7aN8JQV9NJVek=;
+ b=nBL5PqctNFY/9HpU5v72xuQXV0SHIVovT0uL7d+K4pmIqjKmfU3H0bD+
+ xi+jCx5cWVCXd3LIzCtqTQCmguSJwNP9ToUVCn487gpqNM+mFKR8F1wUk
+ tD3pc/J9R+hbsIZinLW1eUbEb8zSngUMfMJwx8eO0K2O8fWRy+GkkSwsp k=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Feb 2022 09:55:32 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 09:55:31 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Mon, 14 Feb 2022 09:55:31 -0800
+Received: from [10.110.63.253] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 14 Feb
+ 2022 09:55:29 -0800
+Content-Type: multipart/alternative;
+ boundary="------------02zNWf5tH0nkXnmCl0yO2N0H"
+Message-ID: <3b6cd2c2-5ebb-97a2-f9af-3c32d0899cd8@quicinc.com>
+Date: Mon, 14 Feb 2022 09:55:29 -0800
 MIME-Version: 1.0
-References: <20220211202728.6146-1-alyssa.rosenzweig@collabora.com>
- <20220211202728.6146-2-alyssa.rosenzweig@collabora.com>
- <5ca70986-d6a5-7c3e-b876-40e970805775@arm.com>
-In-Reply-To: <5ca70986-d6a5-7c3e-b876-40e970805775@arm.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Mon, 14 Feb 2022 17:38:43 +0000
-Message-ID: <CAPj87rNwh28GYv_CoQGB2UCqfP8A=ORiem5Z+Vev=u6WZ7YQRw@mail.gmail.com>
-Subject: Re: [PATCH 1/9] dt-bindings: Add arm,mali-valhall compatible
-To: Steven Price <steven.price@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/msm: populate intf_audio_select() base on hardware
+ capability
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <1644621822-25407-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJpqwAxDa142B_N6NA7KkQ6WuuG_Ma7No5SXEpJdBmgKvXQ@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAA8EJpqwAxDa142B_N6NA7KkQ6WuuG_Ma7No5SXEpJdBmgKvXQ@mail.gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +66,252 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, tomeu.vizoso@collabora.com,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, vkoul@kernel.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com,
+ bjorn.andersson@linaro.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 14 Feb 2022 at 16:23, Steven Price <steven.price@arm.com> wrote:
-> On 11/02/2022 20:27, alyssa.rosenzweig@collabora.com wrote:
-> > From the kernel's perspective, pre-CSF Valhall is more or less
-> > compatible with Bifrost, although they differ to userspace. Add a
-> > compatible for Valhall to the existing Bifrost bindings documentation.
-> >
-> > diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> > index 63a08f3f321d..48aeabd2ed68 100644
-> > --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> > +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> > @@ -23,6 +23,7 @@ properties:
-> >            - rockchip,px30-mali
-> >            - rockchip,rk3568-mali
-> >        - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
-> > +      - const: arm,mali-valhall # Mali Valhall GPU model/revision is fully discoverable
+--------------02zNWf5tH0nkXnmCl0yO2N0H
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+
+
+On 2/11/2022 3:36 PM, Dmitry Baryshkov wrote:
+> On Sat, 12 Feb 2022 at 02:23, Kuogee Hsieh<quic_khsieh@quicinc.com>  wrote:
+>> intf_audio_select() callback function use to configure
+>> HDMI_DP_CORE_SELECT to decide audio output routes to HDMI or DP
+>> interface. HDMI is obsoleted at newer chipset. To keep supporting
+>> legacy hdmi application, intf_audio_select call back function have
+>> to be populated base on hardware chip capability where legacy
+>> chipsets have has_audio_select flag set to true.
+>>
+>> Signed-off-by: Kuogee Hsieh<quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 ++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 1 +
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c     | 9 ++++++---
+>>   3 files changed, 9 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> index 272b14b..23680e7 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> @@ -201,6 +201,7 @@ static const struct dpu_caps sdm845_dpu_caps = {
+>>          .has_dim_layer = true,
+>>          .has_idle_pc = true,
+>>          .has_3d_merge = true,
+>> +       .has_audio_select = true,
+>>          .max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>>          .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>          .max_hdeci_exp = MAX_HORZ_DECIMATION,
+>> @@ -229,6 +230,7 @@ static const struct dpu_caps sm8150_dpu_caps = {
+>>          .has_dim_layer = true,
+>>          .has_idle_pc = true,
+>>          .has_3d_merge = true,
+>> +       .has_audio_select = true,
+>>          .max_linewidth = 4096,
+>>          .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>          .max_hdeci_exp = MAX_HORZ_DECIMATION,
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> index e5a96d6..b33f91b 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> @@ -357,6 +357,7 @@ struct dpu_caps {
+>>          bool has_dim_layer;
+>>          bool has_idle_pc;
+>>          bool has_3d_merge;
+>> +       bool has_audio_select;
+> I'd suggest adding a bit to dpu_mdp_cfg's features instead, following
+> the example of other hardware blocks.
+
+it may cause mis leading if we put this in hardware level since 
+MDP_HDMI_DP_SELECT  bit has not be connected
+
+to logic for a while even it still present at ipcat. Also this bit but 
+will be  removed at next release.
+
+Is dpu_caps level more proper than in hardware feature level?
+
+
 >
-> It might be worth spelling out here that this is *pre-CSF* Valhall. I'm
-> pretty sure we're going to need different bindings for CSF GPUs.
+>>          /* SSPP limits */
+>>          u32 max_linewidth;
+>>          u32 pixel_ram_size;
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+>> index 282e3c6..e608f4d 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+>> @@ -261,14 +261,17 @@ static void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
+>>   }
+>>
+>>   static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
+>> -               unsigned long cap)
+>> +               unsigned long cap,
+>> +               const struct dpu_mdss_cfg *m)
+>>   {
+>>          ops->setup_split_pipe = dpu_hw_setup_split_pipe;
+>>          ops->setup_clk_force_ctrl = dpu_hw_setup_clk_force_ctrl;
+>>          ops->get_danger_status = dpu_hw_get_danger_status;
+>>          ops->setup_vsync_source = dpu_hw_setup_vsync_source;
+>>          ops->get_safe_status = dpu_hw_get_safe_status;
+>> -       ops->intf_audio_select = dpu_hw_intf_audio_select;
+>> +
+>> +       if (m->caps->has_audio_select)
+>> +               ops->intf_audio_select = dpu_hw_intf_audio_select;
+>>   }
+>>
+>>   static const struct dpu_mdp_cfg *_top_offset(enum dpu_mdp mdp,
+>> @@ -320,7 +323,7 @@ struct dpu_hw_mdp *dpu_hw_mdptop_init(enum dpu_mdp idx,
+>>           */
+>>          mdp->idx = idx;
+>>          mdp->caps = cfg;
+>> -       _setup_mdp_ops(&mdp->ops, mdp->caps->features);
+>> +       _setup_mdp_ops(&mdp->ops, mdp->caps->features, m);
+>>
+>>          return mdp;
+>>   }
+--------------02zNWf5tH0nkXnmCl0yO2N0H
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Good point - maybe either make it arm,mali-valhall-jm then?
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2/11/2022 3:36 PM, Dmitry Baryshkov
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAA8EJpqwAxDa142B_N6NA7KkQ6WuuG_Ma7No5SXEpJdBmgKvXQ@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">On Sat, 12 Feb 2022 at 02:23, Kuogee Hsieh <a class="moz-txt-link-rfc2396E" href="mailto:quic_khsieh@quicinc.com">&lt;quic_khsieh@quicinc.com&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+intf_audio_select() callback function use to configure
+HDMI_DP_CORE_SELECT to decide audio output routes to HDMI or DP
+interface. HDMI is obsoleted at newer chipset. To keep supporting
+legacy hdmi application, intf_audio_select call back function have
+to be populated base on hardware chip capability where legacy
+chipsets have has_audio_select flag set to true.
 
-Cheers,
-Daniel
+Signed-off-by: Kuogee Hsieh <a class="moz-txt-link-rfc2396E" href="mailto:quic_khsieh@quicinc.com">&lt;quic_khsieh@quicinc.com&gt;</a>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c     | 9 ++++++---
+ 3 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 272b14b..23680e7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -201,6 +201,7 @@ static const struct dpu_caps sdm845_dpu_caps = {
+        .has_dim_layer = true,
+        .has_idle_pc = true,
+        .has_3d_merge = true,
++       .has_audio_select = true,
+        .max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+        .max_hdeci_exp = MAX_HORZ_DECIMATION,
+@@ -229,6 +230,7 @@ static const struct dpu_caps sm8150_dpu_caps = {
+        .has_dim_layer = true,
+        .has_idle_pc = true,
+        .has_3d_merge = true,
++       .has_audio_select = true,
+        .max_linewidth = 4096,
+        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+        .max_hdeci_exp = MAX_HORZ_DECIMATION,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index e5a96d6..b33f91b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -357,6 +357,7 @@ struct dpu_caps {
+        bool has_dim_layer;
+        bool has_idle_pc;
+        bool has_3d_merge;
++       bool has_audio_select;
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+I'd suggest adding a bit to dpu_mdp_cfg's features instead, following
+the example of other hardware blocks.</pre>
+    </blockquote>
+    <p>it may cause mis leading if we put this in hardware level since 
+      MDP_HDMI_DP_SELECT  bit has not be connected</p>
+    <p>to logic for a while even it still present at ipcat. Also this
+      bit but will be  removed at next release. <br>
+    </p>
+    <p>Is dpu_caps level more proper than in hardware feature level?<br>
+    </p>
+    <p><br>
+      <span style="color: rgb(33, 37, 41); font-family: -apple-system,
+        BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto,
+        &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;,
+        sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI
+        Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color
+        Emoji&quot;; font-size: 14px; font-style: normal;
+        font-variant-ligatures: normal; font-variant-caps: normal;
+        font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: left; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; background-color: rgb(200, 240,
+        200); text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;"><span></span></span></p>
+    <blockquote type="cite"
+cite="mid:CAA8EJpqwAxDa142B_N6NA7KkQ6WuuG_Ma7No5SXEpJdBmgKvXQ@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">        /* SSPP limits */
+        u32 max_linewidth;
+        u32 pixel_ram_size;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+index 282e3c6..e608f4d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+@@ -261,14 +261,17 @@ static void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
+ }
+
+ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
+-               unsigned long cap)
++               unsigned long cap,
++               const struct dpu_mdss_cfg *m)
+ {
+        ops-&gt;setup_split_pipe = dpu_hw_setup_split_pipe;
+        ops-&gt;setup_clk_force_ctrl = dpu_hw_setup_clk_force_ctrl;
+        ops-&gt;get_danger_status = dpu_hw_get_danger_status;
+        ops-&gt;setup_vsync_source = dpu_hw_setup_vsync_source;
+        ops-&gt;get_safe_status = dpu_hw_get_safe_status;
+-       ops-&gt;intf_audio_select = dpu_hw_intf_audio_select;
++
++       if (m-&gt;caps-&gt;has_audio_select)
++               ops-&gt;intf_audio_select = dpu_hw_intf_audio_select;
+ }
+
+ static const struct dpu_mdp_cfg *_top_offset(enum dpu_mdp mdp,
+@@ -320,7 +323,7 @@ struct dpu_hw_mdp *dpu_hw_mdptop_init(enum dpu_mdp idx,
+         */
+        mdp-&gt;idx = idx;
+        mdp-&gt;caps = cfg;
+-       _setup_mdp_ops(&amp;mdp-&gt;ops, mdp-&gt;caps-&gt;features);
++       _setup_mdp_ops(&amp;mdp-&gt;ops, mdp-&gt;caps-&gt;features, m);
+
+        return mdp;
+ }
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------02zNWf5tH0nkXnmCl0yO2N0H--
