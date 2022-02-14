@@ -1,39 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D1B4B467F
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:46:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8444B48DC
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:02:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B89B10E2B8;
-	Mon, 14 Feb 2022 09:46:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5245310E32E;
+	Mon, 14 Feb 2022 10:02:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2E210E2B8
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:46:05 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4849347F;
- Mon, 14 Feb 2022 10:46:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1644831963;
- bh=8+kyEa+cdzy/DxEjkMvf9Hc7x6VolC3E/4NhE6SQ798=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WTzVRlwuVgrrAS4Rb/YYXcIyYwzneqv6IkqYbR46JQkPrZ9VtppEMvpo4ELwMwTtf
- OEWDXmxhQc1iSMl9a41Gz2u56lbJa7MJbQY0fKyu04kdjQ2mycKKhI1Jl7PR5yaUgh
- FGnnLz60Yjg7hhnjBZs0OZJXdMNfggCBMr8oFMaQ=
-Date: Mon, 14 Feb 2022 11:45:56 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>, Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v4 0/10] clk: Improve clock range handling
-Message-ID: <Ygok1IPElQ8Zn4Ii@pendragon.ideasonboard.com>
-References: <20220125141549.747889-1-maxime@cerno.tech>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA47410E32E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 10:02:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644832940; x=1676368940;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ClBnhIKYASqr83p8ZqYdap1X3BbLj918CN+R0K2hCZQ=;
+ b=US57KefKuyNg6sCEb1uX27JcdZcar3MGam16PaFVV9iuVFsQ5zan04XE
+ JNpniHOloKigZodfVYiRe/I3N+tq2EbmztsLVQ9OsinrbBR/S1AQ/zOuS
+ 1bkSmLruC0+3jRwN/j3HHfixa7VLhg/zl2ZphlWYIEGJcu+xLG52A/hJ4
+ 1kXqOp+ky+SSQsxsxzLF2fddf9bXRhKxEGZbILv5usFVb6pIxKTQMLiIg
+ oCvwc/FVQZ5yTWxaeNrIBF4BtBwoTy7Ta6dCepfFa7mbzTjUvbZlmoC7h
+ rHJl3jIS+zeldHHBWVOrZN1qdqTO5RH3+saDuh67lvUrsEUfh60t5kYYN g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="248890581"
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="248890581"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 02:02:20 -0800
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="772941504"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 02:02:19 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nJYAd-004Oxt-SH; Mon, 14 Feb 2022 12:01:23 +0200
+Date: Mon, 14 Feb 2022 12:01:23 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: qianfanguijin@163.com
+Subject: Re: [PATCH] drivers: fbtft: Refactor backlight logic
+Message-ID: <Ygooc5aPZ/T7gS7I@smile.fi.intel.com>
+References: <20220212042739.21744-1-qianfanguijin@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220125141549.747889-1-maxime@cerno.tech>
+In-Reply-To: <20220212042739.21744-1-qianfanguijin@163.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,112 +59,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Mike Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>
+Cc: linux-fbdev@vger.kernel.org, preid@electromag.com.au,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime and Stephen,
+On Sat, Feb 12, 2022 at 12:27:39PM +0800, qianfanguijin@163.com wrote:
+> From: qianfan Zhao <qianfanguijin@163.com>
+> 
+> Control led gpios by using GPIO_ACTIVE flags, don't detect the polarity
+> by reading the gpio value when probe.
 
-We have recently posted a driver for the BCM2711 Unicam CSI-2 receiver
-(see [1]) which is a perfect candidate for this API, as it needs a
-minimum rate for the VPU clock. Any chance we can get this series merged
-? :-)
+...
 
-[1] https://lore.kernel.org/linux-media/20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com
+> +	enum gpiod_flags flags = GPIOD_OUT_HIGH;
+> +
+> +	/* request and turn on backlight */
+> +	return fbtft_request_one_gpio_with_flags(par, name, index, flags, gpiop);
 
-On Tue, Jan 25, 2022 at 03:15:39PM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> This is a follow-up of the discussion here:
-> https://lore.kernel.org/linux-clk/20210319150355.xzw7ikwdaga2dwhv@gilmour/
-> 
-> and here:
-> https://lore.kernel.org/all/20210914093515.260031-1-maxime@cerno.tech/
-> 
-> While the initial proposal implemented a new API to temporarily raise and lower
-> clock rates based on consumer workloads, Stephen suggested an
-> alternative approach implemented here.
-> 
-> The main issue that needed to be addressed in our case was that in a
-> situation where we would have multiple calls to clk_set_rate_range, we
-> would end up with a clock at the maximum of the minimums being set. This
-> would be expected, but the issue was that if one of the users was to
-> relax or drop its requirements, the rate would be left unchanged, even
-> though the ideal rate would have changed.
-> 
-> So something like
-> 
-> clk_set_rate(user1_clk, 1000);
-> clk_set_min_rate(user1_clk, 2000);
-> clk_set_min_rate(user2_clk, 3000);
-> clk_set_min_rate(user2_clk, 1000);
-> 
-> Would leave the clock running at 3000Hz, while the minimum would now be
-> 2000Hz.
-> 
-> This was mostly due to the fact that the core only triggers a rate
-> change in clk_set_rate_range() if the current rate is outside of the
-> boundaries, but not if it's within the new boundaries.
-> 
-> That series changes that and will trigger a rate change on every call,
-> with the former rate being tried again. This way, providers have a
-> chance to follow whatever policy they see fit for a given clock each
-> time the boundaries change.
-> 
-> This series also implements some kunit tests, first to test a few rate
-> related functions in the CCF, and then extends it to make sure that
-> behaviour has some test coverage.
-> 
-> Let me know what you think
-> Maxime
-> 
-> Changes from v3:
->   - Renamed the test file and Kconfig option
->   - Add option to .kunitconfig
->   - Switch to kunit_kzalloc
->   - Use KUNIT_EXPECT_* instead of KUNIT_ASSERT_* where relevant
->   - Test directly relevant calls instead of going through a temporary variable
->   - Switch to more precise KUNIT_ASSERT_* macros where relevant
-> 
-> Changes from v2:
->   - Rebased on current next
->   - Rewrote the whole thing according to Stephen reviews
->   - Implemented some kunit tests
-> 
-> Changes from v1:
->   - Return NULL in clk_request_start if clk pointer is NULL
->   - Test for clk_req pointer in clk_request_done
->   - Add another user in vc4
->   - Rebased on top of v5.15-rc1
-> 
-> Maxime Ripard (10):
->   clk: Introduce Kunit Tests for the framework
->   clk: Always clamp the rounded rate
->   clk: Use clamp instead of open-coding our own
->   clk: Always set the rate on clk_set_range_rate
->   clk: Add clk_drop_range
->   clk: bcm: rpi: Add variant structure
->   clk: bcm: rpi: Set a default minimum rate
->   clk: bcm: rpi: Run some clocks at the minimum rate allowed
->   drm/vc4: Add logging and comments
->   drm/vc4: hdmi: Remove clock rate initialization
-> 
->  drivers/clk/.kunitconfig          |   1 +
->  drivers/clk/Kconfig               |   7 +
->  drivers/clk/Makefile              |   1 +
->  drivers/clk/bcm/clk-raspberrypi.c | 125 +++++-
->  drivers/clk/clk-test.c            | 621 ++++++++++++++++++++++++++++++
->  drivers/clk/clk.c                 |  51 ++-
->  drivers/gpu/drm/vc4/vc4_hdmi.c    |  13 -
->  drivers/gpu/drm/vc4/vc4_kms.c     |  11 +
->  include/linux/clk.h               |  11 +
->  9 files changed, 786 insertions(+), 55 deletions(-)
->  create mode 100644 drivers/clk/clk-test.c
+But taking into consideration all possible polarities this is wrong
+assumption. Depending on the flags in DT or ACPI this may give an
+opposite effect.
+
+P.S. Please, Cc all your fbtft patches to fbdev maintainer as well.
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Laurent Pinchart
+
