@@ -2,68 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECA04B5AC3
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 20:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080254B5AF8
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 21:31:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1993210E2EC;
-	Mon, 14 Feb 2022 19:59:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A7E110E2D2;
+	Mon, 14 Feb 2022 20:31:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D742B10E2D2;
- Mon, 14 Feb 2022 19:59:03 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- n19-20020a17090ade9300b001b9892a7bf9so243291pjv.5; 
- Mon, 14 Feb 2022 11:59:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=O9KHV0/N+Gfd1GRgecao8wegxCnC38XHEZ75QGyEISc=;
- b=hosVhwFvGBdDFJM59PwgE1Wy9Oe3mkF9MnrGUFJ9FoiCAhftxx37tYIU9SOTBqcsD7
- wsSPNn3E0BoWvjzNAhs6aGwTAJpIfmq3ajNXqAsN6l9CR21k7REe7ZOUYKwd1ydYLUoC
- rI1fJy9gv3Jjz+5gQMh75lP41vSXjq/5PKYCvS9PPjL7bfHFKLInVSA9KdF4baDlCGcF
- W6P6zMRghtpvPi7xln6B39B/6mywe2eEhYl9L6bUnwoy0DxEN70P9DLeKGLpmwLmQiu/
- Ji5pdoom7+afBUJqEBm0RoPL4YBYxTGYzj2lmXtkG1ptnEHTAq5yfWaxNmDLkNFb4pyX
- 1Sfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=O9KHV0/N+Gfd1GRgecao8wegxCnC38XHEZ75QGyEISc=;
- b=meWTITqmKivkDuhsa5FsIf2KZsogblXZPq+S4RHvSc5P8hjFGwkW3Ux0HoZBRGDLRw
- IXPczPwAYW3LlLneARIvMQN0FyElRkF31Juyw8T4QUD2M/fz0KvACn77JUtTyGey0ClA
- yyVydqrA4Baf7Oc4/KnciiHWfLUISxNaYbcRE8Qfk1zgrSa6V5JZ0Akdh3XEysLTAPI3
- 7Nr2ioOHC1f7BZccdV6OfBqoLJdjvFnJ6l8Qo/EW7et/6pWQqS0MiHuzOTFwFJF93Wsd
- eb1MX/FbKRFHnv43z4ZOniCzLNjNFBT3Ewn/2oeVOtBmaA8kqWiKyuPgVeUdwv1m5uuE
- bZpg==
-X-Gm-Message-State: AOAM5326/L+cGR83K/9hftNiA+WHJgJYIWbtqX6fIotI34gzp6ZCHK/D
- llmaKTWLCL05fC723gEz75k=
-X-Google-Smtp-Source: ABdhPJzhIOI72ps9ZuG6CEVrnqdXFSMazidGQ6xcG6wA+W2GqdMXI1JFgJBqpJ/chzdS9CFqPj7wCg==
-X-Received: by 2002:a17:90b:4d84:b0:1b9:4109:7118 with SMTP id
- oj4-20020a17090b4d8400b001b941097118mr263383pjb.119.1644868743175; 
- Mon, 14 Feb 2022 11:59:03 -0800 (PST)
-Received: from tong-desktop.local
- (99-105-211-126.lightspeed.sntcca.sbcglobal.net. [99.105.211.126])
- by smtp.googlemail.com with ESMTPSA id v2sm14663291pjt.55.2022.02.14.11.59.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 11:59:02 -0800 (PST)
-From: Tong Zhang <ztong0001@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: [PATCH v2] drm/i915: fix build issue when using clang
-Date: Mon, 14 Feb 2022 11:58:20 -0800
-Message-Id: <20220214195821.29809-1-ztong0001@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <YglQW7gVNoRJ7QpQ@dev-arch.archlinux-ax161>
-References: <YglQW7gVNoRJ7QpQ@dev-arch.archlinux-ax161>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5A4C10E2D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 20:31:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id E04281F43F57
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1644870700;
+ bh=CEk0DFXIUz+rib8Ps6KmDjMnwxb8SNNluWUTHums5hQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ievNAjv7U7jDN0ChCw4YX7Jv0ZMu5Ut6BbrqUhRy3qDYLAUbYj6zDasWUaIIjgas5
+ tk4XlVsU7AKz0HOAwgqXkpAqdo+rD5/DrxhSwcvv22hyJAVZmrRSjwrj8cQi2MSxox
+ SEy4WmOboddgpfuXSiOoe58Hfh+qBLnP34hyjH9ZtT+Mor28hjJeVpOFBp/lMjGhMX
+ cIbIvoaPwkBbkBwA8xIWxQbAmB554GaaVSnUyPC/hGyhvSvJZ3vtxoSDcYs/fQrxOw
+ +lGQA+duIA1IpCuxMdJL+XdR+a7h7vxpH/SPqNzhRSS/VNniqaiowOMCl6Zq0TFIkq
+ PeVDBll6CCjOg==
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panfrost: Dynamically allocate pm_domains
+Date: Mon, 14 Feb 2022 15:31:32 -0500
+Message-Id: <20220214203132.4722-1-alyssa.rosenzweig@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,52 +44,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tong Zhang <ztong0001@gmail.com>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm/i915 adds some extra cflags, namely -Wall, which causes
-instances of -Wformat-security to appear when building with clang, even
-though this warning is turned off kernel-wide in the main Makefile:
+MT8192 requires 5 power domains. Rather than bump MAX_PM_DOMAINS and
+waste memory on every supported Panfrost chip, instead dynamically
+allocate pm_domain_devs and pm_domain_links. This adds some flexibility;
+it seems inevitable a new MediaTek device will require more than 5
+domains.
 
-> drivers/gpu/drm/i915/gt/intel_gt.c:983:2: error: format string is not a string literal (potentially insecure) [-Werror,-Wformat-security]
->         GEM_TRACE("ERROR\n");
->         ^~~~~~~~~~~~~~~~~~~~
-> ./drivers/gpu/drm/i915/i915_gem.h:76:24: note: expanded from macro 'GEM_TRACE'
->  #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
->                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-> ./include/linux/kernel.h:369:3: note: expanded from macro 'trace_printk'
->                 do_trace_printk(fmt, ##__VA_ARGS__);    \
->                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ./include/linux/kernel.h:383:30: note: expanded from macro 'do_trace_printk'
->                 __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);   \
->                                           ^~~~~~~~~~~~~~~~
->drivers/gpu/drm/i915/gt/intel_gt.c:983:2: note: treat the string as an argument to avoid this
+On non-MediaTek devices, this saves a small amount of memory.
 
-This does not happen with GCC because it does not enable
--Wformat-security with -Wall. Disable -Wformat-security within the i915
-Makefile so that these warnings do not show up with clang.
-
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 ---
+ drivers/gpu/drm/panfrost/panfrost_device.c | 14 ++++++++++----
+ drivers/gpu/drm/panfrost/panfrost_device.h |  5 ++---
+ 2 files changed, 12 insertions(+), 7 deletions(-)
 
-v2: revise commit message
-
- drivers/gpu/drm/i915/Makefile | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 1b62b9f65196..c04e05a3d39f 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -13,6 +13,7 @@
- # will most likely get a sudden build breakage... Hopefully we will fix
- # new warnings before CI updates!
- subdir-ccflags-y := -Wall -Wextra
-+subdir-ccflags-y += -Wno-format-security
- subdir-ccflags-y += -Wno-unused-parameter
- subdir-ccflags-y += -Wno-type-limits
- subdir-ccflags-y += -Wno-missing-field-initializers
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+index ee612303f076..661cdec320af 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.c
++++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+@@ -127,7 +127,10 @@ static void panfrost_pm_domain_fini(struct panfrost_device *pfdev)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < ARRAY_SIZE(pfdev->pm_domain_devs); i++) {
++	if (!pfdev->pm_domain_devs || !pfdev->pm_domain_links)
++		return;
++
++	for (i = 0; i < pfdev->comp->num_pm_domains; i++) {
+ 		if (!pfdev->pm_domain_devs[i])
+ 			break;
+ 
+@@ -161,9 +164,12 @@ static int panfrost_pm_domain_init(struct panfrost_device *pfdev)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (WARN(num_domains > ARRAY_SIZE(pfdev->pm_domain_devs),
+-			"Too many supplies in compatible structure.\n"))
+-		return -EINVAL;
++	pfdev->pm_domain_devs = devm_kcalloc(pfdev->dev, num_domains,
++					     sizeof(*pfdev->pm_domain_devs),
++					     GFP_KERNEL);
++	pfdev->pm_domain_links = devm_kcalloc(pfdev->dev, num_domains,
++					      sizeof(*pfdev->pm_domain_links),
++					      GFP_KERNEL);
+ 
+ 	for (i = 0; i < num_domains; i++) {
+ 		pfdev->pm_domain_devs[i] =
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 8b25278f34c8..98e3039696f9 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -22,7 +22,6 @@ struct panfrost_job;
+ struct panfrost_perfcnt;
+ 
+ #define NUM_JOB_SLOTS 3
+-#define MAX_PM_DOMAINS 3
+ 
+ struct panfrost_features {
+ 	u16 id;
+@@ -87,8 +86,8 @@ struct panfrost_device {
+ 	struct regulator_bulk_data *regulators;
+ 	struct reset_control *rstc;
+ 	/* pm_domains for devices with more than one. */
+-	struct device *pm_domain_devs[MAX_PM_DOMAINS];
+-	struct device_link *pm_domain_links[MAX_PM_DOMAINS];
++	struct device **pm_domain_devs;
++	struct device_link **pm_domain_links;
+ 	bool coherent;
+ 
+ 	struct panfrost_features features;
 -- 
-2.25.1
+2.34.1
 
