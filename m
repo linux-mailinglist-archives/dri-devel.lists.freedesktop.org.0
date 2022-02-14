@@ -1,58 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26164B4337
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 09:05:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA774B4352
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 09:10:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6988110E143;
-	Mon, 14 Feb 2022 08:05:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C677510E150;
+	Mon, 14 Feb 2022 08:10:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
- [209.85.221.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C6E610E17E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 08:05:45 +0000 (UTC)
-Received: by mail-vk1-f177.google.com with SMTP id a6so8312424vkc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 00:05:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EuaFh4R/zObETHWYBEmlGLpeIw2W/ozuVWTZLGlRemg=;
- b=nkZmPBdpkq7hLEnoTXZX0T9SQ/PV7/s+1GYFtOYyCDMMoVWqFvl6L6WC9ldZfTmBKM
- gyeVwdTp66TeDh7Zhqdj538jojt6yN3WJ0w1B2nDBxSimJjUT13Cv5Qy2OSeDrvJf7R2
- GBOA2hrVjlzdbEiU6/ZNaI8w6D6CWioD+Q64zLIUT0SAN1T8KqOy8JJIS5apoyadqYH4
- HFf08nCQRYdcp050qPtgaqc53+er9JERcQYSaLJDGpqy6fTAYIO9HgtiDJW8+z7fiAxx
- iy+vbzzBjzixiX4H6qvy9rRvhP48g0AVJaVQeOCNd31TglTSgDXRHoQcgnHgnWp0QhC4
- 3MLQ==
-X-Gm-Message-State: AOAM530XPT+ma8ocE638NkEmp2Dhw3TMzsYM/1RIE9ruAJ/sgg1WX1UD
- K6cAJUXfCl0q9xiDagG1cumMQ8QHb9AtBw==
-X-Google-Smtp-Source: ABdhPJynfucHxeU5VY3AqTkZgUbWu4eZ2ZO1vyRbylAraZVboXtrXM8n0hoB8y401r/G2ehVMdQ78Q==
-X-Received: by 2002:ac5:c20e:: with SMTP id m14mr3474801vkk.0.1644825943676;
- Mon, 14 Feb 2022 00:05:43 -0800 (PST)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com.
- [209.85.217.45])
- by smtp.gmail.com with ESMTPSA id b191sm5441514vkb.32.2022.02.14.00.05.42
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Feb 2022 00:05:43 -0800 (PST)
-Received: by mail-vs1-f45.google.com with SMTP id m24so17789490vsp.7
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 00:05:42 -0800 (PST)
-X-Received: by 2002:a05:6102:440d:: with SMTP id
- df13mr877893vsb.5.1644825942770; 
- Mon, 14 Feb 2022 00:05:42 -0800 (PST)
-MIME-Version: 1.0
-References: <20220210141111.5231-1-tzimmermann@suse.de>
- <20220210141111.5231-3-tzimmermann@suse.de>
-In-Reply-To: <20220210141111.5231-3-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 14 Feb 2022 09:05:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVb1JjZkEo-PM6DTXOywcmJDRr0a=Ci94DJCj7dXbbihw@mail.gmail.com>
-Message-ID: <CAMuHMdVb1JjZkEo-PM6DTXOywcmJDRr0a=Ci94DJCj7dXbbihw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] fbdev: Don't sort deferred-I/O pages by default
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB9BC10E150
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 08:10:23 +0000 (UTC)
+X-UUID: b139bf31abae4875a914f394e4a9bacf-20220214
+X-UUID: b139bf31abae4875a914f394e4a9bacf-20220214
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1538242489; Mon, 14 Feb 2022 16:10:19 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Mon, 14 Feb 2022 16:10:17 +0800
+Received: from mszsdhlt06 (10.16.6.206) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 14 Feb 2022 16:10:17 +0800
+Message-ID: <e57eb09846a7f4f974500610a1e5967a964ae1de.camel@mediatek.com>
+Subject: Re: [v1, 3/3] drm/mediatek: Move the getting bridge node function
+ to mtk_dsi_bind
+From: xinlei.lee <xinlei.lee@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <matthias.bgg@gmail.com>
+Date: Mon, 14 Feb 2022 16:10:26 +0800
+In-Reply-To: <092258211c47eca805c4dea6c4bf4ecc4c246cea.camel@mediatek.com>
+References: <1643283773-7081-1-git-send-email-xinlei.lee@mediatek.com>
+ <1643283773-7081-4-git-send-email-xinlei.lee@mediatek.com>
+ <092258211c47eca805c4dea6c4bf4ecc4c246cea.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,42 +54,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, linux-staging@lists.linux.dev,
- javierm@redhat.com, dri-devel@lists.freedesktop.org, bernie@plugable.com,
- noralf@tronnes.org, andriy.shevchenko@linux.intel.com, jayalk@intworks.biz
+Cc: jitao.shi@mediatek.com, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org,
+ "Project_Global_Chrome_Upstream_ Group"@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Fri, 2022-01-28 at 13:03 +0800, CK Hu wrote:
+> Hi, Xinlei:
+> 
+> On Thu, 2022-01-27 at 19:42 +0800, xinlei.lee@mediatek.com wrote:
+> > From: xinlei lee <xinlei.lee@mediatek.com>
+> > 
+> > The order of probe function for bridge drivers and dsi drivers is
+> > uncertain.
+> > To avoid the dsi probe cannot be executed, we place getting bridge
+> > node function in
+> > mtk_dsi_bind.
+> 
+> It seems this patch want to fix the same problem as [1]. Does [1] fix
+> your problem? If so, let's ignore this patch.
+> 
+> [1] 
+> 
+https://patchwork.kernel.org/project/linux-mediatek/patch/20220127143623.123025-1-angelogioacchino.delregno@collabora.com/
+> 
+> Regards,
+> CK
+> 
+Hi, CK:
 
-On Thu, Feb 10, 2022 at 4:24 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Fbdev's deferred I/O sorts all dirty pages by default, which incurs a
-> significant overhead. Make the sorting step optional and update the few
-> drivers that require it. Use a FIFO list by default.
->
-> Sorting pages by memory offset for deferred I/O performs an implicit
-> bubble-sort step on the list of dirty pages. The algorithm goes through
-> the list of dirty pages and inserts each new page according to its
-> index field. Even worse, list traversal always starts at the first
-> entry. As video memory is most likely updated scanline by scanline, the
-> algorithm traverses through the complete list for each updated page.
->
-> For example, with 1024x768x32bpp a page covers exactly one scanline.
-> Writing a single screen update from top to bottom requires updating
-> 768 pages. With an average list length of 384 entries, a screen update
-> creates (768 * 384 =) 294912 compare operation.
+As you describe,these two patches modify the same thing,we can ignore
+this patch.
+Thanks for your suggestion.
 
-What about using folios?
-If consecutive pages are merged into a single entry, there's much less
-(or nothing in the example above) to sort.
+Best Regards!
+xinlei
+> > 
+> > Signed-off-by:Xinlei Lee <xinlei.lee@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dsi.c | 29 +++++++++++++++-----------
+> > --
+> > -
+> >  1 file changed, 15 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > index 62af60d..a390f26 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > @@ -991,6 +991,21 @@ static int mtk_dsi_bind(struct device *dev,
+> > struct device *master, void *data)
+> >  	int ret;
+> >  	struct drm_device *drm = data;
+> >  	struct mtk_dsi *dsi = dev_get_drvdata(dev);
+> > +	struct drm_panel *panel;
+> > +
+> > +	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
+> > +					  &panel, &dsi->next_bridge);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	if (panel) {
+> > +		dsi->next_bridge = devm_drm_panel_bridge_add(dev,
+> > panel);
+> > +		if (IS_ERR(dsi->next_bridge)) {
+> > +			ret = PTR_ERR(dsi->next_bridge);
+> > +			dev_err(dev, "failed to add bridge: %d\n",
+> > ret);
+> > +			return ret;
+> > +		}
+> > +	}
+> >  
+> >  	ret = mtk_dsi_encoder_init(drm, dsi);
+> >  	if (ret)
+> > @@ -1016,7 +1031,6 @@ static int mtk_dsi_probe(struct
+> > platform_device
+> > *pdev)
+> >  {
+> >  	struct mtk_dsi *dsi;
+> >  	struct device *dev = &pdev->dev;
+> > -	struct drm_panel *panel;
+> >  	struct resource *regs;
+> >  	int irq_num;
+> >  	int ret;
+> > @@ -1033,19 +1047,6 @@ static int mtk_dsi_probe(struct
+> > platform_device *pdev)
+> >  		return ret;
+> >  	}
+> >  
+> > -	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
+> > -					  &panel, &dsi->next_bridge);
+> > -	if (ret)
+> > -		goto err_unregister_host;
+> > -
+> > -	if (panel) {
+> > -		dsi->next_bridge = devm_drm_panel_bridge_add(dev,
+> > panel);
+> > -		if (IS_ERR(dsi->next_bridge)) {
+> > -			ret = PTR_ERR(dsi->next_bridge);
+> > -			goto err_unregister_host;
+> > -		}
+> > -	}
+> > -
+> >  	dsi->driver_data = of_device_get_match_data(dev);
+> >  
+> >  	dsi->engine_clk = devm_clk_get(dev, "engine");
+> 
+> 
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
