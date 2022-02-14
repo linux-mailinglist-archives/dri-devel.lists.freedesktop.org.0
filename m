@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9899D4B4921
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:34:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C84E04B4A8E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:39:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD93A8907C;
-	Mon, 14 Feb 2022 10:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16BD510E53E;
+	Mon, 14 Feb 2022 10:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
- [IPv6:2607:f8b0:4864:20::f33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B51898907C
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 10:34:44 +0000 (UTC)
-Received: by mail-qv1-xf33.google.com with SMTP id a19so14391148qvm.4
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 02:34:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CW2hRwZIEhQrDRjvEssqANyIvpsUpUOE4q5arABVm7E=;
- b=RvtHbvHcA3lmcGmoELJ+TXYy8rk3zPVwLEkidHPkYQGXxfAhsdCn9IvPz4n5tc5qns
- BLYCVRItNCXdi2n3Y02ESp1+c8as/rJ1x9v9KkG+sE+wJj0wQTdKKU+XkGjVQnr7lTBB
- iPbESSpnNCtuA16XaY2Ibi3Hj+TQ8YRfK7BChh5bgeZnsb7yaldRLs5g4P6U6Cf+4oI0
- 7n2Qt7urWc4GCZGO7CXcT30bnuOLA4YYd5b5YPHw0MYUmSRysYfDWl0f/ZVjei2lPRS5
- B/3v2GOik9zehxAUqwLCk26DZ5g2soETGZCJ6kTsOfXqbTD/e9qvR1pGpIr4ksRuCQ8g
- yP5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CW2hRwZIEhQrDRjvEssqANyIvpsUpUOE4q5arABVm7E=;
- b=6katLfsI/3jwIIoxPiHQA8FSC/h0+eqKI+RNPlYOmDE6gPILzcu+2jP+IzbAB9nv0q
- 8XY/ugPBWFPyW9DbEf0sGBy4mFRZKp1MnM50/RqX1oFbBPfoyZKCCesPLw/0EDUbmpa+
- RgIDDNs/168SMrdGfJt9/UKYnj4FSufTaDiJErFqXaqqZFSZeR/n070keoYFvNdEt5f/
- bsRYZyIKXugMnb4akCq5KS5uzD79ZgaRH0xN2VjmrSHK00c67P/tn9HA7N0UZgq+S5W2
- Ox/EVx9j8bZJCDT8fZdSXrnSvd1YBJZ3WsyhzYlx3T0ScKl62CtM30QzSxTz4M8pewMp
- R95g==
-X-Gm-Message-State: AOAM530rqqy9TgkNtYTSUlKEaT2BLABE1P5vpiioFRthlycgaTsllWzU
- +p7GhWTyR1uZDwGkhDBSSGq/52+sSyuEu9nDH9TasCKpNp/wbg==
-X-Google-Smtp-Source: ABdhPJwrSdHx2aAsSk6kgXfKRBbBkSKIXlQ+6hEcLKXSpLLivcWUjLjSoQzIWOJFnI+gSJEi5gk6cA2XN+jZYtzJRrY=
-X-Received: by 2002:a05:6214:c88:: with SMTP id
- r8mr2732808qvr.21.1644834883830; 
- Mon, 14 Feb 2022 02:34:43 -0800 (PST)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C08C10E53E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 10:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644835156; x=1676371156;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=C9m2rcxcDwLvUl2QbsECG3i5+PvKcHA60fHQFVqzZzs=;
+ b=J6b0XXkNyE1DjjO7JvGetUGZNxcvsaX5pUAQVOTqaPpgZGR8sIxtXtmC
+ g2rBYR/2zlkTB1TXZPSwTnJIkKdo/b6TVUeInHsl3xh/iYv6UKtOIreVb
+ 5RATuPx6qpOgnVuJ4d/yi/DXLsCPgsczBsy8ymjRPbs4UaGpHLrRSdpib
+ ZJ6z4z63zaAxIZcmgoB7dP0NmgP9XjVRfiUL8OH8LWAMNwZhxXGXNPBJp
+ AHpVrnj3nGPBs8R5MAxQWMWl9QezX2XgcPFLevyH63Z+XBm7tlYlrCMFW
+ +ZrnR0wcL6J+WKGjU4wIwDtN519Ruy8Cn1FIUZED9jJUUrYunPnkJT6Te Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="250009735"
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="250009735"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 02:39:15 -0800
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="570085760"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 02:39:12 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nJYkG-004Pw8-Jg; Mon, 14 Feb 2022 12:38:12 +0200
+Date: Mon, 14 Feb 2022 12:38:12 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 1/6] drm/format-helper: Add
+ drm_fb_xrgb8888_to_gray8_line()
+Message-ID: <YgoxFBGNsrezVxmi@smile.fi.intel.com>
+References: <20220211091927.2988283-1-javierm@redhat.com>
+ <20220211091927.2988283-2-javierm@redhat.com>
+ <YgY6OqN+guBlt/ED@smile.fi.intel.com>
+ <4fa465d9-4fac-4199-9a04-d8e09d164308@redhat.com>
+ <YgZEuXvJ2ZiOyNS+@smile.fi.intel.com>
+ <7560cd10-0a7c-3fda-da83-9008833e3901@suse.de>
+ <87pmnt7gm3.fsf@intel.com> <YgaDj6Wld4b7S6DF@smile.fi.intel.com>
+ <f87ce2fa-6b18-f985-eb86-506ce7103db3@suse.de>
 MIME-Version: 1.0
-References: <20220214093439.2989-1-christian.koenig@amd.com>
- <20220214093439.2989-2-christian.koenig@amd.com>
-In-Reply-To: <20220214093439.2989-2-christian.koenig@amd.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Mon, 14 Feb 2022 10:34:17 +0000
-Message-ID: <CAM0jSHO-h5i8yrX+eDf8P-5GL=4m-5t3ENkEb0HHjU3pU5fomw@mail.gmail.com>
-Subject: Re: [PATCH 02/11] drm/ttm: add common accounting to the resource mgr
- v3
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f87ce2fa-6b18-f985-eb86-506ce7103db3@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,157 +67,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- felix.kuehling@amd.com, ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 14 Feb 2022 at 09:34, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> It makes sense to have this in the common manager for debugging and
-> accounting of how much resources are used.
->
-> v2: cleanup kerneldoc a bit
-> v3: drop the atomic, update counter under lock instead
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Reviewed-by: Huang Rui <ray.huang@amd.com> (v1)
-> Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> ---
->  drivers/gpu/drm/ttm/ttm_resource.c | 30 ++++++++++++++++++++++++++++++
->  include/drm/ttm/ttm_resource.h     | 11 +++++++++--
->  2 files changed, 39 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm=
-_resource.c
-> index ae40e144e728..bbb8a0f7aa14 100644
-> --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> @@ -41,6 +41,8 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
->                         const struct ttm_place *place,
->                         struct ttm_resource *res)
->  {
-> +       struct ttm_resource_manager *man;
-> +
->         res->start =3D 0;
->         res->num_pages =3D PFN_UP(bo->base.size);
->         res->mem_type =3D place->mem_type;
-> @@ -50,6 +52,11 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
->         res->bus.is_iomem =3D false;
->         res->bus.caching =3D ttm_cached;
->         res->bo =3D bo;
-> +
-> +       man =3D ttm_manager_type(bo->bdev, place->mem_type);
-> +       spin_lock(&bo->bdev->lru_lock);
-> +       man->usage +=3D bo->base.size;
-> +       spin_unlock(&bo->bdev->lru_lock);
->  }
->  EXPORT_SYMBOL(ttm_resource_init);
->
-> @@ -65,6 +72,9 @@ EXPORT_SYMBOL(ttm_resource_init);
->  void ttm_resource_fini(struct ttm_resource_manager *man,
->                        struct ttm_resource *res)
->  {
-> +       spin_lock(&man->bdev->lru_lock);
-> +       man->usage -=3D res->bo->base.size;
-> +       spin_unlock(&man->bdev->lru_lock);
->  }
->  EXPORT_SYMBOL(ttm_resource_fini);
->
-> @@ -166,6 +176,7 @@ void ttm_resource_manager_init(struct ttm_resource_ma=
-nager *man,
->         spin_lock_init(&man->move_lock);
->         man->bdev =3D bdev;
->         man->size =3D size;
-> +       man->usage =3D 0;
->
->         for (i =3D 0; i < TTM_MAX_BO_PRIORITY; ++i)
->                 INIT_LIST_HEAD(&man->lru[i]);
-> @@ -226,6 +237,24 @@ int ttm_resource_manager_evict_all(struct ttm_device=
- *bdev,
->  }
->  EXPORT_SYMBOL(ttm_resource_manager_evict_all);
->
-> +/**
-> + * ttm_resource_manager_usage
-> + *
-> + * @man: A memory manager object.
-> + *
-> + * Return how many resources are currently used.
+On Mon, Feb 14, 2022 at 10:03:53AM +0100, Thomas Zimmermann wrote:
+> Am 11.02.22 um 16:41 schrieb Andy Shevchenko:
 
-Maybe mention the units here?
+...
 
-"Return how many resources are currently used, in bytes."
+> > > IMO *always* prefer a for loop over while or do-while.
+> > > 
+> > > The for (i = 0; i < N; i++) is such a strong paradigm in C. You
+> > > instantly know how many times you're going to loop, at a glance. Not so
+> > > with with the alternatives, which should be used sparingly.
+> > 
+> > while () {}  _is_ a paradigm, for-loop is syntax sugar on top of it.
+> 
+> Naw, that's not true.
 
-Anyway,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+In the section 3.5 "Loops - While and For" in "The C Programming
+Language" 2nd by K&R, the authors said:
 
-> + */
-> +uint64_t ttm_resource_manager_usage(struct ttm_resource_manager *man)
-> +{
-> +       uint64_t usage;
-> +
-> +       spin_lock(&man->bdev->lru_lock);
-> +       usage =3D man->usage;
-> +       spin_unlock(&man->bdev->lru_lock);
-> +       return usage;
-> +}
-> +EXPORT_SYMBOL(ttm_resource_manager_usage);
-> +
->  /**
->   * ttm_resource_manager_debug
->   *
-> @@ -238,6 +267,7 @@ void ttm_resource_manager_debug(struct ttm_resource_m=
-anager *man,
->         drm_printf(p, "  use_type: %d\n", man->use_type);
->         drm_printf(p, "  use_tt: %d\n", man->use_tt);
->         drm_printf(p, "  size: %llu\n", man->size);
-> +       drm_printf(p, "  usage: %llu\n", ttm_resource_manager_usage(man))=
-;
->         if (man->func->debug)
->                 man->func->debug(man, p);
->  }
-> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resourc=
-e.h
-> index 555a11fb8a7f..323c14a30c6b 100644
-> --- a/include/drm/ttm/ttm_resource.h
-> +++ b/include/drm/ttm/ttm_resource.h
-> @@ -27,6 +27,7 @@
->
->  #include <linux/types.h>
->  #include <linux/mutex.h>
-> +#include <linux/atomic.h>
->  #include <linux/dma-buf-map.h>
->  #include <linux/dma-fence.h>
->  #include <drm/drm_print.h>
-> @@ -130,10 +131,15 @@ struct ttm_resource_manager {
->         struct dma_fence *move;
->
->         /*
-> -        * Protected by the global->lru_lock.
-> +        * Protected by the bdev->lru_lock.
->          */
-> -
->         struct list_head lru[TTM_MAX_BO_PRIORITY];
-> +
-> +       /**
-> +        * @usage: How much of the resources are used, protected by the
-> +        * bdev->lru_lock.
-> +        */
-> +       uint64_t usage;
->  };
->
->  /**
-> @@ -283,6 +289,7 @@ void ttm_resource_manager_init(struct ttm_resource_ma=
-nager *man,
->  int ttm_resource_manager_evict_all(struct ttm_device *bdev,
->                                    struct ttm_resource_manager *man);
->
-> +uint64_t ttm_resource_manager_usage(struct ttm_resource_manager *man);
->  void ttm_resource_manager_debug(struct ttm_resource_manager *man,
->                                 struct drm_printer *p);
->
-> --
-> 2.25.1
->
+	The for statement ... is equivalent to ... while..."
+
+They said that for is equivalent to while, and not otherwise.
+
+Also, syntax sugar by definition declares something that can be written as
+a single line of code, which usually is done using more (not always).
+
+> An idiomatic for loop, such as for (i = ...; i < N;
+> ++i), is such a strong pattern that it's way better than the corresponding
+> while loop.
+
+> > > And yes, the do-while suggested above is buggy, and you actually need to
+> > > stop and think to see why.
+> > 
+> > It depends if pixels can be 0 or not and if it's not, then does it contain last
+> > or number.
+> > 
+> > The do {} while (--pixels); might be buggy iff pixels may be 0.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
