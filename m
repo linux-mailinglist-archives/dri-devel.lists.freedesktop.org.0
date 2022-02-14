@@ -1,48 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA254B5EE6
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 01:14:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D14CD4B5EE3
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 01:14:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8337410E39A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45A7110E394;
 	Tue, 15 Feb 2022 00:14:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D110710E383;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 032EB10E38D;
  Tue, 15 Feb 2022 00:14:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644884062; x=1676420062;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=H7pqK1mdwtiBeTD8NETC8XVfR/V1CXdH8O5xpQ042W0=;
- b=bOCqwOR1UbPNhFOSLkaaZBsv1mmDnUMS51C1aVsIccLjv455Ty8x0OjP
- Pd5x8TCx6LOfEk+JQxXw+6QyOFFavKW2+1LF6TTeeiH4fRsckAZe4+woh
- ZZAoIX9lLLV0tzw8fsQbuPo1BrYFlZ2IvYVQidU/h2+p1MgU9EXO0Y0dW
- EYxQt9eFfCxTuw5/YTe4xzKSs0HETRdbzuXfDveYjs7xl0KEcKFsff4al
- 8Ea0R8pOy9w8sOhng/Uz+ncEw9N0VMTu3GSmY5Cz5qLBBqTnz2aRQQfbN
- eNWSY1lIELRJPOJRXn/EkT++OFnbD08iMULd+d0hWCx443nlR/LcE6aRF g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10258"; a="230852152"
-X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="230852152"
+ t=1644884063; x=1676420063;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=9GuHkhx1ObSgaINOyhVTdzXiIrUWk8CUbsJokTVpF9Q=;
+ b=l2me+MECvhPBTP4Nih6x7uBWNPf6SvPf/xqvC04hGDAUSeIr83Wx1GnX
+ uLDX57qB+nbHYCwsMB+qk8AwCtsdOvlJF6kXv7EkB0S7UmwR6BLUtkLrb
+ oZHs5eBU2e2nN1+W+QJJYQnHzP+1jVfHwwDOEXikk6t/LDxt7Y8UFueg7
+ JZJGMyTako+3WAmNDGqWWFH2dw3u7hTc34GbpmrEI695vXI067W1kOf76
+ G8CEas3osZzYTToA9BAaOUKT82lbuwnvUnJ0IhCUH1FpR8ySqpSSayrKD
+ AVJbyugAUkndx6BD8MklW61C1l0NjPVQwVLFoVSpjxQwXTg1RRvqSfAQ+ w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10258"; a="230852153"
+X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="230852153"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Feb 2022 16:14:22 -0800
-X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="775515244"
+X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="775515247"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Feb 2022 16:14:22 -0800
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/2] drm/mm: Add an iterator to optimally walk over holes
- suitable for an allocation
-Date: Mon, 14 Feb 2022 15:56:23 -0800
-Message-Id: <20220214235625.864939-1-vivek.kasireddy@intel.com>
+Subject: [PATCH 1/2] drm/mm: Add an iterator to optimally walk over holes for
+ an allocation (v3)
+Date: Mon, 14 Feb 2022 15:56:24 -0800
+Message-Id: <20220214235625.864939-2-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220214235625.864939-1-vivek.kasireddy@intel.com>
+References: <20220214235625.864939-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,31 +58,166 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The first patch is a drm core patch that replaces the for loop in
-drm_mm_insert_node_in_range() with the iterator and would not
-cause any functional changes. The second patch is a i915 driver
-specific patch that also uses the iterator but solves a different
-problem.
+This iterator relies on drm_mm_first_hole() and drm_mm_next_hole()
+functions to identify suitable holes for an allocation of a given
+size by efficiently traversing the rbtree associated with the given
+allocator.
 
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Nirmoy Das <nirmoy.das@intel.com>
-Cc: Christian König <christian.koenig@amd.com>
+It replaces the for loop in drm_mm_insert_node_in_range() and can
+also be used by drm drivers to quickly identify holes of a certain
+size within a given range.
 
-Vivek Kasireddy (2):
-  drm/mm: Add an iterator to optimally walk over holes for an allocation
-    (v3)
-  drm/i915/gem: Don't try to map and fence large scanout buffers (v7)
+v2: (Tvrtko)
+- Prepend a double underscore for the newly exported first/next_hole
+- s/each_best_hole/each_suitable_hole/g
+- Mask out DRM_MM_INSERT_ONCE from the mode before calling
+  first/next_hole and elsewhere.
 
- drivers/gpu/drm/drm_mm.c        |  32 ++++-----
- drivers/gpu/drm/i915/i915_gem.c | 120 +++++++++++++++++++++++---------
- include/drm/drm_mm.h            |  36 ++++++++++
- 3 files changed, 137 insertions(+), 51 deletions(-)
+v3: (Tvrtko)
+- Reduce the number of hunks by retaining the "mode" variable name
 
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ drivers/gpu/drm/drm_mm.c | 32 +++++++++++++++-----------------
+ include/drm/drm_mm.h     | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
+index 8257f9d4f619..8efea548ae9f 100644
+--- a/drivers/gpu/drm/drm_mm.c
++++ b/drivers/gpu/drm/drm_mm.c
+@@ -352,10 +352,10 @@ static struct drm_mm_node *find_hole_addr(struct drm_mm *mm, u64 addr, u64 size)
+ 	return node;
+ }
+ 
+-static struct drm_mm_node *
+-first_hole(struct drm_mm *mm,
+-	   u64 start, u64 end, u64 size,
+-	   enum drm_mm_insert_mode mode)
++struct drm_mm_node *
++__drm_mm_first_hole(struct drm_mm *mm,
++		    u64 start, u64 end, u64 size,
++		    enum drm_mm_insert_mode mode)
+ {
+ 	switch (mode) {
+ 	default:
+@@ -374,6 +374,7 @@ first_hole(struct drm_mm *mm,
+ 						hole_stack);
+ 	}
+ }
++EXPORT_SYMBOL(__drm_mm_first_hole);
+ 
+ /**
+  * DECLARE_NEXT_HOLE_ADDR - macro to declare next hole functions
+@@ -410,11 +411,11 @@ static struct drm_mm_node *name(struct drm_mm_node *entry, u64 size)	\
+ DECLARE_NEXT_HOLE_ADDR(next_hole_high_addr, rb_left, rb_right)
+ DECLARE_NEXT_HOLE_ADDR(next_hole_low_addr, rb_right, rb_left)
+ 
+-static struct drm_mm_node *
+-next_hole(struct drm_mm *mm,
+-	  struct drm_mm_node *node,
+-	  u64 size,
+-	  enum drm_mm_insert_mode mode)
++struct drm_mm_node *
++__drm_mm_next_hole(struct drm_mm *mm,
++		   struct drm_mm_node *node,
++		   u64 size,
++		   enum drm_mm_insert_mode mode)
+ {
+ 	switch (mode) {
+ 	default:
+@@ -432,6 +433,7 @@ next_hole(struct drm_mm *mm,
+ 		return &node->hole_stack == &mm->hole_stack ? NULL : node;
+ 	}
+ }
++EXPORT_SYMBOL(__drm_mm_next_hole);
+ 
+ /**
+  * drm_mm_reserve_node - insert an pre-initialized node
+@@ -516,11 +518,11 @@ int drm_mm_insert_node_in_range(struct drm_mm * const mm,
+ 				u64 size, u64 alignment,
+ 				unsigned long color,
+ 				u64 range_start, u64 range_end,
+-				enum drm_mm_insert_mode mode)
++				enum drm_mm_insert_mode caller_mode)
+ {
+ 	struct drm_mm_node *hole;
+ 	u64 remainder_mask;
+-	bool once;
++	enum drm_mm_insert_mode mode = caller_mode & ~DRM_MM_INSERT_ONCE;
+ 
+ 	DRM_MM_BUG_ON(range_start > range_end);
+ 
+@@ -533,13 +535,9 @@ int drm_mm_insert_node_in_range(struct drm_mm * const mm,
+ 	if (alignment <= 1)
+ 		alignment = 0;
+ 
+-	once = mode & DRM_MM_INSERT_ONCE;
+-	mode &= ~DRM_MM_INSERT_ONCE;
+-
+ 	remainder_mask = is_power_of_2(alignment) ? alignment - 1 : 0;
+-	for (hole = first_hole(mm, range_start, range_end, size, mode);
+-	     hole;
+-	     hole = once ? NULL : next_hole(mm, hole, size, mode)) {
++	drm_mm_for_each_suitable_hole(hole, mm, range_start, range_end,
++				      size, mode) {
+ 		u64 hole_start = __drm_mm_hole_node_start(hole);
+ 		u64 hole_end = hole_start + hole->hole_size;
+ 		u64 adj_start, adj_end;
+diff --git a/include/drm/drm_mm.h b/include/drm/drm_mm.h
+index ac33ba1b18bc..777f659f9692 100644
+--- a/include/drm/drm_mm.h
++++ b/include/drm/drm_mm.h
+@@ -400,6 +400,42 @@ static inline u64 drm_mm_hole_node_end(const struct drm_mm_node *hole_node)
+ 	     1 : 0; \
+ 	     pos = list_next_entry(pos, hole_stack))
+ 
++struct drm_mm_node *
++__drm_mm_first_hole(struct drm_mm *mm,
++		    u64 start, u64 end, u64 size,
++		    enum drm_mm_insert_mode mode);
++
++struct drm_mm_node *
++__drm_mm_next_hole(struct drm_mm *mm,
++		   struct drm_mm_node *node,
++		   u64 size,
++		   enum drm_mm_insert_mode mode);
++
++/**
++ * drm_mm_for_each_suitable_hole - iterator to optimally walk over all
++ * holes that can fit an allocation of the given @size.
++ * @pos: &drm_mm_node used internally to track progress
++ * @mm: &drm_mm allocator to walk
++ * @range_start: start of the allowed range for the allocation
++ * @range_end: end of the allowed range for the allocation
++ * @size: size of the allocation
++ * @mode: fine-tune the allocation search
++ *
++ * This iterator walks over all holes suitable for the allocation of given
++ * @size in a very efficient manner. It is implemented by calling
++ * drm_mm_first_hole() and drm_mm_next_hole() which identify the
++ * appropriate holes within the given range by efficiently traversing the
++ * rbtree associated with @mm.
++ */
++#define drm_mm_for_each_suitable_hole(pos, mm, range_start, range_end, \
++				      size, mode) \
++	for (pos = __drm_mm_first_hole(mm, range_start, range_end, size, \
++				       mode & ~DRM_MM_INSERT_ONCE); \
++	     pos; \
++	     pos = mode & DRM_MM_INSERT_ONCE ? \
++	     NULL : __drm_mm_next_hole(mm, hole, size, \
++				       mode & ~DRM_MM_INSERT_ONCE))
++
+ /*
+  * Basic range manager support (drm_mm.c)
+  */
 -- 
 2.34.1
 
