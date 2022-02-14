@@ -2,59 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5114B48E6
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:07:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366EE4B48EB
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:10:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40F2B10E409;
-	Mon, 14 Feb 2022 10:07:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9989910E49B;
+	Mon, 14 Feb 2022 10:10:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2DB8710E409
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 10:07:32 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:35964.414113341
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id CD6CD10029D;
- Mon, 14 Feb 2022 18:07:27 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id
- 2ce5d89c9d2b4751bf53523b557ba63b for jiaxun.yang@flygoat.com; 
- Mon, 14 Feb 2022 18:07:29 CST
-X-Transaction-ID: 2ce5d89c9d2b4751bf53523b557ba63b
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <79f30dcb-48f5-e8b4-7cdd-770dd30d4896@189.cn>
-Date: Mon, 14 Feb 2022 18:07:26 +0800
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4141810E49B
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 10:10:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644833433; x=1676369433;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=lx+hV5yTC+6Zm6CjYhcbfB/UYfpwjtIBoJll8ctGi6k=;
+ b=Fzda4SkTaex+tngI6SpAF77E/i6baNNl494cJbp7RI6BckBBuwkfZVSg
+ bs1qNhD+nm/lffva8nWaSdy3UAfRkFMeeh6sNAjDUAM4JCEeWTEGa7ZR9
+ Q3O9FNJVV9WYaXuRUCUrrdjPEWJYqaHru6p3jJVui31vX5YXHNI/FNkjg
+ j0BNRDH8EsNhvUJPa+6lmTDcaYGvqUs8+Yg0sWAuI+lXBOJOSQgOFKabq
+ tyUtmjwSUM5HKJQBhnhVAytp7UGIFpEDXO1znR4ZWe2jnOLPuiSfeXaMs
+ 20vJ5BAJi6wYdRT1sVKriygLLuJbk0eFeYV31gxXZ8563gaesvxk0AAhQ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="230023039"
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="230023039"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 02:10:32 -0800
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="624098150"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 02:10:27 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nJYIV-004P8q-Jx; Mon, 14 Feb 2022 12:09:31 +0200
+Date: Mon, 14 Feb 2022 12:09:31 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: qianfanguijin@163.com
+Subject: Re: [PATCH] drivers: fbtft: Add property 'keep-bootlogo'
+Message-ID: <YgoqWzZ/PYHZS9nt@smile.fi.intel.com>
+References: <20220212053711.26481-1-qianfanguijin@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v7 0/7] drm/lsdc: add drm driver for loongson display
- controller
-Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
- Li Yi <liyi@loongson.cn>, suijingfeng <suijingfeng@loongson.cn>
-References: <20220213141649.1115987-1-15330273260@189.cn>
- <380d93a4-6f36-00d2-6cd3-e4428534cbb1@flygoat.com>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <380d93a4-6f36-00d2-6cd3-e4428534cbb1@flygoat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220212053711.26481-1-qianfanguijin@163.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,44 +59,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, preid@electromag.com.au,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, Feb 12, 2022 at 01:37:11PM +0800, qianfanguijin@163.com wrote:
+> From: qianfan Zhao <qianfanguijin@163.com>
+> 
+> Keep the logo draw by bootloader
 
-On 2022/2/14 13:54, Jiaxun Yang wrote:
->
->
-> 在 2022/2/13 14:16, Sui Jingfeng 写道:
->> There is a display controller in loongson's LS2K1000 SoC and LS7A1000
->> bridge chip, the DC is a PCI device in those chips. It has two display
->> pipes but with only one hardware cursor. Each way has a DVO interface
->> which provide RGB888 signals, vertical & horizontal synchronisations,
->> data enable and the pixel clock. Each CRTC is able to scanout from
->> 1920x1080 resolution at 60Hz. The maxmium resolution is 2048x2048
->> according to the hardware spec.
->
-> Hi Jiangfeng,
->
-> I see you added dts for those boards, but I didn't see you wire up them
-> in Makefile and code? How can you use them in present systems?
->
-> I guess to make those dts work for general all-in-one kernel, what you
-> need to do is, for example Lemota A1901:
->
-> 1. Add __dtb_lemote_a1901 to builtin_dtbs.h
->
-> 2. Wire up with something like:
->
-> if (!strcmp("LEMOTE-/LS3A4000/-7A1000-1w-V01-pc", eboard->name)
->     loongson_fdt_blob = __dtb_lemote_a1901
->
-> In arch/mips/loongson64/env.c.
->
-> Thanks.
-> - Jiaxun
+Please, Cc to fbdev maintainer. Personally I'm not sure we want this from
+maintenance perspective, but I understand what you want to achieve with it.
 
-For most board, this driver is ready to be use out of box.
-Device tree is for supplement purpose.
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
