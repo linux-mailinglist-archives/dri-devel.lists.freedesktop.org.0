@@ -2,58 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4F44B6444
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 08:25:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C6B4B6441
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 08:25:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D57910E3B3;
-	Tue, 15 Feb 2022 07:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58BF610E395;
+	Tue, 15 Feb 2022 07:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68DBB10E2EE
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 21:26:10 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id m14so11930949lfu.4
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 13:26:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xB7MDihYGx4nWu/GuBF27GgwlKh3zzMd7sng4PC9OAg=;
- b=AlVXfUdq3X/vSQj1QADxlefqzYOIxjNWuIGVTNcQd90bTzHdMLXt1diiYfHcXmfDuo
- Aih+Ei5sv53Rvnfwr6T+Giffv/hPnsONKFFuY2MDaby2I/Gm/wkOK3W25ZFOa3QTswJK
- etjN6hFfrsFB0uHvKeOLdTbOErJPlMDj409uuOgjaLBCd7DDEDWC89ZjaA+b9qyZ40kj
- s0vZ3yX4ID2jYqbVwwVsaHm/Vvm4t/enqPFSc5JTB/j4R1JzwarD/mLvPFiGLs27GTHY
- OzNCXT4ZuoxDbUdaDSQpUyuqB1ItZusqu95/zc54s7Tn3oSLSHXezYPdHrPXDjs96Thu
- gSQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xB7MDihYGx4nWu/GuBF27GgwlKh3zzMd7sng4PC9OAg=;
- b=R0nYajtQ27o4s4kfJdAqLGcqJ1y8XWbegVlXxEUz0GtXdvQdUnUU6PnL9B9MTHg+Om
- is2Ihpld1r+SxL74opMFT4O7BuDibyi9mAGJ1S3ggtNkDLIMB/JdZYwuYObnjI5gJ9Q5
- 3SoaQ+/tts4VANQ4Tbnd1WbJJfZ0L/YgNkLz7FgYeQIHCv13KRe38vdbZDWqFwWd95sl
- p/e1nYWpOBVROcxRuh9PJmEBsIBSSylslzLl4rUBVCM/5PnXpVOSKbBQS7VE1EJaniQ2
- Yl9R1rQhug3/rhpplfjymY+Mi+WnnsCbHJVJ7bZMOIHHKNRDKgpMPRBPsp4UXlxKDaz1
- Ch8g==
-X-Gm-Message-State: AOAM533js+zTNFQNo0KW8Bk7mocTp+zOb6e4CFfAREBoJbPom3AtngjN
- Z7s6uujIADJG6eesyhKXzKVFQy0ABwsOIsvRixRi9g==
-X-Google-Smtp-Source: ABdhPJy9LX4qMvZpJWEnI58VfURh6/MLmchoH4ymKbepXoxQzUy25zdnmOiESxtwDTq7E3tlrLuGpZ/EsyrQdVvZllE=
-X-Received: by 2002:a05:6512:1699:: with SMTP id
- bu25mr695407lfb.403.1644873968216; 
- Mon, 14 Feb 2022 13:26:08 -0800 (PST)
+Received: from mail.andi.de1.cc (mail.andi.de1.cc
+ [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7059410E31A
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 22:45:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=bR7fehLtd9M9qTlT7VF3MZCfD/oznbKy8d/rqBxhceI=; b=b6x2pgLOdjZzH5KLlIZgvJyoXv
+ GKkZ3K/n17R148WZDlU1eruFAgIM7qcQ0yNXDJgq+kpCvYb0IUdkgTZfYmAJINSaDOyqX0mYh9Lmj
+ INu+sZAUB3/X7OsoDFup9tB0VoLt3zT08ktodD/o+h4VgRv0JGAFH6LrxWCGAVyFb2TM=;
+Received: from p200300ccff09cb001a3da2fffebfd33a.dip0.t-ipconnect.de
+ ([2003:cc:ff09:cb00:1a3d:a2ff:febf:d33a] helo=aktux)
+ by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.89) (envelope-from <andreas@kemnade.info>)
+ id 1nJk5u-00041L-DZ; Mon, 14 Feb 2022 23:45:18 +0100
+Date: Mon, 14 Feb 2022 23:45:17 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [RFC PATCH 1/6] dt-bindings: display: imx: Add EPDC
+Message-ID: <20220214234517.121e1167@aktux>
+In-Reply-To: <YgaE06Ktabpf2dJC@robh.at.kernel.org>
+References: <20220206080016.796556-1-andreas@kemnade.info>
+ <20220206080016.796556-2-andreas@kemnade.info>
+ <YgaE06Ktabpf2dJC@robh.at.kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20220211161831.3493782-1-tjmercier@google.com>
- <20220211161831.3493782-7-tjmercier@google.com>
-In-Reply-To: <20220211161831.3493782-7-tjmercier@google.com>
-From: Todd Kjos <tkjos@google.com>
-Date: Mon, 14 Feb 2022 13:25:55 -0800
-Message-ID: <CAHRSSEwWEeW2+Pd17VUNrPYSWhOu-ao7rgnk-pNROcfH6abTzA@mail.gmail.com>
-Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
- ownership of fds
-To: "T.J. Mercier" <tjmercier@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -1.0 (-)
 X-Mailman-Approved-At: Tue, 15 Feb 2022 07:25:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,145 +54,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Zefan Li <lizefan.x@bytedance.com>,
- kaleshsingh@google.com, Joel Fernandes <joel@joelfernandes.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Kenny.Ho@amd.com,
- Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
- linux-media@vger.kernel.org, Todd Kjos <tkjos@android.com>,
- linaro-mm-sig@lists.linaro.org, Tejun Heo <tj@kernel.org>,
- cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Christian Brauner <brauner@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Liam Mark <lmark@codeaurora.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
- Hridya Valsaraju <hridya@google.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ letux-kernel@openphoenux.org, tzimmermann@suse.de, samuel@sholland.org,
+ airlied@linux.ie, s.hauer@pengutronix.de, alistair@alistair23.me,
+ linux-kernel@vger.kernel.org, linux-imx@nxp.com, kernel@pengutronix.de,
+ josua.mayer@jm0.eu, shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 11, 2022 at 8:19 AM T.J. Mercier <tjmercier@google.com> wrote:
->
-> This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
-> that a process sending an fd array to another process over binder IPC
-> can set to relinquish ownership of the fds being sent for memory
-> accounting purposes. If the flag is found to be set during the fd array
-> translation and the fd is for a DMA-BUF, the buffer is uncharged from
-> the sender's cgroup and charged to the receiving process's cgroup
-> instead.
->
-> It is up to the sending process to ensure that it closes the fds
-> regardless of whether the transfer failed or succeeded.
->
-> Most graphics shared memory allocations in Android are done by the
-> graphics allocator HAL process. On requests from clients, the HAL process
-> allocates memory and sends the fds to the clients over binder IPC.
-> The graphics allocator HAL will not retain any references to the
-> buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
-> arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
-> correctly charge the buffers to the client processes instead of the
-> graphics allocator HAL.
->
-> From: Hridya Valsaraju <hridya@google.com>
-> Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> Co-developed-by: T.J. Mercier <tjmercier@google.com>
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> ---
-> changes in v2
-> - Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
-> heap to a single dma-buf function for all heaps per Daniel Vetter and
-> Christian K=C3=B6nig.
->
->  drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
->  include/uapi/linux/android/binder.h |  1 +
->  2 files changed, 27 insertions(+)
->
-> diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-> index 8351c5638880..f50d88ded188 100644
-> --- a/drivers/android/binder.c
-> +++ b/drivers/android/binder.c
-> @@ -42,6 +42,7 @@
->
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->
-> +#include <linux/dma-buf.h>
->  #include <linux/fdtable.h>
->  #include <linux/file.h>
->  #include <linux/freezer.h>
-> @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list_h=
-ead *pf_head,
+Hi Rob,
 
-Is this only needed for the BINDER_TYPE_FDA case (multiple fds)? This
-never needs to be done in the BINDER_TYPE_FD case (single fd)?
+On Fri, 11 Feb 2022 09:46:27 -0600
+Rob Herring <robh@kernel.org> wrote:
 
->  {
->         binder_size_t fdi, fd_buf_size;
->         binder_size_t fda_offset;
-> +       bool transfer_gpu_charge =3D false;
->         const void __user *sender_ufda_base;
->         struct binder_proc *proc =3D thread->proc;
-> +       struct binder_proc *target_proc =3D t->to_proc;
->         int ret;
->
->         fd_buf_size =3D sizeof(u32) * fda->num_fds;
-> @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list_h=
-ead *pf_head,
->         if (ret)
->                 return ret;
->
-> +       if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
-> +               parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
-> +               transfer_gpu_charge =3D true;
-> +
->         for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
->                 u32 fd;
-> +               struct dma_buf *dmabuf;
-> +               struct gpucg *gpucg;
-> +
->                 binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
->                 binder_size_t sender_uoffset =3D fdi * sizeof(fd);
->
-> @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list_h=
-ead *pf_head,
->                                                   in_reply_to);
->                 if (ret)
->                         return ret > 0 ? -EINVAL : ret;
-> +
-> +               if (!transfer_gpu_charge)
-> +                       continue;
-> +
-> +               dmabuf =3D dma_buf_get(fd);
-> +               if (IS_ERR(dmabuf))
-> +                       continue;
-> +
-> +               gpucg =3D gpucg_get(target_proc->tsk);
-> +               ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
-> +               if (ret) {
-> +                       pr_warn("%d:%d Unable to transfer DMA-BUF fd char=
-ge to %d",
-> +                               proc->pid, thread->pid, target_proc->pid)=
-;
-> +                       gpucg_put(gpucg);
-> +               }
-> +               dma_buf_put(dmabuf);
->         }
->         return 0;
->  }
-> diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/and=
-roid/binder.h
-> index 3246f2c74696..169fd5069a1a 100644
-> --- a/include/uapi/linux/android/binder.h
-> +++ b/include/uapi/linux/android/binder.h
-> @@ -137,6 +137,7 @@ struct binder_buffer_object {
->
->  enum {
->         BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
-> +       BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
->  };
->
->  /* struct binder_fd_array_object - object describing an array of fds in =
-a buffer
-> --
-> 2.35.1.265.g69c8d7142f-goog
->
+> On Sun, Feb 06, 2022 at 09:00:11AM +0100, Andreas Kemnade wrote:
+> > Add a binding for the Electrophoretic Display Controller found at least
+> > in the i.MX6.  
+> 
+> The first version was in i.MX50 (I helped design the register 
+> interface). Is that version compatible?
+> 
+it has some differences, but that could be detected by EPDC_VERSION
+register. I do not own such a device, so I cannot fully check. I have
+not seen any driver with devicetree for IMX5. For now I am rejecting
+anything which has a EPDC version which I cannot check. 
+
+> > The timing subnode is directly here to avoid having display parameters
+> > spread all over the plate.
+> > 
+> > Supplies are organized the same way as in the fbdev driver in the
+> > NXP/Freescale kernel forks. The regulators used for that purpose,
+> > like the TPS65185, the SY7636A and MAX17135 have typically a single bit to
+> > start a bunch of regulators of higher or negative voltage with a
+> > well-defined timing. VCOM can be handled separately, but can also be
+> > incorporated into that single bit.
+> > 
+> > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> > ---
+> >  .../bindings/display/imx/fsl,mxc-epdc.yaml    | 159 ++++++++++++++++++
+> >  1 file changed, 159 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
+> > new file mode 100644
+> > index 000000000000..7e0795cc3f70
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
+> > @@ -0,0 +1,159 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/imx/fsl,mxc-epdc.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Freescale i.MX6 EPDC
+> > +
+> > +maintainers:
+> > +  - Andreas Kemnade <andreas@kemnade.info>
+> > +
+> > +description: |
+> > +  The EPDC is a controller for handling electronic paper displays found in
+> > +  i.MX6 SoCs.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - fsl,imx6sl-epdc
+> > +      - fsl,imx6sll-epdc  
+> 
+> Not compatible with each other?
+> 
+differences are detectable by EPDC_VERSION register, so probably so
+problem. NXP/Freescale kernel uses
+fsl,imx6dl-epdc
+and 
+fsl,imx7d-epdc (used also by imx6 devices with EPDC_VERSION = 3.0)
+in their drivers.
+
+fsl,imx6dl-epdc
+fsl,imx6sl-epdc
+fsl,imx6sll-epdc
+fsl,imx7d-epdc
+in their dtsis.
+
+But the general rule is to use as less as possible compatible strings
+if differences can be probed properly, so only one should be
+sufficient? Which one?
+
+Regards,
+Andreas
