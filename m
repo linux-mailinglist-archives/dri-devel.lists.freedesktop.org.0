@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9BFC4B5AB8
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 20:53:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA2D4B5AC1
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 20:58:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC2D10E2BB;
-	Mon, 14 Feb 2022 19:53:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A12E10E2C8;
+	Mon, 14 Feb 2022 19:58:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A0E810E2BB;
- Mon, 14 Feb 2022 19:53:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644868411; x=1676404411;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=xkXecpL3pt4g7YbxTk7RfFB+hWEOAoZi+UGe8+lO5jM=;
- b=Qrci25Ueo6gSdAJaPtXzexFPuwFeiOz1mxsSiCiSsaJ9mT2oCexLybUP
- Ni5YFYD04avSczOQ8V5qrWnLGTq30+vNVtdNoH4yfHxDaN8MoRDsOcpnD
- 4a1tTxH/kTzdjcQXyNqQ1ZmAXizSWsMDDyI+xGDZZJYf1fGZTP+v8yh1S c=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 14 Feb 2022 11:53:31 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 11:53:30 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Mon, 14 Feb 2022 11:53:30 -0800
-Received: from [10.111.168.21] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 14 Feb
- 2022 11:53:27 -0800
-Message-ID: <e38947b6-461b-ac26-a3f2-d72b439330d4@quicinc.com>
-Date: Mon, 14 Feb 2022 11:53:25 -0800
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E261B10E2C8;
+ Mon, 14 Feb 2022 19:58:27 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id 124so21385063ybn.11;
+ Mon, 14 Feb 2022 11:58:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=EBOPhqSf+aywWxhUqpiwT6NM6RUx7mAerBj7xaF4Kxk=;
+ b=qqO3lcD+cemdiR+mXW04vHX6a84DDvxfqa3p1ElfyL7Az/3/hsz4DHtC0bT5Yk7bgc
+ INz5aMjx/fsdmICmRWrJswQ4SGCwyu1FXzE6zfxapPHAaNVwXwzEpw+Qlp5wGWWjMIl6
+ o/xV5PMrldoKsPnq/3NEeEI97fMyQ3TWtMaxWYZLb6dU49Gd7NMjBp/vhDPcTpI4Qq99
+ td/j/ORxFAlhA7kxpiv77vhZ3RYK8VFWwkPO/D5yEPMgaGSQj5u63nO/4hWCd0fiZBzl
+ tugxlyFWyrfblP5Z1lOJ5ZHvPXW9pkG1BfPNwfh7VMvsIU30MOa8GBcPrSUI1SwC1ruA
+ Ffpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=EBOPhqSf+aywWxhUqpiwT6NM6RUx7mAerBj7xaF4Kxk=;
+ b=D5lPIEjqag4mL7AIxlTdNzY9fjXJ0oxUzulbm36/uPil668vdvqJkSA0ACtu+Gt05y
+ oHVRHmtAAeY3PoEM096aFw8HM9ss9CNsMbiPWAaTPj9buublFWyOERGaa3Lpr0cp39bp
+ D6GZAWDYtKd4Wi/QnesPUjXVhThNrpvwGG5GtyQ9yQaidXDdyxBIvl2msBLzWFz3wfDf
+ b+PvvetKavcN+DOdnvqFYig21JjpHfu80WwIFb/pnB7n2zrMs4ItcfS5T1FbxD/ngCff
+ q20n+iUkEXTNB2PtQC1Vbp3FVv0rhqSVz2i2pE0xAyc/MldRXIPm1B9FIDlnbcsA+J29
+ cyXg==
+X-Gm-Message-State: AOAM5316RkgMMfgZuy882Kn9lyaO/3mqMpBO02zjg6pI1AElA+XKSRNd
+ 8FXp4nJCjCJS3cqpjhQy7runeAS1qtxwA0TRvf0=
+X-Google-Smtp-Source: ABdhPJwX1fQ9ooMynxhV+ZrSEHGFOuJ0zg+b9O+K7gr/d7kRmT6xVhPHiGTrk1wl/8FC9OBbmpm+FeVkqtr7K5Jd3Ng=
+X-Received: by 2002:a25:148b:: with SMTP id 133mr724420ybu.270.1644868706855; 
+ Mon, 14 Feb 2022 11:58:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v5 6/6] drm/msm/dpu: move VBIF blocks handling to dpu_rm
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>
-References: <20220121210618.3482550-1-dmitry.baryshkov@linaro.org>
- <20220121210618.3482550-7-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220121210618.3482550-7-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220213065106.48062-1-ztong0001@gmail.com>
+ <YglQW7gVNoRJ7QpQ@dev-arch.archlinux-ax161>
+In-Reply-To: <YglQW7gVNoRJ7QpQ@dev-arch.archlinux-ax161>
+From: Tong Zhang <ztong0001@gmail.com>
+Date: Mon, 14 Feb 2022 11:58:16 -0800
+Message-ID: <CAA5qM4AMf0Tzdsm3jX5_gVw0Uh3d5DwqFB0PGTvsfEwL-v4Nhw@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: fix build issue when using clang
+To: Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,309 +64,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, llvm@lists.linux.dev,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, Feb 13, 2022 at 10:39 AM Nathan Chancellor <nathan@kernel.org> wrot=
+e:
+>
+> On Sat, Feb 12, 2022 at 10:51:06PM -0800, Tong Zhang wrote:
+> > drm/i915 target adds some extra cflags, especially it does re-apply -Wa=
+ll.
+> > In clang this will override -Wno-format-security and cause the build to
+> > fail when CONFIG_DRM_I915_WERROR=3Dy. While with GCC this does not happ=
+en.
+> > We reapply -Wno-format-security here to get around this issue.
+>
+> For what it's worth, GCC would warn in the exact same way if
+> -Wformat-security was included within -Wall like it is for clang:
+>
+> drivers/gpu/drm/i915/gt/intel_gt.c: In function =E2=80=98intel_gt_invalid=
+ate_tlbs=E2=80=99:
+> drivers/gpu/drm/i915/gt/intel_gt.c:988:9: error: format not a string lite=
+ral and no format arguments [-Werror=3Dformat-security]
+>   988 |         GEM_TRACE("\n");
+>       |         ^~~~~~~~~
+> cc1: all warnings being treated as errors
+>
+> drivers/gpu/drm/i915/gt/selftest_execlists.c: In function =E2=80=98live_s=
+anitycheck=E2=80=99:
+> drivers/gpu/drm/i915/gt/selftest_execlists.c:142:25: error: format not a =
+string literal and no format arguments [-Werror=3Dformat-security]
+>   142 |                         GEM_TRACE("spinner failed to start\n");
+>       |                         ^~~~~~~~~
+> drivers/gpu/drm/i915/gt/selftest_execlists.c: In function =E2=80=98live_p=
+reempt=E2=80=99:
+> drivers/gpu/drm/i915/gt/selftest_execlists.c:1775:25: error: format not a=
+ string literal and no format arguments [-Werror=3Dformat-security]
+>  1775 |                         GEM_TRACE("lo spinner failed to start\n")=
+;
+>       |                         ^~~~~~~~~
+> drivers/gpu/drm/i915/gt/selftest_execlists.c:1792:25: error: format not a=
+ string literal and no format arguments [-Werror=3Dformat-security]
+>  1792 |                         GEM_TRACE("hi spinner failed to start\n")=
+;
+>       |                         ^~~~~~~~~
+> cc1: all warnings being treated as errors
+>
+> If fixing these warnings instead of just disabling the warning is
+> undesirable (since I feel like the entire point of the i195 cflags
+> situation is to enable more warnings than the main Makefile), I think
+> the commit message should be rewritten to something along the lines of:
+>
+> "drm/i915 adds some extra cflags, namely -Wall, which causes
+> instances of -Wformat-security to appear when building with clang, even
+> though this warning is turned off kernel-wide in the main Makefile:"
+>
+> > drivers/gpu/drm/i915/gt/intel_gt.c:983:2: error: format string is not a=
+ string literal (potentially insecure) [-Werror,-Wformat-security]
+> >         GEM_TRACE("ERROR\n");
+> >         ^~~~~~~~~~~~~~~~~~~~
+> > ./drivers/gpu/drm/i915/i915_gem.h:76:24: note: expanded from macro 'GEM=
+_TRACE'
+> >  #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
+> >                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+> > ./include/linux/kernel.h:369:3: note: expanded from macro 'trace_printk=
+'
+> >                 do_trace_printk(fmt, ##__VA_ARGS__);    \
+> >                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > ./include/linux/kernel.h:383:30: note: expanded from macro 'do_trace_pr=
+intk'
+> >                 __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);  =
+ \
+> >                                            ^~~~~~~~~~~~~~~~
+> > drivers/gpu/drm/i915/gt/intel_gt.c:983:2: note: treat the string as an =
+argument to avoid this
+>
+> "This does not happen with GCC because it does not enable
+> -Wformat-security with -Wall. Disable -Wformat-security within the i915
+> Makefile so that these warnings do not show up with clang."
+>
+> The actual diff itself looks fine to me.
+>
+> Cheers,
+> Nathan
+>
+> > Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+> > ---
+> >  drivers/gpu/drm/i915/Makefile | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makef=
+ile
+> > index 1b62b9f65196..c04e05a3d39f 100644
+> > --- a/drivers/gpu/drm/i915/Makefile
+> > +++ b/drivers/gpu/drm/i915/Makefile
+> > @@ -13,6 +13,7 @@
+> >  # will most likely get a sudden build breakage... Hopefully we will fi=
+x
+> >  # new warnings before CI updates!
+> >  subdir-ccflags-y :=3D -Wall -Wextra
+> > +subdir-ccflags-y +=3D -Wno-format-security
+> >  subdir-ccflags-y +=3D -Wno-unused-parameter
+> >  subdir-ccflags-y +=3D -Wno-type-limits
+> >  subdir-ccflags-y +=3D -Wno-missing-field-initializers
+> > --
+> > 2.25.1
+> >
 
-
-On 1/21/2022 1:06 PM, Dmitry Baryshkov wrote:
-> Move handling of VBIF blocks into dpu_rm. This serves the purpose of
-> unification of handling of all hardware blocks inside the DPU driver.
-> This removes hand-coded loops in dpu_vbif (which look for necessary VBIF
-> instance by looping through the dpu_kms->hw_vbif and comparing
-> vbif_idx).
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-I have a slightly different idea about this. Let me know what you think.
-
-VBIF is a bus interface for the dpu to fetch from. I am not sure if 
-pulling it in the RM is right because its not a dedicated HW block like
-the others in the RM.
-
-But, I agree with your problem statement of hand-coded loops.
-
-So instead, why dont you just have a helper in the dpu_vbif.c to get
-you the vbif hw for the passed index like, maybe something like this?
-
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-@@ -11,6 +11,19 @@
-  #include "dpu_hw_vbif.h"
-  #include "dpu_trace.h"
-
-+static dpu_hw_vbif *dpu_vbif_get_hw(struct dpu_kms *dpu_kms, u32 vbif_idx)
-+{
-+       int i;
-+
-+       for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
-+               if (dpu_kms->hw_vbif[i] &&
-+                               dpu_kms->hw_vbif[i]->idx == vbif_idx)
-+                       vbif = dpu_kms->hw_vbif[i];
-+       }
-+
-+       return vbif;
-+}
-+
-  /**
-   * _dpu_vbif_wait_for_xin_halt - wait for the xin to halt
-   * @vbif:      Pointer to hardware vbif driver
-@@ -156,11 +169,7 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
-
-         mdp = dpu_kms->hw_mdp;
-
--       for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
--               if (dpu_kms->hw_vbif[i] &&
--                               dpu_kms->hw_vbif[i]->idx == 
-params->vbif_idx)
--                       vbif = dpu_kms->hw_vbif[i];
--       }
-+       vbif = dpu_vbif_get_hw(dpu_kms, params->vbif_idx);
-
-         if (!vbif || !mdp) {
-                 DRM_DEBUG_ATOMIC("invalid arguments vbif %d mdp %d\n",
-@@ -216,13 +225,7 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
-         }
-         mdp = dpu_kms->hw_mdp;
-
--       for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
--               if (dpu_kms->hw_vbif[i] &&
--                               dpu_kms->hw_vbif[i]->idx == 
-params->vbif_idx) {
--                       vbif = dpu_kms->hw_vbif[i];
--                       break;
--               }
--       }
-+       vbif = dpu_vbif_get_hw(params->vbif_idx);
-
-
-
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h |  1 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 28 +--------------------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  1 -
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 19 ++++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      | 12 +++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c    | 26 ++++++-------------
->   6 files changed, 40 insertions(+), 47 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
-> index 6417aa28d32c..895e86dabcb6 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
-> @@ -8,6 +8,7 @@
->   #include "dpu_hw_catalog.h"
->   #include "dpu_hw_mdss.h"
->   #include "dpu_hw_util.h"
-> +#include "dpu_hw_blk.h"
->   
->   struct dpu_hw_vbif;
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 47fe11a84a77..4a1983d8561b 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -782,8 +782,6 @@ static long dpu_kms_round_pixclk(struct msm_kms *kms, unsigned long rate,
->   
->   static void _dpu_kms_hw_destroy(struct dpu_kms *dpu_kms)
->   {
-> -	int i;
-> -
->   	if (dpu_kms->hw_intr)
->   		dpu_hw_intr_destroy(dpu_kms->hw_intr);
->   	dpu_kms->hw_intr = NULL;
-> @@ -791,15 +789,6 @@ static void _dpu_kms_hw_destroy(struct dpu_kms *dpu_kms)
->   	/* safe to call these more than once during shutdown */
->   	_dpu_kms_mmu_destroy(dpu_kms);
->   
-> -	if (dpu_kms->catalog) {
-> -		for (i = 0; i < dpu_kms->catalog->vbif_count; i++) {
-> -			u32 vbif_idx = dpu_kms->catalog->vbif[i].id;
-> -
-> -			if ((vbif_idx < VBIF_MAX) && dpu_kms->hw_vbif[vbif_idx])
-> -				dpu_hw_vbif_destroy(dpu_kms->hw_vbif[vbif_idx]);
-> -		}
-> -	}
-> -
->   	if (dpu_kms->rm_init)
->   		dpu_rm_destroy(&dpu_kms->rm);
->   	dpu_kms->rm_init = false;
-> @@ -1027,7 +1016,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->   {
->   	struct dpu_kms *dpu_kms;
->   	struct drm_device *dev;
-> -	int i, rc = -EINVAL;
-> +	int rc = -EINVAL;
->   
->   	if (!kms) {
->   		DPU_ERROR("invalid kms\n");
-> @@ -1116,21 +1105,6 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->   		goto power_error;
->   	}
->   
-> -	for (i = 0; i < dpu_kms->catalog->vbif_count; i++) {
-> -		u32 vbif_idx = dpu_kms->catalog->vbif[i].id;
-> -
-> -		dpu_kms->hw_vbif[i] = dpu_hw_vbif_init(vbif_idx,
-> -				dpu_kms->vbif[vbif_idx], dpu_kms->catalog);
-> -		if (IS_ERR_OR_NULL(dpu_kms->hw_vbif[vbif_idx])) {
-> -			rc = PTR_ERR(dpu_kms->hw_vbif[vbif_idx]);
-> -			if (!dpu_kms->hw_vbif[vbif_idx])
-> -				rc = -EINVAL;
-> -			DPU_ERROR("failed to init vbif %d: %d\n", vbif_idx, rc);
-> -			dpu_kms->hw_vbif[vbif_idx] = NULL;
-> -			goto power_error;
-> -		}
-> -	}
-> -
->   	rc = dpu_core_perf_init(&dpu_kms->perf, dev, dpu_kms->catalog,
->   			_dpu_kms_get_clk(dpu_kms, "core"));
->   	if (rc) {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index 3f518c809e33..b96c901483ae 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -105,7 +105,6 @@ struct dpu_kms {
->   	struct dpu_rm rm;
->   	bool rm_init;
->   
-> -	struct dpu_hw_vbif *hw_vbif[VBIF_MAX];
->   	struct dpu_hw_mdp *hw_mdp;
->   
->   	bool has_danger_ctrl;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index 7497538adae1..6d49666c4e77 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -76,6 +76,8 @@ int dpu_rm_destroy(struct dpu_rm *rm)
->   	}
->   	for (i = 0; i < ARRAY_SIZE(rm->hw_intf); i++)
->   		dpu_hw_intf_destroy(rm->hw_intf[i]);
-> +	for (i = 0; i < ARRAY_SIZE(rm->hw_vbif); i++)
-> +		dpu_hw_vbif_destroy(rm->hw_vbif[i]);
->   
->   	return 0;
->   }
-> @@ -210,6 +212,23 @@ int dpu_rm_init(struct dpu_rm *rm,
->   		rm->dspp_blks[dspp->id - DSPP_0] = &hw->base;
->   	}
->   
-> +	for (i = 0; i < cat->vbif_count; i++) {
-> +		struct dpu_hw_vbif *hw;
-> +		const struct dpu_vbif_cfg *vbif = &cat->vbif[i];
-> +
-> +		if (vbif->id < VBIF_0 || vbif->id >= VBIF_MAX) {
-> +			DPU_ERROR("skip vbif %d with invalid id\n", vbif->id);
-> +			continue;
-> +		}
-> +		hw = dpu_hw_vbif_init(vbif->id, mmio, cat);
-> +		if (IS_ERR(hw)) {
-> +			rc = PTR_ERR(hw);
-> +			DPU_ERROR("failed vbif object creation: err %d\n", rc);
-> +			goto fail;
-> +		}
-> +		rm->hw_vbif[vbif->id - VBIF_0] = hw;
-> +	}
-> +
->   	return 0;
->   
->   fail:
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> index 9b13200a050a..a15977bdceeb 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> @@ -20,6 +20,7 @@ struct dpu_global_state;
->    * @ctl_blks: array of ctl hardware resources
->    * @hw_intf: array of intf hardware resources
->    * @dspp_blks: array of dspp hardware resources
-> + * @hw_vbif: array of vbif hardware resources
->    */
->   struct dpu_rm {
->   	struct dpu_hw_blk *pingpong_blks[PINGPONG_MAX - PINGPONG_0];
-> @@ -28,6 +29,7 @@ struct dpu_rm {
->   	struct dpu_hw_intf *hw_intf[INTF_MAX - INTF_0];
->   	struct dpu_hw_blk *dspp_blks[DSPP_MAX - DSPP_0];
->   	struct dpu_hw_blk *merge_3d_blks[MERGE_3D_MAX - MERGE_3D_0];
-> +	struct dpu_hw_vbif *hw_vbif[VBIF_MAX - VBIF_0];
->   };
->   
->   /**
-> @@ -95,5 +97,15 @@ static inline struct dpu_hw_intf *dpu_rm_get_intf(struct dpu_rm *rm, enum dpu_in
->   	return rm->hw_intf[intf_idx - INTF_0];
->   }
->   
-> +/**
-> + * dpu_rm_get_vbif - Return a struct dpu_hw_vbif instance given it's index.
-> + * @rm: DPU Resource Manager handle
-> + * @vbif_idx: VBIF's index
-> + */
-> +static inline struct dpu_hw_vbif *dpu_rm_get_vbif(struct dpu_rm *rm, enum dpu_vbif vbif_idx)
-> +{
-> +	return rm->hw_vbif[vbif_idx - VBIF_0];
-> +}
-> +
->   #endif /* __DPU_RM_H__ */
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-> index 21d20373eb8b..00ac2aa81651 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-> @@ -152,15 +152,10 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
->   	struct dpu_hw_mdp *mdp;
->   	bool forced_on = false;
->   	u32 ot_lim;
-> -	int ret, i;
-> +	int ret;
->   
->   	mdp = dpu_kms->hw_mdp;
-> -
-> -	for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
-> -		if (dpu_kms->hw_vbif[i] &&
-> -				dpu_kms->hw_vbif[i]->idx == params->vbif_idx)
-> -			vbif = dpu_kms->hw_vbif[i];
-> -	}
-> +	vbif = dpu_rm_get_vbif(&dpu_kms->rm, params->vbif_idx);
->   
->   	if (!vbif || !mdp) {
->   		DRM_DEBUG_ATOMIC("invalid arguments vbif %d mdp %d\n",
-> @@ -216,14 +211,7 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
->   	}
->   	mdp = dpu_kms->hw_mdp;
->   
-> -	for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
-> -		if (dpu_kms->hw_vbif[i] &&
-> -				dpu_kms->hw_vbif[i]->idx == params->vbif_idx) {
-> -			vbif = dpu_kms->hw_vbif[i];
-> -			break;
-> -		}
-> -	}
-> -
-> +	vbif = dpu_rm_get_vbif(&dpu_kms->rm, params->vbif_idx);
->   	if (!vbif || !vbif->cap) {
->   		DPU_ERROR("invalid vbif %d\n", params->vbif_idx);
->   		return;
-> @@ -261,8 +249,8 @@ void dpu_vbif_clear_errors(struct dpu_kms *dpu_kms)
->   	struct dpu_hw_vbif *vbif;
->   	u32 i, pnd, src;
->   
-> -	for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
-> -		vbif = dpu_kms->hw_vbif[i];
-> +	for (i = VBIF_0; i < VBIF_MAX; i++) {
-> +		vbif = dpu_rm_get_vbif(&dpu_kms->rm, i);
->   		if (vbif && vbif->ops.clear_errors) {
->   			vbif->ops.clear_errors(vbif, &pnd, &src);
->   			if (pnd || src) {
-> @@ -278,8 +266,8 @@ void dpu_vbif_init_memtypes(struct dpu_kms *dpu_kms)
->   	struct dpu_hw_vbif *vbif;
->   	int i, j;
->   
-> -	for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
-> -		vbif = dpu_kms->hw_vbif[i];
-> +	for (i = VBIF_0; i < VBIF_MAX; i++) {
-> +		vbif = dpu_rm_get_vbif(&dpu_kms->rm, i);
->   		if (vbif && vbif->cap && vbif->ops.set_mem_type) {
->   			for (j = 0; j < vbif->cap->memtype_count; j++)
->   				vbif->ops.set_mem_type(
+Thank you Nathan!
+I will send a v2 with a revised commit message.
+Thanks,
+- Tong
