@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1FC4B48D3
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:01:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BED4B48CF
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 11:01:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96DE610E307;
-	Mon, 14 Feb 2022 10:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E17410E2EB;
+	Mon, 14 Feb 2022 10:01:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C26C710E2E4;
- Mon, 14 Feb 2022 10:01:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A06A710E2EB;
+ Mon, 14 Feb 2022 10:01:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644832879; x=1676368879;
+ t=1644832882; x=1676368882;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Z7xVn7vqsWJP347O5nlTQsHxfP99/kjdvqaUPmMHyrE=;
- b=dGkmXmH/pjInp9kGRMKkEIsBUDPSm6wY6O9aSN2Nv5GUVc63/PcyVdik
- NKwkfQT6hZhrYk/HutVpoENXcQZAYZhzouKevg8IntD91XPVjzOpTs05T
- p9aEwc11fXNDK17wSY6imPKQ34BURMB0gOU24QXMEsvL+EmW9npY0Y6Tv
- J3T5HID21kLJ3bUCVpVoBUwbkrUTi+uXasgyIV6PtCuuzRtXeD7ddfJmx
- EoVbRD3kbZHpV1MbR712ERdHfChCCoezG9EIVq1h7sLKfdOwImz19IbeQ
- i/zPTU8t4BG4nzVa4RtAXXOvOyG/J2LkxdbUwOYFYCfqxXlX0bGpn3AH+ w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="274628542"
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="274628542"
+ bh=7IOH4ueKJqJYmW9KUA+YTF5qGXLSSpoEQHKiIu/vD4A=;
+ b=FeZoO2m5Uv+dY+w27RB2/qkUQwMknfm3j/XbTvTjV8qh8K+h8jHQ0aQ5
+ z0QZIRRAPnqzSIu+cq4cGshl3IxylUso9q6WXoz+ITTigDx8jbBH5kNGN
+ gySvBdulPBZSEdVlECm7yods0PWtxzG09Xt8y7DNijZXinNIaUksKENtW
+ 9JxfpEPaqmxl3kS1z4NQKDarzekab3lOuaoq3h3IRK+j89HL5itBvEwW+
+ lnVWoflhFRes3GKDsXEEQ1iU9xrlTRzsylknwe4zLNdZ9zX8CpPDgaBaf
+ BovzB/nu8NIlphf+8bPKGIkabgNDMr/XUeR0Nhj8MZQtB/vQ8hbhRFcTX A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="274628550"
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="274628550"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 02:01:19 -0800
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="543383161"
+ 14 Feb 2022 02:01:22 -0800
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="543383207"
 Received: from unknown (HELO vandita-Z390-AORUS-ULTRA.iind.intel.com)
  ([10.190.238.8])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 02:01:17 -0800
+ 14 Feb 2022 02:01:19 -0800
 From: Vandita Kulkarni <vandita.kulkarni@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC v2 1/5] drm/hdmi21: Define frl_dfm structure
-Date: Mon, 14 Feb 2022 07:33:53 +0530
-Message-Id: <20220214020357.10063-2-vandita.kulkarni@intel.com>
+Subject: [RFC v2 2/5] drm/hdmi21: Add non dsc frl capacity computation helpers
+Date: Mon, 14 Feb 2022 07:33:54 +0530
+Message-Id: <20220214020357.10063-3-vandita.kulkarni@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220214020357.10063-1-vandita.kulkarni@intel.com>
 References: <20220214020357.10063-1-vandita.kulkarni@intel.com>
@@ -63,146 +63,417 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Define frl_dfm structure to hold frl characteristics
-needed for frl capacity computation in order to
-meet the data flow metering requirement.
+Add helper functions for computing non dsc frl
+link characteristics
 
 Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
 ---
- include/drm/drm_frl_dfm_helper.h | 124 +++++++++++++++++++++++++++++++
- 1 file changed, 124 insertions(+)
- create mode 100644 include/drm/drm_frl_dfm_helper.h
+ drivers/gpu/drm/drm_frl_dfm_helper.c | 396 +++++++++++++++++++++++++++
+ 1 file changed, 396 insertions(+)
+ create mode 100644 drivers/gpu/drm/drm_frl_dfm_helper.c
 
-diff --git a/include/drm/drm_frl_dfm_helper.h b/include/drm/drm_frl_dfm_helper.h
+diff --git a/drivers/gpu/drm/drm_frl_dfm_helper.c b/drivers/gpu/drm/drm_frl_dfm_helper.c
 new file mode 100644
-index 000000000000..5cab102fe25f
+index 000000000000..d3ae35653370
 --- /dev/null
-+++ b/include/drm/drm_frl_dfm_helper.h
-@@ -0,0 +1,124 @@
-+/* SPDX-License-Identifier: MIT
++++ b/drivers/gpu/drm/drm_frl_dfm_helper.c
+@@ -0,0 +1,396 @@
++// SPDX-License-Identifier: MIT
++/*
 + * Copyright © 2022 Intel Corp
 + */
 +
-+#ifndef DRM_FRL_DFM_H_
-+#define DRM_FRL_DFM_H_
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <drm/drm_frl_dfm_helper.h>
++#include <drm/drm_connector.h>
 +
-+/* DFM constraints and tolerance values from HDMI2.1 spec */
-+#define TB_BORROWED_MAX			400
-+#define FRL_CHAR_PER_CHAR_BLK		510
-+/* Tolerance pixel clock unit is in  mHz */
-+#define TOLERANCE_PIXEL_CLOCK		5
-+#define TOLERANCE_FRL_BIT_RATE		300
-+#define TOLERANCE_AUDIO_CLOCK		1000
-+#define ACR_RATE_MAX			1500
-+#define EFFICIENCY_MULTIPLIER		1000
-+#define OVERHEAD_M			(3 * EFFICIENCY_MULTIPLIER / 1000)
-+#define BPP_MULTIPLIER			16
-+#define FRL_TIMING_NS_MULTIPLIER	1000000000
++/* Total frl charecters per super block */
++static unsigned int drm_get_frl_char_per_super_blk(unsigned int lanes)
++{
++	unsigned int frl_char_per_sb;
 +
-+/* ALl the input config needed to compute DFM requirements */
-+struct drm_frl_dfm_input_config {
-+	/*
-+	 * Pixel clock rate kHz, when FVA is
-+	 * enabled this rate is the rate after adjustment
-+	 */
-+	unsigned int pixel_clock_nominal_khz;
++	frl_char_per_sb = (4 * FRL_CHAR_PER_CHAR_BLK) + lanes;
++	return frl_char_per_sb;
++}
 +
-+	/* active pixels per line */
-+	unsigned int hactive;
++/*
++ * Determine the overhead due to the inclusion of
++ * the SR and SSB FRL charecters used for
++ * super block framing
++ */
++static unsigned int drm_get_overhead_super_blk(unsigned int lanes)
++{
++	return (lanes * EFFICIENCY_MULTIPLIER) / drm_get_frl_char_per_super_blk(lanes);
++}
 +
-+	/* Blanking pixels per line */
-+	unsigned int hblank;
++/*
++ * Determine the overhead due to the inclusion of RS FEC pairity
++ * symbols. Each charecter block uses 8 FRL charecters for RS Pairity
++ * and there are 4 charecter blocks per super block
++ */
++static unsigned int drm_get_overhead_rs(unsigned int lanes)
++{
++	return (8 * 4 * EFFICIENCY_MULTIPLIER) /  drm_get_frl_char_per_super_blk(lanes);
++}
 +
-+	/* Bits per component */
-+	unsigned int bpc;
++/* Determine the overhead due to FRL Map charecters.
++ * In a bandwidth constrained application, the FRL packets will be long,
++ * there will typically be two FRL Map Charecters per Super Block most of the time.
++ * When a tracnsition occurs between Hactive and Hblank (uncomperssed video) or
++ * HCactive and HCblank (compressed video transport), there may be a
++ * third FRL Map Charected. Therefore this spec assumes 2.5 FRL Map Charecters
++ * per Super Block.
++ */
++static unsigned int drm_get_overhead_frl_map_char(unsigned int lanes)
++{
++	return (25  * EFFICIENCY_MULTIPLIER) / (10 * drm_get_frl_char_per_super_blk(lanes));
++}
 +
-+	/* Pixel encoding */
-+	unsigned int color_format;
++/* Total minimum overhead multiplied by EFFICIENCY_MULIPLIER */
++static unsigned int drm_get_total_minimum_overhead(unsigned int lanes)
++{
++	unsigned int total_overhead_min;
++	unsigned int overhead_sb = drm_get_overhead_super_blk(lanes);
++	unsigned int overhead_rs = drm_get_overhead_rs(lanes);
++	unsigned int overhead_map = drm_get_overhead_frl_map_char(lanes);
 +
-+	/* FRL bit rate in kbps */
-+	unsigned int bit_rate_kbps;
++	total_overhead_min = overhead_sb + overhead_rs + overhead_map;
 +
-+	/* FRL lanes */
-+	unsigned int lanes;
++	return total_overhead_min;
++}
 +
-+	/* Number of audio channels */
-+	unsigned int audio_channels;
++/*
++ * Additional margin to the overhead is provided to account for the possibility
++ * of more Map Charecters, zero padding at the end of HCactive, and other minor
++ * items
++ */
++static unsigned int drm_get_max_overhead(unsigned int total_overhead_min)
++{
++	unsigned int total_overhead_max;
 +
-+	/* Audio rate in Hz */
-+	unsigned int audio_hz;
++	total_overhead_max = total_overhead_min + OVERHEAD_M;
++	return total_overhead_max;
++}
 +
-+	/* Selected bpp target value */
-+	unsigned int target_bpp_16;
++/* Collect the link charecteristics */
 +
-+	/*
-+	 * Number of horizontal pixels in a slice.
-+	 * Equivalent to PPS parameter slice_width
-+	 */
-+	unsigned int slice_width;
-+};
++/* Determine the maximum legal pixel rate */
++static unsigned int drm_get_max_legal_pixel_rate(unsigned int fpixel_clock_nominal_k)
++{
++	unsigned int fpixel_clock_max_k = (fpixel_clock_nominal_k *
++				  (1000 + TOLERANCE_PIXEL_CLOCK)) / 1000;
++	return fpixel_clock_max_k;
++}
 +
-+/* Computed dfm parameters as per the HDMI2.1 spec */
-+struct drm_frl_dfm_params {
-+	/*
-+	 * Link overhead in percentage
-+	 * multiplied by 1000 (efficiency multiplier)
-+	 */
-+	unsigned int overhead_max;
-+
-+	/* Maximum pixel rate in kHz */
-+	unsigned int pixel_clock_max_khz;
-+
-+	/* Minimum video line period in nano sec */
++/* Determine the minimum Video Line period */
++static unsigned int drm_get_min_video_line_period(unsigned int hactive, unsigned int hblank,
++						  unsigned int fpixel_clock_max_k)
++{
 +	unsigned int line_time_ns;
 +
-+	/* worst case slow frl character rate in kbps */
-+	unsigned int char_rate_min_kbps;
++	line_time_ns = ((hactive + hblank) * FRL_TIMING_NS_MULTIPLIER) /
++		       fpixel_clock_max_k;
++	return line_time_ns;
++}
 +
-+	/* minimum total frl charecters per line perios */
-+	unsigned int cfrl_line;
++/* Determine the worst-case slow FRL Bit Rate in kbps*/
++static unsigned int drm_get_min_frl_bit_rate(unsigned int frl_bit_rate_nominal_k)
++{
++	unsigned int frl_bit_rate_min_k;
 +
-+	/* Average tribyte rate in khz */
++	frl_bit_rate_min_k = (frl_bit_rate_nominal_k / 1000000) *
++			     (1000000 - TOLERANCE_FRL_BIT_RATE);
++	return frl_bit_rate_min_k;
++}
++
++/* Determine the worst-case slow FRL Charecter Rate */
++static unsigned int drm_get_min_frl_char_rate(unsigned int frl_bit_rate_min_k)
++{
++	unsigned int frl_char_rate_min_k;
++
++	frl_char_rate_min_k = frl_bit_rate_min_k / 18;
++	return frl_char_rate_min_k;
++}
++
++/* Determine the Minimum Total FRL charecters per line period */
++static unsigned int
++drm_get_total_frl_char_per_line_period(unsigned int line_time_ns, unsigned int frl_char_rate_min_k,
++				       unsigned int lanes)
++{
++	unsigned int frl_char_per_line_period;
++
++	frl_char_per_line_period = (line_time_ns * frl_char_rate_min_k * lanes *
++				    1000) / FRL_TIMING_NS_MULTIPLIER;
++	return frl_char_per_line_period;
++}
++
++/* Audio Support Verification Computations */
++
++/*
++ * Determine Audio Related Packet Rate considering the audio clock
++ * increased to maximim rate permitted by Tolerance Audio clock
++ */
++static unsigned int
++drm_get_audio_pkt_rate(unsigned int f_audio, unsigned int num_audio_pkt)
++{
++	unsigned int audio_pkt_rate;
++
++	audio_pkt_rate = ((f_audio *  num_audio_pkt + (2 * ACR_RATE_MAX)) *
++			 (1000000 + TOLERANCE_AUDIO_CLOCK)) / 1000000;
++	return audio_pkt_rate;
++}
++
++/*
++ * Average required packets per line is
++ * Number of audio packets needed during Hblank
++ */
++static unsigned int
++drm_get_audio_pkts_hblank(unsigned int audio_pkt_rate, unsigned int line_time_ns)
++{
++	unsigned int avg_audio_pkts_per_line;
++
++	avg_audio_pkts_per_line = DIV_ROUND_UP(audio_pkt_rate * line_time_ns,
++					       FRL_TIMING_NS_MULTIPLIER);
++	return avg_audio_pkts_per_line;
++}
++
++/*
++ * Minimum required Hblank assuming no Control Period RC Compression
++ * This includes Video Guard band, Two Island Guard bands, two 12 character
++ * Control Periods and 32 * AudioPackets_Line.
++ * In addition, 32 character periods are allocated for the transmission of an
++ * ACR packet
++ */
++static unsigned int
++drm_get_audio_hblank_min(unsigned int audio_pkts_line)
++{
++	unsigned int  hblank_audio_min;
++
++	hblank_audio_min = 32 + 32 * audio_pkts_line;
++	return hblank_audio_min;
++}
++
++/*
++ * During the Hblank period, Audio packets (32 frl characters each),
++ * ACR packets (32 frl characters each), Island guard band (4 total frl characters)
++ * and Video guard band (3 frl characters) do not benefit from RC compression
++ * Therefore start by determining the number of Control Characters that maybe
++ * RC compressible
++ */
++static unsigned int
++drm_get_num_char_rc_compressible(unsigned int color_format,
++				 unsigned int bpc, unsigned int audio_packets_line, unsigned int hblank)
++{
++	unsigned int cfrl_free;
++	unsigned int kcd, k420;
++
++	if (color_format == DRM_COLOR_FORMAT_YCBCR420)
++		k420 = 2;
++	else
++		k420 = 1;
++
++	if (color_format == DRM_COLOR_FORMAT_YCBCR422)
++		kcd = 1;
++	else
++		kcd = bpc / 8;
++
++	cfrl_free = max(((hblank * kcd) / k420 - 32 * audio_packets_line - 7),
++			U32_MIN);
++	return cfrl_free;
++}
++
++/*
++ * Determine the actual number of characters made available by
++ * RC compression
++ */
++static unsigned int
++drm_get_num_char_compression_savings(unsigned int cfrl_free)
++{
++	/*In order to be conservative, situations are considered where
++	 * maximum RC compression may not be possible.
++	 * Add one character each for RC break caused by:
++	 * • Island Preamble not aligned to the RC Compression
++	 * • Video Preamble not aligned to the RC Compression
++	 * • HSYNC lead edge not aligned to the RC Compression
++	 * • HSYNC trail edge not aligned to the RC Compression
++	 */
++	const unsigned int cfrl_margin = 4;
++	unsigned int cfrl_savings = max(((7 * cfrl_free) / 8) - cfrl_margin, U32_MIN);
++	return cfrl_savings;
++}
++
++static unsigned int
++drm_get_frl_bits_per_pixel(unsigned int color_format, unsigned int bpc)
++{
++	unsigned int kcd, k420, bpp;
++
++	if (color_format == DRM_COLOR_FORMAT_YCBCR420)
++		k420 = 2;
++	else
++		k420 = 1;
++
++	if (color_format == DRM_COLOR_FORMAT_YCBCR422)
++		kcd = 1;
++	else
++		kcd = bpc / 8;
++
++	bpp = (24 * kcd) / k420;
++	return bpp;
++}
++
++static unsigned int
++drm_get_video_bytes_per_line(unsigned int bpp, unsigned int hactive)
++{
++	unsigned int bytes_per_line;
++
++	bytes_per_line = (bpp * hactive) / 8;
++	return bytes_per_line;
++}
++
++/*
++ * Determine the required number of tribytes to carry active video
++ * per line
++ */
++static unsigned int
++drm_get_active_video_tribytes_reqd(unsigned int bytes_per_line)
++{
++	unsigned int tribyte_active;
++
++	tribyte_active = DIV_ROUND_UP(bytes_per_line, 3);
++	return tribyte_active;
++}
++
++/* Determine the total available tribytes during the blanking period */
++static unsigned int
++drm_get_blanking_tribytes_avail(unsigned int color_format,
++				unsigned int hblank, unsigned int bpc)
++{
++	unsigned int tribytes_blank;
++	unsigned int kcd, k420;
++
++	if (color_format == DRM_COLOR_FORMAT_YCBCR420)
++		k420 = 2;
++	else
++		k420 = 1;
++
++	if (color_format == DRM_COLOR_FORMAT_YCBCR422)
++		kcd = 1;
++	else
++		kcd = bpc / 8;
++
++	tribytes_blank = (hblank * kcd) / k420;
++	return tribytes_blank;
++}
++
++/* Determine the average tribyte rate in kilo tribytes per sec */
++static unsigned int
++drm_get_avg_tribyte_rate(unsigned int pixel_clk_max_khz, unsigned int tb_active, unsigned int tb_blank,
++			 unsigned int hactive, unsigned int hblank)
++{
 +	unsigned int ftb_avg_k;
 +
-+	/* Audio characteristics */
++	ftb_avg_k = (pixel_clk_max_khz * (tb_active + tb_blank)) / (hactive + hblank);
++	return ftb_avg_k;
++}
 +
-+	/*  number of audio packets needed during hblank */
-+	unsigned int num_audio_pkts_line;
++/*
++ * Determine the time required to transmit the active portion of the
++ * minimum possible active line period in the base timing
++ */
++static unsigned int
++drm_get_tactive_ref(unsigned int line_time_ns, unsigned int hblank, unsigned int hactive)
++{
++	unsigned int tactive_ref_ns;
 +
-+	/*
-+	 *  Minimum required hblank assuming no control preiod
-+	 *  RC compression
-+	 */
-+	unsigned int hblank_audio_min;
++	tactive_ref_ns = (line_time_ns * hactive) / (hblank + hactive);
++	return tactive_ref_ns;
++}
 +
-+	/* Number of tribytes required to carry active video */
-+	unsigned int tb_active;
++/*
++ * Determine the time required to transmit the Video blanking portion
++ * of the minimum possible active line period in the base timing
++ */
++static unsigned int
++drm_get_tblank_ref(unsigned int line_time_ns, unsigned int hblank, unsigned int hactive)
++{
++	unsigned int tblank_ref_ns;
 +
-+	/* Total available tribytes during the blanking period */
-+	unsigned int tb_blank;
++	tblank_ref_ns = (line_time_ns * hactive) / (hblank + hactive);
++	return tblank_ref_ns;
++}
 +
-+	/*
-+	 * Number of tribytes required to be transmitted during
-+	 * the hblank period
-+	 */
-+	unsigned int tb_borrowed;
++/*
++ * Determine the minimum time necessary to transmit the active tribytes
++ * considering frl bandwidth limitation.
++ * Given the available bandwidth (i.e after overhead is considered),
++ * tactive_min represents the amount of time needed to transmit all the
++ * active data
++ */
++static unsigned int
++drm_get_tactive_min(unsigned int num_lanes, unsigned int tribyte_active,
++		    unsigned int overhead_max_k, unsigned int frl_char_min_rate_k)
++{
++	unsigned int tactive_min_ns, nr, dr;
 +
-+	/* DSC frl characteristics */
++	nr = (3 * tribyte_active * FRL_TIMING_NS_MULTIPLIER) / 2;
++	dr = (num_lanes * frl_char_min_rate_k * 1000 *
++	      (EFFICIENCY_MULTIPLIER - overhead_max_k)) / EFFICIENCY_MULTIPLIER;
++	tactive_min_ns = nr / dr;
 +
-+	/* Tribytes required to carry the target bpp */
-+	unsigned int hcactive_target;
++	return tactive_min_ns;
++}
 +
-+	/* tribytes available during blanking with target bpp */
-+	unsigned int hcblank_target;
-+};
++/*
++ * Determine the minimum time necessary to transmit the video blanking
++ * tribytes considering frl bandwidth limitations
++ */
++static unsigned int
++drm_get_tblank_min(unsigned int num_lanes, unsigned int tribyte_blank,
++		   unsigned int overhead_max_k, unsigned int frl_char_min_rate_k)
++{
++	unsigned int tblank_min_ns, nr, dr;
 +
-+/* FRL DFM structure to hold involved in DFM computation */
-+struct drm_hdmi_frl_dfm {
-+	struct drm_frl_dfm_input_config config;
-+	struct drm_frl_dfm_params params;
-+};
++	nr = tribyte_blank * FRL_TIMING_NS_MULTIPLIER;
++	dr = (num_lanes * frl_char_min_rate_k * 1000 *
++	      (EFFICIENCY_MULTIPLIER - overhead_max_k)) / EFFICIENCY_MULTIPLIER;
++	tblank_min_ns = nr / dr;
++	return tblank_min_ns;
++}
 +
-+#endif
++/* Determine the disparity in tribytes */
++static unsigned int
++drm_get_tribytes_borrowed(unsigned int tborrowed_ns, unsigned int ftb_avg_k)
++{
++	unsigned int tribytes_borrowed;
++
++	tribytes_borrowed = DIV_ROUND_UP((tborrowed_ns * ftb_avg_k * 1000),
++					 FRL_TIMING_NS_MULTIPLIER);
++	return tribytes_borrowed;
++}
++
++/*
++ * Determine the actual number of payload FRL characters required to carry each
++ * video line
++ */
++static unsigned int
++drm_get_frl_char_payload_actual(unsigned int tribytes_active, unsigned int tribytes_blank, unsigned int cfrl_savings)
++{
++	unsigned int frl_char_payload_actual;
++
++	frl_char_payload_actual = DIV_ROUND_UP(3 * tribytes_active, 2) + tribytes_blank - cfrl_savings;
++	return frl_char_payload_actual;
++}
++
++/* Determine the payload utilization of the total number of FRL characters */
++static unsigned int
++drm_compute_payload_utilization(unsigned int frl_char_payload_actual, unsigned int frl_char_per_line_period)
++{
++	unsigned int utilization;
++
++	utilization = (frl_char_payload_actual * EFFICIENCY_MULTIPLIER) / frl_char_per_line_period;
++	return utilization;
++}
 -- 
 2.32.0
 
