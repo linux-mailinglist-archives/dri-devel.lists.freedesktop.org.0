@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D1D4B5D66
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 23:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266564B5D94
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 23:26:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A267110E313;
-	Mon, 14 Feb 2022 22:05:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6343B10E22B;
+	Mon, 14 Feb 2022 22:26:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23BA710E302;
- Mon, 14 Feb 2022 22:05:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644876301; x=1676412301;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=iXGIQRD4wQ669mkVtxQLxaSeIJcDdK/Y6BmQZIuo1yo=;
- b=KlBzl0T4+Dffh+1LDKKy2J/YmYIKi7gkj+KERODv5IN7cqw0fDFP9wZW
- LWvzjuQR/pQgH1n5NGb+CGxK2rJgmPMftJRSraMRvSe3WjApUM5Pe9PfP
- XMmoqtAky2GcFtObkmADyMxuSM7VOzR4YZVqkOnz7pGDcxgb7/jMsBzBt 4=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Feb 2022 14:05:00 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 14:04:59 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Mon, 14 Feb 2022 14:04:59 -0800
-Received: from [10.111.168.21] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 14 Feb
- 2022 14:04:57 -0800
-Message-ID: <afd7e0dd-7da8-0e72-2f53-5e80626765a8@quicinc.com>
-Date: Mon, 14 Feb 2022 14:04:54 -0800
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17EBB10E326
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 22:26:00 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id lw4so9499553ejb.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 14:25:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=IHISBmUOI/ikE6WItRpq9TFUbX44lb92b2lXd2BONMg=;
+ b=kXzDIbeon23MHLMt55FkUQMNMzpbUwjF4pGEHQVVR8kxY9f8bNkaLn7jE0kbUtbn3L
+ b9kl4UwC8flsLgF3qVMkSmkvmdF1Jt9Kjef1jBBpf5/Zf+a+E7tm2ei87Qd5NbmIKrOF
+ N82gD75TFZH0mtC5IYIsG8oT11N0ErdMbUQ+vDx4iQdPDduvByEYqq0+N85F+cKyEzjH
+ qAJ9CPKDgzdEdqLPAEum3T8FIlDiMJQUosPgAeySYE6owzXoDc9a5wNuN0Re5wGSB2JK
+ +J/lWvtMVPoSlQn5X6RkXil8/6Lfo9tlft0Vb/pupOfjNdjHeBjWfIslcuL+R2HeH5L/
+ d/2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IHISBmUOI/ikE6WItRpq9TFUbX44lb92b2lXd2BONMg=;
+ b=F/f3XMRdZbIboNtr/HkT1N8qUTBl9TD2oZilTcsP1ZN1R01Z1z2nPGEqkQd5U6TvUy
+ IeLcmaJc6BwupyCAA9ToBstvCNOy6oUQU+XbkkDlP409DMYUltn/0P2334l/C2S76Iy8
+ tFAZ3V1CDrVB3+PQOwhTlbG11JpXmzh9/HkotvGWPdMxbrVbwT5mYx8+V/Pz5QCBEWdU
+ wCftj+1VZe6oph5VTVysJK7RUsWMGR6vFKaPOF5XVEpTvTJqFY83y0dbf7FUclHw9Jyk
+ qRtM8nqz/C21eS+69NL54GUcJ9wPzGwknpluHE1usVZcwB7tHr7yOOdd5/uc0zdbNoIR
+ hyKA==
+X-Gm-Message-State: AOAM531LJdAOnC3NY9ohb4Sbb3+bTGyOZyXPX/7zW0chXOZXv0BlTsYh
+ ES0xngTzVdrXg5sffoSVPKJug8YxV3zNyS2ORBukvA==
+X-Google-Smtp-Source: ABdhPJzGACGFNq1BPwRwv23eE84sjRC0d54XfeIYewn82JWldVK/PTYDHJp5HG1XHJwLS3IoON1Lvd3AWtka9GIbv0c=
+X-Received: by 2002:a17:906:51d6:: with SMTP id
+ v22mr734664ejk.446.1644877558320; 
+ Mon, 14 Feb 2022 14:25:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [Freedreno] [PATCH v5 6/6] drm/msm/dpu: move VBIF blocks handling
- to dpu_rm
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>
-References: <20220121210618.3482550-1-dmitry.baryshkov@linaro.org>
- <20220121210618.3482550-7-dmitry.baryshkov@linaro.org>
- <e38947b6-461b-ac26-a3f2-d72b439330d4@quicinc.com>
- <a2c001ee-c257-5d25-e0a9-dda7d1dcdead@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <a2c001ee-c257-5d25-e0a9-dda7d1dcdead@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220211161831.3493782-1-tjmercier@google.com>
+ <20220211161831.3493782-7-tjmercier@google.com> <Ygdfe3XSvN8iFuUc@kroah.com>
+In-Reply-To: <Ygdfe3XSvN8iFuUc@kroah.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Mon, 14 Feb 2022 14:25:47 -0800
+Message-ID: <CABdmKX1eKZZ9809uxnzT_Bm+mdNuK2AObLRxyBpdDF3yE76Hrg@mail.gmail.com>
+Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
+ ownership of fds
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,357 +66,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Martijn Coenen <maco@android.com>, Laura Abbott <labbott@redhat.com>,
+ linux-media@vger.kernel.org, Todd Kjos <tkjos@android.com>,
+ linaro-mm-sig@lists.linaro.org, Tejun Heo <tj@kernel.org>,
+ cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+ Christian Brauner <brauner@kernel.org>, Kenny.Ho@amd.com,
+ linux-kernel@vger.kernel.org, Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
+ Hridya Valsaraju <hridya@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/14/2022 12:56 PM, Dmitry Baryshkov wrote:
-> On 14/02/2022 22:53, Abhinav Kumar wrote:
->>
->>
->> On 1/21/2022 1:06 PM, Dmitry Baryshkov wrote:
->>> Move handling of VBIF blocks into dpu_rm. This serves the purpose of
->>> unification of handling of all hardware blocks inside the DPU driver.
->>> This removes hand-coded loops in dpu_vbif (which look for necessary VBIF
->>> instance by looping through the dpu_kms->hw_vbif and comparing
->>> vbif_idx).
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>
->> I have a slightly different idea about this. Let me know what you think.
->>
->> VBIF is a bus interface for the dpu to fetch from. I am not sure if 
->> pulling it in the RM is right because its not a dedicated HW block like
->> the others in the RM.
-> 
-> It's not a hardware block, but a it's still a hardware resource 
-> (hardware instance). It is described in the hw catalog. Thus I suggested 
-> moving it to dpu_rm.
-> 
-> As you have seen, from my previous iterations of this patchset, I tried 
->   to move things out of dpu_rm. After some hacking, I saw that having 
-> alloc/free loops in several places seems like a worse idea. So I moved 
-> dpu_hw_intf back to dpu_rm and then moved dpu_hw_vbif to dpu_rm too.
+On Fri, Feb 11, 2022 at 11:19 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-Actually for some reason, I only see two revs here:
+> On Fri, Feb 11, 2022 at 04:18:29PM +0000, T.J. Mercier wrote:
+> > This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
+> > that a process sending an fd array to another process over binder IPC
+> > can set to relinquish ownership of the fds being sent for memory
+> > accounting purposes. If the flag is found to be set during the fd array
+> > translation and the fd is for a DMA-BUF, the buffer is uncharged from
+> > the sender's cgroup and charged to the receiving process's cgroup
+> > instead.
+> >
+> > It is up to the sending process to ensure that it closes the fds
+> > regardless of whether the transfer failed or succeeded.
+> >
+> > Most graphics shared memory allocations in Android are done by the
+> > graphics allocator HAL process. On requests from clients, the HAL proce=
+ss
+> > allocates memory and sends the fds to the clients over binder IPC.
+> > The graphics allocator HAL will not retain any references to the
+> > buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
+> > arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
+> > correctly charge the buffers to the client processes instead of the
+> > graphics allocator HAL.
+> >
+> > From: Hridya Valsaraju <hridya@google.com>
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Co-developed-by: T.J. Mercier <tjmercier@google.com>
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > ---
+> > changes in v2
+> > - Move dma-buf cgroup charge transfer from a dma_buf_op defined by ever=
+y
+> > heap to a single dma-buf function for all heaps per Daniel Vetter and
+> > Christian K=C3=B6nig.
+> >
+> >  drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
+> >  include/uapi/linux/android/binder.h |  1 +
+> >  2 files changed, 27 insertions(+)
+> >
+> > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+> > index 8351c5638880..f50d88ded188 100644
+> > --- a/drivers/android/binder.c
+> > +++ b/drivers/android/binder.c
+> > @@ -42,6 +42,7 @@
+> >
+> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> >
+> > +#include <linux/dma-buf.h>
+> >  #include <linux/fdtable.h>
+> >  #include <linux/file.h>
+> >  #include <linux/freezer.h>
+> > @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >  {
+> >       binder_size_t fdi, fd_buf_size;
+> >       binder_size_t fda_offset;
+> > +     bool transfer_gpu_charge =3D false;
+> >       const void __user *sender_ufda_base;
+> >       struct binder_proc *proc =3D thread->proc;
+> > +     struct binder_proc *target_proc =3D t->to_proc;
+> >       int ret;
+> >
+> >       fd_buf_size =3D sizeof(u32) * fda->num_fds;
+> > @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >       if (ret)
+> >               return ret;
+> >
+> > +     if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
+> > +             parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
+> > +             transfer_gpu_charge =3D true;
+> > +
+> >       for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
+> >               u32 fd;
+> > +             struct dma_buf *dmabuf;
+> > +             struct gpucg *gpucg;
+> > +
+> >               binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
+> >               binder_size_t sender_uoffset =3D fdi * sizeof(fd);
+> >
+> > @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >                                                 in_reply_to);
+> >               if (ret)
+> >                       return ret > 0 ? -EINVAL : ret;
+> > +
+> > +             if (!transfer_gpu_charge)
+> > +                     continue;
+> > +
+> > +             dmabuf =3D dma_buf_get(fd);
+> > +             if (IS_ERR(dmabuf))
+> > +                     continue;
+> > +
+> > +             gpucg =3D gpucg_get(target_proc->tsk);
+> > +             ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
+> > +             if (ret) {
+> > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd char=
+ge to %d",
+> > +                             proc->pid, thread->pid, target_proc->pid)=
+;
+> > +                     gpucg_put(gpucg);
+> > +             }
+> > +             dma_buf_put(dmabuf);
+> >       }
+> >       return 0;
+> >  }
+> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/a=
+ndroid/binder.h
+> > index 3246f2c74696..169fd5069a1a 100644
+> > --- a/include/uapi/linux/android/binder.h
+> > +++ b/include/uapi/linux/android/binder.h
+> > @@ -137,6 +137,7 @@ struct binder_buffer_object {
+> >
+> >  enum {
+> >       BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
+> > +     BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
+> >  };
+> >
+> >  /* struct binder_fd_array_object - object describing an array of fds i=
+n a buffer
+> > --
+> > 2.35.1.265.g69c8d7142f-goog
+> >
+>
+> How does userspace know that binder supports this new flag?
 
-https://patchwork.freedesktop.org/series/99175/#rev1
+Sorry, I don't completely follow even after Todd's comment. Doesn't
+the presence of BINDER_BUFFER_FLAG_SENDER_NO_NEED in the header do
+this? So wouldn't userspace need to be compiled against the wrong
+kernel headers for there to be a problem? In that case the allocation
+would still succeed, but there would be no charge transfer and
+unfortunately no error code.
 
-Hence, I didnt check the previous patchsets from patchwork to see the 
-evolution.
+> And where is the userspace test for this new feature?
 
->>
->> But, I agree with your problem statement of hand-coded loops.
->>
->> So instead, why dont you just have a helper in the dpu_vbif.c to get
->> you the vbif hw for the passed index like, maybe something like this?
->>
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
->> @@ -11,6 +11,19 @@
->>   #include "dpu_hw_vbif.h"
->>   #include "dpu_trace.h"
->>
->> +static dpu_hw_vbif *dpu_vbif_get_hw(struct dpu_kms *dpu_kms, u32 
->> vbif_idx)
->> +{
->> +       int i;
->> +
->> +       for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
->> +               if (dpu_kms->hw_vbif[i] &&
->> +                               dpu_kms->hw_vbif[i]->idx == vbif_idx)
->> +                       vbif = dpu_kms->hw_vbif[i];
->> +       }
->> +
->> +       return vbif;
->> +}
->> +
-> 
-> You see, this code still bears an idea of looping through hw_vbif 
-> entries looking for the correct one (we can directly access hw_vbif[idx 
-> - VBIF_0] instead).
-> 
-> And also the alloc/destroy loops are very similar to rm ones, but are 
-> working against the array in dpu_kms.
-> 
-> One of the previous iterations had neearly the same idea as yours patch 
-> proposes, but I later abandoned this idea.
-> 
-> I'm trying to place common code nearby, so that there is a less chance 
-> of an error.
+I tested this on a Pixel after modifying the gralloc implementation to
+mark allocated buffers as not used by the sender. This required
+setting the BINDER_BUFFER_FLAG_SENDER_NO_NEED in libhwbinder. That
+code can be found here:
+https://android-review.googlesource.com/c/platform/system/libhwbinder/+/191=
+0752/1/Parcel.cpp
+https://android-review.googlesource.com/c/platform/system/libhidl/+/1910611=
+/
 
-This loop is being used to find the vbif matching the index only in two 
-places today dpu_vbif_set_ot_limit and dpu_vbif_set_qos_remap.
+Then by inspecting gpu.memory.current files in sysfs I was able to see
+the memory attributed to processes other than the graphics allocator
+service. Before this change, several megabytes of memory were
+attributed to the graphics allocator service but those buffers are
+actually used by other processes like surfaceflinger, the camera, etc.
+After the change, the gpu.memory.current amount for the graphics
+allocator service was 0 and the charges showed up in the
+gpu.memory.current files for those other processes like this:
 
-Today and from whatever I see even in downstream (which has support for 
-more newer chipsets), there is only one VBIF
-instance in the catalog and always with the index 0.
+PID: 764 Process Name: zygote64
+system 8192
+system-uncached 23191552
 
-So to be honest, even that loop is an overkill today because the index 
-seems to be always 0 and there is only one instance so the loop seems to 
-break out at the first occurrence.
+PID: 529 Process Name: /system/bin/surfaceflinger
+system-uncached 109535232
+system 92196864
 
-Thats why I was wondering whether moving VBIF to RM is an overkill for 
-this and just the simple cleanup i was suggesting was enough as that 
-loop itself is an overkill today for one instance of vbif.
+PID: 530 Process Name:
+/vendor/bin/hw/android.hardware.graphics.allocator@4.0-service
+system-uncached 0
+system 0
+sensor_direct_heap 0
 
-> 
->>   /**
->>    * _dpu_vbif_wait_for_xin_halt - wait for the xin to halt
->>    * @vbif:      Pointer to hardware vbif driver
->> @@ -156,11 +169,7 @@ void dpu_vbif_set_ot_limit(struct dpu_kms *dpu_kms,
->>
->>          mdp = dpu_kms->hw_mdp;
->>
->> -       for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
->> -               if (dpu_kms->hw_vbif[i] &&
->> -                               dpu_kms->hw_vbif[i]->idx == 
->> params->vbif_idx)
->> -                       vbif = dpu_kms->hw_vbif[i];
->> -       }
->> +       vbif = dpu_vbif_get_hw(dpu_kms, params->vbif_idx);
->>
->>          if (!vbif || !mdp) {
->>                  DRM_DEBUG_ATOMIC("invalid arguments vbif %d mdp %d\n",
->> @@ -216,13 +225,7 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
->>          }
->>          mdp = dpu_kms->hw_mdp;
->>
->> -       for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
->> -               if (dpu_kms->hw_vbif[i] &&
->> -                               dpu_kms->hw_vbif[i]->idx == 
->> params->vbif_idx) {
->> -                       vbif = dpu_kms->hw_vbif[i];
->> -                       break;
->> -               }
->> -       }
->> +       vbif = dpu_vbif_get_hw(params->vbif_idx);
->>
->>
->>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h |  1 +
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 28 +--------------------
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  1 -
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 19 ++++++++++++++
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      | 12 +++++++++
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c    | 26 ++++++-------------
->>>   6 files changed, 40 insertions(+), 47 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
->>> index 6417aa28d32c..895e86dabcb6 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
->>> @@ -8,6 +8,7 @@
->>>   #include "dpu_hw_catalog.h"
->>>   #include "dpu_hw_mdss.h"
->>>   #include "dpu_hw_util.h"
->>> +#include "dpu_hw_blk.h"
->>>   struct dpu_hw_vbif;
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> index 47fe11a84a77..4a1983d8561b 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> @@ -782,8 +782,6 @@ static long dpu_kms_round_pixclk(struct msm_kms 
->>> *kms, unsigned long rate,
->>>   static void _dpu_kms_hw_destroy(struct dpu_kms *dpu_kms)
->>>   {
->>> -    int i;
->>> -
->>>       if (dpu_kms->hw_intr)
->>>           dpu_hw_intr_destroy(dpu_kms->hw_intr);
->>>       dpu_kms->hw_intr = NULL;
->>> @@ -791,15 +789,6 @@ static void _dpu_kms_hw_destroy(struct dpu_kms 
->>> *dpu_kms)
->>>       /* safe to call these more than once during shutdown */
->>>       _dpu_kms_mmu_destroy(dpu_kms);
->>> -    if (dpu_kms->catalog) {
->>> -        for (i = 0; i < dpu_kms->catalog->vbif_count; i++) {
->>> -            u32 vbif_idx = dpu_kms->catalog->vbif[i].id;
->>> -
->>> -            if ((vbif_idx < VBIF_MAX) && dpu_kms->hw_vbif[vbif_idx])
->>> -                dpu_hw_vbif_destroy(dpu_kms->hw_vbif[vbif_idx]);
->>> -        }
->>> -    }
->>> -
->>>       if (dpu_kms->rm_init)
->>>           dpu_rm_destroy(&dpu_kms->rm);
->>>       dpu_kms->rm_init = false;
->>> @@ -1027,7 +1016,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>   {
->>>       struct dpu_kms *dpu_kms;
->>>       struct drm_device *dev;
->>> -    int i, rc = -EINVAL;
->>> +    int rc = -EINVAL;
->>>       if (!kms) {
->>>           DPU_ERROR("invalid kms\n");
->>> @@ -1116,21 +1105,6 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>           goto power_error;
->>>       }
->>> -    for (i = 0; i < dpu_kms->catalog->vbif_count; i++) {
->>> -        u32 vbif_idx = dpu_kms->catalog->vbif[i].id;
->>> -
->>> -        dpu_kms->hw_vbif[i] = dpu_hw_vbif_init(vbif_idx,
->>> -                dpu_kms->vbif[vbif_idx], dpu_kms->catalog);
->>> -        if (IS_ERR_OR_NULL(dpu_kms->hw_vbif[vbif_idx])) {
->>> -            rc = PTR_ERR(dpu_kms->hw_vbif[vbif_idx]);
->>> -            if (!dpu_kms->hw_vbif[vbif_idx])
->>> -                rc = -EINVAL;
->>> -            DPU_ERROR("failed to init vbif %d: %d\n", vbif_idx, rc);
->>> -            dpu_kms->hw_vbif[vbif_idx] = NULL;
->>> -            goto power_error;
->>> -        }
->>> -    }
->>> -
->>>       rc = dpu_core_perf_init(&dpu_kms->perf, dev, dpu_kms->catalog,
->>>               _dpu_kms_get_clk(dpu_kms, "core"));
->>>       if (rc) {
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->>> index 3f518c809e33..b96c901483ae 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->>> @@ -105,7 +105,6 @@ struct dpu_kms {
->>>       struct dpu_rm rm;
->>>       bool rm_init;
->>> -    struct dpu_hw_vbif *hw_vbif[VBIF_MAX];
->>>       struct dpu_hw_mdp *hw_mdp;
->>>       bool has_danger_ctrl;
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>> index 7497538adae1..6d49666c4e77 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>> @@ -76,6 +76,8 @@ int dpu_rm_destroy(struct dpu_rm *rm)
->>>       }
->>>       for (i = 0; i < ARRAY_SIZE(rm->hw_intf); i++)
->>>           dpu_hw_intf_destroy(rm->hw_intf[i]);
->>> +    for (i = 0; i < ARRAY_SIZE(rm->hw_vbif); i++)
->>> +        dpu_hw_vbif_destroy(rm->hw_vbif[i]);
->>>       return 0;
->>>   }
->>> @@ -210,6 +212,23 @@ int dpu_rm_init(struct dpu_rm *rm,
->>>           rm->dspp_blks[dspp->id - DSPP_0] = &hw->base;
->>>       }
->>> +    for (i = 0; i < cat->vbif_count; i++) {
->>> +        struct dpu_hw_vbif *hw;
->>> +        const struct dpu_vbif_cfg *vbif = &cat->vbif[i];
->>> +
->>> +        if (vbif->id < VBIF_0 || vbif->id >= VBIF_MAX) {
->>> +            DPU_ERROR("skip vbif %d with invalid id\n", vbif->id);
->>> +            continue;
->>> +        }
->>> +        hw = dpu_hw_vbif_init(vbif->id, mmio, cat);
->>> +        if (IS_ERR(hw)) {
->>> +            rc = PTR_ERR(hw);
->>> +            DPU_ERROR("failed vbif object creation: err %d\n", rc);
->>> +            goto fail;
->>> +        }
->>> +        rm->hw_vbif[vbif->id - VBIF_0] = hw;
->>> +    }
->>> +
->>>       return 0;
->>>   fail:
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
->>> index 9b13200a050a..a15977bdceeb 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
->>> @@ -20,6 +20,7 @@ struct dpu_global_state;
->>>    * @ctl_blks: array of ctl hardware resources
->>>    * @hw_intf: array of intf hardware resources
->>>    * @dspp_blks: array of dspp hardware resources
->>> + * @hw_vbif: array of vbif hardware resources
->>>    */
->>>   struct dpu_rm {
->>>       struct dpu_hw_blk *pingpong_blks[PINGPONG_MAX - PINGPONG_0];
->>> @@ -28,6 +29,7 @@ struct dpu_rm {
->>>       struct dpu_hw_intf *hw_intf[INTF_MAX - INTF_0];
->>>       struct dpu_hw_blk *dspp_blks[DSPP_MAX - DSPP_0];
->>>       struct dpu_hw_blk *merge_3d_blks[MERGE_3D_MAX - MERGE_3D_0];
->>> +    struct dpu_hw_vbif *hw_vbif[VBIF_MAX - VBIF_0];
->>>   };
->>>   /**
->>> @@ -95,5 +97,15 @@ static inline struct dpu_hw_intf 
->>> *dpu_rm_get_intf(struct dpu_rm *rm, enum dpu_in
->>>       return rm->hw_intf[intf_idx - INTF_0];
->>>   }
->>> +/**
->>> + * dpu_rm_get_vbif - Return a struct dpu_hw_vbif instance given it's 
->>> index.
->>> + * @rm: DPU Resource Manager handle
->>> + * @vbif_idx: VBIF's index
->>> + */
->>> +static inline struct dpu_hw_vbif *dpu_rm_get_vbif(struct dpu_rm *rm, 
->>> enum dpu_vbif vbif_idx)
->>> +{
->>> +    return rm->hw_vbif[vbif_idx - VBIF_0];
->>> +}
->>> +
->>>   #endif /* __DPU_RM_H__ */
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
->>> index 21d20373eb8b..00ac2aa81651 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
->>> @@ -152,15 +152,10 @@ void dpu_vbif_set_ot_limit(struct dpu_kms 
->>> *dpu_kms,
->>>       struct dpu_hw_mdp *mdp;
->>>       bool forced_on = false;
->>>       u32 ot_lim;
->>> -    int ret, i;
->>> +    int ret;
->>>       mdp = dpu_kms->hw_mdp;
->>> -
->>> -    for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
->>> -        if (dpu_kms->hw_vbif[i] &&
->>> -                dpu_kms->hw_vbif[i]->idx == params->vbif_idx)
->>> -            vbif = dpu_kms->hw_vbif[i];
->>> -    }
->>> +    vbif = dpu_rm_get_vbif(&dpu_kms->rm, params->vbif_idx);
->>>       if (!vbif || !mdp) {
->>>           DRM_DEBUG_ATOMIC("invalid arguments vbif %d mdp %d\n",
->>> @@ -216,14 +211,7 @@ void dpu_vbif_set_qos_remap(struct dpu_kms 
->>> *dpu_kms,
->>>       }
->>>       mdp = dpu_kms->hw_mdp;
->>> -    for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
->>> -        if (dpu_kms->hw_vbif[i] &&
->>> -                dpu_kms->hw_vbif[i]->idx == params->vbif_idx) {
->>> -            vbif = dpu_kms->hw_vbif[i];
->>> -            break;
->>> -        }
->>> -    }
->>> -
->>> +    vbif = dpu_rm_get_vbif(&dpu_kms->rm, params->vbif_idx);
->>>       if (!vbif || !vbif->cap) {
->>>           DPU_ERROR("invalid vbif %d\n", params->vbif_idx);
->>>           return;
->>> @@ -261,8 +249,8 @@ void dpu_vbif_clear_errors(struct dpu_kms *dpu_kms)
->>>       struct dpu_hw_vbif *vbif;
->>>       u32 i, pnd, src;
->>> -    for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
->>> -        vbif = dpu_kms->hw_vbif[i];
->>> +    for (i = VBIF_0; i < VBIF_MAX; i++) {
->>> +        vbif = dpu_rm_get_vbif(&dpu_kms->rm, i);
->>>           if (vbif && vbif->ops.clear_errors) {
->>>               vbif->ops.clear_errors(vbif, &pnd, &src);
->>>               if (pnd || src) {
->>> @@ -278,8 +266,8 @@ void dpu_vbif_init_memtypes(struct dpu_kms *dpu_kms)
->>>       struct dpu_hw_vbif *vbif;
->>>       int i, j;
->>> -    for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
->>> -        vbif = dpu_kms->hw_vbif[i];
->>> +    for (i = VBIF_0; i < VBIF_MAX; i++) {
->>> +        vbif = dpu_rm_get_vbif(&dpu_kms->rm, i);
->>>           if (vbif && vbif->cap && vbif->ops.set_mem_type) {
->>>               for (j = 0; j < vbif->cap->memtype_count; j++)
->>>                   vbif->ops.set_mem_type(
-> 
-> 
+PID: 806 Process Name:
+/apex/com.google.pixel.camera.hal/bin/hw/android.hardware.camera.provider@2=
+.7-service-google
+system 1196032
+
+PID: 4608 Process Name: com.google.android.GoogleCamera
+system 2408448
+system-uncached 38887424
+sensor_direct_heap 0
+
+PID: 32102 Process Name: com.google.android.googlequicksearchbox:search
+system-uncached 91279360
+system 20480
+
+PID: 2758 Process Name: com.google.android.youtube
+system-uncached 1662976
+system 8192
+
+PID: 2517 Process Name: com.google.android.apps.nexuslauncher
+system-uncached 115662848
+system 122880
+
+PID: 2066 Process Name: com.android.systemui
+system 86016
+system-uncached 37957632
+
+>  Isn't there a binder test framework somewhere?
+
+Android has the Vendor Test Suite where automated tests could be added
+for this. Is that what you're thinking of?
+
+>
+> thanks,
+>
+> greg k-h
