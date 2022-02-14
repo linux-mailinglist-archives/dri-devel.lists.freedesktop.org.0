@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368954B466F
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:41:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B2E4B48C9
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:59:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8A4B10E2B1;
-	Mon, 14 Feb 2022 09:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0997E10E2AE;
+	Mon, 14 Feb 2022 09:59:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8248F10E2B1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:41:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABB6410E2AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:59:51 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3D966B80DC1;
- Mon, 14 Feb 2022 09:41:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5989BC340F0;
- Mon, 14 Feb 2022 09:41:36 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1116BB80D6D;
+ Mon, 14 Feb 2022 09:59:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24A1CC340E9;
+ Mon, 14 Feb 2022 09:59:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1644831696;
- bh=9TbKrEy59czhCycBrgr8TptrPB3LMyhS1KggHXhlAo0=;
+ s=korg; t=1644832788;
+ bh=+3V7kLPNkHtBcTLCEvk6zqPxgRYdatEipC65smgMYe0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CjU4KPB/YjfdHgtZfOE3gaCeDDfrNON3ivZmQUS/Ri05jJ4+qaUQYMJ905iGP2bVm
- zZqCyLckySsQNeLr1sKwh03HKK6j/nZ8mgVcjlcDRZADk0ijbBOfKc0THSaOlOw+AV
- hCw1V0s9+05tHGhMEma6N5MgbPrsYPt7HlvgyqNA=
+ b=nOxpilClTw/DyWOTn4Tcyohvwy61m0+unemrcM3byACA2WNpANn0Ubul80HemS/De
+ QQHJJMANKsN1S9rWsZQ1XDvKzY9UG7ksy+WvnnNXqErJglNVYHAQj3ICFtH+DQcduy
+ Xn7Cbp3n2gCV+xJLx3vnw4ClGrbUdPRKjLaH7GiQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 5.10 065/116] drm/panel: simple: Assign data from
+Subject: [PATCH 5.16 125/203] drm/panel: simple: Assign data from
  panel_dpi_probe() correctly
-Date: Mon, 14 Feb 2022 10:26:04 +0100
-Message-Id: <20220214092500.993729326@linuxfoundation.org>
+Date: Mon, 14 Feb 2022 10:26:09 +0100
+Message-Id: <20220214092514.490834060@linuxfoundation.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220214092458.668376521@linuxfoundation.org>
-References: <20220214092458.668376521@linuxfoundation.org>
+In-Reply-To: <20220214092510.221474733@linuxfoundation.org>
+References: <20220214092510.221474733@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -89,10 +89,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 204674fccd646..7ffd2a04ab23a 100644
+index eb475a3a774b7..87f30bced7b7e 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -557,6 +557,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+@@ -588,6 +588,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
  		err = panel_dpi_probe(dev, panel);
  		if (err)
  			goto free_ddc;
