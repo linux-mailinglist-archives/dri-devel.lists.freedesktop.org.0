@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E12304B465B
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:35:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211B14B465D
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Feb 2022 10:35:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91FA810E295;
-	Mon, 14 Feb 2022 09:34:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14C9910E29E;
+	Mon, 14 Feb 2022 09:34:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2CC210E281
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:34:48 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id jg20so11168755ejc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 01:34:48 -0800 (PST)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7D8110E26F
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 09:34:49 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id qk11so15725393ejb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 01:34:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=H+j4UZIPmheSQp2UXtzhXXIQwoUoJl9FMKsqcxEdwtw=;
- b=Qrygp/yOSwIIbDaxr6MqCI8KZs9XtfRIn+uJMfkYHPAxmvoEQvgaJDOF7geajDe5mL
- u7xDaov+wqrzmsNr5DmsVCahob0s5fRT3Xy1NFu8Dgl7wA+JiM7c9JvkpH0+RamptN+x
- sOD7nHLgoeluBHdsyxu5uWiu8itzfKeaOdCkpoOhE/eux5MzmY2W9dRSjCREYnfO9r93
- DVKQdFDRsd4o306SI2b3DGSRv5BaoGNZcIZ7fEDERjVdtINY9hfvxLHE4eP1coKrmTRN
- mTPLCROh0STNUloePtCanJZmyei2ziF9FQJdy2Q5EmusdZmahwMyYTHbf2T43LtRFUVt
- Gi2A==
+ bh=nJ+ppp6M9Ff81yI1G74uSDKhvAZKdOffvQl2PKy+Pwo=;
+ b=K/TXwpOkyvMGnP9MX9W1VcLBXlhs28DhMq0K6AXJnYhHU4wIJLGHaVWB7L9V+FnVlQ
+ HPCmu1w5X2ZqTJiSTocF2F5SsaisE1b1NXZSlM7ByrhevNU4Ghghg8rIN7a8iiPMW59w
+ NmCXOb9x9FudDROyXZtg4xnTAnrTymFOt3WQ7S9/fSb2KkEnQNOffV/AVjbXS3rAyhJK
+ 86XDcFl8fwGuiwfLtyHWFM4AxSHq5Q9Ovw+AXUzPIuCaoSOvhRNo6SZO6Q+lAEn9qa3b
+ zYlEf/qsaPGx7qinAgsOaA+pZjtnu6vFwq3usE9dJKZaDZp9m4/inBp8x1F/iDTlw/+s
+ 1Y3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=H+j4UZIPmheSQp2UXtzhXXIQwoUoJl9FMKsqcxEdwtw=;
- b=wo27xu37T5SIgU1PYoME0/5JCRH+XgEXwp30hDbtmaeJS2ZllhiTZVsaUXMfG1dVLQ
- 2fVYRzZfheSjVPtm6YZ63d3k2C9GHQvD4TJLa4dQIZK9WHy5+5D/n842z8j+3iz68A7I
- DNmBhfs8/hvd7D2cQLJw3LI9AvBXlnb4yvywefqyPFhor6zXuezyVJxlwyyT+z9JfOFr
- Jm0CDy94P0K5BcPPm/X/fWj6uk5xnkpB8JsRtbSsjWXMPFuFvEfdqG+IHBaevCQUbJZX
- 63ZvSq13v9+5dJU4gFWBzErFSQt20UWCPl+GfK7/mcwuEHozGOCuGPWjF6ERx5tnytbv
- akrg==
-X-Gm-Message-State: AOAM5326PQ6f0g+PpnA4dVr6PVk7IvDhV+bWww2ljiKVw0c2+8y2Rktu
- kMe5AP+pLT5ekWIrRgxQc2o=
-X-Google-Smtp-Source: ABdhPJwCD9OR3QFZXMwkGyjcdHsqz1AGkTQykSG6x/v0RknFa33gVLOFMX6jcrwtR4hK2cYes+FI6w==
-X-Received: by 2002:a17:906:748a:: with SMTP id
- e10mr7468217ejl.107.1644831287540; 
- Mon, 14 Feb 2022 01:34:47 -0800 (PST)
+ bh=nJ+ppp6M9Ff81yI1G74uSDKhvAZKdOffvQl2PKy+Pwo=;
+ b=ugvsWf7Z/fHmZ49TdtCYuStolZZx+lxgtO8rPpYIuKfDcMj2AOIyhv5nHHAhVe4A80
+ Z1Ou+2ntEmKjvapP0b+0FtMJyw9keXZfiH22u9l8E857vsw/L0Bsm4nqM/cvmnVwp7dT
+ ITSelKfnDOPN/0aO0HONCkPl6BVnl6GBFOEW1UV0cqxU+MzRmhO3POvKLuIDOTXkUp1L
+ WhJdzSsCxBY4CXIBUvaETTIIhQV+o1B/7OnsbGV07nWVpwzO6RD7+vC4Uwy10qn8KfGB
+ 2LYJOxtrFJkFsJ267xh1NC4XoQ7odgckkGf5y1slVTZUSFR3MzJsXXRnEUkD/y6bDvc8
+ nxeg==
+X-Gm-Message-State: AOAM531l1s44rWxUiIjaTMJbyOijAXk72ebJMFLyqlhnGviliDk70D8k
+ oKrwbV/yRfQlfc+BIocJdb4=
+X-Google-Smtp-Source: ABdhPJxUhPUfEBhv3bwc8pefZ1HtNSbHoRg3zKMdzuMOkmw45qtCjKPFx8qziPTh8ISg6o5Zjp0zjQ==
+X-Received: by 2002:a17:906:b842:: with SMTP id
+ ga2mr11198187ejb.158.1644831288332; 
+ Mon, 14 Feb 2022 01:34:48 -0800 (PST)
 Received: from able.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
- by smtp.gmail.com with ESMTPSA id y8sm4257940edc.41.2022.02.14.01.34.46
+ by smtp.gmail.com with ESMTPSA id y8sm4257940edc.41.2022.02.14.01.34.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 14 Feb 2022 01:34:47 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
@@ -52,9 +52,9 @@ X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
 To: matthew.william.auld@gmail.com, daniel@ffwll.ch,
  thomas.hellstrom@linux.intel.com, felix.kuehling@amd.com,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 09/11] drm/amdgpu: drop amdgpu_gtt_node
-Date: Mon, 14 Feb 2022 10:34:37 +0100
-Message-Id: <20220214093439.2989-9-christian.koenig@amd.com>
+Subject: [PATCH 10/11] drm/ttm: allow bulk moves for all domains
+Date: Mon, 14 Feb 2022 10:34:38 +0100
+Message-Id: <20220214093439.2989-10-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220214093439.2989-1-christian.koenig@amd.com>
 References: <20220214093439.2989-1-christian.koenig@amd.com>
@@ -76,165 +76,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have the BO pointer in the base structure now as well.
+Not just TT and VRAM.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 49 ++++++++-------------
- include/drm/ttm/ttm_resource.h              |  8 ++++
- 2 files changed, 26 insertions(+), 31 deletions(-)
+ drivers/gpu/drm/ttm/ttm_resource.c | 52 +++++++++---------------------
+ include/drm/ttm/ttm_device.h       |  2 --
+ include/drm/ttm/ttm_resource.h     |  4 +--
+ 3 files changed, 17 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 3bcd27ae379d..68494b959116 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -26,23 +26,12 @@
- 
- #include "amdgpu.h"
- 
--struct amdgpu_gtt_node {
--	struct ttm_buffer_object *tbo;
--	struct ttm_range_mgr_node base;
--};
--
- static inline struct amdgpu_gtt_mgr *
- to_gtt_mgr(struct ttm_resource_manager *man)
- {
- 	return container_of(man, struct amdgpu_gtt_mgr, manager);
- }
- 
--static inline struct amdgpu_gtt_node *
--to_amdgpu_gtt_node(struct ttm_resource *res)
--{
--	return container_of(res, struct amdgpu_gtt_node, base.base);
--}
--
- /**
-  * DOC: mem_info_gtt_total
-  *
-@@ -106,9 +95,9 @@ const struct attribute_group amdgpu_gtt_mgr_attr_group = {
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+index 1f9b8205b3a5..9df8fcc7e479 100644
+--- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -51,38 +51,24 @@ EXPORT_SYMBOL(ttm_lru_bulk_move_init);
   */
- bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *res)
+ void ttm_lru_bulk_move_tail(struct ttm_lru_bulk_move *bulk)
  {
--	struct amdgpu_gtt_node *node = to_amdgpu_gtt_node(res);
-+	struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
+-	unsigned i;
+-
+-	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+-		struct ttm_lru_bulk_move_pos *pos = &bulk->tt[i];
+-		struct ttm_resource_manager *man;
++	unsigned i, j;
  
--	return drm_mm_node_allocated(&node->base.mm_nodes[0]);
-+	return drm_mm_node_allocated(&node->mm_nodes[0]);
+-		if (!pos->first)
+-			continue;
++	for (i = 0; i < TTM_NUM_MEM_TYPES; ++i) {
++		for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j) {
++			struct ttm_lru_bulk_move_pos *pos = &bulk->pos[i][j];
++			struct ttm_resource_manager *man;
+ 
+-		lockdep_assert_held(&pos->first->bo->bdev->lru_lock);
+-		dma_resv_assert_held(pos->first->bo->base.resv);
+-		dma_resv_assert_held(pos->last->bo->base.resv);
++			if (!pos->first)
++				continue;
+ 
+-		man = ttm_manager_type(pos->first->bo->bdev, TTM_PL_TT);
+-		list_bulk_move_tail(&man->lru[i], &pos->first->lru,
+-				    &pos->last->lru);
+-	}
+-
+-	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+-		struct ttm_lru_bulk_move_pos *pos = &bulk->vram[i];
+-		struct ttm_resource_manager *man;
++			lockdep_assert_held(&pos->first->bo->bdev->lru_lock);
++			dma_resv_assert_held(pos->first->bo->base.resv);
++			dma_resv_assert_held(pos->last->bo->base.resv);
+ 
+-		if (!pos->first)
+-			continue;
+-
+-		lockdep_assert_held(&pos->first->bo->bdev->lru_lock);
+-		dma_resv_assert_held(pos->first->bo->base.resv);
+-		dma_resv_assert_held(pos->last->bo->base.resv);
+-
+-		man = ttm_manager_type(pos->first->bo->bdev, TTM_PL_VRAM);
+-		list_bulk_move_tail(&man->lru[i], &pos->first->lru,
+-				    &pos->last->lru);
++			man = ttm_manager_type(pos->first->bo->bdev, i);
++			list_bulk_move_tail(&man->lru[j], &pos->first->lru,
++					    &pos->last->lru);
++		}
+ 	}
+ }
+ EXPORT_SYMBOL(ttm_lru_bulk_move_tail);
+@@ -122,15 +108,7 @@ void ttm_resource_move_to_lru_tail(struct ttm_resource *res,
+ 	if (!bulk)
+ 		return;
+ 
+-	switch (res->mem_type) {
+-	case TTM_PL_TT:
+-		ttm_lru_bulk_move_set_pos(&bulk->tt[bo->priority], res);
+-		break;
+-
+-	case TTM_PL_VRAM:
+-		ttm_lru_bulk_move_set_pos(&bulk->vram[bo->priority], res);
+-		break;
+-	}
++	ttm_lru_bulk_move_set_pos(&bulk->pos[res->mem_type][bo->priority], res);
  }
  
  /**
-@@ -128,15 +117,14 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- {
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
- 	uint32_t num_pages = PFN_UP(tbo->base.size);
--	struct amdgpu_gtt_node *node;
-+	struct ttm_range_mgr_node *node;
- 	int r;
+diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+index 0a4ddec78d8f..425150f35fbe 100644
+--- a/include/drm/ttm/ttm_device.h
++++ b/include/drm/ttm/ttm_device.h
+@@ -30,8 +30,6 @@
+ #include <drm/ttm/ttm_resource.h>
+ #include <drm/ttm/ttm_pool.h>
  
--	node = kzalloc(struct_size(node, base.mm_nodes, 1), GFP_KERNEL);
-+	node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
- 	if (!node)
- 		return -ENOMEM;
- 
--	node->tbo = tbo;
--	ttm_resource_init(tbo, place, &node->base.base);
-+	ttm_resource_init(tbo, place, &node->base);
- 	if (!(place->flags & TTM_PL_FLAG_TEMPORARY) &&
- 	    ttm_resource_manager_usage(man) > man->size) {
- 		r = -ENOSPC;
-@@ -145,8 +133,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 
- 	if (place->lpfn) {
- 		spin_lock(&mgr->lock);
--		r = drm_mm_insert_node_in_range(&mgr->mm,
--						&node->base.mm_nodes[0],
-+		r = drm_mm_insert_node_in_range(&mgr->mm, &node->mm_nodes[0],
- 						num_pages, tbo->page_alignment,
- 						0, place->fpfn, place->lpfn,
- 						DRM_MM_INSERT_BEST);
-@@ -154,18 +141,18 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 		if (unlikely(r))
- 			goto err_free;
- 
--		node->base.base.start = node->base.mm_nodes[0].start;
-+		node->base.start = node->mm_nodes[0].start;
- 	} else {
--		node->base.mm_nodes[0].start = 0;
--		node->base.mm_nodes[0].size = node->base.base.num_pages;
--		node->base.base.start = AMDGPU_BO_INVALID_OFFSET;
-+		node->mm_nodes[0].start = 0;
-+		node->mm_nodes[0].size = node->base.num_pages;
-+		node->base.start = AMDGPU_BO_INVALID_OFFSET;
- 	}
- 
--	*res = &node->base.base;
-+	*res = &node->base;
- 	return 0;
- 
- err_free:
--	ttm_resource_fini(man, &node->base.base);
-+	ttm_resource_fini(man, &node->base);
- 	kfree(node);
- 	return r;
- }
-@@ -181,12 +168,12 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
- 			       struct ttm_resource *res)
- {
--	struct amdgpu_gtt_node *node = to_amdgpu_gtt_node(res);
-+	struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
- 
- 	spin_lock(&mgr->lock);
--	if (drm_mm_node_allocated(&node->base.mm_nodes[0]))
--		drm_mm_remove_node(&node->base.mm_nodes[0]);
-+	if (drm_mm_node_allocated(&node->mm_nodes[0]))
-+		drm_mm_remove_node(&node->mm_nodes[0]);
- 	spin_unlock(&mgr->lock);
- 
- 	ttm_resource_fini(man, res);
-@@ -202,7 +189,7 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
-  */
- int amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
- {
--	struct amdgpu_gtt_node *node;
-+	struct ttm_range_mgr_node *node;
- 	struct drm_mm_node *mm_node;
- 	struct amdgpu_device *adev;
- 	int r = 0;
-@@ -210,8 +197,8 @@ int amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
- 	adev = container_of(mgr, typeof(*adev), mman.gtt_mgr);
- 	spin_lock(&mgr->lock);
- 	drm_mm_for_each_node(mm_node, &mgr->mm) {
--		node = container_of(mm_node, typeof(*node), base.mm_nodes[0]);
--		r = amdgpu_ttm_recover_gart(node->tbo);
-+		node = container_of(mm_node, typeof(*node), mm_nodes[0]);
-+		r = amdgpu_ttm_recover_gart(node->base.bo);
- 		if (r)
- 			break;
- 	}
+-#define TTM_NUM_MEM_TYPES 8
+-
+ struct ttm_device;
+ struct ttm_placement;
+ struct ttm_buffer_object;
 diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index ef0ec700e896..8a780a348025 100644
+index 8a780a348025..990ed0b289a2 100644
 --- a/include/drm/ttm/ttm_resource.h
 +++ b/include/drm/ttm/ttm_resource.h
-@@ -347,6 +347,14 @@ ttm_resource_manager_next(struct ttm_resource_manager *man,
- 			  struct ttm_resource_cursor *cursor,
- 			  struct ttm_resource *res);
+@@ -37,6 +37,7 @@
+ #include <drm/ttm/ttm_kmap_iter.h>
  
-+/**
-+ * ttm_resource_manager_for_each_res - iterate over all resources
-+ * @man: the resource manager
-+ * @cursor: struct ttm_resource_cursor for the current position
-+ * @res: the current resource
-+ *
-+ * Iterate over all the evictable resources in a resource manager.
-+ */
- #define ttm_resource_manager_for_each_res(man, cursor, res)		\
- 	for (res = ttm_resource_manager_first(man, cursor); res;	\
- 	     res = ttm_resource_manager_next(man, cursor, res))
+ #define TTM_MAX_BO_PRIORITY	4U
++#define TTM_NUM_MEM_TYPES 8
+ 
+ struct ttm_device;
+ struct ttm_resource_manager;
+@@ -217,8 +218,7 @@ struct ttm_lru_bulk_move_pos {
+  * Helper structure for bulk moves on the LRU list.
+  */
+ struct ttm_lru_bulk_move {
+-	struct ttm_lru_bulk_move_pos tt[TTM_MAX_BO_PRIORITY];
+-	struct ttm_lru_bulk_move_pos vram[TTM_MAX_BO_PRIORITY];
++	struct ttm_lru_bulk_move_pos pos[TTM_NUM_MEM_TYPES][TTM_MAX_BO_PRIORITY];
+ };
+ 
+ /**
 -- 
 2.25.1
 
