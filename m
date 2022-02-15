@@ -1,50 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003B24B6FF1
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 16:49:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFEB4B700C
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 17:15:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43B1810E211;
-	Tue, 15 Feb 2022 15:49:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7CEC10E4AE;
+	Tue, 15 Feb 2022 16:15:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 75001 seconds by postgrey-1.36 at gabe;
- Tue, 15 Feb 2022 15:49:14 UTC
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10F0510E211
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 15:49:13 +0000 (UTC)
-Date: Tue, 15 Feb 2022 16:49:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1644940151;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CTD2emJVAMyrhz49dgY9PFY8c6oHOUAD1tBKxJ4b55g=;
- b=YLkB0R0INUJzd1184OAw5Yr3P464LTg+UcqO0k7NQ+gAHuXv+LcgRnqZVIoXArB+2DFkQY
- zPFvJLH/2X0UNMUAHUtqyawtmrp7E2rvuA9M9Z5CerUGhBQE+kxw8WKoLN8o+pWHxv+7p3
- hQGUi1fhAQcT+4GrdLva/N3J7DJK3ECKYeHApH2WyX4Nz7p82feTNTLvn6ulFRZslAoYM2
- +uSlpTrt9/9nnHQ1PWJ70RHsuccfu9M6Ap+E6CVpLgvwvcxzdplj8Scrn1ce0cRQsez4OH
- w6bTOZBXtTvnNea6IdpoKBdOhcean+L7T0nIUHPEYNSJVi/1EaSCnJTdyomW5A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1644940151;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CTD2emJVAMyrhz49dgY9PFY8c6oHOUAD1tBKxJ4b55g=;
- b=W/3qaydenUTXwhOMjL6vw8V4MVyll5xn08I1Mmy67+J0t+ST+neehI11KtQ4VWCSTWnaly
- eH1CxO8iBBXRuxCQ==
-From: Sebastian Siewior <bigeasy@linutronix.de>
-To: Jiri Kosina <jikos@kernel.org>
-Subject: Re: [PATCH] drm: fb-helper: Avoid nesting spinlock_t into
- raw_spinlock_t
-Message-ID: <YgvLdvPihuQ9KZ6/@linutronix.de>
-References: <nycvar.YFH.7.76.2202151640200.11721@cbobk.fhfr.pm>
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8DD10E4A8;
+ Tue, 15 Feb 2022 16:15:19 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id jg20so20392905ejc.3;
+ Tue, 15 Feb 2022 08:15:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:reply-to:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=q3izX7XA01H870oUtgTFqIX7KpuLKFrP57QsnyxZRXU=;
+ b=aI1ZUXAr9kGlL0ro/e7sase0hC759aty8/CaDEcBZJ8R5oG4vHVviejLLsVoTtTHee
+ xeXXAfNrD0XHzFMeuvJy1yjxmXJ/ZYU73VxUJ+s7PhR0Da42mj2x6WMl53gi9kJBvxCU
+ KGMvX/yqgjoWEJaTbo6Fs9qooupTGj7CptocbkyDOYhm5w8JEihftpMLGRz0VuFDfSZg
+ Zcsnso7jgf4IYEoWKAhSWePZcHe8JrejDR6wf0vBuaoPkxwxIE3O9KzKweZuHPVVDoiY
+ dbarO0lpabW1boQ80UKXqDe+FuhI02v3IioRWmGNfZIpzvMDTnoM/78sayTVt6WeYpGx
+ xdJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=q3izX7XA01H870oUtgTFqIX7KpuLKFrP57QsnyxZRXU=;
+ b=xNeQYaa2a9afx3+ae2ifECGzCA0n7JTYCE8leeZYnex3UppyW0CEmpu8aIp7CsbdRR
+ 14XKmFbslYMSKd3cwos0ampnnLbsVgGT4GYUMQ+3VHLgq8HkeM9Xg7WGqpbnB0lE6EGI
+ Nkti0BDEgOq9ubFPM2s276hhfrxkWH78n36ad4wzJ4RlwuSXM7YAfX+mwPHA6iBNLTII
+ C0wGjUh/frI/mYzixmvVzlwWUGQpsSPuiqS6f2EalsqO7MdAsiTTeY+FIEM5/vOCPCNa
+ RIcMDoUc++q43lNqfzQ6Knb+LF2uYCxQfFogKIgDG6ID55xzUc6ZgtRQA9vIo+VhfOTN
+ FvjA==
+X-Gm-Message-State: AOAM530IqSozThmHBGQqAgVCAs26FP6P6mDu+CHsi2I9NlTOLP5VW+/R
+ vaB6V3B3stXIBeThf6o/yx89AU3rGNa9y/VnADw=
+X-Google-Smtp-Source: ABdhPJzuRwb9QPXfQBP1XPHyuoOL/+hvQV8Gtpdg+eWE7pLI6bJA5lAGdcmhK/J2yI81rQ3vjddFOA==
+X-Received: by 2002:a17:906:5186:: with SMTP id
+ y6mr3525925ejk.40.1644941717550; 
+ Tue, 15 Feb 2022 08:15:17 -0800 (PST)
+Received: from [0.0.0.0] ([134.134.137.84])
+ by smtp.googlemail.com with ESMTPSA id d25sm11803373eje.41.2022.02.15.08.15.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 08:15:17 -0800 (PST)
+Message-ID: <3e514431-ab0d-a455-871d-b7c9b183a98b@gmail.com>
+Date: Tue, 15 Feb 2022 18:15:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <nycvar.YFH.7.76.2202151640200.11721@cbobk.fhfr.pm>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [Intel-gfx] [PATCH v5 16/19] uapi/drm/dg2: Introduce format
+ modifier for DG2 clear color
+Content-Language: en-US
+To: "Chery, Nanley G" <nanley.g.chery@intel.com>,
+ Nanley Chery <nanleychery@gmail.com>, "C, Ramalingam"
+ <ramalingam.c@intel.com>
+References: <20220201104132.3050-1-ramalingam.c@intel.com>
+ <20220201104132.3050-17-ramalingam.c@intel.com>
+ <CAJDL4u+hX2Dbu7q5P48t44XLSOr7vA9mf_jiC607oA1Y6+2k6Q@mail.gmail.com>
+ <a95a1168-5419-0688-0700-c9e81e50727b@gmail.com>
+ <dc66535e7a5d4a9dae25a9548f333385@intel.com>
+From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+In-Reply-To: <dc66535e7a5d4a9dae25a9548f333385@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,169 +80,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- John Ogness <john.ogness@linutronix.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Reply-To: juhapekka.heikkila@gmail.com
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>, "Auld,
+ Matthew" <matthew.auld@intel.com>, dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-02-15 16:43:08 [+0100], Jiri Kosina wrote:
-> From: Jiri Kosina <jkosina@suse.cz>
+On 15.2.2022 17.02, Chery, Nanley G wrote:
 > 
-> drm_fb_helper_damage() is acquiring spinlock_t (helper->damage_lock), 
-> while it can be called from contexts where raw_spinlock_t is held (e.g. 
-> console_owner lock obtained on vprintk_emit() codepath).
 > 
-> As the critical sections protected by damage_lock are super-tiny, let's 
-> fix this by converting it to raw_spinlock_t in order not to violate 
-> PREEMPT_RT-imposed lock nesting rules.
+>> -----Original Message-----
+>> From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+>> Sent: Tuesday, February 15, 2022 6:56 AM
+>> To: Nanley Chery <nanleychery@gmail.com>; C, Ramalingam
+>> <ramalingam.c@intel.com>
+>> Cc: intel-gfx <intel-gfx@lists.freedesktop.org>; Chery, Nanley G
+>> <nanley.g.chery@intel.com>; Auld, Matthew <matthew.auld@intel.com>; dri-
+>> devel <dri-devel@lists.freedesktop.org>
+>> Subject: Re: [Intel-gfx] [PATCH v5 16/19] uapi/drm/dg2: Introduce format
+>> modifier for DG2 clear color
+>>
+>> On 12.2.2022 3.19, Nanley Chery wrote:
+>>> On Tue, Feb 1, 2022 at 2:42 AM Ramalingam C <ramalingam.c@intel.com>
+>> wrote:
+>>>>
+>>>> From: Mika Kahola <mika.kahola@intel.com>
+>>>>
+>>>> DG2 clear color render compression uses Tile4 layout. Therefore, we
+>>>> need to define a new format modifier for uAPI to support clear color
+>> rendering.
+>>>>
+>>>> v2:
+>>>>     Display version is fixed. [Imre]
+>>>>     KDoc is enhanced for cc modifier. [Nanley & Lionel]
+>>>>
+>>>> Signed-off-by: Mika Kahola <mika.kahola@intel.com>
+>>>> cc: Anshuman Gupta <anshuman.gupta@intel.com>
+>>>> Signed-off-by: Juha-Pekka Heikkilä <juha-pekka.heikkila@intel.com>
+>>>> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+>>>> ---
+>>>>    drivers/gpu/drm/i915/display/intel_fb.c            |  8 ++++++++
+>>>>    drivers/gpu/drm/i915/display/skl_universal_plane.c |  9 ++++++++-
+>>>>    include/uapi/drm/drm_fourcc.h                      | 10 ++++++++++
+>>>>    3 files changed, 26 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c
+>>>> b/drivers/gpu/drm/i915/display/intel_fb.c
+>>>> index 4d4d01963f15..3df6ef5ffec5 100644
+>>>> --- a/drivers/gpu/drm/i915/display/intel_fb.c
+>>>> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
+>>>> @@ -144,6 +144,12 @@ static const struct intel_modifier_desc
+>> intel_modifiers[] = {
+>>>>                   .modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS,
+>>>>                   .display_ver = { 13, 13 },
+>>>>                   .plane_caps = INTEL_PLANE_CAP_TILING_4 |
+>>>> INTEL_PLANE_CAP_CCS_MC,
+>>>> +       }, {
+>>>> +               .modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC,
+>>>> +               .display_ver = { 13, 13 },
+>>>> +               .plane_caps = INTEL_PLANE_CAP_TILING_4 |
+>>>> + INTEL_PLANE_CAP_CCS_RC_CC,
+>>>> +
+>>>> +               .ccs.cc_planes = BIT(1),
+>>>>           }, {
+>>>>                   .modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS,
+>>>>                   .display_ver = { 13, 13 }, @@ -559,6 +565,7 @@
+>>>> intel_tile_width_bytes(const struct drm_framebuffer *fb, int color_plane)
+>>>>                   else
+>>>>                           return 512;
+>>>>           case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
+>>>> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
+>>>>           case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
+>>>>           case I915_FORMAT_MOD_4_TILED:
+>>>>                   /*
+>>>> @@ -763,6 +770,7 @@ unsigned int intel_surf_alignment(const struct
+>> drm_framebuffer *fb,
+>>>>           case I915_FORMAT_MOD_Yf_TILED:
+>>>>                   return 1 * 1024 * 1024;
+>>>>           case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
+>>>> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
+>>>>           case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
+>>>>                   return 16 * 1024;
+>>>>           default:
+>>>> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+>>>> b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+>>>> index c38ae0876c15..b4dced1907c5 100644
+>>>> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+>>>> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+>>>> @@ -772,6 +772,8 @@ static u32 skl_plane_ctl_tiling(u64 fb_modifier)
+>>>>                   return PLANE_CTL_TILED_4 |
+>>>>                           PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE |
+>>>>                           PLANE_CTL_CLEAR_COLOR_DISABLE;
+>>>> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
+>>>> +               return PLANE_CTL_TILED_4 |
+>>>> + PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
+>>>>           case I915_FORMAT_MOD_Y_TILED_CCS:
+>>>>           case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
+>>>>                   return PLANE_CTL_TILED_Y |
+>>>> PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
+>>>> @@ -2358,10 +2360,15 @@ skl_get_initial_plane_config(struct intel_crtc
+>> *crtc,
+>>>>                   break;
+>>>>           case PLANE_CTL_TILED_YF: /* aka PLANE_CTL_TILED_4 on XE_LPD+ */
+>>>>                   if (HAS_4TILE(dev_priv)) {
+>>>> -                       if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
+>>>> +                       u32 rc_mask = PLANE_CTL_RENDER_DECOMPRESSION_ENABLE |
+>>>> +                                     PLANE_CTL_CLEAR_COLOR_DISABLE;
+>>>> +
+>>>> +                       if ((val & rc_mask) == rc_mask)
+>>>>                                   fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS;
+>>>>                           else if (val & PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE)
+>>>>                                   fb->modifier =
+>>>> I915_FORMAT_MOD_4_TILED_DG2_MC_CCS;
+>>>> +                       else if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
+>>>> +                               fb->modifier =
+>>>> + I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC;
+>>>>                           else
+>>>>                                   fb->modifier = I915_FORMAT_MOD_4_TILED;
+>>>>                   } else {
+>>>> diff --git a/include/uapi/drm/drm_fourcc.h
+>>>> b/include/uapi/drm/drm_fourcc.h index b8fb7b44c03c..697614ea4b84
+>>>> 100644
+>>>> --- a/include/uapi/drm/drm_fourcc.h
+>>>> +++ b/include/uapi/drm/drm_fourcc.h
+>>>> @@ -605,6 +605,16 @@ extern "C" {
+>>>>     */
+>>>>    #define I915_FORMAT_MOD_4_TILED_DG2_MC_CCS
+>> fourcc_mod_code(INTEL,
+>>>> 11)
+>>>>
+>>>> +/*
+>>>> + * Intel color control surfaces (CCS) for DG2 clear color render compression.
+>>>> + *
+>>>> + * DG2 uses a unified compression format for clear color render
+>> compression.
+>>>
+>>> What's unified about DG2's compression format? If this doesn't affect
+>>> the layout, maybe we should drop this sentence.
+>>>
+>>>> + * The general layout is a tiled layout using 4Kb tiles i.e. Tile4 layout.
+>>>> + *
+>>>
+>>> This also needs a pitch aligned to four tiles, right? I think we can
+>>> save some effort by referencing the DG2_RC_CCS modifier here.
+>>>
+>>>> + * Fast clear color value expected by HW is located in fb at offset
+>>>> + 0 of plane#1
+>>>
+>>> Why is the expected offset hardcoded to 0 instead of relying on the
+>>> offset provided by the modifier API? This looks like a bug.
+>>
+>> Hi Nanley,
+>>
+>> can you elaborate a bit, which offset from modifier API that applies to cc surface?
+>>
 > 
-> This fixes the splat below.
+> Hi Juha-Pekka,
 > 
->  =============================
->  [ BUG: Invalid wait context ]
->  5.17.0-rc4-00002-gd567f5db412e #1 Not tainted
-
-rc4. Is this also the case in the RT tree which includes John's printk
-changes?
-
->  -----------------------------
->  swapper/0/0 is trying to lock:
->  ffff8c5687cc4158 (&helper->damage_lock){....}-{3:3}, at: drm_fb_helper_damage.isra.22+0x4a/0xf0
->  other info that might help us debug this:
->  context-{2:2}
->  3 locks held by swapper/0/0:
->   #0: ffffffffad776520 (console_lock){+.+.}-{0:0}, at: vprintk_emit+0xb8/0x2a0
->   #1: ffffffffad696120 (console_owner){-...}-{0:0}, at: console_unlock+0x17f/0x550
->   #2: ffffffffad926a58 (printing_lock){....}-{3:3}, at: vt_console_print+0x7d/0x3e0
->  stack backtrace:
->  CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.17.0-rc4-00002-gd567f5db412e #1 bed1d5e19e0e7e8c9d97fd8afa1322f7f47a4f38
->  Hardware name: LENOVO 20UJS2B905/20UJS2B905, BIOS R1CET63W(1.32 ) 04/09/2021
->  Call Trace:
->   <IRQ>
->   dump_stack_lvl+0x58/0x71
->   __lock_acquire+0x165b/0x1780
->   ? secondary_startup_64_no_verify+0xd5/0xdb
->   lock_acquire+0x278/0x300
->   ? drm_fb_helper_damage.isra.22+0x4a/0xf0
->   ? save_trace+0x3e/0x340
->   ? __bfs+0x10f/0x240
->   _raw_spin_lock_irqsave+0x48/0x60
->   ? drm_fb_helper_damage.isra.22+0x4a/0xf0
->   drm_fb_helper_damage.isra.22+0x4a/0xf0
->   soft_cursor+0x194/0x240
->   bit_cursor+0x386/0x630
->   ? get_color+0x29/0x120
->   ? bit_putcs+0x4b0/0x4b0
->   ? console_unlock+0x17f/0x550
->   hide_cursor+0x2f/0x90
->   vt_console_print+0x3c5/0x3e0
->   ? console_unlock+0x17f/0x550
->   console_unlock+0x515/0x550
->   vprintk_emit+0x1c8/0x2a0
->   _printk+0x52/0x6e
->   ? sched_clock_tick+0x3d/0x60
->   collect_cpu_info_amd+0x93/0xd0
->   collect_cpu_info_local+0x23/0x30
->   flush_smp_call_function_queue+0x137/0x220
->   __sysvec_call_function_single+0x43/0x1c0
->   sysvec_call_function_single+0x43/0x80
->   </IRQ>
->   <TASK>
->   asm_sysvec_call_function_single+0x12/0x20
->  RIP: 0010:cpuidle_enter_state+0x111/0x4b0
->  Code: 7c ff 45 84 ff 74 17 9c 58 0f 1f 44 00 00 f6 c4 02 0f 85 71 03 00 00 31 ff e8 bb 21 86 ff e8 76 2f 8e ff fb 66 0f 1f 44 00 00 <45> 85 f6 0f 88 12 01 00 00 49 63 d6 4c 2b 24 24 48 8d 04 52 48 8d
->  RSP: 0018:ffffffffad603e48 EFLAGS: 00000206
->  RAX: 00000000000127c3 RBX: 0000000000000003 RCX: 0000000000000000
->  RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffffac32617a
->  RBP: ffff8c5687ba4400 R08: 0000000000000001 R09: 0000000000000001
->  R10: ffffffffad603e10 R11: 0000000000000000 R12: 00000000685eb4a0
->  R13: ffffffffad918f80 R14: 0000000000000003 R15: 0000000000000000
->   ? cpuidle_enter_state+0x10a/0x4b0
->   ? cpuidle_enter_state+0x10a/0x4b0
->   cpuidle_enter+0x29/0x40
->   do_idle+0x24d/0x2c0
->   cpu_startup_entry+0x19/0x20
->   start_kernel+0x9c2/0x9e9
->   secondary_startup_64_no_verify+0xd5/0xdb
->   </TASK>
-> 
-> Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-> ---
->  drivers/gpu/drm/drm_fb_helper.c | 14 +++++++-------
->  include/drm/drm_fb_helper.h     |  2 +-
->  2 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index ed43b987d306..7c4ab6e6f865 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -436,11 +436,11 @@ static void drm_fb_helper_damage_work(struct work_struct *work)
->  	unsigned long flags;
->  	int ret;
->  
-> -	spin_lock_irqsave(&helper->damage_lock, flags);
-> +	raw_spin_lock_irqsave(&helper->damage_lock, flags);
->  	clip_copy = *clip;
->  	clip->x1 = clip->y1 = ~0;
->  	clip->x2 = clip->y2 = 0;
-> -	spin_unlock_irqrestore(&helper->damage_lock, flags);
-> +	raw_spin_unlock_irqrestore(&helper->damage_lock, flags);
->  
->  	/* Call damage handlers only if necessary */
->  	if (!(clip_copy.x1 < clip_copy.x2 && clip_copy.y1 < clip_copy.y2))
-> @@ -465,12 +465,12 @@ static void drm_fb_helper_damage_work(struct work_struct *work)
->  	 * Restore damage clip rectangle on errors. The next run
->  	 * of the damage worker will perform the update.
->  	 */
-> -	spin_lock_irqsave(&helper->damage_lock, flags);
-> +	raw_spin_lock_irqsave(&helper->damage_lock, flags);
->  	clip->x1 = min_t(u32, clip->x1, clip_copy.x1);
->  	clip->y1 = min_t(u32, clip->y1, clip_copy.y1);
->  	clip->x2 = max_t(u32, clip->x2, clip_copy.x2);
->  	clip->y2 = max_t(u32, clip->y2, clip_copy.y2);
-> -	spin_unlock_irqrestore(&helper->damage_lock, flags);
-> +	raw_spin_unlock_irqrestore(&helper->damage_lock, flags);
->  }
->  
->  /**
-> @@ -486,7 +486,7 @@ void drm_fb_helper_prepare(struct drm_device *dev, struct drm_fb_helper *helper,
->  			   const struct drm_fb_helper_funcs *funcs)
->  {
->  	INIT_LIST_HEAD(&helper->kernel_fb_list);
-> -	spin_lock_init(&helper->damage_lock);
-> +	raw_spin_lock_init(&helper->damage_lock);
->  	INIT_WORK(&helper->resume_work, drm_fb_helper_resume_worker);
->  	INIT_WORK(&helper->damage_work, drm_fb_helper_damage_work);
->  	helper->damage_clip.x1 = helper->damage_clip.y1 = ~0;
-> @@ -670,12 +670,12 @@ static void drm_fb_helper_damage(struct fb_info *info, u32 x, u32 y,
->  	if (!drm_fbdev_use_shadow_fb(helper))
->  		return;
->  
-> -	spin_lock_irqsave(&helper->damage_lock, flags);
-> +	raw_spin_lock_irqsave(&helper->damage_lock, flags);
->  	clip->x1 = min_t(u32, clip->x1, x);
->  	clip->y1 = min_t(u32, clip->y1, y);
->  	clip->x2 = max_t(u32, clip->x2, x + width);
->  	clip->y2 = max_t(u32, clip->y2, y + height);
-> -	spin_unlock_irqrestore(&helper->damage_lock, flags);
-> +	raw_spin_unlock_irqrestore(&helper->damage_lock, flags);
->  
->  	schedule_work(&helper->damage_work);
->  }
-> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-> index 3af4624368d8..91178958896e 100644
-> --- a/include/drm/drm_fb_helper.h
-> +++ b/include/drm/drm_fb_helper.h
-> @@ -131,7 +131,7 @@ struct drm_fb_helper {
->  	struct fb_info *fbdev;
->  	u32 pseudo_palette[17];
->  	struct drm_clip_rect damage_clip;
-> -	spinlock_t damage_lock;
-> +	raw_spinlock_t damage_lock;
->  	struct work_struct damage_work;
->  	struct work_struct resume_work;
->  
+> On the kernel-side of things, I'm thinking of drm_mode_fb_cmd2::offsets[1].
 > 
 
-Sebastian
+Hi Nanley,
+
+this offset is coming from userspace on creation of framebuffer, at that 
+moment from userspace caller can point to offset of desire. Normally 
+offset[0] is set at 0 and then offset[n] at plane n start which is not 
+stated to have to be exactly after plane n-1 end. Or did I misunderstand 
+what you meant?
+
+For cc plane this offset likely will not be zero anyway and caller can 
+move it as see fit to have cc plane (plane[1]) location[0] at place 
+where wanted to have it.
+
+/Juha-Pekka
+
+> 
+>>>
+>>> We should probably give some info about the relevant fields in the
+>>> fast clear plane (like what's done in the GEN12_RC_CCS_CC modifier).
+>>
+>> agree, that's totally missing here.
+>>
+>> /Juha-Pekka
+>>
+>>>
+>>>> + */
+>>>> +#define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC
+>> fourcc_mod_code(INTEL,
+>>>> +12)
+>>>> +
+>>>>    /*
+>>>>     * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
+>>>>     *
+>>>> --
+>>>> 2.20.1
+>>>>
+> 
+
