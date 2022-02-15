@@ -1,59 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE554B746E
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 19:42:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59FE44B7471
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 19:49:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD3910E4CB;
-	Tue, 15 Feb 2022 18:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7E5910E511;
+	Tue, 15 Feb 2022 18:49:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C47ED10E4CB
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 18:42:30 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id 71so18154235qkf.4
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 10:42:30 -0800 (PST)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F6BC10E45B
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 18:49:33 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id t14so28058091ljh.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 10:49:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=N8Mzo9kwQJbBUuobpZNkluKeTNp6O+4lLW+jyI06oSo=;
- b=hTEg+HbHcQZriHxnBXteXcl1poQJoQHNozcsa9SZqVNd8prBRHZFjGUxTy7SCMCcOB
- eznXsbj2rZCoyXyQ2MF9tQXo890PqpAlHv0eGpQA11NLwEhc7aKo8mQ4ee9I9q0npkiH
- 5UUzW81KMr+ECp2U624rcpzN5WjTqnivnR9PgojwhDTdTAbJ7Fx+N8DqdEop0HANEY5n
- jUvJnYvfBzV2l1n8qjL/Kl6N6mSMZJrTXMsJRNkhBNXunSVrdCTBybzcxGqrvE0A/jKu
- 7jXebjRdMeFbOvPdYssrCRkaBhoAxnknePb8hK/yiHqUh7hL8Ux1qrsmr9/klVDtgd95
- E96g==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=kTtmg6ktAgJwq5MZnJ5eet949KxjKcTh/gStfNg5//s=;
+ b=mxCurUCVewHQoySZecTezkZpd491SJOV26FBezRGliAgBwymStY35QI5At/pQ3Xub2
+ J3D1Zd64MTSnnmmMe22rJ4Lg5H9o9IiVzsN61N0j5+TCr/2CDU0CG93cty2qhE9K8xSJ
+ /MbgffX1WgdOJA9c09hKeDREI+4UzDJ9YQ6vohijyBnpUVt3ipAz3pGk184ldls+F1Qy
+ gsSjYYlPrYxQQ3BMoQ0wPise7fLz00kMKslwTpAn1/ihtTX+p0B23DF9cn3baa/nor7W
+ xRlTGmAwZg7di2Cqdd76B5GEcY9Ibm0PHbeVDoH3lZHdg+ZtbpgU6nitfHwXFnnNYjB6
+ K1KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=N8Mzo9kwQJbBUuobpZNkluKeTNp6O+4lLW+jyI06oSo=;
- b=ZTcLxczZxbX1GPjKXb6nJe5Kv8WE6ihHtxsSUqILg4AhJ2UcsAIpZJ6YSpmFDZsbo1
- 0YTBqKs4l5tC3PtPjsj22jWTd61dgyksH9oia3m6UQYKKj96eHRn8HmFeFmQ+/BOo9Ik
- Y07v1RW6vy/RA23G18fkGNe1/f/UENSgVjg8zg9zgdb0kSLCdhQyqtZjM8tm0k0JbzTK
- k/1WMYp7RilJL4KxsOkZkARCxZYED6qOZDPrdTq7omacKCphgGdByC851XDXo61oUS/m
- shfM303WJJitUWzp77zGSHjb61INjfQU75y6t4bLY9jEL/8wCQIERx3fgutxWeu0LFeb
- 8/Yg==
-X-Gm-Message-State: AOAM532iaPJVrJ1tfIiF0hAuQerHwcfkPRWvUSRJCQfYSAvSMojQpvwZ
- MLf/vDO9i8tDmVN3wUB8J5nJQW9SrT4ueYqW5do6pg==
-X-Google-Smtp-Source: ABdhPJzdKtk7sQP1DR1LID2+t1xyUg4t0iv8cYuGyPUvvU6bCfyJ5TXw0vfpWzSmL11GzbSz3QPHcHJlea+H+Wazvf4=
-X-Received: by 2002:a05:620a:1664:: with SMTP id
- d4mr190632qko.363.1644950549740; 
- Tue, 15 Feb 2022 10:42:29 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=kTtmg6ktAgJwq5MZnJ5eet949KxjKcTh/gStfNg5//s=;
+ b=URGcayUBlHnAWldR1yAUvXcfrhMXlUjwKsGVMzfo7ga6LB2LXKkqEBMQaQnBDFGWkd
+ p3nze5nl41Rcvf9C4KbVb/hgNi3EDG6AVePQropoYsyzQrv5k6EfHXQgJWGik+yhqRlj
+ zk3CgoKRFofPsvUNhWM8LhIVNLdKZhZBMFwiD1Upv09YGya4nUwwbQJV1/hFud69dxNY
+ AkM27y3iWgvjVKgiwkJtaZcM4biIgl7QHvNMO5TQNz6/AqxvFhox0s4cGNuFdXSMSQvc
+ lQP44SxvI5f9jOCYp4ExOnaRLkGg4BeTj7JsURtLMHT40EiyM9a9weWvY93IZtQyBi3n
+ JYMw==
+X-Gm-Message-State: AOAM530/6E+yyrAscnqPocdNFaP4H11WdCwwCgNYlDPkqsfdhKwA3524
+ TDqfqwbOqTFbxn6DVvWviNpnjQ==
+X-Google-Smtp-Source: ABdhPJx+9+PsOl6Q8gncO2syD37SkX6in1J2+l8UQdOPTSq+LigA0ypwIKqWPateUelxaClG6IWR2g==
+X-Received: by 2002:a05:651c:545:: with SMTP id
+ q5mr245400ljp.393.1644950971396; 
+ Tue, 15 Feb 2022 10:49:31 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id c4sm724798lfs.220.2022.02.15.10.49.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 10:49:30 -0800 (PST)
+Message-ID: <98f5ec0b-2279-04af-f333-e1d56be0d171@linaro.org>
+Date: Tue, 15 Feb 2022 21:49:30 +0300
 MIME-Version: 1.0
-References: <20220215043353.1256754-1-bjorn.andersson@linaro.org>
- <20220215043353.1256754-2-bjorn.andersson@linaro.org>
- <be397e2e-05ab-5c18-8e2d-16c443f0a6d1@quicinc.com>
- <Ygvisfhi0SY6XdAz@builder.lan>
- <6a3ef247-b26b-d505-cd85-92fb277163dd@quicinc.com>
-In-Reply-To: <6a3ef247-b26b-d505-cd85-92fb277163dd@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v4 2/2] drm/msm/dp: enable widebus feature for display port
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+References: <1644878346-28511-1-git-send-email-quic_khsieh@quicinc.com>
+ <1644878346-28511-3-git-send-email-quic_khsieh@quicinc.com>
+ <db5ecfec-c61e-43ff-4e76-5517fd671503@linaro.org>
+ <5682ea06-5853-158d-777a-7d59935fb4dc@quicinc.com>
+ <CAA8EJppVih5vojR623M=DjA4QyxfBs_Q14CognuRpLWBDyvf3w@mail.gmail.com>
+ <74351326-8375-61fd-b967-57092c85d319@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 15 Feb 2022 21:42:18 +0300
-Message-ID: <CAA8EJprCaiPW=Kk0B69RNNwAk0xcqaxQA031sfR0ky+BfzcWKQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/msm/dpu: Add SC8180x to hw catalog
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <74351326-8375-61fd-b967-57092c85d319@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,312 +77,396 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, vkoul@kernel.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com,
+ bjorn.andersson@linaro.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Feb 2022 at 20:42, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> On 2/15/2022 9:28 AM, Bjorn Andersson wrote:
-> > On Tue 15 Feb 11:14 CST 2022, Abhinav Kumar wrote:
-> >
-> >>
-> >>
-> >> On 2/14/2022 8:33 PM, Bjorn Andersson wrote:
-> >>> From: Rob Clark <robdclark@chromium.org>
-> >>>
-> >>> Add SC8180x to the hardware catalog, for initial support for the
-> >>> platform. Due to limitations in the DP driver only one of the four DP
-> >>> interfaces is left enabled.
-> >>>
-> >>> The SC8180x platform supports the newly added DPU_INTF_WIDEBUS flag and
-> >>> the Windows-on-Snapdragon bootloader leaves the widebus bit set, so this
-> >>> is flagged appropriately to ensure widebus is disabled - for now.
-> >>>
-> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>> [bjorn: Reworked intf and irq definitions]
-> >>> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> >>> ---
-> >>>
-> >>> Changes since v1:
-> >>> - Dropped widebus flag
-> >>>
-> >>>    .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 129 ++++++++++++++++++
-> >>>    .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
-> >>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
-> >>>    drivers/gpu/drm/msm/msm_drv.c                 |   1 +
-> >>>    4 files changed, 132 insertions(+)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> >>> index aa75991903a6..7ac0fe32df49 100644
-> >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> >>> @@ -90,6 +90,17 @@
-> >>>                      BIT(MDP_INTF3_INTR) | \
-> >>>                      BIT(MDP_INTF4_INTR))
-> >>> +#define IRQ_SC8180X_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
-> >>> +                     BIT(MDP_SSPP_TOP0_INTR2) | \
-> >>> +                     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
-> >>> +                     BIT(MDP_INTF0_INTR) | \
-> >>> +                     BIT(MDP_INTF1_INTR) | \
-> >>> +                     BIT(MDP_INTF2_INTR) | \
-> >>> +                     BIT(MDP_INTF3_INTR) | \
-> >>> +                     BIT(MDP_INTF4_INTR) | \
-> >>> +                     BIT(MDP_INTF5_INTR) | \
-> >>> +                     BIT(MDP_AD4_0_INTR) | \
-> >>> +                     BIT(MDP_AD4_1_INTR))
-> >>>    #define DEFAULT_PIXEL_RAM_SIZE           (50 * 1024)
-> >>>    #define DEFAULT_DPU_LINE_WIDTH           2048
-> >>> @@ -225,6 +236,22 @@ static const struct dpu_caps sm8150_dpu_caps = {
-> >>>     .max_vdeci_exp = MAX_VERT_DECIMATION,
-> >>>    };
-> >>> +static const struct dpu_caps sc8180x_dpu_caps = {
-> >>> +   .max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-> >>> +   .max_mixer_blendstages = 0xb,
-> >>> +   .qseed_type = DPU_SSPP_SCALER_QSEED3,
-> >>> +   .smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
-> >>> +   .ubwc_version = DPU_HW_UBWC_VER_30,
-> >>> +   .has_src_split = true,
-> >>> +   .has_dim_layer = true,
-> >>> +   .has_idle_pc = true,
-> >>> +   .has_3d_merge = true,
-> >>> +   .max_linewidth = 4096,
-> >>> +   .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-> >>> +   .max_hdeci_exp = MAX_HORZ_DECIMATION,
-> >>> +   .max_vdeci_exp = MAX_VERT_DECIMATION,
-> >>> +};
-> >>> +
-> >>>    static const struct dpu_caps sm8250_dpu_caps = {
-> >>>     .max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-> >>>     .max_mixer_blendstages = 0xb,
-> >>> @@ -293,6 +320,31 @@ static const struct dpu_mdp_cfg sc7180_mdp[] = {
-> >>>     },
-> >>>    };
-> >>> +static const struct dpu_mdp_cfg sc8180x_mdp[] = {
-> >>> +   {
-> >>> +   .name = "top_0", .id = MDP_TOP,
-> >>> +   .base = 0x0, .len = 0x45C,
-> >>> +   .features = 0,
-> >>> +   .highest_bank_bit = 0x3,
-> >>> +   .clk_ctrls[DPU_CLK_CTRL_VIG0] = {
-> >>> +                   .reg_off = 0x2AC, .bit_off = 0},
-> >>> +   .clk_ctrls[DPU_CLK_CTRL_VIG1] = {
-> >>> +                   .reg_off = 0x2B4, .bit_off = 0},
-> >>> +   .clk_ctrls[DPU_CLK_CTRL_VIG2] = {
-> >>> +                   .reg_off = 0x2BC, .bit_off = 0},
-> >>> +   .clk_ctrls[DPU_CLK_CTRL_VIG3] = {
-> >>> +                   .reg_off = 0x2C4, .bit_off = 0},
-> >>> +   .clk_ctrls[DPU_CLK_CTRL_DMA0] = {
-> >>> +                   .reg_off = 0x2AC, .bit_off = 8},
-> >>> +   .clk_ctrls[DPU_CLK_CTRL_DMA1] = {
-> >>> +                   .reg_off = 0x2B4, .bit_off = 8},
-> >>> +   .clk_ctrls[DPU_CLK_CTRL_CURSOR0] = {
-> >>> +                   .reg_off = 0x2BC, .bit_off = 8},
-> >>> +   .clk_ctrls[DPU_CLK_CTRL_CURSOR1] = {
-> >>> +                   .reg_off = 0x2C4, .bit_off = 8},
-> >>> +   },
-> >>> +};
-> >>> +
-> >>>    static const struct dpu_mdp_cfg sm8250_mdp[] = {
-> >>>     {
-> >>>     .name = "top_0", .id = MDP_TOP,
-> >>> @@ -861,6 +913,16 @@ static const struct dpu_intf_cfg sc7280_intf[] = {
-> >>>     INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
-> >>>    };
-> >>> +static const struct dpu_intf_cfg sc8180x_intf[] = {
-> >>> +   INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
-> >>> +   INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
-> >>> +   INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
-> >>> +   /* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
-> >>> +   INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
-> >>> +   INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
-> >>> +   INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, MSM_DP_CONTROLLER_2, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
-> >>
-> >> This is a continued discussion from
-> >> https://patchwork.freedesktop.org/patch/474179/.
-> >>
-> >> Shouldnt INTF_5 be marked as INTF_eDP?
-> >>
-> >
-> > Might be, I didn't even know we had an INTF_EDP define...
-> >
-> > Is there any reason to distinguish DP and EDP in the DPU?  I see sc7280
-> > doesn't distinguish the DP and EDP interfaces.
-> >
-> > Regards,
-> > Bjorn
-> >
->
-> Like I have mentioned in the other patch, I think we have enough
-> confusion between eDP and DP with the common driver. Since DPU does have
-> separate interfaces I think we should fix that.
->
-> Regarding sc7280 using INTF_DP, I synced up with Sankeerth. He referred
-> to your change
-> https://patchwork.freedesktop.org/patch/457776/?series=92992&rev=5 as it
-> was posted earlier and ended up using the same INTF_DP macro. So its
-> turning out to be a cyclical error.
->
-> I think we should fix both.
+On 15/02/2022 21:39, Kuogee Hsieh wrote:
+> 
+> On 2/15/2022 10:30 AM, Dmitry Baryshkov wrote:
+>> On Tue, 15 Feb 2022 at 20:49, Kuogee Hsieh <quic_khsieh@quicinc.com> 
+>> wrote:
+>>>
+>>> On 2/15/2022 5:34 AM, Dmitry Baryshkov wrote:
+>>>> On 15/02/2022 01:39, Kuogee Hsieh wrote:
+>>>>> Widebus feature will transmit two pixel data per pixel clock to
+>>>>> interface.
+>>>>> This feature now is required to be enabled to easy migrant to higher
+>>>>> resolution applications in future. However since some legacy chipsets
+>>>>> does not support this feature, this feature is enabled base on chip's
+>>>>> hardware revision.
+>>>>>
+>>>>> changes in v2:
+>>>>> -- remove compression related code from timing
+>>>>> -- remove op_info from  struct msm_drm_private
+>>>>> -- remove unnecessary wide_bus_en variables
+>>>>> -- pass wide_bus_en into timing configuration by struct msm_dp
+>>>>>
+>>>>> Changes in v3:
+>>>>> -- split patch into 3 patches
+>>>>> -- enable widebus feature base on chip hardware revision
+>>>>>
+>>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>>>> ---
+>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  4 +++-
+>>>>>    drivers/gpu/drm/msm/dp/dp_catalog.c         | 36
+>>>>> +++++++++++++++++++++++++++--
+>>>>>    drivers/gpu/drm/msm/dp/dp_catalog.h         |  3 ++-
+>>>>>    drivers/gpu/drm/msm/dp/dp_ctrl.c            | 13 +++++++----
+>>>>>    drivers/gpu/drm/msm/dp/dp_ctrl.h            |  1 +
+>>>>>    drivers/gpu/drm/msm/dp/dp_display.c         | 30
+>>>>> ++++++++++++++++++++++++
+>>>>>    drivers/gpu/drm/msm/dp/dp_display.h         |  2 ++
+>>>>>    drivers/gpu/drm/msm/dp/dp_panel.c           |  4 ++--
+>>>>>    drivers/gpu/drm/msm/dp/dp_panel.h           |  2 +-
+>>>>>    drivers/gpu/drm/msm/msm_drv.h               |  6 +++++
+>>>>>    10 files changed, 90 insertions(+), 11 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>>> index 0c22839..b2d23c2 100644
+>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>>> @@ -2167,8 +2167,10 @@ int dpu_encoder_setup(struct drm_device *dev,
+>>>>> struct drm_encoder *enc,
+>>>>>            timer_setup(&dpu_enc->vsync_event_timer,
+>>>>>                    dpu_encoder_vsync_event_handler,
+>>>>>                    0);
+>>>>> -    else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS)
+>>>>> +    else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS) {
+>>>>>            dpu_enc->dp = priv->dp[disp_info->h_tile_instance[0]];
+>>>>> +        dpu_enc->wide_bus_en = msm_dp_wide_bus_enable(dpu_enc->dp);
+>>>>> +    }
+>>>> Please revert the order of the patches and move this chunk into the
+>>>> DPU patch.
+>>> There is chicken  and egg issue here.
+>>>
+>>> I think we should create an communication channel to pass dp/dsi driver
+>>> info to drm, such as wide_bus_en and dsc compression, etc.
+>>>
+>>> By function calls like this will create more unnecessary tangles between
+>>> driver and drm layer.
+>> I'm fine with the function call. I'm suggesting another thing. If you
+>> change the order of these two patches (#1 - dp, #2 - dpu), the
+>> msm_dp_wide_bus_enable() will get added in patch#1 and will be
+>> available to be called in the patch#2.
+> 
+> By doing that, we have wile widebus enabled at (#1 -dp) patch but has no 
+> timing engine changes at (#2 -dpu) to support it. This means (#1 -dp) 
+> will break dp until (#2 -dpu) merged.
+> 
+> Is this ok?
 
-So, what is the value for DPU to distinguish between eDP and DP interfaces?
-Would we get anything except the (intf_type == INTF_EDP || intf_type
-== INTF_DP) instead of (intf_type == INTF_DP) in all the cases where
-the type is checked?
-(thus leading us to cases when someone would forget to add INTF_EDP
-next to INTF_DP)
+Ah, I missed this. Please excuse me. It's fine to leave the order as is 
+then.
 
-Also, if we are switching from INTF_DP to INTF_EDP, should we stop
-using end-to-end numbering (like MSM_DP_CONTROLLER_2 for INTF_5) and
-add a separate numbering scheme for INTF_EDP?
-
-With all that in mind I'd suggest to:
-- use INTF_DP for both DP and new eDP interfaces
-- remove INTF_EDP usage from the dpu1 driver
-- add a note that INTF_EDP corresponds to older eDP blocks (found on 8x74/8x84)
-
->
-> >>> +};
-> >>> +
-> >>>    /*************************************************************
-> >>>     * VBIF sub blocks config
-> >>>     *************************************************************/
-> >>> @@ -931,6 +993,10 @@ static const struct dpu_qos_lut_entry sm8150_qos_linear[] = {
-> >>>     {.fl = 0, .lut = 0x0011222222223357 },
-> >>>    };
-> >>> +static const struct dpu_qos_lut_entry sc8180x_qos_linear[] = {
-> >>> +   {.fl = 4, .lut = 0x0000000000000357 },
-> >>> +};
-> >>> +
-> >>>    static const struct dpu_qos_lut_entry sdm845_qos_macrotile[] = {
-> >>>     {.fl = 10, .lut = 0x344556677},
-> >>>     {.fl = 11, .lut = 0x3344556677},
-> >>> @@ -944,6 +1010,10 @@ static const struct dpu_qos_lut_entry sc7180_qos_macrotile[] = {
-> >>>     {.fl = 0, .lut = 0x0011223344556677},
-> >>>    };
-> >>> +static const struct dpu_qos_lut_entry sc8180x_qos_macrotile[] = {
-> >>> +   {.fl = 10, .lut = 0x0000000344556677},
-> >>> +};
-> >>> +
-> >>>    static const struct dpu_qos_lut_entry sdm845_qos_nrt[] = {
-> >>>     {.fl = 0, .lut = 0x0},
-> >>>    };
-> >>> @@ -1045,6 +1115,33 @@ static const struct dpu_perf_cfg sm8150_perf_data = {
-> >>>     .bw_inefficiency_factor = 120,
-> >>>    };
-> >>> +static const struct dpu_perf_cfg sc8180x_perf_data = {
-> >>> +   .max_bw_low = 9600000,
-> >>> +   .max_bw_high = 9600000,
-> >>> +   .min_core_ib = 2400000,
-> >>> +   .min_llcc_ib = 800000,
-> >>> +   .min_dram_ib = 800000,
-> >>> +   .danger_lut_tbl = {0xf, 0xffff, 0x0, 0x0},
-> >>> +   .qos_lut_tbl = {
-> >>> +           {.nentry = ARRAY_SIZE(sc8180x_qos_linear),
-> >>> +           .entries = sc8180x_qos_linear
-> >>> +           },
-> >>> +           {.nentry = ARRAY_SIZE(sc8180x_qos_macrotile),
-> >>> +           .entries = sc8180x_qos_macrotile
-> >>> +           },
-> >>> +           {.nentry = ARRAY_SIZE(sc7180_qos_nrt),
-> >>> +           .entries = sc7180_qos_nrt
-> >>> +           },
-> >>> +           /* TODO: macrotile-qseed is different from macrotile */
-> >>> +   },
-> >>> +   .cdp_cfg = {
-> >>> +           {.rd_enable = 1, .wr_enable = 1},
-> >>> +           {.rd_enable = 1, .wr_enable = 0}
-> >>> +   },
-> >>> +   .clk_inefficiency_factor = 105,
-> >>> +   .bw_inefficiency_factor = 120,
-> >>> +};
-> >>> +
-> >>>    static const struct dpu_perf_cfg sm8250_perf_data = {
-> >>>     .max_bw_low = 13700000,
-> >>>     .max_bw_high = 16600000,
-> >>> @@ -1199,6 +1296,37 @@ static void sm8150_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
-> >>>     };
-> >>>    }
-> >>> +/*
-> >>> + * sc8180x_cfg_init(): populate sc8180 dpu sub-blocks reg offsets
-> >>> + * and instance counts.
-> >>> + */
-> >>> +static void sc8180x_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
-> >>> +{
-> >>> +   *dpu_cfg = (struct dpu_mdss_cfg){
-> >>> +           .caps = &sc8180x_dpu_caps,
-> >>> +           .mdp_count = ARRAY_SIZE(sc8180x_mdp),
-> >>> +           .mdp = sc8180x_mdp,
-> >>> +           .ctl_count = ARRAY_SIZE(sm8150_ctl),
-> >>> +           .ctl = sm8150_ctl,
-> >>> +           .sspp_count = ARRAY_SIZE(sdm845_sspp),
-> >>> +           .sspp = sdm845_sspp,
-> >>> +           .mixer_count = ARRAY_SIZE(sm8150_lm),
-> >>> +           .mixer = sm8150_lm,
-> >>> +           .pingpong_count = ARRAY_SIZE(sm8150_pp),
-> >>> +           .pingpong = sm8150_pp,
-> >>> +           .merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-> >>> +           .merge_3d = sm8150_merge_3d,
-> >>> +           .intf_count = ARRAY_SIZE(sc8180x_intf),
-> >>> +           .intf = sc8180x_intf,
-> >>> +           .vbif_count = ARRAY_SIZE(sdm845_vbif),
-> >>> +           .vbif = sdm845_vbif,
-> >>> +           .reg_dma_count = 1,
-> >>> +           .dma_cfg = sm8150_regdma,
-> >>> +           .perf = sc8180x_perf_data,
-> >>> +           .mdss_irqs = IRQ_SC8180X_MASK,
-> >>> +   };
-> >>> +}
-> >>> +
-> >>>    /*
-> >>>     * sm8250_cfg_init(): populate sm8250 dpu sub-blocks reg offsets
-> >>>     * and instance counts.
-> >>> @@ -1260,6 +1388,7 @@ static const struct dpu_mdss_hw_cfg_handler cfg_handler[] = {
-> >>>     { .hw_rev = DPU_HW_VER_401, .cfg_init = sdm845_cfg_init},
-> >>>     { .hw_rev = DPU_HW_VER_500, .cfg_init = sm8150_cfg_init},
-> >>>     { .hw_rev = DPU_HW_VER_501, .cfg_init = sm8150_cfg_init},
-> >>> +   { .hw_rev = DPU_HW_VER_510, .cfg_init = sc8180x_cfg_init},
-> >>>     { .hw_rev = DPU_HW_VER_600, .cfg_init = sm8250_cfg_init},
-> >>>     { .hw_rev = DPU_HW_VER_620, .cfg_init = sc7180_cfg_init},
-> >>>     { .hw_rev = DPU_HW_VER_720, .cfg_init = sc7280_cfg_init},
-> >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> >>> index 31af04afda7d..9572d29ff2ff 100644
-> >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> >>> @@ -39,6 +39,7 @@
-> >>>    #define DPU_HW_VER_410   DPU_HW_VER(4, 1, 0) /* sdm670 v1.0 */
-> >>>    #define DPU_HW_VER_500   DPU_HW_VER(5, 0, 0) /* sm8150 v1.0 */
-> >>>    #define DPU_HW_VER_501   DPU_HW_VER(5, 0, 1) /* sm8150 v2.0 */
-> >>> +#define DPU_HW_VER_510     DPU_HW_VER(5, 1, 1) /* sc8180 */
-> >>>    #define DPU_HW_VER_600   DPU_HW_VER(6, 0, 0) /* sm8250 */
-> >>>    #define DPU_HW_VER_620   DPU_HW_VER(6, 2, 0) /* sc7180 v1.0 */
-> >>>    #define DPU_HW_VER_720   DPU_HW_VER(7, 2, 0) /* sc7280 */
-> >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> >>> index 47fe11a84a77..cedc631f8498 100644
-> >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> >>> @@ -1351,6 +1351,7 @@ const struct of_device_id dpu_dt_match[] = {
-> >>>     { .compatible = "qcom,sdm845-dpu", },
-> >>>     { .compatible = "qcom,sc7180-dpu", },
-> >>>     { .compatible = "qcom,sc7280-dpu", },
-> >>> +   { .compatible = "qcom,sc8180x-dpu", },
-> >>>     { .compatible = "qcom,sm8150-dpu", },
-> >>>     { .compatible = "qcom,sm8250-dpu", },
-> >>>     {}
-> >>> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> >>> index 555666e3f960..0f441d358b60 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_drv.c
-> >>> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> >>> @@ -1438,6 +1438,7 @@ static const struct of_device_id dt_match[] = {
-> >>>     { .compatible = "qcom,sdm845-mdss", .data = (void *)KMS_DPU },
-> >>>     { .compatible = "qcom,sc7180-mdss", .data = (void *)KMS_DPU },
-> >>>     { .compatible = "qcom,sc7280-mdss", .data = (void *)KMS_DPU },
-> >>> +   { .compatible = "qcom,sc8180x-mdss", .data = (void *)KMS_DPU },
-> >>>     { .compatible = "qcom,sm8150-mdss", .data = (void *)KMS_DPU },
-> >>>     { .compatible = "qcom,sm8250-mdss", .data = (void *)KMS_DPU },
-> >>>     {}
-
+> 
+> 
+>>>>> INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
+>>>>>                dpu_encoder_off_work);
+>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c
+>>>>> b/drivers/gpu/drm/msm/dp/dp_catalog.c
+>>>>> index 64f0b26..99d087e 100644
+>>>>> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+>>>>> @@ -483,6 +483,27 @@ int dp_catalog_ctrl_set_pattern_state_bit(struct
+>>>>> dp_catalog *dp_catalog,
+>>>>>    }
+>>>>>      /**
+>>>>> + * dp_catalog_hw_revision() - retrieve DP hw revision
+>>>>> + *
+>>>>> + * @dp_catalog: DP catalog structure
+>>>>> + *
+>>>>> + * return: u32
+>>>>> + *
+>>>>> + * This function return the DP controller hw revision
+>>>>> + *
+>>>>> + */
+>>>>> +u32 dp_catalog_hw_revision(struct dp_catalog *dp_catalog)
+>>>>> +{
+>>>>> +    u32 revision;
+>>>>> +    struct dp_catalog_private *catalog = container_of(dp_catalog,
+>>>>> +                struct dp_catalog_private, dp_catalog);
+>>>>> +
+>>>>> +    revision = dp_read_ahb(catalog, REG_DP_HW_VERSION);
+>>>>> +
+>>>>> +    return revision;
+>>>>> +}
+>>>>> +
+>>>>> +/**
+>>>>>     * dp_catalog_ctrl_reset() - reset DP controller
+>>>>>     *
+>>>>>     * @dp_catalog: DP catalog structure
+>>>>> @@ -739,10 +760,11 @@ u32 dp_catalog_ctrl_read_phy_pattern(struct
+>>>>> dp_catalog *dp_catalog)
+>>>>>    }
+>>>>>      /* panel related catalog functions */
+>>>>> -int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
+>>>>> +int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog, bool
+>>>>> wide_bus_en)
+>>>>>    {
+>>>>>        struct dp_catalog_private *catalog = container_of(dp_catalog,
+>>>>>                    struct dp_catalog_private, dp_catalog);
+>>>>> +    u32 reg;
+>>>>>          dp_write_link(catalog, REG_DP_TOTAL_HOR_VER,
+>>>>>                    dp_catalog->total);
+>>>>> @@ -751,7 +773,17 @@ int dp_catalog_panel_timing_cfg(struct
+>>>>> dp_catalog *dp_catalog)
+>>>>>        dp_write_link(catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY,
+>>>>>                    dp_catalog->width_blanking);
+>>>>>        dp_write_link(catalog, REG_DP_ACTIVE_HOR_VER,
+>>>>> dp_catalog->dp_active);
+>>>>> -    dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, 0);
+>>>>> +
+>>>>> +    reg = dp_read_p0(catalog, MMSS_DP_INTF_CONFIG);
+>>>>> +
+>>>>> +    if (wide_bus_en)
+>>>>> +        reg |= BIT(4);    /* DATABUS_WIDEN */
+>>>>> +    else
+>>>>> +        reg &= ~BIT(4);
+>>>>> +
+>>>>> +    DRM_DEBUG_DP("wide_bus_en=%d reg=%x\n", wide_bus_en, reg);
+>>>>> +
+>>>>> +    dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, reg);
+>>>>>        return 0;
+>>>>>    }
+>>>>>    diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h
+>>>>> b/drivers/gpu/drm/msm/dp/dp_catalog.h
+>>>>> index 7dea101..a3a0129 100644
+>>>>> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
+>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+>>>>> @@ -95,6 +95,7 @@ void dp_catalog_ctrl_config_misc(struct dp_catalog
+>>>>> *dp_catalog, u32 cc, u32 tb);
+>>>>>    void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32
+>>>>> rate,
+>>>>>                    u32 stream_rate_khz, bool fixed_nvid);
+>>>>>    int dp_catalog_ctrl_set_pattern_state_bit(struct dp_catalog
+>>>>> *dp_catalog, u32 pattern);
+>>>>> +u32 dp_catalog_hw_revision(struct dp_catalog *dp_catalog);
+>>>>>    void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog);
+>>>>>    bool dp_catalog_ctrl_mainlink_ready(struct dp_catalog *dp_catalog);
+>>>>>    void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool
+>>>>> enable);
+>>>>> @@ -115,7 +116,7 @@ void dp_catalog_ctrl_send_phy_pattern(struct
+>>>>> dp_catalog *dp_catalog,
+>>>>>    u32 dp_catalog_ctrl_read_phy_pattern(struct dp_catalog 
+>>>>> *dp_catalog);
+>>>>>      /* DP Panel APIs */
+>>>>> -int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog);
+>>>>> +int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog, bool
+>>>>> wide_bus_en);
+>>>>>    void dp_catalog_dump_regs(struct dp_catalog *dp_catalog);
+>>>>>    void dp_catalog_panel_tpg_enable(struct dp_catalog *dp_catalog,
+>>>>>                    struct drm_display_mode *drm_mode);
+>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>>>> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>>>> index 245e1b9..1c4cf9d 100644
+>>>>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>>>> @@ -154,7 +154,7 @@ static void dp_ctrl_config_ctrl(struct
+>>>>> dp_ctrl_private *ctrl)
+>>>>>        dp_catalog_ctrl_config_ctrl(ctrl->catalog, config);
+>>>>>    }
+>>>>>    -static void dp_ctrl_configure_source_params(struct dp_ctrl_private
+>>>>> *ctrl)
+>>>>> +static void dp_ctrl_configure_source_params(struct dp_ctrl_private
+>>>>> *ctrl, bool wide_bus_en)
+>>>>>    {
+>>>>>        u32 cc, tb;
+>>>>>    @@ -167,7 +167,7 @@ static void
+>>>>> dp_ctrl_configure_source_params(struct dp_ctrl_private *ctrl)
+>>>>>            ctrl->panel->dp_mode.bpp);
+>>>>>        cc = dp_link_get_colorimetry_config(ctrl->link);
+>>>>>        dp_catalog_ctrl_config_misc(ctrl->catalog, cc, tb);
+>>>>> -    dp_panel_timing_cfg(ctrl->panel);
+>>>>> +    dp_panel_timing_cfg(ctrl->panel, wide_bus_en);
+>>>>>    }
+>>>>>      /*
+>>>>> @@ -1796,6 +1796,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
+>>>>>        int ret = 0;
+>>>>>        bool mainlink_ready = false;
+>>>>>        struct dp_ctrl_private *ctrl;
+>>>>> +    u32 pixel_rate_orig;
+>>>>>          if (!dp_ctrl)
+>>>>>            return -EINVAL;
+>>>>> @@ -1804,6 +1805,10 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
+>>>>>          ctrl->dp_ctrl.pixel_rate = 
+>>>>> ctrl->panel->dp_mode.drm_mode.clock;
+>>>>>    +    pixel_rate_orig = ctrl->dp_ctrl.pixel_rate;
+>>>>> +    if (dp_ctrl->wide_bus_en)
+>>>>> +        ctrl->dp_ctrl.pixel_rate >>= 1;
+>>>>> +
+>>>>>        DRM_DEBUG_DP("rate=%d, num_lanes=%d, pixel_rate=%d\n",
+>>>>>            ctrl->link->link_params.rate,
+>>>>>            ctrl->link->link_params.num_lanes, 
+>>>>> ctrl->dp_ctrl.pixel_rate);
+>>>>> @@ -1839,11 +1844,11 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
+>>>>>         */
+>>>>>        reinit_completion(&ctrl->video_comp);
+>>>>>    -    dp_ctrl_configure_source_params(ctrl);
+>>>>> +    dp_ctrl_configure_source_params(ctrl, dp_ctrl->wide_bus_en);
+>>>>>          dp_catalog_ctrl_config_msa(ctrl->catalog,
+>>>>>            ctrl->link->link_params.rate,
+>>>>> -        ctrl->dp_ctrl.pixel_rate, dp_ctrl_use_fixed_nvid(ctrl));
+>>>>> +        pixel_rate_orig, dp_ctrl_use_fixed_nvid(ctrl));
+>>>>>          dp_ctrl_setup_tr_unit(ctrl);
+>>>>>    diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>>>>> b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>>>>> index 2433edb..4dff44d 100644
+>>>>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>>>>> @@ -17,6 +17,7 @@ struct dp_ctrl {
+>>>>>        bool orientation;
+>>>>>        atomic_t aborted;
+>>>>>        u32 pixel_rate;
+>>>>> +    bool wide_bus_en;
+>>>>>    };
+>>>>>      int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
+>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
+>>>>> b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>>> index e89556ad..d45a3aa 100644
+>>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>>> @@ -117,6 +117,8 @@ struct dp_display_private {
+>>>>>        struct dp_event event_list[DP_EVENT_Q_MAX];
+>>>>>        spinlock_t event_lock;
+>>>>>    +    bool wide_bus_en;
+>>>>> +
+>>>>>        struct dp_audio *audio;
+>>>>>    };
+>>>>>    @@ -845,6 +847,8 @@ static int dp_display_enable(struct
+>>>>> dp_display_private *dp, u32 data)
+>>>>>            return 0;
+>>>>>        }
+>>>>>    +    dp->ctrl->wide_bus_en = dp->wide_bus_en;
+>>>>> +
+>>>>>        rc = dp_ctrl_on_stream(dp->ctrl);
+>>>>>        if (!rc)
+>>>>>            dp_display->power_on = true;
+>>>>> @@ -979,6 +983,7 @@ int dp_display_get_modes(struct msm_dp *dp,
+>>>>>            dp->connector, dp_mode);
+>>>>>        if (dp_mode->drm_mode.clock)
+>>>>>            dp->max_pclk_khz = dp_mode->drm_mode.clock;
+>>>>> +
+>>>>>        return ret;
+>>>>>    }
+>>>>>    @@ -1451,6 +1456,28 @@ void msm_dp_irq_postinstall(struct msm_dp
+>>>>> *dp_display)
+>>>>>        }
+>>>>>    }
+>>>>>    +bool msm_dp_wide_bus_enable(struct msm_dp *dp_display)
+>>>>> +{
+>>>>> +    struct dp_display_private *dp;
+>>>>> +    u32 revision, major, minor;
+>>>>> +
+>>>>> +    dp = container_of(dp_display, struct dp_display_private,
+>>>>> dp_display);
+>>>>> +
+>>>>> +    /* for the time being widebus only support on DP */
+>>>>> +    if (dp_display->connector_type  ==
+>>>>> DRM_MODE_CONNECTOR_DisplayPort) {
+>>>>> +        revision = dp_catalog_hw_revision(dp->catalog);
+>>>>> +        major = ((revision >> 28) & 0x0ff);
+>>>>> +        minor = ((revision >> 16) & 0x0fff);
+>>>>> +
+>>>>> +    DRM_DEBUG_DP("id=%d major=%d minor=%d\n", dp->id, major, minor);
+>>>>> +
+>>>>> +        if (major >= 1 && minor >= 2)
+>>>>> +            return true;
+>>>>> +    }
+>>>>> +
+>>>>> +    return false;
+>>>>> +}
+>>>>> +
+>>>>>    void msm_dp_debugfs_init(struct msm_dp *dp_display, struct
+>>>>> drm_minor *minor)
+>>>>>    {
+>>>>>        struct dp_display_private *dp;
+>>>>> @@ -1505,6 +1532,9 @@ int msm_dp_modeset_init(struct msm_dp
+>>>>> *dp_display, struct drm_device *dev,
+>>>>>        dp_priv->panel->connector = dp_display->connector;
+>>>>>          priv->connectors[priv->num_connectors++] =
+>>>>> dp_display->connector;
+>>>>> +
+>>>>> +    dp_priv->wide_bus_en = msm_dp_wide_bus_enable(dp_display);
+>>>>> +
+>>>>>        return 0;
+>>>>>    }
+>>>>>    diff --git a/drivers/gpu/drm/msm/dp/dp_display.h
+>>>>> b/drivers/gpu/drm/msm/dp/dp_display.h
+>>>>> index 8e80e3b..d9cb9ee 100644
+>>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.h
+>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
+>>>>> @@ -23,6 +23,8 @@ struct msm_dp {
+>>>>>          hdmi_codec_plugged_cb plugged_cb;
+>>>>>    +    bool wide_bus_en;
+>>>>> +
+>>>>>        u32 max_pclk_khz;
+>>>>>          u32 max_dp_lanes;
+>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c
+>>>>> b/drivers/gpu/drm/msm/dp/dp_panel.c
+>>>>> index 71db10c..71deb1e 100644
+>>>>> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+>>>>> @@ -353,7 +353,7 @@ void dp_panel_dump_regs(struct dp_panel *dp_panel)
+>>>>>        dp_catalog_dump_regs(catalog);
+>>>>>    }
+>>>>>    -int dp_panel_timing_cfg(struct dp_panel *dp_panel)
+>>>>> +int dp_panel_timing_cfg(struct dp_panel *dp_panel, bool wide_bus_en)
+>>>>>    {
+>>>>>        u32 data, total_ver, total_hor;
+>>>>>        struct dp_catalog *catalog;
+>>>>> @@ -404,7 +404,7 @@ int dp_panel_timing_cfg(struct dp_panel *dp_panel)
+>>>>>          catalog->dp_active = data;
+>>>>>    -    dp_catalog_panel_timing_cfg(catalog);
+>>>>> +    dp_catalog_panel_timing_cfg(catalog, wide_bus_en);
+>>>>>        panel->panel_on = true;
+>>>>>          return 0;
+>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h
+>>>>> b/drivers/gpu/drm/msm/dp/dp_panel.h
+>>>>> index 9023e5b..5ec341a 100644
+>>>>> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
+>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+>>>>> @@ -57,7 +57,7 @@ struct dp_panel {
+>>>>>      int dp_panel_init_panel_info(struct dp_panel *dp_panel);
+>>>>>    int dp_panel_deinit(struct dp_panel *dp_panel);
+>>>>> -int dp_panel_timing_cfg(struct dp_panel *dp_panel);
+>>>>> +int dp_panel_timing_cfg(struct dp_panel *dp_panel, bool wide_bus_en);
+>>>>>    void dp_panel_dump_regs(struct dp_panel *dp_panel);
+>>>>>    int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
+>>>>>            struct drm_connector *connector);
+>>>>> diff --git a/drivers/gpu/drm/msm/msm_drv.h
+>>>>> b/drivers/gpu/drm/msm/msm_drv.h
+>>>>> index 07f6c41..667f3a8 100644
+>>>>> --- a/drivers/gpu/drm/msm/msm_drv.h
+>>>>> +++ b/drivers/gpu/drm/msm/msm_drv.h
+>>>>> @@ -398,6 +398,7 @@ void msm_dp_irq_postinstall(struct msm_dp
+>>>>> *dp_display);
+>>>>>    void msm_dp_snapshot(struct msm_disp_state *disp_state, struct
+>>>>> msm_dp *dp_display);
+>>>>>      void msm_dp_debugfs_init(struct msm_dp *dp_display, struct
+>>>>> drm_minor *minor);
+>>>>> +bool msm_dp_wide_bus_enable(struct msm_dp *dp_display);
+>>>>>      #else
+>>>>>    static inline int __init msm_dp_register(void)
+>>>>> @@ -448,6 +449,11 @@ static inline void msm_dp_debugfs_init(struct
+>>>>> msm_dp *dp_display,
+>>>>>    {
+>>>>>    }
+>>>>>    +bool msm_dp_wide_bus_enable(struct msm_dp *dp_display)
+>>>>> +{
+>>>>> +    return false;
+>>>>> +}
+>>>>> +
+>>>>>    #endif
+>>>>>      void __init msm_mdp_register(void);
+>>>>
+>>
+>>
 
 
 -- 
