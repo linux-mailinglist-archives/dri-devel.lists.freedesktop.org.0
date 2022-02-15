@@ -1,68 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406A04B7520
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 21:46:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 699484B793C
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 22:25:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13E0610E617;
-	Tue, 15 Feb 2022 20:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8B910E42F;
+	Tue, 15 Feb 2022 21:25:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00D0410E617
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 20:46:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1644957995;
- bh=0OSbOP7dVuxah5dzxOSWPDpWQt+waq4IO/yrm245na0=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=RM8lbqfXj4CquNffPjLDAk/zqsA2R7oPEntJIfErC/JFzifQUKiCCwI3sQ/AwS3UH
- u+PDvEN61F59Ofw1QXdQ7s99jAvoAWJRtsvl3CYAHnhMh1rMymay5Nv8yKR1A9xG1K
- XK+pIDDlkBrtJwgBGiQ/YPmKR4xRWeE8wNcYaJAw=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.185.100]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MJE27-1naNTk1Cfr-00KivD; Tue, 15
- Feb 2022 21:46:35 +0100
-Message-ID: <7e60cd01-8afc-ddb5-a1bb-6e9f53ccfba5@gmx.de>
-Date: Tue, 15 Feb 2022 21:46:24 +0100
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D71A10E42F;
+ Tue, 15 Feb 2022 21:25:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1644960317; x=1676496317;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=Cm+RoylO9gnGLBBXKFMbKFOZ1OttbdW/O/6wb9YYHFg=;
+ b=dARlFv8d72hBqmkJ6/QvevUf5W5veicEZ+mAiogkaDfX/MDstbXD+jLl
+ EJ0ysuLyHm5SOmvcB4MLhQyGMwCAO4wZY6hITbtKOfbF3QY6dUIMcRXWp
+ ttHOK9JWtx6/0h4H/MXZ61IIJpvgvhIdLV6Hmq/f/Gb3MkBMf15y7v93+ w=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 15 Feb 2022 13:25:16 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 13:25:15 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Tue, 15 Feb 2022 13:25:15 -0800
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 15 Feb 2022 13:25:15 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
+ <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
+ <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
+Subject: [PATCH v5 0/2] drm/msm/dp: enable widebus feature base on chip
+ hardware revision
+Date: Tue, 15 Feb 2022 13:25:00 -0800
+Message-ID: <1644960302-4096-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 22/23] video: omapfb: dss: Make use of the helper
- component_compare_dev
-Content-Language: en-US
-To: Yong Wu <yong.wu@mediatek.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-References: <20220214060819.7334-1-yong.wu@mediatek.com>
- <20220214060819.7334-23-yong.wu@mediatek.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220214060819.7334-23-yong.wu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:MjTT6/0mKscyzurmEJq+TRDLFWm722/o5oh1VceIWTDo9Su6z33
- Uqcw4r79WPXMZ1MHVQ5YZwMpT3/LUtQYuMEKT1s4Qsw268nztXs8M1PHTdwFSaaX3fRCVHa
- I5hj8j+9RzGYlu8e8qiZ43jIdVRKdmD+CGxvzWPF1Cw57f4/4D8ejp1FysOEiqU6iTGSqwc
- ErfKQfh2UKAhLIHNSceWg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EO1+Ylb+ev0=:HpXUahwDBxS2Q6GJ/UdQMa
- n+62M3husXUXoHxxs8AxzjuuYDkqIBegYnyeAV7YgP0Mle0rT21+2LEV21Cm/oK+NdFah8S9W
- CpzPyAZIRuU01jq211YudtbXnvFOMgwbjvey4rIl2NTTJUDs+3nbJ6EgXSJwHO77nbgaCNttA
- G+VtN7qVCXCtu780Msj9tZjo7C1oDNvtl1Z0DVM0OdyjyuO5D93T57PbebQJO+46L8tQ0bfg4
- PClJhDBMO98xxmJRVp6iBSjNS7q7geteQaZ0ZJQVZhNyuKpKUNS7ESMvNsPEhSTzcXNJDdgSx
- Vq9g3AnCPk01P40v1QI4BqRKbdc93kQn/QMzvwnd6VKhhT5hOO0TqppV8u07Mwhznrax7VcRW
- +v1Ixw3WjKmrwEdG4wxBOsqT1dFC/6QoqorX3z1sqp7Ag6Ncwj2vZEjoNZ1YUThIr4BpD/vWq
- hjpVXVTw/vir74eHyvdnz2eZXfQD7YPWYiK3z1oTwSGkoUciP9hPqvp4WS1qWPD3Wx4UiMz4y
- 2dpK2641P1xHzfATt1y9hhMgc6vt9XFxpm9Ycl0uN+Nf/W9WIYa2fD+vPujh/CyO3jLklKrNP
- rhbT5NjDJGfC/AFaC2iH75aCY+P5r1pQZOBnvTunjmLUTuER4bhCqMQqM9G+WAIVA1mScRE7x
- z5RtmJWkKSwplc9SI/e09hsIAALu0cz7R3+T3vF1BUPB0RwiiTFPg2EbSOsu0l9GrJ8CkvoHP
- 6ajgPfPMXcn62tOWZWD9MMtunWjyjGeCeU0sZsO37FBgxO6O75XX5KNPo3ZtVKQ/rb45z2Rj6
- BmFoOKHsV5p6ypFwr9d2I3zNEcl0DYDNBnMwKA/3QTkYeOJgYkBDK8DU7dxFOUM6q9OWcMRcY
- NoMQI8g/0H0GxrMHZA3BmETGV399e4Ve0zB9yhBv/cd9YdH0LKj0wm2/KEIbC/oPNQrOB040l
- zX8J1rybbjKBBzimlhU2e1yTmGHdV4geJl204qxFdDOHSN0uiAnzvI89ljAQcys4MdV9EpQSa
- NnChsjeiQrZB5ZntJzdsbaO7RJJahTHLc0+epBUeuUd6C0orPGZgiQsH8Kwcy4p8Uu6vZoYIV
- JC4pPsVjDwiUHc=
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,68 +61,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
- linux-kernel@vger.kernel.org,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Will Deacon <will@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
- James Wang <james.qian.wang@arm.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- srv_heupstream@mediatek.com, Stephen Boyd <sboyd@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/14/22 07:08, Yong Wu wrote:
-> Use the common compare helper from component.
->
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: linux-omap@vger.kernel.org
-> Cc: linux-fbdev@vger.kernel.org
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+revise widebus timing engine programming and enable widebus feature base on chip
+hardware revision
 
-Applied to the fbdev for-next branch.
+Kuogee Hsieh (2):
+  drm/msm/dpu:  revise timing engine programming to support widebus
+    feature
+  drm/msm/dp: enable widebus feature for display port
 
-Thanks!
-Helge
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 14 ++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  2 +
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 14 +++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        | 63 ++++++++++++++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  2 +
+ drivers/gpu/drm/msm/dp/dp_catalog.c                | 34 +++++++++++-
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |  3 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   | 13 +++--
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |  1 +
+ drivers/gpu/drm/msm/dp/dp_display.c                | 32 +++++++++++
+ drivers/gpu/drm/msm/dp/dp_display.h                |  2 +
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  4 +-
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |  2 +-
+ drivers/gpu/drm/msm/msm_drv.h                      |  6 +++
+ 14 files changed, 166 insertions(+), 26 deletions(-)
 
->  drivers/video/fbdev/omap2/omapfb/dss/dss.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.c b/drivers/video/=
-fbdev/omap2/omapfb/dss/dss.c
-> index a6b1c1598040..45b9d3cf3860 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-> @@ -1193,12 +1193,6 @@ static const struct component_master_ops dss_comp=
-onent_ops =3D {
->  	.unbind =3D dss_unbind,
->  };
->
-> -static int dss_component_compare(struct device *dev, void *data)
-> -{
-> -	struct device *child =3D data;
-> -	return dev =3D=3D child;
-> -}
-> -
->  static int dss_add_child_component(struct device *dev, void *data)
->  {
->  	struct component_match **match =3D data;
-> @@ -1212,7 +1206,7 @@ static int dss_add_child_component(struct device *=
-dev, void *data)
->  	if (strstr(dev_name(dev), "rfbi"))
->  		return 0;
->
-> -	component_match_add(dev->parent, match, dss_component_compare, dev);
-> +	component_match_add(dev->parent, match, component_compare_dev, dev);
->
->  	return 0;
->  }
->
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
