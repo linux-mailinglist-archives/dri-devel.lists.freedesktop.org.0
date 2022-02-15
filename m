@@ -1,69 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6094B4B6F73
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 15:55:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E4B4B6F77
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 16:02:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C82AD10E28F;
-	Tue, 15 Feb 2022 14:55:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79F1610E5B6;
+	Tue, 15 Feb 2022 15:02:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 328A110E45C;
- Tue, 15 Feb 2022 14:55:53 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id d10so44783187eje.10;
- Tue, 15 Feb 2022 06:55:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:reply-to:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JXn+0JBVNRkNFAilhcduPKHEUDpQ7D18I7xhM3BUl1w=;
- b=W5GKWog4yq0gG4UMgck0YdhqcgJORKVoxpdOvHQWHBXPxEIsIDTgDehnN6u14NGd65
- lnhXa07ZMPKmG++B9UtN3s7Z7Z9j1Q6+952rB/RhdrYF9xfyDddHzlDVC7Jk4bKSFMrP
- TFMZM3ZwG8qMM5xH90B3UDwqLiS8e9GCerCx/5DI2EB7sKLrtHfXxC2550Xg0hbUFKox
- If66BskNhZ5jFlSkorgx0RXyNABVKdQ3LPgJjOT3y0fkGvbB9zryFMNWTFR+lKno4QfR
- KKCDI3TJwks2hg6dapioefzhXhlSToki/M8q7bqUNjG7limgTW+tDGsUQXF6STeSPR3f
- 2sDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JXn+0JBVNRkNFAilhcduPKHEUDpQ7D18I7xhM3BUl1w=;
- b=EEzCEsLOANakNQdc/GURU9FJE2QPbE/HGSaYna8JTCWL0gaujkZXsikZuSXoveRB5X
- MQmMRxe8wSB3T7MYpT5fxlWlk46iBBb/2sZLsqBBqAEnahC7AFVl1LbGTtn6r/7ZoY18
- E+AXNwvRQwcSroskwoKMylqGaWLgaGRTP/ZkGb9eafcOhzHu/rC3Rr3aVDUAQcdf1i3U
- 1ccAbOC8quE/q/iIdTaLK3IWtBLGbPGQXcobICHrYbYLNCY9hqMTtAOUhqF2M8bnn5wF
- qlOKdkWVo++bvzs9LOkocLIa/Kz7wCvEQGCQ8pyDQLEVt5Q15TT0pAuPjqkkCBgELJle
- I7qw==
-X-Gm-Message-State: AOAM5331d3p3yziBYAdi+x//3tV1qnYDS3BRdc3swloTPk+rbfH5+I1a
- H3MZKs5cqEQlwHzgWu8q3rg=
-X-Google-Smtp-Source: ABdhPJz4ArHkyHgvYWX8/B87PdgN/qsq0XMDxwNKSbfHZBuGQME6rVtnBP93RShnBBeBCOwzqtALLA==
-X-Received: by 2002:a17:906:1691:: with SMTP id
- s17mr3401302ejd.655.1644936951504; 
- Tue, 15 Feb 2022 06:55:51 -0800 (PST)
-Received: from [0.0.0.0] ([134.134.137.84])
- by smtp.googlemail.com with ESMTPSA id g11sm10051716ejs.14.2022.02.15.06.55.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Feb 2022 06:55:50 -0800 (PST)
-Message-ID: <a95a1168-5419-0688-0700-c9e81e50727b@gmail.com>
-Date: Tue, 15 Feb 2022 16:55:44 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [Intel-gfx] [PATCH v5 16/19] uapi/drm/dg2: Introduce format
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2128F10E590;
+ Tue, 15 Feb 2022 15:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644937325; x=1676473325;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=T6uUVO45ZbAkiN5v247f+5pmkjzr0DgIadEi1015io0=;
+ b=Kf2MqRRRuY3fejnsflncb3bBr6F6QRGAe5prvvzW940MtDdNGgq6MuVU
+ KdV3vLoi4fHsIlq56lvKYJjuFbVqYKTllyhKW4odwkGUfp2Jl523w4DI3
+ 41bRpBmdoIpLRdy+eI5sdJERc9pUHVmhFHhUIyJ29988IbUEsxPz4tTrI
+ iQxuMd5o4WPKNjWvkqXiWhRPcShqvg0waf00/QvA7LgJujoa7UE4h1C++
+ Vh0cxDAG2zPdetH0QLJl7wsIQ23cWMXDFqPfOGXnIof/UO8SbY05Y5iD8
+ yTRxW7f/RBMiRe3ZaV5uthKo/OubsKZU17Znmf1KFyRoI+ugjQ8EBuBzm w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10258"; a="233909660"
+X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; d="scan'208";a="233909660"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 07:02:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; d="scan'208";a="635932870"
+Received: from irsmsx606.ger.corp.intel.com ([163.33.146.139])
+ by orsmga004.jf.intel.com with ESMTP; 15 Feb 2022 07:02:03 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ IRSMSX606.ger.corp.intel.com (163.33.146.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 15 Feb 2022 15:02:01 +0000
+Received: from fmsmsx611.amr.corp.intel.com ([10.18.126.91]) by
+ fmsmsx611.amr.corp.intel.com ([10.18.126.91]) with mapi id 15.01.2308.020;
+ Tue, 15 Feb 2022 07:02:00 -0800
+From: "Chery, Nanley G" <nanley.g.chery@intel.com>
+To: "juhapekka.heikkila@gmail.com" <juhapekka.heikkila@gmail.com>, "Nanley
+ Chery" <nanleychery@gmail.com>, "C, Ramalingam" <ramalingam.c@intel.com>
+Subject: RE: [Intel-gfx] [PATCH v5 16/19] uapi/drm/dg2: Introduce format
  modifier for DG2 clear color
-Content-Language: en-US
-To: Nanley Chery <nanleychery@gmail.com>, Ramalingam C <ramalingam.c@intel.com>
+Thread-Topic: [Intel-gfx] [PATCH v5 16/19] uapi/drm/dg2: Introduce format
+ modifier for DG2 clear color
+Thread-Index: AQHYH663IhAmnebor0aDTKWpiG9p6qyVPvUA//96bNA=
+Date: Tue, 15 Feb 2022 15:02:00 +0000
+Message-ID: <dc66535e7a5d4a9dae25a9548f333385@intel.com>
 References: <20220201104132.3050-1-ramalingam.c@intel.com>
  <20220201104132.3050-17-ramalingam.c@intel.com>
  <CAJDL4u+hX2Dbu7q5P48t44XLSOr7vA9mf_jiC607oA1Y6+2k6Q@mail.gmail.com>
-From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
-In-Reply-To: <CAJDL4u+hX2Dbu7q5P48t44XLSOr7vA9mf_jiC607oA1Y6+2k6Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <a95a1168-5419-0688-0700-c9e81e50727b@gmail.com>
+In-Reply-To: <a95a1168-5419-0688-0700-c9e81e50727b@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.132]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,146 +75,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: juhapekka.heikkila@gmail.com
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Nanley Chery <nanley.g.chery@intel.com>, Matthew Auld <matthew.auld@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>, "Auld,
+ Matthew" <matthew.auld@intel.com>, dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.2.2022 3.19, Nanley Chery wrote:
-> On Tue, Feb 1, 2022 at 2:42 AM Ramalingam C <ramalingam.c@intel.com> wrote:
->>
->> From: Mika Kahola <mika.kahola@intel.com>
->>
->> DG2 clear color render compression uses Tile4 layout. Therefore, we need
->> to define a new format modifier for uAPI to support clear color rendering.
->>
->> v2:
->>    Display version is fixed. [Imre]
->>    KDoc is enhanced for cc modifier. [Nanley & Lionel]
->>
->> Signed-off-by: Mika Kahola <mika.kahola@intel.com>
->> cc: Anshuman Gupta <anshuman.gupta@intel.com>
->> Signed-off-by: Juha-Pekka Heikkilä <juha-pekka.heikkila@intel.com>
->> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
->> ---
->>   drivers/gpu/drm/i915/display/intel_fb.c            |  8 ++++++++
->>   drivers/gpu/drm/i915/display/skl_universal_plane.c |  9 ++++++++-
->>   include/uapi/drm/drm_fourcc.h                      | 10 ++++++++++
->>   3 files changed, 26 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
->> index 4d4d01963f15..3df6ef5ffec5 100644
->> --- a/drivers/gpu/drm/i915/display/intel_fb.c
->> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
->> @@ -144,6 +144,12 @@ static const struct intel_modifier_desc intel_modifiers[] = {
->>                  .modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS,
->>                  .display_ver = { 13, 13 },
->>                  .plane_caps = INTEL_PLANE_CAP_TILING_4 | INTEL_PLANE_CAP_CCS_MC,
->> +       }, {
->> +               .modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC,
->> +               .display_ver = { 13, 13 },
->> +               .plane_caps = INTEL_PLANE_CAP_TILING_4 | INTEL_PLANE_CAP_CCS_RC_CC,
->> +
->> +               .ccs.cc_planes = BIT(1),
->>          }, {
->>                  .modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS,
->>                  .display_ver = { 13, 13 },
->> @@ -559,6 +565,7 @@ intel_tile_width_bytes(const struct drm_framebuffer *fb, int color_plane)
->>                  else
->>                          return 512;
->>          case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
->> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
->>          case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
->>          case I915_FORMAT_MOD_4_TILED:
->>                  /*
->> @@ -763,6 +770,7 @@ unsigned int intel_surf_alignment(const struct drm_framebuffer *fb,
->>          case I915_FORMAT_MOD_Yf_TILED:
->>                  return 1 * 1024 * 1024;
->>          case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
->> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
->>          case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
->>                  return 16 * 1024;
->>          default:
->> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
->> index c38ae0876c15..b4dced1907c5 100644
->> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
->> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
->> @@ -772,6 +772,8 @@ static u32 skl_plane_ctl_tiling(u64 fb_modifier)
->>                  return PLANE_CTL_TILED_4 |
->>                          PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE |
->>                          PLANE_CTL_CLEAR_COLOR_DISABLE;
->> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
->> +               return PLANE_CTL_TILED_4 | PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
->>          case I915_FORMAT_MOD_Y_TILED_CCS:
->>          case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
->>                  return PLANE_CTL_TILED_Y | PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
->> @@ -2358,10 +2360,15 @@ skl_get_initial_plane_config(struct intel_crtc *crtc,
->>                  break;
->>          case PLANE_CTL_TILED_YF: /* aka PLANE_CTL_TILED_4 on XE_LPD+ */
->>                  if (HAS_4TILE(dev_priv)) {
->> -                       if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
->> +                       u32 rc_mask = PLANE_CTL_RENDER_DECOMPRESSION_ENABLE |
->> +                                     PLANE_CTL_CLEAR_COLOR_DISABLE;
->> +
->> +                       if ((val & rc_mask) == rc_mask)
->>                                  fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS;
->>                          else if (val & PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE)
->>                                  fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS;
->> +                       else if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
->> +                               fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC;
->>                          else
->>                                  fb->modifier = I915_FORMAT_MOD_4_TILED;
->>                  } else {
->> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
->> index b8fb7b44c03c..697614ea4b84 100644
->> --- a/include/uapi/drm/drm_fourcc.h
->> +++ b/include/uapi/drm/drm_fourcc.h
->> @@ -605,6 +605,16 @@ extern "C" {
->>    */
->>   #define I915_FORMAT_MOD_4_TILED_DG2_MC_CCS fourcc_mod_code(INTEL, 11)
->>
->> +/*
->> + * Intel color control surfaces (CCS) for DG2 clear color render compression.
->> + *
->> + * DG2 uses a unified compression format for clear color render compression.
-> 
-> What's unified about DG2's compression format? If this doesn't affect
-> the layout, maybe we should drop this sentence.
-> 
->> + * The general layout is a tiled layout using 4Kb tiles i.e. Tile4 layout.
->> + *
-> 
-> This also needs a pitch aligned to four tiles, right? I think we can
-> save some effort by referencing the DG2_RC_CCS modifier here.
-> 
->> + * Fast clear color value expected by HW is located in fb at offset 0 of plane#1
-> 
-> Why is the expected offset hardcoded to 0 instead of relying on the
-> offset provided by the modifier API? This looks like a bug.
-
-Hi Nanley,
-
-can you elaborate a bit, which offset from modifier API that applies to 
-cc surface?
-
-> 
-> We should probably give some info about the relevant fields in the
-> fast clear plane (like what's done in the GEN12_RC_CCS_CC modifier).
-
-agree, that's totally missing here.
-
-/Juha-Pekka
-
-> 
->> + */
->> +#define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC fourcc_mod_code(INTEL, 12)
->> +
->>   /*
->>    * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
->>    *
->> --
->> 2.20.1
->>
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSnVoYS1QZWtrYSBIZWlr
+a2lsYSA8anVoYXBla2thLmhlaWtraWxhQGdtYWlsLmNvbT4NCj4gU2VudDogVHVlc2RheSwgRmVi
+cnVhcnkgMTUsIDIwMjIgNjo1NiBBTQ0KPiBUbzogTmFubGV5IENoZXJ5IDxuYW5sZXljaGVyeUBn
+bWFpbC5jb20+OyBDLCBSYW1hbGluZ2FtDQo+IDxyYW1hbGluZ2FtLmNAaW50ZWwuY29tPg0KPiBD
+YzogaW50ZWwtZ2Z4IDxpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPjsgQ2hlcnksIE5h
+bmxleSBHDQo+IDxuYW5sZXkuZy5jaGVyeUBpbnRlbC5jb20+OyBBdWxkLCBNYXR0aGV3IDxtYXR0
+aGV3LmF1bGRAaW50ZWwuY29tPjsgZHJpLQ0KPiBkZXZlbCA8ZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZz4NCj4gU3ViamVjdDogUmU6IFtJbnRlbC1nZnhdIFtQQVRDSCB2NSAxNi8xOV0g
+dWFwaS9kcm0vZGcyOiBJbnRyb2R1Y2UgZm9ybWF0DQo+IG1vZGlmaWVyIGZvciBERzIgY2xlYXIg
+Y29sb3INCj4gDQo+IE9uIDEyLjIuMjAyMiAzLjE5LCBOYW5sZXkgQ2hlcnkgd3JvdGU6DQo+ID4g
+T24gVHVlLCBGZWIgMSwgMjAyMiBhdCAyOjQyIEFNIFJhbWFsaW5nYW0gQyA8cmFtYWxpbmdhbS5j
+QGludGVsLmNvbT4NCj4gd3JvdGU6DQo+ID4+DQo+ID4+IEZyb206IE1pa2EgS2Fob2xhIDxtaWth
+LmthaG9sYUBpbnRlbC5jb20+DQo+ID4+DQo+ID4+IERHMiBjbGVhciBjb2xvciByZW5kZXIgY29t
+cHJlc3Npb24gdXNlcyBUaWxlNCBsYXlvdXQuIFRoZXJlZm9yZSwgd2UNCj4gPj4gbmVlZCB0byBk
+ZWZpbmUgYSBuZXcgZm9ybWF0IG1vZGlmaWVyIGZvciB1QVBJIHRvIHN1cHBvcnQgY2xlYXIgY29s
+b3INCj4gcmVuZGVyaW5nLg0KPiA+Pg0KPiA+PiB2MjoNCj4gPj4gICAgRGlzcGxheSB2ZXJzaW9u
+IGlzIGZpeGVkLiBbSW1yZV0NCj4gPj4gICAgS0RvYyBpcyBlbmhhbmNlZCBmb3IgY2MgbW9kaWZp
+ZXIuIFtOYW5sZXkgJiBMaW9uZWxdDQo+ID4+DQo+ID4+IFNpZ25lZC1vZmYtYnk6IE1pa2EgS2Fo
+b2xhIDxtaWthLmthaG9sYUBpbnRlbC5jb20+DQo+ID4+IGNjOiBBbnNodW1hbiBHdXB0YSA8YW5z
+aHVtYW4uZ3VwdGFAaW50ZWwuY29tPg0KPiA+PiBTaWduZWQtb2ZmLWJ5OiBKdWhhLVBla2thIEhl
+aWtraWzDpCA8anVoYS1wZWtrYS5oZWlra2lsYUBpbnRlbC5jb20+DQo+ID4+IFNpZ25lZC1vZmYt
+Ynk6IFJhbWFsaW5nYW0gQyA8cmFtYWxpbmdhbS5jQGludGVsLmNvbT4NCj4gPj4gLS0tDQo+ID4+
+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9mYi5jICAgICAgICAgICAgfCAg
+OCArKysrKysrKw0KPiA+PiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvc2tsX3VuaXZl
+cnNhbF9wbGFuZS5jIHwgIDkgKysrKysrKystDQo+ID4+ICAgaW5jbHVkZS91YXBpL2RybS9kcm1f
+Zm91cmNjLmggICAgICAgICAgICAgICAgICAgICAgfCAxMCArKysrKysrKysrDQo+ID4+ICAgMyBm
+aWxlcyBjaGFuZ2VkLCAyNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4+DQo+ID4+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2ZiLmMNCj4g
+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2ZiLmMNCj4gPj4gaW5kZXgg
+NGQ0ZDAxOTYzZjE1Li4zZGY2ZWY1ZmZlYzUgMTAwNjQ0DQo+ID4+IC0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZmIuYw0KPiA+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+aTkxNS9kaXNwbGF5L2ludGVsX2ZiLmMNCj4gPj4gQEAgLTE0NCw2ICsxNDQsMTIgQEAgc3RhdGlj
+IGNvbnN0IHN0cnVjdCBpbnRlbF9tb2RpZmllcl9kZXNjDQo+IGludGVsX21vZGlmaWVyc1tdID0g
+ew0KPiA+PiAgICAgICAgICAgICAgICAgIC5tb2RpZmllciA9IEk5MTVfRk9STUFUX01PRF80X1RJ
+TEVEX0RHMl9NQ19DQ1MsDQo+ID4+ICAgICAgICAgICAgICAgICAgLmRpc3BsYXlfdmVyID0geyAx
+MywgMTMgfSwNCj4gPj4gICAgICAgICAgICAgICAgICAucGxhbmVfY2FwcyA9IElOVEVMX1BMQU5F
+X0NBUF9USUxJTkdfNCB8DQo+ID4+IElOVEVMX1BMQU5FX0NBUF9DQ1NfTUMsDQo+ID4+ICsgICAg
+ICAgfSwgew0KPiA+PiArICAgICAgICAgICAgICAgLm1vZGlmaWVyID0gSTkxNV9GT1JNQVRfTU9E
+XzRfVElMRURfREcyX1JDX0NDU19DQywNCj4gPj4gKyAgICAgICAgICAgICAgIC5kaXNwbGF5X3Zl
+ciA9IHsgMTMsIDEzIH0sDQo+ID4+ICsgICAgICAgICAgICAgICAucGxhbmVfY2FwcyA9IElOVEVM
+X1BMQU5FX0NBUF9USUxJTkdfNCB8DQo+ID4+ICsgSU5URUxfUExBTkVfQ0FQX0NDU19SQ19DQywN
+Cj4gPj4gKw0KPiA+PiArICAgICAgICAgICAgICAgLmNjcy5jY19wbGFuZXMgPSBCSVQoMSksDQo+
+ID4+ICAgICAgICAgIH0sIHsNCj4gPj4gICAgICAgICAgICAgICAgICAubW9kaWZpZXIgPSBJOTE1
+X0ZPUk1BVF9NT0RfNF9USUxFRF9ERzJfUkNfQ0NTLA0KPiA+PiAgICAgICAgICAgICAgICAgIC5k
+aXNwbGF5X3ZlciA9IHsgMTMsIDEzIH0sIEBAIC01NTksNiArNTY1LDcgQEANCj4gPj4gaW50ZWxf
+dGlsZV93aWR0aF9ieXRlcyhjb25zdCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwgaW50IGNv
+bG9yX3BsYW5lKQ0KPiA+PiAgICAgICAgICAgICAgICAgIGVsc2UNCj4gPj4gICAgICAgICAgICAg
+ICAgICAgICAgICAgIHJldHVybiA1MTI7DQo+ID4+ICAgICAgICAgIGNhc2UgSTkxNV9GT1JNQVRf
+TU9EXzRfVElMRURfREcyX1JDX0NDUzoNCj4gPj4gKyAgICAgICBjYXNlIEk5MTVfRk9STUFUX01P
+RF80X1RJTEVEX0RHMl9SQ19DQ1NfQ0M6DQo+ID4+ICAgICAgICAgIGNhc2UgSTkxNV9GT1JNQVRf
+TU9EXzRfVElMRURfREcyX01DX0NDUzoNCj4gPj4gICAgICAgICAgY2FzZSBJOTE1X0ZPUk1BVF9N
+T0RfNF9USUxFRDoNCj4gPj4gICAgICAgICAgICAgICAgICAvKg0KPiA+PiBAQCAtNzYzLDYgKzc3
+MCw3IEBAIHVuc2lnbmVkIGludCBpbnRlbF9zdXJmX2FsaWdubWVudChjb25zdCBzdHJ1Y3QNCj4g
+ZHJtX2ZyYW1lYnVmZmVyICpmYiwNCj4gPj4gICAgICAgICAgY2FzZSBJOTE1X0ZPUk1BVF9NT0Rf
+WWZfVElMRUQ6DQo+ID4+ICAgICAgICAgICAgICAgICAgcmV0dXJuIDEgKiAxMDI0ICogMTAyNDsN
+Cj4gPj4gICAgICAgICAgY2FzZSBJOTE1X0ZPUk1BVF9NT0RfNF9USUxFRF9ERzJfUkNfQ0NTOg0K
+PiA+PiArICAgICAgIGNhc2UgSTkxNV9GT1JNQVRfTU9EXzRfVElMRURfREcyX1JDX0NDU19DQzoN
+Cj4gPj4gICAgICAgICAgY2FzZSBJOTE1X0ZPUk1BVF9NT0RfNF9USUxFRF9ERzJfTUNfQ0NTOg0K
+PiA+PiAgICAgICAgICAgICAgICAgIHJldHVybiAxNiAqIDEwMjQ7DQo+ID4+ICAgICAgICAgIGRl
+ZmF1bHQ6DQo+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L3Nr
+bF91bml2ZXJzYWxfcGxhbmUuYw0KPiA+PiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+c2tsX3VuaXZlcnNhbF9wbGFuZS5jDQo+ID4+IGluZGV4IGMzOGFlMDg3NmMxNS4uYjRkY2VkMTkw
+N2M1IDEwMDY0NA0KPiA+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L3NrbF91
+bml2ZXJzYWxfcGxhbmUuYw0KPiA+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
+L3NrbF91bml2ZXJzYWxfcGxhbmUuYw0KPiA+PiBAQCAtNzcyLDYgKzc3Miw4IEBAIHN0YXRpYyB1
+MzIgc2tsX3BsYW5lX2N0bF90aWxpbmcodTY0IGZiX21vZGlmaWVyKQ0KPiA+PiAgICAgICAgICAg
+ICAgICAgIHJldHVybiBQTEFORV9DVExfVElMRURfNCB8DQo+ID4+ICAgICAgICAgICAgICAgICAg
+ICAgICAgICBQTEFORV9DVExfTUVESUFfREVDT01QUkVTU0lPTl9FTkFCTEUgfA0KPiA+PiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgUExBTkVfQ1RMX0NMRUFSX0NPTE9SX0RJU0FCTEU7DQo+ID4+
+ICsgICAgICAgY2FzZSBJOTE1X0ZPUk1BVF9NT0RfNF9USUxFRF9ERzJfUkNfQ0NTX0NDOg0KPiA+
+PiArICAgICAgICAgICAgICAgcmV0dXJuIFBMQU5FX0NUTF9USUxFRF80IHwNCj4gPj4gKyBQTEFO
+RV9DVExfUkVOREVSX0RFQ09NUFJFU1NJT05fRU5BQkxFOw0KPiA+PiAgICAgICAgICBjYXNlIEk5
+MTVfRk9STUFUX01PRF9ZX1RJTEVEX0NDUzoNCj4gPj4gICAgICAgICAgY2FzZSBJOTE1X0ZPUk1B
+VF9NT0RfWV9USUxFRF9HRU4xMl9SQ19DQ1NfQ0M6DQo+ID4+ICAgICAgICAgICAgICAgICAgcmV0
+dXJuIFBMQU5FX0NUTF9USUxFRF9ZIHwNCj4gPj4gUExBTkVfQ1RMX1JFTkRFUl9ERUNPTVBSRVNT
+SU9OX0VOQUJMRTsNCj4gPj4gQEAgLTIzNTgsMTAgKzIzNjAsMTUgQEAgc2tsX2dldF9pbml0aWFs
+X3BsYW5lX2NvbmZpZyhzdHJ1Y3QgaW50ZWxfY3J0Yw0KPiAqY3J0YywNCj4gPj4gICAgICAgICAg
+ICAgICAgICBicmVhazsNCj4gPj4gICAgICAgICAgY2FzZSBQTEFORV9DVExfVElMRURfWUY6IC8q
+IGFrYSBQTEFORV9DVExfVElMRURfNCBvbiBYRV9MUEQrICovDQo+ID4+ICAgICAgICAgICAgICAg
+ICAgaWYgKEhBU180VElMRShkZXZfcHJpdikpIHsNCj4gPj4gLSAgICAgICAgICAgICAgICAgICAg
+ICAgaWYgKHZhbCAmIFBMQU5FX0NUTF9SRU5ERVJfREVDT01QUkVTU0lPTl9FTkFCTEUpDQo+ID4+
+ICsgICAgICAgICAgICAgICAgICAgICAgIHUzMiByY19tYXNrID0gUExBTkVfQ1RMX1JFTkRFUl9E
+RUNPTVBSRVNTSU9OX0VOQUJMRSB8DQo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgUExBTkVfQ1RMX0NMRUFSX0NPTE9SX0RJU0FCTEU7DQo+ID4+ICsNCj4gPj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgaWYgKCh2YWwgJiByY19tYXNrKSA9PSByY19tYXNrKQ0KPiA+
+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmYi0+bW9kaWZpZXIgPSBJOTE1X0ZP
+Uk1BVF9NT0RfNF9USUxFRF9ERzJfUkNfQ0NTOw0KPiA+PiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgZWxzZSBpZiAodmFsICYgUExBTkVfQ1RMX01FRElBX0RFQ09NUFJFU1NJT05fRU5BQkxFKQ0K
+PiA+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmYi0+bW9kaWZpZXIgPQ0KPiA+
+PiBJOTE1X0ZPUk1BVF9NT0RfNF9USUxFRF9ERzJfTUNfQ0NTOw0KPiA+PiArICAgICAgICAgICAg
+ICAgICAgICAgICBlbHNlIGlmICh2YWwgJiBQTEFORV9DVExfUkVOREVSX0RFQ09NUFJFU1NJT05f
+RU5BQkxFKQ0KPiA+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZiLT5tb2RpZmll
+ciA9DQo+ID4+ICsgSTkxNV9GT1JNQVRfTU9EXzRfVElMRURfREcyX1JDX0NDU19DQzsNCj4gPj4g
+ICAgICAgICAgICAgICAgICAgICAgICAgIGVsc2UNCj4gPj4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgZmItPm1vZGlmaWVyID0gSTkxNV9GT1JNQVRfTU9EXzRfVElMRUQ7DQo+ID4+
+ICAgICAgICAgICAgICAgICAgfSBlbHNlIHsNCj4gPj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFw
+aS9kcm0vZHJtX2ZvdXJjYy5oDQo+ID4+IGIvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmgg
+aW5kZXggYjhmYjdiNDRjMDNjLi42OTc2MTRlYTRiODQNCj4gPj4gMTAwNjQ0DQo+ID4+IC0tLSBh
+L2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oDQo+ID4+ICsrKyBiL2luY2x1ZGUvdWFwaS9k
+cm0vZHJtX2ZvdXJjYy5oDQo+ID4+IEBAIC02MDUsNiArNjA1LDE2IEBAIGV4dGVybiAiQyIgew0K
+PiA+PiAgICAqLw0KPiA+PiAgICNkZWZpbmUgSTkxNV9GT1JNQVRfTU9EXzRfVElMRURfREcyX01D
+X0NDUw0KPiBmb3VyY2NfbW9kX2NvZGUoSU5URUwsDQo+ID4+IDExKQ0KPiA+Pg0KPiA+PiArLyoN
+Cj4gPj4gKyAqIEludGVsIGNvbG9yIGNvbnRyb2wgc3VyZmFjZXMgKENDUykgZm9yIERHMiBjbGVh
+ciBjb2xvciByZW5kZXIgY29tcHJlc3Npb24uDQo+ID4+ICsgKg0KPiA+PiArICogREcyIHVzZXMg
+YSB1bmlmaWVkIGNvbXByZXNzaW9uIGZvcm1hdCBmb3IgY2xlYXIgY29sb3IgcmVuZGVyDQo+IGNv
+bXByZXNzaW9uLg0KPiA+DQo+ID4gV2hhdCdzIHVuaWZpZWQgYWJvdXQgREcyJ3MgY29tcHJlc3Np
+b24gZm9ybWF0PyBJZiB0aGlzIGRvZXNuJ3QgYWZmZWN0DQo+ID4gdGhlIGxheW91dCwgbWF5YmUg
+d2Ugc2hvdWxkIGRyb3AgdGhpcyBzZW50ZW5jZS4NCj4gPg0KPiA+PiArICogVGhlIGdlbmVyYWwg
+bGF5b3V0IGlzIGEgdGlsZWQgbGF5b3V0IHVzaW5nIDRLYiB0aWxlcyBpLmUuIFRpbGU0IGxheW91
+dC4NCj4gPj4gKyAqDQo+ID4NCj4gPiBUaGlzIGFsc28gbmVlZHMgYSBwaXRjaCBhbGlnbmVkIHRv
+IGZvdXIgdGlsZXMsIHJpZ2h0PyBJIHRoaW5rIHdlIGNhbg0KPiA+IHNhdmUgc29tZSBlZmZvcnQg
+YnkgcmVmZXJlbmNpbmcgdGhlIERHMl9SQ19DQ1MgbW9kaWZpZXIgaGVyZS4NCj4gPg0KPiA+PiAr
+ICogRmFzdCBjbGVhciBjb2xvciB2YWx1ZSBleHBlY3RlZCBieSBIVyBpcyBsb2NhdGVkIGluIGZi
+IGF0IG9mZnNldA0KPiA+PiArIDAgb2YgcGxhbmUjMQ0KPiA+DQo+ID4gV2h5IGlzIHRoZSBleHBl
+Y3RlZCBvZmZzZXQgaGFyZGNvZGVkIHRvIDAgaW5zdGVhZCBvZiByZWx5aW5nIG9uIHRoZQ0KPiA+
+IG9mZnNldCBwcm92aWRlZCBieSB0aGUgbW9kaWZpZXIgQVBJPyBUaGlzIGxvb2tzIGxpa2UgYSBi
+dWcuDQo+IA0KPiBIaSBOYW5sZXksDQo+IA0KPiBjYW4geW91IGVsYWJvcmF0ZSBhIGJpdCwgd2hp
+Y2ggb2Zmc2V0IGZyb20gbW9kaWZpZXIgQVBJIHRoYXQgYXBwbGllcyB0byBjYyBzdXJmYWNlPw0K
+PiANCg0KSGkgSnVoYS1QZWtrYSwNCg0KT24gdGhlIGtlcm5lbC1zaWRlIG9mIHRoaW5ncywgSSdt
+IHRoaW5raW5nIG9mIGRybV9tb2RlX2ZiX2NtZDI6Om9mZnNldHNbMV0uDQoNCi1OYW5sZXkNCg0K
+PiA+DQo+ID4gV2Ugc2hvdWxkIHByb2JhYmx5IGdpdmUgc29tZSBpbmZvIGFib3V0IHRoZSByZWxl
+dmFudCBmaWVsZHMgaW4gdGhlDQo+ID4gZmFzdCBjbGVhciBwbGFuZSAobGlrZSB3aGF0J3MgZG9u
+ZSBpbiB0aGUgR0VOMTJfUkNfQ0NTX0NDIG1vZGlmaWVyKS4NCj4gDQo+IGFncmVlLCB0aGF0J3Mg
+dG90YWxseSBtaXNzaW5nIGhlcmUuDQo+IA0KPiAvSnVoYS1QZWtrYQ0KPiANCj4gPg0KPiA+PiAr
+ICovDQo+ID4+ICsjZGVmaW5lIEk5MTVfRk9STUFUX01PRF80X1RJTEVEX0RHMl9SQ19DQ1NfQ0MN
+Cj4gZm91cmNjX21vZF9jb2RlKElOVEVMLA0KPiA+PiArMTIpDQo+ID4+ICsNCj4gPj4gICAvKg0K
+PiA+PiAgICAqIFRpbGVkLCBOVjEyTVQsIGdyb3VwZWQgaW4gNjQgKHBpeGVscykgeCAzMiAobGlu
+ZXMpIC1zaXplZCBtYWNyb2Jsb2Nrcw0KPiA+PiAgICAqDQo+ID4+IC0tDQo+ID4+IDIuMjAuMQ0K
+PiA+Pg0KDQo=
