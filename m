@@ -1,65 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A1C4B6675
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 09:48:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A03B4B6680
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 09:48:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8069C10E40C;
-	Tue, 15 Feb 2022 08:48:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 407BA10E40E;
+	Tue, 15 Feb 2022 08:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD7A810E3F4
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 08:48:00 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 889B910E40E
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 08:48:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644914879;
+ s=mimecast20190719; t=1644914919;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+0eleqiUVBeAPaQGD2Q6ihFW/Z9JIAN0Kj0GeNRsLaA=;
- b=ayphHF/zz/QRT1LtgSyf1ZNurdY3ZWjlPMleazOL4obzkYrLOaUkjPHx48MLeXSGDjEml3
- FgDcGj7sk8oOyMZq9cCqhrWx8PKM5uzJ5/FEKp9yGBqW98g1a81XVSY6c/juNsND1Haz75
- Sh5yTD9yDaBontOCOez+FBIoh5O7Jzk=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cAghCw6nMXIP8DbPC2ZTmMjVdzgtfdV0Q4rDuIo9NkY=;
+ b=DSqmbLSAwCAJVngxiscPK3AI83fBvtKyU1g0AilU1+5l1HWqSms+MFHSUGa0sZO/SfGwjz
+ MTARKord6OnXu1SikYooOuoDXp45WeVwP+NSyH7Y/dELylzZWdS76PxZnMHKfa6/B5mtm0
+ Kk9NNo2FFnT7z/6lrYWi3bCEQd9gsF4=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-189-wqDijQCsMeKAZ0yhAV2t0A-1; Tue, 15 Feb 2022 03:47:55 -0500
-X-MC-Unique: wqDijQCsMeKAZ0yhAV2t0A-1
-Received: by mail-pj1-f69.google.com with SMTP id
- w3-20020a17090ac98300b001b8b914e91aso1396151pjt.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 00:47:55 -0800 (PST)
+ us-mta-444-tg-TV1ejOz-iW1oY9AFVZA-1; Tue, 15 Feb 2022 03:48:36 -0500
+X-MC-Unique: tg-TV1ejOz-iW1oY9AFVZA-1
+Received: by mail-pl1-f198.google.com with SMTP id
+ w3-20020a170902a70300b0014cced44ad7so7901024plq.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 00:48:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+0eleqiUVBeAPaQGD2Q6ihFW/Z9JIAN0Kj0GeNRsLaA=;
- b=3QWi85iBAHaXpJMmr79OPsAQ8tOh+RNqgEG4/b4geJqeiyqfJRfHUortMBVWWAaaT5
- kraFEa6dpnjo4pm8sqv6lh3Q+rKSmxKH+a1huZZEwAKCdRZexDc0rOzS9K3Mfj34kejd
- cLti5tagVcAJjip6iguASxn0BlEY7ttN7FFpbHJSR0hAlmoq2PLlU61F9zcWLLd1vwZh
- drsErswBiCGG/nwcik6MoI4D7StAiFz7AEWuRDkXIWpvL9GXfXTPn81pARZzZG4vgpVG
- cK9Vg178OlBeHZm4O9mhOtdd7LvZOZuJfm6HdnwViHm7typVzyqKi1jIzldwIV5+ScTm
- Jtfw==
-X-Gm-Message-State: AOAM532Nv9Q4ezbErdm1OZ/ZgV1MWFENlPpqXIc0HDcyTLdg3SdpTC/c
- knt+cfb7CPR1uu3f/9Hs+IPbZNv25DI6TFyIm03PL1/GSC7ezRBEKGUeJ5iMO9dPPidR1SZ1x7O
- OFyVzDGDGvBK//P4ofJ5yQlCs7vOgUGYWLdYNIjMwnEZO
-X-Received: by 2002:a05:6a00:9a9:: with SMTP id
- u41mr3233702pfg.83.1644914874666; 
- Tue, 15 Feb 2022 00:47:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy1RXfHqGKUOwHiOd9TXDCmkRfLOApnv8+NP4UBdUIs2zHseVmQ3Z770IwhZgE/Zg1NSmgYeteqUdN9fAOzix8=
-X-Received: by 2002:a05:6a00:9a9:: with SMTP id
- u41mr3233676pfg.83.1644914874405; 
- Tue, 15 Feb 2022 00:47:54 -0800 (PST)
+ bh=cAghCw6nMXIP8DbPC2ZTmMjVdzgtfdV0Q4rDuIo9NkY=;
+ b=4Dyc8T1FbyXEW4DLTFEWYfHtgR3VLWCkPUtcejmA0KbHICxn2NpfX/3bTb13NHxudJ
+ /3Yy1cj5+aR++BiarkOJ8ttne3bTfOXu89AE62YvhafO7TA6w0qBBg0mtdVlMgBAjEGu
+ 2aTaxalKm51iZY7ZSEa59FGFoj2YDuWZcSxPBSl7HeEYcaInhB1xEpUJS/VIJ7pyEnYB
+ B6XINIbyZDsLKhwQfwVYRytTUJsAN7kWLqH8jcHZW0Vckv7YfRsSGnhGfJBcDW1XfV9u
+ uDQX8RhXRY0VxYygxK5cvLVvBavR/UDlflPkggIRBhMD0mIJsDDVpPlBcZlqAsrLkqRw
+ 1maA==
+X-Gm-Message-State: AOAM530QIps+8MIhWYodreyG98MeloHt2iJ0b0uytUzTpIoVH07Mk3Zj
+ KasAPGlNMXYQcM6KeNlz4pm4RcWDG8kvOtXdcx2E/1wX45ZO+GrgQUihhVDOn0pYpfO3CczSm8g
+ vbW6LUhQ/99ARu0JTSiyKkgg20FqLQbOl7fUUczC5t50T
+X-Received: by 2002:a63:2bc5:: with SMTP id r188mr2644608pgr.363.1644914915608; 
+ Tue, 15 Feb 2022 00:48:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxNykZwzg4bf+5n8EbXDkY7JRsdOTnLNDPgNJlOcTDejNQ8sWs8DiYpM4W3ztHYleOanIdgFMhO3Rj6Rj63QAs=
+X-Received: by 2002:a63:2bc5:: with SMTP id r188mr2644575pgr.363.1644914915393; 
+ Tue, 15 Feb 2022 00:48:35 -0800 (PST)
 MIME-Version: 1.0
 References: <1644890154-64915-1-git-send-email-wangqing@vivo.com>
- <1644890154-64915-6-git-send-email-wangqing@vivo.com>
-In-Reply-To: <1644890154-64915-6-git-send-email-wangqing@vivo.com>
+ <1644890154-64915-7-git-send-email-wangqing@vivo.com>
+In-Reply-To: <1644890154-64915-7-git-send-email-wangqing@vivo.com>
 From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date: Tue, 15 Feb 2022 09:47:43 +0100
-Message-ID: <CAO-hwJJK5yeW+K_vLpWV9t3TsEdk0xCO-ETxeJsXM2c117JzNw@mail.gmail.com>
-Subject: Re: [PATCH V3 5/13] hid: use time_is_after_jiffies() instead of open
- coding it
+Date: Tue, 15 Feb 2022 09:48:24 +0100
+Message-ID: <CAO-hwJLwomyHyjza8x3cEhR97HkK7Z7yPWVXwA4-1jmM=WKqeQ@mail.gmail.com>
+Subject: Re: [PATCH V3 6/13] input: serio: use time_is_before_jiffies()
+ instead of open coding it
 To: Qing Wang <wangqing@vivo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=btissoir@redhat.com
@@ -98,7 +96,7 @@ Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 15, 2022 at 2:56 AM Qing Wang <wangqing@vivo.com> wrote:
+On Tue, Feb 15, 2022 at 2:57 AM Qing Wang <wangqing@vivo.com> wrote:
 >
 > From: Wang Qing <wangqing@vivo.com>
 >
@@ -106,34 +104,38 @@ On Tue, Feb 15, 2022 at 2:56 AM Qing Wang <wangqing@vivo.com> wrote:
 > code readability.
 >
 > Signed-off-by: Wang Qing <wangqing@vivo.com>
-> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> ---
 
-FWIW, this one is
-Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-
-Wang, is there any plan to take this series through the trivial tree
-or should each maintainer take the matching patches?
+Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
 Cheers,
 Benjamin
 
-> ---
->  drivers/hid/intel-ish-hid/ipc/ipc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/input/serio/ps2-gpio.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
-> index 8ccb246..15e1423
-> --- a/drivers/hid/intel-ish-hid/ipc/ipc.c
-> +++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
-> @@ -578,7 +578,7 @@ static void _ish_sync_fw_clock(struct ishtp_device *dev)
->         static unsigned long    prev_sync;
->         uint64_t        usec;
+> diff --git a/drivers/input/serio/ps2-gpio.c b/drivers/input/serio/ps2-gpio.c
+> index 8970b49..7834296
+> --- a/drivers/input/serio/ps2-gpio.c
+> +++ b/drivers/input/serio/ps2-gpio.c
+> @@ -136,7 +136,7 @@ static irqreturn_t ps2_gpio_irq_rx(struct ps2_gpio_data *drvdata)
+>         if (old_jiffies == 0)
+>                 old_jiffies = jiffies;
 >
-> -       if (prev_sync && jiffies - prev_sync < 20 * HZ)
-> +       if (prev_sync && time_is_after_jiffies(prev_sync + 20 * HZ))
->                 return;
+> -       if ((jiffies - old_jiffies) > usecs_to_jiffies(100)) {
+> +       if (time_is_before_jiffies(old_jiffies + usecs_to_jiffies(100))) {
+>                 dev_err(drvdata->dev,
+>                         "RX: timeout, probably we missed an interrupt\n");
+>                 goto err;
+> @@ -237,7 +237,7 @@ static irqreturn_t ps2_gpio_irq_tx(struct ps2_gpio_data *drvdata)
+>         if (old_jiffies == 0)
+>                 old_jiffies = jiffies;
 >
->         prev_sync = jiffies;
+> -       if ((jiffies - old_jiffies) > usecs_to_jiffies(100)) {
+> +       if (time_is_before_jiffies(old_jiffies + usecs_to_jiffies(100))) {
+>                 dev_err(drvdata->dev,
+>                         "TX: timeout, probably we missed an interrupt\n");
+>                 goto err;
 > --
 > 2.7.4
 >
