@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092F04B7ABA
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 23:52:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FEE4B7B0E
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 00:12:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3833810E5CD;
-	Tue, 15 Feb 2022 22:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71E0710E696;
+	Tue, 15 Feb 2022 23:11:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
- [IPv6:2607:f8b0:4864:20::c32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EED210E5CD
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 22:52:02 +0000 (UTC)
-Received: by mail-oo1-xc32.google.com with SMTP id
- u47-20020a4a9732000000b00316d0257de0so425067ooi.7
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 14:52:02 -0800 (PST)
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AADD10E696
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 23:11:54 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id m185so289755iof.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 15:11:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1FB9vEgE7XNXDYnECZNocmKPYP8d5C7TWz0lgDEn7xk=;
- b=fjG712BlrOTYrfwnSRNCBRY8yRQW9o6qR1hiZlZWQq91Sm5fVmIhzlRa+s7C/PBz2T
- eJ4cgsB9JemF8urXL4CrzCBOFzhtwz5N7W5Kotgar0OKQBgyUhdOiRujxY9FKvRk0roG
- NZoBf1wVhyOnoD6NCrsjPrRQ5hEQ7qliayxC0=
+ :cc; bh=RS9LJJqmWh2HshOHeCWOhECU3+chlrbjdRDe3zN6X9M=;
+ b=H3bimkVRJOknA0aIROgu2Emj9m+d2cHFSVAZdO3VDMB9C2wmDyi0GpYAphtkdW5T9l
+ t2vyE2yOlh0+55slm821IvlxRGaKvbnhxFvzX4eRbrxX7KE9aJqBlZqzyLfQbcaGAcB5
+ i8Toqhd012JS44MZovroT1JLm5LHghliYvR6E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1FB9vEgE7XNXDYnECZNocmKPYP8d5C7TWz0lgDEn7xk=;
- b=AFU+qyHjxCjRzjaXAkgyWGC6WijEu0PRqJwphGJPvcGr6EfnGkkP8D99GGJltJpv7Y
- 0GKMIITSj7Iz5G6H5lBpBiCyvZpUTe1lWEt/HI5XE/tm2bgLqM9Z3PFKF7z4n/ty9ClZ
- iVtNPuVEIA+Txg7KDbJmG8HJBs02hh3x031ooEYt/+XMT2XY0PiRylUvYOaXzR67YxaH
- sp1uaa3DdSCkWHJQK2scgP8UG6lH/tYV8Kts4wubK7qB3NpKwapBDpKH1UH5wgv4zShf
- XHW8XzjAZveEgwU4GLvXEECaY65NlIWRnbYMZ1x3nOJSNfuZqSp811t9o/o9GZ9Vaox5
- bW4Q==
-X-Gm-Message-State: AOAM532AMpgjFXI49ObgNAXpzBnOk4xaPxWboFPu8XoxmNql60qTO0mM
- QEv9F3hnOMfXznb/PzEkPyLyy6AgiOiGqg==
-X-Google-Smtp-Source: ABdhPJyxA41fUh2+MrbDFR+m6TY9J3aL+g7t9RK83Uy/MlGIF+MfRz34UVkO2K8R60SqQfITeUwlJg==
-X-Received: by 2002:a05:6870:3a35:b0:d2:c787:ceea with SMTP id
- du53-20020a0568703a3500b000d2c787ceeamr2278422oab.96.1644965521388; 
- Tue, 15 Feb 2022 14:52:01 -0800 (PST)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com.
- [209.85.210.42])
- by smtp.gmail.com with ESMTPSA id t192sm893840oie.14.2022.02.15.14.51.58
+ bh=RS9LJJqmWh2HshOHeCWOhECU3+chlrbjdRDe3zN6X9M=;
+ b=fAXIKbRE1S2A4d0AZKdvbdHdwPoFfqPsJUZv246aitPrDgIzPZyFoBLV5dw4mwx9ix
+ yvtZZROwRIfi1guqeu2ZPjvrF27OH5bAK7g34xyhTcGDyAO87BVk5xBP4Ws421n+U0T0
+ 75yDN28Fcy02NjOAP9/+G+FqJJg6dnrWNI03SFwGzStDd2Z9sKWaF08PafSwlmnLYYW8
+ OeetDfZCg1B/fG3tmP1Gag6W4c3tZuKjN8DyIQIdG0P8pW2N03W+Idgy10t8zjTlkEWj
+ 6GZHaVFYa6DZQTE7GueaNKp8UZqis//W6G1p7VWJMhrRrdKc3Me1viTnTD9Jcm30Y1bk
+ dA/Q==
+X-Gm-Message-State: AOAM533oL70vqWBjeoN9jcmUDzfCKYCxG0YTpg/9LqornesWGuzV7DyO
+ DYFx7lwjwR2jA4Hx6gpQI4dgl4+gC0x8LQ==
+X-Google-Smtp-Source: ABdhPJwWdeNCHGqNknJOXb3pzzvi2gLJwNRKC9HmL16Zvu2V94bcpel1Zwv4kl73fVgh1/t58cNckg==
+X-Received: by 2002:a05:6638:3003:: with SMTP id
+ r3mr762795jak.239.1644966713673; 
+ Tue, 15 Feb 2022 15:11:53 -0800 (PST)
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com.
+ [209.85.166.171])
+ by smtp.gmail.com with ESMTPSA id k1sm24208122iov.6.2022.02.15.15.11.53
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Feb 2022 14:51:58 -0800 (PST)
-Received: by mail-ot1-f42.google.com with SMTP id
- l12-20020a0568302b0c00b005a4856ff4ceso286404otv.13
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 14:51:58 -0800 (PST)
-X-Received: by 2002:a9d:755a:: with SMTP id b26mr513845otl.230.1644965517513; 
- Tue, 15 Feb 2022 14:51:57 -0800 (PST)
+ Tue, 15 Feb 2022 15:11:53 -0800 (PST)
+Received: by mail-il1-f171.google.com with SMTP id c14so190326ilm.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 15:11:53 -0800 (PST)
+X-Received: by 2002:a05:6e02:12ef:b0:2be:2c34:17b2 with SMTP id
+ l15-20020a056e0212ef00b002be2c3417b2mr39472iln.120.1644966712975; Tue, 15 Feb
+ 2022 15:11:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20211001144212.v2.1.I773a08785666ebb236917b0c8e6c05e3de471e75@changeid>
- <CAD=FV=XU0bYVZk+-jPWZVoODW79QXOJ=NQy+RH=fYyX+LCZb2Q@mail.gmail.com>
-In-Reply-To: <CAD=FV=XU0bYVZk+-jPWZVoODW79QXOJ=NQy+RH=fYyX+LCZb2Q@mail.gmail.com>
-From: Brian Norris <briannorris@chromium.org>
-Date: Tue, 15 Feb 2022 14:51:46 -0800
-X-Gmail-Original-Message-ID: <CA+ASDXPXKVwcZGYoagJYPm4E7DzaJmEVEv2FANhLH-juJw+r+Q@mail.gmail.com>
-Message-ID: <CA+ASDXPXKVwcZGYoagJYPm4E7DzaJmEVEv2FANhLH-juJw+r+Q@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: analogix_dp: Grab runtime PM reference for
- DP-AUX
-To: Doug Anderson <dianders@chromium.org>
+References: <20220205001342.3155839-1-dianders@chromium.org>
+ <20220204161245.v2.2.Ib0bd5346135cbb0b63006b69b61d4c8af6484740@changeid>
+ <5d60473d-be8f-e2dc-2ce9-bc0b9056e4b4@redhat.com>
+ <e6670fd7-1f75-56f7-b668-20db9902cac6@intel.com>
+In-Reply-To: <e6670fd7-1f75-56f7-b668-20db9902cac6@intel.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 15 Feb 2022 15:11:41 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Ut3N9syXbN7i939mNsx3h7-u9cU9j6=XFkz9vrh0Vseg@mail.gmail.com>
+Message-ID: <CAD=FV=Ut3N9syXbN7i939mNsx3h7-u9cU9j6=XFkz9vrh0Vseg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] drm: Plumb debugfs_init through to panels
+To: Andrzej Hajda <andrzej.hajda@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,107 +74,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- "# 4.0+" <stable@vger.kernel.org>, Sean Paul <sean@poorly.run>
+ Thomas Zimmermann <tzimmermann@suse.de>, lschyi@chromium.org,
+ Sam Ravnborg <sam@ravnborg.org>, jjsu@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 15, 2022 at 1:31 PM Doug Anderson <dianders@chromium.org> wrote:
+Hi,
+
+On Tue, Feb 15, 2022 at 2:20 PM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
 >
-> Hi,
-
-Hi!
-
-> On Fri, Oct 1, 2021 at 2:50 PM Brian Norris <briannorris@chromium.org> wrote:
+> On 15.02.2022 23:09, Javier Martinez Canillas wrote:
+> > Hello Doug,
 > >
-> > If the display is not enable()d, then we aren't holding a runtime PM
-> > reference here. Thus, it's easy to accidentally cause a hang, if user
-> > space is poking around at /dev/drm_dp_aux0 at the "wrong" time.
+> > On 2/5/22 01:13, Douglas Anderson wrote:
 > >
-> > Let's get the panel and PM state right before trying to talk AUX.
+> > [snip]
+> >
+> >> +static void panel_bridge_debugfs_init(struct drm_bridge *bridge,
+> >> +                                  struct dentry *root)
+> >> +{
+> >> +    struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
+> >> +    struct drm_panel *panel = panel_bridge->panel;
+> >> +
+> >> +    root = debugfs_create_dir("panel", root);
+> > This could return a ERR_PTR(-errno) if the function doesn't succeed.
+> >
+> > I noticed that most kernel code doesn't check the return value though...
+> >
+> >> +    if (panel->funcs->debugfs_init)
+> > Probably if (!(IS_ERR(root) && panel->funcs->debugfs_init) ?
+> >
+> >> +            panel->funcs->debugfs_init(panel, root);
+> >> +}
+> > [snip]
+> >
+> >> @@ -436,6 +436,9 @@ void drm_debugfs_connector_add(struct drm_connector *connector)
+> >>      /* vrr range */
+> >>      debugfs_create_file("vrr_range", S_IRUGO, root, connector,
+> >>                          &vrr_range_fops);
+> > Same here, wonder if the return value should be checked.
 
-> > diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > index b7d2e4449cfa..6fc46ac93ef8 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > @@ -1632,8 +1632,27 @@ static ssize_t analogix_dpaux_transfer(struct drm_dp_aux *aux,
-...
-> > +       pm_runtime_get_sync(dp->dev);
-> > +       ret = analogix_dp_transfer(dp, msg);
-> > +       pm_runtime_put(dp->dev);
->
-> I've spent an unfortunate amount of time digging around the DP AUX bus
-> recently, so I can at least say that I have some experience and some
-> opinions here.
+My plan (confirmed with Javier over IRC) is to land my patches and we
+can address as needed with follow-up patches.
 
-Thanks! Experience is welcome, and opinions too sometimes ;)
+I actually wrote said follow-up patches and they were ready to go, but
+when I was trying to come up with the right "Fixes" tag I found commit
+b792e64021ec ("drm: no need to check return value of debugfs_create
+functions"). So what's being requested is nearly the opposite of what
+Greg did there.
 
-> IMO:
->
-> 1. Don't power the panel on. If the panel isn't powered on then the DP
-> AUX transfer will timeout. Tough nuggies. Think of yourself more like
-> an i2c controller and of this as an i2c transfer implementation. The
-> i2c controller isn't in charge of powering up the i2c devices on the
-> bus. If userspace does an "i2c detect" on an i2c bus and some of the
-> devices aren't powered then they won't be found. If you try to
-> read/write from a powered off device that won't work either.
+I thought about perhaps only checking for directories but even that
+type of check was removed by Greg's patch. Further checking shows that
+start_creating() actually has:
 
-I guess this, paired with the driver examples below (ti-sn65dsi86.c,
-especially, which specifically throws errors if the panel isn't on),
-makes some sense. It's approximately (but more verbosely) what Andrzej
-was recommending too, I guess. It still makes me wonder what the point
-of the /dev/drm_dp_aux<N> interface is though, because it seems like
-you're pretty much destined to not have reliable operation through
-that means.
+if (IS_ERR(parent))
+  return parent;
 
-Also note: I found that the AUX bus is really not working properly at
-all (even with this patch) in some cases due to self-refresh. Not only
-do we need the panel enabled, but we need to not be in self-refresh
-mode. Self-refresh is not currently exposed to user space, so user
-space has no way of knowing the panel is currently active, aside from
-racily inducing artificial display activity.
+...so I guess that explains why it's fine to skip the check even for parents?
 
-But if we're OK with "just throw errors" or "just let stuff time out",
-then I guess that's not a big deal. My purpose is to avoid hanging the
-system, not to make /dev/drm_dp_aux<N> useful.
-
-> 2. In theory if the DP driver can read HPD (I haven't looked through
-> the analogix code to see how it handles it) then you can fail an AUX
-> transfer right away if HPD isn't asserted instead of timing out. If
-> this is hard, it's probably fine to just time out though.
-
-This driver does handle HPD, but it also has overrides because
-apparently it doesn't work on some systems. I might see if we can
-leverage it, or I might just follow the bridge-enabled state (similar
-to ti-sn65dsi86.c's 'comms_enabled').
-
-> 3. Do the "pm_runtime" calls, but enable "autosuspend" with something
-> ~1 second autosuspend delay. When using the AUX bus to read an EDID
-> the underlying code will call your function 16 times in quick
-> succession. If you're powering up and down constantly that'll be a bit
-> of a waste.
-
-Does this part really matter? For properly active cases, the bridge
-remains enabled, and it holds a runtime PM reference. For "maybe
-active" (your "tough nuggies" situation above), you're probably right
-that it's inefficient, but does it matter, when it's going to be a
-slow timed-out operation anyway? The AUX failure will be much slower
-than the PM transition.
-
-I guess I can do this anyway, but frankly, I'll just be copy/pasting
-stuff from other drivers, because the runtime PM documentation still
-confuses me, and moreso once you involve autosuspend.
-
-> For a reference, you could look at
-> `drivers/gpu/drm/bridge/ti-sn65dsi86.c`. Also
-> `drivers/gpu/drm/bridge/parade-ps8640.c`
-
-Thanks for these. They look like reasonable patterns to follow.
+Sure enough I confirmed that if I pass `ERR_PTR(-EINVAL)` as the root
+for `panel->funcs->debugfs_init()` that nothing bad seems to happen...
 
 
-Brian
+> I've seen sometimes that file/dir was already created with the same
+> name, reporting error in such case will be helpful.
+
+It sure looks like start_creating() already handles that type of
+reporting... Sure enough, I tried to create the "force" file twice,
+adding no error checking myself, and I see:
+
+debugfs: File 'force' in directory 'eDP-1' already present!
+debugfs: File 'force' in directory 'DP-1' already present!
+
+
+So tl;dr is that I'm going to land the patches and now am _not_
+planning on doing followup patches. However, if I'm confused about any
+of the above then please let me know and I'll dig more / can send
+follow-up patches.
+
+-Doug
