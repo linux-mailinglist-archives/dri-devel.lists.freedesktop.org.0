@@ -2,50 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8E74B6FAC
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 16:22:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E114B6FB7
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 16:27:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E22CF10E4A7;
-	Tue, 15 Feb 2022 15:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5120E10E584;
+	Tue, 15 Feb 2022 15:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
- [209.85.166.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE3610E4BB
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 15:22:49 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id m185so24207730iof.10
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 07:22:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=XhzAWVt3fjQKRJz9q7eT7XZzXXhJRSw+HdG8hBMs3vw=;
- b=fz/+/BbG3AGOIe5I3oCv/MPmuuKqNPijcZ7s8dA+0llZD1hgrWj6MGreXm3aBdMR31
- V7i6Y5E5zDpHHYRvXFtuwSPRIP4U2kD6W3BK/mg1ZOk2r/JM3uU4BXNXMVlSKmYUY9Gx
- I6jWERHeSj7gbIvXytI5TmheBdcVRW81M7wH4oaadsTnwZ3JeQ+jf3t1ThE7dMAb6rwp
- Ab2fEwwIngNJR+c2JvPU1vZ8waKDOee/LvyvVx91IxmPHmwKIDBzDB/V+JNfr7ECxJ0R
- lB2fUriyeUa6uKlMADsSVsYtBIUpoWVm3D+MD+BvkePHobJkTSuDvlGXQM3vdCIqPT3f
- A/Tg==
-X-Gm-Message-State: AOAM5302r/SH+vGPIhN/AaM5qh5KJzazUNnbLMx1MgRJVht6XPOUwcDX
- 8uImEnhV2Cw5M/nbQ9ptOg==
-X-Google-Smtp-Source: ABdhPJy9JFtwUbiq7T/ZLKKZHSXtiaR2kjV/Np9yM3ec7E+Tf5Z817N+bGtrTY1u3170v2yAn8/MMg==
-X-Received: by 2002:a05:6638:2493:: with SMTP id
- x19mr3018228jat.219.1644938568584; 
- Tue, 15 Feb 2022 07:22:48 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id v16sm19583530ilm.25.2022.02.15.07.22.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 07:22:47 -0800 (PST)
-Received: (nullmailer pid 3450855 invoked by uid 1000);
- Tue, 15 Feb 2022 15:22:45 -0000
-From: Rob Herring <robh@kernel.org>
-To: alyssa.rosenzweig@collabora.com
-In-Reply-To: <20220211202728.6146-2-alyssa.rosenzweig@collabora.com>
-References: <20220211202728.6146-1-alyssa.rosenzweig@collabora.com>
- <20220211202728.6146-2-alyssa.rosenzweig@collabora.com>
-Subject: Re: [PATCH 1/9] dt-bindings: Add arm,mali-valhall compatible
-Date: Tue, 15 Feb 2022 09:22:45 -0600
-Message-Id: <1644938565.038499.3450854.nullmailer@robh.at.kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F274410E567
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 15:27:49 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 02C47615FD;
+ Tue, 15 Feb 2022 15:27:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA093C36AE7;
+ Tue, 15 Feb 2022 15:27:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644938868;
+ bh=BOnIhtOxhnn7VldcjnILH2G5d8hO49/zPZe3pqe3v6o=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=TQoQAqSkwYqJEcQdnK7DyqG/Z7mUzgn8esmBUoDC7kcirtLTIwLPhw+Z5NG6wW56Q
+ x4QWigq1H724Y7HduJ7qPZ0A+IOT7ZS3gJHRZ5IWUDHbtFHWjyZhjrIlfAU8gFvS0x
+ U1/xLjNN3xRwtCNKWQq9/y708fgpqksfcpYnH8ei5ff+KaC3z7mxR+ZF7cOqxL4PCF
+ kbmS5/0RQAcow90TyQVYBaEC10d8O2K0zuqmRMfZLSaq6q1CgRuD1bgn3rnH8ezTEQ
+ LtUljugxhDpMVX/YShdUrRJrOUPD4o9JdOddcJgNXclI3mwZyIu5/PrM9gBxsnF3me
+ UJNgcToLu+vxQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 25/34] drm/rockchip: dw_hdmi: Do not leave clock
+ enabled in error case
+Date: Tue, 15 Feb 2022 10:26:48 -0500
+Message-Id: <20220215152657.580200-25-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220215152657.580200-1-sashal@kernel.org>
+References: <20220215152657.580200-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,37 +55,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, tomeu.vizoso@collabora.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, steven.price@arm.com
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ Sascha Hauer <s.hauer@pengutronix.de>, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Feb 2022 15:27:20 -0500, alyssa.rosenzweig@collabora.com wrote:
-> From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> 
-> 
+From: Sascha Hauer <s.hauer@pengutronix.de>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+[ Upstream commit c0cfbb122275da1b726481de5a8cffeb24e6322b ]
 
-yamllint warnings/errors:
+The driver returns an error when devm_phy_optional_get() fails leaving
+the previously enabled clock turned on. Change order and enable the
+clock only after the phy has been acquired.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.example.dt.yaml: gpu@ffe40000: compatible: ['amlogic,meson-g12a-mali', 'arm,mali-bifrost'] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220126145549.617165-3-s.hauer@pengutronix.de
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1591823
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+index 830bdd5e9b7ce..8677c82716784 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+@@ -529,13 +529,6 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 		return ret;
+ 	}
+ 
+-	ret = clk_prepare_enable(hdmi->vpll_clk);
+-	if (ret) {
+-		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI vpll: %d\n",
+-			      ret);
+-		return ret;
+-	}
+-
+ 	hdmi->phy = devm_phy_optional_get(dev, "hdmi");
+ 	if (IS_ERR(hdmi->phy)) {
+ 		ret = PTR_ERR(hdmi->phy);
+@@ -544,6 +537,13 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 		return ret;
+ 	}
+ 
++	ret = clk_prepare_enable(hdmi->vpll_clk);
++	if (ret) {
++		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI vpll: %d\n",
++			      ret);
++		return ret;
++	}
++
+ 	drm_encoder_helper_add(encoder, &dw_hdmi_rockchip_encoder_helper_funcs);
+ 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+ 
+-- 
+2.34.1
 
