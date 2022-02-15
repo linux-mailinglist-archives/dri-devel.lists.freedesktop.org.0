@@ -1,63 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7604B7419
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 18:28:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 460CB4B741B
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 18:32:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED4AC10E4A0;
-	Tue, 15 Feb 2022 17:28:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86A9A10E4BB;
+	Tue, 15 Feb 2022 17:32:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD39310E487
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 17:28:20 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- l7-20020a9d6a87000000b005aceba2aea1so1262118otq.4
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 09:28:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=enbV96Al0C83dzPsevD8fg6Bu+zlYtQoL3u2RImkIFo=;
- b=e3JowMG0gzqmQ7ttptPNL3QeEX1I/qBSDkK2NCodBJjlqpw4OS7Qj4WZQo/CUJRQfo
- IYbkCJsop5hQIvpw3VoS5ktPte5qiqcvmGgsVe3tsFILSLJfSQOxUckPRH9/K0iF5LjK
- BYbFxVilzo5i5kTXOTD5oZ6JY08SBwYIPlsrqm23V+X0KIkrsgAHmxe+74eqyI2tbCfb
- yAnHKYZ6ONrWwIazLi5epPrXjr/VMyPyKfSzQbSGAxPGWTzhxi/RYUiSyL6J2R7ziQKu
- ccowAL96GGjbRPBNvcWN2/Dw9WQs75LNT6mXvh17R6A2nk+sirhAWsGCCp74X+OaXO+0
- SSRA==
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75FE610E4BB;
+ Tue, 15 Feb 2022 17:32:06 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id vz16so6319747ejb.0;
+ Tue, 15 Feb 2022 09:32:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:reply-to:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Yim9wzPYa26QBgKVFQRTLgEjnZX/nJ5DYxpaCWM+1Mg=;
+ b=CC4iSPulrcZpQoXlDDtyyQKB1rf9hIPWjO8kzdMKrLplry1mwI8M5BNJMFUHz4KOhM
+ cxDS7R058LnwCGXmSGI0ysQerSO4oYIUmy8jfhscncGH3x3iEPZ8dY5ad6fQ3WzjhxIo
+ 4qrFaz15xaeoZXVAYHJvMEUPFzT5lBMSgBIydEEN1YQwGrFvL5SiFMZfhHH3NsGte/uQ
+ uDUOlvxB02bi/h3LbrtV94ljphSYKsxpgRQ3XUpjaFcErQyMHSs74CTLTrHvY5VnHMMy
+ 2Sdsiq7hzPsGQHhl64ty+Dd14kZzqYOLmq7Wm+0cBDyGNa1dHuyruo75ha8v5hgE1t1K
+ adRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=enbV96Al0C83dzPsevD8fg6Bu+zlYtQoL3u2RImkIFo=;
- b=gtQzpPIRSvheBkzjEB90qcXXYoYclv/y7lbnQqy5pQwNNG6VdekfIHzyiFNyQ3WkWz
- Y/t5dr/J6XIRR/PeuImr6sRog9+1Xpk/2BHPgKTdEb5sKpMljeMPt/DOzi4GDOmgIkZz
- UXHGA/iCy/+pTi21BuuuwTPTWrMQPXio9YUVae00Z8ZSZ6piujs5zRewgUQflAfVEK6e
- 8gagQ4V+aiwKZK34siOEImTvdO74jW8zb4LsZDmjXbG8/qBAIbxCMk14c2kIyhXnUyiq
- p/0uf08ZqJaOemJLyGcEC4zfPfDlH7O61BZ+RhKyJRhw6y32jLdPLi5e3czRwfWpYXYf
- JDPQ==
-X-Gm-Message-State: AOAM531d4b3kU2ajErSvciaSfiT+xRzNHQdXIDEKfbw5o5RAmC3AlVut
- dA57fTAkraYo7F3Ej/bD8chYWA==
-X-Google-Smtp-Source: ABdhPJxWbZC7iotcwxB6gbtqJWOp03cZLtU+jBQHKqq2qMFk+qdQsJQtFVHVF9y4O+p0zwpjEUDw0w==
-X-Received: by 2002:a9d:7405:: with SMTP id n5mr3013otk.229.1644946099913;
- Tue, 15 Feb 2022 09:28:19 -0800 (PST)
-Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
- by smtp.gmail.com with ESMTPSA id q16sm6584987oiv.16.2022.02.15.09.28.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 09:28:19 -0800 (PST)
-Date: Tue, 15 Feb 2022 11:28:17 -0600
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v2 2/2] drm/msm/dpu: Add SC8180x to hw catalog
-Message-ID: <Ygvisfhi0SY6XdAz@builder.lan>
-References: <20220215043353.1256754-1-bjorn.andersson@linaro.org>
- <20220215043353.1256754-2-bjorn.andersson@linaro.org>
- <be397e2e-05ab-5c18-8e2d-16c443f0a6d1@quicinc.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Yim9wzPYa26QBgKVFQRTLgEjnZX/nJ5DYxpaCWM+1Mg=;
+ b=IdIYrll24ll4xJuxeD5S6ONThv8Qs3w3mGn5wrwjYu5qjzZ0rEuAOY7oDvdpaGMb5p
+ PdYG/tgViWsUjiVr3O7KWRT4GQVN6REBnCGOYBgfPpHnQNPyIj7A2kNdQnAOZhFnU2P5
+ xBJp5p/4lqe463C8UCw/FtOpGPXe/e0tV0AFskidBBSB5g03FlmFpJvIZ8ugNZmp/vHl
+ Xa+Edsm5k7ahrWIkitL4U/qkkKp4H7hS0qKOTLAV2fxGTHQmM8YB4tLzsz5vfOD3JZs+
+ qAWfHCneR5ei5zbc63TVirkY0zw5A+PmPU486fbXuXanVfFie7SpLIxY4wyTiJgQRYTR
+ 0JHw==
+X-Gm-Message-State: AOAM532V7M3WoftXZBdwFJMsqt5n68jhKayXCZDX8FU5XXA95DgKDowI
+ 7VROnKivZDXjhBVSyPlzvPW0vCWxlPHTRE7SlKI=
+X-Google-Smtp-Source: ABdhPJz4thFEyRsU91UE4AEUx2nFCBp1rhOnASaEbnJeSvqp/N1/M+a7eEclH58Y8OeHHc3dQEMm1A==
+X-Received: by 2002:a17:907:961f:: with SMTP id
+ gb31mr130598ejc.404.1644946324724; 
+ Tue, 15 Feb 2022 09:32:04 -0800 (PST)
+Received: from [0.0.0.0] ([134.134.137.84])
+ by smtp.googlemail.com with ESMTPSA id m11sm189583edc.110.2022.02.15.09.31.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 09:32:04 -0800 (PST)
+Message-ID: <07650a50-6de5-7508-5602-4eaeba9d6cbb@gmail.com>
+Date: Tue, 15 Feb 2022 19:31:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <be397e2e-05ab-5c18-8e2d-16c443f0a6d1@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [Intel-gfx] [PATCH v5 16/19] uapi/drm/dg2: Introduce format
+ modifier for DG2 clear color
+Content-Language: en-US
+To: "Chery, Nanley G" <nanley.g.chery@intel.com>,
+ Nanley Chery <nanleychery@gmail.com>, "C, Ramalingam"
+ <ramalingam.c@intel.com>
+References: <20220201104132.3050-1-ramalingam.c@intel.com>
+ <20220201104132.3050-17-ramalingam.c@intel.com>
+ <CAJDL4u+hX2Dbu7q5P48t44XLSOr7vA9mf_jiC607oA1Y6+2k6Q@mail.gmail.com>
+ <a95a1168-5419-0688-0700-c9e81e50727b@gmail.com>
+ <dc66535e7a5d4a9dae25a9548f333385@intel.com>
+ <3e514431-ab0d-a455-871d-b7c9b183a98b@gmail.com>
+ <3ff28a866f494a7ebec5b09eddd894c4@intel.com>
+From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+In-Reply-To: <3ff28a866f494a7ebec5b09eddd894c4@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,277 +82,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Reply-To: juhapekka.heikkila@gmail.com
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>, "Auld,
+ Matthew" <matthew.auld@intel.com>, dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 15 Feb 11:14 CST 2022, Abhinav Kumar wrote:
-
+On 15.2.2022 18.44, Chery, Nanley G wrote:
 > 
 > 
-> On 2/14/2022 8:33 PM, Bjorn Andersson wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> > 
-> > Add SC8180x to the hardware catalog, for initial support for the
-> > platform. Due to limitations in the DP driver only one of the four DP
-> > interfaces is left enabled.
-> > 
-> > The SC8180x platform supports the newly added DPU_INTF_WIDEBUS flag and
-> > the Windows-on-Snapdragon bootloader leaves the widebus bit set, so this
-> > is flagged appropriately to ensure widebus is disabled - for now.
-> > 
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > [bjorn: Reworked intf and irq definitions]
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > ---
-> > 
-> > Changes since v1:
-> > - Dropped widebus flag
-> > 
-> >   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 129 ++++++++++++++++++
-> >   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
-> >   drivers/gpu/drm/msm/msm_drv.c                 |   1 +
-> >   4 files changed, 132 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > index aa75991903a6..7ac0fe32df49 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > @@ -90,6 +90,17 @@
-> >   			 BIT(MDP_INTF3_INTR) | \
-> >   			 BIT(MDP_INTF4_INTR))
-> > +#define IRQ_SC8180X_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
-> > +			  BIT(MDP_SSPP_TOP0_INTR2) | \
-> > +			  BIT(MDP_SSPP_TOP0_HIST_INTR) | \
-> > +			  BIT(MDP_INTF0_INTR) | \
-> > +			  BIT(MDP_INTF1_INTR) | \
-> > +			  BIT(MDP_INTF2_INTR) | \
-> > +			  BIT(MDP_INTF3_INTR) | \
-> > +			  BIT(MDP_INTF4_INTR) | \
-> > +			  BIT(MDP_INTF5_INTR) | \
-> > +			  BIT(MDP_AD4_0_INTR) | \
-> > +			  BIT(MDP_AD4_1_INTR))
-> >   #define DEFAULT_PIXEL_RAM_SIZE		(50 * 1024)
-> >   #define DEFAULT_DPU_LINE_WIDTH		2048
-> > @@ -225,6 +236,22 @@ static const struct dpu_caps sm8150_dpu_caps = {
-> >   	.max_vdeci_exp = MAX_VERT_DECIMATION,
-> >   };
-> > +static const struct dpu_caps sc8180x_dpu_caps = {
-> > +	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-> > +	.max_mixer_blendstages = 0xb,
-> > +	.qseed_type = DPU_SSPP_SCALER_QSEED3,
-> > +	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
-> > +	.ubwc_version = DPU_HW_UBWC_VER_30,
-> > +	.has_src_split = true,
-> > +	.has_dim_layer = true,
-> > +	.has_idle_pc = true,
-> > +	.has_3d_merge = true,
-> > +	.max_linewidth = 4096,
-> > +	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-> > +	.max_hdeci_exp = MAX_HORZ_DECIMATION,
-> > +	.max_vdeci_exp = MAX_VERT_DECIMATION,
-> > +};
-> > +
-> >   static const struct dpu_caps sm8250_dpu_caps = {
-> >   	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-> >   	.max_mixer_blendstages = 0xb,
-> > @@ -293,6 +320,31 @@ static const struct dpu_mdp_cfg sc7180_mdp[] = {
-> >   	},
-> >   };
-> > +static const struct dpu_mdp_cfg sc8180x_mdp[] = {
-> > +	{
-> > +	.name = "top_0", .id = MDP_TOP,
-> > +	.base = 0x0, .len = 0x45C,
-> > +	.features = 0,
-> > +	.highest_bank_bit = 0x3,
-> > +	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
-> > +			.reg_off = 0x2AC, .bit_off = 0},
-> > +	.clk_ctrls[DPU_CLK_CTRL_VIG1] = {
-> > +			.reg_off = 0x2B4, .bit_off = 0},
-> > +	.clk_ctrls[DPU_CLK_CTRL_VIG2] = {
-> > +			.reg_off = 0x2BC, .bit_off = 0},
-> > +	.clk_ctrls[DPU_CLK_CTRL_VIG3] = {
-> > +			.reg_off = 0x2C4, .bit_off = 0},
-> > +	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
-> > +			.reg_off = 0x2AC, .bit_off = 8},
-> > +	.clk_ctrls[DPU_CLK_CTRL_DMA1] = {
-> > +			.reg_off = 0x2B4, .bit_off = 8},
-> > +	.clk_ctrls[DPU_CLK_CTRL_CURSOR0] = {
-> > +			.reg_off = 0x2BC, .bit_off = 8},
-> > +	.clk_ctrls[DPU_CLK_CTRL_CURSOR1] = {
-> > +			.reg_off = 0x2C4, .bit_off = 8},
-> > +	},
-> > +};
-> > +
-> >   static const struct dpu_mdp_cfg sm8250_mdp[] = {
-> >   	{
-> >   	.name = "top_0", .id = MDP_TOP,
-> > @@ -861,6 +913,16 @@ static const struct dpu_intf_cfg sc7280_intf[] = {
-> >   	INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
-> >   };
-> > +static const struct dpu_intf_cfg sc8180x_intf[] = {
-> > +	INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
-> > +	INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
-> > +	INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
-> > +	/* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
-> > +	INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
-> > +	INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
-> > +	INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, MSM_DP_CONTROLLER_2, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+>> -----Original Message-----
+>> From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+>> Sent: Tuesday, February 15, 2022 8:15 AM
+>> To: Chery, Nanley G <nanley.g.chery@intel.com>; Nanley Chery
+>> <nanleychery@gmail.com>; C, Ramalingam <ramalingam.c@intel.com>
+>> Cc: intel-gfx <intel-gfx@lists.freedesktop.org>; Auld, Matthew
+>> <matthew.auld@intel.com>; dri-devel <dri-devel@lists.freedesktop.org>
+>> Subject: Re: [Intel-gfx] [PATCH v5 16/19] uapi/drm/dg2: Introduce format
+>> modifier for DG2 clear color
+>>
+>> On 15.2.2022 17.02, Chery, Nanley G wrote:
+>>>
+>>>
+>>>> -----Original Message-----
+>>>> From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+>>>> Sent: Tuesday, February 15, 2022 6:56 AM
+>>>> To: Nanley Chery <nanleychery@gmail.com>; C, Ramalingam
+>>>> <ramalingam.c@intel.com>
+>>>> Cc: intel-gfx <intel-gfx@lists.freedesktop.org>; Chery, Nanley G
+>>>> <nanley.g.chery@intel.com>; Auld, Matthew <matthew.auld@intel.com>;
+>>>> dri- devel <dri-devel@lists.freedesktop.org>
+>>>> Subject: Re: [Intel-gfx] [PATCH v5 16/19] uapi/drm/dg2: Introduce
+>>>> format modifier for DG2 clear color
+>>>>
+>>>> On 12.2.2022 3.19, Nanley Chery wrote:
+>>>>> On Tue, Feb 1, 2022 at 2:42 AM Ramalingam C <ramalingam.c@intel.com>
+>>>> wrote:
+>>>>>>
+>>>>>> From: Mika Kahola <mika.kahola@intel.com>
+>>>>>>
+>>>>>> DG2 clear color render compression uses Tile4 layout. Therefore, we
+>>>>>> need to define a new format modifier for uAPI to support clear
+>>>>>> color
+>>>> rendering.
+>>>>>>
+>>>>>> v2:
+>>>>>>      Display version is fixed. [Imre]
+>>>>>>      KDoc is enhanced for cc modifier. [Nanley & Lionel]
+>>>>>>
+>>>>>> Signed-off-by: Mika Kahola <mika.kahola@intel.com>
+>>>>>> cc: Anshuman Gupta <anshuman.gupta@intel.com>
+>>>>>> Signed-off-by: Juha-Pekka Heikkilä <juha-pekka.heikkila@intel.com>
+>>>>>> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+>>>>>> ---
+>>>>>>     drivers/gpu/drm/i915/display/intel_fb.c            |  8 ++++++++
+>>>>>>     drivers/gpu/drm/i915/display/skl_universal_plane.c |  9 ++++++++-
+>>>>>>     include/uapi/drm/drm_fourcc.h                      | 10 ++++++++++
+>>>>>>     3 files changed, 26 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c
+>>>>>> b/drivers/gpu/drm/i915/display/intel_fb.c
+>>>>>> index 4d4d01963f15..3df6ef5ffec5 100644
+>>>>>> --- a/drivers/gpu/drm/i915/display/intel_fb.c
+>>>>>> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
+>>>>>> @@ -144,6 +144,12 @@ static const struct intel_modifier_desc
+>>>> intel_modifiers[] = {
+>>>>>>                    .modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS,
+>>>>>>                    .display_ver = { 13, 13 },
+>>>>>>                    .plane_caps = INTEL_PLANE_CAP_TILING_4 |
+>>>>>> INTEL_PLANE_CAP_CCS_MC,
+>>>>>> +       }, {
+>>>>>> +               .modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC,
+>>>>>> +               .display_ver = { 13, 13 },
+>>>>>> +               .plane_caps = INTEL_PLANE_CAP_TILING_4 |
+>>>>>> + INTEL_PLANE_CAP_CCS_RC_CC,
+>>>>>> +
+>>>>>> +               .ccs.cc_planes = BIT(1),
+>>>>>>            }, {
+>>>>>>                    .modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS,
+>>>>>>                    .display_ver = { 13, 13 }, @@ -559,6 +565,7 @@
+>>>>>> intel_tile_width_bytes(const struct drm_framebuffer *fb, int color_plane)
+>>>>>>                    else
+>>>>>>                            return 512;
+>>>>>>            case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
+>>>>>> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
+>>>>>>            case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
+>>>>>>            case I915_FORMAT_MOD_4_TILED:
+>>>>>>                    /*
+>>>>>> @@ -763,6 +770,7 @@ unsigned int intel_surf_alignment(const struct
+>>>> drm_framebuffer *fb,
+>>>>>>            case I915_FORMAT_MOD_Yf_TILED:
+>>>>>>                    return 1 * 1024 * 1024;
+>>>>>>            case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
+>>>>>> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
+>>>>>>            case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
+>>>>>>                    return 16 * 1024;
+>>>>>>            default:
+>>>>>> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+>>>>>> b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+>>>>>> index c38ae0876c15..b4dced1907c5 100644
+>>>>>> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+>>>>>> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+>>>>>> @@ -772,6 +772,8 @@ static u32 skl_plane_ctl_tiling(u64 fb_modifier)
+>>>>>>                    return PLANE_CTL_TILED_4 |
+>>>>>>                            PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE |
+>>>>>>                            PLANE_CTL_CLEAR_COLOR_DISABLE;
+>>>>>> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
+>>>>>> +               return PLANE_CTL_TILED_4 |
+>>>>>> + PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
+>>>>>>            case I915_FORMAT_MOD_Y_TILED_CCS:
+>>>>>>            case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
+>>>>>>                    return PLANE_CTL_TILED_Y |
+>>>>>> PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
+>>>>>> @@ -2358,10 +2360,15 @@ skl_get_initial_plane_config(struct
+>>>>>> intel_crtc
+>>>> *crtc,
+>>>>>>                    break;
+>>>>>>            case PLANE_CTL_TILED_YF: /* aka PLANE_CTL_TILED_4 on XE_LPD+ */
+>>>>>>                    if (HAS_4TILE(dev_priv)) {
+>>>>>> -                       if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
+>>>>>> +                       u32 rc_mask =
+>> PLANE_CTL_RENDER_DECOMPRESSION_ENABLE |
+>>>>>> +
+>>>>>> + PLANE_CTL_CLEAR_COLOR_DISABLE;
+>>>>>> +
+>>>>>> +                       if ((val & rc_mask) == rc_mask)
+>>>>>>                                    fb->modifier =
+>> I915_FORMAT_MOD_4_TILED_DG2_RC_CCS;
+>>>>>>                            else if (val & PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE)
+>>>>>>                                    fb->modifier =
+>>>>>> I915_FORMAT_MOD_4_TILED_DG2_MC_CCS;
+>>>>>> +                       else if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
+>>>>>> +                               fb->modifier =
+>>>>>> + I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC;
+>>>>>>                            else
+>>>>>>                                    fb->modifier = I915_FORMAT_MOD_4_TILED;
+>>>>>>                    } else {
+>>>>>> diff --git a/include/uapi/drm/drm_fourcc.h
+>>>>>> b/include/uapi/drm/drm_fourcc.h index b8fb7b44c03c..697614ea4b84
+>>>>>> 100644
+>>>>>> --- a/include/uapi/drm/drm_fourcc.h
+>>>>>> +++ b/include/uapi/drm/drm_fourcc.h
+>>>>>> @@ -605,6 +605,16 @@ extern "C" {
+>>>>>>      */
+>>>>>>     #define I915_FORMAT_MOD_4_TILED_DG2_MC_CCS
+>>>> fourcc_mod_code(INTEL,
+>>>>>> 11)
+>>>>>>
+>>>>>> +/*
+>>>>>> + * Intel color control surfaces (CCS) for DG2 clear color render
+>> compression.
+>>>>>> + *
+>>>>>> + * DG2 uses a unified compression format for clear color render
+>>>> compression.
+>>>>>
+>>>>> What's unified about DG2's compression format? If this doesn't
+>>>>> affect the layout, maybe we should drop this sentence.
+>>>>>
+>>>>>> + * The general layout is a tiled layout using 4Kb tiles i.e. Tile4 layout.
+>>>>>> + *
+>>>>>
+>>>>> This also needs a pitch aligned to four tiles, right? I think we can
+>>>>> save some effort by referencing the DG2_RC_CCS modifier here.
+>>>>>
+>>>>>> + * Fast clear color value expected by HW is located in fb at
+>>>>>> + offset
+>>>>>> + 0 of plane#1
+>>>>>
+>>>>> Why is the expected offset hardcoded to 0 instead of relying on the
+>>>>> offset provided by the modifier API? This looks like a bug.
+>>>>
+>>>> Hi Nanley,
+>>>>
+>>>> can you elaborate a bit, which offset from modifier API that applies to cc
+>> surface?
+>>>>
+>>>
+>>> Hi Juha-Pekka,
+>>>
+>>> On the kernel-side of things, I'm thinking of drm_mode_fb_cmd2::offsets[1].
+>>>
+>>
+>> Hi Nanley,
+>>
+>> this offset is coming from userspace on creation of framebuffer, at that moment
+>> from userspace caller can point to offset of desire. Normally offset[0] is set at 0
+>> and then offset[n] at plane n start which is not stated to have to be exactly after
+>> plane n-1 end. Or did I misunderstand what you meant?
+>>
 > 
-> This is a continued discussion from
-> https://patchwork.freedesktop.org/patch/474179/.
+> Perhaps, at least, I'm not sure what you're meaning to say. This modifier description
+> seems to say that the drm_mode_fb_cmd2::offsets value for the clear color plane
+> must be zero. Are you saying that it's correct? This doesn't match the
+> GEN12_RC_CCS_CC behavior and doesn't match mesa's expectations.
 > 
-> Shouldnt INTF_5 be marked as INTF_eDP?
+
+It doesn't say "drm_mode_fb_cmd2::offsets value for the clear color 
+plane must be zero", it says "Fast clear color value expected by HW is 
+located in fb at offset 0 of plane#1".
+
+Plane#1 location is pointed by drm_mode_fb_cmd2::offsets[1] and there's 
+nothing stated about that offset.
+
+These offsets are just offsets to bo which contain the framebuffer 
+information hence drm_mode_fb_cmd2::offsets[1] can be changed as one 
+wish and cc information is found starting at drm_mode_fb_cmd2::offsets[1][0]
+
+/Juha-Pekka
+
+> 
+>> For cc plane this offset likely will not be zero anyway and caller can move it as see
+>> fit to have cc plane (plane[1]) location[0] at place where wanted to have it.
+>>
+>> /Juha-Pekka
+>>
+>>>
+>>>>>
+>>>>> We should probably give some info about the relevant fields in the
+>>>>> fast clear plane (like what's done in the GEN12_RC_CCS_CC modifier).
+>>>>
+>>>> agree, that's totally missing here.
+>>>>
+>>>> /Juha-Pekka
+>>>>
+>>>>>
+>>>>>> + */
+>>>>>> +#define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC
+>>>> fourcc_mod_code(INTEL,
+>>>>>> +12)
+>>>>>> +
+>>>>>>     /*
+>>>>>>      * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
+>>>>>>      *
+>>>>>> --
+>>>>>> 2.20.1
+>>>>>>
+>>>
 > 
 
-Might be, I didn't even know we had an INTF_EDP define...
-
-Is there any reason to distinguish DP and EDP in the DPU?  I see sc7280
-doesn't distinguish the DP and EDP interfaces.
-
-Regards,
-Bjorn
-
-> > +};
-> > +
-> >   /*************************************************************
-> >    * VBIF sub blocks config
-> >    *************************************************************/
-> > @@ -931,6 +993,10 @@ static const struct dpu_qos_lut_entry sm8150_qos_linear[] = {
-> >   	{.fl = 0, .lut = 0x0011222222223357 },
-> >   };
-> > +static const struct dpu_qos_lut_entry sc8180x_qos_linear[] = {
-> > +	{.fl = 4, .lut = 0x0000000000000357 },
-> > +};
-> > +
-> >   static const struct dpu_qos_lut_entry sdm845_qos_macrotile[] = {
-> >   	{.fl = 10, .lut = 0x344556677},
-> >   	{.fl = 11, .lut = 0x3344556677},
-> > @@ -944,6 +1010,10 @@ static const struct dpu_qos_lut_entry sc7180_qos_macrotile[] = {
-> >   	{.fl = 0, .lut = 0x0011223344556677},
-> >   };
-> > +static const struct dpu_qos_lut_entry sc8180x_qos_macrotile[] = {
-> > +	{.fl = 10, .lut = 0x0000000344556677},
-> > +};
-> > +
-> >   static const struct dpu_qos_lut_entry sdm845_qos_nrt[] = {
-> >   	{.fl = 0, .lut = 0x0},
-> >   };
-> > @@ -1045,6 +1115,33 @@ static const struct dpu_perf_cfg sm8150_perf_data = {
-> >   	.bw_inefficiency_factor = 120,
-> >   };
-> > +static const struct dpu_perf_cfg sc8180x_perf_data = {
-> > +	.max_bw_low = 9600000,
-> > +	.max_bw_high = 9600000,
-> > +	.min_core_ib = 2400000,
-> > +	.min_llcc_ib = 800000,
-> > +	.min_dram_ib = 800000,
-> > +	.danger_lut_tbl = {0xf, 0xffff, 0x0, 0x0},
-> > +	.qos_lut_tbl = {
-> > +		{.nentry = ARRAY_SIZE(sc8180x_qos_linear),
-> > +		.entries = sc8180x_qos_linear
-> > +		},
-> > +		{.nentry = ARRAY_SIZE(sc8180x_qos_macrotile),
-> > +		.entries = sc8180x_qos_macrotile
-> > +		},
-> > +		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
-> > +		.entries = sc7180_qos_nrt
-> > +		},
-> > +		/* TODO: macrotile-qseed is different from macrotile */
-> > +	},
-> > +	.cdp_cfg = {
-> > +		{.rd_enable = 1, .wr_enable = 1},
-> > +		{.rd_enable = 1, .wr_enable = 0}
-> > +	},
-> > +	.clk_inefficiency_factor = 105,
-> > +	.bw_inefficiency_factor = 120,
-> > +};
-> > +
-> >   static const struct dpu_perf_cfg sm8250_perf_data = {
-> >   	.max_bw_low = 13700000,
-> >   	.max_bw_high = 16600000,
-> > @@ -1199,6 +1296,37 @@ static void sm8150_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
-> >   	};
-> >   }
-> > +/*
-> > + * sc8180x_cfg_init(): populate sc8180 dpu sub-blocks reg offsets
-> > + * and instance counts.
-> > + */
-> > +static void sc8180x_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
-> > +{
-> > +	*dpu_cfg = (struct dpu_mdss_cfg){
-> > +		.caps = &sc8180x_dpu_caps,
-> > +		.mdp_count = ARRAY_SIZE(sc8180x_mdp),
-> > +		.mdp = sc8180x_mdp,
-> > +		.ctl_count = ARRAY_SIZE(sm8150_ctl),
-> > +		.ctl = sm8150_ctl,
-> > +		.sspp_count = ARRAY_SIZE(sdm845_sspp),
-> > +		.sspp = sdm845_sspp,
-> > +		.mixer_count = ARRAY_SIZE(sm8150_lm),
-> > +		.mixer = sm8150_lm,
-> > +		.pingpong_count = ARRAY_SIZE(sm8150_pp),
-> > +		.pingpong = sm8150_pp,
-> > +		.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-> > +		.merge_3d = sm8150_merge_3d,
-> > +		.intf_count = ARRAY_SIZE(sc8180x_intf),
-> > +		.intf = sc8180x_intf,
-> > +		.vbif_count = ARRAY_SIZE(sdm845_vbif),
-> > +		.vbif = sdm845_vbif,
-> > +		.reg_dma_count = 1,
-> > +		.dma_cfg = sm8150_regdma,
-> > +		.perf = sc8180x_perf_data,
-> > +		.mdss_irqs = IRQ_SC8180X_MASK,
-> > +	};
-> > +}
-> > +
-> >   /*
-> >    * sm8250_cfg_init(): populate sm8250 dpu sub-blocks reg offsets
-> >    * and instance counts.
-> > @@ -1260,6 +1388,7 @@ static const struct dpu_mdss_hw_cfg_handler cfg_handler[] = {
-> >   	{ .hw_rev = DPU_HW_VER_401, .cfg_init = sdm845_cfg_init},
-> >   	{ .hw_rev = DPU_HW_VER_500, .cfg_init = sm8150_cfg_init},
-> >   	{ .hw_rev = DPU_HW_VER_501, .cfg_init = sm8150_cfg_init},
-> > +	{ .hw_rev = DPU_HW_VER_510, .cfg_init = sc8180x_cfg_init},
-> >   	{ .hw_rev = DPU_HW_VER_600, .cfg_init = sm8250_cfg_init},
-> >   	{ .hw_rev = DPU_HW_VER_620, .cfg_init = sc7180_cfg_init},
-> >   	{ .hw_rev = DPU_HW_VER_720, .cfg_init = sc7280_cfg_init},
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > index 31af04afda7d..9572d29ff2ff 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > @@ -39,6 +39,7 @@
-> >   #define DPU_HW_VER_410	DPU_HW_VER(4, 1, 0) /* sdm670 v1.0 */
-> >   #define DPU_HW_VER_500	DPU_HW_VER(5, 0, 0) /* sm8150 v1.0 */
-> >   #define DPU_HW_VER_501	DPU_HW_VER(5, 0, 1) /* sm8150 v2.0 */
-> > +#define DPU_HW_VER_510	DPU_HW_VER(5, 1, 1) /* sc8180 */
-> >   #define DPU_HW_VER_600	DPU_HW_VER(6, 0, 0) /* sm8250 */
-> >   #define DPU_HW_VER_620	DPU_HW_VER(6, 2, 0) /* sc7180 v1.0 */
-> >   #define DPU_HW_VER_720	DPU_HW_VER(7, 2, 0) /* sc7280 */
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > index 47fe11a84a77..cedc631f8498 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > @@ -1351,6 +1351,7 @@ const struct of_device_id dpu_dt_match[] = {
-> >   	{ .compatible = "qcom,sdm845-dpu", },
-> >   	{ .compatible = "qcom,sc7180-dpu", },
-> >   	{ .compatible = "qcom,sc7280-dpu", },
-> > +	{ .compatible = "qcom,sc8180x-dpu", },
-> >   	{ .compatible = "qcom,sm8150-dpu", },
-> >   	{ .compatible = "qcom,sm8250-dpu", },
-> >   	{}
-> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> > index 555666e3f960..0f441d358b60 100644
-> > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > @@ -1438,6 +1438,7 @@ static const struct of_device_id dt_match[] = {
-> >   	{ .compatible = "qcom,sdm845-mdss", .data = (void *)KMS_DPU },
-> >   	{ .compatible = "qcom,sc7180-mdss", .data = (void *)KMS_DPU },
-> >   	{ .compatible = "qcom,sc7280-mdss", .data = (void *)KMS_DPU },
-> > +	{ .compatible = "qcom,sc8180x-mdss", .data = (void *)KMS_DPU },
-> >   	{ .compatible = "qcom,sm8150-mdss", .data = (void *)KMS_DPU },
-> >   	{ .compatible = "qcom,sm8250-mdss", .data = (void *)KMS_DPU },
-> >   	{}
