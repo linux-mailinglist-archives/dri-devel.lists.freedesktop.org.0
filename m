@@ -2,43 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7598A4B66F5
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 10:07:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76CA4B6708
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 10:10:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3029610E3F4;
-	Tue, 15 Feb 2022 09:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67CAA895B2;
+	Tue, 15 Feb 2022 09:09:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EAAF10E3F4
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 09:07:21 +0000 (UTC)
-X-UUID: cf75595ca2d841329b55b4771b8ac7e0-20220215
-X-UUID: cf75595ca2d841329b55b4771b8ac7e0-20220215
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1528053680; Tue, 15 Feb 2022 17:07:17 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 15 Feb 2022 17:07:16 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 15 Feb 2022 17:07:16 +0800
-Message-ID: <f7de15857fe110dcd9e3a6fc342bf253fd201f7b.camel@mediatek.com>
-Subject: Re: [v2,2/6] dt-bindings: display: mediatek: update supported SoC
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
- <matthias.bgg@gmail.com>, <robh+dt@kernel.org>
-Date: Tue, 15 Feb 2022 17:07:16 +0800
-In-Reply-To: <0de5fc29ed65eb5c6e9f227ec5e77cd4312718f4.camel@mediatek.com>
-References: <20220215075953.3310-1-rex-bc.chen@mediatek.com>
- <20220215075953.3310-3-rex-bc.chen@mediatek.com>
- <0de5fc29ed65eb5c6e9f227ec5e77cd4312718f4.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB3B8895B2;
+ Tue, 15 Feb 2022 09:09:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644916197; x=1676452197;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=awoHnw/Sv0CY0ncJjQeG77lHxCZjK+04lwjonc5SI/k=;
+ b=DVF8F1YnjHYJ6zczW0/cvOmyOSEyG6nCEb8iA+MvEsulYjCGqkHMYfdo
+ 1SKmmMVq9XwR6SkPgF1T3Jr3qrryRsxuAjtFg7IBfsaay0i+Sm35zDkNA
+ uPfsm1TEjIleHFqMpJyC5EpV4k/cRqTDgoJDgLeufUNiE3iYcTpM7au2H
+ Qsz6kwXOBzuF5KkjY8vmLhWryrROh/eH9KVOsH8kRgp5m2fx87uTQvOLw
+ Olc19RR+ZsSu3iqTIc3cZTtnpxP5iqzblhCrHj8i6nPEKEHR0MHlD8u3J
+ u/Ez0UMxyvBKrLRS0sPcLREXdluDiYDa0iK0FZL0Q0cu59NGwNIYBtXuu g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10258"; a="336729664"
+X-IronPort-AV: E=Sophos;i="5.88,370,1635231600"; d="scan'208";a="336729664"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 01:09:57 -0800
+X-IronPort-AV: E=Sophos;i="5.88,370,1635231600"; d="scan'208";a="624680293"
+Received: from jkoratik-mobl2.amr.corp.intel.com (HELO [10.212.80.80])
+ ([10.212.80.80])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 01:09:56 -0800
+Message-ID: <5de141fa-014f-e95f-7dc8-74d95a9c6b14@linux.intel.com>
+Date: Tue, 15 Feb 2022 09:09:54 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Initialize GuC submission locks
+ and queues early
+Content-Language: en-US
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220215011123.734572-1-daniele.ceraolospurio@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220215011123.734572-1-daniele.ceraolospurio@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,75 +62,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, jassisinghbrar@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, fparent@baylibre.com,
- linux-mediatek@lists.infradead.org, yongqiang.niu@mediatek.com,
- hsinyi@chromium.org, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-02-15 at 16:48 +0800, CK Hu wrote:
-> Hi, Rex:
-> 
-> On Tue, 2022-02-15 at 15:59 +0800, Rex-BC Chen wrote:
-> > Add decriptions about supported SoC: MT8186.
-> > 
-> > Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-> > ---
-> >  .../devicetree/bindings/display/mediatek/mediatek,disp.txt      |
-> > 2
-> > +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.
-> > tx
-> > t
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.
-> > tx
-> > t
-> > index 78044c340e20..f22b3d90d45a 100644
-> > ---
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.
-> > tx
-> > t
-> > +++
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.
-> > tx
-> > t
-> > @@ -44,7 +44,7 @@ Required properties (all function blocks):
-> >  	"mediatek,<chip>-dpi"        		- DPI controller,
-> > see
-> > mediatek,dpi.txt
-> >  	"mediatek,<chip>-disp-mutex" 		- display mutex
-> >  	"mediatek,<chip>-disp-od"    		- overdrive
-> > -  the supported chips are mt2701, mt7623, mt2712, mt8167, mt8173,
-> > mt8183 and mt8192.
-> > +  the supported chips are mt2701, mt7623, mt2712, mt8167, mt8173,
-> > mt8183, mt8186 and mt8192.
-> 
-> I've applied [1], so please depend on [1] to send this patch.
-> 
-> [1] 
-> 
-https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/commit/?h=mediatek-drm-next&id=4ed545e7d10049b5492afc184e61a67e478a2cfd
-> 
-> Regards,
-> CK
-> 
-Hello CK,
 
-Thanks for your review.
-I will modify display binding based on [1] for next version.
+On 15/02/2022 01:11, Daniele Ceraolo Spurio wrote:
+> Move initialization of submission-related spinlock, lists and workers to
+> init_early. This fixes an issue where if the GuC init fails we might
+> still try to get the lock in the context cleanup code. Note that it is
 
-BRs,
-Rex-BC Chen
-> >  - reg: Physical base address and length of the function block
-> > register space
-> >  - interrupts: The interrupt signal from the function block
-> > (required, except for
-> >    merge and split function blocks).
-> 
-> 
+What's the worst case impact on non-debug builds aka is Fixes: required?
 
+Regards,
+
+Tvrtko
+
+> safe to call the GuC context cleanup code even if the init failed
+> because all contexts are initialized with an invalid GuC ID, which will
+> cause the GuC side of the cleanup to be skipped, so it is easier to just
+> make sure the variables are initialized than to special case the cleanup
+> to handle the case when they're not.
+> 
+> References: https://gitlab.freedesktop.org/drm/intel/-/issues/4932
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> ---
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 27 ++++++++++---------
+>   1 file changed, 14 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index b3a429a92c0da..2160da2c83cbf 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -1818,24 +1818,11 @@ int intel_guc_submission_init(struct intel_guc *guc)
+>   	 */
+>   	GEM_BUG_ON(!guc->lrc_desc_pool);
+>   
+> -	xa_init_flags(&guc->context_lookup, XA_FLAGS_LOCK_IRQ);
+> -
+> -	spin_lock_init(&guc->submission_state.lock);
+> -	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
+> -	ida_init(&guc->submission_state.guc_ids);
+> -	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
+> -	INIT_WORK(&guc->submission_state.destroyed_worker,
+> -		  destroyed_worker_func);
+> -	INIT_WORK(&guc->submission_state.reset_fail_worker,
+> -		  reset_fail_worker_func);
+> -
+>   	guc->submission_state.guc_ids_bitmap =
+>   		bitmap_zalloc(NUMBER_MULTI_LRC_GUC_ID(guc), GFP_KERNEL);
+>   	if (!guc->submission_state.guc_ids_bitmap)
+>   		return -ENOMEM;
+>   
+> -	spin_lock_init(&guc->timestamp.lock);
+> -	INIT_DELAYED_WORK(&guc->timestamp.work, guc_timestamp_ping);
+>   	guc->timestamp.ping_delay = (POLL_TIME_CLKS / gt->clock_frequency + 1) * HZ;
+>   	guc->timestamp.shift = gpm_timestamp_shift(gt);
+>   
+> @@ -3831,6 +3818,20 @@ static bool __guc_submission_selected(struct intel_guc *guc)
+>   
+>   void intel_guc_submission_init_early(struct intel_guc *guc)
+>   {
+> +	xa_init_flags(&guc->context_lookup, XA_FLAGS_LOCK_IRQ);
+> +
+> +	spin_lock_init(&guc->submission_state.lock);
+> +	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
+> +	ida_init(&guc->submission_state.guc_ids);
+> +	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
+> +	INIT_WORK(&guc->submission_state.destroyed_worker,
+> +		  destroyed_worker_func);
+> +	INIT_WORK(&guc->submission_state.reset_fail_worker,
+> +		  reset_fail_worker_func);
+> +
+> +	spin_lock_init(&guc->timestamp.lock);
+> +	INIT_DELAYED_WORK(&guc->timestamp.work, guc_timestamp_ping);
+> +
+>   	guc->submission_state.num_guc_ids = GUC_MAX_LRC_DESCRIPTORS;
+>   	guc->submission_supported = __guc_submission_supported(guc);
+>   	guc->submission_selected = __guc_submission_selected(guc);
