@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC57F4B742D
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 18:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48DE4B7432
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 18:51:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE76510E165;
-	Tue, 15 Feb 2022 17:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66A9410E48B;
+	Tue, 15 Feb 2022 17:51:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A442310E165;
- Tue, 15 Feb 2022 17:49:54 +0000 (UTC)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC39F10E48B;
+ Tue, 15 Feb 2022 17:51:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644947394; x=1676483394;
+ t=1644947512; x=1676483512;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=OASdbJ0fzOuaXHMG+uwQLgFxSTz4on3rozxdnX0Kl08=;
- b=Kd+++b6kebQrxBlTxkzvVDOcESxUocDVjrpocvbJI+n2LWvyEmsNSUaz
- tY4NZnnITz1S7hlBR/h8fh2IwwIwVivVs0fJ+hXjedfZkXXb9vzbonOFt
- ZgzbQDMyhXHZoRTp9Aj5VubTD3Xse3WVSKjcwCi087A6PTUdj5dbLAUQ2 4=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Feb 2022 09:49:54 -0800
+ bh=jLQOW8DUgKF2Zl6E8/Q1QnMSdZe27nZ+nRDpg9HHR90=;
+ b=Z4n3riP9yEs39y9H8A01rO0Y92i4AZSWPRDIFOaKppNDZK+gNkV7gS0m
+ kTuH4zn/bCpUchfBkvCvJ3ViijjV+nAGqHgazlVgbP/MddmeLtddg/v0N
+ rz+hphdETKynDzYpCcmoGdUGHtHf3e5F9rLBsURmPR4tyuj/QjNTAfjPc I=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 15 Feb 2022 09:51:52 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 09:49:53 -0800
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 09:51:50 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Tue, 15 Feb 2022 09:49:52 -0800
-Received: from [10.110.63.253] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ 15.2.986.15; Tue, 15 Feb 2022 09:51:50 -0800
+Received: from [10.111.168.21] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Tue, 15 Feb
- 2022 09:49:51 -0800
-Message-ID: <5682ea06-5853-158d-777a-7d59935fb4dc@quicinc.com>
-Date: Tue, 15 Feb 2022 09:49:51 -0800
+ 2022 09:51:47 -0800
+Message-ID: <ddd2d3b9-2bbe-1255-a3b9-3f5a5aaae514@quicinc.com>
+Date: Tue, 15 Feb 2022 09:51:46 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 2/2] drm/msm/dp: enable widebus feature for display port
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v2 8/8] drm/msm/dpu: simplify intf allocation code
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>, <sean@poorly.run>,
- <swboyd@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@linux.ie>, <agross@kernel.org>, <bjorn.andersson@linaro.org>
-References: <1644878346-28511-1-git-send-email-quic_khsieh@quicinc.com>
- <1644878346-28511-3-git-send-email-quic_khsieh@quicinc.com>
- <db5ecfec-c61e-43ff-4e76-5517fd671503@linaro.org>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <db5ecfec-c61e-43ff-4e76-5517fd671503@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20220215141643.3444941-1-dmitry.baryshkov@linaro.org>
+ <20220215141643.3444941-9-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220215141643.3444941-9-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,370 +67,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2/15/2022 5:34 AM, Dmitry Baryshkov wrote:
-> On 15/02/2022 01:39, Kuogee Hsieh wrote:
->> Widebus feature will transmit two pixel data per pixel clock to 
->> interface.
->> This feature now is required to be enabled to easy migrant to higher
->> resolution applications in future. However since some legacy chipsets
->> does not support this feature, this feature is enabled base on chip's
->> hardware revision.
->>
->> changes in v2:
->> -- remove compression related code from timing
->> -- remove op_info from  struct msm_drm_private
->> -- remove unnecessary wide_bus_en variables
->> -- pass wide_bus_en into timing configuration by struct msm_dp
->>
->> Changes in v3:
->> -- split patch into 3 patches
->> -- enable widebus feature base on chip hardware revision
->>
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  4 +++-
->>   drivers/gpu/drm/msm/dp/dp_catalog.c         | 36 
->> +++++++++++++++++++++++++++--
->>   drivers/gpu/drm/msm/dp/dp_catalog.h         |  3 ++-
->>   drivers/gpu/drm/msm/dp/dp_ctrl.c            | 13 +++++++----
->>   drivers/gpu/drm/msm/dp/dp_ctrl.h            |  1 +
->>   drivers/gpu/drm/msm/dp/dp_display.c         | 30 
->> ++++++++++++++++++++++++
->>   drivers/gpu/drm/msm/dp/dp_display.h         |  2 ++
->>   drivers/gpu/drm/msm/dp/dp_panel.c           |  4 ++--
->>   drivers/gpu/drm/msm/dp/dp_panel.h           |  2 +-
->>   drivers/gpu/drm/msm/msm_drv.h               |  6 +++++
->>   10 files changed, 90 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index 0c22839..b2d23c2 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -2167,8 +2167,10 @@ int dpu_encoder_setup(struct drm_device *dev, 
->> struct drm_encoder *enc,
->>           timer_setup(&dpu_enc->vsync_event_timer,
->>                   dpu_encoder_vsync_event_handler,
->>                   0);
->> -    else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS)
->> +    else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS) {
->>           dpu_enc->dp = priv->dp[disp_info->h_tile_instance[0]];
->> +        dpu_enc->wide_bus_en = msm_dp_wide_bus_enable(dpu_enc->dp);
->> +    }
->
-> Please revert the order of the patches and move this chunk into the 
-> DPU patch.
 
-There is chicken  and egg issue here.
+On 2/15/2022 6:16 AM, Dmitry Baryshkov wrote:
+> Rather than passing DRM_MODE_ENCODER_* and letting dpu_encoder to guess,
+> which intf type we mean, pass INTF_DSI/INTF_DP directly.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 26 +++++++--------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  5 ++--
+>   3 files changed, 13 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index fa1dc088a672..597d40f78d38 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -490,7 +490,7 @@ void dpu_encoder_helper_split_config(
+>   	hw_mdptop = phys_enc->hw_mdptop;
+>   	disp_info = &dpu_enc->disp_info;
+>   
+> -	if (disp_info->intf_type != DRM_MODE_ENCODER_DSI)
+> +	if (disp_info->intf_type != INTF_DSI)
+>   		return;
+>   
+>   	/**
+> @@ -552,7 +552,7 @@ static struct msm_display_topology dpu_encoder_get_topology(
+>   	else
+>   		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
+>   
+> -	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
+> +	if (dpu_enc->disp_info.intf_type == INTF_DSI) {
+>   		if (dpu_kms->catalog->dspp &&
+>   			(dpu_kms->catalog->dspp_count >= topology.num_lm))
+>   			topology.num_dspp = topology.num_lm;
+> @@ -1074,7 +1074,7 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+>   	}
+>   
+>   
+> -	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_TMDS &&
+> +	if (dpu_enc->disp_info.intf_type == INTF_DP &&
+>   		dpu_enc->cur_master->hw_mdptop &&
+>   		dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select)
+>   		dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select(
+> @@ -1082,7 +1082,7 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+>   
+>   	_dpu_encoder_update_vsync_source(dpu_enc, &dpu_enc->disp_info);
+>   
+> -	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI &&
+> +	if (dpu_enc->disp_info.intf_type == INTF_DSI &&
+>   			!WARN_ON(dpu_enc->num_phys_encs == 0)) {
+>   		unsigned bpc = dpu_enc->connector->display_info.bpc;
+>   		for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
+> @@ -1949,7 +1949,6 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+>   {
+>   	int ret = 0;
+>   	int i = 0;
+> -	enum dpu_intf_type intf_type = INTF_NONE;
+>   	struct dpu_enc_phys_init_params phys_params;
+>   
+>   	if (!dpu_enc) {
+> @@ -1965,15 +1964,6 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+>   	phys_params.parent_ops = &dpu_encoder_parent_ops;
+>   	phys_params.enc_spinlock = &dpu_enc->enc_spinlock;
+>   
+> -	switch (disp_info->intf_type) {
+> -	case DRM_MODE_ENCODER_DSI:
+> -		intf_type = INTF_DSI;
+> -		break;
+> -	case DRM_MODE_ENCODER_TMDS:
+> -		intf_type = INTF_DP;
+> -		break;
+> -	}
+> -
+>   	WARN_ON(disp_info->num_of_h_tiles < 1);
+>   
+>   	DPU_DEBUG("dsi_info->num_of_h_tiles %d\n", disp_info->num_of_h_tiles);
+> @@ -2005,11 +1995,11 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+>   				i, controller_id, phys_params.split_role);
+>   
+>   		phys_params.intf_idx = dpu_encoder_get_intf(dpu_kms->catalog,
+> -													intf_type,
+> -													controller_id);
+> +				disp_info->intf_type,
+> +				controller_id);
+>   		if (phys_params.intf_idx == INTF_MAX) {
+>   			DPU_ERROR_ENC(dpu_enc, "could not get intf: type %d, id %d\n",
+> -						  intf_type, controller_id);
+> +						  disp_info->intf_type, controller_id);
+>   			ret = -EINVAL;
+>   		}
+>   
+> @@ -2092,7 +2082,7 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
+>   	timer_setup(&dpu_enc->frame_done_timer,
+>   			dpu_encoder_frame_done_timeout, 0);
+>   
+> -	if (disp_info->intf_type == DRM_MODE_ENCODER_DSI)
+> +	if (disp_info->intf_type == INTF_DSI)
+>   		timer_setup(&dpu_enc->vsync_event_timer,
+>   				dpu_encoder_vsync_event_handler,
+>   				0);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> index ebe3944355bb..3891bcbbe5a4 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> @@ -36,7 +36,7 @@ void dpu_encoder_get_hw_resources(struct drm_encoder *encoder,
+>   
+>   /**
+>    * struct msm_display_info - defines display properties
+> - * @intf_type:          DRM_MODE_ENCODER_ type
+> + * @intf_type:          INTF_ type
+>    * @capabilities:       Bitmask of display flags
+>    * @num_of_h_tiles:     Number of horizontal tiles in case of split interface
+>    * @h_tile_instance:    Controller instance used per tile. Number of elements is
+> @@ -45,7 +45,7 @@ void dpu_encoder_get_hw_resources(struct drm_encoder *encoder,
+>    *				 used instead of panel TE in cmd mode panels
+>    */
+>   struct msm_display_info {
+> -	int intf_type;
+> +	enum dpu_intf_type intf_type;
+>   	uint32_t capabilities;
+>   	uint32_t num_of_h_tiles;
+>   	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 5f0dc44119c9..bca4f05a5782 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -564,7 +564,7 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
+>   		priv->encoders[priv->num_encoders++] = encoder;
+>   
+>   		memset(&info, 0, sizeof(info));
+> -		info.intf_type = encoder->encoder_type;
+> +		info.intf_type = INTF_DSI;
+>   
+>   		rc = msm_dsi_modeset_init(priv->dsi[i], dev, encoder);
+>   		if (rc) {
+> @@ -630,7 +630,8 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+>   		info.num_of_h_tiles = 1;
+>   		info.h_tile_instance[0] = i;
+>   		info.capabilities = MSM_DISPLAY_CAP_VID_MODE;
+> -		info.intf_type = encoder->encoder_type;
+> +		/* FIXME: HW catalog treats both DP and eDP interfaces as INTF_DP */
 
-I think we should create an communication channel to pass dp/dsi driver 
-info to drm, such as wide_bus_en and dsc compression, etc.
+I thought we discussed an approach to address this FIXME.
+https://patchwork.freedesktop.org/patch/473871/?series=99651&rev=2
 
-By function calls like this will create more unnecessary tangles between 
-driver and drm layer.
+Without addressing that, there is really no need for this change because 
+the only confusion between DRM_MODE_ENCODER_*** mapping to intf_type 
+mapping comes for eDP and DP as they use the same DRM_MODE_ENCODER_TMDS.
 
->
->> INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
->>               dpu_encoder_off_work);
->> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c 
->> b/drivers/gpu/drm/msm/dp/dp_catalog.c
->> index 64f0b26..99d087e 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
->> @@ -483,6 +483,27 @@ int dp_catalog_ctrl_set_pattern_state_bit(struct 
->> dp_catalog *dp_catalog,
->>   }
->>     /**
->> + * dp_catalog_hw_revision() - retrieve DP hw revision
->> + *
->> + * @dp_catalog: DP catalog structure
->> + *
->> + * return: u32
->> + *
->> + * This function return the DP controller hw revision
->> + *
->> + */
->> +u32 dp_catalog_hw_revision(struct dp_catalog *dp_catalog)
->> +{
->> +    u32 revision;
->> +    struct dp_catalog_private *catalog = container_of(dp_catalog,
->> +                struct dp_catalog_private, dp_catalog);
->> +
->> +    revision = dp_read_ahb(catalog, REG_DP_HW_VERSION);
->> +
->> +    return revision;
->> +}
->> +
->> +/**
->>    * dp_catalog_ctrl_reset() - reset DP controller
->>    *
->>    * @dp_catalog: DP catalog structure
->> @@ -739,10 +760,11 @@ u32 dp_catalog_ctrl_read_phy_pattern(struct 
->> dp_catalog *dp_catalog)
->>   }
->>     /* panel related catalog functions */
->> -int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
->> +int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog, bool 
->> wide_bus_en)
->>   {
->>       struct dp_catalog_private *catalog = container_of(dp_catalog,
->>                   struct dp_catalog_private, dp_catalog);
->> +    u32 reg;
->>         dp_write_link(catalog, REG_DP_TOTAL_HOR_VER,
->>                   dp_catalog->total);
->> @@ -751,7 +773,17 @@ int dp_catalog_panel_timing_cfg(struct 
->> dp_catalog *dp_catalog)
->>       dp_write_link(catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY,
->>                   dp_catalog->width_blanking);
->>       dp_write_link(catalog, REG_DP_ACTIVE_HOR_VER, 
->> dp_catalog->dp_active);
->> -    dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, 0);
->> +
->> +    reg = dp_read_p0(catalog, MMSS_DP_INTF_CONFIG);
->> +
->> +    if (wide_bus_en)
->> +        reg |= BIT(4);    /* DATABUS_WIDEN */
->> +    else
->> +        reg &= ~BIT(4);
->> +
->> +    DRM_DEBUG_DP("wide_bus_en=%d reg=%x\n", wide_bus_en, reg);
->> +
->> +    dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, reg);
->>       return 0;
->>   }
->>   diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h 
->> b/drivers/gpu/drm/msm/dp/dp_catalog.h
->> index 7dea101..a3a0129 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
->> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
->> @@ -95,6 +95,7 @@ void dp_catalog_ctrl_config_misc(struct dp_catalog 
->> *dp_catalog, u32 cc, u32 tb);
->>   void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32 
->> rate,
->>                   u32 stream_rate_khz, bool fixed_nvid);
->>   int dp_catalog_ctrl_set_pattern_state_bit(struct dp_catalog 
->> *dp_catalog, u32 pattern);
->> +u32 dp_catalog_hw_revision(struct dp_catalog *dp_catalog);
->>   void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog);
->>   bool dp_catalog_ctrl_mainlink_ready(struct dp_catalog *dp_catalog);
->>   void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool 
->> enable);
->> @@ -115,7 +116,7 @@ void dp_catalog_ctrl_send_phy_pattern(struct 
->> dp_catalog *dp_catalog,
->>   u32 dp_catalog_ctrl_read_phy_pattern(struct dp_catalog *dp_catalog);
->>     /* DP Panel APIs */
->> -int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog);
->> +int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog, bool 
->> wide_bus_en);
->>   void dp_catalog_dump_regs(struct dp_catalog *dp_catalog);
->>   void dp_catalog_panel_tpg_enable(struct dp_catalog *dp_catalog,
->>                   struct drm_display_mode *drm_mode);
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
->> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> index 245e1b9..1c4cf9d 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> @@ -154,7 +154,7 @@ static void dp_ctrl_config_ctrl(struct 
->> dp_ctrl_private *ctrl)
->>       dp_catalog_ctrl_config_ctrl(ctrl->catalog, config);
->>   }
->>   -static void dp_ctrl_configure_source_params(struct dp_ctrl_private 
->> *ctrl)
->> +static void dp_ctrl_configure_source_params(struct dp_ctrl_private 
->> *ctrl, bool wide_bus_en)
->>   {
->>       u32 cc, tb;
->>   @@ -167,7 +167,7 @@ static void 
->> dp_ctrl_configure_source_params(struct dp_ctrl_private *ctrl)
->>           ctrl->panel->dp_mode.bpp);
->>       cc = dp_link_get_colorimetry_config(ctrl->link);
->>       dp_catalog_ctrl_config_misc(ctrl->catalog, cc, tb);
->> -    dp_panel_timing_cfg(ctrl->panel);
->> +    dp_panel_timing_cfg(ctrl->panel, wide_bus_en);
->>   }
->>     /*
->> @@ -1796,6 +1796,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
->>       int ret = 0;
->>       bool mainlink_ready = false;
->>       struct dp_ctrl_private *ctrl;
->> +    u32 pixel_rate_orig;
->>         if (!dp_ctrl)
->>           return -EINVAL;
->> @@ -1804,6 +1805,10 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
->>         ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
->>   +    pixel_rate_orig = ctrl->dp_ctrl.pixel_rate;
->> +    if (dp_ctrl->wide_bus_en)
->> +        ctrl->dp_ctrl.pixel_rate >>= 1;
->> +
->>       DRM_DEBUG_DP("rate=%d, num_lanes=%d, pixel_rate=%d\n",
->>           ctrl->link->link_params.rate,
->>           ctrl->link->link_params.num_lanes, ctrl->dp_ctrl.pixel_rate);
->> @@ -1839,11 +1844,11 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
->>        */
->>       reinit_completion(&ctrl->video_comp);
->>   -    dp_ctrl_configure_source_params(ctrl);
->> +    dp_ctrl_configure_source_params(ctrl, dp_ctrl->wide_bus_en);
->>         dp_catalog_ctrl_config_msa(ctrl->catalog,
->>           ctrl->link->link_params.rate,
->> -        ctrl->dp_ctrl.pixel_rate, dp_ctrl_use_fixed_nvid(ctrl));
->> +        pixel_rate_orig, dp_ctrl_use_fixed_nvid(ctrl));
->>         dp_ctrl_setup_tr_unit(ctrl);
->>   diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h 
->> b/drivers/gpu/drm/msm/dp/dp_ctrl.h
->> index 2433edb..4dff44d 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
->> @@ -17,6 +17,7 @@ struct dp_ctrl {
->>       bool orientation;
->>       atomic_t aborted;
->>       u32 pixel_rate;
->> +    bool wide_bus_en;
->>   };
->>     int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->> b/drivers/gpu/drm/msm/dp/dp_display.c
->> index e89556ad..d45a3aa 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -117,6 +117,8 @@ struct dp_display_private {
->>       struct dp_event event_list[DP_EVENT_Q_MAX];
->>       spinlock_t event_lock;
->>   +    bool wide_bus_en;
->> +
->>       struct dp_audio *audio;
->>   };
->>   @@ -845,6 +847,8 @@ static int dp_display_enable(struct 
->> dp_display_private *dp, u32 data)
->>           return 0;
->>       }
->>   +    dp->ctrl->wide_bus_en = dp->wide_bus_en;
->> +
->>       rc = dp_ctrl_on_stream(dp->ctrl);
->>       if (!rc)
->>           dp_display->power_on = true;
->> @@ -979,6 +983,7 @@ int dp_display_get_modes(struct msm_dp *dp,
->>           dp->connector, dp_mode);
->>       if (dp_mode->drm_mode.clock)
->>           dp->max_pclk_khz = dp_mode->drm_mode.clock;
->> +
->>       return ret;
->>   }
->>   @@ -1451,6 +1456,28 @@ void msm_dp_irq_postinstall(struct msm_dp 
->> *dp_display)
->>       }
->>   }
->>   +bool msm_dp_wide_bus_enable(struct msm_dp *dp_display)
->> +{
->> +    struct dp_display_private *dp;
->> +    u32 revision, major, minor;
->> +
->> +    dp = container_of(dp_display, struct dp_display_private, 
->> dp_display);
->> +
->> +    /* for the time being widebus only support on DP */
->> +    if (dp_display->connector_type  == 
->> DRM_MODE_CONNECTOR_DisplayPort) {
->> +        revision = dp_catalog_hw_revision(dp->catalog);
->> +        major = ((revision >> 28) & 0x0ff);
->> +        minor = ((revision >> 16) & 0x0fff);
->> +
->> +    DRM_DEBUG_DP("id=%d major=%d minor=%d\n", dp->id, major, minor);
->> +
->> +        if (major >= 1 && minor >= 2)
->> +            return true;
->> +    }
->> +
->> +    return false;
->> +}
->> +
->>   void msm_dp_debugfs_init(struct msm_dp *dp_display, struct 
->> drm_minor *minor)
->>   {
->>       struct dp_display_private *dp;
->> @@ -1505,6 +1532,9 @@ int msm_dp_modeset_init(struct msm_dp 
->> *dp_display, struct drm_device *dev,
->>       dp_priv->panel->connector = dp_display->connector;
->>         priv->connectors[priv->num_connectors++] = 
->> dp_display->connector;
->> +
->> +    dp_priv->wide_bus_en = msm_dp_wide_bus_enable(dp_display);
->> +
->>       return 0;
->>   }
->>   diff --git a/drivers/gpu/drm/msm/dp/dp_display.h 
->> b/drivers/gpu/drm/msm/dp/dp_display.h
->> index 8e80e3b..d9cb9ee 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.h
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
->> @@ -23,6 +23,8 @@ struct msm_dp {
->>         hdmi_codec_plugged_cb plugged_cb;
->>   +    bool wide_bus_en;
->> +
->>       u32 max_pclk_khz;
->>         u32 max_dp_lanes;
->> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c 
->> b/drivers/gpu/drm/msm/dp/dp_panel.c
->> index 71db10c..71deb1e 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
->> @@ -353,7 +353,7 @@ void dp_panel_dump_regs(struct dp_panel *dp_panel)
->>       dp_catalog_dump_regs(catalog);
->>   }
->>   -int dp_panel_timing_cfg(struct dp_panel *dp_panel)
->> +int dp_panel_timing_cfg(struct dp_panel *dp_panel, bool wide_bus_en)
->>   {
->>       u32 data, total_ver, total_hor;
->>       struct dp_catalog *catalog;
->> @@ -404,7 +404,7 @@ int dp_panel_timing_cfg(struct dp_panel *dp_panel)
->>         catalog->dp_active = data;
->>   -    dp_catalog_panel_timing_cfg(catalog);
->> +    dp_catalog_panel_timing_cfg(catalog, wide_bus_en);
->>       panel->panel_on = true;
->>         return 0;
->> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h 
->> b/drivers/gpu/drm/msm/dp/dp_panel.h
->> index 9023e5b..5ec341a 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
->> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
->> @@ -57,7 +57,7 @@ struct dp_panel {
->>     int dp_panel_init_panel_info(struct dp_panel *dp_panel);
->>   int dp_panel_deinit(struct dp_panel *dp_panel);
->> -int dp_panel_timing_cfg(struct dp_panel *dp_panel);
->> +int dp_panel_timing_cfg(struct dp_panel *dp_panel, bool wide_bus_en);
->>   void dp_panel_dump_regs(struct dp_panel *dp_panel);
->>   int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
->>           struct drm_connector *connector);
->> diff --git a/drivers/gpu/drm/msm/msm_drv.h 
->> b/drivers/gpu/drm/msm/msm_drv.h
->> index 07f6c41..667f3a8 100644
->> --- a/drivers/gpu/drm/msm/msm_drv.h
->> +++ b/drivers/gpu/drm/msm/msm_drv.h
->> @@ -398,6 +398,7 @@ void msm_dp_irq_postinstall(struct msm_dp 
->> *dp_display);
->>   void msm_dp_snapshot(struct msm_disp_state *disp_state, struct 
->> msm_dp *dp_display);
->>     void msm_dp_debugfs_init(struct msm_dp *dp_display, struct 
->> drm_minor *minor);
->> +bool msm_dp_wide_bus_enable(struct msm_dp *dp_display);
->>     #else
->>   static inline int __init msm_dp_register(void)
->> @@ -448,6 +449,11 @@ static inline void msm_dp_debugfs_init(struct 
->> msm_dp *dp_display,
->>   {
->>   }
->>   +bool msm_dp_wide_bus_enable(struct msm_dp *dp_display)
->> +{
->> +    return false;
->> +}
->> +
->>   #endif
->>     void __init msm_mdp_register(void);
->
->
+> +		info.intf_type = INTF_DP;
+>   		rc = dpu_encoder_setup(dev, encoder, &info);
+>   		if (rc) {
+>   			DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
