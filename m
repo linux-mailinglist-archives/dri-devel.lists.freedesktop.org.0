@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D3A4B6445
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 08:25:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D204B63E1
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 08:01:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9385310E398;
-	Tue, 15 Feb 2022 07:25:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88BBA10E29A;
+	Tue, 15 Feb 2022 07:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F16810E14D;
- Tue, 15 Feb 2022 04:03:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: krisman) with ESMTPSA id A6AEC1F43572
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1644897824;
- bh=VG0gC/LlBYOoQhn5utxIdgmPSt7IfHbptUv0GV7NTBo=;
- h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
- b=Ub6dmZitRz45cR9qIKXjTsVXU7KmUgK7H9oGw3VoIqMVy2lNgKyINSxJJ4Mxa9LeQ
- OSnaNgDQeenPnKVsHAu7FJW2ksmbmmFKxFZ9DhHBEOytGwf5+mTHiU3/rYyeYKZgAI
- 353erPgVFDlsdFJrWkpczRGLtWgrEDwEWidKsuTfjbzacs2ubqbjvCv53HpQkQgTDO
- sveWRuEs68cTQpVqRLx8QCaXWu0m6E77IzTClO5SoAIoZgIg7biB2Noa4C7YbpiD3/
- +EhnyHcdKXZg/HDB7nczR4ihB2+cz0qN/2Cx4c4omJOGZErQyt9d55dDNGrym2WOmM
- PBwrKU+TudUGg==
-From: Gabriel Krisman Bertazi <krisman@collabora.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Subject: Re: [PATCH v8 1/3] gpu: drm: separate panel orientation property
- creating and value setting
-Organization: Collabora
-References: <20220208084234.1684930-1-hsinyi@chromium.org>
- <87leydhqt3.fsf@collabora.com>
- <CAJMQK-igpiYj-pkgG9amrQuVzf1Mc9BDDOwOdKLUbceKr=CHiQ@mail.gmail.com>
-Date: Mon, 14 Feb 2022 23:03:39 -0500
-In-Reply-To: <CAJMQK-igpiYj-pkgG9amrQuVzf1Mc9BDDOwOdKLUbceKr=CHiQ@mail.gmail.com>
- (Hsin-Yi Wang's message of "Tue, 15 Feb 2022 11:15:02 +0800")
-Message-ID: <87czjoixno.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B64910E29A
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 07:01:49 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7AB27B81732;
+ Tue, 15 Feb 2022 07:01:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0A5C340EC;
+ Tue, 15 Feb 2022 07:01:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1644908501;
+ bh=wpzzdawXPScQHsJKBVOQr1uSYppSynJn4bs/yhbdSyA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sDmBWC3bBYfh7HeEsWgCqhfPOjCVWGl90AwNQquw/s37apawMvykr5dLCSbz5VT27
+ a5wp3rnQFH3/laPLOG74o03tMDNPPnSjnHPzjnFiNl3JfoADYuF4Ae3fNI0UhZkloP
+ Bj+1hg9P55uKX3tSh0BSWmUJrdwJHc5XuXmorEUI=
+Date: Tue, 15 Feb 2022 08:01:33 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "T.J. Mercier" <tjmercier@google.com>
+Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
+ ownership of fds
+Message-ID: <YgtPzXUmSOVyplnm@kroah.com>
+References: <20220211161831.3493782-1-tjmercier@google.com>
+ <20220211161831.3493782-7-tjmercier@google.com>
+ <Ygdfe3XSvN8iFuUc@kroah.com>
+ <CABdmKX1eKZZ9809uxnzT_Bm+mdNuK2AObLRxyBpdDF3yE76Hrg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Mailman-Approved-At: Tue, 15 Feb 2022 07:25:06 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABdmKX1eKZZ9809uxnzT_Bm+mdNuK2AObLRxyBpdDF3yE76Hrg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,106 +53,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org
+Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Martijn Coenen <maco@android.com>, Laura Abbott <labbott@redhat.com>,
+ linux-media@vger.kernel.org, Todd Kjos <tkjos@android.com>,
+ linaro-mm-sig@lists.linaro.org, Tejun Heo <tj@kernel.org>,
+ cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+ Christian Brauner <brauner@kernel.org>, Kenny.Ho@amd.com,
+ linux-kernel@vger.kernel.org, Liam Mark <lmark@codeaurora.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
+ Hridya Valsaraju <hridya@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hsin-Yi Wang <hsinyi@chromium.org> writes:
+On Mon, Feb 14, 2022 at 02:25:47PM -0800, T.J. Mercier wrote:
+> On Fri, Feb 11, 2022 at 11:19 PM Greg Kroah-Hartman
+> > > --- a/include/uapi/linux/android/binder.h
+> > > +++ b/include/uapi/linux/android/binder.h
+> > > @@ -137,6 +137,7 @@ struct binder_buffer_object {
+> > >
+> > >  enum {
+> > >       BINDER_BUFFER_FLAG_HAS_PARENT = 0x01,
+> > > +     BINDER_BUFFER_FLAG_SENDER_NO_NEED = 0x02,
+> > >  };
+> > >
+> > >  /* struct binder_fd_array_object - object describing an array of fds in a buffer
+> > > --
+> > > 2.35.1.265.g69c8d7142f-goog
+> > >
+> >
+> > How does userspace know that binder supports this new flag?
+> 
+> Sorry, I don't completely follow even after Todd's comment. Doesn't
+> the presence of BINDER_BUFFER_FLAG_SENDER_NO_NEED in the header do
+> this?
 
-> On Tue, Feb 15, 2022 at 9:17 AM Gabriel Krisman Bertazi
-> <krisman@collabora.com> wrote:
->>
->> Hsin-Yi Wang <hsinyi@chromium.org> writes:
->>
->> > drm_dev_register() sets connector->registration_state to
->> > DRM_CONNECTOR_REGISTERED and dev->registered to true. If
->> > drm_connector_set_panel_orientation() is first called after
->> > drm_dev_register(), it will fail several checks and results in following
->> > warning.
->>
->> Hi,
->>
->> I stumbled upon this when investigating the same WARN_ON on amdgpu.
->> Thanks for the patch :)
->>
->> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->> > index a50c82bc2b2fec..572ead7ac10690 100644
->> > --- a/drivers/gpu/drm/drm_connector.c
->> > +++ b/drivers/gpu/drm/drm_connector.c
->> > @@ -1252,7 +1252,7 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
->> >   *   INPUT_PROP_DIRECT) will still map 1:1 to the actual LCD panel
->> >   *   coordinates, so if userspace rotates the picture to adjust for
->> >   *   the orientation it must also apply the same transformation to the
->> > - *   touchscreen input coordinates. This property is initialized by calling
->> > + *   touchscreen input coordinates. This property value is set by calling
->> >   *   drm_connector_set_panel_orientation() or
->> >   *   drm_connector_set_panel_orientation_with_quirk()
->> >   *
->> > @@ -2341,8 +2341,8 @@ EXPORT_SYMBOL(drm_connector_set_vrr_capable_property);
->> >   * @connector: connector for which to set the panel-orientation property.
->> >   * @panel_orientation: drm_panel_orientation value to set
->> >   *
->> > - * This function sets the connector's panel_orientation and attaches
->> > - * a "panel orientation" property to the connector.
->> > + * This function sets the connector's panel_orientation value. If the property
->> > + * doesn't exist, it will try to create one.
->> >   *
->> >   * Calling this function on a connector where the panel_orientation has
->> >   * already been set is a no-op (e.g. the orientation has been overridden with
->> > @@ -2373,19 +2373,12 @@ int drm_connector_set_panel_orientation(
->> >       info->panel_orientation = panel_orientation;
->> >
->> >       prop = dev->mode_config.panel_orientation_property;
->> > -     if (!prop) {
->> > -             prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
->> > -                             "panel orientation",
->> > -                             drm_panel_orientation_enum_list,
->> > -                             ARRAY_SIZE(drm_panel_orientation_enum_list));
->> > -             if (!prop)
->> > -                     return -ENOMEM;
->> > -
->> > -             dev->mode_config.panel_orientation_property = prop;
->> > -     }
->> > +     if (!prop &&
->> > +         drm_connector_init_panel_orientation_property(connector) < 0)
->> > +             return -ENOMEM;
->> >
->>
->> In the case where the property has not been created beforehand, you
->> forgot to reinitialize prop here, after calling
->> drm_connector_init_panel_orientation_property().  This means
-> hi Gabriel,
->
-> drm_connector_init_panel_orientation_property() will create prop if
-> it's null. If prop fails to be created there, it will return -ENOMEM.
+There is no "header" when running a new kernel on an old userspace,
+right?  How about the other way around, old kernel, new userspace?
 
-Yes.  But *after the property is successfully created*, the prop variable is still
-NULL.  And then you call the following, using prop, which is still NULL:
+> So wouldn't userspace need to be compiled against the wrong
+> kernel headers for there to be a problem? In that case the allocation
+> would still succeed, but there would be no charge transfer and
+> unfortunately no error code.
 
->> > +     drm_object_property_set_value(&connector->base, prop,
->> > +                                   info->panel_orientation);
+No error code is not good.  People upgrade their kernels all the time,
+and do not do a "rebuild the world" when doing so.
 
-This will do property->dev right on the first line of code, and dereference the
-null prop pointer.
+> > And where is the userspace test for this new feature?
+> 
+> I tested this on a Pixel after modifying the gralloc implementation to
+> mark allocated buffers as not used by the sender. This required
+> setting the BINDER_BUFFER_FLAG_SENDER_NO_NEED in libhwbinder. That
+> code can be found here:
+> https://android-review.googlesource.com/c/platform/system/libhwbinder/+/1910752/1/Parcel.cpp
+> https://android-review.googlesource.com/c/platform/system/libhidl/+/1910611/
+> 
+> Then by inspecting gpu.memory.current files in sysfs I was able to see
+> the memory attributed to processes other than the graphics allocator
+> service. Before this change, several megabytes of memory were
+> attributed to the graphics allocator service but those buffers are
+> actually used by other processes like surfaceflinger, the camera, etc.
+> After the change, the gpu.memory.current amount for the graphics
+> allocator service was 0 and the charges showed up in the
+> gpu.memory.current files for those other processes like this:
+> 
+> PID: 764 Process Name: zygote64
+> system 8192
+> system-uncached 23191552
+> 
+> PID: 529 Process Name: /system/bin/surfaceflinger
+> system-uncached 109535232
+> system 92196864
+> 
+> PID: 530 Process Name:
+> /vendor/bin/hw/android.hardware.graphics.allocator@4.0-service
+> system-uncached 0
+> system 0
+> sensor_direct_heap 0
+> 
+> PID: 806 Process Name:
+> /apex/com.google.pixel.camera.hal/bin/hw/android.hardware.camera.provider@2.7-service-google
+> system 1196032
+> 
+> PID: 4608 Process Name: com.google.android.GoogleCamera
+> system 2408448
+> system-uncached 38887424
+> sensor_direct_heap 0
+> 
+> PID: 32102 Process Name: com.google.android.googlequicksearchbox:search
+> system-uncached 91279360
+> system 20480
+> 
+> PID: 2758 Process Name: com.google.android.youtube
+> system-uncached 1662976
+> system 8192
+> 
+> PID: 2517 Process Name: com.google.android.apps.nexuslauncher
+> system-uncached 115662848
+> system 122880
+> 
+> PID: 2066 Process Name: com.android.systemui
+> system 86016
+> system-uncached 37957632
+> 
+> >  Isn't there a binder test framework somewhere?
+> 
+> Android has the Vendor Test Suite where automated tests could be added
+> for this. Is that what you're thinking of?
 
-You must do
+tools/testing/selftests/ is a good start.  VTS is the worst-case as no
+one can really run that on their own, but it is better than nothing.
+Having no test at all for this is not ok.
 
-  prop = dev->mode_config.panel_orientation_property;
+thanks,
 
-again after drm_connector_init_panel_orientation_property successfully
-returns, or call drm_object_property_set_value using
-dev->mode_config.panel_orientation_property directly:
-
-  drm_object_property_set_value(&connector->base,
-			dev->mode_config.panel_orientation_property
-		        info->panel_orientation);
-
--- 
-Gabriel Krisman Bertazi
+greg k-h
