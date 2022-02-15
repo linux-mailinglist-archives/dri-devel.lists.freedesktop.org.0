@@ -2,34 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716134B64F5
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 09:02:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672F64B6504
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 09:02:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B27410E3E0;
-	Tue, 15 Feb 2022 08:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64BAD10E3E2;
+	Tue, 15 Feb 2022 08:02:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C46310E3E1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 08:01:57 +0000 (UTC)
-X-UUID: 9c005cb2e7cd4c34aa6a604ffa74f49a-20220215
-X-UUID: 9c005cb2e7cd4c34aa6a604ffa74f49a-20220215
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F58110E3E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 08:02:00 +0000 (UTC)
+X-UUID: 80888b5efd824fa69a31cbcb8dcf345a-20220215
+X-UUID: 80888b5efd824fa69a31cbcb8dcf345a-20220215
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1432319270; Tue, 15 Feb 2022 16:01:53 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ with ESMTP id 946587688; Tue, 15 Feb 2022 16:01:54 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 15 Feb 2022 16:01:52 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
  Tue, 15 Feb 2022 16:01:52 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
  Frontend Transport; Tue, 15 Feb 2022 16:01:52 +0800
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <matthias.bgg@gmail.com>, <robh+dt@kernel.org>
-Subject: [v2,2/6] dt-bindings: display: mediatek: update supported SoC
-Date: Tue, 15 Feb 2022 15:59:49 +0800
-Message-ID: <20220215075953.3310-3-rex-bc.chen@mediatek.com>
+Subject: [v2,3/6] soc: mediatek: mmsys: add mt8186 mmsys routing table
+Date: Tue, 15 Feb 2022 15:59:50 +0800
+Message-ID: <20220215075953.3310-4-rex-bc.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220215075953.3310-1-rex-bc.chen@mediatek.com>
 References: <20220215075953.3310-1-rex-bc.chen@mediatek.com>
@@ -56,26 +58,177 @@ Cc: devicetree@vger.kernel.org, airlied@linux.ie, jassisinghbrar@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add decriptions about supported SoC: MT8186.
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 
+Add new routing table for MT8186.
+In MT8186, there are two routing pipelines for internal and external display.
+
+Internal display: OVL0->RDMA0->COLOR0->CCORR0->AAL0->GAMMA->POSTMASK0->DITHER->DSI0
+External display: OVL_2L0->RDMA1->DPI0
+
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/soc/mediatek/mt8186-mmsys.h | 113 ++++++++++++++++++++++++++++
+ drivers/soc/mediatek/mtk-mmsys.c    |  11 +++
+ 2 files changed, 124 insertions(+)
+ create mode 100644 drivers/soc/mediatek/mt8186-mmsys.h
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-index 78044c340e20..f22b3d90d45a 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-@@ -44,7 +44,7 @@ Required properties (all function blocks):
- 	"mediatek,<chip>-dpi"        		- DPI controller, see mediatek,dpi.txt
- 	"mediatek,<chip>-disp-mutex" 		- display mutex
- 	"mediatek,<chip>-disp-od"    		- overdrive
--  the supported chips are mt2701, mt7623, mt2712, mt8167, mt8173, mt8183 and mt8192.
-+  the supported chips are mt2701, mt7623, mt2712, mt8167, mt8173, mt8183, mt8186 and mt8192.
- - reg: Physical base address and length of the function block register space
- - interrupts: The interrupt signal from the function block (required, except for
-   merge and split function blocks).
+diff --git a/drivers/soc/mediatek/mt8186-mmsys.h b/drivers/soc/mediatek/mt8186-mmsys.h
+new file mode 100644
+index 000000000000..7de329f2d729
+--- /dev/null
++++ b/drivers/soc/mediatek/mt8186-mmsys.h
+@@ -0,0 +1,113 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++
++#ifndef __SOC_MEDIATEK_MT8186_MMSYS_H
++#define __SOC_MEDIATEK_MT8186_MMSYS_H
++
++#define MT8186_MMSYS_OVL_CON			0xF04
++#define MT8186_MMSYS_OVL0_CON_MASK			0x3
++#define MT8186_MMSYS_OVL0_2L_CON_MASK			0xC
++#define MT8186_OVL0_GO_BLEND				BIT(0)
++#define MT8186_OVL0_GO_BG				BIT(1)
++#define MT8186_OVL0_2L_GO_BLEND				BIT(2)
++#define MT8186_OVL0_2L_GO_BG				BIT(3)
++#define MT8186_DISP_RDMA0_SOUT_SEL		0xF0C
++#define MT8186_RDMA0_SOUT_SEL_MASK			0xF
++#define MT8186_RDMA0_SOUT_TO_DSI0			(0)
++#define MT8186_RDMA0_SOUT_TO_COLOR0			(1)
++#define MT8186_RDMA0_SOUT_TO_DPI0			(2)
++#define MT8186_DISP_OVL0_2L_MOUT_EN		0xF14
++#define MT8186_OVL0_2L_MOUT_EN_MASK			0xF
++#define MT8186_OVL0_2L_MOUT_TO_RDMA0			BIT(0)
++#define MT8186_OVL0_2L_MOUT_TO_RDMA1			BIT(3)
++#define MT8186_DISP_OVL0_MOUT_EN		0xF18
++#define MT8186_OVL0_MOUT_EN_MASK			0xF
++#define MT8186_OVL0_MOUT_TO_RDMA0			BIT(0)
++#define MT8186_OVL0_MOUT_TO_RDMA1			BIT(3)
++#define MT8186_DISP_DITHER0_MOUT_EN		0xF20
++#define MT8186_DITHER0_MOUT_EN_MASK			0xF
++#define MT8186_DITHER0_MOUT_TO_DSI0			BIT(0)
++#define MT8186_DITHER0_MOUT_TO_RDMA1			BIT(2)
++#define MT8186_DITHER0_MOUT_TO_DPI0			BIT(3)
++#define MT8186_DISP_RDMA0_SEL_IN		0xF28
++#define MT8186_RDMA0_SEL_IN_MASK			0xF
++#define MT8186_RDMA0_FROM_OVL0				0
++#define MT8186_RDMA0_FROM_OVL0_2L			2
++#define MT8186_DISP_DSI0_SEL_IN			0xF30
++#define MT8186_DSI0_SEL_IN_MASK				0xF
++#define MT8186_DSI0_FROM_RDMA0				0
++#define MT8186_DSI0_FROM_DITHER0			1
++#define MT8186_DSI0_FROM_RDMA1				2
++#define MT8186_DISP_RDMA1_MOUT_EN		0xF3C
++#define MT8186_RDMA1_MOUT_EN_MASK			0xF
++#define MT8186_RDMA1_MOUT_TO_DPI0_SEL			BIT(0)
++#define MT8186_RDMA1_MOUT_TO_DSI0_SEL			BIT(2)
++#define MT8186_DISP_RDMA1_SEL_IN		0xF40
++#define MT8186_RDMA1_SEL_IN_MASK			0xF
++#define MT8186_RDMA1_FROM_OVL0				0
++#define MT8186_RDMA1_FROM_OVL0_2L			2
++#define MT8186_RDMA1_FROM_DITHER0			3
++#define MT8186_DISP_DPI0_SEL_IN			0xF44
++#define MT8186_DPI0_SEL_IN_MASK				0xF
++#define MT8186_DPI0_FROM_RDMA1				0
++#define MT8186_DPI0_FROM_DITHER0			1
++#define MT8186_DPI0_FROM_RDMA0				2
++
++static const struct mtk_mmsys_routes mmsys_mt8186_routing_table[] = {
++	{
++		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
++		MT8186_DISP_OVL0_MOUT_EN, MT8186_OVL0_MOUT_EN_MASK,
++		MT8186_OVL0_MOUT_TO_RDMA0
++	},
++	{
++		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
++		MT8186_DISP_RDMA0_SEL_IN, MT8186_RDMA0_SEL_IN_MASK,
++		MT8186_RDMA0_FROM_OVL0
++	},
++	{
++		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
++		MT8186_MMSYS_OVL_CON, MT8186_MMSYS_OVL0_CON_MASK,
++		MT8186_OVL0_GO_BLEND
++	},
++	{
++		DDP_COMPONENT_RDMA0, DDP_COMPONENT_COLOR0,
++		MT8186_DISP_RDMA0_SOUT_SEL, MT8186_RDMA0_SOUT_SEL_MASK,
++		MT8186_RDMA0_SOUT_TO_COLOR0
++	},
++	{
++		DDP_COMPONENT_DITHER, DDP_COMPONENT_DSI0,
++		MT8186_DISP_DITHER0_MOUT_EN, MT8186_DITHER0_MOUT_EN_MASK,
++		MT8186_DITHER0_MOUT_TO_DSI0,
++	},
++	{
++		DDP_COMPONENT_DITHER, DDP_COMPONENT_DSI0,
++		MT8186_DISP_DSI0_SEL_IN, MT8186_DSI0_SEL_IN_MASK,
++		MT8186_DSI0_FROM_DITHER0
++	},
++	{
++		DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA1,
++		MT8186_DISP_OVL0_2L_MOUT_EN, MT8186_OVL0_2L_MOUT_EN_MASK,
++		MT8186_OVL0_2L_MOUT_TO_RDMA1
++	},
++	{
++		DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA1,
++		MT8186_DISP_RDMA1_SEL_IN, MT8186_RDMA1_SEL_IN_MASK,
++		MT8186_RDMA1_FROM_OVL0_2L
++	},
++	{
++		DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA1,
++		MT8186_MMSYS_OVL_CON, MT8186_MMSYS_OVL0_2L_CON_MASK,
++		MT8186_OVL0_2L_GO_BLEND
++	},
++	{
++		DDP_COMPONENT_RDMA1, DDP_COMPONENT_DPI0,
++		MT8186_DISP_RDMA1_MOUT_EN, MT8186_RDMA1_MOUT_EN_MASK,
++		MT8186_RDMA1_MOUT_TO_DPI0_SEL
++	},
++	{
++		DDP_COMPONENT_RDMA1, DDP_COMPONENT_DPI0,
++		MT8186_DISP_DPI0_SEL_IN, MT8186_DPI0_SEL_IN_MASK,
++		MT8186_DPI0_FROM_RDMA1
++	},
++};
++
++#endif /* __SOC_MEDIATEK_MT8186_MMSYS_H */
+diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+index 1e448f1ffefb..0da25069ffb3 100644
+--- a/drivers/soc/mediatek/mtk-mmsys.c
++++ b/drivers/soc/mediatek/mtk-mmsys.c
+@@ -15,6 +15,7 @@
+ #include "mtk-mmsys.h"
+ #include "mt8167-mmsys.h"
+ #include "mt8183-mmsys.h"
++#include "mt8186-mmsys.h"
+ #include "mt8192-mmsys.h"
+ #include "mt8365-mmsys.h"
+ 
+@@ -56,6 +57,12 @@ static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
+ 	.num_routes = ARRAY_SIZE(mmsys_mt8183_routing_table),
+ };
+ 
++static const struct mtk_mmsys_driver_data mt8186_mmsys_driver_data = {
++	.clk_driver = "clk-mt8186-mm",
++	.routes = mmsys_mt8186_routing_table,
++	.num_routes = ARRAY_SIZE(mmsys_mt8186_routing_table),
++};
++
+ static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
+ 	.clk_driver = "clk-mt8192-mm",
+ 	.routes = mmsys_mt8192_routing_table,
+@@ -242,6 +249,10 @@ static const struct of_device_id of_match_mtk_mmsys[] = {
+ 		.compatible = "mediatek,mt8183-mmsys",
+ 		.data = &mt8183_mmsys_driver_data,
+ 	},
++	{
++		.compatible = "mediatek,mt8186-mmsys",
++		.data = &mt8186_mmsys_driver_data,
++	},
+ 	{
+ 		.compatible = "mediatek,mt8192-mmsys",
+ 		.data = &mt8192_mmsys_driver_data,
 -- 
 2.18.0
 
