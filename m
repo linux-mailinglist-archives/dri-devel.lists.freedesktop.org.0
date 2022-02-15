@@ -1,54 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E50D4B616F
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 04:15:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 722864B619F
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 04:28:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EDB410E415;
-	Tue, 15 Feb 2022 03:15:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E57AC10E144;
+	Tue, 15 Feb 2022 03:28:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D89710E3FF
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 03:15:30 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id bu29so29097637lfb.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 19:15:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n+P11z1Rjs9Tcih/Zook2fZ60KP4QhmCWOTSK5iKxWk=;
- b=N4nYj7rNTC5uHpVcGL9QlugWcvGRZTp+CiKvYeKf6QUKM4NHmpN97jHR5JAyLwHU0G
- majfPSjK77b6t7X4lhovHCqFEO9SKlCLRi0DdE6BDr2pljCbwZc8Y9ndC4l5LcpZmSKW
- hvN2WlQweb/oFJ9OJ7+bDCb4FLOS9Ok0j1ryA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=n+P11z1Rjs9Tcih/Zook2fZ60KP4QhmCWOTSK5iKxWk=;
- b=rzdWH5ljjWZjTYCsS/JmHlm5s4H8dh/ZIkggPpLl7lAPTOp6s5vI/av0Cd+LdO4Rrx
- vsuxP6XYcpbkFWViqPlPaZAW3g27qEXaIX2EY4O1TEi7F0qi2edEzgjzRvdQRV+ogqv2
- vEfn3di02izPWJvHjL/LBQqLf46yEOUX164B6astCL/5hYHM/ykyb938TCW4NvNJ24UY
- dBrjxRAwd0rwFURuQiTe8dFNumIs52VQLVnTMM+8cJ1QBBxUiM4z7UTeQnpsPJPexZu0
- FCpw384hqaQlRjBL9crvOWfMlE4lyDop1/FyOHD7IWoCmQVwP/42rEs/pAiqW7lO1CG7
- PzHA==
-X-Gm-Message-State: AOAM530if8blMPtv+pXDDHPzFiIwu0SicTqW/H/gOOmI3Ew0qyKCFTtT
- 1M4bih/iPaMPtvg1i4UKh1C+k23FluvPFQKbfZBlxg==
-X-Google-Smtp-Source: ABdhPJzcbB9EByvT8Z4nbkpVZTyBXtRJOPYoyd47w64TJMSIQNnBwmZMUvf0GIvBRqtwNFPqBweHvkB8bEuLFTrC7OU=
-X-Received: by 2002:a05:6512:1699:: with SMTP id
- bu25mr1543879lfb.403.1644894928818; 
- Mon, 14 Feb 2022 19:15:28 -0800 (PST)
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D91B910E152
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 03:28:40 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:33306.1647321622
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id EE8B710023D;
+ Tue, 15 Feb 2022 11:28:34 +0800 (CST)
+Received: from  ([172.27.8.53])
+ by gateway-151646-dep-b7fbf7d79-bwdqx with ESMTP id
+ 2b6fe703291b44efb88e993a70779992 for maxime@cerno.tech; 
+ Tue, 15 Feb 2022 11:28:36 CST
+X-Transaction-ID: 2b6fe703291b44efb88e993a70779992
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 172.27.8.53
+X-MEDUSA-Status: 0
+Message-ID: <14340eb2-2557-e6f1-9252-8533f5a814df@189.cn>
+Date: Tue, 15 Feb 2022 11:28:33 +0800
 MIME-Version: 1.0
-References: <20220208084234.1684930-1-hsinyi@chromium.org>
- <87leydhqt3.fsf@collabora.com>
-In-Reply-To: <87leydhqt3.fsf@collabora.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 15 Feb 2022 11:15:02 +0800
-Message-ID: <CAJMQK-igpiYj-pkgG9amrQuVzf1Mc9BDDOwOdKLUbceKr=CHiQ@mail.gmail.com>
-Subject: Re: [PATCH v8 1/3] gpu: drm: separate panel orientation property
- creating and value setting
-To: Gabriel Krisman Bertazi <krisman@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v7 1/7] drm/lsdc: add drm driver for loongson display
+ controller
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220213141649.1115987-1-15330273260@189.cn>
+ <20220213141649.1115987-2-15330273260@189.cn>
+ <20220214101031.kerresldiuopil6l@houat>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <20220214101031.kerresldiuopil6l@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,93 +54,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org
+Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, kernel test robot <lkp@intel.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
+ suijingfeng <suijingfeng@loongson.cn>, Roland Scheidegger <sroland@vmware.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Li Yi <liyi@loongson.cn>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-mips@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 15, 2022 at 9:17 AM Gabriel Krisman Bertazi
-<krisman@collabora.com> wrote:
->
-> Hsin-Yi Wang <hsinyi@chromium.org> writes:
->
-> > drm_dev_register() sets connector->registration_state to
-> > DRM_CONNECTOR_REGISTERED and dev->registered to true. If
-> > drm_connector_set_panel_orientation() is first called after
-> > drm_dev_register(), it will fail several checks and results in following
-> > warning.
->
-> Hi,
->
-> I stumbled upon this when investigating the same WARN_ON on amdgpu.
-> Thanks for the patch :)
->
-> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> > index a50c82bc2b2fec..572ead7ac10690 100644
-> > --- a/drivers/gpu/drm/drm_connector.c
-> > +++ b/drivers/gpu/drm/drm_connector.c
-> > @@ -1252,7 +1252,7 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
-> >   *   INPUT_PROP_DIRECT) will still map 1:1 to the actual LCD panel
-> >   *   coordinates, so if userspace rotates the picture to adjust for
-> >   *   the orientation it must also apply the same transformation to the
-> > - *   touchscreen input coordinates. This property is initialized by calling
-> > + *   touchscreen input coordinates. This property value is set by calling
-> >   *   drm_connector_set_panel_orientation() or
-> >   *   drm_connector_set_panel_orientation_with_quirk()
-> >   *
-> > @@ -2341,8 +2341,8 @@ EXPORT_SYMBOL(drm_connector_set_vrr_capable_property);
-> >   * @connector: connector for which to set the panel-orientation property.
-> >   * @panel_orientation: drm_panel_orientation value to set
-> >   *
-> > - * This function sets the connector's panel_orientation and attaches
-> > - * a "panel orientation" property to the connector.
-> > + * This function sets the connector's panel_orientation value. If the property
-> > + * doesn't exist, it will try to create one.
-> >   *
-> >   * Calling this function on a connector where the panel_orientation has
-> >   * already been set is a no-op (e.g. the orientation has been overridden with
-> > @@ -2373,19 +2373,12 @@ int drm_connector_set_panel_orientation(
-> >       info->panel_orientation = panel_orientation;
-> >
-> >       prop = dev->mode_config.panel_orientation_property;
-> > -     if (!prop) {
-> > -             prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
-> > -                             "panel orientation",
-> > -                             drm_panel_orientation_enum_list,
-> > -                             ARRAY_SIZE(drm_panel_orientation_enum_list));
-> > -             if (!prop)
-> > -                     return -ENOMEM;
-> > -
-> > -             dev->mode_config.panel_orientation_property = prop;
-> > -     }
-> > +     if (!prop &&
-> > +         drm_connector_init_panel_orientation_property(connector) < 0)
-> > +             return -ENOMEM;
-> >
->
-> In the case where the property has not been created beforehand, you
-> forgot to reinitialize prop here, after calling
-> drm_connector_init_panel_orientation_property().  This means
-hi Gabriel,
 
-drm_connector_init_panel_orientation_property() will create prop if
-it's null. If prop fails to be created there, it will return -ENOMEM.
+On 2022/2/14 18:10, Maxime Ripard wrote:
+> On Sun, Feb 13, 2022 at 10:16:43PM +0800, Sui Jingfeng wrote:
+>> From: suijingfeng <suijingfeng@loongson.cn>
+>>
+>> There is a display controller in loongson's LS2K1000 SoC and LS7A1000
+>> bridge chip, the DC is a PCI device in those chips. It has two display
+>> pipes but with only one hardware cursor. Each way has a DVO interface
+>> which provide RGB888 signals, vertical & horizontal synchronisations,
+>> data enable and the pixel clock. Each CRTC is able to scanout from
+>> 1920x1080 resolution at 60Hz. The maxmium resolution is 2048x2048
+>> according to the hardware spec.
+>>
+>> Loongson display controllers are simple which require scanout buffers
+>> to be physically contiguous. LS2K1000 is a SOC, Only system memory is
+>> available. Therefore CMA helper based driver is intended to be use,
+>> although it is possible to use VRAM helper based solution by carving
+>> out part of system memory as VRAM.
+>>
+>> On LS7A1000/LS7A2000 bridge chip, the DC is equipped with a dedicated
+>> video memory which is typically 64MB or more. In this case, VRAM helper
+>> based solution which scanout from local VRAM is reconmended to use.
+>> It is reliable to use for massive production, but CMA based helper
+>> solution is still usable on ls7a1000 and ls7a2000, at the price of
+>> the CRTC must access the FB in RAM through the PCIe bus and HT3.0 bus.
+>> This causes continuous traffic on the bus regardless of whether the FB
+>> image is updating or not. Sadly, it suffer from screen flickering under
+>> RAM pressure on LS7A1000. Luckily, It show extremely good condition on
+>> LS7A2000 even under stressapptest, Maybe the hardware engineer resolve
+>> this issue. Integrating two distict helpers based driver into one piece
+>> allow code sharing.
+>>
+>> We have also implemented demage update on top of CMA helper which copy
+>> the demaged region from the shadow framebuffer in system RAM to the real
+>> framebuffer in VRAM manually. This is intend to overcome the screen
+>> flicking issue on LS7A1000, but the performance is not good.
+>> Using "lsdc.dirty_update=1" in the kernel commmand line if you would like
+>> to have a try.
+>>
+>> For LS7A1000, there are 4 dedicated GPIOs whose control register is
+>> located at the DC register space, They are used to emulate two way i2c.
+>> One for DVO0, another for DVO1. This is the reason why this driver is
+>> not switch to drm bridge framework yet. LS2K1000 and LS2K0500 SoC don't
+>> have such GPIO hardwared, they grab i2c adapter from other module,
+>> either general purpose GPIO emulated i2c or hardware i2c adapter.
+>> Drm bridge and drm panel driver for the external encoder is suitable for
+>> those SoC. We have already implemented this on our downstream 4.19.190
+>> kernel. But due to the GPIO, PWM and I2C device driver support for
+>> LS2K1000 is not upstreamed yet, this driver still can be use to bring
+>> the graphic environment up by providing display timings or similar things
+>> in the device tree.
+>>
+>> The DC in LS7A1000 has only one hardware cursor, we simply let the two
+>> CRTC share it. The DC in LS7A2000 have two cursor, two built-in hdmi
+>> encoder and one transparent vga encoder and more, surport for LS7A2000
+>> is on the way. In short, we have built-in gpio emulated i2c support,
+>> we also have hardware cursor support. LS7A2000 The kind of tiny drivers
+>> in drm/tiny is not suitable for us.
+>>
+>>      +------+            +-----------------------------------+
+>>      | DDR4 |            |  +-------------------+            |
+>>      +------+            |  | PCIe Root complex |   LS7A1000 |
+>>         || MC0           |  +--++---------++----+            |
+>>    +----------+  HT 3.0  |     ||         ||                 |
+>>    | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
+>>    |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
+>>    +----------+          | +--------+  +-+--+-+    +---------+   +------+
+>>         || MC1           +---------------|--|----------------+
+>>      +------+                            |  |
+>>      | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
+>>      +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
+>>                        +-------+                      +------+
+>>
+>> The above picture give a simple usage of LS7A1000, note that the encoder
+>> is not necessary adv7125 or tfp410, it is a choice of the downstream board
+>> manufacturer. Other candicate encoders can be ch7034b, sil9022 and ite66121
+>> lt8618 etc. Besides, the DC in both ls2k1000 and ls7k1000 has the same of
+>> PCI vendor id and pci device id. Both is 0x0014:0x7a06, the reverison id
+>> is also same. This is the firmware engineer's mistake, but such firmware
+>> and various boards ship with such firmware already released. We choose to
+>> deduce the chip's identification from information provided by device tree.
+>> For lsdc, there is only a 1:1 mapping of encoders and connectors.
+>>
+>> v2: fixup warnings reported by kernel test robot
+>>
+>> v3: fix more grammar mistakes in Kconfig reported by Randy Dunlap and give
+>>      more details about lsdc.
+>>
+>> v4:
+>>     1) Add dts required and explain why device tree is required.
+>>     2) Give more description about lsdc and vram helper base driver.
+>>     3) Fix warnings reported by kernel test robot.
+>>     4) Introduce stride_alignment member into struct lsdc_chip_desc, the
+>>        stride alignment is 256 bytes for ls7a1000, ls2k1000 and ls2k0500.
+>>        But ls7a2000 improve it to 32 bytes, for extend the support for the
+>>        device on coming
+>>
+>> v5:
+>>     1) using writel and readl replace writeq and readq, to fix kernel test
+>>        robot report build error on other archtecture
+>>     2) set default fb format to XRGB8888 at crtc reset time.
+>>     3) fix typos.
+>>
+>> v6:
+>>     1) Explain why we are not switch to drm dridge subsystem on ls2k1000.
+>>     2) Explain why tiny drm driver is not suitable for us.
+>>     3) Give a short description of the trival dirty uppdate implement based
+>>        on CMA helper.
+>>     4) code clean up
+>>
+>> v7:
+>>     1) Remove select I2C_GPIO and I2C_LS2X in Kconfig, it is not ready now
+>>     2) Licensing issues are fixed suggested by Krzysztof Kozlowski.
+>>     3) lsdc_pixpll_print() is removed, part of it move to debugfs.
+>>     4) Set prefer_shadow to true if vram based driver is in using.
+>>     5) Replace double blank lines with single line in all files
+>>     6) Verbose cmd line parameter is replaced with drm_dbg()
+>>     7) All warnnings reported by ./scripts/checkpatch.pl --strict are fixed
+>>     8) Get edid from dtb support is removed as suggested by Maxime Ripard
+>>     9) Fix typos and various improvement
+> you *need* to have a DT bindings description
 
-> drm_object_property_set_value() will be called with a NULL second argument
-> and Oops the kernel.
->
->
-> > -     drm_object_attach_property(&connector->base, prop,
-> > -                                info->panel_orientation);
-> > +     drm_object_property_set_value(&connector->base, prop,
-> > +                                   info->panel_orientation);
->
->
-> --
-> Gabriel Krisman Bertazi
+Ok, I know that, it takes some time to document it though.
+
