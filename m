@@ -1,46 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070914B6B67
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 12:47:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8C44B6B9E
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 13:03:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E0CF898C4;
-	Tue, 15 Feb 2022 11:47:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F381810E48D;
+	Tue, 15 Feb 2022 12:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F028A89A92
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 11:47:08 +0000 (UTC)
-X-UUID: 0eb2ba5427e04231818565375cd23ab2-20220215
-X-UUID: 0eb2ba5427e04231818565375cd23ab2-20220215
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 44967742; Tue, 15 Feb 2022 19:47:03 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 15 Feb 2022 19:47:02 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 15 Feb 2022 19:47:02 +0800
-Message-ID: <2b98997aa6a6f2fa895b621689db5b49d2491d54.camel@mediatek.com>
-Subject: Re: [v2, 5/6] drm/mediatek: separate postmask component from
- mtk_disp_drv.c
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
- <matthias.bgg@gmail.com>, <robh+dt@kernel.org>
-Date: Tue, 15 Feb 2022 19:47:02 +0800
-In-Reply-To: <dd03805e7aaeacb543a1bcf45651eec11e6048c2.camel@mediatek.com>
-References: <20220215075953.3310-1-rex-bc.chen@mediatek.com>
- <20220215075953.3310-6-rex-bc.chen@mediatek.com>
- <dd03805e7aaeacb543a1bcf45651eec11e6048c2.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 796EA10E48D
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 12:03:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644926600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eJ2zSixnYCAtbdhrKQS4IEmcF85JqpZRJkneSkqAfms=;
+ b=YpH0T7+vp66qFgwTCuxazvN4c5ATYeplbLqEoKUSu6gv0lva2O2UlbsDLahEyqsokAwZ0D
+ RwQtGSTXr+FVHJm3CpmzOL9mWfRQw9Rnst7UvfYolET4lBYG/jepp1PrFs5xjo2657cj9x
+ fkwPPiKZCOsBDki/O+Pf7wYOKj+enzQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-358-BkNsEB3WO3KXuq25PFa7YQ-1; Tue, 15 Feb 2022 07:03:19 -0500
+X-MC-Unique: BkNsEB3WO3KXuq25PFa7YQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ h24-20020adfaa98000000b001e33eb81e71so8276048wrc.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 04:03:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=eJ2zSixnYCAtbdhrKQS4IEmcF85JqpZRJkneSkqAfms=;
+ b=lDlGg/4KxU++fTjAYBOgOsHB3i3YAWueyGn93Hb8zAoGqAvzejuP9UMM0sTvBwmqCV
+ /BVzVHM8M5aMdYoIfpoDiJjkNMAk3OQTHAyuOUe+NOMlkwf8FyZ8+NQcMtTuQEmWByQR
+ RkgFWylFjHgnlWcL6hToK/PWnvJG52A5wqxJaMDUjrC0lzZinXs9DIb8fluBEFHkFvb7
+ 7QQdY/EdoY/FYOSLYglqsqIvKCkVxvm8OnED1i9S9A5fXGw5i5Dp32qsAftrXJ+3LY5S
+ A+/BAddTTxscSuE6y5WCy5rodZDPsL/RjD3B8h+pb+UwIcstCEiRUtioJH1grCSWJHvt
+ u8Mw==
+X-Gm-Message-State: AOAM530qw34UwqBWy5JBAPy00y6doCrn/Lj1YMuIPbzl0hgyD24BpaQK
+ 90SD3XoC+WogVUNQ9VkmYkcviEeT0tvO48QfXojMkHbB6io6hK8JY7eYcPi6NsW2y/7fKikv+Lk
+ lJvUgzLoQotQQpOJVdF8dukKrVVCm
+X-Received: by 2002:a7b:cf29:0:b0:34c:744b:9145 with SMTP id
+ m9-20020a7bcf29000000b0034c744b9145mr2860012wmg.2.1644926598146; 
+ Tue, 15 Feb 2022 04:03:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVn6arGJnSNGfD+b4A3E/kx0IOIn+MKt17+0+8YvZsz8aYYMdhfF9xxDoZPpXOOhK1bges5w==
+X-Received: by 2002:a7b:cf29:0:b0:34c:744b:9145 with SMTP id
+ m9-20020a7bcf29000000b0034c744b9145mr2859969wmg.2.1644926597804; 
+ Tue, 15 Feb 2022 04:03:17 -0800 (PST)
+Received: from ?IPV6:2003:cb:c70e:3700:9260:2fb2:742d:da3e?
+ (p200300cbc70e370092602fb2742dda3e.dip0.t-ipconnect.de.
+ [2003:cb:c70e:3700:9260:2fb2:742d:da3e])
+ by smtp.gmail.com with ESMTPSA id c8sm18784645wmq.39.2022.02.15.04.03.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 04:03:17 -0800 (PST)
+Message-ID: <50e2ee65-98a5-fd2f-3b58-b5be5c13c18b@redhat.com>
+Date: Tue, 15 Feb 2022 13:03:15 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+References: <cover.0d3c846b1c6c294e055ff7ebe221fab9964c1436.1644207242.git-series.apopple@nvidia.com>
+ <1894939.704c7Wv018@nvdebian>
+ <fb557284-bcab-6d95-ac60-acd7459e9e80@redhat.com>
+ <5251686.PpEh1BJ82l@nvdebian>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v2 2/3] mm/gup.c: Migrate device coherent pages when
+ pinning instead of failing
+In-Reply-To: <5251686.PpEh1BJ82l@nvdebian>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,369 +94,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, jassisinghbrar@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, fparent@baylibre.com,
- linux-mediatek@lists.infradead.org, yongqiang.niu@mediatek.com,
- hsinyi@chromium.org, linux-arm-kernel@lists.infradead.org
+Cc: alex.sierra@amd.com, rcampbell@nvidia.com, willy@infradead.org,
+ jhubbard@nvidia.com, Felix.Kuehling@amd.com, dri-devel@lists.freedesktop.org,
+ linux-xfs@vger.kernel.org, jglisse@redhat.com, amd-gfx@lists.freedesktop.org,
+ jgg@nvidia.com, linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-02-15 at 17:35 +0800, CK Hu wrote:
-> Hi, Rex:
+On 11.02.22 00:41, Alistair Popple wrote:
+> On Thursday, 10 February 2022 10:47:35 PM AEDT David Hildenbrand wrote:
+>> On 10.02.22 12:39, Alistair Popple wrote:
+>>> On Thursday, 10 February 2022 9:53:38 PM AEDT David Hildenbrand wrote:
+>>>> On 07.02.22 05:26, Alistair Popple wrote:
+>>>>> Currently any attempts to pin a device coherent page will fail. This is
+>>>>> because device coherent pages need to be managed by a device driver, and
+>>>>> pinning them would prevent a driver from migrating them off the device.
+>>>>>
+>>>>> However this is no reason to fail pinning of these pages. These are
+>>>>> coherent and accessible from the CPU so can be migrated just like
+>>>>> pinning ZONE_MOVABLE pages. So instead of failing all attempts to pin
+>>>>> them first try migrating them out of ZONE_DEVICE.
+>>>>>
+>>>>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+>>>>> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+>>>>> ---
+>>>>>
+>>>>> Changes for v2:
+>>>>>
+>>>>>  - Added Felix's Acked-by
+>>>>>  - Fixed missing check for dpage == NULL
+>>>>>
+>>>>>  mm/gup.c | 105 ++++++++++++++++++++++++++++++++++++++++++++++++++------
+>>>>>  1 file changed, 95 insertions(+), 10 deletions(-)
+>>>>>
+>>>>> diff --git a/mm/gup.c b/mm/gup.c
+>>>>> index 56d9577..5e826db 100644
+>>>>> --- a/mm/gup.c
+>>>>> +++ b/mm/gup.c
+>>>>> @@ -1861,6 +1861,60 @@ struct page *get_dump_page(unsigned long addr)
+>>>>>  
+>>>>>  #ifdef CONFIG_MIGRATION
+>>>>>  /*
+>>>>> + * Migrates a device coherent page back to normal memory. Caller should have a
+>>>>> + * reference on page which will be copied to the new page if migration is
+>>>>> + * successful or dropped on failure.
+>>>>> + */
+>>>>> +static struct page *migrate_device_page(struct page *page,
+>>>>> +					unsigned int gup_flags)
+>>>>> +{
+>>>>> +	struct page *dpage;
+>>>>> +	struct migrate_vma args;
+>>>>> +	unsigned long src_pfn, dst_pfn = 0;
+>>>>> +
+>>>>> +	lock_page(page);
+>>>>> +	src_pfn = migrate_pfn(page_to_pfn(page)) | MIGRATE_PFN_MIGRATE;
+>>>>> +	args.src = &src_pfn;
+>>>>> +	args.dst = &dst_pfn;
+>>>>> +	args.cpages = 1;
+>>>>> +	args.npages = 1;
+>>>>> +	args.vma = NULL;
+>>>>> +	migrate_vma_setup(&args);
+>>>>> +	if (!(src_pfn & MIGRATE_PFN_MIGRATE))
+>>>>> +		return NULL;
+>>>>> +
+>>>>> +	dpage = alloc_pages(GFP_USER | __GFP_NOWARN, 0);
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * get/pin the new page now so we don't have to retry gup after
+>>>>> +	 * migrating. We already have a reference so this should never fail.
+>>>>> +	 */
+>>>>> +	if (dpage && WARN_ON_ONCE(!try_grab_page(dpage, gup_flags))) {
+>>>>> +		__free_pages(dpage, 0);
+>>>>> +		dpage = NULL;
+>>>>> +	}
+>>>>> +
+>>>>> +	if (dpage) {
+>>>>> +		lock_page(dpage);
+>>>>> +		dst_pfn = migrate_pfn(page_to_pfn(dpage));
+>>>>> +	}
+>>>>> +
+>>>>> +	migrate_vma_pages(&args);
+>>>>> +	if (src_pfn & MIGRATE_PFN_MIGRATE)
+>>>>> +		copy_highpage(dpage, page);
+>>>>> +	migrate_vma_finalize(&args);
+>>>>> +	if (dpage && !(src_pfn & MIGRATE_PFN_MIGRATE)) {
+>>>>> +		if (gup_flags & FOLL_PIN)
+>>>>> +			unpin_user_page(dpage);
+>>>>> +		else
+>>>>> +			put_page(dpage);
+>>>>> +		dpage = NULL;
+>>>>> +	}
+>>>>> +
+>>>>> +	return dpage;
+>>>>> +}
+>>>>> +
+>>>>> +/*
+>>>>>   * Check whether all pages are pinnable, if so return number of pages.  If some
+>>>>>   * pages are not pinnable, migrate them, and unpin all pages. Return zero if
+>>>>>   * pages were migrated, or if some pages were not successfully isolated.
+>>>>> @@ -1888,15 +1942,40 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
+>>>>>  			continue;
+>>>>>  		prev_head = head;
+>>>>>  		/*
+>>>>> -		 * If we get a movable page, since we are going to be pinning
+>>>>> -		 * these entries, try to move them out if possible.
+>>>>> +		 * Device coherent pages are managed by a driver and should not
+>>>>> +		 * be pinned indefinitely as it prevents the driver moving the
+>>>>> +		 * page. So when trying to pin with FOLL_LONGTERM instead try
+>>>>> +		 * migrating page out of device memory.
+>>>>>  		 */
+>>>>>  		if (is_dev_private_or_coherent_page(head)) {
+>>>>> +			/*
+>>>>> +			 * device private pages will get faulted in during gup
+>>>>> +			 * so it shouldn't be possible to see one here.
+>>>>> +			 */
+>>>>>  			WARN_ON_ONCE(is_device_private_page(head));
+>>>>> -			ret = -EFAULT;
+>>>>> -			goto unpin_pages;
+>>>>> +			WARN_ON_ONCE(PageCompound(head));
+>>>>> +
+>>>>> +			/*
+>>>>> +			 * migration will fail if the page is pinned, so convert
+>>>>> +			 * the pin on the source page to a normal reference.
+>>>>> +			 */
+>>>>> +			if (gup_flags & FOLL_PIN) {
+>>>>> +				get_page(head);
+>>>>> +				unpin_user_page(head);
+>>>>> +			}
+>>>>> +
+>>>>> +			pages[i] = migrate_device_page(head, gup_flags);
+>>>>
+>>>> For ordinary migrate_pages(), we'll unpin all pages and return 0 so the
+>>>> caller will retry pinning by walking the page tables again.
+>>>>
+>>>> Why can't we apply the same mechanism here? This "let's avoid another
+>>>> walk" looks unnecessary complicated to me, but I might be wrong.
+>>>
+>>> There's no reason we couldn't. I figured we have the page in the right spot
+>>> anyway so it was easy to do, and looking at this rebased on top of Christoph's
+>>> ZONE_DEVICE refcount simplification I'm not sure it would be any simpler
+>>> anyway.
+>>>
+>>> It would remove the call to try_grab_page(), but we'd still have to return an
+>>> error on migration failures whilst also ensuring we putback any non-device
+>>> pages that may have been isolated. I might have overlooked something though,
+>>> so certainly happy for suggestions.
+>>
+>> Staring at the code, I was wondering if we could either
+>>
+>> * build a second list of device coherent pages to migrate and call a
+>>   migrate_device_pages() bulk function
+>> * simply use movable_page_list() and teach migrate_pages() how to handle
+>>   them.
 > 
-> On Tue, 2022-02-15 at 15:59 +0800, Rex-BC Chen wrote:
-> > From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> > 
-> > Separate postmask from mtk_disp_drv to be a isolated driver.
-> 
-> Without this patch, MT8186 still works. So this patch is redundant.
-> 
-> Regards,
-> CK
-> 
-Hello CK,
 
-Thanks for your review.
-I will remove this patch in next version.
-I will push this patch for another series if needed.
+(sorry for the late reply)
 
-BRs,
-Rex
-> > 
-> > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> > Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/Makefile            |   1 +
-> >  drivers/gpu/drm/mediatek/mtk_disp_drv.h      |   8 +
-> >  drivers/gpu/drm/mediatek/mtk_disp_postmask.c | 155
-> > +++++++++++++++++++
-> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c  |  36 +----
-> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c       |   2 +
-> >  drivers/gpu/drm/mediatek/mtk_drm_drv.h       |   1 +
-> >  6 files changed, 170 insertions(+), 33 deletions(-)
-> >  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_postmask.c
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/Makefile
-> > b/drivers/gpu/drm/mediatek/Makefile
-> > index 29098d7c8307..f26fe646ee2a 100644
-> > --- a/drivers/gpu/drm/mediatek/Makefile
-> > +++ b/drivers/gpu/drm/mediatek/Makefile
-> > @@ -5,6 +5,7 @@ mediatek-drm-y := mtk_disp_aal.o \
-> >  		  mtk_disp_color.o \
-> >  		  mtk_disp_gamma.o \
-> >  		  mtk_disp_ovl.o \
-> > +		  mtk_disp_postmask.o \
-> >  		  mtk_disp_rdma.o \
-> >  		  mtk_drm_crtc.o \
-> >  		  mtk_drm_ddp_comp.o \
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > index 86c3068894b1..f4c21195c3ea 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > @@ -81,6 +81,14 @@ void mtk_ovl_enable_vblank(struct device *dev,
-> >  			   void *vblank_cb_data);
-> >  void mtk_ovl_disable_vblank(struct device *dev);
-> >  
-> > +int mtk_postmask_clk_enable(struct device *dev);
-> > +void mtk_postmask_clk_disable(struct device *dev);
-> > +void mtk_postmask_config(struct device *dev, unsigned int w,
-> > +				unsigned int h, unsigned int vrefresh,
-> > +				unsigned int bpc, struct cmdq_pkt
-> > *cmdq_pkt);
-> > +void mtk_postmask_start(struct device *dev);
-> > +void mtk_postmask_stop(struct device *dev);
-> > +
-> >  void mtk_rdma_bypass_shadow(struct device *dev);
-> >  int mtk_rdma_clk_enable(struct device *dev);
-> >  void mtk_rdma_clk_disable(struct device *dev);
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_postmask.c
-> > b/drivers/gpu/drm/mediatek/mtk_disp_postmask.c
-> > new file mode 100644
-> > index 000000000000..3af4cc38adb1
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_postmask.c
-> > @@ -0,0 +1,155 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Copyright (c) 2022 MediaTek Inc.
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/component.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/of_irq.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/soc/mediatek/mtk-cmdq.h>
-> > +
-> > +#include "mtk_disp_drv.h"
-> > +#include "mtk_drm_crtc.h"
-> > +#include "mtk_drm_ddp_comp.h"
-> > +
-> > +#define DISP_POSTMASK_EN			0x0000
-> > +#define POSTMASK_EN					BIT(0)
-> > +#define DISP_POSTMASK_CFG			0x0020
-> > +#define POSTMASK_RELAY_MODE				BIT(0)
-> > +#define DISP_POSTMASK_SIZE			0x0030
-> > +
-> > +struct mtk_disp_postmask_data {
-> > +	u32 reserved;
-> > +};
-> > +
-> > +/*
-> > + * struct mtk_disp_postmask - DISP_POSTMASK driver structure
-> > + */
-> > +struct mtk_disp_postmask {
-> > +	struct clk *clk;
-> > +	void __iomem *regs;
-> > +	struct cmdq_client_reg cmdq_reg;
-> > +	const struct mtk_disp_postmask_data *data;
-> > +};
-> > +
-> > +int mtk_postmask_clk_enable(struct device *dev)
-> > +{
-> > +	struct mtk_disp_postmask *postmask = dev_get_drvdata(dev);
-> > +
-> > +	return clk_prepare_enable(postmask->clk);
-> > +}
-> > +
-> > +void mtk_postmask_clk_disable(struct device *dev)
-> > +{
-> > +	struct mtk_disp_postmask *postmask = dev_get_drvdata(dev);
-> > +
-> > +	clk_disable_unprepare(postmask->clk);
-> > +}
-> > +
-> > +void mtk_postmask_config(struct device *dev, unsigned int w,
-> > +				unsigned int h, unsigned int vrefresh,
-> > +				unsigned int bpc, struct cmdq_pkt
-> > *cmdq_pkt)
-> > +{
-> > +	struct mtk_disp_postmask *postmask = dev_get_drvdata(dev);
-> > +
-> > +	mtk_ddp_write(cmdq_pkt, w << 16 | h, &postmask->cmdq_reg,
-> > postmask->regs,
-> > +		      DISP_POSTMASK_SIZE);
-> > +	mtk_ddp_write(cmdq_pkt, POSTMASK_RELAY_MODE, &postmask-
-> > > cmdq_reg,
-> > 
-> > +		      postmask->regs, DISP_POSTMASK_CFG);
-> > +}
-> > +
-> > +void mtk_postmask_start(struct device *dev)
-> > +{
-> > +	struct mtk_disp_postmask *postmask = dev_get_drvdata(dev);
-> > +
-> > +	writel(POSTMASK_EN, postmask->regs + DISP_POSTMASK_EN);
-> > +}
-> > +
-> > +void mtk_postmask_stop(struct device *dev)
-> > +{
-> > +	struct mtk_disp_postmask *postmask = dev_get_drvdata(dev);
-> > +
-> > +	writel_relaxed(0x0, postmask->regs + DISP_POSTMASK_EN);
-> > +}
-> > +
-> > +static int mtk_disp_postmask_bind(struct device *dev, struct
-> > device
-> > *master,
-> > +				  void *data)
-> > +{
-> > +	return 0;
-> > +}
-> > +
-> > +static void mtk_disp_postmask_unbind(struct device *dev, struct
-> > device *master,
-> > +				     void *data)
-> > +{
-> > +}
-> > +
-> > +static const struct component_ops mtk_disp_postmask_component_ops
-> > =
-> > {
-> > +	.bind	= mtk_disp_postmask_bind,
-> > +	.unbind = mtk_disp_postmask_unbind,
-> > +};
-> > +
-> > +static int mtk_disp_postmask_probe(struct platform_device *pdev)
-> > +{
-> > +	struct device *dev = &pdev->dev;
-> > +	struct mtk_disp_postmask *priv;
-> > +	struct resource *res;
-> > +	int ret;
-> > +
-> > +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> > +	if (!priv)
-> > +		return -ENOMEM;
-> > +
-> > +	priv->clk = devm_clk_get(dev, NULL);
-> > +	if (IS_ERR(priv->clk)) {
-> > +		dev_err(dev, "failed to get postmask clk\n");
-> > +		return PTR_ERR(priv->clk);
-> > +	}
-> > +
-> > +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > +	priv->regs = devm_ioremap_resource(dev, res);
-> > +	if (IS_ERR(priv->regs)) {
-> > +		dev_err(dev, "failed to ioremap postmask\n");
-> > +		return PTR_ERR(priv->regs);
-> > +	}
-> > +
-> > +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
-> > +	ret = cmdq_dev_get_client_reg(dev, &priv->cmdq_reg, 0);
-> > +	if (ret)
-> > +		dev_dbg(dev, "get mediatek,gce-client-reg fail!\n");
-> > +#endif
-> > +
-> > +	priv->data = of_device_get_match_data(dev);
-> > +	platform_set_drvdata(pdev, priv);
-> > +
-> > +	ret = component_add(dev, &mtk_disp_postmask_component_ops);
-> > +	if (ret)
-> > +		dev_err(dev, "Failed to add component: %d\n", ret);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int mtk_disp_postmask_remove(struct platform_device *pdev)
-> > +{
-> > +	component_del(&pdev->dev, &mtk_disp_postmask_component_ops);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct of_device_id
-> > mtk_disp_postmask_driver_dt_match[]
-> > = {
-> > +	{ .compatible = "mediatek,mt8192-disp-postmask"},
-> > +	{},
-> > +};
-> > +MODULE_DEVICE_TABLE(of, mtk_disp_postmask_driver_dt_match);
-> > +
-> > +struct platform_driver mtk_disp_postmask_driver = {
-> > +	.probe		= mtk_disp_postmask_probe,
-> > +	.remove		= mtk_disp_postmask_remove,
-> > +	.driver		= {
-> > +		.name	= "mediatek-disp-postmask",
-> > +		.owner	= THIS_MODULE,
-> > +		.of_match_table = mtk_disp_postmask_driver_dt_match,
-> > +	},
-> > +};
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > index b4b682bc1991..184b70b2483e 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> > @@ -45,12 +45,6 @@
-> >  #define OD_RELAYMODE				BIT(0)
-> >  #define DISP_REG_OD_SIZE			0x0030
-> >  
-> > -#define DISP_REG_POSTMASK_EN			0x0000
-> > -#define POSTMASK_EN					BIT(0)
-> > -#define DISP_REG_POSTMASK_CFG			0x0020
-> > -#define POSTMASK_RELAY_MODE				BIT(0)
-> > -#define DISP_REG_POSTMASK_SIZE			0x0030
-> > -
-> >  #define DISP_REG_UFO_START			0x0000
-> >  #define UFO_BYPASS				BIT(2)
-> >  
-> > @@ -199,31 +193,6 @@ static void mtk_od_start(struct device *dev)
-> >  	writel(1, priv->regs + DISP_REG_OD_EN);
-> >  }
-> >  
-> > -static void mtk_postmask_config(struct device *dev, unsigned int
-> > w,
-> > -				unsigned int h, unsigned int vrefresh,
-> > -				unsigned int bpc, struct cmdq_pkt
-> > *cmdq_pkt)
-> > -{
-> > -	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
-> > -
-> > -	mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv-
-> > > regs,
-> > 
-> > -		      DISP_REG_POSTMASK_SIZE);
-> > -	mtk_ddp_write(cmdq_pkt, POSTMASK_RELAY_MODE, &priv->cmdq_reg,
-> > -		      priv->regs, DISP_REG_POSTMASK_CFG);
-> > -}
-> > -
-> > -static void mtk_postmask_start(struct device *dev)
-> > -{
-> > -	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
-> > -
-> > -	writel(POSTMASK_EN, priv->regs + DISP_REG_POSTMASK_EN);
-> > -}
-> > -
-> > -static void mtk_postmask_stop(struct device *dev)
-> > -{
-> > -	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
-> > -
-> > -	writel_relaxed(0x0, priv->regs + DISP_REG_POSTMASK_EN);
-> > -}
-> >  
-> >  static void mtk_ufoe_start(struct device *dev)
-> >  {
-> > @@ -308,8 +277,8 @@ static const struct mtk_ddp_comp_funcs ddp_ovl
-> > =
-> > {
-> >  };
-> >  
-> >  static const struct mtk_ddp_comp_funcs ddp_postmask = {
-> > -	.clk_enable = mtk_ddp_clk_enable,
-> > -	.clk_disable = mtk_ddp_clk_disable,
-> > +	.clk_enable = mtk_postmask_clk_enable,
-> > +	.clk_disable = mtk_postmask_clk_disable,
-> >  	.config = mtk_postmask_config,
-> >  	.start = mtk_postmask_start,
-> >  	.stop = mtk_postmask_stop,
-> > @@ -510,6 +479,7 @@ int mtk_ddp_comp_init(struct device_node *node,
-> > struct mtk_ddp_comp *comp,
-> >  	    type == MTK_DISP_GAMMA ||
-> >  	    type == MTK_DISP_OVL ||
-> >  	    type == MTK_DISP_OVL_2L ||
-> > +	    type == MTK_DISP_POSTMASK ||
-> >  	    type == MTK_DISP_PWM ||
-> >  	    type == MTK_DISP_RDMA ||
-> >  	    type == MTK_DPI ||
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > index 56ff8c57ef8f..6efb423ccc92 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> > @@ -609,6 +609,7 @@ static int mtk_drm_probe(struct platform_device
-> > *pdev)
-> >  		    comp_type == MTK_DISP_GAMMA ||
-> >  		    comp_type == MTK_DISP_OVL ||
-> >  		    comp_type == MTK_DISP_OVL_2L ||
-> > +		    comp_type == MTK_DISP_POSTMASK ||
-> >  		    comp_type == MTK_DISP_RDMA ||
-> >  		    comp_type == MTK_DPI ||
-> >  		    comp_type == MTK_DSI) {
-> > @@ -709,6 +710,7 @@ static struct platform_driver * const
-> > mtk_drm_drivers[] = {
-> >  	&mtk_disp_color_driver,
-> >  	&mtk_disp_gamma_driver,
-> >  	&mtk_disp_ovl_driver,
-> > +	&mtk_disp_postmask_driver,
-> >  	&mtk_disp_rdma_driver,
-> >  	&mtk_dpi_driver,
-> >  	&mtk_drm_platform_driver,
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-> > b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-> > index 3e7d1e6fbe01..c1e676aebe57 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-> > @@ -51,6 +51,7 @@ extern struct platform_driver
-> > mtk_disp_ccorr_driver;
-> >  extern struct platform_driver mtk_disp_color_driver;
-> >  extern struct platform_driver mtk_disp_gamma_driver;
-> >  extern struct platform_driver mtk_disp_ovl_driver;
-> > +extern struct platform_driver mtk_disp_postmask_driver;
-> >  extern struct platform_driver mtk_disp_rdma_driver;
-> >  extern struct platform_driver mtk_dpi_driver;
-> >  extern struct platform_driver mtk_dsi_driver;
+> I did consider that approach. The problem is zone device pages are not LRU
+> pages. In particular page->lru is not available to add the page to a list, and
+> as an external API and internally migrate_pages() relies heavily on moving
+> pages between lists.
+
+I see, so I assume there is no way we could add them to a list? We could
+use a temporary array we'd try allocating once we stumble over over such
+a device page that needs migration.
+
+The you'd teach is_pinnable_page() to reject
+is_dev_private_or_coherent_page() and special case
+is_dev_private_or_coherent_page() under the "if
+(!is_pinnable_page(head))" check.
+
+You'd grab an additional reference and add them to the temp array. The
+you'd just proceed as normal towards the end of the function (reverting
+the pin/ref from the input array) and would try to migrate all device
+pages in the temp array just before migrate_pages() --
+migrate_device_pages(), properly handling/indicating if either migration
+path fails.
+
+Instead of putback_movable_pages() on the list you'd had
+unref_device_pages() and supply the array.
+
+
+Just a thought to limit the impact and eventually make it a bit nicer to
+read, avoiding modifications of the input array.
+
 > 
+>> I'd really appreciate as little special casing as possible for the ever
+>> growing list of new DEVICE types all over the place. E.g., just staring
+>> at fork even before the new device coherent made my head spin.
 > 
+> That's fair. We could pull the checks for device pages out into a self
+> contained function (eg. check_and_migrate_device_pages()) called before
+> check_and_migrate_movable_pages(). The down side of that is we'd always have an
+> extra loop over all the pages just to scan for device pages, but perhaps that's
+> not a concern?
+
+I mean, they are movable ... just not "ordinarily" movable, so it smells
+like this logic belongs into check_and_migrate_movable_pages() :)
+
+
+-- 
+Thanks,
+
+David / dhildenb
 
