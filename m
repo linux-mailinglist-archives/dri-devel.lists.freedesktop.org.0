@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8612E4B5EC4
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 01:04:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3BD4B5EC3
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 01:04:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A705410E36C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7923E10E371;
 	Tue, 15 Feb 2022 00:04:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2040.outbound.protection.outlook.com [40.107.92.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D6710E366;
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2061.outbound.protection.outlook.com [40.107.94.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACDE710E35E;
  Tue, 15 Feb 2022 00:04:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gQnpfNxVBvelqkyVnu5vU4XpnySVucBDMGVII+FwNDZQTxHgCxMdTxsZwgmsHmC6gVXaijNxukiZkCOWcJzJiGHy5vONuVJGpUCYi0qOgVm24/jxe/USsOxiGyG7qMEjSJjqNJIW6EsvvWf9t32qAIM0RHxlM4yqqL4ONx5kAL/FzjQzj/uFqwx3C8iAi5QlHKjoMJEvO8ZGy+tvw3E4/KLqlSoZsRNI5Dg9E/J4fU6NoZCv2ZRBekbVR0JQMzKvifNGHouoAXjcQ0DoASm1oqNOqajV7ITJmRyOcpy7i9Q3M30tb+h6DsxMLD6SxOPdrkAs0TxFIyjL5IbwfOJEzA==
+ b=lMb+6XIZOwz8L2seRikZvYTke2K98XTmKguxRkPTLekwh4eT9rrZ/xaZzjTy9tMikcjTQX7CgT3+4HhCWC02VpI/49k8RCbyH2k8k9pd2hnO0ew+a2MpMCHXBdWFwB9JBMM5xWUobpnN3BRwIdWAZqyokKTFoDRQF8UDENL9j5eRUMJ4WNJdjWoVSpuU1d3aWTbWgCs9w4ynQyHxgEn7QQCjqm1JOoRQIedlQRqRiwRiy2gaKAcPtvbLVORc7cWay7N0uoiG66ePtGKtsDatTO9ZoeDEMRl/EVeiDF7xCJBOpNcIyCEvax+JefojiU/dTLlikHiQrsagTt9C/s+PZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=efh9YeuFWpMrxh5YIDlHa6hvJsEsw/+/2ZVDNnREI14=;
- b=OsH04J5VlpExUMEux1qMVCwYbjWsy/ToVIxgXydLonl2TY0yp//QzqENyn3rpeE7bOVMhGqeaAOlZrb9f27SudGQ37hlDP7cNFCP/oZ7wY6f+KED4wDzepFoUUsd0DQVi8gp7OyNicyS2RjmenyNwMVgpZx2qACIey9Ye7Q03Tka6INnyNk+itApT1483Qx9g05dZtrGL9ZV6zc9Wv3YOSjhCXIFgfgRbK/D5lDNz4AX43XcrljeweawHTctqK2705fwBKGZONTiYwCVud28L/SRN5IhDrhtNuZ0AIgY8ZEsJGRJNwEBlIxuvKoW17mlNJ8lbF/7ISS7STeiXb1ZYg==
+ bh=G4yk8hvDmhzfiKFK+3l63Ar/Gg2nsFdd8RGrNekuAok=;
+ b=TrFGLsMEyeQx+UTNBhDF6lrT4DQcgx+EE8yesIRPN42MQ1VY1i4QSXgbpfGCkZe5XvI7fHwJK4+/WN3IbZJXLCv6kjka0MISiYdhBDnRBmOL3MhYMkv99TsUHTxUSk00VplR1sUrdvw9q1wA2U4QvhmG5AM1hQ5fYNLUgXybyzohztYXoLbugqku5jxF35aXTK48fXpFMzeDsssvIaAZhOcGVY2v9C9URUZIaa8I2CRIvm6hqmEm0IyRtExePBxlPMAB5PlcO3gJ+j38F4DFnry1OYlzko6mKiOus+DnQZ5+n4R9glkGF1uCJo1Qsi8uRSdi1S7LgbBUUL2YMmWneQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=efh9YeuFWpMrxh5YIDlHa6hvJsEsw/+/2ZVDNnREI14=;
- b=nSY/yFtuav58gaWOomq8+s1Xbkf+Eo9fSf3rW9JSlm0ecpdWqz20UrpMiRwp/rQ5K2ZwfjdM8ibzMe6OSaO1L/x0w7HpOrH5l7eSnHCjJNy5/RqCNzbftjEfLPehV2BheelInYf5oo7siCTPTFRCCfz9czNPdvzUgksLB9ZnjHg=
-Received: from MWHPR12CA0044.namprd12.prod.outlook.com (2603:10b6:301:2::30)
- by MW2PR12MB2538.namprd12.prod.outlook.com (2603:10b6:907:5::14) with
+ bh=G4yk8hvDmhzfiKFK+3l63Ar/Gg2nsFdd8RGrNekuAok=;
+ b=Z1q1k/D8eJebdqP+EGW29Y/6sQk3OaDB7mChuhNMAjqwxK098h0JJ74grEUfhoU1AnqNycpvTWNyaZsUxpoLhfvdWA0fLNH+zR1kN8HJyuVJ3QLdhiVOAKY6RTcESabMJmNveaJCi7z6RA0jEQxIfuPbbON7BH4Vos5O3hCLYMs=
+Received: from MWHPR12CA0039.namprd12.prod.outlook.com (2603:10b6:301:2::25)
+ by BN9PR12MB5209.namprd12.prod.outlook.com (2603:10b6:408:11a::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.17; Tue, 15 Feb
- 2022 00:04:19 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Tue, 15 Feb
+ 2022 00:04:20 +0000
 Received: from CO1NAM11FT015.eop-nam11.prod.protection.outlook.com
- (2603:10b6:301:2:cafe::72) by MWHPR12CA0044.outlook.office365.com
- (2603:10b6:301:2::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.14 via Frontend
+ (2603:10b6:301:2:cafe::b0) by MWHPR12CA0039.outlook.office365.com
+ (2603:10b6:301:2::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11 via Frontend
  Transport; Tue, 15 Feb 2022 00:04:19 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
@@ -51,7 +51,7 @@ Received: from SATLEXMB04.amd.com (165.204.84.17) by
 Received: from localhost.localdomain (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 14 Feb
- 2022 18:04:15 -0600
+ 2022 18:04:16 -0600
 From: Mario Limonciello <mario.limonciello@amd.com>
 To: Bjorn Helgaas <bhelgaas@google.com>, Mika Westerberg
  <mika.westerberg@linux.intel.com>, "open list:PCI SUBSYSTEM"
@@ -60,10 +60,10 @@ To: Bjorn Helgaas <bhelgaas@google.com>, Mika Westerberg
  <amd-gfx@lists.freedesktop.org>, "open list:DRM DRIVERS"
  <dri-devel@lists.freedesktop.org>, "open list:DRM DRIVER FOR NVIDIA
  GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>
-Subject: [PATCH v4 06/10] PCI: Drop the `is_thunderbolt` attribute from PCI
- core
-Date: Mon, 14 Feb 2022 18:01:56 -0600
-Message-ID: <20220215000200.242799-7-mario.limonciello@amd.com>
+Subject: [PATCH v4 07/10] drm/amd: drop the use of
+ `pci_is_thunderbolt_attached`
+Date: Mon, 14 Feb 2022 18:01:57 -0600
+Message-ID: <20220215000200.242799-8-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215000200.242799-1-mario.limonciello@amd.com>
 References: <20220215000200.242799-1-mario.limonciello@amd.com>
@@ -75,28 +75,28 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a25325dc-29c6-45be-ed84-08d9f016b6a8
-X-MS-TrafficTypeDiagnostic: MW2PR12MB2538:EE_
-X-Microsoft-Antispam-PRVS: <MW2PR12MB2538B2707C0CA3C514A91FBFE2349@MW2PR12MB2538.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Office365-Filtering-Correlation-Id: 876067ce-20cd-417d-c12c-08d9f016b6fe
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5209:EE_
+X-Microsoft-Antispam-PRVS: <BN9PR12MB52094C94CE3243FF0C63F745E2349@BN9PR12MB5209.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:590;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S47AP//RgwiWtohUy5gU9dz+OXPYO/dtRr9V6VV+6IisI99K1uuzklvWGufMlg4qG8jQW+OvDuFMEHOzax2fKGNTbPbHlBS4b7kd1G50PEGDItwkCZ/YEA45PVil4D8CoQeOLpvD1G6vYsnnmb+LrZPEQ6m2IXzAcRjl5aVfrj91n7cbh9aMTTBQycFNEwxaS+5GIJpxjxEFKDNBOJVbHX80GL4ltmbAHNrTm42m6BOXJqKYpaTDI7vjJBuQH2txGR3E3gwOfY9Cka1w5v+2Xwykc57rKVSzGiGr45KqBcSJHoQRxghghYnZ3aF3YWzGa7B6nlRAdxLCaXQFVW1EXmx5ywvPKy4q29/XQFP2IyJi5xFYL5Q9lEYXiyS/z1+1oOgfo0YKpKbYsQG4DkPBcpLuhLVvwdp2g3eHOXC6496zc7jH0nnrvvKltr9o/XOaui6yd/UT8ZZFSD5VCHT0Mx0wxL6ESIWCuDuaCZNXIAhfW27ohfyMgVr6H6cVZIYJ3xKC1QHxnDwzf/9LvQVuFFN2FfvQUYd3aP45KOImxiGuXiq6ieHNKE0GmtHKa/Mp/X3rxrf8abS3QfxBn5wTuB5/L4ccZWw4mbYzd33Q4gzOTQ9/ZRk5OzMln7micP3+3DxXllbjJuC0seP9mAxIfx8gFxlYwJANTlzvfV/+KmwhoWjH9hYP7R0NOcCPQSCmsMJ8lnwTSdTy8Jg2cNAUr6p5dDNvd+bC766X4WGx8jI=
+X-Microsoft-Antispam-Message-Info: kk2P+juuQEP1Na60Bb5ELSQp1ELRyVpVZbnC4cOA1++18HpARLJ6lxJz8PxpChXllgAGGg/xolbKRPQxWR0fHPiPKuiRWdIHq8g2dcUQkhY9UPOHTYLhvj3ExzrO+BuNEKNrp0tuMAI3zr3JoQvbkl1uzULFN4UfhIB4V5t+98WSOj4n8pVOy5g8d2AK52ThzC5GVKXJzN2P4l2U87HptrXYbn8xHlmQ0LXCS3uODsscGGCNETyOhqWXToUnBJWt/2XMJQtnAn/QZPIguOMbX5oBOAL5ZH+QNqMwnmhxW74LDJBVaUho9qvOeVlUvf9si9jcn/k6+BxMcW9+5lvff/u8n8rBNWZ2RGk0Ub9xv+GzZ1s+dUr6/xgbN58wp6wDrQU0gNxNd6gJfb9M2Y3v3fbNSR4ZpfQlMzoYHcPf+gcaZfEHWDqkXY3wL2vBEAx6+EpvpCtY/rMv29/Hl7gnwAo/PqlVL/7G5DzeluqT5emCMhzGqckpuAyOHZO3YSo0WDuPXRT22n5422FrOdQtJTi39PEJNBoy3cdjommWq2eqqC4oLCp07KrY+zYmTTwB0Z1F8FXTS9TpNwJ+jpHNx/Q+EECmw01+9/qIv42/ro4N8MZfC9dyCm+Zp2iL/OVVnNhbGO2ZTIHTOYQ8HxqiQvH2vuHCnNpFVMDYRhc1f4L+a8UwSs0hbrkfUVjQKuV7mns1nfT73Zek2Exv4ND0yBoumURNo182p13wJBAKqwM=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(8676002)(47076005)(70586007)(6666004)(70206006)(36860700001)(2616005)(83380400001)(508600001)(1076003)(26005)(186003)(110136005)(54906003)(4326008)(82310400004)(316002)(2906002)(16526019)(336012)(426003)(44832011)(7416002)(86362001)(36756003)(81166007)(356005)(8936002)(5660300002)(40460700003)(81973001)(36900700001);
+ SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(83380400001)(36860700001)(336012)(426003)(86362001)(47076005)(356005)(82310400004)(40460700003)(81166007)(16526019)(70586007)(70206006)(2906002)(1076003)(36756003)(110136005)(316002)(54906003)(8936002)(44832011)(8676002)(5660300002)(4326008)(7416002)(508600001)(186003)(6666004)(26005)(2616005)(81973001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 00:04:19.2544 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a25325dc-29c6-45be-ed84-08d9f016b6a8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 00:04:19.8169 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 876067ce-20cd-417d-c12c-08d9f016b6fe
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT015.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2538
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5209
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,76 +113,50 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
  Michael Jamet <michael.jamet@intel.com>,
  Yehezkel Bernat <YehezkelShB@gmail.com>, Alexander.Deucher@amd.com,
  Mario Limonciello <mario.limonciello@amd.com>,
- Andreas Noever <andreas.noever@gmail.com>
+ Andreas Noever <andreas.noever@gmail.com>,
+ Macpaul Lin <macpaul.lin@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The `is_thunderbolt` attribute originally had a well defined list of
-quirks that it existed for, but it has been overloaded with more
-meaning.
+Currently `pci_is_thunderbolt_attached` is used to indicate a device
+is connected externally.
 
-Instead use the driver core removable attribute to indicate the
-detail a device is attached to a thunderbolt or USB4 chain.
+The PCI core now marks such devices as removable and downstream drivers
+can use this instead.
 
+Reviewed-by: Macpaul Lin <macpaul.lin@mediatek.com>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/pci/probe.c               | 2 +-
- drivers/platform/x86/apple-gmux.c | 2 +-
- include/linux/pci.h               | 5 ++---
- 3 files changed, 4 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index a07859c8675f..fe49175770a1 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -1586,7 +1586,7 @@ static void set_pcie_thunderbolt(struct pci_dev *dev)
- 	/* Is the device part of a Thunderbolt controller? */
- 	vsec = pci_find_vsec_capability(dev, PCI_VENDOR_ID_INTEL, PCI_VSEC_ID_INTEL_TBT);
- 	if (vsec)
--		dev->is_thunderbolt = 1;
-+		dev->external_facing = true;
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+index 1ebb91db2274..6dbf5753b5be 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+@@ -161,7 +161,7 @@ int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long flags)
+ 	    (amdgpu_is_atpx_hybrid() ||
+ 	     amdgpu_has_atpx_dgpu_power_cntl()) &&
+ 	    ((flags & AMD_IS_APU) == 0) &&
+-	    !pci_is_thunderbolt_attached(to_pci_dev(dev->dev)))
++	    !dev_is_removable(&adev->pdev->dev))
+ 		flags |= AMD_IS_PX;
  
- static void set_pcie_untrusted(struct pci_dev *dev)
-diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
-index 57553f9b4d1d..4444da0c39b0 100644
---- a/drivers/platform/x86/apple-gmux.c
-+++ b/drivers/platform/x86/apple-gmux.c
-@@ -596,7 +596,7 @@ static int gmux_resume(struct device *dev)
+ 	parent = pci_upstream_bridge(adev->pdev);
+diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c b/drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c
+index ee7cab37dfd5..2c5d74d836f0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c
++++ b/drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c
+@@ -382,7 +382,7 @@ static void nbio_v2_3_enable_aspm(struct amdgpu_device *adev,
  
- static int is_thunderbolt(struct device *dev, void *data)
- {
--	return to_pci_dev(dev)->is_thunderbolt;
-+	return to_pci_dev(dev)->external_facing;
- }
+ 		data |= NAVI10_PCIE__LC_L0S_INACTIVITY_DEFAULT << PCIE_LC_CNTL__LC_L0S_INACTIVITY__SHIFT;
  
- static int gmux_probe(struct pnp_dev *pnp, const struct pnp_device_id *id)
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 1e5b769e42fc..d9719eb14654 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -442,7 +442,6 @@ struct pci_dev {
- 	unsigned int	is_virtfn:1;
- 	unsigned int	is_hotplug_bridge:1;
- 	unsigned int	shpc_managed:1;		/* SHPC owned by shpchp */
--	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
- 	unsigned int	no_cmd_complete:1;	/* Lies about command completed events */
- 
- 	/*
-@@ -2447,11 +2446,11 @@ static inline bool pci_is_thunderbolt_attached(struct pci_dev *pdev)
- {
- 	struct pci_dev *parent = pdev;
- 
--	if (pdev->is_thunderbolt)
-+	if (dev_is_removable(&pdev->dev))
- 		return true;
- 
- 	while ((parent = pci_upstream_bridge(parent)))
--		if (parent->is_thunderbolt)
-+		if (dev_is_removable(&parent->dev))
- 			return true;
- 
- 	return false;
+-		if (pci_is_thunderbolt_attached(adev->pdev))
++		if (dev_is_removable(&adev->pdev->dev))
+ 			data |= NAVI10_PCIE__LC_L1_INACTIVITY_TBT_DEFAULT  << PCIE_LC_CNTL__LC_L1_INACTIVITY__SHIFT;
+ 		else
+ 			data |= NAVI10_PCIE__LC_L1_INACTIVITY_DEFAULT << PCIE_LC_CNTL__LC_L1_INACTIVITY__SHIFT;
 -- 
 2.34.1
 
