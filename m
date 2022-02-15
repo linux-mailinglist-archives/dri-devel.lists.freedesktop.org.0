@@ -1,66 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA1F4B7412
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 18:23:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7604B7419
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 18:28:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A45110E585;
-	Tue, 15 Feb 2022 17:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED4AC10E4A0;
+	Tue, 15 Feb 2022 17:28:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9202C10E56C
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 17:23:08 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id p14so21474306ejf.11
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 09:23:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KEOttOzqZgauNDJe/0AFGLl4JN/b2v2XP6JYejUPAtE=;
- b=IWL0KdMrvigMMezHp6Cv3VSgz5Rkl7VB88lUu/rff9ub2p04YJOfOGzmgV3V8W9s5r
- CefQ2OvFvP4uiuykCHqUsVZQwXRDZTwCGvSqsaWhyLRibtOIp+8+bB/sIEENjfIvSiXc
- kihfZnOekCI/fH1wDu0YddPsuTBC+KBlZukZ7SbVSUYNaLYf9hEbCjvUMSFMLmfURCCA
- VF3qPK57mDFa0fmfTHoPEyTL2NygDKS3M1ohyPs6MSbzho02opynNGl+cNFBmoUzuPiU
- FYdYCPqZSmAkkjyMESp/wMA1iF0Hfs6xKb3Kqp9AGEtQtUP3nhLwS1kUZyFwUCglDVNX
- v1xA==
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD39310E487
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 17:28:20 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ l7-20020a9d6a87000000b005aceba2aea1so1262118otq.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 09:28:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=enbV96Al0C83dzPsevD8fg6Bu+zlYtQoL3u2RImkIFo=;
+ b=e3JowMG0gzqmQ7ttptPNL3QeEX1I/qBSDkK2NCodBJjlqpw4OS7Qj4WZQo/CUJRQfo
+ IYbkCJsop5hQIvpw3VoS5ktPte5qiqcvmGgsVe3tsFILSLJfSQOxUckPRH9/K0iF5LjK
+ BYbFxVilzo5i5kTXOTD5oZ6JY08SBwYIPlsrqm23V+X0KIkrsgAHmxe+74eqyI2tbCfb
+ yAnHKYZ6ONrWwIazLi5epPrXjr/VMyPyKfSzQbSGAxPGWTzhxi/RYUiSyL6J2R7ziQKu
+ ccowAL96GGjbRPBNvcWN2/Dw9WQs75LNT6mXvh17R6A2nk+sirhAWsGCCp74X+OaXO+0
+ SSRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KEOttOzqZgauNDJe/0AFGLl4JN/b2v2XP6JYejUPAtE=;
- b=TKtFXs+ve5D6v3Rn9JSv3rstfZFcmfTwzdCCHQ8JtzYhQkXmYrZiDSrV5qGf9n0OXv
- cQxQBozB5T1CufMqbUXoQyMnZX05zMPoVpbog8eiOLzG+u2DlSUFlHMLbthGLD2MOkU/
- rqqD0T8X3wHQXInMADYUwi+0mdCQ9DxTnEZOiGI3BbcRjoiOadV5JfqVc3zGhyp+x6Di
- pAiG1f4uqe7eLy5QX1hGsZ6jefc2UUgfg4/JQPX3/PFlGYKR3tccBDb9efvQL33eURFP
- KVH0LAeVGQ9IuR1cbvUzEM8WPuzTWiFKQg1jpzfyOHrCq50oUP+OAhRIEz5UO5MGt+X4
- ztFg==
-X-Gm-Message-State: AOAM532K7KNXy5ASaMtyG9PrBYxTTJzBQXoSxglsj2PWWC2Tdl+VNNv8
- a7Lx2uhCGkSvDlmA47eW6y5NpFt7gNs=
-X-Google-Smtp-Source: ABdhPJz3AV0zHumk6aViFbU8T2nxbCawlVZ4CejjKjowCK3c7c7mY2v/sG2O2hSWekDvPlICR50ZPA==
-X-Received: by 2002:a17:906:85d1:: with SMTP id
- i17mr112034ejy.20.1644945787098; 
- Tue, 15 Feb 2022 09:23:07 -0800 (PST)
-Received: from able.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
- by smtp.gmail.com with ESMTPSA id 18sm3521310ejj.1.2022.02.15.09.23.06
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=enbV96Al0C83dzPsevD8fg6Bu+zlYtQoL3u2RImkIFo=;
+ b=gtQzpPIRSvheBkzjEB90qcXXYoYclv/y7lbnQqy5pQwNNG6VdekfIHzyiFNyQ3WkWz
+ Y/t5dr/J6XIRR/PeuImr6sRog9+1Xpk/2BHPgKTdEb5sKpMljeMPt/DOzi4GDOmgIkZz
+ UXHGA/iCy/+pTi21BuuuwTPTWrMQPXio9YUVae00Z8ZSZ6piujs5zRewgUQflAfVEK6e
+ 8gagQ4V+aiwKZK34siOEImTvdO74jW8zb4LsZDmjXbG8/qBAIbxCMk14c2kIyhXnUyiq
+ p/0uf08ZqJaOemJLyGcEC4zfPfDlH7O61BZ+RhKyJRhw6y32jLdPLi5e3czRwfWpYXYf
+ JDPQ==
+X-Gm-Message-State: AOAM531d4b3kU2ajErSvciaSfiT+xRzNHQdXIDEKfbw5o5RAmC3AlVut
+ dA57fTAkraYo7F3Ej/bD8chYWA==
+X-Google-Smtp-Source: ABdhPJxWbZC7iotcwxB6gbtqJWOp03cZLtU+jBQHKqq2qMFk+qdQsJQtFVHVF9y4O+p0zwpjEUDw0w==
+X-Received: by 2002:a9d:7405:: with SMTP id n5mr3013otk.229.1644946099913;
+ Tue, 15 Feb 2022 09:28:19 -0800 (PST)
+Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
+ by smtp.gmail.com with ESMTPSA id q16sm6584987oiv.16.2022.02.15.09.28.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 09:23:06 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: matthew.william.auld@gmail.com,
-	felix.kuehling@amd.com,
-	daniel@ffwll.ch
-Subject: [PATCH 6/6] drm/amdgpu: drop amdgpu_gtt_node
-Date: Tue, 15 Feb 2022 18:22:59 +0100
-Message-Id: <20220215172259.196645-7-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220215172259.196645-1-christian.koenig@amd.com>
-References: <20220215172259.196645-1-christian.koenig@amd.com>
+ Tue, 15 Feb 2022 09:28:19 -0800 (PST)
+Date: Tue, 15 Feb 2022 11:28:17 -0600
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v2 2/2] drm/msm/dpu: Add SC8180x to hw catalog
+Message-ID: <Ygvisfhi0SY6XdAz@builder.lan>
+References: <20220215043353.1256754-1-bjorn.andersson@linaro.org>
+ <20220215043353.1256754-2-bjorn.andersson@linaro.org>
+ <be397e2e-05ab-5c18-8e2d-16c443f0a6d1@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <be397e2e-05ab-5c18-8e2d-16c443f0a6d1@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,169 +70,277 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have the BO pointer in the base structure now as well.
+On Tue 15 Feb 11:14 CST 2022, Abhinav Kumar wrote:
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 49 ++++++++-------------
- include/drm/ttm/ttm_resource.h              |  8 ++++
- 2 files changed, 26 insertions(+), 31 deletions(-)
+> 
+> 
+> On 2/14/2022 8:33 PM, Bjorn Andersson wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> > 
+> > Add SC8180x to the hardware catalog, for initial support for the
+> > platform. Due to limitations in the DP driver only one of the four DP
+> > interfaces is left enabled.
+> > 
+> > The SC8180x platform supports the newly added DPU_INTF_WIDEBUS flag and
+> > the Windows-on-Snapdragon bootloader leaves the widebus bit set, so this
+> > is flagged appropriately to ensure widebus is disabled - for now.
+> > 
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > [bjorn: Reworked intf and irq definitions]
+> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > ---
+> > 
+> > Changes since v1:
+> > - Dropped widebus flag
+> > 
+> >   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 129 ++++++++++++++++++
+> >   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
+> >   drivers/gpu/drm/msm/msm_drv.c                 |   1 +
+> >   4 files changed, 132 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > index aa75991903a6..7ac0fe32df49 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > @@ -90,6 +90,17 @@
+> >   			 BIT(MDP_INTF3_INTR) | \
+> >   			 BIT(MDP_INTF4_INTR))
+> > +#define IRQ_SC8180X_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
+> > +			  BIT(MDP_SSPP_TOP0_INTR2) | \
+> > +			  BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> > +			  BIT(MDP_INTF0_INTR) | \
+> > +			  BIT(MDP_INTF1_INTR) | \
+> > +			  BIT(MDP_INTF2_INTR) | \
+> > +			  BIT(MDP_INTF3_INTR) | \
+> > +			  BIT(MDP_INTF4_INTR) | \
+> > +			  BIT(MDP_INTF5_INTR) | \
+> > +			  BIT(MDP_AD4_0_INTR) | \
+> > +			  BIT(MDP_AD4_1_INTR))
+> >   #define DEFAULT_PIXEL_RAM_SIZE		(50 * 1024)
+> >   #define DEFAULT_DPU_LINE_WIDTH		2048
+> > @@ -225,6 +236,22 @@ static const struct dpu_caps sm8150_dpu_caps = {
+> >   	.max_vdeci_exp = MAX_VERT_DECIMATION,
+> >   };
+> > +static const struct dpu_caps sc8180x_dpu_caps = {
+> > +	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+> > +	.max_mixer_blendstages = 0xb,
+> > +	.qseed_type = DPU_SSPP_SCALER_QSEED3,
+> > +	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
+> > +	.ubwc_version = DPU_HW_UBWC_VER_30,
+> > +	.has_src_split = true,
+> > +	.has_dim_layer = true,
+> > +	.has_idle_pc = true,
+> > +	.has_3d_merge = true,
+> > +	.max_linewidth = 4096,
+> > +	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> > +	.max_hdeci_exp = MAX_HORZ_DECIMATION,
+> > +	.max_vdeci_exp = MAX_VERT_DECIMATION,
+> > +};
+> > +
+> >   static const struct dpu_caps sm8250_dpu_caps = {
+> >   	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+> >   	.max_mixer_blendstages = 0xb,
+> > @@ -293,6 +320,31 @@ static const struct dpu_mdp_cfg sc7180_mdp[] = {
+> >   	},
+> >   };
+> > +static const struct dpu_mdp_cfg sc8180x_mdp[] = {
+> > +	{
+> > +	.name = "top_0", .id = MDP_TOP,
+> > +	.base = 0x0, .len = 0x45C,
+> > +	.features = 0,
+> > +	.highest_bank_bit = 0x3,
+> > +	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+> > +			.reg_off = 0x2AC, .bit_off = 0},
+> > +	.clk_ctrls[DPU_CLK_CTRL_VIG1] = {
+> > +			.reg_off = 0x2B4, .bit_off = 0},
+> > +	.clk_ctrls[DPU_CLK_CTRL_VIG2] = {
+> > +			.reg_off = 0x2BC, .bit_off = 0},
+> > +	.clk_ctrls[DPU_CLK_CTRL_VIG3] = {
+> > +			.reg_off = 0x2C4, .bit_off = 0},
+> > +	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
+> > +			.reg_off = 0x2AC, .bit_off = 8},
+> > +	.clk_ctrls[DPU_CLK_CTRL_DMA1] = {
+> > +			.reg_off = 0x2B4, .bit_off = 8},
+> > +	.clk_ctrls[DPU_CLK_CTRL_CURSOR0] = {
+> > +			.reg_off = 0x2BC, .bit_off = 8},
+> > +	.clk_ctrls[DPU_CLK_CTRL_CURSOR1] = {
+> > +			.reg_off = 0x2C4, .bit_off = 8},
+> > +	},
+> > +};
+> > +
+> >   static const struct dpu_mdp_cfg sm8250_mdp[] = {
+> >   	{
+> >   	.name = "top_0", .id = MDP_TOP,
+> > @@ -861,6 +913,16 @@ static const struct dpu_intf_cfg sc7280_intf[] = {
+> >   	INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+> >   };
+> > +static const struct dpu_intf_cfg sc8180x_intf[] = {
+> > +	INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+> > +	INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+> > +	INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+> > +	/* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
+> > +	INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+> > +	INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
+> > +	INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, MSM_DP_CONTROLLER_2, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+> 
+> This is a continued discussion from
+> https://patchwork.freedesktop.org/patch/474179/.
+> 
+> Shouldnt INTF_5 be marked as INTF_eDP?
+> 
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 3bcd27ae379d..68494b959116 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -26,23 +26,12 @@
- 
- #include "amdgpu.h"
- 
--struct amdgpu_gtt_node {
--	struct ttm_buffer_object *tbo;
--	struct ttm_range_mgr_node base;
--};
--
- static inline struct amdgpu_gtt_mgr *
- to_gtt_mgr(struct ttm_resource_manager *man)
- {
- 	return container_of(man, struct amdgpu_gtt_mgr, manager);
- }
- 
--static inline struct amdgpu_gtt_node *
--to_amdgpu_gtt_node(struct ttm_resource *res)
--{
--	return container_of(res, struct amdgpu_gtt_node, base.base);
--}
--
- /**
-  * DOC: mem_info_gtt_total
-  *
-@@ -106,9 +95,9 @@ const struct attribute_group amdgpu_gtt_mgr_attr_group = {
-  */
- bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *res)
- {
--	struct amdgpu_gtt_node *node = to_amdgpu_gtt_node(res);
-+	struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
- 
--	return drm_mm_node_allocated(&node->base.mm_nodes[0]);
-+	return drm_mm_node_allocated(&node->mm_nodes[0]);
- }
- 
- /**
-@@ -128,15 +117,14 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- {
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
- 	uint32_t num_pages = PFN_UP(tbo->base.size);
--	struct amdgpu_gtt_node *node;
-+	struct ttm_range_mgr_node *node;
- 	int r;
- 
--	node = kzalloc(struct_size(node, base.mm_nodes, 1), GFP_KERNEL);
-+	node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
- 	if (!node)
- 		return -ENOMEM;
- 
--	node->tbo = tbo;
--	ttm_resource_init(tbo, place, &node->base.base);
-+	ttm_resource_init(tbo, place, &node->base);
- 	if (!(place->flags & TTM_PL_FLAG_TEMPORARY) &&
- 	    ttm_resource_manager_usage(man) > man->size) {
- 		r = -ENOSPC;
-@@ -145,8 +133,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 
- 	if (place->lpfn) {
- 		spin_lock(&mgr->lock);
--		r = drm_mm_insert_node_in_range(&mgr->mm,
--						&node->base.mm_nodes[0],
-+		r = drm_mm_insert_node_in_range(&mgr->mm, &node->mm_nodes[0],
- 						num_pages, tbo->page_alignment,
- 						0, place->fpfn, place->lpfn,
- 						DRM_MM_INSERT_BEST);
-@@ -154,18 +141,18 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 		if (unlikely(r))
- 			goto err_free;
- 
--		node->base.base.start = node->base.mm_nodes[0].start;
-+		node->base.start = node->mm_nodes[0].start;
- 	} else {
--		node->base.mm_nodes[0].start = 0;
--		node->base.mm_nodes[0].size = node->base.base.num_pages;
--		node->base.base.start = AMDGPU_BO_INVALID_OFFSET;
-+		node->mm_nodes[0].start = 0;
-+		node->mm_nodes[0].size = node->base.num_pages;
-+		node->base.start = AMDGPU_BO_INVALID_OFFSET;
- 	}
- 
--	*res = &node->base.base;
-+	*res = &node->base;
- 	return 0;
- 
- err_free:
--	ttm_resource_fini(man, &node->base.base);
-+	ttm_resource_fini(man, &node->base);
- 	kfree(node);
- 	return r;
- }
-@@ -181,12 +168,12 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
- 			       struct ttm_resource *res)
- {
--	struct amdgpu_gtt_node *node = to_amdgpu_gtt_node(res);
-+	struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
- 
- 	spin_lock(&mgr->lock);
--	if (drm_mm_node_allocated(&node->base.mm_nodes[0]))
--		drm_mm_remove_node(&node->base.mm_nodes[0]);
-+	if (drm_mm_node_allocated(&node->mm_nodes[0]))
-+		drm_mm_remove_node(&node->mm_nodes[0]);
- 	spin_unlock(&mgr->lock);
- 
- 	ttm_resource_fini(man, res);
-@@ -202,7 +189,7 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
-  */
- int amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
- {
--	struct amdgpu_gtt_node *node;
-+	struct ttm_range_mgr_node *node;
- 	struct drm_mm_node *mm_node;
- 	struct amdgpu_device *adev;
- 	int r = 0;
-@@ -210,8 +197,8 @@ int amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
- 	adev = container_of(mgr, typeof(*adev), mman.gtt_mgr);
- 	spin_lock(&mgr->lock);
- 	drm_mm_for_each_node(mm_node, &mgr->mm) {
--		node = container_of(mm_node, typeof(*node), base.mm_nodes[0]);
--		r = amdgpu_ttm_recover_gart(node->tbo);
-+		node = container_of(mm_node, typeof(*node), mm_nodes[0]);
-+		r = amdgpu_ttm_recover_gart(node->base.bo);
- 		if (r)
- 			break;
- 	}
-diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index 07a17b22cf39..a1f495b1dd55 100644
---- a/include/drm/ttm/ttm_resource.h
-+++ b/include/drm/ttm/ttm_resource.h
-@@ -350,6 +350,14 @@ ttm_resource_manager_next(struct ttm_resource_manager *man,
- 			  struct ttm_resource_cursor *cursor,
- 			  struct ttm_resource *res);
- 
-+/**
-+ * ttm_resource_manager_for_each_res - iterate over all resources
-+ * @man: the resource manager
-+ * @cursor: struct ttm_resource_cursor for the current position
-+ * @res: the current resource
-+ *
-+ * Iterate over all the evictable resources in a resource manager.
-+ */
- #define ttm_resource_manager_for_each_res(man, cursor, res)		\
- 	for (res = ttm_resource_manager_first(man, cursor); res;	\
- 	     res = ttm_resource_manager_next(man, cursor, res))
--- 
-2.25.1
+Might be, I didn't even know we had an INTF_EDP define...
 
+Is there any reason to distinguish DP and EDP in the DPU?  I see sc7280
+doesn't distinguish the DP and EDP interfaces.
+
+Regards,
+Bjorn
+
+> > +};
+> > +
+> >   /*************************************************************
+> >    * VBIF sub blocks config
+> >    *************************************************************/
+> > @@ -931,6 +993,10 @@ static const struct dpu_qos_lut_entry sm8150_qos_linear[] = {
+> >   	{.fl = 0, .lut = 0x0011222222223357 },
+> >   };
+> > +static const struct dpu_qos_lut_entry sc8180x_qos_linear[] = {
+> > +	{.fl = 4, .lut = 0x0000000000000357 },
+> > +};
+> > +
+> >   static const struct dpu_qos_lut_entry sdm845_qos_macrotile[] = {
+> >   	{.fl = 10, .lut = 0x344556677},
+> >   	{.fl = 11, .lut = 0x3344556677},
+> > @@ -944,6 +1010,10 @@ static const struct dpu_qos_lut_entry sc7180_qos_macrotile[] = {
+> >   	{.fl = 0, .lut = 0x0011223344556677},
+> >   };
+> > +static const struct dpu_qos_lut_entry sc8180x_qos_macrotile[] = {
+> > +	{.fl = 10, .lut = 0x0000000344556677},
+> > +};
+> > +
+> >   static const struct dpu_qos_lut_entry sdm845_qos_nrt[] = {
+> >   	{.fl = 0, .lut = 0x0},
+> >   };
+> > @@ -1045,6 +1115,33 @@ static const struct dpu_perf_cfg sm8150_perf_data = {
+> >   	.bw_inefficiency_factor = 120,
+> >   };
+> > +static const struct dpu_perf_cfg sc8180x_perf_data = {
+> > +	.max_bw_low = 9600000,
+> > +	.max_bw_high = 9600000,
+> > +	.min_core_ib = 2400000,
+> > +	.min_llcc_ib = 800000,
+> > +	.min_dram_ib = 800000,
+> > +	.danger_lut_tbl = {0xf, 0xffff, 0x0, 0x0},
+> > +	.qos_lut_tbl = {
+> > +		{.nentry = ARRAY_SIZE(sc8180x_qos_linear),
+> > +		.entries = sc8180x_qos_linear
+> > +		},
+> > +		{.nentry = ARRAY_SIZE(sc8180x_qos_macrotile),
+> > +		.entries = sc8180x_qos_macrotile
+> > +		},
+> > +		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
+> > +		.entries = sc7180_qos_nrt
+> > +		},
+> > +		/* TODO: macrotile-qseed is different from macrotile */
+> > +	},
+> > +	.cdp_cfg = {
+> > +		{.rd_enable = 1, .wr_enable = 1},
+> > +		{.rd_enable = 1, .wr_enable = 0}
+> > +	},
+> > +	.clk_inefficiency_factor = 105,
+> > +	.bw_inefficiency_factor = 120,
+> > +};
+> > +
+> >   static const struct dpu_perf_cfg sm8250_perf_data = {
+> >   	.max_bw_low = 13700000,
+> >   	.max_bw_high = 16600000,
+> > @@ -1199,6 +1296,37 @@ static void sm8150_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+> >   	};
+> >   }
+> > +/*
+> > + * sc8180x_cfg_init(): populate sc8180 dpu sub-blocks reg offsets
+> > + * and instance counts.
+> > + */
+> > +static void sc8180x_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+> > +{
+> > +	*dpu_cfg = (struct dpu_mdss_cfg){
+> > +		.caps = &sc8180x_dpu_caps,
+> > +		.mdp_count = ARRAY_SIZE(sc8180x_mdp),
+> > +		.mdp = sc8180x_mdp,
+> > +		.ctl_count = ARRAY_SIZE(sm8150_ctl),
+> > +		.ctl = sm8150_ctl,
+> > +		.sspp_count = ARRAY_SIZE(sdm845_sspp),
+> > +		.sspp = sdm845_sspp,
+> > +		.mixer_count = ARRAY_SIZE(sm8150_lm),
+> > +		.mixer = sm8150_lm,
+> > +		.pingpong_count = ARRAY_SIZE(sm8150_pp),
+> > +		.pingpong = sm8150_pp,
+> > +		.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
+> > +		.merge_3d = sm8150_merge_3d,
+> > +		.intf_count = ARRAY_SIZE(sc8180x_intf),
+> > +		.intf = sc8180x_intf,
+> > +		.vbif_count = ARRAY_SIZE(sdm845_vbif),
+> > +		.vbif = sdm845_vbif,
+> > +		.reg_dma_count = 1,
+> > +		.dma_cfg = sm8150_regdma,
+> > +		.perf = sc8180x_perf_data,
+> > +		.mdss_irqs = IRQ_SC8180X_MASK,
+> > +	};
+> > +}
+> > +
+> >   /*
+> >    * sm8250_cfg_init(): populate sm8250 dpu sub-blocks reg offsets
+> >    * and instance counts.
+> > @@ -1260,6 +1388,7 @@ static const struct dpu_mdss_hw_cfg_handler cfg_handler[] = {
+> >   	{ .hw_rev = DPU_HW_VER_401, .cfg_init = sdm845_cfg_init},
+> >   	{ .hw_rev = DPU_HW_VER_500, .cfg_init = sm8150_cfg_init},
+> >   	{ .hw_rev = DPU_HW_VER_501, .cfg_init = sm8150_cfg_init},
+> > +	{ .hw_rev = DPU_HW_VER_510, .cfg_init = sc8180x_cfg_init},
+> >   	{ .hw_rev = DPU_HW_VER_600, .cfg_init = sm8250_cfg_init},
+> >   	{ .hw_rev = DPU_HW_VER_620, .cfg_init = sc7180_cfg_init},
+> >   	{ .hw_rev = DPU_HW_VER_720, .cfg_init = sc7280_cfg_init},
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > index 31af04afda7d..9572d29ff2ff 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > @@ -39,6 +39,7 @@
+> >   #define DPU_HW_VER_410	DPU_HW_VER(4, 1, 0) /* sdm670 v1.0 */
+> >   #define DPU_HW_VER_500	DPU_HW_VER(5, 0, 0) /* sm8150 v1.0 */
+> >   #define DPU_HW_VER_501	DPU_HW_VER(5, 0, 1) /* sm8150 v2.0 */
+> > +#define DPU_HW_VER_510	DPU_HW_VER(5, 1, 1) /* sc8180 */
+> >   #define DPU_HW_VER_600	DPU_HW_VER(6, 0, 0) /* sm8250 */
+> >   #define DPU_HW_VER_620	DPU_HW_VER(6, 2, 0) /* sc7180 v1.0 */
+> >   #define DPU_HW_VER_720	DPU_HW_VER(7, 2, 0) /* sc7280 */
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > index 47fe11a84a77..cedc631f8498 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > @@ -1351,6 +1351,7 @@ const struct of_device_id dpu_dt_match[] = {
+> >   	{ .compatible = "qcom,sdm845-dpu", },
+> >   	{ .compatible = "qcom,sc7180-dpu", },
+> >   	{ .compatible = "qcom,sc7280-dpu", },
+> > +	{ .compatible = "qcom,sc8180x-dpu", },
+> >   	{ .compatible = "qcom,sm8150-dpu", },
+> >   	{ .compatible = "qcom,sm8250-dpu", },
+> >   	{}
+> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> > index 555666e3f960..0f441d358b60 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.c
+> > +++ b/drivers/gpu/drm/msm/msm_drv.c
+> > @@ -1438,6 +1438,7 @@ static const struct of_device_id dt_match[] = {
+> >   	{ .compatible = "qcom,sdm845-mdss", .data = (void *)KMS_DPU },
+> >   	{ .compatible = "qcom,sc7180-mdss", .data = (void *)KMS_DPU },
+> >   	{ .compatible = "qcom,sc7280-mdss", .data = (void *)KMS_DPU },
+> > +	{ .compatible = "qcom,sc8180x-mdss", .data = (void *)KMS_DPU },
+> >   	{ .compatible = "qcom,sm8150-mdss", .data = (void *)KMS_DPU },
+> >   	{ .compatible = "qcom,sm8250-mdss", .data = (void *)KMS_DPU },
+> >   	{}
