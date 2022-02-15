@@ -2,45 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A150C4B7477
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 19:52:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F7A4B747D
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 19:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B405E10E4C4;
-	Tue, 15 Feb 2022 18:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B99A10E536;
+	Tue, 15 Feb 2022 18:59:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BDC210E45C;
- Tue, 15 Feb 2022 18:52:52 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DFEA961733;
- Tue, 15 Feb 2022 18:52:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E49FC340EB;
- Tue, 15 Feb 2022 18:52:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644951171;
- bh=DFG0pRgxAXggFuC5nOBdDvexAUqfQBkCU3iOcuBDTLs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KD1kgcdAH5hIi1+tPUuj9hs1lQi/1mRkekyPB/HBDERBqSiPocLYx+7M+qFCRr1Nv
- 82kimfILqAA5HyP4LXAoI1u6y7aKJriuVzXe0db2jwIz4FfIS2QUkAtBPyM4HMcsZx
- oYcxOeF2h1/9I52noM8DP7kJQ7hZnD4K613ltTs/egGEPU5xdWfD9gMkXa6mWBXsb/
- c2NOQcj+47/jdtoldgqMnRIu64DXzXzuhG6qEn5VHXsdU1U1qJRjitolMfLPTsFT6I
- 9XVm7MPeOX/xaMSZ7Em4Gve1jd3myWH/D472ERvQsyHbTG2nieE9JZUzOPvrlLnVIQ
- J0gJ8+132x8kQ==
-Date: Tue, 15 Feb 2022 11:52:46 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Tong Zhang <ztong0001@gmail.com>
-Subject: Re: [PATCH v2] drm/i915: fix build issue when using clang
-Message-ID: <Ygv2fvIKiM9w+aSb@dev-arch.archlinux-ax161>
-References: <YglQW7gVNoRJ7QpQ@dev-arch.archlinux-ax161>
- <20220214195821.29809-1-ztong0001@gmail.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB04710E526;
+ Tue, 15 Feb 2022 18:59:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644951571; x=1676487571;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=whwP9Db5MNSBKpAGicysWN+UADdsEBzGUgWDC7WFI5w=;
+ b=ibYfSP6BU852w/cFUfsBn/ugJp2Y3gA2qvc1Z20Zi5JUexhdy3sUFwX4
+ GTK8/Dqtq0tEfA0YuVFrSnz4XPq8YpXLp7V0+vn2atA9xjjrXrZUKaMAX
+ 3RsfmNmH8TsLxJGw4D8yF1h0dNaoeYJNNx7kOwUh9kWEOnEiqNN9ZggGq
+ MGnGa16Pg9kSXNDApljTIrWndAIwRm76lW6KdG6GfUcV4Lk9oLYTTGIfH
+ X52tZfE3t8SqO2pcYpYNyKugWm21TZrUE9IUAzevvTN6X86bCm+CQuGxW
+ 1147xC9wVyaNCAry3W5abVKS07+1K/ECA0dWzZ1Q3Bk9ELcJsBwBPv+Pa w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="231058836"
+X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; d="scan'208";a="231058836"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 10:59:31 -0800
+X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; d="scan'208";a="636072634"
+Received: from smile.fi.intel.com ([10.237.72.59])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 10:59:27 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nK320-0051ub-M8; Tue, 15 Feb 2022 20:58:32 +0200
+Date: Tue, 15 Feb 2022 20:58:32 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v1 1/1] drm/i915/selftests: Replace too verbose for-loop
+ with simpler while
+Message-ID: <Ygv32CptVknidyP3@smile.fi.intel.com>
+References: <20220215163213.54917-1-andriy.shevchenko@linux.intel.com>
+ <87o83859x2.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220214195821.29809-1-ztong0001@gmail.com>
+In-Reply-To: <87o83859x2.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,66 +61,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, llvm@lists.linux.dev,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 14, 2022 at 11:58:20AM -0800, Tong Zhang wrote:
-> drm/i915 adds some extra cflags, namely -Wall, which causes
-> instances of -Wformat-security to appear when building with clang, even
-> though this warning is turned off kernel-wide in the main Makefile:
+On Tue, Feb 15, 2022 at 07:14:49PM +0200, Jani Nikula wrote:
+> On Tue, 15 Feb 2022, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > It's hard to parse for-loop which has some magic calculations inside.
+> > Much cleaner to use while-loop directly.
 > 
-> > drivers/gpu/drm/i915/gt/intel_gt.c:983:2: error: format string is not a string literal (potentially insecure) [-Werror,-Wformat-security]
-> >         GEM_TRACE("ERROR\n");
-> >         ^~~~~~~~~~~~~~~~~~~~
-> > ./drivers/gpu/drm/i915/i915_gem.h:76:24: note: expanded from macro 'GEM_TRACE'
-> >  #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
-> >                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-> > ./include/linux/kernel.h:369:3: note: expanded from macro 'trace_printk'
-> >                 do_trace_printk(fmt, ##__VA_ARGS__);    \
-> >                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > ./include/linux/kernel.h:383:30: note: expanded from macro 'do_trace_printk'
-> >                 __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);   \
-> >                                           ^~~~~~~~~~~~~~~~
-> >drivers/gpu/drm/i915/gt/intel_gt.c:983:2: note: treat the string as an argument to avoid this
+> I assume you're trying to prove a point following our recent
+> for-vs-while loop discussion. I really can't think of any other reason
+> you'd end up looking at this file or this loop.
 > 
-> This does not happen with GCC because it does not enable
-> -Wformat-security with -Wall. Disable -Wformat-security within the i915
-> Makefile so that these warnings do not show up with clang.
-> 
-> Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+> With the change, the loop indeed becomes simpler, but it also runs one
+> iteration further than the original. Whoops.
 
-Given this is not enabled for GCC and it is disabled in the main
-Makefile:
+Yeah, sorry for that, the initial condition should be d = depth - 1,
+of course.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> It's a selftest. The loop's been there for five years. What are we
+> trying to achieve here? So we disagree on loops, fine. Perhaps this is
+> not the best use of either of our time? Please just let the for loops in
+> i915 be.
 
-Additionally, it seems like trace_printk() is designed to be able to
-take a string literal without a format argument, so this should be fine.
+Yes, I'm pretty much was sure that no-one will go and apply this anyway
+(so I haven't paid too much attention), but to prove my point in the
+certain discussion.
 
-> ---
-> 
-> v2: revise commit message
-> 
->  drivers/gpu/drm/i915/Makefile | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 1b62b9f65196..c04e05a3d39f 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -13,6 +13,7 @@
->  # will most likely get a sudden build breakage... Hopefully we will fix
->  # new warnings before CI updates!
->  subdir-ccflags-y := -Wall -Wextra
-> +subdir-ccflags-y += -Wno-format-security
->  subdir-ccflags-y += -Wno-unused-parameter
->  subdir-ccflags-y += -Wno-type-limits
->  subdir-ccflags-y += -Wno-missing-field-initializers
-> -- 
-> 2.25.1
-> 
-> 
+And yes, the point is for the new code, I'm not going to change existing
+suboptimal and too hard to read for-loops, it will consume my time later
+when I will try to understand the code.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
