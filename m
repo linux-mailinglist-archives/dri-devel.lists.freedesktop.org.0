@@ -2,52 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82D14B7B35
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 00:29:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A480F4B7B39
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 00:31:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 082D710E577;
-	Tue, 15 Feb 2022 23:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7193210E5D1;
+	Tue, 15 Feb 2022 23:31:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81E2F10E2D9;
- Tue, 15 Feb 2022 23:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644967738; x=1676503738;
- h=date:from:to:subject:message-id:references:mime-version:
- content-transfer-encoding:in-reply-to;
- bh=PuOlIBLnmV0UGsziClzfYD4ZKWpxWUaUI/U5AU60124=;
- b=ML1kVJQE27pYIHhUBse913K69jCWIcSosgsksg2gJHz6gni5gWKIH+iX
- waNEjAOvlhVhJydAUSuSeg8VCKH1OoJYB7fL7KbDYodKaI9zJEbO3bguA
- OgyELIsC/7AjdNGxdoLSQFPziYpll9k1yd/QM3iQL8KMOHBH6zY5nPBOo
- HnQ2yCDE+dkQzc9TRAlHCSLGvuF/i0nEXS4+4uUEvraNf0jqsH8d528NS
- I39RQr2RxUiHqO8+qVBHffReH9f8719pbCHvsMZY2NXyukJboKOJEG8dO
- vcjHxHuSsytjNyLTtAt7mvhnLES1P0KV77p86VZZWwPuD5cj0BdMo1daU w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="275059226"
-X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; d="scan'208";a="275059226"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 15:28:57 -0800
-X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; d="scan'208";a="529124431"
-Received: from dbhandar-mobl1.amr.corp.intel.com (HELO msatwood-mobl)
- ([10.212.183.40])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 15:28:56 -0800
-Date: Tue, 15 Feb 2022 15:28:43 -0800
-From: Matt Atwood <matthew.s.atwood@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>;,
- intel-gfx@lists.freedesktop.org;, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 08/18] drm/i915/guc: Convert engine record
- to iosys_map
-Message-ID: <20220215232843.GB15418@msatwood-mobl>
-References: <20220208104524.2516209-1-lucas.demarchi@intel.com>
- <20220208104524.2516209-9-lucas.demarchi@intel.com>
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
+ [IPv6:2607:f8b0:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F0CE10E5C4
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 23:31:17 +0000 (UTC)
+Received: by mail-il1-x12d.google.com with SMTP id c14so218640ilm.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 15:31:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FCIgbleOoUZIo/u1NuclidM+6drC/fEPlkw9hx4YYSU=;
+ b=GvKO9px9ieVv+SBaUWQl5Z5hBvQQJMAyCOyiS2JwDx+XKQQp/2UHuEPMHl1XMEw3t+
+ jKQ/oSGEmyO8oPK4kXtaurAkGPbCXzS3axB1+4CyvMemDPEA4rS55bMksJsn+0sTuPCr
+ K5h95ZHFNwqWo5hnqkFP3eH75IYW2unez2DNo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FCIgbleOoUZIo/u1NuclidM+6drC/fEPlkw9hx4YYSU=;
+ b=4Uppo9p7MyyRM6VxO8tN7MANNEBw8mlRP2xp6s6Wibq73k93ZzaG86aVeZsH0XzDtX
+ vQkEEgpRaXF/8DVBJvjPGJsfaS5oygc8667kkG0tMeURf8o2keu/eTXjEH9ytzzIu5lT
+ mNxGsa98R1xRB2MtBIVpEHFQcKElo/Sta782i944Xk93vydizS9emkHuY3jxjnFsX8cZ
+ GPkH27pZzYG3AuJIUawLt1Z6OcryDYVsOl9JQqDzXbePekFCZ7wznrCY6ZIvALcEUEGl
+ R2jj8ImwY0C3Ck8OezIYCscyxEDX94jQcdDZCECFnFiuqY39nWFH6+JokmCAnAQtmMsq
+ L6Ig==
+X-Gm-Message-State: AOAM530ep766MeVMv1ZFIoIuFmNsOPNfTYx4cPi9oDowAtX1vUyRcaQx
+ ljdU9JA9e9JRyiLymzuCGVsyMX+yuyknAQ==
+X-Google-Smtp-Source: ABdhPJyfU+l/ylYHuqsGbzlPcac3/nI1pGpI1R6sDhybKw7sjjWwH25HXgVBXSGIJSxj8GfMeMT6Gw==
+X-Received: by 2002:a92:c54b:0:b0:2be:3a0e:eb9e with SMTP id
+ a11-20020a92c54b000000b002be3a0eeb9emr30134ilj.235.1644967876377; 
+ Tue, 15 Feb 2022 15:31:16 -0800 (PST)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com.
+ [209.85.166.42])
+ by smtp.gmail.com with ESMTPSA id a15sm10876987ilj.21.2022.02.15.15.31.13
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 15:31:14 -0800 (PST)
+Received: by mail-io1-f42.google.com with SMTP id q8so376452iod.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 15:31:13 -0800 (PST)
+X-Received: by 2002:a05:6602:15c6:b0:611:591d:1d9a with SMTP id
+ f6-20020a05660215c600b00611591d1d9amr84044iow.177.1644967873090; Tue, 15 Feb
+ 2022 15:31:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220208104524.2516209-9-lucas.demarchi@intel.com>
+References: <20220205001342.3155839-1-dianders@chromium.org>
+In-Reply-To: <20220205001342.3155839-1-dianders@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 15 Feb 2022 15:31:01 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=ULWobi5rDbZajiyPvd1TtLQg-x6EqTNgs2pWiGBUjPRg@mail.gmail.com>
+Message-ID: <CAD=FV=ULWobi5rDbZajiyPvd1TtLQg-x6EqTNgs2pWiGBUjPRg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] drm/panel-edp: Debugfs for panel-edp
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,116 +71,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Robert Foss <robert.foss@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, jjsu@chromium.org,
+ lschyi@chromium.org, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 08, 2022 at 02:45:14AM -0800, Lucas De Marchi wrote:
-> Use iosys_map to read fields from the dma_blob so access to IO and
-> system memory is abstracted away.
-> 
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Reviewed-by: Matt Atwood<matthew.s.atwood@intel.com>
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c      | 14 ++++++--------
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h      |  3 ++-
->  .../gpu/drm/i915/gt/uc/intel_guc_submission.c   | 17 ++++++++++-------
->  3 files changed, 18 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> index 6a34ab38b45f..383c5994d4ef 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> @@ -695,18 +695,16 @@ void intel_guc_ads_reset(struct intel_guc *guc)
->  
->  u32 intel_guc_engine_usage_offset(struct intel_guc *guc)
->  {
-> -	struct __guc_ads_blob *blob = guc->ads_blob;
-> -	u32 base = intel_guc_ggtt_offset(guc, guc->ads_vma);
-> -	u32 offset = base + ptr_offset(blob, engine_usage);
-> -
-> -	return offset;
-> +	return intel_guc_ggtt_offset(guc, guc->ads_vma) +
-> +		offsetof(struct __guc_ads_blob, engine_usage);
->  }
->  
-> -struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine)
-> +struct iosys_map intel_guc_engine_usage_record_map(struct intel_engine_cs *engine)
->  {
->  	struct intel_guc *guc = &engine->gt->uc.guc;
-> -	struct __guc_ads_blob *blob = guc->ads_blob;
->  	u8 guc_class = engine_class_to_guc_class(engine->class);
-> +	size_t offset = offsetof(struct __guc_ads_blob,
-> +				 engine_usage.engines[guc_class][ilog2(engine->logical_mask)]);
->  
-> -	return &blob->engine_usage.engines[guc_class][ilog2(engine->logical_mask)];
-> +	return IOSYS_MAP_INIT_OFFSET(&guc->ads_map, offset);
->  }
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
-> index e74c110facff..1c64f4d6ea21 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
-> @@ -7,6 +7,7 @@
->  #define _INTEL_GUC_ADS_H_
->  
->  #include <linux/types.h>
-> +#include <linux/iosys-map.h>
->  
->  struct intel_guc;
->  struct drm_printer;
-> @@ -18,7 +19,7 @@ void intel_guc_ads_init_late(struct intel_guc *guc);
->  void intel_guc_ads_reset(struct intel_guc *guc);
->  void intel_guc_ads_print_policy_info(struct intel_guc *guc,
->  				     struct drm_printer *p);
-> -struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine);
-> +struct iosys_map intel_guc_engine_usage_record_map(struct intel_engine_cs *engine);
->  u32 intel_guc_engine_usage_offset(struct intel_guc *guc);
->  
->  #endif
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index b3a429a92c0d..ab3cea352fb3 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -1139,6 +1139,9 @@ __extend_last_switch(struct intel_guc *guc, u64 *prev_start, u32 new_start)
->  	*prev_start = ((u64)gt_stamp_hi << 32) | new_start;
->  }
->  
-> +#define record_read(map_, field_) \
-> +	iosys_map_rd_field(map_, 0, struct guc_engine_usage_record, field_)
-> +
->  /*
->   * GuC updates shared memory and KMD reads it. Since this is not synchronized,
->   * we run into a race where the value read is inconsistent. Sometimes the
-> @@ -1153,17 +1156,17 @@ __extend_last_switch(struct intel_guc *guc, u64 *prev_start, u32 new_start)
->  static void __get_engine_usage_record(struct intel_engine_cs *engine,
->  				      u32 *last_in, u32 *id, u32 *total)
->  {
-> -	struct guc_engine_usage_record *rec = intel_guc_engine_usage(engine);
-> +	struct iosys_map rec_map = intel_guc_engine_usage_record_map(engine);
->  	int i = 0;
->  
->  	do {
-> -		*last_in = READ_ONCE(rec->last_switch_in_stamp);
-> -		*id = READ_ONCE(rec->current_context_index);
-> -		*total = READ_ONCE(rec->total_runtime);
-> +		*last_in = record_read(&rec_map, last_switch_in_stamp);
-> +		*id = record_read(&rec_map, current_context_index);
-> +		*total = record_read(&rec_map, total_runtime);
->  
-> -		if (READ_ONCE(rec->last_switch_in_stamp) == *last_in &&
-> -		    READ_ONCE(rec->current_context_index) == *id &&
-> -		    READ_ONCE(rec->total_runtime) == *total)
-> +		if (record_read(&rec_map, last_switch_in_stamp) == *last_in &&
-> +		    record_read(&rec_map, current_context_index) == *id &&
-> +		    record_read(&rec_map, total_runtime) == *total)
->  			break;
->  	} while (++i < 6);
->  }
-> -- 
-> 2.35.1
-> 
+Hi,
+
+On Fri, Feb 4, 2022 at 4:14 PM Douglas Anderson <dianders@chromium.org> wrote:
+>
+> The main goal of this series is the final patch in the series: to
+> allow test code to reliably find out if we ended up hitting the
+> "fallback" case of the generic edp-panel driver where we don't
+> recognize a panel and choose to use super conservative timing.
+>
+> Version 1 of the patch actually landed but was quickly reverted since
+> it was pointed out that it should have been done in debugfs, not
+> sysfs.
+>
+> As discussed on IRC [1], we want this support to be under the
+> "connector" directory of debugfs but there was no existing way to do
+> that. Thus patch #2 in the series was born to try to plumb this
+> through. It was asserted that it would be OK to rely on a fairly
+> modern display pipeline for this plumbing and perhaps fail to populate
+> the debugfs file if we're using older/deprecated pipelines.
+>
+> Patch #1 in the series was born because the bridge chip I was using
+> was still using an older/deprecated pipeline. While this doesn't get
+> us fully to a modern pipeline for ti-sn65dsi86 (it still doesn't move
+> to "NO_CONNECTOR") it hopefully moves us in the right direction.
+>
+> This was tested on sc7180-trogdor devices with _both_ the ti-sn65dsi86
+> and the parade-ps8640 bridge chips (since some devices have one, some
+> the other). The parade-ps8640 already uses supports "NO_CONNECTOR",
+> luckily.
+>
+> [1] https://people.freedesktop.org/~cbrill/dri-log/?channel=dri-devel&date=2022-02-02
+>
+> Changes in v2:
+> - ("ti-sn65dsi86: Use drm_bridge_connector") new for v2.
+> - ("drm: Plumb debugfs_init through to panels") new for v2.
+> - Now using debugfs, not sysfs
+>
+> Douglas Anderson (3):
+>   drm/bridge: ti-sn65dsi86: Use drm_bridge_connector
+>   drm: Plumb debugfs_init through to panels
+>   drm/panel-edp: Allow querying the detected panel via debugfs
+>
+>  drivers/gpu/drm/bridge/panel.c         | 12 +++++
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c  | 72 +++++---------------------
+>  drivers/gpu/drm/drm_bridge_connector.c | 15 ++++++
+>  drivers/gpu/drm/drm_debugfs.c          |  3 ++
+>  drivers/gpu/drm/panel/panel-edp.c      | 37 +++++++++++--
+>  include/drm/drm_bridge.h               |  7 +++
+>  include/drm/drm_connector.h            |  7 +++
+>  include/drm/drm_panel.h                |  8 +++
+>  8 files changed, 98 insertions(+), 63 deletions(-)
+
+Landed these three patches to drm-misc-next w/ accumulated tags:
+
+$ git log --oneline -3
+6ed19359d6bd drm/panel-edp: Allow querying the detected panel via debugfs
+2509969a9862 drm: Plumb debugfs_init through to panels
+e283820cbf80 drm/bridge: ti-sn65dsi86: Use drm_bridge_connector
+
+If it turns out that we want to add more reporting when debugfs calls
+return errors then I'm happy to submit follow-on patches. Discussion
+about that can be found in:
+
+https://lore.kernel.org/r/CAD=FV=Ut3N9syXbN7i939mNsx3h7-u9cU9j6=XFkz9vrh0Vseg@mail.gmail.com
+
+Unless something changes, though, my current plan is not to do
+follow-up patches and leave this as-is without any extra error
+reporting.
+
+-Doug
