@@ -2,50 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7924B5EE7
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 01:14:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7290F4B5EA1
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 01:04:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2BE10E39F;
-	Tue, 15 Feb 2022 00:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B7110E34C;
+	Tue, 15 Feb 2022 00:04:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26A7110E383;
- Tue, 15 Feb 2022 00:14:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644884063; x=1676420063;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=pf9Z953mlUTNLv9Dev1jpc+bEk04+Glzxef22d7s3ns=;
- b=KP40/dJr8XnoMKSH3X2+pZnk4484cn5/HXmWhjedA2rLzcUzY9NdfNjy
- tGNmOhx7yTYZOIUkM5x8gvb7HL8/cqBamtsDy6i7LDgNdM0gtaSJ6LJEE
- 1700Ng0dUFARhp3tlhOGWeza5rC+dueXlPBww6DVpHHYXXUkr6J7ckXBI
- kr7D4K0W6Hhu2zDSjb9aAbKCp9WD+MAV1O6YvTYmE0XDOihPc1uyvT91k
- OEd9RjlLH+wAE0yOV1nVRXBqd/mQBtECMJvGPW3IaEl/nA13gAwhbogI8
- /Jl1w+xDYq44PE4PlhfsWvE1G+0wNlj5xJ50PiCMaZm3UigpcAGHbaBsN A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10258"; a="230852154"
-X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="230852154"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 16:14:22 -0800
-X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="775515251"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 16:14:22 -0800
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915/gem: Don't try to map and fence large scanout
- buffers (v7)
-Date: Mon, 14 Feb 2022 15:56:25 -0800
-Message-Id: <20220214235625.864939-3-vivek.kasireddy@intel.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2041.outbound.protection.outlook.com [40.107.93.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 943BC10E346;
+ Tue, 15 Feb 2022 00:04:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QzKnIpYVpHTmkG7mAYHg9IhJkx9SpPTyKdezHmkJj33oNkDvLmrq+hRhaN4pLNzEClP9UHbV19T0FQfUk3CI1LurOHbzDNz5OizvvMCUZ7YtZCnqkr7Si1WwEd7EqXrN5pEm66y0EaBY681nLkwU7RE+0Yrms4ilpu6KiriHpFqMARg7hYqOSzabXuV9Qy4AQXCyBASi8iEjYtm9aNlvm4STe73KjTdMxEuIuBKdaMC9BzGIzOzJ2SBx18rsZaZPAkevN7fri/vINt2dWVcPWYp7Ma5EoJKCntn/hJyss6U3v4WfDUocohkXNPTbFiEVa1mvoShI80kQy//YosdP5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0r2CnN15zVFpDkwJ73WqME1OerqdolvIkatytM1wABo=;
+ b=HS13m9iZOd+5AFO1RVYiU9b2+FK/lFJX/utd4djlpwGFShnhR00KCtgoA8/KeQwoE1FWRbjtWpTukj+3zDauzajIcHR6OtKMF1EHYj8mNhHW7T83a4eP1GOB0XAfGYuA8IDD685jOD6KJ9l2G31mUs+Krh3nFsCi+w4XPQ4jE+HphA16qwcwybrwgnvYKad1XrItmfKxGlXuZrowvivJdCbS1V/viBGM0Syz8gFceS59MjJjaEkXc4ZAjLJ6IMTl+Q5z3c0cr/TLDeiwBjuED+De5g4plQXzXcWd3qGn5tJEWLZF8/Y4bscAawHfepRr4TxgFZANBCrp3k9dt5j4VA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0r2CnN15zVFpDkwJ73WqME1OerqdolvIkatytM1wABo=;
+ b=rznaQmaxzuqzcMKJGX5uS2GB1c4q9FuPanTgItUbnwl4PXd9j9l4O3AUR53PjpEpJME32+SG1oC3bVe8RNJUi2EQXnOAk22JEzoYh9TWrHABgpfkCCS4N6PlnttPftpJTDZ31uWYzm5qrs7Q8ySwzS96XZvEU+aCX88fPGWpF08=
+Received: from MWHPR12CA0027.namprd12.prod.outlook.com (2603:10b6:301:2::13)
+ by DM6PR12MB4402.namprd12.prod.outlook.com (2603:10b6:5:2a5::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Tue, 15 Feb
+ 2022 00:04:13 +0000
+Received: from CO1NAM11FT015.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:301:2:cafe::14) by MWHPR12CA0027.outlook.office365.com
+ (2603:10b6:301:2::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11 via Frontend
+ Transport; Tue, 15 Feb 2022 00:04:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT015.mail.protection.outlook.com (10.13.175.130) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4975.11 via Frontend Transport; Tue, 15 Feb 2022 00:04:13 +0000
+Received: from localhost.localdomain (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 14 Feb
+ 2022 18:04:11 -0600
+From: Mario Limonciello <mario.limonciello@amd.com>
+To: Bjorn Helgaas <bhelgaas@google.com>, Mika Westerberg
+ <mika.westerberg@linux.intel.com>, "open list:PCI SUBSYSTEM"
+ <linux-pci@vger.kernel.org>, "open list:THUNDERBOLT DRIVER"
+ <linux-usb@vger.kernel.org>, "open list:RADEON and AMDGPU DRM DRIVERS"
+ <amd-gfx@lists.freedesktop.org>, "open list:DRM DRIVERS"
+ <dri-devel@lists.freedesktop.org>, "open list:DRM DRIVER FOR NVIDIA
+ GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>
+Subject: [PATCH v4 00/10] Overhaul `is_thunderbolt`
+Date: Mon, 14 Feb 2022 18:01:50 -0600
+Message-ID: <20220215000200.242799-1-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220214235625.864939-1-vivek.kasireddy@intel.com>
-References: <20220214235625.864939-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b4adcd3b-fc52-4f00-0f11-08d9f016b313
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4402:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4402CD5AF54F7501EE06B570E2349@DM6PR12MB4402.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XuvFkHc9z2+2Nl7dokC9kjkVycMVwn5fvbECYcTNdAEuoPxZkOlTPZFPoJmIQ0d/K2n6eZCk4mWjvVOelR51FdtZR1u01BEqZsm5r33WpZESayh8BpfI+hB0T/NoMxuY8IrAyn9oIhJdOFxn/mfUWZEIGg6ZkAE3mCy9FarUmI5zPlQZhAPzjyOwP2N1C3oHbR7OpiOFqvxnmeDENT1mg5JJnHsblbjz5R898BKPtyfZ3dqaUS3F6WVSvvRyyYQhLc6R3NG5zWBt/3kUJ5sQwfnBs6jDgmgzj0p/Aicjk1K/2nZrsewvR3A71J0Wt3KwxygfVUaB84V6h7HvKGjfAlZE8xBRB9ov3P1G6j+NPZM9uu9nGpbQK+rqCgg1tgpS8qpvfjwh0xWlIB8bXKphc0mvidImOP6WEg3/miGzS+OifqWcjWugoBZbPMP6I2JwBTo9n9uGZL2nnDVhf3byJZjbj4bv06Uey40+dWlqe77HmYQJVcADWtu9zP2mCyNZxC/dbBduhJW6bsqk1lSMKWEgBQ1vvkq7hyqPnQyacNM8qEtgmCCSuXNkSxpQgMWg1BFMLtYsB+slFPRSKgSggsZLZpEvPrB+m9dP6tDbI9G+dLVOmzzYj5XyQPzSF/0LYvGNJZ8G7PJFw+ZWPNkQznhxn1wYSCSM9ODXW+WBARxFNzBzszU3nomYq42g3THOEOkPHwuRGr/PHRaqWm8tzwde6gDkGitHzceswEKNrSU=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(110136005)(82310400004)(6666004)(316002)(8676002)(70586007)(70206006)(4326008)(47076005)(508600001)(83380400001)(54906003)(44832011)(36756003)(2906002)(5660300002)(2616005)(7416002)(16526019)(26005)(36860700001)(186003)(1076003)(86362001)(356005)(40460700003)(8936002)(81166007)(336012)(426003)(81973001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 00:04:13.2390 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4adcd3b-fc52-4f00-0f11-08d9f016b313
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT015.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4402
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,257 +106,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Michael Jamet <michael.jamet@intel.com>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>, Alexander.Deucher@amd.com,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Andreas Noever <andreas.noever@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On platforms capable of allowing 8K (7680 x 4320) modes, pinning 2 or
-more framebuffers/scanout buffers results in only one that is mappable/
-fenceable. Therefore, pageflipping between these 2 FBs where only one
-is mappable/fenceable creates latencies large enough to miss alternate
-vblanks thereby producing less optimal framerate.
+Various drivers in the kernel use `is_thunderbolt` or
+`pci_is_thunderbolt_attached` to designate behaving differently
+from a device that is internally in the machine. This relies upon checks
+for a specific capability only set on Intel controllers.
 
-This mainly happens because when i915_gem_object_pin_to_display_plane()
-is called to pin one of the FB objs, the associated vma is identified
-as misplaced and therefore i915_vma_unbind() is called which unbinds and
-evicts it. This misplaced vma gets subseqently pinned only when
-i915_gem_object_ggtt_pin_ww() is called without PIN_MAPPABLE. This
-results in a latency of ~10ms and happens every other vblank/repaint cycle.
-Therefore, to fix this issue, we try to see if there is space to map
-at-least two objects of a given size and return early if there isn't. This
-would ensure that we do not try with PIN_MAPPABLE for any objects that
-are too big to map thereby preventing unncessary unbind.
+Non-Intel USB4 designs should also match this designation so that they
+can be treated the same regardless of the host they're connected to.
 
-Testcase:
-Running Weston and weston-simple-egl on an Alderlake_S (ADLS) platform
-with a 8K@60 mode results in only ~40 FPS. Since upstream Weston submits
-a frame ~7ms before the next vblank, the latencies seen between atomic
-commit and flip event are 7, 24 (7 + 16.66), 7, 24..... suggesting that
-it misses the vblank every other frame.
+As part of adding the generic USB4 controller code, it was realized that
+`is_thunderbolt` and `pcie_is_thunderbolt_attached` have been overloaded.
 
-Here is the ftrace snippet that shows the source of the ~10ms latency:
-              i915_gem_object_pin_to_display_plane() {
-0.102 us   |    i915_gem_object_set_cache_level();
-                i915_gem_object_ggtt_pin_ww() {
-0.390 us   |      i915_vma_instance();
-0.178 us   |      i915_vma_misplaced();
-                  i915_vma_unbind() {
-                  __i915_active_wait() {
-0.082 us   |        i915_active_acquire_if_busy();
-0.475 us   |      }
-                  intel_runtime_pm_get() {
-0.087 us   |        intel_runtime_pm_acquire();
-0.259 us   |      }
-                  __i915_active_wait() {
-0.085 us   |        i915_active_acquire_if_busy();
-0.240 us   |      }
-                  __i915_vma_evict() {
-                    ggtt_unbind_vma() {
-                      gen8_ggtt_clear_range() {
-10507.255 us |        }
-10507.689 us |      }
-10508.516 us |   }
+Instead migrate to using removable attribute from device core.
 
-v2: Instead of using bigjoiner checks, determine whether a scanout
-    buffer is too big by checking to see if it is possible to map
-    two of them into the ggtt.
+Changes from v3->v4:
+- Add tags from last review where applicable
+- Update titles of different patches
+- Add more comments and commit messages to various patches to address
+  comments raised in review
+- Re-order the patch series, moving more contentious patches later
+- Drop patch marking NHI removable
+- Drop patch changing gmux on it's own, roll into patch to drop
+  `is_thunderbolt`
+- Modify patch to mark integrated USB4 tunnel PCIe root ports as
+  "external" instead of removable.
+- Modify patch to mark discrete USB4 tunnel root ports as "external"
+  instead of removable.
+- Fix bit mask error in discrete USB4 tunnel patch
+- Fix USB IF vendor designation location in pci_ids.h
 
-v3 (Ville):
-- Count how many fb objects can be fit into the available holes
-  instead of checking for a hole twice the object size.
-- Take alignment constraints into account.
-- Limit this large scanout buffer check to >= Gen 11 platforms.
+Changes from v2->v3:
+- Add various tags for patches that haven't changed from v2->v3
+- Add new patches for Mika's suggestions:
+  * Moving Apple Thunderbolt D3 declaration into quirks
+  * Detect PCIe root port used for PCIe tunneling on integrated
+    controllers using `usb4-host-interface`
+  * Detect PCIe root port used for PCIe tunneling on discrete
+    controllers using the USB4 DVSEC specification
 
-v4:
-- Remove existing heuristic that checks just for size. (Ville)
-- Return early if we find space to map at-least two objects. (Tvrtko)
-- Slightly update the commit message.
+Changes from v1->v2:
+- Add Alex's tag to first patch
+- Move lack of command completion into a quirk (Lukas)
+- Drop `is_thunderbolt` attribute and `pci_is_thunderbolt_attached` and
+  use device core removable attribute instead
+- Adjust all consumers of old attribute to use removable
 
-v5: (Tvrtko)
-- Rename the function to indicate that the object may be too big to
-  map into the aperture.
-- Account for guard pages while calculating the total size required
-  for the object.
-- Do not subject all objects to the heuristic check and instead
-  consider objects only of a certain size.
-- Do the hole walk using the rbtree.
-- Preserve the existing PIN_NONBLOCK logic.
-- Drop the PIN_MAPPABLE check while pinning the VMA.
+Note: this spans USB/DRM/platform-x86/PCI trees.
+As a majority of the changes are in PCI, it should probably come through
+that tree if possible.
 
-v6: (Tvrtko)
-- Return 0 on success and the specific error code on failure to
-  preserve the existing behavior.
+Mario Limonciello (10):
+  PCI: Add USB4 class definition
+  PCI: Move `is_thunderbolt` check for lack of command completed to a
+    quirk
+  PCI: Detect root port of internal USB4 controllers
+  PCI: Detect PCIe root ports for discrete USB4 controllers
+  PCI: Move check for old Apple Thunderbolt controllers into a quirk
+  PCI: Drop the `is_thunderbolt` attribute from PCI core
+  drm/amd: drop the use of `pci_is_thunderbolt_attached`
+  drm/nouveau: drop the use of `pci_is_thunderbolt_attached`
+  drm/radeon: drop the use of `pci_is_thunderbolt_attached`
+  PCI: drop `pci_is_thunderbolt_attached`
 
-v7: (Ville)
-- Drop the HAS_GMCH(i915), DISPLAY_VER(i915) < 11 and
-  size < ggtt->mappable_end / 4 checks.
-- Drop the redundant check that is based on previous heuristic.
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c |  2 +-
+ drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c  |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_vga.c   |  4 +-
+ drivers/gpu/drm/radeon/radeon_device.c  |  4 +-
+ drivers/gpu/drm/radeon/radeon_kms.c     |  2 +-
+ drivers/pci/hotplug/pciehp_hpc.c        |  6 +-
+ drivers/pci/pci-acpi.c                  | 15 ++++-
+ drivers/pci/pci.c                       | 17 +++--
+ drivers/pci/probe.c                     | 52 ++++++++++++++-
+ drivers/pci/quirks.c                    | 84 +++++++++++++++++++++++++
+ drivers/platform/x86/apple-gmux.c       |  2 +-
+ drivers/thunderbolt/nhi.h               |  2 -
+ include/linux/pci.h                     | 25 +-------
+ include/linux/pci_ids.h                 |  3 +
+ 14 files changed, 173 insertions(+), 47 deletions(-)
 
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Manasi Navare <manasi.d.navare@intel.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- drivers/gpu/drm/i915/i915_gem.c | 120 +++++++++++++++++++++++---------
- 1 file changed, 86 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index 2e10187cd0a0..260cd3961ca1 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -49,6 +49,7 @@
- #include "gem/i915_gem_pm.h"
- #include "gem/i915_gem_region.h"
- #include "gem/i915_gem_userptr.h"
-+#include "gem/i915_gem_tiling.h"
- #include "gt/intel_engine_user.h"
- #include "gt/intel_gt.h"
- #include "gt/intel_gt_pm.h"
-@@ -879,6 +880,88 @@ static void discard_ggtt_vma(struct i915_vma *vma)
- 	spin_unlock(&obj->vma.lock);
- }
- 
-+static int
-+i915_gem_object_fits_in_aperture(struct drm_i915_gem_object *obj,
-+				 u64 alignment, u64 flags)
-+{
-+	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
-+	struct drm_mm_node *hole;
-+	u64 hole_start, hole_end, start, end;
-+	u64 fence_size, fence_alignment;
-+	unsigned int count = 0;
-+
-+	/*
-+	 * If the required space is larger than the available
-+	 * aperture, we will not able to find a slot for the
-+	 * object and unbinding the object now will be in
-+	 * vain. Worse, doing so may cause us to ping-pong
-+	 * the object in and out of the Global GTT and
-+	 * waste a lot of cycles under the mutex.
-+	 */
-+	if (obj->base.size > ggtt->mappable_end)
-+		return -E2BIG;
-+
-+	/*
-+	 * If NONBLOCK is set the caller is optimistically
-+	 * trying to cache the full object within the mappable
-+	 * aperture, and *must* have a fallback in place for
-+	 * situations where we cannot bind the object. We
-+	 * can be a little more lax here and use the fallback
-+	 * more often to avoid costly migrations of ourselves
-+	 * and other objects within the aperture.
-+	 */
-+	if (!(flags & PIN_NONBLOCK))
-+		return 0;
-+
-+	/*
-+	 * Other objects such as batchbuffers are fairly small compared
-+	 * to FBs and are unlikely to exahust the aperture space.
-+	 * Therefore, return early if this obj is not an FB.
-+	 */
-+	if (!i915_gem_object_is_framebuffer(obj))
-+		return 0;
-+
-+	fence_size = i915_gem_fence_size(i915, obj->base.size,
-+					 i915_gem_object_get_tiling(obj),
-+					 i915_gem_object_get_stride(obj));
-+
-+	if (i915_vm_has_cache_coloring(&ggtt->vm))
-+		fence_size += 2 * I915_GTT_PAGE_SIZE;
-+
-+	fence_alignment = i915_gem_fence_alignment(i915, obj->base.size,
-+						   i915_gem_object_get_tiling(obj),
-+						   i915_gem_object_get_stride(obj));
-+	alignment = max_t(u64, alignment, fence_alignment);
-+
-+	/*
-+	 * Assuming this object is a large scanout buffer, we try to find
-+	 * out if there is room to map at-least two of them. There could
-+	 * be space available to map one but to be consistent, we try to
-+	 * avoid mapping/fencing any of them.
-+	 */
-+	drm_mm_for_each_suitable_hole(hole, &ggtt->vm.mm, 0, ggtt->mappable_end,
-+				      fence_size, DRM_MM_INSERT_LOW) {
-+		hole_start = drm_mm_hole_node_start(hole);
-+		hole_end = hole_start + hole->hole_size;
-+
-+		do {
-+			start = round_up(hole_start, alignment);
-+			end = min_t(u64, hole_end, ggtt->mappable_end);
-+
-+			if (range_overflows(start, fence_size, end))
-+				break;
-+
-+			if (++count >= 2)
-+				return 0;
-+
-+			hole_start = start + fence_size;
-+		} while (1);
-+	}
-+
-+	return -ENOSPC;
-+}
-+
- struct i915_vma *
- i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 			    struct i915_gem_ww_ctx *ww,
-@@ -894,36 +977,9 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 
- 	if (flags & PIN_MAPPABLE &&
- 	    (!view || view->type == I915_GGTT_VIEW_NORMAL)) {
--		/*
--		 * If the required space is larger than the available
--		 * aperture, we will not able to find a slot for the
--		 * object and unbinding the object now will be in
--		 * vain. Worse, doing so may cause us to ping-pong
--		 * the object in and out of the Global GTT and
--		 * waste a lot of cycles under the mutex.
--		 */
--		if (obj->base.size > ggtt->mappable_end)
--			return ERR_PTR(-E2BIG);
--
--		/*
--		 * If NONBLOCK is set the caller is optimistically
--		 * trying to cache the full object within the mappable
--		 * aperture, and *must* have a fallback in place for
--		 * situations where we cannot bind the object. We
--		 * can be a little more lax here and use the fallback
--		 * more often to avoid costly migrations of ourselves
--		 * and other objects within the aperture.
--		 *
--		 * Half-the-aperture is used as a simple heuristic.
--		 * More interesting would to do search for a free
--		 * block prior to making the commitment to unbind.
--		 * That caters for the self-harm case, and with a
--		 * little more heuristics (e.g. NOFAULT, NOEVICT)
--		 * we could try to minimise harm to others.
--		 */
--		if (flags & PIN_NONBLOCK &&
--		    obj->base.size > ggtt->mappable_end / 2)
--			return ERR_PTR(-ENOSPC);
-+		ret = i915_gem_object_fits_in_aperture(obj, alignment, flags);
-+		if (ret)
-+			return ERR_PTR(ret);
- 	}
- 
- new_vma:
-@@ -935,10 +991,6 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 		if (flags & PIN_NONBLOCK) {
- 			if (i915_vma_is_pinned(vma) || i915_vma_is_active(vma))
- 				return ERR_PTR(-ENOSPC);
--
--			if (flags & PIN_MAPPABLE &&
--			    vma->fence_size > ggtt->mappable_end / 2)
--				return ERR_PTR(-ENOSPC);
- 		}
- 
- 		if (i915_vma_is_pinned(vma) || i915_vma_is_active(vma)) {
 -- 
 2.34.1
 
