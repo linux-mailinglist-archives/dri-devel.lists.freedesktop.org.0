@@ -2,65 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC2B4B6F00
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 15:44:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117B44B6F03
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 15:45:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10E0210E1E4;
-	Tue, 15 Feb 2022 14:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BAB410E2E8;
+	Tue, 15 Feb 2022 14:45:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14E3110E1E4
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 14:44:49 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id u6so37308409lfc.3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 06:44:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Jdq5INV1bbMgRIUNf5ebSD0wzAyaW4IvmLge7Lbz89Y=;
- b=cv8g3z51OXlxfsG4dBvI+ALtL4z6gJJNdGMG36h7DVX21Q6Sec+oUN9/NuJF8+qo9a
- Xf60I5nWD6CtLcfmMphbmVl7m5oJYW98xdjrjPaPjPs4rQBT3aUX/O3gz6XSBiYRJ85h
- zgZMVcNXQDlW3ZTxMQ1c4zX7iaqW/GzLcjIwaGlF2ruiCvPReHRIdXaPxtH/hSPQ3Y/d
- Z+6vSdPxuV5dXrKyrQ1m/F4pVmyjH5/1m88nKD8AgHVGMiD8uNmEGCkodcFky7akg0co
- WFHqQfyqWtsVDFT34isKdlj6fpggRMvFOPtbY4kjwB3Caw5vKVAyUK4gvIVbFeWNg/a2
- 3UNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Jdq5INV1bbMgRIUNf5ebSD0wzAyaW4IvmLge7Lbz89Y=;
- b=tAAxdvqP9D0UrDQWQY0AWDJC45nDVsvGlqMxz7c2i7HJzDipdPeiYVvWKeguLMSr7/
- spNKruSo6pfrhpcZ3uBYLQ5DzzgC6TJhg/avaUkbhb3nbYyOO6kKrUu7UaCOOfSr1pFG
- gnwmokZNdRHbXce5/e/T/VbC7aXT2zCrENbUl/9DIN7tEqUy761aBupGmaLvBEMNFtjw
- 6P8OD/vu/D59BFKrhprrZAsuTGWTdKJpgyX0F1jBU08rG+1n+P5DFl0Gh07z9bFJFtAI
- AYekkzLjeHBgmDmiEZxOE81yH2FdPx06SRwZQQkBkSx3bH9uLKD1EMzr5E84iOX66CT4
- EIZQ==
-X-Gm-Message-State: AOAM5317ALl6HLyr6H/ySQyjhaMpUNqrHdDI+1Tdc2WHcbv9oOgKnaz8
- 8tQc9VYbdeAATdGj3dCIcX7RnijmduVEgA==
-X-Google-Smtp-Source: ABdhPJyPstMwtYEwnlz/N2XWQ9dp7sLdzEVkWJuipil3ukOAddJ4id/9S+2ftJZlKM1513ZbvtOq/A==
-X-Received: by 2002:a05:6512:2351:: with SMTP id
- p17mr3415221lfu.431.1644936287407; 
- Tue, 15 Feb 2022 06:44:47 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id a9sm645840ljm.107.2022.02.15.06.44.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Feb 2022 06:44:46 -0800 (PST)
-Message-ID: <460e0036-74b5-bccd-c11c-2573290012ae@linaro.org>
-Date: Tue, 15 Feb 2022 17:44:46 +0300
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2073.outbound.protection.outlook.com [40.107.220.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA3410E2E8;
+ Tue, 15 Feb 2022 14:45:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hfe1ClDFEnMVDgMsJQgvW1+E9rwhR4+HrkwqIbnLeqGY8AJwPbGvUwdrHgRiQFOVP+t9SyS9zmfAf4PqQ/VhdYB04algAsDbC8o9mH4jsPrUeAomDp7/sNBaVl7MZZ/FHshgCHL1ohGq4GcfNVD+KQxQ5goEjPl/K8hzOAFTz8+4jFSSIjSTrwsplc4I+ccuGTqfeoWCz3mzhv51Abb3yyiWlaRDVpgcx+1JPqnFtVOi6LaX9Sv6pU6iM1sPfyPHB1cIensvs5oZzi9ImMKUTFwLhq7LuspVmSfCLfTxfhVkIOxY3ewPjTbmsSV3z4BTyJHQGBgKaVrwiwKtphzzlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6kyPbBUhjsNKqby6NXIDU5TFDJlvkBAZFZDZE8OGN8k=;
+ b=c2f20Oem0JWeig+5Pn8S4aDiXcaqCE7iU3VcusIuPvCrtHRPrz/kXDUG5U1gqzBoiY1WnSCNRpYiGof8pKfzWJOyF4znIA1p3yYo/J92JehJ6CFx6omwBlW9JJImtHbxoumZSQ+B7hsmK7aCSqHOGyko98FygAjKAwGvMzNWaulN0SyJscyXfCgt5fluVyRi4R9INX0HacpJFFY2Bb5fULwary7v5AhvppdguapRn0mzr2pp20GLVID1MnPuzyyYuPW7PFoNSp8sqBcJfalkjw+7540eRDGJ8AoZiEeWkWV3k9MkYOs2KMbqbq/bB3FARbFmcbKpMygfMnZeoQeapw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6kyPbBUhjsNKqby6NXIDU5TFDJlvkBAZFZDZE8OGN8k=;
+ b=j4ZGibCbIwYepo3yDgWLV4ZGeNU1a0aqq/B6W4MLfs1OTH8SVPy2RXhocqSCc/qP5Zm1ZtEG8WJfp5urqh57shA1hDKSAjDWxbwQBJCnCVuy8jWRt+fqf7mbidlDA1ZOcbm1AC3nZGogXHFxeY3gLH3jNi6Jq5P+gHqZCxb4JAEY1dwxkBEXkmZUekNhhlKQZ+fJ6Q5DW0KaSczAd8XIO5zX7g0fXPQ6KXPwm7CDUQHi+xc5K4IZsE6MIHOO2obEaMSGaGsdKa4mvqVe7eYy6iwDwaPuRE9H+VuzpJHIgTX63d2PBd/fc45EFjiXhwUDkDKiD2+3M8banki3FC0i8w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB4181.namprd12.prod.outlook.com (2603:10b6:610:a8::16)
+ by BL1PR12MB5753.namprd12.prod.outlook.com (2603:10b6:208:390::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Tue, 15 Feb
+ 2022 14:45:25 +0000
+Received: from CH2PR12MB4181.namprd12.prod.outlook.com
+ ([fe80::287d:b5f6:ed76:64ba]) by CH2PR12MB4181.namprd12.prod.outlook.com
+ ([fe80::287d:b5f6:ed76:64ba%4]) with mapi id 15.20.4975.019; Tue, 15 Feb 2022
+ 14:45:25 +0000
+Date: Tue, 15 Feb 2022 10:45:24 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v6 01/10] mm: add zone device coherent type memory support
+Message-ID: <20220215144524.GR4160@nvidia.com>
+References: <20220201154901.7921-1-alex.sierra@amd.com>
+ <20220201154901.7921-2-alex.sierra@amd.com>
+ <beb38138-2266-1ff8-cc82-8fe914bed862@redhat.com>
+ <f2af73c1-396b-168f-7f86-eb10b3b68a26@redhat.com>
+ <a24d82d9-daf9-fa1a-8b9d-5db7fe10655e@amd.com>
+ <078dd84e-ebbc-5c89-0407-f5ecc2ca3ebf@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <078dd84e-ebbc-5c89-0407-f5ecc2ca3ebf@redhat.com>
+X-ClientProxiedBy: MN2PR10CA0021.namprd10.prod.outlook.com
+ (2603:10b6:208:120::34) To CH2PR12MB4181.namprd12.prod.outlook.com
+ (2603:10b6:610:a8::16)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH] drm/msm/dpu: Disable boot loader configured data paths
-Content-Language: en-GB
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20220215043708.1256854-1-bjorn.andersson@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220215043708.1256854-1-bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5ea7756b-1a62-454e-37b5-08d9f091cd62
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5753:EE_
+X-Microsoft-Antispam-PRVS: <BL1PR12MB575302CA4A9F9B37DB4B119CC2349@BL1PR12MB5753.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dis+xxQLe/rSPTEj2uIwLzV7Kd3Lw42GXRacT9+wzW9Tu1P+S9TDmZCkkWUHUm//hE4mwaET1QXX06QCDJXRDuhqhjnL470WCkXuS1CG2Y2l98EmDF3q2OyafSHrnlyBbFWgXnFEiViZoMSV6xVwvAKOqwtIIvIQymkLAub1//V8DDBblVyoDub0BwqREdFqJIaAWqbRxriFVWv0FALHfJ4R+AwTgyK+MnAWdX2kqmSPl+1funpwghqmVXr9/eZzWnvqUtxU5IEJXa0JvqDHjH7XK/9ssMbICfhqNEZKDTwKRoJRvqCynqd0QsX/gnbgu/LqfKDsB/pmo/mB8Z0iSAOJNaKtMmhtg1x/EtshCJVa46VSrerQpQXOWa+LEi5IL6WpY+SFnGC/oISXImsfkidW5hxJM681xyALsWtODc4CjsdpmdDDauF2vYr2RbsIpTmBjHpCzOCfpr5lG+fG54Hcr6c/U1BfLX21Mj9FkhaJf3bHjdjScLIK5sZ3REecDDimKZstygpx20pbR2S6aRDILD55YcQ9Ml5H3GpbLQrHzsBeKvzMkeJ5sudoEiNv17VXGUMJPQWXpVXNBXhH4eBS9UuUzuRO6Jk+pw/gDIjxnuaxrkL3ZGBCGAIkym80lIt/0JoxWHbVdWjQ5ztHYQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB4181.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(5660300002)(2906002)(6512007)(6506007)(508600001)(4744005)(7416002)(4326008)(38100700002)(33656002)(36756003)(6486002)(54906003)(86362001)(6916009)(26005)(66556008)(316002)(8936002)(2616005)(66476007)(186003)(1076003)(66946007)(8676002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Syh9eRIMED1leK9rLOa0QQUONJJmdiEeQKje9bT+UhlnOppEABIrUkME53y1?=
+ =?us-ascii?Q?+SugnVW0jTh5GbN3s+lnYkCcqFQFrZITWrmpzV49PGvB8dRIu71LuckuCRVd?=
+ =?us-ascii?Q?STWyaIPZOjOXvRcKA+xJ4vRFdM8eV04gp2xFiTnQpAFqoiTfkZYtC/rgo6aK?=
+ =?us-ascii?Q?nFQnrTyCGa+j3nyEi4/d3s9nFF9G8AVNG0c7GzcmHD7MwZdZkW4eG6r1BLfa?=
+ =?us-ascii?Q?n1vzNATEzuIJS2KkjDB06JgfgOIlInbeD1CPlgH51BD5gOo0lrjNZYTsHOCi?=
+ =?us-ascii?Q?Z2l3c3G/msq3XBikfBLmcraW5jDdRpVdFN/8MuOdiWcF/MjItGTZJDz63e3n?=
+ =?us-ascii?Q?/rE0oE1XNSA60XwdnRjvaRAkai53uuUxuT9rTQo4wKlVc8BmqKz1m+e3aCUI?=
+ =?us-ascii?Q?xdcuBxmb49h8zo36sr+YQW3YfMXyQ3XD/CYErBxnS+VQj2VWt/dKJT3gBbGw?=
+ =?us-ascii?Q?TtWA41hY2J+bj6H8E5lOvqu6V0gBBoQVdxmrhiU4GAu7dpAEWo0jC1WaxwZ/?=
+ =?us-ascii?Q?HsMT6KM278QMwUJQ+jG4huwG7fQ06YixwiSyKFfhmkWXIhMdAzGfc746slTz?=
+ =?us-ascii?Q?y+lJXrtqLbNW+7mt0CT1XAKBKPqkpTcS6Xs3W/seXD61cuiFAAxi9wsAw2Q7?=
+ =?us-ascii?Q?N6m/snv1yA7Q4ARxNWurKEwS9EF3FCt6Du06W9t2uPlOAVt6lXc3X5qN0bUG?=
+ =?us-ascii?Q?mbimOG7MnvtjbYjEpEonlOtwOKC8Qv2W5tiI260LvP0Fjfzgu9rVnU3++rQO?=
+ =?us-ascii?Q?yftCHZLcxNb6NU6Std6fg9LMFl97gI50xq93+u8WzOTwQxjDurNptTmVnip2?=
+ =?us-ascii?Q?zTc+PsCfPa5/e2ozTAWxA6zZUSqPwZ95R2ri7lRu1nJZIRuriqXqqcuZifTf?=
+ =?us-ascii?Q?ElOluX7Wx8gH0STVgR2pQBZBG35OqVlXwb8yZ2Npq3HNUIq8iTIlAlBub9Ky?=
+ =?us-ascii?Q?u3HfGWvyIEJ9zNlwrMeVdTjdLmpGSfyYY7L/3mga9EI84NL9kxacevHxHHgY?=
+ =?us-ascii?Q?eM3PioKt+tKMykLL8MmDaqr32tO1mnZ7ELsIT6wlpavhKmWA16xpU5jWZlrl?=
+ =?us-ascii?Q?hA6D9V1qyxNb2BIfV+cPZf8pQTmzGchh3lrYhrikMVBRWV68zYy3oYe2/6Jz?=
+ =?us-ascii?Q?PmLhiNdaiK6R+0ayZO1VQsLmWf3KOZ9HhDcy6n0mowoVKx7iv5HMx/Jd/2AS?=
+ =?us-ascii?Q?oWwbUZNdAIFdsep02yIrxVFckrSSwRNTdjh7yACh+rxAD66WpzRDq7DC/1M1?=
+ =?us-ascii?Q?jYmX20E2KQzLwt6/FPk/Lovs5iGZaQfGT91FKXeRxfLNNdHqZB3+aKFXWsqE?=
+ =?us-ascii?Q?Wm7f2QWIW+C8Qc7rZTSHZWEUg8Gul7xRjpKWgnuA875hTGl3xIrpklVTi2fu?=
+ =?us-ascii?Q?NoIib5RlNPhCil2l0YWaH7irT5Ae5jjd2AG/WXzpCLhogD8OVgBR8MZ61tbC?=
+ =?us-ascii?Q?5/pbc9hGYBmMpEeHJvjjNyBbkW2/HzCjNhGQRKT4kci0H1zQCq2EwNVVRxp6?=
+ =?us-ascii?Q?1MfhG56ac7H4EW/+aEiZ4mCq0+s1QU2smPGADaveag6iHrSnIGEBr4R0WI/R?=
+ =?us-ascii?Q?b/uH8tmeXxQ4YebBrig=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ea7756b-1a62-454e-37b5-08d9f091cd62
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4181.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 14:45:25.7575 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JsEKIYthh8Lf6khvZ7B9lmUlV4NCTkG+OgBkO6Cexn/DhEaY3hs6YpS+AsdQ/jsv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5753
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,162 +119,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
+ willy@infradead.org, Felix Kuehling <felix.kuehling@amd.com>,
+ apopple@nvidia.com, amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org,
+ linux-mm@kvack.org, jglisse@redhat.com, dri-devel@lists.freedesktop.org,
+ akpm@linux-foundation.org, linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/02/2022 07:37, Bjorn Andersson wrote:
-> It's typical for the bootloader to configure CTL_0 for the boot splash
-> or EFIFB, but for non-DSI use cases the DPU driver tend to pick another
-> CTL and the system might end up with two configured data paths producing
-> data on the same INTF. In particular as the IOMMU configuration isn't
-> retained from the bootloader one of the data paths will push underflow
-> color, resulting in screen flickering.
+On Tue, Feb 15, 2022 at 01:16:43PM +0100, David Hildenbrand wrote:
+> > fact, the first version of our patches attempted to add migration 
+> > support to DEVICE_GENERIC. But we were convinced to create a new 
+> > ZONE_DEVICE page type for our use case instead.
 > 
-> Naturally the end goal would be to inherit the bootloader's
-> configuration and provide the user with a glitch-free handover from the
-> boot configuration to a running DPU.
-> 
-> But such effort will affect clocks, regulators, power-domains etc, and
-> will take time to implement. So in the meantime this patch simply
-> disables all the data paths, on platforms that has CTL_FETCH_ACTIVE, to
-> avoid the graphical artifacts.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 13 +++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h |  6 ++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c    |  2 ++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c     | 17 +++++++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h     |  8 ++++++++
->   5 files changed, 46 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index 02da9ecf71f1..69d4849484fa 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -357,6 +357,18 @@ static void dpu_hw_ctl_clear_all_blendstages(struct dpu_hw_ctl *ctx)
->   	DPU_REG_WRITE(c, CTL_FETCH_PIPE_ACTIVE, 0);
->   }
->   
-> +static void dpu_hw_ctl_disable_boot_config(struct dpu_hw_ctl *ctx)
-> +{
-> +	if (ctx->caps->features & BIT(DPU_CTL_FETCH_ACTIVE)) {
+> Do you know if DEVICE_GENERIC pages would end up as PageAnon()? My
+> assumption was that they would be part of a special mapping.
 
-I see that you are changing only CTL_FETCH_PIPE_ACTIVE. However it still 
-seems like a hack.
-What if instead we always disable boot config for all paths except CTL_0 
-(or CTL_0 and CTL_1)?
+We need to stop using the special PTEs and VMAs for things that have a
+struct page. This is a mistake DAX created that must be undone.
 
-> +		/*
-> +		 * Disable the pipe fetch and trigger a start, to disable the
-> +		 * data path
-> +		 */
-> +		DPU_REG_WRITE(&ctx->hw, CTL_FETCH_PIPE_ACTIVE, 0);
-> +		DPU_REG_WRITE(&ctx->hw, CTL_START, 0x1);
-
-What about video vs cmd modes?
-
-> +	}
-> +}
-> +
->   static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
->   	enum dpu_lm lm, struct dpu_hw_stage_cfg *stage_cfg)
->   {
-> @@ -590,6 +602,7 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
->   	ops->trigger_pending = dpu_hw_ctl_trigger_pending;
->   	ops->reset = dpu_hw_ctl_reset_control;
->   	ops->wait_reset_status = dpu_hw_ctl_wait_reset_status;
-> +	ops->disable_boot_config = dpu_hw_ctl_disable_boot_config;
->   	ops->clear_all_blendstages = dpu_hw_ctl_clear_all_blendstages;
->   	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
->   	ops->get_bitmask_sspp = dpu_hw_ctl_get_bitmask_sspp;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> index 806c171e5df2..c2734f6ab760 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> @@ -159,6 +159,12 @@ struct dpu_hw_ctl_ops {
->   	 */
->   	void (*clear_all_blendstages)(struct dpu_hw_ctl *ctx);
->   
-> +	/**
-> +	 * Disable the configuration setup by the bootloader
-> +	 * @ctx	      : ctl path ctx pointer
-> +	 */
-> +	void (*disable_boot_config)(struct dpu_hw_ctl *ctx);
-> +
->   	/**
->   	 * Configure layer mixer to pipe configuration
->   	 * @ctx       : ctl path ctx pointer
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index cedc631f8498..eef2f017031a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -1107,6 +1107,8 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->   
->   	dpu_kms->rm_init = true;
->   
-> +	dpu_rm_clear_boot_config(&dpu_kms->rm, dpu_kms->catalog);
-> +
->   	dpu_kms->hw_mdp = dpu_hw_mdptop_init(MDP_TOP, dpu_kms->mmio,
->   					     dpu_kms->catalog);
->   	if (IS_ERR(dpu_kms->hw_mdp)) {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index f9c83d6e427a..3365c5e41e28 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -4,6 +4,7 @@
->    */
->   
->   #define pr_fmt(fmt)	"[drm:%s] " fmt, __func__
-> +#include <linux/delay.h>
->   #include "dpu_kms.h"
->   #include "dpu_hw_lm.h"
->   #include "dpu_hw_ctl.h"
-> @@ -229,6 +230,22 @@ int dpu_rm_init(struct dpu_rm *rm,
->   	return rc ? rc : -EFAULT;
->   }
->   
-> +void dpu_rm_clear_boot_config(struct dpu_rm *rm, struct dpu_mdss_cfg *cat)
-> +{
-> +	struct dpu_hw_ctl *ctl;
-> +	int i;
-> +
-> +	for (i = CTL_0; i < CTL_MAX; i++) {
-> +		if (!rm->ctl_blks[i - CTL_0])
-> +			continue;
-> +
-> +		DPU_DEBUG("disabling ctl%d boot configuration\n", i - CTL_0);
-> +
-> +		ctl = to_dpu_hw_ctl(rm->ctl_blks[i - CTL_0]);
-> +		ctl->ops.disable_boot_config(ctl);
-> +	}
-> +}
-> +
->   static bool _dpu_rm_needs_split_display(const struct msm_display_topology *top)
->   {
->   	return top->num_intf > 1;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> index 1f12c8d5b8aa..d3e084541e67 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> @@ -88,5 +88,13 @@ void dpu_rm_release(struct dpu_global_state *global_state,
->   int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
->   	struct dpu_global_state *global_state, uint32_t enc_id,
->   	enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size);
-> +
-> +/**
-> + * dpu_rm_clear_boot_config() - Tear down any data paths configured by boot
-> + * @rm: DPU Resource Manager handle
-> + * @cat: Pointer to hardware catalog
-> + */
-> +void dpu_rm_clear_boot_config(struct dpu_rm *rm, struct dpu_mdss_cfg *cat);
-> +
->   #endif /* __DPU_RM_H__ */
->   
-
-
--- 
-With best wishes
-Dmitry
+Jason 
