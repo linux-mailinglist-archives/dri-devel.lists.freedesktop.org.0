@@ -1,56 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE17B4B6BA4
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 13:04:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1C84B6BB4
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 13:09:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE8810E453;
-	Tue, 15 Feb 2022 12:04:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E530210E467;
+	Tue, 15 Feb 2022 12:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E392210E453;
- Tue, 15 Feb 2022 12:04:51 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id g145so17064385qke.3;
- Tue, 15 Feb 2022 04:04:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qbnM1QziU/XSffVJX+bwaVuJwYnLnX8GCs9DF4EaXsk=;
- b=GBMqnSHarXC8GjklagRkyGCCCF9Vo/+51OFuwdd5ApKg9dkW3pSkUxe1+Er9Afky6v
- Mh2HJsmInn/Y/1pqwHTcBVDt66gJ/n6NdvbagUwpaPDxAvKcWYOAGF9eJPUNFVcrRXtq
- xCSE7P90lHDA1hG1rhBhFZGiFUdEZBw1BFNdSm6I9ARqcXxZutmsu9NurMbQf2X083rl
- 9+kUZoxTiRxt6xCjAn7+Jb0RJO2hrZ27eujcuFSoIqQOhf4xU+BWknVKr1J/HQwRZh/a
- e5YQ7kDjPYvpT1sVr1H0+hd9UeSzNdxElh2nZKmTnlIU4cYZGHUOmV3CekLD9/CDG7mk
- a3Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qbnM1QziU/XSffVJX+bwaVuJwYnLnX8GCs9DF4EaXsk=;
- b=bWN8lO7/tclxLpJNMxk0nBIev/1LKMhR7Cgr/AvpZSJE4lfpoKu8xUHse4tGGZV9qO
- 9rYYxalmHlDcH0rlRzbdDaKvrT3vfofJSiOKPT55mKFgZhNhocbdZ4qmVQCpN01merRU
- 65ve6PxXwTSfzcvSTXfK9Lxze7uxYrQz5xq+aCD9aFyWqjYgqVLXCUsTD10tWD5nYg1z
- G7VxtQNFIAPOkRwlCmnQc4Q4JMZrLL2oE6Pq0n3Cv/tDuLtlm1PUtta3upBQdk15sN9P
- QXV3tja6CQRjcsUo3orNLOz21SwspwTg50cJa3wazEOBZ7e4tRC0VsmarsaEl9WW8w4Y
- ushw==
-X-Gm-Message-State: AOAM532GT6N9c8qB5UKRn1YMeEier2vuG1+AtdXkx2G8Tl+vSoUbdjfE
- 12uyzFMLMqYeDDvzaPHkc3Xvvv8sXKLR6DfoagjgCwtHyqBb/A==
-X-Google-Smtp-Source: ABdhPJxFzThI9yJ6WQ5YwMfuHeghHCKy7MGmGIpj5Bk2cqTfQYGSL/bhIOpU56LzBlNjDXYJ7jFaFlTkyTg9FfzELMc=
-X-Received: by 2002:a05:620a:4048:: with SMTP id
- i8mr1689174qko.482.1644926690999; 
- Tue, 15 Feb 2022 04:04:50 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C9C2210E467
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 12:09:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D0A9B1480;
+ Tue, 15 Feb 2022 04:09:21 -0800 (PST)
+Received: from [10.57.70.89] (unknown [10.57.70.89])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFF733F718;
+ Tue, 15 Feb 2022 04:09:20 -0800 (PST)
+Message-ID: <f408da05-a825-c392-6484-3a665cc0dbd6@arm.com>
+Date: Tue, 15 Feb 2022 12:09:16 +0000
 MIME-Version: 1.0
-References: <20220208084234.1684930-1-hsinyi@chromium.org>
-In-Reply-To: <20220208084234.1684930-1-hsinyi@chromium.org>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 15 Feb 2022 12:04:39 +0000
-Message-ID: <CACvgo53u01BK_D0ZssV+gCepjxSz23Nr5Dy1qXeaAoJuu6VCFQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v8 1/3] gpu: drm: separate panel orientation
- property creating and value setting
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] drm/panfrost: Dynamically allocate pm_domains
+Content-Language: en-GB
+To: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220214203132.4722-1-alyssa.rosenzweig@collabora.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220214203132.4722-1-alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,61 +44,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- LAKML <linux-arm-kernel@lists.infradead.org>
+Cc: David Airlie <airlied@linux.ie>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-kernel@vger.kernel.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Greetings everyone,
+On 2022-02-14 20:31, Alyssa Rosenzweig wrote:
+> MT8192 requires 5 power domains. Rather than bump MAX_PM_DOMAINS and
+> waste memory on every supported Panfrost chip, instead dynamically
+> allocate pm_domain_devs and pm_domain_links. This adds some flexibility;
+> it seems inevitable a new MediaTek device will require more than 5
+> domains.
+> 
+> On non-MediaTek devices, this saves a small amount of memory.
+> 
+> Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> ---
+>   drivers/gpu/drm/panfrost/panfrost_device.c | 14 ++++++++++----
+>   drivers/gpu/drm/panfrost/panfrost_device.h |  5 ++---
+>   2 files changed, 12 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index ee612303f076..661cdec320af 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -127,7 +127,10 @@ static void panfrost_pm_domain_fini(struct panfrost_device *pfdev)
+>   {
+>   	int i;
+>   
+> -	for (i = 0; i < ARRAY_SIZE(pfdev->pm_domain_devs); i++) {
+> +	if (!pfdev->pm_domain_devs || !pfdev->pm_domain_links)
+> +		return;
+> +
+> +	for (i = 0; i < pfdev->comp->num_pm_domains; i++) {
+>   		if (!pfdev->pm_domain_devs[i])
+>   			break;
+>   
+> @@ -161,9 +164,12 @@ static int panfrost_pm_domain_init(struct panfrost_device *pfdev)
+>   		return -EINVAL;
+>   	}
+>   
+> -	if (WARN(num_domains > ARRAY_SIZE(pfdev->pm_domain_devs),
+> -			"Too many supplies in compatible structure.\n"))
+> -		return -EINVAL;
+> +	pfdev->pm_domain_devs = devm_kcalloc(pfdev->dev, num_domains,
+> +					     sizeof(*pfdev->pm_domain_devs),
+> +					     GFP_KERNEL);
+> +	pfdev->pm_domain_links = devm_kcalloc(pfdev->dev, num_domains,
+> +					      sizeof(*pfdev->pm_domain_links),
+> +					      GFP_KERNEL);
 
-Padron for joining in so late o/
+Since we're not really doing any detailed management of our device 
+links, could we get away with using AUTOREMOVE_CONSUMER instead of 
+STATELESS to avoid having to explicitly keep track of them ourselves?
 
-On Tue, 8 Feb 2022 at 08:42, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
->
-> drm_dev_register() sets connector->registration_state to
-> DRM_CONNECTOR_REGISTERED and dev->registered to true. If
-> drm_connector_set_panel_orientation() is first called after
-> drm_dev_register(), it will fail several checks and results in following
-> warning.
->
-> Add a function to create panel orientation property and set default value
-> to UNKNOWN, so drivers can call this function to init the property earlier
-> , and let the panel set the real value later.
->
+Robin.
 
-The warning illustrates a genuine race condition, where userspace will
-read the old/invalid property value/state. So this patch masks away
-the WARNING without addressing the actual issue.
-Instead can we fix the respective drivers, so that no properties are
-created after drm_dev_register()?
-
-Longer version:
-As we look into drm_dev_register() it's in charge of creating the
-dev/sysfs nodes (et al). Note that connectors cannot disappear at
-runtime.
-For panel orientation, we are creating an immutable connector
-properly, meaning that as soon as drm_dev_register() is called we must
-ensure that the property is available (if applicable) and set to the
-correct value.
-
-For illustration, consider the following scenario:
- - DRM modules are loaded late - are not built-in and not part of
-initrd (or there's no initrd)
- - kernel boots
- - plymouth/similar user-space component kicks in before the
-driver/module is loaded
- - module gets loaded, drm_dev_register() kicks in populating /dev/dri/card0
- - plymouth opens the dev node and reads DRM_MODE_PANEL_ORIENTATION_UNKNOWN
- - module updates the orientation property
-
-Thanks
-Emil
+>   
+>   	for (i = 0; i < num_domains; i++) {
+>   		pfdev->pm_domain_devs[i] =
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index 8b25278f34c8..98e3039696f9 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -22,7 +22,6 @@ struct panfrost_job;
+>   struct panfrost_perfcnt;
+>   
+>   #define NUM_JOB_SLOTS 3
+> -#define MAX_PM_DOMAINS 3
+>   
+>   struct panfrost_features {
+>   	u16 id;
+> @@ -87,8 +86,8 @@ struct panfrost_device {
+>   	struct regulator_bulk_data *regulators;
+>   	struct reset_control *rstc;
+>   	/* pm_domains for devices with more than one. */
+> -	struct device *pm_domain_devs[MAX_PM_DOMAINS];
+> -	struct device_link *pm_domain_links[MAX_PM_DOMAINS];
+> +	struct device **pm_domain_devs;
+> +	struct device_link **pm_domain_links;
+>   	bool coherent;
+>   
+>   	struct panfrost_features features;
