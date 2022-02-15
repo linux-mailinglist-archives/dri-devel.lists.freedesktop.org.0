@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76CA4B6708
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 10:10:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E8C4B6717
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 10:12:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67CAA895B2;
-	Tue, 15 Feb 2022 09:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D23D710E419;
+	Tue, 15 Feb 2022 09:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB3B8895B2;
- Tue, 15 Feb 2022 09:09:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644916197; x=1676452197;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=awoHnw/Sv0CY0ncJjQeG77lHxCZjK+04lwjonc5SI/k=;
- b=DVF8F1YnjHYJ6zczW0/cvOmyOSEyG6nCEb8iA+MvEsulYjCGqkHMYfdo
- 1SKmmMVq9XwR6SkPgF1T3Jr3qrryRsxuAjtFg7IBfsaay0i+Sm35zDkNA
- uPfsm1TEjIleHFqMpJyC5EpV4k/cRqTDgoJDgLeufUNiE3iYcTpM7au2H
- Qsz6kwXOBzuF5KkjY8vmLhWryrROh/eH9KVOsH8kRgp5m2fx87uTQvOLw
- Olc19RR+ZsSu3iqTIc3cZTtnpxP5iqzblhCrHj8i6nPEKEHR0MHlD8u3J
- u/Ez0UMxyvBKrLRS0sPcLREXdluDiYDa0iK0FZL0Q0cu59NGwNIYBtXuu g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10258"; a="336729664"
-X-IronPort-AV: E=Sophos;i="5.88,370,1635231600"; d="scan'208";a="336729664"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 01:09:57 -0800
-X-IronPort-AV: E=Sophos;i="5.88,370,1635231600"; d="scan'208";a="624680293"
-Received: from jkoratik-mobl2.amr.corp.intel.com (HELO [10.212.80.80])
- ([10.212.80.80])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 01:09:56 -0800
-Message-ID: <5de141fa-014f-e95f-7dc8-74d95a9c6b14@linux.intel.com>
-Date: Tue, 15 Feb 2022 09:09:54 +0000
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
+ [IPv6:2607:f8b0:4864:20::72e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF7B10E419;
+ Tue, 15 Feb 2022 09:11:56 +0000 (UTC)
+Received: by mail-qk1-x72e.google.com with SMTP id m25so16741959qka.9;
+ Tue, 15 Feb 2022 01:11:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YBQscFyooYL0WHuST9zmiXq7toDSTo9x20y433njXvY=;
+ b=CUvbeESCjAqhXzzfxF/YYa6U3SM4LMGYKlC7SDkDR1uhzWCLBoEldyNjHc/MwM+Jqt
+ 4pPfqpLePsZCSFx+7tpIPqSBGnq4Hjeg6k1HyrJZukjNbYEQuobWYo41naoqODynPPZo
+ f4PX12XFozrF2o7h/ScjfH+qvIh6UT068hiTttGh0P4ulZuLI4lN0Rv0S3ewaEoYQ6H4
+ D8C69zV9DlfMSDeJ6mK8HrE+xx2GzFkpH79qQaz+FiWQVwyzsvhMl8DaNIWLVrAG9iol
+ d5IUK6aoMjRZQB2RfR0jEzeIYr6EChVWSe3awOtMZy1hiEkWLE7zO2rmxvsnq2gZT6PF
+ 7Bnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YBQscFyooYL0WHuST9zmiXq7toDSTo9x20y433njXvY=;
+ b=UlDyrqhnbhWnEuL/2sDlfxQ+91qxB3jsjqdYy9u1r2DRkA/xIWCDVtUaI7BH+CRByp
+ nL3Og3RPvDvCBaFIjC7v30PdAYdjpuwrQDjJ1EJxUGeQe5oFLrk4BVhYMR1vQvGjyHsw
+ 4v2zhN/GzJHSi3LO6VmLxfcDY/kWAz1e78oJ/EeXef0S14uMsMq/VX7G8qWKRlMhDHoT
+ ADf341wJzGPudMD17AD/y9yS+2F5pyoucs/QjyPpsZwyGHK6XmKoambN8E0JGQbNVE04
+ 8Ux2QiKGqE7zF7b28A1XYurQcDcGQe2IS1ZGHISGjs3pdRtbQ4ryAgE/T3+v50xXDQ8X
+ rjzg==
+X-Gm-Message-State: AOAM5333rpIMRWN8dNsx4Sn1WFQVAYVW8cPWavKxBPHjUrRhmS7zd/F5
+ BI0FvMBXh01y5SuXmyX7vB4=
+X-Google-Smtp-Source: ABdhPJzt2l3x8XeZpyli8EcdnuyjGHmBO9r/EPioUdHk5iFiWxXUFc2BA0D+lX3UAgQSkHxG7KiAfw==
+X-Received: by 2002:a05:620a:2589:: with SMTP id
+ x9mr1457241qko.335.1644916315265; 
+ Tue, 15 Feb 2022 01:11:55 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id r3sm16683371qkm.56.2022.02.15.01.11.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Feb 2022 01:11:54 -0800 (PST)
+From: cgel.zte@gmail.com
+X-Google-Original-From: deng.changcheng@zte.com.cn
+To: Felix.Kuehling@amd.com
+Subject: [PATCH] drm/amdkfd: Replace zero-length array with flexible-array
+ member
+Date: Tue, 15 Feb 2022 09:11:42 +0000
+Message-Id: <20220215091142.1775600-1-deng.changcheng@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Initialize GuC submission locks
- and queues early
-Content-Language: en-US
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220215011123.734572-1-daniele.ceraolospurio@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220215011123.734572-1-daniele.ceraolospurio@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,83 +68,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, Zeal Robot <zealci@zte.com.cn>, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Changcheng Deng <deng.changcheng@zte.com.cn>
 
-On 15/02/2022 01:11, Daniele Ceraolo Spurio wrote:
-> Move initialization of submission-related spinlock, lists and workers to
-> init_early. This fixes an issue where if the GuC init fails we might
-> still try to get the lock in the context cleanup code. Note that it is
+There is a regular need in the kernel to provide a way to declare having
+a dynamically sized set of trailing elements in a structure. Kernel code
+should always use "flexible array members" for these cases. The older
+style of one-element or zero-length arrays should no longer be used.
+Reference:
+https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays
 
-What's the worst case impact on non-debug builds aka is Fixes: required?
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+index e54a52785690..7d39191d13f6 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -1084,7 +1084,7 @@ struct kfd_criu_svm_range_priv_data {
+ 	uint64_t start_addr;
+ 	uint64_t size;
+ 	/* Variable length array of attributes */
+-	struct kfd_ioctl_svm_attribute attrs[0];
++	struct kfd_ioctl_svm_attribute attrs[];
+ };
+ 
+ struct kfd_criu_queue_priv_data {
+-- 
+2.25.1
 
-Tvrtko
-
-> safe to call the GuC context cleanup code even if the init failed
-> because all contexts are initialized with an invalid GuC ID, which will
-> cause the GuC side of the cleanup to be skipped, so it is easier to just
-> make sure the variables are initialized than to special case the cleanup
-> to handle the case when they're not.
-> 
-> References: https://gitlab.freedesktop.org/drm/intel/-/issues/4932
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> ---
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 27 ++++++++++---------
->   1 file changed, 14 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index b3a429a92c0da..2160da2c83cbf 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -1818,24 +1818,11 @@ int intel_guc_submission_init(struct intel_guc *guc)
->   	 */
->   	GEM_BUG_ON(!guc->lrc_desc_pool);
->   
-> -	xa_init_flags(&guc->context_lookup, XA_FLAGS_LOCK_IRQ);
-> -
-> -	spin_lock_init(&guc->submission_state.lock);
-> -	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
-> -	ida_init(&guc->submission_state.guc_ids);
-> -	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
-> -	INIT_WORK(&guc->submission_state.destroyed_worker,
-> -		  destroyed_worker_func);
-> -	INIT_WORK(&guc->submission_state.reset_fail_worker,
-> -		  reset_fail_worker_func);
-> -
->   	guc->submission_state.guc_ids_bitmap =
->   		bitmap_zalloc(NUMBER_MULTI_LRC_GUC_ID(guc), GFP_KERNEL);
->   	if (!guc->submission_state.guc_ids_bitmap)
->   		return -ENOMEM;
->   
-> -	spin_lock_init(&guc->timestamp.lock);
-> -	INIT_DELAYED_WORK(&guc->timestamp.work, guc_timestamp_ping);
->   	guc->timestamp.ping_delay = (POLL_TIME_CLKS / gt->clock_frequency + 1) * HZ;
->   	guc->timestamp.shift = gpm_timestamp_shift(gt);
->   
-> @@ -3831,6 +3818,20 @@ static bool __guc_submission_selected(struct intel_guc *guc)
->   
->   void intel_guc_submission_init_early(struct intel_guc *guc)
->   {
-> +	xa_init_flags(&guc->context_lookup, XA_FLAGS_LOCK_IRQ);
-> +
-> +	spin_lock_init(&guc->submission_state.lock);
-> +	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
-> +	ida_init(&guc->submission_state.guc_ids);
-> +	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
-> +	INIT_WORK(&guc->submission_state.destroyed_worker,
-> +		  destroyed_worker_func);
-> +	INIT_WORK(&guc->submission_state.reset_fail_worker,
-> +		  reset_fail_worker_func);
-> +
-> +	spin_lock_init(&guc->timestamp.lock);
-> +	INIT_DELAYED_WORK(&guc->timestamp.work, guc_timestamp_ping);
-> +
->   	guc->submission_state.num_guc_ids = GUC_MAX_LRC_DESCRIPTORS;
->   	guc->submission_supported = __guc_submission_supported(guc);
->   	guc->submission_selected = __guc_submission_selected(guc);
