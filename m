@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32ACC4B6FBE
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 16:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 090514B6FC2
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 16:29:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F3710E593;
-	Tue, 15 Feb 2022 15:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8682B10E5CC;
+	Tue, 15 Feb 2022 15:29:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5532810E598;
- Tue, 15 Feb 2022 15:28:26 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28BE010E5C7
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 15:29:20 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C8918615F0;
- Tue, 15 Feb 2022 15:28:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E4F9C340F2;
- Tue, 15 Feb 2022 15:28:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A53BC60AC8;
+ Tue, 15 Feb 2022 15:29:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A399C340F1;
+ Tue, 15 Feb 2022 15:29:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644938905;
- bh=TmLejLW9mEBO5G5fDzZMrMFnVitxe+SOqkA4tEbNZvY=;
+ s=k20201202; t=1644938959;
+ bh=BOnIhtOxhnn7VldcjnILH2G5d8hO49/zPZe3pqe3v6o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WdjmPIoQ2t7s7xHaCmYKmj64acODYwbQarriCGHsIWqANZoSRJwZ2FGmIHDnA2TlZ
- 6KnfKqRTZYyB/ItDuJLPD7ccWG4dkt4O5v+IbAV1va7PfPmIhsFFJNpMpnI43FgqMV
- vPMutovglqMnH17gQ6KsDrIcocPrqvNaQYXr9E/2r0ZGWGQbz5RVAkftDC5F8Tmm/X
- 4knjacuv6BUv04422KRBKMyd6Gw5x+vkpRW5KtVZ1Whz6DY2jHckJigTDR7L0hyvi3
- jxmPR6xKsUamMRj6cOeneVcp6hWaUdBXG1Mdtq/3Vdafk6zADspaRyI3GdIzA1UHS1
- jMmkQdKWuY0Mg==
+ b=Kb7/rZzWFfUeLaXnH1CVQWIlVb48NF6UqRL84jm9lnRCzQRyhZEUQmdV9kNf+F5bo
+ EU75YtnFPjNp1F0+x4sPa5XpOa6rsCArpZHA45wR0Z3ulqv1Z3SPOqVPNdMT3A8VOY
+ l+9bPrdCUQaJiKL5IjVAk16jzRjBEYEFLYzE9U66/c2TVXa4tBDR5y5avsBO+7EPfg
+ ZS0HbUuHBJRryf3AYWaTpuBxNppeieFPDj7/y2P0Qz+OC0dt32D0JSjNNDLo0o9Msf
+ 8fUdGVjymnbTXNLqbQwOpFBjOcccFKn14xsXetIkhAjbjlCs+I46p3MOm1azYPsFck
+ O4CsfIuIyU9Kg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 31/34] drm/amd/display: fix yellow carp wm
- clamping
-Date: Tue, 15 Feb 2022 10:26:54 -0500
-Message-Id: <20220215152657.580200-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 25/33] drm/rockchip: dw_hdmi: Do not leave clock
+ enabled in error case
+Date: Tue, 15 Feb 2022 10:28:23 -0500
+Message-Id: <20220215152831.580780-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220215152657.580200-1-sashal@kernel.org>
-References: <20220215152657.580200-1-sashal@kernel.org>
+In-Reply-To: <20220215152831.580780-1-sashal@kernel.org>
+References: <20220215152831.580780-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,302 +55,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Charlene Liu <Charlene.Liu@amd.com>,
- Eric.Yang2@amd.com, sunpeng.li@amd.com, Josip.Pavic@amd.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
- nicholas.kazlauskas@amd.com, airlied@linux.ie,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- dri-devel@lists.freedesktop.org, Jasdeep Dhillon <jdhillon@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ Sascha Hauer <s.hauer@pengutronix.de>, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+From: Sascha Hauer <s.hauer@pengutronix.de>
 
-[ Upstream commit 60fdf98a774eee244a4e00c34a9e7729b61d0f44 ]
+[ Upstream commit c0cfbb122275da1b726481de5a8cffeb24e6322b ]
 
-Fix clamping to match register field size
+The driver returns an error when devm_phy_optional_get() fails leaving
+the previously enabled clock turned on. Change order and enable the
+clock only after the phy has been acquired.
 
-Reviewed-by: Charlene Liu <Charlene.Liu@amd.com>
-Acked-by: Jasdeep Dhillon <jdhillon@amd.com>
-Signed-off-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220126145549.617165-3-s.hauer@pengutronix.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/display/dc/dcn31/dcn31_hubbub.c   | 61 ++++++++++---------
- 1 file changed, 32 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.c
-index 90c73a1cb9861..5e3bcaf12cac4 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.c
-@@ -138,8 +138,11 @@ static uint32_t convert_and_clamp(
- 	ret_val = wm_ns * refclk_mhz;
- 	ret_val /= 1000;
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+index 830bdd5e9b7ce..8677c82716784 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+@@ -529,13 +529,6 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 		return ret;
+ 	}
  
--	if (ret_val > clamp_value)
-+	if (ret_val > clamp_value) {
-+		/* clamping WMs is abnormal, unexpected and may lead to underflow*/
-+		ASSERT(0);
- 		ret_val = clamp_value;
+-	ret = clk_prepare_enable(hdmi->vpll_clk);
+-	if (ret) {
+-		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI vpll: %d\n",
+-			      ret);
+-		return ret;
+-	}
+-
+ 	hdmi->phy = devm_phy_optional_get(dev, "hdmi");
+ 	if (IS_ERR(hdmi->phy)) {
+ 		ret = PTR_ERR(hdmi->phy);
+@@ -544,6 +537,13 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 		return ret;
+ 	}
+ 
++	ret = clk_prepare_enable(hdmi->vpll_clk);
++	if (ret) {
++		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI vpll: %d\n",
++			      ret);
++		return ret;
 +	}
++
+ 	drm_encoder_helper_add(encoder, &dw_hdmi_rockchip_encoder_helper_funcs);
+ 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
  
- 	return ret_val;
- }
-@@ -159,7 +162,7 @@ static bool hubbub31_program_urgent_watermarks(
- 	if (safe_to_lower || watermarks->a.urgent_ns > hubbub2->watermarks.a.urgent_ns) {
- 		hubbub2->watermarks.a.urgent_ns = watermarks->a.urgent_ns;
- 		prog_wm_value = convert_and_clamp(watermarks->a.urgent_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0x3fff);
- 		REG_SET(DCHUBBUB_ARB_DATA_URGENCY_WATERMARK_A, 0,
- 				DCHUBBUB_ARB_DATA_URGENCY_WATERMARK_A, prog_wm_value);
- 
-@@ -193,7 +196,7 @@ static bool hubbub31_program_urgent_watermarks(
- 	if (safe_to_lower || watermarks->a.urgent_latency_ns > hubbub2->watermarks.a.urgent_latency_ns) {
- 		hubbub2->watermarks.a.urgent_latency_ns = watermarks->a.urgent_latency_ns;
- 		prog_wm_value = convert_and_clamp(watermarks->a.urgent_latency_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0x3fff);
- 		REG_SET(DCHUBBUB_ARB_REFCYC_PER_TRIP_TO_MEMORY_A, 0,
- 				DCHUBBUB_ARB_REFCYC_PER_TRIP_TO_MEMORY_A, prog_wm_value);
- 	} else if (watermarks->a.urgent_latency_ns < hubbub2->watermarks.a.urgent_latency_ns)
-@@ -203,7 +206,7 @@ static bool hubbub31_program_urgent_watermarks(
- 	if (safe_to_lower || watermarks->b.urgent_ns > hubbub2->watermarks.b.urgent_ns) {
- 		hubbub2->watermarks.b.urgent_ns = watermarks->b.urgent_ns;
- 		prog_wm_value = convert_and_clamp(watermarks->b.urgent_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0x3fff);
- 		REG_SET(DCHUBBUB_ARB_DATA_URGENCY_WATERMARK_B, 0,
- 				DCHUBBUB_ARB_DATA_URGENCY_WATERMARK_B, prog_wm_value);
- 
-@@ -237,7 +240,7 @@ static bool hubbub31_program_urgent_watermarks(
- 	if (safe_to_lower || watermarks->b.urgent_latency_ns > hubbub2->watermarks.b.urgent_latency_ns) {
- 		hubbub2->watermarks.b.urgent_latency_ns = watermarks->b.urgent_latency_ns;
- 		prog_wm_value = convert_and_clamp(watermarks->b.urgent_latency_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0x3fff);
- 		REG_SET(DCHUBBUB_ARB_REFCYC_PER_TRIP_TO_MEMORY_B, 0,
- 				DCHUBBUB_ARB_REFCYC_PER_TRIP_TO_MEMORY_B, prog_wm_value);
- 	} else if (watermarks->b.urgent_latency_ns < hubbub2->watermarks.b.urgent_latency_ns)
-@@ -247,7 +250,7 @@ static bool hubbub31_program_urgent_watermarks(
- 	if (safe_to_lower || watermarks->c.urgent_ns > hubbub2->watermarks.c.urgent_ns) {
- 		hubbub2->watermarks.c.urgent_ns = watermarks->c.urgent_ns;
- 		prog_wm_value = convert_and_clamp(watermarks->c.urgent_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0x3fff);
- 		REG_SET(DCHUBBUB_ARB_DATA_URGENCY_WATERMARK_C, 0,
- 				DCHUBBUB_ARB_DATA_URGENCY_WATERMARK_C, prog_wm_value);
- 
-@@ -281,7 +284,7 @@ static bool hubbub31_program_urgent_watermarks(
- 	if (safe_to_lower || watermarks->c.urgent_latency_ns > hubbub2->watermarks.c.urgent_latency_ns) {
- 		hubbub2->watermarks.c.urgent_latency_ns = watermarks->c.urgent_latency_ns;
- 		prog_wm_value = convert_and_clamp(watermarks->c.urgent_latency_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0x3fff);
- 		REG_SET(DCHUBBUB_ARB_REFCYC_PER_TRIP_TO_MEMORY_C, 0,
- 				DCHUBBUB_ARB_REFCYC_PER_TRIP_TO_MEMORY_C, prog_wm_value);
- 	} else if (watermarks->c.urgent_latency_ns < hubbub2->watermarks.c.urgent_latency_ns)
-@@ -291,7 +294,7 @@ static bool hubbub31_program_urgent_watermarks(
- 	if (safe_to_lower || watermarks->d.urgent_ns > hubbub2->watermarks.d.urgent_ns) {
- 		hubbub2->watermarks.d.urgent_ns = watermarks->d.urgent_ns;
- 		prog_wm_value = convert_and_clamp(watermarks->d.urgent_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0x3fff);
- 		REG_SET(DCHUBBUB_ARB_DATA_URGENCY_WATERMARK_D, 0,
- 				DCHUBBUB_ARB_DATA_URGENCY_WATERMARK_D, prog_wm_value);
- 
-@@ -325,7 +328,7 @@ static bool hubbub31_program_urgent_watermarks(
- 	if (safe_to_lower || watermarks->d.urgent_latency_ns > hubbub2->watermarks.d.urgent_latency_ns) {
- 		hubbub2->watermarks.d.urgent_latency_ns = watermarks->d.urgent_latency_ns;
- 		prog_wm_value = convert_and_clamp(watermarks->d.urgent_latency_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0x3fff);
- 		REG_SET(DCHUBBUB_ARB_REFCYC_PER_TRIP_TO_MEMORY_D, 0,
- 				DCHUBBUB_ARB_REFCYC_PER_TRIP_TO_MEMORY_D, prog_wm_value);
- 	} else if (watermarks->d.urgent_latency_ns < hubbub2->watermarks.d.urgent_latency_ns)
-@@ -351,7 +354,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->a.cstate_pstate.cstate_enter_plus_exit_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->a.cstate_pstate.cstate_enter_plus_exit_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_A, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_A, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_ENTER_EXIT_WATERMARK_A calculated =%d\n"
-@@ -367,7 +370,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->a.cstate_pstate.cstate_exit_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->a.cstate_pstate.cstate_exit_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_A, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_A, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_EXIT_WATERMARK_A calculated =%d\n"
-@@ -383,7 +386,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->a.cstate_pstate.cstate_enter_plus_exit_z8_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->a.cstate_pstate.cstate_enter_plus_exit_z8_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_Z8_A, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_Z8_A, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_ENTER_WATERMARK_Z8_A calculated =%d\n"
-@@ -399,7 +402,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->a.cstate_pstate.cstate_exit_z8_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->a.cstate_pstate.cstate_exit_z8_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_Z8_A, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_Z8_A, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_EXIT_WATERMARK_Z8_A calculated =%d\n"
-@@ -416,7 +419,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->b.cstate_pstate.cstate_enter_plus_exit_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->b.cstate_pstate.cstate_enter_plus_exit_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_B, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_B, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_ENTER_EXIT_WATERMARK_B calculated =%d\n"
-@@ -432,7 +435,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->b.cstate_pstate.cstate_exit_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->b.cstate_pstate.cstate_exit_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_B, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_B, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_EXIT_WATERMARK_B calculated =%d\n"
-@@ -448,7 +451,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->b.cstate_pstate.cstate_enter_plus_exit_z8_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->b.cstate_pstate.cstate_enter_plus_exit_z8_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_Z8_B, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_Z8_B, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_ENTER_WATERMARK_Z8_B calculated =%d\n"
-@@ -464,7 +467,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->b.cstate_pstate.cstate_exit_z8_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->b.cstate_pstate.cstate_exit_z8_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_Z8_B, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_Z8_B, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_EXIT_WATERMARK_Z8_B calculated =%d\n"
-@@ -481,7 +484,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->c.cstate_pstate.cstate_enter_plus_exit_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->c.cstate_pstate.cstate_enter_plus_exit_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_C, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_C, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_ENTER_EXIT_WATERMARK_C calculated =%d\n"
-@@ -497,7 +500,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->c.cstate_pstate.cstate_exit_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->c.cstate_pstate.cstate_exit_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_C, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_C, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_EXIT_WATERMARK_C calculated =%d\n"
-@@ -513,7 +516,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->c.cstate_pstate.cstate_enter_plus_exit_z8_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->c.cstate_pstate.cstate_enter_plus_exit_z8_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_Z8_C, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_Z8_C, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_ENTER_WATERMARK_Z8_C calculated =%d\n"
-@@ -529,7 +532,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->c.cstate_pstate.cstate_exit_z8_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->c.cstate_pstate.cstate_exit_z8_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_Z8_C, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_Z8_C, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_EXIT_WATERMARK_Z8_C calculated =%d\n"
-@@ -546,7 +549,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->d.cstate_pstate.cstate_enter_plus_exit_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->d.cstate_pstate.cstate_enter_plus_exit_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_D, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_D, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_ENTER_EXIT_WATERMARK_D calculated =%d\n"
-@@ -562,7 +565,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->d.cstate_pstate.cstate_exit_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->d.cstate_pstate.cstate_exit_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_D, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_D, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_EXIT_WATERMARK_D calculated =%d\n"
-@@ -578,7 +581,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->d.cstate_pstate.cstate_enter_plus_exit_z8_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->d.cstate_pstate.cstate_enter_plus_exit_z8_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_Z8_D, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_ENTER_WATERMARK_Z8_D, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_ENTER_WATERMARK_Z8_D calculated =%d\n"
-@@ -594,7 +597,7 @@ static bool hubbub31_program_stutter_watermarks(
- 				watermarks->d.cstate_pstate.cstate_exit_z8_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->d.cstate_pstate.cstate_exit_z8_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_Z8_D, 0,
- 				DCHUBBUB_ARB_ALLOW_SR_EXIT_WATERMARK_Z8_D, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("SR_EXIT_WATERMARK_Z8_D calculated =%d\n"
-@@ -625,7 +628,7 @@ static bool hubbub31_program_pstate_watermarks(
- 				watermarks->a.cstate_pstate.pstate_change_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->a.cstate_pstate.pstate_change_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_DRAM_CLK_CHANGE_WATERMARK_A, 0,
- 				DCHUBBUB_ARB_ALLOW_DRAM_CLK_CHANGE_WATERMARK_A, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("DRAM_CLK_CHANGE_WATERMARK_A calculated =%d\n"
-@@ -642,7 +645,7 @@ static bool hubbub31_program_pstate_watermarks(
- 				watermarks->b.cstate_pstate.pstate_change_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->b.cstate_pstate.pstate_change_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_DRAM_CLK_CHANGE_WATERMARK_B, 0,
- 				DCHUBBUB_ARB_ALLOW_DRAM_CLK_CHANGE_WATERMARK_B, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("DRAM_CLK_CHANGE_WATERMARK_B calculated =%d\n"
-@@ -659,7 +662,7 @@ static bool hubbub31_program_pstate_watermarks(
- 				watermarks->c.cstate_pstate.pstate_change_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->c.cstate_pstate.pstate_change_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_DRAM_CLK_CHANGE_WATERMARK_C, 0,
- 				DCHUBBUB_ARB_ALLOW_DRAM_CLK_CHANGE_WATERMARK_C, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("DRAM_CLK_CHANGE_WATERMARK_C calculated =%d\n"
-@@ -676,7 +679,7 @@ static bool hubbub31_program_pstate_watermarks(
- 				watermarks->d.cstate_pstate.pstate_change_ns;
- 		prog_wm_value = convert_and_clamp(
- 				watermarks->d.cstate_pstate.pstate_change_ns,
--				refclk_mhz, 0x1fffff);
-+				refclk_mhz, 0xffff);
- 		REG_SET(DCHUBBUB_ARB_ALLOW_DRAM_CLK_CHANGE_WATERMARK_D, 0,
- 				DCHUBBUB_ARB_ALLOW_DRAM_CLK_CHANGE_WATERMARK_D, prog_wm_value);
- 		DC_LOG_BANDWIDTH_CALCS("DRAM_CLK_CHANGE_WATERMARK_D calculated =%d\n"
 -- 
 2.34.1
 
