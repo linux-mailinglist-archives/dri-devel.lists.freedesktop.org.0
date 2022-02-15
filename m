@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C79AC4B7437
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 18:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C13B4B7449
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 19:17:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05A0110E4B4;
-	Tue, 15 Feb 2022 17:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAFB910E4DF;
+	Tue, 15 Feb 2022 18:17:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF0710E4B3;
- Tue, 15 Feb 2022 17:54:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644947687; x=1676483687;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=4gHaa3KCp8mjSYDFTC7l8HY0npmCWqgWm8/5A9ejTCg=;
- b=JdIZZx7ujs6FJuFGxzI0DH7grzLgxQmzcaiYHgdvHZq7sbl0V2QfP7xT
- 4q9uof5Z0T0j/+mhMtKiT6MXd9P+uypjoudTPHWDDmOgM5lIKmKY5Dhg2
- pECWWlzxaFgKShBnuOKYFydZMBsNu/zqsRheelooTPcvYZEcGNaUYTYYO U=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 15 Feb 2022 09:54:47 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 09:54:46 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Tue, 15 Feb 2022 09:54:46 -0800
-Received: from [10.111.168.21] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Tue, 15 Feb
- 2022 09:54:44 -0800
-Message-ID: <f50c1ae2-abc4-00be-018f-bb67fe41ac08@quicinc.com>
-Date: Tue, 15 Feb 2022 09:54:42 -0800
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 741BA10E4DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 18:17:42 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ v13-20020a17090ac90d00b001b87bc106bdso3835528pjt.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 10:17:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=rU/cr+2YS83r8ZzfG0ihHyfke5lY7dzNO33vRqwTRo0=;
+ b=BbY3zUMbpsKVLuD6QiFaFpnxej58wpxQPVVGisDcf+K+2coTsFmZNXGoWqBeKoLb1x
+ 3ZptFg7el6LpqeSuHR1QjwuSCHfpkEX/T+XcjAHpaQzkvx2kHT7d0+kYGoaayuMfQhPV
+ CAs5kcpK7DDzn/NDlTFukbq1xe316LjUYcWLM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=rU/cr+2YS83r8ZzfG0ihHyfke5lY7dzNO33vRqwTRo0=;
+ b=WVIS51N8rR5atUptiNd9/Yu2A+VdPq/ujTTLoWbPaDeb+VsDHEO4Um4w8SidvlyFR3
+ M0jckz8mpUcAcCD3nkHUXPMy20tBXiEtxu/L9e+qsTGfKbN1GxlnfT/BueKQg6s93DSq
+ kifQIKoY8dflAXdDT8H+lvESGP0757vDuTPjORqpvhbWfErg7vIgfRDTC1ysv087uF4x
+ 2H1PDyM7DNcLg/cV7NUzrWu2XtRHVpCxf3Kf2O11qQQvNkMBmfeqM8UugapUIcprFAz+
+ XJTDDVOsFSzNsuvXujtqRheHW9ldB8E8ldrqOK0e3M40qryfmNwtkL0v18pJV5Sg/XMC
+ zEsw==
+X-Gm-Message-State: AOAM530x0kGQsAsHPM0bRIwjZS0YHYgZBYyN8KtCHFTudua+vsmx8CLi
+ kxbmN2qbOtwsX5TyEe59djfVlg==
+X-Google-Smtp-Source: ABdhPJwjJJkj0fC2gO+FdGjnaisWCk9FKkCf0qazg7PUuY4rrjoW+egyeLOWB+yCEr/MI5qa+9+dbA==
+X-Received: by 2002:a17:902:eb8f:: with SMTP id
+ q15mr235036plg.67.1644949062021; 
+ Tue, 15 Feb 2022 10:17:42 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id a186sm3157627pgc.70.2022.02.15.10.17.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Feb 2022 10:17:41 -0800 (PST)
+Date: Tue, 15 Feb 2022 10:17:40 -0800
+From: Kees Cook <keescook@chromium.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH][next] treewide: Replace zero-length arrays with
+ flexible-array members
+Message-ID: <202202151016.C0471D6E@keescook>
+References: <20220215174743.GA878920@embeddedor>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v2 1/8] drm/msm/dpu: fix dp audio condition
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>
-References: <20220215141643.3444941-1-dmitry.baryshkov@linaro.org>
- <20220215141643.3444941-2-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220215141643.3444941-2-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220215174743.GA878920@embeddedor>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,37 +69,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
+ linux-sh@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ devicetree@vger.kernel.org, target-devel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-i3c@lists.infradead.org, linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-acpi@vger.kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-ext4@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-xtensa@linux-xtensa.org,
+ mpi3mr-linuxdrv.pdl@broadcom.com, coresight@lists.linaro.org,
+ sparmaintainer@unisys.com, linux-um@lists.infradead.org,
+ greybus-dev@lists.linaro.org, linux-rpi-kernel@lists.infradead.org,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ devel@acpica.org, linux-cifs@vger.kernel.org, netdev@vger.kernel.org,
+ samba-technical@lists.samba.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, GR-QLogic-Storage-Upstream@marvell.com,
+ linux-crypto@vger.kernel.org, linux-alpha@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/15/2022 6:16 AM, Dmitry Baryshkov wrote:
-> DP audio enablement code which is comparing intf_type,
-> DRM_MODE_ENCODER_TMDS (= 2) with DRM_MODE_CONNECTOR_DisplayPort (= 10).
-> Which would never succeed. Fix it to check for DRM_MODE_ENCODER_TMDS.
+On Tue, Feb 15, 2022 at 11:47:43AM -0600, Gustavo A. R. Silva wrote:
+> There is a regular need in the kernel to provide a way to declare
+> having a dynamically sized set of trailing elements in a structure.
+> Kernel code should always use “flexible array members”[1] for these
+> cases. The older style of one-element or zero-length arrays should
+> no longer be used[2].
 > 
-> Fixes: d13e36d7d222 ("drm/msm/dp: add audio support for Display Port on MSM")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> This code was transformed with the help of Coccinelle:
+> (next-20220214$ spatch --jobs $(getconf _NPROCESSORS_ONLN) --sp-file script.cocci --include-headers --dir . > output.patch)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 132844801e92..c59976deb1cb 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -1099,7 +1099,7 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
->   	}
->   
->   
-> -	if (dpu_enc->disp_info.intf_type == DRM_MODE_CONNECTOR_DisplayPort &&
-> +	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_TMDS &&
->   		dpu_enc->cur_master->hw_mdptop &&
->   		dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select)
->   		dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select(
+> @@
+> identifier S, member, array;
+> type T1, T2;
+> @@
+> 
+> struct S {
+>   ...
+>   T1 member;
+>   T2 array[
+> - 0
+>   ];
+> };
+
+These all look trivially correct to me. Only two didn't have the end of
+the struct visible in the patch, and checking those showed them to be
+trailing members as well, so:
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-- 
+Kees Cook
