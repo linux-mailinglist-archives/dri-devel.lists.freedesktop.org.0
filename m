@@ -2,100 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB2D4B5EC2
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 01:04:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 554DA4B5E98
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 01:03:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8B9010E36E;
-	Tue, 15 Feb 2022 00:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0083910E298;
+	Tue, 15 Feb 2022 00:03:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2058.outbound.protection.outlook.com [40.107.236.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F25B10E368;
- Tue, 15 Feb 2022 00:04:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QdgdN7h2PgDth7zICPStagOzypgEU5198WUJa8n2PvC353IsVqN4vyUeH3mCHVwomSSnW3upzQQlT8aG88Gq67js+l0r0Pi56/LFVwVUWEcWsKUHhoD1NzL981CnjPgw3+wHjGZcwSH8ZkGxQxIqHt2qIFOzZSzluvn7LM95+goW5nxCm9f97azFo0nDpGBz3QYCShR+YBSMTjFA8+3V6vxJD6/VZW8tvjMSPR149vOjkiH9QmHfIVBC/7RJFLezIP3sYoOh7xa3wTqUIZqkuTqbewHjVlw9/PPT5gyfIerT9M4gH9zqJI8a2pGB/WV0Jdope/R4iXd/U1mjQ3p8lQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4CJsbT/uQNbCLg3zijkw2HtWNygmK8JRosfQfMJvjsA=;
- b=Im5nUSC8vLb/k4c49Tt1AGH5EXWfZOtNq5NRIiMeZBY00GFpDtniojrDLkRCRgZ8VDdICyPc64cZ4dLZWN5BizNGLwySpyioLgDmtVMjZOwklLci0ELkDG2GFLdqeK1dIm4wlshshUGjNuozHDiOs/EqAlTk4HY/t9hRO6JK7FR6U/z0lgV8EYJ1FXFHpTHhAqIfTXFAEoVijtYSZAYQtT+6xy/86VyiIki11G6r5vRVcZ3VNXXUg2MiToKiMDcod/0eGt59mDjvYUILGwPL0B4FdW+GSgCOZgiTiHxJD7LqjRHNATHLaf3lmhIuSOlz+0/NeXrSLIZIXtUMjWHhPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4CJsbT/uQNbCLg3zijkw2HtWNygmK8JRosfQfMJvjsA=;
- b=CA+NBKqYgJK9y0zqatUIdnZe/qz9Z4QRyRAxdYqNI171HLqLWmmR156hddnnGlXR9nd0tvvlnAvnBkC027NOLMbgiYXQ+C27DxQYK965fHLB9PmZ5B6DzZqRN+ocMLoMw/01i9VB2MeBmCFe1GOloZlqSF783s3tpS/H0TU+jHY=
-Received: from MWHPR12CA0038.namprd12.prod.outlook.com (2603:10b6:301:2::24)
- by BN8PR12MB3267.namprd12.prod.outlook.com (2603:10b6:408:9e::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.17; Tue, 15 Feb
- 2022 00:04:24 +0000
-Received: from CO1NAM11FT015.eop-nam11.prod.protection.outlook.com
- (2603:10b6:301:2:cafe::16) by MWHPR12CA0038.outlook.office365.com
- (2603:10b6:301:2::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.12 via Frontend
- Transport; Tue, 15 Feb 2022 00:04:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT015.mail.protection.outlook.com (10.13.175.130) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4975.11 via Frontend Transport; Tue, 15 Feb 2022 00:04:23 +0000
-Received: from localhost.localdomain (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 14 Feb
- 2022 18:04:18 -0600
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: Bjorn Helgaas <bhelgaas@google.com>, Mika Westerberg
- <mika.westerberg@linux.intel.com>, "open list:PCI SUBSYSTEM"
- <linux-pci@vger.kernel.org>, "open list:THUNDERBOLT DRIVER"
- <linux-usb@vger.kernel.org>, "open list:RADEON and AMDGPU DRM DRIVERS"
- <amd-gfx@lists.freedesktop.org>, "open list:DRM DRIVERS"
- <dri-devel@lists.freedesktop.org>, "open list:DRM DRIVER FOR NVIDIA
- GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>
-Subject: [PATCH v4 10/10] PCI: drop `pci_is_thunderbolt_attached`
-Date: Mon, 14 Feb 2022 18:02:00 -0600
-Message-ID: <20220215000200.242799-11-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220215000200.242799-1-mario.limonciello@amd.com>
-References: <20220215000200.242799-1-mario.limonciello@amd.com>
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 283C510E298
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 00:03:51 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id m17so4607865edc.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Feb 2022 16:03:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=goL4SDS7AKRornMukk78aUmCRfQsSfNIpL54XKAlePs=;
+ b=XzWME/tX9Pwn10nvDtBLix/JWvTxUWXpra89PLWebeGid3kJF+yJ94sCAp3TEJ2Pb7
+ KG+sCzgGuo2pIRe0MLD2cGyPkH9DnNc4+Ycb3JPr0uTMGORv8lpEhVpJcM44oxYId87N
+ mtZE6Uf/V6v6acN77V0+9wlwvLosHWzh/Ohh4kdpAKLU/nb4OYpkbF+ZHYTD6xz1sO1C
+ gFbbdJdvLk14r+s/gvut3A9KnLjWkee0MkMQ92QylFULzIK2e64RbU0SODfunYR0uoJL
+ dT8C0AKHleHQkF1jN8kfi3K2yMpxQjflv9wArFKb5HhuIO4KJiqOhHiDExOSjEXWShO0
+ O3lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=goL4SDS7AKRornMukk78aUmCRfQsSfNIpL54XKAlePs=;
+ b=j3fdNCXWGAn+wx5ikeJJXaFiOCdkQRbR2l9v/qw/5WvWdPvvxa4vSicvEo4u4H+Nwa
+ GfzbsfzWVckJGbYmsdci/I8+R2M1tkBYOw8okpnREShJuJ1OHQMjXLAzlIcnLXA65zWV
+ Ruqsdwc0SQ5g+2CU1s6j4x+yV/MTuC1SqZ67JhnrMMxkzxdWxAjUl4JIiHt4g/0Mtemu
+ g9EWl8Tz2HdjHeH8A8+6H+he7spHb7LT/E+/TakSiAeiEHmBOPXgEKuJTXEwjzBV3Rub
+ i2Ny/LKszFIEWp3Ti++ID6zfwkF/9afjFLIX1mDpVRD9QOt1mRcZnS8EGyr8JG1F5dyU
+ 6xtA==
+X-Gm-Message-State: AOAM5315FGrs+mouJcM17EQGk89K49oGkJt8TnEA2COZJ/dFITo3P1wu
+ ooJ8Rz5zl/7aUW9APHaCofTHTZalpBE9LLGOiff9ig==
+X-Google-Smtp-Source: ABdhPJxAtnWhygjfdRdPmkvAqKQauo1KJKZ52IV82X0eQflqoUGfUG0iTb+vi8L0jmGH8ye8Rphg9kzZiPnIMct0HzM=
+X-Received: by 2002:a05:6402:5c9:: with SMTP id
+ n9mr1308182edx.207.1644883429474; 
+ Mon, 14 Feb 2022 16:03:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 826b7417-dd46-4f74-c994-08d9f016b914
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3267:EE_
-X-Microsoft-Antispam-PRVS: <BN8PR12MB32676935BE62DD71FC4A72ECE2349@BN8PR12MB3267.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4BU0upFeyyulbVyS1/GE2fwcgOcMTMu6li28j7s3SS5R6feUSq3F2u4pIFnuidmXuA3Kmohq5HzncZswcJ4D9oKh+VHPJSYDVfh0uE2fbzE5vRNtE2gBfDiL6keLyYaHJSwwd5H0d2gXJrCCPLxoU4F2MFePWyaMM0nIg7NFqMU/xL4Z/VodvTo3vhVb+7woLx+WNWb4C9dGp4qco98h+6/2OEjEEZpGJxL7SKf00VHo4IKZWmL16Lo5KMXCjcQlBfDlASBCSASmKF0c2ZJUtcuzCNHVf2PvpJUgunPyzfjCImp9KpEW5/mEH3+huejT8yhjmcq5DYX0Dgyf7GEOUFXmFTyrxqW+DwxXuaLotQoTAfkEmE+tF44UuxjhI8YDGJ7y6WfQkRRK9z3JdoM4ODbBRMeZpYjZRDwoImivOA9cAzR4zPsEG+Wwx4TOGUXKLN5pvnBKZVZ5g4js0KMA55yuBbfA3iUz2XLh0/FvbSsMaUBHiYkBSq00t1qSa2EwAMyayUIHSD06QrDz/ZJ96dqroiDEoR9vMaLX7dnxjL6ftFlMrD4DGEhYu+/umcCoFhJI7SScjnRuNaAw1JEIn4HjbdyqavgUY4UO3Zyvw0v/UPJtEtLTNMbI/4DJrTlrEfyobLaqraix81BTaMowZpMYsobdKm3nMD214WlEp5IHsoepoxjZUH/GBFbHviZ4oLVGoGDjC/tQF8kBfjOscozIVSMRfdSQ9GoKf0Pk7fs=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(86362001)(2906002)(8676002)(6666004)(82310400004)(7416002)(5660300002)(8936002)(44832011)(83380400001)(47076005)(40460700003)(54906003)(110136005)(508600001)(36860700001)(356005)(2616005)(81166007)(4326008)(36756003)(316002)(70586007)(70206006)(26005)(1076003)(16526019)(426003)(336012)(186003)(81973001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 00:04:23.3167 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 826b7417-dd46-4f74-c994-08d9f016b914
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT015.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3267
+References: <20220211161831.3493782-1-tjmercier@google.com>
+ <20220211161831.3493782-7-tjmercier@google.com>
+ <CAHRSSEwWEeW2+Pd17VUNrPYSWhOu-ao7rgnk-pNROcfH6abTzA@mail.gmail.com>
+In-Reply-To: <CAHRSSEwWEeW2+Pd17VUNrPYSWhOu-ao7rgnk-pNROcfH6abTzA@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Mon, 14 Feb 2022 16:03:38 -0800
+Message-ID: <CABdmKX33PDEioxdQSFpQEFdK58kDo==JeUN_1m_NB__5qGMJ0Q@mail.gmail.com>
+Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
+ ownership of fds
+To: Todd Kjos <tkjos@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,57 +67,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Michael Jamet <michael.jamet@intel.com>,
- Yehezkel Bernat <YehezkelShB@gmail.com>, Alexander.Deucher@amd.com,
- Mario Limonciello <mario.limonciello@amd.com>,
- Andreas Noever <andreas.noever@gmail.com>
+Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Zefan Li <lizefan.x@bytedance.com>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kenny.Ho@amd.com,
+ Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
+ linux-media@vger.kernel.org, Todd Kjos <tkjos@android.com>,
+ linaro-mm-sig@lists.linaro.org, Tejun Heo <tj@kernel.org>,
+ cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
+ Hridya Valsaraju <hridya@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently `pci_is_thunderbolt_attached` is used to indicate a device
-is connected externally.
+On Mon, Feb 14, 2022 at 1:26 PM Todd Kjos <tkjos@google.com> wrote:
+>
+> On Fri, Feb 11, 2022 at 8:19 AM T.J. Mercier <tjmercier@google.com> wrote=
+:
+> >
+> > This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
+> > that a process sending an fd array to another process over binder IPC
+> > can set to relinquish ownership of the fds being sent for memory
+> > accounting purposes. If the flag is found to be set during the fd array
+> > translation and the fd is for a DMA-BUF, the buffer is uncharged from
+> > the sender's cgroup and charged to the receiving process's cgroup
+> > instead.
+> >
+> > It is up to the sending process to ensure that it closes the fds
+> > regardless of whether the transfer failed or succeeded.
+> >
+> > Most graphics shared memory allocations in Android are done by the
+> > graphics allocator HAL process. On requests from clients, the HAL proce=
+ss
+> > allocates memory and sends the fds to the clients over binder IPC.
+> > The graphics allocator HAL will not retain any references to the
+> > buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
+> > arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
+> > correctly charge the buffers to the client processes instead of the
+> > graphics allocator HAL.
+> >
+> > From: Hridya Valsaraju <hridya@google.com>
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Co-developed-by: T.J. Mercier <tjmercier@google.com>
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > ---
+> > changes in v2
+> > - Move dma-buf cgroup charge transfer from a dma_buf_op defined by ever=
+y
+> > heap to a single dma-buf function for all heaps per Daniel Vetter and
+> > Christian K=C3=B6nig.
+> >
+> >  drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
+> >  include/uapi/linux/android/binder.h |  1 +
+> >  2 files changed, 27 insertions(+)
+> >
+> > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+> > index 8351c5638880..f50d88ded188 100644
+> > --- a/drivers/android/binder.c
+> > +++ b/drivers/android/binder.c
+> > @@ -42,6 +42,7 @@
+> >
+> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> >
+> > +#include <linux/dma-buf.h>
+> >  #include <linux/fdtable.h>
+> >  #include <linux/file.h>
+> >  #include <linux/freezer.h>
+> > @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+>
+> Is this only needed for the BINDER_TYPE_FDA case (multiple fds)? This
+> never needs to be done in the BINDER_TYPE_FD case (single fd)?
+>
 
-As all drivers now look at the removable attribute, drop this function.
+Currently this is the case as there is no user who would benefit from
+the single fd case. The only known user is the gralloc HAL which
+always uses BINDER_TYPE_FDA to send dmabufs. I guess we could move the
+code into binder_translate_fd if we were willing to bring back
+binder_fd_object's flags field. This looks possible, but I think it'd
+be a more intrusive change.
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- include/linux/pci.h | 22 ----------------------
- 1 file changed, 22 deletions(-)
-
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index d9719eb14654..089e7e36a0d9 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -2434,28 +2434,6 @@ static inline bool pci_ari_enabled(struct pci_bus *bus)
- 	return bus->self && bus->self->ari_enabled;
- }
- 
--/**
-- * pci_is_thunderbolt_attached - whether device is on a Thunderbolt daisy chain
-- * @pdev: PCI device to check
-- *
-- * Walk upwards from @pdev and check for each encountered bridge if it's part
-- * of a Thunderbolt controller.  Reaching the host bridge means @pdev is not
-- * Thunderbolt-attached.  (But rather soldered to the mainboard usually.)
-- */
--static inline bool pci_is_thunderbolt_attached(struct pci_dev *pdev)
--{
--	struct pci_dev *parent = pdev;
--
--	if (dev_is_removable(&pdev->dev))
--		return true;
--
--	while ((parent = pci_upstream_bridge(parent)))
--		if (dev_is_removable(&parent->dev))
--			return true;
--
--	return false;
--}
--
- #if defined(CONFIG_PCIEPORTBUS) || defined(CONFIG_EEH)
- void pci_uevent_ers(struct pci_dev *pdev, enum  pci_ers_result err_type);
- #endif
--- 
-2.34.1
-
+> >  {
+> >         binder_size_t fdi, fd_buf_size;
+> >         binder_size_t fda_offset;
+> > +       bool transfer_gpu_charge =3D false;
+> >         const void __user *sender_ufda_base;
+> >         struct binder_proc *proc =3D thread->proc;
+> > +       struct binder_proc *target_proc =3D t->to_proc;
+> >         int ret;
+> >
+> >         fd_buf_size =3D sizeof(u32) * fda->num_fds;
+> > @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >         if (ret)
+> >                 return ret;
+> >
+> > +       if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
+> > +               parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
+> > +               transfer_gpu_charge =3D true;
+> > +
+> >         for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
+> >                 u32 fd;
+> > +               struct dma_buf *dmabuf;
+> > +               struct gpucg *gpucg;
+> > +
+> >                 binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
+> >                 binder_size_t sender_uoffset =3D fdi * sizeof(fd);
+> >
+> > @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >                                                   in_reply_to);
+> >                 if (ret)
+> >                         return ret > 0 ? -EINVAL : ret;
+> > +
+> > +               if (!transfer_gpu_charge)
+> > +                       continue;
+> > +
+> > +               dmabuf =3D dma_buf_get(fd);
+> > +               if (IS_ERR(dmabuf))
+> > +                       continue;
+> > +
+> > +               gpucg =3D gpucg_get(target_proc->tsk);
+> > +               ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
+> > +               if (ret) {
+> > +                       pr_warn("%d:%d Unable to transfer DMA-BUF fd ch=
+arge to %d",
+> > +                               proc->pid, thread->pid, target_proc->pi=
+d);
+> > +                       gpucg_put(gpucg);
+> > +               }
+> > +               dma_buf_put(dmabuf);
+> >         }
+> >         return 0;
+> >  }
+> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/a=
+ndroid/binder.h
+> > index 3246f2c74696..169fd5069a1a 100644
+> > --- a/include/uapi/linux/android/binder.h
+> > +++ b/include/uapi/linux/android/binder.h
+> > @@ -137,6 +137,7 @@ struct binder_buffer_object {
+> >
+> >  enum {
+> >         BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
+> > +       BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
+> >  };
+> >
+> >  /* struct binder_fd_array_object - object describing an array of fds i=
+n a buffer
+> > --
+> > 2.35.1.265.g69c8d7142f-goog
+> >
