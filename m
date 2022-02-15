@@ -2,121 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D8C4B748A
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 20:06:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1D14B748C
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 20:07:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA0B10E171;
-	Tue, 15 Feb 2022 19:06:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC7D310E51E;
+	Tue, 15 Feb 2022 19:07:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2051.outbound.protection.outlook.com [40.107.220.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 274F810E171
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 19:06:40 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2085.outbound.protection.outlook.com [40.107.92.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CFE310E51C;
+ Tue, 15 Feb 2022 19:07:06 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lgLCibi13635YRcPqcZj4FHp/ewAF4O/wGnLzYOUIae1LDiDQElZTIyX6I8VhH2X2Q5n/I/eOzaQ2kbeOyncTR7yW7PkyBH1SK8kbkKk7gSn0FFpJSRvGc79JwgCcZZDJUdbMzso+4qYxy855eAfTy0MqdyZrTIFCqtqkLqgfGY25RDkILGsYFdnPSaQlZHvxwV5FquhSCgdtWNzgSJ5uSpWSLXGeCD1Z9MkG8yR3wiXLCTIpeaUNDFZWCuUuyEgvNooJjZ815xnVIrySJvz0WB+SMcYUyV1uWsujvJ+7tUdZSSrgFKzGSkwUFsyQTe4yQqj2XuCLGQMPap6GV61dw==
+ b=HobbYHVHgTuRb4qqagtSypKL9clPeU4O1jydrC5QhT8gKf57tHIxL/sXVT8nh0G3d9TwHdUDWHaLCGSzKUeSJRUeMx3oiHgSUiefXEO9dWL9bdpPmMTWeP/k/0s1eKUnc+aDOQ/9ZjtwyWKCdMhhgHCYCKdVMh85z1vxtGiYI5bCuqPw79LO98A5QN5SEafFyQO+lrOc44SOxguWQ8pJcGt8rk8MrCoFpX6KZBFvCGhjUsYoWudoh2q3SBTwdQphXxBrm0w0VgBQ95YiP2xaV6x3s+Ivip3N/z9VFLy5n94J4vlAYGn1fb/H3ucZNh3xi6P6vUkdi3XxpCKsoV4mJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aL+sEJbnfFpmIkY/m9O7bQ2veH6TZyWEsugJqJn8ujU=;
- b=NKxmpqlSvyPP0euLvDWkC43ssaLVXMXeEGtdvpUocTkr/aR43dI8go4BjDWR3WkWS0Ks0iM6OvbpRrQzoa9R0v1zMNMUKgdyNr5U+nxDcCtMjoEW61VkX37V/yUlrF5wj5Q5wesNXVx2hd0n3tGp8Gc0cojggulf2Re8GZUQNg3fRnVb1+upqhNb7TXpV/2cc5K92zzON8S9o0ZgtIjoNIJHRdbnUfnPggKlN2Dyrafg8avHEqTlXlXmcsVadN9tRd6QfGYrsKD4W+Dfecd6RIu2BwphSQxYXrJrM2NSTh18WK5vrHRNBUBxjvlvmfaCr9FwEOmt5K5UYUMhQQA5+Q==
+ bh=K1ZdfhOnyVsp2lu6RcnmrDRdNpK1A2tfPSmZ3+pInBQ=;
+ b=gaJUrIY5VAJSoViuuoNKDk8zvKYe6cSPIUli87Wb2+kKV0G/J+5hgZOtFbcc3NwQgDcfxnU9p5u8NWr9/4H7PT1VOQLX3olPyKHYoXjjsIfgmS5P5Mn3vQkts7U+xPwhBaF7uaE6m1wocVNE3tysLKQGVzTF6k5DZzzvCR/uGyLqvnm6dz705Q10dbMsxBmKDuJqZDZ1m7eZfC9djxMNazEeV45bboYT+HJgnWo5U4pzQ2VPvPCcJ8L7yD/A5DtzcafXnqn1PAvUgFu3yn/xS59r+sLanZW4KpLj7QBa1Tsb2Ll+QNQmYI4w+3Qc55L1ydpgSKc3US2ej+K+2JE51g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aL+sEJbnfFpmIkY/m9O7bQ2veH6TZyWEsugJqJn8ujU=;
- b=cFHbTlcwpOPhA1WhFhlKZM2bUv2uZIKBVGU6kiVTp7rAYKh0500rphdtas3TbuWwdho8XcghHOTulAj+pTe3zImXl8c169mJTWfma0yRmKR9zE3u0uY4YJYMgmA+vm2fttgDVEBk1n8OdkTUUGv8c/o2nq6/nZ6rNujrOf44H/Q=
+ bh=K1ZdfhOnyVsp2lu6RcnmrDRdNpK1A2tfPSmZ3+pInBQ=;
+ b=E/fH2jPWbsnGOFPj8SteEaKWCZ1HgCMJmgfzgS6U6+iZTvWBtbNd7B9mcXBvMIxPZhsWtvfXFVLD68MRI5eCjtAjIudTqwzAmUBRinsfe6pNisF/h1zzhhe8VWpFoLAjAoasnR3bBRwKViKDnnqOA/gm8LGe86rI1AoISkbxR9Y=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by MN2PR12MB3456.namprd12.prod.outlook.com (2603:10b6:208:ca::22)
- with Microsoft SMTP Server (version=TLS1_2,
+Received: from BL1PR12MB5157.namprd12.prod.outlook.com (2603:10b6:208:308::15)
+ by DM5PR12MB4664.namprd12.prod.outlook.com (2603:10b6:4:a1::16) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.15; Tue, 15 Feb
- 2022 19:06:36 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::38ec:3a46:f85e:6cfa]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::38ec:3a46:f85e:6cfa%4]) with mapi id 15.20.4975.019; Tue, 15 Feb 2022
- 19:06:36 +0000
-Message-ID: <cc99f141-e832-64b2-5abb-83213ba70f01@amd.com>
-Date: Tue, 15 Feb 2022 14:06:33 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/6] drm/ttm: add resource iterator v3
+ 2022 19:07:04 +0000
+Received: from BL1PR12MB5157.namprd12.prod.outlook.com
+ ([fe80::692d:9532:906b:2b08]) by BL1PR12MB5157.namprd12.prod.outlook.com
+ ([fe80::692d:9532:906b:2b08%4]) with mapi id 15.20.4995.014; Tue, 15 Feb 2022
+ 19:07:03 +0000
+Message-ID: <3078823e-4ab4-27b6-b1c7-c6552fbfdb2e@amd.com>
+Date: Tue, 15 Feb 2022 13:07:00 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 00/10] Overhaul `is_thunderbolt`
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- matthew.william.auld@gmail.com, daniel@ffwll.ch
-References: <20220215172259.196645-1-christian.koenig@amd.com>
- <20220215172259.196645-3-christian.koenig@amd.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <20220215172259.196645-3-christian.koenig@amd.com>
+To: Lukas Wunner <lukas@wunner.de>
+References: <20220215000200.242799-1-mario.limonciello@amd.com>
+ <20220215072911.GA13892@wunner.de>
+From: "Limonciello, Mario" <mario.limonciello@amd.com>
+In-Reply-To: <20220215072911.GA13892@wunner.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH2PR02CA0010.namprd02.prod.outlook.com
- (2603:10b6:610:4e::20) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR11CA0004.namprd11.prod.outlook.com
+ (2603:10b6:208:23b::9) To BL1PR12MB5157.namprd12.prod.outlook.com
+ (2603:10b6:208:308::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ad837829-97a1-46d1-f500-08d9f0b64966
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3456:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3456A7C280C50CF7A241589892349@MN2PR12MB3456.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
+X-MS-Office365-Filtering-Correlation-Id: cb38c478-10c6-40d8-2ce9-08d9f0b65a0d
+X-MS-TrafficTypeDiagnostic: DM5PR12MB4664:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR12MB466404B3B7879347B5FCE254E2349@DM5PR12MB4664.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: w+LQBJRj5ZXFMRNKSZBcfEo5Op6duYhi7tRJlRlKQc/z2QOo+40qshAmO5aAqOKJ4aNxvjv3EP/vSecZNc1CgSCZ5G1AmBKoWihzsOTjc7wQEQuG7D3cgCsSYu4tqhZgyLiB5vJgqA5BwHgWFIXSL2tLCSNLADcclgqqxzPwyQn1aZ2rFPIf/iLswCnplbQzPUdeNK1L9BdZ+FWoZPR0JAKQzjTxScm2i9Lg9r+UZunPuFU4C75dNGR6jgB7WRiY830XbBz3A+8mWqu1gnZqgiSjHyjiCyh6B9ksEb8Tm6kjaKxQd67dbp6zrHDu9V4ToUCYwcuFJ4dVcAH0jzBsgkRvFKATFGHeE5ruFX4kdjqHUv44bQc0C2yRnTgO1M38yiJ1KZv7bj8de/awRzYH81jNUSibod9ej0RON5B6dI8cvUQ7KRz/qrxkQFhur4v8mK+DKjRpuim8p7WwVU7hlvt0k0WF3GdfiW18xttL6ZMVF/WnvKKSA/wl1ZZ2WQ8uwErMJALhM7UtJ5hRbZDRxMGMX0oNfJTX5vD4O5BlW5oZ80p4KFIRVh48+FqpkU9LQHSOrqsfakx0zDFEXqRLiQmZ6AMQ6U8AGTPqVV6ywixXqmu6iZAgGU/jGyG9pX/f6zw6vvBgizhQqEHeqenqO0xsmBdYd+ki+Uzl5Qqqor99ZhHddlTTE0sRFBqSnXUHnpsqt5Rj8jQzJ3BWvp0Or5l477mTXrDkboWeAJg+SdIuiNotGsuePCXOHhw9ugM/
+X-Microsoft-Antispam-Message-Info: NNEJjvOPX2gkTb+4KyUA9iLsZ8FOVPcKbcNnkvVj+pJDkIZCszi3Z3wpeIm4Q47OetiRBvIrJZz1W2XcUUM4J0YtjMon/Hw5s3RnbrNWQRhcj3yp6rVWdFYPccmnwmxr8cKZO5Rr0NaIk6x0erT45PHoNP/4XGFk4VZd61PXgR8b3k9AZx3R3x3+4gTuTHQOFONniuc7skq7KtGY1CqZfCQ99rejAwPd5zao4lnpv+SY/V0S0Luip5SPQpEkGmyLmkI0Y7PHwIwNXCYBwgOPxrUavqzIFFco4a0CtOrNdElG/fOgQsBaP64Z9FBDZnmlXZFYZLT23i7shx74MfIKRl5KXdVKUQtBNugAhY5FfOcylu/4nCzWzoUyIHnNbDAc5/VeAw7j48x1c6El3bQHv+AjGxedC7Mt5gpmzdP3OctF7bjZWCmVj93z8shIcFsyUGmFwJuEKKyldfarXdQHx8lH3Afe6EohllmWxbPl14jIbHhWLNGYK9dp6OtXrrmRG3BUaJt+u7vNStyRqmYfm7ZYvcbYtH/eNrhNEHLrvXH0OZHJKrIgTophtjascU4zZ5TqWhNQkqGIv5He1437ioeQRocTm8sFP5hgqM4qQmsIISqNkJxw0IP1XwQM/fEwIXZwWi5StVXT7lbtrdqMek+kA8xDZ4ZAuo/Ds0moLMRSI0BIaV37szMo2YR3uQMXCxYJZktecN5YG3wYVYqfxtC17e8yL3F1PCMk/5AP/jDANQGVS6c+jrpWkBtYiFGPUm08c8KFYRc1nrsyg86+3g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(44832011)(38100700002)(6506007)(186003)(316002)(2616005)(26005)(31686004)(66946007)(66476007)(8676002)(83380400001)(2906002)(6512007)(8936002)(86362001)(66556008)(6486002)(66574015)(36916002)(53546011)(6666004)(4326008)(36756003)(508600001)(31696002)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5157.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(31686004)(7416002)(83380400001)(508600001)(5660300002)(8936002)(2906002)(4326008)(36756003)(53546011)(6506007)(316002)(31696002)(86362001)(186003)(8676002)(6512007)(6916009)(54906003)(6486002)(38100700002)(66946007)(66556008)(66476007)(26005)(2616005)(81973001)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWNGZWVlekZDczY0Q2Y4dHplcGxUSFhzV0FoSjBXdDI0a28xeEl4aHV3OU9M?=
- =?utf-8?B?VG9GOGxBZEw2WktIenloTUdoOEdNS3QvZ04yaUJxNzdyQlkzVjRNKzRsUXBL?=
- =?utf-8?B?U2ZjWFp5UStjRXZOSTI5MmpzT2tlNTZFckpkYms0dHQrMnhBZ2lmMlQwMCt5?=
- =?utf-8?B?SEE3cXlBSDg0R3RaVkNaY3k0bWxUNEFUNVcxc0pxR2hlTExCa21vTWh3dnVr?=
- =?utf-8?B?RXlyc1JPMkdlQzlhczhpWkZtUlFRS09VL25NbU96dkhwMDNFRk9DeWVEUy90?=
- =?utf-8?B?Q2U2Q3YzQWtXaG1vdVIwTEpYVThRazd2VmF4eVp0anY3Sk5rS0tUKzBSWHFl?=
- =?utf-8?B?RkpkZGRZZENjdHRzUXVoTllyaU1KUjJxRVNjNjJkRitoMmN2UFFMYm5VNlJN?=
- =?utf-8?B?SnR6ajkwamlLelpVaHR0Z2M3a1NuWUhwY0R3NllVTWp0aFZBbkhFTFlXR3FV?=
- =?utf-8?B?bkVJL1hDL083dExoNUlYdDZCaERDL3lVQ21CT056M2F1bTRiZGhjMU9pTFdL?=
- =?utf-8?B?QTRVclM0cE9YYlI1dkxZV0ZrTm14YllVcUVrSHBxcjRmRFIyb253YlExVUFE?=
- =?utf-8?B?VmtjeUxMSEd2cytRblVBaU9ZM1Y4Q2hjTzhxVHZ5dmpzY3l0UnZqdS8vRHBK?=
- =?utf-8?B?VUhQTkp0Mis1R2V4eENxa3NNL1RmUjNidHJZL0xZL3NDUk41dXJTUncrWExH?=
- =?utf-8?B?dExVb0ROdDJ2ZkhiWjNNTGMyRjh5Yko1QlVwTUdFSURKZmNEU25OZ2tZTGhY?=
- =?utf-8?B?U0k2U3ZENVJzMGtKcTJ4cCtrTVlwSEJ6YVg4OUhoN05HL1p1b1YvS0pvcW1p?=
- =?utf-8?B?ZDFZYmtYbjBSQmNlQnpoenJNRWU3VDF5R3R2MEJDS1REcGZsd1grek9NYzFz?=
- =?utf-8?B?SGsvUFI3S2toZHYwZ0JOSmJzMnV2czhwQ1cvS2phby84cTJtSXI2TmE3V0M1?=
- =?utf-8?B?NDByL240UHI1Zyt0MVpLRVBmSmx0YjduOXpVV3BPTFFSc1FYY3F4M2lCa0do?=
- =?utf-8?B?S01rZ1UyZG9zMHN6RUdyMVNlRnFuekUyamxyZXZlWHU5eEF1aDZpYnlQQWd0?=
- =?utf-8?B?bCsvOU44djduYU91b0RmRkY2UElRNXRQWXNMbDNVZ2hhalc4SWNjNWF2VnB0?=
- =?utf-8?B?VkJaL0M3a0F0cUJVMmV2a3hqeDdwZmM4WTVXc1N4RG5aYTlKcHJZQlJwMkRk?=
- =?utf-8?B?WkxjcGJVWDgrSnlCWGttTUlBMHl1eC8yTldQeEszblpSMVRzSGZFZ2JTZi80?=
- =?utf-8?B?T2dsTFJuRW5jdTNFdHdjMEo5b3RZWXZ5blRVbDZWSzVwdXJFK0ZCa1llbzZj?=
- =?utf-8?B?d2NvNjVxOVczYUIxRS84SjNuQXlIV0tSaVhGVngzdjNPeDZEdTBmQXFzdWZa?=
- =?utf-8?B?NGZ3U2o5TytibDVCclNDYmFkQzN1eW1ab3hCVUlVZ0RNamZtakdyU1ZOc0dH?=
- =?utf-8?B?Z2g4WVErelMrak05Z2prMUFqdFhBYmhTWlJxNVBLUlhQUzVCcmlzaFRFWW1t?=
- =?utf-8?B?eHp0M2o0ZFp6THpJc2FvTFpCeUtCMHB4bnRJeEZoTWRYTVYydW5VU0cvTUE2?=
- =?utf-8?B?WWkxa2creml0bmZRbmVOZnNmTGwyVTQvN2ovMGV3SnRocHpXV0pKNWpGOGZo?=
- =?utf-8?B?QlVMOVpVYVl5WGpnaUhnRE5YeGNvWlJKTTN1bmVnSTJrWDdmLzdGb3FLN3VB?=
- =?utf-8?B?SkJuWVhUNjA1Mjl6cUtzOTlQcndUM2E3UXVnOXdHZGNmODhnNTFodEdweHpk?=
- =?utf-8?B?dmM1SENCOTNvL3BYRTl1K1VtcThyWHluRWFKV2sxRGM3ZlJ4N1BEWGh3bkhW?=
- =?utf-8?B?RnlwRTJ1M0d4UW1uTjd5OWF4dVRSL1c0TzNZeXQrdnNtT2o3aHY3SEpVYjAx?=
- =?utf-8?B?azdhU2NHNG85Q0E1dW1WTE9XQk9sRCtJZnpzRmh5LzltQWtZbng5UWlvMTFS?=
- =?utf-8?B?Q1krQ3BBZU9acVEvNWQwakRVakxOdkdhK0RQOVI2ZUdZdTJFT0hZQkJweGFS?=
- =?utf-8?B?OW9BWkN1OVFubFZna1IyZVRlV2JRb3JDaS9lS0NoZzNlazREWEhrTy9FVU1w?=
- =?utf-8?B?ZFV1YnMzRlh6VFFObzd2YmxLOU1jaUwxY0hwZWZLYUFEbDlhY3dTSFpWa24y?=
- =?utf-8?B?WUJNUmJtSVEzdmNCUGZ4NnpQUEtpd2VRUkV2UzlDRkVGcVI0Z1QzNjNGdG5T?=
- =?utf-8?Q?Q7/b5Wm+ZFZuEnYrEwt+Sqg=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T25IbFp0MGlydGlZNVFNMm9SVS84Z3hwdFZEdWQrb0xaY3IzeG9ib2Q1bmND?=
+ =?utf-8?B?bTNhL2hzemZZMGtuZm94ZHp5cGo5YmRKeDRWcE1DTWNEdG5aTVFVQU4vL0ho?=
+ =?utf-8?B?elNEdnN0WUhuZE93WmRHRStWSysxbHdlbmV3UmduNXIwQUtZSDB4amJzdzZG?=
+ =?utf-8?B?QTZ4cGJ5bk1PSGxBdzFqSEVSRzVXZ1hOY3o1cURyUGxGcTF3aDZBbkxjYVl1?=
+ =?utf-8?B?WXBndm5EbHh2ZzB6SlFCV1oxTlUvY0t4Q21QUFJiQlBFYTUxanhyS2plMHpJ?=
+ =?utf-8?B?N1lHT3VXNi9WR09MRUxxdHhPaVVaYkV0QzRVVWt4SEk2SDcyOW5FTzZ1MllC?=
+ =?utf-8?B?WStIRlJFNk5JU0NFbzVBSnlPYW05MUdqakdZWHozQUZYNDB3TDJqVHJNb010?=
+ =?utf-8?B?bHlUYXpUdkluZktNYzY1N2FuVjNiUmJtcEFsQUlpeGkxbGZJTHk5VHFKWkw5?=
+ =?utf-8?B?bEkxdnRPb1R6SFhjRmIvNjZtbU9Bdy8xaG80ekRDcUJnQ3N1dmRNRER1d2Fw?=
+ =?utf-8?B?enNEZ2VuUzF0QjFXQWZYdUFKRnI3M0RDanRFbVlSWm1nY2x0NVhFcHVjQ2cx?=
+ =?utf-8?B?ZEw3dEd4dmhCaTFtRitoS1p0U0V2K0pxdTN4MlJtcEVuSEtyamlsSklBOUZC?=
+ =?utf-8?B?OHhZTWszUTJlVnNFRlk3bUwrTWVxSCtvTHFEeXpSczZVRGFrSjVOL2laUEM0?=
+ =?utf-8?B?YXhJVTRrWFAzYlZKTXdLSFN4RU1oWGQ1UkZuMTh4Z21qdE5zYVZHNmN1T3pW?=
+ =?utf-8?B?OUhIb0xaclNXU3VlWWhhbnN4Y0JrRU9rdEtVZFN1QnNaMURYdUloRFlUREZP?=
+ =?utf-8?B?ZTZnUnlNU2lUUnpwWG9KSlByVll3eld6bEVHK0E2VTN2Z3dNNFRyZ0U1SzRG?=
+ =?utf-8?B?cmlyWTFmUFhjamxZbUJxUnNzS3R3UGJTaEo1SVlMT2NWZmtnRGRUSGdvT1pY?=
+ =?utf-8?B?a0o0VkYxZDZOcXdPbGdZZDc5ZENyTjl1V3BUQ1NSYWxQdWpsZjN4QW93UVVs?=
+ =?utf-8?B?dTNVY2g3dWplanovNDFzQ1RBU2RHbXJXeUUrQjZkYnZ4a1pvNmtCTkx3Y3Mz?=
+ =?utf-8?B?TUhNK09Hays1UGEvWTA4WmxMRVl4Q2xXNDVvMEt2dVVZMXl6ZVpkMmpHRmc2?=
+ =?utf-8?B?WVBjc2pBaEFTdkVxWTlWekZ3UFVGZlF3M1BXV1NtM1kzS0h3Vm9xQWViNzJ3?=
+ =?utf-8?B?ZEV4TnZpOXJEZVpuekhWdU94SDlsYi81RVlvRVpVTlFyb1dxV3ZVV1crNkh3?=
+ =?utf-8?B?YnhCUktHZThlSXVBQnVjd2tMajhVdHZLcU83d3hQZ0ZUSnB2VlU2M3JmcDF4?=
+ =?utf-8?B?UG96YlNzNkxDZDZGMzFiSTRUNEY5bUFtYWxRLzlDYTFlT1NqQ0xiaG0rZm9W?=
+ =?utf-8?B?VHEwYVFvQktZWmpQWVRMNFVzSlFKditjMDhSRWpjb256dTBsQWxZYy9jeXVK?=
+ =?utf-8?B?SDc3UnlpOWpFbUJBb3YzaWkxbUdxb0E4LytIYks0b1JibjJPUi95Y08rNFB6?=
+ =?utf-8?B?Vm51d1h6NlFCcjBTSDFqcXhVbjVqYitVR2dkdndCV1BqQ0NMbW1uL1FDWm4x?=
+ =?utf-8?B?RXRjYnRwS09HVnFXcnhjeXhMMDJJRGFaMEtKb2lsU2h1dE0rL09aU3FlOGlw?=
+ =?utf-8?B?T2llZHZibmJJOXQvSkRsZjFHbzViaUQyQ3ZzUkZXdGdTbFV1aVFNYWlUK3Y2?=
+ =?utf-8?B?NytOR2VBREZXa28zdXlSbVJ2K3I3NU5jSFZXNGw5VzQ4NW1FcUdBVHFEVTcx?=
+ =?utf-8?B?Y1YwQWZyNitOZHhrcFBpNzdHUjh3NWhRL0pZYnhxWUlad3B2VHJTbm9xaGFG?=
+ =?utf-8?B?eUJzMi9WVTZsVDNEcmlqdmJaNnZqcHFlcHdDYzdELzZzdWRaVmJWYllGdk9Z?=
+ =?utf-8?B?VmhWcmIyM1NEUXlhRFgvUzF1cm10QjFuKzdwa0IwZ21KNTVOdWJEeForcUdm?=
+ =?utf-8?B?M0xkY01ZbjRXbVRKMHorRVRQQytQTEd4WHhVbFVIUm9WSjkySnhpOXBOTVRS?=
+ =?utf-8?B?TGxjd0h2eU9UczU1N05Bd0ZSd2tHSzJiam1UTHNsRXp4RFhreHczSjNmNFgx?=
+ =?utf-8?B?Mmc5V2FvMk9mbVowZXRHdlE1VVVXUjFwTER0ZjdiT0l4YUNxM01DSGE0Z3JV?=
+ =?utf-8?B?S1dMRnBHRGxza2xON1dQNEloZXB3azl6d2gyM3dqRUpCSGZNNDV6VUQ1YlVB?=
+ =?utf-8?Q?N45LxrbbMqXESvAdkyBWgPY=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad837829-97a1-46d1-f500-08d9f0b64966
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb38c478-10c6-40d8-2ce9-08d9f0b65a0d
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5157.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 19:06:35.9583 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 19:07:03.7818 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W8Vof/UdNxLNTTxMhxuXYnmHd2mUAMA4UicG6qvYt/VjXswEQqgW4f/SqKkmiwiFT/xObw/v98EZGYm1hnGv2Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3456
+X-MS-Exchange-CrossTenant-UserPrincipalName: 72FGa3RK+3er0IRiXoqzAbI1N+p5jWxlexzZ3bxlPup/LLsW9JbtcLLLEsj5GAZ3bDg8Bx9X1tiq3GI6URQQEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB4664
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,251 +127,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Michael Jamet <michael.jamet@intel.com>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Alexander.Deucher@amd.com, Mika Westerberg <mika.westerberg@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-02-15 12:22, Christian König wrote:
-> Instead of duplicating that at different places add an iterator over all
-> the resources in a resource manager.
->
-> v2: add lockdep annotation and kerneldoc
-> v3: fix various bugs pointed out by Felix
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch> (v3)
-> ---
->   drivers/gpu/drm/ttm/ttm_bo.c       | 42 ++++++++++--------------
->   drivers/gpu/drm/ttm/ttm_device.c   | 26 +++++++--------
->   drivers/gpu/drm/ttm/ttm_resource.c | 51 ++++++++++++++++++++++++++++++
->   include/drm/ttm/ttm_resource.h     | 23 ++++++++++++++
->   4 files changed, 102 insertions(+), 40 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index cb0fa932d495..11e698e3374c 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -579,38 +579,30 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
->   			struct ww_acquire_ctx *ticket)
->   {
->   	struct ttm_buffer_object *bo = NULL, *busy_bo = NULL;
-> +	struct ttm_resource_cursor cursor;
->   	struct ttm_resource *res;
->   	bool locked = false;
-> -	unsigned i;
->   	int ret;
->   
->   	spin_lock(&bdev->lru_lock);
-> -	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
-> -		list_for_each_entry(res, &man->lru[i], lru) {
-> -			bool busy;
-> -
-> -			bo = res->bo;
-> -			if (!ttm_bo_evict_swapout_allowable(bo, ctx, place,
-> -							    &locked, &busy)) {
-> -				if (busy && !busy_bo && ticket !=
-> -				    dma_resv_locking_ctx(bo->base.resv))
-> -					busy_bo = bo;
-> -				continue;
-> -			}
-> -
-> -			if (!ttm_bo_get_unless_zero(bo)) {
-> -				if (locked)
-> -					dma_resv_unlock(bo->base.resv);
-> -				continue;
-> -			}
-> -			break;
-> +	ttm_resource_manager_for_each_res(man, &cursor, res) {
-> +		bool busy;
-> +
-> +		if (!ttm_bo_evict_swapout_allowable(res->bo, ctx, place,
-> +						    &locked, &busy)) {
-> +			if (busy && !busy_bo && ticket !=
-> +			    dma_resv_locking_ctx(res->bo->base.resv))
-> +				busy_bo = res->bo;
-> +			continue;
->   		}
->   
-> -		/* If the inner loop terminated early, we have our candidate */
-> -		if (&res->lru != &man->lru[i])
-> -			break;
-> -
-> -		bo = NULL;
-> +		if (!ttm_bo_get_unless_zero(res->bo)) {
+On 2/15/2022 01:29, Lukas Wunner wrote:
+> On Mon, Feb 14, 2022 at 06:01:50PM -0600, Mario Limonciello wrote:
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c  |  2 +-
+>>   drivers/gpu/drm/nouveau/nouveau_vga.c   |  4 +-
+>>   drivers/gpu/drm/radeon/radeon_device.c  |  4 +-
+>>   drivers/gpu/drm/radeon/radeon_kms.c     |  2 +-
+>>   drivers/pci/hotplug/pciehp_hpc.c        |  6 +-
+>>   drivers/pci/pci-acpi.c                  | 15 ++++-
+>>   drivers/pci/pci.c                       | 17 +++--
+>>   drivers/pci/probe.c                     | 52 ++++++++++++++-
+>>   drivers/pci/quirks.c                    | 84 +++++++++++++++++++++++++
+>>   drivers/platform/x86/apple-gmux.c       |  2 +-
+>>   drivers/thunderbolt/nhi.h               |  2 -
+>>   include/linux/pci.h                     | 25 +-------
+>>   include/linux/pci_ids.h                 |  3 +
+>>   14 files changed, 173 insertions(+), 47 deletions(-)
+> 
+> That's an awful lot of additional LoC for what is primarily
+> a refactoring job with the intent to simplify things.
 
-Just an unrelated nit-pick: If you invert the logic of this if, the loop 
-behaves more like a normal loop (without a break at the very end, and 
-one less continue statement):
+You may recall the first version of this series was just for adding
+USB4 matches to the existing code paths, and that's when it was noted
+that is_thunderbolt is a bit overloaded.
 
-    if (ttm_bo_get_unless_zero(res->bo)) {
-         bo = res->bo;
-         break;
-    }
-    if (locked)
-         dma_resv_unlock(res->bo->base.resv);
+> 
+> Honestly this looks like an attempt to fix something that
+> isn't broken.  Specifically, the is_thunderbolt bit apparently
+> can't be removed without adding new bits to struct pci_dev.
+> Not sure if that can be called progress. >
+> Thanks,
+> 
+> Lukas
 
-Either way, the patch is
+Within this series there are two new material patches; setting up root 
+ports for both integrated and discrete USB4 controllers to behave well 
+with all the existing drivers that rely upon a hint of how they're 
+connected to configure devices differently.
 
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+If y'all collectively prefer this direction to not refactor 
+is_thunderbolt and push into quirks, a simpler version of this series 
+would be to leave all the quirks in place, just drop 
+dev->is_thunderbolt, and set dev->external_facing on all 3 cases:
 
+* Intel TBT controller
+* USB4 integrated PCIe tunneling root port/XHCI tunneling root port
+* USB4 disctete PCIe tunneling root port/XHCI tunneling root port
 
-> +			if (locked)
-> +				dma_resv_unlock(res->bo->base.resv);
-> +			continue;
-> +		}
-> +		bo = res->bo;
-> +		break;
->   	}
->   
->   	if (!bo) {
-> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-> index ba35887147ba..a0562ab386f5 100644
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -142,10 +142,10 @@ EXPORT_SYMBOL(ttm_global_swapout);
->   int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
->   		       gfp_t gfp_flags)
->   {
-> +	struct ttm_resource_cursor cursor;
->   	struct ttm_resource_manager *man;
-> -	struct ttm_buffer_object *bo;
->   	struct ttm_resource *res;
-> -	unsigned i, j;
-> +	unsigned i;
->   	int ret;
->   
->   	spin_lock(&bdev->lru_lock);
-> @@ -154,20 +154,16 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
->   		if (!man || !man->use_tt)
->   			continue;
->   
-> -		for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j) {
-> -			list_for_each_entry(res, &man->lru[j], lru) {
-> -				uint32_t num_pages;
-> -
-> -				bo = res->bo;
-> -				num_pages = PFN_UP(bo->base.size);
-> +		ttm_resource_manager_for_each_res(man, &cursor, res) {
-> +			struct ttm_buffer_object *bo = res->bo;
-> +			uint32_t num_pages = PFN_UP(bo->base.size);
->   
-> -				ret = ttm_bo_swapout(bo, ctx, gfp_flags);
-> -				/* ttm_bo_swapout has dropped the lru_lock */
-> -				if (!ret)
-> -					return num_pages;
-> -				if (ret != -EBUSY)
-> -					return ret;
-> -			}
-> +			ret = ttm_bo_swapout(bo, ctx, gfp_flags);
-> +			/* ttm_bo_swapout has dropped the lru_lock */
-> +			if (!ret)
-> +				return num_pages;
-> +			if (ret != -EBUSY)
-> +				return ret;
->   		}
->   	}
->   	spin_unlock(&bdev->lru_lock);
-> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> index 3af788dd197e..88fc96c315b8 100644
-> --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> @@ -385,6 +385,57 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
->   }
->   EXPORT_SYMBOL(ttm_resource_manager_debug);
->   
-> +/**
-> + * ttm_resource_manager_first
-> + *
-> + * @man: resource manager to iterate over
-> + * @cursor: cursor to record the position
-> + *
-> + * Returns the first resource from the resource manager.
-> + */
-> +struct ttm_resource *
-> +ttm_resource_manager_first(struct ttm_resource_manager *man,
-> +			   struct ttm_resource_cursor *cursor)
-> +{
-> +	struct ttm_resource *res;
-> +
-> +	lockdep_assert_held(&man->bdev->lru_lock);
-> +
-> +	for (cursor->priority = 0; cursor->priority < TTM_MAX_BO_PRIORITY;
-> +	     ++cursor->priority)
-> +		list_for_each_entry(res, &man->lru[cursor->priority], lru)
-> +			return res;
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * ttm_resource_manager_next
-> + *
-> + * @man: resource manager to iterate over
-> + * @cursor: cursor to record the position
-> + * @res: the current resource pointer
-> + *
-> + * Returns the next resource from the resource manager.
-> + */
-> +struct ttm_resource *
-> +ttm_resource_manager_next(struct ttm_resource_manager *man,
-> +			  struct ttm_resource_cursor *cursor,
-> +			  struct ttm_resource *res)
-> +{
-> +	lockdep_assert_held(&man->bdev->lru_lock);
-> +
-> +	list_for_each_entry_continue(res, &man->lru[cursor->priority], lru)
-> +		return res;
-> +
-> +	for (++cursor->priority; cursor->priority < TTM_MAX_BO_PRIORITY;
-> +	     ++cursor->priority)
-> +		list_for_each_entry(res, &man->lru[cursor->priority], lru)
-> +			return res;
-> +
-> +	return NULL;
-> +}
-> +
->   static void ttm_kmap_iter_iomap_map_local(struct ttm_kmap_iter *iter,
->   					  struct dma_buf_map *dmap,
->   					  pgoff_t i)
-> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-> index 181e82e3d806..ef0ec700e896 100644
-> --- a/include/drm/ttm/ttm_resource.h
-> +++ b/include/drm/ttm/ttm_resource.h
-> @@ -184,6 +184,17 @@ struct ttm_resource {
->   	struct list_head lru;
->   };
->   
-> +/**
-> + * struct ttm_resource_cursor
-> + *
-> + * @priority: the current priority
-> + *
-> + * Cursor to iterate over the resources in a manager.
-> + */
-> +struct ttm_resource_cursor {
-> +	unsigned int priority;
-> +};
-> +
->   /**
->    * struct ttm_lru_bulk_move_pos
->    *
-> @@ -328,6 +339,18 @@ uint64_t ttm_resource_manager_usage(struct ttm_resource_manager *man);
->   void ttm_resource_manager_debug(struct ttm_resource_manager *man,
->   				struct drm_printer *p);
->   
-> +struct ttm_resource *
-> +ttm_resource_manager_first(struct ttm_resource_manager *man,
-> +			   struct ttm_resource_cursor *cursor);
-> +struct ttm_resource *
-> +ttm_resource_manager_next(struct ttm_resource_manager *man,
-> +			  struct ttm_resource_cursor *cursor,
-> +			  struct ttm_resource *res);
-> +
-> +#define ttm_resource_manager_for_each_res(man, cursor, res)		\
-> +	for (res = ttm_resource_manager_first(man, cursor); res;	\
-> +	     res = ttm_resource_manager_next(man, cursor, res))
-> +
->   struct ttm_kmap_iter *
->   ttm_kmap_iter_iomap_init(struct ttm_kmap_iter_iomap *iter_io,
->   			 struct io_mapping *iomap,
+All the other drivers and symbols can stay the same then.
