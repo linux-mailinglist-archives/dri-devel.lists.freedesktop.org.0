@@ -1,61 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BA04B7B2F
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 00:27:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B82D14B7B35
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 00:29:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7CC810E573;
-	Tue, 15 Feb 2022 23:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 082D710E577;
+	Tue, 15 Feb 2022 23:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0004A10E2D9;
- Tue, 15 Feb 2022 23:27:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644967641; x=1676503641;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=/DbwMD1GlQmklMwdkj6uakJWR/imPHhcyGhcMbTG7Cg=;
- b=SegSS5ePZSYv4XN8upltS2Wm2aucJ6AY/3Z/KQDSMnHCqF1h4JNygWHP
- Jr26SkKYlVF8jPtCy+dhcQoXxyq/HdtlmrlKKsBhlkNJfaMFGiFlBgoy9
- B+I/+Bo1uqqOM2tBBfGwtSsuRUrN1YZk/qi5EFpM7ZaC8w/2rFqb3t56g Q=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 15 Feb 2022 15:27:19 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 15:27:18 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Tue, 15 Feb 2022 15:27:18 -0800
-Received: from [10.111.168.21] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Tue, 15 Feb
- 2022 15:27:16 -0800
-Message-ID: <8f7ff3b9-c426-8228-8c8d-42eefba95b56@quicinc.com>
-Date: Tue, 15 Feb 2022 15:27:14 -0800
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81E2F10E2D9;
+ Tue, 15 Feb 2022 23:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644967738; x=1676503738;
+ h=date:from:to:subject:message-id:references:mime-version:
+ content-transfer-encoding:in-reply-to;
+ bh=PuOlIBLnmV0UGsziClzfYD4ZKWpxWUaUI/U5AU60124=;
+ b=ML1kVJQE27pYIHhUBse913K69jCWIcSosgsksg2gJHz6gni5gWKIH+iX
+ waNEjAOvlhVhJydAUSuSeg8VCKH1OoJYB7fL7KbDYodKaI9zJEbO3bguA
+ OgyELIsC/7AjdNGxdoLSQFPziYpll9k1yd/QM3iQL8KMOHBH6zY5nPBOo
+ HnQ2yCDE+dkQzc9TRAlHCSLGvuF/i0nEXS4+4uUEvraNf0jqsH8d528NS
+ I39RQr2RxUiHqO8+qVBHffReH9f8719pbCHvsMZY2NXyukJboKOJEG8dO
+ vcjHxHuSsytjNyLTtAt7mvhnLES1P0KV77p86VZZWwPuD5cj0BdMo1daU w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="275059226"
+X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; d="scan'208";a="275059226"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 15:28:57 -0800
+X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; d="scan'208";a="529124431"
+Received: from dbhandar-mobl1.amr.corp.intel.com (HELO msatwood-mobl)
+ ([10.212.183.40])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 15:28:56 -0800
+Date: Tue, 15 Feb 2022 15:28:43 -0800
+From: Matt Atwood <matthew.s.atwood@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>;,
+ intel-gfx@lists.freedesktop.org;, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v2 08/18] drm/i915/guc: Convert engine record
+ to iosys_map
+Message-ID: <20220215232843.GB15418@msatwood-mobl>
+References: <20220208104524.2516209-1-lucas.demarchi@intel.com>
+ <20220208104524.2516209-9-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH 2/6] drm/msm/dpu: remove always-true argument of
- dpu_core_irq_read()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>
-References: <20220201151056.2480055-1-dmitry.baryshkov@linaro.org>
- <20220201151056.2480055-3-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220201151056.2480055-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220208104524.2516209-9-lucas.demarchi@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,78 +60,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/1/2022 7:10 AM, Dmitry Baryshkov wrote:
-> The argument clear of the function dpu_core_irq_read() is always true.
-> Remove it.
+On Tue, Feb 08, 2022 at 02:45:14AM -0800, Lucas De Marchi wrote:
+> Use iosys_map to read fields from the dma_blob so access to IO and
+> system memory is abstracted away.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Reviewed-by: Matt Atwood<matthew.s.atwood@intel.com>
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h      | 4 +---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c       | 3 +--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 4 ++--
->   3 files changed, 4 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c      | 14 ++++++--------
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h      |  3 ++-
+>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c   | 17 ++++++++++-------
+>  3 files changed, 18 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
-> index 7023ccb79814..6dce5d89f817 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
-> @@ -33,13 +33,11 @@ irqreturn_t dpu_core_irq(struct msm_kms *kms);
->    * dpu_core_irq_read - IRQ helper function for reading IRQ status
->    * @dpu_kms:		DPU handle
->    * @irq_idx:		irq index
-> - * @clear:		True to clear the irq after read
->    * @return:		non-zero if irq detected; otherwise no irq detected
->    */
->   u32 dpu_core_irq_read(
->   		struct dpu_kms *dpu_kms,
-> -		int irq_idx,
-> -		bool clear);
-> +		int irq_idx);
->   
->   /**
->    * dpu_core_irq_register_callback - For registering callback function on IRQ
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 1e648db439f9..5576b8a3e6ee 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -301,8 +301,7 @@ int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
->   			wait_info);
->   
->   	if (ret <= 0) {
-> -		irq_status = dpu_core_irq_read(phys_enc->dpu_kms,
-> -				irq->irq_idx, true);
-> +		irq_status = dpu_core_irq_read(phys_enc->dpu_kms, irq->irq_idx);
->   		if (irq_status) {
->   			unsigned long flags;
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> index 71882d3fe705..85404c9ab4e1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> @@ -357,7 +357,7 @@ static void dpu_disable_all_irqs(struct dpu_kms *dpu_kms)
->   	wmb();
->   }
->   
-> -u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx, bool clear)
-> +u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx)
->   {
->   	struct dpu_hw_intr *intr = dpu_kms->hw_intr;
->   	int reg_idx;
-> @@ -384,7 +384,7 @@ u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx, bool clear)
->   	intr_status = DPU_REG_READ(&intr->hw,
->   			dpu_intr_set[reg_idx].status_off) &
->   		DPU_IRQ_MASK(irq_idx);
-> -	if (intr_status && clear)
-> +	if (intr_status)
->   		DPU_REG_WRITE(&intr->hw, dpu_intr_set[reg_idx].clr_off,
->   				intr_status);
->   
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> index 6a34ab38b45f..383c5994d4ef 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> @@ -695,18 +695,16 @@ void intel_guc_ads_reset(struct intel_guc *guc)
+>  
+>  u32 intel_guc_engine_usage_offset(struct intel_guc *guc)
+>  {
+> -	struct __guc_ads_blob *blob = guc->ads_blob;
+> -	u32 base = intel_guc_ggtt_offset(guc, guc->ads_vma);
+> -	u32 offset = base + ptr_offset(blob, engine_usage);
+> -
+> -	return offset;
+> +	return intel_guc_ggtt_offset(guc, guc->ads_vma) +
+> +		offsetof(struct __guc_ads_blob, engine_usage);
+>  }
+>  
+> -struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine)
+> +struct iosys_map intel_guc_engine_usage_record_map(struct intel_engine_cs *engine)
+>  {
+>  	struct intel_guc *guc = &engine->gt->uc.guc;
+> -	struct __guc_ads_blob *blob = guc->ads_blob;
+>  	u8 guc_class = engine_class_to_guc_class(engine->class);
+> +	size_t offset = offsetof(struct __guc_ads_blob,
+> +				 engine_usage.engines[guc_class][ilog2(engine->logical_mask)]);
+>  
+> -	return &blob->engine_usage.engines[guc_class][ilog2(engine->logical_mask)];
+> +	return IOSYS_MAP_INIT_OFFSET(&guc->ads_map, offset);
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
+> index e74c110facff..1c64f4d6ea21 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
+> @@ -7,6 +7,7 @@
+>  #define _INTEL_GUC_ADS_H_
+>  
+>  #include <linux/types.h>
+> +#include <linux/iosys-map.h>
+>  
+>  struct intel_guc;
+>  struct drm_printer;
+> @@ -18,7 +19,7 @@ void intel_guc_ads_init_late(struct intel_guc *guc);
+>  void intel_guc_ads_reset(struct intel_guc *guc);
+>  void intel_guc_ads_print_policy_info(struct intel_guc *guc,
+>  				     struct drm_printer *p);
+> -struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine);
+> +struct iosys_map intel_guc_engine_usage_record_map(struct intel_engine_cs *engine);
+>  u32 intel_guc_engine_usage_offset(struct intel_guc *guc);
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index b3a429a92c0d..ab3cea352fb3 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -1139,6 +1139,9 @@ __extend_last_switch(struct intel_guc *guc, u64 *prev_start, u32 new_start)
+>  	*prev_start = ((u64)gt_stamp_hi << 32) | new_start;
+>  }
+>  
+> +#define record_read(map_, field_) \
+> +	iosys_map_rd_field(map_, 0, struct guc_engine_usage_record, field_)
+> +
+>  /*
+>   * GuC updates shared memory and KMD reads it. Since this is not synchronized,
+>   * we run into a race where the value read is inconsistent. Sometimes the
+> @@ -1153,17 +1156,17 @@ __extend_last_switch(struct intel_guc *guc, u64 *prev_start, u32 new_start)
+>  static void __get_engine_usage_record(struct intel_engine_cs *engine,
+>  				      u32 *last_in, u32 *id, u32 *total)
+>  {
+> -	struct guc_engine_usage_record *rec = intel_guc_engine_usage(engine);
+> +	struct iosys_map rec_map = intel_guc_engine_usage_record_map(engine);
+>  	int i = 0;
+>  
+>  	do {
+> -		*last_in = READ_ONCE(rec->last_switch_in_stamp);
+> -		*id = READ_ONCE(rec->current_context_index);
+> -		*total = READ_ONCE(rec->total_runtime);
+> +		*last_in = record_read(&rec_map, last_switch_in_stamp);
+> +		*id = record_read(&rec_map, current_context_index);
+> +		*total = record_read(&rec_map, total_runtime);
+>  
+> -		if (READ_ONCE(rec->last_switch_in_stamp) == *last_in &&
+> -		    READ_ONCE(rec->current_context_index) == *id &&
+> -		    READ_ONCE(rec->total_runtime) == *total)
+> +		if (record_read(&rec_map, last_switch_in_stamp) == *last_in &&
+> +		    record_read(&rec_map, current_context_index) == *id &&
+> +		    record_read(&rec_map, total_runtime) == *total)
+>  			break;
+>  	} while (++i < 6);
+>  }
+> -- 
+> 2.35.1
+> 
