@@ -2,38 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098DF4B73EA
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 17:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B974B73E5
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 17:52:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C545B10E53D;
-	Tue, 15 Feb 2022 16:52:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BD4410E542;
+	Tue, 15 Feb 2022 16:52:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:1a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E027F10E557
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E98BE10E577
  for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 16:52:33 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7534:e0be:5adf:2691])
- by albert.telenet-ops.be with bizsmtp
- id vUsV2600718GbK106UsVLq; Tue, 15 Feb 2022 17:52:31 +0100
+ by laurent.telenet-ops.be with bizsmtp
+ id vUsV2600D18GbK101UsV5U; Tue, 15 Feb 2022 17:52:31 +0100
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1nK140-000tUj-RY; Tue, 15 Feb 2022 17:52:28 +0100
+ id 1nK140-000tUk-NI; Tue, 15 Feb 2022 17:52:28 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1nK13z-00BURL-Tk; Tue, 15 Feb 2022 17:52:27 +0100
+ id 1nK13z-00BURR-Uu; Tue, 15 Feb 2022 17:52:27 +0100
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
  Javier Martinez Canillas <javierm@redhat.com>
-Subject: [PATCH 0/8] drm: Add support for low-color frame buffer formats
-Date: Tue, 15 Feb 2022 17:52:18 +0100
-Message-Id: <20220215165226.2738568-1-geert@linux-m68k.org>
+Subject: [PATCH 1/8] drm/fourcc: Add DRM_FORMAT_C[124]
+Date: Tue, 15 Feb 2022 17:52:19 +0100
+Message-Id: <20220215165226.2738568-2-geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220215165226.2738568-1-geert@linux-m68k.org>
+References: <20220215165226.2738568-1-geert@linux-m68k.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,65 +56,73 @@ Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-	Hi all,
+Introduce fourcc codes for color-indexed frame buffer formats with two,
+four, and sixteen color, and provide a suitable mapping from bit per
+pixel and depth to fourcc codes.
 
-A long outstanding issue with the DRM subsystem has been the lack of
-support for low-color displays, as used typically on older desktop
-systems and small embedded displays.
+As the number of bits per pixel is less than eight, these rely on proper
+block handling for the calculation of bits per pixel and pitch.
 
-This patch series adds support for color-indexed frame buffer formats
-with 2, 4, and 16 colors.  It has been tested on ARAnyM using a
-work-in-progress Atari DRM driver, with text console operation and
-fbtest.
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+Do we want to keep the rounding down if depth < bpp, or insist on depth
+== bpp? I don't think the rounding down will still be needed after
+"[PATCH 4/8] drm/client: Use actual bpp when allocating frame buffers".
+---
+ drivers/gpu/drm/drm_fourcc.c  | 18 ++++++++++++++++++
+ include/uapi/drm/drm_fourcc.h |  3 +++
+ 2 files changed, 21 insertions(+)
 
-Overview:
-  - Patches 1 and 2 give a working system, albeit with a too large pitch
-    (line length),
-  - Patches 3 and 4 reduce memory consumption by correcting the pitch
-    in case bpp < 8,
-  - Patches 5 and 6 are untested, but may become useful with DRM
-    userspace,
-  - Patches 7 and 8 add more fourcc codes for grayscale and monochrome
-    frame buffer formats, which may be useful for e.g. the ssd130x and
-    repaper drivers.
-
-Notes:
-  - I haven't looked yet into making modetest draw a correct image.
-  - As this was used on emulated hardware only, and I do not have Atari
-    hardware, I do not have performance figures to compare with fbdev.
-    I hope to do proper measuring with an Amiga DRM driver, eventually.
-
-Thanks for your comments!
-
-Geert Uytterhoeven (8):
-  drm/fourcc: Add DRM_FORMAT_C[124]
-  drm/fb-helper: Add support for DRM_FORMAT_C[124]
-  drm/fourcc: Add drm_format_info_bpp() helper
-  drm/client: Use actual bpp when allocating frame buffers
-  drm/framebuffer: Use actual bpp for DRM_IOCTL_MODE_GETFB
-  drm/gem-fb-helper: Use actual bpp for size calculations
-  drm/fourcc: Add DRM_FORMAT_R[124]
-  drm/fourcc: Add DRM_FORMAT_D1
-
- drivers/gpu/drm/drm_client.c                 |   4 +-
- drivers/gpu/drm/drm_fb_helper.c              | 120 ++++++++++++++-----
- drivers/gpu/drm/drm_fourcc.c                 |  45 +++++++
- drivers/gpu/drm/drm_framebuffer.c            |   2 +-
- drivers/gpu/drm/drm_gem_framebuffer_helper.c |  12 +-
- include/drm/drm_fourcc.h                     |   1 +
- include/uapi/drm/drm_fourcc.h                |  15 +++
- 7 files changed, 160 insertions(+), 39 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+index 07741b678798b0f1..60ce63d728b8e308 100644
+--- a/drivers/gpu/drm/drm_fourcc.c
++++ b/drivers/gpu/drm/drm_fourcc.c
+@@ -46,6 +46,18 @@ uint32_t drm_mode_legacy_fb_format(uint32_t bpp, uint32_t depth)
+ 	case 8:
+ 		if (depth == 8)
+ 			fmt = DRM_FORMAT_C8;
++		fallthrough;
++	case 4:
++		if (depth == 4)
++			fmt = DRM_FORMAT_C4;
++		fallthrough;
++	case 2:
++		if (depth == 2)
++			fmt = DRM_FORMAT_C2;
++		fallthrough;
++	case 1:
++		if (depth == 1)
++			fmt = DRM_FORMAT_C1;
+ 		break;
+ 
+ 	case 16:
+@@ -132,6 +144,12 @@ EXPORT_SYMBOL(drm_driver_legacy_fb_format);
+ const struct drm_format_info *__drm_format_info(u32 format)
+ {
+ 	static const struct drm_format_info formats[] = {
++		{ .format = DRM_FORMAT_C1,		.depth = 1,  .num_planes = 1,
++		  .char_per_block = { 1, }, .block_w = { 8, }, .block_h = { 1, }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_C2,		.depth = 2,  .num_planes = 1,
++		  .char_per_block = { 1, }, .block_w = { 4, }, .block_h = { 1, }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_C4,		.depth = 4,  .num_planes = 1,
++		  .char_per_block = { 1, }, .block_w = { 2, }, .block_h = { 1, }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_C8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_R8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_R10,		.depth = 10, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index fc0c1454d2757d5d..3f09174670b3cce6 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -99,6 +99,9 @@ extern "C" {
+ #define DRM_FORMAT_INVALID	0
+ 
+ /* color index */
++#define DRM_FORMAT_C1		fourcc_code('C', '1', ' ', ' ') /* [0] C */
++#define DRM_FORMAT_C2		fourcc_code('C', '2', ' ', ' ') /* [1:0] C */
++#define DRM_FORMAT_C4		fourcc_code('C', '4', ' ', ' ') /* [3:0] C */
+ #define DRM_FORMAT_C8		fourcc_code('C', '8', ' ', ' ') /* [7:0] C */
+ 
+ /* 8 bpp Red */
 -- 
 2.25.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
