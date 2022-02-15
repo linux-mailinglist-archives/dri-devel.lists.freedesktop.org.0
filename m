@@ -2,60 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7194B73E1
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 17:52:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098DF4B73EA
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 17:52:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4572010E52E;
-	Tue, 15 Feb 2022 16:52:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C545B10E53D;
+	Tue, 15 Feb 2022 16:52:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04E4610E52D;
- Tue, 15 Feb 2022 16:52:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1644943921; x=1676479921;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PPjjo/q9IwYwsoSEHYecd35SUubaNNSnfDWTscRVK/M=;
- b=A0G4ce5Eg2BX/nWC3UffMMb8w3eitd86Gp2hFNgEmD+6Qtx/EJ6e0Vbs
- wjGKnRwDCORReVyj70DyDI4niQi7FCZVrJc6UUFz4IvDe7KfE4VmrSti1
- umLnFm0ckrPN21FuHrrKqCiAvFZQE0/7Nn8IPkdIKgxZe5Ldrkn052Bf4 Q=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Feb 2022 08:51:59 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 08:51:59 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Tue, 15 Feb 2022 08:51:58 -0800
-Received: from [10.111.168.21] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Tue, 15 Feb
- 2022 08:51:56 -0800
-Message-ID: <fc8c0e0f-7a30-8782-aead-8ee77c3ba562@quicinc.com>
-Date: Tue, 15 Feb 2022 08:51:55 -0800
+Received: from albert.telenet-ops.be (albert.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:1a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E027F10E557
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 16:52:33 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7534:e0be:5adf:2691])
+ by albert.telenet-ops.be with bizsmtp
+ id vUsV2600718GbK106UsVLq; Tue, 15 Feb 2022 17:52:31 +0100
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1nK140-000tUj-RY; Tue, 15 Feb 2022 17:52:28 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1nK13z-00BURL-Tk; Tue, 15 Feb 2022 17:52:27 +0100
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Subject: [PATCH 0/8] drm: Add support for low-color frame buffer formats
+Date: Tue, 15 Feb 2022 17:52:18 +0100
+Message-Id: <20220215165226.2738568-1-geert@linux-m68k.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v2 5/8] drm/msm/dpu: encoder: drop unused mode_fixup
- callback
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>
-References: <20220215141643.3444941-1-dmitry.baryshkov@linaro.org>
- <20220215141643.3444941-6-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220215141643.3444941-6-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,130 +48,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+	Hi all,
 
+A long outstanding issue with the DRM subsystem has been the lack of
+support for low-color displays, as used typically on older desktop
+systems and small embedded displays.
 
-On 2/15/2022 6:16 AM, Dmitry Baryshkov wrote:
-> Both cmd and vid backends provide useless mode_fixup() callback. Drop
-> it.
-> 
+This patch series adds support for color-indexed frame buffer formats
+with 2, 4, and 16 colors.  It has been tested on ARAnyM using a
+work-in-progress Atari DRM driver, with text console operation and
+fbtest.
 
-Thanks for not removing the atomic_check().
+Overview:
+  - Patches 1 and 2 give a working system, albeit with a too large pitch
+    (line length),
+  - Patches 3 and 4 reduce memory consumption by correcting the pitch
+    in case bpp < 8,
+  - Patches 5 and 6 are untested, but may become useful with DRM
+    userspace,
+  - Patches 7 and 8 add more fourcc codes for grayscale and monochrome
+    frame buffer formats, which may be useful for e.g. the ssd130x and
+    repaper drivers.
 
-BTW, can you please include that in the change log so that others 
-reviewing it know.
+Notes:
+  - I haven't looked yet into making modetest draw a correct image.
+  - As this was used on emulated hardware only, and I do not have Atari
+    hardware, I do not have performance figures to compare with fbdev.
+    I hope to do proper measuring with an Amiga DRM driver, eventually.
 
-That being said,
+Thanks for your comments!
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Geert Uytterhoeven (8):
+  drm/fourcc: Add DRM_FORMAT_C[124]
+  drm/fb-helper: Add support for DRM_FORMAT_C[124]
+  drm/fourcc: Add drm_format_info_bpp() helper
+  drm/client: Use actual bpp when allocating frame buffers
+  drm/framebuffer: Use actual bpp for DRM_IOCTL_MODE_GETFB
+  drm/gem-fb-helper: Use actual bpp for size calculations
+  drm/fourcc: Add DRM_FORMAT_R[124]
+  drm/fourcc: Add DRM_FORMAT_D1
 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  4 ----
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  4 ----
->   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   | 10 ----------
->   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 14 --------------
->   4 files changed, 32 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 480d02ccff8c..394916e8fe08 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -602,10 +602,6 @@ static int dpu_encoder_virt_atomic_check(
->   		if (phys->ops.atomic_check)
->   			ret = phys->ops.atomic_check(phys, crtc_state,
->   					conn_state);
-> -		else if (phys->ops.mode_fixup)
-> -			if (!phys->ops.mode_fixup(phys, mode, adj_mode))
-> -				ret = -EINVAL;
-> -
->   		if (ret) {
->   			DPU_ERROR_ENC(dpu_enc,
->   					"mode unsupported, phys idx %d\n", i);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index e7270eb6b84b..7b14948c4c87 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -84,7 +84,6 @@ struct dpu_encoder_virt_ops {
->    * @is_master:			Whether this phys_enc is the current master
->    *				encoder. Can be switched at enable time. Based
->    *				on split_role and current mode (CMD/VID).
-> - * @mode_fixup:			DRM Call. Fixup a DRM mode.
->    * @mode_set:			DRM Call. Set a DRM mode.
->    *				This likely caches the mode, for use at enable.
->    * @enable:			DRM Call. Enable a DRM mode.
-> @@ -117,9 +116,6 @@ struct dpu_encoder_phys_ops {
->   			struct dentry *debugfs_root);
->   	void (*prepare_commit)(struct dpu_encoder_phys *encoder);
->   	bool (*is_master)(struct dpu_encoder_phys *encoder);
-> -	bool (*mode_fixup)(struct dpu_encoder_phys *encoder,
-> -			const struct drm_display_mode *mode,
-> -			struct drm_display_mode *adjusted_mode);
->   	void (*mode_set)(struct dpu_encoder_phys *encoder,
->   			struct drm_display_mode *mode,
->   			struct drm_display_mode *adjusted_mode);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index 35071964d0f6..1796f83b47ae 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -45,15 +45,6 @@ static bool dpu_encoder_phys_cmd_is_master(struct dpu_encoder_phys *phys_enc)
->   	return (phys_enc->split_role != ENC_ROLE_SLAVE);
->   }
->   
-> -static bool dpu_encoder_phys_cmd_mode_fixup(
-> -		struct dpu_encoder_phys *phys_enc,
-> -		const struct drm_display_mode *mode,
-> -		struct drm_display_mode *adj_mode)
-> -{
-> -	DPU_DEBUG_CMDENC(to_dpu_encoder_phys_cmd(phys_enc), "\n");
-> -	return true;
-> -}
-> -
->   static void _dpu_encoder_phys_cmd_update_intf_cfg(
->   		struct dpu_encoder_phys *phys_enc)
->   {
-> @@ -756,7 +747,6 @@ static void dpu_encoder_phys_cmd_init_ops(
->   	ops->prepare_commit = dpu_encoder_phys_cmd_prepare_commit;
->   	ops->is_master = dpu_encoder_phys_cmd_is_master;
->   	ops->mode_set = dpu_encoder_phys_cmd_mode_set;
-> -	ops->mode_fixup = dpu_encoder_phys_cmd_mode_fixup;
->   	ops->enable = dpu_encoder_phys_cmd_enable;
->   	ops->disable = dpu_encoder_phys_cmd_disable;
->   	ops->destroy = dpu_encoder_phys_cmd_destroy;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index ddd9d89cd456..1831fe37c88c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -225,19 +225,6 @@ static void programmable_fetch_config(struct dpu_encoder_phys *phys_enc,
->   	spin_unlock_irqrestore(phys_enc->enc_spinlock, lock_flags);
->   }
->   
-> -static bool dpu_encoder_phys_vid_mode_fixup(
-> -		struct dpu_encoder_phys *phys_enc,
-> -		const struct drm_display_mode *mode,
-> -		struct drm_display_mode *adj_mode)
-> -{
-> -	DPU_DEBUG_VIDENC(phys_enc, "\n");
-> -
-> -	/*
-> -	 * Modifying mode has consequences when the mode comes back to us
-> -	 */
-> -	return true;
-> -}
-> -
->   static void dpu_encoder_phys_vid_setup_timing_engine(
->   		struct dpu_encoder_phys *phys_enc)
->   {
-> @@ -676,7 +663,6 @@ static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
->   {
->   	ops->is_master = dpu_encoder_phys_vid_is_master;
->   	ops->mode_set = dpu_encoder_phys_vid_mode_set;
-> -	ops->mode_fixup = dpu_encoder_phys_vid_mode_fixup;
->   	ops->enable = dpu_encoder_phys_vid_enable;
->   	ops->disable = dpu_encoder_phys_vid_disable;
->   	ops->destroy = dpu_encoder_phys_vid_destroy;
+ drivers/gpu/drm/drm_client.c                 |   4 +-
+ drivers/gpu/drm/drm_fb_helper.c              | 120 ++++++++++++++-----
+ drivers/gpu/drm/drm_fourcc.c                 |  45 +++++++
+ drivers/gpu/drm/drm_framebuffer.c            |   2 +-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c |  12 +-
+ include/drm/drm_fourcc.h                     |   1 +
+ include/uapi/drm/drm_fourcc.h                |  15 +++
+ 7 files changed, 160 insertions(+), 39 deletions(-)
+
+-- 
+2.25.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
