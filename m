@@ -2,57 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76ABF4B6EF0
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 15:39:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC2B4B6F00
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 15:44:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A01410E529;
-	Tue, 15 Feb 2022 14:38:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10E0210E1E4;
+	Tue, 15 Feb 2022 14:44:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 196C410E529;
- Tue, 15 Feb 2022 14:38:58 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id m25so17426699qka.9;
- Tue, 15 Feb 2022 06:38:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K0ow2l97FBadE8xYyNQO77wV9BV8c9FeJliZ8Zblp7o=;
- b=OvCv7l+IVLWiIYmrA/eyOyIiGsNr6rEC7SJ7SI0ykniYkMXuIlbJcyiIniSJZegR2Q
- ltJkoPKJSaCAcHmU2ItgB4h4Q2BMMyJpPrb5qq2ol+JxDJQhMIir73svlUhYVpbFqcEI
- tJVivfur2J2rZ4jI/Uqc9oeXE3FMfu6wIDttguFk/9lgOFkcevAPJYhU6Zj7Fx8tZCuW
- ehg5xjdZQpWY7QJ1PPdvodk1qObW598mPzqHm2H6yM7E6tmgab8eRc6qu2hOx6UhhA7v
- NZkXXBD8h4kSdipkJVyWNWpwOCY2NbcsJRpT8LKWTFz26koS2tf+T93JWDH2qnn2Vihr
- UoGQ==
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14E3110E1E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 14:44:49 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id u6so37308409lfc.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 06:44:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Jdq5INV1bbMgRIUNf5ebSD0wzAyaW4IvmLge7Lbz89Y=;
+ b=cv8g3z51OXlxfsG4dBvI+ALtL4z6gJJNdGMG36h7DVX21Q6Sec+oUN9/NuJF8+qo9a
+ Xf60I5nWD6CtLcfmMphbmVl7m5oJYW98xdjrjPaPjPs4rQBT3aUX/O3gz6XSBiYRJ85h
+ zgZMVcNXQDlW3ZTxMQ1c4zX7iaqW/GzLcjIwaGlF2ruiCvPReHRIdXaPxtH/hSPQ3Y/d
+ Z+6vSdPxuV5dXrKyrQ1m/F4pVmyjH5/1m88nKD8AgHVGMiD8uNmEGCkodcFky7akg0co
+ WFHqQfyqWtsVDFT34isKdlj6fpggRMvFOPtbY4kjwB3Caw5vKVAyUK4gvIVbFeWNg/a2
+ 3UNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=K0ow2l97FBadE8xYyNQO77wV9BV8c9FeJliZ8Zblp7o=;
- b=TMOcakJHoxIePCtZISQIrAN/IslFY1yc+N5BTp1AuRCZHSdRp3goRTWTAy2koJipsk
- S8rA5bgqHaGuj9j9vDxtTAq2IVAa13CLYgdBzgRJbnPT5YfuASaCeBP7XR61XyMv2Wa8
- en1i5CYNoYsbrZOd70+Euevg7hve66Rb/6o/faOGvidjY10toKOThNZbbN18UD2sbMdL
- LKson9od0ElDTglANGWPnSgVB0doMAKvZhA3vcycUN0oaqfTtYbi61nBizksey5a8reR
- bcEXnRXSwstOmeA2Vc+9oYLnnEF93MhJWvGjzsJxcj2lEl+82s3LVD87gz6v9Ed3bj26
- GNxA==
-X-Gm-Message-State: AOAM531E0f5D7Emz3Q2BiSh5UD4YsDwwwPCtKALn/p+MFbm6lGZ7z7rg
- D+4aFgpW6CtygN0AYFONevBLD/8L99OkRPgIEyk=
-X-Google-Smtp-Source: ABdhPJzqxLfXDw78xLjeX6QcKbH1M0Mn2Y5YmSQ2IiVXkB4upL2T729wSv3PGfvAcUcBZDUXQTcovh+9YqwVs83tlCM=
-X-Received: by 2002:a05:620a:4042:: with SMTP id
- i2mr2065887qko.592.1644935937193; 
- Tue, 15 Feb 2022 06:38:57 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Jdq5INV1bbMgRIUNf5ebSD0wzAyaW4IvmLge7Lbz89Y=;
+ b=tAAxdvqP9D0UrDQWQY0AWDJC45nDVsvGlqMxz7c2i7HJzDipdPeiYVvWKeguLMSr7/
+ spNKruSo6pfrhpcZ3uBYLQ5DzzgC6TJhg/avaUkbhb3nbYyOO6kKrUu7UaCOOfSr1pFG
+ gnwmokZNdRHbXce5/e/T/VbC7aXT2zCrENbUl/9DIN7tEqUy761aBupGmaLvBEMNFtjw
+ 6P8OD/vu/D59BFKrhprrZAsuTGWTdKJpgyX0F1jBU08rG+1n+P5DFl0Gh07z9bFJFtAI
+ AYekkzLjeHBgmDmiEZxOE81yH2FdPx06SRwZQQkBkSx3bH9uLKD1EMzr5E84iOX66CT4
+ EIZQ==
+X-Gm-Message-State: AOAM5317ALl6HLyr6H/ySQyjhaMpUNqrHdDI+1Tdc2WHcbv9oOgKnaz8
+ 8tQc9VYbdeAATdGj3dCIcX7RnijmduVEgA==
+X-Google-Smtp-Source: ABdhPJyPstMwtYEwnlz/N2XWQ9dp7sLdzEVkWJuipil3ukOAddJ4id/9S+2ftJZlKM1513ZbvtOq/A==
+X-Received: by 2002:a05:6512:2351:: with SMTP id
+ p17mr3415221lfu.431.1644936287407; 
+ Tue, 15 Feb 2022 06:44:47 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id a9sm645840ljm.107.2022.02.15.06.44.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 06:44:46 -0800 (PST)
+Message-ID: <460e0036-74b5-bccd-c11c-2573290012ae@linaro.org>
+Date: Tue, 15 Feb 2022 17:44:46 +0300
 MIME-Version: 1.0
-References: <20220208084234.1684930-1-hsinyi@chromium.org>
- <CACvgo53u01BK_D0ZssV+gCepjxSz23Nr5Dy1qXeaAoJuu6VCFQ@mail.gmail.com>
- <KW6DNh6IRRgVJx9DfOFBnEqc4a0x-AnDXEbMxwpfEbk8dOn_KGVzAfo-slJWq-4nWW728Uc-OVpFh2w4fDE4-bxfkDuz1hFILRVvbcuXqaw=@emersion.fr>
-In-Reply-To: <KW6DNh6IRRgVJx9DfOFBnEqc4a0x-AnDXEbMxwpfEbk8dOn_KGVzAfo-slJWq-4nWW728Uc-OVpFh2w4fDE4-bxfkDuz1hFILRVvbcuXqaw=@emersion.fr>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 15 Feb 2022 14:38:45 +0000
-Message-ID: <CACvgo532-pC+7DLFCo=DWTX-OnJEJvSoTmQnt3_qLhiT4cqEMg@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v8 1/3] gpu: drm: separate panel orientation
- property creating and value setting
-To: Simon Ser <contact@emersion.fr>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH] drm/msm/dpu: Disable boot loader configured data paths
+Content-Language: en-GB
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20220215043708.1256854-1-bjorn.andersson@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220215043708.1256854-1-bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,74 +73,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Alex Deucher <alexander.deucher@amd.com>,
- LAKML <linux-arm-kernel@lists.infradead.org>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Feb 2022 at 13:55, Simon Ser <contact@emersion.fr> wrote:
->
-> On Tuesday, February 15th, 2022 at 13:04, Emil Velikov <emil.l.velikov@gmail.com> wrote:
->
-> > Greetings everyone,
-> >
-> > Padron for joining in so late o/
-> >
-> > On Tue, 8 Feb 2022 at 08:42, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> > >
-> > > drm_dev_register() sets connector->registration_state to
-> > > DRM_CONNECTOR_REGISTERED and dev->registered to true. If
-> > > drm_connector_set_panel_orientation() is first called after
-> > > drm_dev_register(), it will fail several checks and results in following
-> > > warning.
-> > >
-> > > Add a function to create panel orientation property and set default value
-> > > to UNKNOWN, so drivers can call this function to init the property earlier
-> > > , and let the panel set the real value later.
-> > >
-> >
-> > The warning illustrates a genuine race condition, where userspace will
-> > read the old/invalid property value/state. So this patch masks away
-> > the WARNING without addressing the actual issue.
-> > Instead can we fix the respective drivers, so that no properties are
-> > created after drm_dev_register()?
-> >
-> > Longer version:
-> > As we look into drm_dev_register() it's in charge of creating the
-> > dev/sysfs nodes (et al). Note that connectors cannot disappear at
-> > runtime.
-> > For panel orientation, we are creating an immutable connector
-> > properly, meaning that as soon as drm_dev_register() is called we must
-> > ensure that the property is available (if applicable) and set to the
-> > correct value.
->
-> Unfortunately we can't quite do this. To apply the panel orientation quirks we
-> need to grab the EDID of the eDP connector, and this happened too late in my
-> testing.
->
-> What we can do is create the prop early during module load, and update it when
-> we read the EDID (at the place where we create it right now). User-space will
-> receive a hotplug event after the EDID is read, so will be able to pick up the
-> new value if any.
+On 15/02/2022 07:37, Bjorn Andersson wrote:
+> It's typical for the bootloader to configure CTL_0 for the boot splash
+> or EFIFB, but for non-DSI use cases the DPU driver tend to pick another
+> CTL and the system might end up with two configured data paths producing
+> data on the same INTF. In particular as the IOMMU configuration isn't
+> retained from the bootloader one of the data paths will push underflow
+> color, resulting in screen flickering.
+> 
+> Naturally the end goal would be to inherit the bootloader's
+> configuration and provide the user with a glitch-free handover from the
+> boot configuration to a running DPU.
+> 
+> But such effort will affect clocks, regulators, power-domains etc, and
+> will take time to implement. So in the meantime this patch simply
+> disables all the data paths, on platforms that has CTL_FETCH_ACTIVE, to
+> avoid the graphical artifacts.
+> 
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 13 +++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h |  6 ++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c    |  2 ++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c     | 17 +++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h     |  8 ++++++++
+>   5 files changed, 46 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> index 02da9ecf71f1..69d4849484fa 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> @@ -357,6 +357,18 @@ static void dpu_hw_ctl_clear_all_blendstages(struct dpu_hw_ctl *ctx)
+>   	DPU_REG_WRITE(c, CTL_FETCH_PIPE_ACTIVE, 0);
+>   }
+>   
+> +static void dpu_hw_ctl_disable_boot_config(struct dpu_hw_ctl *ctx)
+> +{
+> +	if (ctx->caps->features & BIT(DPU_CTL_FETCH_ACTIVE)) {
 
-Didn't quite get that, are you saying that a GETPROPERTY for the EDID,
-the ioctl blocks or that we get an empty EDID?
+I see that you are changing only CTL_FETCH_PIPE_ACTIVE. However it still 
+seems like a hack.
+What if instead we always disable boot config for all paths except CTL_0 
+(or CTL_0 and CTL_1)?
 
-The EDID hotplug even thing is neat - sounds like it also signals on
-panel orientation, correct?
-On such an event, which properties userspace should be re-fetching -
-everything or guess randomly?
+> +		/*
+> +		 * Disable the pipe fetch and trigger a start, to disable the
+> +		 * data path
+> +		 */
+> +		DPU_REG_WRITE(&ctx->hw, CTL_FETCH_PIPE_ACTIVE, 0);
+> +		DPU_REG_WRITE(&ctx->hw, CTL_START, 0x1);
 
-Looking through the documentation, I cannot see a clear answer :-\
+What about video vs cmd modes?
 
-Thanks
-Emil
+> +	}
+> +}
+> +
+>   static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
+>   	enum dpu_lm lm, struct dpu_hw_stage_cfg *stage_cfg)
+>   {
+> @@ -590,6 +602,7 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+>   	ops->trigger_pending = dpu_hw_ctl_trigger_pending;
+>   	ops->reset = dpu_hw_ctl_reset_control;
+>   	ops->wait_reset_status = dpu_hw_ctl_wait_reset_status;
+> +	ops->disable_boot_config = dpu_hw_ctl_disable_boot_config;
+>   	ops->clear_all_blendstages = dpu_hw_ctl_clear_all_blendstages;
+>   	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
+>   	ops->get_bitmask_sspp = dpu_hw_ctl_get_bitmask_sspp;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> index 806c171e5df2..c2734f6ab760 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> @@ -159,6 +159,12 @@ struct dpu_hw_ctl_ops {
+>   	 */
+>   	void (*clear_all_blendstages)(struct dpu_hw_ctl *ctx);
+>   
+> +	/**
+> +	 * Disable the configuration setup by the bootloader
+> +	 * @ctx	      : ctl path ctx pointer
+> +	 */
+> +	void (*disable_boot_config)(struct dpu_hw_ctl *ctx);
+> +
+>   	/**
+>   	 * Configure layer mixer to pipe configuration
+>   	 * @ctx       : ctl path ctx pointer
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index cedc631f8498..eef2f017031a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -1107,6 +1107,8 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>   
+>   	dpu_kms->rm_init = true;
+>   
+> +	dpu_rm_clear_boot_config(&dpu_kms->rm, dpu_kms->catalog);
+> +
+>   	dpu_kms->hw_mdp = dpu_hw_mdptop_init(MDP_TOP, dpu_kms->mmio,
+>   					     dpu_kms->catalog);
+>   	if (IS_ERR(dpu_kms->hw_mdp)) {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index f9c83d6e427a..3365c5e41e28 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -4,6 +4,7 @@
+>    */
+>   
+>   #define pr_fmt(fmt)	"[drm:%s] " fmt, __func__
+> +#include <linux/delay.h>
+>   #include "dpu_kms.h"
+>   #include "dpu_hw_lm.h"
+>   #include "dpu_hw_ctl.h"
+> @@ -229,6 +230,22 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   	return rc ? rc : -EFAULT;
+>   }
+>   
+> +void dpu_rm_clear_boot_config(struct dpu_rm *rm, struct dpu_mdss_cfg *cat)
+> +{
+> +	struct dpu_hw_ctl *ctl;
+> +	int i;
+> +
+> +	for (i = CTL_0; i < CTL_MAX; i++) {
+> +		if (!rm->ctl_blks[i - CTL_0])
+> +			continue;
+> +
+> +		DPU_DEBUG("disabling ctl%d boot configuration\n", i - CTL_0);
+> +
+> +		ctl = to_dpu_hw_ctl(rm->ctl_blks[i - CTL_0]);
+> +		ctl->ops.disable_boot_config(ctl);
+> +	}
+> +}
+> +
+>   static bool _dpu_rm_needs_split_display(const struct msm_display_topology *top)
+>   {
+>   	return top->num_intf > 1;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> index 1f12c8d5b8aa..d3e084541e67 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> @@ -88,5 +88,13 @@ void dpu_rm_release(struct dpu_global_state *global_state,
+>   int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>   	struct dpu_global_state *global_state, uint32_t enc_id,
+>   	enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size);
+> +
+> +/**
+> + * dpu_rm_clear_boot_config() - Tear down any data paths configured by boot
+> + * @rm: DPU Resource Manager handle
+> + * @cat: Pointer to hardware catalog
+> + */
+> +void dpu_rm_clear_boot_config(struct dpu_rm *rm, struct dpu_mdss_cfg *cat);
+> +
+>   #endif /* __DPU_RM_H__ */
+>   
+
+
+-- 
+With best wishes
+Dmitry
