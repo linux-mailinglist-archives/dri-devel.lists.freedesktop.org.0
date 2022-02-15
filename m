@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0218C4B6FE8
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 16:42:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C1F24B6FEA
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Feb 2022 16:43:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A43D10E656;
-	Tue, 15 Feb 2022 15:42:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CCF110E658;
+	Tue, 15 Feb 2022 15:43:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 372A210E659
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 15:42:55 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id 13so2999563oiz.12
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 07:42:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=+hqacOI1rCKSdvQziuBji6IRw7XKiSJ0IkXi19yeG78=;
- b=PZ3a871p7M+BTKWNxEkkgIaluf7JL9l58xwSGxmPbGtVHn1LGVJZHAue6vGf6o0ENT
- MfeLY1xddvHUGlq2afRBTtol95yE3fkA+LkmKiyxZoXkgq0lDqDvtzaSBgnizE5dZChr
- 6I7297BGTzDVTBbzZj19x4pJUylD59ndU+3czLQImB+SRvmRxtIqu2uNV2+OoMZNBIMq
- uTu8usEk38Fywb+BCklPnhS246flJmCNg+j6ZWqrGf7UBhXh2nainTLil6+kDNGZl1Pv
- 27ehStLQQ8P/kHcphSfuM9b9ITH7z06/cpOHuyF5Dtt9n8y0xFWIdoHq5LHnxdWg9uiO
- zSyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+hqacOI1rCKSdvQziuBji6IRw7XKiSJ0IkXi19yeG78=;
- b=PS41LfhzVivaSuYVSsLfS9juu5XE0vOj0IIK5h0hriIvzXJa2otMmR17rGjfGfGbwy
- 0snQZVraJitkCwKbiso/T+54MVOYtHFbdY7KV5fYRZqDJWbDvkaihvNaBW1JvHCmJm2P
- rAN0G1qGgi22fGqaNRwm5kDk43HjJGfn0EXepQGID5Du3FS/lEoFkZh27K6QEMVg22YE
- PRLjpVcAkL9CJY33SsPmft0r1yVhqCzlYBfRyzVW1wUK14kHodWR+A02pLweBZ+aEPQO
- GVyVL7S3aBOvecMRxk+ai07hsZovrFFvIXB32QXnP50gyu6CIYib1LVYaiUSB+HJvNVB
- bYyA==
-X-Gm-Message-State: AOAM532RvnF7YxQjaDgc7T19N0AQOpQk7MaMMZ/eUiF8j8LbcBL/1GKG
- FgpegTF+0rx650+wtoRT+pJCMg==
-X-Google-Smtp-Source: ABdhPJyLN7nPRbXJaAfZ+K8Ij78IVk3f+pfCizOQ5rW0NFZB5HxKOPdBacntu8YrdTh3a6TSmKInKg==
-X-Received: by 2002:aca:5e83:0:b0:2ce:6ee7:2c8e with SMTP id
- s125-20020aca5e83000000b002ce6ee72c8emr1779754oib.188.1644939774327; 
- Tue, 15 Feb 2022 07:42:54 -0800 (PST)
-Received: from yoga ([2600:1700:a0:3dc8:5c39:baff:fe03:898d])
- by smtp.gmail.com with ESMTPSA id y22sm13877833oto.2.2022.02.15.07.42.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 07:42:53 -0800 (PST)
-Date: Tue, 15 Feb 2022 09:42:51 -0600
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 8/8] drm/msm/dpu: simplify intf allocation code
-Message-ID: <YgvJ+wrckzJbjhDY@yoga>
-References: <20220215141643.3444941-1-dmitry.baryshkov@linaro.org>
- <20220215141643.3444941-9-dmitry.baryshkov@linaro.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6499D10E660
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 15:43:14 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5049D61738;
+ Tue, 15 Feb 2022 15:43:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2B52C340EB;
+ Tue, 15 Feb 2022 15:43:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644939791;
+ bh=SKGn7wND7KsEt36XShzXq7j0Folx5a1fiX2ekqpJ1GI=;
+ h=Date:From:To:cc:Subject:From;
+ b=fNOn8vALJVmXGzrsUX16C3s9cuKmdnX0wryuVtmQkiLH1ftCdRaHdgu22H+w9XMvK
+ 0Mbyn1H9RHQQ0r91MwaVV7f30yl+XkCR/FAUufv9VZDr+daiQNlo5m7DmN4x5tvDth
+ 0KEKd0160VQny9iNZkiF4gtaZ/ei6RVSeeZeUPeysacJQI1bptdzIgzCn5USOSJPvJ
+ 8yZz364boDacSkjWahmjLbyTrVQ54ubVtZ/6U/TbAMhniGDX9eZjf2SnYSIjeZXz4o
+ r7qnOGi+WQq8EgHM2cARhgS8g/J7NryPHpYm0G0o4JNoDRbkxMULPi+zzgFXvhihDu
+ 0zBy5sr4uK2YA==
+Date: Tue, 15 Feb 2022 16:43:08 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Sebastian Siewior <bigeasy@linutronix.de>
+Subject: [PATCH] drm: fb-helper: Avoid nesting spinlock_t into raw_spinlock_t
+Message-ID: <nycvar.YFH.7.76.2202151640200.11721@cbobk.fhfr.pm>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220215141643.3444941-9-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,171 +52,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 15 Feb 08:16 CST 2022, Dmitry Baryshkov wrote:
+From: Jiri Kosina <jkosina@suse.cz>
 
-> Rather than passing DRM_MODE_ENCODER_* and letting dpu_encoder to guess,
-> which intf type we mean, pass INTF_DSI/INTF_DP directly.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 26 +++++++--------------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  5 ++--
->  3 files changed, 13 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index fa1dc088a672..597d40f78d38 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -490,7 +490,7 @@ void dpu_encoder_helper_split_config(
->  	hw_mdptop = phys_enc->hw_mdptop;
->  	disp_info = &dpu_enc->disp_info;
->  
-> -	if (disp_info->intf_type != DRM_MODE_ENCODER_DSI)
-> +	if (disp_info->intf_type != INTF_DSI)
->  		return;
->  
->  	/**
-> @@ -552,7 +552,7 @@ static struct msm_display_topology dpu_encoder_get_topology(
->  	else
->  		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
->  
-> -	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
-> +	if (dpu_enc->disp_info.intf_type == INTF_DSI) {
->  		if (dpu_kms->catalog->dspp &&
->  			(dpu_kms->catalog->dspp_count >= topology.num_lm))
->  			topology.num_dspp = topology.num_lm;
-> @@ -1074,7 +1074,7 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
->  	}
->  
->  
-> -	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_TMDS &&
-> +	if (dpu_enc->disp_info.intf_type == INTF_DP &&
->  		dpu_enc->cur_master->hw_mdptop &&
->  		dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select)
->  		dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select(
-> @@ -1082,7 +1082,7 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
->  
->  	_dpu_encoder_update_vsync_source(dpu_enc, &dpu_enc->disp_info);
->  
-> -	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI &&
-> +	if (dpu_enc->disp_info.intf_type == INTF_DSI &&
->  			!WARN_ON(dpu_enc->num_phys_encs == 0)) {
->  		unsigned bpc = dpu_enc->connector->display_info.bpc;
->  		for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
-> @@ -1949,7 +1949,6 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
->  {
->  	int ret = 0;
->  	int i = 0;
-> -	enum dpu_intf_type intf_type = INTF_NONE;
->  	struct dpu_enc_phys_init_params phys_params;
->  
->  	if (!dpu_enc) {
-> @@ -1965,15 +1964,6 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
->  	phys_params.parent_ops = &dpu_encoder_parent_ops;
->  	phys_params.enc_spinlock = &dpu_enc->enc_spinlock;
->  
-> -	switch (disp_info->intf_type) {
-> -	case DRM_MODE_ENCODER_DSI:
-> -		intf_type = INTF_DSI;
-> -		break;
-> -	case DRM_MODE_ENCODER_TMDS:
-> -		intf_type = INTF_DP;
-> -		break;
-> -	}
-> -
->  	WARN_ON(disp_info->num_of_h_tiles < 1);
->  
->  	DPU_DEBUG("dsi_info->num_of_h_tiles %d\n", disp_info->num_of_h_tiles);
-> @@ -2005,11 +1995,11 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
->  				i, controller_id, phys_params.split_role);
->  
->  		phys_params.intf_idx = dpu_encoder_get_intf(dpu_kms->catalog,
-> -													intf_type,
-> -													controller_id);
-> +				disp_info->intf_type,
-> +				controller_id);
->  		if (phys_params.intf_idx == INTF_MAX) {
->  			DPU_ERROR_ENC(dpu_enc, "could not get intf: type %d, id %d\n",
-> -						  intf_type, controller_id);
-> +						  disp_info->intf_type, controller_id);
->  			ret = -EINVAL;
->  		}
->  
-> @@ -2092,7 +2082,7 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
->  	timer_setup(&dpu_enc->frame_done_timer,
->  			dpu_encoder_frame_done_timeout, 0);
->  
-> -	if (disp_info->intf_type == DRM_MODE_ENCODER_DSI)
-> +	if (disp_info->intf_type == INTF_DSI)
->  		timer_setup(&dpu_enc->vsync_event_timer,
->  				dpu_encoder_vsync_event_handler,
->  				0);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> index ebe3944355bb..3891bcbbe5a4 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> @@ -36,7 +36,7 @@ void dpu_encoder_get_hw_resources(struct drm_encoder *encoder,
->  
->  /**
->   * struct msm_display_info - defines display properties
-> - * @intf_type:          DRM_MODE_ENCODER_ type
-> + * @intf_type:          INTF_ type
->   * @capabilities:       Bitmask of display flags
->   * @num_of_h_tiles:     Number of horizontal tiles in case of split interface
->   * @h_tile_instance:    Controller instance used per tile. Number of elements is
-> @@ -45,7 +45,7 @@ void dpu_encoder_get_hw_resources(struct drm_encoder *encoder,
->   *				 used instead of panel TE in cmd mode panels
->   */
->  struct msm_display_info {
-> -	int intf_type;
-> +	enum dpu_intf_type intf_type;
->  	uint32_t capabilities;
->  	uint32_t num_of_h_tiles;
->  	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 5f0dc44119c9..bca4f05a5782 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -564,7 +564,7 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
->  		priv->encoders[priv->num_encoders++] = encoder;
->  
->  		memset(&info, 0, sizeof(info));
-> -		info.intf_type = encoder->encoder_type;
-> +		info.intf_type = INTF_DSI;
->  
->  		rc = msm_dsi_modeset_init(priv->dsi[i], dev, encoder);
->  		if (rc) {
-> @@ -630,7 +630,8 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
->  		info.num_of_h_tiles = 1;
->  		info.h_tile_instance[0] = i;
->  		info.capabilities = MSM_DISPLAY_CAP_VID_MODE;
-> -		info.intf_type = encoder->encoder_type;
-> +		/* FIXME: HW catalog treats both DP and eDP interfaces as INTF_DP */
+drm_fb_helper_damage() is acquiring spinlock_t (helper->damage_lock), 
+while it can be called from contexts where raw_spinlock_t is held (e.g. 
+console_owner lock obtained on vprintk_emit() codepath).
 
-Is this really a problem? Don't we need to handle the differences
-between eDP and DP on a case-by-case basis anyways. E.g. not all DP
-interfaces seems to have audio support etc.
+As the critical sections protected by damage_lock are super-tiny, let's 
+fix this by converting it to raw_spinlock_t in order not to violate 
+PREEMPT_RT-imposed lock nesting rules.
 
+This fixes the splat below.
 
-Either way, thanks for clearing this up!
+ =============================
+ [ BUG: Invalid wait context ]
+ 5.17.0-rc4-00002-gd567f5db412e #1 Not tainted
+ -----------------------------
+ swapper/0/0 is trying to lock:
+ ffff8c5687cc4158 (&helper->damage_lock){....}-{3:3}, at: drm_fb_helper_damage.isra.22+0x4a/0xf0
+ other info that might help us debug this:
+ context-{2:2}
+ 3 locks held by swapper/0/0:
+  #0: ffffffffad776520 (console_lock){+.+.}-{0:0}, at: vprintk_emit+0xb8/0x2a0
+  #1: ffffffffad696120 (console_owner){-...}-{0:0}, at: console_unlock+0x17f/0x550
+  #2: ffffffffad926a58 (printing_lock){....}-{3:3}, at: vt_console_print+0x7d/0x3e0
+ stack backtrace:
+ CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.17.0-rc4-00002-gd567f5db412e #1 bed1d5e19e0e7e8c9d97fd8afa1322f7f47a4f38
+ Hardware name: LENOVO 20UJS2B905/20UJS2B905, BIOS R1CET63W(1.32 ) 04/09/2021
+ Call Trace:
+  <IRQ>
+  dump_stack_lvl+0x58/0x71
+  __lock_acquire+0x165b/0x1780
+  ? secondary_startup_64_no_verify+0xd5/0xdb
+  lock_acquire+0x278/0x300
+  ? drm_fb_helper_damage.isra.22+0x4a/0xf0
+  ? save_trace+0x3e/0x340
+  ? __bfs+0x10f/0x240
+  _raw_spin_lock_irqsave+0x48/0x60
+  ? drm_fb_helper_damage.isra.22+0x4a/0xf0
+  drm_fb_helper_damage.isra.22+0x4a/0xf0
+  soft_cursor+0x194/0x240
+  bit_cursor+0x386/0x630
+  ? get_color+0x29/0x120
+  ? bit_putcs+0x4b0/0x4b0
+  ? console_unlock+0x17f/0x550
+  hide_cursor+0x2f/0x90
+  vt_console_print+0x3c5/0x3e0
+  ? console_unlock+0x17f/0x550
+  console_unlock+0x515/0x550
+  vprintk_emit+0x1c8/0x2a0
+  _printk+0x52/0x6e
+  ? sched_clock_tick+0x3d/0x60
+  collect_cpu_info_amd+0x93/0xd0
+  collect_cpu_info_local+0x23/0x30
+  flush_smp_call_function_queue+0x137/0x220
+  __sysvec_call_function_single+0x43/0x1c0
+  sysvec_call_function_single+0x43/0x80
+  </IRQ>
+  <TASK>
+  asm_sysvec_call_function_single+0x12/0x20
+ RIP: 0010:cpuidle_enter_state+0x111/0x4b0
+ Code: 7c ff 45 84 ff 74 17 9c 58 0f 1f 44 00 00 f6 c4 02 0f 85 71 03 00 00 31 ff e8 bb 21 86 ff e8 76 2f 8e ff fb 66 0f 1f 44 00 00 <45> 85 f6 0f 88 12 01 00 00 49 63 d6 4c 2b 24 24 48 8d 04 52 48 8d
+ RSP: 0018:ffffffffad603e48 EFLAGS: 00000206
+ RAX: 00000000000127c3 RBX: 0000000000000003 RCX: 0000000000000000
+ RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffffac32617a
+ RBP: ffff8c5687ba4400 R08: 0000000000000001 R09: 0000000000000001
+ R10: ffffffffad603e10 R11: 0000000000000000 R12: 00000000685eb4a0
+ R13: ffffffffad918f80 R14: 0000000000000003 R15: 0000000000000000
+  ? cpuidle_enter_state+0x10a/0x4b0
+  ? cpuidle_enter_state+0x10a/0x4b0
+  cpuidle_enter+0x29/0x40
+  do_idle+0x24d/0x2c0
+  cpu_startup_entry+0x19/0x20
+  start_kernel+0x9c2/0x9e9
+  secondary_startup_64_no_verify+0xd5/0xdb
+  </TASK>
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+---
+ drivers/gpu/drm/drm_fb_helper.c | 14 +++++++-------
+ include/drm/drm_fb_helper.h     |  2 +-
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-Regards,
-Bjorn
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index ed43b987d306..7c4ab6e6f865 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -436,11 +436,11 @@ static void drm_fb_helper_damage_work(struct work_struct *work)
+ 	unsigned long flags;
+ 	int ret;
+ 
+-	spin_lock_irqsave(&helper->damage_lock, flags);
++	raw_spin_lock_irqsave(&helper->damage_lock, flags);
+ 	clip_copy = *clip;
+ 	clip->x1 = clip->y1 = ~0;
+ 	clip->x2 = clip->y2 = 0;
+-	spin_unlock_irqrestore(&helper->damage_lock, flags);
++	raw_spin_unlock_irqrestore(&helper->damage_lock, flags);
+ 
+ 	/* Call damage handlers only if necessary */
+ 	if (!(clip_copy.x1 < clip_copy.x2 && clip_copy.y1 < clip_copy.y2))
+@@ -465,12 +465,12 @@ static void drm_fb_helper_damage_work(struct work_struct *work)
+ 	 * Restore damage clip rectangle on errors. The next run
+ 	 * of the damage worker will perform the update.
+ 	 */
+-	spin_lock_irqsave(&helper->damage_lock, flags);
++	raw_spin_lock_irqsave(&helper->damage_lock, flags);
+ 	clip->x1 = min_t(u32, clip->x1, clip_copy.x1);
+ 	clip->y1 = min_t(u32, clip->y1, clip_copy.y1);
+ 	clip->x2 = max_t(u32, clip->x2, clip_copy.x2);
+ 	clip->y2 = max_t(u32, clip->y2, clip_copy.y2);
+-	spin_unlock_irqrestore(&helper->damage_lock, flags);
++	raw_spin_unlock_irqrestore(&helper->damage_lock, flags);
+ }
+ 
+ /**
+@@ -486,7 +486,7 @@ void drm_fb_helper_prepare(struct drm_device *dev, struct drm_fb_helper *helper,
+ 			   const struct drm_fb_helper_funcs *funcs)
+ {
+ 	INIT_LIST_HEAD(&helper->kernel_fb_list);
+-	spin_lock_init(&helper->damage_lock);
++	raw_spin_lock_init(&helper->damage_lock);
+ 	INIT_WORK(&helper->resume_work, drm_fb_helper_resume_worker);
+ 	INIT_WORK(&helper->damage_work, drm_fb_helper_damage_work);
+ 	helper->damage_clip.x1 = helper->damage_clip.y1 = ~0;
+@@ -670,12 +670,12 @@ static void drm_fb_helper_damage(struct fb_info *info, u32 x, u32 y,
+ 	if (!drm_fbdev_use_shadow_fb(helper))
+ 		return;
+ 
+-	spin_lock_irqsave(&helper->damage_lock, flags);
++	raw_spin_lock_irqsave(&helper->damage_lock, flags);
+ 	clip->x1 = min_t(u32, clip->x1, x);
+ 	clip->y1 = min_t(u32, clip->y1, y);
+ 	clip->x2 = max_t(u32, clip->x2, x + width);
+ 	clip->y2 = max_t(u32, clip->y2, y + height);
+-	spin_unlock_irqrestore(&helper->damage_lock, flags);
++	raw_spin_unlock_irqrestore(&helper->damage_lock, flags);
+ 
+ 	schedule_work(&helper->damage_work);
+ }
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index 3af4624368d8..91178958896e 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -131,7 +131,7 @@ struct drm_fb_helper {
+ 	struct fb_info *fbdev;
+ 	u32 pseudo_palette[17];
+ 	struct drm_clip_rect damage_clip;
+-	spinlock_t damage_lock;
++	raw_spinlock_t damage_lock;
+ 	struct work_struct damage_work;
+ 	struct work_struct resume_work;
+ 
 
-> +		info.intf_type = INTF_DP;
->  		rc = dpu_encoder_setup(dev, encoder, &info);
->  		if (rc) {
->  			DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
-> -- 
-> 2.34.1
-> 
+-- 
+Jiri Kosina
+SUSE Labs
+
