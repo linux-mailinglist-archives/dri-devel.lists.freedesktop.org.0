@@ -2,77 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3FA4B8B9C
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 15:39:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBEC14B8BB6
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 15:43:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4EF210E160;
-	Wed, 16 Feb 2022 14:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E02010E44C;
+	Wed, 16 Feb 2022 14:43:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5155F10E413
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 14:39:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645022383;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cl+8YFMjb2VBJ6rl0MY5d7pD2vbA+DlvHNAVibik0kU=;
- b=exvszWt+0tkOsa1oliMqJDwtEODnpppwBraCCL4YLSdt14Wkh2kxB6tNox30bYuViBkH6t
- YPumQ9RqZpzpvqlRYg1nLlBYowuzTRRM6mpsMrsamrTWzcG97jN+R7hCZGcUnTq/M2ivNP
- +31gDfAGBHVVnvnWwdnCsl2SBImj+HE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-74-wzLSkr-QNACLX11km0ZmEg-1; Wed, 16 Feb 2022 09:39:37 -0500
-X-MC-Unique: wzLSkr-QNACLX11km0ZmEg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- h82-20020a1c2155000000b003552c13626cso2982968wmh.3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 06:39:37 -0800 (PST)
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
+ [IPv6:2607:f8b0:4864:20::b32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE45110E44C
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 14:43:46 +0000 (UTC)
+Received: by mail-yb1-xb32.google.com with SMTP id y129so6480517ybe.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 06:43:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XgrnaYKHskOlXJs/1klYY5AbJsq/3JrBvm/3jFaFCcI=;
+ b=zHD4zlkqyouSou6Frxj+FBDEsmWPYp7dykicxCGusjzr0izk+5VCtn3WzEL7h3qAOJ
+ cg1IBDSBhacvZmV2z0LdZ+PIvCn3IgF3pnk952jqa4gkIgDUzqTcnFdB/Xxv90wbopxH
+ 086lQq/DYuPkPF8KZORgOBhqi3iiH63VyWkXId716J5NJ4qzwA0xIWxjBL3VTl9gXbq3
+ pL0LIFwYGfc2SKKcyRLFQNPXBk/62oI5rUl59IVNPEJLSecVgT81XCwQ6TDHU54kxsel
+ iNXB9bqO702vkMOR0PldkEWvq2ABFqHy/RY55vMxLHXZdl6r7dhqNN2CNNINTCW4z/GE
+ LEJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:from:subject:to:cc:content-transfer-encoding;
- bh=cl+8YFMjb2VBJ6rl0MY5d7pD2vbA+DlvHNAVibik0kU=;
- b=6iBi8xTLATCPyPxJq7f9h0sUNjkmLLq2NUIjCjxdbGb6DTTUQfGdK9hvLhppYjwIoR
- nPYoDMLBOfaUZcUnOuZpL2+Z6ghr8x6ienk2MNeePIXuR3XgM+uztSyvfZBFF/h4Mekf
- WVesoNPWu1zZNTVhEGBdYcnIkXRzMj8Ja2VTj+9tso3XslN5mMCpwgXF/vYUoH9pR96o
- RWumpHdeqN17lFDmXsqu+gaV0JtLXKTlB5e+jQyJVk6PvxYuoEoxgwIedFG7+xKV6CHQ
- MxB0DUl7ktUZq0USuOCkSN2MN8izvy3jJqvanYyPjOJOR8ufy8x6uMXsB1r0rKbhWmyB
- dbcA==
-X-Gm-Message-State: AOAM530rA/9NNOEIWyJ4qt0ttvaI6nicUQ6fqvZ7IP5cuFgk27mp1Bz/
- gkdP80lYPDao1bWNs3rsqa8MZkHwjdLFUVCrn8L6NjS2cX3TIFoaWKOFCpMNAHCXO5a80LyoLsl
- rQVoQmHZPzajh883qO1rSjchk2itGFClJm5PC/1dekwgoJOvSBOOPifPm00Et/ixbbcgxUL39ke
- xo2APM
-X-Received: by 2002:a5d:5483:0:b0:1e4:a492:90a6 with SMTP id
- h3-20020a5d5483000000b001e4a49290a6mr2592063wrv.280.1645022376083; 
- Wed, 16 Feb 2022 06:39:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx0ZmWlTiSkxdrYXcUmAGZEnaM5FNs7l1Iy9hYCgEL4Xw7h/n8UUOx10vfRg35B6Rhgou03JQ==
-X-Received: by 2002:a5d:5483:0:b0:1e4:a492:90a6 with SMTP id
- h3-20020a5d5483000000b001e4a49290a6mr2592047wrv.280.1645022375884; 
- Wed, 16 Feb 2022 06:39:35 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
- ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
- by smtp.gmail.com with ESMTPSA id g20sm21022684wmq.17.2022.02.16.06.39.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 06:39:35 -0800 (PST)
-Message-ID: <47101f87-48d7-0c93-adbf-9b84cd3754a3@redhat.com>
-Date: Wed, 16 Feb 2022 15:39:34 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XgrnaYKHskOlXJs/1klYY5AbJsq/3JrBvm/3jFaFCcI=;
+ b=Flg4RsV5/wszdJFmDyIpLJvUDVXH7GJXkzI27l8mlyuput7K8t8jVkJ3lX7wX9Rgfq
+ Pl8Qf6Ytvb7ARMNv9zxbxQCeYEwbv0D9QJEB3PFYfT2iQ0k3/LwJWCyIGe8zlj61z5+T
+ Mn3Di1Lk4HqiMhqv3l0sIAnqq/+ZIoUYb73FIqsU0BjTaO+fEz2kopN5fs+9bgKLq3Y0
+ vdPw+pYfNECPAw+KgabnpFyyVXlRDGZbv/qj1drZfQtD67naBKfO2QMmBQ0dyTaHbHvq
+ 1hwKujVaQ6eDsx1g8pAFFk4juNx32m9PXte2h1T32n5nuY9ppfimAd+nWIvfwpLO97N2
+ mw3A==
+X-Gm-Message-State: AOAM532CO6El927FuetKL+PXef7s9pzSEJdtXRhSQGnSGZjLBC8GVA+I
+ i2wcqkjOMVvy9uFvRt8R4rnYKlUlmgOQCSXVrl8TYA==
+X-Google-Smtp-Source: ABdhPJyLBkCsPf7RFdo7D+XfddRJsDaMRww/Kk9oVtiyazBgm6jBFbhC7N/2b+M538IJBrnMw29XJzhExOxOR6khim0=
+X-Received: by 2002:a0d:dd8c:0:b0:2d0:c11f:6b0c with SMTP id
+ g134-20020a0ddd8c000000b002d0c11f6b0cmr2551796ywe.385.1645022625857; Wed, 16
+ Feb 2022 06:43:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-From: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [drm] *ERROR* mstb 0000000057b5b857 port 1: DPCD read on addr 0x4b0
- for 1 bytes NAKed
-To: dri-devel@lists.freedesktop.org
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220203082546.3099-1-15330273260@189.cn>
+ <20220203082546.3099-2-15330273260@189.cn>
+ <20220203085851.yqstkfgt4dz7rcnw@houat>
+ <f5381561-25da-61e3-5025-fa6dd61dd730@189.cn>
+ <20220209084331.fpq5ng3yuqxmby4q@houat>
+ <def50622-fe08-01f7-83bd-e6e0bc39fe1b@189.cn>
+ <CAPj87rOgk8A8s6MTqxcTO5EkS=ABpHQV3sHsAp7Yn2t3-N_SoQ@mail.gmail.com>
+ <adec818a-5c66-3b4a-6f27-bcb29b6c67d1@189.cn>
+In-Reply-To: <adec818a-5c66-3b4a-6f27-bcb29b6c67d1@189.cn>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 16 Feb 2022 14:43:34 +0000
+Message-ID: <CAPj87rOY0j7p5fduA+p-kT8HP7kc8f4j2Q=FkGutPPPvmV7zqQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/3] drm/lsdc: add drm driver for loongson display
+ controller
+To: Sui Jingfeng <15330273260@189.cn>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,49 +71,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Richard Hughes <rhughes@redhat.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Randy Dunlap <rdunlap@infradead.org>, Roland Scheidegger <sroland@vmware.com>,
+ linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, 16 Feb 2022 at 14:13, Sui Jingfeng <15330273260@189.cn> wrote:
+> On 2022/2/16 21:46, Daniel Stone wrote:
+> > Other systems have this limitation, and Mesa's 'kmsro' concept makes
+> > this work transparently, as long as your driver can export dmabufs
+> > when running in 'VRAM' mode.
+>
+> When using vram helper based driver, the framebuffer  is locate at video
+> ram. the backing memory fb is manage by TTM.
+>
+> while bo of etnaviv is locate at system ram. Currently i can't figure
+> out how does the buffer going to be shared.
 
-When using a Lenovo dock, I often get this error message on dmesg:
+kmsro will allocate from the KMS device (usually using dumb buffers),
+export that BO as a dmabuf, then import into etnaviv. etnaviv already
+uses this for imx-drm.
 
-[drm] *ERROR* mstb 0000000057b5b857 port 1: DPCD read on addr 0x4b0 for 
-1 bytes NAKed
-
-It's caused by fwupd which tries to read from /dev/drm_dp_aux4
-
-I opened an issue on fwupd:
-https://github.com/fwupd/fwupd/issues/4284
-
-But it turns out, it's probably an issue in the drm mst code instead.
-
-When I connect my Dock (Lenovo Thinkpad Thunderbold 3 Gen 2), I get 3 
-drm_dp_aux[] created:
-
-/dev/drm_dp_aux[456]
-
-Reading from this devices at any address will always get the NAKed error 
-above, unless there is an actual DP monitor connected (HDMI monitor or 
-nothing connected gives a NAK)
-
-Each time I connect or disconnect a monitor on the dock, this 3 
-/dev/drm_dp_aux[] are destroyed and recreated.
-
-So I think the device /dev/drm_dp_aux[] should be created only if there 
-is an actual monitor connected that can reply to it.
-What's the purpose of providing userspace a device which can't be read 
-or written ? (or maybe just fail the open() call, like Mario suggested 
-on the fwupd issue, so the devices are still there with the same numbering)
-
-On the other hand, we can also consider that it's expected to get NAck 
-in drm_dp_send_dpcd_read() and replace drm_err() with drm_dbg()
-
-what do you think ?
-
--- 
-
-Jocelyn
-
+Cheers,
+Daniel
