@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E614B8BBF
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 15:45:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7954B8BF1
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 16:01:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57EC310E5F5;
-	Wed, 16 Feb 2022 14:44:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6866610EA83;
+	Wed, 16 Feb 2022 15:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD0410E305;
- Wed, 16 Feb 2022 14:44:57 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id v25so937378oiv.2;
- Wed, 16 Feb 2022 06:44:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mZfSQZQxt4HHcosh60kF5DrahqnnBqhxW2+B/HVlhVQ=;
- b=gBLiE5COwtlxpeg5bP/cflxeUEIfzo3adr8umnPK9BARTMW1aUkLD8U/XoYc2ZI3vi
- P3ZwrjGmwigBU9IvrIlsJ2btK4BpjVM0O8jbmeh0XvPfYneNVnaBWskA9LYToVZv4J7V
- 2PO67wcTiDFncZWbkKlChttRtEUyivRRtMI55fGIPYEn0nNcgIyLnAB4IoXifnrkrLeZ
- 1vx2HRyaYb+P5ms3NWNTfHa34v9zkRDmlq/recNVjO9XpAQDYkZb8+TpFTeuBfKuwwQi
- xBQRKE7+sKPmzpYUSoWLF+cKI1XL7v6Cc5NeqUrxV0d4xepSXFp9ATtTeEwDUGWHSDIW
- +m5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mZfSQZQxt4HHcosh60kF5DrahqnnBqhxW2+B/HVlhVQ=;
- b=X1r7Wkhzo9kBZ+DzAX192QzrWGpvNk0iV/yTsRpFh5f8uY9pE07O/P8T/TDUApTJJJ
- RJgt9Yo+aEzfLa2YonO227ApWT1ag5/ZZhH+84LwWkK7OLhGphhzBw4DBqTwYUgC7Wr4
- SUfx3A+sClSm/2bJO3+WALIhdo+M56pzFGUQvnEuRJjO035jxVskIeRaEaOcdzL/NxIg
- p8qe93zDpfFI68FLKoDdP1pM56PBZWgGafhcZWWX3tcuVbR0nAqZ15pG30GJsTOXIm0M
- iv8Ye+HdaaWwDAijOsVt3dsdTPqzn1lJxQluMKvIVAruT98E9HNIK+l2jtwcE/xO3SiK
- 0VVg==
-X-Gm-Message-State: AOAM530m5LgOnDVcdXqjt3XEfOG/L6e9plWdwtyP9x4g47jlk7qsNR0w
- EsdrMH6/vmXwlReqd7IXoQwU2ht8EnyQDbLe64c=
-X-Google-Smtp-Source: ABdhPJzq+mBVs9KSAVqsz7mT3sOrbb6YojSYZdx+P+T7uy1NkZCAIu7o6eCu8YSZ5PhToZRr7KFG+dxbC2auKZvRyQA=
-X-Received: by 2002:a54:4416:0:b0:2d0:d4d1:8363 with SMTP id
- k22-20020a544416000000b002d0d4d18363mr802937oiw.132.1645022696293; Wed, 16
- Feb 2022 06:44:56 -0800 (PST)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5213F10EA7D;
+ Wed, 16 Feb 2022 15:01:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645023701; x=1676559701;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=5xfW1HvZ7iKqWVR/Q0C/UUx7HpSTufggaRMVXpLErbI=;
+ b=kobMgQoGVKqiWXRAVYWaHvw3hVxXgi6cqcUZ7eZtggVHqqGNVlsmlVAF
+ uCURmps5L5A9n0Y+MjrxxStGUt6anP79Kas7psfpDOY37r9K/mwmi90Ie
+ 24pEc/r/FGA2M0/SWWnCbHOBuudm8Dq8oQH0ztu6i9xNqHWOHnvFO+gXq
+ zZxWvfK83bP49zC+n10+rgV3J5JgTGCx/pi6+pwnRLRQEqxuHg+WDYav8
+ 2SvuJj25vS4vCrgGw893X86GmHf5Y5LPbLlGCr2vGZgJbduvHiTmMoiRs
+ eie5hAKHh673J3laQ8ji8kXMjkfjreJ8/LHRSwgb7luIFaoEJC/ymhl0s w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="231245618"
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; d="scan'208";a="231245618"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 07:01:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; d="scan'208";a="544972054"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
+ by orsmga008.jf.intel.com with SMTP; 16 Feb 2022 07:01:36 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 16 Feb 2022 17:01:35 +0200
+Date: Wed, 16 Feb 2022 17:01:35 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Hogander, Jouni" <jouni.hogander@intel.com>
+Subject: Re: [PATCH 3/3] drm/i915: Fix for PHY_MISC_TC1 offset
+Message-ID: <Yg0Rz8hntpO4WfAx@intel.com>
+References: <20220215055154.15363-1-ramalingam.c@intel.com>
+ <20220215055154.15363-4-ramalingam.c@intel.com>
+ <Ygy68/f1ERpTKJJW@intel.com>
+ <392e942460079346d1ce9d3a17db11f9d02a17f5.camel@intel.com>
+ <YgzMzNYlAoQPGhj1@intel.com>
+ <11bc21211988d45e73a7be212d31263574dfb1ca.camel@intel.com>
 MIME-Version: 1.0
-References: <20220215000200.242799-1-mario.limonciello@amd.com>
- <20220215072911.GA13892@wunner.de>
- <3078823e-4ab4-27b6-b1c7-c6552fbfdb2e@amd.com>
- <Yg0LaujhftM0b8N/@lahna>
-In-Reply-To: <Yg0LaujhftM0b8N/@lahna>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 16 Feb 2022 09:44:44 -0500
-Message-ID: <CADnq5_Ov3T9WH29MjgC2byqgTGkn-ux7iUaK3z5s2v4At_b3Ow@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] Overhaul `is_thunderbolt`
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <11bc21211988d45e73a7be212d31263574dfb1ca.camel@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,119 +64,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- Michael Jamet <michael.jamet@intel.com>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, "Limonciello,
- Mario" <mario.limonciello@amd.com>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, Yehezkel Bernat <YehezkelShB@gmail.com>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- Bjorn Helgaas <bhelgaas@google.com>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Shankar, Uma" <uma.shankar@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 16, 2022 at 9:34 AM Mika Westerberg
-<mika.westerberg@linux.intel.com> wrote:
->
-> Hi all,
->
-> On Tue, Feb 15, 2022 at 01:07:00PM -0600, Limonciello, Mario wrote:
-> > On 2/15/2022 01:29, Lukas Wunner wrote:
-> > > On Mon, Feb 14, 2022 at 06:01:50PM -0600, Mario Limonciello wrote:
-> > > >   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c |  2 +-
-> > > >   drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c  |  2 +-
-> > > >   drivers/gpu/drm/nouveau/nouveau_vga.c   |  4 +-
-> > > >   drivers/gpu/drm/radeon/radeon_device.c  |  4 +-
-> > > >   drivers/gpu/drm/radeon/radeon_kms.c     |  2 +-
-> > > >   drivers/pci/hotplug/pciehp_hpc.c        |  6 +-
-> > > >   drivers/pci/pci-acpi.c                  | 15 ++++-
-> > > >   drivers/pci/pci.c                       | 17 +++--
-> > > >   drivers/pci/probe.c                     | 52 ++++++++++++++-
-> > > >   drivers/pci/quirks.c                    | 84 +++++++++++++++++++++++++
-> > > >   drivers/platform/x86/apple-gmux.c       |  2 +-
-> > > >   drivers/thunderbolt/nhi.h               |  2 -
-> > > >   include/linux/pci.h                     | 25 +-------
-> > > >   include/linux/pci_ids.h                 |  3 +
-> > > >   14 files changed, 173 insertions(+), 47 deletions(-)
-> > >
-> > > That's an awful lot of additional LoC for what is primarily
-> > > a refactoring job with the intent to simplify things.
-> >
-> > You may recall the first version of this series was just for adding
-> > USB4 matches to the existing code paths, and that's when it was noted
-> > that is_thunderbolt is a bit overloaded.
-> >
-> > >
-> > > Honestly this looks like an attempt to fix something that
-> > > isn't broken.  Specifically, the is_thunderbolt bit apparently
-> > > can't be removed without adding new bits to struct pci_dev.
-> > > Not sure if that can be called progress. >
-> > > Thanks,
-> > >
-> > > Lukas
-> >
-> > Within this series there are two new material patches; setting up root ports
-> > for both integrated and discrete USB4 controllers to behave well with all
-> > the existing drivers that rely upon a hint of how they're connected to
-> > configure devices differently.
-> >
-> > If y'all collectively prefer this direction to not refactor is_thunderbolt
-> > and push into quirks, a simpler version of this series would be to leave all
-> > the quirks in place, just drop dev->is_thunderbolt, and set
-> > dev->external_facing on all 3 cases:
-> >
-> > * Intel TBT controller
-> > * USB4 integrated PCIe tunneling root port/XHCI tunneling root port
-> > * USB4 disctete PCIe tunneling root port/XHCI tunneling root port
-> >
-> > All the other drivers and symbols can stay the same then.
->
-> If I understand correctly the original intention of this patch series is
-> to be able to differentiate whether the device is "permanently"
-> connected to the motherboard, or it is connected over some hot-pluggable
-> bus (PCIe, USB, USB4 for example but I'm sure there are other buses that
-> fit into this picture too). Specifically this is needed for discrete
-> GPUs because of power management differences or so (please correct me if
-> I'm mistaken).
->
-> If we set the is_thunderbolt debate aside and concentrate on that issue,
-> I think the way to do this is to check whether the root port the GPU is
-> connected to has an ACPI power resource (returned from _PR3() method).
-> IF it is present then most likely the platform has provided all the
-> necessary wiring to move the GPU into D3cold (and the BIOS knows this).
-> If it is not present then the device cannot even go into D3cold as there
-> is not means to power of the device in PCIe spec.
->
-> Perhaps we can simply use pci_pr3_present() here as nouveau is already
-> doing? Granted it is not too elegant solution either but better than
-> using is_thunderbolt IMHO. Since this seem to be common for many GPUs,
-> perhaps we can have a helper in DRM core that handles this.
+On Wed, Feb 16, 2022 at 02:11:54PM +0000, Hogander, Jouni wrote:
+> On Wed, 2022-02-16 at 12:07 +0200, Ville Syrjälä wrote:
+> > On Wed, Feb 16, 2022 at 09:36:02AM +0000, Hogander, Jouni wrote:
+> > > On Wed, 2022-02-16 at 10:50 +0200, Ville Syrjälä wrote:
+> > > > On Tue, Feb 15, 2022 at 11:21:54AM +0530, Ramalingam C wrote:
+> > > > > From: Jouni Högander <jouni.hogander@intel.com>
+> > > > > 
+> > > > > Currently ICL_PHY_MISC macro is returning offset 0x64C10 for
+> > > > > PHY_E
+> > > > > port. Correct offset is 0x64C14.
+> > > > 
+> > > > Why is it PHY_E and not PHY_F?
+> > > 
+> > > This is a valid question. It seems we have followed
+> > > intel_phy_is_snps()
+> > > here:
+> > > 
+> > > // snip
+> > > else if (IS_DG2(dev_priv))
+> > > 		/*
+> > > 		 * All four "combo" ports and the TC1 port (PHY E) use
+> > > 		 * Synopsis PHYs.
+> > > 		 */
+> > > 		return phy <= PHY_E;
+> > > // snip
+> > > 
+> > > According to spec port E is "No connection". Better place to fix
+> > > this
+> > > could be intel_phy_is_snps() itself?
+> > 
+> > I think the crucial question is where are all the places that
+> > the results of intel_port_to_phy() get used.
+> > 
+> > I do see that for all the actual snps phy registers we
+> > do want PHY_E, but maybe it would be better to have a local
+> > SNPS_PHY enum just for intel_snps_phy.c, and leave the other
+> > phy thing for everything else?
+> > 
+> > Not sure if there is some other register we index with the
+> > phy that specifically wants PHY_E?
+> 
+> I went through registers accesses in intel_snps_phy.c. It is actually
+> only this one register which offset is wrong with PHY_E. Everything
+> else seems to be assuming PHY_E including those SNPS_* registers (as
+> you mentioned). I'm starting to think it would be overkill to open up
+> this phy enum for this purpose. I would propose to stick with current
+> patch. Maybe just update commit message. What do you think?
 
-The tricky part is that there were AMD and NVIDIA specific proprietary
-_PR3-like ACPI methods (plus whatever Apple did) prior to GPU power
-control standardizing on _PR3.  Currently those methods are handled in
-the drivers directly, sort of tangled up with vga_switcheroo.  I think
-ideally that logic would move to the ACPI core and be handled the same
-way as _PR3, but I'm not sure how well that would work because of the
-various bios date checks around _PR3 and the lack of general _PR3
-support in those older platforms.  So I think we still need some sort
-of "is this soldered in" check.
+I would put it the other way. It is *only* the SNPS PHY IP registers
+that use the wonky offsets (unless you found some others?). Everythting
+on the Intel IP side wants it to be PHY_F.
 
-Alex
+So still would make more sense to me to add a new enum for the
+SNPS PHY instance and remap across the boundary. Otherwise we're
+just propagating this madness everwhere rather than containing in
+the SNPS PHY implementation.
 
-
->
-> Then going back to is_thunderbolt debate :) I really don't think the
-> drivers should care whether they are connected over a tunnel or not.
-> They should work regardless of the underlying transport of the native
-> protocol. They should also be prepared for the fact that the hardware
-> can vanish under them at any point (e.g user unplugs the device). For
-> this reason I don't really like to see is_thunderbolt to be used more
-> and prefer to get rid if it completely if possible at all. If there is
-> still need to differentiate whether the device can be hot-removed or
-> not, I think "removable" in the driver core is the way to go. That is
-> not dependent on any single transport.
+-- 
+Ville Syrjälä
+Intel
