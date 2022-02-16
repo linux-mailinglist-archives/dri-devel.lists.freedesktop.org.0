@@ -2,49 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1628F4B90FA
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 20:06:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F614B912A
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 20:27:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85B0E10E591;
-	Wed, 16 Feb 2022 19:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE3B10E294;
+	Wed, 16 Feb 2022 19:27:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 394BC10E591;
- Wed, 16 Feb 2022 19:05:59 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-2d0ede7dd9eso9275267b3.10; 
- Wed, 16 Feb 2022 11:05:59 -0800 (PST)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5014F10E294
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 19:27:11 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id hw13so1525188ejc.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 11:27:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RBTCqD8W3d7/1ezQ2LdtCzAwaR6pXiQgPpkFprvW/Nw=;
+ b=NyQGHLpcNJ66DePae6L2lXAF+RjeApP9G1Gfv+lxQA/P/rp4h5Tv/Dd68OLW5zUl85
+ t2n4nl0x1bpUqIy6o2kASPQD24zOIPzswv+G024rhC/nWtWXv5KgLLsVt7hboPwHsvfM
+ sRnwu+n8kjGWUn04zttiFAjNSEcFmNcPt3E/w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yLrFIsE9bo3p9BnVIL7Uc7sprqnSKm0YOW7fBIQdERM=;
- b=4GNnjCmvlMwKEYZdbpj+gD8MAPb3lM3TgUJ0uEfCvtIhIfeJqWqI/IunmhVJLrw6DP
- BpMHtuZ5JE5y9oufa6A8vgGGcFG0VqaJxdiLX05WzqZjsvvbCvRl4pLI3C8RLXwwSBYh
- hbNyE84MoIc4eIGRwqrVlUbPPxLjL0f4dPLnhd4VCGwsHVzPzFCZFfoJN0/3sXqKFPv0
- kzZBDMiTiup4OPaLC2QyQURkcuKJm9WbtKCJKaiLUIF5WLstyuorzVfzalBDXWgxwXrc
- oIy8G1r0OjmnZBoG8Wh8s0hT+ElxEH3VF6SJBJUd8bCaHi3+RobGRUmdjiAbuyg/MjxL
- RvnQ==
-X-Gm-Message-State: AOAM530ENKACFS2TQdz0qxi1a0PFsbuCxp4rq8BCLSSaex8mEsd8Ibt8
- dGqf/FJslQxKX9+T7YfuLbvOTQ3nPfBElkU+L3c=
-X-Google-Smtp-Source: ABdhPJyFOmiGOmRDkw8czUhuWEAUWZI3b6hfKAcdDSxdtm3oSTgs7z2noREt7vOvPl7JarLhxJEUxltkCz2WrL99cSU=
-X-Received: by 2002:a0d:c244:0:b0:2d1:1fbb:180d with SMTP id
- e65-20020a0dc244000000b002d11fbb180dmr3902361ywd.196.1645038358332; Wed, 16
- Feb 2022 11:05:58 -0800 (PST)
+ bh=RBTCqD8W3d7/1ezQ2LdtCzAwaR6pXiQgPpkFprvW/Nw=;
+ b=EscfzQAUJopTNGJ2A57XFaJv86NWGFcMMVOrL1ZDaO4tefnSwLdYfDq0tbvmj7pnyh
+ Nm67mBACLkPXwPsp+p/sJg30WS28KnVK3QfOnOIMoh78kJ5KJvJIZXEqidDALeZ4SOg+
+ rgEBCu51bxe8Qhbf0xPgkR4bAbBe01sIoCohWcmqYL+qmK5k0Gzc8lNxMR2vSx/NksFf
+ rHZgJN7VAF4uYc5niws9zUqomOMBEq48G/EUunPtl0HA1tTRGkl1l45+6rlcUks7yuNY
+ JF04AIaHivco3+jC4RtD5F1BdErfL+D53Ig7PynmO1JSpNWwoSFh8ELh6JUrBhj8M97d
+ 0YKQ==
+X-Gm-Message-State: AOAM532ocSlkgp8EUP7LoQc9S/5ZVjIoFjqxd3ARaWjilMvvWibD38Tr
+ /bbDtmPOrulYpc+YjnpjTA1XxxYnWZSrmJZSbgk=
+X-Google-Smtp-Source: ABdhPJwDu/c7XuYJw6RQOJn972WrthY9i58jqZMMR2K2kl894FMgsERO3xpGGH32V0yUgHxh33qujQ==
+X-Received: by 2002:a17:906:e0d6:b0:6ce:7107:597b with SMTP id
+ gl22-20020a170906e0d600b006ce7107597bmr3487173ejb.465.1645039629442; 
+ Wed, 16 Feb 2022 11:27:09 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com.
+ [209.85.128.42])
+ by smtp.gmail.com with ESMTPSA id qf12sm259335ejc.54.2022.02.16.11.27.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Feb 2022 11:27:07 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id
+ l123-20020a1c2581000000b0037b9d960079so4523581wml.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 11:27:07 -0800 (PST)
+X-Received: by 2002:a7b:c938:0:b0:37b:fdaa:2749 with SMTP id
+ h24-20020a7bc938000000b0037bfdaa2749mr2996574wml.88.1645039626622; Wed, 16
+ Feb 2022 11:27:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20220215174743.GA878920@embeddedor>
- <202202151016.C0471D6E@keescook>
- <20220215192110.GA883653@embeddedor> <Ygv8wY75hNqS7zO6@unreal>
- <20220215193221.GA884407@embeddedor>
-In-Reply-To: <20220215193221.GA884407@embeddedor>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 16 Feb 2022 20:05:47 +0100
-Message-ID: <CAJZ5v0jpAnQk+Hub6ue6t712RW+W0YBjb_gAcZZbUeuYMGv7mg@mail.gmail.com>
-Subject: Re: [PATCH][next] treewide: Replace zero-length arrays with
- flexible-array members
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+References: <1644494255-6632-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1644494255-6632-2-git-send-email-quic_sbillaka@quicinc.com>
+In-Reply-To: <1644494255-6632-2-git-send-email-quic_sbillaka@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 16 Feb 2022 11:26:54 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UZwuYRMNOxX6_W_z1PC-UNqvN=Mdtskn=djPPMRE122w@mail.gmail.com>
+Message-ID: <CAD=FV=UZwuYRMNOxX6_W_z1PC-UNqvN=Mdtskn=djPPMRE122w@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] dt-bindings: display: simple: Add sharp
+ LQ140M1JW46 panel
+To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,61 +74,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
- <alsa-devel@alsa-project.org>, linux-ia64@vger.kernel.org,
- Linux-sh list <linux-sh@vger.kernel.org>,
- nouveau <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
+Cc: quic_kalyant@quicinc.com,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, target-devel@vger.kernel.org,
- linux-hardening@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-i3c@lists.infradead.org, linux-arch <linux-arch@vger.kernel.org>,
- linux-s390@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
- "open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>,
- linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev,
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
- bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
- Ext4 Developers List <linux-ext4@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, linux-xtensa@linux-xtensa.org,
- Kees Cook <keescook@chromium.org>, mpi3mr-linuxdrv.pdl@broadcom.com,
- coresight@lists.linaro.org, sparmaintainer@unisys.com,
- linux-um@lists.infradead.org, greybus-dev@lists.linaro.org,
- linux-rpi-kernel@lists.infradead.org,
- Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:ACPI COMPONENT ARCHITECTURE \(ACPICA\)" <devel@acpica.org>,
- linux-cifs@vger.kernel.org,
- "open list:TARGET SUBSYSTEM" <linux-scsi@vger.kernel.org>,
- netdev <netdev@vger.kernel.org>, samba-technical@lists.samba.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-perf-users@vger.kernel.org, GR-QLogic-Storage-Upstream@marvell.com,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- linux-alpha@vger.kernel.org
+ <devicetree@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ quic_khsieh@quicinc.com, quic_vproddut@quicinc.com,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, quic_abhinavk@quicinc.com,
+ Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+ Sean Paul <seanpaul@chromium.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>, quic_mkrishn@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 15, 2022 at 8:24 PM Gustavo A. R. Silva
-<gustavoars@kernel.org> wrote:
->
-> On Tue, Feb 15, 2022 at 09:19:29PM +0200, Leon Romanovsky wrote:
-> > On Tue, Feb 15, 2022 at 01:21:10PM -0600, Gustavo A. R. Silva wrote:
-> > > On Tue, Feb 15, 2022 at 10:17:40AM -0800, Kees Cook wrote:
-> > > > On Tue, Feb 15, 2022 at 11:47:43AM -0600, Gustavo A. R. Silva wrote:
-> > > >
-> > > > These all look trivially correct to me. Only two didn't have the end of
-> > > > the struct visible in the patch, and checking those showed them to be
-> > > > trailing members as well, so:
-> > > >
-> > > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > >
-> > > I'll add this to my -next tree.
-> >
-> > I would like to ask you to send mlx5 patch separately to netdev. We are working
-> > to delete that file completely and prefer to avoid from unnecessary merge conflicts.
->
-> Oh OK. Sure thing; I will do so.
+Hi,
 
-Can you also send the ACPI patch separately, please?
+On Thu, Feb 10, 2022 at 3:58 AM Sankeerth Billakanti
+<quic_sbillaka@quicinc.com> wrote:
+>
+> Add support for sharp LQ140M1JW46 display panel. It is a 14" eDP panel
+> with 1920x1080 display resolution.
+>
+> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+> Acked-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>
+> Changes in v4:
+>   None
+>
+> Changes in v3:
+>   None
+>
+>  Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
-We would like to route it through the upstream ACPICA code base.
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
