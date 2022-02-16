@@ -1,34 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A764B8393
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:04:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B4734B8395
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:04:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37D7910E625;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EAC410E720;
 	Wed, 16 Feb 2022 09:04:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:1a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17D8F10E720
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:04:31 +0000 (UTC)
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 666E910E73A
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:04:32 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7534:e0be:5adf:2691])
- by albert.telenet-ops.be with bizsmtp
- id vl4V2600K18GbK106l4Veb; Wed, 16 Feb 2022 10:04:30 +0100
+ by michel.telenet-ops.be with bizsmtp
+ id vl4V2600Y18GbK106l4VEw; Wed, 16 Feb 2022 10:04:30 +0100
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1nKGEf-000wtW-Dn; Wed, 16 Feb 2022 10:04:29 +0100
+ id 1nKGEf-000wtW-Ct; Wed, 16 Feb 2022 10:04:29 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1nKFrS-00CDzg-BS; Wed, 16 Feb 2022 09:40:30 +0100
+ id 1nKFs4-00CE1A-MY; Wed, 16 Feb 2022 09:41:08 +0100
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Helge Deller <deller@gmx.de>
-Subject: [PATCH] video: fbdev: au1100fb: Spelling s/palette/palette/
-Date: Wed, 16 Feb 2022 09:40:29 +0100
-Message-Id: <20220216084029.2913685-1-geert@linux-m68k.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/fb: Improve drm_framebuffer.offsets documentation
+Date: Wed, 16 Feb 2022 09:41:06 +0100
+Message-Id: <20220216084106.2913777-1-geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,45 +47,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- dri-devel@lists.freedesktop.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix a misspelling of "palette" in a structure member.
+Fix various spelling and grammar mistakes in the kerneldoc comments
+documenting the offsets member in the drm_framebuffer structure:
+  - s/laytou/layout/,
+  - Add missing "is",
+  - s/it/its/.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
- drivers/video/fbdev/au1100fb.c | 2 +-
- drivers/video/fbdev/au1100fb.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ include/drm/drm_framebuffer.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb.c
-index 37a6512feda0fb20..52f731a6148210eb 100644
---- a/drivers/video/fbdev/au1100fb.c
-+++ b/drivers/video/fbdev/au1100fb.c
-@@ -239,7 +239,7 @@ int au1100fb_fb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned
- 	u32 value;
- 
- 	fbdev = to_au1100fb_device(fbi);
--	palette = fbdev->regs->lcd_pallettebase;
-+	palette = fbdev->regs->lcd_palettebase;
- 
- 	if (regno > (AU1100_LCD_NBR_PALETTE_ENTRIES - 1))
- 		return -EINVAL;
-diff --git a/drivers/video/fbdev/au1100fb.h b/drivers/video/fbdev/au1100fb.h
-index e7239bceefd3ad34..79f4048726f1af0f 100644
---- a/drivers/video/fbdev/au1100fb.h
-+++ b/drivers/video/fbdev/au1100fb.h
-@@ -92,7 +92,7 @@ struct au1100fb_regs
- 	u32  lcd_pwmdiv;
- 	u32  lcd_pwmhi;
- 	u32  reserved[(0x0400-0x002C)/4];
--	u32  lcd_pallettebase[256];
-+	u32  lcd_palettebase[256];
- };
- 
- struct au1100fb_device {
+diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffer.h
+index f67c5b7bcb68654a..0dcc07b68654844b 100644
+--- a/include/drm/drm_framebuffer.h
++++ b/include/drm/drm_framebuffer.h
+@@ -154,10 +154,10 @@ struct drm_framebuffer {
+ 	 * drm_mode_fb_cmd2.
+ 	 *
+ 	 * Note that this is a linear offset and does not take into account
+-	 * tiling or buffer laytou per @modifier. It meant to be used when the
+-	 * actual pixel data for this framebuffer plane starts at an offset,
+-	 * e.g.  when multiple planes are allocated within the same backing
+-	 * storage buffer object. For tiled layouts this generally means it
++	 * tiling or buffer layout per @modifier. It is meant to be used when
++	 * the actual pixel data for this framebuffer plane starts at an offset,
++	 * e.g. when multiple planes are allocated within the same backing
++	 * storage buffer object. For tiled layouts this generally means its
+ 	 * @offsets must at least be tile-size aligned, but hardware often has
+ 	 * stricter requirements.
+ 	 *
 -- 
 2.25.1
 
