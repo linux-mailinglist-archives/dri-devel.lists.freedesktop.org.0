@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F534B8D43
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 17:06:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAAF34B8D44
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 17:06:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10FDE10E66B;
-	Wed, 16 Feb 2022 16:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F58910E6A9;
+	Wed, 16 Feb 2022 16:06:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A959B10E66B
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 16:06:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 16CCA10E6A9
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 16:06:42 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 23D8CD6E;
- Wed, 16 Feb 2022 08:06:40 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AFA3D1474;
+ Wed, 16 Feb 2022 08:06:41 -0800 (PST)
 Received: from [10.57.38.29] (unknown [10.57.38.29])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 18A413F70D;
- Wed, 16 Feb 2022 08:06:38 -0800 (PST)
-Message-ID: <c7331489-ad04-0f35-224e-164f144fb819@arm.com>
-Date: Wed, 16 Feb 2022 16:06:37 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A675D3F70D;
+ Wed, 16 Feb 2022 08:06:40 -0800 (PST)
+Message-ID: <b6139559-bcd1-76fe-7ebd-7df05fe69b2f@arm.com>
+Date: Wed, 16 Feb 2022 16:06:39 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 4/9] drm/panfrost: Handle HW_ISSUE_TTRX_3076
+Subject: Re: [PATCH 6/9] drm/panfrost: Add "clean only safe" feature bit
 Content-Language: en-GB
 To: Alyssa Rosenzweig <alyssa@collabora.com>
 References: <20220211202728.6146-1-alyssa.rosenzweig@collabora.com>
- <20220211202728.6146-5-alyssa.rosenzweig@collabora.com>
- <9eac9ce6-3bd8-0dc2-4686-9ea1e623b1c4@arm.com> <YgqMEqpgFxrrb8uX@maud>
+ <20220211202728.6146-7-alyssa.rosenzweig@collabora.com>
+ <fcfedc32-32c6-4827-4cfa-d2b7098ee22b@arm.com> <YgqK0ZjnXVux9d6Y@maud>
 From: Steven Price <steven.price@arm.com>
-In-Reply-To: <YgqMEqpgFxrrb8uX@maud>
+In-Reply-To: <YgqK0ZjnXVux9d6Y@maud>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,53 +50,49 @@ Cc: tomeu.vizoso@collabora.com, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/02/2022 17:06, Alyssa Rosenzweig wrote:
-> On Mon, Feb 14, 2022 at 04:23:18PM +0000, Steven Price wrote:
->> On 11/02/2022 20:27, alyssa.rosenzweig@collabora.com wrote:
->>> From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
->>>
->>> Some Valhall GPUs require resets when encountering bus faults due to
->>> occlusion query writes. Add the issue bit for this and handle it.
+On 14/02/2022 17:01, Alyssa Rosenzweig wrote:
+>>> Add the HW_FEATURE_CLEAN_ONLY_SAFE bit based on kbase. When I actually
+>>> tried to port the logic from kbase, trivial jobs raised Data Invalid
+>>> Faults, so this may depend on other coherency details. It's still useful
+>>> to have the bit to record the feature bit when adding new models.
 >>>
 >>> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 >>
 >> Reviewed-by: Steven Price <steven.price@arm.com>
->> (although one nit below)
 >>
->> Just in case any one is wondering - these bus faults occur when
->> switching the GPU's MMU to unmapped - it's not a normal "bus fault" from
->> the external bus. This is triggered by an attempt to read unmapped
->> memory which is completed by the driver by switching the entire MMU to
->> unmapped.
-> 
-> Ouch, that's subtle.
-> 
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_issues.h b/drivers/gpu/drm/panfrost/panfrost_issues.h
->>> index a66692663833..058f6a4c8435 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_issues.h
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_issues.h
->>> @@ -128,6 +128,10 @@ enum panfrost_hw_issue {
->>>  	/* Must set SC_VAR_ALGORITHM */
->>>  	HW_ISSUE_TTRX_2968_TTRX_3162,
->>>  
->>> +	/* Bus fault from occlusion query write may cause future fragment jobs
->>> +	 * to hang */
+>> Sadly I don't have the hardware to try this out on, but it should be a
+>> simple case of the below (untested):
 >>
->> NIT: Kernel comment style has the "/*" and "*/" on lines by themselves
->> for multi-line comments. checkpatch will complain!
+>> ----8<----
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> index 908d79520853..602e51c4966e 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> @@ -212,9 +212,13 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+>>          * start */
+>>         cfg |= JS_CONFIG_THREAD_PRI(8) |
+>>                 JS_CONFIG_START_FLUSH_CLEAN_INVALIDATE |
+>> -               JS_CONFIG_END_FLUSH_CLEAN_INVALIDATE |
+>>                 panfrost_get_job_chain_flag(job);
+>>  
+>> +       if (panfrost_has_hw_feature(pfdev, HW_FEATURE_CLEAN_ONLY_SAFE))
+>> +               cfg |= JS_CONFIG_END_FLUSH_CLEAN;
+>> +       else
+>> +               cfg |= JS_CONFIG_END_FLUSH_CLEAN_INVALIDATE;
+>> +
+>>         if (panfrost_has_hw_feature(pfdev, HW_FEATURE_FLUSH_REDUCTION))
+>>                 cfg |= JS_CONFIG_ENABLE_FLUSH_REDUCTION;
 > 
-> Yes, I am aware (and checkpatch did complain). The existing multi-line
-> comments in that file do not have the extra lines. Consistency within
-> the file seemed like the lesser evil. If you think it's better to
-> appease checkpatch, I can reformat for v2.
-> 
-> (I can also throw in a patch fixing the rest of that file's multiline
-> comments but that seems a bit extra.)
+> Yes, this is the patch I typed out... causes DATA_INVALID_FAULTs for me
+> with Mesa. Which makes me wonder if userspace needs to respect some
+> extra rules for this to be safe.
 
-Nah! I've never been very keen on that style rule myself, but I usually
-try to keep checkpatch happy when working on the kernel. Lets just
-follow the rest of the file for now.
+Odd - the invalidate at the end of the job shouldn't be needed to read
+the job descriptors from userspace only the one at the beginning.
 
-Thanks,
+However I'm wondering if there's something fishy happening with the
+flush reduction. That allows skipping the cache maintenance at the
+beginning of a job if there has already been one for other reasons. But
+I can't immediately see any difference in the way kbase handles this.
 
 Steve
