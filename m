@@ -1,94 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809FF4B7BFF
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 01:39:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B98E4B7C05
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 01:41:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC8DA10E1C8;
-	Wed, 16 Feb 2022 00:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74CDA10E5D3;
+	Wed, 16 Feb 2022 00:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73A1810E1C8;
- Wed, 16 Feb 2022 00:39:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fghUccCG55JAvWziz7PFDTvnebiW+rzdndf0xL3hi8rR15PXbiX4vw/tgKxF41LznZTbsGzJ3ovAoFqPj5YsnmiCXHgb3I/BJbHNSATCrLhqlzoY64W7beLNQ9x+NAaR8fqbuhUjMis/vzIvMaZG3ryT11UUiV/zH+ZALrn2hbISIm5F/v+aBNl7bPFBw63ft7qysynp48K7nijA7IgdA6SBlRQSn7SrfJd2qIhD/g0SpAUc8Moj+8Ngcwt2d/vmHXOU4qDj1YIW2hasL0TmkxVZQB6PNHsGBEvHeZQQur8DXgh9bD+zX1bWk7ol0jHWVKH3MPuuFCEmCwvMThmh8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wez8RS2yjn8aMEYps0U/bxVEiRmHW7nkA3iLUJwlgs4=;
- b=UP2OqXUnEBmCPCOFGqZb4Z/qO/obNod7+LHutg7bcrRyh0aYyiHamm/7crXJpfbQ26SH6tEa6JJQraX3g6vhfMleEYpOHrwtXt23+mtiODFp85p6sdamqZuRXmLz81k/fHhlBQxAg+fi1nT4+qg1/yEfHJHqrsDdn5ECY0P5pP99HtsSgXL51CHPktJBkkszMxhn5LVqRQz+1KV8mnoGD2PTOZhAzkoNRHrNLT3Y1lLm6te+8ep3jpzvpSGVCxQGP/Gto2OTJXzZJ0LqR6CfF8NpdeGd0gy2Ta21iLa6luQchn4YcKKvaH0t8tKu6nUMSI0SG82713c8C6IHeD4+iQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wez8RS2yjn8aMEYps0U/bxVEiRmHW7nkA3iLUJwlgs4=;
- b=pCYwFTyqGqT1K9GnpVnnwD34qnJcokrRagZVtUOOggKaiD9iKGmsZHjPomu5TJz1UjoMl0qyyHWaIi2gFpDvduHI8gbpyayilRpc+qWDpe9SLzZhx2ugk7+XaMNZHPScWqzkmtHAZfZZ4XlAh/LMHU2ZE1koyY1LxckiQ1U53L0=
-Received: from BN9PR03CA0076.namprd03.prod.outlook.com (2603:10b6:408:fc::21)
- by SN1PR12MB2557.namprd12.prod.outlook.com (2603:10b6:802:22::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.14; Wed, 16 Feb
- 2022 00:39:04 +0000
-Received: from BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:fc:cafe::9b) by BN9PR03CA0076.outlook.office365.com
- (2603:10b6:408:fc::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.14 via Frontend
- Transport; Wed, 16 Feb 2022 00:39:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT063.mail.protection.outlook.com (10.13.177.110) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4975.11 via Frontend Transport; Wed, 16 Feb 2022 00:39:04 +0000
-Received: from Harpoon.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 15 Feb
- 2022 18:39:03 -0600
-From: Felix Kuehling <Felix.Kuehling@amd.com>
-To: <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH 1/1] drm/amdkfd: Replace zero-length array with flexible-array
- member
-Date: Tue, 15 Feb 2022 19:38:41 -0500
-Message-ID: <20220216003841.1419615-1-Felix.Kuehling@amd.com>
-X-Mailer: git-send-email 2.32.0
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EFE910E5D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 00:41:04 +0000 (UTC)
+Received: by mail-oo1-xc32.google.com with SMTP id
+ f11-20020a4abb0b000000b002e9abf6bcbcso754163oop.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 16:41:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=D6kOuJ3sFRAfxlfcJvGvD0WdwWS/gNKzCWsG8Lno9eY=;
+ b=iX4gNuGKYZNG9hM1lAyY7Nf/bZLA5KTwEcEMmT3v/Wkao8xyAeGNUtg1UxOYaO42aC
+ XZstBpPHLaxU6YJNIWfSub+ULsZeKmX/L7ae/TPdpY5zEOmW7JYZjAIs56FeEgSA/CLE
+ wG0hkTYT7TAeJo1PVmmZFXS/PQWpRu2EtuOzM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=D6kOuJ3sFRAfxlfcJvGvD0WdwWS/gNKzCWsG8Lno9eY=;
+ b=HEASo9s4toT0zBkGZypmxfWXpVLfvwOzjFviYwZMPVvxro30WYMVr6lL+KDfYGkv54
+ wQrvR5JQkc3tk/uOK2NfQroZUg9V7USXcZCTaglEPEIylWocckx23d7ffELSvjySRiqK
+ FGVl8vEkSgqwmE6Yfqc/MLxZO4A5wnV3/sOfHfavKoHvnLgS7YuoWV74YVsnhcbNN8Tv
+ pFz6Y3+JsqfTZ4AulUEEknnlWwmuAlTuoahp2GWvxnKj7FoQUcbpwW8ofb/sYvrNw+fT
+ wOv3sRw6VNrqAMeHb8zDXPJpewokbxmGPM+GES/fYh05k8M1eHOWxhPOzq3Gf0U/7uD4
+ YhXw==
+X-Gm-Message-State: AOAM532b/9VNTYVtSjsuNCDAUr1L1bM6aX3fcKNDUwu6e/9fpFy7WVFR
+ BHfr+sd/Y5Ss9DOgNCEKpfBZLoMaoEcpQQ==
+X-Google-Smtp-Source: ABdhPJzBZIb+PimtHrYglUpHiQsCROaIB5kRkENbO6IU7Wyb9IMSMYjkJRL2gMdAVFVk6CsvuWZHrw==
+X-Received: by 2002:a05:6871:4006:b0:d0:f000:a77 with SMTP id
+ kx6-20020a056871400600b000d0f0000a77mr176141oab.243.1644972063080; 
+ Tue, 15 Feb 2022 16:41:03 -0800 (PST)
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com.
+ [209.85.167.170])
+ by smtp.gmail.com with ESMTPSA id z17sm14143599otk.62.2022.02.15.16.41.01
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 16:41:02 -0800 (PST)
+Received: by mail-oi1-f170.google.com with SMTP id z24so819126oib.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 16:41:01 -0800 (PST)
+X-Received: by 2002:a05:6808:1b29:b0:2ce:6ee7:2cc5 with SMTP id
+ bx41-20020a0568081b2900b002ce6ee72cc5mr2715980oib.243.1644972061370; Tue, 15
+ Feb 2022 16:41:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0a8b8e83-89f2-4e76-5184-08d9f0e4bbde
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2557:EE_
-X-Microsoft-Antispam-PRVS: <SN1PR12MB25573895437429C2F11CB57C92359@SN1PR12MB2557.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:324;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 61TEuA7pd62iLHeDNDOxk08cJt4CpRZqqRZMNEreM5j5zzRvmebijUwCNLkwlq+zfAbQQXNOldefAIkWBtqxxOnVTrf+5x/XxKqJlqeuwuvWBHUKYnDkaEVgfUL7gRQJ/JqPIlA8Ce3zEt3wk/GHVx2ZLkmYy3vgivUf4+gE+WDlrp4HEVEaUkKyJ9YhSRcZWyOvyZPfDhelGdCLjrF0fYE5nJ7zXf6cAUEeNFfjLZM3h2tUFCBniGljdjGlJKW22WFteTbYiTXVDDdIQr9aHeURqSXKebnr3Vfd0R2hA4upXjCZBw71p/OwJhjhwgvZM8BA3Y3ot3Lw/vBy+Xw3ojw/d65d/j2uGPgaad6wm28N6LksLMCn38yMfiZXhTsBJrwEHx4l8ksWWiyO784sryBe3slpUZAOkyIWoO0jQk5n7wXyIHULpzQAQwf8N/Jy4JY0SCZCyrMQkMXSP7/W0hWgNw4g3U/XBzLnUa+cofCOnyDZoUCoELDMDn+jOkGe3q0D3FoTGVMfsEvF9azbt2o7j9hHOCXP6QYyOjJDumQdkhR79hh2AUJ5d5P8perC9lr29EA7F+fRnVzXKhOb6tHT5x5sLbAsNgN3SCoLN3dRm0udSC8QWq7HUsr/Ne4+4Y6AmmbPDMRF+gP/0iivNOrfdOOS5NVzuTLIi1vYff9jJHIDAPhK2QRYQLFojcnZVFoSF2Qlzb8Ric7shtZ0oEyVoZ8tlopx059zDCabbyh+2n6ftRM32UuVt23GTLgL6vS746PhNDmYp+bz4NvIlE64LFsa5mVQyfFUQCQ7/O8=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(1076003)(26005)(186003)(336012)(47076005)(426003)(16526019)(2616005)(5660300002)(81166007)(356005)(82310400004)(83380400001)(86362001)(36860700001)(36756003)(8936002)(4326008)(8676002)(70206006)(4744005)(70586007)(2906002)(508600001)(6666004)(7696005)(54906003)(6916009)(316002)(966005)(40460700003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2022 00:39:04.4286 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a8b8e83-89f2-4e76-5184-08d9f0e4bbde
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2557
+References: <20211001144212.v2.1.I773a08785666ebb236917b0c8e6c05e3de471e75@changeid>
+ <CAD=FV=XU0bYVZk+-jPWZVoODW79QXOJ=NQy+RH=fYyX+LCZb2Q@mail.gmail.com>
+ <CA+ASDXPXKVwcZGYoagJYPm4E7DzaJmEVEv2FANhLH-juJw+r+Q@mail.gmail.com>
+ <CAD=FV=VYe1rLKANQ8eom7g8x1v6_s_OYnX819Ax4m7O3UwDHmg@mail.gmail.com>
+In-Reply-To: <CAD=FV=VYe1rLKANQ8eom7g8x1v6_s_OYnX819Ax4m7O3UwDHmg@mail.gmail.com>
+From: Brian Norris <briannorris@chromium.org>
+Date: Tue, 15 Feb 2022 16:40:49 -0800
+X-Gmail-Original-Message-ID: <CA+ASDXO8c4dK31p=kvBABJQsDUs20qVHM6NxYf1JQDCr2oswAw@mail.gmail.com>
+Message-ID: <CA+ASDXO8c4dK31p=kvBABJQsDUs20qVHM6NxYf1JQDCr2oswAw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: analogix_dp: Grab runtime PM reference for
+ DP-AUX
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,33 +76,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, Changcheng
- Deng <deng.changcheng@zte.com.cn>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ "# 4.0+" <stable@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reference:
-https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays
+On Tue, Feb 15, 2022 at 3:46 PM Doug Anderson <dianders@chromium.org> wrote:
+> On Tue, Feb 15, 2022 at 2:52 PM Brian Norris <briannorris@chromium.org> wrote:
+> > It still makes me wonder what the point
+> > of the /dev/drm_dp_aux<N> interface is though, because it seems like
+> > you're pretty much destined to not have reliable operation through
+> > that means.
+>
+> I can't say I have tons of history for those files. I seem to recall
+> maybe someone using them to have userspace tweak the embedded
+> backlight on some external DP connected panels? I think we also might
+> use it in Chrome OS to update the firmware of panels (dunno if
+> internal or external) in some cases too? I suspect that it works OK
+> for certain situations but it's really not going to work in all
+> cases...
 
-CC: Changcheng Deng <deng.changcheng@zte.com.cn>
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
----
- include/uapi/linux/kfd_ioctl.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yes, I believe I'm only submitting patches like this because fwupd
+apparently likes to indiscriminately whack at dpaux devices:
+https://github.com/fwupd/fwupd/tree/main/plugins/synaptics-mst#kernel-dp-aux-interface
 
-diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
-index 6e4268f5e482..baec5a41de3e 100644
---- a/include/uapi/linux/kfd_ioctl.h
-+++ b/include/uapi/linux/kfd_ioctl.h
-@@ -673,7 +673,7 @@ struct kfd_ioctl_svm_args {
- 	__u32 op;
- 	__u32 nattr;
- 	/* Variable length array of attributes */
--	struct kfd_ioctl_svm_attribute attrs[0];
-+	struct kfd_ioctl_svm_attribute attrs[];
- };
- 
- /**
--- 
-2.32.0
+That seems like a bad idea.
 
+(We've already disabled that plugin on these systems, but it seems
+wise not to leave the stumbling block here for the next time.)
+
+> I suppose this just further proves the point that this is really not a
+> great interface to rely on. It's fine for debugging during hardware
+> bringup and I guess in limited situations it might be OK, but it's
+> really not something we want userspace tweaking with anyway, right? In
+> general I expect it's up to the kernel to be controlling peripherals
+> on the DP AUX bus. The kernel should have a backlight driver and
+> should do the AUX transfers needed. Having userspace in there mucking
+> with things is just a bad idea. I mean, userspace also doesn't know
+> when a panel has been power cycled and potentially lost any changes
+> that they might have written, right?
+>
+> I sorta suspect that most of the uses of these files are there because
+> there wasn't a kernel driver and someone thought that doing it in
+> userspace was the way to go?
+
+*shrug* beats me.
+
+Brian
