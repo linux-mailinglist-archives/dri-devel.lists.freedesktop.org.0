@@ -1,45 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A89164B8378
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:01:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C54044B8396
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:04:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6434E10E97C;
-	Wed, 16 Feb 2022 09:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5530C10E73A;
+	Wed, 16 Feb 2022 09:04:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3AA610E95A
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:01:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id F30441F44EFC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645002078;
- bh=X2RSF8nlGHgZC/av+xkMAvK6BU0k3B8IvR+gExmjA4I=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=C8Q1KBKzMbRAJstRnuuwEE6GSKnqrpORZb5qs3v0VsCcnVy3RmpQG6Mc5qWV/PzaA
- ANU3BbLYPooCRGhOelA/037Mij+ojH6F+mK+0QWYj03FoiXvL/nkwSmVIRjz6XJDJ+
- RQOSW4wPfP3UGMzz2SgGetDBdVb0SPfp202guea3GbS9952gSZ7okSVwoy51DK2vdP
- DDoHSWK2lpLRD9vHOX835RDSqO/e9DA2ATt7lDbeU/O1zHAGWY1WgXeTogUZxDqkCy
- 2erbLZ6t2Ad1cwgN/CnmmKgsk6rnDCGVU0IIuMY22/9NFWc7oj3T5aMRq09dgtVZYT
- pZ9Lv7cjIOnKg==
-Message-ID: <2cb4a1b6-1028-a1df-b7ff-9be7a57dd141@collabora.com>
-Date: Wed, 16 Feb 2022 10:01:15 +0100
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17CAC10E71D
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:04:31 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7534:e0be:5adf:2691])
+ by laurent.telenet-ops.be with bizsmtp
+ id vl4V2600c18GbK101l4VCJ; Wed, 16 Feb 2022 10:04:30 +0100
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1nKGEf-000wtW-FS; Wed, 16 Feb 2022 10:04:29 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1nKFqO-00CDww-3p; Wed, 16 Feb 2022 09:39:24 +0100
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Helge Deller <deller@gmx.de>
+Subject: [PATCH] linux/fb.h: Spelling s/palette/palette/
+Date: Wed, 16 Feb 2022 09:39:22 +0100
+Message-Id: <20220216083922.2913515-1-geert@linux-m68k.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH] drm/panfrost: Dynamically allocate pm_domains
-Content-Language: en-US
-To: Alyssa Rosenzweig <alyssa@collabora.com>, Rob Herring <robh@kernel.org>
-References: <20220214203132.4722-1-alyssa.rosenzweig@collabora.com>
- <CAL_JsqKdb0_N252hR=iv3Lpi6T9+iCRBwzBQhS7UQGFNhM5k=A@mail.gmail.com>
- <Ygwp+LDliCnbkMZQ@maud>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <Ygwp+LDliCnbkMZQ@maud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,24 +44,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 15/02/22 23:32, Alyssa Rosenzweig ha scritto:
->> I'd do the oneliner changing it to 5 and be done with it. That being
->> said, we have plenty of examples of doing this both ways, so whatever
->> makes people happy.
-> 
-> Excellent, that's the patch I wrote originally :-)
-> 
-> Dropping this patch, unless Angelo (or someone else) strongly objects.
+Fix a misspelling of "palette" in a comment.
 
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+ include/uapi/linux/fb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Concretely measuring would be great, but I have no strong objections about
-perhaps delaying this research to another (near or far) moment.
-Let's drop this for now.
+diff --git a/include/uapi/linux/fb.h b/include/uapi/linux/fb.h
+index 4c14e8be7267761b..3a49913d006c9bf6 100644
+--- a/include/uapi/linux/fb.h
++++ b/include/uapi/linux/fb.h
+@@ -182,7 +182,7 @@ struct fb_fix_screeninfo {
+  *
+  * For pseudocolor: offset and length should be the same for all color
+  * components. Offset specifies the position of the least significant bit
+- * of the pallette index in a pixel value. Length indicates the number
++ * of the palette index in a pixel value. Length indicates the number
+  * of available palette entries (i.e. # of entries = 1 << length).
+  */
+ struct fb_bitfield {
+-- 
+2.25.1
+
