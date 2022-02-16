@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B434B8F7B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 18:41:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6149A4B8F75
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 18:41:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4807910E8D6;
-	Wed, 16 Feb 2022 17:41:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C02DA10E8BE;
+	Wed, 16 Feb 2022 17:41:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FF5010E859;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D62410E86F;
  Wed, 16 Feb 2022 17:41:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1645033260; x=1676569260;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=vlXEMle1HLq1hf+RJ3WqOQut1raydOTHoXTFodk7P1o=;
- b=TFI1cLthjk2TefT82nWVD7nH49zfY928Dyns8WGyG71b2W1aJ2H1WnTd
- ORSRvNUuVAjYSr6ry5XUKveUmf3eVxmVGgaD3WQLG7N/pSlfKTVnZTmSA
- Pkz88bE5hBNCy7uWoZ18tovy7bEP7dbUfJad2vTZpdUngBPh1WbqhzZC0
- gUVtrDUUUHPnX8iNik6+FLKw+cmUUGBE7XsC8FXZQiEmxKjYSfNl80SFB
- YWxmKp1HFywXenN+JiwLN5lna84iTJkAI0sjnAzE6QavM9nZImG6QV5bt
- rs8uqvad3uA8+DI+sxxOjj/bFLZz8SfHZZ3lwO9q7CAcHhi/CJbsNSRqm Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="230641973"
-X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; d="scan'208";a="230641973"
+ bh=7rZyPCxxJzB4PNPxHa5HiV/iKsEXp4cGe3YV7TMoR2E=;
+ b=TEftNlEQzSkCwYKYhQ++NKGhLCT10lJ0eFO4nv0u0Z1pIT1t2oXvxsIL
+ lL8NqqMmrxSULRkkUQ+0d4jdcw/zO6rM2VDIqkX9rFyWM+GT7jZ9xefOT
+ ZgM0WthBtdwjuc53num2iEvcOBqPhnuIhgmzYRVaTT7NvxfAIihNByQdn
+ ISjIVOD48TACvjS0o3hWwAda+UgxYsp0qmPokaavNwtD+yLBg2w2CkunE
+ ONilrKpG/VjJV9OCD/8x5NPO+7vq52dX6ImOeQL7woNBg3hm9MNjKHgH7
+ y2lCdZg5FiQykQaSHAEgDzelKE9F5d1GaswsbT72SmrSiZna4bCMb8Toe A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="230641978"
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; d="scan'208";a="230641978"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  16 Feb 2022 09:41:00 -0800
-X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; d="scan'208";a="540226734"
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; d="scan'208";a="540226744"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2022 09:40:59 -0800
+ 16 Feb 2022 09:41:00 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 13/16] drm/i915/guc: Convert capture list to iosys_map
-Date: Wed, 16 Feb 2022 09:41:44 -0800
-Message-Id: <20220216174147.3073235-14-lucas.demarchi@intel.com>
+Subject: [PATCH v3 14/16] drm/i915/guc: Convert guc_mmio_reg_state_init to
+ iosys_map
+Date: Wed, 16 Feb 2022 09:41:45 -0800
+Message-Id: <20220216174147.3073235-15-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220216174147.3073235-1-lucas.demarchi@intel.com>
 References: <20220216174147.3073235-1-lucas.demarchi@intel.com>
@@ -68,7 +69,11 @@ Cc: Matthew Brost <matthew.brost@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use iosys_map to write the fields ads.capture_*.
+Now that the regset list is prepared, convert guc_mmio_reg_state_init()
+to use iosys_map to copy the array to the final location and
+initialize additional fields in ads.reg_state_list.
+
+v2: Just use an offset instead of temporary iosys_map.
 
 Cc: Matt Roper <matthew.d.roper@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
@@ -78,46 +83,78 @@ Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 28 ++++++++++++----------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index c3c31b679e79..ec0ccdf98dfa 100644
+index ec0ccdf98dfa..90cbb93a2945 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -580,7 +580,7 @@ static void guc_init_golden_context(struct intel_guc *guc)
- 	GEM_BUG_ON(guc->ads_golden_ctxt_size != total_size);
+@@ -383,40 +383,44 @@ static long guc_mmio_reg_state_create(struct intel_guc *guc)
+ 	return ret;
  }
  
--static void guc_capture_list_init(struct intel_guc *guc, struct __guc_ads_blob *blob)
-+static void guc_capture_list_init(struct intel_guc *guc)
+-static void guc_mmio_reg_state_init(struct intel_guc *guc,
+-				    struct __guc_ads_blob *blob)
++static void guc_mmio_reg_state_init(struct intel_guc *guc)
  {
- 	int i, j;
+ 	struct intel_gt *gt = guc_to_gt(guc);
+ 	struct intel_engine_cs *engine;
+-	struct guc_mmio_reg *ads_registers;
+ 	enum intel_engine_id id;
  	u32 addr_ggtt, offset;
-@@ -592,11 +592,11 @@ static void guc_capture_list_init(struct intel_guc *guc, struct __guc_ads_blob *
  
- 	for (i = 0; i < GUC_CAPTURE_LIST_INDEX_MAX; i++) {
- 		for (j = 0; j < GUC_MAX_ENGINE_CLASSES; j++) {
--			blob->ads.capture_instance[i][j] = addr_ggtt;
--			blob->ads.capture_class[i][j] = addr_ggtt;
-+			ads_blob_write(guc, ads.capture_instance[i][j], addr_ggtt);
-+			ads_blob_write(guc, ads.capture_class[i][j], addr_ggtt);
+ 	offset = guc_ads_regset_offset(guc);
+ 	addr_ggtt = intel_guc_ggtt_offset(guc, guc->ads_vma) + offset;
+-	ads_registers = (struct guc_mmio_reg *)(((u8 *)blob) + offset);
+ 
+-	memcpy(ads_registers, guc->ads_regset, guc->ads_regset_size);
++	iosys_map_memcpy_to(&guc->ads_map, offset, guc->ads_regset,
++			    guc->ads_regset_size);
+ 
+ 	for_each_engine(engine, gt, id) {
+ 		u32 count = guc->ads_regset_count[id];
+-		struct guc_mmio_reg_set *ads_reg_set;
+ 		u8 guc_class;
+ 
+ 		/* Class index is checked in class converter */
+ 		GEM_BUG_ON(engine->instance >= GUC_MAX_INSTANCES_PER_CLASS);
+ 
+ 		guc_class = engine_class_to_guc_class(engine->class);
+-		ads_reg_set = &blob->ads.reg_state_list[guc_class][engine->instance];
+ 
+ 		if (!count) {
+-			ads_reg_set->address = 0;
+-			ads_reg_set->count = 0;
++			ads_blob_write(guc,
++				       ads.reg_state_list[guc_class][engine->instance].address,
++				       0);
++			ads_blob_write(guc,
++				       ads.reg_state_list[guc_class][engine->instance].count,
++				       0);
+ 			continue;
  		}
  
--		blob->ads.capture_global[i] = addr_ggtt;
-+		ads_blob_write(guc, ads.capture_global[i], addr_ggtt);
+-		ads_reg_set->address = addr_ggtt;
+-		ads_reg_set->count = count;
++		ads_blob_write(guc,
++			       ads.reg_state_list[guc_class][engine->instance].address,
++			       addr_ggtt);
++		ads_blob_write(guc,
++			       ads.reg_state_list[guc_class][engine->instance].count,
++			       count);
+ 
+ 		addr_ggtt += count * sizeof(struct guc_mmio_reg);
  	}
- }
+@@ -643,7 +647,7 @@ static void __guc_ads_init(struct intel_guc *guc)
+ 	blob->ads.gt_system_info = base + ptr_offset(blob, system_info);
  
-@@ -636,7 +636,7 @@ static void __guc_ads_init(struct intel_guc *guc)
- 	base = intel_guc_ggtt_offset(guc, guc->ads_vma);
+ 	/* MMIO save/restore list */
+-	guc_mmio_reg_state_init(guc, blob);
++	guc_mmio_reg_state_init(guc);
  
- 	/* Capture list for hang debug */
--	guc_capture_list_init(guc, blob);
-+	guc_capture_list_init(guc);
- 
- 	/* ADS */
- 	blob->ads.scheduler_policies = base + ptr_offset(blob, policies);
+ 	/* Private Data */
+ 	blob->ads.private_data = base + guc_ads_private_data_offset(guc);
 -- 
 2.35.1
 
