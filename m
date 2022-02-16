@@ -2,127 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E104B8EA6
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 17:57:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2654B8EB5
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 18:00:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0677C10E64F;
-	Wed, 16 Feb 2022 16:56:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C25610E664;
+	Wed, 16 Feb 2022 17:00:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2042.outbound.protection.outlook.com [40.107.236.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 663D310E649;
- Wed, 16 Feb 2022 16:56:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PARwtzBHpw71gd88b7eMhRRRMl7EFEgLBiaUghQNQ+CZHDvHTB3MjJxJ/25gtQNAN62SLVBZCn2w20P8HYjK6kwFo0qtr7PoMZ+1OSNyObATl1Mn4GbCoMfnxUKwA3rMyBQKa/rlildU2TGuP3wp7gTlsN3RimjHue4+ZQDqf8aixaoUbhRztk+BvoOmqWlDPqFe+9P2EkZ2JTziRw3ifBBBTXFCWYkZPW4AcR2wgaTPKAoyELnqQS+0tRoyaKtfJzCBDlAd42ObB4+xlTs/RhFYGHUFsiyORKWOVXvtbAfYDOqnnxoGBk3piAbD80bry3JB64UN02PRbKLINheYpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3hWFbG3vbl8TgBT8Z4DbUpAOIIH2ow8JRMteTkSIXSg=;
- b=m3526gzBI55Ki/JABXUbZCWa01gq8GiYh3/0ca/Kdbvx4IlvMgIOC++1LbpV7rAleI1PGAQK1HtcL3jZEITzY7Ikly6OLitqbq+1cjl3UveIkB1Zb+gRn1MzLXfBWvJuu2ex2K8bVqNqd0pfKZcEd63zzLPC6B8/J4LcuKAJ1fGYqaZv4bXGghLNB3gNpxeDYTeY3q0leAwTtVobXC0X2CP/h92kDI7IG78/Y/QfFuW/TJUCQkKGPcnmG3h05QldTaved7zWMyD7L/6red9vUKyLdmKg2B43nkUfk1T3d4HFIsPlIzHJ9qo8Hyp6dVsompLm3kcQmU6pnJpwrW5DWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3hWFbG3vbl8TgBT8Z4DbUpAOIIH2ow8JRMteTkSIXSg=;
- b=TuXLgo7w6QQNMubsP96eB0evI6TQ0mugi1Kmnk3xXbMtdtyjNKOfZQvdRPHg/rAPu2rMGpM8R5o7VObvtdX1vkKYIHH/1dOEXCG/mcgOJPX8sgiE8ld8wzp4bhXSlXEZ9BADAnvRVO+PLSnmvGlXKgXSoBudP0AQ7xNb/qDuPf0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by BN8PR12MB3459.namprd12.prod.outlook.com (2603:10b6:408:65::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.18; Wed, 16 Feb
- 2022 16:56:54 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::38ec:3a46:f85e:6cfa]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::38ec:3a46:f85e:6cfa%4]) with mapi id 15.20.4995.016; Wed, 16 Feb 2022
- 16:56:54 +0000
-Message-ID: <4362b4ec-ceb5-a712-bd03-24b749d1d004@amd.com>
-Date: Wed, 16 Feb 2022 11:56:51 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 01/10] mm: add zone device coherent type memory support
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>
-References: <beb38138-2266-1ff8-cc82-8fe914bed862@redhat.com>
- <f2af73c1-396b-168f-7f86-eb10b3b68a26@redhat.com>
- <a24d82d9-daf9-fa1a-8b9d-5db7fe10655e@amd.com>
- <078dd84e-ebbc-5c89-0407-f5ecc2ca3ebf@redhat.com>
- <20220215144524.GR4160@nvidia.com> <20220215183209.GA24409@lst.de>
- <20220215194107.GZ4160@nvidia.com>
- <ac3d5157-9251-f9fb-a973-f268ce58b4e0@amd.com>
- <20220215214749.GA4160@nvidia.com>
- <002ad572-4d32-7133-06f3-aa680c297be2@amd.com>
- <20220216020100.GC4160@nvidia.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <20220216020100.GC4160@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0043.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:82::10) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9df28f19-e447-4e13-4ddd-08d9f16d5582
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3459:EE_
-X-Microsoft-Antispam-PRVS: <BN8PR12MB3459A38C3A643701FBD1EC2292359@BN8PR12MB3459.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jR3roYlZWZZIq8J05wUpFz2VdfUkOrLeLUcrqxIJpKglnr1XAGc0STlVmzvLdLtR9R8CkHT8meYzsSsrACSztqxlwYcdBje2Fwgl1v7iPKEwCxxEqdxWG51NewDhHDt9yiVFK/vfDie8/v9zf938nh0y+CTo18ZlBp1pD5CCywnSFKwbjDgLksHyAbutXa2zfso/4jdODQyIpoUFh3Fo7AzQqu4idmnM+kwlSfJloZ4XsFbTdvKcCdbw8W5GlDn3wffQyzkZRw7pigzb3IW6EA7zixM2o4mbyj+mX/aMVcYX6U1y+1a4rDeoH0OJtCvg1U5yaRNHBjf//yiPS2ZL0kx4uSnOD3KgJNj/7UaARjHYs13Bm0rOr74U6OSu3UzdEHORvd6sabSbSmnCCMrVTfZxHZZQ8E9ZMASGYJFdiigcg200sYQxxgxBThbG0ABDtjljvvH1Rw19/Kn8hwgxSa4Fwjkr8rmd+yNNH0MJObtQ7krePUP6iNeWqzLCQemyrwyarbOKTDzTa3zBRESZRWFrjII8fKVKNT8Fm5jwxLl4YRcPxi620nLerlCMZvlcLP0Lfy72wFmZ/ptYHwBxQ3jMbS2dJg1xEenQg5oKmcKp/UMyi4kAbQzYUile6tFN2KUkrhHzSrZNLR9B7EhmlBs9JBSU6Ps+2PgV7vFkn8TWvGk1xnPKDJGmkLCyjrGejLurCswtdvAagQnAs631kIIRP5rTeATzPn+MzpUStqM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(44832011)(2906002)(36756003)(2616005)(508600001)(6506007)(83380400001)(31696002)(26005)(186003)(7416002)(66556008)(4326008)(8676002)(8936002)(66476007)(66946007)(5660300002)(38100700002)(316002)(6916009)(54906003)(6666004)(6512007)(6486002)(86362001)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TjFKeWhSRk11cnFIK2F0MXN4ek1hZWZxaWN0VHdPS1ZPLzF1R2U5QTFGMS84?=
- =?utf-8?B?WFp5Sm9mQ21LaG9uN1luM1AwY0RHcUYyTitaZzRKb3doWjl6clU3alJPdXNK?=
- =?utf-8?B?akY2cXRUTXNacitiaFhQTWNxaklZZ1doNzNoYnNDYmlSbXJYWHF2QXMvMmRv?=
- =?utf-8?B?bHhqRm1tRlIyMkVWMFJvdjFXQldKQlM4b3JzcWx1VnhBTHVvN1c1cVN4dEM3?=
- =?utf-8?B?OVJrd0FpcG9YSVBMbHZuZjN5ZDFVTHJKMnh0NytwRXlraTgwTEdhUmd4WG5j?=
- =?utf-8?B?VHhHVmcwOWdvQ25VckhyK0FMVWNYVlNEcEtEb3orZ3lMT2M3bUw3NXp1QUdw?=
- =?utf-8?B?T21nQWM3YkgwUWFhRkN0cnFDV2tCSkZ1eStzSDFMSGRCWG93VnlsUFdkQ2hl?=
- =?utf-8?B?ZUpPZE1JNC9DRUZmUVREcTM5Nm12TXBNelZZQ3dhQStYWU1pTklpd0cyeEdU?=
- =?utf-8?B?a2FjZmorY0tVd2JpZ3k1NGF1ZndsLzNDcm5zaTd3VSswSmNkdWVxcEtPNktE?=
- =?utf-8?B?MGdhNzhkMXlFRkJFSkkwMzNGTU9sT0UxSTNhVUJwVmQwREVHNmExRW5SdHNy?=
- =?utf-8?B?MnFMUGQycnhWTlhLTUxma2NSUTNjblRyYjFueTByb0p1TWQ5VkJSYzZQaERs?=
- =?utf-8?B?cVZSenpHcjN1aWJxamh0eklxWWhDWllHVFpwODYxMittaHJMcE5VODFhWFYy?=
- =?utf-8?B?UGk3Y3EzQWRlemk5cVNETjBGaS9SajVqTnhNWk45YjNUd0tpYnlnZkpnM1Z1?=
- =?utf-8?B?LzhSK1NqNHMxUVIzMVNJWm40ek5JaXRaK1lsSGpHbkFhM3VvdUV4bEdvRmNi?=
- =?utf-8?B?TDNBWmNUOFY2TTRvRGMxbHl3QlM5S1FrZ1dEVFRDNzBiSnNZSk9DdjkxZ0Js?=
- =?utf-8?B?ZXJ6eU4rbjgzaGhreXUrOWFMeHV2b2hLc3ZUVEF4RjhFa0JyQUdOejY4Vm5R?=
- =?utf-8?B?U1UrckIyUy8rVWxmbHJVV1l5NjJQU0hIQ2dZVEhGNU1hQmo4ZERHQm1XcXls?=
- =?utf-8?B?SnpGWG1aOE5aRWVHU1BMMVRLV0FHSVYzOVU2ZmlZdlpCTUxpNkRRT2tHSGJ1?=
- =?utf-8?B?ZG4zcVJHMFptbG9PQ0JKdzdiOG81bnVRNGhnSVh0cG5sYjVSZDdKMTh2b3pP?=
- =?utf-8?B?bjZmQ040SDhZVy94SDVvd3NjQzYyeERuRW4wUGVYRTNTR3ZuWHEvbWo3ZTMv?=
- =?utf-8?B?eWFMWXhXSlVwc1g0c0V0RDVUaWNvY2NBQmZ3TlVhMGJNWEhJenRSMGduU1Jq?=
- =?utf-8?B?YUdyMm5DV1g2S1BaWmpra3RDQjYwOUZRallZTjhBMGFXamU4Q3k0cEdTaGo4?=
- =?utf-8?B?QTc3ek9SaTEzWmltTmpmTGtUektKZENnREdiTU84UkJMQXByUEkzRTBFckNt?=
- =?utf-8?B?QVhwV1UxVW5HYXNLWExvamVYdEc4eVpoc0tYc2F4WjM2dklGa1dTeHBmQ0VM?=
- =?utf-8?B?TCtBQnYyVHBuTG55Sm00ajVLNTVYeDI3RnAvb3EydDA2em9NSTY0RWwvaUU0?=
- =?utf-8?B?dlI4OVlLemVTQ0VnenBhRFpvRWszRzVpMERvRHBORnFOZEhXY21lWVV2bmx5?=
- =?utf-8?B?QldKTG5VS21BTW9yQlBBSWkxVEYyc1ZYSFVzbDhvS1VCbFdHU1BNeFltY0Q3?=
- =?utf-8?B?N1dVWERkdXpDMGg1Z2FTVzcxVE5Pa29GZ0lVMFpKYmRGQmxNQkNiWTU4UlRZ?=
- =?utf-8?B?L1FPRVN1YWNNT1gvZ21PRm8zSUsvUFlHUFJjTkVQRjRCSklCaElJY1hjMlhQ?=
- =?utf-8?B?YmUzRUpUeXhBUXFCbVFNNmJiMjA3em1zRDhiNkZSZ2dIL0F1c3BEWXA0SG54?=
- =?utf-8?B?WUxJNitmVmV1a21QdnJVTlVBUHhGYWFiSVkvN3A3N3ZxdlplUWh6MFB1c1RO?=
- =?utf-8?B?NDQ1VXhuTkkwMXQzTDEzTjNyVnZSRVBBOThZZEdVY3I5M05jTURBZXBWQytJ?=
- =?utf-8?B?aExPZ3h4QU5rdFd2SUQwSjF5Z1ZhVlRzeFNsSCtMRXgzUHVoa0l2SzEvL2hm?=
- =?utf-8?B?K0RYcTJRb2ZzRll6VVk4UGYvVXRLNXhrZU1GSEFzdFBoVVBod05QL0tsQy9r?=
- =?utf-8?B?OVE1N3VYeXhwb3JmREt6UE9iTWpNOHlESWxFRWNEZTkrT1U1RUdUUUlzZkpT?=
- =?utf-8?B?QnVXb3lsbHZLcUNoUmhCVlR5U1NJazU4SzRIZG1CRjd6QldHY0J4S1h2RXA4?=
- =?utf-8?Q?HeGB2Y/GJ2MlGh5B9+InzHM=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9df28f19-e447-4e13-4ddd-08d9f16d5582
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2022 16:56:53.9842 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EtGAavjWFVbD9gQ3oqaiATJSGUFogjJ3mZrQF9t5MQfO0nwoTX4oAVXLHZyTHW3p41NgRWipTpogtm+K06yagw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3459
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 624DE10E692
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 17:00:11 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ j9-20020a05600c190900b0037bff8a24ebso4210389wmq.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:00:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=t1uftG9u+2yZWI/oH72uWkO2zeA82m78vyYn2+ro3tQ=;
+ b=Q5NlIpc2xWy6T8g1S7gmluCCRee5TUWmOsGWCAPoOQ+03syhmEFWcigVnorMpWuEgY
+ yTJNFzk9n8Ln3p3jdbE0MDh3WuONXBwzSfg4zgPkGKDONqaNsAB75fcrWLtH0o4WLSoX
+ JjwrvnuGX5RKVl64ME8P/GGilYW0o0tYNWOdNdp/t80OpZRYEHo6BKXWLm0j/rXqY5Wc
+ bQSJgy4P2XEz7zRwKn7Ozq1b/aO3dYm35n+VOiA4kYSf20efuR/pzPoDOEG3X9dgEcfA
+ SeSssGo7hrPCt2VmyEAft4XQyU1WeMrqAb/FEEQI1eRW42zK1WjxAz2rjSoAktPRP0UY
+ PcLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=t1uftG9u+2yZWI/oH72uWkO2zeA82m78vyYn2+ro3tQ=;
+ b=aFdGVIIEuFuP3jCpVdHJv4vT65dnsn2wwJk2UVKB18BneB8tYkfvymzaY8dd27RlGI
+ 1n9l6qWIKWOdRDn2nNCa8eK8cdENbmlKb3rCthTiDzH07iuHzhZZwNVD7aAch33FLNZ6
+ i+Vd+qnY0rg0i2rlqv6WWRSSIQ5xdZL4lhHux65L8zfTBJlfDgS9u8P3p+gQtHtToOwh
+ hT0ucgvwqi31GbmBrn41RCxbgWP6kNIhNpRJHdUmXfQlpF2wzjsrvf295dWrcYSE/WpW
+ fH6dt48Icgj8L78GFagB2KF0evDRa3onRfr08FygFUe9d0p16HzVpzoxVn4mVI8BfW/J
+ DA5w==
+X-Gm-Message-State: AOAM532riT+AgnsLmrj8xMwIpqChpKxkXLL/x2NBZAm5k5w//7wgJ9nA
+ kR4PNnDomkRhI3LKc8Xbd8rt8Q==
+X-Google-Smtp-Source: ABdhPJw4iYBSBIDWtqJMWCNWYquBUeSbfc8ygtHVcBQ8GOqS2BRYouXVTSGBwdt7EtUs3rEvHmrNHQ==
+X-Received: by 2002:a7b:c7cf:0:b0:37b:fb77:af9 with SMTP id
+ z15-20020a7bc7cf000000b0037bfb770af9mr2501745wmk.143.1645030809868; 
+ Wed, 16 Feb 2022 09:00:09 -0800 (PST)
+Received: from dave-VirtualBox.pitowers.org ([93.93.133.154])
+ by smtp.googlemail.com with ESMTPSA id g8sm24059322wrd.9.2022.02.16.09.00.09
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 16 Feb 2022 09:00:09 -0800 (PST)
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] DSI host and peripheral initialisation ordering
+Date: Wed, 16 Feb 2022 16:59:42 +0000
+Message-Id: <cover.1645029005.git.dave.stevenson@raspberrypi.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,91 +67,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
- willy@infradead.org, David Hildenbrand <david@redhat.com>, apopple@nvidia.com,
- amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org, linux-mm@kvack.org,
- jglisse@redhat.com, dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
- linux-ext4@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Robert Foss <robert.foss@linaro.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, andrzej.hajda@gmail.com,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2022-02-15 um 21:01 schrieb Jason Gunthorpe:
-> On Tue, Feb 15, 2022 at 05:49:07PM -0500, Felix Kuehling wrote:
->
->>> Userspace does
->>>    1) mmap(MAP_PRIVATE) to allocate anon memory
->>>    2) something to trigger migration to install a ZONE_DEVICE page
->>>    3) munmap()
->>>
->>> Who decrements the refcout on the munmap?
->>>
->>> When a ZONE_DEVICE page is installed in the PTE is supposed to be
->>> marked as pte_devmap and that disables all the normal page refcounting
->>> during munmap().
->>>
->>> fsdax makes this work by working the refcounts backwards, the page is
->>> refcounted while it exists in the driver, when the driver decides to
->>> remove it then unmap_mapping_range() is called to purge it from all
->>> PTEs and then refcount is decrd. munmap/fork/etc don't change the
->>> refcount.
->> Hmm, that just means, whether or not there are PTEs doesn't really
->> matter.
-> Yes, that is the FSDAX model
->
->> It should work the same as it does for DEVICE_PRIVATE pages. I'm not sure
->> where DEVICE_PRIVATE page's refcounts are decremented on unmap, TBH. But I
->> can't find it in our driver, or in the test_hmm driver for that matter.
-> It is not the same as DEVICE_PRIVATE because DEVICE_PRIVATE uses swap
-> entries. The put_page for that case is here:
->
-> static unsigned long zap_pte_range(struct mmu_gather *tlb,
-> 				struct vm_area_struct *vma, pmd_t *pmd,
-> 				unsigned long addr, unsigned long end,
-> 				struct zap_details *details)
-> {
-> [..]
-> 		if (is_device_private_entry(entry) ||
-> 		    is_device_exclusive_entry(entry)) {
-> 			struct page *page = pfn_swap_entry_to_page(entry);
->
-> 			if (unlikely(zap_skip_check_mapping(details, page)))
-> 				continue;
-> 			pte_clear_not_present_full(mm, addr, pte, tlb->fullmm);
-> 			rss[mm_counter(page)]--;
->
-> 			if (is_device_private_entry(entry))
-> 				page_remove_rmap(page, false);
->
-> 			put_page(page);
->
-> However the devmap case will return NULL from vm_normal_page() and won't
-> do the put_page() embedded inside the __tlb_remove_page() in the
-> pte_present() block in the same function.
->
-> After reflecting for awhile, I think Christoph's idea is quite
-> good. Just make it so you don't set pte_devmap() on your pages and
-> then lets avoid pte_devmap for all refcount correct ZONE_DEVICE pages.
+Hi All
 
-I'm not sure if pte_devmap is actually set for our DEVICE_COHERENT 
-pages. As far as I can tell, this comes from a bit in the pfn:
+Hopefully I've cc'ed all those that have bashed this problem around previously,
+or are otherwise linked to DRM bridges.
 
-    #define PFN_DEV (1ULL << (BITS_PER_LONG_LONG - 3))
-    #define PFN_MAP (1ULL << (BITS_PER_LONG_LONG - 4))
-    ...
-    static inline bool pfn_t_devmap(pfn_t pfn)
-    {
-             const u64 flags = PFN_DEV|PFN_MAP;
+There have been numerous discussions around how DSI support is currently broken
+as it doesn't support initialising the PHY to LP-11 and potentially the clock
+lane to HS prior to configuring the DSI peripheral. There is no op where the
+interface is initialised but HS video isn't also being sent.
+Currently you have:
+- peripheral pre_enable (host not initialised yet)
+- host pre_enable
+- encoder enable
+- host enable
+- peripheral enable (video already running)
 
-             return (pfn.val & flags) == flags;
-    }
+vc4 and exynos currently implement the DSI host as an encoder, and split the
+bridge_chain. This fails if you want to switch to being a bridge and/or use
+atomic calls as the state of all the elements split off are not added by
+drm_atomic_add_encoder_bridges.
 
-In the case of DEVICE_COHERENT memory, the pfns correspond to real 
-physical memory addresses. I don't think they have those PFN_DEV|PFN_MAP 
-bits set.
+dw-mipi-dsi[1] and now msm[2] use the mode_set hook to initialise the PHY, so
+the bridge/panel pre_enable can send commands. In their post_disable they then
+call the downstream bridge/panel post_disable op manually so that shutdown
+commands can be sent before shutting down the PHY. Nothing handles that fact,
+so the framework then continues down the bridge chain and calls the post_disable
+again, so we get unbalanced panel prepare/unprepare calls being reported [3].
 
-Regards,
-   Felix
+There have been patches[4] proposing reversing the entire direction of
+pre_enable and post_disable, but that risks driving voltage into devices that
+have yet to be powered up.
+There have been discussions about adding either a pre_pre_enable, or adding a
+DSI host_op to initialise the host[5]. Both require significant reworking to all
+existing drivers in moving initialisation phases.
+We have patches that look like they may well be addressing race conditions in
+starting up a DSI peripheral[6].
+
+This patch takes a hybrid of the two: an optional reversing of the order for
+specific links within the bridge chain within pre_enable and post_disable done
+within the drm_bridge framework.
+I'm more than happy to move where the flag exists in structures (currently as
+DRM_BRIDGE_OP_UPSTREAM_FIRST in drm_bridge_ops, but it isn't an op), but does
+this solve the problem posed? If not, then can you describe the actual scenario
+it doesn't cover?
+A DSI peripheral can set the flag to get the DSI host initialised first, and
+therefore it has a stable LP-11 state before pre_enable. Likewise the peripheral
+can still send shutdown commands prior to the DSI host being shut down in
+post_disable. It also handles the case where there are multiple devices in the
+chain that all want their upstream bridge enabled first, so should there be a
+DSI mux between host and peripheral, then it can still get the host to the
+correct state.
+
+An example tree is at [7] which is drm-misc-next with these patches and then a
+conversion of vc4_dsi to use the atomic bridge functions (will be upstreamed
+once we're over this hurdle). It is working happily with the Toshiba TC358762 on
+a Raspberry Pi 7" panel.
+The same approach but on our vendor 5.15 tree[8] has also been tested
+successfully on a TI SN65DSI83 and LVDS panel.
+
+Whilst here, I've also documented the expected behaviour of DSI hosts and
+peripherals to aid those who come along after.
+
+Thanks
+  Dave
+
+[1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L940
+[2] https://lists.freedesktop.org/archives/dri-devel/2022-January/337769.html
+[3] https://lists.freedesktop.org/archives/dri-devel/2021-December/333908.html
+[4] https://lists.freedesktop.org/archives/dri-devel/2021-October/328476.html
+[5] https://lists.freedesktop.org/archives/dri-devel/2021-October/325853.html
+[6] https://lists.freedesktop.org/archives/dri-devel/2022-February/341852.html
+[7] https://github.com/6by9/linux/tree/drm-misc-next-vc4_dsi
+[8] https://github.com/6by9/linux/tree/rpi-5.15.y-sn65dsi83
 
 
->
-> Jason
+Dave Stevenson (2):
+  drm: Introduce DRM_BRIDGE_OP_UPSTREAM_FIRST to alter bridge init order
+  drm/bridge: Document the expected behaviour of DSI host controllers
+
+ Documentation/gpu/drm-kms-helpers.rst |   7 +
+ drivers/gpu/drm/drm_bridge.c          | 235 ++++++++++++++++++++++++++++++----
+ include/drm/drm_bridge.h              |   8 ++
+ 3 files changed, 225 insertions(+), 25 deletions(-)
+
+-- 
+2.7.4
+
