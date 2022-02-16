@@ -1,59 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708644B9139
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 20:32:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A34B4B9167
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 20:40:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57FAB10E484;
-	Wed, 16 Feb 2022 19:32:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD9ED10E42E;
+	Wed, 16 Feb 2022 19:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
- [IPv6:2607:f8b0:4864:20::c2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45BE510E484
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 19:32:52 +0000 (UTC)
-Received: by mail-oo1-xc2e.google.com with SMTP id
- u25-20020a4ad0d9000000b002e8d4370689so3663439oor.12
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 11:32:52 -0800 (PST)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 508E910E42E
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 19:39:59 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id y17so5706368edd.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 11:39:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=2WrcofDXNq4fQvSh+Kgl5hWSou8+2EddXrcFZuX0Coc=;
- b=RQVD6Spf4AVQMUKOvOtdRaF6z6yGnhjSw8BOFMzXDxDLTsIV7N90lSsRuK7rkB89zP
- nWfOiGR4LbcGTUwut8aVKi2UOfIKbHGA0/KjIHo602H/Yfh6a6jQwRADuwfaxyxeWTtW
- H5l6f/e8+KGiQ8AvZ5yO3THM3fAuwp1xg9Vws=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ciKM8JCmOjTFWsSXmArs9c1a9jxN6MlNWKsQdAvB9wQ=;
+ b=S+Sj3p+F2dgiPbzCoR+LfRa53UtOXeFacCuEW1Mf2T3LAZQOHiwOq/wfozB3rRsSqp
+ 6m6F0YJx/DExHK3yJTw89l8Pd7sxcn9PMPbCsGt0Ox3DmNKQkRvhTzpZDwlLeXof1rUL
+ 5XWlIRBhJyKQu5JehUO7HjJMozFEjKnd9VuGE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=2WrcofDXNq4fQvSh+Kgl5hWSou8+2EddXrcFZuX0Coc=;
- b=E8PTIYjdsiGrUThN/87WKbYKPOs7/fyIgJdv1Ep2dI9hWSGYasF5QihE2+/MbH4vlr
- nkx3McTF3JGRy78G1WMo5yQY9OcvHklV7zP81YLGnDOC0vIKgK0kGIBcM3mgjz6jjntl
- mrKchkwMXeRy8xh0HuZQ3NbVIZPJx6DkUlpF/P42t6bohtSJF5dBBIYVKqMbmxRq2UaN
- lkEWyGVVmSMMTKA0dAacdfY++xdWdJsmioYjfBNCCMh9fQXxlmI5SW0GN/Xy786bLcM3
- +YYjmFpWIKzjBaOy3Tw8LWfGgnntW6I5ZJ1g/Xt/tkAcWFvTD8Kv5ove1DWboSWVsx+9
- mWFA==
-X-Gm-Message-State: AOAM530/4lFCsHjMMS+05jrta0wwVGkFZND4KOmfh43lnthGtMgwNDbb
- EZ1kjY5vsJzxkONYTHX7bGp6AsSf149bL5m0lNxj4Q==
-X-Google-Smtp-Source: ABdhPJx3zyPVZHUH69iPnA4f7fxjaXMj27nLEaHyAfo/3Oh4oEDYw/v72mxHVfbQirS6DyQb4puuq4DHvHwI5ooAV3c=
-X-Received: by 2002:a05:6870:5829:b0:c8:9f42:f919 with SMTP id
- r41-20020a056870582900b000c89f42f919mr1130229oap.54.1645039971470; Wed, 16
- Feb 2022 11:32:51 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 16 Feb 2022 11:32:50 -0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ciKM8JCmOjTFWsSXmArs9c1a9jxN6MlNWKsQdAvB9wQ=;
+ b=DuXUOhcqTOTtWCvrB3PYg7LHFldueDfOzovmNYIXsq9W9XRTfcyChldGzAArzoFm+z
+ EAywJTD2o7TwKVAD83RdMMI2SjNao3VrzzUtoAtXXEmpFcdPVgtEkHlVbBrCUCoFzOHV
+ Z1RpeJNWvzhx50dVJpNkgCHly3Kly9q+pSZ38c7nsKZE4bnW40xKaQXyvNSaWw97jR3H
+ jccoo3Mwi9X+amphAfhdLMnXaOU2WiCcvePxhfn/d90eOC+clgLmOOTIVbBNDwV8B6Es
+ AUEbPh/BpcbKx5nAyBRiDL7muQGtPSRoYNFf0xVwzhXdenQY40u3/2ObT/jjV5fkIXJe
+ oSPg==
+X-Gm-Message-State: AOAM530O88s4TJ+UuGJAP6XDOqCRZJ+ppLf4dCThyvP53TYc5OmWf8AC
+ ftaGipl/6ZWibJSuHDc5+oXZwipO05+lYUgX
+X-Google-Smtp-Source: ABdhPJzTFOTfIogLUBtB03w4GgeItFyXb/h+qLW54nU19gPYxc5vU1RJjL3q3FND2JqIOEgI3HQnkw==
+X-Received: by 2002:a50:d088:0:b0:410:d12b:84e1 with SMTP id
+ v8-20020a50d088000000b00410d12b84e1mr4816277edd.106.1645040397570; 
+ Wed, 16 Feb 2022 11:39:57 -0800 (PST)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com.
+ [209.85.221.42])
+ by smtp.gmail.com with ESMTPSA id en27sm187289edb.5.2022.02.16.11.39.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Feb 2022 11:39:56 -0800 (PST)
+Received: by mail-wr1-f42.google.com with SMTP id o24so5190469wro.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 11:39:55 -0800 (PST)
+X-Received: by 2002:adf:e4c2:0:b0:1e3:3e5d:bd65 with SMTP id
+ v2-20020adfe4c2000000b001e33e5dbd65mr3549580wrm.422.1645040395241; Wed, 16
+ Feb 2022 11:39:55 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1643066274-25814-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1643066274-25814-1-git-send-email-quic_khsieh@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 16 Feb 2022 11:32:50 -0800
-Message-ID: <CAE-0n52uYJ-E2HZnwjJL5VfXnVjiSGJ5MnZG827i=3NP7QNm1g@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/dp: always add fail-safe mode into connector
- mode list
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
- bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
- robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+References: <1644494255-6632-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1644494255-6632-2-git-send-email-quic_sbillaka@quicinc.com>
+ <CAD=FV=UZwuYRMNOxX6_W_z1PC-UNqvN=Mdtskn=djPPMRE122w@mail.gmail.com>
+In-Reply-To: <CAD=FV=UZwuYRMNOxX6_W_z1PC-UNqvN=Mdtskn=djPPMRE122w@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 16 Feb 2022 11:39:43 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UvTXLEuKbkVHeiP=djzFscGJxL5iP+cafGnvjMXhmFKA@mail.gmail.com>
+Message-ID: <CAD=FV=UvTXLEuKbkVHeiP=djzFscGJxL5iP+cafGnvjMXhmFKA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] dt-bindings: display: simple: Add sharp
+ LQ140M1JW46 panel
+To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,24 +74,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: quic_kalyant@quicinc.com,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ quic_khsieh@quicinc.com, quic_vproddut@quicinc.com,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, quic_abhinavk@quicinc.com,
+ Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+ Sean Paul <seanpaul@chromium.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>, quic_mkrishn@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-01-24 15:17:54)
-> Some of DP link compliant test expects to return fail-safe mode
-> if prefer detailed timing mode can not be supported by mainlink's
-> lane and rate after link training. Therefore add fail-safe mode
-> into connector mode list as backup mode. This patch fixes test
-> case 4.2.2.1.
->
-> Changes in v2:
-> -- add Fixes text string
->
-> Fixes: 4b85d405cfe9 ( "drm/msm/dp: reduce link rate if failed at link training 1")
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
+Hi,
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+On Wed, Feb 16, 2022 at 11:26 AM Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Thu, Feb 10, 2022 at 3:58 AM Sankeerth Billakanti
+> <quic_sbillaka@quicinc.com> wrote:
+> >
+> > Add support for sharp LQ140M1JW46 display panel. It is a 14" eDP panel
+> > with 1920x1080 display resolution.
+> >
+> > Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+> > Acked-by: Rob Herring <robh@kernel.org>
+> > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> > ---
+> >
+> > Changes in v4:
+> >   None
+> >
+> > Changes in v3:
+> >   None
+> >
+> >  Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
+> >  1 file changed, 2 insertions(+)
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+...and pushed to drm-misc-next:
+
+122365cfe9de dt-bindings: display: simple: Add sharp LQ140M1JW46 panel
+
+So v5 shouldn't include this patch.
+
+-Doug
