@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3704B7D18
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 03:17:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A46C4B7D1B
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 03:18:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B83510E605;
-	Wed, 16 Feb 2022 02:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E459C10E60A;
+	Wed, 16 Feb 2022 02:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com
- [IPv6:2607:f8b0:4864:20::c2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C13CD10E605
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 02:17:42 +0000 (UTC)
-Received: by mail-oo1-xc2a.google.com with SMTP id
- u25-20020a4ad0d9000000b002e8d4370689so861939oor.12
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 18:17:42 -0800 (PST)
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
+ [IPv6:2607:f8b0:4864:20::c2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35A4F10E60A
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 02:18:25 +0000 (UTC)
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ k13-20020a4a948d000000b003172f2f6bdfso924164ooi.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 18:18:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=LaRMq8ZhRCaHC8armaDs2spovSgD/IU1miVPMO3NaCs=;
- b=ZDc5CxFeekOyijQZ4h5KQniJAMH2o9I8ZvmGzmDO2zfxpGeolNEDVpyCqlaJ6Jw/EQ
- QuU7c7QyhcC4G7d6LTLkWesxBvXqAasTUO0w3txbmOToQ1In7mmICQr/j74fGbfcbcgn
- 3d1VpCLWuT6leZVSTFVtv6qbZmN8YgfHr4/jo=
+ bh=rKj/83OeNdCA+dbfZ2qmOiBrnBwHoQueKWn2gnvfSB0=;
+ b=ieAe3Bw7+svdP7k1Mjdz401VBfKR3/7YLZCGmTm8EmDpk7J4l9MOw3KEHCRW73SRch
+ a3RNuwSe6ZVBG3FlSJ+1mYWZyJoCfEXlQxCXtPxOxkztXiquD2aYfJ/zgeRUzz6JEYDQ
+ EjPLPISATbExLjLKZ63Bz4qlX5KZAWyCW9pnk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=LaRMq8ZhRCaHC8armaDs2spovSgD/IU1miVPMO3NaCs=;
- b=IabV8g29wHX36CoseOTrdqgtuP52gEMWRxkK3ZQbG8Sncl/d4YVQovUfj8L8G8giwu
- DqubsmYhmfHVll0fKEOeKGpozKmgX7eoobNcHfb/XSQd0bs/smpUv2Ha3Zbpk0RozN7e
- ZzPTXOOmaIDcC12lOGe40aihsuPN6TXlz+yjvmC7MODQQSR9uoJQJA1xQUQbhQ3cpTT8
- YA5mohxszgrRrk+pIbtUeM1y1UJZFMTBY1pQ9bWMHEeJFLiw/7cbOJOB0IF0tHVPyhVP
- B2P+Y4MhYgJofTBkSTMDXK+b96L5nm6+P0pRpgDl7hBGOV1jQkrPJ/oDbJo4BnwEBvxK
- L67Q==
-X-Gm-Message-State: AOAM5334d8n6UseEZHocJOfFx7pJwzdbxEVZkH4tzU4IAlc0nwQUEtSz
- G1yI6qdx1xOpMIFFBTa+VavNa2uA7CoRn97m1T3XWA==
-X-Google-Smtp-Source: ABdhPJyw8QdTeLdPkaSbn9MW+CqLKQfUvO/jujNN3XsSr4MZgwU3uIvJJqRAk/vug505l/EEco7tmML/hPNkhCH+j40=
-X-Received: by 2002:a4a:d58b:0:b0:319:8746:ac3e with SMTP id
- z11-20020a4ad58b000000b003198746ac3emr223719oos.1.1644977862132; Tue, 15 Feb
- 2022 18:17:42 -0800 (PST)
+ bh=rKj/83OeNdCA+dbfZ2qmOiBrnBwHoQueKWn2gnvfSB0=;
+ b=Mknx+4DrHulCrPQ8ExtUNV+XhEQ/K81gL6BfEmGrxbieczEqwBKXhz3Z3DlwM89jTJ
+ f8LM+wUSRkNeltwJiQkcPkoOx+3UnoCQhvdQl7UijleUiPdWMtD5JNDwSR5p10GiOnJD
+ hwLL3OWy3V4DM1pkPStqr5MabKcfWsGbM2B0kb/NVPFRNEJ7A0AjoiG04o6frP6BOjDG
+ x304WhFCz3KyAxeCFYnR4HGR4ASHLnN1nszETb6/8Qedl1KwGJX8smcQ3YoN/mEN2GJr
+ MpZoO6sA3zvDeKOo96wPc72xdc47+iREj5PeO9mpMB9bOJRRN7ttJ4hXhyEokVXz02wf
+ eLaA==
+X-Gm-Message-State: AOAM532aE9tuPlIM7pagrlbD++cJ+Hm4M71m/e6ifkKpEozGbyCJI0U9
+ K5RmXzaMLq4K/Jd/elR5H5q02lDAlsnt6z/Uwp6Efsh9SDw=
+X-Google-Smtp-Source: ABdhPJw5Yk430/3/87e3yVE4qWHJlRhItY1gx4i906WPQT9Xp//a9PTHnqUQU02bFgspQY9SZ4ux9MZ5XkOnesX7ZOQ=
+X-Received: by 2002:a05:6870:631a:b0:d1:7d97:806 with SMTP id
+ s26-20020a056870631a00b000d17d970806mr285417oao.8.1644977904573; Tue, 15 Feb
+ 2022 18:18:24 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 15 Feb 2022 18:17:41 -0800
+ HTTPREST; Tue, 15 Feb 2022 18:18:24 -0800
 MIME-Version: 1.0
-In-Reply-To: <20220201151056.2480055-2-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220201151056.2480055-3-dmitry.baryshkov@linaro.org>
 References: <20220201151056.2480055-1-dmitry.baryshkov@linaro.org>
- <20220201151056.2480055-2-dmitry.baryshkov@linaro.org>
+ <20220201151056.2480055-3-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Tue, 15 Feb 2022 18:17:41 -0800
-Message-ID: <CAE-0n52hXz0tptXxip4vJdPPfXa+Vk738+F49j66swAhTgSBXA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] drm/msm/dpu: remove extra wrappers around dpu_core_irq
+Date: Tue, 15 Feb 2022 18:18:24 -0800
+Message-ID: <CAE-0n50-asrL6FcpsteqfBWAVMXVShFWW+yMSMvzzJOr7d0KCw@mail.gmail.com>
+Subject: Re: [PATCH 2/6] drm/msm/dpu: remove always-true argument of
+ dpu_core_irq_read()
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
@@ -73,12 +74,11 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-02-01 07:10:51)
-> Remove extra dpu_irq_* wrappers from dpu_kms.c, merge them directly into
-> dpu_core_irq_* functions.
+Quoting Dmitry Baryshkov (2022-02-01 07:10:52)
+> The argument clear of the function dpu_core_irq_read() is always true.
+> Remove it.
 >
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
 
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
