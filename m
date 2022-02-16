@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A46C4B7D1B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 03:18:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B77664B7D1D
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 03:20:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E459C10E60A;
-	Wed, 16 Feb 2022 02:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97A5A10E608;
+	Wed, 16 Feb 2022 02:20:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
- [IPv6:2607:f8b0:4864:20::c2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35A4F10E60A
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 02:18:25 +0000 (UTC)
-Received: by mail-oo1-xc2d.google.com with SMTP id
- k13-20020a4a948d000000b003172f2f6bdfso924164ooi.1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 18:18:25 -0800 (PST)
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F68410E608
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 02:20:10 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id i5so1056434oih.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 18:20:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=rKj/83OeNdCA+dbfZ2qmOiBrnBwHoQueKWn2gnvfSB0=;
- b=ieAe3Bw7+svdP7k1Mjdz401VBfKR3/7YLZCGmTm8EmDpk7J4l9MOw3KEHCRW73SRch
- a3RNuwSe6ZVBG3FlSJ+1mYWZyJoCfEXlQxCXtPxOxkztXiquD2aYfJ/zgeRUzz6JEYDQ
- EjPLPISATbExLjLKZ63Bz4qlX5KZAWyCW9pnk=
+ bh=XAfwp7j7WHoPgTggKUVHhjFZruqxqm2zyO1xWp3l9wk=;
+ b=a/efTqnqJvKpAM+8MzMGUZIgMNN3UU2Xkp6YQHELWkg3ORnsO/0ZSYogApRAXnopbX
+ iS7HSbQLbddTq9dUa6yHmNSWHpTSRX3fxTM9FXrGo339L8URZstD06L2Q3OwV7zctTgf
+ 28B56I0HpqR4HR4lc8WThUn/1obYmxpncCJ3Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=rKj/83OeNdCA+dbfZ2qmOiBrnBwHoQueKWn2gnvfSB0=;
- b=Mknx+4DrHulCrPQ8ExtUNV+XhEQ/K81gL6BfEmGrxbieczEqwBKXhz3Z3DlwM89jTJ
- f8LM+wUSRkNeltwJiQkcPkoOx+3UnoCQhvdQl7UijleUiPdWMtD5JNDwSR5p10GiOnJD
- hwLL3OWy3V4DM1pkPStqr5MabKcfWsGbM2B0kb/NVPFRNEJ7A0AjoiG04o6frP6BOjDG
- x304WhFCz3KyAxeCFYnR4HGR4ASHLnN1nszETb6/8Qedl1KwGJX8smcQ3YoN/mEN2GJr
- MpZoO6sA3zvDeKOo96wPc72xdc47+iREj5PeO9mpMB9bOJRRN7ttJ4hXhyEokVXz02wf
- eLaA==
-X-Gm-Message-State: AOAM532aE9tuPlIM7pagrlbD++cJ+Hm4M71m/e6ifkKpEozGbyCJI0U9
- K5RmXzaMLq4K/Jd/elR5H5q02lDAlsnt6z/Uwp6Efsh9SDw=
-X-Google-Smtp-Source: ABdhPJw5Yk430/3/87e3yVE4qWHJlRhItY1gx4i906WPQT9Xp//a9PTHnqUQU02bFgspQY9SZ4ux9MZ5XkOnesX7ZOQ=
-X-Received: by 2002:a05:6870:631a:b0:d1:7d97:806 with SMTP id
- s26-20020a056870631a00b000d17d970806mr285417oao.8.1644977904573; Tue, 15 Feb
- 2022 18:18:24 -0800 (PST)
+ bh=XAfwp7j7WHoPgTggKUVHhjFZruqxqm2zyO1xWp3l9wk=;
+ b=Hh8aG4/R3MZwQsAkGX3kwEvniXujrxOrCmWHo/+tG/JzLXP4LrQ/5o7doyTv9bHyVG
+ 5nkIjLP9r4eLyOYzKAUsPeJdy0880EO4mufJrLNiytD3V83H/oKd6X3so5YqJYiEglzH
+ Z6JNsoUPCENaqR/SMOQKrMiZ0/4dyqJL3YFwaQ+xVibfHIGzNIO/Okj4Rz6yV1W3psQS
+ 1mdxoSLaG715Si80cFdRjr22RKGbFBUVB7UhHSEzXykTFUaLYvHsij1bPdRDKWXC3uw2
+ yf/EsIcZAG4WjF0ydPFK1bWLSZrOzUjDv86MJ7q5EuFchyjzBhkUl/RF2k6FrSdwTVui
+ XrRw==
+X-Gm-Message-State: AOAM5326CY2c0Z7fERUMA7YzhJT/oQLy034nKGqLdeoJUfm1bShE05l8
+ L0Vcbga2s4Y2RU+BepFBsrYuj+pXqrShNeS5uDH1Ew==
+X-Google-Smtp-Source: ABdhPJyxPyJO6OqJE+BDPaGZkFjijQe/mgb97dL7c6jiU3sz1MQvlSq/GF3c8TGS3LIMqD2nycVdiz9/0kfTz/Jv2ik=
+X-Received: by 2002:aca:df44:0:b0:2ce:285f:cb99 with SMTP id
+ w65-20020acadf44000000b002ce285fcb99mr2976794oig.40.1644978009506; Tue, 15
+ Feb 2022 18:20:09 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 15 Feb 2022 18:18:24 -0800
+ HTTPREST; Tue, 15 Feb 2022 18:20:09 -0800
 MIME-Version: 1.0
-In-Reply-To: <20220201151056.2480055-3-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220201151056.2480055-5-dmitry.baryshkov@linaro.org>
 References: <20220201151056.2480055-1-dmitry.baryshkov@linaro.org>
- <20220201151056.2480055-3-dmitry.baryshkov@linaro.org>
+ <20220201151056.2480055-5-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Tue, 15 Feb 2022 18:18:24 -0800
-Message-ID: <CAE-0n50-asrL6FcpsteqfBWAVMXVShFWW+yMSMvzzJOr7d0KCw@mail.gmail.com>
-Subject: Re: [PATCH 2/6] drm/msm/dpu: remove always-true argument of
- dpu_core_irq_read()
+Date: Tue, 15 Feb 2022 18:20:09 -0800
+Message-ID: <CAE-0n51xcCdHjjq_S4h_4HhF88czSDDqi4qk=3LrLxchC0MY5A@mail.gmail.com>
+Subject: Re: [PATCH 4/6] drm/msm/dpu: get rid of
+ dpu_encoder_helper_(un)register_irq
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
@@ -70,15 +69,18 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <abhinavk@codeaurora.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-02-01 07:10:52)
-> The argument clear of the function dpu_core_irq_read() is always true.
-> Remove it.
+Quoting Dmitry Baryshkov (2022-02-01 07:10:54)
+> Get rid of dpu_encoder_helper_register_irq/unregister_irq helpers, call
+> dpu_core_register/unregister_callback directly, without surrounding them
+> with helpers.
 >
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
 > ---
 
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
