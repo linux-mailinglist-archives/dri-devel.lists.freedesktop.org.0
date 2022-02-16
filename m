@@ -1,119 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83E54B7C61
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 02:31:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E74F4B7C6E
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 02:33:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 724A910E5E0;
-	Wed, 16 Feb 2022 01:30:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1029D10E196;
+	Wed, 16 Feb 2022 01:32:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2083.outbound.protection.outlook.com [40.107.244.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1BE310E196;
- Wed, 16 Feb 2022 01:30:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NKrvyvYhj1UhfAW5Qj+HpWbKaJ3o2EfLQxXevcIn8JbY+BWcIE3/GK7AzT+Pvz5R82J9mijcALfsjYclnBVQc+bZQuH9ygsROPsn7J6YBmTILy6i0YgHj87x1QJkD+yVE1e+2DlFOysITu70uK0rOdxeYRGiiBoOeiCL8ICKlimv8T0vl9UDj+X+INxpwnSS3ga2vwybNRABgfryWOnOATyX7QmHS7Mu2tlnUELZCxdmOE/SgyYZnK1WpXqGVvh9vvKr1/rYb6/lXxbEKzp2/hLXnAldkGh+6nO2RnpVPp5OpsNmfg4irQn0iWDAyZOA+IWuwT7hUrNMVfd6kvSCOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CMKHz6MCt4mLUa7wK961eqQPsnk5roP5snaMiV4eRTM=;
- b=eI+fJF8yBYXgidhIPmr6gbvpwFF2efB3AwM9drlH2LhH9PEa9oEH2hY/oFXusgNUPkOy5nzwZ/kGWjqs3cbJ6RB9sMzFl5SOcVsIiBzQDAj3F43M0xiLJ1XKhObk4dOmr1ztVfe4hIAoLYMbgEir2bLLRfQ8xLrlQMRaWSZ14aiL4q8DAvj/UeovfXSItu6dzQ4ZxFj7zK+LbF6GNhL1OmCO/oCJHjM+aFbkHLuvGs+eXrs3wFFBQeJjGzpcYsvm4/c+kRhTc9QaBSNyIo79B6WyRqpIfjuVLRNOa7a0F+erj8DBa14IFMvidcL2o/UisMqd3vy4gNEe/CbBmBzcsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CMKHz6MCt4mLUa7wK961eqQPsnk5roP5snaMiV4eRTM=;
- b=OT+4679YhuIh86UN3k0dcPVNfWWSs+yCs/TYMOrZcc2qVFNsfKPfVySJ9iXNShBYstcLeE5/Ugs2XwQJtsSjs3xDZQYP5v8255W1yB/6F7M4TfRpiuSnD+Apw+BD32qML+fqocT6pF3VAGQv3VMdwV6W6wiDBW05OUJvR3HDbQs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5149.namprd12.prod.outlook.com (2603:10b6:5:390::14)
- by MN0PR12MB5764.namprd12.prod.outlook.com (2603:10b6:208:377::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.19; Wed, 16 Feb
- 2022 01:30:51 +0000
-Received: from DM4PR12MB5149.namprd12.prod.outlook.com
- ([fe80::ecac:8946:43b0:c1ec]) by DM4PR12MB5149.namprd12.prod.outlook.com
- ([fe80::ecac:8946:43b0:c1ec%4]) with mapi id 15.20.4995.016; Wed, 16 Feb 2022
- 01:30:51 +0000
-Subject: Re: [PATCH 1/1] drm/amdkfd: Replace zero-length array with
- flexible-array member
-To: Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org
-References: <20220216003841.1419615-1-Felix.Kuehling@amd.com>
-From: philip yang <yangp@amd.com>
-Message-ID: <d4f41246-8c32-b711-7cf4-e28f55535ddf@amd.com>
-Date: Tue, 15 Feb 2022 20:30:47 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20220216003841.1419615-1-Felix.Kuehling@amd.com>
-Content-Type: text/html; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR08CA0023.namprd08.prod.outlook.com
- (2603:10b6:610:5a::33) To DM4PR12MB5149.namprd12.prod.outlook.com
- (2603:10b6:5:390::14)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4EFC10E196
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 01:32:57 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id d10so1039452eje.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 17:32:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Sp7BCWIo45dUgDZ6Yeet+HVNBAxj5eJOd+Cy1XLZ2f8=;
+ b=h64up5gwC+DME3RYkAv/xtT38PBrUhx8RlwtNtdfjGy0qVK47DQH13pPuOpT/+hxjz
+ mBcfxYbPOSBpvzdHAu4jXWaEhfLSWkMZsxFzOZr0qPVXJV3ZGJ+zUWdnMffzk7qAZUnQ
+ 2QkFS2k4xx7K5DF58Oi9W3pF93xHzjyDv9EuA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Sp7BCWIo45dUgDZ6Yeet+HVNBAxj5eJOd+Cy1XLZ2f8=;
+ b=Nmz/TsIFqbpNkuCZkbiXozL49UuMg1snIcN1P2ZdxRj5Ty62hk8XeXJkOyMAGAojNB
+ Ys6jVr6iCNF2W+KrpGcNBrUAtq1D/q55LxbKQYg8LgL9CrrpdzhX8tg4XpDrg5CYRolZ
+ aV2l9KEO3O4omoetz4JPCB8R2fIz6ANlWI6tJxkUgDsvbEupQHAU+w5iJsqkVf5yvlfI
+ 7EHrExc2gwQcPuMlhUMEFu41tsEB/8MkpgvZPmCY2P9NST540EDt5Yx8aJMys5lP6mbR
+ na+0JFpNLPOeYMpRLjnGpmGyDK04L6ZhkAsJfhbb6V3HnKt61lTjUkgu6WPR+1javAUa
+ YzjQ==
+X-Gm-Message-State: AOAM531d/W/bIu2qO0fuiQphBGCzmqlb8Q6gtbKJqUOSsjv7i0U9C35h
+ 5KrKYhqZG/MrpGs0Ikl+R0UhNyzzHIsCnR+S
+X-Google-Smtp-Source: ABdhPJySmLYNz4rv6SUCveu8eiZxtAxDKpjTmfwYhVpjcBFtlHB2g8gFjYa/GtR1acsHOX2jLeYihw==
+X-Received: by 2002:a17:906:3152:b0:6cf:7204:5cf0 with SMTP id
+ e18-20020a170906315200b006cf72045cf0mr483063eje.449.1644975175703; 
+ Tue, 15 Feb 2022 17:32:55 -0800 (PST)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com.
+ [209.85.221.50])
+ by smtp.gmail.com with ESMTPSA id ek21sm729625edb.27.2022.02.15.17.32.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 17:32:53 -0800 (PST)
+Received: by mail-wr1-f50.google.com with SMTP id d27so904560wrb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Feb 2022 17:32:52 -0800 (PST)
+X-Received: by 2002:a5d:63c3:0:b0:1e3:240a:550f with SMTP id
+ c3-20020a5d63c3000000b001e3240a550fmr466622wrw.402.1644975172490; Tue, 15 Feb
+ 2022 17:32:52 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e787cf46-6922-4bfb-cbb1-08d9f0ebf6a4
-X-MS-TrafficTypeDiagnostic: MN0PR12MB5764:EE_
-X-Microsoft-Antispam-PRVS: <MN0PR12MB5764C667EAEE687EFDE14C19E6359@MN0PR12MB5764.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:324;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9YmZRDFllp2mBYir+2YxibILjdMYr2CNwbElhdfyXfuHAW8xJQFl6lBzoWTLU8lZ873tx/Y6wBykbiMENXCL4nKK0IQjvOUEWAocIXt76TDy/2xhv/4gO4IrsBrJ8i5HZ129t1ctBj98ncR+CnjEwcDzvWL0M34TZahlaJ1etVn4A8d96fPzVtpS+W0T1COCNNphPRL+c4/ILl96iIgsEdRur+tgiWE3DelhX6GpLbNHRd7sIi3aclCmS0dVDnobG83vMEw8Qwm5H+kopqTS/M4HkmFtLriOU7S9UzPgxf1YdWw5fxVW7BzZtd2Ydh0qzynOG7DZyEnUbJgY6gDdYkmlaXQ5b8Tx8q3RlEBvG4LGbqJ9lvavp2lfIUNCY3ChmB7a+p3jDl1Xk9KDVqtmfOO+k1OdR21uSG/Z2ZyGxpzqbjqfYvbWNAhFyv5sz3iUHhIjUZa15oFCJWSIQgV9uGGzh09N4AyVTlL1NHOT9OXq9ZyJa0Th09F+sz3Xz+S3ZWqLdHj6ShsijO2CANpCnZDYDIx5eUhYBC89ZrTaPhY3DunaiknDldNmlPg98Im3psWX2R8vFYsc2IPnWIZGfObrNQnlucZH2dgn8XgisJHaYLyZxBXaDmxi7iaw7XBvQnPGfBhESdkFjsIsKv30p1ys9+bbEPB7nMSX4hUhu2IJiB740oM5uPbupOxRXnGD5/FFemqpXnOXH9GftSBVbwtTCGn4a2dHlqNkL4Zc3jbVIDVg7PuzzuO5YRx3sW5v2gik8cPOxd+qmo35y4Dn25gAiL/Z92O7ojAmCKliB7fybAExUH7m/p/GTgLxKmD9
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5149.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(8676002)(4326008)(66476007)(6666004)(31686004)(6506007)(36756003)(8936002)(186003)(6512007)(53546011)(26005)(2616005)(166002)(4744005)(83380400001)(38100700002)(2906002)(316002)(6486002)(66556008)(66946007)(31696002)(508600001)(966005)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3UxakY5N2d3bDBiTnpuVXlQSnBWQUJvWjNsK0pPSHB2ZUt1dE9XbWF0MHFt?=
- =?utf-8?B?bVF6enpKZTZmS2QwSjdYNlVxMTRHRVVoN1Y3RVRwaHFEUGxlYXFxcC9nODAz?=
- =?utf-8?B?R3ZBSndXWnphWmdBN1ArczFXaXczb2RSVEZiTldadHRwamNHN1U2QVBBK3Bu?=
- =?utf-8?B?UzZ0a09TWkU0dS9oTmNDUmNhS3ZPcGdyblg1Z3hyYWhQYVpPd3RBaHZ2eURu?=
- =?utf-8?B?NVU5WndOdWRwdFRxSmc2MGpRUXVrcWRvREp2YTZaVE9QTFJQQnhOUTVoWWNE?=
- =?utf-8?B?VW00U21selNzcXprQ0JGbU5HSlBidnQ4TGU0YlUvZ2twejJVYVVhSC9pbmxp?=
- =?utf-8?B?NENvUmpua2hKb05GaVJkL2tCUURTVm9IcmIxWlpGSFpISUNKNlhSaWFwd1Zz?=
- =?utf-8?B?R2Z2VVdWUHJib0g5ckJrOHRXZ0VmNFZRRlNSa0hlK1dFY3lPb3BKWTBjOXFK?=
- =?utf-8?B?cXkybUNmV1UvS0QvaERHYVVPUG1QY3pBaVhXKzJPc0tuY0JsRjU2VTNhb1VM?=
- =?utf-8?B?R1BxWHdXcmR3QUF1ckpKSjg0cGhSdU1LSktWT3ZJT2p6eEN0Z01NNzZndWNJ?=
- =?utf-8?B?Smh0VUJodU4rY2U1amt5UmhRRDU4ME5UTEpSQVlHTUYwSi9LaGpWRUZsSzd3?=
- =?utf-8?B?VVptWWlGeWpjU24yTTFiOFV5WnlxdXZsUG5qQVlmNXpOQVN0MmtiZG5OVHdu?=
- =?utf-8?B?MktHQkNMeVNsYXd3S04xTDVZMm0zNms3SmZGWWttenRMdUh5ZE9hRFV1MUh5?=
- =?utf-8?B?dkQvemFvY3Q4TnFocS9ZaUs5L09LTmhkRkFtb1BnOHE0RUdiT3hRaVE5UHR4?=
- =?utf-8?B?ZGk0TSs4cHhUQVo5YjB5NTBBakU2VVdpLzFCSWY5WS9rdzY3Vk1QdktIcllX?=
- =?utf-8?B?UWJhTE9ONWlCMm83aFRNVk5PYS92c1ZHYnBsclkxYVhCU3NJbUU3emsyK2pH?=
- =?utf-8?B?bFZHM1l2TSt6N1B5eis3RkQwUWFvRE9WUU90OWdmZEVXY0pOWnIvWUh1b050?=
- =?utf-8?B?dUVFWk5hQVhhSTc5c0lnQnhqNmlJZlJ4ZU9uZHZsZEZFZVpDMG9XazhRbG9M?=
- =?utf-8?B?d2Fkc0dlMDJ0UDRxZ0l5VUpEMExhZTIyaVNuazRYWTFtK2RvOHRTL3RkdXBr?=
- =?utf-8?B?RFNTMkRNSGNEZ2xYUW5JeDlwd0wzZUFuTVRlZ0JZb0cxcFpjMkdDaTdHMkp1?=
- =?utf-8?B?RWhibUFrRDRRYzIrREtqaHJGTUowaXFCVm5YQTVTSldTY3FzbDBWOVlvN3VS?=
- =?utf-8?B?NVhVdUNtWXNDRGlBdWxYU0M5dzNLM2N4dCtDUk1uSncxbXhHeXB5MW01bUlP?=
- =?utf-8?B?b2hweHpkYWVaQ3VHRTA3R0ZFNTVDSFpDQmFTUzNpakFPejJya1prU2xXYnhH?=
- =?utf-8?B?ZzBoMURlMWxGQUtVWjBIU3g3Q3ByejJtVlN3ejA1bVhlVDBFelJsTk5nUExZ?=
- =?utf-8?B?b1pRcHVpcHZIeTFIM0Vzb3JpNWRNR2d1T2kwOHpDcjk3NzU3aytyN0RYcjI4?=
- =?utf-8?B?VTRiL0pUcTFhRmJ3cUhPMkdjR1FUUFhIRkhHc2VEOElHMm54L2xNTVJ2a2xL?=
- =?utf-8?B?a3BnMkF1ZzU0bFVuUTdJSDIzbHh4d1R2cllVS3FpZXpCSE8zamp6SS9yb3Fp?=
- =?utf-8?B?RzlQSHI1RWVxd241SkcxKy9VZisxT2l1dW9xU0EvTUhPY1lIYm1MM0sveXBC?=
- =?utf-8?B?eEZ1aCs1SVZ2djA5cmJ6N1haWUUxZDhiSjFtdDBDcXJRMzI5bWNBSit5QjR2?=
- =?utf-8?B?RE5yQ1E4ak5JT2RSL2pvNTgwVmJ1VCs2bHB6ZGZ5RVJxVTVzR0JiWXJCaFRa?=
- =?utf-8?B?OVBYUWJWcGNkN1o0Y2dGTWxSZUVwS3RRSURzZmk0WkthS3IrdFA1Y1ZLanNT?=
- =?utf-8?B?b245bGxPVWxJZERtMG05WEFTZS9HdElkR3pqVmxZZktybjJ6bWNlNThnK1hh?=
- =?utf-8?B?WkMyV21OcXJKd2FrUk5sdzh2SWxqbHNaZEliRXM1VExsWjNJcjlxK2x3NWZ3?=
- =?utf-8?B?NjNTemJxSU9lL1FmMThGQkI4VDc1SGYyREo0RzJ2WUhaNVRSMDIvQ1lqRW5m?=
- =?utf-8?B?OWtkcjd6NjhEeUMycXM5WUVWT3FKT2RTOU1iUFJ2ZUJ5bUYwUjhpcVQ4WXd6?=
- =?utf-8?Q?47GI=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e787cf46-6922-4bfb-cbb1-08d9f0ebf6a4
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5149.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2022 01:30:50.9687 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: waIAADEHvv6B3V+ClfUwJalpPuDWo8ZhNxvjZ8w7HfKxCGJvFtVL/iMpVj6W2/eu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5764
+References: <20220216011614.360451-1-robdclark@gmail.com>
+In-Reply-To: <20220216011614.360451-1-robdclark@gmail.com>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Tue, 15 Feb 2022 17:32:41 -0800
+X-Gmail-Original-Message-ID: <CAAfnVB=8pQbRit50q3HaKU5Q+33uLLESh4=FAHje9gvZ+O8K1A@mail.gmail.com>
+Message-ID: <CAAfnVB=8pQbRit50q3HaKU5Q+33uLLESh4=FAHje9gvZ+O8K1A@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: Fix capset-id query size
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000d2b80a05d818a023"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,48 +71,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- Changcheng Deng <deng.changcheng@zte.com.cn>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Lingfeng Yang <lfy@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2022-02-15 7:38 p.m., Felix Kuehling
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20220216003841.1419615-1-Felix.Kuehling@amd.com">
-      <pre class="moz-quote-pre" wrap="">Reference:
-<a class="moz-txt-link-freetext" href="https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays">https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays</a>
+--000000000000d2b80a05d818a023
+Content-Type: text/plain; charset="UTF-8"
 
-CC: Changcheng Deng <a class="moz-txt-link-rfc2396E" href="mailto:deng.changcheng@zte.com.cn">&lt;deng.changcheng@zte.com.cn&gt;</a>
-Signed-off-by: Felix Kuehling <a class="moz-txt-link-rfc2396E" href="mailto:Felix.Kuehling@amd.com">&lt;Felix.Kuehling@amd.com&gt;</a></pre>
-    </blockquote>
-    Reviewed-by: Philip Yang <a class="moz-txt-link-rfc2396E" href="mailto:Philip.Yang@amd.com">&lt;Philip.Yang@amd.com&gt;</a><br>
-    <blockquote type="cite" cite="mid:20220216003841.1419615-1-Felix.Kuehling@amd.com">
-      <pre class="moz-quote-pre" wrap="">
----
- include/uapi/linux/kfd_ioctl.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Feb 15, 2022 at 5:15 PM Rob Clark <robdclark@gmail.com> wrote:
 
-diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
-index 6e4268f5e482..baec5a41de3e 100644
---- a/include/uapi/linux/kfd_ioctl.h
-+++ b/include/uapi/linux/kfd_ioctl.h
-@@ -673,7 +673,7 @@ struct kfd_ioctl_svm_args {
- 	__u32 op;
- 	__u32 nattr;
- 	/* Variable length array of attributes */
--	struct kfd_ioctl_svm_attribute attrs[0];
-+	struct kfd_ioctl_svm_attribute attrs[];
- };
- 
- /**
-</pre>
-    </blockquote>
-  </body>
-</html>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> The UABI was already defined for pointer to 64b value, and all the
+> userspace users of this ioctl that I could find are already using a
+> uint64_t (but zeroing it out to work around kernel only copying 32b).
+> Unfortunately this ioctl doesn't have a length field, so out of paranoia
+> I restricted the change to copy 64b to the single 64b param that can be
+> queried.
+>
+> Fixes: 78aa20fa4381 ("drm/virtio: implement context init: advertise
+> feature to userspace")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>
+
+Reviewed-by: Gurchetan Singh <gurchetansingh@chromium.org>
+
+
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> index 0f2f3f54dbf9..0158d27d5645 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> @@ -269,7 +269,8 @@ static int virtio_gpu_getparam_ioctl(struct drm_device
+> *dev, void *data,
+>  {
+>         struct virtio_gpu_device *vgdev = dev->dev_private;
+>         struct drm_virtgpu_getparam *param = data;
+> -       int value;
+> +       int value, ret, sz = sizeof(int);
+> +       uint64_t value64;
+>
+>         switch (param->param) {
+>         case VIRTGPU_PARAM_3D_FEATURES:
+> @@ -291,13 +292,20 @@ static int virtio_gpu_getparam_ioctl(struct
+> drm_device *dev, void *data,
+>                 value = vgdev->has_context_init ? 1 : 0;
+>                 break;
+>         case VIRTGPU_PARAM_SUPPORTED_CAPSET_IDs:
+> -               value = vgdev->capset_id_mask;
+> +               value64 = vgdev->capset_id_mask;
+> +               sz = sizeof(value64);
+>                 break;
+>         default:
+>                 return -EINVAL;
+>         }
+> -       if (copy_to_user(u64_to_user_ptr(param->value), &value,
+> sizeof(int)))
+> -               return -EFAULT;
+> +
+> +       if (sz == sizeof(int)) {
+> +               if (copy_to_user(u64_to_user_ptr(param->value), &value,
+> sz))
+> +                       return -EFAULT;
+> +       } else {
+> +               if (copy_to_user(u64_to_user_ptr(param->value), &value64,
+> sz))
+> +                       return -EFAULT;
+> +       }
+>
+>         return 0;
+>  }
+> --
+> 2.34.1
+>
+>
+
+--000000000000d2b80a05d818a023
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 15, 2022 at 5:15 PM Rob C=
+lark &lt;<a href=3D"mailto:robdclark@gmail.com">robdclark@gmail.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Ro=
+b Clark &lt;<a href=3D"mailto:robdclark@chromium.org" target=3D"_blank">rob=
+dclark@chromium.org</a>&gt;<br>
+<br>
+The UABI was already defined for pointer to 64b value, and all the<br>
+userspace users of this ioctl that I could find are already using a<br>
+uint64_t (but zeroing it out to work around kernel only copying 32b).<br>
+Unfortunately this ioctl doesn&#39;t have a length field, so out of paranoi=
+a<br>
+I restricted the change to copy 64b to the single 64b param that can be<br>
+queried.<br>
+<br>
+Fixes: 78aa20fa4381 (&quot;drm/virtio: implement context init: advertise fe=
+ature to userspace&quot;)<br>
+Signed-off-by: Rob Clark &lt;<a href=3D"mailto:robdclark@chromium.org" targ=
+et=3D"_blank">robdclark@chromium.org</a>&gt;<br></blockquote><div><br></div=
+><div><span class=3D"gmail-il">Reviewed</span>-<span class=3D"gmail-il">by<=
+/span>:=C2=A0<span class=3D"gmail-il">Gurchetan</span>=C2=A0<span class=3D"=
+gmail-il">Singh</span>=C2=A0&lt;<a href=3D"mailto:gurchetansingh@chromium.o=
+rg" target=3D"_blank">gurchetansingh@chromium.org</a>&gt;</div><div>=C2=A0<=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_ioctl.c | 16 ++++++++++++----<br>
+=C2=A01 file changed, 12 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virti=
+o/virtgpu_ioctl.c<br>
+index 0f2f3f54dbf9..0158d27d5645 100644<br>
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c<br>
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c<br>
+@@ -269,7 +269,8 @@ static int virtio_gpu_getparam_ioctl(struct drm_device =
+*dev, void *data,<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct virtio_gpu_device *vgdev =3D dev-&gt;dev=
+_private;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_virtgpu_getparam *param =3D data;<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0int value;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0int value, ret, sz =3D sizeof(int);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t value64;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (param-&gt;param) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case VIRTGPU_PARAM_3D_FEATURES:<br>
+@@ -291,13 +292,20 @@ static int virtio_gpu_getparam_ioctl(struct drm_devic=
+e *dev, void *data,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D vgdev-&gt=
+;has_context_init ? 1 : 0;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case VIRTGPU_PARAM_SUPPORTED_CAPSET_IDs:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0value =3D vgdev-&gt=
+;capset_id_mask;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0value64 =3D vgdev-&=
+gt;capset_id_mask;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sz =3D sizeof(value=
+64);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (copy_to_user(u64_to_user_ptr(param-&gt;valu=
+e), &amp;value, sizeof(int)))<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EFAULT;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (sz =3D=3D sizeof(int)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (copy_to_user(u6=
+4_to_user_ptr(param-&gt;value), &amp;value, sz))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return -EFAULT;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (copy_to_user(u6=
+4_to_user_ptr(param-&gt;value), &amp;value64, sz))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return -EFAULT;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
+=C2=A0}<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div></div>
+
+--000000000000d2b80a05d818a023--
