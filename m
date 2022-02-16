@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F534B939C
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 23:05:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118544B9469
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 00:18:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7A3910E278;
-	Wed, 16 Feb 2022 22:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1803F10E47C;
+	Wed, 16 Feb 2022 23:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4857310E263;
- Wed, 16 Feb 2022 22:05:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645049144; x=1676585144;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=BIRQ/Lmi92H2TM6N5D5wvffDuJ2KMpXz1ShqIaGF6Yo=;
- b=c0vj86v3+66M+KnzcO+8lScsJ0SomTSd55ShdXAalsfzQq0pxytfF8IK
- Slh/VY6VVCEelcnuUknR7eU9QZOFpl6lFg6sD4XWmaSQ9V8yBrWJwAKNG
- s9Xe+ZzhNNEdmTHwSBHyBzCyBWEobxV7Rjp5HnUXjL3qRsCwmVkcL+S6n g=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 16 Feb 2022 14:05:43 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2022 14:05:43 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Wed, 16 Feb 2022 14:05:24 -0800
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Wed, 16 Feb 2022 14:05:23 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
- <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
- <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
-Subject: [PATCH v7 4/4] drm/msm/dp: enable widebus feature for display port
-Date: Wed, 16 Feb 2022 14:05:06 -0800
-Message-ID: <1645049106-30481-5-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1645049106-30481-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1645049106-30481-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A18910E47C;
+ Wed, 16 Feb 2022 23:18:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645053498; x=1676589498;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=rOPNTRUqr4qBf5Y1L0GGUFlhqDRI8tpCThnW6L0p0aA=;
+ b=HURpRB+hryG+sm7d1E54vdQL78Zj38KYkJsI/nS4mveutQUT0JSj4p1J
+ v220nbUSO0Gf2OYG3w02EHoH5MDmLcK2XhgBMUPrH3ySFQUMkJE/ArHi1
+ RJQclXuNHsFlNN5IVIIi/Uc8k22r9ZCH1Y5qVrTjlQ0JW5IaoUlZ211mJ
+ WeBwHGA0UGrffzoccv1Pf2w2OnADrGfnhYAxkb3ZivuzaY3fiZ/5ECdfu
+ 9pKu/PpqdIRt6FlaL+1Q3z4musJ/aSZlYQYPslI75SLffkhJE83boEZ2x
+ OgT54XBk4Yxd5/21Y+heNcWpvtP3W7GThPftRrsweqt5mw92z5zUa/MLk g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="238149564"
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; d="scan'208";a="238149564"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 15:18:17 -0800
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; d="scan'208";a="487513895"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 15:18:17 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Kill the fake lmem support
+Date: Wed, 16 Feb 2022 15:18:49 -0800
+Message-Id: <20220216231849.3133289-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,386 +54,275 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Widebus feature will transmit two pixel data per pixel clock to interface.
-This feature now is required to be enabled to easy migrant to higher
-resolution applications in future. However since some legacy chipsets
-does not support this feature, this feature is enabled base on chip's
-hardware revision.
+This was useful for early development of lmem, but it's not used
+anymore, so remove it.
 
-changes in v2:
--- remove compression related code from timing
--- remove op_info from  struct msm_drm_private
--- remove unnecessary wide_bus_en variables
--- pass wide_bus_en into timing configuration by struct msm_dp
-
-Changes in v3:
--- split patch into 3 patches
--- enable widebus feature base on chip hardware revision
-
-Changes in v5:
--- DP_INTF_CONFIG_DATABUS_WIDEN
-
-Changes in v6:
--- fix Reported-bya issue
--- fix static inline bool msm_dp_wide_bus_enable() at msm_drv.h
-
-Changes in v7:
--- add Tested-by
-
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Tested-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  4 +++-
- drivers/gpu/drm/msm/dp/dp_catalog.c         | 34 +++++++++++++++++++++++++++--
- drivers/gpu/drm/msm/dp/dp_catalog.h         |  3 ++-
- drivers/gpu/drm/msm/dp/dp_ctrl.c            | 13 +++++++----
- drivers/gpu/drm/msm/dp/dp_ctrl.h            |  1 +
- drivers/gpu/drm/msm/dp/dp_display.c         | 32 +++++++++++++++++++++++++++
- drivers/gpu/drm/msm/dp/dp_display.h         |  2 ++
- drivers/gpu/drm/msm/dp/dp_panel.c           |  4 ++--
- drivers/gpu/drm/msm/dp/dp_panel.h           |  2 +-
- drivers/gpu/drm/msm/msm_drv.h               |  6 +++++
- 10 files changed, 90 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/Kconfig.unstable       |   8 --
+ drivers/gpu/drm/i915/gt/intel_gt.c          |   2 -
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c | 112 +-------------------
+ drivers/gpu/drm/i915/gt/intel_region_lmem.h |   3 -
+ drivers/gpu/drm/i915/i915_driver.c          |  15 ---
+ drivers/gpu/drm/i915/i915_params.c          |   5 -
+ drivers/gpu/drm/i915/i915_params.h          |   1 -
+ 7 files changed, 2 insertions(+), 144 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 2b2dbb7..1e96cede 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2138,8 +2138,10 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
- 		timer_setup(&dpu_enc->vsync_event_timer,
- 				dpu_encoder_vsync_event_handler,
- 				0);
--	else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS)
-+	else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS) {
- 		dpu_enc->dp = priv->dp[disp_info->h_tile_instance[0]];
-+		dpu_enc->wide_bus_en = msm_dp_wide_bus_enable(dpu_enc->dp);
-+	}
+diff --git a/drivers/gpu/drm/i915/Kconfig.unstable b/drivers/gpu/drm/i915/Kconfig.unstable
+index 0c2276155c2b..cf151a297ed7 100644
+--- a/drivers/gpu/drm/i915/Kconfig.unstable
++++ b/drivers/gpu/drm/i915/Kconfig.unstable
+@@ -19,11 +19,3 @@ config DRM_I915_UNSTABLE
+ 	  Recommended for driver developers _only_.
  
- 	INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
- 			dpu_encoder_off_work);
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 6ae9b29..524eccc 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -24,6 +24,8 @@
- #define DP_INTERRUPT_STATUS_ACK_SHIFT	1
- #define DP_INTERRUPT_STATUS_MASK_SHIFT	2
+ 	  If in the slightest bit of doubt, say "N".
+-
+-config DRM_I915_UNSTABLE_FAKE_LMEM
+-	bool "Enable the experimental fake lmem"
+-	depends on DRM_I915_UNSTABLE
+-	default n
+-	help
+-	  Convert some system memory into a fake local memory region for
+-	  testing.
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index e8403fa53909..325ac15439eb 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -65,8 +65,6 @@ int intel_gt_probe_lmem(struct intel_gt *gt)
+ 	int err;
  
-+#define DP_INTF_CONFIG_DATABUS_WIDEN     BIT(4)
-+
- #define DP_INTERRUPT_STATUS1 \
- 	(DP_INTR_AUX_I2C_DONE| \
- 	DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
-@@ -483,6 +485,22 @@ int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog,
- }
+ 	mem = intel_gt_setup_lmem(gt);
+-	if (mem == ERR_PTR(-ENODEV))
+-		mem = intel_gt_setup_fake_lmem(gt);
+ 	if (IS_ERR(mem)) {
+ 		err = PTR_ERR(mem);
+ 		if (err == -ENODEV)
+diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+index cb3f66707b21..df3856e09598 100644
+--- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
++++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+@@ -13,60 +13,6 @@
+ #include "gem/i915_gem_ttm.h"
+ #include "gt/intel_gt.h"
  
- /**
-+ * dp_catalog_hw_revision() - retrieve DP hw revision
-+ *
-+ * @dp_catalog: DP catalog structure
-+ *
-+ * Return: DP controller hw revision
-+ *
-+ */
-+u32 dp_catalog_hw_revision(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog = container_of(dp_catalog,
-+				struct dp_catalog_private, dp_catalog);
-+
-+	return dp_read_ahb(catalog, REG_DP_HW_VERSION);
-+}
-+
-+/**
-  * dp_catalog_ctrl_reset() - reset DP controller
-  *
-  * @dp_catalog: DP catalog structure
-@@ -739,10 +757,11 @@ u32 dp_catalog_ctrl_read_phy_pattern(struct dp_catalog *dp_catalog)
- }
- 
- /* panel related catalog functions */
--int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
-+int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog, bool wide_bus_en)
+-static int init_fake_lmem_bar(struct intel_memory_region *mem)
+-{
+-	struct drm_i915_private *i915 = mem->i915;
+-	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+-	unsigned long n;
+-	int ret;
+-
+-	/* We want to 1:1 map the mappable aperture to our reserved region */
+-
+-	mem->fake_mappable.start = 0;
+-	mem->fake_mappable.size = resource_size(&mem->region);
+-	mem->fake_mappable.color = I915_COLOR_UNEVICTABLE;
+-
+-	ret = drm_mm_reserve_node(&ggtt->vm.mm, &mem->fake_mappable);
+-	if (ret)
+-		return ret;
+-
+-	mem->remap_addr = dma_map_resource(i915->drm.dev,
+-					   mem->region.start,
+-					   mem->fake_mappable.size,
+-					   DMA_BIDIRECTIONAL,
+-					   DMA_ATTR_FORCE_CONTIGUOUS);
+-	if (dma_mapping_error(i915->drm.dev, mem->remap_addr)) {
+-		drm_mm_remove_node(&mem->fake_mappable);
+-		return -EINVAL;
+-	}
+-
+-	for (n = 0; n < mem->fake_mappable.size >> PAGE_SHIFT; ++n) {
+-		ggtt->vm.insert_page(&ggtt->vm,
+-				     mem->remap_addr + (n << PAGE_SHIFT),
+-				     n << PAGE_SHIFT,
+-				     I915_CACHE_NONE, 0);
+-	}
+-
+-	mem->region = (struct resource)DEFINE_RES_MEM(mem->remap_addr,
+-						      mem->fake_mappable.size);
+-
+-	return 0;
+-}
+-
+-static void release_fake_lmem_bar(struct intel_memory_region *mem)
+-{
+-	if (!drm_mm_node_allocated(&mem->fake_mappable))
+-		return;
+-
+-	drm_mm_remove_node(&mem->fake_mappable);
+-
+-	dma_unmap_resource(mem->i915->drm.dev,
+-			   mem->remap_addr,
+-			   mem->fake_mappable.size,
+-			   DMA_BIDIRECTIONAL,
+-			   DMA_ATTR_FORCE_CONTIGUOUS);
+-}
+-
+ static int
+ region_lmem_release(struct intel_memory_region *mem)
  {
- 	struct dp_catalog_private *catalog = container_of(dp_catalog,
- 				struct dp_catalog_private, dp_catalog);
-+	u32 reg;
+@@ -74,7 +20,6 @@ region_lmem_release(struct intel_memory_region *mem)
  
- 	dp_write_link(catalog, REG_DP_TOTAL_HOR_VER,
- 				dp_catalog->total);
-@@ -751,7 +770,18 @@ int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
- 	dp_write_link(catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY,
- 				dp_catalog->width_blanking);
- 	dp_write_link(catalog, REG_DP_ACTIVE_HOR_VER, dp_catalog->dp_active);
--	dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, 0);
-+
-+	reg = dp_read_p0(catalog, MMSS_DP_INTF_CONFIG);
-+
-+	if (wide_bus_en)
-+		reg |= DP_INTF_CONFIG_DATABUS_WIDEN;
-+	else
-+		reg &= ~DP_INTF_CONFIG_DATABUS_WIDEN;
-+
-+
-+	DRM_DEBUG_DP("wide_bus_en=%d reg=%x\n", wide_bus_en, reg);
-+
-+	dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, reg);
- 	return 0;
- }
+ 	ret = intel_region_ttm_fini(mem);
+ 	io_mapping_fini(&mem->iomap);
+-	release_fake_lmem_bar(mem);
  
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 6965afa..2ba1ea4 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -95,6 +95,7 @@ void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog, u32 cc, u32 tb);
- void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32 rate,
- 				u32 stream_rate_khz, bool fixed_nvid);
- int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog, u32 pattern);
-+u32 dp_catalog_hw_revision(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog);
- bool dp_catalog_ctrl_mainlink_ready(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool enable);
-@@ -115,7 +116,7 @@ void dp_catalog_ctrl_send_phy_pattern(struct dp_catalog *dp_catalog,
- u32 dp_catalog_ctrl_read_phy_pattern(struct dp_catalog *dp_catalog);
- 
- /* DP Panel APIs */
--int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog);
-+int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog, bool wide_bus_en);
- void dp_catalog_dump_regs(struct dp_catalog *dp_catalog);
- void dp_catalog_panel_tpg_enable(struct dp_catalog *dp_catalog,
- 				struct drm_display_mode *drm_mode);
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index c724cb0..b07574c 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -154,7 +154,7 @@ static void dp_ctrl_config_ctrl(struct dp_ctrl_private *ctrl)
- 	dp_catalog_ctrl_config_ctrl(ctrl->catalog, config);
- }
- 
--static void dp_ctrl_configure_source_params(struct dp_ctrl_private *ctrl)
-+static void dp_ctrl_configure_source_params(struct dp_ctrl_private *ctrl, bool wide_bus_en)
- {
- 	u32 cc, tb;
- 
-@@ -167,7 +167,7 @@ static void dp_ctrl_configure_source_params(struct dp_ctrl_private *ctrl)
- 		ctrl->panel->dp_mode.bpp);
- 	cc = dp_link_get_colorimetry_config(ctrl->link);
- 	dp_catalog_ctrl_config_misc(ctrl->catalog, cc, tb);
--	dp_panel_timing_cfg(ctrl->panel);
-+	dp_panel_timing_cfg(ctrl->panel, wide_bus_en);
- }
- 
- /*
-@@ -1799,6 +1799,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 	int ret = 0;
- 	bool mainlink_ready = false;
- 	struct dp_ctrl_private *ctrl;
-+	u32 pixel_rate_orig;
- 
- 	if (!dp_ctrl)
- 		return -EINVAL;
-@@ -1807,6 +1808,10 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 
- 	ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
- 
-+	pixel_rate_orig = ctrl->dp_ctrl.pixel_rate;
-+	if (dp_ctrl->wide_bus_en)
-+		ctrl->dp_ctrl.pixel_rate >>= 1;
-+
- 	DRM_DEBUG_DP("rate=%d, num_lanes=%d, pixel_rate=%d\n",
- 		ctrl->link->link_params.rate,
- 		ctrl->link->link_params.num_lanes, ctrl->dp_ctrl.pixel_rate);
-@@ -1842,11 +1847,11 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 	 */
- 	reinit_completion(&ctrl->video_comp);
- 
--	dp_ctrl_configure_source_params(ctrl);
-+	dp_ctrl_configure_source_params(ctrl, dp_ctrl->wide_bus_en);
- 
- 	dp_catalog_ctrl_config_msa(ctrl->catalog,
- 		ctrl->link->link_params.rate,
--		ctrl->dp_ctrl.pixel_rate, dp_ctrl_use_fixed_nvid(ctrl));
-+		pixel_rate_orig, dp_ctrl_use_fixed_nvid(ctrl));
- 
- 	dp_ctrl_setup_tr_unit(ctrl);
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index 2363a2d..a0a5fbb 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -17,6 +17,7 @@ struct dp_ctrl {
- 	bool orientation;
- 	atomic_t aborted;
- 	u32 pixel_rate;
-+	bool wide_bus_en;
- };
- 
- int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset);
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 7cc4d21..8ecccf2 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -115,6 +115,8 @@ struct dp_display_private {
- 	struct dp_event event_list[DP_EVENT_Q_MAX];
- 	spinlock_t event_lock;
- 
-+	bool wide_bus_en;
-+
- 	struct dp_audio *audio;
- };
- 
-@@ -848,6 +850,8 @@ static int dp_display_enable(struct dp_display_private *dp, u32 data)
- 		return 0;
- 	}
- 
-+	dp->ctrl->wide_bus_en = dp->wide_bus_en;
-+
- 	rc = dp_ctrl_on_stream(dp->ctrl);
- 	if (!rc)
- 		dp_display->power_on = true;
-@@ -972,6 +976,7 @@ int dp_display_get_modes(struct msm_dp *dp,
- 		dp->connector, dp_mode);
- 	if (dp_mode->drm_mode.clock)
- 		dp->max_pclk_khz = dp_mode->drm_mode.clock;
-+
  	return ret;
  }
- 
-@@ -1437,6 +1442,28 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
- 	dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
- }
- 
-+bool msm_dp_wide_bus_enable(struct msm_dp *dp_display)
-+{
-+	struct dp_display_private *dp;
-+	u32 revision, major, minor;
-+
-+	dp = container_of(dp_display, struct dp_display_private, dp_display);
-+
-+	/* for the time being widebus only support on DP */
-+	if (dp_display->connector_type  == DRM_MODE_CONNECTOR_DisplayPort) {
-+		revision = dp_catalog_hw_revision(dp->catalog);
-+		major = ((revision >> 28) & 0x0ff);
-+		minor = ((revision >> 16) & 0x0fff);
-+
-+		DRM_DEBUG_DP("id=%d major=%d minor=%d\n", dp->id, major, minor);
-+
-+		if (major >= 1 && minor >= 2)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
- void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
+@@ -84,17 +29,10 @@ region_lmem_init(struct intel_memory_region *mem)
  {
- 	struct dp_display_private *dp;
-@@ -1460,6 +1487,7 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
- 			struct drm_encoder *encoder)
- {
- 	struct msm_drm_private *priv;
-+	struct dp_display_private *dp_priv;
  	int ret;
  
- 	if (WARN_ON(!encoder) || WARN_ON(!dp_display) || WARN_ON(!dev))
-@@ -1468,6 +1496,8 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
- 	priv = dev->dev_private;
- 	dp_display->drm_dev = dev;
+-	if (mem->i915->params.fake_lmem_start) {
+-		ret = init_fake_lmem_bar(mem);
+-		GEM_BUG_ON(ret);
+-	}
+-
+ 	if (!io_mapping_init_wc(&mem->iomap,
+ 				mem->io_start,
+-				resource_size(&mem->region))) {
+-		ret = -EIO;
+-		goto out_no_io;
+-	}
++				resource_size(&mem->region)))
++		return -EIO;
  
-+	dp_priv = container_of(dp_display, struct dp_display_private, dp_display);
-+
- 	ret = dp_display_request_irq(dp_display);
- 	if (ret) {
- 		DRM_ERROR("request_irq failed, ret=%d\n", ret);
-@@ -1498,6 +1528,8 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+ 	ret = intel_region_ttm_init(mem);
+ 	if (ret)
+@@ -104,8 +42,6 @@ region_lmem_init(struct intel_memory_region *mem)
  
- 	priv->bridges[priv->num_bridges++] = dp_display->bridge;
+ out_no_buddy:
+ 	io_mapping_fini(&mem->iomap);
+-out_no_io:
+-	release_fake_lmem_bar(mem);
  
-+	dp_priv->wide_bus_en = msm_dp_wide_bus_enable(dp_display);
-+
- 	return 0;
+ 	return ret;
  }
+@@ -116,50 +52,6 @@ static const struct intel_memory_region_ops intel_region_lmem_ops = {
+ 	.init_object = __i915_gem_ttm_object_init,
+ };
  
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-index e3adcd5..b718cc9 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.h
-+++ b/drivers/gpu/drm/msm/dp/dp_display.h
-@@ -24,6 +24,8 @@ struct msm_dp {
- 
- 	hdmi_codec_plugged_cb plugged_cb;
- 
-+	bool wide_bus_en;
-+
- 	u32 max_pclk_khz;
- 
- 	u32 max_dp_lanes;
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 71db10c..71deb1e 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.c
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -353,7 +353,7 @@ void dp_panel_dump_regs(struct dp_panel *dp_panel)
- 	dp_catalog_dump_regs(catalog);
- }
- 
--int dp_panel_timing_cfg(struct dp_panel *dp_panel)
-+int dp_panel_timing_cfg(struct dp_panel *dp_panel, bool wide_bus_en)
+-struct intel_memory_region *
+-intel_gt_setup_fake_lmem(struct intel_gt *gt)
+-{
+-	struct drm_i915_private *i915 = gt->i915;
+-	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+-	struct intel_memory_region *mem;
+-	resource_size_t mappable_end;
+-	resource_size_t io_start;
+-	resource_size_t start;
+-
+-	if (!HAS_LMEM(i915))
+-		return ERR_PTR(-ENODEV);
+-
+-	if (!i915->params.fake_lmem_start)
+-		return ERR_PTR(-ENODEV);
+-
+-	GEM_BUG_ON(i915_ggtt_has_aperture(to_gt(i915)->ggtt));
+-
+-	/* Your mappable aperture belongs to me now! */
+-	mappable_end = pci_resource_len(pdev, 2);
+-	io_start = pci_resource_start(pdev, 2);
+-	start = i915->params.fake_lmem_start;
+-
+-	mem = intel_memory_region_create(i915,
+-					 start,
+-					 mappable_end,
+-					 PAGE_SIZE,
+-					 io_start,
+-					 INTEL_MEMORY_LOCAL,
+-					 0,
+-					 &intel_region_lmem_ops);
+-	if (!IS_ERR(mem)) {
+-		drm_info(&i915->drm, "Intel graphics fake LMEM: %pR\n",
+-			 &mem->region);
+-		drm_info(&i915->drm,
+-			 "Intel graphics fake LMEM IO start: %llx\n",
+-			(u64)mem->io_start);
+-		drm_info(&i915->drm, "Intel graphics fake LMEM size: %llx\n",
+-			 (u64)resource_size(&mem->region));
+-	}
+-
+-	return mem;
+-}
+-
+ static bool get_legacy_lowmem_region(struct intel_uncore *uncore,
+ 				     u64 *start, u32 *size)
  {
- 	u32 data, total_ver, total_hor;
- 	struct dp_catalog *catalog;
-@@ -404,7 +404,7 @@ int dp_panel_timing_cfg(struct dp_panel *dp_panel)
+diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.h b/drivers/gpu/drm/i915/gt/intel_region_lmem.h
+index 062d0542ae34..1438576b527a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_region_lmem.h
++++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.h
+@@ -10,7 +10,4 @@ struct intel_gt;
  
- 	catalog->dp_active = data;
+ struct intel_memory_region *intel_gt_setup_lmem(struct intel_gt *gt);
  
--	dp_catalog_panel_timing_cfg(catalog);
-+	dp_catalog_panel_timing_cfg(catalog, wide_bus_en);
- 	panel->panel_on = true;
+-struct intel_memory_region *
+-intel_gt_setup_fake_lmem(struct intel_gt *gt);
+-
+ #endif /* !__INTEL_REGION_LMEM_H */
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index 1c67ff735f18..62b3f332bbf5 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -835,21 +835,6 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (!i915->params.nuclear_pageflip && match_info->graphics.ver < 5)
+ 		i915->drm.driver_features &= ~DRIVER_ATOMIC;
  
- 	return 0;
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-index 9023e5b..5ec341a 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.h
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-@@ -57,7 +57,7 @@ struct dp_panel {
- 
- int dp_panel_init_panel_info(struct dp_panel *dp_panel);
- int dp_panel_deinit(struct dp_panel *dp_panel);
--int dp_panel_timing_cfg(struct dp_panel *dp_panel);
-+int dp_panel_timing_cfg(struct dp_panel *dp_panel, bool wide_bus_en);
- void dp_panel_dump_regs(struct dp_panel *dp_panel);
- int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
- 		struct drm_connector *connector);
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index d7574e6..4f9c24e 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -399,6 +399,7 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display);
- void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display);
- 
- void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor);
-+bool msm_dp_wide_bus_enable(struct msm_dp *dp_display);
- 
- #else
- static inline int __init msm_dp_register(void)
-@@ -449,6 +450,11 @@ static inline void msm_dp_debugfs_init(struct msm_dp *dp_display,
- {
- }
- 
-+static inline bool msm_dp_wide_bus_enable(struct msm_dp *dp_display)
-+{
-+	return false;
-+}
-+
+-	/*
+-	 * Check if we support fake LMEM -- for now we only unleash this for
+-	 * the live selftests(test-and-exit).
+-	 */
+-#if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+-	if (IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM)) {
+-		if (GRAPHICS_VER(i915) >= 9 && i915_selftest.live < 0 &&
+-		    i915->params.fake_lmem_start) {
+-			mkwrite_device_info(i915)->memory_regions =
+-				REGION_SMEM | REGION_LMEM | REGION_STOLEN_SMEM;
+-			GEM_BUG_ON(!HAS_LMEM(i915));
+-		}
+-	}
+-#endif
+-
+ 	ret = pci_enable_device(pdev);
+ 	if (ret)
+ 		goto out_fini;
+diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
+index 525ae832aa9a..eea355c2fc28 100644
+--- a/drivers/gpu/drm/i915/i915_params.c
++++ b/drivers/gpu/drm/i915/i915_params.c
+@@ -195,11 +195,6 @@ i915_param_named(enable_gvt, bool, 0400,
+ 	"Enable support for Intel GVT-g graphics virtualization host support(default:false)");
  #endif
  
- void __init msm_mdp_register(void);
+-#if IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM)
+-i915_param_named_unsafe(fake_lmem_start, ulong, 0400,
+-	"Fake LMEM start offset (default: 0)");
+-#endif
+-
+ #if CONFIG_DRM_I915_REQUEST_TIMEOUT
+ i915_param_named_unsafe(request_timeout_ms, uint, 0600,
+ 			"Default request/fence/batch buffer expiration timeout.");
+diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
+index c9d53ff910a0..c779a6f85c7e 100644
+--- a/drivers/gpu/drm/i915/i915_params.h
++++ b/drivers/gpu/drm/i915/i915_params.h
+@@ -72,7 +72,6 @@ struct drm_printer;
+ 	param(int, fastboot, -1, 0600) \
+ 	param(int, enable_dpcd_backlight, -1, 0600) \
+ 	param(char *, force_probe, CONFIG_DRM_I915_FORCE_PROBE, 0400) \
+-	param(unsigned long, fake_lmem_start, 0, IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM) ? 0400 : 0) \
+ 	param(unsigned int, request_timeout_ms, CONFIG_DRM_I915_REQUEST_TIMEOUT, CONFIG_DRM_I915_REQUEST_TIMEOUT ? 0600 : 0) \
+ 	/* leave bools at the end to not create holes */ \
+ 	param(bool, enable_hangcheck, true, 0600) \
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.35.1
 
