@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4667A4B83CE
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:17:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD7C4B83CF
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:17:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 092DC10EDCC;
-	Wed, 16 Feb 2022 09:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEC5810EDD0;
+	Wed, 16 Feb 2022 09:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 377A910EDCD
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:16:58 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 7E01F2B00253;
- Wed, 16 Feb 2022 04:16:56 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 16 Feb 2022 04:16:57 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C767510EDCF
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:17:11 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 7E5F72B00254;
+ Wed, 16 Feb 2022 04:17:10 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 16 Feb 2022 04:17:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=VFcoWbDd0osHHRdxqMFsT3iCNYCwOPPti/8jLz
- 0l9Fo=; b=gMmOOb/cy5q0qSaypHszjYTjRp6mkgE1E0X5SVN8+LXilm9VlD0ba1
- Yd8PELTECnV/WyTPCMail7BPOLOYKq1tAebPOXRlsKA+qJIHylIXmJnxN4krzX14
- zAlujRe7EgJUfLQpIykKB1KsBZLntJau8WMyIwV1XRVWuzIUvbVGEWUBKWHT5b8w
- JXXrByFWuX3J9LAmv/uA5EtJL8Bif2JJctSida7kqBFxSjOrZdW1Rohr6TIbxIlD
- CblAX9rIGsHM7ZtB278F1Ay8hIT8Y8C95EBMXUMJijsKQ/MLlusP5UznKk3vd+4p
- rRTPG/ExpDLqyjUfCdJAeif3lOtng1EA==
+ :subject:to:to; s=fm2; bh=UXu5vsk/l0EUSVSmeiSK+Q8Mmn+xZSxm91p5Ts
+ f4LNw=; b=IucJBwVf14xUptUAW5CP0BI10KbRGVKEJtV5TrA8hvPEU0x8mfUw0v
+ uTn22qXEu7yz2A/zNXn5nN/BWv8PKw9lhNutbEDUYV2mQTsZEhmM+iJCD3FQQApz
+ uiAivepQPhAIR+aVfQffzOheq24ZktH3AU2Q3tkvcJsia/xHjdoFz38hnN6o3TxR
+ /dEbXN6VRMz9nOc9RreVmEtfUTlavF1Fg67GqZ7VO4vj7sz4etwnpEdd+5wrCZA0
+ i1avqdlW2nfC7RdMBC6ZTHwOXTVdgvxU98QRL5hz9l+JT9FCCSmvH5aLbZG8uesx
+ VD0eDB/GZ3r2Q8BqaTwd6KH+R4nAFYCA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=VFcoWbDd0osHHRdxq
- MFsT3iCNYCwOPPti/8jLz0l9Fo=; b=IXl7IynA7aSHcbw2X5veDZ+sxmlfQELXT
- Cgc9KsGlF+bvXOFhUPAA3u4MdbxSWWZcY5RQmagwPYuqffx+DMYgKQLP3nCHvdt1
- qgonZdjyft9ogfyrkG9yuGI/ZNawD9Q2Z1mI8nbpwxFgV7+ylTuFI2TJt0bsLxUa
- zcd/LKt87aeF5dAMZoTbGsI2vP7EjK4pa0OfOxY6HD4pdzOi/B/30ejWrB6HYCsy
- V5tVep0oUQNgXFxgEk70yewB+dpLYyb7X+H0tB5I2t1LRQRh9WJ6meSKCH+6kB7V
- HR7QA7pOzNdASHqgtZfWq3LdrfUp1ZHd8G5NGs02G/cNGOcIrkRXw==
-X-ME-Sender: <xms:B8EMYor_nJ2EwWClDvHiGDOFmF0E3m8geN51vi_QkUSziqAogEeI2w>
- <xme:B8EMYurlnLBi0qOL9gdN7KmjGGwWX7r4ViNW_LuBOz7n-7EVUUMRU2YDRVX_bgHBt
- dDHWMMprnHFleh28KQ>
-X-ME-Received: <xmr:B8EMYtN4dgBqIQG91gBB25tHlJK2gMGKlF-6mj1_vtQEkyMf92u_rPi9Pk7NA9Nj7JRZGL0mAF0t00SGY-CkK7p-Ekufa5zI5PSzw9A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjeeiucetufdoteggodetrfdotffvucfrrh
- hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
- lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
- epfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhi
- phgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnh
- epleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieehgedunecu
- vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimh
- gvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:B8EMYv5vZkT1aAUs0S3c6j5KBtiLTwkHNtRNjO3skOmQls_SoB0KmA>
- <xmx:B8EMYn6np-ZrPxvWORcnBRLIx5Le66ffTjOCicE84kdv5WTw4tJwqg>
- <xmx:B8EMYvgg7ALN5zKooKRP9DzO6DrTjIljNCG-ZzY6zG7Hrhi1dCK1ag>
- <xmx:CMEMYmq50CeVW0SbdTcwY0zwZ1u5cWDvwJwGOWw9giYRkOvdCC7RJre6xOM>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=UXu5vsk/l0EUSVSme
+ iSK+Q8Mmn+xZSxm91p5Tsf4LNw=; b=JfG7XaC+pXNUOgQGpDCZZginqHTBhCYEj
+ 4m2+MywMl0/JeQ4tOSck/Pzp63IGPQp6arYQby/8AasqygH9wYcLJRBzo59BYaZy
+ 1V0XOelXDMiJwIxJ8WaIKeXNukj2STIqmA1PCZD/0p3I27LOU661hcl4PrZymNs+
+ Y7uSJTjzXutAVORQHo68vRqx+vOaHkJfRAL0NpzOv0Qopw8Qx2WOZKe+mfMcaHYg
+ lXwolow5vd+dhbWgZ67tvR9PgM6Mqjlx+EaqMyQdqT2V9NCl8XMhfN/DDjfaokPP
+ BzBM1iuLIlyub6vk0hqrI5vh7MfmERaviN4hRNJ850/yO4JBw4LPw==
+X-ME-Sender: <xms:FcEMYqxsxvjnJcmpFeJ37o-fO4TxkcrupOpo_3t9JWmrN1f7STiPcA>
+ <xme:FcEMYmTppNBo9PRHEpHsmaU0bNOYaC06M0fGq5plgXi7I3TbQ3HhK9m6AlcuGo9xB
+ hsiB7apNIFkHmB3s0Y>
+X-ME-Received: <xmr:FcEMYsWPd9cbNbLPGfhsEUj2rqOKSu_X2SNA9GMAQ39jqLpKAW2538yvoRdpr-kZRRAt3GzIyQq80WFFelaSfdr9tzKUxJC13YZqKew>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjeeigddtudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:FcEMYgihks0JWsp0hgUnecQdDc5lAET84-COFj653tYAfCIHaSfVxA>
+ <xmx:FcEMYsCEv-PLkkNWisYs6AtfriivsXGzuUL2HqjYEwdckYvQygH8lA>
+ <xmx:FcEMYhKitmtalbcTehwcarPzj4d8Qou79VGaivHI14YL1hls18MITA>
+ <xmx:FsEMYg7HEApalddikAkkUDy7sj_Oczt_xZi-6xk_795devAS-tayM1xleqM>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Feb 2022 04:16:55 -0500 (EST)
-Date: Wed, 16 Feb 2022 10:16:54 +0100
+ 16 Feb 2022 04:17:09 -0500 (EST)
+Date: Wed, 16 Feb 2022 10:17:07 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v6 3/6] drm: Add driver for Solomon SSD130x OLED displays
-Message-ID: <20220216091654.vwscevn6g7igzaau@houat>
+Subject: Re: [PATCH v6 4/6] drm/solomon: Add SSD130x OLED displays I2C support
+Message-ID: <20220216091707.mcksgnixsthhukbu@houat>
 References: <20220214133710.3278506-1-javierm@redhat.com>
- <20220214133710.3278506-4-javierm@redhat.com>
+ <20220214133710.3278506-5-javierm@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="iis3uqkiq2yj5fqd"
+ protocol="application/pgp-signature"; boundary="itjny65slsswpw5b"
 Content-Disposition: inline
-In-Reply-To: <20220214133710.3278506-4-javierm@redhat.com>
+In-Reply-To: <20220214133710.3278506-5-javierm@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,47 +81,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
  Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Geert Uytterhoeven <geert@linux-m68k.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---iis3uqkiq2yj5fqd
+--itjny65slsswpw5b
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 14, 2022 at 02:37:07PM +0100, Javier Martinez Canillas wrote:
-> This adds a DRM driver for SSD1305, SSD1306, SSD1307 and SSD1309 Solomon
-> OLED display controllers.
->=20
-> It's only the core part of the driver and a bus specific driver is needed
-> for each transport interface supported by the display controllers.
+On Mon, Feb 14, 2022 at 02:37:08PM +0100, Javier Martinez Canillas wrote:
+> The ssd130x driver only provides the core support for these devices but it
+> does not have any bus transport logic. Add a driver to interface over I2C.
 >=20
 > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 Reviewed-by: Maxime Ripard <maxime@cerno.tech>
 
 Maxime
 
---iis3uqkiq2yj5fqd
+--itjny65slsswpw5b
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgzBBgAKCRDj7w1vZxhR
-xeISAQCFHDmKrRlVBHnHyZrWxgNiHdImv6H7xoVHC1ZcIWMEagEA6owxEBS0b4vI
-R0QEr6UuhEyRwL/GPyIajKEHVfWqHAY=
-=+M1k
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgzBEwAKCRDj7w1vZxhR
+xa/zAQDLWjXHyVD7xrAe7dFXSlShr+dp1ucfwRA0ExL2tKSeqwEAkFUb+GVIXtLv
+XzGX/xvwj/zjb2/D5JymdxE7LtoVywE=
+=+JCz
 -----END PGP SIGNATURE-----
 
---iis3uqkiq2yj5fqd--
+--itjny65slsswpw5b--
