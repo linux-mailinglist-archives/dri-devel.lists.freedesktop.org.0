@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C8DD4B916C
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 20:40:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2CD4B9186
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 20:42:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 214FA10E62E;
-	Wed, 16 Feb 2022 19:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63DAF10E268;
+	Wed, 16 Feb 2022 19:42:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7E7B10E62D
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 19:40:02 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id p14so1574541ejf.11
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 11:40:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sHRPRD8GP9uQyILnjM88nA04r7VU/nm1fNnZS/rsGL4=;
- b=UvST5o77fKwFHFG2pZIsRAincIR8FLK2tfWrGygYfVo3SU+XKj7dzDp5lwkqJZL8TN
- iw3VY4v5foNzrztjCNaUqRZETXQVngX5qFMYWE3jFZp0vmi9R7d37BWQFuhOml2KgPwd
- xhJQhODJakHrsWZelDfUgrLxyRGMJJ9iz5waI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sHRPRD8GP9uQyILnjM88nA04r7VU/nm1fNnZS/rsGL4=;
- b=rWrz9B2zk13LP3vdAewfDWxXYQzN9SOfaJe+lju3F4Z/zLRoFdkDkUvqKiGC/0kisw
- rVhLB5a6XH6SwQkCRdZ79M0D2hF9JYREomRFy5KTmme01jOMTgt+dry1iALkOoKEY6Sw
- coL4c2LGE6PXk8CETV8rQrtHS+b7VH789D9TydHG8KOU2aSsw4Gs9Z6Je5ddF0q0BgZv
- Ks5cdrvY8F41+fx94zD+xuqK6vPFxw7e0bbPZxtfgy+GLNaCAp9XGjN5LuxppGUWyW9o
- 4Yo338azutucd8/9W7jHEhFXFYqKRkTZrrhizJ/anZZBpqBfOHhwXGxx3t2YkJ2eJ+UN
- 6/CA==
-X-Gm-Message-State: AOAM533ItfOyP0uDri6GVQBM1Ha544a9PGalMw1bZs5o+cLd+nnTw3Gg
- MSWqhbob2WTZKgSFN8bMFv+tPl93/lhnfy/hQak=
-X-Google-Smtp-Source: ABdhPJxbqd32anWsueu1sQ7oHmC6eQ/nfrKGnH2ZPZc67uPsBcwcAOxrbClfiKjy7iqyDjLbBRp1KA==
-X-Received: by 2002:a17:907:78cc:b0:6b4:ecc1:42fb with SMTP id
- kv12-20020a17090778cc00b006b4ecc142fbmr3420254ejc.248.1645040400997; 
- Wed, 16 Feb 2022 11:40:00 -0800 (PST)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com.
- [209.85.128.49])
- by smtp.gmail.com with ESMTPSA id q12sm2058119edv.99.2022.02.16.11.39.59
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 11:39:59 -0800 (PST)
-Received: by mail-wm1-f49.google.com with SMTP id i19so1799412wmq.5
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 11:39:59 -0800 (PST)
-X-Received: by 2002:a7b:c938:0:b0:37b:fdaa:2749 with SMTP id
- h24-20020a7bc938000000b0037bfdaa2749mr3036535wml.88.1645040398608; Wed, 16
- Feb 2022 11:39:58 -0800 (PST)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FBD110E268;
+ Wed, 16 Feb 2022 19:42:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1645040531; x=1676576531;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=hpx3ynHB6WCcPZDrCkJ0qAL6j5C+Ii+BWaM1kc/rDLo=;
+ b=VtP+gnmhmZpPArDRx7S2anD9Rwaw5pCBJ8CDVbM5Dzay4iWuTMlhrfs1
+ vt/3vQFS0dABbxIagoGuoIstMCE9Oyy1oGt+t7LSwnbVYR6DHqKiXtmss
+ pCuzH5C2QInCwRg9xW2Xq2ZvjUGGP1U8PdX2SFJcV1S3keSKDcNcKhVgV g=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 16 Feb 2022 11:42:10 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 11:42:09 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Wed, 16 Feb 2022 11:42:09 -0800
+Received: from [10.111.168.21] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 16 Feb
+ 2022 11:42:05 -0800
+Message-ID: <08a0c2b6-4270-a1a7-1685-fc322dd467ae@quicinc.com>
+Date: Wed, 16 Feb 2022 11:42:03 -0800
 MIME-Version: 1.0
-References: <1644494255-6632-1-git-send-email-quic_sbillaka@quicinc.com>
- <1644494255-6632-5-git-send-email-quic_sbillaka@quicinc.com>
- <CAD=FV=V9vXbvuU5oK6maXKAfzEPzT2Fp5Vf3CUqpJvmM+wrjeg@mail.gmail.com>
-In-Reply-To: <CAD=FV=V9vXbvuU5oK6maXKAfzEPzT2Fp5Vf3CUqpJvmM+wrjeg@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 16 Feb 2022 11:39:46 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WWjn+CPSes2y1U=9mKZG9gkj5ubBpJOLTJDwhs4gYbeA@mail.gmail.com>
-Message-ID: <CAD=FV=WWjn+CPSes2y1U=9mKZG9gkj5ubBpJOLTJDwhs4gYbeA@mail.gmail.com>
-Subject: Re: [PATCH v4 4/5] drm/panel-edp: Add eDP sharp panel support
-To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [Freedreno] [REPOST PATCH v4 05/13] drm/msm/disp/dpu1: Add DSC
+ for SDM845 to hw_catalog
+Content-Language: en-US
+To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
+References: <20220210103423.271016-1-vkoul@kernel.org>
+ <20220210103423.271016-6-vkoul@kernel.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220210103423.271016-6-vkoul@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,101 +66,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- quic_khsieh@quicinc.com, quic_vproddut@quicinc.com,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, quic_abhinavk@quicinc.com,
- Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
- Sean Paul <seanpaul@chromium.org>, Thierry Reding <thierry.reding@gmail.com>,
- Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>, quic_mkrishn@quicinc.com
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, Abhinav
+ Kumar <abhinavk@codeaurora.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Wed, Feb 16, 2022 at 11:29 AM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Thu, Feb 10, 2022 at 3:58 AM Sankeerth Billakanti
-> <quic_sbillaka@quicinc.com> wrote:
-> >
-> > Add support for the 14" sharp,lq140m1jw46 eDP panel.
-> >
-> > Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-> > ---
-> > 00 ff ff ff ff ff ff 00 4d 10 23 15 00 00 00 00
-> > 35 1e 01 04 a5 1f 11 78 07 de 50 a3 54 4c 99 26
-> > 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> > 01 01 01 01 01 01 5a 87 80 a0 70 38 4d 40 30 20
-> > 35 00 35 ae 10 00 00 18 65 38 80 a0 70 38 4d 40
-> > 30 20 35 00 35 ae 10 00 00 18 00 00 00 fd 00 30
-> > 90 a7 a7 23 01 00 00 00 00 00 00 00 00 00 00 fc
-> > 00 4c 51 31 34 30 4d 31 4a 57 34 39 0a 20 00 77
-> >
-> > ----------------
-> >
-> > Block 0, Base EDID:
-> >   EDID Structure Version & Revision: 1.4
-> >   Vendor & Product Identification:
-> >     Manufacturer: SHP
-> >     Model: 5411
-> >     Made in: week 53 of 2020
-> >   Basic Display Parameters & Features:
-> >     Digital display
-> >     Bits per primary color channel: 8
-> >     DisplayPort interface
-> >     Maximum image size: 31 cm x 17 cm
-> >     Gamma: 2.20
-> >     Supported color formats: RGB 4:4:4
-> >     Default (sRGB) color space is primary color space
-> >     First detailed timing includes the native pixel format and preferred refresh rate
-> >     Display is continuous frequency
-> >   Color Characteristics:
-> >     Red  : 0.6396, 0.3291
-> >     Green: 0.2998, 0.5996
-> >     Blue : 0.1494, 0.0595
-> >     White: 0.3125, 0.3281
-> >   Established Timings I & II: none
-> >   Standard Timings: none
-> >   Detailed Timing Descriptors:
-> >     DTD 1:  1920x1080  143.981 Hz  16:9   166.587 kHz  346.500 MHz (309 mm x 174 mm)
-> >                  Hfront   48 Hsync  32 Hback  80 Hpol N
-> >                  Vfront    3 Vsync   5 Vback  69 Vpol N
-> >     DTD 2:  1920x1080   59.990 Hz  16:9    69.409 kHz  144.370 MHz (309 mm x 174 mm)
-> >                  Hfront   48 Hsync  32 Hback  80 Hpol N
-> >                  Vfront    3 Vsync   5 Vback  69 Vpol N
-> >   Display Range Limits:
-> >     Monitor ranges (Bare Limits): 48-144 Hz V, 167-167 kHz H, max dotclock 350 MHz
-> >     Display Product Name: 'LQ140M1JW49'
-> > Checksum: 0x77
-> >
-> > Changes in v4:
-> >   -Add all modes from EDID
-> >   -Provide EDID blob
-> >
-> > Changes in v3:
-> >   None
-> >
-> >  drivers/gpu/drm/panel/panel-edp.c | 44 +++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 44 insertions(+)
->
-> We want to be moving to the generic edp-panel but even if we move to
-> edp-panel there's no harm in supporting things the old way, especially
-> as people are transitioning.
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-...and pushed to drm-misc-next:
-
-a874aba8bbc5 drm/panel-edp: Add eDP sharp panel support
-
-So v5 shouldn't include this patch.
-
--Doug
+On 2/10/2022 2:34 AM, Vinod Koul wrote:
+> This adds SDM845 DSC blocks into hw_catalog
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 20 +++++++++++++++++++
+>   1 file changed, 20 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index aa75991903a6..9c09cf318dfb 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -821,6 +821,24 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
+>   	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, 0, sc7280_pp_sblk, -1, -1),
+>   	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, 0, sc7280_pp_sblk, -1, -1),
+>   };
+> +
+> +/*************************************************************
+> + * DSC sub blocks config
+> + *************************************************************/
+> +#define DSC_BLK(_name, _id, _base) \
+> +	{\
+> +	.name = _name, .id = _id, \
+> +	.base = _base, .len = 0x140, \
+> +	.features = 0, \
+> +	}
+> +
+> +static struct dpu_dsc_cfg sdm845_dsc[] = {
+> +	DSC_BLK("dsc_0", DSC_0, 0x80000),
+> +	DSC_BLK("dsc_1", DSC_1, 0x80400),
+> +	DSC_BLK("dsc_2", DSC_2, 0x80800),
+> +	DSC_BLK("dsc_3", DSC_3, 0x80c00),
+> +};
+> +
+>   /*************************************************************
+>    * INTF sub blocks config
+>    *************************************************************/
+> @@ -1124,6 +1142,8 @@ static void sdm845_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+>   		.mixer = sdm845_lm,
+>   		.pingpong_count = ARRAY_SIZE(sdm845_pp),
+>   		.pingpong = sdm845_pp,
+> +		.dsc_count = ARRAY_SIZE(sdm845_dsc),
+> +		.dsc = sdm845_dsc,
+>   		.intf_count = ARRAY_SIZE(sdm845_intf),
+>   		.intf = sdm845_intf,
+>   		.vbif_count = ARRAY_SIZE(sdm845_vbif),
