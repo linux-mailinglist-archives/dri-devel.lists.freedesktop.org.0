@@ -1,99 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FDBD4B7D86
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 03:36:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4544B7D8A
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 03:38:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C5A210E60D;
-	Wed, 16 Feb 2022 02:36:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF20B10E612;
+	Wed, 16 Feb 2022 02:38:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2054.outbound.protection.outlook.com [40.107.223.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAD9010E610;
- Wed, 16 Feb 2022 02:36:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AOq+DMp+km0e8HC2+YOpSh5Gwp4M8cd1XIaXl0eMzd685Hsf37HUX9Ftcy0eh1dj8vybK/8scw5odBI8P+Vvj18G6FrHCWjBfXCS3Xph9SOq5wdqs/HKcUiOO0X5/xGivCU78J0xJoSwv45K/uoy6iSGUd1XGxEz1U355va7aXkLxmtw59FUQXipkRrBDrtu751ACxKN82eBXH8fM+ApB/4/7y12/0WaPyHh/I4hEu5v9Yt8oYZmejX8+aplxY1ZKlQVjrJX8eoyMdUxgPBOa9TZr2/u05G4QSA3MPdMoD0Vf5Y0MD7LKbPX9+pezHf6H4fOBmIKqZg/6mjecMinJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W6u4KSkTaAdZ3Y1/l8px2yzaaALzD3TCdjvTMQCo2v4=;
- b=Du6fNXqD+8bNhVh4c4+cIp+kHee4jgxmCrjhH4gi2YYlzIuDc4FTpf9w9Y4n+7lWfzU/keUjEwEArJ3e4TjKSJlFxlwzn/RjC0m+E4rGxZz/hxzo3xZblPeyXlA0oLU6iJqr3zKgOvAX+SVI+1Gkl5Hr/p3qvw5pvfol2F6o1rQOra+rXcZatJaeMMMzMBu+1rs3j1w/zB2ARfyq+qfjOrQBAgj36TCHv0gVOSNDyX1fuU4o30BomCX3qqpUs3fvmSM6iTFkbBwK4/j0YZ+I0OVhAQ8jPZhRxe/0Tig8ayBwAQrdxc3EC8OHL4N83L3/C+lk9S4QoLHCDXK1DyETFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W6u4KSkTaAdZ3Y1/l8px2yzaaALzD3TCdjvTMQCo2v4=;
- b=tgfdDFWWlxNy5M/lNqnnti0A+xqc4dBOgi3czZyG1cSrQPsbrNka3/ktzS6Obtma9gjQzrVWQf/C15gJVzzyd2v8TOVcoo3Hn+voKYABKN/5pPzOz+m7RHaXKJ5BizU4RPoJonmhB8ZQ5VoF5dz0oykJKDJaag4EN2hopO6FqqOM8PLWltWIxa/OMIxMQOOcL/9QziAhfy+rwrfwZwSUmfGDgSDkByMKoGrlHHQrnVIwn7yen0IL7QEdiO3N4Gbvcp9Z2VugXAi/YQWijRpKlKUd+KQWunHs070aZk6WMl6NhGgiLD5qsisRF+o7XkeELqFunl08kt0kl6mEqr0X/Q==
-Received: from BN6PR1201CA0021.namprd12.prod.outlook.com
- (2603:10b6:405:4c::31) by SA0PR12MB4559.namprd12.prod.outlook.com
- (2603:10b6:806:9e::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.17; Wed, 16 Feb
- 2022 02:36:41 +0000
-Received: from BN8NAM11FT036.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:4c:cafe::d) by BN6PR1201CA0021.outlook.office365.com
- (2603:10b6:405:4c::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.15 via Frontend
- Transport; Wed, 16 Feb 2022 02:36:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.238) by
- BN8NAM11FT036.mail.protection.outlook.com (10.13.177.168) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4975.11 via Frontend Transport; Wed, 16 Feb 2022 02:36:40 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
- (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Wed, 16 Feb 2022 02:36:40 +0000
-Received: from nvdebian.localnet (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Tue, 15 Feb 2022
- 18:36:35 -0800
-From: Alistair Popple <apopple@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v6 01/10] mm: add zone device coherent type memory support
-Date: Wed, 16 Feb 2022 13:36:30 +1100
-Message-ID: <6156515.kVgMqSaHHm@nvdebian>
-In-Reply-To: <20220216020357.GD4160@nvidia.com>
-References: <beb38138-2266-1ff8-cc82-8fe914bed862@redhat.com>
- <877d9vd10u.fsf@nvdebian.thelocal> <20220216020357.GD4160@nvidia.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E390910E610;
+ Wed, 16 Feb 2022 02:38:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1644979101; x=1676515101;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=FQ+uP+zkl5dcZCZu/CtemCgpgsFeZ2X8cIcyXL+RTDI=;
+ b=VtF0Te4IQertrawInKrC77ki6EFX0GZNC8JmJY7dwegjf1oddNxiI5i1
+ b5KACRhYRgA0q9HHWY9CVgwJ/o9xb3iy6YDBFOVmj4SsL4436N3bkn/ZU
+ BlUgQhi7UjLCnlGFHFnzFvmsytdyyFDIk8w757Dk7rnnssvbhZK/9yW1B I=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 15 Feb 2022 18:38:20 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 18:38:20 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Tue, 15 Feb 2022 18:38:19 -0800
+Received: from [10.111.168.21] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Tue, 15 Feb
+ 2022 18:38:17 -0800
+Message-ID: <51675806-641d-c57e-ada7-a044e37ad808@quicinc.com>
+Date: Tue, 15 Feb 2022 18:38:15 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.126.230.35]
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ba4567b3-3ec2-4bce-f67a-08d9f0f529bb
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4559:EE_
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4559DE6B57412D6F45E1243BDF359@SA0PR12MB4559.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zsrOwL6/Kf3cPfkQvFEIIPX5y/jZRCIMCj36Vr2HhNJpmB0Cezj7+ECiJ5DSu3OQedMMcp787FeP3t23OKux5BTWCtIyuD3Ef28tTVFtJCby+h3qiEhTucR2pMWd8iLBjxfE4wZYTV4coDfZ0iCi11yl3zkdkL1/+qw+OGBYQUiMo7/SHj8JaLBt5EGYXx6E7WjAlK8hvZoHrHog3gYlE1g6+tNSfjq4IXKwNsuGmC7mDncAuM6s5whOhrlEWEJTUq6HrUEyUcj1J5Jra1UPOjzc0rx+A9X7wUydwJa+CoYXYdM13ic/Dmn/zdUWtPfCRnEhrHoIHFWFdWtOQ8cv/RHahJIAHyBALv4wwnGAAZr5abdww51T66Chfif8Voq354Gxm80hiw3mRQhOikEZ2/iNBS6Gt0W0PlA+t1z4INZrk4W2VJxm/dK+MboJeX81ezEFlgmZe4+aSeB5jqoRcZpXjEP13SRNYsBsrqIu1rHNjbcMHuPBOe9cFNRuTgPoyKxwLRs8+Gb21P2TDPGLe0c24DOQQKN9QGdgYwzA+w4j9jQpsqWtFxd5+AiZ3mi2oNvrYrcy6/c8P6FTjUESC7iAhiDRLw2+E7X/GKT89RDt9w5x+Ark1e1zpqOXt+WTmn1Qha6Rru8NJyJ5u2zzObNeyD23RjwvVglbdNoZj2jnqfJLfvh+QBAyoXrNJ198JtS/HYfJ7475xbAfpL/bNg==
-X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(356005)(70206006)(54906003)(82310400004)(426003)(6636002)(16526019)(9686003)(26005)(8936002)(316002)(40460700003)(47076005)(336012)(186003)(8676002)(81166007)(70586007)(6862004)(9576002)(83380400001)(86362001)(4326008)(2906002)(5660300002)(33716001)(508600001)(6666004)(36860700001)(7416002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2022 02:36:40.5755 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba4567b3-3ec2-4bce-f67a-08d9f0f529bb
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT036.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4559
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v2 2/2] drm/msm/dpu: Add SC8180x to hw catalog
+Content-Language: en-US
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+References: <20220215043353.1256754-1-bjorn.andersson@linaro.org>
+ <20220215043353.1256754-2-bjorn.andersson@linaro.org>
+ <be397e2e-05ab-5c18-8e2d-16c443f0a6d1@quicinc.com>
+ <Ygvisfhi0SY6XdAz@builder.lan>
+ <6a3ef247-b26b-d505-cd85-92fb277163dd@quicinc.com>
+ <YgxeCHi5AsYPTmeZ@builder.lan>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <YgxeCHi5AsYPTmeZ@builder.lan>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,48 +68,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
- willy@infradead.org, David Hildenbrand <david@redhat.com>,
- Felix Kuehling <felix.kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
- dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
- linux-ext4@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, 16 February 2022 1:03:57 PM AEDT Jason Gunthorpe wrote:
-> On Wed, Feb 16, 2022 at 12:23:44PM +1100, Alistair Popple wrote:
+
+
+On 2/15/2022 6:14 PM, Bjorn Andersson wrote:
+> On Tue 15 Feb 11:42 CST 2022, Abhinav Kumar wrote:
 > 
-> > Device private and device coherent pages are not marked with pte_devmap and they
-> > are backed by a struct page. The only way of inserting them is via migrate_vma.
-> > The refcount is decremented in zap_pte_range() on munmap() with special handling
-> > for device private pages. Looking at it again though I wonder if there is any
-> > special treatment required in zap_pte_range() for device coherent pages given
-> > they count as present pages.
+>>
+>>
+>> On 2/15/2022 9:28 AM, Bjorn Andersson wrote:
+>>> On Tue 15 Feb 11:14 CST 2022, Abhinav Kumar wrote:
+>>>
+>>>>
+>>>>
+>>>> On 2/14/2022 8:33 PM, Bjorn Andersson wrote:
+>>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>>
+>>>>> Add SC8180x to the hardware catalog, for initial support for the
+>>>>> platform. Due to limitations in the DP driver only one of the four DP
+>>>>> interfaces is left enabled.
+>>>>>
+>>>>> The SC8180x platform supports the newly added DPU_INTF_WIDEBUS flag and
+>>>>> the Windows-on-Snapdragon bootloader leaves the widebus bit set, so this
+>>>>> is flagged appropriately to ensure widebus is disabled - for now.
+>>>>>
+>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>>>> [bjorn: Reworked intf and irq definitions]
+>>>>> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+>>>>> ---
+>>>>>
+>>>>> Changes since v1:
+>>>>> - Dropped widebus flag
+>>>>>
+>>>>>     .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 129 ++++++++++++++++++
+>>>>>     .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
+>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
+>>>>>     drivers/gpu/drm/msm/msm_drv.c                 |   1 +
+>>>>>     4 files changed, 132 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>>> index aa75991903a6..7ac0fe32df49 100644
+>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>>> @@ -90,6 +90,17 @@
+>>>>>     			 BIT(MDP_INTF3_INTR) | \
+>>>>>     			 BIT(MDP_INTF4_INTR))
+>>>>> +#define IRQ_SC8180X_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
+>>>>> +			  BIT(MDP_SSPP_TOP0_INTR2) | \
+>>>>> +			  BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+>>>>> +			  BIT(MDP_INTF0_INTR) | \
+>>>>> +			  BIT(MDP_INTF1_INTR) | \
+>>>>> +			  BIT(MDP_INTF2_INTR) | \
+>>>>> +			  BIT(MDP_INTF3_INTR) | \
+>>>>> +			  BIT(MDP_INTF4_INTR) | \
+>>>>> +			  BIT(MDP_INTF5_INTR) | \
+>>>>> +			  BIT(MDP_AD4_0_INTR) | \
+>>>>> +			  BIT(MDP_AD4_1_INTR))
+>>>>>     #define DEFAULT_PIXEL_RAM_SIZE		(50 * 1024)
+>>>>>     #define DEFAULT_DPU_LINE_WIDTH		2048
+>>>>> @@ -225,6 +236,22 @@ static const struct dpu_caps sm8150_dpu_caps = {
+>>>>>     	.max_vdeci_exp = MAX_VERT_DECIMATION,
+>>>>>     };
+>>>>> +static const struct dpu_caps sc8180x_dpu_caps = {
+>>>>> +	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>>>>> +	.max_mixer_blendstages = 0xb,
+>>>>> +	.qseed_type = DPU_SSPP_SCALER_QSEED3,
+>>>>> +	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
+>>>>> +	.ubwc_version = DPU_HW_UBWC_VER_30,
+>>>>> +	.has_src_split = true,
+>>>>> +	.has_dim_layer = true,
+>>>>> +	.has_idle_pc = true,
+>>>>> +	.has_3d_merge = true,
+>>>>> +	.max_linewidth = 4096,
+>>>>> +	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>>> +	.max_hdeci_exp = MAX_HORZ_DECIMATION,
+>>>>> +	.max_vdeci_exp = MAX_VERT_DECIMATION,
+>>>>> +};
+>>>>> +
+>>>>>     static const struct dpu_caps sm8250_dpu_caps = {
+>>>>>     	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>>>>>     	.max_mixer_blendstages = 0xb,
+>>>>> @@ -293,6 +320,31 @@ static const struct dpu_mdp_cfg sc7180_mdp[] = {
+>>>>>     	},
+>>>>>     };
+>>>>> +static const struct dpu_mdp_cfg sc8180x_mdp[] = {
+>>>>> +	{
+>>>>> +	.name = "top_0", .id = MDP_TOP,
+>>>>> +	.base = 0x0, .len = 0x45C,
+>>>>> +	.features = 0,
+>>>>> +	.highest_bank_bit = 0x3,
+>>>>> +	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+>>>>> +			.reg_off = 0x2AC, .bit_off = 0},
+>>>>> +	.clk_ctrls[DPU_CLK_CTRL_VIG1] = {
+>>>>> +			.reg_off = 0x2B4, .bit_off = 0},
+>>>>> +	.clk_ctrls[DPU_CLK_CTRL_VIG2] = {
+>>>>> +			.reg_off = 0x2BC, .bit_off = 0},
+>>>>> +	.clk_ctrls[DPU_CLK_CTRL_VIG3] = {
+>>>>> +			.reg_off = 0x2C4, .bit_off = 0},
+>>>>> +	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
+>>>>> +			.reg_off = 0x2AC, .bit_off = 8},
+>>>>> +	.clk_ctrls[DPU_CLK_CTRL_DMA1] = {
+>>>>> +			.reg_off = 0x2B4, .bit_off = 8},
+>>>>> +	.clk_ctrls[DPU_CLK_CTRL_CURSOR0] = {
+>>>>> +			.reg_off = 0x2BC, .bit_off = 8},
+>>>>> +	.clk_ctrls[DPU_CLK_CTRL_CURSOR1] = {
+>>>>> +			.reg_off = 0x2C4, .bit_off = 8},
+>>>>> +	},
+>>>>> +};
+>>>>> +
+>>>>>     static const struct dpu_mdp_cfg sm8250_mdp[] = {
+>>>>>     	{
+>>>>>     	.name = "top_0", .id = MDP_TOP,
+>>>>> @@ -861,6 +913,16 @@ static const struct dpu_intf_cfg sc7280_intf[] = {
+>>>>>     	INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+>>>>>     };
+>>>>> +static const struct dpu_intf_cfg sc8180x_intf[] = {
+>>>>> +	INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>>>>> +	INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>>>>> +	INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>>>>> +	/* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
+>>>>> +	INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>>>>> +	INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
+>>>>> +	INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, MSM_DP_CONTROLLER_2, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+>>>>
+>>>> This is a continued discussion from
+>>>> https://patchwork.freedesktop.org/patch/474179/.
+>>>>
+>>>> Shouldnt INTF_5 be marked as INTF_eDP?
+>>>>
+>>>
+>>> Might be, I didn't even know we had an INTF_EDP define...
+>>>
+>>> Is there any reason to distinguish DP and EDP in the DPU?  I see sc7280
+>>> doesn't distinguish the DP and EDP interfaces.
+>>>
+>>> Regards,
+>>> Bjorn
+>>>
+>>
+>> Like I have mentioned in the other patch, I think we have enough confusion
+>> between eDP and DP with the common driver. Since DPU does have separate
+>> interfaces I think we should fix that.
+>>
+>> Regarding sc7280 using INTF_DP, I synced up with Sankeerth. He referred to
+>> your change
+>> https://patchwork.freedesktop.org/patch/457776/?series=92992&rev=5 as it was
+>> posted earlier and ended up using the same INTF_DP macro. So its turning out
+>> to be a cyclical error.
+>>
 > 
-> This is what I guessed, but we shouldn't be able to just drop
-> pte_devmap on these pages without any other work?? Granted it does
-> very little already..
-
-Yes, I agree we need to check this more closely. For device private pages
-not having pte_devmap is fine, because they are non-present swap entries so
-they always get special handling in the swap entry paths but the same isn't
-true for coherent device pages.
-
-> I thought at least gup_fast needed to be touched or did this get
-> handled by scanning the page list after the fact?
-
-Right, for gup I think the only special handling required is to prevent
-pinning. I had assumed that check_and_migrate_movable_pages() would still get
-called for gup_fast but unless I've missed something I don't think it does.
-That means gup_fast could still pin movable and coherent pages. Technically
-that is ok for coherent pages, but it's undesirable.
-
- - Alistair
-
-> Jason
+> That made me take a second look at the HPG, and sure enough INTF_5 on
+> SC7280 is connected to a eDP/DP Combo PHY. We have the same setup in
+> SC8280XP.
+> 
+> In SC8180X, INTF_5 is documented as being connected to a eDP (only) PHY,
+> so perhaps it makes sense to do it there, but for the others its wrong.
 > 
 
+Here you are specifying the controller in the catalog. So independent of 
+the PHY thats being used, shouldnt this remain INTF_eDP?
 
-
-
+> Regards,
+> Bjorn
