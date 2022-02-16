@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B4734B8395
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61664B8397
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:04:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EAC410E720;
-	Wed, 16 Feb 2022 09:04:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE0210E791;
+	Wed, 16 Feb 2022 09:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from michel.telenet-ops.be (michel.telenet-ops.be
  [IPv6:2a02:1800:110:4::f00:18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 666E910E73A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6672110E73F
  for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:04:32 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7534:e0be:5adf:2691])
  by michel.telenet-ops.be with bizsmtp
- id vl4V2600Y18GbK106l4VEw; Wed, 16 Feb 2022 10:04:30 +0100
+ id vl4V2600X18GbK106l4VEt; Wed, 16 Feb 2022 10:04:30 +0100
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1nKGEf-000wtW-Ct; Wed, 16 Feb 2022 10:04:29 +0100
+ id 1nKGEf-000wtW-Bu; Wed, 16 Feb 2022 10:04:29 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1nKFs4-00CE1A-MY; Wed, 16 Feb 2022 09:41:08 +0100
+ id 1nKFsN-00CE2Y-Jg; Wed, 16 Feb 2022 09:41:27 +0100
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/fb: Improve drm_framebuffer.offsets documentation
-Date: Wed, 16 Feb 2022 09:41:06 +0100
-Message-Id: <20220216084106.2913777-1-geert@linux-m68k.org>
+Subject: [PATCH] drm/mode: Improve drm_mode_fb_cmd2 documentation
+Date: Wed, 16 Feb 2022 09:41:26 +0100
+Message-Id: <20220216084126.2913861-1-geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,36 +51,36 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix various spelling and grammar mistakes in the kerneldoc comments
-documenting the offsets member in the drm_framebuffer structure:
-  - s/laytou/layout/,
-  - Add missing "is",
-  - s/it/its/.
+Fix various grammar mistakes in the kerneldoc comments documenting the
+drm_mode_fb_cmd2 structure:
+  - s/is/are/,
+  - s/8 bit/8-bit/.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
- include/drm/drm_framebuffer.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/uapi/drm/drm_mode.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffer.h
-index f67c5b7bcb68654a..0dcc07b68654844b 100644
---- a/include/drm/drm_framebuffer.h
-+++ b/include/drm/drm_framebuffer.h
-@@ -154,10 +154,10 @@ struct drm_framebuffer {
- 	 * drm_mode_fb_cmd2.
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index e1e351682872ebb3..5cea483c7be7a29e 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -673,12 +673,12 @@ struct drm_mode_fb_cmd2 {
+ 	/*
+ 	 * In case of planar formats, this ioctl allows up to 4
+ 	 * buffer objects with offsets and pitches per plane.
+-	 * The pitch and offset order is dictated by the fourcc,
++	 * The pitch and offset order are dictated by the fourcc,
+ 	 * e.g. NV12 (https://fourcc.org/yuv.php#NV12) is described as:
  	 *
- 	 * Note that this is a linear offset and does not take into account
--	 * tiling or buffer laytou per @modifier. It meant to be used when the
--	 * actual pixel data for this framebuffer plane starts at an offset,
--	 * e.g.  when multiple planes are allocated within the same backing
--	 * storage buffer object. For tiled layouts this generally means it
-+	 * tiling or buffer layout per @modifier. It is meant to be used when
-+	 * the actual pixel data for this framebuffer plane starts at an offset,
-+	 * e.g. when multiple planes are allocated within the same backing
-+	 * storage buffer object. For tiled layouts this generally means its
- 	 * @offsets must at least be tile-size aligned, but hardware often has
- 	 * stricter requirements.
+-	 *   YUV 4:2:0 image with a plane of 8 bit Y samples
++	 *   YUV 4:2:0 image with a plane of 8-bit Y samples
+ 	 *   followed by an interleaved U/V plane containing
+-	 *   8 bit 2x2 subsampled colour difference samples.
++	 *   8-bit 2x2 subsampled colour difference samples.
  	 *
+ 	 * So it would consist of Y as offsets[0] and UV as
+ 	 * offsets[1].  Note that offsets[0] will generally
 -- 
 2.25.1
 
