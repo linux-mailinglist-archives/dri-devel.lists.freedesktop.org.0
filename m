@@ -1,54 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB514B83E9
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:25:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD334B8462
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:36:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9003F10EDF2;
-	Wed, 16 Feb 2022 09:25:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E68A710E61F;
+	Wed, 16 Feb 2022 09:35:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8B7510EDDE
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:25:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645003537; x=1676539537;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=GspdF3cMfTdCGHm/JJQHzlJpXg9C0oShSbsz5mwWwdM=;
- b=G3APksM05hSLkTqAPsL79GxphWR+4ImH7gXAoCecH/fNFA16xKx+rFAY
- l5V/cv1zUbynNxje29ypHnS67lACW6Vls8q/A1kkU8I12dMIz+Qebwdut
- jiwcFHb2nVaaBO6hONjlconJ6a2P9afe+pIK/U2itgYY6u8QgCTXEryHi
- BZq9mCUWZmb6VBVuffXtKtEi3yt0R6u1tCkh4fDbmUMYjUAZOgXakWZcC
- pNJZy+eQ1Lb/DQsFEbnV7pTUHqPi0CnU0Dc0VgJplSVz+GLlTOO+zjyEP
- hu+xiWLTV1M2nFWInmCsYAsL7PXfURC81FoBJMtGP46Y3y3U+i+DjolX0 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="230523285"
-X-IronPort-AV: E=Sophos;i="5.88,373,1635231600"; d="scan'208";a="230523285"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2022 01:25:37 -0800
-X-IronPort-AV: E=Sophos;i="5.88,373,1635231600"; d="scan'208";a="544830333"
-Received: from rbilei-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.13.113])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2022 01:25:32 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Doug Anderson <dianders@chromium.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 752B810E61F
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:35:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645004157;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wuRCqHtrGnCNe4lFzhUlKSmhRtzzz/eDauDhTkRgdqU=;
+ b=MZqSIL9hQyB0BKX+W/24iR2QV9G/5YCiuEtwcbFzYJfGkQpI/j0dICJvyFKMpukPz0FuSR
+ I8/1aX3e1VndM0Ua8Ta1WphW4XdJObroYUB1e//2PyJ4RmsexkqUoBw/gkoKa9ESadkdtX
+ gxeKi5g46OYNqCOr9gOj6lJeG1BhyDE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-312-o3eY-HHsPDSn_ABq7GmPiQ-1; Wed, 16 Feb 2022 04:35:56 -0500
+X-MC-Unique: o3eY-HHsPDSn_ABq7GmPiQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ ay41-20020a05600c1e2900b0037c5168b3c4so2677250wmb.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 01:35:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wuRCqHtrGnCNe4lFzhUlKSmhRtzzz/eDauDhTkRgdqU=;
+ b=m9FjVDrZL0SCT4Z3/Bi/ZwlYgOuNDKSty1RPgpH+LZ30NN2UAKDtf6zb7y+j9SkwPc
+ aFtydUVf4PVN0lLSmythaIpXqcXTlCSl839AnWNcCReID+lZyqIog+9kFbPNaoJhcolm
+ 48C2XTCNHbYVLLzL/iPkGsaw0MGLcQXspZqIjrfEp5mWHQXGl38W+J7v1wCynpIRqntQ
+ RuEUNvU84aVB9ZZDBFa0DrRKi8g6E64GaYDkCWGxz+VGRqKAny86mFTKq1BRLmMvu1lg
+ HLU8G6pskJipC41ebo/uaad+Es/bcL6r9L6wP7qUgg1y5xCvdRPri9RtfyrRoFPIbdFi
+ eIdg==
+X-Gm-Message-State: AOAM532XBvngXBS+Yg5NO5YnqLFD5HC8EMKHL/d3DoK5AbhfhduzZy1B
+ gHQBvRa/3aDwWekQOeGRqVfeGK2eoNeN+I78VrTvajsPd3e9wl57yWIeEMxz9UP3vFD80eO1GE6
+ 13xE0tJsL8zvKAki0+JKVsuS+be6c
+X-Received: by 2002:a7b:c4d5:0:b0:37b:ffb9:bb6a with SMTP id
+ g21-20020a7bc4d5000000b0037bffb9bb6amr727577wmk.89.1645004155040; 
+ Wed, 16 Feb 2022 01:35:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzqfTxyIwHKGURmvfa8yIzjAYthlgNAnwVa9jRIycXk3slfzdebWzRK+l4sr6w0evO2C94Sgg==
+X-Received: by 2002:a7b:c4d5:0:b0:37b:ffb9:bb6a with SMTP id
+ g21-20020a7bc4d5000000b0037bffb9bb6amr727553wmk.89.1645004154754; 
+ Wed, 16 Feb 2022 01:35:54 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id b16sm26397520wrj.26.2022.02.16.01.35.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Feb 2022 01:35:54 -0800 (PST)
+Message-ID: <ce339fc7-b6bf-b19a-be10-54ee86487b96@redhat.com>
+Date: Wed, 16 Feb 2022 10:35:53 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
 Subject: Re: [PATCH v2 2/3] drm: Plumb debugfs_init through to panels
-In-Reply-To: <CAD=FV=Ut3N9syXbN7i939mNsx3h7-u9cU9j6=XFkz9vrh0Vseg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Doug Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 References: <20220205001342.3155839-1-dianders@chromium.org>
  <20220204161245.v2.2.Ib0bd5346135cbb0b63006b69b61d4c8af6484740@changeid>
  <5d60473d-be8f-e2dc-2ce9-bc0b9056e4b4@redhat.com>
  <e6670fd7-1f75-56f7-b668-20db9902cac6@intel.com>
  <CAD=FV=Ut3N9syXbN7i939mNsx3h7-u9cU9j6=XFkz9vrh0Vseg@mail.gmail.com>
-Date: Wed, 16 Feb 2022 11:25:27 +0200
-Message-ID: <87ee435fjs.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+ <87ee435fjs.fsf@intel.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <87ee435fjs.fsf@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,11 +93,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>,
  dri-devel <dri-devel@lists.freedesktop.org>, Jonas Karlman <jonas@kwiboo.se>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Robert Foss <robert.foss@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, lschyi@chromium.org,
@@ -73,91 +104,45 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Feb 2022, Doug Anderson <dianders@chromium.org> wrote:
-> Hi,
->
-> On Tue, Feb 15, 2022 at 2:20 PM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
+On 2/16/22 10:25, Jani Nikula wrote:
+
+[snip]
+
 >>
->> On 15.02.2022 23:09, Javier Martinez Canillas wrote:
->> > Hello Doug,
->> >
->> > On 2/5/22 01:13, Douglas Anderson wrote:
->> >
->> > [snip]
->> >
->> >> +static void panel_bridge_debugfs_init(struct drm_bridge *bridge,
->> >> +                                  struct dentry *root)
->> >> +{
->> >> +    struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
->> >> +    struct drm_panel *panel = panel_bridge->panel;
->> >> +
->> >> +    root = debugfs_create_dir("panel", root);
->> > This could return a ERR_PTR(-errno) if the function doesn't succeed.
->> >
->> > I noticed that most kernel code doesn't check the return value though...
->> >
->> >> +    if (panel->funcs->debugfs_init)
->> > Probably if (!(IS_ERR(root) && panel->funcs->debugfs_init) ?
->> >
->> >> +            panel->funcs->debugfs_init(panel, root);
->> >> +}
->> > [snip]
->> >
->> >> @@ -436,6 +436,9 @@ void drm_debugfs_connector_add(struct drm_connector *connector)
->> >>      /* vrr range */
->> >>      debugfs_create_file("vrr_range", S_IRUGO, root, connector,
->> >>                          &vrr_range_fops);
->> > Same here, wonder if the return value should be checked.
->
-> My plan (confirmed with Javier over IRC) is to land my patches and we
-> can address as needed with follow-up patches.
->
-> I actually wrote said follow-up patches and they were ready to go, but
-> when I was trying to come up with the right "Fixes" tag I found commit
-> b792e64021ec ("drm: no need to check return value of debugfs_create
-> functions"). So what's being requested is nearly the opposite of what
-> Greg did there.
->
-> I thought about perhaps only checking for directories but even that
-> type of check was removed by Greg's patch. Further checking shows that
-> start_creating() actually has:
->
-> if (IS_ERR(parent))
->   return parent;
->
-> ...so I guess that explains why it's fine to skip the check even for parents?
->
-> Sure enough I confirmed that if I pass `ERR_PTR(-EINVAL)` as the root
-> for `panel->funcs->debugfs_init()` that nothing bad seems to happen...
+>> I actually wrote said follow-up patches and they were ready to go, but
+>> when I was trying to come up with the right "Fixes" tag I found commit
+>> b792e64021ec ("drm: no need to check return value of debugfs_create
+>> functions"). So what's being requested is nearly the opposite of what
+>> Greg did there.
+>>
+>> I thought about perhaps only checking for directories but even that
+>> type of check was removed by Greg's patch. Further checking shows that
+>> start_creating() actually has:
+>>
+>> if (IS_ERR(parent))
+>>   return parent;
+>>
+>> ...so I guess that explains why it's fine to skip the check even for parents?
+>>
+>> Sure enough I confirmed that if I pass `ERR_PTR(-EINVAL)` as the root
+>> for `panel->funcs->debugfs_init()` that nothing bad seems to happen...
+> 
+> Yeah, the idea is that you don't need to check for debugfs function
+> return values and you can safely pass error pointers to debugfs
+> functions. The worst that can happen is you don't get the debugfs, but
+> hey, it's debugfs so you shouldn't fail anything else because of that
+> anyway.
+> 
 
-Yeah, the idea is that you don't need to check for debugfs function
-return values and you can safely pass error pointers to debugfs
-functions. The worst that can happen is you don't get the debugfs, but
-hey, it's debugfs so you shouldn't fail anything else because of that
-anyway.
+Thanks a lot Doug and Jani for the explanations. That makes sense and it
+explains why most code I looked was not checking for the return value.
 
-BR,
-Jani.
+I guess we should write something about this in the debugfs functions
+kernel doc so it's mentioned explicitly and people don't have to guess. 
 
->
->
->> I've seen sometimes that file/dir was already created with the same
->> name, reporting error in such case will be helpful.
->
-> It sure looks like start_creating() already handles that type of
-> reporting... Sure enough, I tried to create the "force" file twice,
-> adding no error checking myself, and I see:
->
-> debugfs: File 'force' in directory 'eDP-1' already present!
-> debugfs: File 'force' in directory 'DP-1' already present!
->
->
-> So tl;dr is that I'm going to land the patches and now am _not_
-> planning on doing followup patches. However, if I'm confused about any
-> of the above then please let me know and I'll dig more / can send
-> follow-up patches.
->
-> -Doug
-
+Best regards,
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
