@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61664B8397
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:04:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4199B4B8394
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Feb 2022 10:04:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE0210E791;
-	Wed, 16 Feb 2022 09:04:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1D9D10E732;
+	Wed, 16 Feb 2022 09:04:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6672110E73F
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:04:32 +0000 (UTC)
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 185A710E732
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 09:04:31 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7534:e0be:5adf:2691])
- by michel.telenet-ops.be with bizsmtp
- id vl4V2600X18GbK106l4VEt; Wed, 16 Feb 2022 10:04:30 +0100
+ by laurent.telenet-ops.be with bizsmtp
+ id vl4V2600a18GbK101l4VCH; Wed, 16 Feb 2022 10:04:30 +0100
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1nKGEf-000wtW-Bu; Wed, 16 Feb 2022 10:04:29 +0100
+ id 1nKGEf-000wtW-9n; Wed, 16 Feb 2022 10:04:29 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1nKFsN-00CE2Y-Jg; Wed, 16 Feb 2022 09:41:27 +0100
+ id 1nKFsX-00CE3a-Ge; Wed, 16 Feb 2022 09:41:37 +0100
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
 Subject: [PATCH] drm/mode: Improve drm_mode_fb_cmd2 documentation
-Date: Wed, 16 Feb 2022 09:41:26 +0100
-Message-Id: <20220216084126.2913861-1-geert@linux-m68k.org>
+Date: Wed, 16 Feb 2022 09:41:36 +0100
+Message-Id: <20220216084136.2913927-1-geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
