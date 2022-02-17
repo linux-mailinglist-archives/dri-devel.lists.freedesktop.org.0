@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40704BA7F0
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 19:15:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D784BA804
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 19:19:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C62910E681;
-	Thu, 17 Feb 2022 18:15:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D51E310E623;
+	Thu, 17 Feb 2022 18:19:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 194AD10E662
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 18:15:33 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id ay7so477149oib.8
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 10:15:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LTdIi3omDeTFcEkX2muEvJCXzPVhzD5HrTufMm86oCI=;
- b=GSF0k4x3nPfJK+/zPABl1ZAtXgahSz7RYjSchmHk2bwKgMZF5sdY/KYcg/py1eNnBe
- oEo3hUU91BQ1QHyDl373gmhqHHBjrTt9ZV5zZygLW6ey4BEwP95BsALmYbV8Kh5EVbFc
- w1TQQXbpwAs3Hy1K0135JbMIuaz6JajLOnm94=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LTdIi3omDeTFcEkX2muEvJCXzPVhzD5HrTufMm86oCI=;
- b=wJ9BDwbxYj5EsRZwAq7sf1MzEb3ADaA3tY880256ybBdVzV7WkiNpCXdtpBznvY2qQ
- z+e31hHRdoxQDkiioXSDUPbed3j2yZ8Iicrzu8LlYG4qy3RrqTnCFnT4x8VRtDTUpyQ0
- Ot7TAPVxfYx3Quywl66W5+hhuZ4n6z1q6uRQx/YbmfVJalWfKjnbXpW5V7EtFC1rkBTu
- lig/q1Notge9EKbVyf5FLomKSAyTmtkQeX9aOFn+bp9hUc6wP0gIr2+f8Tgfr7rYBuD5
- jJ7dxJA/pbNwKHYa1YbwVnCngEQMuC1XNfA+7EN9jHF5+ArJcKjlrNHMDoLKUXMakmCm
- jhsQ==
-X-Gm-Message-State: AOAM5306moHVB6Ucl5RtK8ElBICmoweSMNL81Uv9fBA5iU2oYlYIEcyP
- ahG5XyV+akrTteNLk63E4jpVjTV5RNbO1F/A9GMcYg==
-X-Google-Smtp-Source: ABdhPJwkxr5ZAmKTEKFykke3Ix79Qf2hnC81K9ByuxjeKLO3pwvMOeqjqSCvpYhX5BtFRIoe/uhR/8Emp2+x6q8Z+oc=
-X-Received: by 2002:a05:6808:1b0c:b0:2d2:fcfc:46a8 with SMTP id
- bx12-20020a0568081b0c00b002d2fcfc46a8mr1666869oib.278.1645121732284; Thu, 17
- Feb 2022 10:15:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20220209224507.874751-1-jordan.l.justen@intel.com>
- <20220209224507.874751-4-jordan.l.justen@intel.com>
-In-Reply-To: <20220209224507.874751-4-jordan.l.justen@intel.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 17 Feb 2022 19:15:21 +0100
-Message-ID: <CAKMK7uEMLiMMkLgZgtGtE_1jBH4Rq4+g=9m_mh_jzL6dfH1x7g@mail.gmail.com>
-Subject: Re: [PATCH v4 3/4] drm/i915/uapi: Add struct
- drm_i915_query_hwconfig_blob_item
-To: Jordan Justen <jordan.l.justen@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 134CA10E623
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 18:19:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 79F4261A6A
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 18:19:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DD9B5C340EC
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 18:19:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645121978;
+ bh=WOoA4FUCWnkbYZApDGrqF5zmdGQ+iqNxJat4UTjRP4w=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=BVCZUE7cY6RK5wjwlL+Xhans8IKKl8CkPfps2XNtwUF7pCylTypkyPXiUleISPjv3
+ gAhByf+2Nx+uaR2ISunO/+iUENa/vSnVTbhVzD8wFbo1hSc2EfGSD5yVckAlci10n6
+ 7RbroJ8gskNRFOMO1eVqIhH1u3yq3kSOXqb4nnJc1yt9mc9kaDP7wjkUbQW6Lq7JSx
+ eT/y6nNpzohwXQdNzPjH5uQYStM/Gb2Q2AKVd8WtXpyK546GxpkzDeoCj5lpKLTBWl
+ SvusV2hztzVzarGxY7+pcXb0qZPHAQ/sE3ZbytE3PdNM0mz6agV+GlFMf3NNrP8yv6
+ mNbtL9BJTI45g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id CC9D6CC13AF; Thu, 17 Feb 2022 18:19:38 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 36522] Caught 16-bit read from uninitialized memory in
+ drm_fb_helper_setcmap
+Date: Thu, 17 Feb 2022 18:19:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: casteyde.christian@free.fr
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: OBSOLETE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-36522-2300-oyuX6gmQ4f@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-36522-2300@https.bugzilla.kernel.org/>
+References: <bug-36522-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,85 +71,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 9, 2022 at 11:45 PM Jordan Justen <jordan.l.justen@intel.com> wrote:
->
-> Also, document DRM_I915_QUERY_HWCONFIG_BLOB with this struct.
->
-> v3:
->  * Add various changes suggested by Tvrtko
->
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Jordan Justen <jordan.l.justen@intel.com>
-> Acked-by: Jon Bloomfield <jon.bloomfield@intel.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D36522
 
-Please check with make htmldocs that the output works&looks good (you
-mix up DOC: and struct sections, so that part wont work for sure).
-With that addressed:
+Christian Casteyde (casteyde.christian@free.fr) changed:
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|ASSIGNED                    |RESOLVED
+         Resolution|---                         |OBSOLETE
 
-> ---
->  include/uapi/drm/i915_drm.h | 35 +++++++++++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
->
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 069d2fadfbd9..8279515ae2ce 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -3276,6 +3276,41 @@ struct drm_i915_gem_create_ext_protected_content {
->         __u32 flags;
->  };
->
-> +/**
-> + * DOC: GuC HWCONFIG blob uAPI
-> + *
-> + * The GuC produces a blob with information about the current device.
-> + * i915 reads this blob from GuC and makes it available via this uAPI.
-> + *
-> + * The returned blob is a sequence of items of variable length
-> + * described by struct drm_i915_query_hwconfig_blob_item. The
-> + * drm_i915_query_hwconfig_blob_item length field gives the length of
-> + * the drm_i915_query_hwconfig_blob_item data[] array. The length is
-> + * the number of u32 items in the data[] array, and *not* the number
-> + * of bytes.
-> + *
-> + * The key and length fields are required, so the minimum item size is
-> + * 2 x u32, or 8 bytes, when the length field is 0. If the length
-> + * field is 1, then the item's size is 12 bytes.
-> + *
-> + * The overall blob returned by DRM_I915_QUERY_HWCONFIG_BLOB will end
-> + * at the same location as the end of the final
-> + * drm_i915_query_hwconfig_blob_item. In other words, walking through
-> + * the individual items is guaranteed to eventually arrive at the
-> + * exact end of the entire blob.
-> + *
-> + * The meaning of the key field and the data values are documented in
-> + * the Programmer's Reference Manual.
-> + */
-> +struct drm_i915_query_hwconfig_blob_item {
-> +       /** @key: Enum which defines how to interpret @data values. */
-> +       __u32 key;
-> +       /** @length: The number of u32 values in the @data array. */
-> +       __u32 length;
-> +       /** @key: Array of values with meaning defined by @key */
-> +       __u32 data[];
-> +};
-> +
->  /* ID of the protected content session managed by i915 when PXP is active */
->  #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
->
-> --
-> 2.34.1
->
+--- Comment #19 from Christian Casteyde (casteyde.christian@free.fr) ---
+Closing as too old and I do not have the hardware anymore to reproduce.
 
+--=20
+You may reply to this email to add a comment.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+You are receiving this mail because:
+You are watching the assignee of the bug.=
