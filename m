@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B59B4BA9A0
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:20:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332404BA9A4
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:20:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08BAE10E6C6;
-	Thu, 17 Feb 2022 19:20:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ED5910E6C1;
+	Thu, 17 Feb 2022 19:20:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A1DE10E6B9
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 19:20:44 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id cm8so1805956edb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 11:20:44 -0800 (PST)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D27DA10E6C8
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 19:20:55 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id a23so9630675eju.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 11:20:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=a0CBUKTu9jvdnKAxoRqrP7A+K60SFKzC6qVq1NHT6MU=;
- b=OifxYkL6sXL6jA5oH0esrqBFzHKTnl/nJWzn9j+dv1g127c+rL05F0EstvTRUDfUNJ
- NGbbrUBcj1/ARTA5eAKYv5mKA6c/h+dPvyyD3ILndAl2AAKDxC9FeU+I3lWIi8bR4Aoz
- Dl5hHhqVR8fei764wUH9JmHSr6NP5hGQlCiR2fapcYy7zszzpxNWoFxkMbykMil2Ela5
- UMzppQhgQy0pEt7pvmmttPyLb0poGgOGyMPpNInRRElfQINTzSi04pI3vhRSNw77Te0R
- n4oFxwDIgau1kwjyQ5WXMCrGTErUCwqjteE3z7/RobvLKoKqw2ntM+drciv2GOgxv9FL
- RckA==
+ bh=YHRtc9ePqjGH8hAF7Lu17NqbL1i0haVvTDPsiBYwu7k=;
+ b=A0lprPscR/Kzb3webGaApYC4C0Qp74JUmUxL8788PCMWHbJ9fhoZ7xzpDaIORWp/US
+ Ex+JUhhTJgr3RXGWLoaVOqGJ7X82yzJYBzyI+52KCNdrLh6L2FQ7iGo2x4+6q9gK2tIT
+ 8DIPutN2+uEYuLRw63V45OXvdUDn6RIyYJlR7e/YNGD2Md97yUF9fbDbzG0EXHbVfNnv
+ Ju0hV2ENhmKZGUFqPmBN9SEWbNHOBKys1U5jBer9n7nxUzNvVeEpDUeVXAPMpHDLXNI2
+ sBCtf1ZyjEZRdsLZkJoovPil8DxKYeFQChUJSAVktVnHZPViZYNHLQRB/6G1MkKOPxcT
+ t51Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=a0CBUKTu9jvdnKAxoRqrP7A+K60SFKzC6qVq1NHT6MU=;
- b=dYFe+GyWnCM2NxrrHPnugd6Vc52QphJKMJTf4AArSVXU2lgU8R3HOlJWPI1xcMBGCQ
- WY89SON+Ck9ZadrWBlI50FUt66+9kzTfZtv3P79+798OEOeXNMiqwMAyj7kbXnLz6ulB
- pR74GeMA7OAvosfmMA8Hy20wkhqINMuVBEHZBSszh3OU2OVfbEcds1KUcwhLXU4getAY
- 9jJO4cCGVHVzz/wiQbNk23LW9jw5DHEihUPmaZOf1XOSE3RbSS+cYhXzYOm6d4XUotDC
- yA8qsW3uZUk1iTOW+5DgG8CDhYWnby8Y0UORH8+IHpHqIaiVWYQuBTmJaj0q7O4wBwm9
- xy0Q==
-X-Gm-Message-State: AOAM532RnCBo2qxJZF5Y8ZH0sUyUfW7UjnuJPn2YR2oOYpzNWYcvLf5e
- j95qDtwEO9B2UgYpBnbtkAUHG2ez/Dk=
-X-Google-Smtp-Source: ABdhPJzzrX84zZCB+NwRoB50YxXfr9TKCbe5TFljOYBoRkFW84B3tuenocPsQmy3TwiqCuD2RawOpg==
-X-Received: by 2002:a05:6402:f04:b0:410:f0a5:5b02 with SMTP id
- i4-20020a0564020f0400b00410f0a55b02mr4410620eda.209.1645125642577; 
- Thu, 17 Feb 2022 11:20:42 -0800 (PST)
+ bh=YHRtc9ePqjGH8hAF7Lu17NqbL1i0haVvTDPsiBYwu7k=;
+ b=SWg6RAbpDo0iYiBB+xgec4NUMCwKvAokSdp+p0r5BBtn332P/QboIZ/2K+XPsc2Gu7
+ KEEVui1fydAJ6lwG3flOdEab5b3ST2zJZNcs5vjBjrj0lg19qv4tQ3LMSTf/0FejNjlg
+ RhA+TWD5CVZm6aBxImvy5vX42cu+6bNS44wN9Q7sBqi8RylnaKmj59Qyr4QAsXMBbODO
+ nRZPScldUhBN3xgmhtuSkeuj8evp93mv8TkrrCDp9IIxfjjmy83hXCurno3HzonhwNEK
+ PSfdZ5FXeba8J3EbmeDfC64gYXc2TDXYQ9WiA2DRUez8TXt2PfNtURpXGOzt3DuLqrpl
+ Is4w==
+X-Gm-Message-State: AOAM531XXK0xlW8yH/X1sWKSDdPCL3/nl5RSBvrxRlv0Alfm6QknyrEm
+ AFlSTYcqEAItFAFPeVIVuCU=
+X-Google-Smtp-Source: ABdhPJz0dRzRn1xVte+j0yskgoHLf4dNTgEOgEP4T5fc5aIzqLGDgh1yyv80F1kyCk2grbqJH9Ibzw==
+X-Received: by 2002:a17:906:2719:b0:6cf:37ec:d47f with SMTP id
+ z25-20020a170906271900b006cf37ecd47fmr3723642ejc.401.1645125654288; 
+ Thu, 17 Feb 2022 11:20:54 -0800 (PST)
 Received: from localhost (p2e5bec5d.dip0.t-ipconnect.de. [46.91.236.93])
- by smtp.gmail.com with ESMTPSA id 22sm1472267eja.165.2022.02.17.11.20.41
+ by smtp.gmail.com with ESMTPSA id mb23sm1453566ejb.62.2022.02.17.11.20.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 11:20:41 -0800 (PST)
+ Thu, 17 Feb 2022 11:20:53 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH libdrm v2 14/25] tests: tegra: Add helper library for tests
-Date: Thu, 17 Feb 2022 20:19:20 +0100
-Message-Id: <20220217191931.2534836-9-thierry.reding@gmail.com>
+Subject: [PATCH libdrm v2 15/25] tests: tegra: Add gr2d-fill test
+Date: Thu, 17 Feb 2022 20:19:21 +0100
+Message-Id: <20220217191931.2534836-10-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220217191931.2534836-1-thierry.reding@gmail.com>
 References: <20220217191931.2534836-1-thierry.reding@gmail.com>
@@ -77,24 +77,248 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-This library provides helpers for common functionality needed by test
-programs.
+This test uses the IOCTLs for job submission and fences to fill a sub-
+region of the screen to a specific color using gr2d.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- tests/tegra/drm-test.c  | 248 ++++++++++++++++++++++++++++++++++++++++
- tests/tegra/drm-test.h  |  72 ++++++++++++
- tests/tegra/meson.build |   7 ++
- 3 files changed, 327 insertions(+)
- create mode 100644 tests/tegra/drm-test.c
- create mode 100644 tests/tegra/drm-test.h
+ tests/tegra/.gitignore       |   1 +
+ tests/tegra/drm-test-tegra.c | 147 +++++++++++++++++++++++++++++++++++
+ tests/tegra/drm-test-tegra.h |  55 +++++++++++++
+ tests/tegra/gr2d-fill.c      | 146 ++++++++++++++++++++++++++++++++++
+ tests/tegra/meson.build      |  19 +++++
+ 5 files changed, 368 insertions(+)
+ create mode 100644 tests/tegra/drm-test-tegra.c
+ create mode 100644 tests/tegra/drm-test-tegra.h
+ create mode 100644 tests/tegra/gr2d-fill.c
 
-diff --git a/tests/tegra/drm-test.c b/tests/tegra/drm-test.c
+diff --git a/tests/tegra/.gitignore b/tests/tegra/.gitignore
+index 56cfb62b785f..0db9e5401302 100644
+--- a/tests/tegra/.gitignore
++++ b/tests/tegra/.gitignore
+@@ -1 +1,2 @@
++tegra-gr2d-fill
+ tegra-openclose
+diff --git a/tests/tegra/drm-test-tegra.c b/tests/tegra/drm-test-tegra.c
 new file mode 100644
-index 000000000000..b1ded9cf5fac
+index 000000000000..1a9fa8961de9
 --- /dev/null
-+++ b/tests/tegra/drm-test.c
-@@ -0,0 +1,248 @@
++++ b/tests/tegra/drm-test-tegra.c
+@@ -0,0 +1,147 @@
++/*
++ * Copyright © 2014 NVIDIA Corporation
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++#ifdef HAVE_CONFIG_H
++#  include "config.h"
++#endif
++
++#include <errno.h>
++#include <stdio.h>
++
++#include "drm-test-tegra.h"
++#include "tegra.h"
++
++int drm_tegra_gr2d_open(struct drm_tegra *drm, struct drm_tegra_gr2d **gr2dp)
++{
++    struct drm_tegra_gr2d *gr2d;
++    int err;
++
++    gr2d = calloc(1, sizeof(*gr2d));
++    if (!gr2d)
++        return -ENOMEM;
++
++    gr2d->drm = drm;
++
++    err = drm_tegra_channel_open(drm, DRM_TEGRA_GR2D, &gr2d->channel);
++    if (err < 0) {
++        free(gr2d);
++        return err;
++    }
++
++    *gr2dp = gr2d;
++
++    return 0;
++}
++
++int drm_tegra_gr2d_close(struct drm_tegra_gr2d *gr2d)
++{
++    if (!gr2d)
++        return -EINVAL;
++
++    drm_tegra_channel_close(gr2d->channel);
++    free(gr2d);
++
++    return 0;
++}
++
++int drm_tegra_gr2d_fill(struct drm_tegra_gr2d *gr2d, struct drm_framebuffer *fb,
++                        unsigned int x, unsigned int y, unsigned int width,
++                        unsigned int height, uint32_t color)
++{
++    struct drm_tegra_bo *fbo = fb->data;
++    struct drm_tegra_pushbuf *pushbuf;
++    struct drm_tegra_mapping *map;
++    struct drm_tegra_job *job;
++    uint32_t *ptr;
++    int err;
++
++    err = drm_tegra_job_new(gr2d->channel, &job);
++    if (err < 0)
++        return err;
++
++    err = drm_tegra_channel_map(gr2d->channel, fbo, 0, &map);
++    if (err < 0)
++        return err;
++
++    err = drm_tegra_job_get_pushbuf(job, &pushbuf);
++    if (err < 0)
++        return err;
++
++    err = drm_tegra_pushbuf_begin(pushbuf, 32, &ptr);
++    if (err < 0)
++        return err;
++
++    *ptr++ = HOST1X_OPCODE_SETCL(0, HOST1X_CLASS_GR2D, 0);
++
++    *ptr++ = HOST1X_OPCODE_MASK(0x9, 0x9);
++    *ptr++ = 0x0000003a;
++    *ptr++ = 0x00000000;
++
++    *ptr++ = HOST1X_OPCODE_MASK(0x1e, 0x7);
++    *ptr++ = 0x00000000;
++    *ptr++ = (2 << 16) | (1 << 6) | (1 << 2);
++    *ptr++ = 0x000000cc;
++
++    *ptr++ = HOST1X_OPCODE_MASK(0x2b, 0x9);
++
++    /* relocate destination buffer */
++    err = drm_tegra_pushbuf_relocate(pushbuf, &ptr, map, 0, 0, 0);
++    if (err < 0) {
++        fprintf(stderr, "failed to relocate buffer object: %d\n", err);
++        return err;
++    }
++
++    *ptr++ = fb->pitch;
++
++    *ptr++ = HOST1X_OPCODE_NONINCR(0x35, 1);
++    *ptr++ = color;
++
++    *ptr++ = HOST1X_OPCODE_NONINCR(0x46, 1);
++    *ptr++ = 0x00000000;
++
++    *ptr++ = HOST1X_OPCODE_MASK(0x38, 0x5);
++    *ptr++ = height << 16 | width;
++    *ptr++ = y << 16 | x;
++
++    err = drm_tegra_pushbuf_end(pushbuf, ptr);
++    if (err < 0) {
++        fprintf(stderr, "failed to update push buffer: %d\n", -err);
++        return err;
++    }
++
++    err = drm_tegra_job_submit(job, NULL);
++    if (err < 0) {
++        fprintf(stderr, "failed to submit job: %d\n", err);
++        return err;
++    }
++
++    err = drm_tegra_job_wait(job, 0);
++    if (err < 0) {
++        fprintf(stderr, "failed to wait for fence: %d\n", err);
++        return err;
++    }
++
++    drm_tegra_channel_unmap(map);
++    drm_tegra_job_free(job);
++
++    return 0;
++}
+diff --git a/tests/tegra/drm-test-tegra.h b/tests/tegra/drm-test-tegra.h
+new file mode 100644
+index 000000000000..eefa954cd40b
+--- /dev/null
++++ b/tests/tegra/drm-test-tegra.h
+@@ -0,0 +1,55 @@
++/*
++ * Copyright © 2014 NVIDIA Corporation
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++#ifndef TEGRA_DRM_TEST_TEGRA_H
++#define TEGRA_DRM_TEST_TEGRA_H
++
++#include "drm-test.h"
++#include "tegra.h"
++
++#define HOST1X_OPCODE_SETCL(offset, classid, mask) \
++    ((0x0 << 28) | (((offset) & 0xfff) << 16) | (((classid) & 0x3ff) << 6) | ((mask) & 0x3f))
++#define HOST1X_OPCODE_INCR(offset, count) \
++    ((0x1 << 28) | (((offset) & 0xfff) << 16) | ((count) & 0xffff))
++#define HOST1X_OPCODE_NONINCR(offset, count) \
++    ((0x2 << 28) | (((offset) & 0xfff) << 16) | ((count) & 0xffff))
++#define HOST1X_OPCODE_MASK(offset, mask) \
++    ((0x3 << 28) | (((offset) & 0xfff) << 16) | ((mask) & 0xffff))
++#define HOST1X_OPCODE_IMM(offset, data) \
++    ((0x4 << 28) | (((offset) & 0xfff) << 16) | ((data) & 0xffff))
++#define HOST1X_OPCODE_EXTEND(subop, value) \
++    ((0xe << 28) | (((subop) & 0xf) << 24) | ((value) & 0xffffff))
++
++#define HOST1X_CLASS_GR2D 0x51
++
++struct drm_tegra_gr2d {
++    struct drm_tegra *drm;
++    struct drm_tegra_channel *channel;
++};
++
++int drm_tegra_gr2d_open(struct drm_tegra *drm, struct drm_tegra_gr2d **gr2dp);
++int drm_tegra_gr2d_close(struct drm_tegra_gr2d *gr2d);
++int drm_tegra_gr2d_fill(struct drm_tegra_gr2d *gr2d, struct drm_framebuffer *fb,
++                        unsigned int x, unsigned int y, unsigned int width,
++                        unsigned int height, uint32_t color);
++
++#endif
+diff --git a/tests/tegra/gr2d-fill.c b/tests/tegra/gr2d-fill.c
+new file mode 100644
+index 000000000000..d138cc4c6f85
+--- /dev/null
++++ b/tests/tegra/gr2d-fill.c
+@@ -0,0 +1,146 @@
 +/*
 + * Copyright © 2014 NVIDIA Corporation
 + *
@@ -136,302 +360,125 @@ index 000000000000..b1ded9cf5fac
 +#include "xf86drmMode.h"
 +#include "drm_fourcc.h"
 +
-+#include "drm-test.h"
++#include "drm-test-tegra.h"
++#include "tegra.h"
 +
-+static int drm_screen_probe_connector(struct drm_screen *screen,
-+                                      drmModeConnectorPtr connector)
++int main(int argc, char *argv[])
 +{
-+    drmModeEncoderPtr encoder;
-+    drmModeCrtcPtr crtc;
-+    drmModeFBPtr fb;
-+
-+    encoder = drmModeGetEncoder(screen->fd, connector->encoder_id);
-+    if (!encoder)
-+        return -ENODEV;
-+
-+    crtc = drmModeGetCrtc(screen->fd, encoder->crtc_id);
-+    if (!crtc) {
-+        drmModeFreeEncoder(encoder);
-+        return -ENODEV;
-+    }
-+
-+    screen->old_fb = crtc->buffer_id;
-+
-+    fb = drmModeGetFB(screen->fd, crtc->buffer_id);
-+    if (!fb) {
-+        /* TODO: create new framebuffer */
-+        drmModeFreeEncoder(encoder);
-+        drmModeFreeCrtc(crtc);
-+        return -ENOSYS;
-+    }
-+
-+    screen->connector = connector->connector_id;
-+    screen->old_fb = crtc->buffer_id;
-+    screen->crtc = encoder->crtc_id;
-+    /* TODO: check crtc->mode_valid */
-+    screen->mode = crtc->mode;
-+
-+    screen->width = fb->width;
-+    screen->height = fb->height;
-+    screen->pitch = fb->pitch;
-+    screen->depth = fb->depth;
-+    screen->bpp = fb->bpp;
-+
-+    drmModeFreeEncoder(encoder);
-+    drmModeFreeCrtc(crtc);
-+    drmModeFreeFB(fb);
-+
-+    return 0;
-+}
-+
-+int drm_screen_open(struct drm_screen **screenp, int fd)
-+{
-+    drmModeConnectorPtr connector;
-+    struct drm_screen *screen;
-+    bool found = false;
-+    drmModeResPtr res;
-+    unsigned int i;
-+    int err;
-+
-+    if (!screenp || fd < 0)
-+        return -EINVAL;
-+
-+    screen = calloc(1, sizeof(*screen));
-+    if (!screen)
-+        return -ENOMEM;
-+
-+    screen->format = DRM_FORMAT_XRGB8888;
-+    screen->fd = fd;
-+
-+    res = drmModeGetResources(fd);
-+    if (!res) {
-+        free(screen);
-+        return -ENOMEM;
-+    }
-+
-+    for (i = 0; i < (unsigned int)res->count_connectors; i++) {
-+        connector = drmModeGetConnector(fd, res->connectors[i]);
-+        if (!connector)
-+            continue;
-+
-+        if (connector->connection != DRM_MODE_CONNECTED) {
-+            drmModeFreeConnector(connector);
-+            continue;
-+        }
-+
-+        err = drm_screen_probe_connector(screen, connector);
-+        if (err < 0) {
-+            drmModeFreeConnector(connector);
-+            continue;
-+        }
-+
-+        drmModeFreeConnector(connector);
-+        found = true;
-+        break;
-+    }
-+
-+    drmModeFreeResources(res);
-+
-+    if (!found) {
-+        free(screen);
-+        return -ENODEV;
-+    }
-+
-+    *screenp = screen;
-+
-+    return 0;
-+}
-+
-+int drm_screen_close(struct drm_screen *screen)
-+{
-+    int err;
-+
-+    err = drmModeSetCrtc(screen->fd, screen->crtc, screen->old_fb, 0, 0,
-+                         &screen->connector, 1, &screen->mode);
-+    if (err < 0) {
-+        fprintf(stderr, "drmModeSetCrtc() failed: %m\n");
-+        return -errno;
-+    }
-+
-+    free(screen);
-+
-+    return 0;
-+}
-+
-+int drm_framebuffer_new(struct drm_framebuffer **fbp,
-+                        struct drm_screen *screen, uint32_t handle,
-+                        unsigned int width, unsigned int height,
-+                        unsigned int pitch, uint32_t format,
-+                        void *data)
-+{
++    uint32_t format = DRM_FORMAT_XRGB8888;
++    struct drm_tegra_gr2d *gr2d;
 +    struct drm_framebuffer *fb;
-+    uint32_t handles[4];
-+    uint32_t pitches[4];
-+    uint32_t offsets[4];
-+    int err;
-+
-+    fb = calloc(1, sizeof(*fb));
-+    if (!fb)
-+        return -ENOMEM;
-+
-+    fb->fd = screen->fd;
-+    fb->width = width;
-+    fb->height = height;
-+    fb->pitch = pitch;
-+    fb->format = format;
-+    fb->data = data;
-+
-+    handles[0] = handle;
-+    pitches[0] = pitch;
-+    offsets[0] = 0;
-+
-+    err = drmModeAddFB2(screen->fd, width, height, format, handles,
-+                        pitches, offsets, &fb->handle, 0);
-+    if (err < 0)
-+        return -errno;
-+
-+    *fbp = fb;
-+
-+    return 0;
-+}
-+
-+int drm_framebuffer_free(struct drm_framebuffer *fb)
-+{
-+    int err;
-+
-+    err = drmModeRmFB(fb->fd, fb->handle);
-+    if (err < 0)
-+        return -errno;
-+
-+    free(fb);
-+
-+    return 0;
-+}
-+
-+int drm_screen_set_framebuffer(struct drm_screen *screen,
-+                               struct drm_framebuffer *fb)
-+{
-+    int err;
-+
-+    err = drmModeSetCrtc(screen->fd, screen->crtc, fb->handle, 0, 0,
-+                         &screen->connector, 1, &screen->mode);
-+    if (err < 0)
-+        return -errno;
-+
-+    return 0;
-+}
-+
-+int drm_open(const char *path)
-+{
++    struct drm_screen *screen;
++    unsigned int pitch, size;
++    struct drm_tegra_bo *bo;
++    struct drm_tegra *drm;
++    uint32_t handle;
 +    int fd, err;
++    void *ptr;
 +
-+    fd = open(path, O_RDWR);
-+    if (fd < 0)
-+        return -errno;
-+
-+    err = drmSetMaster(fd);
-+    if (err < 0) {
-+        close(fd);
-+        return -errno;
++    fd = drm_open(argv[1]);
++    if (fd < 0) {
++        fprintf(stderr, "failed to open DRM device %s: %s\n", argv[1],
++                strerror(errno));
++        return 1;
 +    }
 +
-+    return fd;
++    err = drm_screen_open(&screen, fd);
++    if (err < 0) {
++        fprintf(stderr, "failed to open screen: %s\n", strerror(-err));
++        return 1;
++    }
++
++    err = drm_tegra_new(fd, &drm);
++    if (err < 0) {
++        fprintf(stderr, "failed to create Tegra DRM context: %s\n",
++                strerror(-err));
++        return 1;
++    }
++
++    err = drm_tegra_gr2d_open(drm, &gr2d);
++    if (err < 0) {
++        fprintf(stderr, "failed to open gr2d channel: %s\n",
++                strerror(-err));
++        return 1;
++    }
++
++    pitch = screen->width * screen->bpp / 8;
++    size = pitch * screen->height;
++
++    err = drm_tegra_bo_new(drm, 0, size, &bo);
++    if (err < 0) {
++        fprintf(stderr, "failed to create buffer object: %s\n",
++                strerror(-err));
++        return 1;
++    }
++
++    err = drm_tegra_bo_get_handle(bo, &handle);
++    if (err < 0) {
++        fprintf(stderr, "failed to get handle to buffer object: %s\n",
++                strerror(-err));
++        return 1;
++    }
++
++    err = drm_tegra_bo_map(bo, &ptr);
++    if (err < 0) {
++        fprintf(stderr, "failed to map buffer object: %s\n",
++                strerror(-err));
++        return 1;
++    }
++
++    memset(ptr, 0xff, size);
++
++    err = drm_framebuffer_new(&fb, screen, handle, screen->width,
++                              screen->height, pitch, format, bo);
++    if (err < 0) {
++        fprintf(stderr, "failed to create framebuffer: %s\n",
++                strerror(-err));
++        return 1;
++    }
++
++    err = drm_screen_set_framebuffer(screen, fb);
++    if (err < 0) {
++        fprintf(stderr, "failed to display framebuffer: %s\n",
++                strerror(-err));
++        return 1;
++    }
++
++    sleep(1);
++
++    err = drm_tegra_gr2d_fill(gr2d, fb, fb->width / 4, fb->height / 4,
++                              fb->width / 2, fb->height / 2, 0x00000000);
++    if (err < 0) {
++        fprintf(stderr, "failed to fill rectangle: %s\n",
++                strerror(-err));
++        return 1;
++    }
++
++    sleep(1);
++
++    drm_framebuffer_free(fb);
++    drm_tegra_bo_unref(bo);
++    drm_tegra_gr2d_close(gr2d);
++    drm_tegra_close(drm);
++    drm_screen_close(screen);
++    drm_close(fd);
++
++    return 0;
 +}
-+
-+void drm_close(int fd)
-+{
-+    drmDropMaster(fd);
-+    close(fd);
-+}
-diff --git a/tests/tegra/drm-test.h b/tests/tegra/drm-test.h
-new file mode 100644
-index 000000000000..f11aed42343e
---- /dev/null
-+++ b/tests/tegra/drm-test.h
-@@ -0,0 +1,72 @@
-+/*
-+ * Copyright © 2014 NVIDIA Corporation
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+ * OTHER DEALINGS IN THE SOFTWARE.
-+ */
-+
-+#ifndef TEGRA_DRM_TEST_H
-+#define TEGRA_DRM_TEST_H
-+
-+#include <stdint.h>
-+#include <stdlib.h>
-+
-+#include "xf86drmMode.h"
-+
-+struct drm_screen {
-+    int fd;
-+
-+    unsigned int width;
-+    unsigned int height;
-+    unsigned int pitch;
-+    unsigned int depth;
-+    unsigned int bpp;
-+
-+    drmModeModeInfo mode;
-+    uint32_t connector;
-+    uint32_t old_fb;
-+    uint32_t format;
-+    uint32_t crtc;
-+};
-+
-+struct drm_framebuffer {
-+    unsigned int width;
-+    unsigned int height;
-+    unsigned int pitch;
-+    uint32_t format;
-+    uint32_t handle;
-+    void *data;
-+    int fd;
-+};
-+
-+int drm_screen_open(struct drm_screen **screenp, int fd);
-+int drm_screen_close(struct drm_screen *screen);
-+int drm_screen_set_framebuffer(struct drm_screen *screen,
-+                               struct drm_framebuffer *fb);
-+
-+int drm_framebuffer_new(struct drm_framebuffer **fbp,
-+                        struct drm_screen *screen, uint32_t handle,
-+                        unsigned int width, unsigned int height,
-+                        unsigned int pitch, uint32_t format,
-+                        void *data);
-+int drm_framebuffer_free(struct drm_framebuffer *fb);
-+
-+int drm_open(const char *path);
-+void drm_close(int fd);
-+
-+#endif
 diff --git a/tests/tegra/meson.build b/tests/tegra/meson.build
-index fbf4e6d8d4a3..3ac9015fbed8 100644
+index 3ac9015fbed8..337fee8c6246 100644
 --- a/tests/tegra/meson.build
 +++ b/tests/tegra/meson.build
-@@ -20,6 +20,13 @@
+@@ -27,6 +27,16 @@ libdrm_test = static_library(
+   link_with : libdrm,
+ )
  
- inc_tegra = include_directories('../../tegra')
- 
-+libdrm_test = static_library(
-+  'drm-test',
-+  [files('drm-test.c', 'drm-test.h'), config_file ],
++libdrm_test_tegra = static_library(
++  'drm-test-tegra',
++  [files(
++    'drm-test-tegra.c',
++    'drm-test-tegra.h',
++  ), config_file ],
 +  include_directories : [inc_root, inc_drm, inc_tegra],
 +  link_with : libdrm,
 +)
@@ -439,6 +486,19 @@ index fbf4e6d8d4a3..3ac9015fbed8 100644
  openclose = executable(
    'tegra-openclose',
    files('openclose.c'),
+@@ -35,3 +45,12 @@ openclose = executable(
+   link_with : [libdrm, libdrm_tegra],
+   install : with_install_tests,
+ )
++
++gr2d_fill = executable(
++  'tegra-gr2d-fill',
++  files('gr2d-fill.c'),
++  include_directories : [inc_root, inc_drm, inc_tegra],
++  c_args : libdrm_c_args,
++  link_with : [libdrm, libdrm_tegra, libdrm_test, libdrm_test_tegra],
++  install : with_install_tests,
++)
 -- 
 2.35.1
 
