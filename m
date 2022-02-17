@@ -1,60 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C6B4B99AE
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 08:15:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F294B9A08
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 08:48:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC9710E8B0;
-	Thu, 17 Feb 2022 07:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEF1710E974;
+	Thu, 17 Feb 2022 07:48:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3EE910E8B0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 07:15:49 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- ki18-20020a17090ae91200b001b8be87e9abso5487663pjb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 23:15:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZAu6P2QjxVR4VUdAWpGZn10VmuVqrvEvsDKRB7LLSj8=;
- b=ArhKscJZcPm7XQ3BJ7/KN3FPzSOYv/PtM+QKvL00DYpeOEn9zcHQagtwvF82TAgWjn
- syM0c/Wjm0YF7G1i0gSI4U8s6bce8/e8PF2Nv+GIrNHPU7BKa8/JnwvJG+WabCpRWr2K
- 6X8oMi8zAl+wu8zEGF0QAMOsNUV1HeDdbJXho=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZAu6P2QjxVR4VUdAWpGZn10VmuVqrvEvsDKRB7LLSj8=;
- b=pZG6i7cHVHsB8X5iQDfDsk7v/1a/iHVoy0lbwgNdCoY42eDDDacMOfT2fJj7JuWAhk
- AMFkiXY9V3+UwTdZW24RTbe95+cxUOVB6m+/TcEB1wZgzLWQ+Xyy8vX7LLKFidTO08T5
- VEmOnbcKa0CHBN/+aIKtMpvx0Sp/YVVMxWnZl3f4pT0P6PeEBQxv2SMzs044b8siZozh
- TV29Cu8IVcsQU1Q6vnwtW1O8q6lZgynDHjGOTaHfMp/Axdha3QK3CyhTAw5Wvg16zYaX
- HnlkV/Y4BAfnuvesLlX9tOGZGP7MOmtbotQ9f3wMXMR6bZdoEU3OgyyKKWhwV2rL4PlJ
- v6Mw==
-X-Gm-Message-State: AOAM531oIVjOrJZ+lYC0DSPZKK5DlUn5eWkZo3j6nsw8LuYKLpc2erWn
- p4A6bQRa7RVDBkaAJLDXfNG/bQ==
-X-Google-Smtp-Source: ABdhPJyij8njo8LHEu3kVSs14z7Mv7QPOJtWnoJ6OszqSof5dd5sEUcVpUbNA9FPDeGyiosL5DqPbA==
-X-Received: by 2002:a17:90a:470e:b0:1b9:c33f:cd49 with SMTP id
- h14-20020a17090a470e00b001b9c33fcd49mr5902879pjg.186.1645082149123; 
- Wed, 16 Feb 2022 23:15:49 -0800 (PST)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:cdb:2c0b:b1f8:e426])
- by smtp.gmail.com with ESMTPSA id g21sm5827578pfc.167.2022.02.16.23.15.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 23:15:48 -0800 (PST)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Xin Ji <xji@analogixsemi.com>,
-	Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH] drm/bridge: Clear the DP_AUX_I2C_MOT bit passed in aux
- command.
-Date: Thu, 17 Feb 2022 15:15:41 +0800
-Message-Id: <20220217071541.1722057-1-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B66210E974;
+ Thu, 17 Feb 2022 07:48:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645084092; x=1676620092;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=99+dhgli+TBsASZWY8Mrl5qU4Lz7MyY/5DzeBpVia5E=;
+ b=evx+9DmKQConkhRgTM5wiRPj4U6ymAwK3G6SvzhJMgGAMu07pnTHXGWs
+ qYYVIwDFk0bQ9N+ezerLKLhb6Eq/83HXLAKypOmLuOnX5NwQ1sZlOkK7K
+ oxWbjiylGxJ2O+QKrn3WG8Y7lODkrGgIDMXVIQ4SrVMW+KQbx9vwxRb+y
+ 9sWpRLOj0AzL7oYqYnXz12wagItn3kH/6cnRunpSbNtVFkfSc3ixPnoCO
+ EQdKugIBBibCoV4yYsqG7PvBPxgP+UModkS/uUPCVPOCpQgTef74Nu91O
+ vGr4/MNEAN6gFr10gmsNdQYdigllVIY7VlyfADaxyUXIMlSK/KB8bahk9 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="251016090"
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="251016090"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 23:48:11 -0800
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="636953141"
+Received: from acushion-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.21.45])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 23:48:07 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Nathan Chancellor <nathan@kernel.org>, Tong Zhang <ztong0001@gmail.com>
+Subject: Re: [PATCH v2] drm/i915: fix build issue when using clang
+In-Reply-To: <Ygv2fvIKiM9w+aSb@dev-arch.archlinux-ax161>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <YglQW7gVNoRJ7QpQ@dev-arch.archlinux-ax161>
+ <20220214195821.29809-1-ztong0001@gmail.com>
+ <Ygv2fvIKiM9w+aSb@dev-arch.archlinux-ax161>
+Date: Thu, 17 Feb 2022 09:48:04 +0200
+Message-ID: <877d9u3pe3.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,37 +58,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, llvm@lists.linux.dev,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's observed that if the previous transfer didn't end with a command
-without DP_AUX_I2C_MOT, the next trasnfer will miss the first byte. But
-if the command in previous transfer is requested with length 0, anx7625
-can't process this command. To make the case simpler, request with
-commands without DP_AUX_I2C_MOT bit.
+On Tue, 15 Feb 2022, Nathan Chancellor <nathan@kernel.org> wrote:
+> On Mon, Feb 14, 2022 at 11:58:20AM -0800, Tong Zhang wrote:
+>> drm/i915 adds some extra cflags, namely -Wall, which causes
+>> instances of -Wformat-security to appear when building with clang, even
+>> though this warning is turned off kernel-wide in the main Makefile:
+>> 
+>> > drivers/gpu/drm/i915/gt/intel_gt.c:983:2: error: format string is not a string literal (potentially insecure) [-Werror,-Wformat-security]
+>> >         GEM_TRACE("ERROR\n");
+>> >         ^~~~~~~~~~~~~~~~~~~~
+>> > ./drivers/gpu/drm/i915/i915_gem.h:76:24: note: expanded from macro 'GEM_TRACE'
+>> >  #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
+>> >                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> > ./include/linux/kernel.h:369:3: note: expanded from macro 'trace_printk'
+>> >                 do_trace_printk(fmt, ##__VA_ARGS__);    \
+>> >                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> > ./include/linux/kernel.h:383:30: note: expanded from macro 'do_trace_printk'
+>> >                 __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);   \
+>> >                                           ^~~~~~~~~~~~~~~~
+>> >drivers/gpu/drm/i915/gt/intel_gt.c:983:2: note: treat the string as an argument to avoid this
+>> 
+>> This does not happen with GCC because it does not enable
+>> -Wformat-security with -Wall. Disable -Wformat-security within the i915
+>> Makefile so that these warnings do not show up with clang.
+>> 
+>> Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+>
+> Given this is not enabled for GCC and it is disabled in the main
+> Makefile:
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>
+> Additionally, it seems like trace_printk() is designed to be able to
+> take a string literal without a format argument, so this should be fine.
 
-Fixes: adca62ec370c ("drm/bridge: anx7625: Support reading edid through aux channel")
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the patch and review, pushed to drm-intel-next. I appreciate
+the support in maintaining fairly strict warning levels in i915.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 633618bafd75d3..050616c1162128 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1703,7 +1703,7 @@ static ssize_t anx7625_aux_transfer(struct drm_dp_aux *aux,
- 		ret = -EINVAL;
- 	}
- 	if (!ret)
--		ret = anx7625_aux_trans(ctx, msg->request, msg->address,
-+		ret = anx7625_aux_trans(ctx, request, msg->address,
- 					msg->size, msg->buffer);
- 	pm_runtime_mark_last_busy(dev);
- 	pm_runtime_put_autosuspend(dev);
+BR,
+Jani.
+
+>
+>> ---
+>> 
+>> v2: revise commit message
+>> 
+>>  drivers/gpu/drm/i915/Makefile | 1 +
+>>  1 file changed, 1 insertion(+)
+>> 
+>> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+>> index 1b62b9f65196..c04e05a3d39f 100644
+>> --- a/drivers/gpu/drm/i915/Makefile
+>> +++ b/drivers/gpu/drm/i915/Makefile
+>> @@ -13,6 +13,7 @@
+>>  # will most likely get a sudden build breakage... Hopefully we will fix
+>>  # new warnings before CI updates!
+>>  subdir-ccflags-y := -Wall -Wextra
+>> +subdir-ccflags-y += -Wno-format-security
+>>  subdir-ccflags-y += -Wno-unused-parameter
+>>  subdir-ccflags-y += -Wno-type-limits
+>>  subdir-ccflags-y += -Wno-missing-field-initializers
+>> -- 
+>> 2.25.1
+>> 
+>> 
+
 -- 
-2.35.1.265.g69c8d7142f-goog
-
+Jani Nikula, Intel Open Source Graphics Center
