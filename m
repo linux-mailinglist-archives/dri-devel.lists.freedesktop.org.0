@@ -2,51 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732CC4BA506
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 16:54:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807C94BA508
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 16:54:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF7C10EAEA;
-	Thu, 17 Feb 2022 15:54:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06EB710EB12;
+	Thu, 17 Feb 2022 15:54:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A85CC10EADE;
- Thu, 17 Feb 2022 15:54:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645113243; x=1676649243;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=feiIE8hKQ7xOTurPToJ7wkzWqz3KqfWns/T191tEu1c=;
- b=Qbs6jasBXbBQ/AIf7r6cv9n+A72a2rCHeGHSAUhUrw5BjJil3WTfS9sL
- M5rt4P7ALCE5CcyFuzY9MAFyUsqAUvWRkLWgEw1L5HrEsJ7hROrnWz3lA
- N2KBHa5TWKACX+3eISdD3UeZwcA/ca88WlcCxAT3I8eZwsJahJ8fixd/n
- w5hpNmcGMU4VCFxY2RVm+IVVg8G492KZR5ktPqLxrQSEz8qxB/OUUE2QE
- tsz9oWznnTfKcpun/U3ehxghGRPRXlElI20vsdbacbNnyZSRDfl1SP7sP
- TtPBAINxx/cicponjiEkn3gqbbcznEwLmiN1OT9RwAiPjNvSFz7hKRtXo A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="249737135"
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="249737135"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 07:54:03 -0800
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="545672799"
-Received: from pkivi-mobl.ger.corp.intel.com (HELO intel.com) ([10.252.43.228])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 07:54:00 -0800
-Date: Thu, 17 Feb 2022 16:53:58 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v5 5/7] drm/i915/gt: Create per-tile RC6
- sysfs interface
-Message-ID: <Yg5vlgoTEfJRWP9U@intel.intel>
-References: <20220217144158.21555-1-andi.shyti@linux.intel.com>
- <20220217144158.21555-6-andi.shyti@linux.intel.com>
- <12c2fcf8-ef3b-e59c-fe1e-23bc8f12cfe5@linux.intel.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F87110EB12
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:54:20 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:105:465:1:1:0])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4JzzsQ4RFyz9sTK;
+ Thu, 17 Feb 2022 16:54:18 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1645113256;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UbaevKaSp6yULErLP4A6MNOZsJSMp3WymdgLk6RMCTo=;
+ b=daoQs4G9tRpAwZ1fBdamxLTs1THj0knLJ/HR5uzSMLzlIrw93kqxqG7eFvz3+/a5Kqa5c1
+ xSh7PpoAwks25VWXeBtYAN7Q3Gqu0B5RYcm3H26DNeC3tA2JeJOSp+OqKxzpNNk8GN+Wob
+ dUOrWEhJ9uy+GZ4M7VMRbjGfSTyNL55TlzKjouoweilvCvgH8PkEJ+ULQQoR9C5od/jpN8
+ BNUH6txao69SnGtj5SfZAWzYPu7WGemwMYXbqMBwjzPShR3WN4e7flv4GJHKzivD455lBK
+ F1glGRKtDZ+5URTavVON2YV2oyZOPiAumAuQhpZiUHJVQJDefv4w9u056IH85Q==
+Message-ID: <4c5c5325-3e6d-d1a7-bc4d-c38ad769701a@mailbox.org>
+Date: Thu, 17 Feb 2022 16:54:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Subject: Re: [drm] *ERROR* mstb 0000000057b5b857 port 1: DPCD read on addr
+ 0x4b0 for 1 bytes NAKed
+Content-Language: en-CA
+To: Jocelyn Falempe <jfalempe@redhat.com>, Lyude Paul <lyude@redhat.com>
+References: <47101f87-48d7-0c93-adbf-9b84cd3754a3@redhat.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <47101f87-48d7-0c93-adbf-9b84cd3754a3@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <12c2fcf8-ef3b-e59c-fe1e-23bc8f12cfe5@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,79 +56,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Richard Hughes <rhughes@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
-
-> > Now tiles have their own sysfs interfaces under the gt/
-> > directory. Because RC6 is a property that can be configured on a
-> > tile basis, then each tile should have its own interface
-> > 
-> > The new sysfs structure will have a similar layout for the 4 tile
-> > case:
-> > 
-> > /sys/.../card0
-> >           ├── gt
-> >           │   ├── gt0
-> >           │   │   ├── id
-> >           │   │   ├── rc6_enable
-> >           │   │   ├── rc6_residency_ms
-> >           .   .   .
-> >           .   .   .
-> >           .   .
-> >           │   └── gtN
-> >           │       ├── id
-> >           │       ├── rc6_enable
-> >           │       ├── rc6_residency_ms
-> >           │       .
-> >           │       .
-> >           │
-> >           └── power/                -+
-> >                ├── rc6_enable        |    Original interface
-> >                ├── rc6_residency_ms  +->  kept as existing ABI;
-> >                .                     |    it multiplexes over
-> >                .                     |    the GTs
-> >                                     -+
-> > 
-> > The existing interfaces have been kept in their original location
-> > to preserve the existing ABI. They act on all the GTs: when
-> > reading they provide the average value from all the GTs.
+On 2022-02-16 15:39, Jocelyn Falempe wrote:
+> Hi,
 > 
-> Average feels very odd to me. I'd ask if we can get away providing an errno
-> instead? Or tile zero data?
-
-Real multiplexing would be providing something when reading and
-when writing. The idea of average came while revieweing with
-Chris the write multiplexing. Indeed it makes sense to provide
-some common value, but I don't know how useful it can be to the
-user (still if the user needs any average).
-
-Joonas, Chris... any idea?
-
-> Case in point, and please correct me if I am wrong, legacy rc6_enable
-> returns tile zero, while residency returns average.
-
-As the interface is done now, the rc6_enable is just returning
-whether the gpu (i.e. i915, not gt) supports RC6 or not. I think
-there is a patch later.
-
-> Even the deprecated message gets logged with every access right?
+> When using a Lenovo dock, I often get this error message on dmesg:
 > 
-> Btw is the deperecated message limited to multi-tile platforms (can't see
-> that it is) and what is the plan for that?
+> [drm] *ERROR* mstb 0000000057b5b857 port 1: DPCD read on addr 0x4b0 for 1 bytes NAKed
+> 
+> It's caused by fwupd which tries to read from /dev/drm_dp_aux4
+> 
+> I opened an issue on fwupd:
+> https://github.com/fwupd/fwupd/issues/4284
+> 
+> But it turns out, it's probably an issue in the drm mst code instead.
+> 
+> When I connect my Dock (Lenovo Thinkpad Thunderbold 3 Gen 2), I get 3 drm_dp_aux[] created:
+> 
+> /dev/drm_dp_aux[456]
+> 
+> Reading from this devices at any address will always get the NAKed error above, unless there is an actual DP monitor connected (HDMI monitor or nothing connected gives a NAK)
+> 
+> Each time I connect or disconnect a monitor on the dock, this 3 /dev/drm_dp_aux[] are destroyed and recreated.
+> 
+> So I think the device /dev/drm_dp_aux[] should be created only if there is an actual monitor connected that can reply to it.
+> What's the purpose of providing userspace a device which can't be read or written ? (or maybe just fail the open() call, like Mario suggested on the fwupd issue, so the devices are still there with the same numbering)
+> 
+> On the other hand, we can also consider that it's expected to get NAck in drm_dp_send_dpcd_read() and replace drm_err() with drm_dbg()
+> 
+> what do you think ?
+> 
 
-yes, at this point the message would need to be removed and I
-forgot to do it.
+Adding Lyude, AFAIK she's looked into this before.
 
-> It's a tough problem, no easy answers even after all this time. :D
 
-yeah! quite hard to get it conceptually right!
-
-Thanks Tvrtko,
-Andi
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
