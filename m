@@ -2,54 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5DFE4B9C15
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 10:33:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55D34B9C32
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 10:39:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98E4910EE50;
-	Thu, 17 Feb 2022 09:33:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC0D10E948;
+	Thu, 17 Feb 2022 09:39:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D0CE10EE49;
- Thu, 17 Feb 2022 09:33:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645090396; x=1676626396;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=aK1+Q/gQ7IRjnFowKiBbew/57gZX+Oj3JZ/5IP7bGqU=;
- b=VsVRdtipIrnRGpjERKeNEHk9QKOq6dpUeoJbt1tz0M4L1lhCZ6KMVH5J
- hfY2zpWGTvYyAdd0wFVPVK5MzBlmFQWTcltX7JWhJfTWUamv9mfpRUvvk
- GiOzAAPX4mb3TUbrYFTS2SaKWUl9oZA0iCcwKfWfbuoJJY3iVZjl//YBO
- OaZCOz4H3TILNfhBY+p56wAKaNw0n2GCzTu9WsaztB4CzDp/EqzEHCtQu
- kK/VFUSk5dLaXo+ZphwWpqd6zKoGktl7Cgpb7ngAVgYKB0E52ILub5nw4
- ISHJ/wu0bpUY8es5o1RRP/Xcm8DR+458ZgltGGqMsH14ylNkVovnL2fkV g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="234365368"
-X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="234365368"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 01:33:15 -0800
-X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="704711274"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 01:33:11 -0800
-Received: by lahna (sSMTP sendmail emulation); Thu, 17 Feb 2022 11:33:09 +0200
-Date: Thu, 17 Feb 2022 11:33:09 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: "Limonciello, Mario" <mario.limonciello@amd.com>
-Subject: Re: [PATCH v4 00/10] Overhaul `is_thunderbolt`
-Message-ID: <Yg4WVXw84aLK5Knp@lahna>
-References: <20220215000200.242799-1-mario.limonciello@amd.com>
- <20220215072911.GA13892@wunner.de>
- <3078823e-4ab4-27b6-b1c7-c6552fbfdb2e@amd.com>
- <Yg0LaujhftM0b8N/@lahna>
- <CADnq5_Ov3T9WH29MjgC2byqgTGkn-ux7iUaK3z5s2v4At_b3Ow@mail.gmail.com>
- <8da992ac-c241-1fe2-41a9-579c845608db@amd.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35A8D10E93C
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 09:39:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645090784;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jLgXyaDdyKmF629yX/8jyqbwgfWH8asfchQ3m/1p7wI=;
+ b=ZzCU8/Sax08B6tueFEC5QMANr1g4s7BkxkVsW2VBMgV34b9faJxoht8T+ZMa922nPBibuX
+ xVtUTf7VOD+fROhwwR81fcf2sdi+6XLqZuTALHrHZJOBxW/OxE90XqSTvYZdmXlhzzrWVv
+ w0ShK+/dbd5v2DPp0owqjcS8Nj4ZpB8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-587-U6cZX7z_N0qwqqQniqFzog-1; Thu, 17 Feb 2022 04:39:42 -0500
+X-MC-Unique: U6cZX7z_N0qwqqQniqFzog-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ e1-20020adfa741000000b001e2e74c3d4eso2039443wrd.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 01:39:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jLgXyaDdyKmF629yX/8jyqbwgfWH8asfchQ3m/1p7wI=;
+ b=RxNNR2SPouXgcUDsUE4QWf1owCLuFwF5D8AkPpIDWlyxqIqXklUZ5kxEutCalU8hPa
+ MS7otgQM/pe4v720Cem8Gg+ouNkFkf+E4mPq/X5L2EMkkNGZz9gUUqyhUzpXWtLb1oo6
+ ZF22Etst4V4F5jcM6+yCkNbOEKtvDl3x4gG/v/Bq+Xka3CRLfwK4e5uLKhEw1RvvqxUH
+ oEN7H2orUqMPo7o18D7wIGWYxaBRSh7aTWB7x5PILuceFqNShievV7m0iYPzbnEALAjl
+ LjvBEeBY9xwzpC1AI6wKTOq3hyZzWThZAu8WPEuBK9oaDFc5IbXw85ZspTbmg8tv0a3J
+ SZMQ==
+X-Gm-Message-State: AOAM532IvxIfdM67YV8+ElyBR0c3bkcEw1rf9sDqIHSoP/BULHTJDWqh
+ VzgL4WcDDwaxXwWZsi0SjIRSBjaYxi5j4I5SPcTfUMoOxHCOBkSkpx5i/IHb9uCATw1RlDTmEKY
+ uBAwlPV965TXcMIlBHMbFrhINjjJB
+X-Received: by 2002:a05:600c:34c4:b0:37b:f84d:d55a with SMTP id
+ d4-20020a05600c34c400b0037bf84dd55amr5219790wmq.123.1645090781819; 
+ Thu, 17 Feb 2022 01:39:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJybTPMdUEv4yErAw/bHWXz3opBkboEQXbUIb0XIqgnTJgBeyfbHp2oe3xxJk8q91rF306F1sQ==
+X-Received: by 2002:a05:600c:34c4:b0:37b:f84d:d55a with SMTP id
+ d4-20020a05600c34c400b0037bf84dd55amr5219771wmq.123.1645090781577; 
+ Thu, 17 Feb 2022 01:39:41 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id y4sm17410167wrd.54.2022.02.17.01.39.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Feb 2022 01:39:41 -0800 (PST)
+Message-ID: <3cb4c64a-6a6a-97bf-682e-efcf9bd748b5@redhat.com>
+Date: Thu, 17 Feb 2022 10:39:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8da992ac-c241-1fe2-41a9-579c845608db@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [drm-tip:drm-tip 4/8]
+ drivers/gpu/drm/solomon/ssd130x.c:451:18: error: incomplete definition of
+ type 'struct dma_buf_map'
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+References: <202202171455.bclm1YBC-lkp@intel.com>
+ <20220217063625.sm5ua5xf4jo2ekku@ldmartin-desk2>
+ <79301ef2-03d4-ca96-3d7f-6f9b80f319e1@redhat.com>
+ <20220217092545.4zpjnh344fmrcg26@ldmartin-desk2>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220217092545.4zpjnh344fmrcg26@ldmartin-desk2>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,153 +91,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
- Michael Jamet <michael.jamet@intel.com>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
- Yehezkel Bernat <YehezkelShB@gmail.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
+ intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mario,
+On 2/17/22 10:25, Lucas De Marchi wrote:
+> On Thu, Feb 17, 2022 at 10:00:42AM +0100, Javier Martinez Canillas wrote:
 
-On Wed, Feb 16, 2022 at 10:50:31AM -0600, Limonciello, Mario wrote:
-> On 2/16/2022 08:44, Alex Deucher wrote:
-> > On Wed, Feb 16, 2022 at 9:34 AM Mika Westerberg
-> > <mika.westerberg@linux.intel.com> wrote:
-> > > 
-> > > Hi all,
-> > > 
-> > > On Tue, Feb 15, 2022 at 01:07:00PM -0600, Limonciello, Mario wrote:
-> > > > On 2/15/2022 01:29, Lukas Wunner wrote:
-> > > > > On Mon, Feb 14, 2022 at 06:01:50PM -0600, Mario Limonciello wrote:
-> > > > > >    drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c |  2 +-
-> > > > > >    drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c  |  2 +-
-> > > > > >    drivers/gpu/drm/nouveau/nouveau_vga.c   |  4 +-
-> > > > > >    drivers/gpu/drm/radeon/radeon_device.c  |  4 +-
-> > > > > >    drivers/gpu/drm/radeon/radeon_kms.c     |  2 +-
-> > > > > >    drivers/pci/hotplug/pciehp_hpc.c        |  6 +-
-> > > > > >    drivers/pci/pci-acpi.c                  | 15 ++++-
-> > > > > >    drivers/pci/pci.c                       | 17 +++--
-> > > > > >    drivers/pci/probe.c                     | 52 ++++++++++++++-
-> > > > > >    drivers/pci/quirks.c                    | 84 +++++++++++++++++++++++++
-> > > > > >    drivers/platform/x86/apple-gmux.c       |  2 +-
-> > > > > >    drivers/thunderbolt/nhi.h               |  2 -
-> > > > > >    include/linux/pci.h                     | 25 +-------
-> > > > > >    include/linux/pci_ids.h                 |  3 +
-> > > > > >    14 files changed, 173 insertions(+), 47 deletions(-)
-> > > > > 
-> > > > > That's an awful lot of additional LoC for what is primarily
-> > > > > a refactoring job with the intent to simplify things.
-> > > > 
-> > > > You may recall the first version of this series was just for adding
-> > > > USB4 matches to the existing code paths, and that's when it was noted
-> > > > that is_thunderbolt is a bit overloaded.
-> > > > 
-> > > > > 
-> > > > > Honestly this looks like an attempt to fix something that
-> > > > > isn't broken.  Specifically, the is_thunderbolt bit apparently
-> > > > > can't be removed without adding new bits to struct pci_dev.
-> > > > > Not sure if that can be called progress. >
-> > > > > Thanks,
-> > > > > 
-> > > > > Lukas
-> > > > 
-> > > > Within this series there are two new material patches; setting up root ports
-> > > > for both integrated and discrete USB4 controllers to behave well with all
-> > > > the existing drivers that rely upon a hint of how they're connected to
-> > > > configure devices differently.
-> > > > 
-> > > > If y'all collectively prefer this direction to not refactor is_thunderbolt
-> > > > and push into quirks, a simpler version of this series would be to leave all
-> > > > the quirks in place, just drop dev->is_thunderbolt, and set
-> > > > dev->external_facing on all 3 cases:
-> > > > 
-> > > > * Intel TBT controller
-> > > > * USB4 integrated PCIe tunneling root port/XHCI tunneling root port
-> > > > * USB4 disctete PCIe tunneling root port/XHCI tunneling root port
-> > > > 
-> > > > All the other drivers and symbols can stay the same then.
-> > > 
-> > > If I understand correctly the original intention of this patch series is
-> > > to be able to differentiate whether the device is "permanently"
-> > > connected to the motherboard, or it is connected over some hot-pluggable
-> > > bus (PCIe, USB, USB4 for example but I'm sure there are other buses that
-> > > fit into this picture too). Specifically this is needed for discrete
-> > > GPUs because of power management differences or so (please correct me if
-> > > I'm mistaken).
+[snip]
+
+>>> this is now called iosys_map in drm-intel... drm-tip will need a fixup
+>>> for the merge.
+>>>
+>>
+>> I thought that the drm-intel tree was only for Intel DRM drivers changes and
+>> subsystem wide changes should be merged through drm-mic ?
+>>
+>> Doing refactoring in that tree will likely lead to merge conflicts like this.
 > 
-> Correct.  It might be possible to drop the patch for the integrated case
-> (patch 3) because I do think that by Microsoft having the _DSD for
-> "ExternalFacingPort" it's very likely that most implementations will have
-> used it for the appropriate PCIe root ports.  If something shows up in the
-> wild that this isn't the case it could be revisited.  If it's found
-> pre-production presumably the OEM can still fix it and if it's post
-> production and there are problems we can dust it off then.
+> Yes, I know. My initial proposal was to split the rename and do it per
+> branch to avoid this kind of situation, but it was requested to be done
+> all in a single patch. Since I had other ~15 patches dependent on that
+> one to be merged in drm-intel, it was agreed to do the rename via
+> drm-intel. See 
+> https://lore.kernel.org/lkml/e3813696-7b91-510c-987f-85ed2fd502d6@suse.de/
+>
 
-Yeah, that's most likely the case.
-
-> The discrete USB4 controller I would be more concerned that this isn't
-> populated, and that (patch 4) should be more important to let the driver
-> core set it removable.
+Got it. Thanks for the explanation.
+ 
+> I guess the conflicts won't be that terrible and can be fixed as they
+> show up.
+>
 
 Agreed.
 
-[I actually only now noticed that the PCI core actually already marks
- devices connected to external facing ports as "removable" in
- pci_set_removable().]
-
-> > > If we set the is_thunderbolt debate aside and concentrate on that issue,
-> > > I think the way to do this is to check whether the root port the GPU is
-> > > connected to has an ACPI power resource (returned from _PR3() method).
-> > > IF it is present then most likely the platform has provided all the
-> > > necessary wiring to move the GPU into D3cold (and the BIOS knows this).
-> > > If it is not present then the device cannot even go into D3cold as there
-> > > is not means to power of the device in PCIe spec.
-> > > 
-> > > Perhaps we can simply use pci_pr3_present() here as nouveau is already
-> > > doing? Granted it is not too elegant solution either but better than
-> > > using is_thunderbolt IMHO. Since this seem to be common for many GPUs,
-> > > perhaps we can have a helper in DRM core that handles this.
-> > 
-> > The tricky part is that there were AMD and NVIDIA specific proprietary
-> > _PR3-like ACPI methods (plus whatever Apple did) prior to GPU power
-> > control standardizing on _PR3.  Currently those methods are handled in
-> > the drivers directly, sort of tangled up with vga_switcheroo.  I think
-> > ideally that logic would move to the ACPI core and be handled the same
-> > way as _PR3, but I'm not sure how well that would work because of the
-> > various bios date checks around _PR3 and the lack of general _PR3
-> > support in those older platforms.  So I think we still need some sort
-> > of "is this soldered in" check.
+>> Noticed your series in dri-devel but missed that already landed in drm-intel.
+>>
+>> The resolution should just be [0] right? If you confirm that then I can post
+>> a proper patch to dri-devel.
+>>
+>>>>>> drivers/gpu/drm/solomon/ssd130x.c:451:18: error: incomplete definition of type 'struct dma_buf_map'
+>>>>           void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
+>>>>                        ~~~^
+>>>
+>>> this shouldn't really be done.
+>>>
+>>
+>> Yes, I know but asked what would be the proper way and didn't get an answer.
+>> We have many drivers doing the same and I couldn't find one that was doing
+>> it correctly to use as a reference:
+>>
+>> $ git grep "TODO: Use mapping abstraction properly" | wc -l
+>> 15
+>>
+>> If you point me the proper way, I'll be happy to post a patch to change it.
 > 
-> Considering that limitation if `dev->external_facing` already exists in PCI
-> core may as well use it for this instead of `is_thunderbolt`.
+> It depends what you want to do with the address. There are APIs to copy
+> from/to. I also added a few to read/write to an offset. It seems the
+> problem here is that you need to pass that to a helper,
+> drm_fb_xrgb8888_to_mono_reversed(). I think the proper solution would be
+> to change the helper to accept an iosys_map* as argument rather than a
+> void*.
+>
 
-Indeed.
+That makes a lot of sense. Once the dust settles and your series land in
+drm-misc-next, I can take a look at this and removing the TODO comment.
 
-> > Alex
-> > 
-> > 
-> > > 
-> > > Then going back to is_thunderbolt debate :) I really don't think the
-> > > drivers should care whether they are connected over a tunnel or not.
-> > > They should work regardless of the underlying transport of the native
-> > > protocol. They should also be prepared for the fact that the hardware
-> > > can vanish under them at any point (e.g user unplugs the device). For
-> > > this reason I don't really like to see is_thunderbolt to be used more
-> > > and prefer to get rid if it completely if possible at all. If there is
-> > > still need to differentiate whether the device can be hot-removed or
-> > > not, I think "removable" in the driver core is the way to go. That is
-> > > not dependent on any single transport.
-> 
-> Hopefully that is what the patch series does right now as of v4. As I
+> Lucas De Marchi
+>>>
+>>> Lucas De Marchi
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-It does yes. I think the detection of internal and discrete tunneled
-ports can be dropped from this series for now to make this leaner. We
-can add those later when needed.
