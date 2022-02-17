@@ -1,57 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B19C4B9507
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 01:27:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0924B9517
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 01:40:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62D7610E6BB;
-	Thu, 17 Feb 2022 00:27:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0A610E6C4;
+	Thu, 17 Feb 2022 00:40:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAC2D10E6C4;
- Thu, 17 Feb 2022 00:27:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645057628; x=1676593628;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=5PVdiB2tCTktZM9TnHRDaSdcjaUKK7T/KCy0M9sHFuU=;
- b=BD6xYV26mMpwAk2qG/Phu8Cf33xsC1S9754NiKxR0o0f6OIEYkNqn1pX
- DNuQI7eANhniwNW+2AIU6IVdid2EO1cokVfS67h35g4ScMoGMQeGbGuTv
- L5xwDb+FG3B7MexY3GwAjd8+MhHZ+Aceh2xfbQUa89mO8VcHKeAPJaQNM I=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 16 Feb 2022 16:27:08 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2022 16:27:07 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Wed, 16 Feb 2022 16:27:06 -0800
-Received: from [10.111.174.92] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 16 Feb
- 2022 16:27:04 -0800
-Message-ID: <35696c4b-cb84-610d-96de-73126aa6810b@quicinc.com>
-Date: Wed, 16 Feb 2022 16:27:02 -0800
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2EEF10E6CB
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 00:40:06 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id o6so5899347ljp.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 16:40:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=irfOfdSIE9rR3XmORLk7Bf5d4a0WcfMYhHYf+s3tbSs=;
+ b=AILDcMvPG9itOtC+CSIt/42wtECc07XURtltr7tN1l6iwwVFUcer9QlOidGe1bE6Oo
+ lJ3mxg5ho54gQsy4Y/h37a+rnbQJbxMwwHw4jUe4/O069PV3zrcMlH0VyS+hnJCf0p/V
+ URQ3OT2qwI+4bahYujfrfw5Vrmj2Zs8/ybeC+XbUjCDSXju+aZRbUbxsyKVEaPewEZnz
+ 3fJwD7K39V77Cc5eE+fYj1bxFEellkt8bIitHmWKG0BYzfcebAK5JXISaKBQhEC5kyl4
+ LUQ47gj+LjKBylW4dOtUv3SufxPxUbos5KcWkY4qz17jlaQivgaVkUA8SAleUnizDbjX
+ XZjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=irfOfdSIE9rR3XmORLk7Bf5d4a0WcfMYhHYf+s3tbSs=;
+ b=HOtx66HQBpWYpQRfB52e203JXte1Sc/i8LVFNjI0Tu6bYXMgvFbYGentnqc3rTNJk6
+ zqiWZ+yiIcGpvHn65y2/5kUtFe8H/GVizdcKTL9i0FpifQbnsmWFoiRVar1yUuHpg2lH
+ A4OsLwUWjxXfz6zuG43Qj82K4O661ltx8NaDAlpfZgIj6AY23GNuV7b4t+L9ZpWDbYtQ
+ 4UBt8aHbp/jPgvm35QObJj8qQTTnlkuP3mpw/VzurOLCZ5sF2Ns+uxFCSxsOuNurgO5s
+ 8MtfvMg/LqwzoR/PJuLJGmaBy8l4NvIcwO80JXZCUriLl/zuH3dmVz4ZQ3/3qvDVu/h2
+ LCXw==
+X-Gm-Message-State: AOAM532hFnXv0Rjaae8RAZQRbXxhCj4jKj6Pp/g5ja+cmz2lF5mh8sfq
+ 3XXFaAtEgFIz37rcfEq0/LJ3ww==
+X-Google-Smtp-Source: ABdhPJzv0HhA2eC9Ca8TvfoEl3imb6op8FIsLTF5dy8X5bvs6IGsJDWqpBElKJJ5mKwrc8q714fGLg==
+X-Received: by 2002:a2e:9c15:0:b0:23f:96fa:4b96 with SMTP id
+ s21-20020a2e9c15000000b0023f96fa4b96mr426058lji.293.1645058404997; 
+ Wed, 16 Feb 2022 16:40:04 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id l18sm4966807ljc.11.2022.02.16.16.40.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Feb 2022 16:40:04 -0800 (PST)
+Message-ID: <8aeec164-836b-d964-3b40-fb0874612250@linaro.org>
+Date: Thu, 17 Feb 2022 03:40:03 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [REPOST PATCH v4 02/13] drm/msm/dsi: Pass DSC params to drm_panel
-Content-Language: en-US
-To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
-References: <20220210103423.271016-1-vkoul@kernel.org>
- <20220210103423.271016-3-vkoul@kernel.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220210103423.271016-3-vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Subject: Re: [PATCH v3 3/3] drm/msm/dp: replace DRM_DEBUG_DP marco with
+ drm_dbg_dp
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, Stephen Boyd
+ <swboyd@chromium.org>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run,
+ vkoul@kernel.org
+References: <1643828199-8564-1-git-send-email-quic_khsieh@quicinc.com>
+ <1643828199-8564-4-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n534MH7ih4nKbjY5EewcZ0J73Zp_A=Q-CJ0M_z3nWoVaVQ@mail.gmail.com>
+ <f480811d-3e82-a6c7-1e57-fabe51604f9b@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <f480811d-3e82-a6c7-1e57-fabe51604f9b@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,172 +80,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 17/02/2022 03:22, Kuogee Hsieh wrote:
+> 
+> On 2/16/2022 3:46 PM, Stephen Boyd wrote:
+>> Quoting Kuogee Hsieh (2022-02-02 10:56:39)
+>>
+>> Please add some commit text
+>>
+>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/dp/dp_audio.c   |  49 +++++++++++------
+>>>   drivers/gpu/drm/msm/dp/dp_catalog.c |  34 +++++++-----
+>>>   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 106 
+>>> +++++++++++++++++++-----------------
+>>>   drivers/gpu/drm/msm/dp/dp_display.c |  68 +++++++++++++----------
+>>>   drivers/gpu/drm/msm/dp/dp_drm.c     |   4 +-
+>>>   drivers/gpu/drm/msm/dp/dp_link.c    |  99 
+>>> +++++++++++++++++++--------------
+>>>   drivers/gpu/drm/msm/dp/dp_panel.c   |  43 +++++++++------
+>>>   drivers/gpu/drm/msm/dp/dp_parser.c  |   2 +-
+>>>   drivers/gpu/drm/msm/dp/dp_power.c   |  20 ++++---
+>>>   9 files changed, 246 insertions(+), 179 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c 
+>>> b/drivers/gpu/drm/msm/dp/dp_audio.c
+>>> index d7e4a39..4fbbe0a 100644
+>>> --- a/drivers/gpu/drm/msm/dp/dp_audio.c
+>>> +++ b/drivers/gpu/drm/msm/dp/dp_audio.c
+>>> @@ -136,7 +136,8 @@ static void dp_audio_stream_sdp(struct 
+>>> dp_audio_private *audio)
+>>>          parity_byte = dp_audio_calculate_parity(new_value);
+>>>          value |= ((new_value << HEADER_BYTE_1_BIT)
+>>>                          | (parity_byte << PARITY_BYTE_1_BIT));
+>>> -       DRM_DEBUG_DP("Header Byte 1: value = 0x%x, parity_byte = 
+>>> 0x%x\n",
+>>> +       drm_dbg_dp((struct drm_device *)NULL,
+>> Why can't we pass the platform device pointer? Surely the cast is not
+>> necessary and in fact harmful.
+> 
+> Platform device only available at top level (dp_display.c), other level 
+> has no access to platform device or drm_device.
+
+You can pass the platform device (or even better, drm device) to other 
+driver blocks too. It's not something to be kept in secret in 
+dp_display.c only.
+
+> 
+> I will just apss NULL, such as  drm_dbg_dp(NULL, ...), if not device 
+> available.
 
 
-On 2/10/2022 2:34 AM, Vinod Koul wrote:
-> When DSC is enabled, we need to pass the DSC parameters to panel driver
-> as well, so add a dsc parameter in panel and set it when DSC is enabled
-> 
-> Also, fetch and pass DSC configuration for DSI panels to DPU encoder,
-> which will enable and configure DSC hardware blocks accordingly.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Vinod Koul <vkoul@kernel.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  2 ++
->   drivers/gpu/drm/msm/dsi/dsi.c           |  5 +++++
->   drivers/gpu/drm/msm/dsi/dsi.h           |  1 +
->   drivers/gpu/drm/msm/dsi/dsi_host.c      | 22 ++++++++++++++++++++++
->   drivers/gpu/drm/msm/msm_drv.h           |  8 ++++++++
->   include/drm/drm_panel.h                 |  7 +++++++
->   6 files changed, 45 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 47fe11a84a77..ef6ddac22767 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -578,6 +578,8 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
->   			MSM_DISPLAY_CAP_CMD_MODE :
->   			MSM_DISPLAY_CAP_VID_MODE;
->   
-> +		info.dsc = msm_dsi_get_dsc_config(priv->dsi[i]);
-> +
->   		if (msm_dsi_is_bonded_dsi(priv->dsi[i]) && priv->dsi[other]) {
->   			rc = msm_dsi_modeset_init(priv->dsi[other], dev, encoder);
->   			if (rc) {
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-> index 052548883d27..3aeac15e7421 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
-> @@ -20,6 +20,11 @@ bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi)
->   	return !(host_flags & MIPI_DSI_MODE_VIDEO);
->   }
->   
-> +struct msm_display_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
-> +{
-> +	return msm_dsi_host_get_dsc_config(msm_dsi->host);
-> +}
-> +
->   static int dsi_get_phy(struct msm_dsi *msm_dsi)
->   {
->   	struct platform_device *pdev = msm_dsi->pdev;
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-> index c8dedc95428c..16cd9b2fce86 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
-> @@ -152,6 +152,7 @@ int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
->   int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
->   void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host);
->   void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host);
-> +struct msm_display_dsc_config *msm_dsi_host_get_dsc_config(struct mipi_dsi_host *host);
->   
->   /* dsi phy */
->   struct msm_dsi_phy;
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 27553194f9fa..7e9913eff724 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -2059,9 +2059,24 @@ int msm_dsi_host_modeset_init(struct mipi_dsi_host *host,
->   {
->   	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
->   	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
-> +	struct drm_panel *panel;
->   	int ret;
->   
->   	msm_host->dev = dev;
-> +	panel = msm_dsi_host_get_panel(&msm_host->base);
-> +
-> +	if (panel && panel->dsc) {
-> +		struct msm_display_dsc_config *dsc = msm_host->dsc;
-> +
-> +		if (!dsc) {
-> +			dsc = devm_kzalloc(&msm_host->pdev->dev, sizeof(*dsc), GFP_KERNEL);
-> +			if (!dsc)
-> +				return -ENOMEM;
-> +			dsc->drm = panel->dsc;
-> +			msm_host->dsc = dsc;
-> +		}
-> +	}
-> +
->   	ret = cfg_hnd->ops->tx_buf_alloc(msm_host, SZ_4K);
->   	if (ret) {
->   		pr_err("%s: alloc tx gem obj failed, %d\n", __func__, ret);
-> @@ -2626,3 +2641,10 @@ void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host)
->   		dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER,
->   				DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER_SW_TRIGGER);
->   }
-> +
-> +struct msm_display_dsc_config *msm_dsi_host_get_dsc_config(struct mipi_dsi_host *host)
-> +{
-> +	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-> +
-> +	return msm_host->dsc;
-> +}
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index 384f9bad4760..e7a312edfe67 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -119,6 +119,7 @@ struct msm_display_topology {
->    *                      based on num_of_h_tiles
->    * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
->    *				 used instead of panel TE in cmd mode panels
-> + * @dsc:		DSC configuration data for DSC-enabled displays
->    */
->   struct msm_display_info {
->   	int intf_type;
-> @@ -126,6 +127,7 @@ struct msm_display_info {
->   	uint32_t num_of_h_tiles;
->   	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
->   	bool is_te_using_watchdog_timer;
-> +	struct msm_display_dsc_config *dsc;
->   };
->   
->   /* Commit/Event thread specific structure */
-> @@ -365,6 +367,7 @@ void msm_dsi_snapshot(struct msm_disp_state *disp_state, struct msm_dsi *msm_dsi
->   bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi);
->   bool msm_dsi_is_bonded_dsi(struct msm_dsi *msm_dsi);
->   bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi);
-> +struct msm_display_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi);
->   #else
->   static inline void __init msm_dsi_register(void)
->   {
-> @@ -393,6 +396,11 @@ static inline bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi)
->   {
->   	return false;
->   }
-> +
-> +static inline struct msm_display_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
-> +{
-> +	return NULL;
-> +}
->   #endif
->   
->   #ifdef CONFIG_DRM_MSM_DP
-> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> index 4602f833eb51..eb8ae9bf32ed 100644
-> --- a/include/drm/drm_panel.h
-> +++ b/include/drm/drm_panel.h
-> @@ -171,6 +171,13 @@ struct drm_panel {
->   	 * Panel entry in registry.
->   	 */
->   	struct list_head list;
-> +
-> +	/**
-> +	 * @dsc:
-> +	 *
-> +	 * Panel DSC pps payload to be sent
-> +	 */
-> +	struct drm_dsc_config *dsc;
->   };
->   
->   void drm_panel_init(struct drm_panel *panel, struct device *dev,
+
+-- 
+With best wishes
+Dmitry
