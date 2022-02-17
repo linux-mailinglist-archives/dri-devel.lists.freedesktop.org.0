@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A3D4BABC2
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 22:34:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4AC4BABCB
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 22:36:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD0B10E353;
-	Thu, 17 Feb 2022 21:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6042910E82C;
+	Thu, 17 Feb 2022 21:36:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A59410E353
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 21:34:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0302360ADF;
- Thu, 17 Feb 2022 21:34:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 66AA0C340E8;
- Thu, 17 Feb 2022 21:34:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645133688;
- bh=qbafOEf/uBHmpli3QQAfd8aj1cX2r3aA252P+JKq++Q=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=EmQu1pH8GOKz+XJk5++vIXOPg6J2QabIfw1e1IaLn00uGkp0rW0tjuqYbXmCtujA7
- Roku1ZWYkkvwAcPF+k+06MQ+2QYcWfsCPXulcqAzzxWRBPXn+sVupVALG0ovNTb34t
- FKx7g7m6vq64ExnUm/Aqr5QnBWWnCDzDgf8QYY+QFEC3K2k5f/4cCUjsTEz3xh81j0
- aOV9pfFLaZrmmtPd8B/kbulsqbe2iumOqmsYonPoow4kq24ziiP4EkwP2QKmOh+RSq
- feVvQ9TQyKbe+v6roZZFvmghsp7E36FnTCVGDxpcM5gKcuT/gj4IqMTcziTPtDv8o4
- 1chMWOhWVxacA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 55967E6D446; Thu, 17 Feb 2022 21:34:48 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.17-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txai3TyGC3KHjkjLi6UMC-vKRoPJ8p+UpNKXy6Km=1jNQ@mail.gmail.com>
-References: <CAPM=9txai3TyGC3KHjkjLi6UMC-vKRoPJ8p+UpNKXy6Km=1jNQ@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9txai3TyGC3KHjkjLi6UMC-vKRoPJ8p+UpNKXy6Km=1jNQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2022-02-18
-X-PR-Tracked-Commit-Id: 5666b610194705587807a1078753eadc007b9d79
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: b3d971ec25346d6890e9e8f05b63f758cfcef8c5
-Message-Id: <164513368834.29727.9550946484573068640.pr-tracker-bot@kernel.org>
-Date: Thu, 17 Feb 2022 21:34:48 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A85710E827;
+ Thu, 17 Feb 2022 21:36:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1645133799; x=1676669799;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=yB4+2qoMQ9jzb08mZ+ScfZ64ApyU5Uo5M7VdvfRZWlY=;
+ b=uGWiobsUg3cHxpWAG3FWFKrTSegiCIw6S4cCAwQ4dZCHQkV1POSBkVwz
+ UYEuw4dIyfM9eP6LDtDPbhMTca348uIGWUDmNnGBPQfwe/07418u7KIOr
+ 9rC94g49N1L49TUI3ydYOIR9C0fQclnZNQgLO0YSR69feE/ypkdHaGCjw g=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 17 Feb 2022 13:36:38 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 13:36:38 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Thu, 17 Feb 2022 13:36:37 -0800
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Thu, 17 Feb 2022 13:36:37 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
+ <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
+ <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
+Subject: [PATCH v8 0/2] drm/msm/dpu: enable widebus feature base on chip
+ hardware revision
+Date: Thu, 17 Feb 2022 13:36:24 -0800
+Message-ID: <1645133788-5057-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,22 +64,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 18 Feb 2022 06:02:24 +1000:
+revise widebus timing engine programming and enable widebus feature base on chip
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-02-18
+Kuogee Hsieh (4):
+  drm/msm/dpu: adjust display_v_end for eDP and DP
+  drm/msm/dpu: replace BIT(x) with correspond marco define string
+  drm/msm/dpu:  revise timing engine programming to support widebus
+    feature
+  drm/msm/dp: enable widebus feature for display port
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/b3d971ec25346d6890e9e8f05b63f758cfcef8c5
-
-Thank you!
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 14 ++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  2 +
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 14 +++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        | 63 ++++++++++++++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  2 +
+ drivers/gpu/drm/msm/dp/dp_catalog.c                | 34 +++++++++++-
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |  3 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   | 13 +++--
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |  1 +
+ drivers/gpu/drm/msm/dp/dp_display.c                | 30 +++++++++++
+ drivers/gpu/drm/msm/dp/dp_display.h                |  2 +
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  4 +-
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |  2 +-
+ drivers/gpu/drm/msm/msm_drv.h                      |  6 +++
+ 14 files changed, 164 insertions(+), 26 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
