@@ -1,50 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F05D4B9A8E
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 09:07:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21BBB4B9A24
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 08:52:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FBC510E9AD;
-	Thu, 17 Feb 2022 08:06:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5616310E157;
+	Thu, 17 Feb 2022 07:52:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB8B710E9AB;
- Thu, 17 Feb 2022 08:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645085205; x=1676621205;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=UNfXIENrNM+jeccVfiXuPwI2uSkqWg5Q51q8p/xRtLo=;
- b=UmNNmwWKw/xWtTyMasU6dksxNaUfv/Xqs+eWuAZimG2ZyUXqU006KEEK
- 9gtHaIQkJYGiu6JhLk+cCFytIK6zJ1ADL2ZXUCVJE9bQUK3h59VY53BLM
- fC3Z32oW8IIZUW88keEXHksa9SsuC124HTWGD8RPz1D7s8ZMFBFube+dm
- lPmuUvYzXYIYyT8y1/pIr2NPZtQ2pjcIuLPvPU/uDwfB38kJEio/dZvm2
- Q/6IhX0vj2TgggHkcbeR/mqc9pV2m0M6ZeEbtfn6aKK8th6r/eWWTsd+t
- hLsAxNLh6Jen53zwgnQ5SWM+ClwctNsgk7l5kKDj6dItrT1LnIpb22syl w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="275408514"
-X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="275408514"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 00:06:42 -0800
-X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="501531701"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 00:06:42 -0800
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/i915/gem: Don't try to map and fence large scanout
- buffers (v8)
-Date: Wed, 16 Feb 2022 23:50:14 -0800
-Message-Id: <20220217075014.922605-4-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220217075014.922605-1-vivek.kasireddy@intel.com>
-References: <20220217075014.922605-1-vivek.kasireddy@intel.com>
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76F0110E91B
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 07:52:07 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id lw4so5042391ejb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 23:52:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:cc:references:in-reply-to:content-transfer-encoding;
+ bh=p6ox5iK1geDdZaWZdWidUBlkK351NihaCPBEfOTdDE8=;
+ b=UlaRv6eTaJJmFFzwwAYgXaXx0TkLV4zRLw11mHgFu4wPzxA+CrsyYvn0FM5uoxKGgO
+ pCl7QH/XHgF+o3zyxEg2v4c+TtQXFJY9N0dz4b+S0HyX4WrNKdf6SrI41ML59d0tyQCN
+ h/nnKiAubmutT2KZ9iRv7B4aFdu0RTK2qrPSG/t5FI6PVCp5kRS3obh9ZQ1R0ddoWU3q
+ aOAusgOPdqJ9E3U1UELM0B3BW48y2x28xf+sHhv3B6f8wZKF8F9T9yEbWmkxx/JkqIgG
+ exG6xw+nog9QA2cLE+/8JU6N7NoCM/y3h/7R+kr+ob06SnZbIVBFf9iNEs84vxHNfkv0
+ x/Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=p6ox5iK1geDdZaWZdWidUBlkK351NihaCPBEfOTdDE8=;
+ b=O1NFFffgQLLP/FrKmOFo0kMyFC/UGHhcpeDuw6lzG1RjYrn0+S9DmhgD0niktPTGNP
+ s4WTP9rpdMwufXFYbLuf5fmAAeke0tPn1r4cAWrFwdCfrX2RW6eQhSdBgnVbKeRTQdB7
+ wCOWyp/1oQ45Iafsf80K81xGN6R7ZmyFDMjs1QWG9tgXv+SCNSfOc7ji6mfpX0WM4ON9
+ NgQ2YVvsFEPRRQRLGQwuLq0p3G6xYnN5duD3f7kly7t1uohebSGEHZM2bcgjo4Bk1l93
+ y29DTthStaqgPyaZXwA11hkhAPLxQQYPFyE+RBsygun9JFUonDNWQBdJrNAR+kMSVRQu
+ gW9Q==
+X-Gm-Message-State: AOAM530cBLh7+wcGzMiWQBAi6CWT9wVvTBwEtAgbYo5z3l1NRETDJJkq
+ FcsLrqHZ4W13zR1y2Ph6dg8=
+X-Google-Smtp-Source: ABdhPJzF0MMI8VXEFLTIvmmnqSZRDNmzqGtlVp7tL7p9393W5C1qkRT6FQhq5KOya08v0m6aOz5DJA==
+X-Received: by 2002:a17:906:4958:b0:6cf:276d:88c4 with SMTP id
+ f24-20020a170906495800b006cf276d88c4mr1353838ejt.405.1645084325497; 
+ Wed, 16 Feb 2022 23:52:05 -0800 (PST)
+Received: from ?IPV6:2a02:908:1252:fb60:f9e8:4da8:1d60:3722?
+ ([2a02:908:1252:fb60:f9e8:4da8:1d60:3722])
+ by smtp.gmail.com with ESMTPSA id m25sm913296ejl.38.2022.02.16.23.52.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Feb 2022 23:52:05 -0800 (PST)
+Message-ID: <a6f60993-f604-81b3-c4cd-3e3b0dea1501@gmail.com>
+Date: Thu, 17 Feb 2022 08:52:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/6] drm/ttm: move the LRU into resource handling v3
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, Huang Rui <ray.huang@amd.com>
+References: <20220215172259.196645-1-christian.koenig@amd.com>
+ <20220215172259.196645-2-christian.koenig@amd.com>
+In-Reply-To: <20220215172259.196645-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,265 +75,727 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>
+Cc: felix.kuehling@amd.com, matthew.william.auld@gmail.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On platforms capable of allowing 8K (7680 x 4320) modes, pinning 2 or
-more framebuffers/scanout buffers results in only one that is mappable/
-fenceable. Therefore, pageflipping between these 2 FBs where only one
-is mappable/fenceable creates latencies large enough to miss alternate
-vblanks thereby producing less optimal framerate.
+Adding a few more people.
 
-This mainly happens because when i915_gem_object_pin_to_display_plane()
-is called to pin one of the FB objs, the associated vma is identified
-as misplaced and therefore i915_vma_unbind() is called which unbinds and
-evicts it. This misplaced vma gets subseqently pinned only when
-i915_gem_object_ggtt_pin_ww() is called without PIN_MAPPABLE. This
-results in a latency of ~10ms and happens every other vblank/repaint cycle.
-Therefore, to fix this issue, we try to see if there is space to map
-at-least two objects of a given size and return early if there isn't. This
-would ensure that we do not try with PIN_MAPPABLE for any objects that
-are too big to map thereby preventing unncessary unbind.
+Just a gentle ping on this, can I get an rb or at least acked-by for 
+this patch set?
 
-Testcase:
-Running Weston and weston-simple-egl on an Alderlake_S (ADLS) platform
-with a 8K@60 mode results in only ~40 FPS. Since upstream Weston submits
-a frame ~7ms before the next vblank, the latencies seen between atomic
-commit and flip event are 7, 24 (7 + 16.66), 7, 24..... suggesting that
-it misses the vblank every other frame.
+Thanks in advance,
+Christian.
 
-Here is the ftrace snippet that shows the source of the ~10ms latency:
-              i915_gem_object_pin_to_display_plane() {
-0.102 us   |    i915_gem_object_set_cache_level();
-                i915_gem_object_ggtt_pin_ww() {
-0.390 us   |      i915_vma_instance();
-0.178 us   |      i915_vma_misplaced();
-                  i915_vma_unbind() {
-                  __i915_active_wait() {
-0.082 us   |        i915_active_acquire_if_busy();
-0.475 us   |      }
-                  intel_runtime_pm_get() {
-0.087 us   |        intel_runtime_pm_acquire();
-0.259 us   |      }
-                  __i915_active_wait() {
-0.085 us   |        i915_active_acquire_if_busy();
-0.240 us   |      }
-                  __i915_vma_evict() {
-                    ggtt_unbind_vma() {
-                      gen8_ggtt_clear_range() {
-10507.255 us |        }
-10507.689 us |      }
-10508.516 us |   }
-
-v2: Instead of using bigjoiner checks, determine whether a scanout
-    buffer is too big by checking to see if it is possible to map
-    two of them into the ggtt.
-
-v3 (Ville):
-- Count how many fb objects can be fit into the available holes
-  instead of checking for a hole twice the object size.
-- Take alignment constraints into account.
-- Limit this large scanout buffer check to >= Gen 11 platforms.
-
-v4:
-- Remove existing heuristic that checks just for size. (Ville)
-- Return early if we find space to map at-least two objects. (Tvrtko)
-- Slightly update the commit message.
-
-v5: (Tvrtko)
-- Rename the function to indicate that the object may be too big to
-  map into the aperture.
-- Account for guard pages while calculating the total size required
-  for the object.
-- Do not subject all objects to the heuristic check and instead
-  consider objects only of a certain size.
-- Do the hole walk using the rbtree.
-- Preserve the existing PIN_NONBLOCK logic.
-- Drop the PIN_MAPPABLE check while pinning the VMA.
-
-v6: (Tvrtko)
-- Return 0 on success and the specific error code on failure to
-  preserve the existing behavior.
-
-v7: (Ville)
-- Drop the HAS_GMCH(i915), DISPLAY_VER(i915) < 11 and
-  size < ggtt->mappable_end / 4 checks.
-- Drop the redundant check that is based on previous heuristic.
-
-v8:
-- Make sure that we are holding the mutex associated with ggtt vm
-  as we traverse the hole nodes.
-
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Manasi Navare <manasi.d.navare@intel.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- drivers/gpu/drm/i915/i915_gem.c | 124 +++++++++++++++++++++++---------
- 1 file changed, 90 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index 2e10187cd0a0..db00e71ce328 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -49,6 +49,7 @@
- #include "gem/i915_gem_pm.h"
- #include "gem/i915_gem_region.h"
- #include "gem/i915_gem_userptr.h"
-+#include "gem/i915_gem_tiling.h"
- #include "gt/intel_engine_user.h"
- #include "gt/intel_gt.h"
- #include "gt/intel_gt_pm.h"
-@@ -879,6 +880,92 @@ static void discard_ggtt_vma(struct i915_vma *vma)
- 	spin_unlock(&obj->vma.lock);
- }
- 
-+static int
-+i915_gem_object_fits_in_aperture(struct drm_i915_gem_object *obj,
-+				 u64 alignment, u64 flags)
-+{
-+	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
-+	struct drm_mm_node *hole;
-+	u64 hole_start, hole_end, start, end;
-+	u64 fence_size, fence_alignment;
-+	unsigned int count = 0;
-+
-+	/*
-+	 * If the required space is larger than the available
-+	 * aperture, we will not able to find a slot for the
-+	 * object and unbinding the object now will be in
-+	 * vain. Worse, doing so may cause us to ping-pong
-+	 * the object in and out of the Global GTT and
-+	 * waste a lot of cycles under the mutex.
-+	 */
-+	if (obj->base.size > ggtt->mappable_end)
-+		return -E2BIG;
-+
-+	/*
-+	 * If NONBLOCK is set the caller is optimistically
-+	 * trying to cache the full object within the mappable
-+	 * aperture, and *must* have a fallback in place for
-+	 * situations where we cannot bind the object. We
-+	 * can be a little more lax here and use the fallback
-+	 * more often to avoid costly migrations of ourselves
-+	 * and other objects within the aperture.
-+	 */
-+	if (!(flags & PIN_NONBLOCK))
-+		return 0;
-+
-+	/*
-+	 * Other objects such as batchbuffers are fairly small compared
-+	 * to FBs and are unlikely to exahust the aperture space.
-+	 * Therefore, return early if this obj is not an FB.
-+	 */
-+	if (!i915_gem_object_is_framebuffer(obj))
-+		return 0;
-+
-+	fence_size = i915_gem_fence_size(i915, obj->base.size,
-+					 i915_gem_object_get_tiling(obj),
-+					 i915_gem_object_get_stride(obj));
-+
-+	if (i915_vm_has_cache_coloring(&ggtt->vm))
-+		fence_size += 2 * I915_GTT_PAGE_SIZE;
-+
-+	fence_alignment = i915_gem_fence_alignment(i915, obj->base.size,
-+						   i915_gem_object_get_tiling(obj),
-+						   i915_gem_object_get_stride(obj));
-+	alignment = max_t(u64, alignment, fence_alignment);
-+
-+	/*
-+	 * Assuming this object is a large scanout buffer, we try to find
-+	 * out if there is room to map at-least two of them. There could
-+	 * be space available to map one but to be consistent, we try to
-+	 * avoid mapping/fencing any of them.
-+	 */
-+	mutex_lock(&ggtt->vm.mutex);
-+	drm_mm_for_each_suitable_hole(hole, &ggtt->vm.mm, 0, ggtt->mappable_end,
-+				      fence_size, DRM_MM_INSERT_LOW) {
-+		hole_start = drm_mm_hole_node_start(hole);
-+		hole_end = hole_start + hole->hole_size;
-+
-+		do {
-+			start = round_up(hole_start, alignment);
-+			end = min_t(u64, hole_end, ggtt->mappable_end);
-+
-+			if (range_overflows(start, fence_size, end))
-+				break;
-+
-+			if (++count >= 2) {
-+				mutex_unlock(&ggtt->vm.mutex);
-+				return 0;
-+			}
-+
-+			hole_start = start + fence_size;
-+		} while (1);
-+	}
-+
-+	mutex_unlock(&ggtt->vm.mutex);
-+	return -ENOSPC;
-+}
-+
- struct i915_vma *
- i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 			    struct i915_gem_ww_ctx *ww,
-@@ -894,36 +981,9 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 
- 	if (flags & PIN_MAPPABLE &&
- 	    (!view || view->type == I915_GGTT_VIEW_NORMAL)) {
--		/*
--		 * If the required space is larger than the available
--		 * aperture, we will not able to find a slot for the
--		 * object and unbinding the object now will be in
--		 * vain. Worse, doing so may cause us to ping-pong
--		 * the object in and out of the Global GTT and
--		 * waste a lot of cycles under the mutex.
--		 */
--		if (obj->base.size > ggtt->mappable_end)
--			return ERR_PTR(-E2BIG);
--
--		/*
--		 * If NONBLOCK is set the caller is optimistically
--		 * trying to cache the full object within the mappable
--		 * aperture, and *must* have a fallback in place for
--		 * situations where we cannot bind the object. We
--		 * can be a little more lax here and use the fallback
--		 * more often to avoid costly migrations of ourselves
--		 * and other objects within the aperture.
--		 *
--		 * Half-the-aperture is used as a simple heuristic.
--		 * More interesting would to do search for a free
--		 * block prior to making the commitment to unbind.
--		 * That caters for the self-harm case, and with a
--		 * little more heuristics (e.g. NOFAULT, NOEVICT)
--		 * we could try to minimise harm to others.
--		 */
--		if (flags & PIN_NONBLOCK &&
--		    obj->base.size > ggtt->mappable_end / 2)
--			return ERR_PTR(-ENOSPC);
-+		ret = i915_gem_object_fits_in_aperture(obj, alignment, flags);
-+		if (ret)
-+			return ERR_PTR(ret);
- 	}
- 
- new_vma:
-@@ -935,10 +995,6 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 		if (flags & PIN_NONBLOCK) {
- 			if (i915_vma_is_pinned(vma) || i915_vma_is_active(vma))
- 				return ERR_PTR(-ENOSPC);
--
--			if (flags & PIN_MAPPABLE &&
--			    vma->fence_size > ggtt->mappable_end / 2)
--				return ERR_PTR(-ENOSPC);
- 		}
- 
- 		if (i915_vma_is_pinned(vma) || i915_vma_is_active(vma)) {
--- 
-2.34.1
+Am 15.02.22 um 18:22 schrieb Christian König:
+> This way we finally fix the problem that new resource are
+> not immediately evict-able after allocation.
+>
+> That has caused numerous problems including OOM on GDS handling
+> and not being able to use TTM as general resource manager.
+>
+> v2: stop assuming in ttm_resource_fini that res->bo is still valid.
+> v3: cleanup kerneldoc, add more lockdep annotation
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Tested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c  |   8 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c |   2 +-
+>   drivers/gpu/drm/ttm/ttm_bo.c            | 115 ++--------------------
+>   drivers/gpu/drm/ttm/ttm_bo_util.c       |   1 -
+>   drivers/gpu/drm/ttm/ttm_device.c        |  64 ++++++-------
+>   drivers/gpu/drm/ttm/ttm_resource.c      | 122 +++++++++++++++++++++++-
+>   include/drm/ttm/ttm_bo_api.h            |  16 ----
+>   include/drm/ttm/ttm_bo_driver.h         |  29 +-----
+>   include/drm/ttm/ttm_resource.h          |  35 +++++++
+>   9 files changed, 197 insertions(+), 195 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> index b37fc7d7d2c7..f2ce5a0defd9 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> @@ -683,12 +683,12 @@ void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
+>   
+>   	if (vm->bulk_moveable) {
+>   		spin_lock(&adev->mman.bdev.lru_lock);
+> -		ttm_bo_bulk_move_lru_tail(&vm->lru_bulk_move);
+> +		ttm_lru_bulk_move_tail(&vm->lru_bulk_move);
+>   		spin_unlock(&adev->mman.bdev.lru_lock);
+>   		return;
+>   	}
+>   
+> -	memset(&vm->lru_bulk_move, 0, sizeof(vm->lru_bulk_move));
+> +	ttm_lru_bulk_move_init(&vm->lru_bulk_move);
+>   
+>   	spin_lock(&adev->mman.bdev.lru_lock);
+>   	list_for_each_entry(bo_base, &vm->idle, vm_status) {
+> @@ -698,11 +698,9 @@ void amdgpu_vm_move_to_lru_tail(struct amdgpu_device *adev,
+>   		if (!bo->parent)
+>   			continue;
+>   
+> -		ttm_bo_move_to_lru_tail(&bo->tbo, bo->tbo.resource,
+> -					&vm->lru_bulk_move);
+> +		ttm_bo_move_to_lru_tail(&bo->tbo, &vm->lru_bulk_move);
+>   		if (shadow)
+>   			ttm_bo_move_to_lru_tail(&shadow->tbo,
+> -						shadow->tbo.resource,
+>   						&vm->lru_bulk_move);
+>   	}
+>   	spin_unlock(&adev->mman.bdev.lru_lock);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index de3fe79b665a..582e8dc9bc8c 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -849,7 +849,7 @@ void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
+>   			bo->priority = I915_TTM_PRIO_NO_PAGES;
+>   	}
+>   
+> -	ttm_bo_move_to_lru_tail(bo, bo->resource, NULL);
+> +	ttm_bo_move_to_lru_tail(bo, NULL);
+>   	spin_unlock(&bo->bdev->lru_lock);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index db3dc7ef5382..cb0fa932d495 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -69,108 +69,16 @@ static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
+>   	}
+>   }
+>   
+> -static inline void ttm_bo_move_to_pinned(struct ttm_buffer_object *bo)
+> -{
+> -	struct ttm_device *bdev = bo->bdev;
+> -
+> -	list_move_tail(&bo->lru, &bdev->pinned);
+> -
+> -	if (bdev->funcs->del_from_lru_notify)
+> -		bdev->funcs->del_from_lru_notify(bo);
+> -}
+> -
+> -static inline void ttm_bo_del_from_lru(struct ttm_buffer_object *bo)
+> -{
+> -	struct ttm_device *bdev = bo->bdev;
+> -
+> -	list_del_init(&bo->lru);
+> -
+> -	if (bdev->funcs->del_from_lru_notify)
+> -		bdev->funcs->del_from_lru_notify(bo);
+> -}
+> -
+> -static void ttm_bo_bulk_move_set_pos(struct ttm_lru_bulk_move_pos *pos,
+> -				     struct ttm_buffer_object *bo)
+> -{
+> -	if (!pos->first)
+> -		pos->first = bo;
+> -	pos->last = bo;
+> -}
+> -
+>   void ttm_bo_move_to_lru_tail(struct ttm_buffer_object *bo,
+> -			     struct ttm_resource *mem,
+>   			     struct ttm_lru_bulk_move *bulk)
+>   {
+> -	struct ttm_device *bdev = bo->bdev;
+> -	struct ttm_resource_manager *man;
+> -
+> -	if (!bo->deleted)
+> -		dma_resv_assert_held(bo->base.resv);
+> -
+> -	if (bo->pin_count) {
+> -		ttm_bo_move_to_pinned(bo);
+> -		return;
+> -	}
+> -
+> -	if (!mem)
+> -		return;
+> -
+> -	man = ttm_manager_type(bdev, mem->mem_type);
+> -	list_move_tail(&bo->lru, &man->lru[bo->priority]);
+> -
+> -	if (bdev->funcs->del_from_lru_notify)
+> -		bdev->funcs->del_from_lru_notify(bo);
+> -
+> -	if (bulk && !bo->pin_count) {
+> -		switch (bo->resource->mem_type) {
+> -		case TTM_PL_TT:
+> -			ttm_bo_bulk_move_set_pos(&bulk->tt[bo->priority], bo);
+> -			break;
+> +	dma_resv_assert_held(bo->base.resv);
+>   
+> -		case TTM_PL_VRAM:
+> -			ttm_bo_bulk_move_set_pos(&bulk->vram[bo->priority], bo);
+> -			break;
+> -		}
+> -	}
+> +	if (bo->resource)
+> +		ttm_resource_move_to_lru_tail(bo->resource, bulk);
+>   }
+>   EXPORT_SYMBOL(ttm_bo_move_to_lru_tail);
+>   
+> -void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk)
+> -{
+> -	unsigned i;
+> -
+> -	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+> -		struct ttm_lru_bulk_move_pos *pos = &bulk->tt[i];
+> -		struct ttm_resource_manager *man;
+> -
+> -		if (!pos->first)
+> -			continue;
+> -
+> -		dma_resv_assert_held(pos->first->base.resv);
+> -		dma_resv_assert_held(pos->last->base.resv);
+> -
+> -		man = ttm_manager_type(pos->first->bdev, TTM_PL_TT);
+> -		list_bulk_move_tail(&man->lru[i], &pos->first->lru,
+> -				    &pos->last->lru);
+> -	}
+> -
+> -	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+> -		struct ttm_lru_bulk_move_pos *pos = &bulk->vram[i];
+> -		struct ttm_resource_manager *man;
+> -
+> -		if (!pos->first)
+> -			continue;
+> -
+> -		dma_resv_assert_held(pos->first->base.resv);
+> -		dma_resv_assert_held(pos->last->base.resv);
+> -
+> -		man = ttm_manager_type(pos->first->bdev, TTM_PL_VRAM);
+> -		list_bulk_move_tail(&man->lru[i], &pos->first->lru,
+> -				    &pos->last->lru);
+> -	}
+> -}
+> -EXPORT_SYMBOL(ttm_bo_bulk_move_lru_tail);
+> -
+>   static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+>   				  struct ttm_resource *mem, bool evict,
+>   				  struct ttm_operation_ctx *ctx,
+> @@ -344,7 +252,6 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_object *bo,
+>   		return ret;
+>   	}
+>   
+> -	ttm_bo_move_to_pinned(bo);
+>   	list_del_init(&bo->ddestroy);
+>   	spin_unlock(&bo->bdev->lru_lock);
+>   	ttm_bo_cleanup_memtype_use(bo);
+> @@ -445,7 +352,7 @@ static void ttm_bo_release(struct kref *kref)
+>   		 */
+>   		if (bo->pin_count) {
+>   			bo->pin_count = 0;
+> -			ttm_bo_move_to_lru_tail(bo, bo->resource, NULL);
+> +			ttm_resource_move_to_lru_tail(bo->resource, NULL);
+>   		}
+>   
+>   		kref_init(&bo->kref);
+> @@ -458,7 +365,6 @@ static void ttm_bo_release(struct kref *kref)
+>   	}
+>   
+>   	spin_lock(&bo->bdev->lru_lock);
+> -	ttm_bo_del_from_lru(bo);
+>   	list_del(&bo->ddestroy);
+>   	spin_unlock(&bo->bdev->lru_lock);
+>   
+> @@ -673,15 +579,17 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
+>   			struct ww_acquire_ctx *ticket)
+>   {
+>   	struct ttm_buffer_object *bo = NULL, *busy_bo = NULL;
+> +	struct ttm_resource *res;
+>   	bool locked = false;
+>   	unsigned i;
+>   	int ret;
+>   
+>   	spin_lock(&bdev->lru_lock);
+>   	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+> -		list_for_each_entry(bo, &man->lru[i], lru) {
+> +		list_for_each_entry(res, &man->lru[i], lru) {
+>   			bool busy;
+>   
+> +			bo = res->bo;
+>   			if (!ttm_bo_evict_swapout_allowable(bo, ctx, place,
+>   							    &locked, &busy)) {
+>   				if (busy && !busy_bo && ticket !=
+> @@ -699,7 +607,7 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
+>   		}
+>   
+>   		/* If the inner loop terminated early, we have our candidate */
+> -		if (&bo->lru != &man->lru[i])
+> +		if (&res->lru != &man->lru[i])
+>   			break;
+>   
+>   		bo = NULL;
+> @@ -875,9 +783,6 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+>   	}
+>   
+>   error:
+> -	if (bo->resource->mem_type == TTM_PL_SYSTEM && !bo->pin_count)
+> -		ttm_bo_move_to_lru_tail_unlocked(bo);
+> -
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL(ttm_bo_mem_space);
+> @@ -971,7 +876,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
+>   	bo->destroy = destroy ? destroy : ttm_bo_default_destroy;
+>   
+>   	kref_init(&bo->kref);
+> -	INIT_LIST_HEAD(&bo->lru);
+>   	INIT_LIST_HEAD(&bo->ddestroy);
+>   	bo->bdev = bdev;
+>   	bo->type = type;
+> @@ -1021,8 +925,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
+>   		return ret;
+>   	}
+>   
+> -	ttm_bo_move_to_lru_tail_unlocked(bo);
+> -
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL(ttm_bo_init_reserved);
+> @@ -1123,7 +1025,6 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+>   		return ret == -EBUSY ? -ENOSPC : ret;
+>   	}
+>   
+> -	ttm_bo_move_to_pinned(bo);
+>   	/* TODO: Cleanup the locking */
+>   	spin_unlock(&bo->bdev->lru_lock);
+>   
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 544a84fa6589..0163e92b57af 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -231,7 +231,6 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+>   
+>   	atomic_inc(&ttm_glob.bo_count);
+>   	INIT_LIST_HEAD(&fbo->base.ddestroy);
+> -	INIT_LIST_HEAD(&fbo->base.lru);
+>   	fbo->base.moving = NULL;
+>   	drm_vma_node_reset(&fbo->base.base.vma_node);
+>   
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+> index be24bb6cefd0..ba35887147ba 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -144,6 +144,7 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
+>   {
+>   	struct ttm_resource_manager *man;
+>   	struct ttm_buffer_object *bo;
+> +	struct ttm_resource *res;
+>   	unsigned i, j;
+>   	int ret;
+>   
+> @@ -154,8 +155,11 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
+>   			continue;
+>   
+>   		for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j) {
+> -			list_for_each_entry(bo, &man->lru[j], lru) {
+> -				uint32_t num_pages = PFN_UP(bo->base.size);
+> +			list_for_each_entry(res, &man->lru[j], lru) {
+> +				uint32_t num_pages;
+> +
+> +				bo = res->bo;
+> +				num_pages = PFN_UP(bo->base.size);
+>   
+>   				ret = ttm_bo_swapout(bo, ctx, gfp_flags);
+>   				/* ttm_bo_swapout has dropped the lru_lock */
+> @@ -259,49 +263,45 @@ void ttm_device_fini(struct ttm_device *bdev)
+>   }
+>   EXPORT_SYMBOL(ttm_device_fini);
+>   
+> -void ttm_device_clear_dma_mappings(struct ttm_device *bdev)
+> +static void ttm_device_clear_lru_dma_mappings(struct ttm_device *bdev,
+> +					      struct list_head *list)
+>   {
+> -	struct ttm_resource_manager *man;
+> -	struct ttm_buffer_object *bo;
+> -	unsigned int i, j;
+> +	struct ttm_resource *res;
+>   
+>   	spin_lock(&bdev->lru_lock);
+> -	while (!list_empty(&bdev->pinned)) {
+> -		bo = list_first_entry(&bdev->pinned, struct ttm_buffer_object, lru);
+> +	while ((res = list_first_entry_or_null(list, typeof(*res), lru))) {
+> +		struct ttm_buffer_object *bo = res->bo;
+> +
+>   		/* Take ref against racing releases once lru_lock is unlocked */
+> -		if (ttm_bo_get_unless_zero(bo)) {
+> -			list_del_init(&bo->lru);
+> -			spin_unlock(&bdev->lru_lock);
+> +		if (!ttm_bo_get_unless_zero(bo))
+> +			continue;
+>   
+> -			if (bo->ttm)
+> -				ttm_tt_unpopulate(bo->bdev, bo->ttm);
+> +		list_del_init(&res->lru);
+> +		spin_unlock(&bdev->lru_lock);
+>   
+> -			ttm_bo_put(bo);
+> -			spin_lock(&bdev->lru_lock);
+> -		}
+> +		if (bo->ttm)
+> +			ttm_tt_unpopulate(bo->bdev, bo->ttm);
+> +
+> +		ttm_bo_put(bo);
+> +		spin_lock(&bdev->lru_lock);
+>   	}
+> +	spin_unlock(&bdev->lru_lock);
+> +}
+> +
+> +void ttm_device_clear_dma_mappings(struct ttm_device *bdev)
+> +{
+> +	struct ttm_resource_manager *man;
+> +	unsigned int i, j;
+> +
+> +	ttm_device_clear_lru_dma_mappings(bdev, &bdev->pinned);
+>   
+>   	for (i = TTM_PL_SYSTEM; i < TTM_NUM_MEM_TYPES; ++i) {
+>   		man = ttm_manager_type(bdev, i);
+>   		if (!man || !man->use_tt)
+>   			continue;
+>   
+> -		for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j) {
+> -			while (!list_empty(&man->lru[j])) {
+> -				bo = list_first_entry(&man->lru[j], struct ttm_buffer_object, lru);
+> -				if (ttm_bo_get_unless_zero(bo)) {
+> -					list_del_init(&bo->lru);
+> -					spin_unlock(&bdev->lru_lock);
+> -
+> -					if (bo->ttm)
+> -						ttm_tt_unpopulate(bo->bdev, bo->ttm);
+> -
+> -					ttm_bo_put(bo);
+> -					spin_lock(&bdev->lru_lock);
+> -				}
+> -			}
+> -		}
+> +		for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j)
+> +			ttm_device_clear_lru_dma_mappings(bdev, &man->lru[j]);
+>   	}
+> -	spin_unlock(&bdev->lru_lock);
+>   }
+>   EXPORT_SYMBOL(ttm_device_clear_dma_mappings);
+> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+> index cbd47a104962..3af788dd197e 100644
+> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> @@ -29,6 +29,110 @@
+>   #include <drm/ttm/ttm_resource.h>
+>   #include <drm/ttm/ttm_bo_driver.h>
+>   
+> +/**
+> + * ttm_lru_bulk_move_init - initialize a bulk move structure
+> + * @bulk: the structure to init
+> + *
+> + * For now just memset the structure to zero.
+> + */
+> +void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk)
+> +{
+> +	memset(bulk, 0, sizeof(*bulk));
+> +}
+> +EXPORT_SYMBOL(ttm_lru_bulk_move_init);
+> +
+> +/**
+> + * ttm_lru_bulk_move_tail - bulk move range of resources to the LRU tail.
+> + *
+> + * @bulk: bulk move structure
+> + *
+> + * Bulk move BOs to the LRU tail, only valid to use when driver makes sure that
+> + * resource order never changes. Should be called with &ttm_device.lru_lock held.
+> + */
+> +void ttm_lru_bulk_move_tail(struct ttm_lru_bulk_move *bulk)
+> +{
+> +	unsigned i;
+> +
+> +	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+> +		struct ttm_lru_bulk_move_pos *pos = &bulk->tt[i];
+> +		struct ttm_resource_manager *man;
+> +
+> +		if (!pos->first)
+> +			continue;
+> +
+> +		lockdep_assert_held(&pos->first->bo->bdev->lru_lock);
+> +		dma_resv_assert_held(pos->first->bo->base.resv);
+> +		dma_resv_assert_held(pos->last->bo->base.resv);
+> +
+> +		man = ttm_manager_type(pos->first->bo->bdev, TTM_PL_TT);
+> +		list_bulk_move_tail(&man->lru[i], &pos->first->lru,
+> +				    &pos->last->lru);
+> +	}
+> +
+> +	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+> +		struct ttm_lru_bulk_move_pos *pos = &bulk->vram[i];
+> +		struct ttm_resource_manager *man;
+> +
+> +		if (!pos->first)
+> +			continue;
+> +
+> +		lockdep_assert_held(&pos->first->bo->bdev->lru_lock);
+> +		dma_resv_assert_held(pos->first->bo->base.resv);
+> +		dma_resv_assert_held(pos->last->bo->base.resv);
+> +
+> +		man = ttm_manager_type(pos->first->bo->bdev, TTM_PL_VRAM);
+> +		list_bulk_move_tail(&man->lru[i], &pos->first->lru,
+> +				    &pos->last->lru);
+> +	}
+> +}
+> +EXPORT_SYMBOL(ttm_lru_bulk_move_tail);
+> +
+> +/* Record a resource position in a bulk move structure */
+> +static void ttm_lru_bulk_move_set_pos(struct ttm_lru_bulk_move_pos *pos,
+> +				      struct ttm_resource *res)
+> +{
+> +	if (!pos->first)
+> +		pos->first = res;
+> +	pos->last = res;
+> +}
+> +
+> +/* Move a resource to the LRU tail and track the bulk position */
+> +void ttm_resource_move_to_lru_tail(struct ttm_resource *res,
+> +				   struct ttm_lru_bulk_move *bulk)
+> +{
+> +	struct ttm_buffer_object *bo = res->bo;
+> +	struct ttm_device *bdev = bo->bdev;
+> +	struct ttm_resource_manager *man;
+> +
+> +	lockdep_assert_held(&bo->bdev->lru_lock);
+> +
+> +	if (bo->pin_count) {
+> +		list_move_tail(&res->lru, &bdev->pinned);
+> +		if (bdev->funcs->del_from_lru_notify)
+> +			bdev->funcs->del_from_lru_notify(res->bo);
+> +		return;
+> +	}
+> +
+> +	man = ttm_manager_type(bdev, res->mem_type);
+> +	list_move_tail(&res->lru, &man->lru[bo->priority]);
+> +
+> +	if (bdev->funcs->del_from_lru_notify)
+> +		bdev->funcs->del_from_lru_notify(bo);
+> +
+> +	if (!bulk)
+> +		return;
+> +
+> +	switch (res->mem_type) {
+> +	case TTM_PL_TT:
+> +		ttm_lru_bulk_move_set_pos(&bulk->tt[bo->priority], res);
+> +		break;
+> +
+> +	case TTM_PL_VRAM:
+> +		ttm_lru_bulk_move_set_pos(&bulk->vram[bo->priority], res);
+> +		break;
+> +	}
+> +}
+> +
+>   /**
+>    * ttm_resource_init - resource object constructure
+>    * @bo: buffer object this resources is allocated for
+> @@ -52,10 +156,12 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>   	res->bus.is_iomem = false;
+>   	res->bus.caching = ttm_cached;
+>   	res->bo = bo;
+> +	INIT_LIST_HEAD(&res->lru);
+>   
+>   	man = ttm_manager_type(bo->bdev, place->mem_type);
+>   	spin_lock(&bo->bdev->lru_lock);
+>   	man->usage += bo->base.size;
+> +	ttm_resource_move_to_lru_tail(res, NULL);
+>   	spin_unlock(&bo->bdev->lru_lock);
+>   }
+>   EXPORT_SYMBOL(ttm_resource_init);
+> @@ -66,15 +172,21 @@ EXPORT_SYMBOL(ttm_resource_init);
+>    * @res: the resource to clean up
+>    *
+>    * Should be used by resource manager backends to clean up the TTM resource
+> - * objects before freeing the underlying structure. Counterpart of
+> - * &ttm_resource_init
+> + * objects before freeing the underlying structure. Makes sure the resource is
+> + * removed from the LRU before destruction.
+> + * Counterpart of &ttm_resource_init.
+>    */
+>   void ttm_resource_fini(struct ttm_resource_manager *man,
+>   		       struct ttm_resource *res)
+>   {
+> -	spin_lock(&man->bdev->lru_lock);
+> -	man->usage -= res->bo->base.size;
+> -	spin_unlock(&man->bdev->lru_lock);
+> +	struct ttm_device *bdev = man->bdev;
+> +
+> +	spin_lock(&bdev->lru_lock);
+> +	list_del_init(&res->lru);
+> +	if (res->bo && bdev->funcs->del_from_lru_notify)
+> +		bdev->funcs->del_from_lru_notify(res->bo);
+> +	man->usage -= res->num_pages << PAGE_SHIFT;
+> +	spin_unlock(&bdev->lru_lock);
+>   }
+>   EXPORT_SYMBOL(ttm_resource_fini);
+>   
+> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+> index c17b2df9178b..3da77fc54552 100644
+> --- a/include/drm/ttm/ttm_bo_api.h
+> +++ b/include/drm/ttm/ttm_bo_api.h
+> @@ -55,8 +55,6 @@ struct ttm_placement;
+>   
+>   struct ttm_place;
+>   
+> -struct ttm_lru_bulk_move;
+> -
+>   /**
+>    * enum ttm_bo_type
+>    *
+> @@ -94,7 +92,6 @@ struct ttm_tt;
+>    * @ttm: TTM structure holding system pages.
+>    * @evicted: Whether the object was evicted without user-space knowing.
+>    * @deleted: True if the object is only a zombie and already deleted.
+> - * @lru: List head for the lru list.
+>    * @ddestroy: List head for the delayed destroy list.
+>    * @swap: List head for swap LRU list.
+>    * @moving: Fence set when BO is moving
+> @@ -143,7 +140,6 @@ struct ttm_buffer_object {
+>   	 * Members protected by the bdev::lru_lock.
+>   	 */
+>   
+> -	struct list_head lru;
+>   	struct list_head ddestroy;
+>   
+>   	/**
+> @@ -295,7 +291,6 @@ void ttm_bo_put(struct ttm_buffer_object *bo);
+>    * ttm_bo_move_to_lru_tail
+>    *
+>    * @bo: The buffer object.
+> - * @mem: Resource object.
+>    * @bulk: optional bulk move structure to remember BO positions
+>    *
+>    * Move this BO to the tail of all lru lists used to lookup and reserve an
+> @@ -303,19 +298,8 @@ void ttm_bo_put(struct ttm_buffer_object *bo);
+>    * held, and is used to make a BO less likely to be considered for eviction.
+>    */
+>   void ttm_bo_move_to_lru_tail(struct ttm_buffer_object *bo,
+> -			     struct ttm_resource *mem,
+>   			     struct ttm_lru_bulk_move *bulk);
+>   
+> -/**
+> - * ttm_bo_bulk_move_lru_tail
+> - *
+> - * @bulk: bulk move structure
+> - *
+> - * Bulk move BOs to the LRU tail, only valid to use when driver makes sure that
+> - * BO order never changes. Should be called with ttm_global::lru_lock held.
+> - */
+> -void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk);
+> -
+>   /**
+>    * ttm_bo_lock_delayed_workqueue
+>    *
+> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+> index 5f087575194b..6c7352e13708 100644
+> --- a/include/drm/ttm/ttm_bo_driver.h
+> +++ b/include/drm/ttm/ttm_bo_driver.h
+> @@ -45,33 +45,6 @@
+>   #include "ttm_tt.h"
+>   #include "ttm_pool.h"
+>   
+> -/**
+> - * struct ttm_lru_bulk_move_pos
+> - *
+> - * @first: first BO in the bulk move range
+> - * @last: last BO in the bulk move range
+> - *
+> - * Positions for a lru bulk move.
+> - */
+> -struct ttm_lru_bulk_move_pos {
+> -	struct ttm_buffer_object *first;
+> -	struct ttm_buffer_object *last;
+> -};
+> -
+> -/**
+> - * struct ttm_lru_bulk_move
+> - *
+> - * @tt: first/last lru entry for BOs in the TT domain
+> - * @vram: first/last lru entry for BOs in the VRAM domain
+> - * @swap: first/last lru entry for BOs on the swap list
+> - *
+> - * Helper structure for bulk moves on the LRU list.
+> - */
+> -struct ttm_lru_bulk_move {
+> -	struct ttm_lru_bulk_move_pos tt[TTM_MAX_BO_PRIORITY];
+> -	struct ttm_lru_bulk_move_pos vram[TTM_MAX_BO_PRIORITY];
+> -};
+> -
+>   /*
+>    * ttm_bo.c
+>    */
+> @@ -182,7 +155,7 @@ static inline void
+>   ttm_bo_move_to_lru_tail_unlocked(struct ttm_buffer_object *bo)
+>   {
+>   	spin_lock(&bo->bdev->lru_lock);
+> -	ttm_bo_move_to_lru_tail(bo, bo->resource, NULL);
+> +	ttm_bo_move_to_lru_tail(bo, NULL);
+>   	spin_unlock(&bo->bdev->lru_lock);
+>   }
+>   
+> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+> index 323c14a30c6b..181e82e3d806 100644
+> --- a/include/drm/ttm/ttm_resource.h
+> +++ b/include/drm/ttm/ttm_resource.h
+> @@ -26,10 +26,12 @@
+>   #define _TTM_RESOURCE_H_
+>   
+>   #include <linux/types.h>
+> +#include <linux/list.h>
+>   #include <linux/mutex.h>
+>   #include <linux/atomic.h>
+>   #include <linux/dma-buf-map.h>
+>   #include <linux/dma-fence.h>
+> +
+>   #include <drm/drm_print.h>
+>   #include <drm/ttm/ttm_caching.h>
+>   #include <drm/ttm/ttm_kmap_iter.h>
+> @@ -179,6 +181,33 @@ struct ttm_resource {
+>   	uint32_t placement;
+>   	struct ttm_bus_placement bus;
+>   	struct ttm_buffer_object *bo;
+> +	struct list_head lru;
+> +};
+> +
+> +/**
+> + * struct ttm_lru_bulk_move_pos
+> + *
+> + * @first: first res in the bulk move range
+> + * @last: last res in the bulk move range
+> + *
+> + * Positions for a lru bulk move.
+> + */
+> +struct ttm_lru_bulk_move_pos {
+> +	struct ttm_resource *first;
+> +	struct ttm_resource *last;
+> +};
+> +
+> +/**
+> + * struct ttm_lru_bulk_move
+> + *
+> + * @tt: first/last lru entry for resources in the TT domain
+> + * @vram: first/last lru entry for resources in the VRAM domain
+> + *
+> + * Helper structure for bulk moves on the LRU list.
+> + */
+> +struct ttm_lru_bulk_move {
+> +	struct ttm_lru_bulk_move_pos tt[TTM_MAX_BO_PRIORITY];
+> +	struct ttm_lru_bulk_move_pos vram[TTM_MAX_BO_PRIORITY];
+>   };
+>   
+>   /**
+> @@ -267,6 +296,12 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+>   	man->move = NULL;
+>   }
+>   
+> +void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk);
+> +void ttm_lru_bulk_move_tail(struct ttm_lru_bulk_move *bulk);
+> +
+> +void ttm_resource_move_to_lru_tail(struct ttm_resource *res,
+> +				   struct ttm_lru_bulk_move *bulk);
+> +
+>   void ttm_resource_init(struct ttm_buffer_object *bo,
+>                          const struct ttm_place *place,
+>                          struct ttm_resource *res);
 
