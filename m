@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 540034BC74B
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD404BC761
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F5D510F66A;
-	Sat, 19 Feb 2022 10:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4AF10F692;
+	Sat, 19 Feb 2022 10:02:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA25410ED0E
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:25:24 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id j12so13746804ybh.8
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 07:25:24 -0800 (PST)
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE3AC10EB36
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:38:43 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id y6so13856359ybc.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 07:38:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MQP46pb+DPsuzuoL3BGGcclWodDFs0G/3Es7HjdxUCo=;
- b=cMfVnVTpouxlUm+jaYnytrgpG4TUi9DLUb+yI8qFyskWkAnXv+M6au1/maKPGNtmO8
- GcaWRklihf6L8yh393NfKIPLun4OQl9mYY1jRZzl8G0dxaxR37h911mKIPqAbIPKz/v+
- 6NHpGj21rf8gWajcLnxmDL3+gi1yzfX/0r5GsyQNm0G3ZDxFDCyEhP0ciU9iVcvUP+7O
- O/wtUSIJGcfT+Ts4VAKp3Aryl+D1ZEsXMiVhErXbkzytbGDcWRcL5hG4Z9uexhoyPRc9
- FH+/+Hlyt8N+opqaLI0HBwUBgEOZ3cX4lZaeTqsxqLys+lkPUrmtmR1F+dIq1tL4rZGb
- Yk0g==
+ :cc; bh=4hk+t9STd/ohkaxKw6p1lqAArc9u/s8Q8z69HF6aLfE=;
+ b=dBmphIBTKJBbLyOdiwSe3VTvN12HETj4nWMgwdynneUZO8D6nWfrB0f/GBiBA+3Bxp
+ KF+/tApD9j+7MjLO3Ima8cJs2VlPrUd+bMIOWVDaUKtszaSMlEIYrw48DABbvIYL682H
+ LD3Re5r4ZXG6jQyafj0JwoDngXYlOewmr0UptZZQLVEVKpRXF4dO5Q3Fr9x91aj6oUXd
+ 96t9ShajgD7echn30nWeEsEzrNMv7O0d1/NniWqwsF6bsxZCyVn/SdWtu7ldYpWcF8mJ
+ knB2bt7Gwyyutk12bI8gZwTL++yweig6tJrG/t4tq1ZgywAGwg/HukZsUJV77AyM7/eP
+ Sv3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=MQP46pb+DPsuzuoL3BGGcclWodDFs0G/3Es7HjdxUCo=;
- b=oxYpmG5Ws/8k8WvP2pFhjRZQyKoC3CxNwGdrTowY7LdsurwW15DThJuT6Y0DQJ1S5s
- Xu+XMof+9XJ0/QzCVNmIwhxrmBI3AORJODLu64agEKyCr/ukc/ZA9QWJspxISxg1I1Qt
- XJyssaGIUvyqt+hQq0W+vKMmdbQqDbyC4Gmqn4YBqMj7wi18BW0oPpup2qtutVoN/+DC
- FNXcaTwIZ3RA4gBYVCX6yrHwwSXx6+2mKuitZhQgbPAWj60neSDuDfM0XTXqXLvNMC49
- +QcltupyJTMitmenM8b9pg+ZxvKhngZ+0yeawGHSg8WRJiR4EimkM02YgFSB8nHj9bLS
- pRuw==
-X-Gm-Message-State: AOAM532ZcCSsBaqaPB7tWB4Yo326LcUFq/GHayJ6ySWhrEtkHbqdcHfD
- H0SkWRT3G9AZCebL4IUAs5Vwv7CD/p4QELUOFmXUGA==
-X-Google-Smtp-Source: ABdhPJyRTktloudhS4FEJQohjippofIbUD6G2axzL1w3brFImkJhKhl9UwTpCXgO94Cef378CE+W+AWSzkPuQK6S+cM=
-X-Received: by 2002:a5b:7c6:0:b0:60b:a0ce:19b with SMTP id
- t6-20020a5b07c6000000b0060ba0ce019bmr2751275ybq.407.1645111523530; 
- Thu, 17 Feb 2022 07:25:23 -0800 (PST)
+ bh=4hk+t9STd/ohkaxKw6p1lqAArc9u/s8Q8z69HF6aLfE=;
+ b=H5skUvOEJsd2WmsnzBCxprtZQAKdBh+n3ZIbOLjh6CQGtsSnubMORQ9m2I5qG3KuBy
+ jxAgabQpYwXj2HRgATwy8nSSFYt/kBETdZUW3xKZhjIrdwlraqlo8BZW0Xs+Arm/GqKx
+ /V8ngS9kc7Fj/uj6wLEfYsEi/ZD16P7t15M9w0OVedPwQ9Y+ZoPGbSeOY7vgmmgnTwX0
+ CSsDDLZwRP7vIveO0x+rXqj8ViYBGN5JCMCRhyh43cfl9d+CdlplMaN0BEXF/eGPAlwv
+ yqmD5D5iV/O7Vq9ajyjFje3t4tsnlWi9TQKb1WzrCKycezNaMrE7Cl5Y/hg6xFfHas/I
+ SpOg==
+X-Gm-Message-State: AOAM531OD2OtdaQzJoSaobhaCAdNyNyQ8gKXbJIckD0W3iYY4yuvUk2K
+ MBRlVxA3/gE6yxUzaTojE7ePa65GIV7LotMoPAixmA==
+X-Google-Smtp-Source: ABdhPJxO+ysMqjMYL+p/uFIKcRWnnodcM/TI1tWk7b39KPn14CMGckpJP4fv4wEzgLTuLSCx3ej7mggJkgIO+uDduuk=
+X-Received: by 2002:a25:a28d:0:b0:623:fa1b:3eb7 with SMTP id
+ c13-20020a25a28d000000b00623fa1b3eb7mr2918043ybi.387.1645112322577; Thu, 17
+ Feb 2022 07:38:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20220217140441.1218045-1-andrzej.hajda@intel.com>
- <20220217140441.1218045-3-andrzej.hajda@intel.com>
- <CANn89iKgzztLA3y6V+vw3RiyoScC3K=1Z1_gajj8H56wGWDw6A@mail.gmail.com>
-In-Reply-To: <CANn89iKgzztLA3y6V+vw3RiyoScC3K=1Z1_gajj8H56wGWDw6A@mail.gmail.com>
+ <20220217140441.1218045-4-andrzej.hajda@intel.com>
+In-Reply-To: <20220217140441.1218045-4-andrzej.hajda@intel.com>
 From: Eric Dumazet <edumazet@google.com>
-Date: Thu, 17 Feb 2022 07:25:12 -0800
-Message-ID: <CANn89iKsP=fO9va0pP9VrruXMKGnRhf9geGawDciTMdz3fOKhg@mail.gmail.com>
-Subject: Re: [PATCH 2/9] lib/ref_tracker: compact stacktraces before printing
+Date: Thu, 17 Feb 2022 07:38:31 -0800
+Message-ID: <CANn89iJ3W3ioVUaBJikCpFdCa9o_APpqyb0FmK9AmYPtgOeC7w@mail.gmail.com>
+Subject: Re: [PATCH 3/9] lib/ref_tracker: __ref_tracker_dir_print improve
+ printing
 To: Andrzej Hajda <andrzej.hajda@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Sat, 19 Feb 2022 10:01:55 +0000
@@ -72,11 +72,146 @@ Cc: Chris Wilson <chris.p.wilson@intel.com>, netdev <netdev@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 17, 2022 at 7:23 AM Eric Dumazet <edumazet@google.com> wrote:
+On Thu, Feb 17, 2022 at 6:05 AM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
+>
+> To improve readibility of ref_tracker printing following changes
+> have been performed:
+> - added display name for ref_tracker_dir,
+> - stack trace is printed indented, in the same printk call,
+> - total number of references is printed every time,
+> - print info about dropped references.
+>
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Reviewed-by: Chris Wilson <chris.p.wilson@intel.com>
+> ---
+>  include/linux/ref_tracker.h | 15 ++++++++++++---
+>  lib/ref_tracker.c           | 28 ++++++++++++++++++++++------
+>  2 files changed, 34 insertions(+), 9 deletions(-)
+>
+> diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
+> index b9c968a716483..090230e5b485d 100644
+> --- a/include/linux/ref_tracker.h
+> +++ b/include/linux/ref_tracker.h
+> @@ -15,18 +15,26 @@ struct ref_tracker_dir {
+>         refcount_t              untracked;
+>         struct list_head        list; /* List of active trackers */
+>         struct list_head        quarantine; /* List of dead trackers */
+> +       char                    name[32];
+>  #endif
+>  };
+>
+>  #ifdef CONFIG_REF_TRACKER
+> -static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
+> -                                       unsigned int quarantine_count)
+> +
+> +// Temporary allow two and three arguments, until consumers are converted
+> +#define ref_tracker_dir_init(_d, _q, args...) _ref_tracker_dir_init(_d, _q, ##args, #_d)
+> +#define _ref_tracker_dir_init(_d, _q, _n, ...) __ref_tracker_dir_init(_d, _q, _n)
+> +
+> +static inline void __ref_tracker_dir_init(struct ref_tracker_dir *dir,
+> +                                       unsigned int quarantine_count,
+> +                                       const char *name)
+>  {
+>         INIT_LIST_HEAD(&dir->list);
+>         INIT_LIST_HEAD(&dir->quarantine);
+>         spin_lock_init(&dir->lock);
+>         dir->quarantine_avail = quarantine_count;
+>         refcount_set(&dir->untracked, 1);
+> +       strlcpy(dir->name, name, sizeof(dir->name));
+>         stack_depot_init();
+>  }
+>
+> @@ -47,7 +55,8 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
+>  #else /* CONFIG_REF_TRACKER */
+>
+>  static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
+> -                                       unsigned int quarantine_count)
+> +                                       unsigned int quarantine_count,
+> +                                       ...)
+>  {
+>  }
+>
+> diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
+> index 0e9c7d2828ccb..943cff08110e3 100644
+> --- a/lib/ref_tracker.c
+> +++ b/lib/ref_tracker.c
+> @@ -1,4 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +#define pr_fmt(fmt) "ref_tracker: " fmt
+> +
+>  #include <linux/export.h>
+>  #include <linux/list_sort.h>
+>  #include <linux/ref_tracker.h>
+> @@ -7,6 +10,7 @@
+>  #include <linux/stackdepot.h>
+>
+>  #define REF_TRACKER_STACK_ENTRIES 16
+> +#define STACK_BUF_SIZE 1024
 
 
-> Then, iterating the list and update the array (that you can keep
-> sorted by ->stack_handle)
+>
+>  struct ref_tracker {
+>         struct list_head        head;   /* anchor into dir->list or dir->quarantine */
+> @@ -26,31 +30,43 @@ static int ref_tracker_cmp(void *priv, const struct list_head *a, const struct l
+>  void __ref_tracker_dir_print(struct ref_tracker_dir *dir,
+>                            unsigned int display_limit)
+>  {
+> -       unsigned int i = 0, count = 0;
+> +       unsigned int i = 0, count = 0, total = 0;
+>         struct ref_tracker *tracker;
+>         depot_stack_handle_t stack;
+> +       char *sbuf;
+>
+>         lockdep_assert_held(&dir->lock);
+>
+>         if (list_empty(&dir->list))
+>                 return;
+>
+> +       sbuf = kmalloc(STACK_BUF_SIZE, GFP_NOWAIT);
+> +
+> +       list_for_each_entry(tracker, &dir->list, head)
+> +               ++total;
 
-The 'sorted' part might be unnecessary, if all callers keep
-@display_limits small enough.
+Another iteration over a potential long list.
+
+You can count the @skipped number in the following iteration just fine.
+
+int skipped = 0;
+
+> +
+>         list_sort(NULL, &dir->list, ref_tracker_cmp);
+>
+>         list_for_each_entry(tracker, &dir->list, head) {
+> -               if (i++ >= display_limit)
+> -                       break;
+>                 if (!count++)
+>                         stack = tracker->alloc_stack_handle;
+>                 if (stack == tracker->alloc_stack_handle &&
+>                     !list_is_last(&tracker->head, &dir->list))
+>                         continue;
+> +               if (i++ >= display_limit)
+
+                            skipped++;
+> +                       continue;
+>
+> -               pr_err("leaked %d references.\n", count);
+> -               if (stack)
+> -                       stack_depot_print(stack);
+> +               if (sbuf && !stack_depot_snprint(stack, sbuf, STACK_BUF_SIZE, 4))
+> +                       sbuf[0] = 0;
+> +               pr_err("%s@%pK has %d/%d users at\n%s\n",
+> +                      dir->name, dir, count, total, sbuf);
+>                 count = 0;
+>         }
+> +       if (i > display_limit)
+> +               pr_err("%s@%pK skipped %d/%d reports with %d unique stacks.\n",
+> +                      dir->name, dir, count, total, i - display_limit);
+> +
+> +       kfree(sbuf);
+>  }
+>  EXPORT_SYMBOL(__ref_tracker_dir_print);
+>
+> --
+> 2.25.1
+>
