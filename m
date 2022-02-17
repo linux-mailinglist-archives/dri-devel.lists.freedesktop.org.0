@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E694B96D5
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 04:45:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE2F4B96E9
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 04:48:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF95F10E72A;
-	Thu, 17 Feb 2022 03:45:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9CB910E745;
+	Thu, 17 Feb 2022 03:48:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B552410E745
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 03:45:06 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id r20so6376824ljj.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 19:45:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dysF/AP9QrJMWquX5SIkWcaQNfAWXARtu2Y4zNfbQ6Y=;
- b=rfKoIO/TT0FpbBVRgmJfnMsCvEmVCEunaz/kfpFZYAHnEjxFUgxcRn1yUIRvovksaZ
- DPkxdpMLFLpZy1IZ2fVtV3qpo+0GYk3gCtuqYezuvY3ykyxYvd5RmhoLWu1IjEFFWGLh
- NZVnoYNn4G9L7Wdv0fTE67lJFr11EO1tfPeUFy57IvJ3sbaqSZ438/0UvniSUUEHrLh1
- G3ps85iIUOuizIMBF8clZrlJZT6Ec5kfo6REQgSucJQr28gXnLhlaE3L8/MUb7shYDmQ
- 86S1F2M6Ajc96UPr0yB8+/+jcVzb4ce1LEh+7wxa7nlOUb2cwABxlTQ3GruYfMO3cMw0
- cyJA==
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
+ [IPv6:2607:f8b0:4864:20::d29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A83D510E731;
+ Thu, 17 Feb 2022 03:48:36 +0000 (UTC)
+Received: by mail-io1-xd29.google.com with SMTP id h5so2214902ioj.3;
+ Wed, 16 Feb 2022 19:48:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WX6MJz/RVmu5KU05M8p6pw0cbdiL13QxNy+cJ91otYI=;
+ b=d4W6T2hoWi2DLEPWhP29U01f7jjXpO4/jxusulpHAFgBnZJxEhulxoG73pLteKLv37
+ A6Kn/eoMG2/dmrz3GmCi0UlCls1b1zotKBOdUG+LGBu8tRssVfmRMz9hYnOjFhHdZYX1
+ rTGjsGMetAi3icEEes4488Yy9smVgBBYU+F2k5ckupGqYYYeFYUJkqTGvLku1cfzL4+E
+ HL6Ocww7mMvh1aDzPezp19by7fjpAYeDzGTAqepvgPqUHaZMs2ZjcbKmjJ1gN+FFcmLL
+ bH5y1D488kTn3eBtI+ilfKEqDsC5nLMbIwgkUVFbKaxulzzRCyFlfucOa2JHpjKRZdit
+ ABYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dysF/AP9QrJMWquX5SIkWcaQNfAWXARtu2Y4zNfbQ6Y=;
- b=Zcnovo5uQq+/lHyjQ9DTShfJXhtHvWImW2+pYHYpynOsjEWX5Z9A03aEljGyhoGq8Q
- xsQPyIQBN6plNFrOllPtT51hmyprvx2nokv6y87DsO15B2jQwXK/6oNmKGWQykkf2XZV
- DUTwCIwlrgOUFegGgVGtQ4fOwtd7UFp/Y8n0do8gWpzwvA6ddVpFVu24nns6L76NCyuk
- kTi1IEyaLAlqly0rkrIr8cJQN91h1+blu15lfK1fYbcduXtHKa6kzO80L7atH6p2P9N0
- JUg1EkCaZFVFcIpJVAUd10x94614MdLRaM8d9rC04XLqQ2QeX3nlryYWCbtnLocp8qwo
- UieA==
-X-Gm-Message-State: AOAM532Kqhfs0HGOA/VBLP/h++Zm5DUn2c4o9gNOGKXOUSi6UmREXEm1
- VOcoNrmGgc52jGWtXoisraUBzg==
-X-Google-Smtp-Source: ABdhPJzfd57r9AWVvQJ8QO+NOokrQNuI0VwdfIaOHr76fIVGnFwYUeNEfRwB6fP+WoBxyt3FZ44uWg==
-X-Received: by 2002:a05:651c:307:b0:244:c6a1:167d with SMTP id
- a7-20020a05651c030700b00244c6a1167dmr833196ljp.263.1645069504902; 
- Wed, 16 Feb 2022 19:45:04 -0800 (PST)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id c25sm822268lfc.22.2022.02.16.19.45.04
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WX6MJz/RVmu5KU05M8p6pw0cbdiL13QxNy+cJ91otYI=;
+ b=JtY1oMQtYJ3xQoaDygqR6h+nCchBAHZkFwksbpPvj7u0gB0vUEOHqYZwIs6ldpxygA
+ wb0nOCYNDMJoUgoXiIhWC9dkLb+0kR8YK08yAv8AdhqbEO9gpIX2jLGRePp2lxXp2est
+ pKSxhAeiFrywLuRKp3MnOQ1bMQzqCrO3xqOaLh6VqnlscjxEjEO8uz/Es+IamwRLPNZB
+ 8cFmm7ErHQlUEiRUsiD74UtDSi6HD/V5XwJjkzHqs7GkHsBUaBx+g4c2UYFYci410biU
+ 2+jOagz2rifpVWRciQeyjMWAZcqRD1o+tQFfo6uCqjToGehL9iu0t6vijKLZrNTofkOy
+ dTzQ==
+X-Gm-Message-State: AOAM530Z0JJAuxilBlwOiuE/rvtyhbYCNn4vKT5NYxm+eddrgPhOJrFL
+ /fLYw5cIONjr9ZE9i0HndYEOmh3w6nvXGQ==
+X-Google-Smtp-Source: ABdhPJxyyYVp2cpU+u+Brn6vc+Sa2k3avtGDvXSzA1PMgl1XvLDtup0SaBDOqBlcJQLSAvD+iRZDHw==
+X-Received: by 2002:a02:7163:0:b0:314:3b74:525a with SMTP id
+ n35-20020a027163000000b003143b74525amr701416jaf.260.1645069715755; 
+ Wed, 16 Feb 2022 19:48:35 -0800 (PST)
+Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:2010::1b19])
+ by smtp.googlemail.com with ESMTPSA id l16sm1127874ilc.54.2022.02.16.19.48.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 19:45:04 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 3/3] drm/msm/dpu: drop VBIF indices
-Date: Thu, 17 Feb 2022 06:45:02 +0300
-Message-Id: <20220217034502.464312-3-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220217034502.464312-1-dmitry.baryshkov@linaro.org>
-References: <20220217034502.464312-1-dmitry.baryshkov@linaro.org>
+ Wed, 16 Feb 2022 19:48:35 -0800 (PST)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: jbaron@akamai.com, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH 00/12] use dynamic-debug under drm.debug api
+Date: Wed, 16 Feb 2022 20:48:16 -0700
+Message-Id: <20220217034829.64395-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,146 +69,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: daniel.vetter@ffwll.ch, linux@rasmusvillemoes.dk, seanpaul@chromium.org,
+ joe@perches.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We do not expect to have other VBIFs. Drop VBIF_n indices and always use
-VBIF_RT and VBIF_NRT.
+drm.debug api provides ~23 macros to issue 10 categories of debug
+messages, each enabled by a bit in /sys/module/drm/parameters/debug.
+drm_debug_enabled(category) tests these bits at runtime; while cheap
+individually, the costs accumulate.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  4 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |  6 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c      | 36 ++++++++++++-------
- 3 files changed, 28 insertions(+), 18 deletions(-)
+For CONFIG_DRM_USE_DYNAMIC_DEBUG=y, this patchset obsoletes those
+runtime tests (inside drm_*dbg) by wrapping the 2 fns in one of the
+dynamic_func_call* Factory macros.  The config dependence is due to
+the .data footprint cost of the tables; AMDGPU has ~4k callsites, at
+56 bytes each.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index aa4d20762ccb..dbb853042aa0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -1115,7 +1115,7 @@ static const struct dpu_vbif_dynamic_ot_cfg msm8998_ot_rdwr_cfg[] = {
- 
- static const struct dpu_vbif_cfg msm8998_vbif[] = {
- 	{
--	.name = "vbif_0", .id = VBIF_0,
-+	.name = "vbif_rt", .id = VBIF_RT,
- 	.base = 0, .len = 0x1040,
- 	.default_ot_rd_limit = 32,
- 	.default_ot_wr_limit = 32,
-@@ -1144,7 +1144,7 @@ static const struct dpu_vbif_cfg msm8998_vbif[] = {
- 
- static const struct dpu_vbif_cfg sdm845_vbif[] = {
- 	{
--	.name = "vbif_0", .id = VBIF_0,
-+	.name = "vbif_rt", .id = VBIF_RT,
- 	.base = 0, .len = 0x1040,
- 	.features = BIT(DPU_VBIF_QOS_REMAP),
- 	.xin_halt_timeout = 0x4000,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index bb9ceadeb0bb..598c201ae50d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -254,11 +254,9 @@ enum dpu_wd_timer {
- };
- 
- enum dpu_vbif {
--	VBIF_0,
--	VBIF_1,
-+	VBIF_RT,
-+	VBIF_NRT,
- 	VBIF_MAX,
--	VBIF_RT = VBIF_0,
--	VBIF_NRT = VBIF_1
- };
- 
- /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-index cbbf77b17fc3..c011d4ab6acc 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-@@ -19,6 +19,18 @@ static struct dpu_hw_vbif *dpu_get_vbif(struct dpu_kms *dpu_kms, enum dpu_vbif v
- 	return NULL;
- }
- 
-+static const char *dpu_vbif_name(enum dpu_vbif idx)
-+{
-+	switch (idx) {
-+	case VBIF_RT:
-+		return "VBIF_RT";
-+	case VBIF_NRT:
-+		return "VBIF_NRT";
-+	default:
-+		return "??";
-+	}
-+}
-+
- /**
-  * _dpu_vbif_wait_for_xin_halt - wait for the xin to halt
-  * @vbif:	Pointer to hardware vbif driver
-@@ -50,12 +62,12 @@ static int _dpu_vbif_wait_for_xin_halt(struct dpu_hw_vbif *vbif, u32 xin_id)
- 
- 	if (!status) {
- 		rc = -ETIMEDOUT;
--		DPU_ERROR("VBIF %d client %d not halting. TIMEDOUT.\n",
--				vbif->idx - VBIF_0, xin_id);
-+		DPU_ERROR("%s client %d not halting. TIMEDOUT.\n",
-+				dpu_vbif_name(vbif->idx), xin_id);
- 	} else {
- 		rc = 0;
--		DRM_DEBUG_ATOMIC("VBIF %d client %d is halted\n",
--				vbif->idx - VBIF_0, xin_id);
-+		DRM_DEBUG_ATOMIC("%s client %d is halted\n",
-+				dpu_vbif_name(vbif->idx), xin_id);
- 	}
- 
- 	return rc;
-@@ -95,8 +107,8 @@ static void _dpu_vbif_apply_dynamic_ot_limit(struct dpu_hw_vbif *vbif,
- 		}
- 	}
- 
--	DRM_DEBUG_ATOMIC("vbif:%d xin:%d w:%d h:%d fps:%d pps:%llu ot:%u\n",
--			vbif->idx - VBIF_0, params->xin_id,
-+	DRM_DEBUG_ATOMIC("%s xin:%d w:%d h:%d fps:%d pps:%llu ot:%u\n",
-+			dpu_vbif_name(vbif->idx), params->xin_id,
- 			params->width, params->height, params->frame_rate,
- 			pps, *ot_lim);
- }
-@@ -141,8 +153,8 @@ static u32 _dpu_vbif_get_ot_limit(struct dpu_hw_vbif *vbif,
- 	}
- 
- exit:
--	DRM_DEBUG_ATOMIC("vbif:%d xin:%d ot_lim:%d\n",
--			vbif->idx - VBIF_0, params->xin_id, ot_lim);
-+	DRM_DEBUG_ATOMIC("%s xin:%d ot_lim:%d\n",
-+			dpu_vbif_name(vbif->idx), params->xin_id, ot_lim);
- 	return ot_lim;
- }
- 
-@@ -242,8 +254,8 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
- 	forced_on = mdp->ops.setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
- 
- 	for (i = 0; i < qos_tbl->npriority_lvl; i++) {
--		DRM_DEBUG_ATOMIC("vbif:%d xin:%d lvl:%d/%d\n",
--				params->vbif_idx, params->xin_id, i,
-+		DRM_DEBUG_ATOMIC("%s xin:%d lvl:%d/%d\n",
-+				dpu_vbif_name(params->vbif_idx), params->xin_id, i,
- 				qos_tbl->priority_lvl[i]);
- 		vbif->ops.set_qos_remap(vbif, params->xin_id, i,
- 				qos_tbl->priority_lvl[i]);
-@@ -263,8 +275,8 @@ void dpu_vbif_clear_errors(struct dpu_kms *dpu_kms)
- 		if (vbif && vbif->ops.clear_errors) {
- 			vbif->ops.clear_errors(vbif, &pnd, &src);
- 			if (pnd || src) {
--				DRM_DEBUG_KMS("VBIF %d: pnd 0x%X, src 0x%X\n",
--					      vbif->idx - VBIF_0, pnd, src);
-+				DRM_DEBUG_KMS("%s: pnd 0x%X, src 0x%X\n",
-+					      dpu_vbif_name(vbif->idx), pnd, src);
- 			}
- 		}
- 	}
+This creates entries in /proc/dynamic_debug/control for each callsite,
+and each has .class_id = macros'-category.  This, and a new query
+keyword, allow (1st):
+
+  # 1=DRM_UT_KMS (iirc)
+  #> echo "module drm class 1 +p  > /proc/dynamic_debug/control
+
+Then equivalently:
+  # except it also clears other flags
+  #> echo 0x01 > /sys/module/drm/parameters/debug
+
+dyndbg:
+ - fixes a bug in dyndbg static_key toggling, @stable cc'd
+ - adds support for distinct classes to dyndbg (new,unused feature)
+ - add DECLARE_DYNAMIC_DEBUG_CLASSBITS macro and callbacks
+   to implement bitmap -> classid sysfs knob
+dyndbg:
+ - drops exported fn: dynamic_debug_exec_queries()
+   any potential users would just use macro, or a tweak on it.
+ - improve info-msg to print both "old -> new" flags
+drm:
+ - adapts drm to use that support (link category to class_id)
+ - wraps drm_*dbg() in a dyndbg Factory macro to get NOOP optimized debugs
+   this disconnects drm.debug sysfs knob
+ - uses DECLARE_DYNAMIC_DEBUG_CLASSBITS macro
+   this reconnects sysfs knob
+
+This could be -v12, but the focus and subject has wandered a bit, and
+patchwork CI had multiple different notions of the version.
+Noteworthy changes:
+
+- no tracefs stuff here, refocus
+  split out already, needs maturation, more attention.
+  its competing with a diet plan, to reduce 56 bytes/callsite. RFC.
+
+Previous drm.debug approach:
+
+- avoided drm_dbg & drm_devdbg by splicing in pr_debug & dev_dbg
+  this preserved the optional decorations: module:function:line:
+
+- used DRM_UT_CORE => "drm:core:" prefix-string, cpp cat'd to formats
+  this made sites selectable by matching to that format prefix
+
+This version:
+
+- .class_id is easier to explain, and no config/format-string diffs
+
+- wraps drm_dbg & drm_devdbg callsites for jumplabel enablement
+  efficiency was original goal.
+
+- loses the optional decorations.
+  drm has its own logmsg standards, doesnt need decorations slapped on
+  later: could recast flags for drm specific decorations
+
+This is based on 5.17-rc4
+
+Its also here: in (dd-drm branch)
+  ghlinux-ro	https://github.com/jimc/linux.git (fetch)
+
+I'll push further fixes there as they come.
+
+Jim Cromie (13):
+  dyndbg: fix static_branch manipulation @stable
+  dyndbg: add class_id field and query support
+  dyndbg: add DEFINE_DYNAMIC_DEBUG_CLASSBITS macro and callbacks
+  dyndbg: drop EXPORTed dynamic_debug_exec_queries
+  dyndbg: improve change-info to have old and new
+  dyndbg: abstract dyndbg_site_is_printing
+  drm_print: condense enum drm_debug_category
+  drm_print: interpose drm_*dbg with forwarding macros
+  drm_print: wrap drm_*_dbg in dyndbg jumplabel
+  drm_print: refine drm_debug_enabled for dyndbg+jump-label
+  drm_print: prefer bare printk KERN_DEBUG on generic fn
+  drm_print: add _ddebug desc to drm_*dbg prototypes
+  drm_print: use DEFINE_DYNAMIC_DEBUG_CLASSBITS for drm.debug
+
+ .../admin-guide/dynamic-debug-howto.rst       |   7 +
+ drivers/gpu/drm/Kconfig                       |  12 ++
+ drivers/gpu/drm/Makefile                      |   2 +
+ drivers/gpu/drm/drm_print.c                   |  56 ++++---
+ include/drm/drm_print.h                       |  80 +++++++---
+ include/linux/dynamic_debug.h                 | 113 +++++++++++---
+ lib/dynamic_debug.c                           | 140 ++++++++++++++----
+ 7 files changed, 323 insertions(+), 87 deletions(-)
+
 -- 
-2.34.1
+2.35.1
 
