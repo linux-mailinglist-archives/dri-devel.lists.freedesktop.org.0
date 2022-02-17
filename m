@@ -2,51 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C854BA769
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 18:47:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56EA4BA78D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 18:55:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B1D710E7B2;
-	Thu, 17 Feb 2022 17:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30CCD10E262;
+	Thu, 17 Feb 2022 17:55:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11C0010E7AB;
- Thu, 17 Feb 2022 17:47:03 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 930B010E262;
+ Thu, 17 Feb 2022 17:55:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645120023; x=1676656023;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=b1mLi31nMgxId7cfIIby3A7d+AK32DQyhAurT0C4ewQ=;
- b=SjU9Hj0QCSDLSReHibRQf2rS6whv4lKN15iUCC2ZJgA+pxFL68SNyXpD
- l9UR9YPO1VvbuxWrf52uEPuw4zTKe5j1vUBrvaLVqs85mJzNswwb1RyRu
- NrG/Rvf1dS9XutWwpHzTQ2Y+0ddp/Fosfc00mWc3V9ewE2KTZoxKG1fO8
- 5INwljGseYvQdyUBov950VcObp55l4JuxMWBynT6n37UlHt72ey+DY/qM
- l+Dp3jk0I/2L2UST3YHrMYJHBf0cFYkzlp/itxuwzisT5QfjF+4l2JFiI
- otRE/0XoXHI0WvV5Bm/8kT04VobT/cClJbvbO0rGgCTGLPzAU//Igx0Ae Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="314197944"
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="314197944"
+ t=1645120547; x=1676656547;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=N/nYj+MSG2xPOx6kLLRDL+hVnUU2VMTunUSLTRuBLKU=;
+ b=oG5bQBR+IJLTWJNqq6zgVQOZ6bpD40Sn7rPAAOnYICStHBVv5ufNzrZD
+ SWpauNZW3oAjsjf6oQJArwaShtSzr6PmzIpMDjbmMurUiV/xpXEkDopIb
+ k40/XscaPJuz4PlO8gpepeqKi/8f0BH68W3HkDchQFHEbtf5Sp3sd6eXl
+ +A5O1hrrnS7X6eOyS396ZBhjooAE7V0nb3eQso7f+OYdQonGJSTEmXbHm
+ eV4FIcYUfz86svudiu1Z+vNOJqyt579KS14l6olk2/nqDPOy0ZmX5GU8j
+ V2XpEY1wzZMQNFmgsoOOqSTLqCtqc9CGW7VR8o5g0paQQnwtjumuQ1uzS A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="231556914"
+X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="231556914"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 09:46:42 -0800
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="541279020"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.203.144.108])
- by fmsmga007-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2022 09:46:39 -0800
-Date: Thu, 17 Feb 2022 23:16:54 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH 1/3] drm/i915/dg2: Enable 5th display
-Message-ID: <20220217174654.GB11187@intel.com>
-References: <20220215055154.15363-1-ramalingam.c@intel.com>
- <20220215055154.15363-2-ramalingam.c@intel.com>
- <Yg552yKPy9nhDWIH@mdroper-desk1.amr.corp.intel.com>
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 09:55:46 -0800
+X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="541286458"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 09:55:45 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915: Kill the fake lmem support
+Date: Thu, 17 Feb 2022 09:56:34 -0800
+Message-Id: <20220217175634.4128754-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yg552yKPy9nhDWIH@mdroper-desk1.amr.corp.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,149 +53,302 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Swathi Dhanavanthri <swathi.dhanavanthri@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Shankar Uma <uma.shankar@intel.com>,
- =?utf-8?B?Sm9zw6k=?= Roberto de Souza <jose.souza@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-02-17 at 08:37:47 -0800, Matt Roper wrote:
-> Since it apparently caused some confusion on various websites, maybe we
-> should change the title of the patch to "Enable 5th port" to make it
-> more clear that this is only a port, not a pipe.
-Ok sure.
+This was useful for early development of lmem, but it's not used
+anymore, so remove it.
 
-> 
-> Also, I believe one last line that we need to add to this patch is an
-> intel_ddi_init() call for TC1 in the intel_setup_outputs() function.  I
-> think I previously had that in a separate patch, but it went missing
-> when we reorganized and refactored some of these patches
+v2: Remove unneeded fields from struct intel_memory_region
 
-like 
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ drivers/gpu/drm/i915/Kconfig.unstable       |   8 --
+ drivers/gpu/drm/i915/gt/intel_gt.c          |   2 -
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c | 112 +-------------------
+ drivers/gpu/drm/i915/gt/intel_region_lmem.h |   3 -
+ drivers/gpu/drm/i915/i915_driver.c          |  15 ---
+ drivers/gpu/drm/i915/i915_params.c          |   5 -
+ drivers/gpu/drm/i915/i915_params.h          |   1 -
+ drivers/gpu/drm/i915/intel_memory_region.h  |   5 -
+ 8 files changed, 2 insertions(+), 149 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 59961621fe4a..18531ffd4789 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -8760,6 +8760,7 @@ static void intel_setup_outputs(struct drm_i915_private *dev_priv)
-                intel_ddi_init(dev_priv, PORT_B);
-                intel_ddi_init(dev_priv, PORT_C);
-                intel_ddi_init(dev_priv, PORT_D_XELPD);
-+               intel_ddi_init(dev_priv, PORT_TC1);
-        } else if (IS_ALDERLAKE_P(dev_priv)) {
-                intel_ddi_init(dev_priv, PORT_A);
-                intel_ddi_init(dev_priv, PORT_B);
+diff --git a/drivers/gpu/drm/i915/Kconfig.unstable b/drivers/gpu/drm/i915/Kconfig.unstable
+index 0c2276155c2b..cf151a297ed7 100644
+--- a/drivers/gpu/drm/i915/Kconfig.unstable
++++ b/drivers/gpu/drm/i915/Kconfig.unstable
+@@ -19,11 +19,3 @@ config DRM_I915_UNSTABLE
+ 	  Recommended for driver developers _only_.
+ 
+ 	  If in the slightest bit of doubt, say "N".
+-
+-config DRM_I915_UNSTABLE_FAKE_LMEM
+-	bool "Enable the experimental fake lmem"
+-	depends on DRM_I915_UNSTABLE
+-	default n
+-	help
+-	  Convert some system memory into a fake local memory region for
+-	  testing.
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index e8403fa53909..325ac15439eb 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -65,8 +65,6 @@ int intel_gt_probe_lmem(struct intel_gt *gt)
+ 	int err;
+ 
+ 	mem = intel_gt_setup_lmem(gt);
+-	if (mem == ERR_PTR(-ENODEV))
+-		mem = intel_gt_setup_fake_lmem(gt);
+ 	if (IS_ERR(mem)) {
+ 		err = PTR_ERR(mem);
+ 		if (err == -ENODEV)
+diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+index cb3f66707b21..df3856e09598 100644
+--- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
++++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+@@ -13,60 +13,6 @@
+ #include "gem/i915_gem_ttm.h"
+ #include "gt/intel_gt.h"
+ 
+-static int init_fake_lmem_bar(struct intel_memory_region *mem)
+-{
+-	struct drm_i915_private *i915 = mem->i915;
+-	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+-	unsigned long n;
+-	int ret;
+-
+-	/* We want to 1:1 map the mappable aperture to our reserved region */
+-
+-	mem->fake_mappable.start = 0;
+-	mem->fake_mappable.size = resource_size(&mem->region);
+-	mem->fake_mappable.color = I915_COLOR_UNEVICTABLE;
+-
+-	ret = drm_mm_reserve_node(&ggtt->vm.mm, &mem->fake_mappable);
+-	if (ret)
+-		return ret;
+-
+-	mem->remap_addr = dma_map_resource(i915->drm.dev,
+-					   mem->region.start,
+-					   mem->fake_mappable.size,
+-					   DMA_BIDIRECTIONAL,
+-					   DMA_ATTR_FORCE_CONTIGUOUS);
+-	if (dma_mapping_error(i915->drm.dev, mem->remap_addr)) {
+-		drm_mm_remove_node(&mem->fake_mappable);
+-		return -EINVAL;
+-	}
+-
+-	for (n = 0; n < mem->fake_mappable.size >> PAGE_SHIFT; ++n) {
+-		ggtt->vm.insert_page(&ggtt->vm,
+-				     mem->remap_addr + (n << PAGE_SHIFT),
+-				     n << PAGE_SHIFT,
+-				     I915_CACHE_NONE, 0);
+-	}
+-
+-	mem->region = (struct resource)DEFINE_RES_MEM(mem->remap_addr,
+-						      mem->fake_mappable.size);
+-
+-	return 0;
+-}
+-
+-static void release_fake_lmem_bar(struct intel_memory_region *mem)
+-{
+-	if (!drm_mm_node_allocated(&mem->fake_mappable))
+-		return;
+-
+-	drm_mm_remove_node(&mem->fake_mappable);
+-
+-	dma_unmap_resource(mem->i915->drm.dev,
+-			   mem->remap_addr,
+-			   mem->fake_mappable.size,
+-			   DMA_BIDIRECTIONAL,
+-			   DMA_ATTR_FORCE_CONTIGUOUS);
+-}
+-
+ static int
+ region_lmem_release(struct intel_memory_region *mem)
+ {
+@@ -74,7 +20,6 @@ region_lmem_release(struct intel_memory_region *mem)
+ 
+ 	ret = intel_region_ttm_fini(mem);
+ 	io_mapping_fini(&mem->iomap);
+-	release_fake_lmem_bar(mem);
+ 
+ 	return ret;
+ }
+@@ -84,17 +29,10 @@ region_lmem_init(struct intel_memory_region *mem)
+ {
+ 	int ret;
+ 
+-	if (mem->i915->params.fake_lmem_start) {
+-		ret = init_fake_lmem_bar(mem);
+-		GEM_BUG_ON(ret);
+-	}
+-
+ 	if (!io_mapping_init_wc(&mem->iomap,
+ 				mem->io_start,
+-				resource_size(&mem->region))) {
+-		ret = -EIO;
+-		goto out_no_io;
+-	}
++				resource_size(&mem->region)))
++		return -EIO;
+ 
+ 	ret = intel_region_ttm_init(mem);
+ 	if (ret)
+@@ -104,8 +42,6 @@ region_lmem_init(struct intel_memory_region *mem)
+ 
+ out_no_buddy:
+ 	io_mapping_fini(&mem->iomap);
+-out_no_io:
+-	release_fake_lmem_bar(mem);
+ 
+ 	return ret;
+ }
+@@ -116,50 +52,6 @@ static const struct intel_memory_region_ops intel_region_lmem_ops = {
+ 	.init_object = __i915_gem_ttm_object_init,
+ };
+ 
+-struct intel_memory_region *
+-intel_gt_setup_fake_lmem(struct intel_gt *gt)
+-{
+-	struct drm_i915_private *i915 = gt->i915;
+-	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+-	struct intel_memory_region *mem;
+-	resource_size_t mappable_end;
+-	resource_size_t io_start;
+-	resource_size_t start;
+-
+-	if (!HAS_LMEM(i915))
+-		return ERR_PTR(-ENODEV);
+-
+-	if (!i915->params.fake_lmem_start)
+-		return ERR_PTR(-ENODEV);
+-
+-	GEM_BUG_ON(i915_ggtt_has_aperture(to_gt(i915)->ggtt));
+-
+-	/* Your mappable aperture belongs to me now! */
+-	mappable_end = pci_resource_len(pdev, 2);
+-	io_start = pci_resource_start(pdev, 2);
+-	start = i915->params.fake_lmem_start;
+-
+-	mem = intel_memory_region_create(i915,
+-					 start,
+-					 mappable_end,
+-					 PAGE_SIZE,
+-					 io_start,
+-					 INTEL_MEMORY_LOCAL,
+-					 0,
+-					 &intel_region_lmem_ops);
+-	if (!IS_ERR(mem)) {
+-		drm_info(&i915->drm, "Intel graphics fake LMEM: %pR\n",
+-			 &mem->region);
+-		drm_info(&i915->drm,
+-			 "Intel graphics fake LMEM IO start: %llx\n",
+-			(u64)mem->io_start);
+-		drm_info(&i915->drm, "Intel graphics fake LMEM size: %llx\n",
+-			 (u64)resource_size(&mem->region));
+-	}
+-
+-	return mem;
+-}
+-
+ static bool get_legacy_lowmem_region(struct intel_uncore *uncore,
+ 				     u64 *start, u32 *size)
+ {
+diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.h b/drivers/gpu/drm/i915/gt/intel_region_lmem.h
+index 062d0542ae34..1438576b527a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_region_lmem.h
++++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.h
+@@ -10,7 +10,4 @@ struct intel_gt;
+ 
+ struct intel_memory_region *intel_gt_setup_lmem(struct intel_gt *gt);
+ 
+-struct intel_memory_region *
+-intel_gt_setup_fake_lmem(struct intel_gt *gt);
+-
+ #endif /* !__INTEL_REGION_LMEM_H */
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index 1c67ff735f18..62b3f332bbf5 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -835,21 +835,6 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (!i915->params.nuclear_pageflip && match_info->graphics.ver < 5)
+ 		i915->drm.driver_features &= ~DRIVER_ATOMIC;
+ 
+-	/*
+-	 * Check if we support fake LMEM -- for now we only unleash this for
+-	 * the live selftests(test-and-exit).
+-	 */
+-#if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+-	if (IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM)) {
+-		if (GRAPHICS_VER(i915) >= 9 && i915_selftest.live < 0 &&
+-		    i915->params.fake_lmem_start) {
+-			mkwrite_device_info(i915)->memory_regions =
+-				REGION_SMEM | REGION_LMEM | REGION_STOLEN_SMEM;
+-			GEM_BUG_ON(!HAS_LMEM(i915));
+-		}
+-	}
+-#endif
+-
+ 	ret = pci_enable_device(pdev);
+ 	if (ret)
+ 		goto out_fini;
+diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
+index 525ae832aa9a..eea355c2fc28 100644
+--- a/drivers/gpu/drm/i915/i915_params.c
++++ b/drivers/gpu/drm/i915/i915_params.c
+@@ -195,11 +195,6 @@ i915_param_named(enable_gvt, bool, 0400,
+ 	"Enable support for Intel GVT-g graphics virtualization host support(default:false)");
+ #endif
+ 
+-#if IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM)
+-i915_param_named_unsafe(fake_lmem_start, ulong, 0400,
+-	"Fake LMEM start offset (default: 0)");
+-#endif
+-
+ #if CONFIG_DRM_I915_REQUEST_TIMEOUT
+ i915_param_named_unsafe(request_timeout_ms, uint, 0600,
+ 			"Default request/fence/batch buffer expiration timeout.");
+diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
+index c9d53ff910a0..c779a6f85c7e 100644
+--- a/drivers/gpu/drm/i915/i915_params.h
++++ b/drivers/gpu/drm/i915/i915_params.h
+@@ -72,7 +72,6 @@ struct drm_printer;
+ 	param(int, fastboot, -1, 0600) \
+ 	param(int, enable_dpcd_backlight, -1, 0600) \
+ 	param(char *, force_probe, CONFIG_DRM_I915_FORCE_PROBE, 0400) \
+-	param(unsigned long, fake_lmem_start, 0, IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM) ? 0400 : 0) \
+ 	param(unsigned int, request_timeout_ms, CONFIG_DRM_I915_REQUEST_TIMEOUT, CONFIG_DRM_I915_REQUEST_TIMEOUT ? 0600 : 0) \
+ 	/* leave bools at the end to not create holes */ \
+ 	param(bool, enable_hangcheck, true, 0600) \
+diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
+index 5625c9c38993..06464b8865fc 100644
+--- a/drivers/gpu/drm/i915/intel_memory_region.h
++++ b/drivers/gpu/drm/i915/intel_memory_region.h
+@@ -67,9 +67,6 @@ struct intel_memory_region {
+ 	struct io_mapping iomap;
+ 	struct resource region;
+ 
+-	/* For fake LMEM */
+-	struct drm_mm_node fake_mappable;
+-
+ 	resource_size_t io_start;
+ 	resource_size_t min_page_size;
+ 	resource_size_t total;
+@@ -81,8 +78,6 @@ struct intel_memory_region {
+ 	char name[16];
+ 	bool private; /* not for userspace */
+ 
+-	dma_addr_t remap_addr;
+-
+ 	struct {
+ 		struct mutex lock; /* Protects access to objects */
+ 		struct list_head list;
+-- 
+2.35.1
 
-Ram
-> 
-> 
-> Matt
-> 
-> On Tue, Feb 15, 2022 at 11:21:52AM +0530, Ramalingam C wrote:
-> > From: Matt Roper <matthew.d.roper@intel.com>
-> > 
-> > DG2 supports a 5th display output which the hardware refers to as "TC1,"
-> > even though it isn't a Type-C output.  This behaves similarly to the TC1
-> > on past platforms with just a couple minor differences:
-> > 
-> >  * DG2's TC1 bit in SDEISR is at bit 25 rather than 24 as it is on
-> >    ICP/TGP/ADP.
-> >  * DG2 doesn't need the hpd inversion setting that we had to use on DG1
-> > 
-> > Cc: Swathi Dhanavanthri <swathi.dhanavanthri@intel.com>
-> > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> > Cc: José Roberto de Souza <jose.souza@intel.com>
-> > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_gmbus.c | 16 ++++++++++++++--
-> >  drivers/gpu/drm/i915/i915_irq.c            |  5 ++++-
-> >  drivers/gpu/drm/i915/i915_reg.h            |  1 +
-> >  3 files changed, 19 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c b/drivers/gpu/drm/i915/display/intel_gmbus.c
-> > index 6ce8c10fe975..2fad03250661 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_gmbus.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_gmbus.c
-> > @@ -98,11 +98,21 @@ static const struct gmbus_pin gmbus_pins_dg1[] = {
-> >  	[GMBUS_PIN_4_CNP] = { "dpd", GPIOE },
-> >  };
-> >  
-> > +static const struct gmbus_pin gmbus_pins_dg2[] = {
-> > +	[GMBUS_PIN_1_BXT] = { "dpa", GPIOB },
-> > +	[GMBUS_PIN_2_BXT] = { "dpb", GPIOC },
-> > +	[GMBUS_PIN_3_BXT] = { "dpc", GPIOD },
-> > +	[GMBUS_PIN_4_CNP] = { "dpd", GPIOE },
-> > +	[GMBUS_PIN_9_TC1_ICP] = { "tc1", GPIOJ },
-> > +};
-> > +
-> >  /* pin is expected to be valid */
-> >  static const struct gmbus_pin *get_gmbus_pin(struct drm_i915_private *dev_priv,
-> >  					     unsigned int pin)
-> >  {
-> > -	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
-> > +	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG2)
-> > +		return &gmbus_pins_dg2[pin];
-> > +	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
-> >  		return &gmbus_pins_dg1[pin];
-> >  	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
-> >  		return &gmbus_pins_icp[pin];
-> > @@ -123,7 +133,9 @@ bool intel_gmbus_is_valid_pin(struct drm_i915_private *dev_priv,
-> >  {
-> >  	unsigned int size;
-> >  
-> > -	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
-> > +	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG2)
-> > +		size = ARRAY_SIZE(gmbus_pins_dg2);
-> > +	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
-> >  		size = ARRAY_SIZE(gmbus_pins_dg1);
-> >  	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
-> >  		size = ARRAY_SIZE(gmbus_pins_icp);
-> > diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-> > index fdd568ba4a16..4d81063b128c 100644
-> > --- a/drivers/gpu/drm/i915/i915_irq.c
-> > +++ b/drivers/gpu/drm/i915/i915_irq.c
-> > @@ -179,6 +179,7 @@ static const u32 hpd_sde_dg1[HPD_NUM_PINS] = {
-> >  	[HPD_PORT_B] = SDE_DDI_HOTPLUG_ICP(HPD_PORT_B),
-> >  	[HPD_PORT_C] = SDE_DDI_HOTPLUG_ICP(HPD_PORT_C),
-> >  	[HPD_PORT_D] = SDE_DDI_HOTPLUG_ICP(HPD_PORT_D),
-> > +	[HPD_PORT_TC1] = SDE_TC_HOTPLUG_DG2(HPD_PORT_TC1),
-> >  };
-> >  
-> >  static void intel_hpd_init_pins(struct drm_i915_private *dev_priv)
-> > @@ -4424,7 +4425,9 @@ void intel_irq_init(struct drm_i915_private *dev_priv)
-> >  		if (I915_HAS_HOTPLUG(dev_priv))
-> >  			dev_priv->hotplug_funcs = &i915_hpd_funcs;
-> >  	} else {
-> > -		if (HAS_PCH_DG1(dev_priv))
-> > +		if (HAS_PCH_DG2(dev_priv))
-> > +			dev_priv->hotplug_funcs = &icp_hpd_funcs;
-> > +		else if (HAS_PCH_DG1(dev_priv))
-> >  			dev_priv->hotplug_funcs = &dg1_hpd_funcs;
-> >  		else if (DISPLAY_VER(dev_priv) >= 11)
-> >  			dev_priv->hotplug_funcs = &gen11_hpd_funcs;
-> > diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> > index 4ea1713e6b60..4d12abb2d7ff 100644
-> > --- a/drivers/gpu/drm/i915/i915_reg.h
-> > +++ b/drivers/gpu/drm/i915/i915_reg.h
-> > @@ -6182,6 +6182,7 @@
-> >  /* south display engine interrupt: ICP/TGP */
-> >  #define SDE_GMBUS_ICP			(1 << 23)
-> >  #define SDE_TC_HOTPLUG_ICP(hpd_pin)	REG_BIT(24 + _HPD_PIN_TC(hpd_pin))
-> > +#define SDE_TC_HOTPLUG_DG2(hpd_pin)	REG_BIT(25 + _HPD_PIN_TC(hpd_pin)) /* sigh */
-> >  #define SDE_DDI_HOTPLUG_ICP(hpd_pin)	REG_BIT(16 + _HPD_PIN_DDI(hpd_pin))
-> >  #define SDE_DDI_HOTPLUG_MASK_ICP	(SDE_DDI_HOTPLUG_ICP(HPD_PORT_D) | \
-> >  					 SDE_DDI_HOTPLUG_ICP(HPD_PORT_C) | \
-> > -- 
-> > 2.20.1
-> > 
-> 
-> -- 
-> Matt Roper
-> Graphics Software Engineer
-> VTT-OSGC Platform Enablement
-> Intel Corporation
-> (916) 356-2795
