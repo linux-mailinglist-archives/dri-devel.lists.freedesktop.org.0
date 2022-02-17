@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33884BABD8
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 22:37:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EAC74BABD1
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 22:36:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41D3D10E827;
-	Thu, 17 Feb 2022 21:36:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FBD410E83F;
+	Thu, 17 Feb 2022 21:36:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7E210E827;
- Thu, 17 Feb 2022 21:36:57 +0000 (UTC)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72DEB10E832;
+ Thu, 17 Feb 2022 21:36:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645133817; x=1676669817;
+ t=1645133803; x=1676669803;
  h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=v+tCKangdsWQQPmLcGYn5m+Jvz+WAhxwzWK6OAq8ehc=;
- b=At/b+fQEano2+F1vlvg4UPFLiokv/fvgPXBcazhK6uvSFwDAkdeBlT31
- jK2EiNA+ttaaKMIBCVRbarW85tkovD0SShiAr+mH3guWTg/jcfXv80wAN
- X2Wm4oVtIbCF6D3VmVhb8G9BijuG16R+hyRAp4MmTetZ59sdy1kH+yuni s=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 17 Feb 2022 13:36:57 -0800
+ references:mime-version;
+ bh=4odJ4cwcWZbiiuldcZ9RBKjoxVRmzcS/F73RDRD+s2A=;
+ b=MJhYv8V0291xe+a0WJffCqJrPWjhj6lrycKTwaLy6PZKA2X80kmo5F71
+ VIw/JSl1+e0+MyBE+6VYWOBryLVTwZqfG5cO2msBWB/APmtgRd8crScBy
+ rYwUOqoPfQ0hppCaOwuJF25uU88KYtuWjXMJCKEGI+Jd0jrez/RdGA8f0 g=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 17 Feb 2022 13:36:43 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 13:36:41 -0800
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 13:36:42 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Thu, 17 Feb 2022 13:36:40 -0800
+ 15.2.986.15; Thu, 17 Feb 2022 13:36:42 -0800
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Thu, 17 Feb 2022 13:36:40 -0800
+ 15.2.986.15; Thu, 17 Feb 2022 13:36:41 -0800
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
  <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
  <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
-Subject: [PATCH v8 1/4] drm/msm/dpu: adjust display_v_end for eDP and DP
-Date: Thu, 17 Feb 2022 13:36:25 -0800
-Message-ID: <1645133788-5057-2-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v8 2/4] drm/msm/dpu: replace BIT(x) with correspond marco
+ define string
+Date: Thu, 17 Feb 2022 13:36:26 -0800
+Message-ID: <1645133788-5057-3-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1645133788-5057-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1645133788-5057-1-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
@@ -71,29 +72,56 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The “DP timing” requires the active region to be defined in the
-bottom-right corner of the frame dimensions which is different
-with DSI. Therefore both display_h_end and display_v_end need
-to be adjusted accordingly. However current implementation has
-only display_h_end adjusted.
+To improve code readability, this patch replace BIT(x) with
+correspond register bit define string
 
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-index 116e2b5..284f561 100644
+index 284f561..c2cd185 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-@@ -148,6 +148,7 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
- 		active_v_end = active_v_start + (p->yres * hsync_period) - 1;
+@@ -60,6 +60,12 @@
  
- 		display_v_start += p->hsync_pulse_width + p->h_back_porch;
-+		display_v_end   -= p->h_front_porch; 
+ #define   INTF_MUX                      0x25C
  
++#define INTF_CFG_ACTIVE_H_EN	BIT(29)
++#define INTF_CFG_ACTIVE_V_EN	BIT(30)
++
++#define INTF_CFG2_DATABUS_WIDEN	BIT(0)
++#define INTF_CFG2_DATA_HCTL_EN	BIT(4)
++
+ static const struct dpu_intf_cfg *_intf_offset(enum dpu_intf intf,
+ 		const struct dpu_mdss_cfg *m,
+ 		void __iomem *addr,
+@@ -130,13 +136,13 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 
+ 	if (active_h_end) {
  		active_hctl = (active_h_end << 16) | active_h_start;
- 		display_hctl = active_hctl;
+-		intf_cfg |= BIT(29);	/* ACTIVE_H_ENABLE */
++		intf_cfg |= INTF_CFG_ACTIVE_H_EN;
+ 	} else {
+ 		active_hctl = 0;
+ 	}
+ 
+ 	if (active_v_end)
+-		intf_cfg |= BIT(30); /* ACTIVE_V_ENABLE */
++		intf_cfg |= INTF_CFG_ACTIVE_V_EN;
+ 
+ 	hsync_ctl = (hsync_period << 16) | p->hsync_pulse_width;
+ 	display_hctl = (hsync_end_x << 16) | hsync_start_x;
+@@ -182,7 +188,7 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 				(0x21 << 8));
+ 
+ 	if (ctx->cap->features & BIT(DPU_DATA_HCTL_EN)) {
+-		intf_cfg2 |= BIT(4);
++		intf_cfg2 |= INTF_CFG2_DATA_HCTL_EN;
+ 		display_data_hctl = display_hctl;
+ 		DPU_REG_WRITE(c, INTF_CONFIG2, intf_cfg2);
+ 		DPU_REG_WRITE(c, INTF_DISPLAY_DATA_HCTL, display_data_hctl);
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
