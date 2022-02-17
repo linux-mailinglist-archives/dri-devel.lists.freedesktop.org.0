@@ -1,62 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3136B4B94E1
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 01:22:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 072494B94EF
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 01:26:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14CD510E678;
-	Thu, 17 Feb 2022 00:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54CA910E686;
+	Thu, 17 Feb 2022 00:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7087710E672;
- Thu, 17 Feb 2022 00:22:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645057345; x=1676593345;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Ucdt4Brg9XCP0oAU6WsflfUGosiIIcW4RUCgD2Kvpt8=;
- b=Pt2GqUZpir9UvhR5J012hi4yoMxOnJxZDI8G28bhCj2SipxKHZVHWuo3
- j6Tn8hjDrnAKMeClGIk5jsnpLF96QsLTm9qMuqUf8dhzymNngpGl/hcXh
- WZ5j+E29nwSc4KuXFCta6nDsOJ5re9kN4HVvvr5Zc4pq66WQA76qB4uIy 4=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 16 Feb 2022 16:22:24 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2022 16:22:23 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Wed, 16 Feb 2022 16:22:23 -0800
-Received: from [10.110.54.133] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 16 Feb
- 2022 16:22:21 -0800
-Message-ID: <f480811d-3e82-a6c7-1e57-fabe51604f9b@quicinc.com>
-Date: Wed, 16 Feb 2022 16:22:21 -0800
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C397010E672
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 00:25:54 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 077FD8382C;
+ Thu, 17 Feb 2022 01:25:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1645057552;
+ bh=r82sdkTAS7+KVccI4kEFc6e4lu+lAA4Tzy4Wb2rryQ0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=pOXslPP9WTnDqvJUpA+j0CCB9MCZyXUZ4fTaOwbk1ZWEHtYeRNZNA+tuJOcCaX3ML
+ U1gSHcoemfpJRAEBrbvUGZoxkFkSWQskkntEwal37zZvMzT/zf0Wdwayz/V0kd7l6W
+ qwCz6d3xZr/T3o/TFyyRrytJDViiRYsEnIT65DEnArnlAuHqLuRFz7+C2K3HtXSVq5
+ 0wxWXClcZcvVn6q/+0R88HlcYWjtdyQMd8AX2HMV+E8JT9dgElDl0T9yvVw9Xkkw4y
+ zj3CSjDEwikSAtTxBUCVI2uOMuQmlfq+ktL3f6lgVeq8XfUnQbAWGAN/+BlfFh/fOp
+ wYgbUoadHiKTQ==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V2 00/12] drm: bridge: icn6211: Fix hard-coded panel settings
+ and add I2C support
+Date: Thu, 17 Feb 2022 01:25:18 +0100
+Message-Id: <20220217002530.396563-1-marex@denx.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 3/3] drm/msm/dp: replace DRM_DEBUG_DP marco with
- drm_dbg_dp
-Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
- <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
- <dmitry.baryshkov@linaro.org>, <dri-devel@lists.freedesktop.org>,
- <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
-References: <1643828199-8564-1-git-send-email-quic_khsieh@quicinc.com>
- <1643828199-8564-4-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n534MH7ih4nKbjY5EewcZ0J73Zp_A=Q-CJ0M_z3nWoVaVQ@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAE-0n534MH7ih4nKbjY5EewcZ0J73Zp_A=Q-CJ0M_z3nWoVaVQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,47 +51,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series fixes multiple problems with the ICN6211 driver and adds
+support for configuration of the chip via I2C bus.
 
-On 2/16/2022 3:46 PM, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2022-02-02 10:56:39)
->
-> Please add some commit text
->
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/dp/dp_audio.c   |  49 +++++++++++------
->>   drivers/gpu/drm/msm/dp/dp_catalog.c |  34 +++++++-----
->>   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 106 +++++++++++++++++++-----------------
->>   drivers/gpu/drm/msm/dp/dp_display.c |  68 +++++++++++++----------
->>   drivers/gpu/drm/msm/dp/dp_drm.c     |   4 +-
->>   drivers/gpu/drm/msm/dp/dp_link.c    |  99 +++++++++++++++++++--------------
->>   drivers/gpu/drm/msm/dp/dp_panel.c   |  43 +++++++++------
->>   drivers/gpu/drm/msm/dp/dp_parser.c  |   2 +-
->>   drivers/gpu/drm/msm/dp/dp_power.c   |  20 ++++---
->>   9 files changed, 246 insertions(+), 179 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
->> index d7e4a39..4fbbe0a 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_audio.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_audio.c
->> @@ -136,7 +136,8 @@ static void dp_audio_stream_sdp(struct dp_audio_private *audio)
->>          parity_byte = dp_audio_calculate_parity(new_value);
->>          value |= ((new_value << HEADER_BYTE_1_BIT)
->>                          | (parity_byte << PARITY_BYTE_1_BIT));
->> -       DRM_DEBUG_DP("Header Byte 1: value = 0x%x, parity_byte = 0x%x\n",
->> +       drm_dbg_dp((struct drm_device *)NULL,
-> Why can't we pass the platform device pointer? Surely the cast is not
-> necessary and in fact harmful.
+First, in the current state, the ICN6211 driver hard-codes DPI timing
+and clock settings specific to some unknown panel. The settings provided
+by panel driver are ignored. Using any other panel than the one for which
+this driver is currently hard-coded can lead to permanent damage of the
+panel (per display supplier warning, and it sure did in my case. The
+damage looks like multiple rows of dead pixels at the bottom of the
+panel, and this is not going away even after long power off time).
 
-Platform device only available at top level (dp_display.c), other level 
-has no access to platform device or drm_device.
+Much of this series thus fixes incorrect register layout, DPI timing
+programming, clock generation by adding actual PLL configuration code.
+This series also adds lane count decoding instead of using hard-coded
+value, and fills in a couple of registers with likely correct default
+values.
 
-I will just apss NULL, such as  drm_dbg_dp(NULL, ...), if not device 
-available.
+Second, this series adds support for I2C configuration of the ICN6211.
+The device can be configured either via DSI command mode or via I2C,
+the register layout is the same in both cases.
+
+Since the datasheet for this device is very hard to come by, a lot of
+information has been salvaged from [1] and [2].
+
+[1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gpu/drm/bridge/icn6211.c
+[2] https://github.com/tdjastrzebski/ICN6211-Configurator
+
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel@lists.freedesktop.org
+
+Marek Vasut (12):
+  drm: bridge: icn6211: Fix register layout
+  drm: bridge: icn6211: Fix HFP_HSW_HBP_HI and HFP_MIN handling
+  drm: bridge: icn6211: Add HS/VS/DE polarity handling
+  drm: bridge: icn6211: Add DSI lane count DT property parsing
+  drm: bridge: icn6211: Add generic DSI-to-DPI PLL configuration
+  drm: bridge: icn6211: Use DSI burst mode without EoT and with LP
+    command mode
+  drm: bridge: icn6211: Disable DPI color swap
+  drm: bridge: icn6211: Set SYS_CTRL_1 to value used in examples
+  drm: bridge: icn6211: Implement atomic_get_input_bus_fmts
+  drm: bridge: icn6211: Add I2C configuration support
+  drm: bridge: icn6211: Rename ICN6211_DSI to chipone_writeb
+  drm: bridge: icn6211: Read and validate chip IDs before configuration
+
+ drivers/gpu/drm/bridge/chipone-icn6211.c | 510 ++++++++++++++++++++---
+ 1 file changed, 458 insertions(+), 52 deletions(-)
+
+-- 
+2.34.1
 
