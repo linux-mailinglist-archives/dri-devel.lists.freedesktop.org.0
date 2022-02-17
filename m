@@ -2,83 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E55D34B9C32
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 10:39:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F634B9C34
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 10:40:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC0D10E948;
-	Thu, 17 Feb 2022 09:39:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9DE410E953;
+	Thu, 17 Feb 2022 09:40:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35A8D10E93C
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 09:39:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645090784;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jLgXyaDdyKmF629yX/8jyqbwgfWH8asfchQ3m/1p7wI=;
- b=ZzCU8/Sax08B6tueFEC5QMANr1g4s7BkxkVsW2VBMgV34b9faJxoht8T+ZMa922nPBibuX
- xVtUTf7VOD+fROhwwR81fcf2sdi+6XLqZuTALHrHZJOBxW/OxE90XqSTvYZdmXlhzzrWVv
- w0ShK+/dbd5v2DPp0owqjcS8Nj4ZpB8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-U6cZX7z_N0qwqqQniqFzog-1; Thu, 17 Feb 2022 04:39:42 -0500
-X-MC-Unique: U6cZX7z_N0qwqqQniqFzog-1
-Received: by mail-wr1-f69.google.com with SMTP id
- e1-20020adfa741000000b001e2e74c3d4eso2039443wrd.12
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 01:39:42 -0800 (PST)
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52A3110E961;
+ Thu, 17 Feb 2022 09:40:32 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id r27so5249617oiw.4;
+ Thu, 17 Feb 2022 01:40:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uhOJfm6H7seDFtparrRa6LVFSq5tSizAXtRZfKmDyxU=;
+ b=O7qfDwrOyYJHNrXZmT/XCBCXsPd5PbpbwH6wv5sCvteVtj85muRvNxFwDu5hJ+5zwV
+ 7CRIi6DzaoYc6+lDkFbCIqnHqmn1CnSkUmHZoWFIFWwV7AUiPp+F1opnFUECx8JMEasi
+ K3HXYRm941hMxMb0PEwQffUOtRUpq4w2lHIdbOlbsM5srVSSQixNGNv8IL6kX9p0uWFk
+ S4U+kD5YfFIebrado0QkLzyne8pcU61SPvryIYGxjtiYUR7Jsa2nfj6ReDx2ht7QwTLn
+ X3YYnJXrToVTLlnR5wAPxyL5slkBqAR/JUHVHNEjXmgFP6rHXygA96Td3ayOV8ysIJYX
+ Kcmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jLgXyaDdyKmF629yX/8jyqbwgfWH8asfchQ3m/1p7wI=;
- b=RxNNR2SPouXgcUDsUE4QWf1owCLuFwF5D8AkPpIDWlyxqIqXklUZ5kxEutCalU8hPa
- MS7otgQM/pe4v720Cem8Gg+ouNkFkf+E4mPq/X5L2EMkkNGZz9gUUqyhUzpXWtLb1oo6
- ZF22Etst4V4F5jcM6+yCkNbOEKtvDl3x4gG/v/Bq+Xka3CRLfwK4e5uLKhEw1RvvqxUH
- oEN7H2orUqMPo7o18D7wIGWYxaBRSh7aTWB7x5PILuceFqNShievV7m0iYPzbnEALAjl
- LjvBEeBY9xwzpC1AI6wKTOq3hyZzWThZAu8WPEuBK9oaDFc5IbXw85ZspTbmg8tv0a3J
- SZMQ==
-X-Gm-Message-State: AOAM532IvxIfdM67YV8+ElyBR0c3bkcEw1rf9sDqIHSoP/BULHTJDWqh
- VzgL4WcDDwaxXwWZsi0SjIRSBjaYxi5j4I5SPcTfUMoOxHCOBkSkpx5i/IHb9uCATw1RlDTmEKY
- uBAwlPV965TXcMIlBHMbFrhINjjJB
-X-Received: by 2002:a05:600c:34c4:b0:37b:f84d:d55a with SMTP id
- d4-20020a05600c34c400b0037bf84dd55amr5219790wmq.123.1645090781819; 
- Thu, 17 Feb 2022 01:39:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJybTPMdUEv4yErAw/bHWXz3opBkboEQXbUIb0XIqgnTJgBeyfbHp2oe3xxJk8q91rF306F1sQ==
-X-Received: by 2002:a05:600c:34c4:b0:37b:f84d:d55a with SMTP id
- d4-20020a05600c34c400b0037bf84dd55amr5219771wmq.123.1645090781577; 
- Thu, 17 Feb 2022 01:39:41 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id y4sm17410167wrd.54.2022.02.17.01.39.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 01:39:41 -0800 (PST)
-Message-ID: <3cb4c64a-6a6a-97bf-682e-efcf9bd748b5@redhat.com>
-Date: Thu, 17 Feb 2022 10:39:39 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uhOJfm6H7seDFtparrRa6LVFSq5tSizAXtRZfKmDyxU=;
+ b=BfV5a+L3KQS744y3IMyj2qUTfr8sL+eqkc4ZqBDmZrQcTCV8CqLSCMF79N5gQlRy/5
+ bkBB2P45Ruw3ltW+LrSMK/k1idn69ks1bg38fJLKH4aO1WE2z19qDslAn7KtsQVRapSZ
+ DvQx+DbBlmC1kVeUr98JwYjBGPn5AADs/nHGRVnWCisCQYUkm6Tj1mEPX10IaX+ppUi0
+ WmoPj74WR6OPouy3ABWzulqoMJ90DBRQm2b4jwuWFqbmlAhn05N3cFZXfN7+PsdvTGPp
+ EqwNRvzEfsXBd1sv34HPC/3Zdv92n0ShwjVeUjOrZcGpoMoUQbNvKO43KfwTAw6C2qwQ
+ UFEg==
+X-Gm-Message-State: AOAM531R10roqBq7dIrT6RKtdnK/ZCcJyY7Iz+5vrOYycwj1973AtQ1D
+ fHvBdux3cbP/8Rz+Rw6CwQ6shsW+ZaWX8ViXXD4=
+X-Google-Smtp-Source: ABdhPJzW3ysr0A/QNZN637zadxiYZAwSsq5TpxDuuAQxvChDfoDHi5vCMCyqiI2d2M6+0Mxp5rxQaZ5QlpMNaRhieYQ=
+X-Received: by 2002:a05:6808:188b:b0:2d4:70f2:3cfa with SMTP id
+ bi11-20020a056808188b00b002d470f23cfamr790214oib.168.1645090831535; Thu, 17
+ Feb 2022 01:40:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Intel-gfx] [drm-tip:drm-tip 4/8]
- drivers/gpu/drm/solomon/ssd130x.c:451:18: error: incomplete definition of
- type 'struct dma_buf_map'
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-References: <202202171455.bclm1YBC-lkp@intel.com>
- <20220217063625.sm5ua5xf4jo2ekku@ldmartin-desk2>
- <79301ef2-03d4-ca96-3d7f-6f9b80f319e1@redhat.com>
- <20220217092545.4zpjnh344fmrcg26@ldmartin-desk2>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220217092545.4zpjnh344fmrcg26@ldmartin-desk2>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220217090440.4468-1-qiang.yu@amd.com>
+ <5d3fdd2c-e74a-49f4-2b28-32c06483236f@amd.com>
+In-Reply-To: <5d3fdd2c-e74a-49f4-2b28-32c06483236f@amd.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Thu, 17 Feb 2022 17:40:19 +0800
+Message-ID: <CAKGbVbtLTBJPF5eTu4rABUTBa8eqjQvqjo1AEUrzgPgYgCREuA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: check vm bo eviction valuable at last
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,80 +65,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
- intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ Qiang Yu <qiang.yu@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/17/22 10:25, Lucas De Marchi wrote:
-> On Thu, Feb 17, 2022 at 10:00:42AM +0100, Javier Martinez Canillas wrote:
-
-[snip]
-
->>> this is now called iosys_map in drm-intel... drm-tip will need a fixup
->>> for the merge.
->>>
->>
->> I thought that the drm-intel tree was only for Intel DRM drivers changes and
->> subsystem wide changes should be merged through drm-mic ?
->>
->> Doing refactoring in that tree will likely lead to merge conflicts like this.
-> 
-> Yes, I know. My initial proposal was to split the rename and do it per
-> branch to avoid this kind of situation, but it was requested to be done
-> all in a single patch. Since I had other ~15 patches dependent on that
-> one to be merged in drm-intel, it was agreed to do the rename via
-> drm-intel. See 
-> https://lore.kernel.org/lkml/e3813696-7b91-510c-987f-85ed2fd502d6@suse.de/
+On Thu, Feb 17, 2022 at 5:15 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-
-Got it. Thanks for the explanation.
- 
-> I guess the conflicts won't be that terrible and can be fixed as they
-> show up.
+> Am 17.02.22 um 10:04 schrieb Qiang Yu:
+> > Workstation application ANSA/META get this error dmesg:
+> > [drm:amdgpu_gem_va_ioctl [amdgpu]] *ERROR* Couldn't update BO_VA (-16)
+> >
+> > This is caused by:
+> > 1. create a 256MB buffer in invisible VRAM
+> > 2. CPU map the buffer and access it causes vm_fault and try to move
+> >     it to visible VRAM
+> > 3. force visible VRAM space and traverse all VRAM bos to check if
+> >     evicting this bo is valuable
+> > 4. when checking a VM bo (in invisible VRAM), amdgpu_vm_evictable()
+> >     will set amdgpu_vm->evicting, but latter due to not in visible
+> >     VRAM, won't really evict it so not add it to amdgpu_vm->evicted
+> > 5. before next CS to clear the amdgpu_vm->evicting, user VM ops
+> >     ioctl will pass amdgpu_vm_ready() (check amdgpu_vm->evicted)
+> >     but fail in amdgpu_vm_bo_update_mapping() (check
+> >     amdgpu_vm->evicting) and get this error log
+> >
+> > This error won't affect functionality as next CS will finish the
+> > waiting VM ops. But we'd better make the amdgpu_vm->evicting
+> > correctly reflact the vm status and clear the error log.
 >
-
-Agreed.
-
->> Noticed your series in dri-devel but missed that already landed in drm-intel.
->>
->> The resolution should just be [0] right? If you confirm that then I can post
->> a proper patch to dri-devel.
->>
->>>>>> drivers/gpu/drm/solomon/ssd130x.c:451:18: error: incomplete definition of type 'struct dma_buf_map'
->>>>           void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
->>>>                        ~~~^
->>>
->>> this shouldn't really be done.
->>>
->>
->> Yes, I know but asked what would be the proper way and didn't get an answer.
->> We have many drivers doing the same and I couldn't find one that was doing
->> it correctly to use as a reference:
->>
->> $ git grep "TODO: Use mapping abstraction properly" | wc -l
->> 15
->>
->> If you point me the proper way, I'll be happy to post a patch to change it.
-> 
-> It depends what you want to do with the address. There are APIs to copy
-> from/to. I also added a few to read/write to an offset. It seems the
-> problem here is that you need to pass that to a helper,
-> drm_fb_xrgb8888_to_mono_reversed(). I think the proper solution would be
-> to change the helper to accept an iosys_map* as argument rather than a
-> void*.
+> Well NAK, that is intentional behavior.
 >
+> The VM page tables where considered for eviction, so setting the flag is
+> correct even when the page tables later on are not actually evicted.
+>
+But this will unnecessarily stop latter user VM ops in ioctl before CS
+even when the VM bos are not evicted.
+Won't this have any negative effect when could do better?
 
-That makes a lot of sense. Once the dust settles and your series land in
-drm-misc-next, I can take a look at this and removing the TODO comment.
+Regards,
+Qiang
 
-> Lucas De Marchi
->>>
->>> Lucas De Marchi
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+> What we should rather do is to fix amdgpu_vm_ready() to take a look at
+> the flag instead of the linked list.
+>
+> Regards,
+> Christian.
+>
+> >
+> > Signed-off-by: Qiang Yu <qiang.yu@amd.com>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 85 ++++++++++++++----------=
+-
+> >   1 file changed, 47 insertions(+), 38 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_ttm.c
+> > index 5a32ee66d8c8..88a27911054f 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> > @@ -1306,45 +1306,11 @@ uint64_t amdgpu_ttm_tt_pte_flags(struct amdgpu_=
+device *adev, struct ttm_tt *ttm,
+> >       return flags;
+> >   }
+> >
+> > -/*
+> > - * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evict a bu=
+ffer
+> > - * object.
+> > - *
+> > - * Return true if eviction is sensible. Called by ttm_mem_evict_first(=
+) on
+> > - * behalf of ttm_bo_mem_force_space() which tries to evict buffer obje=
+cts until
+> > - * it can find space for a new object and by ttm_bo_force_list_clean()=
+ which is
+> > - * used to clean out a memory space.
+> > - */
+> > -static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *=
+bo,
+> > -                                         const struct ttm_place *place=
+)
+> > +static bool amdgpu_ttm_mem_eviction_valuable(struct ttm_buffer_object =
+*bo,
+> > +                                          const struct ttm_place *plac=
+e)
+> >   {
+> >       unsigned long num_pages =3D bo->resource->num_pages;
+> >       struct amdgpu_res_cursor cursor;
+> > -     struct dma_resv_list *flist;
+> > -     struct dma_fence *f;
+> > -     int i;
+> > -
+> > -     /* Swapout? */
+> > -     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
+> > -             return true;
+> > -
+> > -     if (bo->type =3D=3D ttm_bo_type_kernel &&
+> > -         !amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo)))
+> > -             return false;
+> > -
+> > -     /* If bo is a KFD BO, check if the bo belongs to the current proc=
+ess.
+> > -      * If true, then return false as any KFD process needs all its BO=
+s to
+> > -      * be resident to run successfully
+> > -      */
+> > -     flist =3D dma_resv_shared_list(bo->base.resv);
+> > -     if (flist) {
+> > -             for (i =3D 0; i < flist->shared_count; ++i) {
+> > -                     f =3D rcu_dereference_protected(flist->shared[i],
+> > -                             dma_resv_held(bo->base.resv));
+> > -                     if (amdkfd_fence_check_mm(f, current->mm))
+> > -                             return false;
+> > -             }
+> > -     }
+> >
+> >       switch (bo->resource->mem_type) {
+> >       case AMDGPU_PL_PREEMPT:
+> > @@ -1377,10 +1343,53 @@ static bool amdgpu_ttm_bo_eviction_valuable(str=
+uct ttm_buffer_object *bo,
+> >               return false;
+> >
+> >       default:
+> > -             break;
+> > +             return ttm_bo_eviction_valuable(bo, place);
+> >       }
+> > +}
+> >
+> > -     return ttm_bo_eviction_valuable(bo, place);
+> > +/*
+> > + * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evict a bu=
+ffer
+> > + * object.
+> > + *
+> > + * Return true if eviction is sensible. Called by ttm_mem_evict_first(=
+) on
+> > + * behalf of ttm_bo_mem_force_space() which tries to evict buffer obje=
+cts until
+> > + * it can find space for a new object and by ttm_bo_force_list_clean()=
+ which is
+> > + * used to clean out a memory space.
+> > + */
+> > +static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *=
+bo,
+> > +                                         const struct ttm_place *place=
+)
+> > +{
+> > +     struct dma_resv_list *flist;
+> > +     struct dma_fence *f;
+> > +     int i;
+> > +
+> > +     /* Swapout? */
+> > +     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
+> > +             return true;
+> > +
+> > +     /* If bo is a KFD BO, check if the bo belongs to the current proc=
+ess.
+> > +      * If true, then return false as any KFD process needs all its BO=
+s to
+> > +      * be resident to run successfully
+> > +      */
+> > +     flist =3D dma_resv_shared_list(bo->base.resv);
+> > +     if (flist) {
+> > +             for (i =3D 0; i < flist->shared_count; ++i) {
+> > +                     f =3D rcu_dereference_protected(flist->shared[i],
+> > +                             dma_resv_held(bo->base.resv));
+> > +                     if (amdkfd_fence_check_mm(f, current->mm))
+> > +                             return false;
+> > +             }
+> > +     }
+> > +
+> > +     /* Check by different mem type. */
+> > +     if (!amdgpu_ttm_mem_eviction_valuable(bo, place))
+> > +             return false;
+> > +
+> > +     /* VM bo should be checked at last because it will mark VM evicti=
+ng. */
+> > +     if (bo->type =3D=3D ttm_bo_type_kernel)
+> > +             return amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo));
+> > +
+> > +     return true;
+> >   }
+> >
+> >   static void amdgpu_ttm_vram_mm_access(struct amdgpu_device *adev, lof=
+f_t pos,
+>
