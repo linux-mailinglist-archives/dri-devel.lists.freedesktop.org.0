@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87FB4B98C6
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 07:08:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EFBC4B98E9
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 07:10:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6AF10E708;
-	Thu, 17 Feb 2022 06:08:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5925610E709;
+	Thu, 17 Feb 2022 06:10:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B1E910E6FF;
- Thu, 17 Feb 2022 06:08:44 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE54610E6FF;
+ Thu, 17 Feb 2022 06:10:12 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7F7C961257;
- Thu, 17 Feb 2022 06:08:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57B79C340EB;
- Thu, 17 Feb 2022 06:08:42 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B4128B80D56;
+ Thu, 17 Feb 2022 06:10:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3767C340E8;
+ Thu, 17 Feb 2022 06:10:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645078123;
- bh=ztO5z3iN5cSQeK67iLz7hEoXVaNMQ6S4MlmQnptMOE0=;
+ s=k20201202; t=1645078208;
+ bh=i3fhCS7y6EEHohO6KNRuRf7uAzQv8fU9N54p/nBpQuw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qc/7GbYzvU09UZz+yxyXWiOptXJNDq7P54syRgq4lWSiMsPTpBknuklYTbnVbhq6U
- ERaMrs4RGGjz5FXF7IG8YTLCFVwYeqHeqOkjpFjXxx3FTBczkFg60a4PgbFdsajBUh
- ZNFcOOi0mGH0u+siIItZcnv/LUJ/rsb4JsA89DQ5HnLjuUTNF07SVUlwwkQrYFF84x
- Z9gzEWGUi2EXE3aAG2YJMmez+3frj2dJElqFXGvOTbzX7PRZVVFZQKWTMJLfoCb6ix
- iu3KN5iay3/C6VQ9Dx1VYsTyWGNgRL16/SHJr7VLvK/1b8zV4BS1WYMk8TYAxMeGV0
- w5npvCwMkd21A==
-Date: Thu, 17 Feb 2022 11:38:38 +0530
+ b=nN7uM8xTOeEfeH3sIbZ7M6bnyYm46Skv29uEWZu0tUGdRPj9d2cYRFd59U2mss+oj
+ VSHFt0sASkvxbrfxBUhQQnRNiNXb/5LBFWAXHsOIIgOGNDJa3Nav9RcFkjKtSPPdBf
+ cBqQ+d194G7Yo0qUDvCTsEP4jU6LfhYiUQAr3ZYWh/g1PXHu/5Y96ncwadnOUrBLSS
+ bWDNPhJlGwX1k6tURYjZ3cMMoqSUEssSyPd0zwID91fjv6pRAYXOUBUvbnYHVTiZ/+
+ dpWKM230JCHLNqFCXbM8mwFLOT87isHWV3lwMA5s5QBI4NYLrR3k5lPxgOzEBu20Y/
+ V28W70niycPVQ==
+Date: Thu, 17 Feb 2022 11:40:04 +0530
 From: Vinod Koul <vkoul@kernel.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [Freedreno] [REPOST PATCH v4 07/13] drm/msm/disp/dpu1: Add
- support for DSC in encoder
-Message-ID: <Yg3mZumErAgUzkhy@matsya>
+Subject: Re: [REPOST PATCH v4 08/13] drm/msm/disp/dpu1: Don't use DSC with
+ mode_3d
+Message-ID: <Yg3mvEvqYs89dJWI@matsya>
 References: <20220210103423.271016-1-vkoul@kernel.org>
- <20220210103423.271016-8-vkoul@kernel.org>
- <fd837ed4-1ff5-a87e-26ef-a84d899606ac@quicinc.com>
+ <20220210103423.271016-9-vkoul@kernel.org>
+ <67006cc4-3385-fe03-bb4d-58623729a8a8@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fd837ed4-1ff5-a87e-26ef-a84d899606ac@quicinc.com>
+In-Reply-To: <67006cc4-3385-fe03-bb4d-58623729a8a8@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,17 +64,31 @@ Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16-02-22, 11:54, Abhinav Kumar wrote:
-
-> > +/**
-> > + * dpu_encoder_helper_get_dsc - get DSC blocks mask for the DPU encoder
-> > + *   This helper function is used by physical encoder to get DSC blocks mask
-> > + *   used for this encoder.
+On 16-02-22, 19:11, Abhinav Kumar wrote:
 > 
-> This looks slightly misaligned to me or not sure if its my mail client.
-> Please check it once.
+> 
+> On 2/10/2022 2:34 AM, Vinod Koul wrote:
+> > We cannot enable mode_3d when we are using the DSC. So pass
+> > configuration to detect DSC is enabled and not enable mode_3d
+> > when we are using DSC
+> > 
+> > We add a helper dpu_encoder_helper_get_dsc() to detect dsc
+> > enabled and pass this to .setup_intf_cfg()
+> > 
+> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> 
+> We should not use 3D mux only when we use DSC merge topology.
+> I agree that today we use only 2-2-1 topology for DSC which means its using
+> DSC merge.
+> 
+> But generalizing that 3D mux should not be used for DSC is not right.
+> 
+> You can detect DSC merge by checking if there are two encoders and one
+> interface in the topology and if so, you can disable 3D mux.
 
-This looks fine in code as well as in mutt for me.. Maybe client issue
+Right now with DSC we disable that as suggested by Dmitry last time.
+Whenever we introduce merge we should revisit this, for now this should
+suffice
 
 -- 
 ~Vinod
