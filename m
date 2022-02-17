@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB3E4BAA2B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:48:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2784BAA6D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:56:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5921E10E73F;
-	Thu, 17 Feb 2022 19:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C782810E744;
+	Thu, 17 Feb 2022 19:56:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A89110E73B;
- Thu, 17 Feb 2022 19:48:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645127285; x=1676663285;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=2UhTY4IABD/LOp22QZON9ksMwoB4e7q5PGbrEcZ+Xq0=;
- b=auszxWN7OHnzCNRVUdmzrpVhCjgo+1+Zzn1Qn/gUMyNMRezt11tszyEa
- ot5RLr5fFQ/PZ1xqhPHnl1KVYwpDXjCKnmd5VCN1xXZOvd7IngUXOu/N+
- /y2Mvxo+Rnr1KjlMg0htZzLawqx/Tj/PHQBbwHUMpM2Gdj1o/4KjE3dcX
- r6MkdoL+CuS6lyhwetu1xzj3b23P9Hj9cvUe3aAbMEtKRNi2xs/EEeoLR
- tGAXT4ASncHTJp+x0cH4oWEKODUwpWjLRhzKLK8TCoodS4JwEbFR/4jXb
- 7uvY9GHpTu/+g15Izidnqoi/ku/XsQa8/Bp0coSrz6a/GSVpje/NtDLtb w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="314225014"
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="314225014"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 11:48:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="503662381"
-Received: from lkp-server01.sh.intel.com (HELO 6f05bf9e3301) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 17 Feb 2022 11:48:02 -0800
-Received: from kbuild by 6f05bf9e3301 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nKmkz-0000Xl-GK; Thu, 17 Feb 2022 19:48:01 +0000
-Date: Fri, 18 Feb 2022 03:47:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
-Subject: Re: [Intel-gfx] [PATCH v5 6/7] drm/i915/gt: Create per-tile RPS
- sysfs interfaces
-Message-ID: <202202180224.l042viYj-lkp@intel.com>
-References: <20220217144158.21555-7-andi.shyti@linux.intel.com>
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 236AF10E740;
+ Thu, 17 Feb 2022 19:56:26 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id h11so3073731ilq.9;
+ Thu, 17 Feb 2022 11:56:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=8GFxXYwx/5UCE/Qb/4WuhMlmB3dLbwTPQFbWmG3kKsM=;
+ b=ket0vNCCv7LXRrKp+zEgT8tdrxxxXs5stWJ3POCkDSLqdIv9RHgUfDUbeqd/h7cnzZ
+ wQ+rFJ6zuVDA0EB0CA8GxwIq8+DtzJGQHeDSwrEDaHr5drnmL4H7P0t1qlwu63jYoZ2h
+ nfodBeMHPXgqv9ewX6cqW8khsCtk2REn71DxZolhKjBmSq3naEHy7vLpIzq0p1xD9Xbb
+ IYSPK1B1XgLI9WO8QioRnFffmf0lXOxn6ujSaPictNyAnBoCdrpCP3HPKpC0k+9JyS8T
+ iuWmqqCL9+6F40FvGJBxsRxM++OhVL/GC9WXHlTF5O4MAvyMUo7H/bOYwvKw4oJhot9L
+ C/+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=8GFxXYwx/5UCE/Qb/4WuhMlmB3dLbwTPQFbWmG3kKsM=;
+ b=MhegXzU3GZhKyL61lV0WYlQdDg9hkakAzUm7+qKkwa97wwTAi/7XvZMM8wgTIJ5hDB
+ ihEiWkPxYYtQRpmKm2eTRGJhGSzm7JmZ9SfkGaUV7ppNRexD42F1b+jhRB2fgv0ahJLU
+ I/qhXEvuF1jFDusZznf/w6V/wTtacSGbQGPQy0oFBRlBC5OGv+WzAUO8DO98yGcs6SNm
+ eocyufDppCPbJburQg2EQFkugesS+i44IK2wLbOl4XWpuxNN2NFDZdEQZZKN8Ay5cmeh
+ pFHe8Qb2AWu6iyAlA169EwTp1YaIp7/QN7L7rkrr//gT3lBXsZaybHT8GjOvAXN/NXpJ
+ fn2w==
+X-Gm-Message-State: AOAM533PvDgWk0QfSbplg9GFP1pjj4ZzZusJ8T6MbKwXhT4H+XHmIiLQ
+ Cn/B/W9yppE1gB89J98Ppo8kbGfgnn4mRNbDLXj+qXS/gnE=
+X-Google-Smtp-Source: ABdhPJwoyHz1gKcU6C//YkawUkzzdFFjnj6GjnlN9ljLbEk9c6Vsm7Wio2PoBjmSm+T9pJsDDzNS2D2ErOKDcq5Lg08=
+X-Received: by 2002:a05:6e02:1e05:b0:2c1:a4e9:90e with SMTP id
+ g5-20020a056e021e0500b002c1a4e9090emr767595ila.174.1645127785161; Thu, 17 Feb
+ 2022 11:56:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220217144158.21555-7-andi.shyti@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Thu, 17 Feb 2022 14:56:13 -0500
+Message-ID: <CAHUNapT7zzELkRqPt7sWpk+-KVbUTtwThgTnAC=5DTxWWek0Uw@mail.gmail.com>
+Subject: X.Org Foundation GSoC mentors and projects
+To: dri-devel <dri-devel@lists.freedesktop.org>, 
+ "X.Org Devel List" <xorg-devel@lists.x.org>,
+ wayland <wayland-devel@lists.freedesktop.org>
+Content-Type: multipart/alternative; boundary="0000000000003eaa7f05d83c2935"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,129 +61,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, kbuild-all@lists.01.org,
- Matthew Auld <matthew.auld@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andi,
+--0000000000003eaa7f05d83c2935
+Content-Type: text/plain; charset="UTF-8"
 
-I love your patch! Yet something to improve:
+Hi everyone,
 
-[auto build test ERROR on drm-tip/drm-tip]
-[cannot apply to drm-intel/for-linux-next drm-exynos/exynos-drm-next drm/drm-next tegra-drm/drm/tegra/for-next airlied/drm-next v5.17-rc4 next-20220217]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Thanks to the amazing work Rodrigo does mentoring students (which
+introduces them to GNU/Linux in general and X.Org/fd.o in particular) it
+looks like we might have some potential GSoC candidates this year.
 
-url:    https://github.com/0day-ci/linux/commits/Andi-Shyti/Introduce-multitile-support/20220217-224547
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20220218/202202180224.l042viYj-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/f1802e7224006bf4801fe56193bf5eb223a3f4d0
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Andi-Shyti/Introduce-multitile-support/20220217-224547
-        git checkout f1802e7224006bf4801fe56193bf5eb223a3f4d0
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+The last time we ran an X.Org GSoC, back in 2020, our amazing student,
+Melissa, not only passed her project with flying colours, she continues on
+in our community to this day as a co-admin of the VKMS driver. Several
+other members of our community came to us via GSoC and are also still with
+us making significant contributions.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Rodrigo and Melissa have put together a project they are excited to mentor:
+https://www.x.org/wiki/AMDGPU2022/ . Daniel Vetter has also agreed to
+mentor; perhaps a drm-related project. I've agreed to be the admin on
+behalf of X.Org for our participation in GSoC.
 
-All errors (new ones prefixed by >>):
+If anyone else is interested in volunteering we would certainly appreciate
+the help. We're always looking for mentors and project ideas. Our current
+list of projects/mentors is found on our Ideas page:
+https://www.x.org/wiki/SummerOfCodeIdeas/
 
-   drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c: In function 'act_freq_mhz_show':
->> drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:250:20: error: implicit declaration of function 'sysfs_gt_attribute_r_func' [-Werror=implicit-function-declaration]
-     250 |  s64 actual_freq = sysfs_gt_attribute_r_func(dev, attr,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c: In function 'boost_freq_mhz_store':
->> drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:318:9: error: implicit declaration of function 'sysfs_gt_attribute_w_func' [-Werror=implicit-function-declaration]
-     318 |  return sysfs_gt_attribute_w_func(dev, attr,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+If you have any questions or interest please get in touch!
 
+Best regards,
+    Trevor
 
-vim +/sysfs_gt_attribute_r_func +250 drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+--0000000000003eaa7f05d83c2935
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-   246	
-   247	static ssize_t act_freq_mhz_show(struct device *dev,
-   248					 struct device_attribute *attr, char *buff)
-   249	{
- > 250		s64 actual_freq = sysfs_gt_attribute_r_func(dev, attr,
-   251							    __act_freq_mhz_show);
-   252	
-   253		return sysfs_emit(buff, "%u\n", (u32) actual_freq);
-   254	}
-   255	
-   256	static s64 __cur_freq_mhz_show(struct intel_gt *gt)
-   257	{
-   258		return intel_rps_get_requested_frequency(&gt->rps);
-   259	}
-   260	
-   261	static ssize_t cur_freq_mhz_show(struct device *dev,
-   262					 struct device_attribute *attr, char *buff)
-   263	{
-   264		s64 cur_freq = sysfs_gt_attribute_r_func(dev, attr,
-   265							 __cur_freq_mhz_show);
-   266	
-   267		return sysfs_emit(buff, "%u\n", (u32) cur_freq);
-   268	}
-   269	
-   270	static s64 __boost_freq_mhz_show(struct intel_gt *gt)
-   271	{
-   272		return intel_rps_get_boost_frequency(&gt->rps);
-   273	}
-   274	
-   275	static ssize_t boost_freq_mhz_show(struct device *dev,
-   276					   struct device_attribute *attr,
-   277					   char *buff)
-   278	{
-   279		s64 boost_freq = sysfs_gt_attribute_r_func(dev, attr,
-   280							   __boost_freq_mhz_show);
-   281	
-   282		return sysfs_emit(buff, "%u\n", (u32) boost_freq);
-   283	}
-   284	
-   285	static int __boost_freq_mhz_store(struct intel_gt *gt, u32 val)
-   286	{
-   287		struct intel_rps *rps = &gt->rps;
-   288		bool boost = false;
-   289	
-   290		/* Validate against (static) hardware limits */
-   291		val = intel_freq_opcode(rps, val);
-   292		if (val < rps->min_freq || val > rps->max_freq)
-   293			return -EINVAL;
-   294	
-   295		mutex_lock(&rps->lock);
-   296		if (val != rps->boost_freq) {
-   297			rps->boost_freq = val;
-   298			boost = atomic_read(&rps->num_waiters);
-   299		}
-   300		mutex_unlock(&rps->lock);
-   301		if (boost)
-   302			schedule_work(&rps->work);
-   303	
-   304		return 0;
-   305	}
-   306	
-   307	static ssize_t boost_freq_mhz_store(struct device *dev,
-   308					    struct device_attribute *attr,
-   309					    const char *buff, size_t count)
-   310	{
-   311		ssize_t ret;
-   312		u32 val;
-   313	
-   314		ret = kstrtou32(buff, 0, &val);
-   315		if (ret)
-   316			return ret;
-   317	
- > 318		return sysfs_gt_attribute_w_func(dev, attr,
-   319						 __boost_freq_mhz_store, val) ?: count;
-   320	}
-   321	
+<div dir=3D"ltr"><div>Hi everyone,</div><div><br></div><div>Thanks to the a=
+mazing work Rodrigo does mentoring students (which introduces them to GNU/L=
+inux in general and X.Org/fd.o in particular) it looks like we might have s=
+ome potential GSoC candidates this year.<br></div><div><br></div><div>The l=
+ast time we ran an X.Org GSoC, back in 2020, our amazing student, Melissa, =
+not only passed her project with flying colours, she continues on in our co=
+mmunity to this day as a co-admin of the VKMS driver. Several other members=
+ of our community came to us via GSoC and are also still with us making sig=
+nificant contributions.</div><div><br></div><div>Rodrigo and Melissa have p=
+ut together a project they are excited to mentor: <a href=3D"https://www.x.=
+org/wiki/AMDGPU2022/">https://www.x.org/wiki/AMDGPU2022/</a> . Daniel Vette=
+r has also agreed to mentor; perhaps a drm-related project. I&#39;ve agreed=
+ to be the admin on behalf of X.Org for our participation in GSoC.</div><di=
+v><br></div><div>If anyone else is interested in volunteering we would cert=
+ainly appreciate the help. We&#39;re always looking for mentors and project=
+ ideas. Our current list of projects/mentors is found on our Ideas page: <a=
+ href=3D"https://www.x.org/wiki/SummerOfCodeIdeas/">https://www.x.org/wiki/=
+SummerOfCodeIdeas/</a></div><div><br></div><div>If you have any questions o=
+r interest please get in touch!</div><div><br></div><div>Best regards,</div=
+><div>=C2=A0=C2=A0=C2=A0 Trevor<br></div></div>
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--0000000000003eaa7f05d83c2935--
