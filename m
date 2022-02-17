@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045504B94B9
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 00:52:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE9E4B94D1
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 01:08:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C026D10E669;
-	Wed, 16 Feb 2022 23:52:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBADD10E1F8;
+	Thu, 17 Feb 2022 00:08:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
- [209.85.166.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7211910E669
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 23:52:20 +0000 (UTC)
-Received: by mail-il1-f179.google.com with SMTP id p11so1075294ils.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 15:52:20 -0800 (PST)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 080CE10E1F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 00:08:40 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id r20so5837545ljj.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 16:08:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cJ+5mbwD/7lPCQPyt9Z7JoknhxYPPxgDVRd9pXODZ5o=;
+ b=vC3CA/0YHRFW4zBqC0DeMPM5gDVicSFaSDXd1UK11xJBi8q+szSDcaAv33hiWrgkj4
+ EL26NvtOIjV1cQWedrxXJuGCDYKAYK14sVCzugaPkkdrCHWzDJDITQ1aVWcReqPd0R8j
+ E5Iy5vHe2r8W+Fi6hP/VgoGwjKCO17p0Ma3win19afh4VMLQN7RvgbVe+Sui+M/q0Ukc
+ q/R3yQ8MCJfox1DA4wXjPJxHlcknj3AllFDXIHC6/ySzK0bhmoNhbewwQ68tuwIO1MvZ
+ 7n9idR0HtuLK6VNP8/OKunOf4lAA8XWw/zeTlq3jT28tT675wPvlX3yl+N6gSgTaDDlO
+ pyIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=b/JXIitbDZ9HoqIJQDyG8ELeQOdY8UCMjKhFkXYelkw=;
- b=cA1Sbx6x+/LuVSA3nWEzD66/z5dUFbqhRq1CgEJ6LwYNXspJrbCTTiYJsdXj3458t1
- JaP0/gqWO998phexV7lpjBme8rpvd4LFjI3+XORR9CycQf4svMMVTZZ/v2mqmJLQpEtm
- s7vF2weAiit5xt/W4vdaaY41V4ETMtwT8hIcc82zkQhSJHd1ILWy22cQe390WYeMYG17
- fmiGWDXj5l9vVaUhz/a0ErOlHom1U6kDS48VHxAe2vXVNknzyWZzhRqyaDL580EX/yyf
- pEdSH0DGwIdwTl0Y4qdXiOoaoDAot25+9N7YcZGz5NKDClOIhKRGR4MKkNgHIq8GLoPP
- bvIA==
-X-Gm-Message-State: AOAM5313U5KWX/sa4zdp69eolDIG/ACcfa3Swt/HbIz6hFlJr80UZ6sd
- dFIYP9b1HxbIlvOC90xS5g==
-X-Google-Smtp-Source: ABdhPJzMeZBEmpkyBZ0DqYIbANVj7AN2XmgRUWyZkypg6ORTBG7lSLroGnVPeDY/yrX1DtGyrr1CDQ==
-X-Received: by 2002:a92:c567:0:b0:2b8:b4d1:ba3c with SMTP id
- b7-20020a92c567000000b002b8b4d1ba3cmr202018ilj.50.1645055539773; 
- Wed, 16 Feb 2022 15:52:19 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id i13sm800285ila.46.2022.02.16.15.52.16
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cJ+5mbwD/7lPCQPyt9Z7JoknhxYPPxgDVRd9pXODZ5o=;
+ b=edWhan/Xj5kj3H10Wedrf8e23yH6U4vwxeEmCz1ERgAnbMwjjyg7YtMsFNON+ZRCEV
+ QAlE7qu/+WFPom7kpg9nuswcC789SAIp5aALlv5Rk2rCEU+seyRnoEkkSJS7WViMNWlQ
+ jqijSapthpPkwpNIcgShh2AQDQcTKpNkFerWITC1BY/t/x5D5q7MeNEsvzrG5NyM46sH
+ pLoJNYMt+rXiVTGoUskfCF+JrUvJKv6Sl+jpgzaN345JFVHlwKjWu03nlvwmkpJ+DcCT
+ wh63c2t80EIBQsxdKAIElPSSBMgALHMFMpICZQwTpXcP6RuTozWyv/U+RtQYbkd9WoQN
+ P+sw==
+X-Gm-Message-State: AOAM533xxudfilFdmDPFstLa1AcopnxKhJtRYLK+fLsogTD1UArzwUe0
+ Jzn/2nA3JQblBfSds/kKW37Thw==
+X-Google-Smtp-Source: ABdhPJyNCL64USD67u1GLsNkk0UPMfyzMabfTjAIsduxOUYQMuJVlRYXMbUVQS/fcJg7SwvRnyLHAA==
+X-Received: by 2002:a05:651c:307:b0:244:dc4c:c2f2 with SMTP id
+ a7-20020a05651c030700b00244dc4cc2f2mr331058ljp.531.1645056519081; 
+ Wed, 16 Feb 2022 16:08:39 -0800 (PST)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id x3sm740845lfr.283.2022.02.16.16.08.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 15:52:18 -0800 (PST)
-Received: (nullmailer pid 1918923 invoked by uid 1000);
- Wed, 16 Feb 2022 23:52:16 -0000
-Date: Wed, 16 Feb 2022 17:52:16 -0600
-From: Rob Herring <robh@kernel.org>
-To: Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [RFC PATCH 1/6] dt-bindings: display: imx: Add EPDC
-Message-ID: <Yg2OMADV6GLG6a4/@robh.at.kernel.org>
-References: <20220206080016.796556-1-andreas@kemnade.info>
- <20220206080016.796556-2-andreas@kemnade.info>
- <YgaE06Ktabpf2dJC@robh.at.kernel.org>
- <20220214234517.121e1167@aktux>
+ Wed, 16 Feb 2022 16:08:38 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH] drm/msm/dsi/phy: fix 7nm v4.0 settings for C-PHY mode
+Date: Thu, 17 Feb 2022 03:08:37 +0300
+Message-Id: <20220217000837.435340-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220214234517.121e1167@aktux>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,96 +68,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- letux-kernel@openphoenux.org, tzimmermann@suse.de, samuel@sholland.org,
- airlied@linux.ie, s.hauer@pengutronix.de, alistair@alistair23.me,
- linux-kernel@vger.kernel.org, linux-imx@nxp.com, kernel@pengutronix.de,
- josua.mayer@jm0.eu, shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 14, 2022 at 11:45:17PM +0100, Andreas Kemnade wrote:
-> Hi Rob,
-> 
-> On Fri, 11 Feb 2022 09:46:27 -0600
-> Rob Herring <robh@kernel.org> wrote:
-> 
-> > On Sun, Feb 06, 2022 at 09:00:11AM +0100, Andreas Kemnade wrote:
-> > > Add a binding for the Electrophoretic Display Controller found at least
-> > > in the i.MX6.  
-> > 
-> > The first version was in i.MX50 (I helped design the register 
-> > interface). Is that version compatible?
-> > 
-> it has some differences, but that could be detected by EPDC_VERSION
-> register. I do not own such a device, so I cannot fully check. I have
-> not seen any driver with devicetree for IMX5. For now I am rejecting
-> anything which has a EPDC version which I cannot check. 
-> 
-> > > The timing subnode is directly here to avoid having display parameters
-> > > spread all over the plate.
-> > > 
-> > > Supplies are organized the same way as in the fbdev driver in the
-> > > NXP/Freescale kernel forks. The regulators used for that purpose,
-> > > like the TPS65185, the SY7636A and MAX17135 have typically a single bit to
-> > > start a bunch of regulators of higher or negative voltage with a
-> > > well-defined timing. VCOM can be handled separately, but can also be
-> > > incorporated into that single bit.
-> > > 
-> > > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> > > ---
-> > >  .../bindings/display/imx/fsl,mxc-epdc.yaml    | 159 ++++++++++++++++++
-> > >  1 file changed, 159 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
-> > > new file mode 100644
-> > > index 000000000000..7e0795cc3f70
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
-> > > @@ -0,0 +1,159 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/display/imx/fsl,mxc-epdc.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Freescale i.MX6 EPDC
-> > > +
-> > > +maintainers:
-> > > +  - Andreas Kemnade <andreas@kemnade.info>
-> > > +
-> > > +description: |
-> > > +  The EPDC is a controller for handling electronic paper displays found in
-> > > +  i.MX6 SoCs.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - fsl,imx6sl-epdc
-> > > +      - fsl,imx6sll-epdc  
-> > 
-> > Not compatible with each other?
-> > 
-> differences are detectable by EPDC_VERSION register, so probably so
-> problem. NXP/Freescale kernel uses
-> fsl,imx6dl-epdc
-> and 
-> fsl,imx7d-epdc (used also by imx6 devices with EPDC_VERSION = 3.0)
-> in their drivers.
-> 
-> fsl,imx6dl-epdc
-> fsl,imx6sl-epdc
-> fsl,imx6sll-epdc
-> fsl,imx7d-epdc
-> in their dtsis.
-> 
-> But the general rule is to use as less as possible compatible strings
-> if differences can be probed properly, so only one should be
-> sufficient? Which one?
+The dsi_7nm_phy_enable() disagrees with downstream for
+glbl_str_swi_cal_sel_ctrl and glbl_hstx_str_ctrl_0 values. Update
+programmed settings to match downstream driver. To remove the
+possibility for such errors in future drop less_than_1500_mhz
+assignment and specify settings explicitly.
 
-If you can probe all the differences, then just 'fsl,imx-epdc' is 
-sufficient. Just document that so the next time around I don't forget 
-and tell you it needs to be specific.
+Fixes: 5ac178381d26 ("drm/msm/dsi: support CPHY mode for 7nm pll/phy")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-Rob
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+index 36eb6109cb88..6e506feb111f 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+@@ -864,20 +864,26 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
+ 	/* Alter PHY configurations if data rate less than 1.5GHZ*/
+ 	less_than_1500_mhz = (clk_req->bitclk_rate <= 1500000000);
+ 
+-	/* For C-PHY, no low power settings for lower clk rate */
+-	if (phy->cphy_mode)
+-		less_than_1500_mhz = false;
+-
+ 	if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1) {
+ 		vreg_ctrl_0 = less_than_1500_mhz ? 0x53 : 0x52;
+-		glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x00;
+-		glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x39 :  0x3c;
++		if (phy->cphy_mode) {
++			glbl_rescode_top_ctrl = 0x00;
++			glbl_rescode_bot_ctrl = 0x3c;
++		} else {
++			glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x00;
++			glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x39 :  0x3c;
++		}
+ 		glbl_str_swi_cal_sel_ctrl = 0x00;
+ 		glbl_hstx_str_ctrl_0 = 0x88;
+ 	} else {
+ 		vreg_ctrl_0 = less_than_1500_mhz ? 0x5B : 0x59;
+-		glbl_str_swi_cal_sel_ctrl = less_than_1500_mhz ? 0x03 : 0x00;
+-		glbl_hstx_str_ctrl_0 = less_than_1500_mhz ? 0x66 : 0x88;
++		if (phy->cphy_mode) {
++			glbl_str_swi_cal_sel_ctrl = 0x03;
++			glbl_hstx_str_ctrl_0 = 0x66;
++		} else {
++			glbl_str_swi_cal_sel_ctrl = less_than_1500_mhz ? 0x03 : 0x00;
++			glbl_hstx_str_ctrl_0 = less_than_1500_mhz ? 0x66 : 0x88;
++		}
+ 		glbl_rescode_top_ctrl = 0x03;
+ 		glbl_rescode_bot_ctrl = 0x3c;
+ 	}
+-- 
+2.34.1
+
