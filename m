@@ -1,49 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E0E4BABB9
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 22:29:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A3D4BABC2
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 22:34:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B7B10E822;
-	Thu, 17 Feb 2022 21:29:52 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6224410E81D;
- Thu, 17 Feb 2022 21:29:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645133390; x=1676669390;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=dDV27HB9F+X5MzwVREbSVVbXSDLXfe3HUqvjiUfCdzk=;
- b=EGN0mLMPneeDkfUP5e6J0fYJ5tSnLjuTJH6jH+nDodnmTg413eUXoAZW
- j6JUi9PTO/MGhBBRh6Fa/xb8ET6+0tJUsnUZBzzzj8wwiUHfMdMDdbu54
- S4OrZsa3mDZISeAYzs3axp2X3yRh9fG/jXA4BMFs+4Te7NULd2BUmei0t
- 9tt1effVl56Vl6AJLm4kX2CUiCVsvVJ60vmxbpXiCAwHqSF0NsJ1KMD8n
- uA6QXNZ9cZpt+i9SMcV52lUGmimxkhNKLiSCCsxkBXuOuhRkmTIiwb0dr
- I8BZ3VPQ/+G4iLA+J5YS9ONt9g3peO5hLkzn1DZ/94fcQrNmQQXG9k+UX A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="250923556"
-X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="250923556"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 13:29:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="530529292"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
- by orsmga007.jf.intel.com with ESMTP; 17 Feb 2022 13:29:42 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH] drm/i915/guc: Fix flag query helper function to not modify
- state
-Date: Thu, 17 Feb 2022 13:29:42 -0800
-Message-Id: <20220217212942.629922-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD0B10E353;
+	Thu, 17 Feb 2022 21:34:50 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A59410E353
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 21:34:49 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0302360ADF;
+ Thu, 17 Feb 2022 21:34:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 66AA0C340E8;
+ Thu, 17 Feb 2022 21:34:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645133688;
+ bh=qbafOEf/uBHmpli3QQAfd8aj1cX2r3aA252P+JKq++Q=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=EmQu1pH8GOKz+XJk5++vIXOPg6J2QabIfw1e1IaLn00uGkp0rW0tjuqYbXmCtujA7
+ Roku1ZWYkkvwAcPF+k+06MQ+2QYcWfsCPXulcqAzzxWRBPXn+sVupVALG0ovNTb34t
+ FKx7g7m6vq64ExnUm/Aqr5QnBWWnCDzDgf8QYY+QFEC3K2k5f/4cCUjsTEz3xh81j0
+ aOV9pfFLaZrmmtPd8B/kbulsqbe2iumOqmsYonPoow4kq24ziiP4EkwP2QKmOh+RSq
+ feVvQ9TQyKbe+v6roZZFvmghsp7E36FnTCVGDxpcM5gKcuT/gj4IqMTcziTPtDv8o4
+ 1chMWOhWVxacA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 55967E6D446; Thu, 17 Feb 2022 21:34:48 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.17-rc5
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9txai3TyGC3KHjkjLi6UMC-vKRoPJ8p+UpNKXy6Km=1jNQ@mail.gmail.com>
+References: <CAPM=9txai3TyGC3KHjkjLi6UMC-vKRoPJ8p+UpNKXy6Km=1jNQ@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9txai3TyGC3KHjkjLi6UMC-vKRoPJ8p+UpNKXy6Km=1jNQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2022-02-18
+X-PR-Tracked-Commit-Id: 5666b610194705587807a1078753eadc007b9d79
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: b3d971ec25346d6890e9e8f05b63f758cfcef8c5
+Message-Id: <164513368834.29727.9550946484573068640.pr-tracker-bot@kernel.org>
+Date: Thu, 17 Feb 2022 21:34:48 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,45 +61,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+The pull request you sent on Fri, 18 Feb 2022 06:02:24 +1000:
 
-A flag query helper was actually writing to the flags word rather than
-just reading. Fix that. Also update the function's comment as it was
-out of date.
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-02-18
 
-NB: No need for a 'Fixes' tag. The test was only ever used inside a
-BUG_ON during context registration. Rather than asserting that the
-condition was true, it was making the condition true. So, in theory,
-there was no consequence because we should never have hit a BUG_ON
-anyway. Which means the write should always have been a no-op.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/b3d971ec25346d6890e9e8f05b63f758cfcef8c5
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Thank you!
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b3a429a92c0d..d9f4218f5ef4 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -174,11 +174,8 @@ static inline void init_sched_state(struct intel_context *ce)
- __maybe_unused
- static bool sched_state_is_init(struct intel_context *ce)
- {
--	/*
--	 * XXX: Kernel contexts can have SCHED_STATE_NO_LOCK_REGISTERED after
--	 * suspend.
--	 */
--	return !(ce->guc_state.sched_state &=
-+	/* Kernel contexts can have SCHED_STATE_REGISTERED after suspend. */
-+	return !(ce->guc_state.sched_state &
- 		 ~(SCHED_STATE_BLOCKED_MASK | SCHED_STATE_REGISTERED));
- }
- 
 -- 
-2.25.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
