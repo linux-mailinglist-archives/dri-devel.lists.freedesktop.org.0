@@ -2,54 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191FE4BA416
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 16:16:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360504BA460
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 16:29:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C066F10E46A;
-	Thu, 17 Feb 2022 15:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E0EB10E492;
+	Thu, 17 Feb 2022 15:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAE7910E46A
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:16:04 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4F643B822A6
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:16:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F351CC36AE3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:16:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645110962;
- bh=ltIrHZ5kE+koRIY5ZxoTB2ezjOerynjz7q6O20tGhjk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=mN5wEfgIdmp7WvMgItg/375+CzWUq3y/DG1UoUgNxSar3uCXmNRFT1j0ytnIPknj3
- Lvz7VjBLwb41kdBaQFcz30Je3OwD6x6f4Lfm3XVIvrpGH40riEzhRWs0mHPbRIpQ2n
- GPEcLYzKiXl/0uCxgOTVhogzjVZUxJy4JkqF6DcpPwaeNY6s8ykkTpA0tttHxipDP8
- Ix9ZmdMa1PjJBtJCGTQMQ8Ffre1IegmkFirwrDl1LLuTcGOF/nNss45Sm054rEhMSi
- UciSy5cfk+LdIXEzJPi3+yC2nXKJdw0f7+4AfYC+LL/30b5XL+/V+AwRuXmMYX2pac
- VAwRZ/S5cLwrw==
-Received: by mail-ej1-f49.google.com with SMTP id k25so8057749ejp.5
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 07:16:01 -0800 (PST)
-X-Gm-Message-State: AOAM531HMBBMM2xb5YJKHXJMjiNhfmSuggDqkLR4eQFEHjZCr25XyJd3
- sOFlCnfYRLcQQOmUmvmR/shtFBahAMoKXswC5Q==
-X-Google-Smtp-Source: ABdhPJwWhmmbYUMUpT41cY1OCQWwTtA0ZK/OW2pNlNGzpnqu/sg0IPf8wGGwkq3V2cNbK5F8ACQlP6EYpC31RW+Gb1k=
-X-Received: by 2002:a17:906:8143:b0:6cf:73c1:8a0 with SMTP id
- z3-20020a170906814300b006cf73c108a0mr2822909ejw.406.1645110960294; Thu, 17
- Feb 2022 07:16:00 -0800 (PST)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1628510E492
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:29:47 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id d10so8115528eje.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 07:29:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=SdNsn33s2vqrmQrJpjzrM9XwN56LeRJmp4LOd8dZoak=;
+ b=pJzLECZFS8HAu/ThmLu9FQj6w/XVV4XVVP7YvND/CgvqTXm4hInd7wvi3fxO6g7xpr
+ tsuC1drjCzzSg44Ibmg3jjQYJyuOhmPQIZX0mIGbs79SLIMXOR8eqRPYPFr6FlT0vcpc
+ MN0G6gKuBAFe9mvEc6uUiRwol7N0WYkJT8o4BiaM0qbIod5sPtOhvs3T4cZ2hqhTAQiO
+ aHXI9w0WGCOHhfAMZy/wRNsef5Tfa5yC5PtRrx9OdC9VHstzOgMIGx/HXn62mdHbR5Ix
+ kpV6aliPf40QaM0Qn0chv+tOW6sCVdB0y0zEKzvz+NHzK5n+B3xl+8qYWP3OcdcJy2y2
+ Kq5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SdNsn33s2vqrmQrJpjzrM9XwN56LeRJmp4LOd8dZoak=;
+ b=6lmsSREqq50n/5BnRxGPabVEsE2nK3XMtsaHgVS0I2uNXMi/sZpoASqGdNCac4fPBJ
+ UKexR2l6wmnFy4vyv5Rsc55U58BL1T0G76JJjUEqPJ11Bny75xhxwdsmvlEfcy+9kks2
+ GhyLqCJmwDiMmmTdbHn32azggxcJqiKx2BBdeCI2LjRnyV33MqeHuTEzeFKQt6r2z5s1
+ 2fTVT6CMka4vSOYzTj9O7hT+3BytcViLFNn0VUICBQWseF8c0a6cPu2NHHuhsZ+I/qw7
+ RHWVSozPdPvGGsLhAxu91BiVDvBbwVw6Cwf5zDSQHrZcLg7cUS4wI7PW7JNRfV91sbG4
+ wPhQ==
+X-Gm-Message-State: AOAM532VSuLDErDdEKbypQ1C1LjywYTuO+0ko5ItacFCyH1Hi6pIB+W5
+ 2xzNiF5u7lemxcT1rl0Bq4M=
+X-Google-Smtp-Source: ABdhPJzZoqfXTR8DJX7/ovMs2z7Mq6EmglzQJrdy+1mfwhhenI60YKJCUMhDS5dDRiRHNtrl1MTkuQ==
+X-Received: by 2002:a17:906:1b12:b0:6cc:fd05:a553 with SMTP id
+ o18-20020a1709061b1200b006ccfd05a553mr2708579ejg.445.1645111785419; 
+ Thu, 17 Feb 2022 07:29:45 -0800 (PST)
+Received: from [192.168.1.10] ([46.249.74.23])
+ by smtp.googlemail.com with ESMTPSA id g6sm1300780ejz.170.2022.02.17.07.29.44
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 17 Feb 2022 07:29:45 -0800 (PST)
+Subject: Re: [PATCH 3/3] drm: omapdrm: Do no allocate non-scanout GEMs through
+ DMM/TILER
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, tomba@kernel.org,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <1642587791-13222-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+ <1642587791-13222-4-git-send-email-ivo.g.dimitrov.75@gmail.com>
+ <5b6d3e7f-c638-fdc7-5080-44d34abed610@ideasonboard.com>
+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <a3ed3a2c-86ce-1c85-e8aa-c08b54ad1a43@gmail.com>
+Date: Thu, 17 Feb 2022 17:29:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20220214092742.3461587-1-jstephan@baylibre.com>
- <0a331caa-7578-60f5-cbd8-f6c8c29a629f@collabora.com>
-In-Reply-To: <0a331caa-7578-60f5-cbd8-f6c8c29a629f@collabora.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 17 Feb 2022 23:15:47 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_82E2BK1cxwbsDsj5DURrY245Xnd-04N=4vevCRMjkZpw@mail.gmail.com>
-Message-ID: <CAAOTY_82E2BK1cxwbsDsj5DURrY245Xnd-04N=4vevCRMjkZpw@mail.gmail.com>
-Subject: Re: [PATCH v4] drm/mediatek: allow commands to be sent during video
- mode
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <5b6d3e7f-c638-fdc7-5080-44d34abed610@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,142 +76,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
- "moderated list:DRM DRIVERS FOR MEDIATEK" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Julien STEPHAN <jstephan@baylibre.com>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: tony@atomide.com, merlijn@wizzup.org, linux-omap@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
- [1Hi, Julien:
 
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
-=BC
-2022=E5=B9=B42=E6=9C=8814=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=885:4=
-3=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> Il 14/02/22 10:27, Julien STEPHAN ha scritto:
-> > Mipi dsi panel drivers can use mipi_dsi_dcs_{set,get}_display_brightnes=
-s()
-> > to request backlight changes.
-> >
-> > This can be done during panel initialization (dsi is in command mode)
-> > or afterwards (dsi is in Video Mode).
-> >
-> > When the DSI is in Video Mode, all commands are rejected.
-> >
-> > Detect current DSI mode in mtk_dsi_host_transfer() and switch modes
-> > temporarily to allow commands to be sent.
 
-Applied to mediatek-drm-next [1], thanks.
+On 17.02.22 г. 14:46 ч., Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 19/01/2022 12:23, Ivaylo Dimitrov wrote:
+>> On devices with DMM, all allocations are done through either DMM or 
+>> TILER.
+>> DMM/TILER being a limited resource means that such allocations will start
+>> to fail before actual free memory is exhausted. What is even worse is 
+>> that
+>> with time DMM/TILER space gets fragmented to the point that even if we 
+>> have
+>> enough free DMM/TILER space and free memory, allocation fails because 
+>> there
+>> is no big enough free block in DMM/TILER space.
+>>
+>> Such failures can be easily observed with OMAP xorg DDX, for example -
+>> starting few GUI applications (so buffers for their windows are 
+>> allocated)
+>> and then rotating landscape<->portrait while closing and opening new
+>> windows soon results in allocation failures.
+>>
+>> Fix that by mapping buffers through DMM/TILER only when really needed,
+>> like, for scanout buffers.
+> 
+> Doesn't this break users that get a buffer from omapdrm and expect it to 
+> be contiguous?
+> 
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
+If you mean dumb buffer, then no, this does not break users as dumb 
+buffers are allocated as scanout:
 
-Regards,
-Chun-Kuang.
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/omapdrm/omap_gem.c#L603
 
-> >
-> > Signed-off-by: Julien STEPHAN <jstephan@baylibre.com>
-> > Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
->
-> Please, next time, don't drop the tags that reviewers are giving to you, =
-unless
-> the patch changes radically.
->
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
->
-> > ---
-> > Changes in v4:
-> >      - fix missing space:  "ret : recv_cnt;"
-> > Changes in v3:
-> >      - increase readability of code and use correct return variable (se=
-e
-> >        comment
-> > https://lore.kernel.org/linux-mediatek/4907bdc1-b4a6-e9ad-5cfa-266fc20c=
-0bec@collabora.com/)
-> >
-> > Changes in v2:
-> >      - update commit message to be more descriptive
-> >
-> >   drivers/gpu/drm/mediatek/mtk_dsi.c | 33 ++++++++++++++++++++++-------=
--
-> >   1 file changed, 24 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/media=
-tek/mtk_dsi.c
-> > index 5d90d2eb0019..abdd9cdebd86 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > @@ -891,24 +891,33 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_=
-dsi_host *host,
-> >       u8 read_data[16];
-> >       void *src_addr;
-> >       u8 irq_flag =3D CMD_DONE_INT_FLAG;
-> > +     u32 dsi_mode;
-> > +     int ret;
-> >
-> > -     if (readl(dsi->regs + DSI_MODE_CTRL) & MODE) {
-> > -             DRM_ERROR("dsi engine is not command mode\n");
-> > -             return -EINVAL;
-> > +     dsi_mode =3D readl(dsi->regs + DSI_MODE_CTRL);
-> > +     if (dsi_mode & MODE) {
-> > +             mtk_dsi_stop(dsi);
-> > +             ret =3D mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG,=
- 500);
-> > +             if (ret)
-> > +                     goto restore_dsi_mode;
-> >       }
-> >
-> >       if (MTK_DSI_HOST_IS_READ(msg->type))
-> >               irq_flag |=3D LPRX_RD_RDY_INT_FLAG;
-> >
-> > -     if (mtk_dsi_host_send_cmd(dsi, msg, irq_flag) < 0)
-> > -             return -ETIME;
-> > +     ret =3D mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
-> > +     if (ret)
-> > +             goto restore_dsi_mode;
-> >
-> > -     if (!MTK_DSI_HOST_IS_READ(msg->type))
-> > -             return 0;
-> > +     if (!MTK_DSI_HOST_IS_READ(msg->type)) {
-> > +             recv_cnt =3D 0;
-> > +             goto restore_dsi_mode;
-> > +     }
-> >
-> >       if (!msg->rx_buf) {
-> >               DRM_ERROR("dsi receive buffer size may be NULL\n");
-> > -             return -EINVAL;
-> > +             ret =3D -EINVAL;
-> > +             goto restore_dsi_mode;
-> >       }
-> >
-> >       for (i =3D 0; i < 16; i++)
-> > @@ -933,7 +942,13 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_d=
-si_host *host,
-> >       DRM_INFO("dsi get %d byte data from the panel address(0x%x)\n",
-> >                recv_cnt, *((u8 *)(msg->tx_buf)));
-> >
-> > -     return recv_cnt;
-> > +restore_dsi_mode:
-> > +     if (dsi_mode & MODE) {
-> > +             mtk_dsi_set_mode(dsi);
-> > +             mtk_dsi_start(dsi);
-> > +     }
-> > +
-> > +     return ret < 0 ? ret : recv_cnt;
-> >   }
-> >
-> >   static const struct mipi_dsi_host_ops mtk_dsi_ops =3D {
-> > --
-> > 2.35.1
-> >
->
->
->
+If you mean omap_bo allocated buffers, then if users want 
+linear(scanout) buffer, then they request it explicitly by passing 
+OMAP_BO_SCANOUT.
+
+Ivo
