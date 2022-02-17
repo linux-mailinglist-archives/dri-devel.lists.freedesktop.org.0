@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB9D4BAD83
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 00:52:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301BC4BAD8A
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 00:54:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B478B10E928;
-	Thu, 17 Feb 2022 23:52:20 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4591B10E8C0;
- Thu, 17 Feb 2022 23:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3906810E8C0;
+	Thu, 17 Feb 2022 23:54:11 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6C5A10E83D;
+ Thu, 17 Feb 2022 23:54:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645141930; x=1676677930;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=3v5+pBjetguZklbetmNoX7H+ve3nESGp26QGx0hCrw8=;
- b=KQE8c4H/Wg11iOWYNoAJPAroq+adS6DZQ1Bj+xCzv1texN2WtVNrKYhq
- CwGQh5J3khI5+J2W9t62RCKRnTtNokvdrBh2qo83sMH5ptl2oMAO+Conp
- S3nGQ3TRPsNvXu1+HH7zOFT5mVIcwTjUqR9qhdmy7wnHaC9zAn1usYCxp
- lvdQkw9jq2c66ffmmmpO1dXoYpCG/Dqm1OBhM5x7eM/xuy3IMVNJs6SDx
- FqgodpXev+9jwEkUrCeD6ugQGgwFCXwRpLGBupg7DpTvLkH9KnkNIoMs0
- hZ9e2qAO9q5NQ5jD+f9XStUHpLpTX4kEJw/Q9OUFpAHPfTTqV4ulfrKZO g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="311749005"
-X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="311749005"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 15:52:08 -0800
+ t=1645142050; x=1676678050;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=92Ff743k9f5xb7UqMnuVpZi3B3e1//FHbyHUAo9IICU=;
+ b=JK5svN9Z6vaZn9g+Iv8+yrkvoeHxHomoK6NaGg96iEDxyzWj0RgT9z7x
+ X0je9/QsET9zBfdLvb8uvmnkw+aeMukUNeIPEpCSIw+ruNZTzhGd3zHDK
+ PdCmdifWudWZ7kYfyUSKCP0Ej4LSdF5LG5JaBp/xUCByNdbSkLPsBRD3l
+ pNoV8ibQOBsKs3RgYeBAnZ+7aXUYymn47YMwfPgLJatg1PQn6ONKQxf07
+ 6Z1mlE4BdQWEelPYSxUcAs0qAsFkvzH3p7KGwApk3wiv762mv2H592yVg
+ ioae7ReUdz9MOKaQZsvXDMX4cHHsdWQnkrxXE6btQ4z3CDbQAyH7IFLdm g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="250761854"
+X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="250761854"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 15:54:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="545964450"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
- by orsmga008.jf.intel.com with ESMTP; 17 Feb 2022 15:52:08 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 8/8] drm/i915/guc: Fix potential invalid pointer dereferences
- when decoding G2Hs
-Date: Thu, 17 Feb 2022 15:52:07 -0800
-Message-Id: <20220217235207.930153-9-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220217235207.930153-1-John.C.Harrison@Intel.com>
-References: <20220217235207.930153-1-John.C.Harrison@Intel.com>
+X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="775019261"
+Received: from lkp-server01.sh.intel.com (HELO 6f05bf9e3301) ([10.239.97.150])
+ by fmsmga006.fm.intel.com with ESMTP; 17 Feb 2022 15:54:07 -0800
+Received: from kbuild by 6f05bf9e3301 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nKqb8-0000kq-KC; Thu, 17 Feb 2022 23:54:06 +0000
+Date: Fri, 18 Feb 2022 07:53:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
+Subject: Re: [Intel-gfx] [PATCH v5 5/7] drm/i915/gt: Create per-tile RC6
+ sysfs interface
+Message-ID: <202202180713.xhySMQW4-lkp@intel.com>
+References: <20220217144158.21555-6-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220217144158.21555-6-andi.shyti@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,54 +62,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, llvm@lists.linux.dev,
+ kbuild-all@lists.01.org, Matthew Auld <matthew.auld@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+Hi Andi,
 
-Some G2H handlers were reading the context id field from the payload
-before checking the payload met the minimum length required.
+I love your patch! Yet something to improve:
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+[auto build test ERROR on drm-tip/drm-tip]
+[cannot apply to drm-intel/for-linux-next drm-exynos/exynos-drm-next drm/drm-next tegra-drm/drm/tegra/for-next airlied/drm-next v5.17-rc4 next-20220217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Andi-Shyti/Introduce-multitile-support/20220217-224547
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20220218/202202180713.xhySMQW4-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/b358d991c154dc27fa4ef2fc99f8819f4f3e97e7
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Andi-Shyti/Introduce-multitile-support/20220217-224547
+        git checkout b358d991c154dc27fa4ef2fc99f8819f4f3e97e7
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: __divdi3
+   >>> referenced by intel_gt_sysfs_pm.c:35 (drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:35)
+   >>>               gpu/drm/i915/gt/intel_gt_sysfs_pm.o:(rc6_residency_ms_show) in archive drivers/built-in.a
+   >>> referenced by intel_gt_sysfs_pm.c:35 (drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:35)
+   >>>               gpu/drm/i915/gt/intel_gt_sysfs_pm.o:(rc6p_residency_ms_show) in archive drivers/built-in.a
+   >>> referenced by intel_gt_sysfs_pm.c:35 (drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:35)
+   >>>               gpu/drm/i915/gt/intel_gt_sysfs_pm.o:(rc6pp_residency_ms_show) in archive drivers/built-in.a
+   >>> referenced 1 more times
+
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b70b1ff46418..ea17dca68674 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -3895,12 +3895,13 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
- 					  u32 len)
- {
- 	struct intel_context *ce;
--	u32 ctx_id = msg[0];
-+	u32 ctx_id;
- 
- 	if (unlikely(len < 1)) {
- 		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
- 		return -EPROTO;
- 	}
-+	ctx_id = msg[0];
- 
- 	ce = g2h_context_lookup(guc, ctx_id);
- 	if (unlikely(!ce))
-@@ -3946,12 +3947,13 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
- {
- 	struct intel_context *ce;
- 	unsigned long flags;
--	u32 ctx_id = msg[0];
-+	u32 ctx_id;
- 
- 	if (unlikely(len < 2)) {
- 		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
- 		return -EPROTO;
- 	}
-+	ctx_id = msg[0];
- 
- 	ce = g2h_context_lookup(guc, ctx_id);
- 	if (unlikely(!ce))
--- 
-2.25.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
