@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9174BC757
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CCB04BC75A
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C522A10F694;
-	Sat, 19 Feb 2022 10:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB1C10F67B;
+	Sat, 19 Feb 2022 10:02:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17F1210E492
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:13:26 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-2d68d519a33so33976487b3.7
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 07:13:26 -0800 (PST)
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
+ [IPv6:2607:f8b0:4864:20::1133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 681EE10ED10
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:23:43 +0000 (UTC)
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c0so35520437b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 07:23:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ue09UYaxTaEqS175+LfKF6ZQhoNdq+QTxAZ6/A1fP2M=;
- b=DbdZsHSudW3XTJiY+K1xA58iiJbLUQuB5eSPGNbbgrAQPf8IlmE03xiqg1+9wuD6fz
- prwczh4o+KUv8m47n1jAFn1qlfpy8WgmxUtJU/UkjM4IEiFhE+lKg/ImrzVwLl9cfwfr
- 2GNgce03dRItFvEmtPhz8UhPt0AuJ3S9+3H5wTMYIgsXFNpN0hjy4pN2DVvhRasuX/eq
- 0p33LNW5rO3BP2q6hlTUU+N6+1LwrNkcul1fnfrspmH5cI+FTRtcmC5a1ODWbB+hX/vG
- PykTm84tq45e7zRH6B+axrW4X3oQ+cbMYPhhkaugixg9Db8CDpkGUKfZhEErAOW4Grp6
- C+XQ==
+ :cc; bh=eHgl2T651ZUAY0dUPlPE7t+ZMJITI1iQLNfhsdAOi9A=;
+ b=OyyGSpGsXoRUMe1+VpsE32Jzw9pC/T/sEcDlrwAfqTzFtyGDBuqSpPNuEl6SeVR0Qs
+ AFKDV5ZQ+hSEpEmAZEquWsQhiHVRa+51dPltVToyoWlHiWM3F05pRItVl0UKT0SKGTD6
+ Gnd0oITi7nX9dnvZedukOqsSj7dQH0gNGnogTJVu7dGl1enSylVzxd6sIOsMS/AB86YP
+ A/Bue505Xt+429q5JQ96dXyKTLgWr3e0sJXowp398lVnEJS7amIKej8Lhrr6MbHdPkmV
+ V1EDN4J9TgejynO66RlqTRvfaiuXkOCZFK/K+elmI9ZrPXgNaVLtbF1hH+O9ZN5vseEv
+ BpKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ue09UYaxTaEqS175+LfKF6ZQhoNdq+QTxAZ6/A1fP2M=;
- b=IRCaunzNoTlZ0axpNfsYHK0D45Aa4KbRV+kt7jNZZ5h9Kw/QZ1bmRTg0c+eZlpkwXk
- ikSqVP4xoq1HX3Au7kx2sf5og15hewen+Yy5qR2YxNaj7v2ejIE1q4o8wbab21utThlI
- cCWuuAhBUtDhjQ/7BkmDQJwjFmn18NKKQ07OTCIpzMw4JOjLVzWVRgtrVMnFlchFJzIr
- yFk3tiL3N72Tok9ZPtH2rFC5zQZGNsYh8LSy/26JoMf0C5/XHHWhbNu2aYAlfHm9+uf3
- odUr7oDhjPs6ITnZes5DsW4JY1xyy9pTYxSrSk21pmjjBF2XsCLj8c6slxaxsndTvzHI
- NFfg==
-X-Gm-Message-State: AOAM530k98CMyA9t5zwjqXY+cP4gIrceMoROR78bKXayfxmxSxqdPWHd
- GlKFkKMzIhlif1hr9xMeYEgaF5XXlHM971rXrKtSeA==
-X-Google-Smtp-Source: ABdhPJzbG6wC2LPbv8HnQDMoclI9DH40Jr8ukHtJRt4zE8if4FlSJ1G02bARjfum6c6K95QFlyMggt7miSl+zAX9Fpc=
-X-Received: by 2002:a81:1516:0:b0:2d0:e7ca:2a5 with SMTP id
- 22-20020a811516000000b002d0e7ca02a5mr2946109ywv.55.1645110804769; Thu, 17 Feb
- 2022 07:13:24 -0800 (PST)
+ bh=eHgl2T651ZUAY0dUPlPE7t+ZMJITI1iQLNfhsdAOi9A=;
+ b=vhpVmtoG9BjY2X1g8nuVbuWxVZhtA1lf/mdtuypQcXg4nzExuwTONCygzTsF0II8r6
+ aaaQtRy0NiBql8Zwy47g8iU4uoB4gQ+2+ajDr8qc7S0g4+l1akv2+76zWenttiKvKST0
+ Y0YOogng4ptQ66n2lRyFmOTNw05PgQS8FBlTGYUl02tyJt5mgZhUAlQPlhgxSeV9El6Z
+ 0MJ3tb31vWZlgT4dtjYynEgtw52hBETTyXT0eb4xEtWIQydT924SmMPqhBiOVuCA7xrh
+ NuIpsKYrGZd+BepjyPOpVlytx2VjbAIGEZFF8qzqEkvqv6zeuWP0lDxHawyYs4QWO7uY
+ CACg==
+X-Gm-Message-State: AOAM5310H0X9uJ3Hzv6Qc0Mlz7f8cBIIW0Yk8bw4r/0801+bmun3kO9m
+ oAnpG+UQI7EEIwkqws0J4DslqIsiq9NsBbJVv1Xn+NaiwNogiDPlqB0=
+X-Google-Smtp-Source: ABdhPJxz5oowmiHJjEfemLbZOdX9nQtJEvLXg9XI3jQCQQwFJ1+9KfpYgOqyvfPS/LNFkEGjad8EoMOsgMFm6yB5kso=
+X-Received: by 2002:a81:91d2:0:b0:2d6:af3d:c93 with SMTP id
+ i201-20020a8191d2000000b002d6af3d0c93mr1481740ywg.467.1645111422161; Thu, 17
+ Feb 2022 07:23:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20220217140441.1218045-1-andrzej.hajda@intel.com>
- <20220217140441.1218045-6-andrzej.hajda@intel.com>
-In-Reply-To: <20220217140441.1218045-6-andrzej.hajda@intel.com>
+ <20220217140441.1218045-3-andrzej.hajda@intel.com>
+In-Reply-To: <20220217140441.1218045-3-andrzej.hajda@intel.com>
 From: Eric Dumazet <edumazet@google.com>
-Date: Thu, 17 Feb 2022 07:13:13 -0800
-Message-ID: <CANn89i+nCZ6LV_1E2OnJ4qWE0XkO2FGW+A6_tkmQpdxiiEh=LQ@mail.gmail.com>
-Subject: Re: [PATCH 5/9] lib/ref_tracker: improve allocation flags
+Date: Thu, 17 Feb 2022 07:23:31 -0800
+Message-ID: <CANn89iKgzztLA3y6V+vw3RiyoScC3K=1Z1_gajj8H56wGWDw6A@mail.gmail.com>
+Subject: Re: [PATCH 2/9] lib/ref_tracker: compact stacktraces before printing
 To: Andrzej Hajda <andrzej.hajda@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Sat, 19 Feb 2022 10:01:55 +0000
@@ -74,86 +74,101 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, Feb 17, 2022 at 6:05 AM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
 >
-> Library can be called in non-sleeping context, so it should not use
-> __GFP_NOFAIL. Instead it should calmly handle allocation fails, for
-> this __GFP_NOWARN has been added as well.
-
-Your commit changelog is misleading .
-
-The GFP_NOFAIL issue has been fixed already in
-commit c12837d1bb31032bead9060dec99ef310d5b9fb7 ("ref_tracker: use
-__GFP_NOFAIL more carefully")
-
-
+> In cases references are taken alternately on multiple exec paths leak
+> report can grow substantially, sorting and grouping leaks by stack_handle
+> allows to compact it.
 >
 > Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Reviewed-by: Chris Wilson <chris.p.wilson@intel.com>
 > ---
->  lib/ref_tracker.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
+>  lib/ref_tracker.c | 35 +++++++++++++++++++++++++++--------
+>  1 file changed, 27 insertions(+), 8 deletions(-)
 >
 > diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
-> index 7b00bca300043..c8441ffbb058a 100644
+> index 1b0c6d645d64a..0e9c7d2828ccb 100644
 > --- a/lib/ref_tracker.c
 > +++ b/lib/ref_tracker.c
-> @@ -59,7 +59,7 @@ __ref_tracker_dir_pr_ostream(struct ref_tracker_dir *dir,
->         if (list_empty(&dir->list))
->                 return;
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  #include <linux/export.h>
+> +#include <linux/list_sort.h>
+>  #include <linux/ref_tracker.h>
+>  #include <linux/slab.h>
+>  #include <linux/stacktrace.h>
+> @@ -14,23 +15,41 @@ struct ref_tracker {
+>         depot_stack_handle_t    free_stack_handle;
+>  };
 >
-> -       sbuf = kmalloc(STACK_BUF_SIZE, GFP_NOWAIT);
-> +       sbuf = kmalloc(STACK_BUF_SIZE, GFP_NOWAIT | __GFP_NOWARN);
-
-This belongs to patch 3 in your series.
-
->
->         list_for_each_entry(tracker, &dir->list, head)
->                 ++total;
-> @@ -154,11 +154,11 @@ int ref_tracker_alloc(struct ref_tracker_dir *dir,
->         unsigned long entries[REF_TRACKER_STACK_ENTRIES];
+> +static int ref_tracker_cmp(void *priv, const struct list_head *a, const struct list_head *b)
+> +{
+> +       const struct ref_tracker *ta = list_entry(a, const struct ref_tracker, head);
+> +       const struct ref_tracker *tb = list_entry(b, const struct ref_tracker, head);
+> +
+> +       return ta->alloc_stack_handle - tb->alloc_stack_handle;
+> +}
+> +
+>  void __ref_tracker_dir_print(struct ref_tracker_dir *dir,
+>                            unsigned int display_limit)
+>  {
+> +       unsigned int i = 0, count = 0;
 >         struct ref_tracker *tracker;
->         unsigned int nr_entries;
-> -       gfp_t gfp_mask = gfp;
-
-Simply change this line to : gfp_t gfp_mask = gfp | __GFP_NOFAIL;
-
-> +       gfp_t gfp_mask;
->         unsigned long flags;
+> -       unsigned int i = 0;
+> +       depot_stack_handle_t stack;
 >
+>         lockdep_assert_held(&dir->lock);
+>
+> +       if (list_empty(&dir->list))
+> +               return;
+> +
+> +       list_sort(NULL, &dir->list, ref_tracker_cmp);
 
-Then leave all this code as is ? I find current code more readable.
+What is going to be the cost of sorting a list with 1,000,000 items in it ?
 
-> -       if (gfp & __GFP_DIRECT_RECLAIM)
-> -               gfp_mask |= __GFP_NOFAIL;
-> +       gfp |= __GFP_NOWARN;
-> +       gfp_mask = (gfp & __GFP_DIRECT_RECLAIM) ? (gfp | __GFP_NOFAIL) : gfp;
->         *trackerp = tracker = kzalloc(sizeof(*tracker), gfp_mask);
->         if (unlikely(!tracker)) {
->                 pr_err_once("memory allocation failure, unreliable refcount tracker.\n");
-> @@ -191,7 +191,8 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
+I just want to make sure we do not trade printing at most ~10 references
+(from netdev_wait_allrefs()) to a soft lockup :/ with no useful info
+if something went terribly wrong.
+
+I suggest that you do not sort a potential big list, and instead
+attempt to allocate an array of @display_limits 'struct stack_counts'
+
+I suspect @display_limits will always be kept to a reasonable value
+(less than 100 ?)
+
+struct stack_counts {
+    depot_stack_handle_t stack_handle;
+    unsigned int count;
+}
+
+Then, iterating the list and update the array (that you can keep
+sorted by ->stack_handle)
+
+Then after iterating, print the (at_most) @display_limits handles
+found in the temp array.
+
+> +
+>         list_for_each_entry(tracker, &dir->list, head) {
+> -               if (i < display_limit) {
+> -                       pr_err("leaked reference.\n");
+> -                       if (tracker->alloc_stack_handle)
+> -                               stack_depot_print(tracker->alloc_stack_handle);
+> -                       i++;
+> -               } else {
+> +               if (i++ >= display_limit)
+>                         break;
+> -               }
+> +               if (!count++)
+> +                       stack = tracker->alloc_stack_handle;
+> +               if (stack == tracker->alloc_stack_handle &&
+> +                   !list_is_last(&tracker->head, &dir->list))
+> +                       continue;
+> +
+> +               pr_err("leaked %d references.\n", count);
+> +               if (stack)
+> +                       stack_depot_print(stack);
+> +               count = 0;
 >         }
->         nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
->         nr_entries = filter_irq_stacks(entries, nr_entries);
-
-lib/ref_tracker.c got patches in net-next, your patch series is going
-to add conflicts.
-
-git log --oneline 5740d0689096..4d449bdc5b26 --no-merges -- lib/ref_tracker.c
-c2d1e3df4af59261777b39c2e47476acd4d1cbeb ref_tracker: remove
-filter_irq_stacks() call
-8fd5522f44dcd7f05454ddc4f16d0f821b676cd9 ref_tracker: add a count of
-untracked references
-e3ececfe668facd87d920b608349a32607060e66 ref_tracker: implement
-use-after-free detection
-
-
-> -       stack_handle = stack_depot_save(entries, nr_entries, GFP_ATOMIC);
-> +       stack_handle = stack_depot_save(entries, nr_entries,
-> +                                       GFP_NOWAIT | __GFP_NOWARN);
-
-This is fine.
-
->
->         spin_lock_irqsave(&dir->lock, flags);
->         if (tracker->dead) {
+>  }
+>  EXPORT_SYMBOL(__ref_tracker_dir_print);
 > --
 > 2.25.1
 >
