@@ -2,70 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC13E4B9DB6
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 11:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F2C4B9DD4
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 11:58:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD37B10EBDC;
-	Thu, 17 Feb 2022 10:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4237C10EBE0;
+	Thu, 17 Feb 2022 10:58:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4951010EBE0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 10:57:28 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id m3so2923060eda.10
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 02:57:28 -0800 (PST)
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
+ [IPv6:2607:f8b0:4864:20::c35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78EB110EBE1;
+ Thu, 17 Feb 2022 10:58:18 +0000 (UTC)
+Received: by mail-oo1-xc35.google.com with SMTP id
+ w10-20020a4ae08a000000b0031bdf7a6d76so4331046oos.10; 
+ Thu, 17 Feb 2022 02:58:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=lLWDb1QANHeU0tDITDX2Se5UlYYAadlTb8UAohw65dA=;
+ b=Y+BsR2AKN3IsoVIAqgYdXR9oWZCzTrGtgv1QKFf8KIDJ92fjMFo+xA1vcxDKaJJ6Np
+ MA2Uiui9yMA+flwSXX2WeGyMFy49VTnUduZ5IqHQFAYdKN3OlBlAF9DvqpiNxkRlBk0Z
+ OvOxYjZ3Wmp92Ggms4wajwO7c+DcIq76xFMsdoL2bXPMgQimqeQpHxPS7xALJcx8uivK
+ T/+eN5fesr5QZgImLUCZP2OpOnguBckm/nvHHQPt/bmdVHgwRgSGUI1HvSGBySUEQvrC
+ VRQSjNUexnRHIk3L0iQTWwJaM6MElh2NM0BR4/I4EBUE353dWbUGCOBLWFIG0NQvMYEL
+ +uNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=M3e7mx5k5NMbWVbjczqCykQR7v8yJGLEFmzV0ogAmRw=;
- b=kUsXVwjqsS3CGhduV4t5l3kLJMzRXW6M+1e+Ph9ZsklqrbnRD8EbHbRW5qTKKv2Zdf
- /lozlj+bCARp1Knzqvu/PYDgPV0fFKPyKbHmSfdKB1/fsJkHdyHE3yAC5yfqWHc7s0cy
- poLoZitOCzt4GDF4pB6iDepLIyv0krllskucm3wlJ7Sj0EVhpLprBfQz3Ohi1QfXvpk1
- /mAdFJD2VJaqu0m7VV6I19Ey1QTPApXwT/oMksuj3/Af7taxdCNa1d1/AHT/OeMb7eZi
- lCvYv69+ZzLkKtso88oBG7SA8jYpd/P257ohCPrR8OQWIj+lh904HIfbNmD70hBCfKgG
- fuOQ==
-X-Gm-Message-State: AOAM532J22ZzIwxjpAygQdmKhoeY7kUf8FTQehIO/nFjhi2lKM+5MSRg
- UvgWtmWR6D882j8n0lf52BU=
-X-Google-Smtp-Source: ABdhPJzdcJvIkE/xnI3Airtm4grRt8mWc6C1SZCYJ1ZG2gZ8Rkd4+4IYzW3RPliBpPHomPvCIUDEzA==
-X-Received: by 2002:a05:6402:110a:b0:408:e478:9618 with SMTP id
- u10-20020a056402110a00b00408e4789618mr2017659edv.344.1645095446544; 
- Thu, 17 Feb 2022 02:57:26 -0800 (PST)
-Received: from [192.168.0.111] (xdsl-188-155-168-84.adslplus.ch.
- [188.155.168.84])
- by smtp.googlemail.com with ESMTPSA id 9sm1067336ejk.28.2022.02.17.02.57.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 02:57:25 -0800 (PST)
-Message-ID: <0ed34852-990d-af07-afd7-1d8ce3a2baf9@kernel.org>
-Date: Thu, 17 Feb 2022 11:57:24 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lLWDb1QANHeU0tDITDX2Se5UlYYAadlTb8UAohw65dA=;
+ b=qAXYENaJ5WDQzuuJ0i5S4VazqG6Zrnk8eQIv9vc/OUsi5n94HHDHZLBvK1cRTNQ7VP
+ Gr7UWnmfAiKzKGn/9xIz557LOscgCgd8NXkc6n3lpxi9lrrTAEFEIDKIiyPBLiKSZX92
+ gv3glsbST1F1gukcVinDaa0bduiwLqCPmdvYRZ3ogBXWauH3nMqef1sWKNu/2o9a/weJ
+ QhFxEXjMdEpbHBzdyyA0g5JfnmePtElW38vm08pLYJfi2ieqq6UXc0ht6ReEJkWsHYdg
+ kGy8yx6opVkdsI4lnIaf9W9pkz3kItFUxUb8H63D+cfwtf53pt3w2Y/u0F3Ja7tf1d5U
+ Om/g==
+X-Gm-Message-State: AOAM533zXdiOWc2qX7Mh4MPzhKr5s6Ljb656KvaZj66sv0YwJ3hgbz5j
+ MQFibZcPB9kbsnkS5QovvI4+O9yWAiA9CxNglQs=
+X-Google-Smtp-Source: ABdhPJw1/7GKnKJYHkYeUjjSIqHHSSDLZrcsK2N+dSmEPyM7eId8BbBcs0vwEbBpPaYjIi8138ARe5f3y+BlWGKRzWU=
+X-Received: by 2002:a05:6870:d205:b0:d3:52c0:2ba3 with SMTP id
+ g5-20020a056870d20500b000d352c02ba3mr719256oac.96.1645095497621; Thu, 17 Feb
+ 2022 02:58:17 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v9 3/4] Documentation/dt: Add descriptions for loongson
- display controller
-Content-Language: en-US
-To: Sui Jingfeng <15330273260@189.cn>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
- suijingfeng <suijingfeng@loongson.cn>
-References: <20220217105523.1525122-1-15330273260@189.cn>
- <20220217105523.1525122-4-15330273260@189.cn>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20220217105523.1525122-4-15330273260@189.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220217090440.4468-1-qiang.yu@amd.com>
+ <5d3fdd2c-e74a-49f4-2b28-32c06483236f@amd.com>
+ <CAKGbVbtLTBJPF5eTu4rABUTBa8eqjQvqjo1AEUrzgPgYgCREuA@mail.gmail.com>
+ <dac70c05-e712-d2e3-2267-278380895f1e@amd.com>
+ <CAKGbVbvtLbDiKrX80-dMnipdLkTE+FP=g_mx37e12fuMtA1Y4Q@mail.gmail.com>
+ <ca27a9c6-f390-a938-dd66-ac23f3b44dc4@amd.com>
+In-Reply-To: <ca27a9c6-f390-a938-dd66-ac23f3b44dc4@amd.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Thu, 17 Feb 2022 18:58:06 +0800
+Message-ID: <CAKGbVbv4UFCybS_OFj5UkDgevbrB5qe3pv+0nHv9WdefYhy6Ww@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: check vm bo eviction valuable at last
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,151 +70,244 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ Qiang Yu <qiang.yu@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/02/2022 11:55, Sui Jingfeng wrote:
-> From: suijingfeng <suijingfeng@loongson.cn>
-> 
-> Add DT documentation for loongson display controller found in
-> LS2K1000, LS2K0500, LS7A1000 and LS7A2000.
-> 
-> v2: DT binding docs and includes should be a separate patch,
->     fix a warnning because of that.
-> 
-> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
-> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
-> ---
->  .../loongson/loongson,display-controller.yaml | 114 ++++++++++++++++++
->  1 file changed, 114 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
-> new file mode 100644
-> index 000000000000..94229519022a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
-> @@ -0,0 +1,114 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/loongson,display-controller.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Loongson LS7A2000/LS7A1000/LS2K1000/LS2K0500 Display Controller Device Tree Bindings
-> +
-> +maintainers:
-> +  - Sui Jingfeng <suijingfeng@loongson.cn>
-> +
-> +description: |+
-> +
-> +  Loongson display controllers are simple which require scanout buffers
-> +  to be physically contiguous. LS2K1000/LS2K0500 is a SOC, only system
-> +  memory is available. LS7A1000/LS7A2000 is bridge chip which is equipped
-> +  with a dedicated video ram which is 64MB or more.
-> +
-> +  For LS7A1000, there are 4 dedicated GPIOs whose control register is
-> +  located at the DC register space. They are used to emulate two way i2c,
-> +  One for DVO0, another for DVO1.
-> +
-> +  LS2K1000 and LS2K0500 SoC grab i2c adapter from other module, either
-> +  general purpose GPIO emulated i2c or hardware i2c in the SoC.
-> +
-> +  LSDC has two display pipes, each way has a DVO interface which provide
-> +  RGB888 signals, vertical & horizontal synchronisations, data enable and
-> +  the pixel clock. LSDC has two CRTC, each CRTC is able to scanout from
-> +  1920x1080 resolution at 60Hz. Each CRTC has two FB address registers.
-> +
-> +  LSDC's display pipeline have several components as below description,
-> +
-> +  The display controller in LS7A1000:
-> +    ___________________                                     _________
-> +    |            -------|                                   |         |
-> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monotor |
-> +    |  _   _     -------|        ^             ^            |_________|
-> +    | | | | |    -------|        |             |
-> +    | |_| |_|    | i2c0 <--------+-------------+
-> +    |            -------|
-> +    |   DC IN LS7A1000  |
-> +    |  _   _     -------|
-> +    | | | | |    | i2c1 <--------+-------------+
-> +    | |_| |_|    -------|        |             |             _________
-> +    |            -------|        |             |            |         |
-> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
-> +    |            -------|                                   |_________|
-> +    |___________________|
-> +
-> +  Simple usage of LS7A1000 with LS3A4000 CPU:
-> +
-> +    +------+            +-----------------------------------+
-> +    | DDR4 |            |  +-------------------+            |
-> +    +------+            |  | PCIe Root complex |   LS7A1000 |
-> +       || MC0           |  +--++---------++----+            |
-> +  +----------+  HT 3.0  |     ||         ||                 |
-> +  | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
-> +  |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
-> +  +----------+          | +--------+  +-+--+-+    +---------+   +------+
-> +       || MC1           +---------------|--|----------------+
-> +    +------+                            |  |
-> +    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
-> +    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
-> +                      +-------+                      +------+
-> +
-> +  The display controller in LS2K1000/LS2K0500:
-> +     ___________________                                     _________
-> +    |            -------|                                   |         |
-> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monotor |
-> +    |  _   _     -------|        ^              ^           |_________|
-> +    | | | | |           |        |              |
-> +    | |_| |_|           |     +------+          |
-> +    |                   <---->| i2c0 |<---------+
-> +    |   DC IN LS2K1000  |     +------+
-> +    |  _   _            |     +------+
-> +    | | | | |           <---->| i2c1 |----------+
-> +    | |_| |_|           |     +------+          |            _________
-> +    |            -------|        |              |           |         |
-> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
-> +    |            -------|                                   |_________|
-> +    |___________________|
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - loongson,ls7a2000-dc
-> +      - loongson,ls7a1000-dc
-> +      - loongson,ls2k1000-dc
-> +      - loongson,ls2k0500-dc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    minItems: 1
+On Thu, Feb 17, 2022 at 6:39 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+>
+>
+> Am 17.02.22 um 11:13 schrieb Qiang Yu:
+> > On Thu, Feb 17, 2022 at 5:46 PM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> >> Am 17.02.22 um 10:40 schrieb Qiang Yu:
+> >>> On Thu, Feb 17, 2022 at 5:15 PM Christian K=C3=B6nig
+> >>> <christian.koenig@amd.com> wrote:
+> >>>> Am 17.02.22 um 10:04 schrieb Qiang Yu:
+> >>>>> Workstation application ANSA/META get this error dmesg:
+> >>>>> [drm:amdgpu_gem_va_ioctl [amdgpu]] *ERROR* Couldn't update BO_VA (-=
+16)
+> >>>>>
+> >>>>> This is caused by:
+> >>>>> 1. create a 256MB buffer in invisible VRAM
+> >>>>> 2. CPU map the buffer and access it causes vm_fault and try to move
+> >>>>>       it to visible VRAM
+> >>>>> 3. force visible VRAM space and traverse all VRAM bos to check if
+> >>>>>       evicting this bo is valuable
+> >>>>> 4. when checking a VM bo (in invisible VRAM), amdgpu_vm_evictable()
+> >>>>>       will set amdgpu_vm->evicting, but latter due to not in visibl=
+e
+> >>>>>       VRAM, won't really evict it so not add it to amdgpu_vm->evict=
+ed
+> >>>>> 5. before next CS to clear the amdgpu_vm->evicting, user VM ops
+> >>>>>       ioctl will pass amdgpu_vm_ready() (check amdgpu_vm->evicted)
+> >>>>>       but fail in amdgpu_vm_bo_update_mapping() (check
+> >>>>>       amdgpu_vm->evicting) and get this error log
+> >>>>>
+> >>>>> This error won't affect functionality as next CS will finish the
+> >>>>> waiting VM ops. But we'd better make the amdgpu_vm->evicting
+> >>>>> correctly reflact the vm status and clear the error log.
+> >>>> Well NAK, that is intentional behavior.
+> >>>>
+> >>>> The VM page tables where considered for eviction, so setting the fla=
+g is
+> >>>> correct even when the page tables later on are not actually evicted.
+> >>>>
+> >>> But this will unnecessarily stop latter user VM ops in ioctl before C=
+S
+> >>> even when the VM bos are not evicted.
+> >>> Won't this have any negative effect when could do better?
+> >> No, this will have a positive effect. See the VM was already considere=
+d
+> >> for eviction because it is idle.
+> >>
+> >> Updating it immediately doesn't necessarily make sense, we should wait
+> >> with that until its next usage.
+> >>
+> >> Additional to that this patch doesn't really fix the problem, it just
+> >> mitigates it.
+> >>
+> >> Eviction can fail later on for a couple of reasons and we absolutely
+> >> need to check the flag instead of the list in amdgpu_vm_ready().
+> > The flag only for both flag and list? Looks like should be both as
+> > the list indicate some vm page table need to be updated and could
+> > delay the user update with the same logic as you described above.
+>
+> I think checking the flag should be enough. The issue is that the list
+> was there initially, but to avoid race conditions we added the flag with
+> separate lock protection later on.
+>
+But list and flag does not align always, there are cases like
+list-empty/flag-set (this problem) and list-non-empty/flag-unset (non-vm bo
+eviction). If only check flag list-non-empty/flag-unset change behavior.
 
-No need for minItems, if you have maxItems:1.
+Regards,
+Qiang
 
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    lsdc: display-controller@6,1 {
-> +        compatible = "loongson,ls7a1000-dc";
-> +        reg = <0x3100 0x0 0x0 0x0 0x0>;
-> +        interrupts = <28 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-parent = <&pic>;
-> +    };
-
-I still do not think you actually tested it with dt_bindings_check...
-
-
-Best regards,
-Krzysztof
+> Regards,
+> Christian.
+>
+> >
+> > Regards,
+> > Qiang
+> >
+> >> Regards,
+> >> Christian.
+> >>
+> >>> Regards,
+> >>> Qiang
+> >>>
+> >>>> What we should rather do is to fix amdgpu_vm_ready() to take a look =
+at
+> >>>> the flag instead of the linked list.
+> >>>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>>
+> >>>>> Signed-off-by: Qiang Yu <qiang.yu@amd.com>
+> >>>>> ---
+> >>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 85 ++++++++++++++----=
+-------
+> >>>>>     1 file changed, 47 insertions(+), 38 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_ttm.c
+> >>>>> index 5a32ee66d8c8..88a27911054f 100644
+> >>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> >>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> >>>>> @@ -1306,45 +1306,11 @@ uint64_t amdgpu_ttm_tt_pte_flags(struct amd=
+gpu_device *adev, struct ttm_tt *ttm,
+> >>>>>         return flags;
+> >>>>>     }
+> >>>>>
+> >>>>> -/*
+> >>>>> - * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evict =
+a buffer
+> >>>>> - * object.
+> >>>>> - *
+> >>>>> - * Return true if eviction is sensible. Called by ttm_mem_evict_fi=
+rst() on
+> >>>>> - * behalf of ttm_bo_mem_force_space() which tries to evict buffer =
+objects until
+> >>>>> - * it can find space for a new object and by ttm_bo_force_list_cle=
+an() which is
+> >>>>> - * used to clean out a memory space.
+> >>>>> - */
+> >>>>> -static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_obje=
+ct *bo,
+> >>>>> -                                         const struct ttm_place *p=
+lace)
+> >>>>> +static bool amdgpu_ttm_mem_eviction_valuable(struct ttm_buffer_obj=
+ect *bo,
+> >>>>> +                                          const struct ttm_place *=
+place)
+> >>>>>     {
+> >>>>>         unsigned long num_pages =3D bo->resource->num_pages;
+> >>>>>         struct amdgpu_res_cursor cursor;
+> >>>>> -     struct dma_resv_list *flist;
+> >>>>> -     struct dma_fence *f;
+> >>>>> -     int i;
+> >>>>> -
+> >>>>> -     /* Swapout? */
+> >>>>> -     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
+> >>>>> -             return true;
+> >>>>> -
+> >>>>> -     if (bo->type =3D=3D ttm_bo_type_kernel &&
+> >>>>> -         !amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo)))
+> >>>>> -             return false;
+> >>>>> -
+> >>>>> -     /* If bo is a KFD BO, check if the bo belongs to the current =
+process.
+> >>>>> -      * If true, then return false as any KFD process needs all it=
+s BOs to
+> >>>>> -      * be resident to run successfully
+> >>>>> -      */
+> >>>>> -     flist =3D dma_resv_shared_list(bo->base.resv);
+> >>>>> -     if (flist) {
+> >>>>> -             for (i =3D 0; i < flist->shared_count; ++i) {
+> >>>>> -                     f =3D rcu_dereference_protected(flist->shared=
+[i],
+> >>>>> -                             dma_resv_held(bo->base.resv));
+> >>>>> -                     if (amdkfd_fence_check_mm(f, current->mm))
+> >>>>> -                             return false;
+> >>>>> -             }
+> >>>>> -     }
+> >>>>>
+> >>>>>         switch (bo->resource->mem_type) {
+> >>>>>         case AMDGPU_PL_PREEMPT:
+> >>>>> @@ -1377,10 +1343,53 @@ static bool amdgpu_ttm_bo_eviction_valuable=
+(struct ttm_buffer_object *bo,
+> >>>>>                 return false;
+> >>>>>
+> >>>>>         default:
+> >>>>> -             break;
+> >>>>> +             return ttm_bo_eviction_valuable(bo, place);
+> >>>>>         }
+> >>>>> +}
+> >>>>>
+> >>>>> -     return ttm_bo_eviction_valuable(bo, place);
+> >>>>> +/*
+> >>>>> + * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evict =
+a buffer
+> >>>>> + * object.
+> >>>>> + *
+> >>>>> + * Return true if eviction is sensible. Called by ttm_mem_evict_fi=
+rst() on
+> >>>>> + * behalf of ttm_bo_mem_force_space() which tries to evict buffer =
+objects until
+> >>>>> + * it can find space for a new object and by ttm_bo_force_list_cle=
+an() which is
+> >>>>> + * used to clean out a memory space.
+> >>>>> + */
+> >>>>> +static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_obje=
+ct *bo,
+> >>>>> +                                         const struct ttm_place *p=
+lace)
+> >>>>> +{
+> >>>>> +     struct dma_resv_list *flist;
+> >>>>> +     struct dma_fence *f;
+> >>>>> +     int i;
+> >>>>> +
+> >>>>> +     /* Swapout? */
+> >>>>> +     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
+> >>>>> +             return true;
+> >>>>> +
+> >>>>> +     /* If bo is a KFD BO, check if the bo belongs to the current =
+process.
+> >>>>> +      * If true, then return false as any KFD process needs all it=
+s BOs to
+> >>>>> +      * be resident to run successfully
+> >>>>> +      */
+> >>>>> +     flist =3D dma_resv_shared_list(bo->base.resv);
+> >>>>> +     if (flist) {
+> >>>>> +             for (i =3D 0; i < flist->shared_count; ++i) {
+> >>>>> +                     f =3D rcu_dereference_protected(flist->shared=
+[i],
+> >>>>> +                             dma_resv_held(bo->base.resv));
+> >>>>> +                     if (amdkfd_fence_check_mm(f, current->mm))
+> >>>>> +                             return false;
+> >>>>> +             }
+> >>>>> +     }
+> >>>>> +
+> >>>>> +     /* Check by different mem type. */
+> >>>>> +     if (!amdgpu_ttm_mem_eviction_valuable(bo, place))
+> >>>>> +             return false;
+> >>>>> +
+> >>>>> +     /* VM bo should be checked at last because it will mark VM ev=
+icting. */
+> >>>>> +     if (bo->type =3D=3D ttm_bo_type_kernel)
+> >>>>> +             return amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo));
+> >>>>> +
+> >>>>> +     return true;
+> >>>>>     }
+> >>>>>
+> >>>>>     static void amdgpu_ttm_vram_mm_access(struct amdgpu_device *ade=
+v, loff_t pos,
+>
