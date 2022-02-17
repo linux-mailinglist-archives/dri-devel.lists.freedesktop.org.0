@@ -1,38 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2974BACBD
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 23:39:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5A04BACD1
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 23:42:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42FB610E899;
-	Thu, 17 Feb 2022 22:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69D3910E88B;
+	Thu, 17 Feb 2022 22:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9785F10E88B;
- Thu, 17 Feb 2022 22:39:15 +0000 (UTC)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id D04AB3F777;
- Thu, 17 Feb 2022 23:39:13 +0100 (CET)
-Date: Thu, 17 Feb 2022 23:39:12 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3 03/13] drm/msm/disp/dpu1: Add support for DSC in
- pingpong block
-Message-ID: <20220217223912.xl5ofq3aoy44p4vv@SoMainline.org>
-References: <20211116062256.2417186-1-vkoul@kernel.org>
- <20211116062256.2417186-4-vkoul@kernel.org>
- <20220217215437.gvxmfjgfqzljactz@SoMainline.org>
- <643681f1-0887-ad61-2686-2f4408f56637@linaro.org>
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB5E810E88B
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 22:42:06 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id 75so6242779pgb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 14:42:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/pFhxh4a1mIJWKVvwWf0TWI0PzyzDNvxgd8MaYxtB4g=;
+ b=DRjZUlF38aKhKGF1HEEXpShz5dNW4rV1EZ3PJsdeXyBLxzGJJMj2+9g6pi+MiKGhYt
+ H+9E29WZ8V4Np9zsahnlGJmkvOu6FMFXZxC9SU+qF5bJdkcsbldinSAPqonRI6Ftb1Dz
+ YKCtyN3JvqpZZ/nc5796hnay3gO0nfEdVSefs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/pFhxh4a1mIJWKVvwWf0TWI0PzyzDNvxgd8MaYxtB4g=;
+ b=TWZjpDIrrNqy5eR/dYAkz+dWnQYR9y3F/HgO45Q4IirPTinlx7LMXBlGV16hs03rQV
+ FVy3VZlV1oYZd+2DN3HQnUpysNtpXRXEE+/+2NuVftKKYirHqwkHJqPXTZhGjYhvdIk9
+ hy9aPSWY5Sb1OELE8Uh2ih0nHW5bFvUlz47kKB7q0iyaFsWTWu32yBwggQ2NZDPMvclg
+ IdcQIJvTe1eqkkcgykkdgXv6jStXytlIlZDT/R6jr3YLOSbKQzQnKByPhQYhuGOpYPZT
+ XsWriyRH/lY9oOdSgFkSQT1xp92A/BuiDQM2VlXBPUF1ULTQXYAOZTskkMwQL+X8oZnl
+ 4vOA==
+X-Gm-Message-State: AOAM533LFmCUDJ7tUaXYEhMS8ENKIUKasm3TjBrzu31DNH1I36XZSSlr
+ 5kWjVkR+0FAuXTyhDmXH93iaag==
+X-Google-Smtp-Source: ABdhPJx0I/9dms8bGvA0MQ9aczlCf/u6f2qI/Tw9lU7d6SMBvt5gmujVGb3LwnbbS//bPCI4KYGOjg==
+X-Received: by 2002:aa7:83c2:0:b0:4e0:91c1:6795 with SMTP id
+ j2-20020aa783c2000000b004e091c16795mr4885484pfn.54.1645137726160; 
+ Thu, 17 Feb 2022 14:42:06 -0800 (PST)
+Received: from localhost ([2620:15c:202:201:677e:1914:4c14:1662])
+ by smtp.gmail.com with UTF8SMTPSA id u1sm628435pfg.151.2022.02.17.14.42.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Feb 2022 14:42:05 -0800 (PST)
+From: Brian Norris <briannorris@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
+Subject: [PATCH v3 1/2] drm/bridge: analogix_dp: Grab runtime PM reference for
+ DP-AUX
+Date: Thu, 17 Feb 2022 14:41:45 -0800
+Message-Id: <20220217144136.v3.1.I773a08785666ebb236917b0c8e6c05e3de471e75@changeid>
+X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <643681f1-0887-ad61-2686-2f4408f56637@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,129 +65,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Brian Norris <briannorris@chromium.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Doug Anderson <dianders@chromium.org>,
+ linux-rockchip@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ stable@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-02-18 01:12:02, Dmitry Baryshkov wrote:
-> On 18/02/2022 00:54, Marijn Suijten wrote:
-> > On 2021-11-16 11:52:46, Vinod Koul wrote:
-> >> In SDM845, DSC can be enabled by writing to pingpong block registers, so
-> >> add support for DSC in hw_pp
-> > 
-> > Nit: I don't think the ", so add support for DSC in XXX" part in this
-> > and other commit messages add anything.  You've already stated that in
-> > the title, the commit body is just extra justification (and can perhaps
-> > be filled with extra details about the patch contents instead).
-> > 
-> >> Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-> >> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> >> ---
-> >>   .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 32 +++++++++++++++++++
-> >>   .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   | 14 ++++++++
-> >>   2 files changed, 46 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> >> index 55766c97c4c8..47c6ab6caf95 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> >> @@ -28,6 +28,9 @@
-> >>   #define PP_FBC_MODE                     0x034
-> >>   #define PP_FBC_BUDGET_CTL               0x038
-> >>   #define PP_FBC_LOSSY_MODE               0x03C
-> >> +#define PP_DSC_MODE                     0x0a0
-> >> +#define PP_DCE_DATA_IN_SWAP             0x0ac
-> > 
-> > This enum does not seem used here, is it used in another patch?
-> > 
-> >> +#define PP_DCE_DATA_OUT_SWAP            0x0c8
-> >>   
-> >>   #define PP_DITHER_EN			0x000
-> >>   #define PP_DITHER_BITDEPTH		0x004
-> >> @@ -245,6 +248,32 @@ static u32 dpu_hw_pp_get_line_count(struct dpu_hw_pingpong *pp)
-> >>   	return line;
-> >>   }
-> >>   
-> >> +static int dpu_hw_pp_dsc_enable(struct dpu_hw_pingpong *pp)
-> >> +{
-> >> +	struct dpu_hw_blk_reg_map *c = &pp->hw;
-> >> +
-> >> +	DPU_REG_WRITE(c, PP_DSC_MODE, 1);
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static void dpu_hw_pp_dsc_disable(struct dpu_hw_pingpong *pp)
-> >> +{
-> >> +	struct dpu_hw_blk_reg_map *c = &pp->hw;
-> >> +
-> >> +	DPU_REG_WRITE(c, PP_DSC_MODE, 0);
-> >> +}
-> >> +
-> >> +static int dpu_hw_pp_setup_dsc(struct dpu_hw_pingpong *pp)
-> >> +{
-> >> +	struct dpu_hw_blk_reg_map *pp_c = &pp->hw;
-> >> +	int data;
-> >> +
-> >> +	data = DPU_REG_READ(pp_c, PP_DCE_DATA_OUT_SWAP);
-> >> +	data |= BIT(18); /* endian flip */
-> >> +	DPU_REG_WRITE(pp_c, PP_DCE_DATA_OUT_SWAP, data);
-> >> +	return 0;
-> >> +}
-> >> +
-> >>   static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
-> >>   				unsigned long features)
-> >>   {
-> >> @@ -256,6 +285,9 @@ static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
-> >>   	c->ops.get_autorefresh = dpu_hw_pp_get_autorefresh_config;
-> >>   	c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
-> >>   	c->ops.get_line_count = dpu_hw_pp_get_line_count;
-> >> +	c->ops.setup_dsc = dpu_hw_pp_setup_dsc;
-> >> +	c->ops.enable_dsc = dpu_hw_pp_dsc_enable;
-> >> +	c->ops.disable_dsc = dpu_hw_pp_dsc_disable;
-> >>   
-> >>   	if (test_bit(DPU_PINGPONG_DITHER, &features))
-> >>   		c->ops.setup_dither = dpu_hw_pp_setup_dither;
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-> >> index 89d08a715c16..12758468d9ca 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-> >> @@ -124,6 +124,20 @@ struct dpu_hw_pingpong_ops {
-> >>   	 */
-> >>   	void (*setup_dither)(struct dpu_hw_pingpong *pp,
-> >>   			struct dpu_hw_dither_cfg *cfg);
-> >> +	/**
-> >> +	 * Enable DSC
-> >> +	 */
-> >> +	int (*enable_dsc)(struct dpu_hw_pingpong *pp);
-> >> +
-> >> +	/**
-> >> +	 * Disable DSC
-> >> +	 */
-> >> +	void (*disable_dsc)(struct dpu_hw_pingpong *pp);
-> > 
-> > It looks like most other callbacks in dpu1 use an `enable` function with
-> > a boolean, instead of having a separate disable function.  That should
-> > simplify the implementation down to a single ternary-if, too.  Would
-> > that be desired to use here?
-> 
-> Just my 2c. I personally hate the unified functions with the boolean 
-> argument. One of the reasons being the return value. Typically you do 
-> not expect that the disable function can fail (or return an error). But 
-> the unified function provides an error (to be handled) even in the 
-> disable case.
-> 
-> Last, but not least, overall the kernel API is biased towards separate 
-> enable and disable calls.
+If the display is not enable()d, then we aren't holding a runtime PM
+reference here. Thus, it's easy to accidentally cause a hang, if user
+space is poking around at /dev/drm_dp_aux0 at the "wrong" time.
 
-Fair enough, we should replace the other functions then.  Or perhaps
-drop the return argument entirely, it's always zero for enable_dsc
-anyway.  I doubt we'll ever add additional checks here?  If we do,
-things can be split again.
+Let's get a runtime PM reference, and check that we "see" the panel.
+Don't force any panel power-up, etc., because that can be intrusive, and
+that's not what other drivers do (see
+drivers/gpu/drm/bridge/ti-sn65dsi86.c and
+drivers/gpu/drm/bridge/parade-ps8640.c.)
 
-- Marijn
+Fixes: 0d97ad03f422 ("drm/bridge: analogix_dp: Remove duplicated code")
+Cc: <stable@vger.kernel.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+---
+
+Changes in v3:
+- Avoid panel power-up; just check for HPD state, and let the rest
+  happen "as-is" (e.g., time out, if the caller hasn't prepared things
+  properly)
+
+Changes in v2:
+- Fix spelling in Subject
+- DRM_DEV_ERROR() -> drm_err()
+- Propagate errors from un-analogix_dp_prepare_panel()
+
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index b7d2e4449cfa..16be279aed2c 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1632,8 +1632,19 @@ static ssize_t analogix_dpaux_transfer(struct drm_dp_aux *aux,
+ 				       struct drm_dp_aux_msg *msg)
+ {
+ 	struct analogix_dp_device *dp = to_dp(aux);
++	int ret;
++
++	pm_runtime_get_sync(dp->dev);
++
++	ret = analogix_dp_detect_hpd(dp);
++	if (ret)
++		goto out;
+ 
+-	return analogix_dp_transfer(dp, msg);
++	ret = analogix_dp_transfer(dp, msg);
++out:
++	pm_runtime_put(dp->dev);
++
++	return ret;
+ }
+ 
+ struct analogix_dp_device *
+-- 
+2.35.1.265.g69c8d7142f-goog
+
