@@ -2,40 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB664B9A55
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 08:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590C14B9A54
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 08:58:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2929610E97D;
-	Thu, 17 Feb 2022 07:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99FC210E978;
+	Thu, 17 Feb 2022 07:58:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C760110E979
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E426A10E97E
  for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 07:58:11 +0000 (UTC)
-X-UUID: 44cc14644aa44e369589316b65bcf842-20220217
-X-UUID: 44cc14644aa44e369589316b65bcf842-20220217
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 885734443; Thu, 17 Feb 2022 15:58:06 +0800
+X-UUID: b786158083a14590966032b49f355042-20220217
+X-UUID: b786158083a14590966032b49f355042-20220217
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 854081908; Thu, 17 Feb 2022 15:58:08 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 17 Feb 2022 15:58:05 +0800
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Thu, 17 Feb 2022 15:58:06 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 17 Feb 2022 15:58:03 +0800
+ Transport; Thu, 17 Feb 2022 15:58:05 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi
- Shih <tzungbi@chromium.org>, AngeloGioacchino Del Regno
+ <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
+ Shih" <tzungbi@chromium.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>, Tiffany Lin
  <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
  Matthias Brugger <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v3, 0/7] support mt8195 decoder
-Date: Thu, 17 Feb 2022 15:57:51 +0800
-Message-ID: <20220217075758.11369-1-yunfei.dong@mediatek.com>
+Subject: [PATCH v3,
+ 1/7] dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for lat
+ soc
+Date: Thu, 17 Feb 2022 15:57:52 +0800
+Message-ID: <20220217075758.11369-2-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220217075758.11369-1-yunfei.dong@mediatek.com>
+References: <20220217075758.11369-1-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -64,48 +69,103 @@ Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Firstly, add mt8195 soc lat hardware and compatible, then add documents.
-For vp8 only support MM21 mode, H264/vp9 support MT21C, need to separate
-them. Lastly, enable H264 inner racing mode to reduce hardware latency.
+Adds decoder dt-bindings for compatible "mediatek,mtk-vcodec-lat-soc".
 
-Patch 1~4 add mt8195 soc lat hardware and compatible, then add documents.
-Patch 5 using different format for different codecs.
-Patch 6 prevent kernel crash when scp reboot.
-Patch 7 enable H264 inner racing mode to reduce hardware latency.
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 ---
-This patch depends on "support mt8186 decoder"[1]
+ .../media/mediatek,vcodec-subdev-decoder.yaml | 51 +++++++++++++------
+ 1 file changed, 35 insertions(+), 16 deletions(-)
 
-[1]  https://patchwork.kernel.org/project/linux-mediatek/cover/20220122075606.19373-1-yunfei.dong@mediatek.com
----
-changed with v2:
-- add detail explanation for lat soc hardware for patch 1.
-
-changed with v1:
-- separate "Init VP9 stateless decode params" patch and remove it to another one.
-- add reviewed-by in patch v3/v4/v6
----
-Tinghan Shen (1):
-  media: mtk-vcodec: prevent kernel crash when scp ipi timeout
-
-Yunfei Dong (6):
-  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for lat soc
-  media: mtk-vcodec: Add to support lat soc hardware
-  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8195
-  media: mtk-vcodec: Adds compatible for mt8195
-  media: mtk-vcodec: Different codec using different capture format
-  media: mtk-vcodec: Add to support H264 inner racing mode
-
- .../media/mediatek,vcodec-subdev-decoder.yaml | 52 +++++++++++++------
- .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 41 +++++++++++++++
- .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  8 +++
- .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 12 +++--
- .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  2 +
- .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 50 ++++++++++++++++++
- .../platform/mtk-vcodec/mtk_vcodec_drv.h      | 11 ++++
- .../mtk-vcodec/vdec/vdec_h264_req_multi_if.c  | 23 ++++++--
- .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  5 ++
- 9 files changed, 180 insertions(+), 24 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+index 6415c9f29130..c263e762a906 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+@@ -17,20 +17,20 @@ description: |
+ 
+   About the Decoder Hardware Block Diagram, please check below:
+ 
+-    +---------------------------------+------------------------------------+
+-    |                                 |                                    |
+-    | input -> lat HW -> lat buffer --|--> lat buffer -> core HW -> output |
+-    |            ||                   |                     ||             |
+-    +------------||-------------------+---------------------||-------------+
+-              lat workqueue           |              core workqueue     <parent>
+-    -------------||-----------------------------------------||------------------
+-                 ||                                         ||          <child>
+-                 \/ <----------------HW index-------------->\/
+-           +------------------------------------------------------+
+-           |                    enable/disable                    |
+-           |           clk     power    irq    iommu              |
+-           |                 (lat/lat soc/core0/core1)            |
+-           +------------------------------------------------------+
++    +------------------------------------------------+-------------------------------------+
++    |                                                |                                     |
++    |  input -> lat soc HW -> lat HW -> lat buffer --|--> lat buffer -> core HW -> output  |
++    |            ||             ||                   |                     ||              |
++    +------------||-------------||-------------------+---------------------||--------------+
++                 ||     lat     ||                   |               core workqueue  <parent>
++    -------------||-------------||-------------------|---------------------||---------------
++                 ||<------------||----------------HW index---------------->||        <child>
++                 \/             \/                                         \/
++               +-------------------------------------------------------------+
++               |                          enable/disable                     |
++               |                 clk     power    irq    iommu               |
++               |                   (lat/lat soc/core0/core1)                 |
++               +-------------------------------------------------------------+
+ 
+   As above, there are parent and child devices, child mean each hardware. The child device
+   controls the information of each hardware independent which include clk/power/irq.
+@@ -45,6 +45,13 @@ description: |
+   For the smi common may not the same for each hardware, can't combine all hardware in one node,
+   or leading to iommu fault when access dram data.
+ 
++  Lat soc is a hardware which is releated with some larb(local arbiter) ports. For mt8195
++  platform, there are some ports like RDMA, UFO in lat soc larb, need to enable its power and
++  clock when lat start to work, don't have interrupt.
++
++  mt8195: lat soc HW + lat HW + core HW
++  mt8192: lat HW + core HW
++
+ properties:
+   compatible:
+     enum:
+@@ -88,7 +95,9 @@ patternProperties:
+ 
+     properties:
+       compatible:
+-        const: mediatek,mtk-vcodec-lat
++        enum:
++          - mediatek,mtk-vcodec-lat
++          - mediatek,mtk-vcodec-lat-soc
+ 
+       reg:
+         maxItems: 1
+@@ -126,7 +135,6 @@ patternProperties:
+     required:
+       - compatible
+       - reg
+-      - interrupts
+       - iommus
+       - clocks
+       - clock-names
+@@ -197,6 +205,17 @@ required:
+   - dma-ranges
+   - ranges
+ 
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - mediatek,mtk-vcodec-lat
++
++then:
++  required:
++    - interrupts
++
+ additionalProperties: false
+ 
+ examples:
 -- 
 2.25.1
 
