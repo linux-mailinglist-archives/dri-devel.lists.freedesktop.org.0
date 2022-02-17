@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E854BA620
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 17:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1170E4BA62A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 17:40:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1754510EB16;
-	Thu, 17 Feb 2022 16:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5595210EB8C;
+	Thu, 17 Feb 2022 16:40:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BEB410EAE5;
- Thu, 17 Feb 2022 16:37:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645115870; x=1676651870;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=6Xy61DIHX0kxct2ivOPeTDsfFzfXldUx8w9E3e+98OM=;
- b=Ly7nYTE9P6kT8dXrGRBEI7pCZ/pqnwihPB9QMjQM+nQG7xHoJYHC9TLa
- npbgqpKdsBvhgw+MsOo0vU0ZMF2R0qGhkaE/AWikCfsgZJJMNwuqMuuYX
- B2P8wBOvvQ0dvh70g0H6uQfXPDO2VdYrKoMVV6CSkBIna9m6aW9/E8MS9
- //aYlMB/wEat4TieGjUMwsBhRkizXpsolFkdg8CwHb65ixeG+hXYdDOqM
- FBKPJ+d2pahgwnJyFoThOSFCiLS3UFy/8BVz+WrX7fo9LQYZ79Dq2fVSk
- mPvdZtfqlbTt1+A89rCP2yGGYezs22zTvxAH8QVeVrLQW1xLZb1+uJoYy Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="250858248"
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="250858248"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 08:37:49 -0800
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="589548167"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 08:37:48 -0800
-Date: Thu, 17 Feb 2022 08:37:47 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Ramalingam C <ramalingam.c@intel.com>
-Subject: Re: [PATCH 1/3] drm/i915/dg2: Enable 5th display
-Message-ID: <Yg552yKPy9nhDWIH@mdroper-desk1.amr.corp.intel.com>
-References: <20220215055154.15363-1-ramalingam.c@intel.com>
- <20220215055154.15363-2-ramalingam.c@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220215055154.15363-2-ramalingam.c@intel.com>
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+ [209.85.166.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9159110EBA3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 16:40:01 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id s1so4328762iob.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 08:40:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=ImFtJ/tr17hOJEhG0RpI04/WvpMzuYJGOCoRC+P1jcU=;
+ b=Xcop621B3k6v3hwSj7p/DIFS+2gLxkRmrchNLRviMbkjET2k9sA4BlitJ1Hwb9Hacd
+ N45o9hLSfs9KJefRvOO2xihFaFV4LNOqO/wQ3lgwsAL2Sf22mD3n7ot9GPnD8WjJL+Y4
+ JRWmWHRf5Pws4A0Q9UMw/K5BDOe8gSIUibIvOPvobWaYhvCHax0e6i+KPgYQN2Jg5amq
+ QXidCLEReoH3G/NeW0rlMUQg+3F58bE3m//x+0Ud5lsc2YmL1L0nV7e8CZkt3lpsFzOp
+ cpkTXwd2Ol3JOXL88UNxiI3yYWWrv1WWaiLbeOTlAMvghio8CvO1o35mbEfVtbNo7/kB
+ taTQ==
+X-Gm-Message-State: AOAM530yUm30xcV6ZKDhJ1rO0OQUQ+yc5E1XLQzULQKpEIKog8gbWjc1
+ 3mgxQbNKy3Eq04lkwJNyFg==
+X-Google-Smtp-Source: ABdhPJxHAw5LycZ1OYewf0GTZlfWxLt30hNfXF/X8mHzJU61uFavkrIgkSk2a0vYVPgrTG8BAsOUEA==
+X-Received: by 2002:a6b:6c0e:0:b0:637:7360:c680 with SMTP id
+ a14-20020a6b6c0e000000b006377360c680mr2556409ioh.201.1645116000761; 
+ Thu, 17 Feb 2022 08:40:00 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.250])
+ by smtp.gmail.com with ESMTPSA id j14sm2049211ilc.62.2022.02.17.08.39.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Feb 2022 08:40:00 -0800 (PST)
+Received: (nullmailer pid 3365329 invoked by uid 1000);
+ Thu, 17 Feb 2022 16:39:55 -0000
+From: Rob Herring <robh@kernel.org>
+To: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <20220217105523.1525122-4-15330273260@189.cn>
+References: <20220217105523.1525122-1-15330273260@189.cn>
+ <20220217105523.1525122-4-15330273260@189.cn>
+Subject: Re: [PATCH v9 3/4] Documentation/dt: Add descriptions for loongson
+ display controller
+Date: Thu, 17 Feb 2022 10:39:55 -0600
+Message-Id: <1645115995.391878.3365328.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,129 +59,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Swathi Dhanavanthri <swathi.dhanavanthri@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Shankar Uma <uma.shankar@intel.com>,
- =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>
+Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
+ suijingfeng <suijingfeng@loongson.cn>, Roland Scheidegger <sroland@vmware.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since it apparently caused some confusion on various websites, maybe we
-should change the title of the patch to "Enable 5th port" to make it
-more clear that this is only a port, not a pipe.
-
-Also, I believe one last line that we need to add to this patch is an
-intel_ddi_init() call for TC1 in the intel_setup_outputs() function.  I
-think I previously had that in a separate patch, but it went missing
-when we reorganized and refactored some of these patches
-
-
-Matt
-
-On Tue, Feb 15, 2022 at 11:21:52AM +0530, Ramalingam C wrote:
-> From: Matt Roper <matthew.d.roper@intel.com>
+On Thu, 17 Feb 2022 18:55:22 +0800, Sui Jingfeng wrote:
+> From: suijingfeng <suijingfeng@loongson.cn>
 > 
-> DG2 supports a 5th display output which the hardware refers to as "TC1,"
-> even though it isn't a Type-C output.  This behaves similarly to the TC1
-> on past platforms with just a couple minor differences:
+> Add DT documentation for loongson display controller found in
+> LS2K1000, LS2K0500, LS7A1000 and LS7A2000.
 > 
->  * DG2's TC1 bit in SDEISR is at bit 25 rather than 24 as it is on
->    ICP/TGP/ADP.
->  * DG2 doesn't need the hpd inversion setting that we had to use on DG1
+> v2: DT binding docs and includes should be a separate patch,
+>     fix a warnning because of that.
 > 
-> Cc: Swathi Dhanavanthri <swathi.dhanavanthri@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: José Roberto de Souza <jose.souza@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
 > ---
->  drivers/gpu/drm/i915/display/intel_gmbus.c | 16 ++++++++++++++--
->  drivers/gpu/drm/i915/i915_irq.c            |  5 ++++-
->  drivers/gpu/drm/i915/i915_reg.h            |  1 +
->  3 files changed, 19 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c b/drivers/gpu/drm/i915/display/intel_gmbus.c
-> index 6ce8c10fe975..2fad03250661 100644
-> --- a/drivers/gpu/drm/i915/display/intel_gmbus.c
-> +++ b/drivers/gpu/drm/i915/display/intel_gmbus.c
-> @@ -98,11 +98,21 @@ static const struct gmbus_pin gmbus_pins_dg1[] = {
->  	[GMBUS_PIN_4_CNP] = { "dpd", GPIOE },
->  };
->  
-> +static const struct gmbus_pin gmbus_pins_dg2[] = {
-> +	[GMBUS_PIN_1_BXT] = { "dpa", GPIOB },
-> +	[GMBUS_PIN_2_BXT] = { "dpb", GPIOC },
-> +	[GMBUS_PIN_3_BXT] = { "dpc", GPIOD },
-> +	[GMBUS_PIN_4_CNP] = { "dpd", GPIOE },
-> +	[GMBUS_PIN_9_TC1_ICP] = { "tc1", GPIOJ },
-> +};
-> +
->  /* pin is expected to be valid */
->  static const struct gmbus_pin *get_gmbus_pin(struct drm_i915_private *dev_priv,
->  					     unsigned int pin)
->  {
-> -	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
-> +	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG2)
-> +		return &gmbus_pins_dg2[pin];
-> +	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
->  		return &gmbus_pins_dg1[pin];
->  	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
->  		return &gmbus_pins_icp[pin];
-> @@ -123,7 +133,9 @@ bool intel_gmbus_is_valid_pin(struct drm_i915_private *dev_priv,
->  {
->  	unsigned int size;
->  
-> -	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
-> +	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG2)
-> +		size = ARRAY_SIZE(gmbus_pins_dg2);
-> +	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
->  		size = ARRAY_SIZE(gmbus_pins_dg1);
->  	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
->  		size = ARRAY_SIZE(gmbus_pins_icp);
-> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-> index fdd568ba4a16..4d81063b128c 100644
-> --- a/drivers/gpu/drm/i915/i915_irq.c
-> +++ b/drivers/gpu/drm/i915/i915_irq.c
-> @@ -179,6 +179,7 @@ static const u32 hpd_sde_dg1[HPD_NUM_PINS] = {
->  	[HPD_PORT_B] = SDE_DDI_HOTPLUG_ICP(HPD_PORT_B),
->  	[HPD_PORT_C] = SDE_DDI_HOTPLUG_ICP(HPD_PORT_C),
->  	[HPD_PORT_D] = SDE_DDI_HOTPLUG_ICP(HPD_PORT_D),
-> +	[HPD_PORT_TC1] = SDE_TC_HOTPLUG_DG2(HPD_PORT_TC1),
->  };
->  
->  static void intel_hpd_init_pins(struct drm_i915_private *dev_priv)
-> @@ -4424,7 +4425,9 @@ void intel_irq_init(struct drm_i915_private *dev_priv)
->  		if (I915_HAS_HOTPLUG(dev_priv))
->  			dev_priv->hotplug_funcs = &i915_hpd_funcs;
->  	} else {
-> -		if (HAS_PCH_DG1(dev_priv))
-> +		if (HAS_PCH_DG2(dev_priv))
-> +			dev_priv->hotplug_funcs = &icp_hpd_funcs;
-> +		else if (HAS_PCH_DG1(dev_priv))
->  			dev_priv->hotplug_funcs = &dg1_hpd_funcs;
->  		else if (DISPLAY_VER(dev_priv) >= 11)
->  			dev_priv->hotplug_funcs = &gen11_hpd_funcs;
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 4ea1713e6b60..4d12abb2d7ff 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -6182,6 +6182,7 @@
->  /* south display engine interrupt: ICP/TGP */
->  #define SDE_GMBUS_ICP			(1 << 23)
->  #define SDE_TC_HOTPLUG_ICP(hpd_pin)	REG_BIT(24 + _HPD_PIN_TC(hpd_pin))
-> +#define SDE_TC_HOTPLUG_DG2(hpd_pin)	REG_BIT(25 + _HPD_PIN_TC(hpd_pin)) /* sigh */
->  #define SDE_DDI_HOTPLUG_ICP(hpd_pin)	REG_BIT(16 + _HPD_PIN_DDI(hpd_pin))
->  #define SDE_DDI_HOTPLUG_MASK_ICP	(SDE_DDI_HOTPLUG_ICP(HPD_PORT_D) | \
->  					 SDE_DDI_HOTPLUG_ICP(HPD_PORT_C) | \
-> -- 
-> 2.20.1
+>  .../loongson/loongson,display-controller.yaml | 114 ++++++++++++++++++
+>  1 file changed, 114 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
 > 
 
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml: properties:interrupts: 'anyOf' conditional failed, one must be fixed:
+	'minItems' is not one of ['maxItems', 'description', 'deprecated']
+		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+	'minItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref']
+	'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref']
+	1 is less than the minimum of 2
+		hint: Arrays must be described with a combination of minItems/maxItems/items
+	hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
+	from schema $id: http://devicetree.org/meta-schemas/interrupts.yaml#
+./Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml: $id: relative path/filename doesn't match actual path or filename
+	expected: http://devicetree.org/schemas/display/loongson/loongson,display-controller.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml: ignoring, error in schema: properties: interrupts
+Error: Documentation/devicetree/bindings/display/loongson/loongson,display-controller.example.dts:22.30-31 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:378: Documentation/devicetree/bindings/display/loongson/loongson,display-controller.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1398: dt_binding_check] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1594138
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
