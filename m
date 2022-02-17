@@ -2,57 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E36044BAA9A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 21:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F304BAAA0
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 21:08:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29EF210E773;
-	Thu, 17 Feb 2022 20:06:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15F4D10E7AD;
+	Thu, 17 Feb 2022 20:08:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 751B410E773;
- Thu, 17 Feb 2022 20:06:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645128417; x=1676664417;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=gbLFPD+vZgK73OMXeGFHZcbsfTsA4pRh20wH23YsL28=;
- b=b1T9M+90G7BhtTjWyOyV9Ld2cnYmCwkNtSb4q4p9nPHQAeOX8Qabb0rZ
- nBij6IK+GXUHbFizyWrbDsNESOzBep1RoMpWW7tXn7Eeu8Fo080yBZLkt
- VW2K2ynwnMh48BUchSgrzR1MqH6sGjICHxHdFirAv9CfeRmmKt6s6VuU6 M=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 17 Feb 2022 12:06:56 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 12:06:56 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Thu, 17 Feb 2022 12:06:32 -0800
-Received: from [10.111.174.92] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Thu, 17 Feb
- 2022 12:06:30 -0800
-Message-ID: <e584769e-7367-86c4-7691-ea3226bb8e1e@quicinc.com>
-Date: Thu, 17 Feb 2022 12:06:28 -0800
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD3410E77C
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 20:08:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645128503;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sK34GucLf1EjDJhzzUqx7/Oepkk2e4FDf8Dxqp0a2xc=;
+ b=eWSeWg3hBS5tUBHEfMZ/Z9E56OBSVr3BKkcYkKB13hIxAer9KPbsFdHGh9zoVzsyu0kBtU
+ 18e8tZybrQNYnghBVDRm7pptt1Qd5PN7MvCl1GTQqYG7ZsOH5dZXBbhwihrBgUpArz+7fA
+ +pLCNyxHi5K4kjwT9+wzYr4kMOeHatQ=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-633-bpEp1i3uPjmqHN25IRUEuA-1; Thu, 17 Feb 2022 15:08:20 -0500
+X-MC-Unique: bpEp1i3uPjmqHN25IRUEuA-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ bj2-20020a05620a190200b005084968bb24so5187454qkb.23
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 12:08:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=sK34GucLf1EjDJhzzUqx7/Oepkk2e4FDf8Dxqp0a2xc=;
+ b=g5D6IP5iJ7u3MIQYwBguueVkOnlAAZejfMQg5ZbSMmNucRTPMbH4FuHE29TUSks7g4
+ ndsjDDY/JBt8rpxwmcwvWsuYfc06eSc5H2AVelan7l0b+wD4mSu/X/WD55Uw9jJeFIpS
+ aU7sQO+lYzDLK3kY7KIXPYDzfsPh5xQzFJsY+kaihPArDhuhehU0yFfTkL45/lvGD5Iy
+ mNDi68QuYPtz8XenaHUrnYO7AYPATzT5vZ/SglHGtho4k2CxgV0z9ZGT0NmOANI8i3QH
+ ghah6HB32x3vm8b7tW/ASOf9MW8pS+dUg0rGe1S1HlNgDCCnPfEumB+S0ICp9b6/PqF8
+ thNw==
+X-Gm-Message-State: AOAM5312EMCIEQouD4FFnNzc29+BiLLhjQA39R5rvcDed27IHwdp/5LC
+ 8nzJCgyzyhBwEmm191YmBlOu8XURKnP6jAGfYZJt3uIzIYr+f1Tu21tbTntNHKeLkCLP9RPM3hq
+ S8lSVv02iQ6jLaYW4RTY5En8GJywj
+X-Received: by 2002:a05:6214:2528:b0:42c:1599:12 with SMTP id
+ gg8-20020a056214252800b0042c15990012mr3420814qvb.76.1645128500332; 
+ Thu, 17 Feb 2022 12:08:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJycbxYMpaPo61PhTMr/DZq7LFboQhm1n/b16fcARkC40ffOKYC2XX1xA9CYu8QhyI7O53ib0A==
+X-Received: by 2002:a05:6214:2528:b0:42c:1599:12 with SMTP id
+ gg8-20020a056214252800b0042c15990012mr3420803qvb.76.1645128500128; 
+ Thu, 17 Feb 2022 12:08:20 -0800 (PST)
+Received: from [192.168.8.138] (pool-96-230-100-15.bstnma.fios.verizon.net.
+ [96.230.100.15])
+ by smtp.gmail.com with ESMTPSA id i4sm22182394qkn.13.2022.02.17.12.08.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Feb 2022 12:08:19 -0800 (PST)
+Message-ID: <db5decb525e7ab36cd4875ef5c6bba942b46d7c7.camel@redhat.com>
+Subject: [Important!] 2022 X.Org Foundation Membership deadline for voting
+ in the election
+From: Lyude Paul <lyude@redhat.com>
+To: xorg@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ events@lists.x.org, xorg-devel@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ libre-soc-dev@lists.libre-soc.org
+Date: Thu, 17 Feb 2022 15:08:18 -0500
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [REPOST PATCH v4 01/13] drm/msm/dsi: add support for dsc data
-Content-Language: en-US
-To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
-References: <20220210103423.271016-1-vkoul@kernel.org>
- <20220210103423.271016-2-vkoul@kernel.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220210103423.271016-2-vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,221 +89,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: board@x.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The 2022 X.Org Foundation elections are rapidly approaching. We will be
+forwarding instructions on the nomination process to membership in the
+near future.
+
+Please note that only current members can vote in the upcoming election,
+and that the deadline for new memberships or renewals to vote in the
+upcoming election is March 17th 2022 at 23:59 UTC.
+
+If you are interested in joining the X.Org Foundation or in renewing
+your membership, please visit the membership system site at:
+
+https://members.x.org/
+
+You can find the current election schedule here:
+
+https://www.x.org/wiki/BoardOfDirectors/Elections/2022/
+
+        Lyude Paul,
+        On behalf of the X.Org elections committee
 
 
-On 2/10/2022 2:34 AM, Vinod Koul wrote:
-> Display Stream Compression (DSC) parameters need to be calculated. Add
-> helpers and struct msm_display_dsc_config in msm_drv for this
-> msm_display_dsc_config uses drm_dsc_config for DSC parameters.
-> 
-> Signed-off-by: Vinod Koul <vkoul@kernel.org>
-
-As we spoke during the sync up, since migration to the upstream API has 
-been agreed upon to be done later, this change LGTM. Hence,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-> ---
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 132 +++++++++++++++++++++++++++++
->   drivers/gpu/drm/msm/msm_drv.h      |  15 ++++
->   2 files changed, 147 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 6b3ced4aaaf5..27553194f9fa 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -31,6 +31,8 @@
->   
->   #define DSI_RESET_TOGGLE_DELAY_MS 20
->   
-> +static int dsi_populate_dsc_params(struct msm_display_dsc_config *dsc);
-> +
->   static int dsi_get_version(const void __iomem *base, u32 *major, u32 *minor)
->   {
->   	u32 ver;
-> @@ -157,6 +159,7 @@ struct msm_dsi_host {
->   	struct regmap *sfpb;
->   
->   	struct drm_display_mode *mode;
-> +	struct msm_display_dsc_config *dsc;
->   
->   	/* connected device info */
->   	struct device_node *device_node;
-> @@ -1718,6 +1721,135 @@ static int dsi_host_parse_lane_data(struct msm_dsi_host *msm_host,
->   	return -EINVAL;
->   }
->   
-> +static u32 dsi_dsc_rc_buf_thresh[DSC_NUM_BUF_RANGES - 1] = {
-> +	0x0e, 0x1c, 0x2a, 0x38, 0x46, 0x54, 0x62,
-> +	0x69, 0x70, 0x77, 0x79, 0x7b, 0x7d, 0x7e
-> +};
-> +
-> +/* only 8bpc, 8bpp added */
-> +static char min_qp[DSC_NUM_BUF_RANGES] = {
-> +	0, 0, 1, 1, 3, 3, 3, 3, 3, 3, 5, 5, 5, 7, 13
-> +};
-> +
-> +static char max_qp[DSC_NUM_BUF_RANGES] = {
-> +	4, 4, 5, 6, 7, 7, 7, 8, 9, 10, 11, 12, 13, 13, 15
-> +};
-> +
-> +static char bpg_offset[DSC_NUM_BUF_RANGES] = {
-> +	2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12
-> +};
-> +
-> +static int dsi_populate_dsc_params(struct msm_display_dsc_config *dsc)
-> +{
-> +	int mux_words_size;
-> +	int groups_per_line, groups_total;
-> +	int min_rate_buffer_size;
-> +	int hrd_delay;
-> +	int pre_num_extra_mux_bits, num_extra_mux_bits;
-> +	int slice_bits;
-> +	int target_bpp_x16;
-> +	int data;
-> +	int final_value, final_scale;
-> +	int i;
-> +
-> +	dsc->drm->rc_model_size = 8192;
-> +	dsc->drm->first_line_bpg_offset = 12;
-> +	dsc->drm->rc_edge_factor = 6;
-> +	dsc->drm->rc_tgt_offset_high = 3;
-> +	dsc->drm->rc_tgt_offset_low = 3;
-> +	dsc->drm->simple_422 = 0;
-> +	dsc->drm->convert_rgb = 1;
-> +	dsc->drm->vbr_enable = 0;
-> +
-> +	/* handle only bpp = bpc = 8 */
-> +	for (i = 0; i < DSC_NUM_BUF_RANGES - 1 ; i++)
-> +		dsc->drm->rc_buf_thresh[i] = dsi_dsc_rc_buf_thresh[i];
-> +
-> +	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
-> +		dsc->drm->rc_range_params[i].range_min_qp = min_qp[i];
-> +		dsc->drm->rc_range_params[i].range_max_qp = max_qp[i];
-> +		dsc->drm->rc_range_params[i].range_bpg_offset = bpg_offset[i];
-> +	}
-> +
-> +	dsc->drm->initial_offset = 6144; /* Not bpp 12 */
-> +	if (dsc->drm->bits_per_pixel != 8)
-> +		dsc->drm->initial_offset = 2048;	/* bpp = 12 */
-> +
-> +	mux_words_size = 48;		/* bpc == 8/10 */
-> +	if (dsc->drm->bits_per_component == 12)
-> +		mux_words_size = 64;
-> +
-> +	dsc->drm->initial_xmit_delay = 512;
-> +	dsc->drm->initial_scale_value = 32;
-> +	dsc->drm->first_line_bpg_offset = 12;
-> +	dsc->drm->line_buf_depth = dsc->drm->bits_per_component + 1;
-> +
-> +	/* bpc 8 */
-> +	dsc->drm->flatness_min_qp = 3;
-> +	dsc->drm->flatness_max_qp = 12;
-> +	dsc->det_thresh_flatness = 7 + 2 * (dsc->drm->bits_per_component - 8);
-> +	dsc->drm->rc_quant_incr_limit0 = 11;
-> +	dsc->drm->rc_quant_incr_limit1 = 11;
-> +	dsc->drm->mux_word_size = DSC_MUX_WORD_SIZE_8_10_BPC;
-> +
-> +	/* FIXME: need to call drm_dsc_compute_rc_parameters() so that rest of
-> +	 * params are calculated
-> +	 */
-> +	dsc->slice_last_group_size = 3 - (dsc->drm->slice_width % 3);
-> +	groups_per_line = DIV_ROUND_UP(dsc->drm->slice_width, 3);
-> +	dsc->drm->slice_chunk_size = dsc->drm->slice_width * dsc->drm->bits_per_pixel / 8;
-> +	if ((dsc->drm->slice_width * dsc->drm->bits_per_pixel) % 8)
-> +		dsc->drm->slice_chunk_size++;
-> +
-> +	/* rbs-min */
-> +	min_rate_buffer_size =  dsc->drm->rc_model_size - dsc->drm->initial_offset +
-> +				dsc->drm->initial_xmit_delay * dsc->drm->bits_per_pixel +
-> +				groups_per_line * dsc->drm->first_line_bpg_offset;
-> +
-> +	hrd_delay = DIV_ROUND_UP(min_rate_buffer_size, dsc->drm->bits_per_pixel);
-> +
-> +	dsc->drm->initial_dec_delay = hrd_delay - dsc->drm->initial_xmit_delay;
-> +
-> +	dsc->drm->initial_scale_value = 8 * dsc->drm->rc_model_size /
-> +				       (dsc->drm->rc_model_size - dsc->drm->initial_offset);
-> +
-> +	slice_bits = 8 * dsc->drm->slice_chunk_size * dsc->drm->slice_height;
-> +
-> +	groups_total = groups_per_line * dsc->drm->slice_height;
-> +
-> +	data = dsc->drm->first_line_bpg_offset * 2048;
-> +
-> +	dsc->drm->nfl_bpg_offset = DIV_ROUND_UP(data, (dsc->drm->slice_height - 1));
-> +
-> +	pre_num_extra_mux_bits = 3 * (mux_words_size + (4 * dsc->drm->bits_per_component + 4) - 2);
-> +
-> +	num_extra_mux_bits = pre_num_extra_mux_bits - (mux_words_size -
-> +			     ((slice_bits - pre_num_extra_mux_bits) % mux_words_size));
-> +
-> +	data = 2048 * (dsc->drm->rc_model_size - dsc->drm->initial_offset + num_extra_mux_bits);
-> +	dsc->drm->slice_bpg_offset = DIV_ROUND_UP(data, groups_total);
-> +
-> +	/* bpp * 16 + 0.5 */
-> +	data = dsc->drm->bits_per_pixel * 16;
-> +	data *= 2;
-> +	data++;
-> +	data /= 2;
-> +	target_bpp_x16 = data;
-> +
-> +	data = (dsc->drm->initial_xmit_delay * target_bpp_x16) / 16;
-> +	final_value =  dsc->drm->rc_model_size - data + num_extra_mux_bits;
-> +	dsc->drm->final_offset = final_value;
-> +
-> +	final_scale = 8 * dsc->drm->rc_model_size / (dsc->drm->rc_model_size - final_value);
-> +
-> +	data = (final_scale - 9) * (dsc->drm->nfl_bpg_offset + dsc->drm->slice_bpg_offset);
-> +	dsc->drm->scale_increment_interval = (2048 * dsc->drm->final_offset) / data;
-> +
-> +	dsc->drm->scale_decrement_interval = groups_per_line / (dsc->drm->initial_scale_value - 8);
-> +
-> +	return 0;
-> +}
-> +
->   static int dsi_host_parse_dt(struct msm_dsi_host *msm_host)
->   {
->   	struct device *dev = &msm_host->pdev->dev;
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index d7574e6bd4e4..384f9bad4760 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -30,6 +30,7 @@
->   #include <drm/drm_plane_helper.h>
->   #include <drm/drm_probe_helper.h>
->   #include <drm/drm_fb_helper.h>
-> +#include <drm/drm_dsc.h>
->   #include <drm/msm_drm.h>
->   #include <drm/drm_gem.h>
->   
-> @@ -134,6 +135,20 @@ struct msm_drm_thread {
->   	struct kthread_worker *worker;
->   };
->   
-> +/* DSC config */
-> +struct msm_display_dsc_config {
-> +	struct drm_dsc_config *drm;
-> +
-> +	u32 initial_lines;
-> +	u32 pkt_per_line;
-> +	u32 bytes_in_slice;
-> +	u32 bytes_per_pkt;
-> +	u32 eol_byte_num;
-> +	u32 pclk_per_line;
-> +	u32 slice_last_group_size;
-> +	u32 det_thresh_flatness;
-> +};
-> +
->   struct msm_drm_private {
->   
->   	struct drm_device *dev;
