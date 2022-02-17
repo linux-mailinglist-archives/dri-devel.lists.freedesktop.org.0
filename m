@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C1A4BC74D
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77EA84BC75C
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4846A10F671;
-	Sat, 19 Feb 2022 10:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC69D10F67C;
+	Sat, 19 Feb 2022 10:02:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B970510E1F7
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 17:00:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id A6F431F46171
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645117258;
- bh=ff3TSiMV7RvAbS0hNd/AGstmXBT++vNiyhhx50+xrd8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dBdEbVdp2EEfpi/vkF5YuEEUhxfieguPC+aO0KJIceXvBmWhA4SPcAdagW1ZAQz1H
- xE6PRIb1Fq2LB4lvWqaF5kQti083FrfgjZsN6EgfyHbZqKoylouXB6RZdrUgPU7vRX
- NCWZ1VP4+ZkMG/1VZC1W0Tqge1pfUomwOoLsmYgCpWbQgRL69zL2jlucUzRKvF3cts
- xuuW80kMPuliMf04HN+qIuaKU8cTT8DS3o37OM1gvPzDuGm9GxIcJkGi7OKldabNPc
- 0qZFmCCDMJ+vA1mtStR9RdXedEbUJRBTvH8iVjiMV40d3ZyQPm4xwy9U1TGxt6s0U0
- m1lV+rXcuBNpw==
-Message-ID: <0c6bd002-dbb3-aa44-9508-974c3ebda778@collabora.com>
-Date: Thu, 17 Feb 2022 20:00:54 +0300
+Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 72E1610E17D
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 23:50:51 +0000 (UTC)
+Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
+ by 156.147.23.52 with ESMTP; 18 Feb 2022 08:50:49 +0900
+X-Original-SENDERIP: 156.147.1.125
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
+ by 156.147.1.125 with ESMTP; 18 Feb 2022 08:50:49 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+Date: Fri, 18 Feb 2022 08:50:42 +0900
+From: Byungchul Park <byungchul.park@lge.com>
+To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: Report in unix_stream_read_generic()
+Message-ID: <20220217235042.GA20620@X58A-UD3R>
+References: <1644984767-26886-1-git-send-email-byungchul.park@lge.com>
+ <1644985024-28757-1-git-send-email-byungchul.park@lge.com>
+ <Ygx+pRo1+b1RBLJg@casper.infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 13/23] drm/rockchip: dw_hdmi: Set cur_ctr to 0 always
-Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>
-References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
- <20220217082954.2967889-14-s.hauer@pengutronix.de>
- <f5abe6aa-473a-a00d-2bc5-b8a1d0560d1f@collabora.com>
- <20220217151259.GT18637@pengutronix.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220217151259.GT18637@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ygx+pRo1+b1RBLJg@casper.infradead.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mailman-Approved-At: Sat, 19 Feb 2022 10:01:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,44 +46,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, Yakir Yang <ykk@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ bfields@fieldses.org, kernel-team@lge.com, joel@joelfernandes.org,
+ cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
+ paolo.valente@linaro.org, hch@infradead.org, airlied@linux.ie,
+ mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
+ rientjes@google.com, kuba@kernel.org, ngupta@vflare.org,
+ johannes.berg@intel.com, hannes@cmpxchg.org, dan.j.williams@intel.com,
+ josef@toxicpanda.com, rostedt@goodmis.org, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
+ dennis@kernel.org, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ axboe@kernel.dk, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, linux-mm@kvack.org, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, netdev@vger.kernel.org, tj@kernel.org,
+ akpm@linux-foundation.org, torvalds@linux-foundation.org, davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-17.02.2022 18:12, Sascha Hauer пишет:
-> On Thu, Feb 17, 2022 at 05:00:37PM +0300, Dmitry Osipenko wrote:
->> 17.02.2022 11:29, Sascha Hauer пишет:
->>> From: Douglas Anderson <dianders@chromium.org>
->>>
->>> Jitter was improved by lowering the MPLL bandwidth to account for high
->>> frequency noise in the rk3288 PLL.  In each case MPLL bandwidth was
->>> lowered only enough to get us a comfortable margin.  We believe that
->>> lowering the bandwidth like this is safe given sufficient testing.
->>
->> There are no device-trees that use "rockchip,rk3288-cru", AFAICS..
+On Wed, Feb 16, 2022 at 04:33:41AM +0000, Matthew Wilcox wrote:
+> On Wed, Feb 16, 2022 at 01:17:03PM +0900, Byungchul Park wrote:
+> > [    7.013330] ===================================================
+> > [    7.013331] DEPT: Circular dependency has been detected.
+> > [    7.013332] 5.17.0-rc1-00014-gcf3441bb2012 #2 Tainted: G        W        
+> > [    7.013333] ---------------------------------------------------
+> > [    7.013334] summary
+> > [    7.013334] ---------------------------------------------------
+> > [    7.013335] *** DEADLOCK ***
+> > [    7.013335] 
+> > [    7.013335] context A
+> > [    7.013336]     [S] (unknown)(&(&ei->socket.wq.wait)->dmap:0)
+> > [    7.013337]     [W] __mutex_lock_common(&u->iolock:0)
+> > [    7.013338]     [E] event(&(&ei->socket.wq.wait)->dmap:0)
+> > [    7.013340] 
+> > [    7.013340] context B
+> > [    7.013341]     [S] __raw_spin_lock(&u->lock:0)
+> > [    7.013342]     [W] wait(&(&ei->socket.wq.wait)->dmap:0)
+> > [    7.013343]     [E] spin_unlock(&u->lock:0)
 > 
-> What do you mean? In my tree I have:
+> This seems unlikely to be real.  We're surely not actually waiting
+> while holding a spinlock; existing debug checks would catch it.
 > 
-> arch/arm/boot/dts/rk3288.dtsi:863:              compatible = "rockchip,rk3288-cru";
-> drivers/clk/rockchip/clk-rk3288.c:985:CLK_OF_DECLARE(rk3288_cru, "rockchip,rk3288-cru", rk3288_clk_init);
-
-Oh, it is ARM32, I was looking at ARM64 only. My bad.
-
->> Was this change tested on a non-RK3288 devices?
+> > [    7.013407] ---------------------------------------------------
+> > [    7.013407] context B's detail
+> > [    7.013408] ---------------------------------------------------
+> > [    7.013408] context B
+> > [    7.013409]     [S] __raw_spin_lock(&u->lock:0)
+> > [    7.013410]     [W] wait(&(&ei->socket.wq.wait)->dmap:0)
+> > [    7.013411]     [E] spin_unlock(&u->lock:0)
+> > [    7.013412] 
+> > [    7.013412] [S] __raw_spin_lock(&u->lock:0):
+> > [    7.013413] [<ffffffff81aa451f>] unix_stream_read_generic+0x6bf/0xb60
+> > [    7.013416] stacktrace:
+> > [    7.013416]       _raw_spin_lock+0x6e/0x90
+> > [    7.013418]       unix_stream_read_generic+0x6bf/0xb60
 > 
-> Yes, on a rk3568 ;)
-> 
-> The patch has been posted back in 2015 and was added to the Rockchip
-> downstream kernel in 2016. I don't know how thoroughly Rockchip tests
-> their kernels, but I assume the patch wouldn't be there if it caused
-> any problems.
+> It would be helpful if you'd run this through scripts/decode_stacktrace.sh
 
-Thank you for the clarification.
+(Sorry for late reply, which was because of my email client issue.)
+
+It was big help. Thank you very much.
+
+> so we could see line numbers instead of hex offsets (which arene't much
+> use without the binary kernel).
+> 
+> > [    7.013420]       unix_stream_recvmsg+0x40/0x50
+> > [    7.013422]       sock_read_iter+0x85/0xd0
+> > [    7.013424]       new_sync_read+0x162/0x180
+> > [    7.013426]       vfs_read+0xf3/0x190
+> > [    7.013428]       ksys_read+0xa6/0xc0
+> > [    7.013429]       do_syscall_64+0x3a/0x90
+> > [    7.013431]       entry_SYSCALL_64_after_hwframe+0x44/0xae
+> > [    7.013433] 
+> > [    7.013434] [W] wait(&(&ei->socket.wq.wait)->dmap:0):
+> > [    7.013434] [<ffffffff810bb017>] prepare_to_wait+0x47/0xd0
+> 
+> ... this may be the source of confusion.  Just because we prepare to
+> wait doesn't mean we end up actually waiting.  For example, look at
+> unix_wait_for_peer():
+> 
+>         prepare_to_wait_exclusive(&u->peer_wait, &wait, TASK_INTERRUPTIBLE);
+> 
+>         sched = !sock_flag(other, SOCK_DEAD) &&
+>                 !(other->sk_shutdown & RCV_SHUTDOWN) &&
+>                 unix_recvq_full(other);
+> 
+>         unix_state_unlock(other);
+> 
+>         if (sched)
+>                 timeo = schedule_timeout(timeo);
+> 
+>         finish_wait(&u->peer_wait, &wait);
+> 
+> We *prepare* to wait, *then* drop the lock, then actually schedule.
+
+Big help, too. I checked some samples for the usage, but where it's
+almost "prepare == wait" :-(. Thanks a lot!
+
+Thanks,
+Byungchul
