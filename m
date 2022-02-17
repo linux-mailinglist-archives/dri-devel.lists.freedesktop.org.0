@@ -1,47 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAFE84B94FB
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 01:26:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 788DE4B94FD
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 01:27:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C23B10E6B8;
-	Thu, 17 Feb 2022 00:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F0CB10E6BE;
+	Thu, 17 Feb 2022 00:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1199510E672
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 00:25:59 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 7A64F83A65;
- Thu, 17 Feb 2022 01:25:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1645057557;
- bh=YDHo2pduCxf9aTR+TE1L0DGFSZ54/fA+qQH/8myIiWg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=L58mGhoeprktVpUSfvGqsMIakilH/t7wplN+rf2npg4F+eIHWh6znwDoXEFclANuY
- QLfnQV27QaLkG7zEyXI3iMKexc5uWvMRspgTTWvG/uHopoOCGapiVs1oVM2a1LRK52
- 15csCYCOiDpza51FXE+X1V5IlGG0SRveAfAsY6nrLgHHda8IFWQ4euQo4J8ce+6mmv
- 0yrz75KaBN1HbabScu7U7b/ZQxmtQCiWnLdW0KQ3moFdvhlPcl4QINe6zr9ffLD5Ml
- DeH3Wy5CfEB92dS4vdRU2fnZh2wog9Rdke36Whlq3AWioVzV0XNlFJ+Ix5PWchZkW3
- h7JyYTPbbW9pw==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V2 12/12] drm: bridge: icn6211: Read and validate chip IDs
- before configuration
-Date: Thu, 17 Feb 2022 01:25:30 +0100
-Message-Id: <20220217002530.396563-13-marex@denx.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220217002530.396563-1-marex@denx.de>
-References: <20220217002530.396563-1-marex@denx.de>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 082A610E6BE;
+ Thu, 17 Feb 2022 00:26:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1645057618; x=1676593618;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=y05geqmrQ9ZeRXmFPhxCXjZFV0vZVQsVvgL7YGLNM/8=;
+ b=JzSsDLBVZh08sQAbOssc0+FD+b0ptZLHxEqQLMavRHAP1xH8Deill46X
+ CJgehYSkcrEX5srv+mkJOQ7BoZlXh8TxSvb9uK1mbCjE0sCMwWy3vMau3
+ BS7RxY/LbvBmfIyQYvm3LEInUSCCfQHtouc11xZLLL652yYCWh1/div5k 0=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 16 Feb 2022 16:26:57 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 16:26:57 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Wed, 16 Feb 2022 16:26:56 -0800
+Received: from [10.111.174.92] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 16 Feb
+ 2022 16:26:54 -0800
+Message-ID: <7ddea5fb-bf7d-3531-31fa-ef24b3e4b2f3@quicinc.com>
+Date: Wed, 16 Feb 2022 16:26:52 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH] drm/msm/dsi/phy: fix 7nm v4.0 settings for C-PHY mode
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20220217000837.435340-1-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220217000837.435340-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,73 +66,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Read out the Vendor/Chip/Version ID registers from the chip before
-performing any configuration, and validate that the registers have
-correct values. This is mostly a simple test whether DSI register
-access does work, since that tends to be broken on various bridges.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-To: dri-devel@lists.freedesktop.org
----
-V2: Rebase on next-20220214
----
- drivers/gpu/drm/bridge/chipone-icn6211.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index e0ca91e33774d..535dd65b3a4ed 100644
---- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-+++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -153,6 +153,14 @@ static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridge)
- 	return container_of(bridge, struct chipone, bridge);
- }
- 
-+static void chipone_readb(struct chipone *icn, u8 reg, u8 *val)
-+{
-+	if (icn->interface_i2c)
-+		*val = i2c_smbus_read_byte_data(icn->client, reg);
-+	else
-+		mipi_dsi_generic_read(icn->dsi, (u8[]){reg, 1}, 2, val, 1);
-+}
-+
- static void chipone_writeb(struct chipone *icn, u8 reg, u8 val)
- {
- 	if (icn->interface_i2c)
-@@ -251,7 +259,21 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
- 	const struct drm_bridge_state *bridge_state;
- 	u16 hfp, hbp, hsync;
- 	u32 bus_flags;
--	u8 pol;
-+	u8 pol, id[4];
-+
-+	chipone_readb(icn, VENDOR_ID, id);
-+	chipone_readb(icn, DEVICE_ID_H, id + 1);
-+	chipone_readb(icn, DEVICE_ID_L, id + 2);
-+	chipone_readb(icn, VERSION_ID, id + 3);
-+
-+	dev_dbg(icn->dev,
-+		"Chip IDs: Vendor=0x%02x Device=0x%02x:0x%02x Version=0x%02x\n",
-+		id[0], id[1], id[2], id[3]);
-+
-+	if (id[0] != 0xc1 || id[1] != 0x62 || id[2] != 0x11) {
-+		dev_dbg(icn->dev, "Invalid Chip IDs, aborting configuration\n");
-+		return;
-+	}
- 
- 	/* Get the DPI flags from the bridge state. */
- 	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
--- 
-2.34.1
-
+On 2/16/2022 4:08 PM, Dmitry Baryshkov wrote:
+> The dsi_7nm_phy_enable() disagrees with downstream for
+> glbl_str_swi_cal_sel_ctrl and glbl_hstx_str_ctrl_0 values. Update
+> programmed settings to match downstream driver. To remove the
+> possibility for such errors in future drop less_than_1500_mhz
+> assignment and specify settings explicitly.
+> 
+> Fixes: 5ac178381d26 ("drm/msm/dsi: support CPHY mode for 7nm pll/phy")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Yes, this matches what we have downstream
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 22 ++++++++++++++--------
+>   1 file changed, 14 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> index 36eb6109cb88..6e506feb111f 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> @@ -864,20 +864,26 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
+>   	/* Alter PHY configurations if data rate less than 1.5GHZ*/
+>   	less_than_1500_mhz = (clk_req->bitclk_rate <= 1500000000);
+>   
+> -	/* For C-PHY, no low power settings for lower clk rate */
+> -	if (phy->cphy_mode)
+> -		less_than_1500_mhz = false;
+> -
+>   	if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1) {
+>   		vreg_ctrl_0 = less_than_1500_mhz ? 0x53 : 0x52;
+> -		glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x00;
+> -		glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x39 :  0x3c;
+> +		if (phy->cphy_mode) {
+> +			glbl_rescode_top_ctrl = 0x00;
+> +			glbl_rescode_bot_ctrl = 0x3c;
+> +		} else {
+> +			glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x00;
+> +			glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x39 :  0x3c;
+> +		}
+>   		glbl_str_swi_cal_sel_ctrl = 0x00;
+>   		glbl_hstx_str_ctrl_0 = 0x88;
+>   	} else {
+>   		vreg_ctrl_0 = less_than_1500_mhz ? 0x5B : 0x59;
+> -		glbl_str_swi_cal_sel_ctrl = less_than_1500_mhz ? 0x03 : 0x00;
+> -		glbl_hstx_str_ctrl_0 = less_than_1500_mhz ? 0x66 : 0x88;
+> +		if (phy->cphy_mode) {
+> +			glbl_str_swi_cal_sel_ctrl = 0x03;
+> +			glbl_hstx_str_ctrl_0 = 0x66;
+> +		} else {
+> +			glbl_str_swi_cal_sel_ctrl = less_than_1500_mhz ? 0x03 : 0x00;
+> +			glbl_hstx_str_ctrl_0 = less_than_1500_mhz ? 0x66 : 0x88;
+> +		}
+>   		glbl_rescode_top_ctrl = 0x03;
+>   		glbl_rescode_bot_ctrl = 0x3c;
+>   	}
