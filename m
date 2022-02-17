@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB914BA9AD
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:21:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7AF4BA9AF
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF3D10E6D7;
-	Thu, 17 Feb 2022 19:21:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26C6310E6D8;
+	Thu, 17 Feb 2022 19:21:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43D7310E6D7
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 19:21:43 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id x5so11417140edd.11
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 11:21:43 -0800 (PST)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58B5310E6ED
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 19:21:55 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id bg10so9626482ejb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 11:21:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aueDMadQbpSAzbI78pUPLikbN3cfIdzsy8f8qCh4ehQ=;
- b=aPgaV2+eugethxHlST6G1huzohBoDeXqxKX34OCwn4lb4u0Pf65A5QBCATM73A1Mjm
- qZgiYi8uU309IOWXkjjWKpBtlN44R8uxmiyQEaWeupXLiBQ21tggalOwLzLZmQFjfs5H
- TzYKH2dPmLGGTAtM/FPk5VrEK6smCGokuxBvTZ4Glp/3Vz/63YcU+mWsiBoPDMgmLGX6
- jH231tuR2fiO1Iamk3NmTn8fKwNRzlJG/f6AY7Rz25eA+bhfKAgnatKAgRUPvBL1cKsX
- MKv+OC7XKZ2+0+upDOvUDVTZT0iWd5TgdVD0euOf8zYj0Gt9cOP9JPjJaVUHwUpblcVM
- 2JaQ==
+ bh=0x7wNzoShw+HfJ/5xkK5IA6MYC1RJQwU13V9J4tG1Gs=;
+ b=FqexNiUnoO4UNQizTDI4fZI73M1XVWcKRS2h4LDXsMheIz57M+1AplciSFfWp4ZjC/
+ lJk2xzAaWBbk0C4hd+isxsgS5KD0npOpWO8DCi2qe7y7omK6OZP2dHjcicua3I5fJ6sV
+ gCLKBqx1pdlH9uyhn7QsX/S75uds6A8MXRdGD1AJ1YvhbNkkBJ/mCzc6ihSqzdUw7Tz0
+ GA2hRFr/N/QysYAAzSiSUFCX/FEpUOy2KDK1iXwhyfjBwMYXn05ecn/c9ILnXJRkHUQC
+ 9GMHhI7O1TnFBM3178e7azphwc7H1HCIkHPab3eL9x6+E9W2ZiXHX38HYFlxdm5jJqv2
+ VskQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aueDMadQbpSAzbI78pUPLikbN3cfIdzsy8f8qCh4ehQ=;
- b=OpvN8dd+VR0rNOM2meGppn8/iA1IL/zncEwP3vujxxdUhD93c+VFZTG9XxssGi3K6L
- 80291OPz0hURU4AV75ragiDM7o3cwayayYiKT7cdgrpxlW7xnDpDxZLQ7bKWAa6SC/24
- 9ixl/P3QyaNPJksfKceNfuzJ97ZOt+gd2IAcv0n+JlJcGq5J53sO6ZJcf705dtRKxIZQ
- F6dvn9NQX+ZcQhVfdBfP3FbT0kWeZZm93tZdWiUE3rIe2lvHj+ve1BoxSKM5U+daW3qW
- /jasFRahlDkTL+ZRjYhdKOXvu2trERagsJxmGKEgI30SbgAv1MlrdTJVGZLyeHMs5eSR
- /YAA==
-X-Gm-Message-State: AOAM533nV2GpaHyGx/+JTHEvPSTBOQW4q9FsOVWP66nahgNbk35ceida
- S5Znt/6kcATzdfFYiVH3iSEJR/9w6Jw=
-X-Google-Smtp-Source: ABdhPJzYpwRJBCHesVirsZsT55lyJmJxdz6HcWlYBLLxR29IghetmlQLxGuCK/xie0J/fNQLkg1W0Q==
-X-Received: by 2002:a05:6402:2065:b0:407:eb07:740 with SMTP id
- bd5-20020a056402206500b00407eb070740mr4204249edb.406.1645125701543; 
- Thu, 17 Feb 2022 11:21:41 -0800 (PST)
+ bh=0x7wNzoShw+HfJ/5xkK5IA6MYC1RJQwU13V9J4tG1Gs=;
+ b=dFDJayghJkQLWqzow5vEogI9/QPSbFdgacqf37iaMniCYNkDl7uPAKmCLrSWUozByE
+ XU4F3484sc/Gb8t4MgZn5guGn3RVJsf4ZwoUIQPBajzZPIPl/kGKh4YQ2BA+Wp/k+HLx
+ 0s5zVABTIkVNizGKnZUtJCd7vEuCD7VdkfFAq4Eb7AJWbtnnxeZqBwJ183xAHK0wascK
+ mui/QOV9fYkyGVJApw0eO+Nc0H0kbCP0EsOKu35RWdLxUxV7cxwje9kfRwe11ucZShe1
+ On5NWMm+TtdJer5YZK3rxUF2OKtvgXIFAqipY3xTxRi8VtjytOuklwKvNJ/4TofUdeAk
+ TfEQ==
+X-Gm-Message-State: AOAM532+gqoHcNc3pHBVvb32HV4Xg1WAl1PCk3GPT6ifSc4uySg+Kcfl
+ 7A2HktB+XpHbdapeC5m1XxA=
+X-Google-Smtp-Source: ABdhPJwWiPlhMbrrKVhOD0tAw9cxMyb/GsWPgB93vm/vfOnJi02L8uqrdi1wUnvt4hODwNWEhCo3SQ==
+X-Received: by 2002:a17:906:9256:b0:6a9:dfca:78d8 with SMTP id
+ c22-20020a170906925600b006a9dfca78d8mr3659666ejx.330.1645125713571; 
+ Thu, 17 Feb 2022 11:21:53 -0800 (PST)
 Received: from localhost (p2e5bec5d.dip0.t-ipconnect.de. [46.91.236.93])
- by smtp.gmail.com with ESMTPSA id kw5sm1508994ejc.140.2022.02.17.11.21.40
+ by smtp.gmail.com with ESMTPSA id c29sm1504356ejj.149.2022.02.17.11.21.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 11:21:40 -0800 (PST)
+ Thu, 17 Feb 2022 11:21:52 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH libdrm v2 19/25] tests: tegra: Add VIC 3.0 support
-Date: Thu, 17 Feb 2022 20:19:25 +0100
-Message-Id: <20220217191931.2534836-14-thierry.reding@gmail.com>
+Subject: [PATCH libdrm v2 20/25] tests: tegra: Add VIC 4.0 support
+Date: Thu, 17 Feb 2022 20:19:26 +0100
+Message-Id: <20220217191931.2534836-15-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220217191931.2534836-1-thierry.reding@gmail.com>
 References: <20220217191931.2534836-1-thierry.reding@gmail.com>
@@ -77,88 +77,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-The Video Image Composer (VIC) 3.0 can be found on NVIDIA Tegra124 SoCs.
+The Video Image Composer (VIC) 4.0 can be found on NVIDIA Tegra210 SoCs.
+It uses a different class (B0B6) that is slightly incompatible with the
+class found on earlier generations.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- tegra/private.h         |   6 +
  tests/tegra/meson.build |   2 +
- tests/tegra/vic.c       |   8 +-
- tests/tegra/vic30.c     | 458 ++++++++++++++++++++++++++++++++++++++++
- tests/tegra/vic30.h     | 439 ++++++++++++++++++++++++++++++++++++++
- 5 files changed, 911 insertions(+), 2 deletions(-)
- create mode 100644 tests/tegra/vic30.c
- create mode 100644 tests/tegra/vic30.h
+ tests/tegra/vic.c       |   7 +
+ tests/tegra/vic40.c     | 370 ++++++++++++++++++++++++++++++++++++++++
+ tests/tegra/vic40.h     | 285 +++++++++++++++++++++++++++++++
+ 4 files changed, 664 insertions(+)
+ create mode 100644 tests/tegra/vic40.c
+ create mode 100644 tests/tegra/vic40.h
 
-diff --git a/tegra/private.h b/tegra/private.h
-index f134f3ea2cea..fc204e82e5e5 100644
---- a/tegra/private.h
-+++ b/tegra/private.h
-@@ -26,6 +26,7 @@
- #define __DRM_TEGRA_PRIVATE_H__ 1
- 
- #include <stdbool.h>
-+#include <stddef.h>
- #include <stdint.h>
- 
- #include <libdrm_macros.h>
-@@ -34,6 +35,11 @@
- #include "tegra_drm.h"
- #include "tegra.h"
- 
-+#define container_of(ptr, type, member) ({                      \
-+        const __typeof__(((type *)0)->member) *__mptr = (ptr);  \
-+        (type *)((char *)__mptr - offsetof(type, member));      \
-+    })
-+
- enum host1x_class {
-     HOST1X_CLASS_HOST1X = 0x01,
-     HOST1X_CLASS_GR2D = 0x51,
 diff --git a/tests/tegra/meson.build b/tests/tegra/meson.build
-index 1f4721d059e1..1ee29d0afe1b 100644
+index 1ee29d0afe1b..e9c2bc875a01 100644
 --- a/tests/tegra/meson.build
 +++ b/tests/tegra/meson.build
-@@ -34,6 +34,8 @@ libdrm_test_tegra = static_library(
-     'drm-test-tegra.h',
-     'vic.c',
+@@ -36,6 +36,8 @@ libdrm_test_tegra = static_library(
      'vic.h',
-+    'vic30.c',
-+    'vic30.h',
+     'vic30.c',
+     'vic30.h',
++    'vic40.c',
++    'vic40.h',
    ), config_file ],
    include_directories : [inc_root, inc_drm, inc_tegra],
    link_with : libdrm,
 diff --git a/tests/tegra/vic.c b/tests/tegra/vic.c
-index 43630db883bb..f24961ac5c6d 100644
+index f24961ac5c6d..e0a97c059eca 100644
 --- a/tests/tegra/vic.c
 +++ b/tests/tegra/vic.c
-@@ -130,6 +130,10 @@ void vic_image_dump(struct vic_image *image, FILE *fp)
-     drm_tegra_bo_unmap(image->bo);
- }
+@@ -134,6 +134,10 @@ void vic_image_dump(struct vic_image *image, FILE *fp)
+ int vic30_new(struct drm_tegra *drm, struct drm_tegra_channel *channel,
+               struct vic **vicp);
  
-+/* from vic30.c */
-+int vic30_new(struct drm_tegra *drm, struct drm_tegra_channel *channel,
++/* from vic40.c */
++int vic40_new(struct drm_tegra *drm, struct drm_tegra_channel *channel,
 +              struct vic **vicp);
 +
  int vic_new(struct drm_tegra *drm, struct drm_tegra_channel *channel,
              struct vic **vicp)
  {
-@@ -138,8 +142,8 @@ int vic_new(struct drm_tegra *drm, struct drm_tegra_channel *channel,
-     version = drm_tegra_channel_get_version(channel);
- 
+@@ -144,6 +148,9 @@ int vic_new(struct drm_tegra *drm, struct drm_tegra_channel *channel,
      switch (version) {
--    default:
--        break;
-+    case 0x40:
-+        return vic30_new(drm, channel, vicp);
+     case 0x40:
+         return vic30_new(drm, channel, vicp);
++
++    case 0x21:
++        return vic40_new(drm, channel, vicp);
      }
  
      return -ENOTSUP;
-diff --git a/tests/tegra/vic30.c b/tests/tegra/vic30.c
+diff --git a/tests/tegra/vic40.c b/tests/tegra/vic40.c
 new file mode 100644
-index 000000000000..1bea6e7036f3
+index 000000000000..1a5d2af6b0b6
 --- /dev/null
-+++ b/tests/tegra/vic30.c
-@@ -0,0 +1,458 @@
++++ b/tests/tegra/vic40.c
+@@ -0,0 +1,370 @@
 +/*
 + * Copyright © 2018 NVIDIA Corporation
 + *
@@ -187,9 +163,9 @@ index 000000000000..1bea6e7036f3
 +#include "private.h"
 +#include "tegra.h"
 +#include "vic.h"
-+#include "vic30.h"
++#include "vic40.h"
 +
-+struct vic30 {
++struct vic40 {
 +    struct vic base;
 +
 +    struct {
@@ -208,13 +184,13 @@ index 000000000000..1bea6e7036f3
 +    } hist;
 +};
 +
-+static int vic30_fill(struct vic *v, struct vic_image *output,
++static int vic40_fill(struct vic *v, struct vic_image *output,
 +                      unsigned int left, unsigned int top,
 +                      unsigned int right, unsigned int bottom,
 +                      unsigned int alpha, unsigned int red,
 +                      unsigned int green, unsigned int blue)
 +{
-+    struct vic30 *vic = container_of(v, struct vic30, base);
++    struct vic40 *vic = container_of(v, struct vic40, base);
 +    ConfigStruct *c;
 +    int err;
 +
@@ -227,49 +203,36 @@ index 000000000000..1bea6e7036f3
 +
 +    memset(c, 0, sizeof(*c));
 +
-+    c->surfaceList0Struct.TargetRectLeft = left;
-+    c->surfaceList0Struct.TargetRectTop = top;
-+    c->surfaceList0Struct.TargetRectRight = right;
-+    c->surfaceList0Struct.TargetRectBottom = bottom;
++    c->outputConfig.TargetRectTop = top;
++    c->outputConfig.TargetRectLeft = left;
++    c->outputConfig.TargetRectRight = right;
++    c->outputConfig.TargetRectBottom = bottom;
++    c->outputConfig.BackgroundAlpha = alpha;
++    c->outputConfig.BackgroundR = red;
++    c->outputConfig.BackgroundG = green;
++    c->outputConfig.BackgroundB = blue;
 +
-+    c->blending0Struct.PixelFormat = output->format;
-+    c->blending0Struct.BackgroundAlpha = alpha;
-+    c->blending0Struct.BackgroundR = red;
-+    c->blending0Struct.BackgroundG = green;
-+    c->blending0Struct.BackgroundB = blue;
-+    c->blending0Struct.LumaWidth = output->stride - 1;
-+    c->blending0Struct.LumaHeight = output->height - 1;
-+    c->blending0Struct.ChromaWidth = 16383;
-+    c->blending0Struct.ChromaWidth = 16383;
-+    c->blending0Struct.TargetRectLeft = left;
-+    c->blending0Struct.TargetRectTop = top;
-+    c->blending0Struct.TargetRectRight = right;
-+    c->blending0Struct.TargetRectBottom = bottom;
-+    c->blending0Struct.SurfaceWidth = output->width - 1;
-+    c->blending0Struct.SurfaceHeight = output->height - 1;
-+    c->blending0Struct.BlkKind = output->kind;
-+    c->blending0Struct.BlkHeight = 0;
-+
-+    c->fetchControl0Struct.TargetRectLeft = left;
-+    c->fetchControl0Struct.TargetRectTop = top;
-+    c->fetchControl0Struct.TargetRectRight = right;
-+    c->fetchControl0Struct.TargetRectBottom = bottom;
++    c->outputSurfaceConfig.OutPixelFormat = output->format;
++    c->outputSurfaceConfig.OutBlkKind = output->kind;
++    c->outputSurfaceConfig.OutBlkHeight = 0;
++    c->outputSurfaceConfig.OutSurfaceWidth = output->width - 1;
++    c->outputSurfaceConfig.OutSurfaceHeight = output->height - 1;
++    c->outputSurfaceConfig.OutLumaWidth = output->stride - 1;
++    c->outputSurfaceConfig.OutLumaHeight = output->height - 1;
++    c->outputSurfaceConfig.OutChromaWidth = 16383;
++    c->outputSurfaceConfig.OutChromaHeight = 16383;
 +
 +    drm_tegra_bo_unmap(vic->config.bo);
 +
 +    return 0;
 +}
 +
-+static int vic30_blit(struct vic *v, struct vic_image *output,
++static int vic40_blit(struct vic *v, struct vic_image *output,
 +                      struct vic_image *input)
 +{
-+    struct vic30 *vic = container_of(v, struct vic30, base);
-+    ColorConversionLumaAlphaStruct *ccla;
-+    ColorConversionMatrixStruct *ccm;
-+    ColorConversionClampStruct *ccc;
-+    SurfaceListSurfaceStruct *s;
-+    BlendingSurfaceStruct *b;
-+    SurfaceCache0Struct *sc;
++    struct vic40 *vic = container_of(v, struct vic40, base);
++    SlotSurfaceConfig *surface;
++    SlotConfig *slot;
 +    ConfigStruct *c;
 +    int err;
 +
@@ -282,102 +245,63 @@ index 000000000000..1bea6e7036f3
 +
 +    memset(c, 0, sizeof(*c));
 +
-+    c->surfaceList0Struct.TargetRectLeft = 0;
-+    c->surfaceList0Struct.TargetRectTop = 0;
-+    c->surfaceList0Struct.TargetRectRight = output->width - 1;
-+    c->surfaceList0Struct.TargetRectBottom = output->height - 1;
++    c->outputConfig.TargetRectTop = 0;
++    c->outputConfig.TargetRectLeft = 0;
++    c->outputConfig.TargetRectRight = output->width - 1;
++    c->outputConfig.TargetRectBottom = output->height - 1;
++    c->outputConfig.BackgroundAlpha = 1023;
++    c->outputConfig.BackgroundR = 1023;
++    c->outputConfig.BackgroundG = 1023;
++    c->outputConfig.BackgroundB = 1023;
 +
-+    c->blending0Struct.PixelFormat = output->format;
-+    c->blending0Struct.BackgroundAlpha = 0;
-+    c->blending0Struct.BackgroundR = 0;
-+    c->blending0Struct.BackgroundG = 0;
-+    c->blending0Struct.BackgroundB = 0;
-+    c->blending0Struct.LumaWidth = output->stride - 1;
-+    c->blending0Struct.LumaHeight = output->height - 1;
-+    c->blending0Struct.ChromaWidth = 16383;
-+    c->blending0Struct.ChromaWidth = 16383;
-+    c->blending0Struct.TargetRectLeft = 0;
-+    c->blending0Struct.TargetRectTop = 0;
-+    c->blending0Struct.TargetRectRight = output->width - 1;
-+    c->blending0Struct.TargetRectBottom = output->height - 1;
-+    c->blending0Struct.SurfaceWidth = output->width - 1;
-+    c->blending0Struct.SurfaceHeight = output->height - 1;
-+    c->blending0Struct.BlkKind = output->kind;
-+    c->blending0Struct.BlkHeight = 0;
++    c->outputSurfaceConfig.OutPixelFormat = output->format;
++    c->outputSurfaceConfig.OutBlkKind = output->kind;
++    c->outputSurfaceConfig.OutBlkHeight = 0;
++    c->outputSurfaceConfig.OutSurfaceWidth = output->width - 1;
++    c->outputSurfaceConfig.OutSurfaceHeight = output->height - 1;
++    c->outputSurfaceConfig.OutLumaWidth = output->stride - 1;
++    c->outputSurfaceConfig.OutLumaHeight = output->height - 1;
++    c->outputSurfaceConfig.OutChromaWidth = 16383;
++    c->outputSurfaceConfig.OutChromaHeight = 16383;
 +
-+    c->fetchControl0Struct.TargetRectLeft = 0;
-+    c->fetchControl0Struct.TargetRectTop = 0;
-+    c->fetchControl0Struct.TargetRectRight = output->width - 1;
-+    c->fetchControl0Struct.TargetRectBottom = output->height - 1;
++    slot = &c->slotStruct[0].slotConfig;
++    slot->SlotEnable = 1;
++    slot->CurrentFieldEnable = 1;
++    slot->PlanarAlpha = 1023;
++    slot->ConstantAlpha = 1;
++    slot->SourceRectLeft = 0 << 16;
++    slot->SourceRectRight = (input->width - 1) << 16;
++    slot->SourceRectTop = 0 << 16;
++    slot->SourceRectBottom = (input->height - 1) << 16;
++    slot->DestRectLeft = 0;
++    slot->DestRectRight = output->width - 1;
++    slot->DestRectTop = 0;
++    slot->DestRectBottom = output->height - 1;
++    slot->SoftClampHigh = 1023;
 +
-+    /* setup fetch parameters for slot 0 */
-+    c->fetchControl0Struct.Enable0 = 0x1;
-+    c->fetchControl0Struct.Iir0 = 0x300;
-+
-+    /* setup cache parameters for slot 0 */
-+    sc = &c->surfaceCache0Struct;
-+    sc->PixelFormat0 = input->format;
-+
-+    /* setup surface configuration for slot 0 */
-+    s = &c->surfaceListSurfaceStruct[0];
-+    s->Enable = 1;
-+    s->FrameFormat = DXVAHD_FRAME_FORMAT_PROGRESSIVE;
-+    s->PixelFormat = input->format;
-+    s->SurfaceWidth = input->width - 1;
-+    s->SurfaceHeight = input->height - 1;
-+    s->LumaWidth = input->stride - 1;
-+    s->LumaHeight = input->height - 1;
-+    s->ChromaWidth = 16383;
-+    s->ChromaHeight = 16383;
-+    s->CacheWidth = VIC_CACHE_WIDTH_256Bx1; //VIC_CACHE_WIDTH_16Bx16;
-+    s->BlkKind = input->kind;
-+    s->BlkHeight = 0;
-+    s->DestRectLeft = 0;
-+    s->DestRectTop = 0;
-+    s->DestRectRight = output->width - 1;
-+    s->DestRectBottom = output->height - 1;
-+    s->SourceRectLeft = 0 << 16;
-+    s->SourceRectTop = 0 << 16;
-+    s->SourceRectRight = (input->width - 1) << 16;
-+    s->SourceRectBottom = (input->height - 1) << 16;
-+
-+    /* setup color conversion for slot 0 */
-+    ccla = &c->colorConversionLumaAlphaStruct[0];
-+    ccla->PlanarAlpha = 1023;
-+    ccla->ConstantAlpha = 0;
-+
-+    ccm = &c->colorConversionMatrixStruct[0];
-+    ccm->c00 = 1023;
-+    ccm->c11 = 1023;
-+    ccm->c22 = 1023;
-+
-+    ccc = &c->colorConversionClampStruct[0];
-+    ccc->low = 0;
-+    ccc->high = 1023;
-+
-+    /* setup blending for slot 0 */
-+    b = &c->blendingSurfaceStruct[0];
-+    b->AlphaK1 = 1023;
-+    b->SrcFactCMatchSelect = VIC_BLEND_SRCFACTC_K1;
-+    b->SrcFactAMatchSelect = VIC_BLEND_SRCFACTA_K1;
-+    b->DstFactCMatchSelect = VIC_BLEND_DSTFACTC_NEG_K1_TIMES_SRC;
-+    b->DstFactAMatchSelect = VIC_BLEND_DSTFACTA_NEG_K1_TIMES_SRC;
++    surface = &c->slotStruct[0].slotSurfaceConfig;
++    surface->SlotPixelFormat = input->format;
++    surface->SlotBlkKind = input->kind;
++    surface->SlotBlkHeight = 0; /* XXX */
++    surface->SlotCacheWidth = VIC_CACHE_WIDTH_64Bx4; /* XXX */
++    surface->SlotSurfaceWidth = input->width - 1;
++    surface->SlotSurfaceHeight = input->height - 1;
++    surface->SlotLumaWidth = input->stride - 1;
++    surface->SlotLumaHeight = input->height - 1;
++    surface->SlotChromaWidth = 16383;
++    surface->SlotChromaHeight = 16383;
 +
 +    drm_tegra_bo_unmap(vic->config.bo);
 +
 +    return 0;
 +}
 +
-+static int vic30_flip(struct vic *v, struct vic_image *output,
++static int vic40_flip(struct vic *v, struct vic_image *output,
 +                      struct vic_image *input)
 +{
-+    struct vic30 *vic = container_of(v, struct vic30, base);
-+    ColorConversionLumaAlphaStruct *ccla;
-+    ColorConversionMatrixStruct *ccm;
-+    ColorConversionClampStruct *ccc;
-+    SurfaceListSurfaceStruct *s;
-+    BlendingSurfaceStruct *b;
-+    SurfaceCache0Struct *sc;
++    struct vic40 *vic = container_of(v, struct vic40, base);
++    SlotSurfaceConfig *surface;
++    SlotConfig *slot;
 +    ConfigStruct *c;
 +    int err;
 +
@@ -390,120 +314,84 @@ index 000000000000..1bea6e7036f3
 +
 +    memset(c, 0, sizeof(*c));
 +
-+    c->surfaceList0Struct.TargetRectLeft = 0;
-+    c->surfaceList0Struct.TargetRectTop = 0;
-+    c->surfaceList0Struct.TargetRectRight = output->width - 1;
-+    c->surfaceList0Struct.TargetRectBottom = output->height - 1;
++    c->outputConfig.TargetRectTop = 0;
++    c->outputConfig.TargetRectLeft = 0;
++    c->outputConfig.TargetRectRight = output->width - 1;
++    c->outputConfig.TargetRectBottom = output->height - 1;
++    c->outputConfig.BackgroundAlpha = 1023;
++    c->outputConfig.BackgroundR = 1023;
++    c->outputConfig.BackgroundG = 1023;
++    c->outputConfig.BackgroundB = 1023;
++    c->outputConfig.OutputFlipY = 1;
 +
-+    c->blending0Struct.PixelFormat = output->format;
-+    c->blending0Struct.BackgroundAlpha = 0;
-+    c->blending0Struct.BackgroundR = 0;
-+    c->blending0Struct.BackgroundG = 0;
-+    c->blending0Struct.BackgroundB = 0;
-+    c->blending0Struct.LumaWidth = output->stride - 1;
-+    c->blending0Struct.LumaHeight = output->height - 1;
-+    c->blending0Struct.ChromaWidth = 16383;
-+    c->blending0Struct.ChromaWidth = 16383;
-+    c->blending0Struct.TargetRectLeft = 0;
-+    c->blending0Struct.TargetRectTop = 0;
-+    c->blending0Struct.TargetRectRight = output->width - 1;
-+    c->blending0Struct.TargetRectBottom = output->height - 1;
-+    c->blending0Struct.SurfaceWidth = output->width - 1;
-+    c->blending0Struct.SurfaceHeight = output->height - 1;
-+    c->blending0Struct.BlkKind = output->kind;
-+    c->blending0Struct.BlkHeight = 0;
-+    c->blending0Struct.OutputFlipY = 1;
++    c->outputSurfaceConfig.OutPixelFormat = output->format;
++    c->outputSurfaceConfig.OutBlkKind = output->kind;
++    c->outputSurfaceConfig.OutBlkHeight = 0;
++    c->outputSurfaceConfig.OutSurfaceWidth = output->width - 1;
++    c->outputSurfaceConfig.OutSurfaceHeight = output->height - 1;
++    c->outputSurfaceConfig.OutLumaWidth = output->stride - 1;
++    c->outputSurfaceConfig.OutLumaHeight = output->height - 1;
++    c->outputSurfaceConfig.OutChromaWidth = 16383;
++    c->outputSurfaceConfig.OutChromaHeight = 16383;
 +
-+    c->fetchControl0Struct.TargetRectLeft = 0;
-+    c->fetchControl0Struct.TargetRectTop = 0;
-+    c->fetchControl0Struct.TargetRectRight = output->width - 1;
-+    c->fetchControl0Struct.TargetRectBottom = output->height - 1;
++    slot = &c->slotStruct[0].slotConfig;
++    slot->SlotEnable = 1;
++    slot->CurrentFieldEnable = 1;
++    slot->PlanarAlpha = 1023;
++    slot->ConstantAlpha = 1;
++    slot->SourceRectLeft = 0 << 16;
++    slot->SourceRectRight = (input->width - 1) << 16;
++    slot->SourceRectTop = 0 << 16;
++    slot->SourceRectBottom = (input->height - 1) << 16;
++    slot->DestRectLeft = 0;
++    slot->DestRectRight = output->width - 1;
++    slot->DestRectTop = 0;
++    slot->DestRectBottom = output->height - 1;
++    slot->SoftClampHigh = 1023;
 +
-+    /* setup fetch parameters for slot 0 */
-+    c->fetchControl0Struct.Enable0 = 0x1;
-+    c->fetchControl0Struct.Iir0 = 0x300;
-+
-+    /* setup cache parameters for slot 0 */
-+    sc = &c->surfaceCache0Struct;
-+    sc->PixelFormat0 = input->format;
-+
-+    /* setup surface configuration for slot 0 */
-+    s = &c->surfaceListSurfaceStruct[0];
-+    s->Enable = 1;
-+    s->FrameFormat = DXVAHD_FRAME_FORMAT_PROGRESSIVE;
-+    s->PixelFormat = input->format;
-+    s->SurfaceWidth = input->width - 1;
-+    s->SurfaceHeight = input->height - 1;
-+    s->LumaWidth = input->stride - 1;
-+    s->LumaHeight = input->height - 1;
-+    s->ChromaWidth = 16383;
-+    s->ChromaHeight = 16383;
-+    s->CacheWidth = VIC_CACHE_WIDTH_256Bx1;
-+    s->BlkKind = input->kind;
-+    s->BlkHeight = 0;
-+    s->DestRectLeft = 0;
-+    s->DestRectTop = 0;
-+    s->DestRectRight = output->width - 1;
-+    s->DestRectBottom = output->height - 1;
-+    s->SourceRectLeft = 0 << 16;
-+    s->SourceRectTop = 0 << 16;
-+    s->SourceRectRight = (input->width - 1) << 16;
-+    s->SourceRectBottom = (input->height - 1) << 16;
-+
-+    /* setup color conversion for slot 0 */
-+    ccla = &c->colorConversionLumaAlphaStruct[0];
-+    ccla->PlanarAlpha = 1023;
-+    ccla->ConstantAlpha = 0;
-+
-+    ccm = &c->colorConversionMatrixStruct[0];
-+    ccm->c00 = 1023;
-+    ccm->c11 = 1023;
-+    ccm->c22 = 1023;
-+
-+    ccc = &c->colorConversionClampStruct[0];
-+    ccc->low = 0;
-+    ccc->high = 1023;
-+
-+    /* setup blending for slot 0 */
-+    b = &c->blendingSurfaceStruct[0];
-+    b->AlphaK1 = 1023;
-+    b->SrcFactCMatchSelect = VIC_BLEND_SRCFACTC_K1;
-+    b->SrcFactAMatchSelect = VIC_BLEND_SRCFACTA_K1;
-+    b->DstFactCMatchSelect = VIC_BLEND_DSTFACTC_NEG_K1_TIMES_SRC;
-+    b->DstFactAMatchSelect = VIC_BLEND_DSTFACTA_NEG_K1_TIMES_SRC;
++    surface = &c->slotStruct[0].slotSurfaceConfig;
++    surface->SlotPixelFormat = input->format;
++    surface->SlotBlkKind = input->kind;
++    surface->SlotBlkHeight = 0; /* XXX */
++    surface->SlotCacheWidth = VIC_CACHE_WIDTH_64Bx4; /* XXX */
++    surface->SlotSurfaceWidth = input->width - 1;
++    surface->SlotSurfaceHeight = input->height - 1;
++    surface->SlotLumaWidth = input->stride - 1;
++    surface->SlotLumaHeight = input->height - 1;
++    surface->SlotChromaWidth = 16383;
++    surface->SlotChromaHeight = 16383;
 +
 +    drm_tegra_bo_unmap(vic->config.bo);
 +
 +    return 0;
 +}
 +
-+static int vic30_execute(struct vic *v, struct drm_tegra_pushbuf *pushbuf,
++static int vic40_execute(struct vic *v, struct drm_tegra_pushbuf *pushbuf,
 +                         uint32_t **ptrp, struct vic_image *output,
 +                         struct vic_image **inputs, unsigned int num_inputs)
 +{
-+    struct vic30 *vic = container_of(v, struct vic30, base);
++    struct vic40 *vic = container_of(v, struct vic40, base);
 +    unsigned int i;
 +
 +    if (num_inputs > 1)
 +        return -EINVAL;
 +
-+    VIC_PUSH_METHOD(pushbuf, ptrp, NVA0B6_VIDEO_COMPOSITOR_SET_APPLICATION_ID, 1);
-+    VIC_PUSH_METHOD(pushbuf, ptrp, NVA0B6_VIDEO_COMPOSITOR_SET_CONTROL_PARAMS, (sizeof(ConfigStruct) / 16) << 16);
-+    VIC_PUSH_BUFFER(pushbuf, ptrp, NVA0B6_VIDEO_COMPOSITOR_SET_CONFIG_STRUCT_OFFSET, vic->config.map, 0, 0);
-+    VIC_PUSH_BUFFER(pushbuf, ptrp, NVA0B6_VIDEO_COMPOSITOR_SET_HIST_OFFSET, vic->hist.map, 0, 0);
-+    VIC_PUSH_BUFFER(pushbuf, ptrp, NVA0B6_VIDEO_COMPOSITOR_SET_OUTPUT_SURFACE_LUMA_OFFSET, output->map, 0, 0);
++    VIC_PUSH_METHOD(pushbuf, ptrp, NVB0B6_VIDEO_COMPOSITOR_SET_APPLICATION_ID, 1);
++    VIC_PUSH_METHOD(pushbuf, ptrp, NVB0B6_VIDEO_COMPOSITOR_SET_CONTROL_PARAMS, (sizeof(ConfigStruct) / 16) << 16);
++    VIC_PUSH_BUFFER(pushbuf, ptrp, NVB0B6_VIDEO_COMPOSITOR_SET_CONFIG_STRUCT_OFFSET, vic->config.map, 0, 0);
++    VIC_PUSH_BUFFER(pushbuf, ptrp, NVB0B6_VIDEO_COMPOSITOR_SET_OUTPUT_SURFACE_LUMA_OFFSET, output->map, 0, 0);
 +
 +    for (i = 0; i < num_inputs; i++)
-+        VIC_PUSH_BUFFER(pushbuf, ptrp, NVA0B6_VIDEO_COMPOSITOR_SET_SURFACE0_SLOT0_LUMA_OFFSET, inputs[i]->map, 0, 0);
++        VIC_PUSH_BUFFER(pushbuf, ptrp, NVB0B6_VIDEO_COMPOSITOR_SET_SURFACE0_SLOT0_LUMA_OFFSET, inputs[i]->map, 0, 0);
 +
-+    VIC_PUSH_METHOD(pushbuf, ptrp, NVA0B6_VIDEO_COMPOSITOR_EXECUTE, 1 << 8);
++    VIC_PUSH_METHOD(pushbuf, ptrp, NVB0B6_VIDEO_COMPOSITOR_EXECUTE, 1 << 8);
 +
 +    return 0;
 +}
 +
-+static void vic30_free(struct vic *v)
++static void vic40_free(struct vic *v)
 +{
-+    struct vic30 *vic = container_of(v, struct vic30, base);
++    struct vic40 *vic = container_of(v, struct vic40, base);
 +
 +    drm_tegra_channel_unmap(vic->hist.map);
 +    drm_tegra_bo_unref(vic->hist.bo);
@@ -519,18 +407,18 @@ index 000000000000..1bea6e7036f3
 +    free(vic);
 +}
 +
-+static const struct vic_ops vic30_ops = {
-+    .fill = vic30_fill,
-+    .blit = vic30_blit,
-+    .flip = vic30_flip,
-+    .execute = vic30_execute,
-+    .free = vic30_free,
++static const struct vic_ops vic40_ops = {
++    .fill = vic40_fill,
++    .blit = vic40_blit,
++    .flip = vic40_flip,
++    .execute = vic40_execute,
++    .free = vic40_free,
 +};
 +
-+int vic30_new(struct drm_tegra *drm, struct drm_tegra_channel *channel,
++int vic40_new(struct drm_tegra *drm, struct drm_tegra_channel *channel,
 +              struct vic **vicp)
 +{
-+    struct vic30 *vic;
++    struct vic40 *vic;
 +    void *ptr;
 +    int err;
 +
@@ -540,8 +428,8 @@ index 000000000000..1bea6e7036f3
 +
 +    vic->base.drm = drm;
 +    vic->base.channel = channel;
-+    vic->base.ops = &vic30_ops;
-+    vic->base.version = 0x40;
++    vic->base.ops = &vic40_ops;
++    vic->base.version = 0x21;
 +
 +    err = drm_tegra_syncpoint_new(drm, &vic->base.syncpt);
 +    if (err < 0) {
@@ -551,7 +439,7 @@ index 000000000000..1bea6e7036f3
 +
 +    err = drm_tegra_bo_new(drm, 0, 16384, &vic->config.bo);
 +    if (err < 0) {
-+        fprintf(stderr, "failed to allocate configuration structure: %s\n",
++        fprintf(stderr, "failed to allocate configuration structurer: %s\n",
 +                strerror(-err));
 +        return err;
 +    }
@@ -617,14 +505,14 @@ index 000000000000..1bea6e7036f3
 +
 +    return 0;
 +}
-diff --git a/tests/tegra/vic30.h b/tests/tegra/vic30.h
+diff --git a/tests/tegra/vic40.h b/tests/tegra/vic40.h
 new file mode 100644
-index 000000000000..d095c0d229f2
+index 000000000000..a62301a8a94c
 --- /dev/null
-+++ b/tests/tegra/vic30.h
-@@ -0,0 +1,439 @@
++++ b/tests/tegra/vic40.h
+@@ -0,0 +1,285 @@
 +/*
-+ * Copyright © 2018 NVIDIA Corporation
++ * Copyright © 2016-2018 NVIDIA Corporation
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a
 + * copy of this software and associated documentation files (the "Software"),
@@ -645,117 +533,144 @@ index 000000000000..d095c0d229f2
 + * OTHER DEALINGS IN THE SOFTWARE.
 + */
 +
-+#ifndef VIC30_H
-+#define VIC30_H
++#ifndef VIC40_H
++#define VIC40_H
 +
 +#include <stdint.h>
 +
-+#define NVA0B6_VIDEO_COMPOSITOR_SET_APPLICATION_ID 0x200
-+#define NVA0B6_VIDEO_COMPOSITOR_EXECUTE 0x300
-+#define NVA0B6_VIDEO_COMPOSITOR_EXECUTE_AWAKEN (1 << 8)
-+#define NVA0B6_VIDEO_COMPOSITOR_SET_SURFACE0_SLOT0_LUMA_OFFSET 0x400
-+#define NVA0B6_VIDEO_COMPOSITOR_SET_SURFACE0_SLOT0_CHROMA_U_OFFSET 0x404
-+#define NVA0B6_VIDEO_COMPOSITOR_SET_SURFACE0_SLOT0_CHROMA_V_OFFSET 0x408
-+#define NVA0B6_VIDEO_COMPOSITOR_SET_CONTROL_PARAMS 0x700
-+#define NVA0B6_VIDEO_COMPOSITOR_SET_CONFIG_STRUCT_OFFSET 0x720
-+#define NVA0B6_VIDEO_COMPOSITOR_SET_PALETTE_OFFSET 0x724
-+#define NVA0B6_VIDEO_COMPOSITOR_SET_HIST_OFFSET 0x728
-+#define NVA0B6_VIDEO_COMPOSITOR_SET_OUTPUT_SURFACE_LUMA_OFFSET 0x730
-+#define NVA0B6_VIDEO_COMPOSITOR_SET_OUTPUT_SURFACE_CHROMA_U_OFFSET 0x734
-+#define NVA0B6_VIDEO_COMPOSITOR_SET_OUTPUT_SURFACE_CHROMA_V_OFFSET 0x738
-+
-+#define VIC_PIXEL_FORMAT_L8 1
-+#define VIC_PIXEL_FORMAT_R8 4
-+#define VIC_PIXEL_FORMAT_A8R8G8B8 32
-+#define VIC_PIXEL_FORMAT_R8G8B8A8 34
-+#define VIC_PIXEL_FORMAT_Y8_U8V8_N420 67
-+#define VIC_PIXEL_FORMAT_Y8_V8U8_N420 68
-+
-+#define VIC_BLK_KIND_PITCH 0
-+#define VIC_BLK_KIND_GENERIC_16Bx2 1
++#define NVB0B6_VIDEO_COMPOSITOR_SET_APPLICATION_ID 0x00000200
++#define NVB0B6_VIDEO_COMPOSITOR_EXECUTE 0x00000300
++#define NVB0B6_VIDEO_COMPOSITOR_SET_SURFACE0_SLOT0_LUMA_OFFSET 0x00000400
++#define NVB0B6_VIDEO_COMPOSITOR_SET_SURFACE0_SLOT0_CHROMA_U_OFFSET 0x00000404
++#define NVB0B6_VIDEO_COMPOSITOR_SET_SURFACE0_SLOT0_CHROMA_V_OFFSET 0x00000408
++#define NVB0B6_VIDEO_COMPOSITOR_SET_CONTROL_PARAMS 0x00000704
++#define NVB0B6_VIDEO_COMPOSITOR_SET_CONFIG_STRUCT_OFFSET 0x00000708
++#define NVB0B6_VIDEO_COMPOSITOR_SET_HIST_OFFSET 0x00000714
++#define NVB0B6_VIDEO_COMPOSITOR_SET_OUTPUT_SURFACE_LUMA_OFFSET 0x00000720
 +
 +typedef struct {
-+    uint64_t DeNoise0 : 1; /* 0 */
-+    uint64_t CadenceDetect0 : 1; /* 1 */
-+    uint64_t MotionMap0 : 1; /* 2 */
-+    uint64_t MedianFilter0 : 1; /* 3 */
-+    uint64_t DeNoise1 : 1; /* 4 */
-+    uint64_t CadenceDetect1 : 1; /* 5 */
-+    uint64_t MotionMap1 : 1; /* 6 */
-+    uint64_t MedianFilter1 : 1; /* 7 */
-+    uint64_t DeNoise2 : 1; /* 8 */
-+    uint64_t CadenceDetect2 : 1; /* 9 */
-+    uint64_t MotionMap2 : 1; /* 10 */
-+    uint64_t MedianFilter2 : 1; /* 11 */
-+    uint64_t DeNoise3 : 1; /* 12 */
-+    uint64_t CadenceDetect3 : 1; /* 13 */
-+    uint64_t MotionMap3 : 1; /* 14 */
-+    uint64_t MedianFilter3 : 1; /* 15 */
-+    uint64_t DeNoise4 : 1; /* 16 */
-+    uint64_t CadenceDetect4 : 1; /* 17 */
-+    uint64_t MotionMap4 : 1; /* 18 */
-+    uint64_t MedianFilter4 : 1; /* 19 */
-+    uint64_t IsEven0 : 1; /* 20 */
-+    uint64_t IsEven1 : 1; /* 21 */
-+    uint64_t IsEven2 : 1; /* 22 */
-+    uint64_t IsEven3 : 1; /* 23 */
-+    uint64_t IsEven4 : 1; /* 24 */
-+    uint64_t MMapCombine0 : 1; /* 25 */
-+    uint64_t MMapCombine1 : 1; /* 26 */
-+    uint64_t MMapCombine2 : 1; /* 27 */
-+    uint64_t MMapCombine3 : 1; /* 28 */
-+    uint64_t MMapCombine4 : 1; /* 29 */
-+    uint64_t reserved0 : 2; /* 31..30 */
-+    uint64_t PixelFormat0 : 7; /* 38..32 */
-+    uint64_t reserved1 : 1; /* 39 */
-+    uint64_t PixelFormat1 : 7; /* 46..40 */
-+    uint64_t reserved2 : 1; /* 47 */
-+    uint64_t PixelFormat2 : 7; /* 54..48 */
-+    uint64_t reserved3 : 1; /* 55 */
-+    uint64_t PixelFormat3 : 7; /* 62..56 */
-+    uint64_t reserved4 : 1; /* 63 */
-+    uint64_t PixelFormat4 : 7; /* 70..64 */
-+    uint64_t reserved5 : 1; /* 71 */
-+    uint64_t reserved6 : 24; /* 95..72 */
-+    uint64_t PPMotion0 : 1; /* 96 */
-+    uint64_t PPMotion1 : 1; /* 97 */
-+    uint64_t PPMotion2 : 1; /* 98 */
-+    uint64_t PPMotion3 : 1; /* 99 */
-+    uint64_t PPMotion4 : 1; /* 100 */
-+    uint64_t reserved7 : 3; /* 103..101 */
-+    uint64_t ChromaEven0 : 1; /* 104 */
-+    uint64_t ChromaEven1 : 1; /* 105 */
-+    uint64_t ChromaEven2 : 1; /* 106 */
-+    uint64_t ChromaEven3 : 1; /* 107 */
-+    uint64_t ChromaEven4 : 1; /* 108 */
-+    uint64_t reserved8 : 3; /* 111..109 */
-+    uint64_t AdvancedDenoise0 : 1; /* 112 */
-+    uint64_t AdvancedDenoise1 : 1; /* 113 */
-+    uint64_t AdvancedDenoise2 : 1; /* 114 */
-+    uint64_t AdvancedDenoise3 : 1; /* 115 */
-+    uint64_t AdvancedDenoise4 : 1; /* 116 */
-+    uint64_t reserved9 : 3; /* 119..117 */
-+    uint64_t reserved10 : 8; /* 127..120 */
-+} SurfaceCache0Struct;
-+
-+typedef struct {
-+    uint64_t ClearRectMask0 : 8; /* 7..0 */
-+    uint64_t ClearRectMask1 : 8; /* 15..8 */
-+    uint64_t ClearRectMask2 : 8; /* 23..16 */
-+    uint64_t ClearRectMask3 : 8; /* 31..24 */
-+    uint64_t ClearRectMask4 : 8; /* 39..32 */
-+    uint64_t reserved0 : 22; /* 61..40 */
-+    uint64_t OutputFlipX : 1; /* 62 */
-+    uint64_t OutputFlipY : 1; /* 63 */
-+    uint64_t TargetRectLeft : 14; /* 77..64 */
-+    uint64_t reserved1 : 2; /* 79..78 */
-+    uint64_t TargetRectRight : 14; /* 93..80 */
-+    uint64_t reserved2 : 2; /* 95..94 */
-+    uint64_t TargetRectTop : 14; /* 109..96 */
-+    uint64_t reserved3 : 2; /* 111..110 */
-+    uint64_t TargetRectBottom : 14; /* 125..112 */
++    uint64_t SlotEnable : 1; /* 0 */
++    uint64_t DeNoise : 1; /* 1 */
++    uint64_t AdvancedDenoise : 1; /* 2 */
++    uint64_t CadenceDetect : 1; /* 3 */
++    uint64_t MotionMap : 1; /* 4 */
++    uint64_t MMapCombine : 1; /* 5 */
++    uint64_t IsEven : 1; /* 6 */
++    uint64_t ChromaEven : 1; /* 7 */
++    uint64_t CurrentFieldEnable : 1; /* 8 */
++    uint64_t PrevFieldEnable : 1; /* 9 */
++    uint64_t NextFieldEnable : 1; /* 10 */
++    uint64_t NextNrFieldEnable : 1; /* 11 */
++    uint64_t CurMotionFieldEnable : 1; /* 12 */
++    uint64_t PrevMotionFieldEnable : 1; /* 13 */
++    uint64_t PpMotionFieldEnable : 1; /* 14 */
++    uint64_t CombMotionFieldEnable : 1; /* 15 */
++    uint64_t FrameFormat : 4; /* 19..16 */
++    uint64_t FilterLengthY : 2; /* 21..20 */
++    uint64_t FilterLengthX : 2; /* 23..22 */
++    uint64_t Panoramic : 12; /* 35..24 */
++    uint64_t reserved1 : 22; /* 57..36 */
++    uint64_t DetailFltClamp : 6; /* 63..58 */
++    uint64_t FilterNoise : 10; /* 73..64 */
++    uint64_t FilterDetail : 10; /* 83..74 */
++    uint64_t ChromaNoise : 10; /* 93..84 */
++    uint64_t ChromaDetail : 10; /* 103..94 */
++    uint64_t DeinterlaceMode : 4; /* 107..104 */
++    uint64_t MotionAccumWeight : 3; /* 110..108 */
++    uint64_t NoiseIir : 11; /* 121..111 */
++    uint64_t LightLevel : 4; /* 125..122 */
 +    uint64_t reserved4 : 2; /* 127..126 */
-+} SurfaceList0Struct;
++    /* 128 */
++    uint64_t SoftClampLow : 10; /* 9..0 */
++    uint64_t SoftClampHigh : 10; /* 19..10 */
++    uint64_t reserved5 : 3; /* 22..20 */
++    uint64_t reserved6 : 9; /* 31..23 */
++    uint64_t PlanarAlpha : 10; /* 41..32 */
++    uint64_t ConstantAlpha : 1; /* 42 */
++    uint64_t StereoInterleave : 3; /* 45..43 */
++    uint64_t ClipEnabled : 1; /* 46 */
++    uint64_t ClearRectMask : 8; /* 54..47 */
++    uint64_t DegammaMode : 2; /* 56..55 */
++    uint64_t reserved7 : 1; /* 57 */
++    uint64_t DecompressEnable : 1; /* 58 */
++    uint64_t reserved9 : 5; /* 63..59 */
++    uint64_t DecompressCtbCount : 8; /* 71..64 */
++    uint64_t DecompressZbcColor : 32; /* 103..72 */
++    uint64_t reserved12 : 24; /* 127..104 */
++    /* 256 */
++    uint64_t SourceRectLeft : 30; /* 29..0 */
++    uint64_t reserved14 : 2; /* 31..30 */
++    uint64_t SourceRectRight : 30; /* 61..32 */
++    uint64_t reserved15 : 2; /* 63..62 */
++    uint64_t SourceRectTop : 30; /* 93..64 */
++    uint64_t reserved16 : 2; /* 95..94 */
++    uint64_t SourceRectBottom : 30; /* 125..96 */
++    uint64_t reserved17 : 2; /* 127..126 */
++    /* 384 */
++    uint64_t DestRectLeft : 14; /* 13..0 */
++    uint64_t reserved18 : 2; /* 15..14 */
++    uint64_t DestRectRight : 14; /* 29..16 */
++    uint64_t reserved19 : 2; /* 31..30 */
++    uint64_t DestRectTop : 14; /* 45..32 */
++    uint64_t reserved20 : 2; /* 47..46 */
++    uint64_t DestRectBottom : 14; /* 61..48 */
++    uint64_t reserved21 : 2; /* 63..62 */
++    uint64_t reserved22 : 32; /* 95..64 */
++    uint64_t reserved23 : 32; /* 127..96 */
++} SlotConfig;
++
++typedef struct {
++    uint64_t SlotPixelFormat : 7; /* 6..0 */
++    uint64_t SlotChromaLocHoriz : 2; /* 8..7 */
++    uint64_t SlotChromaLocVert : 2; /* 10..9 */
++    uint64_t SlotBlkKind : 4; /* 14..11 */
++    uint64_t SlotBlkHeight : 4; /* 18..15 */
++    uint64_t SlotCacheWidth : 3; /* 21..19 */
++    uint64_t reserved0 : 10; /* 31..22 */
++    uint64_t SlotSurfaceWidth : 14; /* 45..32 */
++    uint64_t SlotSurfaceHeight : 14; /* 59..46 */
++    uint64_t reserved1 : 4; /* 63..60 */
++    uint64_t SlotLumaWidth : 14; /* 77..64 */
++    uint64_t SlotLumaHeight : 14; /* 91..78 */
++    uint64_t reserved2 : 4; /* 95..92 */
++    uint64_t SlotChromaWidth : 14; /* 109..96 */
++    uint64_t SlotChromaHeight : 14; /* 123..110 */
++    uint64_t reserved3 : 4; /* 127..124 */
++} SlotSurfaceConfig;
++
++typedef struct {
++    uint64_t luma_coeff0 : 20; /* 19..0 */
++    uint64_t luma_coeff1 : 20; /* 39..20 */
++    uint64_t luma_coeff2 : 20; /* 59..40 */
++    uint64_t luma_r_shift : 4; /* 63..60 */
++    uint64_t luma_coeff3 : 20; /* 83..64 */
++    uint64_t LumaKeyLower : 10; /* 93..84 */
++    uint64_t LumaKeyUpper : 10; /* 103..94 */
++    uint64_t LumaKeyEnabled : 1; /* 104 */
++    uint64_t reserved0 : 2; /* 106..105 */
++    uint64_t reserved1 : 21; /* 127..107 */
++} LumaKeyStruct;
++
++typedef struct {
++    uint64_t matrix_coeff00 : 20; /* 19..0 */
++    uint64_t matrix_coeff10 : 20; /* 39..20 */
++    uint64_t matrix_coeff20 : 20; /* 59..40 */
++    uint64_t matrix_r_shift : 4; /* 63..60 */
++    uint64_t matrix_coeff01 : 20; /* 83..64 */
++    uint64_t matrix_coeff11 : 20; /* 103..84 */
++    uint64_t matrix_coeff21 : 20; /* 123..104 */
++    uint64_t reserved0 : 3; /* 126..124 */
++    uint64_t matrix_enable : 1; /* 127 */
++    /* 128 */
++    uint64_t matrix_coeff02 : 20; /* 19..0 */
++    uint64_t matrix_coeff12 : 20; /* 39..20 */
++    uint64_t matrix_coeff22 : 20; /* 59..40 */
++    uint64_t reserved1 : 4; /* 63..60 */
++    uint64_t matrix_coeff03 : 20; /* 83..64 */
++    uint64_t matrix_coeff13 : 20; /* 103..84 */
++    uint64_t matrix_coeff23 : 20; /* 123..104 */
++    uint64_t reserved2 : 4; /* 127..124 */
++} MatrixStruct;
 +
 +typedef struct {
 +    uint64_t ClearRect0Left : 14; /* 13..0 */
@@ -774,150 +689,7 @@ index 000000000000..d095c0d229f2
 +    uint64_t reserved6 : 2; /* 111..110 */
 +    uint64_t ClearRect1Bottom : 14; /* 125..112 */
 +    uint64_t reserved7 : 2; /* 127..126 */
-+} SurfaceListClearRectStruct;
-+
-+typedef struct {
-+    uint64_t Enable : 1; /* 0 */
-+    uint64_t FrameFormat : 4; /* 4..1 */
-+    uint64_t PixelFormat : 7; /* 11..5 */
-+    uint64_t reserved0 : 2; /* 13..12 */
-+    uint64_t ChromaLocHoriz : 2; /* 15..14 */
-+    uint64_t ChromaLocVert : 2; /* 17..16 */
-+    uint64_t Panoramic : 12; /* 29..18 */
-+    uint64_t reserved1 : 4; /* 33..30 */
-+    uint64_t SurfaceWidth : 14; /* 47..34 */
-+    uint64_t reserved2 : 1; /* 48 */
-+    uint64_t SurfaceHeight : 14; /* 62..49 */
-+    uint64_t reserved3 : 1; /* 63 */
-+    uint64_t LumaWidth : 14; /* 77..64 */
-+    uint64_t reserved4 : 1; /* 78 */
-+    uint64_t LumaHeight : 14; /* 92..79 */
-+    uint64_t reserved5 : 1; /* 93 */
-+    uint64_t ChromaWidth : 14; /* 107..94 */
-+    uint64_t reserved6 : 1; /* 108 */
-+    uint64_t ChromaHeight : 14; /* 122..109 */
-+    uint64_t reserved7 : 1; /* 123 */
-+    uint64_t CacheWidth : 3; /* 126..124 */
-+    uint64_t reserved8 : 1; /* 127 */
-+    /* 128 */
-+    uint64_t FilterLengthY : 2; /* 1..0 */
-+    uint64_t FilterLengthX : 2; /* 3..2 */
-+    uint64_t DetailFltClamp : 6; /* 9..4 */
-+    uint64_t reserved9 : 2; /* 11..10 */
-+    uint64_t LightLevel : 4; /* 15..12 */
-+    uint64_t reserved10 : 4; /* 19..16 */
-+    uint64_t reserved11 : 8; /* 27..20 */
-+    uint64_t reserved12 : 32; /* 59..28 */
-+    uint64_t BlkKind : 4; /* 63..60 */
-+    uint64_t DestRectLeft : 14; /* 77..64 */
-+    uint64_t reserved13 : 1; /* 78 */
-+    uint64_t DestRectRight : 14; /* 92..79 */
-+    uint64_t reserved14 : 1; /* 93 */
-+    uint64_t DestRectTop : 14; /* 107..94 */
-+    uint64_t reserved15 : 1; /* 108 */
-+    uint64_t DestRectBottom : 14; /* 122..109 */
-+    uint64_t reserved16 : 1; /* 123 */
-+    uint64_t BlkHeight : 4; /* 127..124 */
-+    /* 256 */
-+    uint64_t SourceRectLeft : 30; /* 29..0 */
-+    uint64_t reserved17 : 2; /* 31..30 */
-+    uint64_t SourceRectRight : 30; /* 61..32 */
-+    uint64_t reserved18 : 2; /* 63..62 */
-+    uint64_t SourceRectTop : 30; /* 93..64 */
-+    uint64_t reserved19 : 2; /* 95..94 */
-+    uint64_t SourceRectBottom : 30; /* 125..96 */
-+    uint64_t reserved20 : 2; /* 127..126 */
-+} SurfaceListSurfaceStruct;
-+
-+typedef struct {
-+    uint64_t l0 : 20; /* 19..0 */
-+    uint64_t l1 : 20; /* 39..20 */
-+    uint64_t l2 : 20; /* 59..40 */
-+    uint64_t r_shift : 4; /* 63..60 */
-+    uint64_t l3 : 20; /* 83..64 */
-+    uint64_t PlanarAlpha : 10; /* 93..84 */
-+    uint64_t ConstantAlpha : 1; /* 94 */
-+    uint64_t ClipEnabled : 1; /* 95 */
-+    uint64_t LumaKeyLower : 10; /* 105..96 */
-+    uint64_t reserved6 : 3; /* 108..106 */
-+    uint64_t StereoInterleave : 3; /* 111..109 */
-+    uint64_t LumaKeyUpper : 10; /* 121..112 */
-+    uint64_t reserved7 : 2; /* 123..122 */
-+    uint64_t reserved8 : 1; /* 124 */
-+    uint64_t LumaKeyEnabled : 1; /* 125 */
-+    uint64_t reserved9 : 2; /* 127..126 */
-+} ColorConversionLumaAlphaStruct;
-+
-+typedef struct {
-+    uint64_t c00 : 20; /* 19..0 */
-+    uint64_t c10 : 20; /* 39..20 */
-+    uint64_t c20 : 20; /* 59..40 */
-+    uint64_t r_shift : 4; /* 63..60 */
-+    uint64_t c01 : 20; /* 83..64 */
-+    uint64_t c11 : 20; /* 103..84 */
-+    uint64_t c21 : 20; /* 123..104 */
-+    uint64_t reserved0 : 4; /* 127..124 */
-+    /* 128 */
-+    uint64_t c02 : 20; /* 19..0 */
-+    uint64_t c12 : 20; /* 39..20 */
-+    uint64_t c22 : 20; /* 59..40 */
-+    uint64_t reserved1 : 4; /* 63..60 */
-+    uint64_t c03 : 20; /* 83..64 */
-+    uint64_t c13 : 20; /* 103..84 */
-+    uint64_t c23 : 20; /* 123..104 */
-+    uint64_t reserved2 : 4; /* 127..124 */
-+} ColorConversionMatrixStruct;
-+
-+typedef struct {
-+    uint64_t low : 10; /* 9..0 */
-+    uint64_t reserved0 : 6; /* 15..10 */
-+    uint64_t high : 10; /* 25..16 */
-+    uint64_t reserved1 : 6; /* 31..26 */
-+    uint64_t reserved2 : 32; /* 63..32 */
-+    uint64_t reserved3 : 32; /* 95..64 */
-+    uint64_t reserved4 : 32; /* 127..96 */
-+} ColorConversionClampStruct;
-+
-+typedef struct {
-+    uint64_t PixelFormat : 7; /* 6..0 */
-+    uint64_t reserved0 : 1; /* 7 */
-+    uint64_t AlphaFillMode : 3; /* 10..8 */
-+    uint64_t AlphaFillSlot : 3; /* 13..11 */
-+    uint64_t BackgroundAlpha : 10; /* 23..14 */
-+    uint64_t BackgroundR : 10; /* 33..24 */
-+    uint64_t BackgroundG : 10; /* 43..34 */
-+    uint64_t BackgroundB : 10; /* 53..44 */
-+    uint64_t ChromaLocHoriz : 2; /* 55..54 */
-+    uint64_t ChromaLocVert : 2; /* 57..56 */
-+    uint64_t reserved1 : 6; /* 63..58 */
-+    uint64_t LumaWidth : 14; /* 77..64 */
-+    uint64_t reserved2 : 2; /* 79..78 */
-+    uint64_t LumaHeight : 14; /* 93..80 */
-+    uint64_t reserved3 : 2; /* 95..94 */
-+    uint64_t ChromaWidth : 14; /* 109..96 */
-+    uint64_t reserved4 : 2; /* 111..110 */
-+    uint64_t ChromaHeight : 14; /* 125..112 */
-+    uint64_t reserved5 : 2; /* 127..126 */
-+    /* 128 */
-+    uint64_t TargetRectLeft : 14; /* 13..0 */
-+    uint64_t reserved6 : 2; /* 15..14 */
-+    uint64_t TargetRectRight : 14; /* 29..16 */
-+    uint64_t reserved7 : 2; /* 31..30 */
-+    uint64_t TargetRectTop : 14; /* 45..32 */
-+    uint64_t reserved8 : 2; /* 47..46 */
-+    uint64_t TargetRectBottom : 14; /* 61..48 */
-+    uint64_t reserved9 : 2; /* 63..62 */
-+    uint64_t SurfaceWidth : 14; /* 77..64 */
-+    uint64_t reserved10 : 2; /* 79..78 */
-+    uint64_t SurfaceHeight : 14; /* 93..80 */
-+    uint64_t reserved11 : 2; /* 95..94 */
-+    uint64_t BlkKind : 4; /* 99..96 */
-+    uint64_t BlkHeight : 4; /* 103..100 */
-+    uint64_t OutputFlipX : 1; /* 104 */
-+    uint64_t OutputFlipY : 1; /* 105 */
-+    uint64_t OutputTranspose : 1; /* 106 */
-+    uint64_t reserved12 : 21; /* 127..107 */
-+} Blending0Struct;
++} ClearRectStruct;
 +
 +typedef struct {
 +    uint64_t AlphaK1 : 10; /* 9..0 */
@@ -951,114 +723,76 @@ index 000000000000..d095c0d229f2
 +    uint64_t MaskB : 1; /* 114 */
 +    uint64_t MaskA : 1; /* 115 */
 +    uint64_t reserved12 : 12; /* 127..116 */
-+} BlendingSurfaceStruct;
++} BlendingSlotStruct;
 +
 +typedef struct {
-+    uint64_t TargetRectLeft : 14; /* 13..0 */
-+    uint64_t reserved0 : 2; /* 15..14 */
-+    uint64_t TargetRectRight : 14; /* 29..16 */
-+    uint64_t reserved1 : 2; /* 31..30 */
-+    uint64_t TargetRectTop : 14; /* 45..32 */
-+    uint64_t reserved2 : 2; /* 47..46 */
-+    uint64_t TargetRectBottom : 14; /* 61..48 */
-+    uint64_t reserved3 : 2; /* 63..62 */
-+    uint64_t Enable0 : 8; /* 71..64 */
-+    uint64_t Enable1 : 8; /* 79..72 */
-+    uint64_t Enable2 : 8; /* 87..80 */
-+    uint64_t Enable3 : 8; /* 95..88 */
-+    uint64_t Enable4 : 8; /* 103..96 */
-+    uint64_t DownsampleHoriz : 11; /* 114..104 */
-+    uint64_t reserved4 : 1; /* 115 */
-+    uint64_t DownsampleVert : 11; /* 126..116 */
-+    uint64_t reserved5 : 1; /* 127 */
-+    /* 128 */
-+    uint64_t FilterNoise0 : 10; /* 9..0 */
-+    uint64_t FilterDetail0 : 10; /* 19..10 */
-+    uint64_t FilterNoise1 : 10; /* 29..20 */
-+    uint64_t reserved6 : 2; /* 31..30 */
-+    uint64_t FilterDetail1 : 10; /* 41..32 */
-+    uint64_t FilterNoise2 : 10; /* 51..42 */
-+    uint64_t FilterDetail2 : 10; /* 61..52 */
-+    uint64_t reserved7 : 2; /* 63..62 */
-+    uint64_t FilterNoise3 : 10; /* 73..64 */
-+    uint64_t FilterDetail3 : 10; /* 83..74 */
-+    uint64_t FilterNoise4 : 10; /* 93..84 */
-+    uint64_t reserved8 : 2; /* 95..94 */
-+    uint64_t FilterDetail4 : 10; /* 105..96 */
-+    uint64_t reserved9 : 22; /* 127..106 */
-+    /* 256 */
-+    uint64_t ChromaNoise0 : 10; /* 9..0 */
-+    uint64_t ChromaDetail0 : 10; /* 19..10 */
-+    uint64_t ChromaNoise1 : 10; /* 29..20 */
-+    uint64_t reserved10 : 2; /* 31..30 */
-+    uint64_t ChromaDetail1 : 10; /* 41..32 */
-+    uint64_t ChromaNoise2 : 10; /* 51..42 */
-+    uint64_t ChromaDetail2 : 10; /* 61..52 */
-+    uint64_t reserved11 : 2; /* 63..62 */
-+    uint64_t ChromaNoise3 : 10; /* 73..64 */
-+    uint64_t ChromaDetail3 : 10; /* 83..74 */
-+    uint64_t ChromaNoise4 : 10; /* 93..84 */
-+    uint64_t reserved12 : 2; /* 95..94 */
-+    uint64_t ChromaDetail4 : 10; /* 105..96 */
-+    uint64_t reserved13 : 22; /* 127..106 */
-+    /* 384 */
-+    uint64_t Mode0 : 4; /* 3..0 */
-+    uint64_t AccumWeight0 : 3; /* 6..4 */
-+    uint64_t Iir0 : 11; /* 17..7 */
-+    uint64_t reserved14 : 2; /* 19..18 */
-+    uint64_t Mode1 : 4; /* 23..20 */
-+    uint64_t AccumWeight1 : 3; /* 26..24 */
-+    uint64_t Iir1 : 11; /* 37..27 */
-+    uint64_t reserved15 : 2; /* 39..38 */
-+    uint64_t Mode2 : 4; /* 43..40 */
-+    uint64_t AccumWeight2 : 3; /* 46..44 */
-+    uint64_t Iir2 : 11; /* 57..47 */
-+    uint64_t reserved16 : 6; /* 63..58 */
-+    uint64_t Mode3 : 4; /* 67..64 */
-+    uint64_t AccumWeight3 : 3; /* 70..68 */
-+    uint64_t Iir3 : 11; /* 81..71 */
-+    uint64_t reserved17 : 2; /* 83..82 */
-+    uint64_t Mode4 : 4; /* 87..84 */
-+    uint64_t AccumWeight4 : 3; /* 90..88 */
-+    uint64_t Iir4 : 11; /* 101..91 */
-+    uint64_t reserved18 : 8; /* 109..102 */
-+    uint64_t OutputFlipX : 1; /* 110 */
-+    uint64_t OutputFlipY : 1; /* 111 */
-+    uint64_t reserved19 : 10; /* 121..112 */
-+    uint64_t reserved20 : 6; /* 127..122 */
-+} FetchControl0Struct;
++    uint64_t AlphaFillMode : 3; /* 2..0 */
++    uint64_t AlphaFillSlot : 3; /* 5..3 */
++    uint64_t BackgroundAlpha : 10; /* 15..6 */
++    uint64_t BackgroundR : 10; /* 25..16 */
++    uint64_t BackgroundG : 10; /* 35..26 */
++    uint64_t BackgroundB : 10; /* 45..36 */
++    uint64_t RegammaMode : 2; /* 47..46 */
++    uint64_t OutputFlipX : 1; /* 48 */
++    uint64_t OutputFlipY : 1; /* 49 */
++    uint64_t OutputTranspose : 1; /* 50 */
++    uint64_t reserved1 : 1; /* 51 */
++    uint64_t reserved2 : 12; /* 63..52 */
++    uint64_t TargetRectLeft : 14; /* 77..64 */
++    uint64_t reserved3 : 2; /* 79..78 */
++    uint64_t TargetRectRight : 14; /* 93..80 */
++    uint64_t reserved4 : 2; /* 95..94 */
++    uint64_t TargetRectTop : 14; /* 109..96 */
++    uint64_t reserved5 : 2; /* 111..110 */
++    uint64_t TargetRectBottom : 14; /* 125..112 */
++    uint64_t reserved6 : 2; /* 127..126 */
++} OutputConfig;
 +
 +typedef struct {
-+    uint64_t f00 : 10; /* 9..0 */
-+    uint64_t f10 : 10; /* 19..10 */
-+    uint64_t f20 : 10; /* 29..20 */
-+    uint64_t reserved0 : 2; /* 31..30 */
-+    uint64_t f01 : 10; /* 41..32 */
-+    uint64_t f11 : 10; /* 51..42 */
-+    uint64_t f21 : 10; /* 61..52 */
-+    uint64_t reserved1 : 2; /* 63..62 */
-+    uint64_t f02 : 10; /* 73..64 */
-+    uint64_t f12 : 10; /* 83..74 */
-+    uint64_t f22 : 10; /* 93..84 */
-+    uint64_t reserved2 : 2; /* 95..94 */
-+    uint64_t f03 : 10; /* 105..96 */
-+    uint64_t f13 : 10; /* 115..106 */
-+    uint64_t f23 : 10; /* 125..116 */
-+    uint64_t reserved3 : 2; /* 127..126 */
-+} FetchControlCoeffStruct;
++    uint64_t OutPixelFormat : 7; /* 6..0 */
++    uint64_t OutChromaLocHoriz : 2; /* 8..7 */
++    uint64_t OutChromaLocVert : 2; /* 10..9 */
++    uint64_t OutBlkKind : 4; /* 14..11 */
++    uint64_t OutBlkHeight : 4; /* 18..15 */
++    uint64_t reserved0 : 3; /* 21..19 */
++    uint64_t reserved1 : 10; /* 31..22 */
++    uint64_t OutSurfaceWidth : 14; /* 45..32 */
++    uint64_t OutSurfaceHeight : 14; /* 59..46 */
++    uint64_t reserved2 : 4; /* 63..60 */
++    uint64_t OutLumaWidth : 14; /* 77..64 */
++    uint64_t OutLumaHeight : 14; /* 91..78 */
++    uint64_t reserved3 : 4; /* 95..92 */
++    uint64_t OutChromaWidth : 14; /* 109..96 */
++    uint64_t OutChromaHeight : 14; /* 123..110 */
++    uint64_t reserved4 : 4; /* 127..124 */
++} OutputSurfaceConfig;
 +
 +typedef struct {
-+    SurfaceCache0Struct surfaceCache0Struct;
-+    SurfaceList0Struct surfaceList0Struct;
-+    SurfaceListClearRectStruct surfaceListClearRectStruct[4];
-+    SurfaceListSurfaceStruct surfaceListSurfaceStruct[5];
-+    ColorConversionLumaAlphaStruct colorConversionLumaAlphaStruct[5];
-+    ColorConversionMatrixStruct colorConversionMatrixStruct[5];
-+    ColorConversionClampStruct colorConversionClampStruct[5];
-+    Blending0Struct blending0Struct;
-+    BlendingSurfaceStruct blendingSurfaceStruct[5];
-+    FetchControl0Struct fetchControl0Struct;
-+    FetchControlCoeffStruct fetchControlCoeffStruct[520];
++    uint64_t DownsampleHoriz : 11; /* 10..0 */
++    uint64_t reserved0 : 5; /* 15..11 */
++    uint64_t DownsampleVert : 11; /* 26..16 */
++    uint64_t reserved1 : 5; /* 31..27 */
++    uint64_t reserved2 : 32; /* 63..32 */
++    uint64_t reserved3 : 32; /* 95..64 */
++    uint64_t reserved4 : 32; /* 127..96 */
++} PipeConfig;
++
++typedef struct {
++    SlotConfig slotConfig;
++    SlotSurfaceConfig slotSurfaceConfig;
++    LumaKeyStruct lumaKeyStruct;
++    MatrixStruct colorMatrixStruct;
++    MatrixStruct gamutMatrixStruct;
++    BlendingSlotStruct blendingSlotStruct;
++} SlotStruct;
++
++typedef struct {
++    PipeConfig pipeConfig;
++    OutputConfig outputConfig;
++    OutputSurfaceConfig outputSurfaceConfig;
++    MatrixStruct outColorMatrixStruct;
++    ClearRectStruct clearRectStruct[4];
++    SlotStruct slotStruct[8];
 +} ConfigStruct;
 +
 +#endif
