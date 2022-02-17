@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788DE4B94FD
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 01:27:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B19C4B9507
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 01:27:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F0CB10E6BE;
-	Thu, 17 Feb 2022 00:26:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62D7610E6BB;
+	Thu, 17 Feb 2022 00:27:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 082A610E6BE;
- Thu, 17 Feb 2022 00:26:57 +0000 (UTC)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAC2D10E6C4;
+ Thu, 17 Feb 2022 00:27:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645057618; x=1676593618;
+ t=1645057628; x=1676593628;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=y05geqmrQ9ZeRXmFPhxCXjZFV0vZVQsVvgL7YGLNM/8=;
- b=JzSsDLBVZh08sQAbOssc0+FD+b0ptZLHxEqQLMavRHAP1xH8Deill46X
- CJgehYSkcrEX5srv+mkJOQ7BoZlXh8TxSvb9uK1mbCjE0sCMwWy3vMau3
- BS7RxY/LbvBmfIyQYvm3LEInUSCCfQHtouc11xZLLL652yYCWh1/div5k 0=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 16 Feb 2022 16:26:57 -0800
+ bh=5PVdiB2tCTktZM9TnHRDaSdcjaUKK7T/KCy0M9sHFuU=;
+ b=BD6xYV26mMpwAk2qG/Phu8Cf33xsC1S9754NiKxR0o0f6OIEYkNqn1pX
+ DNuQI7eANhniwNW+2AIU6IVdid2EO1cokVfS67h35g4ScMoGMQeGbGuTv
+ L5xwDb+FG3B7MexY3GwAjd8+MhHZ+Aceh2xfbQUa89mO8VcHKeAPJaQNM I=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 16 Feb 2022 16:27:08 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2022 16:26:57 -0800
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 16:27:07 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Wed, 16 Feb 2022 16:26:56 -0800
+ 15.2.986.15; Wed, 16 Feb 2022 16:27:06 -0800
 Received: from [10.111.174.92] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 16 Feb
- 2022 16:26:54 -0800
-Message-ID: <7ddea5fb-bf7d-3531-31fa-ef24b3e4b2f3@quicinc.com>
-Date: Wed, 16 Feb 2022 16:26:52 -0800
+ 2022 16:27:04 -0800
+Message-ID: <35696c4b-cb84-610d-96de-73126aa6810b@quicinc.com>
+Date: Wed, 16 Feb 2022 16:27:02 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH] drm/msm/dsi/phy: fix 7nm v4.0 settings for C-PHY mode
+Subject: Re: [REPOST PATCH v4 02/13] drm/msm/dsi: Pass DSC params to drm_panel
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>
-References: <20220217000837.435340-1-dmitry.baryshkov@linaro.org>
+To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
+References: <20220210103423.271016-1-vkoul@kernel.org>
+ <20220210103423.271016-3-vkoul@kernel.org>
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220217000837.435340-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220210103423.271016-3-vkoul@kernel.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,65 +64,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2/16/2022 4:08 PM, Dmitry Baryshkov wrote:
-> The dsi_7nm_phy_enable() disagrees with downstream for
-> glbl_str_swi_cal_sel_ctrl and glbl_hstx_str_ctrl_0 values. Update
-> programmed settings to match downstream driver. To remove the
-> possibility for such errors in future drop less_than_1500_mhz
-> assignment and specify settings explicitly.
+On 2/10/2022 2:34 AM, Vinod Koul wrote:
+> When DSC is enabled, we need to pass the DSC parameters to panel driver
+> as well, so add a dsc parameter in panel and set it when DSC is enabled
 > 
-> Fixes: 5ac178381d26 ("drm/msm/dsi: support CPHY mode for 7nm pll/phy")
+> Also, fetch and pass DSC configuration for DSI panels to DPU encoder,
+> which will enable and configure DSC hardware blocks accordingly.
+> 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Yes, this matches what we have downstream
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 22 ++++++++++++++--------
->   1 file changed, 14 insertions(+), 8 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  2 ++
+>   drivers/gpu/drm/msm/dsi/dsi.c           |  5 +++++
+>   drivers/gpu/drm/msm/dsi/dsi.h           |  1 +
+>   drivers/gpu/drm/msm/dsi/dsi_host.c      | 22 ++++++++++++++++++++++
+>   drivers/gpu/drm/msm/msm_drv.h           |  8 ++++++++
+>   include/drm/drm_panel.h                 |  7 +++++++
+>   6 files changed, 45 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> index 36eb6109cb88..6e506feb111f 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> @@ -864,20 +864,26 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
->   	/* Alter PHY configurations if data rate less than 1.5GHZ*/
->   	less_than_1500_mhz = (clk_req->bitclk_rate <= 1500000000);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 47fe11a84a77..ef6ddac22767 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -578,6 +578,8 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
+>   			MSM_DISPLAY_CAP_CMD_MODE :
+>   			MSM_DISPLAY_CAP_VID_MODE;
 >   
-> -	/* For C-PHY, no low power settings for lower clk rate */
-> -	if (phy->cphy_mode)
-> -		less_than_1500_mhz = false;
-> -
->   	if (phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1) {
->   		vreg_ctrl_0 = less_than_1500_mhz ? 0x53 : 0x52;
-> -		glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x00;
-> -		glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x39 :  0x3c;
-> +		if (phy->cphy_mode) {
-> +			glbl_rescode_top_ctrl = 0x00;
-> +			glbl_rescode_bot_ctrl = 0x3c;
-> +		} else {
-> +			glbl_rescode_top_ctrl = less_than_1500_mhz ? 0x3d :  0x00;
-> +			glbl_rescode_bot_ctrl = less_than_1500_mhz ? 0x39 :  0x3c;
+> +		info.dsc = msm_dsi_get_dsc_config(priv->dsi[i]);
+> +
+>   		if (msm_dsi_is_bonded_dsi(priv->dsi[i]) && priv->dsi[other]) {
+>   			rc = msm_dsi_modeset_init(priv->dsi[other], dev, encoder);
+>   			if (rc) {
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+> index 052548883d27..3aeac15e7421 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
+> @@ -20,6 +20,11 @@ bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi)
+>   	return !(host_flags & MIPI_DSI_MODE_VIDEO);
+>   }
+>   
+> +struct msm_display_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
+> +{
+> +	return msm_dsi_host_get_dsc_config(msm_dsi->host);
+> +}
+> +
+>   static int dsi_get_phy(struct msm_dsi *msm_dsi)
+>   {
+>   	struct platform_device *pdev = msm_dsi->pdev;
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+> index c8dedc95428c..16cd9b2fce86 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+> @@ -152,6 +152,7 @@ int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
+>   int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
+>   void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host);
+>   void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host);
+> +struct msm_display_dsc_config *msm_dsi_host_get_dsc_config(struct mipi_dsi_host *host);
+>   
+>   /* dsi phy */
+>   struct msm_dsi_phy;
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 27553194f9fa..7e9913eff724 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -2059,9 +2059,24 @@ int msm_dsi_host_modeset_init(struct mipi_dsi_host *host,
+>   {
+>   	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>   	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
+> +	struct drm_panel *panel;
+>   	int ret;
+>   
+>   	msm_host->dev = dev;
+> +	panel = msm_dsi_host_get_panel(&msm_host->base);
+> +
+> +	if (panel && panel->dsc) {
+> +		struct msm_display_dsc_config *dsc = msm_host->dsc;
+> +
+> +		if (!dsc) {
+> +			dsc = devm_kzalloc(&msm_host->pdev->dev, sizeof(*dsc), GFP_KERNEL);
+> +			if (!dsc)
+> +				return -ENOMEM;
+> +			dsc->drm = panel->dsc;
+> +			msm_host->dsc = dsc;
 > +		}
->   		glbl_str_swi_cal_sel_ctrl = 0x00;
->   		glbl_hstx_str_ctrl_0 = 0x88;
->   	} else {
->   		vreg_ctrl_0 = less_than_1500_mhz ? 0x5B : 0x59;
-> -		glbl_str_swi_cal_sel_ctrl = less_than_1500_mhz ? 0x03 : 0x00;
-> -		glbl_hstx_str_ctrl_0 = less_than_1500_mhz ? 0x66 : 0x88;
-> +		if (phy->cphy_mode) {
-> +			glbl_str_swi_cal_sel_ctrl = 0x03;
-> +			glbl_hstx_str_ctrl_0 = 0x66;
-> +		} else {
-> +			glbl_str_swi_cal_sel_ctrl = less_than_1500_mhz ? 0x03 : 0x00;
-> +			glbl_hstx_str_ctrl_0 = less_than_1500_mhz ? 0x66 : 0x88;
-> +		}
->   		glbl_rescode_top_ctrl = 0x03;
->   		glbl_rescode_bot_ctrl = 0x3c;
->   	}
+> +	}
+> +
+>   	ret = cfg_hnd->ops->tx_buf_alloc(msm_host, SZ_4K);
+>   	if (ret) {
+>   		pr_err("%s: alloc tx gem obj failed, %d\n", __func__, ret);
+> @@ -2626,3 +2641,10 @@ void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host)
+>   		dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER,
+>   				DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER_SW_TRIGGER);
+>   }
+> +
+> +struct msm_display_dsc_config *msm_dsi_host_get_dsc_config(struct mipi_dsi_host *host)
+> +{
+> +	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+> +
+> +	return msm_host->dsc;
+> +}
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index 384f9bad4760..e7a312edfe67 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -119,6 +119,7 @@ struct msm_display_topology {
+>    *                      based on num_of_h_tiles
+>    * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
+>    *				 used instead of panel TE in cmd mode panels
+> + * @dsc:		DSC configuration data for DSC-enabled displays
+>    */
+>   struct msm_display_info {
+>   	int intf_type;
+> @@ -126,6 +127,7 @@ struct msm_display_info {
+>   	uint32_t num_of_h_tiles;
+>   	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
+>   	bool is_te_using_watchdog_timer;
+> +	struct msm_display_dsc_config *dsc;
+>   };
+>   
+>   /* Commit/Event thread specific structure */
+> @@ -365,6 +367,7 @@ void msm_dsi_snapshot(struct msm_disp_state *disp_state, struct msm_dsi *msm_dsi
+>   bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi);
+>   bool msm_dsi_is_bonded_dsi(struct msm_dsi *msm_dsi);
+>   bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi);
+> +struct msm_display_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi);
+>   #else
+>   static inline void __init msm_dsi_register(void)
+>   {
+> @@ -393,6 +396,11 @@ static inline bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi)
+>   {
+>   	return false;
+>   }
+> +
+> +static inline struct msm_display_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
+> +{
+> +	return NULL;
+> +}
+>   #endif
+>   
+>   #ifdef CONFIG_DRM_MSM_DP
+> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+> index 4602f833eb51..eb8ae9bf32ed 100644
+> --- a/include/drm/drm_panel.h
+> +++ b/include/drm/drm_panel.h
+> @@ -171,6 +171,13 @@ struct drm_panel {
+>   	 * Panel entry in registry.
+>   	 */
+>   	struct list_head list;
+> +
+> +	/**
+> +	 * @dsc:
+> +	 *
+> +	 * Panel DSC pps payload to be sent
+> +	 */
+> +	struct drm_dsc_config *dsc;
+>   };
+>   
+>   void drm_panel_init(struct drm_panel *panel, struct device *dev,
