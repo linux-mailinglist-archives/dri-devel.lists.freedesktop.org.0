@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 587134BA97D
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:16:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F381C4BA981
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:16:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76D0210E3F8;
-	Thu, 17 Feb 2022 19:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF8010E479;
+	Thu, 17 Feb 2022 19:16:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7A9010E3F8
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 19:16:32 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id p15so9550604ejc.7
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 11:16:32 -0800 (PST)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 915EA10E458
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 19:16:34 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id a8so9569811ejc.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 11:16:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KZQUJqYQtpwHm8Jw/glz0xQYWjJ+0JJKpnndECzGY4Q=;
- b=MvGRraKBkD72zS1FCzMhKwbni+LBYEmCCirMy0vRbZDKq9DWE4fBukwxiF2oBtyrdU
- b8DbwDimsmIee2ue+hFAmzCxsgC3/ffyoXpBv/W6uwVFCZNJVBI6hpk22hcojMRHeJT8
- VM7tebRaG8xf+KjnMXQ2pCmI0SqXxByiyoxKpN+Zrb3ogRSOY0bnSwVparW/RIvCRIAg
- k7Qox74uxDyHg/Thr+HONpWLOTlK4zdWNRWDqNzLMOCHuY1SaNR9E8Tgp+TU66C9A2QR
- lhyid0XKXZGct4mW8THN2XWqZM/ZDU33Oj6ERk0mdy57i/rdScj0x1ArtraqpOwxcOV1
- I9Dw==
+ bh=bnXF7r460nVXVVViXXt//RK7jf9YuHumDoAui5Tkl/s=;
+ b=AkzymwpgC8GZ0SadLVA9e2aA92UBz3MXg5/zDaDmGMjxE9IsTskAZmGCJ7yoaiCkQ4
+ zi4kkRc+n5xLSohUT09X7SvVS4Yh+dBvo5YC4ZYd24oKa5enU7MTVfOy3SGnoccfr8bi
+ kWEVAFc0lzRdeMr33rFsy5pNi96MdS+Agek09yzfK1DLlkWKPAN3IXZ8N2q1swb+Novl
+ 8eXKfvanwmaUyea7Ity09OHd6+jO4mHmeXowHGTh6qpy9RISUOh0SLtE1hH56DC8jMnY
+ ARRkZkrJgBbuch81iM6lS+RMWw1x588W5iRkplOrOVUOD1btKUJ1SH9xvl4M09dnv6we
+ bbeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KZQUJqYQtpwHm8Jw/glz0xQYWjJ+0JJKpnndECzGY4Q=;
- b=TXtwGl81hh5q5sTGRZ4zAGk2XpFWIPKWy4bjwUyj0w+SfDduW1X711sj+FI87yzxW3
- sZnWjhhzhG11VRTRV7Vi7VLN/dsDw7CbEv360ZRlHDrvUdGPfqMsyflI11Fcc8QmRG1d
- QcX6NE9iJiYmNcWJiTK+ORj/6UN6DvZ/MIorD2258xzBjv8PdX47JCYQ0ES0d/glHEnE
- jYx7O+S/H7/9L+vTrENpAqfIgSgnPWNe3VqYk7JZbKjIo/1/gqa5hZul13I4XVP8qCEC
- aBcchUj8IblMTh+hdvbkcefZUdXdxU/cn4eMQWhXF0lnn6yg9cKW9YVaBSvFWj4oH2A0
- jIgA==
-X-Gm-Message-State: AOAM5314Dd42Oh6aTbim/vp43iaSwDa6vYKPn92cAfVSXmq7AtECONtR
- y5gpWzw+HxMyYCv+r59Iahs=
-X-Google-Smtp-Source: ABdhPJwjQq45dOg8xjpujybY/9t0KYUaADfjXHElHT4jRAGbGUE61qMMqzS2NzYhEwCBnxAGH3gJyg==
-X-Received: by 2002:a17:907:7663:b0:6ce:fdd:762d with SMTP id
- kk3-20020a170907766300b006ce0fdd762dmr3700362ejc.750.1645125391199; 
- Thu, 17 Feb 2022 11:16:31 -0800 (PST)
+ bh=bnXF7r460nVXVVViXXt//RK7jf9YuHumDoAui5Tkl/s=;
+ b=WND1+56J7tTtUGJ9LDSzWqLHW8GZ03RKOmrSqHISKy44sFtjsDK4ndvneWyr4Lqebv
+ LxTwKy68cIyP06jicTPewQj+qDJCfDXynuIY8vn2GxJxnygeBM1ysyfDmoyZ5cp3IYgu
+ dltMouJBYtEoPkUHcUXPbMR8ha6DlvGSRgOjSrAbdRZ7+Z74ENuDxdWoJ/b00hHETrd4
+ /Qic0cA24/JydVJjI7ePH06qhCaKNNYYNi4OPxI+/tWc8yNWECKLgY1VnCb9uZT49N4u
+ B0JTefuUMO5IE3CTv/ZwMtqSJnJ5dW81jFOOaV98v+1mWPTk4Wgw2kTrpBMIcrm5bnHf
+ nt2Q==
+X-Gm-Message-State: AOAM532s+F0IlceruIfF0SNcUO9CE+6gnBeZdkOUt8vSWmd8SfB+sjFd
+ zTg01F9jXwzPB0nXLEMYzXk=
+X-Google-Smtp-Source: ABdhPJxdlP2cTwiHUTK6g7sNcQD8gB5F60ON3QQUKjSI6QBwSKuyOJJl8qA5mQEKGqno3jWZYcfM5w==
+X-Received: by 2002:a17:906:eb0f:b0:6af:738:3380 with SMTP id
+ mb15-20020a170906eb0f00b006af07383380mr3517018ejb.398.1645125393077; 
+ Thu, 17 Feb 2022 11:16:33 -0800 (PST)
 Received: from localhost
  (p200300e41f0a6900000000000000043a.dip0.t-ipconnect.de.
  [2003:e4:1f0a:6900::43a])
- by smtp.gmail.com with ESMTPSA id s30sm1464563ejm.158.2022.02.17.11.16.29
+ by smtp.gmail.com with ESMTPSA id n25sm3575806eds.89.2022.02.17.11.16.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 11:16:30 -0800 (PST)
+ Thu, 17 Feb 2022 11:16:32 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH libdrm v2 02/25] tegra: Remove unused IOCTL implementations
-Date: Thu, 17 Feb 2022 20:16:02 +0100
-Message-Id: <20220217191625.2534521-3-thierry.reding@gmail.com>
+Subject: [PATCH libdrm v2 03/25] tegra: Extract common buffer object
+ allocation code
+Date: Thu, 17 Feb 2022 20:16:03 +0100
+Message-Id: <20220217191625.2534521-4-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220217191625.2534521-1-thierry.reding@gmail.com>
 References: <20220217191625.2534521-1-thierry.reding@gmail.com>
@@ -78,159 +79,80 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-The DRM_TEGRA_GEM_{GET,SET}_FLAGS and DRM_TEGRA_GEM_{GET,SET}_TILING
-IOCTLs were badly designed and have since been obsoleted by framebuffer
-modifiers. Remove these implementations to make it clear their usage is
-discouraged.
+All of the buffer object allocation functions use the same boilerplate
+code. Move that code into a separate function that can be reused.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- tegra/tegra-symbols.txt |  4 --
- tegra/tegra.c           | 95 -----------------------------------------
- tegra/tegra.h           | 12 ------
- 3 files changed, 111 deletions(-)
+ tegra/tegra.c | 35 ++++++++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 13 deletions(-)
 
-diff --git a/tegra/tegra-symbols.txt b/tegra/tegra-symbols.txt
-index 5e3e955f2901..9422696c1416 100644
---- a/tegra/tegra-symbols.txt
-+++ b/tegra/tegra-symbols.txt
-@@ -1,11 +1,7 @@
--drm_tegra_bo_get_flags
- drm_tegra_bo_get_handle
--drm_tegra_bo_get_tiling
- drm_tegra_bo_map
- drm_tegra_bo_new
- drm_tegra_bo_ref
--drm_tegra_bo_set_flags
--drm_tegra_bo_set_tiling
- drm_tegra_bo_unmap
- drm_tegra_bo_unref
- drm_tegra_bo_wrap
 diff --git a/tegra/tegra.c b/tegra/tegra.c
-index 95aaa4b35425..630aea45f957 100644
+index 630aea45f957..74e1fd33c6e5 100644
 --- a/tegra/tegra.c
 +++ b/tegra/tegra.c
-@@ -231,98 +231,3 @@ drm_public int drm_tegra_bo_unmap(struct drm_tegra_bo *bo)
+@@ -97,6 +97,26 @@ drm_public void drm_tegra_close(struct drm_tegra *drm)
+     free(drm);
+ }
+ 
++static struct drm_tegra_bo *drm_tegra_bo_alloc(struct drm_tegra *drm,
++                                               uint32_t handle,
++                                               uint32_t flags,
++                                               uint32_t size)
++{
++    struct drm_tegra_bo *bo;
++
++    bo = calloc(1, sizeof(*bo));
++    if (!bo)
++        return NULL;
++
++    atomic_set(&bo->ref, 1);
++    bo->handle = handle;
++    bo->flags = flags;
++    bo->size = size;
++    bo->drm = drm;
++
++    return bo;
++}
++
+ drm_public int
+ drm_tegra_bo_new(struct drm_tegra_bo **bop, struct drm_tegra *drm,
+                  uint32_t flags, uint32_t size)
+@@ -108,15 +128,10 @@ drm_tegra_bo_new(struct drm_tegra_bo **bop, struct drm_tegra *drm,
+     if (!drm || size == 0 || !bop)
+         return -EINVAL;
+ 
+-    bo = calloc(1, sizeof(*bo));
++    bo = drm_tegra_bo_alloc(drm, 0, flags, size);
+     if (!bo)
+         return -ENOMEM;
+ 
+-    atomic_set(&bo->ref, 1);
+-    bo->flags = flags;
+-    bo->size = size;
+-    bo->drm = drm;
+-
+     memset(&args, 0, sizeof(args));
+     args.flags = flags;
+     args.size = size;
+@@ -145,16 +160,10 @@ drm_tegra_bo_wrap(struct drm_tegra_bo **bop, struct drm_tegra *drm,
+     if (!drm || !bop)
+         return -EINVAL;
+ 
+-    bo = calloc(1, sizeof(*bo));
++    bo = drm_tegra_bo_alloc(drm, handle, flags, size);
+     if (!bo)
+         return -ENOMEM;
+ 
+-    atomic_set(&bo->ref, 1);
+-    bo->handle = handle;
+-    bo->flags = flags;
+-    bo->size = size;
+-    bo->drm = drm;
+-
+     *bop = bo;
  
      return 0;
- }
--
--drm_public int drm_tegra_bo_get_flags(struct drm_tegra_bo *bo, uint32_t *flags)
--{
--    struct drm_tegra_gem_get_flags args;
--    struct drm_tegra *drm = bo->drm;
--    int err;
--
--    if (!bo)
--        return -EINVAL;
--
--    memset(&args, 0, sizeof(args));
--    args.handle = bo->handle;
--
--    err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_GET_FLAGS, &args,
--                              sizeof(args));
--    if (err < 0)
--        return -errno;
--
--    if (flags)
--        *flags = args.flags;
--
--    return 0;
--}
--
--drm_public int drm_tegra_bo_set_flags(struct drm_tegra_bo *bo, uint32_t flags)
--{
--    struct drm_tegra_gem_get_flags args;
--    struct drm_tegra *drm = bo->drm;
--    int err;
--
--    if (!bo)
--        return -EINVAL;
--
--    memset(&args, 0, sizeof(args));
--    args.handle = bo->handle;
--    args.flags = flags;
--
--    err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_SET_FLAGS, &args,
--                              sizeof(args));
--    if (err < 0)
--        return -errno;
--
--    return 0;
--}
--
--drm_public int
--drm_tegra_bo_get_tiling(struct drm_tegra_bo *bo,
--                        struct drm_tegra_bo_tiling *tiling)
--{
--    struct drm_tegra_gem_get_tiling args;
--    struct drm_tegra *drm = bo->drm;
--    int err;
--
--    if (!bo)
--        return -EINVAL;
--
--    memset(&args, 0, sizeof(args));
--    args.handle = bo->handle;
--
--    err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_GET_TILING, &args,
--                              sizeof(args));
--    if (err < 0)
--        return -errno;
--
--    if (tiling) {
--        tiling->mode = args.mode;
--        tiling->value = args.value;
--    }
--
--    return 0;
--}
--
--drm_public int
--drm_tegra_bo_set_tiling(struct drm_tegra_bo *bo,
--                        const struct drm_tegra_bo_tiling *tiling)
--{
--    struct drm_tegra_gem_set_tiling args;
--    struct drm_tegra *drm = bo->drm;
--    int err;
--
--    if (!bo)
--        return -EINVAL;
--
--    memset(&args, 0, sizeof(args));
--    args.handle = bo->handle;
--    args.mode = tiling->mode;
--    args.value = tiling->value;
--
--    err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_SET_TILING, &args,
--                              sizeof(args));
--    if (err < 0)
--        return -errno;
--
--    return 0;
--}
-diff --git a/tegra/tegra.h b/tegra/tegra.h
-index 62205a5174b4..c6b4f984de45 100644
---- a/tegra/tegra.h
-+++ b/tegra/tegra.h
-@@ -44,17 +44,5 @@ int drm_tegra_bo_get_handle(struct drm_tegra_bo *bo, uint32_t *handle);
- int drm_tegra_bo_map(struct drm_tegra_bo *bo, void **ptr);
- int drm_tegra_bo_unmap(struct drm_tegra_bo *bo);
- 
--int drm_tegra_bo_get_flags(struct drm_tegra_bo *bo, uint32_t *flags);
--int drm_tegra_bo_set_flags(struct drm_tegra_bo *bo, uint32_t flags);
--
--struct drm_tegra_bo_tiling {
--    uint32_t mode;
--    uint32_t value;
--};
--
--int drm_tegra_bo_get_tiling(struct drm_tegra_bo *bo,
--                            struct drm_tegra_bo_tiling *tiling);
--int drm_tegra_bo_set_tiling(struct drm_tegra_bo *bo,
--                            const struct drm_tegra_bo_tiling *tiling);
- 
- #endif /* __DRM_TEGRA_H__ */
 -- 
 2.35.1
 
