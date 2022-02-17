@@ -1,54 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5664BA6D8
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 18:17:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1504BA700
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 18:21:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C01410EC45;
-	Thu, 17 Feb 2022 17:17:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0717C10E2F6;
+	Thu, 17 Feb 2022 17:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9C510EC0F;
- Thu, 17 Feb 2022 17:17:22 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id ay7so299877oib.8;
- Thu, 17 Feb 2022 09:17:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k9zgQPfz8LOJwvyN9TkCqdRl9MbRaNDX/aR5wunJ990=;
- b=DINAnzkZ3yxrbaFtDAYZmhpuXrR/mzBHe+vr2DEiBG3ftwzLyGNCDwNo0aWdundMlY
- sYYPRo2ua/mUlkwsglmxpqxr04T8gzaIFbZPVILJZWFtt6KG8gOjF3ltKVAs7NB4Ll5A
- EYztNyGCg/NYX3KCvFPleeQ8mjTULOIut+sofWlAJbUmSJoGUrcL1hBg30XDPTzG2P4w
- UWMCShLbWEJwlle7OziBionFS3Twi3vfDUcs+1sPf0IUcWblXibpCNNarLcSJGdhlNIm
- 72+weM6Yxvsi1mB0VDx+GRhGhoxE3g+vEl5TjBcOqh2X+IF/XQmtQZkwcqnFb9FB84W5
- fZfA==
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
+ [209.85.222.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22A3110E2F6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 17:21:40 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id 4so3029437uaf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 09:21:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=k9zgQPfz8LOJwvyN9TkCqdRl9MbRaNDX/aR5wunJ990=;
- b=w7CQUZMVahWVKgw4cETluO0BREUiL9W8XLYtJCJ93Q59NIXsaKl/PVmOmdAOmhWRpg
- lRhWRlElnJxn7gQr6mGyP/B9DAPeXmJkfWJ4QIkys3p0Qlwg+FOdQKiYf5utHsI7XqI7
- vtcOP7eIntXfuYQ30t9jrR/CQLmkUyPWSF1uO+LRwwFRA4iBAkP5nhItI8jRM3TCDRKG
- rm6HhqOJS9Kf4HLWEKym6z7hBh04X8acn6381ldKWL/3KHzLg1WrbqB4klOEGGLIbV77
- VLwJYLb9Zc9mmkAqB+mO9u9aDljmhcFkAh+2h5h4IXv187/ecyq9UBPbcdzTj1a6BPb7
- UzhQ==
-X-Gm-Message-State: AOAM531I5y65js+svss22cq2jfHB25YeSMXXQgeBdlW5YdtPV6euNKdK
- j5w0VpThJiwKPw5UbjlDDwpgn9hJVwOFjI6lPM0=
-X-Google-Smtp-Source: ABdhPJw6jj/QGKAkol2tdthTwTYyyoP4CDqrp37TKDAO46tPjdL6fNFaDwTVUFznUtAy4H33vyaax1MFxyQNLygI+KE=
-X-Received: by 2002:a05:6808:f8b:b0:2ce:6ee7:2c99 with SMTP id
- o11-20020a0568080f8b00b002ce6ee72c99mr3309777oiw.199.1645118241433; Thu, 17
- Feb 2022 09:17:21 -0800 (PST)
+ bh=mDJqoFZz0dz3Q1I37x7okE1Q7HMXJStYbJXkk2d13x4=;
+ b=swfMvTWBNjpX9eSMsAsArnedjIXdDq62hikjfVjJYwKcDhaxGG9745cgXEAz5oqn7n
+ oJXaUB6WtHgMZC+PRgWf7/sQ+KhUsABfPTRP7lvuMBB9A8x7ASgNNLvPFFx14S99oxc4
+ qMEEiykFW8j9r/smfL1vhfG1kckQqi+PlQB3q8VY3GgxrqHem1XKBMRYJWlet2w25sWa
+ cqDSQs6QTSP2KAH3eAkrr3TqTYPXWClNfUMNo0yjYD6fp1LrDpgCgPaFRxGA9+uIgbIf
+ xvyAeuiTI2Fvst/LrVW+al/rF+1EqsW/F7qm8L/MeJ4enfPb/TagBUnI9LWu+sx2Qj0/
+ Axkg==
+X-Gm-Message-State: AOAM530adZgkE43kJmjgia/UVG9QujppdjruKovQUYTcCJK2+35HtFsC
+ mAMFf1E9cfd16bJbWJMHcgC2flEhFQSajA==
+X-Google-Smtp-Source: ABdhPJy4pKB3EOFJf9OnUEDQciknjocS08J8do8fgzlH/7Au0I4DYrP3gR1dP5AtYh4/Gt4qj/lf+Q==
+X-Received: by 2002:ab0:280f:0:b0:33c:ead3:23d7 with SMTP id
+ w15-20020ab0280f000000b0033cead323d7mr1562616uap.50.1645118499139; 
+ Thu, 17 Feb 2022 09:21:39 -0800 (PST)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com.
+ [209.85.217.51])
+ by smtp.gmail.com with ESMTPSA id y187sm1062189vkf.13.2022.02.17.09.21.38
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Feb 2022 09:21:38 -0800 (PST)
+Received: by mail-vs1-f51.google.com with SMTP id q9so1594146vsg.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 09:21:38 -0800 (PST)
+X-Received: by 2002:a67:b00e:0:b0:30d:dc98:6024 with SMTP id
+ z14-20020a67b00e000000b0030ddc986024mr1803164vse.57.1645118498172; Thu, 17
+ Feb 2022 09:21:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20220217164110.3258269-1-trix@redhat.com>
-In-Reply-To: <20220217164110.3258269-1-trix@redhat.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 17 Feb 2022 12:17:10 -0500
-Message-ID: <CADnq5_OasHZ=P_tkZrSSA87HACHJhQ49oMGSdFxzQ5g7GhjWMw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdkfd: fix typo in setting enum value
-To: Tom Rix <trix@redhat.com>
+References: <20220215165226.2738568-1-geert@linux-m68k.org>
+ <20220215165226.2738568-3-geert@linux-m68k.org>
+ <4fff0c08-adab-c1d5-4a7e-1513cb2bf7ca@suse.de>
+ <CAMuHMdVK7eWfod73JQAntO=7BAMEcS-ktH4NJmDjna3zUn7giw@mail.gmail.com>
+ <z7NQYyKnuywG0bUt7Wr9e53SGgSZgbMVNKpLAOIP0mH3GljFQI3hd_aQFc8qaqwTbBq8yF3QvR9ugLxlivX-ogj508Vc60XHQPAN3IL5Uik=@emersion.fr>
+In-Reply-To: <z7NQYyKnuywG0bUt7Wr9e53SGgSZgbMVNKpLAOIP0mH3GljFQI3hd_aQFc8qaqwTbBq8yF3QvR9ugLxlivX-ogj508Vc60XHQPAN3IL5Uik=@emersion.fr>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 17 Feb 2022 18:21:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVeqOj1VfMC6EHHJSX1ttRW3RzaP5tw3aSM4=+SBcz3vg@mail.gmail.com>
+Message-ID: <CAMuHMdVeqOj1VfMC6EHHJSX1ttRW3RzaP5tw3aSM4=+SBcz3vg@mail.gmail.com>
+Subject: Re: [PATCH 2/8] drm/fb-helper: Add support for DRM_FORMAT_C[124]
+To: Simon Ser <contact@emersion.fr>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,58 +69,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, "Kim, Jonathan" <jonathan.kim@amd.com>,
- Dave Airlie <airlied@linux.ie>, "Kuehling, Felix" <Felix.Kuehling@amd.com>,
- xinhui pan <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Nathan Chancellor <nathan@kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Helge Deller <deller@gmx.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Linux/m68k <linux-m68k@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Nathan just sent out the same patch and I already applied it.  Thanks!
+Hi Simon,
 
-Alex
+On Thu, Feb 17, 2022 at 5:18 PM Simon Ser <contact@emersion.fr> wrote:
+> On Thursday, February 17th, 2022 at 17:12, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > What is C0?
+> >
+> > A non-existing color-indexed mode with zero colors ;-)
+> > Introduced purely to make a check like in the comment below work.
+> > What we really want to check here is if the mode is color-indexed
+> > or not...
+>
+> Maybe it would be worth introducing a drm_format_info_is_color_indexed
+> function? Would be self-describing when used, and would avoid to miss
+> some places to update when adding new color-indexed formats.
 
-On Thu, Feb 17, 2022 at 11:41 AM <trix@redhat.com> wrote:
->
-> From: Tom Rix <trix@redhat.com>
->
-> Clang build fails with
-> kfd_packet_manager_v9.c:267:3: error: implicit conversion
->   from enumeration type 'enum mes_map_queues_extended_engine_sel_enum'
->   to different enumeration type
->   'enum mes_unmap_queues_extended_engine_sel_enum'
->    extended_engine_sel__mes_map_queues__sdma0_to_7_sel :
->    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> This looks like a typo, the function is _unmap_, the enum
-> extended_engine_sel__mes_map_queues__sdma0_to_7_sel  is _map_.
-> To match the packet->bitfields2.extended_engine_set type
-> it should be extended_engine_sel__mes_unmap_queues__sdma0_to_7_sel.
->
-> Fixes: 009e9a158505 ("drm/amdkfd: navi2x requires extended engines to map and unmap sdma queues")
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c
-> index 806a03566a24..18250845a989 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c
-> @@ -264,7 +264,7 @@ static int pm_unmap_queues_v9(struct packet_manager *pm, uint32_t *buffer,
->                                         sizeof(struct pm4_mes_unmap_queues));
->
->         packet->bitfields2.extended_engine_sel = pm_use_ext_eng(pm->dqm->dev) ?
-> -               extended_engine_sel__mes_map_queues__sdma0_to_7_sel :
-> +               extended_engine_sel__mes_unmap_queues__sdma0_to_7_sel :
->                 extended_engine_sel__mes_unmap_queues__legacy_engine_sel;
->
->         packet->bitfields2.engine_sel =
-> --
-> 2.26.3
->
+Yep, and a .is_color_indexed flag, cfr. the existing .is_yuv flag.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
