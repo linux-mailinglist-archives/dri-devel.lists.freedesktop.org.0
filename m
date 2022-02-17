@@ -1,60 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E674BA57C
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 17:13:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFFBE4BA583
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 17:14:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8B3B10EF2A;
-	Thu, 17 Feb 2022 16:13:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C88D10E5C2;
+	Thu, 17 Feb 2022 16:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
- [209.85.222.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B767C10EF25
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 16:13:06 +0000 (UTC)
-Received: by mail-ua1-f43.google.com with SMTP id 102so735764uag.6
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 08:13:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ch9MypWpUQnZM5wHecAMH9Z6WzfQjeMjydR9fNyA8WE=;
- b=DSXkTgrZG8oJp/VcTufSCSYluOku+18LpsFmTu5oa/8yw/y4ga2kJNQ25fNQXqv/tB
- v0Ur0rROXK4JZen+m/vKPf8pB2ZMsNBbP6Lexki/0Vn1/yeCLD3N46EsoeWL+Ao4pa39
- NG43be9yB5zYudvV2VqCURPpYBXv/a3EIBIbWvx3VrdX2Aj5VYv6euRWeAtKsOF/8OpP
- at1KLhGbpZFT4Y5xegME7JK5qfkaMjG4jHO9TyTZzRhMYUn105MEK5tbdGAyKrLhlV9K
- cHRIzEqNko5OfjrqNFjnruNk/Z6C00zsA0P+F0C5RkW93Jydm38Uq41bKq3e0ayMn3Us
- biSA==
-X-Gm-Message-State: AOAM532738OXcxCMzmwNRZdOLWBMy2szIb7kxEtcmavzvt9O9NjkOTUt
- 20kgGrSgLffbxL4++rFhi3Wld4b8EvdzGg==
-X-Google-Smtp-Source: ABdhPJyUUWjdTB6WalFZ+1NPpZIh+sbto2bQHQZJyvnr7B/4UckGZUslGQjZyrQB7sPQYDVnDcAvJQ==
-X-Received: by 2002:ab0:36e4:0:b0:33d:1245:f20d with SMTP id
- x4-20020ab036e4000000b0033d1245f20dmr1363540uau.6.1645114385236; 
- Thu, 17 Feb 2022 08:13:05 -0800 (PST)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com.
- [209.85.221.179])
- by smtp.gmail.com with ESMTPSA id f124sm116990vkc.19.2022.02.17.08.13.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 08:13:04 -0800 (PST)
-Received: by mail-vk1-f179.google.com with SMTP id j201so3321087vke.11
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 08:13:04 -0800 (PST)
-X-Received: by 2002:a05:6122:8c7:b0:32d:7e3:96c8 with SMTP id
- 7-20020a05612208c700b0032d07e396c8mr1649377vkg.7.1645114384535; Thu, 17 Feb
- 2022 08:13:04 -0800 (PST)
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E213110E5C2;
+ Thu, 17 Feb 2022 16:14:45 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 3D7BA5803CF;
+ Thu, 17 Feb 2022 11:14:45 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 17 Feb 2022 11:14:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=MXfbhVCWqKJUrwBB370kKI/nk0FF2MyMt1LLhi
+ 0Bzqk=; b=uaZ9zUScDswRciS651h6P9I/nntH5mLe5nYsPsipgvSe1xFnmbiEFJ
+ 3cYX3mm1h3dL+z464foVFfSJB9wcti5IJUDiB9ct7AdBMkbGi9tqTh+2gUXD7Ozg
+ CTKGy6b8oQa89dO2w53x3Zep8cClNi2/mQKQbtUAZT8Lcq/ad5SvJjGd+1ws5sJK
+ jtng6Tqc/Eh9q6KRJH8+dkTvODtqSodCWyWpHrfE7iPqjNuJt6KIBAJBfxtj9vM9
+ 6iWSTiwSDq3zElsrVUgLxfn2OTjd7z3V2tR66GIVq/QkJxyl4O95+oDO4w7POxny
+ qUSGXElE5dZKErJKmoJyFDrmZ6xthzjA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=MXfbhVCWqKJUrwBB3
+ 70kKI/nk0FF2MyMt1LLhi0Bzqk=; b=DuLccNJoiDnBVilPLgBT4oZOodRMmB/B7
+ OVf1O800nGiAR1di38Z+C5DfEaHRAn5JYeMQPR5oVWnIuoDWzTpb13QFq6oW9pGT
+ KVEp8pvW+OlC7j0UPW/vLaXxMxxM0SUfSnXMqRd70tX704ssDYGGiCA44Ig5tklZ
+ aq2egWRsFk0evqW5chJhLVpnyJUETBus9yAhmXzt2rOyUmUA4VkA7YMShv8KuryY
+ cIY4bbghjD0+RXUg/eoPkaie2rGXOhKwPe7ZkCNnoWiR3jmAD5YZ4Ql6Fnt2n20Y
+ AShHOaNzAX2dtTI2F+kbX99ZasBhapR4MPsEP8BBgrWYLTx2Xxk7w==
+X-ME-Sender: <xms:dHQOYt0XDNEadGPuKW0ClQNb8oiVGPMnxAtoD3varYj3IsilIR835w>
+ <xme:dHQOYkHTSM04M13_upnHDaqTW31n-PPlusXPRfD4F3llOpPaQGpZGSg9lR4HoJS5d
+ nsDYG50OK6SPT6mQM4>
+X-ME-Received: <xmr:dHQOYt6wGut1Lu5acdMwYq9uHZBRsdWC-371_xuGfDrkSTvWswnkyaCq0ghutKFX-oRNd3LGeMKuDsWek-5M7v0YuK3T6tUexpjTAo0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjeekgdekgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:dHQOYq0u0OpbagD2YhNfx0R5byyjvdC_hYiP3-fR2TyPxZUMnAjMnw>
+ <xmx:dHQOYgESU04F2JXknEXkcEt3kCqupfPXy0qxEa5cMxs3aP2yBEWQXQ>
+ <xmx:dHQOYr8sXvO47-JiN0pjNCcuFjPSAcaaO4SdffsJYaDnhaLTNYAifA>
+ <xmx:dXQOYtdDju-3lzfeUEvrtH0QWwmNZBadlTQfSQ7Rem6KqvyDd7jNRg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 17 Feb 2022 11:14:44 -0500 (EST)
+Date: Thu, 17 Feb 2022 17:14:42 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH 05/23] drm/amd/display: Fix color encoding mismatch
+Message-ID: <20220217161442.2ndrwzhvq7jzpuwe@houat>
+References: <20220207163515.1038648-1-maxime@cerno.tech>
+ <20220207163515.1038648-6-maxime@cerno.tech>
+ <8aa30074-6039-ba5c-c25d-38a0c2f52619@amd.com>
+ <3a9f5ff6-52fd-25f5-2714-8801eba13dab@amd.com>
+ <20220210084243.grmjum55qc6sei52@houat>
+ <fc0054aa-77aa-6d0b-b9d7-7a0163e3eb22@amd.com>
 MIME-Version: 1.0
-References: <20220215165226.2738568-1-geert@linux-m68k.org>
- <20220215165226.2738568-3-geert@linux-m68k.org>
- <4fff0c08-adab-c1d5-4a7e-1513cb2bf7ca@suse.de>
-In-Reply-To: <4fff0c08-adab-c1d5-4a7e-1513cb2bf7ca@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 17 Feb 2022 17:12:53 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVK7eWfod73JQAntO=7BAMEcS-ktH4NJmDjna3zUn7giw@mail.gmail.com>
-Message-ID: <CAMuHMdVK7eWfod73JQAntO=7BAMEcS-ktH4NJmDjna3zUn7giw@mail.gmail.com>
-Subject: Re: [PATCH 2/8] drm/fb-helper: Add support for DRM_FORMAT_C[124]
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="3y3s4rvkp2s5fbh6"
+Content-Disposition: inline
+In-Reply-To: <fc0054aa-77aa-6d0b-b9d7-7a0163e3eb22@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,272 +85,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux/m68k <linux-m68k@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Leo Li <sunpeng.li@amd.com>,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
 
-Thanks for your review!
+--3y3s4rvkp2s5fbh6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 17, 2022 at 3:57 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Am 15.02.22 um 17:52 schrieb Geert Uytterhoeven:
-> > Add support for color-indexed frame buffer formats with two, four, and
-> > sixteen colors to the DRM framebuffer helper functions:
-> >    1. Add support for depths 1/2/4 to the damage helper,
-> >    2. For color-indexed modes, the length of the color bitfields must be
-> >       set to the color depth, else the logo code may pick a logo with too
-> >       many colors.  Drop the incorrect DAC width comment, which
-> >       originates from the i915 driver.
-> >    3. Accept C[124] modes when validating or filling in struct
-> >       fb_var_screeninfo, and  use the correct number of bits per pixel.
-> >    4. Set the visual to FB_VISUAL_PSEUDOCOLOR for all supported
-> >       color-indexed modes.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Hi Harry,
 
-> > --- a/drivers/gpu/drm/drm_fb_helper.c
-> > +++ b/drivers/gpu/drm/drm_fb_helper.c
-> > @@ -376,12 +376,34 @@ static void drm_fb_helper_damage_blit_real(struct drm_fb_helper *fb_helper,
-> >                                          struct iosys_map *dst)
-> >   {
-> >       struct drm_framebuffer *fb = fb_helper->fb;
-> > -     unsigned int cpp = fb->format->cpp[0];
-> > -     size_t offset = clip->y1 * fb->pitches[0] + clip->x1 * cpp;
-> > -     void *src = fb_helper->fbdev->screen_buffer + offset;
-> > -     size_t len = (clip->x2 - clip->x1) * cpp;
-> > +     size_t offset = clip->y1 * fb->pitches[0];
-> > +     size_t len = clip->x2 - clip->x1;
-> >       unsigned int y;
-> > +     void *src;
-> >
-> > +     switch (fb->format->depth) {
->
-> The depth field is deprecated. It's probably better to use
-> fb->format->format and test against 4CC codes.
+On Thu, Feb 10, 2022 at 09:38:24AM -0500, Harry Wentland wrote:
+> On 2022-02-10 03:42, Maxime Ripard wrote:
+> > On Mon, Feb 07, 2022 at 01:59:38PM -0500, Harry Wentland wrote:
+> >> On 2022-02-07 13:57, Harry Wentland wrote:
+> >>> On 2022-02-07 11:34, Maxime Ripard wrote:
+> >>>> The amdgpu KMS driver calls drm_plane_create_color_properties() with=
+ a
+> >>>> default encoding set to BT709.
+> >>>>
+> >>>> However, the core will ignore it and the driver doesn't force it in =
+its
+> >>>> plane state reset hook, so the initial value will be 0, which repres=
+ents
+> >>>> BT601.
+> >>>>
+> >>>
+> >>> Isn't this a core issue? Should __drm_atomic_helper_plane_state_reset
+> >>> reset all plane_state members to their properties' default values?
+> >>>
+> >>
+> >> Ah, looks like that's exactly what you do in the later patches, which =
+is
+> >> perfect. With that, I don't think you'll need this patch anymore.
+> >=20
+> > Ok, I'll squash it into the patch that removes the reset code.
+> >=20
+>=20
+> I don't think that's right. I think we can just drop this patch.
+> The amdgpu display driver is not doing BT601 by default.
 
-The reason I checked for depth instead of a 4CC code is that the only
-thing that matters here is the number of bits per pixel.  Hence this
-function won't need any changes to support R1, R2, R4, and D1 later.
-When we get here, we already know that we are using a format that
-is supported by the fbdev helper code, and thus passed the 4CC
-checks elsewhere.
+My understanding from the code currently in tree is that:
 
-Alternatively, we could introduce drm_format_info_bpp() earlier in
-the series, and use that?
+1) amdgpu_dm_plane_init() will call drm_plane_create_color_properties()
+   with an initial value set to BT709.
 
->
-> > +     case 1:
-> > +             offset += clip->x1 / 8;
-> > +             len = DIV_ROUND_UP(len + clip->x1 % 8, 8);
-> > +             break;
-> > +
->
-> Style: no empty lines here.
+2) dm_drm_plane_reset() will use kzalloc and then just rely on
+   __drm_atomic_helper_plane_reset(), which will not set the color encoding
+   at all. It's thus 0 in the initial state.
 
-OK.
+3) the drm_color_encoding enum will have BT601 associated to 0
 
-> > +     case 2:
-> > +             offset += clip->x1 / 4;
-> > +             len = DIV_ROUND_UP(len + clip->x1 % 4, 4);
-> > +             break;
-> > +
-> > +     case 4:
-> > +             offset += clip->x1 / 2;
-> > +             len = DIV_ROUND_UP(len + clip->x1 % 2, 2);
-> > +             break;
-> > +
->
-> Can we handle case C8 like C[124]? Seems cleaner to me.
+So it does look like the default for amdgpu at the moment is BT601?
 
-The cases above are purely to handle bpp < 8; they are not
-about color-indexed vs. truecolor modes.
-XRGB1111 mode would need to be handled above, too.
+Maxime
 
-> > @@ -1231,19 +1253,30 @@ static bool drm_fb_pixel_format_equal(const struct fb_var_screeninfo *var_1,
-> >   }
-> >
-> >   static void drm_fb_helper_fill_pixel_fmt(struct fb_var_screeninfo *var,
-> > -                                      u8 depth)
-> > -{
-> > -     switch (depth) {
-> > -     case 8:
-> > +                                      const struct drm_format_info *format)
-> > +{
-> > +     u8 depth = format->depth;
-> > +
-> > +     switch (format->format) {
-> > +     // FIXME Perhaps
-> > +     // #define DRM_FORMAT_C0 fourcc_code('C', '0', ' ', ' ')
->
-> What is C0?
+--3y3s4rvkp2s5fbh6
+Content-Type: application/pgp-signature; name="signature.asc"
 
-A non-existing color-indexed mode with zero colors ;-)
-Introduced purely to make a check like in the comment below work.
-What we really want to check here is if the mode is color-indexed
-or not...
+-----BEGIN PGP SIGNATURE-----
 
-> > +     // if ((format & fourcc_code(0xff, 0xf8, 0xff, 0xff) == DRM_FORMAT_C0) ...
-> > +     case DRM_FORMAT_C1:
-> > +     case DRM_FORMAT_C2:
-> > +     case DRM_FORMAT_C4:
-> > +     case DRM_FORMAT_C8:
-> >               var->red.offset = 0;
-> >               var->green.offset = 0;
-> >               var->blue.offset = 0;
-> > -             var->red.length = 8; /* 8bit DAC */
-> > -             var->green.length = 8;
-> > -             var->blue.length = 8;
-> > +             var->red.length = depth;
-> > +             var->green.length = depth;
-> > +             var->blue.length = depth;
-> >               var->transp.offset = 0;
-> >               var->transp.length = 0;
-> > -             break;
-> > +             return;
-> > +     }
-> > +
-> > +     switch (depth) {
-> >       case 15:
-> >               var->red.offset = 10;
-> >               var->green.offset = 5;
-> > @@ -1298,7 +1331,9 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
-> >   {
-> >       struct drm_fb_helper *fb_helper = info->par;
-> >       struct drm_framebuffer *fb = fb_helper->fb;
-> > +     const struct drm_format_info *format = fb->format;
-> >       struct drm_device *dev = fb_helper->dev;
-> > +     unsigned int bpp;
-> >
-> >       if (in_dbg_master())
-> >               return -EINVAL;
-> > @@ -1308,22 +1343,34 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
-> >               var->pixclock = 0;
-> >       }
-> >
-> > -     if ((drm_format_info_block_width(fb->format, 0) > 1) ||
-> > -         (drm_format_info_block_height(fb->format, 0) > 1))
-> > -             return -EINVAL;
-> > +     switch (format->format) {
-> > +     case DRM_FORMAT_C1:
-> > +     case DRM_FORMAT_C2:
-> > +     case DRM_FORMAT_C4:
-> > +             bpp = format->depth;
-> > +             break;
->
-> Added C8 here would be more consistent.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYg50cgAKCRDj7w1vZxhR
+xajBAQDZJH4L1HIZtOjNjUZy70kzhvPp84ITyDvZFUbtrnlvswEA3sWE6f7R9xcI
+FKWQz7FikzvKtmT8XxLs5vH6cJnYCgQ=
+=LDIf
+-----END PGP SIGNATURE-----
 
-Again, this is not about color-indexed vs. truecolor, but about bpp.
-drm_format_info_bpp()?
-
- > +
-> > +     default:
-> > +             if ((drm_format_info_block_width(format, 0) > 1) ||
-> > +                 (drm_format_info_block_height(format, 0) > 1))
-> > +                     return -EINVAL;
-> > +
-> > +             bpp = format->cpp[0] * 8;
-> > +             break;
-> > +     }
-
-> > @@ -1680,11 +1727,20 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
-> >   }
-> >
-> >   static void drm_fb_helper_fill_fix(struct fb_info *info, uint32_t pitch,
-> > -                                uint32_t depth)
-> > +                                uint32_t format)
-> >   {
-> >       info->fix.type = FB_TYPE_PACKED_PIXELS;
-> > -     info->fix.visual = depth == 8 ? FB_VISUAL_PSEUDOCOLOR :
-> > -             FB_VISUAL_TRUECOLOR;
-> > +     switch (format) {
-
-This one is about color-indexed vs. truecolor.
-
-> > +     case DRM_FORMAT_C1:
-> > +     case DRM_FORMAT_C2:
-> > +     case DRM_FORMAT_C4:
-> > +     case DRM_FORMAT_C8:
-> > +             info->fix.visual = FB_VISUAL_PSEUDOCOLOR;
-> > +             break;
-> > +     default:
-> > +             info->fix.visual = FB_VISUAL_TRUECOLOR;
-> > +             break;
-> > +     }
-> >       info->fix.mmio_start = 0;
-> >       info->fix.mmio_len = 0;
-> >       info->fix.type_aux = 0;
-> > @@ -1701,19 +1757,29 @@ static void drm_fb_helper_fill_var(struct fb_info *info,
-> >                                  uint32_t fb_width, uint32_t fb_height)
-> >   {
-> >       struct drm_framebuffer *fb = fb_helper->fb;
-> > +     const struct drm_format_info *format = fb->format;
-> >
-> > -     WARN_ON((drm_format_info_block_width(fb->format, 0) > 1) ||
-> > -             (drm_format_info_block_height(fb->format, 0) > 1));
-> >       info->pseudo_palette = fb_helper->pseudo_palette;
-> >       info->var.xres_virtual = fb->width;
-> >       info->var.yres_virtual = fb->height;
-> > -     info->var.bits_per_pixel = fb->format->cpp[0] * 8;
-> > +     switch (format->format) {
-> > +     case DRM_FORMAT_C1:
-> > +     case DRM_FORMAT_C2:
-> > +     case DRM_FORMAT_C4:
-> > +             info->var.bits_per_pixel = format->depth;
-> > +             break;
->
-> C8.
-
-Again, this is not about color-indexed vs. truecolor, but about bpp.
-Here I do check the 4CC codes, as this controls which modes can be
-handled by the fbdev emulation, and we do not want to let random
-modes with depth or bpp < 8 pass.
-
-> The fbdev helpers look correct to me.  I'm not so sure about the usage
-> of the format info; especially the depth field.  The docs say that the
-> field is deprecated and should be 0. Maybe depth can be handled within
-> fbdev?
-
-Perhaps. I don't know enough about DRM to know what the depth field
-is used for.
-
-Note that true fbdev supports all values of depth < bpp (e.g. a
-32-color mode (depth = 5) where each pixel is stored in one byte).
-I do not suggest adding support for that, though ;-)
-
-> > +
-> > +     default:
-> > +             WARN_ON((drm_format_info_block_width(format, 0) > 1) ||
-> > +                     (drm_format_info_block_height(format, 0) > 1));
-
-BTW, probably this WARN_ON() (which existed before, but got moved)
-should be converted into returning an error instead.
-
-> > +             info->var.bits_per_pixel = format->cpp[0] * 8;
-> > +     }
-> >       info->var.accel_flags = FB_ACCELF_TEXT;
-> >       info->var.xoffset = 0;
-> >       info->var.yoffset = 0;
-> >       info->var.activate = FB_ACTIVATE_NOW;
-> >
-> > -     drm_fb_helper_fill_pixel_fmt(&info->var, fb->format->depth);
-> > +     drm_fb_helper_fill_pixel_fmt(&info->var, format);
-> >
-> >       info->var.xres = fb_width;
-> >       info->var.yres = fb_height;
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--3y3s4rvkp2s5fbh6--
