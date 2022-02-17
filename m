@@ -2,67 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4234BA3D7
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 15:58:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC12F4BA3E1
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 16:00:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6E4B10EB3B;
-	Thu, 17 Feb 2022 14:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F65910EBB2;
+	Thu, 17 Feb 2022 15:00:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D80D610EB3A
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 14:58:37 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 76D96219A6;
- Thu, 17 Feb 2022 14:58:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1645109916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gm/0DermuwZ9gOzpd7kCABJLyp4XfnHzwQRiRZkB4oQ=;
- b=zpLlnjR77rvzZfotVKgFeDgTl1XxYhh1OEr2Cgev9hvgfElxwdQl6NS9UGDW4NwNjnOziV
- XY4ZHceZ30we7knLBhJPSTf4d6QCFVQzqc4Qzh/Dmi0smGC784bGnrJHD8GxM2T1N90K/l
- DxMRfn5SQYRy0Nsk1HOynYCX+Q2Or3k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1645109916;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gm/0DermuwZ9gOzpd7kCABJLyp4XfnHzwQRiRZkB4oQ=;
- b=IrgREaEWvJETlyocDyWC7JAUkgXxdeT7Z20MI5GzpaL+LgzOl6hTRAXdkA9zW4GzC82oXs
- Wn55OGpP0B/a0WCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3B91B13C19;
- Thu, 17 Feb 2022 14:58:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id OY6NDZxiDmKyTQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 17 Feb 2022 14:58:36 +0000
-Message-ID: <4e617aec-33b5-c437-9f69-ea2341d432b8@suse.de>
-Date: Thu, 17 Feb 2022 15:58:35 +0100
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36EC510EBB2;
+ Thu, 17 Feb 2022 15:00:10 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ b17-20020a9d4791000000b005a17fc2dfc1so3867632otf.1; 
+ Thu, 17 Feb 2022 07:00:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MM/QHOlU7DbqQK20LVBAm7uDj3BO+aqAJQxNjTOzdUg=;
+ b=mnfgNDsECj10rcf5nLEGVYy/UUhxlCCcb1i2XqBTYEzNhFRsqRLXQrYbBVQnRl2XMZ
+ arVLMKPkcKHjYa61q0J6DSVRXpVpBUQIOVCrWcZte/jo1nm3j2H06xjgfeBogzrD471N
+ 37F1DOtvmoKsLkK8jCg8LkvCrKX/sYRka+xnsnLXmE4EPu+KOj+DwxFh68WcemvCqwoq
+ eeI7ICVHBeJr3Ot8VD6WtaFpZOynmU+fn9bR/g8RVuTwMP+Xr13So6u2TNSO4edm59fH
+ 7LdePAFxgi6G/KWUaiTX+yiUR4YUn6Q4NotjQU/NyWtgbtl0Snbr3w3PWagsEx7d3jcn
+ 6aNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MM/QHOlU7DbqQK20LVBAm7uDj3BO+aqAJQxNjTOzdUg=;
+ b=vH4GalDBZjh18sn0L/baYVtTqVUOKHbfSv5GKdekOJFdkL4CZxUV8qP7OW644RqT8r
+ pj87CjE/5K4gy4Bipc6QRwLbxEfq8GSDF5OtkKHFGE/XV7Scl2mZedeyBRvgNrKzIx3G
+ kr5EFIkSHd4c+Ywmcd390dNLewhzN7DM78yh29vMOGpBivrz4RI79pBfhkR2pREg6tva
+ yyf5avydeLcLLwfcoXkFM4kQOE2MVtFK7so+byRzHKe7oYQT3ngy0+Gh16EZ9Yw7h1cp
+ PLlegOWVoWyzIytX7I94XeuAaqopIFb7nsD2u5wx8zTF8rXQ8WI9T6ZgHFAsACCToByZ
+ wDQQ==
+X-Gm-Message-State: AOAM531W69uCrAI2BNjzjM6PdcJtgxnnqQ2Hw3orJj3REQgRDI26Rw90
+ 1YrzyxNkMZHaZELOQE0mZI/Q3pdFkkzWO8m2B/Q=
+X-Google-Smtp-Source: ABdhPJzyVJSfewKaWQhXyIXRiR0WdhbEoJAx4xw/ifHIEgMLYDsF4EPHdVHyvAmc8FrzZz7oR1+3b25snbXLc+Y7tXI=
+X-Received: by 2002:a05:6830:54a:b0:5ac:f770:5ac5 with SMTP id
+ l10-20020a056830054a00b005acf7705ac5mr986729otb.200.1645110007476; Thu, 17
+ Feb 2022 07:00:07 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 4/8] drm/client: Use actual bpp when allocating frame
- buffers
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <20220215165226.2738568-1-geert@linux-m68k.org>
- <20220215165226.2738568-5-geert@linux-m68k.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220215165226.2738568-5-geert@linux-m68k.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------f0rQO86WVT0bqVW7eV0DG68u"
+References: <20220216114013.15192-1-yuehaibing@huawei.com>
+In-Reply-To: <20220216114013.15192-1-yuehaibing@huawei.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 17 Feb 2022 09:59:56 -0500
+Message-ID: <CADnq5_MDSU2U9bSfXm4U0c5EJeb=fygC6UtAx40jqV6kpFLJRg@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amdgpu: Remove unused function
+ get_umc_v6_7_channel_index()
+To: YueHaibing <yuehaibing@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,88 +64,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-m68k@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Dave Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------f0rQO86WVT0bqVW7eV0DG68u
-Content-Type: multipart/mixed; boundary="------------Po97X5mm8nlphmW9Hb2sl4W0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-m68k@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <4e617aec-33b5-c437-9f69-ea2341d432b8@suse.de>
-Subject: Re: [PATCH 4/8] drm/client: Use actual bpp when allocating frame
- buffers
-References: <20220215165226.2738568-1-geert@linux-m68k.org>
- <20220215165226.2738568-5-geert@linux-m68k.org>
-In-Reply-To: <20220215165226.2738568-5-geert@linux-m68k.org>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
---------------Po97X5mm8nlphmW9Hb2sl4W0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-DQoNCkFtIDE1LjAyLjIyIHVtIDE3OjUyIHNjaHJpZWIgR2VlcnQgVXl0dGVyaG9ldmVuOg0K
-PiBXaGVuIGFsbG9jYXRpbmcgYSBmcmFtZSBidWZmZXIsIHRoZSBudW1iZXIgb2YgYml0cyBw
-ZXIgcGl4ZWwgbmVlZGVkIGlzDQo+IGRlcml2ZWQgZnJvbSB0aGUgZGVwcmVjYXRlZCBkcm1f
-Zm9ybWF0X2luZm8uY3BwW10gZmllbGQuICBXaGlsZSB0aGlzDQo+IHdvcmtzIGZvciBmb3Jt
-YXRzIHVzaW5nIGxlc3MgdGhhbiA4IGJpdHMgcGVyIHBpeGVsLCBpdCBkb2VzIGxlYWQgdG8g
-YQ0KPiBsYXJnZSBvdmVyYWxsb2NhdGlvbi4NCj4gDQo+IFJlZHVjZSBtZW1vcnkgY29uc3Vt
-cHRpb24gYnkgdXNpbmcgdGhlIGFjdHVhbCBudW1iZXIgb2YgYml0cyBwZXIgcGl4ZWwNCj4g
-aW5zdGVhZC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2Vl
-cnRAbGludXgtbTY4ay5vcmc+DQpBY2tlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+DQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9jbGll
-bnQuYyB8IDQgKystLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIg
-ZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9j
-bGllbnQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50LmMNCj4gaW5kZXggY2U0NWUz
-ODBmNGEyMDI4Zi4uYzZhMjc5ZTNkZTk1NTkxYSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2RybV9jbGllbnQuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVu
-dC5jDQo+IEBAIC0yNjQsNyArMjY0LDcgQEAgZHJtX2NsaWVudF9idWZmZXJfY3JlYXRlKHN0
-cnVjdCBkcm1fY2xpZW50X2RldiAqY2xpZW50LCB1MzIgd2lkdGgsIHUzMiBoZWlnaHQsIHUN
-Cj4gICANCj4gICAJZHVtYl9hcmdzLndpZHRoID0gd2lkdGg7DQo+ICAgCWR1bWJfYXJncy5o
-ZWlnaHQgPSBoZWlnaHQ7DQo+IC0JZHVtYl9hcmdzLmJwcCA9IGluZm8tPmNwcFswXSAqIDg7
-DQo+ICsJZHVtYl9hcmdzLmJwcCA9IGRybV9mb3JtYXRfaW5mb19icHAoaW5mbywgMCk7DQo+
-ICAgCXJldCA9IGRybV9tb2RlX2NyZWF0ZV9kdW1iKGRldiwgJmR1bWJfYXJncywgY2xpZW50
-LT5maWxlKTsNCj4gICAJaWYgKHJldCkNCj4gICAJCWdvdG8gZXJyX2RlbGV0ZTsNCj4gQEAg
-LTM3Miw3ICszNzIsNyBAQCBzdGF0aWMgaW50IGRybV9jbGllbnRfYnVmZmVyX2FkZGZiKHN0
-cnVjdCBkcm1fY2xpZW50X2J1ZmZlciAqYnVmZmVyLA0KPiAgIAlpbnQgcmV0Ow0KPiAgIA0K
-PiAgIAlpbmZvID0gZHJtX2Zvcm1hdF9pbmZvKGZvcm1hdCk7DQo+IC0JZmJfcmVxLmJwcCA9
-IGluZm8tPmNwcFswXSAqIDg7DQo+ICsJZmJfcmVxLmJwcCA9IGRybV9mb3JtYXRfaW5mb19i
-cHAoaW5mbywgMCk7DQo+ICAgCWZiX3JlcS5kZXB0aCA9IGluZm8tPmRlcHRoOw0KPiAgIAlm
-Yl9yZXEud2lkdGggPSB3aWR0aDsNCj4gICAJZmJfcmVxLmhlaWdodCA9IGhlaWdodDsNCg0K
-LS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VT
-RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQw
-OSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2No
-w6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
-
---------------Po97X5mm8nlphmW9Hb2sl4W0--
-
---------------f0rQO86WVT0bqVW7eV0DG68u
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIOYpsFAwAAAAAACgkQlh/E3EQov+AW
-Rw//d948853dyMKjbROEjrYtlfWMVu3qcdqypusUfh3f3MVC7Tcxph+vosESVBagX5+uyMf1JVt+
-mHYOoCwp7jPAwKbPh/Ud9u4HgSwnMLhtkZ49AUXiQuoXgS6p/RkmuZZngjG9HW4ug7wmD/QNCbUd
-D++fTZGniiPEDxRSSfn62sjjpZzj1gAb7p/Lsv2Jlrr1KNFeDN8ZqAtQXEZZnnXPnFM50jjkd1Eo
-qztZBCMaoPAUhA6918S6y6LZnK16phhKlINhQtCNSh12u29YJ3XEMRQs1zIDHwmLEtvMWKLqf/tb
-6/pufxrTMBcM4JU+NqgX7zg4XHbR3KLW9J4wp2Zk6x/BXG79VsG1AaxbPy9jjHQFrmciKW/7UCLG
-3Vg1ISeVXH50XpqzTRO6HfBqygu+EWDI/0hzAn0Xol7tvnKOnPwQwHwQrfYORtBGhD5l8Y9hZfmt
-t8DsNz9c7XdDCA401dS2jqEC5e6RHkxAeLnBoREppSg4azP0ymvecEtmZgFVPf/9KQM9b0tsSgoL
-B3GDmZBFN996h2KdBwe0VJhJrKKoF1DjHpN08vBp631MqNh5Xa5nXtWhW764oWUevw+0ubzJRqqd
-6/8Ux2LnWkQ6SYRJtwcpHSgwwDKB/SpuSVCFcFvB6cq9S0IuWvx1X86rKl0IAhori/7kTzEmu5LI
-VJY=
-=r5wF
------END PGP SIGNATURE-----
-
---------------f0rQO86WVT0bqVW7eV0DG68u--
+On Wed, Feb 16, 2022 at 6:58 AM YueHaibing <yuehaibing@huawei.com> wrote:
+>
+> This is unused after commit 37ff945f804c ("drm/amdgpu: fix convert bad page retiremt")
+>
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/umc_v6_7.c | 7 -------
+>  1 file changed, 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/umc_v6_7.c b/drivers/gpu/drm/amd/amdgpu/umc_v6_7.c
+> index f5a1ba7db75a..00f87e3c6b0e 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/umc_v6_7.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/umc_v6_7.c
+> @@ -50,13 +50,6 @@ static inline uint32_t get_umc_v6_7_reg_offset(struct amdgpu_device *adev,
+>         return adev->umc.channel_offs * ch_inst + UMC_V6_7_INST_DIST * umc_inst;
+>  }
+>
+> -static inline uint32_t get_umc_v6_7_channel_index(struct amdgpu_device *adev,
+> -                                             uint32_t umc_inst,
+> -                                             uint32_t ch_inst)
+> -{
+> -       return adev->umc.channel_idx_tbl[umc_inst * adev->umc.channel_inst_num + ch_inst];
+> -}
+> -
+>  static void umc_v6_7_ecc_info_query_correctable_error_count(struct amdgpu_device *adev,
+>                                                    uint32_t umc_inst, uint32_t ch_inst,
+>                                                    unsigned long *error_count)
+> --
+> 2.17.1
+>
