@@ -1,70 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1394B952B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 01:56:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7F64B954F
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 02:17:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E02610E6CF;
-	Thu, 17 Feb 2022 00:56:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C05C710E6D4;
+	Thu, 17 Feb 2022 01:17:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9FAE10E6CF
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 00:56:54 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id c15so5884550ljf.11
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 16:56:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Hwfp/OQtDrohKTPClg8y0ZHlR72Rccgb37q08oBGNNU=;
- b=wCumKQyTDNnf03yAzx77D+z7zRRNqJ4/GpBs0W//gkl2tJsZtQ0WTYSnytdMx7z0cq
- nHnx79/Fpzha7WKPXs7RNNosMZ+tQv/9j6OxYlVpiLvO++veN61jxyQuHm/QinCYmpRp
- TL3uJ4O78M8B0JMlXOryRZ0LLciTPsscRWuLhRzqKGcK8A/LOd2SPQmaF6BZ+k4cZFAm
- RBZXCBfaB0jlhstTiAwDlWovJtu+E06x47IRmQAICFS49D5AZgNYcoNh5+y8n+HU6keq
- EByfRV7o3jpneA7pGXIQYkMrWdzRrl5doGupGYnxocTeyCMgY1j9XRVj4c94fLZ2NrKg
- AReA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Hwfp/OQtDrohKTPClg8y0ZHlR72Rccgb37q08oBGNNU=;
- b=XL0iDsk6/oH/Kk5nCCTQMaHNqq8AM7xeVkxa8mm05oS2TnrfoMbwqG7o3aaySofbGW
- Q67/t1i9M7UoDfldQfwsHdpPwPGZKd9ECTUT56BO8Y5Utk/tteDDAxLT+TQTn6m9kNUu
- sDKVI4qTIaksvvwjMYN8qdDiZNY95MXuI6B8IzAv6e+wEgTaqU6+tbNGc4GXJO5HDVMR
- kMoVGA9ymY8JsGpyLObzHFhHG5GuZTtQAbXbciw/vcW4lMRIIGix/aOn5BUKB+A19MGL
- gwDHfLGG3BkKPFuqIbRRQe6o7+q0Pp3cl49+IKvrgs/nXAfixhFyOQLU1v7UZQDy9ReE
- M33g==
-X-Gm-Message-State: AOAM532TL7WekGMGxbI0ud2WkbuGToX8D3h0ukx5a80TNm9/MQ3rZXGl
- rNuAeQwXXYDtBg7p5OIyUK0WNg==
-X-Google-Smtp-Source: ABdhPJywcCKmVMRJ7u3WwWkWGcT35bBfuJOChMjdMtRkeyMwmQJXwNnnrmgn8ej+Zgj41sCPxqvcUg==
-X-Received: by 2002:a05:651c:1792:b0:235:1df3:7b8e with SMTP id
- bn18-20020a05651c179200b002351df37b8emr473604ljb.464.1645059413145; 
- Wed, 16 Feb 2022 16:56:53 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id h9sm1533330ljb.77.2022.02.16.16.56.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 16:56:52 -0800 (PST)
-Message-ID: <bb35fa5f-b873-a345-714e-ce2e7a18b574@linaro.org>
-Date: Thu, 17 Feb 2022 03:56:52 +0300
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08on2052.outbound.protection.outlook.com [40.107.101.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16ACB10E6D4;
+ Thu, 17 Feb 2022 01:17:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kH4/Os6y8OYIP9HBpkt2qdDmHqEs6Rr3Uoov0bGxFJ9YU1tRtXUdDmYLUcjYnDEs/WZjEmRhYEzcHaP6WvDA3kbuwMuv8TjVwszMsQjxT2r6pwA2yLa8FI6u/1E7AxMR2NPhMlykkgMnLA35Kjawr7NtR4lB4+YjER/18Uak/TOHgGeieXS622FNoLkKugzLYlOFgprF5e5qmtMFwXk2QuFiPKchgknI1EIO92sjkrkj21rloN8ISLk2kGQAaflmq+PK54Cz+2ewoVb/kNjpQin2ACDkAPsmrOfEeSt6Z813YAQFf86SWDuxbaInBuAQjfzwji3wPHcMpA1guMiD2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BMEuhpmAXulDBY6QBh0+C/j+aTHwg+xI6f3mciGWO/4=;
+ b=WXk2I5CJBfc8jSbuf/Xjy+4+2G5BYyUdp0rzqTW1jHZoVCctnaO91LJVK9m3RaAkFrzz7DrOlceuoIdS50cCfUhnEWGdiyJFqVI886K2Hlg1VckjUA7Z8hHQxa3N/X079ChIC8z+xnq6z1cMeRSbKrbzyd+AocvmQIzF8BgAYZgh8koTBKuvGSYAl0V7b5LSzVRQkg6vCe3qeDeZ2zSWGSvOeZt1EFGPoqwunofNFkV/8HvERsVRy+zJ7Ogd9dUUe1a1DbIN0ttFwfhK2Tn6+JhzkibvPfp2QYW7LMu0pf1deL9Abgm5Xl/tTsEzG3kxTxmv72D6fkuGw5BgISW/ig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BMEuhpmAXulDBY6QBh0+C/j+aTHwg+xI6f3mciGWO/4=;
+ b=GWKpTPIiXHsGds6/l0PX+kmSxPY5Zznbtqg4MN+Kfg9vVB1xUqTBaTdkNapDkAPLYeHBwAabUs7DUbmBndPZfcmJOqp4Uv0L+pqBqUXKPCtpVbdVs26LscZEfHc6wq6a4Rw/daIMasSp579DbZJBcL6jHEnYZLCBsLit4Ccw6CHgUtYbr3yHgUJrHWMN/izHiBqQkZfMrYRKxRlYgpXVhgzgPwVwBNoMNbqBHC3J5sH+WWRKL8ISm72Ozd85JptE2dGmTyUbJpWqTztCjVCMZhwUnY39YHcd1fLcXzohKhYafYUxeyp/Zg73Efhh6+Yr88O2N1Xi80yguoSGXVNIEA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
+ by BYAPR12MB4776.namprd12.prod.outlook.com (2603:10b6:a03:10d::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.16; Thu, 17 Feb
+ 2022 01:17:51 +0000
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::1528:82a2:aa0:7aa6]) by BYAPR12MB3176.namprd12.prod.outlook.com
+ ([fe80::1528:82a2:aa0:7aa6%6]) with mapi id 15.20.4975.019; Thu, 17 Feb 2022
+ 01:17:51 +0000
+From: Alistair Popple <apopple@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v6 01/10] mm: add zone device coherent type memory support
+Date: Thu, 17 Feb 2022 12:05:39 +1100
+References: <beb38138-2266-1ff8-cc82-8fe914bed862@redhat.com>
+ <877d9vd10u.fsf@nvdebian.thelocal> <20220216020357.GD4160@nvidia.com>
+ <6156515.kVgMqSaHHm@nvdebian>
+ <98d8bbc5-ffc2-8966-fdc1-a844874e7ae8@redhat.com>
+ <20220216122600.GG4160@nvidia.com>
+User-agent: mu4e 1.6.9; emacs 27.1
+In-reply-to: <20220216122600.GG4160@nvidia.com>
+Message-ID: <874k4ycmva.fsf@nvdebian.thelocal>
+Content-Type: multipart/mixed; boundary="=-=-="
+X-ClientProxiedBy: BY3PR10CA0008.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::13) To BYAPR12MB3176.namprd12.prod.outlook.com
+ (2603:10b6:a03:134::26)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v4 1/2] drm/msm/dpu: simplify clocks handling
-Content-Language: en-GB
-To: Stephen Boyd <swboyd@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20220131210513.2177652-1-dmitry.baryshkov@linaro.org>
- <20220131210513.2177652-2-dmitry.baryshkov@linaro.org>
- <CAE-0n520mZdGaMWwjBEb7SSbLf31Sd7t3pe9dJ5FLVnsSVJZFg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAE-0n520mZdGaMWwjBEb7SSbLf31Sd7t3pe9dJ5FLVnsSVJZFg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1f4a4e9b-8375-416d-c21a-08d9f1b35121
+X-MS-TrafficTypeDiagnostic: BYAPR12MB4776:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB4776C5225D5A4F55C606BC6BDF369@BYAPR12MB4776.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OSYGsru7tCqTqqhGWYEL2WYfCdp9E1GWbdtP1LT8vg88+Nu2kWdRh3SIYwRjXSfHyM30GQaYAVXe0RI+snffgjucqFM8DQZ9OeJU5epubGL6LsVvRM4rAw+a8c1JGcYwIiq9hEi00XDPryGx9yjs3b30y4Po+sFnNlNxREEx8WGvLEe8iWrvp7lmgtJtLHqWexBkWHihop1VG6c7oPVNcEbgxHNQlUuwYXEkfnF1Lq4sktvfDav6DI8y0tNN2fA/5G2dEhirstj2FjKlxdwWUPir2OmsuIaG+4ChfW0iRFvk3lVxOvoKGd1c6uO3zs6LoKY6Ikuls08Jb/7pNPtyUW+lHsn20mXrIk0AILlL/NuoFmz5pmynfIU7SLp+gfTe/lROd80+sVXnR0QRuv4G4wqi6mavHP0/yKLRefXDiejLxiN1TIpu3DLsV7bTnCcehMChlHXuLDFlZupjWhdgd2VuUVV1Mc3Y/z01/pkRxvS97KsJIM8k2eokCjaf0isxcfJjQdKmf2zFRmnXReq4rOz9aetkTRJPly1/0cCkLjxaUBCFg1yQb+B5Y5s154f7TWGR3P9veLGnTqykTPHt8pHS4qzUd6aG+/SlEljFYDVdthDyPzCZ65f/VniFNQMBF8LORdGqijEi0cntA/hTcw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6506007)(5660300002)(26005)(186003)(316002)(66556008)(66476007)(6486002)(66946007)(4326008)(2906002)(6862004)(8676002)(6512007)(7416002)(9686003)(8936002)(38100700002)(53546011)(44144004)(508600001)(6636002)(54906003)(6666004)(83380400001)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?e6fFZsIH3hnaeSVsjJ+CZm1UwjTvLxTAqRl6hedw5QECLy+g9dPl9CuKedXq?=
+ =?us-ascii?Q?I8dSI8ogxYJ4UedO4P8cPqo+LVhpcSvV8WIN4+mHNKxNGooyuCN/+/Ali5Kd?=
+ =?us-ascii?Q?gFnv0CJ5mQFYBuBzwBE1o53/xIgaLU2w6UzrnF8grpVsr1cRLssJLMRp4C8c?=
+ =?us-ascii?Q?njBosP57mBBBsidtsh2rGHsIpSVxXP9u8+whQwGG4UY6J3Us1dNQGveQLydr?=
+ =?us-ascii?Q?N67yfwU8gt+aa03SiCOTFJT/NmQOWtKiWEbCKCsyN7+iSq09UGxnb59f1Haw?=
+ =?us-ascii?Q?nyOYXuTfuvvCA1SYOoiAvtoaGy3nYlTZCQpqdlRk3hQwcXbYt7Mx+UAM+eba?=
+ =?us-ascii?Q?S3aCmdKjgGwU4eck/MbZ3Z+/gY/f36QfcbHbu8ZSW/nghoS0HV/EmlWlMz/o?=
+ =?us-ascii?Q?sNQ6yLjkmSsDna2WdeRjbC3inzzW+Hul7IVoMDJxQHVJ+62FudwCEevEZmcp?=
+ =?us-ascii?Q?Th2/esSRNSa75Yif4GvUYvDUxoUdzkEGloyI8ezlcQBkfZ45bOzzC6IFSe5K?=
+ =?us-ascii?Q?CnjBnhpOMmPnZmihSsJg3RDuJwbjAgEEQBnSzCCj2gNGvL+ag9jHydG44whX?=
+ =?us-ascii?Q?Nfiud8AeM2/DrhhsYxqzx3HIsAKc7nyj7GkN4Q9lOCt9ZWzewgydOOGkotWP?=
+ =?us-ascii?Q?422wCi5HVZrnaKqqBm3Gx2WlBt2CeUz6zu9hNK0AT0UNy3FfK3ijt4xj2rtj?=
+ =?us-ascii?Q?/Kunda9sXe3ZVrJoRYGQ4qtOnHuDt8PiGuSBzckBD9SW9O5RATztEs/zTzxv?=
+ =?us-ascii?Q?CTWjR/HE+k5t7pLXzGulFofh/hUALREvY92Ver41qOE73Y7D9vcro8igSdE0?=
+ =?us-ascii?Q?/v/ZlUvsZ6ZKy+q7VgD9yk2pbTb05o9WijYVHhJ/S4+x05uCxmwV8UpLKm0V?=
+ =?us-ascii?Q?4+QJAnGx5cTZAGMm6D/iNZDvIa3AMVFdUs6baVIWTC+xdOPeM6H83Rt92rsT?=
+ =?us-ascii?Q?4rRw3Cg9eAhf8ZfeR/WQVwr5JBskrSMKrxakFnmWQ9Psk76cipv1+2vQvJDi?=
+ =?us-ascii?Q?6QU0Kw8l780rnqExUtMC8VyTuI2BxQVYNxI+awheOF2UsGTeds+LmIUgvGKx?=
+ =?us-ascii?Q?OaIwH8yIP8fXbSprf8ZT1WbHkpwkU4asw9Mg+0V4orMUh/L7CTF9tqN+Obme?=
+ =?us-ascii?Q?b5Q4Nzv6UrSaj/pb45VwtkyaY1qAHibTu97tQj9DpiIkw/KdTQUZvig2oOSp?=
+ =?us-ascii?Q?Fn1HwNZnCce0zKeGjgyegpAVZU+qDHIZL32XNPK81+agsBVJFN3Q49Dz9g3c?=
+ =?us-ascii?Q?aXFi06/wXtZCMJRlj1x7D6CuBFUTSv40DZL+AC5oaS1UmmuRgcJGPmVXJ9Km?=
+ =?us-ascii?Q?b75+9laHA0uqEe88oq7T7Xzvy+TxI9i4nUmOkpvWOGDPC/FqCv5ITKSK3Hv5?=
+ =?us-ascii?Q?FCjun0c5ckqPjdCF90pG1/awDawBGiRNIQqdByC6ZloTtIZeVqAYL9rU4eJJ?=
+ =?us-ascii?Q?rYvSKKrZTapZQWx96Jqrd0j3ad72Z6zX3TIIQqMEjkca87ILpQl1XA6e2rl1?=
+ =?us-ascii?Q?qsYiMs0H3VNLoTZAc69qh3RLTiluybr+8uu39NU5d92Xdd07/Hkje1Evnsp3?=
+ =?us-ascii?Q?4ehRM8QOe21Ex/arx2FrxmH2T5Mj0VHlHAhiD0KcoiYY2QDd6aiaB8q8B5iS?=
+ =?us-ascii?Q?jc+Lmslcb7oXsoSNBeCO0XQ=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f4a4e9b-8375-416d-c21a-08d9f1b35121
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3176.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2022 01:17:51.4742 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bkyKr/hikiEpFlK+d83fDj7F3PHsgAQusAk84J5lu8RPit/so5ruSBKEO54uqcEXmnUdDM3aP7BDFkmGvvGZIA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB4776
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,103 +120,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
+ willy@infradead.org, David Hildenbrand <david@redhat.com>,
+ Felix Kuehling <felix.kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
+ dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
+ linux-ext4@vger.kernel.org, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/02/2022 05:31, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2022-01-31 13:05:12)
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->> index 60fe06018581..4d184122d63e 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->> @@ -405,10 +394,11 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
->>
->>                  trace_dpu_core_perf_update_clk(kms->dev, stop_req, clk_rate);
->>
->> -               ret = _dpu_core_perf_set_core_clk_rate(kms, clk_rate);
->> +               if (clk_rate > kms->perf.max_core_clk_rate)
->> +                       clk_rate = kms->perf.max_core_clk_rate;
-> 
-> Using
-> 
-> 	clk_rate = min(clk_rate, kms->perf.max_core_clk_rate)
-> 
-> would be type safer. And min_t() would be explicit if the types don't
-> match, but we should try to make them be compatible.
+--=-=-=
+Content-Type: text/plain
+Content-Disposition: inline
 
-Ack
+Jason Gunthorpe <jgg@nvidia.com> writes:
 
-> 
->> +               ret = dev_pm_opp_set_rate(&kms->pdev->dev, clk_rate);
->>                  if (ret) {
->> -                       DPU_ERROR("failed to set %s clock rate %llu\n",
->> -                                       kms->perf.core_clk->clk_name, clk_rate);
->> +                       DPU_ERROR("failed to set core clock rate %llu\n", clk_rate);
->>                          return ret;
->>                  }
+> On Wed, Feb 16, 2022 at 09:31:03AM +0100, David Hildenbrand wrote:
+>> On 16.02.22 03:36, Alistair Popple wrote:
+>> > On Wednesday, 16 February 2022 1:03:57 PM AEDT Jason Gunthorpe wrote:
+>> >> On Wed, Feb 16, 2022 at 12:23:44PM +1100, Alistair Popple wrote:
+>> >>
+>> >>> Device private and device coherent pages are not marked with pte_devmap and they
+>> >>> are backed by a struct page. The only way of inserting them is via migrate_vma.
+>> >>> The refcount is decremented in zap_pte_range() on munmap() with special handling
+>> >>> for device private pages. Looking at it again though I wonder if there is any
+>> >>> special treatment required in zap_pte_range() for device coherent pages given
+>> >>> they count as present pages.
+>> >>
+>> >> This is what I guessed, but we shouldn't be able to just drop
+>> >> pte_devmap on these pages without any other work?? Granted it does
+>> >> very little already..
+>> >
+>> > Yes, I agree we need to check this more closely. For device private pages
+>> > not having pte_devmap is fine, because they are non-present swap entries so
+>> > they always get special handling in the swap entry paths but the same isn't
+>> > true for coherent device pages.
 >>
->> @@ -529,13 +519,13 @@ void dpu_core_perf_destroy(struct dpu_core_perf *perf)
->>   int dpu_core_perf_init(struct dpu_core_perf *perf,
->>                  struct drm_device *dev,
->>                  struct dpu_mdss_cfg *catalog,
->> -               struct dss_clk *core_clk)
->> +               struct clk *core_clk)
->>   {
->>          perf->dev = dev;
->>          perf->catalog = catalog;
->>          perf->core_clk = core_clk;
+>> I'm curious, how does the refcount of a PageAnon() DEVICE_COHERENT page
+>> look like when mapped? I'd assume it's also (currently) still offset by
+>> one, meaning, if it's mapped into a single page table it's always at
+>> least 2.
+>
+> Christoph fixed this offset by one and updated the DEVICE_COHERENT
+> patchset, I hope we will see that version merged.
+>
+>> >> I thought at least gup_fast needed to be touched or did this get
+>> >> handled by scanning the page list after the fact?
+>> >
+>> > Right, for gup I think the only special handling required is to prevent
+>> > pinning. I had assumed that check_and_migrate_movable_pages() would still get
+>> > called for gup_fast but unless I've missed something I don't think it does.
+>> > That means gup_fast could still pin movable and coherent pages. Technically
+>> > that is ok for coherent pages, but it's undesirable.
 >>
->> -       perf->max_core_clk_rate = core_clk->max_rate;
->> +       perf->max_core_clk_rate = clk_get_rate(core_clk);
->>          if (!perf->max_core_clk_rate) {
->>                  DPU_DEBUG("optional max core clk rate, use default\n");
->>                  perf->max_core_clk_rate = DPU_PERF_DEFAULT_MAX_CORE_CLK_RATE;
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->> index 2d385b4b7f5e..5f562413bb63 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->> @@ -21,7 +21,6 @@
->>   #include "dpu_hw_lm.h"
->>   #include "dpu_hw_interrupts.h"
->>   #include "dpu_hw_top.h"
->> -#include "dpu_io_util.h"
->>   #include "dpu_rm.h"
->>   #include "dpu_core_perf.h"
->>
->> @@ -113,7 +112,8 @@ struct dpu_kms {
->>          struct platform_device *pdev;
->>          bool rpm_enabled;
->>
->> -       struct dss_module_power mp;
->> +       struct clk_bulk_data *clocks;
->> +       int num_clocks;
-> 
-> size_t?
-> 
->>
->>          /* reference count bandwidth requests, so we know when we can
->>           * release bandwidth.  Each atomic update increments, and frame-
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
->> index 131c1f1a869c..8c038416e119 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
->> @@ -29,7 +29,8 @@ struct dpu_irq_controller {
->>   struct dpu_mdss {
->>          struct msm_mdss base;
->>          void __iomem *mmio;
->> -       struct dss_module_power mp;
->> +       struct clk_bulk_data *clocks;
->> +       int num_clocks;
-> 
-> size_t?
-> 
->>          struct dpu_irq_controller irq_controller;
->>   };
->>
+>> We really should have the same pinning rules for GUP vs. GUP-fast.
+>> is_pinnable_page() should be the right place for such checks (similarly
+>> as indicated in my reply to the migration series).
+>
+> Yes, I think this is a bug too.
 
+Agreed, I will add a fix for it to my series as I was surprised the rules for
+PUP-fast were different. I can see how this happened though -
+check_and_migrate_cma_pages() (the precursor to
+check_and_migrate_movable_pages()) was added before PUP-fast and FOLL_LONGTERM
+so I guess we just never added this check there.
 
--- 
-With best wishes
-Dmitry
+- Alistair
+
+> The other place that needs careful audit is all the callers using
+> vm_normal_page() - they must all be able to accept a ZONE_DEVICE page
+> if we don't set pte_devmap.
+>
+> Jason
+
+--=-=-=--
