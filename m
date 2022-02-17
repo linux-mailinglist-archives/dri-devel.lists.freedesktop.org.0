@@ -1,55 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0934BA7BD
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 19:10:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 449AC4BA7BF
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 19:11:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA7510E423;
-	Thu, 17 Feb 2022 18:10:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE9710E47F;
+	Thu, 17 Feb 2022 18:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E9EE10E2F1;
- Thu, 17 Feb 2022 18:10:20 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id v5so3149206qkj.4;
- Thu, 17 Feb 2022 10:10:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dlIqEgnNsfrKYPdcqnisTzYTTW6lFr0uU41WVj22dIU=;
- b=GR9DQ/6YqLdofXAreZ2sAc2p/plqccp4whg5MIThh5ZtaQvztwDyHagUSa1inkA52R
- vxQcKUnoCranyuZSOLz0PFpEVUtcx5JBxu/DbB+UNJKZNjwUStuYWGo6U83k7xlWazm7
- hcKIRiw+007902398QDgn1I1KFMdaibqa1caEOceEJkQcWiHJN0vguC07XzM6PickBDg
- csAs1O7aWJhO4yQHrMdGJRzoVHTYAYAS5WhdVrGliyoq6+5MR7ItwkFG8jIyT6mMGuBY
- FODKzgXrEE7aOFjtF0uSHlgCfZAliAYEbwmaLY3SA3uZzFBGcD0QInKgWBI0f6nq5NsU
- 7WUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dlIqEgnNsfrKYPdcqnisTzYTTW6lFr0uU41WVj22dIU=;
- b=Qh7fzEf9djmLwo2caNn7gZTv5/JGYPCAGp5bU1BCryiP1lrSDLK9V7Fel58MjWKd6y
- /+Ii9tEeEJNU/tV73OfZgbuCxfinmsifkHIDxiu9BgGCaVNMHZvBxaqJui9pxqIle6a9
- ZK3YBL9zwmXxd1pogxYCeEdZrXKhPOL2Y5d5yY0Adc34WiD8Z7nI02n8xnX41yeqT3el
- ciDCUpx1YJbsG/KND+DKorv25OHYJfuRlaD8XS4VDlws12WPHuNANDHZXL3ZaGhQ/LEg
- cvvXM7j5nlQVm8J1H9eu+DKlvL08TFNm3yVgIj3yyrXbyKuhCJMV8XrfLClkbFPSwlq4
- Gd4w==
-X-Gm-Message-State: AOAM53334bebVT7fcXrhlRxypLYBRMsrzq+RJ2IyNsJIvBJjTy1tihmY
- 0h3eme/8KDyNj4nezYbOX/bCZEwyeCL+kaE8HVI=
-X-Google-Smtp-Source: ABdhPJxIo+jnHMR0DEfK+narEFmYI2u67dazGSYJcWVq2Llh1GMi61e3eP4+cCzpfeTAhmqzE5fN1RmGJRjmwzVkCF0=
-X-Received: by 2002:a05:620a:470b:b0:46c:e3c1:717e with SMTP id
- bs11-20020a05620a470b00b0046ce3c1717emr2399860qkb.569.1645121419371; Thu, 17
- Feb 2022 10:10:19 -0800 (PST)
-MIME-Version: 1.0
-References: <20220217175634.4128754-1-lucas.demarchi@intel.com>
-In-Reply-To: <20220217175634.4128754-1-lucas.demarchi@intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Thu, 17 Feb 2022 18:09:53 +0000
-Message-ID: <CAM0jSHM3cf36p_+V3Nx-6mKzARkfPjcPVKnxmx49wUcRKo5bbQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/i915: Kill the fake lmem support
-To: Lucas De Marchi <lucas.demarchi@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A41C10E47F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 18:11:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 16E5CB823BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 18:10:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B4052C340EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 18:10:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645121455;
+ bh=p/r/CM1v9snWmovCYjjZrecZ36cHEN600qAOFAQ7Y5w=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=C7mV8cSKvbmLCcI9lYjpTXy2/Suj3OzJ8fP1KNcGEeLY96vSnjmdPhA5BnGZv+dI2
+ Zvmk4h9tO3y4id/sNLH/cy2V5hXlmdIAqiQURh7VKcOmOf3sLOngRUnmPi9DcYNcUz
+ sOnMlclMJzMxFaZXbvxRPoe+il4jq+6TqI8bSWVkf6TyMCuzZnHDaGRMbNwVx0K6Bq
+ CdaPvM3GnLzJvPGkzy/n/238wYo2JjJ8mC4l2dtMxKbyiKmvsL2EfZH+rX9S45HGWH
+ f/k2FiMz5q2sopi2ihc/HAhVUZPtKYWKeeGU4ctJsVTDyI7ZL5hSr6hiKrMZPgFrhF
+ mC/BoAR92e+gw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id A2D05CAC6E2; Thu, 17 Feb 2022 18:10:55 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 121831] Several kmemcheck: Caught 64-bit read from
+ uninitialized memory in radeo
+Date: Thu, 17 Feb 2022 18:10:55 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: casteyde.christian@free.fr
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: OBSOLETE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-121831-2300-bTkwdsQdzt@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-121831-2300@https.bugzilla.kernel.org/>
+References: <bug-121831-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,21 +71,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Feb 2022 at 17:55, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
->
-> This was useful for early development of lmem, but it's not used
-> anymore, so remove it.
->
-> v2: Remove unneeded fields from struct intel_memory_region
->
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D121831
+
+Christian Casteyde (casteyde.christian@free.fr) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |OBSOLETE
+
+--- Comment #2 from Christian Casteyde (casteyde.christian@free.fr) ---
+Closing as too old and I do not have the hardware anymore to reproduce.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
