@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B28C4B9752
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 04:54:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E034B9753
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 04:54:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 981E010E79A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD0010E7A2;
 	Thu, 17 Feb 2022 03:54:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF8E310E75F
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 03:54:04 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id e5so7538468lfr.9
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 19:54:04 -0800 (PST)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A639310E789
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 03:54:05 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id p22so7576300lfu.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 19:54:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RR1N4aPEBsDSrMkYWyN5C+eYSYGI+wdfjT+eCdTVa9U=;
- b=YCnwYlAvZ7/nS7LPvTABXHKm53V4PGUIaIBxHLF2KydqNgd1nAQ5/A/0ok7TobG8G7
- vycvAQ2fh6huKnrHhICiT1Tr+0jbqcR3OAY136hQ6ZN7CxDJM0j00WsU92y9gutn8GIA
- 8ssmV6+Z0V3E0oYO+RpOiP0rIHJ4PzEFmNd6r/4UjKqqjQuSNVaB1QqdT33fzYE/qChu
- SA4smIhHj5xlikPyBa88uVO7J+7Kkp13NlHB/WMO/p9jI1P2FcrDJ3TlMYLwqTvtRCjX
- r1PTXx+QfICidSWTpCskAyDeMc6KOzYa0S6xfc2KG/oVhXojtHmewRZIEM/IQLtEZ+GH
- ON3Q==
+ bh=TB5gV/5sjwk2KpDc6LqRsCf8QAe1Jc0ZykwfWMWBIy0=;
+ b=NEkeyH1AK3AiRscVBVwxQydnYnI103BFdWInRv0N2AdXNqA53V2TwmqG+DjWxmhPX2
+ Zfy/AoF9vLVRDP0HvY/qXu/290VDBdfr+EO7pHabrNOFgotcQyBL48Bf3QXhpJ17aJOe
+ EcDJY14VgmbnP42HhxA6GxR05FAm4A3ETm7EnxvkUIEGAS8BEN6SL3LHQ3ns101W6lqq
+ oYZmIvxLJV0zDlRwH/EqnS+7dzmPp/uc0g4KMzGRUISQ/KSiKrsz6QRTbaCKBDENztZd
+ 1umaFB6p2lkohTyg9PSGAyh7UfjLkpQGhgV1jLU8f/pYiKWQlm+dNtUBNocLmpIH+uXx
+ AhOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RR1N4aPEBsDSrMkYWyN5C+eYSYGI+wdfjT+eCdTVa9U=;
- b=s+bNzh6qi1SdWQexgd34L9svKggex1iRgGxgMvGgn/LUj0LS6cqNw6RWSXgtKOBRlY
- xmMt/xSFioqI1nfZ+DOKXc2QAFFE4iXsC39txiW0hUG47OL6XVCCF8yvO0acS49g7RGQ
- hYwiOSI4DbJm/fqTJGBYWPrGMV1NkundN/sUY3Je2uVVVH8X+aevJKaI/U1lwapbz4OQ
- QXlTtg5FJYBUKDwdS846SFNne8q1qHDyI1rs8oXrMIIlEEfh5RpEc4X3pFMRSxshGHu1
- dc/+i1iyLYTsP40tBScxdlx4iTeacX+739da+7otUdWuARx33+3qA98fg+bg+Vi5y5TS
- FZJg==
-X-Gm-Message-State: AOAM530kM1qmmJaFipkVa92DAJvDFPbm432n3xwJKkLOWKDG/O4ZyuDq
- pZkfqnYq6Qc/IkpuRGBMx6c1/g==
-X-Google-Smtp-Source: ABdhPJwvDOrFkan8mJU6iOjEP4Ula3Yq8VzKbdfOkj1/0kZ4ERxGTv8HZPueJb+vInWTQNDwkvEhkw==
-X-Received: by 2002:a05:6512:3157:b0:443:6407:ea58 with SMTP id
- s23-20020a056512315700b004436407ea58mr768650lfi.81.1645070043080; 
+ bh=TB5gV/5sjwk2KpDc6LqRsCf8QAe1Jc0ZykwfWMWBIy0=;
+ b=sTYZGSsuzDFRhTlEfSSn3SXjfnA0QGkLYUX3l5jIUnass91jvaUQJ+hYGKGKAuaugH
+ DxwYorK1s67ZRVcyNZFzJUyAIWOWrj9avQnF4ifJiIKNt2Qbn92PfvaMT3mPKA9u06Qk
+ vtnhDjQBWB4+b/B2MVIG3pARP78C2pV8FF7b2BgPIGBfyk1U/aMJbSEAt3eTTu4ov3cg
+ /a2WS1xMzFz5ZRGkqPLPjUr2j6lMlXxYZ1KiyTrus0d4pggt41gFhlQyo0y+LLREkHCa
+ tua10d0yL0U4PdF/yz4YEcqChlYmF7Wu6rPPA4j05+jS52hidekKa9f++kQ/xiJ+d2LQ
+ iMgg==
+X-Gm-Message-State: AOAM531XT6gikgUBO5gCEXGBqdzJK07GoB0Y0hf8r6nWpTXLe+F8+xSz
+ zuIVcD17KrB5i/TfUw5OgVmlHA==
+X-Google-Smtp-Source: ABdhPJwtyA5gG/LksjFEdbfLRT1Nr6ZbF8L/cuqKCgPctlNiAUIq77doptloSxqL2BIN5sNaqxExIA==
+X-Received: by 2002:a05:6512:31cf:b0:443:7eb6:3440 with SMTP id
+ j15-20020a05651231cf00b004437eb63440mr772193lfe.367.1645070043961; 
  Wed, 16 Feb 2022 19:54:03 -0800 (PST)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id h9sm1575454ljb.77.2022.02.16.19.54.02
+ by smtp.gmail.com with ESMTPSA id h9sm1575454ljb.77.2022.02.16.19.54.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 19:54:02 -0800 (PST)
+ Wed, 16 Feb 2022 19:54:03 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 3/7] drm/msm/dpu: remove msm_dp cached in dpu_encoder_virt
-Date: Thu, 17 Feb 2022 06:53:54 +0300
-Message-Id: <20220217035358.465904-4-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 4/7] drm/msm/dpu: drop bus_scaling_client field
+Date: Thu, 17 Feb 2022 06:53:55 +0300
+Message-Id: <20220217035358.465904-5-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220217035358.465904-1-dmitry.baryshkov@linaro.org>
 References: <20220217035358.465904-1-dmitry.baryshkov@linaro.org>
@@ -76,48 +76,37 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Stop caching msm_dp instance in dpu_encoder_virt since it's not used
-now.
+We do not use MSM bus client, so drop bus_scaling_client field from
+dpu_encoder_virt.
 
-Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display enable and disable")
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 02d0fae1c6dc..16ae0cccbbb1 100644
+index 16ae0cccbbb1..f5bc15b2e56e 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -168,7 +168,6 @@ enum dpu_enc_rc_states {
-  * @vsync_event_work:		worker to handle vsync event for autorefresh
-  * @topology:                   topology of the display
-  * @idle_timeout:		idle timeout duration in milliseconds
-- * @dp:				msm_dp pointer, for DP encoders
-  */
+@@ -127,7 +127,6 @@ enum dpu_enc_rc_states {
+  *	Virtual encoder registers itself with the DRM Framework as the encoder.
+  * @base:		drm_encoder base class for registration with DRM
+  * @enc_spinlock:	Virtual-Encoder-Wide Spin Lock for IRQ purposes
+- * @bus_scaling_client:	Client handle to the bus scaling interface
+  * @enabled:		True if the encoder is active, protected by enc_lock
+  * @num_phys_encs:	Actual number of physical encoders contained.
+  * @phys_encs:		Container of physical encoders managed.
+@@ -172,7 +171,6 @@ enum dpu_enc_rc_states {
  struct dpu_encoder_virt {
  	struct drm_encoder base;
-@@ -207,8 +206,6 @@ struct dpu_encoder_virt {
- 	struct msm_display_topology topology;
+ 	spinlock_t enc_spinlock;
+-	uint32_t bus_scaling_client;
  
- 	u32 idle_timeout;
--
--	struct msm_dp *dp;
- };
+ 	bool enabled;
  
- #define to_dpu_encoder_virt(x) container_of(x, struct dpu_encoder_virt, base)
-@@ -2128,8 +2125,6 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
- 		timer_setup(&dpu_enc->vsync_event_timer,
- 				dpu_encoder_vsync_event_handler,
- 				0);
--	else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS)
--		dpu_enc->dp = priv->dp[disp_info->h_tile_instance[0]];
- 
- 	INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
- 			dpu_encoder_off_work);
 -- 
 2.34.1
 
