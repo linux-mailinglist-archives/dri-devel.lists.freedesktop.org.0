@@ -1,65 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF254BABDC
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 22:38:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFAC44BABF5
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 22:44:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 153BD10E81D;
-	Thu, 17 Feb 2022 21:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED93D10E842;
+	Thu, 17 Feb 2022 21:44:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1A8310E836
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 21:38:04 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id o9so1438952ljq.4
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 13:38:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=7GVM4Imaflj4JIe8CRzxVHc58Ab/xWCMTV8z5JInLLY=;
- b=V6A3E7siPvJSxNL4Zw1sa/9jV7UvEiLulVjANFUwEz8UL/RE3kv6tjbKRIwRCsuksU
- axGQOKBP/ixHQhKjvMw09I92EXDIn2oudQ5SooxthoXhvncdDWfSDss7JVpAo6I/dzAB
- CQOw5vQBgNav1GrpqcSmp/qj8FO9/4KBZitKKvIpdCAvEu1FvpQDvrUp+CK0HpEV3hnC
- q2aVxAQeKAXCRmNCJV6VcWJhyM79+F11RxLErs2n3195DkxlCzVidk2Yv5tO3hECN6o0
- A3pI0rDpMRKEBarg4bv2Je5GUj4KQ6HPxKQFOi9mDMkp5It+c8TWM6GxDi+a3fCp1gY5
- vxZw==
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
+ [IPv6:2607:f8b0:4864:20::f2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B74310E849
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 21:44:08 +0000 (UTC)
+Received: by mail-qv1-xf2d.google.com with SMTP id d3so10954990qvb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 13:44:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6R8qn+rbL8OvPipxuVgINO0b1lTKNrdKLs//Tzx1/Vg=;
+ b=OUIGVb3AgkfYqWJ/jpUcEbfG8cQNrWOf8W2dm9Aqt3J2zie173GvWoJ6AE1eFBXLC+
+ BSrfwVz9fk/DeGoOPMaaLOco12vCxmYrdThUp0Oa9hS/3sFO6UnQIqVcOO4F2xKxh+PS
+ KxCRQL7yuVFQ8uZvzWDrWsR0S/qmvs3ZYwPY2d2PLEzOwj61ELQhYX+B1P1CQWUgQ3AI
+ ZxF2302qHhiCMNBL+mmWhLle2wsG0oQerm4BN3OG3PPiqrNpxvWA/AyXeef6nJeL8ksP
+ FrqLcsYjKGcHLtKtfpcvyAxnuIyMEMepLLNdQ1yYlz2Ado2t2Fueu8AP/0v5WbaBpg5o
+ +kWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=7GVM4Imaflj4JIe8CRzxVHc58Ab/xWCMTV8z5JInLLY=;
- b=SaiwxZQNkZgNpo6Y/qb3oN/LB/3PqRlQX1jWiOry5EQHqslUbrKGWVbDo5pxSImE1A
- RN2aGW/IkR9/Va7KPDREWM98gyA2fRZaJ84wHDhW7FQqhwlB1HkH74pw1lztEU1L1F16
- 3Nox52jlk5dJdWzb1RXNbBvDXu6eYY4vlQOWTV0H6GMYb4FPns3HpomNDFYxUQJ7wTc+
- tmK638CDriNOuqO2Rs+Fu66AxTUJaQn+CE2sBcvXPPEuigw6lgXYm7IhASxm4x3XjqHj
- 5BRAI4sIh3yWmbhoHk/Wwr88y0czy0bXhOAvA4/74URIZAKUwSv34O2SjpVOEmfDjyup
- PJIQ==
-X-Gm-Message-State: AOAM533peDR9Rpn1kHYgj8awy4wjaWOcQ/OiADdIiD7on50bkOkoM1Xs
- wRQO9MQLMvhQrwJn+u3Dcs4=
-X-Google-Smtp-Source: ABdhPJzaJgT2M4QR68WHPwUssS6ksK1ClTpavhjLm192RraKOqYf+favGGfVt7pfUeNRS6ST3qUlTA==
-X-Received: by 2002:a2e:a886:0:b0:244:de6f:1bf6 with SMTP id
- m6-20020a2ea886000000b00244de6f1bf6mr3609835ljq.375.1645133882866; 
- Thu, 17 Feb 2022 13:38:02 -0800 (PST)
-Received: from orome (p200300e41f0a6900000000000000043a.dip0.t-ipconnect.de.
- [2003:e4:1f0a:6900::43a])
- by smtp.gmail.com with ESMTPSA id k14sm94762ljh.82.2022.02.17.13.38.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 13:38:01 -0800 (PST)
-Date: Thu, 17 Feb 2022 22:37:57 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH libdrm v2 00/25] Update Tegra support
-Message-ID: <Yg7ANdIhSiEsZf8E@orome>
-References: <20220217191625.2534521-1-thierry.reding@gmail.com>
- <fb059f6f-013a-4a7e-55a7-81acbdda80fc@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6R8qn+rbL8OvPipxuVgINO0b1lTKNrdKLs//Tzx1/Vg=;
+ b=ZcVbL4JZY1tkml0ZjW85ULZ+pFsYkwRyRTZJsuWKr7gwnrxfMm1lWO161mD1LmZP4h
+ bNt5YTbGVxG4AT8ZgepWU9ByqR0IIIOTEfIH7GJgxWnClJTWFl/Ba1TN2lsEtqNrOePg
+ r+qepO5VH540r2eUWuYQ31iSlRp03L8NJ/+cYBXGIbOreHBBX+1X3BJ3HAVZQS+TmaIM
+ FwR1alvokPkFtpAZy8G90ZLIeO+e0VXPJXiXtg7rOKolm8MtE1U63dpKyjFNnTy/97Y0
+ 1oiAYPMRaL6looUk8ndBS4DRGawv2hP4MO+BVNbj7+I67Zo7sZ37460lbMGIATkQ55z0
+ h13w==
+X-Gm-Message-State: AOAM532jkCHVLdVgerJqe6JKGS5zVpvsrC1vWElOGPtW6Dg6VEdwBBwK
+ audbMZDkvrvk+Ma9FmMI2bpGGYo/c8TTzejn9waUXg==
+X-Google-Smtp-Source: ABdhPJy1qvJVD1rgLNeWV3GUhnlxwMyxzExFz2q3A1g24QsHgiswLGR3hNBpdmvyvE2dyuEWTwWn6PzdWBJHOiiKd4Y=
+X-Received: by 2002:ac8:584c:0:b0:2dd:89dc:8000 with SMTP id
+ h12-20020ac8584c000000b002dd89dc8000mr1907274qth.370.1645134247505; Thu, 17
+ Feb 2022 13:44:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Wh3BVJzbBMulczrm"
-Content-Disposition: inline
-In-Reply-To: <fb059f6f-013a-4a7e-55a7-81acbdda80fc@gmail.com>
-User-Agent: Mutt/2.2 (7160e05a) (2022-02-12)
+References: <1645133788-5057-1-git-send-email-quic_khsieh@quicinc.com>
+ <1645133788-5057-2-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1645133788-5057-2-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 18 Feb 2022 00:43:56 +0300
+Message-ID: <CAA8EJpqu2VsYkACe+FL+Z0J=j7Pp-w69_YNyBWn_7Ah1GoW23Q@mail.gmail.com>
+Subject: Re: [PATCH v8 1/4] drm/msm/dpu: adjust display_v_end for eDP and DP
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,141 +65,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc: quic_sbillaka@quicinc.com, Jonathan Marek <jonathan@marek.ca>,
+ quic_abhinavk@quicinc.com, airlied@linux.ie, freedreno@lists.freedesktop.org,
+ vkoul@kernel.org, dri-devel@lists.freedesktop.org, swboyd@chromium.org,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com,
+ bjorn.andersson@linaro.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 18 Feb 2022 at 00:36, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> The =E2=80=9CDP timing=E2=80=9D requires the active region to be defined =
+in the
+> bottom-right corner of the frame dimensions which is different
+> with DSI. Therefore both display_h_end and display_v_end need
+> to be adjusted accordingly. However current implementation has
+> only display_h_end adjusted.
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
---Wh3BVJzbBMulczrm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: fc3a69ec68d3 ("drm/msm/dpu: intf timing path for displayport")
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-On Thu, Feb 17, 2022 at 11:02:53PM +0300, Dmitry Osipenko wrote:
-> 17.02.2022 22:16, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > Hi all,
-> >=20
-> > this is the userspace part of the kernel patches that were recently
-> > merged into drm-next:
-> >=20
-> >   https://patchwork.freedesktop.org/series/92378/
-> >=20
-> > The goal is to provide a userspace implementation of the UAPI exposed by
-> > the kernel and show its usage in some test programs that can also be
-> > used for basic sanity testing. More complete userspace implementations
-> > are available here:
-> >=20
-> >   * https://github.com/cyndis/vaapi-tegra-driver
-> >   * https://github.com/grate-driver/xf86-video-opentegra
-> >   * https://github.com/grate-driver/grate
-> >=20
-> > Changes in v2:
-> > - implement vic_clear() as a helper using ->fill() (Micha=C5=82 Miros=
-=C5=82aw)
-> > - rebase and fix a couple of Meson errors/warnings
-> >=20
-> > Thierry
-> >=20
-> > Thierry Reding (25):
-> >   tegra: Indent according to .editorconfig
-> >   tegra: Remove unused IOCTL implementations
-> >   tegra: Extract common buffer object allocation code
-> >   tegra: Fix mmap() of GEM buffer objects
-> >   tegra: Add flink helpers
-> >   tegra: Add PRIME support helpers
-> >   tegra: Make API more consistent
-> >   tegra: Install tegra-openclose test
-> >   tegra: Update for new UABI
-> >   tegra: Include private.h in list of source files
-> >   tegra: Add channel APIs
-> >   tegra: Add job and push buffer APIs
-> >   tegra: Add syncpoint APIs
-> >   tests: tegra: Add helper library for tests
-> >   tests: tegra: Add gr2d-fill test
-> >   tests: tegra: Add syncpt-wait test
-> >   tests: tegra: Add syncpoint timeout test
-> >   tests: tegra: Add VIC support
-> >   tests: tegra: Add VIC 3.0 support
-> >   tests: tegra: Add VIC 4.0 support
-> >   tests: tegra: Add VIC 4.1 support
-> >   tests: tegra: Add VIC 4.2 support
-> >   tests: tegra: Add VIC clear test
-> >   tests: tegra: Add VIC blit test
-> >   tests: tegra: Add VIC flip test
-> >=20
-> >  include/drm/tegra_drm.h      | 429 +++++++++++++++++++++++--
-> >  tegra/channel.c              | 195 ++++++++++++
-> >  tegra/job.c                  | 187 +++++++++++
-> >  tegra/meson.build            |   7 +-
-> >  tegra/private.h              |  85 ++++-
-> >  tegra/pushbuf.c              | 184 +++++++++++
-> >  tegra/syncpt.c               | 101 ++++++
-> >  tegra/tegra-symbols.txt      |  27 +-
-> >  tegra/tegra.c                | 386 +++++++++++-----------
-> >  tegra/tegra.h                |  95 +++++-
-> >  tests/tegra/.gitignore       |   3 +-
-> >  tests/tegra/drm-test-tegra.c | 147 +++++++++
-> >  tests/tegra/drm-test-tegra.h |  55 ++++
-> >  tests/tegra/drm-test.c       | 248 +++++++++++++++
-> >  tests/tegra/drm-test.h       |  72 +++++
-> >  tests/tegra/gr2d-fill.c      | 146 +++++++++
-> >  tests/tegra/host1x.h         |  34 ++
-> >  tests/tegra/meson.build      |  88 +++++-
-> >  tests/tegra/openclose.c      |  52 +--
-> >  tests/tegra/syncpt-timeout.c | 163 ++++++++++
-> >  tests/tegra/syncpt-wait.c    | 151 +++++++++
-> >  tests/tegra/vic-blit.c       | 333 +++++++++++++++++++
-> >  tests/tegra/vic-clear.c      | 173 ++++++++++
-> >  tests/tegra/vic-flip.c       | 333 +++++++++++++++++++
-> >  tests/tegra/vic.c            | 184 +++++++++++
-> >  tests/tegra/vic.h            | 181 +++++++++++
-> >  tests/tegra/vic30.c          | 458 +++++++++++++++++++++++++++
-> >  tests/tegra/vic30.h          | 439 ++++++++++++++++++++++++++
-> >  tests/tegra/vic40.c          | 370 ++++++++++++++++++++++
-> >  tests/tegra/vic40.h          | 285 +++++++++++++++++
-> >  tests/tegra/vic41.c          | 374 ++++++++++++++++++++++
-> >  tests/tegra/vic41.h          | 372 ++++++++++++++++++++++
-> >  tests/tegra/vic42.c          | 374 ++++++++++++++++++++++
-> >  tests/tegra/vic42.h          | 597 +++++++++++++++++++++++++++++++++++
-> >  34 files changed, 7068 insertions(+), 260 deletions(-)
->=20
->=20
-> Why do we need these tests in libdrm? Why not IGT?
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/dr=
+m/msm/disp/dpu1/dpu_hw_intf.c
+> index 116e2b5..284f561 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> @@ -148,6 +148,7 @@ static void dpu_hw_intf_setup_timing_engine(struct dp=
+u_hw_intf *ctx,
+>                 active_v_end =3D active_v_start + (p->yres * hsync_period=
+) - 1;
+>
+>                 display_v_start +=3D p->hsync_pulse_width + p->h_back_por=
+ch;
+> +               display_v_end   -=3D p->h_front_porch;
+>
+>                 active_hctl =3D (active_h_end << 16) | active_h_start;
+>                 display_hctl =3D active_hctl;
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum=
+,
+> a Linux Foundation Collaborative Project
+>
 
-Oops, sorry. I had meant to reply to your question in the previous
-version. The idea was to have this minimal set of tests in libdrm as a
-way to demonstrate how to use the various APIs. At the same time, this
-is meant to serve as an easy way to validate that everything works from
-the comparatively simple libdrm package.
 
-But yes, adding more tests on top of this to IGT is something that I've
-been pondering and I certainly wouldn't object if anyone else was going
-to attempt to do so. I don't think IGT and libdrm need to be mutually
-exclusive, though.
-
-Thierry
-
---Wh3BVJzbBMulczrm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmIOwDQACgkQ3SOs138+
-s6Fl5A/+PXZCaNobNnhmYfw5bctJSqyvzggoj9MaW3Jn9VE85IFwOimWKjRlbWlm
-OLf5xyFtWmPAOJY521k/db7CD5wvlUHH7zF13XsZAgeL9jDxEJZXWYr6BfIX06JQ
-ztTGWZZh2EC3tIhgf0bFMHvyogn32Hs3sWwsFeGaNVNcSWwPiDD80BTOLkPPL4Jj
-OejvUUVd0moSbghddx3KoP1OTpXynI2r3QXU6WgCkUarjtP3Mr/gwtsm0sOAM/LJ
-QtlxdqomgOv4JJSg9NSBp7UbztRG+2QvOMDNFuDPx4b+FQogrYMSa42OqOcxczjr
-dBV5102Z2d7zLMPWEgBBFZdFIUVnPL2ac4TuWPRGwL6h1CbMW5coSi4ZgciADKqJ
-Vn5XwZ5PB8PFqwYOi7J4dAMlJo78njHOk71hdY/g5PRjRk5R/KlDt3be8z6dh/3g
-YnjaDdwd45kuQSBXJux+UlWzjjwDAE4EdwJZUv2oQAHtODsHQyRy6sTdVrlKNIUB
-FHXAUW/ItLQVInywIEVISnYbIk6Se+Ay48hVJJ0THoZE9e4PVD9zHEp2zEblG0+m
-YFOhqZdIxIwAZjyou74WcydfdRN5quYvdJvF54M1SuBLyWx2CtXNc8zmticJvCZk
-+07G84jHLEp/lgpXkFXGiLsFVxznude00zbi7PLtO5OoNRD5rKo=
-=1Msg
------END PGP SIGNATURE-----
-
---Wh3BVJzbBMulczrm--
+--=20
+With best wishes
+Dmitry
