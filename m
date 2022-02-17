@@ -1,63 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B514BAA82
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 21:01:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F8E4BAA86
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 21:02:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8F710E751;
-	Thu, 17 Feb 2022 20:01:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47F4010E758;
+	Thu, 17 Feb 2022 20:02:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 421BF10E74B;
- Thu, 17 Feb 2022 20:01:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645128090; x=1676664090;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Y878BkAU96m4bDN8k2wpI4BUoj/vtOIuveF4X6o8gqg=;
- b=mDNhHHqApHJE1KjOdIr/+vToNHHWfAn3NdGuEv4fONiARj5oe9T7SAYr
- lf6feUTzIaH2AMFIeOKMFKDCNr+H6TKXEyyyzq7wnbyqWnTT0B4OQvDEd
- EEr/6K5OrNYBU6hZXBuuQACwlGGSSZN1gYN+BfcIQlGE8b+kZ1yW8oLgz A=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 17 Feb 2022 12:01:29 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 12:01:29 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Thu, 17 Feb 2022 12:01:28 -0800
-Received: from [10.110.101.104] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Thu, 17 Feb
- 2022 12:01:27 -0800
-Message-ID: <e01aefa4-0792-307d-caee-4fb3d2b32a23@quicinc.com>
-Date: Thu, 17 Feb 2022 12:01:26 -0800
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B44CE10E74B
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 20:02:37 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id d10so9784527eje.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 12:02:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=zwB/h69xW9yj6Ty8TGYAgMTvzI7yKl/J6os7tmVG8hk=;
+ b=Z6IM4n7D7BR9Azbk64T0ST0aio5CB7tJz7DsneFlHEelJGIhtviGck7LlX1t3tlagp
+ ymZ5jSHPl6DTKnZzFJbpeyCIKJjUn9gdwqQ15NRowfE9gclPXyZ0RCOmhhKYAQLQeGAd
+ 73QJABrkI53ibMqiZehK3/n4+KHh9f8HQjODcZUHsHUnzGADQndVAlQJb5YVCQiDbEfk
+ YzjjLLxw/Kl33ZQ9TEIdYKZ5VghGZjKM1wDRSH5WpQ63oGKcddP9RhmFGqhhWrPs1S+Q
+ +orA1dgQwJKv0l38Nw38C2H8jAmGffJelzJX819WGYePjuQOBJLlKnBgDdm80OAZcKyL
+ yNAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=zwB/h69xW9yj6Ty8TGYAgMTvzI7yKl/J6os7tmVG8hk=;
+ b=XoBTgjogXO07wC1TqjQ3YjWSYBqBGX7H9rKYRQiLRxXxEvwGaB3Bi3JHrCtQWErEJH
+ x0Ymbo9MSpaIQ/tId+4/Y2GEoKZaE5amnd7epl/op0JH14sFO/czuDkazksnWk895YS/
+ VfVJVgn1Pfeq88HZrJraM6vb8zTAY5w2r0aRZ4g9+ulvEYyy9+MB35EuT/MBhAas9jFf
+ qUo4YwFlNiUOBBlJosjWT4BRxsyGhz5MJiAtabAb7LFZwshsCntPNxCYMA3RE3sXCW9C
+ Qb4RpEeTdvmNO0foaawkaE7pnfrpefWpn+QtGW7OsCZ8lQhX8J2PHvvCQRRR9OoHY+fF
+ QFCQ==
+X-Gm-Message-State: AOAM532OzghbA1dt14ys2PpUciRA34zffDQ1V3QQgBml5uHOuhT1rF04
+ 7Bq1DePO/u1+QU7pUSzPZYvjz0WH/y26rJ9+GIk=
+X-Google-Smtp-Source: ABdhPJxOTCX50FPYU2SSNKeEDAse+q/1hNmgI0XWl4xuaRlfsPIq7hYUBJcblG+UZyKb12ZIri+Xv87Nht0LBXJ64B4=
+X-Received: by 2002:a17:906:cd17:b0:6ce:3727:65f2 with SMTP id
+ oz23-20020a170906cd1700b006ce372765f2mr3743532ejb.720.1645128156006; Thu, 17
+ Feb 2022 12:02:36 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 3/3] drm/msm/dp: replace DRM_DEBUG_DP marco with
- drm_dbg_dp
-Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
- <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
- <dmitry.baryshkov@linaro.org>, <dri-devel@lists.freedesktop.org>,
- <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
-References: <1645122930-23863-1-git-send-email-quic_khsieh@quicinc.com>
- <1645122930-23863-4-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n52cz6JibgsJ4MWsdGhAjxHa6en+JbyKjKHVwQDnM8-5Og@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAE-0n52cz6JibgsJ4MWsdGhAjxHa6en+JbyKjKHVwQDnM8-5Og@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 18 Feb 2022 06:02:24 +1000
+Message-ID: <CAPM=9txai3TyGC3KHjkjLi6UMC-vKRoPJ8p+UpNKXy6Km=1jNQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.17-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,34 +63,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Linus,
 
-On 2/17/2022 11:36 AM, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2022-02-17 10:35:30)
->> Since DRM_DEBUG_DP is deprecated in favor of drm_dbg_dp(NULL, ...),
->> this patch replace all DRM_DEBUG_DP with drm_dbg_dp().
->>
->> Changes in v4:
->> -- replace (strucr drm_dev *)NULL with drm_dev
-> Why can't the platform device be used?
-#define drm_dbg_dp(drm, fmt, ...)                                       \
+Regular fixes for rc5, nothing really stands out, mostly some amdgpu
+and i915 fixes with mediatek, radeon and some misc fixes.
 
-         drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DP, fmt, 
-##__VA_ARGS__)
+Dave.
 
-it looks for (drm)->dev (pointer)
+drm-fixes-2022-02-18:
+drm fixes for 5.17-rc5
 
-struct platform_device {
-         const char      *name;
-         int             id;
-         bool            id_auto;
-         struct device   dev          <== not an pointer here
+cma-helper:
+- set VM_DONTEXPAND
 
+atomic:
+- error handling fix.
 
+mediatek:
+- fix probe defer loop with external bridge
 
+amdgpu:
+- Stable pstate clock fixes for Dimgrey Cavefish and Beige Goby
+- S0ix SDMA fix
+- Yellow Carp GPU reset fix
 
+radeon:
+- Backlight fix for iMac 12,1
+
+i915:
+- GVT kerneldoc cleanup.
+- GVT Kconfig should depend on X86
+- Prevent out of range access in SWSCI display code.
+- Fix mbus join and dbuf slice config lookup.
+- Fix inverted priority selection in the TTM backend.
+- Fix FBC plane end Y offset check.
+The following changes since commit 754e0b0e35608ed5206d6a67a791563c631cec07=
+:
+
+  Linux 5.17-rc4 (2022-02-13 12:13:30 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-02-18
+
+for you to fetch changes up to 5666b610194705587807a1078753eadc007b9d79:
+
+  Merge tag 'drm-intel-fixes-2022-02-17' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2022-02-18
+05:44:45 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.17-rc5
+
+cma-helper:
+- set VM_DONTEXPAND
+
+atomic:
+- error handling fix.
+
+mediatek:
+- fix probe defer loop with external bridge
+
+amdgpu:
+- Stable pstate clock fixes for Dimgrey Cavefish and Beige Goby
+- S0ix SDMA fix
+- Yellow Carp GPU reset fix
+
+radeon:
+- Backlight fix for iMac 12,1
+
+i915:
+- GVT kerneldoc cleanup.
+- GVT Kconfig should depend on X86
+- Prevent out of range access in SWSCI display code.
+- Fix mbus join and dbuf slice config lookup.
+- Fix inverted priority selection in the TTM backend.
+- Fix FBC plane end Y offset check.
+
+----------------------------------------------------------------
+AngeloGioacchino Del Regno (1):
+      drm/mediatek: mtk_dsi: Avoid EPROBE_DEFER loop with external bridge
+
+Dave Airlie (4):
+      Merge tag 'mediatek-drm-fixes-5.17' of
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
+into drm-fixes
+      Merge tag 'amd-drm-fixes-5.17-2022-02-16' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2022-02-17' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2022-02-17' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+
+Evan Quan (1):
+      drm/amd/pm: correct UMD pstate clocks for Dimgrey Cavefish and Beige =
+Goby
+
+Jani Nikula (1):
+      drm/i915/opregion: check port number bounds for SWSCI display power s=
+tate
+
+Matthew Auld (1):
+      drm/i915/ttm: tweak priority hint selection
+
+Nicholas Bishop (1):
+      drm/radeon: Fix backlight control on iMac 12,1
+
+Rajib Mahapatra (1):
+      drm/amdgpu: skipping SDMA hw_init and hw_fini for S0ix.
+
+Randy Dunlap (1):
+      drm/i915/gvt: clean up kernel-doc in gtt.c
+
+Robin Murphy (1):
+      drm/cma-helper: Set VM_DONTEXPAND for mmap
+
+Siva Mullati (1):
+      drm/i915/gvt: Make DRM_I915_GVT depend on X86
+
+Tvrtko Ursulin (1):
+      Merge tag 'gvt-fixes-2022-01-13' of
+https://github.com/intel/gvt-linux into drm-intel-fixes
+
+Ville Syrj=C3=A4l=C3=A4 (4):
+      drm/i915: Fix dbuf slice config lookup
+      drm/i915: Fix mbus join config lookup
+      drm/i915/fbc: Fix the plane end Y offset check
+      drm/atomic: Don't pollute crtc_state->mode_blob with error pointers
+
+Yifan Zhang (1):
+      drm/amd/pm: correct the sequence of sending gpu reset msg
+
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |   8 +
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  26 +++-
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.h    |   8 +
+ .../gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c   |   9 +-
+ drivers/gpu/drm/drm_atomic_uapi.c                  |  14 +-
+ drivers/gpu/drm/drm_gem_cma_helper.c               |   1 +
+ drivers/gpu/drm/i915/Kconfig                       |   1 +
+ drivers/gpu/drm/i915/display/intel_fbc.c           |   3 +-
+ drivers/gpu/drm/i915/display/intel_opregion.c      |  15 ++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |   6 +-
+ drivers/gpu/drm/i915/gvt/gtt.c                     |   4 +-
+ drivers/gpu/drm/i915/intel_pm.c                    |   4 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 | 167 +++++++++++------=
+----
+ drivers/gpu/drm/radeon/atombios_encoders.c         |   3 +-
+ 14 files changed, 158 insertions(+), 111 deletions(-)
