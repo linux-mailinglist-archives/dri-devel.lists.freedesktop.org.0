@@ -1,37 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EA84BC75C
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D8B4BC75D
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC69D10F67C;
-	Sat, 19 Feb 2022 10:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 283E710F68F;
+	Sat, 19 Feb 2022 10:02:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by gabe.freedesktop.org (Postfix) with ESMTP id 72E1610E17D
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 23:50:51 +0000 (UTC)
-Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
- by 156.147.23.52 with ESMTP; 18 Feb 2022 08:50:49 +0900
-X-Original-SENDERIP: 156.147.1.125
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7818F10E83D
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 23:55:12 +0000 (UTC)
+Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
+ by 156.147.23.52 with ESMTP; 18 Feb 2022 08:55:11 +0900
+X-Original-SENDERIP: 156.147.1.151
 X-Original-MAILFROM: byungchul.park@lge.com
 Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
- by 156.147.1.125 with ESMTP; 18 Feb 2022 08:50:49 +0900
+ by 156.147.1.151 with ESMTP; 18 Feb 2022 08:55:11 +0900
 X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
-Date: Fri, 18 Feb 2022 08:50:42 +0900
+Date: Fri, 18 Feb 2022 08:55:04 +0900
 From: Byungchul Park <byungchul.park@lge.com>
-To: Matthew Wilcox <willy@infradead.org>
-Subject: Re: Report in unix_stream_read_generic()
-Message-ID: <20220217235042.GA20620@X58A-UD3R>
-References: <1644984767-26886-1-git-send-email-byungchul.park@lge.com>
- <1644985024-28757-1-git-send-email-byungchul.park@lge.com>
- <Ygx+pRo1+b1RBLJg@casper.infradead.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: Report in ata_scsi_port_error_handler()
+Message-ID: <20220217235504.GB20620@X58A-UD3R>
+References: <1644984747-26706-1-git-send-email-byungchul.park@lge.com>
+ <1644984964-28300-1-git-send-email-byungchul.park@lge.com>
+ <1644984964-28300-3-git-send-email-byungchul.park@lge.com>
+ <94b1cba2-0e78-bbc0-0321-8be70b2b3be2@opensource.wdc.com>
+ <CAHk-=wgfpfWuNQi2SjXQL1ir6iKCpUdBruJ+kmOQP1frH7Zdig@mail.gmail.com>
+ <20220216133318.204f36ac@gandalf.local.home>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Ygx+pRo1+b1RBLJg@casper.infradead.org>
+In-Reply-To: <20220216133318.204f36ac@gandalf.local.home>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mailman-Approved-At: Sat, 19 Feb 2022 10:01:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -46,104 +49,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- bfields@fieldses.org, kernel-team@lge.com, joel@joelfernandes.org,
- cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
- paolo.valente@linaro.org, hch@infradead.org, airlied@linux.ie,
- mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, kuba@kernel.org, ngupta@vflare.org,
- johannes.berg@intel.com, hannes@cmpxchg.org, dan.j.williams@intel.com,
- josef@toxicpanda.com, rostedt@goodmis.org, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
- dennis@kernel.org, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
- axboe@kernel.dk, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, linux-mm@kvack.org, gregkh@linuxfoundation.org,
- jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
- minchan@kernel.org, netdev@vger.kernel.org, tj@kernel.org,
- akpm@linux-foundation.org, torvalds@linux-foundation.org, davem@davemloft.net
+Cc: hamohammed.sa@gmail.com, Jan Kara <jack@suse.cz>,
+ Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Amir Goldstein <amir73il@gmail.com>, Dave Chinner <david@fromorbit.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ "J. Bruce Fields" <bfields@fieldses.org>, linux-ide@vger.kernel.org,
+ Joel Fernandes <joel@joelfernandes.org>, Christoph Lameter <cl@linux.com>,
+ Will Deacon <will@kernel.org>, duyuyang@gmail.com,
+ Sasha Levin <sashal@kernel.org>, paolo.valente@linaro.org,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
+ Dave Airlie <airlied@linux.ie>, Ingo Molnar <mingo@redhat.com>,
+ "Darrick J. Wong" <djwong@kernel.org>,
+ Vladimir Davydov <vdavydov.dev@gmail.com>,
+ David Rientjes <rientjes@google.com>, Dennis Zhou <dennis@kernel.org>,
+ Linux-MM <linux-mm@kvack.org>, ngupta@vflare.org, johannes.berg@intel.com,
+ Dan Williams <dan.j.williams@intel.com>, Josef Bacik <josef@toxicpanda.com>,
+ linux-block <linux-block@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Jerome Glisse <jglisse@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>,
+ Thomas Gleixner <tglx@linutronix.de>, Michal Hocko <mhocko@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>, Jens Axboe <axboe@kernel.dk>,
+ melissa.srw@gmail.com, sj@kernel.org, Theodore Ts'o <tytso@mit.edu>,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jeff Layton <jlayton@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Pekka Enberg <penberg@kernel.org>, Minchan Kim <minchan@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 16, 2022 at 04:33:41AM +0000, Matthew Wilcox wrote:
-> On Wed, Feb 16, 2022 at 01:17:03PM +0900, Byungchul Park wrote:
-> > [    7.013330] ===================================================
-> > [    7.013331] DEPT: Circular dependency has been detected.
-> > [    7.013332] 5.17.0-rc1-00014-gcf3441bb2012 #2 Tainted: G        W        
-> > [    7.013333] ---------------------------------------------------
-> > [    7.013334] summary
-> > [    7.013334] ---------------------------------------------------
-> > [    7.013335] *** DEADLOCK ***
-> > [    7.013335] 
-> > [    7.013335] context A
-> > [    7.013336]     [S] (unknown)(&(&ei->socket.wq.wait)->dmap:0)
-> > [    7.013337]     [W] __mutex_lock_common(&u->iolock:0)
-> > [    7.013338]     [E] event(&(&ei->socket.wq.wait)->dmap:0)
-> > [    7.013340] 
-> > [    7.013340] context B
-> > [    7.013341]     [S] __raw_spin_lock(&u->lock:0)
-> > [    7.013342]     [W] wait(&(&ei->socket.wq.wait)->dmap:0)
-> > [    7.013343]     [E] spin_unlock(&u->lock:0)
+On Wed, Feb 16, 2022 at 01:33:18PM -0500, Steven Rostedt wrote:
+> On Wed, 16 Feb 2022 10:09:14 -0800
+> Linus Torvalds <torvalds@linux-foundation.org> wrote:
 > 
-> This seems unlikely to be real.  We're surely not actually waiting
-> while holding a spinlock; existing debug checks would catch it.
+> > Byungchul, could you fix those two issues? Some of your reports may
+> > well be entirely valid, but the hard-to-read hex offsets and the
+> > knowledge that at least some of them are confused about how
+> > prepare_to_wait -> wait actually works makes the motivation to look at
+> > the details much less..
 > 
-> > [    7.013407] ---------------------------------------------------
-> > [    7.013407] context B's detail
-> > [    7.013408] ---------------------------------------------------
-> > [    7.013408] context B
-> > [    7.013409]     [S] __raw_spin_lock(&u->lock:0)
-> > [    7.013410]     [W] wait(&(&ei->socket.wq.wait)->dmap:0)
-> > [    7.013411]     [E] spin_unlock(&u->lock:0)
-> > [    7.013412] 
-> > [    7.013412] [S] __raw_spin_lock(&u->lock:0):
-> > [    7.013413] [<ffffffff81aa451f>] unix_stream_read_generic+0x6bf/0xb60
-> > [    7.013416] stacktrace:
-> > [    7.013416]       _raw_spin_lock+0x6e/0x90
-> > [    7.013418]       unix_stream_read_generic+0x6bf/0xb60
+> Hi Byungchul,
 > 
-> It would be helpful if you'd run this through scripts/decode_stacktrace.sh
+> I'm not sure what your tool is using to attach to the kernel to analyze the
+> events (perhaps tracepoints?). But you can have the prepare_to_wait event
+> just flag the task is about to wait, and then attach to the schedule
+> (sched_switch) event to denote that it actually waited.
+> 
+> Of course have the finish_wait() clear the flag.
 
 (Sorry for late reply, which was because of my email client issue.)
 
-It was big help. Thank you very much.
+Thank you for the hint. However, unfortunately, I didn't use tracepoint
+for that. However, the key idea is the thing that I should take!
 
-> so we could see line numbers instead of hex offsets (which arene't much
-> use without the binary kernel).
-> 
-> > [    7.013420]       unix_stream_recvmsg+0x40/0x50
-> > [    7.013422]       sock_read_iter+0x85/0xd0
-> > [    7.013424]       new_sync_read+0x162/0x180
-> > [    7.013426]       vfs_read+0xf3/0x190
-> > [    7.013428]       ksys_read+0xa6/0xc0
-> > [    7.013429]       do_syscall_64+0x3a/0x90
-> > [    7.013431]       entry_SYSCALL_64_after_hwframe+0x44/0xae
-> > [    7.013433] 
-> > [    7.013434] [W] wait(&(&ei->socket.wq.wait)->dmap:0):
-> > [    7.013434] [<ffffffff810bb017>] prepare_to_wait+0x47/0xd0
-> 
-> ... this may be the source of confusion.  Just because we prepare to
-> wait doesn't mean we end up actually waiting.  For example, look at
-> unix_wait_for_peer():
-> 
->         prepare_to_wait_exclusive(&u->peer_wait, &wait, TASK_INTERRUPTIBLE);
-> 
->         sched = !sock_flag(other, SOCK_DEAD) &&
->                 !(other->sk_shutdown & RCV_SHUTDOWN) &&
->                 unix_recvq_full(other);
-> 
->         unix_state_unlock(other);
-> 
->         if (sched)
->                 timeo = schedule_timeout(timeo);
-> 
->         finish_wait(&u->peer_wait, &wait);
-> 
-> We *prepare* to wait, *then* drop the lock, then actually schedule.
-
-Big help, too. I checked some samples for the usage, but where it's
-almost "prepare == wait" :-(. Thanks a lot!
+Thanks a lot!
 
 Thanks,
 Byungchul
+
+> 
+> -- Steve
