@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AC14BC76F
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:03:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24DAC4BC756
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E609C10F6A9;
-	Sat, 19 Feb 2022 10:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3344410F68A;
+	Sat, 19 Feb 2022 10:02:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DA9E10E8E4
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 13:18:47 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66C9B10E8E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 13:20:22 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 48BA71F45BBB
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 314181F45C17
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645103926;
- bh=wxrjZyYHBBx6bMd1iTzODLfhd7VNtutE1D1YpDU9LAo=;
+ s=mail; t=1645104021;
+ bh=frvkPvpz6EtNe12MCXtRLAiBcdyezvJMEVigFM8+kGY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=fiwU6yQ2mwVDRQi6CN3nOx5Xnty57YwZ9f5Wugus5Zij9pb3SBxWVXBHRW+hdg7no
- fq6MIvMEA4fyi9LoEpDu8N825SRVVdZ/kFKxup3Wv1FfgkeTdTwahfY+MqOm3vTV0F
- hj7kqZeBHPvED6abRYlDo2uuTQ9zRlfKcYKq1J0GYXQB/9ctEH1uvPYnOvH+5043bN
- 1OhGBUDGFTLt8Nx+x6zleeD/Oa9mtXmEnyN5ffxCNm/Y/Q0gRwN+f0tqowH2UCfCVU
- h7IluhCJZkwUEh1d43ZWjFP4mCyJ+7B8i46RkppGMITwrxUMS5pnrjalwC/bHsQf/Y
- G6EwcCVR+fVLA==
-Message-ID: <f63f7616-9fea-48fd-4e5d-97751640b5ad@collabora.com>
-Date: Thu, 17 Feb 2022 16:18:42 +0300
+ b=RGsVsI/lQpoUKPA6V3Twhpxur+3Y+o6SyrYEKhCHhJnVUkGSdRrTbzhckA6Z8vruL
+ ZFCkGZ7FZ3XA2nHIdLJ+811J/y2ivyUjsdG8WaVsdZMh4ZCVViUbinVp7sQmWQFiDy
+ 3t9IGpwnR2aDxLUD7Yx45IdCTohzsP/YfefaFo6ENeMRJQ96FaIbQ0jV/JBsvxQwfD
+ gzJJJED0QxI7RA3ui1ytubcIxPQ1iZuWyqMKve9fg7CTJ6TzBvBC5hlCQhxpuobfei
+ Gyv3aKQIsS5Yv1FuVr9MU3UZUHh/jG1zOfB/kS5Zkw+0IshM7cq00jpEX+7ptY8sdz
+ QAdJg4pLtwH1w==
+Message-ID: <0fa21d91-b15f-8049-d776-8c6e9e9334b2@collabora.com>
+Date: Thu, 17 Feb 2022 16:20:15 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v6 07/23] drm/rockchip: dw_hdmi: add regulator support
+Subject: Re: [PATCH v6 02/23] drm/rockchip: dw_hdmi: rename vpll clock to
+ reference clock
 Content-Language: en-US
 To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
 References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
- <20220217082954.2967889-8-s.hauer@pengutronix.de>
+ <20220217082954.2967889-3-s.hauer@pengutronix.de>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220217082954.2967889-8-s.hauer@pengutronix.de>
+In-Reply-To: <20220217082954.2967889-3-s.hauer@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 19 Feb 2022 10:01:55 +0000
@@ -61,15 +61,13 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
 17.02.2022 11:29, Sascha Hauer пишет:
-> The RK3568 has HDMI_TX_AVDD0V9 and HDMI_TX_AVDD_1V8 supply inputs needed
-> for the HDMI port. add support for these to the driver for boards which
-> have them supplied by switchable regulators.
-> 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> ---
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 41 +++++++++++++++++++--
->  1 file changed, 38 insertions(+), 3 deletions(-)
+> +	hdmi->ref_clk = devm_clk_get(hdmi->dev, "ref");
+> +	if (PTR_ERR(hdmi->ref_clk) == -ENOENT)
+> +		hdmi->ref_clk = devm_clk_get(hdmi->dev, "vpll");
+> +
+> +	if (PTR_ERR(hdmi->ref_clk) == -ENOENT) {
+> +		hdmi->ref_clk = NULL;
 
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+I missed in v5 that devm_clk_get_optional() could be used here. But this
+doesn't worth the v7 by itself.
