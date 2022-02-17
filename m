@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F5A4B9747
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 04:54:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B28C4B9752
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 04:54:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C49710E789;
-	Thu, 17 Feb 2022 03:54:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 981E010E79A;
+	Thu, 17 Feb 2022 03:54:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD4B110E75F
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 03:54:03 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id bx31so6440570ljb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 19:54:03 -0800 (PST)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF8E310E75F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 03:54:04 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id e5so7538468lfr.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 19:54:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0kyxRMMBG2gpm69Eogx/Pqcstxzhu1JTR7Us2wGmBvY=;
- b=fKV36McY3ySvJQwBRVQSuXKAstnJZQcBQRIuW05OzVCs7WnOqmkmKW4/+PbXwA18n/
- HiuJIUpyCQW87rPyh8GbIiZpfpNgXJtXBehB3MufCtb4XiQqriewEYgZXXQuKpOXq0gP
- 9FFOSnSZBCb19/h5skw6QKaT8ZtdyS4Coywy7gs+htHnrsOH+YKvTHzX04ANp+I4VCcl
- vbDysr3lHt8QGupfuz5WMrMRosE0J/gLlpuKXIfMAAK+xR44Uu3pxeMKixTzm/0t78cK
- N1Kok1Zldl0FNTr4ABFP6TNhYuSUQj7BhdIaGW3HB66VgNZer7Gi1RLFzm9PIScrKeBB
- ORtg==
+ bh=RR1N4aPEBsDSrMkYWyN5C+eYSYGI+wdfjT+eCdTVa9U=;
+ b=YCnwYlAvZ7/nS7LPvTABXHKm53V4PGUIaIBxHLF2KydqNgd1nAQ5/A/0ok7TobG8G7
+ vycvAQ2fh6huKnrHhICiT1Tr+0jbqcR3OAY136hQ6ZN7CxDJM0j00WsU92y9gutn8GIA
+ 8ssmV6+Z0V3E0oYO+RpOiP0rIHJ4PzEFmNd6r/4UjKqqjQuSNVaB1QqdT33fzYE/qChu
+ SA4smIhHj5xlikPyBa88uVO7J+7Kkp13NlHB/WMO/p9jI1P2FcrDJ3TlMYLwqTvtRCjX
+ r1PTXx+QfICidSWTpCskAyDeMc6KOzYa0S6xfc2KG/oVhXojtHmewRZIEM/IQLtEZ+GH
+ ON3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0kyxRMMBG2gpm69Eogx/Pqcstxzhu1JTR7Us2wGmBvY=;
- b=ygMShk8WO/21x36zaLZRv0XumqpoZOz2J+w4+3kDHKd3adMLEbOxSzBXKiG6PGzqRu
- vxUpsJXdzv4ydADDkhH0wpH4nq2M3nAhAgUmazSs4eivOGtMS3X2dmikdY4hSQphSGLj
- zJRgKXE2kC5y3ASp7YDPpTGpLnYq6AczNyAzEWAaxP/L1XNMztO8hacyGN54dDqYDKWb
- SwjsVloQAJUJPPOrrDEJxEdkaMiQZ3vPYTamV7kluqz+zl/6FIL/BAD7D8xpEywFewb3
- MrmzqvQ2ym6irWliqO4X+cG/1hgrjLcqgEIIpcx5Rfg+7kAo8xm4fOnjmbEjpazzKS3m
- swbw==
-X-Gm-Message-State: AOAM530G8ywCvukFGb9LWCfm/1inMXoLyCy46N2ddraNltbFsegys68q
- v972iQuWCVD0qgU9RTe/iO2fZQ==
-X-Google-Smtp-Source: ABdhPJwjg6TalywIhRqRrSyVrQ9fIteRP0SsmFbcNLffktdUAwVe97wMS+C2UjwtwQCFO5vOAG1Psg==
-X-Received: by 2002:a05:651c:1547:b0:244:8a9b:d0a1 with SMTP id
- y7-20020a05651c154700b002448a9bd0a1mr882457ljp.53.1645070042135; 
- Wed, 16 Feb 2022 19:54:02 -0800 (PST)
+ bh=RR1N4aPEBsDSrMkYWyN5C+eYSYGI+wdfjT+eCdTVa9U=;
+ b=s+bNzh6qi1SdWQexgd34L9svKggex1iRgGxgMvGgn/LUj0LS6cqNw6RWSXgtKOBRlY
+ xmMt/xSFioqI1nfZ+DOKXc2QAFFE4iXsC39txiW0hUG47OL6XVCCF8yvO0acS49g7RGQ
+ hYwiOSI4DbJm/fqTJGBYWPrGMV1NkundN/sUY3Je2uVVVH8X+aevJKaI/U1lwapbz4OQ
+ QXlTtg5FJYBUKDwdS846SFNne8q1qHDyI1rs8oXrMIIlEEfh5RpEc4X3pFMRSxshGHu1
+ dc/+i1iyLYTsP40tBScxdlx4iTeacX+739da+7otUdWuARx33+3qA98fg+bg+Vi5y5TS
+ FZJg==
+X-Gm-Message-State: AOAM530kM1qmmJaFipkVa92DAJvDFPbm432n3xwJKkLOWKDG/O4ZyuDq
+ pZkfqnYq6Qc/IkpuRGBMx6c1/g==
+X-Google-Smtp-Source: ABdhPJwvDOrFkan8mJU6iOjEP4Ula3Yq8VzKbdfOkj1/0kZ4ERxGTv8HZPueJb+vInWTQNDwkvEhkw==
+X-Received: by 2002:a05:6512:3157:b0:443:6407:ea58 with SMTP id
+ s23-20020a056512315700b004436407ea58mr768650lfi.81.1645070043080; 
+ Wed, 16 Feb 2022 19:54:03 -0800 (PST)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id h9sm1575454ljb.77.2022.02.16.19.54.01
+ by smtp.gmail.com with ESMTPSA id h9sm1575454ljb.77.2022.02.16.19.54.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 19:54:01 -0800 (PST)
+ Wed, 16 Feb 2022 19:54:02 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 2/7] drm/msm: move struct msm_display_info to dpu driver
-Date: Thu, 17 Feb 2022 06:53:53 +0300
-Message-Id: <20220217035358.465904-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 3/7] drm/msm/dpu: remove msm_dp cached in dpu_encoder_virt
+Date: Thu, 17 Feb 2022 06:53:54 +0300
+Message-Id: <20220217035358.465904-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220217035358.465904-1-dmitry.baryshkov@linaro.org>
 References: <20220217035358.465904-1-dmitry.baryshkov@linaro.org>
@@ -76,75 +76,48 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The msm_display_info structure is not used by the rest of msm driver, so
-move it into the dpu1 (dpu_encoder.h to be precise).
+Stop caching msm_dp instance in dpu_encoder_virt since it's not used
+now.
 
+Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display enable and disable")
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 18 ++++++++++++++++++
- drivers/gpu/drm/msm/msm_drv.h               | 18 ------------------
- 2 files changed, 18 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index e241914a9677..ebe3944355bb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -34,6 +34,24 @@ struct dpu_encoder_hw_resources {
- void dpu_encoder_get_hw_resources(struct drm_encoder *encoder,
- 				  struct dpu_encoder_hw_resources *hw_res);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 02d0fae1c6dc..16ae0cccbbb1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -168,7 +168,6 @@ enum dpu_enc_rc_states {
+  * @vsync_event_work:		worker to handle vsync event for autorefresh
+  * @topology:                   topology of the display
+  * @idle_timeout:		idle timeout duration in milliseconds
+- * @dp:				msm_dp pointer, for DP encoders
+  */
+ struct dpu_encoder_virt {
+ 	struct drm_encoder base;
+@@ -207,8 +206,6 @@ struct dpu_encoder_virt {
+ 	struct msm_display_topology topology;
  
-+/**
-+ * struct msm_display_info - defines display properties
-+ * @intf_type:          DRM_MODE_ENCODER_ type
-+ * @capabilities:       Bitmask of display flags
-+ * @num_of_h_tiles:     Number of horizontal tiles in case of split interface
-+ * @h_tile_instance:    Controller instance used per tile. Number of elements is
-+ *                      based on num_of_h_tiles
-+ * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
-+ *				 used instead of panel TE in cmd mode panels
-+ */
-+struct msm_display_info {
-+	int intf_type;
-+	uint32_t capabilities;
-+	uint32_t num_of_h_tiles;
-+	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
-+	bool is_te_using_watchdog_timer;
-+};
-+
- /**
-  * dpu_encoder_assign_crtc - Link the encoder to the crtc it's assigned to
-  * @encoder:	encoder pointer
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index d7574e6bd4e4..16f9e25ee19e 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -109,24 +109,6 @@ struct msm_display_topology {
- 	u32 num_dspp;
+ 	u32 idle_timeout;
+-
+-	struct msm_dp *dp;
  };
  
--/**
-- * struct msm_display_info - defines display properties
-- * @intf_type:          DRM_MODE_ENCODER_ type
-- * @capabilities:       Bitmask of display flags
-- * @num_of_h_tiles:     Number of horizontal tiles in case of split interface
-- * @h_tile_instance:    Controller instance used per tile. Number of elements is
-- *                      based on num_of_h_tiles
-- * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
-- *				 used instead of panel TE in cmd mode panels
-- */
--struct msm_display_info {
--	int intf_type;
--	uint32_t capabilities;
--	uint32_t num_of_h_tiles;
--	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
--	bool is_te_using_watchdog_timer;
--};
--
- /* Commit/Event thread specific structure */
- struct msm_drm_thread {
- 	struct drm_device *dev;
+ #define to_dpu_encoder_virt(x) container_of(x, struct dpu_encoder_virt, base)
+@@ -2128,8 +2125,6 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
+ 		timer_setup(&dpu_enc->vsync_event_timer,
+ 				dpu_encoder_vsync_event_handler,
+ 				0);
+-	else if (disp_info->intf_type == DRM_MODE_ENCODER_TMDS)
+-		dpu_enc->dp = priv->dp[disp_info->h_tile_instance[0]];
+ 
+ 	INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
+ 			dpu_encoder_off_work);
 -- 
 2.34.1
 
