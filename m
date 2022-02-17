@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04D34BA97C
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:16:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87E94BA97E
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:16:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4F8D10E40F;
-	Thu, 17 Feb 2022 19:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D2CA10E432;
+	Thu, 17 Feb 2022 19:16:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF8710E3F8
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 19:16:29 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id k25so9573169ejp.5
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 11:16:29 -0800 (PST)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC82D10E3F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 19:16:30 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id k25so9573327ejp.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 11:16:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CCwNIlXAZWZJUVV5yDfrYRA4cFSXUrx9sbZ5mmkUKNc=;
- b=G+AekBmdfQ0a9bxmZ9jWUwRUlAO0sv5qVX6RPDukFhhOYBcNXlnRQfP0k80ffE1oye
- px78g3w7p+7B/szHNUydbnTpRwfLiPdpFKb+6D8O9mEqHbtwjSOsQOMSeTjzvsz5uKw7
- fEyCZkcyI4OFWxxet+OFLzszLV/TVEG7nLaHqm7AxkkaSAUlhjfFWwUk5iBcSSGYf/S4
- brI8638rlPxk+bs0eyViV3Aq9NJVMlVLQYZpfaNOXVmq3XeC52c0gM02t5pNnPMcgSn9
- eP0JTA+tAJv9mWqZ19bCE+io3miECqy8GzS7/RqI0e5pQqnpTW0gqjrJoWzPrQK5bdqQ
- xKxQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1y3fU4srGaYEMp31jhbVVcL8asWau+YRKnH+gv7Axl8=;
+ b=iCLHdvmqJ97q6j08n6TzEvLnlAABp388Zj/kCcrAxM/ePphT4mwWVzGB9QayD9J+DP
+ dW68QchfeKuZKuUYyJBK6cinz3hlUOn2nIZN931Oz+rPo+Zw7VUTeTtnSU3Wuem7m53l
+ QLoS7gNhkaUo0CZvA3uItl4PNQv+ARtlEybG9eG1xQGEw+3Tn+Zx3DfCCKQbGgtDhaP/
+ a0zYbQvG0seGu0KwcIOl+UO9FSUiJpFUw16RxNDSr6wsCwkPTUe2dj+/lZ5jWEKTLYJ/
+ 4TlEe0L8yyeoT9E32UxxmtlUqPdATTFMFymNqLxFeXRWQC2+MyIbc8D7+xFBQyxlg5Eb
+ 7fAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CCwNIlXAZWZJUVV5yDfrYRA4cFSXUrx9sbZ5mmkUKNc=;
- b=cxPOxb3K9WwGvg3P7mhWtISG1OGnE2uTUAKhi5E6zfOtJxVxcB6zXigS/x0lvd+kUy
- JCldX/eHvEilpXghGbD/hTXwOEBPl7YlRQ3oHIB5zYa3nc7ZKP3cG7Ikv5Q5vSLrMy0X
- YP4uKKFk7jqdaMmCQifjW4nrPSR6TGeLEqr9WZEzn//Mw6jkx3NikAKngilgXvvDx25l
- e7KA5lF4RmwrxwEzLL17wQZcfDDgqsvXAPZ8ZGWMoi7iSnKv/vpTmmbDZcYB9BjeZsUo
- zcUZflLUWqGrUNTfYbLjQL38qJSk9xqpxj2wGzYiJCFDLjIPKCeF3U9NrLUit726Hs9F
- H1Kw==
-X-Gm-Message-State: AOAM532Am6sedkmJNrlDIMNSpVBn5B5C9XyJwaleFvSsbrT1KSXyi8Gx
- RkHxcGOAtdvcp9OB+8B7p1QNqNRzpws=
-X-Google-Smtp-Source: ABdhPJzyihI0kvofqnsyf9Be23/8AnlYgXHFIGrlZegBhBlRFN80Q7gB7DuY6mGBTWDTpb2t84M7tg==
-X-Received: by 2002:a17:906:7197:b0:6cd:ef8f:ecbf with SMTP id
- h23-20020a170906719700b006cdef8fecbfmr3489806ejk.18.1645125387546; 
- Thu, 17 Feb 2022 11:16:27 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1y3fU4srGaYEMp31jhbVVcL8asWau+YRKnH+gv7Axl8=;
+ b=16xx7Lki+ZjR9DvM4AeetO9BBIY8TgfacvXRFHsXMx5JUNKkyHOjo/2WsQKbiS5J9i
+ 37awBIhugMrY3jxoOAW7Y74wr3jI83KrlIvMISLyK7J3dHdfaFcqGmY58AItEHwnjLAH
+ 48wvVBrnIfgHYxT4SYEJaM1gMQnnum3voauaF2fLCcLn0pFjkBS++F0qHwZdm3a8vt9N
+ tgIDelFr8VdGSlD/JPsqSTVHaMW3JdS/UrQKzK6Eh2Rq9kaiXW2j/bgYMoz0nZcawrmi
+ xlTOGN93lztW2juEg5A/TJOSkoGBtGgMpH18WnSMhKgNBY9kDu5nQSVjB+c1/cEdJqCN
+ q4cg==
+X-Gm-Message-State: AOAM530RMZ+pVca6yW6G74x6SIrZiIqLS+pM4qsDIgniC6ADTwTctO1E
+ wwkTj1V6n4Qq+51g78/m55o=
+X-Google-Smtp-Source: ABdhPJwf48Xi8bTA+XiJxo1/ROLb8jyaFg8X+QymBUPLJr69QOLJ7VjPhrPX05PprWKLXiBqcVuqBQ==
+X-Received: by 2002:a17:906:2a85:b0:6ce:36bd:bcd9 with SMTP id
+ l5-20020a1709062a8500b006ce36bdbcd9mr3524676eje.318.1645125389334; 
+ Thu, 17 Feb 2022 11:16:29 -0800 (PST)
 Received: from localhost
  (p200300e41f0a6900000000000000043a.dip0.t-ipconnect.de.
  [2003:e4:1f0a:6900::43a])
- by smtp.gmail.com with ESMTPSA id w17sm3742289edd.18.2022.02.17.11.16.26
+ by smtp.gmail.com with ESMTPSA id 5sm1457659ejq.131.2022.02.17.11.16.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 11:16:26 -0800 (PST)
+ Thu, 17 Feb 2022 11:16:28 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH libdrm v2 00/25] Update Tegra support
-Date: Thu, 17 Feb 2022 20:16:00 +0100
-Message-Id: <20220217191625.2534521-1-thierry.reding@gmail.com>
+Subject: [PATCH libdrm v2 01/25] tegra: Indent according to .editorconfig
+Date: Thu, 17 Feb 2022 20:16:01 +0100
+Message-Id: <20220217191625.2534521-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220217191625.2534521-1-thierry.reding@gmail.com>
+References: <20220217191625.2534521-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,116 +78,620 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-Hi all,
+Reindent the sources according to the settings found in the newly added
+.editorconfig.
 
-this is the userspace part of the kernel patches that were recently
-merged into drm-next:
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ tegra/private.h         |  18 +--
+ tegra/tegra.c           | 348 ++++++++++++++++++++--------------------
+ tegra/tegra.h           |  12 +-
+ tests/tegra/openclose.c |  52 +++---
+ 4 files changed, 217 insertions(+), 213 deletions(-)
 
-  https://patchwork.freedesktop.org/series/92378/
-
-The goal is to provide a userspace implementation of the UAPI exposed by
-the kernel and show its usage in some test programs that can also be
-used for basic sanity testing. More complete userspace implementations
-are available here:
-
-  * https://github.com/cyndis/vaapi-tegra-driver
-  * https://github.com/grate-driver/xf86-video-opentegra
-  * https://github.com/grate-driver/grate
-
-Changes in v2:
-- implement vic_clear() as a helper using ->fill() (Michał Mirosław)
-- rebase and fix a couple of Meson errors/warnings
-
-Thierry
-
-Thierry Reding (25):
-  tegra: Indent according to .editorconfig
-  tegra: Remove unused IOCTL implementations
-  tegra: Extract common buffer object allocation code
-  tegra: Fix mmap() of GEM buffer objects
-  tegra: Add flink helpers
-  tegra: Add PRIME support helpers
-  tegra: Make API more consistent
-  tegra: Install tegra-openclose test
-  tegra: Update for new UABI
-  tegra: Include private.h in list of source files
-  tegra: Add channel APIs
-  tegra: Add job and push buffer APIs
-  tegra: Add syncpoint APIs
-  tests: tegra: Add helper library for tests
-  tests: tegra: Add gr2d-fill test
-  tests: tegra: Add syncpt-wait test
-  tests: tegra: Add syncpoint timeout test
-  tests: tegra: Add VIC support
-  tests: tegra: Add VIC 3.0 support
-  tests: tegra: Add VIC 4.0 support
-  tests: tegra: Add VIC 4.1 support
-  tests: tegra: Add VIC 4.2 support
-  tests: tegra: Add VIC clear test
-  tests: tegra: Add VIC blit test
-  tests: tegra: Add VIC flip test
-
- include/drm/tegra_drm.h      | 429 +++++++++++++++++++++++--
- tegra/channel.c              | 195 ++++++++++++
- tegra/job.c                  | 187 +++++++++++
- tegra/meson.build            |   7 +-
- tegra/private.h              |  85 ++++-
- tegra/pushbuf.c              | 184 +++++++++++
- tegra/syncpt.c               | 101 ++++++
- tegra/tegra-symbols.txt      |  27 +-
- tegra/tegra.c                | 386 +++++++++++-----------
- tegra/tegra.h                |  95 +++++-
- tests/tegra/.gitignore       |   3 +-
- tests/tegra/drm-test-tegra.c | 147 +++++++++
- tests/tegra/drm-test-tegra.h |  55 ++++
- tests/tegra/drm-test.c       | 248 +++++++++++++++
- tests/tegra/drm-test.h       |  72 +++++
- tests/tegra/gr2d-fill.c      | 146 +++++++++
- tests/tegra/host1x.h         |  34 ++
- tests/tegra/meson.build      |  88 +++++-
- tests/tegra/openclose.c      |  52 +--
- tests/tegra/syncpt-timeout.c | 163 ++++++++++
- tests/tegra/syncpt-wait.c    | 151 +++++++++
- tests/tegra/vic-blit.c       | 333 +++++++++++++++++++
- tests/tegra/vic-clear.c      | 173 ++++++++++
- tests/tegra/vic-flip.c       | 333 +++++++++++++++++++
- tests/tegra/vic.c            | 184 +++++++++++
- tests/tegra/vic.h            | 181 +++++++++++
- tests/tegra/vic30.c          | 458 +++++++++++++++++++++++++++
- tests/tegra/vic30.h          | 439 ++++++++++++++++++++++++++
- tests/tegra/vic40.c          | 370 ++++++++++++++++++++++
- tests/tegra/vic40.h          | 285 +++++++++++++++++
- tests/tegra/vic41.c          | 374 ++++++++++++++++++++++
- tests/tegra/vic41.h          | 372 ++++++++++++++++++++++
- tests/tegra/vic42.c          | 374 ++++++++++++++++++++++
- tests/tegra/vic42.h          | 597 +++++++++++++++++++++++++++++++++++
- 34 files changed, 7068 insertions(+), 260 deletions(-)
- create mode 100644 tegra/channel.c
- create mode 100644 tegra/job.c
- create mode 100644 tegra/pushbuf.c
- create mode 100644 tegra/syncpt.c
- create mode 100644 tests/tegra/drm-test-tegra.c
- create mode 100644 tests/tegra/drm-test-tegra.h
- create mode 100644 tests/tegra/drm-test.c
- create mode 100644 tests/tegra/drm-test.h
- create mode 100644 tests/tegra/gr2d-fill.c
- create mode 100644 tests/tegra/host1x.h
- create mode 100644 tests/tegra/syncpt-timeout.c
- create mode 100644 tests/tegra/syncpt-wait.c
- create mode 100644 tests/tegra/vic-blit.c
- create mode 100644 tests/tegra/vic-clear.c
- create mode 100644 tests/tegra/vic-flip.c
- create mode 100644 tests/tegra/vic.c
- create mode 100644 tests/tegra/vic.h
- create mode 100644 tests/tegra/vic30.c
- create mode 100644 tests/tegra/vic30.h
- create mode 100644 tests/tegra/vic40.c
- create mode 100644 tests/tegra/vic40.h
- create mode 100644 tests/tegra/vic41.c
- create mode 100644 tests/tegra/vic41.h
- create mode 100644 tests/tegra/vic42.c
- create mode 100644 tests/tegra/vic42.h
-
+diff --git a/tegra/private.h b/tegra/private.h
+index bb6c1a516530..215dd3309bce 100644
+--- a/tegra/private.h
++++ b/tegra/private.h
+@@ -34,18 +34,18 @@
+ #include "tegra.h"
+ 
+ struct drm_tegra {
+-	bool close;
+-	int fd;
++    bool close;
++    int fd;
+ };
+ 
+ struct drm_tegra_bo {
+-	struct drm_tegra *drm;
+-	uint32_t handle;
+-	uint32_t offset;
+-	uint32_t flags;
+-	uint32_t size;
+-	atomic_t ref;
+-	void *map;
++    struct drm_tegra *drm;
++    uint32_t handle;
++    uint32_t offset;
++    uint32_t flags;
++    uint32_t size;
++    atomic_t ref;
++    void *map;
+ };
+ 
+ #endif /* __DRM_TEGRA_PRIVATE_H__ */
+diff --git a/tegra/tegra.c b/tegra/tegra.c
+index 420b171c5dd5..95aaa4b35425 100644
+--- a/tegra/tegra.c
++++ b/tegra/tegra.c
+@@ -37,288 +37,292 @@
+ 
+ static void drm_tegra_bo_free(struct drm_tegra_bo *bo)
+ {
+-	struct drm_tegra *drm = bo->drm;
++    struct drm_tegra *drm = bo->drm;
+ 
+-	if (bo->map)
+-		munmap(bo->map, bo->size);
++    if (bo->map)
++        munmap(bo->map, bo->size);
+ 
+-	drmCloseBufferHandle(drm->fd, bo->handle);
++    drmCloseBufferHandle(drm->fd, bo->handle);
+ 
+-	free(bo);
++    free(bo);
+ }
+ 
+ static int drm_tegra_wrap(struct drm_tegra **drmp, int fd, bool close)
+ {
+-	struct drm_tegra *drm;
++    struct drm_tegra *drm;
+ 
+-	if (fd < 0 || !drmp)
+-		return -EINVAL;
++    if (fd < 0 || !drmp)
++        return -EINVAL;
+ 
+-	drm = calloc(1, sizeof(*drm));
+-	if (!drm)
+-		return -ENOMEM;
++    drm = calloc(1, sizeof(*drm));
++    if (!drm)
++        return -ENOMEM;
+ 
+-	drm->close = close;
+-	drm->fd = fd;
++    drm->close = close;
++    drm->fd = fd;
+ 
+-	*drmp = drm;
++    *drmp = drm;
+ 
+-	return 0;
++    return 0;
+ }
+ 
+ drm_public int drm_tegra_new(struct drm_tegra **drmp, int fd)
+ {
+-	bool supported = false;
+-	drmVersionPtr version;
++    bool supported = false;
++    drmVersionPtr version;
+ 
+-	version = drmGetVersion(fd);
+-	if (!version)
+-		return -ENOMEM;
++    version = drmGetVersion(fd);
++    if (!version)
++        return -ENOMEM;
+ 
+-	if (!strncmp(version->name, "tegra", version->name_len))
+-		supported = true;
++    if (!strncmp(version->name, "tegra", version->name_len))
++        supported = true;
+ 
+-	drmFreeVersion(version);
++    drmFreeVersion(version);
+ 
+-	if (!supported)
+-		return -ENOTSUP;
++    if (!supported)
++        return -ENOTSUP;
+ 
+-	return drm_tegra_wrap(drmp, fd, false);
++    return drm_tegra_wrap(drmp, fd, false);
+ }
+ 
+ drm_public void drm_tegra_close(struct drm_tegra *drm)
+ {
+-	if (!drm)
+-		return;
++    if (!drm)
++        return;
+ 
+-	if (drm->close)
+-		close(drm->fd);
++    if (drm->close)
++        close(drm->fd);
+ 
+-	free(drm);
++    free(drm);
+ }
+ 
+-drm_public int drm_tegra_bo_new(struct drm_tegra_bo **bop, struct drm_tegra *drm,
+-		     uint32_t flags, uint32_t size)
++drm_public int
++drm_tegra_bo_new(struct drm_tegra_bo **bop, struct drm_tegra *drm,
++                 uint32_t flags, uint32_t size)
+ {
+-	struct drm_tegra_gem_create args;
+-	struct drm_tegra_bo *bo;
+-	int err;
++    struct drm_tegra_gem_create args;
++    struct drm_tegra_bo *bo;
++    int err;
+ 
+-	if (!drm || size == 0 || !bop)
+-		return -EINVAL;
++    if (!drm || size == 0 || !bop)
++        return -EINVAL;
+ 
+-	bo = calloc(1, sizeof(*bo));
+-	if (!bo)
+-		return -ENOMEM;
++    bo = calloc(1, sizeof(*bo));
++    if (!bo)
++        return -ENOMEM;
+ 
+-	atomic_set(&bo->ref, 1);
+-	bo->flags = flags;
+-	bo->size = size;
+-	bo->drm = drm;
++    atomic_set(&bo->ref, 1);
++    bo->flags = flags;
++    bo->size = size;
++    bo->drm = drm;
+ 
+-	memset(&args, 0, sizeof(args));
+-	args.flags = flags;
+-	args.size = size;
++    memset(&args, 0, sizeof(args));
++    args.flags = flags;
++    args.size = size;
+ 
+-	err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_CREATE, &args,
+-				  sizeof(args));
+-	if (err < 0) {
+-		err = -errno;
+-		free(bo);
+-		return err;
+-	}
++    err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_CREATE, &args,
++                              sizeof(args));
++    if (err < 0) {
++        err = -errno;
++        free(bo);
++        return err;
++    }
+ 
+-	bo->handle = args.handle;
++    bo->handle = args.handle;
+ 
+-	*bop = bo;
++    *bop = bo;
+ 
+-	return 0;
++    return 0;
+ }
+ 
+-drm_public int drm_tegra_bo_wrap(struct drm_tegra_bo **bop, struct drm_tegra *drm,
+-		      uint32_t handle, uint32_t flags, uint32_t size)
++drm_public int
++drm_tegra_bo_wrap(struct drm_tegra_bo **bop, struct drm_tegra *drm,
++                  uint32_t handle, uint32_t flags, uint32_t size)
+ {
+-	struct drm_tegra_bo *bo;
++    struct drm_tegra_bo *bo;
+ 
+-	if (!drm || !bop)
+-		return -EINVAL;
++    if (!drm || !bop)
++        return -EINVAL;
+ 
+-	bo = calloc(1, sizeof(*bo));
+-	if (!bo)
+-		return -ENOMEM;
++    bo = calloc(1, sizeof(*bo));
++    if (!bo)
++        return -ENOMEM;
+ 
+-	atomic_set(&bo->ref, 1);
+-	bo->handle = handle;
+-	bo->flags = flags;
+-	bo->size = size;
+-	bo->drm = drm;
++    atomic_set(&bo->ref, 1);
++    bo->handle = handle;
++    bo->flags = flags;
++    bo->size = size;
++    bo->drm = drm;
+ 
+-	*bop = bo;
++    *bop = bo;
+ 
+-	return 0;
++    return 0;
+ }
+ 
+ drm_public struct drm_tegra_bo *drm_tegra_bo_ref(struct drm_tegra_bo *bo)
+ {
+-	if (bo)
+-		atomic_inc(&bo->ref);
++    if (bo)
++        atomic_inc(&bo->ref);
+ 
+-	return bo;
++    return bo;
+ }
+ 
+ drm_public void drm_tegra_bo_unref(struct drm_tegra_bo *bo)
+ {
+-	if (bo && atomic_dec_and_test(&bo->ref))
+-		drm_tegra_bo_free(bo);
++    if (bo && atomic_dec_and_test(&bo->ref))
++        drm_tegra_bo_free(bo);
+ }
+ 
+ drm_public int drm_tegra_bo_get_handle(struct drm_tegra_bo *bo, uint32_t *handle)
+ {
+-	if (!bo || !handle)
+-		return -EINVAL;
++    if (!bo || !handle)
++        return -EINVAL;
+ 
+-	*handle = bo->handle;
++    *handle = bo->handle;
+ 
+-	return 0;
++    return 0;
+ }
+ 
+ drm_public int drm_tegra_bo_map(struct drm_tegra_bo *bo, void **ptr)
+ {
+-	struct drm_tegra *drm = bo->drm;
++    struct drm_tegra *drm = bo->drm;
+ 
+-	if (!bo->map) {
+-		struct drm_tegra_gem_mmap args;
+-		int err;
++    if (!bo->map) {
++        struct drm_tegra_gem_mmap args;
++        int err;
+ 
+-		memset(&args, 0, sizeof(args));
+-		args.handle = bo->handle;
++        memset(&args, 0, sizeof(args));
++        args.handle = bo->handle;
+ 
+-		err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_MMAP, &args,
+-					  sizeof(args));
+-		if (err < 0)
+-			return -errno;
++        err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_MMAP, &args,
++                                  sizeof(args));
++        if (err < 0)
++            return -errno;
+ 
+-		bo->offset = args.offset;
++        bo->offset = args.offset;
+ 
+-		bo->map = mmap(0, bo->size, PROT_READ | PROT_WRITE, MAP_SHARED,
+-			       drm->fd, bo->offset);
+-		if (bo->map == MAP_FAILED) {
+-			bo->map = NULL;
+-			return -errno;
+-		}
+-	}
++        bo->map = mmap(0, bo->size, PROT_READ | PROT_WRITE, MAP_SHARED,
++                       drm->fd, bo->offset);
++        if (bo->map == MAP_FAILED) {
++            bo->map = NULL;
++            return -errno;
++        }
++    }
+ 
+-	if (ptr)
+-		*ptr = bo->map;
++    if (ptr)
++        *ptr = bo->map;
+ 
+-	return 0;
++    return 0;
+ }
+ 
+ drm_public int drm_tegra_bo_unmap(struct drm_tegra_bo *bo)
+ {
+-	if (!bo)
+-		return -EINVAL;
++    if (!bo)
++        return -EINVAL;
+ 
+-	if (!bo->map)
+-		return 0;
++    if (!bo->map)
++        return 0;
+ 
+-	if (munmap(bo->map, bo->size))
+-		return -errno;
++    if (munmap(bo->map, bo->size))
++        return -errno;
+ 
+-	bo->map = NULL;
++    bo->map = NULL;
+ 
+-	return 0;
++    return 0;
+ }
+ 
+ drm_public int drm_tegra_bo_get_flags(struct drm_tegra_bo *bo, uint32_t *flags)
+ {
+-	struct drm_tegra_gem_get_flags args;
+-	struct drm_tegra *drm = bo->drm;
+-	int err;
++    struct drm_tegra_gem_get_flags args;
++    struct drm_tegra *drm = bo->drm;
++    int err;
+ 
+-	if (!bo)
+-		return -EINVAL;
++    if (!bo)
++        return -EINVAL;
+ 
+-	memset(&args, 0, sizeof(args));
+-	args.handle = bo->handle;
++    memset(&args, 0, sizeof(args));
++    args.handle = bo->handle;
+ 
+-	err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_GET_FLAGS, &args,
+-				  sizeof(args));
+-	if (err < 0)
+-		return -errno;
++    err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_GET_FLAGS, &args,
++                              sizeof(args));
++    if (err < 0)
++        return -errno;
+ 
+-	if (flags)
+-		*flags = args.flags;
++    if (flags)
++        *flags = args.flags;
+ 
+-	return 0;
++    return 0;
+ }
+ 
+ drm_public int drm_tegra_bo_set_flags(struct drm_tegra_bo *bo, uint32_t flags)
+ {
+-	struct drm_tegra_gem_get_flags args;
+-	struct drm_tegra *drm = bo->drm;
+-	int err;
++    struct drm_tegra_gem_get_flags args;
++    struct drm_tegra *drm = bo->drm;
++    int err;
+ 
+-	if (!bo)
+-		return -EINVAL;
++    if (!bo)
++        return -EINVAL;
+ 
+-	memset(&args, 0, sizeof(args));
+-	args.handle = bo->handle;
+-	args.flags = flags;
++    memset(&args, 0, sizeof(args));
++    args.handle = bo->handle;
++    args.flags = flags;
+ 
+-	err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_SET_FLAGS, &args,
+-				  sizeof(args));
+-	if (err < 0)
+-		return -errno;
++    err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_SET_FLAGS, &args,
++                              sizeof(args));
++    if (err < 0)
++        return -errno;
+ 
+-	return 0;
++    return 0;
+ }
+ 
+-drm_public int drm_tegra_bo_get_tiling(struct drm_tegra_bo *bo,
+-			    struct drm_tegra_bo_tiling *tiling)
++drm_public int
++drm_tegra_bo_get_tiling(struct drm_tegra_bo *bo,
++                        struct drm_tegra_bo_tiling *tiling)
+ {
+-	struct drm_tegra_gem_get_tiling args;
+-	struct drm_tegra *drm = bo->drm;
+-	int err;
++    struct drm_tegra_gem_get_tiling args;
++    struct drm_tegra *drm = bo->drm;
++    int err;
+ 
+-	if (!bo)
+-		return -EINVAL;
++    if (!bo)
++        return -EINVAL;
+ 
+-	memset(&args, 0, sizeof(args));
+-	args.handle = bo->handle;
++    memset(&args, 0, sizeof(args));
++    args.handle = bo->handle;
+ 
+-	err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_GET_TILING, &args,
+-				  sizeof(args));
+-	if (err < 0)
+-		return -errno;
++    err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_GET_TILING, &args,
++                              sizeof(args));
++    if (err < 0)
++        return -errno;
+ 
+-	if (tiling) {
+-		tiling->mode = args.mode;
+-		tiling->value = args.value;
+-	}
++    if (tiling) {
++        tiling->mode = args.mode;
++        tiling->value = args.value;
++    }
+ 
+-	return 0;
++    return 0;
+ }
+ 
+-drm_public int drm_tegra_bo_set_tiling(struct drm_tegra_bo *bo,
+-			    const struct drm_tegra_bo_tiling *tiling)
++drm_public int
++drm_tegra_bo_set_tiling(struct drm_tegra_bo *bo,
++                        const struct drm_tegra_bo_tiling *tiling)
+ {
+-	struct drm_tegra_gem_set_tiling args;
+-	struct drm_tegra *drm = bo->drm;
+-	int err;
++    struct drm_tegra_gem_set_tiling args;
++    struct drm_tegra *drm = bo->drm;
++    int err;
+ 
+-	if (!bo)
+-		return -EINVAL;
++    if (!bo)
++        return -EINVAL;
+ 
+-	memset(&args, 0, sizeof(args));
+-	args.handle = bo->handle;
+-	args.mode = tiling->mode;
+-	args.value = tiling->value;
++    memset(&args, 0, sizeof(args));
++    args.handle = bo->handle;
++    args.mode = tiling->mode;
++    args.value = tiling->value;
+ 
+-	err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_SET_TILING, &args,
+-				  sizeof(args));
+-	if (err < 0)
+-		return -errno;
++    err = drmCommandWriteRead(drm->fd, DRM_TEGRA_GEM_SET_TILING, &args,
++                              sizeof(args));
++    if (err < 0)
++        return -errno;
+ 
+-	return 0;
++    return 0;
+ }
+diff --git a/tegra/tegra.h b/tegra/tegra.h
+index 31b0995ad691..62205a5174b4 100644
+--- a/tegra/tegra.h
++++ b/tegra/tegra.h
+@@ -35,9 +35,9 @@ int drm_tegra_new(struct drm_tegra **drmp, int fd);
+ void drm_tegra_close(struct drm_tegra *drm);
+ 
+ int drm_tegra_bo_new(struct drm_tegra_bo **bop, struct drm_tegra *drm,
+-		     uint32_t flags, uint32_t size);
++                     uint32_t flags, uint32_t size);
+ int drm_tegra_bo_wrap(struct drm_tegra_bo **bop, struct drm_tegra *drm,
+-		      uint32_t handle, uint32_t flags, uint32_t size);
++                      uint32_t handle, uint32_t flags, uint32_t size);
+ struct drm_tegra_bo *drm_tegra_bo_ref(struct drm_tegra_bo *bo);
+ void drm_tegra_bo_unref(struct drm_tegra_bo *bo);
+ int drm_tegra_bo_get_handle(struct drm_tegra_bo *bo, uint32_t *handle);
+@@ -48,13 +48,13 @@ int drm_tegra_bo_get_flags(struct drm_tegra_bo *bo, uint32_t *flags);
+ int drm_tegra_bo_set_flags(struct drm_tegra_bo *bo, uint32_t flags);
+ 
+ struct drm_tegra_bo_tiling {
+-	uint32_t mode;
+-	uint32_t value;
++    uint32_t mode;
++    uint32_t value;
+ };
+ 
+ int drm_tegra_bo_get_tiling(struct drm_tegra_bo *bo,
+-			    struct drm_tegra_bo_tiling *tiling);
++                            struct drm_tegra_bo_tiling *tiling);
+ int drm_tegra_bo_set_tiling(struct drm_tegra_bo *bo,
+-			    const struct drm_tegra_bo_tiling *tiling);
++                            const struct drm_tegra_bo_tiling *tiling);
+ 
+ #endif /* __DRM_TEGRA_H__ */
+diff --git a/tests/tegra/openclose.c b/tests/tegra/openclose.c
+index f80f52d477ee..104e83806f3a 100644
+--- a/tests/tegra/openclose.c
++++ b/tests/tegra/openclose.c
+@@ -31,37 +31,37 @@ static const char default_device[] = "/dev/dri/card0";
+ 
+ int main(int argc, char *argv[])
+ {
+-	struct drm_tegra *tegra;
+-	drmVersionPtr version;
+-	const char *device;
+-	int err, fd;
++    struct drm_tegra *tegra;
++    drmVersionPtr version;
++    const char *device;
++    int err, fd;
+ 
+-	if (argc < 2)
+-		device = default_device;
+-	else
+-		device = argv[1];
++    if (argc < 2)
++        device = default_device;
++    else
++        device = argv[1];
+ 
+-	fd = open(device, O_RDWR);
+-	if (fd < 0)
+-		return 1;
++    fd = open(device, O_RDWR);
++    if (fd < 0)
++        return 1;
+ 
+-	version = drmGetVersion(fd);
+-	if (version) {
+-		printf("Version: %d.%d.%d\n", version->version_major,
+-		       version->version_minor, version->version_patchlevel);
+-		printf("  Name: %s\n", version->name);
+-		printf("  Date: %s\n", version->date);
+-		printf("  Description: %s\n", version->desc);
++    version = drmGetVersion(fd);
++    if (version) {
++        printf("Version: %d.%d.%d\n", version->version_major,
++               version->version_minor, version->version_patchlevel);
++        printf("  Name: %s\n", version->name);
++        printf("  Date: %s\n", version->date);
++        printf("  Description: %s\n", version->desc);
+ 
+-		drmFreeVersion(version);
+-	}
++        drmFreeVersion(version);
++    }
+ 
+-	err = drm_tegra_new(&tegra, fd);
+-	if (err < 0)
+-		return 1;
++    err = drm_tegra_new(&tegra, fd);
++    if (err < 0)
++        return 1;
+ 
+-	drm_tegra_close(tegra);
+-	close(fd);
++    drm_tegra_close(tegra);
++    close(fd);
+ 
+-	return 0;
++    return 0;
+ }
 -- 
 2.35.1
 
