@@ -2,86 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6C74B9BE4
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 10:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137804B9BF5
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 10:25:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1625C10ED5D;
-	Thu, 17 Feb 2022 09:21:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E32E910EDD4;
+	Thu, 17 Feb 2022 09:25:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-1.canonical.com
- (smtp-relay-internal-1.canonical.com [185.125.188.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB1310ED5D
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 09:21:19 +0000 (UTC)
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id C27C4405E0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 09:21:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1645089677;
- bh=iGUMpZLTiOK0bpy2WJNAycUkijWoscQeYWckgRO2kR4=;
- h=Message-ID:Date:MIME-Version:Subject:To:References:From:
- In-Reply-To:Content-Type;
- b=o2u2y3Xs0yA65LfBb785cCqW8zzomnKX4ItGUOOsSuaBhD4qBuaWIGKTvCGzLw6Ns
- rWjVLo3DzUmkN/vvf6uL2JxjZrGW6sqAqcJCuWPODxhxjK9b4/SXWuDmIkVj6wd/uO
- ub4XpLidJT8ZcTuN+K+6hNae5eMzVgrr+VNJ52EinqNt2KKC2Bx2pG6NQcLG434zdF
- xlpNlPMM2TG3TSm/SEGhzKSzZzkkSQ7hZJw3yKMl2tMNYqftNROBPMYeIZP+Q7jJah
- GPWfn6Ji+obE29/S7GSETtU6vbJWQJJjtMFoKn5/V+Xy4RPHY9WUn+2myHO71l25mV
- QvHqHeFov3nqw==
-Received: by mail-ed1-f69.google.com with SMTP id
- b26-20020a056402139a00b004094fddbbdfso3171172edv.12
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 01:21:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iGUMpZLTiOK0bpy2WJNAycUkijWoscQeYWckgRO2kR4=;
- b=Qu1yyBAMx41p0eVbxDGcADiZqhoKL6M/lUHY5ibNuFVm7M8Bfm6UJPyaOYOKRSmwt4
- JuP68Zi+GUnUAded4/RFgAEdZYqVD6T6pFPylJ+lAEo1fWLadU0PhGHuBRb6yegf0s8T
- XSebJX0hWwEQ22uKUxWJRPIWGBuhxuAt1aUJHbEtebvVXXmWquXfuFqzmC7dDTFbFIh2
- 7/pR4prNnVdNPCFoTSkQHy8UInx1Ul8bTbbgRML40PRXdX/igxfJYdHle9oBRg09dVqH
- 1t7F1CVFC1tqsa4DU2/8i9zTte68LK3DIOxBVvWvNO+4zvjgT7MP6xyfluAyWPn/LxmY
- BbKg==
-X-Gm-Message-State: AOAM533IOAIIuTv6Gcu4RtyD7PlsjhPgfdZDKZE5g8C6gtozNkO08x15
- WskGacgzdDMcwRuV6SNA15Umy4Faf2qj103TeHb9Q0fN3s476FwKlE24/nPT2l07ZaR61q4GJvS
- BYd8yzecEvVrPOdAwIM11V8tsS5gLQ8BZtnNMXZuW3rFLFQ==
-X-Received: by 2002:a17:906:6d09:b0:6b9:2e0e:5bdd with SMTP id
- m9-20020a1709066d0900b006b92e0e5bddmr1550157ejr.246.1645089677440; 
- Thu, 17 Feb 2022 01:21:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwrSkSRiW1n+S2aXKQGX6pReGWI5bN2uBCxC4z+CWEqBvQjNv71P/WiSARBLKend/Tl14hoJg==
-X-Received: by 2002:a17:906:6d09:b0:6b9:2e0e:5bdd with SMTP id
- m9-20020a1709066d0900b006b92e0e5bddmr1550138ejr.246.1645089677191; 
- Thu, 17 Feb 2022 01:21:17 -0800 (PST)
-Received: from [192.168.0.110] (xdsl-188-155-168-84.adslplus.ch.
- [188.155.168.84])
- by smtp.gmail.com with ESMTPSA id h11sm956107ejg.109.2022.02.17.01.21.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 01:21:16 -0800 (PST)
-Message-ID: <36445c86-036e-0942-a9a4-919595886c67@canonical.com>
-Date: Thu, 17 Feb 2022 10:21:15 +0100
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67A4810EDD4;
+ Thu, 17 Feb 2022 09:25:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645089947; x=1676625947;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=c9VpxmpqyPbdKVv7bGkudznhAWVeNpsJ2GNtw03B7g4=;
+ b=StrNxHg6tZyS9afVkzXdEQ/vPJmZE25ALMBdBYqu9PqkVvQV46MsFDyf
+ Tq3kFU2famR92azHTXcPcR5nDOnLJFYga4ZVOLlU3FDyDz/TBMEsLv6i/
+ hzi2hj8HvPQTWLJZHCmXp7Kx+oGF8lNR9YME9D7mD3xCRkWzxFjmTf3xO
+ VywTHGrH+thTDdJbGMRJA2yvObld7iDHLuMdPJl/Ggm+ryZ1Zfa5TRJc/
+ RlqI3XP3JkVNtgxqeCs9+yR9Wyfl7NBBSySIptyPz62QEXa86MrkGv7fa
+ 25miy07mJ2WkBv8wadr078FgrOqqMqV960wI4bGAQZc7lW7BmueTKKWNt w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="311577508"
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="311577508"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 01:25:46 -0800
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="540878738"
+Received: from zcmahone-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.252.137.102])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 01:25:46 -0800
+Date: Thu, 17 Feb 2022 01:25:45 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [Intel-gfx] [drm-tip:drm-tip 4/8]
+ drivers/gpu/drm/solomon/ssd130x.c:451:18: error: incomplete definition of
+ type 'struct dma_buf_map'
+Message-ID: <20220217092545.4zpjnh344fmrcg26@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <202202171455.bclm1YBC-lkp@intel.com>
+ <20220217063625.sm5ua5xf4jo2ekku@ldmartin-desk2>
+ <79301ef2-03d4-ca96-3d7f-6f9b80f319e1@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC PATCH 1/6] dt-bindings: display: imx: Add EPDC
-Content-Language: en-US
-To: Andreas Kemnade <andreas@kemnade.info>, p.zabel@pengutronix.de,
- airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, alistair@alistair23.me, samuel@sholland.org,
- josua.mayer@jm0.eu, letux-kernel@openphoenux.org
-References: <20220206080016.796556-1-andreas@kemnade.info>
- <20220206080016.796556-2-andreas@kemnade.info>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220206080016.796556-2-andreas@kemnade.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <79301ef2-03d4-ca96-3d7f-6f9b80f319e1@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,181 +61,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
+ intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/02/2022 09:00, Andreas Kemnade wrote:
-> Add a binding for the Electrophoretic Display Controller found at least
-> in the i.MX6.
-> The timing subnode is directly here to avoid having display parameters
-> spread all over the plate.
-> 
-> Supplies are organized the same way as in the fbdev driver in the
-> NXP/Freescale kernel forks. The regulators used for that purpose,
-> like the TPS65185, the SY7636A and MAX17135 have typically a single bit to
-> start a bunch of regulators of higher or negative voltage with a
-> well-defined timing. VCOM can be handled separately, but can also be
-> incorporated into that single bit.
-> 
-> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> ---
->  .../bindings/display/imx/fsl,mxc-epdc.yaml    | 159 ++++++++++++++++++
->  1 file changed, 159 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
-> new file mode 100644
-> index 000000000000..7e0795cc3f70
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl,mxc-epdc.yaml
-> @@ -0,0 +1,159 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/imx/fsl,mxc-epdc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale i.MX6 EPDC
-> +
-> +maintainers:
-> +  - Andreas Kemnade <andreas@kemnade.info>
-> +
-> +description: |
-> +  The EPDC is a controller for handling electronic paper displays found in
-> +  i.MX6 SoCs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx6sl-epdc
-> +      - fsl,imx6sll-epdc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus clock
-> +      - description: Pixel clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: axi
-> +      - const: pix
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  vscan-holdoff:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maxItems: 1
+On Thu, Feb 17, 2022 at 10:00:42AM +0100, Javier Martinez Canillas wrote:
+>Hello Lucas,
+>
+>On 2/17/22 07:36, Lucas De Marchi wrote:
+>> +Javier
+>>
+>>
+>> On Thu, Feb 17, 2022 at 02:25:08PM +0800, kernel test robot wrote:
+>>> tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+>>> head:   e141e36b2871c529379f7ec7d5d6ebae3137a51b
+>>> commit: 7ca6504c36709f35c4cc38ae6acc1c9c3d72136f [4/8] Merge remote-tracking branch 'drm-misc/drm-misc-next' into drm-tip
+>>> config: mips-buildonly-randconfig-r002-20220217 (https://download.01.org/0day-ci/archive/20220217/202202171455.bclm1YBC-lkp@intel.com/config)
+>>> compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0bad7cb56526f2572c74449fcf97c1fcda42b41d)
+>>> reproduce (this is a W=1 build):
+>>>        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>>        chmod +x ~/bin/make.cross
+>>>        # install mips cross compiling tool for clang build
+>>>        # apt-get install binutils-mips-linux-gnu
+>>>        git remote add drm-tip git://anongit.freedesktop.org/drm/drm-tip
+>>>        git fetch --no-tags drm-tip drm-tip
+>>>        git checkout 7ca6504c36709f35c4cc38ae6acc1c9c3d72136f
+>>>        # save the config file to linux build tree
+>>>        mkdir build_dir
+>>>        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/solomon/
+>>>
+>>> If you fix the issue, kindly add following tag as appropriate
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>
+>>> All error/warnings (new ones prefixed by >>):
+>>>
+>>>>> drivers/gpu/drm/solomon/ssd130x.c:447:74: warning: declaration of 'struct dma_buf_map' will not be visible outside of this function [-Wvisibility]
+>>>   static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct dma_buf_map *map,
+>>>                                                                            ^
+>>
+>> this is now called iosys_map in drm-intel... drm-tip will need a fixup
+>> for the merge.
+>>
+>
+>I thought that the drm-intel tree was only for Intel DRM drivers changes and
+>subsystem wide changes should be merged through drm-mic ?
+>
+>Doing refactoring in that tree will likely lead to merge conflicts like this.
 
-Except what Rob already said, all these are not arrays, so maxItems is
-not appropriate. You can define minimum/maximum values instead.
+Yes, I know. My initial proposal was to split the rename and do it per
+branch to avoid this kind of situation, but it was requested to be done
+all in a single patch. Since I had other ~15 patches dependent on that
+one to be merged in drm-intel, it was agreed to do the rename via
+drm-intel. See 
+https://lore.kernel.org/lkml/e3813696-7b91-510c-987f-85ed2fd502d6@suse.de/
 
-> +
-> +  sdoed-width:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maxItems: 1
-> +
-> +  sdoed-delay:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maxItems: 1
-> +
-> +  sdoez-width:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maxItems: 1
-> +
-> +  sdoez-delay:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maxItems: 1
-> +
-> +  gdclk-hp-offs:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maxItems: 1
-> +
-> +  gdsp-offs:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maxItems: 1
-> +
-> +  gdoe-offs:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maxItems: 1
-> +
-> +  gdclk-offs:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maxItems: 1
-> +
-> +  num-ce:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maxItems: 1
-> +
-> +  timing:
-> +    $ref: /display/panel/panel-timing.yaml#
-> +
-> +  DISPLAY-supply:
-> +    description:
-> +      A couple of +/- voltages automatically powered on in a defintive order
+I guess the conflicts won't be that terrible and can be fixed as they
+show up.
 
-Typo, definitive?
+>Noticed your series in dri-devel but missed that already landed in drm-intel.
+>
+>The resolution should just be [0] right? If you confirm that then I can post
+>a proper patch to dri-devel.
+>
+>>>>> drivers/gpu/drm/solomon/ssd130x.c:451:18: error: incomplete definition of type 'struct dma_buf_map'
+>>>           void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
+>>>                        ~~~^
+>>
+>> this shouldn't really be done.
+>>
+>
+>Yes, I know but asked what would be the proper way and didn't get an answer.
+>We have many drivers doing the same and I couldn't find one that was doing
+>it correctly to use as a reference:
+>
+>$ git grep "TODO: Use mapping abstraction properly" | wc -l
+>15
+>
+>If you point me the proper way, I'll be happy to post a patch to change it.
 
-> +
-> +  VCOM-supply:
-> +    description: compensation voltage
-> +
-> +  V3P3-supply:
+It depends what you want to do with the address. There are APIs to copy
+from/to. I also added a few to read/write to an offset. It seems the
+problem here is that you need to pass that to a helper,
+drm_fb_xrgb8888_to_mono_reversed(). I think the proper solution would be
+to change the helper to accept an iosys_map* as argument rather than a
+void*.
 
-All of supplies names - lowercase.
+Lucas De Marchi
 
-> +    description: V3P3 supply
-> +
-> +  epd-thermal-zone:
-> +    description:
-> +      Zone to get temperature of the EPD from, practically ambient temperature.
+>
+>> Lucas De Marchi
+>>
+>
+>[0]
+>From f8268e5b15c321b56862904665f5e312bf50d397 Mon Sep 17 00:00:00 2001
+>From: Javier Martinez Canillas <javierm@redhat.com>
+>Date: Thu, 17 Feb 2022 09:52:37 +0100
+>Subject: [PATCH] drm/solomon: Rename dma-buf-map to iosys-map
+>
+>Commit 7938f4218168 ("dma-buf-map: Rename to iosys-map") renamed the struct
+>dma_buf_map to struct iosys_map, but this change wasn't present in drm-misc
+>when the ssd130x driver was merged, and it created a merge conflict.
+>
+>Fix this by renaming the data structure type in the ssd130x driver.
+>
+>Reported-by: kernel test robot <lkp@intel.com>
+>Suggested-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>---
+> drivers/gpu/drm/solomon/ssd130x.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+>index 19697c8c5a2c..92c1902f53e4 100644
+>--- a/drivers/gpu/drm/solomon/ssd130x.c
+>+++ b/drivers/gpu/drm/solomon/ssd130x.c
+>@@ -444,7 +444,7 @@ static void ssd130x_clear_screen(struct ssd130x_device *ssd130x)
+> 	kfree(buf);
+> }
+>
+>-static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct dma_buf_map *map,
+>+static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_map *map,
 
-Is it a phandle?
-
-> +
-> +
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - vscan-holdoff
-> +  - sdoed-width
-> +  - sdoed-delay
-> +  - sdoez-width
-> +  - sdoez-delay
-> +  - gdclk-hp-offs
-> +  - gdsp-offs
-> +  - gdoe-offs
-> +  - gdclk-offs
-> +  - num-ce
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx6sl-clock.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    epdc: epdc@20f4000 {
-
-Generic node name, e.g. display-controller
-
-> +        compatible = "fsl,imx6sl-epdc";
-> +        reg = <0x020f4000 0x4000>;
-> +        interrupts = <0 97 IRQ_TYPE_LEVEL_HIGH>;
-
-s/0/GIC_SPI/
-
-> +        clocks = <&clks IMX6SL_CLK_EPDC_AXI>, <&clks IMX6SL_CLK_EPDC_PIX>;
-> +        clock-names = "axi", "pix";
-> +
+I added this as a fixup to dim, so it's applied on the merge commit. I
+think it would be preferred to have this in the merge resolution when
+drm-intel propagates all the way back to drm-misc
 
 
-Best regards,
-Krzysztof
+> 				struct drm_rect *rect)
+> {
+> 	struct ssd130x_device *ssd130x = drm_to_ssd130x(fb->dev);
+>-- 
+>2.34.1
+>
+>Best regards,
+>-- 
+>Javier Martinez Canillas
+>Linux Engineering
+>Red Hat
+>
