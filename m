@@ -2,56 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC12F4BA3E1
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 16:00:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28D54BA3E3
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 16:00:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F65910EBB2;
-	Thu, 17 Feb 2022 15:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F09C210ECEB;
+	Thu, 17 Feb 2022 15:00:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36EC510EBB2;
- Thu, 17 Feb 2022 15:00:10 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- b17-20020a9d4791000000b005a17fc2dfc1so3867632otf.1; 
- Thu, 17 Feb 2022 07:00:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MM/QHOlU7DbqQK20LVBAm7uDj3BO+aqAJQxNjTOzdUg=;
- b=mnfgNDsECj10rcf5nLEGVYy/UUhxlCCcb1i2XqBTYEzNhFRsqRLXQrYbBVQnRl2XMZ
- arVLMKPkcKHjYa61q0J6DSVRXpVpBUQIOVCrWcZte/jo1nm3j2H06xjgfeBogzrD471N
- 37F1DOtvmoKsLkK8jCg8LkvCrKX/sYRka+xnsnLXmE4EPu+KOj+DwxFh68WcemvCqwoq
- eeI7ICVHBeJr3Ot8VD6WtaFpZOynmU+fn9bR/g8RVuTwMP+Xr13So6u2TNSO4edm59fH
- 7LdePAFxgi6G/KWUaiTX+yiUR4YUn6Q4NotjQU/NyWtgbtl0Snbr3w3PWagsEx7d3jcn
- 6aNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MM/QHOlU7DbqQK20LVBAm7uDj3BO+aqAJQxNjTOzdUg=;
- b=vH4GalDBZjh18sn0L/baYVtTqVUOKHbfSv5GKdekOJFdkL4CZxUV8qP7OW644RqT8r
- pj87CjE/5K4gy4Bipc6QRwLbxEfq8GSDF5OtkKHFGE/XV7Scl2mZedeyBRvgNrKzIx3G
- kr5EFIkSHd4c+Ywmcd390dNLewhzN7DM78yh29vMOGpBivrz4RI79pBfhkR2pREg6tva
- yyf5avydeLcLLwfcoXkFM4kQOE2MVtFK7so+byRzHKe7oYQT3ngy0+Gh16EZ9Yw7h1cp
- PLlegOWVoWyzIytX7I94XeuAaqopIFb7nsD2u5wx8zTF8rXQ8WI9T6ZgHFAsACCToByZ
- wDQQ==
-X-Gm-Message-State: AOAM531W69uCrAI2BNjzjM6PdcJtgxnnqQ2Hw3orJj3REQgRDI26Rw90
- 1YrzyxNkMZHaZELOQE0mZI/Q3pdFkkzWO8m2B/Q=
-X-Google-Smtp-Source: ABdhPJzyVJSfewKaWQhXyIXRiR0WdhbEoJAx4xw/ifHIEgMLYDsF4EPHdVHyvAmc8FrzZz7oR1+3b25snbXLc+Y7tXI=
-X-Received: by 2002:a05:6830:54a:b0:5ac:f770:5ac5 with SMTP id
- l10-20020a056830054a00b005acf7705ac5mr986729otb.200.1645110007476; Thu, 17
- Feb 2022 07:00:07 -0800 (PST)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E16C110ECD9
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:00:44 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nKiGx-0000GT-7s; Thu, 17 Feb 2022 16:00:43 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nKiGv-0005Rz-CG; Thu, 17 Feb 2022 16:00:41 +0100
+Date: Thu, 17 Feb 2022 16:00:41 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v6 09/23] drm/rockchip: dw_hdmi: Add support for hclk
+Message-ID: <20220217150041.GS18637@pengutronix.de>
+References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
+ <20220217082954.2967889-10-s.hauer@pengutronix.de>
+ <cd66c9da-15c2-54e1-8016-8d951926eaa2@gmail.com>
 MIME-Version: 1.0
-References: <20220216114013.15192-1-yuehaibing@huawei.com>
-In-Reply-To: <20220216114013.15192-1-yuehaibing@huawei.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 17 Feb 2022 09:59:56 -0500
-Message-ID: <CADnq5_MDSU2U9bSfXm4U0c5EJeb=fygC6UtAx40jqV6kpFLJRg@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amdgpu: Remove unused function
- get_umc_v6_7_channel_index()
-To: YueHaibing <yuehaibing@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cd66c9da-15c2-54e1-8016-8d951926eaa2@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 15:56:25 up 68 days, 23:42, 87 users,  load average: 0.46, 0.19, 0.27
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,45 +58,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+On Thu, Feb 17, 2022 at 03:35:08PM +0300, Dmitry Osipenko wrote:
+> 17.02.2022 11:29, Sascha Hauer пишет:
+> > The rk3568 HDMI has an additional clock that needs to be enabled for the
+> > HDMI controller to work. The purpose of that clock is not clear. It is
+> > named "hclk" in the downstream driver, so use the same name.
+> 
+> Have you checked that DSI works without the enabled hclk? I'd expect the
+> whole VOP to be clock-gated.
 
-On Wed, Feb 16, 2022 at 6:58 AM YueHaibing <yuehaibing@huawei.com> wrote:
->
-> This is unused after commit 37ff945f804c ("drm/amdgpu: fix convert bad page retiremt")
->
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/umc_v6_7.c | 7 -------
->  1 file changed, 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/umc_v6_7.c b/drivers/gpu/drm/amd/amdgpu/umc_v6_7.c
-> index f5a1ba7db75a..00f87e3c6b0e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/umc_v6_7.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/umc_v6_7.c
-> @@ -50,13 +50,6 @@ static inline uint32_t get_umc_v6_7_reg_offset(struct amdgpu_device *adev,
->         return adev->umc.channel_offs * ch_inst + UMC_V6_7_INST_DIST * umc_inst;
->  }
->
-> -static inline uint32_t get_umc_v6_7_channel_index(struct amdgpu_device *adev,
-> -                                             uint32_t umc_inst,
-> -                                             uint32_t ch_inst)
-> -{
-> -       return adev->umc.channel_idx_tbl[umc_inst * adev->umc.channel_inst_num + ch_inst];
-> -}
-> -
->  static void umc_v6_7_ecc_info_query_correctable_error_count(struct amdgpu_device *adev,
->                                                    uint32_t umc_inst, uint32_t ch_inst,
->                                                    unsigned long *error_count)
-> --
-> 2.17.1
->
+No, I haven't checked that.
+
+I am not sure where you aiming at. The HCLK_VOP is supplied to the vop2
+as well and the vop2 driver also enables this clock. Still, when the
+HDMI registers are accessed before the vop2 driver enables HCLK_VOP then
+the system hangs, so the HDMI needs it also.
+
+Sascha
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
