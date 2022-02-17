@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4324BA99F
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:20:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B59B4BA9A0
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:20:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F24E10E6B6;
-	Thu, 17 Feb 2022 19:20:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08BAE10E6C6;
+	Thu, 17 Feb 2022 19:20:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4BE10E6B6
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 19:20:32 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id qx21so9530649ejb.13
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 11:20:32 -0800 (PST)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A1DE10E6B9
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 19:20:44 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id cm8so1805956edb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 11:20:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tk/OH48XvBg3Yj1hF1+iSHnphu7CKNd/Jzy6pGBzzJw=;
- b=O7HcYGQhMaw54F2sc5KJdjSwuuyMwWJOBd1nLAvO2qI2LQV8YduqPPJZIxWvFFMKWl
- maP2A4xJ6jgUif2Tjehv/W3HfWk6GcfbKXnzh3bgZBOH74dsyd5qzFkZc4AFDuShEI8N
- mWaHQQbJAlrnUNaiosVpK51M1KqvfUOAN259sSR2bEpEgcXhXWOX4gulsaBlphAenp4T
- PwURapDgGL43HWjabiHLHd60uuks89DFdRiS8DqXC/JyBvwvxXdzqbJnD59TbN5jvGtK
- 6xt+2JHfhw0Hlvwlfz9+tdiHER1Ezn6P762ZELGNYykNOdOSt1CZFIpEQ4EghSzntpHp
- X3qg==
+ bh=a0CBUKTu9jvdnKAxoRqrP7A+K60SFKzC6qVq1NHT6MU=;
+ b=OifxYkL6sXL6jA5oH0esrqBFzHKTnl/nJWzn9j+dv1g127c+rL05F0EstvTRUDfUNJ
+ NGbbrUBcj1/ARTA5eAKYv5mKA6c/h+dPvyyD3ILndAl2AAKDxC9FeU+I3lWIi8bR4Aoz
+ Dl5hHhqVR8fei764wUH9JmHSr6NP5hGQlCiR2fapcYy7zszzpxNWoFxkMbykMil2Ela5
+ UMzppQhgQy0pEt7pvmmttPyLb0poGgOGyMPpNInRRElfQINTzSi04pI3vhRSNw77Te0R
+ n4oFxwDIgau1kwjyQ5WXMCrGTErUCwqjteE3z7/RobvLKoKqw2ntM+drciv2GOgxv9FL
+ RckA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tk/OH48XvBg3Yj1hF1+iSHnphu7CKNd/Jzy6pGBzzJw=;
- b=uLrx8pc8r82GWZodFLyqc2mq+F7aSMj8Du7pYJoQ2NtFztBwDu7YooWZxXlPAAPPXd
- okGjia7vN/G85KItqr/ZdqwUB+bXaNDg0TIqZgpOc/sLr8uKqAkUWPm4IsxMDRDrO/V8
- gVHvRNs2inWfH6OFNq3EP4D1bCVqfAAJfMxXZOCsM3C/SzWr9NINg7ye66qYvcH9KDue
- Pj6O7J+qjaP40EXjSY59RQ3KBZWUMQdd/UZFli4b1QF3Q0QpgJ7BZSLr19WomoaY8x4A
- JdXvMazhE/nQGs8YFitey7GRkBJifiYFWU5mYb83Hv1CUwWuXRxgMH3WRBPu5GKj3pGQ
- CJ/Q==
-X-Gm-Message-State: AOAM532Ux8h6F3iCuJxYZAOoslpwk67gOkY4akujkKJeQNPFwdsN+zU8
- 1PxCN3xkaw+MDRdcYGy4Or8=
-X-Google-Smtp-Source: ABdhPJxFVRpRv7RcwV/02HYZ9z5/pwmK+6WFFq8ItlCMtFUtXE8iFjwwQblydB4Ywwdy8q+x5s2hEQ==
-X-Received: by 2002:a17:906:dfca:b0:6bb:c8d8:31c with SMTP id
- jt10-20020a170906dfca00b006bbc8d8031cmr3522862ejc.240.1645125630928; 
- Thu, 17 Feb 2022 11:20:30 -0800 (PST)
+ bh=a0CBUKTu9jvdnKAxoRqrP7A+K60SFKzC6qVq1NHT6MU=;
+ b=dYFe+GyWnCM2NxrrHPnugd6Vc52QphJKMJTf4AArSVXU2lgU8R3HOlJWPI1xcMBGCQ
+ WY89SON+Ck9ZadrWBlI50FUt66+9kzTfZtv3P79+798OEOeXNMiqwMAyj7kbXnLz6ulB
+ pR74GeMA7OAvosfmMA8Hy20wkhqINMuVBEHZBSszh3OU2OVfbEcds1KUcwhLXU4getAY
+ 9jJO4cCGVHVzz/wiQbNk23LW9jw5DHEihUPmaZOf1XOSE3RbSS+cYhXzYOm6d4XUotDC
+ yA8qsW3uZUk1iTOW+5DgG8CDhYWnby8Y0UORH8+IHpHqIaiVWYQuBTmJaj0q7O4wBwm9
+ xy0Q==
+X-Gm-Message-State: AOAM532RnCBo2qxJZF5Y8ZH0sUyUfW7UjnuJPn2YR2oOYpzNWYcvLf5e
+ j95qDtwEO9B2UgYpBnbtkAUHG2ez/Dk=
+X-Google-Smtp-Source: ABdhPJzzrX84zZCB+NwRoB50YxXfr9TKCbe5TFljOYBoRkFW84B3tuenocPsQmy3TwiqCuD2RawOpg==
+X-Received: by 2002:a05:6402:f04:b0:410:f0a5:5b02 with SMTP id
+ i4-20020a0564020f0400b00410f0a55b02mr4410620eda.209.1645125642577; 
+ Thu, 17 Feb 2022 11:20:42 -0800 (PST)
 Received: from localhost (p2e5bec5d.dip0.t-ipconnect.de. [46.91.236.93])
- by smtp.gmail.com with ESMTPSA id z22sm3927368edd.45.2022.02.17.11.20.30
+ by smtp.gmail.com with ESMTPSA id 22sm1472267eja.165.2022.02.17.11.20.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 11:20:30 -0800 (PST)
+ Thu, 17 Feb 2022 11:20:41 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH libdrm v2 13/25] tegra: Add syncpoint APIs
-Date: Thu, 17 Feb 2022 20:19:19 +0100
-Message-Id: <20220217191931.2534836-8-thierry.reding@gmail.com>
+Subject: [PATCH libdrm v2 14/25] tests: tegra: Add helper library for tests
+Date: Thu, 17 Feb 2022 20:19:20 +0100
+Message-Id: <20220217191931.2534836-9-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220217191931.2534836-1-thierry.reding@gmail.com>
 References: <20220217191931.2534836-1-thierry.reding@gmail.com>
@@ -77,151 +77,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-These new functions can be used to allocate and free syncpoints, as well
-as wait for a syncpoint threshold to be reached. Jobs can also be waited
-on if a syncpoint was attached to them.
+This library provides helpers for common functionality needed by test
+programs.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- tegra/job.c             |  23 +++++++++
- tegra/meson.build       |   2 +-
- tegra/private.h         |   5 ++
- tegra/pushbuf.c         |  48 +++++++++++++++++++
- tegra/syncpt.c          | 101 ++++++++++++++++++++++++++++++++++++++++
- tegra/tegra-symbols.txt |   7 +++
- tegra/tegra.h           |  16 +++++++
- 7 files changed, 201 insertions(+), 1 deletion(-)
- create mode 100644 tegra/syncpt.c
+ tests/tegra/drm-test.c  | 248 ++++++++++++++++++++++++++++++++++++++++
+ tests/tegra/drm-test.h  |  72 ++++++++++++
+ tests/tegra/meson.build |   7 ++
+ 3 files changed, 327 insertions(+)
+ create mode 100644 tests/tegra/drm-test.c
+ create mode 100644 tests/tegra/drm-test.h
 
-diff --git a/tegra/job.c b/tegra/job.c
-index c8c94e131ef0..75a344f1dcc5 100644
---- a/tegra/job.c
-+++ b/tegra/job.c
-@@ -162,3 +162,26 @@ drm_tegra_job_submit(struct drm_tegra_job *job, struct drm_tegra_fence *fence)
- 
-     return 0;
- }
-+
-+drm_public int
-+drm_tegra_job_wait(struct drm_tegra_job *job, unsigned long timeout)
-+{
-+    struct drm_tegra_channel *channel = job->channel;
-+    struct drm_tegra *drm = channel->drm;
-+    struct drm_tegra_syncpoint_wait args;
-+    struct timespec ts;
-+    int err;
-+
-+    clock_gettime(CLOCK_MONOTONIC, &ts);
-+
-+    memset(&args, 0, sizeof(args));
-+    args.timeout_ns = ts.tv_sec * 1000000000 + ts.tv_nsec + timeout;
-+    args.id = job->syncpt.id;
-+    args.threshold = job->syncpt.fence;
-+
-+    err = ioctl(drm->fd, DRM_IOCTL_TEGRA_SYNCPOINT_WAIT, &args);
-+    if (err < 0)
-+        return -errno;
-+
-+    return 0;
-+}
-diff --git a/tegra/meson.build b/tegra/meson.build
-index 7698acec9ad0..0b63d7894f9d 100644
---- a/tegra/meson.build
-+++ b/tegra/meson.build
-@@ -22,7 +22,7 @@ libdrm_tegra = library(
-   'drm_tegra',
-   [
-     files(
--      'channel.c', 'job.c', 'private.h', 'pushbuf.c', 'tegra.c'
-+      'channel.c', 'job.c', 'private.h', 'pushbuf.c', 'syncpt.c', 'tegra.c'
-     ),
-     config_file
-   ],
-diff --git a/tegra/private.h b/tegra/private.h
-index 970ee8ad66d4..f134f3ea2cea 100644
---- a/tegra/private.h
-+++ b/tegra/private.h
-@@ -104,4 +104,9 @@ struct drm_tegra_submit_cmd *
- drm_tegra_job_add_command(struct drm_tegra_job *job, uint32_t type,
-                           uint32_t flags);
- 
-+struct drm_tegra_syncpoint {
-+    struct drm_tegra *drm;
-+    uint32_t id;
-+};
-+
- #endif /* __DRM_TEGRA_PRIVATE_H__ */
-diff --git a/tegra/pushbuf.c b/tegra/pushbuf.c
-index 380a50abbbb0..0c0212e127a7 100644
---- a/tegra/pushbuf.c
-+++ b/tegra/pushbuf.c
-@@ -101,6 +101,25 @@ drm_tegra_pushbuf_end(struct drm_tegra_pushbuf *pushbuf, uint32_t *ptr)
-     return 0;
- }
- 
-+drm_public int
-+drm_tegra_pushbuf_wait(struct drm_tegra_pushbuf *pushbuf,
-+                       struct drm_tegra_syncpoint *syncpt,
-+                       uint32_t value)
-+{
-+    struct drm_tegra_submit_cmd *command;
-+
-+    command = drm_tegra_job_add_command(pushbuf->job,
-+                                        DRM_TEGRA_SUBMIT_CMD_WAIT_SYNCPT,
-+                                        0);
-+    if (!command)
-+        return -ENOMEM;
-+
-+    command->wait_syncpt.id = syncpt->id;
-+    command->wait_syncpt.value = value;
-+
-+    return 0;
-+}
-+
- drm_public int
- drm_tegra_pushbuf_relocate(struct drm_tegra_pushbuf *pushbuf, uint32_t **ptrp,
-                            struct drm_tegra_mapping *target,
-@@ -134,3 +153,32 @@ drm_tegra_pushbuf_relocate(struct drm_tegra_pushbuf *pushbuf, uint32_t **ptrp,
- 
-     return 0;
- }
-+
-+drm_public int
-+drm_tegra_pushbuf_sync(struct drm_tegra_pushbuf *pushbuf,
-+                       struct drm_tegra_syncpoint *syncpt,
-+                       unsigned int count)
-+{
-+    struct drm_tegra_job *job = pushbuf->job;
-+
-+    job->syncpt.increments += count;
-+    job->syncpt.id = syncpt->id;
-+
-+    return 0;
-+}
-+
-+drm_public int
-+drm_tegra_pushbuf_sync_cond(struct drm_tegra_pushbuf *pushbuf, uint32_t **ptrp,
-+                            struct drm_tegra_syncpoint *syncpt,
-+                            enum drm_tegra_sync_cond cond)
-+{
-+    struct drm_tegra_channel *channel = pushbuf->job->channel;
-+
-+    if (cond >= DRM_TEGRA_SYNC_COND_MAX)
-+        return -EINVAL;
-+
-+    *(*ptrp)++ = HOST1X_OPCODE_NONINCR(0x0, 0x1);
-+    *(*ptrp)++ = cond << channel->cond_shift | syncpt->id;
-+
-+    return drm_tegra_pushbuf_sync(pushbuf, syncpt, 1);
-+}
-diff --git a/tegra/syncpt.c b/tegra/syncpt.c
+diff --git a/tests/tegra/drm-test.c b/tests/tegra/drm-test.c
 new file mode 100644
-index 000000000000..16014186fa30
+index 000000000000..b1ded9cf5fac
 --- /dev/null
-+++ b/tegra/syncpt.c
-@@ -0,0 +1,101 @@
++++ b/tests/tegra/drm-test.c
+@@ -0,0 +1,248 @@
 +/*
-+ * Copyright © 2021 NVIDIA Corporation
++ * Copyright © 2014 NVIDIA Corporation
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a
 + * copy of this software and associated documentation files (the "Software"),
@@ -247,141 +122,323 @@ index 000000000000..16014186fa30
 +#endif
 +
 +#include <errno.h>
++#include <fcntl.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
 +#include <string.h>
++#include <unistd.h>
 +
 +#include <sys/ioctl.h>
 +
-+#include "private.h"
++#include "xf86drm.h"
++#include "xf86drmMode.h"
++#include "drm_fourcc.h"
 +
-+drm_public int
-+drm_tegra_syncpoint_new(struct drm_tegra *drm,
-+                        struct drm_tegra_syncpoint **syncptp)
++#include "drm-test.h"
++
++static int drm_screen_probe_connector(struct drm_screen *screen,
++                                      drmModeConnectorPtr connector)
 +{
-+    struct drm_tegra_syncpoint_allocate args;
-+    struct drm_tegra_syncpoint *syncpt;
++    drmModeEncoderPtr encoder;
++    drmModeCrtcPtr crtc;
++    drmModeFBPtr fb;
++
++    encoder = drmModeGetEncoder(screen->fd, connector->encoder_id);
++    if (!encoder)
++        return -ENODEV;
++
++    crtc = drmModeGetCrtc(screen->fd, encoder->crtc_id);
++    if (!crtc) {
++        drmModeFreeEncoder(encoder);
++        return -ENODEV;
++    }
++
++    screen->old_fb = crtc->buffer_id;
++
++    fb = drmModeGetFB(screen->fd, crtc->buffer_id);
++    if (!fb) {
++        /* TODO: create new framebuffer */
++        drmModeFreeEncoder(encoder);
++        drmModeFreeCrtc(crtc);
++        return -ENOSYS;
++    }
++
++    screen->connector = connector->connector_id;
++    screen->old_fb = crtc->buffer_id;
++    screen->crtc = encoder->crtc_id;
++    /* TODO: check crtc->mode_valid */
++    screen->mode = crtc->mode;
++
++    screen->width = fb->width;
++    screen->height = fb->height;
++    screen->pitch = fb->pitch;
++    screen->depth = fb->depth;
++    screen->bpp = fb->bpp;
++
++    drmModeFreeEncoder(encoder);
++    drmModeFreeCrtc(crtc);
++    drmModeFreeFB(fb);
++
++    return 0;
++}
++
++int drm_screen_open(struct drm_screen **screenp, int fd)
++{
++    drmModeConnectorPtr connector;
++    struct drm_screen *screen;
++    bool found = false;
++    drmModeResPtr res;
++    unsigned int i;
 +    int err;
 +
-+    syncpt = calloc(1, sizeof(*syncpt));
-+    if (!syncpt)
++    if (!screenp || fd < 0)
++        return -EINVAL;
++
++    screen = calloc(1, sizeof(*screen));
++    if (!screen)
 +        return -ENOMEM;
 +
-+    memset(&args, 0, sizeof(args));
++    screen->format = DRM_FORMAT_XRGB8888;
++    screen->fd = fd;
 +
-+    err = ioctl(drm->fd, DRM_IOCTL_TEGRA_SYNCPOINT_ALLOCATE, &args);
++    res = drmModeGetResources(fd);
++    if (!res) {
++        free(screen);
++        return -ENOMEM;
++    }
++
++    for (i = 0; i < (unsigned int)res->count_connectors; i++) {
++        connector = drmModeGetConnector(fd, res->connectors[i]);
++        if (!connector)
++            continue;
++
++        if (connector->connection != DRM_MODE_CONNECTED) {
++            drmModeFreeConnector(connector);
++            continue;
++        }
++
++        err = drm_screen_probe_connector(screen, connector);
++        if (err < 0) {
++            drmModeFreeConnector(connector);
++            continue;
++        }
++
++        drmModeFreeConnector(connector);
++        found = true;
++        break;
++    }
++
++    drmModeFreeResources(res);
++
++    if (!found) {
++        free(screen);
++        return -ENODEV;
++    }
++
++    *screenp = screen;
++
++    return 0;
++}
++
++int drm_screen_close(struct drm_screen *screen)
++{
++    int err;
++
++    err = drmModeSetCrtc(screen->fd, screen->crtc, screen->old_fb, 0, 0,
++                         &screen->connector, 1, &screen->mode);
 +    if (err < 0) {
-+        free(syncpt);
++        fprintf(stderr, "drmModeSetCrtc() failed: %m\n");
 +        return -errno;
 +    }
 +
-+    syncpt->drm = drm;
-+    syncpt->id = args.id;
-+
-+    *syncptp = syncpt;
++    free(screen);
 +
 +    return 0;
 +}
 +
-+drm_public int
-+drm_tegra_syncpoint_free(struct drm_tegra_syncpoint *syncpt)
++int drm_framebuffer_new(struct drm_framebuffer **fbp,
++                        struct drm_screen *screen, uint32_t handle,
++                        unsigned int width, unsigned int height,
++                        unsigned int pitch, uint32_t format,
++                        void *data)
 +{
-+    struct drm_tegra_syncpoint_free args;
-+    struct drm_tegra *drm = syncpt->drm;
++    struct drm_framebuffer *fb;
++    uint32_t handles[4];
++    uint32_t pitches[4];
++    uint32_t offsets[4];
 +    int err;
 +
-+    if (!syncpt)
-+        return -EINVAL;
++    fb = calloc(1, sizeof(*fb));
++    if (!fb)
++        return -ENOMEM;
 +
-+    memset(&args, 0, sizeof(args));
-+    args.id = syncpt->id;
++    fb->fd = screen->fd;
++    fb->width = width;
++    fb->height = height;
++    fb->pitch = pitch;
++    fb->format = format;
++    fb->data = data;
 +
-+    err = ioctl(drm->fd, DRM_IOCTL_TEGRA_SYNCPOINT_FREE, &args);
++    handles[0] = handle;
++    pitches[0] = pitch;
++    offsets[0] = 0;
++
++    err = drmModeAddFB2(screen->fd, width, height, format, handles,
++                        pitches, offsets, &fb->handle, 0);
 +    if (err < 0)
 +        return -errno;
 +
-+    free(syncpt);
++    *fbp = fb;
 +
 +    return 0;
 +}
 +
-+drm_public int
-+drm_tegra_fence_wait(struct drm_tegra_fence *fence, unsigned long timeout)
++int drm_framebuffer_free(struct drm_framebuffer *fb)
 +{
-+    struct drm_tegra_syncpoint_wait args;
-+    struct drm_tegra *drm = fence->drm;
 +    int err;
 +
-+    memset(&args, 0, sizeof(args));
-+    args.timeout_ns = 0;
-+    args.id = fence->syncpt;
-+    args.threshold = fence->value;
++    err = drmModeRmFB(fb->fd, fb->handle);
++    if (err < 0)
++        return -errno;
 +
-+    err = ioctl(drm->fd, DRM_IOCTL_TEGRA_SYNCPOINT_WAIT, &args);
++    free(fb);
++
++    return 0;
++}
++
++int drm_screen_set_framebuffer(struct drm_screen *screen,
++                               struct drm_framebuffer *fb)
++{
++    int err;
++
++    err = drmModeSetCrtc(screen->fd, screen->crtc, fb->handle, 0, 0,
++                         &screen->connector, 1, &screen->mode);
 +    if (err < 0)
 +        return -errno;
 +
 +    return 0;
 +}
-diff --git a/tegra/tegra-symbols.txt b/tegra/tegra-symbols.txt
-index da3972cb99e1..1a75c3d27c83 100644
---- a/tegra/tegra-symbols.txt
-+++ b/tegra/tegra-symbols.txt
-@@ -15,11 +15,18 @@ drm_tegra_channel_map
- drm_tegra_channel_open
- drm_tegra_channel_unmap
- drm_tegra_close
-+drm_tegra_fence_wait
- drm_tegra_job_free
- drm_tegra_job_get_pushbuf
- drm_tegra_job_new
- drm_tegra_job_submit
-+drm_tegra_job_wait
- drm_tegra_new
- drm_tegra_pushbuf_begin
- drm_tegra_pushbuf_end
- drm_tegra_pushbuf_relocate
-+drm_tegra_pushbuf_sync
-+drm_tegra_pushbuf_sync_cond
-+drm_tegra_pushbuf_wait
-+drm_tegra_syncpoint_free
-+drm_tegra_syncpoint_new
-diff --git a/tegra/tegra.h b/tegra/tegra.h
-index 0213e3b11e04..8f3c0554f29b 100644
---- a/tegra/tegra.h
-+++ b/tegra/tegra.h
-@@ -65,6 +65,7 @@ struct drm_tegra_channel;
- struct drm_tegra_mapping;
- struct drm_tegra_pushbuf;
- struct drm_tegra_job;
-+struct drm_tegra_syncpoint;
- 
- enum drm_tegra_sync_cond {
-     DRM_TEGRA_SYNC_COND_IMMEDIATE,
-@@ -102,10 +103,25 @@ int drm_tegra_job_wait(struct drm_tegra_job *job, unsigned long timeout);
- int drm_tegra_pushbuf_begin(struct drm_tegra_pushbuf *pushbuf,
-                             unsigned int words, uint32_t **ptrp);
- int drm_tegra_pushbuf_end(struct drm_tegra_pushbuf *pushbuf, uint32_t *ptr);
-+int drm_tegra_pushbuf_wait(struct drm_tegra_pushbuf *pushbuf,
-+                           struct drm_tegra_syncpoint *syncpt,
-+                           uint32_t value);
- int drm_tegra_pushbuf_relocate(struct drm_tegra_pushbuf *pushbuf,
-                                uint32_t **ptrp,
-                                struct drm_tegra_mapping *target,
-                                unsigned long offset, unsigned int shift,
-                                uint32_t flags);
-+int drm_tegra_pushbuf_sync(struct drm_tegra_pushbuf *pushbuf,
-+                           struct drm_tegra_syncpoint *syncpt,
-+                           unsigned int count);
-+int drm_tegra_pushbuf_sync_cond(struct drm_tegra_pushbuf *pushbuf,
-+                                uint32_t **ptrp,
-+                                struct drm_tegra_syncpoint *syncpt,
-+                                enum drm_tegra_sync_cond cond);
 +
-+int drm_tegra_syncpoint_new(struct drm_tegra *drm,
-+                            struct drm_tegra_syncpoint **syncptp);
-+int drm_tegra_syncpoint_free(struct drm_tegra_syncpoint *syncpt);
-+int drm_tegra_fence_wait(struct drm_tegra_fence *fence, unsigned long timeout);
++int drm_open(const char *path)
++{
++    int fd, err;
++
++    fd = open(path, O_RDWR);
++    if (fd < 0)
++        return -errno;
++
++    err = drmSetMaster(fd);
++    if (err < 0) {
++        close(fd);
++        return -errno;
++    }
++
++    return fd;
++}
++
++void drm_close(int fd)
++{
++    drmDropMaster(fd);
++    close(fd);
++}
+diff --git a/tests/tegra/drm-test.h b/tests/tegra/drm-test.h
+new file mode 100644
+index 000000000000..f11aed42343e
+--- /dev/null
++++ b/tests/tegra/drm-test.h
+@@ -0,0 +1,72 @@
++/*
++ * Copyright © 2014 NVIDIA Corporation
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++#ifndef TEGRA_DRM_TEST_H
++#define TEGRA_DRM_TEST_H
++
++#include <stdint.h>
++#include <stdlib.h>
++
++#include "xf86drmMode.h"
++
++struct drm_screen {
++    int fd;
++
++    unsigned int width;
++    unsigned int height;
++    unsigned int pitch;
++    unsigned int depth;
++    unsigned int bpp;
++
++    drmModeModeInfo mode;
++    uint32_t connector;
++    uint32_t old_fb;
++    uint32_t format;
++    uint32_t crtc;
++};
++
++struct drm_framebuffer {
++    unsigned int width;
++    unsigned int height;
++    unsigned int pitch;
++    uint32_t format;
++    uint32_t handle;
++    void *data;
++    int fd;
++};
++
++int drm_screen_open(struct drm_screen **screenp, int fd);
++int drm_screen_close(struct drm_screen *screen);
++int drm_screen_set_framebuffer(struct drm_screen *screen,
++                               struct drm_framebuffer *fb);
++
++int drm_framebuffer_new(struct drm_framebuffer **fbp,
++                        struct drm_screen *screen, uint32_t handle,
++                        unsigned int width, unsigned int height,
++                        unsigned int pitch, uint32_t format,
++                        void *data);
++int drm_framebuffer_free(struct drm_framebuffer *fb);
++
++int drm_open(const char *path);
++void drm_close(int fd);
++
++#endif
+diff --git a/tests/tegra/meson.build b/tests/tegra/meson.build
+index fbf4e6d8d4a3..3ac9015fbed8 100644
+--- a/tests/tegra/meson.build
++++ b/tests/tegra/meson.build
+@@ -20,6 +20,13 @@
  
- #endif /* __DRM_TEGRA_H__ */
+ inc_tegra = include_directories('../../tegra')
+ 
++libdrm_test = static_library(
++  'drm-test',
++  [files('drm-test.c', 'drm-test.h'), config_file ],
++  include_directories : [inc_root, inc_drm, inc_tegra],
++  link_with : libdrm,
++)
++
+ openclose = executable(
+   'tegra-openclose',
+   files('openclose.c'),
 -- 
 2.35.1
 
