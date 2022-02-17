@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA514BA40B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 16:13:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 191FE4BA416
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 16:16:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F279F10E2D5;
-	Thu, 17 Feb 2022 15:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C066F10E46A;
+	Thu, 17 Feb 2022 15:16:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 537D910E161
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:13:03 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nKiSr-0001t9-Hc; Thu, 17 Feb 2022 16:13:01 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nKiSp-000720-G6; Thu, 17 Feb 2022 16:12:59 +0100
-Date: Thu, 17 Feb 2022 16:12:59 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v6 13/23] drm/rockchip: dw_hdmi: Set cur_ctr to 0 always
-Message-ID: <20220217151259.GT18637@pengutronix.de>
-References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
- <20220217082954.2967889-14-s.hauer@pengutronix.de>
- <f5abe6aa-473a-a00d-2bc5-b8a1d0560d1f@collabora.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAE7910E46A
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:16:04 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4F643B822A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:16:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F351CC36AE3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 15:16:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645110962;
+ bh=ltIrHZ5kE+koRIY5ZxoTB2ezjOerynjz7q6O20tGhjk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=mN5wEfgIdmp7WvMgItg/375+CzWUq3y/DG1UoUgNxSar3uCXmNRFT1j0ytnIPknj3
+ Lvz7VjBLwb41kdBaQFcz30Je3OwD6x6f4Lfm3XVIvrpGH40riEzhRWs0mHPbRIpQ2n
+ GPEcLYzKiXl/0uCxgOTVhogzjVZUxJy4JkqF6DcpPwaeNY6s8ykkTpA0tttHxipDP8
+ Ix9ZmdMa1PjJBtJCGTQMQ8Ffre1IegmkFirwrDl1LLuTcGOF/nNss45Sm054rEhMSi
+ UciSy5cfk+LdIXEzJPi3+yC2nXKJdw0f7+4AfYC+LL/30b5XL+/V+AwRuXmMYX2pac
+ VAwRZ/S5cLwrw==
+Received: by mail-ej1-f49.google.com with SMTP id k25so8057749ejp.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 07:16:01 -0800 (PST)
+X-Gm-Message-State: AOAM531HMBBMM2xb5YJKHXJMjiNhfmSuggDqkLR4eQFEHjZCr25XyJd3
+ sOFlCnfYRLcQQOmUmvmR/shtFBahAMoKXswC5Q==
+X-Google-Smtp-Source: ABdhPJwWhmmbYUMUpT41cY1OCQWwTtA0ZK/OW2pNlNGzpnqu/sg0IPf8wGGwkq3V2cNbK5F8ACQlP6EYpC31RW+Gb1k=
+X-Received: by 2002:a17:906:8143:b0:6cf:73c1:8a0 with SMTP id
+ z3-20020a170906814300b006cf73c108a0mr2822909ejw.406.1645110960294; Thu, 17
+ Feb 2022 07:16:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f5abe6aa-473a-a00d-2bc5-b8a1d0560d1f@collabora.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 16:04:18 up 68 days, 23:49, 87 users,  load average: 0.37, 0.42, 0.35
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20220214092742.3461587-1-jstephan@baylibre.com>
+ <0a331caa-7578-60f5-cbd8-f6c8c29a629f@collabora.com>
+In-Reply-To: <0a331caa-7578-60f5-cbd8-f6c8c29a629f@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 17 Feb 2022 23:15:47 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_82E2BK1cxwbsDsj5DURrY245Xnd-04N=4vevCRMjkZpw@mail.gmail.com>
+Message-ID: <CAAOTY_82E2BK1cxwbsDsj5DURrY245Xnd-04N=4vevCRMjkZpw@mail.gmail.com>
+Subject: Re: [PATCH v4] drm/mediatek: allow commands to be sent during video
+ mode
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,46 +62,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, Yakir Yang <ykk@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
+ "moderated list:DRM DRIVERS FOR MEDIATEK" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Julien STEPHAN <jstephan@baylibre.com>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 17, 2022 at 05:00:37PM +0300, Dmitry Osipenko wrote:
-> 17.02.2022 11:29, Sascha Hauer пишет:
-> > From: Douglas Anderson <dianders@chromium.org>
-> > 
-> > Jitter was improved by lowering the MPLL bandwidth to account for high
-> > frequency noise in the rk3288 PLL.  In each case MPLL bandwidth was
-> > lowered only enough to get us a comfortable margin.  We believe that
-> > lowering the bandwidth like this is safe given sufficient testing.
-> 
-> There are no device-trees that use "rockchip,rk3288-cru", AFAICS..
+ [1Hi, Julien:
 
-What do you mean? In my tree I have:
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
+=BC
+2022=E5=B9=B42=E6=9C=8814=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=885:4=
+3=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Il 14/02/22 10:27, Julien STEPHAN ha scritto:
+> > Mipi dsi panel drivers can use mipi_dsi_dcs_{set,get}_display_brightnes=
+s()
+> > to request backlight changes.
+> >
+> > This can be done during panel initialization (dsi is in command mode)
+> > or afterwards (dsi is in Video Mode).
+> >
+> > When the DSI is in Video Mode, all commands are rejected.
+> >
+> > Detect current DSI mode in mtk_dsi_host_transfer() and switch modes
+> > temporarily to allow commands to be sent.
 
-arch/arm/boot/dts/rk3288.dtsi:863:              compatible = "rockchip,rk3288-cru";
-drivers/clk/rockchip/clk-rk3288.c:985:CLK_OF_DECLARE(rk3288_cru, "rockchip,rk3288-cru", rk3288_clk_init);
+Applied to mediatek-drm-next [1], thanks.
 
-> 
-> Was this change tested on a non-RK3288 devices?
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
 
-Yes, on a rk3568 ;)
+Regards,
+Chun-Kuang.
 
-The patch has been posted back in 2015 and was added to the Rockchip
-downstream kernel in 2016. I don't know how thoroughly Rockchip tests
-their kernels, but I assume the patch wouldn't be there if it caused
-any problems.
-
-Sascha
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> >
+> > Signed-off-by: Julien STEPHAN <jstephan@baylibre.com>
+> > Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+>
+> Please, next time, don't drop the tags that reviewers are giving to you, =
+unless
+> the patch changes radically.
+>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+>
+> > ---
+> > Changes in v4:
+> >      - fix missing space:  "ret : recv_cnt;"
+> > Changes in v3:
+> >      - increase readability of code and use correct return variable (se=
+e
+> >        comment
+> > https://lore.kernel.org/linux-mediatek/4907bdc1-b4a6-e9ad-5cfa-266fc20c=
+0bec@collabora.com/)
+> >
+> > Changes in v2:
+> >      - update commit message to be more descriptive
+> >
+> >   drivers/gpu/drm/mediatek/mtk_dsi.c | 33 ++++++++++++++++++++++-------=
+-
+> >   1 file changed, 24 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/media=
+tek/mtk_dsi.c
+> > index 5d90d2eb0019..abdd9cdebd86 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > @@ -891,24 +891,33 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_=
+dsi_host *host,
+> >       u8 read_data[16];
+> >       void *src_addr;
+> >       u8 irq_flag =3D CMD_DONE_INT_FLAG;
+> > +     u32 dsi_mode;
+> > +     int ret;
+> >
+> > -     if (readl(dsi->regs + DSI_MODE_CTRL) & MODE) {
+> > -             DRM_ERROR("dsi engine is not command mode\n");
+> > -             return -EINVAL;
+> > +     dsi_mode =3D readl(dsi->regs + DSI_MODE_CTRL);
+> > +     if (dsi_mode & MODE) {
+> > +             mtk_dsi_stop(dsi);
+> > +             ret =3D mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG,=
+ 500);
+> > +             if (ret)
+> > +                     goto restore_dsi_mode;
+> >       }
+> >
+> >       if (MTK_DSI_HOST_IS_READ(msg->type))
+> >               irq_flag |=3D LPRX_RD_RDY_INT_FLAG;
+> >
+> > -     if (mtk_dsi_host_send_cmd(dsi, msg, irq_flag) < 0)
+> > -             return -ETIME;
+> > +     ret =3D mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
+> > +     if (ret)
+> > +             goto restore_dsi_mode;
+> >
+> > -     if (!MTK_DSI_HOST_IS_READ(msg->type))
+> > -             return 0;
+> > +     if (!MTK_DSI_HOST_IS_READ(msg->type)) {
+> > +             recv_cnt =3D 0;
+> > +             goto restore_dsi_mode;
+> > +     }
+> >
+> >       if (!msg->rx_buf) {
+> >               DRM_ERROR("dsi receive buffer size may be NULL\n");
+> > -             return -EINVAL;
+> > +             ret =3D -EINVAL;
+> > +             goto restore_dsi_mode;
+> >       }
+> >
+> >       for (i =3D 0; i < 16; i++)
+> > @@ -933,7 +942,13 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_d=
+si_host *host,
+> >       DRM_INFO("dsi get %d byte data from the panel address(0x%x)\n",
+> >                recv_cnt, *((u8 *)(msg->tx_buf)));
+> >
+> > -     return recv_cnt;
+> > +restore_dsi_mode:
+> > +     if (dsi_mode & MODE) {
+> > +             mtk_dsi_set_mode(dsi);
+> > +             mtk_dsi_start(dsi);
+> > +     }
+> > +
+> > +     return ret < 0 ? ret : recv_cnt;
+> >   }
+> >
+> >   static const struct mipi_dsi_host_ops mtk_dsi_ops =3D {
+> > --
+> > 2.35.1
+> >
+>
+>
+>
