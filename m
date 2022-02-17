@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF38D4BAB47
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 21:52:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 644744BAB59
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 21:57:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E77510E819;
-	Thu, 17 Feb 2022 20:51:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0822110E7C4;
+	Thu, 17 Feb 2022 20:57:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E7C310E849;
- Thu, 17 Feb 2022 20:51:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645131116; x=1676667116;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=RzLJ7qARqo1zEQriDFsSiiW9QNzWwHgLR5CxegsqsYU=;
- b=ddj/Du/kI8/yX3NnzN+ErHLbLm+3XIGv4l6XxRgXGS5bmTzQyKQ8Orsx
- FBs9UABdS35Zmu8na5YAYK6njnfQXnHCAmBxvMq4w/dEml4BpfEq9RSA4
- gBpILo4l+7hlzAPIo/KbazeFHB1n7EHv9kdzx9UR3nnZWstn+87grbEfJ
- u2GAvXj0M8uGc4784heK9Po3MvyeYuScU4VYKETlaOhP3jOsjyvdKIUt9
- JiFwSFBsU9Dj8rj27vYpw+Dsd+hz0R+BUsAQzcjs+UIfvW3Tm79Apfq2N
- DxUSiOL5auMfSxOYBRe9HoryVyjzpUxRyYxFZBKfSnVUz2quJvNIbWasD w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="231601433"
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="231601433"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 12:50:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="774912862"
-Received: from lkp-server01.sh.intel.com (HELO 6f05bf9e3301) ([10.239.97.150])
- by fmsmga006.fm.intel.com with ESMTP; 17 Feb 2022 12:50:03 -0800
-Received: from kbuild by 6f05bf9e3301 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nKnj1-0000dT-3e; Thu, 17 Feb 2022 20:50:03 +0000
-Date: Fri, 18 Feb 2022 04:49:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
-Subject: Re: [Intel-gfx] [PATCH v5 5/7] drm/i915/gt: Create per-tile RC6
- sysfs interface
-Message-ID: <202202180400.pPkEh3Z4-lkp@intel.com>
-References: <20220217144158.21555-6-andi.shyti@linux.intel.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1012510E7C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 20:57:28 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 22CFC83B56;
+ Thu, 17 Feb 2022 21:57:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1645131446;
+ bh=5TKv94F97yxxUt6cvOAuvZsbqYTqLgFqqasgeP0zFn4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=hIvk6EbLvMp3Oq0RuT2izEd4mq8w4GPs4HzfKqk3a1y6y21FJEHPaXsJ9s7N0MwVw
+ yI1EiASu16oX09NNx9B9sDf9RcjcxhrPMeDPnBn1pUWruAua/bDwkEVb5Pzea2R0gV
+ wrnnOjeHJQwd35/yySYOB36eofQG80/wd3Jicu3QJ3LJ87b32Bvwg9l39bASlSowfi
+ y/XxBwm+9v7cXxEoXsB8MrmLr6eQM6t5K2Y5+qZ6k08Yf23D4yH+fBfT9+0ReQ21FP
+ u24iUoAdCVJBtJEena0g4HVwujJkP3N3YNUCMHmAMJnTH+CoejCFdu16rLP9/v4D6d
+ NzdiCFPDZVVhw==
+Message-ID: <b9877f33-af64-9ac5-c655-54872bb88459@denx.de>
+Date: Thu, 17 Feb 2022 21:57:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220217144158.21555-6-andi.shyti@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 1/4] dt-bindings: display: bridge: tc358867: Document DPI
+ output support
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20211127032405.283435-1-marex@denx.de>
+ <Ya+PRMvq3cjJ46s/@pendragon.ideasonboard.com>
+ <1a7967f0-ed4b-9cd2-28c8-eb9d181448ae@denx.de>
+ <Ya+T7zPigqtBzdR+@pendragon.ideasonboard.com>
+ <df2e18b3-d35a-2079-5f7b-b2574cbb46fd@denx.de>
+ <20220203122359.g3rvyzxcz5szkis2@houat>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20220203122359.g3rvyzxcz5szkis2@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,42 +61,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, kbuild-all@lists.01.org,
- Matthew Auld <matthew.auld@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andi,
+On 2/3/22 13:23, Maxime Ripard wrote:
+> On Tue, Dec 07, 2021 at 06:32:38PM +0100, Marek Vasut wrote:
+>> On 12/7/21 18:03, Laurent Pinchart wrote:
+>>> On Tue, Dec 07, 2021 at 05:47:29PM +0100, Marek Vasut wrote:
+>>>> On 12/7/21 17:43, Laurent Pinchart wrote:
+>>>>
+>>>> [...]
+>>>>
+>>>>>> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+>>>>>> index f1541cc05297..5cfda6f2ba69 100644
+>>>>>> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+>>>>>> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+>>>>>> @@ -61,8 +61,8 @@ properties:
+>>>>>>           port@1:
+>>>>>>             $ref: /schemas/graph.yaml#/properties/port
+>>>>>>             description: |
+>>>>>> -            DPI input port. The remote endpoint phandle should be a
+>>>>>> -            reference to a valid DPI output endpoint node
+>>>>>> +            DPI input/output port. The remote endpoint phandle should be a
+>>>>>> +            reference to a valid DPI output or input endpoint node.
+>>>>>
+>>>>> I assume the mode of operation (input or output) will be fixed for a
+>>>>> given hardware design. Isn't this something that should be recorded in
+>>>>> DT ? It would simplify configuration of the device in the driver.
+>>>>
+>>>> Currently the configuration (DSI-to-DPI / DPI-to-eDP) is inferred from
+>>>> the presence of DPI panel. If DPI panel present, DSI-to-DPI, else,
+>>>> DPI-to-eDP.
+>>>
+>>> I've had a look at the driver side, and it seems to complicate things
+>>> quite a bit. It seems that specifying the mode of operation explicitly
+>>> in DT could make software implementations quite a bit simpler.
+>>
+>> Do you have any specific suggestion ? I explored multiple options while
+>> writing that DSI-to-DPI driver code, this one was the simplest and least
+>> redundant one.
+> 
+> Can we leverage the bus-type property of endpoints?
 
-I love your patch! Yet something to improve:
+We could, but should we really add a property only for the sake of 
+adding a property ? The driver can figure out whether this endpoint is 
+DSI-input or DSI-output without such a new property.
 
-[auto build test ERROR on drm-tip/drm-tip]
-[cannot apply to drm-intel/for-linux-next drm-exynos/exynos-drm-next drm/drm-next tegra-drm/drm/tegra/for-next airlied/drm-next v5.17-rc4 next-20220217]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Now that I look at the datasheet, the logic can be even simpler:
 
-url:    https://github.com/0day-ci/linux/commits/Andi-Shyti/Introduce-multitile-support/20220217-224547
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20220218/202202180400.pPkEh3Z4-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/b358d991c154dc27fa4ef2fc99f8819f4f3e97e7
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Andi-Shyti/Introduce-multitile-support/20220217-224547
-        git checkout b358d991c154dc27fa4ef2fc99f8819f4f3e97e7
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+- If port@0 not connected
+   scanout -> port@1 (DPI input) -> port@2 (eDP output) -> panel
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+- If port@1 not connected
+   scanout -> port@0 (DSI input) -> port@2 (eDP output) -> panel
 
-All errors (new ones prefixed by >>):
+- If port@2 not connected
+   scanout -> port@0 (DSI input) -> port@1 (DPI output) -> panel
 
-   ld: drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.o: in function `sysfs_gt_attribute_r_func.isra.0':
->> intel_gt_sysfs_pm.c:(.text+0x1b2): undefined reference to `__divdi3'
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+So with this kind of test in the driver, the driver can determine how 
+the TC bridge is wired, without any extra props.
