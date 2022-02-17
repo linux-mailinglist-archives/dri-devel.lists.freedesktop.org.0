@@ -1,51 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87444B9C42
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 10:41:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F16634B9C3B
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 10:41:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52DA510EB8B;
-	Thu, 17 Feb 2022 09:41:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0923A10EAC0;
+	Thu, 17 Feb 2022 09:41:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89EC910EB1D;
- Thu, 17 Feb 2022 09:41:46 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEF1D10EAC0;
+ Thu, 17 Feb 2022 09:41:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645090906; x=1676626906;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=0n2mnzriut++++zqdobTTYF+VpbN2fheJCxQx2jXG0Y=;
- b=kE42y7WSNcox/iTbSbDnIeHJ0ODsawmMrNj+mwH9zC50TE48i4zCkamr
- aDQu2c5piH3N/seIvfoHMJquNLet9YQJC4ULyo9jjpwhK2ekmOWP7goI3
- sbbsIPSppgbrDnjDHuN28ZrBS4NAHcu2wbEkYwHhbBiM+2+ubphvNfKzB
- FeFixE1//hW3M9904ZjuK09zzgjd5H8j7SDY29rZRmv83alvpPUPsuM/i
- UOTqTUVrPPJa/Z76BkC1Tbt9wsHpcthNBXrEOvYCqtJHjmht+QEhjgHi5
- 4T/yeKL23ncdpvOGZ9zstwuJnMZHMBCCKoh8IxYteDGbXqv2mA5SGpZKm A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="238240361"
-X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="238240361"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 01:41:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="604840808"
-Received: from lkp-server01.sh.intel.com (HELO 6f05bf9e3301) ([10.239.97.150])
- by fmsmga004.fm.intel.com with ESMTP; 17 Feb 2022 01:41:44 -0800
-Received: from kbuild by 6f05bf9e3301 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nKdIF-00001x-Gb; Thu, 17 Feb 2022 09:41:43 +0000
-Date: Thu, 17 Feb 2022 17:40:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: [drm-intel:topic/core-for-CI 1/1]
- drivers/gpu/drm/i915/intel_device_info.c:236:14: error:
- 'INTEL_SUBPLATFORM_G12' undeclared; did you mean 'INTEL_SUBPLATFORM_G10'?
-Message-ID: <202202171718.0GTDm2wX-lkp@intel.com>
+ t=1645090891; x=1676626891;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=fKwmBgzfQ65tycvuSp+Aqetu2KA4jdCKfhGJfBdeJtQ=;
+ b=cxq4C1396wIZJZ3N36oWGw59/7LmpMAtv8Kg0rdoy34a0mVSplVC880w
+ nGYIcUGEjUHYJG4kY2fU0OOocyhOdHWsxC/2+C/zpB6aoWJP2a6m1zWN8
+ M6FlXFVSfcdTUahbRpi65HZh5EPrf+IBCWQyzte52beLnJp6eJjvGZFNq
+ QKn22ZbDNUQB6JuuPULRm4Hcdyn9j1GaB8FvK2wEPFa9lZ2HPM3djjnIV
+ SN60YLZvTlQ00eYfKmi899Gr5g4/fe1cA/cwRPzWd/cppBHS1/v2veya+
+ 04mKL5UIlRxLikipWtedddT5Zh2QS0XQs/X9XFoXt5gFd1RyZnUlSmQUM Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="249672718"
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="249672718"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 01:41:30 -0800
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="530080237"
+Received: from markorti-mobl.ger.corp.intel.com (HELO [10.213.216.21])
+ ([10.213.216.21])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 01:41:29 -0800
+Message-ID: <9c817a6f-ba41-1b68-5a7a-30032881057b@linux.intel.com>
+Date: Thu, 17 Feb 2022 09:41:26 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc/slpc: Correct the param count
+ for unset param
+Content-Language: en-US
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220216181504.7155-1-vinay.belgaumkar@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220216181504.7155-1-vinay.belgaumkar@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,114 +62,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kbuild-all@lists.01.org,
- Caz Yokoyama <caz.yokoyama@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm-intel topic/core-for-CI
-head:   b56d8d7bad86a9badc1d1b9ea2d1730fa1d3978b
-commit: b56d8d7bad86a9badc1d1b9ea2d1730fa1d3978b [1/1] drm/i915: Add DG2 PCI IDs
-config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20220217/202202171718.0GTDm2wX-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        git remote add drm-intel git://anongit.freedesktop.org/drm-intel
-        git fetch --no-tags drm-intel topic/core-for-CI
-        git checkout b56d8d7bad86a9badc1d1b9ea2d1730fa1d3978b
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+On 16/02/2022 18:15, Vinay Belgaumkar wrote:
+> SLPC unset param H2G only needs one parameter - the id of the
+> param.
+> 
+> Fixes: 025cb07bebfa ("drm/i915/guc/slpc: Cache platform frequency limits")
 
-All errors (new ones prefixed by >>):
+How serious is this? Does it need backporting? If so:
 
-   In file included from include/linux/bits.h:6,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/printk.h:10,
-                    from include/drm/drm_print.h:30,
-                    from drivers/gpu/drm/i915/intel_device_info.c:25:
-   drivers/gpu/drm/i915/intel_device_info.c: In function 'intel_device_info_subplatform_init':
->> drivers/gpu/drm/i915/intel_device_info.c:236:14: error: 'INTEL_SUBPLATFORM_G12' undeclared (first use in this function); did you mean 'INTEL_SUBPLATFORM_G10'?
-     236 |   mask = BIT(INTEL_SUBPLATFORM_G12);
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:30: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)   (UL(1) << (nr))
-         |                              ^~
-   drivers/gpu/drm/i915/intel_device_info.c:236:14: note: each undeclared identifier is reported only once for each function it appears in
-     236 |   mask = BIT(INTEL_SUBPLATFORM_G12);
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:30: note: in definition of macro 'BIT'
-       7 | #define BIT(nr)   (UL(1) << (nr))
-         |                              ^~
+Cc: <stable@vger.kernel.org> # v5.15+
 
+?
 
-vim +236 drivers/gpu/drm/i915/intel_device_info.c
+Regards,
 
-   201	
-   202	void intel_device_info_subplatform_init(struct drm_i915_private *i915)
-   203	{
-   204		const struct intel_device_info *info = INTEL_INFO(i915);
-   205		const struct intel_runtime_info *rinfo = RUNTIME_INFO(i915);
-   206		const unsigned int pi = __platform_mask_index(rinfo, info->platform);
-   207		const unsigned int pb = __platform_mask_bit(rinfo, info->platform);
-   208		u16 devid = INTEL_DEVID(i915);
-   209		u32 mask = 0;
-   210	
-   211		/* Make sure IS_<platform> checks are working. */
-   212		RUNTIME_INFO(i915)->platform_mask[pi] = BIT(pb);
-   213	
-   214		/* Find and mark subplatform bits based on the PCI device id. */
-   215		if (find_devid(devid, subplatform_ult_ids,
-   216			       ARRAY_SIZE(subplatform_ult_ids))) {
-   217			mask = BIT(INTEL_SUBPLATFORM_ULT);
-   218		} else if (find_devid(devid, subplatform_ulx_ids,
-   219				      ARRAY_SIZE(subplatform_ulx_ids))) {
-   220			mask = BIT(INTEL_SUBPLATFORM_ULX);
-   221			if (IS_HASWELL(i915) || IS_BROADWELL(i915)) {
-   222				/* ULX machines are also considered ULT. */
-   223				mask |= BIT(INTEL_SUBPLATFORM_ULT);
-   224			}
-   225		} else if (find_devid(devid, subplatform_portf_ids,
-   226				      ARRAY_SIZE(subplatform_portf_ids))) {
-   227			mask = BIT(INTEL_SUBPLATFORM_PORTF);
-   228		} else if (find_devid(devid, subplatform_g10_ids,
-   229				      ARRAY_SIZE(subplatform_g10_ids))) {
-   230			mask = BIT(INTEL_SUBPLATFORM_G10);
-   231		} else if (find_devid(devid, subplatform_g11_ids,
-   232				      ARRAY_SIZE(subplatform_g11_ids))) {
-   233			mask = BIT(INTEL_SUBPLATFORM_G11);
-   234		} else if (find_devid(devid, subplatform_g12_ids,
-   235				      ARRAY_SIZE(subplatform_g12_ids))) {
- > 236			mask = BIT(INTEL_SUBPLATFORM_G12);
-   237		}
-   238	
-   239		if (IS_TIGERLAKE(i915)) {
-   240			struct pci_dev *root, *pdev = to_pci_dev(i915->drm.dev);
-   241	
-   242			root = list_first_entry(&pdev->bus->devices, typeof(*root), bus_list);
-   243	
-   244			drm_WARN_ON(&i915->drm, mask);
-   245			drm_WARN_ON(&i915->drm, (root->device & TGL_ROOT_DEVICE_MASK) !=
-   246				    TGL_ROOT_DEVICE_ID);
-   247	
-   248			switch (root->device & TGL_ROOT_DEVICE_SKU_MASK) {
-   249			case TGL_ROOT_DEVICE_SKU_ULX:
-   250				mask = BIT(INTEL_SUBPLATFORM_ULX);
-   251				break;
-   252			case TGL_ROOT_DEVICE_SKU_ULT:
-   253				mask = BIT(INTEL_SUBPLATFORM_ULT);
-   254				break;
-   255			}
-   256		}
-   257	
-   258		GEM_BUG_ON(mask & ~INTEL_SUBPLATFORM_MASK);
-   259	
-   260		RUNTIME_INFO(i915)->platform_mask[pi] |= mask;
-   261	}
-   262	
+Tvrtko
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> Suggested-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> index 13b27b8ff74e..ba21ace973da 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> @@ -110,7 +110,7 @@ static int guc_action_slpc_unset_param(struct intel_guc *guc, u8 id)
+>   {
+>   	u32 request[] = {
+>   		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
+> -		SLPC_EVENT(SLPC_EVENT_PARAMETER_UNSET, 2),
+> +		SLPC_EVENT(SLPC_EVENT_PARAMETER_UNSET, 1),
+>   		id,
+>   	};
+>   
