@@ -2,57 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F634B9C34
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 10:40:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87444B9C42
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 10:41:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9DE410E953;
-	Thu, 17 Feb 2022 09:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52DA510EB8B;
+	Thu, 17 Feb 2022 09:41:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52A3110E961;
- Thu, 17 Feb 2022 09:40:32 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id r27so5249617oiw.4;
- Thu, 17 Feb 2022 01:40:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uhOJfm6H7seDFtparrRa6LVFSq5tSizAXtRZfKmDyxU=;
- b=O7qfDwrOyYJHNrXZmT/XCBCXsPd5PbpbwH6wv5sCvteVtj85muRvNxFwDu5hJ+5zwV
- 7CRIi6DzaoYc6+lDkFbCIqnHqmn1CnSkUmHZoWFIFWwV7AUiPp+F1opnFUECx8JMEasi
- K3HXYRm941hMxMb0PEwQffUOtRUpq4w2lHIdbOlbsM5srVSSQixNGNv8IL6kX9p0uWFk
- S4U+kD5YfFIebrado0QkLzyne8pcU61SPvryIYGxjtiYUR7Jsa2nfj6ReDx2ht7QwTLn
- X3YYnJXrToVTLlnR5wAPxyL5slkBqAR/JUHVHNEjXmgFP6rHXygA96Td3ayOV8ysIJYX
- Kcmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uhOJfm6H7seDFtparrRa6LVFSq5tSizAXtRZfKmDyxU=;
- b=BfV5a+L3KQS744y3IMyj2qUTfr8sL+eqkc4ZqBDmZrQcTCV8CqLSCMF79N5gQlRy/5
- bkBB2P45Ruw3ltW+LrSMK/k1idn69ks1bg38fJLKH4aO1WE2z19qDslAn7KtsQVRapSZ
- DvQx+DbBlmC1kVeUr98JwYjBGPn5AADs/nHGRVnWCisCQYUkm6Tj1mEPX10IaX+ppUi0
- WmoPj74WR6OPouy3ABWzulqoMJ90DBRQm2b4jwuWFqbmlAhn05N3cFZXfN7+PsdvTGPp
- EqwNRvzEfsXBd1sv34HPC/3Zdv92n0ShwjVeUjOrZcGpoMoUQbNvKO43KfwTAw6C2qwQ
- UFEg==
-X-Gm-Message-State: AOAM531R10roqBq7dIrT6RKtdnK/ZCcJyY7Iz+5vrOYycwj1973AtQ1D
- fHvBdux3cbP/8Rz+Rw6CwQ6shsW+ZaWX8ViXXD4=
-X-Google-Smtp-Source: ABdhPJzW3ysr0A/QNZN637zadxiYZAwSsq5TpxDuuAQxvChDfoDHi5vCMCyqiI2d2M6+0Mxp5rxQaZ5QlpMNaRhieYQ=
-X-Received: by 2002:a05:6808:188b:b0:2d4:70f2:3cfa with SMTP id
- bi11-20020a056808188b00b002d470f23cfamr790214oib.168.1645090831535; Thu, 17
- Feb 2022 01:40:31 -0800 (PST)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89EC910EB1D;
+ Thu, 17 Feb 2022 09:41:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645090906; x=1676626906;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=0n2mnzriut++++zqdobTTYF+VpbN2fheJCxQx2jXG0Y=;
+ b=kE42y7WSNcox/iTbSbDnIeHJ0ODsawmMrNj+mwH9zC50TE48i4zCkamr
+ aDQu2c5piH3N/seIvfoHMJquNLet9YQJC4ULyo9jjpwhK2ekmOWP7goI3
+ sbbsIPSppgbrDnjDHuN28ZrBS4NAHcu2wbEkYwHhbBiM+2+ubphvNfKzB
+ FeFixE1//hW3M9904ZjuK09zzgjd5H8j7SDY29rZRmv83alvpPUPsuM/i
+ UOTqTUVrPPJa/Z76BkC1Tbt9wsHpcthNBXrEOvYCqtJHjmht+QEhjgHi5
+ 4T/yeKL23ncdpvOGZ9zstwuJnMZHMBCCKoh8IxYteDGbXqv2mA5SGpZKm A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="238240361"
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="238240361"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 01:41:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="604840808"
+Received: from lkp-server01.sh.intel.com (HELO 6f05bf9e3301) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 17 Feb 2022 01:41:44 -0800
+Received: from kbuild by 6f05bf9e3301 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nKdIF-00001x-Gb; Thu, 17 Feb 2022 09:41:43 +0000
+Date: Thu, 17 Feb 2022 17:40:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: [drm-intel:topic/core-for-CI 1/1]
+ drivers/gpu/drm/i915/intel_device_info.c:236:14: error:
+ 'INTEL_SUBPLATFORM_G12' undeclared; did you mean 'INTEL_SUBPLATFORM_G10'?
+Message-ID: <202202171718.0GTDm2wX-lkp@intel.com>
 MIME-Version: 1.0
-References: <20220217090440.4468-1-qiang.yu@amd.com>
- <5d3fdd2c-e74a-49f4-2b28-32c06483236f@amd.com>
-In-Reply-To: <5d3fdd2c-e74a-49f4-2b28-32c06483236f@amd.com>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Thu, 17 Feb 2022 17:40:19 +0800
-Message-ID: <CAKGbVbtLTBJPF5eTu4rABUTBa8eqjQvqjo1AEUrzgPgYgCREuA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: check vm bo eviction valuable at last
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,194 +58,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
- Qiang Yu <qiang.yu@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, kbuild-all@lists.01.org,
+ Caz Yokoyama <caz.yokoyama@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 17, 2022 at 5:15 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 17.02.22 um 10:04 schrieb Qiang Yu:
-> > Workstation application ANSA/META get this error dmesg:
-> > [drm:amdgpu_gem_va_ioctl [amdgpu]] *ERROR* Couldn't update BO_VA (-16)
-> >
-> > This is caused by:
-> > 1. create a 256MB buffer in invisible VRAM
-> > 2. CPU map the buffer and access it causes vm_fault and try to move
-> >     it to visible VRAM
-> > 3. force visible VRAM space and traverse all VRAM bos to check if
-> >     evicting this bo is valuable
-> > 4. when checking a VM bo (in invisible VRAM), amdgpu_vm_evictable()
-> >     will set amdgpu_vm->evicting, but latter due to not in visible
-> >     VRAM, won't really evict it so not add it to amdgpu_vm->evicted
-> > 5. before next CS to clear the amdgpu_vm->evicting, user VM ops
-> >     ioctl will pass amdgpu_vm_ready() (check amdgpu_vm->evicted)
-> >     but fail in amdgpu_vm_bo_update_mapping() (check
-> >     amdgpu_vm->evicting) and get this error log
-> >
-> > This error won't affect functionality as next CS will finish the
-> > waiting VM ops. But we'd better make the amdgpu_vm->evicting
-> > correctly reflact the vm status and clear the error log.
->
-> Well NAK, that is intentional behavior.
->
-> The VM page tables where considered for eviction, so setting the flag is
-> correct even when the page tables later on are not actually evicted.
->
-But this will unnecessarily stop latter user VM ops in ioctl before CS
-even when the VM bos are not evicted.
-Won't this have any negative effect when could do better?
+tree:   git://anongit.freedesktop.org/drm-intel topic/core-for-CI
+head:   b56d8d7bad86a9badc1d1b9ea2d1730fa1d3978b
+commit: b56d8d7bad86a9badc1d1b9ea2d1730fa1d3978b [1/1] drm/i915: Add DG2 PCI IDs
+config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20220217/202202171718.0GTDm2wX-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        git remote add drm-intel git://anongit.freedesktop.org/drm-intel
+        git fetch --no-tags drm-intel topic/core-for-CI
+        git checkout b56d8d7bad86a9badc1d1b9ea2d1730fa1d3978b
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-Regards,
-Qiang
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-> What we should rather do is to fix amdgpu_vm_ready() to take a look at
-> the flag instead of the linked list.
->
-> Regards,
-> Christian.
->
-> >
-> > Signed-off-by: Qiang Yu <qiang.yu@amd.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 85 ++++++++++++++----------=
--
-> >   1 file changed, 47 insertions(+), 38 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_ttm.c
-> > index 5a32ee66d8c8..88a27911054f 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > @@ -1306,45 +1306,11 @@ uint64_t amdgpu_ttm_tt_pte_flags(struct amdgpu_=
-device *adev, struct ttm_tt *ttm,
-> >       return flags;
-> >   }
-> >
-> > -/*
-> > - * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evict a bu=
-ffer
-> > - * object.
-> > - *
-> > - * Return true if eviction is sensible. Called by ttm_mem_evict_first(=
-) on
-> > - * behalf of ttm_bo_mem_force_space() which tries to evict buffer obje=
-cts until
-> > - * it can find space for a new object and by ttm_bo_force_list_clean()=
- which is
-> > - * used to clean out a memory space.
-> > - */
-> > -static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *=
-bo,
-> > -                                         const struct ttm_place *place=
-)
-> > +static bool amdgpu_ttm_mem_eviction_valuable(struct ttm_buffer_object =
-*bo,
-> > +                                          const struct ttm_place *plac=
-e)
-> >   {
-> >       unsigned long num_pages =3D bo->resource->num_pages;
-> >       struct amdgpu_res_cursor cursor;
-> > -     struct dma_resv_list *flist;
-> > -     struct dma_fence *f;
-> > -     int i;
-> > -
-> > -     /* Swapout? */
-> > -     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
-> > -             return true;
-> > -
-> > -     if (bo->type =3D=3D ttm_bo_type_kernel &&
-> > -         !amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo)))
-> > -             return false;
-> > -
-> > -     /* If bo is a KFD BO, check if the bo belongs to the current proc=
-ess.
-> > -      * If true, then return false as any KFD process needs all its BO=
-s to
-> > -      * be resident to run successfully
-> > -      */
-> > -     flist =3D dma_resv_shared_list(bo->base.resv);
-> > -     if (flist) {
-> > -             for (i =3D 0; i < flist->shared_count; ++i) {
-> > -                     f =3D rcu_dereference_protected(flist->shared[i],
-> > -                             dma_resv_held(bo->base.resv));
-> > -                     if (amdkfd_fence_check_mm(f, current->mm))
-> > -                             return false;
-> > -             }
-> > -     }
-> >
-> >       switch (bo->resource->mem_type) {
-> >       case AMDGPU_PL_PREEMPT:
-> > @@ -1377,10 +1343,53 @@ static bool amdgpu_ttm_bo_eviction_valuable(str=
-uct ttm_buffer_object *bo,
-> >               return false;
-> >
-> >       default:
-> > -             break;
-> > +             return ttm_bo_eviction_valuable(bo, place);
-> >       }
-> > +}
-> >
-> > -     return ttm_bo_eviction_valuable(bo, place);
-> > +/*
-> > + * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evict a bu=
-ffer
-> > + * object.
-> > + *
-> > + * Return true if eviction is sensible. Called by ttm_mem_evict_first(=
-) on
-> > + * behalf of ttm_bo_mem_force_space() which tries to evict buffer obje=
-cts until
-> > + * it can find space for a new object and by ttm_bo_force_list_clean()=
- which is
-> > + * used to clean out a memory space.
-> > + */
-> > +static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *=
-bo,
-> > +                                         const struct ttm_place *place=
-)
-> > +{
-> > +     struct dma_resv_list *flist;
-> > +     struct dma_fence *f;
-> > +     int i;
-> > +
-> > +     /* Swapout? */
-> > +     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
-> > +             return true;
-> > +
-> > +     /* If bo is a KFD BO, check if the bo belongs to the current proc=
-ess.
-> > +      * If true, then return false as any KFD process needs all its BO=
-s to
-> > +      * be resident to run successfully
-> > +      */
-> > +     flist =3D dma_resv_shared_list(bo->base.resv);
-> > +     if (flist) {
-> > +             for (i =3D 0; i < flist->shared_count; ++i) {
-> > +                     f =3D rcu_dereference_protected(flist->shared[i],
-> > +                             dma_resv_held(bo->base.resv));
-> > +                     if (amdkfd_fence_check_mm(f, current->mm))
-> > +                             return false;
-> > +             }
-> > +     }
-> > +
-> > +     /* Check by different mem type. */
-> > +     if (!amdgpu_ttm_mem_eviction_valuable(bo, place))
-> > +             return false;
-> > +
-> > +     /* VM bo should be checked at last because it will mark VM evicti=
-ng. */
-> > +     if (bo->type =3D=3D ttm_bo_type_kernel)
-> > +             return amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo));
-> > +
-> > +     return true;
-> >   }
-> >
-> >   static void amdgpu_ttm_vram_mm_access(struct amdgpu_device *adev, lof=
-f_t pos,
->
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/bits.h:6,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:10,
+                    from include/drm/drm_print.h:30,
+                    from drivers/gpu/drm/i915/intel_device_info.c:25:
+   drivers/gpu/drm/i915/intel_device_info.c: In function 'intel_device_info_subplatform_init':
+>> drivers/gpu/drm/i915/intel_device_info.c:236:14: error: 'INTEL_SUBPLATFORM_G12' undeclared (first use in this function); did you mean 'INTEL_SUBPLATFORM_G10'?
+     236 |   mask = BIT(INTEL_SUBPLATFORM_G12);
+         |              ^~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:30: note: in definition of macro 'BIT'
+       7 | #define BIT(nr)   (UL(1) << (nr))
+         |                              ^~
+   drivers/gpu/drm/i915/intel_device_info.c:236:14: note: each undeclared identifier is reported only once for each function it appears in
+     236 |   mask = BIT(INTEL_SUBPLATFORM_G12);
+         |              ^~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:30: note: in definition of macro 'BIT'
+       7 | #define BIT(nr)   (UL(1) << (nr))
+         |                              ^~
+
+
+vim +236 drivers/gpu/drm/i915/intel_device_info.c
+
+   201	
+   202	void intel_device_info_subplatform_init(struct drm_i915_private *i915)
+   203	{
+   204		const struct intel_device_info *info = INTEL_INFO(i915);
+   205		const struct intel_runtime_info *rinfo = RUNTIME_INFO(i915);
+   206		const unsigned int pi = __platform_mask_index(rinfo, info->platform);
+   207		const unsigned int pb = __platform_mask_bit(rinfo, info->platform);
+   208		u16 devid = INTEL_DEVID(i915);
+   209		u32 mask = 0;
+   210	
+   211		/* Make sure IS_<platform> checks are working. */
+   212		RUNTIME_INFO(i915)->platform_mask[pi] = BIT(pb);
+   213	
+   214		/* Find and mark subplatform bits based on the PCI device id. */
+   215		if (find_devid(devid, subplatform_ult_ids,
+   216			       ARRAY_SIZE(subplatform_ult_ids))) {
+   217			mask = BIT(INTEL_SUBPLATFORM_ULT);
+   218		} else if (find_devid(devid, subplatform_ulx_ids,
+   219				      ARRAY_SIZE(subplatform_ulx_ids))) {
+   220			mask = BIT(INTEL_SUBPLATFORM_ULX);
+   221			if (IS_HASWELL(i915) || IS_BROADWELL(i915)) {
+   222				/* ULX machines are also considered ULT. */
+   223				mask |= BIT(INTEL_SUBPLATFORM_ULT);
+   224			}
+   225		} else if (find_devid(devid, subplatform_portf_ids,
+   226				      ARRAY_SIZE(subplatform_portf_ids))) {
+   227			mask = BIT(INTEL_SUBPLATFORM_PORTF);
+   228		} else if (find_devid(devid, subplatform_g10_ids,
+   229				      ARRAY_SIZE(subplatform_g10_ids))) {
+   230			mask = BIT(INTEL_SUBPLATFORM_G10);
+   231		} else if (find_devid(devid, subplatform_g11_ids,
+   232				      ARRAY_SIZE(subplatform_g11_ids))) {
+   233			mask = BIT(INTEL_SUBPLATFORM_G11);
+   234		} else if (find_devid(devid, subplatform_g12_ids,
+   235				      ARRAY_SIZE(subplatform_g12_ids))) {
+ > 236			mask = BIT(INTEL_SUBPLATFORM_G12);
+   237		}
+   238	
+   239		if (IS_TIGERLAKE(i915)) {
+   240			struct pci_dev *root, *pdev = to_pci_dev(i915->drm.dev);
+   241	
+   242			root = list_first_entry(&pdev->bus->devices, typeof(*root), bus_list);
+   243	
+   244			drm_WARN_ON(&i915->drm, mask);
+   245			drm_WARN_ON(&i915->drm, (root->device & TGL_ROOT_DEVICE_MASK) !=
+   246				    TGL_ROOT_DEVICE_ID);
+   247	
+   248			switch (root->device & TGL_ROOT_DEVICE_SKU_MASK) {
+   249			case TGL_ROOT_DEVICE_SKU_ULX:
+   250				mask = BIT(INTEL_SUBPLATFORM_ULX);
+   251				break;
+   252			case TGL_ROOT_DEVICE_SKU_ULT:
+   253				mask = BIT(INTEL_SUBPLATFORM_ULT);
+   254				break;
+   255			}
+   256		}
+   257	
+   258		GEM_BUG_ON(mask & ~INTEL_SUBPLATFORM_MASK);
+   259	
+   260		RUNTIME_INFO(i915)->platform_mask[pi] |= mask;
+   261	}
+   262	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
