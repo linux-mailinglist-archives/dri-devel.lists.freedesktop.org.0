@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4AC4BABCB
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 22:36:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33884BABD8
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 22:37:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6042910E82C;
-	Thu, 17 Feb 2022 21:36:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41D3D10E827;
+	Thu, 17 Feb 2022 21:36:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A85710E827;
- Thu, 17 Feb 2022 21:36:39 +0000 (UTC)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7E210E827;
+ Thu, 17 Feb 2022 21:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645133799; x=1676669799;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=yB4+2qoMQ9jzb08mZ+ScfZ64ApyU5Uo5M7VdvfRZWlY=;
- b=uGWiobsUg3cHxpWAG3FWFKrTSegiCIw6S4cCAwQ4dZCHQkV1POSBkVwz
- UYEuw4dIyfM9eP6LDtDPbhMTca348uIGWUDmNnGBPQfwe/07418u7KIOr
- 9rC94g49N1L49TUI3ydYOIR9C0fQclnZNQgLO0YSR69feE/ypkdHaGCjw g=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 17 Feb 2022 13:36:38 -0800
+ t=1645133817; x=1676669817;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=v+tCKangdsWQQPmLcGYn5m+Jvz+WAhxwzWK6OAq8ehc=;
+ b=At/b+fQEano2+F1vlvg4UPFLiokv/fvgPXBcazhK6uvSFwDAkdeBlT31
+ jK2EiNA+ttaaKMIBCVRbarW85tkovD0SShiAr+mH3guWTg/jcfXv80wAN
+ X2Wm4oVtIbCF6D3VmVhb8G9BijuG16R+hyRAp4MmTetZ59sdy1kH+yuni s=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 17 Feb 2022 13:36:57 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 13:36:38 -0800
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 13:36:41 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Thu, 17 Feb 2022 13:36:37 -0800
+ 15.2.986.15; Thu, 17 Feb 2022 13:36:40 -0800
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Thu, 17 Feb 2022 13:36:37 -0800
+ 15.2.986.15; Thu, 17 Feb 2022 13:36:40 -0800
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
  <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
  <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
-Subject: [PATCH v8 0/2] drm/msm/dpu: enable widebus feature base on chip
- hardware revision
-Date: Thu, 17 Feb 2022 13:36:24 -0800
-Message-ID: <1645133788-5057-1-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v8 1/4] drm/msm/dpu: adjust display_v_end for eDP and DP
+Date: Thu, 17 Feb 2022 13:36:25 -0800
+Message-ID: <1645133788-5057-2-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1645133788-5057-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1645133788-5057-1-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
@@ -71,31 +71,29 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-revise widebus timing engine programming and enable widebus feature base on chip
+The “DP timing” requires the active region to be defined in the
+bottom-right corner of the frame dimensions which is different
+with DSI. Therefore both display_h_end and display_v_end need
+to be adjusted accordingly. However current implementation has
+only display_h_end adjusted.
 
-Kuogee Hsieh (4):
-  drm/msm/dpu: adjust display_v_end for eDP and DP
-  drm/msm/dpu: replace BIT(x) with correspond marco define string
-  drm/msm/dpu:  revise timing engine programming to support widebus
-    feature
-  drm/msm/dp: enable widebus feature for display port
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 14 ++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  2 +
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 14 +++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        | 63 ++++++++++++++++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  2 +
- drivers/gpu/drm/msm/dp/dp_catalog.c                | 34 +++++++++++-
- drivers/gpu/drm/msm/dp/dp_catalog.h                |  3 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   | 13 +++--
- drivers/gpu/drm/msm/dp/dp_ctrl.h                   |  1 +
- drivers/gpu/drm/msm/dp/dp_display.c                | 30 +++++++++++
- drivers/gpu/drm/msm/dp/dp_display.h                |  2 +
- drivers/gpu/drm/msm/dp/dp_panel.c                  |  4 +-
- drivers/gpu/drm/msm/dp/dp_panel.h                  |  2 +-
- drivers/gpu/drm/msm/msm_drv.h                      |  6 +++
- 14 files changed, 164 insertions(+), 26 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+index 116e2b5..284f561 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+@@ -148,6 +148,7 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 		active_v_end = active_v_start + (p->yres * hsync_period) - 1;
+ 
+ 		display_v_start += p->hsync_pulse_width + p->h_back_porch;
++		display_v_end   -= p->h_front_porch; 
+ 
+ 		active_hctl = (active_h_end << 16) | active_h_start;
+ 		display_hctl = active_hctl;
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
