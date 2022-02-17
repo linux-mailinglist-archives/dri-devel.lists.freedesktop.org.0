@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DAC4BC756
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2143A4BC76D
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:03:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3344410F68A;
-	Sat, 19 Feb 2022 10:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89F0E10F6BB;
+	Sat, 19 Feb 2022 10:03:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66C9B10E8E2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 13:20:22 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73F4910E890
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 13:24:34 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 314181F45C17
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 905D41F45B52
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645104021;
- bh=frvkPvpz6EtNe12MCXtRLAiBcdyezvJMEVigFM8+kGY=;
+ s=mail; t=1645104273;
+ bh=lsIfh5sbMJI4WTP9N2IRqlEUycgB2AeckJcRBUnq8ao=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RGsVsI/lQpoUKPA6V3Twhpxur+3Y+o6SyrYEKhCHhJnVUkGSdRrTbzhckA6Z8vruL
- ZFCkGZ7FZ3XA2nHIdLJ+811J/y2ivyUjsdG8WaVsdZMh4ZCVViUbinVp7sQmWQFiDy
- 3t9IGpwnR2aDxLUD7Yx45IdCTohzsP/YfefaFo6ENeMRJQ96FaIbQ0jV/JBsvxQwfD
- gzJJJED0QxI7RA3ui1ytubcIxPQ1iZuWyqMKve9fg7CTJ6TzBvBC5hlCQhxpuobfei
- Gyv3aKQIsS5Yv1FuVr9MU3UZUHh/jG1zOfB/kS5Zkw+0IshM7cq00jpEX+7ptY8sdz
- QAdJg4pLtwH1w==
-Message-ID: <0fa21d91-b15f-8049-d776-8c6e9e9334b2@collabora.com>
-Date: Thu, 17 Feb 2022 16:20:15 +0300
+ b=lzHbuZ2gFiSAjaNLa3T7PR090kaaJAVlPwS2PnJ5aCZaealX1zqQknnpf9CKbrOXf
+ 7Q+jbbY6uO0BagvCWblUzDl8sKDA8wwlUhOuq+9ZGVXMIoMdFFWxBZxrOYjdkGyo11
+ TNrrOMr13ZDhgbRj2Uaoes4aX3gXj18eGIdAT6W2NXYZ378DLtDvVeoEZTJUuj3nlS
+ LxV3WdDafBmp44y632lsfVRk/XNTVsv8Ua1KmzysetWUr5LIbOEa5tl8FS1KpTGDOx
+ 8ssWlTK+HinOWSB2ejLkLjmaJ5iT48yqyZNJiOmZhwlYGJ04+y2gwZQtNQkZUQY+2C
+ ehK+5V3f8uP4g==
+Message-ID: <b9b59c1d-5808-f348-62fb-257746df134d@collabora.com>
+Date: Thu, 17 Feb 2022 16:24:29 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v6 02/23] drm/rockchip: dw_hdmi: rename vpll clock to
- reference clock
+Subject: Re: [PATCH v6 21/23] drm: rockchip: Add VOP2 driver
 Content-Language: en-US
 To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
 References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
- <20220217082954.2967889-3-s.hauer@pengutronix.de>
+ <20220217082954.2967889-22-s.hauer@pengutronix.de>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220217082954.2967889-3-s.hauer@pengutronix.de>
+In-Reply-To: <20220217082954.2967889-22-s.hauer@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 19 Feb 2022 10:01:55 +0000
@@ -62,12 +62,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 17.02.2022 11:29, Sascha Hauer пишет:
-> +	hdmi->ref_clk = devm_clk_get(hdmi->dev, "ref");
-> +	if (PTR_ERR(hdmi->ref_clk) == -ENOENT)
-> +		hdmi->ref_clk = devm_clk_get(hdmi->dev, "vpll");
-> +
-> +	if (PTR_ERR(hdmi->ref_clk) == -ENOENT) {
-> +		hdmi->ref_clk = NULL;
+> @@ -28,6 +28,12 @@ config ROCKCHIP_VOP
+>  	  This selects support for the VOP driver. You should enable it
+>  	  on all older SoCs up to RK3399.
+>  
+> +config ROCKCHIP_VOP2
+> +	bool "Rockchip VOP2 driver"
+> +	help
+> +	  This selects support for the VOP2 driver. You should enable it
+> +	  on all newer SoCs beginning form RK3568.
 
-I missed in v5 that devm_clk_get_optional() could be used here. But this
-doesn't worth the v7 by itself.
+s/form/from/
+
+The ROCKCHIP_VOP option is "default y". Do you really want "default n"
+for the VOP2?
