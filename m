@@ -2,58 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674D74BA939
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:06:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 664BD4BA957
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 20:12:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBEFD10E39C;
-	Thu, 17 Feb 2022 19:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 576E510E21A;
+	Thu, 17 Feb 2022 19:12:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E9410E39C;
- Thu, 17 Feb 2022 19:06:22 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- w10-20020a4ae08a000000b0031bdf7a6d76so700951oos.10; 
- Thu, 17 Feb 2022 11:06:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0eT1lxfoq5qyDbp5eIAnsQwboX33oLO1Gz2b8VOV9eQ=;
- b=piI/0gpwz6MmcTd1tH7GT+KhCfmXjeZWejCehWfMxd3GxACkkdyeFdtCc38MyaMz1F
- v4spK69iBJM7RoH0lhLqBr7gJycoTylK4cLqx1R0wY7R72Q8x1R6NRv8PMzlN69v2arP
- RSz8EyYI7sepd0OP8Efx20nT1hJx5EZ4/BSEMMA291KGWneP9sU38hgNORJEMtFYf+1z
- MNTpoT0RFr/Q87ZJCYHxoztOoY6em6llwZ7lprlPMp0W2Had5rQUwtDSr5D4k68dR5l3
- z30Uyie+549zmipggxcR3Q79WDaehA57h3NuDLc/hyaQzlcVdelcTNmc9jKp56Y7l35A
- fCmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0eT1lxfoq5qyDbp5eIAnsQwboX33oLO1Gz2b8VOV9eQ=;
- b=z+meajqOiPdavrPcwuxvlz5E29swo3Ut+BXqmp407bzooepw3ChmcIhzOWkO+l+Xc6
- txZExVzoVtTyR89Vnanz4Sq0mi6t1T6nVnvrvpnxx840HV7kNwSYSNLee5Yv3K3J7Mgu
- Yh+gy60tJf27UYEmaZb7Ygxn/1qnw+QZpf13W8kYpGZkZDjTz1hVdtrS0p3NbzcSb+cY
- GvbfMnC2Ef5xYux+vHA0MQMcVLjzYBgYBpr+HEgX4RhwXTg+7LG+uUeY1h+8Yi16h+aL
- t2YhfSeCWMhOiJkkEsESaIR6RX1LpGQLSlb/hYz+vEHuAPXU9b97Is0YcppqTArjm9dV
- sS0g==
-X-Gm-Message-State: AOAM532QMOdY0LLebH8cdqUGlGjCYnxFTfw5HnNSAOTYudaFsvmJWqq9
- wKgAuP95mAaPDX7nBJlaA3C5L9abrqDS2DuDf0s=
-X-Google-Smtp-Source: ABdhPJzTVo0BLlHY7QOaP5AWF+/HgAkv4O3cf3iw2UsClSnH35LOu7yMNCVBBMkTCxKrTWxKi1E4tGf81mwXJX3Csrw=
-X-Received: by 2002:a05:6870:b281:b0:d3:e9c:811d with SMTP id
- c1-20020a056870b28100b000d30e9c811dmr1565142oao.225.1645124781997; Thu, 17
- Feb 2022 11:06:21 -0800 (PST)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5FC10E21A;
+ Thu, 17 Feb 2022 19:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645125148; x=1676661148;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=UrDfMpkAEv0VK8yjea3T2cx6XqPvHRRW0eKwMY6tJ+w=;
+ b=MVEdCfDNPghQT7bW2JxRI3kwoPorPxdRR6uQABwKbKDr7v0HQi2YxjWR
+ qMNFFYw89Svko3CgisSrFHdj6tliZuDaqbPBN/xyGLhfvCw8TjlZ0H+zx
+ 3yygp/vjn4g+n2CYBufXJwTC4SBu6pgqGzbfs5TJ9B4zj7KZQGqZsyVFy
+ Kjkj8HNCxEnMO8CNYU8oCmQqNJ+d2LOOfionQp/xGZPJ/c9cDJFuc1Vs6
+ 7CPC9+jSyW+o+2YfJiwFGzDfmIL25HxX612iL5AU2lNGoVbww2ioRMbNy
+ NoTCVFfAEXKt157ipbM1lfSA/E4ePgFycbTpMrj7HPEJ2BBmpn+F93l/y Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="250691463"
+X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="250691463"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 11:12:27 -0800
+X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; d="scan'208";a="637309889"
+Received: from orsosgc001.jf.intel.com (HELO unerlige-ril-10.165.21.154)
+ ([10.165.21.154])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 11:12:27 -0800
+Date: Thu, 17 Feb 2022 11:12:26 -0800
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH] drm/i915/guc/slpc: Correct the param count for unset param
+Message-ID: <20220217191226.GF34157@unerlige-ril-10.165.21.154>
+References: <20220216181504.7155-1-vinay.belgaumkar@intel.com>
 MIME-Version: 1.0
-References: <20220217153842.3252424-1-trix@redhat.com>
- <51018469-3bab-e56d-7407-b16170b5d74c@amd.com>
- <CADnq5_OGEURo76mzc4Sb2Jar465Xt4vkSMECDi5jCMH332zUAg@mail.gmail.com>
- <CAKwvOdnYTC7mku1=eVaDLGQFHdoN3u8Afoo582OAQ+ApJmfhQQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdnYTC7mku1=eVaDLGQFHdoN3u8Afoo582OAQ+ApJmfhQQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 17 Feb 2022 14:06:10 -0500
-Message-ID: <CADnq5_PniW+-8G5AhOSwuovESpfeMxL4r6P30b3F1coa_NmMEQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: fix amdgpu_ras_block_late_init error handler
-To: Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220216181504.7155-1-vinay.belgaumkar@intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,40 +57,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Joshi, Mukul" <mukul.joshi@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- llvm@lists.linux.dev, Dave Airlie <airlied@linux.ie>,
- Tom Rix <trix@redhat.com>, xinhui pan <Xinhui.Pan@amd.com>,
- Nirmoy Das <nirmoy.das@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Nathan Chancellor <nathan@kernel.org>, Luben Tuikov <luben.tuikov@amd.com>,
- "Stanley.Yang" <Stanley.Yang@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, "Chai, Thomas" <YiPeng.Chai@amd.com>,
- John Clements <john.clements@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, Dennis Li <Dennis.Li@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 17, 2022 at 2:04 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Wed, Feb 16, 2022 at 10:15:04AM -0800, Vinay Belgaumkar wrote:
+>SLPC unset param H2G only needs one parameter - the id of the
+>param.
 >
-> On Thu, Feb 17, 2022 at 8:16 AM Alex Deucher <alexdeucher@gmail.com> wrote:
-> >
-> > Applied.  Thanks!
-> >
-> > Alex
+>Fixes: 025cb07bebfa ("drm/i915/guc/slpc: Cache platform frequency limits")
 >
-> Alex,
-> Has AMD been able to set up clang builds, yet?
-
-No.  I think some individual teams do, but it's never been integrated
-into our larger CI systems as of yet as far as I know.
-
-Alex
-
-
+>Suggested-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+>Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+>---
+> drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> --
-> Thanks,
-> ~Nick Desaulniers
+>diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>index 13b27b8ff74e..ba21ace973da 100644
+>--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>@@ -110,7 +110,7 @@ static int guc_action_slpc_unset_param(struct intel_guc *guc, u8 id)
+> {
+> 	u32 request[] = {
+> 		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
+>-		SLPC_EVENT(SLPC_EVENT_PARAMETER_UNSET, 2),
+>+		SLPC_EVENT(SLPC_EVENT_PARAMETER_UNSET, 1),
+
+lgtm,
+
+Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+
+Thanks,
+Umesh
+> 		id,
+> 	};
+>
+>-- 
+>2.34.0
+>
