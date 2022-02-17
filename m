@@ -1,64 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0A14B9B4C
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 09:42:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B224B9B4E
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 09:42:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2194310EAE4;
-	Thu, 17 Feb 2022 08:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA7E10EB49;
+	Thu, 17 Feb 2022 08:42:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE84F10EAE4;
- Thu, 17 Feb 2022 08:42:11 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2A5E41FD45;
- Thu, 17 Feb 2022 08:42:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1645087330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MJoTYAR4uysrHyy6hzNZ43/B8dOW/oreAx35R0Dnl2Q=;
- b=HflTzB2IhrYQSAvxEqIzaBi8mm5p0LX+OoFyaljERIQr6rjK5k2nyghtWkQJW6WPGmPMDO
- qQx9xVXpCfRXrHb++xHI9OFalZNshaB1lmyc0cisq9TqJ1tJPgF+1uxPXx46/p3JxMRnEW
- X+biq8us6MZroaFIqPI8RzF/QBnatYU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1645087330;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MJoTYAR4uysrHyy6hzNZ43/B8dOW/oreAx35R0Dnl2Q=;
- b=T21IsedIcan8itg1AeEDqj64xmQsabAo1CtSeSnqQTfQxcYa4525D6Iin1/3y/UOEfuawR
- 8dgMlese9GzDSwDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF11A13B96;
- Thu, 17 Feb 2022 08:42:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id u8rnLGEKDmIkKgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 17 Feb 2022 08:42:09 +0000
-Message-ID: <06e6035e-bbba-f158-63b7-7d10327b7a80@suse.de>
-Date: Thu, 17 Feb 2022 09:42:08 +0100
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CED2F10EB4A
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 08:42:30 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id p9so5410749ejd.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 00:42:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Hime8aGfAW5sJ8cZVOKC+RpupkrcgnsKX1i4Uz8X/xw=;
+ b=qf+/GUZ+cjIXMSBHKrdogpwPFxPtXYE7o9bpl4fyyo3wXuhjaFj8rgp7vhGLWRnzAn
+ HDHKppVJahEJbajbmxHKA7+1224W+JxeTOtWVjPtp2vYaDnvSKjzA4IRqihuGKcUoqgj
+ Wb2OoMAnPT/dhxZ8Ux4P3UGuM/NhmqG3Rt73GD2umB0oEtvPmSX90IDAgAy4A/DK3V9g
+ RKj4O4Hk8JTrSklgLNECK+/vERS3q+ZYC1fjFoizSNBWMF3Dv3vDmTz5J5yKbW6EGwFP
+ xqGZwJ4hWKFn7kZSwVfxXRRDMYzS9Y3QjNjYoThmAdWbPfRdlSIiM5EuIIL21DJGDjNA
+ kroA==
+X-Gm-Message-State: AOAM531PgTSN2fh2rcIdY0WccOdr3bwEWbdTEEOaaF6PH+vSHK1/Wk0u
+ aoY+qOJuWQcedjSsJbyr5Uc=
+X-Google-Smtp-Source: ABdhPJxKbIrcYL5bmiSC2JNRAKvbQiGYgDIOvD6Fxqj+82np/3U18ObRDa5+PWoEHvt+Gj3HvV6blw==
+X-Received: by 2002:a17:906:2daa:b0:6cf:3c6:dbb7 with SMTP id
+ g10-20020a1709062daa00b006cf03c6dbb7mr1491522eji.688.1645087348921; 
+ Thu, 17 Feb 2022 00:42:28 -0800 (PST)
+Received: from [192.168.0.110] (xdsl-188-155-168-84.adslplus.ch.
+ [188.155.168.84])
+ by smtp.googlemail.com with ESMTPSA id n2sm956100ejl.55.2022.02.17.00.42.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Feb 2022 00:42:27 -0800 (PST)
+Message-ID: <687aad50-6e37-dab9-71a0-4df89abbd9d4@kernel.org>
+Date: Thu, 17 Feb 2022 09:42:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 02/16] iosys-map: Add a few more helpers
+Subject: Re: [PATCH v8 2/3] MIPS: Loongson64: dts: update the display
+ controller device node
 Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220216174147.3073235-1-lucas.demarchi@intel.com>
- <20220216174147.3073235-3-lucas.demarchi@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220216174147.3073235-3-lucas.demarchi@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------k0JdbDtijKUuI8G4ihKufTt3"
+To: Sui Jingfeng <15330273260@189.cn>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
+ Li Yi <liyi@loongson.cn>, suijingfeng <suijingfeng@loongson.cn>
+References: <20220216181712.1493400-1-15330273260@189.cn>
+ <20220216181712.1493400-3-15330273260@189.cn>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20220216181712.1493400-3-15330273260@189.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,282 +78,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Matt Atwood <matthew.s.atwood@intel.com>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- John Harrison <John.C.Harrison@Intel.com>
+Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------k0JdbDtijKUuI8G4ihKufTt3
-Content-Type: multipart/mixed; boundary="------------FYALIwTZ8wUlpaNZ4s602l0C";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Matt Atwood <matthew.s.atwood@intel.com>, linux-kernel@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- John Harrison <John.C.Harrison@Intel.com>
-Message-ID: <06e6035e-bbba-f158-63b7-7d10327b7a80@suse.de>
-Subject: Re: [PATCH v3 02/16] iosys-map: Add a few more helpers
-References: <20220216174147.3073235-1-lucas.demarchi@intel.com>
- <20220216174147.3073235-3-lucas.demarchi@intel.com>
-In-Reply-To: <20220216174147.3073235-3-lucas.demarchi@intel.com>
+On 16/02/2022 19:17, Sui Jingfeng wrote:
+> From: suijingfeng <suijingfeng@loongson.cn>
+> 
+> The display controller is a pci device, its PCI vendor id is 0x0014
+> its PCI device id is 0x7a06.
+> 
+> 1) In order to let the lsdc kms driver to know which chip the DC is
+>    contained in, we add different compatible for different chip.
+> 
+> 2) Add display controller device node for ls2k1000 SoC
+> 
+> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+> ---
+>  .../loongson/loongson,display-controller.yaml | 114 ++++++++++++++++++
+>  .../display/loongson/loongson-drm.txt         |  16 +++
 
---------------FYALIwTZ8wUlpaNZ4s602l0C
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Please split dt-bindings from other changes into a separate patch, which
+should be first in the series.
 
-SGkNCg0KQW0gMTYuMDIuMjIgdW0gMTg6NDEgc2NocmllYiBMdWNhcyBEZSBNYXJjaGk6DQo+
-IEZpcnN0IHRoZSBzaW1wbGVzdCBvbmVzOg0KPiANCj4gCS0gaW9zeXNfbWFwX21lbXNldCgp
-OiB3aGVuIGFic3RyYWN0aW5nIHN5c3RlbSBhbmQgSS9PIG1lbW9yeSwNCj4gCSAganVzdCBs
-aWtlIHRoZSBtZW1jcHkoKSB1c2UgY2FzZSwgbWVtc2V0KCkgYWxzbyBoYXMgZGVkaWNhdGVk
-DQo+IAkgIGZ1bmN0aW9ucyB0byBiZSBjYWxsZWQgZm9yIHVzaW5nIElPIG1lbW9yeS4NCj4g
-CS0gaW9zeXNfbWFwX21lbWNweV9mcm9tKCk6IHdlIG1heSBuZWVkIHRvIGNvcHkgZGF0YSBm
-cm9tIEkvTw0KPiAJICBtZW1vcnksIG5vdCBvbmx5IHRvLg0KPiANCj4gSW4gY2VydGFpbiBz
-aXR1YXRpb25zIGl0J3MgdXNlZnVsIHRvIGJlIGFibGUgdG8gcmVhZCBvciB3cml0ZSB0byBh
-bg0KPiBvZmZzZXQgdGhhdCBpcyBjYWxjdWxhdGVkIGJ5IGhhdmluZyB0aGUgbWVtb3J5IGxh
-eW91dCBnaXZlbiBieSBhIHN0cnVjdA0KPiBkZWNsYXJhdGlvbi4gVXN1YWxseSB3ZSBhcmUg
-Z29pbmcgdG8gcmVhZC93cml0ZSBhIHU4LCB1MTYsIHUzMiBvciB1NjQuDQo+IA0KPiBBcyBh
-IHByZS1yZXF1aXNpdGUgZm9yIHRoZSBpbXBsZW1lbnRhdGlvbiwgYWRkIGlvc3lzX21hcF9t
-ZW1jcHlfZnJvbSgpDQo+IHRvIGJlIHRoZSBlcXVpdmFsZW50IG9mIGlvc3lzX21hcF9tZW1j
-cHlfdG8oKSwgYnV0IGluIHRoZSBvdGhlcg0KPiBkaXJlY3Rpb24uIFRoZW4gYWRkIDIgcGFp
-cnMgb2YgbWFjcm9zOg0KPiANCj4gCS0gaW9zeXNfbWFwX3JkKCkgLyBpb3N5c19tYXBfd3Io
-KQ0KPiAJLSBpb3N5c19tYXBfcmRfZmllbGQoKSAvIGlvc3lzX21hcF93cl9maWVsZCgpDQo+
-IA0KPiBUaGUgZmlyc3QgcGFpciB0YWtlcyB0aGUgQy10eXBlIGFuZCBvZmZzZXQgdG8gcmVh
-ZC93cml0ZS4gVGhlIHNlY29uZA0KPiBwYWlyIHVzZXMgYSBzdHJ1Y3QgZGVzY3JpYmluZyB0
-aGUgbGF5b3V0IG9mIHRoZSBtYXBwaW5nIGluIG9yZGVyIHRvDQo+IGNhbGN1bGF0ZSB0aGUg
-b2Zmc2V0IGFuZCBzaXplIGJlaW5nIHJlYWQvd3JpdHRlbi4NCj4gDQo+IFdlIGNvdWxkIHVz
-ZSByZWFkYiwgcmVhZHcsIHJlYWRsLCByZWFkcSBhbmQgdGhlIHdyaXRlKiBjb3VudGVycGFy
-dHMsDQo+IGhvd2V2ZXIgZHVlIHRvIGFsaWdubWVudCBpc3N1ZXMgdGhpcyBtYXkgbm90IHdv
-cmsgb24gYWxsIGFyY2hpdGVjdHVyZXMuDQo+IElmIGFsaWdubWVudCBuZWVkcyB0byBiZSBj
-aGVja2VkIHRvIGNhbGwgdGhlIHJpZ2h0IGZ1bmN0aW9uLCBpdCdzIG5vdA0KPiBwb3NzaWJs
-ZSB0byBkZWNpZGUgYXQgY29tcGlsZS10aW1lIHdoaWNoIGZ1bmN0aW9uIHRvIGNhbGw6IHNv
-IGp1c3QgbGVhdmUNCj4gdGhlIGRlY2lzaW9uIHRvIHRoZSBtZW1jcHkgZnVuY3Rpb24gdGhh
-dCB3aWxsIGRvIGV4YWN0bHkgdGhhdC4NCj4gDQo+IEZpbmFsbHksIGluIG9yZGVyIHRvIHVz
-ZSB0aGUgYWJvdmUgbWFjcm9zIHdpdGggYSBtYXAgZGVyaXZlZCBmcm9tDQo+IGFub3RoZXIs
-IGFkZCBhbm90aGVyIGluaXRpYWxpemVyOiBJT1NZU19NQVBfSU5JVF9PRkZTRVQoKS4NCj4g
-DQo+IHYyOg0KPiAgICAtIFJld29yayBJT1NZU19NQVBfSU5JVF9PRkZTRVQoKSBzbyBpdCBk
-b2Vzbid0IHJlbHkgb24gYWxpYXNpbmcgcnVsZXMNCj4gICAgICB3aXRoaW4gdGhlIHVuaW9u
-DQo+ICAgIC0gQWRkIG9mZnNldCB0byBib3RoIGlvc3lzX21hcF9yZF9maWVsZCgpIGFuZCBp
-b3N5c19tYXBfd3JfZmllbGQoKSB0bw0KPiAgICAgIGFsbG93IHRoZSBzdHJ1Y3QgaXRzZWxm
-IHRvIGJlIGF0IGFuIG9mZnNldCBmcm9tIHRoZSBtYXBwaW5nDQo+ICAgIC0gQWRkIGRvY3Vt
-ZW50YXRpb24gdG8gaW9zeXNfbWFwX3JkX2ZpZWxkKCkgd2l0aCBleGFtcGxlIGFuZCBleHBl
-Y3RlZA0KPiAgICAgIG1lbW9yeSBsYXlvdXQNCj4gdjM6DQo+ICAgIC0gRHJvcCBrZXJuZWwu
-aCBpbmNsdWRlIGFzIGl0J3Mgbm90IG5lZWRlZCBhbnltb3JlDQo+IA0KPiBDYzogU3VtaXQg
-U2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4NCj4gQ2M6IENocmlzdGlhbiBLw7Zu
-aWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4gQ2M6IFRob21hcyBaaW1tZXJtYW5u
-IDx0emltbWVybWFubkBzdXNlLmRlPg0KPiBDYzogTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxt
-Y2hlaGFiQGtlcm5lbC5vcmc+DQo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnDQo+IENjOiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnDQo+IFNpZ25lZC1vZmYt
-Ynk6IEx1Y2FzIERlIE1hcmNoaSA8bHVjYXMuZGVtYXJjaGlAaW50ZWwuY29tPg0KPiBSZXZp
-ZXdlZC1ieTogTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFiQGtlcm5lbC5vcmc+DQo+
-IFJldmlld2VkLWJ5OiBNYXR0IEF0d29vZCA8bWF0dGhldy5zLmF0d29vZEBpbnRlbC5jb20+
-DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
-ZT4NCg0KPiAtLS0NCj4gICBpbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oIHwgMjAxICsrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQs
-IDIwMSBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9p
-b3N5cy1tYXAuaCBiL2luY2x1ZGUvbGludXgvaW9zeXMtbWFwLmgNCj4gaW5kZXggZWRkNzMw
-YjFlODk5Li5lNjlhMDAyZDVhYTQgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvbGludXgvaW9z
-eXMtbWFwLmgNCj4gKysrIGIvaW5jbHVkZS9saW51eC9pb3N5cy1tYXAuaA0KPiBAQCAtMTIw
-LDYgKzEyMCw0NSBAQCBzdHJ1Y3QgaW9zeXNfbWFwIHsNCj4gICAJCS5pc19pb21lbSA9IGZh
-bHNlLAlcDQo+ICAgCX0NCj4gICANCj4gKy8qKg0KPiArICogSU9TWVNfTUFQX0lOSVRfT0ZG
-U0VUIC0gSW5pdGlhbGl6ZXMgc3RydWN0IGlvc3lzX21hcCBmcm9tIGFub3RoZXIgaW9zeXNf
-bWFwDQo+ICsgKiBAbWFwXzoJVGhlIGRtYS1idWYgbWFwcGluZyBzdHJ1Y3R1cmUgdG8gY29w
-eSBmcm9tDQo+ICsgKiBAb2Zmc2V0XzoJT2Zmc2V0IHRvIGFkZCB0byB0aGUgb3RoZXIgbWFw
-cGluZw0KPiArICoNCj4gKyAqIEluaXRpYWxpemVzIGEgbmV3IGlvc3lzX21hcCBzdHJ1Y3Qg
-YmFzZWQgb24gYW5vdGhlciBwYXNzZWQgYXMgYXJndW1lbnQuIEl0DQo+ICsgKiBkb2VzIGEg
-c2hhbGxvdyBjb3B5IG9mIHRoZSBzdHJ1Y3Qgc28gaXQncyBwb3NzaWJsZSB0byB1cGRhdGUg
-dGhlIGJhY2sgc3RvcmFnZQ0KPiArICogd2l0aG91dCBjaGFuZ2luZyB3aGVyZSB0aGUgb3Jp
-Z2luYWwgbWFwIHBvaW50cyB0by4gSXQgaXMgdGhlIGVxdWl2YWxlbnQgb2YNCj4gKyAqIGRv
-aW5nOg0KPiArICoNCj4gKyAqIC4uIGNvZGUtYmxvY2s6OiBjDQo+ICsgKg0KPiArICoJaW9z
-eXNfbWFwIG1hcCA9IG90aGVyX21hcDsNCj4gKyAqCWlvc3lzX21hcF9pbmNyKCZtYXAsICZv
-ZmZzZXQpOw0KPiArICoNCj4gKyAqIEV4YW1wbGUgdXNhZ2U6DQo+ICsgKg0KPiArICogLi4g
-Y29kZS1ibG9jazo6IGMNCj4gKyAqDQo+ICsgKgl2b2lkIGZvbyhzdHJ1Y3QgZGV2aWNlICpk
-ZXYsIHN0cnVjdCBpb3N5c19tYXAgKmJhc2VfbWFwKQ0KPiArICoJew0KPiArICoJCS4uLg0K
-PiArICoJCXN0cnVjdCBpb3N5c19tYXAgbWFwID0gSU9TWVNfTUFQX0lOSVRfT0ZGU0VUKGJh
-c2VfbWFwLCBGSUVMRF9PRkZTRVQpOw0KPiArICoJCS4uLg0KPiArICoJfQ0KPiArICoNCj4g
-KyAqIFRoZSBhZHZhbnRhZ2Ugb2YgdXNpbmcgdGhlIGluaXRpYWxpemVyIG92ZXIganVzdCBp
-bmNyZWFzaW5nIHRoZSBvZmZzZXQgd2l0aA0KPiArICogaW9zeXNfbWFwX2luY3IoKSBsaWtl
-IGFib3ZlIGlzIHRoYXQgdGhlIG5ldyBtYXAgd2lsbCBhbHdheXMgcG9pbnQgdG8gdGhlDQo+
-ICsgKiByaWdodCBwbGFjZSBvZiB0aGUgYnVmZmVyIGR1cmluZyBpdHMgc2NvcGUuIEl0IHJl
-ZHVjZXMgdGhlIHJpc2sgb2YgdXBkYXRpbmcNCj4gKyAqIHRoZSB3cm9uZyBwYXJ0IG9mIHRo
-ZSBidWZmZXIgYW5kIGhhdmluZyBubyBjb21waWxlciB3YXJuaW5nIGFib3V0IHRoYXQuIElm
-DQo+ICsgKiB0aGUgYXNzaWdubWVudCB0byBJT1NZU19NQVBfSU5JVF9PRkZTRVQoKSBpcyBm
-b3Jnb3R0ZW4sIHRoZSBjb21waWxlciBjYW4gd2Fybg0KPiArICogYWJvdXQgdGhlIHVzZSBv
-ZiB1bmluaXRpYWxpemVkIHZhcmlhYmxlLg0KPiArICovDQo+ICsjZGVmaW5lIElPU1lTX01B
-UF9JTklUX09GRlNFVChtYXBfLCBvZmZzZXRfKSAoewkJCQlcDQo+ICsJc3RydWN0IGlvc3lz
-X21hcCBjb3B5ID0gKm1hcF87CQkJCQlcDQo+ICsJaW9zeXNfbWFwX2luY3IoJmNvcHksIG9m
-ZnNldF8pOwkJCQkJXA0KPiArCWNvcHk7CQkJCQkJCQlcDQo+ICt9KQ0KPiArDQo+ICAgLyoq
-DQo+ICAgICogaW9zeXNfbWFwX3NldF92YWRkciAtIFNldHMgYSBpb3N5cyBtYXBwaW5nIHN0
-cnVjdHVyZSB0byBhbiBhZGRyZXNzIGluIHN5c3RlbSBtZW1vcnkNCj4gICAgKiBAbWFwOglU
-aGUgaW9zeXNfbWFwIHN0cnVjdHVyZQ0KPiBAQCAtMjM5LDYgKzI3OCwyNiBAQCBzdGF0aWMg
-aW5saW5lIHZvaWQgaW9zeXNfbWFwX21lbWNweV90byhzdHJ1Y3QgaW9zeXNfbWFwICpkc3Qs
-IHNpemVfdCBkc3Rfb2Zmc2V0LA0KPiAgIAkJbWVtY3B5KGRzdC0+dmFkZHIgKyBkc3Rfb2Zm
-c2V0LCBzcmMsIGxlbik7DQo+ICAgfQ0KPiAgIA0KPiArLyoqDQo+ICsgKiBpb3N5c19tYXBf
-bWVtY3B5X2Zyb20gLSBNZW1jcHkgZnJvbSBpb3N5c19tYXAgaW50byBzeXN0ZW0gbWVtb3J5
-DQo+ICsgKiBAZHN0OglEZXN0aW5hdGlvbiBpbiBzeXN0ZW0gbWVtb3J5DQo+ICsgKiBAc3Jj
-OglUaGUgaW9zeXNfbWFwIHN0cnVjdHVyZQ0KPiArICogQHNyY19vZmZzZXQ6CVRoZSBvZmZz
-ZXQgZnJvbSB3aGljaCB0byBjb3B5DQo+ICsgKiBAbGVuOglUaGUgbnVtYmVyIG9mIGJ5dGUg
-aW4gc3JjDQo+ICsgKg0KPiArICogQ29waWVzIGRhdGEgZnJvbSBhIGlvc3lzX21hcCB3aXRo
-IGFuIG9mZnNldC4gVGhlIGRlc3QgYnVmZmVyIGlzIGluDQo+ICsgKiBzeXN0ZW0gbWVtb3J5
-LiBEZXBlbmRpbmcgb24gdGhlIG1hcHBpbmcgbG9jYXRpb24sIHRoZSBoZWxwZXIgcGlja3Mg
-dGhlDQo+ICsgKiBjb3JyZWN0IG1ldGhvZCBvZiBhY2Nlc3NpbmcgdGhlIG1lbW9yeS4NCj4g
-KyAqLw0KPiArc3RhdGljIGlubGluZSB2b2lkIGlvc3lzX21hcF9tZW1jcHlfZnJvbSh2b2lk
-ICpkc3QsIGNvbnN0IHN0cnVjdCBpb3N5c19tYXAgKnNyYywNCj4gKwkJCQkJIHNpemVfdCBz
-cmNfb2Zmc2V0LCBzaXplX3QgbGVuKQ0KPiArew0KPiArCWlmIChzcmMtPmlzX2lvbWVtKQ0K
-PiArCQltZW1jcHlfZnJvbWlvKGRzdCwgc3JjLT52YWRkcl9pb21lbSArIHNyY19vZmZzZXQs
-IGxlbik7DQo+ICsJZWxzZQ0KPiArCQltZW1jcHkoZHN0LCBzcmMtPnZhZGRyICsgc3JjX29m
-ZnNldCwgbGVuKTsNCj4gK30NCj4gKw0KPiAgIC8qKg0KPiAgICAqIGlvc3lzX21hcF9pbmNy
-IC0gSW5jcmVtZW50cyB0aGUgYWRkcmVzcyBzdG9yZWQgaW4gYSBpb3N5cyBtYXBwaW5nDQo+
-ICAgICogQG1hcDoJVGhlIGlvc3lzX21hcCBzdHJ1Y3R1cmUNCj4gQEAgLTI1NSw0ICszMTQs
-MTQ2IEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBpb3N5c19tYXBfaW5jcihzdHJ1Y3QgaW9zeXNf
-bWFwICptYXAsIHNpemVfdCBpbmNyKQ0KPiAgIAkJbWFwLT52YWRkciArPSBpbmNyOw0KPiAg
-IH0NCj4gICANCj4gKy8qKg0KPiArICogaW9zeXNfbWFwX21lbXNldCAtIE1lbXNldCBpb3N5
-c19tYXANCj4gKyAqIEBkc3Q6CVRoZSBpb3N5c19tYXAgc3RydWN0dXJlDQo+ICsgKiBAb2Zm
-c2V0OglPZmZzZXQgZnJvbSBkc3Qgd2hlcmUgdG8gc3RhcnQgc2V0dGluZyB2YWx1ZQ0KPiAr
-ICogQHZhbHVlOglUaGUgdmFsdWUgdG8gc2V0DQo+ICsgKiBAbGVuOglUaGUgbnVtYmVyIG9m
-IGJ5dGVzIHRvIHNldCBpbiBkc3QNCj4gKyAqDQo+ICsgKiBTZXQgdmFsdWUgaW4gaW9zeXNf
-bWFwLiBEZXBlbmRpbmcgb24gdGhlIGJ1ZmZlcidzIGxvY2F0aW9uLCB0aGUgaGVscGVyDQo+
-ICsgKiBwaWNrcyB0aGUgY29ycmVjdCBtZXRob2Qgb2YgYWNjZXNzaW5nIHRoZSBtZW1vcnku
-DQo+ICsgKi8NCj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBpb3N5c19tYXBfbWVtc2V0KHN0cnVj
-dCBpb3N5c19tYXAgKmRzdCwgc2l6ZV90IG9mZnNldCwNCj4gKwkJCQkgICAgaW50IHZhbHVl
-LCBzaXplX3QgbGVuKQ0KPiArew0KPiArCWlmIChkc3QtPmlzX2lvbWVtKQ0KPiArCQltZW1z
-ZXRfaW8oZHN0LT52YWRkcl9pb21lbSArIG9mZnNldCwgdmFsdWUsIGxlbik7DQo+ICsJZWxz
-ZQ0KPiArCQltZW1zZXQoZHN0LT52YWRkciArIG9mZnNldCwgdmFsdWUsIGxlbik7DQo+ICt9
-DQo+ICsNCj4gKy8qKg0KPiArICogaW9zeXNfbWFwX3JkIC0gUmVhZCBhIEMtdHlwZSB2YWx1
-ZSBmcm9tIHRoZSBpb3N5c19tYXANCj4gKyAqDQo+ICsgKiBAbWFwX186CVRoZSBpb3N5c19t
-YXAgc3RydWN0dXJlDQo+ICsgKiBAb2Zmc2V0X186CVRoZSBvZmZzZXQgZnJvbSB3aGljaCB0
-byByZWFkDQo+ICsgKiBAdHlwZV9fOglUeXBlIG9mIHRoZSB2YWx1ZSBiZWluZyByZWFkDQo+
-ICsgKg0KPiArICogUmVhZCBhIEMgdHlwZSB2YWx1ZSBmcm9tIGlvc3lzX21hcCwgaGFuZGxp
-bmcgcG9zc2libGUgdW4tYWxpZ25lZCBhY2Nlc3NlcyB0bw0KPiArICogdGhlIG1hcHBpbmcu
-DQo+ICsgKg0KPiArICogUmV0dXJuczoNCj4gKyAqIFRoZSB2YWx1ZSByZWFkIGZyb20gdGhl
-IG1hcHBpbmcuDQo+ICsgKi8NCj4gKyNkZWZpbmUgaW9zeXNfbWFwX3JkKG1hcF9fLCBvZmZz
-ZXRfXywgdHlwZV9fKSAoewkJCVwNCj4gKwl0eXBlX18gdmFsOwkJCQkJCQlcDQo+ICsJaW9z
-eXNfbWFwX21lbWNweV9mcm9tKCZ2YWwsIG1hcF9fLCBvZmZzZXRfXywgc2l6ZW9mKHZhbCkp
-OwlcDQo+ICsJdmFsOwkJCQkJCQkJXA0KPiArfSkNCj4gKw0KPiArLyoqDQo+ICsgKiBpb3N5
-c19tYXBfd3IgLSBXcml0ZSBhIEMtdHlwZSB2YWx1ZSB0byB0aGUgaW9zeXNfbWFwDQo+ICsg
-Kg0KPiArICogQG1hcF9fOglUaGUgaW9zeXNfbWFwIHN0cnVjdHVyZQ0KPiArICogQG9mZnNl
-dF9fOglUaGUgb2Zmc2V0IGZyb20gdGhlIG1hcHBpbmcgdG8gd3JpdGUgdG8NCj4gKyAqIEB0
-eXBlX186CVR5cGUgb2YgdGhlIHZhbHVlIGJlaW5nIHdyaXR0ZW4NCj4gKyAqIEB2YWxfXzoJ
-VmFsdWUgdG8gd3JpdGUNCj4gKyAqDQo+ICsgKiBXcml0ZSBhIEMtdHlwZSB2YWx1ZSB0byB0
-aGUgaW9zeXNfbWFwLCBoYW5kbGluZyBwb3NzaWJsZSB1bi1hbGlnbmVkIGFjY2Vzc2VzDQo+
-ICsgKiB0byB0aGUgbWFwcGluZy4NCj4gKyAqLw0KPiArI2RlZmluZSBpb3N5c19tYXBfd3Io
-bWFwX18sIG9mZnNldF9fLCB0eXBlX18sIHZhbF9fKSAoewkJCVwNCj4gKwl0eXBlX18gdmFs
-ID0gKHZhbF9fKTsJCQkJCQlcDQo+ICsJaW9zeXNfbWFwX21lbWNweV90byhtYXBfXywgb2Zm
-c2V0X18sICZ2YWwsIHNpemVvZih2YWwpKTsJXA0KPiArfSkNCj4gKw0KPiArLyoqDQo+ICsg
-KiBpb3N5c19tYXBfcmRfZmllbGQgLSBSZWFkIGEgbWVtYmVyIGZyb20gYSBzdHJ1Y3QgaW4g
-dGhlIGlvc3lzX21hcA0KPiArICoNCj4gKyAqIEBtYXBfXzoJCVRoZSBpb3N5c19tYXAgc3Ry
-dWN0dXJlDQo+ICsgKiBAc3RydWN0X29mZnNldF9fOglPZmZzZXQgZnJvbSB0aGUgYmVnZ2lu
-aW5nIG9mIHRoZSBtYXAsIHdoZXJlIHRoZSBzdHJ1Y3QNCj4gKyAqCQkJaXMgbG9jYXRlZA0K
-PiArICogQHN0cnVjdF90eXBlX186CVRoZSBzdHJ1Y3QgZGVzY3JpYmluZyB0aGUgbGF5b3V0
-IG9mIHRoZSBtYXBwaW5nDQo+ICsgKiBAZmllbGRfXzoJCU1lbWJlciBvZiB0aGUgc3RydWN0
-IHRvIHJlYWQNCj4gKyAqDQo+ICsgKiBSZWFkIGEgdmFsdWUgZnJvbSBpb3N5c19tYXAgY29u
-c2lkZXJpbmcgaXRzIGxheW91dCBpcyBkZXNjcmliZWQgYnkgYSBDIHN0cnVjdA0KPiArICog
-c3RhcnRpbmcgYXQgQHN0cnVjdF9vZmZzZXRfXy4gVGhlIGZpZWxkIG9mZnNldCBhbmQgc2l6
-ZSBpcyBjYWxjdWxhdGVkIGFuZCBpdHMNCj4gKyAqIHZhbHVlIHJlYWQgaGFuZGxpbmcgcG9z
-c2libGUgdW4tYWxpZ25lZCBtZW1vcnkgYWNjZXNzZXMuIEZvciBleGFtcGxlOiBzdXBwb3Nl
-DQo+ICsgKiB0aGVyZSBpcyBhIEBzdHJ1Y3QgZm9vIGRlZmluZWQgYXMgYmVsb3cgYW5kIHRo
-ZSB2YWx1ZSBgYGZvby5maWVsZDIuaW5uZXIyYGANCj4gKyAqIG5lZWRzIHRvIGJlIHJlYWQg
-ZnJvbSB0aGUgaW9zeXNfbWFwOg0KPiArICoNCj4gKyAqIC4uIGNvZGUtYmxvY2s6OiBjDQo+
-ICsgKg0KPiArICoJc3RydWN0IGZvbyB7DQo+ICsgKgkJaW50IGZpZWxkMTsNCj4gKyAqCQlz
-dHJ1Y3Qgew0KPiArICoJCQlpbnQgaW5uZXIxOw0KPiArICoJCQlpbnQgaW5uZXIyOw0KPiAr
-ICoJCX0gZmllbGQyOw0KPiArICoJCWludCBmaWVsZDM7DQo+ICsgKgl9IF9fcGFja2VkOw0K
-PiArICoNCj4gKyAqIFRoaXMgaXMgdGhlIGV4cGVjdGVkIG1lbW9yeSBsYXlvdXQgb2YgYSBi
-dWZmZXIgdXNpbmcgaW9zeXNfbWFwX3JkX2ZpZWxkKCk6DQo+ICsgKg0KPiArICogKy0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsN
-Cj4gKyAqIHwgQWRkcmVzcyAgICAgICAgICAgICAgICAgICAgICB8IENvbnRlbnQgICAgICAg
-ICAgICAgICAgICB8DQo+ICsgKiArPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Kz09
-PT09PT09PT09PT09PT09PT09PT09PT09Kw0KPiArICogfCBidWZmZXIgKyAwMDAwICAgICAg
-ICAgICAgICAgIHwgc3RhcnQgb2YgbW1hcHBlZCBidWZmZXIgIHwNCj4gKyAqIHwgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICB8IHBvaW50ZWQgYnkgaW9zeXNfbWFwICAgICB8DQo+
-ICsgKiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tKw0KPiArICogfCAuLi4gICAgICAgICAgICAgICAgICAgICAgICAgIHwgLi4u
-ICAgICAgICAgICAgICAgICAgICAgIHwNCj4gKyAqICstLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rDQo+ICsgKiB8IGJ1ZmZlciAr
-IGBgc3RydWN0X29mZnNldF9fYGAgfCBzdGFydCBvZiBgYHN0cnVjdCBmb29gYCAgfA0KPiAr
-ICogKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLSsNCj4gKyAqIHwgLi4uICAgICAgICAgICAgICAgICAgICAgICAgICB8IC4uLiAg
-ICAgICAgICAgICAgICAgICAgICB8DQo+ICsgKiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKw0KPiArICogfCBidWZmZXIgKyB3
-d3d3ICAgICAgICAgICAgICAgIHwgYGBmb28uZmllbGQyLmlubmVyMmBgICAgIHwNCj4gKyAq
-ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0rDQo+ICsgKiB8IC4uLiAgICAgICAgICAgICAgICAgICAgICAgICAgfCAuLi4gICAg
-ICAgICAgICAgICAgICAgICAgfA0KPiArICogKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gKyAqIHwgYnVmZmVyICsgeXl5
-eSAgICAgICAgICAgICAgICB8IGVuZCBvZiBgYHN0cnVjdCBmb29gYCAgICB8DQo+ICsgKiAr
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tKw0KPiArICogfCAuLi4gICAgICAgICAgICAgICAgICAgICAgICAgIHwgLi4uICAgICAg
-ICAgICAgICAgICAgICAgIHwNCj4gKyAqICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rDQo+ICsgKiB8IGJ1ZmZlciArIHp6enog
-ICAgICAgICAgICAgICAgfCBlbmQgb2YgbW1hcGVkIGJ1ZmZlciAgICAgfA0KPiArICogKy0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LSsNCj4gKyAqDQo+ICsgKiBWYWx1ZXMgYXV0b21hdGljYWxseSBjYWxjdWxhdGVkIGJ5IHRo
-aXMgbWFjcm8gb3Igbm90IG5lZWRlZCBhcmUgZGVub3RlZCBieQ0KPiArICogd3d3dywgeXl5
-eSBhbmQgenp6ei4gVGhpcyBpcyB0aGUgY29kZSB0byByZWFkIHRoYXQgdmFsdWU6DQo+ICsg
-Kg0KPiArICogLi4gY29kZS1ibG9jazo6IGMNCj4gKyAqDQo+ICsgKgl4ID0gaW9zeXNfbWFw
-X3JkX2ZpZWxkKCZtYXAsIG9mZnNldCwgc3RydWN0IGZvbywgZmllbGQyLmlubmVyMik7DQo+
-ICsgKg0KPiArICogUmV0dXJuczoNCj4gKyAqIFRoZSB2YWx1ZSByZWFkIGZyb20gdGhlIG1h
-cHBpbmcuDQo+ICsgKi8NCj4gKyNkZWZpbmUgaW9zeXNfbWFwX3JkX2ZpZWxkKG1hcF9fLCBz
-dHJ1Y3Rfb2Zmc2V0X18sIHN0cnVjdF90eXBlX18sIGZpZWxkX18pICh7CVwNCj4gKwlzdHJ1
-Y3RfdHlwZV9fICpzOwkJCQkJCQlcDQo+ICsJaW9zeXNfbWFwX3JkKG1hcF9fLCBzdHJ1Y3Rf
-b2Zmc2V0X18gKyBvZmZzZXRvZihzdHJ1Y3RfdHlwZV9fLCBmaWVsZF9fKSwJXA0KPiArCQkg
-ICAgIHR5cGVvZihzLT5maWVsZF9fKSk7CQkJCQlcDQo+ICt9KQ0KPiArDQo+ICsvKioNCj4g
-KyAqIGlvc3lzX21hcF93cl9maWVsZCAtIFdyaXRlIHRvIGEgbWVtYmVyIG9mIGEgc3RydWN0
-IGluIHRoZSBpb3N5c19tYXANCj4gKyAqDQo+ICsgKiBAbWFwX186CQlUaGUgaW9zeXNfbWFw
-IHN0cnVjdHVyZQ0KPiArICogQHN0cnVjdF9vZmZzZXRfXzoJT2Zmc2V0IGZyb20gdGhlIGJl
-Z2dpbmluZyBvZiB0aGUgbWFwLCB3aGVyZSB0aGUgc3RydWN0DQo+ICsgKgkJCWlzIGxvY2F0
-ZWQNCj4gKyAqIEBzdHJ1Y3RfdHlwZV9fOglUaGUgc3RydWN0IGRlc2NyaWJpbmcgdGhlIGxh
-eW91dCBvZiB0aGUgbWFwcGluZw0KPiArICogQGZpZWxkX186CQlNZW1iZXIgb2YgdGhlIHN0
-cnVjdCB0byByZWFkDQo+ICsgKiBAdmFsX186CQlWYWx1ZSB0byB3cml0ZQ0KPiArICoNCj4g
-KyAqIFdyaXRlIGEgdmFsdWUgdG8gdGhlIGlvc3lzX21hcCBjb25zaWRlcmluZyBpdHMgbGF5
-b3V0IGlzIGRlc2NyaWJlZCBieSBhIEMgc3RydWN0DQo+ICsgKiBzdGFydGluZyBhdCBAc3Ry
-dWN0X29mZnNldF9fLiBUaGUgZmllbGQgb2Zmc2V0IGFuZCBzaXplIGlzIGNhbGN1bGF0ZWQg
-YW5kIHRoZQ0KPiArICogQHZhbF9fIGlzIHdyaXR0ZW4gaGFuZGxpbmcgcG9zc2libGUgdW4t
-YWxpZ25lZCBtZW1vcnkgYWNjZXNzZXMuIFJlZmVyIHRvDQo+ICsgKiBpb3N5c19tYXBfcmRf
-ZmllbGQoKSBmb3IgZXhwZWN0ZWQgdXNhZ2UgYW5kIG1lbW9yeSBsYXlvdXQuDQo+ICsgKi8N
-Cj4gKyNkZWZpbmUgaW9zeXNfbWFwX3dyX2ZpZWxkKG1hcF9fLCBzdHJ1Y3Rfb2Zmc2V0X18s
-IHN0cnVjdF90eXBlX18sIGZpZWxkX18sIHZhbF9fKSAoewlcDQo+ICsJc3RydWN0X3R5cGVf
-XyAqczsJCQkJCQkJCVwNCj4gKwlpb3N5c19tYXBfd3IobWFwX18sIHN0cnVjdF9vZmZzZXRf
-XyArIG9mZnNldG9mKHN0cnVjdF90eXBlX18sIGZpZWxkX18pLAkJXA0KPiArCQkgICAgIHR5
-cGVvZihzLT5maWVsZF9fKSwgdmFsX18pOwkJCQkJXA0KPiArfSkNCj4gKw0KPiAgICNlbmRp
-ZiAvKiBfX0lPU1lTX01BUF9IX18gKi8NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
-MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+>  .../boot/dts/loongson/loongson64-2k1000.dtsi  |   8 ++
+>  arch/mips/boot/dts/loongson/ls7a-pch.dtsi     |   7 +-
+>  4 files changed, 140 insertions(+), 5 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson-drm.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+> new file mode 100644
+> index 000000000000..64d8364b50ab
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+> @@ -0,0 +1,114 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/pci0014,7a06.yaml#
+
+The file name looks different than ID. Does this pass `make
+dt_binding_check` validation?
+
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Loongson LS7A2000/LS7A1000/LS2K1000/LS2K0500 Display Controller Device Tree Bindings
+> +
+> +maintainers:
+> +  - Sui Jingfeng <suijingfeng@loongson.cn>
+> +
+> +description: |+
+> +
+> +  Loongson display controllers are simple which require scanout buffers
+> +  to be physically contiguous. LS2K1000/LS2K0500 is a SOC, only system
+> +  memory is available. LS7A1000/LS7A2000 is bridge chip which is equipped
+> +  with a dedicated video ram which is 64MB or more.
+> +
+> +  For LS7A1000, there are 4 dedicated GPIOs whose control register is
+> +  located at the DC register space. They are used to emulate two way i2c,
+> +  One for DVO0, another for DVO1.
+> +
+> +  LS2K1000 and LS2K0500 SoC grab i2c adapter from other module, either
+> +  general purpose GPIO emulated i2c or hardware i2c in the SoC.
+> +
+> +  LSDC has two display pipes, each way has a DVO interface which provide
+> +  RGB888 signals, vertical & horizontal synchronisations, data enable and
+> +  the pixel clock. LSDC has two CRTC, each CRTC is able to scanout from
+> +  1920x1080 resolution at 60Hz. Each CRTC has two FB address registers.
+> +
+> +  LSDC's display pipeline have several components as below description,
+> +
+> +  The display controller in LS7A1000:
+> +    ___________________                                     _________
+> +    |            -------|                                   |         |
+> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monotor |
+> +    |  _   _     -------|        ^             ^            |_________|
+> +    | | | | |    -------|        |             |
+> +    | |_| |_|    | i2c0 <--------+-------------+
+> +    |            -------|
+> +    |   DC IN LS7A1000  |
+> +    |  _   _     -------|
+> +    | | | | |    | i2c1 <--------+-------------+
+> +    | |_| |_|    -------|        |             |             _________
+> +    |            -------|        |             |            |         |
+> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
+> +    |            -------|                                   |_________|
+> +    |___________________|
+> +
+> +  Simple usage of LS7A1000 with LS3A4000 CPU:
+> +
+> +    +------+            +-----------------------------------+
+> +    | DDR4 |            |  +-------------------+            |
+> +    +------+            |  | PCIe Root complex |   LS7A1000 |
+> +       || MC0           |  +--++---------++----+            |
+> +  +----------+  HT 3.0  |     ||         ||                 |
+> +  | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
+> +  |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
+> +  +----------+          | +--------+  +-+--+-+    +---------+   +------+
+> +       || MC1           +---------------|--|----------------+
+> +    +------+                            |  |
+> +    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
+> +    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
+> +                      +-------+                      +------+
+> +
+> +  The display controller in LS2K1000/LS2K0500:
+> +     ___________________                                     _________
+> +    |            -------|                                   |         |
+> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monotor |
+> +    |  _   _     -------|        ^              ^           |_________|
+> +    | | | | |           |        |              |
+> +    | |_| |_|           |     +------+          |
+> +    |                   <---->| i2c0 |<---------+
+> +    |   DC IN LS2K1000  |     +------+
+> +    |  _   _            |     +------+
+> +    | | | | |           <---->| i2c1 |----------+
+> +    | |_| |_|           |     +------+          |            _________
+> +    |            -------|        |              |           |         |
+> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
+> +    |            -------|                                   |_________|
+> +    |___________________|
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - loongson,ls7a2000-dc
+> +      - loongson,ls7a1000-dc
+> +      - loongson,ls2k1000-dc
+> +      - loongson,ls2k0500-dc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    minItems: 1
+
+You need also maxItems. If you have only one interrupt, then just
+maxItems:1.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    lsdc: dc@6,1 {
+
+node name should be generic: "display-controller"
+
+The unit address does not look like matching the reg property. Is this
+how it suppose to be?
+
+> +        compatible = "loongson,ls7a1000-dc";
+> +        reg = <0x3100 0x0 0x0 0x0 0x0>;
+> +        interrupts = <28 IRQ_TYPE_LEVEL_HIGH>;
+> +        interrupt-parent = <&pic>;
+> +    };
+> +
+> +...
 
 
---------------FYALIwTZ8wUlpaNZ4s602l0C--
-
---------------k0JdbDtijKUuI8G4ihKufTt3
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIOCmAFAwAAAAAACgkQlh/E3EQov+Bl
-LQ//R9WpLwISJHNZliM6FwT7FhAzr5XGEYsLCr4eXgAKaqJKX9qjHQHr6fnk92Pi1gUChsA8ArUG
-4JgViXBHWjtMozUmux47j9gnOPiuNB0d1JlXfyvdWSUAFBDgnMnnDo1QlDAHr/HHQe5uRG9HNJB+
-pFms7XlNvmqHry+G6Wl7EBZfZEVmZwKXRjrmHL8RoXge1NI2NwO9JtZLI4vk80ChE7MZLpajZfDb
-dKnAtZlhabJ5stuZwAh+EsrtnYqyVB8TkOiBCgd4PVLW5giYyVAScuvF8iZXN8qMZjbefJuhKXTP
-xKQ5D7T/OBozZ9RGKR/2934C0a/mVWnYojErS2qd3iCaAyNOPEHOgOEjsXgKcTXnNQUIqECBU4VR
-loMz0cVBrEtIOeGHRSkDiB8mYcx2yuJUlyYTJ236LaLzXQgST1G1v0fM3S2BIuYf5bo11Uak2QnO
-JjtsdvJbbugCsq5RTtC4qJtzuFoiqr9irU3kCdmaVn8b+sTXA6VDsXYHm3qVayHE49sMoBDiauuF
-1U8u3WbfTX+yFkreoF62w4QEL4q/UjUpr4SeI3SskP5CsZMT+EhNs0WV0oAFsluTayghQ4GNXBox
-BfLSYy7+lj6qxamghIU2NKbKlFX6OEXeOYRhrCd4w4mD8qS7MCg5a7RuqLuECsYWN/nuf/EQmzYU
-ZcQ=
-=jJ3O
------END PGP SIGNATURE-----
-
---------------k0JdbDtijKUuI8G4ihKufTt3--
+Best regards,
+Krzysztof
