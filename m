@@ -2,65 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306504B9543
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 02:13:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0F64B9552
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Feb 2022 02:18:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D727D10E6DB;
-	Thu, 17 Feb 2022 01:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28F1E10E6D9;
+	Thu, 17 Feb 2022 01:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59D4E10E6D2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 01:13:00 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id bx31so6036530ljb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 17:13:00 -0800 (PST)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F6110E6DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 01:18:35 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id b9so7067850lfv.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Feb 2022 17:18:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Tmtpl0AbZecSHMm8IZEt8YMKXM9Alo4sDPM/uRA5w+s=;
- b=nNzxrNdphUe3vVZTvMJ0kuHImuYO2Yqu2lu87JgDF/CYKZZYO94Wr90QxHat/+P8KT
- 3Z0H/R4OqKrxk41H60i2FH1Fdo76VTz9aGewj8MiIVNpxHclSNZRHWuyqehZWIYUDE3L
- BdGgoUZvEBPU1werIb6BuO4tgULRODaphQUrUm+YVAtRt2AKwQiUEAFUPrcUhBCBrC0R
- mO1SIl38GSFx55ZppXKGS+V4AC/ohvzCEMiZAplIixnNmXgQpHwd442QDeH+y7RMNsdx
- xLa9sFWeOhSmo3ODETzKjyBHceVZCq7gtQf1i9nbV+Fa2CPvbTWAymf1NVfCGBkPopzP
- G9gQ==
+ bh=Q8vq/lMANoiPuSkUiSSgpjx4GabIzyvkuP99lIKmiNg=;
+ b=XSfGyNVdEmVkRTps5KHosZENmrAG7iiXpIDwGnLYCjkgwdEB8UNWSWMgJLRyWX92BA
+ 8VjD5+zo/7xpNsdmItbsp+XmaeKi5wVYvfwNeI/lKbD0qKYOjy6bfIEYiVNtSjI8MZxk
+ Wgw1tE3cB2Rsgns+uXm4DOkXhAAWsTJ9/UV49jcRBl6MZE25prA6tl2t768WujAsXzE5
+ TSFagPZyGQq782CyOrstKbNJbPfGw7eDnGkkiGqOtJ+bkWf1sNfax7o51+dCJ3d4+a6d
+ piUsreICjCCDFzHr6aecoH4sR0kAvdRzN545ctE9S4Rn27dwFPR1/izdMHYlSJ9kyPZg
+ itDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Tmtpl0AbZecSHMm8IZEt8YMKXM9Alo4sDPM/uRA5w+s=;
- b=f9v/JOB/mYgsefPiz8/jU57YrhPYtzZI1/Ore+09vVW6wJWFJd5M0lfOllTjqmIYXS
- xG9J89RCo06eIwnr5YYf/gpjjes9zkm1lFqRzlmE8X6GzXIyGmUBNBwpsYkZZ+aYPWnh
- xChCPA3/NbavYBvGQnOkbmILRV2HUJHZvhx+VohjomG4dQnY4NOtoyiwuvz8bhrjT5Qu
- ARDcpF3NZ+dmfaSmOdPAYWMFPOzEuHi9YdDDMUNMk6biumPQr2mQKE2xR4r2DLh4oD70
- 7Wcvl4AaMQmj9EFYGo3jtAwFzRSWKbkd94z99Hqkyfx/kk3D1UgMZUJCzYw8CM+45uuk
- rChw==
-X-Gm-Message-State: AOAM5308ht6fj79+C2ZchITGELEenTbyJjO9Xwy8SSjRjCwBHXLc+L7/
- ZU0CH4O/d8xjTR28Tz3SmnuoUw==
-X-Google-Smtp-Source: ABdhPJxw6LYAVH39y4cXLHEacyNL7bI+7n7CZ9QWjggY3M6duuviy5HpyWy9LlF45ErbUgKI86Uf1Q==
-X-Received: by 2002:a05:651c:311:b0:246:1250:d6f with SMTP id
- a17-20020a05651c031100b0024612500d6fmr499834ljp.455.1645060378553; 
- Wed, 16 Feb 2022 17:12:58 -0800 (PST)
+ bh=Q8vq/lMANoiPuSkUiSSgpjx4GabIzyvkuP99lIKmiNg=;
+ b=WzMP/ftdjdSn6Bdrbc5x715h2wC0ZY8xznZx63e5uMvy3tpmuoWTBL5nW7bM6ezyRU
+ ZaGOJjsmGZhVDXlnGBRhZ50Gd0pgrtOZrwPk4T5b2XZCRXpxg1RKl05JmmEaxF1WsabG
+ AwGugGzdTylCzHIzBXzXR2g8N8+bAuk47FDlZf0rJjBDlnKKFDA8f0FeQ+EVa02tb4wJ
+ 3Pi4N+AmKOblahu/03CefDTTx1FK+kcLGNvavSXlwaOJLZ2m9KPr7XHy90yG58fHav7x
+ 7/4tbdeHC9X1/BsQl8oHWfu2e0wVFeEh2xMLzWdta8iCxmPn3ZALc+5tDS2AIJLwh1lb
+ Q0pw==
+X-Gm-Message-State: AOAM530oSHzvyRX9hjS6qLOv9djL9fT3ZFwv8Ikpqr/IQAm/1a8tsucg
+ q30aLnoI5c3xfObV34NXJrax2g==
+X-Google-Smtp-Source: ABdhPJw0PpX55HWMdzPEOT+u4a/swAzAMi+9j3IBgpXfCDtTlWJh57XuradXaaW2Ac86ARmV0l2v1A==
+X-Received: by 2002:a05:6512:689:b0:443:14c1:ae81 with SMTP id
+ t9-20020a056512068900b0044314c1ae81mr466530lfe.183.1645060713257; 
+ Wed, 16 Feb 2022 17:18:33 -0800 (PST)
 Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id s21sm654434lfs.37.2022.02.16.17.12.57
+ by smtp.gmail.com with ESMTPSA id c12sm1227842lfc.227.2022.02.16.17.18.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 17:12:57 -0800 (PST)
-Message-ID: <064a42eb-bdeb-a689-de25-07c393cb6580@linaro.org>
-Date: Thu, 17 Feb 2022 04:12:57 +0300
+ Wed, 16 Feb 2022 17:18:32 -0800 (PST)
+Message-ID: <342ac115-e200-3bb0-9092-d148ba34cefd@linaro.org>
+Date: Thu, 17 Feb 2022 04:18:32 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH] drm/msm/dpu: Disable boot loader configured data paths
+Subject: Re: [PATCH v2 8/8] drm/msm/dpu: simplify intf allocation code
 Content-Language: en-GB
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-References: <20220215043708.1256854-1-bjorn.andersson@linaro.org>
- <460e0036-74b5-bccd-c11c-2573290012ae@linaro.org> <YgvDrXoK4a0+HLpz@yoga>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220215141643.3444941-1-dmitry.baryshkov@linaro.org>
+ <20220215141643.3444941-9-dmitry.baryshkov@linaro.org>
+ <ddd2d3b9-2bbe-1255-a3b9-3f5a5aaae514@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <YgvDrXoK4a0+HLpz@yoga>
+In-Reply-To: <ddd2d3b9-2bbe-1255-a3b9-3f5a5aaae514@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,199 +76,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/02/2022 18:15, Bjorn Andersson wrote:
-> On Tue 15 Feb 08:44 CST 2022, Dmitry Baryshkov wrote:
+On 15/02/2022 20:51, Abhinav Kumar wrote:
 > 
->> On 15/02/2022 07:37, Bjorn Andersson wrote:
->>> It's typical for the bootloader to configure CTL_0 for the boot splash
->>> or EFIFB, but for non-DSI use cases the DPU driver tend to pick another
->>> CTL and the system might end up with two configured data paths producing
->>> data on the same INTF. In particular as the IOMMU configuration isn't
->>> retained from the bootloader one of the data paths will push underflow
->>> color, resulting in screen flickering.
->>>
->>> Naturally the end goal would be to inherit the bootloader's
->>> configuration and provide the user with a glitch-free handover from the
->>> boot configuration to a running DPU.
->>>
->>> But such effort will affect clocks, regulators, power-domains etc, and
->>> will take time to implement. So in the meantime this patch simply
->>> disables all the data paths, on platforms that has CTL_FETCH_ACTIVE, to
->>> avoid the graphical artifacts.
->>>
->>> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 13 +++++++++++++
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h |  6 ++++++
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c    |  2 ++
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c     | 17 +++++++++++++++++
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h     |  8 ++++++++
->>>    5 files changed, 46 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
->>> index 02da9ecf71f1..69d4849484fa 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
->>> @@ -357,6 +357,18 @@ static void dpu_hw_ctl_clear_all_blendstages(struct dpu_hw_ctl *ctx)
->>>    	DPU_REG_WRITE(c, CTL_FETCH_PIPE_ACTIVE, 0);
->>>    }
->>> +static void dpu_hw_ctl_disable_boot_config(struct dpu_hw_ctl *ctx)
->>> +{
->>> +	if (ctx->caps->features & BIT(DPU_CTL_FETCH_ACTIVE)) {
+> 
+> On 2/15/2022 6:16 AM, Dmitry Baryshkov wrote:
+>> Rather than passing DRM_MODE_ENCODER_* and letting dpu_encoder to guess,
+>> which intf type we mean, pass INTF_DSI/INTF_DP directly.
 >>
->> I see that you are changing only CTL_FETCH_PIPE_ACTIVE. However it still
->> seems like a hack.
-> 
-> You're not wrong, it certainly seems a little bit hacky.
-> 
-> I think that it would be more appropriate to try to inherit the
-> bootloader configuration. So the proposal here is, in my view, a
-> stop-gap until we start to look at "continuous splash".
-> 
->> What if instead we always disable boot config for all paths except CTL_0 (or
->> CTL_0 and CTL_1)?
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 26 +++++++--------------
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++--
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  5 ++--
+>>   3 files changed, 13 insertions(+), 22 deletions(-)
 >>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> index fa1dc088a672..597d40f78d38 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> @@ -490,7 +490,7 @@ void dpu_encoder_helper_split_config(
+>>       hw_mdptop = phys_enc->hw_mdptop;
+>>       disp_info = &dpu_enc->disp_info;
+>> -    if (disp_info->intf_type != DRM_MODE_ENCODER_DSI)
+>> +    if (disp_info->intf_type != INTF_DSI)
+>>           return;
+>>       /**
+>> @@ -552,7 +552,7 @@ static struct msm_display_topology 
+>> dpu_encoder_get_topology(
+>>       else
+>>           topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 
+>> : 1;
+>> -    if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
+>> +    if (dpu_enc->disp_info.intf_type == INTF_DSI) {
+>>           if (dpu_kms->catalog->dspp &&
+>>               (dpu_kms->catalog->dspp_count >= topology.num_lm))
+>>               topology.num_dspp = topology.num_lm;
+>> @@ -1074,7 +1074,7 @@ static void 
+>> _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+>>       }
+>> -    if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_TMDS &&
+>> +    if (dpu_enc->disp_info.intf_type == INTF_DP &&
+>>           dpu_enc->cur_master->hw_mdptop &&
+>>           dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select)
+>>           dpu_enc->cur_master->hw_mdptop->ops.intf_audio_select(
+>> @@ -1082,7 +1082,7 @@ static void 
+>> _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+>>       _dpu_encoder_update_vsync_source(dpu_enc, &dpu_enc->disp_info);
+>> -    if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI &&
+>> +    if (dpu_enc->disp_info.intf_type == INTF_DSI &&
+>>               !WARN_ON(dpu_enc->num_phys_encs == 0)) {
+>>           unsigned bpc = dpu_enc->connector->display_info.bpc;
+>>           for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
+>> @@ -1949,7 +1949,6 @@ static int dpu_encoder_setup_display(struct 
+>> dpu_encoder_virt *dpu_enc,
+>>   {
+>>       int ret = 0;
+>>       int i = 0;
+>> -    enum dpu_intf_type intf_type = INTF_NONE;
+>>       struct dpu_enc_phys_init_params phys_params;
+>>       if (!dpu_enc) {
+>> @@ -1965,15 +1964,6 @@ static int dpu_encoder_setup_display(struct 
+>> dpu_encoder_virt *dpu_enc,
+>>       phys_params.parent_ops = &dpu_encoder_parent_ops;
+>>       phys_params.enc_spinlock = &dpu_enc->enc_spinlock;
+>> -    switch (disp_info->intf_type) {
+>> -    case DRM_MODE_ENCODER_DSI:
+>> -        intf_type = INTF_DSI;
+>> -        break;
+>> -    case DRM_MODE_ENCODER_TMDS:
+>> -        intf_type = INTF_DP;
+>> -        break;
+>> -    }
+>> -
+>>       WARN_ON(disp_info->num_of_h_tiles < 1);
+>>       DPU_DEBUG("dsi_info->num_of_h_tiles %d\n", 
+>> disp_info->num_of_h_tiles);
+>> @@ -2005,11 +1995,11 @@ static int dpu_encoder_setup_display(struct 
+>> dpu_encoder_virt *dpu_enc,
+>>                   i, controller_id, phys_params.split_role);
+>>           phys_params.intf_idx = dpu_encoder_get_intf(dpu_kms->catalog,
+>> -                                                    intf_type,
+>> -                                                    controller_id);
+>> +                disp_info->intf_type,
+>> +                controller_id);
+>>           if (phys_params.intf_idx == INTF_MAX) {
+>>               DPU_ERROR_ENC(dpu_enc, "could not get intf: type %d, id 
+>> %d\n",
+>> -                          intf_type, controller_id);
+>> +                          disp_info->intf_type, controller_id);
+>>               ret = -EINVAL;
+>>           }
+>> @@ -2092,7 +2082,7 @@ int dpu_encoder_setup(struct drm_device *dev, 
+>> struct drm_encoder *enc,
+>>       timer_setup(&dpu_enc->frame_done_timer,
+>>               dpu_encoder_frame_done_timeout, 0);
+>> -    if (disp_info->intf_type == DRM_MODE_ENCODER_DSI)
+>> +    if (disp_info->intf_type == INTF_DSI)
+>>           timer_setup(&dpu_enc->vsync_event_timer,
+>>                   dpu_encoder_vsync_event_handler,
+>>                   0);
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> index ebe3944355bb..3891bcbbe5a4 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> @@ -36,7 +36,7 @@ void dpu_encoder_get_hw_resources(struct drm_encoder 
+>> *encoder,
+>>   /**
+>>    * struct msm_display_info - defines display properties
+>> - * @intf_type:          DRM_MODE_ENCODER_ type
+>> + * @intf_type:          INTF_ type
+>>    * @capabilities:       Bitmask of display flags
+>>    * @num_of_h_tiles:     Number of horizontal tiles in case of split 
+>> interface
+>>    * @h_tile_instance:    Controller instance used per tile. Number of 
+>> elements is
+>> @@ -45,7 +45,7 @@ void dpu_encoder_get_hw_resources(struct drm_encoder 
+>> *encoder,
+>>    *                 used instead of panel TE in cmd mode panels
+>>    */
+>>   struct msm_display_info {
+>> -    int intf_type;
+>> +    enum dpu_intf_type intf_type;
+>>       uint32_t capabilities;
+>>       uint32_t num_of_h_tiles;
+>>       uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> index 5f0dc44119c9..bca4f05a5782 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> @@ -564,7 +564,7 @@ static int _dpu_kms_initialize_dsi(struct 
+>> drm_device *dev,
+>>           priv->encoders[priv->num_encoders++] = encoder;
+>>           memset(&info, 0, sizeof(info));
+>> -        info.intf_type = encoder->encoder_type;
+>> +        info.intf_type = INTF_DSI;
+>>           rc = msm_dsi_modeset_init(priv->dsi[i], dev, encoder);
+>>           if (rc) {
+>> @@ -630,7 +630,8 @@ static int _dpu_kms_initialize_displayport(struct 
+>> drm_device *dev,
+>>           info.num_of_h_tiles = 1;
+>>           info.h_tile_instance[0] = i;
+>>           info.capabilities = MSM_DISPLAY_CAP_VID_MODE;
+>> -        info.intf_type = encoder->encoder_type;
+>> +        /* FIXME: HW catalog treats both DP and eDP interfaces as 
+>> INTF_DP */
 > 
-> On my laptop the bootloader sets up efifb using CTL_0. When Linux brings
-> up the eDP interface it seems to skip DPU_CTL_SPLIT_DISPLAY ctls and
-> picks CTL_2.
+> I thought we discussed an approach to address this FIXME.
+> https://patchwork.freedesktop.org/patch/473871/?series=99651&rev=2
 > 
-> As mentioned in the message, I now have both CTL_0 and CTL_2 pushing
-> data to the one interface; resulting in flickering.
+> Without addressing that, there is really no need for this change because 
+> the only confusion between DRM_MODE_ENCODER_*** mapping to intf_type 
+> mapping comes for eDP and DP as they use the same DRM_MODE_ENCODER_TMDS.
 
-Ah, I thought, it's the other way.
-
-Yep, the SPLIT_DISPLAY CTLs are precious, ideally they should be used 
-only when required.
-
-> 
->>> +		/*
->>> +		 * Disable the pipe fetch and trigger a start, to disable the
->>> +		 * data path
->>> +		 */
->>> +		DPU_REG_WRITE(&ctx->hw, CTL_FETCH_PIPE_ACTIVE, 0);
->>> +		DPU_REG_WRITE(&ctx->hw, CTL_START, 0x1);
->>
->> What about video vs cmd modes?
->>
-> 
-> Initially I was resetting a whole bunch of properties in the CTL, but
-> all I want to do is stop the data flow. It's my expectation that the
-> steps to follow will reset the interfaces and configure the actual data
-> paths anew.
-> 
-> Perhaps I'm missing some steps here, the documentation is not clear and
-> this has the expected visual outcome...
-
-CTL_START is used only for WB and DSI command mode. Thus I'm surprised 
-that you need it for the eDP (which should be using video mode).
+It's not that distinction which triggered me to sketch this patch.
+It was more about the code.
+We loop over all INTF_DSI (or INTF_DP) interfaces.
+Then we deduce that for this intf we should use DRM_MODE_ENCODER_foo.
+We pass it to dpu_encoder_setup_display() only to map it back to 
+INTF_DSI (DP). This makes completely no sense to me.
 
 > 
-> Regards,
-> Bjorn
-> 
->>> +	}
->>> +}
->>> +
->>>    static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
->>>    	enum dpu_lm lm, struct dpu_hw_stage_cfg *stage_cfg)
->>>    {
->>> @@ -590,6 +602,7 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
->>>    	ops->trigger_pending = dpu_hw_ctl_trigger_pending;
->>>    	ops->reset = dpu_hw_ctl_reset_control;
->>>    	ops->wait_reset_status = dpu_hw_ctl_wait_reset_status;
->>> +	ops->disable_boot_config = dpu_hw_ctl_disable_boot_config;
->>>    	ops->clear_all_blendstages = dpu_hw_ctl_clear_all_blendstages;
->>>    	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
->>>    	ops->get_bitmask_sspp = dpu_hw_ctl_get_bitmask_sspp;
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
->>> index 806c171e5df2..c2734f6ab760 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
->>> @@ -159,6 +159,12 @@ struct dpu_hw_ctl_ops {
->>>    	 */
->>>    	void (*clear_all_blendstages)(struct dpu_hw_ctl *ctx);
->>> +	/**
->>> +	 * Disable the configuration setup by the bootloader
->>> +	 * @ctx	      : ctl path ctx pointer
->>> +	 */
->>> +	void (*disable_boot_config)(struct dpu_hw_ctl *ctx);
->>> +
->>>    	/**
->>>    	 * Configure layer mixer to pipe configuration
->>>    	 * @ctx       : ctl path ctx pointer
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> index cedc631f8498..eef2f017031a 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> @@ -1107,6 +1107,8 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>    	dpu_kms->rm_init = true;
->>> +	dpu_rm_clear_boot_config(&dpu_kms->rm, dpu_kms->catalog);
->>> +
->>>    	dpu_kms->hw_mdp = dpu_hw_mdptop_init(MDP_TOP, dpu_kms->mmio,
->>>    					     dpu_kms->catalog);
->>>    	if (IS_ERR(dpu_kms->hw_mdp)) {
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>> index f9c83d6e427a..3365c5e41e28 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>> @@ -4,6 +4,7 @@
->>>     */
->>>    #define pr_fmt(fmt)	"[drm:%s] " fmt, __func__
->>> +#include <linux/delay.h>
->>>    #include "dpu_kms.h"
->>>    #include "dpu_hw_lm.h"
->>>    #include "dpu_hw_ctl.h"
->>> @@ -229,6 +230,22 @@ int dpu_rm_init(struct dpu_rm *rm,
->>>    	return rc ? rc : -EFAULT;
->>>    }
->>> +void dpu_rm_clear_boot_config(struct dpu_rm *rm, struct dpu_mdss_cfg *cat)
->>> +{
->>> +	struct dpu_hw_ctl *ctl;
->>> +	int i;
->>> +
->>> +	for (i = CTL_0; i < CTL_MAX; i++) {
->>> +		if (!rm->ctl_blks[i - CTL_0])
->>> +			continue;
->>> +
->>> +		DPU_DEBUG("disabling ctl%d boot configuration\n", i - CTL_0);
->>> +
->>> +		ctl = to_dpu_hw_ctl(rm->ctl_blks[i - CTL_0]);
->>> +		ctl->ops.disable_boot_config(ctl);
->>> +	}
->>> +}
->>> +
->>>    static bool _dpu_rm_needs_split_display(const struct msm_display_topology *top)
->>>    {
->>>    	return top->num_intf > 1;
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
->>> index 1f12c8d5b8aa..d3e084541e67 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
->>> @@ -88,5 +88,13 @@ void dpu_rm_release(struct dpu_global_state *global_state,
->>>    int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
->>>    	struct dpu_global_state *global_state, uint32_t enc_id,
->>>    	enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size);
->>> +
->>> +/**
->>> + * dpu_rm_clear_boot_config() - Tear down any data paths configured by boot
->>> + * @rm: DPU Resource Manager handle
->>> + * @cat: Pointer to hardware catalog
->>> + */
->>> +void dpu_rm_clear_boot_config(struct dpu_rm *rm, struct dpu_mdss_cfg *cat);
->>> +
->>>    #endif /* __DPU_RM_H__ */
->>
->>
->> -- 
->> With best wishes
->> Dmitry
+>> +        info.intf_type = INTF_DP;
+>>           rc = dpu_encoder_setup(dev, encoder, &info);
+>>           if (rc) {
+>>               DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
 
 
 -- 
