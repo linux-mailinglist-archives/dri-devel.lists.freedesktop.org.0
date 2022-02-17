@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E43C4BC758
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E95034BC768
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:03:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2646E10F68E;
-	Sat, 19 Feb 2022 10:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6237610F6BD;
+	Sat, 19 Feb 2022 10:03:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7A21A10EBE1
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 81F4010EBF2
  for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 10:58:00 +0000 (UTC)
 Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
- by 156.147.23.53 with ESMTP; 17 Feb 2022 19:57:58 +0900
+ by 156.147.23.51 with ESMTP; 17 Feb 2022 19:57:58 +0900
 X-Original-SENDERIP: 156.147.1.125
 X-Original-MAILFROM: byungchul.park@lge.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
@@ -22,10 +22,12 @@ X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
 From: Byungchul Park <byungchul.park@lge.com>
 To: torvalds@linux-foundation.org
-Subject: [PATCH 00/16] DEPT(Dependency Tracker)
-Date: Thu, 17 Feb 2022 19:57:36 +0900
-Message-Id: <1645095472-26530-1-git-send-email-byungchul.park@lge.com>
+Subject: [PATCH 01/16] llist: Move llist_{head,node} definition to types.h
+Date: Thu, 17 Feb 2022 19:57:37 +0900
+Message-Id: <1645095472-26530-2-git-send-email-byungchul.park@lge.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1645095472-26530-1-git-send-email-byungchul.park@lge.com>
+References: <1645095472-26530-1-git-send-email-byungchul.park@lge.com>
 X-Mailman-Approved-At: Sat, 19 Feb 2022 10:01:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,135 +62,54 @@ Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus and folks,
+llist_head and llist_node can be used by very primitives. For example,
+Dept for tracking dependency uses llist things in its header. To avoid
+header dependency, move those to types.h.
 
-I've been developing a tool for detecting deadlock possibilities by
-tracking wait/event rather than lock(?) acquisition order to try to
-cover all synchonization machanisms. It's done on v5.17-rc1 tag.
+Signed-off-by: Byungchul Park <byungchul.park@lge.com>
+---
+ include/linux/llist.h | 8 --------
+ include/linux/types.h | 8 ++++++++
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-https://github.com/lgebyungchulpark/linux-dept/commits/dept1.12_on_v5.17-rc1
-
-Benifit:
-
-	0. Works with all lock primitives.
-	1. Works with wait_for_completion()/complete().
-	2. Works with 'wait' on PG_locked.
-	3. Works with 'wait' on PG_writeback.
-	4. Works with swait/wakeup.
-	5. Works with waitqueue.
-	6. Multiple reports are allowed.
-	7. Deduplication control on multiple reports.
-	8. Withstand false positives thanks to 6.
-	9. Easy to tag any wait/event.
-
-Future work:
-
-	0. To make it more stable.
-	1. To separates Dept from Lockdep.
-	2. To improves performance in terms of time and space.
-	3. To use Dept as a dependency engine for Lockdep.
-	4. To add any missing tags of wait/event in the kernel.
-	5. To deduplicate stack trace.
-
-I've got several reports from the tool. Some of them look like false
-alarms and some others look like real deadlock possibility. Because of
-my unfamiliarity of the domain, it's hard to confirm if it's a real one.
-Let me add the reports on this email thread.
-
-How to interpret the report is:
-
-	1. E(event) in each context cannot be triggered because of the
-	   W(wait) that cannot be woken.
-	2. The stack trace helping find the problematic code is located
-	   in each conext's detail.
-
-Changes from RFC:
-
-	1. Prevent adding a wait tag at prepare_to_wait() but __schedule().
-	2. Use try version at lockdep_acquire_cpus_lock() annotation.
-	3. Distinguish each syscall context from another.
-
-Thanks,
-Byungchul
-
-Byungchul Park (16):
-  llist: Move llist_{head,node} definition to types.h
-  dept: Implement Dept(Dependency Tracker)
-  dept: Embed Dept data in Lockdep
-  dept: Apply Dept to spinlock
-  dept: Apply Dept to mutex families
-  dept: Apply Dept to rwlock
-  dept: Apply Dept to wait_for_completion()/complete()
-  dept: Apply Dept to seqlock
-  dept: Apply Dept to rwsem
-  dept: Add proc knobs to show stats and dependency graph
-  dept: Introduce split map concept and new APIs for them
-  dept: Apply Dept to wait/event of PG_{locked,writeback}
-  dept: Apply SDT to swait
-  dept: Apply SDT to wait(waitqueue)
-  locking/lockdep, cpu/hotplus: Use a weaker annotation in AP thread
-  dept: Distinguish each syscall context from another
-
- include/linux/completion.h         |   42 +-
- include/linux/dept.h               |  523 +++++++
- include/linux/dept_page.h          |   78 ++
- include/linux/dept_sdt.h           |   62 +
- include/linux/hardirq.h            |    3 +
- include/linux/irqflags.h           |   33 +-
- include/linux/llist.h              |    8 -
- include/linux/lockdep.h            |  156 ++-
- include/linux/lockdep_types.h      |    3 +
- include/linux/mutex.h              |   31 +
- include/linux/page-flags.h         |   45 +-
- include/linux/pagemap.h            |    7 +-
- include/linux/percpu-rwsem.h       |   10 +-
- include/linux/rtmutex.h            |    7 +
- include/linux/rwlock.h             |   48 +
- include/linux/rwlock_api_smp.h     |    8 +-
- include/linux/rwlock_types.h       |    7 +
- include/linux/rwsem.h              |   31 +
- include/linux/sched.h              |    7 +
- include/linux/seqlock.h            |   59 +-
- include/linux/spinlock.h           |   24 +
- include/linux/spinlock_types_raw.h |   13 +
- include/linux/swait.h              |    4 +
- include/linux/types.h              |    8 +
- include/linux/wait.h               |    6 +-
- init/init_task.c                   |    2 +
- init/main.c                        |    4 +
- kernel/Makefile                    |    1 +
- kernel/cpu.c                       |    2 +-
- kernel/dependency/Makefile         |    5 +
- kernel/dependency/dept.c           | 2702 ++++++++++++++++++++++++++++++++++++
- kernel/dependency/dept_hash.h      |   10 +
- kernel/dependency/dept_internal.h  |   26 +
- kernel/dependency/dept_object.h    |   13 +
- kernel/dependency/dept_proc.c      |   93 ++
- kernel/entry/common.c              |    3 +
- kernel/exit.c                      |    1 +
- kernel/fork.c                      |    2 +
- kernel/locking/lockdep.c           |   12 +-
- kernel/module.c                    |    2 +
- kernel/sched/completion.c          |   12 +-
- kernel/sched/core.c                |    3 +
- kernel/sched/swait.c               |   10 +
- kernel/sched/wait.c                |   16 +
- kernel/softirq.c                   |    6 +-
- kernel/trace/trace_preemptirq.c    |   19 +-
- lib/Kconfig.debug                  |   21 +
- mm/filemap.c                       |   68 +
- mm/page_ext.c                      |    5 +
- 49 files changed, 4204 insertions(+), 57 deletions(-)
- create mode 100644 include/linux/dept.h
- create mode 100644 include/linux/dept_page.h
- create mode 100644 include/linux/dept_sdt.h
- create mode 100644 kernel/dependency/Makefile
- create mode 100644 kernel/dependency/dept.c
- create mode 100644 kernel/dependency/dept_hash.h
- create mode 100644 kernel/dependency/dept_internal.h
- create mode 100644 kernel/dependency/dept_object.h
- create mode 100644 kernel/dependency/dept_proc.c
-
+diff --git a/include/linux/llist.h b/include/linux/llist.h
+index 85bda2d..99cc3c3 100644
+--- a/include/linux/llist.h
++++ b/include/linux/llist.h
+@@ -53,14 +53,6 @@
+ #include <linux/stddef.h>
+ #include <linux/types.h>
+ 
+-struct llist_head {
+-	struct llist_node *first;
+-};
+-
+-struct llist_node {
+-	struct llist_node *next;
+-};
+-
+ #define LLIST_HEAD_INIT(name)	{ NULL }
+ #define LLIST_HEAD(name)	struct llist_head name = LLIST_HEAD_INIT(name)
+ 
+diff --git a/include/linux/types.h b/include/linux/types.h
+index ac825ad..4662d6e 100644
+--- a/include/linux/types.h
++++ b/include/linux/types.h
+@@ -187,6 +187,14 @@ struct hlist_node {
+ 	struct hlist_node *next, **pprev;
+ };
+ 
++struct llist_head {
++	struct llist_node *first;
++};
++
++struct llist_node {
++	struct llist_node *next;
++};
++
+ struct ustat {
+ 	__kernel_daddr_t	f_tfree;
+ #ifdef CONFIG_ARCH_32BIT_USTAT_F_TINODE
 -- 
 1.9.1
 
