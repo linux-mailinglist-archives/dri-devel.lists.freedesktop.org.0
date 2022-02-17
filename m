@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D4B4BAD7F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 00:52:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB9D4BAD83
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 00:52:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9008110E921;
-	Thu, 17 Feb 2022 23:52:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B478B10E928;
+	Thu, 17 Feb 2022 23:52:20 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3355510E83D;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4591B10E8C0;
  Thu, 17 Feb 2022 23:52:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1645141930; x=1676677930;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/jtcmQCWmewm6u7f5IMw5k2Fc8FC9venu7o4KF5/f3c=;
- b=FO3uHGxwOufKiQogXNEIBcr7Lz/LzSunLIeUlqABA4/Nwi/fuoPM55R3
- MFYjJiQsrgIaffXu0ciVm+AjY1BPa4KYYRm/Yf4m6Qky46b7+t5xZXL+L
- EtDsnEwFsclatfr/FkBPXOn7983IsRWGCX328gQnxuwe6cZbRRQ+JgPPe
- 8C9PROGSa4wqLk3WsNvDsCRilI5Qv75aZCJTlkIAguNYaj3JJFJsOD70s
- 1KKssYWpZ2N3L5qtaSBtfCZQNH3TbaVtpCl85UqoXOAqBnYqBSawzH1Ox
- Jz+kMJegx8fy3muFYeUGU6BSmoNCRzw+1D/N/4K1R28tzHp2uzQm2YtDw g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="311749000"
-X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="311749000"
+ bh=3v5+pBjetguZklbetmNoX7H+ve3nESGp26QGx0hCrw8=;
+ b=KQE8c4H/Wg11iOWYNoAJPAroq+adS6DZQ1Bj+xCzv1texN2WtVNrKYhq
+ CwGQh5J3khI5+J2W9t62RCKRnTtNokvdrBh2qo83sMH5ptl2oMAO+Conp
+ S3nGQ3TRPsNvXu1+HH7zOFT5mVIcwTjUqR9qhdmy7wnHaC9zAn1usYCxp
+ lvdQkw9jq2c66ffmmmpO1dXoYpCG/Dqm1OBhM5x7eM/xuy3IMVNJs6SDx
+ FqgodpXev+9jwEkUrCeD6ugQGgwFCXwRpLGBupg7DpTvLkH9KnkNIoMs0
+ hZ9e2qAO9q5NQ5jD+f9XStUHpLpTX4kEJw/Q9OUFpAHPfTTqV4ulfrKZO g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="311749005"
+X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="311749005"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Feb 2022 15:52:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="545964447"
+X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; d="scan'208";a="545964450"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
  by orsmga008.jf.intel.com with ESMTP; 17 Feb 2022 15:52:08 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 7/8] drm/i915/guc: Drop obsolete H2G definitions
-Date: Thu, 17 Feb 2022 15:52:06 -0800
-Message-Id: <20220217235207.930153-8-John.C.Harrison@Intel.com>
+Subject: [PATCH 8/8] drm/i915/guc: Fix potential invalid pointer dereferences
+ when decoding G2Hs
+Date: Thu, 17 Feb 2022 15:52:07 -0800
+Message-Id: <20220217235207.930153-9-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220217235207.930153-1-John.C.Harrison@Intel.com>
 References: <20220217235207.930153-1-John.C.Harrison@Intel.com>
@@ -63,28 +64,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-The CTB registration process changed significantly a while back using
-a single KLV based H2G. So drop the original and now obsolete H2G
-definitions.
+Some G2H handlers were reading the context id field from the payload
+before checking the payload met the minimum length required.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-index 7afdadc7656f..e77f955435ce 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-@@ -131,8 +131,6 @@ enum intel_guc_action {
- 	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
- 	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
- 	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
--	INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER = 0x4505,
--	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
- 	INTEL_GUC_ACTION_DEREGISTER_CONTEXT_DONE = 0x4600,
- 	INTEL_GUC_ACTION_REGISTER_CONTEXT_MULTI_LRC = 0x4601,
- 	INTEL_GUC_ACTION_CLIENT_SOFT_RESET = 0x5507,
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index b70b1ff46418..ea17dca68674 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -3895,12 +3895,13 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
+ 					  u32 len)
+ {
+ 	struct intel_context *ce;
+-	u32 ctx_id = msg[0];
++	u32 ctx_id;
+ 
+ 	if (unlikely(len < 1)) {
+ 		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
+ 		return -EPROTO;
+ 	}
++	ctx_id = msg[0];
+ 
+ 	ce = g2h_context_lookup(guc, ctx_id);
+ 	if (unlikely(!ce))
+@@ -3946,12 +3947,13 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+ {
+ 	struct intel_context *ce;
+ 	unsigned long flags;
+-	u32 ctx_id = msg[0];
++	u32 ctx_id;
+ 
+ 	if (unlikely(len < 2)) {
+ 		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
+ 		return -EPROTO;
+ 	}
++	ctx_id = msg[0];
+ 
+ 	ce = g2h_context_lookup(guc, ctx_id);
+ 	if (unlikely(!ce))
 -- 
 2.25.1
 
