@@ -1,42 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D9C4BBBEC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 16:11:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0164BBC9C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 16:54:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 493B610F0EE;
-	Fri, 18 Feb 2022 15:11:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B70610EE22;
+	Fri, 18 Feb 2022 15:54:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asav22.altibox.net (asav22.altibox.net [109.247.116.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5549910F0F0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 15:11:26 +0000 (UTC)
-Received: from localhost.localdomain (211.81-166-168.customer.lyse.net
- [81.166.168.211])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: noralf.tronnes@ebnett.no)
- by asav22.altibox.net (Postfix) with ESMTPSA id 43E9C2360B;
- Fri, 18 Feb 2022 16:11:24 +0100 (CET)
-From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-To: robh+dt@kernel.org,
-	thierry.reding@gmail.com
-Subject: [PATCH v4 3/3] drm/tiny: Add MIPI DBI compatible SPI driver
-Date: Fri, 18 Feb 2022 16:11:10 +0100
-Message-Id: <20220218151110.11316-4-noralf@tronnes.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220218151110.11316-1-noralf@tronnes.org>
-References: <20220218151110.11316-1-noralf@tronnes.org>
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
+ [IPv6:2607:f8b0:4864:20::c30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF71210EE18;
+ Fri, 18 Feb 2022 15:54:31 +0000 (UTC)
+Received: by mail-oo1-xc30.google.com with SMTP id
+ x6-20020a4a4106000000b003193022319cso3979735ooa.4; 
+ Fri, 18 Feb 2022 07:54:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QQJnGEvj1IWlzn/kQU3xNdCOUk3mjEmKlzY4/R3+WQI=;
+ b=TNwwv5eZMYbFtrgVKrARlarq8w8wALPJqQI5N6JlSz/H2LztXDQbUGRUntS5NXl9vW
+ ir3mzNqNOWkGdrrFqsuH9HlzFZ9U2bDym6d1oBn+Amhs89BzlCziudAdOK95f3sHMOze
+ 8nGeIDsNK0LF7P1NwGyO5I3DNGPk7DRj+kmNHqFOoJssyPr0luIY0KDZZQAGfu/jkHGD
+ sMXGXQZPTmxAFQlkkmvluTXy1JUZC6mzV0aXS5IqLTARe3VDOyvwd+Of5jNsdXfDU+Ir
+ KgZd53astXMwxGQHcdZgviLNRZLJDBK7gZFTsvf2ygKNykpEaPYYaoWBqwd3cizATuAe
+ 1y3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QQJnGEvj1IWlzn/kQU3xNdCOUk3mjEmKlzY4/R3+WQI=;
+ b=C3sVbL6ssuv5/zTrTpC+k072mgLDXNssxDUOxgGVu4tce4o0Ja1CDQc7w2F8Elxef/
+ sWh3A3M/O0B5BLgjybqGnd0uEULTrnyo8SJDMtLiGQzE+DxRvGUfqVn0QaEr4jg5NJS4
+ QEBhcMHVjBQDmDBu3nyMj9kHQ1AwoYwv0NCcllSyL5JuzxPamoGTMJNtA474Qkf1fPZA
+ KqOalFIrb6bpZcwT0nt6XbIWBA82SKuE/uXkf51Jz9albPLguQ+xfrhgIbhQZD26QWJC
+ NDbBU4Wjo9KbHdvPNf4lS1f/zy3bDQ/M5j2cZklHxcIMOCz5gzE1iq6xc2M11utG8Nr9
+ OoWQ==
+X-Gm-Message-State: AOAM532Ul6xIw+IlsV3spNo/V1T7kyc1lM7z1b0/xEd4LgjVjE18ivgJ
+ p6XryKZS5payF3m9xcSTFGz/SvblsYy6EdkOlWU=
+X-Google-Smtp-Source: ABdhPJxGsbPPh2j3tUTqSAM9h/ZqCs4rSFX4Vk4DD34Y7lIhBx+wmR81nznW19bZa8bsAbjakZMVT9mAGlHVYnsLW8c=
+X-Received: by 2002:a05:6870:912c:b0:d3:44be:7256 with SMTP id
+ o44-20020a056870912c00b000d344be7256mr3246887oae.73.1645199670906; Fri, 18
+ Feb 2022 07:54:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=KbX8TzQD c=1 sm=1 tr=0
- a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
- a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8 a=e5mUnYsNAAAA:8
- a=NEAV23lmAAAA:8 a=pGLkceISAAAA:8 a=7KxegTkcCtkjIeqLvncA:9
- a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22 a=Vxmtnl_E_bksehYqCbjh:22
+References: <20220208084234.1684930-1-hsinyi@chromium.org>
+ <CACvgo53u01BK_D0ZssV+gCepjxSz23Nr5Dy1qXeaAoJuu6VCFQ@mail.gmail.com>
+ <KW6DNh6IRRgVJx9DfOFBnEqc4a0x-AnDXEbMxwpfEbk8dOn_KGVzAfo-slJWq-4nWW728Uc-OVpFh2w4fDE4-bxfkDuz1hFILRVvbcuXqaw=@emersion.fr>
+ <CACvgo532-pC+7DLFCo=DWTX-OnJEJvSoTmQnt3_qLhiT4cqEMg@mail.gmail.com>
+ <GYG6EVT1MqtmfKiPpMhDG9mpuATnmwVDq2PuE_dpDat5oQW_t1tUfm39lSWHj32D5r7mrog27sL4dkgdMYQ5BN830TfVOrgQ4Ts8LcO8Hcs=@emersion.fr>
+ <CACvgo52+o9_ETC+1RKzqKkyw3ZJ28RjH0BqC9DfmNAKqByud8Q@mail.gmail.com>
+ <d3f0cc20-d226-ee42-cc98-b469949cec9e@redhat.com>
+ <YV87l-2XXzmZ2i6GuGd__uf85s2JQkbXt_qTQDYlbBh1kW2COJoNLUDinmLCokKyy-_0ZnIMUcZeW0GdJ8zF690iYi4ThKrjc09omNMe-0g=@emersion.fr>
+ <d4f5e101-3dd5-2f3a-6c14-6b32ee37c223@redhat.com>
+ <DM7TzJ-fZEHjoGXvMG8XLfJ2VxohRxotL40_0Vb4cAUvrELgV9BvPGbK6HAwOYOBCx8qXtY2LQ0xnZ-nlH_IVCyne7tMKfvkqxtoWI6MkTw=@emersion.fr>
+In-Reply-To: <DM7TzJ-fZEHjoGXvMG8XLfJ2VxohRxotL40_0Vb4cAUvrELgV9BvPGbK6HAwOYOBCx8qXtY2LQ0xnZ-nlH_IVCyne7tMKfvkqxtoWI6MkTw=@emersion.fr>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 18 Feb 2022 10:54:19 -0500
+Message-ID: <CADnq5_N6zqn59VH0nTx34gcfXbCvQAvRjmQZCgc9DDGxhYOS4Q@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v8 1/3] gpu: drm: separate panel orientation
+ property creating and value setting
+To: Simon Ser <contact@emersion.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,524 +73,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>, maxime@cerno.tech,
- sam@ravnborg.org
+Cc: devicetree <devicetree@vger.kernel.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Alex Deucher <alexander.deucher@amd.com>,
+ LAKML <linux-arm-kernel@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a driver that will work with most MIPI DBI compatible SPI panels.
-This avoids adding a driver for every new MIPI DBI compatible controller
-that is to be used by Linux. The 'compatible' Device Tree property with
-a '.bin' suffix will be used to load a firmware file that contains the
-controller configuration.
+On Fri, Feb 18, 2022 at 7:13 AM Simon Ser <contact@emersion.fr> wrote:
+>
+> On Friday, February 18th, 2022 at 12:54, Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> > On 2/18/22 12:39, Simon Ser wrote:
+> > > On Friday, February 18th, 2022 at 11:38, Hans de Goede <hdegoede@redhat.com> wrote:
+> > >
+> > >> What I'm reading in the above is that it is being considered to allow
+> > >> changing the panel-orientation value after the connector has been made
+> > >> available to userspace; and let userspace know about this through a uevent.
+> > >>
+> > >> I believe that this is a bad idea, it is important to keep in mind here
+> > >> what userspace (e.g. plymouth) uses this prorty for. This property is
+> > >> used to rotate the image being rendered / shown on the framebuffer to
+> > >> adjust for the panel orientation.
+> > >>
+> > >> So now lets assume we apply the correct upside-down orientation later
+> > >> on a device with an upside-down mounted LCD panel. Then on boot the
+> > >> following could happen:
+> > >>
+> > >> 1. amdgpu exports a connector for the LCD panel to userspace without
+> > >> setting panel-orient=upside-down
+> > >> 2. plymouth sees this and renders its splash normally, but since the
+> > >> panel is upside-down it will now actually show upside-down
+> > >
+> > > At this point amdgpu hasn't probed the connector yet. So the connector
+> > > will be marked as disconnected, and plymouth shouldn't render anything.
+> >
+> > If before the initial probe of the connector there is a /dev/dri/card0
+> > which plymouth can access, then plymouth may at this point decide
+> > to disable any seemingly unused crtcs, which will make the screen go black...
+> >
+> > I'm not sure if plymouth will actually do this, but AFAICT this would
+> > not be invalid behavior for a userspace kms consumer to do and I
+> > believe it is likely that mutter will disable unused crtcs.
+> >
+> > IMHO it is just a bad idea to register /dev/dri/card0 with userspace
+> > before the initial connector probe is done. Nothing good can come
+> > of that.
+> >
+> > If all the exposed connectors initially are going to show up as
+> > disconnected anyways what is the value in registering /dev/dri/card0
+> > with userspace early ?
+>
+> OK. I'm still unsure how I feel about this, but I think I agree with
+> you. That said, the amdgpu architecture is quite involved with multiple
+> abstraction levels, so I don't think I'm equipped to write a patch to
+> fix this...
+>
+> cc Daniel Vetter: can you confirm probing all connectors is a good thing
+> to do on driver module load?
 
-Example (driver will load sainsmart18.bin):
+I don't think it's a big deal to change, but at least my
+understanding, albeit this was back in the early KMS days, was that
+probing was driven by things outside of the driver.  I.e., there is no
+need to probe displays if nothing is going to use them.  If you want
+to use the displays, you'd call probe first before trying to use them
+so you know what is available.
 
-display@0 {
-	compatible = "sainsmart18", "panel-mipi-dbi-spi";
-...
-};
+Alex
 
-v4:
-- Move driver to drm/tiny where the other drivers of its kind are located.
-  The driver module will not be shared with a future DPI driver after all.
-
-v3:
-- Move properties to DT (Maxime)
-- The MIPI DPI spec has optional support for DPI where the controller is
-  configured over DBI. Rework the command functions so they can be moved
-  to drm_mipi_dbi and shared with a future panel-mipi-dpi-spi driver
-
-v2:
-- Drop model property and use compatible instead (Rob)
-- Add wiki entry in MAINTAINERS
-
-Acked-by: Maxime Ripard <maxime@cerno.tech>
-Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
----
- MAINTAINERS                           |   8 +
- drivers/gpu/drm/tiny/Kconfig          |  13 +
- drivers/gpu/drm/tiny/Makefile         |   1 +
- drivers/gpu/drm/tiny/panel-mipi-dbi.c | 413 ++++++++++++++++++++++++++
- 4 files changed, 435 insertions(+)
- create mode 100644 drivers/gpu/drm/tiny/panel-mipi-dbi.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8e6e892f99f0..3a0e57f23ad0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6107,6 +6107,14 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/multi-inno,mi0283qt.txt
- F:	drivers/gpu/drm/tiny/mi0283qt.c
- 
-+DRM DRIVER FOR MIPI DBI compatible panels
-+M:	Noralf Trønnes <noralf@tronnes.org>
-+S:	Maintained
-+W:	https://github.com/notro/panel-mipi-dbi/wiki
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-+F:	drivers/gpu/drm/tiny/panel-mipi-dbi.c
-+
- DRM DRIVER FOR MSM ADRENO GPU
- M:	Rob Clark <robdclark@gmail.com>
- M:	Sean Paul <sean@poorly.run>
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 712e0004e96e..d552e1618da7 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -51,6 +51,19 @@ config DRM_GM12U320
- 	 This is a KMS driver for projectors which use the GM12U320 chipset
- 	 for video transfer over USB2/3, such as the Acer C120 mini projector.
- 
-+config DRM_PANEL_MIPI_DBI
-+	tristate "DRM support for MIPI DBI compatible panels"
-+	depends on DRM && SPI
-+	select DRM_KMS_HELPER
-+	select DRM_KMS_CMA_HELPER
-+	select DRM_MIPI_DBI
-+	select BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for MIPI DBI compatible
-+	  panels. The controller command setup can be provided using a
-+	  firmware file.
-+	  To compile this driver as a module, choose M here.
-+
- config DRM_SIMPLEDRM
- 	tristate "Simple framebuffer driver"
- 	depends on DRM && MMU
-diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-index 5d5505d40e7b..1d9d6227e7ab 100644
---- a/drivers/gpu/drm/tiny/Makefile
-+++ b/drivers/gpu/drm/tiny/Makefile
-@@ -4,6 +4,7 @@ obj-$(CONFIG_DRM_ARCPGU)		+= arcpgu.o
- obj-$(CONFIG_DRM_BOCHS)			+= bochs.o
- obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
- obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
-+obj-$(CONFIG_DRM_PANEL_MIPI_DBI)	+= panel-mipi-dbi.o
- obj-$(CONFIG_DRM_SIMPLEDRM)		+= simpledrm.o
- obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
- obj-$(CONFIG_TINYDRM_ILI9163)		+= ili9163.o
-diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-new file mode 100644
-index 000000000000..9240fdec38d6
---- /dev/null
-+++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-@@ -0,0 +1,413 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * DRM driver for MIPI DBI compatible display panels
-+ *
-+ * Copyright 2022 Noralf Trønnes
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/firmware.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/spi/spi.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fb_helper.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_mipi_dbi.h>
-+#include <drm/drm_modeset_helper.h>
-+
-+#include <video/display_timing.h>
-+#include <video/mipi_display.h>
-+#include <video/of_display_timing.h>
-+#include <video/videomode.h>
-+
-+static const u8 panel_mipi_dbi_magic[15] = { 'M', 'I', 'P', 'I', ' ', 'D', 'B', 'I',
-+					     0, 0, 0, 0, 0, 0, 0 };
-+
-+/*
-+ * The optional display controller configuration is stored in a firmware file.
-+ * The Device Tree 'compatible' property value with a '.bin' suffix is passed
-+ * to request_firmware() to fetch this file.
-+ */
-+struct panel_mipi_dbi_config {
-+	/* Magic string: panel_mipi_dbi_magic */
-+	u8 magic[15];
-+
-+	/* Config file format version */
-+	u8 file_format_version;
-+
-+	/*
-+	 * MIPI commands to execute when the display pipeline is enabled.
-+	 * This is used to configure the display controller.
-+	 *
-+	 * The commands are stored in a byte array with the format:
-+	 *     command, num_parameters, [ parameter, ...], command, ...
-+	 *
-+	 * Some commands require a pause before the next command can be received.
-+	 * Inserting a delay in the command sequence is done by using the NOP command with one
-+	 * parameter: delay in miliseconds (the No Operation command is part of the MIPI Display
-+	 * Command Set where it has no parameters).
-+	 *
-+	 * Example:
-+	 *     command 0x11
-+	 *     sleep 120ms
-+	 *     command 0xb1 parameters 0x01, 0x2c, 0x2d
-+	 *     command 0x29
-+	 *
-+	 * Byte sequence:
-+	 *     0x11 0x00
-+	 *     0x00 0x01 0x78
-+	 *     0xb1 0x03 0x01 0x2c 0x2d
-+	 *     0x29 0x00
-+	 */
-+	u8 commands[];
-+};
-+
-+struct panel_mipi_dbi_commands {
-+	const u8 *buf;
-+	size_t len;
-+};
-+
-+static struct panel_mipi_dbi_commands *
-+panel_mipi_dbi_check_commands(struct device *dev, const struct firmware *fw)
-+{
-+	const struct panel_mipi_dbi_config *config = (struct panel_mipi_dbi_config *)fw->data;
-+	struct panel_mipi_dbi_commands *commands;
-+	size_t size = fw->size, commands_len;
-+	unsigned int i = 0;
-+
-+	if (size < sizeof(*config) + 2) { /* At least 1 command */
-+		dev_err(dev, "config: file size=%zu is too small\n", size);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	if (memcmp(config->magic, panel_mipi_dbi_magic, sizeof(config->magic))) {
-+		dev_err(dev, "config: Bad magic: %15ph\n", config->magic);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	if (config->file_format_version != 1) {
-+		dev_err(dev, "config: version=%u is not supported\n", config->file_format_version);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	drm_dev_dbg(dev, DRM_UT_DRIVER, "size=%zu version=%u\n", size, config->file_format_version);
-+
-+	commands_len = size - sizeof(*config);
-+
-+	while ((i + 1) < commands_len) {
-+		u8 command = config->commands[i++];
-+		u8 num_parameters = config->commands[i++];
-+		const u8 *parameters = &config->commands[i];
-+
-+		i += num_parameters;
-+		if (i > commands_len) {
-+			dev_err(dev, "config: command=0x%02x num_parameters=%u overflows\n",
-+				command, num_parameters);
-+			return ERR_PTR(-EINVAL);
-+		}
-+
-+		if (command == 0x00 && num_parameters == 1)
-+			drm_dev_dbg(dev, DRM_UT_DRIVER, "sleep %ums\n", parameters[0]);
-+		else
-+			drm_dev_dbg(dev, DRM_UT_DRIVER, "command %02x %*ph\n",
-+				    command, num_parameters, parameters);
-+	}
-+
-+	if (i != commands_len) {
-+		dev_err(dev, "config: malformed command array\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	commands = devm_kzalloc(dev, sizeof(*commands), GFP_KERNEL);
-+	if (!commands)
-+		return ERR_PTR(-ENOMEM);
-+
-+	commands->len = commands_len;
-+	commands->buf = devm_kmemdup(dev, config->commands, commands->len, GFP_KERNEL);
-+	if (!commands->buf)
-+		return ERR_PTR(-ENOMEM);
-+
-+	return commands;
-+}
-+
-+static struct panel_mipi_dbi_commands *panel_mipi_dbi_commands_from_fw(struct device *dev)
-+{
-+	struct panel_mipi_dbi_commands *commands;
-+	const struct firmware *fw;
-+	const char *compatible;
-+	struct property *prop;
-+	char fw_name[40];
-+	int ret;
-+
-+	of_property_for_each_string(dev->of_node, "compatible", prop, compatible) {
-+		snprintf(fw_name, sizeof(fw_name), "%s.bin", compatible);
-+		ret = firmware_request_nowarn(&fw, fw_name, dev);
-+		if (ret) {
-+			drm_dev_dbg(dev, DRM_UT_DRIVER,
-+				    "No config file found for compatible: '%s' (error=%d)\n",
-+				    compatible, ret);
-+			continue;
-+		}
-+
-+		commands = panel_mipi_dbi_check_commands(dev, fw);
-+		release_firmware(fw);
-+		return commands;
-+	}
-+
-+	return NULL;
-+}
-+
-+static void panel_mipi_dbi_commands_execute(struct mipi_dbi *dbi,
-+					    struct panel_mipi_dbi_commands *commands)
-+{
-+	unsigned int i = 0;
-+
-+	if (!commands)
-+		return;
-+
-+	while (i < commands->len) {
-+		u8 command = commands->buf[i++];
-+		u8 num_parameters = commands->buf[i++];
-+		const u8 *parameters = &commands->buf[i];
-+
-+		if (command == 0x00 && num_parameters == 1)
-+			msleep(parameters[0]);
-+		else if (num_parameters)
-+			mipi_dbi_command_stackbuf(dbi, command, parameters, num_parameters);
-+		else
-+			mipi_dbi_command(dbi, command);
-+
-+		i += num_parameters;
-+	}
-+}
-+
-+static void panel_mipi_dbi_enable(struct drm_simple_display_pipe *pipe,
-+				  struct drm_crtc_state *crtc_state,
-+				  struct drm_plane_state *plane_state)
-+{
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct mipi_dbi *dbi = &dbidev->dbi;
-+	int ret, idx;
-+
-+	if (!drm_dev_enter(pipe->crtc.dev, &idx))
-+		return;
-+
-+	drm_dbg(pipe->crtc.dev, "\n");
-+
-+	ret = mipi_dbi_poweron_conditional_reset(dbidev);
-+	if (ret < 0)
-+		goto out_exit;
-+	if (!ret)
-+		panel_mipi_dbi_commands_execute(dbi, dbidev->driver_private);
-+
-+	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
-+out_exit:
-+	drm_dev_exit(idx);
-+}
-+
-+static const struct drm_simple_display_pipe_funcs panel_mipi_dbi_pipe_funcs = {
-+	.enable = panel_mipi_dbi_enable,
-+	.disable = mipi_dbi_pipe_disable,
-+	.update = mipi_dbi_pipe_update,
-+};
-+
-+DEFINE_DRM_GEM_CMA_FOPS(panel_mipi_dbi_fops);
-+
-+static const struct drm_driver panel_mipi_dbi_driver = {
-+	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.fops			= &panel_mipi_dbi_fops,
-+	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	.debugfs_init		= mipi_dbi_debugfs_init,
-+	.name			= "panel-mipi-dbi",
-+	.desc			= "MIPI DBI compatible display panel",
-+	.date			= "20220103",
-+	.major			= 1,
-+	.minor			= 0,
-+};
-+
-+static int panel_mipi_dbi_get_mode(struct mipi_dbi_dev *dbidev, struct drm_display_mode *mode)
-+{
-+	struct device *dev = dbidev->drm.dev;
-+	u32 width_mm = 0, height_mm = 0;
-+	struct display_timing timing;
-+	struct videomode vm;
-+	int ret;
-+
-+	ret = of_get_display_timing(dev->of_node, "panel-timing", &timing);
-+	if (ret) {
-+		dev_err(dev, "%pOF: failed to get panel-timing (error=%d)\n", dev->of_node, ret);
-+		return ret;
-+	}
-+
-+	videomode_from_timing(&timing, &vm);
-+
-+	if (!vm.hactive || vm.hfront_porch || vm.hsync_len ||
-+	    (vm.hback_porch + vm.hactive) > 0xffff ||
-+	    !vm.vactive || vm.vfront_porch || vm.vsync_len ||
-+	    (vm.vback_porch + vm.vactive) > 0xffff ||
-+	    vm.flags) {
-+		dev_err(dev, "%pOF: panel-timing out of bounds\n", dev->of_node);
-+		return -EINVAL;
-+	}
-+
-+	/* The driver doesn't use the pixel clock but it is mandatory so fake one if not set */
-+	if (!vm.pixelclock)
-+		vm.pixelclock = (vm.hback_porch + vm.hactive) * (vm.vback_porch + vm.vactive) * 60;
-+
-+	dbidev->top_offset = vm.vback_porch;
-+	dbidev->left_offset = vm.hback_porch;
-+
-+	memset(mode, 0, sizeof(*mode));
-+	drm_display_mode_from_videomode(&vm, mode);
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+
-+	ret = device_property_read_u32(dev, "width-mm", &width_mm);
-+	if (ret && ret != -EINVAL)
-+		return ret;
-+
-+	ret = device_property_read_u32(dev, "height-mm", &height_mm);
-+	if (ret && ret != -EINVAL)
-+		return ret;
-+
-+	mode->width_mm = width_mm;
-+	mode->height_mm = height_mm;
-+
-+	drm_mode_debug_printmodeline(mode);
-+
-+	return 0;
-+}
-+
-+static int panel_mipi_dbi_spi_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct drm_display_mode mode;
-+	struct mipi_dbi_dev *dbidev;
-+	struct drm_device *drm;
-+	struct mipi_dbi *dbi;
-+	struct gpio_desc *dc;
-+	int ret;
-+
-+	dbidev = devm_drm_dev_alloc(dev, &panel_mipi_dbi_driver, struct mipi_dbi_dev, drm);
-+	if (IS_ERR(dbidev))
-+		return PTR_ERR(dbidev);
-+
-+	dbi = &dbidev->dbi;
-+	drm = &dbidev->drm;
-+
-+	ret = panel_mipi_dbi_get_mode(dbidev, &mode);
-+	if (ret)
-+		return ret;
-+
-+	dbidev->regulator = devm_regulator_get(dev, "power");
-+	if (IS_ERR(dbidev->regulator))
-+		return dev_err_probe(dev, PTR_ERR(dbidev->regulator),
-+				     "Failed to get regulator 'power'\n");
-+
-+	dbidev->backlight = devm_of_find_backlight(dev);
-+	if (IS_ERR(dbidev->backlight))
-+		return dev_err_probe(dev, PTR_ERR(dbidev->backlight), "Failed to get backlight\n");
-+
-+	dbi->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(dbi->reset))
-+		return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get GPIO 'reset'\n");
-+
-+	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
-+	if (IS_ERR(dc))
-+		return dev_err_probe(dev, PTR_ERR(dc), "Failed to get GPIO 'dc'\n");
-+
-+	ret = mipi_dbi_spi_init(spi, dbi, dc);
-+	if (ret)
-+		return ret;
-+
-+	if (device_property_present(dev, "write-only"))
-+		dbi->read_commands = NULL;
-+
-+	dbidev->driver_private = panel_mipi_dbi_commands_from_fw(dev);
-+	if (IS_ERR(dbidev->driver_private))
-+		return PTR_ERR(dbidev->driver_private);
-+
-+	ret = mipi_dbi_dev_init(dbidev, &panel_mipi_dbi_pipe_funcs, &mode, 0);
-+	if (ret)
-+		return ret;
-+
-+	drm_mode_config_reset(drm);
-+
-+	ret = drm_dev_register(drm, 0);
-+	if (ret)
-+		return ret;
-+
-+	spi_set_drvdata(spi, drm);
-+
-+	drm_fbdev_generic_setup(drm, 0);
-+
-+	return 0;
-+}
-+
-+static int panel_mipi_dbi_spi_remove(struct spi_device *spi)
-+{
-+	struct drm_device *drm = spi_get_drvdata(spi);
-+
-+	drm_dev_unplug(drm);
-+	drm_atomic_helper_shutdown(drm);
-+
-+	return 0;
-+}
-+
-+static void panel_mipi_dbi_spi_shutdown(struct spi_device *spi)
-+{
-+	drm_atomic_helper_shutdown(spi_get_drvdata(spi));
-+}
-+
-+static int __maybe_unused panel_mipi_dbi_pm_suspend(struct device *dev)
-+{
-+	return drm_mode_config_helper_suspend(dev_get_drvdata(dev));
-+}
-+
-+static int __maybe_unused panel_mipi_dbi_pm_resume(struct device *dev)
-+{
-+	drm_mode_config_helper_resume(dev_get_drvdata(dev));
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops panel_mipi_dbi_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(panel_mipi_dbi_pm_suspend, panel_mipi_dbi_pm_resume)
-+};
-+
-+static const struct of_device_id panel_mipi_dbi_spi_of_match[] = {
-+	{ .compatible = "panel-mipi-dbi-spi" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, panel_mipi_dbi_spi_of_match);
-+
-+static const struct spi_device_id panel_mipi_dbi_spi_id[] = {
-+	{ "panel-mipi-dbi-spi", 0 },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(spi, panel_mipi_dbi_spi_id);
-+
-+static struct spi_driver panel_mipi_dbi_spi_driver = {
-+	.driver = {
-+		.name = "panel-mipi-dbi-spi",
-+		.owner = THIS_MODULE,
-+		.of_match_table = panel_mipi_dbi_spi_of_match,
-+		.pm = &panel_mipi_dbi_pm_ops,
-+	},
-+	.id_table = panel_mipi_dbi_spi_id,
-+	.probe = panel_mipi_dbi_spi_probe,
-+	.remove = panel_mipi_dbi_spi_remove,
-+	.shutdown = panel_mipi_dbi_spi_shutdown,
-+};
-+module_spi_driver(panel_mipi_dbi_spi_driver);
-+
-+MODULE_DESCRIPTION("MIPI DBI compatible display panel driver");
-+MODULE_AUTHOR("Noralf Trønnes");
-+MODULE_LICENSE("GPL");
--- 
-2.33.0
-
+>
+> > >> I guess the initial modeline is inherited from the video-bios, but
+> > >> what about the physical size? Note that you cannot just change the
+> > >> physical size later either, that gets used to determine the hidpi
+> > >> scaling factor in the bootsplash, and changing that after the initial
+> > >> bootsplash dislay will also look ugly
+> > >>
+> > >> b) Why you need the edid for the panel-orientation property at all,
+> > >> typically the edid prom is part of the panel and the panel does not
+> > >> know that it is mounted e.g. upside down at all, that is a property
+> > >> of the system as a whole not of the panel as a standalone unit so
+> > >> in my experience getting panel-orient info is something which comes
+> > >> from the firmware /video-bios not from edid ?
+> > >
+> > > This is an internal DRM thing. The orientation quirks logic uses the
+> > > mode size advertised by the EDID.
+> >
+> > The DMI based quirking does, yes. But e.g. the quirk code directly
+> > reading this from the Intel VBT does not rely on the mode.
+> >
+> > But if you are planning on using a DMI based quirk for the steamdeck
+> > then yes that needs the mode.
+> >
+> > Thee mode check is there for 2 reasons:
+> >
+> > 1. To avoid also applying the quirk to external displays, but
+> > I think that that is also solved in most drivers by only checking for
+> > a quirk at all on the eDP connector
+> >
+> > 2. Some laptop models ship with different panels in different badges
+> > some of these are portrait (so need a panel-orient) setting and others
+> > are landscape.
+>
+> That makes sense. So yeah the EDID mode based matching logic needs to
+> stay to accomodate for these cases.
+>
+> > > I agree that at least in the Steam
+> > > Deck case it may not make a lot of sense to use any info from the
+> > > EDID, but that's needed for the current status quo.
+> >
+> > We could extend the DMI quirk mechanism to allow quirks which don't
+> > do the mode check, for use on devices where we can guarantee neither
+> > 1 nor 2 happens, then amdgpu could call the quirk code early simply
+> > passing 0x0 as resolution.
+>
+> Yeah. But per the above amdgpu should maybe probe connectors on module
+> load. If/when amdgpu is fixed to do this, then we don't need to disable
+> the mode matching logic in panel-orientation quirks anymore.
