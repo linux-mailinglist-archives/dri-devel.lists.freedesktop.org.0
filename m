@@ -2,156 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF024BB803
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:25:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE394BB81C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:31:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5317710EB71;
-	Fri, 18 Feb 2022 11:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB0D10EC4C;
+	Fri, 18 Feb 2022 11:31:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8F910EC1C;
- Fri, 18 Feb 2022 11:25:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645183541; x=1676719541;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=E6cHzxMKXbfBLRvZOM6o5cgMUIX5Usrenkv8n42gNfk=;
- b=HmzP2JH0JNDqtPsjEHR7i93cTywx11ABrjbZOrbJ+rzZ6Pv0GSVJxto3
- PaMAWADTye6xDsJisA2jZMvhSnUaS4MO2m/lW/tncCs5VmoFBc76vDuLw
- vvljn0mG2SlItAGC5bhdl8WGKkg5ErIpFVUXNrmzN+yhZKBOwdwTAIvIN
- QqMvVAJ4EgKX1HsvlFx8IldMU01g7XIddvAwWoamZfIcuJs/9cnmzbiPX
- C8hIrK54x4NS3yfyTgsu/1kxGmgDRi57M2O6PLov3nxb/R56/HNaSS/PM
- rFpPq04jFSkkC1BQw75J7Hp5iCFS4gYS/ADqWBAJdFrzjrAIvuhS58djV Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="250864236"
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="250864236"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 03:25:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="626596411"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by FMSMGA003.fm.intel.com with ESMTP; 18 Feb 2022 03:25:40 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 18 Feb 2022 03:25:39 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 18 Feb 2022 03:25:39 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Fri, 18 Feb 2022 03:25:39 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.175)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Fri, 18 Feb 2022 03:25:39 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GuPinH5akW48s3Cyodvrg7g0KRST0bK+l10FJh5/hzc7lrQR2dxtsjrAhwxGjA/3WB+fo7lcHo7OgkAeu2/nQm+plRiQvSAkwcrC1mC1b3JB9+k+lzY7s0y0ZCQAPqHY/txYDYAxxwnSxrhQlBv5wNQKSEpaMWeVS8NB3YRmndVN8r0zGjI7ctu12Lv3f6cNS8jjZcPysNxsLIObl4zYDiI4bFNG5yssklypOFKQhHMBFl8Xcnmuul8oyrI2xJZ5xcwk/rsXbjqc/W/eCa7cR3JHRiy4IgfOLku4s9QMiF66v6YcoD14qrEt/tKh+Vpv5xMwNEi9QpB92EhKCHYAcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lAZUWsp6YcuGG804+ijE0c654qebDKAfOe6KvEUFAJ4=;
- b=EnZl7XLUwAVtyP25zZBHBqp75lgvlCU8XOhO3+ePKOgCsY6zcSc+xuyZ59uEdqAI5vY0xDE+586Vb0LewTZTwQJh55dg4ZuShWEA5hf8dZqWMkF0eC6ESvIfD00IF+NowbIc45Unqrjie9DX81soRVXJo61CtUGio6OAEwgeTWxtPOab63RMprwvIDvpemgrqlHugULg4EaqypqKINX2jqMRzjPIVxSxdRqCUfjmhKt9Vwl7XptxLvSyZott9PI3nON3zIRlzTmEv9x7yiEnSDWL4O0/ccCKs3wlkMLX14J3V8IKwrt7LSeT77VFkAjMQmr+Jm/+5jdN4Im/k/F8rw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
- BN6PR11MB0051.namprd11.prod.outlook.com (2603:10b6:405:65::25) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4995.22; Fri, 18 Feb 2022 11:25:37 +0000
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::11f6:76fa:fc62:6511]) by DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::11f6:76fa:fc62:6511%6]) with mapi id 15.20.4995.016; Fri, 18 Feb 2022
- 11:25:37 +0000
-Message-ID: <87462b40-c5c5-103e-3897-9f6cc5c91112@intel.com>
-Date: Fri, 18 Feb 2022 12:25:31 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: [PATCH 06/22] drm/bridge: Use drm_mode_copy()
-Content-Language: en-US
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
- <20220218100403.7028-7-ville.syrjala@linux.intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20220218100403.7028-7-ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P123CA0350.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18d::13) To DM6PR11MB3180.namprd11.prod.outlook.com
- (2603:10b6:5:9::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 20783079-9110-4264-848d-08d9f2d1630f
-X-MS-TrafficTypeDiagnostic: BN6PR11MB0051:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <BN6PR11MB0051F74BD7FF58C8F2DC026CEB379@BN6PR11MB0051.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: b5+wWmypupyU6BeaHsfzTX8LFl5Nbwan0pWGA7VvpphcxcQJzTwsBIl7FqRH2wV4cCeqmm0CG+pfHCEP2AKvqrKvZgXHnwkyA0GasEIo8t2vlZsNtf+Y3uv82KqKX0q9sKBra717/jg91l0nKLaZDg8xLxhnXoqgOmTgHRcdw/u0Oc+U99M7IO0c/kfMDh0/CS3T46EU3qAo7+wiUjfN2XSphpPkwv8dNaZIgs0tP+z+RrjrIz4cKSrY8WuQjTJoFP8dFFXRUssk97t6U1IR+SmKuJFt12h5KVL8wC4w2IJ9h9ahUAoqk4mWFrrBAwo0BBg757ngzPNexQMvjonwspzblNF+yJyf9CZ8PUSzcIzywaHRh9ngGFUygjqYKfS9Ax+0E1p07blfuVvAY22rW/w18UkHNQ08C2QcU6jVWa2vSI3oZ4bOnQO9VMdqiClJovUrJH9WS/z8s3DgIiw+z3Ymzw8OmLDc1jPr/COQVk6oZVXbn09r1dGDAMjVs6vGFv3k9BZao094mJaK+/F4WPe9RU2UMJXSm7jjsxzsIrPGDsbCmEgecLBQzyuWNHEnMEI/uN7qyIfdNyrSYUtnDS7TvIDAqOHtgWKzHjRDrbbUl2ycO2pZP/e10ovJp7KNRCGPDu2oTQqajLMJ/IIGcisUwfrDdJNPmiYev0TGVs0ynQCIwMawqQlMi1Ry6RwVRu/SGDLy0+zABvvkGacpNHeGBdkWwB9fd16RDpqwH+3HU6j/IuQWwEAbAZYep6p6
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB3180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(86362001)(38100700002)(83380400001)(508600001)(6486002)(36916002)(53546011)(6512007)(31696002)(316002)(8936002)(44832011)(36756003)(186003)(26005)(54906003)(5660300002)(66574015)(31686004)(66476007)(66946007)(66556008)(8676002)(82960400001)(4326008)(2906002)(2616005)(6506007)(6666004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YlZvMHNhUTJnOU0xMVFBaFp3YkRxb1RpbzAwTnlSVWFpc2ZId0xiZ3Nvc2FJ?=
- =?utf-8?B?MFBtTHdxS21aQ0duZ3RmZDRlSzBTR3JodmlaVmFuS1RmVXB5T0pzUENxMUMr?=
- =?utf-8?B?M090UXNuTXRwaGFjUnFFNEhkT2M3ZGVJTUI2RDU5cDlaK1QrSW1jMk5saDNx?=
- =?utf-8?B?emNLRGpxMzdJbldVRXhDQlNHZy85MVhLVFRFR1IvcTJQR2hyRVFGakJ4UDUv?=
- =?utf-8?B?ZHEwZ0RNMDY0S0RQYXliaUpvbkYwKzhhcWNBT013b0lrYWtlVE1VYmMxR0Ur?=
- =?utf-8?B?MVcxTXVlWHN6S3FjclFqOG9GU0N5WHJ3NExsMGFHblRwM0VtcDYvOTRXV2k3?=
- =?utf-8?B?cTA1TVFCUU52TEF3U0FhRWkvREoxaUdtc3AwOTE0TkNHZFhGcmR0QVFjUG43?=
- =?utf-8?B?SFpLamFMaWg5dDJpUmNJKzViRjlEWWRzV25NN0FadkpwZ2JyTXRRQ2RPRjZ4?=
- =?utf-8?B?cEFxdlFTYnBFMFBWVjRSKzF1aXc0KzZZTDVXTG9VMm95VWFqRkN5TzJlVmdh?=
- =?utf-8?B?cWZRbFpWMzlOUmVnSmZGdTlENmlhVzF1cDgveUxUT0gzVFo0YWJzQStDUmkz?=
- =?utf-8?B?UVIrbHRYOG1IRjRqWTV3VkVUeTJ2R2J0T0VmNTdPay8xMk0rYnkxbnJyRWpT?=
- =?utf-8?B?bXlhcVlqNVVWazRjTmlUVmthNU9mUjR1R3BhQWZuaUFJRzR1aGwxU1c5RHZn?=
- =?utf-8?B?b3dqUERWb2hmRU05TklqZWgweFQwY0ZJRXdLc2Z1c0ZMWjEvbVZOUU5Jb1Vq?=
- =?utf-8?B?b0s1MVErZnZCQzA1WlNSUUxwSkhLTEh0cnE2eXRnYUYwcDJpTnVpTll3d3p2?=
- =?utf-8?B?TU42Q2hVSzdDdUVuRklzcUxWbnhwWXdsMnRaT1JtZmM2YTF0M09LV1B4VUlH?=
- =?utf-8?B?M3hrejdza0UvM25yU3ZMODlLQzR4ek5yUzRESndFOU5SZ01odkNRNXFlYlky?=
- =?utf-8?B?VU1vZE5COUV3N2lRTDE2NVdhQStLZzYvTFMzdjRvcndyMUp6NkU5TDk4Ly9y?=
- =?utf-8?B?V0c2NVFvT2ZBbzBtVkNJUDNUWXZKSElLRDJSTlZDT0JXNHFYelV6UUtQQmtX?=
- =?utf-8?B?V2JFNmFjdW54L29GVDlvWGxjTlpEcnl4Unp2ZkpCM0hYS0lFRlFSdTlDc0VP?=
- =?utf-8?B?VkVoTWJpajNFT2RxYnNQemFtNytBczhaZTVFOENLVHl1dzlPZG1SbUFYNFVF?=
- =?utf-8?B?OVhveVR4bHRJT1NWRWNrc29kaTNzaTdTUloxbXpUV2FyMVlReUdUUFo4UDhB?=
- =?utf-8?B?V1RwcGJhQU1FZElCTFphcFIzd2VlRnBUcUZmTGFWeHY5dDJEblJvS3UyeGRT?=
- =?utf-8?B?L1ExUG8xKzJCaEpUUWMvRytVZkdEMDI0czc2NnJtYk1sTVB0dUU4VnRFWGNB?=
- =?utf-8?B?Ni83ckl6NjR3SllDOTZIa3FIdHROaHg0V1RkQkdIU0pQYko0ay9tNXNkQUlY?=
- =?utf-8?B?TEJjUWRzbzdyVjdlMUN3Rm9CbkpwN0xnR0t4ZDJvaU5oNWIwaXEreGlIdFVC?=
- =?utf-8?B?WnhPaDVPb21QOHhMZnFVZkdHMGt1NE5rMDViZC85a3owQTN3NlkvcjhZaHNW?=
- =?utf-8?B?T3haQ1EraHlUVWdKSU1uMW5YUmJZUFZOWmxzTVlwaFdBK1ZraUo4U1BpSFNr?=
- =?utf-8?B?M05jKytBVW1FMm1CZ1c2dFVRN0pMWHFmVXNHS2UvQ2xkNk52ak9OaStoUytK?=
- =?utf-8?B?b2tPRmZoZkl5SHg0bzE2SmZsclkwZFB0OEpmK2w0MkFOMDROQXdzWFQzeTg1?=
- =?utf-8?B?TExVdVdXT3IxR05zTTErRGhQcFB6akQyMVNrYnNXWVVCWUJsODVmcmYwbzhX?=
- =?utf-8?B?WlVYUWRsRjZIdGhqOTJZOStwUzBya3BqOU9hckppSTJqU2VTK1dEUnVZQzhZ?=
- =?utf-8?B?ZFpGREo1QzBlWTdlaUhRcCtLRGdDcmo4NnhCNVB6cHozT3o3OVVhM1R5MXBS?=
- =?utf-8?B?RmU4bUI1bk8yeCszZTdpUGMwT2NwVnhXWURWUDU1bVp5ellURmVtZmpwZTVI?=
- =?utf-8?B?YUZQUlpZMVd6T0JmdGJmOW5BOS9uZlpwRmJSOWZkWC8xdmRyck5XcFlINktj?=
- =?utf-8?B?RENxZUJ2SUMxRjhEdnQ2YmxIRVBBajZ0Rk1mQm1hWFhLeC9FWkNRVTJxdU1z?=
- =?utf-8?B?V1pDT3ViZzcvUDVGeGhnQWFOcy9BYndZMEl4ZndhL2tlZUFOeFhlQzNvMk0z?=
- =?utf-8?Q?gcolXJMmBPYP3rc8oyM9VyQ=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20783079-9110-4264-848d-08d9f2d1630f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2022 11:25:37.5714 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MmCGagPf5PVNJAIREl3HPHItiiyrYFrYvGvu2/MEXWo6GfnwUlxLeMpPXLLBqQk228O/G+Vy9wArtZrpARo0VQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB0051
-X-OriginatorOrg: intel.com
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9337910EC4C;
+ Fri, 18 Feb 2022 11:31:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1645183861; x=1676719861;
+ h=from:to:cc:subject:date:message-id;
+ bh=psg+WGVjYEtfI96XgW3zTOLv9aveKT017gbE39QzLFQ=;
+ b=MUwXO964T21nxhzaGLBg2TZWCgDA2Y8g4ntHjkkkdxua/6cTpVnKwZ+Y
+ nO9SZpZvx6Z43u+0DN0aspxAvuTJLEuEoJSizfT8XMxKj2nTZToW1lSWN
+ QpSRLsDGzUEXzVcAkbC3hnxkDU6FvuJ64CWu75IqteWIH1jcJkGlTd+Ug 8=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 18 Feb 2022 03:31:01 -0800
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 18 Feb 2022 03:30:59 -0800
+X-QCInternal: smtphost
+Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
+ by ironmsg01-blr.qualcomm.com with ESMTP; 18 Feb 2022 17:00:46 +0530
+Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
+ id 2BC544B49; Fri, 18 Feb 2022 17:00:45 +0530 (IST)
+From: Vinod Polimera <quic_vpolimer@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v1] drm/msm/disp/dpu1: add inline rotation support for sc7280 target
+Date: Fri, 18 Feb 2022 17:00:33 +0530
+Message-Id: <1645183833-26657-1-git-send-email-quic_vpolimer@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,129 +50,404 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, intel-gfx@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>, Robert Foss <robert.foss@linaro.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: quic_kalyant@quicinc.com, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+- Some DPU versions support inline rot90. It is supported only for
+limited amount of UBWC formats.
+- There are two versions of inline rotators, v1 (present on sm8250 and
+sm7250) and v2 (sc7280). These versions differ in the list of supported
+formats and in the scaler possibilities.
 
+Changes in RFC:
+- Rebase changes to the latest code base.
+- Append rotation config variables with v2 and
+remove unused variables.(Dmitry)
+- Move pixel_ext setup separately from scaler3 config.(Dmitry)
+- Add 270 degree rotation to supported rotation list.(Dmitry)
 
-On 18.02.2022 11:03, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
->
-> struct drm_display_mode embeds a list head, so overwriting
-> the full struct with another one will corrupt the list
-> (if the destination mode is on a list). Use drm_mode_copy()
-> instead which explicitly preserves the list head of
-> the destination mode.
->
-> Even if we know the destination mode is not on any list
-> using drm_mode_copy() seems decent as it sets a good
-> example. Bad examples of not using it might eventually
-> get copied into code where preserving the list head
-> actually matters.
->
-> Obviously one case not covered here is when the mode
-> itself is embedded in a larger structure and the whole
-> structure is copied. But if we are careful when copying
-> into modes embedded in structures I think we can be a
-> little more reassured that bogus list heads haven't been
-> propagated in.
->
-> @is_mode_copy@
-> @@
-> drm_mode_copy(...)
-> {
-> ...
-> }
->
-> @depends on !is_mode_copy@
-> struct drm_display_mode *mode;
-> expression E, S;
-> @@
-> (
-> - *mode = E
-> + drm_mode_copy(mode, &E)
-> |
-> - memcpy(mode, E, S)
-> + drm_mode_copy(mode, E)
-> )
->
-> @depends on !is_mode_copy@
-> struct drm_display_mode mode;
-> expression E;
-> @@
-> (
-> - mode = E
-> + drm_mode_copy(&mode, &E)
-> |
-> - memcpy(&mode, E, S)
-> + drm_mode_copy(&mode, E)
-> )
->
-> @@
-> struct drm_display_mode *mode;
-> @@
-> - &*mode
-> + mode
->
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  44 ++++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  15 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 105 ++++++++++++++++++++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h      |   2 +
+ 4 files changed, 134 insertions(+), 32 deletions(-)
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-
-Regards
-Andrzej
-> ---
->   drivers/gpu/drm/bridge/nwl-dsi.c          | 2 +-
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
->   drivers/gpu/drm/bridge/tc358767.c         | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-> index 963a6794735f..881cf338d5cf 100644
-> --- a/drivers/gpu/drm/bridge/nwl-dsi.c
-> +++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-> @@ -857,7 +857,7 @@ nwl_dsi_bridge_mode_set(struct drm_bridge *bridge,
->   	/* Save the new desired phy config */
->   	memcpy(&dsi->phy_cfg, &new_cfg, sizeof(new_cfg));
->   
-> -	memcpy(&dsi->mode, adjusted_mode, sizeof(dsi->mode));
-> +	drm_mode_copy(&dsi->mode, adjusted_mode);
->   	drm_mode_debug_printmodeline(adjusted_mode);
->   
->   	if (pm_runtime_resume_and_get(dev) < 0)
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 4befc104d220..a563460f8d20 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2830,7 +2830,7 @@ static void dw_hdmi_bridge_mode_set(struct drm_bridge *bridge,
->   	mutex_lock(&hdmi->mutex);
->   
->   	/* Store the display mode for plugin/DKMS poweron events */
-> -	memcpy(&hdmi->previous_mode, mode, sizeof(hdmi->previous_mode));
-> +	drm_mode_copy(&hdmi->previous_mode, mode);
->   
->   	mutex_unlock(&hdmi->mutex);
->   }
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-> index c23e0abc65e8..7f9574b17caa 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -1312,7 +1312,7 @@ static void tc_bridge_mode_set(struct drm_bridge *bridge,
->   {
->   	struct tc_data *tc = bridge_to_tc(bridge);
->   
-> -	tc->mode = *mode;
-> +	drm_mode_copy(&tc->mode, mode);
->   }
->   
->   static struct edid *tc_get_edid(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index aa75991..ae17a61 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -25,6 +25,9 @@
+ #define VIG_SM8250_MASK \
+ 	(VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3LITE))
+ 
++#define VIG_SC7280_MASK \
++	(VIG_SC7180_MASK | BIT(DPU_SSPP_INLINE_ROTATION))
++
+ #define DMA_SDM845_MASK \
+ 	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_QOS_8LVL) |\
+ 	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
+@@ -102,6 +105,8 @@
+ #define MAX_DOWNSCALE_RATIO	4
+ #define SSPP_UNITY_SCALE	1
+ 
++#define INLINE_ROTATOR_V2	2
++
+ #define STRCAT(X, Y) (X Y)
+ 
+ static const uint32_t plane_formats[] = {
+@@ -177,6 +182,11 @@ static const uint32_t plane_formats_yuv[] = {
+ 	DRM_FORMAT_YVU420,
+ };
+ 
++static const uint32_t rotation_v2_formats[] = {
++	DRM_FORMAT_NV12,
++	/* TODO add formats after validation */
++};
++
+ /*************************************************************
+  * DPU sub blocks config
+  *************************************************************/
+@@ -465,7 +475,13 @@ static const struct dpu_ctl_cfg sc7280_ctl[] = {
+ 
+ /* SSPP common configuration */
+ 
+-#define _VIG_SBLK(num, sdma_pri, qseed_ver) \
++static const struct dpu_rotation_cfg dpu_rot_cfg_v2 = {
++	.rot_maxheight = 1088,
++	.rot_num_formats = ARRAY_SIZE(rotation_v2_formats),
++	.rot_format_list = rotation_v2_formats,
++};
++
++#define _VIG_SBLK(num, sdma_pri, qseed_ver, rot_cfg) \
+ 	{ \
+ 	.maxdwnscale = MAX_DOWNSCALE_RATIO, \
+ 	.maxupscale = MAX_UPSCALE_RATIO, \
+@@ -482,6 +498,7 @@ static const struct dpu_ctl_cfg sc7280_ctl[] = {
+ 	.num_formats = ARRAY_SIZE(plane_formats_yuv), \
+ 	.virt_format_list = plane_formats, \
+ 	.virt_num_formats = ARRAY_SIZE(plane_formats), \
++	.rotation_cfg = rot_cfg, \
+ 	}
+ 
+ #define _DMA_SBLK(num, sdma_pri) \
+@@ -498,13 +515,13 @@ static const struct dpu_ctl_cfg sc7280_ctl[] = {
+ 	}
+ 
+ static const struct dpu_sspp_sub_blks sdm845_vig_sblk_0 =
+-				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3, NULL);
+ static const struct dpu_sspp_sub_blks sdm845_vig_sblk_1 =
+-				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3, NULL);
+ static const struct dpu_sspp_sub_blks sdm845_vig_sblk_2 =
+-				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3, NULL);
+ static const struct dpu_sspp_sub_blks sdm845_vig_sblk_3 =
+-				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3);
++				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3, NULL);
+ 
+ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_0 = _DMA_SBLK("8", 1);
+ static const struct dpu_sspp_sub_blks sdm845_dma_sblk_1 = _DMA_SBLK("9", 2);
+@@ -543,7 +560,10 @@ static const struct dpu_sspp_cfg sdm845_sspp[] = {
+ };
+ 
+ static const struct dpu_sspp_sub_blks sc7180_vig_sblk_0 =
+-				_VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4);
++				_VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4, NULL);
++
++static const struct dpu_sspp_sub_blks sc7280_vig_sblk_0 =
++				_VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4, &dpu_rot_cfg_v2);
+ 
+ static const struct dpu_sspp_cfg sc7180_sspp[] = {
+ 	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
+@@ -557,13 +577,13 @@ static const struct dpu_sspp_cfg sc7180_sspp[] = {
+ };
+ 
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
+-				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE);
++				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE, NULL);
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_1 =
+-				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE);
++				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE, NULL);
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_2 =
+-				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3LITE);
++				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3LITE, NULL);
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_3 =
+-				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE);
++				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE, NULL);
+ 
+ static const struct dpu_sspp_cfg sm8250_sspp[] = {
+ 	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SM8250_MASK,
+@@ -585,8 +605,8 @@ static const struct dpu_sspp_cfg sm8250_sspp[] = {
+ };
+ 
+ static const struct dpu_sspp_cfg sc7280_sspp[] = {
+-	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
+-		sc7180_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7280_MASK,
++		sc7280_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+ 	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
+ 		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+ 	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 31af04a..ea55f3d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -109,6 +109,7 @@ enum {
+  * @DPU_SSPP_TS_PREFILL      Supports prefill with traffic shaper
+  * @DPU_SSPP_TS_PREFILL_REC1 Supports prefill with traffic shaper multirec
+  * @DPU_SSPP_CDP             Supports client driven prefetch
++ * @DPU_SSPP_INLINE_ROTATION Support inline rotation
+  * @DPU_SSPP_MAX             maximum value
+  */
+ enum {
+@@ -129,6 +130,7 @@ enum {
+ 	DPU_SSPP_TS_PREFILL,
+ 	DPU_SSPP_TS_PREFILL_REC1,
+ 	DPU_SSPP_CDP,
++	DPU_SSPP_INLINE_ROTATION,
+ 	DPU_SSPP_MAX
+ };
+ 
+@@ -312,6 +314,18 @@ struct dpu_qos_lut_tbl {
+ };
+ 
+ /**
++ * struct dpu_rotation_cfg - define inline rotation config
++ * @rot_maxheight: max pre rotated height allowed for rotation
++ * @rot_num_formats: count of the formats
++ * @rot_format_list: list of supported rotator formats
++ */
++struct dpu_rotation_cfg {
++	u32 rot_maxheight;
++	u32 rot_num_formats;
++	const u32 *rot_format_list;
++};
++
++/**
+  * struct dpu_caps - define DPU capabilities
+  * @max_mixer_width    max layer mixer line width support.
+  * @max_mixer_blendstages max layer mixer blend stages or
+@@ -387,6 +401,7 @@ struct dpu_sspp_sub_blks {
+ 	u32 num_formats;
+ 	const u32 *virt_format_list;
+ 	u32 virt_num_formats;
++	const struct dpu_rotation_cfg *rotation_cfg;
+ };
+ 
+ /**
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index ca75089..39d934f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -528,11 +528,19 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
+ 		struct dpu_plane_state *pstate,
+ 		uint32_t src_w, uint32_t src_h, uint32_t dst_w, uint32_t dst_h,
+ 		struct dpu_hw_scaler3_cfg *scale_cfg,
+-		struct dpu_hw_pixel_ext *pixel_ext,
+ 		const struct dpu_format *fmt,
+ 		uint32_t chroma_subsmpl_h, uint32_t chroma_subsmpl_v)
+ {
+ 	uint32_t i;
++	bool inline_rotation = (pstate->rotation & DRM_MODE_ROTATE_90);
++
++	/*
++	 * For inline rotation cases, scaler config is post-rotation,
++	 * so swap the dimensions here. However, pixel extension will
++	 * need pre-rotation settings.
++	 */
++	if (inline_rotation)
++		swap(src_w, src_h);
+ 
+ 	scale_cfg->phase_step_x[DPU_SSPP_COMP_0] =
+ 		mult_frac((1 << PHASE_STEP_SHIFT), src_w, dst_w);
+@@ -571,11 +579,6 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
+ 			scale_cfg->preload_x[i] = DPU_QSEED3_DEFAULT_PRELOAD_H;
+ 			scale_cfg->preload_y[i] = DPU_QSEED3_DEFAULT_PRELOAD_V;
+ 		}
+-
+-		pixel_ext->num_ext_pxls_top[i] =
+-			scale_cfg->src_height[i];
+-		pixel_ext->num_ext_pxls_left[i] =
+-			scale_cfg->src_width[i];
+ 	}
+ 	if (!(DPU_FORMAT_IS_YUV(fmt)) && (src_h == dst_h)
+ 		&& (src_w == dst_w))
+@@ -591,6 +594,24 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
+ 	scale_cfg->enable = 1;
+ }
+ 
++static void _dpu_plane_setup_pixel_ext(struct dpu_plane_state *pstate,
++				struct dpu_hw_scaler3_cfg *scale_cfg,
++				struct dpu_hw_pixel_ext *pixel_ext)
++{
++	int i = 0;
++	bool inline_rotation = (pstate->rotation & DRM_MODE_ROTATE_90);
++
++	if (!scale_cfg && !scale_cfg->enable)
++		return;
++
++	for (i = 0; i < DPU_MAX_PLANES; i++) {
++		pixel_ext->num_ext_pxls_top[i] = inline_rotation ?
++				scale_cfg->src_width[i] : scale_cfg->src_height[i];
++		pixel_ext->num_ext_pxls_left[i] = inline_rotation ?
++				scale_cfg->src_height[i] : scale_cfg->src_width[i];
++	}
++}
++
+ static const struct dpu_csc_cfg dpu_csc_YUV2RGB_601L = {
+ 	{
+ 		/* S15.16 format */
+@@ -665,9 +686,12 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
+ 			drm_rect_height(&pipe_cfg->src_rect),
+ 			drm_rect_width(&pipe_cfg->dst_rect),
+ 			drm_rect_height(&pipe_cfg->dst_rect),
+-			&scaler3_cfg, &pixel_ext, fmt,
++			&scaler3_cfg, fmt,
+ 			info->hsub, info->vsub);
+ 
++	/* configure pixel extension based on scalar config */
++	_dpu_plane_setup_pixel_ext(pstate, &scaler3_cfg, &pixel_ext);
++
+ 	if (pdpu->pipe_hw->ops.setup_pe)
+ 		pdpu->pipe_hw->ops.setup_pe(pdpu->pipe_hw,
+ 				&pixel_ext);
+@@ -967,6 +991,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 	const struct dpu_format *fmt;
+ 	struct drm_rect src, dst, fb_rect = { 0 };
+ 	uint32_t min_src_size, max_linewidth;
++	unsigned int rotation;
+ 
+ 	if (new_plane_state->crtc)
+ 		crtc_state = drm_atomic_get_new_crtc_state(state,
+@@ -1035,6 +1060,48 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 		return -E2BIG;
+ 	}
+ 
++	rotation = drm_rotation_simplify(new_plane_state->rotation,
++			    DRM_MODE_ROTATE_0 |
++			    DRM_MODE_ROTATE_90 |
++			    DRM_MODE_REFLECT_X |
++			    DRM_MODE_REFLECT_Y);
++
++	if (rotation & DRM_MODE_ROTATE_90) {
++		const struct msm_format *msm_fmt;
++		const struct dpu_format *fmt;
++		bool found = false;
++		u32 i, num_formats;
++		const u32 *supported_formats;
++
++		if ((pdpu->pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION)) &&
++			pdpu->pipe_hw->cap->sblk->rotation_cfg &&
++			(drm_rect_width(&src) >
++				pdpu->pipe_hw->cap->sblk->rotation_cfg->rot_maxheight)) {
++			DPU_DEBUG_PLANE(pdpu,
++			"invalid height for inline rot:%d max:%d\n",
++			src.y2, pdpu->pipe_hw->cap->sblk->rotation_cfg->rot_maxheight);
++			return -EINVAL;
++		}
++
++		msm_fmt = msm_framebuffer_format(new_plane_state->fb);
++		fmt = to_dpu_format(msm_fmt);
++		supported_formats = pdpu->pipe_hw->cap->sblk->rotation_cfg->rot_format_list;
++		num_formats = pdpu->pipe_hw->cap->sblk->rotation_cfg->rot_num_formats;
++
++		for (i = 0; i < num_formats; i++) {
++			/* check for valid formats supported by inline rotation */
++			if (fmt->base.pixel_format == supported_formats[i] &&
++				DPU_FORMAT_IS_UBWC(fmt))
++				found = true;
++		}
++
++		if (!found || !num_formats) {
++			DPU_DEBUG_PLANE(pdpu,
++			"supported_format not found num:%d\n", num_formats);
++			return -EINVAL;
++		}
++	}
++	pstate->rotation = rotation;
+ 	pstate->needs_qos_remap = drm_atomic_crtc_needs_modeset(crtc_state);
+ 
+ 	return 0;
+@@ -1150,21 +1217,18 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+ 				pstate->multirect_mode);
+ 
+ 	if (pdpu->pipe_hw->ops.setup_format) {
+-		unsigned int rotation;
+ 
+ 		src_flags = 0x0;
+ 
+-		rotation = drm_rotation_simplify(state->rotation,
+-						 DRM_MODE_ROTATE_0 |
+-						 DRM_MODE_REFLECT_X |
+-						 DRM_MODE_REFLECT_Y);
+-
+-		if (rotation & DRM_MODE_REFLECT_X)
++		if (pstate->rotation & DRM_MODE_REFLECT_X)
+ 			src_flags |= DPU_SSPP_FLIP_LR;
+ 
+-		if (rotation & DRM_MODE_REFLECT_Y)
++		if (pstate->rotation & DRM_MODE_REFLECT_Y)
+ 			src_flags |= DPU_SSPP_FLIP_UD;
+ 
++		if (pstate->rotation & DRM_MODE_ROTATE_90)
++			src_flags |= DPU_SSPP_ROT_90;
++
+ 		/* update format */
+ 		pdpu->pipe_hw->ops.setup_format(pdpu->pipe_hw, fmt, src_flags,
+ 				pstate->multirect_index);
+@@ -1462,6 +1526,8 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+ 	int zpos_max = DPU_ZPOS_MAX;
+ 	uint32_t num_formats;
+ 	int ret = -EINVAL;
++	unsigned int supported_rotations = DRM_MODE_ROTATE_0 |
++			DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y;
+ 
+ 	/* create and zero local structure */
+ 	pdpu = kzalloc(sizeof(*pdpu), GFP_KERNEL);
+@@ -1529,12 +1595,11 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+ 			BIT(DRM_MODE_BLEND_PREMULTI) |
+ 			BIT(DRM_MODE_BLEND_COVERAGE));
+ 
++	if (pdpu->pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION))
++		supported_rotations |= DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270;
++
+ 	drm_plane_create_rotation_property(plane,
+-			DRM_MODE_ROTATE_0,
+-			DRM_MODE_ROTATE_0 |
+-			DRM_MODE_ROTATE_180 |
+-			DRM_MODE_REFLECT_X |
+-			DRM_MODE_REFLECT_Y);
++		    DRM_MODE_ROTATE_0, supported_rotations);
+ 
+ 	drm_plane_enable_fb_damage_clips(plane);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+index 9d51dad..e72da02 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+@@ -25,6 +25,7 @@
+  * @pending:	whether the current update is still pending
+  * @plane_fetch_bw: calculated BW per plane
+  * @plane_clk: calculated clk per plane
++ * @rotation: simplified drm rotation hint
+  */
+ struct dpu_plane_state {
+ 	struct drm_plane_state base;
+@@ -37,6 +38,7 @@ struct dpu_plane_state {
+ 
+ 	u64 plane_fetch_bw;
+ 	u64 plane_clk;
++	unsigned int rotation;
+ };
+ 
+ /**
+-- 
+2.7.4
 
