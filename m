@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53C14BBDB3
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 17:41:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 673764BBDBB
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 17:42:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70AE110E1F0;
-	Fri, 18 Feb 2022 16:41:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F84F10EE3B;
+	Fri, 18 Feb 2022 16:42:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7603210E549;
- Fri, 18 Feb 2022 16:40:59 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id q5so3655997oij.6;
- Fri, 18 Feb 2022 08:40:59 -0800 (PST)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE64110EE3B
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 16:42:35 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id qx21so16274168ejb.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 08:42:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rNaBJ9SnSvmZZKSwg6WQat2Owwd2UUbUCqyH0KfuOto=;
- b=kXIJR1VVI1XhgIIaZUlneyHM3X3buYUA7XCemDc9ucaRmzz8ONqODjfD63dgA6Uz7I
- JGCLsNIzj3TPe5u1rRwE7I68n2NOLP8cG6cwwBxaWpD/7/KQhulAy3aIdVRFiKKnPJRL
- F9Mtdrd19Av4GRUz4BmSedmdWtTATBar25fZBre2drr7cYkUcyBVCa6NzVK1Rmlu/8Az
- z5zRG45WCjs7wfcixIQyjPRUaXkrjU9eWBKPjwHdldM02m2y/h64+PWaFXnPpu9BdrZL
- 3aOc8ZXdk7cm7clD5BWUDnP9//zj0zjQ+Zsaw/tZxX9oAPon8I3MG1N89RXSQaxntURb
- Jpeg==
+ :cc; bh=2NJFZ3jit1chzQSDay79B6keWsZIR8EarnNGHw6lS5A=;
+ b=DHRCvWEUqlZ11SBmiaPTfaEu3Yo1jAIFR55Bv9awW3zHDU8MgB38YYiwE3k1tsP9IM
+ HqYXGe1BdnOx8rUHDoZonAC2XarFEFOq4v+c/5lTITz2d4w2dSyXrCk5BKXI1rrD4q1n
+ C1tJUzze9zYJQJ54SlFmxZLOcTT0mjNLdJf6M5Z5XvN2S2K5JzW10lrPTXbUXrHFtW/b
+ fhxgg8Rmc1ejll3eRtaCBFAqDw0UlRROVgZCHtBBBIsmpUcv4R2LGPHHHx6+Gludoddw
+ wJtnSnScemddJo4gD/IItWmvriTj2IS1Kd/r+/FfGDLltEmVRoPQLSdlJvU6O+KX+WQQ
+ Iyvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rNaBJ9SnSvmZZKSwg6WQat2Owwd2UUbUCqyH0KfuOto=;
- b=tK0NblFoKTLt/oHAhBsI8eV+KV6WD4elyZs4Wj0ErVX/HRuihcw4+YN9rLK+4T/HpL
- V9RNlRVdz0+V/7QIWZkTAC/290Bcc+/4i4hcy59h6vMN4h74/w84w+L5ePdl6+Q7dtb4
- Q+d3+jYob26xEDrpHMHzYChuYYp/G2yRCWqPk9C/yxt/hGdzzffbV5wyfoxWfAbRr5VK
- H5L7qBXWTbba0MforlBzzXL3PF/LBmHN7Gu1fn9clhttG4+EYFfcZ9K6etinnUlFHs/X
- xCjAJhcXeIjvx0TwjexXaDMNVQ3etKm59b/Es3Q+/f5RXPMHFqQdY9LGNi7IFzD6kqDy
- P5vw==
-X-Gm-Message-State: AOAM531P3ilGG6PicOUnKz2mQxrTN53piHJaNF+IzHAg2WK3yWnD+1Xc
- u69qyvTAUZiOGn4Td32k77LT0Tkxg0KoKEBOZ1U=
-X-Google-Smtp-Source: ABdhPJxGdJJUhTI3XRP5VaihJS7Seu7yXxagtZb6DliIInQyt6iXbc8RzCTpzgqxNG88jJEeiR1ivtOfCwh5hfuFLo8=
-X-Received: by 2002:a05:6808:f8b:b0:2ce:6ee7:2c99 with SMTP id
- o11-20020a0568080f8b00b002ce6ee72c99mr5655117oiw.199.1645202458758; Fri, 18
- Feb 2022 08:40:58 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=2NJFZ3jit1chzQSDay79B6keWsZIR8EarnNGHw6lS5A=;
+ b=1KrTIt9qkgEIOX81nnech3G8IgiyActqHb+Guz1Cj/3LVc2PlkUDcplfPoFlK273pE
+ SFzNSatDoNWOXbFfXtINHilX1KnS5wXepqVhQGbohSGPzHsn1fgHogcjRVdKFRRZVd3I
+ VbPcowqCxJNYZvZKHLvq06Qr62SfEEb+MW6swJenmXJdWHnFCKHfNfDdHSy+7m7ASAYx
+ S//XEfzqeXLAoiRDMT08f+d12ml4y+f5H6I1kpA94hSaybJtvQy9vL+izI6B0tP/vvZb
+ jTIi+ZVpSA2ZqBJla3oTeQxi+7ZBfjRny+sUOpwHPDALqiAfNQeKChgzbadbDN289ewh
+ yEtA==
+X-Gm-Message-State: AOAM5311rF5lE/9RPBHcwzP7LOMgqKSHyYlPVOKvAkisubRDjqa9OE8G
+ 6O/R82GZIfDHE+SVagnflaJk0Pc5Wi3WNGC1XoA=
+X-Google-Smtp-Source: ABdhPJxMYiQ2RRshnCbmjcn6dcHzICLifg4wwcX0owuwZ4uHR6ntkXXhuxL+HAeJ/wF4RPQrvng6ji7o3qRH97h+mxk=
+X-Received: by 2002:a17:906:350d:b0:6b9:5871:8f34 with SMTP id
+ r13-20020a170906350d00b006b958718f34mr7050936eja.493.1645202553886; Fri, 18
+ Feb 2022 08:42:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20220218075727.2737623-1-davidgow@google.com>
- <20220218075727.2737623-2-davidgow@google.com>
- <ef8eee23-ba8c-e76a-d32d-68658841708d@amd.com>
-In-Reply-To: <ef8eee23-ba8c-e76a-d32d-68658841708d@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 18 Feb 2022 11:40:47 -0500
-Message-ID: <CADnq5_Nxjq6+8k1bjs3LJfTzXgX1YRd0-=Fd55224V3_nOshAg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/amdgpu: Fix compilation under UML
-To: Felix Kuehling <felix.kuehling@amd.com>
+References: <20220218155725.487785-1-robdclark@gmail.com>
+In-Reply-To: <20220218155725.487785-1-robdclark@gmail.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 18 Feb 2022 08:42:22 -0800
+Message-ID: <CAPaKu7R+6g9XRzWPk-u0jKWa602z6CJVxhPqgjJPipzY=S-txA@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: Add USE_INTERNAL blob flag
+To: Rob Clark <robdclark@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,152 +62,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: X86 ML <x86@kernel.org>, linux-kselftest@vger.kernel.org,
- linux-rdma <linux-rdma@vger.kernel.org>, Richard Weinberger <richard@nod.at>,
- Jeff Dike <jdike@addtoit.com>, Randy Dunlap <rdunlap@infradead.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- linux-um@lists.infradead.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- David Gow <davidgow@google.com>, Shuah Khan <skhan@linuxfoundation.org>,
- kunit-dev@googlegroups.com, Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 18, 2022 at 11:39 AM Felix Kuehling <felix.kuehling@amd.com> wr=
-ote:
+On Fri, Feb 18, 2022 at 7:57 AM Rob Clark <robdclark@gmail.com> wrote:
 >
+> From: Rob Clark <robdclark@chromium.org>
 >
-> Am 2022-02-18 um 02:57 schrieb David Gow:
-> > From: Randy Dunlap <rdunlap@infradead.org>
-> >
-> > cpuinfo_x86 and its associated macros are not available under ARCH=3Dum=
-,
-> > even though CONFIG_X86_64 is defined.
-> >
-> > This patch (and discussion) were originally posted here:
-> > https://lkml.org/lkml/2022/1/24/1547
-> >
-> > This produces the following build errors:
-> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:1556:9: note: in=
- expansion of macro =E2=80=98cpu_data=E2=80=99
-> >    return cpu_data(first_cpu_of_numa_node).apicid;
-> >           ^~~~~~~~
-> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:1560:1: error: c=
-ontrol reaches end of non-void function [-Werror=3Dreturn-type]
-> >
-> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c: In function =E2=80=
-=98kfd_fill_iolink_info_for_cpu=E2=80=99:
-> > ../arch/um/include/asm/processor-generic.h:103:19: error: called object=
- is not a function or function pointer
-> >   #define cpu_data (&boot_cpu_data)
-> >                    ~^~~~~~~~~~~~~~~
-> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1688:27: note: in ex=
-pansion of macro =E2=80=98cpu_data=E2=80=99
-> >    struct cpuinfo_x86 *c =3D &cpu_data(0);
-> >                             ^~~~~~~~
-> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1691:7: error: deref=
-erencing pointer to incomplete type =E2=80=98struct cpuinfo_x86=E2=80=99
-> >    if (c->x86_vendor =3D=3D X86_VENDOR_AMD)
-> >         ^~
-> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1691:23: error: =E2=
-=80=98X86_VENDOR_AMD=E2=80=99 undeclared (first use in this function); did =
-you mean =E2=80=98X86_VENDOR_ANY=E2=80=99?
-> >    if (c->x86_vendor =3D=3D X86_VENDOR_AMD)
-> >                         ^~~~~~~~~~~~~~
-> >                         X86_VENDOR_ANY
-> >
-> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c: In function =E2=80=
-=98kfd_create_vcrat_image_cpu=E2=80=99:
-> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_crat.c:1742:11: warning: un=
-used variable =E2=80=98entries=E2=80=99 [-Wunused-variable]
-> >    uint32_t entries =3D 0;
-> >
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Signed-off-by: David Gow <davidgow@google.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdkfd/kfd_crat.c     | 6 +++---
-> >   drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 2 +-
-> >   2 files changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/am=
-d/amdkfd/kfd_crat.c
-> > index 9624bbe8b501..b1e2d117be3d 100644
-> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-> > @@ -1682,7 +1682,7 @@ static int kfd_fill_mem_info_for_cpu(int numa_nod=
-e_id, int *avail_size,
-> >       return 0;
-> >   }
-> >
-> > -#ifdef CONFIG_X86_64
-> > +#if defined(CONFIG_X86_64) && !defined(CONFIG_UML)
+> With native userspace drivers in guest, a lot of GEM objects need to be
+> neither shared nor mappable.  And in fact making everything mappable
+> and/or sharable results in unreasonably high fd usage in host VMM.
 >
-> I don't think it makes sense to compile a hardware device driver in a
-> UML config. Instead of scattering UML #ifdefs through our code, I would
-> recommend adding this to Kconfig:
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+> This is for a thing I'm working on, a new virtgpu context type that
+> allows for running native userspace driver in the guest, with a
+> thin shim in the host VMM.  In this case, the guest has a lot of
+> GEM buffer objects which need to be neither shared nor mappable.
 >
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -254,7 +254,7 @@ source "drivers/gpu/drm/radeon/Kconfig"
->
->   config DRM_AMDGPU
->          tristate "AMD GPU"
-> -       depends on DRM && PCI && MMU
-> +       depends on DRM && PCI && MMU && !UML
->          select FW_LOADER
->          select DRM_KMS_HELPER
->          select DRM_SCHED
->
-> That would address patch 2 of this series as well.
+> Alternative idea is to just drop the restriction that blob_flags
+> be non-zero.  I'm ok with either approach.
+Dropping the restriction sounds better to me.
 
-I agree.  Otherwise, we are always going to be chasing these issues.
-
-Alex
+What is the use case for such a resource?  Does the host need to know
+such a resource exists?
 
 >
-> Regards,
->    Felix
+>  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 7 ++++++-
+>  include/uapi/drm/virtgpu_drm.h         | 1 +
+>  2 files changed, 7 insertions(+), 1 deletion(-)
 >
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> index 69f1952f3144..92e1ba6b8078 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> @@ -36,7 +36,8 @@
 >
-> >   static int kfd_fill_iolink_info_for_cpu(int numa_node_id, int *avail_=
-size,
-> >                               uint32_t *num_entries,
-> >                               struct crat_subtype_iolink *sub_type_hdr)
-> > @@ -1741,7 +1741,7 @@ static int kfd_create_vcrat_image_cpu(void *pcrat=
-_image, size_t *size)
-> >       struct crat_subtype_generic *sub_type_hdr;
-> >       int avail_size =3D *size;
-> >       int numa_node_id;
-> > -#ifdef CONFIG_X86_64
-> > +#if defined(CONFIG_X86_64) && !defined(CONFIG_UML)
-> >       uint32_t entries =3D 0;
-> >   #endif
-> >       int ret =3D 0;
-> > @@ -1806,7 +1806,7 @@ static int kfd_create_vcrat_image_cpu(void *pcrat=
-_image, size_t *size)
-> >                       sub_type_hdr->length);
-> >
-> >               /* Fill in Subtype: IO Link */
-> > -#ifdef CONFIG_X86_64
-> > +#if defined(CONFIG_X86_64) && !defined(CONFIG_UML)
-> >               ret =3D kfd_fill_iolink_info_for_cpu(numa_node_id, &avail=
-_size,
-> >                               &entries,
-> >                               (struct crat_subtype_iolink *)sub_type_hd=
-r);
-> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/dr=
-m/amd/amdkfd/kfd_topology.c
-> > index 948fbb39336e..b38fc530ffe2 100644
-> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-> > @@ -1552,7 +1552,7 @@ static int kfd_cpumask_to_apic_id(const struct cp=
-umask *cpumask)
-> >       first_cpu_of_numa_node =3D cpumask_first(cpumask);
-> >       if (first_cpu_of_numa_node >=3D nr_cpu_ids)
-> >               return -1;
-> > -#ifdef CONFIG_X86_64
-> > +#if defined(CONFIG_X86_64) && !defined(CONFIG_UML)
-> >       return cpu_data(first_cpu_of_numa_node).apicid;
-> >   #else
-> >       return first_cpu_of_numa_node;
+>  #define VIRTGPU_BLOB_FLAG_USE_MASK (VIRTGPU_BLOB_FLAG_USE_MAPPABLE | \
+>                                     VIRTGPU_BLOB_FLAG_USE_SHAREABLE | \
+> -                                   VIRTGPU_BLOB_FLAG_USE_CROSS_DEVICE)
+> +                                   VIRTGPU_BLOB_FLAG_USE_CROSS_DEVICE | \
+> +                                   VIRTGPU_BLOB_FLAG_USE_INTERNAL)
+>
+>  static int virtio_gpu_fence_event_create(struct drm_device *dev,
+>                                          struct drm_file *file,
+> @@ -662,6 +663,10 @@ static int verify_blob(struct virtio_gpu_device *vgdev,
+>         params->size = rc_blob->size;
+>         params->blob = true;
+>         params->blob_flags = rc_blob->blob_flags;
+> +
+> +       /* USE_INTERNAL is local to guest kernel, don't past to host: */
+> +       params->blob_flags &= ~VIRTGPU_BLOB_FLAG_USE_INTERNAL;
+> +
+>         return 0;
+>  }
+>
+> diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
+> index 0512fde5e697..62b7483e5c60 100644
+> --- a/include/uapi/drm/virtgpu_drm.h
+> +++ b/include/uapi/drm/virtgpu_drm.h
+> @@ -163,6 +163,7 @@ struct drm_virtgpu_resource_create_blob {
+>  #define VIRTGPU_BLOB_FLAG_USE_MAPPABLE     0x0001
+>  #define VIRTGPU_BLOB_FLAG_USE_SHAREABLE    0x0002
+>  #define VIRTGPU_BLOB_FLAG_USE_CROSS_DEVICE 0x0004
+> +#define VIRTGPU_BLOB_FLAG_USE_INTERNAL     0x0008   /* not-mappable, not-shareable */
+>         /* zero is invalid blob_mem */
+>         __u32 blob_mem;
+>         __u32 blob_flags;
+> --
+> 2.34.1
+>
