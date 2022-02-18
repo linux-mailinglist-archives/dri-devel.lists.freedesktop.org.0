@@ -1,140 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AC54BB338
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 08:30:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 663354BB37E
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 08:46:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C470D10F0A8;
-	Fri, 18 Feb 2022 07:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 224F810EB0F;
+	Fri, 18 Feb 2022 07:46:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DDF310F0A5;
- Fri, 18 Feb 2022 07:30:14 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21I4Hraw019462; 
- Fri, 18 Feb 2022 07:30:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=izyeYj8wZtI3IIhRJjsTlB5n/y9JaNOSELyacT4VVfY=;
- b=YNXcX9y5FMXB57xOHhTVUmq2uFC3ZtHs3BpDhfpVrQZYDtMyTbXnTMqrtmsw4iSZkZan
- 5tApN/ZqgXg1Zk/xlpfg18f1cMMqbTyTRf83L8JDJ1dlvmWLqqLK/UtR2TaJWqpkocPO
- gy9yiPCwrtw6ea/67cmNVYmFNurDiFaL0dUZoL42CBRp+ef1ZMic9baltI168WQ5jQCv
- NYLZAqeJYjJkPZpVyDnPbZiuhhr5gROo24ZZrhVaTyiTe7onAbnDgoAui5WAgK6bwJ7E
- yiBNUh9iqCWkWd4Hg6+J0uvVLTb6SYlOJjUSBvTQTMIqJ8ql6qU6p34wk628Vjy+crv3 gA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3e8n3ffv45-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Feb 2022 07:30:10 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21I7LMQr034311;
- Fri, 18 Feb 2022 07:30:09 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2107.outbound.protection.outlook.com [104.47.55.107])
- by userp3030.oracle.com with ESMTP id 3e8nm0qs12-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Feb 2022 07:30:09 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TV+ojlfgIREBUsfERDpwqLObs2ZMFnY7UQGntGoH6glicCTErshc+ACFHbZnpY7pPmf/J5mztJXQbhMielIOwP6gJnMi9QdZuS+EtiE/NZ1+uqtijaRtPmsin5Bs3TBsCkJkHtoqgULXiw/oYPJPbmOKr9Qn0BXbYIwWL0lBMNSr/zL/q6Y40VNNC2kP/rYvXADG3QIDr1mTtCmnYkLeEoZ+O/rhz8DzBNxKU7DYwAfFl1F0ZRRiX4xhzQk1BLpgvtQWih5Rze7JmAcpTa0YDWX0eaBuSvXBExZcxPSMSTMksyVpal2FMB48DF6RsHzIQ7d6w6LD5B1uiYFInWfZbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=izyeYj8wZtI3IIhRJjsTlB5n/y9JaNOSELyacT4VVfY=;
- b=eQ9vtoFhvkTOV7tiJrsumLmwep9gRT4hQaggY8quxat7PMxvTh+IWYA0V8Za0OsCSZUL6r+/4gdH1rjnKVpQZft36C7ZzaXRh6D3Hv5tMccbZlgsHVAUCkvM61mVTdNNAg8D/Vblv21/MkC8G9a09VZdDejcCs5oq6gW5/xbv4aluwsy3q5ErEbANPKDPNLN7/HPQs3RVOZciVmX18X6myRytC+PZxmQiM+UU/NRnCoPSYJRbV6MT7dzPb9X0oNf3X+D/mN9CaAy0vfuEFE4qGRtl0P2IZElvSlrJ9XNyJg5JYq6UwlX2G8UiZJSIHOZXxHUkKev+2aX0OfK96Ji8w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=izyeYj8wZtI3IIhRJjsTlB5n/y9JaNOSELyacT4VVfY=;
- b=mJcAaZegjs3env/RARPWtlF7raPW7OLIRTNNC6rca2zeTiJPnGVY6c9tWwuIZKfIU2ATO53PUsbrFhN1iskL2qI+mcpY9YX7R3GXj2QMm9nmOuqGVjLybe5Imi9qvzNwbl4sE4gGL0rxqcN+oBOd8siufXKI9iqb4w2xtGnQ40g=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MN2PR10MB3871.namprd10.prod.outlook.com
- (2603:10b6:208:180::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.22; Fri, 18 Feb
- 2022 07:30:06 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5%3]) with mapi id 15.20.4975.019; Fri, 18 Feb 2022
- 07:30:06 +0000
-Date: Fri, 18 Feb 2022 10:29:55 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: david.yatsin@amd.com
-Subject: [bug report] drm/amdkfd: CRIU checkpoint and restore queue mqds
-Message-ID: <20220218072955.GA9278@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZR0P278CA0119.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:20::16) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6473D10EB0F;
+ Fri, 18 Feb 2022 07:46:04 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id u18so13963420edt.6;
+ Thu, 17 Feb 2022 23:46:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=U5olLpLCoghEHY1TCG3d3Y+Izm3Dlu4bh0SXakm9Uoo=;
+ b=F2w8q2qmgX4O8EXvRpOJqfH1BIxaJaYjl2r31xfBPIGHUyGiwgy4+5a3SUfMU9kIPg
+ 1SM5oG2xKBaUVU94NTAcwBCucXC8I1wwuvU1iq7kTzxc7m5GEa/8B7gBzYbFU2B6p2+B
+ 6H4aIZ5glaNVXa/x3LMgNcbvYDKHOMLDI1iKGXKlIOyNQuDSQRh2908h4pLkrqpf66vh
+ VLPcydVUQM+0oKmmX88FpobYVo8Y8ETD/+kILmSqxT0MCCq0nOEo1EV5tZVxLgnCeDE1
+ xpzQYZn33nE2f4FrNnodtoXBs/GG7nn5NzM7SDWoBG7r+FdLLkxHUOnDB42VUAkVxkZ8
+ eIGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=U5olLpLCoghEHY1TCG3d3Y+Izm3Dlu4bh0SXakm9Uoo=;
+ b=vcpHHv7y1X0QBjo3fgWi21aJEbIb0KoqP30Q0RarbDDaXxZSdgQlWG7mK290CFqXSa
+ iLEChz2XxL/RcjNFajYgE7YmaBPZQQfKPHCGMhDJPMfUXylulK7z8ntg6HxH3FDC+Mmc
+ 0tB/9Q+npAl+/yB3+G3qO0o750kmeXrrFRxIhZAhcYZXOrAMi47jHRsk9ke+ZHMdzFFe
+ nT/e/e6+LMpGpp5P98p3dfaLrH3LLzGQ4YY8X/Qxzlwi9ouD7Sk2bwmJSJ0l75K/bv8I
+ iwJmi+MUDnBte/GvxU0pCAkvwO59xUyleHEkT7eW79eZvt9hY8rtv6eSE9No/bh59C4K
+ 1rkA==
+X-Gm-Message-State: AOAM53097yxpXNk49P+itWDY6IvqeeExMmKmYjRji8FXit4GEKzfz/cf
+ S1/jW4lNkAqoRlHn0Gv4yTY=
+X-Google-Smtp-Source: ABdhPJzJgAvXMrd3YlkoyLz+HzPRT2nU1J3fg3Kg+ubc5ej4DqMIwnGiI47/qXbu6eDESR03DikDJg==
+X-Received: by 2002:a05:6402:11cb:b0:3fd:abfa:1eef with SMTP id
+ j11-20020a05640211cb00b003fdabfa1eefmr6721618edw.341.1645170362684; 
+ Thu, 17 Feb 2022 23:46:02 -0800 (PST)
+Received: from [192.168.178.21] (p57b0bff8.dip0.t-ipconnect.de.
+ [87.176.191.248])
+ by smtp.gmail.com with ESMTPSA id z8sm1905551ejc.197.2022.02.17.23.46.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Feb 2022 23:46:02 -0800 (PST)
+Message-ID: <a11b7073-6597-8e87-b724-33acab32e791@gmail.com>
+Date: Fri, 18 Feb 2022 08:46:00 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 768e1866-9dfb-492b-442b-08d9f2b07c1d
-X-MS-TrafficTypeDiagnostic: MN2PR10MB3871:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR10MB38715E4B731981554A793AFF8E379@MN2PR10MB3871.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jszD7wDt8poszkA1qEaK6XGGJhaq6oIjg72thuUG37SY5CGuLCEcIZHwHn9jm1U61U1JyrQi+T6JEpDVaSFcA+8URErlKafhzqVqZaygn+zth8PoX0db9fh0m3xAaa7F1v5+bjynZAgc9x7FoVAqlmCjAHnTyvOswpOS9Ky2yLGX6Qqgr3eB9bHMbLknQc1xusu7TbkhsLmAmPttW1nbJri4FCdRu/NTtRrjGq7RZCFHbEqvjIRjfLkPIkOT7n9jY9ZjDkexbK1Kl4F7a2ZBEAdaeokeMKFBzE98DXWVRFmbRYHw0Y36I2E92MHEDAyKyfUAc19U+bVEDIbTHFsqY5gK4yCPI915SD2x4bfDy4w7wPnLypqNpMxjRTh4inCCNr2+P8OcxjR4cpmYqSMrDbKgmWNhHK8h6401gsEwtrIHf0/x8LJb0+QOAYAawrnBsLa7g0LJgoQZMd1uk0nje2bA3Au9EI70fhyiUWsiElJxwEhvyQiOD8LPY74ef6hIni/5ys/R0yllr2t9cboUQnUMssXNyyL9vrNNUF0+8GAXrt65a8Fqi6MQKibY01nT0Iqtqi9gqBietelr5L6rEssFsdh4gweD2m0VapP4DX6Tv1a8ZZ4+NssXczfTOuw7K8Kc1A4gzpIh39CpwsCw+z3oF7VaxTV67xzBj2a8WN1lRU7SE/JtpeBrrP9BIE3KQalExApVTg7HC5k3N9BL0Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(366004)(33716001)(508600001)(86362001)(4326008)(8676002)(66556008)(6486002)(66476007)(316002)(6916009)(66946007)(9686003)(6512007)(6506007)(2906002)(33656002)(6666004)(8936002)(83380400001)(38350700002)(44832011)(1076003)(38100700002)(5660300002)(26005)(186003)(52116002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qTuNyWey4swvLDPe+iU6Xi56RDvVIqMlHkeXQGn/VWX2Zvt4TzzM/+3d8Y6M?=
- =?us-ascii?Q?Z1hqTc6vAvwKKy559y7rreHZir0H+Ym1vc8pioBiqHnZSnCU24/BSuXpy1SO?=
- =?us-ascii?Q?OVs0LHKSAT46+s83H6CV8nJVFLYuW1LjTy/xc5bUKtHdJZtK4zguAhLsad+w?=
- =?us-ascii?Q?5qaRyEur8sYWv9FWi7LYtUTab8ddK2MvGfBrWad9lORw/X3mdcoMGDMoxDG9?=
- =?us-ascii?Q?Wig9fx48J1582qa+c9kuXI+jyhc6+UF0bJ2WDcXnBj3anWq8q1PQanVpgTqD?=
- =?us-ascii?Q?VTbpOx+uJAdohrAwzPimvUHAJZ2rIPJz9tk/bhseaJ6UvjcRT+mWR/VaLr0D?=
- =?us-ascii?Q?KFzKmUjuDNP+O4fQLu2b3MOoAeP+exTfycgxp/luT/ODFW+0IIesAM9Q/b9n?=
- =?us-ascii?Q?c4ijLqQ78C9GUeYaAMgF1//V46/66X6ib2pp8rbsVeN5aPgMoDjyZaIt2Jof?=
- =?us-ascii?Q?EuVdoN40X5kq6DEW4JGwpa49n7d1Adc8G02dU0T+Ljk9a4yfSNVvedw0UClF?=
- =?us-ascii?Q?Wd9P0Pufr/+R9y0gVljRBfDX6MlOAlpKwJBa4ta+CXbqXu3EkFusNASZ/u6o?=
- =?us-ascii?Q?hSwKcpu7ZCWJ5FPOyQMhhCbVueniff2FqJbfaLLFzF4LcIjgHdpYu+ayHdjJ?=
- =?us-ascii?Q?g2aknyU8mYuBdR3bsQrRC9RFFMTssoqpW4AFJaOoBklbPritNpZgkaGKc/x4?=
- =?us-ascii?Q?mTY4nmP+grzr4qMBA9J+/UWVlvD1tSZwfdcpQRxbKSnAk/Us55IWe5IXyjBB?=
- =?us-ascii?Q?6Emhwo0DP9/l3T4FzDg7ytop7URI3wpNhe+yPT7ADWMKgKGd42kgB/Xhv3Yb?=
- =?us-ascii?Q?Qg6AXzQzv+tJnJHLmcDNRsPYfFlpllSRbCWQHZ+ZHZt3vTpckw3UhJ0RmVfA?=
- =?us-ascii?Q?RGSlrwFFQuHPVdHnnAoRWF5qbPvSqY/YwXZPbHPo0MvHDVA6PHs1AQ0FKUZg?=
- =?us-ascii?Q?tFz/dDZOl3Ho5XjoRpIxFzeDhipGnzvSbIc/n3ATZzvTL+/KaW9odbwFgmyG?=
- =?us-ascii?Q?74MaC7iK+tWwzRMGMCF0p1sNH25vt3ETrjG+gjuNhE3jECR8hhpuxa9I5XN1?=
- =?us-ascii?Q?LwPcdEa9R+hiTStWI5XozoXxM//cXvzq7C6tEuckyOzPEmsXIqUWxAmtxK6I?=
- =?us-ascii?Q?rMtDKJzV2RIKgFE+oqNn4iVtcip7EFXMHoqhfvGRy75JpHwZ6QXvT5lKL4d/?=
- =?us-ascii?Q?Q7TOOdHXW02IgkMnR6qYX+WayZ7GnWID0AqStfCMEkx5i5r8bYaOZMS+suaw?=
- =?us-ascii?Q?1Nv8/LazNrDHeWzmJt17O+sH1dVW985Jl0DJzdk2dsRzoVV0biRw2Vce+Fsi?=
- =?us-ascii?Q?gMmbeK06rQc6vJqvFPOHjIjK5BJWbvC4DnNdNh07QMsAjgv4+iU4LUsX47uR?=
- =?us-ascii?Q?DJUFX4lA6q0ylvL6Ur5kCd2rEC3TtJtpGDuZffk5pzDnMA+uaSRqeHRzZZEC?=
- =?us-ascii?Q?ccwpYKTkVMMKAwP/5yPkBMQLEJ/uOOt7tEgr0BfuTCC+RGN112vStsoFOm/2?=
- =?us-ascii?Q?Is+fFwHNaWnkFqyNW5xcF+Nz6bqQL3QwNBS2rRMWspCSChVb6VqQRmy53yYK?=
- =?us-ascii?Q?9jiybV+BeqXYludrrrjvcjh1k9jCsHF5m5/wRwf81mRNQZ/JebNU8F4L8TV3?=
- =?us-ascii?Q?t6/rsAr0nCcsGy59t9C9IQdy3xD4CCIW5fm9/9FhrSTYGpScS7a1VBh/5Ke6?=
- =?us-ascii?Q?kzCBDg=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 768e1866-9dfb-492b-442b-08d9f2b07c1d
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2022 07:30:06.4000 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +qFDwokBxgDc0vhIOkFcnD/tK3PyzZlCs+T9JKOluq5KU8zF6aIm6qS7/o8I5Jy/Ir9XuS7o3pcDDSTho2Muf7LAj9RhYN6QHzsmabMmVvM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3871
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10261
- signatures=677564
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- phishscore=0 adultscore=0
- mlxlogscore=999 mlxscore=0 suspectscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202180045
-X-Proofpoint-GUID: 0cPuoh1haJWEA7TlTzApyfOdYxBVhORt
-X-Proofpoint-ORIG-GUID: 0cPuoh1haJWEA7TlTzApyfOdYxBVhORt
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/amdgpu: check vm bo eviction valuable at last
+Content-Language: en-US
+To: Qiang Yu <yuq825@gmail.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>
+References: <20220217090440.4468-1-qiang.yu@amd.com>
+ <5d3fdd2c-e74a-49f4-2b28-32c06483236f@amd.com>
+ <CAKGbVbtLTBJPF5eTu4rABUTBa8eqjQvqjo1AEUrzgPgYgCREuA@mail.gmail.com>
+ <dac70c05-e712-d2e3-2267-278380895f1e@amd.com>
+ <CAKGbVbvtLbDiKrX80-dMnipdLkTE+FP=g_mx37e12fuMtA1Y4Q@mail.gmail.com>
+ <ca27a9c6-f390-a938-dd66-ac23f3b44dc4@amd.com>
+ <CAKGbVbv4UFCybS_OFj5UkDgevbrB5qe3pv+0nHv9WdefYhy6Ww@mail.gmail.com>
+ <6711073b-8771-5750-33f7-b72333b411c6@amd.com>
+ <CAKGbVbvR+msXjrsXmDM8QTmsCP03hL5-q5CTJBYu4mm=NQd01A@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <CAKGbVbvR+msXjrsXmDM8QTmsCP03hL5-q5CTJBYu4mm=NQd01A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,73 +82,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ Qiang Yu <qiang.yu@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello David Yat Sin,
+Am 18.02.22 um 04:08 schrieb Qiang Yu:
+> On Thu, Feb 17, 2022 at 8:22 PM Christian König
+> <christian.koenig@amd.com> wrote:
+>> Am 17.02.22 um 11:58 schrieb Qiang Yu:
+>>> On Thu, Feb 17, 2022 at 6:39 PM Christian König
+>>> <christian.koenig@amd.com> wrote:
+>>>>
+>>>> Am 17.02.22 um 11:13 schrieb Qiang Yu:
+>>>>> On Thu, Feb 17, 2022 at 5:46 PM Christian König
+>>>>> <christian.koenig@amd.com> wrote:
+>>>>>> Am 17.02.22 um 10:40 schrieb Qiang Yu:
+>>>>>>> On Thu, Feb 17, 2022 at 5:15 PM Christian König
+>>>>>>> <christian.koenig@amd.com> wrote:
+>>>>>>>> Am 17.02.22 um 10:04 schrieb Qiang Yu:
+>>>>>>>>> Workstation application ANSA/META get this error dmesg:
+>>>>>>>>> [drm:amdgpu_gem_va_ioctl [amdgpu]] *ERROR* Couldn't update BO_VA (-16)
+>>>>>>>>>
+>>>>>>>>> This is caused by:
+>>>>>>>>> 1. create a 256MB buffer in invisible VRAM
+>>>>>>>>> 2. CPU map the buffer and access it causes vm_fault and try to move
+>>>>>>>>>         it to visible VRAM
+>>>>>>>>> 3. force visible VRAM space and traverse all VRAM bos to check if
+>>>>>>>>>         evicting this bo is valuable
+>>>>>>>>> 4. when checking a VM bo (in invisible VRAM), amdgpu_vm_evictable()
+>>>>>>>>>         will set amdgpu_vm->evicting, but latter due to not in visible
+>>>>>>>>>         VRAM, won't really evict it so not add it to amdgpu_vm->evicted
+>>>>>>>>> 5. before next CS to clear the amdgpu_vm->evicting, user VM ops
+>>>>>>>>>         ioctl will pass amdgpu_vm_ready() (check amdgpu_vm->evicted)
+>>>>>>>>>         but fail in amdgpu_vm_bo_update_mapping() (check
+>>>>>>>>>         amdgpu_vm->evicting) and get this error log
+>>>>>>>>>
+>>>>>>>>> This error won't affect functionality as next CS will finish the
+>>>>>>>>> waiting VM ops. But we'd better make the amdgpu_vm->evicting
+>>>>>>>>> correctly reflact the vm status and clear the error log.
+>>>>>>>> Well NAK, that is intentional behavior.
+>>>>>>>>
+>>>>>>>> The VM page tables where considered for eviction, so setting the flag is
+>>>>>>>> correct even when the page tables later on are not actually evicted.
+>>>>>>>>
+>>>>>>> But this will unnecessarily stop latter user VM ops in ioctl before CS
+>>>>>>> even when the VM bos are not evicted.
+>>>>>>> Won't this have any negative effect when could do better?
+>>>>>> No, this will have a positive effect. See the VM was already considered
+>>>>>> for eviction because it is idle.
+>>>>>>
+>>>>>> Updating it immediately doesn't necessarily make sense, we should wait
+>>>>>> with that until its next usage.
+>>>>>>
+>>>>>> Additional to that this patch doesn't really fix the problem, it just
+>>>>>> mitigates it.
+>>>>>>
+>>>>>> Eviction can fail later on for a couple of reasons and we absolutely
+>>>>>> need to check the flag instead of the list in amdgpu_vm_ready().
+>>>>> The flag only for both flag and list? Looks like should be both as
+>>>>> the list indicate some vm page table need to be updated and could
+>>>>> delay the user update with the same logic as you described above.
+>>>> I think checking the flag should be enough. The issue is that the list
+>>>> was there initially, but to avoid race conditions we added the flag with
+>>>> separate lock protection later on.
+>>>>
+>>> But list and flag does not align always, there are cases like
+>>> list-empty/flag-set (this problem) and list-non-empty/flag-unset (non-vm bo
+>>> eviction). If only check flag list-non-empty/flag-unset change behavior.
+>> Yeah, but I think that the flag unset list-non-empty case would be
+>> correctly handled if we only test the flag.
+>>
+>> In other words we can update the page tables as long as they are not
+>> partially or fully evicted and that's not the case when non-vm BOs are
+>> evicted.
+>>
+> This sounds like two standard for the same thing, because this problem
+> does not evict page tables too. But I see your point is:
+> There's a difference that this problem's case can make sure vm is idle,
+> and we prefer to delay vm updates when vm is idle.
+>
+> If so, why not just stop user vm update by checking vm busy in
+> amdgpu_gem_va_ioctl() to skip amdgpu_gem_va_update_vm()?
 
-The patch 42c6c48214b7: "drm/amdkfd: CRIU checkpoint and restore
-queue mqds" from Jan 25, 2021, leads to the following Smatch static
-checker warning:
+That's exactly what amdgpu_gem_va_update_vm() is doing by calling 
+amdgpu_vm_ready(). The problem is that amdgpu_vm_ready() looks at the 
+wrong thing.
 
-	drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_mqd_manager_v9.c:344 restore_mqd()
-	error: 'ctl_stack_size' from user is not capped properly
+> Then we can keep the evicting flag accurate (after solving your
+> concern for this patch that eviction may fail latter by further delay
+> the flag update after eviction success).
 
-drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-   762        int kfd_criu_restore_queue(struct kfd_process *p,
-   763                                   uint8_t __user *user_priv_ptr,
-   764                                   uint64_t *priv_data_offset,
-   765                                   uint64_t max_priv_data_size)
-   766        {
-   767                uint8_t *mqd, *ctl_stack, *q_extra_data = NULL;
-   768                struct kfd_criu_queue_priv_data *q_data;
-   769                struct kfd_process_device *pdd;
-   770                uint64_t q_extra_data_size;
-   771                struct queue_properties qp;
-   772                unsigned int queue_id;
-   773                int ret = 0;
-   774
-   775                if (*priv_data_offset + sizeof(*q_data) > max_priv_data_size)
-   776                        return -EINVAL;
-   777
-   778                q_data = kmalloc(sizeof(*q_data), GFP_KERNEL);
-   779                if (!q_data)
-   780                        return -ENOMEM;
-   781
-   782                ret = copy_from_user(q_data, user_priv_ptr + *priv_data_offset, sizeof(*q_data));
-   783                if (ret) {
-   784                        ret = -EFAULT;
-   785                        goto exit;
-   786                }
-   787
-   788                *priv_data_offset += sizeof(*q_data);
-   789                q_extra_data_size = q_data->ctl_stack_size + q_data->mqd_size;
-                                          ^^^^^^^^^^^^^^^^^^^^^^
-ctl_stack_size comes from the user a couple lines earlier.  It's a u32
-and so is q_data->mqd_size.  This addition can have an integer overflow.
+That won't work. See we need to mark the VM as evicted before we 
+actually evict them because otherwise somebody could use the VM in 
+parallel and add another fence to it.
 
-   790
-   791                if (*priv_data_offset + q_extra_data_size > max_priv_data_size) {'
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Which means that this limit check doesn't work.
+Regards,
+Christian.
 
-   792                        ret = -EINVAL;
-   793                        goto exit;
-   794                }
-   795
-   796                q_extra_data = kmalloc(q_extra_data_size, GFP_KERNEL);
-   797                if (!q_extra_data) {
-   798                        ret = -ENOMEM;
-   799                        goto exit;
-   800                }
-   801
-   802                ret = copy_from_user(q_extra_data, user_priv_ptr + *priv_data_offset, q_extra_data_size);
-   803                if (ret) {
-   804                        ret = -EFAULT;
-   805                        goto exit;
-   806                }
+>
+> Regards,
+> Qiang
+>
+>
+>> Regards,
+>> Christian.
+>>
+>>> Regards,
+>>> Qiang
+>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>> Regards,
+>>>>> Qiang
+>>>>>
+>>>>>> Regards,
+>>>>>> Christian.
+>>>>>>
+>>>>>>> Regards,
+>>>>>>> Qiang
+>>>>>>>
+>>>>>>>> What we should rather do is to fix amdgpu_vm_ready() to take a look at
+>>>>>>>> the flag instead of the linked list.
+>>>>>>>>
+>>>>>>>> Regards,
+>>>>>>>> Christian.
+>>>>>>>>
+>>>>>>>>> Signed-off-by: Qiang Yu <qiang.yu@amd.com>
+>>>>>>>>> ---
+>>>>>>>>>       drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 85 ++++++++++++++-----------
+>>>>>>>>>       1 file changed, 47 insertions(+), 38 deletions(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>>>>>> index 5a32ee66d8c8..88a27911054f 100644
+>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>>>>>> @@ -1306,45 +1306,11 @@ uint64_t amdgpu_ttm_tt_pte_flags(struct amdgpu_device *adev, struct ttm_tt *ttm,
+>>>>>>>>>           return flags;
+>>>>>>>>>       }
+>>>>>>>>>
+>>>>>>>>> -/*
+>>>>>>>>> - * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evict a buffer
+>>>>>>>>> - * object.
+>>>>>>>>> - *
+>>>>>>>>> - * Return true if eviction is sensible. Called by ttm_mem_evict_first() on
+>>>>>>>>> - * behalf of ttm_bo_mem_force_space() which tries to evict buffer objects until
+>>>>>>>>> - * it can find space for a new object and by ttm_bo_force_list_clean() which is
+>>>>>>>>> - * used to clean out a memory space.
+>>>>>>>>> - */
+>>>>>>>>> -static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+>>>>>>>>> -                                         const struct ttm_place *place)
+>>>>>>>>> +static bool amdgpu_ttm_mem_eviction_valuable(struct ttm_buffer_object *bo,
+>>>>>>>>> +                                          const struct ttm_place *place)
+>>>>>>>>>       {
+>>>>>>>>>           unsigned long num_pages = bo->resource->num_pages;
+>>>>>>>>>           struct amdgpu_res_cursor cursor;
+>>>>>>>>> -     struct dma_resv_list *flist;
+>>>>>>>>> -     struct dma_fence *f;
+>>>>>>>>> -     int i;
+>>>>>>>>> -
+>>>>>>>>> -     /* Swapout? */
+>>>>>>>>> -     if (bo->resource->mem_type == TTM_PL_SYSTEM)
+>>>>>>>>> -             return true;
+>>>>>>>>> -
+>>>>>>>>> -     if (bo->type == ttm_bo_type_kernel &&
+>>>>>>>>> -         !amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo)))
+>>>>>>>>> -             return false;
+>>>>>>>>> -
+>>>>>>>>> -     /* If bo is a KFD BO, check if the bo belongs to the current process.
+>>>>>>>>> -      * If true, then return false as any KFD process needs all its BOs to
+>>>>>>>>> -      * be resident to run successfully
+>>>>>>>>> -      */
+>>>>>>>>> -     flist = dma_resv_shared_list(bo->base.resv);
+>>>>>>>>> -     if (flist) {
+>>>>>>>>> -             for (i = 0; i < flist->shared_count; ++i) {
+>>>>>>>>> -                     f = rcu_dereference_protected(flist->shared[i],
+>>>>>>>>> -                             dma_resv_held(bo->base.resv));
+>>>>>>>>> -                     if (amdkfd_fence_check_mm(f, current->mm))
+>>>>>>>>> -                             return false;
+>>>>>>>>> -             }
+>>>>>>>>> -     }
+>>>>>>>>>
+>>>>>>>>>           switch (bo->resource->mem_type) {
+>>>>>>>>>           case AMDGPU_PL_PREEMPT:
+>>>>>>>>> @@ -1377,10 +1343,53 @@ static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+>>>>>>>>>                   return false;
+>>>>>>>>>
+>>>>>>>>>           default:
+>>>>>>>>> -             break;
+>>>>>>>>> +             return ttm_bo_eviction_valuable(bo, place);
+>>>>>>>>>           }
+>>>>>>>>> +}
+>>>>>>>>>
+>>>>>>>>> -     return ttm_bo_eviction_valuable(bo, place);
+>>>>>>>>> +/*
+>>>>>>>>> + * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evict a buffer
+>>>>>>>>> + * object.
+>>>>>>>>> + *
+>>>>>>>>> + * Return true if eviction is sensible. Called by ttm_mem_evict_first() on
+>>>>>>>>> + * behalf of ttm_bo_mem_force_space() which tries to evict buffer objects until
+>>>>>>>>> + * it can find space for a new object and by ttm_bo_force_list_clean() which is
+>>>>>>>>> + * used to clean out a memory space.
+>>>>>>>>> + */
+>>>>>>>>> +static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+>>>>>>>>> +                                         const struct ttm_place *place)
+>>>>>>>>> +{
+>>>>>>>>> +     struct dma_resv_list *flist;
+>>>>>>>>> +     struct dma_fence *f;
+>>>>>>>>> +     int i;
+>>>>>>>>> +
+>>>>>>>>> +     /* Swapout? */
+>>>>>>>>> +     if (bo->resource->mem_type == TTM_PL_SYSTEM)
+>>>>>>>>> +             return true;
+>>>>>>>>> +
+>>>>>>>>> +     /* If bo is a KFD BO, check if the bo belongs to the current process.
+>>>>>>>>> +      * If true, then return false as any KFD process needs all its BOs to
+>>>>>>>>> +      * be resident to run successfully
+>>>>>>>>> +      */
+>>>>>>>>> +     flist = dma_resv_shared_list(bo->base.resv);
+>>>>>>>>> +     if (flist) {
+>>>>>>>>> +             for (i = 0; i < flist->shared_count; ++i) {
+>>>>>>>>> +                     f = rcu_dereference_protected(flist->shared[i],
+>>>>>>>>> +                             dma_resv_held(bo->base.resv));
+>>>>>>>>> +                     if (amdkfd_fence_check_mm(f, current->mm))
+>>>>>>>>> +                             return false;
+>>>>>>>>> +             }
+>>>>>>>>> +     }
+>>>>>>>>> +
+>>>>>>>>> +     /* Check by different mem type. */
+>>>>>>>>> +     if (!amdgpu_ttm_mem_eviction_valuable(bo, place))
+>>>>>>>>> +             return false;
+>>>>>>>>> +
+>>>>>>>>> +     /* VM bo should be checked at last because it will mark VM evicting. */
+>>>>>>>>> +     if (bo->type == ttm_bo_type_kernel)
+>>>>>>>>> +             return amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo));
+>>>>>>>>> +
+>>>>>>>>> +     return true;
+>>>>>>>>>       }
+>>>>>>>>>
+>>>>>>>>>       static void amdgpu_ttm_vram_mm_access(struct amdgpu_device *adev, loff_t pos,
 
-
-regards,
-dan carpenter
