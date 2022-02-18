@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F84F4BB624
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:04:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDDA4BB629
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:04:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87EB610EB0B;
-	Fri, 18 Feb 2022 10:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73D1110EAD8;
+	Fri, 18 Feb 2022 10:04:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D82710EB0B;
- Fri, 18 Feb 2022 10:04:25 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6325F10EB78;
+ Fri, 18 Feb 2022 10:04:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645178665; x=1676714665;
+ t=1645178667; x=1676714667;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=FHSq9nku0ZBtLOFiRYG5HZlgIPCvJSiPaHrpwRGI1dI=;
- b=YsqILzAc1dSQrv5bT28AhdIV/duCDVISCuO46gXOBdoxShCeS8JJkEwu
- CgpCMAH3Z291ey6ekfFBhrJZZtnqFPn03CKOH25zmX+OYDkGRIomsnigX
- +XQxGn8/TSsR5KSjkJUrxoM434bsgeUxVKaeb0Xq2EQ08MHhyVdwY6T69
- 55i5NPwkhXvav5M9Rnv5jp4hBLUCQhQ3yynWsjlVXl8gat7tdZAPDRL+G
- HpTtQjnTqy3xyvpzqGs3cbii2sMRISxbCA8LTLEwQd9fFb9z5kh7zi1Uz
- srWFgMHwXnKYvPBGJCL1XU2SvFXm5Qxlz5rqYPTI2kvlaAgWJUYiNF7zQ Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="234628567"
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="234628567"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 02:04:22 -0800
+ bh=kSQdB0vwC6YXJ2Jhjl2aK0gT9Jca40OlOstRdm+C/6E=;
+ b=RhTvp3VWJOxMSVNY7kIf7rQMCZ2LA9qvsxgK/JHGw7tLay0B7EGiUV5R
+ Wl1ynFOv8iElAirkbL6Ziu0tldHHw+m+pIvrG1C9sk9xM7fkByFdJJHf9
+ pYgnqG42oh51Vq12ahOJxX1TJlYptl2LiaLf9ffI1UQVx5V95lQMfKtIH
+ pFIFxAZWsbq99n4JQ6ka5Knf57i40bsrJwpN1aAVlqe2wGuskXm4QJuQN
+ HAY3EbBzapyS6XHdJWvogo9+5SHmCx/bprpXPovHozEOEU/9pDGJL4/FW
+ WuyJGM6fC9xbSdKrBAu8tYoHeyToM/fwUpk9EgS3JJwsQxAQHRHYkIhP9 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="275693599"
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="275693599"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2022 02:04:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="530863247"
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="505337204"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
- by orsmga007.jf.intel.com with SMTP; 18 Feb 2022 02:04:18 -0800
+ by orsmga006.jf.intel.com with SMTP; 18 Feb 2022 02:04:23 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 18 Feb 2022 12:04:17 +0200
+ Fri, 18 Feb 2022 12:04:22 +0200
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/22] drm/amdgpu: Remove pointless on stack mode copies
-Date: Fri, 18 Feb 2022 12:03:43 +0200
-Message-Id: <20220218100403.7028-3-ville.syrjala@linux.intel.com>
+Subject: [PATCH 03/22] drm/amdgpu: Use drm_mode_init() for on-stack modes
+Date: Fri, 18 Feb 2022 12:03:44 +0200
+Message-Id: <20220218100403.7028-4-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
 References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
@@ -60,77 +60,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Nikola Cornij <nikola.cornij@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-These on stack copies of the modes appear to be pointless.
-Just look at the originals directly.
+Initialize on-stack modes with drm_mode_init() to guarantee
+no stack garbage in the list head, or that we aren't copying
+over another mode's list head.
+
+Based on the following cocci script, with manual fixups:
+@decl@
+identifier M;
+expression E;
+@@
+- struct drm_display_mode M = E;
++ struct drm_display_mode M;
+
+@@
+identifier decl.M;
+expression decl.E;
+statement S, S1;
+@@
+struct drm_display_mode M;
+... when != S
++ drm_mode_init(&M, &E);
++
+S1
+
+@@
+expression decl.E;
+@@
+- &*E
++ E
 
 Cc: Harry Wentland <harry.wentland@amd.com>
 Cc: Leo Li <sunpeng.li@amd.com>
 Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: amd-gfx@lists.freedesktop.org
-Cc: Nikola Cornij <nikola.cornij@amd.com>
-Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 32 +++++++++----------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 21dba337dab0..65aab0d086b6 100644
+index 65aab0d086b6..bd23c9e481eb 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10139,27 +10139,27 @@ static bool
- is_timing_unchanged_for_freesync(struct drm_crtc_state *old_crtc_state,
- 				 struct drm_crtc_state *new_crtc_state)
- {
--	struct drm_display_mode old_mode, new_mode;
-+	const struct drm_display_mode *old_mode, *new_mode;
+@@ -6361,7 +6361,7 @@ create_stream_for_sink(struct amdgpu_dm_connector *aconnector,
+ 	const struct drm_connector_state *con_state =
+ 		dm_state ? &dm_state->base : NULL;
+ 	struct dc_stream_state *stream = NULL;
+-	struct drm_display_mode mode = *drm_mode;
++	struct drm_display_mode mode;
+ 	struct drm_display_mode saved_mode;
+ 	struct drm_display_mode *freesync_mode = NULL;
+ 	bool native_mode_found = false;
+@@ -6374,6 +6374,7 @@ create_stream_for_sink(struct amdgpu_dm_connector *aconnector,
+ #endif
+ 	struct dc_sink *sink = NULL;
  
- 	if (!old_crtc_state || !new_crtc_state)
- 		return false;
++	drm_mode_init(&mode, drm_mode);
+ 	memset(&saved_mode, 0, sizeof(saved_mode));
  
--	old_mode = old_crtc_state->mode;
--	new_mode = new_crtc_state->mode;
-+	old_mode = &old_crtc_state->mode;
-+	new_mode = &new_crtc_state->mode;
- 
--	if (old_mode.clock       == new_mode.clock &&
--	    old_mode.hdisplay    == new_mode.hdisplay &&
--	    old_mode.vdisplay    == new_mode.vdisplay &&
--	    old_mode.htotal      == new_mode.htotal &&
--	    old_mode.vtotal      != new_mode.vtotal &&
--	    old_mode.hsync_start == new_mode.hsync_start &&
--	    old_mode.vsync_start != new_mode.vsync_start &&
--	    old_mode.hsync_end   == new_mode.hsync_end &&
--	    old_mode.vsync_end   != new_mode.vsync_end &&
--	    old_mode.hskew       == new_mode.hskew &&
--	    old_mode.vscan       == new_mode.vscan &&
--	    (old_mode.vsync_end - old_mode.vsync_start) ==
--	    (new_mode.vsync_end - new_mode.vsync_start))
-+	if (old_mode->clock       == new_mode->clock &&
-+	    old_mode->hdisplay    == new_mode->hdisplay &&
-+	    old_mode->vdisplay    == new_mode->vdisplay &&
-+	    old_mode->htotal      == new_mode->htotal &&
-+	    old_mode->vtotal      != new_mode->vtotal &&
-+	    old_mode->hsync_start == new_mode->hsync_start &&
-+	    old_mode->vsync_start != new_mode->vsync_start &&
-+	    old_mode->hsync_end   == new_mode->hsync_end &&
-+	    old_mode->vsync_end   != new_mode->vsync_end &&
-+	    old_mode->hskew       == new_mode->hskew &&
-+	    old_mode->vscan       == new_mode->vscan &&
-+	    (old_mode->vsync_end - old_mode->vsync_start) ==
-+	    (new_mode->vsync_end - new_mode->vsync_start))
- 		return true;
- 
- 	return false;
+ 	if (aconnector == NULL) {
 -- 
 2.34.1
 
