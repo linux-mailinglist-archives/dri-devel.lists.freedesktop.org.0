@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95494BB8C1
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:57:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC664BB8D5
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 13:05:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6A610E4E7;
-	Fri, 18 Feb 2022 11:57:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A0E610E2C5;
+	Fri, 18 Feb 2022 12:05:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BB6810E391;
- Fri, 18 Feb 2022 11:57:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645185423; x=1676721423;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=mP4AAe6GEPELC8qa7HPpCq/3z8XeScXVNdFcHpVrhbg=;
- b=B+n7Wa8WvWl2hN0OJHxvungEeufXL13aenEkmKYMUGgjsMXTc7uPY82+
- N0rh5CMpk7jF6QNuTcmDaydq1G/DKHIsqwNZFbGyNHtpcnjLz03KPi66Y
- 3KNgkK825tiRzQP3776vn9fFcnYCfvcM6vVvvTYaSKCKlRXewVvm+prAG
- HsWLSY6kwyQumBPe2ooHQWWQZ9df+0YXVxWNCxjP0LmcScFsQWbJ5rxys
- 0aHMz2+u6/QJeH877d59GdswWs4dVfQ0oK4134DMKFOH43mS5wjuZOaU3
- boW2pfUql6paKKuQTIMaVPR12rWk4PjVScT/OnOq2rybXYtmbi3K00d/I A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="248708365"
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="248708365"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 03:57:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="546253500"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
- by orsmga008.jf.intel.com with SMTP; 18 Feb 2022 03:56:59 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 18 Feb 2022 13:56:58 +0200
-Date: Fri, 18 Feb 2022 13:56:58 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [PATCH 01/22] drm: Add drm_mode_init()
-Message-ID: <Yg+JivyhsNufopPc@intel.com>
-References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
- <20220218100403.7028-2-ville.syrjala@linux.intel.com>
- <0e2baaab-6a38-5f80-5552-57326d781c43@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F152210E6E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 12:05:33 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id 5149B219A7;
+ Fri, 18 Feb 2022 12:05:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1645185932; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m87japvLs6dTotRw4YdigIf21fJ6IZ9mrxbcurYJjpA=;
+ b=yL7tUspE1/oIcVnVHmeQkrRPbWmE2koS2I4ZX7YaTv28BQ9FQ3h4Z+X10KoypCXSLVPXiT
+ iz1W4EFkaXllnszgnn4lBd+WvjI+b9KXXLXd0vmE6mkZfA/KhWUk+SVrwwaRoSXkXZvczp
+ 0rjcp5sINF8Tja+PvZLUGpQuytskbss=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1645185932;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m87japvLs6dTotRw4YdigIf21fJ6IZ9mrxbcurYJjpA=;
+ b=aiPSgPFlhB4wMyB6cmR5KnM7bVTV5JJnNVZ1Za5wOBLioEeq0a+9nvgx9TSOp5hT7kIZ/P
+ m7YANTEYE3fNu/CA==
+Received: from kunlun.suse.cz (unknown [10.100.128.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by relay2.suse.de (Postfix) with ESMTPS id ECB0AA3B81;
+ Fri, 18 Feb 2022 12:05:31 +0000 (UTC)
+Date: Fri, 18 Feb 2022 13:05:30 +0100
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2] simplefb: Enable boot time VESA graphic mode selection.
+Message-ID: <20220218120530.GX3113@kunlun.suse.cz>
+References: <14dd85f1-21b1-2ff7-3491-466c077210e6@suse.de>
+ <20220218105138.5384-1-msuchanek@suse.de>
+ <a789e375-a23e-6988-33bc-1410eb5d974f@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0e2baaab-6a38-5f80-5552-57326d781c43@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <a789e375-a23e-6988-33bc-1410eb5d974f@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,56 +64,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, David Herrmann <dh.herrmann@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Simon Trimmer <simont@opensource.cirrus.com>,
+ Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Martin Mares <mj@ucw.cz>, Sudeep Holla <sudeep.holla@arm.com>,
+ linux-video@atrey.karlin.mff.cuni.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 18, 2022 at 12:22:44PM +0100, Andrzej Hajda wrote:
+On Fri, Feb 18, 2022 at 12:36:10PM +0100, Thomas Zimmermann wrote:
+> Hi
 > 
-> 
-> On 18.02.2022 11:03, Ville Syrjala wrote:
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >
-> > Add a variant of drm_mode_copy() that explicitly clears out
-> > the list head of the destination mode. Helpful to guarantee
-> > we don't have stack garbage left in there for on-stack modes.
-> >
-> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Am 18.02.22 um 11:51 schrieb Michal Suchanek:
+> > Since switch to simplefb/simpledrm VESA graphic modes are no longer
+> > available with legacy BIOS.
+> > 
+> > The x86 realmode boot code enables the VESA graphic modes when option
+> > FB_BOOT_VESA_SUPPORT is enabled.
+> > 
+> > To enable use of VESA modes with simpledrm in legacy BIOS boot mode drop
+> > dependency of BOOT_VESA_SUPPORT on FB, also drop the FB_ prefix, and
+> > select the option when simpledrm is built-in on x86.
+> > 
+> > Fixes: e3263ab389a7 ("x86: provide platform-devices for boot-framebuffers")
+> > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
 > > ---
-> >   drivers/gpu/drm/drm_modes.c | 17 +++++++++++++++++
-> >   include/drm/drm_modes.h     |  2 ++
-> >   2 files changed, 19 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> > index 96b13e36293c..40d4ce4a1da4 100644
-> > --- a/drivers/gpu/drm/drm_modes.c
-> > +++ b/drivers/gpu/drm/drm_modes.c
-> > @@ -892,6 +892,23 @@ void drm_mode_copy(struct drm_display_mode *dst, const struct drm_display_mode *
-> >   }
-> >   EXPORT_SYMBOL(drm_mode_copy);
-> >   
-> > +/**
-> > + * drm_mode_init - initialize the mode from another mode
-> > + * @dst: mode to overwrite
-> > + * @src: mode to copy
-> > + *
-> > + * Copy an existing mode into another mode, zeroing the
-> > + * list head of the destination mode. Typically used
-> > + * to guarantee the list head is not left with stack
-> > + * garbage in on-stack modes.
-> > + */
-> > +void drm_mode_init(struct drm_display_mode *dst, const struct drm_display_mode *src)
-> > +{
-> > +	memset(dst, 0, sizeof(*dst));
+> > v2: Select BOOT_VESA_SUPPORT from simplefb rather than simpledrm. The
+> > simpledrm driver uses the firmware provided video modes only indirectly
+> > through simplefb, and both can be enabled independently.
+> > ---
+> >   arch/x86/boot/video-vesa.c  | 4 ++--
+> >   drivers/firmware/Kconfig    | 1 +
+> >   drivers/video/fbdev/Kconfig | 9 ++++-----
+> >   3 files changed, 7 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/arch/x86/boot/video-vesa.c b/arch/x86/boot/video-vesa.c
+> > index 7e185977a984..c2c6d35e3a43 100644
+> > --- a/arch/x86/boot/video-vesa.c
+> > +++ b/arch/x86/boot/video-vesa.c
+> > @@ -83,7 +83,7 @@ static int vesa_probe(void)
+> >   			   (vminfo.memory_layout == 4 ||
+> >   			    vminfo.memory_layout == 6) &&
+> >   			   vminfo.memory_planes == 1) {
+> > -#ifdef CONFIG_FB_BOOT_VESA_SUPPORT
+> > +#ifdef CONFIG_BOOT_VESA_SUPPORT
+> >   			/* Graphics mode, color, linear frame buffer
+> >   			   supported.  Only register the mode if
+> >   			   if framebuffer is configured, however,
+> > @@ -121,7 +121,7 @@ static int vesa_set_mode(struct mode_info *mode)
+> >   	if ((vminfo.mode_attr & 0x15) == 0x05) {
+> >   		/* It's a supported text mode */
+> >   		is_graphic = 0;
+> > -#ifdef CONFIG_FB_BOOT_VESA_SUPPORT
+> > +#ifdef CONFIG_BOOT_VESA_SUPPORT
+> >   	} else if ((vminfo.mode_attr & 0x99) == 0x99) {
+> >   		/* It's a graphics mode with linear frame buffer */
+> >   		is_graphic = 1;
+> > diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+> > index 75cb91055c17..8053c75b8645 100644
+> > --- a/drivers/firmware/Kconfig
+> > +++ b/drivers/firmware/Kconfig
+> > @@ -224,6 +224,7 @@ config SYSFB
+> >   config SYSFB_SIMPLEFB
+> >   	bool "Mark VGA/VBE/EFI FB as generic system framebuffer"
+> >   	depends on SYSFB
+> > +	select BOOT_VESA_SUPPORT if X86
+> >   	help
+> >   	  Firmwares often provide initial graphics framebuffers so the BIOS,
+> >   	  bootloader or kernel can show basic video-output during boot for
+> > diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+> > index 6ed5e608dd04..4f3be9b7a520 100644
+> > --- a/drivers/video/fbdev/Kconfig
+> > +++ b/drivers/video/fbdev/Kconfig
+> > @@ -66,9 +66,8 @@ config FB_DDC
+> >   	select I2C_ALGOBIT
+> >   	select I2C
+> > -config FB_BOOT_VESA_SUPPORT
+> > +config BOOT_VESA_SUPPORT
+> >   	bool
+> > -	depends on FB
+> >   	help
+> >   	  If true, at least one selected framebuffer driver can take advantage
+> >   	  of VESA video modes set at an early boot stage via the vga= parameter.
 > 
-> Why not just clear the list head? Or maybe poison it? It would be more 
-> cleaner.
+> This isn't an fb option any longer. Should we move this into
+> arch/x86/Kconfig ?
 
-Then we have two places that need to be updated if some other field
-gets introduced that needs preserving. With a full memset() we only
-have to care about drm_mode_copy(). Don't see much point in
-micro-optimizing this thing.
+I tried moving it just a directory up but then found that it works even
+where it is. It's specific to x86 boot code so moving to x86 may make
+sense. Then the 'if X86' should not be needed, either.
 
--- 
-Ville Syrjälä
-Intel
+Thanks
+
+Michal
+
+> 
+> Best regards
+> Thomas
+> 
+> > @@ -627,7 +626,7 @@ config FB_VESA
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> >   	select FB_CFB_IMAGEBLIT
+> > -	select FB_BOOT_VESA_SUPPORT
+> > +	select BOOT_VESA_SUPPORT
+> >   	help
+> >   	  This is the frame buffer device driver for generic VESA 2.0
+> >   	  compliant graphic cards. The older VESA 1.2 cards are not supported.
+> > @@ -1051,7 +1050,7 @@ config FB_INTEL
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> >   	select FB_CFB_IMAGEBLIT
+> > -	select FB_BOOT_VESA_SUPPORT if FB_INTEL = y
+> > +	select BOOT_VESA_SUPPORT if FB_INTEL = y
+> >   	depends on !DRM_I915
+> >   	help
+> >   	  This driver supports the on-board graphics built in to the Intel
+> > @@ -1378,7 +1377,7 @@ config FB_SIS
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> >   	select FB_CFB_IMAGEBLIT
+> > -	select FB_BOOT_VESA_SUPPORT if FB_SIS = y
+> > +	select BOOT_VESA_SUPPORT if FB_SIS = y
+> >   	select FB_SIS_300 if !FB_SIS_315
+> >   	help
+> >   	  This is the frame buffer device driver for the SiS 300, 315, 330
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Ivo Totev
+
+
+
