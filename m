@@ -2,76 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26644BBE89
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 18:39:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337F74BBEA1
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 18:48:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE8C810E3AF;
-	Fri, 18 Feb 2022 17:39:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6391B10E146;
+	Fri, 18 Feb 2022 17:47:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D38CA10EE79
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 17:39:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645205963;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=xAam+qFCmo3Rl80e7z26slziDVWmWKJYDMPephJD4B8=;
- b=O8tBTxSIQpcIdgkYwaxVf6s0H4YdmLxMn6jMugdH0dPBzgl8Rs7mOCoT9t6gaM9p07P78Q
- Nqyq8uY7tyVnGu7lnAkww1xZ2QnYRRV5iunjGCAoxeUboFm5THTh+Vpfvx9z/dgbyAD1A1
- gaIYo56xlKKc0cWjYSpL6V1EthwzQ0o=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-328-d6PgzTqPNu-WOrbEg7naOw-1; Fri, 18 Feb 2022 12:39:19 -0500
-X-MC-Unique: d6PgzTqPNu-WOrbEg7naOw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- u12-20020a05620a0c4c00b00475a9324977so7980291qki.13
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 09:39:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xAam+qFCmo3Rl80e7z26slziDVWmWKJYDMPephJD4B8=;
- b=gIT5p+gW4wXgPuwaWYOOJjaL3ar4exuatn80KwI22qt7Yu77DIFN18a86JjWQsFKnu
- 2+UP038/xJSkFn1PWJCTq4p3hzKvpEWE95DNqJSkEiDWAG+CdYNq5WU9xLW2xnYdyiED
- QUj5WvUdfK5+45tyTcmzVt357W046xCskxPMj7KyyTt4VIW6gv5/ClA+plOBsFLb3B75
- pLPjb2MhCMt7a+7dOhRAEOVEYIQeeEwJf7gkvyUe+2w1iWXK9VcN6olc8+BGrQFYEP4z
- XWIiaFI9LNMt9z8/5EpWBmOrPu0K2CazM5PfNzdVuUjuDc0oOuhgIHjvEi+4EUmW7vM8
- OHTg==
-X-Gm-Message-State: AOAM530bsoeEATLuCjtFudgCwLK7Q2xtnvMr1uOvK0lgDcdxqQ/9jH1l
- OJ40n5NxzpA3QBUyOWdURvVfQJZwHKgx6q5OBp79aowAgEE5GECBEj8xF4M/CBXyqpJYCY2hCQ+
- 7hF5OmWFRiikN223t2Sohyqz4po0B
-X-Received: by 2002:a05:6214:6ae:b0:42d:8c32:9697 with SMTP id
- s14-20020a05621406ae00b0042d8c329697mr6639082qvz.128.1645205959291; 
- Fri, 18 Feb 2022 09:39:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyHRTUjyiPCyav3YHqFIKehE5vskU34OYALKehiwfJAPYRDA2JG2akysROtDLt0A6lF7XH17w==
-X-Received: by 2002:a05:6214:6ae:b0:42d:8c32:9697 with SMTP id
- s14-20020a05621406ae00b0042d8c329697mr6639057qvz.128.1645205959074; 
- Fri, 18 Feb 2022 09:39:19 -0800 (PST)
-Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
- [24.205.208.113])
- by smtp.gmail.com with ESMTPSA id g22sm3425738qkp.63.2022.02.18.09.39.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Feb 2022 09:39:18 -0800 (PST)
-From: trix@redhat.com
-To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, nathan@kernel.org, ndesaulniers@google.com,
- david.yatsin@amd.com, rajneesh.bhardwaj@amd.com
-Subject: [PATCH] drm/amdkfd: rework criu_restore_bos error handling
-Date: Fri, 18 Feb 2022 09:39:13 -0800
-Message-Id: <20220218173913.3376948-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1A310E146;
+ Fri, 18 Feb 2022 17:47:52 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED5B8482;
+ Fri, 18 Feb 2022 18:47:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1645206470;
+ bh=AeJhQIrl7kaQkaCwa4nHx70xAmOpJnbiz0a0jKT3OiA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c8B0HBNKGtUFPV32deV/2qeQ2HM4bJ9PplhGD3Zzo+PqGtCzrcvUiouNvDnVWUYh8
+ ex3ixl7CjONlthhg+Okvsg/QX3okxrWbi4Pr52aCAXc9I/Sc2j3idtwKOTVvowL574
+ JW8z9ygT+mZakoI2yAuzYgPHGKoSxgTK1tOPz8Dc=
+Date: Fri, 18 Feb 2022 19:47:41 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 06/22] drm/bridge: Use drm_mode_copy()
+Message-ID: <Yg/bvcv+9jS5WAEs@pendragon.ideasonboard.com>
+References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
+ <20220218100403.7028-7-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+In-Reply-To: <20220218100403.7028-7-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,94 +48,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ intel-gfx@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Rix <trix@redhat.com>
+Hi Ville,
 
-Clang static analysis reports this problem
-kfd_chardev.c:2327:2: warning: 1st function call argument
-  is an uninitialized value
-  kvfree(bo_privs);
-  ^~~~~~~~~~~~~~~~
+Thank you for the patch.
 
-If the copy_from_users(bo_buckets, ...) fails, there is a jump to
-the generic error handler at exit:.  The freeing of bo_privs and
-unwinding of the dmabuf_fd loop do not need to be done.
+On Fri, Feb 18, 2022 at 12:03:47PM +0200, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> struct drm_display_mode embeds a list head, so overwriting
+> the full struct with another one will corrupt the list
+> (if the destination mode is on a list). Use drm_mode_copy()
+> instead which explicitly preserves the list head of
+> the destination mode.
+> 
+> Even if we know the destination mode is not on any list
+> using drm_mode_copy() seems decent as it sets a good
+> example. Bad examples of not using it might eventually
+> get copied into code where preserving the list head
+> actually matters.
+> 
+> Obviously one case not covered here is when the mode
+> itself is embedded in a larger structure and the whole
+> structure is copied. But if we are careful when copying
+> into modes embedded in structures I think we can be a
+> little more reassured that bogus list heads haven't been
+> propagated in.
+> 
+> @is_mode_copy@
+> @@
+> drm_mode_copy(...)
+> {
+> ...
+> }
+> 
+> @depends on !is_mode_copy@
+> struct drm_display_mode *mode;
+> expression E, S;
+> @@
+> (
+> - *mode = E
+> + drm_mode_copy(mode, &E)
+> |
+> - memcpy(mode, E, S)
+> + drm_mode_copy(mode, E)
+> )
+> 
+> @depends on !is_mode_copy@
+> struct drm_display_mode mode;
+> expression E;
+> @@
+> (
+> - mode = E
+> + drm_mode_copy(&mode, &E)
+> |
+> - memcpy(&mode, E, S)
+> + drm_mode_copy(&mode, E)
+> )
+> 
+> @@
+> struct drm_display_mode *mode;
+> @@
+> - &*mode
+> + mode
+> 
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Add some specific labels for the early failures.
-Reorder the frees to be the reverse of their allocs.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Move the initialize of 'i' back to the loop.
-The problem with the early frees predates the loop
-unwinding problem.
+> ---
+>  drivers/gpu/drm/bridge/nwl-dsi.c          | 2 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
+>  drivers/gpu/drm/bridge/tc358767.c         | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
+> index 963a6794735f..881cf338d5cf 100644
+> --- a/drivers/gpu/drm/bridge/nwl-dsi.c
+> +++ b/drivers/gpu/drm/bridge/nwl-dsi.c
+> @@ -857,7 +857,7 @@ nwl_dsi_bridge_mode_set(struct drm_bridge *bridge,
+>  	/* Save the new desired phy config */
+>  	memcpy(&dsi->phy_cfg, &new_cfg, sizeof(new_cfg));
+>  
+> -	memcpy(&dsi->mode, adjusted_mode, sizeof(dsi->mode));
+> +	drm_mode_copy(&dsi->mode, adjusted_mode);
+>  	drm_mode_debug_printmodeline(adjusted_mode);
+>  
+>  	if (pm_runtime_resume_and_get(dev) < 0)
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 4befc104d220..a563460f8d20 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -2830,7 +2830,7 @@ static void dw_hdmi_bridge_mode_set(struct drm_bridge *bridge,
+>  	mutex_lock(&hdmi->mutex);
+>  
+>  	/* Store the display mode for plugin/DKMS poweron events */
+> -	memcpy(&hdmi->previous_mode, mode, sizeof(hdmi->previous_mode));
+> +	drm_mode_copy(&hdmi->previous_mode, mode);
+>  
+>  	mutex_unlock(&hdmi->mutex);
+>  }
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index c23e0abc65e8..7f9574b17caa 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1312,7 +1312,7 @@ static void tc_bridge_mode_set(struct drm_bridge *bridge,
+>  {
+>  	struct tc_data *tc = bridge_to_tc(bridge);
+>  
+> -	tc->mode = *mode;
+> +	drm_mode_copy(&tc->mode, mode);
+>  }
+>  
+>  static struct edid *tc_get_edid(struct drm_bridge *bridge,
 
-Fixes: 73fa13b6a511 ("drm/amdkfd: CRIU Implement KFD restore ioctl")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index 965af2a08bc0..1d5f41ac3832 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -2102,7 +2102,7 @@ static int criu_restore_bos(struct kfd_process *p,
- 	const bool criu_resume = true;
- 	bool flush_tlbs = false;
- 	int ret = 0, j = 0;
--	uint32_t i = 0;
-+	uint32_t i;
- 
- 	if (*priv_offset + (args->num_bos * sizeof(*bo_privs)) > max_priv_data_size)
- 		return -EINVAL;
-@@ -2119,13 +2119,13 @@ static int criu_restore_bos(struct kfd_process *p,
- 	if (ret) {
- 		pr_err("Failed to copy BOs information from user\n");
- 		ret = -EFAULT;
--		goto exit;
-+		goto free_buckets;
- 	}
- 
- 	bo_privs = kvmalloc_array(args->num_bos, sizeof(*bo_privs), GFP_KERNEL);
- 	if (!bo_privs) {
- 		ret = -ENOMEM;
--		goto exit;
-+		goto free_buckets;
- 	}
- 
- 	ret = copy_from_user(bo_privs, (void __user *)args->priv_data + *priv_offset,
-@@ -2133,12 +2133,12 @@ static int criu_restore_bos(struct kfd_process *p,
- 	if (ret) {
- 		pr_err("Failed to copy BOs information from user\n");
- 		ret = -EFAULT;
--		goto exit;
-+		goto free_privs;
- 	}
- 	*priv_offset += args->num_bos * sizeof(*bo_privs);
- 
- 	/* Create and map new BOs */
--	for (; i < args->num_bos; i++) {
-+	for (i = 0; i < args->num_bos; i++) {
- 		struct kfd_criu_bo_bucket *bo_bucket;
- 		struct kfd_criu_bo_priv_data *bo_priv;
- 		struct kfd_dev *dev;
-@@ -2323,8 +2323,11 @@ static int criu_restore_bos(struct kfd_process *p,
- 		if (bo_buckets[i].alloc_flags & KFD_IOC_ALLOC_MEM_FLAGS_VRAM)
- 			close_fd(bo_buckets[i].dmabuf_fd);
- 	}
--	kvfree(bo_buckets);
-+free_privs:
- 	kvfree(bo_privs);
-+free_buckets:
-+	kvfree(bo_buckets);
-+
- 	return ret;
- }
- 
 -- 
-2.26.3
+Regards,
 
+Laurent Pinchart
