@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088174BB879
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:44:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6074BB886
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:44:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E693810ED26;
-	Fri, 18 Feb 2022 11:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08FEF899EA;
+	Fri, 18 Feb 2022 11:44:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55B7010ED4E
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 11:43:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD8110ED26
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 11:43:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=le8J3Q+swUQK72SWqH/pFu4gtI1ZxsJUZkSugFcW4UE=; b=GvqVkSo71ZV0LNkaCuTQ+h6buR
- ye1u5HICSKjef7ZSPGIhg1VITXbc6lhdSrUbBi9BYJHp8t2787QgXftqfYUMJRBEkr/wUsW9Rjeu1
- EQ0539h+YrqglEzJpeCMEyCSelOoDbaAd9zBByTYJb/rqPGD7kWgXf+8yt1R0WU6ajpNVSL4XEx0m
- lsCxHzbwmTAxnlJTCidbXoVeqfppMlFdupm0tjw8/obF+xBs91xBWUIyo/N9xlqM2ExN9j48Brgrn
- yIodLQumjFdNIQkr8uMoDjRMZKuq71+JhHIEl1Qz3Y7fvfLkBtGwf1R185enm2EJssDPEjbniybl3
- hNK2G4pg==;
+ bh=IZ3hJ//ZY9jCeQD6DvUNkLgqmO36XNeE4mU4/ws/jeQ=; b=vChxJtIvCk0whXkzpXJ2dGqwUg
+ 2NEMormh+YAhCOEFcBWpepRo8PCyHxzdBiFGqFj2le15X8nch/fGL+ntFyWrIujHG9jGco92HVVhK
+ fRn1x7qqN3cd2k5qnUDl3RvI7qi+E/XwL3Pga6GYQiTA5GhzPsVt3EBE1wuwcLaSHghkAJ1xhkY1p
+ /gnhjhE9nQuh02zCYNmpnhcFpUi9a4b+UunBZbCCxgck9XkJdoHE8rDh693uJjAOAu/K9XRSD4CY5
+ kJV7Pu0r/VrICra8TdFn3ARrmg9R0tcoLtL7FJEDP9nk2URNFdGETwDs9vbm6TAcEANKnK5sKlg9s
+ WFR972gQ==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1nL1fq-0006eP-F1; Fri, 18 Feb 2022 13:43:42 +0200
+ id 1nL1fq-0006eP-HX; Fri, 18 Feb 2022 13:43:42 +0200
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
  will@kernel.org, robh+dt@kernel.org, robin.murphy@arm.com
-Subject: [PATCH v3 8/9] drm/tegra: vic: Implement get_streamid_offset
-Date: Fri, 18 Feb 2022 13:39:51 +0200
-Message-Id: <20220218113952.3077606-9-mperttunen@nvidia.com>
+Subject: [PATCH v3 9/9] drm/tegra: Support context isolation
+Date: Fri, 18 Feb 2022 13:39:52 +0200
+Message-Id: <20220218113952.3077606-10-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220218113952.3077606-1-mperttunen@nvidia.com>
 References: <20220218113952.3077606-1-mperttunen@nvidia.com>
@@ -62,90 +62,160 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement the get_streamid_offset required for supporting context
-isolation. Since old firmware cannot support context isolation
-without hacks that we don't want to implement, check the firmware
-binary to see if context isolation should be enabled.
+For engines that support context isolation, allocate a context when
+opening a channel, and set up stream ID offset and context fields
+when submitting a job.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/drm/tegra/vic.c | 38 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ drivers/gpu/drm/tegra/drm.h    |  2 ++
+ drivers/gpu/drm/tegra/submit.c | 13 ++++++++++++
+ drivers/gpu/drm/tegra/uapi.c   | 36 ++++++++++++++++++++++++++++++++--
+ 3 files changed, 49 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index 1e342fa3d27b..2863ee5e0e67 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -38,6 +38,8 @@ struct vic {
- 	struct clk *clk;
- 	struct reset_control *rst;
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index fc0a19554eac..717e9f81ee1f 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -80,6 +80,7 @@ struct tegra_drm_context {
  
-+	bool can_use_context;
-+
- 	/* Platform configuration */
- 	const struct vic_config *config;
+ 	/* Only used by new UAPI. */
+ 	struct xarray mappings;
++	struct host1x_context *memory_context;
  };
-@@ -229,6 +231,7 @@ static int vic_load_firmware(struct vic *vic)
- {
- 	struct host1x_client *client = &vic->client.base;
- 	struct tegra_drm *tegra = vic->client.drm;
-+	u32 fce_bin_data_offset;
- 	dma_addr_t iova;
- 	size_t size;
- 	void *virt;
-@@ -277,6 +280,25 @@ static int vic_load_firmware(struct vic *vic)
- 		vic->falcon.firmware.phys = phys;
- 	}
  
-+	/*
-+	 * Check if firmware is new enough to not require mapping firmware
-+	 * to data buffer domains.
-+	 */
-+	fce_bin_data_offset = *(u32 *)(virt + VIC_UCODE_FCE_DATA_OFFSET);
+ struct tegra_drm_client_ops {
+@@ -91,6 +92,7 @@ struct tegra_drm_client_ops {
+ 	int (*submit)(struct tegra_drm_context *context,
+ 		      struct drm_tegra_submit *args, struct drm_device *drm,
+ 		      struct drm_file *file);
++	int (*get_streamid_offset)(struct tegra_drm_client *client);
+ };
+ 
+ int tegra_drm_submit(struct tegra_drm_context *context,
+diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
+index 6d6dd8c35475..8d74b82b83a5 100644
+--- a/drivers/gpu/drm/tegra/submit.c
++++ b/drivers/gpu/drm/tegra/submit.c
+@@ -498,6 +498,9 @@ static void release_job(struct host1x_job *job)
+ 	struct tegra_drm_submit_data *job_data = job->user_data;
+ 	u32 i;
+ 
++	if (job->context)
++		host1x_context_put(job->context);
 +
-+	if (!vic->config->supports_sid) {
-+		vic->can_use_context = false;
-+	} else if (fce_bin_data_offset != 0x0 && fce_bin_data_offset != 0xa5a5a5a5) {
-+		/*
-+		 * Firmware will access FCE through STREAMID0, so context
-+		 * isolation cannot be used.
-+		 */
-+		vic->can_use_context = false;
-+		dev_warn_once(vic->dev, "context isolation disabled due to old firmware\n");
-+	} else {
-+		vic->can_use_context = true;
+ 	for (i = 0; i < job_data->num_used_mappings; i++)
+ 		tegra_drm_mapping_put(job_data->used_mappings[i].mapping);
+ 
+@@ -599,6 +602,16 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
+ 	job->release = release_job;
+ 	job->timeout = 10000;
+ 
++	if (context->memory_context && context->client->ops->get_streamid_offset) {
++		int offset = context->client->ops->get_streamid_offset(context->client);
++
++		if (offset >= 0) {
++			job->context = context->memory_context;
++			job->engine_streamid_offset = offset;
++			host1x_context_get(job->context);
++		}
 +	}
 +
+ 	/*
+ 	 * job_data is now part of job reference counting, so don't release
+ 	 * it from here.
+diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
+index 9ab9179d2026..be33da54d12c 100644
+--- a/drivers/gpu/drm/tegra/uapi.c
++++ b/drivers/gpu/drm/tegra/uapi.c
+@@ -33,6 +33,9 @@ static void tegra_drm_channel_context_close(struct tegra_drm_context *context)
+ 	struct tegra_drm_mapping *mapping;
+ 	unsigned long id;
+ 
++	if (context->memory_context)
++		host1x_context_put(context->memory_context);
++
+ 	xa_for_each(&context->mappings, id, mapping)
+ 		tegra_drm_mapping_put(mapping);
+ 
+@@ -72,6 +75,7 @@ static struct tegra_drm_client *tegra_drm_find_client(struct tegra_drm *tegra, u
+ 
+ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_file *file)
+ {
++	struct host1x *host = tegra_drm_to_host1x(drm->dev_private);
+ 	struct tegra_drm_file *fpriv = file->driver_priv;
+ 	struct tegra_drm *tegra = drm->dev_private;
+ 	struct drm_tegra_channel_open *args = data;
+@@ -102,10 +106,29 @@ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_
+ 		}
+ 	}
+ 
++	/* Only allocate context if the engine supports context isolation. */
++	if (client->ops->get_streamid_offset &&
++	    client->ops->get_streamid_offset(client) >= 0) {
++		context->memory_context =
++			host1x_context_alloc(host, get_task_pid(current, PIDTYPE_TGID));
++		if (IS_ERR(context->memory_context)) {
++			if (PTR_ERR(context->memory_context) != -EOPNOTSUPP) {
++				err = PTR_ERR(context->memory_context);
++				goto put_channel;
++			} else {
++				/*
++				 * OK, HW does not support contexts or contexts
++				 * are disabled.
++				 */
++				context->memory_context = NULL;
++			}
++		}
++	}
++
+ 	err = xa_alloc(&fpriv->contexts, &args->context, context, XA_LIMIT(1, U32_MAX),
+ 		       GFP_KERNEL);
+ 	if (err < 0)
+-		goto put_channel;
++		goto put_memctx;
+ 
+ 	context->client = client;
+ 	xa_init_flags(&context->mappings, XA_FLAGS_ALLOC1);
+@@ -118,6 +141,9 @@ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_
+ 
  	return 0;
  
- cleanup:
-@@ -358,10 +380,26 @@ static void vic_close_channel(struct tegra_drm_context *context)
++put_memctx:
++	if (context->memory_context)
++		host1x_context_put(context->memory_context);
+ put_channel:
  	host1x_channel_put(context->channel);
- }
+ free:
+@@ -156,6 +182,7 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
+ 	struct tegra_drm_mapping *mapping;
+ 	struct tegra_drm_context *context;
+ 	enum dma_data_direction direction;
++	struct device *mapping_dev;
+ 	int err = 0;
  
-+static int vic_get_streamid_offset(struct tegra_drm_client *client)
-+{
-+	struct vic *vic = to_vic(client);
-+	int err;
-+
-+	err = vic_load_firmware(vic);
-+	if (err < 0)
-+		return err;
-+
-+	if (vic->can_use_context)
-+		return 0x30;
+ 	if (args->flags & ~DRM_TEGRA_CHANNEL_MAP_READ_WRITE)
+@@ -177,6 +204,11 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
+ 
+ 	kref_init(&mapping->ref);
+ 
++	if (context->memory_context)
++		mapping_dev = &context->memory_context->dev;
 +	else
-+		return -ENOTSUPP;
-+}
++		mapping_dev = context->client->base.dev;
 +
- static const struct tegra_drm_client_ops vic_ops = {
- 	.open_channel = vic_open_channel,
- 	.close_channel = vic_close_channel,
- 	.submit = tegra_drm_submit,
-+	.get_streamid_offset = vic_get_streamid_offset,
- };
+ 	mapping->bo = tegra_gem_lookup(file, args->handle);
+ 	if (!mapping->bo) {
+ 		err = -EINVAL;
+@@ -201,7 +233,7 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
+ 		goto put_gem;
+ 	}
  
- #define NVIDIA_TEGRA_124_VIC_FIRMWARE "nvidia/tegra124/vic03_ucode.bin"
+-	mapping->map = host1x_bo_pin(context->client->base.dev, mapping->bo, direction, NULL);
++	mapping->map = host1x_bo_pin(mapping_dev, mapping->bo, direction, NULL);
+ 	if (IS_ERR(mapping->map)) {
+ 		err = PTR_ERR(mapping->map);
+ 		goto put_gem;
 -- 
 2.35.0
 
