@@ -1,38 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5554BAEE6
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 02:01:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 975D34BAEEA
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 02:01:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5CC810E914;
-	Fri, 18 Feb 2022 01:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C87D10E93F;
+	Fri, 18 Feb 2022 01:01:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C41810E213
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 01:01:19 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2136F10E213
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 01:01:20 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 6C13783B61;
- Fri, 18 Feb 2022 02:01:17 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id 44BC183B6B;
+ Fri, 18 Feb 2022 02:01:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1645146077;
- bh=NPmflDqRkebk6Rl8O5Lv7IkXyAWRjG8E1LLtnuH7Xuc=;
+ s=phobos-20191101; t=1645146078;
+ bh=OgHAU4V7k7h3VvXUwZeVxa+Vm4QSYLE33FKLhEMyZOU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=D69ZIJ2lLxdTb79JkdCNQpbgI3gzolD2zYcCfGxJV5AonUVsaZXofsjsqNUDcATaO
- mhvCMamPpFYPFTdp4YWK+73rpIkrZV0SXsoFEqKp2BtZVo3CDbPNx5zSrx+S/CWdye
- egKaEbPXTYWb4lv3ybg1v2BECy7CKJc3uVJ+uzcDTeaUjtLt/C5sVqX5D2HAFTvlbO
- ZvedNHcYAOt712a3dVLlqO1OvJjqPmALUdYv3W/jrhwQ5mnuVMMyGinxTNMrZ+eLLM
- aaK8Zef2keTgfAkD2HxtH+FCDdgDzEcJl34PY7b1aKLJFHI9PR0QpupinR+LxA1R9P
- ToNBky4q0bWmw==
+ b=cIrTei/UMRxS4p1eQJ9z/dUMektBWIh+bnKF/ZXJmUNDS7bimIk7eoLY3Ef1Ah/50
+ +3DEVS4LDvUuHxMEg5l2/IUCh+3rLoXVpFnfgCWj1vqnMJszMps8efI9soG52DpbUW
+ J7/bY40vGjnvAeeOwKwbeNKu1lG0M+T9Ox5NY1T8k/FtLJ2ehFqbnLqQuR09aA36eJ
+ u5qczJSOxhpcEuEl+dcAAy8L8U2No/xP7K5HWWbu/6qFy1OAavXIoU/Cp40ervxCnA
+ 15TRdNBaekdaibWBJzL7hKaUchz053zHbyL/Kq7pYcyjnyNniiFkCeeYjnlmy0gXIq
+ RCqmMbQLTSXjw==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V2 03/11] drm/bridge: tc358767: Convert to atomic ops
-Date: Fri, 18 Feb 2022 02:00:46 +0100
-Message-Id: <20220218010054.315026-4-marex@denx.de>
+Subject: [PATCH V2 05/11] drm/bridge: tc358767: Move hardware init to enable
+ callback
+Date: Fri, 18 Feb 2022 02:00:48 +0100
+Message-Id: <20220218010054.315026-6-marex@denx.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218010054.315026-1-marex@denx.de>
 References: <20220218010054.315026-1-marex@denx.de>
@@ -59,9 +61,14 @@ Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <narmstrong@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the atomic version of the enable/disable operations to continue the
-transition to the atomic API. This will be needed to access the mode
-from the atomic state.
+The TC358767/TC358867/TC9595 are all capable of operating either from
+attached Xtal or from DSI clock lane clock. In case the later is used,
+all I2C accesses will fail until the DSI clock lane is running and
+supplying clock to the chip.
+
+Move all hardware initialization to enable callback to guarantee the
+DSI clock lane is running before accessing the hardware. In case Xtal
+is attached to the chip, this change has no effect.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Jonas Karlman <jonas@kwiboo.se>
@@ -70,54 +77,154 @@ Cc: Maxime Ripard <maxime@cerno.tech>
 Cc: Neil Armstrong <narmstrong@baylibre.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
-V2: - New patch
+V2: - Rebase on next-20220217
 ---
- drivers/gpu/drm/bridge/tc358767.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/tc358767.c | 111 +++++++++++++++++-------------
+ 1 file changed, 63 insertions(+), 48 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 4b8ea0db2a5e8..522c2c4d8514f 100644
+index 01d11adee6c74..134c4d8621236 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1234,7 +1234,9 @@ static int tc_edp_stream_disable(struct tc_data *tc)
+@@ -1234,6 +1234,63 @@ static int tc_edp_stream_disable(struct tc_data *tc)
  	return 0;
  }
  
--static void tc_edp_bridge_enable(struct drm_bridge *bridge)
-+static void
-+tc_edp_bridge_atomic_enable(struct drm_bridge *bridge,
-+			    struct drm_bridge_state *old_bridge_state)
- {
++static int tc_hardware_init(struct tc_data *tc)
++{
++	int ret;
++
++	ret = regmap_read(tc->regmap, TC_IDREG, &tc->rev);
++	if (ret) {
++		dev_err(tc->dev, "can not read device ID: %d\n", ret);
++		return ret;
++	}
++
++	if ((tc->rev != 0x6601) && (tc->rev != 0x6603)) {
++		dev_err(tc->dev, "invalid device ID: 0x%08x\n", tc->rev);
++		return -EINVAL;
++	}
++
++	tc->assr = (tc->rev == 0x6601); /* Enable ASSR for eDP panels */
++
++	if (!tc->reset_gpio) {
++		/*
++		 * If the reset pin isn't present, do a software reset. It isn't
++		 * as thorough as the hardware reset, as we can't reset the I2C
++		 * communication block for obvious reasons, but it's getting the
++		 * chip into a defined state.
++		 */
++		regmap_update_bits(tc->regmap, SYSRSTENB,
++				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP,
++				0);
++		regmap_update_bits(tc->regmap, SYSRSTENB,
++				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP,
++				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP);
++		usleep_range(5000, 10000);
++	}
++
++	if (tc->hpd_pin >= 0) {
++		u32 lcnt_reg = tc->hpd_pin == 0 ? INT_GP0_LCNT : INT_GP1_LCNT;
++		u32 h_lc = INT_GPIO_H(tc->hpd_pin) | INT_GPIO_LC(tc->hpd_pin);
++
++		/* Set LCNT to 2ms */
++		regmap_write(tc->regmap, lcnt_reg,
++			     clk_get_rate(tc->refclk) * 2 / 1000);
++		/* We need the "alternate" mode for HPD */
++		regmap_write(tc->regmap, GPIOM, BIT(tc->hpd_pin));
++
++		if (tc->have_irq) {
++			/* enable H & LC */
++			regmap_update_bits(tc->regmap, INTCTL_G, h_lc, h_lc);
++		}
++	}
++
++	if (tc->have_irq) {
++		/* enable SysErr */
++		regmap_write(tc->regmap, INTCTL_G, INT_SYSERR);
++	}
++
++	return 0;
++}
++
+ static void
+ tc_edp_bridge_atomic_enable(struct drm_bridge *bridge,
+ 			    struct drm_bridge_state *old_bridge_state)
+@@ -1241,6 +1298,12 @@ tc_edp_bridge_atomic_enable(struct drm_bridge *bridge,
  	struct tc_data *tc = bridge_to_tc(bridge);
  	int ret;
-@@ -1259,7 +1261,9 @@ static void tc_edp_bridge_enable(struct drm_bridge *bridge)
+ 
++	ret = tc_hardware_init(tc);
++	if (ret < 0) {
++		dev_err(tc->dev, "failed to initialize bridge: %d\n", ret);
++		return;
++	}
++
+ 	ret = tc_get_display_props(tc);
+ 	if (ret < 0) {
+ 		dev_err(tc->dev, "failed to read display props: %d\n", ret);
+@@ -1660,9 +1723,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
  	}
- }
  
--static void tc_edp_bridge_disable(struct drm_bridge *bridge)
-+static void
-+tc_edp_bridge_atomic_disable(struct drm_bridge *bridge,
-+			     struct drm_bridge_state *old_bridge_state)
- {
- 	struct tc_data *tc = bridge_to_tc(bridge);
- 	int ret;
-@@ -1459,11 +1463,14 @@ static const struct drm_bridge_funcs tc_bridge_funcs = {
- 	.detach = tc_edp_bridge_detach,
- 	.mode_valid = tc_edp_mode_valid,
- 	.mode_set = tc_bridge_mode_set,
--	.enable = tc_edp_bridge_enable,
--	.disable = tc_edp_bridge_disable,
-+	.atomic_enable = tc_edp_bridge_atomic_enable,
-+	.atomic_disable = tc_edp_bridge_atomic_disable,
- 	.mode_fixup = tc_bridge_mode_fixup,
- 	.detect = tc_bridge_detect,
- 	.get_edid = tc_get_edid,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
- };
+ 	if (client->irq > 0) {
+-		/* enable SysErr */
+-		regmap_write(tc->regmap, INTCTL_G, INT_SYSERR);
+-
+ 		ret = devm_request_threaded_irq(dev, client->irq,
+ 						NULL, tc_irq_handler,
+ 						IRQF_ONESHOT,
+@@ -1675,51 +1735,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 		tc->have_irq = true;
+ 	}
  
- static bool tc_readable_reg(struct device *dev, unsigned int reg)
+-	ret = regmap_read(tc->regmap, TC_IDREG, &tc->rev);
+-	if (ret) {
+-		dev_err(tc->dev, "can not read device ID: %d\n", ret);
+-		return ret;
+-	}
+-
+-	if ((tc->rev != 0x6601) && (tc->rev != 0x6603)) {
+-		dev_err(tc->dev, "invalid device ID: 0x%08x\n", tc->rev);
+-		return -EINVAL;
+-	}
+-
+-	tc->assr = (tc->rev == 0x6601); /* Enable ASSR for eDP panels */
+-
+-	if (!tc->reset_gpio) {
+-		/*
+-		 * If the reset pin isn't present, do a software reset. It isn't
+-		 * as thorough as the hardware reset, as we can't reset the I2C
+-		 * communication block for obvious reasons, but it's getting the
+-		 * chip into a defined state.
+-		 */
+-		regmap_update_bits(tc->regmap, SYSRSTENB,
+-				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP,
+-				0);
+-		regmap_update_bits(tc->regmap, SYSRSTENB,
+-				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP,
+-				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP);
+-		usleep_range(5000, 10000);
+-	}
+-
+-	if (tc->hpd_pin >= 0) {
+-		u32 lcnt_reg = tc->hpd_pin == 0 ? INT_GP0_LCNT : INT_GP1_LCNT;
+-		u32 h_lc = INT_GPIO_H(tc->hpd_pin) | INT_GPIO_LC(tc->hpd_pin);
+-
+-		/* Set LCNT to 2ms */
+-		regmap_write(tc->regmap, lcnt_reg,
+-			     clk_get_rate(tc->refclk) * 2 / 1000);
+-		/* We need the "alternate" mode for HPD */
+-		regmap_write(tc->regmap, GPIOM, BIT(tc->hpd_pin));
+-
+-		if (tc->have_irq) {
+-			/* enable H & LC */
+-			regmap_update_bits(tc->regmap, INTCTL_G, h_lc, h_lc);
+-		}
+-	}
+-
+ 	ret = tc_aux_link_setup(tc);
+ 	if (ret)
+ 		return ret;
 -- 
 2.34.1
 
