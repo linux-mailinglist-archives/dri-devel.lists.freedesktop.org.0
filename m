@@ -1,56 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF1E4BB733
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:46:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D44894BB745
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:51:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B64CE10F276;
-	Fri, 18 Feb 2022 10:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C5AF10F093;
+	Fri, 18 Feb 2022 10:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70DED10F24B;
- Fri, 18 Feb 2022 10:46:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645181209; x=1676717209;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:cc:from:to:subject:message-id:date;
- bh=Fa27J8k+mkzEXrxibrfM5fTTtM6r08rFkYCcasdmglc=;
- b=eHD4IMprRhfHGsed+G5/B5mKtMddb/6vVzkEivUu2uFFdxPELkiDAZ7/
- Lajtpp/g7L5skcdIfMlJUIgESKrkTK8Jl0eEDP0i8AiPgBFPf/d+HYAaw
- PClAgibAKj+pneeDHXWC56hGub5k1Pm/FoGV2NVQ4D9f3TgqOZ68KxUn9
- HW50ZqMOqucICqpeaO+bODVbd9dV5JnD9UmWnecwQ4aU1CvxTvIEqucKY
- RFv+bfAQZ0Wq9bEx36yN/6aHe5VTdKd0jkojjrVpIBWmJVDbnH3KySRLK
- gZrWGCLSBfCj1JITSSZc8akwCcbKI3ZFBfj+wDSBFR6Ph3ijf50JDPJar Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="314367628"
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="314367628"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 02:46:49 -0800
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="546231552"
-Received: from acangian-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.45.92])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 02:46:46 -0800
-Content-Type: text/plain; charset="utf-8"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43E1010F093
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 10:51:46 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id DF376219A4;
+ Fri, 18 Feb 2022 10:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1645181504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r4VLD7m5wPL60NKvEVAhzGCIMJAD3yDjimzKOIw9AfQ=;
+ b=D0eJ9PaqOgtHeGTiKBuoEhKfsPuPKQBnQzAafDJq/raOVBdWs7WwshxaJbKgVX+//y89pp
+ TjZttL/Kl6Tq37vrP6fGLqePcxICqWSJnfX5dPk0Eb20iwhrAgQGS+XzRYq7WP+3YaeI3S
+ g2HkUYDKQE64m2RLXzPI0yWhpyoS/vE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1645181504;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r4VLD7m5wPL60NKvEVAhzGCIMJAD3yDjimzKOIw9AfQ=;
+ b=GqODA8jnl4slVGzgXEuZUW5KUXxvUMaPS1Xelv1BTSB9U2qBWEW+CF9e2RFiOJd79MENfB
+ bzz+VxtDeeCp3LBA==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+ by relay2.suse.de (Postfix) with ESMTP id 7F135A3B83;
+ Fri, 18 Feb 2022 10:51:44 +0000 (UTC)
+From: Michal Suchanek <msuchanek@suse.de>
+To: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2] simplefb: Enable boot time VESA graphic mode selection.
+Date: Fri, 18 Feb 2022 11:51:38 +0100
+Message-Id: <20220218105138.5384-1-msuchanek@suse.de>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <14dd85f1-21b1-2ff7-3491-466c077210e6@suse.de>
+References: <14dd85f1-21b1-2ff7-3491-466c077210e6@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Yg5vlgoTEfJRWP9U@intel.intel>
-References: <20220217144158.21555-1-andi.shyti@linux.intel.com>
- <20220217144158.21555-6-andi.shyti@linux.intel.com>
- <12c2fcf8-ef3b-e59c-fe1e-23bc8f12cfe5@linux.intel.com>
- <Yg5vlgoTEfJRWP9U@intel.intel>
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v5 5/7] drm/i915/gt: Create per-tile RC6 sysfs
- interface
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <164518120389.6218.14670990912373168491@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Fri, 18 Feb 2022 12:46:43 +0200
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,110 +59,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Herrmann <dh.herrmann@gmail.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+ Michal Suchanek <msuchanek@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Simon Trimmer <simont@opensource.cirrus.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Martin Mares <mj@ucw.cz>, Sudeep Holla <sudeep.holla@arm.com>,
+ linux-video@atrey.karlin.mff.cuni.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Andi Shyti (2022-02-17 17:53:58)
-> Hi Tvrtko,
->=20
-> > > Now tiles have their own sysfs interfaces under the gt/
-> > > directory. Because RC6 is a property that can be configured on a
-> > > tile basis, then each tile should have its own interface
-> > >=20
-> > > The new sysfs structure will have a similar layout for the 4 tile
-> > > case:
-> > >=20
-> > > /sys/.../card0
-> > >           \u251c\u2500\u2500 gt
-> > >           \u2502=C2=A0=C2=A0 \u251c\u2500\u2500 gt0
-> > >           \u2502=C2=A0=C2=A0 \u2502=C2=A0=C2=A0 \u251c\u2500\u2500 id
-> > >           \u2502=C2=A0=C2=A0 \u2502=C2=A0=C2=A0 \u251c\u2500\u2500 rc=
-6_enable
-> > >           \u2502=C2=A0=C2=A0 \u2502=C2=A0=C2=A0 \u251c\u2500\u2500 rc=
-6_residency_ms
-> > >           .   .   .
-> > >           .   .   .
-> > >           .   .
-> > >           \u2502=C2=A0=C2=A0 \u2514\u2500\u2500 gtN
-> > >           \u2502=C2=A0=C2=A0     \u251c\u2500\u2500 id
-> > >           \u2502=C2=A0=C2=A0     \u251c\u2500\u2500 rc6_enable
-> > >           \u2502=C2=A0=C2=A0     \u251c\u2500\u2500 rc6_residency_ms
-> > >           \u2502       .
-> > >           \u2502       .
-> > >           \u2502
-> > >           \u2514\u2500\u2500 power/                -+
-> > >                \u251c\u2500\u2500 rc6_enable        |    Original int=
-erface
-> > >                \u251c\u2500\u2500 rc6_residency_ms  +->  kept as exis=
-ting ABI;
-> > >                .                     |    it multiplexes over
-> > >                .                     |    the GTs
-> > >                                     -+
-> > >=20
-> > > The existing interfaces have been kept in their original location
-> > > to preserve the existing ABI. They act on all the GTs: when
-> > > reading they provide the average value from all the GTs.
-> >=20
-> > Average feels very odd to me. I'd ask if we can get away providing an e=
-rrno
-> > instead? Or tile zero data?
+Since switch to simplefb/simpledrm VESA graphic modes are no longer
+available with legacy BIOS.
 
-Tile zero data is always wrong, in my opinion. If we have round-robin
-scaling workloads like some media cases, part of the system load might
-just disappear when it goes to tile 1.
+The x86 realmode boot code enables the VESA graphic modes when option
+FB_BOOT_VESA_SUPPORT is enabled.
 
-> Real multiplexing would be providing something when reading and
-> when writing. The idea of average came while revieweing with
-> Chris the write multiplexing. Indeed it makes sense to provide
-> some common value, but I don't know how useful it can be to the
-> user (still if the user needs any average).
+To enable use of VESA modes with simpledrm in legacy BIOS boot mode drop
+dependency of BOOT_VESA_SUPPORT on FB, also drop the FB_ prefix, and
+select the option when simpledrm is built-in on x86.
 
-I think all read/write controls like min/max/boost_freq should return
-an error from the global interface if all the tiles don't return same
-value. Write will always overwrite per-tile values.
+Fixes: e3263ab389a7 ("x86: provide platform-devices for boot-framebuffers")
+Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+---
+v2: Select BOOT_VESA_SUPPORT from simplefb rather than simpledrm. The
+simpledrm driver uses the firmware provided video modes only indirectly
+through simplefb, and both can be enabled independently.
+---
+ arch/x86/boot/video-vesa.c  | 4 ++--
+ drivers/firmware/Kconfig    | 1 +
+ drivers/video/fbdev/Kconfig | 9 ++++-----
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-When we have frequency readbacks without control, returning MAX() across
-tiles would be the logical thing. The fact that parts of the hardware can
-be clocked lower when one part is fully utilized is the "new feature".
+diff --git a/arch/x86/boot/video-vesa.c b/arch/x86/boot/video-vesa.c
+index 7e185977a984..c2c6d35e3a43 100644
+--- a/arch/x86/boot/video-vesa.c
++++ b/arch/x86/boot/video-vesa.c
+@@ -83,7 +83,7 @@ static int vesa_probe(void)
+ 			   (vminfo.memory_layout == 4 ||
+ 			    vminfo.memory_layout == 6) &&
+ 			   vminfo.memory_planes == 1) {
+-#ifdef CONFIG_FB_BOOT_VESA_SUPPORT
++#ifdef CONFIG_BOOT_VESA_SUPPORT
+ 			/* Graphics mode, color, linear frame buffer
+ 			   supported.  Only register the mode if
+ 			   if framebuffer is configured, however,
+@@ -121,7 +121,7 @@ static int vesa_set_mode(struct mode_info *mode)
+ 	if ((vminfo.mode_attr & 0x15) == 0x05) {
+ 		/* It's a supported text mode */
+ 		is_graphic = 0;
+-#ifdef CONFIG_FB_BOOT_VESA_SUPPORT
++#ifdef CONFIG_BOOT_VESA_SUPPORT
+ 	} else if ((vminfo.mode_attr & 0x99) == 0x99) {
+ 		/* It's a graphics mode with linear frame buffer */
+ 		is_graphic = 1;
+diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+index 75cb91055c17..8053c75b8645 100644
+--- a/drivers/firmware/Kconfig
++++ b/drivers/firmware/Kconfig
+@@ -224,6 +224,7 @@ config SYSFB
+ config SYSFB_SIMPLEFB
+ 	bool "Mark VGA/VBE/EFI FB as generic system framebuffer"
+ 	depends on SYSFB
++	select BOOT_VESA_SUPPORT if X86
+ 	help
+ 	  Firmwares often provide initial graphics framebuffers so the BIOS,
+ 	  bootloader or kernel can show basic video-output during boot for
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index 6ed5e608dd04..4f3be9b7a520 100644
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -66,9 +66,8 @@ config FB_DDC
+ 	select I2C_ALGOBIT
+ 	select I2C
+ 
+-config FB_BOOT_VESA_SUPPORT
++config BOOT_VESA_SUPPORT
+ 	bool
+-	depends on FB
+ 	help
+ 	  If true, at least one selected framebuffer driver can take advantage
+ 	  of VESA video modes set at an early boot stage via the vga= parameter.
+@@ -627,7 +626,7 @@ config FB_VESA
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+-	select FB_BOOT_VESA_SUPPORT
++	select BOOT_VESA_SUPPORT
+ 	help
+ 	  This is the frame buffer device driver for generic VESA 2.0
+ 	  compliant graphic cards. The older VESA 1.2 cards are not supported.
+@@ -1051,7 +1050,7 @@ config FB_INTEL
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+-	select FB_BOOT_VESA_SUPPORT if FB_INTEL = y
++	select BOOT_VESA_SUPPORT if FB_INTEL = y
+ 	depends on !DRM_I915
+ 	help
+ 	  This driver supports the on-board graphics built in to the Intel
+@@ -1378,7 +1377,7 @@ config FB_SIS
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+-	select FB_BOOT_VESA_SUPPORT if FB_SIS = y
++	select BOOT_VESA_SUPPORT if FB_SIS = y
+ 	select FB_SIS_300 if !FB_SIS_315
+ 	help
+ 	  This is the frame buffer device driver for the SiS 300, 315, 330
+-- 
+2.31.1
 
-After that we're only really left with the rc6_residency_ms. And that is
-the tough one. I'm inclined that MIN() across tiles would be the right
-answer. If you are fully utilizing a single tile, you should be able to
-see it.
-
-This all would be what feels natural for an user who has their setup
-tuned for single-tile device. And would allow simple round-robing
-balancing across the tiles in somewhat coherent manner.
-
-Regards, Joonas
-
->=20
-> Joonas, Chris... any idea?
->=20
-> > Case in point, and please correct me if I am wrong, legacy rc6_enable
-> > returns tile zero, while residency returns average.
->=20
-> As the interface is done now, the rc6_enable is just returning
-> whether the gpu (i.e. i915, not gt) supports RC6 or not. I think
-> there is a patch later.
->=20
-> > Even the deprecated message gets logged with every access right?
-> >=20
-> > Btw is the deperecated message limited to multi-tile platforms (can't s=
-ee
-> > that it is) and what is the plan for that?
->=20
-> yes, at this point the message would need to be removed and I
-> forgot to do it.
->=20
-> > It's a tough problem, no easy answers even after all this time. :D
->=20
-> yeah! quite hard to get it conceptually right!
->=20
-> Thanks Tvrtko,
-> Andi
