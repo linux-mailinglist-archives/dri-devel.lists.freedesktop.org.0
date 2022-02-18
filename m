@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F364BB63F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:05:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BECFD4BB643
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:05:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FCC610EEDD;
-	Fri, 18 Feb 2022 10:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E322510F019;
+	Fri, 18 Feb 2022 10:05:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58A4E10EED6;
- Fri, 18 Feb 2022 10:04:59 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 003FE10EEE5;
+ Fri, 18 Feb 2022 10:05:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645178699; x=1676714699;
+ t=1645178703; x=1676714703;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=OpIVq1wuA3HRWuulSvFXyy3QhdFsBNiPeTSse+q1RqY=;
- b=jGqKEwUlhBqvmlLW/fbdc2INpiAp92QlMZXassatXLjah1X7r1XE8K4v
- 7fKwtHb7ARVIR83BOdknhEMBxws95C9mX3o2tG9nLVCV6dk34J5mak6Vy
- eKU3/wQag1RmeL6y07aaczFlTbGG3WiMUXD1y2x0TIRl80VwtUDiW+WDj
- gmr6WEIDS3GapPktjAW9bDh3lUqcoNhPrd2ZdMwdQ7aOfdl3QxcNkqWRf
- rJal0Yi7pi62yaNll+5YFhLKJ7S/7foEcI83AcMSTwddpSgXdTAuqp1r5
- t+NdcmNgIuS+3tO2+waSCy10sWZ+mJfOcKoCAsNDRxZcKfmE1ickWJrKV w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="314361616"
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="314361616"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 02:04:57 -0800
+ bh=R4w61C2KcssCMmhmacISGBGw98IvAAT3IU7Fyo1+BuQ=;
+ b=RpKTTKa3WtDJx24YMxQ+Yv7cu91z5zu9BeL1pwOyyD0VPb8RecFqHsZi
+ +QbNJqpWgUiDhNNmp/HmZ+8B45m+BBt48H5KP1/QYtjvfkIZtCmj6AeTE
+ FJBhUVYIR0W8yvffJLAik/Jm3Oubf7/4hOjb8ULKc7lvNlBKCPrwUc3sJ
+ RJsdpaDmugOCf/vi+xPfbRGsKorwZeUZ81byFNvsprs/hJv22aqnmXEEF
+ kKa7Y1E3Xeshe0XTGsxoom+2j5gtkezEqQJ8YoCuTc2X4fvlWgP/D6eU/
+ fmk7aUCbc+KCVbVtOKzaQUiYWYp8k7ZOJEw4KRK9M6T475Qgu2cdI624o A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="311839864"
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="311839864"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2022 02:05:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="546219495"
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="530863557"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
- by orsmga008.jf.intel.com with SMTP; 18 Feb 2022 02:04:54 -0800
+ by orsmga007.jf.intel.com with SMTP; 18 Feb 2022 02:04:58 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 18 Feb 2022 12:04:53 +0200
+ Fri, 18 Feb 2022 12:04:58 +0200
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 11/22] drm/msm: Use drm_mode_init() for on-stack modes
-Date: Fri, 18 Feb 2022 12:03:52 +0200
-Message-Id: <20220218100403.7028-12-ville.syrjala@linux.intel.com>
+Subject: [PATCH 12/22] drm/msm: Use drm_mode_copy()
+Date: Fri, 18 Feb 2022 12:03:53 +0200
+Message-Id: <20220218100403.7028-13-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
 References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
@@ -66,34 +66,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Initialize on-stack modes with drm_mode_init() to guarantee
-no stack garbage in the list head, or that we aren't copying
-over another mode's list head.
+struct drm_display_mode embeds a list head, so overwriting
+the full struct with another one will corrupt the list
+(if the destination mode is on a list). Use drm_mode_copy()
+instead which explicitly preserves the list head of
+the destination mode.
 
-Based on the following cocci script, with manual fixups:
-@decl@
-identifier M;
+Even if we know the destination mode is not on any list
+using drm_mode_copy() seems decent as it sets a good
+example. Bad examples of not using it might eventually
+get copied into code where preserving the list head
+actually matters.
+
+Obviously one case not covered here is when the mode
+itself is embedded in a larger structure and the whole
+structure is copied. But if we are careful when copying
+into modes embedded in structures I think we can be a
+little more reassured that bogus list heads haven't been
+propagated in.
+
+@is_mode_copy@
+@@
+drm_mode_copy(...)
+{
+...
+}
+
+@depends on !is_mode_copy@
+struct drm_display_mode *mode;
+expression E, S;
+@@
+(
+- *mode = E
++ drm_mode_copy(mode, &E)
+|
+- memcpy(mode, E, S)
++ drm_mode_copy(mode, E)
+)
+
+@depends on !is_mode_copy@
+struct drm_display_mode mode;
 expression E;
 @@
-- struct drm_display_mode M = E;
-+ struct drm_display_mode M;
+(
+- mode = E
++ drm_mode_copy(&mode, &E)
+|
+- memcpy(&mode, E, S)
++ drm_mode_copy(&mode, E)
+)
 
 @@
-identifier decl.M;
-expression decl.E;
-statement S, S1;
+struct drm_display_mode *mode;
 @@
-struct drm_display_mode M;
-... when != S
-+ drm_mode_init(&M, &E);
-+
-S1
-
-@@
-expression decl.E;
-@@
-- &*E
-+ E
+- &*mode
++ mode
 
 Cc: Rob Clark <robdclark@gmail.com>
 Cc: Sean Paul <sean@poorly.run>
@@ -102,39 +129,50 @@ Cc: linux-arm-msm@vger.kernel.org
 Cc: freedreno@lists.freedesktop.org
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index ddd9d89cd456..e7813c6f7bd9 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -248,12 +248,13 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
- 	unsigned long lock_flags;
- 	struct dpu_hw_intf_cfg intf_cfg = { 0 };
- 
-+	drm_mode_init(&mode, &phys_enc->cached_mode);
-+
- 	if (!phys_enc->hw_ctl->ops.setup_intf_cfg) {
- 		DPU_ERROR("invalid encoder %d\n", phys_enc != NULL);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+index 34a6940d12c5..57592052af23 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+@@ -157,7 +157,7 @@ static void dpu_encoder_phys_cmd_mode_set(
+ 		DPU_ERROR("invalid args\n");
  		return;
  	}
+-	phys_enc->cached_mode = *adj_mode;
++	drm_mode_copy(&phys_enc->cached_mode, adj_mode);
+ 	DPU_DEBUG_CMDENC(cmd_enc, "caching mode:\n");
+ 	drm_mode_debug_printmodeline(adj_mode);
  
--	mode = phys_enc->cached_mode;
- 	if (!phys_enc->hw_intf->ops.setup_timing_gen) {
- 		DPU_ERROR("timing engine setup is not supported\n");
- 		return;
-@@ -652,7 +653,9 @@ static int dpu_encoder_phys_vid_get_frame_count(
- {
- 	struct intf_status s = {0};
- 	u32 fetch_start = 0;
--	struct drm_display_mode mode = phys_enc->cached_mode;
-+	struct drm_display_mode mode;
-+
-+	drm_mode_init(&mode, &phys_enc->cached_mode);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index e7813c6f7bd9..d5deca07b65a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -370,7 +370,7 @@ static void dpu_encoder_phys_vid_mode_set(
+ 	struct dpu_encoder_irq *irq;
  
- 	if (!dpu_encoder_phys_vid_is_master(phys_enc))
- 		return -EINVAL;
+ 	if (adj_mode) {
+-		phys_enc->cached_mode = *adj_mode;
++		drm_mode_copy(&phys_enc->cached_mode, adj_mode);
+ 		drm_mode_debug_printmodeline(adj_mode);
+ 		DPU_DEBUG_VIDENC(phys_enc, "caching mode:\n");
+ 	}
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 7cc4d21f2091..2ed6028ca8d6 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -825,7 +825,7 @@ static int dp_display_set_mode(struct msm_dp *dp_display,
+ 
+ 	dp = container_of(dp_display, struct dp_display_private, dp_display);
+ 
+-	dp->panel->dp_mode.drm_mode = mode->drm_mode;
++	drm_mode_copy(&dp->panel->dp_mode.drm_mode, &mode->drm_mode);
+ 	dp->panel->dp_mode.bpp = mode->bpp;
+ 	dp->panel->dp_mode.capabilities = mode->capabilities;
+ 	dp_panel_init_panel_info(dp->panel);
 -- 
 2.34.1
 
