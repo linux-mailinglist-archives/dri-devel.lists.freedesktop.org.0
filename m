@@ -2,51 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207124BC166
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 21:51:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A0F4BC15B
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 21:46:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D26F010E4C8;
-	Fri, 18 Feb 2022 20:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7833910E4D8;
+	Fri, 18 Feb 2022 20:46:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ADF810E4B9;
- Fri, 18 Feb 2022 20:51:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645217484; x=1676753484;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=516zcotZ4vKJxew/o+TSv3WXclgDhYK9iJrfeEkN4bs=;
- b=BUgmq8l0IM3gGvC9zx6Dtslq/DXcUTyLAUO2Q9whMdLl6vhgTdKpOoDr
- GLbK1l3QceqqFayXMTzPFTFjD6t9l7tFhcc06+NqXGNVM0To1y9r1N/Ag
- nmTlLvFMC66l3636H/RR2IcnNSTUGxfsZI5BMr4opaxdrctKX0JraJrZf
- v4J6dWAtNde9qPUt9o2YqDj1SDHMqICYxUXBpIKSC2a4LlMykQg+Q3WZ5
- GWmFHBwAcF6MXDb1ZpVW5SrPEHGIbYUaufUNoBwnVMfQDdNoH0OTeItfo
- lq6+jntR5qGhWczXm7wEIlFTAFMyJ+b+z1lCJGMKaWe4Pv7eL/uoY+sGB Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10262"; a="275802167"
-X-IronPort-AV: E=Sophos;i="5.88,379,1635231600"; d="scan'208";a="275802167"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 12:51:23 -0800
-X-IronPort-AV: E=Sophos;i="5.88,379,1635231600"; d="scan'208";a="705519738"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 12:51:23 -0800
-Date: Fri, 18 Feb 2022 12:45:32 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH v3 12/16] drm/i915/guc: Convert mapping table to iosys_map
-Message-ID: <20220218204532.GA3351@jons-linux-dev-box>
-References: <20220216174147.3073235-1-lucas.demarchi@intel.com>
- <20220216174147.3073235-13-lucas.demarchi@intel.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A39210E4C8;
+ Fri, 18 Feb 2022 20:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1645217176; x=1676753176;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=XugFhl1wiMuFiF3bnszfWL3zaFWaY1W+76hbSOxZQ2I=;
+ b=b5nJJ6A5OA/ANFkFvk0YSnoIGQRDSrTRmwynJaHKagooByr7sIkvNaJF
+ Fm1v0VaQ8MI3Uni+Nv3pfrH/xDE+k5h3R9pX3/dA1S5S/5meS+UZm9y3z
+ ccIhPc3JXJ0vbUnHH6kAFqtNAzufpR7TrxQt7i9CcTHeTnh4LTHaz4Rv/ I=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 18 Feb 2022 12:46:15 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2022 12:46:14 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Fri, 18 Feb 2022 12:46:14 -0800
+Received: from [10.111.174.92] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Fri, 18 Feb
+ 2022 12:46:08 -0800
+Message-ID: <a38432a8-7920-e26d-7391-a49bebbc57f9@quicinc.com>
+Date: Fri, 18 Feb 2022 12:46:06 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [REPOST PATCH v4 08/13] drm/msm/disp/dpu1: Don't use DSC with
+ mode_3d
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Vinod Koul
+ <vkoul@kernel.org>
+References: <20220210103423.271016-1-vkoul@kernel.org>
+ <20220210103423.271016-9-vkoul@kernel.org>
+ <67006cc4-3385-fe03-bb4d-58623729a8a8@quicinc.com> <Yg3mvEvqYs89dJWI@matsya>
+ <4b89f5fe-0752-3c6a-3fb0-192f1f2e7b9e@quicinc.com>
+ <acf0a2a2-f2e5-906a-3c51-525abd18ee6f@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <acf0a2a2-f2e5-906a-3c51-525abd18ee6f@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220216174147.3073235-13-lucas.demarchi@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,76 +70,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- John Harrison <John.C.Harrison@Intel.com>
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, Abhinav
+ Kumar <abhinavk@codeaurora.org>, Bjorn
+ Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 16, 2022 at 09:41:43AM -0800, Lucas De Marchi wrote:
-> Use iosys_map to write the fields system_info.mapping_table[][].
-> Since we already have the info_map around where needed, just use it
-> instead of going through guc->ads_map.
-> 
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Thomas Hellstr�m <thomas.hellstrom@linux.intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+On 2/16/2022 11:12 PM, Dmitry Baryshkov wrote:
+> On 17/02/2022 09:33, Abhinav Kumar wrote:
+>>
+>>
+>> On 2/16/2022 10:10 PM, Vinod Koul wrote:
+>>> On 16-02-22, 19:11, Abhinav Kumar wrote:
+>>>>
+>>>>
+>>>> On 2/10/2022 2:34 AM, Vinod Koul wrote:
+>>>>> We cannot enable mode_3d when we are using the DSC. So pass
+>>>>> configuration to detect DSC is enabled and not enable mode_3d
+>>>>> when we are using DSC
+>>>>>
+>>>>> We add a helper dpu_encoder_helper_get_dsc() to detect dsc
+>>>>> enabled and pass this to .setup_intf_cfg()
+>>>>>
+>>>>> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+>>>>
+>>>> We should not use 3D mux only when we use DSC merge topology.
+>>>> I agree that today we use only 2-2-1 topology for DSC which means 
+>>>> its using
+>>>> DSC merge.
+>>>>
+>>>> But generalizing that 3D mux should not be used for DSC is not right.
+>>>>
+>>>> You can detect DSC merge by checking if there are two encoders and one
+>>>> interface in the topology and if so, you can disable 3D mux.
+>>>
+>>> Right now with DSC we disable that as suggested by Dmitry last time.
+>>> Whenever we introduce merge we should revisit this, for now this should
+>>> suffice
+>>>
+>>
+>> Sorry I didnt follow.
+>>
+>> The topology which you are supporting today IS DSC merge 2-2-1. I 
+>> didnt get what you mean by "whenever we introduce".
+>>
+>> I didnt follow Dmitry's comment either.
+>>
+>> "anybody adding support for SDE_RM_TOPOLOGY_DUALPIPE_3DMERGE_DSC 
+>> handle this."
+>>
+>> 3D mux shouldnt be used when DSC merge is used.
+>>
+>> The topology Dmitry is referring to will not use DSC merge but you are 
+>> using it here and thats why you had to make this patch in the first 
+>> place. So I am not sure why would someone who uses 3D merge topology 
+>> worry about DSC merge. Your patch is the one which deals with the 
+>> topology in question.
+>>
+>> What I am suggesting is a small but necessary improvement to this patch.
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> index b739781bd133..c3c31b679e79 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> @@ -204,7 +204,7 @@ int intel_guc_global_policies_update(struct intel_guc *guc)
->  }
->  
->  static void guc_mapping_table_init(struct intel_gt *gt,
-> -				   struct guc_gt_system_info *system_info)
-> +				   struct iosys_map *info_map)
->  {
->  	unsigned int i, j;
->  	struct intel_engine_cs *engine;
-> @@ -213,14 +213,14 @@ static void guc_mapping_table_init(struct intel_gt *gt,
->  	/* Table must be set to invalid values for entries not used */
->  	for (i = 0; i < GUC_MAX_ENGINE_CLASSES; ++i)
->  		for (j = 0; j < GUC_MAX_INSTANCES_PER_CLASS; ++j)
-> -			system_info->mapping_table[i][j] =
-> -				GUC_MAX_INSTANCES_PER_CLASS;
-> +			info_map_write(info_map, mapping_table[i][j],
-> +				       GUC_MAX_INSTANCES_PER_CLASS);
->  
->  	for_each_engine(engine, gt, id) {
->  		u8 guc_class = engine_class_to_guc_class(engine->class);
->  
-> -		system_info->mapping_table[guc_class][ilog2(engine->logical_mask)] =
-> -			engine->instance;
-> +		info_map_write(info_map, mapping_table[guc_class][ilog2(engine->logical_mask)],
-> +			       engine->instance);
->  	}
->  }
->  
-> @@ -631,7 +631,7 @@ static void __guc_ads_init(struct intel_guc *guc)
->  	/* Golden contexts for re-initialising after a watchdog reset */
->  	guc_prep_golden_context(guc);
->  
-> -	guc_mapping_table_init(guc_to_gt(guc), &blob->system_info);
-> +	guc_mapping_table_init(guc_to_gt(guc), &info_map);
->  
->  	base = intel_guc_ggtt_offset(guc, guc->ads_vma);
->  
-> -- 
-> 2.35.1
+> It seems that we can replace this patch by changing 
+> dpu_encoder_helper_get_3d_blend_mode() to contain the following 
+> condition (instead of the one present there). Does the following seem 
+> correct to you:
+> 
+> static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+>                  struct dpu_encoder_phys *phys_enc)
+> {
+>          struct dpu_crtc_state *dpu_cstate;
+> 
+>          if (!phys_enc || phys_enc->enable_state == DPU_ENC_DISABLING)
+>                  return BLEND_3D_NONE;
+> 
+>          dpu_cstate = to_dpu_crtc_state(phys_enc->parent->crtc->state);
+> 
+> +    /* Use merge_3d unless DSCMERGE topology is used */
+>          if (phys_enc->split_role == ENC_ROLE_SOLO &&
+> +           hweight(dpu_encoder_helper_get_dsc(phys_enc)) != 1 &&
+>              dpu_cstate->num_mixers == CRTC_DUAL_MIXERS)
+>                  return BLEND_3D_H_ROW_INT;
+> 
+>          return BLEND_3D_NONE;
+> }
+
+This will not be enough. To detect whether DSC merge is enabled you need 
+to query the topology. The above condition only checks if DSC is enabled 
+not DSC merge.
+
+So the above function can be modified to use a helper like below instead 
+of the hweight.
+
+bool dpu_encoder_get_dsc_merge_info(struct dpu_encoder_virt *dpu_enc)
+{
+     struct msm_display_topology topology = {0};
+
+     topology = dpu_encoder_get_topology(...);
+
+     if (topology.num_dsc > topology.num_intf)
+         return true;
+     else
+         return false;
+}
+
+if (!dpu_encoder_get_dsc_merge_info() && other conditions listed above)
+	return BLEND_3D_H_ROW_INT;
+else
+	BLEND_3D_NONE;
+> 
+> 
+>>
+>> All that you have to do is in query whether DSC merge is used from the 
+>> topology. You can do it in multiple ways:
+>>
+>> 1) Either query this from the encoder
+>> 2) Store a bool "dsc_merge" in the intf_cfg
+>>
+> 
 > 
