@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A964BB652
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:05:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E994BB649
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:05:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4763D10F036;
-	Fri, 18 Feb 2022 10:05:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18D1E10F021;
+	Fri, 18 Feb 2022 10:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14C9310F03B;
- Fri, 18 Feb 2022 10:05:38 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1627E10F020;
+ Fri, 18 Feb 2022 10:05:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645178738; x=1676714738;
+ t=1645178721; x=1676714721;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=o6QmNTSo++wA41tkK2nAoAqaUjde1XukDSiTKroARZY=;
- b=OyCr0ZvzubFEpBi/6s9iHSbUZ9hISWCf2yl3MEnZceRmb+uPJg+KL/lF
- MBB+krnm5StPxzAFslNsXVzgFKmGvrddNEaiYQ1hs5srMch/1x2VIjDKQ
- WlCWmtGuuET32D0nt2oZWOY3VEcqKtreDmB3XtBDCcAcb3/CNVfZkRAjA
- 0O3HoaPoXBUZQ5hMX8GiiWC6OAPQc9cWqdIkbAnF/6Z55P9paL6CSye/s
- d/ivmG00Gwgzoi8N19N05AoMbRNlNChar348+JE6yqFZMzqW9UEK4PcEt
- idto2fpbEbWOXr1oyHTrCl+e8lAAKDtLpToGXHaFE7bDd+UPKMW6NYKFt g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="249931329"
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="249931329"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 02:05:16 -0800
+ bh=eCrT7k2mHaCOKRYO1OSCuF6nl+eIp+hDzsgznOb6nEY=;
+ b=asdFGhZd3EJrRk7+gHa4w5TejVjlm5pOwOGRSm0w0LHMCnmb/Sd2CRpq
+ ST/86yS1xoLPx5HW2ez5JztarS88R0UMkJiQCjtJ0pD3/xl0XDABEI61m
+ w3cn+qNHPSi/X5THFo2w24et9+qGySLqmtANiJb7JouzL0SIMi653Fpz6
+ rP00PMQsnbkZDPWdG2+a+ifgLmcwqZoL1RFxdbmgQvb1bKDrHzMZYzKyp
+ AehAHmnAfPu/C5k51FElBYs/zDzDvQcKvAYoo1Ntyc+Lacbp7k+A83a7u
+ n/oSezVRMloiLGRuWVojsZUmC4x77gzCSpvnxRtCVGr44VOMxOhs2z4Jb w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="311839937"
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="311839937"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2022 02:05:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="626574532"
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="590153924"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
- by FMSMGA003.fm.intel.com with SMTP; 18 Feb 2022 02:05:14 -0800
+ by fmsmga008.fm.intel.com with SMTP; 18 Feb 2022 02:05:17 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 18 Feb 2022 12:05:13 +0200
+ Fri, 18 Feb 2022 12:05:17 +0200
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 16/22] drm/tilcdc: Use drm_mode_copy()
-Date: Fri, 18 Feb 2022 12:03:57 +0200
-Message-Id: <20220218100403.7028-17-ville.syrjala@linux.intel.com>
+Subject: [PATCH 17/22] drm/vc4: Use drm_mode_copy()
+Date: Fri, 18 Feb 2022 12:03:58 +0200
+Message-Id: <20220218100403.7028-18-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
 References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
@@ -58,8 +58,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomba@kernel.org>
+Cc: intel-gfx@lists.freedesktop.org, Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -121,26 +120,29 @@ struct drm_display_mode *mode;
 - &*mode
 + mode
 
-Cc: Jyri Sarha <jyri.sarha@iki.fi>
-Cc: Tomi Valkeinen <tomba@kernel.org>
+Cc: Emma Anholt <emma@anholt.net>
+Cc: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index 29890d704cb4..853c6b443fff 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -433,7 +433,7 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 5ac3216f2d4a..6c58b0fd13fb 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1234,9 +1234,8 @@ static void vc4_hdmi_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
  
- 	set_scanout(crtc, fb);
+ 	mutex_lock(&vc4_hdmi->mutex);
+-	memcpy(&vc4_hdmi->saved_adjusted_mode,
+-	       &crtc_state->adjusted_mode,
+-	       sizeof(vc4_hdmi->saved_adjusted_mode));
++	drm_mode_copy(&vc4_hdmi->saved_adjusted_mode,
++		      &crtc_state->adjusted_mode);
+ 	mutex_unlock(&vc4_hdmi->mutex);
+ }
  
--	crtc->hwmode = crtc->state->adjusted_mode;
-+	drm_mode_copy(&crtc->hwmode, &crtc->state->adjusted_mode);
- 
- 	tilcdc_crtc->hvtotal_us =
- 		tilcdc_mode_hvtotal(&crtc->hwmode);
 -- 
 2.34.1
 
