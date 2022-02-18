@@ -2,70 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526E04BC217
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 22:31:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B124BC220
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 22:31:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07BA810E77F;
-	Fri, 18 Feb 2022 21:31:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E102D10EA07;
+	Fri, 18 Feb 2022 21:31:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE7410E77F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 21:31:05 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id bx31so6240926ljb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 13:31:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jMrlrPPu5JrnxUwtAm4jm+Rx+SKLzI9mI5078eEOKyI=;
- b=clzAsMzZ+XasH91nyzp+lVc8ppcv5OGyAEoEtesJnL2MpHA0b0JY6kK5uLqsIPyWIN
- AXt8vwr4wLq8rHwHpBlUNPduDhezN6sbgGPQ/mA0knmxAJTWUneFqFyH8KFd0Cab880k
- rltyLulFz7nSFpt2EjU3xI/5U4ri53AutdYBVCmos1wJVXdUPqO5qFjiRATC4tOp9XBH
- SHhqjOj9VqN5x5S6mnto4ciVANmQ0+iKglShih0ZGEvZUALggObVK3vwdDEuZfgdDErh
- X0RiUMGm1O/VLFdyb8BZa3YiT08VucQILNViZlMCYapmImPH+zjJWxMdZ05VUulGwGKz
- MlTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jMrlrPPu5JrnxUwtAm4jm+Rx+SKLzI9mI5078eEOKyI=;
- b=gGbaeZ/wKy01r98TFAxdJWHtilTsygdW4vRosNgu4P5VBxrxQX8fBFyMwDqMoQ16kU
- slESI1DW89hwJZ7din3Iu2yCjYj4cVv4WkpKwCbWW9ClUhaVmybRVmDqqo8kqdzHQGsw
- oMdNVwdzeI3VS24MskavbDC/jFCq5b3/jkJ96zDQ/dfZWm+V7XNB3omzuCqFhj8s4tD5
- dy1CghuOdvJa14cvgpYvc94nTogmifaPly3VHIDYpjq828MhbdI5xY9Xv806VShaspy2
- SYLt0xYE5nRoqZZGzVY1ZLJ6wqJUDq8WIIdvgcrl5TeL3Bm6BFvaaQ7x709Ao1pL15AK
- T06Q==
-X-Gm-Message-State: AOAM530SLqqNR1NdJLZ9DaIgCG2andxe7DFRhkbIcyJvYVJpPKMIADJd
- UXoFMPP4YKb5pAXbJWSVY+sSlw==
-X-Google-Smtp-Source: ABdhPJyN/Hp5jK6jCZgYMEkSTVwZRIvAV5Eqq9BxGzkQYgtotAf4AGlaWKNSAlIOhHZZUDW5aY6SiA==
-X-Received: by 2002:a2e:bd82:0:b0:241:130d:90b3 with SMTP id
- o2-20020a2ebd82000000b00241130d90b3mr6870855ljq.383.1645219863661; 
- Fri, 18 Feb 2022 13:31:03 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id z26sm442648lja.139.2022.02.18.13.31.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Feb 2022 13:31:03 -0800 (PST)
-Message-ID: <067554a1-4def-674d-137f-b13bed6ac810@linaro.org>
-Date: Sat, 19 Feb 2022 00:31:02 +0300
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBB5510EA07;
+ Fri, 18 Feb 2022 21:31:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1645219893; x=1676755893;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9gMKqj2n86hOvJog2TljNi9mipWalBn8eAV7XJzWhik=;
+ b=Y+c74UoEftfJJsxIBPIDxsT0maOoHqyetLe6qbI3v3kt/M1jrLx2XJlY
+ CFLKIloX52DW0V03ZbsTwkCbhHY9QR690QYpKlqczvNWd+Y862AxQiKCi
+ WBdBPk4w1Ua3tx5N4FeO1NWpZgenG786xHBD0uH/MMHGzTK4Mx6xsTe2k o=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 18 Feb 2022 13:31:32 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2022 13:31:32 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Fri, 18 Feb 2022 13:31:26 -0800
+Received: from [10.110.101.104] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Fri, 18 Feb
+ 2022 13:31:25 -0800
+Message-ID: <572c0402-55da-077b-1809-3d1caf7ce743@quicinc.com>
+Date: Fri, 18 Feb 2022 13:31:24 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [RFC PATCH v2 2/5] drm/msm/dp: support attaching bridges to the
- DP encoder
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH v2 4/5] drm/msm/dp: replace dp_connector with
+ drm_bridge_connector
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>
 References: <20220211224006.1797846-1-dmitry.baryshkov@linaro.org>
- <20220211224006.1797846-3-dmitry.baryshkov@linaro.org>
- <013284ad-11c7-e21c-3ca4-0e8b7b804b98@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <013284ad-11c7-e21c-3ca4-0e8b7b804b98@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20220211224006.1797846-5-dmitry.baryshkov@linaro.org>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <20220211224006.1797846-5-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,153 +73,260 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/02/2022 00:28, Kuogee Hsieh wrote:
-> 
-> On 2/11/2022 2:40 PM, Dmitry Baryshkov wrote:
->> Currently DP driver will allocate panel bridge for eDP panels. This
->> supports only the following topology:
->>
->> - eDP encoder ⇒ eDP panel (wrapped using panel-bridge)
->>
->> Simplify this code to just check if there is any next bridge in the
->> chain (be it a panel bridge or regular bridge). Rename panel_bridge
->> field to next_bridge accordingly.
->>
->> This allows one to use e.g. one of the following display topologies:
->>
->> - eDP encoder ⇒ ptn3460 ⇒ fixed LVDS panel
->> - eDP encoder ⇒ ptn3460 ⇒ LVDS connector with EDID lines for panel 
->> autodetect
->> - eDP encoder ⇒ ptn3460 ⇒ THC63LVD1024 ⇒ DPI panel.
->> - eDP encoder ⇒ LT8912 ⇒ DSI panel
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
->> Tested-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
-The Tested-by got hidden by the quotation symbols. Could you please send 
-another one?
+On 2/11/2022 2:40 PM, Dmitry Baryshkov wrote:
+> There is little point in having both connector and root bridge
+> implementation in the same driver. Move connector's functionality to the
+> bridge to let next bridge in chain to override it.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-> 
->> ---
->>   drivers/gpu/drm/msm/dp/dp_display.c |  2 +-
->>   drivers/gpu/drm/msm/dp/dp_display.h |  2 +-
->>   drivers/gpu/drm/msm/dp/dp_drm.c     |  4 ++--
->>   drivers/gpu/drm/msm/dp/dp_parser.c  | 31 +++++++++++++++--------------
->>   drivers/gpu/drm/msm/dp/dp_parser.h  |  2 +-
->>   5 files changed, 21 insertions(+), 20 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->> b/drivers/gpu/drm/msm/dp/dp_display.c
->> index 44d42c76c2a3..45f9a912ecc5 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -266,7 +266,7 @@ static int dp_display_bind(struct device *dev, 
->> struct device *master,
->>           goto end;
->>       }
->> -    dp->dp_display.panel_bridge = dp->parser->panel_bridge;
->> +    dp->dp_display.next_bridge = dp->parser->next_bridge;
->>       dp->aux->drm_dev = drm;
->>       rc = dp_aux_register(dp->aux);
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h 
->> b/drivers/gpu/drm/msm/dp/dp_display.h
->> index e3adcd578a90..7af2b186d2d9 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.h
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
->> @@ -16,7 +16,7 @@ struct msm_dp {
->>       struct drm_bridge *bridge;
->>       struct drm_connector *connector;
->>       struct drm_encoder *encoder;
->> -    struct drm_bridge *panel_bridge;
->> +    struct drm_bridge *next_bridge;
->>       bool is_connected;
->>       bool audio_enabled;
->>       bool power_on;
->> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c 
->> b/drivers/gpu/drm/msm/dp/dp_drm.c
->> index 26ef41a4c1b6..80f59cf99089 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
->> @@ -236,9 +236,9 @@ struct drm_bridge *msm_dp_bridge_init(struct 
->> msm_dp *dp_display, struct drm_devi
->>           return ERR_PTR(rc);
->>       }
->> -    if (dp_display->panel_bridge) {
->> +    if (dp_display->next_bridge) {
->>           rc = drm_bridge_attach(dp_display->encoder,
->> -                    dp_display->panel_bridge, bridge,
->> +                    dp_display->next_bridge, bridge,
->>                       DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->>           if (rc < 0) {
->>               DRM_ERROR("failed to attach panel bridge: %d\n", rc);
->> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c 
->> b/drivers/gpu/drm/msm/dp/dp_parser.c
->> index a7acc23f742b..901d7967370f 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
->> @@ -265,23 +265,16 @@ static int dp_parser_clock(struct dp_parser 
->> *parser)
->>       return 0;
->>   }
->> -static int dp_parser_find_panel(struct dp_parser *parser)
->> +static int dp_parser_find_next_bridge(struct dp_parser *parser)
->>   {
->>       struct device *dev = &parser->pdev->dev;
->> -    struct drm_panel *panel;
->> -    int rc;
->> +    struct drm_bridge *bridge;
->> -    rc = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
->> -    if (rc) {
->> -        DRM_ERROR("failed to acquire DRM panel: %d\n", rc);
->> -        return rc;
->> -    }
->> +    bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
->> +    if (IS_ERR(bridge))
->> +        return PTR_ERR(bridge);
->> -    parser->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
->> -    if (IS_ERR(parser->panel_bridge)) {
->> -        DRM_ERROR("failed to create panel bridge\n");
->> -        return PTR_ERR(parser->panel_bridge);
->> -    }
->> +    parser->next_bridge = bridge;
->>       return 0;
->>   }
->> @@ -307,10 +300,18 @@ static int dp_parser_parse(struct dp_parser 
->> *parser, int connector_type)
->>       if (rc)
->>           return rc;
->> +    /*
->> +     * Currently we support external bridges only for eDP connectors.
->> +     *
->> +     * No external bridges are expected for the DisplayPort connector,
->> +     * it is physically present in a form of a DP or USB-C connector.
->> +     */
->>       if (connector_type == DRM_MODE_CONNECTOR_eDP) {
->> -        rc = dp_parser_find_panel(parser);
->> -        if (rc)
->> +        rc = dp_parser_find_next_bridge(parser);
->> +        if (rc) {
->> +            DRM_ERROR("DP: failed to find next bridge\n");
->>               return rc;
->> +        }
->>       }
->>       /* Map the corresponding regulator information according to
->> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h 
->> b/drivers/gpu/drm/msm/dp/dp_parser.h
->> index 3172da089421..4cec851e38d9 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
->> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
->> @@ -123,7 +123,7 @@ struct dp_parser {
->>       struct dp_display_data disp_data;
->>       const struct dp_regulator_cfg *regulator_cfg;
->>       u32 max_dp_lanes;
->> -    struct drm_bridge *panel_bridge;
->> +    struct drm_bridge *next_bridge;
->>       int (*parse)(struct dp_parser *parser, int connector_type);
->>   };
+This patch break primary (edp) display
 
+-- right half of screen garbled
 
--- 
-With best wishes
-Dmitry
+-- screen shift vertically
+
+below are error messages seen --
+
+[   36.679216] panel-edp soc@0:edp_panel: No display modes
+[   36.687272] panel-edp soc@0:edp_panel: No display modes
+[   40.593709] panel-edp soc@0:edp_panel: No display modes
+[   40.600285] panel-edp soc@0:edp_panel: No display modes
+
+> ---
+>   drivers/gpu/drm/msm/dp/dp_display.c |  22 +++---
+>   drivers/gpu/drm/msm/dp/dp_drm.c     | 113 ++++++++++------------------
+>   2 files changed, 52 insertions(+), 83 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 45f9a912ecc5..59e5e5b8e5b4 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -1501,6 +1501,17 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+>   
+>   	dp_display->encoder = encoder;
+>   
+> +	dp_display->bridge = msm_dp_bridge_init(dp_display, dev, encoder);
+> +	if (IS_ERR(dp_display->bridge)) {
+> +		ret = PTR_ERR(dp_display->bridge);
+> +		DRM_DEV_ERROR(dev->dev,
+> +			"failed to create dp bridge: %d\n", ret);
+> +		dp_display->bridge = NULL;
+> +		return ret;
+> +	}
+> +
+> +	priv->bridges[priv->num_bridges++] = dp_display->bridge;
+> +
+>   	dp_display->connector = dp_drm_connector_init(dp_display);
+>   	if (IS_ERR(dp_display->connector)) {
+>   		ret = PTR_ERR(dp_display->connector);
+> @@ -1514,17 +1525,6 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+>   
+>   	priv->connectors[priv->num_connectors++] = dp_display->connector;
+>   
+> -	dp_display->bridge = msm_dp_bridge_init(dp_display, dev, encoder);
+> -	if (IS_ERR(dp_display->bridge)) {
+> -		ret = PTR_ERR(dp_display->bridge);
+> -		DRM_DEV_ERROR(dev->dev,
+> -			"failed to create dp bridge: %d\n", ret);
+> -		dp_display->bridge = NULL;
+> -		return ret;
+> -	}
+> -
+> -	priv->bridges[priv->num_bridges++] = dp_display->bridge;
+> -
+>   	return 0;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+> index 80f59cf99089..57800b865fe6 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> @@ -6,6 +6,7 @@
+>   #include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_bridge.h>
+> +#include <drm/drm_bridge_connector.h>
+>   #include <drm/drm_crtc.h>
+>   
+>   #include "msm_drv.h"
+> @@ -20,24 +21,16 @@ struct msm_dp_bridge {
+>   
+>   #define to_dp_display(x)     container_of((x), struct msm_dp_bridge, bridge)
+>   
+> -struct dp_connector {
+> -	struct drm_connector base;
+> -	struct msm_dp *dp_display;
+> -};
+> -#define to_dp_connector(x) container_of(x, struct dp_connector, base)
+> -
+>   /**
+> - * dp_connector_detect - callback to determine if connector is connected
+> - * @conn: Pointer to drm connector structure
+> - * @force: Force detect setting from drm framework
+> - * Returns: Connector 'is connected' status
+> + * dp_bridge_detect - callback to determine if connector is connected
+> + * @bridge: Pointer to drm bridge structure
+> + * Returns: Bridge's 'is connected' status
+>    */
+> -static enum drm_connector_status dp_connector_detect(struct drm_connector *conn,
+> -		bool force)
+> +static enum drm_connector_status dp_bridge_detect(struct drm_bridge *bridge)
+>   {
+>   	struct msm_dp *dp;
+>   
+> -	dp = to_dp_connector(conn)->dp_display;
+> +	dp = to_dp_display(bridge)->dp_display;
+>   
+>   	DRM_DEBUG_DP("is_connected = %s\n",
+>   		(dp->is_connected) ? "true" : "false");
+> @@ -47,11 +40,12 @@ static enum drm_connector_status dp_connector_detect(struct drm_connector *conn,
+>   }
+>   
+>   /**
+> - * dp_connector_get_modes - callback to add drm modes via drm_mode_probed_add()
+> + * dp_bridge_get_modes - callback to add drm modes via drm_mode_probed_add()
+> + * @bridge: Poiner to drm bridge
+>    * @connector: Pointer to drm connector structure
+>    * Returns: Number of modes added
+>    */
+> -static int dp_connector_get_modes(struct drm_connector *connector)
+> +static int dp_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *connector)
+>   {
+>   	int rc = 0;
+>   	struct msm_dp *dp;
+> @@ -61,7 +55,7 @@ static int dp_connector_get_modes(struct drm_connector *connector)
+>   	if (!connector)
+>   		return 0;
+>   
+> -	dp = to_dp_connector(connector)->dp_display;
+> +	dp = to_dp_display(bridge)->dp_display;
+>   
+>   	dp_mode = kzalloc(sizeof(*dp_mode),  GFP_KERNEL);
+>   	if (!dp_mode)
+> @@ -102,18 +96,20 @@ static int dp_connector_get_modes(struct drm_connector *connector)
+>   }
+>   
+>   /**
+> - * dp_connector_mode_valid - callback to determine if specified mode is valid
+> - * @connector: Pointer to drm connector structure
+> + * dp_bridge_mode_valid - callback to determine if specified mode is valid
+> + * @bridge: Pointer to drm bridge structure
+> + * @info: display info
+>    * @mode: Pointer to drm mode structure
+>    * Returns: Validity status for specified mode
+>    */
+> -static enum drm_mode_status dp_connector_mode_valid(
+> -		struct drm_connector *connector,
+> -		struct drm_display_mode *mode)
+> +static enum drm_mode_status dp_bridge_mode_valid(
+> +		struct drm_bridge *bridge,
+> +		const struct drm_display_info *info,
+> +		const struct drm_display_mode *mode)
+>   {
+>   	struct msm_dp *dp_disp;
+>   
+> -	dp_disp = to_dp_connector(connector)->dp_display;
+> +	dp_disp = to_dp_display(bridge)->dp_display;
+>   
+>   	if ((dp_disp->max_pclk_khz <= 0) ||
+>   			(dp_disp->max_pclk_khz > DP_MAX_PIXEL_CLK_KHZ) ||
+> @@ -123,55 +119,6 @@ static enum drm_mode_status dp_connector_mode_valid(
+>   	return dp_display_validate_mode(dp_disp, mode->clock);
+>   }
+>   
+> -static const struct drm_connector_funcs dp_connector_funcs = {
+> -	.detect = dp_connector_detect,
+> -	.fill_modes = drm_helper_probe_single_connector_modes,
+> -	.destroy = drm_connector_cleanup,
+> -	.reset = drm_atomic_helper_connector_reset,
+> -	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> -	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> -};
+> -
+> -static const struct drm_connector_helper_funcs dp_connector_helper_funcs = {
+> -	.get_modes = dp_connector_get_modes,
+> -	.mode_valid = dp_connector_mode_valid,
+> -};
+> -
+> -/* connector initialization */
+> -struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
+> -{
+> -	struct drm_connector *connector = NULL;
+> -	struct dp_connector *dp_connector;
+> -	int ret;
+> -
+> -	dp_connector = devm_kzalloc(dp_display->drm_dev->dev,
+> -					sizeof(*dp_connector),
+> -					GFP_KERNEL);
+> -	if (!dp_connector)
+> -		return ERR_PTR(-ENOMEM);
+> -
+> -	dp_connector->dp_display = dp_display;
+> -
+> -	connector = &dp_connector->base;
+> -
+> -	ret = drm_connector_init(dp_display->drm_dev, connector,
+> -			&dp_connector_funcs,
+> -			dp_display->connector_type);
+> -	if (ret)
+> -		return ERR_PTR(ret);
+> -
+> -	drm_connector_helper_add(connector, &dp_connector_helper_funcs);
+> -
+> -	/*
+> -	 * Enable HPD to let hpd event is handled when cable is connected.
+> -	 */
+> -	connector->polled = DRM_CONNECTOR_POLL_HPD;
+> -
+> -	drm_connector_attach_encoder(connector, dp_display->encoder);
+> -
+> -	return connector;
+> -}
+> -
+>   static void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
+>   				const struct drm_display_mode *mode,
+>   				const struct drm_display_mode *adjusted_mode)
+> @@ -211,6 +158,9 @@ static const struct drm_bridge_funcs dp_bridge_ops = {
+>   	.disable      = dp_bridge_disable,
+>   	.post_disable = dp_bridge_post_disable,
+>   	.mode_set     = dp_bridge_mode_set,
+> +	.mode_valid   = dp_bridge_mode_valid,
+> +	.get_modes    = dp_bridge_get_modes,
+> +	.detect       = dp_bridge_detect,
+>   };
+>   
+>   struct drm_bridge *msm_dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
+> @@ -228,7 +178,12 @@ struct drm_bridge *msm_dp_bridge_init(struct msm_dp *dp_display, struct drm_devi
+>   
+>   	bridge = &dp_bridge->bridge;
+>   	bridge->funcs = &dp_bridge_ops;
+> -	bridge->encoder = encoder;
+> +	bridge->type = dp_display->connector_type;
+> +
+> +	bridge->ops =
+> +		DRM_BRIDGE_OP_DETECT |
+> +		DRM_BRIDGE_OP_HPD |
+> +		DRM_BRIDGE_OP_MODES;
+>   
+>   	rc = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+>   	if (rc) {
+> @@ -249,3 +204,17 @@ struct drm_bridge *msm_dp_bridge_init(struct msm_dp *dp_display, struct drm_devi
+>   
+>   	return bridge;
+>   }
+> +
+> +/* connector initialization */
+> +struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
+> +{
+> +	struct drm_connector *connector = NULL;
+> +
+> +	connector = drm_bridge_connector_init(dp_display->drm_dev, dp_display->encoder);
+> +	if (IS_ERR(connector))
+> +		return connector;
+> +
+> +	drm_connector_attach_encoder(connector, dp_display->encoder);
+> +
+> +	return connector;
+> +}
