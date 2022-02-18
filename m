@@ -2,75 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD654BAF12
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 02:10:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F82F4BAFFE
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 04:08:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDAD710E365;
-	Fri, 18 Feb 2022 01:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1D5710E9FC;
+	Fri, 18 Feb 2022 03:08:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 118AE10E365
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 01:10:55 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id b9so2444596lfv.7
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 17:10:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0W1WD7a5hLH9VH6hSRJEAE/461r0glPlRYJ47p1TYCY=;
- b=qiFqTbxrbWjxfX4G899lNbH2XzztarAnZ1OFCDYiKzPDevKIHf6dGO8n/iNQUe49fD
- QI8sW7y3AhmVfC2wniziEeTeVoctoPPIk3S5jlpWsWoXa2vjHNqPVvDLjFB0s4HX77e6
- 6Hb6LJq/y/32RmdBZ0Rc5cx5Z9XnNlZZXNXgfhznVhb7ckGU2r8VVE3NZgDeX1QfLc+3
- N1ZIAiPs6tBwPprEC2T2+35p+xcfaMFZR9EcJmNjiXv+ibPxIafWn5GB1UaDn24sr088
- 02mIQglH3R7IO5aRWlt5kTyE3w3ebyMZJIoenE4Um1bVRfZW4Nt4IjjWkxn4G6BTlcJr
- 9M8g==
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA5110E9F8;
+ Fri, 18 Feb 2022 03:08:31 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ l12-20020a0568302b0c00b005a4856ff4ceso1077004otv.13; 
+ Thu, 17 Feb 2022 19:08:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7NtFuMkC0v+umA0r2Z9wwdYfloaxCJo3MlkADJvxZNU=;
+ b=SXJMDJViICup6JW1yK7qoZkGrOxj2/lnPdz13+a6GFTIAGDvuPzkKofUo2xG6GuoR0
+ TrYYJMw6ipmoGl6xHR/eDY3PynqYNE+KZ3gmnJUXs3wq4K3+/MsQsqaUt0gscKt/mTI0
+ X0JztZ2AUSTRU/bRvWUyIb/GxLIGAaj0RfD3x7xeD0JJFGy3g3E4eTe4FoJWGvAf6ZUA
+ jE0YdzHRyZnx6BZyw2CwNXMNUyiGJpgE4p+2Z9IG2T0kNZgU96vw0QkFtlTJI8GKQi/W
+ a7N31YN/tIjdEo1Evd4yMBplL91hQdAgx0juJoMODcyU4ksb3w7eLD+bQBThJskaf9Up
+ TJew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0W1WD7a5hLH9VH6hSRJEAE/461r0glPlRYJ47p1TYCY=;
- b=sjaHK6gJy9N6u0ORV8fvKHPOZcYLXvOZwI/qufBHRS6G2C4gksTwqneuBQg0vkJHEv
- imxmEOuEX11Wmt2U68wkRofkHeLxPEoL6KFcGBUvmOO8Gbiizcj0ublVkRAZthEhyvPK
- vGAIWd+A2eulFyldW1IxbRry4YDaaMndDhpitqo8nqDEKHJyeVAYkEr1IZ7ss494RsdS
- q+nflauYAlw/oqib0u082Nk4GHCNH53TAphKZGDYUrkibKi5//LOU79sUWCVxCEjMM5B
- /ea5ZwPCXOo/zSdRPoXkQZsCvutigiIbw9/AhqdQqOmGeH/UZOMkz0q851cFUG7vm3cl
- 6x2g==
-X-Gm-Message-State: AOAM532w97g67cKaDQzF6qVswudeqtnKnekx6JKk8dLy1cpCAgPbFcsp
- A84TDzM3kIG4SydSBaHFl053LQ==
-X-Google-Smtp-Source: ABdhPJzvi2LBUWLmCjxrHaFgDG3X1/BcfU0BR4XZTuJD/Du/I++bKf46YtVejY7wlJtI8/1kZIbImw==
-X-Received: by 2002:a05:6512:c09:b0:442:d4fa:9bce with SMTP id
- z9-20020a0565120c0900b00442d4fa9bcemr3708901lfu.483.1645146653232; 
- Thu, 17 Feb 2022 17:10:53 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id u9sm142607ljd.48.2022.02.17.17.10.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 17:10:52 -0800 (PST)
-Message-ID: <e2fab93e-82a6-4837-4ee5-ee1b16caa84d@linaro.org>
-Date: Fri, 18 Feb 2022 04:10:52 +0300
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7NtFuMkC0v+umA0r2Z9wwdYfloaxCJo3MlkADJvxZNU=;
+ b=xY/n0orM3BigZ6x6gT+ukUpvg9sbNLmKlFHxL9TF+YZzUbl6yxzbpmRSvrBIbYvZmj
+ mSYU8N+s/z4z2ef92y9JiJCOmPntYozv4F313lqjo4eCCIZgn+3fDDM5hX4v6W8EcAWk
+ YMakxDcAD5mOSulRsglzkeCKBCI/hYbhXsf7NkSbTJYXVF/IjiD2zq87FEnPLVeWdWxo
+ HR9Orel+JYiTRIEuI46MEqyEXd2s04/rjHXfxlQVT9FI3YOFj1YVlR9wq9mCDu4y5GLO
+ zHrjzlXX3NPusM0CWF64e98Q5fRvyQp74vVxO9qN1t5pAjI2l9t53h73ijWkCnTW588M
+ GR8g==
+X-Gm-Message-State: AOAM531YkVWi6u8Q4vW75o6APvcnwlJ6ceHy9fFQh4KDCO67GTjBdvo4
+ F0sK+PoaHlVNEmVTPAZKqAqEleul/M8EuVfqk5M=
+X-Google-Smtp-Source: ABdhPJy+HKsYdlrtET3RMKtN7jSsmxokjX0+qXeY3PfQvy9JLMrgmsvCt9foGefr2crXrDSrEeTZOKad7+5MjqRb7Xc=
+X-Received: by 2002:a05:6830:401a:b0:5a4:c82a:bc53 with SMTP id
+ h26-20020a056830401a00b005a4c82abc53mr1932169ots.214.1645153710695; Thu, 17
+ Feb 2022 19:08:30 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [Freedreno] [PATCH v2 2/2] drm/msm/dpu: Add SC8180x to hw catalog
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>
-References: <20220215043353.1256754-1-bjorn.andersson@linaro.org>
- <20220215043353.1256754-2-bjorn.andersson@linaro.org>
- <be397e2e-05ab-5c18-8e2d-16c443f0a6d1@quicinc.com>
- <Ygvisfhi0SY6XdAz@builder.lan>
- <6a3ef247-b26b-d505-cd85-92fb277163dd@quicinc.com>
- <CAA8EJprCaiPW=Kk0B69RNNwAk0xcqaxQA031sfR0ky+BfzcWKQ@mail.gmail.com>
- <ceb861e5-b1c8-d33e-c0b0-bea0b4cc0b66@quicinc.com>
- <CAA8EJppj+OBPVUgvefO38zp1RHpJw5pL0-4DCkgn3iAcPH-ptA@mail.gmail.com>
- <d0cac12e-7c03-2ba3-fb8d-aee09b72a1b1@quicinc.com>
- <YgxbYnpbBeOIkGWi@builder.lan>
- <7b33c826-b141-c6a2-b0eb-18b99ceeda24@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <7b33c826-b141-c6a2-b0eb-18b99ceeda24@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220217090440.4468-1-qiang.yu@amd.com>
+ <5d3fdd2c-e74a-49f4-2b28-32c06483236f@amd.com>
+ <CAKGbVbtLTBJPF5eTu4rABUTBa8eqjQvqjo1AEUrzgPgYgCREuA@mail.gmail.com>
+ <dac70c05-e712-d2e3-2267-278380895f1e@amd.com>
+ <CAKGbVbvtLbDiKrX80-dMnipdLkTE+FP=g_mx37e12fuMtA1Y4Q@mail.gmail.com>
+ <ca27a9c6-f390-a938-dd66-ac23f3b44dc4@amd.com>
+ <CAKGbVbv4UFCybS_OFj5UkDgevbrB5qe3pv+0nHv9WdefYhy6Ww@mail.gmail.com>
+ <6711073b-8771-5750-33f7-b72333b411c6@amd.com>
+In-Reply-To: <6711073b-8771-5750-33f7-b72333b411c6@amd.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Fri, 18 Feb 2022 11:08:18 +0800
+Message-ID: <CAKGbVbvR+msXjrsXmDM8QTmsCP03hL5-q5CTJBYu4mm=NQd01A@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: check vm bo eviction valuable at last
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,153 +72,281 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ Qiang Yu <qiang.yu@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/02/2022 05:16, Abhinav Kumar wrote:
-> 
-> 
-> On 2/15/2022 6:03 PM, Bjorn Andersson wrote:
->> On Tue 15 Feb 19:34 CST 2022, Abhinav Kumar wrote:
->>
->>>
->>>
->>> On 2/15/2022 4:20 PM, Dmitry Baryshkov wrote:
->>>> On Tue, 15 Feb 2022 at 23:21, Abhinav Kumar 
->>>> <quic_abhinavk@quicinc.com> wrote:
->>>>> On 2/15/2022 10:42 AM, Dmitry Baryshkov wrote:
->>>>>> On Tue, 15 Feb 2022 at 20:42, Abhinav Kumar 
->>>>>> <quic_abhinavk@quicinc.com> wrote:
->>>>>>> On 2/15/2022 9:28 AM, Bjorn Andersson wrote:
->>>>>>>> On Tue 15 Feb 11:14 CST 2022, Abhinav Kumar wrote:
->>>>>>>>> On 2/14/2022 8:33 PM, Bjorn Andersson wrote:
->>>>>>>>>> From: Rob Clark <robdclark@chromium.org>
->> [..]
->>>>>> (thus leading us to cases when someone would forget to add INTF_EDP
->>>>>> next to INTF_DP)
->>>>>>
->>>>>> Also, if we are switching from INTF_DP to INTF_EDP, should we stop
->>>>>> using end-to-end numbering (like MSM_DP_CONTROLLER_2 for INTF_5) and
->>>>>> add a separate numbering scheme for INTF_EDP?
->>>>>>
->>>>> We should change the controller ID to match what it actually is.
->>>>>
->>>>> Now that you pointed this out, this looks even more confusing to me to
->>>>> say that  MSM_DP_CONTROLLER_2 is actually a EDP controller because
->>>>> fundamentally and even hardware block wise they are different.
->>>>
->>>> So, do we split msm_priv->dp too? It's indexed using
->>>> MSM_DP_CONTROLLER_n entries.
->>>> Do we want to teach drm/msm/dp code that there are priv->dp[] and
->>>> priv->edp arrays?
->>>
->>> ok so now priv->dp and priv->edp arrays are also in the picture here :)
->>>
->>> Actually all these questions should have probably come when we were 
->>> figuring
->>> out how best to re-use eDP and DP driver.
+On Thu, Feb 17, 2022 at 8:22 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 17.02.22 um 11:58 schrieb Qiang Yu:
+> > On Thu, Feb 17, 2022 at 6:39 PM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> >>
+> >>
+> >> Am 17.02.22 um 11:13 schrieb Qiang Yu:
+> >>> On Thu, Feb 17, 2022 at 5:46 PM Christian K=C3=B6nig
+> >>> <christian.koenig@amd.com> wrote:
+> >>>> Am 17.02.22 um 10:40 schrieb Qiang Yu:
+> >>>>> On Thu, Feb 17, 2022 at 5:15 PM Christian K=C3=B6nig
+> >>>>> <christian.koenig@amd.com> wrote:
+> >>>>>> Am 17.02.22 um 10:04 schrieb Qiang Yu:
+> >>>>>>> Workstation application ANSA/META get this error dmesg:
+> >>>>>>> [drm:amdgpu_gem_va_ioctl [amdgpu]] *ERROR* Couldn't update BO_VA =
+(-16)
+> >>>>>>>
+> >>>>>>> This is caused by:
+> >>>>>>> 1. create a 256MB buffer in invisible VRAM
+> >>>>>>> 2. CPU map the buffer and access it causes vm_fault and try to mo=
+ve
+> >>>>>>>        it to visible VRAM
+> >>>>>>> 3. force visible VRAM space and traverse all VRAM bos to check if
+> >>>>>>>        evicting this bo is valuable
+> >>>>>>> 4. when checking a VM bo (in invisible VRAM), amdgpu_vm_evictable=
+()
+> >>>>>>>        will set amdgpu_vm->evicting, but latter due to not in vis=
+ible
+> >>>>>>>        VRAM, won't really evict it so not add it to amdgpu_vm->ev=
+icted
+> >>>>>>> 5. before next CS to clear the amdgpu_vm->evicting, user VM ops
+> >>>>>>>        ioctl will pass amdgpu_vm_ready() (check amdgpu_vm->evicte=
+d)
+> >>>>>>>        but fail in amdgpu_vm_bo_update_mapping() (check
+> >>>>>>>        amdgpu_vm->evicting) and get this error log
+> >>>>>>>
+> >>>>>>> This error won't affect functionality as next CS will finish the
+> >>>>>>> waiting VM ops. But we'd better make the amdgpu_vm->evicting
+> >>>>>>> correctly reflact the vm status and clear the error log.
+> >>>>>> Well NAK, that is intentional behavior.
+> >>>>>>
+> >>>>>> The VM page tables where considered for eviction, so setting the f=
+lag is
+> >>>>>> correct even when the page tables later on are not actually evicte=
+d.
+> >>>>>>
+> >>>>> But this will unnecessarily stop latter user VM ops in ioctl before=
+ CS
+> >>>>> even when the VM bos are not evicted.
+> >>>>> Won't this have any negative effect when could do better?
+> >>>> No, this will have a positive effect. See the VM was already conside=
+red
+> >>>> for eviction because it is idle.
+> >>>>
+> >>>> Updating it immediately doesn't necessarily make sense, we should wa=
+it
+> >>>> with that until its next usage.
+> >>>>
+> >>>> Additional to that this patch doesn't really fix the problem, it jus=
+t
+> >>>> mitigates it.
+> >>>>
+> >>>> Eviction can fail later on for a couple of reasons and we absolutely
+> >>>> need to check the flag instead of the list in amdgpu_vm_ready().
+> >>> The flag only for both flag and list? Looks like should be both as
+> >>> the list indicate some vm page table need to be updated and could
+> >>> delay the user update with the same logic as you described above.
+> >> I think checking the flag should be enough. The issue is that the list
+> >> was there initially, but to avoid race conditions we added the flag wi=
+th
+> >> separate lock protection later on.
+> >>
+> > But list and flag does not align always, there are cases like
+> > list-empty/flag-set (this problem) and list-non-empty/flag-unset (non-v=
+m bo
+> > eviction). If only check flag list-non-empty/flag-unset change behavior=
+.
+>
+> Yeah, but I think that the flag unset list-non-empty case would be
+> correctly handled if we only test the flag.
+>
+> In other words we can update the page tables as long as they are not
+> partially or fully evicted and that's not the case when non-vm BOs are
+> evicted.
+>
+This sounds like two standard for the same thing, because this problem
+does not evict page tables too. But I see your point is:
+There's a difference that this problem's case can make sure vm is idle,
+and we prefer to delay vm updates when vm is idle.
 
-Well, these questions were evaluated. And this resulted in our 
-suggestion to reuse DP driver, INTF_DP type and priv->dp array.
+If so, why not just stop user vm update by checking vm busy in
+amdgpu_gem_va_ioctl() to skip amdgpu_gem_va_update_vm()?
 
->>>
->>> Either way atleast, its good we are documenting all these questions 
->>> on this
->>> thread so that anyone can refer this to know what all was missed out :)
->>>
->>> priv->dp is of type msm_dp. When re-using DP driver for eDP and since
->>> struct msm_dp is the shared struct between dpu and the msm/dp, I get 
->>> your
->>> point of re-using MSM_DP_CONTROLLER_* as thats being use to index.
->>>
->>> So MSM_DP_CONTROLLER_* is more of an index into the DP driver and not 
->>> really
->>> a hardware indexing scheme.
->>>
->>> If we split into two arrays, we need more changes to dpu_encoder too.
->>>
->>> Too instrusive a change at this point, even though probably correct.
->>>
->>
->> I'm sorry, but performing such a split would create a whole bunch of
->> duplication and I don't see the reasons yet. Can you please give me an
->> example of when the DPU _code_ would benefit from being specifically
->> written for EDP vs DP?
->>
->> Things where it doesn't make sense to enable certain features in
->> runtime - but really have different implementation for the two interface
->> types.
->>
-> 
-> Like I have mentioned in my previous comment, this would be a big change 
-> and I am also not in favor of this big change.
-I'm also not in favour of splitting priv->dp into ->dp and ->edp.
+Then we can keep the evicting flag accurate (after solving your
+concern for this patch that eviction may fail latter by further delay
+the flag update after eviction success).
 
-One of the reasons, pointed out by Bjorn, is that some of interfaces can 
-be used for both DP and eDP. Adding them to either of arrays would 
-create confusion.
+Regards,
+Qiang
 
-Second reason being that introducing the split would bring in extra code 
-for no additional benefits. From the DPU point of view both DP and eDP 
-interfaces look the same.
 
->>> But are you seeing more changes required even if we just change 
->>> INTF_DP to
->>> INTF_eDP for the eDP entries? What are the challenges there?
->>>
->>
->> What are the benefits?
-> 
-> In terms of current code, again like I said before in my previous 
-> comments several times I do not have an example.
-> 
-> I was keeping the separation in case in future for some features we do 
-> need to differentiate eDP and DP.
-
-And we also might need to separte eDP-behind msm/dp and old-8x74-eDP.
-It the same "possible" future that we might face.
-
-> 
-> Somehow I also feel this change and below are interlinked that way.
-> 
-> https://patchwork.freedesktop.org/patch/473871/
-> 
-> The only reason we need this change is because both eDP and DP use 
-> DRM_MODE_ENCODER_TMDS and specifying the intf_type directly will clear 
-> the confusion because DRM_MODE_ENCODER_DSI means DSI and 
-> DRM_MODE_ENCODER_VIRTUAL means Writeback but DRM_MODE_ENCODER_TMDS can 
-> mean DP OR eDP interface.
-> 
-> The ambiguity was always for eDP and DP.
-> 
-> That led to the discussion about the INTF_* we are specifying in the 
-> dpu_hw_catalog only to find the discrepancy.
-> 
-> So now by clearing that ambiguity that change makes sense. That 
-> discussion trickled into this one.
-
-I did some research for the INTF_*. As you probably remember (I didn't) 
-on mdp4 and mdp5 chipsets we program the DISP_INTF_SEL registers, 
-telling the hardware which hardware is to be driven by each of INTFs.
-The freely available 410E HRD demands that this register is written.
-
-At some point this became unnecessary, but the DPU driver kept INTF_* 
-intact. Including INTF_EDP, INTF_LCDC, INTF_HDMI, etc. However from my 
-understanding INTF_EDP would correspond to older eDP interfaces, not to 
-eDP panels being connected by the contemporary DP/eDP ports.
-
-Oh, and last but not least, I'd suggest to follow downstream, which uses 
-"dp" to name all of DP/EDP ports. See 
-https://github.com/TheXPerienceProject/android_kernel_xiaomi_courbet/blob/xpe-16.0/arch/arm64/boot/dts/qcom/sdmshrike-sde.dtsi#L89
-
-So, to summarize my proposal:
-- Keep INTF_EDP reserved for 8x74/8x84
-- Use INTF_DP for all contemporary DP and eDP ports
-- Documet this in dpu_hw_mdss.h
-- Remove INTF_EDP usage in dpu1 driver.
-
--- 
-With best wishes
-Dmitry
+> Regards,
+> Christian.
+>
+> >
+> > Regards,
+> > Qiang
+> >
+> >> Regards,
+> >> Christian.
+> >>
+> >>> Regards,
+> >>> Qiang
+> >>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>>
+> >>>>> Regards,
+> >>>>> Qiang
+> >>>>>
+> >>>>>> What we should rather do is to fix amdgpu_vm_ready() to take a loo=
+k at
+> >>>>>> the flag instead of the linked list.
+> >>>>>>
+> >>>>>> Regards,
+> >>>>>> Christian.
+> >>>>>>
+> >>>>>>> Signed-off-by: Qiang Yu <qiang.yu@amd.com>
+> >>>>>>> ---
+> >>>>>>>      drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 85 ++++++++++++++-=
+----------
+> >>>>>>>      1 file changed, 47 insertions(+), 38 deletions(-)
+> >>>>>>>
+> >>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gp=
+u/drm/amd/amdgpu/amdgpu_ttm.c
+> >>>>>>> index 5a32ee66d8c8..88a27911054f 100644
+> >>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> >>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> >>>>>>> @@ -1306,45 +1306,11 @@ uint64_t amdgpu_ttm_tt_pte_flags(struct a=
+mdgpu_device *adev, struct ttm_tt *ttm,
+> >>>>>>>          return flags;
+> >>>>>>>      }
+> >>>>>>>
+> >>>>>>> -/*
+> >>>>>>> - * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evic=
+t a buffer
+> >>>>>>> - * object.
+> >>>>>>> - *
+> >>>>>>> - * Return true if eviction is sensible. Called by ttm_mem_evict_=
+first() on
+> >>>>>>> - * behalf of ttm_bo_mem_force_space() which tries to evict buffe=
+r objects until
+> >>>>>>> - * it can find space for a new object and by ttm_bo_force_list_c=
+lean() which is
+> >>>>>>> - * used to clean out a memory space.
+> >>>>>>> - */
+> >>>>>>> -static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_ob=
+ject *bo,
+> >>>>>>> -                                         const struct ttm_place =
+*place)
+> >>>>>>> +static bool amdgpu_ttm_mem_eviction_valuable(struct ttm_buffer_o=
+bject *bo,
+> >>>>>>> +                                          const struct ttm_place=
+ *place)
+> >>>>>>>      {
+> >>>>>>>          unsigned long num_pages =3D bo->resource->num_pages;
+> >>>>>>>          struct amdgpu_res_cursor cursor;
+> >>>>>>> -     struct dma_resv_list *flist;
+> >>>>>>> -     struct dma_fence *f;
+> >>>>>>> -     int i;
+> >>>>>>> -
+> >>>>>>> -     /* Swapout? */
+> >>>>>>> -     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
+> >>>>>>> -             return true;
+> >>>>>>> -
+> >>>>>>> -     if (bo->type =3D=3D ttm_bo_type_kernel &&
+> >>>>>>> -         !amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo)))
+> >>>>>>> -             return false;
+> >>>>>>> -
+> >>>>>>> -     /* If bo is a KFD BO, check if the bo belongs to the curren=
+t process.
+> >>>>>>> -      * If true, then return false as any KFD process needs all =
+its BOs to
+> >>>>>>> -      * be resident to run successfully
+> >>>>>>> -      */
+> >>>>>>> -     flist =3D dma_resv_shared_list(bo->base.resv);
+> >>>>>>> -     if (flist) {
+> >>>>>>> -             for (i =3D 0; i < flist->shared_count; ++i) {
+> >>>>>>> -                     f =3D rcu_dereference_protected(flist->shar=
+ed[i],
+> >>>>>>> -                             dma_resv_held(bo->base.resv));
+> >>>>>>> -                     if (amdkfd_fence_check_mm(f, current->mm))
+> >>>>>>> -                             return false;
+> >>>>>>> -             }
+> >>>>>>> -     }
+> >>>>>>>
+> >>>>>>>          switch (bo->resource->mem_type) {
+> >>>>>>>          case AMDGPU_PL_PREEMPT:
+> >>>>>>> @@ -1377,10 +1343,53 @@ static bool amdgpu_ttm_bo_eviction_valuab=
+le(struct ttm_buffer_object *bo,
+> >>>>>>>                  return false;
+> >>>>>>>
+> >>>>>>>          default:
+> >>>>>>> -             break;
+> >>>>>>> +             return ttm_bo_eviction_valuable(bo, place);
+> >>>>>>>          }
+> >>>>>>> +}
+> >>>>>>>
+> >>>>>>> -     return ttm_bo_eviction_valuable(bo, place);
+> >>>>>>> +/*
+> >>>>>>> + * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evic=
+t a buffer
+> >>>>>>> + * object.
+> >>>>>>> + *
+> >>>>>>> + * Return true if eviction is sensible. Called by ttm_mem_evict_=
+first() on
+> >>>>>>> + * behalf of ttm_bo_mem_force_space() which tries to evict buffe=
+r objects until
+> >>>>>>> + * it can find space for a new object and by ttm_bo_force_list_c=
+lean() which is
+> >>>>>>> + * used to clean out a memory space.
+> >>>>>>> + */
+> >>>>>>> +static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_ob=
+ject *bo,
+> >>>>>>> +                                         const struct ttm_place =
+*place)
+> >>>>>>> +{
+> >>>>>>> +     struct dma_resv_list *flist;
+> >>>>>>> +     struct dma_fence *f;
+> >>>>>>> +     int i;
+> >>>>>>> +
+> >>>>>>> +     /* Swapout? */
+> >>>>>>> +     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
+> >>>>>>> +             return true;
+> >>>>>>> +
+> >>>>>>> +     /* If bo is a KFD BO, check if the bo belongs to the curren=
+t process.
+> >>>>>>> +      * If true, then return false as any KFD process needs all =
+its BOs to
+> >>>>>>> +      * be resident to run successfully
+> >>>>>>> +      */
+> >>>>>>> +     flist =3D dma_resv_shared_list(bo->base.resv);
+> >>>>>>> +     if (flist) {
+> >>>>>>> +             for (i =3D 0; i < flist->shared_count; ++i) {
+> >>>>>>> +                     f =3D rcu_dereference_protected(flist->shar=
+ed[i],
+> >>>>>>> +                             dma_resv_held(bo->base.resv));
+> >>>>>>> +                     if (amdkfd_fence_check_mm(f, current->mm))
+> >>>>>>> +                             return false;
+> >>>>>>> +             }
+> >>>>>>> +     }
+> >>>>>>> +
+> >>>>>>> +     /* Check by different mem type. */
+> >>>>>>> +     if (!amdgpu_ttm_mem_eviction_valuable(bo, place))
+> >>>>>>> +             return false;
+> >>>>>>> +
+> >>>>>>> +     /* VM bo should be checked at last because it will mark VM =
+evicting. */
+> >>>>>>> +     if (bo->type =3D=3D ttm_bo_type_kernel)
+> >>>>>>> +             return amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo));
+> >>>>>>> +
+> >>>>>>> +     return true;
+> >>>>>>>      }
+> >>>>>>>
+> >>>>>>>      static void amdgpu_ttm_vram_mm_access(struct amdgpu_device *=
+adev, loff_t pos,
+>
