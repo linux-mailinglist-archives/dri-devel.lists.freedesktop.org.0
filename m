@@ -2,43 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904CC4BB067
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 04:50:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B93F4BB07C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 05:04:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E91F10ECBE;
-	Fri, 18 Feb 2022 03:50:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FD6510EAF7;
+	Fri, 18 Feb 2022 04:04:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m176231.qiye.163.com (mail-m176231.qiye.163.com
- [59.111.176.231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE7A10EC32
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 03:50:36 +0000 (UTC)
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m176231.qiye.163.com (Hmail) with ESMTPA id 633CD6C013E;
- Fri, 18 Feb 2022 11:50:33 +0800 (CST)
-Message-ID: <8c0b1d1e-6787-8edc-c1fd-e1b68b92e60e@rock-chips.com>
-Date: Fri, 18 Feb 2022 11:50:32 +0800
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D7B010EAD8
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 04:04:08 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id x193so1868954oix.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Feb 2022 20:04:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=Cc0i5Hp1cBO88S5Wh/ZFj+Eut0CrK1KUAXY5QZNqRaQ=;
+ b=o9UodtKegmwPxKxskRsr899E/IXuMqawC9Cf54nEq4R9iKGilg2jdBYzlYIFBlQ6gS
+ wy3pfVzyHt390yuVRxR4/BjLzst9tip7EK1khcTiQWhwX4gP/R0cLMHXN9yCgsZJE6pa
+ w9AxRApDy3N4GsJ7wYyx4M7WsLQTbrLfDJ4YolRkbKjnejWN+VxsKEf7ex3OTW7pAaOc
+ 8uX41dlFYFYVHzXSsUfCFY4LtEvWsU8gwjEOF7jpMXXJQ8t3z6cUEmspqlPwZfJfnCAV
+ InBF0anonulKde9PWLLay/hlaQyYqMDcIr2MXiS5CfY/p6R/N3c3W8fGaprBeMOVHquR
+ JWqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Cc0i5Hp1cBO88S5Wh/ZFj+Eut0CrK1KUAXY5QZNqRaQ=;
+ b=sBfLheFrBJZvb+3x7aKwYa6TJOUS6FKbUI/n24923ge5Uwmj40+CMqDdNlpmziZwl2
+ Kw7IdqPiYCskBiYQgwrO8IQzZGtR4MV/o2dPV7/VNCO4BZd1GgAS/zCWMIMtUWzcj5G8
+ R93qnDyH65ytiCkazh44+OBzlWbGq1xaOPtdHo2x/wz4EfYJcZiFWLibq7WL+VC0XfPf
+ YtBpnHyov9DGsFxobWDfk9xgfBd8qTeyCdHdoE/L/riv5fc/vfP2GbEuaF6pnUJy7QKb
+ LKybsTvYyz9F9zBWz9szNs+kjtKSqunQUGq48Ut8UCdYo0z5T72qmtdWxFNV3xESCUnx
+ SCLA==
+X-Gm-Message-State: AOAM532HHUanNsZcP6kuazIQOW9y86SWPIIIKmjaTtV/vu1ikUe/5rQj
+ zDMKVDDnaZM4AZhlVZPW7tv+bg==
+X-Google-Smtp-Source: ABdhPJyWPzBreRtGIx5JOPbiuXWXiOhoziZlvRQeF8oTm1Z/qsXChNzghR4kvSjp6g/Mi952G5RJ8w==
+X-Received: by 2002:a05:6808:bc6:b0:2d4:3b27:8ab0 with SMTP id
+ o6-20020a0568080bc600b002d43b278ab0mr2620283oik.147.1645157047148; 
+ Thu, 17 Feb 2022 20:04:07 -0800 (PST)
+Received: from yoga ([2600:1700:a0:3dc8:5c39:baff:fe03:898d])
+ by smtp.gmail.com with ESMTPSA id bx41sm1007227oib.7.2022.02.17.20.04.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Feb 2022 20:04:06 -0800 (PST)
+Date: Thu, 17 Feb 2022 22:04:04 -0600
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [Freedreno] [PATCH v2 2/2] drm/msm/dpu: Add SC8180x to hw catalog
+Message-ID: <Yg8atGUSHTKG5S8G@yoga>
+References: <be397e2e-05ab-5c18-8e2d-16c443f0a6d1@quicinc.com>
+ <Ygvisfhi0SY6XdAz@builder.lan>
+ <6a3ef247-b26b-d505-cd85-92fb277163dd@quicinc.com>
+ <CAA8EJprCaiPW=Kk0B69RNNwAk0xcqaxQA031sfR0ky+BfzcWKQ@mail.gmail.com>
+ <ceb861e5-b1c8-d33e-c0b0-bea0b4cc0b66@quicinc.com>
+ <CAA8EJppj+OBPVUgvefO38zp1RHpJw5pL0-4DCkgn3iAcPH-ptA@mail.gmail.com>
+ <d0cac12e-7c03-2ba3-fb8d-aee09b72a1b1@quicinc.com>
+ <YgxbYnpbBeOIkGWi@builder.lan>
+ <7b33c826-b141-c6a2-b0eb-18b99ceeda24@quicinc.com>
+ <e2fab93e-82a6-4837-4ee5-ee1b16caa84d@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 21/23] drm: rockchip: Add VOP2 driver
-Content-Language: en-US
-To: =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
- Sascha Hauer <s.hauer@pengutronix.de>
-References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
- <e1eb945b-d7da-f21c-ee19-e19f7f1d9b04@rock-chips.com>
- <20220217135823.GR18637@pengutronix.de> <6072461.kR79ftKOrO@diego>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <6072461.kR79ftKOrO@diego>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
- kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWUJMTE1WGE1LSUIeSUtKQh
- hNVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWVVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Oio6Ogw4Ez5KHgodEDIwTixO
- Ci9PFApVSlVKTU9OSk5NSUhIQk1DVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBT0NNSjcG
-X-HM-Tid: 0a7f0af3f1ddd9a9kuws633cd6c013e
+In-Reply-To: <e2fab93e-82a6-4837-4ee5-ee1b16caa84d@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,82 +79,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sascha:
+On Thu 17 Feb 19:10 CST 2022, Dmitry Baryshkov wrote:
 
-On 2/17/22 22:06, Heiko Stübner wrote:
-> Am Donnerstag, 17. Februar 2022, 14:58:23 CET schrieb Sascha Hauer:
->> Hi Andy,
->>
->> Please trim the context in your answers to the relevant parts, it makes
->> it easier to find the things you said.
->>
->> On Thu, Feb 17, 2022 at 08:00:11PM +0800, Andy Yan wrote:
->>> Hi Sascha:
->>>
->>>> +
->>>> +	drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
->>>> +		struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
->>>> +		struct device_node *node, *parent;
->>>> +
->>>> +		parent = of_get_parent(rkencoder->port);
->>>> +
->>>> +		for_each_endpoint_of_node(parent, node) {
->>> Is there any hurt directly use our downstream vendor kernel method here: use
->>> vcstate->output_if set by encoder driver to get which interface we should
->>> enable here?
->> There is no vcstate->output_if in mainline currently. Ok, we could add
->> that. The other thing is that there are multiple HDMI interfaces and
->> the id of the HDMI encoder is encoded into output_if. Downstream kernel
->> adds OF aliases to the HDMI ports. I didn't want to go that route
->> because it doesn't seem to be very elegant to me.
-aliases is a very comm strategy in device tree world.  And your method 
-also add need additional dt binds to define RK3568_VOP2_EP_xxx
->>> You method is ok with device tree,  but it tied up this driver to device
->>> tree, we are now tring to extend vop2 driver work with ACPI, so we hope this
->>> driver can be much more flexible.
->> The current rockchip drm driver seems to be pretty much tied to device
->> tree. There are probably many other places that need parallel paths for
->> ACPI support, I think we can delay this particular part until we see the
->> whole picture. In the end we can still retrieve the output_if
->> information differently with ACPI while still retrieving the information
->> from the device tree the way we are doing currently.
+> On 16/02/2022 05:16, Abhinav Kumar wrote:
+> > 
+> > 
+> > On 2/15/2022 6:03 PM, Bjorn Andersson wrote:
+> > > On Tue 15 Feb 19:34 CST 2022, Abhinav Kumar wrote:
+> > > 
+> > > > 
+> > > > 
+> > > > On 2/15/2022 4:20 PM, Dmitry Baryshkov wrote:
+> > > > > On Tue, 15 Feb 2022 at 23:21, Abhinav Kumar
+> > > > > <quic_abhinavk@quicinc.com> wrote:
+> > > > > > On 2/15/2022 10:42 AM, Dmitry Baryshkov wrote:
+> > > > > > > On Tue, 15 Feb 2022 at 20:42, Abhinav Kumar
+> > > > > > > <quic_abhinavk@quicinc.com> wrote:
+> > > > > > > > On 2/15/2022 9:28 AM, Bjorn Andersson wrote:
+> > > > > > > > > On Tue 15 Feb 11:14 CST 2022, Abhinav Kumar wrote:
+> > > > > > > > > > On 2/14/2022 8:33 PM, Bjorn Andersson wrote:
+> > > > > > > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > [..]
+> > > > > > > (thus leading us to cases when someone would forget to add INTF_EDP
+> > > > > > > next to INTF_DP)
+> > > > > > > 
+> > > > > > > Also, if we are switching from INTF_DP to INTF_EDP, should we stop
+> > > > > > > using end-to-end numbering (like MSM_DP_CONTROLLER_2 for INTF_5) and
+> > > > > > > add a separate numbering scheme for INTF_EDP?
+> > > > > > > 
+> > > > > > We should change the controller ID to match what it actually is.
+> > > > > > 
+> > > > > > Now that you pointed this out, this looks even more confusing to me to
+> > > > > > say that� MSM_DP_CONTROLLER_2 is actually a EDP controller because
+> > > > > > fundamentally and even hardware block wise they are different.
+> > > > > 
+> > > > > So, do we split msm_priv->dp too? It's indexed using
+> > > > > MSM_DP_CONTROLLER_n entries.
+> > > > > Do we want to teach drm/msm/dp code that there are priv->dp[] and
+> > > > > priv->edp arrays?
+> > > > 
+> > > > ok so now priv->dp and priv->edp arrays are also in the picture here :)
+> > > > 
+> > > > Actually all these questions should have probably come when we
+> > > > were figuring
+> > > > out how best to re-use eDP and DP driver.
+> 
+> Well, these questions were evaluated. And this resulted in our suggestion to
+> reuse DP driver, INTF_DP type and priv->dp array.
+> 
+> > > > 
+> > > > Either way atleast, its good we are documenting all these
+> > > > questions on this
+> > > > thread so that anyone can refer this to know what all was missed out :)
+> > > > 
+> > > > priv->dp is of type msm_dp. When re-using DP driver for eDP and since
+> > > > struct msm_dp is the shared struct between dpu and the msm/dp, I
+> > > > get your
+> > > > point of re-using MSM_DP_CONTROLLER_* as thats being use to index.
+> > > > 
+> > > > So MSM_DP_CONTROLLER_* is more of an index into the DP driver
+> > > > and not really
+> > > > a hardware indexing scheme.
+> > > > 
+> > > > If we split into two arrays, we need more changes to dpu_encoder too.
+> > > > 
+> > > > Too instrusive a change at this point, even though probably correct.
+> > > > 
+> > > 
+> > > I'm sorry, but performing such a split would create a whole bunch of
+> > > duplication and I don't see the reasons yet. Can you please give me an
+> > > example of when the DPU _code_ would benefit from being specifically
+> > > written for EDP vs DP?
+> > > 
+> > > Things where it doesn't make sense to enable certain features in
+> > > runtime - but really have different implementation for the two interface
+> > > types.
+> > > 
+> > 
+> > Like I have mentioned in my previous comment, this would be a big change
+> > and I am also not in favor of this big change.
+> I'm also not in favour of splitting priv->dp into ->dp and ->edp.
+> 
+> One of the reasons, pointed out by Bjorn, is that some of interfaces can be
+> used for both DP and eDP. Adding them to either of arrays would create
+> confusion.
+> 
+> Second reason being that introducing the split would bring in extra code for
+> no additional benefits. From the DPU point of view both DP and eDP
+> interfaces look the same.
+> 
+> > > > But are you seeing more changes required even if we just change
+> > > > INTF_DP to
+> > > > INTF_eDP for the eDP entries? What are the challenges there?
+> > > > 
+> > > 
+> > > What are the benefits?
+> > 
+> > In terms of current code, again like I said before in my previous
+> > comments several times I do not have an example.
+> > 
+> > I was keeping the separation in case in future for some features we do
+> > need to differentiate eDP and DP.
+> 
+> And we also might need to separte eDP-behind msm/dp and old-8x74-eDP.
+> It the same "possible" future that we might face.
+> 
+> > 
+> > Somehow I also feel this change and below are interlinked that way.
+> > 
+> > https://patchwork.freedesktop.org/patch/473871/
+> > 
+> > The only reason we need this change is because both eDP and DP use
+> > DRM_MODE_ENCODER_TMDS and specifying the intf_type directly will clear
+> > the confusion because DRM_MODE_ENCODER_DSI means DSI and
+> > DRM_MODE_ENCODER_VIRTUAL means Writeback but DRM_MODE_ENCODER_TMDS can
+> > mean DP OR eDP interface.
+> > 
+> > The ambiguity was always for eDP and DP.
+> > 
+> > That led to the discussion about the INTF_* we are specifying in the
+> > dpu_hw_catalog only to find the discrepancy.
+> > 
+> > So now by clearing that ambiguity that change makes sense. That
+> > discussion trickled into this one.
+> 
+> I did some research for the INTF_*. As you probably remember (I didn't) on
+> mdp4 and mdp5 chipsets we program the DISP_INTF_SEL registers, telling the
+> hardware which hardware is to be driven by each of INTFs.
+> The freely available 410E HRD demands that this register is written.
+> 
+> At some point this became unnecessary, but the DPU driver kept INTF_*
+> intact. Including INTF_EDP, INTF_LCDC, INTF_HDMI, etc. However from my
+> understanding INTF_EDP would correspond to older eDP interfaces, not to eDP
+> panels being connected by the contemporary DP/eDP ports.
+> 
+> Oh, and last but not least, I'd suggest to follow downstream, which uses
+> "dp" to name all of DP/EDP ports. See https://github.com/TheXPerienceProject/android_kernel_xiaomi_courbet/blob/xpe-16.0/arch/arm64/boot/dts/qcom/sdmshrike-sde.dtsi#L89
+> 
+> So, to summarize my proposal:
+> - Keep INTF_EDP reserved for 8x74/8x84
+> - Use INTF_DP for all contemporary DP and eDP ports
+> - Documet this in dpu_hw_mdss.h
+> - Remove INTF_EDP usage in dpu1 driver.
+> 
 
-The current driver only reference device thee at driver initial, we not 
-wrap
+I'm in favour of this.
 
-device tree related things in other parts, so if we extend it to support 
-ACPI,
-
-we just need modify the initial code, this make things easier.
-
-> agreed :-) .
->
-> I.e. adding ACPI support for Rockchip drivers separately later on
-> makes things way easier.
->
-> Having a separate discussion about ACPI changes at that point
-> also makes the whole process easier, as adding the whole thing
-> here will delay everything even more.
-
-
-  Heiko: I am not  ask to add new code for future  ACPI support, I just
-
-hope the original downstream method  can keep to make future work easier.
-
-> Also if a later series really only is about adding ACPI support, this
-> makes for easier discussion but also easier review of changes.
-> The new VOP2 driver is big enough as it is.
->
->
-> Heiko
->
->
+Regards,
+Bjorn
