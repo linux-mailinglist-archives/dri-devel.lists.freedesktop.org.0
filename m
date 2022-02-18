@@ -1,63 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7474BBA6C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 15:09:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3A64BBA83
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 15:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90B4310EC3C;
-	Fri, 18 Feb 2022 14:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6664F10EABF;
+	Fri, 18 Feb 2022 14:16:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F18310E19A
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 14:09:33 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 75AB1210DB;
- Fri, 18 Feb 2022 14:09:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1645193371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HB3L++4PQYNQLsMelrUuLKMCjKCIDMxJwwtm4wEKGjY=;
- b=UUFBs1QlANkjpRuXLdMkzj3gr48U0BDmbLoFq/vKs1XLJ/FfewnQXKpruVwaszv+jtEyfI
- AGrLryNOBE0RZwp/we1HhpZd/+ky8ufRA7DxWtBdKF7DGBlKNtzRfX8FioPgaHD0z1njXw
- n9PMnOcJCX2lzdMAyUivLRbbGqsFfcU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1645193371;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HB3L++4PQYNQLsMelrUuLKMCjKCIDMxJwwtm4wEKGjY=;
- b=m2s1rNTUDX/63nXC/oYwaY8ZfMxQiwfoXbiBLni9mhSD2x9KqQTSkcCEJ5vddM/vBFmCVS
- GbCYjoNZuEIow1Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 48A2713C93;
- Fri, 18 Feb 2022 14:09:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cJeMEJuoD2LyeQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 18 Feb 2022 14:09:31 +0000
-Message-ID: <103bb91e-676b-7930-020f-f2aa98595918@suse.de>
-Date: Fri, 18 Feb 2022 15:09:30 +0100
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0BB910EABF
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 14:16:44 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id c15so4476440ljf.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 06:16:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=uF68xvWcLx76IR6CWRwh/pPzuX0RgzE30BHq223TBtE=;
+ b=FzdIE5ExskgQXsPsUcc/+PrxvJEenKLjZkIpwhU1v6DSIt8OcIxW6RlcnaZQ3OxZxU
+ ARjBptI9pkzMDE6zcLGAqZi3FdhGGFiyEZsc/V+H5+rDDNhYXwdmalEDcAgJFoO+40M/
+ auFXBjLNRX7NZa3FyVMIxmfxkVPhvYS4Vyu+vd2jlXzMLskgcrHUG/aWAQYgO45SWeAR
+ RoySGtc+51y/m7blHTGBdkmYDrVwURA4kDBBTIG0vncukAAW/oyc3dlEPI7sVOgJJg30
+ Z+urn37MUd5lmpcSvjsEjYmmRIYeeb0a+539nXscyVOcrV3Sj8hQUu27cZRd5ppEm4tw
+ 984w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=uF68xvWcLx76IR6CWRwh/pPzuX0RgzE30BHq223TBtE=;
+ b=4aH4UNP5iWXXzi41Ll3b3RLAJE8ChoQHLEayHVT5nBNB58lcebXPpvRjOKHIez+SvO
+ OvEoRYsHJBDpfmImpKdS4X7cQA6t12nmY6XOy+Mo+c2hATWrZ6YRlMpP+meZbGyEGmHo
+ 2GunNZ/8GKLZ7V1to+GIUOn3M6Vz4CWA1eDCLSmDuXfbxEPgXNuOJ0aL43wjHZ+3mzqC
+ PAjFKrxkvrH5Nz5Md/H4Rm56UvQiKMz1PBezCBfT/dNrI6/aANrAb2gqssu1lhiHTFJ8
+ OIwb0XqcRFLQN2sprAOJjh/OsjtLJYeu/6lkU5it5LRxVbSiTQBwCn/hWJPuI2/Yire9
+ AmGw==
+X-Gm-Message-State: AOAM531pY9L50O+9bD7gWl2gftbFlYZI3bJ+K+295FHnV0BAJ3nwFJMZ
+ vWUzyE34Eqhaijdh61U+B/7R/gnm6c8=
+X-Google-Smtp-Source: ABdhPJy4TANF3ZWP7o81wk90zI7oXc9TbkAP3k0Y6qF9Amiv/qj+iJGq7IKqH4PJbO4d6Qn5OHR1Fw==
+X-Received: by 2002:a05:651c:901:b0:245:f621:55ff with SMTP id
+ e1-20020a05651c090100b00245f62155ffmr5781816ljq.247.1645193802865; 
+ Fri, 18 Feb 2022 06:16:42 -0800 (PST)
+Received: from [192.168.2.145] (109-252-138-165.dynamic.spd-mgts.ru.
+ [109.252.138.165])
+ by smtp.googlemail.com with ESMTPSA id e30sm321572ljb.89.2022.02.18.06.16.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Feb 2022 06:16:42 -0800 (PST)
+Message-ID: <0e936e9a-57a2-3881-1a55-50682b859acc@gmail.com>
+Date: Fri, 18 Feb 2022 17:16:41 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 2/2] fbdev: Improve performance of sys_imageblit()
+Subject: Re: [PATCH libdrm v2 00/25] Update Tegra support
 Content-Language: en-US
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20220217103405.26492-1-tzimmermann@suse.de>
- <20220217103405.26492-3-tzimmermann@suse.de> <Yg9xizrlvaNZFkCM@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <Yg9xizrlvaNZFkCM@ravnborg.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------msQEmOTRj08mvYRq0Jajw5Qq"
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20220217191625.2534521-1-thierry.reding@gmail.com>
+ <fb059f6f-013a-4a7e-55a7-81acbdda80fc@gmail.com> <Yg7ANdIhSiEsZf8E@orome>
+From: Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <Yg7ANdIhSiEsZf8E@orome>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,121 +74,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, geert@linux-m68k.org
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------msQEmOTRj08mvYRq0Jajw5Qq
-Content-Type: multipart/mixed; boundary="------------UiMfTtkjpF0tVRWKmaBLXSRJ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: daniel@ffwll.ch, deller@gmx.de, javierm@redhat.com, geert@linux-m68k.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <103bb91e-676b-7930-020f-f2aa98595918@suse.de>
-Subject: Re: [PATCH 2/2] fbdev: Improve performance of sys_imageblit()
-References: <20220217103405.26492-1-tzimmermann@suse.de>
- <20220217103405.26492-3-tzimmermann@suse.de> <Yg9xizrlvaNZFkCM@ravnborg.org>
-In-Reply-To: <Yg9xizrlvaNZFkCM@ravnborg.org>
+18.02.2022 00:37, Thierry Reding пишет:
+> On Thu, Feb 17, 2022 at 11:02:53PM +0300, Dmitry Osipenko wrote:
+>> 17.02.2022 22:16, Thierry Reding пишет:
+>>> From: Thierry Reding <treding@nvidia.com>
+>>>
+>>> Hi all,
+>>>
+>>> this is the userspace part of the kernel patches that were recently
+>>> merged into drm-next:
+>>>
+>>>   https://patchwork.freedesktop.org/series/92378/
+>>>
+>>> The goal is to provide a userspace implementation of the UAPI exposed by
+>>> the kernel and show its usage in some test programs that can also be
+>>> used for basic sanity testing. More complete userspace implementations
+>>> are available here:
+>>>
+>>>   * https://github.com/cyndis/vaapi-tegra-driver
+>>>   * https://github.com/grate-driver/xf86-video-opentegra
+>>>   * https://github.com/grate-driver/grate
+>>>
+>>> Changes in v2:
+>>> - implement vic_clear() as a helper using ->fill() (Michał Mirosław)
+>>> - rebase and fix a couple of Meson errors/warnings
+>>>
+>>> Thierry
+>>>
+>>> Thierry Reding (25):
+>>>   tegra: Indent according to .editorconfig
+>>>   tegra: Remove unused IOCTL implementations
+>>>   tegra: Extract common buffer object allocation code
+>>>   tegra: Fix mmap() of GEM buffer objects
+>>>   tegra: Add flink helpers
+>>>   tegra: Add PRIME support helpers
+>>>   tegra: Make API more consistent
+>>>   tegra: Install tegra-openclose test
+>>>   tegra: Update for new UABI
+>>>   tegra: Include private.h in list of source files
+>>>   tegra: Add channel APIs
+>>>   tegra: Add job and push buffer APIs
+>>>   tegra: Add syncpoint APIs
+>>>   tests: tegra: Add helper library for tests
+>>>   tests: tegra: Add gr2d-fill test
+>>>   tests: tegra: Add syncpt-wait test
+>>>   tests: tegra: Add syncpoint timeout test
+>>>   tests: tegra: Add VIC support
+>>>   tests: tegra: Add VIC 3.0 support
+>>>   tests: tegra: Add VIC 4.0 support
+>>>   tests: tegra: Add VIC 4.1 support
+>>>   tests: tegra: Add VIC 4.2 support
+>>>   tests: tegra: Add VIC clear test
+>>>   tests: tegra: Add VIC blit test
+>>>   tests: tegra: Add VIC flip test
+>>>
+>>>  include/drm/tegra_drm.h      | 429 +++++++++++++++++++++++--
+>>>  tegra/channel.c              | 195 ++++++++++++
+>>>  tegra/job.c                  | 187 +++++++++++
+>>>  tegra/meson.build            |   7 +-
+>>>  tegra/private.h              |  85 ++++-
+>>>  tegra/pushbuf.c              | 184 +++++++++++
+>>>  tegra/syncpt.c               | 101 ++++++
+>>>  tegra/tegra-symbols.txt      |  27 +-
+>>>  tegra/tegra.c                | 386 +++++++++++-----------
+>>>  tegra/tegra.h                |  95 +++++-
+>>>  tests/tegra/.gitignore       |   3 +-
+>>>  tests/tegra/drm-test-tegra.c | 147 +++++++++
+>>>  tests/tegra/drm-test-tegra.h |  55 ++++
+>>>  tests/tegra/drm-test.c       | 248 +++++++++++++++
+>>>  tests/tegra/drm-test.h       |  72 +++++
+>>>  tests/tegra/gr2d-fill.c      | 146 +++++++++
+>>>  tests/tegra/host1x.h         |  34 ++
+>>>  tests/tegra/meson.build      |  88 +++++-
+>>>  tests/tegra/openclose.c      |  52 +--
+>>>  tests/tegra/syncpt-timeout.c | 163 ++++++++++
+>>>  tests/tegra/syncpt-wait.c    | 151 +++++++++
+>>>  tests/tegra/vic-blit.c       | 333 +++++++++++++++++++
+>>>  tests/tegra/vic-clear.c      | 173 ++++++++++
+>>>  tests/tegra/vic-flip.c       | 333 +++++++++++++++++++
+>>>  tests/tegra/vic.c            | 184 +++++++++++
+>>>  tests/tegra/vic.h            | 181 +++++++++++
+>>>  tests/tegra/vic30.c          | 458 +++++++++++++++++++++++++++
+>>>  tests/tegra/vic30.h          | 439 ++++++++++++++++++++++++++
+>>>  tests/tegra/vic40.c          | 370 ++++++++++++++++++++++
+>>>  tests/tegra/vic40.h          | 285 +++++++++++++++++
+>>>  tests/tegra/vic41.c          | 374 ++++++++++++++++++++++
+>>>  tests/tegra/vic41.h          | 372 ++++++++++++++++++++++
+>>>  tests/tegra/vic42.c          | 374 ++++++++++++++++++++++
+>>>  tests/tegra/vic42.h          | 597 +++++++++++++++++++++++++++++++++++
+>>>  34 files changed, 7068 insertions(+), 260 deletions(-)
+>>
+>>
+>> Why do we need these tests in libdrm? Why not IGT?
+> 
+> Oops, sorry. I had meant to reply to your question in the previous
+> version. The idea was to have this minimal set of tests in libdrm as a
+> way to demonstrate how to use the various APIs. At the same time, this
+> is meant to serve as an easy way to validate that everything works from
+> the comparatively simple libdrm package.
 
---------------UiMfTtkjpF0tVRWKmaBLXSRJ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Who will be validating libdrm on Tegra?
 
-SGkgU2FtDQoNCkFtIDE4LjAyLjIyIHVtIDExOjE0IHNjaHJpZWIgU2FtIFJhdm5ib3JnOg0K
-PiBIaSBUaG9tYXMsDQo+IA0KPiBPbiBUaHUsIEZlYiAxNywgMjAyMiBhdCAxMTozNDowNUFN
-ICswMTAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEltcHJvdmUgdGhlIHBlcmZv
-cm1hbmNlIG9mIHN5c19pbWFnZWJsaXQoKSBieSBtYW51YWxseSB1bnJvbGxpbmcNCj4+IHRo
-ZSBpbm5lciBibGl0dGluZyBsb29wIGFuZCBtb3Zpbmcgc29tZSBpbnZhcmlhbnRzIG91dC4g
-VGhlIGNvbXBpbGVyDQo+PiBmYWlsZWQgdG8gZG8gdGhpcyBhdXRvbWF0aWNhbGx5LiBUaGUg
-cmVzdWx0aW5nIGJpbmFyeSBjb2RlIHdhcyBldmVuDQo+PiBzbG93ZXIgdGhhbiB0aGUgY2Zi
-X2ltYWdlYmxpdCgpIGhlbHBlciwgd2hpY2ggdXNlcyB0aGUgc2FtZSBhbGdvcml0aG0sDQo+
-PiBidXQgb3BlcmF0ZXMgb24gSS9PIG1lbW9yeS4NCj4gDQo+IEl0IHdvdWxkIGJlIHN1cGVy
-IHRvIGhhdmUgdGhlIHNhbWUgb3B0aW1pemF0aW9uIGRvbmUgdG8gY2ZiX2ltYWdlYmxpdCgp
-LA0KPiB0byBwcmV2ZW50IHRoYXQgdGhlIHR3byBjb2RlYmFzZXMgZGl2ZXJnZSBtb3JlIHRo
-YW4gbmVjZXNzYXJ5Lg0KPiBBbHNvIEkgdGhpbmsgY2ZiXyB2ZXJzaW9uIHdvdWxkIGFsc28g
-c2VlIGEgcGVyZm9ybWFuY2UgZ2FpbiBmcm9tIHRoaXMuDQoNClllcywgSSBjYW4gZG8gdGhh
-dC4NCg0KPiANCj4gVGhlIGFjdHVhbCBpbXBsZW1lbnRhdGlvbiBsb29rcyBnb29kLg0KPiBT
-byB3aXRoIG9yIHdpdGhvdXQgdGhlIGV4dHJhIHVuLXJvbGxpbmcgdGhlIHBhdGNoIGlzOg0K
-PiBBY2tlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPg0KPiANCj4gT25l
-IHNtYWxsIG5pdCBiZWx3by4NCj4gDQo+IAlTYW0NCj4gDQo+Pg0KPj4gQSBtaWNyb2JlbmNo
-bWFyayBtZWFzdXJlcyB0aGUgYXZlcmFnZSBudW1iZXIgb2YgQ1BVIGN5Y2xlcw0KPj4gZm9y
-IHN5c19pbWFnZWJsaXQoKSBhZnRlciBhIHN0YWJpbGl6aW5nIHBlcmlvZCBvZiBhIGZldyBt
-aW51dGVzDQo+PiAoaTctNDc5MCwgRnVsbEhELCBzaW1wbGVkcm0sIGtlcm5lbCB3aXRoIGRl
-YnVnZ2luZykuIFRoZSB2YWx1ZQ0KPj4gZm9yIENGQiBpcyBnaXZlbiBhcyBhIHJlZmVyZW5j
-ZS4NCj4+DQo+PiAgICBzeXNfaW1hZ2VibGl0KCksIG5ldzogMjU5MzQgY3ljbGVzDQo+PiAg
-ICBzeXNfaW1hZ2VibGl0KCksIG9sZDogMzU5NDQgY3ljbGVzDQo+PiAgICBjZmJfaW1hZ2Vi
-bGl0KCk6ICAgICAgMzA1NjYgY3ljbGVzDQo+Pg0KPj4gSW4gdGhlIG9wdGltaXplZCBjYXNl
-LCBzeXNfaW1hZ2VibGl0KCkgaXMgbm93IH4zMCUgZmFzdGVyIHRoYW4gYmVmb3JlDQo+PiBh
-bmQgfjIwJSBmYXN0ZXIgdGhhbiBjZmJfaW1hZ2VibGl0KCkuDQo+Pg0KPj4gU2lnbmVkLW9m
-Zi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiAtLS0N
-Cj4+ICAgZHJpdmVycy92aWRlby9mYmRldi9jb3JlL3N5c2ltZ2JsdC5jIHwgNTEgKysrKysr
-KysrKysrKysrKysrKysrLS0tLS0tLQ0KPj4gICAxIGZpbGUgY2hhbmdlZCwgMzkgaW5zZXJ0
-aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-dmlkZW8vZmJkZXYvY29yZS9zeXNpbWdibHQuYyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29y
-ZS9zeXNpbWdibHQuYw0KPj4gaW5kZXggYTRkMDViMWIxN2Q3Li5kNzBkNjVhZjZmY2IgMTAw
-NjQ0DQo+PiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvc3lzaW1nYmx0LmMNCj4+
-ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9zeXNpbWdibHQuYw0KPj4gQEAgLTE4
-OCwyMyArMTg4LDMyIEBAIHN0YXRpYyB2b2lkIGZhc3RfaW1hZ2VibGl0KGNvbnN0IHN0cnVj
-dCBmYl9pbWFnZSAqaW1hZ2UsIHN0cnVjdCBmYl9pbmZvICpwLA0KPj4gICB7DQo+PiAgIAl1
-MzIgZmd4ID0gZmdjb2xvciwgYmd4ID0gYmdjb2xvciwgYnBwID0gcC0+dmFyLmJpdHNfcGVy
-X3BpeGVsOw0KPj4gICAJdTMyIHBwdyA9IDMyL2JwcCwgc3BpdGNoID0gKGltYWdlLT53aWR0
-aCArIDcpLzg7DQo+PiAtCXUzMiBiaXRfbWFzaywgZW5kX21hc2ssIGVvcngsIHNoaWZ0Ow0K
-Pj4gKwl1MzIgYml0X21hc2ssIGVvcng7DQo+PiAgIAljb25zdCBjaGFyICpzID0gaW1hZ2Ut
-PmRhdGEsICpzcmM7DQo+PiAgIAl1MzIgKmRzdDsNCj4+IC0JY29uc3QgdTMyICp0YWIgPSBO
-VUxMOw0KPj4gLQlpbnQgaSwgaiwgazsNCj4+ICsJY29uc3QgdTMyICp0YWI7DQo+PiArCXNp
-emVfdCB0YWJsZW47DQo+PiArCXUzMiBjb2xvcnRhYlsxNl07DQo+PiArCWludCBpLCBqLCBr
-LCBqZGVjcjsNCj4+ICsNCj4+ICsJaWYgKCh1aW50cHRyX3QpZHN0MSAlIDgpDQo+PiArCQly
-ZXR1cm47DQo+IFRoaXMgY2hlY2sgaXMgbmV3IC0gYW5kIHNob3VsZCBub3QgdHJpZ2dlciBl
-dmVyLiBNYXliZSBhZGQgYW4gdW5saWtlbHkNCj4gYW5kIGEgV0FSTl9PTl9PTkNFKCk/DQoN
-CkkgdGhpbmsgSSBjYW4gcmVtb3ZlIHRoaXMgdGVzdC4gSXQgd2FzIHN1cHBvc2VkIHRvIHRl
-bGwgdGhlIGNvbXBpbGVyIA0KdGhhdCBkc3QxIGlzIDgtYWxpZ25lZCwgYnV0IEkgZG9uJ3Qg
-dGhpbmsgaXQgd29ya2VkLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiANCj4+
-ICAgDQo+PiAgIAlzd2l0Y2ggKGJwcCkgew0KPj4gICAJY2FzZSA4Og0KPj4gICAJCXRhYiA9
-IGZiX2JlX21hdGgocCkgPyBjZmJfdGFiOF9iZSA6IGNmYl90YWI4X2xlOw0KPj4gKwkJdGFi
-bGVuID0gMTY7DQo+PiAgIAkJYnJlYWs7DQo+PiAgIAljYXNlIDE2Og0KPj4gICAJCXRhYiA9
-IGZiX2JlX21hdGgocCkgPyBjZmJfdGFiMTZfYmUgOiBjZmJfdGFiMTZfbGU7DQo+PiArCQl0
-YWJsZW4gPSA0Ow0KPj4gICAJCWJyZWFrOw0KPj4gICAJY2FzZSAzMjoNCj4+IC0JZGVmYXVs
-dDoNCj4+ICAgCQl0YWIgPSBjZmJfdGFiMzI7DQo+PiArCQl0YWJsZW4gPSAyOw0KPj4gICAJ
-CWJyZWFrOw0KPj4gKwlkZWZhdWx0Og0KPj4gKwkJcmV0dXJuOw0KPj4gICAJfQ0KPj4gICAN
-Cj4+ICAgCWZvciAoaSA9IHBwdy0xOyBpLS07ICkgew0KPj4gQEAgLTIxNywxOSArMjI2LDM3
-IEBAIHN0YXRpYyB2b2lkIGZhc3RfaW1hZ2VibGl0KGNvbnN0IHN0cnVjdCBmYl9pbWFnZSAq
-aW1hZ2UsIHN0cnVjdCBmYl9pbmZvICpwLA0KPj4gICAJYml0X21hc2sgPSAoMSA8PCBwcHcp
-IC0gMTsNCj4+ICAgCWVvcnggPSBmZ3ggXiBiZ3g7DQo+PiAgIAlrID0gaW1hZ2UtPndpZHRo
-L3BwdzsNCj4+ICsJamRlY3IgPSA4IC8gcHB3Ow0KPj4gKw0KPj4gKwlmb3IgKGkgPSAwOyBp
-IDwgdGFibGVuOyArK2kpDQo+PiArCQljb2xvcnRhYltpXSA9ICh0YWJbaV0gJiBlb3J4KSBe
-IGJneDsNCj4gVGhpcyBjb2RlIGNvdWxkIGhhdmUgYmVlbiBlbWJlZGRlZCB3aXRoIHRoZSBz
-d2l0Y2ggKGJwcCkgew0KPiBUaGF0IHdvdWxkIGhhdmUgbWFkZSBzb21lIHNlbnNlIEkgdGhp
-bmsuDQo+IEJ1dCBib3RoIHdheXMgd29ya3MsIHNvIHRoaXMgd2FzIGp1c3QgYSBzbWFsbCBv
-YnNlcnZhdGlvbi4NCj4gDQo+IAlTYW0NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
-MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+> But yes, adding more tests on top of this to IGT is something that I've
+> been pondering and I certainly wouldn't object if anyone else was going
+> to attempt to do so. I don't think IGT and libdrm need to be mutually
+> exclusive, though.
 
-
---------------UiMfTtkjpF0tVRWKmaBLXSRJ--
-
---------------msQEmOTRj08mvYRq0Jajw5Qq
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIPqJoFAwAAAAAACgkQlh/E3EQov+Cb
-TxAAouSUstWFC5prf3HsEEjjctipErouPHKo/hImZNZjLc2NKdby8BzIk4udKyEMVBlQNVEAUO9D
-OsCQ6EXiugUql2zkYS+PHHC/MYRSsjV7TfxKyIjGGjLojZr0YL3qPqqiZerSaLARhfGDoXYNUxwR
-lErMJ7SWGGyL2GmfMEIE9D0/EEJn+nP2mIOG9a4jtlQtD2k9EbGd3pnbchCW5JjyMybygUudRLW7
-LCaivb1C2HCC03WTxQdvwuSbgqBUbfAjKaucU81I6ZeOvnGiG5tU3WhJwZMpRuNneFIzq1uA6F6F
-I6tnQCMinYwGxzOy6jyUYLFYWENnGmY+FFXs1z9dsPp2G3TkvYBXOO6HrjR72kX3Lo+4HZeArEZz
-5XI66UEJtAiY1Mlk2rLPwdqxjJhTGlaRL/4Ha9dhpdtsiZKs1u3Oh1w1iXNuktV6uPpjZJhbj8D/
-/OZ64sKWwYhd5VBzF5SVFSI4fTmKlboDaJ33vMTQJ2d9+QzVTsqR34SqmHMzt9hKZkMF+wh3c8E1
-388NP9RKdN2jpgOcTIIKR/NdOVLqAxVly9bFnNcGtpsZMOEd3zY276sS5CzSAGklK/H1Yi42Xg7M
-wdKRBwfqBCGxhJUick3D12WaKqnRfm/nvbRxCItJa61T4dXmcOBao/WLT65d4hkAYvUy2Gvtf5eB
-NFk=
-=8P/n
------END PGP SIGNATURE-----
-
---------------msQEmOTRj08mvYRq0Jajw5Qq--
+I know that IGT tests are regularly run by the KernelCI at least on TK1.
