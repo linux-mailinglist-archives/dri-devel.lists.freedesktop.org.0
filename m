@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103C14BB49C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 09:53:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7174BB4A5
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 09:56:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E3E10F0BB;
-	Fri, 18 Feb 2022 08:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31E7810E330;
+	Fri, 18 Feb 2022 08:56:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
- [209.85.217.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3D8F10F0C1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 08:53:33 +0000 (UTC)
-Received: by mail-vs1-f51.google.com with SMTP id g21so9181951vsp.6
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 00:53:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3IIIM8aS689yU8psbZYAY0WKVYVp4V9dRKA9Ow9rLTc=;
- b=RpxKaMIpU7zW9SdLvRSjR726OafWz2gIjlK8ML9ny7nSO96ByG3iFdwX8Z6UBuxK6+
- A3qO+K/SRAZTFNsITzowgvDLCLfYcdN8YvhkyDlu3cfc3ezs4eEd+sVSCE5dQinLxpnv
- bl3t2NyC9W0xtFYjQL9cYUwr2jGRJnGdOGZZKLjTGt/27EysTlqf/6Xd/fr8IErI+5mR
- jXVwcFu7xPJM0KZVPphyWwiTblcFKF+b6lHRD8BgcWvJp/RfgOirrsW+L0LXIorL39oE
- BbUtuAUCWFFQmgBP5AckxGr+RwbuO4S9T0wNX7N5FJ9VocI8BgV2fXczlSsJd+OZ9hOo
- Ji9A==
-X-Gm-Message-State: AOAM5324FPC78mOSnuG6+7CKjMi/5YVk9Se2TrcFhdDj06vg1l2xzRjT
- tJ02JVwfb9mIKqqCcPVHkkFvxDEtgJDMNA==
-X-Google-Smtp-Source: ABdhPJwaLfIYbJxH/TgAqBwtwedr92a8FBaDIXEziUJFC/lIbKjHVHSnCGKwS0yqOM+3O9VwqEezag==
-X-Received: by 2002:a05:6102:3913:b0:31b:b386:e467 with SMTP id
- e19-20020a056102391300b0031bb386e467mr3054813vsu.8.1645174412481; 
- Fri, 18 Feb 2022 00:53:32 -0800 (PST)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com.
- [209.85.221.169])
- by smtp.gmail.com with ESMTPSA id r2sm1944844vka.52.2022.02.18.00.53.31
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Feb 2022 00:53:31 -0800 (PST)
-Received: by mail-vk1-f169.google.com with SMTP id n14so4426473vkk.6
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 00:53:31 -0800 (PST)
-X-Received: by 2002:a05:6122:130c:b0:330:e674:ec91 with SMTP id
- e12-20020a056122130c00b00330e674ec91mr2843712vkp.33.1645174411496; Fri, 18
- Feb 2022 00:53:31 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0065610E330
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 08:56:08 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 93EB22110B;
+ Fri, 18 Feb 2022 08:56:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1645174567; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kiKJN3y1zPPffaYK4kA7yK6j2A+IN68x5YRAkMEkxns=;
+ b=ST0zI4SIO9pKYnFSsCihkpuuVeeZTkpZpgIFWmSbU+6ywoosWw+HSpts2/8BSZxLvgqBBI
+ lTL2SrZhR/SVUnvUgjtBNJBun4SZWf7RSWt/b7VLdRQXmj5nNgBQfw0o1+yDwZ7RN0H6Ex
+ ZgB9Lpzmq58MZrKM6ipK7J1NGvyrcAY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1645174567;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kiKJN3y1zPPffaYK4kA7yK6j2A+IN68x5YRAkMEkxns=;
+ b=SJAmdwxVRT+8UTh25usTxlotiF0iAwJNgZg0QV77ZeFCcn8bqYvfANy8UyhqFEpgNfi6zJ
+ 4COKQEvjRvvXtzCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 556BB13C34;
+ Fri, 18 Feb 2022 08:56:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id KgjdEydfD2JqWwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 18 Feb 2022 08:56:07 +0000
+Message-ID: <bdfe2a30-de5c-f05c-dc31-d405efc3a82d@suse.de>
+Date: Fri, 18 Feb 2022 09:56:06 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/8] drm: Add support for low-color frame buffer formats
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>, Geert Uytterhoeven <geert@linux-m68k.org>
 References: <20220215165226.2738568-1-geert@linux-m68k.org>
- <20220215165226.2738568-3-geert@linux-m68k.org>
- <4fff0c08-adab-c1d5-4a7e-1513cb2bf7ca@suse.de>
- <CAMuHMdVK7eWfod73JQAntO=7BAMEcS-ktH4NJmDjna3zUn7giw@mail.gmail.com>
- <4ed13232-bee3-0bea-9abb-51bf9d0bf84b@suse.de>
-In-Reply-To: <4ed13232-bee3-0bea-9abb-51bf9d0bf84b@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 18 Feb 2022 09:53:20 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXjXdfNSvy4tvTgxe16EHoZ1CnXKNXRoP4SVpHnSFLvAQ@mail.gmail.com>
-Message-ID: <CAMuHMdXjXdfNSvy4tvTgxe16EHoZ1CnXKNXRoP4SVpHnSFLvAQ@mail.gmail.com>
-Subject: Re: [PATCH 2/8] drm/fb-helper: Add support for DRM_FORMAT_C[124]
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+ <Yg6yBOVTEqyPqRUc@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Yg6yBOVTEqyPqRUc@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------pbHRuaPfqnEZ3GGSaEqbXb0i"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,90 +70,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux/m68k <linux-m68k@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-m68k@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------pbHRuaPfqnEZ3GGSaEqbXb0i
+Content-Type: multipart/mixed; boundary="------------aGaloi2WMOqYILvg9n6s2SgG";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-fbdev@vger.kernel.org,
+ linux-m68k@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <bdfe2a30-de5c-f05c-dc31-d405efc3a82d@suse.de>
+Subject: Re: [PATCH 0/8] drm: Add support for low-color frame buffer formats
+References: <20220215165226.2738568-1-geert@linux-m68k.org>
+ <Yg6yBOVTEqyPqRUc@ravnborg.org>
+In-Reply-To: <Yg6yBOVTEqyPqRUc@ravnborg.org>
 
-On Fri, Feb 18, 2022 at 9:14 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Am 17.02.22 um 17:12 schrieb Geert Uytterhoeven:
-> > On Thu, Feb 17, 2022 at 3:57 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >> Am 15.02.22 um 17:52 schrieb Geert Uytterhoeven:
-> >>> Add support for color-indexed frame buffer formats with two, four, and
-> >>> sixteen colors to the DRM framebuffer helper functions:
-> >>>     1. Add support for depths 1/2/4 to the damage helper,
-> >>>     2. For color-indexed modes, the length of the color bitfields must be
-> >>>        set to the color depth, else the logo code may pick a logo with too
-> >>>        many colors.  Drop the incorrect DAC width comment, which
-> >>>        originates from the i915 driver.
-> >>>     3. Accept C[124] modes when validating or filling in struct
-> >>>        fb_var_screeninfo, and  use the correct number of bits per pixel.
-> >>>     4. Set the visual to FB_VISUAL_PSEUDOCOLOR for all supported
-> >>>        color-indexed modes.
-> >>>
-> >>> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> >
-> >>> --- a/drivers/gpu/drm/drm_fb_helper.c
-> >>> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> >>> @@ -376,12 +376,34 @@ static void drm_fb_helper_damage_blit_real(struct drm_fb_helper *fb_helper,
-> >>>                                           struct iosys_map *dst)
-> >>>    {
-> >>>        struct drm_framebuffer *fb = fb_helper->fb;
-> >>> -     unsigned int cpp = fb->format->cpp[0];
-> >>> -     size_t offset = clip->y1 * fb->pitches[0] + clip->x1 * cpp;
-> >>> -     void *src = fb_helper->fbdev->screen_buffer + offset;
-> >>> -     size_t len = (clip->x2 - clip->x1) * cpp;
-> >>> +     size_t offset = clip->y1 * fb->pitches[0];
-> >>> +     size_t len = clip->x2 - clip->x1;
-> >>>        unsigned int y;
-> >>> +     void *src;
-> >>>
-> >>> +     switch (fb->format->depth) {
-> >>
-> >> The depth field is deprecated. It's probably better to use
-> >> fb->format->format and test against 4CC codes.
-> >
-> > The reason I checked for depth instead of a 4CC code is that the only
-> > thing that matters here is the number of bits per pixel.  Hence this
-> > function won't need any changes to support R1, R2, R4, and D1 later.
-> > When we get here, we already know that we are using a format that
-> > is supported by the fbdev helper code, and thus passed the 4CC
-> > checks elsewhere.
->
-> At some point, we will probably have to change several of these tests to
-> 4cc. C8 and RGB332 both have 8-bit depth/bpp; same for C4 and RGB121; or
-> whatever low-color formats we also want to add.
->
-> It's not a blocker now, but maybe something to keep in mind.
->
-> >
-> > Alternatively, we could introduce drm_format_info_bpp() earlier in
-> > the series, and use that?
->
-> Having a helper for this might indeed be useful. We use depth for the
-> number of color bits and bpp for the number of bits in he pixel.  That's
-> important for XRGB8888, where depth is 24, or XRGB555 where depth is 15.
->
-> If that makes sense, maybe have a helper for depth and one for bpp, even
-> if they return the same value in most of the cases.
+--------------aGaloi2WMOqYILvg9n6s2SgG
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-The helper for bpp is introduced in "[PATCH 3/8] drm/fourcc: Add
-drm_format_info_bpp() helper".
-I don't think we need a helper for depth, there's already the .depth
-field.  It might be deprecated, but it's still used?
-Gr{oetje,eeting}s,
+DQoNCkFtIDE3LjAyLjIyIHVtIDIxOjM3IHNjaHJpZWIgU2FtIFJhdm5ib3JnOg0KPiBIaSBH
+ZWVydCwNCj4gDQo+IE9uIFR1ZSwgRmViIDE1LCAyMDIyIGF0IDA1OjUyOjE4UE0gKzAxMDAs
+IEdlZXJ0IFV5dHRlcmhvZXZlbiB3cm90ZToNCj4+IAlIaSBhbGwsDQo+Pg0KPj4gQSBsb25n
+IG91dHN0YW5kaW5nIGlzc3VlIHdpdGggdGhlIERSTSBzdWJzeXN0ZW0gaGFzIGJlZW4gdGhl
+IGxhY2sgb2YNCj4+IHN1cHBvcnQgZm9yIGxvdy1jb2xvciBkaXNwbGF5cywgYXMgdXNlZCB0
+eXBpY2FsbHkgb24gb2xkZXIgZGVza3RvcA0KPj4gc3lzdGVtcyBhbmQgc21hbGwgZW1iZWRk
+ZWQgZGlzcGxheXMuDQo+IA0KPiBUaGlzIGlzIG9uZSBvZiB0aGUgcGllY2VzIG1pc3Npbmcg
+Zm9yIGEgbG9uZyB0aW1lIC0gZ3JlYXQgdG8gc2VlDQo+IHNvbWV0aGluZyBkb25lIGhlcmUu
+IFRoYW5rcyBHZWVydCENCg0KQWJzb2x1dGVseSEgSSdtIGxvb2tpbmcgZm9yd2FyZCB0byBz
+ZWUgdGhlc2UgcGF0Y2hlcyBiZWluZyBtZXJnZWQuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFz
+DQoNCj4gDQo+IAlTYW0NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJp
+dmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpN
+YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFH
+IE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-                        Geert
+--------------aGaloi2WMOqYILvg9n6s2SgG--
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--------------pbHRuaPfqnEZ3GGSaEqbXb0i
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIPXyYFAwAAAAAACgkQlh/E3EQov+CR
+bxAAyAmhIJ/PgdOp5h3c83lSq7wy8ua2Kw84LB3k1nwb4LVsj5Gmk84XfgU9C2Lod2ytNiDeeNq8
+DxLhss+/rXSKDLr9WZLmWo5NCbx1M/Ui5a9HfNUx378mqw3NP6sSuR77ksLkJ3XWPqFMUhjNyV3x
+h2jwHjAf9Q5aZTIoQPfEAcdB3NNPRmloOT79J26LI+D5IK1UlRKlRjA82bcqx1UxcPUNKtOp0hE1
+kmu5fitApliapki0GHW9WJML0oT8+TLjv4VUXQAXC2LxqcquvVPkjEQYURF3Q0zDIoiuFIQo6FJB
+H3VwwFzPx9IXy6lgWrYvw31dH0hwjfjB9rr9rHP0JE4/e4FoLTUJCUqWaafAnHF2LAdHPzrsTAQN
+FGnU0ki6Edfph2RGTBVwbaA3Q+SERyVjTbSfKeyt8R3GENBhhgQQLYwRZvmXmsgWQNbSB7QDxRTf
+xALw+p+We3vXrwUsh64gMfpe4qoX6MPeqXrVWvVqtNthqDs6MfYOoK0yqL/utvvWI5HUqhqA+Dv/
+PASz06hZQD78BBMm/UmH7PP6mJAPVhcPJKBUBKUQhcfOxI0k2RkctxARcuKazBApCUtBEQyIr5HE
+JKs3XvuN4ZqXuovpIrVMs8lN5+fwlEMYanTgpzy5qVoScTuU5m1TEs0f0uanzQ88clDs0/KXbyqC
+qBc=
+=OjU+
+-----END PGP SIGNATURE-----
+
+--------------pbHRuaPfqnEZ3GGSaEqbXb0i--
