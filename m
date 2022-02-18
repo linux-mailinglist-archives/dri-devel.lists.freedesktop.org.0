@@ -2,47 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613524BB868
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:42:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1AC4BB8B0
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:51:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54A0A10EA27;
-	Fri, 18 Feb 2022 11:42:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B0DB10E1E8;
+	Fri, 18 Feb 2022 11:51:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E18D210EA27
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 11:42:14 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nL1eP-0006RH-DK; Fri, 18 Feb 2022 12:42:13 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nL1eP-00HO5Z-De; Fri, 18 Feb 2022 12:42:12 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nL1eN-00058b-Lu; Fri, 18 Feb 2022 12:42:11 +0100
-Message-ID: <e559878e0a1f18ce80fd06ef171f81d0f0d4ed69.camel@pengutronix.de>
-Subject: Re: [PATCH 09/22] drm/imx: Use drm_mode_duplicate()
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org
-Date: Fri, 18 Feb 2022 12:42:11 +0100
-In-Reply-To: <20220218100403.7028-10-ville.syrjala@linux.intel.com>
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C147D10E1E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 11:51:12 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 1bda185b-90b1-11ec-baa1-0050568c148b;
+ Fri, 18 Feb 2022 11:51:29 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 0E0B3194B47;
+ Fri, 18 Feb 2022 12:51:10 +0100 (CET)
+Date: Fri, 18 Feb 2022 12:51:07 +0100
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 20/22] drm/panel: Use drm_mode_duplicate()
+Message-ID: <Yg+IK85b3R3J0Y4U@ravnborg.org>
 References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
- <20220218100403.7028-10-ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+ <20220218100403.7028-21-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220218100403.7028-21-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,34 +49,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2022-02-18 at 12:03 +0200, Ville Syrjala wrote:
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->=20
+Hi Ville,
+
+On Fri, Feb 18, 2022 at 12:04:01PM +0200, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
 > Replace the hand rolled drm_mode_duplicate() with the
 > real thing.
->=20
+> 
 > @is_dup@
 > @@
 > drm_mode_duplicate(...)
 > { ... }
->=20
+> 
 > @depends on !is_dup@
 > expression dev, oldmode;
 > identifier newmode;
 > @@
-> - newmode =3D drm_mode_create(dev);
-> + newmode =3D drm_mode_duplicate(dev, oldmode);
-> =C2=A0 ...
+> - newmode = drm_mode_create(dev);
+> + newmode = drm_mode_duplicate(dev, oldmode);
+>   ...
 > - drm_mode_copy(newmode, oldmode);
->=20
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> 
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-regards
-Philipp
+Looks good,
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
