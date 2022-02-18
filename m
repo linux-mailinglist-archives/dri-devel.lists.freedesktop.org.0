@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15EF14BB64B
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:05:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6774E4BB64D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:05:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E462710F024;
-	Fri, 18 Feb 2022 10:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD6210F032;
+	Fri, 18 Feb 2022 10:05:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F53110F024;
- Fri, 18 Feb 2022 10:05:28 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89DA710F02D;
+ Fri, 18 Feb 2022 10:05:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645178728; x=1676714728;
+ t=1645178730; x=1676714730;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hcVzhZodcMoOb6EhljxJkIPxUEl9mgAJWAieBEsYSCc=;
- b=iwSh1YF8JOsGGBtWFRNY51W6LFU+ZQhELOpm3XtbfqPaH9kxoQPgfZim
- lCzP75BA8uwas58sOv5kmPvWP77hXRkviU4RZQ1qZYhYjTl23g54Q4dJB
- 1fKY/bN5RdG2EGaZR1siHlJ/hv6mZBpH0rx43oaqembw+Frpd2XRuH8CY
- KhOhiF7sD3j2AMLKooEiws83q9UbJs3aifZcCSC/CvcpSWH9kDk+Y5Tjo
- xkpOkeIz7zxoWbrIrMLTE3BMbNfMx9E4zT4RybWXWJDxwEKyxsYOG/UEO
- VYRDWeAtoSlUOqt815FKCAOeJu9W1/8uxLLMpQYuZUBmlVAM1PVdbthzS g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="238502186"
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="238502186"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 02:05:26 -0800
+ bh=ihmuO3QUdDD45gj7L+hNCKT40xp+aeIufb18aL8HXnc=;
+ b=kHb+1b6PyoM8bg+1J5EwB6fTPOwbDLA3t9b9UV0yUx9NfnHorOkozd96
+ A1u9cdAi1XRAm4rmvXJo7wu2rB3E6wbNHQ56kZCxymIikiZR7XM8/5kvC
+ ebSk0TJ3vyryS9+ie/X5u0BNpacaH/D8UQbdF0F6beDBJV/5TDWMW6DAs
+ 15dHl/X8flRE1T52gM5rkietk9HO+JjftADFjHLBekeMvHPVCY7ae2G9r
+ GWowhRgR85Ar7Czu2TXhheW7uNb4rKEfd5xxMFEYVx77MCtV50NmTR9n5
+ iPXGnM2wwMe9+a7mNlaFULk2yLnC4q1z9n8+vWrYWoRJ51gAna+3mBkIZ Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="251041242"
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="251041242"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2022 02:05:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="541855402"
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="682442643"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
- by fmsmga007.fm.intel.com with SMTP; 18 Feb 2022 02:05:24 -0800
+ by fmsmga001.fm.intel.com with SMTP; 18 Feb 2022 02:05:27 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 18 Feb 2022 12:05:23 +0200
+ Fri, 18 Feb 2022 12:05:26 +0200
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 19/22] drm/i915: Use drm_mode_copy()
-Date: Fri, 18 Feb 2022 12:04:00 +0200
-Message-Id: <20220218100403.7028-20-ville.syrjala@linux.intel.com>
+Subject: [PATCH 20/22] drm/panel: Use drm_mode_duplicate()
+Date: Fri, 18 Feb 2022 12:04:01 +0200
+Message-Id: <20220218100403.7028-21-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
 References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
@@ -58,106 +58,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-struct drm_display_mode embeds a list head, so overwriting
-the full struct with another one will corrupt the list
-(if the destination mode is on a list). Use drm_mode_copy()
-instead which explicitly preserves the list head of
-the destination mode.
+Replace the hand rolled drm_mode_duplicate() with the
+real thing.
 
-Even if we know the destination mode is not on any list
-using drm_mode_copy() seems decent as it sets a good
-example. Bad examples of not using it might eventually
-get copied into code where preserving the list head
-actually matters.
-
-Obviously one case not covered here is when the mode
-itself is embedded in a larger structure and the whole
-structure is copied. But if we are careful when copying
-into modes embedded in structures I think we can be a
-little more reassured that bogus list heads haven't been
-propagated in.
-
-@is_mode_copy@
+@is_dup@
 @@
-drm_mode_copy(...)
-{
-...
-}
+drm_mode_duplicate(...)
+{ ... }
 
-@depends on !is_mode_copy@
-struct drm_display_mode *mode;
-expression E, S;
+@depends on !is_dup@
+expression dev, oldmode;
+identifier newmode;
 @@
-(
-- *mode = E
-+ drm_mode_copy(mode, &E)
-|
-- memcpy(mode, E, S)
-+ drm_mode_copy(mode, E)
-)
-
-@depends on !is_mode_copy@
-struct drm_display_mode mode;
-expression E;
-@@
-(
-- mode = E
-+ drm_mode_copy(&mode, &E)
-|
-- memcpy(&mode, E, S)
-+ drm_mode_copy(&mode, E)
-)
-
-@@
-struct drm_display_mode *mode;
-@@
-- &*mode
-+ mode
+- newmode = drm_mode_create(dev);
++ newmode = drm_mode_duplicate(dev, oldmode);
+  ...
+- drm_mode_copy(newmode, oldmode);
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panel/panel-truly-nt35597.c    | 3 +--
+ drivers/gpu/drm/panel/panel-visionox-rm69299.c | 4 ++--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 74c5a99ab276..661e36435793 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -5506,8 +5506,10 @@ intel_crtc_copy_uapi_to_hw_state_modeset(struct intel_atomic_state *state,
+diff --git a/drivers/gpu/drm/panel/panel-truly-nt35597.c b/drivers/gpu/drm/panel/panel-truly-nt35597.c
+index b24b92d93ea5..9ca5c7ff41d6 100644
+--- a/drivers/gpu/drm/panel/panel-truly-nt35597.c
++++ b/drivers/gpu/drm/panel/panel-truly-nt35597.c
+@@ -446,7 +446,7 @@ static int truly_nt35597_get_modes(struct drm_panel *panel,
+ 	const struct nt35597_config *config;
  
- 	crtc_state->hw.enable = crtc_state->uapi.enable;
- 	crtc_state->hw.active = crtc_state->uapi.active;
--	crtc_state->hw.mode = crtc_state->uapi.mode;
--	crtc_state->hw.adjusted_mode = crtc_state->uapi.adjusted_mode;
-+	drm_mode_copy(&crtc_state->hw.mode,
-+		      &crtc_state->uapi.mode);
-+	drm_mode_copy(&crtc_state->hw.adjusted_mode,
-+		      &crtc_state->uapi.adjusted_mode);
- 	crtc_state->hw.scaling_filter = crtc_state->uapi.scaling_filter;
+ 	config = ctx->config;
+-	mode = drm_mode_create(connector->dev);
++	mode = drm_mode_duplicate(connector->dev, config->dm);
+ 	if (!mode) {
+ 		dev_err(ctx->dev, "failed to create a new display mode\n");
+ 		return 0;
+@@ -454,7 +454,6 @@ static int truly_nt35597_get_modes(struct drm_panel *panel,
  
- 	intel_crtc_copy_uapi_to_hw_state_nomodeset(state, crtc);
-@@ -5584,9 +5586,12 @@ copy_bigjoiner_crtc_state_modeset(struct intel_atomic_state *state,
- 	memset(&slave_crtc_state->hw, 0, sizeof(slave_crtc_state->hw));
- 	slave_crtc_state->hw.enable = master_crtc_state->hw.enable;
- 	slave_crtc_state->hw.active = master_crtc_state->hw.active;
--	slave_crtc_state->hw.mode = master_crtc_state->hw.mode;
--	slave_crtc_state->hw.pipe_mode = master_crtc_state->hw.pipe_mode;
--	slave_crtc_state->hw.adjusted_mode = master_crtc_state->hw.adjusted_mode;
-+	drm_mode_copy(&slave_crtc_state->hw.mode,
-+		      &master_crtc_state->hw.mode);
-+	drm_mode_copy(&slave_crtc_state->hw.pipe_mode,
-+		      &master_crtc_state->hw.pipe_mode);
-+	drm_mode_copy(&slave_crtc_state->hw.adjusted_mode,
-+		      &master_crtc_state->hw.adjusted_mode);
- 	slave_crtc_state->hw.scaling_filter = master_crtc_state->hw.scaling_filter;
+ 	connector->display_info.width_mm = config->width_mm;
+ 	connector->display_info.height_mm = config->height_mm;
+-	drm_mode_copy(mode, config->dm);
+ 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+ 	drm_mode_probed_add(connector, mode);
  
- 	copy_bigjoiner_crtc_state_nomodeset(state, slave_crtc);
+diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+index eb43503ec97b..db2443ac81d3 100644
+--- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
++++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+@@ -168,7 +168,8 @@ static int visionox_rm69299_get_modes(struct drm_panel *panel,
+ 	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
+ 	struct drm_display_mode *mode;
+ 
+-	mode = drm_mode_create(connector->dev);
++	mode = drm_mode_duplicate(connector->dev,
++				  &visionox_rm69299_1080x2248_60hz);
+ 	if (!mode) {
+ 		dev_err(ctx->panel.dev, "failed to create a new display mode\n");
+ 		return 0;
+@@ -176,7 +177,6 @@ static int visionox_rm69299_get_modes(struct drm_panel *panel,
+ 
+ 	connector->display_info.width_mm = 74;
+ 	connector->display_info.height_mm = 131;
+-	drm_mode_copy(mode, &visionox_rm69299_1080x2248_60hz);
+ 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+ 	drm_mode_probed_add(connector, mode);
+ 
 -- 
 2.34.1
 
