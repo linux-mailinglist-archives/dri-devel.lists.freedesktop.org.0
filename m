@@ -1,122 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357714BBF93
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 19:35:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3A54BBFA5
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 19:38:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3FB410E2F3;
-	Fri, 18 Feb 2022 18:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9871710E6CA;
+	Fri, 18 Feb 2022 18:38:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2062.outbound.protection.outlook.com [40.107.236.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B283910E2F3;
- Fri, 18 Feb 2022 18:35:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HvJnQuHSIaTbKv4mGRvrbwZfoUOPYsozwnCqlf9jdyZ08f7txnoImcImu+C6TAqQMN1Dss/nppFGFJLaj46vfqLV3UDjS7HJ5z68xanvXApaAlf1JUMuxHVzlLVcSAYQioJq3G+oQssWGaHTvAkXFCnyBLyIcrhpOxuQar/eOIPiMIFspbdyHQwuXYfxgDId8XbzazO2KOWeV9gg8UhSNk+n1avGxpQbZ+1vCvCHWInxe4hJKWDjKt3v5/JA9i7y1k4wJ+DkhWzouvRmuFazXHPMY93HDzOqWWyGw/6l4wRTTPPH0Mfa9rzGI5jgPHYwK9Knh2eyru8ziOxrZIr9nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TWAptDzvTxJ0HtKqQGyReV04pwqw0dAROryPBkH7a5Q=;
- b=cR2n/2b0SgG+dvt5mA+gpEr5h50v7qZeMi4H8mKUxmyGlF0MHSzaqF1zgMu/7Y3gImK9xBkr8X/iSvTk2YFQDbHB7sgfsU6Ys2ijIdPkBzP5QvBYI9m4DpXkl/P4wgODYjvh8mObVw474A+UuV2kNPEeMKgguvgMlAfV6wdqxwIQw6G1K7hCtMR2xY6gYfgV4ISJ3lGvpsg+OsJB0yEccDoUsJwEDEQF21no8q6jfix/Kecr+3iFh/F8gq5haeWDT6EU2TvyWRqqZjFEQEV7mEOh8qXRX6rb9NSbStN10GzBMJjuGyqcSw8ECdh64MBmCVJHI6cTElM2+JdUy76vVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TWAptDzvTxJ0HtKqQGyReV04pwqw0dAROryPBkH7a5Q=;
- b=KgpO5ZYFrknLh1tEfQgPzEdXbUmeDr341ihQy9JrnUWKqYvZOQ8y5FyZnSp5PmVjCZ8s65+VeS/qAtic9PuUqHn2cligWQ7A+6cGYNaFzH1DMrfT2ExaMUflB696EFpvGI/ph04u8adVbwyVc7Qlj1TG9Vzod/wsc4HpwGX5zXY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by BY5PR12MB4034.namprd12.prod.outlook.com (2603:10b6:a03:205::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.15; Fri, 18 Feb
- 2022 18:35:44 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::38ec:3a46:f85e:6cfa]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::38ec:3a46:f85e:6cfa%4]) with mapi id 15.20.4995.016; Fri, 18 Feb 2022
- 18:35:44 +0000
-Message-ID: <b98981f4-358b-ebdd-dade-4027c57a1a7e@amd.com>
-Date: Fri, 18 Feb 2022 13:35:41 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/amdkfd: rework criu_restore_bos error handling
-Content-Language: en-US
-To: trix@redhat.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch, nathan@kernel.org,
- ndesaulniers@google.com, david.yatsin@amd.com, rajneesh.bhardwaj@amd.com
-References: <20220218173913.3376948-1-trix@redhat.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <20220218173913.3376948-1-trix@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT1PR01CA0091.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2d::30) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A688110E6CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 18:38:44 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1nL89T-0001ff-2O; Fri, 18 Feb 2022 19:38:43 +0100
+Message-ID: <7d92962a433843af249a5adcc145dc4aecc66015.camel@pengutronix.de>
+Subject: Re: [PATCH V2 11/11] drm/bridge: tc358767: Add DSI-to-DPI mode support
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Date: Fri, 18 Feb 2022 19:38:41 +0100
+In-Reply-To: <20220218010054.315026-12-marex@denx.de>
+References: <20220218010054.315026-1-marex@denx.de>
+ <20220218010054.315026-12-marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8a303859-c004-4d80-29ad-08d9f30d78e2
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4034:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB40341BE16BB0ABF258FF631392379@BY5PR12MB4034.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SfYITO7OxE31aeKFyhGSCr+MOSQQ2SmGOXw44tWn34N8Hu70CySu0yL26OOjHHuwBVl8JtPJcVftue42fwv65sK6qEJh7IG69nRsCgcy3xeXZz+b7S08PVYWHHEb4YUEdi7qzkH4P357EpPmz+yexUXHlTOst2clFUzOvn+hkxEZTYW73ygC1YhiL6NO6dMfQO7wGR/iHQC8NA2rYcq/N3Oh0FCLGb/IgMvGixotSJLi6BLqqWs5TjJBq2q89bNgt7iZroyc//CCvhJVMqu63J9TOjz0wC3LPAsV2wB9P7GpSn/8VfWMIWIx79qzVYEYNPedfYbKWg6w/cSTh8iSr4P7E8lMPmXDLciK+bCvIN4nT1ktRM/kaWyVtOne9uvaZ0plyAMNEq181cbyHKsw48hcMAtHb5OicC3WA1WQ7tkbAhJgsK/tn8xi4o+VcY9thOe2NCzolNTYS1FWK4LoD862REb1urv+GvRkR8q/OMk5BiLE6KJPaOhPn3XgVpzfTYX2kn3Vf9PiVFX11vOSwAvgMoh0hOVvBY4dagqCLeesvNyzVMEJ1JLAlklRMh1AIRCg//oXgAoFdFKaWxzaMJT5O6EFBboSQ9qgUuSqDynhhH3+bNzFFqQAPuIH8TcgvnGbII/6OaWlxftF2TxYwLd8B4Klku+a4i2QRVMxnx+emmSXD1nVLX8YLf3cfK2yMSmNRyLe0+hr4iUzWv8ar1XXOZI0WSXDUwJqTMEfLLf8WTUktO8wJjKyk9PdO9s7
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(38100700002)(6636002)(83380400001)(921005)(2906002)(6506007)(6512007)(6486002)(44832011)(508600001)(316002)(5660300002)(6666004)(186003)(26005)(2616005)(86362001)(31686004)(31696002)(8936002)(8676002)(4326008)(66946007)(66556008)(66476007)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OXdpeUJ1eWE3SmlFMDkzVnVZZUtxRFA2bzRFTjFkaW9vejFWWERIb1FGaUQ0?=
- =?utf-8?B?eVk4ZGN6K2FlWGJIUStpeDJTektoWjVxWTFiS1ZyZnhMNHZpMjM0bUc1NjJM?=
- =?utf-8?B?aDdaUXRtOTVJRThmK2Y0cUcycmZhZWpqcjBJMzAxWmd2YW05ZllwdjV4NDRY?=
- =?utf-8?B?WWgrS3JGM094Si9rT0toZjMyQmNhRWJnaHJjekgxbm82dXFGQzVKandsVWRm?=
- =?utf-8?B?Q1dDajBsUmxQMTFGV2xXOVpQM2E3bStRSGU5dEhrWmRmL3h4VzdTTExjdDNJ?=
- =?utf-8?B?QVEvTGVWSTN3ZWt4aXF5SWE2c1k1S1BiWTlPQTBidjdUdlBkTjlnSEpIT0RZ?=
- =?utf-8?B?U0drNjlJSVZKdUs2OTREcVZZOWRyRnJDZ0x6TnZ6NjhMWUFjRVBIRVkyeStF?=
- =?utf-8?B?aERKMGlQZ3lSSkNHa1AvaWdHSXExejVxUkloaGZjeFJoS05FMVI1eENtSXVM?=
- =?utf-8?B?cFlDRGtCb3RlSXluaXRhQ2ZiUE9WUWZWdEEzaWt0LzFyRFRjVTdkdHRpTGp2?=
- =?utf-8?B?WExmQ0l6OWRUMk5mYXJqWmI2Ykp4Y1htazc1aGRVMkx0YWdKTzZvVTlieTNH?=
- =?utf-8?B?Q01zbmJJcDZuREFlZ2I0WXN2Z09tVDZWMmo4b3ErYUVzd2xGOGt3NjN6MHJB?=
- =?utf-8?B?SC83YmJXZHRJS0kwS1ZHV2d2V2ZtU2FiM2NycHJiYkVqenhtSUVpWEswVTdt?=
- =?utf-8?B?VWtScUpqMStiTWxmQmh6RHNrbmtGTGhtQlA4UFU0dkJNVGFDYXk2cXpxcHdv?=
- =?utf-8?B?RlEwQ09kOXBhM3dINkY2eGlXUXloUmVvbVVQTlJ1aEZlRHpIa1FTa21hRWh5?=
- =?utf-8?B?bVdVemVDUm5VSzA2TjFlakRRY25LL1ZtTkZLNk96SXpVZnhOOUwwdXVad1Nu?=
- =?utf-8?B?dHVMSHBlL2xZUUZ3SHk5VVM1ZmhLd0tTZERHUk8zOGRRaEZhUFhyaXVYUTRs?=
- =?utf-8?B?S2o5aTduMUJndkZiMlpIWVZYRm1ZWGpWaFBINTdMNEZUa1N2V2xFVU0zU3Iy?=
- =?utf-8?B?aHlyYzVVVExwSUNjb1l1alN4aDVWZituYmlUdVpsTjBnb1p0T2pxbFlXcGpT?=
- =?utf-8?B?SUtUMjRGN2ZHVVU3YU4xVmRDYlRTN2Vua2t0OHYydDhlVnhVMW1KUGFnV2JQ?=
- =?utf-8?B?TlVGSkpkd0NUc0RSMGhDckYyOE1lbHJkS1Z2Zk1HVnBJVHN6TTRpUnN4VlF3?=
- =?utf-8?B?aFBPdXJYM1owUjhJS3dWRjRSTEtmYktWYkowQng0aldlYWNjVUUyeVIxQWRt?=
- =?utf-8?B?YkJENUNFQUg1cWw1TnhSNWRMenUzdkpHY0pLdDJYeTIzOUJtK3dCczBIc3Y3?=
- =?utf-8?B?aThidEhhWmF0eVllU0haVGpEUVZjK2RtNS8xbzluK0RmMm84RVBDRGVHczI1?=
- =?utf-8?B?T21oekFKbTNUUllpandhUC91dk1PSEJaYVhaL0txOUJDeFRub1NBZEFHb3JW?=
- =?utf-8?B?VXl4L2hVbEFvUXY0THVKekZkbjhWNDZ0UTFEblR2dE9KYWxNNi9sT2NiRE52?=
- =?utf-8?B?UDZ3UFRNVWJSeUpCdU1uc1pET25ldWdwVkczK2t6d3RGNDBMSHQ0TkZ3RC8z?=
- =?utf-8?B?dWlTRitmTVRCdG5uYVV2dFQ3NlpaWU5nNCt0MXVxWGdjazlKcjRaNFp6Wlh3?=
- =?utf-8?B?MkFyMHZIdUxLeHNmaDN5cWZjQXY3SHB2bllLRzhleWgzWFhkdWFkYlZDWGpF?=
- =?utf-8?B?N3hncy9TWXphK3QvcEhOSEg0b1pCczVXaVBYbHc3ZmErbWZjaXQ3NjVZRm5N?=
- =?utf-8?B?NVlrRlp6VUR6WkdlZnFzWHlKYmhsTWI1MlNsdTgxVjh1REdVYzdUQndxdjVv?=
- =?utf-8?B?QW9hamdYOHp0dEozbkllNDBuNDJmUDRqbUdZSG1oMjV5WnFQeTNCR2lHeWJY?=
- =?utf-8?B?YXVWZ2tnNzAzUUtmQzY2S2pENVovZnZ6NHRsSE4wYXU2S2lBb29lTUdOUHhw?=
- =?utf-8?B?Nk9WVmZmMTM1TFdzSzV5N3ZBemF6cVMxVFlYSGtwczlPbEdTekJna2xsUnli?=
- =?utf-8?B?aFBPaXh5aVUyMWZ0L3FnOUNLckVHTTRDOXp4MWlCVmFLQ0Jib05vY0Yxd0dl?=
- =?utf-8?B?OHZKUGNxQktmMDBlOHk3Rlpnb2R2dzBNeTJMc0FuZVV6Y3hJZll0UDgzUWwz?=
- =?utf-8?B?MVRYR1d2WXZ3QXErTzFrMFlkbzVwMU1YUE5ZNWdjYnF6RXNwSHNLWUIvMHIw?=
- =?utf-8?Q?0oZ2QHK1VSjz+0eZm2S9qkI=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a303859-c004-4d80-29ad-08d9f30d78e2
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2022 18:35:43.8941 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: D8sDWxjsQFlDm+LHZDMBgpSouYK+Iwylin19GYMD0qaxhedege8LOFni9jMgnxEw29skB1PdyAMrLlkSjf1BPA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4034
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,106 +48,530 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jonas Karlman <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <maxime@cerno.tech>, Neil Armstrong <narmstrong@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2022-02-18 um 12:39 schrieb trix@redhat.com:
-> From: Tom Rix <trix@redhat.com>
->
-> Clang static analysis reports this problem
-> kfd_chardev.c:2327:2: warning: 1st function call argument
->    is an uninitialized value
->    kvfree(bo_privs);
->    ^~~~~~~~~~~~~~~~
->
-> If the copy_from_users(bo_buckets, ...) fails, there is a jump to
-> the generic error handler at exit:.  The freeing of bo_privs and
-> unwinding of the dmabuf_fd loop do not need to be done.
->
-> Add some specific labels for the early failures.
-> Reorder the frees to be the reverse of their allocs.
->
-> Move the initialize of 'i' back to the loop.
-> The problem with the early frees predates the loop
-> unwinding problem.
+Am Freitag, dem 18.02.2022 um 02:00 +0100 schrieb Marek Vasut:
+> The TC358767/TC358867/TC9595 are all capable of operating in multiple
+> modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Add support for the
+> DSI-to-DPI mode.
+> 
+> This requires skipping most of the (e)DP initialization code, which is
+> currently a large part of this driver, hence it is better to have far
+> simpler separate tc_dpi_bridge_funcs and their implementation.
+> 
+> The configuration of DPI output is also much simpler. The configuration
+> of the DSI input is rather similar to the other TC bridge chips.
+> 
+> The Pixel PLL in DPI output mode does not have the 65..150 MHz limitation
+> imposed on the (e)DP output mode, so this limitation is skipped to permit
+> operating panels with far slower pixel clock, even below 9 MHz. This mode
+> of operation of the PLL is valid and tested.
+> 
+> The detection of bridge mode is now added into tc_probe_bridge_mode(),
+> where in case a DPI panel is found on port@1 endpoint@1, the mode is
+> assumed to be DSI-to-DPI. If (e)DP is detected on port@2, the mode is
+> assumed to be DPI-to-(e)DP.
+> 
+> The DSI-to-(e)DP mode is not supported due to lack of proper hardware,
+> but this would be some sort of mix between the two aforementioned modes.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+> V2: - Rebase on next-20220217 and new patches in this series
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 339 +++++++++++++++++++++++++++++-
+>  1 file changed, 332 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index 091c969a36ab7..2b9fceb1333fa 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1,6 +1,12 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  /*
+> - * tc358767 eDP bridge driver
+> + * TC358767/TC358867/TC9595 DSI/DPI-to-DPI/(e)DP bridge driver
+> + *
+> + * The TC358767/TC358867/TC9595 can operate in multiple modes.
+> + * The following modes are supported:
+> + *   DPI->(e)DP -- supported
+> + *   DSI->DPI .... supported
+> + *   DSI->(e)DP .. NOT supported
+>   *
+>   * Copyright (C) 2016 CogentEmbedded Inc
+>   * Author: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
+> @@ -29,6 +35,7 @@
+>  #include <drm/drm_bridge.h>
+>  #include <drm/dp/drm_dp_helper.h>
+>  #include <drm/drm_edid.h>
+> +#include <drm/drm_mipi_dsi.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_panel.h>
+>  #include <drm/drm_print.h>
+> @@ -36,7 +43,35 @@
+>  
+>  /* Registers */
+>  
+> -/* Display Parallel Interface */
+> +/* PPI layer registers */
+> +#define PPI_STARTPPI		0x0104 /* START control bit */
+> +#define PPI_LPTXTIMECNT		0x0114 /* LPTX timing signal */
+> +#define LPX_PERIOD			3
+> +#define PPI_LANEENABLE		0x0134
+> +#define PPI_TX_RX_TA		0x013c
+> +#define TTA_GET				0x40000
+> +#define TTA_SURE			6
+> +#define PPI_D0S_ATMR		0x0144
+> +#define PPI_D1S_ATMR		0x0148
+> +#define PPI_D0S_CLRSIPOCOUNT	0x0164 /* Assertion timer for Lane 0 */
+> +#define PPI_D1S_CLRSIPOCOUNT	0x0168 /* Assertion timer for Lane 1 */
+> +#define PPI_D2S_CLRSIPOCOUNT	0x016c /* Assertion timer for Lane 2 */
+> +#define PPI_D3S_CLRSIPOCOUNT	0x0170 /* Assertion timer for Lane 3 */
+> +#define PPI_START_FUNCTION		BIT(0)
+> +
+> +/* DSI layer registers */
+> +#define DSI_STARTDSI		0x0204 /* START control bit of DSI-TX */
+> +#define DSI_LANEENABLE		0x0210 /* Enables each lane */
+> +#define DSI_RX_START			BIT(0)
+> +
+> +/* Lane enable PPI and DSI register bits */
+> +#define LANEENABLE_CLEN		BIT(0)
+> +#define LANEENABLE_L0EN		BIT(1)
+> +#define LANEENABLE_L1EN		BIT(2)
+> +#define LANEENABLE_L2EN		BIT(1)
+> +#define LANEENABLE_L3EN		BIT(2)
+> +
+> +/* Display Parallel Input Interface */
+>  #define DPIPXLFMT		0x0440
+>  #define VS_POL_ACTIVE_LOW		(1 << 10)
+>  #define HS_POL_ACTIVE_LOW		(1 << 9)
+> @@ -48,6 +83,14 @@
+>  #define DPI_BPP_RGB666			(1 << 0)
+>  #define DPI_BPP_RGB565			(2 << 0)
+>  
+> +/* Display Parallel Output Interface */
+> +#define POCTRL			0x0448
+> +#define POCTRL_S2P			BIT(7)
+> +#define POCTRL_PCLK_POL			BIT(3)
+> +#define POCTRL_VS_POL			BIT(2)
+> +#define POCTRL_HS_POL			BIT(1)
+> +#define POCTRL_DE_POL			BIT(0)
+> +
+>  /* Video Path */
+>  #define VPCTRL0			0x0450
+>  #define VSDELAY			GENMASK(31, 20)
+> @@ -247,6 +290,9 @@ struct tc_data {
+>  	struct drm_bridge	*panel_bridge;
+>  	struct drm_connector	connector;
+>  
+> +	struct mipi_dsi_device	*dsi;
+> +	u8			dsi_lanes;
+> +
+>  	/* link settings */
+>  	struct tc_edp_link	link;
+>  
+> @@ -502,8 +548,10 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+>  				/*
+>  				 * refclk * mul / (ext_pre_div * pre_div)
+>  				 * should be in the 150 to 650 MHz range
+> +				 * for (e)DP
+>  				 */
+> -				if ((clk > 650000000) || (clk < 150000000))
+> +				if ((tc->bridge.type != DRM_MODE_CONNECTOR_DPI) &&
+> +				    ((clk > 650000000) || (clk < 150000000)))
+>  					continue;
 
-I think the existing error handling strategy in this function is fine. 
-Having only one exit label avoids potential issues when using the wrong 
-label. Freeing NULL pointers is not a problem. The loop becomes a noop 
-if i==0 (this was fixed by you in a previous patch). The only real 
-problem I see is that bo_privs is not initialized. So this should really 
-be a one-line or maybe two-line fix:
+Is there any indication what the bounds are for DPI mode? Can we
+replace this with a better check, instead of just disabling it?
 
-	struct kfd_criu_bo_bucket *bo_buckets = NULL;
-	struct kfd_criu_bo_priv_data *bo_privs = NULL;
+>  
+>  				clk = clk / ext_div[i_post];
+> @@ -820,6 +868,20 @@ static int tc_set_common_video_mode(struct tc_data *tc,
+>  	return ret;
+>  }
+>  
+> +static int tc_set_dpi_video_mode(struct tc_data *tc,
+> +				 const struct drm_display_mode *mode)
+> +{
+> +	u32 value = POCTRL_S2P;
+> +
+> +	if (tc->mode.flags & DRM_MODE_FLAG_NHSYNC)
+> +		value |= POCTRL_HS_POL;
+> +
+> +	if (tc->mode.flags & DRM_MODE_FLAG_NVSYNC)
+> +		value |= POCTRL_VS_POL;
+> +
+> +	return regmap_write(tc->regmap, POCTRL, value);
+> +}
+> +
+>  static int tc_set_edp_video_mode(struct tc_data *tc,
+>  				 const struct drm_display_mode *mode)
+>  {
+> @@ -1192,6 +1254,79 @@ static int tc_main_link_disable(struct tc_data *tc)
+>  	return regmap_write(tc->regmap, DP0CTL, 0);
+>  }
+>  
+> +static int tc_dpi_stream_enable(struct tc_data *tc)
+> +{
+> +	int ret;
+> +	u32 value;
+> +
+> +	dev_dbg(tc->dev, "enable video stream\n");
+> +
+> +	/* Setup PLL */
+> +	ret = tc_set_syspllparam(tc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Pixel PLL must always be enabled for DPI mode */
+> +	ret = tc_pxl_pll_en(tc, clk_get_rate(tc->refclk),
+> +			    1000 * tc->mode.clock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 3);
+> +	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 3);
+> +	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 3);
+> +	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 3);
+
+Hm, those hardcoded always seem kind of fishy, as AFAIK those
+parameters are dependent on land frequency and some other things. But
+I'm also not sure if we have all the information available to
+dynamically calculate them.
+
+> +	regmap_write(tc->regmap, PPI_D0S_ATMR, 0);
+> +	regmap_write(tc->regmap, PPI_D1S_ATMR, 0);
+> +	regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
+> +	regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
+> +
+> +	value = ((LANEENABLE_L0EN << tc->dsi_lanes) - LANEENABLE_L0EN) |
+> +		LANEENABLE_CLEN;
+> +	regmap_write(tc->regmap, PPI_LANEENABLE, value);
+> +	regmap_write(tc->regmap, DSI_LANEENABLE, value);
+> +
+> +	ret = tc_set_common_video_mode(tc, &tc->mode);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = tc_set_dpi_video_mode(tc, &tc->mode);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Set input interface */
+> +	value = DP0_AUDSRC_NO_INPUT;
+> +	if (tc_test_pattern)
+> +		value |= DP0_VIDSRC_COLOR_BAR;
+> +	else
+> +		value |= DP0_VIDSRC_DSI_RX;
+> +	ret = regmap_write(tc->regmap, SYSCTRL, value);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msleep(100);
+
+What is that used for? PLL stabilization? Some other purpose?
+
+> +
+> +	regmap_write(tc->regmap, PPI_STARTPPI, PPI_START_FUNCTION);
+> +	regmap_write(tc->regmap, DSI_STARTDSI, DSI_RX_START);
+> +
+> +	return 0;
+> +}
+> +
+> +static int tc_dpi_stream_disable(struct tc_data *tc)
+> +{
+> +	int ret;
+> +
+> +	dev_dbg(tc->dev, "disable video stream\n");
+> +
+> +	ret = regmap_update_bits(tc->regmap, DP0CTL, VID_EN, 0);
+
+If I'm not mistaken than VID_EN isn't set in the DPI stream enable, so
+clearing it here seems wrong.
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	tc_pxl_pll_dis(tc);
+> +
+> +	return 0;
+> +}
+> +
+>  static int tc_edp_stream_enable(struct tc_data *tc)
+>  {
+>  	int ret;
+> @@ -1323,6 +1458,40 @@ static int tc_hardware_init(struct tc_data *tc)
+>  	return 0;
+>  }
+>  
+> +static void
+> +tc_dpi_bridge_atomic_enable(struct drm_bridge *bridge,
+> +			    struct drm_bridge_state *old_bridge_state)
+> +
+> +{
+> +	struct tc_data *tc = bridge_to_tc(bridge);
+> +	int ret;
+> +
+> +	ret = tc_hardware_init(tc);
+> +	if (ret < 0) {
+> +		dev_err(tc->dev, "failed to initialize bridge: %d\n", ret);
+> +		return;
+> +	}
+> +
+> +	ret = tc_dpi_stream_enable(tc);
+> +	if (ret < 0) {
+> +		dev_err(tc->dev, "main link stream start error: %d\n", ret);
+> +		tc_main_link_disable(tc);
+> +		return;
+> +	}
+> +}
+> +
+> +static void
+> +tc_dpi_bridge_atomic_disable(struct drm_bridge *bridge,
+> +			     struct drm_bridge_state *old_bridge_state)
+> +{
+> +	struct tc_data *tc = bridge_to_tc(bridge);
+> +	int ret;
+> +
+> +	ret = tc_dpi_stream_disable(tc);
+> +	if (ret < 0)
+> +		dev_err(tc->dev, "main link stream stop error: %d\n", ret);
+> +}
+> +
+>  static void
+>  tc_edp_bridge_atomic_enable(struct drm_bridge *bridge,
+>  			    struct drm_bridge_state *old_bridge_state)
+> @@ -1399,6 +1568,16 @@ static int tc_edp_common_atomic_check(struct drm_bridge *bridge,
+>  	return 0;
+>  }
+>  
+> +static int tc_dpi_atomic_check(struct drm_bridge *bridge,
+> +			       struct drm_bridge_state *bridge_state,
+> +			       struct drm_crtc_state *crtc_state,
+> +			       struct drm_connector_state *conn_state)
+> +{
+> +	/* DSI->DPI interface clock limitation: upto 100 MHz */
+> +	return tc_edp_common_atomic_check(bridge, bridge_state, crtc_state,
+> +					  conn_state, 100000);
+> +}
+> +
+>  static int tc_edp_atomic_check(struct drm_bridge *bridge,
+>  			       struct drm_bridge_state *bridge_state,
+>  			       struct drm_crtc_state *crtc_state,
+> @@ -1409,6 +1588,18 @@ static int tc_edp_atomic_check(struct drm_bridge *bridge,
+>  					  conn_state, 154000);
+>  }
+>  
+> +static enum drm_mode_status
+> +tc_dpi_mode_valid(struct drm_bridge *bridge,
+> +		  const struct drm_display_info *info,
+> +		  const struct drm_display_mode *mode)
+> +{
+> +	/* DPI interface clock limitation: upto 100 MHz */
+> +	if (mode->clock > 100000)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	return MODE_OK;
+> +}
+> +
+>  static enum drm_mode_status
+>  tc_edp_mode_valid(struct drm_bridge *bridge,
+>  		  const struct drm_display_info *info,
+> @@ -1520,6 +1711,18 @@ static const struct drm_connector_funcs tc_connector_funcs = {
+>  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>  };
+>  
+> +static int tc_dpi_bridge_attach(struct drm_bridge *bridge,
+> +				enum drm_bridge_attach_flags flags)
+> +{
+> +	struct tc_data *tc = bridge_to_tc(bridge);
+> +
+> +	if (!tc->panel_bridge)
+> +		return 0;
+> +
+> +	return drm_bridge_attach(tc->bridge.encoder, tc->panel_bridge,
+> +				 &tc->bridge, flags);
+> +}
+> +
+>  static int tc_edp_bridge_attach(struct drm_bridge *bridge,
+>  				enum drm_bridge_attach_flags flags)
+>  {
+> @@ -1578,6 +1781,45 @@ static void tc_edp_bridge_detach(struct drm_bridge *bridge)
+>  	drm_dp_aux_unregister(&bridge_to_tc(bridge)->aux);
+>  }
+>  
+> +#define MAX_INPUT_SEL_FORMATS	1
+> +
+> +static u32 *
+> +tc_dpi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> +				    struct drm_bridge_state *bridge_state,
+> +				    struct drm_crtc_state *crtc_state,
+> +				    struct drm_connector_state *conn_state,
+> +				    u32 output_fmt,
+> +				    unsigned int *num_input_fmts)
+> +{
+> +	u32 *input_fmts;
+> +
+> +	*num_input_fmts = 0;
+> +
+> +	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
+> +			     GFP_KERNEL);
+> +	if (!input_fmts)
+> +		return NULL;
+> +
+> +	/* This is the DSI-end bus format */
+> +	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+> +	*num_input_fmts = 1;
+> +
+> +	return input_fmts;
+> +}
+> +
+> +static const struct drm_bridge_funcs tc_dpi_bridge_funcs = {
+> +	.attach = tc_dpi_bridge_attach,
+> +	.mode_valid = tc_dpi_mode_valid,
+> +	.mode_set = tc_bridge_mode_set,
+> +	.atomic_check = tc_dpi_atomic_check,
+> +	.atomic_enable = tc_dpi_bridge_atomic_enable,
+> +	.atomic_disable = tc_dpi_bridge_atomic_disable,
+> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_reset = drm_atomic_helper_bridge_reset,
+> +	.atomic_get_input_bus_fmts = tc_dpi_atomic_get_input_bus_fmts,
+> +};
+> +
+>  static const struct drm_bridge_funcs tc_bridge_funcs = {
+>  	.attach = tc_edp_bridge_attach,
+>  	.detach = tc_edp_bridge_detach,
+> @@ -1678,6 +1920,81 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +static int tc_mipi_dsi_host_attach(struct tc_data *tc)
+> +{
+> +	struct device *dev = tc->dev;
+> +	struct device_node *host_node;
+> +	struct device_node *endpoint;
+> +	struct mipi_dsi_device *dsi;
+> +	struct mipi_dsi_host *host;
+> +	const struct mipi_dsi_device_info info = {
+> +		.type = "tc358767",
+> +		.channel = 0,
+> +		.node = NULL,
+> +	};
+> +	int ret;
+> +
+> +	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+> +	tc->dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
+
+The data-lanes property isn't documented in the DT binding. Please add.
+
+> +	host_node = of_graph_get_remote_port_parent(endpoint);
+> +	host = of_find_mipi_dsi_host_by_node(host_node);
+> +	of_node_put(host_node);
+> +	of_node_put(endpoint);
+> +
+> +	if (tc->dsi_lanes < 0 || tc->dsi_lanes > 4)
+> +		return -EINVAL;
+> +
+> +	if (!host)
+> +		return -EPROBE_DEFER;
+> +
+> +	dsi = mipi_dsi_device_register_full(host, &info);
+> +	if (IS_ERR(dsi))
+> +		return dev_err_probe(dev, PTR_ERR(dsi),
+> +				     "failed to create dsi device\n");
+> +
+> +	tc->dsi = dsi;
+> +
+> +	dsi->lanes = tc->dsi_lanes;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+> +
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to attach dsi to host: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int tc_probe_dpi_bridge_endpoint(struct tc_data *tc)
+> +{
+> +	struct device *dev = tc->dev;
+> +	struct drm_panel *panel;
+> +	int ret;
+> +
+> +	/* port@1 is the DPI input/output port */
+> +	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
+> +	if (ret && ret != -ENODEV)
+> +		return ret;
+> +
+> +	if (panel) {
+> +		struct drm_bridge *panel_bridge;
+> +
+> +		panel_bridge = devm_drm_panel_bridge_add(dev, panel);
+> +		if (IS_ERR(panel_bridge))
+> +			return PTR_ERR(panel_bridge);
+> +
+> +		tc->panel_bridge = panel_bridge;
+> +		tc->bridge.type = DRM_MODE_CONNECTOR_DPI;
+> +		tc->bridge.funcs = &tc_dpi_bridge_funcs;
+> +
+> +		return 0;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
+>  {
+>  	struct device *dev = tc->dev;
+> @@ -1745,7 +2062,7 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
+>  	if (mode == mode_dpi_to_edp)
+>  		return tc_probe_edp_bridge_endpoint(tc);
+>  	else if (mode == mode_dsi_to_dpi)
+> -		dev_warn(dev, "The mode DSI-to-DPI is not supported!\n");
+> +		return tc_probe_dpi_bridge_endpoint(tc);
+>  	else if (mode == mode_dsi_to_edp)
+>  		dev_warn(dev, "The mode DSI-to-(e)DP is not supported!\n");
+>  	else
+> @@ -1828,15 +2145,23 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  		tc->have_irq = true;
+>  	}
+>  
+> -	ret = tc_aux_link_setup(tc);
+> -	if (ret)
+> -		return ret;
+> +	if (tc->bridge.type != DRM_MODE_CONNECTOR_DPI) { /* (e)DP output */
+> +		ret = tc_aux_link_setup(tc);
+> +		if (ret)
+> +			return ret;
+> +	}
+>  
+>  	tc->bridge.of_node = dev->of_node;
+>  	drm_bridge_add(&tc->bridge);
+>  
+>  	i2c_set_clientdata(client, tc);
+>  
+> +	if (tc->bridge.type == DRM_MODE_CONNECTOR_DPI) { /* DPI output */
+> +		ret = tc_mipi_dsi_host_attach(tc);
+> +		if (ret)
+> +			return ret;
+> +	}
+
+If tc_mipi_dsi_host_attach fails the drm bridge registered a few lines
+above isn't cleaned up properly.
 
 Regards,
-   Felix
+Lucas
 
-
->
-> Fixes: 73fa13b6a511 ("drm/amdkfd: CRIU Implement KFD restore ioctl")
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 15 +++++++++------
->   1 file changed, 9 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> index 965af2a08bc0..1d5f41ac3832 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> @@ -2102,7 +2102,7 @@ static int criu_restore_bos(struct kfd_process *p,
->   	const bool criu_resume = true;
->   	bool flush_tlbs = false;
->   	int ret = 0, j = 0;
-> -	uint32_t i = 0;
-> +	uint32_t i;
->   
->   	if (*priv_offset + (args->num_bos * sizeof(*bo_privs)) > max_priv_data_size)
->   		return -EINVAL;
-> @@ -2119,13 +2119,13 @@ static int criu_restore_bos(struct kfd_process *p,
->   	if (ret) {
->   		pr_err("Failed to copy BOs information from user\n");
->   		ret = -EFAULT;
-> -		goto exit;
-> +		goto free_buckets;
->   	}
->   
->   	bo_privs = kvmalloc_array(args->num_bos, sizeof(*bo_privs), GFP_KERNEL);
->   	if (!bo_privs) {
->   		ret = -ENOMEM;
-> -		goto exit;
-> +		goto free_buckets;
->   	}
->   
->   	ret = copy_from_user(bo_privs, (void __user *)args->priv_data + *priv_offset,
-> @@ -2133,12 +2133,12 @@ static int criu_restore_bos(struct kfd_process *p,
->   	if (ret) {
->   		pr_err("Failed to copy BOs information from user\n");
->   		ret = -EFAULT;
-> -		goto exit;
-> +		goto free_privs;
->   	}
->   	*priv_offset += args->num_bos * sizeof(*bo_privs);
->   
->   	/* Create and map new BOs */
-> -	for (; i < args->num_bos; i++) {
-> +	for (i = 0; i < args->num_bos; i++) {
->   		struct kfd_criu_bo_bucket *bo_bucket;
->   		struct kfd_criu_bo_priv_data *bo_priv;
->   		struct kfd_dev *dev;
-> @@ -2323,8 +2323,11 @@ static int criu_restore_bos(struct kfd_process *p,
->   		if (bo_buckets[i].alloc_flags & KFD_IOC_ALLOC_MEM_FLAGS_VRAM)
->   			close_fd(bo_buckets[i].dmabuf_fd);
->   	}
-> -	kvfree(bo_buckets);
-> +free_privs:
->   	kvfree(bo_privs);
-> +free_buckets:
-> +	kvfree(bo_buckets);
-> +
->   	return ret;
->   }
->   
