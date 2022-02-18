@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6074BB886
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E924BB85D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:40:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08FEF899EA;
-	Fri, 18 Feb 2022 11:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E3B410EC1F;
+	Fri, 18 Feb 2022 11:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD8110ED26
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 11:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=IZ3hJ//ZY9jCeQD6DvUNkLgqmO36XNeE4mU4/ws/jeQ=; b=vChxJtIvCk0whXkzpXJ2dGqwUg
- 2NEMormh+YAhCOEFcBWpepRo8PCyHxzdBiFGqFj2le15X8nch/fGL+ntFyWrIujHG9jGco92HVVhK
- fRn1x7qqN3cd2k5qnUDl3RvI7qi+E/XwL3Pga6GYQiTA5GhzPsVt3EBE1wuwcLaSHghkAJ1xhkY1p
- /gnhjhE9nQuh02zCYNmpnhcFpUi9a4b+UunBZbCCxgck9XkJdoHE8rDh693uJjAOAu/K9XRSD4CY5
- kJV7Pu0r/VrICra8TdFn3ARrmg9R0tcoLtL7FJEDP9nk2URNFdGETwDs9vbm6TAcEANKnK5sKlg9s
- WFR972gQ==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=toshino.localdomain)
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1nL1fq-0006eP-HX; Fri, 18 Feb 2022 13:43:42 +0200
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
- will@kernel.org, robh+dt@kernel.org, robin.murphy@arm.com
-Subject: [PATCH v3 9/9] drm/tegra: Support context isolation
-Date: Fri, 18 Feb 2022 13:39:52 +0200
-Message-Id: <20220218113952.3077606-10-mperttunen@nvidia.com>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220218113952.3077606-1-mperttunen@nvidia.com>
-References: <20220218113952.3077606-1-mperttunen@nvidia.com>
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41D7010EC1F;
+ Fri, 18 Feb 2022 11:39:59 +0000 (UTC)
+Date: Fri, 18 Feb 2022 11:39:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1645184396;
+ bh=SoHk44i+hSrhGCWSov+A62f5mQ4gQxdPxK6xjt+fVz8=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID;
+ b=ChUDHjrsfiukE7xWvak5fl+9SyIK7pibGyeOyRknvdnWxOVzG99VSWcQsJSiPUt6f
+ 9grvADHYFpp6DuC3gpQxTA69WdKAKyR7Mo/nwEB5QUyrC/dx+/CtDZF2YWNhQPW2Tl
+ 6+PnGc7RYTUjB1yibcvsbposFqs/0AkGQWJQfO//UxykAiqHXBvIPFzDz0UEkfa/fp
+ MPDl3GjdqU9eTZAdYmjZdoFqdVxzIO9C1MOXcv02MRUgupJ5WQim3ZWvjshZxNREVr
+ Dea5zfYRhicyLTflwxZeX0A1AFnYhkSLuejA6v53Ic38Uw3A/A2lg1P0Tvxx56g9q5
+ bAYyZ4KyBzgvQ==
+To: Hans de Goede <hdegoede@redhat.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [Intel-gfx] [PATCH v8 1/3] gpu: drm: separate panel orientation
+ property creating and value setting
+Message-ID: <YV87l-2XXzmZ2i6GuGd__uf85s2JQkbXt_qTQDYlbBh1kW2COJoNLUDinmLCokKyy-_0ZnIMUcZeW0GdJ8zF690iYi4ThKrjc09omNMe-0g=@emersion.fr>
+In-Reply-To: <d3f0cc20-d226-ee42-cc98-b469949cec9e@redhat.com>
+References: <20220208084234.1684930-1-hsinyi@chromium.org>
+ <CACvgo53u01BK_D0ZssV+gCepjxSz23Nr5Dy1qXeaAoJuu6VCFQ@mail.gmail.com>
+ <KW6DNh6IRRgVJx9DfOFBnEqc4a0x-AnDXEbMxwpfEbk8dOn_KGVzAfo-slJWq-4nWW728Uc-OVpFh2w4fDE4-bxfkDuz1hFILRVvbcuXqaw=@emersion.fr>
+ <CACvgo532-pC+7DLFCo=DWTX-OnJEJvSoTmQnt3_qLhiT4cqEMg@mail.gmail.com>
+ <GYG6EVT1MqtmfKiPpMhDG9mpuATnmwVDq2PuE_dpDat5oQW_t1tUfm39lSWHj32D5r7mrog27sL4dkgdMYQ5BN830TfVOrgQ4Ts8LcO8Hcs=@emersion.fr>
+ <CACvgo52+o9_ETC+1RKzqKkyw3ZJ28RjH0BqC9DfmNAKqByud8Q@mail.gmail.com>
+ <d3f0cc20-d226-ee42-cc98-b469949cec9e@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: mperttunen@nvidia.com
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,T_SCC_BODY_TEXT_LINE
+ shortcircuit=no autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,167 +58,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ LAKML <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For engines that support context isolation, allocate a context when
-opening a channel, and set up stream ID offset and context fields
-when submitting a job.
+On Friday, February 18th, 2022 at 11:38, Hans de Goede <hdegoede@redhat.com=
+> wrote:
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/gpu/drm/tegra/drm.h    |  2 ++
- drivers/gpu/drm/tegra/submit.c | 13 ++++++++++++
- drivers/gpu/drm/tegra/uapi.c   | 36 ++++++++++++++++++++++++++++++++--
- 3 files changed, 49 insertions(+), 2 deletions(-)
+> What I'm reading in the above is that it is being considered to allow
+> changing the panel-orientation value after the connector has been made
+> available to userspace; and let userspace know about this through a ueven=
+t.
+>
+> I believe that this is a bad idea, it is important to keep in mind here
+> what userspace (e.g. plymouth) uses this prorty for. This property is
+> used to rotate the image being rendered / shown on the framebuffer to
+> adjust for the panel orientation.
+>
+> So now lets assume we apply the correct upside-down orientation later
+> on a device with an upside-down mounted LCD panel. Then on boot the
+> following could happen:
+>
+> 1. amdgpu exports a connector for the LCD panel to userspace without
+> setting panel-orient=3Dupside-down
+> 2. plymouth sees this and renders its splash normally, but since the
+> panel is upside-down it will now actually show upside-down
 
-diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index fc0a19554eac..717e9f81ee1f 100644
---- a/drivers/gpu/drm/tegra/drm.h
-+++ b/drivers/gpu/drm/tegra/drm.h
-@@ -80,6 +80,7 @@ struct tegra_drm_context {
- 
- 	/* Only used by new UAPI. */
- 	struct xarray mappings;
-+	struct host1x_context *memory_context;
- };
- 
- struct tegra_drm_client_ops {
-@@ -91,6 +92,7 @@ struct tegra_drm_client_ops {
- 	int (*submit)(struct tegra_drm_context *context,
- 		      struct drm_tegra_submit *args, struct drm_device *drm,
- 		      struct drm_file *file);
-+	int (*get_streamid_offset)(struct tegra_drm_client *client);
- };
- 
- int tegra_drm_submit(struct tegra_drm_context *context,
-diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
-index 6d6dd8c35475..8d74b82b83a5 100644
---- a/drivers/gpu/drm/tegra/submit.c
-+++ b/drivers/gpu/drm/tegra/submit.c
-@@ -498,6 +498,9 @@ static void release_job(struct host1x_job *job)
- 	struct tegra_drm_submit_data *job_data = job->user_data;
- 	u32 i;
- 
-+	if (job->context)
-+		host1x_context_put(job->context);
-+
- 	for (i = 0; i < job_data->num_used_mappings; i++)
- 		tegra_drm_mapping_put(job_data->used_mappings[i].mapping);
- 
-@@ -599,6 +602,16 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
- 	job->release = release_job;
- 	job->timeout = 10000;
- 
-+	if (context->memory_context && context->client->ops->get_streamid_offset) {
-+		int offset = context->client->ops->get_streamid_offset(context->client);
-+
-+		if (offset >= 0) {
-+			job->context = context->memory_context;
-+			job->engine_streamid_offset = offset;
-+			host1x_context_get(job->context);
-+		}
-+	}
-+
- 	/*
- 	 * job_data is now part of job reference counting, so don't release
- 	 * it from here.
-diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
-index 9ab9179d2026..be33da54d12c 100644
---- a/drivers/gpu/drm/tegra/uapi.c
-+++ b/drivers/gpu/drm/tegra/uapi.c
-@@ -33,6 +33,9 @@ static void tegra_drm_channel_context_close(struct tegra_drm_context *context)
- 	struct tegra_drm_mapping *mapping;
- 	unsigned long id;
- 
-+	if (context->memory_context)
-+		host1x_context_put(context->memory_context);
-+
- 	xa_for_each(&context->mappings, id, mapping)
- 		tegra_drm_mapping_put(mapping);
- 
-@@ -72,6 +75,7 @@ static struct tegra_drm_client *tegra_drm_find_client(struct tegra_drm *tegra, u
- 
- int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_file *file)
- {
-+	struct host1x *host = tegra_drm_to_host1x(drm->dev_private);
- 	struct tegra_drm_file *fpriv = file->driver_priv;
- 	struct tegra_drm *tegra = drm->dev_private;
- 	struct drm_tegra_channel_open *args = data;
-@@ -102,10 +106,29 @@ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_
- 		}
- 	}
- 
-+	/* Only allocate context if the engine supports context isolation. */
-+	if (client->ops->get_streamid_offset &&
-+	    client->ops->get_streamid_offset(client) >= 0) {
-+		context->memory_context =
-+			host1x_context_alloc(host, get_task_pid(current, PIDTYPE_TGID));
-+		if (IS_ERR(context->memory_context)) {
-+			if (PTR_ERR(context->memory_context) != -EOPNOTSUPP) {
-+				err = PTR_ERR(context->memory_context);
-+				goto put_channel;
-+			} else {
-+				/*
-+				 * OK, HW does not support contexts or contexts
-+				 * are disabled.
-+				 */
-+				context->memory_context = NULL;
-+			}
-+		}
-+	}
-+
- 	err = xa_alloc(&fpriv->contexts, &args->context, context, XA_LIMIT(1, U32_MAX),
- 		       GFP_KERNEL);
- 	if (err < 0)
--		goto put_channel;
-+		goto put_memctx;
- 
- 	context->client = client;
- 	xa_init_flags(&context->mappings, XA_FLAGS_ALLOC1);
-@@ -118,6 +141,9 @@ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_
- 
- 	return 0;
- 
-+put_memctx:
-+	if (context->memory_context)
-+		host1x_context_put(context->memory_context);
- put_channel:
- 	host1x_channel_put(context->channel);
- free:
-@@ -156,6 +182,7 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
- 	struct tegra_drm_mapping *mapping;
- 	struct tegra_drm_context *context;
- 	enum dma_data_direction direction;
-+	struct device *mapping_dev;
- 	int err = 0;
- 
- 	if (args->flags & ~DRM_TEGRA_CHANNEL_MAP_READ_WRITE)
-@@ -177,6 +204,11 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
- 
- 	kref_init(&mapping->ref);
- 
-+	if (context->memory_context)
-+		mapping_dev = &context->memory_context->dev;
-+	else
-+		mapping_dev = context->client->base.dev;
-+
- 	mapping->bo = tegra_gem_lookup(file, args->handle);
- 	if (!mapping->bo) {
- 		err = -EINVAL;
-@@ -201,7 +233,7 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
- 		goto put_gem;
- 	}
- 
--	mapping->map = host1x_bo_pin(context->client->base.dev, mapping->bo, direction, NULL);
-+	mapping->map = host1x_bo_pin(mapping_dev, mapping->bo, direction, NULL);
- 	if (IS_ERR(mapping->map)) {
- 		err = PTR_ERR(mapping->map);
- 		goto put_gem;
--- 
-2.35.0
+At this point amdgpu hasn't probed the connector yet. So the connector
+will be marked as disconnected, and plymouth shouldn't render anything.
 
+> 3. amdgpu adjusts the panel-orient prop to upside-down, sends out
+> uevents
+
+That's when amdgpu marks the connector as connected. So everything
+should be fine I believe, no bad frame.
+
+> 4. Lets assume plymouth handles this well (i) and now adjust its
+> rendering and renders the next frame of the bootsplash 180=C2=B0 rotated
+> to compensate for the panel being upside down. Then from now on
+> the user will see the splash normally
+>
+> So this means that the user will briefly see the bootsplash rendered
+> upside down which IMHO is not acceptable behavior. Also see my footnote
+> about how I seriously doubt plymouth will see the panel-orient change
+> at all.
+>
+> I'm also a bit unsure about:
+>
+> a) How you can register the panel connector with userspace before
+> reading the edid, don't you need the edid to give the physical size +
+> modeline to userspace, which you cannot just leave out ?
+
+Yup. The KMS EDID property is created before the EDID is read, and is set
+to zero (NULL blob). The width/height in mm and other info are also zero.
+You can try inspecting the state printed by drm_info on any disconnected
+connector to see for yourself.
+
+> I guess the initial modeline is inherited from the video-bios, but
+> what about the physical size? Note that you cannot just change the
+> physical size later either, that gets used to determine the hidpi
+> scaling factor in the bootsplash, and changing that after the initial
+> bootsplash dislay will also look ugly
+>
+> b) Why you need the edid for the panel-orientation property at all,
+> typically the edid prom is part of the panel and the panel does not
+> know that it is mounted e.g. upside down at all, that is a property
+> of the system as a whole not of the panel as a standalone unit so
+> in my experience getting panel-orient info is something which comes
+> from the firmware /video-bios not from edid ?
+
+This is an internal DRM thing. The orientation quirks logic uses the
+mode size advertised by the EDID. I agree that at least in the Steam
+Deck case it may not make a lot of sense to use any info from the
+EDID, but that's needed for the current status quo.
+
+Also note, DisplayID has a bit to indicate the panel orientation IIRC.
+Would be nice to support parsing this at some point.
