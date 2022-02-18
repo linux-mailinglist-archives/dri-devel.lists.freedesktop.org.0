@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EBB4BB7FC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:25:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D044BB800
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:25:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CD2210EA11;
-	Fri, 18 Feb 2022 11:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD1DE10EBFD;
+	Fri, 18 Feb 2022 11:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAFD510EA11;
- Fri, 18 Feb 2022 11:25:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C866710EB22;
+ Fri, 18 Feb 2022 11:25:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645183529; x=1676719529;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=IjnCDa8zGx/Mw5DSU2XCOFdZVljnetKnEZf8gLsK1tQ=;
- b=UpC99Ezi9vpMLryZaWDJSyd8nCIs6gExZpZKHXKzgv3pvH/U6qXgV/nr
- TlbBUh6aKc1wyLG+GllRD1AQKjxNM3LIFlvGm1aG9ZORQCYQDRPHhGrko
- 2T+0E9QVsY0cw7ChZAHGTvvhq9y5d/C0e/ART7rwX9+CSjLW7crdKE9hP
- 07nc3atSaoDWDs28SVCv4YxJgjo9mISw8p+B6elVu7Wxbj95K2emvy7ao
- RrdNtUyN7tzSc2K8RxL5cHX+06mOXfAfeIKTrNt4GjyrnOQTMyA51M4Ca
- 0EHjnQxN0NQejjHpZ0TF68i6MkxscrMWJBRxIcCIkG+zyiN4ImyEXBLD1 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="238512848"
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="238512848"
+ t=1645183531; x=1676719531;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=QAPa0af4DwpoqnGDk55egacoHqBbkWb9NMuN0UH2KBg=;
+ b=OwyWE0xJuDJtH7YM/4muJZZUwSF3haRgwQlx0Rq5ZuFWiCz8cK8Lt3hc
+ i82sySKznZu25/qn6GG7ter7TZu84it2kwIxhN1bkhueqNgf61P70Sl+j
+ fmw8PG3Er7f/D0K9WFItv/U9HK4f2kUJ24HKRZQOW36buZrfdKu7MxZwE
+ uJqr8YpofXxwY/yjy8NFMBkUiyEIcoNVdAQEkZ8FdMxctxZlVNCkp7cy1
+ ovSJZSb8kgDCyHxpbju0MN7N+2vOkOiM8kj0LZBLQ/frfbsObiD5NCJLy
+ 4e8P/NGk5DdHX9lEBgunCJU2y+oiUf7Fnx6jLQw1btullYlQN5WdQdDOp A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="238512855"
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="238512855"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 03:25:29 -0800
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="705344756"
+ 18 Feb 2022 03:25:31 -0800
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="705344771"
 Received: from jawiblin-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.252.23.195])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 03:25:28 -0800
+ 18 Feb 2022 03:25:29 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 0/2] doc/rfc for small BAR support
-Date: Fri, 18 Feb 2022 11:22:40 +0000
-Message-Id: <20220218112242.2117968-1-matthew.auld@intel.com>
+Subject: [PATCH 1/2] drm/doc: remove rfc section for dg1
+Date: Fri, 18 Feb 2022 11:22:41 +0000
+Message-Id: <20220218112242.2117968-2-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220218112242.2117968-1-matthew.auld@intel.com>
+References: <20220218112242.2117968-1-matthew.auld@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -55,12 +57,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
+ Kenneth Graunke <kenneth@whitecape.org>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, mesa-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The new bits of proposed uAPI for the upcoming small BAR support.
+We already completed the steps for this.
 
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jordan Justen <jordan.l.justen@intel.com>
+Cc: Kenneth Graunke <kenneth@whitecape.org>
+Cc: mesa-dev@lists.freedesktop.org
+---
+ Documentation/gpu/rfc/i915_gem_lmem.rst | 22 ----------------------
+ Documentation/gpu/rfc/index.rst         |  4 ----
+ 2 files changed, 26 deletions(-)
+ delete mode 100644 Documentation/gpu/rfc/i915_gem_lmem.rst
+
+diff --git a/Documentation/gpu/rfc/i915_gem_lmem.rst b/Documentation/gpu/rfc/i915_gem_lmem.rst
+deleted file mode 100644
+index b421a3c1806e..000000000000
+--- a/Documentation/gpu/rfc/i915_gem_lmem.rst
++++ /dev/null
+@@ -1,22 +0,0 @@
+-=========================
+-I915 DG1/LMEM RFC Section
+-=========================
+-
+-Upstream plan
+-=============
+-For upstream the overall plan for landing all the DG1 stuff and turning it for
+-real, with all the uAPI bits is:
+-
+-* Merge basic HW enabling of DG1(still without pciid)
+-* Merge the uAPI bits behind special CONFIG_BROKEN(or so) flag
+-        * At this point we can still make changes, but importantly this lets us
+-          start running IGTs which can utilize local-memory in CI
+-* Convert over to TTM, make sure it all keeps working. Some of the work items:
+-        * TTM shrinker for discrete
+-        * dma_resv_lockitem for full dma_resv_lock, i.e not just trylock
+-        * Use TTM CPU pagefault handler
+-        * Route shmem backend over to TTM SYSTEM for discrete
+-        * TTM purgeable object support
+-        * Move i915 buddy allocator over to TTM
+-* Send RFC(with mesa-dev on cc) for final sign off on the uAPI
+-* Add pciid for DG1 and turn on uAPI for real
+diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
+index 91e93a705230..018a8bf317a6 100644
+--- a/Documentation/gpu/rfc/index.rst
++++ b/Documentation/gpu/rfc/index.rst
+@@ -16,10 +16,6 @@ host such documentation:
+ * Once the code has landed move all the documentation to the right places in
+   the main core, helper or driver sections.
+ 
+-.. toctree::
+-
+-    i915_gem_lmem.rst
+-
+ .. toctree::
+ 
+     i915_scheduler.rst
 -- 
 2.34.1
 
