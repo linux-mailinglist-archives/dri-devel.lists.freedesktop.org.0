@@ -1,53 +1,111 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F3A24BB663
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:08:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3584BB666
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:08:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFE010F059;
-	Fri, 18 Feb 2022 10:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6614F10F05A;
+	Fri, 18 Feb 2022 10:08:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98E9A10F04E;
- Fri, 18 Feb 2022 10:08:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645178898; x=1676714898;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=NL0qZO6Q51NwuLE3xq73LdrjI3Xg/7heFZK3q3vYHxY=;
- b=CcrdCpbOBT4aVWjy87ZTyrbMkE6WspoOTv7mSorZZkIgZDh3rFODg7k8
- YrPpNETaY7+ZMRpTgWezrbQPkQZVLt+cXctckG8fXjEnPFY1Kwd8tHY6w
- Lqrx8TWRsMAE+vuggIX1H0U5n51PRvjXx4jip+N1+KO5Ketjhvt+j/1Nx
- 3gYMqRM7SKerH/GRC97mCof/d62zk0p/Bl5K6wamUXwZ+Yr/SgdIjZ40O
- yhQpOTyx+lmGhUcn4DI/1q2MqEmovFLB4yk1JnU7EirFMdWXYojEqRkFO
- zjVA/KGD5R0ubBDgozjx+Vbt8DCD48KxLQtLh3I6RwaK8BTOIS7HyEMUQ A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="238502782"
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="238502782"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 02:08:18 -0800
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="546220535"
-Received: from svaddara-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.212.147.37])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 02:08:17 -0800
-Date: Fri, 18 Feb 2022 02:08:18 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Ramalingam C <ramalingam.c@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v5 11/19] drm/i915/lmem: Enable lmem for
- platforms with Flat CCS
-Message-ID: <20220218100818.qv5iqqtj4jnjz24l@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20220201104132.3050-1-ramalingam.c@intel.com>
- <20220201104132.3050-12-ramalingam.c@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2050.outbound.protection.outlook.com [40.107.21.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0278710F05A
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 10:08:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oWQJHNfRxQHhNFTvvp+GHAzQhyJVLWJyfvB5SSPMPuhHXsYZ6x26VTsv2uiSgulDKp+aLqkG+ee60QfGDvjzrbCcVE1eqjqN5czpCtTf6Bw2cKVq0JgaO/lgpoM9HqjUaAW7iVvQUE3wFDDU3fw9EQ4mgCU9rrdIjdWtEldXyayRi0shDWCOakQ1TMXmY/gtZ2kRa0lfRMOumfPyPLyALwp080GV0IAGtISgtSqysQ5TjLaEpQcRN96ndSUorXb75lxlEzn3ysIDkB497+T+wfUhVqE79hpJ84Q/i/i5vWIIJOUc/sWUskAoHxg/sN7dpgbkbRVHgCMki5lxvbuTrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dlj4rvcbwCYD/HgmGI16gOAuge6AdgUklR2LZ83DymA=;
+ b=Iv1v+MkGnOXPZd0F01swyqKMBCtaKhltJrN11u1CTJOKrTaTRDHocqwO33ji9ONfoVDa4yoidAMIsCO42EXqBXMoZBDHnkj/or77+JIPEjWIWyVz2o98jo/cHFHXUpfLxq3ivRovBQoxqajpOZB/ACGtYKam/H7/YsHZPD4UmGskfYKKWzyObTtNnhkymNFYeDwpULRiqaCe/DNzt8Cj/6d4uxZfm93VWrNKEbpWRx8pbXj8ka1Byul5/dkLGczW10acLO6inGicj7tso6eHrdFYzuS977mDaw8nvAgoCt79L72amwCNckKjxXIEep1wdotTi8wTVBh3+U3TMwLw+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dlj4rvcbwCYD/HgmGI16gOAuge6AdgUklR2LZ83DymA=;
+ b=LRxZd9vqx9PxjimsqK3CzkWgZkCMk3URoDwYL87SKSf/9HmEnL33IPOW/krNjk/412uiE58lPIxvIrw1URlPxtT1ocgTIeosTLIkFe2KBDqLRJRClaH0PtVLNmOwYNNbUqmnDGH21CDt+3bg0KdmcOvQ/gWSwYo1OuHqI63yQDo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27) by DB3PR0402MB3801.eurprd04.prod.outlook.com
+ (2603:10a6:8:3::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.19; Fri, 18 Feb
+ 2022 10:08:26 +0000
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::7075:9a92:d8b1:61cf]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::7075:9a92:d8b1:61cf%3]) with mapi id 15.20.4995.017; Fri, 18 Feb 2022
+ 10:08:26 +0000
+Date: Fri, 18 Feb 2022 12:08:21 +0200
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Rudi Heitbaum <rudi@heitbaum.com>
+Subject: Re: [PATCH] drm/imx/dcss: i.MX8MQ DCSS select DRM_GEM_CMA_HELPER
+Message-ID: <20220218100821.xnndumkrhdbg2xlh@fsr-ub1664-121.ea.freescale.net>
+References: <20220216212228.1217831-1-rudi@heitbaum.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220201104132.3050-12-ramalingam.c@intel.com>
+In-Reply-To: <20220216212228.1217831-1-rudi@heitbaum.com>
+User-Agent: NeoMutt/20171215
+X-ClientProxiedBy: AM0PR02CA0088.eurprd02.prod.outlook.com
+ (2603:10a6:208:154::29) To VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8818c59d-da70-4098-7ab5-08d9f2c69a8c
+X-MS-TrafficTypeDiagnostic: DB3PR0402MB3801:EE_
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-Microsoft-Antispam-PRVS: <DB3PR0402MB3801C9F19E02A478ABF010E2BE379@DB3PR0402MB3801.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:983;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iOi5ZdfGlmwcXo5w06YWAkLgzBYvU7nEJwLvT+2js8pSY+taae1taZexe3QMhazXfOj54ZaXhpK4JPZhOSq3PbToB/0chRoHdmPT+HsesYOcfX8psP2Rdks49w7Iuuqqhvns3X8nttXV5Ht86m8rKLJFDqm+UwWnnLQiK8gg+Kh8f3QPvzgoZWR0i44b7H4j4ZC1NaemeFfBIXdutzIc4hMT2qzY83ev5n60XoWhku60tzoiCP6F5kV07RNcr24BtL9EGfDgdBStQVUQ0C4n4qzIqBzjLekUqOWz8cLotVOUJLKYwslOcMJYDM55qJQ+3xp0RzHrYAEFTlGiHYnZSKlP9SRCaAQULa0A9JtLkJJVJ1s/CzkOmqbprdNWgHb4RL7TuUgdNComgJ5Tv46N7FHHAjWAexIKMvek57nOffJA3R8wRbmh/s5gZtuYXksjxyc0JVSc4ifH0ojrc1fgUdKyDKjYrfmZ3PKTV4m8voHgYto8SnkyahOoQi6mLj1htUhN7NjkwyE5FZegOBoxi9zTtP8jC/y7EKsDPxrEhht4c31TIlrPX7/oXYOrfJUFEIEx7MpW5TKssxOdi7zkmDomZPDXc+tk1i1Wkj+Muq+l+r7vYLyxP2sJBsJTfAY6SzeQ8p6na0ldESP2iRcgNLyz+osqi0UJCJLV6jvTCjraeCGvjNXqFMKdvf88RzME015zKuWZWMJMW5+URR6Kxg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(316002)(7416002)(6486002)(66556008)(6506007)(9686003)(52116002)(8936002)(86362001)(6666004)(8676002)(6512007)(66476007)(6916009)(508600001)(66946007)(5660300002)(4326008)(26005)(54906003)(38350700002)(186003)(44832011)(38100700002)(4744005)(1076003)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NrWkWwLZrFCR/atbYVkYyLItKkAp/wnWHtRdPG8PoXbqW1itUUWqxDI5vzy+?=
+ =?us-ascii?Q?7nKp33nFIBY8eIqpYq+DKc0E/K8gr/M9w+UWTrtBSCXqDhTIwM10dVWxGm/o?=
+ =?us-ascii?Q?F/kM3VmlJOwyoV7OBd9ZwFc6gM9hdGzt+A7B0qW9M4yrh5m8TTMm/rllhWI6?=
+ =?us-ascii?Q?8VsansiVuZD09NbqbFbFcT5W+RQZ7YsaqHcEtKYGrzJh4wyUzWG5S0q/0om2?=
+ =?us-ascii?Q?htNztzQdh7t3moQ6O0d4OxG2c1A0Fqqeapxh87k/nI8FvCD+tPrY2p1GZIKy?=
+ =?us-ascii?Q?DbZ9tzOtdK/RE0xgm8NRJrlsKyQ6g4kg02MgsdoA3l1AmqiZkY4krY//VeYY?=
+ =?us-ascii?Q?Joch/GkmvCJZTW/E99V79W7SFEGiiQRuXQERbsAObidIlPwRv1Ft6Sr08KRu?=
+ =?us-ascii?Q?+6XwNx7uOOFvb89TaSxAAlYRUWnXD9M7Y88amN196tug+pxr1uVHuwG01mgw?=
+ =?us-ascii?Q?HTb0Y3pO27IIek4eDtrQG+BrQRpBe40CpzBjshUwRjXrNqs2s+yoaYqDXXWB?=
+ =?us-ascii?Q?EulR2aBSoM2cXd9OGd6NxosXlGRX4s3/AQyqHvsnXWJZ2kkXpuuFECQ40NNg?=
+ =?us-ascii?Q?rFrFBjdgEuGADd+LXuaHznWNBdYv/7rbuUgm/59T1DwoFKyaAUjG7mxwL7ty?=
+ =?us-ascii?Q?/3OApBedEvmKgHR3vByDM93kR2mFL2pGvSbIc1bp7EjfMtPrpYGCttJ9JL3i?=
+ =?us-ascii?Q?5braONEuQYtrkc6zhqSLJA7RiRdVrQzrBIyjjo527ybWBRxEMQBUsNX8/paA?=
+ =?us-ascii?Q?ZdGCsg/C/RRynXcRDLEud+vatRge4Ml+gLUO+J5jax+hF45SMfB107P9DuC0?=
+ =?us-ascii?Q?WamVF5pTe0l53+XHfpvDR4drnGyxmb0JUFSBKTiO0zLQkm3aKxtccGDb3lOj?=
+ =?us-ascii?Q?82PCcCe8FdSbC1OAAxiPQKpIPKOGpvVY1PoPaCNEbMGRehdMek94Hk86XRz7?=
+ =?us-ascii?Q?SSXbVHr5n2yGAEc4ZyI9c5N1iGB2KM5ewV+JV5r5iSkgAkxWK8Hy3V/MFpFG?=
+ =?us-ascii?Q?MGWENA3YB1IAtnUhOZgN04/YzntQn8gkjmDTwlgFT5slEkgUDLtsjJbdeaL1?=
+ =?us-ascii?Q?KQvj2O8J5XMKW9uSYMBcM1PfvFWkCGxW0OEz5RLFRbOkDpO74uwuFBewp1nw?=
+ =?us-ascii?Q?tqEqOL4SaGyhfVbGPFAbl/CnYmnavBEdWkqjlGiSR4OuXBYGF2IrjQa15VuC?=
+ =?us-ascii?Q?n4v+9695yxrDXxy3PMFdur0BfU5F4Mw8ACdzn9KMnNPVHFDtM63MqZQkVYMm?=
+ =?us-ascii?Q?mgRipicQvdTarQfdip6tds6B42tNY9dW+RVf3ucDbYim2/cphMcGp426YNg4?=
+ =?us-ascii?Q?f1Q+ia13qiLcMr7KJCkTULVy0ApWVkBmI6qIe3E7NnUGabTdDeIa4g3FL9PD?=
+ =?us-ascii?Q?rsDeglD1ixrf9JWqcObCNWgWvj9zVu2Oxqe7aZ/hQ29djTUYX+s9VU136cIJ?=
+ =?us-ascii?Q?kqaiFGqO/ihCG6jV29xJ9aUiP7vqFxYqjpaK7+3tN1OGBPCdzkdKKMleP9vU?=
+ =?us-ascii?Q?iuCWPTUZ191SBZImaKWkEBs5++4ERh7nGhcqCziXyBvx+sQDvVVUg2auf0M8?=
+ =?us-ascii?Q?l7KMleI4ZnRUfTakMVEYIg+0+wGhIjILMZKbiW/cf4dgHKhmOSlGwh2w7UCq?=
+ =?us-ascii?Q?sWpZl6dEpyuiDBBRMeuE8QU=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8818c59d-da70-4098-7ab5-08d9f2c69a8c
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2022 10:08:26.2167 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Tq5UB6yMFkt7wQ20FQZ/efSOZMEizu4brQLJUWPtucGjLBG185415bIvhWN9fSXHYtamf7fGbTeVzVIgMxCXPg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0402MB3801
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,147 +118,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 01, 2022 at 04:11:24PM +0530, Ramalingam C wrote:
->From: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
->
->A portion of device memory is reserved for Flat CCS so usable
->device memory will be reduced by size of Flat CCS. Size of
->Flat CCS is specified in “XEHPSDV_FLAT_CCS_BASE_ADDR”.
->So to get effective device memory we need to subtract
->total device memory by Flat CCS memory size.
->
->v2:
->  Addressed the small bar related issue [Matt]
->  Removed a reduntant check [Matt]
->
->Cc: Matthew Auld <matthew.auld@intel.com>
->Signed-off-by: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
->Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
->---
-> drivers/gpu/drm/i915/gt/intel_gt.c          | 19 ++++++++++++++++
-> drivers/gpu/drm/i915/gt/intel_gt.h          |  1 +
-> drivers/gpu/drm/i915/gt/intel_region_lmem.c | 24 +++++++++++++++++++--
-> drivers/gpu/drm/i915/i915_reg.h             |  3 +++
-> 4 files changed, 45 insertions(+), 2 deletions(-)
->
->diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
->index f59933abbb3a..e40d98cb3a2d 100644
->--- a/drivers/gpu/drm/i915/gt/intel_gt.c
->+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
->@@ -911,6 +911,25 @@ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
-> 	return intel_uncore_read_fw(gt->uncore, reg);
-> }
->
->+u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg)
->+{
->+	int type;
->+	u8 sliceid, subsliceid;
->+
->+	for (type = 0; type < NUM_STEERING_TYPES; type++) {
->+		if (intel_gt_reg_needs_read_steering(gt, reg, type)) {
->+			intel_gt_get_valid_steering(gt, type, &sliceid,
->+						    &subsliceid);
->+			return intel_uncore_read_with_mcr_steering(gt->uncore,
->+								   reg,
->+								   sliceid,
->+								   subsliceid);
->+		}
->+	}
->+
->+	return intel_uncore_read(gt->uncore, reg);
->+}
->+
-> void intel_gt_info_print(const struct intel_gt_info *info,
-> 			 struct drm_printer *p)
-> {
->diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
->index 2dad46c3eff2..0f571c8ee22b 100644
->--- a/drivers/gpu/drm/i915/gt/intel_gt.h
->+++ b/drivers/gpu/drm/i915/gt/intel_gt.h
->@@ -85,6 +85,7 @@ static inline bool intel_gt_needs_read_steering(struct intel_gt *gt,
-> }
->
-> u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg);
->+u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg);
->
-> void intel_gt_info_print(const struct intel_gt_info *info,
-> 			 struct drm_printer *p);
->diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
->index 21215a080088..f1d37b46b505 100644
->--- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
->+++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
->@@ -205,8 +205,28 @@ static struct intel_memory_region *setup_lmem(struct intel_gt *gt)
-> 	if (!IS_DGFX(i915))
-> 		return ERR_PTR(-ENODEV);
->
->-	/* Stolen starts from GSMBASE on DG1 */
->-	lmem_size = intel_uncore_read64(uncore, GEN12_GSMBASE);
->+	if (HAS_FLAT_CCS(i915)) {
->+		u64 tile_stolen, flat_ccs_base_addr_reg, flat_ccs_base;
->+
->+		lmem_size = pci_resource_len(pdev, 2);
->+		flat_ccs_base_addr_reg = intel_gt_read_register(gt, XEHPSDV_FLAT_CCS_BASE_ADDR);
+Hi Rudi,
 
-nit since this will need a respin due to conflicts:
-we usually call _reg an i915_reg_t variable. But here you have the
-value, not the register. Maybe "flat_ccs_base_addr"?
+On Wed, Feb 16, 2022 at 09:22:28PM +0000, Rudi Heitbaum wrote:
+> Without DRM_GEM_CMA_HELPER i.MX8MQ DCSS won't build. This needs to be
+> there.
+> 
+> Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
+Reviewed-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 
+...and pushed to drm-misc-fixes.
 
->+		flat_ccs_base = (flat_ccs_base_addr_reg >> XEHPSDV_CCS_BASE_SHIFT) * SZ_64K;
->+
->+		if (GEM_WARN_ON(lmem_size < flat_ccs_base))
->+			return ERR_PTR(-ENODEV);
->+
->+		tile_stolen = lmem_size - flat_ccs_base;
->+
->+		/* If the FLAT_CCS_BASE_ADDR register is not populated, flag an error */
->+		if (tile_stolen == lmem_size)
->+			DRM_ERROR("CCS_BASE_ADDR register did not have expected value\n");
+Thanks,
+laurentiu
 
-drm_err()
-
->+
->+		lmem_size -= tile_stolen;
->+	} else {
->+		/* Stolen starts from GSMBASE without CCS */
->+		lmem_size = intel_uncore_read64(&i915->uncore, GEN12_GSMBASE);
->+	}
->+
->
-> 	io_start = pci_resource_start(pdev, 2);
-> 	if (GEM_WARN_ON(lmem_size > pci_resource_len(pdev, 2)))
->diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
->index 0f36af8dc3a1..9b5423572fe9 100644
->--- a/drivers/gpu/drm/i915/i915_reg.h
->+++ b/drivers/gpu/drm/i915/i915_reg.h
->@@ -11651,6 +11651,9 @@ enum skl_power_gate {
-> #define   SGGI_DIS			REG_BIT(15)
-> #define   SGR_DIS			REG_BIT(13)
->
->+#define XEHPSDV_FLAT_CCS_BASE_ADDR             _MMIO(0x4910)
->+#define   XEHPSDV_CCS_BASE_SHIFT               8
->+
-
-you will have a conflict here... I fixed it locally by moving to
-gt/intel_gt_regs.h
-
-
-With the above,
-
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-
-Lucas De Marchi
-
-> /* gamt regs */
-> #define GEN8_L3_LRA_1_GPGPU _MMIO(0x4dd4)
-> #define   GEN8_L3_LRA_1_GPGPU_DEFAULT_VALUE_BDW  0x67F1427F /* max/min for LRA1/2 */
->-- 
->2.20.1
->
+> ---
+>  drivers/gpu/drm/imx/dcss/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/imx/dcss/Kconfig b/drivers/gpu/drm/imx/dcss/Kconfig
+> index 7374f1952762..5c2b2277afbf 100644
+> --- a/drivers/gpu/drm/imx/dcss/Kconfig
+> +++ b/drivers/gpu/drm/imx/dcss/Kconfig
+> @@ -2,6 +2,7 @@ config DRM_IMX_DCSS
+>  	tristate "i.MX8MQ DCSS"
+>  	select IMX_IRQSTEER
+>  	select DRM_KMS_HELPER
+> +	select DRM_GEM_CMA_HELPER
+>  	select VIDEOMODE_HELPERS
+>  	depends on DRM && ARCH_MXC && ARM64
+>  	help
+> -- 
+> 2.25.1
+> 
