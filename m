@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34ECA4BAEE5
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 02:01:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1630C4BAEE7
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 02:01:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E59710E92F;
-	Fri, 18 Feb 2022 01:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FAB410E931;
+	Fri, 18 Feb 2022 01:01:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9B0A10E213
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D055C10E919
  for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 01:01:18 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 7FF4883764;
+ by phobos.denx.de (Postfix) with ESMTPSA id 04E2B83A9F;
  Fri, 18 Feb 2022 02:01:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1645146076;
- bh=O2hHW13mgSaZvN5anxyunPG1uIzz7p4zPFd4aRvlhBk=;
+ s=phobos-20191101; t=1645146077;
+ bh=vthobliHGczPHUFXRnvs1Kogirp35bX5bxSUuuiwuXc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=U9FA0dav+S0opZLwmeZsm5GU+NnwOb2jAMzjMUIhge1b9NxnICMhCCpD/1mlF+1jw
- L6L4ewZmNjl1z0Uxvsr/TavOCzOLwv9J08GbQmTsIcDF8bZmdC0B8RyBDynv1UwM0i
- vNzXw1hIf5H4r36RTEUvHZIyDLTus7MQqfFeu24k4ARwNsNghJ0Yyg7SYTTFAUsgZB
- 41EDLekRfORuyUZL4kou1CqxyDNQ+g4fc5a49VS7SLBwvwqCmYTL+XA3B90ttF/yiK
- AxCu4DLBhMvSys4LNDfi8PRT7luNJDC2r+BUL1TwMWc1q6EkmM2whF7uZPegdeapYW
- 325keqOu+O+qQ==
+ b=Mr7iJoPSqSQWl2/YpheI0osMhvXAdbd1bDIYIGMWyjhmTSnXYP+yDK5nHd6zquFyZ
+ zHlNBiPv1JbY7TWMuvOffyituVxCyftIhC9bX4aD54A6g1gp5uP+5chB1mwYHOX7XT
+ dj2tpNocvz6RcPGoDLUbWP3gmjmNUyXk7qvn8L/bFX4xzJlJptg2FHbsvv8xe0+14c
+ eiFlAEbcuSvEbTdWQsPBDcpka2LHlRDk3UoY18Fu8YlufhpKjtC/Wzp6eSmGkMPQyB
+ ld87GIvicm/swHuzQPW40kocuqmld7MKfpRK6BBSY6i/8MDsT30rDhTOjoLb4UWnNW
+ KykKF+/2kLX8g==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V2 01/11] dt-bindings: display: bridge: tc358867: Document DPI
- output support
-Date: Fri, 18 Feb 2022 02:00:44 +0100
-Message-Id: <20220218010054.315026-2-marex@denx.de>
+Subject: [PATCH V2 02/11] drm/bridge: tc358767: Change tc_ prefix to tc_edp_
+ for (e)DP specific functions
+Date: Fri, 18 Feb 2022 02:00:45 +0100
+Message-Id: <20220218010054.315026-3-marex@denx.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218010054.315026-1-marex@denx.de>
 References: <20220218010054.315026-1-marex@denx.de>
@@ -54,48 +54,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Rob Herring <robh+dt@kernel.org>,
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <narmstrong@baylibre.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TC358767/TC358867/TC9595 are all capable of operating in multiple
-modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Document support for the
-DPI output port, which can now be connected both as input and output.
+These functions are specific to (e)DP output initialization and
+operation, add specific tc_edp_ prefix to those functions to
+discern them from DPI output functions that will be added later
+in this series. No functional change.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Maxime Ripard <maxime@cerno.tech>
 Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: devicetree@vger.kernel.org
-To: dri-devel@lists.freedesktop.org
 ---
-V2: - Rebase on next-20220217
+V2: - New patch
 ---
- .../devicetree/bindings/display/bridge/toshiba,tc358767.yaml  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/tc358767.c | 35 ++++++++++++++++---------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-index f1541cc052977..5cfda6f2ba69c 100644
---- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-@@ -61,8 +61,8 @@ properties:
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
-         description: |
--            DPI input port. The remote endpoint phandle should be a
--            reference to a valid DPI output endpoint node
-+            DPI input/output port. The remote endpoint phandle should be a
-+            reference to a valid DPI output or input endpoint node.
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index c23e0abc65e8f..4b8ea0db2a5e8 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -1164,7 +1164,7 @@ static int tc_main_link_disable(struct tc_data *tc)
+ 	return regmap_write(tc->regmap, DP0CTL, 0);
+ }
  
-       port@2:
-         $ref: /schemas/graph.yaml#/properties/port
+-static int tc_stream_enable(struct tc_data *tc)
++static int tc_edp_stream_enable(struct tc_data *tc)
+ {
+ 	int ret;
+ 	u32 value;
+@@ -1219,7 +1219,7 @@ static int tc_stream_enable(struct tc_data *tc)
+ 	return 0;
+ }
+ 
+-static int tc_stream_disable(struct tc_data *tc)
++static int tc_edp_stream_disable(struct tc_data *tc)
+ {
+ 	int ret;
+ 
+@@ -1234,7 +1234,7 @@ static int tc_stream_disable(struct tc_data *tc)
+ 	return 0;
+ }
+ 
+-static void tc_bridge_enable(struct drm_bridge *bridge)
++static void tc_edp_bridge_enable(struct drm_bridge *bridge)
+ {
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+ 	int ret;
+@@ -1251,7 +1251,7 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+ 		return;
+ 	}
+ 
+-	ret = tc_stream_enable(tc);
++	ret = tc_edp_stream_enable(tc);
+ 	if (ret < 0) {
+ 		dev_err(tc->dev, "main link stream start error: %d\n", ret);
+ 		tc_main_link_disable(tc);
+@@ -1259,12 +1259,12 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+ 	}
+ }
+ 
+-static void tc_bridge_disable(struct drm_bridge *bridge)
++static void tc_edp_bridge_disable(struct drm_bridge *bridge)
+ {
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+ 	int ret;
+ 
+-	ret = tc_stream_disable(tc);
++	ret = tc_edp_stream_disable(tc);
+ 	if (ret < 0)
+ 		dev_err(tc->dev, "main link stream stop error: %d\n", ret);
+ 
+@@ -1285,9 +1285,10 @@ static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
+ 	return true;
+ }
+ 
+-static enum drm_mode_status tc_mode_valid(struct drm_bridge *bridge,
+-					  const struct drm_display_info *info,
+-					  const struct drm_display_mode *mode)
++static enum drm_mode_status
++tc_edp_mode_valid(struct drm_bridge *bridge,
++		  const struct drm_display_info *info,
++		  const struct drm_display_mode *mode)
+ {
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+ 	u32 req, avail;
+@@ -1395,8 +1396,8 @@ static const struct drm_connector_funcs tc_connector_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ };
+ 
+-static int tc_bridge_attach(struct drm_bridge *bridge,
+-			    enum drm_bridge_attach_flags flags)
++static int tc_edp_bridge_attach(struct drm_bridge *bridge,
++				enum drm_bridge_attach_flags flags)
+ {
+ 	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+@@ -1448,18 +1449,18 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+ 	return ret;
+ }
+ 
+-static void tc_bridge_detach(struct drm_bridge *bridge)
++static void tc_edp_bridge_detach(struct drm_bridge *bridge)
+ {
+ 	drm_dp_aux_unregister(&bridge_to_tc(bridge)->aux);
+ }
+ 
+ static const struct drm_bridge_funcs tc_bridge_funcs = {
+-	.attach = tc_bridge_attach,
+-	.detach = tc_bridge_detach,
+-	.mode_valid = tc_mode_valid,
++	.attach = tc_edp_bridge_attach,
++	.detach = tc_edp_bridge_detach,
++	.mode_valid = tc_edp_mode_valid,
+ 	.mode_set = tc_bridge_mode_set,
+-	.enable = tc_bridge_enable,
+-	.disable = tc_bridge_disable,
++	.enable = tc_edp_bridge_enable,
++	.disable = tc_edp_bridge_disable,
+ 	.mode_fixup = tc_bridge_mode_fixup,
+ 	.detect = tc_bridge_detect,
+ 	.get_edid = tc_get_edid,
 -- 
 2.34.1
 
