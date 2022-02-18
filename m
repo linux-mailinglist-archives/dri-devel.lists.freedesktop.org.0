@@ -1,43 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE394BB81C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:31:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF49E4BB82C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 12:36:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB0D10EC4C;
-	Fri, 18 Feb 2022 11:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5034310EC0B;
+	Fri, 18 Feb 2022 11:36:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9337910EC4C;
- Fri, 18 Feb 2022 11:31:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1645183861; x=1676719861;
- h=from:to:cc:subject:date:message-id;
- bh=psg+WGVjYEtfI96XgW3zTOLv9aveKT017gbE39QzLFQ=;
- b=MUwXO964T21nxhzaGLBg2TZWCgDA2Y8g4ntHjkkkdxua/6cTpVnKwZ+Y
- nO9SZpZvx6Z43u+0DN0aspxAvuTJLEuEoJSizfT8XMxKj2nTZToW1lSWN
- QpSRLsDGzUEXzVcAkbC3hnxkDU6FvuJ64CWu75IqteWIH1jcJkGlTd+Ug 8=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 18 Feb 2022 03:31:01 -0800
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 18 Feb 2022 03:30:59 -0800
-X-QCInternal: smtphost
-Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
- by ironmsg01-blr.qualcomm.com with ESMTP; 18 Feb 2022 17:00:46 +0530
-Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id 2BC544B49; Fri, 18 Feb 2022 17:00:45 +0530 (IST)
-From: Vinod Polimera <quic_vpolimer@quicinc.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v1] drm/msm/disp/dpu1: add inline rotation support for sc7280 target
-Date: Fri, 18 Feb 2022 17:00:33 +0530
-Message-Id: <1645183833-26657-1-git-send-email-quic_vpolimer@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2E9510EC0B
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 11:36:12 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 28C461F37E;
+ Fri, 18 Feb 2022 11:36:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1645184171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HtVRqY5mj+1ot6ask8ypWEFapCcKpgqxAJN0KSyFo0Q=;
+ b=KPjfiGUuLLS6qB9u9JEdcyKuiCyidhQnmCyuPuS60KGQzD8Ky8pVwiX9mBSrMWWRQ5yZdM
+ d5JspTCKqBgCtcSmIME3aObYf6WaG0nHdKS+UY+vhx23w60HOfXvLMiNHSjwEQrc9Ef7F3
+ zW6cw+BUIznkjnLQRbUQ9j2kaPTL8Kg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1645184171;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HtVRqY5mj+1ot6ask8ypWEFapCcKpgqxAJN0KSyFo0Q=;
+ b=p8v97HL5hFor8+Q8KRm9ohou73TDGhO5SeRh809NQy17UVgEjwHp5LrmXTYvY2i7G4kWrZ
+ CfMj/jrIH7kKY1Dw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A4CA613C7A;
+ Fri, 18 Feb 2022 11:36:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id GTs1J6qED2J/LQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 18 Feb 2022 11:36:10 +0000
+Message-ID: <a789e375-a23e-6988-33bc-1410eb5d974f@suse.de>
+Date: Fri, 18 Feb 2022 12:36:10 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2] simplefb: Enable boot time VESA graphic mode selection.
+Content-Language: en-US
+To: Michal Suchanek <msuchanek@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <14dd85f1-21b1-2ff7-3491-466c077210e6@suse.de>
+ <20220218105138.5384-1-msuchanek@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220218105138.5384-1-msuchanek@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------BwkCJlWNQzpiHXpoHWQCjojT"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,404 +71,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, dianders@chromium.org,
- linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Herrmann <dh.herrmann@gmail.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ linux-video@atrey.karlin.mff.cuni.cz, Arnd Bergmann <arnd@arndb.de>,
+ Simon Trimmer <simont@opensource.cirrus.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Ingo Molnar <mingo@redhat.com>, Cristian Marussi <cristian.marussi@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Martin Mares <mj@ucw.cz>, Sudeep Holla <sudeep.holla@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Some DPU versions support inline rot90. It is supported only for
-limited amount of UBWC formats.
-- There are two versions of inline rotators, v1 (present on sm8250 and
-sm7250) and v2 (sc7280). These versions differ in the list of supported
-formats and in the scaler possibilities.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------BwkCJlWNQzpiHXpoHWQCjojT
+Content-Type: multipart/mixed; boundary="------------TJ5YGH0xpLn944Ddd26O6o90";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Michal Suchanek <msuchanek@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Cc: Martin Mares <mj@ucw.cz>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Helge Deller <deller@gmx.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Simon Trimmer <simont@opensource.cirrus.com>, Arnd Bergmann <arnd@arndb.de>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rob Herring <robh@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ David Herrmann <dh.herrmann@gmail.com>,
+ linux-video@atrey.karlin.mff.cuni.cz, linux-kernel@vger.kernel.org
+Message-ID: <a789e375-a23e-6988-33bc-1410eb5d974f@suse.de>
+Subject: Re: [PATCH v2] simplefb: Enable boot time VESA graphic mode
+ selection.
+References: <14dd85f1-21b1-2ff7-3491-466c077210e6@suse.de>
+ <20220218105138.5384-1-msuchanek@suse.de>
+In-Reply-To: <20220218105138.5384-1-msuchanek@suse.de>
 
-Changes in RFC:
-- Rebase changes to the latest code base.
-- Append rotation config variables with v2 and
-remove unused variables.(Dmitry)
-- Move pixel_ext setup separately from scaler3 config.(Dmitry)
-- Add 270 degree rotation to supported rotation list.(Dmitry)
+--------------TJ5YGH0xpLn944Ddd26O6o90
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  44 ++++++++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  15 ++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 105 ++++++++++++++++++++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h      |   2 +
- 4 files changed, 134 insertions(+), 32 deletions(-)
+SGkNCg0KQW0gMTguMDIuMjIgdW0gMTE6NTEgc2NocmllYiBNaWNoYWwgU3VjaGFuZWs6DQo+
+IFNpbmNlIHN3aXRjaCB0byBzaW1wbGVmYi9zaW1wbGVkcm0gVkVTQSBncmFwaGljIG1vZGVz
+IGFyZSBubyBsb25nZXINCj4gYXZhaWxhYmxlIHdpdGggbGVnYWN5IEJJT1MuDQo+IA0KPiBU
+aGUgeDg2IHJlYWxtb2RlIGJvb3QgY29kZSBlbmFibGVzIHRoZSBWRVNBIGdyYXBoaWMgbW9k
+ZXMgd2hlbiBvcHRpb24NCj4gRkJfQk9PVF9WRVNBX1NVUFBPUlQgaXMgZW5hYmxlZC4NCj4g
+DQo+IFRvIGVuYWJsZSB1c2Ugb2YgVkVTQSBtb2RlcyB3aXRoIHNpbXBsZWRybSBpbiBsZWdh
+Y3kgQklPUyBib290IG1vZGUgZHJvcA0KPiBkZXBlbmRlbmN5IG9mIEJPT1RfVkVTQV9TVVBQ
+T1JUIG9uIEZCLCBhbHNvIGRyb3AgdGhlIEZCXyBwcmVmaXgsIGFuZA0KPiBzZWxlY3QgdGhl
+IG9wdGlvbiB3aGVuIHNpbXBsZWRybSBpcyBidWlsdC1pbiBvbiB4ODYuDQo+IA0KPiBGaXhl
+czogZTMyNjNhYjM4OWE3ICgieDg2OiBwcm92aWRlIHBsYXRmb3JtLWRldmljZXMgZm9yIGJv
+b3QtZnJhbWVidWZmZXJzIikNCj4gU2lnbmVkLW9mZi1ieTogTWljaGFsIFN1Y2hhbmVrIDxt
+c3VjaGFuZWtAc3VzZS5kZT4NCj4gLS0tDQo+IHYyOiBTZWxlY3QgQk9PVF9WRVNBX1NVUFBP
+UlQgZnJvbSBzaW1wbGVmYiByYXRoZXIgdGhhbiBzaW1wbGVkcm0uIFRoZQ0KPiBzaW1wbGVk
+cm0gZHJpdmVyIHVzZXMgdGhlIGZpcm13YXJlIHByb3ZpZGVkIHZpZGVvIG1vZGVzIG9ubHkg
+aW5kaXJlY3RseQ0KPiB0aHJvdWdoIHNpbXBsZWZiLCBhbmQgYm90aCBjYW4gYmUgZW5hYmxl
+ZCBpbmRlcGVuZGVudGx5Lg0KPiAtLS0NCj4gICBhcmNoL3g4Ni9ib290L3ZpZGVvLXZlc2Eu
+YyAgfCA0ICsrLS0NCj4gICBkcml2ZXJzL2Zpcm13YXJlL0tjb25maWcgICAgfCAxICsNCj4g
+ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L0tjb25maWcgfCA5ICsrKystLS0tLQ0KPiAgIDMgZmls
+ZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
+ZiAtLWdpdCBhL2FyY2gveDg2L2Jvb3QvdmlkZW8tdmVzYS5jIGIvYXJjaC94ODYvYm9vdC92
+aWRlby12ZXNhLmMNCj4gaW5kZXggN2UxODU5NzdhOTg0Li5jMmM2ZDM1ZTNhNDMgMTAwNjQ0
+DQo+IC0tLSBhL2FyY2gveDg2L2Jvb3QvdmlkZW8tdmVzYS5jDQo+ICsrKyBiL2FyY2gveDg2
+L2Jvb3QvdmlkZW8tdmVzYS5jDQo+IEBAIC04Myw3ICs4Myw3IEBAIHN0YXRpYyBpbnQgdmVz
+YV9wcm9iZSh2b2lkKQ0KPiAgIAkJCSAgICh2bWluZm8ubWVtb3J5X2xheW91dCA9PSA0IHx8
+DQo+ICAgCQkJICAgIHZtaW5mby5tZW1vcnlfbGF5b3V0ID09IDYpICYmDQo+ICAgCQkJICAg
+dm1pbmZvLm1lbW9yeV9wbGFuZXMgPT0gMSkgew0KPiAtI2lmZGVmIENPTkZJR19GQl9CT09U
+X1ZFU0FfU1VQUE9SVA0KPiArI2lmZGVmIENPTkZJR19CT09UX1ZFU0FfU1VQUE9SVA0KPiAg
+IAkJCS8qIEdyYXBoaWNzIG1vZGUsIGNvbG9yLCBsaW5lYXIgZnJhbWUgYnVmZmVyDQo+ICAg
+CQkJICAgc3VwcG9ydGVkLiAgT25seSByZWdpc3RlciB0aGUgbW9kZSBpZg0KPiAgIAkJCSAg
+IGlmIGZyYW1lYnVmZmVyIGlzIGNvbmZpZ3VyZWQsIGhvd2V2ZXIsDQo+IEBAIC0xMjEsNyAr
+MTIxLDcgQEAgc3RhdGljIGludCB2ZXNhX3NldF9tb2RlKHN0cnVjdCBtb2RlX2luZm8gKm1v
+ZGUpDQo+ICAgCWlmICgodm1pbmZvLm1vZGVfYXR0ciAmIDB4MTUpID09IDB4MDUpIHsNCj4g
+ICAJCS8qIEl0J3MgYSBzdXBwb3J0ZWQgdGV4dCBtb2RlICovDQo+ICAgCQlpc19ncmFwaGlj
+ID0gMDsNCj4gLSNpZmRlZiBDT05GSUdfRkJfQk9PVF9WRVNBX1NVUFBPUlQNCj4gKyNpZmRl
+ZiBDT05GSUdfQk9PVF9WRVNBX1NVUFBPUlQNCj4gICAJfSBlbHNlIGlmICgodm1pbmZvLm1v
+ZGVfYXR0ciAmIDB4OTkpID09IDB4OTkpIHsNCj4gICAJCS8qIEl0J3MgYSBncmFwaGljcyBt
+b2RlIHdpdGggbGluZWFyIGZyYW1lIGJ1ZmZlciAqLw0KPiAgIAkJaXNfZ3JhcGhpYyA9IDE7
+DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2Zpcm13YXJlL0tjb25maWcgYi9kcml2ZXJzL2Zp
+cm13YXJlL0tjb25maWcNCj4gaW5kZXggNzVjYjkxMDU1YzE3Li44MDUzYzc1Yjg2NDUgMTAw
+NjQ0DQo+IC0tLSBhL2RyaXZlcnMvZmlybXdhcmUvS2NvbmZpZw0KPiArKysgYi9kcml2ZXJz
+L2Zpcm13YXJlL0tjb25maWcNCj4gQEAgLTIyNCw2ICsyMjQsNyBAQCBjb25maWcgU1lTRkIN
+Cj4gICBjb25maWcgU1lTRkJfU0lNUExFRkINCj4gICAJYm9vbCAiTWFyayBWR0EvVkJFL0VG
+SSBGQiBhcyBnZW5lcmljIHN5c3RlbSBmcmFtZWJ1ZmZlciINCj4gICAJZGVwZW5kcyBvbiBT
+WVNGQg0KPiArCXNlbGVjdCBCT09UX1ZFU0FfU1VQUE9SVCBpZiBYODYNCj4gICAJaGVscA0K
+PiAgIAkgIEZpcm13YXJlcyBvZnRlbiBwcm92aWRlIGluaXRpYWwgZ3JhcGhpY3MgZnJhbWVi
+dWZmZXJzIHNvIHRoZSBCSU9TLA0KPiAgIAkgIGJvb3Rsb2FkZXIgb3Iga2VybmVsIGNhbiBz
+aG93IGJhc2ljIHZpZGVvLW91dHB1dCBkdXJpbmcgYm9vdCBmb3INCj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvdmlkZW8vZmJkZXYvS2NvbmZpZyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvS2Nv
+bmZpZw0KPiBpbmRleCA2ZWQ1ZTYwOGRkMDQuLjRmM2JlOWI3YTUyMCAxMDA2NDQNCj4gLS0t
+IGEvZHJpdmVycy92aWRlby9mYmRldi9LY29uZmlnDQo+ICsrKyBiL2RyaXZlcnMvdmlkZW8v
+ZmJkZXYvS2NvbmZpZw0KPiBAQCAtNjYsOSArNjYsOCBAQCBjb25maWcgRkJfRERDDQo+ICAg
+CXNlbGVjdCBJMkNfQUxHT0JJVA0KPiAgIAlzZWxlY3QgSTJDDQo+ICAgDQo+IC1jb25maWcg
+RkJfQk9PVF9WRVNBX1NVUFBPUlQNCj4gK2NvbmZpZyBCT09UX1ZFU0FfU1VQUE9SVA0KPiAg
+IAlib29sDQo+IC0JZGVwZW5kcyBvbiBGQg0KPiAgIAloZWxwDQo+ICAgCSAgSWYgdHJ1ZSwg
+YXQgbGVhc3Qgb25lIHNlbGVjdGVkIGZyYW1lYnVmZmVyIGRyaXZlciBjYW4gdGFrZSBhZHZh
+bnRhZ2UNCj4gICAJICBvZiBWRVNBIHZpZGVvIG1vZGVzIHNldCBhdCBhbiBlYXJseSBib290
+IHN0YWdlIHZpYSB0aGUgdmdhPSBwYXJhbWV0ZXIuDQoNClRoaXMgaXNuJ3QgYW4gZmIgb3B0
+aW9uIGFueSBsb25nZXIuIFNob3VsZCB3ZSBtb3ZlIHRoaXMgaW50byANCmFyY2gveDg2L0tj
+b25maWcgPw0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IEBAIC02MjcsNyArNjI2LDcg
+QEAgY29uZmlnIEZCX1ZFU0ENCj4gICAJc2VsZWN0IEZCX0NGQl9GSUxMUkVDVA0KPiAgIAlz
+ZWxlY3QgRkJfQ0ZCX0NPUFlBUkVBDQo+ICAgCXNlbGVjdCBGQl9DRkJfSU1BR0VCTElUDQo+
+IC0Jc2VsZWN0IEZCX0JPT1RfVkVTQV9TVVBQT1JUDQo+ICsJc2VsZWN0IEJPT1RfVkVTQV9T
+VVBQT1JUDQo+ICAgCWhlbHANCj4gICAJICBUaGlzIGlzIHRoZSBmcmFtZSBidWZmZXIgZGV2
+aWNlIGRyaXZlciBmb3IgZ2VuZXJpYyBWRVNBIDIuMA0KPiAgIAkgIGNvbXBsaWFudCBncmFw
+aGljIGNhcmRzLiBUaGUgb2xkZXIgVkVTQSAxLjIgY2FyZHMgYXJlIG5vdCBzdXBwb3J0ZWQu
+DQo+IEBAIC0xMDUxLDcgKzEwNTAsNyBAQCBjb25maWcgRkJfSU5URUwNCj4gICAJc2VsZWN0
+IEZCX0NGQl9GSUxMUkVDVA0KPiAgIAlzZWxlY3QgRkJfQ0ZCX0NPUFlBUkVBDQo+ICAgCXNl
+bGVjdCBGQl9DRkJfSU1BR0VCTElUDQo+IC0Jc2VsZWN0IEZCX0JPT1RfVkVTQV9TVVBQT1JU
+IGlmIEZCX0lOVEVMID0geQ0KPiArCXNlbGVjdCBCT09UX1ZFU0FfU1VQUE9SVCBpZiBGQl9J
+TlRFTCA9IHkNCj4gICAJZGVwZW5kcyBvbiAhRFJNX0k5MTUNCj4gICAJaGVscA0KPiAgIAkg
+IFRoaXMgZHJpdmVyIHN1cHBvcnRzIHRoZSBvbi1ib2FyZCBncmFwaGljcyBidWlsdCBpbiB0
+byB0aGUgSW50ZWwNCj4gQEAgLTEzNzgsNyArMTM3Nyw3IEBAIGNvbmZpZyBGQl9TSVMNCj4g
+ICAJc2VsZWN0IEZCX0NGQl9GSUxMUkVDVA0KPiAgIAlzZWxlY3QgRkJfQ0ZCX0NPUFlBUkVB
+DQo+ICAgCXNlbGVjdCBGQl9DRkJfSU1BR0VCTElUDQo+IC0Jc2VsZWN0IEZCX0JPT1RfVkVT
+QV9TVVBQT1JUIGlmIEZCX1NJUyA9IHkNCj4gKwlzZWxlY3QgQk9PVF9WRVNBX1NVUFBPUlQg
+aWYgRkJfU0lTID0geQ0KPiAgIAlzZWxlY3QgRkJfU0lTXzMwMCBpZiAhRkJfU0lTXzMxNQ0K
+PiAgIAloZWxwDQo+ICAgCSAgVGhpcyBpcyB0aGUgZnJhbWUgYnVmZmVyIGRldmljZSBkcml2
+ZXIgZm9yIHRoZSBTaVMgMzAwLCAzMTUsIDMzMA0KDQotLSANClRob21hcyBaaW1tZXJtYW5u
+DQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBH
+ZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0K
+KEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rl
+dg0K
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index aa75991..ae17a61 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -25,6 +25,9 @@
- #define VIG_SM8250_MASK \
- 	(VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3LITE))
- 
-+#define VIG_SC7280_MASK \
-+	(VIG_SC7180_MASK | BIT(DPU_SSPP_INLINE_ROTATION))
-+
- #define DMA_SDM845_MASK \
- 	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_QOS_8LVL) |\
- 	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
-@@ -102,6 +105,8 @@
- #define MAX_DOWNSCALE_RATIO	4
- #define SSPP_UNITY_SCALE	1
- 
-+#define INLINE_ROTATOR_V2	2
-+
- #define STRCAT(X, Y) (X Y)
- 
- static const uint32_t plane_formats[] = {
-@@ -177,6 +182,11 @@ static const uint32_t plane_formats_yuv[] = {
- 	DRM_FORMAT_YVU420,
- };
- 
-+static const uint32_t rotation_v2_formats[] = {
-+	DRM_FORMAT_NV12,
-+	/* TODO add formats after validation */
-+};
-+
- /*************************************************************
-  * DPU sub blocks config
-  *************************************************************/
-@@ -465,7 +475,13 @@ static const struct dpu_ctl_cfg sc7280_ctl[] = {
- 
- /* SSPP common configuration */
- 
--#define _VIG_SBLK(num, sdma_pri, qseed_ver) \
-+static const struct dpu_rotation_cfg dpu_rot_cfg_v2 = {
-+	.rot_maxheight = 1088,
-+	.rot_num_formats = ARRAY_SIZE(rotation_v2_formats),
-+	.rot_format_list = rotation_v2_formats,
-+};
-+
-+#define _VIG_SBLK(num, sdma_pri, qseed_ver, rot_cfg) \
- 	{ \
- 	.maxdwnscale = MAX_DOWNSCALE_RATIO, \
- 	.maxupscale = MAX_UPSCALE_RATIO, \
-@@ -482,6 +498,7 @@ static const struct dpu_ctl_cfg sc7280_ctl[] = {
- 	.num_formats = ARRAY_SIZE(plane_formats_yuv), \
- 	.virt_format_list = plane_formats, \
- 	.virt_num_formats = ARRAY_SIZE(plane_formats), \
-+	.rotation_cfg = rot_cfg, \
- 	}
- 
- #define _DMA_SBLK(num, sdma_pri) \
-@@ -498,13 +515,13 @@ static const struct dpu_ctl_cfg sc7280_ctl[] = {
- 	}
- 
- static const struct dpu_sspp_sub_blks sdm845_vig_sblk_0 =
--				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3);
-+				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3, NULL);
- static const struct dpu_sspp_sub_blks sdm845_vig_sblk_1 =
--				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3);
-+				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3, NULL);
- static const struct dpu_sspp_sub_blks sdm845_vig_sblk_2 =
--				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3);
-+				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3, NULL);
- static const struct dpu_sspp_sub_blks sdm845_vig_sblk_3 =
--				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3);
-+				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3, NULL);
- 
- static const struct dpu_sspp_sub_blks sdm845_dma_sblk_0 = _DMA_SBLK("8", 1);
- static const struct dpu_sspp_sub_blks sdm845_dma_sblk_1 = _DMA_SBLK("9", 2);
-@@ -543,7 +560,10 @@ static const struct dpu_sspp_cfg sdm845_sspp[] = {
- };
- 
- static const struct dpu_sspp_sub_blks sc7180_vig_sblk_0 =
--				_VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4);
-+				_VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4, NULL);
-+
-+static const struct dpu_sspp_sub_blks sc7280_vig_sblk_0 =
-+				_VIG_SBLK("0", 4, DPU_SSPP_SCALER_QSEED4, &dpu_rot_cfg_v2);
- 
- static const struct dpu_sspp_cfg sc7180_sspp[] = {
- 	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
-@@ -557,13 +577,13 @@ static const struct dpu_sspp_cfg sc7180_sspp[] = {
- };
- 
- static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
--				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE);
-+				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE, NULL);
- static const struct dpu_sspp_sub_blks sm8250_vig_sblk_1 =
--				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE);
-+				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE, NULL);
- static const struct dpu_sspp_sub_blks sm8250_vig_sblk_2 =
--				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3LITE);
-+				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3LITE, NULL);
- static const struct dpu_sspp_sub_blks sm8250_vig_sblk_3 =
--				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE);
-+				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE, NULL);
- 
- static const struct dpu_sspp_cfg sm8250_sspp[] = {
- 	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SM8250_MASK,
-@@ -585,8 +605,8 @@ static const struct dpu_sspp_cfg sm8250_sspp[] = {
- };
- 
- static const struct dpu_sspp_cfg sc7280_sspp[] = {
--	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
--		sc7180_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-+	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7280_MASK,
-+		sc7280_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
- 	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
- 		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
- 	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_CURSOR_SDM845_MASK,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 31af04a..ea55f3d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -109,6 +109,7 @@ enum {
-  * @DPU_SSPP_TS_PREFILL      Supports prefill with traffic shaper
-  * @DPU_SSPP_TS_PREFILL_REC1 Supports prefill with traffic shaper multirec
-  * @DPU_SSPP_CDP             Supports client driven prefetch
-+ * @DPU_SSPP_INLINE_ROTATION Support inline rotation
-  * @DPU_SSPP_MAX             maximum value
-  */
- enum {
-@@ -129,6 +130,7 @@ enum {
- 	DPU_SSPP_TS_PREFILL,
- 	DPU_SSPP_TS_PREFILL_REC1,
- 	DPU_SSPP_CDP,
-+	DPU_SSPP_INLINE_ROTATION,
- 	DPU_SSPP_MAX
- };
- 
-@@ -312,6 +314,18 @@ struct dpu_qos_lut_tbl {
- };
- 
- /**
-+ * struct dpu_rotation_cfg - define inline rotation config
-+ * @rot_maxheight: max pre rotated height allowed for rotation
-+ * @rot_num_formats: count of the formats
-+ * @rot_format_list: list of supported rotator formats
-+ */
-+struct dpu_rotation_cfg {
-+	u32 rot_maxheight;
-+	u32 rot_num_formats;
-+	const u32 *rot_format_list;
-+};
-+
-+/**
-  * struct dpu_caps - define DPU capabilities
-  * @max_mixer_width    max layer mixer line width support.
-  * @max_mixer_blendstages max layer mixer blend stages or
-@@ -387,6 +401,7 @@ struct dpu_sspp_sub_blks {
- 	u32 num_formats;
- 	const u32 *virt_format_list;
- 	u32 virt_num_formats;
-+	const struct dpu_rotation_cfg *rotation_cfg;
- };
- 
- /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index ca75089..39d934f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -528,11 +528,19 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
- 		struct dpu_plane_state *pstate,
- 		uint32_t src_w, uint32_t src_h, uint32_t dst_w, uint32_t dst_h,
- 		struct dpu_hw_scaler3_cfg *scale_cfg,
--		struct dpu_hw_pixel_ext *pixel_ext,
- 		const struct dpu_format *fmt,
- 		uint32_t chroma_subsmpl_h, uint32_t chroma_subsmpl_v)
- {
- 	uint32_t i;
-+	bool inline_rotation = (pstate->rotation & DRM_MODE_ROTATE_90);
-+
-+	/*
-+	 * For inline rotation cases, scaler config is post-rotation,
-+	 * so swap the dimensions here. However, pixel extension will
-+	 * need pre-rotation settings.
-+	 */
-+	if (inline_rotation)
-+		swap(src_w, src_h);
- 
- 	scale_cfg->phase_step_x[DPU_SSPP_COMP_0] =
- 		mult_frac((1 << PHASE_STEP_SHIFT), src_w, dst_w);
-@@ -571,11 +579,6 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
- 			scale_cfg->preload_x[i] = DPU_QSEED3_DEFAULT_PRELOAD_H;
- 			scale_cfg->preload_y[i] = DPU_QSEED3_DEFAULT_PRELOAD_V;
- 		}
--
--		pixel_ext->num_ext_pxls_top[i] =
--			scale_cfg->src_height[i];
--		pixel_ext->num_ext_pxls_left[i] =
--			scale_cfg->src_width[i];
- 	}
- 	if (!(DPU_FORMAT_IS_YUV(fmt)) && (src_h == dst_h)
- 		&& (src_w == dst_w))
-@@ -591,6 +594,24 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
- 	scale_cfg->enable = 1;
- }
- 
-+static void _dpu_plane_setup_pixel_ext(struct dpu_plane_state *pstate,
-+				struct dpu_hw_scaler3_cfg *scale_cfg,
-+				struct dpu_hw_pixel_ext *pixel_ext)
-+{
-+	int i = 0;
-+	bool inline_rotation = (pstate->rotation & DRM_MODE_ROTATE_90);
-+
-+	if (!scale_cfg && !scale_cfg->enable)
-+		return;
-+
-+	for (i = 0; i < DPU_MAX_PLANES; i++) {
-+		pixel_ext->num_ext_pxls_top[i] = inline_rotation ?
-+				scale_cfg->src_width[i] : scale_cfg->src_height[i];
-+		pixel_ext->num_ext_pxls_left[i] = inline_rotation ?
-+				scale_cfg->src_height[i] : scale_cfg->src_width[i];
-+	}
-+}
-+
- static const struct dpu_csc_cfg dpu_csc_YUV2RGB_601L = {
- 	{
- 		/* S15.16 format */
-@@ -665,9 +686,12 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
- 			drm_rect_height(&pipe_cfg->src_rect),
- 			drm_rect_width(&pipe_cfg->dst_rect),
- 			drm_rect_height(&pipe_cfg->dst_rect),
--			&scaler3_cfg, &pixel_ext, fmt,
-+			&scaler3_cfg, fmt,
- 			info->hsub, info->vsub);
- 
-+	/* configure pixel extension based on scalar config */
-+	_dpu_plane_setup_pixel_ext(pstate, &scaler3_cfg, &pixel_ext);
-+
- 	if (pdpu->pipe_hw->ops.setup_pe)
- 		pdpu->pipe_hw->ops.setup_pe(pdpu->pipe_hw,
- 				&pixel_ext);
-@@ -967,6 +991,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 	const struct dpu_format *fmt;
- 	struct drm_rect src, dst, fb_rect = { 0 };
- 	uint32_t min_src_size, max_linewidth;
-+	unsigned int rotation;
- 
- 	if (new_plane_state->crtc)
- 		crtc_state = drm_atomic_get_new_crtc_state(state,
-@@ -1035,6 +1060,48 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 		return -E2BIG;
- 	}
- 
-+	rotation = drm_rotation_simplify(new_plane_state->rotation,
-+			    DRM_MODE_ROTATE_0 |
-+			    DRM_MODE_ROTATE_90 |
-+			    DRM_MODE_REFLECT_X |
-+			    DRM_MODE_REFLECT_Y);
-+
-+	if (rotation & DRM_MODE_ROTATE_90) {
-+		const struct msm_format *msm_fmt;
-+		const struct dpu_format *fmt;
-+		bool found = false;
-+		u32 i, num_formats;
-+		const u32 *supported_formats;
-+
-+		if ((pdpu->pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION)) &&
-+			pdpu->pipe_hw->cap->sblk->rotation_cfg &&
-+			(drm_rect_width(&src) >
-+				pdpu->pipe_hw->cap->sblk->rotation_cfg->rot_maxheight)) {
-+			DPU_DEBUG_PLANE(pdpu,
-+			"invalid height for inline rot:%d max:%d\n",
-+			src.y2, pdpu->pipe_hw->cap->sblk->rotation_cfg->rot_maxheight);
-+			return -EINVAL;
-+		}
-+
-+		msm_fmt = msm_framebuffer_format(new_plane_state->fb);
-+		fmt = to_dpu_format(msm_fmt);
-+		supported_formats = pdpu->pipe_hw->cap->sblk->rotation_cfg->rot_format_list;
-+		num_formats = pdpu->pipe_hw->cap->sblk->rotation_cfg->rot_num_formats;
-+
-+		for (i = 0; i < num_formats; i++) {
-+			/* check for valid formats supported by inline rotation */
-+			if (fmt->base.pixel_format == supported_formats[i] &&
-+				DPU_FORMAT_IS_UBWC(fmt))
-+				found = true;
-+		}
-+
-+		if (!found || !num_formats) {
-+			DPU_DEBUG_PLANE(pdpu,
-+			"supported_format not found num:%d\n", num_formats);
-+			return -EINVAL;
-+		}
-+	}
-+	pstate->rotation = rotation;
- 	pstate->needs_qos_remap = drm_atomic_crtc_needs_modeset(crtc_state);
- 
- 	return 0;
-@@ -1150,21 +1217,18 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 				pstate->multirect_mode);
- 
- 	if (pdpu->pipe_hw->ops.setup_format) {
--		unsigned int rotation;
- 
- 		src_flags = 0x0;
- 
--		rotation = drm_rotation_simplify(state->rotation,
--						 DRM_MODE_ROTATE_0 |
--						 DRM_MODE_REFLECT_X |
--						 DRM_MODE_REFLECT_Y);
--
--		if (rotation & DRM_MODE_REFLECT_X)
-+		if (pstate->rotation & DRM_MODE_REFLECT_X)
- 			src_flags |= DPU_SSPP_FLIP_LR;
- 
--		if (rotation & DRM_MODE_REFLECT_Y)
-+		if (pstate->rotation & DRM_MODE_REFLECT_Y)
- 			src_flags |= DPU_SSPP_FLIP_UD;
- 
-+		if (pstate->rotation & DRM_MODE_ROTATE_90)
-+			src_flags |= DPU_SSPP_ROT_90;
-+
- 		/* update format */
- 		pdpu->pipe_hw->ops.setup_format(pdpu->pipe_hw, fmt, src_flags,
- 				pstate->multirect_index);
-@@ -1462,6 +1526,8 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
- 	int zpos_max = DPU_ZPOS_MAX;
- 	uint32_t num_formats;
- 	int ret = -EINVAL;
-+	unsigned int supported_rotations = DRM_MODE_ROTATE_0 |
-+			DRM_MODE_ROTATE_180 | DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y;
- 
- 	/* create and zero local structure */
- 	pdpu = kzalloc(sizeof(*pdpu), GFP_KERNEL);
-@@ -1529,12 +1595,11 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
- 			BIT(DRM_MODE_BLEND_PREMULTI) |
- 			BIT(DRM_MODE_BLEND_COVERAGE));
- 
-+	if (pdpu->pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION))
-+		supported_rotations |= DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270;
-+
- 	drm_plane_create_rotation_property(plane,
--			DRM_MODE_ROTATE_0,
--			DRM_MODE_ROTATE_0 |
--			DRM_MODE_ROTATE_180 |
--			DRM_MODE_REFLECT_X |
--			DRM_MODE_REFLECT_Y);
-+		    DRM_MODE_ROTATE_0, supported_rotations);
- 
- 	drm_plane_enable_fb_damage_clips(plane);
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-index 9d51dad..e72da02 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-@@ -25,6 +25,7 @@
-  * @pending:	whether the current update is still pending
-  * @plane_fetch_bw: calculated BW per plane
-  * @plane_clk: calculated clk per plane
-+ * @rotation: simplified drm rotation hint
-  */
- struct dpu_plane_state {
- 	struct drm_plane_state base;
-@@ -37,6 +38,7 @@ struct dpu_plane_state {
- 
- 	u64 plane_fetch_bw;
- 	u64 plane_clk;
-+	unsigned int rotation;
- };
- 
- /**
--- 
-2.7.4
+--------------TJ5YGH0xpLn944Ddd26O6o90--
 
+--------------BwkCJlWNQzpiHXpoHWQCjojT
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIPhKoFAwAAAAAACgkQlh/E3EQov+DS
+ThAAonZ6Axq6Cit8sPLPVSbu37hyat9FxIRHCQPvN4kIlIpHxiBdwbGKZDzjgFsKl2MRTUfePnJp
+0zdP0ZtPLyzJydpkO3aqrHZ6e3y8CLjMmOApjtlx+38kcB8N3lZRLbttwvvDJSEL6wd0GcWNl59R
+wMjh01sekxt3Pmfo2cprNchSshsnemmHCYHwTiOtk8wTBlqQejcy7Zyp79uoAYwoCQutjTZ9L+OW
+9lD7MAeJk7+OT4hqxGwtui5xgBI6ccH8EaxnVoexhUS5nJu0IBpB+ewZDLFfEeguwImROYqxAcGY
+xIZBexNRaGB8GwtRS2HntXbiqbJ6HLoNIiR31wAM9ALiHe6WEKmbIDs6TnSEo7pIQMIUajUS7kW5
+XPY14wjvIOSAz9qC3H3PuhBYQDcXNwLYO6mrBephph8iZVKql3W2vXrqSmA8rOoRBHcbJzGFajtk
+fJE2qN/KB8s3nS+oRtl8oy/ZD+vnSpQO2uOpdFIr+u0yfe+BmVBNZKy2FYHuTawQcBn5WfLvKxaw
+VLe0lGOc9jUePTrpTvhi2a5a0WssY/xC8BHuU5Z2wBRKFbxhBjvfirVH/z7neeSFLS/1rEHV/PRl
+0zBx7IFm5RSayIybvqKery+6tFO+rf1ojKClF93/H6VY8jDJv8td7z8+H6rwl5CaiW7NGPnSKPM8
+Zgg=
+=4fyI
+-----END PGP SIGNATURE-----
+
+--------------BwkCJlWNQzpiHXpoHWQCjojT--
