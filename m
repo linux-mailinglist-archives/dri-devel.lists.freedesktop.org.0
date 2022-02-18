@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9E34BB656
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:05:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D0F4BB650
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Feb 2022 11:05:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 253C310F02E;
-	Fri, 18 Feb 2022 10:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6C1210F035;
+	Fri, 18 Feb 2022 10:05:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F2C210F04B;
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7075710F047;
  Fri, 18 Feb 2022 10:05:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1645178737; x=1676714737;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6hrcWO8pt/duDuZYb+yp9duBAmECMDPJwstgNFTeNb8=;
- b=HXEeznmCFimz2uKADUEnPIK2U+oUtw6ROb9AVP87f38fDzx1SwsnzpdF
- KTZRRmxixAaGcMpRorvI+o6bgqXgBkz4T7r2L5EFWOTSYHL3KI4deL0It
- rsFrg7eoaHT9vnA1KOM5Zy3WEOdjfpWNA26TiG2hqDdQTbDze2zziQ2Iy
- 9qMIklqW523KCptc/IMpiaTi7IcOQEKgHTgHnl8e8ux9E3uSwUjfdnJ/J
- TopXSJ3eAtRa3taxdRZxrUszurEYEUFYc8yRTd3/4qb/A3l4NWHQf/Brc
- HKpo/6T9vaP54xppC75/7vrepm6H4FDuLE7iY5eO4gxjvV8JthIt7NvUy w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="231734295"
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="231734295"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 02:05:33 -0800
+ bh=qaTNC+xXZmSxaE21z5U0LL34TH0l+uk/IjYSVhvcYhs=;
+ b=G4E6EmJA1xui9xLsIYcj3s5+yPvt27LJHUWZZEoIE1iki5K0IQV+lVpG
+ 9lSzYMRiWxVB/hsBR8zNsK4eXPwzbq3NUVf53Ez1r/3Uv7s5bFFRHiDSI
+ dgh4QQ2FatAriqjiN+SFMvo7abPC2uB1kTNo9KN0JIzdJwaCcOiDwixLG
+ sBeLhxgBW/hSBTVXatlaIVbwdysmE1VYQiKY79CvFGFXe0dg9btz4l0n3
+ YI2wdd2scFQXGvlW5K32B75rK4teOdN2pPd9h/mo7UsWaztPoXqAL4Wt4
+ O+J8KZXahpcyW/o/UWe9OLHwtI406uOjQyjgx0+6zOV4gm0jULF73rubk g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="337541527"
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="337541527"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2022 02:05:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="546219681"
+X-IronPort-AV: E=Sophos;i="5.88,378,1635231600"; d="scan'208";a="530863934"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
- by orsmga008.jf.intel.com with SMTP; 18 Feb 2022 02:05:30 -0800
+ by orsmga007.jf.intel.com with SMTP; 18 Feb 2022 02:05:33 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 18 Feb 2022 12:05:30 +0200
+ Fri, 18 Feb 2022 12:05:33 +0200
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 21/22] drm: Use drm_mode_init() for on-stack modes
-Date: Fri, 18 Feb 2022 12:04:02 +0200
-Message-Id: <20220218100403.7028-22-ville.syrjala@linux.intel.com>
+Subject: [PATCH 22/22] drm: Use drm_mode_copy()
+Date: Fri, 18 Feb 2022 12:04:03 +0200
+Message-Id: <20220218100403.7028-23-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
 References: <20220218100403.7028-1-ville.syrjala@linux.intel.com>
@@ -64,113 +64,103 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Initialize on-stack modes with drm_mode_init() to guarantee
-no stack garbage in the list head, or that we aren't copying
-over another mode's list head.
+struct drm_display_mode embeds a list head, so overwriting
+the full struct with another one will corrupt the list
+(if the destination mode is on a list). Use drm_mode_copy()
+instead which explicitly preserves the list head of
+the destination mode.
 
-Based on the following cocci script, with manual fixups:
-@decl@
-identifier M;
+Even if we know the destination mode is not on any list
+using drm_mode_copy() seems decent as it sets a good
+example. Bad examples of not using it might eventually
+get copied into code where preserving the list head
+actually matters.
+
+Obviously one case not covered here is when the mode
+itself is embedded in a larger structure and the whole
+structure is copied. But if we are careful when copying
+into modes embedded in structures I think we can be a
+little more reassured that bogus list heads haven't been
+propagated in.
+
+@is_mode_copy@
+@@
+drm_mode_copy(...)
+{
+...
+}
+
+@depends on !is_mode_copy@
+struct drm_display_mode *mode;
+expression E, S;
+@@
+(
+- *mode = E
++ drm_mode_copy(mode, &E)
+|
+- memcpy(mode, E, S)
++ drm_mode_copy(mode, E)
+)
+
+@depends on !is_mode_copy@
+struct drm_display_mode mode;
 expression E;
 @@
-- struct drm_display_mode M = E;
-+ struct drm_display_mode M;
+(
+- mode = E
++ drm_mode_copy(&mode, &E)
+|
+- memcpy(&mode, E, S)
++ drm_mode_copy(&mode, E)
+)
 
 @@
-identifier decl.M;
-expression decl.E;
-statement S, S1;
+struct drm_display_mode *mode;
 @@
-struct drm_display_mode M;
-... when != S
-+ drm_mode_init(&M, &E);
-+
-S1
-
-@@
-expression decl.E;
-@@
-- &*E
-+ E
+- &*mode
++ mode
 
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_crtc_helper.c | 8 ++++----
- drivers/gpu/drm/drm_edid.c        | 8 ++++++--
- drivers/gpu/drm/drm_modes.c       | 4 +++-
- 3 files changed, 13 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_crtc_helper.c | 4 ++--
+ drivers/gpu/drm/drm_vblank.c      | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
-index bff917531f33..a34aa009725f 100644
+index a34aa009725f..b632825654a9 100644
 --- a/drivers/gpu/drm/drm_crtc_helper.c
 +++ b/drivers/gpu/drm/drm_crtc_helper.c
-@@ -297,8 +297,8 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
- 		return false;
+@@ -305,7 +305,7 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
+ 	/* Update crtc values up front so the driver can rely on them for mode
+ 	 * setting.
+ 	 */
+-	crtc->mode = *mode;
++	drm_mode_copy(&crtc->mode, mode);
+ 	crtc->x = x;
+ 	crtc->y = y;
+ 
+@@ -341,7 +341,7 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
  	}
+ 	DRM_DEBUG_KMS("[CRTC:%d:%s]\n", crtc->base.id, crtc->name);
  
--	saved_mode = crtc->mode;
--	saved_hwmode = crtc->hwmode;
-+	drm_mode_init(&saved_mode, &crtc->mode);
-+	drm_mode_init(&saved_hwmode, &crtc->hwmode);
- 	saved_x = crtc->x;
- 	saved_y = crtc->y;
+-	crtc->hwmode = *adjusted_mode;
++	drm_mode_copy(&crtc->hwmode, adjusted_mode);
  
-@@ -411,8 +411,8 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
- 	drm_mode_destroy(dev, adjusted_mode);
- 	if (!ret) {
- 		crtc->enabled = saved_enabled;
--		crtc->mode = saved_mode;
--		crtc->hwmode = saved_hwmode;
-+		drm_mode_copy(&crtc->mode, &saved_mode);
-+		drm_mode_copy(&crtc->hwmode, &saved_hwmode);
- 		crtc->x = saved_x;
- 		crtc->y = saved_y;
- 	}
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index a7663f9a11d2..1156bfeabaf6 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -3476,9 +3476,11 @@ static u8 drm_match_cea_mode_clock_tolerance(const struct drm_display_mode *to_m
- 		match_flags |= DRM_MODE_MATCH_ASPECT_RATIO;
+ 	/* Prepare the encoders and CRTCs before setting the mode. */
+ 	drm_for_each_encoder(encoder, dev) {
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index b701cda86d0c..2ff31717a3de 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -644,7 +644,7 @@ void drm_calc_timestamping_constants(struct drm_crtc *crtc,
  
- 	for (vic = 1; vic < cea_num_vics(); vic = cea_next_vic(vic)) {
--		struct drm_display_mode cea_mode = *cea_mode_for_vic(vic);
-+		struct drm_display_mode cea_mode;
- 		unsigned int clock1, clock2;
+ 	vblank->linedur_ns  = linedur_ns;
+ 	vblank->framedur_ns = framedur_ns;
+-	vblank->hwmode = *mode;
++	drm_mode_copy(&vblank->hwmode, mode);
  
-+		drm_mode_init(&cea_mode, cea_mode_for_vic(vic));
-+
- 		/* Check both 60Hz and 59.94Hz */
- 		clock1 = cea_mode.clock;
- 		clock2 = cea_mode_alternate_clock(&cea_mode);
-@@ -3515,9 +3517,11 @@ u8 drm_match_cea_mode(const struct drm_display_mode *to_match)
- 		match_flags |= DRM_MODE_MATCH_ASPECT_RATIO;
- 
- 	for (vic = 1; vic < cea_num_vics(); vic = cea_next_vic(vic)) {
--		struct drm_display_mode cea_mode = *cea_mode_for_vic(vic);
-+		struct drm_display_mode cea_mode;
- 		unsigned int clock1, clock2;
- 
-+		drm_mode_init(&cea_mode, cea_mode_for_vic(vic));
-+
- 		/* Check both 60Hz and 59.94Hz */
- 		clock1 = cea_mode.clock;
- 		clock2 = cea_mode_alternate_clock(&cea_mode);
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 40d4ce4a1da4..86904d082ff2 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -788,7 +788,9 @@ EXPORT_SYMBOL(drm_mode_vrefresh);
- void drm_mode_get_hv_timing(const struct drm_display_mode *mode,
- 			    int *hdisplay, int *vdisplay)
- {
--	struct drm_display_mode adjusted = *mode;
-+	struct drm_display_mode adjusted;
-+
-+	drm_mode_init(&adjusted, mode);
- 
- 	drm_mode_set_crtcinfo(&adjusted, CRTC_STEREO_DOUBLE_ONLY);
- 	*hdisplay = adjusted.crtc_hdisplay;
+ 	drm_dbg_core(dev,
+ 		     "crtc %u: hwmode: htotal %d, vtotal %d, vdisplay %d\n",
 -- 
 2.34.1
 
