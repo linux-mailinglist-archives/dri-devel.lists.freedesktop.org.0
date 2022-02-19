@@ -1,60 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB654BC750
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6634BC709
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 10:14:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0B6710F672;
-	Sat, 19 Feb 2022 10:02:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3C138926F;
+	Sat, 19 Feb 2022 09:14:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
- [IPv6:2607:f8b0:4864:20::1133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD0D510EBF6
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 13:05:37 +0000 (UTC)
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-2d6923bca1aso56637697b3.9
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 05:05:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=93CVqQreNey4UxGTD3l51x3Bbik2BD7CmQHLf6XaIHw=;
- b=SehDqi+GFuUda/fggyakKXC3GucwEVDzfyQ+XB9SegLzhnRdrEK7aOvlk06jwkzCsS
- aNaSLYT+u+8pGDTa6UjxHl1z8UdBLaj0G/HWoaslLDhTyhLJg9cGPFP+Y6it77yj34pM
- tFCzlWkyBqHljmskcdiiY81P7bZ5VzAUc2D5oDJkUhlSsNIDaEDZqmc6HVSKvgvsGWwa
- nEx03mCYzfg4NNLI/TK2UKoqYUJ/BWOdpZ4uoww3tVdfX3l5hbuamJYD5Ic9lKdNcPPA
- 6yHpMj89muImtCYlQ/NSY24a+GuI562an7j8znatM/94Eb4hg1AvJQIlfSgm/3qAqJid
- zvvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=93CVqQreNey4UxGTD3l51x3Bbik2BD7CmQHLf6XaIHw=;
- b=d5srnsNJGj9roRh7S3w2HrXNO1qlvwf2FsZWjCmoV6qUsB9GttBVbfr5Z2drHu1iL2
- 5UdTCERker56Na82S+eOEtJwECT1XLoLphuhErLL92bN3bUZOwxsgXhGbiHqM0bfASrx
- h4dvOf/iJ5KJVRMfaBpkbR/Sd3uFPxwvqWex6Sj7bBIwR8kRNbuazL8VlIZeBKIWRUk/
- bld/6Odq/k/2PSLcbhFhG+FbFuoB81n2q2bDvea9MR+WVU/0t+gP8b3dicLumYJB0+T5
- hLh0S5y4VOVk1gxy7ZKF2Bv6/QiLnsn7QvikWwbo/D3uiCJ2P5JyLmVTEN9hWMjtAp44
- +aoQ==
-X-Gm-Message-State: AOAM531ZVMbGDS+krgpix3U9HCetyFVr2d9udiDTnk0BnEmmXjpXdA1Z
- xEAUPJjjhQKYNanMv2A/34DRi8WQW3auEK4UUrliP6yCjr0qm/L1
-X-Google-Smtp-Source: ABdhPJzQYHdum9Us26v+wAaJ5eNXNrTZvi6ppwsd2WRgDYD9Vt2zVCDpVIbdO7xcL4XMVutgalQNlOxbsGcJqi6X7k0=
-X-Received: by 2002:a81:1516:0:b0:2d0:e7ca:2a5 with SMTP id
- 22-20020a811516000000b002d0e7ca02a5mr7291377ywv.55.1645189536473; Fri, 18 Feb
- 2022 05:05:36 -0800 (PST)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFC8710F54D
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 09:13:58 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 4f4eea55-9164-11ec-baa1-0050568c148b;
+ Sat, 19 Feb 2022 09:14:15 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 9EC89194BBA;
+ Sat, 19 Feb 2022 10:13:56 +0100 (CET)
+Date: Sat, 19 Feb 2022 10:13:52 +0100
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 1/3] drm/panel: Rename Sony ACX424 to Novatek NT35560
+Message-ID: <YhC00FbY/W1r9m6T@ravnborg.org>
+References: <20220103113822.654592-1-linus.walleij@linaro.org>
+ <CACRpkdZSz9gCHyHz7=ZKSGBH9GuozmfiZ_a-MHmoJ_5h8ED8cw@mail.gmail.com>
+ <CACRpkdZ2tUKuGP4SZdar=9tMVO__xn0fUV+DQGU5PRwcPo9ERA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220217140441.1218045-1-andrzej.hajda@intel.com>
- <20220217140441.1218045-6-andrzej.hajda@intel.com>
- <CANn89i+nCZ6LV_1E2OnJ4qWE0XkO2FGW+A6_tkmQpdxiiEh=LQ@mail.gmail.com>
- <8f6fb098-d0d9-910e-7d42-9fbc541f9891@intel.com>
-In-Reply-To: <8f6fb098-d0d9-910e-7d42-9fbc541f9891@intel.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Fri, 18 Feb 2022 05:05:25 -0800
-Message-ID: <CANn89iLHd+Y=7xqx0OqfHXmqnUhhRycTARGfgq-y79Xhy5OQew@mail.gmail.com>
-Subject: Re: [PATCH 5/9] lib/ref_tracker: improve allocation flags
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Sat, 19 Feb 2022 10:01:55 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkdZ2tUKuGP4SZdar=9tMVO__xn0fUV+DQGU5PRwcPo9ERA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,30 +49,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Wilson <chris.p.wilson@intel.com>, netdev <netdev@vger.kernel.org>,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Jakub Kicinski <kuba@kernel.org>, Dmitry Vyukov <dvyukov@google.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 18, 2022 at 2:28 AM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
-> > git log --oneline 5740d0689096..4d449bdc5b26 --no-merges -- lib/ref_tracker.c
-> > c2d1e3df4af59261777b39c2e47476acd4d1cbeb ref_tracker: remove
-> > filter_irq_stacks() call
-> > 8fd5522f44dcd7f05454ddc4f16d0f821b676cd9 ref_tracker: add a count of
-> > untracked references
-> > e3ececfe668facd87d920b608349a32607060e66 ref_tracker: implement
-> > use-after-free detection
->
->
-> So I will cherry-pick these patches into next version of patchset, with
-> "NO MERGE" annotation (to allow testing), and if my ref_track patches
-> will be accepted then they can go via net-dev tree and intel patches
-> will wait till update of drm-tip.
-> Is this scenario OK?
+Hi Linus,
 
-One possibility would be to split your patch series in two, to merge
-the ref_tracker changes directly in net-next asap.
+On Sat, Feb 19, 2022 at 02:40:33AM +0100, Linus Walleij wrote:
+> On Sat, Jan 29, 2022 at 2:26 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> > On Mon, Jan 3, 2022 at 12:40 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> >
+> > > A code drop from Sony Mobile reveals that the ACX424 panels are
+> > > built around the Novatek NT35560 panel controllers so just bite
+> > > the bullet and rename the driver and all basic symbols so that
+> > > we can modify this driver to cover any other panels also using
+> > > the Novatek NT35560 display controller.
+> > >
+> > > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> >
+> > Could someone take mercy in reviewing this patch set?
+> >
+> > I can offer some patch review back!
+> 
+> I can also offer coffee in person in Sweden,
+I will take you up on this on day - I hope :-)
+Greetings from Denmark.
 
-But I have no strong opinion, maybe Jakub/David have some guidance.
+	Sam
