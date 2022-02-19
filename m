@@ -2,70 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138794BC4D8
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 03:27:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6B84BC4E1
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 03:34:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91A1B10EB28;
-	Sat, 19 Feb 2022 02:27:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D87010E183;
+	Sat, 19 Feb 2022 02:34:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B920910EB27
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 02:27:01 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id e2so3384842ljq.12
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 18:27:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=IdQuvPdE/S4qlv5lMX2CTY4ZIw7BaXOuiozopHqRT6w=;
- b=YJkgom0cuyDGDmZTKqx1EYQnaQXBwCUG6RIxkTqqcqRR4mqqViZ0Gk9vT9xoJzwmbJ
- ge5QVQZWhopZrG5enB+6V7MKeApWlo/j+xSK649dXbN3hOnUiRKNSX8K6Td8HwlrUwOx
- ez4U6NPuWOOC+jvfleTf1pZhfoJtD9WgByZzFcYHXUJt1OJYx8YvVQm/WaSSdcUNTKZj
- QY/wAe+tOyj7T0BYXBoROG7VPTQxrtMBCL2gCEIPpYNBCDP1HxDouBzSmxRQafagdT6e
- fagasOfUQilhxwSjYBACsAEv5UZdfklkIZLDMQGzK76ZMD+NZoxPUCEjbibnQIuE5Rqo
- qlZA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A58EA10E183
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 02:34:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645238088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dLSRXD4oabvT1hZcyTh/jopmei8mV6oK1K/s3P1srU8=;
+ b=atG7kMY5NthZOigp49uuoT8klRkn9tyVdU/rNtVXF8uFDJAb2iucEehNFkpIIMm0rUUuOa
+ jsxC1p1RgIi+2D3MwivgRIZtSUX/RYZbzpwBWrNVd6WtnSUlXoegFEjVnsNYNtMw/V3VFR
+ 7Sc28xBgopw79oPKrIF2R/JSMSIPkqI=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-ch8gT7HgN9qyED4_BxgExA-1; Fri, 18 Feb 2022 21:34:45 -0500
+X-MC-Unique: ch8gT7HgN9qyED4_BxgExA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ i189-20020a3786c6000000b00646d7b30998so1545740qkd.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 18:34:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IdQuvPdE/S4qlv5lMX2CTY4ZIw7BaXOuiozopHqRT6w=;
- b=ZSPmf75mXAN97hjVhOGFHzAHlLWUT1NqAbKcAy7ksUThJFnanP87MEdecxon63C7RA
- whNWFvlARMSGgAVCseTY/jieDVI8v8ZC8imrb2mRIwUwajUsHIGbZl1we68Kv1B8DK7a
- FTj/o6Pu3xWGa/MlIR29+0Oc4XcNNuIFBjCF+94Xb9DBImeQ8vispPmDVc59tTY1LacM
- GnqPhyqyhblfSyvkos0cG1LSyOBnuh5FerjgNVd7ojnDrcGPhRv0lMLbkLXq1BgQikKm
- yymKeP13/WmBW9a1PzThZDo23lEB7IK1cugFTBsULbvq3MiWGGNs1NdKRhbAbr405DZU
- TQYw==
-X-Gm-Message-State: AOAM531HSIdKenZRwiucRd4l30k1OC/LnrqQ27bc2v4JIAMW9sfgZiP2
- wGP2GTTP7uxsVipUmUB30dkpCg==
-X-Google-Smtp-Source: ABdhPJzfnCK14YHvzUMUBrZak0qwu6CAvdKuc4cafh2DrzArUw7pQPwvTREIpejvLUZftorefoKmXQ==
-X-Received: by 2002:a2e:960e:0:b0:246:8fd:7cd5 with SMTP id
- v14-20020a2e960e000000b0024608fd7cd5mr7545520ljh.13.1645237619860; 
- Fri, 18 Feb 2022 18:26:59 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id s2sm434456lfr.126.2022.02.18.18.26.59
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=dLSRXD4oabvT1hZcyTh/jopmei8mV6oK1K/s3P1srU8=;
+ b=hF+OAvUtEXDiVK7ggrHf0BdO/zooDFWXVmKbYGKCmc5mUShh2RFOlD1B7w7nhXbKvQ
+ Z6NhaR5//uC/QT+0Cj9nRy1/TXz9ojE4L8uzry6FEZvbLK8IlwI69m1/H3cy8XMDUlcl
+ 3PUNFHn4Y16ChajUlBgZqtQjXfVfkznk0V/8OCkjdMdrtGnlptGG0x/UNE3YYysHcixM
+ OzHxPUOujb9IshhGIgrTW4LYAUv5Xswv0wcOzq8J7vsHTvcXnSPr9mUjyQUjO3KenSpE
+ 3f+7NsdEjaS+RJJTMTpo/Tzc99WikjFPG35eRlBSJLOMkSPdMVQ/UV4zVX39rw/D/y1H
+ NKmw==
+X-Gm-Message-State: AOAM5324a+bej3hmgpjIoFgE/N8yNU7+HIzvJYRDa1xnCwrOzzbdkG8r
+ OgnPpApZyn0CPJMaRVJgNFkmgnhVJonXhKN+gqJo9IhBdL3wa5yqH1sywiy5ekT4sADaKFx9oXf
+ Kz/qytpm9vwKgNd0U5rBrL2dODZuc
+X-Received: by 2002:a05:622a:255:b0:2dd:2295:e6cc with SMTP id
+ c21-20020a05622a025500b002dd2295e6ccmr9237072qtx.399.1645238085425; 
+ Fri, 18 Feb 2022 18:34:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJycI8i/Dj3TSf78qpp+mi+i6jw4nt8X0/VpHah9pqOsogHlS9ItFFm2kFqJ/p1eOKjjqDzKmw==
+X-Received: by 2002:a05:622a:255:b0:2dd:2295:e6cc with SMTP id
+ c21-20020a05622a025500b002dd2295e6ccmr9237062qtx.399.1645238085204; 
+ Fri, 18 Feb 2022 18:34:45 -0800 (PST)
+Received: from localhost.localdomain (024-205-208-113.res.spectrum.com.
+ [24.205.208.113])
+ by smtp.gmail.com with ESMTPSA id f14sm23160886qko.117.2022.02.18.18.34.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Feb 2022 18:26:59 -0800 (PST)
-Message-ID: <a1b1d3ef-4131-b8a9-5300-89092bce271b@linaro.org>
-Date: Sat, 19 Feb 2022 05:26:58 +0300
+ Fri, 18 Feb 2022 18:34:44 -0800 (PST)
+Subject: Re: [PATCH] drm/amdkfd: rework criu_restore_bos error handling
+To: Felix Kuehling <felix.kuehling@amd.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, nathan@kernel.org, ndesaulniers@google.com,
+ david.yatsin@amd.com, rajneesh.bhardwaj@amd.com
+References: <20220218173913.3376948-1-trix@redhat.com>
+ <b98981f4-358b-ebdd-dade-4027c57a1a7e@amd.com>
+From: Tom Rix <trix@redhat.com>
+Message-ID: <4ca24c08-9014-3380-b8cc-dc0ed9a01a73@redhat.com>
+Date: Fri, 18 Feb 2022 18:34:41 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [RFC PATCH v2 1/5] drm/msm/dp: fix panel bridge attachment
-Content-Language: en-GB
-To: Stephen Boyd <swboyd@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-References: <20220211224006.1797846-1-dmitry.baryshkov@linaro.org>
- <20220211224006.1797846-2-dmitry.baryshkov@linaro.org>
- <CAE-0n52iHFtHppZj-g0V1UP5oWzXjbNDjpOd-hgR+F=TqFzjVg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAE-0n52iHFtHppZj-g0V1UP5oWzXjbNDjpOd-hgR+F=TqFzjVg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <b98981f4-358b-ebdd-dade-4027c57a1a7e@amd.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,92 +91,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/02/2022 02:56, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2022-02-11 14:40:02)
->> In commit 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display
->> enable and disable") the DP driver received a drm_bridge instance, which
->> is always attached to the encoder as a root bridge. However it conflicts
->> with the panel_bridge support for eDP panels. The panel bridge attaches
->> to the encoder before the "dp" bridge has a chace to do so. Change
-> 
-> s/chace/chance/
-> 
->> panel_bridge attachment to come after dp_bridge attachment.
-> 
-> s/panel_bridge/panel bridge/ possibly? And maybe clarify that dp_bridge
-> is the "DP driver's drm_bridge instance created in
-> msm_dp_bridge_init()"?
-> 
-> My understanding is that we want to pass the bridge created in
-> msm_dp_bridge_init() as the 'previous' bridge so that it attaches the
-> panel bridge to the output of the DP bridge that's attached to the
-> encoder.
 
-Thanks! I'll update the commit log when pushing the patches.
-
-> 
+On 2/18/22 10:35 AM, Felix Kuehling wrote:
+> Am 2022-02-18 um 12:39 schrieb trix@redhat.com:
+>> From: Tom Rix <trix@redhat.com>
 >>
->> Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display enable and disable")
->> Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Clang static analysis reports this problem
+>> kfd_chardev.c:2327:2: warning: 1st function call argument
+>>    is an uninitialized value
+>>    kvfree(bo_privs);
+>>    ^~~~~~~~~~~~~~~~
+>>
+>> If the copy_from_users(bo_buckets, ...) fails, there is a jump to
+>> the generic error handler at exit:.  The freeing of bo_privs and
+>> unwinding of the dmabuf_fd loop do not need to be done.
+>>
+>> Add some specific labels for the early failures.
+>> Reorder the frees to be the reverse of their allocs.
+>>
+>> Move the initialize of 'i' back to the loop.
+>> The problem with the early frees predates the loop
+>> unwinding problem.
+>
+> I think the existing error handling strategy in this function is fine. 
+> Having only one exit label avoids potential issues when using the 
+> wrong label. Freeing NULL pointers is not a problem. The loop becomes 
+> a noop if i==0 (this was fixed by you in a previous patch). The only 
+> real problem I see is that bo_privs is not initialized. So this should 
+> really be a one-line or maybe two-line fix:
+>
+>     struct kfd_criu_bo_bucket *bo_buckets = NULL;
+>     struct kfd_criu_bo_priv_data *bo_privs = NULL;
+
+This is the other way I considered to fix the problem. So it will work.
+
+Tom
+
+>
+> Regards,
+>   Felix
+>
+>
+>>
+>> Fixes: 73fa13b6a511 ("drm/amdkfd: CRIU Implement KFD restore ioctl")
+>> Signed-off-by: Tom Rix <trix@redhat.com>
 >> ---
-> 
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> 
->>   drivers/gpu/drm/msm/dp/dp_drm.c | 21 +++++++++++----------
->>   1 file changed, 11 insertions(+), 10 deletions(-)
+>>   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 15 +++++++++------
+>>   1 file changed, 9 insertions(+), 6 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
->> index d4d360d19eba..26ef41a4c1b6 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
->> @@ -169,16 +169,6 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
->>
->>          drm_connector_attach_encoder(connector, dp_display->encoder);
->>
->> -       if (dp_display->panel_bridge) {
->> -               ret = drm_bridge_attach(dp_display->encoder,
->> -                                       dp_display->panel_bridge, NULL,
->> -                                       DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->> -               if (ret < 0) {
->> -                       DRM_ERROR("failed to attach panel bridge: %d\n", ret);
->> -                       return ERR_PTR(ret);
->> -               }
->> -       }
->> -
->>          return connector;
->>   }
->>
->> @@ -246,5 +236,16 @@ struct drm_bridge *msm_dp_bridge_init(struct msm_dp *dp_display, struct drm_devi
->>                  return ERR_PTR(rc);
->>          }
->>
->> +       if (dp_display->panel_bridge) {
->> +               rc = drm_bridge_attach(dp_display->encoder,
->> +                                       dp_display->panel_bridge, bridge,
->> +                                       DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->> +               if (rc < 0) {
->> +                       DRM_ERROR("failed to attach panel bridge: %d\n", rc);
->> +                       drm_bridge_remove(bridge);
->> +                       return ERR_PTR(rc);
->> +               }
->> +       }
+>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c 
+>> b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+>> index 965af2a08bc0..1d5f41ac3832 100644
+>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+>> @@ -2102,7 +2102,7 @@ static int criu_restore_bos(struct kfd_process *p,
+>>       const bool criu_resume = true;
+>>       bool flush_tlbs = false;
+>>       int ret = 0, j = 0;
+>> -    uint32_t i = 0;
+>> +    uint32_t i;
+>>         if (*priv_offset + (args->num_bos * sizeof(*bo_privs)) > 
+>> max_priv_data_size)
+>>           return -EINVAL;
+>> @@ -2119,13 +2119,13 @@ static int criu_restore_bos(struct 
+>> kfd_process *p,
+>>       if (ret) {
+>>           pr_err("Failed to copy BOs information from user\n");
+>>           ret = -EFAULT;
+>> -        goto exit;
+>> +        goto free_buckets;
+>>       }
+>>         bo_privs = kvmalloc_array(args->num_bos, sizeof(*bo_privs), 
+>> GFP_KERNEL);
+>>       if (!bo_privs) {
+>>           ret = -ENOMEM;
+>> -        goto exit;
+>> +        goto free_buckets;
+>>       }
+>>         ret = copy_from_user(bo_privs, (void __user *)args->priv_data 
+>> + *priv_offset,
+>> @@ -2133,12 +2133,12 @@ static int criu_restore_bos(struct 
+>> kfd_process *p,
+>>       if (ret) {
+>>           pr_err("Failed to copy BOs information from user\n");
+>>           ret = -EFAULT;
+>> -        goto exit;
+>> +        goto free_privs;
+>>       }
+>>       *priv_offset += args->num_bos * sizeof(*bo_privs);
+>>         /* Create and map new BOs */
+>> -    for (; i < args->num_bos; i++) {
+>> +    for (i = 0; i < args->num_bos; i++) {
+>>           struct kfd_criu_bo_bucket *bo_bucket;
+>>           struct kfd_criu_bo_priv_data *bo_priv;
+>>           struct kfd_dev *dev;
+>> @@ -2323,8 +2323,11 @@ static int criu_restore_bos(struct kfd_process 
+>> *p,
+>>           if (bo_buckets[i].alloc_flags & KFD_IOC_ALLOC_MEM_FLAGS_VRAM)
+>>               close_fd(bo_buckets[i].dmabuf_fd);
+>>       }
+>> -    kvfree(bo_buckets);
+>> +free_privs:
+>>       kvfree(bo_privs);
+>> +free_buckets:
+>> +    kvfree(bo_buckets);
 >> +
->>          return bridge;
-> 
-> Not a problem with this patch, but what is this pointer used for? I see
-> it's assigned to priv->bridges and num_bridges is incremented but nobody
-> seems to look at that.
+>>       return ret;
+>>   }
+>
 
-
-That's on my todo list. to remove connectors array and to destroy 
-created bridges during drm device destruction.
-
--- 
-With best wishes
-Dmitry
