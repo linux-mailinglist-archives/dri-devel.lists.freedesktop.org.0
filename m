@@ -1,52 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB23D4BC760
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17B3C4BC75F
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96AB010F698;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE7E410F69A;
 	Sat, 19 Feb 2022 10:02:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx3.securetransport.de (mx3.securetransport.de
- [IPv6:2a01:4f8:c0c:92be::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B169010F5EA
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 09:38:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dh-electronics.com;
- s=dhelectronicscom; t=1645263454;
- bh=98e1PeD2+rMslalShlJN5uSaFcu4ASGkueNqRizTG2g=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=xIMxD9uPxfYA2JFKXELGSvBVRYHKvKGplUozB701M+OrlU0+m2x7YhcI+UpxmnUCe
- RWYqygb9Lu/WQFKolYOem55Vx3iY5qhj2u3BTA2ARJ9ser1u/XpUIwQOlj1HAgWrJ/
- Rx1iFSfG1ZyVox65eBoLUXjvELlCbpOpJGJ+54qgApCj9oCgJFuKhX3P0CYE+naUEo
- LFsU2J3PUlhNXF9i48ewxEonWy0agQ+Ca2Ovt4DdCUDB2Rj++RQKmQTkhq9CpIx/UZ
- yCb8u9yFe3pIA2sRd9wuoPIHj0nhoOt8ZkCQjKclpHVxXyqkcjkUIh0N0ZSKzvtnKZ
- ss2fuD1fHefkw==
-X-secureTransport-forwarded: yes
-From: Christoph Niedermaier <cniedermaier@dh-electronics.com>
-Complaints-To: abuse@cubewerk.de
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [RFC][PATCH] Revert "drm/panel-simple: drop use of data-mapping
- property"
-Thread-Topic: [RFC][PATCH] Revert "drm/panel-simple: drop use of data-mapping
- property"
-Thread-Index: AQHYF1wNP59QmGTIpEaZdSyAMfHN4ayA3pOAgAkEMsCAAGuFAIAA4AmAgA+JyJA=
-Date: Sat, 19 Feb 2022 09:37:28 +0000
-Message-ID: <b0f07052a12844b5a18da76cf591eadd@dh-electronics.com>
-References: <20220201110717.3585-1-cniedermaier@dh-electronics.com>
- <YfsXt1lU6l9cSctX@pendragon.ideasonboard.com>
- <4a2f4707c03d4509aa5f3a388cbfbe04@dh-electronics.com>
- <bef41ee6-d070-109f-33c2-95103e7ef6a3@denx.de>
- <78357e75dede2a7bff95126ff35784929335e918.camel@gmail.com>
-In-Reply-To: <78357e75dede2a7bff95126ff35784929335e918.camel@gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C2A8610E29D
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 09:54:17 +0000 (UTC)
+Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
+ by 156.147.23.52 with ESMTP; 19 Feb 2022 18:54:15 +0900
+X-Original-SENDERIP: 156.147.1.151
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
+ by 156.147.1.151 with ESMTP; 19 Feb 2022 18:54:15 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+Date: Sat, 19 Feb 2022 18:54:07 +0900
+From: Byungchul Park <byungchul.park@lge.com>
+To: Theodore Ts'o <tytso@mit.edu>
+Subject: Re: [PATCH 00/16] DEPT(Dependency Tracker)
+Message-ID: <20220219095407.GA10342@X58A-UD3R>
+References: <1645095472-26530-1-git-send-email-byungchul.park@lge.com>
+ <Yg5u7dzUxL3Vkncg@mit.edu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yg5u7dzUxL3Vkncg@mit.edu>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mailman-Approved-At: Sat, 19 Feb 2022 10:01:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,125 +45,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Marek MV. Vasut" <marex@denx.de>, Max Krummenacher <max.oss.09@gmail.com>,
- David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- DenysDrozdov <denys.drozdov@toradex.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Sam
- Ravnborg <sam@ravnborg.org>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- NXP Linux Team <linux-imx@nxp.com>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ joel@joelfernandes.org, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
+ sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
+ djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
+ dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
+ ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ axboe@kernel.dk, melissa.srw@gmail.com, sj@kernel.org,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org, torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogTWF4IEtydW1tZW5hY2hlciBbbWFpbHRvOm1heC5vc3MuMDlAZ21haWwuY29tXQ0KU2Vu
-dDogV2VkbmVzZGF5LCBGZWJydWFyeSA5LCAyMDIyIDI6MTQgUE0NCj4gDQo+IEhpDQo+IA0KPiBB
-bSBNaXR0d29jaCwgZGVuIDA5LjAyLjIwMjIsIDAwOjUyICswMTAwIHNjaHJpZWIgTWFyZWsgVmFz
-dXQ6DQo+ID4gT24gMi84LzIyIDIyOjI3LCBDaHJpc3RvcGggTmllZGVybWFpZXIgd3JvdGU6DQo+
-ID4gPiBGcm9tOiBMYXVyZW50IFBpbmNoYXJ0IFttYWlsdG86bGF1cmVudC5waW5jaGFydEBpZGVh
-c29uYm9hcmQuY29tXQ0KPiA+ID4gU2VudDogVGh1cnNkYXksIEZlYnJ1YXJ5IDMsIDIwMjIgMTI6
-NDYgQU0NCj4gPiA+ID4gSGkgQ2hyaXN0b3BoLA0KPiA+ID4gPg0KPiA+ID4NCj4gPiA+IEhpIExh
-dXJlbnQsDQo+ID4gPg0KPiA+ID4gPiBPbiBUdWUsIEZlYiAwMSwgMjAyMiBhdCAxMjowNzoxN1BN
-ICswMTAwLCBDaHJpc3RvcGggTmllZGVybWFpZXIgd3JvdGU6DQo+ID4gPiA+ID4gV2l0aG91dCB0
-aGUgZGF0YS1tYXBwaW5nIGRldmljZXRyZWUgcHJvcGVydHkgbXkgZGlzcGxheSB3b24ndA0KPiA+
-ID4gPiA+IHdvcmsgcHJvcGVybHkuIEl0IGlzIGZsaWNrZXJpbmcsIGJlY2F1c2UgdGhlIGJ1cyBm
-bGFncyB3b24ndA0KPiA+ID4gPiA+IGJlIGFzc2lnbmVkIHdpdGhvdXQgYSBkZWZpbmVkIGJ1cyBm
-b3JtYXQgYnkgdGhlIGlteCBwYXJhbGxlbA0KPiA+ID4gPiA+IGRpc3BsYXkgZHJpdmVyLiBUaGVy
-ZSB3YXMgYSBkaXNjdXNzaW9uIGFib3V0IHRoZSByZW1vdmFsIFsxXQ0KPiA+ID4gPiA+IGFuZCBh
-biBhZ3JlZW1lbnQgdGhhdCBhIGJldHRlciBzb2x1dGlvbiBpcyBuZWVkZWQsIGJ1dCBpdCBpcw0K
-PiA+ID4gPiA+IG1pc3Npbmcgc28gZmFyLiBTbyB3aGF0IHdvdWxkIGJlIHRoZSBiZXR0ZXIgYXBw
-cm9hY2g/DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBbMV0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRl
-c2t0b3Aub3JnL3BhdGNoLzM1NzY1OS8/c2VyaWVzPTc0NzA1JnJldj0xDQo+ID4gPiA+ID4NCj4g
-PiA+ID4gPiBUaGlzIHJldmVydHMgY29tbWl0IGQwMjFkNzUxYzE0NzUyYTAyNjY4NjU3MDBmNmYy
-MTJmYWI0MGExOGMuDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3Rv
-cGggTmllZGVybWFpZXIgPGNuaWVkZXJtYWllckBkaC1lbGVjdHJvbmljcy5jb20+DQo+ID4gPiA+
-ID4gQ2M6IE1hcmVrIFZhc3V0IDxtYXJleEBkZW54LmRlPg0KPiA+ID4gPiA+IENjOiBTYW0gUmF2
-bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+DQo+ID4gPiA+ID4gQ2M6IExhdXJlbnQgUGluY2hhcnQg
-PGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4NCj4gPiA+ID4gPiBDYzogTWF4aW1l
-IFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPg0KPiA+ID4gPiA+IENjOiBQaGlsaXBwIFphYmVs
-IDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPg0KPiA+ID4gPiA+IENjOiBEYXZpZCBBaXJsaWUgPGFp
-cmxpZWRAbGludXguaWU+DQo+ID4gPiA+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
-bC5jaD4NCj4gPiA+ID4gPiBDYzogU2hhd24gR3VvIDxzaGF3bmd1b0BrZXJuZWwub3JnPg0KPiA+
-ID4gPiA+IENjOiBTYXNjaGEgSGF1ZXIgPHMuaGF1ZXJAcGVuZ3V0cm9uaXguZGU+DQo+ID4gPiA+
-ID4gQ2M6IFBlbmd1dHJvbml4IEtlcm5lbCBUZWFtIDxrZXJuZWxAcGVuZ3V0cm9uaXguZGU+DQo+
-ID4gPiA+ID4gQ2M6IEZhYmlvIEVzdGV2YW0gPGZlc3RldmFtQGdtYWlsLmNvbT4NCj4gPiA+ID4g
-PiBDYzogTlhQIExpbnV4IFRlYW0gPGxpbnV4LWlteEBueHAuY29tPg0KPiA+ID4gPiA+IENjOiBs
-aW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcNCj4gPiA+ID4gPiBUbzogZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiA+ID4gPiA+IC0tLQ0KPiA+ID4gPiA+ICAgZHJp
-dmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jIHwgMTEgKysrKysrKysrKysNCj4gPiA+
-ID4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspDQo+ID4gPiA+ID4NCj4gPiA+
-ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jIGIv
-ZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jDQo+ID4gPiA+ID4gaW5kZXggM2Mw
-OGY5ODI3YWNmLi4yYzY4M2Q5NGEzZjMgMTAwNjQ0DQo+ID4gPiA+ID4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jDQo+ID4gPiA+ID4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jDQo+ID4gPiA+ID4gQEAgLTQ1Myw2ICs0NTMsNyBAQCBz
-dGF0aWMgaW50IHBhbmVsX2RwaV9wcm9iZShzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+ID4gPiA+ID4g
-ICAgICAgIHN0cnVjdCBwYW5lbF9kZXNjICpkZXNjOw0KPiA+ID4gPiA+ICAgICAgICB1bnNpZ25l
-ZCBpbnQgYnVzX2ZsYWdzOw0KPiA+ID4gPiA+ICAgICAgICBzdHJ1Y3QgdmlkZW9tb2RlIHZtOw0K
-PiA+ID4gPiA+ICsgICAgIGNvbnN0IGNoYXIgKm1hcHBpbmc7DQo+ID4gPiA+ID4gICAgICAgIGlu
-dCByZXQ7DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiAgICAgICAgbnAgPSBkZXYtPm9mX25vZGU7DQo+
-ID4gPiA+ID4gQEAgLTQ3Nyw2ICs0NzgsMTYgQEAgc3RhdGljIGludCBwYW5lbF9kcGlfcHJvYmUo
-c3RydWN0IGRldmljZSAqZGV2LA0KPiA+ID4gPiA+ICAgICAgICBvZl9wcm9wZXJ0eV9yZWFkX3Uz
-MihucCwgIndpZHRoLW1tIiwgJmRlc2MtPnNpemUud2lkdGgpOw0KPiA+ID4gPiA+ICAgICAgICBv
-Zl9wcm9wZXJ0eV9yZWFkX3UzMihucCwgImhlaWdodC1tbSIsICZkZXNjLT5zaXplLmhlaWdodCk7
-DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiArICAgICBvZl9wcm9wZXJ0eV9yZWFkX3N0cmluZyhucCwg
-ImRhdGEtbWFwcGluZyIsICZtYXBwaW5nKTsNCj4gPiA+ID4gPiArICAgICBpZiAoIXN0cmNtcCht
-YXBwaW5nLCAicmdiMjQiKSkNCj4gPiA+ID4gPiArICAgICAgICAgICAgIGRlc2MtPmJ1c19mb3Jt
-YXQgPSBNRURJQV9CVVNfRk1UX1JHQjg4OF8xWDI0Ow0KPiA+ID4gPiA+ICsgICAgIGVsc2UgaWYg
-KCFzdHJjbXAobWFwcGluZywgInJnYjU2NSIpKQ0KPiA+ID4gPiA+ICsgICAgICAgICAgICAgZGVz
-Yy0+YnVzX2Zvcm1hdCA9IE1FRElBX0JVU19GTVRfUkdCNTY1XzFYMTY7DQo+ID4gPiA+ID4gKyAg
-ICAgZWxzZSBpZiAoIXN0cmNtcChtYXBwaW5nLCAiYmdyNjY2IikpDQo+ID4gPiA+ID4gKyAgICAg
-ICAgICAgICBkZXNjLT5idXNfZm9ybWF0ID0gTUVESUFfQlVTX0ZNVF9SR0I2NjZfMVgxODsNCj4g
-PiA+ID4gPiArICAgICBlbHNlIGlmICghc3RyY21wKG1hcHBpbmcsICJsdmRzNjY2IikpDQo+ID4g
-PiA+ID4gKyAgICAgICAgICAgICBkZXNjLT5idXNfZm9ybWF0ID0gTUVESUFfQlVTX0ZNVF9SR0I2
-NjZfMVgyNF9DUEFESEk7DQo+ID4gPiA+DQo+ID4gPiA+IFlvdSdyZSByaWdodCB0aGF0IHRoZXJl
-J3MgYW4gaXNzdWUsIGJ1dCBhIHJldmVydCBpc24ndCB0aGUgcmlnaHQgb3B0aW9uLg0KPiA+ID4g
-PiBUaGUgY29tbWl0IHlvdSdyZSByZXZlcnRpbmcgbmV2ZXIgbWFkZSBpdCBpbiBhIHN0YWJsZSBy
-ZWxlYXNlLCBiZWNhdXNlDQo+ID4gPiA+IGl0IHdhcyBkZWVtZWQgdG8gbm90IGJlIGEgZ29vZCBl
-bm91Z2ggb3B0aW9uLg0KPiA+ID4gPg0KPiA+ID4gPiBGaXJzdCBvZiBhbGwsIGFueSBhdHRlbXB0
-IHRvIGZpeCB0aGlzIHNob3VsZCBpbmNsdWRlIGFuIHVwZGF0ZSB0byB0aGUgRFQNCj4gPiA+ID4g
-YmluZGluZy4gU2Vjb25kLCBhcyB0aGlzIGlzIGFib3V0IERQSSBwYW5lbHMsIHRoZSBMVkRTIG9w
-dGlvbiBzaG91bGQgYmUNCj4gPiA+ID4gZHJvcHBlZC4gRmluYWxseSwgSSd2ZSBzaGFyZWQgc29t
-ZSBpbml0aWFsIHRob3VnaHRzIGluIFsxXSwgbWF5YmUgeW91DQo+ID4gPiA+IGNhbiByZXBseSB0
-byB0aGF0IGUtbWFpbCB0byBjb250aW51ZSB0aGUgZGlzY3Vzc2lvbiB0aGVyZSA/DQo+ID4gPg0K
-PiA+ID4gQWNjb3JkaW5nIHRvIHlvdXIgdGhvdWdodHMgaW4gWzFdIHlvdSBtZWFuIHRoYXQgdGhl
-IGJ1cyBmb3JtYXQgc2hvdWxkIGJlDQo+ID4gPiBidWlsZCBvdXQgb2YgdGhlIGRldmljZXRyZWUg
-cHJvcGVydGllcyBidXMtd2lkdGggYW5kIGRhdGEtc2hpZnQuIEl0IHdvdWxkDQo+ID4gPiBiZSBw
-b3NzaWJsZSBmb3IgZXZlbmx5IHN0cnVjdHVyZWQgYnVzc2VzIGxpa2UgUkdCODg4XzFYMjQgYW5k
-IFJHQjY2Nl8xWDE4LA0KPiA+ID4gYnV0IHdoYXQgYWJvdXQgYSBidXMgbGlrZSBSR0I1NjVfMVgx
-Niwgd2hlcmUgZWFjaCBjb2xvciBoYXMgZGlmZmVyZW50DQo+ID4gPiBidXMgd2lkdGguIEFsc28g
-dGhlIG9yZGVyIG9mIHRoZSBjb2xvcnMgc2hvdWxkIGJlIGRlZmluZWQgdG8gZGlmZmVyDQo+ID4g
-PiBiZXR3ZWVuIGJ1c3NlcyBsaWtlIFJHQjg4OF8xWDI0IGFuZCBHQlI4ODhfMVgyNC4NCj4gPiA+
-IEFyZSB0aGVyZSBhbnkgaWRlYXMgaG93IGNhbiB0aGlzIGJlIGNvdmVyZWQ/DQo+ID4NCj4gPiBN
-YXliZSB3aXRoIHByb3BzIGxpa2UgdGhlc2UgPw0KPiA+DQo+ID4gY2hhbm5lbC13aWR0aCAtLSB3
-aWR0aCBvZiBlYWNoIGNvbG9yIGNoYW5uZWwNCj4gPiBjaGFubmVsLXNoaWZ0IC0tIHNoaWZ0IG9m
-IGVhY2ggY29sb3IgY2hhbm5lbA0KPiA+IGNoYW5uZWwtbWFwIC0tIG1hcHBpbmcgb2YgZWFjaCBj
-b2xvciBjaGFubmVsDQo+ID4NCj4gPiBTbyBmb3IgUkdCODg4DQo+ID4gY2hhbm5lbC13aWR0aCA9
-IDw4IDggOD47DQo+ID4gY2hhbm5lbC1zaGlmdCA9IDwwIDAgMD47DQo+ID4gY2hhbm5lbC1tYXAg
-PSAiUkdCIjsgLy8gb3Igc29tZXRoaW5nID8NCj4gPg0KPiA+IEZvciBCR1I1NjUgcGFuZWwgY29u
-bmVjdGVkIHRvIFJHQjI0IHNjYW5vdXQNCj4gPiBjaGFubmVsLXdpZHRoID0gPDUgNiA1PjsNCj4g
-PiBjaGFubmVsLXNoaWZ0ID0gPDMgMiAzPjsNCj4gPiBjaGFubmVsLW1hcCA9ICJCR1IiOyAvLyBv
-ciBzb21ldGhpbmcgPw0KPiA+DQo+ID4gRm9yIEJHUjU2NSBwYW5lbCBjb25uZWN0ZWQgdG8gUkdC
-NTY1IHNjYW5vdXQNCj4gPiBjaGFubmVsLXdpZHRoID0gPDUgNiA1PjsNCj4gPiBjaGFubmVsLXNo
-aWZ0ID0gPDAgMCAwPjsNCj4gPiBjaGFubmVsLW1hcCA9ICJCR1IiOyAvLyBvciBzb21ldGhpbmcg
-Pw0KPiA+DQo+IA0KPiBUbyBtZSB0aGlzIGxvb2tzIGxpa2UgaXQgZ29lcyBpbnRvIHRoZSB3cm9u
-ZyBkaXJlY3Rpb24uDQo+IFRoZSBnb2FsIGlzIHRvIHNldCBidXNfZm9ybWF0IHRvIG9uZSBvZiB0
-aGUNCj4gcG9zc2libGUgZW51bSB2YWx1ZXMuDQo+IFVzaW5nIHN1Y2ggYSBnZW5lcmljIGFwcHJv
-YWNoIGl0IHdvdWxkIGJlIHBvc3NpYmxlIHRvIHJlcXVlc3QgYnVzDQo+IGZvcm1hdHMgZm9yIHdo
-aWNoIG5vIGVudW0gdmFsdWUgaXMgY3VycmVudGx5IGRlZmluZWQsIGkuZS4gdGhlDQo+IEJHUjU2
-NSBleGFtcGxlIGRvZXMgbm90IGhhdmUgYSBtYXRjaGluZyBidXNfZm9ybWF0IGluDQo+IG1lZGlh
-LWJ1cy1mb3JtYXQuaC4NCj4gDQo+IFdoYXQgYWJvdXQga2VlcGluZyB0aGUgc29sdXRpb24gd2hp
-Y2ggdGhlIHJldmVydCB3b3VsZCBnaXZlLg0KPiBPcHRpb25hbGx5IHdpdGggYSBjaGFuZ2VkIHBy
-b3BlcnR5IG5hbWUgcy9kYXRhLW1hcHBpbmcvYnVzLWZvcm1hdC8NCj4gYW5kIGEgY2hhbmdlZCBs
-aXN0IG9mIGFsbG93ZWQgc3RyaW5ncyB0byBiZXR0ZXIgbWF0Y2ggYmV0d2VlbiB0aGUNCj4gZHQg
-c3RyaW5nIGFuZCB0aGUgZW51bSBuYW1lLCBpLmUuIHMvInJnYjI0Ii8iUkdCODg4XzFYMjQiLy4N
-Cj4gVGhpcyB3b3VsZCBhbGxvdyB0byBleHRlbmQgRFQgYmluZGluZyBhbmQNCj4gY29kZSB0byBw
-b3NzaWJsZSBuZXdseQ0KPiByZXF1aXJlZCB2YWx1ZXMgbGlrZSBlLmcuIE1FRElBX0JVU19GTVRf
-QkdSODg4XzFYMjQuDQo+IA0KPiBBbHRlcm5hdGl2ZWx5IG9uZSBjb3VsZCB1c2UgdGhlIGJ1cy13
-aWR0aCBhbmQgZGF0YS1zaGlmdA0KPiBwcm9wZXJ0aWVzIGFuZCBhbGxvdyBmb3IgKGJ1cy13aWR0
-aCArIGRhdGEtc2hpZnQpIHRvIGJlIG9uZQ0KPiBvZiAxNiwgMTgsIDI0IGFuZCBhc3N1bWUgUkdC
-LiBJLmUuIG9uZSBjb3VsZCBvbmx5IHNwZWNpZnkNCj4gTUVESUFfQlVTX0ZNVF9SR0I1NjVfMVgx
-NiwgTUVESUFfQlVTX0ZNVF9SR0I2NjZfMVgxOCwNCj4gTUVESUFfQlVTX0ZNVF9SR0I4ODhfMVgy
-NCByZXNwZWN0aXZlbHkuDQo+IA0KPiBNYXgNCj4gDQoNCkhpIExhdXJlbnQsDQoNCkluIHdoaWNo
-IGRpcmVjdGlvbiBzaG91bGQgaXQgZ28gdG8gZmluZCBhbiBhY2NlcHRhYmxlIHNvbHV0aW9uPw0K
-DQpSZWdhcmRzDQpDaHJpc3RvcGgNCg==
+On Thu, Feb 17, 2022 at 10:51:09AM -0500, Theodore Ts'o wrote:
+> On Thu, Feb 17, 2022 at 07:57:36PM +0900, Byungchul Park wrote:
+> > 
+> > I've got several reports from the tool. Some of them look like false
+> > alarms and some others look like real deadlock possibility. Because of
+> > my unfamiliarity of the domain, it's hard to confirm if it's a real one.
+> > Let me add the reports on this email thread.
+> 
+> The problem is we have so many potentially invalid, or
+> so-rare-as-to-be-not-worth-the-time-to-investigate-in-the-
+> grand-scheme-of-all-of-the-fires-burning-on-maintainers laps that it's
+> really not reasonable to ask maintainers to determine whether
+
+Even though I might have been wrong and might be gonna be wrong, you
+look so arrogant. You were hasty to judge and trying to walk over me.
+
+I reported it because I thought it was a real problem but couldn't
+confirm it. For the other reports that I thought was not real, I didn't
+even mention it. If you are talking about the previous report, then I
+felt so sorry as I told you. I skimmed through the part of the waits...
+
+Basically, I respect you and appreciate your feedback. Hope you not get
+me wrong.
+
+> Looking at the second ext4 report, it doesn't make any sense.  Context
+> A is the kjournald thread.  We don't do a commit until (a) the timeout
+> expires, or (b) someone explicitly requests that a commit happen
+> waking up j_wait_commit.  I'm guessing that complaint here is that
+> DEPT thinks nothing is explicitly requesting a wake up.  But note that
+> after 5 seconds (or whatever journal->j_commit_interval) is configured
+> to be we *will* always start a commit.  So ergo, there can't be a deadlock.
+
+Yeah, it might not be a *deadlock deadlock* because the wait will be
+anyway woken up by one of the wake up points you mentioned. However, the
+dependency looks problematic because the three contexts participating in
+the dependency chain would be stuck for a while until one eventually
+wakes it up. I bet it would not be what you meant.
+
+Again. It's not critical but problematic. Or am I missing something?
+
+> At a higher level of discussion, it's an unfair tax on maintainer's
+> times to ask maintainers to help you debug DEPT for you.  Tools like
+> Syzkaller and DEPT are useful insofar as they save us time in making
+> our subsystems better.  But until you can prove that it's not going to
+> be a massive denial of service attack on maintainer's time, at the
+
+Partially I agree. I would understand you even if you don't support Dept
+until you think it's valuable enough. However, let me keep asking things
+to fs folks, not you, even though I would cc you on it.
+
+> If you know there there "appear to be false positives", you need to
+> make sure you've tracked them all down before trying to ask that this
+> be merged.
+
+To track them all down, I need to ask LKML because Dept works perfectly
+with my system. I don't want it to be merged with a lot of false
+positive still in there, either.
+
+> You may also want to add some documentation about why we should trust
+> this; in particular for wait channels, when a process calls schedule()
+> there may be multiple reasons why the thread will wake up --- in the
+> worst case, such as in the select(2) or epoll(2) system call, there
+> may be literally thousands of reasons (one for every file desriptor
+> the select is waiting on) --- why the process will wake up and thus
+> resolve the potential "deadlock" that DEPT is worrying about.  How is
+> DEPT going to handle those cases?  If the answer is that things need
+
+Thank you for the information but I don't get it which case you are
+concerning. I'd like to ask you a specific senario of that so that we
+can discuss it more - maybe I guess I could answer to it tho, but I
+won't ask you. Just give me an instance only if you think it's worthy.
+
+You look like a guy who unconditionally blames on new things before
+understanding it rather than asking and discussing. Again. I also think
+anyone doesn't have to spend his or her time for what he or she think is
+not worthy enough.
+
+> I know that you're trying to help us, but this tool needs to be far
+> better than Lockdep before we should think about merging it.  Even if
+> it finds 5% more potential deadlocks, if it creates 95% more false
+
+It should not get merged for sure if so, but it sounds too sarcastic.
+Let's see if it creates 95% false positives for real. If it's true and
+I can't control it, I will give up. That's what I should do.
+
+There are a lot of factors to judge how valuable Dept is. Dept would be
+useful especially in the middle of development, rather than in the final
+state in the tree. It'd be appreciated if you think that sides more, too.
+
+Thanks,
+Byungchul
