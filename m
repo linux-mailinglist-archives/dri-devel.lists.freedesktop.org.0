@@ -1,47 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9E84BC92F
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 16:43:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A59B94BC975
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 18:02:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C871F10FDB8;
-	Sat, 19 Feb 2022 15:43:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D0DE10FF58;
+	Sat, 19 Feb 2022 17:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sipsolutions.net (s3.sipsolutions.net
- [IPv6:2a01:4f8:191:4433::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A81110FDB8;
- Sat, 19 Feb 2022 15:43:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=51IuRnSgtWxZG2Jmu2renXJr42JUA6j1ZiqJaCkpimM=; 
- t=1645285432; x=1646495032; b=CCQuzFjfzzGzKzALC8gLp5pp112w4BkUR6KmRHZIROZVE6I
- c1gRY6yuWrz0XKcNwx1DVuuQNNf/vmX0uZuFolheBVyp/luKoUSun8Ud2M+OfKrYfR+1SyJzzpkFE
- y/15PMIK3CCKYdF4guFpo61h4xZcYXDj4dftgomQjUEU//wTTeVpQ1GV+98KHNeDJ1sZA/BzMMu5o
- H3lf2Dc3L7TspquHZOxdFSWwIv3wJVhVUICZL2CDcgMQQjvPqM9JVzmDImQJCvphOKlPIWYAp1bvL
- fd8xmWf8xNkbeTJX3l6wdiPUcp6OUiw1AsPP/n73vJoKnfwVeKawYwNGuKF3KJhg==;
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.95) (envelope-from <johannes@sipsolutions.net>)
- id 1nLRtJ-0035Fb-Ex; Sat, 19 Feb 2022 16:43:21 +0100
-Message-ID: <d14b6a0c72788e78bab2bd1f0bc2c49891ded5d7.camel@sipsolutions.net>
-Subject: Re: [PATCH 4/4] kunit: tool: Disable broken options for --alltests
-From: Johannes Berg <johannes@sipsolutions.net>
-To: David Gow <davidgow@google.com>
-Date: Sat, 19 Feb 2022 16:43:19 +0100
-In-Reply-To: <CABVgOSnBq0QE+Cq+SDeV-LxOQYbGZ6Bqbjix6h-UpNj0GMicPA@mail.gmail.com>
-References: <20220218075727.2737623-1-davidgow@google.com>
- <20220218075727.2737623-5-davidgow@google.com>
- <ac4c5f8c890e5bdd7ad7ecc04a51e72fa3ac1703.camel@sipsolutions.net>
- <CABVgOSnBq0QE+Cq+SDeV-LxOQYbGZ6Bqbjix6h-UpNj0GMicPA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9D0F10FF55
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 17:02:34 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id ik27so827557plb.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 09:02:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JDxmYIM8I0UHDFtNzfKhVrh+LAL9uJ//iBVpmzyjpD8=;
+ b=bfkvqTNbGC0DdhOwIPwSY1qRb5B76PXNb+SxqNRNze7cN4qBNLEeT8w6zuE3/mnqZ3
+ kFid1tcwL7jpwjSkXTnqiwAZewoU205uGxuOTAXWKfEGjxcKHhlo4uGdsl0X9xYWSy7O
+ pcR6hGH8Gj2w104R5RudiEEdh5FwOr2AawvwM2teKU/syLKY/mPHG0x01Nzt7Tli1XZ7
+ ag4X2mFLvKpXVNkB34OEWmWl9EEQiVHgt3x6nVEF9S5NaSTUmKH2IMqjSCGyB6sUoORz
+ S3zZqQAjGK13Uonrb8g6bKGEOZ6gP4zV+OwooUgHOWrrDwHfBIdyqzmEJJQSpvNXgclS
+ xSuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JDxmYIM8I0UHDFtNzfKhVrh+LAL9uJ//iBVpmzyjpD8=;
+ b=c57x8PtZyJ+GHRGRifmrgGsa52qOLkqluavPSxy/QJ973VVxoRKz4qtXDlyfzJ92RO
+ w7t+6yjQ6mA3j1X5yimXZkHmIVbuHThrJiDnjukD5KiRhWUBOml0EqM7FPD0EgSeWN2b
+ cEOn546WSAqXlkDpcexHWx+ZWm/R1y7cPSODEXl3BAIZRL4T1jHCf7L0Siwo7LAmmfhv
+ ZUKYf73c3yQ7BktqtOCxokpGFNAu3izujr82Lli5GnA99i/EgDK282Lpu0/VgJXhGYYn
+ ZwW3R0HAZaDb1eKcBj3UODfbhyCLxeKu9KhuTvtJfl4Crtyoz06jDKANQggytwpU68oN
+ 5DUg==
+X-Gm-Message-State: AOAM532brReY2PP2pSLOgAU1E+g4guEMk77ODlE8SLExuVMazbHWuGk2
+ F/N51QSW2bVWp5VfHuXmIYQbEIAUqf4=
+X-Google-Smtp-Source: ABdhPJwNFTzgFD5Dxvg2t7x24UnqKLQIqCny6cm/SHjHpm8VoDCpT63w7lHReOZLzg/mrOjXulYbaA==
+X-Received: by 2002:a17:90b:117:b0:1b8:e632:c589 with SMTP id
+ p23-20020a17090b011700b001b8e632c589mr13581026pjz.26.1645290153686; 
+ Sat, 19 Feb 2022 09:02:33 -0800 (PST)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ z16sm6244371pfw.159.2022.02.19.09.02.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 19 Feb 2022 09:02:32 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/virtio: Remove restriction of non-zero blob_flags
+Date: Sat, 19 Feb 2022 09:03:01 -0800
+Message-Id: <20220219170301.545432-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-malware-bazaar: not-scanned
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,106 +67,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: x86@kernel.org, linux-rdma@vger.kernel.org,
- Richard Weinberger <richard@nod.at>, Jeff Dike <jdike@addtoit.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx@lists.freedesktop.org, linux-um <linux-um@lists.infradead.org>,
- dri-devel@lists.freedesktop.org,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>,
- KUnit Development <kunit-dev@googlegroups.com>, felix.kuehling@amd.com,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2022-02-19 at 16:00 +0800, David Gow wrote:
-> On Fri, Feb 18, 2022 at 8:26 PM Johannes Berg <johannes@sipsolutions.net> wrote:
-> > 
-> > On Fri, 2022-02-18 at 15:57 +0800, David Gow wrote:
-> > > 
-> > > Note that, while this does build again, it still segfaults on startup,
-> > > so more work remains to be done.
-> > 
-> > That's probably just a lot more stuff getting included somehow?
-> > 
-> 
-> Yeah: it used to work (a couple of years ago), but something has
-> broken it in the meantime. It's just a shame that bisecting things
-> with allyesconfig takes so long...
+From: Rob Clark <robdclark@chromium.org>
 
-Heh, right.
+With native userspace drivers in guest, a lot of GEM objects need to be
+neither shared nor mappable.  And in fact making everything mappable
+and/or sharable results in unreasonably high fd usage in host VMM.
 
-But I guess you could "Kconfig bisect" first, i.e. see what option
-breaks it? It might not even help to bisect, if it's just some option
-getting enabled over time. Or perhaps the kernel is just too big for the
-address space layout if you have allyesconfig? Though that shouldn't be
-an issue, I think.
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+This is for a thing I'm working on, a new virtgpu context type that
+allows for running native userspace driver in the guest, with a
+thin shim in the host VMM.  In this case, the guest has a lot of
+GEM buffer objects which need to be neither shared nor mappable.
 
-> I didn't realise X86 wasn't defined in UML: 
+This supersedes https://patchwork.freedesktop.org/patch/475127/
 
-X86 is the architecture, X86_{32,64} is kind of a selection for how you
-want things to be built, and it's thus required for UML on x86, because
-UML imports stuff from X86.
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> that's definitely a bit
-> cleaner than !UML in a number of these cases.
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index 69f1952f3144..3a8078f2ee27 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -617,8 +617,7 @@ static int verify_blob(struct virtio_gpu_device *vgdev,
+ 	if (!vgdev->has_resource_blob)
+ 		return -EINVAL;
+ 
+-	if ((rc_blob->blob_flags & ~VIRTGPU_BLOB_FLAG_USE_MASK) ||
+-	    !rc_blob->blob_flags)
++	if (rc_blob->blob_flags & ~VIRTGPU_BLOB_FLAG_USE_MASK)
+ 		return -EINVAL;
+ 
+ 	if (rc_blob->blob_flags & VIRTGPU_BLOB_FLAG_USE_CROSS_DEVICE) {
+-- 
+2.34.1
 
-It looks like some (most?) of them don't really work that way though
-since they're not really platform specific, they just know only about a
-handful of platforms that they're compatible with.
-
-> Not all of those issues are fundamentally solved by "depends on X86",
-> though: there are a few which might be other missing things in UML
-> (maybe the 'dma_ops' issues?), and/or might be the result of -Werror
-> being enabled.
-
-Right.
-
-> We do want the ability to build PCI drivers under UML, as it makes
-> running KUnit tests for PCI drivers much simpler and more pleasant.
-
-OK, fair point. I'm thinking about this area in general also right now
-for iwlwifi, and obviously we're probably the only user of the virtual
-PCI code that lets us connect the driver to a simulated device on UML
-(but the driver doesn't really know) :-)
-
-> And indeed, it does work for KUnit in general, it's just that some
-> drivers do have the issues mentioned above, so allyesconfig picks up
-> every broken driver.
-
-Right.
-
-> We don't actually build the PCI drivers by default, only if the
-> "--alltests" option is passed, which does include them, as we do have
-> tests which depend on PCI we'd like to run (like the thunderbolt
-> test).
-
-Makes sense.
-> 
-> I did try this as well, and it just got us a different set of issues
-> (there are a bunch of drivers which depend on IOMEM but don't state it
-> -- I'll try to send fixes for those out next week). 
-> 
-
-Fun.
-
-> Ultimately, the 'broken_on_uml.config' file is just there to pare back
-> allyesconfig a bit for KUnit's purposes, but we still definitely want
-> as many options (and hence tests) enabled as possible long-term. So I
-> think actual fixes to either the code or Kconfig do make sense.
-
-Makes sense.
-
-> Is 'make ARCH=um allyesconfig' something we actually want to be able
-> to build? If so, no amount of adding things to KUnit's
-> broken_on_uml.config will solve the underlying issues, and we'll need
-> to at least update the Kconfig entries.
-> 
-
-That's a good point, as long as people are doing allyes/randconfig
-builds on UML, we probably need to have these fixes anyway rather than
-disabling something for KUnit specifically.
-
-johannes
