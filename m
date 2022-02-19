@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D16924BC35D
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 01:29:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2FB4BC360
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 01:29:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9A6C10E180;
-	Sat, 19 Feb 2022 00:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BDF110EABB;
+	Sat, 19 Feb 2022 00:29:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 126E610EA7E
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8260D10EA7E
  for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 00:29:06 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 767D383B9F;
+ by phobos.denx.de (Postfix) with ESMTPSA id D7E9683BA2;
  Sat, 19 Feb 2022 01:29:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1645230544;
- bh=Npyt74H0xfvsIzBT3cAcKU1K4YM4l/gvVblubqCNQ2Q=;
+ s=phobos-20191101; t=1645230545;
+ bh=omuqhxDL60Kp051Ey9wmAuH7K5IB+pkShX1jBNb3Vao=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MF5LzCyJX3sMyjwBL3rxztmHP2lcYQQBa3UawEUHYnO3kJWhVrMKE75OhDlsyOZeJ
- mxciAMj+hx5mw56nQOUgT29kEwRJpKenvTbAa9FHmwAlJgvZdo2tbasIieOAEPyLoT
- S18mS6605u+zIwAy4IZYkTgBQVN8SI1ket+XFErRy/IX5JqqVvj9vlKcLrB3tQRzP1
- F7ZgTqvej03n9mCixhvxHiHpra/Ct6pWlRXSDRq02ImlQdiq8DZCi/k9epAsf7Gqr1
- PRV29PdPKa3+5ZSVmIpwOCzWTC4UiqAK9Iqc7zGa8DBY4KzKA3CeHhdaZxJ90waxYR
- vG3ChuBcSFnew==
+ b=TIYSbxV1r3DfljFY2Rt94D2wpAV0yEX5LGZF8Jyqu2y5aG92IdnCPT7CBVrtsgG2L
+ FyKavkPO8089UbveBGZvG6O1dBKtFjHT29GfFQnTOcbuq9MZHlrMRsFqI2anciqij/
+ Qhu5K8PCzjr55rUYmz3f2m/lpZE8FBpjXsdA5jgaVWb/Gz41J7dWnEtXcM6JnAYyJw
+ X/NZF0WFgXUaE1ROUmBdzZqpMhXZY28vylKNNNfdnJWlNnHrnD0mnFgNwaLXznbH+c
+ jYNBdt71Pom6lvvAWicoBsXkqA7dBlxNo55+P7zuhmZsQZ4Mdqd5+sDEbT5ysTEBV2
+ /pJOL0zRKrFEg==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/7] drm/bridge: Extend struct drm_bus_cfg with clock field
-Date: Sat, 19 Feb 2022 01:28:40 +0100
-Message-Id: <20220219002844.362157-4-marex@denx.de>
+Subject: [PATCH 4/7] drm/bridge: dw-mipi-dsi: Move PLL setup into atomic_enable
+Date: Sat, 19 Feb 2022 01:28:41 +0100
+Message-Id: <20220219002844.362157-5-marex@denx.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220219002844.362157-1-marex@denx.de>
 References: <20220219002844.362157-1-marex@denx.de>
@@ -60,11 +59,10 @@ Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <narmstrong@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend struct drm_bus_cfg with a clock field. This makes it possible for an
-upstream bridge (further from scanout engine) to indicate to a downstream
-bridge which frequency it expects on a link. This is particularly useful in
-case of DSI bridges which derive their own internal clock from the DSI HS
-clock.
+The bridge clock configuration should happen in atomic_enable
+instead of mode_set callback, since that is where the current
+state of the bridge is available. Move the clock configuration
+into atomic_enable callback.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
@@ -72,60 +70,44 @@ Cc: Maxime Ripard <maxime@cerno.tech>
 Cc: Neil Armstrong <narmstrong@baylibre.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/drm_bridge.c | 6 ++++++
- include/drm/drm_atomic.h     | 5 +++++
- 2 files changed, 11 insertions(+)
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index a069c50cc7d6b..6a5981b82499a 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -859,7 +859,9 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
- 		 */
- 		if (cur_state) {
- 			cur_state->input_bus_cfg.format = MEDIA_BUS_FMT_FIXED;
-+			cur_state->input_bus_cfg.clock = 0;
- 			cur_state->output_bus_cfg.format = out_bus_cfg->format;
-+			cur_state->output_bus_cfg.clock = out_bus_cfg->clock;
- 		}
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index f4a6e4da903ca..7a2ea21dc0554 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -267,6 +267,8 @@ struct dw_mipi_dsi {
+ 	u32 format;
+ 	unsigned long mode_flags;
  
- 		return 0;
-@@ -911,7 +913,9 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
- 
- 	if (first_bridge == cur_bridge) {
- 		cur_state->input_bus_cfg.format = in_bus_cfgs[0].format;
-+		cur_state->input_bus_cfg.clock = in_bus_cfgs[0].clock;
- 		cur_state->output_bus_cfg.format = out_bus_cfg->format;
-+		cur_state->output_bus_cfg.clock = out_bus_cfg->clock;
- 		kfree(in_bus_cfgs);
- 		return 0;
- 	}
-@@ -926,7 +930,9 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
- 
- 	if (!ret) {
- 		cur_state->input_bus_cfg.format = in_bus_cfgs[i].format;
-+		cur_state->input_bus_cfg.clock = in_bus_cfgs[i].clock;
- 		cur_state->output_bus_cfg.format = out_bus_cfg->format;
-+		cur_state->output_bus_cfg.clock = out_bus_cfg->clock;
- 	}
- 
- 	kfree(in_bus_cfgs);
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 1701c2128a5cb..32455cf28f0bc 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -1077,6 +1077,11 @@ struct drm_bus_cfg {
- 	 * @flags: DRM_BUS_* flags used on this bus
- 	 */
- 	u32 flags;
++	struct drm_display_mode mode;
 +
-+	/**
-+	 * @clock: Clock frequency in kHz used on this bus
-+	 */
-+	u32 clock;
- };
+ #ifdef CONFIG_DEBUG_FS
+ 	struct dentry *debugfs;
+ 	struct debugfs_entries *debugfs_vpg;
+@@ -1045,15 +1047,18 @@ static void dw_mipi_dsi_bridge_mode_set(struct drm_bridge *bridge,
+ {
+ 	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
  
- /**
+-	dw_mipi_dsi_mode_set(dsi, adjusted_mode);
+-	if (dsi->slave)
+-		dw_mipi_dsi_mode_set(dsi->slave, adjusted_mode);
++	drm_mode_copy(&dsi->mode, adjusted_mode);
+ }
+ 
+ static void dw_mipi_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+ 					     struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
++	const struct drm_display_mode *adjusted_mode = &dsi->mode;
++
++	dw_mipi_dsi_mode_set(dsi, adjusted_mode);
++	if (dsi->slave)
++		dw_mipi_dsi_mode_set(dsi->slave, adjusted_mode);
+ 
+ 	/* Switch to video mode for panel-bridge enable & panel enable */
+ 	dw_mipi_dsi_set_mode(dsi, MIPI_DSI_MODE_VIDEO);
 -- 
 2.34.1
 
