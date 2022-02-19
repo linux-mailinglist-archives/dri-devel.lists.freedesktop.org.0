@@ -2,50 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECFA24BC4A1
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 02:47:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 602414BC4C2
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 03:20:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFA0410EB1B;
-	Sat, 19 Feb 2022 01:47:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96DCF10E1BF;
+	Sat, 19 Feb 2022 02:20:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB38010EB14;
- Sat, 19 Feb 2022 01:47:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645235244; x=1676771244;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=u6MnM3hf31o26ieTegb/Ig4reYxy9nGWksfq0p2fx2o=;
- b=VeEFA/JK5SnchB/mdWen/134iGrEFqL1eqBGX6ZnvynrFOy0SNutaLl1
- WCvIJVgqjyQbbIfkOWld1697/DlTOWsiLyrBYcx5pUoVG4S2Zx1xxUJ+w
- 9dUK8VV5DssTs+Nv+0/upILGlSHH1oY/4B5PfIUTtkqwMRUS79V5ZYsLp
- OO1FbOvelqT0cRch11WDBgt9bbwWyvzgbN1rja1AMeI48Dvax3I6iTESD
- 9/I6iqnccw5dtoLg7RCNMp724VRwFm3YiybWAzDbE7YrWOKEdmj2NNfBA
- q4IW8YziDDpn1YZw3a0cO2BtpM/CGy/TgfhA7nDH1k4Gmg+JPk8fYEvGh w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10262"; a="251202675"
-X-IronPort-AV: E=Sophos;i="5.88,380,1635231600"; d="scan'208";a="251202675"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 17:47:24 -0800
-X-IronPort-AV: E=Sophos;i="5.88,380,1635231600"; d="scan'208";a="775457737"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2022 17:47:23 -0800
-Date: Fri, 18 Feb 2022 17:47:22 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Ramalingam C <ramalingam.c@intel.com>
-Subject: Re: [PATCH 15/15] drm/i915/gt: Clear compress metadata for Xe_HP
- platforms
-Message-ID: <YhBMKq12AilHGCyl@mdroper-desk1.amr.corp.intel.com>
-References: <20220218184752.7524-1-ramalingam.c@intel.com>
- <20220218184752.7524-16-ramalingam.c@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4559B10E1BF
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 02:20:53 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 82BDBB8278E;
+ Sat, 19 Feb 2022 02:20:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19E1BC340E9;
+ Sat, 19 Feb 2022 02:20:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645237248;
+ bh=gZLSyNp8GcxUMQZfv1Fv56byD5uSuopBdnirDoV8GEA=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=IJ6mSjLb1W+0Rw15AxvqmP2+ibBVdJ48p1znJiglBl6G8ZHVTd6FOIPzd7Aynf7yo
+ 0I9vt4rxmFbSB5nFMDNmPgC6xHbT5Lz4FDPdc9LPvR3S+/9uBk6h1xf3TJiy9QdS8U
+ +PCLcCIy5Wq6DTAnTZlJjcHQ3/g+CRpqTSnchk8LN8RpcutnO6Y2+aKOkT23NEJkxJ
+ poUwpsWMsLm/xsP43KpROXKmMjQ/cLTRiIgEUGuum+yudvD0wtOxtXVwn2dGo4uLlO
+ qPbz/7jbF8VOCG56bOB1nfQGIGsh0J8EKApN71OPdUnzPxuFkjKjR6htOJqCypWwR8
+ A3TPeczuPUk9Q==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220218184752.7524-16-ramalingam.c@intel.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220125141549.747889-2-maxime@cerno.tech>
+References: <20220125141549.747889-1-maxime@cerno.tech>
+ <20220125141549.747889-2-maxime@cerno.tech>
+Subject: Re: [PATCH v4 01/10] clk: Introduce Kunit Tests for the framework
+From: Stephen Boyd <sboyd@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>, Mike Turquette <mturquette@baylibre.com>
+Date: Fri, 18 Feb 2022 18:20:46 -0800
+User-Agent: alot/0.10
+Message-Id: <20220219022048.19E1BC340E9@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,326 +53,337 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>, lucas.demarchi@intel.com,
- CQ Tang <cq.tang@intel.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ Maxime Ripard <maxime@cerno.tech>, Phil Elwell <phil@raspberrypi.com>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 19, 2022 at 12:17:52AM +0530, Ramalingam C wrote:
-> From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-> 
-> Xe-HP and latest devices support Flat CCS which reserved a portion of
-> the device memory to store compression metadata, during the clearing of
-> device memory buffer object we also need to clear the associated
-> CCS buffer.
-> 
-> Flat CCS memory can not be directly accessed by S/W.
-> Address of CCS buffer associated main BO is automatically calculated
-> by device itself. KMD/UMD can only access this buffer indirectly using
-> XY_CTRL_SURF_COPY_BLT cmd via the address of device memory buffer.
-> 
-> v2: Fixed issues with platform naming [Lucas]
-> v3: Rebased [Ram]
->     Used the round_up funcs [Bob]
-> v4: Fixed ccs blk calculation [Ram]
->     Added Kdoc on flat-ccs.
-> 
-> Cc: CQ Tang <cq.tang@intel.com>
-> Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  15 ++
->  drivers/gpu/drm/i915/gt/intel_migrate.c      | 145 ++++++++++++++++++-
->  2 files changed, 156 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> index f8253012d166..166de5436c4a 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> @@ -203,6 +203,21 @@
->  #define GFX_OP_DRAWRECT_INFO     ((0x3<<29)|(0x1d<<24)|(0x80<<16)|(0x3))
->  #define GFX_OP_DRAWRECT_INFO_I965  ((0x7900<<16)|0x2)
->  
-> +#define XY_CTRL_SURF_INSTR_SIZE	5
-> +#define MI_FLUSH_DW_SIZE		3
-> +#define XY_CTRL_SURF_COPY_BLT		((2 << 29) | (0x48 << 22) | 3)
-> +#define   SRC_ACCESS_TYPE_SHIFT		21
-> +#define   DST_ACCESS_TYPE_SHIFT		20
-> +#define   CCS_SIZE_SHIFT		8
+Quoting Maxime Ripard (2022-01-25 06:15:40)
+> diff --git a/drivers/clk/Makefile b/drivers/clk/Makefile
+> index 6a98291350b6..2664aaab8068 100644
+> --- a/drivers/clk/Makefile
+> +++ b/drivers/clk/Makefile
+> @@ -2,6 +2,7 @@
+>  # common clock types
+>  obj-$(CONFIG_HAVE_CLK)         +=3D clk-devres.o clk-bulk.o clkdev.o
+>  obj-$(CONFIG_COMMON_CLK)       +=3D clk.o
+> +obj-$(CONFIG_CLK_KUNIT_TEST)   +=3D clk-test.o
 
-Rather than using a shift, it might be better to just define the
-bitfield.  E.g.,
+The file name should be clk_test.c with an underscore.
 
-        #define CCS_SIZE        GENMASK(17, 8)
-
-and then later
-
-        FIELD_PREP(CCS_SIZE, i - 1)
-
-to refer to the proper value.
-
-> +#define   XY_CTRL_SURF_MOCS_SHIFT	25
-
-Same here; we can use GENMASK(31, 25) to define the field.
-
-> +#define   NUM_CCS_BYTES_PER_BLOCK	256
-> +#define   NUM_BYTES_PER_CCS_BYTE	256
-> +#define   NUM_CCS_BLKS_PER_XFER		1024
-> +#define   INDIRECT_ACCESS		0
-> +#define   DIRECT_ACCESS			1
-> +#define  MI_FLUSH_LLC			BIT(9)
-> +#define  MI_FLUSH_CCS			BIT(16)
-> +
->  #define COLOR_BLT_CMD			(2 << 29 | 0x40 << 22 | (5 - 2))
->  #define XY_COLOR_BLT_CMD		(2 << 29 | 0x50 << 22)
->  #define SRC_COPY_BLT_CMD		(2 << 29 | 0x43 << 22)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> index 20444d6ceb3c..9f9cd2649377 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> @@ -16,6 +16,8 @@ struct insert_pte_data {
->  };
->  
->  #define CHUNK_SZ SZ_8M /* ~1ms at 8GiB/s preemption delay */
-> +#define GET_CCS_BYTES(i915, size)	(HAS_FLAT_CCS(i915) ? \
-> +					 DIV_ROUND_UP(size, NUM_BYTES_PER_CCS_BYTE) : 0)
->  
->  static bool engine_supports_migration(struct intel_engine_cs *engine)
->  {
-> @@ -467,6 +469,113 @@ static bool wa_1209644611_applies(int ver, u32 size)
->  	return height % 4 == 3 && height <= 8;
->  }
->  
-> +/**
-> + * DOC: Flat-CCS - Memory compression for Local memory
-> + *
-> + * On Xe-HP and later devices, we use dedicated compression control state (CCS)
-> + * stored in local memory for each surface, to support the 3D and media
-> + * compression formats.
-> + *
-> + * The memory required for the CCS of the entire local memory is 1/256 of the
-> + * local memory size. So before the kernel boot, the required memory is reserved
-> + * for the CCS data and a secure register will be programmed with the CCS base
-> + * address.
-> + *
-> + * Flat CCS data needs to be cleared when a lmem object is allocated.
-> + * And CCS data can be copied in and out of CCS region through
-> + * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data directly.
-> + *
-> + * When we exaust the lmem, if the object's placements support smem, then we can
-
-Typo: exhaust
-
-> + * directly decompress the compressed lmem object into smem and start using it
-> + * from smem itself.
-> + *
-> + * But when we need to swapout the compressed lmem object into a smem region
-> + * though objects' placement doesn't support smem, then we copy the lmem content
-> + * as it is into smem region along with ccs data (using XY_CTRL_SURF_COPY_BLT).
-> + * When the object is referred, lmem content will be swaped in along with
-> + * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at corresponding
-> + * location.
+>  obj-$(CONFIG_COMMON_CLK)       +=3D clk-divider.o
+>  obj-$(CONFIG_COMMON_CLK)       +=3D clk-fixed-factor.o
+>  obj-$(CONFIG_COMMON_CLK)       +=3D clk-fixed-rate.o
+> diff --git a/drivers/clk/clk-test.c b/drivers/clk/clk-test.c
+> new file mode 100644
+> index 000000000000..47a600d590c1
+> --- /dev/null
+> +++ b/drivers/clk/clk-test.c
+> @@ -0,0 +1,285 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Kunit test for clk rate management
 > + */
+> +#include <linux/clk.h>
+> +#include <linux/clk-provider.h>
+> +#include <linux/slab.h>
 > +
-> +static inline u32 *i915_flush_dw(u32 *cmd, u64 dst, u32 flags)
+> +#include <kunit/test.h>
+> +
+> +#define DUMMY_CLOCK_INIT_RATE  (42 * 1000 * 1000)
+> +#define DUMMY_CLOCK_RATE_1     (142 * 1000 * 1000)
+> +#define DUMMY_CLOCK_RATE_2     (242 * 1000 * 1000)
+> +
+> +struct clk_dummy_context {
+> +       struct clk_hw hw;
+> +       unsigned long rate;
+> +};
+> +
+> +static unsigned long clk_dummy_recalc_rate(struct clk_hw *hw,
+> +                                          unsigned long parent_rate)
 > +{
-> +	/* Mask the 3 LSB to use the PPGTT address space */
-
-This comment implies that we'd be doing something like
-
-        *cmd++ = lower_32_bits(dst) & GEN_MASK(31, 3);
-
-but that doesn't seem to be the case.  The bspec does say the address
-must be qword-aligned, so maybe we should just have a drm_WARN_ON() if
-we get passed something that isn't aligned properly?
-
-> +	*cmd++ = MI_FLUSH_DW | flags;
-> +	*cmd++ = lower_32_bits(dst);
-> +	*cmd++ = upper_32_bits(dst);
+> +       struct clk_dummy_context *ctx =3D
+> +               container_of(hw, struct clk_dummy_context, hw);
 > +
-> +	return cmd;
+> +       return ctx->rate;
 > +}
 > +
-> +static u32 calc_ctrl_surf_instr_size(struct drm_i915_private *i915, int size)
+> +static int clk_dummy_determine_rate(struct clk_hw *hw,
+> +                                        struct clk_rate_request *req)
 > +{
-> +	u32 num_cmds, num_blks, total_size;
-> +
-> +	if (!GET_CCS_BYTES(i915, size))
-> +		return 0;
-> +
-> +	/*
-> +	 * XY_CTRL_SURF_COPY_BLT transfers CCS in 256 byte
-> +	 * blocks. one XY_CTRL_SURF_COPY_BLT command can
-> +	 * trnasfer upto 1024 blocks.
-
-Typo: transfer.
-
-> +	 */
-> +	num_blks = DIV_ROUND_UP(GET_CCS_BYTES(i915, size),
-> +				NUM_CCS_BYTES_PER_BLOCK);
-> +	num_cmds = DIV_ROUND_UP(num_blks, NUM_CCS_BLKS_PER_XFER);
-> +	total_size = (XY_CTRL_SURF_INSTR_SIZE) * num_cmds;
-> +
-> +	/*
-> +	 * We need to add a flush before and after
-> +	 * XY_CTRL_SURF_COPY_BLT
-
-Do you have a bspec reference for this?  It sounds reasonable, but I
-wanted to confirm with the bspec that we're programming the flush the
-way it wants us to.
-
-> +	 */
-> +	total_size += 2 * MI_FLUSH_DW_SIZE;
-> +	return total_size;
+> +       /* Just return the same rate without modifying it */
+> +       return 0;
 > +}
 > +
-> +static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64 dst_addr,
-> +				     u8 src_mem_access, u8 dst_mem_access,
-> +				     int src_mocs, int dst_mocs,
-> +				     u16 num_ccs_blocks)
+> +static int clk_dummy_set_rate(struct clk_hw *hw,
+> +                             unsigned long rate,
+> +                             unsigned long parent_rate)
 > +{
-> +	int i = num_ccs_blocks;
+> +       struct clk_dummy_context *ctx =3D
+> +               container_of(hw, struct clk_dummy_context, hw);
 > +
-> +	/*
-> +	 * The XY_CTRL_SURF_COPY_BLT instruction is used to copy the CCS
-> +	 * data in and out of the CCS region.
-> +	 *
-> +	 * We can copy at most 1024 blocks of 256 bytes using one
-> +	 * XY_CTRL_SURF_COPY_BLT instruction.
-> +	 *
-> +	 * In case we need to copy more than 1024 blocks, we need to add
-> +	 * another instruction to the same batch buffer.
-> +	 *
-> +	 * 1024 blocks of 256 bytes of CCS represent a total 256KB of CCS.
-> +	 *
-> +	 * 256 KB of CCS represents 256 * 256 KB = 64 MB of LMEM.
-> +	 */
-> +	do {
-> +		/*
-> +		 * We use logical AND with 1023 since the size field
-> +		 * takes values which is in the range of 0 - 1023
-
-I think you mean 'bitwise AND' here?  A logical AND would be '&&' which
-isn't what you want.
-
-> +		 */
-> +		*cmd++ = ((XY_CTRL_SURF_COPY_BLT) |
-> +			  (src_mem_access << SRC_ACCESS_TYPE_SHIFT) |
-> +			  (dst_mem_access << DST_ACCESS_TYPE_SHIFT) |
-> +			  (((i - 1) & 1023) << CCS_SIZE_SHIFT));
-> +		*cmd++ = lower_32_bits(src_addr);
-> +		*cmd++ = ((upper_32_bits(src_addr) & 0xFFFF) |
-> +			  (src_mocs << XY_CTRL_SURF_MOCS_SHIFT));
-> +		*cmd++ = lower_32_bits(dst_addr);
-> +		*cmd++ = ((upper_32_bits(dst_addr) & 0xFFFF) |
-> +			  (dst_mocs << XY_CTRL_SURF_MOCS_SHIFT));
-> +		src_addr += SZ_64M;
-> +		dst_addr += SZ_64M;
-> +		i -= NUM_CCS_BLKS_PER_XFER;
-> +	} while (i > 0);
-> +
-> +	return cmd;
+> +       ctx->rate =3D rate;
+> +       return 0;
 > +}
 > +
->  static int emit_copy(struct i915_request *rq,
->  		     u32 dst_offset, u32 src_offset, int size)
->  {
-> @@ -614,16 +723,23 @@ intel_context_migrate_copy(struct intel_context *ce,
->  	return err;
->  }
->  
-> -static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
-> +static int emit_clear(struct i915_request *rq, u64 offset, int size,
-> +		      u32 value, bool is_lmem)
->  {
-> -	const int ver = GRAPHICS_VER(rq->engine->i915);
-> +	struct drm_i915_private *i915 = rq->engine->i915;
-> +	const int ver = GRAPHICS_VER(i915);
-> +	u32 num_ccs_blks, ccs_ring_size;
->  	u32 *cs;
->  
->  	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
->  
->  	offset += (u64)rq->engine->instance << 32;
->  
-> -	cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
-> +	/* Clear flat css only when value is 0 */
+> +static const struct clk_ops clk_dummy_ops =3D {
 
-Typo: ccs
+Maybe clk_dummy_rate_ops? So we don't mix it up with other dummy ops in
+this file testing things that aren't rates.
 
-> +	ccs_ring_size = (is_lmem && !value) ?
-> +			 calc_ctrl_surf_instr_size(i915, size) : 0;
+> +       .recalc_rate =3D clk_dummy_recalc_rate,
+> +       .determine_rate =3D clk_dummy_determine_rate,
+> +       .set_rate =3D clk_dummy_set_rate,
+> +};
 > +
-> +	cs = intel_ring_begin(rq, round_up(ver >= 8 ? 8 + ccs_ring_size : 6, 2));
->  	if (IS_ERR(cs))
->  		return PTR_ERR(cs);
->  
-> @@ -646,6 +762,27 @@ static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
->  		*cs++ = value;
->  	}
->  
-> +	if (is_lmem && HAS_FLAT_CCS(i915) && !value) {
-> +		num_ccs_blks = DIV_ROUND_UP(GET_CCS_BYTES(i915, size),
-> +					    NUM_CCS_BYTES_PER_BLOCK);
+> +static int clk_test_init_with_ops(struct kunit *test, const struct clk_o=
+ps *ops)
+> +{
+> +       struct clk_dummy_context *ctx;
+> +       struct clk_init_data init =3D { };
+> +       int ret;
 > +
-> +		/*
-> +		 * Flat CCS surface can only be accessed via
-> +		 * XY_CTRL_SURF_COPY_BLT CMD and using indirect
-> +		 * mapping of associated LMEM.
-> +		 * We can clear ccs surface by writing all 0s,
-> +		 * so we will flush the previously cleared buffer
-> +		 * and use it as a source.
-> +		 */
-> +		cs = i915_flush_dw(cs, offset, MI_FLUSH_LLC | MI_FLUSH_CCS);
-> +		cs = _i915_ctrl_surf_copy_blt(cs, offset, offset,
-> +					      DIRECT_ACCESS, INDIRECT_ACCESS,
-> +					      1, 1, num_ccs_blks);
-
-The magic number '1' used for MOCS here doesn't look right.  The proper
-MOCS entry is probably going to vary from platform to platform.  Bspec
-47980 says it should be UC with GO:Memory, so I think that would be
-index 2 for DG2 and Xe_HP SDV.  Since MOCS values are (index << 1), that
-would mean we we'd need to program a value of "4" here if I'm reading
-the description correctly.
-
-Right now we have mocs->uc_index pointing to the uncached entry with
-GO:L3.  But I from a quick skim, I think the only places we're using
-that value are the programming of BLIT_CCTL (bspec 45807) and
-RING_CMD_CCTL (bspec 45826), both of which are supposed to be using
-GO:Memory instead of GO:L3.  So maybe we should fix the uc_index value
-for those platforms and then use "rq->engine->gt->mocs.uc_index << 1"
-here.  Might be worth renaming the field to "uc_index_gomemory" just to
-make it more explicit what it's representing to prevent mistakes during
-enablement of future platforms.
-
-
-Matt
-
-> +		cs = i915_flush_dw(cs, offset, MI_FLUSH_LLC | MI_FLUSH_CCS);
+> +       ctx =3D kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+> +       if (!ctx)
+> +               return -ENOMEM;
+> +       ctx->rate =3D DUMMY_CLOCK_INIT_RATE;
+> +       test->priv =3D ctx;
 > +
-> +		if (ccs_ring_size & 1)
-> +			*cs++ = MI_NOOP;
-> +	}
->  	intel_ring_advance(rq, cs);
->  	return 0;
->  }
-> @@ -711,7 +848,7 @@ intel_context_migrate_clear(struct intel_context *ce,
->  		if (err)
->  			goto out_rq;
->  
-> -		err = emit_clear(rq, offset, len, value);
-> +		err = emit_clear(rq, offset, len, value, is_lmem);
->  
->  		/* Arbitration is re-enabled between requests. */
->  out_rq:
-> -- 
-> 2.20.1
-> 
+> +       init.name =3D "test_dummy_rate";
+> +       init.ops =3D ops;
+> +       ctx->hw.init =3D &init;
+> +
+> +       ret =3D clk_hw_register(NULL, &ctx->hw);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return 0;
+> +}
+> +
+> +static int clk_test_init(struct kunit *test)
+> +{
+> +       return clk_test_init_with_ops(test, &clk_dummy_ops);
+> +}
+> +
+> +static void clk_test_exit(struct kunit *test)
+> +{
+> +       struct clk_dummy_context *ctx =3D test->priv;
+> +
+> +       clk_hw_unregister(&ctx->hw);
+> +}
+> +
+> +/*
+> + * Test that the actual rate matches what is returned by clk_get_rate()
+> + */
+> +static void clk_test_get_rate(struct kunit *test)
+> +{
+> +       struct clk_dummy_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       unsigned long rate;
+> +
+> +       rate =3D clk_get_rate(clk);
+> +       KUNIT_ASSERT_TRUE(test, rate > 0);
+> +       KUNIT_EXPECT_EQ(test, rate, ctx->rate);
+> +}
+> +
+> +/*
+> + * Test that, after a call to clk_set_rate(), the rate returned by
+> + * clk_get_rate() matches.
+> + *
+> + * This assumes that clk_ops.determine_rate or clk_ops.round_rate won't
+> + * modify the requested rate, which is our case in clk_dummy_rate_ops.
+> + */
+> +static void clk_test_set_get_rate(struct kunit *test)
+> +{
+> +       struct clk_dummy_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       unsigned long rate;
+> +
+> +       KUNIT_ASSERT_EQ(test,
+> +                       clk_set_rate(clk, DUMMY_CLOCK_RATE_1),
+> +                       0);
+> +
+> +       rate =3D clk_get_rate(clk);
+> +       KUNIT_ASSERT_GT(test, rate, 0);
+> +       KUNIT_EXPECT_EQ(test, rate, DUMMY_CLOCK_RATE_1);
+> +}
+> +
+> +/*
+> + * Test that, after several calls to clk_set_rate(), the rate returned
+> + * by clk_get_rate() matches the last one.
+> + *
+> + * This assumes that clk_ops.determine_rate or clk_ops.round_rate won't
+> + * modify the requested rate, which is our case in clk_dummy_rate_ops.
+> + */
+> +static void clk_test_set_set_get_rate(struct kunit *test)
+> +{
+> +       struct clk_dummy_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       unsigned long rate;
+> +
+> +       KUNIT_ASSERT_EQ(test,
+> +                       clk_set_rate(clk, DUMMY_CLOCK_RATE_1),
+> +                       0);
+> +
+> +       KUNIT_ASSERT_EQ(test,
+> +                       clk_set_rate(clk, DUMMY_CLOCK_RATE_2),
+> +                       0);
+> +
+> +       rate =3D clk_get_rate(clk);
+> +       KUNIT_ASSERT_GT(test, rate, 0);
+> +       KUNIT_EXPECT_EQ(test, rate, DUMMY_CLOCK_RATE_2);
+> +}
+> +
+> +static struct kunit_case clk_test_cases[] =3D {
+> +       KUNIT_CASE(clk_test_get_rate),
+> +       KUNIT_CASE(clk_test_set_get_rate),
+> +       KUNIT_CASE(clk_test_set_set_get_rate),
+> +       {}
+> +};
+> +
+> +static struct kunit_suite clk_test_suite =3D {
+> +       .name =3D "clk-test",
+> +       .init =3D clk_test_init,
+> +       .exit =3D clk_test_exit,
+> +       .test_cases =3D clk_test_cases,
+> +};
+> +
+> +/*
+> + * Test that clk_set_rate_range won't return an error for a valid range.
+> + */
+> +static void clk_range_test_set_range(struct kunit *test)
+> +{
+> +       struct clk_dummy_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       unsigned long rate;
+> +
+> +       KUNIT_ASSERT_EQ(test,
+> +                       clk_set_rate_range(clk,
+> +                                          DUMMY_CLOCK_RATE_1,
+> +                                          DUMMY_CLOCK_RATE_2),
+> +                       0);
+> +
+> +       rate =3D clk_get_rate(clk);
+> +       KUNIT_ASSERT_GT(test, rate, 0);
+> +       KUNIT_EXPECT_GE(test, rate, DUMMY_CLOCK_RATE_1);
+> +       KUNIT_EXPECT_LE(test, rate, DUMMY_CLOCK_RATE_2);
+> +}
+> +
+> +/*
+> + * Test that calling clk_set_rate_range with a minimum rate higher than
+> + * the maximum rate returns an error.
+> + */
+> +static void clk_range_test_set_range_invalid(struct kunit *test)
+> +{
+> +       struct clk_dummy_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +
+> +       KUNIT_EXPECT_LT(test,
+> +                       clk_set_rate_range(clk,
+> +                                          DUMMY_CLOCK_RATE_1 + 1000,
+> +                                          DUMMY_CLOCK_RATE_1),
+> +                       0);
+> +}
+> +
+> +/*
+> + * Test that if our clock has a rate lower than the minimum set by a
+> + * call to clk_set_rate_range(), the rate will be raised to match the
+> + * new minimum.
+> + *
+> + * This assumes that clk_ops.determine_rate or clk_ops.round_rate won't
+> + * modify the requested rate, which is our case in clk_dummy_rate_ops.
+> + */
+> +static void clk_range_test_set_range_get_rate_raised(struct kunit *test)
+> +{
+> +       struct clk_dummy_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       unsigned long rate;
+> +
+> +       KUNIT_ASSERT_EQ(test,
+> +                       clk_set_rate(clk, DUMMY_CLOCK_RATE_1 - 1000),
+> +                       0);
+> +
+> +       KUNIT_ASSERT_EQ(test,
+> +                       clk_set_rate_range(clk,
+> +                                          DUMMY_CLOCK_RATE_1,
+> +                                          DUMMY_CLOCK_RATE_2),
+> +                       0);
+> +
+> +       rate =3D clk_get_rate(clk);
+> +       KUNIT_ASSERT_GT(test, rate, 0);
+> +       KUNIT_EXPECT_EQ(test, rate, DUMMY_CLOCK_RATE_1);
+> +}
+> +
+> +/*
+> + * Test that if our clock has a rate higher than the maximum set by a
+> + * call to clk_set_rate_range(), the rate will be lowered to match the
+> + * new maximum.
+> + *
+> + * This assumes that clk_ops.determine_rate or clk_ops.round_rate won't
+> + * modify the requested rate, which is our case in clk_dummy_rate_ops.
+> + */
+> +static void clk_range_test_set_range_get_rate_lowered(struct kunit *test)
+> +{
+> +       struct clk_dummy_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       unsigned long rate;
+> +
+> +       KUNIT_ASSERT_EQ(test,
+> +                       clk_set_rate(clk, DUMMY_CLOCK_RATE_2 + 1000),
+> +                       0);
+> +
+> +       KUNIT_ASSERT_EQ(test,
+> +                       clk_set_rate_range(clk,
+> +                                          DUMMY_CLOCK_RATE_1,
+> +                                          DUMMY_CLOCK_RATE_2),
+> +                       0);
+> +
+> +       rate =3D clk_get_rate(clk);
+> +       KUNIT_ASSERT_GT(test, rate, 0);
+> +       KUNIT_EXPECT_EQ(test, rate, DUMMY_CLOCK_RATE_2);
+> +}
+> +
+> +static struct kunit_case clk_range_test_cases[] =3D {
+> +       KUNIT_CASE(clk_range_test_set_range),
+> +       KUNIT_CASE(clk_range_test_set_range_invalid),
+> +       KUNIT_CASE(clk_range_test_set_range_get_rate_raised),
+> +       KUNIT_CASE(clk_range_test_set_range_get_rate_lowered),
 
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+Can you add a test case for round_rate matching what set_rate did, i.e.
+calling clk_round_rate() and then clk_set_rate() followed by
+clk_get_rate() with the same argument for round and set rate leads to
+the same frequency?
+
+It would also be good to add a test that tries to set the clk rate with
+clk_set_rate() after a range has been set that is outside the acceptable
+range and verify that it fails, and one that tries to set it within the
+range and make sure it succeeds (and changes it to be exactly what was
+set). Similarly, a call to set two disjoint ranges and verify that the
+call that tries to set the second disjoint range fails. We want to test
+the failure paths as well, to make sure we don't start causing them to
+pass, unless it's expected. This patch could also contain the failure
+scenario you're experiencing and mark it as expecting to fail. Then the
+patch that fixes it in the core could mark the test as expecting to
+pass, which may help us understand more easily what exactly changed
+instead of having to figure that out after the fact by reading the
+entire test.
+
+> +       {}
+> +};
+> +
+> +static struct kunit_suite clk_range_test_suite =3D {
+> +       .name =3D "clk-range-test",
+> +       .init =3D clk_test_init,
+> +       .exit =3D clk_test_exit,
+> +       .test_cases =3D clk_range_test_cases,
+> +};
