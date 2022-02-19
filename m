@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589B74BCC34
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Feb 2022 05:52:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D75CD4BCD49
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Feb 2022 09:44:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 739F810E302;
-	Sun, 20 Feb 2022 04:52:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 549F010F749;
+	Sun, 20 Feb 2022 08:44:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8282510E302
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Feb 2022 04:52:12 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C20625B;
- Sun, 20 Feb 2022 05:52:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1645332730;
- bh=1aG/bdP7UqXBWuCxPUBrFTLgOPk908pP5AN9RMlcxmE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Go5D4VtKSuXyTESjXSw+krd6vn2GHsbOstWSBORXQnihbjLaCX6w5YUw8ii0LQ/er
- Z8RkLZkjZXP4msQUf1am10zN2ATOIIdsrTA+XB4fdU+32V7z/B653YwZHCbw82IbTA
- vF25AXOfVoZN8hUHkWZF1qfqDHPYhSioROYyKTL4=
-Date: Sun, 20 Feb 2022 06:52:00 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH] drm/panel: simple: Fix Innolux G070Y2-L01 BPP settings
-Message-ID: <YhHI8OjUfKb2lDng@pendragon.ideasonboard.com>
-References: <20220220040718.532866-1-marex@denx.de>
+Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0E8FE10F6D8
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 10:05:28 +0000 (UTC)
+Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
+ by 156.147.23.52 with ESMTP; 19 Feb 2022 19:05:27 +0900
+X-Original-SENDERIP: 156.147.1.126
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
+ by 156.147.1.126 with ESMTP; 19 Feb 2022 19:05:27 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+Date: Sat, 19 Feb 2022 19:05:19 +0900
+From: Byungchul Park <byungchul.park@lge.com>
+To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH 00/16] DEPT(Dependency Tracker)
+Message-ID: <20220219100519.GB10342@X58A-UD3R>
+References: <1645095472-26530-1-git-send-email-byungchul.park@lge.com>
+ <Yg5u7dzUxL3Vkncg@mit.edu>
+ <20220217120005.67f5ddf4@gandalf.local.home>
+ <Yg6AigFqdhdO5/ya@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220220040718.532866-1-marex@denx.de>
+In-Reply-To: <Yg6AigFqdhdO5/ya@casper.infradead.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Mailman-Approved-At: Sun, 20 Feb 2022 08:44:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,55 +47,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christoph Fritz <chf.fritz@googlemail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ joel@joelfernandes.org, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
+ sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ hch@infradead.org, airlied@linux.ie, mingo@redhat.com, djwong@kernel.org,
+ vdavydov.dev@gmail.com, rientjes@google.com, dennis@kernel.org,
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org, ngupta@vflare.org,
+ johannes.berg@intel.com, jack@suse.com, dan.j.williams@intel.com,
+ josef@toxicpanda.com, Steven Rostedt <rostedt@goodmis.org>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ axboe@kernel.dk, melissa.srw@gmail.com, sj@kernel.org,
+ Theodore Ts'o <tytso@mit.edu>, rodrigosiqueiramelo@gmail.com,
+ kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
+ linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
+ hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
+ torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
-
-Thank you for the patch.
-
-On Sun, Feb 20, 2022 at 05:07:18AM +0100, Marek Vasut wrote:
-> The Innolux G070Y2-L01 supports two modes of operation:
-> 1) FRC=Low/NC ... MEDIA_BUS_FMT_RGB666_1X7X3_SPWG ... BPP=6
-> 2) FRC=High ..... MEDIA_BUS_FMT_RGB888_1X7X4_SPWG ... BPP=8
+On Thu, Feb 17, 2022 at 05:06:18PM +0000, Matthew Wilcox wrote:
+> On Thu, Feb 17, 2022 at 12:00:05PM -0500, Steven Rostedt wrote:
+> > On Thu, 17 Feb 2022 10:51:09 -0500
+> > "Theodore Ts'o" <tytso@mit.edu> wrote:
+> > 
+> > > I know that you're trying to help us, but this tool needs to be far
+> > > better than Lockdep before we should think about merging it.  Even if
+> > > it finds 5% more potential deadlocks, if it creates 95% more false
+> > > positive reports --- and the ones it finds are crazy things that
+> > > rarely actually happen in practice, are the costs worth the benefits?
+> > > And who is bearing the costs, and who is receiving the benefits?
+> > 
+> > I personally believe that there's potential that this can be helpful and we
+> > will want to merge it.
+> > 
+> > But, what I believe Ted is trying to say is, if you do not know if the
+> > report is a bug or not, please do not ask the maintainers to determine it
+> > for you. This is a good opportunity for you to look to see why your tool
+> > reported an issue, and learn that subsystem. Look at if this is really a
+> > bug or not, and investigate why.
 > 
-> Currently the panel description mixes both, BPP from 1) and bus
-> format from 2), which triggers a warning at panel-simple.c:615.
-> 
-> Pick the later, set bpp=8, fix the warning.
-> 
-> Fixes: a5d2ade627dca ("drm/panel: simple: Add support for Innolux G070Y2-L01")
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Christoph Fritz <chf.fritz@googlemail.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> I agree with Steven here, to the point where I'm willing to invest some
+> time being a beta-tester for this, so if you focus your efforts on
+> filesystem/mm kinds of problems, I can continue looking at them and
+> tell you what's helpful and what's unhelpful in the reports.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I appreciate your support. I'll do my best to make it *THE* perfect tool
+for that purpose. I'd feel great if it helps a lot and saves you guys'
+time in advance, it might not for now tho.
 
-> ---
->  drivers/gpu/drm/panel/panel-simple.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 49e56adff6226..4405a9dc7574f 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -2137,7 +2137,7 @@ static const struct display_timing innolux_g070y2_l01_timing = {
->  static const struct panel_desc innolux_g070y2_l01 = {
->  	.timings = &innolux_g070y2_l01_timing,
->  	.num_timings = 1,
-> -	.bpc = 6,
-> +	.bpc = 8,
->  	.size = {
->  		.width = 152,
->  		.height = 91,
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Byungchul
