@@ -1,38 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B3C4BC75F
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 11:02:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6591C4BC90B
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 16:25:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE7E410F69A;
-	Sat, 19 Feb 2022 10:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 814C310FC96;
+	Sat, 19 Feb 2022 15:25:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by gabe.freedesktop.org (Postfix) with ESMTP id C2A8610E29D
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 09:54:17 +0000 (UTC)
-Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
- by 156.147.23.52 with ESMTP; 19 Feb 2022 18:54:15 +0900
-X-Original-SENDERIP: 156.147.1.151
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
- by 156.147.1.151 with ESMTP; 19 Feb 2022 18:54:15 +0900
-X-Original-SENDERIP: 10.177.244.38
-X-Original-MAILFROM: byungchul.park@lge.com
-Date: Sat, 19 Feb 2022 18:54:07 +0900
-From: Byungchul Park <byungchul.park@lge.com>
-To: Theodore Ts'o <tytso@mit.edu>
-Subject: Re: [PATCH 00/16] DEPT(Dependency Tracker)
-Message-ID: <20220219095407.GA10342@X58A-UD3R>
-References: <1645095472-26530-1-git-send-email-byungchul.park@lge.com>
- <Yg5u7dzUxL3Vkncg@mit.edu>
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F07B10FC96
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 15:25:29 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 35db18a9-9198-11ec-b2df-0050568cd888;
+ Sat, 19 Feb 2022 15:25:46 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 8100D194C5E;
+ Sat, 19 Feb 2022 16:25:26 +0100 (CET)
+Date: Sat, 19 Feb 2022 16:25:22 +0100
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v4 1/3] dt-bindings: display: add bindings for MIPI DBI
+ compatible SPI panels
+Message-ID: <YhEL4hgArpjFbcBx@ravnborg.org>
+References: <20220218151110.11316-1-noralf@tronnes.org>
+ <20220218151110.11316-2-noralf@tronnes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Yg5u7dzUxL3Vkncg@mit.edu>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Mailman-Approved-At: Sat, 19 Feb 2022 10:01:55 +0000
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220218151110.11316-2-noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,115 +50,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- joel@joelfernandes.org, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
- sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
- djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
- dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
- ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
- axboe@kernel.dk, melissa.srw@gmail.com, sj@kernel.org,
- rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
- jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
- akpm@linux-foundation.org, torvalds@linux-foundation.org
+Cc: devicetree@vger.kernel.org, david@lechnology.com,
+ dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 17, 2022 at 10:51:09AM -0500, Theodore Ts'o wrote:
-> On Thu, Feb 17, 2022 at 07:57:36PM +0900, Byungchul Park wrote:
-> > 
-> > I've got several reports from the tool. Some of them look like false
-> > alarms and some others look like real deadlock possibility. Because of
-> > my unfamiliarity of the domain, it's hard to confirm if it's a real one.
-> > Let me add the reports on this email thread.
+Hi Noralf,
+
+On Fri, Feb 18, 2022 at 04:11:08PM +0100, Noralf Trønnes wrote:
+> Add binding for MIPI DBI compatible SPI panels.
 > 
-> The problem is we have so many potentially invalid, or
-> so-rare-as-to-be-not-worth-the-time-to-investigate-in-the-
-> grand-scheme-of-all-of-the-fires-burning-on-maintainers laps that it's
-> really not reasonable to ask maintainers to determine whether
+> v4:
+> - There should only be two compatible (Maxime)
+> - s/panel-dbi-spi/panel-mipi-dbi-spi/in compatible
+> 
+> v3:
+> - Move properties to Device Tree (Maxime)
+> - Use contains for compatible (Maxime)
+> - Add backlight property to example
+> - Flesh out description
+> 
+> v2:
+> - Fix path for panel-common.yaml
+> - Use unevaluatedProperties
+> - Drop properties which are in the allOf section
+> - Drop model property (Rob)
+> 
+> Acked-by: Maxime Ripard <maxime@cerno.tech>
+> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+> ---
+>  .../display/panel/panel-mipi-dbi-spi.yaml     | 125 ++++++++++++++++++
+>  1 file changed, 125 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+> new file mode 100644
+> index 000000000000..748c09113168
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+> @@ -0,0 +1,125 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/panel-mipi-dbi-spi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MIPI DBI SPI Panel
+> +
+> +maintainers:
+> +  - Noralf Trønnes <noralf@tronnes.org>
+> +
+> +description: |
+> +  This binding is for display panels using a MIPI DBI compatible controller
+> +  in SPI mode.
+> +
+> +  The MIPI Alliance Standard for Display Bus Interface defines the electrical
+> +  and logical interfaces for display controllers historically used in mobile
+> +  phones. The standard defines 4 display architecture types and this binding is
+> +  for type 1 which has full frame memory. There are 3 interface types in the
+> +  standard and type C is the serial interface.
+> +
+> +  The standard defines the following interface signals for type C:
+> +  - Power:
+> +    - Vdd: Power supply for display module
+> +    - Vddi: Logic level supply for interface signals
+> +    Combined into one in this binding called: power-supply
+> +  - Interface:
+> +    - CSx: Chip select
+> +    - SCL: Serial clock
+> +    - Dout: Serial out
+> +    - Din: Serial in
+> +    - SDA: Bidrectional in/out
+> +    - D/CX: Data/command selection, high=data, low=command
+> +      Called dc-gpios in this binding.
+> +    - RESX: Reset when low
+> +      Called reset-gpios in this binding.
+> +
+> +  The type C interface has 3 options:
+> +
+> +    - Option 1: 9-bit mode and D/CX as the 9th bit
+> +      |              Command              |  the next command or following data  |
+> +      |<0><D7><D6><D5><D4><D3><D2><D1><D0>|<D/CX><D7><D6><D5><D4><D3><D2><D1><D0>|
+> +
+> +    - Option 2: 16-bit mode and D/CX as a 9th bit
+> +      |              Command or data                              |
+> +      |<X><X><X><X><X><X><X><D/CX><D7><D6><D5><D4><D3><D2><D1><D0>|
+> +
+> +    - Option 3: 8-bit mode and D/CX as a separate interface line
+> +      |        Command or data         |
+> +      |<D7><D6><D5><D4><D3><D2><D1><D0>|
+> +
+> +  The panel resolution is specified using the panel-timing node properties
+> +  hactive (width) and vactive (height). The other mandatory panel-timing
+> +  properties should be set to zero except clock-frequency which can be
+> +  optionally set to inform about the actual pixel clock frequency.
+> +
+> +  If the panel is wired to the controller at an offset specify this using
+> +  hback-porch (x-offset) and vback-porch (y-offset).
+Very informative description - well done.
 
-Even though I might have been wrong and might be gonna be wrong, you
-look so arrogant. You were hasty to judge and trying to walk over me.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - {} # Panel Specific Compatible
+> +      - const: panel-mipi-dbi-spi
+> +
+> +  write-only:
+> +    type: boolean
+> +    description:
+> +      Controller is not readable (ie. MISO is not wired up).
+It would be easier to understand if this comment refers to one of the
+pins on the display described above. So maybe something like
+(ie. Din (MSIO on the SPI interface) is not wired up).
 
-I reported it because I thought it was a real problem but couldn't
-confirm it. For the other reports that I thought was not real, I didn't
-even mention it. If you are talking about the previous report, then I
-felt so sorry as I told you. I skimmed through the part of the waits...
-
-Basically, I respect you and appreciate your feedback. Hope you not get
-me wrong.
-
-> Looking at the second ext4 report, it doesn't make any sense.  Context
-> A is the kjournald thread.  We don't do a commit until (a) the timeout
-> expires, or (b) someone explicitly requests that a commit happen
-> waking up j_wait_commit.  I'm guessing that complaint here is that
-> DEPT thinks nothing is explicitly requesting a wake up.  But note that
-> after 5 seconds (or whatever journal->j_commit_interval) is configured
-> to be we *will* always start a commit.  So ergo, there can't be a deadlock.
-
-Yeah, it might not be a *deadlock deadlock* because the wait will be
-anyway woken up by one of the wake up points you mentioned. However, the
-dependency looks problematic because the three contexts participating in
-the dependency chain would be stuck for a while until one eventually
-wakes it up. I bet it would not be what you meant.
-
-Again. It's not critical but problematic. Or am I missing something?
-
-> At a higher level of discussion, it's an unfair tax on maintainer's
-> times to ask maintainers to help you debug DEPT for you.  Tools like
-> Syzkaller and DEPT are useful insofar as they save us time in making
-> our subsystems better.  But until you can prove that it's not going to
-> be a massive denial of service attack on maintainer's time, at the
-
-Partially I agree. I would understand you even if you don't support Dept
-until you think it's valuable enough. However, let me keep asking things
-to fs folks, not you, even though I would cc you on it.
-
-> If you know there there "appear to be false positives", you need to
-> make sure you've tracked them all down before trying to ask that this
-> be merged.
-
-To track them all down, I need to ask LKML because Dept works perfectly
-with my system. I don't want it to be merged with a lot of false
-positive still in there, either.
-
-> You may also want to add some documentation about why we should trust
-> this; in particular for wait channels, when a process calls schedule()
-> there may be multiple reasons why the thread will wake up --- in the
-> worst case, such as in the select(2) or epoll(2) system call, there
-> may be literally thousands of reasons (one for every file desriptor
-> the select is waiting on) --- why the process will wake up and thus
-> resolve the potential "deadlock" that DEPT is worrying about.  How is
-> DEPT going to handle those cases?  If the answer is that things need
-
-Thank you for the information but I don't get it which case you are
-concerning. I'd like to ask you a specific senario of that so that we
-can discuss it more - maybe I guess I could answer to it tho, but I
-won't ask you. Just give me an instance only if you think it's worthy.
-
-You look like a guy who unconditionally blames on new things before
-understanding it rather than asking and discussing. Again. I also think
-anyone doesn't have to spend his or her time for what he or she think is
-not worthy enough.
-
-> I know that you're trying to help us, but this tool needs to be far
-> better than Lockdep before we should think about merging it.  Even if
-> it finds 5% more potential deadlocks, if it creates 95% more false
-
-It should not get merged for sure if so, but it sounds too sarcastic.
-Let's see if it creates 95% false positives for real. If it's true and
-I can't control it, I will give up. That's what I should do.
-
-There are a lot of factors to judge how valuable Dept is. Dept would be
-useful especially in the middle of development, rather than in the final
-state in the tree. It'd be appreciated if you think that sides more, too.
-
-Thanks,
-Byungchul
+With the comment updated to include a reference to Din,
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
