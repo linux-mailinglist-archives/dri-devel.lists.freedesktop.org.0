@@ -2,51 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D60F4BC4F3
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 03:39:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A064BC50E
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Feb 2022 03:48:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C3CE10E11D;
-	Sat, 19 Feb 2022 02:39:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C51310E133;
+	Sat, 19 Feb 2022 02:48:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA1ED10E11D
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 02:39:13 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id B6E118366A;
- Sat, 19 Feb 2022 03:39:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1645238352;
- bh=Xa3eZmDDOofaXgixPVvIBohHA9y7JHjFIVu7uio8SlM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bN6aLkMRd7j6MK0tT3UNqUQBElatgCMJtBmkeVYM595+xK5uJYz+ytoTvHtshb0Hd
- xsnSQkD/SE4gw+dyr0UMH/HhVUDOtqzs9lJvWfG5GxZD+H3GCdHKH6hYNlKmNWVFaa
- q14sBhVmOB95vgOP5yN5UVt4WG1g7TpzzJHL1jY4D+5v/luArDZ7dnBkK8VOxAvLZ7
- hieATKl+LWPx8pbRkdZCADc8XZw4FPLvLs7N871l6FodaUEYylrsoljir1vc5YGXF3
- PwFMurCqQw3rEoi4syP551W8TFWgVQ95n9dgJFCopppqAZvgsV7uxBU2NnqLn0PQkr
- m3fkuQx77oh7Q==
-Message-ID: <64715cae-ab3c-2a14-dfa5-00f93d4db678@denx.de>
-Date: Sat, 19 Feb 2022 03:39:11 +0100
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
+ [IPv6:2607:f8b0:4864:20::c34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F214610E133
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Feb 2022 02:48:06 +0000 (UTC)
+Received: by mail-oo1-xc34.google.com with SMTP id
+ d134-20020a4a528c000000b00319244f4b04so5835748oob.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Feb 2022 18:48:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc:content-transfer-encoding;
+ bh=PyXIOt9TwEbp/v0FYGxm9MNyuNqxiXlSYVf9ZjuxFw4=;
+ b=oJKjQAjyFAabhbVoxOVOi5vHV8FDmur21OrnA50nLxUxaeTQIO9Gn8MH8iLA9zwARx
+ JbEaFp4AZyGac6ERMXofW+N0iycI0+HArqhTgDUUz4kqV7QZNIjMqBoTkDxMMVcdbBR/
+ LWzpUpLu8ef6ZliKBQmXgFIRnBNKEmd5s1lGw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc:content-transfer-encoding;
+ bh=PyXIOt9TwEbp/v0FYGxm9MNyuNqxiXlSYVf9ZjuxFw4=;
+ b=5pAQVJTX+tjc83Ms1thm3tRd5zTFUzcsmRPS6WfXO8rB7Td2anqhkWwX6A0Qg8q7V9
+ PEn14zy83MmCRhV3jZTTbzBzkdSxdbrhUDcGDViKK2gr8KEMSSmTs9iceEQN6f7wJaHR
+ +fmgiCKJbS6ga4owu336YsIlvTg1tGbIAfHyV6pA8f2WvDIJE8IcgMvp472GkDwBSK5h
+ lr1siSvknhwf/K3Ug1p5BJ2XO+Jy8cUzLsnBdmVnjlCL5mL0g4x0PUmV4XpyQmDt8C5L
+ f81VGA1/xGRGFkVqye8mfEPow3hH4xj0+kuJWX8S9z2Qk+15GATfsQGAHEGGvFBeecs9
+ /wEw==
+X-Gm-Message-State: AOAM530HhtsgjrKiyoCF+caWCOoEZyUX+s/ZoW+ikFm54aaOUCQsUnpp
+ 2iaP8dP6OyYJMxhXu0lBgUPcaTClHVJCzsMGBpfa2g==
+X-Google-Smtp-Source: ABdhPJxF6ayg5xV46awWSK47OeLXup8I8aPWcqCYqQcSqviz24QX5EhDws9kLB+NysyTmubzMScwb+kWup7twjLWS9Q=
+X-Received: by 2002:a05:6870:631a:b0:d1:7d97:806 with SMTP id
+ s26-20020a056870631a00b000d17d970806mr3843106oao.8.1645238886320; Fri, 18 Feb
+ 2022 18:48:06 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 18 Feb 2022 18:48:05 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH V2 05/11] drm/bridge: tc358767: Move hardware init to
- enable callback
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, dri-devel@lists.freedesktop.org
-References: <20220218010054.315026-1-marex@denx.de>
- <20220218010054.315026-6-marex@denx.de>
- <fcf1f83690ea7faa8b0667840eef7a9f4967cf72.camel@pengutronix.de>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <fcf1f83690ea7faa8b0667840eef7a9f4967cf72.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+In-Reply-To: <1645133788-5057-2-git-send-email-quic_khsieh@quicinc.com>
+References: <1645133788-5057-1-git-send-email-quic_khsieh@quicinc.com>
+ <1645133788-5057-2-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Fri, 18 Feb 2022 18:48:05 -0800
+Message-ID: <CAE-0n529EvPSqGt+XgZipOcSNpyHc6FunuQk_W841hYxWdH2og@mail.gmail.com>
+Subject: Re: [PATCH v8 1/4] drm/msm/dpu: adjust display_v_end for eDP and DP
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run, 
+ vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,52 +69,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maxime Ripard <maxime@cerno.tech>, Neil Armstrong <narmstrong@baylibre.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/18/22 18:49, Lucas Stach wrote:
-> Am Freitag, dem 18.02.2022 um 02:00 +0100 schrieb Marek Vasut:
->> The TC358767/TC358867/TC9595 are all capable of operating either from
->> attached Xtal or from DSI clock lane clock. In case the later is used,
->> all I2C accesses will fail until the DSI clock lane is running and
->> supplying clock to the chip.
->>
->> Move all hardware initialization to enable callback to guarantee the
->> DSI clock lane is running before accessing the hardware. In case Xtal
->> is attached to the chip, this change has no effect.
-> 
-> I'm not sure if that last statement is correct. When the chip is
-> bridging to eDP, the aux channel and HPD handling is needed to be
-> functional way before the atomic enable happen. I have no idea how this
-> would interact with the clock supplied from the DSI lanes. Maybe it
-> doesn't work at all and proper eDP support always needs a external
-> reference clock?
+Quoting Kuogee Hsieh (2022-02-17 13:36:25)
+> The =E2=80=9CDP timing=E2=80=9D requires the active region to be defined =
+in the
+> bottom-right corner of the frame dimensions which is different
+> with DSI. Therefore both display_h_end and display_v_end need
+> to be adjusted accordingly. However current implementation has
+> only display_h_end adjusted.
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
 
-The driver currently assumes the TC358767 always gets RefClk from Xtal.
+Is this not a problem for me because this is set already to something
+correct in the hardware?
 
-There is subsequent series which adds support for deriving clock which 
-drive the TC358767 PLLs from DSI HS clock instead of Xtal in case the 
-bridge operates in DSI-to-DPI mode. That needs additional plumbing, as 
-the TC358767 must be able to select specific clock frequency on the DSI 
-HS clock lane, because its PLLs need specific frequencies, see:
-
-[RFC][PATCH 0/7] drm/bridge: Add support for selecting DSI host HS clock 
-from DSI bridge
-
-If someone needs to implement DSI-to-(e)DP mode without Xtal, ugh, that 
-would likely need to have a way to figure out the DSI HS clock frequency 
-already in probe and then enable those DSI HS clock very early on too ?
-
-> I think we should make the "ref" clock a optional clock to properly
-> describe the fact that the chip can operate without this clock in DSI
-> input mode and then either do the chip init in the probe routine when
-> the ref clock is present, or defer it to atomic enable when the ref
-> clock is absent.
-
-See the RFC patchset above, that patchset does exactly that, it makes 
-RefClk optional.
-
-[...]
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
