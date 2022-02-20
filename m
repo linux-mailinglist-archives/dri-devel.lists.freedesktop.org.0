@@ -1,53 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9374BD5A4
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 06:53:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CFA4BD78C
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 09:29:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 640FD10EACE;
-	Mon, 21 Feb 2022 05:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0979410E831;
+	Mon, 21 Feb 2022 08:29:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
- [IPv6:2607:f8b0:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9562510EAAF
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 05:53:15 +0000 (UTC)
-Received: by mail-il1-x131.google.com with SMTP id 9so8520685ily.11
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Feb 2022 21:53:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Tu5+ZumlPrWZWUHsiI2Qy64iwmLnXHPFMBECCxnAn1Q=;
- b=eNH4LlOm7E19BUvV8/YUg4na+pugGL0GQtGPyd4F0sskxsfwUbBSISYkazJdvs/PoP
- TCUuJ7V7E5q05LnFlzsaF6puEW9DPWepHDebomaIkIAB1deViIk2fnuBFkUBKQaOz4Wi
- r4T2B57aJdhZf+gNbMORQrt6rYCVmxRrpXl+k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Tu5+ZumlPrWZWUHsiI2Qy64iwmLnXHPFMBECCxnAn1Q=;
- b=B68302F3fHq3+dxZ0egZmWKfRCkaFYXQH83plfwgeZs9cXOKaIgJDFulSmKGRgV3jN
- ZeUFfmca6DYhOMlJEQHlfKtOJJkmms9qd0CQW+Oq2plFrOkiPQtRoopLjlMI41wRogVu
- tYMtoSgwzS3QmufvToQg9wHjSA7qx1x6R/dXT/DSAqNpDbus4+Ul3/3sEpI+lsmTHutv
- rh+zUaMcVw+kvaLHgRsUUMEn6bv19PESDdfXOKlKem8tbFs7nRt7Z5xlNHy9cESS7ciW
- 9KIRAakfV8Roxpe9LOgeoxLNQHJfSmkhiCSmjT21a2QwV64dc/V0jRMeT8UXNkq/wsL8
- E8ow==
-X-Gm-Message-State: AOAM532tiTpJAh+tX48lgBeGbp/y33v2sdsQAuWuRec6HUHNTpcnwn5H
- Zk8uT6dO8YcmAcseBkD8k5Qqskciz+G1dxGQTlitBw==
-X-Google-Smtp-Source: ABdhPJy+ADYxxlDzmssOlbjH+urLluUHRb2DC7LoPstB1CTvBPMG2Vu8sbsrVI+mxW56/GIh/EIENpAVCZE2xANFsiE=
-X-Received: by 2002:a92:b05:0:b0:2b7:ee19:ee15 with SMTP id
- b5-20020a920b05000000b002b7ee19ee15mr14838488ilf.10.1645422794893; Sun, 20
- Feb 2022 21:53:14 -0800 (PST)
+Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [IPv6:2a01:e0c:1:1599::10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 510C610E380;
+ Sun, 20 Feb 2022 15:48:58 +0000 (UTC)
+Received: from ylum.localnet (unknown
+ [IPv6:2a01:e0a:3d9:ddd0:37f3:7f74:639b:b0a3])
+ (Authenticated sender: domi.dumont@free.fr)
+ by smtp1-g21.free.fr (Postfix) with ESMTPSA id 4BF65B004EE;
+ Sun, 20 Feb 2022 16:48:43 +0100 (CET)
+From: Dominique Dumont <dod@debian.org>
+To: Salvatore Bonaccorso <carnil@debian.org>
+Subject: Re: Regression from 3c196f056666 ("drm/amdgpu: always reset the asic
+ in suspend (v2)") on suspend?
+Date: Sun, 20 Feb 2022 16:48:43 +0100
+Message-ID: <5164225.DI6hChFYCN@ylum>
+In-Reply-To: <CADnq5_MfR99OhjumQESCO7Oq+JVOHOVgyVQHX4FpGFDnPu6CyQ@mail.gmail.com>
+References: <Ygf7KuWyc0d4HIFu@eldamar.lan>
+ <CADnq5_MfR99OhjumQESCO7Oq+JVOHOVgyVQHX4FpGFDnPu6CyQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220218094417.1631559-1-rexnie3@gmail.com>
- <CAG+K-_+txzJ2F9LONj_i3icqXFmn9byhUjJtu7N-xeY-5UKizQ@mail.gmail.com>
-In-Reply-To: <CAG+K-_+txzJ2F9LONj_i3icqXFmn9byhUjJtu7N-xeY-5UKizQ@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Mon, 21 Feb 2022 13:52:49 +0800
-Message-ID: <CAJMQK-ibOOdofUVso=RvLz5OiCzH0kaQ16VMgXY7Qpxm5NEEYA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/panel-edp: Add eDP innolux panel support
-To: Rex Nie <rexnie3@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Mailman-Approved-At: Mon, 21 Feb 2022 08:29:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,76 +42,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Daocai Nie <niedaocai@huaqin.corp-partner.google.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org
+Reply-To: dod@debian.org
+Cc: Sasha Levin <sashal@kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, 1005005@bugs.debian.org,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 18, 2022 at 5:59 PM Rex Nie <rexnie3@gmail.com> wrote:
->
-> Add hsinyi@chromium.org to cc list
->
-> On Fri, 18 Feb 2022 at 17:44, Rex Nie <rexnie3@gmail.com> wrote:
->>
->> From: Daocai Nie <niedaocai@huaqin.corp-partner.google.com>
->>
->> Add support for the 14" innolux,n140hca-eac eDP panel.
->>
->> Signed-off-by: Daocai Nie <niedaocai@huaqin.corp-partner.google.com>
+On Monday, 14 February 2022 22:52:27 CET Alex Deucher wrote:
+> Does the system actually suspend?  
 
-Acked-by: Hsin-Yi Wang <hsinyi@chromium.org>
->> ---
->>  drivers/gpu/drm/panel/panel-edp.c | 26 ++++++++++++++++++++++++++
->>  1 file changed, 26 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
->> index f7bfcf63d48e..f5f9c9cb26ba 100644
->> --- a/drivers/gpu/drm/panel/panel-edp.c
->> +++ b/drivers/gpu/drm/panel/panel-edp.c
->> @@ -1330,6 +1330,29 @@ static const struct panel_desc innolux_n125hce_gn1 = {
->>         },
->>  };
->>
->> +static const struct display_timing innolux_n140hca_eac_timing = {
->> +       .pixelclock = { 72600000, 76420000, 80240000 },
->> +       .hactive = { 1920, 1920, 1920 },
->> +       .hfront_porch = { 80, 80, 80 },
->> +       .hback_porch = { 190, 190, 190 },
->> +       .hsync_len = { 60, 60, 60 },
->> +       .vactive = { 1080, 1080, 1080 },
->> +       .vfront_porch = { 6, 6, 6 },
->> +       .vback_porch = { 38, 38, 38 },
->> +       .vsync_len = { 8, 8, 8 },
->> +       .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW,
->> +};
->> +
->> +static const struct panel_desc innolux_n140hca_eac = {
->> +       .timings = &innolux_n140hca_eac_timing,
->> +       .num_timings = 1,
->> +       .bpc = 6,
->> +       .size = {
->> +               .width = 309,
->> +               .height = 174,
->> +       },
->> +};
->> +
->>  static const struct drm_display_mode innolux_p120zdg_bf1_mode = {
->>         .clock = 206016,
->>         .hdisplay = 2160,
->> @@ -1750,6 +1773,9 @@ static const struct of_device_id platform_of_match[] = {
->>         }, {
->>                 .compatible = "innolux,n125hce-gn1",
->>                 .data = &innolux_n125hce_gn1,
->> +       }, {
->> +               .compatible = "innolux,n140hca-eac",
->> +               .data = &innolux_n140hca_eac,
->>         }, {
->>                 .compatible = "innolux,p120zdg-bf1",
->>                 .data = &innolux_p120zdg_bf1,
->> --
->> 2.25.1
->>
+Not really. The screens looks like it's going to suspend, but it does come 
+back after 10s or so. The light mounted in the middle of the power button does 
+not switch off.
+
+> Is this system S0i3 or regular S3?
+
+I'm not sure how to check that. After a bit of reading on the Internet [1], I 
+hope that the following information answers that question. Please get back to 
+me if that's not the case.
+
+Looks like my system supports both Soi3 and S3
+
+$ cat /sys/power/state 
+freeze mem disk
+
+I get the same result running these 2 commands as root:
+# echo freeze > /sys/power/state
+# echo mem > /sys/power/state
+
+>  Does this patch help by any chance?
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?i
+> d=e55a3aea418269266d84f426b3bd70794d3389c8
+
+yes, with this patch:
+- the suspend issue is solved
+- kernel logs no longer show messages like "failed to send message" or 
+"*ERROR* suspend of IP block <powerplay> failed" while suspending
+
+All the best
+
+[1] https://01.org/blogs/rzhang/2015/best-practice-debug-linux-suspend/
+hibernate-issues
+
+
