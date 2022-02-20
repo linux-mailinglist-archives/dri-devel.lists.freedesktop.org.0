@@ -1,42 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B084BCD7C
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Feb 2022 11:04:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6384BCD7E
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Feb 2022 11:18:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97AC310F72B;
-	Sun, 20 Feb 2022 10:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5439210F9EC;
+	Sun, 20 Feb 2022 10:18:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9307810F72B
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Feb 2022 10:04:48 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 87e2d19b-9234-11ec-9faa-0050568c148b;
- Sun, 20 Feb 2022 10:04:45 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 733EC194B46;
- Sun, 20 Feb 2022 11:04:46 +0100 (CET)
-Date: Sun, 20 Feb 2022 11:04:42 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v4 3/3] drm/tiny: Add MIPI DBI compatible SPI driver
-Message-ID: <YhISOrwTYsn2w6zo@ravnborg.org>
-References: <20220218151110.11316-1-noralf@tronnes.org>
- <20220218151110.11316-4-noralf@tronnes.org>
- <YhFqxklH9hsLrI1X@ravnborg.org>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8053310F9EB;
+ Sun, 20 Feb 2022 10:18:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645352316; x=1676888316;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=/g8/eppV3DbILu3LGgiF4TLBIfB493/4+HVvDxhyXXk=;
+ b=CBl4yYG5rx5+5EWIXtG8OOpNYMKX/d5bYIPO7L7bAyQZtxBC4TMgfkZb
+ JGD0CQzS1C55npyLr56DbABldXsR9MTyADrJOdVU6GrssYKxPS6107uvG
+ uO2MHIpXXgEx/P1Q3BXUiVVMSlZz42lLieWUy4DZ3a3IQkG5SdTmGLaP/
+ 0g+sxwDMVdTnp6+cuhEpv4e7JSF2GOWW5dmihZmBcrcBQdP0CKDgh46go
+ QbE+BfyDUAIc84UlP80a2r2pL1S9RYoL25VnNJwCe6vjoovbJfAC6bJh5
+ W5esXzzu+DZUBgHJhlc1e44NvEjSjuzCIlmkCT61WbLnheEyRm7iK5goo Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10263"; a="231331096"
+X-IronPort-AV: E=Sophos;i="5.88,383,1635231600"; d="scan'208";a="231331096"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2022 02:18:36 -0800
+X-IronPort-AV: E=Sophos;i="5.88,383,1635231600"; d="scan'208";a="507282588"
+Received: from josefseb-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.212.135.109])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2022 02:18:35 -0800
+Date: Sun, 20 Feb 2022 02:18:40 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Ramalingam C <ramalingam.c@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 00/15] drm/i915: Enable DG2
+Message-ID: <20220220101840.ygf3s357y372v3fl@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220218184752.7524-1-ramalingam.c@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <YhFqxklH9hsLrI1X@ravnborg.org>
+In-Reply-To: <20220218184752.7524-1-ramalingam.c@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,43 +57,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, maxime@cerno.tech
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Noralf,
+On Sat, Feb 19, 2022 at 12:17:37AM +0530, Ramalingam C wrote:
+>Enabling the Dg2 on drm/i915.
+>
+>This series adds support for 64k pagesize and documents the uapi
+>impacts. And also adds basic flat-ccs enabling patches to
+>support the local memory initialization and object creation. Kdoc is
+>added to document the Flat-ccs support.
+>
+>Flat-ccs modifiers will be enabled in upcoming patches.
+>
+>Note:
+>This is subset of https://patchwork.freedesktop.org/series/95686/ The
+>remaining patches of the series will be pursued in subsequent series.
+>
+>And few patches are reviewed at and pulled from many series like
+>https://patchwork.freedesktop.org/series/99119/
+>https://patchwork.freedesktop.org/series/100373/
+>https://patchwork.freedesktop.org/series/97544/
+>
 
-> > +static int panel_mipi_dbi_get_mode(struct mipi_dbi_dev *dbidev, struct drm_display_mode *mode)
-> > +{
-> > +	struct device *dev = dbidev->drm.dev;
-> > +	u32 width_mm = 0, height_mm = 0;
-> > +	struct display_timing timing;
-> > +	struct videomode vm;
-> > +	int ret;
-> > +
-> > +	ret = of_get_display_timing(dev->of_node, "panel-timing", &timing);
-> > +	if (ret) {
-> > +		dev_err(dev, "%pOF: failed to get panel-timing (error=%d)\n", dev->of_node, ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	videomode_from_timing(&timing, &vm);
-> > +
-> > +	if (!vm.hactive || vm.hfront_porch || vm.hsync_len ||
-> > +	    (vm.hback_porch + vm.hactive) > 0xffff ||
-> > +	    !vm.vactive || vm.vfront_porch || vm.vsync_len ||
-> > +	    (vm.vback_porch + vm.vactive) > 0xffff ||
-> > +	    vm.flags) {
-> > +		dev_err(dev, "%pOF: panel-timing out of bounds\n", dev->of_node);
-> > +		return -EINVAL;
-> > +	}
-> We should have a helper that implements this. Maybe the display_timing
-> => display_mode helper could do it.
+Patches 1-4 had already being applied from their own patch series.
+Patch 15 still needs some changes
 
-It would be nice with a drm_display_timing_to_mode() but that can come
-later - the comment above should not be understood that I consider it
-mandatory for this driver.
+All the other patches were applied to drm-intel-gt-next.
 
-	Sam
+thanks
+Lucas De Marchi
