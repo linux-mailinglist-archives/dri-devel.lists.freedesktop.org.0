@@ -1,47 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777B74BD082
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Feb 2022 19:11:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5A24BD084
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Feb 2022 19:18:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 648EB10E15A;
-	Sun, 20 Feb 2022 18:11:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4227F10E17E;
+	Sun, 20 Feb 2022 18:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79D8710E15A
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Feb 2022 18:11:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202112;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- Subject:References:Cc:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Os9o4td5pJZYXoeuhusOmIeSWOhlMjQmMkCevD42/8Y=; b=LZrBVNN9xJUpRAvu6J+OK+v9bl
- AQqRfnVvyzCOtJwTKrMKOy7FrwV/c/RWLwfWqSFdX6Tlsab7szyFk+008CUc5m1fKkiCl1NDIlkez
- 4Kqpt03RBS+BH9sOqFLAkmW4xc4hlxS1Wim0oS/mXQCP3dyYwzYlhfeateKnkcr96p8qdw0gqoJu6
- G9MsQCBDFqS8E3Qhyev+Y0uCsycQxCopHyiji4V9+byGoR7S5DbBa3p4KObFWyCB+bxjnRbhskt6x
- xLLcwtHwNxAsdpl/7286pVUkp5HMqOrXZmHVZPkscBpFxXtMm7pFZ5gr6B/tVpwt7KWIavY/pyyZG
- R/FnQonQ==;
-Received: from [2a01:799:95e:a400:cca0:57ac:c55d:a485] (port=49264)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1nLqg1-0001kW-U0; Sun, 20 Feb 2022 19:11:17 +0100
-Message-ID: <388f7dc3-afcd-e4c3-592f-8e8401819371@tronnes.org>
-Date: Sun, 20 Feb 2022 19:11:14 +0100
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65BD210E17E
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Feb 2022 18:18:25 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 376C45801BE;
+ Sun, 20 Feb 2022 13:18:20 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Sun, 20 Feb 2022 13:18:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; bh=liWN/E4xK+rlUO
+ 0QnIzJpz65TbThjTDzor1pWEPiuWU=; b=mracQp4azr1fcGJFjPZCraQEJultUg
+ jE7YEze00c0S0dV6JmgiJ0eTjI75yEPxiEjojlgJfEeXgTUjEkuQVCWlM9BqJ9P4
+ szLi5VApIzLNYhJlLi7BP1OjmmBSEjbYz7QVnrdX4AWxm5bwRRTeSRV5hF1VeDNU
+ wTx/h/w5VIm/Y8eqwrjan/5c5xhaBl6ndEHBHhwoJR1zblbYvmVwhmXnuC4Vbym1
+ +vZJwm0WhR7UVIT2ImaArpZUyFgOSQ+yGiMoI2mgybiNfn9d3RDJ3kULXGUDu94u
+ gQR5HLj+SdQXNFHnEgVgNthrWrMSd9A3yZJuUO03nkUDKp3yx0Zd15ug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=liWN/E4xK+rlUO0QnIzJpz65TbThjTDzor1pWEPiu
+ WU=; b=d+8cPWBnFL8Yz3NgYFPItn4S3AFEdPiy9gghRogx+eJO34QxVmyeEvv0I
+ rjvBQ6eSC7F3pKjv3+RPPjk5V/ujl5XVSO3xbMpiyAqxv90Pbws7xGQXop5jcqwv
+ iFcZbRwAfMSjR/70leWMV/rup4hVhFJ8miW4pSFo7z99dQhZIsB+HSnAy4+Khp0Q
+ zBa43ZkSASi624VNAlD0gYTp+uDS00TiRD8Cf1ycxaSsPfg9/vMYGguEwIPD5QGT
+ 1vcAvDzD43NM0BCitNTLIhVrLYUJjTtNy3bOlNEsCKRptZKTnCrBi7hdFOtH2p56
+ o4vF4CzfR77FBbVIyKG4esCgveLKw==
+X-ME-Sender: <xms:6oUSYmWDsQHGR0rJ6xAyEvUjvgG-IB6EJryZpjOPXF-AfQJ07nVLlg>
+ <xme:6oUSYinMszPlKKZ8ewylic5XHfaCMWYf91pxrgi7P5sl2OCiI5wH2WEkGPYcuHtbo
+ J1nH0vLrwyKo5WO1Cw>
+X-ME-Received: <xmr:6oUSYqYbJ0jtlE___cswy9vv_UI-dq26wk-MmAI2KYpD7-tOA6tnP9eFUA2s6S0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeggdduuddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepkfffgggfuffvfhfhjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
+ uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
+ ggtffrrghtthgvrhhnpeehieduvdevhfekjeeftddtkeeitefhudekvdeiueeulefgleei
+ jeeghedvkeduleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+ hrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:6oUSYtVVaZECgZ8snVnbNafx4qpbtAM4ZQ4UZljTIKU8sddKAXZtBg>
+ <xmx:6oUSYgmulp_PVDJWosZziuQH-wLnzHP5M6TSUAyMfBXh8zWJ__1A4Q>
+ <xmx:6oUSYifMthJ7Jv88REhrV6ATVCRqlVlN_FfZINnjUdggzQzsAh8F7A>
+ <xmx:7IUSYiU0LZt7osj-SlxZS0GZfWhFWkFUURqJy-QjWRkraTT0BpoY1g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 20 Feb 2022 13:18:15 -0500 (EST)
+Message-ID: <a865b770-126e-a7c0-48bb-4f072b8dc5bd@flygoat.com>
+Date: Sun, 20 Feb 2022 18:18:13 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-To: noralf@tronnes.org
-References: <35cd42a3-5183-2f21-8728-ee9d65dd1740@tronnes.org>
-Subject: Re: [PATCH v4 3/3] drm/tiny: Add MIPI DBI compatible SPI driver
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <35cd42a3-5183-2f21-8728-ee9d65dd1740@tronnes.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v10 1/4] MIPS: Loongson64: dts: update the display
+ controller device node
+To: Sui Jingfeng <15330273260@189.cn>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
+ suijingfeng <suijingfeng@loongson.cn>
+References: <20220220145554.117854-1-15330273260@189.cn>
+ <20220220145554.117854-2-15330273260@189.cn>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <20220220145554.117854-2-15330273260@189.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,166 +98,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, maxime@cerno.tech,
- sam@ravnborg.org
+Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Den 20.02.2022 11.04, skrev Sam Ravnborg:
-> > Hi Noralf,
-> >
-> >>> +static int panel_mipi_dbi_get_mode(struct mipi_dbi_dev *dbidev,
-struct drm_display_mode *mode)
-> >>> +{
-> >>> +	struct device *dev = dbidev->drm.dev;
-> >>> +	u32 width_mm = 0, height_mm = 0;
-> >>> +	struct display_timing timing;
-> >>> +	struct videomode vm;
-> >>> +	int ret;
-> >>> +
-> >>> +	ret = of_get_display_timing(dev->of_node, "panel-timing", &timing);
-> >>> +	if (ret) {
-> >>> +		dev_err(dev, "%pOF: failed to get panel-timing (error=%d)\n",
-dev->of_node, ret);
-> >>> +		return ret;
-> >>> +	}
-> >>> +
-> >>> +	videomode_from_timing(&timing, &vm);
-> >>> +
-> >>> +	if (!vm.hactive || vm.hfront_porch || vm.hsync_len ||
-> >>> +	    (vm.hback_porch + vm.hactive) > 0xffff ||
-> >>> +	    !vm.vactive || vm.vfront_porch || vm.vsync_len ||
-> >>> +	    (vm.vback_porch + vm.vactive) > 0xffff ||
-> >>> +	    vm.flags) {
-> >>> +		dev_err(dev, "%pOF: panel-timing out of bounds\n", dev->of_node);
-> >>> +		return -EINVAL;
-> >>> +	}
-> >> We should have a helper that implements this. Maybe the display_timing
-> >> => display_mode helper could do it.
-> >
-> > It would be nice with a drm_display_timing_to_mode() but that can come
-> > later - the comment above should not be understood that I consider it
-> > mandatory for this driver.
-> >
+
+
+在 2022/2/20 14:55, Sui Jingfeng 写道:
+> From: suijingfeng <suijingfeng@loongson.cn>
 >
-> I did consider adding an of_get_drm_panel_mode() fashioned after
-> of_get_drm_display_mode() but I didn't find any other driver that would
-> actually be able to use it and I would have to do some substraction to
-> get back the {h,v}front_porch values that I need and the optional pixel
-> clock calculation becomes more complex acting from a drm_display_mode so
-> I decided against it.
+> The display controller is a pci device, its PCI vendor id is 0x0014
+> its PCI device id is 0x7a06.
 >
-> Looking at it now, what I could do is add a function like what
-> of_get_videomode() does for "display-timings":
+> 1) In order to let the driver to know which chip the DC is contained
+>     in, the compatible string of the display controller is updated
+>     according to the chip's name.
 >
-> /**
->  * of_get_panel_videomode - get the panel-timing videomode from devicetree
->  * @np: devicenode containing the panel-timing subnode
->  * @vm: returns the videomode
->  *
->  * Returns:
->  * Zero on success, negative error code on failure.
->  **/
-> int of_get_panel_videomode(struct device_node *np, struct videomode *vm)
-> {
-> 	struct display_timing timing;
-> 	int ret;
+> 2) Add display controller device node for ls2k1000 SoC
 >
-> 	ret = of_get_display_timing(np, "panel-timing", &timing);
-> 	if (ret)
-> 		return ret;
+> Reported-by: Krzysztof Kozlowski <krzk@kernel.org>
+^ The usage of Reported-by flag seems wired here.
+In most case we use it to credit people who find a bug that is already 
+in-tree.
+Reviewing effort is already credited by Reviewed-by flag.
+
+If you intend to let maintainers track their suggestions easier, the common
+practice is to append suggester's name after each entry of changelog
+between versions.
+
+Thanks.
+
+> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+> ---
+>   arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi | 8 ++++++++
+>   arch/mips/boot/dts/loongson/ls7a-pch.dtsi          | 7 ++-----
+>   2 files changed, 10 insertions(+), 5 deletions(-)
 >
-> 	videomode_from_timing(&timing, vm);
->
-> 	return 0;
-> }
->
-> This could also be used by panel-lvds and 2 fbdev drivers, the other
-> panel-timing users need/use the display_timing itself, some for bounds
-> checking.
-
-Scratch that, since videomode is to be avoided I tried adding a
-drm_display_mode function and it didn't complicate matter as I though it
-would so I'll do that instead:
-
-static int panel_mipi_dbi_get_mode(struct mipi_dbi_dev *dbidev, struct
-drm_display_mode *mode)
-{
-	struct device *dev = dbidev->drm.dev;
-	u32 width_mm = 0, height_mm = 0;
-	u16 hback_porch, vback_porch;
-	struct videomode vm;
-	int ret;
-
-	ret = of_get_drm_panel_display_mode(dev->of_node, mode, NULL);
-	if (ret) {
-		dev_err(dev, "%pOF: failed to get panel-timing (error=%d)\n",
-dev->of_node, ret);
-		return ret;
-	}
-
-	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-
-	hback_porch = mode->htotal - mode->hsync_end;
-	vback_porch = mode->vtotal - mode->vsync_end;
-
-	if (mode->hsync_end > mode->hdisplay || (hback_porch + mode->hdisplay)
-> 0xffff ||
-	    mode->vsync_end > mode->vdisplay || (vback_porch + mode->vdisplay)
-> 0xffff ||
-	    mode->flags) {
-		dev_err(dev, "%pOF: panel-timing out of bounds\n", dev->of_node);
-		return -EINVAL;
-	}
-
-	/* The driver doesn't use the pixel clock but it is mandatory so fake
-one if not set */
-	if (!mode->pixelclock)
-		mode->pixelclock = mode->htotal * mode->vtotal * 60 / 1000;
-
-	dbidev->top_offset = vback_porch;
-	dbidev->left_offset = hback_porch;
-
-	return 0;
-}
-
-
-int of_get_drm_panel_display_mode(struct device_node *np,
-				  struct drm_display_mode *dmode, u32 *bus_flags)
-{
-	u32 width_mm = 0, height_mm = 0;
-	struct display_timing timing;
-	struct videomode vm;
-	int ret;
-
-	ret = of_get_display_timing(np, "panel-timing", &timing);
-	if (ret)
-		return ret;
-
-	videomode_from_timing(&timing, vm);
-
-	memset(dmode, 0, sizeof(*dmode));
-	drm_display_mode_from_videomode(&vm, dmode);
-	if (bus_flags)
-		drm_bus_flags_from_videomode(&vm, bus_flags);
-
-	ret = of_property_read_u32(np, "width-mm", &width_mm);
-	if (ret && ret != -EINVAL)
-		return ret;
-
-	ret = of_property_read_u32(np, "height-mm", &height_mm);
-	if (ret && ret != -EINVAL)
-		return ret;
-
-	mode->width_mm = width_mm;
-	mode->height_mm = height_mm;
-
-	drm_mode_debug_printmodeline(dmode);
-
-	return 0;
-}
-EXPORT_SYMBOL_GPL(of_get_drm_display_mode);
-
-Noralf.
+[...]
+- Jiaxun
