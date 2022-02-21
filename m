@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5254BD973
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 12:35:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5B14BD979
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 12:38:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF6A10E559;
-	Mon, 21 Feb 2022 11:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1744A10E55C;
+	Mon, 21 Feb 2022 11:38:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5F710E559
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 11:35:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 396FA10E55C
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 11:38:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
  References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Sw0I/RylQnKI1uq0FibHj95obK9mnJQpn1pSKABNnu4=; b=gfg8U2QUAXfumrTD8Ej62KBdYt
- iK+1LPPtSoHp2VAEDWfEKsObDjwWMfI+Czo0lPkH4p6lHUhAuxPd9caqhTAAznjJ3A5fOvEvqbiQR
- L0FHlTx6FrJWU6NqoNCo2syRgLj7slWQaQujCc2K9yW/+gC5bzEhMaXq7vIHFTunnnku/WZXmtTuR
- v83CnecZ7mgL7pJaDxOdrS+ByyrKZVMRxQXQ6UvIeBSk7UKhZu7VEV1g7Y8G83O4FfoPYHHi1T94j
- LEIxcin8vZ/W14NsYg4JNUlgPSIiyJF0WjmkPD/k9X0HsElqZ/upiv6Es7KQHF21rinaUXL+byoJe
- m9ommXOQ==;
+ bh=k++dA0QZ/l0Udf5bpYqTGcUCwXaoUM28Erkwayg30Jc=; b=DjFpUsSjsqvQ/gdEZdw8Rwa5Qo
+ 9bXoOF1KTGBZPvp/rgZaf8yjzzKLP/CnTfXLXHxNahmNv+N3orhjP30d45zXNSyVNLdhnYAfKwb4Z
+ RdZDWWyx5V+p2DZX1qChy8TvuoqPeByQau/37fzk1n2ruNUWTV+klAJ0okIv3AqAd/re6huAOP/Cs
+ Z3al4naD7nxzxQhO5ec1AdRE8qA0HgbWtD/xEGMtJdjmIAer25KKsinCjvChQ/QbnHc9hgoI0UObV
+ MtWELb4j25Syy6af3x6augoBrkrIZbIX1nPAE9ui+L3bLUFM7FwBo4yvzXLF5HNwa8VteE/Kid7IW
+ ikdpDZ2A==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=[192.168.1.10])
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1nM6yb-00021R-0w; Mon, 21 Feb 2022 13:35:33 +0200
-Message-ID: <d30291a3-c1d1-5c7d-025f-03cd58eee1ab@kapsi.fi>
-Date: Mon, 21 Feb 2022 13:35:32 +0200
+ id 1nM70t-0002ZP-Mh; Mon, 21 Feb 2022 13:37:55 +0200
+Message-ID: <8a1387e5-b68f-db90-9ab5-0b8606ca8841@kapsi.fi>
+Date: Mon, 21 Feb 2022 13:37:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.1
@@ -42,9 +42,9 @@ To: Dmitry Osipenko <digetx@gmail.com>,
  robin.murphy@arm.com
 References: <20220218113952.3077606-1-mperttunen@nvidia.com>
  <20220218113952.3077606-4-mperttunen@nvidia.com>
- <149d4794-90fd-cde3-9d59-39e6488db679@gmail.com>
+ <2605a614-0a2c-85ac-576a-048f38f9d366@gmail.com>
 From: Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <149d4794-90fd-cde3-9d59-39e6488db679@gmail.com>
+In-Reply-To: <2605a614-0a2c-85ac-576a-048f38f9d366@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 91.158.25.70
@@ -68,40 +68,26 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/19/22 19:48, Dmitry Osipenko wrote:
+On 2/19/22 19:52, Dmitry Osipenko wrote:
 > 18.02.2022 14:39, Mikko Perttunen пишет:
-> ...
->> +/*
->> + * Due to an issue with T194 NVENC, only 38 bits can be used.
->> + * Anyway, 256GiB of IOVA ought to be enough for anyone.
->> + */
->> +static dma_addr_t context_device_dma_mask = DMA_BIT_MASK(38);
+>> +	for (index = 0; index < cdl->len; index++) {
+>> +		struct iommu_fwspec *fwspec;
+>> +
+>> +		ctx = &cdl->devs[index];
+>> +
+>> +		ctx->host = host1x;
+>> +
+>> +		device_initialize(&ctx->dev);
+>> +
+>> +		ctx->dev.dma_mask = &context_device_dma_mask;
+>> +		ctx->dev.coherent_dma_mask = context_device_dma_mask;
+>> +		dev_set_name(&ctx->dev, "host1x-ctx.%d", index);
+>> +		ctx->dev.bus = &host1x_context_device_bus_type;
 > 
-> s/dma_addr_t/u64/ ? Apparently you should get compilation warning on ARM32.
-> 
-> https://elixir.bootlin.com/linux/v5.17-rc4/source/include/linux/device.h#L524 >
->> +int host1x_context_list_init(struct host1x *host1x)
->> +{
->> +	struct host1x_context_list *cdl = &host1x->context_list;
->> +	struct host1x_context *ctx;
->> +	struct device_node *node;
->> +	int index;
-> 
-> Nitpick: unsigned int
-> 
-> ...
->> +del_devices:
->> +	while (--index >= 0)
-> 
-> Nitpick: while (index--)
-> 
-> ... >> +void host1x_context_list_free(struct host1x_context_list *cdl)
->> +{
->> +	int i;
-> 
-> Nitpick: unsigned int
-> 
+> host1x_context_device_bus_type will be an undefined symbol if
+> CONFIG_TEGRA_HOST1X_CONTEXT_BUS=n? Please compile and test all combinations.
 
-Thanks, fixed all.
+But this file is only built if CONFIG_HOST1X, which selects 
+CONFIG_TEGRA_HOST1X_CONTEXT_BUS?
 
 Mikko
