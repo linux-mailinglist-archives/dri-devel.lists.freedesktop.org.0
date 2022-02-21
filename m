@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A358D4BEDC0
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 00:18:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9B24BEDBF
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 00:18:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C368F10E535;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3B110E538;
 	Mon, 21 Feb 2022 23:18:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA3010E521;
- Mon, 21 Feb 2022 23:18:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8341810E535;
+ Mon, 21 Feb 2022 23:18:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645485492; x=1677021492;
+ t=1645485495; x=1677021495;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2rbHPotT4d3VveAdnF6hqk3OexpJY7+ajj6Stm674Oc=;
- b=bUSDeOko8aQWJiStkQK/B0FHeVZ7PKXyiqaVNtvlNKr3h/JfWQr//VUi
- I37LXMUZ58lgbfSaGx7Xj47jebz4rVAfWCG8zQBub56xnVN1tt6DB/+ga
- yyYTk88W/GdK0iyk2lpuSTSysIotPlhaxkHImKvCsA+s3N0e/HBRyGBIS
- a6J0V7M/zmQZxjbbZTRzhLn3KOOHlt6gqbs4+8TvPp5TWEzcRz2LRgaTb
- DwGRxBSGA259QXK/Wea0MFl6w3lLfLMRykW6JLlW+9ZjD051ed/RwFwQx
- L9A+4l/3z65rqzWnBBDc8Z0tqXu9rDK5TWYAAnELHMA5ZrTjQCWDT20Ag g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="238996039"
-X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; d="scan'208";a="238996039"
+ bh=JVXkGTgMk0f0BZi0vzDMp/6U04Z0YVjDjG523a9A54I=;
+ b=Gb6GN6BCFOpM5Kyau9N9SCrTwD0QokLpwgWn3iVv0UU9kJb0rWUZ4K76
+ 0cRyzcSE6QYB2SKhdqrnvGnXimVfZkGAFgiO7v9rYWTgjA76Il2syS1Iu
+ fAGaDRBAMGOjnYvx0aZZuRQrlioU2C7VlZuWxt7EKEXJ9abGGAHNdL2Mg
+ oZxRoYfYZbyorJOoBazNfBabXkutSz23BVGEVQgXrzHvBwwd7NFiB7bW6
+ IphZNwDL0yUrq+B7uU/JAHpMMZtCrwi1JG49fqKb+Eo99HLarHpZ6dD7J
+ ip4bUsImnpP0hZqAIy/UnK6U9vigFw71wIYe0ghs72ys6qPzQUtNssWgZ A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="238996047"
+X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; d="scan'208";a="238996047"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2022 15:18:12 -0800
-X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; d="scan'208";a="638694575"
+ 21 Feb 2022 15:18:15 -0800
+X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; d="scan'208";a="638694587"
 Received: from lab-ah.igk.intel.com ([10.91.215.196])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2022 15:18:09 -0800
+ 21 Feb 2022 15:18:12 -0800
 From: Andrzej Hajda <andrzej.hajda@intel.com>
 To: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, netdev <netdev@vger.kernel.org>
-Subject: [PATCH v2 07/11] lib/ref_tracker: remove warnings in case of
- allocation failure
-Date: Tue, 22 Feb 2022 00:16:59 +0100
-Message-Id: <20220221231705.1481059-18-andrzej.hajda@intel.com>
+Subject: [PATCH v2 8/9] drm/i915: Correct type of wakeref variable
+Date: Tue, 22 Feb 2022 00:17:00 +0100
+Message-Id: <20220221231705.1481059-19-andrzej.hajda@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220221231705.1481059-1-andrzej.hajda@intel.com>
 References: <20220221231705.1481059-1-andrzej.hajda@intel.com>
@@ -66,39 +65,27 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Library can handle allocation failures. To avoid allocation warnings
-__GFP_NOWARN has been added everywhere. Moreover GFP_ATOMIC has been
-replaced with GFP_NOWAIT in case of stack allocation on tracker free
-call.
+Wakeref has dedicated type. Assumption it will be int
+compatible forever is incorrect.
 
 Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
- lib/ref_tracker.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
-index 2ef4596b6b36f..cae4498fcfd70 100644
---- a/lib/ref_tracker.c
-+++ b/lib/ref_tracker.c
-@@ -189,7 +189,7 @@ int ref_tracker_alloc(struct ref_tracker_dir *dir,
- 	unsigned long entries[REF_TRACKER_STACK_ENTRIES];
- 	struct ref_tracker *tracker;
- 	unsigned int nr_entries;
--	gfp_t gfp_mask = gfp;
-+	gfp_t gfp_mask = gfp | __GFP_NOWARN;
- 	unsigned long flags;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 7799939c38945..b308dd0866eaf 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -2797,7 +2797,7 @@ static void destroyed_worker_func(struct work_struct *w)
+ 	struct intel_guc *guc = container_of(w, struct intel_guc,
+ 					     submission_state.destroyed_worker);
+ 	struct intel_gt *gt = guc_to_gt(guc);
+-	int tmp;
++	intel_wakeref_t tmp;
  
- 	WARN_ON_ONCE(dir->dead);
-@@ -237,7 +237,8 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
- 		return -EEXIST;
- 	}
- 	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
--	stack_handle = stack_depot_save(entries, nr_entries, GFP_ATOMIC);
-+	stack_handle = stack_depot_save(entries, nr_entries,
-+					GFP_NOWAIT | __GFP_NOWARN);
- 
- 	spin_lock_irqsave(&dir->lock, flags);
- 	if (tracker->dead) {
+ 	with_intel_gt_pm(gt, tmp)
+ 		deregister_destroyed_contexts(guc);
 -- 
 2.25.1
 
