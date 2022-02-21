@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35EE84BD9BA
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 13:42:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9EB4BD9D0
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 14:12:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF7410E452;
-	Mon, 21 Feb 2022 12:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02E6D10E2F4;
+	Mon, 21 Feb 2022 13:12:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D653710E4A0;
- Mon, 21 Feb 2022 12:42:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645447349; x=1676983349;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ni247NRKHH8WSd14TeSlrjTV8KZbMh3G2fl3wLtHxWc=;
- b=lrXMFksFvySFqTeiAJaIdPy/IngvTgrqWKh1opnXUSWNsLN1BGXc10Zp
- RFnYJZ8fvYQYnby1KSx3hS6Gz/cw93z4ELG8SjiFee3x5aZYexJQ6FLs2
- n3ZKwOQaBin+Tdo03Im0K8bHb7cFUte73oisT7SF6fN2xpGEm9aXQBo88
- n8tSPbIIEEUj+wmntzRswOFKbN9LgCvuGsHUDupfnTArXhsOFOzUXG5yt
- aMfVfoXwjONgwkGdTylaw315yGkcudngni0TGxuxincCQqUJAyB13WLMe
- v+iMlIF4yvCo777F3JOPJO3ZyBW5rJp2/NntpyH3XfMw4JcajOsYKt+1p A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10264"; a="251450421"
-X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; d="scan'208";a="251450421"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2022 04:42:21 -0800
-X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; d="scan'208";a="531843889"
-Received: from mkilleen-mobl1.ger.corp.intel.com (HELO [10.213.218.216])
- ([10.213.218.216])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2022 04:42:20 -0800
-Message-ID: <c7baae46-765a-e2e4-b200-576ee54c1b6e@linux.intel.com>
-Date: Mon, 21 Feb 2022 12:42:18 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/2] drm/mm: Add an iterator to optimally walk over holes
- for an allocation (v3)
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <30de1989-6fee-d94a-7d99-6a3a8c59659d@amd.com>
- <20220215222352.867195-1-vivek.kasireddy@intel.com>
- <11828cdd-8d7b-b9a2-5a8c-ee0eac2f8aa8@amd.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <11828cdd-8d7b-b9a2-5a8c-ee0eac2f8aa8@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 861DA10E2EB;
+ Mon, 21 Feb 2022 13:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1645449149; x=1676985149;
+ h=from:to:cc:subject:date:message-id;
+ bh=G7oTbgnW/y7+oRzp7iXZzH5BC58ZLVjZyl7jNT6m2Z8=;
+ b=LdPwZU66Nr+bx0t1XDmcph2ydGHan+ebdb65MdBo8c+aUUrNuKIR5iSP
+ nBsxNsJCHZFkkNlLQFXBG6oL1N992cBb2hCUg6PZe/MI9McdW98XjBE8i
+ Dn+8iUS6bT23MJhNIOSborsemk1yzc7NFQF+CORUe/qVbMIwqU9FyaAhJ M=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 21 Feb 2022 05:12:28 -0800
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 21 Feb 2022 05:12:26 -0800
+X-QCInternal: smtphost
+Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 21 Feb 2022 18:42:12 +0530
+Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
+ id 41F47231E; Mon, 21 Feb 2022 18:42:12 +0530 (IST)
+From: Vinod Polimera <quic_vpolimer@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v1] arm64/dts/qcom/sc7280: update mdp clk to max supported value to
+ support higher refresh rates
+Date: Mon, 21 Feb 2022 18:42:06 +0530
+Message-Id: <1645449126-17718-1-git-send-email-quic_vpolimer@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,46 +51,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: quic_kalyant@quicinc.com, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Panels with higher refresh rate will need mdp clk above 300Mhz.
+Select max frequency for mdp clock during bootup, dpu driver will
+scale down the clock as per usecase when first update from the framework is received.
 
-On 16/02/2022 10:36, Christian König wrote:
-> Am 15.02.22 um 23:23 schrieb Vivek Kasireddy:
->> This iterator relies on drm_mm_first_hole() and drm_mm_next_hole()
->> functions to identify suitable holes for an allocation of a given
->> size by efficiently traversing the rbtree associated with the given
->> allocator.
->>
->> It replaces the for loop in drm_mm_insert_node_in_range() and can
->> also be used by drm drivers to quickly identify holes of a certain
->> size within a given range.
->>
->> v2: (Tvrtko)
->> - Prepend a double underscore for the newly exported first/next_hole
->> - s/each_best_hole/each_suitable_hole/g
->> - Mask out DRM_MM_INSERT_ONCE from the mode before calling
->>    first/next_hole and elsewhere.
->>
->> v3: (Tvrtko)
->> - Reduce the number of hunks by retaining the "mode" variable name
->>
->> Cc: Christian König <christian.koenig@amd.com>
->> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> 
-> Of hand it looks like it does what the description says without any 
-> functional change, but I don't know the internals of drm_mm so well either.
-> 
-> Feel free to add an Acked-by: Christian König <christian.koenig@amd.com>.
+Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+---
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks!
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index baf1653..7af96fc 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -2895,7 +2895,7 @@
+ 				assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>,
+ 						<&dispcc DISP_CC_MDSS_VSYNC_CLK>,
+ 						<&dispcc DISP_CC_MDSS_AHB_CLK>;
+-				assigned-clock-rates = <300000000>,
++				assigned-clock-rates = <506666667>,
+ 							<19200000>,
+ 							<19200000>;
+ 				operating-points-v2 = <&mdp_opp_table>;
+-- 
+2.7.4
 
-Can we merge this via the Intel tree as one series (one drm core plus 
-one i915 patch)? Daniel?
-
-Regards,
-
-Tvrtko
