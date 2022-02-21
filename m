@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E024BDA3A
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 15:31:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F414BDA3B
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 15:31:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E41310E4B2;
-	Mon, 21 Feb 2022 14:31:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0637A10E4C3;
+	Mon, 21 Feb 2022 14:31:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D780D10E4B2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 14:31:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34E6410E4C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 14:31:46 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 8B3F81F437D2
+ (Authenticated sender: kholk11) with ESMTPSA id 191C71F437D2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645453886;
- bh=y5t0agtu6l3qWSmQbVWo6rSISFkXfwEvCQiHR69W0oA=;
+ s=mail; t=1645453905;
+ bh=0SdpPEauXNzY5/p2lCtGwuIBpqYbTUZXIlAfLEn2H20=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oAFQm8l/ot0FPP2f89ruUayorvCOSwkBuo+0qBQEE2bE0qQrd4Z0wnDvJpvyj0slg
- kvrLWe2fqj9v5chmvz2Sy25pYYMnBTAb2TZuYG1efeNuKrguK+FTB7AjsQUKx+ycrN
- 7SZ6TBQTUgkYG1iWVcnkBLgPIJ903yxFalYuPebQxdoO+nBN5R0ZXLQhLkPnm0ku0T
- +WicaupPFvqKxBl0azniqhiRU2u0lfcvH97/9g0jwBR47i6NsJ++E4TcycCGLlsQir
- BiHP7PX7PT9p+qh476CyD6FSJCfjQTGNoMaGZVuXBZ50+RdQarJ/SpiaIPh1iLOc1M
- 57JLVqeEk94LQ==
-Message-ID: <6cd731d3-1aa6-7bdd-65f2-7c32df87934e@collabora.com>
-Date: Mon, 21 Feb 2022 15:31:23 +0100
+ b=dwhAGcIrYwHLj0j0xu6MvCu30Tnyt3JYge5EP4xZoyrn6izgiia8wQrpnA+m5Jc8I
+ kPg/yirq1lvyOhJkalksEhZHi3il/1BZ/nwdD15pSLRn7ZPBYAODhd5xwE31AoHyKJ
+ sePObvbqtuuc/PUVfVsbUpifKz+wbaHl11CvVNfJ/rtfBU16adDpDxjSBcfHLLWRoX
+ NaFMfFtPckk3WZAk6d8EncAyVvHG6Pttms1rk89qvYsTCBfEo/1gr5BHD+zvUxg7Bk
+ eBoWg9Ja3Zf6W4/KN7slrYi9FGdBsmnrefigJCgWgtcdK1FykWXsWgExfQFdbKLqHM
+ ++rFpHTPe4nlg==
+Message-ID: <609deedf-df56-ee9e-42a8-1ccc178de074@collabora.com>
+Date: Mon, 21 Feb 2022 15:31:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH v8 11/19] drm/mediatek: dpi: move the yuv422_en_bit to
+Subject: Re: [PATCH v8 12/19] drm/mediatek: dpi: move the csc_enable bit to
  board config
 Content-Language: en-US
 To: Guillaume Ranquet <granquet@baylibre.com>, chunkuang.hu@kernel.org,
@@ -39,9 +39,9 @@ To: Guillaume Ranquet <granquet@baylibre.com>, chunkuang.hu@kernel.org,
  kishon@ti.com, vkoul@kernel.org, deller@gmx.de, ck.hu@mediatek.com,
  jitao.shi@mediatek.com
 References: <20220218145437.18563-1-granquet@baylibre.com>
- <20220218145437.18563-12-granquet@baylibre.com>
+ <20220218145437.18563-13-granquet@baylibre.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220218145437.18563-12-granquet@baylibre.com>
+In-Reply-To: <20220218145437.18563-13-granquet@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,7 +64,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 18/02/22 15:54, Guillaume Ranquet ha scritto:
-> Add flexibility by moving the yuv422 en bit to board config
+> Add flexibility by moving the csc_enable bit to board config
 > 
 
 s/board/SoC/g
@@ -73,5 +73,5 @@ After the change,
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-
+> ---
 
