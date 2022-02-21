@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5CA4BDA39
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 15:31:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E024BDA3A
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 15:31:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE6410E4AD;
-	Mon, 21 Feb 2022 14:31:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E41310E4B2;
+	Mon, 21 Feb 2022 14:31:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D252910E4AD
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 14:31:15 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D780D10E4B2
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 14:31:27 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 7C2781F437D2
+ (Authenticated sender: kholk11) with ESMTPSA id 8B3F81F437D2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645453874;
- bh=mk0k2/MEJmiURqVRoi1Wk1mPXDdi5cLxGGCrvu3Zv+o=;
+ s=mail; t=1645453886;
+ bh=y5t0agtu6l3qWSmQbVWo6rSISFkXfwEvCQiHR69W0oA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=cAHt7Se+QbWvrlRL1ngiD9HhR8lKnozQrO13TG0uDtl7RyS2/LEdrMtzyAOBlbMHv
- mp0bZ9zLZgs1g0nPN0Sh01/GvEXPhDTOv7WjzJLOrx+S3y3ONUNvHrvGkEAd4g/za3
- FFBbM3R1VepHpLyS3iwOuiZ5hs7HSkDxwUDhnHcmLXzRZsT6Sws7LvaRyttjdj1mJg
- 1/3tzkg59CBmstvES4lryQ95TF9kRHRW3Gy/Yszr7sJUSBUMitEClrh7awHB6L+2PV
- REfUL7zqfeiDuydEepo85W2hreRiHcj3ilQ9qyvLbUK84xmS5NsLN58QNXc3hcy/K9
- zTrhFB6wOe+hQ==
-Message-ID: <0a6fe69b-245a-c889-15be-3136c29d3d61@collabora.com>
-Date: Mon, 21 Feb 2022 15:31:11 +0100
+ b=oAFQm8l/ot0FPP2f89ruUayorvCOSwkBuo+0qBQEE2bE0qQrd4Z0wnDvJpvyj0slg
+ kvrLWe2fqj9v5chmvz2Sy25pYYMnBTAb2TZuYG1efeNuKrguK+FTB7AjsQUKx+ycrN
+ 7SZ6TBQTUgkYG1iWVcnkBLgPIJ903yxFalYuPebQxdoO+nBN5R0ZXLQhLkPnm0ku0T
+ +WicaupPFvqKxBl0azniqhiRU2u0lfcvH97/9g0jwBR47i6NsJ++E4TcycCGLlsQir
+ BiHP7PX7PT9p+qh476CyD6FSJCfjQTGNoMaGZVuXBZ50+RdQarJ/SpiaIPh1iLOc1M
+ 57JLVqeEk94LQ==
+Message-ID: <6cd731d3-1aa6-7bdd-65f2-7c32df87934e@collabora.com>
+Date: Mon, 21 Feb 2022 15:31:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: [PATCH v8 10/19] drm/mediatek: dpi: move swap_shift to board
- config
+Subject: Re: [PATCH v8 11/19] drm/mediatek: dpi: move the yuv422_en_bit to
+ board config
 Content-Language: en-US
 To: Guillaume Ranquet <granquet@baylibre.com>, chunkuang.hu@kernel.org,
  p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch,
@@ -40,9 +39,9 @@ To: Guillaume Ranquet <granquet@baylibre.com>, chunkuang.hu@kernel.org,
  kishon@ti.com, vkoul@kernel.org, deller@gmx.de, ck.hu@mediatek.com,
  jitao.shi@mediatek.com
 References: <20220218145437.18563-1-granquet@baylibre.com>
- <20220218145437.18563-11-granquet@baylibre.com>
+ <20220218145437.18563-12-granquet@baylibre.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220218145437.18563-11-granquet@baylibre.com>
+In-Reply-To: <20220218145437.18563-12-granquet@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,77 +64,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 18/02/22 15:54, Guillaume Ranquet ha scritto:
-> Add flexibility by moving the swap shift value to board config
+> Add flexibility by moving the yuv422 en bit to board config
 > 
 
-Same board->SoC as all the other commits..
+s/board/SoC/g
+
+After the change,
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> ---
->   drivers/gpu/drm/mediatek/mtk_dpi.c | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index 0d3acd08ea358..ec221e24e0fee 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -131,6 +131,7 @@ struct mtk_dpi_conf {
->   	u32 dimension_mask;
->   	// Mask used for HSIZE and VSIZE (no shift)
->   	u32 hvsize_mask;
-> +	u32 channel_swap_shift;
->   	const struct mtk_dpi_yc_limit *limit;
->   };
->   
-> @@ -349,7 +350,8 @@ static void mtk_dpi_config_channel_swap(struct mtk_dpi *dpi,
->   		break;
->   	}
->   
-> -	mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING, val << CH_SWAP, CH_SWAP_MASK);
-> +	mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING, val << CH_SWAP,
-> +		     CH_SWAP_MASK << dpi->conf->channel_swap_shift);
-
-I would say that this should be instead:
-	mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING,
-
-		     val << dpi->conf->channel_swap_shift, CH_SWAP_MASK);
-
-
->   }
->   
->   static void mtk_dpi_config_yuv422_enable(struct mtk_dpi *dpi, bool enable)
-> @@ -821,6 +823,7 @@ static const struct mtk_dpi_conf mt8173_conf = {
->   	.swap_input_support = true,
->   	.dimension_mask = HPW_MASK,
->   	.hvsize_mask = HSIZE_MASK,
-> +	.channel_swap_shift = CH_SWAP,
->   	.limit = &mtk_dpi_limit,
->   };
->   
-> @@ -835,6 +838,7 @@ static const struct mtk_dpi_conf mt2701_conf = {
->   	.swap_input_support = true,
->   	.dimension_mask = HPW_MASK,
->   	.hvsize_mask = HSIZE_MASK,
-> +	.channel_swap_shift = CH_SWAP,
->   	.limit = &mtk_dpi_limit,
->   };
->   
-> @@ -848,6 +852,7 @@ static const struct mtk_dpi_conf mt8183_conf = {
->   	.swap_input_support = true,
->   	.dimension_mask = HPW_MASK,
->   	.hvsize_mask = HSIZE_MASK,
-> +	.channel_swap_shift = CH_SWAP,
->   	.limit = &mtk_dpi_limit,
->   };
->   
-> @@ -861,6 +866,7 @@ static const struct mtk_dpi_conf mt8192_conf = {
->   	.swap_input_support = true,
->   	.dimension_mask = HPW_MASK,
->   	.hvsize_mask = HSIZE_MASK,
-> +	.channel_swap_shift = CH_SWAP,
->   	.limit = &mtk_dpi_limit,
->   };
->   
-
 
 
