@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153D64BD8D6
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 11:00:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4B84BD8DC
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 11:00:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71C8D10E2FE;
-	Mon, 21 Feb 2022 10:00:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C66A310EDA5;
+	Mon, 21 Feb 2022 10:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E341D10E847
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 10:00:00 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 4C2A7580263;
- Mon, 21 Feb 2022 05:00:00 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5C1010E2FE
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 10:00:02 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 50E3F58025B;
+ Mon, 21 Feb 2022 05:00:02 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 21 Feb 2022 05:00:00 -0500
+ by compute1.internal (MEProxy); Mon, 21 Feb 2022 05:00:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=+znYlsTYo3T9d5Ixvozjp/PRDBbb4A
- hXJw9LtbbgDbI=; b=kLFncAvw+M+JXuOKheuemYtEiaci8pToqcFfoujpvn4vIF
- yaIUPNMvnyimc/qVZulxA8RcSvGCUuPriPOrksdu8gfxDyqjUHwKki0K6x8KFL4K
- EQrljq+jkwsGOlLdTHP+t5eiB/Fdq97AssieErL3dejUqo652Al3khNv9l9Q8/lF
- ZfkiUCijYyVAzHrjYa8kWROvB9NcV+FsONH2uPIP4lGbmgaWWgSPNcR0bFe9RMpU
- Ds+pg82QFIKm5ovd701gGiu/n+WHxj85wzblVPndvmpgjQDIp/YPS2MHQrF59Eo+
- tQwTqb5HCciGqbqJB9sthtEkGT3hegkSd4wDLnaw==
+ :subject:subject:to:to; s=fm2; bh=Q4y4umZ5GtDvlvHs4/TbYUj9BaIoYo
+ +lH5fdqs2zx3Y=; b=WtI0IyGePcGX/gp1n6WH8w4NuQU5v6UVQM/IkO/OyywBWo
+ cvJ6AmfFbjmqhfhq+L0/j2UCUExFZI/1WOyp5KO/+cvTf3bqVo+PU2rqK4gLJU85
+ Djsc2UZOWFv44o/TaIGXv/oJAaiySdIcmGyZa+lfNaN2LOm1uukydgM5cuCDq5rP
+ WOBVkgtM87KWm0niOl/LtVFhdP9eqOJzyP/QMFVs55+UmqaqWElDh3Zoq1C9H0+s
+ eylFxbuzkm4lKLoHeTik4IkL3Y85RBwf7iwGFW3o7YOOBhOyG1r+YcGxbuMHZo2L
+ EoIjy0Y4TxX8sQXrRvSzPBI/BPJNtf6COY+9Tv8Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=+znYls
- TYo3T9d5Ixvozjp/PRDBbb4AhXJw9LtbbgDbI=; b=Y5hnJ2TBIugNOd2Gt+d+UB
- OQY9Qt/jXnQF0or0ep7j0qkMnmq85/dX5q+9Mr8bFKsqSdwsaOHPCK7FRJl4Z30C
- uMjFiL57HlQJjy1lsJjyRPzSzNd2T9u9jrnbeIfGJlD61S+FIMRQ4jElSCo9FBrX
- KUokFG4hD44PhO+IC4sDuUq8p9b+QRtGlE2Mwaj4raht6UvXu880fzhqhjtNVvyH
- 9Xwya+pkgHzfMMEPlDrxFFR+qyQHl0CNxRCBCH0SpnNlbjFjxoMWCt0XGknuZcco
- lMP1ZIGAInLpkcJaZ1h/lfACR3iSv10VeLNEep8+mym4yFxSFDx+YTWWGFL/Hk1w
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Q4y4um
+ Z5GtDvlvHs4/TbYUj9BaIoYo+lH5fdqs2zx3Y=; b=V39Rzcg0S+WdZN73iqtuCS
+ Lq285+d6w9XrYkB+d0i5oNgnK/qgQoZEzR4btJCNais2phda27mIZG3BjlDr8xWq
+ 2KuDCh3S4So6LB1JBpu6RcLjbcAkAMdwnP+NJDyE5SnclAh0gmschOp8UdqaqVPR
+ y/SlbJuyoJkDdKS3UvPhbq8UCXHeRlFu6qhN00N5QBzvt0D8pBHrEEVdCXen9PGN
+ wJ6r1PKE5EXxrsd0bV2uulR/VSWtOqTUDab2nCh903sgw2RaZWBpHtbpnx38Ov2d
+ PvKhIX8wFoQDbUFxM4qAA8n8rVOSZ3bxBBZ9ay0nLuMAHkZYylCAIdg0WOXrBnSw
  ==
-X-ME-Sender: <xms:n2ITYmZM7HcQ1jxHSPps16Kn52Nq-Bw3zryfrpBeUyWfr8BEIxXWEw>
- <xme:n2ITYpZHPoar1W5lnsvoiFHoIvdk9dcmTK_3dQVYFOgO24Qp7T4Fpnh_L2eNCvQy2
- 6wRCoujR93WKm_B5zY>
-X-ME-Received: <xmr:n2ITYg-XfSZOUihbpkaC3KfUyzs3YgN6u7EVYyQ1Ejfs-68Si2ffuC7RGYq8B8oSL5-jGSUwsBZ31LCEEcheyHGUSpMksxatwMZJAKw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigddtlecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:omITYm4WdNc3Ykqq-A9Qz5DtTh9UZRbL1qgqwre2e4we5nUUxJWAPg>
+ <xme:omITYv588mHXL0y7Cd49TbmWX9maumobU5ochvWiB8ivlV2knFg-1dCmEhQO9mmyV
+ kiZEpTREyFDQENOVKs>
+X-ME-Received: <xmr:omITYlfEEwax0m-LI6bLS_6t6cwLVD-69_0qpL1ATdwqzI9hzEtFDgzZGLMs7VqKj0MT37ZdrwAJ2ozyHDXjbXgLz-xynkHfBx-LRzE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigddutdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:n2ITYoo36METSUamRnKOYwx2ndZxiMYwRxKnGxKfUtVB7_ObX0HFSQ>
- <xmx:n2ITYhpmQU14yhB5bzQED_EDc4XUkunK0TvxfwDtrWV7n3Uu5VpawA>
- <xmx:n2ITYmRxctPYvE-_0hl3Kj3IrwQqoX6SsD07scIuop4Do64dKiJKTA>
- <xmx:oGITYvgrKhwlgSBMDswTU0AdMSjmMun0Ywc6Tjw0AFaYRW6Rljlkjg>
+X-ME-Proxy: <xmx:omITYjIv6A95DWzbtecrcjubRrrdsTUPJ3i0RTTf7Hsb_PuSp6P8lg>
+ <xmx:omITYqLInnoxr7lEk2xZyhCsaIHLLQkXUq5Q1Cacf-caKxUGcbRnOA>
+ <xmx:omITYkyVG9D3ReJ-WBgFtthl7hoVEUjAFD2rdzHKAgzYuVH5eVEbDQ>
+ <xmx:omITYnWADxo3LSwjr_Yf1Wl-KUedMs73Yx-Qqeu1ljeVVZCGJ2_KuQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Feb 2022 04:59:59 -0500 (EST)
+ 21 Feb 2022 05:00:01 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 17/22] drm/sun4i: layer: Remove redundant zpos
- initialisation
-Date: Mon, 21 Feb 2022 10:59:13 +0100
-Message-Id: <20220221095918.18763-18-maxime@cerno.tech>
+Subject: [PATCH v2 18/22] drm/object: Add default color encoding and range
+ value at reset
+Date: Mon, 21 Feb 2022 10:59:14 +0100
+Message-Id: <20220221095918.18763-19-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220221095918.18763-1-maxime@cerno.tech>
 References: <20220221095918.18763-1-maxime@cerno.tech>
@@ -82,102 +82,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sun4i KMS driver will call drm_plane_create_zpos_property() with an
-init value depending on the plane type.
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Since the initial value wasn't carried over in the state, the driver had
-to set it again in sun4i_backend_layer_reset().
-However, the helpers have been adjusted to set it properly at reset, so
-this is not needed anymore.
+The drm_plane_create_color_properties() function asks for an initial
+value for the color encoding and range, and will set the associated
+plane state variable with that value if a state is present.
 
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
-Cc: Chen-Yu Tsai <wens@csie.org>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+However, that function is usually called at a time where there's no
+state yet. Since the drm_plane_state reset helper doesn't take care of
+reading that value when it's called, it means that in most cases the
+initial value will be 0 (so DRM_COLOR_YCBCR_BT601 and
+DRM_COLOR_YCBCR_LIMITED_RANGE, respectively), or the drivers will have
+to work around it.
+
+Let's add some code in __drm_atomic_helper_plane_state_reset() to get
+the initial encoding and range value if the property has been attached
+in order to fix this.
+
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/sun4i/sun4i_layer.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_atomic_state_helper.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
-index 929e95f86b5b..6d43080791a0 100644
---- a/drivers/gpu/drm/sun4i/sun4i_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
-@@ -18,7 +18,6 @@
+diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+index 1412cee404ca..3b6d3bdbd099 100644
+--- a/drivers/gpu/drm/drm_atomic_state_helper.c
++++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+@@ -251,6 +251,20 @@ void __drm_atomic_helper_plane_state_reset(struct drm_plane_state *plane_state,
+ 	plane_state->alpha = DRM_BLEND_ALPHA_OPAQUE;
+ 	plane_state->pixel_blend_mode = DRM_MODE_BLEND_PREMULTI;
  
- static void sun4i_backend_layer_reset(struct drm_plane *plane)
- {
--	struct sun4i_layer *layer = plane_to_sun4i_layer(plane);
- 	struct sun4i_layer_state *state;
- 
- 	if (plane->state) {
-@@ -31,10 +30,8 @@ static void sun4i_backend_layer_reset(struct drm_plane *plane)
- 	}
- 
- 	state = kzalloc(sizeof(*state), GFP_KERNEL);
--	if (state) {
-+	if (state)
- 		__drm_atomic_helper_plane_reset(plane, &state->state);
--		plane->state->zpos = layer->id;
--	}
- }
- 
- static struct drm_plane_state *
-@@ -192,7 +189,8 @@ static const uint64_t sun4i_layer_modifiers[] = {
- 
- static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
- 						struct sun4i_backend *backend,
--						enum drm_plane_type type)
-+						enum drm_plane_type type,
-+						unsigned int id)
- {
- 	const uint64_t *modifiers = sun4i_layer_modifiers;
- 	const uint32_t *formats = sun4i_layer_formats;
-@@ -204,6 +202,7 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
- 	if (!layer)
- 		return ERR_PTR(-ENOMEM);
- 
-+	layer->id = id;
- 	layer->backend = backend;
- 
- 	if (IS_ERR_OR_NULL(backend->frontend)) {
-@@ -226,8 +225,8 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
- 			     &sun4i_backend_layer_helper_funcs);
- 
- 	drm_plane_create_alpha_property(&layer->plane);
--	drm_plane_create_zpos_property(&layer->plane, 0, 0,
--				       SUN4I_BACKEND_NUM_LAYERS - 1);
-+	drm_plane_create_zpos_property(&layer->plane, layer->id,
-+				       0, SUN4I_BACKEND_NUM_LAYERS - 1);
- 
- 	return layer;
- }
-@@ -249,14 +248,13 @@ struct drm_plane **sun4i_layers_init(struct drm_device *drm,
- 		enum drm_plane_type type = i ? DRM_PLANE_TYPE_OVERLAY : DRM_PLANE_TYPE_PRIMARY;
- 		struct sun4i_layer *layer;
- 
--		layer = sun4i_layer_init_one(drm, backend, type);
-+		layer = sun4i_layer_init_one(drm, backend, type, i);
- 		if (IS_ERR(layer)) {
- 			dev_err(drm->dev, "Couldn't initialize %s plane\n",
- 				i ? "overlay" : "primary");
- 			return ERR_CAST(layer);
- 		}
- 
--		layer->id = i;
- 		planes[i] = &layer->plane;
- 	}
- 
++	if (plane->color_encoding_property) {
++		if (!drm_object_property_get_default_value(&plane->base,
++							   plane->color_encoding_property,
++							   &val))
++			plane_state->color_encoding = val;
++	}
++
++	if (plane->color_range_property) {
++		if (!drm_object_property_get_default_value(&plane->base,
++							   plane->color_range_property,
++							   &val))
++			plane_state->color_range = val;
++	}
++
+ 	if (plane->zpos_property) {
+ 		if (!drm_object_property_get_default_value(&plane->base,
+ 							   plane->zpos_property,
 -- 
 2.35.1
 
