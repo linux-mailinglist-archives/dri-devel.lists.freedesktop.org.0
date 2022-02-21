@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4596C4BDB40
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 18:23:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3C74BDB47
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 18:27:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A47710E734;
-	Mon, 21 Feb 2022 17:23:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9803510E4E5;
+	Mon, 21 Feb 2022 17:27:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2262D10E727
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 17:23:38 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 79574482;
- Mon, 21 Feb 2022 18:23:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1645464216;
- bh=NqFJhwQyZcctRvGSCMd+zhukBkUPAuuq4bIRaGLQpwA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UnWZz9+3GfBVY+qqLm9oKm+wGAxQsc0et10mmwWrNb2mO0PmP4NqbnLs7CyiJhyEX
- f7UwEn5I5JchMWg9Gyo+a1W9jwBLgcNA1SKZojb3riJcqYQSvzirkArvv79y2Z0w9B
- n/Rk/vRV1T1wdaPdLnmSv8bykTrU8BudZdsOpKn0=
-Date: Mon, 21 Feb 2022 19:23:27 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] drm: rcar-du: Simplify division/shift logic
-Message-ID: <YhPKjzUHVs0N6pj9@pendragon.ideasonboard.com>
-References: <aee36069582647a0841ec8b49c4c824f901a3f9f.1645460725.git.geert+renesas@glider.be>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3757A10E4E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 17:27:45 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F5DB1063;
+ Mon, 21 Feb 2022 09:27:44 -0800 (PST)
+Received: from [10.57.40.147] (unknown [10.57.40.147])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D1663F70D;
+ Mon, 21 Feb 2022 09:27:42 -0800 (PST)
+Message-ID: <71e94ac3-20fc-6f41-270f-fe246740e7e0@arm.com>
+Date: Mon, 21 Feb 2022 17:27:30 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aee36069582647a0841ec8b49c4c824f901a3f9f.1645460725.git.geert+renesas@glider.be>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v3 8/9] drm/tegra: vic: Implement get_streamid_offset
+Content-Language: en-GB
+To: Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, joro@8bytes.org, will@kernel.org, robh+dt@kernel.org
+References: <20220218113952.3077606-1-mperttunen@nvidia.com>
+ <20220218113952.3077606-9-mperttunen@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220218113952.3077606-9-mperttunen@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,53 +45,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
-
-Thank you for the patch.
-
-On Mon, Feb 21, 2022 at 05:26:15PM +0100, Geert Uytterhoeven wrote:
-> "a / (1 << b)" == "a >> b".
+On 2022-02-18 11:39, Mikko Perttunen via iommu wrote:
+> Implement the get_streamid_offset required for supporting context
+> isolation. Since old firmware cannot support context isolation
+> without hacks that we don't want to implement, check the firmware
+> binary to see if context isolation should be enabled.
 > 
-> No change in generated code.
-
-If there's no change in generated code, isn't the current code more
-readable ? :-)
-
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 > ---
->  drivers/gpu/drm/rcar-du/rcar_lvds.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/tegra/vic.c | 38 +++++++++++++++++++++++++++++++++++++
+>   1 file changed, 38 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> index 72a272cfc11ee129..30afc1d3482a9670 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> @@ -229,7 +229,7 @@ static void rcar_lvds_d3_e3_pll_calc(struct rcar_lvds *lvds, struct clk *clk,
->  				 * the PLL, followed by a an optional fixed /7
->  				 * divider.
->  				 */
-> -				fout = fvco / (1 << e) / div7;
-> +				fout = (fvco >> e) / div7;
->  				div = max(1UL, DIV_ROUND_CLOSEST(fout, target));
->  				diff = abs(fout / div - target);
->  
-> @@ -249,7 +249,7 @@ static void rcar_lvds_d3_e3_pll_calc(struct rcar_lvds *lvds, struct clk *clk,
->  	}
->  
->  done:
-> -	output = fin * pll->pll_n / pll->pll_m / (1 << pll->pll_e)
-> +	output = (fin * pll->pll_n / pll->pll_m >> pll->pll_e)
->  	       / div7 / pll->div;
->  	error = (long)(output - target) * 10000 / (long)target;
->  
+> diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+> index 1e342fa3d27b..2863ee5e0e67 100644
+> --- a/drivers/gpu/drm/tegra/vic.c
+> +++ b/drivers/gpu/drm/tegra/vic.c
+> @@ -38,6 +38,8 @@ struct vic {
+>   	struct clk *clk;
+>   	struct reset_control *rst;
+>   
+> +	bool can_use_context;
+> +
+>   	/* Platform configuration */
+>   	const struct vic_config *config;
+>   };
+> @@ -229,6 +231,7 @@ static int vic_load_firmware(struct vic *vic)
+>   {
+>   	struct host1x_client *client = &vic->client.base;
+>   	struct tegra_drm *tegra = vic->client.drm;
+> +	u32 fce_bin_data_offset;
+>   	dma_addr_t iova;
+>   	size_t size;
+>   	void *virt;
+> @@ -277,6 +280,25 @@ static int vic_load_firmware(struct vic *vic)
+>   		vic->falcon.firmware.phys = phys;
+>   	}
+>   
+> +	/*
+> +	 * Check if firmware is new enough to not require mapping firmware
+> +	 * to data buffer domains.
+> +	 */
+> +	fce_bin_data_offset = *(u32 *)(virt + VIC_UCODE_FCE_DATA_OFFSET);
+> +
+> +	if (!vic->config->supports_sid) {
+> +		vic->can_use_context = false;
+> +	} else if (fce_bin_data_offset != 0x0 && fce_bin_data_offset != 0xa5a5a5a5) {
+> +		/*
+> +		 * Firmware will access FCE through STREAMID0, so context
+> +		 * isolation cannot be used.
+> +		 */
+> +		vic->can_use_context = false;
+> +		dev_warn_once(vic->dev, "context isolation disabled due to old firmware\n");
+> +	} else {
+> +		vic->can_use_context = true;
+> +	}
+> +
+>   	return 0;
+>   
+>   cleanup:
+> @@ -358,10 +380,26 @@ static void vic_close_channel(struct tegra_drm_context *context)
+>   	host1x_channel_put(context->channel);
+>   }
+>   
+> +static int vic_get_streamid_offset(struct tegra_drm_client *client)
+> +{
+> +	struct vic *vic = to_vic(client);
+> +	int err;
+> +
+> +	err = vic_load_firmware(vic);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	if (vic->can_use_context)
+> +		return 0x30;
+> +	else
+> +		return -ENOTSUPP;
+> +}
+> +
+>   static const struct tegra_drm_client_ops vic_ops = {
+>   	.open_channel = vic_open_channel,
+>   	.close_channel = vic_close_channel,
+>   	.submit = tegra_drm_submit,
+> +	.get_streamid_offset = vic_get_streamid_offset,
 
--- 
-Regards,
+The patch order seems off here, since the .get_streamid_offset member 
+isn't defined yet.
 
-Laurent Pinchart
+Robin.
+
+>   };
+>   
+>   #define NVIDIA_TEGRA_124_VIC_FIRMWARE "nvidia/tegra124/vic03_ucode.bin"
