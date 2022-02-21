@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC9B4BD3D6
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 03:36:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D3E4BD3D7
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 03:40:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0906610E280;
-	Mon, 21 Feb 2022 02:36:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A363610E202;
+	Mon, 21 Feb 2022 02:40:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
- [209.85.166.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8037810E280
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 02:36:34 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id e79so14365431iof.13
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Feb 2022 18:36:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=z3L0QAaP0YwGTd6VI4wxx/3lOMZUuCl0MhaQbdJh1OQ=;
- b=pZ0ixaLMkfeCHOHE7FMUi2BAkw5jwzx0Bh6oY6GVzPdSgvK6Jzx5Eu1vY3IOIyt87P
- wPECivyHAJzTaZVppkmXFn3eOR6iSKsYdAS9TRIn0eY4JE3QTXiUWK3oRQUDB/tHrAoC
- BbFA1qtTo8bCtdQ5NkF7NsnZle9eiLSHu7DfJJnzx4SAcfS0tCLNL/tIrCjhd4d3oJii
- IuMrgJQWO5fBzmzE1JV6mI874m8y85OF5gwzHFt94qyKsOqlw6KTRRyvZBw2AkBD01lg
- E7UrGQlhUnBjLEZaJrmmmmwctsSf3lTxDIZ/n690reLSZYEBz10vCqLwjXvN0HBVEvZ7
- WKxA==
-X-Gm-Message-State: AOAM533zeDo/85sMAlwHVr4+8ITVmk4lRJ8OxDigwfi6lAMVPQRGi7Ol
- XObPY4SSasEAlB+Or6QQhg==
-X-Google-Smtp-Source: ABdhPJzC3lbA/3xbYHDC1TVY6Mc9mRZFu+uPq7kGdXhvdW9HCdoukC5Q8i8N7ZC5YawbHb6/C1rUWw==
-X-Received: by 2002:a02:c851:0:b0:30e:2296:4290 with SMTP id
- r17-20020a02c851000000b0030e22964290mr14295308jao.49.1645410993813; 
- Sun, 20 Feb 2022 18:36:33 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id s9sm7433901ilv.50.2022.02.20.18.36.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Feb 2022 18:36:33 -0800 (PST)
-Received: (nullmailer pid 2041539 invoked by uid 1000);
- Mon, 21 Feb 2022 02:36:09 -0000
-From: Rob Herring <robh@kernel.org>
-To: Guillaume Ranquet <granquet@baylibre.com>
-In-Reply-To: <20220218145437.18563-3-granquet@baylibre.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD6910E202
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 02:40:52 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 43BBEB80DAA
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 02:40:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66167C36AE5
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 02:40:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645411249;
+ bh=bFvQNAVbGlS7Vkgnjf6TBiEr7ZXdUWSxzalTjblThqE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=iOYpZ2RVDoZAyMqglzcqxB77Kn23NhumIkrWlWsgMLG7zA8Q2HUuKaf0ipbHD0CGd
+ vV0i0mCqfEjrzAVlC/+8zFYxsxpJSNZ0zn71+DkAWdJ7Q0vAZnpeEE9sg8BW+5XWQ9
+ amaKz06WAgN7qj1LrM4IcCudViHKWnOtzX6hXsGSbfQRMztAQgeYeN/ESpG0sigFCi
+ /ttN43FUaa3fLNP/lBM7feYg7oBzFY2k+vBFLYr4EdK/kRa41WJQJEbmO6ncLEi54H
+ ATPW7yxxPVIJZ7pKwL+xoIQHtN8M0MjlVgJjCxlcj5/J5CP0XGsiHhzIEVT3m2PlLo
+ zOCTIgkiWe+og==
+Received: by mail-ej1-f47.google.com with SMTP id lw4so29294258ejb.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Feb 2022 18:40:49 -0800 (PST)
+X-Gm-Message-State: AOAM5317DCZHGyvbi+0cd/0/W1WGVw1VGwDIZNbDBEw69SdyQb15THon
+ u8KBEroL+EsmD5r369oXR5p8ajMMEwgBwZ+pAw==
+X-Google-Smtp-Source: ABdhPJxIHE/AHCRll/nSdxrQ+Ux5BiWkeUzMrG89lMATKPsbYYOa8h8y1euGyif6EtqH2TYXRNJ80g4ZoB5oWBNlWs8=
+X-Received: by 2002:a17:907:a06c:b0:6c9:408e:cec with SMTP id
+ ia12-20020a170907a06c00b006c9408e0cecmr13894591ejc.510.1645411247627; Sun, 20
+ Feb 2022 18:40:47 -0800 (PST)
+MIME-Version: 1.0
 References: <20220218145437.18563-1-granquet@baylibre.com>
- <20220218145437.18563-3-granquet@baylibre.com>
-Subject: Re: [PATCH v8 02/19] dt-bindings: mediatek,
- dp: Add Display Port binding
-Date: Sun, 20 Feb 2022 20:36:09 -0600
-Message-Id: <1645410969.343097.2041538.nullmailer@robh.at.kernel.org>
+ <20220218145437.18563-9-granquet@baylibre.com>
+In-Reply-To: <20220218145437.18563-9-granquet@baylibre.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 21 Feb 2022 10:40:35 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8V91XH4sKeRfSz6hRPhXm15GBkQ76LWtfBBU5cAtWMqA@mail.gmail.com>
+Message-ID: <CAAOTY_8V91XH4sKeRfSz6hRPhXm15GBkQ76LWtfBBU5cAtWMqA@mail.gmail.com>
+Subject: Re: [PATCH v8 08/19] drm/mediatek: dpi: move dimension mask to board
+ config
+To: Guillaume Ranquet <granquet@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,62 +63,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, chunkuang.hu@kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, deller@gmx.de,
- kishon@ti.com, devicetree@vger.kernel.org, jitao.shi@mediatek.com,
- tzimmermann@suse.de, Markus Schneider-Pargmann <msp@baylibre.com>,
- chunfeng.yun@mediatek.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
- linux-kernel@vger.kernel.org, vkoul@kernel.org
+Cc: linux-fbdev@vger.kernel.org, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linux-phy@lists.infradead.org, deller@gmx.de,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 18 Feb 2022 15:54:20 +0100, Guillaume Ranquet wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> This controller is present on several mediatek hardware. Currently
-> mt8195 and mt8395 have this controller without a functional difference,
-> so only one compatible field is added.
-> 
-> The controller can have two forms, as a normal display port and as an
-> embedded display port.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+HI, Guillaume:
+
+Guillaume Ranquet <granquet@baylibre.com> =E6=96=BC 2022=E5=B9=B42=E6=9C=88=
+18=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=8810:56=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> Add flexibility by moving the dimension mask to the board config
+
+After change 'board' to 'SoC',
+
+Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+
+>
 > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
->  .../display/mediatek/mediatek,dp.yaml         | 87 +++++++++++++++++++
->  1 file changed, 87 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-> 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dts:20:18: fatal error: dt-bindings/power/mt8195-power.h: No such file or directory
-   20 |         #include <dt-bindings/power/mt8195-power.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.lib:378: Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1398: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1594807
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 26 ++++++++++++++++----------
+>  1 file changed, 16 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
+k/mtk_dpi.c
+> index 454f8563efae4..8ca3455ed64ee 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -127,6 +127,8 @@ struct mtk_dpi_conf {
+>         u32 num_output_fmts;
+>         bool is_ck_de_pol;
+>         bool swap_input_support;
+> +       // Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and VSYNC_PORCH (no =
+shift)
+> +       u32 dimension_mask;
+>         const struct mtk_dpi_yc_limit *limit;
+>  };
+>
+> @@ -156,30 +158,30 @@ static void mtk_dpi_disable(struct mtk_dpi *dpi)
+>  static void mtk_dpi_config_hsync(struct mtk_dpi *dpi,
+>                                  struct mtk_dpi_sync_param *sync)
+>  {
+> -       mtk_dpi_mask(dpi, DPI_TGEN_HWIDTH,
+> -                    sync->sync_width << HPW, HPW_MASK);
+> -       mtk_dpi_mask(dpi, DPI_TGEN_HPORCH,
+> -                    sync->back_porch << HBP, HBP_MASK);
+> +       mtk_dpi_mask(dpi, DPI_TGEN_HWIDTH, sync->sync_width << HPW,
+> +                    dpi->conf->dimension_mask << HPW);
+> +       mtk_dpi_mask(dpi, DPI_TGEN_HPORCH, sync->back_porch << HBP,
+> +                    dpi->conf->dimension_mask << HBP);
+>         mtk_dpi_mask(dpi, DPI_TGEN_HPORCH, sync->front_porch << HFP,
+> -                    HFP_MASK);
+> +                    dpi->conf->dimension_mask << HFP);
+>  }
+>
+>  static void mtk_dpi_config_vsync(struct mtk_dpi *dpi,
+>                                  struct mtk_dpi_sync_param *sync,
+>                                  u32 width_addr, u32 porch_addr)
+>  {
+> -       mtk_dpi_mask(dpi, width_addr,
+> -                    sync->sync_width << VSYNC_WIDTH_SHIFT,
+> -                    VSYNC_WIDTH_MASK);
+>         mtk_dpi_mask(dpi, width_addr,
+>                      sync->shift_half_line << VSYNC_HALF_LINE_SHIFT,
+>                      VSYNC_HALF_LINE_MASK);
+> +       mtk_dpi_mask(dpi, width_addr,
+> +                    sync->sync_width << VSYNC_WIDTH_SHIFT,
+> +                    dpi->conf->dimension_mask << VSYNC_WIDTH_SHIFT);
+>         mtk_dpi_mask(dpi, porch_addr,
+>                      sync->back_porch << VSYNC_BACK_PORCH_SHIFT,
+> -                    VSYNC_BACK_PORCH_MASK);
+> +                    dpi->conf->dimension_mask << VSYNC_BACK_PORCH_SHIFT)=
+;
+>         mtk_dpi_mask(dpi, porch_addr,
+>                      sync->front_porch << VSYNC_FRONT_PORCH_SHIFT,
+> -                    VSYNC_FRONT_PORCH_MASK);
+> +                    dpi->conf->dimension_mask << VSYNC_FRONT_PORCH_SHIFT=
+);
+>  }
+>
+>  static void mtk_dpi_config_vsync_lodd(struct mtk_dpi *dpi,
+> @@ -813,6 +815,7 @@ static const struct mtk_dpi_conf mt8173_conf =3D {
+>         .num_output_fmts =3D ARRAY_SIZE(mt8173_output_fmts),
+>         .is_ck_de_pol =3D true,
+>         .swap_input_support =3D true,
+> +       .dimension_mask =3D HPW_MASK,
+>         .limit =3D &mtk_dpi_limit,
+>  };
+>
+> @@ -825,6 +828,7 @@ static const struct mtk_dpi_conf mt2701_conf =3D {
+>         .num_output_fmts =3D ARRAY_SIZE(mt8173_output_fmts),
+>         .is_ck_de_pol =3D true,
+>         .swap_input_support =3D true,
+> +       .dimension_mask =3D HPW_MASK,
+>         .limit =3D &mtk_dpi_limit,
+>  };
+>
+> @@ -836,6 +840,7 @@ static const struct mtk_dpi_conf mt8183_conf =3D {
+>         .num_output_fmts =3D ARRAY_SIZE(mt8183_output_fmts),
+>         .is_ck_de_pol =3D true,
+>         .swap_input_support =3D true,
+> +       .dimension_mask =3D HPW_MASK,
+>         .limit =3D &mtk_dpi_limit,
+>  };
+>
+> @@ -847,6 +852,7 @@ static const struct mtk_dpi_conf mt8192_conf =3D {
+>         .num_output_fmts =3D ARRAY_SIZE(mt8173_output_fmts),
+>         .is_ck_de_pol =3D true,
+>         .swap_input_support =3D true,
+> +       .dimension_mask =3D HPW_MASK,
+>         .limit =3D &mtk_dpi_limit,
+>  };
+>
+> --
+> 2.34.1
+>
