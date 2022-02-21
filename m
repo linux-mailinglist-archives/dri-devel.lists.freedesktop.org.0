@@ -2,53 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754874BDB51
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 18:36:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98A84BDB53
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 18:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49B3910E55E;
-	Mon, 21 Feb 2022 17:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B499210E566;
+	Mon, 21 Feb 2022 17:37:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F30010E55E
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 17:36:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=PkpUpGJ5fnZavlDzdbOdq/17AO+V95dcZa/mE2WXAVg=; b=NY4d56ipV+ocFh5z0mNXf4EUne
- 0cybsnz+sCoMyNGGmrBQAF3IztUaD4VTsdgx3LQjBi4E4Kx6kty0oDhd81IngYd5FWuvuDAL4+kgu
- R9SntmnlQl8dPHbaAW/Hs56NWT/CI6btDP3MeORUQEe3u4D/L3eFkQ/SeNsvg9ienk5G+9X7nyq3n
- mNGMmY0u90eqfUddJbp7AVkc74mGY372hpeAo3GbU4sjBvd4jmCnC2XsfqUlpz/0QHcI9szjyxG8v
- QpIJ6gyG8M9cC0eSIZRxljwFXf0fMFGHXnzqnoy7vI0ZngkKYanPfVYSr3DwcFwJGC69NqWoCJy1S
- P7D0XKBQ==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1nMCbW-0002UU-8v; Mon, 21 Feb 2022 19:36:06 +0200
-Message-ID: <6be67fc4-3343-123e-5dc3-d45f51f42624@kapsi.fi>
-Date: Mon, 21 Feb 2022 19:36:05 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2DB210E581
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 17:37:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645465073;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DzRKkl9MBsnLJO0MZvrmofSvJyauAO6DGXYWnBBejVM=;
+ b=PqD7pXK6FMHbWWZJWGa/WzuXYQA6pBRxDlfRbWILa5qHCfIxGnMx5EIIw37SqxydpWRL7Q
+ dc/tfLHSBL1qL7GbryZR9GDMrKV8Coo3Fk6ThJb59XisTlgRVxrRKo7oBhezSScCuJ6a3f
+ xE4o9y7E2qhixlmTuK+r1X+1ok6KM20=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-332-sq9BJalpMsqQHw5vvQUuEg-1; Mon, 21 Feb 2022 12:37:51 -0500
+X-MC-Unique: sq9BJalpMsqQHw5vvQUuEg-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ cs16-20020ad44c50000000b0042bfd7b5158so17908924qvb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 09:37:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DzRKkl9MBsnLJO0MZvrmofSvJyauAO6DGXYWnBBejVM=;
+ b=ZlWT+dpGhXNsHLMJhgAacf6W+pM0prslZ5DCtNFupFJG9n+/pf9wrroB1G1VWM5VmZ
+ 4ApHp6nLsbosF4paUyw4VDNwgdEpHNPhhVvcY5JUkKLgTHxvtD9F1qLSDPaR2YmUOYTg
+ /Flzr0CpTAv2gMjqx7ujfBizRfhrtAA/XRYjgfcPeNeXnpRXhy2CKEA4P7HSk+OFZkfw
+ J+NdqzzckF7vOTTJu2Myc5+T5biHdyVQAYXs5B4/DAN0/WNNCvp9ElwUJKldOEj//9Re
+ /K9XpCnCpjgX01my7ssm8gPT8JV82JIIOBzXxw63KNSV/sbrLQsAGm1ubhHISAKgf/3U
+ Ly/w==
+X-Gm-Message-State: AOAM531Ria7PjQXfMYVbOwNvCrEywzWxDXSpO/c8dZQLLmuSEh9Y3pK+
+ Lmy7WYIxYe6Lzk855DluIsmHDDeXSvAGFvC5BuZ1G5ySNKtYFF1+113CbK3X3exxrPZ9a2r6myk
+ aR9wiai+KDojc036QqVasiT0SLTLr
+X-Received: by 2002:a37:674c:0:b0:47b:8dc5:df77 with SMTP id
+ b73-20020a37674c000000b0047b8dc5df77mr13055128qkc.95.1645465071237; 
+ Mon, 21 Feb 2022 09:37:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwXF5C5Kq2+dKAFlNYYC/4KY8Ajcg6ukvTAULE4uB/5fl5oE1UylGbMhdwn4F9QcBZp1i/H3Q==
+X-Received: by 2002:a37:674c:0:b0:47b:8dc5:df77 with SMTP id
+ b73-20020a37674c000000b0047b8dc5df77mr13055105qkc.95.1645465071015; 
+ Mon, 21 Feb 2022 09:37:51 -0800 (PST)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
+ [24.205.208.113])
+ by smtp.gmail.com with ESMTPSA id v15sm1895466qkl.37.2022.02.21.09.37.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Feb 2022 09:37:50 -0800 (PST)
+From: trix@redhat.com
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch, guchun.chen@amd.com,
+ Prike.Liang@amd.com, Hawking.Zhang@amd.com, luben.tuikov@amd.com
+Subject: [PATCH] drm/amdgpu: fix printk format for size_t variable
+Date: Mon, 21 Feb 2022 09:37:37 -0800
+Message-Id: <20220221173737.3725760-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v3 8/9] drm/tegra: vic: Implement get_streamid_offset
-Content-Language: en-US
-To: Robin Murphy <robin.murphy@arm.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, joro@8bytes.org, will@kernel.org, robh+dt@kernel.org
-References: <20220218113952.3077606-1-mperttunen@nvidia.com>
- <20220218113952.3077606-9-mperttunen@nvidia.com>
- <71e94ac3-20fc-6f41-270f-fe246740e7e0@arm.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <71e94ac3-20fc-6f41-270f-fe246740e7e0@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,106 +83,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/21/22 19:27, Robin Murphy wrote:
-> On 2022-02-18 11:39, Mikko Perttunen via iommu wrote:
->> Implement the get_streamid_offset required for supporting context
->> isolation. Since old firmware cannot support context isolation
->> without hacks that we don't want to implement, check the firmware
->> binary to see if context isolation should be enabled.
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->>   drivers/gpu/drm/tegra/vic.c | 38 +++++++++++++++++++++++++++++++++++++
->>   1 file changed, 38 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
->> index 1e342fa3d27b..2863ee5e0e67 100644
->> --- a/drivers/gpu/drm/tegra/vic.c
->> +++ b/drivers/gpu/drm/tegra/vic.c
->> @@ -38,6 +38,8 @@ struct vic {
->>       struct clk *clk;
->>       struct reset_control *rst;
->> +    bool can_use_context;
->> +
->>       /* Platform configuration */
->>       const struct vic_config *config;
->>   };
->> @@ -229,6 +231,7 @@ static int vic_load_firmware(struct vic *vic)
->>   {
->>       struct host1x_client *client = &vic->client.base;
->>       struct tegra_drm *tegra = vic->client.drm;
->> +    u32 fce_bin_data_offset;
->>       dma_addr_t iova;
->>       size_t size;
->>       void *virt;
->> @@ -277,6 +280,25 @@ static int vic_load_firmware(struct vic *vic)
->>           vic->falcon.firmware.phys = phys;
->>       }
->> +    /*
->> +     * Check if firmware is new enough to not require mapping firmware
->> +     * to data buffer domains.
->> +     */
->> +    fce_bin_data_offset = *(u32 *)(virt + VIC_UCODE_FCE_DATA_OFFSET);
->> +
->> +    if (!vic->config->supports_sid) {
->> +        vic->can_use_context = false;
->> +    } else if (fce_bin_data_offset != 0x0 && fce_bin_data_offset != 
->> 0xa5a5a5a5) {
->> +        /*
->> +         * Firmware will access FCE through STREAMID0, so context
->> +         * isolation cannot be used.
->> +         */
->> +        vic->can_use_context = false;
->> +        dev_warn_once(vic->dev, "context isolation disabled due to 
->> old firmware\n");
->> +    } else {
->> +        vic->can_use_context = true;
->> +    }
->> +
->>       return 0;
->>   cleanup:
->> @@ -358,10 +380,26 @@ static void vic_close_channel(struct 
->> tegra_drm_context *context)
->>       host1x_channel_put(context->channel);
->>   }
->> +static int vic_get_streamid_offset(struct tegra_drm_client *client)
->> +{
->> +    struct vic *vic = to_vic(client);
->> +    int err;
->> +
->> +    err = vic_load_firmware(vic);
->> +    if (err < 0)
->> +        return err;
->> +
->> +    if (vic->can_use_context)
->> +        return 0x30;
->> +    else
->> +        return -ENOTSUPP;
->> +}
->> +
->>   static const struct tegra_drm_client_ops vic_ops = {
->>       .open_channel = vic_open_channel,
->>       .close_channel = vic_close_channel,
->>       .submit = tegra_drm_submit,
->> +    .get_streamid_offset = vic_get_streamid_offset,
-> 
-> The patch order seems off here, since the .get_streamid_offset member 
-> isn't defined yet.
-> 
-> Robin.
+From: Tom Rix <trix@redhat.com>
 
-Indeed, will fix.
+On mips64 allyesconfig, there is this build break
+amdgpu_discovery.c:671:35: error: format '%ld' expects
+  argument of type 'long int', but argument 4 has
+  type 'size_t' {aka 'unsigned int'}
+  DRM_DEBUG("match:%d @ ip_offset:%ld", ii, ip_offset);
 
-Thanks,
-Mikko
+For size_t, use %zu.
 
-> 
->>   };
->>   #define NVIDIA_TEGRA_124_VIC_FIRMWARE "nvidia/tegra124/vic03_ucode.bin"
+Fixes: a6c40b178092 ("drm/amdgpu: Show IP discovery in sysfs")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+index 7c7e28fd912e..58238f67b1d3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+@@ -668,7 +668,7 @@ static int amdgpu_discovery_sysfs_ips(struct amdgpu_device *adev,
+ 			    le16_to_cpu(ip->hw_id) != ii)
+ 				goto next_ip;
+ 
+-			DRM_DEBUG("match:%d @ ip_offset:%ld", ii, ip_offset);
++			DRM_DEBUG("match:%d @ ip_offset:%zu", ii, ip_offset);
+ 
+ 			/* We have a hw_id match; register the hw
+ 			 * block if not yet registered.
+-- 
+2.26.3
 
