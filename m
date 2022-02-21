@@ -1,50 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69EBB4BD8B5
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 10:53:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C684BD8BE
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 10:54:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8F7112CCE;
-	Mon, 21 Feb 2022 09:53:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A173810E2AC;
+	Mon, 21 Feb 2022 09:54:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAF98112CCD
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 09:53:39 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nM5Nx-0007Rt-Vf; Mon, 21 Feb 2022 10:53:37 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nM5Nu-0006XB-4c; Mon, 21 Feb 2022 10:53:34 +0100
-Date: Mon, 21 Feb 2022 10:53:34 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Frank Wunderlich <frank-w@public-files.de>
-Subject: Re: [PATCH v6 17/23] arm64: dts: rockchip: rk356x: Add HDMI nodes
-Message-ID: <20220221095334.GC18637@pengutronix.de>
-References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
- <20220217082954.2967889-18-s.hauer@pengutronix.de>
- <trinity-1fb35fb4-c954-46bc-ae87-02d5df121a01-1645433668183@3c-app-gmx-bs60>
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 209AF10E2AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 09:54:02 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id j15so17490969lfe.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 01:54:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=FBQCAwLGItt59fBHH1fMX/rXCxY4p1v9wuPJWfMr/EE=;
+ b=OMjFpUKSoI/8tDW559i/11H2ijvy+X7Cyy6+WRTh9BpYhAd0ESthUOs21QFcduRLUX
+ tGwZzFtj90IC1hBoKntcyQvsn11UKiofViSoSA/V7l/NNjHPUvvL4b9XTN6qSrbYDpLs
+ gbdjvTfYbe7a8VYjZFTFv0/F88nhCwe5RCFWeRMN79SOD+ga3jJgJPl85LdsYhffSx9O
+ f0KieNs5r3M64JzpMGPsA6JxAEaFgRZUxnb+MT8MmRvmkHQVofikUxrarsiCe+saU+TX
+ qmZ7towRvoIrZdYqqnFpWmWme6fYEZVk2g784cMY0LEkmtGG9Zj/XjfRtzaUPbkWq6VZ
+ 9gtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FBQCAwLGItt59fBHH1fMX/rXCxY4p1v9wuPJWfMr/EE=;
+ b=4icy+0JQdjV1k/kOF92Wj5GhL69XTE233MZXx8+saqdNV8LYw8sbF+S2+VSTIrKuFM
+ yeIvJh3Z8v/z9KKHtLeY9vRq7kix7QsoyEMmIOUE5KNsGoeGwfH9gCztg0TxptbUMi1S
+ gQaTW1KSneRuHZ0KqVP3JFUKM/YMS3wspClnO3GRxNmEBoStjshWMjySiaOaTDDP1uBX
+ yCWRI6R3xOCiaJqUvetlrtqSSp6nWsUSRq5VtyDPbzFkIHP1kWDoHZ4adr1uS3jLIqqG
+ zTJnlTkJ470zsbrAbAI2Rx8lIn4iqQ3S+RIBUrjUANtjNS7aCOwNBZ30DaLG7OXDu21p
+ XYYQ==
+X-Gm-Message-State: AOAM531sXp/il9MK5iwM8OBXUfkxOQJrxF8gyxjZuoej2kHQgKEALtQe
+ Lmfit+BBB4uwcnmUlxKn/pI=
+X-Google-Smtp-Source: ABdhPJyjpoLC4dkht2ubnC2fLVCm11jEQES+SqN3/jJaPUC4j1RTjBwAfYihJh/DiezuaKLTQVLqDw==
+X-Received: by 2002:a19:4f02:0:b0:441:39df:161c with SMTP id
+ d2-20020a194f02000000b0044139df161cmr13408076lfb.504.1645437240280; 
+ Mon, 21 Feb 2022 01:54:00 -0800 (PST)
+Received: from [192.168.2.145] (109-252-138-165.dynamic.spd-mgts.ru.
+ [109.252.138.165])
+ by smtp.googlemail.com with ESMTPSA id q12sm1066973lfr.157.2022.02.21.01.53.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Feb 2022 01:53:59 -0800 (PST)
+Message-ID: <677beebd-5a16-297f-c09a-fa4b72c001c9@gmail.com>
+Date: Mon, 21 Feb 2022 12:53:58 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <trinity-1fb35fb4-c954-46bc-ae87-02d5df121a01-1645433668183@3c-app-gmx-bs60>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:52:17 up 72 days, 18:37, 85 users,  load average: 0.08, 0.21, 0.25
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v16 21/40] pwm: tegra: Add runtime PM and OPP support
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+References: <20211130232347.950-1-digetx@gmail.com>
+ <20211130232347.950-22-digetx@gmail.com>
+ <20220221081727.jeq2jff5ewjzubxv@pengutronix.de>
+From: Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <20220221081727.jeq2jff5ewjzubxv@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,45 +75,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, dri-devel@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, David Heidelberg <david@ixit.cz>,
+ linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 21, 2022 at 09:54:28AM +0100, Frank Wunderlich wrote:
-> Hi
-> 
-> > Gesendet: Donnerstag, 17. Februar 2022 um 09:29 Uhr
-> > Von: "Sascha Hauer" <s.hauer@pengutronix.de>
-> 
-> > --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> > +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> > @@ -10,7 +10,6 @@
-> >  #include <dt-bindings/pinctrl/rockchip.h>
-> >  #include <dt-bindings/power/rk3568-power.h>
-> >  #include <dt-bindings/soc/rockchip,boot-mode.h>
-> > -#include <dt-bindings/soc/rockchip,vop2.h>
-> 
-> why dropping this after adding in part 16?
-> 
-> >  #include <dt-bindings/thermal/thermal.h>
-> 
-> it looks like you moved this to board includes...imho this should stay
-> in the rk356x.dtsi, because compilation will fail if a board without
-> the vop2 (and missing the include) is derived from rk356x.dtsi.
+Hello Uwe,
 
-I dropped adding the include from Patch 16. The include is not needed by
-rk356x.dtsi. When a board without vop2 support is added then it won't
-need the include either.
+21.02.2022 11:17, Uwe Kleine-König пишет:
+>> @@ -344,7 +387,10 @@ static const struct of_device_id tegra_pwm_of_match[] = {
+>>  MODULE_DEVICE_TABLE(of, tegra_pwm_of_match);
+>>  
+>>  static const struct dev_pm_ops tegra_pwm_pm_ops = {
+>> -	SET_SYSTEM_SLEEP_PM_OPS(tegra_pwm_suspend, tegra_pwm_resume)
+>> +	SET_RUNTIME_PM_OPS(tegra_pwm_runtime_suspend, tegra_pwm_runtime_resume,
+>> +			   NULL)
+>> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+>> +				pm_runtime_force_resume)
+>>  };
+>>  
+>>  static struct platform_driver tegra_pwm_driver = {
+> I admit to not completely understand the effects of this patch, but I
+> don't see a problem either. So for me this patch is OK:
+> 
+> Acked-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> 
+> I spot a problem, it's not introduced by this patch however: If the
+> consumer of the PWM didn't stop the hardware, the suspend should IMHO be
+> prevented.
 
-Sascha
+Why? The PWM driver itself will stop the h/w on suspend.
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> I wonder if the patches in this series go in in one go via an ARM or
+> Tegra tree, or each patch via its respective maintainer tree.
+
+This series, including this patch, was already applied to 5.17 via the
+tegra/soc tree. No action is needed anymore.
