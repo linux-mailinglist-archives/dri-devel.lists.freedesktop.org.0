@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6949F4BD8B9
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 10:54:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 328984BD8B7
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 10:53:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E33F8112CC4;
-	Mon, 21 Feb 2022 09:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5A57112CD2;
+	Mon, 21 Feb 2022 09:53:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2194112CD2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B568F112CCF
  for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 09:53:42 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1nM5Nb-0007AX-9t; Mon, 21 Feb 2022 10:53:15 +0100
+ id 1nM5Nb-0007AY-9w; Mon, 21 Feb 2022 10:53:15 +0100
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ore@pengutronix.de>)
- id 1nM5NZ-00FUej-MK; Mon, 21 Feb 2022 10:53:13 +0100
+ id 1nM5NZ-00FUes-NP; Mon, 21 Feb 2022 10:53:13 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v1 5/8] ARM: dts: imx6qdl-vicut1/vicutgo: The sgtl5000 uses
- i2s not ac97
-Date: Mon, 21 Feb 2022 10:53:09 +0100
-Message-Id: <20220221095312.3692669-5-o.rempel@pengutronix.de>
+Subject: [PATCH v1 6/8] ARM: dts: imx6dl-victgo: Add interrupt-counter nodes
+Date: Mon, 21 Feb 2022 10:53:10 +0100
+Message-Id: <20220221095312.3692669-6-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220221095312.3692669-1-o.rempel@pengutronix.de>
 References: <20220221095312.3692669-1-o.rempel@pengutronix.de>
@@ -62,45 +61,80 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Robin van der Gracht <robin@protonic.nl>
 
-According to Documentation/devicetree/bindings/sound/fsl,ssi.txt
-'fsl,mode' should be specified for AC97 mode only.
-
-The 'fsl,ssi' documentation doesn't say anything about specifying
-'sound-dai-cells' so we'll remove that as well.
+Interrupt counter is mainlined, now we can add missing counter nodes.
 
 Signed-off-by: Robin van der Gracht <robin@protonic.nl>
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- arch/arm/boot/dts/imx6dl-victgo.dts   | 2 --
- arch/arm/boot/dts/imx6qdl-vicut1.dtsi | 2 --
- 2 files changed, 4 deletions(-)
+ arch/arm/boot/dts/imx6dl-victgo.dts | 41 ++++++++++++++++++++++++++++-
+ 1 file changed, 40 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm/boot/dts/imx6dl-victgo.dts b/arch/arm/boot/dts/imx6dl-victgo.dts
-index d542ddad4e32..20c7f80e5ec9 100644
+index 20c7f80e5ec9..907682248aa7 100644
 --- a/arch/arm/boot/dts/imx6dl-victgo.dts
 +++ b/arch/arm/boot/dts/imx6dl-victgo.dts
-@@ -591,8 +591,6 @@ &pwm3 {
- };
+@@ -54,6 +54,27 @@ comp0_out: endpoint {
+ 		};
+ 	};
  
- &ssi1 {
--	#sound-dai-cells = <0>;
--	fsl,mode = "ac97-slave";
- 	status = "okay";
- };
++	counter-0 {
++		compatible = "interrupt-counter";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_counter0>;
++		gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
++	};
++
++	counter-1 {
++		compatible = "interrupt-counter";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_counter1>;
++		gpios = <&gpio2 1 GPIO_ACTIVE_LOW>;
++	};
++
++	counter-2 {
++		compatible = "interrupt-counter";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_counter2>;
++		gpios = <&gpio2 2 GPIO_ACTIVE_LOW>;
++	};
++
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 		pinctrl-names = "default";
+@@ -400,7 +421,7 @@ &gpio1 {
  
-diff --git a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
-index ec39008c0950..97ef8264947a 100644
---- a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
-+++ b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
-@@ -466,8 +466,6 @@ &pwm3 {
- };
+ &gpio2 {
+ 	gpio-line-names =
+-		"", "", "", "", "", "", "", "",
++		"YACO_WHEEL", "YACO_RADAR", "YACO_PTO", "", "", "", "", "",
+ 		"", "LED_PWM", "", "", "",
+ 			"", "", "",
+ 		"", "", "", "", "", "", "ISB_IN1", "ON_SWITCH",
+@@ -706,6 +727,24 @@ MX6QDL_PAD_KEY_ROW3__GPIO4_IO13			0x13008
+ 		>;
+ 	};
  
- &ssi1 {
--	#sound-dai-cells = <0>;
--	fsl,mode = "ac97-slave";
- 	status = "okay";
- };
- 
++	pinctrl_counter0: counter0grp {
++		fsl,pins = <
++			MX6QDL_PAD_NANDF_D0__GPIO2_IO00			0x1b000
++		>;
++	};
++
++	pinctrl_counter1: counter1grp {
++		fsl,pins = <
++			MX6QDL_PAD_NANDF_D1__GPIO2_IO01			0x1b000
++		>;
++	};
++
++	pinctrl_counter2: counter2grp {
++		fsl,pins = <
++			MX6QDL_PAD_NANDF_D2__GPIO2_IO02			0x1b000
++		>;
++	};
++
+ 	pinctrl_ecspi1: ecspi1grp {
+ 		fsl,pins = <
+ 			MX6QDL_PAD_EIM_D17__ECSPI1_MISO			0x100b1
 -- 
 2.30.2
 
