@@ -2,48 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F184BD78D
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 09:29:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F454BD85F
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 09:54:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7CE210FC6C;
-	Mon, 21 Feb 2022 08:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82D46112683;
+	Mon, 21 Feb 2022 08:54:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3783510E719
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 08:29:13 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 42A7F1F4334A;
- Mon, 21 Feb 2022 08:29:11 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1645432151;
- bh=WgoXngn3A+b78IQV6TPt47tWpAp6TiyyCgvUpO8Pd8w=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=VIB4BDJdLn+i57So/S2qiiGBmXMk/MhIRz8ucQ48N8pgOk5WjcinbGsYk16LdZtsW
- RtgRt5RKpIa+c3BFjShmfez0lr1h3ZGH64/4iNE3xYS+qt21G1pOwxtWNeS0bvlb+r
- OmPflG31QFiK4f5JknDmEMAzLuwG20u6nd3w/L9+WTSIgmNKpBMzgHcn5d/tJFlglg
- Spy4T0mPbnu9HNvlGG2osx6WRXg6e3Cc4K/MhpudB5ghOkrUpUYLDePXgwwFRrWpg3
- JXr1mnfBnTAwCoQfzpoY7zG3xpgtiEj7P5Y9OKtpW7frjDCeqOQaxMsbQjVPeVQb/3
- jaYGLCyWO/WdQ==
-Date: Mon, 21 Feb 2022 09:29:08 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Christoph Niedermaier <cniedermaier@dh-electronics.com>
-Subject: Re: [PATCH V2] drm/imx: parallel-display: Remove bus flags check in
- imx_pd_bridge_atomic_check()
-Message-ID: <20220221092908.6d8d18c5@collabora.com>
-In-Reply-To: <e00e00585b9945e396bdc3bbd8f30f7e@dh-electronics.com>
-References: <20220201113643.4638-1-cniedermaier@dh-electronics.com>
- <36f517300a15b2460a02512ef3c5814ad0ed2290.camel@gmail.com>
- <e00e00585b9945e396bdc3bbd8f30f7e@dh-electronics.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CE8D1126A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 08:54:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1645433669;
+ bh=Z8EpCecM7RhGma2bC7EtfcMj8Tocmigz2nMw62yYXOI=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=SGP/t2lI+xhMg/JrfB13WY4xxriDcSAHgJ6ylum/H9flWMPRdIgPX98DGQ/1h6i3Q
+ qairigJXYCvXvVFnp/yDTP+h9lWb9PEJfSmaS5aqGry3mW27en1R96IHha5jvJWvL+
+ qu5OOcNGUpraNYgoYe2Z5euBaUOZK40LBlFXjLxY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [217.61.156.188] ([217.61.156.188]) by web-mail.gmx.net
+ (3c-app-gmx-bs60.server.lan [172.19.170.144]) (via HTTP); Mon, 21 Feb 2022
+ 09:54:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Message-ID: <trinity-1fb35fb4-c954-46bc-ae87-02d5df121a01-1645433668183@3c-app-gmx-bs60>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Aw: [PATCH v6 17/23] arm64: dts: rockchip: rk356x: Add HDMI nodes
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 21 Feb 2022 09:54:28 +0100
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <20220217082954.2967889-18-s.hauer@pengutronix.de>
+References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
+ <20220217082954.2967889-18-s.hauer@pengutronix.de>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:x3LBl6EdmehdGuwhuzd1xOiFb5z5EOYnOHMNPxoOy2rR8Mp7JmyFo1r/Het2WBDJ+/P/C
+ MbmK1DBWnywY9nPp//MWoUl0xvSo2oFozeETajq/jVz0zEjHvB8ykHCkzW7YiAG74BlX4x6IKiyJ
+ ykAnSyyPrbCPT438/Jx32+Zl/DaxIVQbl7p0P6yOye/7si/IiLDQ+qkkt+Dt7Ttsr2PEr1u0BJ0p
+ cLwZzSo1tEct6iqdXWkPu3nprszone4sbWeWnDcadvyteaibWI8AbYRahHEstwIQjQWq74mTVvoZ
+ fs=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DwdkB/65TKg=:HKvkpn7knmxoBuuiGPVqAX
+ a52f8isbXjpRDRLNOGCNM74lVG9WMh/GmZaZqg1g2Y6WUvSocvo8X6OpfMrb+kH/epU2SqxaG
+ Y7TUYu3SamCGVywdGnqbSey7MI0noKv+mmeTEXF2bKSnWsDz5BjcuaD6lNsxg7fWpLPWXqLdo
+ q0YNDHYn4XZ/wNzVIC4jBKiJwM0w5UNRBDWiZ2WT0Hn73geP30gdDbfF/P3W5RHZpl3HUvOzI
+ 5gLlwXgOzajIyabSo57wTRTHeYjX/ll+Ev9WBKdiziKzt6UnhU695W5nWhWJtjtUjUFgg9Xtv
+ u3kJVcG93Sqo0gkiXedAIiAgxNsg9pxhBAySNczCCgPfZhwahFsgNgMSkWQ/668LAmPtj3DMr
+ PAkdnsiDMUHJ1VBUZBn9jVlQ2DteRFw3AjOxJq+fEF2HNA+T+L3z/EC7G9TW3lNaFgk4CeDjq
+ rQmthDdyPzoVE+9N2QXeLkqTlvUvoDqYI0Op7Y92VWeSiODLkoOrzXL3TZDBVVx22jbpJ6bHR
+ XGUcLyDTRau47Z7BUzzgjdWcYlwu6qJ1d9g/+5YhOVe63hEfy4xkCejUWVtRb7oqiaZnHd91T
+ KmCQC5cYSjNz/m4sSFFdrb+EOa0A3P3rB4PkGm9stkHLg1e6d5Zd3VSIYQnO5+uDWaFt1Xpuj
+ ztMk1+oqEUPnl1E0lV3o1Tm6H5msgDGQuHP8PbuV1JrzaUshTR2Qpif8slsHA/jwaYEt9BHTX
+ uImMXEI9pDkYEp8rw3zxNI0Qc0TVj0AvIrLEaTJlvjO5BepPQqjpGxtVpwB+cU8Awj1tfX6dR
+ 4SoFCOx
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,93 +68,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Marek MV. Vasut" <marex@denx.de>, Max Krummenacher <max.oss.09@gmail.com>,
- David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Christoph,
+Hi
 
-On Sat, 19 Feb 2022 09:28:44 +0000
-Christoph Niedermaier <cniedermaier@dh-electronics.com> wrote:
+> Gesendet: Donnerstag, 17. Februar 2022 um 09:29 Uhr
+> Von: "Sascha Hauer" <s.hauer@pengutronix.de>
 
-> From: Max Krummenacher [mailto:max.oss.09@gmail.com]
-> Sent: Wednesday, February 9, 2022 10:38 AM
-> >> If display timings were read from the devicetree using
-> >> of_get_display_timing() and pixelclk-active is defined
-> >> there, the flag DISPLAY_FLAGS_SYNC_POSEDGE/NEGEDGE is
-> >> automatically generated. Through the function
-> >> drm_bus_flags_from_videomode() e.g. called in the
-> >> panel-simple driver this flag got into the bus flags,
-> >> but then in imx_pd_bridge_atomic_check() the bus flag
-> >> check failed and will not initialize the display. The
-> >> original commit fe141cedc433 does not explain why this
-> >> check was introduced. So remove the bus flags check,
-> >> because it stops the initialization of the display with
-> >> valid bus flags.
-> >>
-> >> Fixes: fe141cedc433 ("drm/imx: pd: Use bus format/flags provided by the bridge when available")
-> >> Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
-> >> Cc: Marek Vasut <marex@denx.de>
-> >> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> >> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> >> Cc: David Airlie <airlied@linux.ie>
-> >> Cc: Daniel Vetter <daniel@ffwll.ch>
-> >> Cc: Shawn Guo <shawnguo@kernel.org>
-> >> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> >> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> >> Cc: Fabio Estevam <festevam@gmail.com>
-> >> Cc: NXP Linux Team <linux-imx@nxp.com>
-> >> Cc: linux-arm-kernel@lists.infradead.org
-> >> To: dri-devel@lists.freedesktop.org
-> >> ---
-> >> V2: - Add Boris to the Cc list
-> >> ---
-> >>  drivers/gpu/drm/imx/parallel-display.c | 8 --------
-> >>  1 file changed, 8 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
-> >> index a8aba0141ce7..06cb1a59b9bc 100644
-> >> --- a/drivers/gpu/drm/imx/parallel-display.c
-> >> +++ b/drivers/gpu/drm/imx/parallel-display.c
-> >> @@ -217,14 +217,6 @@ static int imx_pd_bridge_atomic_check(struct drm_bridge *bridge,
-> >>       if (!imx_pd_format_supported(bus_fmt))
-> >>               return -EINVAL;
-> >>
-> >> -     if (bus_flags &
-> >> -         ~(DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_DE_HIGH |
-> >> -           DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE |
-> >> -           DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)) {
-> >> -             dev_warn(imxpd->dev, "invalid bus_flags (%x)\n", bus_flags);
-> >> -             return -EINVAL;
-> >> -     }
-> >> -
-> >>       bridge_state->output_bus_cfg.flags = bus_flags;
-> >>       bridge_state->input_bus_cfg.flags = bus_flags;
-> >>       imx_crtc_state->bus_flags = bus_flags;  
-> > 
-> > Tested on a Colibri iMX6DL with a panel-dpi based panel.
-> > 
-> > Tested-by: Max Krummenacher <max.krummenacher@toradex.com>  
-> 
-> I still ask myself why this bus flag check is in the code.
-> Is there a reason not to remove that?
+> --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+> @@ -10,7 +10,6 @@
+>  #include <dt-bindings/pinctrl/rockchip.h>
+>  #include <dt-bindings/power/rk3568-power.h>
+>  #include <dt-bindings/soc/rockchip,boot-mode.h>
+> -#include <dt-bindings/soc/rockchip,vop2.h>
 
-The reasoning was that DE_{LOW,HIGH} and
-FLAG_PIXDATA_DRIVE_{POS,NEG}EDGE were the only bus_flags taken into
-account by the crtc logic, so anything else is simply ignored. This was
-definitely wrong since the driver supports at least one of the VSYNC
-polarity (perhaps both if there's a way to configure it that's not
-hooked-up yet).
+why dropping this after adding in part 16?
 
-So I guess figuring out the default VSYNC polarity and accepting the
-according DISPLAY_FLAGS_SYNC_XXXEDGE flag is what makes most sense here.
+>  #include <dt-bindings/thermal/thermal.h>
 
-Regards,
+it looks like you moved this to board includes...imho this should stay in the rk356x.dtsi, because compilation will fail if a board without the vop2 (and missing the include) is derived from rk356x.dtsi.
 
-Boris
+regards Frank
