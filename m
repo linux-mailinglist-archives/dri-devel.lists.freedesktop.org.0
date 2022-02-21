@@ -1,55 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58044BD989
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 13:06:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0064BD991
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 13:11:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72D3A10E48F;
-	Mon, 21 Feb 2022 12:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07A3710E34C;
+	Mon, 21 Feb 2022 12:11:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C16310E48F
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 12:06:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=X9BeRJcZSSZze7JRyDJH3PybPrLEA2YnLuJEnI8H+Ro=; b=FUtxbuhW1rqJy9qhbUuNnzjwac
- rnwAmWQoTeFq7x/FZCBG9IBUIOf6yTDLaVhvHTocrJRibQKfdal8Fiw9T+v4RVtEuug0rNi1rbRAv
- Dl8wHNERdybmv2HkyO+q7NcIpJJjI+HJqn1g+m4Yzw9unJ7f2SlRK0hW9JgYw1B/DKnHLsX0OYSEM
- KCBnPuGjZ2QW6IhMAwGIQ0XqzDL+BdsSgzpadj/CPaN6dsZf/hgAOL5iZSzym8/Z4CXcSgjI+akI1
- TFBukz+TD0093D2MSqqDgp0HJpSNMp7dxY7SBWH9hsYELN36Jj8lzAM94nvIzOoB2vsBDNVR23B/i
- RbLMduVg==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1nM7Sl-0001x6-KF; Mon, 21 Feb 2022 14:06:43 +0200
-Message-ID: <ea65fcd6-9451-7f5b-f4a9-57b8575f09ff@kapsi.fi>
-Date: Mon, 21 Feb 2022 14:06:43 +0200
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40D9510E319;
+ Mon, 21 Feb 2022 12:11:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645445477; x=1676981477;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=WuuxcEgNUssxUyppX8vjuZ2LlUrVbih3sy4lyc9P8xs=;
+ b=cZl81DOLeFQGIXMWuTd6mYltGuJMPq2jC3F2o7sxup59+jSFzPcC9beF
+ +xnc0H187xtRoKwwMR/C6cH5q1hHrLVNjgXvtKQK0f5ipUtL+uqmydfXa
+ ZA1Jvka1gAuxxToGSFhDkixIGVDetHCOD+WxK1UDXgblRdwVN+KtZFbLE
+ 2QcqYbnNAehfjoBy0DlR76w0J7CukGVTnftwai8SyThjrRGr01F8vt0Ib
+ WEISwr0kos8saEVDS3A+14QC5i/P3f4MuZnrvoAjpr74j1midYwXOhNCy
+ MBpvvxcFUl4FkkAd3YtPej4WFTdJucBVO9gF+B9CfnBq93YKe7XTtPSsn g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10264"; a="232117941"
+X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; d="scan'208";a="232117941"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2022 04:11:16 -0800
+X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; d="scan'208";a="507615498"
+Received: from joeyegax-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.23.97])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2022 04:11:15 -0800
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915/ttm: fixup the mock_bo
+Date: Mon, 21 Feb 2022 12:11:03 +0000
+Message-Id: <20220221121103.2473831-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v3 9/9] drm/tegra: Support context isolation
-Content-Language: en-US
-To: Dmitry Osipenko <digetx@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, joro@8bytes.org, will@kernel.org, robh+dt@kernel.org,
- robin.murphy@arm.com
-References: <20220218113952.3077606-1-mperttunen@nvidia.com>
- <20220218113952.3077606-10-mperttunen@nvidia.com>
- <2b4dd244-f918-4d26-2322-00a0bb226ccf@gmail.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <2b4dd244-f918-4d26-2322-00a0bb226ccf@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,56 +55,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/19/22 20:35, Dmitry Osipenko wrote:
-> 18.02.2022 14:39, Mikko Perttunen пишет:
->> +	if (context->memory_context && context->client->ops->get_streamid_offset) {
->              ^^^
->> +		int offset = context->client->ops->get_streamid_offset(context->client);
->> +
->> +		if (offset >= 0) {
->> +			job->context = context->memory_context;
->> +			job->engine_streamid_offset = offset;
->> +			host1x_context_get(job->context);
->> +		}
-> 
-> You should bump refcount unconditionally or you'll get refcnt underflow
-> on put, when offset < 0.
+When running the mock selftests we currently blow up with:
 
-This refcount is intended to be dropped from 'release_job', where it's 
-dropped if job->context is set, which it is from this path.
+<6> [299.836278] i915: Running i915_gem_huge_page_mock_selftests/igt_mock_memory_region_huge_pages
+<1> [299.836356] BUG: kernel NULL pointer dereference, address: 00000000000000c8
+<1> [299.836361] #PF: supervisor read access in kernel mode
+<1> [299.836364] #PF: error_code(0x0000) - not-present page
+<6> [299.836367] PGD 0 P4D 0
+<4> [299.836369] Oops: 0000 [#1] PREEMPT SMP NOPTI
+<4> [299.836372] CPU: 1 PID: 1429 Comm: i915_selftest Tainted: G     U            5.17.0-rc4-CI-CI_DRM_11227+ #1
+<4> [299.836376] Hardware name: Intel(R) Client Systems NUC11TNHi5/NUC11TNBi5, BIOS TNTGL357.0042.2020.1221.1743 12/21/2020
+<4> [299.836380] RIP: 0010:ttm_resource_init+0x57/0x90 [ttm]
+<4> [299.836392] RSP: 0018:ffffc90001e4f680 EFLAGS: 00010203
+<4> [299.836395] RAX: 0000000000000000 RBX: ffffc90001e4f708 RCX: 0000000000000000
+<4> [299.836398] RDX: ffff888116172528 RSI: ffffc90001e4f6f8 RDI: 0000000000000000
+<4> [299.836401] RBP: ffffc90001e4f6f8 R08: 00000000000001b0 R09: ffff888116172528
+<4> [299.836403] R10: 0000000000000001 R11: 00000000a4cb2e51 R12: ffffc90001e4fa90
+<4> [299.836406] R13: ffff888116172528 R14: ffff888130d7f4b0 R15: ffff888130d7f400
+<4> [299.836409] FS:  00007ff241684500(0000) GS:ffff88849fe80000(0000) knlGS:0000000000000000
+<4> [299.836412] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+<4> [299.836416] CR2: 00000000000000c8 CR3: 0000000107b80001 CR4: 0000000000770ee0
+<4> [299.836418] PKRU: 55555554
+<4> [299.836420] Call Trace:
+<4> [299.836422]  <TASK>
+<4> [299.836423]  i915_ttm_buddy_man_alloc+0x68/0x240 [i915]
 
-> 
->> +	}
->> +
->>   	/*
->>   	 * job_data is now part of job reference counting, so don't release
->>   	 * it from here.
->> diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
->> index 9ab9179d2026..be33da54d12c 100644
->> --- a/drivers/gpu/drm/tegra/uapi.c
->> +++ b/drivers/gpu/drm/tegra/uapi.c
->> @@ -33,6 +33,9 @@ static void tegra_drm_channel_context_close(struct tegra_drm_context *context)
->>   	struct tegra_drm_mapping *mapping;
->>   	unsigned long id;
->>   
->> +	if (context->memory_context)
->> +		host1x_context_put(context->memory_context);
-> 
-> The "if (context->memory_context &&
-> context->client->ops->get_streamid_offset)" above doesn't match the "if
-> (context->memory_context)". You'll get refcount underflow.
+ttm_resource_init() now needs to access the bo->bdev, and also wants to
+store the bo reference. Try to keep both working. The mock_bo is a hack
+so we can interface directly with the ttm managers alloc() and free() hooks for
+our mock testing, without invoking other TTM features like eviction,
+moves, etc.
 
-And this drop is for the refcount implicitly added when allocating the 
-memory context through host1x_context_alloc; so these two places should 
-be independent.
+v2: make sure we only touch res->bo if the alloc() returns successfully
 
-Please elaborate if I missed something.
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5123
+Fixes: 0e05fc49c358 ("drm/ttm: add common accounting to the resource mgr v3")
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/i915/intel_region_ttm.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thanks,
-Mikko
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
+index f2b888c16958..7dea07c579aa 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.c
++++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+@@ -200,11 +200,14 @@ intel_region_ttm_resource_alloc(struct intel_memory_region *mem,
+ 	int ret;
+ 
+ 	mock_bo.base.size = size;
++	mock_bo.bdev = &mem->i915->bdev;
+ 	place.flags = flags;
+ 
+ 	ret = man->func->alloc(man, &mock_bo, &place, &res);
+ 	if (ret == -ENOSPC)
+ 		ret = -ENXIO;
++	if (!ret)
++		res->bo = NULL; /* Rather blow up, then some uaf */
+ 	return ret ? ERR_PTR(ret) : res;
+ }
+ 
+@@ -219,6 +222,11 @@ void intel_region_ttm_resource_free(struct intel_memory_region *mem,
+ 				    struct ttm_resource *res)
+ {
+ 	struct ttm_resource_manager *man = mem->region_private;
++	struct ttm_buffer_object mock_bo = {};
++
++	mock_bo.base.size = res->num_pages << PAGE_SHIFT;
++	mock_bo.bdev = &mem->i915->bdev;
++	res->bo = &mock_bo;
+ 
+ 	man->func->free(man, res);
+ }
+-- 
+2.34.1
+
