@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482C24BDA07
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 14:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6578F4BDA0A
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 14:55:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC60C10E702;
-	Mon, 21 Feb 2022 13:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08AE110E755;
+	Mon, 21 Feb 2022 13:55:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2A20110E703
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 13:53:37 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:49386.1635481058
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 247AB100135;
- Mon, 21 Feb 2022 21:53:29 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id
- 8927a885023a44a3b0b45b301e09b9e3 for sergei.shtylyov@gmail.com; 
- Mon, 21 Feb 2022 21:53:33 CST
-X-Transaction-ID: 8927a885023a44a3b0b45b301e09b9e3
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <f7782013-6a4a-e333-369c-e8caf13997b7@189.cn>
-Date: Mon, 21 Feb 2022 21:53:27 +0800
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3B4E10E746
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 13:55:44 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nM9AA-0001oH-QV; Mon, 21 Feb 2022 14:55:38 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nM9AA-000R2g-0A; Mon, 21 Feb 2022 14:55:37 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nM9A8-004btz-JX; Mon, 21 Feb 2022 14:55:36 +0100
+Date: Mon, 21 Feb 2022 14:55:36 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: display: imx: Add fsl,imx21-lcdc docs
+Message-ID: <20220221135536.3arbh2ucih4jn4ti@pengutronix.de>
+References: <20220128105849.368438-1-u.kleine-koenig@pengutronix.de>
+ <20220128105849.368438-2-u.kleine-koenig@pengutronix.de>
+ <CAL_JsqJjTf2zY-n69Ozh+S1gSi5Eoa5T44Qnq9RPNgJWDLmzKQ@mail.gmail.com>
+ <20220128175829.vjm66rs7eu7pk2my@pengutronix.de>
+ <YflvS007gL5mLa9k@robh.at.kernel.org>
+ <b91696142ff5e27afae9ad2125c39a4f937d072f.camel@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v10 1/4] MIPS: Loongson64: dts: update the display
- controller device node
-Content-Language: en-US
-To: Sergei Shtylyov <sergei.shtylyov@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
- suijingfeng <suijingfeng@loongson.cn>
-References: <20220220145554.117854-1-15330273260@189.cn>
- <20220220145554.117854-2-15330273260@189.cn>
- <08abcb14-f1f6-8be5-6309-cd16e0578c05@gmail.com>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <08abcb14-f1f6-8be5-6309-cd16e0578c05@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="o2hw64xq3ypny6bc"
+Content-Disposition: inline
+In-Reply-To: <b91696142ff5e27afae9ad2125c39a4f937d072f.camel@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,97 +58,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2022/2/21 17:19, Sergei Shtylyov wrote:
-> On 2/20/22 5:55 PM, Sui Jingfeng wrote:
+--o2hw64xq3ypny6bc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Rob,
+
+On Thu, Feb 10, 2022 at 06:54:13PM +0100, Lucas Stach wrote:
+> Am Dienstag, dem 01.02.2022 um 11:35 -0600 schrieb Rob Herring:
+> > On Fri, Jan 28, 2022 at 06:58:29PM +0100, Uwe Kleine-K=F6nig wrote:
+> > > On Fri, Jan 28, 2022 at 07:04:10AM -0600, Rob Herring wrote:
+> > > > On Fri, Jan 28, 2022 at 4:59 AM Uwe Kleine-K=F6nig
+> > > > <u.kleine-koenig@pengutronix.de> wrote:
+> > > > >=20
+> > > > > From: Marian Cichy <m.cichy@pengutronix.de>
+> > > > >=20
+> > > > > This files documents the device tree for the new imx21-lcdc DRM d=
+river.
+> > > >=20
+> > > > No, bindings document h/w and the h/w has not changed. We already h=
+ave
+> > > > a binding for the LCDC.
+> > >=20
+> > > Just to be sure we're talking about the same thing: You're refering to
+> > > Documentation/devicetree/bindings/display/imx/fsl,imx-fb.txt, right?
+> >=20
+> > Looks right...
+> >=20
+> > > I'm unsure what to do now. Should the two different bindings just be
+> > > described in the same file? Should I stick to fsl,imx21-fb even for t=
+he
+> > > new binding? (The hardware unit is named LCDC, so the name chosen here
+> > > is the better one.) Please advise.
+> >=20
+> > Yes, the name is unfortunate, but it should be 1 binding, 1 file, and=
+=20
+> > unchanged (unless you want to add new optional properties).=20
 >
->> From: suijingfeng <suijingfeng@loongson.cn>
->>
->> The display controller is a pci device, its PCI vendor id is 0x0014
->> its PCI device id is 0x7a06.
->>
->> 1) In order to let the driver to know which chip the DC is contained
->>     in, the compatible string of the display controller is updated
->>     according to the chip's name.
->>
->> 2) Add display controller device node for ls2k1000 SoC
->>
->> Reported-by: Krzysztof Kozlowski <krzk@kernel.org>
->> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
->> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
->> ---
->>   arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi | 8 ++++++++
->>   arch/mips/boot/dts/loongson/ls7a-pch.dtsi          | 7 ++-----
->>   2 files changed, 10 insertions(+), 5 deletions(-)
->>
->> diff --git a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
->> index 768cf2abcea3..af9cda540f9e 100644
->> --- a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
->> +++ b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
->> @@ -209,6 +209,14 @@ gpu@5,0 {
->>   				interrupt-parent = <&liointc0>;
->>   			};
->>   
->> +			lsdc: display-controller@6,0 {
->     Shouldn't the node name just be "display", according to the section 2.2.2
-> of the DT spec?
->
-> [...]
->> diff --git a/arch/mips/boot/dts/loongson/ls7a-pch.dtsi b/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
->> index 2f45fce2cdc4..ec35ea9b2fe8 100644
->> --- a/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
->> +++ b/arch/mips/boot/dts/loongson/ls7a-pch.dtsi
->> @@ -160,11 +160,8 @@ gpu@6,0 {
->>   				interrupt-parent = <&pic>;
->>   			};
->>   
->> -			dc@6,1 {
->> -				compatible = "pci0014,7a06.0",
->> -						   "pci0014,7a06",
->> -						   "pciclass030000",
->> -						   "pciclass0300";
->> +			lsdc: display-controller@6,1 {
->     Same here...
->
-> [...]
->
-> MBR, Sergey
+> The old FB driver binding is pretty insane. Except the reg and
+> interrupt properties it is very confused about things. It exposes
+> internal implementation details (like specifying verbatim register
+> settings in the DT) and other properties are just misplaced, like the
+> lcd-supply property that controls the panel power supply.
+>=20
+> I really don't think that trying to stay backwards compatible here is a
+> win for anyone. Anyone willing to switch their systems running on a 15
+> year old SoC to the new DRM driver probably doesn't mind if they have
+> to modify the DTS to make it work. Can we please let the FB driver die
+> in peace and have a clean slate driver/binding for the DRM driver?
 
-Display sounds like a panel or monitor, while we are the device that driven the display device.
+Does this feedback change anything on your side? My expectation is that
+the graphics people will be happy about every fb driver being replaced
+by a DRM driver and there will be hardly any incentive to add a layer
+over the DRM driver to make it honor the old fb binding.
 
-Running find . -name "*.dtsi" -type f | xargs grep "display-controller"
-at drm-tip/arch/ directory show that there are a number of vendors using
-display controller as theirnode name, for example Atmel and STM32.
+Assume I convert the old binding to yaml and then add the newly
+supported binding to that using a big oneOf, would that be an acceptable
+compromise?
 
+Best regards
+Uwe
 
-./arm/boot/dts/pxa3xx.dtsi:		gcu: display-controller@54000000 {
-./arm/boot/dts/at91sam9n12.dtsi:				hlcdc-display-controller {
-./arm/boot/dts/at91sam9n12.dtsi:					compatible = "atmel,hlcdc-display-controller";
-./arm/boot/dts/at91-dvk_su60_somc_lcm.dtsi:	hlcdc-display-controller {
-./arm/boot/dts/stm32h743.dtsi:		ltdc: display-controller@50001000 {
-./arm/boot/dts/stm32mp151.dtsi:		ltdc: display-controller@5a001000 {
-./arm/boot/dts/at91sam9x5dm.dtsi:	hlcdc-display-controller {
-./arm/boot/dts/gemini.dtsi:		display-controller@6a000000 {
-./arm/boot/dts/stm32f429.dtsi:		ltdc: display-controller@40016800 {
-./arm/boot/dts/at91sam9x5_lcd.dtsi:				hlcdc-display-controller {
-./arm/boot/dts/at91sam9x5_lcd.dtsi:					compatible = "atmel,hlcdc-display-controller";
-./arm/boot/dts/sama5d2.dtsi:				hlcdc-display-controller {
-./arm/boot/dts/sama5d2.dtsi:					compatible = "atmel,hlcdc-display-controller";
-./arm/boot/dts/sama5d4.dtsi:				hlcdc-display-controller {
-./arm/boot/dts/sama5d4.dtsi:					compatible = "atmel,hlcdc-display-controller";
-./arm/boot/dts/sama5d3_lcd.dtsi:				hlcdc-display-controller {
-./arm/boot/dts/sama5d3_lcd.dtsi:					compatible = "atmel,hlcdc-display-controller";
-./arm/boot/dts/sam9x60.dtsi:				hlcdc-display-controller {
-./arm/boot/dts/sam9x60.dtsi:					compatible = "atmel,hlcdc-display-controller";
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-./arm/boot/dts/at91-sama5d4_ma5d4evk.dts:				hlcdc-display-controller {
-./arm/boot/dts/at91sam9n12ek.dts:				hlcdc-display-controller {
-./arm/boot/dts/am335x-pdu001.dts:	display-controller@0 {
-./arm/boot/dts/at91-nattis-2-natte-2.dts:	hlcdc-display-controller {
-./arm/boot/dts/gemini-dlink-dir-685.dts:		display-controller@6a000000 {
+--o2hw64xq3ypny6bc
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmITmc8ACgkQwfwUeK3K
+7AmniAf8Ct4fg5twSAlKSiuF07ixaUrS262i4p7TCom4fLi0yfech0zvIedUxKEb
+nhdCJHOb45l8W7byK46qNfOlkwbthbNMdo4wNNow7H95+R6NlfiGCasBpYTJWJuA
+wGj/pxEJ17dDpbYrPe0p2VUZOdMHUX2HjCGt9FvVPcnDLQRJ4a/v70zX30XjVA3t
+HEoKYHI1iyFtj6keV4tYR+jZ+5MNGHLUuz2w/pRVqDAGrP6BnhmWcdnMvpZDWD78
+uG7ajj4qRuKjpgTObSNbxBzLlkVS81Mnlt2PDvcP8xUs9nPiC92oxv1mizO5Pg6x
+RbKZriz0lqd7hYn9R4enVfkH8P+R3w==
+=YFY7
+-----END PGP SIGNATURE-----
+
+--o2hw64xq3ypny6bc--
