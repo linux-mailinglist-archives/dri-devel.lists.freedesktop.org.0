@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6908F4BD8BA
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 10:54:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6949F4BD8B9
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 10:54:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32EBB10E2D3;
-	Mon, 21 Feb 2022 09:54:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E33F8112CC4;
+	Mon, 21 Feb 2022 09:53:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1C2112CCF
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 09:53:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2194112CD2
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 09:53:42 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1nM5Nb-0007AW-9u; Mon, 21 Feb 2022 10:53:15 +0100
+ id 1nM5Nb-0007AX-9t; Mon, 21 Feb 2022 10:53:15 +0100
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ore@pengutronix.de>)
- id 1nM5NZ-00FUea-LD; Mon, 21 Feb 2022 10:53:13 +0100
+ id 1nM5NZ-00FUej-MK; Mon, 21 Feb 2022 10:53:13 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v1 4/8] ARM: dts: imx6qdl-vicut1: update gpio-line-names for
- some GPIOs
-Date: Mon, 21 Feb 2022 10:53:08 +0100
-Message-Id: <20220221095312.3692669-4-o.rempel@pengutronix.de>
+Subject: [PATCH v1 5/8] ARM: dts: imx6qdl-vicut1/vicutgo: The sgtl5000 uses
+ i2s not ac97
+Date: Mon, 21 Feb 2022 10:53:09 +0100
+Message-Id: <20220221095312.3692669-5-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220221095312.3692669-1-o.rempel@pengutronix.de>
 References: <20220221095312.3692669-1-o.rempel@pengutronix.de>
@@ -60,47 +60,47 @@ Cc: devicetree@vger.kernel.org, Robin van der Gracht <robin@protonic.nl>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Jander <david@protonic.nl>
+From: Robin van der Gracht <robin@protonic.nl>
 
-countedX lines have different board names (YACO_x). And REV_ and BOARD_ pins
-have multiple functions. So, use names exposed to the OS.
+According to Documentation/devicetree/bindings/sound/fsl,ssi.txt
+'fsl,mode' should be specified for AC97 mode only.
 
-Signed-off-by: David Jander <david@protonic.nl>
+The 'fsl,ssi' documentation doesn't say anything about specifying
+'sound-dai-cells' so we'll remove that as well.
+
+Signed-off-by: Robin van der Gracht <robin@protonic.nl>
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- arch/arm/boot/dts/imx6qdl-vicut1.dtsi | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ arch/arm/boot/dts/imx6dl-victgo.dts   | 2 --
+ arch/arm/boot/dts/imx6qdl-vicut1.dtsi | 2 --
+ 2 files changed, 4 deletions(-)
 
+diff --git a/arch/arm/boot/dts/imx6dl-victgo.dts b/arch/arm/boot/dts/imx6dl-victgo.dts
+index d542ddad4e32..20c7f80e5ec9 100644
+--- a/arch/arm/boot/dts/imx6dl-victgo.dts
++++ b/arch/arm/boot/dts/imx6dl-victgo.dts
+@@ -591,8 +591,6 @@ &pwm3 {
+ };
+ 
+ &ssi1 {
+-	#sound-dai-cells = <0>;
+-	fsl,mode = "ac97-slave";
+ 	status = "okay";
+ };
+ 
 diff --git a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
-index 2f6b263eea66..ec39008c0950 100644
+index ec39008c0950..97ef8264947a 100644
 --- a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
 +++ b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
-@@ -277,9 +277,9 @@ &gpio1 {
- 
- &gpio2 {
- 	gpio-line-names =
--		"count0", "count1", "count2", "", "", "", "", "",
--		"REV_ID0", "REV_ID1", "REV_ID2", "REV_ID3", "REV_ID4",
--			"BOARD_ID0", "BOARD_ID1", "BOARD_ID2",
-+		"YACO_WHEEL", "YACO_RADAR", "YACO_PTO", "", "", "", "", "",
-+		"", "LED_PWM", "", "", "",
-+			"", "", "",
- 		"", "", "", "", "", "", "", "ON_SWITCH",
- 		"POWER_LED", "", "ECSPI2_SS0", "", "", "", "", "";
- };
-@@ -298,8 +298,10 @@ &gpio4 {
- 		"", "", "", "", "", "", "UART4_TXD", "UART4_RXD",
- 		"UART5_TXD", "UART5_RXD", "CAN1_TX", "CAN1_RX", "CAN1_SR",
- 			"CAN2_SR", "CAN2_TX", "CAN2_RX",
--		"LED_DI0_DEBUG_0", "LED_DI0_DEBUG_1", "", "", "", "", "", "",
--		"", "", "", "", "BL_EN", "BL_PWM", "", "";
-+		"LED_DI0_DEBUG_0", "LED_DI0_DEBUG_1", "", "", "", "ON1_CTRL",
-+			"ON2_CTRL", "HITCH_IN_OUT",
-+		"LIGHT_ON", "", "", "CONTACT_IN", "BL_EN", "BL_PWM", "",
-+			"ISB_LED";
+@@ -466,8 +466,6 @@ &pwm3 {
  };
  
- &gpio5 {
+ &ssi1 {
+-	#sound-dai-cells = <0>;
+-	fsl,mode = "ac97-slave";
+ 	status = "okay";
+ };
+ 
 -- 
 2.30.2
 
