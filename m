@@ -1,61 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F454BD85F
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 09:54:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F384BD860
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 09:55:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82D46112683;
-	Mon, 21 Feb 2022 08:54:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7468A112811;
+	Mon, 21 Feb 2022 08:55:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CE8D1126A6
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 08:54:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1645433669;
- bh=Z8EpCecM7RhGma2bC7EtfcMj8Tocmigz2nMw62yYXOI=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=SGP/t2lI+xhMg/JrfB13WY4xxriDcSAHgJ6ylum/H9flWMPRdIgPX98DGQ/1h6i3Q
- qairigJXYCvXvVFnp/yDTP+h9lWb9PEJfSmaS5aqGry3mW27en1R96IHha5jvJWvL+
- qu5OOcNGUpraNYgoYe2Z5euBaUOZK40LBlFXjLxY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [217.61.156.188] ([217.61.156.188]) by web-mail.gmx.net
- (3c-app-gmx-bs60.server.lan [172.19.170.144]) (via HTTP); Mon, 21 Feb 2022
- 09:54:28 +0100
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3F1911280E
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 08:55:15 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 17ED258022A;
+ Mon, 21 Feb 2022 03:55:13 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 21 Feb 2022 03:55:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=GMXE2sOdp9mirDDscRSA6iT0q+mcvYgiAP/MCQ
+ w0gSk=; b=OyEA6VSKzAB8kbjOXZuVGfXflhCuB1nEz8NzhYpFJmpYRiIZDfrYs7
+ RE4051i4UhZqQ3caHxhNnwcxHnnuNEsmH8XlHZSsZ76ca7kqv8LOqBbMMHxid0Uc
+ Jxg/lM2uU/ax+ONRSYy9I04N8eJDFHp4AuAW2ciyr76Igbfonk3btAEJdfzEbChK
+ 3XhI2qhRbR7AlfSrSIBEH9Rl4iHAOlCgSijxf7NcgalYYOXgK4VgeUJ6Vo1LsJK9
+ Xi+EP7uzW+MVZfRhxFUJGd+JdVeAK8hnND051cFPLo+jCcg3A7y5TkL/jA70CD6x
+ VRViWQcEOpSt3KmTLTjgNN0YwcyNJigw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=GMXE2sOdp9mirDDsc
+ RSA6iT0q+mcvYgiAP/MCQw0gSk=; b=KoRxtDnWOu6I2QOzhYV04HNHVUcIksNu0
+ tHHrhtdVaNCK243mA4zcryn1ws0vFm5M7EyK27U7rjX/AahX+UoBd3Xiy1IP3uX0
+ iOFmXiAH0MG+YK91x+FylW6DuSjHl8wbAo+Bm1B91eR3qMjzus+0BvMwQuTgx5K0
+ qchyM6Ks/zCaPd40acH8bsS4C4d3wP6fcpOYNl4jMtkURbYHzW3JozSzHo4qtCnq
+ +71MotZGlGSUSK2xDcA3SJLSc/X3GmC0Ro+t3d7lq1GTqK04TkMD7eZGYzMS83QH
+ POBXU61hWihZ1zlQSOaqZFMTL+pp8h/di/hKhATusF+ODjC1+/Vhw==
+X-ME-Sender: <xms:cFMTYpbVznqmUzC-jtsHRrpOC-Z2ZjvVZPF8Zsx1VRgePzN3eqsq7A>
+ <xme:cFMTYgbRM2BAqM22XxM9h2J8qpVkFeRfmjT6tvEuuGOiOT_llYuXC94uPjnITCX-u
+ d4F9hcSVVGGW0Bao4M>
+X-ME-Received: <xmr:cFMTYr-7w2DIovNNtFqlFxgmVfzDwF24sSEbfTCey-I_W8VEN9kfAC1qcbFAkgwk_Tk2Rxg6z4irXVK4-B0XNx5kd0xQhg0xjWOdJ4k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeehgdduvddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
+ gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:cFMTYnr2-wh0GFZI7A8qnNZAwaRYbGwkeGA2qhrwNPxUSUv52YS0RA>
+ <xmx:cFMTYkpSdXNXs2ts9xUEYHIEObzSkNnBCb1q0r2XbXA2F9mW3BM6qg>
+ <xmx:cFMTYtQhARpK8Yy7yQc5F0XHZ2WYjBVuWE82GeddXXyizgArjfRSSQ>
+ <xmx:cVMTYr2pQ8xzASEU977j_2k-2uaOcl8oo2odB_Qq9a6ROq0Ff791rg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 21 Feb 2022 03:55:11 -0500 (EST)
+Date: Mon, 21 Feb 2022 09:55:09 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Subject: Re: [PATCH] drm/bridge: anx7625: switch to devm_drm_of_get_bridge
+Message-ID: <20220221085509.fies6j3hjsiz55rz@houat>
+References: <20220221072835.10032-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-Message-ID: <trinity-1fb35fb4-c954-46bc-ae87-02d5df121a01-1645433668183@3c-app-gmx-bs60>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Aw: [PATCH v6 17/23] arm64: dts: rockchip: rk356x: Add HDMI nodes
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 21 Feb 2022 09:54:28 +0100
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20220217082954.2967889-18-s.hauer@pengutronix.de>
-References: <20220217082954.2967889-1-s.hauer@pengutronix.de>
- <20220217082954.2967889-18-s.hauer@pengutronix.de>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:x3LBl6EdmehdGuwhuzd1xOiFb5z5EOYnOHMNPxoOy2rR8Mp7JmyFo1r/Het2WBDJ+/P/C
- MbmK1DBWnywY9nPp//MWoUl0xvSo2oFozeETajq/jVz0zEjHvB8ykHCkzW7YiAG74BlX4x6IKiyJ
- ykAnSyyPrbCPT438/Jx32+Zl/DaxIVQbl7p0P6yOye/7si/IiLDQ+qkkt+Dt7Ttsr2PEr1u0BJ0p
- cLwZzSo1tEct6iqdXWkPu3nprszone4sbWeWnDcadvyteaibWI8AbYRahHEstwIQjQWq74mTVvoZ
- fs=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DwdkB/65TKg=:HKvkpn7knmxoBuuiGPVqAX
- a52f8isbXjpRDRLNOGCNM74lVG9WMh/GmZaZqg1g2Y6WUvSocvo8X6OpfMrb+kH/epU2SqxaG
- Y7TUYu3SamCGVywdGnqbSey7MI0noKv+mmeTEXF2bKSnWsDz5BjcuaD6lNsxg7fWpLPWXqLdo
- q0YNDHYn4XZ/wNzVIC4jBKiJwM0w5UNRBDWiZ2WT0Hn73geP30gdDbfF/P3W5RHZpl3HUvOzI
- 5gLlwXgOzajIyabSo57wTRTHeYjX/ll+Ev9WBKdiziKzt6UnhU695W5nWhWJtjtUjUFgg9Xtv
- u3kJVcG93Sqo0gkiXedAIiAgxNsg9pxhBAySNczCCgPfZhwahFsgNgMSkWQ/668LAmPtj3DMr
- PAkdnsiDMUHJ1VBUZBn9jVlQ2DteRFw3AjOxJq+fEF2HNA+T+L3z/EC7G9TW3lNaFgk4CeDjq
- rQmthDdyPzoVE+9N2QXeLkqTlvUvoDqYI0Op7Y92VWeSiODLkoOrzXL3TZDBVVx22jbpJ6bHR
- XGUcLyDTRau47Z7BUzzgjdWcYlwu6qJ1d9g/+5YhOVe63hEfy4xkCejUWVtRb7oqiaZnHd91T
- KmCQC5cYSjNz/m4sSFFdrb+EOa0A3P3rB4PkGm9stkHLg1e6d5Zd3VSIYQnO5+uDWaFt1Xpuj
- ztMk1+oqEUPnl1E0lV3o1Tm6H5msgDGQuHP8PbuV1JrzaUshTR2Qpif8slsHA/jwaYEt9BHTX
- uImMXEI9pDkYEp8rw3zxNI0Qc0TVj0AvIrLEaTJlvjO5BepPQqjpGxtVpwB+cU8Awj1tfX6dR
- 4SoFCOx
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="eczutt6qtkbsvjzt"
+Content-Disposition: inline
+In-Reply-To: <20220221072835.10032-1-jose.exposito89@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,33 +80,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: jonas@kwiboo.se, airlied@linux.ie, robert.foss@linaro.org,
+ dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com,
+ Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-> Gesendet: Donnerstag, 17. Februar 2022 um 09:29 Uhr
-> Von: "Sascha Hauer" <s.hauer@pengutronix.de>
+--eczutt6qtkbsvjzt
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> @@ -10,7 +10,6 @@
->  #include <dt-bindings/pinctrl/rockchip.h>
->  #include <dt-bindings/power/rk3568-power.h>
->  #include <dt-bindings/soc/rockchip,boot-mode.h>
-> -#include <dt-bindings/soc/rockchip,vop2.h>
+On Mon, Feb 21, 2022 at 08:28:35AM +0100, Jos=E9 Exp=F3sito wrote:
+> The function "drm_of_find_panel_or_bridge" has been deprecated in
+> favor of "devm_drm_of_get_bridge".
+>=20
+> Switch to the new function and reduce boilerplate.
+>=20
+> Signed-off-by: Jos=E9 Exp=F3sito <jose.exposito89@gmail.com>
 
-why dropping this after adding in part 16?
+Reviewed-by: Maxime Ripard <maxime@cerno.tech>
 
->  #include <dt-bindings/thermal/thermal.h>
+Maxime
 
-it looks like you moved this to board includes...imho this should stay in the rk356x.dtsi, because compilation will fail if a board without the vop2 (and missing the include) is derived from rk356x.dtsi.
+--eczutt6qtkbsvjzt
+Content-Type: application/pgp-signature; name="signature.asc"
 
-regards Frank
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhNTbQAKCRDj7w1vZxhR
+xWSrAQCMUGagQwycqchROA9zu7E7WHhKxOpwfyKGy48CobttowEAuAOfimTfYbXE
+HWzmftcO4nNlobY2CTkFaY2vwbiLGQ0=
+=7bLY
+-----END PGP SIGNATURE-----
+
+--eczutt6qtkbsvjzt--
