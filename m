@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D8C4BD9FC
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 14:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6194BD9FF
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 14:42:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E492D10E386;
-	Mon, 21 Feb 2022 13:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 670DB10E3A7;
+	Mon, 21 Feb 2022 13:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA64310E386
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 13:42:09 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 133FF5C0228;
- Mon, 21 Feb 2022 08:42:09 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 21 Feb 2022 08:42:09 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06A4810E386
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 13:42:12 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 5CE3A5C022C;
+ Mon, 21 Feb 2022 08:42:11 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 21 Feb 2022 08:42:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=c3MG28IkIDDaP+2FD0/HIcBYJMqGLk
- LuATBfhwe3ziM=; b=QMiF/j5noR9aEaeNUhlkwcmOMXiftD0Vz4EGihsGGMAwZ2
- /zOKYLjYfEEfpfBHM6k65v9UhcCpw/6L6ZSdlVmHfn0jagxtUgsW/XAMLzlSZRUS
- 9NmclsnK9xBRR3B03obzJpRB2VxurRCE/xI0KUuvkuI/XHI9QQqWNK0jXu4Ddy26
- hToFyrJwKYn4cCWWKXPNsnsHN22uxtUXQE7d9ziY9g+1GDafj47pdXuvU2Fm3lae
- Q2HMWld2mrZlmWGlRvsIX2O1BVhxk6GO3BKnUQ2z8xz8emRgL6tsDR4JLa8Wl7Kq
- gZTNnz7VIUc26qr+V+gb2hX99eJijhSpV1PIspBA==
+ :subject:subject:to:to; s=fm2; bh=ni7kRpxEQP2Tkhl0vs79fy51SvbOJG
+ UP4EOKTq3N1Zg=; b=CeYjSrIu98fbHLdf+wMJlgKTGcyA2hJCQyNO6o2a3ZS8xD
+ 4kBHb529ykLpFc4b6OD9bkE08N0LTkHiAEbNF+oczTDA6p4vqE3tflxDOXVWxLHW
+ /VhNwONZnjnt6OCy+qw1c+55/Ml2L9djOW4LB/9ZFqDVb0PfY6g4AKjU5/KM8CCx
+ rLPsi6hTtEO5sbq+ogBBrMExxWiOrodwS/xD8GXjSsCel5qf4YRFcTqchpSZBufz
+ P57yJmODZ3hD9k+TT75JertHbYx3ZxE2v6KpdPLlUmGPz4T/1qVcNJ88Qi2nT4+R
+ Wg3ySZDHhWoGYaBYxPqSsm7V9TsfU+4srtIQIiNQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=c3MG28
- IkIDDaP+2FD0/HIcBYJMqGLkLuATBfhwe3ziM=; b=nCqwJ+1soxSJdfZaXzqLBU
- wfxGnX1C9ZXskBhFiJeYUani86dXp+jSdtE78x6Z+sLsN+pgLlD4Vbf7G3wAELAS
- A6kWyAcBlisSUnz5H91C2xhMcgA4JTwWFN4DAekz1hN2/xNYW5XFcmDVD98j8TNZ
- jwGaske59nu35IAvBywrh5CfWFI4V5Oqywkktnzc8yBmz36YWKNCgFp0ducXDjy9
- 5lW/6ItvwKkqEVFfneE9InwzF08aVMdh+jpqg1OtY9HJo1dPrMo6UBQpjQHhpAT5
- 0AfNzeEWIJwVQz1nFhdlj2uW2Ri4gYDP5zG4gPzkrCfYBdJlVIIqOQ/8x+5S3Psw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ni7kRp
+ xEQP2Tkhl0vs79fy51SvbOJGUP4EOKTq3N1Zg=; b=Put6drfXFmHUyf7C9mEgts
+ coGDfwHk/UYsyOx5nOQJe2aZtjEfP4Y3sKXKKds1E3g6SmRq1BDrQrzSeNosbArK
+ sTKrEGa6QTmZNcPJm2ZfeDqtPJqiLhTjDNQkIX+JgPobnUHqs0Zfrxp3whUCLryy
+ kqGouJr5Lj2o4FC1a8KCmz4rlt1XiXOuOqAZb89oSlYkJPfoL+AhxY4ZQyjnuOMG
+ jdFY9F7KCfHQ7In135wkq/0PnGMjQes/RyZczwUWlwA4vuaCBBcSvr1kucMrN794
+ WXaBHskY5oavrEsJuBcXos/cOZ3spW9b1722VV3yEYj02XPef4MShKA/7nyJY14Q
  ==
-X-ME-Sender: <xms:sJYTYoveTFUOgBycevsX3QwDPLnyh0eaXV6Mqe7fqW_1azXZFXF5eQ>
- <xme:sJYTYle_xVuarmJXNqmeKSpKcObSL3UMcSH8MKsx2fp84CFrpwIsH2hKwVnvQUr-i
- tTp3yC9alMzxkYd8KM>
-X-ME-Received: <xmr:sJYTYjz6rooHoNboJhLe_zfM7Yu2LFfJOyPYjPrIu8vsWb41QYLcp5EziePlbT_6JDT-F42VJxe6SWEuJbWpnYSaaEW5V8kIxa5hjIw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigdehfecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:spYTYqEqXelF0p0Fb00ocJ0vYvN0asycp3Z8ZOrUOwaGYKZF-yOdCw>
+ <xme:spYTYrXoWUN2dhrAFqD0jjY-tMEWp7ZnZ7B8Ne2chOm8zMH3Kxguo1363QUVBdlgQ
+ Ej4lkThpUHwWa8fr9Y>
+X-ME-Received: <xmr:spYTYkILl-iOTTbkAOwpBRolgFOmZ-_0EUwGOgUotDKANSXoPcquQ1SW6s2RrDzBTv6R0gxhOKL-9Ug3qn8SY-u6NEyZ0XIWa02ZjmI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigdehgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:sJYTYrPfhT1UwM5k_xRif3aGjv38nUc6idkTSDeIhezT-cGs0U95uQ>
- <xmx:sJYTYo_VQijhLp28aCKP29yIzuSga4JCdP5SD4g114k5ufcr3_5h4w>
- <xmx:sJYTYjUEDpOz3aoS8JejF27LLdbyrQw03IuokonquIHU1PRWysjF7w>
- <xmx:sZYTYsTpQK-PaP0ygDYONcG7wFI208wzLrFHmxYGI3UalUfSKKTNdg>
+X-ME-Proxy: <xmx:s5YTYkGDKJ7o-OozFZVrlLR74SxwP0ClsNJdOygy4R-7FW5jqSusdA>
+ <xmx:s5YTYgUNXFexKVFWxJc8XENgPCEnsrrEsaElVm62XDRmu0X-s4qjyw>
+ <xmx:s5YTYnOlZr3yM_IqOTOm2GzmDiJRtX-9Z14ntFSYt-HBV8ccSHXlKw>
+ <xmx:s5YTYkpIB06fs5Itg1YyvoTLPs8RA-oXUgDkQEwarf93MNasIcstIw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Feb 2022 08:42:08 -0500 (EST)
+ 21 Feb 2022 08:42:10 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH 4/8] drm/vc4: hvs: Remove dlist setup duplication
-Date: Mon, 21 Feb 2022 14:41:51 +0100
-Message-Id: <20220221134155.125447-5-maxime@cerno.tech>
+Subject: [PATCH 5/8] drm/vc4: hvs: Move the dlist setup to its own function
+Date: Mon, 21 Feb 2022 14:41:52 +0100
+Message-Id: <20220221134155.125447-6-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220221134155.125447-1-maxime@cerno.tech>
 References: <20220221134155.125447-1-maxime@cerno.tech>
@@ -88,38 +88,73 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Setting the DISPLISTx register needs to occur in every case, and we
-don't need to protect the register using the event_lock, so we can just
-move it after the if branches and simplify a bit the function.
+The vc4_hvs_update_dlist function mostly deals with setting up the
+vblank events and setting up the dlist entry pointer to our current
+active one.
+
+We'll want to do the former separately from the vblank handling in later
+patches, so let's move it to a function of its own.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hvs.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index d225eea6e640..71aa5081eaa3 100644
+index 71aa5081eaa3..2d540fc11357 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -402,15 +402,12 @@ static void vc4_hvs_update_dlist(struct drm_crtc *crtc)
- 			crtc->state->event = NULL;
- 		}
+@@ -382,10 +382,19 @@ int vc4_hvs_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ 	return 0;
+ }
  
--		HVS_WRITE(SCALER_DISPLISTX(vc4_state->assigned_channel),
--			  vc4_state->mm.start);
--
- 		spin_unlock_irqrestore(&dev->event_lock, flags);
--	} else {
--		HVS_WRITE(SCALER_DISPLISTX(vc4_state->assigned_channel),
--			  vc4_state->mm.start);
- 	}
- 
++static void vc4_hvs_install_dlist(struct drm_crtc *crtc)
++{
++	struct drm_device *dev = crtc->dev;
++	struct vc4_dev *vc4 = to_vc4_dev(dev);
++	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
++
 +	HVS_WRITE(SCALER_DISPLISTX(vc4_state->assigned_channel),
 +		  vc4_state->mm.start);
++}
 +
+ static void vc4_hvs_update_dlist(struct drm_crtc *crtc)
+ {
+ 	struct drm_device *dev = crtc->dev;
+-	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+ 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
+ 	unsigned long flags;
+@@ -405,9 +414,6 @@ static void vc4_hvs_update_dlist(struct drm_crtc *crtc)
+ 		spin_unlock_irqrestore(&dev->event_lock, flags);
+ 	}
+ 
+-	HVS_WRITE(SCALER_DISPLISTX(vc4_state->assigned_channel),
+-		  vc4_state->mm.start);
+-
  	spin_lock_irqsave(&vc4_crtc->irq_lock, flags);
  	vc4_crtc->current_dlist = vc4_state->mm.start;
  	spin_unlock_irqrestore(&vc4_crtc->irq_lock, flags);
+@@ -434,6 +440,7 @@ void vc4_hvs_atomic_enable(struct drm_crtc *crtc,
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+ 	bool oneshot = vc4_crtc->feeds_txp;
+ 
++	vc4_hvs_install_dlist(crtc);
+ 	vc4_hvs_update_dlist(crtc);
+ 	vc4_hvs_init_channel(vc4, crtc, mode, oneshot);
+ }
+@@ -509,8 +516,10 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
+ 	 * If the CRTC is being disabled, there's no point in updating this
+ 	 * information.
+ 	 */
+-	if (crtc->state->active && old_state->active)
++	if (crtc->state->active && old_state->active) {
++		vc4_hvs_install_dlist(crtc);
+ 		vc4_hvs_update_dlist(crtc);
++	}
+ 
+ 	if (crtc->state->color_mgmt_changed) {
+ 		u32 dispbkgndx = HVS_READ(SCALER_DISPBKGNDX(channel));
 -- 
 2.35.1
 
