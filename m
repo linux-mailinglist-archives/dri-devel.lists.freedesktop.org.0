@@ -1,54 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28004BD4BF
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 05:34:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB944BD50F
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 06:23:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCE5410E5F1;
-	Mon, 21 Feb 2022 04:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 420BC10E1DC;
+	Mon, 21 Feb 2022 05:23:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6DCD10E5F2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 04:34:51 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 35803B80E06
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 04:34:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50B1EC340F8
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 04:34:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645418088;
- bh=C/nB/E0piAZGYQQYp2cV4LFsLeiH3pqTgoIEL6E+3hQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=rM23tV35JywzlZV+mU/o4lt0Dk6gDdp4TeZQ49qjHo6PDSuUOBoMGndz4BDvQ4vDT
- Ah5OsxbiZjqFQLeDC32Fxw6klGnQu5OLJuPnadnyZTEsSJDQuv9VUDhynJNt6JI4mY
- bkwlOntmhSYZ4W38T/zccFJwFwlKiij3mLuEnCCRrbHKZ1CDvQlArsXpWJDAWMPH5d
- RazWNlkzJ6wQcwurYsApx1puSjfuaCKQsQGEopturK8kQESx+k47Qbb/NlcFxCQCKb
- wGp3MSDt/Tb5i5D1WOmz3gFFN93b2lLL9fYyxFnlMQyDH5q978pqQSIf1+A5dtvW9r
- 90eqcZzOzVNMA==
-Received: by mail-ed1-f54.google.com with SMTP id h15so9774385edv.7
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Feb 2022 20:34:48 -0800 (PST)
-X-Gm-Message-State: AOAM532Sl0BCQJHdMEIsR0AvoR0bMa46osT+q9xJD6I2oqD4AW6MhfTc
- qcT75WAr4kLh+zDxp4oxcobmA9C+t4+mK7y7Hw==
-X-Google-Smtp-Source: ABdhPJx8oTS5v5LNdZ9qmsaBpdp7Ht+mdjtSUFNlrFS0s9Rwpt/Lr80iK0bS3pTKa24uc4xlEQl6LWXw16D6/vRCIM0=
-X-Received: by 2002:aa7:c391:0:b0:410:83fb:abab with SMTP id
- k17-20020aa7c391000000b0041083fbababmr19652501edq.435.1645418086329; Sun, 20
- Feb 2022 20:34:46 -0800 (PST)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08on2040.outbound.protection.outlook.com [40.107.101.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E31E10E1B7;
+ Mon, 21 Feb 2022 05:22:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UbsRIMriJGaMFVh/i8xU6Uvsm26zCMqzNCQZhMNWPZKP6pK8c/rxmbG90i+8yb8h+vuc9EjZQjX8gDRubsn5Z+PO2Y97Hx3y+wk6SFEKld3xp/lAS93p4tuXSbk1l+s0e6P7FpKGvPZa+CvSwHHdelk3M/elFwMZWqLEkdpFResk9M78XDq/IVYb5BcFAP9oqN7qIkraT7yP5AtoDSiKGBzu/hvsuEPHodPljCR8LGDFkCXrRR93JSlMxgr/wdPpejLK4UGa0nRAGvlbORIvE7mgVa1nu/OPx5N84YNnn1YUNzGUS3cOHFhM7LXFGf86g553NgSzPmXXvoiaC645wQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uNnOPlO5YptDhnpM4MtutFxg77hof0uyyNKAM8sKL2A=;
+ b=SZ4RwjgLFCCtXsWj3+eioJIBxtVebC4ApaXBD+LnjSF8uY7uQLz+4plUC7PCigOLoMk863QcLNS39dXt9HgKjHTPlWlkaNnM/AzaD4Kbbrf/iBO71fu96FwLkjCAb8J0DKIRB3aZpVadLwwiQPl2p7CQMGl/+fvJSX9GpdH0xDebaU82RBfmBvA/zEtCypN+qEC22BPBeD9l5GIC8+cUT1ZEBsW0NpXPO/uKe83w1Vn6lHv1t4QPhiQmbRnv07f6onFw7iySmh3Ssq31ezjYb1x7QI8CSbm/8mL8iojwX77SFNtWO+WIxrBB9myQhiZsxctAe9aEMcmXTHttr+/TCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uNnOPlO5YptDhnpM4MtutFxg77hof0uyyNKAM8sKL2A=;
+ b=ZGOarFL/fHwJ5QRsggyQc+z7D52y5lSjFWeeyXQBGO2QG5t9HLRJTObivoGcrnJWz7Wq26Ns8xGB/P6HZYoszB+Di/09QK953yQTP84YiAo/lsa3CZPSUkJTTZxmlb64lh61byxh85Poiwcw5zqvI4o4HIYgVFRB1kl/4OxrVZk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
+ by DM6PR12MB3594.namprd12.prod.outlook.com (2603:10b6:5:11f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.24; Mon, 21 Feb
+ 2022 05:22:56 +0000
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::a105:faab:243:1dd3]) by DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::a105:faab:243:1dd3%11]) with mapi id 15.20.4995.027; Mon, 21 Feb 2022
+ 05:22:56 +0000
+Message-ID: <e7715707-6293-fae4-cb4e-1d92040db634@amd.com>
+Date: Mon, 21 Feb 2022 00:22:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/sched: Add device pointer to drm_gpu_scheduler
+Content-Language: en-US
+To: "Gu, JiaWei (Will)" <JiaWei.Gu@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>, "Liu, Monk"
+ <Monk.Liu@amd.com>, "Deng, Emily" <Emily.Deng@amd.com>,
+ "Chen, Horace" <Horace.Chen@amd.com>
+References: <20220217104331.6455-1-Jiawei.Gu@amd.com>
+ <CH0PR12MB5156A295D22DB349CA263A75F83A9@CH0PR12MB5156.namprd12.prod.outlook.com>
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+In-Reply-To: <CH0PR12MB5156A295D22DB349CA263A75F83A9@CH0PR12MB5156.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT1PR01CA0143.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2f::22) To DM5PR12MB1947.namprd12.prod.outlook.com
+ (2603:10b6:3:111::23)
 MIME-Version: 1.0
-References: <20220218145437.18563-1-granquet@baylibre.com>
- <20220218145437.18563-14-granquet@baylibre.com>
-In-Reply-To: <20220218145437.18563-14-granquet@baylibre.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 21 Feb 2022 12:34:33 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_89ka=ZC5U2V0+2awFmQp4efrxcy7K+XR0QfdNPC88o3g@mail.gmail.com>
-Message-ID: <CAAOTY_89ka=ZC5U2V0+2awFmQp4efrxcy7K+XR0QfdNPC88o3g@mail.gmail.com>
-Subject: Re: [PATCH v8 13/19] drm/mediatek: dpi: Add dpintf support
-To: Guillaume Ranquet <granquet@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 89345cb6-cf55-4d06-f08d-08d9f4fa3751
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3594:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB359434F392E93056F70E2CBCEA3A9@DM6PR12MB3594.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7y1IYzkXb/7NCWJOBHPWo/xW+AwKcHRtKDMJ42OL3UmhhPKDA7XiQbXEKfYOusM1bYgH0Di0mtHVE4ks+6k8haYL25KnetWpQmm5CSuV/WPqsaUvjqclEeMJB72PS4R96rdAM/U9Nwy9aTq56m0AsFY6yPPFD2yPEzrGNfWCn27C9aPTHCBQS7qV8F0tVGmJugM/f2/VdY4sxaLzG1A7mMA3WjP2onjEj631mi8jv7QHV7cGD1TvDqQQVHVyFZfpJavBvAGpDAjnkO/VtSjQwJBNpEVsDj+MSryD6sd/Tea7Pr0s1SP/n1hhLgo//3ICo7kDp0Q9ugO6rpVSP/ghU/GjUD40Fg4p1g5UEPr8BC9pUDVVX8oC0YhzyBFtnuSRYwMFtwD1oLs4sn+76j4E5LGAyxPgNmAciWUs2ZIN7OlyDBhg8c0uAnhE9dwSa5mzrpuXrZm0tnt6Nz7ehZgRJReI6w+F73EKk/GSWFWhYwraQ+Q9xVSF1bMGRvJ9nVJyRG6lKdd6E821Uv2QCqEmBvIikMiHScB/JyUpMJ3Ykz29RaWTAjgP4fr4YpwYAvUSB/knqGeNlU2zrwqDNxaRcXT1LHTYwGQuAu+D2wMCkC+P4NJURZx7zmsw+ZEb7FXwh2GAmWtMioCqtl+A+PZMsbyKMK13Q3O4jJ250EprKoPFa08+Cw916n6PYfpDM3jx0GHMv09sHcB+Ey16Sn6evCpWyRn1pkVxNuVI71UsYcUlti1p/UxMd6G8pEQAGANU
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1947.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(8676002)(450100002)(66476007)(66556008)(186003)(66946007)(508600001)(6486002)(2616005)(921005)(316002)(6512007)(38100700002)(86362001)(31696002)(6506007)(53546011)(6666004)(83380400001)(2906002)(110136005)(8936002)(31686004)(5660300002)(36756003)(44832011)(6636002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NWZoNUgwZWZPaE15aGRSaGVQY1FtOHRRcnYycUI5VjNwSm9SamtDUVBnV2ZX?=
+ =?utf-8?B?TU1aMjNNN0o2eFRjck1KSUtCQUN6STA0SGQyZ0ViVUMwdm55dXIwcElpV0NB?=
+ =?utf-8?B?TWpzMXViQVcvcDVWSWozZ0RqTXFOTVUxVFBxdElxSGhVMVhPVjFHZWlUMEto?=
+ =?utf-8?B?Q0xGU1pjbEo3YXR1Z1huTmpjOTdUWVdxNURUNTFIdkN1Y2NBVjNEN1c0azBD?=
+ =?utf-8?B?c0llblVyaUV2anpJdnEzSitRVDdneE1jQitOKy9aTStxd2RqY012bzRUcEJk?=
+ =?utf-8?B?NFBlN29hRVNXNGE2ejBTMkNsNnlYRWVoY29DdXBLUW1CdFNqS0Vja1RoUEJV?=
+ =?utf-8?B?SEQyM210V3FLZ3Nvdllpb09vZzJvVUg5cG1GSHdZbVBsN2lBOFIvSW9XTU82?=
+ =?utf-8?B?UStCdXhaUlJVV2FpbDVadnpWb3U0RkRyeWpiV3pRRXZ4WHZvS1dwVktyRzgv?=
+ =?utf-8?B?L0cyM1drMkVrSGxlVTh1WHZtVDN4Kzl0dURlVGYwYVZkRU1scUdHRklKZXRw?=
+ =?utf-8?B?SVo3eklBcVN1Um9aZzlaWTZleXdPTmNpTFJ0SDhXY055eUtYUEVoUEdkSlZ5?=
+ =?utf-8?B?aXl5UEdmZGVCK0V4bG1nbWhOY3hVWTVJbUw3cU85a01XeTNjdkFJaVc5QjQr?=
+ =?utf-8?B?VDl5NUhFUnhXMXJ0aTJ2RU1PVW15MlBHK25LRDVYUjdBOVlkenJScTBNZDhz?=
+ =?utf-8?B?YkpNK2wwT0c0OEQ5cHlaaUdZZmp4VjRNSWUwMEdsMjVxbGZrTUpVQVNVdGhy?=
+ =?utf-8?B?QlpnTGRrRmsyU3E1eldhWVlCdlMxVGFuU1ZES3J6SFRWUlZaUmpQVEFON0hq?=
+ =?utf-8?B?cVJrc05TV0FQVzBNeEVkWUZuRENxU3FlUURHVWpPZS96M3gycTVDMlFMY0Q3?=
+ =?utf-8?B?a1BuNitwSFYzUUtIN1hMazR4UVN1bVprMU9tcGhnOEVxejhXRVdEa2ZUd1Ro?=
+ =?utf-8?B?RHIzLzV6RVFGOXFycHVydWw1aFFDKzhtMTcxNGhpalpXSGppcEVZakRKN2Fw?=
+ =?utf-8?B?NHVPVVk2RlZzT0ZoVEJHNlJuQjYyS3M0V0FsRExvT2NENnRvVFVrYStrUCti?=
+ =?utf-8?B?cXdKL0o5bmZ4VU1NTlBmS3RuTUkrb0piKzRYMGJvQkxEblhYajZEV1UvOEJa?=
+ =?utf-8?B?OUtZVitsOWh6bVhrVjJ1NUdzS3pMZi95SVFXOWVnSnIvbWZCMlZzUHJSRHVy?=
+ =?utf-8?B?c2ZTb3BWYW95bHBDdkx2TTRPcFVwNWwxY2J3a3F4eE85QXRiWU5EM3ZvYTZn?=
+ =?utf-8?B?MHFSaThJZUI0MVhDQkI2czkxMDFNYnI4MVk5dnFCNS92c3FIWk1TRUpWSTlY?=
+ =?utf-8?B?ZW1vSHJEcUlYWlUzKzFqMllQeDRzU1pHZTkzY1lxQmttbHN1cG9aNWFlNzJI?=
+ =?utf-8?B?dVBiYm91dWgrWW5CSU15Mk5Lamo5dU5oODBPUnkvdkR1c0ljaWtRVVVwOHB0?=
+ =?utf-8?B?OGdqUjBoay81OU9keUFvcWNLQ3p5UE1TYnVwaFl3V0tlT2hlc3VOMVV5L3Vy?=
+ =?utf-8?B?R3F5VEg4K2I0MzRacmFyNXhCWXhIeUM1aGM2azAybjhSUUx6U0ZkRTZIVFhV?=
+ =?utf-8?B?a2hCcjd0c28rTU1nTE9qbW81RFhBSlhFRnZxcG5tR29rbWZ6ZVBwemo2M2ky?=
+ =?utf-8?B?TE51dysrcW5TdmdEK3BMenRkYStGNTVlMVYwc05hZTMyNHZJdTBMQXBxeHdH?=
+ =?utf-8?B?bHhYQlRzRjR1RDdwUmdVTHFJSjYxWU9Jd1M3emwrdEN2WDcxamQ2UmFrTHYv?=
+ =?utf-8?B?dE40Qjh4VHB6Z0NtQkpRM01QemNSTHE0Y3dXaElvdW1SVHRhTE85SGV2ajVL?=
+ =?utf-8?B?VkQ0S1dWYTVJMW9FSlBXM1ExeHBiTUhVSHhwMmRyOUVzRm1sRWNMeEpIVHc1?=
+ =?utf-8?B?V3pEUTZzbXY0VmxxdlZxaXkyVDFUNnMza01WaFFKa3ZNbDVzV09iNWl4T3Jz?=
+ =?utf-8?B?WmtqK1oyRDlDcFlrVWp5dzUrWFNWaGRHQndzMVArRjFkQTBoRStLK1ZvMFJE?=
+ =?utf-8?B?ckFDOTd6eVp3Vi96cU5jdTNud2IvdC8zWFFIZVdOeTNzVUV3N29adVg1ekkw?=
+ =?utf-8?B?UkpOQkh4S2FIM0xDZkhrQ24ybllRcDN5Mzg0eHdvYVlSKzZiVjNWcVU1eFZz?=
+ =?utf-8?B?bm9tWkpFYWY0ZUhDVTBqTllDODc5UlpQZXhtVjF1MS9JUU9GK2JySk5xUjlq?=
+ =?utf-8?B?dzQ4ay80QnlRWEpFVHNlVXU4Z3JlY240ZzhhK01MbWRNSlN3UUQ3WTFpVDFk?=
+ =?utf-8?Q?u6njDWb0OyHnmpsOCQdPanRF4LWEUsiNTpmmCWTXK8=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89345cb6-cf55-4d06-f08d-08d9f4fa3751
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2022 05:22:55.9566 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I4xoLTBE/aLOJPxkdj3YmMHo8d7r4OpyX0q5QjcTs0/XvA/wBHdtiusD5SzkIx5U7NtVD1EhsQoUTWZcNzEvrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3594
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,665 +133,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, DTML <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-phy@lists.infradead.org, deller@gmx.de,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-kernel <linux-kernel@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'.Hi, Guillaume:
+On 2022-02-20 22:32, Gu, JiaWei (Will) wrote:
 
-Guillaume Ranquet <granquet@baylibre.com> =E6=96=BC 2022=E5=B9=B42=E6=9C=88=
-18=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=8810:56=E5=AF=AB=E9=81=93=EF=
-=BC=9A
+> [AMD Official Use Only]
 >
-> dpintf is the displayport interface hardware unit. This unit is similar
-> to dpi and can reuse most of the code.
+> Pinging.
 >
-> This patch adds support for mt8195-dpintf to this dpi driver. Main
-> differences are:
->  - Some features/functional components are not available for dpintf
->    which are now excluded from code execution once is_dpintf is set
->  - dpintf can and needs to choose between different clockdividers based
->    on the clockspeed. This is done by choosing a different clock parent.
->  - There are two additional clocks that need to be managed. These are
->    only set for dpintf and will be set to NULL if not supplied. The
->    clk_* calls handle these as normal clocks then.
->  - Some register contents differ slightly between the two components. To
->    work around this I added register bits/masks with a DPINTF_ prefix
->    and use them where different.
+> -----Original Message-----
+> From: Jiawei Gu <Jiawei.Gu@amd.com>
+> Sent: Thursday, February 17, 2022 6:44 PM
+> To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Koenig, Christian <Christian.Koenig@amd.com>; Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Liu, Monk <Monk.Liu@amd.com>; Deng, Emily <Emily.Deng@amd.com>; Chen, Horace <Horace.Chen@amd.com>
+> Cc: Gu, JiaWei (Will) <JiaWei.Gu@amd.com>
+> Subject: [PATCH] drm/sched: Add device pointer to drm_gpu_scheduler
 >
-> Based on a separate driver for dpintf created by
-> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
+> Add device pointer so scheduler's printing can use
+> DRM_DEV_ERROR() instead, which makes life easier under multiple GPU scenario.
 >
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> v2: amend all calls of drm_sched_init()
+>
+> Signed-off-by: Jiawei Gu <Jiawei.Gu@amd.com>
 > ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c          | 164 +++++++++++++++++---
->  drivers/gpu/drm/mediatek/mtk_dpi_regs.h     |  38 +++++
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |   8 +
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   5 +-
->  include/linux/soc/mediatek/mtk-mmsys.h      |   2 +
->  6 files changed, 198 insertions(+), 20 deletions(-)
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c |  2 +-
+>   drivers/gpu/drm/etnaviv/etnaviv_sched.c   |  2 +-
+>   drivers/gpu/drm/lima/lima_sched.c         |  2 +-
+>   drivers/gpu/drm/panfrost/panfrost_job.c   |  2 +-
+>   drivers/gpu/drm/scheduler/sched_main.c    |  9 +++++----
+>   drivers/gpu/drm/v3d/v3d_sched.c           | 10 +++++-----
+>   include/drm/gpu_scheduler.h               |  3 ++-
+>   7 files changed, 16 insertions(+), 14 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
-k/mtk_dpi.c
-> index be99399faf1bb..c5639ada868f8 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -63,6 +63,14 @@ enum mtk_dpi_out_color_format {
->         MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL
->  };
->
-> +enum TVDPLL_CLK {
-> +       TVDPLL_PLL =3D 0,
-> +       TVDPLL_D2 =3D 2,
-> +       TVDPLL_D4 =3D 4,
-> +       TVDPLL_D8 =3D 8,
-> +       TVDPLL_D16 =3D 16,
-> +};
-> +
->  struct mtk_dpi {
->         struct drm_encoder encoder;
->         struct drm_bridge bridge;
-> @@ -71,8 +79,10 @@ struct mtk_dpi {
->         void __iomem *regs;
->         struct device *dev;
->         struct clk *engine_clk;
-> +       struct clk *dpi_ck_cg;
->         struct clk *pixel_clk;
->         struct clk *tvd_clk;
-> +       struct clk *pclk_src[5];
->         int irq;
->         struct drm_display_mode mode;
->         const struct mtk_dpi_conf *conf;
-> @@ -126,6 +136,7 @@ struct mtk_dpi_conf {
->         const u32 *output_fmts;
->         u32 num_output_fmts;
->         bool is_ck_de_pol;
-> +       bool is_dpintf;
->         bool swap_input_support;
->         // Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and VSYNC_PORCH (no =
-shift)
->         u32 dimension_mask;
-> @@ -384,6 +395,25 @@ static void mtk_dpi_config_disable_edge(struct mtk_d=
-pi *dpi)
->                 mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0, EDGE_SEL_E=
-N);
->  }
->
-> +static void mtk_dpi_matrix_sel(struct mtk_dpi *dpi, enum mtk_dpi_out_col=
-or_format format)
-> +{
-> +       u32 matrix_sel =3D 0;
-> +
-> +       switch (format) {
-> +       case MTK_DPI_COLOR_FORMAT_YCBCR_422:
-> +       case MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL:
-> +       case MTK_DPI_COLOR_FORMAT_YCBCR_444:
-> +       case MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL:
-> +       case MTK_DPI_COLOR_FORMAT_XV_YCC:
-> +               if (dpi->mode.hdisplay <=3D 720)
-> +                       matrix_sel =3D 0x2;
-> +               break;
-> +       default:
-> +               break;
-> +       }
-> +       mtk_dpi_mask(dpi, DPI_MATRIX_SET, matrix_sel, INT_MATRIX_SEL_MASK=
-);
-> +}
-> +
->  static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
->                                         enum mtk_dpi_out_color_format for=
-mat)
->  {
-> @@ -391,6 +421,7 @@ static void mtk_dpi_config_color_format(struct mtk_dp=
-i *dpi,
->             (format =3D=3D MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL)) {
->                 mtk_dpi_config_yuv422_enable(dpi, false);
->                 mtk_dpi_config_csc_enable(dpi, true);
-> +               mtk_dpi_matrix_sel(dpi, format);
->                 if (dpi->conf->swap_input_support)
->                         mtk_dpi_config_swap_input(dpi, false);
->                 mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP=
-_BGR);
-> @@ -398,6 +429,7 @@ static void mtk_dpi_config_color_format(struct mtk_dp=
-i *dpi,
->                    (format =3D=3D MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL)) {
->                 mtk_dpi_config_yuv422_enable(dpi, true);
->                 mtk_dpi_config_csc_enable(dpi, true);
-> +               mtk_dpi_matrix_sel(dpi, format);
-
-Why add this? If this is necessary, separate this to an independent patch.
-
->                 if (dpi->conf->swap_input_support)
->                         mtk_dpi_config_swap_input(dpi, true);
->                 mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP=
-_RGB);
-> @@ -438,6 +470,8 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
->         mtk_dpi_disable(dpi);
->         clk_disable_unprepare(dpi->pixel_clk);
->         clk_disable_unprepare(dpi->engine_clk);
-> +       clk_disable_unprepare(dpi->dpi_ck_cg);
-> +       clk_disable_unprepare(dpi->tvd_clk);
->  }
->
->  static int mtk_dpi_power_on(struct mtk_dpi *dpi)
-> @@ -447,12 +481,24 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
->         if (++dpi->refcount !=3D 1)
->                 return 0;
->
-> +       ret =3D clk_prepare_enable(dpi->tvd_clk);
-> +       if (ret) {
-> +               dev_err(dpi->dev, "Failed to enable tvd pll: %d\n", ret);
-> +               goto err_pixel;
-> +       }
-> +
->         ret =3D clk_prepare_enable(dpi->engine_clk);
->         if (ret) {
->                 dev_err(dpi->dev, "Failed to enable engine clock: %d\n", =
-ret);
->                 goto err_refcount;
->         }
->
-> +       ret =3D clk_prepare_enable(dpi->dpi_ck_cg);
-> +       if (ret) {
-> +               dev_err(dpi->dev, "Failed to enable dpi_ck_cg clock: %d\n=
-", ret);
-> +               goto err_ck_cg;
-> +       }
-> +
->         ret =3D clk_prepare_enable(dpi->pixel_clk);
->         if (ret) {
->                 dev_err(dpi->dev, "Failed to enable pixel clock: %d\n", r=
-et);
-> @@ -462,10 +508,11 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
->         if (dpi->pinctrl && dpi->pins_dpi)
->                 pinctrl_select_state(dpi->pinctrl, dpi->pins_dpi);
->
-> -       mtk_dpi_enable(dpi);
-
-Why remove this, If this is necessary, separate this to an independent patc=
-h.
-
->         return 0;
->
->  err_pixel:
-> +       clk_disable_unprepare(dpi->dpi_ck_cg);
-> +err_ck_cg:
->         clk_disable_unprepare(dpi->engine_clk);
->  err_refcount:
->         dpi->refcount--;
-> @@ -497,12 +544,21 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi =
-*dpi,
->         pll_rate =3D clk_get_rate(dpi->tvd_clk);
->
->         vm.pixelclock =3D pll_rate / factor;
-> -       if ((dpi->output_fmt =3D=3D MEDIA_BUS_FMT_RGB888_2X12_LE) ||
-> -           (dpi->output_fmt =3D=3D MEDIA_BUS_FMT_RGB888_2X12_BE))
-> +       if (dpi->conf->is_dpintf) {
-> +               if (factor =3D=3D 1)
-> +                       clk_set_parent(dpi->pixel_clk, dpi->pclk_src[2]);
-> +               else if (factor =3D=3D 2)
-> +                       clk_set_parent(dpi->pixel_clk, dpi->pclk_src[3]);
-> +               else if (factor =3D=3D 4)
-> +                       clk_set_parent(dpi->pixel_clk, dpi->pclk_src[4]);
-> +               else
-> +                       clk_set_parent(dpi->pixel_clk, dpi->pclk_src[2]);
-> +       } else if ((dpi->output_fmt =3D=3D MEDIA_BUS_FMT_RGB888_2X12_LE) =
-||
-> +                (dpi->output_fmt =3D=3D MEDIA_BUS_FMT_RGB888_2X12_BE)) {
->                 clk_set_rate(dpi->pixel_clk, vm.pixelclock * 2);
-> -       else
-> +       } else {
->                 clk_set_rate(dpi->pixel_clk, vm.pixelclock);
-> -
-> +       }
->
->         vm.pixelclock =3D clk_get_rate(dpi->pixel_clk);
->
-> @@ -515,9 +571,15 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *=
-dpi,
->                             MTK_DPI_POLARITY_FALLING : MTK_DPI_POLARITY_R=
-ISING;
->         dpi_pol.vsync_pol =3D vm.flags & DISPLAY_FLAGS_VSYNC_HIGH ?
->                             MTK_DPI_POLARITY_FALLING : MTK_DPI_POLARITY_R=
-ISING;
-> -       hsync.sync_width =3D vm.hsync_len;
-> -       hsync.back_porch =3D vm.hback_porch;
-> -       hsync.front_porch =3D vm.hfront_porch;
-> +       if (dpi->conf->is_dpintf) {
-
-Use the name of this function instead of 'is_dpintf'.
-
-> +               hsync.sync_width =3D vm.hsync_len / 4;
-> +               hsync.back_porch =3D vm.hback_porch / 4;
-> +               hsync.front_porch =3D vm.hfront_porch / 4;
-> +       } else {
-> +               hsync.sync_width =3D vm.hsync_len;
-> +               hsync.back_porch =3D vm.hback_porch;
-> +               hsync.front_porch =3D vm.hfront_porch;
-> +       }
->         hsync.shift_half_line =3D false;
->         vsync_lodd.sync_width =3D vm.vsync_len;
->         vsync_lodd.back_porch =3D vm.vback_porch;
-> @@ -559,13 +621,20 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi =
-*dpi,
->         mtk_dpi_config_channel_limit(dpi);
->         mtk_dpi_config_bit_num(dpi, dpi->bit_num);
->         mtk_dpi_config_channel_swap(dpi, dpi->channel_swap);
-> -       mtk_dpi_config_yc_map(dpi, dpi->yc_map);
->         mtk_dpi_config_color_format(dpi, dpi->color_format);
-> -       mtk_dpi_config_2n_h_fre(dpi);
-> -       mtk_dpi_dual_edge(dpi);
-> -       mtk_dpi_config_disable_edge(dpi);
-> +       if (dpi->conf->is_dpintf) {
-
-Use the name of this function instead of 'is_dpintf'.
-
-> +               mtk_dpi_mask(dpi, DPI_CON, DPINTF_INPUT_2P_EN,
-> +                            DPINTF_INPUT_2P_EN);
-> +       } else {
-> +               mtk_dpi_config_yc_map(dpi, dpi->yc_map);
-> +               mtk_dpi_config_2n_h_fre(dpi);
-> +               mtk_dpi_dual_edge(dpi);
-> +               mtk_dpi_config_disable_edge(dpi);
-> +       }
->         mtk_dpi_sw_reset(dpi, false);
->
-> +       mtk_dpi_enable(dpi);
-
-Why add this? If this is necessary, separate this to an independent patch.
-
-> +
->         return 0;
->  }
->
-> @@ -608,7 +677,6 @@ static u32 *mtk_dpi_bridge_atomic_get_input_bus_fmts(=
-struct drm_bridge *bridge,
->         u32 *input_fmts;
->
->         *num_input_fmts =3D 0;
-> -
->         input_fmts =3D kcalloc(1, sizeof(*input_fmts),
->                              GFP_KERNEL);
->         if (!input_fmts)
-> @@ -634,15 +702,18 @@ static int mtk_dpi_bridge_atomic_check(struct drm_b=
-ridge *bridge,
->                 if (dpi->conf->num_output_fmts)
->                         out_bus_format =3D dpi->conf->output_fmts[0];
->
-> -       dev_dbg(dpi->dev, "input format 0x%04x, output format 0x%04x\n",
-> -               bridge_state->input_bus_cfg.format,
-> -               bridge_state->output_bus_cfg.format);
-> +       dev_info(dpi->dev, "input format 0x%04x, output format 0x%04x\n",
-> +                bridge_state->input_bus_cfg.format,
-> +                bridge_state->output_bus_cfg.format);
-
-Why change dbg to info? if this is necessary, separate this to an
-independent patch.
-
->
->         dpi->output_fmt =3D out_bus_format;
->         dpi->bit_num =3D MTK_DPI_OUT_BIT_NUM_8BITS;
->         dpi->channel_swap =3D MTK_DPI_OUT_CHANNEL_SWAP_RGB;
->         dpi->yc_map =3D MTK_DPI_OUT_YC_MAP_RGB;
-> -       dpi->color_format =3D MTK_DPI_COLOR_FORMAT_RGB;
-> +       if (out_bus_format =3D=3D MEDIA_BUS_FMT_YUYV8_1X16)
-> +               dpi->color_format =3D MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL=
-;
-> +       else
-> +               dpi->color_format =3D MTK_DPI_COLOR_FORMAT_RGB;
-
-Separate this to an independent patch.
-
->
->         return 0;
->  }
-> @@ -687,7 +758,7 @@ mtk_dpi_bridge_mode_valid(struct drm_bridge *bridge,
->  {
->         struct mtk_dpi *dpi =3D bridge_to_dpi(bridge);
->
-> -       if (mode->clock > dpi->conf->max_clock_khz)
-> +       if (dpi->conf->max_clock_khz && mode->clock > dpi->conf->max_cloc=
-k_khz)
-
-Separate this to an independent patch.
-
->                 return MODE_CLOCK_HIGH;
->
->         return MODE_OK;
-> @@ -801,6 +872,16 @@ static unsigned int mt8183_calculate_factor(int cloc=
-k)
->                 return 2;
->  }
->
-> +static unsigned int mt8195_dpintf_calculate_factor(int clock)
-> +{
-> +       if (clock < 70000)
-> +               return 4;
-> +       else if (clock < 200000)
-> +               return 2;
-> +       else
-> +               return 1;
-> +}
-> +
->  static const u32 mt8173_output_fmts[] =3D {
->         MEDIA_BUS_FMT_RGB888_1X24,
->  };
-> @@ -810,6 +891,12 @@ static const u32 mt8183_output_fmts[] =3D {
->         MEDIA_BUS_FMT_RGB888_2X12_BE,
->  };
->
-> +static const u32 mt8195_output_fmts[] =3D {
-> +       MEDIA_BUS_FMT_RGB888_1X24,
-> +       MEDIA_BUS_FMT_YUV8_1X24,
-> +       MEDIA_BUS_FMT_YUYV8_1X16,
-> +};
-> +
->  static const struct mtk_dpi_yc_limit mtk_dpi_limit =3D {
->         .c_bottom =3D 0x0010,
->         .c_top =3D 0x0FE0,
-> @@ -817,6 +904,13 @@ static const struct mtk_dpi_yc_limit mtk_dpi_limit =
-=3D {
->         .y_top =3D 0x0FE0,
->  };
->
-> +static const struct mtk_dpi_yc_limit mtk_dpintf_limit =3D {
-> +       .c_bottom =3D 0x0000,
-> +       .c_top =3D 0xFFF,
-> +       .y_bottom =3D 0x0000,
-> +       .y_top =3D 0xFFF,
-> +};
-> +
->  static const struct mtk_dpi_conf mt8173_conf =3D {
->         .cal_factor =3D mt8173_calculate_factor,
->         .reg_h_fre_con =3D 0xe0,
-> @@ -882,6 +976,19 @@ static const struct mtk_dpi_conf mt8192_conf =3D {
->         .limit =3D &mtk_dpi_limit,
->  };
->
-> +static const struct mtk_dpi_conf mt8195_dpintf_conf =3D {
-> +       .cal_factor =3D mt8195_dpintf_calculate_factor,
-> +       .output_fmts =3D mt8195_output_fmts,
-> +       .num_output_fmts =3D ARRAY_SIZE(mt8195_output_fmts),
-> +       .is_dpintf =3D true,
-> +       .dimension_mask =3D DPINTF_HPW_MASK,
-> +       .hvsize_mask =3D DPINTF_HSIZE_MASK,
-> +       .channel_swap_shift =3D DPINTF_CH_SWAP,
-> +       .yuv422_en_bit =3D DPINTF_YUV422_EN,
-> +       .csc_enable_bit =3D DPINTF_CSC_ENABLE,
-> +       .limit =3D &mtk_dpintf_limit,
-> +};
-> +
->  static int mtk_dpi_probe(struct platform_device *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
-> @@ -929,7 +1036,18 @@ static int mtk_dpi_probe(struct platform_device *pd=
-ev)
->         if (IS_ERR(dpi->engine_clk)) {
->                 ret =3D PTR_ERR(dpi->engine_clk);
->                 if (ret !=3D -EPROBE_DEFER)
-> -                       dev_err(dev, "Failed to get engine clock: %d\n", =
-ret);
-> +                       dev_err(dev, "Failed to get engine clock: %d\n",
-> +                               ret);
-
-Why two line?
-
-> +
-> +               return ret;
-> +       }
-> +
-> +       dpi->dpi_ck_cg =3D devm_clk_get_optional(dev, "ck_cg");
-
-Not defined in binding document.
-
-> +       if (IS_ERR(dpi->dpi_ck_cg)) {
-> +               ret =3D PTR_ERR(dpi->dpi_ck_cg);
-> +               if (ret !=3D -EPROBE_DEFER)
-> +                       dev_err(dev, "Failed to get dpi ck cg clock: %d\n=
-",
-> +                               ret);
->
->                 return ret;
->         }
-> @@ -952,6 +1070,11 @@ static int mtk_dpi_probe(struct platform_device *pd=
-ev)
->                 return ret;
->         }
->
-> +       dpi->pclk_src[1] =3D devm_clk_get(dev, "TVDPLL_D2");
-> +       dpi->pclk_src[2] =3D devm_clk_get(dev, "TVDPLL_D4");
-> +       dpi->pclk_src[3] =3D devm_clk_get(dev, "TVDPLL_D8");
-> +       dpi->pclk_src[4] =3D devm_clk_get(dev, "TVDPLL_D16");
-
-Not defined in binding document.
-
-> +
->         dpi->irq =3D platform_get_irq(pdev, 0);
->         if (dpi->irq <=3D 0)
->                 return -EINVAL;
-> @@ -1004,6 +1127,9 @@ static const struct of_device_id mtk_dpi_of_ids[] =
-=3D {
->         { .compatible =3D "mediatek,mt8192-dpi",
->           .data =3D &mt8192_conf,
->         },
-> +       { .compatible =3D "mediatek,mt8195-dpintf",
-> +         .data =3D &mt8195_dpintf_conf,
-> +       },
->         { },
->  };
->  MODULE_DEVICE_TABLE(of, mtk_dpi_of_ids);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h b/drivers/gpu/drm/me=
-diatek/mtk_dpi_regs.h
-> index 3a02fabe16627..91b32dfffced2 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> @@ -40,10 +40,15 @@
->  #define FAKE_DE_LEVEN                  BIT(21)
->  #define FAKE_DE_RODD                   BIT(22)
->  #define FAKE_DE_REVEN                  BIT(23)
-> +#define DPINTF_YUV422_EN               BIT(24)
-> +#define DPINTF_CSC_ENABLE              BIT(26)
-> +#define DPINTF_INPUT_2P_EN             BIT(29)
->
->  #define DPI_OUTPUT_SETTING     0x14
->  #define CH_SWAP                                0
-> +#define DPINTF_CH_SWAP                 BIT(1)
->  #define CH_SWAP_MASK                   (0x7 << 0)
-> +#define DPINTF_CH_SWAP_MASK            (0x7 << 1)
->  #define SWAP_RGB                       0x00
->  #define SWAP_GBR                       0x01
->  #define SWAP_BRG                       0x02
-> @@ -80,8 +85,10 @@
->  #define DPI_SIZE               0x18
->  #define HSIZE                          0
->  #define HSIZE_MASK                     (0x1FFF << 0)
-> +#define DPINTF_HSIZE_MASK              (0xFFFF << 0)
->  #define VSIZE                          16
->  #define VSIZE_MASK                     (0x1FFF << 16)
-> +#define DPINTF_VSIZE_MASK              (0xFFFF << 16)
->
->  #define DPI_DDR_SETTING                0x1C
->  #define DDR_EN                         BIT(0)
-> @@ -93,24 +100,30 @@
->  #define DPI_TGEN_HWIDTH                0x20
->  #define HPW                            0
->  #define HPW_MASK                       (0xFFF << 0)
-> +#define DPINTF_HPW_MASK                        (0xFFFF << 0)
->
->  #define DPI_TGEN_HPORCH                0x24
->  #define HBP                            0
->  #define HBP_MASK                       (0xFFF << 0)
-> +#define DPINTF_HBP_MASK                        (0xFFFF << 0)
->  #define HFP                            16
->  #define HFP_MASK                       (0xFFF << 16)
-> +#define DPINTF_HFP_MASK                        (0xFFFF << 16)
->
->  #define DPI_TGEN_VWIDTH                0x28
->  #define DPI_TGEN_VPORCH                0x2C
->
->  #define VSYNC_WIDTH_SHIFT              0
->  #define VSYNC_WIDTH_MASK               (0xFFF << 0)
-> +#define DPINTF_VSYNC_WIDTH_MASK                (0xFFFF << 0)
->  #define VSYNC_HALF_LINE_SHIFT          16
->  #define VSYNC_HALF_LINE_MASK           BIT(16)
->  #define VSYNC_BACK_PORCH_SHIFT         0
->  #define VSYNC_BACK_PORCH_MASK          (0xFFF << 0)
-> +#define DPINTF_VSYNC_BACK_PORCH_MASK   (0xFFFF << 0)
->  #define VSYNC_FRONT_PORCH_SHIFT                16
->  #define VSYNC_FRONT_PORCH_MASK         (0xFFF << 16)
-> +#define DPINTF_VSYNC_FRONT_PORCH_MASK  (0xFFFF << 16)
->
->  #define DPI_BG_HCNTL           0x30
->  #define BG_RIGHT                       (0x1FFF << 0)
-> @@ -217,4 +230,29 @@
->
->  #define EDGE_SEL_EN                    BIT(5)
->  #define H_FRE_2N                       BIT(25)
-> +
-> +#define DPI_MATRIX_SET 0xB4
-> +#define INT_MATRIX_SEL                 BIT(0)
-> +#define INT_MATRIX_SEL_MASK            (0x1F << 0)
-> +#define RGB_TO_JPEG                    0x00
-> +#define RGB_TO_FULL709                 0x01
-> +#define RGB_TO_BT601                   0x02
-> +#define RGB_TO_BT709                   0x03
-> +#define JPEG_TO_RGB                    0x04
-> +#define FULL709_TO_RGB                 0x05
-> +#define BT601_TO_RGB                   0x06
-> +#define BT709_TO_RGB                   0x07
-> +#define JPEG_TO_BT601                  0x08
-> +#define JPEG_TO_BT709                  0x09
-> +#define BT601_TO_JPEG                  0xA
-> +#define BT709_TO_JPEG                  0xB
-> +#define BT709_TO_BT601                 0xC
-> +#define BT601_TO_BT709                 0xD
-> +#define JPEG_TO_CERGB                  0x14
-> +#define FULL709_TO_CERGB               0x15
-> +#define BT601_TO_CERGB                 0x16
-> +#define BT709_TO_CERGB                 0x17
-> +#define RGB_TO_CERGB                   0x1C
-> +#define MATRIX_BIT                     BIT(8)
-> +#define EXT_MATRIX_EN                  BIT(12)
->  #endif /* __MTK_DPI_REGS_H */
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/dr=
-m/mediatek/mtk_drm_ddp_comp.c
-> index b4b682bc19913..e8bd6fd4a63d8 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> @@ -351,6 +351,11 @@ static const char * const mtk_ddp_comp_stem[MTK_DDP_=
-COMP_TYPE_MAX] =3D {
->         [MTK_DISP_WDMA] =3D "wdma",
->         [MTK_DPI] =3D "dpi",
->         [MTK_DSI] =3D "dsi",
-> +       [MTK_DP_INTF] =3D "dp-intf",
-> +       [MTK_DISP_PWM] =3D "pwm",
-> +       [MTK_DISP_MUTEX] =3D "mutex",
-> +       [MTK_DISP_OD] =3D "od",
-> +       [MTK_DISP_BLS] =3D "bls",
-
-Remove modification which is not related to dpintf.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> index 4787cb3acaed..98217b1487fe 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> @@ -508,7 +508,7 @@ int amdgpu_fence_driver_init_ring(struct amdgpu_ring *ring,
+>   
+>   	r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
+>   			   num_hw_submission, amdgpu_job_hang_limit,
+> -			   timeout, sched_score, ring->name);
+> +			   timeout, sched_score, ring->name, adev->dev);
+>   	if (r) {
+>   		DRM_ERROR("Failed to create scheduler on ring %s.\n",
+>   			  ring->name);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> index 19826e504efc..4240f2ae0ab3 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -190,7 +190,7 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
+>   
+>   	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops,
+>   			     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
+> -			     msecs_to_jiffies(500), NULL, dev_name(gpu->dev));
+> +			     msecs_to_jiffies(500), NULL, dev_name(gpu->dev), NULL);
+>   	if (ret)
+>   		return ret;
+>   
+> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+> index ecf3267334ff..4b3a43a2b3e3 100644
+> --- a/drivers/gpu/drm/lima/lima_sched.c
+> +++ b/drivers/gpu/drm/lima/lima_sched.c
+> @@ -509,7 +509,7 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
+>   
+>   	return drm_sched_init(&pipe->base, &lima_sched_ops, 1,
+>   			      lima_job_hang_limit, msecs_to_jiffies(timeout),
+> -			      NULL, name);
+> +			      NULL, name, NULL);
+>   }
+>   
+>   void lima_sched_pipe_fini(struct lima_sched_pipe *pipe) diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 2df3e999a38d..215709d61315 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -627,7 +627,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>   		ret = drm_sched_init(&js->queue[j].sched,
+>   				     &panfrost_sched_ops,
+>   				     1, 0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+> -				     NULL, "pan_js");
+> +				     NULL, "pan_js", NULL);
 
 
->  };
->
->  struct mtk_ddp_comp_match {
-> @@ -369,6 +374,8 @@ static const struct mtk_ddp_comp_match mtk_ddp_matche=
-s[DDP_COMPONENT_ID_MAX] =3D {
->         [DDP_COMPONENT_DITHER]          =3D { MTK_DISP_DITHER,    0, &ddp=
-_dither },
->         [DDP_COMPONENT_DPI0]            =3D { MTK_DPI,            0, &ddp=
-_dpi },
->         [DDP_COMPONENT_DPI1]            =3D { MTK_DPI,            1, &ddp=
-_dpi },
-> +       [DDP_COMPONENT_DP_INTF0]        =3D { MTK_DP_INTF,        0, &ddp=
-_dpi },
-> +       [DDP_COMPONENT_DP_INTF1]        =3D { MTK_DP_INTF,        1, &ddp=
-_dpi },
->         [DDP_COMPONENT_DSI0]            =3D { MTK_DSI,            0, &ddp=
-_dsi },
->         [DDP_COMPONENT_DSI1]            =3D { MTK_DSI,            1, &ddp=
-_dsi },
->         [DDP_COMPONENT_DSI2]            =3D { MTK_DSI,            2, &ddp=
-_dsi },
-> @@ -513,6 +520,7 @@ int mtk_ddp_comp_init(struct device_node *node, struc=
-t mtk_ddp_comp *comp,
->             type =3D=3D MTK_DISP_PWM ||
->             type =3D=3D MTK_DISP_RDMA ||
->             type =3D=3D MTK_DPI ||
-> +           type =3D=3D MTK_DP_INTF ||
->             type =3D=3D MTK_DSI)
->                 return 0;
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/dr=
-m/mediatek/mtk_drm_ddp_comp.h
-> index 4c6a986623051..deda70df1d6d9 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> @@ -34,6 +34,7 @@ enum mtk_ddp_comp_type {
->         MTK_DISP_UFOE,
->         MTK_DISP_WDMA,
->         MTK_DPI,
-> +       MTK_DP_INTF,
->         MTK_DSI,
->         MTK_DDP_COMP_TYPE_MAX,
->  };
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.c
-> index 56ff8c57ef8fd..e00ab6410db74 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -511,6 +511,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[=
-] =3D {
->           .data =3D (void *)MTK_DPI },
->         { .compatible =3D "mediatek,mt8183-dpi",
->           .data =3D (void *)MTK_DPI },
-> +       { .compatible =3D "mediatek,mt8195-dpintf",
-> +         .data =3D (void *)MTK_DP_INTF },
->         { .compatible =3D "mediatek,mt2701-dsi",
->           .data =3D (void *)MTK_DSI },
->         { .compatible =3D "mediatek,mt8173-dsi",
-> @@ -611,7 +613,8 @@ static int mtk_drm_probe(struct platform_device *pdev=
-)
->                     comp_type =3D=3D MTK_DISP_OVL_2L ||
->                     comp_type =3D=3D MTK_DISP_RDMA ||
->                     comp_type =3D=3D MTK_DPI ||
-> -                   comp_type =3D=3D MTK_DSI) {
-> +                   comp_type =3D=3D MTK_DPI ||
-> +                   comp_type =3D=3D MTK_DP_INTF) {
->                         dev_info(dev, "Adding component match for %pOF\n"=
-,
->                                  node);
->                         drm_of_component_match_add(dev, &match, compare_o=
-f,
-> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/m=
-ediatek/mtk-mmsys.h
-> index 4bba275e235ac..56ed2fa5f59e8 100644
-> --- a/include/linux/soc/mediatek/mtk-mmsys.h
-> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
-> @@ -19,6 +19,8 @@ enum mtk_ddp_comp_id {
->         DDP_COMPONENT_DITHER,
->         DDP_COMPONENT_DPI0,
->         DDP_COMPONENT_DPI1,
-> +       DDP_COMPONENT_DP_INTF0,
-> +       DDP_COMPONENT_DP_INTF1,
->         DDP_COMPONENT_DSI0,
->         DDP_COMPONENT_DSI1,
->         DDP_COMPONENT_DSI2,
+You can extract dev from pfdev  here so no reason to skip it. Please
+see in other driver if it's also possible to do.
+
+Andrey
+
+
+>   		if (ret) {
+>   			dev_err(pfdev->dev, "Failed to create scheduler: %d.", ret);
+>   			goto err_sched;
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 3e0bbc797eaa..4404af323321 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -489,7 +489,7 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+>   			if (r == -ENOENT)
+>   				drm_sched_job_done(s_job);
+>   			else if (r)
+> -				DRM_ERROR("fence add callback failed (%d)\n",
+> +				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
+>   					  r);
+>   		} else
+>   			drm_sched_job_done(s_job);
+> @@ -815,7 +815,7 @@ static int drm_sched_main(void *param)
+>   			if (r == -ENOENT)
+>   				drm_sched_job_done(sched_job);
+>   			else if (r)
+> -				DRM_ERROR("fence add callback failed (%d)\n",
+> +				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
+>   					  r);
+>   			dma_fence_put(fence);
+>   		} else {
+> @@ -846,7 +846,7 @@ static int drm_sched_main(void *param)  int drm_sched_init(struct drm_gpu_scheduler *sched,
+>   		   const struct drm_sched_backend_ops *ops,
+>   		   unsigned hw_submission, unsigned hang_limit, long timeout,
+> -		   atomic_t *score, const char *name)
+> +		   atomic_t *score, const char *name, struct device *dev)
+>   {
+>   	int i, ret;
+>   	sched->ops = ops;
+> @@ -855,6 +855,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>   	sched->timeout = timeout;
+>   	sched->hang_limit = hang_limit;
+>   	sched->score = score ? score : &sched->_score;
+> +	sched->dev = dev;
+>   	for (i = DRM_SCHED_PRIORITY_MIN; i < DRM_SCHED_PRIORITY_COUNT; i++)
+>   		drm_sched_rq_init(sched, &sched->sched_rq[i]);
+>   
+> @@ -872,7 +873,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>   	if (IS_ERR(sched->thread)) {
+>   		ret = PTR_ERR(sched->thread);
+>   		sched->thread = NULL;
+> -		DRM_ERROR("Failed to create scheduler for %s.\n", name);
+> +		DRM_DEV_ERROR(sched->dev, "Failed to create scheduler for %s.\n",
+> +name);
+>   		return ret;
+>   	}
+>   
+> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c index 8992480c88fa..6d68b155c3cc 100644
+> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+> @@ -403,7 +403,7 @@ v3d_sched_init(struct v3d_dev *v3d)
+>   			     &v3d_bin_sched_ops,
+>   			     hw_jobs_limit, job_hang_limit,
+>   			     msecs_to_jiffies(hang_limit_ms),
+> -			     NULL, "v3d_bin");
+> +			     NULL, "v3d_bin", NULL);
+>   	if (ret) {
+>   		dev_err(v3d->drm.dev, "Failed to create bin scheduler: %d.", ret);
+>   		return ret;
+> @@ -413,7 +413,7 @@ v3d_sched_init(struct v3d_dev *v3d)
+>   			     &v3d_render_sched_ops,
+>   			     hw_jobs_limit, job_hang_limit,
+>   			     msecs_to_jiffies(hang_limit_ms),
+> -			     NULL, "v3d_render");
+> +			     NULL, "v3d_render", NULL);
+>   	if (ret) {
+>   		dev_err(v3d->drm.dev, "Failed to create render scheduler: %d.",
+>   			ret);
+> @@ -425,7 +425,7 @@ v3d_sched_init(struct v3d_dev *v3d)
+>   			     &v3d_tfu_sched_ops,
+>   			     hw_jobs_limit, job_hang_limit,
+>   			     msecs_to_jiffies(hang_limit_ms),
+> -			     NULL, "v3d_tfu");
+> +			     NULL, "v3d_tfu", NULL);
+>   	if (ret) {
+>   		dev_err(v3d->drm.dev, "Failed to create TFU scheduler: %d.",
+>   			ret);
+> @@ -438,7 +438,7 @@ v3d_sched_init(struct v3d_dev *v3d)
+>   				     &v3d_csd_sched_ops,
+>   				     hw_jobs_limit, job_hang_limit,
+>   				     msecs_to_jiffies(hang_limit_ms),
+> -				     NULL, "v3d_csd");
+> +				     NULL, "v3d_csd", NULL);
+>   		if (ret) {
+>   			dev_err(v3d->drm.dev, "Failed to create CSD scheduler: %d.",
+>   				ret);
+> @@ -450,7 +450,7 @@ v3d_sched_init(struct v3d_dev *v3d)
+>   				     &v3d_cache_clean_sched_ops,
+>   				     hw_jobs_limit, job_hang_limit,
+>   				     msecs_to_jiffies(hang_limit_ms),
+> -				     NULL, "v3d_cache_clean");
+> +				     NULL, "v3d_cache_clean", NULL);
+>   		if (ret) {
+>   			dev_err(v3d->drm.dev, "Failed to create CACHE_CLEAN scheduler: %d.",
+>   				ret);
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h index d18af49fd009..38a479879fdb 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -302,12 +302,13 @@ struct drm_gpu_scheduler {
+>   	atomic_t                        _score;
+>   	bool				ready;
+>   	bool				free_guilty;
+> +	struct device			*dev;
+>   };
+>   
+>   int drm_sched_init(struct drm_gpu_scheduler *sched,
+>   		   const struct drm_sched_backend_ops *ops,
+>   		   uint32_t hw_submission, unsigned hang_limit, long timeout,
+> -		   atomic_t *score, const char *name);
+> +		   atomic_t *score, const char *name, struct device *dev);
+>   
+>   void drm_sched_fini(struct drm_gpu_scheduler *sched);  int drm_sched_job_init(struct drm_sched_job *job,
 > --
-> 2.34.1
->
+> 2.17.1
