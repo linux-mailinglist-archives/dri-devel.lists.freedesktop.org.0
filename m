@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F7D4BD9F0
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 14:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D974BD9F2
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 14:37:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A0EB10E345;
-	Mon, 21 Feb 2022 13:36:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF7DD10E340;
+	Mon, 21 Feb 2022 13:37:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A83B010E317;
- Mon, 21 Feb 2022 13:36:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645450607; x=1676986607;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ARqJmaDlo21rcMScAaIqVWbKxjby/BAi23J0kEZgcvw=;
- b=I90kawQReESE0ICi8rBTgnm+E1ZhHVHFFf/FpdwXwO48io1xQ6XBj30l
- ook+Ig6F6YOD9jn7m3iIshbvORSZnZiUETysgjsp8WmZW06fTEY2OuHr6
- /EpiZFwnXs6goIz1MPyGxt5f7uW1ukB0e1TLZpSHnRP4kDyus+yvUvrUz
- WIIm3PFOcM6qskIwDoU07TJTdhhoWTfD25lcqcrGshaLmRxQkTb4W3Hqf
- dNHduDYu1W0pj5li1xrNxNnvDhRAdFBP/iitqeJLikzIy8IEdWrR52Ywa
- M7qhv0BgH2UtL6JBPMmAphYQA1Jtgzwr6BkUHTptfSQEQyGQrrDURg76D A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10264"; a="238923639"
-X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; d="scan'208";a="238923639"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2022 05:36:47 -0800
-X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; d="scan'208";a="638557494"
-Received: from asparren-mobl2.ger.corp.intel.com (HELO [10.249.254.160])
- ([10.249.254.160])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2022 05:36:45 -0800
-Message-ID: <82a6da925a9a8f3d41acb6762111b0dc42350a7c.camel@linux.intel.com>
-Subject: Re: [PATCH v2] drm/i915/ttm: fixup the mock_bo
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Mon, 21 Feb 2022 14:36:43 +0100
-In-Reply-To: <20220221121103.2473831-1-matthew.auld@intel.com>
-References: <20220221121103.2473831-1-matthew.auld@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2D4E10E340
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 13:37:39 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nM8sa-0007tK-MQ; Mon, 21 Feb 2022 14:37:28 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nM8sY-000R0Q-Ao; Mon, 21 Feb 2022 14:37:25 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nM8sX-004bq8-12; Mon, 21 Feb 2022 14:37:25 +0100
+Date: Mon, 21 Feb 2022 14:37:24 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v16 21/40] pwm: tegra: Add runtime PM and OPP support
+Message-ID: <20220221133724.iusksyn7n7hmxil2@pengutronix.de>
+References: <20211130232347.950-1-digetx@gmail.com>
+ <20211130232347.950-22-digetx@gmail.com>
+ <20220221081727.jeq2jff5ewjzubxv@pengutronix.de>
+ <677beebd-5a16-297f-c09a-fa4b72c001c9@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="l5jzzhwrtignnt6r"
+Content-Disposition: inline
+In-Reply-To: <677beebd-5a16-297f-c09a-fa4b72c001c9@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,108 +56,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, dri-devel@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, David Heidelberg <david@ixit.cz>,
+ linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2022-02-21 at 12:11 +0000, Matthew Auld wrote:
-> When running the mock selftests we currently blow up with:
-> 
-> <6> [299.836278] i915: Running
-> i915_gem_huge_page_mock_selftests/igt_mock_memory_region_huge_pages
-> <1> [299.836356] BUG: kernel NULL pointer dereference, address:
-> 00000000000000c8
-> <1> [299.836361] #PF: supervisor read access in kernel mode
-> <1> [299.836364] #PF: error_code(0x0000) - not-present page
-> <6> [299.836367] PGD 0 P4D 0
-> <4> [299.836369] Oops: 0000 [#1] PREEMPT SMP NOPTI
-> <4> [299.836372] CPU: 1 PID: 1429 Comm: i915_selftest Tainted: G    
-> U            5.17.0-rc4-CI-CI_DRM_11227+ #1
-> <4> [299.836376] Hardware name: Intel(R) Client Systems
-> NUC11TNHi5/NUC11TNBi5, BIOS TNTGL357.0042.2020.1221.1743 12/21/2020
-> <4> [299.836380] RIP: 0010:ttm_resource_init+0x57/0x90 [ttm]
-> <4> [299.836392] RSP: 0018:ffffc90001e4f680 EFLAGS: 00010203
-> <4> [299.836395] RAX: 0000000000000000 RBX: ffffc90001e4f708 RCX:
-> 0000000000000000
-> <4> [299.836398] RDX: ffff888116172528 RSI: ffffc90001e4f6f8 RDI:
-> 0000000000000000
-> <4> [299.836401] RBP: ffffc90001e4f6f8 R08: 00000000000001b0 R09:
-> ffff888116172528
-> <4> [299.836403] R10: 0000000000000001 R11: 00000000a4cb2e51 R12:
-> ffffc90001e4fa90
-> <4> [299.836406] R13: ffff888116172528 R14: ffff888130d7f4b0 R15:
-> ffff888130d7f400
-> <4> [299.836409] FS:  00007ff241684500(0000)
-> GS:ffff88849fe80000(0000) knlGS:0000000000000000
-> <4> [299.836412] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> <4> [299.836416] CR2: 00000000000000c8 CR3: 0000000107b80001 CR4:
-> 0000000000770ee0
-> <4> [299.836418] PKRU: 55555554
-> <4> [299.836420] Call Trace:
-> <4> [299.836422]  <TASK>
-> <4> [299.836423]  i915_ttm_buddy_man_alloc+0x68/0x240 [i915]
-> 
-> ttm_resource_init() now needs to access the bo->bdev, and also wants
-> to
-> store the bo reference. Try to keep both working. The mock_bo is a
-> hack
-> so we can interface directly with the ttm managers alloc() and free()
-> hooks for
-> our mock testing, without invoking other TTM features like eviction,
-> moves, etc.
-> 
-> v2: make sure we only touch res->bo if the alloc() returns
-> successfully
-> 
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5123
-> Fixes: 0e05fc49c358 ("drm/ttm: add common accounting to the resource
-> mgr v3")
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Acked-by: Christian König <christian.koenig@amd.com>
 
+--l5jzzhwrtignnt6r
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Hello,
 
-> ---
->  drivers/gpu/drm/i915/intel_region_ttm.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c
-> b/drivers/gpu/drm/i915/intel_region_ttm.c
-> index f2b888c16958..7dea07c579aa 100644
-> --- a/drivers/gpu/drm/i915/intel_region_ttm.c
-> +++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-> @@ -200,11 +200,14 @@ intel_region_ttm_resource_alloc(struct
-> intel_memory_region *mem,
->         int ret;
->  
->         mock_bo.base.size = size;
-> +       mock_bo.bdev = &mem->i915->bdev;
->         place.flags = flags;
->  
->         ret = man->func->alloc(man, &mock_bo, &place, &res);
->         if (ret == -ENOSPC)
->                 ret = -ENXIO;
-> +       if (!ret)
-> +               res->bo = NULL; /* Rather blow up, then some uaf */
->         return ret ? ERR_PTR(ret) : res;
->  }
->  
-> @@ -219,6 +222,11 @@ void intel_region_ttm_resource_free(struct
-> intel_memory_region *mem,
->                                     struct ttm_resource *res)
->  {
->         struct ttm_resource_manager *man = mem->region_private;
-> +       struct ttm_buffer_object mock_bo = {};
-> +
-> +       mock_bo.base.size = res->num_pages << PAGE_SHIFT;
-> +       mock_bo.bdev = &mem->i915->bdev;
-> +       res->bo = &mock_bo;
->  
->         man->func->free(man, res);
->  }
+On Mon, Feb 21, 2022 at 12:53:58PM +0300, Dmitry Osipenko wrote:
+> 21.02.2022 11:17, Uwe Kleine-K=C3=B6nig =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> @@ -344,7 +387,10 @@ static const struct of_device_id tegra_pwm_of_mat=
+ch[] =3D {
+> >>  MODULE_DEVICE_TABLE(of, tegra_pwm_of_match);
+> >> =20
+> >>  static const struct dev_pm_ops tegra_pwm_pm_ops =3D {
+> >> -	SET_SYSTEM_SLEEP_PM_OPS(tegra_pwm_suspend, tegra_pwm_resume)
+> >> +	SET_RUNTIME_PM_OPS(tegra_pwm_runtime_suspend, tegra_pwm_runtime_resu=
+me,
+> >> +			   NULL)
+> >> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> >> +				pm_runtime_force_resume)
+> >>  };
+> >> =20
+> >>  static struct platform_driver tegra_pwm_driver =3D {
+> > I admit to not completely understand the effects of this patch, but I
+> > don't see a problem either. So for me this patch is OK:
+> >=20
+> > Acked-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> >=20
+> > I spot a problem, it's not introduced by this patch however: If the
+> > consumer of the PWM didn't stop the hardware, the suspend should IMHO be
+> > prevented.
+>=20
+> Why? The PWM driver itself will stop the h/w on suspend.
 
+Stopping the PWM might be bad. Only the consumer can know if it's ok to
+stop the PWM on suspend. If so the consumer should stop the PWM in their
+suspend callback and the PWM should prevent suspend if it wasn't
+stopped.
 
+> > I wonder if the patches in this series go in in one go via an ARM or
+> > Tegra tree, or each patch via its respective maintainer tree.
+>=20
+> This series, including this patch, was already applied to 5.17 via the
+> tegra/soc tree. No action is needed anymore.
+
+Ah, I missed that, thanks.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--l5jzzhwrtignnt6r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmITlYwACgkQwfwUeK3K
+7Ak0Awf7Bng3Bp8dIdZWVJ0IKQy7Zh14yrunKW/TyOp4ENrNgLtH1N+DE2F332Mj
+dYGX26syp+azTB+kvoYCzH3Ro0Cisl+Ssvvm95pL0PiFStqoSwXJgti+dSqIWspK
+bwYm7tYUNcvJecG8YuuCZwSrUC6N15wccUN/VU2i8ZTOWfVAjmAKbxTNj6yLJNIU
+VvWsqthnEOGiHxH6KueZlwL3DRbTZ2QmykKmUaUFAnJwvjH24B6lAFHQnUDOFIQv
+vIbPMFpKTOvm8tOIFpqse8QJLzRAHbu5iuIiZkGnN5MVJg2C6fbo2fYVM1Ya/2c2
+YXsdY3K0KB4X8v/eFrEX5qZdljYVCA==
+=NwNV
+-----END PGP SIGNATURE-----
+
+--l5jzzhwrtignnt6r--
