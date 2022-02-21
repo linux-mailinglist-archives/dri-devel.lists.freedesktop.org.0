@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F384BD860
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 09:55:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C366B4BD861
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 09:55:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7468A112811;
-	Mon, 21 Feb 2022 08:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22F9F11281C;
+	Mon, 21 Feb 2022 08:55:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3F1911280E
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 08:55:15 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 17ED258022A;
- Mon, 21 Feb 2022 03:55:13 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34C7311281A
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 08:55:37 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 870DC580229;
+ Mon, 21 Feb 2022 03:55:36 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 21 Feb 2022 03:55:13 -0500
+ by compute4.internal (MEProxy); Mon, 21 Feb 2022 03:55:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=GMXE2sOdp9mirDDscRSA6iT0q+mcvYgiAP/MCQ
- w0gSk=; b=OyEA6VSKzAB8kbjOXZuVGfXflhCuB1nEz8NzhYpFJmpYRiIZDfrYs7
- RE4051i4UhZqQ3caHxhNnwcxHnnuNEsmH8XlHZSsZ76ca7kqv8LOqBbMMHxid0Uc
- Jxg/lM2uU/ax+ONRSYy9I04N8eJDFHp4AuAW2ciyr76Igbfonk3btAEJdfzEbChK
- 3XhI2qhRbR7AlfSrSIBEH9Rl4iHAOlCgSijxf7NcgalYYOXgK4VgeUJ6Vo1LsJK9
- Xi+EP7uzW+MVZfRhxFUJGd+JdVeAK8hnND051cFPLo+jCcg3A7y5TkL/jA70CD6x
- VRViWQcEOpSt3KmTLTjgNN0YwcyNJigw==
+ :subject:to:to; s=fm2; bh=zcdXYKD7AIGXfsVFdjjk2+yAJ6zsZ8B0f4omWG
+ U4udk=; b=LVxkjzRmQ4i/fCDy8Ek6wbLyQWNE22E401IzR2k13N3Ew037DuZLmi
+ 90/AdOlQQhkoKP0QzB4gbeJGr18LbcLmBzV8ka9qsNurIaBsjLYunuxvmyZG8Xi2
+ hLcPwTKTqhs5iEj1cbAVJhKsmISL69uUAPmvZnzjLsfXCwUTHeJOaNyswUWg6WJ+
+ miYx1ovsB7VqI0r55amRpSaRiZL0Ak7+bHM/EtrmlX+kUJi9Jkyj/DC+hxwrjDuV
+ 7myTB+f8OwKY8/BErNQMSfa2Kuc2iJ4o5mLqbiQHcliVzv64PfEWmE5hrnhfaH0m
+ zs0da30wSrcgNKNjdJvOW/JA8pFGRJJg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=GMXE2sOdp9mirDDsc
- RSA6iT0q+mcvYgiAP/MCQw0gSk=; b=KoRxtDnWOu6I2QOzhYV04HNHVUcIksNu0
- tHHrhtdVaNCK243mA4zcryn1ws0vFm5M7EyK27U7rjX/AahX+UoBd3Xiy1IP3uX0
- iOFmXiAH0MG+YK91x+FylW6DuSjHl8wbAo+Bm1B91eR3qMjzus+0BvMwQuTgx5K0
- qchyM6Ks/zCaPd40acH8bsS4C4d3wP6fcpOYNl4jMtkURbYHzW3JozSzHo4qtCnq
- +71MotZGlGSUSK2xDcA3SJLSc/X3GmC0Ro+t3d7lq1GTqK04TkMD7eZGYzMS83QH
- POBXU61hWihZ1zlQSOaqZFMTL+pp8h/di/hKhATusF+ODjC1+/Vhw==
-X-ME-Sender: <xms:cFMTYpbVznqmUzC-jtsHRrpOC-Z2ZjvVZPF8Zsx1VRgePzN3eqsq7A>
- <xme:cFMTYgbRM2BAqM22XxM9h2J8qpVkFeRfmjT6tvEuuGOiOT_llYuXC94uPjnITCX-u
- d4F9hcSVVGGW0Bao4M>
-X-ME-Received: <xmr:cFMTYr-7w2DIovNNtFqlFxgmVfzDwF24sSEbfTCey-I_W8VEN9kfAC1qcbFAkgwk_Tk2Rxg6z4irXVK4-B0XNx5kd0xQhg0xjWOdJ4k>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=zcdXYKD7AIGXfsVFd
+ jjk2+yAJ6zsZ8B0f4omWGU4udk=; b=Q26jmJCQeassQD8bDmdKizI0QTqNcla26
+ Z/sXnrDLuGaL9HqS/i8YzFk2xmSMg5qT/kGsVZyoLqSTwsIyBqXyq8RkY1BwuSFt
+ QliDhtgjgX+f//x2hHtBd0x9iJ/e9wbClQ53Vq8ySt2L5I5z1MsYD9spxcgoRscu
+ QaDu5sly+LhYn7wj37qZFFT4P56NisZ7DFvxHeADJ2Yo3eCcecgr07VYmoM8WjSm
+ ivXsSrxXOySf62FF2HZLDdgb+1ARoSIGDx5b2+B8HLOZurpInf8VZT3E4HoqDgSz
+ I5T2YtcS/CmqQ8PBVPs8UiGfEjktjTOzHthV6fN+nwMwzPlzufzyw==
+X-ME-Sender: <xms:iFMTYkhhyhwq3q1gNDcLdP3q8C2Gcn0xGoGTIFTl5cf-mLt7sYkBUw>
+ <xme:iFMTYtA36Hu-MfKjDgBkfzvgPIo3849S-J6pti4CJExQLCHTJVSCWNEU_UEJ7qt-V
+ q_DIkav7joDmQTtBy4>
+X-ME-Received: <xmr:iFMTYsH7JC_CWS-AKr917Bjxwqh6SbbwsRdMCucyfFiuWAetY7p88YlWByv5qdFb009yJNgva4gF729RxR0r-7ZfzvNueqUeOdzPO1o>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeehgdduvddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -51,23 +51,23 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeehgdduvddvucetufdoteggod
  htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
  gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:cFMTYnr2-wh0GFZI7A8qnNZAwaRYbGwkeGA2qhrwNPxUSUv52YS0RA>
- <xmx:cFMTYkpSdXNXs2ts9xUEYHIEObzSkNnBCb1q0r2XbXA2F9mW3BM6qg>
- <xmx:cFMTYtQhARpK8Yy7yQc5F0XHZ2WYjBVuWE82GeddXXyizgArjfRSSQ>
- <xmx:cVMTYr2pQ8xzASEU977j_2k-2uaOcl8oo2odB_Qq9a6ROq0Ff791rg>
+X-ME-Proxy: <xmx:iFMTYlQDvgXohLsYkaWvn1BTfIex5vySL60NfMqFYxzkcJyz8UNl_Q>
+ <xmx:iFMTYhynmE5168aSv0qT-xR_Dqtkvj78qdTou6E4xuMW1lj21zzrFg>
+ <xmx:iFMTYj7r2HOg3-c1NHjZOOf6MpAPn-q2NINtiX1xYM_81dmCIx7vEA>
+ <xmx:iFMTYmo4J-9O2AlAD-UW1T9vmr3i44wDDqBByzDzzOKwQaNNj9QSMg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Feb 2022 03:55:11 -0500 (EST)
-Date: Mon, 21 Feb 2022 09:55:09 +0100
+ 21 Feb 2022 03:55:35 -0500 (EST)
+Date: Mon, 21 Feb 2022 09:55:34 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Subject: Re: [PATCH] drm/bridge: anx7625: switch to devm_drm_of_get_bridge
-Message-ID: <20220221085509.fies6j3hjsiz55rz@houat>
-References: <20220221072835.10032-1-jose.exposito89@gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: switch to devm_drm_of_get_bridge
+Message-ID: <20220221085534.qw2x6mge42uo4fl6@houat>
+References: <20220221073339.10742-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="eczutt6qtkbsvjzt"
+ protocol="application/pgp-signature"; boundary="kcae224eyodkfp6e"
 Content-Disposition: inline
-In-Reply-To: <20220221072835.10032-1-jose.exposito89@gmail.com>
+In-Reply-To: <20220221073339.10742-1-jose.exposito89@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,20 +80,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, airlied@linux.ie, robert.foss@linaro.org,
- dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
- linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ dmitry.baryshkov@linaro.org, swboyd@chromium.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---eczutt6qtkbsvjzt
+--kcae224eyodkfp6e
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 21, 2022 at 08:28:35AM +0100, Jos=E9 Exp=F3sito wrote:
+On Mon, Feb 21, 2022 at 08:33:39AM +0100, Jos=E9 Exp=F3sito wrote:
 > The function "drm_of_find_panel_or_bridge" has been deprecated in
 > favor of "devm_drm_of_get_bridge".
 >=20
@@ -105,15 +105,15 @@ Reviewed-by: Maxime Ripard <maxime@cerno.tech>
 
 Maxime
 
---eczutt6qtkbsvjzt
+--kcae224eyodkfp6e
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhNTbQAKCRDj7w1vZxhR
-xWSrAQCMUGagQwycqchROA9zu7E7WHhKxOpwfyKGy48CobttowEAuAOfimTfYbXE
-HWzmftcO4nNlobY2CTkFaY2vwbiLGQ0=
-=7bLY
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhNThgAKCRDj7w1vZxhR
+xQ/3AQDoqp/3uuiqU47wvaKsMT4OkQ8oU6uBZBmILyZXiEmPlAD8C7QMIh6RfG/2
+cMb7pXNT5FUCHu/NDIb0I9E7Cig+gw4=
+=WH80
 -----END PGP SIGNATURE-----
 
---eczutt6qtkbsvjzt--
+--kcae224eyodkfp6e--
