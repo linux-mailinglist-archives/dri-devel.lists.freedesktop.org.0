@@ -1,73 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC544BD8E3
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 11:01:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDCD4BD8F5
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 11:13:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D143710F378;
-	Mon, 21 Feb 2022 10:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C3F10E837;
+	Mon, 21 Feb 2022 10:13:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE34D10F2A9
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 10:01:53 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id d3so10410736wrf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 02:01:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YZ+si3odyYtBfKCwmZtlljyYoUebhhvf4uslsh/s+F4=;
- b=d8cTQr1kPqH5MIr5D3dAqmCZtc37/RleZA6NK1HFBkhZrEoJmQ1Tyf9CYpJvvYJzj9
- 8GJ/Aof2iwQlsvS0D5uhtpZmPHygGNARW7qokCKqJFabObNEFv7ZpCHH9EVhHTMZlK1B
- 0VsHc6eutuN5lFCt7hkLtfzCr+B4pMRYgNxvp3DA0n6Wclg5AYC+QtYQHvNs0tDuKjDF
- BCaXw483rjeQAjEmjdsNfCUvrjdB5XIqRtuBK4M1tyqacy35QFmGX0aZqxOAxdYa8FNG
- Zv2aR4sseOzR9Zx9ZhsY2bWsgu4zoDAEBU/CceJbxAjfKHVqd4fLJzaPI8BCLoBaOFgk
- 3/5g==
-X-Gm-Message-State: AOAM532UZIrq89bO1dDfnIXFmwq3PR94MyXLV+8KdbXPxMf2cu2mlN0l
- vKEPve9xFp12A8RmVwkJH4s=
-X-Google-Smtp-Source: ABdhPJxiSwRwEHfd8Q+eqMRaMd1mC5EXxdtAwlKOfu4jlIozdrPKqmXsyZiymQ3sUemzBc2KSw7yWQ==
-X-Received: by 2002:adf:fb8e:0:b0:1e3:241b:218c with SMTP id
- a14-20020adffb8e000000b001e3241b218cmr15194533wrr.359.1645437712057; 
- Mon, 21 Feb 2022 02:01:52 -0800 (PST)
-Received: from [192.168.0.120] (xdsl-188-155-181-108.adslplus.ch.
- [188.155.181.108])
- by smtp.googlemail.com with ESMTPSA id q76sm7668095wme.1.2022.02.21.02.01.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Feb 2022 02:01:51 -0800 (PST)
-Message-ID: <acf6d02d-0e17-b84a-5bd8-9f5165f73915@kernel.org>
-Date: Mon, 21 Feb 2022 11:01:49 +0100
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2069.outbound.protection.outlook.com [40.107.93.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E17B10E7C2;
+ Mon, 21 Feb 2022 10:13:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YF2lamQPWaYpuewhY2laRfsa49ZZ+FxgCvdbqtkNY8cfuqpwtUpOIGLYfYCXabX6q9OsVbpkpFOVPJAu32U8P+HWFeV0ba+noRyrBfUndSu3nmMxWDQppQhk+s5h3FomSsjcVWXd5E46DXJXy1FV5xDCtQ46m+GE7EZQVo823xk272TPkMaFKd0sdudcUCSw2D1Wyj7co3qBZtidTwlsVrL5dE5TzGOnbuHgFYPKtP/pOZ/hgqcio7IFWT7QN+icI4tcbfNpkIq9ruK8ynwTLImamxTuz1qd+sKP9NkuA8TqWWcZ3rvxasO0XdxPfPeITgAC7MUyKZtm58OhHWq9Cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mFvjvBPo0KeGxdb3dtgdf2/eI01KkNsEtmpJlQ59fPI=;
+ b=DILEPKcBKv4tKpSPKa612I/0aBMDsXRZ/NBVVPRekRTlTDWwBGSfKhtjmxV9qvslIRWVbF5T//SANp8HXflkjD1p/6aF/vK3Acwj9enp/AgqOs6LBsZfhVBwegk22ArLf8K6eyuyjHzlMImfmZUEJK6ZH2I1F9OxmpnXXMpbU3YxDMiXhSiPvfL5Zm2AUpMqKHctH/avXVOV/h0NPoRQRS7LLXhXHWfb8YHqzDrkWI7g0VEsUNOXc04/1n+9pjSAW7X+3eUW097cUlpzWxVtHzyNMyNnQQgFJJrY0xzkh2/3qPyWFlS//3uk87gQ6lyKZx20+Z2IMSZlDDHBH24QWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.ie smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mFvjvBPo0KeGxdb3dtgdf2/eI01KkNsEtmpJlQ59fPI=;
+ b=kuhaXe7oxsiFxbfnsL2QrAwj2dl8nVbYEP6CxPrIsr1qfnUTEFnToYGsmGEjWI6KxK8Doovsx2+VNn4jn4z9mmtLQBu2dOU2UWLUgKs112m9UVUNngAMaVmIP/fVWlc8JzEfskuvmf0fktHEtq5EsZerSQHD2IyNY+AAgwwX4EA=
+Received: from CO1PR15CA0055.namprd15.prod.outlook.com (2603:10b6:101:1f::23)
+ by MWHPR1201MB0111.namprd12.prod.outlook.com (2603:10b6:301:55::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.16; Mon, 21 Feb
+ 2022 10:13:17 +0000
+Received: from CO1NAM11FT053.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:101:1f:cafe::a9) by CO1PR15CA0055.outlook.office365.com
+ (2603:10b6:101:1f::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11 via Frontend
+ Transport; Mon, 21 Feb 2022 10:13:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT053.mail.protection.outlook.com (10.13.175.63) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4995.15 via Frontend Transport; Mon, 21 Feb 2022 10:13:16 +0000
+Received: from localhost.localdomain (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 21 Feb
+ 2022 04:13:13 -0600
+From: Qiang Yu <qiang.yu@amd.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, "Pan, Xinhui"
+ <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>
+Subject: [PATCH] drm/amdgpu: check vm ready by evicting
+Date: Mon, 21 Feb 2022 18:12:35 +0800
+Message-ID: <20220221101239.2863-1-qiang.yu@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v10 1/4] MIPS: Loongson64: dts: update the display
- controller device node
-Content-Language: en-US
-To: Sergei Shtylyov <sergei.shtylyov@gmail.com>,
- Sui Jingfeng <15330273260@189.cn>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
- suijingfeng <suijingfeng@loongson.cn>
-References: <20220220145554.117854-1-15330273260@189.cn>
- <20220220145554.117854-2-15330273260@189.cn>
- <08abcb14-f1f6-8be5-6309-cd16e0578c05@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <08abcb14-f1f6-8be5-6309-cd16e0578c05@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4750c9a3-e121-4e88-a6c8-08d9f522c72d
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB0111:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR1201MB011145A5444FF9A0C0BCA26D8F3A9@MWHPR1201MB0111.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: abT/Yf2+1eCZcvLUVhc8ozKefnp6n8Xw0jbqtewzL7ROqbeCp0dRz+BJ9AP9yGyCOBOfMYrR4IEG/s7TC/nTNrQcBSCTEcSIhoY+KF/RlDgDLVX13xwqsUOdFOp0kJl7/9uiLCp8uPhAzZ+igLNrC/pfb+GWVXyaWbIzX0FX3+2173GP7q+3sOW+v4T2wST1MUPgReKyEq3O0PPvpKImhTzwODFKdcwSDIRlrBxmUfpPQQp///cNJJrYp7IIfwtix6LuQ9tNTlJ4VsjoecQoVswiSAnZxX3AHwWXPpLaHNawdXv2oAXOxs+yC8568G3jkBHtZC+XlnlTcYFR/+TYbarG3Td3rvF9lBAtTr7saE2VttdAlc6Md8AXk1X0WxG48W2mUuOJDcTV+PGGK4m7QvI2Ssjl2GOyGJ7M9bROAWdLScSOWubzAae3w3oLSOpoQ2KmatWnFnf58nGFj1hwxV3cj1yV6rFr2SR/4XGp2sV4Yizwk1OZxE53hEYChXQ0q2L9y6dlU2JETtdxVRxC1QIXNTHE1INLEw0sJg8NdyBAZgfECinNcgoy3G3N+PQMddhwtjCUVbO6+/ecZ/2P9UZ9aak7biNInSHSn3NNH6WnaAOlA1kWeVESOLiN0vHNLPYNDc9h8TUs181xl1pZr5ATNshDZ+H94e1dT9AUGjpHoqN5oT1ZEXGrm9ZH83xh8RpMmoSebBepuD+IwGqlfg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(8936002)(6666004)(336012)(26005)(40460700003)(508600001)(186003)(81166007)(5660300002)(2616005)(86362001)(1076003)(70586007)(70206006)(8676002)(4326008)(16526019)(82310400004)(356005)(2906002)(110136005)(54906003)(47076005)(36860700001)(83380400001)(316002)(44832011)(36756003)(426003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2022 10:13:16.7111 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4750c9a3-e121-4e88-a6c8-08d9f522c72d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT053.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,51 +102,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Qiang Yu <qiang.yu@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/02/2022 10:19, Sergei Shtylyov wrote:
-> On 2/20/22 5:55 PM, Sui Jingfeng wrote:
-> 
->> From: suijingfeng <suijingfeng@loongson.cn>
->>
->> The display controller is a pci device, its PCI vendor id is 0x0014
->> its PCI device id is 0x7a06.
->>
->> 1) In order to let the driver to know which chip the DC is contained
->>    in, the compatible string of the display controller is updated
->>    according to the chip's name.
->>
->> 2) Add display controller device node for ls2k1000 SoC
->>
->> Reported-by: Krzysztof Kozlowski <krzk@kernel.org>
->> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
->> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
->> ---
->>  arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi | 8 ++++++++
->>  arch/mips/boot/dts/loongson/ls7a-pch.dtsi          | 7 ++-----
->>  2 files changed, 10 insertions(+), 5 deletions(-)
->>
->> diff --git a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
->> index 768cf2abcea3..af9cda540f9e 100644
->> --- a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
->> +++ b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
->> @@ -209,6 +209,14 @@ gpu@5,0 {
->>  				interrupt-parent = <&liointc0>;
->>  			};
->>  
->> +			lsdc: display-controller@6,0 {
-> 
->    Shouldn't the node name just be "display", according to the section 2.2.2
-> of the DT spec?
+Workstation application ANSA/META get this error dmesg:
+[drm:amdgpu_gem_va_ioctl [amdgpu]] *ERROR* Couldn't update BO_VA (-16)
 
-lcd-controller, led-controller. As I understood from the bindings, this
-is not physical device displaying something (like a panel) but rather a
-device controlling such panel. Therefore display-controller feels
-appropriate.
+This is caused by:
+1. create a 256MB buffer in invisible VRAM
+2. CPU map the buffer and access it causes vm_fault and try to move
+   it to visible VRAM
+3. force visible VRAM space and traverse all VRAM bos to check if
+   evicting this bo is valuable
+4. when checking a VM bo (in invisible VRAM), amdgpu_vm_evictable()
+   will set amdgpu_vm->evicting, but latter due to not in visible
+   VRAM, won't really evict it so not add it to amdgpu_vm->evicted
+5. before next CS to clear the amdgpu_vm->evicting, user VM ops
+   ioctl will pass amdgpu_vm_ready() (check amdgpu_vm->evicted)
+   but fail in amdgpu_vm_bo_update_mapping() (check
+   amdgpu_vm->evicting) and get this error log
 
+This error won't affect functionality as next CS will finish the
+waiting VM ops. But we'd better clear the error log by check the
+evicting flag which really stop VM ops latter.
 
-Best regards,
-Krzysztof
+Signed-off-by: Qiang Yu <qiang.yu@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 37acd8911168..2cd9f1a2e5fa 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -770,11 +770,16 @@ int amdgpu_vm_validate_pt_bos(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+  * Check if all VM PDs/PTs are ready for updates
+  *
+  * Returns:
+- * True if eviction list is empty.
++ * True if VM is not evicting.
+  */
+ bool amdgpu_vm_ready(struct amdgpu_vm *vm)
+ {
+-	return list_empty(&vm->evicted);
++	bool ret;
++
++	amdgpu_vm_eviction_lock(vm);
++	ret = !vm->evicting;
++	amdgpu_vm_eviction_unlock(vm);
++	return ret;
+ }
+ 
+ /**
+-- 
+2.25.1
+
