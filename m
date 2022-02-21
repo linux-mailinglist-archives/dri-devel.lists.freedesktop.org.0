@@ -1,120 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85A14BD91A
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 11:32:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCD24BD928
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 11:44:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A860010E82A;
-	Mon, 21 Feb 2022 10:32:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 599CE10E336;
+	Mon, 21 Feb 2022 10:44:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2083.outbound.protection.outlook.com [40.107.223.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F093310E811;
- Mon, 21 Feb 2022 10:32:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XI2CeO5fpm0S+n39ytoxRzbGoXriNykxZlC2N0s/u3N8zalOjh3KbRneoh3kpq+ndNFKDfUfuZ/G8o2Ro12PskWL5MmPyM3wrH7EsD+EQI22OD154oNfaz24Y62wACJvbwoZ6u+m4en/V7ztbA/4hn4sTr6jMi4F0gyLLEbAoGWo30byFDJWMmb4omWs2NiZhMkvvGtYryknO68eyNwBcjeHzscOfBhp0yXakqHOUk5zFHxfKnOunzQX+jJzhiSyrcn4ObLIeEeMM7vS9xd2gkEHzyQa5OTcu9/m7gL91/9QIHZMX3MWh/NhffkPoFi3T9284J+glirB2T4EbtHZfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8clvoOxm7+7c4D3BTExzoWieZO0+85MDo0X8K3ZTpQU=;
- b=hBoOX0Fgt8vCz4qU2fE2wXOCD8sG6oYmQVp1vHIpTX66kjJHHf2+3RTiQZB0UjZf6wSb9Ng4HAPfqzesqJxXeMebcvKyLQhbYNG3d5cNWq61jrWzcKEbVeNeAreltooznDHHRXHBJav41SK9mf2YXNESPRkFc3bx5qtkjdysFz8NNB05atL7wlbwGVDcFEGKXluzJVcpD0bbYaicAzwwotCiq3dSFBA87VzMgr6vTCFdoDxagKxK0PNu+dmkysl992rwq35aq2BuLf4MmGedCBge4nafImnHLtHJ6blm43DuiXwodI+UeBvhmV1Fiog0DRTCxCc2jDC1PesGTT3u0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8clvoOxm7+7c4D3BTExzoWieZO0+85MDo0X8K3ZTpQU=;
- b=n7s6/xC9A4cxE56plItJVZN4f65cFr5gyMDonlpWcPLSDLexY6rLV191bi4Old7KWf9W8EGhpsD0gaQY310hGpT4Hjs0hidACKaZugDn+r4Clk5bPG2nWbqcpoTrOt+IdBzcy5h4WjCy8hMiEcqimFroJhgQ0a9UcakRFRD72RE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CO6PR12MB5475.namprd12.prod.outlook.com (2603:10b6:5:354::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.14; Mon, 21 Feb
- 2022 10:32:16 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e03f:901a:be6c:b581]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e03f:901a:be6c:b581%6]) with mapi id 15.20.4995.027; Mon, 21 Feb 2022
- 10:32:16 +0000
-Message-ID: <6e0ebf4b-ffd7-df55-8ae9-472878f22605@amd.com>
-Date: Mon, 21 Feb 2022 11:32:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/amdgpu: check vm ready by evicting
-Content-Language: en-US
-To: Qiang Yu <qiang.yu@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20220221101239.2863-1-qiang.yu@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220221101239.2863-1-qiang.yu@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS8PR05CA0003.eurprd05.prod.outlook.com
- (2603:10a6:20b:311::8) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A876910E336
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 10:44:42 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nM6Az-0005yH-Ah; Mon, 21 Feb 2022 11:44:17 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nM6At-000P4c-Mq; Mon, 21 Feb 2022 11:44:10 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nM6As-004a8j-5E; Mon, 21 Feb 2022 11:44:10 +0100
+Date: Mon, 21 Feb 2022 11:44:06 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm: Only select I2C_ALGOBIT for drivers that actually
+ need it
+Message-ID: <20220221104406.q65kdxunhelyi27v@pengutronix.de>
+References: <20210514100142.1182997-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9353dc55-295c-4a2b-7277-08d9f5256e19
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5475:EE_
-X-Microsoft-Antispam-PRVS: <CO6PR12MB5475325AC0A88F62DE191309833A9@CO6PR12MB5475.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WDjcX13Ims5hef8r+rjd7fgrcenwO1VvyhUE/q1nJDIGTZdxKCltD68dzhJ3yrFnKVP26mUWtiv4SIiy0xdViQZusCgrL/8YS43Oe5KgBqaLANPqzSprLtuFeIKFEdd8NfLbvUNavRmJFIAuP+N8gmle6ODFghWHy9sS+MY6D9YXDISmWYdYXmFm1psrq9e5IguWvlCJzJDBZhQAOYa8QgWCVB3lkslWv1cktNzRJq2iO/Vr48efL9MuIn/fz4lNSM1n0IiMohy4xEz+jSJpo96ihmk0Z/OdHv9+oO/qEfWtVHg475p3h9tAcwPCR0Pho9cpUPYaaGxgHPk9N5Y1S4u67pAd2qcg0adCfAFyNs7f7y7/g5p5L0XAIGi5iSeX7iX75IFbSd5wf9iObvYRWRTYF5pqtbjSo9Sl3ik6FtqqeYGaOMj+pPgF5Erd6p8FpkfUaSTVTSwgi1qq+WpcovZkhHtbpzjdBIq5jtREc2Ouua8eqENxuRwrGefNYGGzS9DAJRKn5Y3KQDLvejboBPNgPtr3xtOyakMNxNiPHIUQL4Tfjgwh0jlwIFe+5peR2MD5F7mNkx2o8Yq4VCIOX+vojl6i+NM44fpIS2A5eI/x2ivZJxlC5Y0few5FyuBzL7ZQbdYbT5JPodmXAh2aFKcfnCu4aLJ5FcJk70zmblRiRNouMA0IpplvPItUAnkHYixE0CwpptWALC/oxG1thNPM/rrYYzGZHfawzPyJKtXtn5n3yXJdDyUdvC6+JG8r
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(31696002)(2906002)(2616005)(8936002)(38100700002)(186003)(26005)(86362001)(6512007)(316002)(66476007)(31686004)(66556008)(6666004)(83380400001)(110136005)(66574015)(6506007)(6486002)(8676002)(508600001)(4326008)(36756003)(66946007)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TmNKOW03cThGSkJBS1ZueGJzaFlZeStQNmtmNlB1azBubGdocmgrNTJ4Yzd3?=
- =?utf-8?B?L05DSHFYblpiMVdFK0VXc1hDTis0Q0hPOFRBWm10bm9taW5hMS94S2Y1akJF?=
- =?utf-8?B?bUxGSy9WRUxpQUFnZi9nTm5IWmNjZnNQUi85emQzQWdTQnpwZjVzcmF1dUFR?=
- =?utf-8?B?Nm9ZY2VVZWNVaE4xRkpCQXF4RjJCdmF1NVJPdm15T0ZuSWZMN051NVozZkdp?=
- =?utf-8?B?OWc2S2x2d3d1dGhBdkV2OHBhRUEzdFIweHpTaTFLbFJlM0t6Q1FyNlQzVVh0?=
- =?utf-8?B?cW0wMDVuek9WQmwvK0h2TWJDTTF1NjhoVWtJeEZkWXBVZnk2c2NWR0lPQk1U?=
- =?utf-8?B?NHlRN0xYNHh4TWJTdS92Z2N2WVEyUkIyNzNxc1Q2UEpVUjhhTUQ0YlI2L1NI?=
- =?utf-8?B?M3RNTm1QQ3ByRkNWYWtuR3IyTEFkZGZVVGlDSUdPcWNXTVV5VURTaHgyYUxX?=
- =?utf-8?B?cnFEK0w0d1NTa1RjdWl5a0phaUhpdzJPRlo4eWZkOWVwS003U0o3UWkxUHUz?=
- =?utf-8?B?WjZINDllZndSNGZ6dTlRdk05NDNUMUZvSTUzSkVidXhPaURjcnM5dE5WdlFy?=
- =?utf-8?B?d2tiMGI2VGRhb1VDRWNKOUk4Q09rTDYwYWtIaVVPQVdRTjAvNXVkdERybmpU?=
- =?utf-8?B?ZEd6UlhpeW0zc1ovR080UCtZNXFJZm1VeGJQampnSEpkM1NtVS9VR2hBc1Y5?=
- =?utf-8?B?TzI3RC9TTlRxMGpLT0owc2V1QXd0T2NyL0FvYndQaTJodFdMZEVyMXdVS0dv?=
- =?utf-8?B?L01GdXVEZGRpUm1TdXdsaXUweHorSHNMZUhQdkZsSXljOEFaTWwyK0J0V0Jl?=
- =?utf-8?B?MHpKOVVXeWZQRnhPOEVPNXh1bXVZSGJ0VTd1MWZhMndhYnBXMzhyYzM2K2tu?=
- =?utf-8?B?MnpYUUxOTUhqQ3RWZWNkdWxFWHN0SzJpSVhRd014MWdUakpaSHVwd1hmcXZ6?=
- =?utf-8?B?cGdVK2JFeDdFUjZPU2JWMDliRERHVmcxZ2ZyditxaGxZMGlseUxKYWpNRG8w?=
- =?utf-8?B?UkJUNFZ0d1JTdWU1NW1vczdKNjdOeVB4bGozUWJKcTc3Q1dROW1aajBMQTcv?=
- =?utf-8?B?T3lWemhwR1REUW9qdy93MmhrWE90dWIxNENORU5vSWtPU0J5SThqSlhHMlNi?=
- =?utf-8?B?ek1PQndtekFyMkZtcFAwOFp0VFFzRU1GMlgyL0haTXpaMmlFcFpsYjdsdHNL?=
- =?utf-8?B?VWp3SXFqMFpGWGh2emJkWFVERCtPUU14TG8zWnYxNDdsbWIwRURjbzAwWEp3?=
- =?utf-8?B?T3U0eTBkaEFyVWVCcGZvUVFOQWF4YkQ3YXFxSWlwZm1CNW9BTENWemFoTWph?=
- =?utf-8?B?NUVhcTlqQmhiWWtFU09GRGsya3Q0VTBCRExtbXpIRVJIaVZ6Q0FCZTliWElh?=
- =?utf-8?B?Rmo3UGNwOFBZZzU0aTNPWDBRaFVQbkRMY3FTdkJObm5xRGpYV2o5ajRHclN0?=
- =?utf-8?B?aUNwcG5jVkx3K3hNVkQ2OEdEQ2VjTjI1TDZlMjlMNXZpQVMyWEMxY01nTEEz?=
- =?utf-8?B?R1pmb1lIejJWN1dmemJGaFAxMHh1QnhVMmQzNklLclFybWZ2RU8wU1NaL05v?=
- =?utf-8?B?VFpXT0psekhFU3dwRmlkc1prT3FjUDlsUHJyUTVhbFliaVZYOGFlMTJFT1F2?=
- =?utf-8?B?RUI4eE1EUHh2d3RvUDhRQTZ2bC9PSlNIdmMxYmdwdERCeU8yRUhIUVNjeHp2?=
- =?utf-8?B?elFROUNva0RRUDRjbkpSdjJjVFNvcklDKzVLK01tSkxENFBBTlR1bGppMCtv?=
- =?utf-8?B?dDhqcCttcm94R1Y1VmxCYWw0VHYweHRjdzBlREFUa05ZUHR2UWxlbHFhSEVR?=
- =?utf-8?B?SHQ1YTBEVFdXdzczTnVPemU4RXB0dHRLa2JDUFA2UmFtZkE2Wm5ZRi9IOW5T?=
- =?utf-8?B?Rk9YRWN0TnpCaU5mUU03VDBJcTFjS3hlS2dlaTdURHIxTGtnZllGUkhjTGht?=
- =?utf-8?B?OWh3WmVoYTdHT3NURXJLQ1NRUi9NRVNYSUEvVUNuaE9JQUQycWgyN3dGaTVx?=
- =?utf-8?B?b3hncFE1RHVWS2VJNU5RTVJZaWcvSGYvTVlueDd2OTlkQkJTZzJoVUVQVTRw?=
- =?utf-8?B?TTF4ZTNBQVUvYXNzcVhVc3YwYjg2cHNWSUR2ZFFmVmJVUVdDdUpaWnVPbGk3?=
- =?utf-8?Q?OI8o=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9353dc55-295c-4a2b-7277-08d9f5256e19
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2022 10:32:16.0642 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Tlt1Aufo+vZlj0sno3JcJPl0o4VNqymRGIfTeX0lT4WaSCEuWGu4mWinpKvtTvOS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5475
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="fo7jxdx5d4fj6bzu"
+Content-Disposition: inline
+In-Reply-To: <20210514100142.1182997-1-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,66 +57,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Xinliang Liu <xinliang.liu@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
+ intel-gfx@lists.freedesktop.org, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, nouveau@lists.freedesktop.org,
+ Tian Tao <tiantao6@hisilicon.com>, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--fo7jxdx5d4fj6bzu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Am 21.02.22 um 11:12 schrieb Qiang Yu:
-> Workstation application ANSA/META get this error dmesg:
-> [drm:amdgpu_gem_va_ioctl [amdgpu]] *ERROR* Couldn't update BO_VA (-16)
->
-> This is caused by:
-> 1. create a 256MB buffer in invisible VRAM
-> 2. CPU map the buffer and access it causes vm_fault and try to move
->     it to visible VRAM
-> 3. force visible VRAM space and traverse all VRAM bos to check if
->     evicting this bo is valuable
-> 4. when checking a VM bo (in invisible VRAM), amdgpu_vm_evictable()
->     will set amdgpu_vm->evicting, but latter due to not in visible
->     VRAM, won't really evict it so not add it to amdgpu_vm->evicted
-> 5. before next CS to clear the amdgpu_vm->evicting, user VM ops
->     ioctl will pass amdgpu_vm_ready() (check amdgpu_vm->evicted)
->     but fail in amdgpu_vm_bo_update_mapping() (check
->     amdgpu_vm->evicting) and get this error log
->
-> This error won't affect functionality as next CS will finish the
-> waiting VM ops. But we'd better clear the error log by check the
-> evicting flag which really stop VM ops latter.
->
-> Signed-off-by: Qiang Yu <qiang.yu@amd.com>
+Hello,
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+On Fri, May 14, 2021 at 12:01:42PM +0200, Uwe Kleine-K=F6nig wrote:
+> While working on a drm driver that doesn't need the i2c algobit stuff I
+> noticed that DRM selects this code even tough only 8 drivers actually use
+> it. While also only some drivers use i2c, keep the select for I2C for the
+> next cleanup patch. Still prepare this already by also selecting I2C for
+> the individual drivers.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-Good work.
+This patch is already old but the issue is still valid and the patch
+even still applies to today's Linus' master branch.
+
+I didn't receive any human feedback. If you consider this patch
+worthwile I can recheck if it's still correct as is or needs adaption.
+
+Best regards
+Uwe
 
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 37acd8911168..2cd9f1a2e5fa 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -770,11 +770,16 @@ int amdgpu_vm_validate_pt_bos(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->    * Check if all VM PDs/PTs are ready for updates
->    *
->    * Returns:
-> - * True if eviction list is empty.
-> + * True if VM is not evicting.
->    */
->   bool amdgpu_vm_ready(struct amdgpu_vm *vm)
->   {
-> -	return list_empty(&vm->evicted);
-> +	bool ret;
-> +
-> +	amdgpu_vm_eviction_lock(vm);
-> +	ret = !vm->evicting;
-> +	amdgpu_vm_eviction_unlock(vm);
-> +	return ret;
->   }
->   
->   /**
+>  drivers/gpu/drm/Kconfig                 | 5 ++++-
+>  drivers/gpu/drm/ast/Kconfig             | 2 ++
+>  drivers/gpu/drm/gma500/Kconfig          | 2 ++
+>  drivers/gpu/drm/hisilicon/hibmc/Kconfig | 2 ++
+>  drivers/gpu/drm/i915/Kconfig            | 2 ++
+>  drivers/gpu/drm/mgag200/Kconfig         | 2 ++
+>  drivers/gpu/drm/nouveau/Kconfig         | 2 ++
+>  7 files changed, 16 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 3c16bd1afd87..351ea617c498 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -12,7 +12,6 @@ menuconfig DRM
+>  	select HDMI
+>  	select FB_CMDLINE
+>  	select I2C
+> -	select I2C_ALGOBIT
+>  	select DMA_SHARED_BUFFER
+>  	select SYNC_FILE
+>  # gallium uses SYS_kcmp for os_same_file_description() to de-duplicate
+> @@ -233,6 +232,8 @@ config DRM_RADEON
+>          select DRM_KMS_HELPER
+>          select DRM_TTM
+>  	select DRM_TTM_HELPER
+> +	select I2C
+> +	select I2C_ALGOBIT
+>  	select POWER_SUPPLY
+>  	select HWMON
+>  	select BACKLIGHT_CLASS_DEVICE
+> @@ -254,6 +255,8 @@ config DRM_AMDGPU
+>  	select DRM_SCHED
+>  	select DRM_TTM
+>  	select DRM_TTM_HELPER
+> +	select I2C
+> +	select I2C_ALGOBIT
+>  	select POWER_SUPPLY
+>  	select HWMON
+>  	select BACKLIGHT_CLASS_DEVICE
+> diff --git a/drivers/gpu/drm/ast/Kconfig b/drivers/gpu/drm/ast/Kconfig
+> index fbcf2f45cef5..bcc25decd485 100644
+> --- a/drivers/gpu/drm/ast/Kconfig
+> +++ b/drivers/gpu/drm/ast/Kconfig
+> @@ -6,6 +6,8 @@ config DRM_AST
+>  	select DRM_VRAM_HELPER
+>  	select DRM_TTM
+>  	select DRM_TTM_HELPER
+> +	select I2C
+> +	select I2C_ALGOBIT
+>  	help
+>  	 Say yes for experimental AST GPU driver. Do not enable
+>  	 this driver without having a working -modesetting,
+> diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kcon=
+fig
+> index 0cff20265f97..e26c3a24955d 100644
+> --- a/drivers/gpu/drm/gma500/Kconfig
+> +++ b/drivers/gpu/drm/gma500/Kconfig
+> @@ -3,6 +3,8 @@ config DRM_GMA500
+>  	tristate "Intel GMA500/600/3600/3650 KMS Framebuffer"
+>  	depends on DRM && PCI && X86 && MMU
+>  	select DRM_KMS_HELPER
+> +	select I2C
+> +	select I2C_ALGOBIT
+>  	# GMA500 depends on ACPI_VIDEO when ACPI is enabled, just like i915
+>  	select ACPI_VIDEO if ACPI
+>  	select BACKLIGHT_CLASS_DEVICE if ACPI
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Kconfig b/drivers/gpu/drm/hi=
+silicon/hibmc/Kconfig
+> index 43943e980203..ac8c42dc79f6 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/Kconfig
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
+> @@ -6,6 +6,8 @@ config DRM_HISI_HIBMC
+>  	select DRM_VRAM_HELPER
+>  	select DRM_TTM
+>  	select DRM_TTM_HELPER
+> +	select I2C
+> +	select I2C_ALGOBIT
+>  	help
+>  	  Choose this option if you have a Hisilicon Hibmc soc chipset.
+>  	  If M is selected the module will be called hibmc-drm.
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index 69f57ca9c68d..b3bb6f7cfbbc 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -13,6 +13,8 @@ config DRM_I915
+>  	select DRM_PANEL
+>  	select DRM_MIPI_DSI
+>  	select RELAY
+> +	select I2C
+> +	select I2C_ALGOBIT
+>  	select IRQ_WORK
+>  	# i915 depends on ACPI_VIDEO when ACPI is enabled
+>  	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
+> diff --git a/drivers/gpu/drm/mgag200/Kconfig b/drivers/gpu/drm/mgag200/Kc=
+onfig
+> index eec59658a938..b28c5e4828f4 100644
+> --- a/drivers/gpu/drm/mgag200/Kconfig
+> +++ b/drivers/gpu/drm/mgag200/Kconfig
+> @@ -4,6 +4,8 @@ config DRM_MGAG200
+>  	depends on DRM && PCI && MMU
+>  	select DRM_GEM_SHMEM_HELPER
+>  	select DRM_KMS_HELPER
+> +	select I2C
+> +	select I2C_ALGOBIT
+>  	help
+>  	 This is a KMS driver for Matrox G200 chips. It supports the original
+>  	 MGA G200 desktop chips and the server variants. It requires 0.3.0
+> diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kc=
+onfig
+> index 9436310d0854..8823f0b24c73 100644
+> --- a/drivers/gpu/drm/nouveau/Kconfig
+> +++ b/drivers/gpu/drm/nouveau/Kconfig
+> @@ -7,6 +7,8 @@ config DRM_NOUVEAU
+>  	select DRM_KMS_HELPER
+>  	select DRM_TTM
+>  	select DRM_TTM_HELPER
+> +	select I2C
+> +	select I2C_ALGOBIT
+>  	select BACKLIGHT_CLASS_DEVICE if DRM_NOUVEAU_BACKLIGHT
+>  	select ACPI_VIDEO if ACPI && X86 && BACKLIGHT_CLASS_DEVICE && INPUT
+>  	select X86_PLATFORM_DEVICES if ACPI && X86
+>=20
+> base-commit: 315d99318179b9cd5077ccc9f7f26a164c9fa998
+> --=20
+> 2.30.2
+>=20
+>=20
+>=20
 
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--fo7jxdx5d4fj6bzu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmITbPMACgkQwfwUeK3K
+7An5cgf/a9YGvJyV58Jivjfe2u2Dl/jKZ1+fArYpC3h0O76yBGqkT1CnEpgOaFJl
+hjxWBIe+EwewKUcegjXnB58iNQmpH7tRet0BVfXluqLVQxKwgU7aFfiEJ9Hh81ua
+epDFlbF3BUbVrrc3kXnTCoZTN6fOobAKDkU5SB8yEIR/85kbdQddGdSZtCE+FzBR
+LIJPwaXafALQx9KQAsezXk3vOAm7wW1g602U24rVOLdM7GkPP4hhW0ygGrFzocBB
+XkcuYGZGuZZNCcOCHSClhj7uA56suoSfZUK1at8PoGt2nBXT9oDP7MhSWIqjT/m1
+43OTRW7a4MxzLRhTcwiiQJawYBvh7w==
+=xsnb
+-----END PGP SIGNATURE-----
+
+--fo7jxdx5d4fj6bzu--
