@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7A54BD9FD
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 14:42:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D8C4BD9FC
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 14:42:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B70610E396;
-	Mon, 21 Feb 2022 13:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E492D10E386;
+	Mon, 21 Feb 2022 13:42:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8F810E386
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 13:42:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA64310E386
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 13:42:09 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id EBE725C01CA;
- Mon, 21 Feb 2022 08:42:06 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 133FF5C0228;
+ Mon, 21 Feb 2022 08:42:09 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 21 Feb 2022 08:42:06 -0500
+ by compute1.internal (MEProxy); Mon, 21 Feb 2022 08:42:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=uifjtJK1IaaXaQlZMDyIEDSa9Pn0JH
- L+z/u3hqJx6T4=; b=HaUCwVsZ25fBTRGdYi4jSsgDnIHMGg3L1VGIYR/4SuWuFG
- GYt13kFkdqp98u+dQ4q1fcfvZRQIUh5WdRpbluca/dP/C6KRWyXEIo+5qf6GgRnk
- NrOVCJ0k9oZqvEONTyy8ybnJJrJN65sONDBONjv/DNeQwmyV2hjudFHcfgi+LTTo
- 7PokZRWEwwXx6ErbduMWDvZz3A20gT97w4F/naOcU7fjDICqe7UvbbgBDSgOqIFB
- u1/JVOwTKyZJoun+xRirNI12m6LtHFeHPqezq0oBiheVOepS7UQXyOIxmpJB+YRQ
- uj5qvMU5ha1peBoVoc4hiHCpdhJJQ/fhrjqMPttw==
+ :subject:subject:to:to; s=fm2; bh=c3MG28IkIDDaP+2FD0/HIcBYJMqGLk
+ LuATBfhwe3ziM=; b=QMiF/j5noR9aEaeNUhlkwcmOMXiftD0Vz4EGihsGGMAwZ2
+ /zOKYLjYfEEfpfBHM6k65v9UhcCpw/6L6ZSdlVmHfn0jagxtUgsW/XAMLzlSZRUS
+ 9NmclsnK9xBRR3B03obzJpRB2VxurRCE/xI0KUuvkuI/XHI9QQqWNK0jXu4Ddy26
+ hToFyrJwKYn4cCWWKXPNsnsHN22uxtUXQE7d9ziY9g+1GDafj47pdXuvU2Fm3lae
+ Q2HMWld2mrZlmWGlRvsIX2O1BVhxk6GO3BKnUQ2z8xz8emRgL6tsDR4JLa8Wl7Kq
+ gZTNnz7VIUc26qr+V+gb2hX99eJijhSpV1PIspBA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=uifjtJ
- K1IaaXaQlZMDyIEDSa9Pn0JHL+z/u3hqJx6T4=; b=KaXLq2ausNCVTPL8Y3voav
- h+qnbh/RhbmHAD0MKXbPIMEE1NOGMhcMvzd5hJ/8OV9hCNUglp+72YN+BKq3y4KB
- qu/AxE4HzFybCeKpEIAZzUyX+OYy18Bmuno/FTvyzSkEbEG5gN1rAWerryEYmjWS
- xemgbgYKs9t632antnvX+GncG7+MHiQuMed+uC6TO6SVCEMg6N3TVT0O5DPBuog0
- gHEzhG3/Y2w99lnjkKaHNo0UVWlPMSmyRcI6mOcWVwgYKJF9G/X9h8lp9RXcd4Bi
- Y3yrVkDecoPNzXZnHS4rp3Cdhv/xvKtMMfIPEBV3i79dJHjOzC5jk29T2emHnd6A
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=c3MG28
+ IkIDDaP+2FD0/HIcBYJMqGLkLuATBfhwe3ziM=; b=nCqwJ+1soxSJdfZaXzqLBU
+ wfxGnX1C9ZXskBhFiJeYUani86dXp+jSdtE78x6Z+sLsN+pgLlD4Vbf7G3wAELAS
+ A6kWyAcBlisSUnz5H91C2xhMcgA4JTwWFN4DAekz1hN2/xNYW5XFcmDVD98j8TNZ
+ jwGaske59nu35IAvBywrh5CfWFI4V5Oqywkktnzc8yBmz36YWKNCgFp0ducXDjy9
+ 5lW/6ItvwKkqEVFfneE9InwzF08aVMdh+jpqg1OtY9HJo1dPrMo6UBQpjQHhpAT5
+ 0AfNzeEWIJwVQz1nFhdlj2uW2Ri4gYDP5zG4gPzkrCfYBdJlVIIqOQ/8x+5S3Psw
  ==
-X-ME-Sender: <xms:rpYTYrQEi5o7kYd6V-a5uvNsGStkLSzidEV-hJT8ANCjdIpqzjOfFw>
- <xme:rpYTYszUUGnAK27fBsJtgLJL76yqK7Xkp1_1njNQyz8doMB_r0lOkL7mIIH4i9J1e
- tKMhdP3FYi2QNkuDSc>
-X-ME-Received: <xmr:rpYTYg07CoKeTcBMPvH7JwGmdCNUUs1HRHC6ngIgt5pNqPMiAxiKpQqw_jT-Xpp085Jl6qMkBomcCsdu0PzxvegicUIxjW7_4zJCzcQ>
+X-ME-Sender: <xms:sJYTYoveTFUOgBycevsX3QwDPLnyh0eaXV6Mqe7fqW_1azXZFXF5eQ>
+ <xme:sJYTYle_xVuarmJXNqmeKSpKcObSL3UMcSH8MKsx2fp84CFrpwIsH2hKwVnvQUr-i
+ tTp3yC9alMzxkYd8KM>
+X-ME-Received: <xmr:sJYTYjz6rooHoNboJhLe_zfM7Yu2LFfJOyPYjPrIu8vsWb41QYLcp5EziePlbT_6JDT-F42VJxe6SWEuJbWpnYSaaEW5V8kIxa5hjIw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigdehfecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -52,18 +52,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigdehfecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:rpYTYrA-SIqabMCw8-FXvK5P97UV-UoZVjBF4H_mVLTZau6FirzYcg>
- <xmx:rpYTYkiVmG8z2eFU86tOL0xTSDfa4AS4I7IPJNpNH7TImaX9wkxpnA>
- <xmx:rpYTYvrbXCkUdweSKq-pcMGQlaCBNDR8C4Nz1k5-CufwDw-3WRThSw>
- <xmx:rpYTYtUAovJZHZnlcNCusl1eLfPqS_6eMHEzasgM2viE53p2TGKPVg>
+X-ME-Proxy: <xmx:sJYTYrPfhT1UwM5k_xRif3aGjv38nUc6idkTSDeIhezT-cGs0U95uQ>
+ <xmx:sJYTYo_VQijhLp28aCKP29yIzuSga4JCdP5SD4g114k5ufcr3_5h4w>
+ <xmx:sJYTYjUEDpOz3aoS8JejF27LLdbyrQw03IuokonquIHU1PRWysjF7w>
+ <xmx:sZYTYsTpQK-PaP0ygDYONcG7wFI208wzLrFHmxYGI3UalUfSKKTNdg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Feb 2022 08:42:06 -0500 (EST)
+ 21 Feb 2022 08:42:08 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH 3/8] drm/vc4: hvs: Store channel in variable
-Date: Mon, 21 Feb 2022 14:41:50 +0100
-Message-Id: <20220221134155.125447-4-maxime@cerno.tech>
+Subject: [PATCH 4/8] drm/vc4: hvs: Remove dlist setup duplication
+Date: Mon, 21 Feb 2022 14:41:51 +0100
+Message-Id: <20220221134155.125447-5-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220221134155.125447-1-maxime@cerno.tech>
 References: <20220221134155.125447-1-maxime@cerno.tech>
@@ -88,56 +88,38 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The assigned_channel field of our vc4_crtc_state structure is accessed
-multiple times in vc4_hvs_atomic_flush, so let's move it to a variable
-that can be used in all those places.
+Setting the DISPLISTx register needs to occur in every case, and we
+don't need to protect the register using the event_lock, so we can just
+move it after the if branches and simplify a bit the function.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hvs.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index c8cae10500b9..d225eea6e640 100644
+index d225eea6e640..71aa5081eaa3 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -460,6 +460,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
-+	unsigned int channel = vc4_state->assigned_channel;
- 	struct drm_plane *plane;
- 	struct vc4_plane_state *vc4_plane_state;
- 	bool debug_dump_regs = false;
-@@ -500,8 +501,8 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
- 		/* This sets a black background color fill, as is the case
- 		 * with other DRM drivers.
- 		 */
--		HVS_WRITE(SCALER_DISPBKGNDX(vc4_state->assigned_channel),
--			  HVS_READ(SCALER_DISPBKGNDX(vc4_state->assigned_channel)) |
-+		HVS_WRITE(SCALER_DISPBKGNDX(channel),
-+			  HVS_READ(SCALER_DISPBKGNDX(channel)) |
- 			  SCALER_DISPBKGND_FILL);
- 
- 	/* Only update DISPLIST if the CRTC was already running and is not
-@@ -515,7 +516,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
- 		vc4_hvs_update_dlist(crtc);
- 
- 	if (crtc->state->color_mgmt_changed) {
--		u32 dispbkgndx = HVS_READ(SCALER_DISPBKGNDX(vc4_state->assigned_channel));
-+		u32 dispbkgndx = HVS_READ(SCALER_DISPBKGNDX(channel));
- 
- 		if (crtc->state->gamma_lut) {
- 			vc4_hvs_update_gamma_lut(crtc);
-@@ -527,7 +528,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
- 			 */
- 			dispbkgndx &= ~SCALER_DISPBKGND_GAMMA;
+@@ -402,15 +402,12 @@ static void vc4_hvs_update_dlist(struct drm_crtc *crtc)
+ 			crtc->state->event = NULL;
  		}
--		HVS_WRITE(SCALER_DISPBKGNDX(vc4_state->assigned_channel), dispbkgndx);
-+		HVS_WRITE(SCALER_DISPBKGNDX(channel), dispbkgndx);
+ 
+-		HVS_WRITE(SCALER_DISPLISTX(vc4_state->assigned_channel),
+-			  vc4_state->mm.start);
+-
+ 		spin_unlock_irqrestore(&dev->event_lock, flags);
+-	} else {
+-		HVS_WRITE(SCALER_DISPLISTX(vc4_state->assigned_channel),
+-			  vc4_state->mm.start);
  	}
  
- 	if (debug_dump_regs) {
++	HVS_WRITE(SCALER_DISPLISTX(vc4_state->assigned_channel),
++		  vc4_state->mm.start);
++
+ 	spin_lock_irqsave(&vc4_crtc->irq_lock, flags);
+ 	vc4_crtc->current_dlist = vc4_state->mm.start;
+ 	spin_unlock_irqrestore(&vc4_crtc->irq_lock, flags);
 -- 
 2.35.1
 
