@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FABF4BEB70
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 20:54:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4205E4BEB6E
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 20:54:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E848F10E3BF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAD9010E3B7;
 	Mon, 21 Feb 2022 19:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D9B510E2E7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7015F10E352
  for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 19:54:14 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AB5F91F391;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E548D1F392;
  Mon, 21 Feb 2022 19:54:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1645473252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N+GbnOGSeR3X9TVxFGABxV5nEPCZ3RUvOlA//TY0ScI=;
- b=KL9xTWa1qru2pt/2o5NaYPAF31VtzobhtB4DCKcO46MHYMtLVJ9v1JQXAsRi4qNCWee/Ax
- +uo2mVa124/nuZ9UKq0lhZyRwC9XAhS2q9hIfc7S2JQghiyuteSwpDy+mGpth33T7vQMDy
- fK4i19EYCSEG6iQAnN3mJEy3WL6IC7w=
+ bh=qObtglYGE46QC6Xcws5G2iEc2tNkficaQIiMH33Sug4=;
+ b=V/bbSU7tAjcpRSlw8bZ7UIHbHGoCcXuG78nShQFtGe5di8BEF7gYp0NTyPpeonIVevZWx8
+ A6M44jfyQCpTOoIy76UHO22O93sjuLtU7kcobWSYk3JBusPbxdoo794QTEuExUVlecawLP
+ Rm9MAqyphcRiDogZs735yDStNYDHyLs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1645473252;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N+GbnOGSeR3X9TVxFGABxV5nEPCZ3RUvOlA//TY0ScI=;
- b=GqcygEyQxF2VAfckJt5rPpSClujgj9i4k5IdxZzJXKRB/FpAHBrWCZyQawDX3bv3bNdjy/
- +VxWAvwHc4zDo5AA==
+ bh=qObtglYGE46QC6Xcws5G2iEc2tNkficaQIiMH33Sug4=;
+ b=2ahD+5ZnWO6CcwuY0coF6lWgYhRXkZzNULbaUY1y2Le/8H+eGvH6wSUiucMiQVlzj0okuy
+ zrobks/SXu5XnBAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7615113BA4;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B207C13B78;
  Mon, 21 Feb 2022 19:54:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ENnhG+TtE2KVPwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id OKtWKuTtE2KVPwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 21 Feb 2022 19:54:12 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, deller@gmx.de, javierm@redhat.com, geert@linux-m68k.org,
  sam@ravnborg.org, kraxel@redhat.com
-Subject: [PATCH v2 2/5] fbdev: Improve performance of sys_imageblit()
-Date: Mon, 21 Feb 2022 20:54:07 +0100
-Message-Id: <20220221195410.9172-3-tzimmermann@suse.de>
+Subject: [PATCH v2 3/5] fbdev: Remove trailing whitespaces from cfbimgblt.c
+Date: Mon, 21 Feb 2022 20:54:08 +0100
+Message-Id: <20220221195410.9172-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220221195410.9172-1-tzimmermann@suse.de>
 References: <20220221195410.9172-1-tzimmermann@suse.de>
@@ -73,121 +73,174 @@ Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Improve the performance of sys_imageblit() by manually unrolling
-the inner blitting loop and moving some invariants out. The compiler
-failed to do this automatically. The resulting binary code was even
-slower than the cfb_imageblit() helper, which uses the same algorithm,
-but operates on I/O memory.
-
-A microbenchmark measures the average number of CPU cycles
-for sys_imageblit() after a stabilizing period of a few minutes
-(i7-4790, FullHD, simpledrm, kernel with debugging). The value
-for CFB is given as a reference.
-
-  sys_imageblit(), new: 25934 cycles
-  sys_imageblit(), old: 35944 cycles
-  cfb_imageblit():      30566 cycles
-
-In the optimized case, sys_imageblit() is now ~30% faster than before
-and ~20% faster than cfb_imageblit().
-
-v2:
-	* move switch out of inner loop (Gerd)
-	* remove test for alignment of dst1 (Sam)
+Fix coding style. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/core/sysimgblt.c | 49 +++++++++++++++++++++-------
- 1 file changed, 38 insertions(+), 11 deletions(-)
+ drivers/video/fbdev/core/cfbimgblt.c | 60 ++++++++++++++--------------
+ 1 file changed, 30 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/sysimgblt.c b/drivers/video/fbdev/core/sysimgblt.c
-index a4d05b1b17d7..722c327a381b 100644
---- a/drivers/video/fbdev/core/sysimgblt.c
-+++ b/drivers/video/fbdev/core/sysimgblt.c
-@@ -188,23 +188,29 @@ static void fast_imageblit(const struct fb_image *image, struct fb_info *p,
+diff --git a/drivers/video/fbdev/core/cfbimgblt.c b/drivers/video/fbdev/core/cfbimgblt.c
+index a2bb276a8b24..01b01a279681 100644
+--- a/drivers/video/fbdev/core/cfbimgblt.c
++++ b/drivers/video/fbdev/core/cfbimgblt.c
+@@ -16,15 +16,15 @@
+  *  must be laid out exactly in the same format as the framebuffer. Yes I know
+  *  their are cards with hardware that coverts images of various depths to the
+  *  framebuffer depth. But not every card has this. All images must be rounded
+- *  up to the nearest byte. For example a bitmap 12 bits wide must be two 
+- *  bytes width. 
++ *  up to the nearest byte. For example a bitmap 12 bits wide must be two
++ *  bytes width.
+  *
+- *  Tony: 
+- *  Incorporate mask tables similar to fbcon-cfb*.c in 2.4 API.  This speeds 
++ *  Tony:
++ *  Incorporate mask tables similar to fbcon-cfb*.c in 2.4 API.  This speeds
+  *  up the code significantly.
+- *  
++ *
+  *  Code for depths not multiples of BITS_PER_LONG is still kludgy, which is
+- *  still processed a bit at a time.   
++ *  still processed a bit at a time.
+  *
+  *  Also need to add code to deal with cards endians that are different than
+  *  the native cpu endians. I also need to deal with MSB position in the word.
+@@ -72,8 +72,8 @@ static const u32 cfb_tab32[] = {
+ #define FB_WRITEL fb_writel
+ #define FB_READL  fb_readl
+ 
+-static inline void color_imageblit(const struct fb_image *image, 
+-				   struct fb_info *p, u8 __iomem *dst1, 
++static inline void color_imageblit(const struct fb_image *image,
++				   struct fb_info *p, u8 __iomem *dst1,
+ 				   u32 start_index,
+ 				   u32 pitch_index)
+ {
+@@ -92,7 +92,7 @@ static inline void color_imageblit(const struct fb_image *image,
+ 		dst = (u32 __iomem *) dst1;
+ 		shift = 0;
+ 		val = 0;
+-		
++
+ 		if (start_index) {
+ 			u32 start_mask = ~fb_shifted_pixels_mask_u32(p,
+ 						start_index, bswapmask);
+@@ -109,8 +109,8 @@ static inline void color_imageblit(const struct fb_image *image,
+ 			val |= FB_SHIFT_HIGH(p, color, shift ^ bswapmask);
+ 			if (shift >= null_bits) {
+ 				FB_WRITEL(val, dst++);
+-	
+-				val = (shift == null_bits) ? 0 : 
++
++				val = (shift == null_bits) ? 0 :
+ 					FB_SHIFT_LOW(p, color, 32 - shift);
+ 			}
+ 			shift += bpp;
+@@ -134,9 +134,9 @@ static inline void color_imageblit(const struct fb_image *image,
+ 	}
+ }
+ 
+-static inline void slow_imageblit(const struct fb_image *image, struct fb_info *p, 
++static inline void slow_imageblit(const struct fb_image *image, struct fb_info *p,
+ 				  u8 __iomem *dst1, u32 fgcolor,
+-				  u32 bgcolor, 
++				  u32 bgcolor,
+ 				  u32 start_index,
+ 				  u32 pitch_index)
+ {
+@@ -172,7 +172,7 @@ static inline void slow_imageblit(const struct fb_image *image, struct fb_info *
+ 			l--;
+ 			color = (*s & (1 << l)) ? fgcolor : bgcolor;
+ 			val |= FB_SHIFT_HIGH(p, color, shift ^ bswapmask);
+-			
++
+ 			/* Did the bitshift spill bits to the next long? */
+ 			if (shift >= null_bits) {
+ 				FB_WRITEL(val, dst++);
+@@ -191,16 +191,16 @@ static inline void slow_imageblit(const struct fb_image *image, struct fb_info *
+ 
+ 			FB_WRITEL((FB_READL(dst) & end_mask) | val, dst);
+ 		}
+-		
++
+ 		dst1 += pitch;
+-		src += spitch;	
++		src += spitch;
+ 		if (pitch_index) {
+ 			dst2 += pitch;
+ 			dst1 = (u8 __iomem *)((long __force)dst2 & ~(sizeof(u32) - 1));
+ 			start_index += pitch_index;
+ 			start_index &= 32 - 1;
+ 		}
+-		
++
+ 	}
+ }
+ 
+@@ -212,9 +212,9 @@ static inline void slow_imageblit(const struct fb_image *image, struct fb_info *
+  *           fix->line_legth is divisible by 4;
+  *           beginning and end of a scanline is dword aligned
+  */
+-static inline void fast_imageblit(const struct fb_image *image, struct fb_info *p, 
+-				  u8 __iomem *dst1, u32 fgcolor, 
+-				  u32 bgcolor) 
++static inline void fast_imageblit(const struct fb_image *image, struct fb_info *p,
++				  u8 __iomem *dst1, u32 fgcolor,
++				  u32 bgcolor)
  {
  	u32 fgx = fgcolor, bgx = bgcolor, bpp = p->var.bits_per_pixel;
  	u32 ppw = 32/bpp, spitch = (image->width + 7)/8;
--	u32 bit_mask, end_mask, eorx, shift;
-+	u32 bit_mask, eorx;
- 	const char *s = image->data, *src;
- 	u32 *dst;
--	const u32 *tab = NULL;
-+	const u32 *tab;
-+	size_t tablen;
-+	u32 colortab[16];
- 	int i, j, k;
- 
- 	switch (bpp) {
- 	case 8:
- 		tab = fb_be_math(p) ? cfb_tab8_be : cfb_tab8_le;
-+		tablen = 16;
- 		break;
- 	case 16:
- 		tab = fb_be_math(p) ? cfb_tab16_be : cfb_tab16_le;
-+		tablen = 4;
- 		break;
- 	case 32:
--	default:
- 		tab = cfb_tab32;
-+		tablen = 2;
- 		break;
-+	default:
-+		return;
+@@ -243,25 +243,25 @@ static inline void fast_imageblit(const struct fb_image *image, struct fb_info *
+ 		fgx |= fgcolor;
+ 		bgx |= bgcolor;
  	}
- 
- 	for (i = ppw-1; i--; ) {
-@@ -218,19 +224,40 @@ static void fast_imageblit(const struct fb_image *image, struct fb_info *p,
+-	
++
+ 	bit_mask = (1 << ppw) - 1;
  	eorx = fgx ^ bgx;
  	k = image->width/ppw;
  
-+	for (i = 0; i < tablen; ++i)
-+		colortab[i] = (tab[i] & eorx) ^ bgx;
-+
  	for (i = image->height; i--; ) {
- 		dst = dst1;
--		shift = 8;
- 		src = s;
- 
--		for (j = k; j--; ) {
--			shift -= ppw;
--			end_mask = tab[(*src >> shift) & bit_mask];
--			*dst++ = (end_mask & eorx) ^ bgx;
--			if (!shift) {
--				shift = 8;
--				src++;
-+		switch (ppw) {
-+		case 4: /* 8 bpp */
-+			for (j = k; j; j -= 2, ++src) {
-+				*dst++ = colortab[(*src >> 4) & bit_mask];
-+				*dst++ = colortab[(*src >> 0) & bit_mask];
-+			}
-+			break;
-+		case 2: /* 16 bpp */
-+			for (j = k; j; j -= 4, ++src) {
-+				*dst++ = colortab[(*src >> 6) & bit_mask];
-+				*dst++ = colortab[(*src >> 4) & bit_mask];
-+				*dst++ = colortab[(*src >> 2) & bit_mask];
-+				*dst++ = colortab[(*src >> 0) & bit_mask];
-+			}
-+			break;
-+		case 1: /* 32 bpp */
-+			for (j = k; j; j -= 8, ++src) {
-+				*dst++ = colortab[(*src >> 7) & bit_mask];
-+				*dst++ = colortab[(*src >> 6) & bit_mask];
-+				*dst++ = colortab[(*src >> 5) & bit_mask];
-+				*dst++ = colortab[(*src >> 4) & bit_mask];
-+				*dst++ = colortab[(*src >> 3) & bit_mask];
-+				*dst++ = colortab[(*src >> 2) & bit_mask];
-+				*dst++ = colortab[(*src >> 1) & bit_mask];
-+				*dst++ = colortab[(*src >> 0) & bit_mask];
- 			}
-+			break;
+ 		dst = (u32 __iomem *) dst1, shift = 8; src = s;
+-		
++
+ 		for (j = k; j--; ) {
+ 			shift -= ppw;
+ 			end_mask = tab[(*src >> shift) & bit_mask];
+ 			FB_WRITEL((end_mask & eorx)^bgx, dst++);
+-			if (!shift) { shift = 8; src++; }		
++			if (!shift) { shift = 8; src++; }
  		}
  		dst1 += p->fix.line_length;
  		s += spitch;
+ 	}
+-}	
+-	
++}
++
+ void cfb_imageblit(struct fb_info *p, const struct fb_image *image)
+ {
+ 	u32 fgcolor, bgcolor, start_index, bitstart, pitch_index = 0;
+@@ -292,13 +292,13 @@ void cfb_imageblit(struct fb_info *p, const struct fb_image *image)
+ 		} else {
+ 			fgcolor = image->fg_color;
+ 			bgcolor = image->bg_color;
+-		}	
+-		
+-		if (32 % bpp == 0 && !start_index && !pitch_index && 
++		}
++
++		if (32 % bpp == 0 && !start_index && !pitch_index &&
+ 		    ((width & (32/bpp-1)) == 0) &&
+-		    bpp >= 8 && bpp <= 32) 			
++		    bpp >= 8 && bpp <= 32)
+ 			fast_imageblit(image, p, dst1, fgcolor, bgcolor);
+-		else 
++		else
+ 			slow_imageblit(image, p, dst1, fgcolor, bgcolor,
+ 					start_index, pitch_index);
+ 	} else
 -- 
 2.35.1
 
