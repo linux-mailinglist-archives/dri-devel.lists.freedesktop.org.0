@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3B54BD8D7
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 11:00:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905D04BD8D5
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 11:00:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E8F10EB5C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11B3910EA4F;
 	Mon, 21 Feb 2022 10:00:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5658310E5E0
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 09:59:54 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id B2859580261;
- Mon, 21 Feb 2022 04:59:53 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 21 Feb 2022 04:59:53 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A95D10E5E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 09:59:56 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C1D8A580261;
+ Mon, 21 Feb 2022 04:59:55 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 21 Feb 2022 04:59:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=ML8P7fn2nPFhXDP1CoxGxF14httBLF
- ZO6LfSVA3wyuc=; b=aYFJM0aG769G/hBOPBMnDh5OyxqVjCsWcWaMA6XzO1i6Ur
- zUDuUYW4j32VS9dorZdSPzJJWq+1u35+GnVlKULboPHq/nR/6GTEjRhNN71BAZfD
- Muy5HKkkLb9KTcR6PfZGrT4d6+O1RPlWJwybVF81eUOlqcA3efqMT8376QtHQ3Mh
- pw8H2SJTzxQbmrhVDSaC4MD8xUUqB4CFjqEg6MeB+XOLRxe80GD2Wye+BcAyd1f5
- 9ifjTOd/HtYji0pwHr01NYk5gT8UJ9LuTl8q3A7XVWpCbCG9Ky9573xbNAn3ewyJ
- TnRWd8mv04BOQ29jqfhCENwnmNYACTMGcFsd39sQ==
+ :subject:subject:to:to; s=fm2; bh=lZx6QJtY1OfVXkk4liNafMSMojXN0L
+ YL8ej+OsuKSTs=; b=o3T+u2xCPGKJpW3Ad+/ePTsbc3R4zBSrqz0qPGJQF72QPD
+ FR3QcXRio/DseBsFY600wAuchj4uWvQVReCeDOKd43MBrs6b2veiO8MkOmXeNuAB
+ LcnA8bbc8bz7GwF5bh17Oj0xgyZknhlxPOnY/aTJKcWR3isIa4ls7/7b/0XiwNRU
+ GTZEOLcBOIjRKD0ZJ5+1cKE+8cW9wcaR1lWclQeq8aazVz03QgW8ldJyyb8aDznQ
+ 77ADP6+WuXW1je2fNO33D8kYWiSO4li0JQc7cMvmJgTMfHaRaHIQqIym3A6CZ9RY
+ VdjdE0qjT6JwODHFuYkcdqp28+fbspa+EqvbPCaQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ML8P7f
- n2nPFhXDP1CoxGxF14httBLFZO6LfSVA3wyuc=; b=kL9l/zP8upf+4x0eTpeY/f
- yqQYfpJ7Dmgp0FQ053ob3DvgyCVPMhR1h9Zb+2Kx7F4yzXEsWtMBZ9BbbJ1AieZO
- 7OIaAuDkJC9lF8WOZG9WfQsmrpH3Oaid0VKBATdlX4WIDbrEKsh6eDmpWLQpZim/
- mds13dj3RDcK6jy1pCHF74+UuS6j8EP0JAKZnh3Ow7L8nm4ouuhXQ6nlbHt01Q3m
- GFMYt18/RTCJZ6kDrCcjTHhdPyKIqswFAlllGFmIKIB4rZqKCBoqm9tQ3H1kxzqZ
- I6khTlFKVVde9Vx7l8nOzGZcZHmBx/3iMUh7TcknD5Ohlb7Lnsijql+fofSbU/wQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=lZx6QJ
+ tY1OfVXkk4liNafMSMojXN0LYL8ej+OsuKSTs=; b=cIqFvO6Cz18A312yduXARt
+ mzPlgpbYcrb+1MpSItVgPr5oY9OlXkGc6ZWtlv5t7Zhwtt54ZngcxlX558iebSRh
+ aOg64zg/krWGbpOyyuOxNw0tZsYAdid/bSdoee3ppuXvOiN0GsNampaGMNp570Eb
+ ZDVcydekyjkywvyT40FRe09N2Un7zVar02dquZdte5qpY6OjX49lNO1myjn8IMfw
+ acz73LvOrADNRqeRr+uhXYGOApy3yZHIPom85Pifk6oC3OwvH8WRXDLvE9yAiJ2A
+ Ix9trPBgX9JH/UDOCQg/7C8VCavK9zeY4C1YrWmeWZ3p47+lu9JZActu4fWJzhOA
  ==
-X-ME-Sender: <xms:mWITYnN8H-RrZAHnvr3T60hzRcLQGFiv201yqalM_8CgGRd4j9bEiw>
- <xme:mWITYh9rMSeGLG-AdT2f9gZ3Hz119DKa1LIkkBx5XQe2VtFem7LXbGx7q71tQiHST
- s_EmEYm3OnnyPtO63E>
-X-ME-Received: <xmr:mWITYmTOPLAiPm56vyjEju4ecUr22m8ArLHXXboyo0iljoC-fVTDuGs9jlhBuB4ZhyMxeZF8iRT6KJ9GVjVQSmgIHhZTjMppNMJiMqY>
+X-ME-Sender: <xms:m2ITYlviEYzWQvejmzsBBYT6kS61fd2E_RNO48O1hhqXsZUq7C2b6A>
+ <xme:m2ITYuc-1ZKMNGnzHXCZiRGXDTXzYL4CPzPxYTHV-qC8O4ID_s-k4shqxd_FAMz0X
+ gdhk29KQmGAgoDPu3s>
+X-ME-Received: <xmr:m2ITYoyqo2Ffjba_eG8sgJ4RFYsvvS020D3jksA07zb7UBib6KZItkUkQZbAZ3ICRJH-WaM-ZPsTSnJLXW5Mp7Gh6dltc7aERLVlIDw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigddtlecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:mWITYrskZeymkmVFQFjSWIjcIOqHEAi7HZbH-57wFlk9l_wr6PVcew>
- <xmx:mWITYvdpuMiijzf2bHTvyrtenxfvYtKbUvjvsOGS5JuOnWVykcTOjg>
- <xmx:mWITYn2kU4jL_qJ62cxNPLhgQFMWofTg8ohKhuhXOodmvrdbxqJK5A>
- <xmx:mWITYj7qyLG4uB_P6VtGSGt0luDABRIFrewcG0oqeC_7eX3RZlMUFw>
+X-ME-Proxy: <xmx:m2ITYsPR3INsVkYdqxV4R0cuXM4OJt4RVi4nrxG8I7RP8WQhMIayUg>
+ <xmx:m2ITYl9Ggj8SL_xUFB77KcsuYBUMwuNezNPliTKWBLbEoBrvuHC0Og>
+ <xmx:m2ITYsXsK9iaSZSimaNfKCB1IbaxJU0AlxxXUaCUOXm6tbKHc18DkA>
+ <xmx:m2ITYsW62qJvRunI2p6YKYSZmlWpUL7KSIa6z4BWC4VN28h9DZsJuQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Feb 2022 04:59:53 -0500 (EST)
+ 21 Feb 2022 04:59:55 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>,
 	David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 14/22] drm/omap: plane: Remove redundant zpos initialisation
-Date: Mon, 21 Feb 2022 10:59:10 +0100
-Message-Id: <20220221095918.18763-15-maxime@cerno.tech>
+Subject: [PATCH v2 15/22] drm/rcar: plane: Remove redundant zpos initialisation
+Date: Mon, 21 Feb 2022 10:59:11 +0100
+Message-Id: <20220221095918.18763-16-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220221095918.18763-1-maxime@cerno.tech>
 References: <20220221095918.18763-1-maxime@cerno.tech>
@@ -83,43 +83,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomba@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Phil Elwell <phil@raspberrypi.com>
+ Phil Elwell <phil@raspberrypi.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The omap KMS driver will call drm_plane_create_zpos_property() with an
-init value of the plane index and the plane type.
+The rcar-du KMS driver will call drm_plane_create_zpos_property() with an
+init value depending on the plane type.
 
 Since the initial value wasn't carried over in the state, the driver had
-to set it again in omap_plane_reset(). However, the helpers have been
-adjusted to set it properly at reset, so this is not needed anymore.
+to set it again in rcar_du_plane_reset() and rcar_du_vsp_plane_reset().
+However, the helpers have been adjusted to set it properly at reset, so
+this is not needed anymore.
 
-Reviewed-by: Tomi Valkeinen <tomba@kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/omapdrm/omap_plane.c | 7 -------
- 1 file changed, 7 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c | 1 -
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-index e67baf9a942c..d96bc929072a 100644
---- a/drivers/gpu/drm/omapdrm/omap_plane.c
-+++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-@@ -414,13 +414,6 @@ static void omap_plane_reset(struct drm_plane *plane)
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+index 862197be1e01..9dda5e06457d 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+@@ -696,7 +696,6 @@ static void rcar_du_plane_reset(struct drm_plane *plane)
+ 	state->hwindex = -1;
+ 	state->source = RCAR_DU_PLANE_MEMORY;
+ 	state->colorkey = RCAR_DU_COLORKEY_NONE;
+-	state->state.zpos = plane->type == DRM_PLANE_TYPE_PRIMARY ? 0 : 1;
+ }
+ 
+ static int rcar_du_plane_atomic_set_property(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index b7fc5b069cbc..719c60034952 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -362,7 +362,6 @@ static void rcar_du_vsp_plane_reset(struct drm_plane *plane)
  		return;
  
- 	__drm_atomic_helper_plane_reset(plane, &omap_state->base);
--
--	/*
--	 * Set the zpos default depending on whether we are a primary or overlay
--	 * plane.
--	 */
--	plane->state->zpos = plane->type == DRM_PLANE_TYPE_PRIMARY
--			   ? 0 : omap_plane->id;
- 	plane->state->color_encoding = DRM_COLOR_YCBCR_BT601;
- 	plane->state->color_range = DRM_COLOR_YCBCR_FULL_RANGE;
+ 	__drm_atomic_helper_plane_reset(plane, &state->state);
+-	state->state.zpos = plane->type == DRM_PLANE_TYPE_PRIMARY ? 0 : 1;
  }
+ 
+ static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
 -- 
 2.35.1
 
