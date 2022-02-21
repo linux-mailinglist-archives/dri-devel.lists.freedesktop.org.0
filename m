@@ -2,54 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B3E4BDAAF
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 16:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DF04BDACC
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 17:18:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20339891A3;
-	Mon, 21 Feb 2022 15:52:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3914D10E413;
+	Mon, 21 Feb 2022 16:18:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA777891A3;
- Mon, 21 Feb 2022 15:52:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645458742; x=1676994742;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=CmD1J91AVg6HNHjRE8qq03Qh0DZxCscIpsU4YFaAMwQ=;
- b=Stcu7YxxaJUIfzzeq/aILLuT615/Eb78iiDZeeLFwT0WKnBFVZRK6a4B
- EnTMcfoMyIChAUOOGU19yxvSodgeFo6b/UMg8wnjvFcz548QhhhtmMTG1
- pmiayt4Ryfs+69gJvd175Ei9m6CiuW4V8BzLEOmm+tG1qY4JRChJ6Fw7w
- 2aKhMeLXl8RKA5SrOGTKR1NVMjWHvrxV7Sx0V2QPGjhIaJ754d+bd0xm3
- GgPh8fOttOeWT1tPxL/cNu8NgQy1DGYcAQmqXJhltyVwLVxoQPARe5uVS
- I6HsGCXg6P6q3Jj/B5Yf4G49583x/Hy8RvYZuM0Rfua9Oz2GXXrzci626 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="312276278"
-X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; d="scan'208";a="312276278"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2022 07:52:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; d="scan'208";a="505124752"
-Received: from lkp-server01.sh.intel.com (HELO da3212ac2f54) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 21 Feb 2022 07:52:19 -0800
-Received: from kbuild by da3212ac2f54 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nMAz5-0001k5-5i; Mon, 21 Feb 2022 15:52:19 +0000
-Date: Mon, 21 Feb 2022 23:51:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiawei Gu <Jiawei.Gu@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Christian.Koenig@amd.com,
- Andrey.Grodzovsky@amd.com, Monk.Liu@amd.com, Emily.Deng@amd.com,
- Horace.Chen@amd.com
-Subject: Re: [PATCH] drm/sched: Add device pointer to drm_gpu_scheduler
-Message-ID: <202202212330.nxcvFWEe-lkp@intel.com>
-References: <20220221095705.5290-1-Jiawei.Gu@amd.com>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1231210E413
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 16:18:26 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 488925C023B;
+ Mon, 21 Feb 2022 11:18:24 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 21 Feb 2022 11:18:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=5q0FhEVXn0snjYY9k75GKqt/XCLzjvbf9XBiZX
+ 2tBdg=; b=d78NNd9+MwWCluB6G7hM83wUwUNWJ+PIY5WZrHJjq/Qx28lZ3w8osK
+ lrjGj9zLZuk5te8eszhkJX5BJqzmcaQ1L+aiQfs8vvQmtLRK2FIM65nZgskuSXGt
+ vmdF0DF7PCbzo+nW0kxa8REAFeD85KAy1NSJAUp5zXWWgTwbJAPhwqzrjMaUOJpV
+ unPDyNN+Bhx1Af/xau7DahUrVLpGNarhRTe263Dkw4+IyTaaC3pImyJ3x11SIdGd
+ im7wlucJdfxVmD3gPM6YGzaZ0ZoRffEP8xCciKaGsu7h4vmqT/a239p1vg+BfnQ8
+ +Yv5/bdPIoKLZs3xC7+l/34J+eYRCDcA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=5q0FhEVXn0snjYY9k
+ 75GKqt/XCLzjvbf9XBiZX2tBdg=; b=iSZHCGpz1mEHuwFnJHmshu0nxS+flokLZ
+ yGUG4mWlpRrKLCrOOKOsl9sBlS+xr8gMK9Z/1MN2jZ2FzTVM8BmwB7v2+G1aK8ex
+ 3PM1eMPm0Brxr/p0J57Z4Z/0j1PGfOdGSadjPg6sxK5/NcSnp7jFWkVLfG7KUATc
+ qX1NosBIUs7DSUwbS6XcDktUTW7KNpM+XLBXQAFTF2h/O/syfeRbUbEuvyMHfHlP
+ mYqLvB5EPhGvhpHYNKi5Pl3GdeA3nRpQ3xWPU9yBagwGrzZrmZuJ3YuCUtLODekG
+ dh5qoSVcjWt3dSW6r8qbauSHpWDxncV5xX6Bql/pNkHFRe1j4yrPA==
+X-ME-Sender: <xms:T7sTYu4U9TJYREXe0LuSnCmrG-9gk_1akIr_izKgf6LZOOn8BS0-3Q>
+ <xme:T7sTYn7ZhdpBXANjsRQwKI1WHTqeKC-J0YZh5SH50oEz-0iBQv9mEQk2ou9eRTide
+ 4msfgVMPl0G-peJSRo>
+X-ME-Received: <xmr:T7sTYtcm7QcH2ebPJeJImQtR22cASax2DMQpl1R1c7uhFE6bh3mG1RZXKK_5NkbZH2Sj93BpJFIwpABd77b1nZKAK2uvFqwc_heRTAk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigdekhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:T7sTYrIf9vWWJyaHu_XqS0DIB0I5rBlLlEI7Kj27viBzoH4q_83rcQ>
+ <xmx:T7sTYiIvoapcbJQKvXaofjt7IiHAquE2KF5EsPPEE5ZHl0D6EIpp3g>
+ <xmx:T7sTYsw5OOc0YM_91o3BXpw5px4RAN5teX4GLbxyCVrVhlRn0_KSGw>
+ <xmx:ULsTYq-RqUFDbgEQl1zGInmGme5oU2o0-JlqTJMCdRgT3mmB6yWq3g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 21 Feb 2022 11:18:23 -0500 (EST)
+Date: Mon, 21 Feb 2022 17:18:21 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v4 02/10] clk: Always clamp the rounded rate
+Message-ID: <20220221161821.jbktbgx2t6aaxds3@houat>
+References: <20220125141549.747889-1-maxime@cerno.tech>
+ <20220125141549.747889-3-maxime@cerno.tech>
+ <20220218231508.7B5FCC340E9@smtp.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="hrhga4ab23qncznd"
 Content-Disposition: inline
-In-Reply-To: <20220221095705.5290-1-Jiawei.Gu@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220218231508.7B5FCC340E9@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,145 +82,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiawei Gu <Jiawei.Gu@amd.com>, kbuild-all@lists.01.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Mike Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jiawei,
 
-Thank you for the patch! Yet something to improve:
+--hrhga4ab23qncznd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-intel/for-linux-next drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next v5.17-rc5 next-20220217]
-[cannot apply to drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Hi,
 
-url:    https://github.com/0day-ci/linux/commits/Jiawei-Gu/drm-sched-Add-device-pointer-to-drm_gpu_scheduler/20220221-175818
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20220221/202202212330.nxcvFWEe-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/9fdafca855faca0a3b8f213f024985c4112fa0bb
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Jiawei-Gu/drm-sched-Add-device-pointer-to-drm_gpu_scheduler/20220221-175818
-        git checkout 9fdafca855faca0a3b8f213f024985c4112fa0bb
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/drm/msm/ drivers/gpu/drm/v3d/
+On Fri, Feb 18, 2022 at 03:15:06PM -0800, Stephen Boyd wrote:
+> Quoting Maxime Ripard (2022-01-25 06:15:41)
+> > The current core while setting the min and max rate properly in the
+> > clk_request structure will not make sure that the requested rate is
+> > within these boundaries, leaving it to each and every driver to make
+> > sure it is.
+>=20
+> It would be good to describe why. Or decide that it was an oversight and
+> write that down here.
+>=20
+> > Add a clamp call to make sure it's always done, and add a few unit tests
+> > to make sure we don't have any regression there.
+>=20
+> I looked through the per-user constraint patch history on the list but I
+> couldn't really figure out why it was done this way. I guess we didn't
+> clamp the rate in the core because we wanted to give the clk providers
+> all the information, i.e. the rate that was requested and the boundaries
+> that the consumers have placed on the rate.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+I'm not really sure we should really leave it to the users, something like:
 
-All errors (new ones prefixed by >>):
+clk_set_range_rate(clk, 1000, 2000);
+clk_set_rate(clk, 500);
+clk_get_rate(clk) # =3D=3D 500
 
-   drivers/gpu/drm/msm/msm_ringbuffer.c: In function 'msm_ringbuffer_new':
->> drivers/gpu/drm/msm/msm_ringbuffer.c:90:15: error: too few arguments to function 'drm_sched_init'
-      90 |         ret = drm_sched_init(&ring->sched, &msm_sched_ops,
-         |               ^~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/msm/msm_ringbuffer.h:10,
-                    from drivers/gpu/drm/msm/msm_ringbuffer.c:7:
-   include/drm/gpu_scheduler.h:463:5: note: declared here
-     463 | int drm_sched_init(struct drm_gpu_scheduler *sched,
-         |     ^~~~~~~~~~~~~~
---
-   In file included from drivers/gpu/drm/v3d/v3d_sched.c:23:
-   drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_sched_init':
->> drivers/gpu/drm/v3d/v3d_drv.h:158:26: error: implicit declaration of function 'to_platform_device' [-Werror=implicit-function-declaration]
-     158 | #define v3d_to_pdev(v3d) to_platform_device((v3d)->drm.dev)
-         |                          ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/v3d/v3d_sched.c:394:49: note: in expansion of macro 'v3d_to_pdev'
-     394 |                              NULL, "v3d_bin", &(v3d_to_pdev(v3d)->dev));
-         |                                                 ^~~~~~~~~~~
->> drivers/gpu/drm/v3d/v3d_sched.c:394:65: error: invalid type argument of '->' (have 'int')
-     394 |                              NULL, "v3d_bin", &(v3d_to_pdev(v3d)->dev));
-         |                                                                 ^~
-   drivers/gpu/drm/v3d/v3d_sched.c:404:68: error: invalid type argument of '->' (have 'int')
-     404 |                              NULL, "v3d_render", &(v3d_to_pdev(v3d)->dev));
-         |                                                                    ^~
-   drivers/gpu/drm/v3d/v3d_sched.c:416:65: error: invalid type argument of '->' (have 'int')
-     416 |                              NULL, "v3d_tfu", &(v3d_to_pdev(v3d)->dev));
-         |                                                                 ^~
-   drivers/gpu/drm/v3d/v3d_sched.c:429:73: error: invalid type argument of '->' (have 'int')
-     429 |                                      NULL, "v3d_csd", &(v3d_to_pdev(v3d)->dev));
-         |                                                                         ^~
-   drivers/gpu/drm/v3d/v3d_sched.c:441:81: error: invalid type argument of '->' (have 'int')
-     441 |                                      NULL, "v3d_cache_clean", &(v3d_to_pdev(v3d)->dev));
-         |                                                                                 ^~
-   cc1: some warnings being treated as errors
+Is definitely weird, and would break the least surprise :)
 
+We shouldn't leave that to drivers, especially since close to none of
+them handle this properly.
 
-vim +/drm_sched_init +90 drivers/gpu/drm/msm/msm_ringbuffer.c
+> With the round_rate() clk_op the providers don't know the min/max
+> because the rate request structure isn't passed. I think my concern a
+> long time ago was that a consumer could call clk_round_rate() and get
+> one frequency and then call clk_set_rate() and get another frequency.
 
-1d8a5ca436ee4a Rob Clark     2021-07-27   47  
-f97decac5f4c2d Jordan Crouse 2017-10-20   48  struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
-f97decac5f4c2d Jordan Crouse 2017-10-20   49  		void *memptrs, uint64_t memptrs_iova)
-7198e6b03155f6 Rob Clark     2013-07-19   50  {
-7198e6b03155f6 Rob Clark     2013-07-19   51  	struct msm_ringbuffer *ring;
-1d8a5ca436ee4a Rob Clark     2021-07-27   52  	long sched_timeout;
-f97decac5f4c2d Jordan Crouse 2017-10-20   53  	char name[32];
-7198e6b03155f6 Rob Clark     2013-07-19   54  	int ret;
-7198e6b03155f6 Rob Clark     2013-07-19   55  
-f97decac5f4c2d Jordan Crouse 2017-10-20   56  	/* We assume everwhere that MSM_GPU_RINGBUFFER_SZ is a power of 2 */
-f97decac5f4c2d Jordan Crouse 2017-10-20   57  	BUILD_BUG_ON(!is_power_of_2(MSM_GPU_RINGBUFFER_SZ));
-7198e6b03155f6 Rob Clark     2013-07-19   58  
-7198e6b03155f6 Rob Clark     2013-07-19   59  	ring = kzalloc(sizeof(*ring), GFP_KERNEL);
-7198e6b03155f6 Rob Clark     2013-07-19   60  	if (!ring) {
-7198e6b03155f6 Rob Clark     2013-07-19   61  		ret = -ENOMEM;
-7198e6b03155f6 Rob Clark     2013-07-19   62  		goto fail;
-7198e6b03155f6 Rob Clark     2013-07-19   63  	}
-7198e6b03155f6 Rob Clark     2013-07-19   64  
-7198e6b03155f6 Rob Clark     2013-07-19   65  	ring->gpu = gpu;
-f97decac5f4c2d Jordan Crouse 2017-10-20   66  	ring->id = id;
-84c6127580c1ce Jordan Crouse 2018-11-07   67  
-f97decac5f4c2d Jordan Crouse 2017-10-20   68  	ring->start = msm_gem_kernel_new(gpu->dev, MSM_GPU_RINGBUFFER_SZ,
-604234f33658cd Jordan Crouse 2020-09-03   69  		check_apriv(gpu, MSM_BO_WC | MSM_BO_GPU_READONLY),
-604234f33658cd Jordan Crouse 2020-09-03   70  		gpu->aspace, &ring->bo, &ring->iova);
-8223286d62e296 Jordan Crouse 2017-07-27   71  
-69a834c28fb514 Rob Clark     2016-05-24   72  	if (IS_ERR(ring->start)) {
-69a834c28fb514 Rob Clark     2016-05-24   73  		ret = PTR_ERR(ring->start);
-375f9a63a66bae Rob Clark     2021-07-27   74  		ring->start = NULL;
-69a834c28fb514 Rob Clark     2016-05-24   75  		goto fail;
-69a834c28fb514 Rob Clark     2016-05-24   76  	}
-0815d7749a6852 Jordan Crouse 2018-11-07   77  
-0815d7749a6852 Jordan Crouse 2018-11-07   78  	msm_gem_object_set_name(ring->bo, "ring%d", id);
-0815d7749a6852 Jordan Crouse 2018-11-07   79  
-f97decac5f4c2d Jordan Crouse 2017-10-20   80  	ring->end   = ring->start + (MSM_GPU_RINGBUFFER_SZ >> 2);
-4c7085a5d581a5 Jordan Crouse 2017-10-20   81  	ring->next  = ring->start;
-7198e6b03155f6 Rob Clark     2013-07-19   82  	ring->cur   = ring->start;
-7198e6b03155f6 Rob Clark     2013-07-19   83  
-f97decac5f4c2d Jordan Crouse 2017-10-20   84  	ring->memptrs = memptrs;
-f97decac5f4c2d Jordan Crouse 2017-10-20   85  	ring->memptrs_iova = memptrs_iova;
-f97decac5f4c2d Jordan Crouse 2017-10-20   86  
-1d8a5ca436ee4a Rob Clark     2021-07-27   87  	 /* currently managing hangcheck ourselves: */
-1d8a5ca436ee4a Rob Clark     2021-07-27   88  	sched_timeout = MAX_SCHEDULE_TIMEOUT;
-1d8a5ca436ee4a Rob Clark     2021-07-27   89  
-1d8a5ca436ee4a Rob Clark     2021-07-27  @90  	ret = drm_sched_init(&ring->sched, &msm_sched_ops,
-1d8a5ca436ee4a Rob Clark     2021-07-27   91  			num_hw_submissions, 0, sched_timeout,
-f1b7996551a40a Dave Airlie   2021-07-30   92  			NULL, NULL, to_msm_bo(ring->bo)->name);
-1d8a5ca436ee4a Rob Clark     2021-07-27   93  	if (ret) {
-1d8a5ca436ee4a Rob Clark     2021-07-27   94  		goto fail;
-1d8a5ca436ee4a Rob Clark     2021-07-27   95  	}
-1d8a5ca436ee4a Rob Clark     2021-07-27   96  
-f97decac5f4c2d Jordan Crouse 2017-10-20   97  	INIT_LIST_HEAD(&ring->submits);
-77d205290aa944 Rob Clark     2020-10-23   98  	spin_lock_init(&ring->submit_lock);
-77c406038e830a Rob Clark     2020-10-23   99  	spin_lock_init(&ring->preempt_lock);
-f97decac5f4c2d Jordan Crouse 2017-10-20  100  
-f97decac5f4c2d Jordan Crouse 2017-10-20  101  	snprintf(name, sizeof(name), "gpu-ring-%d", ring->id);
-f97decac5f4c2d Jordan Crouse 2017-10-20  102  
-da3d378dec8634 Rob Clark     2021-07-26  103  	ring->fctx = msm_fence_context_alloc(gpu->dev, &ring->memptrs->fence, name);
-7198e6b03155f6 Rob Clark     2013-07-19  104  
-7198e6b03155f6 Rob Clark     2013-07-19  105  	return ring;
-7198e6b03155f6 Rob Clark     2013-07-19  106  
-7198e6b03155f6 Rob Clark     2013-07-19  107  fail:
-7198e6b03155f6 Rob Clark     2013-07-19  108  	msm_ringbuffer_destroy(ring);
-7198e6b03155f6 Rob Clark     2013-07-19  109  	return ERR_PTR(ret);
-7198e6b03155f6 Rob Clark     2013-07-19  110  }
-7198e6b03155f6 Rob Clark     2013-07-19  111  
+I'm not sure I follow you there.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+The function affected is clk_core_determine_round_nolock(), which is
+called by clk_core_round_rate_nolock() and clk_calc_new_rates(). In
+turn, they will be part of clk(_hw_)_round_clock for the former, and
+clk_core_set_rate_nolock() (and thus clk_set_rate()) for the latter.
+
+I don't see how you can get a discrepancy between clk_round_rate() and
+clk_set_rate().
+
+And yeah, it's true that the round_rate op won't have the min and max
+passed to them, but i'd consider this an argument for doing this check
+here, since you don't have that option at all for those clocks.
+
+> We need to make sure that round_rate and set_rate agree with each
+> other. If we don't do that then we don't uphold the contract that
+> clk_round_rate() tells the consumer what rate they'll get if they call
+> clk_set_rate() with the same frequency.
+>=20
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  drivers/clk/clk-test.c | 46 ++++++++++++++++++++++++++++++++++++++++++
+> >  drivers/clk/clk.c      |  2 ++
+> >  2 files changed, 48 insertions(+)
+> >=20
+> > diff --git a/drivers/clk/clk-test.c b/drivers/clk/clk-test.c
+> > index 47a600d590c1..28c718ab82e1 100644
+> > --- a/drivers/clk/clk-test.c
+> > +++ b/drivers/clk/clk-test.c
+> > @@ -203,6 +203,50 @@ static void clk_range_test_set_range_invalid(struc=
+t kunit *test)
+> >                         0);
+> >  }
+> > =20
+> > +/*
+> > + * Test that if our clock has some boundaries and we try to round a ra=
+te
+> > + * lower than the minimum, the returned rate will be within range.
+> > + */
+> > +static void clk_range_test_set_range_round_rate_lower(struct kunit *te=
+st)
+> > +{
+> > +       struct clk_dummy_context *ctx =3D test->priv;
+> > +       struct clk_hw *hw =3D &ctx->hw;
+> > +       struct clk *clk =3D hw->clk;
+> > +       long rate;
+> > +
+> > +       KUNIT_ASSERT_EQ(test,
+> > +                       clk_set_rate_range(clk,
+> > +                                          DUMMY_CLOCK_RATE_1,
+> > +                                          DUMMY_CLOCK_RATE_2),
+> > +                       0);
+> > +
+> > +       rate =3D clk_round_rate(clk, DUMMY_CLOCK_RATE_1 - 1000);
+> > +       KUNIT_ASSERT_GT(test, rate, 0);
+> > +       KUNIT_EXPECT_EQ(test, rate, DUMMY_CLOCK_RATE_1);
+>=20
+> The comment says within range but this test says exactly the minimum
+> rate. Please change it to test that the rate is within rate 1 and rate
+> 2. Also, we should call clk_get_rate() here to make sure the rate is
+> within the boundaries and matches what clk_round_rate() returned.
+
+Ok
+
+--hrhga4ab23qncznd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhO7TQAKCRDj7w1vZxhR
+xdDeAPoDyj5uGoplJHMvWi/RM1aNvlBRPBia0DzyZckVW0nVSwEA8o7rGkoIFB6z
+/m4OGazOPs+JLFk/YEvhZD/DvlhonwU=
+=9m2X
+-----END PGP SIGNATURE-----
+
+--hrhga4ab23qncznd--
