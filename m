@@ -2,36 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE6A4BD92D
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 11:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6DB4BD957
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 12:14:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32B8510E58A;
-	Mon, 21 Feb 2022 10:46:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7179E10E342;
+	Mon, 21 Feb 2022 11:14:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35D9810E582;
- Mon, 21 Feb 2022 10:46:37 +0000 (UTC)
-Received: from [192.168.0.2] (ip5f5aebce.dynamic.kabel-deutschland.de
- [95.90.235.206])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id E3ECD61E64846;
- Mon, 21 Feb 2022 11:46:34 +0100 (CET)
-Message-ID: <c3ac5d95-218f-4f36-fbec-0172af69d5a0@molgen.mpg.de>
-Date: Mon, 21 Feb 2022 11:46:34 +0100
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F80F10E2A0;
+ Mon, 21 Feb 2022 11:14:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645442078; x=1676978078;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=TvbJ3vSGodYfMyTTYBnSkODUNvzL55ny9Q8+ODOW3i4=;
+ b=k67DTYTHm4r8/26riIR4zKFzk+6VmcmI2NyR+QQRUIZQlvB5vR/KrxjJ
+ +ULNOq/QJfio+gaS1ffcA/5LMQe9l7zybc8xg/x2H/x7+VovnpvO1o0Hg
+ 68qrS7/9PvmFB6rqnlR2kttTZy0kL8ItWhxeMRLnWx+lTV4kOIo2SVMKQ
+ oSwvw1DL9QA0raIW8S5uGoAL0RP4SpQuZqyuHnN2htDILCkArI9KnsvPN
+ uR+ulkznNLPCNq5turcSyeckdHkrizxPzp55/wXEBLlQBgZpmvwY2gD2/
+ mYdT2Vr/EJUIFBU920wYjzNA/8Fs8ATuIdxhBkvx+QAqvUtCdvE3VTLzj Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10264"; a="235029872"
+X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; d="scan'208";a="235029872"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2022 03:14:37 -0800
+X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; d="scan'208";a="531820779"
+Received: from mkilleen-mobl1.ger.corp.intel.com (HELO [10.213.218.216])
+ ([10.213.218.216])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2022 03:14:35 -0800
+Message-ID: <c00c7999-79d1-7c3e-d4e8-df2a887834d8@linux.intel.com>
+Date: Mon, 21 Feb 2022 11:14:33 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH] drm/amdgpu: check vm ready by evicting
+ Thunderbird/91.5.0
+Subject: Re: [Intel-gfx] [PATCH 6/7] drm: Document fdinfo format specification
 Content-Language: en-US
-To: Qiang Yu <qiang.yu@amd.com>
-References: <20220221101239.2863-1-qiang.yu@amd.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20220221101239.2863-1-qiang.yu@amd.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220106165536.57208-1-tvrtko.ursulin@linux.intel.com>
+ <20220106165536.57208-7-tvrtko.ursulin@linux.intel.com>
+ <YegpiY3MU15RsEfk@phenom.ffwll.local>
+ <CAF6AEGs58S7U=1nso=0BAURUuobeUam4V0j1W7ZsrK5W7MqRvw@mail.gmail.com>
+ <423c8ff1-3a4b-3e69-8561-3056c7d2d20f@linux.intel.com>
+ <fb6f1a2c-6e23-cfdf-2ce5-80209a005227@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <fb6f1a2c-6e23-cfdf-2ce5-80209a005227@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,87 +65,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Chris Healy <cphealy@gmail.com>, David M Nieto <David.Nieto@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Qiang Yu,
 
+Hi Rob,
 
-Am 21.02.22 um 11:12 schrieb Qiang Yu:
-
-
-Thank you for your patch. Reading the commit message summary, I have no 
-idea what “check vm ready by evicting” means. Can you please rephrase it?
-
-> Workstation application ANSA/META get this error dmesg:
-
-What version, and how can this be reproduced exactly? Just by starting 
-the application?
-
-> [drm:amdgpu_gem_va_ioctl [amdgpu]] *ERROR* Couldn't update BO_VA (-16)
+On 25/01/2022 10:24, Tvrtko Ursulin wrote:
 > 
-> This is caused by:
-> 1. create a 256MB buffer in invisible VRAM
-> 2. CPU map the buffer and access it causes vm_fault and try to move
->     it to visible VRAM
-> 3. force visible VRAM space and traverse all VRAM bos to check if
->     evicting this bo is valuable
-> 4. when checking a VM bo (in invisible VRAM), amdgpu_vm_evictable()
->     will set amdgpu_vm->evicting, but latter due to not in visible
->     VRAM, won't really evict it so not add it to amdgpu_vm->evicted
-> 5. before next CS to clear the amdgpu_vm->evicting, user VM ops
->     ioctl will pass amdgpu_vm_ready() (check amdgpu_vm->evicted)
->     but fail in amdgpu_vm_bo_update_mapping() (check
->     amdgpu_vm->evicting) and get this error log
+> On 21/01/2022 11:50, Tvrtko Ursulin wrote:
+>> On 20/01/2022 16:44, Rob Clark wrote:
 > 
-> This error won't affect functionality as next CS will finish the
-> waiting VM ops. But we'd better clear the error log by check the
-
-s/check/checking/
-
-> evicting flag which really stop VM ops latter.
-
-stop*s*?
-
-Can you please elaborate. Christian’s and your discussions was quite 
-long, so adding a summary, why this approach works and what possible 
-regressions there are going to be might be warranted.
-
-
-Kind regards,
-
-Paul
-
-
-> Signed-off-by: Qiang Yu <qiang.yu@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
+> [snip]
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 37acd8911168..2cd9f1a2e5fa 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -770,11 +770,16 @@ int amdgpu_vm_validate_pt_bos(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->    * Check if all VM PDs/PTs are ready for updates
->    *
->    * Returns:
-> - * True if eviction list is empty.
-> + * True if VM is not evicting.
->    */
->   bool amdgpu_vm_ready(struct amdgpu_vm *vm)
->   {
-> -	return list_empty(&vm->evicted);
-> +	bool ret;
-> +
-> +	amdgpu_vm_eviction_lock(vm);
-> +	ret = !vm->evicting;
-> +	amdgpu_vm_eviction_unlock(vm);
-> +	return ret;
->   }
->   
->   /**
+>>> If there is a tool somewhere that displays this info, that would be
+>>> useful for testing my implementation.
+>>
+>> I have a patch to Intel specific intel_gpu_top (see 
+>> https://patchwork.freedesktop.org/patch/468491/?series=98555&rev=1). 
+>> I'll have a look to see how much work would it be to extract common 
+>> bits into a library and write a quick agnostic tool using it.
+> 
+> I factored out some code from intel_gpu_top in a quick and dirty attempt 
+> to make it generic and made a very rudimentary tools/gputop:
+> 
+> https://cgit.freedesktop.org/~tursulin/intel-gpu-tools/log/?h=gputop
+
+Have you managed to spend any time playing with this yet?
+
+The only remaining open was Daniel's mild concern if vendor agnostic 
+userspace is possible using the proposed spec. If you managed to wire up 
+the compliant exports and gputop tool works I think that concern would 
+be settled.
+
+Regards,
+
+Tvrtko
