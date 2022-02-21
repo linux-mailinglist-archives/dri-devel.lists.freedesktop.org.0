@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6AC4BD8E0
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 11:00:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC544BD8E3
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 11:01:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71BF210EE4A;
-	Mon, 21 Feb 2022 10:00:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D143710F378;
+	Mon, 21 Feb 2022 10:01:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78D0D10EADC
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 10:00:14 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id D7AEC580264;
- Mon, 21 Feb 2022 05:00:13 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 21 Feb 2022 05:00:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=r8igaXWRbTdz1AtfUYgtcf0nwGWdBN
- 3fb9njaFHdLZE=; b=ZEmn/7x3QqIiQJWwP9xHtSlu0R72jXQEFISczudzzhMPKp
- WXYT/euD6oAPBT2ZB3GP/0O1LrkNNZMQ4drt7y97HM6F+mlKNOR+f02lm5rZgSiO
- buCBiodhzRF+qZaaT6UiamDADpMW4jlRn89Khe/izxok3Fl5hQthCAWG8mADtcKu
- WLTTDWTUiG2DpP3n27RXli0KZr1wdIhkV++pxkMCyIOU+7J+hrXpzsBndYxRkJS7
- VvELA60NAvJChoztpGPBEjNDiRic7I40aQhxHZfwYJ5oKRfXGhnjeTm/2qWUE3+2
- EdSDeyZk3cwmphMz73O4QHKy4q0DKJDx+fiO0Gsw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=r8igaX
- WRbTdz1AtfUYgtcf0nwGWdBN3fb9njaFHdLZE=; b=VOLwq9UfDS/4Q57Qi5Jjt3
- RQBKCDGLVTSplS526qJoa8hsyU8rNALb33Vhy8Z0ypFzhh+cZ7IIYPkkOqLJ0KeX
- /ntUDx3nX8RvgfrWvikLyRn4V6lzHyyukU3D9IHLxBP9bCNg19l5ruYy4RUlsiU8
- TvZ21u/j8238tcKIPwcssXAtg4AcG4PY+xNCmChubSwVZKfHrCR6mcARZxn51ZbU
- zKv0PVc0IJDDgv7M8sjP/TYFuuH+EzDYPjxP7jVyeB6qo8FSaQpskzWWMl3RHAy0
- 1aqScfw591+nTPMnVCTdL6c8ib9u74zJV3mQD0KZED4+OxQp0YqV+DzuDHbabPTw
- ==
-X-ME-Sender: <xms:rWITYnZAu7Ac4VrXxP-Ud9staSeJW3iCwhRHnv1hh3HMahP7fahsXQ>
- <xme:rWITYmaSYoSyybqpDJosQ7GyQK7MGB7VoAfijfRBmIaoDTnPzT7XcK2uGw5zicPOE
- pihSEHPD_2ORVFyDXg>
-X-ME-Received: <xmr:rWITYp9R6E6e-ZZugGKMXAVIH8FlWLAL54QA9zy5UfL_rImRQDKKMDF_Pg_kjBqnGKUJmi6gSnkghGX6n4e1r77Hr1LtxLvYWV8q7mM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigddtlecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:rWITYtoGt7fDo2TVf83B6gD_VSE7I6DVuMqFURlIYNcQo5qjz_FZ5Q>
- <xmx:rWITYiqLUUIZ0nbYfNt9PfWIbw0pQCxWb8-iz-BPvdD2qAwFnFVCxw>
- <xmx:rWITYjSZXrdpOPJ3a3HwOjwVUDN38MLjwfCKZIVmn1ff4j41mUi9Rg>
- <xmx:rWITYh2SYws5HztX8nsRa8laomLi_yQ7sYm--7K3uoriXXLPYrWl-w>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Feb 2022 05:00:13 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>,
-	David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 22/22] drm/omap: plane: Remove redundant color encoding and
- range initialisation
-Date: Mon, 21 Feb 2022 10:59:18 +0100
-Message-Id: <20220221095918.18763-23-maxime@cerno.tech>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220221095918.18763-1-maxime@cerno.tech>
-References: <20220221095918.18763-1-maxime@cerno.tech>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE34D10F2A9
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 10:01:53 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id d3so10410736wrf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 02:01:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YZ+si3odyYtBfKCwmZtlljyYoUebhhvf4uslsh/s+F4=;
+ b=d8cTQr1kPqH5MIr5D3dAqmCZtc37/RleZA6NK1HFBkhZrEoJmQ1Tyf9CYpJvvYJzj9
+ 8GJ/Aof2iwQlsvS0D5uhtpZmPHygGNARW7qokCKqJFabObNEFv7ZpCHH9EVhHTMZlK1B
+ 0VsHc6eutuN5lFCt7hkLtfzCr+B4pMRYgNxvp3DA0n6Wclg5AYC+QtYQHvNs0tDuKjDF
+ BCaXw483rjeQAjEmjdsNfCUvrjdB5XIqRtuBK4M1tyqacy35QFmGX0aZqxOAxdYa8FNG
+ Zv2aR4sseOzR9Zx9ZhsY2bWsgu4zoDAEBU/CceJbxAjfKHVqd4fLJzaPI8BCLoBaOFgk
+ 3/5g==
+X-Gm-Message-State: AOAM532UZIrq89bO1dDfnIXFmwq3PR94MyXLV+8KdbXPxMf2cu2mlN0l
+ vKEPve9xFp12A8RmVwkJH4s=
+X-Google-Smtp-Source: ABdhPJxiSwRwEHfd8Q+eqMRaMd1mC5EXxdtAwlKOfu4jlIozdrPKqmXsyZiymQ3sUemzBc2KSw7yWQ==
+X-Received: by 2002:adf:fb8e:0:b0:1e3:241b:218c with SMTP id
+ a14-20020adffb8e000000b001e3241b218cmr15194533wrr.359.1645437712057; 
+ Mon, 21 Feb 2022 02:01:52 -0800 (PST)
+Received: from [192.168.0.120] (xdsl-188-155-181-108.adslplus.ch.
+ [188.155.181.108])
+ by smtp.googlemail.com with ESMTPSA id q76sm7668095wme.1.2022.02.21.02.01.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Feb 2022 02:01:51 -0800 (PST)
+Message-ID: <acf6d02d-0e17-b84a-5bd8-9f5165f73915@kernel.org>
+Date: Mon, 21 Feb 2022 11:01:49 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v10 1/4] MIPS: Loongson64: dts: update the display
+ controller device node
+Content-Language: en-US
+To: Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+ Sui Jingfeng <15330273260@189.cn>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
+ suijingfeng <suijingfeng@loongson.cn>
+References: <20220220145554.117854-1-15330273260@189.cn>
+ <20220220145554.117854-2-15330273260@189.cn>
+ <08abcb14-f1f6-8be5-6309-cd16e0578c05@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <08abcb14-f1f6-8be5-6309-cd16e0578c05@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,49 +80,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomba@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Phil Elwell <phil@raspberrypi.com>
+Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The omap KMS driver will call drm_plane_create_color_properties() with
-a default encoding and range values of BT601 and Full Range,
-respectively.
+On 21/02/2022 10:19, Sergei Shtylyov wrote:
+> On 2/20/22 5:55 PM, Sui Jingfeng wrote:
+> 
+>> From: suijingfeng <suijingfeng@loongson.cn>
+>>
+>> The display controller is a pci device, its PCI vendor id is 0x0014
+>> its PCI device id is 0x7a06.
+>>
+>> 1) In order to let the driver to know which chip the DC is contained
+>>    in, the compatible string of the display controller is updated
+>>    according to the chip's name.
+>>
+>> 2) Add display controller device node for ls2k1000 SoC
+>>
+>> Reported-by: Krzysztof Kozlowski <krzk@kernel.org>
+>> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+>> ---
+>>  arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi | 8 ++++++++
+>>  arch/mips/boot/dts/loongson/ls7a-pch.dtsi          | 7 ++-----
+>>  2 files changed, 10 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
+>> index 768cf2abcea3..af9cda540f9e 100644
+>> --- a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
+>> +++ b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
+>> @@ -209,6 +209,14 @@ gpu@5,0 {
+>>  				interrupt-parent = <&liointc0>;
+>>  			};
+>>  
+>> +			lsdc: display-controller@6,0 {
+> 
+>    Shouldn't the node name just be "display", according to the section 2.2.2
+> of the DT spec?
 
-Since the initial value wasn't carried over in the state, the driver had
-to set it again in omap_plane_reset(). However, the helpers have been
-adjusted to set it properly at reset, so this is not needed anymore.
+lcd-controller, led-controller. As I understood from the bindings, this
+is not physical device displaying something (like a panel) but rather a
+device controlling such panel. Therefore display-controller feels
+appropriate.
 
-Reviewed-by: Tomi Valkeinen <tomba@kernel.org>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/omapdrm/omap_plane.c | 3 ---
- 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-index d96bc929072a..b83d91ec030a 100644
---- a/drivers/gpu/drm/omapdrm/omap_plane.c
-+++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-@@ -403,7 +403,6 @@ void omap_plane_install_properties(struct drm_plane *plane,
- 
- static void omap_plane_reset(struct drm_plane *plane)
- {
--	struct omap_plane *omap_plane = to_omap_plane(plane);
- 	struct omap_plane_state *omap_state;
- 
- 	if (plane->state)
-@@ -414,8 +413,6 @@ static void omap_plane_reset(struct drm_plane *plane)
- 		return;
- 
- 	__drm_atomic_helper_plane_reset(plane, &omap_state->base);
--	plane->state->color_encoding = DRM_COLOR_YCBCR_BT601;
--	plane->state->color_range = DRM_COLOR_YCBCR_FULL_RANGE;
- }
- 
- static struct drm_plane_state *
--- 
-2.35.1
-
+Best regards,
+Krzysztof
