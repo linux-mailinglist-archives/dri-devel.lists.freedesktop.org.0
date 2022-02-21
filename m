@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC8E24BD3D5
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 03:36:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC9B4BD3D6
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 03:36:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5471810E1F5;
-	Mon, 21 Feb 2022 02:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0906610E280;
+	Mon, 21 Feb 2022 02:36:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
- [209.85.166.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A756510E1F5
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 02:36:22 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id c14so10639370ioa.12
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Feb 2022 18:36:22 -0800 (PST)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+ [209.85.166.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8037810E280
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 02:36:34 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id e79so14365431iof.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Feb 2022 18:36:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
  :message-id;
- bh=umQRAksOlDGR71CV/7q8w3UM9RPs0j8wImc8BhPZ9oA=;
- b=KJLkjKsWpeKB87f64N7jwNQkQPkgNoHvQVL9CRSvGJB7H719L03dMkpg4sDL5faI7p
- nlsH2ZZgeoBzt+D7Fxaou1MyQtLiMGIQGsRqG/56SPxhyHMEB2EnMMGCbvFkGQV4RSzh
- 7CCpgyKJu9sZb0ibjKaNZnI6igCCAnfTZDBErywl3Lgjx+7F+kQSBjKz0s2e2cX4tamA
- or7kRxjQlfOxy5+T7rl7bvlJmUnFGLKLFLIVJ807sCAzQUiCpZF8ZVXOm04JV+PSB1WB
- wkMSXWhGJPivcuNd6Mbmfe7SdcKvJYISzxkPsLuONs4RLVe7ksRCma/Y0aKai5SOHOgU
- bdIQ==
-X-Gm-Message-State: AOAM530oVbv5qZVkW1p2IraZKGvJI2gTGo5diXK6tng6qrglrZV9FHOz
- DwVXqgBi2HvFNKTw2XSfNw==
-X-Google-Smtp-Source: ABdhPJw1h2mEAUBdneBklmT2HDnqcAjjIDQwaAGq4wonwL7aiRSmCIhy3XOEfVzhxs8L8TNj/DL/ig==
-X-Received: by 2002:a05:6602:2dcd:b0:63e:914f:a690 with SMTP id
- l13-20020a0566022dcd00b0063e914fa690mr13988950iow.87.1645410981908; 
- Sun, 20 Feb 2022 18:36:21 -0800 (PST)
+ bh=z3L0QAaP0YwGTd6VI4wxx/3lOMZUuCl0MhaQbdJh1OQ=;
+ b=pZ0ixaLMkfeCHOHE7FMUi2BAkw5jwzx0Bh6oY6GVzPdSgvK6Jzx5Eu1vY3IOIyt87P
+ wPECivyHAJzTaZVppkmXFn3eOR6iSKsYdAS9TRIn0eY4JE3QTXiUWK3oRQUDB/tHrAoC
+ BbFA1qtTo8bCtdQ5NkF7NsnZle9eiLSHu7DfJJnzx4SAcfS0tCLNL/tIrCjhd4d3oJii
+ IuMrgJQWO5fBzmzE1JV6mI874m8y85OF5gwzHFt94qyKsOqlw6KTRRyvZBw2AkBD01lg
+ E7UrGQlhUnBjLEZaJrmmmmwctsSf3lTxDIZ/n690reLSZYEBz10vCqLwjXvN0HBVEvZ7
+ WKxA==
+X-Gm-Message-State: AOAM533zeDo/85sMAlwHVr4+8ITVmk4lRJ8OxDigwfi6lAMVPQRGi7Ol
+ XObPY4SSasEAlB+Or6QQhg==
+X-Google-Smtp-Source: ABdhPJzC3lbA/3xbYHDC1TVY6Mc9mRZFu+uPq7kGdXhvdW9HCdoukC5Q8i8N7ZC5YawbHb6/C1rUWw==
+X-Received: by 2002:a02:c851:0:b0:30e:2296:4290 with SMTP id
+ r17-20020a02c851000000b0030e22964290mr14295308jao.49.1645410993813; 
+ Sun, 20 Feb 2022 18:36:33 -0800 (PST)
 Received: from robh.at.kernel.org ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id v23sm2969814ioq.2.2022.02.20.18.36.20
+ by smtp.gmail.com with ESMTPSA id s9sm7433901ilv.50.2022.02.20.18.36.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Feb 2022 18:36:21 -0800 (PST)
-Received: (nullmailer pid 2041541 invoked by uid 1000);
+ Sun, 20 Feb 2022 18:36:33 -0800 (PST)
+Received: (nullmailer pid 2041539 invoked by uid 1000);
  Mon, 21 Feb 2022 02:36:09 -0000
 From: Rob Herring <robh@kernel.org>
-To: =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220218151110.11316-2-noralf@tronnes.org>
-References: <20220218151110.11316-1-noralf@tronnes.org>
- <20220218151110.11316-2-noralf@tronnes.org>
-Subject: Re: [PATCH v4 1/3] dt-bindings: display: add bindings for MIPI DBI
- compatible SPI panels
+To: Guillaume Ranquet <granquet@baylibre.com>
+In-Reply-To: <20220218145437.18563-3-granquet@baylibre.com>
+References: <20220218145437.18563-1-granquet@baylibre.com>
+ <20220218145437.18563-3-granquet@baylibre.com>
+Subject: Re: [PATCH v8 02/19] dt-bindings: mediatek,
+ dp: Add Display Port binding
 Date: Sun, 20 Feb 2022 20:36:09 -0600
-Message-Id: <1645410969.355343.2041540.nullmailer@robh.at.kernel.org>
+Message-Id: <1645410969.343097.2041538.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,38 +59,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, david@lechnology.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, maxime@cerno.tech,
- sam@ravnborg.org
+Cc: linux-fbdev@vger.kernel.org, chunkuang.hu@kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, deller@gmx.de,
+ kishon@ti.com, devicetree@vger.kernel.org, jitao.shi@mediatek.com,
+ tzimmermann@suse.de, Markus Schneider-Pargmann <msp@baylibre.com>,
+ chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ linux-kernel@vger.kernel.org, vkoul@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 18 Feb 2022 16:11:08 +0100, Noralf Trønnes wrote:
-> Add binding for MIPI DBI compatible SPI panels.
+On Fri, 18 Feb 2022 15:54:20 +0100, Guillaume Ranquet wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
 > 
-> v4:
-> - There should only be two compatible (Maxime)
-> - s/panel-dbi-spi/panel-mipi-dbi-spi/in compatible
+> This controller is present on several mediatek hardware. Currently
+> mt8195 and mt8395 have this controller without a functional difference,
+> so only one compatible field is added.
 > 
-> v3:
-> - Move properties to Device Tree (Maxime)
-> - Use contains for compatible (Maxime)
-> - Add backlight property to example
-> - Flesh out description
+> The controller can have two forms, as a normal display port and as an
+> embedded display port.
 > 
-> v2:
-> - Fix path for panel-common.yaml
-> - Use unevaluatedProperties
-> - Drop properties which are in the allOf section
-> - Drop model property (Rob)
-> 
-> Acked-by: Maxime Ripard <maxime@cerno.tech>
-> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
->  .../display/panel/panel-mipi-dbi-spi.yaml     | 125 ++++++++++++++++++
->  1 file changed, 125 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+>  .../display/mediatek/mediatek,dp.yaml         | 87 +++++++++++++++++++
+>  1 file changed, 87 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
 > 
 
 My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
@@ -99,11 +95,17 @@ on your patch (DT_CHECKER_FLAGS is new in v5.13):
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.example.dt.yaml:0:0: /example-0/spi/display@0: failed to match any schema with compatible: ['sainsmart18', 'panel-mipi-dbi-spi']
+Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dts:20:18: fatal error: dt-bindings/power/mt8195-power.h: No such file or directory
+   20 |         #include <dt-bindings/power/mt8195-power.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:378: Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1398: dt_binding_check] Error 2
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/patch/1594817
+See https://patchwork.ozlabs.org/patch/1594807
 
 This check can fail if there are any dependencies. The base for a patch
 series is generally the most recent rc1.
