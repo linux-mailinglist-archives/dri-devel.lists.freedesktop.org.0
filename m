@@ -1,75 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06064BDAD3
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 17:30:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D294BDAD8
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Feb 2022 17:32:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE1710E355;
-	Mon, 21 Feb 2022 16:30:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EACC10E65B;
+	Mon, 21 Feb 2022 16:32:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96C8510E355
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Feb 2022 16:30:04 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id C1CB75C0292;
- Mon, 21 Feb 2022 11:30:03 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 21 Feb 2022 11:30:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=VQ18XQVk9IzSPBm0N4aNJnOzzx5QuoDKxo0tjL
- ZAUV8=; b=AEdWm2c/V7Nbl9Nv50YTvfCXj+7FTGZXcYdVTgXYzTztcDr44d2SU1
- jniDjIzf/PE6tZ+W9gaaN9EXBZEUcUcV4VkmcPpmpsPrugOwvkhNrbTzkeM78p9o
- zpWtYPI9UkN39/JMEW07BPuQQW8wzi59Wg5WXd0o6Qw0jTlCg5YHOKGS4quM/sno
- 1N9zi8IxjeUGaUgW2q34kmRa9tPbrTFQAB8d0n0eXxWwHPghCQL1QHzZ7cnD1EK/
- 0QiXSCvWn0QRXvlD+HplZAw8cGbQP/eJpH/WnTr5KS76l8hGAr1mydooiN2lBrUo
- J9Hdgk1UsKGV3Str9E6+9m7pBSK+oFpA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=VQ18XQVk9IzSPBm0N
- 4aNJnOzzx5QuoDKxo0tjLZAUV8=; b=HyYHRsX/GaGTbf0CmhgPTcenqAZQ/HghH
- 2qdboX8Xn1A5UP1QeKZNWTISMTpu49jOE4Zn4DTQUAOrtwJMinZ629jPbUgmSN+t
- TJ192Hppm/CMmhw9QHjoKQ5k/31mx1thojv4JLDRMPH+l12YvJgObB394JNfjipn
- pNC1Uf+TYo4hTLk+CMeotcorjcl/9V6qmVrVSFBCd9ONVVYsw6/9iPSl/lMcc/vc
- BDU67+7CPIQf74hCojRPIjlVvDm2Rni8nxxtntxAlNRz0862d9SktnM8n+WOGXTh
- hPO3OTB7U3LCZimP2+6gKRU+uP9jLXkXFzrpceW0tkdXhcEqnqDMw==
-X-ME-Sender: <xms:C74TYmDdcoNatGfuPO5_fZCFkGy82hqhULEMlDJ7d1MlsgxvsxqUIw>
- <xme:C74TYgieQsfbwCIA8Yc3awX5g2UHuB1gEM4bV8UYxc_WzAc10rsTKaCNIpfTMW12A
- SXIPhP2a-0np9hOSm8>
-X-ME-Received: <xmr:C74TYpnRGEjXjA-GWk2hEe8Psa5aAp35hwCy2AbTwgTYFyTDkItvEVqBdT1R2yCnSuc6lLQD3VLWbDm5APKFyyuKCczbck0KLNsQij8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigdekjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:C74TYkwg0Cp-4CCJ9IWqrwPXpPguALASQMZfSRs8nA_iYVKedq4IaA>
- <xmx:C74TYrTM9SGQG0V8Tf8DAPOm81jPfdqQi-rRYdxismFVFvgaBHVoyQ>
- <xmx:C74TYvZ8aJoKzJQsoDGAZZLvG9RhUh6UChykvDzUNH1KHu0U1Ib24w>
- <xmx:C74TYqFa0kB0rZzAUmkrUiA7FaTxypxOqSO-m4_M-FKjEcPn0QHUHQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Feb 2022 11:30:03 -0500 (EST)
-Date: Mon, 21 Feb 2022 17:30:01 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v4 03/10] clk: Use clamp instead of open-coding our own
-Message-ID: <20220221163001.k4nstaxtbmlxgz3j@houat>
-References: <20220125141549.747889-1-maxime@cerno.tech>
- <20220125141549.747889-4-maxime@cerno.tech>
- <20220218223422.4FA9DC340E9@smtp.kernel.org>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3BBF10E410;
+ Mon, 21 Feb 2022 16:32:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645461163; x=1676997163;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=pr/Mp3XwZgiZMD7V6bzTmJaiLnTlkc7pKFRNKwbKdAc=;
+ b=AYxANenqEwnnlE9KISVCJWsRLyE+zWVlKZS4BJVaexv1286jrNwPQlg6
+ Lu10Xl+OIokhgL/sell+/EUiioQemn6oXw49eJIhPQqWzsudr6+RM1R3q
+ +OZXQh9WqP3TE8SoqEuRn9pn2WsSbHreoAv55kaoF7iNh99zrQHXrxirN
+ TbaeCRNlO6Nl6EukPaGqdwp45dXzygOMV3LNcmWJNqDfRxRbfTZeOny/U
+ AZewU2mSznJY71F/R5HHh5oz/fMSx5/TcVLhUsf01VPnPd/Wgwdtr6UWP
+ s2v2JhYZnkfSr0NFc1G6XPxaiDFygFmzBJhrtHAz4/8gM57VTLJWaZLR/ w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="337970047"
+X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; d="scan'208";a="337970047"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2022 08:32:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; d="scan'208";a="507687536"
+Received: from lkp-server01.sh.intel.com (HELO da3212ac2f54) ([10.239.97.150])
+ by orsmga006.jf.intel.com with ESMTP; 21 Feb 2022 08:32:34 -0800
+Received: from kbuild by da3212ac2f54 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nMBc1-0001mY-UJ; Mon, 21 Feb 2022 16:32:33 +0000
+Date: Tue, 22 Feb 2022 00:32:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiawei Gu <Jiawei.Gu@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Christian.Koenig@amd.com,
+ Andrey.Grodzovsky@amd.com, Monk.Liu@amd.com, Emily.Deng@amd.com,
+ Horace.Chen@amd.com
+Subject: Re: [PATCH] drm/sched: Add device pointer to drm_gpu_scheduler
+Message-ID: <202202220034.6C0UzU5E-lkp@intel.com>
+References: <20220221095705.5290-1-Jiawei.Gu@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3ae4nvu5w3r53lvo"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220218223422.4FA9DC340E9@smtp.kernel.org>
+In-Reply-To: <20220221095705.5290-1-Jiawei.Gu@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,68 +62,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Mike Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+ Jiawei Gu <Jiawei.Gu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jiawei,
 
---3ae4nvu5w3r53lvo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch! Yet something to improve:
 
-On Fri, Feb 18, 2022 at 02:34:20PM -0800, Stephen Boyd wrote:
-> Quoting Maxime Ripard (2022-01-25 06:15:42)
-> > The code in clk_set_rate_range() will, if the current rate is outside of
-> > the new range, will force it to the minimum or maximum. This is
-> > equivalent to using clamp, while being less readable. Let's switch to
-> > using clamp instead.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  drivers/clk/clk.c | 6 +-----
-> >  1 file changed, 1 insertion(+), 5 deletions(-)
-> >=20
-> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> > index 7bb5ae0fb688..150d1bc0985b 100644
-> > --- a/drivers/clk/clk.c
-> > +++ b/drivers/clk/clk.c
-> > @@ -2365,11 +2365,7 @@ int clk_set_rate_range(struct clk *clk, unsigned=
- long min, unsigned long max)
-> >                  *   this corner case when determining the rate
-> >                  */
-> > =20
-> > -               if (rate < min)
-> > -                       rate =3D min;
-> > -               else
-> > -                       rate =3D max;
-> > -
-> > +               rate =3D clamp(clk->core->req_rate, min, max);
->=20
-> This isn't equivalent. The else arm is taken if rate >=3D min and rate is
-> set to max, whereas clamp() will leave the rate unchanged if rate >=3D min
-> && rate < max.
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-intel/for-linux-next drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next v5.17-rc5 next-20220217]
+[cannot apply to drm-tip/drm-tip airlied/drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-This can't happen, since we're in an if block that is (rate < min ||
-rate > max), so at this point if rate is not less than min, it is
-greater than rate. Thus, it's equivalent to clamp.
+url:    https://github.com/0day-ci/linux/commits/Jiawei-Gu/drm-sched-Add-device-pointer-to-drm_gpu_scheduler/20220221-175818
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: hexagon-randconfig-r004-20220221 (https://download.01.org/0day-ci/archive/20220222/202202220034.6C0UzU5E-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/9fdafca855faca0a3b8f213f024985c4112fa0bb
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Jiawei-Gu/drm-sched-Add-device-pointer-to-drm_gpu_scheduler/20220221-175818
+        git checkout 9fdafca855faca0a3b8f213f024985c4112fa0bb
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/v3d/
 
-Still, the commit message could be better, I'll rephrase it.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Maxime
+All errors (new ones prefixed by >>):
 
---3ae4nvu5w3r53lvo
-Content-Type: application/pgp-signature; name="signature.asc"
+>> drivers/gpu/drm/v3d/v3d_sched.c:394:28: error: implicit declaration of function 'to_platform_device' [-Werror,-Wimplicit-function-declaration]
+                                NULL, "v3d_bin", &(v3d_to_pdev(v3d)->dev));
+                                                   ^
+   drivers/gpu/drm/v3d/v3d_drv.h:158:26: note: expanded from macro 'v3d_to_pdev'
+   #define v3d_to_pdev(v3d) to_platform_device((v3d)->drm.dev)
+                            ^
+>> drivers/gpu/drm/v3d/v3d_sched.c:394:46: error: member reference type 'int' is not a pointer
+                                NULL, "v3d_bin", &(v3d_to_pdev(v3d)->dev));
+                                                   ~~~~~~~~~~~~~~~~  ^
+   drivers/gpu/drm/v3d/v3d_sched.c:404:49: error: member reference type 'int' is not a pointer
+                                NULL, "v3d_render", &(v3d_to_pdev(v3d)->dev));
+                                                      ~~~~~~~~~~~~~~~~  ^
+   drivers/gpu/drm/v3d/v3d_sched.c:416:46: error: member reference type 'int' is not a pointer
+                                NULL, "v3d_tfu", &(v3d_to_pdev(v3d)->dev));
+                                                   ~~~~~~~~~~~~~~~~  ^
+   drivers/gpu/drm/v3d/v3d_sched.c:429:47: error: member reference type 'int' is not a pointer
+                                        NULL, "v3d_csd", &(v3d_to_pdev(v3d)->dev));
+                                                           ~~~~~~~~~~~~~~~~  ^
+   drivers/gpu/drm/v3d/v3d_sched.c:441:55: error: member reference type 'int' is not a pointer
+                                        NULL, "v3d_cache_clean", &(v3d_to_pdev(v3d)->dev));
+                                                                   ~~~~~~~~~~~~~~~~  ^
+   6 errors generated.
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhO+CQAKCRDj7w1vZxhR
-xW+JAQD1e5RhceCFxBdY13Gbfb6flQZaIfHnmgTrCSy6p9A4yAEAsnx7qb/QlSfF
-E+eHriTwCohlx5TB/dT4Zkq8kPHgkw0=
-=jdRz
------END PGP SIGNATURE-----
+vim +/to_platform_device +394 drivers/gpu/drm/v3d/v3d_sched.c
 
---3ae4nvu5w3r53lvo--
+   381	
+   382	int
+   383	v3d_sched_init(struct v3d_dev *v3d)
+   384	{
+   385		int hw_jobs_limit = 1;
+   386		int job_hang_limit = 0;
+   387		int hang_limit_ms = 500;
+   388		int ret;
+   389	
+   390		ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
+   391				     &v3d_bin_sched_ops,
+   392				     hw_jobs_limit, job_hang_limit,
+   393				     msecs_to_jiffies(hang_limit_ms), NULL,
+ > 394				     NULL, "v3d_bin", &(v3d_to_pdev(v3d)->dev));
+   395		if (ret) {
+   396			dev_err(v3d->drm.dev, "Failed to create bin scheduler: %d.", ret);
+   397			return ret;
+   398		}
+   399	
+   400		ret = drm_sched_init(&v3d->queue[V3D_RENDER].sched,
+   401				     &v3d_render_sched_ops,
+   402				     hw_jobs_limit, job_hang_limit,
+   403				     msecs_to_jiffies(hang_limit_ms), NULL,
+   404				     NULL, "v3d_render", &(v3d_to_pdev(v3d)->dev));
+   405		if (ret) {
+   406			dev_err(v3d->drm.dev, "Failed to create render scheduler: %d.",
+   407				ret);
+   408			v3d_sched_fini(v3d);
+   409			return ret;
+   410		}
+   411	
+   412		ret = drm_sched_init(&v3d->queue[V3D_TFU].sched,
+   413				     &v3d_tfu_sched_ops,
+   414				     hw_jobs_limit, job_hang_limit,
+   415				     msecs_to_jiffies(hang_limit_ms), NULL,
+   416				     NULL, "v3d_tfu", &(v3d_to_pdev(v3d)->dev));
+   417		if (ret) {
+   418			dev_err(v3d->drm.dev, "Failed to create TFU scheduler: %d.",
+   419				ret);
+   420			v3d_sched_fini(v3d);
+   421			return ret;
+   422		}
+   423	
+   424		if (v3d_has_csd(v3d)) {
+   425			ret = drm_sched_init(&v3d->queue[V3D_CSD].sched,
+   426					     &v3d_csd_sched_ops,
+   427					     hw_jobs_limit, job_hang_limit,
+   428					     msecs_to_jiffies(hang_limit_ms), NULL,
+   429					     NULL, "v3d_csd", &(v3d_to_pdev(v3d)->dev));
+   430			if (ret) {
+   431				dev_err(v3d->drm.dev, "Failed to create CSD scheduler: %d.",
+   432					ret);
+   433				v3d_sched_fini(v3d);
+   434				return ret;
+   435			}
+   436	
+   437			ret = drm_sched_init(&v3d->queue[V3D_CACHE_CLEAN].sched,
+   438					     &v3d_cache_clean_sched_ops,
+   439					     hw_jobs_limit, job_hang_limit,
+   440					     msecs_to_jiffies(hang_limit_ms), NULL,
+   441					     NULL, "v3d_cache_clean", &(v3d_to_pdev(v3d)->dev));
+   442			if (ret) {
+   443				dev_err(v3d->drm.dev, "Failed to create CACHE_CLEAN scheduler: %d.",
+   444					ret);
+   445				v3d_sched_fini(v3d);
+   446				return ret;
+   447			}
+   448		}
+   449	
+   450		return 0;
+   451	}
+   452	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
