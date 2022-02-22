@@ -1,69 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291E44BF4A3
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 10:26:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0CB4BF479
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 10:16:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BDE510E785;
-	Tue, 22 Feb 2022 09:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5FFE10E61E;
+	Tue, 22 Feb 2022 09:16:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4855610E785
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 09:26:37 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id f11so10729440ljq.11
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 01:26:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=JBF4fIcAnvRusm6p5BMoqr6RpxbvHrmHP+8AW6BUl1o=;
- b=m6q1oTR/aDdP/XLmbe0J0C7PXAxE7dGQgAebYmvzEUFsGJ1nsr2Hmt51/lzKNtoJuj
- OgHwILfA6mEEMX3ynuy77M+/dpZ2RA4Ntwth0mwqfjUz8bOrhOfT6PC+25pDtk8fpkJM
- RI0F8HYb9UcHpFfeyi8YOYlv9zgDIB9QZowF0fUq2vxP8t4/rV+InkAXoCy7qr9v0Y4k
- s7tAtJWoQDhV2ZumvRAuzh3otxSHbBqK20YLtTQ76BgsC2YlO7unxx8GYIK2lWfJ2ioO
- wOKeZw9/0Yp2gRUXLzCRHkr/T2WPYgP2UJMUGPRabiNbW7rXc1H/gWyR1y2MvFIF6SzM
- 8y9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=JBF4fIcAnvRusm6p5BMoqr6RpxbvHrmHP+8AW6BUl1o=;
- b=NrmhZTG0v6mPKIcNKQd7g/TrKRszTJurEdsEq43Sk/LSDXaQEReqvq2AYbwjP+Nmqm
- DXInR14XZ3NxQsk2zmOdJXRzUejChDaBIsmr6NJnKQjd8/r19GqBIjL/qLkFIB6bwa3v
- 2AdZBbur2bYVfXdfwJgGESLpIbszk+hkD3U/aRUowttEWORdkE+MdZ5Sp/XLY0kbYj8k
- UrO0N1mMWh4/LLjXTcDc9LDELiS4lnAHDy3+t8QOQ6hX1WcYguZE+E95ZzmDqhYHjpAU
- NeUKVztIUOv8lSyeeEzvvW84oseKn7T9OzK2SXvfX3skT7lB7UPn3z7Pp490EJvJA6bO
- tk8w==
-X-Gm-Message-State: AOAM530qC015E6eP6TCXYcTHj6zK7TN9zGkd+0Ark488X2IoiDoadBzt
- es/mMvRzb//SJl2q7nW25Aw=
-X-Google-Smtp-Source: ABdhPJwCgtHArkTV5ek0qzsh40gxrD+8OAEMiIbH23vPLWLGCUFV7kLWp2MZa5tFLQT2ZYNxUPq4gQ==
-X-Received: by 2002:a2e:b0fa:0:b0:246:291a:5232 with SMTP id
- h26-20020a2eb0fa000000b00246291a5232mr13070525ljl.317.1645521995380; 
- Tue, 22 Feb 2022 01:26:35 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id k14sm1641594ljh.82.2022.02.22.01.26.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 01:26:35 -0800 (PST)
-Date: Tue, 22 Feb 2022 11:26:24 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Igor Torrente <igormtorrente@gmail.com>
-Subject: Re: [PATCH v4 7/9] drm: vkms: Refactor the plane composer to accept
- new formats
-Message-ID: <20220222112624.3068cf9a@eldfell>
-In-Reply-To: <f622224f-767e-c85a-3129-8c3b1e4313bc@gmail.com>
-References: <20220121213831.47229-1-igormtorrente@gmail.com>
- <20220121213831.47229-8-igormtorrente@gmail.com>
- <20220208104018.cxnxgzgjn3ecf53l@mail.igalia.com>
- <b40b3f1b-1b0d-0b81-a5cf-1496fb479920@gmail.com>
- <20220209214535.wqoe3otgelry2kef@mail.igalia.com>
- <1b26f760-2213-b711-53fb-847560daf963@gmail.com>
- <20220221111823.044ca6ca@eldfell>
- <f622224f-767e-c85a-3129-8c3b1e4313bc@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95DD110E61E
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 09:16:07 +0000 (UTC)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20220222091605epoutp02f76f8764ae1ac4d41380487b06a643f4~WEPajfCAd2378423784epoutp02Q
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 09:16:05 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20220222091605epoutp02f76f8764ae1ac4d41380487b06a643f4~WEPajfCAd2378423784epoutp02Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1645521365;
+ bh=gCmLWa0b42xIbgG0H/u//pj4j9A++d5AwUSicUPhxGE=;
+ h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
+ b=axm0NZuDwjJZl9PDFifcFmi4xUaxWh5z/xMDKoNpxvYtyd1qdMtrmzg114Cif8Yd9
+ JqTa+nVz7DVCi1EXrK9c3OVA5MmOEMv22wbd4l+3L1lhwZ1LD5v+PCIbRLijTbZpGg
+ Amh3tWtqxygZiMODgyAYEgErn6vvsT5tuqmyGcJA=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220222091604epcas1p1343d5f95fe16ce2c61d7de2ff2646315~WEPZ8BTmR1094010940epcas1p1D;
+ Tue, 22 Feb 2022 09:16:04 +0000 (GMT)
+Received: from epsmges1p3.samsung.com (unknown [182.195.36.133]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4K2tnW6YPDz4x9Q7; Tue, 22 Feb
+ 2022 09:15:59 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+ epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 29.6A.09592.5C9A4126; Tue, 22 Feb 2022 18:15:50 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20220222091549epcas1p41021c7acc126124c38e19be233013e57~WEPMDkgoa1784417844epcas1p4F;
+ Tue, 22 Feb 2022 09:15:49 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220222091549epsmtrp1ae305e8d43556e9772645e7329b9e8b8~WEPMC5zbM0176001760epsmtrp1W;
+ Tue, 22 Feb 2022 09:15:49 +0000 (GMT)
+X-AuditID: b6c32a37-28fff70000002578-d2-6214a9c5cbc8
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ AA.B3.29871.5C9A4126; Tue, 22 Feb 2022 18:15:49 +0900 (KST)
+Received: from [10.113.221.211] (unknown [10.113.221.211]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220222091549epsmtip18a69b97825814e4357c3eabde6fcc485~WEPLtrTfz1017710177epsmtip1X;
+ Tue, 22 Feb 2022 09:15:49 +0000 (GMT)
+Message-ID: <64038de4-c7a4-cc4d-fe92-75f6ecf9202e@samsung.com>
+Date: Tue, 22 Feb 2022 18:27:42 +0900
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/6bSEMdTNr=7Tv.sG6RXcazC";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [GIT PULL] exynos-drm-fixes
+Content-Language: en-US
+From: Inki Dae <inki.dae@samsung.com>
+To: airlied@linux.ie, daniel.vetter@ffwll.ch
+In-Reply-To: <20220210110722.63523-1-inki.dae@samsung.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpik+LIzCtJLcpLzFFi42LZdlhTT/fYSpEkg20NjBa9504yWSx8eJfZ
+ 4srX92wWM87vY3Jg8dj7bQGLx/ZvD1g97ncfZ/L4vEkugCUq2yYjNTEltUghNS85PyUzL91W
+ yTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMHaKWSQlliTilQKCCxuFhJ386mKL+0JFUh
+ I7+4xFYptSAlp8C0QK84Mbe4NC9dLy+1xMrQwMDIFKgwITtj+Ya5jAWtQhWL9r5kb2A8xdfF
+ yMkhIWAicXfGbRYQW0hgB6PEyhZ3CPsTo8SkqcZdjFxA9jdGiU13u1hgGhZenscEUbSXUeLM
+ /2KIoveMEm/2TAAr4hWwk/i/ajobiM0ioCpxf1YjI0RcUOLkzCdgNaICERIvj/wFGyQsoCEx
+ 88k1VhCbWUBc4taT+WBxNqDeiSvuA83h4BAR0JF4caYAosRN4s/Ss2BjOAWsJP6ebmGEiMtL
+ NG+dzQxyj4TAR3aJU1Ma2SGOdpE4dOoWE4QtLPHq+BaouJTEy/42doiGyYwSd66vYIFwZjBK
+ HP55nRGiylhi/9LJTCBXMAtoSqzfpQ8RVpTY+Xsu1GY+iXdfe1hBSiQEeCU62oQgSpQkjl28
+ ATVFQuLCkolsELaHxLU9bUwTGBVnIQXLLCTvz0LyzyyExQsYWVYxiqUWFOempxYbFhjD4zo5
+ P3cTIzgxapnvYJz29oPeIUYmDsZDjBIczEoivHfYhZOEeFMSK6tSi/Lji0pzUosPMZoCI2ci
+ s5Rocj4wNeeVxBuaWBqYmBkZm1gYmhkqifOumnY6UUggPbEkNTs1tSC1CKaPiYNTqoFJe5sr
+ S+/RNbbSXv+S5r46knvtW/ZM95Wn1HdsP17gZm/HMnX5orjeA4uSvp2/srh7diTLV/bMiY5X
+ Du5abfYhPHquxwxd44fCs5yfz25cafn04b3Zzy4veNd88+HEjb0M3K4S/NMNsvgfi8bddnmS
+ +vzZkm0HxHskPybtV5i/8MzGnG054jru5eq8LqXlIWLnY+snVi+3vN9QcSZes7yLU6vzSpWs
+ nGr2fw4PXrU4ySvJGlaK9zi1FrHrZp57/LlqzcxAeQ1/ra/bFLmelsT+m/s/d8v+/d5ZcxkO
+ eHflXTtz10iioKUrKUXhrsJxu21daY8UkiRPXtgj4urmbv9L6Msj95nWVeVKZ3P7WmyUWIoz
+ Eg21mIuKEwG3vCgbFQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHLMWRmVeSWpSXmKPExsWy7bCSnO7RlSJJBhd/q1v0njvJZLHw4V1m
+ iytf37NZzDi/j8mBxWPvtwUsHtu/PWD1uN99nMnj8ya5AJYoLpuU1JzMstQifbsErozlG+Yy
+ FrQKVSza+5K9gfEUXxcjJ4eEgInEwsvzmLoYuTiEBHYzSrS9mcTaxcgBlJCQ2LKVA8IUljh8
+ uBii5C2jxO2Zj5lBenkF7CT+r5rOBmKzCKhK3J/VyAgRF5Q4OfMJC4gtKhAh0bZsCli9sICG
+ xMwn11hBbGYBcYlbT+YzgdhsQL0TV9xnA9klIqAj8eJMAUSJm8SfpWfBxggJ9DJKzP5bCWJz
+ ClhJ/D3dwghSziygLrF+nhBEubxE89bZzBMYhWYhOWIWkmWzEDpmIelYwMiyilEytaA4Nz23
+ 2LDAMC+1XK84Mbe4NC9dLzk/dxMjOAq0NHcwbl/1Qe8QIxMH4yFGCQ5mJRHeO+zCSUK8KYmV
+ ValF+fFFpTmpxYcYpTlYlMR5L3SdjBcSSE8sSc1OTS1ILYLJMnFwSjUwde0+Nzkz/y7jRYlH
+ b2NFw4J8+xSUGOf5i1/6xi6ztPifqvfzuNl/Nx6pXNk4Y53c8q+vlh3c3+HeLrnlQY3ioWun
+ pHYkd9vOXcatub8/MW2/96P7HRrxBxu6ffwF7M6s0maybFy3kDliSpXsv6fPGpLtvjhtqn2f
+ NVkqalmxUdQGT4HZy1e6mCyb+tqL4fVa/7vRB3b6XGeXvxlyr2ibsden21vkdmkzTz1+1Pz4
+ zyQ5daHiHac466XidM+u/mlx18Dv4wquE4IvP/4+HXfD9smstG+dH1VVt088fSfNQ9qeS0/j
+ ku+8BdfjZ4mqLP8ZY83opsjBaf6Db44Qg8fM8Gi7pmJzS/Xu/b5eWUs1lFiKMxINtZiLihMB
+ 4qAK4vECAAA=
+X-CMS-MailID: 20220222091549epcas1p41021c7acc126124c38e19be233013e57
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5
+References: <CGME20220210105530epcas1p2a8812b767cecfc06c068bf8aba8b9cb5@epcas1p2.samsung.com>
+ <20220210110722.63523-1-inki.dae@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,190 +116,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
- tzimmermann@suse.de, ~lkcamp/patches@lists.sr.ht
+Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/6bSEMdTNr=7Tv.sG6RXcazC
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Dave,
 
-On Mon, 21 Feb 2022 22:13:21 -0300
-Igor Torrente <igormtorrente@gmail.com> wrote:
-
-> Hi Pekka,
->=20
-> On 2/21/22 06:18, Pekka Paalanen wrote:
-> > On Sun, 20 Feb 2022 22:02:12 -0300
-> > Igor Torrente <igormtorrente@gmail.com> wrote:
-> >  =20
-> >> Hi Melissa,
-> >>
-> >> On 2/9/22 18:45, Melissa Wen wrote: =20
-> >>> On 02/08, Igor Torrente wrote: =20
-> >>>> Hi Melissa,
-> >>>>
-> >>>> On 2/8/22 07:40, Melissa Wen wrote: =20
-> >>>>> On 01/21, Igor Torrente wrote: =20
-> >>>>>> Currently the blend function only accepts XRGB_8888 and ARGB_8888
-> >>>>>> as a color input.
-> >>>>>>
-> >>>>>> This patch refactors all the functions related to the plane compos=
-ition
-> >>>>>> to overcome this limitation.
-> >>>>>>
-> >>>>>> A new internal format(`struct pixel`) is introduced to deal with a=
-ll
-> >>>>>> possible inputs. It consists of 16 bits fields that represent each=
- of
-> >>>>>> the channels.
-> >>>>>>
-> >>>>>> The pixels blend is done using this internal format. And new handl=
-ers
-> >>>>>> are being added to convert a specific format to/from this internal=
- format.
-> >>>>>>
-> >>>>>> So the blend operation depends on these handlers to convert to thi=
-s common
-> >>>>>> format. The blended result, if necessary, is converted to the writ=
-eback
-> >>>>>> buffer format.
-> >>>>>>
-> >>>>>> This patch introduces three major differences to the blend functio=
-n.
-> >>>>>> 1 - All the planes are blended at once.
-> >>>>>> 2 - The blend calculus is done as per line instead of per pixel.
-> >>>>>> 3 - It is responsible to calculates the CRC and writing the writeb=
-ack
-> >>>>>>        buffer(if necessary).
-> >>>>>>
-> >>>>>> These changes allow us to allocate way less memory in the intermed=
-iate
-> >>>>>> buffer to compute these operations. Because now we don't need to
-> >>>>>> have the entire intermediate image lines at once, just one line is
-> >>>>>> enough.
-> >>>>>>
-> >>>>>> | Memory consumption (output dimensions) |
-> >>>>>> |:--------------------------------------:|
-> >>>>>> |       Current      |     This patch    |
-> >>>>>> |:------------------:|:-----------------:|
-> >>>>>> |   Width * Heigth   |     2 * Width     |
-> >>>>>>
-> >>>>>> Beyond memory, we also have a minor performance benefit from all
-> >>>>>> these changes. Results running the IGT tests `*kms_cursor_crc*`:
-> >>>>>>    =20
-> >>>>> First, thanks for this improvement.
-> >>>>>
-> >>>>> Some recent changes in kms_cursor_crc caused VKMS to fail in most t=
-est
-> >>>>> cases (iirc, only size-change and alpha-opaque are passing currentl=
-y). =20
-> >>>>
-> >>>> I updated my igt and kernel(from drm_misc/drm-misc-next) to the late=
-st
-> >>>> commit[1][2] and I'm getting mixed results. Sometimes most of the te=
-st
-> >>>> passes, sometimes almost nothing passes. =20
-> >>> hmm.. is it happening when running kms_cursor_crc? Is the results
-> >>> variation random or is it possible to follow a set of steps to reprod=
-uce
-> >>> it? When failing, what is the reason displayed by the log? =20
-> >>
-> >> I investigated it a little bit and discovered that the KMS
-> >> cursor(".*kms_cursor_crc*" ) are failing after the execution of
-> >> writeback tests(".*kms_writeback.*").
-> >>
-> >> I don't know what is causing it, but they are failing while trying to
-> >> commit the KMS changes.
-> >>
-> >> out.txt:
-> >> IGT-Version: 1.26-NO-GIT (x86_64) (Linux: 5.17.0-rc2 x86_64)
-> >> Stack trace:
-> >>     #0 ../lib/igt_core.c:1754 __igt_fail_assert()
-> >>     #1 ../lib/igt_kms.c:3795 do_display_commit()
-> >>     #2 ../lib/igt_kms.c:3901 igt_display_commit2()
-> >>     #3 ../tests/kms_cursor_crc.c:820 __igt_unique____real_main814()
-> >>     #4 ../tests/kms_cursor_crc.c:814 main()
-> >>     #5 ../csu/libc-start.c:308 __libc_start_main()
-> >>     #6 [_start+0x2a]
-> >> Subtest pipe-A-cursor-size-change: FAIL
-> >>
-> >> err.txt:
-> >> (kms_cursor_crc:1936) igt_kms-CRITICAL: Test assertion failure function
-> >> do_display_commit, file ../lib/igt_kms.c:3795:
-> >> (kms_cursor_crc:1936) igt_kms-CRITICAL: Failed assertion: ret =3D=3D 0
-> >> (kms_cursor_crc:1936) igt_kms-CRITICAL: Last errno: 22, Invalid argume=
-nt
-> >> (kms_cursor_crc:1936) igt_kms-CRITICAL: error: -22 !=3D 0
-> >> =20
-> >>>
-> >>>   From my side, only the first two subtest of kms_cursor_crc is passi=
-ng
-> >>> before this patch. And after your changes here, all subtests are
-> >>> successful again, except those related to 32x10 cursor size (that nee=
-ds
-> >>> futher investigation). I didn't check how the recent changes in
-> >>> kms_cursor_crc affect VKMS performance on it, but I bet that clearing
-> >>> the alpha channel is the reason to have the performance back. =20
-> >>
-> >> Yeah, I also don't understand why the 32x10 cursor tests are failing.
-> >> =20
-> >=20
-> > Hi,
-> >=20
-> > are the tests putting the cursor partially outside of the CRTC area?
-> > Or partially outside of primary plane area (which IIRC you used when you
-> > should have used the CRTC area?)?
-> >=20
-> > Does the writeback test forget to unlink the writeback connector? Or
-> > does VKMS not handle unlinking the writeback connector? =20
->=20
-> I don't know the answer to all these questions.
-
-These are just suggestions in the direction of research, just in case
-you had no idea. ;-)
-
-After all, the UAPI error code is EINVAL, so something in VKMS rejects
-the IGT-produced configuration. Figuring out what that configuration is
-and why it gets rejected might be useful to find out.
-
-Maybe the original writeback code did not expect planes to be partially
-off-screen? Guarding against that would produce EINVAL. This is just a
-wild guess, I've never read that code, but it also seems like the
-simplest possible mistake to make in good faith - not a bug in code,
-just a wrong initial assumption of use cases.
-
-If you found in your testing that the IGT cursor-size-change test
-succeeds if ran before writeback test, but fails if ran after the
-writeback test, then obviously something in the writeback test is
-leaving stray state behind. It could be the test itself, or it could be
-a VKMS bug.
-
+Seems you missed. Is there any issue?
 
 Thanks,
-pq
+Inki Dae
 
---Sig_/6bSEMdTNr=7Tv.sG6RXcazC
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmIUrEAACgkQI1/ltBGq
-qqcmnQ/+O+dGo3v/iuGXznEX1swst/nWhwOJ6W6lPHGISvlI0MwaUmIIN6X4//cI
-AeVDzvNo74E+U6XN3mnMtF+lwZxui55foDZfdwAFsEpm67UOksjUPGFs7yQw93+c
-PRp3410fh8742XccFhVlZkqz8U5DDELn/koM5Zi5R+3h/CkcLhvkqJMs5fkKpWXP
-N2abTyECFPLQYtLpItCHtTUZyTRdmkjUCeqiHQEDUgz9MA1cmQltR7eUxe+SkM/G
-/aI9rjK5I0iy+p3vC/BDIU9fghtD6jkA6DHIK1Rpunul3wcWHD8tWClgwvIDlnu8
-Jy80KPAf+nhqB6ACfmNPtS0QnHBadcDnx3Oth99Olp7H8vOHzkFd8nDuxlf9RG3C
-ASIS/KCmsMriaIlSPQ/g9NEKTHBTD7kXNhpCffqNedwTczuK5iIgHU76UaLNMjJ1
-biuPkncGqz8iN8XtqQyFnbNQFeWOaK7QApftxGoJ64TlnR0zuY8abxgVvksAel0d
-KL6FYPWA5pS5whJp4/I1mYK5KQTSu3YgyOPvvvXGumQja9vyEkqDLp7CHj4xeWI5
-CDJn5FvhqqAN6AvewxdL6NlbcYrsx4jg74+fec9B55q+5s9VqfRyhCArZ3MRV/hH
-QMo+77Czpe+fnTxzsagECaHgQredl4zHLETHVWznpu2iI3F/Zb0=
-=yvDA
------END PGP SIGNATURE-----
-
---Sig_/6bSEMdTNr=7Tv.sG6RXcazC--
+22. 2. 10. 20:07에 Inki Dae 이(가) 쓴 글:
+> Hi Dave and Daniel,
+> 
+>    Just two fixup series - one is to fix irq chaining issue and other is
+>    regressions to TE-gpio handling.
+> 
+> Please let me know if there is any problem.
+> 
+> Thanks,
+> Inki Dae
+> 
+> The following changes since commit dfd42facf1e4ada021b939b4e19c935dcdd55566:
+> 
+>   Linux 5.17-rc3 (2022-02-06 12:20:50 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   gitolite.kernel.org:/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-for-v5.17-rc4
+> 
+> for you to fetch changes up to 38103fa72e0b70e3067fed489f8316dc5998f26c:
+> 
+>   drm/exynos: Search for TE-gpio in DSI panel's node (2022-02-10 19:17:22 +0900)
+> 
+> ----------------------------------------------------------------
+> Fixups
+> - Make display controller drivers for Exynos series to use platform_get_irq
+>   and platform_get_irq_byname functions to get the interrupt, which prevents
+>   irq chaining from messed up when using hierarchical interrupt domains
+>   which use "interrupts" property in the node.
+> - Fix two regressions to TE-gpio handling.
+> 
+> ----------------------------------------------------------------
+> Lad Prabhakar (5):
+>       drm/exynos/exynos7_drm_decon: Use platform_get_irq_byname() to get the interrupt
+>       drm/exynos: mixer: Use platform_get_irq() to get the interrupt
+>       drm/exynos/exynos_drm_fimd: Use platform_get_irq_byname() to get the interrupt
+>       drm/exynos/fimc: Use platform_get_irq() to get the interrupt
+>       drm/exynos: gsc: Use platform_get_irq() to get the interrupt
+> 
+> Marek Szyprowski (2):
+>       drm/exynos: Don't fail if no TE-gpio is defined for DSI driver
+>       drm/exynos: Search for TE-gpio in DSI panel's node
+> 
+>  drivers/gpu/drm/exynos/exynos7_drm_decon.c | 12 +++---------
+>  drivers/gpu/drm/exynos/exynos_drm_dsi.c    |  6 ++++--
+>  drivers/gpu/drm/exynos/exynos_drm_fimc.c   | 13 +++++--------
+>  drivers/gpu/drm/exynos/exynos_drm_fimd.c   | 13 ++++---------
+>  drivers/gpu/drm/exynos/exynos_drm_gsc.c    | 10 +++-------
+>  drivers/gpu/drm/exynos/exynos_mixer.c      | 14 ++++++--------
+>  6 files changed, 25 insertions(+), 43 deletions(-)
+> 
