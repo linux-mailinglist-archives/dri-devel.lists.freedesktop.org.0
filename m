@@ -2,62 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FA44C01DD
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 20:14:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F0F4C01F3
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Feb 2022 20:22:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7800C10E13D;
-	Tue, 22 Feb 2022 19:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5267A10E209;
+	Tue, 22 Feb 2022 19:22:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5DD10E13D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 19:14:42 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2386A21102;
- Tue, 22 Feb 2022 19:14:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1645557281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HLWAdRWjbaN9Hk7S+eHCaiaj6wcD4eWlF4Oa8b8xRY0=;
- b=jT/QUvPBBw8gYMLa+BYGylVzykQ1o2ZypDkmREqq/nSihAXm/p4fO/EOe7anaDoxv2IvMF
- OT05U2DqmIuArObeNUybJWDF/+cboxqsnspdEWky7Ln/EC/+ar9K5jF3Wj3vdP0dZsxA5+
- Cl9vOnpp6El3BUAk3yq3QVVxgEtk1AY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1645557281;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HLWAdRWjbaN9Hk7S+eHCaiaj6wcD4eWlF4Oa8b8xRY0=;
- b=5QO12kRfcBjZ9NbETmGg0A5Xxpv6eVgq62BOsRkwxeLfdQeNJsePeJvP1TPgaOw5E8LqJ1
- jeZc+yJkcCc6RZAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E937C13BD8;
- Tue, 22 Feb 2022 19:14:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 3v8NNyA2FWKJCAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 22 Feb 2022 19:14:40 +0000
-Message-ID: <99294308-3d33-f24c-1292-20a88980e973@suse.de>
-Date: Tue, 22 Feb 2022 20:14:40 +0100
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BE1C10E209
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Feb 2022 19:22:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645557761; x=1677093761;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=UtAFAACgZkZ9CY+W/SPNdTcpBaMl3HVLfVZmYhwAETs=;
+ b=T/EqHMyWETNfCGW8OC2MgpikGEMk90l8RpCDwQN/gbX3vV6rhIYz/KBe
+ 4WjXLsGAdMkFiJxcJwAgb3bXyygsbRqAi+EDMylMlgGZ2bcrs/gpJxlV7
+ l9CpG1AQ6g1ugKDPv4zP49sidHAnvqnqu+PsK7P9O+5Y2tZiovzFbvz7/
+ ZG9bZuDUGE/aRExRzW6EzK7tTVtTaJMAX3kkUTeOp2yXZ0x79lI1XtG/d
+ Wln6YVrXMomhMnf6Y84YylAHJg/IlNYtrJLNqwNRmA8INRW9AIrO2XeFB
+ velHrAI65nbwQcKNuqGpcBHi0k5Qa7HX/iEVpcnlx4/Yv7mALaEa64oGj w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="235300116"
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="235300116"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 11:22:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; d="scan'208";a="508116345"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.151])
+ by orsmga006.jf.intel.com with SMTP; 22 Feb 2022 11:22:29 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 22 Feb 2022 21:22:28 +0200
+Date: Tue, 22 Feb 2022 21:22:28 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH] drm/edid: Always set RGB444
+Message-ID: <YhU39Hqtg/7Zuh5h@intel.com>
+References: <20220203115416.1137308-1-maxime@cerno.tech>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH] drm/simpledrm: Add "panel orientation" property on
- non-upright mounted LCD panels
-Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>
-References: <20220221220045.11958-1-hdegoede@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220221220045.11958-1-hdegoede@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------OHwD5DlUIhOpdA1nnYPzK7dq"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220203115416.1137308-1-maxime@cerno.tech>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,85 +59,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Matthias Reichl <hias@horus.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------OHwD5DlUIhOpdA1nnYPzK7dq
-Content-Type: multipart/mixed; boundary="------------D0UmP90yEC3h99eAZ70ktEVP";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>
-Message-ID: <99294308-3d33-f24c-1292-20a88980e973@suse.de>
-Subject: Re: [PATCH] drm/simpledrm: Add "panel orientation" property on
- non-upright mounted LCD panels
-References: <20220221220045.11958-1-hdegoede@redhat.com>
-In-Reply-To: <20220221220045.11958-1-hdegoede@redhat.com>
+On Thu, Feb 03, 2022 at 12:54:16PM +0100, Maxime Ripard wrote:
+> In order to fill the drm_display_info structure each time an EDID is
+> read, the code currently will call drm_add_display_info with the parsed
+> EDID.
+> 
+> drm_add_display_info will then call drm_reset_display_info to reset all
+> the fields to 0, and then set them to the proper value depending on the
+> EDID.
+> 
+> In the color_formats case, we will thus report that we don't support any
+> color format, and then fill it back with RGB444 plus the additional
+> formats described in the EDID Feature Support byte.
+> 
+> However, since that byte only contains format-related bits since the 1.4
+> specification, this doesn't happen if the EDID is following an earlier
+> specification. In turn, it means that for one of these EDID, we end up
+> with color_formats set to 0.
+> 
+> The EDID 1.3 specification never really specifies what it means by RGB
+> exactly, but since both HDMI and DVI will use RGB444, it's fairly safe
+> to assume it's supposed to be RGB444.
+> 
+> Let's move the addition of RGB444 to color_formats earlier in
+> drm_add_display_info() so that it's always set for a digital display.
+> 
+> Fixes: da05a5a71ad8 ("drm: parse color format support for digital displays")
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Reported-by: Matthias Reichl <hias@horus.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
---------------D0UmP90yEC3h99eAZ70ktEVP
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Looks OK to me. I guess the DFP1.x == 0 case might allow some
+other encoding to be used but the EDID spec makes not mention
+how to figure that out.
 
-SGkNCg0KQW0gMjEuMDIuMjIgdW0gMjM6MDAgc2NocmllYiBIYW5zIGRlIEdvZWRlOg0KPiBT
-b21lIGRldmljZXMgdXNlIGUuZy4gYSBwb3J0cmFpdCBwYW5lbCBpbiBhIHN0YW5kYXJkIGxh
-cHRvcCBjYXNpbmcgbWFkZQ0KPiBmb3IgbGFuZHNjYXBlIHBhbmVscy4gZWZpZmIgY2FsbHMg
-ZHJtX2dldF9wYW5lbF9vcmllbnRhdGlvbl9xdWlyaygpIGFuZA0KPiBzZXRzIGZiX2luZm8u
-ZmJjb25fcm90YXRlX2hpbnQgdG8gbWFrZSBmYmNvbiByb3RhdGUgdGhlIGNvbnNvbGUgc28g
-dGhhdA0KPiBpdCBzaG93cyB1cC1yaWdodCBpbnN0ZWFkIG9mIG9uIGl0cyBzaWRlLg0KPiAN
-Cj4gV2hlbiBzd2l0Y2hpbmcgdG8gc2ltcGxlZHJtIHRvIGZiY29uIHJlbmRlcnMgb24gaXRz
-IHNpZGUuIENhbGwgdGhlDQoNCk1heWJlICcuLi4gZmJjb24gcmVuZGVycyBzaWRld2FyZHMu
-Jw0KDQo+IGRybV9jb25uZWN0b3Jfc2V0X3BhbmVsX29yaWVudGF0aW9uX3dpdGhfcXVpcmso
-KSBoZWxwZXIgdG8gYWRkDQo+IGEgInBhbmVsIG9yaWVudGF0aW9uIiBwcm9wZXJ0eSBvbiBk
-ZXZpY2VzIGxpc3RlZCBpbiB0aGUgcXVpcmsgdGFibGUsDQo+IHRvIG1ha2UgdGhlIGZiY29u
-IChhbmQgYXdhcmUgdXNlcnNwYWNlIGFwcHMpIHJvdGF0ZSB0aGUgaW1hZ2UgdG8NCj4gZGlz
-cGxheSBwcm9wZXJseS4NCj4gDQo+IENjOiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGph
-dmllcm1AcmVkaGF0LmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogSGFucyBkZSBHb2VkZSA8aGRl
-Z29lZGVAcmVkaGF0LmNvbT4NCg0KQWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emlt
-bWVybWFubkBzdXNlLmRlPg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IC0tLQ0KPiAg
-IGRyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5jIHwgMyArKysNCj4gICAxIGZpbGUg
-Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVk
-cm0uYw0KPiBpbmRleCAwNDE0NmRhMmQxZDguLjExNTc2ZTAyOTdlNCAxMDA2NDQNCj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4gQEAgLTc5OCw2ICs3OTgsOSBAQCBzdGF0aWMg
-aW50IHNpbXBsZWRybV9kZXZpY2VfaW5pdF9tb2Rlc2V0KHN0cnVjdCBzaW1wbGVkcm1fZGV2
-aWNlICpzZGV2KQ0KPiAgIAlpZiAocmV0KQ0KPiAgIAkJcmV0dXJuIHJldDsNCj4gICAJZHJt
-X2Nvbm5lY3Rvcl9oZWxwZXJfYWRkKGNvbm5lY3RvciwgJnNpbXBsZWRybV9jb25uZWN0b3Jf
-aGVscGVyX2Z1bmNzKTsNCj4gKwlkcm1fY29ubmVjdG9yX3NldF9wYW5lbF9vcmllbnRhdGlv
-bl93aXRoX3F1aXJrKGNvbm5lY3RvciwNCj4gKwkJCQkJCSAgICAgICBEUk1fTU9ERV9QQU5F
-TF9PUklFTlRBVElPTl9VTktOT1dOLA0KPiArCQkJCQkJICAgICAgIG1vZGUtPmhkaXNwbGF5
-LCBtb2RlLT52ZGlzcGxheSk7DQo+ICAgDQo+ICAgCWZvcm1hdHMgPSBzaW1wbGVkcm1fZGV2
-aWNlX2Zvcm1hdHMoc2RldiwgJm5mb3JtYXRzKTsNCj4gICANCg0KLS0gDQpUaG9tYXMgWmlt
-bWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1
-dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdl
-cm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJ
-dm8gVG90ZXYNCg==
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
---------------D0UmP90yEC3h99eAZ70ktEVP--
+> ---
+>  drivers/gpu/drm/drm_edid.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 12893e7be89b..f5f5de362ff2 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -5345,6 +5345,7 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
+>  	if (!(edid->input & DRM_EDID_INPUT_DIGITAL))
+>  		return quirks;
+>  
+> +	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
+>  	drm_parse_cea_ext(connector, edid);
+>  
+>  	/*
+> @@ -5393,7 +5394,6 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
+>  	DRM_DEBUG("%s: Assigning EDID-1.4 digital sink color depth as %d bpc.\n",
+>  			  connector->name, info->bpc);
+>  
+> -	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
+>  	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB444)
+>  		info->color_formats |= DRM_COLOR_FORMAT_YCRCB444;
+>  	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB422)
+> -- 
+> 2.34.1
 
---------------OHwD5DlUIhOpdA1nnYPzK7dq
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIVNiAFAwAAAAAACgkQlh/E3EQov+Be
-rA//V+j7umthH+T8htjkNFdZaA4BKzOer9yvffWTGvob/Z0h9bNQOkUISxVyW0Iy+C6r9uP9vrB2
-6r3qCP9s9DaPWbwp1/m0eWNMduAEVetzBgJnHAyproXiPq/o7c4HwmjWB8TgIFqgEwI3C4k1rgAz
-XMTt9yFKDdmJyUGPMXHPLcXbZOIf/bCjo/rd40jUBrTBAPWl9z0iy8NonIfevDSkmYFN3F/GrPYz
-NBveBku18O82IxjLZLFZMa3C7J/xFLPPAI+PYtglzcYnD+/sdt6P8GA6kWtlreRXh49jmokA7fOH
-plZWgOr4nb6j6HGva51/rEyqHtC50ggjBjh+V0dk/z+gn+bfQBCvjIImnypNh8P9jJJReA0uCmr3
-IbmZ4EhbKs/ZfALj65Byk+c3/7moXR+5jZTUE7+UUAigz1fSNuxirY3kwN1iC5T0RdhIJzhn8TA5
-QTy5fdFTyKdD9Bm/wAlJwz4Vvp+etf/Rkio2pYAN8iSE8O1ysRT89k6Ecbid9zgi/JO4RJAiVSlq
-6FpbRNHnZ/zLAyoSJl18vFg5QH/r6pO46TnGpq13XWYTU0pjc1JKKE90gK0OwkIVtlOstdyxA1s7
-4lWtwRvagrST0ZgSdBmvlF8EkkaW67joo8TBjyVqjq79IitP5KW3+ZEfvYVjAx0oYf32jo30yOBF
-FIk=
-=cDFW
------END PGP SIGNATURE-----
-
---------------OHwD5DlUIhOpdA1nnYPzK7dq--
+-- 
+Ville Syrjälä
+Intel
